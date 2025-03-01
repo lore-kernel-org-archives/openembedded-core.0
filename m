@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D36A5C282EC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA64C28B20
 	for <webhook@archiver.kernel.org>; Sat,  1 Mar 2025 11:25:27 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.7042.1740828314959565878
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.7051.1740828321497248595
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Mar 2025 03:25:22 -0800
+ Sat, 01 Mar 2025 03:25:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HuouGJUb;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=mfTypYTG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019551742644-e6b2df4e-d9ed-4a37-888d-c6e271dcb2cc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OKEVnfll;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=3vR6Ki1n;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019551742351-eaeae9eb-2103-4f66-96cf-f048cb60ca46-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1740828321;
+	t=1740828320;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zmx2D5M7OMGzghpjfbYBzkE2+A/mpff4gUlm2ajaqtc=;
-	b=HuouGJUbFjgSJUPq5vvdZWz+u6lCgOM3ZouyX9RZcyHmc/MPUu9ZfX70q8FrZVaZ
-	ZVgNqAuZnROExd/KvIxtOCblEcVDgLL69/nLFYa93pxqs3lfPCBcYSleZhNzOUmzkaJ
-	Pt03VkgvJWzRBEX1FrL8vzyZd5c9v5JJRoLOYONM=
+	bh=OiE5Mi62mTdE0yZWN+k5sZ835VRGY+nQ0SADezVnRYk=;
+	b=OKEVnfllSR28ZDxfWTzGQyDQGd1d3e9jX8h/vh1EUIrZsrduVsJh/XB6js/MS7jz
+	uJogAn9HuT2taZQNU1ToVKRNYUgeZVL+tnCJrMN6UB8gHsbumf+Nou/Fcu3z0VnoPf5
+	cWMQdjlryBQymXb51v0aczSNhimX5dIuls/HLXCE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1740828321;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1740828320;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zmx2D5M7OMGzghpjfbYBzkE2+A/mpff4gUlm2ajaqtc=;
-	b=mfTypYTGeM0UYrT5Xpm99YFRFyu9BFN7vdUeirACQmcy5W/GnHCxHEojyXwYEINu
-	MN+OBdD6jjOdi9+s0OFflZ5svcK+uJcUq1evPK1oLz49KmfYgQS38wV9jRpAjUGJuCi
-	4Ucq/siFVsqSoI0yEzHeRAVwvcMh4RgNd9haxdFI=
-Content-Type: multipart/mixed; boundary="===============3111294971768564939=="
+	bh=OiE5Mi62mTdE0yZWN+k5sZ835VRGY+nQ0SADezVnRYk=;
+	b=3vR6Ki1ngwlEgA5eZvUg3axwiEJfbs9qvuvizGh4TepukX4SYWzvhTBglIvPGCy0
+	ivzAX6n5VS7SCbExGUO3a+OzZvUEzh3k76QG3oGVcOrt2yFlUtfZSbZQDkcu9GnS9/7
+	byOKBqGG+8qVYE7ViPGk0Lm0NkVlRcdb4cFrp9iU=
+Content-Type: multipart/mixed; boundary="===============1262506668248226722=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] dpkg: upgrading to 1.22.15 FAILED
-Message-ID: <0101019551742644-e6b2df4e-d9ed-4a37-888d-c6e271dcb2cc-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Mar 2025 11:25:21 +0000
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] ofono: upgrading to 2.15 SUCCEEDED
+Message-ID: <0101019551742351-eaeae9eb-2103-4f66-96cf-f048cb60ca46-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Mar 2025 11:25:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.01-54.240.27.23
+X-SES-Outgoing: 2025.03.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 11:25:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212112
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212111
 
---===============3111294971768564939==
+--===============1262506668248226722==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *dpkg* to *1.22.15* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *ofono* to *2.15* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-dpkg-upgrade-1.22.11-1.22.15.patch
+    - apply the patch: git am 0001-ofono-upgrade-2.14-2.15.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,522 +72,303 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7a65a2e4873f455f45658a06a5371bbff2f8d307 Mon Sep 17 00:00:00 2001
+From 86fa471f96afe4099db8d532598abd91931688ec Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Mar 2025 07:19:52 +0000
-Subject: [PATCH] dpkg: upgrade 1.22.11 -> 1.22.15
+Date: Sat, 1 Mar 2025 06:50:53 +0000
+Subject: [PATCH] ofono: upgrade 2.14 -> 2.15
 
 ---
- .../dpkg/dpkg/0001-Add-support-for-riscv32-CPU.patch      | 4 ++--
- .../0001-build.c-ignore-return-of-1-from-tar-cf.patch     | 8 ++++----
- .../dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch       | 2 +-
- .../dpkg/dpkg/0001-script.c-avoid-use-of-chroot.patch     | 2 +-
- ...t-to-linux-wrs-kernel-version-which-has-characte.patch | 6 +++---
- ...lutimes-function-doesn-t-work-properly-for-all-s.patch | 4 ++--
- .../dpkg/0006-add-musleabi-to-known-target-tripets.patch  | 2 +-
- ...g-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch | 6 +++---
- .../dpkg/dpkg/add_armeb_triplet_entry.patch               | 2 +-
- meta/recipes-devtools/dpkg/dpkg/arch_pm.patch             | 6 +++---
- meta/recipes-devtools/dpkg/dpkg/noman.patch               | 4 ++--
- .../dpkg/dpkg/remove-tar-no-timestamp.patch               | 2 +-
- .../dpkg/{dpkg_1.22.11.bb => dpkg_1.22.15.bb}             | 2 +-
- 13 files changed, 25 insertions(+), 25 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.22.11.bb => dpkg_1.22.15.bb} (94%)
+ .../ofono/ofono/CVE-2024-7539.patch           | 88 -------------------
+ ...024-7540_CVE-2024-7541_CVE-2024-7542.patch | 52 -----------
+ .../ofono/ofono/rmnet.patch                   | 45 ----------
+ .../ofono/{ofono_2.14.bb => ofono_2.15.bb}    | 12 +--
+ 4 files changed, 4 insertions(+), 193 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch
+ delete mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch
+ delete mode 100644 meta/recipes-connectivity/ofono/ofono/rmnet.patch
+ rename meta/recipes-connectivity/ofono/{ofono_2.14.bb => ofono_2.15.bb} (84%)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-Add-support-for-riscv32-CPU.patch b/meta/recipes-devtools/dpkg/dpkg/0001-Add-support-for-riscv32-CPU.patch
-index 8943f6c2f0..cea925451a 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0001-Add-support-for-riscv32-CPU.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-Add-support-for-riscv32-CPU.patch
-@@ -1,4 +1,4 @@
--From 5c332c2a4625519a2b6065b9d9fc724e84c9b6d6 Mon Sep 17 00:00:00 2001
-+From 57f0b0faba3858818eeeb09a61c447801f1f75cb Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 29 Apr 2020 22:02:23 -0700
- Subject: [PATCH] Add support for riscv32 CPU
-@@ -23,7 +23,7 @@ index 575c008e3..7a801a03a 100644
-  s390		s390		s390			32	big
-  s390x		s390x		s390x			64	big
- diff --git a/scripts/Dpkg/Vendor/Debian.pm b/scripts/Dpkg/Vendor/Debian.pm
--index edf94bc19..d76f97494 100644
-+index 1af60dabd..889d8380d 100644
- --- a/scripts/Dpkg/Vendor/Debian.pm
- +++ b/scripts/Dpkg/Vendor/Debian.pm
- @@ -216,6 +216,7 @@ sub set_build_features {
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
-index 185bbb90f1..723b91e896 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
-@@ -1,4 +1,4 @@
--From 067992f2d0b0ff6ca114031636eb0e1eac791892 Mon Sep 17 00:00:00 2001
-+From c2a740b119ebae61b5391c033bcdfbc7e5ffc340 Mon Sep 17 00:00:00 2001
- From: Paul Eggleton <paul.eggleton@linux.microsoft.com>
- Date: Tue, 16 Jun 2020 03:57:25 +0000
- Subject: [PATCH] build.c: ignore return of 1 from tar -cf
-@@ -28,10 +28,10 @@ Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
-  1 file changed, 4 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch
+deleted file mode 100644
+index e41596959b..0000000000
+--- a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch
++++ /dev/null
+@@ -1,88 +0,0 @@
+-From 389e2344f86319265fb72ae590b470716e038fdc Mon Sep 17 00:00:00 2001
+-From: Sicelo A. Mhlongo <absicsz@gmail.com>
+-Date: Tue, 17 Dec 2024 11:31:29 +0200
+-Subject: [PATCH] ussd: ensure ussd content fits in buffers
+-
+-Fixes: CVE-2024-7539
+-
+-CVE: CVE-2024-7539
+-Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=389e2344f86319265fb72ae590b470716e038fdc]
+-
+-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+----
+- drivers/atmodem/ussd.c      | 5 ++++-
+- drivers/huaweimodem/ussd.c  | 5 ++++-
+- drivers/speedupmodem/ussd.c | 5 ++++-
+- 3 files changed, 12 insertions(+), 3 deletions(-)
+-
+-diff --git a/drivers/atmodem/ussd.c b/drivers/atmodem/ussd.c
+-index 32a9fe9..99da559 100644
+---- a/drivers/atmodem/ussd.c
+-+++ b/drivers/atmodem/ussd.c
+-@@ -93,7 +93,7 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
+-	const char *content;
+-	int dcs;
+-	enum sms_charset charset;
+--	unsigned char msg[160];
+-+	unsigned char msg[160] = {0};
+-	const unsigned char *msg_ptr = NULL;
+-	long msg_len;
+-
+-@@ -113,6 +113,9 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
+-	if (!g_at_result_iter_next_number(&iter, &dcs))
+-		dcs = 0;
+-
+-+	if (strlen(content) > sizeof(msg) * 2)
+-+		goto out;
+-+
+-	if (!cbs_dcs_decode(dcs, NULL, NULL, &charset, NULL, NULL, NULL)) {
+-		ofono_error("Unsupported USSD data coding scheme (%02x)", dcs);
+-		status = 4; /* Not supported */
+-diff --git a/drivers/huaweimodem/ussd.c b/drivers/huaweimodem/ussd.c
+-index 5e1c907..3d165c8 100644
+---- a/drivers/huaweimodem/ussd.c
+-+++ b/drivers/huaweimodem/ussd.c
+-@@ -38,7 +38,7 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
+-	int status;
+-	int dcs = 0;
+-	const char *content;
+--	unsigned char msg[160];
+-+	unsigned char msg[160] = {0};
+-	const unsigned char *msg_ptr = NULL;
+-	long msg_len;
+-
+-@@ -55,6 +55,9 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
+-
+-	g_at_result_iter_next_number(&iter, &dcs);
+-
+-+	if (strlen(content) > sizeof(msg) * 2)
+-+		goto out;
+-+
+-	msg_ptr = decode_hex_own_buf(content, -1, &msg_len, 0, msg);
+-
+- out:
+-diff --git a/drivers/speedupmodem/ussd.c b/drivers/speedupmodem/ussd.c
+-index aafa4bc..a5efde0 100644
+---- a/drivers/speedupmodem/ussd.c
+-+++ b/drivers/speedupmodem/ussd.c
+-@@ -37,7 +37,7 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
+-	int status;
+-	int dcs = 0;
+-	const char *content;
+--	unsigned char msg[160];
+-+	unsigned char msg[160] = {0};
+-	const unsigned char *msg_ptr = NULL;
+-	long msg_len;
+-
+-@@ -54,6 +54,9 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
+-
+-	g_at_result_iter_next_number(&iter, &dcs);
+-
+-+	if (strlen(content) > sizeof(msg) * 2)
+-+		goto out;
+-+
+-	msg_ptr = decode_hex_own_buf(content, -1, &msg_len, 0, msg);
+-
+- out:
+---
+-2.40.0
+diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch
+deleted file mode 100644
+index fd97d4b51b..0000000000
+--- a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 29ff6334b492504ace101be748b256e6953d2c2f Mon Sep 17 00:00:00 2001
+-From: "Sicelo A. Mhlongo" <absicsz@gmail.com>
+-Date: Tue, 17 Dec 2024 11:31:28 +0200
+-Subject: [PATCH] atmodem: sms: ensure buffer is initialized before use
+-
+-Fixes: CVE-2024-7540
+-Fixes: CVE-2024-7541
+-Fixes: CVE-2024-7542
+-
+-CVE: CVE-2024-7540
+-CVE: CVE-2024-7541
+-CVE: CVE-2024-7542
+-Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=29ff6334b492504ace101be748b256e6953d2c2f]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- drivers/atmodem/sms.c | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/drivers/atmodem/sms.c b/drivers/atmodem/sms.c
+-index d994856b..0668c631 100644
+---- a/drivers/atmodem/sms.c
+-+++ b/drivers/atmodem/sms.c
+-@@ -399,7 +399,7 @@ static void at_cmt_notify(GAtResult *result, gpointer user_data)
+- 	struct sms_data *data = ofono_sms_get_data(sms);
+- 	GAtResultIter iter;
+- 	const char *hexpdu;
+--	unsigned char pdu[176];
+-+	unsigned char pdu[176] = {0};
+- 	long pdu_len;
+- 	int tpdu_len;
+- 
+-@@ -466,7 +466,7 @@ static void at_cmgr_notify(GAtResult *result, gpointer user_data)
+- 	struct sms_data *data = ofono_sms_get_data(sms);
+- 	GAtResultIter iter;
+- 	const char *hexpdu;
+--	unsigned char pdu[176];
+-+	unsigned char pdu[176] = {0};
+- 	long pdu_len;
+- 	int tpdu_len;
+- 
+-@@ -648,7 +648,7 @@ static void at_cmgl_notify(GAtResult *result, gpointer user_data)
+- 	struct sms_data *data = ofono_sms_get_data(sms);
+- 	GAtResultIter iter;
+- 	const char *hexpdu;
+--	unsigned char pdu[176];
+-+	unsigned char pdu[176] = {0};
+- 	long pdu_len;
+- 	int tpdu_len;
+- 	int index;
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-connectivity/ofono/ofono/rmnet.patch b/meta/recipes-connectivity/ofono/ofono/rmnet.patch
+deleted file mode 100644
+index 11dfd5db18..0000000000
+--- a/meta/recipes-connectivity/ofono/ofono/rmnet.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-From git@z Thu Jan  1 00:00:00 1970
+-Subject: [PATCH] rmnet: Handle toolchains with old kernel headers
+-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Date: Thu, 19 Dec 2024 13:47:15 +0000
+-Message-Id: <e2b6a94dd9a3789e31dafadfc70c53b565d1db04.camel@linuxfoundation.org>
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset="utf-8"
+-Content-Transfer-Encoding: 7bit
+-
+-The RMNET_FLAGS_*GRESS_MAP_CKSUMV5 defines were added to the kernel in
+-5.14[1] and some toolchains use older headers, so add fallback defines
+-in case they are needed.
+-
+-[1] linux b6e5d27e32ef6089d316ce7e1ecaf595584d4b84
+-
+-Upstream-Status: Submitted [https://lore.kernel.org/ofono/e2b6a94dd9a3789e31dafadfc70c53b565d1db04.camel@linuxfoundation.org/T/#u]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- src/rmnet.c | 10 ++++++++++
+- 1 file changed, 10 insertions(+)
+-
+-diff --git a/src/rmnet.c b/src/rmnet.c
+-index 42b03249..9a7f52fb 100644
+---- a/src/rmnet.c
+-+++ b/src/rmnet.c
+-@@ -27,6 +27,16 @@
+- #define MAX_MUX_IDS 254U
+- #define DEFAULT_MTU 1400U
+- 
+-+/*
+-+ * These were added in 5.14 so define them here if the toolchain's kernel headers are old.
+-+ */
+-+#ifndef RMNET_FLAGS_INGRESS_MAP_CKSUMV5
+-+#define RMNET_FLAGS_INGRESS_MAP_CKSUMV5 (1U << 4)
+-+#endif
+-+#ifndef RMNET_FLAGS_EGRESS_MAP_CKSUMV5
+-+#define RMNET_FLAGS_EGRESS_MAP_CKSUMV5 (1U << 5)
+-+#endif
+-+
+- struct rmnet_request {
+- 	uint32_t parent_ifindex;
+- 	rmnet_new_interfaces_func_t new_cb;
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-connectivity/ofono/ofono_2.14.bb b/meta/recipes-connectivity/ofono/ofono_2.15.bb
+similarity index 84%
+rename from meta/recipes-connectivity/ofono/ofono_2.14.bb
+rename to meta/recipes-connectivity/ofono/ofono_2.15.bb
+index 9a91afaa7b..40eeb3a086 100644
+--- a/meta/recipes-connectivity/ofono/ofono_2.14.bb
++++ b/meta/recipes-connectivity/ofono/ofono_2.15.bb
+@@ -7,14 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+                     file://src/ofono.h;beginline=1;endline=6;md5=13e42133935ceecfc9bcb547f256e277"
+ DEPENDS = "dbus glib-2.0 udev mobile-broadband-provider-info ell"
  
- diff --git a/src/deb/build.c b/src/deb/build.c
--index 87bd4142e..e85fd7d0f 100644
-+index 81844e300..e386ae687 100644
- --- a/src/deb/build.c
- +++ b/src/deb/build.c
--@@ -481,6 +481,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+@@ -505,6 +505,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-  {
-    int pipe_filenames[2], pipe_tarball[2];
-    pid_t pid_tar, pid_comp;
-@@ -39,7 +39,7 @@ index 87bd4142e..e85fd7d0f 100644
-  
-    /* Fork off a tar. We will feed it a list of filenames on stdin later. */
-    m_pipe(pipe_filenames);
--@@ -533,7 +534,9 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+@@ -557,7 +558,9 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-    /* All done, clean up wait for tar and <compress> to finish their job. */
-    close(pipe_filenames[1]);
-    subproc_reap(pid_comp, _("<compress> from tar -cf"), 0);
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch b/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch
-index 67fce89d80..8b4e25f4e0 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch
-@@ -1,4 +1,4 @@
--From df6c641e3fc248d0c864e4e752c4609412067df7 Mon Sep 17 00:00:00 2001
-+From 4c592bf969a2d976062f9aeb87476ab9c910b2f8 Mon Sep 17 00:00:00 2001
- From: sweeaun <swee.aun.khor@intel.com>
- Date: Sun, 10 Sep 2017 00:14:15 -0700
- Subject: [PATCH] dpkg: Support muslx32 build
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-script.c-avoid-use-of-chroot.patch b/meta/recipes-devtools/dpkg/dpkg/0001-script.c-avoid-use-of-chroot.patch
-index d0459cd017..beaf6682de 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0001-script.c-avoid-use-of-chroot.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-script.c-avoid-use-of-chroot.patch
-@@ -1,4 +1,4 @@
--From 5e5f06d396fe631990474ba6df83428987855365 Mon Sep 17 00:00:00 2001
-+From a6081b480c673903927ea640bbd7b5382d973b4b Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 26 Aug 2015 16:25:45 +0300
- Subject: [PATCH] script.c: avoid use of chroot
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch b/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch
-index a5c80773a5..411b3d44fb 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch
-@@ -1,4 +1,4 @@
--From 6e88e8b7b6924751112966f329525956735de9b4 Mon Sep 17 00:00:00 2001
-+From 818afc0374ba2bcb7f750e2165950c342d60338d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 26 Aug 2015 16:16:16 +0300
- Subject: [PATCH] Adapt to linux-wrs kernel version, which has character '_'
-@@ -13,10 +13,10 @@ Upstream-Status: Inappropriate [embedded specific]
-  1 file changed, 2 insertions(+), 4 deletions(-)
+-SRC_URI = "\
+-    ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+-    file://rmnet.patch \
+-    file://ofono \
+-    file://CVE-2024-7539.patch \
+-    file://CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch \
+-"
+-SRC_URI[sha256sum] = "983cbfd5e1e1a410ba7ad2db7f50fadc91e50b29f1ede40cdc73f941da7ba95f"
++SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
++           file://ofono \
++           "
++SRC_URI[sha256sum] = "1af93ab72a70502452fe3d0297a6eaea13750cacae1fff3b643dd2245a6408ca"
  
- diff --git a/lib/dpkg/parsehelp.c b/lib/dpkg/parsehelp.c
--index a999b5e78..7be0378ab 100644
-+index 2d6b095fb..6efb76129 100644
- --- a/lib/dpkg/parsehelp.c
- +++ b/lib/dpkg/parsehelp.c
--@@ -291,14 +291,12 @@ parseversion(struct dpkg_version *rversion, const char *string,
-+@@ -289,14 +289,12 @@ parseversion(struct dpkg_version *rversion, const char *string,
-    ptr = rversion->version;
-    if (!*ptr)
-      return dpkg_put_error(err, _("version number is empty"));
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch b/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch
-index e49d54152c..c94a9cd878 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch
-@@ -1,4 +1,4 @@
--From 0fc90a3ed01a7fce34de925979460638b8a57402 Mon Sep 17 00:00:00 2001
-+From 812e811e48c0def2a47f9a2f4f541d93fa0517fd Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 26 Aug 2015 16:27:45 +0300
- Subject: [PATCH] The lutimes function doesn't work properly for all systems.
-@@ -11,7 +11,7 @@ Upstream-Status: Inappropriate [embedded specific]
-  1 file changed, 2 insertions(+), 1 deletion(-)
+ inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
  
- diff --git a/src/main/archives.c b/src/main/archives.c
--index d7279e1f5..f9c6facc9 100644
-+index 563efac30..30686e11c 100644
- --- a/src/main/archives.c
- +++ b/src/main/archives.c
- @@ -490,8 +490,9 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
-index 4f60a89a56..1dae1ea01f 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
-@@ -1,4 +1,4 @@
--From e3dc69aa987b379e247dde3fce479e43be6c81aa Mon Sep 17 00:00:00 2001
-+From 00478c0412a300c1df40f7dda8b9e03dbc5b8510 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 30 Dec 2015 23:05:41 +0000
- Subject: [PATCH] add musleabi to known target tripets
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch b/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
-index ded1707dfd..9cf9db26d9 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
-@@ -1,4 +1,4 @@
--From 20ba7fd8939e97bec3d70a67c0aac76ddc67898d Mon Sep 17 00:00:00 2001
-+From 885d64c7569a7fbdcff62730bb86e775f537f410 Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
- Date: Tue, 21 Feb 2017 11:23:27 -0600
- Subject: [PATCH] dpkg-deb/build.c: Remove usage of --clamp-mtime in tar
-@@ -27,10 +27,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/src/deb/build.c b/src/deb/build.c
--index a418dd122..87bd4142e 100644
-+index eefc369db..81844e300 100644
- --- a/src/deb/build.c
- +++ b/src/deb/build.c
--@@ -504,7 +504,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+@@ -528,7 +528,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-  
-      command_init(&cmd, TAR, "tar -cf");
-      command_add_args(&cmd, "tar", "-cf", "-", "--format=gnu",
-diff --git a/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch b/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
-index d1fac2168a..25becf93ea 100644
---- a/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
-@@ -1,4 +1,4 @@
--From 8ded32a35287a840de7e505c66e76cccd9edbac6 Mon Sep 17 00:00:00 2001
-+From ec117c00dbe87779d0eb3cb80a4336c2e14b3c1e Mon Sep 17 00:00:00 2001
- From: "Krishnanjanappa, Jagadeesh"
-  <jagadeesh.krishnanjanappa@caviumnetworks.com>
- Date: Wed, 8 Apr 2015 18:08:14 +0530
-diff --git a/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch b/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
-index b5a29231dd..e3bc68b0aa 100644
---- a/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
-@@ -1,4 +1,4 @@
--From 812dbb64f2805a3257ef9c9a61abbd10e0b3a08c Mon Sep 17 00:00:00 2001
-+From 02e1e98dc20d326726ea66dd4e4aeef243cb29f4 Mon Sep 17 00:00:00 2001
- From: Joe Slater <jslater@windriver.com>
- Date: Mon, 26 Aug 2013 23:38:45 +0000
- Subject: [PATCH] dpkg: fix configuration issue for mips64
-@@ -16,10 +16,10 @@ Signed-off-by: Joe Slater <jslater@windriver.com>
-  1 file changed, 3 deletions(-)
- 
- diff --git a/scripts/Dpkg/Arch.pm b/scripts/Dpkg/Arch.pm
--index 0d352eeb9..4ef5fa307 100644
-+index cadefb4d4..7dd492ca9 100644
- --- a/scripts/Dpkg/Arch.pm
- +++ b/scripts/Dpkg/Arch.pm
--@@ -326,9 +326,6 @@ sub _load_tupletable()
-+@@ -326,9 +326,6 @@ sub _load_tupletable
-  		    (my $dt = $debtuple) =~ s/<cpu>/$_cpu/;
-  		    (my $da = $debarch) =~ s/<cpu>/$_cpu/;
-  
-diff --git a/meta/recipes-devtools/dpkg/dpkg/noman.patch b/meta/recipes-devtools/dpkg/dpkg/noman.patch
-index 3f3e08351c..d30d9b4583 100644
---- a/meta/recipes-devtools/dpkg/dpkg/noman.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/noman.patch
-@@ -1,4 +1,4 @@
--From e671b43a52bf5785fe4aad84712dbabc6c86b39e Mon Sep 17 00:00:00 2001
-+From 999cbb0e6ddb7b07e9e94f66dbdfd8e56f310bb8 Mon Sep 17 00:00:00 2001
- From: Chris Larson <kergoth@openedhand.com>
- Date: Tue, 5 Sep 2006 07:24:58 +0000
- Subject: [PATCH] Add dpkg, modified from upstream oe.
-@@ -9,7 +9,7 @@ Upstream-Status: Inappropriate [disable feature]
-  1 file changed, 1 deletion(-)
- 
- diff --git a/Makefile.am b/Makefile.am
--index 74f8df197..35e5eee39 100644
-+index 7681e7767..b4226d95c 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -11,7 +11,6 @@ SUBDIRS = \
-diff --git a/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch b/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch
-index d3a1a13098..be96d470e9 100644
---- a/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch
-@@ -1,4 +1,4 @@
--From 7d69de114aa696cfb5e31b491a657ca6b6cbbbd5 Mon Sep 17 00:00:00 2001
-+From ecdb922f018ed664342c304f567bd1213de5a983 Mon Sep 17 00:00:00 2001
- From: Constantin Musca <constantinx.musca@intel.com>
- Date: Tue, 28 Aug 2012 17:02:40 +0300
- Subject: [PATCH] busybox-1.19.4 tar utility doesn't support
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.22.11.bb b/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb
-similarity index 94%
-rename from meta/recipes-devtools/dpkg/dpkg_1.22.11.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.22.15.bb
-index 47a8d5d5ea..d3a421432f 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.22.11.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb
-@@ -17,6 +17,6 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
- 
- SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
- 
--SRCREV = "ee7e9118d0a9581cb00c5ce02dccd561b3096387"
-+SRCREV = "afb41eb04222a40205a9b0b03bb69a2d449924ed"
- 
- S = "${WORKDIR}/git"
 -- 
 2.44.1
 
 
---===============3111294971768564939==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-dpkg-upgrade-1.22.11-1.22.15.patch"
-
-RnJvbSA3YTY1YTJlNDg3M2Y0NTVmNDU2NThhMDZhNTM3MWJiZmYyZjhkMzA3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwNzoxOTo1MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRw
-a2c6IHVwZ3JhZGUgMS4yMi4xMSAtPiAxLjIyLjE1CgotLS0KIC4uLi9kcGtnL2Rwa2cvMDAwMS1B
-ZGQtc3VwcG9ydC1mb3ItcmlzY3YzMi1DUFUucGF0Y2ggICAgICB8IDQgKystLQogLi4uLzAwMDEt
-YnVpbGQuYy1pZ25vcmUtcmV0dXJuLW9mLTEtZnJvbS10YXItY2YucGF0Y2ggICAgIHwgOCArKysr
-LS0tLQogLi4uL2Rwa2cvZHBrZy8wMDAxLWRwa2ctU3VwcG9ydC1tdXNseDMyLWJ1aWxkLnBhdGNo
-ICAgICAgIHwgMiArLQogLi4uL2Rwa2cvZHBrZy8wMDAxLXNjcmlwdC5jLWF2b2lkLXVzZS1vZi1j
-aHJvb3QucGF0Y2ggICAgIHwgMiArLQogLi4udC10by1saW51eC13cnMta2VybmVsLXZlcnNpb24t
-d2hpY2gtaGFzLWNoYXJhY3RlLnBhdGNoIHwgNiArKystLS0KIC4uLmx1dGltZXMtZnVuY3Rpb24t
-ZG9lc24tdC13b3JrLXByb3Blcmx5LWZvci1hbGwtcy5wYXRjaCB8IDQgKystLQogLi4uL2Rwa2cv
-MDAwNi1hZGQtbXVzbGVhYmktdG8ta25vd24tdGFyZ2V0LXRyaXBldHMucGF0Y2ggIHwgMiArLQog
-Li4uZy1kZWItYnVpbGQuYy1SZW1vdmUtdXNhZ2Utb2YtY2xhbXAtbXRpbWUtaW4tdGFyLnBhdGNo
-IHwgNiArKystLS0KIC4uLi9kcGtnL2Rwa2cvYWRkX2FybWViX3RyaXBsZXRfZW50cnkucGF0Y2gg
-ICAgICAgICAgICAgICB8IDIgKy0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvYXJj
-aF9wbS5wYXRjaCAgICAgICAgICAgICB8IDYgKysrLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-ZHBrZy9kcGtnL25vbWFuLnBhdGNoICAgICAgICAgICAgICAgfCA0ICsrLS0KIC4uLi9kcGtnL2Rw
-a2cvcmVtb3ZlLXRhci1uby10aW1lc3RhbXAucGF0Y2ggICAgICAgICAgICAgICB8IDIgKy0KIC4u
-Li9kcGtnL3tkcGtnXzEuMjIuMTEuYmIgPT4gZHBrZ18xLjIyLjE1LmJifSAgICAgICAgICAgICB8
-IDIgKy0KIDEzIGZpbGVzIGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKyksIDI1IGRlbGV0aW9ucygt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL3tkcGtnXzEuMjIuMTEuYmIgPT4g
-ZHBrZ18xLjIyLjE1LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9kcGtnL2Rwa2cvMDAwMS1BZGQtc3VwcG9ydC1mb3ItcmlzY3YzMi1DUFUucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDEtQWRkLXN1cHBvcnQtZm9yLXJpc2N2MzIt
-Q1BVLnBhdGNoCmluZGV4IDg5NDNmNmMyZjAuLmNlYTkyNTQ1MWEgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1BZGQtc3VwcG9ydC1mb3ItcmlzY3YzMi1D
-UFUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDAxLUFkZC1z
-dXBwb3J0LWZvci1yaXNjdjMyLUNQVS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNWMzMzJj
-MmE0NjI1NTE5YTJiNjA2NWI5ZDlmYzcyNGU4NGM5YjZkNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gNTdmMGIwZmFiYTM4NTg4MThlZWViMDlhNjFjNDQ3ODAxZjFmNzVjYiBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBE
-YXRlOiBXZWQsIDI5IEFwciAyMDIwIDIyOjAyOjIzIC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIEFk
-ZCBzdXBwb3J0IGZvciByaXNjdjMyIENQVQpAQCAtMjMsNyArMjMsNyBAQCBpbmRleCA1NzVjMDA4
-ZTMuLjdhODAxYTAzYSAxMDA2NDQKICBzMzkwCQlzMzkwCQlzMzkwCQkJMzIJYmlnCiAgczM5MHgJ
-CXMzOTB4CQlzMzkweAkJCTY0CWJpZwogZGlmZiAtLWdpdCBhL3NjcmlwdHMvRHBrZy9WZW5kb3Iv
-RGViaWFuLnBtIGIvc2NyaXB0cy9EcGtnL1ZlbmRvci9EZWJpYW4ucG0KLWluZGV4IGVkZjk0YmMx
-OS4uZDc2Zjk3NDk0IDEwMDY0NAoraW5kZXggMWFmNjBkYWJkLi44ODlkODM4MGQgMTAwNjQ0CiAt
-LS0gYS9zY3JpcHRzL0Rwa2cvVmVuZG9yL0RlYmlhbi5wbQogKysrIGIvc2NyaXB0cy9EcGtnL1Zl
-bmRvci9EZWJpYW4ucG0KIEBAIC0yMTYsNiArMjE2LDcgQEAgc3ViIHNldF9idWlsZF9mZWF0dXJl
-cyB7CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDEtYnVp
-bGQuYy1pZ25vcmUtcmV0dXJuLW9mLTEtZnJvbS10YXItY2YucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDEtYnVpbGQuYy1pZ25vcmUtcmV0dXJuLW9mLTEtZnJvbS10
-YXItY2YucGF0Y2gKaW5kZXggMTg1YmJiOTBmMS4uNzIzYjkxZTg5NiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDAxLWJ1aWxkLmMtaWdub3JlLXJldHVybi1v
-Zi0xLWZyb20tdGFyLWNmLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rw
-a2cvMDAwMS1idWlsZC5jLWlnbm9yZS1yZXR1cm4tb2YtMS1mcm9tLXRhci1jZi5wYXRjaApAQCAt
-MSw0ICsxLDQgQEAKLUZyb20gMDY3OTkyZjJkMGIwZmY2Y2ExMTQwMzE2MzZlYjBlMWVhYzc5MTg5
-MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYzJhNzQwYjExOWViYWU2MWI1MzkxYzAz
-M2JjZGZiYzdlNWZmYzM0MCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFBhdWwgRWdn
-bGV0b24gPHBhdWwuZWdnbGV0b25AbGludXgubWljcm9zb2Z0LmNvbT4KIERhdGU6IFR1ZSwgMTYg
-SnVuIDIwMjAgMDM6NTc6MjUgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gYnVpbGQuYzogaWdub3Jl
-IHJldHVybiBvZiAxIGZyb20gdGFyIC1jZgpAQCAtMjgsMTAgKzI4LDEwIEBAIFNpZ25lZC1vZmYt
-Ynk6IFBhdWwgRWdnbGV0b24gPHBhdWwuZWdnbGV0b25AbWljcm9zb2Z0LmNvbT4KICAxIGZpbGUg
-Y2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9z
-cmMvZGViL2J1aWxkLmMgYi9zcmMvZGViL2J1aWxkLmMKLWluZGV4IDg3YmQ0MTQyZS4uZTg1ZmQ3
-ZDBmIDEwMDY0NAoraW5kZXggODE4NDRlMzAwLi5lMzg2YWU2ODcgMTAwNjQ0CiAtLS0gYS9zcmMv
-ZGViL2J1aWxkLmMKICsrKyBiL3NyYy9kZWIvYnVpbGQuYwotQEAgLTQ4MSw2ICs0ODEsNyBAQCB0
-YXJiYWxsX3BhY2soY29uc3QgY2hhciAqZGlyLCBmaWxlbmFtZXNfZmVlZF9mdW5jICp0YXJfZmls
-ZW5hbWVzX2ZlZWRlciwKK0BAIC01MDUsNiArNTA1LDcgQEAgdGFyYmFsbF9wYWNrKGNvbnN0IGNo
-YXIgKmRpciwgZmlsZW5hbWVzX2ZlZWRfZnVuYyAqdGFyX2ZpbGVuYW1lc19mZWVkZXIsCiAgewog
-ICAgaW50IHBpcGVfZmlsZW5hbWVzWzJdLCBwaXBlX3RhcmJhbGxbMl07CiAgICBwaWRfdCBwaWRf
-dGFyLCBwaWRfY29tcDsKQEAgLTM5LDcgKzM5LDcgQEAgaW5kZXggODdiZDQxNDJlLi5lODVmZDdk
-MGYgMTAwNjQ0CiAgCiAgICAvKiBGb3JrIG9mZiBhIHRhci4gV2Ugd2lsbCBmZWVkIGl0IGEgbGlz
-dCBvZiBmaWxlbmFtZXMgb24gc3RkaW4gbGF0ZXIuICovCiAgICBtX3BpcGUocGlwZV9maWxlbmFt
-ZXMpOwotQEAgLTUzMyw3ICs1MzQsOSBAQCB0YXJiYWxsX3BhY2soY29uc3QgY2hhciAqZGlyLCBm
-aWxlbmFtZXNfZmVlZF9mdW5jICp0YXJfZmlsZW5hbWVzX2ZlZWRlciwKK0BAIC01NTcsNyArNTU4
-LDkgQEAgdGFyYmFsbF9wYWNrKGNvbnN0IGNoYXIgKmRpciwgZmlsZW5hbWVzX2ZlZWRfZnVuYyAq
-dGFyX2ZpbGVuYW1lc19mZWVkZXIsCiAgICAvKiBBbGwgZG9uZSwgY2xlYW4gdXAgd2FpdCBmb3Ig
-dGFyIGFuZCA8Y29tcHJlc3M+IHRvIGZpbmlzaCB0aGVpciBqb2IuICovCiAgICBjbG9zZShwaXBl
-X2ZpbGVuYW1lc1sxXSk7CiAgICBzdWJwcm9jX3JlYXAocGlkX2NvbXAsIF8oIjxjb21wcmVzcz4g
-ZnJvbSB0YXIgLWNmIiksIDApOwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rw
-a2cvZHBrZy8wMDAxLWRwa2ctU3VwcG9ydC1tdXNseDMyLWJ1aWxkLnBhdGNoIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDAxLWRwa2ctU3VwcG9ydC1tdXNseDMyLWJ1aWxkLnBh
-dGNoCmluZGV4IDY3ZmNlODlkODAuLjhiNGUyNWY0ZTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1kcGtnLVN1cHBvcnQtbXVzbHgzMi1idWlsZC5wYXRj
-aAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDEtZHBrZy1TdXBwb3J0
-LW11c2x4MzItYnVpbGQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGRmNmM2NDFlM2ZjMjQ4
-ZDBjODY0ZTRlNzUyYzQ2MDk0MTIwNjdkZjcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IDRjNTkyYmY5NjlhMmQ5NzYwNjJmOWFlYjg3NDc2YWI5YzkxMGIyZjggTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBzd2VlYXVuIDxzd2VlLmF1bi5raG9yQGludGVsLmNvbT4KIERhdGU6
-IFN1biwgMTAgU2VwIDIwMTcgMDA6MTQ6MTUgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gZHBrZzog
-U3VwcG9ydCBtdXNseDMyIGJ1aWxkCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-ZHBrZy9kcGtnLzAwMDEtc2NyaXB0LmMtYXZvaWQtdXNlLW9mLWNocm9vdC5wYXRjaCBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1zY3JpcHQuYy1hdm9pZC11c2Utb2YtY2hy
-b290LnBhdGNoCmluZGV4IGQwNDU5Y2QwMTcuLmJlYWY2NjgyZGUgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1zY3JpcHQuYy1hdm9pZC11c2Utb2YtY2hy
-b290LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1zY3Jp
-cHQuYy1hdm9pZC11c2Utb2YtY2hyb290LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1ZTVm
-MDZkMzk2ZmU2MzE5OTA0NzRiYTZkZjgzNDI4OTg3ODU1MzY1IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbSBhNjA4MWI0ODBjNjczOTAzOTI3ZWE2NDBiYmQ3YjUzODJkOTczYjRiIE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZp
-bkBnbWFpbC5jb20+CiBEYXRlOiBXZWQsIDI2IEF1ZyAyMDE1IDE2OjI1OjQ1ICswMzAwCiBTdWJq
-ZWN0OiBbUEFUQ0hdIHNjcmlwdC5jOiBhdm9pZCB1c2Ugb2YgY2hyb290CmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDItQWRhcHQtdG8tbGludXgtd3JzLWtl
-cm5lbC12ZXJzaW9uLXdoaWNoLWhhcy1jaGFyYWN0ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9kcGtnL2Rwa2cvMDAwMi1BZGFwdC10by1saW51eC13cnMta2VybmVsLXZlcnNpb24td2hp
-Y2gtaGFzLWNoYXJhY3RlLnBhdGNoCmluZGV4IGE1YzgwNzczYTUuLjQxMWIzZDQ0ZmIgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMi1BZGFwdC10by1saW51
-eC13cnMta2VybmVsLXZlcnNpb24td2hpY2gtaGFzLWNoYXJhY3RlLnBhdGNoCisrKyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMi1BZGFwdC10by1saW51eC13cnMta2VybmVs
-LXZlcnNpb24td2hpY2gtaGFzLWNoYXJhY3RlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA2
-ZTg4ZThiN2I2OTI0NzUxMTEyOTY2ZjMyOTUyNTk1NjczNWRlOWI0IE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQorRnJvbSA4MThhZmMwMzc0YmEyYmNiN2Y3NTBlMjE2NTk1MGMzNDJkNjAzMzhkIE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2Fu
-YXZpbkBnbWFpbC5jb20+CiBEYXRlOiBXZWQsIDI2IEF1ZyAyMDE1IDE2OjE2OjE2ICswMzAwCiBT
-dWJqZWN0OiBbUEFUQ0hdIEFkYXB0IHRvIGxpbnV4LXdycyBrZXJuZWwgdmVyc2lvbiwgd2hpY2gg
-aGFzIGNoYXJhY3RlciAnXycKQEAgLTEzLDEwICsxMywxMCBAQCBVcHN0cmVhbS1TdGF0dXM6IElu
-YXBwcm9wcmlhdGUgW2VtYmVkZGVkIHNwZWNpZmljXQogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
-dGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvZHBrZy9wYXJzZWhl
-bHAuYyBiL2xpYi9kcGtnL3BhcnNlaGVscC5jCi1pbmRleCBhOTk5YjVlNzguLjdiZTAzNzhhYiAx
-MDA2NDQKK2luZGV4IDJkNmIwOTVmYi4uNmVmYjc2MTI5IDEwMDY0NAogLS0tIGEvbGliL2Rwa2cv
-cGFyc2VoZWxwLmMKICsrKyBiL2xpYi9kcGtnL3BhcnNlaGVscC5jCi1AQCAtMjkxLDE0ICsyOTEs
-MTIgQEAgcGFyc2V2ZXJzaW9uKHN0cnVjdCBkcGtnX3ZlcnNpb24gKnJ2ZXJzaW9uLCBjb25zdCBj
-aGFyICpzdHJpbmcsCitAQCAtMjg5LDE0ICsyODksMTIgQEAgcGFyc2V2ZXJzaW9uKHN0cnVjdCBk
-cGtnX3ZlcnNpb24gKnJ2ZXJzaW9uLCBjb25zdCBjaGFyICpzdHJpbmcsCiAgICBwdHIgPSBydmVy
-c2lvbi0+dmVyc2lvbjsKICAgIGlmICghKnB0cikKICAgICAgcmV0dXJuIGRwa2dfcHV0X2Vycm9y
-KGVyciwgXygidmVyc2lvbiBudW1iZXIgaXMgZW1wdHkiKSk7CmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDQtVGhlLWx1dGltZXMtZnVuY3Rpb24tZG9lc24t
-dC13b3JrLXByb3Blcmx5LWZvci1hbGwtcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9k
-cGtnL2Rwa2cvMDAwNC1UaGUtbHV0aW1lcy1mdW5jdGlvbi1kb2Vzbi10LXdvcmstcHJvcGVybHkt
-Zm9yLWFsbC1zLnBhdGNoCmluZGV4IGU0OWQ1NDE1MmMuLmM5NGE5Y2Q4NzggMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwNC1UaGUtbHV0aW1lcy1mdW5jdGlv
-bi1kb2Vzbi10LXdvcmstcHJvcGVybHktZm9yLWFsbC1zLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwNC1UaGUtbHV0aW1lcy1mdW5jdGlvbi1kb2Vzbi10LXdv
-cmstcHJvcGVybHktZm9yLWFsbC1zLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwZmM5MGEz
-ZWQwMWE3ZmNlMzRkZTkyNTk3OTQ2MDYzOGI4YTU3NDAyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSA4MTJlODExZTQ4YzBkZWYyYTQ3ZjlhMmY0ZjU0MWQ5M2ZhMDUxN2ZkIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
-bWFpbC5jb20+CiBEYXRlOiBXZWQsIDI2IEF1ZyAyMDE1IDE2OjI3OjQ1ICswMzAwCiBTdWJqZWN0
-OiBbUEFUQ0hdIFRoZSBsdXRpbWVzIGZ1bmN0aW9uIGRvZXNuJ3Qgd29yayBwcm9wZXJseSBmb3Ig
-YWxsIHN5c3RlbXMuCkBAIC0xMSw3ICsxMSw3IEBAIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3By
-aWF0ZSBbZW1iZWRkZWQgc3BlY2lmaWNdCiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
-KSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL21haW4vYXJjaGl2ZXMuYyBiL3Ny
-Yy9tYWluL2FyY2hpdmVzLmMKLWluZGV4IGQ3Mjc5ZTFmNS4uZjljNmZhY2M5IDEwMDY0NAoraW5k
-ZXggNTYzZWZhYzMwLi4zMDY4NmUxMWMgMTAwNjQ0CiAtLS0gYS9zcmMvbWFpbi9hcmNoaXZlcy5j
-CiArKysgYi9zcmMvbWFpbi9hcmNoaXZlcy5jCiBAQCAtNDkwLDggKzQ5MCw5IEBAIHRhcm9iamVj
-dF9zZXRfbXRpbWUoc3RydWN0IHRhcl9lbnRyeSAqdGUsIGNvbnN0IGNoYXIgKnBhdGgpCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDYtYWRkLW11c2xlYWJp
-LXRvLWtub3duLXRhcmdldC10cmlwZXRzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rw
-a2cvZHBrZy8wMDA2LWFkZC1tdXNsZWFiaS10by1rbm93bi10YXJnZXQtdHJpcGV0cy5wYXRjaApp
-bmRleCA0ZjYwYTg5YTU2Li4xZGFlMWVhMDFmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvZHBrZy9kcGtnLzAwMDYtYWRkLW11c2xlYWJpLXRvLWtub3duLXRhcmdldC10cmlwZXRz
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwNi1hZGQtbXVz
-bGVhYmktdG8ta25vd24tdGFyZ2V0LXRyaXBldHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
-IGUzZGM2OWFhOTg3YjM3OWUyNDdkZGUzZmNlNDc5ZTQzYmU2YzgxYWEgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCitGcm9tIDAwNDc4YzA0MTJhMzAwYzFkZjQwZjdkZGE4YjllMDNkYmM1Yjg1MTAg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
-Y29tPgogRGF0ZTogV2VkLCAzMCBEZWMgMjAxNSAyMzowNTo0MSArMDAwMAogU3ViamVjdDogW1BB
-VENIXSBhZGQgbXVzbGVhYmkgdG8ga25vd24gdGFyZ2V0IHRyaXBldHMKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwNy1kcGtnLWRlYi1idWlsZC5jLVJlbW92
-ZS11c2FnZS1vZi1jbGFtcC1tdGltZS1pbi10YXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvZHBrZy9kcGtnLzAwMDctZHBrZy1kZWItYnVpbGQuYy1SZW1vdmUtdXNhZ2Utb2YtY2xhbXAt
-bXRpbWUtaW4tdGFyLnBhdGNoCmluZGV4IGRlZDE3MDdkZmQuLjljZjlkYjI2ZDkgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwNy1kcGtnLWRlYi1idWlsZC5j
-LVJlbW92ZS11c2FnZS1vZi1jbGFtcC1tdGltZS1pbi10YXIucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDA3LWRwa2ctZGViLWJ1aWxkLmMtUmVtb3ZlLXVzYWdl
-LW9mLWNsYW1wLW10aW1lLWluLXRhci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMjBiYTdm
-ZDg5MzllOTdiZWMzZDcwYTY3YzBhYWM3NmRkYzY3ODk4ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gODg1ZDY0Yzc1NjlhN2ZiZGNmZjYyNzMwYmI4NmU3NzVmNTM3ZjQxMCBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206ID0/VVRGLTg/cT9Bbj1DMz1BRGJhbD0yMExpbT1DMz1C
-M24/PSA8YW5pYmFsLmxpbW9uQGxpbnV4LmludGVsLmNvbT4KIERhdGU6IFR1ZSwgMjEgRmViIDIw
-MTcgMTE6MjM6MjcgLTA2MDAKIFN1YmplY3Q6IFtQQVRDSF0gZHBrZy1kZWIvYnVpbGQuYzogUmVt
-b3ZlIHVzYWdlIG9mIC0tY2xhbXAtbXRpbWUgaW4gdGFyCkBAIC0yNywxMCArMjcsMTAgQEAgU2ln
-bmVkLW9mZi1ieTogS2FpIEthbmcgPGthaS5rYW5nQHdpbmRyaXZlci5jb20+CiAgMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9zcmMv
-ZGViL2J1aWxkLmMgYi9zcmMvZGViL2J1aWxkLmMKLWluZGV4IGE0MThkZDEyMi4uODdiZDQxNDJl
-IDEwMDY0NAoraW5kZXggZWVmYzM2OWRiLi44MTg0NGUzMDAgMTAwNjQ0CiAtLS0gYS9zcmMvZGVi
-L2J1aWxkLmMKICsrKyBiL3NyYy9kZWIvYnVpbGQuYwotQEAgLTUwNCw3ICs1MDQsNyBAQCB0YXJi
-YWxsX3BhY2soY29uc3QgY2hhciAqZGlyLCBmaWxlbmFtZXNfZmVlZF9mdW5jICp0YXJfZmlsZW5h
-bWVzX2ZlZWRlciwKK0BAIC01MjgsNyArNTI4LDcgQEAgdGFyYmFsbF9wYWNrKGNvbnN0IGNoYXIg
-KmRpciwgZmlsZW5hbWVzX2ZlZWRfZnVuYyAqdGFyX2ZpbGVuYW1lc19mZWVkZXIsCiAgCiAgICAg
-IGNvbW1hbmRfaW5pdCgmY21kLCBUQVIsICJ0YXIgLWNmIik7CiAgICAgIGNvbW1hbmRfYWRkX2Fy
-Z3MoJmNtZCwgInRhciIsICItY2YiLCAiLSIsICItLWZvcm1hdD1nbnUiLApkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy9hZGRfYXJtZWJfdHJpcGxldF9lbnRyeS5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvYWRkX2FybWViX3RyaXBsZXRf
-ZW50cnkucGF0Y2gKaW5kZXggZDFmYWMyMTY4YS4uMjViZWNmOTNlYSAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy9hZGRfYXJtZWJfdHJpcGxldF9lbnRyeS5wYXRj
-aAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnL2FkZF9hcm1lYl90cmlwbGV0
-X2VudHJ5LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4ZGVkMzJhMzUyODdhODQwZGU3ZTUw
-NWM2NmU3NmNjY2Q5ZWRiYWM2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlYzExN2Mw
-MGRiZTg3Nzc5ZDBlYjNjYjgwYTQzMzZjMmUxNGIzYzFlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogIktyaXNobmFuamFuYXBwYSwgSmFnYWRlZXNoIgogIDxqYWdhZGVlc2gua3Jpc2hu
-YW5qYW5hcHBhQGNhdml1bW5ldHdvcmtzLmNvbT4KIERhdGU6IFdlZCwgOCBBcHIgMjAxNSAxODow
-ODoxNCArMDUzMApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy9h
-cmNoX3BtLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy9hcmNoX3BtLnBh
-dGNoCmluZGV4IGI1YTI5MjMxZGQuLmUzYmM2OGIwYWEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9kcGtnL2Rwa2cvYXJjaF9wbS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvZHBrZy9kcGtnL2FyY2hfcG0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDgxMmRi
-YjY0ZjI4MDVhMzI1N2VmOWM5YTYxYWJiZDEwZTBiM2EwOGMgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCitGcm9tIDAyZTFlOThkYzIwZDMyNjcyNmVhNjZkZDRlNGFlZWYyNDNjYjI5ZjQgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKb2UgU2xhdGVyIDxqc2xhdGVyQHdpbmRyaXZlci5j
-b20+CiBEYXRlOiBNb24sIDI2IEF1ZyAyMDEzIDIzOjM4OjQ1ICswMDAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIGRwa2c6IGZpeCBjb25maWd1cmF0aW9uIGlzc3VlIGZvciBtaXBzNjQKQEAgLTE2LDEwICsx
-NiwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBKb2UgU2xhdGVyIDxqc2xhdGVyQHdpbmRyaXZlci5jb20+
-CiAgMSBmaWxlIGNoYW5nZWQsIDMgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9zY3JpcHRz
-L0Rwa2cvQXJjaC5wbSBiL3NjcmlwdHMvRHBrZy9BcmNoLnBtCi1pbmRleCAwZDM1MmVlYjkuLjRl
-ZjVmYTMwNyAxMDA2NDQKK2luZGV4IGNhZGVmYjRkNC4uN2RkNDkyY2E5IDEwMDY0NAogLS0tIGEv
-c2NyaXB0cy9EcGtnL0FyY2gucG0KICsrKyBiL3NjcmlwdHMvRHBrZy9BcmNoLnBtCi1AQCAtMzI2
-LDkgKzMyNiw2IEBAIHN1YiBfbG9hZF90dXBsZXRhYmxlKCkKK0BAIC0zMjYsOSArMzI2LDYgQEAg
-c3ViIF9sb2FkX3R1cGxldGFibGUKICAJCSAgICAobXkgJGR0ID0gJGRlYnR1cGxlKSA9fiBzLzxj
-cHU+LyRfY3B1LzsKICAJCSAgICAobXkgJGRhID0gJGRlYmFyY2gpID1+IHMvPGNwdT4vJF9jcHUv
-OwogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy9ub21hbi5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvbm9tYW4ucGF0Y2gKaW5kZXgg
-M2YzZTA4MzUxYy4uZDMwZDliNDU4MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2Rwa2cvZHBrZy9ub21hbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9k
-cGtnL25vbWFuLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBlNjcxYjQzYTUyYmY1Nzg1ZmU0
-YWFkODQ3MTJkYmFiYzZjODZiMzllIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5OTlj
-YmIwZTZkZGI3YjA3ZTllOTRmNjZkYmRmZDhlNTZmMzEwYmI4IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQogRnJvbTogQ2hyaXMgTGFyc29uIDxrZXJnb3RoQG9wZW5lZGhhbmQuY29tPgogRGF0ZTog
-VHVlLCA1IFNlcCAyMDA2IDA3OjI0OjU4ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIEFkZCBkcGtn
-LCBtb2RpZmllZCBmcm9tIHVwc3RyZWFtIG9lLgpAQCAtOSw3ICs5LDcgQEAgVXBzdHJlYW0tU3Rh
-dHVzOiBJbmFwcHJvcHJpYXRlIFtkaXNhYmxlIGZlYXR1cmVdCiAgMSBmaWxlIGNoYW5nZWQsIDEg
-ZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL01ha2VmaWxlLmFtIGIvTWFrZWZpbGUuYW0KLWlu
-ZGV4IDc0ZjhkZjE5Ny4uMzVlNWVlZTM5IDEwMDY0NAoraW5kZXggNzY4MWU3NzY3Li5iNDIyNmQ5
-NWMgMTAwNjQ0CiAtLS0gYS9NYWtlZmlsZS5hbQogKysrIGIvTWFrZWZpbGUuYW0KIEBAIC0xMSw3
-ICsxMSw2IEBAIFNVQkRJUlMgPSBcCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-ZHBrZy9kcGtnL3JlbW92ZS10YXItbm8tdGltZXN0YW1wLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2Rwa2cvZHBrZy9yZW1vdmUtdGFyLW5vLXRpbWVzdGFtcC5wYXRjaAppbmRleCBkM2Ex
-YTEzMDk4Li5iZTk2ZDQ3MGU5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBr
-Zy9kcGtnL3JlbW92ZS10YXItbm8tdGltZXN0YW1wLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9kcGtnL2Rwa2cvcmVtb3ZlLXRhci1uby10aW1lc3RhbXAucGF0Y2gKQEAgLTEsNCAr
-MSw0IEBACi1Gcm9tIDdkNjlkZTExNGFhNjk2Y2ZiNWUzMWI0OTFhNjU3Y2E2YjZjYmJiZDUgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGVjZGI5MjJmMDE4ZWQ2NjQzNDJjMzA0ZjU2N2Jk
-MTIxM2RlNWE5ODMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDb25zdGFudGluIE11
-c2NhIDxjb25zdGFudGlueC5tdXNjYUBpbnRlbC5jb20+CiBEYXRlOiBUdWUsIDI4IEF1ZyAyMDEy
-IDE3OjAyOjQwICswMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGJ1c3lib3gtMS4xOS40IHRhciB1dGls
-aXR5IGRvZXNuJ3Qgc3VwcG9ydApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rw
-a2cvZHBrZ18xLjIyLjExLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZ18xLjIy
-LjE1LmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
-b29scy9kcGtnL2Rwa2dfMS4yMi4xMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2Rwa2cvZHBrZ18xLjIyLjE1LmJiCmluZGV4IDQ3YThkNWQ1ZWEuLmQzYTQyMTQzMmYgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2dfMS4yMi4xMS5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnXzEuMjIuMTUuYmIKQEAgLTE3LDYgKzE3LDYg
-QEAgU1JDX1VSSSA9ICJnaXQ6Ly9zYWxzYS5kZWJpYW4ub3JnL2Rwa2ctdGVhbS9kcGtnLmdpdDtw
-cm90b2NvbD1odHRwczticmFuY2g9bWFpbgogCiBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmUg
-PSAiIGZpbGU6Ly8wMDAxLWJ1aWxkLmMtaWdub3JlLXJldHVybi1vZi0xLWZyb20tdGFyLWNmLnBh
-dGNoIgogCi1TUkNSRVYgPSAiZWU3ZTkxMThkMGE5NTgxY2IwMGM1Y2UwMmRjY2Q1NjFiMzA5NjM4
-NyIKK1NSQ1JFViA9ICJhZmI0MWViMDQyMjJhNDAyMDVhOWIwYjAzYmI2OWEyZDQ0OTkyNGVkIgog
-CiBTID0gIiR7V09SS0RJUn0vZ2l0IgotLSAKMi40NC4xCgo=
-
---===============3111294971768564939==
+--===============1262506668248226722==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/ofono: PV changed from "2.14" to "2.15"
+packages/core2-64-poky-linux/ofono: SRC_URI changed from "https://cdn.kernel.org/pub/linux/network/ofono/ofono-2.14.tar.xz file://rmnet.patch file://ofono file://CVE-2024-7539.patch file://CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch" to "https://cdn.kernel.org/pub/linux/network/ofono/ofono-2.15.tar.xz file://ofono"
+packages/core2-64-poky-linux/ofono: PKGV changed from 2.14 [default] to 2.15 [default]
+packages/core2-64-poky-linux/ofono/ofono-dbg: PKGSIZE changed from 7328760 to 7328920 (+0%)
+packages/core2-64-poky-linux/ofono/ofono-dbg: PV changed from "2.14" to "2.15"
+packages/core2-64-poky-linux/ofono/ofono-dbg: PKGV changed from 2.14 [default] to 2.15 [default]
+packages/core2-64-poky-linux/ofono/ofono-dev: PV changed from "2.14" to "2.15"
+packages/core2-64-poky-linux/ofono/ofono-dev: PKGV changed from 2.14 [default] to 2.15 [default]
+packages/core2-64-poky-linux/ofono/ofono-doc: PV changed from "2.14" to "2.15"
+packages/core2-64-poky-linux/ofono/ofono-doc: PKGV changed from 2.14 [default] to 2.15 [default]
+packages/core2-64-poky-linux/ofono/ofono-locale: PV changed from "2.14" to "2.15"
+packages/core2-64-poky-linux/ofono/ofono-locale: PKGV changed from 2.14 [default] to 2.15 [default]
+packages/core2-64-poky-linux/ofono/ofono-src: PKGSIZE changed from 4715027 to 4715074 (+0%)
+packages/core2-64-poky-linux/ofono/ofono-src: PV changed from "2.14" to "2.15"
+packages/core2-64-poky-linux/ofono/ofono-src: PKGV changed from 2.14 [default] to 2.15 [default]
+packages/core2-64-poky-linux/ofono/ofono-staticdev: PV changed from "2.14" to "2.15"
+packages/core2-64-poky-linux/ofono/ofono-staticdev: PKGV changed from 2.14 [default] to 2.15 [default]
+packages/core2-64-poky-linux/ofono/ofono-tests: PV changed from "2.14" to "2.15"
+packages/core2-64-poky-linux/ofono/ofono-tests: PKGV changed from 2.14 [default] to 2.15 [default]
+packages/core2-64-poky-linux/ofono/ofono: PV changed from "2.14" to "2.15"
+packages/core2-64-poky-linux/ofono/ofono: PKGV changed from 2.14 [default] to 2.15 [default]
+
+--===============1262506668248226722==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1883 entries from dependency cache.
+Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 922 .bb files complete (921 cached, 1 parsed). 1881 targets, 39 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
+Parsing of 922 .bb files complete (0 cached, 922 parsed). 1882 targets, 50 skipped, 0 masked, 0 errors.
+Removing 75 recipes from the core2-64 sysroot...done.
+Removing 103 recipes from the qemux86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.9.1"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
+TARGET_SYS           = "x86_64-poky-linux-musl"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
 DISTRO_VERSION       = "5.1"
@@ -602,573 +377,1473 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:8255fe5a2d3f1fd1f73503cd62e0e2ff09c7e8dd"
+workspace            = "tmp-auh-upgrades:cf91860f678433c5f52c545951c54719c3864aed"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 321 Local 304 Mirrors 0 Missed 17 Current 358 (94% match, 97% complete)
-Removing 4 stale sstate objects for arch core2-64...done.
+Sstate summary: Wanted 768 Local 701 Mirrors 0 Missed 67 Current 265 (91% match, 93% complete)
+Removing 3 stale sstate objects for arch x86_64...done.
+Removing 1 stale sstate objects for arch allarch...done.
+Removing 3 stale sstate objects for arch qemux86_64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 559 of 679 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_package_setscene)
-NOTE: Running setscene task 570 of 679 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 623 of 679 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_recipe_qa_setscene)
-NOTE: recipe dpkg-1.22.15-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe dpkg-native-1.22.15-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe dpkg-1.22.15-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe dpkg-native-1.22.15-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1415 of 1946 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_fetch)
-NOTE: recipe bash-completion-2.16.0-r0: task do_package_setscene: Started
-NOTE: Running task 1632 of 1946 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_fetch)
-NOTE: recipe dpkg-1.22.15-r0: task do_fetch: Started
-NOTE: recipe dpkg-native-1.22.15-r0: task do_fetch: Started
-NOTE: recipe dpkg-1.22.15-r0: task do_fetch: Succeeded
-NOTE: Running task 1828 of 1946 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_unpack)
-NOTE: recipe dpkg-1.22.15-r0: task do_unpack: Started
-NOTE: recipe dpkg-native-1.22.15-r0: task do_fetch: Succeeded
-NOTE: Running task 1829 of 1946 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_unpack)
-NOTE: Running task 1830 of 1946 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_prepare_recipe_sysroot)
-NOTE: recipe dpkg-native-1.22.15-r0: task do_unpack: Started
-NOTE: recipe dpkg-native-1.22.15-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe dpkg-native-1.22.15-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running setscene task 679 of 679 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe bash-completion-2.16.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 266 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.12.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 269 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 270 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 271 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 312 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_qa_setscene)
+NOTE: Running setscene task 315 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.15.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 320 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 321 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 322 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 330 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.12.bb:do_package_qa_setscene)
+NOTE: Running setscene task 338 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_package_qa_setscene)
+NOTE: Running setscene task 345 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.12.bb:do_deploy_setscene)
+NOTE: Running setscene task 346 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.12.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 364 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.12.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 367 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.12.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 373 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata_setscene)
+NOTE: recipe ofono-2.15-r0: task do_populate_lic_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_package_qa_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_package_qa_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_package_qa_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_deploy_setscene: Started
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_package_write_deb_setscene: Started
+NOTE: Running setscene task 394 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_create_spdx_setscene)
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ofono-2.15-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 397 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 399 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 401 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 402 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-3.13.2-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 407 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 408 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx_setscene)
+NOTE: recipe shadow-sysroot-4.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_create_spdx_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 409 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_create_spdx_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_create_spdx_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 411 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.17.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 412 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_create_spdx_setscene)
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 414 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_create_spdx_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 415 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 416 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb:do_create_spdx_setscene)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-dbus-1.3.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 417 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 421 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_create_spdx_setscene)
+NOTE: recipe readline-8.2.13-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 422 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_create_spdx_setscene)
+NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe shadow-4.17.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe pixman-1_0.44.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-passwd-3.6.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe icu-76-1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe readline-8.2.13-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 423 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_create_spdx_setscene)
+NOTE: recipe libsm-1_1.2.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 424 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_recipe_qa_setscene)
+NOTE: recipe pixman-1_0.44.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe shadow-4.17.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 425 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 426 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_packagedata_setscene)
+NOTE: recipe base-passwd-3.6.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 441 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_packagedata_setscene)
+NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 443 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 446 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 447 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.73.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe icu-76-1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 449 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-dbus-1.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 450 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.4.bb:do_create_spdx_setscene)
+NOTE: recipe update-rc.d-0.8+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libsm-1_1.2.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 452 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_create_spdx_setscene)
+NOTE: recipe libxml2-2.13.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe readline-8.2.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ell-0.73-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 453 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils_2.44.bb:do_packagedata_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 454 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 455 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: recipe update-rc.d-0.8+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ell-0.73-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe freetype-2.13.3-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 456 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 457 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.11.bb:do_create_spdx_setscene)
+NOTE: recipe binutils-2.44-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.40.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 460 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 461 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.13.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 462 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 464 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.37.bb:do_packagedata_setscene)
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe readline-8.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.13.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 468 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_packagedata_setscene)
+NOTE: recipe libx11-1_1.8.11-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 469 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_packagedata_setscene)
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ca-certificates-20241223-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.40.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 470 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_recipe_qa_setscene)
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe readline-8.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.2.37-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8.11-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 471 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 476 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
+NOTE: recipe ca-certificates-20241223-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe binutils-2.44-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 482 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.73.bb:do_recipe_qa_setscene)
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 485 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_packagedata_setscene)
+NOTE: Running setscene task 486 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 487 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 488 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.79.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe tzdata-2025a-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe readline-8.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 490 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 493 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 495 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.6.bb:do_packagedata_setscene)
+NOTE: recipe ell-0.73-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe kmod-33-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 498 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc_14.2.bb:do_packagedata_setscene)
+NOTE: recipe bluez5-5.79-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe pixman-1_0.44.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ell-0.73-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe cairo-1.18.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 502 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_packagedata_setscene)
+NOTE: recipe coreutils-9.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe tzdata-2025a-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 503 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_populate_sysroot_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-5.2.37-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bluez5-5.79-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 504 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 505 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 506 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-14.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe kmod-33-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 508 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_create_spdx_setscene)
+NOTE: recipe cairo-1.18.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 512 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.45.bb:do_create_spdx_setscene)
+NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 513 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.79.bb:do_recipe_qa_setscene)
+NOTE: recipe icu-76-1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-passwd-3.6.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pixman-1_0.44.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 516 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 517 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_create_spdx_setscene)
+NOTE: recipe libpng-1.6.45-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe bluez5-5.79-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 519 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 522 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_packagedata_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 523 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_packagedata_setscene)
+NOTE: recipe libpng-1.6.45-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 525 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_package_setscene)
+NOTE: recipe base-passwd-3.6.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bluez5-5.79-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe coreutils-9.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe icu-76-1-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe icu-76-1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe icu-76-1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_deploy_setscene: Succeeded
+NOTE: Running setscene task 529 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.19.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 530 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0-initial_2.82.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 532 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 536 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 539 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 541 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 549 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 554 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 559 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.17.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 562 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 563 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 565 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 568 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.192.bb:do_packagedata_setscene)
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 571 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 578 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libical-3.0.19-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glib-2.0-initial-1_2.82.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe pixman-1_0.44.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.13.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.13.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe kmod-33-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.17.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.6.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe elfutils-0.192-r0: task do_packagedata_setscene: Started
+NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libical-3.0.19-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 582 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_packagedata_setscene)
+NOTE: recipe glib-2.0-initial-1_2.82.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 584 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.45.bb:do_create_spdx_setscene)
+NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.6.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 588 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
+NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 591 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 592 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_recipe_qa_setscene)
+NOTE: recipe pixman-1_0.44.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 598 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 599 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.17.2.bb:do_packagedata_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 604 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxml2-2.13.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe kmod-33-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 605 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.11.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-4.17.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 607 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 608 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libsm-1_1.2.5-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 609 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.13.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 620 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb:do_packagedata_setscene)
+NOTE: recipe libpcre2-10.45-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 621 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.7.bb:do_create_spdx_setscene)
+NOTE: recipe elfutils-0.192-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 623 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_create_spdx_setscene)
+NOTE: recipe fontconfig-2.15.0-r0: task do_package_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe readline-8.2.13-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe shadow-4.17.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsm-1_1.2.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe dbus-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-passwd-3.6.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpcre2-10.45-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libffi-3.4.7-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 627 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.11.bb:do_packagedata_setscene)
+NOTE: recipe readline-8.2.13-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.16.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 629 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.19.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 631 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/mpfr/mpfr_4.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 633 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe dbus-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 634 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 637 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 641 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libx11-1_1.8.11-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 647 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe bash-completion-2.16.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libical-3.0.19-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 652 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.45.bb:do_packagedata_setscene)
+NOTE: recipe base-passwd-3.6.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe icu-76-1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 653 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 654 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
+NOTE: recipe libsm-1_1.2.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 655 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libx11-1_1.8.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 657 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe depmodwrapper-cross-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vala-0.56.17-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libical-3.0.19-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 658 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_recipe_qa_setscene)
+NOTE: recipe icu-76-1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 660 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/json-c/json-c_0.18.bb:do_packagedata_setscene)
+NOTE: recipe libpcre2-10.45-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.17.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 662 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 663 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.7.bb:do_packagedata_setscene)
+NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 664 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.6.bb:do_recipe_qa_setscene)
+NOTE: recipe depmodwrapper-cross-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 665 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
+NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vala-0.56.17-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 669 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 670 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 676 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 679 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe dbus-1.16.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 682 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 683 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libarchive-3.7.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 684 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.13.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpcre2-10.45-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 685 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
+NOTE: recipe kmod-33-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe pixman-1_0.44.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe dbus-1.16.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 686 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 688 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 689 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.13.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 690 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
+NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe kmod-33-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe pixman-1_0.44.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 694 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 695 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_packagedata_setscene)
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 696 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe libarchive-3.7.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 701 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_recipe_qa_setscene)
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 706 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_recipe_qa_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_package_setscene: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 708 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 712 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.11.bb:do_recipe_qa_setscene)
+NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe vala-0.56.17-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 714 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 716 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.9.bb:do_packagedata_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 717 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.12.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 721 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 722 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_packagedata_setscene)
+NOTE: recipe libx11-1_1.8.11-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vala-0.56.17-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 724 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 728 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.17.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 730 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libsm-1_1.2.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 731 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.46.bb:do_packagedata_setscene)
+NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.40.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 738 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.4.bb:do_packagedata_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libgcrypt-1.11.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 744 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 745 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: recipe gnutls-3.8.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe curl-8.12.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8.11-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 747 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.17.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe file-5.46-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 748 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe base-passwd-3.6.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 752 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.8.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.40.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcrypt-1.11.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 754 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 755 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-2.40.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe shadow-4.17.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 756 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0-initial_2.82.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 758 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.8.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 759 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_recipe_qa_setscene)
+NOTE: recipe base-passwd-3.6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe curl-8.12.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 760 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 765 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
+NOTE: recipe xtrans-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-setuptools-75.8.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe file-5.46-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 766 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 767 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe gnutls-3.8.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xtrans-1_1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 769 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 772 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.73.bb:do_packagedata_setscene)
+NOTE: recipe python3-setuptools-75.8.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.82.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 773 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.45.bb:do_packagedata_setscene)
+NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 775 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.45.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-2.73-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 777 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 778 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xtrans-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 779 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
+NOTE: recipe libpng-1.6.45-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 783 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-setuptools-75.8.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpng-1.6.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 785 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 788 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-2.73-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.82.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 790 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb:do_packagedata_setscene)
+NOTE: Running setscene task 791 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_packagedata_setscene)
+NOTE: recipe python3-setuptools-75.8.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 792 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 795 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 804 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_packagedata_setscene)
+NOTE: recipe libpng-1.6.45-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 806 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.10.1.bb:do_packagedata_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 808 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_packagedata_setscene)
+NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 810 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libpng-1.6.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 811 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/lzip/lzlib_1.15.bb:do_packagedata_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zstd-1.5.6-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 813 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.45.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.51-r0: task do_packagedata_setscene: Started
+NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 818 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 821 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 827 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0-initial_2.82.4.bb:do_recipe_qa_setscene)
+NOTE: recipe nettle-3.10.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 829 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe lzlib-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpcre2-10.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zstd-1.5.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 831 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_recipe_qa_setscene)
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-initial-1_2.82.4-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 836 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 838 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.8.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 844 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe nettle-3.10.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 852 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.13.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe lzlib-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 853 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgpg-error-1.51-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.82.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 854 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 858 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_packagedata_setscene)
+NOTE: recipe xtrans-1_1.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-setuptools-75.8.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-2.40.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 861 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 867 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene)
+NOTE: recipe libpcre2-10.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 868 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.45.bb:do_recipe_qa_setscene)
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xtrans-1_1.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 869 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 871 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 873 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-setuptools-75.8.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 876 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
+NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 880 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 884 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_packagedata_setscene)
+NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpng-1.6.45-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 886 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.4.bb:do_recipe_qa_setscene)
+NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 888 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 889 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_packagedata_setscene)
+NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpng-1.6.45-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 890 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 892 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 895 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.1.bb:do_packagedata_setscene)
+NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 896 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 897 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_packagedata_setscene)
+NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 898 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.40.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 899 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.45.bb:do_recipe_qa_setscene)
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 901 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_packagedata_setscene)
+NOTE: recipe openssl-3.4.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 903 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.4.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 906 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.13.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-2.40.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 908 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 909 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.7.bb:do_packagedata_setscene)
+NOTE: recipe libpcre2-10.45-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 911 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_recipe_qa_setscene)
+NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 913 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xz-5.6.4-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 914 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 915 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.7-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 918 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 919 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_packagedata_setscene)
+NOTE: recipe libpcre2-10.45-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 923 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 924 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 927 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.4.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 928 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.4.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 930 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 931 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.4.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 932 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 933 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe xz-5.6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 935 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libffi-3.4.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 936 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_recipe_qa_setscene)
+NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 940 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_packagedata_setscene)
+NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 943 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 950 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 951 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 953 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 954 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.7.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 955 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 959 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 963 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_recipe_qa_setscene)
+NOTE: recipe openssl-3.4.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 965 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 967 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 968 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.4.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.13.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 970 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.4.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 971 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 973 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 977 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Started
+NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 979 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 980 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.6.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.4.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 983 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.12.bb:do_recipe_qa_setscene)
+NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.6.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.6.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.4.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 984 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 986 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.6.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.4.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 988 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 990 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 991 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-yocto-6.12.13+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 993 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 995 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 996 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 998 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 967 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_fetch)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1047 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_write_config)
+NOTE: Running task 1114 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_fetch)
+NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1000 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1244 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_unpack)
+NOTE: Running task 1251 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_write_config)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_write_config: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1315 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.19.bb:do_fetch)
+NOTE: recipe dbus-1.16.0-r0: task do_fetch: Started
+NOTE: Running task 1335 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_fetch)
+NOTE: recipe dbus-1.16.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1362 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.79.bb:do_fetch)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_write_config: Succeeded
+NOTE: Running task 1370 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_unpack)
+NOTE: Running task 1392 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_fetch)
+NOTE: Running task 1428 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_fetch)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_unpack: Started
+NOTE: recipe dbus-1.16.0-r0: task do_write_config: Started
+NOTE: recipe libical-3.0.19-r0: task do_fetch: Started
+NOTE: Running task 1495 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.73.bb:do_fetch)
+NOTE: Running task 1498 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_fetch)
+NOTE: recipe vala-0.56.17-r0: task do_fetch: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1507 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_write_config)
+NOTE: Running setscene task 1002 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1003 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1004 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: recipe libical-3.0.19-r0: task do_fetch: Succeeded
+NOTE: Running task 1522 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.19.bb:do_unpack)
+NOTE: recipe vala-0.56.17-r0: task do_fetch: Succeeded
+NOTE: recipe bluez5-5.79-r0: task do_fetch: Started
+NOTE: Running task 1532 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.15.bb:do_recipe_qa)
+NOTE: Running task 1533 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_unpack)
+NOTE: recipe fontconfig-2.15.0-r0: task do_fetch: Started
+NOTE: recipe dbus-1.16.0-r0: task do_write_config: Succeeded
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe dbus-1.16.0-r0: task do_unpack: Started
+NOTE: Running setscene task 1005 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
+NOTE: recipe bluez5-5.79-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 1006 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe fontconfig-2.15.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1534 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.79.bb:do_unpack)
+NOTE: recipe cairo-1.18.2-r0: task do_fetch: Started
+NOTE: Running task 1535 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_unpack)
+NOTE: recipe cairo-1.18.2-r0: task do_fetch: Succeeded
+NOTE: recipe ell-0.73-r0: task do_fetch: Started
+NOTE: Running task 1536 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_unpack)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_fetch: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe ell-0.73-r0: task do_fetch: Succeeded
+NOTE: recipe cairo-1.18.2-r0: task do_write_config: Started
+NOTE: Running task 1537 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.73.bb:do_unpack)
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_fetch: Succeeded
+NOTE: recipe libical-3.0.19-r0: task do_unpack: Started
+NOTE: Running task 1538 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_unpack)
+NOTE: recipe ofono-2.15-r0: task do_recipe_qa: Started
+NOTE: recipe vala-0.56.17-r0: task do_unpack: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_unpack: Started
+NOTE: recipe bluez5-5.79-r0: task do_unpack: Started
+NOTE: recipe cairo-1.18.2-r0: task do_write_config: Succeeded
+NOTE: Running task 1548 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_fetch)
+NOTE: recipe cairo-1.18.2-r0: task do_unpack: Started
+NOTE: recipe ell-0.73-r0: task do_unpack: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1549 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_fetch)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_unpack: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1559 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_write_config)
+NOTE: recipe libical-3.0.19-r0: task do_unpack: Succeeded
+NOTE: Running task 1579 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.19.bb:do_patch)
+NOTE: recipe dbus-1.16.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1591 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_write_config)
+NOTE: Running task 1592 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_write_config)
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1593 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_patch)
+NOTE: Running task 1594 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_patch)
+NOTE: recipe fontconfig-2.15.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_fetch: Started
+NOTE: Running task 1611 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_fetch)
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-dbus-1.3.2-r0: task do_fetch: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1011 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1012 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_write_config: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_fetch: Succeeded
+NOTE: recipe ofono-2.15-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1612 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_unpack)
+NOTE: recipe libical-3.0.19-r0: task do_patch: Started
+NOTE: Running task 1613 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.15.bb:do_fetch)
+NOTE: recipe ell-0.73-r0: task do_unpack: Succeeded
+NOTE: recipe python3-dbus-1.3.2-r0: task do_write_config: Started
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_write_config: Started
+NOTE: Running task 1614 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.73.bb:do_patch)
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_patch: Started
+NOTE: recipe dbus-1.16.0-r0: task do_patch: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Started
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_write_config: Succeeded
+NOTE: Running task 1615 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_unpack)
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_write_config: Succeeded
+NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_write_config: Succeeded
+NOTE: recipe dbus-1.16.0-r0: task do_patch: Succeeded
+NOTE: recipe ofono-2.15-r0: task do_fetch: Started
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_unpack: Started
+NOTE: recipe ell-0.73-r0: task do_patch: Started
+NOTE: recipe bluez5-5.79-r0: task do_unpack: Succeeded
+NOTE: recipe ofono-2.15-r0: task do_fetch: Succeeded
+NOTE: Running task 1695 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.79.bb:do_patch)
+NOTE: Running task 1706 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.15.bb:do_unpack)
+NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_patch: Succeeded
+NOTE: Running task 1737 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_patch)
+NOTE: recipe python3-dbus-1.3.2-r0: task do_unpack: Started
+NOTE: recipe ell-0.73-r0: task do_patch: Succeeded
+NOTE: recipe libical-3.0.19-r0: task do_patch: Succeeded
+NOTE: Running task 1752 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.19.bb:do_generate_toolchain_file)
+NOTE: recipe python3-dbus-1.3.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1753 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_patch)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Succeeded
+NOTE: recipe vala-0.56.17-r0: task do_unpack: Succeeded
+NOTE: recipe ofono-2.15-r0: task do_unpack: Started
+NOTE: recipe bluez5-5.79-r0: task do_patch: Started
+NOTE: Running task 1754 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_unpack)
+NOTE: Running task 1755 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_patch)
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1015 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1018 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1019 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_unpack: Succeeded
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_patch: Started
+NOTE: Running task 1758 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_patch)
+NOTE: recipe libical-3.0.19-r0: task do_generate_toolchain_file: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_patch: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Started
+NOTE: recipe vala-0.56.17-r0: task do_patch: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libical-3.0.19-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_patch: Started
+NOTE: recipe vala-0.56.17-r0: task do_patch: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ofono-2.15-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_patch: Succeeded
+NOTE: Running task 1765 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.15.bb:do_patch)
+NOTE: recipe python3-dbus-1.3.2-r0: task do_patch: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1021 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1023 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1025 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe bluez5-5.79-r0: task do_patch: Succeeded
+NOTE: recipe ofono-2.15-r0: task do_patch: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ofono-2.15-r0: task do_patch: Succeeded
+NOTE: Running task 1769 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.15.bb:do_deploy_source_date_epoch)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ofono-2.15-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1788 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_patch)
+NOTE: recipe cairo-1.18.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1789 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_patch)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_patch: Succeeded
+NOTE: recipe cairo-1.18.2-r0: task do_patch: Started
+NOTE: recipe ofono-2.15-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe cairo-1.18.2-r0: task do_patch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1028 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1031 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1032 of 1033 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1870 of 1946 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_prepare_recipe_sysroot)
-NOTE: recipe dpkg-1.22.15-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe dpkg-1.22.15-r0: task do_unpack: Succeeded
-NOTE: Running task 1920 of 1946 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_patch)
-NOTE: Running task 1921 of 1946 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_collect_spdx_deps)
-NOTE: recipe dpkg-1.22.15-r0: task do_patch: Started
-NOTE: recipe dpkg-1.22.15-r0: task do_collect_spdx_deps: Started
-NOTE: recipe dpkg-1.22.15-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe dpkg-1.22.15-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe dpkg-native-1.22.15-r0: task do_unpack: Succeeded
-NOTE: Running task 1922 of 1946 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_patch)
-NOTE: recipe dpkg-native-1.22.15-r0: task do_patch: Started
-NOTE: recipe dpkg-1.22.15-r0: task do_patch: Succeeded
-NOTE: Running task 1923 of 1946 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1924 of 1946 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_populate_lic)
-NOTE: recipe dpkg-1.22.15-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe dpkg-1.22.15-r0: task do_populate_lic: Started
-NOTE: recipe dpkg-native-1.22.15-r0: task do_patch: Succeeded
-NOTE: Running task 1925 of 1946 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_deploy_source_date_epoch)
-NOTE: recipe dpkg-1.22.15-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_populate_lic unihash changed to a51e20c5844894ead25699e81d07079df3a1892a6006a20e9572fc8608b949b4
-NOTE: recipe dpkg-1.22.15-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_deploy_source_date_epoch unihash changed to 3c73639fed9a9a24ac5a0a244f3550cc0e228efcfa5e8459db2b7fe2e3a55131
-NOTE: recipe dpkg-native-1.22.15-r0: task do_deploy_source_date_epoch: Started
-NOTE: Setscene tasks completed
-NOTE: Running task 1926 of 1946 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_configure)
-NOTE: recipe dpkg-1.22.15-r0: task do_configure: Started
-NOTE: recipe dpkg-native-1.22.15-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_deploy_source_date_epoch unihash changed to 8b73c4befbcaabe4224e3dc23ab108750a6427c30882bcdee5830658fde7c20d
-NOTE: Setscene tasks completed
-NOTE: Running task 1927 of 1946 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_configure)
-NOTE: recipe dpkg-native-1.22.15-r0: task do_configure: Started
-NOTE: recipe dpkg-native-1.22.15-r0: task do_configure: Succeeded
-NOTE: Running task 1928 of 1946 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_compile)
-NOTE: recipe dpkg-native-1.22.15-r0: task do_compile: Started
-NOTE: recipe dpkg-native-1.22.15-r0: task do_compile: Succeeded
-NOTE: Running task 1929 of 1946 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_install)
-NOTE: recipe dpkg-native-1.22.15-r0: task do_install: Started
-NOTE: recipe dpkg-1.22.15-r0: task do_configure: Succeeded
-NOTE: Running task 1930 of 1946 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_compile)
-NOTE: recipe dpkg-1.22.15-r0: task do_compile: Started
-NOTE: recipe dpkg-1.22.15-r0: task do_compile: Succeeded
-NOTE: Running task 1931 of 1946 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_install)
-NOTE: recipe dpkg-1.22.15-r0: task do_install: Started
-Log data follows:
-| DEBUG: Executing shell function do_install
-| NOTE: make -j 16 -l 75 DESTDIR=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image install
-| Making install in lib
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib'
-| Making install in compat
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib/compat'
-| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib/compat'
-| make[3]: Nothing to be done for 'install-exec-am'.
-| make[3]: Nothing to be done for 'install-data-am'.
-| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib/compat'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib/compat'
-| Making install in dpkg
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib/dpkg'
-| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib/dpkg'
-| make[3]: Nothing to be done for 'install-exec-am'.
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/pkgconfig'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/include/dpkg'
-|  /bin/bash ../../libtool   --mode=install /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c   libdpkg.la '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 libdpkg.pc '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/pkgconfig'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../../git/lib/dpkg/ar.h ../../../git/lib/dpkg/arch.h ../../../git/lib/dpkg/atomic-file.h ../../../git/lib/dpkg/buffer.h ../../../git/lib/dpkg/c-ctype.h ../../../git/lib/dpkg/color.h ../../../git/lib/dpkg/command.h ../../../git/lib/dpkg/compress.h ../../../git/lib/dpkg/db-ctrl.h ../../../git/lib/dpkg/db-fsys.h ../../../git/lib/dpkg/deb-version.h ../../../git/lib/dpkg/debug.h ../../../git/lib/dpkg/dir.h ../../../git/lib/dpkg/dpkg.h ../../../git/lib/dpkg/dpkg-db.h ../../../git/lib/dpkg/ehandle.h ../../../git/lib/dpkg/error.h ../../../git/lib/dpkg/execname.h ../../../git/lib/dpkg/fdio.h ../../../git/lib/dpkg/file.h ../../../git/lib/dpkg/fsys.h ../../../git/lib/dpkg/glob.h ../../../git/lib/dpkg/macros.h ../../../git/lib/dpkg/meminfo.h ../../../git/lib/dpkg/namevalue.h ../../../git/lib/dpkg/options.h ../../../git/lib/dpkg/pager.h ../../../git/lib/dpkg/parsedump.h ../../../git/lib/dpkg/path.h ../../../git/lib/
- dpkg/pkg.h ../../../git/lib/dpkg/pkg-array.h ../../../git/lib/dpkg/pkg-files.h ../../../git/lib/dpkg/pkg-format.h ../../../git/lib/dpkg/pkg-list.h ../../../git/lib/dpkg/pkg-queue.h ../../../git/lib/dpkg/pkg-show.h ../../../git/lib/dpkg/pkg-spec.h ../../../git/lib/dpkg/progname.h ../../../git/lib/dpkg/program.h ../../../git/lib/dpkg/progress.h '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/include/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../../git/lib/dpkg/report.h ../../../git/lib/dpkg/string.h ../../../git/lib/dpkg/subproc.h ../../../git/lib/dpkg/tarfn.h ../../../git/lib/dpkg/treewalk.h ../../../git/lib/dpkg/trigdeferred.h ../../../git/lib/dpkg/triglib.h ../../../git/lib/dpkg/varbuf.h ../../../git/lib/dpkg/version.h '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/include/dpkg'
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c .libs/libdpkg.lai /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/libdpkg.la
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c .libs/libdpkg.a /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/libdpkg.a
-| libtool: install: chmod 644 /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/libdpkg.a
-| libtool: install: ranlib -D /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/libdpkg.a
-| libtool: warning: remember to run 'libtool --finish /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib'
-| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib/dpkg'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib/dpkg'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib'
-| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib'
-| make[3]: Nothing to be done for 'install-exec-am'.
-| make[3]: Nothing to be done for 'install-data-am'.
-| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/lib'
-| Making install in src
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/src'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/src'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/etc/dpkg/dpkg.cfg.d
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/libexec/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/dpkg'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/var/lib/dpkg/info
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-maintscript-helper '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-db-backup dpkg-db-keeper '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/libexec/dpkg'
-|   /bin/bash ../libtool   --mode=install /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg dpkg-deb dpkg-divert dpkg-query dpkg-realpath dpkg-split dpkg-statoverride dpkg-trigger '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/var/lib/dpkg/parts
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/var/lib/dpkg/updates
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/dpkg/sh'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/src/sh/dpkg-error.sh '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/dpkg/sh'
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/dpkg
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-deb /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/dpkg-deb
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-divert /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/dpkg-divert
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-query /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/dpkg-query
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-realpath /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/dpkg-realpath
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-split /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/dpkg-split
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-statoverride /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/dpkg-statoverride
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-trigger /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/dpkg-trigger
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/src'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/src'
-| Making install in utils
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/utils'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/utils'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/etc/alternatives
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/sbin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/bash-completion/completions'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/polkit-1/actions'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/var/lib/dpkg/alternatives
-|   /bin/bash ../libtool   --mode=install /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c update-alternatives '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 org.dpkg.pkexec.update-alternatives.policy '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/polkit-1/actions'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../git/utils/README.alternatives /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/etc/alternatives/README
-|   /bin/bash ../libtool   --mode=install /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c start-stop-daemon '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/sbin'
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c update-alternatives /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/update-alternatives
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c start-stop-daemon /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/sbin/start-stop-daemon
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/utils'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/utils'
-| Making install in scripts
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts'
-| Making install in mk
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts/mk'
-| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts/mk'
-| make[3]: Nothing to be done for 'install-exec-am'.
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../../git/scripts/mk/architecture.mk ../../../git/scripts/mk/buildapi.mk ../../../git/scripts/mk/buildflags.mk ../../../git/scripts/mk/buildopts.mk ../../../git/scripts/mk/buildtools.mk ../../../git/scripts/mk/default.mk ../../../git/scripts/mk/pkg-info.mk ../../../git/scripts/mk/vendor.mk '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/dpkg'
-| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts/mk'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts/mk'
-| Making install in po
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts/po'
-| if test "dpkg" = "gettext-tools"; then \
-|   /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/gettext/po; \
-|   for file in Makefile.in.in remove-potcdate.sed    Makevars.template; do \
-|     /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../../git/scripts/po/$file \
-| 		    /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/gettext/po/$file; \
-|   done; \
-|   for file in Makevars; do \
-|     rm -f /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/gettext/po/$file; \
-|   done; \
-| else \
-|   : ; \
-| fi
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts/po'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts'
-| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/man/man3
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/zsh/vendor-completions'
-| for module in Dpkg/Arch.pm Dpkg/Archive/Ar.pm Dpkg/BuildAPI.pm Dpkg/BuildDriver.pm Dpkg/BuildDriver/DebianRules.pm Dpkg/BuildEnv.pm Dpkg/BuildFlags.pm Dpkg/BuildInfo.pm Dpkg/BuildOptions.pm Dpkg/BuildProfiles.pm Dpkg/BuildTree.pm Dpkg/BuildTypes.pm Dpkg/Build/Info.pm Dpkg/Changelog.pm Dpkg/Changelog/Debian.pm Dpkg/Changelog/Entry.pm Dpkg/Changelog/Entry/Debian.pm Dpkg/Changelog/Parse.pm Dpkg/Checksums.pm Dpkg/Compression.pm Dpkg/Compression/FileHandle.pm Dpkg/Compression/Process.pm Dpkg/Conf.pm Dpkg/Control.pm Dpkg/Control/Changelog.pm Dpkg/Control/FieldsCore.pm Dpkg/Control/Fields.pm Dpkg/Control/Info.pm Dpkg/Control/HashCore.pm Dpkg/Control/HashCore/Tie.pm Dpkg/Control/Hash.pm Dpkg/Control/Tests.pm Dpkg/Control/Tests/Entry.pm Dpkg/Control/Types.pm Dpkg/Deps.pm Dpkg/Deps/AND.pm Dpkg/Deps/KnownFacts.pm Dpkg/Deps/Multiple.pm Dpkg/Deps/OR.pm Dpkg/Deps/Simple.pm Dpkg/Deps/Union.pm Dpkg/Dist/Files.pm Dpkg/ErrorHandling.pm Dpkg/Exit.pm Dpkg/File.pm Dpkg/Getopt.pm Dpkg/Gettext.pm Dpkg/In
- dex.pm Dpkg/Interface/Storable.pm Dpkg/IPC.pm Dpkg/Lock.pm Dpkg/OpenPGP.pm Dpkg/OpenPGP/Backend.pm Dpkg/OpenPGP/Backend/GnuPG.pm Dpkg/OpenPGP/Backend/SOP.pm Dpkg/OpenPGP/Backend/Sequoia.pm Dpkg/OpenPGP/ErrorCodes.pm Dpkg/OpenPGP/KeyHandle.pm Dpkg/Package.pm Dpkg/Path.pm Dpkg/Shlibs.pm Dpkg/Shlibs/Objdump.pm Dpkg/Shlibs/Objdump/Object.pm Dpkg/Shlibs/Symbol.pm Dpkg/Shlibs/SymbolFile.pm Dpkg/Shlibs/Cppfilt.pm Dpkg/Source/Archive.pm Dpkg/Source/BinaryFiles.pm Dpkg/Source/Format.pm Dpkg/Source/Functions.pm Dpkg/Source/Package.pm Dpkg/Source/Package/V1.pm Dpkg/Source/Package/V2.pm Dpkg/Source/Package/V3/Bzr.pm Dpkg/Source/Package/V3/Custom.pm Dpkg/Source/Package/V3/Native.pm Dpkg/Source/Package/V3/Git.pm Dpkg/Source/Package/V3/Quilt.pm Dpkg/Source/Patch.pm Dpkg/Source/Quilt.pm Dpkg/Substvars.pm Dpkg/Vendor.pm Dpkg/Vendor/Debian.pm Dpkg/Vendor/Default.pm Dpkg/Vendor/Devuan.pm Dpkg/Vendor/Ubuntu.pm Dpkg/Version.pm Dpkg.pm ; do \
-|   name=`echo $module | sed -e 's|/|::|g' -e 's/\.pm$//'`; \
-|   pod2man --utf8 --release=1.22.15-dirty --date='2025-02-03'  --center=libdpkg-perl \
-|     --name="$name" --section=3perl ../../git/scripts/$module \
-|     >/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/man/man3/$name.3perl; \
-|   if ! [ -s "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/man/man3/$name.3perl" ]; then \
-|     echo "error: empty /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/man/man3/$name.3perl" 2>&1; \
-|     exit 1; \
-|   fi; \
-| done
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-architecture dpkg-buildflags dpkg-buildapi dpkg-buildpackage dpkg-buildtree dpkg-checkbuilddeps dpkg-distaddfile dpkg-genbuildinfo dpkg-genchanges dpkg-gencontrol dpkg-gensymbols dpkg-mergechangelogs dpkg-name dpkg-parsechangelog dpkg-scanpackages dpkg-scansources dpkg-shlibdeps dpkg-source dpkg-vendor '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../git/scripts/completion/zsh/_dpkg-parsechangelog '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/zsh/vendor-completions'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Shlibs/Objdump'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Shlibs/Objdump/Object.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Shlibs/Objdump'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Build'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Build/Info.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Build'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Source/Package'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Source/Package/V1.pm ../../git/scripts/Dpkg/Source/Package/V2.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Source/Package'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Shlibs'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Shlibs/Objdump.pm ../../git/scripts/Dpkg/Shlibs/Symbol.pm ../../git/scripts/Dpkg/Shlibs/SymbolFile.pm ../../git/scripts/Dpkg/Shlibs/Cppfilt.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Shlibs'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Source/Package/V3'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Source/Package/V3/Bzr.pm ../../git/scripts/Dpkg/Source/Package/V3/Custom.pm ../../git/scripts/Dpkg/Source/Package/V3/Native.pm ../../git/scripts/Dpkg/Source/Package/V3/Git.pm ../../git/scripts/Dpkg/Source/Package/V3/Quilt.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Source/Package/V3'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/OpenPGP'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/OpenPGP/Backend.pm ../../git/scripts/Dpkg/OpenPGP/ErrorCodes.pm ../../git/scripts/Dpkg/OpenPGP/KeyHandle.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/OpenPGP'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Changelog'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Changelog/Debian.pm ../../git/scripts/Dpkg/Changelog/Entry.pm ../../git/scripts/Dpkg/Changelog/Parse.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Changelog'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Dist'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Dist/Files.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Dist'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/BuildDriver'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/BuildDriver/DebianRules.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/BuildDriver'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Source'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Source/Archive.pm ../../git/scripts/Dpkg/Source/BinaryFiles.pm ../../git/scripts/Dpkg/Source/Format.pm ../../git/scripts/Dpkg/Source/Functions.pm ../../git/scripts/Dpkg/Source/Package.pm ../../git/scripts/Dpkg/Source/Patch.pm ../../git/scripts/Dpkg/Source/Quilt.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Source'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Control/HashCore'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Control/HashCore/Tie.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Control/HashCore'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Arch.pm ../../git/scripts/Dpkg/BuildAPI.pm ../../git/scripts/Dpkg/BuildDriver.pm ../../git/scripts/Dpkg/BuildEnv.pm ../../git/scripts/Dpkg/BuildFlags.pm ../../git/scripts/Dpkg/BuildInfo.pm ../../git/scripts/Dpkg/BuildOptions.pm ../../git/scripts/Dpkg/BuildProfiles.pm ../../git/scripts/Dpkg/BuildTree.pm ../../git/scripts/Dpkg/BuildTypes.pm ../../git/scripts/Dpkg/Changelog.pm ../../git/scripts/Dpkg/Checksums.pm ../../git/scripts/Dpkg/Compression.pm ../../git/scripts/Dpkg/Conf.pm ../../git/scripts/Dpkg/Control.pm ../../git/scripts/Dpkg/Deps.pm ../../git/scripts/Dpkg/ErrorHandling.pm ../../git/scripts/Dpkg/Exit.pm ../../git/scripts/Dpkg/File.pm ../../git/scripts/Dpkg/Getopt.pm ../../git/scripts/Dpkg/Gettext.pm ../../git/scripts/Dpkg/Index.pm ../../git/scripts/Dpkg/IPC.pm ../../git/scripts/Dpkg/Lock.pm ../../git/scripts/Dpkg/OpenPGP.pm ../../git/scripts/Dpkg/Package.pm ../../git/scripts/
- Dpkg/Path.pm ../../git/scripts/Dpkg/Shlibs.pm ../../git/scripts/Dpkg/Substvars.pm ../../git/scripts/Dpkg/Vendor.pm ../../git/scripts/Dpkg/Version.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Deps'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Deps/AND.pm ../../git/scripts/Dpkg/Deps/KnownFacts.pm ../../git/scripts/Dpkg/Deps/Multiple.pm ../../git/scripts/Dpkg/Deps/OR.pm ../../git/scripts/Dpkg/Deps/Simple.pm ../../git/scripts/Dpkg/Deps/Union.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Deps'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Control'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Control/Changelog.pm ../../git/scripts/Dpkg/Control/FieldsCore.pm ../../git/scripts/Dpkg/Control/Fields.pm ../../git/scripts/Dpkg/Control/Info.pm ../../git/scripts/Dpkg/Control/HashCore.pm ../../git/scripts/Dpkg/Control/Hash.pm ../../git/scripts/Dpkg/Control/Tests.pm ../../git/scripts/Dpkg/Control/Types.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Control'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Vendor'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Vendor/Debian.pm ../../git/scripts/Dpkg/Vendor/Default.pm ../../git/scripts/Dpkg/Vendor/Devuan.pm ../../git/scripts/Dpkg/Vendor/Ubuntu.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Vendor'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/.'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Control/Tests'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Control/Tests/Entry.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Control/Tests'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Changelog/Entry'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Changelog/Entry/Debian.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Changelog/Entry'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Compression'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Compression/FileHandle.pm ../../git/scripts/Dpkg/Compression/Process.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Compression'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Interface'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Interface/Storable.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Interface'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Archive'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Archive/Ar.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/Archive'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/OpenPGP/Backend'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/OpenPGP/Backend/GnuPG.pm ../../git/scripts/Dpkg/OpenPGP/Backend/SOP.pm ../../git/scripts/Dpkg/OpenPGP/Backend/Sequoia.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg/OpenPGP/Backend'
-| make  install-data-hook
-| make[4]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/perl-native/perl -i -p -e " s{^#!\s*/usr/bin/perl}{#!/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/perl-native/perl}; s{our \\\$CONFDIR = .*;}{our \\\$CONFDIR = '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/etc/dpkg';}; s{our \\\$ADMINDIR = .*;}{our \\\$ADMINDIR = '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/var/lib/dpkg';}; s{our \\\$LIBDIR = .*;}{our \\\$LIBDIR = '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/libexec/dpkg';}; s{our \\\$DATADIR = .*;}{our \\\$DATADIR = '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/dpkg';}; s{our \\\$PROG
- MAKE = .*;}{our \\\$PROGMAKE = 'make';}; s{our \\\$PROGTAR = .*;}{our \\\$PROGTAR = 'tar';}; s{our \\\$PROGPATCH = .*;}{our \\\$PROGPATCH = 'patch';}; s{our \\\$PROGVERSION = .*;}{our \\\$PROGVERSION = '1.22.15-dirty';}; " /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/lib/perl-native/perl/5.40.0/Dpkg.pm
-| make[4]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts'
-| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/scripts'
-| Making install in po
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/po'
-| if test "dpkg" = "gettext-tools"; then \
-|   /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/gettext/po; \
-|   for file in Makefile.in.in remove-potcdate.sed    Makevars.template; do \
-|     /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../git/po/$file \
-| 		    /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/gettext/po/$file; \
-|   done; \
-|   for file in Makevars; do \
-|     rm -f /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/gettext/po/$file; \
-|   done; \
-| else \
-|   : ; \
-| fi
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build/po'
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build'
-| make[2]: Nothing to be done for 'install-exec-am'.
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/aclocal'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/doc/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/doc/dpkg/spec'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../git/m4/dpkg-arch.m4 ../git/m4/dpkg-build.m4 ../git/m4/dpkg-compiler.m4 ../git/m4/dpkg-coverage.m4 ../git/m4/dpkg-funcs.m4 ../git/m4/dpkg-headers.m4 ../git/m4/dpkg-libs.m4 ../git/m4/dpkg-linker.m4 ../git/m4/dpkg-progs.m4 ../git/m4/dpkg-types.m4 ../git/m4/dpkg-unicode.m4 '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/aclocal'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../git/doc/README.api ../git/doc/README.feature-removal-schedule '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/doc/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../git/doc/spec/build-driver.txt ../git/doc/spec/frontend-api.txt ../git/doc/spec/protected-field.txt ../git/doc/spec/rootless-builds.txt ../git/doc/spec/triggers.txt '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/doc/dpkg/spec'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../git/data/pie-compile.specs ../git/data/pie-link.specs ../git/data/no-pie-compile.specs ../git/data/no-pie-link.specs ../git/data/cputable ../git/data/ostable ../git/data/abitable ../git/data/tupletable '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/share/dpkg'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/build'
-| sed: can't read /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/sbin/dpkg-*: No such file or directory
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/temp/run.do_install.1831406:156 exit 2 from 'sed -i -e 's|^#!.*/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/perl-native.*/perl|#!/usr/bin/env nativeperl|' /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/bin/dpkg-* /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/image/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/recipe-sysroot-native/usr/sbin/dpkg-*'
-| WARNING: Backtrace (BB generated script):
-| 	#1: do_install, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/temp/run.do_install.1831406, line 156
-| 	#2: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/temp/run.do_install.1831406, line 207
-NOTE: recipe dpkg-native-1.22.15-r0: task do_install: Failed
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-native_2.5.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.68.bb:do_populate_sysroot', '/srv/pokybu
- ild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmd/libmd_1.1.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/gettext/gettext_0.23.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf_2.72e.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/automake/automake_1.17.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0
- .bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native', 'glibc', 'libxcrypt', 'ncurses', 'zlib', 'binutils-cross-x86_64', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libtool-cross', 'libtool-native', 'm4-native', 'opkg-utils', 'perl', 'quilt-native', 'bzip2', 'texinfo-dummy-native', 'xz', 'linux-libc-headers', 'bash-completion', 'gdbm', 'libmd', 'gettext-native', 'zlib-native', 'autoconf-native', 'automake-native', 'flex-native', 'gnu-config-native', 'make-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libmpc-native', 'mpfr-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_install
-| NOTE: make -j 16 -l 75 DESTDIR=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image install
-| Making install in lib
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib'
-| Making install in compat
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib/compat'
-| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib/compat'
-| make[3]: Nothing to be done for 'install-exec-am'.
-| make[3]: Nothing to be done for 'install-data-am'.
-| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib/compat'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib/compat'
-| Making install in dpkg
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib/dpkg'
-| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib/dpkg'
-| make[3]: Nothing to be done for 'install-exec-am'.
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/pkgconfig'
-|  /bin/bash ../../libtool   --mode=install /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c   libdpkg.la '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/include/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 libdpkg.pc '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/pkgconfig'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../../git/lib/dpkg/ar.h ../../../git/lib/dpkg/arch.h ../../../git/lib/dpkg/atomic-file.h ../../../git/lib/dpkg/buffer.h ../../../git/lib/dpkg/c-ctype.h ../../../git/lib/dpkg/color.h ../../../git/lib/dpkg/command.h ../../../git/lib/dpkg/compress.h ../../../git/lib/dpkg/db-ctrl.h ../../../git/lib/dpkg/db-fsys.h ../../../git/lib/dpkg/deb-version.h ../../../git/lib/dpkg/debug.h ../../../git/lib/dpkg/dir.h ../../../git/lib/dpkg/dpkg.h ../../../git/lib/dpkg/dpkg-db.h ../../../git/lib/dpkg/ehandle.h ../../../git/lib/dpkg/error.h ../../../git/lib/dpkg/execname.h ../../../git/lib/dpkg/fdio.h ../../../git/lib/dpkg/file.h ../../../git/lib/dpkg/fsys.h ../../../git/lib/dpkg/glob.h ../../../git/lib/dpkg/macros.h ../../../git/lib/dpkg/meminfo.h ../../../git/lib/dpkg/namevalue.h ../../../git/lib/dpkg/options.h ../../../git/lib/dpkg/pager.h ../../../git/lib/dpkg/parsedump.h ../../../git/lib/dpkg/path.h ../../../git/lib/
- dpkg/pkg.h ../../../git/lib/dpkg/pkg-array.h ../../../git/lib/dpkg/pkg-files.h ../../../git/lib/dpkg/pkg-format.h ../../../git/lib/dpkg/pkg-list.h ../../../git/lib/dpkg/pkg-queue.h ../../../git/lib/dpkg/pkg-show.h ../../../git/lib/dpkg/pkg-spec.h ../../../git/lib/dpkg/progname.h ../../../git/lib/dpkg/program.h ../../../git/lib/dpkg/progress.h '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/include/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../../git/lib/dpkg/report.h ../../../git/lib/dpkg/string.h ../../../git/lib/dpkg/subproc.h ../../../git/lib/dpkg/tarfn.h ../../../git/lib/dpkg/treewalk.h ../../../git/lib/dpkg/trigdeferred.h ../../../git/lib/dpkg/triglib.h ../../../git/lib/dpkg/varbuf.h ../../../git/lib/dpkg/version.h '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/include/dpkg'
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c .libs/libdpkg.lai /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/libdpkg.la
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c .libs/libdpkg.a /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/libdpkg.a
-| libtool: install: chmod 644 /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/libdpkg.a
-| libtool: install: x86_64-poky-linux-gcc-ranlib /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/libdpkg.a
-| libtool: warning: remember to run 'libtool --finish /usr/lib'
-| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib/dpkg'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib/dpkg'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib'
-| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib'
-| make[3]: Nothing to be done for 'install-exec-am'.
-| make[3]: Nothing to be done for 'install-data-am'.
-| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/lib'
-| Making install in src
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/src'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/src'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/etc/dpkg/dpkg.cfg.d
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/libexec/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/dpkg'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/var/lib/dpkg/info
-|   /bin/bash ../libtool   --mode=install /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg dpkg-deb dpkg-divert dpkg-query dpkg-realpath dpkg-split dpkg-statoverride dpkg-trigger '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-maintscript-helper '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-db-backup dpkg-db-keeper '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/libexec/dpkg'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/var/lib/dpkg/parts
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/dpkg/sh'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/var/lib/dpkg/updates
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/src/sh/dpkg-error.sh '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/dpkg/sh'
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin/dpkg
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-deb /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin/dpkg-deb
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-divert /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin/dpkg-divert
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-query /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin/dpkg-query
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-realpath /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin/dpkg-realpath
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-split /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin/dpkg-split
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-statoverride /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin/dpkg-statoverride
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-trigger /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin/dpkg-trigger
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/src'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/src'
-| Making install in utils
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/utils'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/utils'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/sbin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/bash-completion/completions'
-|   /bin/bash ../libtool   --mode=install /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c start-stop-daemon '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/sbin'
-| libtool: install: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c start-stop-daemon /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/sbin/start-stop-daemon
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/utils'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/utils'
-| Making install in scripts
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts'
-| Making install in mk
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts/mk'
-| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts/mk'
-| make[3]: Nothing to be done for 'install-exec-am'.
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../../git/scripts/mk/architecture.mk ../../../git/scripts/mk/buildapi.mk ../../../git/scripts/mk/buildflags.mk ../../../git/scripts/mk/buildopts.mk ../../../git/scripts/mk/buildtools.mk ../../../git/scripts/mk/default.mk ../../../git/scripts/mk/pkg-info.mk ../../../git/scripts/mk/vendor.mk '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/dpkg'
-| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts/mk'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts/mk'
-| Making install in po
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts/po'
-| installing ../../../git/scripts/po/ca.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/ca/LC_MESSAGES/dpkg-dev.mo
-| installing ../../../git/scripts/po/de.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/de/LC_MESSAGES/dpkg-dev.mo
-| installing ../../../git/scripts/po/es.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/es/LC_MESSAGES/dpkg-dev.mo
-| installing ../../../git/scripts/po/fr.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/fr/LC_MESSAGES/dpkg-dev.mo
-| installing ../../../git/scripts/po/nl.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/nl/LC_MESSAGES/dpkg-dev.mo
-| installing ../../../git/scripts/po/pl.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/pl/LC_MESSAGES/dpkg-dev.mo
-| installing ../../../git/scripts/po/pt.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/pt/LC_MESSAGES/dpkg-dev.mo
-| installing ../../../git/scripts/po/ru.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/ru/LC_MESSAGES/dpkg-dev.mo
-| installing ../../../git/scripts/po/sv.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/sv/LC_MESSAGES/dpkg-dev.mo
-| if test "dpkg" = "gettext-tools"; then \
-|   /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/gettext/po; \
-|   for file in Makefile.in.in remove-potcdate.sed    Makevars.template; do \
-|     /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../../git/scripts/po/$file \
-| 		    /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/gettext/po/$file; \
-|   done; \
-|   for file in Makevars; do \
-|     rm -f /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/gettext/po/$file; \
-|   done; \
-| else \
-|   : ; \
-| fi
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts/po'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts'
-| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/man/man3
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/zsh/vendor-completions'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../git/scripts/completion/zsh/_dpkg-parsechangelog '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/zsh/vendor-completions'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c dpkg-architecture dpkg-buildflags dpkg-buildapi dpkg-buildpackage dpkg-buildtree dpkg-checkbuilddeps dpkg-distaddfile dpkg-genbuildinfo dpkg-genchanges dpkg-gencontrol dpkg-gensymbols dpkg-mergechangelogs dpkg-name dpkg-parsechangelog dpkg-scanpackages dpkg-scansources dpkg-shlibdeps dpkg-source dpkg-vendor '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin'
-| for module in Dpkg/Arch.pm Dpkg/Archive/Ar.pm Dpkg/BuildAPI.pm Dpkg/BuildDriver.pm Dpkg/BuildDriver/DebianRules.pm Dpkg/BuildEnv.pm Dpkg/BuildFlags.pm Dpkg/BuildInfo.pm Dpkg/BuildOptions.pm Dpkg/BuildProfiles.pm Dpkg/BuildTree.pm Dpkg/BuildTypes.pm Dpkg/Build/Info.pm Dpkg/Changelog.pm Dpkg/Changelog/Debian.pm Dpkg/Changelog/Entry.pm Dpkg/Changelog/Entry/Debian.pm Dpkg/Changelog/Parse.pm Dpkg/Checksums.pm Dpkg/Compression.pm Dpkg/Compression/FileHandle.pm Dpkg/Compression/Process.pm Dpkg/Conf.pm Dpkg/Control.pm Dpkg/Control/Changelog.pm Dpkg/Control/FieldsCore.pm Dpkg/Control/Fields.pm Dpkg/Control/Info.pm Dpkg/Control/HashCore.pm Dpkg/Control/HashCore/Tie.pm Dpkg/Control/Hash.pm Dpkg/Control/Tests.pm Dpkg/Control/Tests/Entry.pm Dpkg/Control/Types.pm Dpkg/Deps.pm Dpkg/Deps/AND.pm Dpkg/Deps/KnownFacts.pm Dpkg/Deps/Multiple.pm Dpkg/Deps/OR.pm Dpkg/Deps/Simple.pm Dpkg/Deps/Union.pm Dpkg/Dist/Files.pm Dpkg/ErrorHandling.pm Dpkg/Exit.pm Dpkg/File.pm Dpkg/Getopt.pm Dpkg/Gettext.pm Dpkg/In
- dex.pm Dpkg/Interface/Storable.pm Dpkg/IPC.pm Dpkg/Lock.pm Dpkg/OpenPGP.pm Dpkg/OpenPGP/Backend.pm Dpkg/OpenPGP/Backend/GnuPG.pm Dpkg/OpenPGP/Backend/SOP.pm Dpkg/OpenPGP/Backend/Sequoia.pm Dpkg/OpenPGP/ErrorCodes.pm Dpkg/OpenPGP/KeyHandle.pm Dpkg/Package.pm Dpkg/Path.pm Dpkg/Shlibs.pm Dpkg/Shlibs/Objdump.pm Dpkg/Shlibs/Objdump/Object.pm Dpkg/Shlibs/Symbol.pm Dpkg/Shlibs/SymbolFile.pm Dpkg/Shlibs/Cppfilt.pm Dpkg/Source/Archive.pm Dpkg/Source/BinaryFiles.pm Dpkg/Source/Format.pm Dpkg/Source/Functions.pm Dpkg/Source/Package.pm Dpkg/Source/Package/V1.pm Dpkg/Source/Package/V2.pm Dpkg/Source/Package/V3/Bzr.pm Dpkg/Source/Package/V3/Custom.pm Dpkg/Source/Package/V3/Native.pm Dpkg/Source/Package/V3/Git.pm Dpkg/Source/Package/V3/Quilt.pm Dpkg/Source/Patch.pm Dpkg/Source/Quilt.pm Dpkg/Substvars.pm Dpkg/Vendor.pm Dpkg/Vendor/Debian.pm Dpkg/Vendor/Default.pm Dpkg/Vendor/Devuan.pm Dpkg/Vendor/Ubuntu.pm Dpkg/Version.pm Dpkg.pm ; do \
-|   name=`echo $module | sed -e 's|/|::|g' -e 's/\.pm$//'`; \
-|   pod2man --utf8 --release=1.22.15-dirty --date='2025-02-03'  --center=libdpkg-perl \
-|     --name="$name" --section=3perl ../../git/scripts/$module \
-|     >/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/man/man3/$name.3perl; \
-|   if ! [ -s "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/man/man3/$name.3perl" ]; then \
-|     echo "error: empty /usr/share/man/man3/$name.3perl" 2>&1; \
-|     exit 1; \
-|   fi; \
-| done
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Shlibs/Objdump'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Shlibs/Objdump/Object.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Shlibs/Objdump'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Build'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Build/Info.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Build'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Source/Package'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Source/Package/V1.pm ../../git/scripts/Dpkg/Source/Package/V2.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Source/Package'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Shlibs'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Shlibs/Objdump.pm ../../git/scripts/Dpkg/Shlibs/Symbol.pm ../../git/scripts/Dpkg/Shlibs/SymbolFile.pm ../../git/scripts/Dpkg/Shlibs/Cppfilt.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Shlibs'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Source/Package/V3'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Source/Package/V3/Bzr.pm ../../git/scripts/Dpkg/Source/Package/V3/Custom.pm ../../git/scripts/Dpkg/Source/Package/V3/Native.pm ../../git/scripts/Dpkg/Source/Package/V3/Git.pm ../../git/scripts/Dpkg/Source/Package/V3/Quilt.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Source/Package/V3'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/OpenPGP'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/OpenPGP/Backend.pm ../../git/scripts/Dpkg/OpenPGP/ErrorCodes.pm ../../git/scripts/Dpkg/OpenPGP/KeyHandle.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/OpenPGP'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Changelog'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Changelog/Debian.pm ../../git/scripts/Dpkg/Changelog/Entry.pm ../../git/scripts/Dpkg/Changelog/Parse.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Changelog'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Dist'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Dist/Files.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Dist'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/BuildDriver'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/BuildDriver/DebianRules.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/BuildDriver'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Source'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Source/Archive.pm ../../git/scripts/Dpkg/Source/BinaryFiles.pm ../../git/scripts/Dpkg/Source/Format.pm ../../git/scripts/Dpkg/Source/Functions.pm ../../git/scripts/Dpkg/Source/Package.pm ../../git/scripts/Dpkg/Source/Patch.pm ../../git/scripts/Dpkg/Source/Quilt.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Source'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Control/HashCore'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Control/HashCore/Tie.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Control/HashCore'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Arch.pm ../../git/scripts/Dpkg/BuildAPI.pm ../../git/scripts/Dpkg/BuildDriver.pm ../../git/scripts/Dpkg/BuildEnv.pm ../../git/scripts/Dpkg/BuildFlags.pm ../../git/scripts/Dpkg/BuildInfo.pm ../../git/scripts/Dpkg/BuildOptions.pm ../../git/scripts/Dpkg/BuildProfiles.pm ../../git/scripts/Dpkg/BuildTree.pm ../../git/scripts/Dpkg/BuildTypes.pm ../../git/scripts/Dpkg/Changelog.pm ../../git/scripts/Dpkg/Checksums.pm ../../git/scripts/Dpkg/Compression.pm ../../git/scripts/Dpkg/Conf.pm ../../git/scripts/Dpkg/Control.pm ../../git/scripts/Dpkg/Deps.pm ../../git/scripts/Dpkg/ErrorHandling.pm ../../git/scripts/Dpkg/Exit.pm ../../git/scripts/Dpkg/File.pm ../../git/scripts/Dpkg/Getopt.pm ../../git/scripts/Dpkg/Gettext.pm ../../git/scripts/Dpkg/Index.pm ../../git/scripts/Dpkg/IPC.pm ../../git/scripts/Dpkg/Lock.pm ../../git/scripts/Dpkg/OpenPGP.pm ../../git/scripts/Dpkg/Package.pm ../../git/scripts/
- Dpkg/Path.pm ../../git/scripts/Dpkg/Shlibs.pm ../../git/scripts/Dpkg/Substvars.pm ../../git/scripts/Dpkg/Vendor.pm ../../git/scripts/Dpkg/Version.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Deps'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Deps/AND.pm ../../git/scripts/Dpkg/Deps/KnownFacts.pm ../../git/scripts/Dpkg/Deps/Multiple.pm ../../git/scripts/Dpkg/Deps/OR.pm ../../git/scripts/Dpkg/Deps/Simple.pm ../../git/scripts/Dpkg/Deps/Union.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Deps'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Control'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Control/Changelog.pm ../../git/scripts/Dpkg/Control/FieldsCore.pm ../../git/scripts/Dpkg/Control/Fields.pm ../../git/scripts/Dpkg/Control/Info.pm ../../git/scripts/Dpkg/Control/HashCore.pm ../../git/scripts/Dpkg/Control/Hash.pm ../../git/scripts/Dpkg/Control/Tests.pm ../../git/scripts/Dpkg/Control/Types.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Control'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Vendor'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Vendor/Debian.pm ../../git/scripts/Dpkg/Vendor/Default.pm ../../git/scripts/Dpkg/Vendor/Devuan.pm ../../git/scripts/Dpkg/Vendor/Ubuntu.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Vendor'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/.'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Control/Tests'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Control/Tests/Entry.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Control/Tests'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Changelog/Entry'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Changelog/Entry/Debian.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Changelog/Entry'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Compression'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Compression/FileHandle.pm ../../git/scripts/Dpkg/Compression/Process.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Compression'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Interface'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Interface/Storable.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Interface'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Archive'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/Archive/Ar.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/Archive'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/OpenPGP/Backend'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644  ../../git/scripts/Dpkg/OpenPGP/Backend/GnuPG.pm ../../git/scripts/Dpkg/OpenPGP/Backend/SOP.pm ../../git/scripts/Dpkg/OpenPGP/Backend/Sequoia.pm '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg/OpenPGP/Backend'
-| make  install-data-hook
-| make[4]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/recipe-sysroot-native/usr/bin/perl-native/perl -i -p -e " s{^#!\s*/usr/bin/perl}{#!/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/recipe-sysroot-native/usr/bin/perl-native/perl}; s{our \\\$CONFDIR = .*;}{our \\\$CONFDIR = '/etc/dpkg';}; s{our \\\$ADMINDIR = .*;}{our \\\$ADMINDIR = '/var/lib/dpkg';}; s{our \\\$LIBDIR = .*;}{our \\\$LIBDIR = '/usr/libexec/dpkg';}; s{our \\\$DATADIR = .*;}{our \\\$DATADIR = '/usr/share/dpkg';}; s{our \\\$PROGMAKE = .*;}{our \\\$PROGMAKE = 'make';}; s{our \\\$PROGTAR = .*;}{our \\\$PROGTAR = 'tar';}; s{our \\\$PROGPATCH = .*;}{our \\\$PROGPATCH = 'patch';}; s{our \\\$PROGVERSION = .*;}{our \\\$PROGVERSION = '1.22.15-dirty';}; " /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/lib/perl5/5.40.0/Dpkg.pm
-| make[4]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts'
-| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/scripts'
-| Making install in po
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/po'
-| installing ../../git/po/ast.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/ast/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/bs.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/bs/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/ca.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/ca/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/cs.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/cs/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/da.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/da/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/de.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/de/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/dz.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/dz/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/el.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/el/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/eo.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/eo/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/es.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/es/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/et.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/et/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/eu.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/eu/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/fr.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/fr/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/gl.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/gl/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/hu.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/hu/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/id.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/id/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/it.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/it/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/ja.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/ja/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/km.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/km/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/ko.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/ko/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/ku.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/ku/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/lt.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/lt/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/mr.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/mr/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/nb.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/nb/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/ne.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/ne/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/nl.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/nl/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/nn.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/nn/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/oc.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/oc/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/pa.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/pa/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/pl.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/pl/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/pt.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/pt/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/pt_BR.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/pt_BR/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/ro.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/ro/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/ru.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/ru/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/sk.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/sk/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/sv.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/sv/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/th.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/th/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/tl.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/tl/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/tr.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/tr/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/vi.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/vi/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/zh_CN.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/zh_CN/LC_MESSAGES/dpkg.mo
-| installing ../../git/po/zh_TW.gmo as /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/locale/zh_TW/LC_MESSAGES/dpkg.mo
-| if test "dpkg" = "gettext-tools"; then \
-|   /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/gettext/po; \
-|   for file in Makefile.in.in remove-potcdate.sed    Makevars.template; do \
-|     /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../../git/po/$file \
-| 		    /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/gettext/po/$file; \
-|   done; \
-|   for file in Makevars; do \
-|     rm -f /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/gettext/po/$file; \
-|   done; \
-| else \
-|   : ; \
-| fi
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build/po'
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build'
-| make[2]: Nothing to be done for 'install-exec-am'.
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/aclocal'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/doc/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/doc/dpkg/spec'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../git/m4/dpkg-arch.m4 ../git/m4/dpkg-build.m4 ../git/m4/dpkg-compiler.m4 ../git/m4/dpkg-coverage.m4 ../git/m4/dpkg-funcs.m4 ../git/m4/dpkg-headers.m4 ../git/m4/dpkg-libs.m4 ../git/m4/dpkg-linker.m4 ../git/m4/dpkg-progs.m4 ../git/m4/dpkg-types.m4 ../git/m4/dpkg-unicode.m4 '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/aclocal'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../git/doc/README.api ../git/doc/README.feature-removal-schedule '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/doc/dpkg'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../git/doc/spec/build-driver.txt ../git/doc/spec/frontend-api.txt ../git/doc/spec/protected-field.txt ../git/doc/spec/rootless-builds.txt ../git/doc/spec/triggers.txt '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/doc/dpkg/spec'
-|  /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../git/data/pie-compile.specs ../git/data/pie-link.specs ../git/data/no-pie-compile.specs ../git/data/no-pie-link.specs ../git/data/cputable ../git/data/ostable ../git/data/abitable ../git/data/tupletable '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/share/dpkg'
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/build'
-| sed: can't read /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/sbin/dpkg-*: No such file or directory
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/temp/run.do_install.1839128:162 exit 2 from 'sed -i -e 's|^#!.*/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/recipe-sysroot-native/usr/bin/perl-native.*/perl|#!/usr/bin/env perl|' /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/bin/dpkg-* /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/image/usr/sbin/dpkg-*'
-| WARNING: Backtrace (BB generated script):
-| 	#1: do_install, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/temp/run.do_install.1839128, line 162
-| 	#2: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/temp/run.do_install.1839128, line 211
-NOTE: recipe dpkg-1.22.15-r0: task do_install: Failed
-NOTE: Tasks Summary: Attempted 1931 tasks of which 1913 didn't need to be rerun and 2 failed.
+NOTE: Running task 2025 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2478 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_collect_spdx_deps)
+NOTE: Running task 2642 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_collect_spdx_deps)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2671 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_create_spdx)
+NOTE: recipe fontconfig-2.15.0-r0: task do_create_spdx: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2672 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_configure)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_configure: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_configure: Succeeded
+NOTE: Running task 2673 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_configure_ptest_base)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2674 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_compile: Succeeded
+NOTE: Running task 2675 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_compile_ptest_base)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2676 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_install)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_install: Succeeded
+NOTE: Running task 2677 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_install_ptest_base)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2678 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_populate_sysroot)
+NOTE: Running task 2679 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_package)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2680 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2681 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2682 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2683 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vala-0.56.17-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dbus-1.16.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe cairo-1.18.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2684 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
+NOTE: recipe cairo-1.18.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2685 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_configure)
+NOTE: recipe vala-0.56.17-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2686 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_configure)
+NOTE: recipe cairo-1.18.2-r0: task do_configure: Started
+NOTE: recipe vala-0.56.17-r0: task do_configure: Started
+NOTE: recipe dbus-1.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2687 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_configure)
+NOTE: recipe dbus-1.16.0-r0: task do_configure: Started
+NOTE: recipe cairo-1.18.2-r0: task do_configure: Succeeded
+NOTE: Running task 2688 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_compile)
+NOTE: recipe cairo-1.18.2-r0: task do_compile: Started
+NOTE: recipe dbus-1.16.0-r0: task do_configure: Succeeded
+NOTE: Running task 2689 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_configure_ptest_base)
+NOTE: recipe dbus-1.16.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe dbus-1.16.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2690 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_compile)
+NOTE: recipe dbus-1.16.0-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
+NOTE: Running task 2691 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_compile)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Succeeded
+NOTE: Running task 2692 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_install)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Succeeded
+NOTE: recipe dbus-1.16.0-r0: task do_compile: Succeeded
+NOTE: Running task 2693 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_compile_ptest_base)
+NOTE: recipe dbus-1.16.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe dbus-1.16.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2694 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_install)
+NOTE: recipe dbus-1.16.0-r0: task do_install: Started
+NOTE: recipe cairo-1.18.2-r0: task do_compile: Succeeded
+NOTE: Running task 2695 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_install)
+NOTE: recipe cairo-1.18.2-r0: task do_install: Started
+NOTE: recipe vala-0.56.17-r0: task do_configure: Succeeded
+NOTE: Running task 2696 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_compile)
+NOTE: recipe vala-0.56.17-r0: task do_compile: Started
+NOTE: recipe cairo-1.18.2-r0: task do_install: Succeeded
+NOTE: Running task 2697 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_populate_sysroot)
+NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot: Started
+NOTE: recipe dbus-1.16.0-r0: task do_install: Succeeded
+NOTE: Running task 2698 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_install_ptest_base)
+NOTE: recipe dbus-1.16.0-r0: task do_install_ptest_base: Started
+NOTE: recipe dbus-1.16.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2699 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_populate_sysroot)
+NOTE: recipe dbus-1.16.0-r0: task do_populate_sysroot: Started
+NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2700 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dbus-1.16.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2701 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.73.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2702 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ell-0.73-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2703 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_configure)
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_configure: Started
+NOTE: recipe ell-0.73-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2704 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.73.bb:do_configure)
+NOTE: recipe ell-0.73-r0: task do_configure: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2705 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_configure)
+NOTE: recipe python3-dbus-1.3.2-r0: task do_configure: Started
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_configure: Succeeded
+NOTE: Running task 2706 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_compile)
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_compile: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_configure: Succeeded
+NOTE: Running task 2707 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_compile)
+NOTE: recipe python3-dbus-1.3.2-r0: task do_compile: Started
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_compile: Succeeded
+NOTE: Running task 2708 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_install)
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_install: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_compile: Succeeded
+NOTE: Running task 2709 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_install)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_package: Succeeded
+NOTE: recipe python3-dbus-1.3.2-r0: task do_install: Started
+NOTE: Running task 2710 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_packagedata: Started
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_install: Succeeded
+NOTE: Running task 2711 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.27.0.bb:do_populate_sysroot)
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_install: Succeeded
+NOTE: Running task 2712 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbus_1.3.2.bb:do_populate_sysroot)
+NOTE: recipe python3-dbus-1.3.2-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pycairo-1.27.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2713 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-dbus-1.3.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2714 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_configure)
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_configure: Started
+NOTE: recipe ell-0.73-r0: task do_configure: Succeeded
+NOTE: Running task 2715 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.73.bb:do_compile)
+NOTE: recipe ell-0.73-r0: task do_compile: Started
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_configure: Succeeded
+NOTE: Running task 2716 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_compile)
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_compile: Started
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_compile: Succeeded
+NOTE: Running task 2717 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_install)
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_install: Started
+NOTE: recipe ell-0.73-r0: task do_compile: Succeeded
+NOTE: Running task 2718 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.73.bb:do_install)
+NOTE: recipe ell-0.73-r0: task do_install: Started
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_install: Succeeded
+NOTE: Running task 2719 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.50.0.bb:do_populate_sysroot)
+NOTE: recipe ell-0.73-r0: task do_install: Succeeded
+NOTE: Running task 2720 of 2801 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.73.bb:do_populate_sysroot)
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_populate_sysroot: Started
+NOTE: recipe ell-0.73-r0: task do_populate_sysroot: Started
+NOTE: recipe ell-0.73-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pygobject-3.50.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_packagedata: Failed
+NOTE: recipe vala-0.56.17-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 2720 tasks of which 2620 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250301071904.txt
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250301064943.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250301071904.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250301064943.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Summary: 2 tasks failed:
-  virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_install
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/temp/log.do_install.1831406
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_install
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/temp/log.do_install.1839128
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: dpkg-native-1.22.15-r0 do_install: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/temp/run.do_install.1831406' failed with exit code 2
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/dpkg-native/1.22.15/temp/log.do_install.1831406
-ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_install) failed with exit code '1'
-ERROR: dpkg-1.22.15-r0 do_install: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/temp/run.do_install.1839128' failed with exit code 2
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dpkg/1.22.15/temp/log.do_install.1839128
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dpkg/dpkg_1.22.15.bb:do_install) failed with exit code '1'
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_packagedata
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/glib-2.0/2.82.4/temp/log.do_packagedata.1418741
+Summary: There were 112 ERROR messages, returning a non-zero exit code.
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-src went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dbg went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-ptest went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-staticdev went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dev went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-doc went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ab went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-af went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-am went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-an went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ar went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-as went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ast went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-az went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be+latin went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bg went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn-in went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bs went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca+valencia went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cs went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cy went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-da went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-de went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-dz went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-el went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en+shaw went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-ca went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-gb went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eo went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-es went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-et went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eu went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fa went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fi went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fr went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fur went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ga went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gd went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gl went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gu went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-he went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hi went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hr went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hu went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hy went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-id went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ie went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-is went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-it went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ja went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ka went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kab went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kk went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kn went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ko went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ku went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lt went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lv went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mai went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mg went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mk went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ml went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mn went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mr went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ms went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nb went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nds went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ne went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nl went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nn went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-oc went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-or went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pa went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pl went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ps went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt-br went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ro went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ru went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-rw went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-si went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sk went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sl went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sq went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+ije went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+latin went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sv went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ta went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-te went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tg went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-th went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tl went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tr went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tt went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ug went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-uk went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-vi went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-wa went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-xh went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-yi went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-cn went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-hk went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-tw went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0 went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-codegen went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-utils went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: QA Issue: Package version for package glib-2.0-bash-completion went backwards which would break package feeds (from 1:2.82.5-r0 to 1:2.82.4-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.82.4-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/glib-2.0/2.82.4/temp/log.do_packagedata.1418741
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_packagedata) failed with exit code '1'
 
---===============3111294971768564939==--
+--===============1262506668248226722==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-ofono-upgrade-2.14-2.15.patch"
+
+RnJvbSA4NmZhNDcxZjk2YWZlNDA5OWRiOGQ1MzI1OThhYmQ5MTkzMTY4OGVjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwNjo1MDo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9m
+b25vOiB1cGdyYWRlIDIuMTQgLT4gMi4xNQoKLS0tCiAuLi4vb2Zvbm8vb2Zvbm8vQ1ZFLTIwMjQt
+NzUzOS5wYXRjaCAgICAgICAgICAgfCA4OCAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4wMjQtNzU0
+MF9DVkUtMjAyNC03NTQxX0NWRS0yMDI0LTc1NDIucGF0Y2ggfCA1MiAtLS0tLS0tLS0tLQogLi4u
+L29mb25vL29mb25vL3JtbmV0LnBhdGNoICAgICAgICAgICAgICAgICAgIHwgNDUgLS0tLS0tLS0t
+LQogLi4uL29mb25vL3tvZm9ub18yLjE0LmJiID0+IG9mb25vXzIuMTUuYmJ9ICAgIHwgMTIgKy0t
+CiA0IGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMTkzIGRlbGV0aW9ucygtKQogZGVs
+ZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm8vQ1ZF
+LTIwMjQtNzUzOS5wYXRjaAogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvb2Zvbm8vb2Zvbm8vQ1ZFLTIwMjQtNzU0MF9DVkUtMjAyNC03NTQxX0NWRS0yMDI0LTc1
+NDIucGF0Y2gKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29m
+b25vL29mb25vL3JtbmV0LnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9v
+Zm9uby97b2Zvbm9fMi4xNC5iYiA9PiBvZm9ub18yLjE1LmJifSAoODQlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm8vQ1ZFLTIwMjQtNzUzOS5wYXRj
+aCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm8vQ1ZFLTIwMjQtNzUzOS5w
+YXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggZTQxNTk2OTU5Yi4uMDAwMDAwMDAw
+MAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vL0NWRS0yMDI0LTc1
+MzkucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw4OCArMCwwIEBACi1Gcm9tIDM4OWUyMzQ0Zjg2
+MzE5MjY1ZmI3MmFlNTkwYjQ3MDcxNmUwMzhmZGMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1G
+cm9tOiBTaWNlbG8gQS4gTWhsb25nbyA8YWJzaWNzekBnbWFpbC5jb20+Ci1EYXRlOiBUdWUsIDE3
+IERlYyAyMDI0IDExOjMxOjI5ICswMjAwCi1TdWJqZWN0OiBbUEFUQ0hdIHVzc2Q6IGVuc3VyZSB1
+c3NkIGNvbnRlbnQgZml0cyBpbiBidWZmZXJzCi0KLUZpeGVzOiBDVkUtMjAyNC03NTM5Ci0KLUNW
+RTogQ1ZFLTIwMjQtNzUzOQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXQu
+a2VybmVsLm9yZy9wdWIvc2NtL25ldHdvcmsvb2Zvbm8vb2Zvbm8uZ2l0L2NvbW1pdC8/aWQ9Mzg5
+ZTIzNDRmODYzMTkyNjVmYjcyYWU1OTBiNDcwNzE2ZTAzOGZkY10KLQotU2lnbmVkLW9mZi1ieTog
+WW9naXRhIFVyYWRlIDx5b2dpdGEudXJhZGVAd2luZHJpdmVyLmNvbT4KLS0tLQotIGRyaXZlcnMv
+YXRtb2RlbS91c3NkLmMgICAgICB8IDUgKysrKy0KLSBkcml2ZXJzL2h1YXdlaW1vZGVtL3Vzc2Qu
+YyAgfCA1ICsrKystCi0gZHJpdmVycy9zcGVlZHVwbW9kZW0vdXNzZC5jIHwgNSArKysrLQotIDMg
+ZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKLQotZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvYXRtb2RlbS91c3NkLmMgYi9kcml2ZXJzL2F0bW9kZW0vdXNzZC5jCi1p
+bmRleCAzMmE5ZmU5Li45OWRhNTU5IDEwMDY0NAotLS0tIGEvZHJpdmVycy9hdG1vZGVtL3Vzc2Qu
+YwotKysrIGIvZHJpdmVycy9hdG1vZGVtL3Vzc2QuYwotQEAgLTkzLDcgKzkzLDcgQEAgc3RhdGlj
+IHZvaWQgY3VzZF9wYXJzZShHQXRSZXN1bHQgKnJlc3VsdCwgc3RydWN0IG9mb25vX3Vzc2QgKnVz
+c2QpCi0JY29uc3QgY2hhciAqY29udGVudDsKLQlpbnQgZGNzOwotCWVudW0gc21zX2NoYXJzZXQg
+Y2hhcnNldDsKLS0JdW5zaWduZWQgY2hhciBtc2dbMTYwXTsKLSsJdW5zaWduZWQgY2hhciBtc2db
+MTYwXSA9IHswfTsKLQljb25zdCB1bnNpZ25lZCBjaGFyICptc2dfcHRyID0gTlVMTDsKLQlsb25n
+IG1zZ19sZW47Ci0KLUBAIC0xMTMsNiArMTEzLDkgQEAgc3RhdGljIHZvaWQgY3VzZF9wYXJzZShH
+QXRSZXN1bHQgKnJlc3VsdCwgc3RydWN0IG9mb25vX3Vzc2QgKnVzc2QpCi0JaWYgKCFnX2F0X3Jl
+c3VsdF9pdGVyX25leHRfbnVtYmVyKCZpdGVyLCAmZGNzKSkKLQkJZGNzID0gMDsKLQotKwlpZiAo
+c3RybGVuKGNvbnRlbnQpID4gc2l6ZW9mKG1zZykgKiAyKQotKwkJZ290byBvdXQ7Ci0rCi0JaWYg
+KCFjYnNfZGNzX2RlY29kZShkY3MsIE5VTEwsIE5VTEwsICZjaGFyc2V0LCBOVUxMLCBOVUxMLCBO
+VUxMKSkgewotCQlvZm9ub19lcnJvcigiVW5zdXBwb3J0ZWQgVVNTRCBkYXRhIGNvZGluZyBzY2hl
+bWUgKCUwMngpIiwgZGNzKTsKLQkJc3RhdHVzID0gNDsgLyogTm90IHN1cHBvcnRlZCAqLwotZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvaHVhd2VpbW9kZW0vdXNzZC5jIGIvZHJpdmVycy9odWF3ZWltb2Rl
+bS91c3NkLmMKLWluZGV4IDVlMWM5MDcuLjNkMTY1YzggMTAwNjQ0Ci0tLS0gYS9kcml2ZXJzL2h1
+YXdlaW1vZGVtL3Vzc2QuYwotKysrIGIvZHJpdmVycy9odWF3ZWltb2RlbS91c3NkLmMKLUBAIC0z
+OCw3ICszOCw3IEBAIHN0YXRpYyB2b2lkIGN1c2RfcGFyc2UoR0F0UmVzdWx0ICpyZXN1bHQsIHN0
+cnVjdCBvZm9ub191c3NkICp1c3NkKQotCWludCBzdGF0dXM7Ci0JaW50IGRjcyA9IDA7Ci0JY29u
+c3QgY2hhciAqY29udGVudDsKLS0JdW5zaWduZWQgY2hhciBtc2dbMTYwXTsKLSsJdW5zaWduZWQg
+Y2hhciBtc2dbMTYwXSA9IHswfTsKLQljb25zdCB1bnNpZ25lZCBjaGFyICptc2dfcHRyID0gTlVM
+TDsKLQlsb25nIG1zZ19sZW47Ci0KLUBAIC01NSw2ICs1NSw5IEBAIHN0YXRpYyB2b2lkIGN1c2Rf
+cGFyc2UoR0F0UmVzdWx0ICpyZXN1bHQsIHN0cnVjdCBvZm9ub191c3NkICp1c3NkKQotCi0JZ19h
+dF9yZXN1bHRfaXRlcl9uZXh0X251bWJlcigmaXRlciwgJmRjcyk7Ci0KLSsJaWYgKHN0cmxlbihj
+b250ZW50KSA+IHNpemVvZihtc2cpICogMikKLSsJCWdvdG8gb3V0OwotKwotCW1zZ19wdHIgPSBk
+ZWNvZGVfaGV4X293bl9idWYoY29udGVudCwgLTEsICZtc2dfbGVuLCAwLCBtc2cpOwotCi0gb3V0
+OgotZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3BlZWR1cG1vZGVtL3Vzc2QuYyBiL2RyaXZlcnMvc3Bl
+ZWR1cG1vZGVtL3Vzc2QuYwotaW5kZXggYWFmYTRiYy4uYTVlZmRlMCAxMDA2NDQKLS0tLSBhL2Ry
+aXZlcnMvc3BlZWR1cG1vZGVtL3Vzc2QuYwotKysrIGIvZHJpdmVycy9zcGVlZHVwbW9kZW0vdXNz
+ZC5jCi1AQCAtMzcsNyArMzcsNyBAQCBzdGF0aWMgdm9pZCBjdXNkX3BhcnNlKEdBdFJlc3VsdCAq
+cmVzdWx0LCBzdHJ1Y3Qgb2Zvbm9fdXNzZCAqdXNzZCkKLQlpbnQgc3RhdHVzOwotCWludCBkY3Mg
+PSAwOwotCWNvbnN0IGNoYXIgKmNvbnRlbnQ7Ci0tCXVuc2lnbmVkIGNoYXIgbXNnWzE2MF07Ci0r
+CXVuc2lnbmVkIGNoYXIgbXNnWzE2MF0gPSB7MH07Ci0JY29uc3QgdW5zaWduZWQgY2hhciAqbXNn
+X3B0ciA9IE5VTEw7Ci0JbG9uZyBtc2dfbGVuOwotCi1AQCAtNTQsNiArNTQsOSBAQCBzdGF0aWMg
+dm9pZCBjdXNkX3BhcnNlKEdBdFJlc3VsdCAqcmVzdWx0LCBzdHJ1Y3Qgb2Zvbm9fdXNzZCAqdXNz
+ZCkKLQotCWdfYXRfcmVzdWx0X2l0ZXJfbmV4dF9udW1iZXIoJml0ZXIsICZkY3MpOwotCi0rCWlm
+IChzdHJsZW4oY29udGVudCkgPiBzaXplb2YobXNnKSAqIDIpCi0rCQlnb3RvIG91dDsKLSsKLQlt
+c2dfcHRyID0gZGVjb2RlX2hleF9vd25fYnVmKGNvbnRlbnQsIC0xLCAmbXNnX2xlbiwgMCwgbXNn
+KTsKLQotIG91dDoKLS0tCi0yLjQwLjAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvb2Zvbm8vb2Zvbm8vQ1ZFLTIwMjQtNzU0MF9DVkUtMjAyNC03NTQxX0NWRS0yMDI0LTc1
+NDIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vL0NWRS0yMDI0
+LTc1NDBfQ1ZFLTIwMjQtNzU0MV9DVkUtMjAyNC03NTQyLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2Rl
+IDEwMDY0NAppbmRleCBmZDk3ZDRiNTFiLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm8vQ1ZFLTIwMjQtNzU0MF9DVkUtMjAyNC03NTQxX0NWRS0y
+MDI0LTc1NDIucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw1MiArMCwwIEBACi1Gcm9tIDI5ZmY2
+MzM0YjQ5MjUwNGFjZTEwMWJlNzQ4YjI1NmU2OTUzZDJjMmYgTW9uIFNlcCAxNyAwMDowMDowMCAy
+MDAxCi1Gcm9tOiAiU2ljZWxvIEEuIE1obG9uZ28iIDxhYnNpY3N6QGdtYWlsLmNvbT4KLURhdGU6
+IFR1ZSwgMTcgRGVjIDIwMjQgMTE6MzE6MjggKzAyMDAKLVN1YmplY3Q6IFtQQVRDSF0gYXRtb2Rl
+bTogc21zOiBlbnN1cmUgYnVmZmVyIGlzIGluaXRpYWxpemVkIGJlZm9yZSB1c2UKLQotRml4ZXM6
+IENWRS0yMDI0LTc1NDAKLUZpeGVzOiBDVkUtMjAyNC03NTQxCi1GaXhlczogQ1ZFLTIwMjQtNzU0
+MgotCi1DVkU6IENWRS0yMDI0LTc1NDAKLUNWRTogQ1ZFLTIwMjQtNzU0MQotQ1ZFOiBDVkUtMjAy
+NC03NTQyCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdC5rZXJuZWwub3Jn
+L3B1Yi9zY20vbmV0d29yay9vZm9uby9vZm9uby5naXQvY29tbWl0Lz9pZD0yOWZmNjMzNGI0OTI1
+MDRhY2UxMDFiZTc0OGIyNTZlNjk1M2QyYzJmXQotU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28g
+PHBldGVyLm1hcmtvQHNpZW1lbnMuY29tPgotLS0tCi0gZHJpdmVycy9hdG1vZGVtL3Ntcy5jIHwg
+NiArKystLS0KLSAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygt
+KQotCi1kaWZmIC0tZ2l0IGEvZHJpdmVycy9hdG1vZGVtL3Ntcy5jIGIvZHJpdmVycy9hdG1vZGVt
+L3Ntcy5jCi1pbmRleCBkOTk0ODU2Yi4uMDY2OGM2MzEgMTAwNjQ0Ci0tLS0gYS9kcml2ZXJzL2F0
+bW9kZW0vc21zLmMKLSsrKyBiL2RyaXZlcnMvYXRtb2RlbS9zbXMuYwotQEAgLTM5OSw3ICszOTks
+NyBAQCBzdGF0aWMgdm9pZCBhdF9jbXRfbm90aWZ5KEdBdFJlc3VsdCAqcmVzdWx0LCBncG9pbnRl
+ciB1c2VyX2RhdGEpCi0gCXN0cnVjdCBzbXNfZGF0YSAqZGF0YSA9IG9mb25vX3Ntc19nZXRfZGF0
+YShzbXMpOwotIAlHQXRSZXN1bHRJdGVyIGl0ZXI7Ci0gCWNvbnN0IGNoYXIgKmhleHBkdTsKLS0J
+dW5zaWduZWQgY2hhciBwZHVbMTc2XTsKLSsJdW5zaWduZWQgY2hhciBwZHVbMTc2XSA9IHswfTsK
+LSAJbG9uZyBwZHVfbGVuOwotIAlpbnQgdHBkdV9sZW47Ci0gCi1AQCAtNDY2LDcgKzQ2Niw3IEBA
+IHN0YXRpYyB2b2lkIGF0X2NtZ3Jfbm90aWZ5KEdBdFJlc3VsdCAqcmVzdWx0LCBncG9pbnRlciB1
+c2VyX2RhdGEpCi0gCXN0cnVjdCBzbXNfZGF0YSAqZGF0YSA9IG9mb25vX3Ntc19nZXRfZGF0YShz
+bXMpOwotIAlHQXRSZXN1bHRJdGVyIGl0ZXI7Ci0gCWNvbnN0IGNoYXIgKmhleHBkdTsKLS0JdW5z
+aWduZWQgY2hhciBwZHVbMTc2XTsKLSsJdW5zaWduZWQgY2hhciBwZHVbMTc2XSA9IHswfTsKLSAJ
+bG9uZyBwZHVfbGVuOwotIAlpbnQgdHBkdV9sZW47Ci0gCi1AQCAtNjQ4LDcgKzY0OCw3IEBAIHN0
+YXRpYyB2b2lkIGF0X2NtZ2xfbm90aWZ5KEdBdFJlc3VsdCAqcmVzdWx0LCBncG9pbnRlciB1c2Vy
+X2RhdGEpCi0gCXN0cnVjdCBzbXNfZGF0YSAqZGF0YSA9IG9mb25vX3Ntc19nZXRfZGF0YShzbXMp
+OwotIAlHQXRSZXN1bHRJdGVyIGl0ZXI7Ci0gCWNvbnN0IGNoYXIgKmhleHBkdTsKLS0JdW5zaWdu
+ZWQgY2hhciBwZHVbMTc2XTsKLSsJdW5zaWduZWQgY2hhciBwZHVbMTc2XSA9IHswfTsKLSAJbG9u
+ZyBwZHVfbGVuOwotIAlpbnQgdHBkdV9sZW47Ci0gCWludCBpbmRleDsKLS0tIAotMi4zMC4yCi0K
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm8vcm1uZXQu
+cGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vL3JtbmV0LnBhdGNo
+CmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAxMWRmZDVkYjE4Li4wMDAwMDAwMDAwCi0t
+LSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm8vcm1uZXQucGF0Y2gKKysr
+IC9kZXYvbnVsbApAQCAtMSw0NSArMCwwIEBACi1Gcm9tIGdpdEB6IFRodSBKYW4gIDEgMDA6MDA6
+MDAgMTk3MAotU3ViamVjdDogW1BBVENIXSBybW5ldDogSGFuZGxlIHRvb2xjaGFpbnMgd2l0aCBv
+bGQga2VybmVsIGhlYWRlcnMKLUZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBs
+aW51eGZvdW5kYXRpb24ub3JnPgotRGF0ZTogVGh1LCAxOSBEZWMgMjAyNCAxMzo0NzoxNSArMDAw
+MAotTWVzc2FnZS1JZDogPGUyYjZhOTRkZDlhMzc4OWUzMWRhZmFkZmM3MGM1M2I1NjVkMWRiMDQu
+Y2FtZWxAbGludXhmb3VuZGF0aW9uLm9yZz4KLU1JTUUtVmVyc2lvbjogMS4wCi1Db250ZW50LVR5
+cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9InV0Zi04IgotQ29udGVudC1UcmFuc2Zlci1FbmNvZGlu
+ZzogN2JpdAotCi1UaGUgUk1ORVRfRkxBR1NfKkdSRVNTX01BUF9DS1NVTVY1IGRlZmluZXMgd2Vy
+ZSBhZGRlZCB0byB0aGUga2VybmVsIGluCi01LjE0WzFdIGFuZCBzb21lIHRvb2xjaGFpbnMgdXNl
+IG9sZGVyIGhlYWRlcnMsIHNvIGFkZCBmYWxsYmFjayBkZWZpbmVzCi1pbiBjYXNlIHRoZXkgYXJl
+IG5lZWRlZC4KLQotWzFdIGxpbnV4IGI2ZTVkMjdlMzJlZjYwODlkMzE2Y2U3ZTFlY2FmNTk1NTg0
+ZDRiODQKLQotVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8vbG9yZS5rZXJuZWwu
+b3JnL29mb25vL2UyYjZhOTRkZDlhMzc4OWUzMWRhZmFkZmM3MGM1M2I1NjVkMWRiMDQuY2FtZWxA
+bGludXhmb3VuZGF0aW9uLm9yZy9ULyN1XQotU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJv
+c3MuYnVydG9uQGFybS5jb20+Ci0tLS0KLSBzcmMvcm1uZXQuYyB8IDEwICsrKysrKysrKysKLSAx
+IGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKQotCi1kaWZmIC0tZ2l0IGEvc3JjL3JtbmV0
+LmMgYi9zcmMvcm1uZXQuYwotaW5kZXggNDJiMDMyNDkuLjlhN2Y1MmZiIDEwMDY0NAotLS0tIGEv
+c3JjL3JtbmV0LmMKLSsrKyBiL3NyYy9ybW5ldC5jCi1AQCAtMjcsNiArMjcsMTYgQEAKLSAjZGVm
+aW5lIE1BWF9NVVhfSURTIDI1NFUKLSAjZGVmaW5lIERFRkFVTFRfTVRVIDE0MDBVCi0gCi0rLyoK
+LSsgKiBUaGVzZSB3ZXJlIGFkZGVkIGluIDUuMTQgc28gZGVmaW5lIHRoZW0gaGVyZSBpZiB0aGUg
+dG9vbGNoYWluJ3Mga2VybmVsIGhlYWRlcnMgYXJlIG9sZC4KLSsgKi8KLSsjaWZuZGVmIFJNTkVU
+X0ZMQUdTX0lOR1JFU1NfTUFQX0NLU1VNVjUKLSsjZGVmaW5lIFJNTkVUX0ZMQUdTX0lOR1JFU1Nf
+TUFQX0NLU1VNVjUgKDFVIDw8IDQpCi0rI2VuZGlmCi0rI2lmbmRlZiBSTU5FVF9GTEFHU19FR1JF
+U1NfTUFQX0NLU1VNVjUKLSsjZGVmaW5lIFJNTkVUX0ZMQUdTX0VHUkVTU19NQVBfQ0tTVU1WNSAo
+MVUgPDwgNSkKLSsjZW5kaWYKLSsKLSBzdHJ1Y3Qgcm1uZXRfcmVxdWVzdCB7Ci0gCXVpbnQzMl90
+IHBhcmVudF9pZmluZGV4OwotIAlybW5ldF9uZXdfaW50ZXJmYWNlc19mdW5jX3QgbmV3X2NiOwot
+LS0gCi0yLjQzLjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9u
+by9vZm9ub18yLjE0LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9ub18y
+LjE1LmJiCnNpbWlsYXJpdHkgaW5kZXggODQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25u
+ZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMi4xNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9vZm9uby9vZm9ub18yLjE1LmJiCmluZGV4IDlhOTFhZmFhN2IuLjQwZWViM2EwODYg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMi4xNC5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vXzIuMTUuYmIKQEAg
+LTcsMTQgKzcsMTAgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9ZWI3
+MjNiNjE1MzlmZWVmMDEzZGU0NzZlNjhiNWM1MGEgXAogICAgICAgICAgICAgICAgICAgICBmaWxl
+Oi8vc3JjL29mb25vLmg7YmVnaW5saW5lPTE7ZW5kbGluZT02O21kNT0xM2U0MjEzMzkzNWNlZWNm
+YzliY2I1NDdmMjU2ZTI3NyIKIERFUEVORFMgPSAiZGJ1cyBnbGliLTIuMCB1ZGV2IG1vYmlsZS1i
+cm9hZGJhbmQtcHJvdmlkZXItaW5mbyBlbGwiCiAKLVNSQ19VUkkgPSAiXAotICAgICR7S0VSTkVM
+T1JHX01JUlJPUn0vbGludXgvbmV0d29yay8ke0JQTn0vJHtCUH0udGFyLnh6IFwKLSAgICBmaWxl
+Oi8vcm1uZXQucGF0Y2ggXAotICAgIGZpbGU6Ly9vZm9ubyBcCi0gICAgZmlsZTovL0NWRS0yMDI0
+LTc1MzkucGF0Y2ggXAotICAgIGZpbGU6Ly9DVkUtMjAyNC03NTQwX0NWRS0yMDI0LTc1NDFfQ1ZF
+LTIwMjQtNzU0Mi5wYXRjaCBcCi0iCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTgzY2JmZDVlMWUx
+YTQxMGJhN2FkMmRiN2Y1MGZhZGM5MWU1MGIyOWYxZWRlNDBjZGM3M2Y5NDFkYTdiYTk1ZiIKK1NS
+Q19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC9uZXR3b3JrLyR7QlBOfS8ke0JQfS50
+YXIueHogXAorICAgICAgICAgICBmaWxlOi8vb2Zvbm8gXAorICAgICAgICAgICAiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiMWFmOTNhYjcyYTcwNTAyNDUyZmUzZDAyOTdhNmVhZWExMzc1MGNhY2Fl
+MWZmZjNiNjQzZGQyMjQ1YTY0MDhjYSIKIAogaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIHVw
+ZGF0ZS1yYy5kIHN5c3RlbWQgZ29iamVjdC1pbnRyb3NwZWN0aW9uLWRhdGEKIAotLSAKMi40NC4x
+Cgo=
+
+--===============1262506668248226722==--
 
