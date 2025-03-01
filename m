@@ -1,222 +1,154 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07AC3C282CD
-	for <webhook@archiver.kernel.org>; Sat,  1 Mar 2025 16:11:42 +0000 (UTC)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
- by mx.groups.io with SMTP id smtpd.web11.11641.1740845498979666044
- for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Mar 2025 08:11:39 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D800C282CD
+	for <webhook@archiver.kernel.org>; Sat,  1 Mar 2025 21:28:23 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web11.18097.1740864498332200367
+ for <Openembedded-core@lists.openembedded.org>;
+ Sat, 01 Mar 2025 13:28:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YbhjU3EB;
- spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2bcc0c6c149so2672482fac.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 08:11:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zvl0ezwC;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: uvv.mail@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-54963160818so3215e87.2
+        for <Openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 13:28:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740845498; x=1741450298; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fU9rRebx60rd01/dglTGs43Pskj+VgFcM0Zp5tmuq+U=;
-        b=YbhjU3EBZA9ST99EaF7pT1w3jlW7u4v0DQ4fSG0iozFJzelbTygXsTSHM9ZK5gBEx5
-         8xz4Nn0QkqnISIIhcqP45MTTxybjbZ34dYGMnxwjH2n/pIls1vE2NWCy8CjDKViq8GGu
-         pX2a28XA3CZhgpf4GAYd/80b793yRL/lKTdm9DcSBh44oUwTdNRv1YFUiAloeg4J5RnE
-         3DHdu4ngX//RdaWPWQ/1D5qkHCdJtQ8Aal7Ouj9mGc+PSYFdtf2B2Yl9E+yMA48fs9Hz
-         6whkIg58buWSBOUql1/YQamBhyJ/fQwKJSXkoKzOBHzVlRO7JlBi1tIvyfbCQu6B4Ctu
-         2R1w==
+        d=gmail.com; s=20230601; t=1740864496; x=1741469296; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DkwR2iHFt4BYEGicfIwkm8FkjCucBEpfLkNJj1ogezE=;
+        b=Zvl0ezwCAoBroP8ClyhT9fgXbTaaqFKVgSHfo7Q6boD9oo32NFaBDOabtqw+X2TsFb
+         X6KPAm0StAVmZVEoI+ZrkEBxI8cXbP7cvsAOUuurWgchXnznnr0zdPjX5UtSF76/eIeo
+         Yb52FOurfXrPgcuxsiYJ36TZcG1wt6ZWaNNqALsCyw+8USuM8xWwX/VAyHNakddIW07W
+         AtIBJoVfWRJZhhMmodxPOUkgMYwkk68zD7fCeVZleZX11cC1+fiehPFHtQtdyjlw8PAP
+         u7tM/SfcNZ0xYfAXkMrxkmD+aAAOHfxg+mAiLRh6XEi2uWF/2K56lCDDm1UIHFD6d/Qu
+         rxOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740845498; x=1741450298;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fU9rRebx60rd01/dglTGs43Pskj+VgFcM0Zp5tmuq+U=;
-        b=AKSLOenQjuqG1kwjxnDbwPoctKu73PQ7yXpntTRj6c+T8T2xUliOYx+LY5U5NDecfw
-         liHhi6COuI9YZMPkYkZ3Qs7sCVtN/aj2waGdlYnUjD1kMcGvvUBNfyrkYIn8jlIOsieo
-         FWPHhYABtgVbqfwsP42G+2zASHD6R6toyl5MbPSyGyuWQwnns/Eyk1zjKAvp7UjT6vYE
-         zM6+5Trc7jEii7ieGjN2ol58R3w/xLVGtF9oXa0VHtIfwmOuZF57mYLQoDjAwtJEPHOs
-         s8xn42927ZAu95O3gz11QkplpFsEjg5A6NMz+JipjcWGJZk28bVc0AlPfX1U0jxUTHlj
-         SJGA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7vkdc8Vlrc0nW2oAiFypSvEfQsTeKlKRgy8rmmYxJG/w9uQqAJSGBQXxeBc9V/EsX+8HH2Es66zimnik+TNmM7w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx6wvc0QIhI6wtvaAra7dgxiV+jeC+RY2m+TszMXJB6oYQznCcH
-	rahhCFgeyZdlxAMs96qKcgWrtOyHWtPvJEQcTeG6a/lgOq8LWesXgXFsfZzd+OulLACBXYF7P6T
-	9kYHlA7SRjjW0SRAmD92d0eEXKkk=
-X-Gm-Gg: ASbGncvv3rTY+LYAgUWDyg3qe/pgU4RUtEMeM8Y38p5GmgyFYOW2kZd13k7OTWbmFHl
-	8emob4xrEhHfLNbfRu9FAtnfHIjpIw1dkVS9FntI8BDE0x+iet0wulDSGN4ZA7/Vh4KCjzbS4n9
-	xh6R2s9xVTbe9Wy1NIzVH9MWQ=
-X-Google-Smtp-Source: AGHT+IELOZdTVRBT+NL0muHml105GfxyqMamkBCxvNn8jafgX1vapGr7VG/43XWFrSuv0dB/MLyUbXnEsYQdc4gRMWM=
-X-Received: by 2002:a05:6870:5b8a:b0:29e:671b:6019 with SMTP id
- 586e51a60fabf-2c178645d81mr4947689fac.31.1740845497994; Sat, 01 Mar 2025
- 08:11:37 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740864496; x=1741469296;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DkwR2iHFt4BYEGicfIwkm8FkjCucBEpfLkNJj1ogezE=;
+        b=gc1OKoDF22AXIBKj+B8VEQjN8Rl+XbvHqu3jXxyhu+XJizxuVH8moGkMR1B1dbJwWB
+         VzURlEYZqoEMMtNUlCuAdo/Z6Cojp6rNTFF29/Y9O34NQKIXGNp+D6l6d7XxbpaZrfyK
+         ByTCHEveeNbWl6JWfHIPGmkwkKpmfpUpN8HoQwaD2aghWTQ0zQDZ6rbG59AyOLY+obmL
+         xau3lN2ZwUCqOV/UrmbrHl87BX2X1bQfRNqn4ezKRKciJYeumv8uUOOd22Z/R4XcwAS9
+         zD4k1CqCY5TO8f1NM3SXvt2FoPEeXBs+gFl8aYdGYAx0x482ctOZ81ejG5L9UhjZaSfz
+         bWTA==
+X-Gm-Message-State: AOJu0YwIyvPzCFWB6aBFby6sU9QnQKFBMs4gEVi5YhnXtitg8qYMgfW3
+	gkcB4FSb+Jh1O+stXwi0NqhFtJ7nTZd/z6SSe4RQXtWMb8KMLgwDNYVPDFZo
+X-Gm-Gg: ASbGncs/wlpIHQZvV+ulibJobSj/78lCL7JG6sr10HPr1XICefC8fzTGacev1tRrmbX
+	weKqouvaQqzGJ2/9FgEHob7UIdw9loWTO9bUw/Ao+XV7MkB2dcjZNrlTQtOKkkuUBqqI+26J7rq
+	Pzihjqn14kaV8ws80kXMy2Y+28LMYHbUx46fvcqN07R/w7SnFYa89pJKRfO/x1B7dnaKW0CZqG3
+	T+WpM63xDenuyOgmu9nPnMtXALmTSzATzhq7z47yVDSere9FZU0o7n84HOhD8hnXO6M9cFw5FGd
+	kElYNAhngXA+OtkVTMx2VTck9gnZ85cDD7WnL4Yuc8/R7ZMXDxbXsNstWf7G189HQiUHXtBHfQ=
+	=
+X-Google-Smtp-Source: AGHT+IHE9TmAOsR8aQ/T3NHDlZWjFMPl9/1aKbRenykQkpgX35LY44eGxW9fZfE/fi2AT2hYc/bm1Q==
+X-Received: by 2002:a05:6512:32c7:b0:545:c89:2bc1 with SMTP id 2adb3069b0e04-5494c329334mr3561204e87.24.1740864496000;
+        Sat, 01 Mar 2025 13:28:16 -0800 (PST)
+Received: from slackware.local.localdomain ([169.150.242.3])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5494919b530sm721036e87.141.2025.03.01.13.28.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Mar 2025 13:28:14 -0800 (PST)
+From: uvv.mail@gmail.com
+To: Openembedded-core@lists.openembedded.org
+Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Subject: [PATCH v7 2/2] classes-recipe: Consolidate machine-id handling
+Date: Sat,  1 Mar 2025 22:27:53 +0100
+Message-ID: <20250301212753.78302-2-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20250301212753.78302-1-uvv.mail@gmail.com>
+References: <20250301212753.78302-1-uvv.mail@gmail.com>
 MIME-Version: 1.0
-References: <20250204103744.27883-1-othacehe@gnu.org> <11f5d7bcfd74d901e8001e7316244a037ae1860c.camel@linuxfoundation.org>
- <87frjysae1.fsf@gnu.org> <0b50a9ac2a5678fd35e2ecd0be842847223a0096.camel@linuxfoundation.org>
- <87ikotnlkp.fsf@gnu.org>
-In-Reply-To: <87ikotnlkp.fsf@gnu.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 1 Mar 2025 08:11:27 -0800
-X-Gm-Features: AQ5f1JryoBtAX-l2DyBGP7CbLCxCI_kGIum2C8y0YiqK06-CiaQu8IAK_UVfqsE
-Message-ID: <CAMKF1squxXbc=7RsKTHBSqapD7za4qUwj=-ByE5mYAJYM9AsiQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] lib/oe/package: Add strip keep-section support
-To: othacehe@gnu.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, 
-	Quentin Schulz <quentin.schulz@cherry.de>
-Content-Type: multipart/alternative; boundary="00000000000084590d062f4a2dd8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 16:11:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212182
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 21:28:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212184
 
---00000000000084590d062f4a2dd8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
 
-On Sat, Mar 1, 2025 at 1:32=E2=80=AFAM Mathieu Othacehe via lists.openembed=
-ded.org
-<othacehe=3Dgnu.org@lists.openembedded.org> wrote:
+Whenever Systemd is used as an init manager, it requires a machine-id
+file to be present / initialized / or have the RW rootfs. This change
+does not introduce a new functionality, but rather merges everything we
+do with machine-id in one place.
 
->
-> Hello Richard,
->
-> > You're using this with minidebuginfo so does it not make sense to add
-> > this as one of the debug sections injected there with the rest of the
-> > minidebug info?
->
-> Well minidebuginfo is about having compressed symbols in an ELF section,
-> and keeping .debug_frame is about having unwinding material in another
-> ELF section. In the end both of them are needed to get human-readable
-> backtraces on target.
->
-> Now, keeping .debug_frame when minidebuginfo is enabled seems a bit
-> odd. We could only keep .debug_frame on the needed architectures (ARMv7)
-> and rely on the more generic .eh_frame sections that are never stripped
-> on other architectures (aarch64, x86_64). Yet, picking what to strip
-> based on whether minidebuginfo is enabled does not feel right.
->
+Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+---
+ meta/classes-recipe/image.bbclass             |  9 +------
+ .../rootfs-postcommands.bbclass               | 25 +++++++++++++------
+ 2 files changed, 19 insertions(+), 15 deletions(-)
 
-ARM EHABI defines two new sections exidx and extab for storing exception
-indexes and exception unwind data which is what other architecture use
-.eh_frame for at runtime. The rationale to have it done this way is reduced
-size. Can minidebuginfo use these sections in same way like it uses
-.eh_frame ?
-
-
-> Maybe, we could go for a DISTRO_FEATURE that would be even more generic,
-> such as "backtrace_on_target" that would enable minidebuginfo and keep
-> the suitable unwinding sections based on the architecture. That way,
-> users would have unwinding materials and symbols so that GDB, libunwind,
-> systemd-coredump and other backtracing tools always work on target with
-> a minimal overhead. People could enable "backtrace_on_target", see if
-> the image overhead is acceptable to them, and have backtraces without
-> diving into complex details.
->
-> I think it would still be needed to offer minidebuginfo and
-> PACKAGE_KEEP_SECTIONS so that users willing to invest more time can
-> decide precisely what do they want on the target in terms of symbols and
-> unwinding material.
->
-> What would you think about that?
->
-> Thanks,
->
-> Mathieu
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#212091):
-> https://lists.openembedded.org/g/openembedded-core/message/212091
-> Mute This Topic: https://lists.openembedded.org/mt/110989612/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---00000000000084590d062f4a2dd8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Sat, Mar 1, 2025 at 1:32=E2=80=AFAM =
-Mathieu Othacehe via <a href=3D"http://lists.openembedded.org">lists.openem=
-bedded.org</a> &lt;othacehe=3D<a href=3D"mailto:gnu.org@lists.openembedded.=
-org">gnu.org@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;=
-border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)=
-"><br>
-Hello Richard,<br>
-<br>
-&gt; You&#39;re using this with minidebuginfo so does it not make sense to =
-add<br>
-&gt; this as one of the debug sections injected there with the rest of the<=
-br>
-&gt; minidebug info?<br>
-<br>
-Well minidebuginfo is about having compressed symbols in an ELF section,<br=
->
-and keeping .debug_frame is about having unwinding material in another<br>
-ELF section. In the end both of them are needed to get human-readable<br>
-backtraces on target.<br>
-<br>
-Now, keeping .debug_frame when minidebuginfo is enabled seems a bit<br>
-odd. We could only keep .debug_frame on the needed architectures (ARMv7)<br=
->
-and rely on the more generic .eh_frame sections that are never stripped<br>
-on other architectures (aarch64, x86_64). Yet, picking what to strip<br>
-based on whether minidebuginfo is enabled does not feel right.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">ARM EHABI define=
-s two new sections exidx and extab for storing exception indexes and except=
-ion unwind data which is what other architecture use .eh_frame for at runti=
-me. The rationale to have it done this way is reduced size. Can minidebugin=
-fo use these sections in same way like it uses .eh_frame ?</div><div dir=3D=
-"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bo=
-rder-left-color:rgb(204,204,204)"><br>
-Maybe, we could go for a DISTRO_FEATURE that would be even more generic,<br=
->
-such as &quot;backtrace_on_target&quot; that would enable minidebuginfo and=
- keep<br>
-the suitable unwinding sections based on the architecture. That way,<br>
-users would have unwinding materials and symbols so that GDB, libunwind,<br=
->
-systemd-coredump and other backtracing tools always work on target with<br>
-a minimal overhead. People could enable &quot;backtrace_on_target&quot;, se=
-e if<br>
-the image overhead is acceptable to them, and have backtraces without<br>
-diving into complex details.<br>
-<br>
-I think it would still be needed to offer minidebuginfo and<br>
-PACKAGE_KEEP_SECTIONS so that users willing to invest more time can<br>
-decide precisely what do they want on the target in terms of symbols and<br=
->
-unwinding material.<br>
-<br>
-What would you think about that?<br>
-<br>
-Thanks,<br>
-<br>
-Mathieu<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#212091): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/212091" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/212091</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/110989612/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/110989612/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---00000000000084590d062f4a2dd8--
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index f08818db03..378d3bd0d4 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -699,13 +699,6 @@ reproducible_final_image_task () {
+     find  ${IMAGE_ROOTFS} -print0 | xargs -0 touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS
+ }
+ 
+-systemd_preset_all () {
+-    if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ]; then
+-	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
+-	systemctl --root="${IMAGE_ROOTFS}" --global --preset-mode=enable-only preset-all
+-    fi
+-}
+-
+-IMAGE_PREPROCESS_COMMAND:append = " ${@ 'systemd_preset_all' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''} reproducible_final_image_task "
++IMAGE_PREPROCESS_COMMAND:append = " reproducible_final_image_task "
+ 
+ CVE_PRODUCT = ""
+diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
+index 70ad3670d7..8b5822a0b5 100644
+--- a/meta/classes-recipe/rootfs-postcommands.bbclass
++++ b/meta/classes-recipe/rootfs-postcommands.bbclass
+@@ -43,7 +43,7 @@ ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest"
+ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+ # Set default target for systemd images
+ SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains_any("IMAGE_FEATURES", [ "x11-base", "weston" ], "graphical.target", "multi-user.target", d)}'
+-ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target systemd_sysusers_check", "", d)}'
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target systemd_sysusers_check systemd_handle_machine_id", "", d)}'
+ 
+ ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile'
+ 
+@@ -173,6 +173,23 @@ python systemd_sysusers_check() {
+                     check_group_exists(d, sid)
+ }
+ 
++systemd_handle_machine_id() {
++    if ${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false", d)}; then
++        # Create machine-id
++        # 20:12 < mezcalero> koen: you have three options: a) run systemd-machine-id-setup at install time, b) have / read-only and an empty file there (for stateless) and c) boot with / writable
++        touch ${IMAGE_ROOTFS}${sysconfdir}/machine-id
++    fi
++    # In order to be backward compatible with the previous OE-core specific (re)implementation of systemctl
++    # we need to touch machine-id when handling presets and when the rootfs is NOT stateless
++    if ${@ 'true' if not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else 'false'}; then
++        touch ${IMAGE_ROOTFS}${sysconfdir}/machine-id
++        if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ]; then
++            systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
++            systemctl --root="${IMAGE_ROOTFS}" --global --preset-mode=enable-only preset-all
++        fi
++    fi
++}
++
+ #
+ # A hook function to support read-only-rootfs IMAGE_FEATURES
+ #
+@@ -224,12 +241,6 @@ read_only_rootfs_hook () {
+ 			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
+ 		fi
+ 	fi
+-
+-	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
+-	# Create machine-id
+-	# 20:12 < mezcalero> koen: you have three options: a) run systemd-machine-id-setup at install time, b) have / read-only and an empty file there (for stateless) and c) boot with / writable
+-		touch ${IMAGE_ROOTFS}${sysconfdir}/machine-id
+-	fi
+ }
+ 
+ #
 
