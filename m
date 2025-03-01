@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2351DC282C6
-	for <webhook@archiver.kernel.org>; Sat,  1 Mar 2025 11:25:40 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.7066.1740828338932856618
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B89C36010
+	for <webhook@archiver.kernel.org>; Sat,  1 Mar 2025 11:25:39 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.7164.1740828318892089703
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Mar 2025 03:25:39 -0800
+ Sat, 01 Mar 2025 03:25:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=E1rTDF1h;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MGBlrPss;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019551746925-5f940146-341d-4921-b373-abe738096d8f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZB9tbSm4;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=luVh+aZo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019551744a0b-60176d65-b6a7-4279-9481-e544bce1e4a1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1740828338;
+	t=1740828330;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=TA8jgJHgpPBrJnPd8M2jYrPquhGI1HeqBMFPGlqWf5I=;
-	b=E1rTDF1hdPSvVkO7WVm+H6gbKoDt+5Xo+JzGpMWE9NN1VEPytHtrZ26zKNTzJcwX
-	pu+EBCr0nmyiZyipm8pi2XZAPqxoyVarvVVe53mxd+BRnKRCGIVYK0PzO7ukOnK4NKp
-	UGDYoAqkb/rFNvu1nkg6sGbWirASrmrIwBzjibDo=
+	bh=/PHHfRtXZheOz2YiZeEiKKoN5Jud1FPzmNhjjRVzodQ=;
+	b=ZB9tbSm4CzyelzmjrrLl1Ty4eaS1YwtMYugt7YSQOn/2kjQtFwyrSMW8VmdjXcG3
+	DxLEp8CHFLIaEqJzN14su8SoxO96Abi0/Hwe4PPXauTaLnAQdFSemC3fi5EWzzT7aK/
+	BVkz+mY+1sCy7JED977h9IKY+OstJ1LxOEFR/cqE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1740828338;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1740828330;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=TA8jgJHgpPBrJnPd8M2jYrPquhGI1HeqBMFPGlqWf5I=;
-	b=MGBlrPssfTITJPvGNmv855JFvqjRPs+GjzmTs7VFus4TAn3eE17X+lcO5IZEVhlt
-	Tcq48b7Y/hYVR48QR0yVGNRuh/BG3FG8APEl7NbQ+Bv7A+4rNHjIqRmkhCJIm4zvvdX
-	BPbmPcvTzvoJ0eOuxE56RthmPGOjWFIn/MuioozA=
-Content-Type: multipart/mixed; boundary="===============0466714100873370677=="
+	bh=/PHHfRtXZheOz2YiZeEiKKoN5Jud1FPzmNhjjRVzodQ=;
+	b=luVh+aZo3Hcfu5LQHcK3OfGhdos2ESKnhkSW5/vW2prAIz+6/OWs6DNbfSedjcQV
+	2B5h9RauKHmGrJBUGadSEb+wFD93OQ4DIJAqpYjGb32Ax3SjkySIRlGp7Grmj2WP9tE
+	OJ4Gi9TrSiWyodVChFTqX2T/zPwVFsNJw5b1h5Tc=
+Content-Type: multipart/mixed; boundary="===============6292976423034276771=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] wireless-regdb: upgrading to 2025.02.20 SUCCEEDED
-Message-ID: <0101019551746925-5f940146-341d-4921-b373-abe738096d8f-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Mar 2025 11:25:38 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] minicom: upgrading to 2.10 SUCCEEDED
+Message-ID: <0101019551744a0b-60176d65-b6a7-4279-9481-e544bce1e4a1-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Mar 2025 11:25:30 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.01-54.240.27.30
+X-SES-Outgoing: 2025.03.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 11:25:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212170
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 11:25:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212141
 
---===============0466714100873370677==
+--===============6292976423034276771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *wireless-regdb* to *2025.02.20* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *minicom* to *2.10* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-wireless-regdb-upgrade-2024.10.07-2025.02.20.patch
+    - apply the patch: git am 0001-minicom-upgrade-2.9-2.10.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,85 +72,95 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0e683f1881241accae1692442bb7069fbda9cedd Mon Sep 17 00:00:00 2001
+From e17b71ce2ae50f2d7684e930e1788a96139f3407 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Mar 2025 10:59:30 +0000
-Subject: [PATCH] wireless-regdb: upgrade 2024.10.07 -> 2025.02.20
+Date: Sat, 1 Mar 2025 08:55:22 +0000
+Subject: [PATCH] minicom: upgrade 2.9 -> 2.10
 
 ---
- ...ireless-regdb_2024.10.07.bb => wireless-regdb_2025.02.20.bb} | 2 +-
+ .../minicom/{minicom_2.9.bb => minicom_2.10.bb}                 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2024.10.07.bb => wireless-regdb_2025.02.20.bb} (94%)
+ rename meta/recipes-extended/minicom/{minicom_2.9.bb => minicom_2.10.bb} (90%)
 
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.10.07.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2025.02.20.bb
-similarity index 94%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.10.07.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2025.02.20.bb
-index 0e4100fba7..09fff768c4 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.10.07.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2025.02.20.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+diff --git a/meta/recipes-extended/minicom/minicom_2.9.bb b/meta/recipes-extended/minicom/minicom_2.10.bb
+similarity index 90%
+rename from meta/recipes-extended/minicom/minicom_2.9.bb
+rename to meta/recipes-extended/minicom/minicom_2.10.bb
+index 907d5c79c9..20ce5662c2 100644
+--- a/meta/recipes-extended/minicom/minicom_2.9.bb
++++ b/meta/recipes-extended/minicom/minicom_2.10.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
  
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "f76f2bd79a653e9f9dd50548d99d03a4a4eb157da056dfd5892f403ec28fb3d5"
-+SRC_URI[sha256sum] = "57f8e7721cf5a880c13ae0c202edbb21092a060d45f9e9c59bcd2a8272bfa456"
+ SRC_URI = "${DEBIAN_MIRROR}/main/m/${BPN}/${BPN}_${PV}.orig.tar.bz2"
  
- inherit bin_package allarch
+-SRC_URI[sha256sum] = "9efbb6458140e5a0de445613f0e76bcf12cbf7a9892b2f53e075c2e7beaba86c"
++SRC_URI[sha256sum] = "90e7ce2856b3eaaa3f452354d17981c49d32c426a255b6f0d3063a227c101538"
  
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
 -- 
 2.44.1
 
 
---===============0466714100873370677==
+--===============6292976423034276771==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-minicom-upgrade-2.9-2.10.patch"
+
+RnJvbSBlMTdiNzFjZTJhZTUwZjJkNzY4NGU5MzBlMTc4OGE5NjEzOWYzNDA3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwODo1NToyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1p
+bmljb206IHVwZ3JhZGUgMi45IC0+IDIuMTAKCi0tLQogLi4uL21pbmljb20ve21pbmljb21fMi45
+LmJiID0+IG1pbmljb21fMi4xMC5iYn0gICAgICAgICAgICAgICAgIHwgMiArLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL21pbmljb20ve21pbmljb21fMi45LmJiID0+IG1pbmljb21fMi4xMC5iYn0gKDkw
+JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWluaWNvbS9taW5pY29tXzIu
+OS5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9taW5pY29tL21pbmljb21fMi4xMC5iYgpzaW1p
+bGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWluaWNv
+bS9taW5pY29tXzIuOS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21pbmljb20v
+bWluaWNvbV8yLjEwLmJiCmluZGV4IDkwN2Q1Yzc5YzkuLjIwY2U1NjYyYzIgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1leHRlbmRlZC9taW5pY29tL21pbmljb21fMi45LmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1leHRlbmRlZC9taW5pY29tL21pbmljb21fMi4xMC5iYgpAQCAtOSw3ICs5LDcgQEAg
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NDIwNDc3YWJjNTY3NDA0ZGVi
+Y2EwYTJhMWNiNmI2NDUgXAogCiBTUkNfVVJJID0gIiR7REVCSUFOX01JUlJPUn0vbWFpbi9tLyR7
+QlBOfS8ke0JQTn1fJHtQVn0ub3JpZy50YXIuYnoyIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+OWVmYmI2NDU4MTQwZTVhMGRlNDQ1NjEzZjBlNzZiY2YxMmNiZjdhOTg5MmIyZjUzZTA3NWMyZTdi
+ZWFiYTg2YyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5MGU3Y2UyODU2YjNlYWFhM2Y0NTIzNTRk
+MTc5ODFjNDlkMzJjNDI2YTI1NWI2ZjBkMzA2M2EyMjdjMTAxNTM4IgogCiBQQUNLQUdFQ09ORklH
+ID8/PSAiIgogUEFDS0FHRUNPTkZJR1tsb2NrZGV2XSA9ICItLWVuYWJsZS1sb2NrZGV2LC0tZGlz
+YWJsZS1sb2NrZGV2LGxvY2tkZXYiCi0tIAoyLjQ0LjEKCg==
+
+--===============6292976423034276771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/all-poky-linux/wireless-regdb: SRC_URI changed from "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2024.10.07.tar.xz" to "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2025.02.20.tar.xz"
-packages/all-poky-linux/wireless-regdb: PKGV changed from 2024.10.07 [default] to 2025.02.20 [default]
-packages/all-poky-linux/wireless-regdb: PV changed from "2024.10.07" to "2025.02.20"
-packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PKGV changed from 2024.10.07 [default] to 2025.02.20 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PV changed from "2024.10.07" to "2025.02.20"
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGV changed from 2024.10.07 [default] to 2025.02.20 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGSIZE changed from 7065 to 7277 (+3%)
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PV changed from "2024.10.07" to "2025.02.20"
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGV changed from 2024.10.07 [default] to 2025.02.20 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGSIZE changed from 8351 to 8563 (+3%)
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PV changed from "2024.10.07" to "2025.02.20"
+packages/core2-64-poky-linux/minicom: PV changed from "2.9" to "2.10"
+packages/core2-64-poky-linux/minicom: PKGV changed from 2.9 [default] to 2.10 [default]
+packages/core2-64-poky-linux/minicom: SRC_URI changed from "http://ftp.debian.org/debian/pool/main/m/minicom/minicom_2.9.orig.tar.bz2" to "http://ftp.debian.org/debian/pool/main/m/minicom/minicom_2.10.orig.tar.bz2"
+packages/core2-64-poky-linux/minicom/minicom-dbg: PV changed from "2.9" to "2.10"
+packages/core2-64-poky-linux/minicom/minicom-dbg: PKGV changed from 2.9 [default] to 2.10 [default]
+packages/core2-64-poky-linux/minicom/minicom-dbg: PKGSIZE changed from 619312 to 618552 (-0%)
+packages/core2-64-poky-linux/minicom/minicom-dev: PV changed from "2.9" to "2.10"
+packages/core2-64-poky-linux/minicom/minicom-dev: PKGV changed from 2.9 [default] to 2.10 [default]
+packages/core2-64-poky-linux/minicom/minicom-doc: PV changed from "2.9" to "2.10"
+packages/core2-64-poky-linux/minicom/minicom-doc: PKGV changed from 2.9 [default] to 2.10 [default]
+packages/core2-64-poky-linux/minicom/minicom-doc: PKGSIZE changed from 45118 to 45005 (-0%)
+packages/core2-64-poky-linux/minicom/minicom-locale: PV changed from "2.9" to "2.10"
+packages/core2-64-poky-linux/minicom/minicom-locale: PKGV changed from 2.9 [default] to 2.10 [default]
+packages/core2-64-poky-linux/minicom/minicom-src: PV changed from "2.9" to "2.10"
+packages/core2-64-poky-linux/minicom/minicom-src: PKGV changed from 2.9 [default] to 2.10 [default]
+packages/core2-64-poky-linux/minicom/minicom-src: PKGSIZE changed from 438718 to 435044 (-1%)
+packages/core2-64-poky-linux/minicom/minicom-src: FILELIST: directory renamed /usr/src/debug/minicom/2.9/lib -> /usr/src/debug/minicom/2.10/lib, removed "/usr/src/debug/minicom/2.9/src/getsdir.h /usr/src/debug/minicom/2.9/src/minicom.c /usr/src/debug/minicom/2.9/src/sysdep1_s.c /usr/src/debug/minicom/2.9/src/getsdir.c /usr/src/debug/minicom/2.9/src/minicom.h /usr/src/debug/minicom/2.9/src/vt100.c /usr/src/debug/minicom/2.9/src/windiv.c /usr/src/debug/minicom/2.9/src/util.c /usr/src/debug/minicom/2.9/src/wkeys.c /usr/src/debug/minicom/2.9/src/vt100.h /usr/src/debug/minicom/2.9/src/wildmat.c /usr/src/debug/minicom/2.9/src/ascii-xfr.c /usr/src/debug/minicom/2.9/src/main.c /usr/src/debug/minicom/2.9/src/dial.c /usr/src/debug/minicom/2.9/src/port.h /usr/src/debug/minicom/2.9/src/common.c /usr/src/debug/minicom/2.9/src/config.c /usr/src/debug/minicom/2.9/src/file.c /usr/src/debug/minicom/2.9/src/sysdep1.c /usr/src/debug/minicom/2.9/src/sysdep2.c /usr/src/debug/minicom/2.9/src/help.c /usr/s
+ rc/debug/minicom/2.9/src/rwconf.c /usr/src/debug/minicom/2.9/src/window.h /usr/src/debug/minicom/2.9/src/updown.c /usr/src/debug/minicom/2.9/src/script.c /usr/src/debug/minicom/2.9/src/window.c /usr/src/debug/minicom/2.9/src/ipc.c /usr/src/debug/minicom/2.9/src/configsym.h", added "/usr/src/debug/minicom/2.10/src/sysdep2.c /usr/src/debug/minicom/2.10/src/sysdep1.c /usr/src/debug/minicom/2.10/src/common.c /usr/src/debug/minicom/2.10/src/help.c /usr/src/debug/minicom/2.10/src/wildmat.c /usr/src/debug/minicom/2.10/src/script.c /usr/src/debug/minicom/2.10/src/window.c /usr/src/debug/minicom/2.10/src/configsym.h /usr/src/debug/minicom/2.10/src/window.h /usr/src/debug/minicom/2.10/src/config.c /usr/src/debug/minicom/2.10/src/dial.c /usr/src/debug/minicom/2.10/src/updown.c /usr/src/debug/minicom/2.10/src/ipc.c /usr/src/debug/minicom/2.10/src/vt100.c /usr/src/debug/minicom/2.10/src/sysdep1_s.c /usr/src/debug/minicom/2.10/src/file.c /usr/src/debug/minicom/2.10/src/vt100.h /usr/src/debug/mini
+ com/2.10/src/main.c /usr/src/debug/minicom/2.10/src/minicom.c /usr/src/debug/minicom/2.10/src/minicom.h /usr/src/debug/minicom/2.10/src/util.c /usr/src/debug/minicom/2.10/src/windiv.c /usr/src/debug/minicom/2.10/src/wkeys.c /usr/src/debug/minicom/2.10/src/ascii-xfr.c /usr/src/debug/minicom/2.10/src/getsdir.h /usr/src/debug/minicom/2.10/src/rwconf.c /usr/src/debug/minicom/2.10/src/getsdir.c"
+packages/core2-64-poky-linux/minicom/minicom-staticdev: PV changed from "2.9" to "2.10"
+packages/core2-64-poky-linux/minicom/minicom-staticdev: PKGV changed from 2.9 [default] to 2.10 [default]
+packages/core2-64-poky-linux/minicom/minicom: PV changed from "2.9" to "2.10"
+packages/core2-64-poky-linux/minicom/minicom: PKGV changed from 2.9 [default] to 2.10 [default]
 
---===============0466714100873370677==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-wireless-regdb-upgrade-2024.10.07-2025.02.20.patch"
-
-RnJvbSAwZTY4M2YxODgxMjQxYWNjYWUxNjkyNDQyYmI3MDY5ZmJkYTljZWRkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAxMDo1OTozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdp
-cmVsZXNzLXJlZ2RiOiB1cGdyYWRlIDIwMjQuMTAuMDcgLT4gMjAyNS4wMi4yMAoKLS0tCiAuLi5p
-cmVsZXNzLXJlZ2RiXzIwMjQuMTAuMDcuYmIgPT4gd2lyZWxlc3MtcmVnZGJfMjAyNS4wMi4yMC5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMta2VybmVsL3dpcmVsZXNzLXJlZ2RiL3t3aXJlbGVzcy1yZWdk
-Yl8yMDI0LjEwLjA3LmJiID0+IHdpcmVsZXNzLXJlZ2RiXzIwMjUuMDIuMjAuYmJ9ICg5NCUpCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1yZWdkYi93aXJlbGVzcy1y
-ZWdkYl8yMDI0LjEwLjA3LmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1yZWdkYi93
-aXJlbGVzcy1yZWdkYl8yMDI1LjAyLjIwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1rZXJuZWwvd2lyZWxlc3MtcmVnZGIvd2lyZWxlc3MtcmVnZGJfMjAy
-NC4xMC4wNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1yZWdkYi93
-aXJlbGVzcy1yZWdkYl8yMDI1LjAyLjIwLmJiCmluZGV4IDBlNDEwMGZiYTcuLjA5ZmZmNzY4YzQg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvd2lyZWxlc3MtcmVnZGIvd2lyZWxlc3Mt
-cmVnZGJfMjAyNC4xMC4wNy5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL3dpcmVsZXNzLXJl
-Z2RiL3dpcmVsZXNzLXJlZ2RiXzIwMjUuMDIuMjAuYmIKQEAgLTUsNyArNSw3IEBAIExJQ0VOU0Ug
-PSAiSVNDIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MDdjNGY2ZGVh
-Mzg0NWIwMmExOGRjMDBjOGM4NzY5OWMiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cua2VybmVs
-Lm9yZy9wdWIvc29mdHdhcmUvbmV0d29yay8ke0JQTn0vJHtCUH0udGFyLnh6IgotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gImY3NmYyYmQ3OWE2NTNlOWY5ZGQ1MDU0OGQ5OWQwM2E0YTRlYjE1N2RhMDU2
-ZGZkNTg5MmY0MDNlYzI4ZmIzZDUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTdmOGU3NzIxY2Y1
-YTg4MGMxM2FlMGMyMDJlZGJiMjEwOTJhMDYwZDQ1ZjllOWM1OWJjZDJhODI3MmJmYTQ1NiIKIAog
-aW5oZXJpdCBiaW5fcGFja2FnZSBhbGxhcmNoCiAKLS0gCjIuNDQuMQoK
-
---===============0466714100873370677==--
+--===============6292976423034276771==--
 
