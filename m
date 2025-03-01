@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A09C35FF3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51312C35FF1
 	for <webhook@archiver.kernel.org>; Sat,  1 Mar 2025 11:25:28 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.7058.1740828328036645143
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.7168.1740828323633416534
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Mar 2025 03:25:28 -0800
+ Sat, 01 Mar 2025 03:25:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Me1Zpks6;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=jkafUcOB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019551743de5-65372110-f144-453e-90f5-1d7d7066ece5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=er6p7JV6;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=t1QtSbhE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019551743bed-69cdf7ac-0489-405e-abcd-0408d958a7ab-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1740828327;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3ah/9EV+eW9rjLDHyMvNUWsAkKtU/RNb3FEGY8rOz9w=;
-	b=Me1Zpks6L14N48Qj553JjldsQTU25G1JU6BksG/1BkXZ/tC+tPh1AgzDNdxGe+bM
-	ngASWQEwK8q+th0QQVhTEmuBPdcmsMkxadObTubhQwl9ZXBi54ZP+ajsR1XCkMSY33T
-	KNyD6Yv4DBj/IVSXNLmZisgGXh5OOlYVWqZhx+p4=
+	bh=Ekw7w05OiDyapCuFAhmbYnwJQ99KonWkOC+BC5g7HBY=;
+	b=er6p7JV6j2CuCITxjTZCYcf4iojnEYaYTf3eHK+bLPvqWB9dsDfO4i7Xb0wcFrLn
+	mi7ZU5inPEY9JbyQZT9cxywhaVc2KyNikliAVYDHj81owuiYk5riVfxX0EJO1oLAGSV
+	A9UhTG3mfDyM/mqa13pi9hwdwfxqSQPUOmCS/8WU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1740828327;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3ah/9EV+eW9rjLDHyMvNUWsAkKtU/RNb3FEGY8rOz9w=;
-	b=jkafUcOBFGduYKdIm3U3s06IZ/aqKWslyz9qMKyjC5OChpu5jiNUOmpx2QoiqfBj
-	C0NgoHGUvkTyvzL11jY0WYW8G8okhnXioNEYTBcFmIy1M+80segNmcZrxIkXum/275O
-	7rI0x7QJPVicLDpFVyI5mqj2dtnkgRTuh/6GRMqQ=
-Content-Type: multipart/mixed; boundary="===============7518240883129135548=="
+	bh=Ekw7w05OiDyapCuFAhmbYnwJQ99KonWkOC+BC5g7HBY=;
+	b=t1QtSbhElSkUq6EWF1v4BkZ0uP/LsEEHza7ZnkNeLjHtPhoKbJMX28ZEvDTho1CX
+	jISpIiGuGzi3zwZyveBoXpLW4EiSadPmDt1fHEirOEDzMwrD3r1XM59Ck2P0Saobvy/
+	ZjwYFU0W0nm0cLqBCPQ9XE2tNsT/o0b8NNpPhDjw=
+Content-Type: multipart/mixed; boundary="===============0045588943729846673=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-rpds-py: upgrading to 0.23.1 FAILED
-Message-ID: <0101019551743de5-65372110-f144-453e-90f5-1d7d7066ece5-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Mar 2025 11:25:27 +0000
+Subject: [AUH] python3-pyelftools: upgrading to 0.32 SUCCEEDED
+Message-ID: <0101019551743bed-69cdf7ac-0489-405e-abcd-0408d958a7ab-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Mar 2025 11:25:26 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.01-54.240.27.45
+X-SES-Outgoing: 2025.03.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 11:25:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212131
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212128
 
---===============7518240883129135548==
+--===============0045588943729846673==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-rpds-py* to *0.23.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-pyelftools* to *0.32* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-rpds-py-upgrade-0.22.3-0.23.1.patch
+    - apply the patch: git am 0001-python3-pyelftools-upgrade-0.31-0.32.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,319 +72,107 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 26040b46b8cdaed86395131488f5890cbc522740 Mon Sep 17 00:00:00 2001
+From 8f109c0daa93966f716f9ef740b47ca3d4f6a0c8 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Mar 2025 08:07:06 +0000
-Subject: [PATCH] python3-rpds-py: upgrade 0.22.3 -> 0.23.1
+Date: Sat, 1 Mar 2025 08:04:34 +0000
+Subject: [PATCH] python3-pyelftools: upgrade 0.31 -> 0.32
 
 ---
- .../python/python3-rpds-py-crates.inc         | 24 +++++++++----------
- ...py_0.22.3.bb => python3-rpds-py_0.23.1.bb} |  2 +-
- 2 files changed, 13 insertions(+), 13 deletions(-)
- rename meta/recipes-devtools/python/{python3-rpds-py_0.22.3.bb => python3-rpds-py_0.23.1.bb} (85%)
+ .../{python3-pyelftools_0.31.bb => python3-pyelftools_0.32.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pyelftools_0.31.bb => python3-pyelftools_0.32.bb} (83%)
 
-diff --git a/meta/recipes-devtools/python/python3-rpds-py-crates.inc b/meta/recipes-devtools/python/python3-rpds-py-crates.inc
-index 7022cbdcc8..e8a322f1c6 100644
---- a/meta/recipes-devtools/python/python3-rpds-py-crates.inc
-+++ b/meta/recipes-devtools/python/python3-rpds-py-crates.inc
-@@ -13,12 +13,12 @@ SRC_URI += " \
-     crate://crates.io/once_cell/1.19.0 \
-     crate://crates.io/portable-atomic/1.6.0 \
-     crate://crates.io/proc-macro2/1.0.86 \
--    crate://crates.io/pyo3/0.23.3 \
--    crate://crates.io/pyo3-build-config/0.23.3 \
--    crate://crates.io/pyo3-ffi/0.23.3 \
--    crate://crates.io/pyo3-macros/0.23.3 \
--    crate://crates.io/pyo3-macros-backend/0.23.3 \
--    crate://crates.io/python3-dll-a/0.2.11 \
-+    crate://crates.io/pyo3/0.23.4 \
-+    crate://crates.io/pyo3-build-config/0.23.4 \
-+    crate://crates.io/pyo3-ffi/0.23.4 \
-+    crate://crates.io/pyo3-macros/0.23.4 \
-+    crate://crates.io/pyo3-macros-backend/0.23.4 \
-+    crate://crates.io/python3-dll-a/0.2.12 \
-     crate://crates.io/quote/1.0.36 \
-     crate://crates.io/rpds/1.1.0 \
-     crate://crates.io/syn/2.0.69 \
-@@ -39,12 +39,12 @@ SRC_URI[memoffset-0.9.1.sha256sum] = "488016bfae457b036d996092f6cb448677611ce444
- SRC_URI[once_cell-1.19.0.sha256sum] = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
- SRC_URI[portable-atomic-1.6.0.sha256sum] = "7170ef9988bc169ba16dd36a7fa041e5c4cbeb6a35b76d4c03daded371eae7c0"
- SRC_URI[proc-macro2-1.0.86.sha256sum] = "5e719e8df665df0d1c8fbfd238015744736151d4445ec0836b8e628aae103b77"
--SRC_URI[pyo3-0.23.3.sha256sum] = "e484fd2c8b4cb67ab05a318f1fd6fa8f199fcc30819f08f07d200809dba26c15"
--SRC_URI[pyo3-build-config-0.23.3.sha256sum] = "dc0e0469a84f208e20044b98965e1561028180219e35352a2afaf2b942beff3b"
--SRC_URI[pyo3-ffi-0.23.3.sha256sum] = "eb1547a7f9966f6f1a0f0227564a9945fe36b90da5a93b3933fc3dc03fae372d"
--SRC_URI[pyo3-macros-0.23.3.sha256sum] = "fdb6da8ec6fa5cedd1626c886fc8749bdcbb09424a86461eb8cdf096b7c33257"
--SRC_URI[pyo3-macros-backend-0.23.3.sha256sum] = "38a385202ff5a92791168b1136afae5059d3ac118457bb7bc304c197c2d33e7d"
--SRC_URI[python3-dll-a-0.2.11.sha256sum] = "9b9e268ee1be609e93a13eb06839f68f67e5fe0fb4049834d261c2d5091c1b6d"
-+SRC_URI[pyo3-0.23.4.sha256sum] = "57fe09249128b3173d092de9523eaa75136bf7ba85e0d69eca241c7939c933cc"
-+SRC_URI[pyo3-build-config-0.23.4.sha256sum] = "1cd3927b5a78757a0d71aa9dff669f903b1eb64b54142a9bd9f757f8fde65fd7"
-+SRC_URI[pyo3-ffi-0.23.4.sha256sum] = "dab6bb2102bd8f991e7749f130a70d05dd557613e39ed2deeee8e9ca0c4d548d"
-+SRC_URI[pyo3-macros-0.23.4.sha256sum] = "91871864b353fd5ffcb3f91f2f703a22a9797c91b9ab497b1acac7b07ae509c7"
-+SRC_URI[pyo3-macros-backend-0.23.4.sha256sum] = "43abc3b80bc20f3facd86cd3c60beed58c3e2aa26213f3cda368de39c60a27e4"
-+SRC_URI[python3-dll-a-0.2.12.sha256sum] = "9b66f9171950e674e64bad3456e11bb3cca108e5c34844383cfe277f45c8a7a8"
- SRC_URI[quote-1.0.36.sha256sum] = "0fa76aaf39101c457836aec0ce2316dbdc3ab723cdda1c6bd4e6ad4208acaca7"
- SRC_URI[rpds-1.1.0.sha256sum] = "a0e15515d3ce3313324d842629ea4905c25a13f81953eadb88f85516f59290a4"
- SRC_URI[syn-2.0.69.sha256sum] = "201fcda3845c23e8212cd466bfebf0bd20694490fc0356ae8e428e0824a915a6"
-diff --git a/meta/recipes-devtools/python/python3-rpds-py_0.22.3.bb b/meta/recipes-devtools/python/python3-rpds-py_0.23.1.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-rpds-py_0.22.3.bb
-rename to meta/recipes-devtools/python/python3-rpds-py_0.23.1.bb
-index 8eeb954c89..951df147cb 100644
---- a/meta/recipes-devtools/python/python3-rpds-py_0.22.3.bb
-+++ b/meta/recipes-devtools/python/python3-rpds-py_0.23.1.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/rpds-py/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=7767fa537c4596c54141f32882c4a984"
+diff --git a/meta/recipes-devtools/python/python3-pyelftools_0.31.bb b/meta/recipes-devtools/python/python3-pyelftools_0.32.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-pyelftools_0.31.bb
+rename to meta/recipes-devtools/python/python3-pyelftools_0.32.bb
+index 0774caafdb..13e9efff8d 100644
+--- a/meta/recipes-devtools/python/python3-pyelftools_0.31.bb
++++ b/meta/recipes-devtools/python/python3-pyelftools_0.32.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5ce2a2b07fca326bc7c146d10105ccfc"
  
--SRC_URI[sha256sum] = "e32fee8ab45d3c2db6da19a5323bc3362237c8b653c70194414b892fd06a080d"
-+SRC_URI[sha256sum] = "7f3240dcfa14d198dba24b8b9cb3b108c06b68d45b7babd9eefc1038fdf7e707"
+-SRC_URI[sha256sum] = "c774416b10310156879443b81187d182d8d9ee499660380e645918b50bc88f99"
++SRC_URI[sha256sum] = "6de90ee7b8263e740c8715a925382d4099b354f29ac48ea40d840cf7aa14ace5"
  
- require ${BPN}-crates.inc
+ PYPI_PACKAGE = "pyelftools"
  
 -- 
 2.44.1
 
 
---===============7518240883129135548==
+--===============0045588943729846673==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-pyelftools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyelftools/pyelftools-0.31.tar.gz;downloadfilename=pyelftools-0.31.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyelftools/pyelftools-0.32.tar.gz;downloadfilename=pyelftools-0.32.tar.gz"
+packages/core2-64-poky-linux/python3-pyelftools: PV changed from "0.31" to "0.32"
+packages/core2-64-poky-linux/python3-pyelftools: PKGV changed from 0.31 [default] to 0.32 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-dbg: PV changed from "0.31" to "0.32"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-dbg: PKGV changed from 0.31 [default] to 0.32 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-dev: PV changed from "0.31" to "0.32"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-dev: PKGV changed from 0.31 [default] to 0.32 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-doc: PV changed from "0.31" to "0.32"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-doc: PKGV changed from 0.31 [default] to 0.32 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-locale: PV changed from "0.31" to "0.32"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-locale: PKGV changed from 0.31 [default] to 0.32 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-src: PV changed from "0.31" to "0.32"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-src: PKGV changed from 0.31 [default] to 0.32 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-staticdev: PV changed from "0.31" to "0.32"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-staticdev: PKGV changed from 0.31 [default] to 0.32 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools: PKGSIZE changed from 1377881 to 1440394 (+5%)
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools: PV changed from "0.31" to "0.32"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pyelftools-0.31.dist-info -> /usr/lib/python3.13/site-packages/pyelftools-0.32.dist-info, added "/usr/lib/python3.13/site-packages/elftools/dwarf/__pycache__/typeunit.cpython-313.pyc /usr/lib/python3.13/site-packages/elftools/dwarf/typeunit.py"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools: PKGV changed from 0.31 [default] to 0.32 [default]
+Changes to packages/core2-64-poky-linux/python3-pyelftools (sysroot):
+  /usr/lib/python3.13/site-packages/pyelftools-0.31.dist-info moved to /usr/lib/python3.13/site-packages/pyelftools-0.32.dist-info
+  /usr/lib/python3.13/site-packages/elftools/dwarf/__pycache__/typeunit.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/elftools/dwarf/typeunit.py was added
+
+--===============0045588943729846673==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-rpds-py-upgrade-0.22.3-0.23.1.patch"
+ filename="0001-python3-pyelftools-upgrade-0.31-0.32.patch"
 
-RnJvbSAyNjA0MGI0NmI4Y2RhZWQ4NjM5NTEzMTQ4OGY1ODkwY2JjNTIyNzQwIE1vbiBTZXAgMTcg
+RnJvbSA4ZjEwOWMwZGFhOTM5NjZmNzE2ZjllZjc0MGI0N2NhM2Q0ZjZhMGM4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwODowNzowNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcnBkcy1weTogdXBncmFkZSAwLjIyLjMgLT4gMC4yMy4xCgotLS0KIC4uLi9weXRob24v
-cHl0aG9uMy1ycGRzLXB5LWNyYXRlcy5pbmMgICAgICAgICB8IDI0ICsrKysrKysrKy0tLS0tLS0t
-LS0KIC4uLnB5XzAuMjIuMy5iYiA9PiBweXRob24zLXJwZHMtcHlfMC4yMy4xLmJifSB8ICAyICst
-CiAyIGZpbGVzIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcnBkcy1weV8wLjIyLjMu
-YmIgPT4gcHl0aG9uMy1ycGRzLXB5XzAuMjMuMS5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weS1jcmF0ZXMuaW5jIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHktY3JhdGVzLmluYwppbmRl
-eCA3MDIyY2JkY2M4Li5lOGEzMjJmMWM2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weS1jcmF0ZXMuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5LWNyYXRlcy5pbmMKQEAgLTEzLDEyICsxMywx
-MiBAQCBTUkNfVVJJICs9ICIgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL29uY2VfY2VsbC8xLjE5
-LjAgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3BvcnRhYmxlLWF0b21pYy8xLjYuMCBcCiAgICAg
-Y3JhdGU6Ly9jcmF0ZXMuaW8vcHJvYy1tYWNybzIvMS4wLjg2IFwKLSAgICBjcmF0ZTovL2NyYXRl
-cy5pby9weW8zLzAuMjMuMyBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHlvMy1idWlsZC1jb25m
-aWcvMC4yMy4zIFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby9weW8zLWZmaS8wLjIzLjMgXAotICAg
-IGNyYXRlOi8vY3JhdGVzLmlvL3B5bzMtbWFjcm9zLzAuMjMuMyBcCi0gICAgY3JhdGU6Ly9jcmF0
-ZXMuaW8vcHlvMy1tYWNyb3MtYmFja2VuZC8wLjIzLjMgXAotICAgIGNyYXRlOi8vY3JhdGVzLmlv
-L3B5dGhvbjMtZGxsLWEvMC4yLjExIFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby9weW8zLzAuMjMu
-NCBcCisgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHlvMy1idWlsZC1jb25maWcvMC4yMy40IFwKKyAg
-ICBjcmF0ZTovL2NyYXRlcy5pby9weW8zLWZmaS8wLjIzLjQgXAorICAgIGNyYXRlOi8vY3JhdGVz
-LmlvL3B5bzMtbWFjcm9zLzAuMjMuNCBcCisgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHlvMy1tYWNy
-b3MtYmFja2VuZC8wLjIzLjQgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL3B5dGhvbjMtZGxsLWEv
-MC4yLjEyIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9xdW90ZS8xLjAuMzYgXAogICAgIGNyYXRl
-Oi8vY3JhdGVzLmlvL3JwZHMvMS4xLjAgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3N5bi8yLjAu
-NjkgXApAQCAtMzksMTIgKzM5LDEyIEBAIFNSQ19VUklbbWVtb2Zmc2V0LTAuOS4xLnNoYTI1NnN1
-bV0gPSAiNDg4MDE2YmZhZTQ1N2IwMzZkOTk2MDkyZjZjYjQ0ODY3NzYxMWNlNDQ0CiBTUkNfVVJJ
-W29uY2VfY2VsbC0xLjE5LjAuc2hhMjU2c3VtXSA9ICIzZmRiMTJiMjQ3NmI1OTVmOTM1OGM1MTYx
-YWE0NjdjMjQzODg1OWNhYTEzNmRlYzg2YzI2ZmRkMmVmZTE3YjkyIgogU1JDX1VSSVtwb3J0YWJs
-ZS1hdG9taWMtMS42LjAuc2hhMjU2c3VtXSA9ICI3MTcwZWY5OTg4YmMxNjliYTE2ZGQzNmE3ZmEw
-NDFlNWM0Y2JlYjZhMzViNzZkNGMwM2RhZGVkMzcxZWFlN2MwIgogU1JDX1VSSVtwcm9jLW1hY3Jv
-Mi0xLjAuODYuc2hhMjU2c3VtXSA9ICI1ZTcxOWU4ZGY2NjVkZjBkMWM4ZmJmZDIzODAxNTc0NDcz
-NjE1MWQ0NDQ1ZWMwODM2YjhlNjI4YWFlMTAzYjc3IgotU1JDX1VSSVtweW8zLTAuMjMuMy5zaGEy
-NTZzdW1dID0gImU0ODRmZDJjOGI0Y2I2N2FiMDVhMzE4ZjFmZDZmYThmMTk5ZmNjMzA4MTlmMDhm
-MDdkMjAwODA5ZGJhMjZjMTUiCi1TUkNfVVJJW3B5bzMtYnVpbGQtY29uZmlnLTAuMjMuMy5zaGEy
-NTZzdW1dID0gImRjMGUwNDY5YTg0ZjIwOGUyMDA0NGI5ODk2NWUxNTYxMDI4MTgwMjE5ZTM1MzUy
-YTJhZmFmMmI5NDJiZWZmM2IiCi1TUkNfVVJJW3B5bzMtZmZpLTAuMjMuMy5zaGEyNTZzdW1dID0g
-ImViMTU0N2E3Zjk5NjZmNmYxYTBmMDIyNzU2NGE5OTQ1ZmUzNmI5MGRhNWE5M2IzOTMzZmMzZGMw
-M2ZhZTM3MmQiCi1TUkNfVVJJW3B5bzMtbWFjcm9zLTAuMjMuMy5zaGEyNTZzdW1dID0gImZkYjZk
-YThlYzZmYTVjZWRkMTYyNmM4ODZmYzg3NDliZGNiYjA5NDI0YTg2NDYxZWI4Y2RmMDk2YjdjMzMy
-NTciCi1TUkNfVVJJW3B5bzMtbWFjcm9zLWJhY2tlbmQtMC4yMy4zLnNoYTI1NnN1bV0gPSAiMzhh
-Mzg1MjAyZmY1YTkyNzkxMTY4YjExMzZhZmFlNTA1OWQzYWMxMTg0NTdiYjdiYzMwNGMxOTdjMmQz
-M2U3ZCIKLVNSQ19VUklbcHl0aG9uMy1kbGwtYS0wLjIuMTEuc2hhMjU2c3VtXSA9ICI5YjllMjY4
-ZWUxYmU2MDllOTNhMTNlYjA2ODM5ZjY4ZjY3ZTVmZTBmYjQwNDk4MzRkMjYxYzJkNTA5MWMxYjZk
-IgorU1JDX1VSSVtweW8zLTAuMjMuNC5zaGEyNTZzdW1dID0gIjU3ZmUwOTI0OTEyOGIzMTczZDA5
-MmRlOTUyM2VhYTc1MTM2YmY3YmE4NWUwZDY5ZWNhMjQxYzc5MzljOTMzY2MiCitTUkNfVVJJW3B5
-bzMtYnVpbGQtY29uZmlnLTAuMjMuNC5zaGEyNTZzdW1dID0gIjFjZDM5MjdiNWE3ODc1N2EwZDcx
-YWE5ZGZmNjY5ZjkwM2IxZWI2NGI1NDE0MmE5YmQ5Zjc1N2Y4ZmRlNjVmZDciCitTUkNfVVJJW3B5
-bzMtZmZpLTAuMjMuNC5zaGEyNTZzdW1dID0gImRhYjZiYjIxMDJiZDhmOTkxZTc3NDlmMTMwYTcw
-ZDA1ZGQ1NTc2MTNlMzllZDJkZWVlZThlOWNhMGM0ZDU0OGQiCitTUkNfVVJJW3B5bzMtbWFjcm9z
-LTAuMjMuNC5zaGEyNTZzdW1dID0gIjkxODcxODY0YjM1M2ZkNWZmY2IzZjkxZjJmNzAzYTIyYTk3
-OTdjOTFiOWFiNDk3YjFhY2FjN2IwN2FlNTA5YzciCitTUkNfVVJJW3B5bzMtbWFjcm9zLWJhY2tl
-bmQtMC4yMy40LnNoYTI1NnN1bV0gPSAiNDNhYmMzYjgwYmMyMGYzZmFjZDg2Y2QzYzYwYmVlZDU4
-YzNlMmFhMjYyMTNmM2NkYTM2OGRlMzljNjBhMjdlNCIKK1NSQ19VUklbcHl0aG9uMy1kbGwtYS0w
-LjIuMTIuc2hhMjU2c3VtXSA9ICI5YjY2ZjkxNzE5NTBlNjc0ZTY0YmFkMzQ1NmUxMWJiM2NjYTEw
-OGU1YzM0ODQ0MzgzY2ZlMjc3ZjQ1YzhhN2E4IgogU1JDX1VSSVtxdW90ZS0xLjAuMzYuc2hhMjU2
-c3VtXSA9ICIwZmE3NmFhZjM5MTAxYzQ1NzgzNmFlYzBjZTIzMTZkYmRjM2FiNzIzY2RkYTFjNmJk
-NGU2YWQ0MjA4YWNhY2E3IgogU1JDX1VSSVtycGRzLTEuMS4wLnNoYTI1NnN1bV0gPSAiYTBlMTU1
-MTVkM2NlMzMxMzMyNGQ4NDI2MjllYTQ5MDVjMjVhMTNmODE5NTNlYWRiODhmODU1MTZmNTkyOTBh
-NCIKIFNSQ19VUklbc3luLTIuMC42OS5zaGEyNTZzdW1dID0gIjIwMWZjZGEzODQ1YzIzZTgyMTJj
-ZDQ2NmJmZWJmMGJkMjA2OTQ0OTBmYzAzNTZhZThlNDI4ZTA4MjRhOTE1YTYiCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIyLjMuYmIg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmIK
-c2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXJwZHMtcHlfMC4yMi4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmIKaW5kZXggOGVlYjk1NGM4OS4u
-OTUxZGYxNDdjYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXJwZHMtcHlfMC4yMi4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1ycGRzLXB5XzAuMjMuMS5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAiaHR0
-cHM6Ly9weXBpLm9yZy9wcm9qZWN0L3JwZHMtcHkvIgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklM
-RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT03NzY3ZmE1MzdjNDU5NmM1NDE0MWYzMjg4
-MmM0YTk4NCIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImUzMmZlZThhYjQ1ZDNjMmRiNmRhMTlh
-NTMyM2JjMzM2MjIzN2M4YjY1M2M3MDE5NDQxNGI4OTJmZDA2YTA4MGQiCitTUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiN2YzMjQwZGNmYTE0ZDE5OGRiYTI0YjhiOWNiM2IxMDhjMDZiNjhkNDViN2JhYmQ5
-ZWVmYzEwMzhmZGY3ZTcwNyIKIAogcmVxdWlyZSAke0JQTn0tY3JhdGVzLmluYwogCi0tIAoyLjQ0
-LjEKCg==
+CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwODowNDozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHllbGZ0b29sczogdXBncmFkZSAwLjMxIC0+IDAuMzIKCi0tLQogLi4uL3tweXRob24z
+LXB5ZWxmdG9vbHNfMC4zMS5iYiA9PiBweXRob24zLXB5ZWxmdG9vbHNfMC4zMi5iYn0gIHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1weWVsZnRvb2xzXzAuMzEuYmIg
+PT4gcHl0aG9uMy1weWVsZnRvb2xzXzAuMzIuYmJ9ICg4MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5ZWxmdG9vbHNfMC4zMS5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWVsZnRvb2xzXzAuMzIuYmIKc2ltaWxh
+cml0eSBpbmRleCA4MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXB5ZWxmdG9vbHNfMC4zMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXB5ZWxmdG9vbHNfMC4zMi5iYgppbmRleCAwNzc0Y2FhZmRiLi4xM2U5
+ZWZmZjhkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+cHllbGZ0b29sc18wLjMxLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1weWVsZnRvb2xzXzAuMzIuYmIKQEAgLTQsNyArNCw3IEBAIFNFQ1RJT04gPSAiZGV2ZWwv
+cHl0aG9uIgogTElDRU5TRSA9ICJQRCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VO
+U0U7bWQ1PTVjZTJhMmIwN2ZjYTMyNmJjN2MxNDZkMTAxMDVjY2ZjIgogCi1TUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiYzc3NDQxNmIxMDMxMDE1Njg3OTQ0M2I4MTE4N2QxODJkOGQ5ZWU0OTk2NjAzODBl
+NjQ1OTE4YjUwYmM4OGY5OSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2ZGU5MGVlN2I4MjYzZTc0
+MGM4NzE1YTkyNTM4MmQ0MDk5YjM1NGYyOWFjNDhlYTQwZDg0MGNmN2FhMTRhY2U1IgogCiBQWVBJ
+X1BBQ0tBR0UgPSAicHllbGZ0b29scyIKIAotLSAKMi40NC4xCgo=
 
---===============7518240883129135548==
-Content-Type: text/plain; charset="utf-8"
+--===============0045588943729846673==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Tk9URTogUmVjb25uZWN0aW5nIHRvIGJpdGJha2Ugc2VydmVyLi4uCkxvYWRpbmcgY2FjaGUuLi5k
-b25lLgpMb2FkZWQgMTg4MyBlbnRyaWVzIGZyb20gZGVwZW5kZW5jeSBjYWNoZS4KUGFyc2luZyBy
-ZWNpcGVzLi4uZG9uZS4KUGFyc2luZyBvZiA5MjIgLmJiIGZpbGVzIGNvbXBsZXRlICg5MjEgY2Fj
-aGVkLCAxIHBhcnNlZCkuIDE4ODEgdGFyZ2V0cywgMzkgc2tpcHBlZCwgMCBtYXNrZWQsIDAgZXJy
-b3JzLgpSZW1vdmluZyAxIHJlY2lwZXMgZnJvbSB0aGUgY29yZTItNjQgc3lzcm9vdC4uLmRvbmUu
-ClJlbW92aW5nIDEgcmVjaXBlcyBmcm9tIHRoZSBxZW11eDg2XzY0IHN5c3Jvb3QuLi5kb25lLgpO
-T1RFOiBSZXNvbHZpbmcgYW55IG1pc3NpbmcgdGFzayBxdWV1ZSBkZXBlbmRlbmNpZXMKCkJ1aWxk
-IENvbmZpZ3VyYXRpb246CkJCX1ZFUlNJT04gICAgICAgICAgID0gIjIuOS4xIgpCVUlMRF9TWVMg
-ICAgICAgICAgICA9ICJ4ODZfNjQtbGludXgiCk5BVElWRUxTQlNUUklORyAgICAgID0gInVuaXZl
-cnNhbCIKVEFSR0VUX1NZUyAgICAgICAgICAgPSAieDg2XzY0LXBva3ktbGludXgiCk1BQ0hJTkUg
-ICAgICAgICAgICAgID0gInFlbXV4ODYtNjQiCkRJU1RSTyAgICAgICAgICAgICAgID0gInBva3ki
-CkRJU1RST19WRVJTSU9OICAgICAgID0gIjUuMSIKVFVORV9GRUFUVVJFUyAgICAgICAgPSAibTY0
-IGNvcmUyIgpUQVJHRVRfRlBVICAgICAgICAgICA9ICIiCm1ldGEgICAgICAgICAgICAgICAgIApt
-ZXRhLXBva3kgICAgICAgICAgICAKbWV0YS15b2N0by1ic3AgICAgICAgCndvcmtzcGFjZSAgICAg
-ICAgICAgID0gInRtcC1hdWgtdXBncmFkZXM6ZjI3ZGFmODMxNjQ3MzlmYjJlZjE3Mjg0OWYxNTc0
-N2ZmOWE0ZGNjOSIKCkluaXRpYWxpc2luZyB0YXNrcy4uLk5PVEU6IFRoZSAvcHJvYy9wcmVzc3Vy
-ZSBmaWxlcyBjYW4ndCBiZSByZWFkLiBDb250aW51aW5nIGJ1aWxkIHdpdGhvdXQgbW9uaXRvcmlu
-ZyBwcmVzc3VyZQpTc3RhdGUgc3VtbWFyeTogV2FudGVkIDM1OCBMb2NhbCAzNDYgTWlycm9ycyAw
-IE1pc3NlZCAxMiBDdXJyZW50IDQ0NyAoOTYlIG1hdGNoLCA5OCUgY29tcGxldGUpCmRvbmUuCk5P
-VEU6IEV4ZWN1dGluZyBUYXNrcwpOT1RFOiBTZXRzY2VuZSB0YXNrcyBjb21wbGV0ZWQKTk9URTog
-UnVubmluZyB0YXNrIDE0NDMgb2YgMjI1OCAoL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1
-aC9idWlsZC9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIz
-LjEuYmI6ZG9fcmVjaXBlX3FhKQpOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMjMuMS1y
-MDogdGFzayBkb19yZWNpcGVfcWE6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1w
-eS0wLjIzLjEtcjA6IHRhc2sgZG9fcmVjaXBlX3FhOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0
-YXNrIDIyMzQgb2YgMjI1OCAoL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmI6ZG9f
-ZmV0Y2gpCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNrIGRvX2Zl
-dGNoOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNr
-IGRvX2ZldGNoOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyMzUgb2YgMjI1OCAoL3Ny
-di9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmI6ZG9fdW5wYWNrKQpOT1RFOiBSdW5uaW5n
-IHRhc2sgMjIzNiBvZiAyMjU4ICgvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxk
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMjMuMS5iYjpk
-b19wcmVwYXJlX3JlY2lwZV9zeXNyb290KQpOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAu
-MjMuMS1yMDogdGFzayBkb191bnBhY2s6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBk
-cy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdDogU3RhcnRlZApO
-T1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMjMuMS1yMDogdGFzayBkb191bnBhY2s6IFN1
-Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjIzNyBvZiAyMjU4ICgvc3J2L3Bva3lidWlsZC95
-b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1ycGRzLXB5XzAuMjMuMS5iYjpkb19wYXRjaCkKTk9URTogUnVubmluZyB0YXNrIDIyMzggb2Yg
-MjI1OCAoL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmI6ZG9fY29sbGVjdF9zcGR4
-X2RlcHMpCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNrIGRvX3By
-ZXBhcmVfcmVjaXBlX3N5c3Jvb3Q6IFN1Y2NlZWRlZApOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRz
-LXB5LTAuMjMuMS1yMDogdGFzayBkb19wYXRjaDogU3RhcnRlZApOT1RFOiByZWNpcGUgcHl0aG9u
-My1ycGRzLXB5LTAuMjMuMS1yMDogdGFzayBkb19jb2xsZWN0X3NwZHhfZGVwczogU3RhcnRlZApO
-T1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMjMuMS1yMDogdGFzayBkb19wYXRjaDogU3Vj
-Y2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjM5IG9mIDIyNTggKC9zcnYvcG9reWJ1aWxkL3lv
-Y3RvLXdvcmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXJwZHMtcHlfMC4yMy4xLmJiOmRvX2RlcGxveV9zb3VyY2VfZGF0ZV9lcG9jaCkKTk9URTogUnVu
-bmluZyB0YXNrIDIyNDAgb2YgMjI1OCAoL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9i
-dWlsZC9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEu
-YmI6ZG9fcnVzdF9jcmVhdGVfd3JhcHBlcnMpCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjQxIG9mIDIy
-NTggKC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHlfMC4yMy4xLmJiOmRvX3J1c3RfZ2VuX3Rhcmdl
-dHMpCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjQyIG9mIDIyNTggKC9zcnYvcG9reWJ1aWxkL3lvY3Rv
-LXdvcmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJw
-ZHMtcHlfMC4yMy4xLmJiOmRvX3BvcHVsYXRlX2xpYykKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBk
-cy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fY29sbGVjdF9zcGR4X2RlcHM6IFN1Y2NlZWRlZApOT1RF
-OiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMjMuMS1yMDogdGFzayBkb19kZXBsb3lfc291cmNl
-X2RhdGVfZXBvY2g6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEt
-cjA6IHRhc2sgZG9fcnVzdF9jcmVhdGVfd3JhcHBlcnM6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5
-dGhvbjMtcnBkcy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fcnVzdF9nZW5fdGFyZ2V0czogU3RhcnRl
-ZApOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMjMuMS1yMDogdGFzayBkb19wb3B1bGF0
-ZV9saWM6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEtcjA6IHRh
-c2sgZG9fcnVzdF9nZW5fdGFyZ2V0czogU3VjY2VlZGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJw
-ZHMtcHktMC4yMy4xLXIwOiB0YXNrIGRvX3J1c3RfY3JlYXRlX3dyYXBwZXJzOiBTdWNjZWVkZWQK
-Tk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fcG9wdWxhdGVf
-bGljOiBTdWNjZWVkZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEtcjA6IHRh
-c2sgZG9fZGVwbG95X3NvdXJjZV9kYXRlX2Vwb2NoOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0
-YXNrIDIyNDMgb2YgMjI1OCAoL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmI6ZG9f
-Y29uZmlndXJlKQpOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMjMuMS1yMDogdGFzayBk
-b19jb25maWd1cmU6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEt
-cjA6IHRhc2sgZG9fY29uZmlndXJlOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyNDQg
-b2YgMjI1OCAoL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmI6ZG9fY29uZmlndXJl
-X3B0ZXN0X2Jhc2UpCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNr
-IGRvX2NvbmZpZ3VyZV9wdGVzdF9iYXNlOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJw
-ZHMtcHktMC4yMy4xLXIwOiB0YXNrIGRvX2NvbmZpZ3VyZV9wdGVzdF9iYXNlOiBTdWNjZWVkZWQK
-Tk9URTogUnVubmluZyB0YXNrIDIyNDUgb2YgMjI1OCAoL3Nydi9wb2t5YnVpbGQveW9jdG8td29y
-a2VyL2F1aC9idWlsZC9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1w
-eV8wLjIzLjEuYmI6ZG9fY29tcGlsZSkKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIz
-LjEtcjA6IHRhc2sgZG9fY29tcGlsZTogU3RhcnRlZApMb2cgZGF0YSBmb2xsb3dzOgp8IERFQlVH
-OiBFeGVjdXRpbmcgc2hlbGwgZnVuY3Rpb24gZG9fY29tcGlsZQp8ICogR2V0dGluZyBidWlsZCBk
-ZXBlbmRlbmNpZXMgZm9yIHdoZWVsLi4uCnwgKiBCdWlsZGluZyB3aGVlbC4uLgp8IFJ1bm5pbmcg
-YG1hdHVyaW4gcGVwNTE3IGJ1aWxkLXdoZWVsIC1pIC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtl
-ci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9weXRob24zLXJw
-ZHMtcHkvMC4yMy4xL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL25hdGl2ZXB5dGhvbjMg
-LS1jb21wYXRpYmlsaXR5IG9mZmAKfCDwn5KlIG1hdHVyaW4gZmFpbGVkCnwgICBDYXVzZWQgYnk6
-IHB5cHJvamVjdC50b21sIGF0IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQv
-YnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9weXRob24zLXJwZHMtcHkvMC4yMy4x
-L3JwZHNfcHktMC4yMy4xL3B5cHJvamVjdC50b21sIGlzIGludmFsaWQKfCAgIENhdXNlZCBieTog
-VE9NTCBwYXJzZSBlcnJvciBhdCBsaW5lIDExLCBjb2x1bW4gMTcKfCAgICB8CnwgMTEgfCBsaWNl
-bnNlLWZpbGVzID0gWyJMSUNFTlNFIl0KfCAgICB8ICAgICAgICAgICAgICAgICBeXl5eXl5eXl5e
-Xgp8IHdhbnRlZCBzdHJpbmcgb3IgdGFibGUKfCAKfCBFcnJvcjogY29tbWFuZCBbJ21hdHVyaW4n
-LCAncGVwNTE3JywgJ2J1aWxkLXdoZWVsJywgJy1pJywgJy9zcnYvcG9reWJ1aWxkL3lvY3RvLXdv
-cmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9weXRob24z
-LXJwZHMtcHkvMC4yMy4xL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL25hdGl2ZXB5dGhv
-bjMnLCAnLS1jb21wYXRpYmlsaXR5JywgJ29mZiddIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3Rh
-dHVzIDEKfCAKfCBFUlJPUiBCYWNrZW5kIHN1YnByb2Nlc3MgZXhpdGVkIHdoZW4gdHJ5aW5nIHRv
-IGludm9rZSBidWlsZF93aGVlbAp8IFdBUk5JTkc6IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtl
-ci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9weXRob24zLXJw
-ZHMtcHkvMC4yMy4xL3RlbXAvcnVuLmRvX2NvbXBpbGUuMjc1ODgyODoxOTEgZXhpdCAxIGZyb20g
-J25hdGl2ZXB5dGhvbjMgLW0gYnVpbGQgLS1uby1pc29sYXRpb24gLS13aGVlbCAtLW91dGRpciAv
-c3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUy
-LTY0LXBva3ktbGludXgvcHl0aG9uMy1ycGRzLXB5LzAuMjMuMS9kaXN0IC9zcnYvcG9reWJ1aWxk
-L3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51
-eC9weXRob24zLXJwZHMtcHkvMC4yMy4xL3JwZHNfcHktMC4yMy4xJwp8IFdBUk5JTkc6IEJhY2t0
-cmFjZSAoQkIgZ2VuZXJhdGVkIHNjcmlwdCk6CnwgCSMxOiBweXRob25fcGVwNTE3X2RvX2NvbXBp
-bGUsIC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsv
-Y29yZTItNjQtcG9reS1saW51eC9weXRob24zLXJwZHMtcHkvMC4yMy4xL3RlbXAvcnVuLmRvX2Nv
-bXBpbGUuMjc1ODgyOCwgbGluZSAxOTEKfCAJIzI6IGRvX2NvbXBpbGUsIC9zcnYvcG9reWJ1aWxk
-L3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51
-eC9weXRob24zLXJwZHMtcHkvMC4yMy4xL3RlbXAvcnVuLmRvX2NvbXBpbGUuMjc1ODgyOCwgbGlu
-ZSAxNjcKfCAJIzM6IG1haW4sIC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQv
-YnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9weXRob24zLXJwZHMtcHkvMC4yMy4x
-L3RlbXAvcnVuLmRvX2NvbXBpbGUuMjc1ODgyOCwgbGluZSAyMDIKTk9URTogcmVjaXBlIHB5dGhv
-bjMtcnBkcy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fY29tcGlsZTogRmFpbGVkCk5PVEU6IFRhc2tz
-IFN1bW1hcnk6IEF0dGVtcHRlZCAyMjQ1IHRhc2tzIG9mIHdoaWNoIDIyMzIgZGlkbid0IG5lZWQg
-dG8gYmUgcmVydW4gYW5kIDEgZmFpbGVkLgpOT1RFOiBXcml0aW5nIGJ1aWxkaGlzdG9yeQpOT1RF
-OiBXcml0aW5nIGJ1aWxkaGlzdG9yeSB0b29rOiAxIHNlY29uZHMKTk9URTogVGhlIGVycm9ycyBm
-b3IgdGhpcyBidWlsZCBhcmUgc3RvcmVkIGluIC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9h
-dWgvYnVpbGQvYnVpbGQvdG1wL2xvZy9lcnJvci1yZXBvcnQvZXJyb3JfcmVwb3J0XzIwMjUwMzAx
-MDgwNjUyLnR4dApZb3UgY2FuIHNlbmQgdGhlIGVycm9ycyB0byBhIHJlcG9ydHMgc2VydmVyIGJ5
-IHJ1bm5pbmc6CiAgc2VuZC1lcnJvci1yZXBvcnQgL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2Vy
-L2F1aC9idWlsZC9idWlsZC90bXAvbG9nL2Vycm9yLXJlcG9ydC9lcnJvcl9yZXBvcnRfMjAyNTAz
-MDEwODA2NTIudHh0IFstcyBzZXJ2ZXJdCk5PVEU6IFRoZSBjb250ZW50cyBvZiB0aGVzZSBsb2dz
-IHdpbGwgYmUgcG9zdGVkIGluIHB1YmxpYyBpZiB5b3UgdXNlIHRoZSBhYm92ZSBjb21tYW5kIHdp
-dGggdGhlIGRlZmF1bHQgc2VydmVyLiBQbGVhc2UgZW5zdXJlIHlvdSByZW1vdmUgYW55IGlkZW50
-aWZ5aW5nIG9yIHByb3ByaWV0YXJ5IGluZm9ybWF0aW9uIHdoZW4gcHJvbXB0ZWQgYmVmb3JlIHNl
-bmRpbmcuCgpTdW1tYXJ5OiAxIHRhc2sgZmFpbGVkOgogIC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdv
-cmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMt
-cHlfMC4yMy4xLmJiOmRvX2NvbXBpbGUKICAgIGxvZzogL3Nydi9wb2t5YnVpbGQveW9jdG8td29y
-a2VyL2F1aC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMt
-cnBkcy1weS8wLjIzLjEvdGVtcC9sb2cuZG9fY29tcGlsZS4yNzU4ODI4ClN1bW1hcnk6IFRoZXJl
-IHdhcyAxIEVSUk9SIG1lc3NhZ2UsIHJldHVybmluZyBhIG5vbi16ZXJvIGV4aXQgY29kZS4KRVJS
-T1I6IHB5dGhvbjMtcnBkcy1weS0wLjIzLjEtcjAgZG9fY29tcGlsZTogRXhlY3V0aW9uIG9mICcv
-c3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUy
-LTY0LXBva3ktbGludXgvcHl0aG9uMy1ycGRzLXB5LzAuMjMuMS90ZW1wL3J1bi5kb19jb21waWxl
-LjI3NTg4MjgnIGZhaWxlZCB3aXRoIGV4aXQgY29kZSAxCkVSUk9SOiBMb2dmaWxlIG9mIGZhaWx1
-cmUgc3RvcmVkIGluOiAvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxk
-L3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvcHl0aG9uMy1ycGRzLXB5LzAuMjMuMS90ZW1w
-L2xvZy5kb19jb21waWxlLjI3NTg4MjgKRVJST1I6IFRhc2sgKC9zcnYvcG9reWJ1aWxkL3lvY3Rv
-LXdvcmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJw
-ZHMtcHlfMC4yMy4xLmJiOmRvX2NvbXBpbGUpIGZhaWxlZCB3aXRoIGV4aXQgY29kZSAnMScK
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pyelftools-0.31.dist-info -> /usr/lib/python3.13/site-packages/pyelftools-0.32.dist-info, added "/usr/lib/python3.13/site-packages/elftools/dwarf/typeunit.py /usr/lib/python3.13/site-packages/elftools/dwarf/__pycache__/typeunit.cpython-313.pyc"
+Changes to packages/core2-64-poky-linux/python3-pyelftools (sysroot):
+  /usr/lib/python3.13/site-packages/pyelftools-0.31.dist-info moved to /usr/lib/python3.13/site-packages/pyelftools-0.32.dist-info
+  /usr/lib/python3.13/site-packages/elftools/dwarf/__pycache__/typeunit.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/elftools/dwarf/typeunit.py was added
 
---===============7518240883129135548==--
+--===============0045588943729846673==--
 
