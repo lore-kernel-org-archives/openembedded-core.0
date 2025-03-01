@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 623E4C36004
-	for <webhook@archiver.kernel.org>; Sat,  1 Mar 2025 11:25:39 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.7046.1740828318095220928
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06D74C28B25
+	for <webhook@archiver.kernel.org>; Sat,  1 Mar 2025 11:25:28 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.7048.1740828319010136327
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Mar 2025 03:25:32 -0800
+ Sat, 01 Mar 2025 03:25:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Swaafrha;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=q6+5Ao2z;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019551745098-ed759d3c-6613-43d1-ae07-afb6ca29cf0d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HWi6cUUh;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=iQ7sYiB4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019551743304-9e5f83f4-7383-44fb-a2da-2a485647bf5c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1740828332;
+	t=1740828324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ALTmIAb3TseNsbDI51IxI5axNH1wriRq17kVNjkumsw=;
-	b=SwaafrhaGmV1dlQhGeX1nAYNsrc4gXIjmfanZocEznW09fh8wy/pkkgSB+wDhnI9
-	Rz3OHtWDcf5efNMPDnHydHjXyIQBZqFJOcebBEyueHLF2osbhG3qwvxng6qPvi/DJGr
-	O7iaLcsMPSTLuJy8vmQs5jvPDzut9nR9JpmIlubY=
+	bh=7ZhCAuv6E8YEeuGVZHBAsmt5zKj8eOMAE6WTK5sylxo=;
+	b=HWi6cUUhbz6ibBJ5lTR3sUEvfJniT0Oaxb3RbZxya/Xl5R/qdNgv1vjc5SKw/Zsm
+	NejjkicBeS+c/vk4VoopGKRx4zgITfYBNIWuuN3vB3uakWKTKm5/Pe5druuqEcTMTxe
+	CUA5WeWUAdZ3WWWFTe4KuRCAxZRx3QuGwtljkVvs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1740828332;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1740828324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ALTmIAb3TseNsbDI51IxI5axNH1wriRq17kVNjkumsw=;
-	b=q6+5Ao2zCZ17wC30DSSzDF3gD82sRS7nT2TeAPGKl7CrDncQCQATy4s1lhzcP6Pd
-	ADqnLFuRLgmzpChRcE5lextY7QG5YeBFCYJSCusyaFKNKpdfytWT+Zqqdf2pplMoMx2
-	RFwgnLBrkPbnmjViiicGf6oTuicEt8H2Hl2cdWD8=
-Content-Type: multipart/mixed; boundary="===============0656166312404369613=="
+	bh=7ZhCAuv6E8YEeuGVZHBAsmt5zKj8eOMAE6WTK5sylxo=;
+	b=iQ7sYiB4ND9wlmTnAiCfciO3JkIshkLdiy2TWvRe/vrixJ9kGtvRngybYe0SGKFW
+	APuQ5bp/UCFd1HCW7CHsFjOKKpx4pGvZZ6zNGSfB0o799d3j+kvt+VfWye5LIjjPqGr
+	8U7UX4yi5xHPL1MHm4FaIKvPm1fSODQTAGiknfOU=
+Content-Type: multipart/mixed; boundary="===============8270838383326846895=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] gi-docgen: upgrading to 2025.3 SUCCEEDED
-Message-ID: <0101019551745098-ed759d3c-6613-43d1-ae07-afb6ca29cf0d-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Mar 2025 11:25:32 +0000
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] go-binary-native: upgrading to 1.24.0 SUCCEEDED
+Message-ID: <0101019551743304-9e5f83f4-7383-44fb-a2da-2a485647bf5c-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Mar 2025 11:25:24 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.01-54.240.27.45
+X-SES-Outgoing: 2025.03.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 11:25:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212147
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 11:25:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212121
 
---===============0656166312404369613==
+--===============8270838383326846895==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gi-docgen* to *2025.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *go-binary-native* to *1.24.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gi-docgen-upgrade-2024.1-2025.3.patch
+    - apply the patch: git am 0001-go-binary-native-upgrade-1.22.12-1.24.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,682 +72,3621 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 87b953fb3ce85785e8d72662728ac051dc6290b5 Mon Sep 17 00:00:00 2001
+From bb4d3efdd418e9716fde83be36a1db08ce53a4a5 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Mar 2025 09:28:26 +0000
-Subject: [PATCH] gi-docgen: upgrade 2024.1 -> 2025.3
+Date: Sat, 1 Mar 2025 07:34:04 +0000
+Subject: [PATCH] go-binary-native: upgrade 1.22.12 -> 1.24.0
 
 ---
- .../gi-docgen/{gi-docgen_2024.1.bb => gi-docgen_2025.3.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gi-docgen/{gi-docgen_2024.1.bb => gi-docgen_2025.3.bb} (94%)
+ ..._1.22.12.bb => go-binary-native_1.24.0.bb} | 34 ++++++++++++++++---
+ 1 file changed, 30 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-binary-native_1.22.12.bb => go-binary-native_1.24.0.bb} (46%)
 
-diff --git a/meta/recipes-gnome/gi-docgen/gi-docgen_2024.1.bb b/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb
-similarity index 94%
-rename from meta/recipes-gnome/gi-docgen/gi-docgen_2024.1.bb
-rename to meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb
-index 12c2b8ed21..5dea1cdaee 100644
---- a/meta/recipes-gnome/gi-docgen/gi-docgen_2024.1.bb
-+++ b/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://gi-docgen.py;beginline=1;endline=5;md5=2dc0f1f0120247
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.12.bb b/meta/recipes-devtools/go/go-binary-native_1.24.0.bb
+similarity index 46%
+rename from meta/recipes-devtools/go/go-binary-native_1.22.12.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.24.0.bb
+index 747737ff94..b02b12fc46 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.22.12.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.24.0.bb
+@@ -1,17 +1,43 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,4 +1,4 @@
++# -Copyright (c) 2009 The Go Authors. All rights reserved.
++# +Copyright 2009 The Go Authors.
++#  
++#  Redistribution and use in source and binary forms, with or without
++#  modification, are permitted provided that the following conditions are
++# @@ -10,7 +10,7 @@
++#  copyright notice, this list of conditions and the following disclaimer
++#  in the documentation and/or other materials provided with the
++#  distribution.
++# -   * Neither the name of Google Inc. nor the names of its
++# +   * Neither the name of Google LLC nor the names of its
++#  contributors may be used to endorse or promote products derived from
++#  this software without specific prior written permission.
++#  
++# 
++#
++
+ # This recipe is for bootstrapping our go-cross from a prebuilt binary of Go from golang.org.
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/gi-docgen.git;protocol=https;branch=main"
+ SUMMARY = "Go programming language compiler (upstream binary for bootstrap)"
+ HOMEPAGE = " http://golang.org/"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=7998cb338f82d15c0eff93b7004d272a"
  
--SRCREV = "eff4ec3d21df38c9d857bcf58aa98437c6610489"
-+SRCREV = "9ab2ab8fa3f4a04f5d2cc24b0c8e91e73bc57b51"
+ PROVIDES = "go-native"
  
- S = "${WORKDIR}/git"
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "4fa4f869b0f7fc6bb1eb2660e74657fbf04cdd290b5aef905585c86051b34d43"
+-SRC_URI[go_linux_arm64.sha256sum] = "fd017e647ec28525e86ae8203236e0653242722a7436929b1f775744e26278e7"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "9573d30003b0796717a99d9e2e96c48fddd4fc0f29d840f212c503b03d7de112"
++SRC_URI[go_linux_amd64.sha256sum] = "dea9ca38a0b852a74e81c26134671af7c0fbe65d81b0dc1c5bfe22cf7d4c8858"
  
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
 -- 
 2.44.1
 
 
---===============0656166312404369613==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gi-docgen-upgrade-2024.1-2025.3.patch"
-
-RnJvbSA4N2I5NTNmYjNjZTg1Nzg1ZThkNzI2NjI3MjhhYzA1MWRjNjI5MGI1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwOToyODoyNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdp
-LWRvY2dlbjogdXBncmFkZSAyMDI0LjEgLT4gMjAyNS4zCgotLS0KIC4uLi9naS1kb2NnZW4ve2dp
-LWRvY2dlbl8yMDI0LjEuYmIgPT4gZ2ktZG9jZ2VuXzIwMjUuMy5iYn0gICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1nbm9tZS9naS1kb2NnZW4ve2dpLWRvY2dlbl8yMDI0LjEuYmIgPT4gZ2ktZG9jZ2Vu
-XzIwMjUuMy5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ2ktZG9j
-Z2VuL2dpLWRvY2dlbl8yMDI0LjEuYmIgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ2ktZG9jZ2VuL2dp
-LWRvY2dlbl8yMDI1LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWdub21lL2dpLWRvY2dlbi9naS1kb2NnZW5fMjAyNC4xLmJiCnJlbmFtZSB0byBtZXRh
-L3JlY2lwZXMtZ25vbWUvZ2ktZG9jZ2VuL2dpLWRvY2dlbl8yMDI1LjMuYmIKaW5kZXggMTJjMmI4
-ZWQyMS4uNWRlYTFjZGFlZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2dpLWRvY2dl
-bi9naS1kb2NnZW5fMjAyNC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9naS1kb2NnZW4v
-Z2ktZG9jZ2VuXzIwMjUuMy5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0g
-ImZpbGU6Ly9naS1kb2NnZW4ucHk7YmVnaW5saW5lPTE7ZW5kbGluZT01O21kNT0yZGMwZjFmMDEy
-MDI0NwogCiBTUkNfVVJJID0gImdpdDovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvZ2ktZG9jZ2Vu
-LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiIKIAotU1JDUkVWID0gImVmZjRlYzNkMjFk
-ZjM4YzlkODU3YmNmNThhYTk4NDM3YzY2MTA0ODkiCitTUkNSRVYgPSAiOWFiMmFiOGZhM2Y0YTA0
-ZjVkMmNjMjRiMGM4ZTkxZTczYmM1N2I1MSIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAK
-Mi40NC4xCgo=
-
---===============0656166312404369613==
+--===============8270838383326846895==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-dbg: PV changed from "2024.1" to "2025.3"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-dbg: PKGV changed from 2024.1 [default] to 2025.3 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-dev: PV changed from "2024.1" to "2025.3"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-dev: PKGV changed from 2024.1 [default] to 2025.3 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-doc: PV changed from "2024.1" to "2025.3"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-doc: PKGV changed from 2024.1 [default] to 2025.3 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-locale: PV changed from "2024.1" to "2025.3"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-locale: PKGV changed from 2024.1 [default] to 2025.3 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-src: PV changed from "2024.1" to "2025.3"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-src: PKGV changed from 2024.1 [default] to 2025.3 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-staticdev: PV changed from "2024.1" to "2025.3"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-staticdev: PKGV changed from 2024.1 [default] to 2025.3 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen: PV changed from "2024.1" to "2025.3"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen: PKGSIZE changed from 2295594 to 2310158 (+1%)
-packages/core2-64-poky-linux/gi-docgen/gi-docgen: PKGV changed from 2024.1 [default] to 2025.3 [default]
-packages/core2-64-poky-linux/gi-docgen: PV changed from "2024.1" to "2025.3"
-packages/core2-64-poky-linux/gi-docgen: PKGV changed from 2024.1 [default] to 2025.3 [default]
-Changes to packages/core2-64-poky-linux/gi-docgen (sysroot):
-  /usr/lib/python3.13/site-packages/gi_docgen-2024.1.dist-info moved to /usr/lib/python3.13/site-packages/gi_docgen-2025.3.dist-info
+Changes to packages/x86_64-linux/go-binary-native (sysroot):
+  /usr/lib/go/src/cmd/dist/notgo120.go moved to /usr/lib/go/src/cmd/dist/notgo122.go
+  /usr/lib/go/api/go1.23.txt was added
+  /usr/lib/go/api/go1.24.txt was added
+  /usr/lib/go/doc/initial was added
+  /usr/lib/go/doc/initial/1-intro.md was added
+  /usr/lib/go/doc/initial/2-language.md was added
+  /usr/lib/go/doc/initial/3-tools.md was added
+  /usr/lib/go/doc/initial/4-runtime.md was added
+  /usr/lib/go/doc/initial/5-toolchain.md was added
+  /usr/lib/go/doc/initial/6-stdlib was added
+  /usr/lib/go/doc/initial/6-stdlib/0-heading.md was added
+  /usr/lib/go/doc/initial/6-stdlib/99-minor was added
+  /usr/lib/go/doc/initial/6-stdlib/99-minor/0-heading.md was added
+  /usr/lib/go/doc/initial/6-stdlib/99-minor/README was added
+  /usr/lib/go/doc/initial/7-ports.md was added
+  /usr/lib/go/doc/README.md was added
+  /usr/lib/go/lib/fips140 was added
+  /usr/lib/go/lib/fips140/fips140.sum was added
+  /usr/lib/go/lib/fips140/Makefile was added
+  /usr/lib/go/lib/fips140/README.md was added
+  /usr/lib/go/lib/fips140/v1.0.0.zip was added
+  /usr/lib/go/lib/wasm was added
+  /usr/lib/go/lib/wasm/go_js_wasm_exec was added
+  /usr/lib/go/lib/wasm/go_wasip1_wasm_exec was added
+  /usr/lib/go/lib/wasm/wasm_exec.js was added
+  /usr/lib/go/lib/wasm/wasm_exec_node.js was added
+  /usr/lib/go/pkg/include/asm_riscv64.h was added
+  /usr/lib/go/pkg/tool/linux_amd64/preprofile was added
+  /usr/lib/go/src/bytes/iter.go was added
+  /usr/lib/go/src/cmd/cgo/internal/test/cgo_stubs_ppc64x_internal_linking_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/deadlocals was added
+  /usr/lib/go/src/cmd/compile/internal/deadlocals/deadlocals.go was added
+  /usr/lib/go/src/cmd/compile/internal/liveness/intervals.go was added
+  /usr/lib/go/src/cmd/compile/internal/liveness/intervals_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/liveness/mergelocals.go was added
+  /usr/lib/go/src/cmd/compile/internal/pgoir was added
+  /usr/lib/go/src/cmd/compile/internal/pgoir/irgraph.go was added
+  /usr/lib/go/src/cmd/compile/internal/reflectdata/map_noswiss.go was added
+  /usr/lib/go/src/cmd/compile/internal/reflectdata/map_swiss.go was added
+  /usr/lib/go/src/cmd/compile/internal/ssa/_gen/go.mod was added
+  /usr/lib/go/src/cmd/compile/internal/ssa/_gen/go.sum was added
+  /usr/lib/go/src/cmd/compile/internal/ssagen/intrinsics.go was added
+  /usr/lib/go/src/cmd/compile/internal/ssagen/intrinsics_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/syntax/issues_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/test/issue62407_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/test/mergelocals_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/types2/compiler_internal.go was added
+  /usr/lib/go/src/cmd/compile/internal/types2/errsupport.go was added
+  /usr/lib/go/src/cmd/compile/internal/types2/format.go was added
+  /usr/lib/go/src/cmd/compile/internal/types2/literals.go was added
+  /usr/lib/go/src/cmd/compile/internal/types2/README.md was added
+  /usr/lib/go/src/cmd/compile/internal/types2/recording.go was added
+  /usr/lib/go/src/cmd/compile/script_test.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/auth_test.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/gitauth.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/gitauth_test.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/httputils.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/userauth.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/userauth_test.go was added
+  /usr/lib/go/src/cmd/go/internal/base/error_notunix.go was added
+  /usr/lib/go/src/cmd/go/internal/base/error_unix.go was added
+  /usr/lib/go/src/cmd/go/internal/cacheprog was added
+  /usr/lib/go/src/cmd/go/internal/cacheprog/cacheprog.go was added
+  /usr/lib/go/src/cmd/go/internal/fips140 was added
+  /usr/lib/go/src/cmd/go/internal/fips140/fips140.go was added
+  /usr/lib/go/src/cmd/go/internal/fips140/fips_test.go was added
+  /usr/lib/go/src/cmd/go/internal/fips140/mkzip.go was added
+  /usr/lib/go/src/cmd/go/internal/fsys/glob.go was added
+  /usr/lib/go/src/cmd/go/internal/fsys/walk.go was added
+  /usr/lib/go/src/cmd/go/internal/load/printer.go was added
+  /usr/lib/go/src/cmd/go/internal/mmap/mmap_test.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrycmd was added
+  /usr/lib/go/src/cmd/go/internal/telemetrycmd/telemetry.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats/telemetrystats_bootstrap.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats/telemetrystats.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_other.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_unix.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_windows.go was added
+  /usr/lib/go/src/cmd/go/internal/web/intercept was added
+  /usr/lib/go/src/cmd/go/internal/web/intercept/intercept.go was added
+  /usr/lib/go/src/cmd/internal/disasm was added
+  /usr/lib/go/src/cmd/internal/disasm/disasm.go was added
+  /usr/lib/go/src/cmd/internal/dwarf/putvarabbrevgen.go was added
+  /usr/lib/go/src/cmd/internal/dwarf/putvarabbrevgen_test.go was added
+  /usr/lib/go/src/cmd/internal/hash was added
+  /usr/lib/go/src/cmd/internal/hash/hash.go was added
+  /usr/lib/go/src/cmd/internal/macho was added
+  /usr/lib/go/src/cmd/internal/macho/macho.go was added
+  /usr/lib/go/src/cmd/internal/obj/arm64/asm_test.go was added
+  /usr/lib/go/src/cmd/internal/obj/fips140.go was added
+  /usr/lib/go/src/cmd/internal/obj/loong64/asm_test.go was added
+  /usr/lib/go/src/cmd/internal/obj/loong64/doc.go was added
+  /usr/lib/go/src/cmd/internal/obj/mkcnames.go was added
+  /usr/lib/go/src/cmd/internal/osinfo/os_solaris.go was added
+  /usr/lib/go/src/cmd/internal/osinfo/os_syscall.go was added
+  /usr/lib/go/src/cmd/internal/osinfo/os_sysctl.go was added
+  /usr/lib/go/src/cmd/internal/osinfo/os_uname.go was added
+  /usr/lib/go/src/cmd/internal/osinfo/version_unix_test.go was added
+  /usr/lib/go/src/cmd/internal/par was added
+  /usr/lib/go/src/cmd/internal/par/queue.go was added
+  /usr/lib/go/src/cmd/internal/par/queue_test.go was added
+  /usr/lib/go/src/cmd/internal/par/work.go was added
+  /usr/lib/go/src/cmd/internal/par/work_test.go was added
+  /usr/lib/go/src/cmd/internal/pathcache was added
+  /usr/lib/go/src/cmd/internal/pathcache/lookpath.go was added
+  /usr/lib/go/src/cmd/internal/pgo was added
+  /usr/lib/go/src/cmd/internal/pgo/deserialize.go was added
+  /usr/lib/go/src/cmd/internal/pgo/pgo.go was added
+  /usr/lib/go/src/cmd/internal/pgo/pprof.go was added
+  /usr/lib/go/src/cmd/internal/pgo/serialize.go was added
+  /usr/lib/go/src/cmd/internal/pgo/serialize_test.go was added
+  /usr/lib/go/src/cmd/internal/robustio was added
+  /usr/lib/go/src/cmd/internal/robustio/robustio_darwin.go was added
+  /usr/lib/go/src/cmd/internal/robustio/robustio_flaky.go was added
+  /usr/lib/go/src/cmd/internal/robustio/robustio.go was added
+  /usr/lib/go/src/cmd/internal/robustio/robustio_other.go was added
+  /usr/lib/go/src/cmd/internal/robustio/robustio_windows.go was added
+  /usr/lib/go/src/cmd/internal/script was added
+  /usr/lib/go/src/cmd/internal/script/cmds.go was added
+  /usr/lib/go/src/cmd/internal/script/cmds_nonunix.go was added
+  /usr/lib/go/src/cmd/internal/script/cmds_unix.go was added
+  /usr/lib/go/src/cmd/internal/script/conds.go was added
+  /usr/lib/go/src/cmd/internal/script/engine.go was added
+  /usr/lib/go/src/cmd/internal/script/errors.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/conditions.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/doc.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/readme.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/run.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/scripttest.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/setup.go was added
+  /usr/lib/go/src/cmd/internal/script/state.go was added
+  /usr/lib/go/src/cmd/internal/sys/arch_test.go was added
+  /usr/lib/go/src/cmd/internal/telemetry was added
+  /usr/lib/go/src/cmd/internal/telemetry/counter was added
+  /usr/lib/go/src/cmd/internal/telemetry/counter/counter_bootstrap.go was added
+  /usr/lib/go/src/cmd/internal/telemetry/counter/counter.go was added
+  /usr/lib/go/src/cmd/internal/telemetry/telemetry_bootstrap.go was added
+  /usr/lib/go/src/cmd/internal/telemetry/telemetry.go was added
+  /usr/lib/go/src/cmd/link/internal/ld/fips140.go was added
+  /usr/lib/go/src/cmd/link/script_test.go was added
+  /usr/lib/go/src/cmd/preprofile was added
+  /usr/lib/go/src/cmd/preprofile/main.go was added
+  /usr/lib/go/src/cmd/relnote was added
+  /usr/lib/go/src/cmd/relnote/relnote_test.go was added
+  /usr/lib/go/src/cmd/trace/gen.go was added
+  /usr/lib/go/src/cmd/trace/goroutinegen.go was added
+  /usr/lib/go/src/cmd/trace/gstate.go was added
+  /usr/lib/go/src/cmd/trace/jsontrace.go was added
+  /usr/lib/go/src/cmd/trace/jsontrace_test.go was added
+  /usr/lib/go/src/cmd/trace/procgen.go was added
+  /usr/lib/go/src/cmd/trace/regions.go was added
+  /usr/lib/go/src/cmd/trace/tasks.go was added
+  /usr/lib/go/src/cmd/trace/threadgen.go was added
+  /usr/lib/go/src/cmd/trace/viewer.go was added
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/html/graph.css was added
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/svgpan/svgpan.js was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64 was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/arg.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/decode.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/gnu.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/inst.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/plan9x.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64 was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/arg.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/csr_string.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/decode.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/gnu.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/inst.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/plan9x.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/decode.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/field.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/gnu.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/inst.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/Makefile was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/plan9.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/LICENSE was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/PATENTS was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/dump.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/links.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/relnote.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/errgroup.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/go120.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/pre_go120.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/bpxsvc_zos.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/bpxsvc_zos.s was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/sockcmsg_zos.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/symaddr_zos_s390x.s was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/vgetrandom_linux.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/vgetrandom_unsupported.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/zsymaddr_zos_s390x.s was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/CONTRIBUTING.md was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/counter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest/countertest.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest/countertest_go121.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/doc.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/dir.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/doc.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.dockerignore was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.eslintrc.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.gitattributes was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.gitignore was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/config was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/config/config.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore/download.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore/download_windows.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/counter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/file.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/parse.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/stackcounter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor/crash_go123.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor/monitor.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_other.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_unix.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_windows.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/dateonly.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/dir.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/proginfo.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/types.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/date.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/Doc.txt was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/findwork.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/reports.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/run.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/upload.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/LICENSE was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/mode.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/npm was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/npx was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/package.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/package-lock.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/PATENTS was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.prettierrc.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/README.md was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start_posix.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start_windows.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.stylelintrc.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/tsconfig.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/types_alias.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/cases.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/context.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/fold.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/icu.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/info.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/map.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables10.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables11.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables12.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables13.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables15.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables9.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/trieval.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/internal.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/common.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/compact.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/language.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/parents.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/tags.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compose.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/coverage.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/language.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/lookup.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/match.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/parse.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/tags.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/match.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/tag was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/tag/tag.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/coverage.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/doc.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/language.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/match.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/parse.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/tags.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/LICENSE was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/PATENTS was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/transform was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/transform/transform.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/composition.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/forminfo.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/input.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/iter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/normalize.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/readwriter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables10.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables11.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables12.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables13.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables15.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables9.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/transform.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/trie.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/stdversion was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/stdversion/stdversion.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/inspector/iter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases/aliases.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases/aliases_go122.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib/manifest.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib/stdlib.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typeparams/free.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/element.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/errorcode.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/errorcode_string.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/recv.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/toonew.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/types.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/zerovalue.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/features.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/break.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/code.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/emoji.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/entity.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/heading.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/html.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/inline.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/LICENSE was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/link.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/list.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/para.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/parse.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/quote.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/README.md was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/table.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/tables.go was added
+  /usr/lib/go/src/crypto/aes/aes.go was added
+  /usr/lib/go/src/crypto/cipher/cbc_test.go was added
+  /usr/lib/go/src/crypto/cipher/modes_test.go was added
+  /usr/lib/go/src/crypto/fips140 was added
+  /usr/lib/go/src/crypto/fips140/fips140.go was added
+  /usr/lib/go/src/crypto/hkdf was added
+  /usr/lib/go/src/crypto/hkdf/example_test.go was added
+  /usr/lib/go/src/crypto/hkdf/hkdf.go was added
+  /usr/lib/go/src/crypto/hkdf/hkdf_test.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest was added
+  /usr/lib/go/src/crypto/internal/cryptotest/aead.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/allocations.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/block.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/blockmode.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/fetchmodule.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/hash.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/implementations.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/stream.go was added
+  /usr/lib/go/src/crypto/internal/entropy was added
+  /usr/lib/go/src/crypto/internal/entropy/entropy.go was added
+  /usr/lib/go/src/crypto/internal/fips140 was added
+  /usr/lib/go/src/crypto/internal/fips140/aes was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_generic.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/ctr was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/ctr/ctr_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/ctr/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/ctr/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/standard was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/standard/aes_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/standard/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/standard/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/cbc.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/cbc_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/cbc_ppc64x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/cbc_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/const.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_arm64_gen.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/_asm/gcm was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/_asm/gcm/gcm_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/_asm/gcm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/_asm/gcm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/cmac.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/ctrkdf.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_generic.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_nonces.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_ppc64x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/ghash.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/interface_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/interface_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/alias was added
+  /usr/lib/go/src/crypto/internal/fips140/alias/alias.go was added
+  /usr/lib/go/src/crypto/internal/fips140/asan.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/_asm/nat_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_386.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_arm.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_loong64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_riscv64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_wasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/boring.go was added
+  /usr/lib/go/src/crypto/internal/fips140/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/check was added
+  /usr/lib/go/src/crypto/internal/fips140/check/check.go was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_386.s was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_arm.s was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_none.go was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm.s was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_stub.go was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/test.go was added
+  /usr/lib/go/src/crypto/internal/fips140deps was added
+  /usr/lib/go/src/crypto/internal/fips140deps/byteorder was added
+  /usr/lib/go/src/crypto/internal/fips140deps/byteorder/byteorder.go was added
+  /usr/lib/go/src/crypto/internal/fips140deps/cpu was added
+  /usr/lib/go/src/crypto/internal/fips140deps/cpu/cpu.go was added
+  /usr/lib/go/src/crypto/internal/fips140deps/fipsdeps.go was added
+  /usr/lib/go/src/crypto/internal/fips140deps/fipsdeps_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140deps/godebug was added
+  /usr/lib/go/src/crypto/internal/fips140deps/godebug/godebug.go was added
+  /usr/lib/go/src/crypto/internal/fips140/drbg was added
+  /usr/lib/go/src/crypto/internal/fips140/drbg/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/drbg/ctrdrbg.go was added
+  /usr/lib/go/src/crypto/internal/fips140/drbg/rand.go was added
+  /usr/lib/go/src/crypto/internal/fips140/drbg/rand_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdh was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdh/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdh/ecdh.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdh/order_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/ecdsa.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/ecdsa_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/ecdsa_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/ecdsa_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/ecdsa_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/hmacdrbg.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ed25519 was added
+  /usr/lib/go/src/crypto/internal/fips140/ed25519/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ed25519/ed25519.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519 was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/doc.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/edwards25519.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/edwards25519_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/_asm/fe_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_alias_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_amd64_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_arm64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_arm64_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_bench_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_generic.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalar_alias_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalar_fiat.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalar.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalarmult.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalarmult_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalar_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/tables.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/tables_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/fips140.go was added
+  /usr/lib/go/src/crypto/internal/fips140hash was added
+  /usr/lib/go/src/crypto/internal/fips140/hash.go was added
+  /usr/lib/go/src/crypto/internal/fips140hash/hash.go was added
+  /usr/lib/go/src/crypto/internal/fips140/hkdf was added
+  /usr/lib/go/src/crypto/internal/fips140/hkdf/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/hkdf/hkdf.go was added
+  /usr/lib/go/src/crypto/internal/fips140/hmac was added
+  /usr/lib/go/src/crypto/internal/fips140/hmac/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/hmac/hmac.go was added
+  /usr/lib/go/src/crypto/internal/fips140/indicator.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/field.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/field_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/generate1024.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/mlkem1024.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/mlkem768.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/_asm/p256_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/benchmark_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/benchmark_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/Dockerfile was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/generate.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p224_fiat64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p224.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p224_invert.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p256_fiat64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p256.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p256_invert.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p384_fiat64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p384.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p384_invert.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p521_fiat64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p521.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p521_invert.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/README was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/generate.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/nistec.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p224.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p224_sqrt.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm_ppc64le.s was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_ordinv.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_ordinv_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_table.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_table_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p384.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p521.go was added
+  /usr/lib/go/src/crypto/internal/fips140/notasan.go was added
+  /usr/lib/go/src/crypto/internal/fips140/notboring.go was added
+  /usr/lib/go/src/crypto/internal/fips140only was added
+  /usr/lib/go/src/crypto/internal/fips140only/fips140only.go was added
+  /usr/lib/go/src/crypto/internal/fips140/pbkdf2 was added
+  /usr/lib/go/src/crypto/internal/fips140/pbkdf2/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/pbkdf2/pbkdf2.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/keygen.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/keygen_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/pkcs1v15.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/pkcs1v15_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/pkcs1v22.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/pkcs1v22_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/rsa.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256 was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm/sha256block_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm/sha256block_amd64_avx2.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm/sha256block_amd64_shani.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_386.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_arm64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_loong64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_ppc64x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_riscv64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3 was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/_asm/keccakf_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/hashes.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/keccakf.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/shake.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512 was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/_asm/sha512block_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_arm64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_loong64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_ppc64x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_riscv64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ssh was added
+  /usr/lib/go/src/crypto/internal/fips140/ssh/kdf.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/constant_time.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_arm64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_generic.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_loong64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_loong64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_ppc64x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140test was added
+  /usr/lib/go/src/crypto/internal/fips140test/acvp_capabilities.json was added
+  /usr/lib/go/src/crypto/internal/fips140test/acvp_test.config.json was added
+  /usr/lib/go/src/crypto/internal/fips140test/acvp_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/alias_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/cast_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/check_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/cmac_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/ctrdrbg_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/edwards25519_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/fips_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/indicator_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/nistec_ordinv_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/nistec_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/sshkdf_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/xaes_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/tls12 was added
+  /usr/lib/go/src/crypto/internal/fips140/tls12/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/tls12/tls12.go was added
+  /usr/lib/go/src/crypto/internal/fips140/tls13 was added
+  /usr/lib/go/src/crypto/internal/fips140/tls13/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/tls13/tls13.go was added
+  /usr/lib/go/src/crypto/internal/hpke was added
+  /usr/lib/go/src/crypto/internal/hpke/hpke.go was added
+  /usr/lib/go/src/crypto/internal/hpke/hpke_test.go was added
+  /usr/lib/go/src/crypto/internal/impl was added
+  /usr/lib/go/src/crypto/internal/impl/impl.go was added
+  /usr/lib/go/src/crypto/internal/sysrand was added
+  /usr/lib/go/src/crypto/internal/sysrand/internal was added
+  /usr/lib/go/src/crypto/internal/sysrand/internal/seccomp was added
+  /usr/lib/go/src/crypto/internal/sysrand/internal/seccomp/seccomp_linux.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/internal/seccomp/seccomp_unsupported.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_aix.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_arc4random.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_getrandom.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_js.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_linux_test.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_netbsd.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_plan9.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_test.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_wasip1.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_windows.go was added
+  /usr/lib/go/src/crypto/md5/_asm was added
+  /usr/lib/go/src/crypto/md5/_asm/go.mod was added
+  /usr/lib/go/src/crypto/md5/_asm/go.sum was added
+  /usr/lib/go/src/crypto/md5/_asm/md5block_amd64_asm.go was added
+  /usr/lib/go/src/crypto/md5/md5block_loong64.s was added
+  /usr/lib/go/src/crypto/md5/md5block_riscv64.s was added
+  /usr/lib/go/src/crypto/mlkem was added
+  /usr/lib/go/src/crypto/mlkem/example_test.go was added
+  /usr/lib/go/src/crypto/mlkem/mlkem.go was added
+  /usr/lib/go/src/crypto/mlkem/mlkem_test.go was added
+  /usr/lib/go/src/crypto/pbkdf2 was added
+  /usr/lib/go/src/crypto/pbkdf2/pbkdf2.go was added
+  /usr/lib/go/src/crypto/pbkdf2/pbkdf2_test.go was added
+  /usr/lib/go/src/crypto/purego_test.go was added
+  /usr/lib/go/src/crypto/rand/text.go was added
+  /usr/lib/go/src/crypto/rand/text_test.go was added
+  /usr/lib/go/src/crypto/rsa/fips.go was added
+  /usr/lib/go/src/crypto/sha1/_asm was added
+  /usr/lib/go/src/crypto/sha1/_asm/go.mod was added
+  /usr/lib/go/src/crypto/sha1/_asm/go.sum was added
+  /usr/lib/go/src/crypto/sha1/_asm/sha1block_amd64_asm.go was added
+  /usr/lib/go/src/crypto/sha1/sha1block_loong64.s was added
+  /usr/lib/go/src/crypto/sha3 was added
+  /usr/lib/go/src/crypto/sha3/sha3.go was added
+  /usr/lib/go/src/crypto/sha3/sha3_test.go was added
+  /usr/lib/go/src/crypto/subtle/dit.go was added
+  /usr/lib/go/src/crypto/subtle/dit_test.go was added
+  /usr/lib/go/src/crypto/subtle/xor_linux_test.go was added
+  /usr/lib/go/src/crypto/tls/bogo_config.json was added
+  /usr/lib/go/src/crypto/tls/bogo_shim_test.go was added
+  /usr/lib/go/src/crypto/tls/defaults.go was added
+  /usr/lib/go/src/crypto/tls/ech.go was added
+  /usr/lib/go/src/crypto/tls/ech_test.go was added
+  /usr/lib/go/src/crypto/tls/fips_test.go was added
+  /usr/lib/go/src/crypto/tls/internal was added
+  /usr/lib/go/src/crypto/tls/internal/fips140tls was added
+  /usr/lib/go/src/crypto/tls/internal/fips140tls/fipstls.go was added
+  /usr/lib/go/src/crypto/x509/pkits_test.go was added
+  /usr/lib/go/src/debug/buildinfo/search_test.go was added
+  /usr/lib/go/src/encoding/csv/fuzz_test.go was added
+  /usr/lib/go/src/flag/example_flagset_test.go was added
+  /usr/lib/go/src/go/ast/internal was added
+  /usr/lib/go/src/go/ast/internal/tests was added
+  /usr/lib/go/src/go/ast/internal/tests/sortimports_test.go was added
+  /usr/lib/go/src/go/ast/walk_test.go was added
+  /usr/lib/go/src/go/build/vendor_test.go was added
+  /usr/lib/go/src/go/types/badlinkname.go was added
+  /usr/lib/go/src/go/types/errsupport.go was added
+  /usr/lib/go/src/go/types/format.go was added
+  /usr/lib/go/src/go/types/iter.go was added
+  /usr/lib/go/src/go/types/literals.go was added
+  /usr/lib/go/src/go/types/README.md was added
+  /usr/lib/go/src/go/types/recording.go was added
+  /usr/lib/go/src/go/types/scope2.go was added
+  /usr/lib/go/src/go/types/scope2_test.go was added
+  /usr/lib/go/src/hash/crc32/crc32_loong64.go was added
+  /usr/lib/go/src/hash/crc32/crc32_loong64.s was added
+  /usr/lib/go/src/hash/crc32/gen.go was added
+  /usr/lib/go/src/internal/abi/escape.go was added
+  /usr/lib/go/src/internal/abi/iface.go was added
+  /usr/lib/go/src/internal/abi/map_noswiss.go was added
+  /usr/lib/go/src/internal/abi/map_select_noswiss.go was added
+  /usr/lib/go/src/internal/abi/map_select_swiss.go was added
+  /usr/lib/go/src/internal/abi/map_swiss.go was added
+  /usr/lib/go/src/internal/abi/rangefuncconsts.go was added
+  /usr/lib/go/src/internal/abi/runtime.go was added
+  /usr/lib/go/src/internal/asan was added
+  /usr/lib/go/src/internal/asan/asan.go was added
+  /usr/lib/go/src/internal/asan/doc.go was added
+  /usr/lib/go/src/internal/asan/noasan.go was added
+  /usr/lib/go/src/internal/byteorder was added
+  /usr/lib/go/src/internal/byteorder/byteorder.go was added
+  /usr/lib/go/src/internal/copyright was added
+  /usr/lib/go/src/internal/copyright/copyright_test.go was added
+  /usr/lib/go/src/internal/coverage/cfile was added
+  /usr/lib/go/src/internal/coverage/cfile/apis.go was added
+  /usr/lib/go/src/internal/coverage/cfile/emitdata_test.go was added
+  /usr/lib/go/src/internal/coverage/cfile/emit.go was added
+  /usr/lib/go/src/internal/coverage/cfile/hooks.go was added
+  /usr/lib/go/src/internal/coverage/cfile/snapshot_test.go was added
+  /usr/lib/go/src/internal/coverage/cfile/testsupport.go was added
+  /usr/lib/go/src/internal/coverage/cfile/ts_test.go was added
+  /usr/lib/go/src/internal/cpu/cpu_loong64_hwcap.go was added
+  /usr/lib/go/src/internal/cpu/cpu_loong64_linux.go was added
+  /usr/lib/go/src/internal/cpu/cpu_loong64.s was added
+  /usr/lib/go/src/internal/exportdata was added
+  /usr/lib/go/src/internal/exportdata/exportdata.go was added
+  /usr/lib/go/src/internal/exportdata/support.go was added
+  /usr/lib/go/src/internal/filepathlite was added
+  /usr/lib/go/src/internal/filepathlite/path.go was added
+  /usr/lib/go/src/internal/filepathlite/path_nonwindows.go was added
+  /usr/lib/go/src/internal/filepathlite/path_plan9.go was added
+  /usr/lib/go/src/internal/filepathlite/path_unix.go was added
+  /usr/lib/go/src/internal/filepathlite/path_windows.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_aliastypeparams_off.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_aliastypeparams_on.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_spinbitmutex_off.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_spinbitmutex_on.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_swissmap_off.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_swissmap_on.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_synchashtriemap_off.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_synchashtriemap_on.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_synctest_off.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_synctest_on.go was added
+  /usr/lib/go/src/internal/msan was added
+  /usr/lib/go/src/internal/msan/doc.go was added
+  /usr/lib/go/src/internal/msan/msan.go was added
+  /usr/lib/go/src/internal/msan/nomsan.go was added
+  /usr/lib/go/src/internal/pkgbits/pkgbits_test.go was added
+  /usr/lib/go/src/internal/pkgbits/version.go was added
+  /usr/lib/go/src/internal/poll/copy_file_range_freebsd.go was added
+  /usr/lib/go/src/internal/poll/copy_file_range_unix.go was added
+  /usr/lib/go/src/internal/poll/sendfile.go was added
+  /usr/lib/go/src/internal/poll/sendfile_unix.go was added
+  /usr/lib/go/src/internal/poll/sock_cloexec_solaris.go was added
+  /usr/lib/go/src/internal/profile/graph.go was added
+  /usr/lib/go/src/internal/profilerecord was added
+  /usr/lib/go/src/internal/profilerecord/profilerecord.go was added
+  /usr/lib/go/src/internal/runtime was added
+  /usr/lib/go/src/internal/runtime/atomic was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_386.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_386.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_amd64.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_amd64.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_andor_generic.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_andor_test.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_arm64.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_arm64.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_arm.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_arm.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_loong64.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_loong64.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_mips64x.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_mips64x.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_mipsx.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_mipsx.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_ppc64x.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_ppc64x.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_riscv64.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_riscv64.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_s390x.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_s390x.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_test.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_wasm.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_wasm.s was added
+  /usr/lib/go/src/internal/runtime/atomic/bench_test.go was added
+  /usr/lib/go/src/internal/runtime/atomic/doc.go was added
+  /usr/lib/go/src/internal/runtime/atomic/stubs.go was added
+  /usr/lib/go/src/internal/runtime/atomic/sys_linux_arm.s was added
+  /usr/lib/go/src/internal/runtime/atomic/sys_nonlinux_arm.s was added
+  /usr/lib/go/src/internal/runtime/atomic/types_64bit.go was added
+  /usr/lib/go/src/internal/runtime/atomic/types.go was added
+  /usr/lib/go/src/internal/runtime/atomic/unaligned.go was added
+  /usr/lib/go/src/internal/runtime/atomic/xchg8_test.go was added
+  /usr/lib/go/src/internal/runtime/exithook was added
+  /usr/lib/go/src/internal/runtime/exithook/hooks.go was added
+  /usr/lib/go/src/internal/runtime/maps was added
+  /usr/lib/go/src/internal/runtime/maps/export_noswiss_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/export_swiss_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/export_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/fuzz_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/group.go was added
+  /usr/lib/go/src/internal/runtime/maps/map.go was added
+  /usr/lib/go/src/internal/runtime/maps/map_swiss_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/map_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime_fast32_swiss.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime_fast64_swiss.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime_faststr_swiss.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime_noswiss.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime_swiss.go was added
+  /usr/lib/go/src/internal/runtime/maps/table_debug.go was added
+  /usr/lib/go/src/internal/runtime/maps/table.go was added
+  /usr/lib/go/src/internal/runtime/math was added
+  /usr/lib/go/src/internal/runtime/math/math.go was added
+  /usr/lib/go/src/internal/runtime/math/math_test.go was added
+  /usr/lib/go/src/internal/runtime/sys was added
+  /usr/lib/go/src/internal/runtime/syscall was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_386.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_amd64.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_arm64.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_arm.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_loong64.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_mips64x.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_mipsx.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_ppc64x.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_riscv64.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_s390x.s was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_386.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_amd64.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_arm64.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_arm.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_loong64.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_mips64x.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_mipsx.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_ppc64x.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_riscv64.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_s390x.go was added
+  /usr/lib/go/src/internal/runtime/syscall/syscall_linux.go was added
+  /usr/lib/go/src/internal/runtime/syscall/syscall_linux_test.go was added
+  /usr/lib/go/src/internal/runtime/sys/consts.go was added
+  /usr/lib/go/src/internal/runtime/sys/consts_norace.go was added
+  /usr/lib/go/src/internal/runtime/sys/consts_race.go was added
+  /usr/lib/go/src/internal/runtime/sys/dit_arm64.go was added
+  /usr/lib/go/src/internal/runtime/sys/dit_arm64.s was added
+  /usr/lib/go/src/internal/runtime/sys/empty.s was added
+  /usr/lib/go/src/internal/runtime/sys/intrinsics.go was added
+  /usr/lib/go/src/internal/runtime/sys/intrinsics_test.go was added
+  /usr/lib/go/src/internal/runtime/sys/nih.go was added
+  /usr/lib/go/src/internal/runtime/sys/no_dit.go was added
+  /usr/lib/go/src/internal/runtime/sys/sys.go was added
+  /usr/lib/go/src/internal/runtime/sys/zversion.go was added
+  /usr/lib/go/src/internal/stringslite was added
+  /usr/lib/go/src/internal/stringslite/strings.go was added
+  /usr/lib/go/src/internal/sync was added
+  /usr/lib/go/src/internal/sync/export_test.go was added
+  /usr/lib/go/src/internal/sync/hashtriemap_bench_test.go was added
+  /usr/lib/go/src/internal/sync/hashtriemap.go was added
+  /usr/lib/go/src/internal/sync/hashtriemap_test.go was added
+  /usr/lib/go/src/internal/sync/mutex.go was added
+  /usr/lib/go/src/internal/sync/runtime.go was added
+  /usr/lib/go/src/internal/synctest was added
+  /usr/lib/go/src/internal/synctest/synctest.go was added
+  /usr/lib/go/src/internal/synctest/synctest_test.go was added
+  /usr/lib/go/src/internal/syscall/unix/arandom_netbsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/arc4random_darwin.go was added
+  /usr/lib/go/src/internal/syscall/unix/arc4random_openbsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/asm_openbsd.s was added
+  /usr/lib/go/src/internal/syscall/unix/at_darwin.go was added
+  /usr/lib/go/src/internal/syscall/unix/at_openbsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/copy_file_range_unix.go was added
+  /usr/lib/go/src/internal/syscall/unix/eaccess.go was added
+  /usr/lib/go/src/internal/syscall/unix/faccessat_bsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/faccessat_darwin.go was added
+  /usr/lib/go/src/internal/syscall/unix/faccessat_openbsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/faccessat_solaris.go was added
+  /usr/lib/go/src/internal/syscall/unix/faccessat_syscall.go was added
+  /usr/lib/go/src/internal/syscall/unix/getrandom_linux_test.go was added
+  /usr/lib/go/src/internal/syscall/unix/kernel_version_freebsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/kernel_version_freebsd_test.go was added
+  /usr/lib/go/src/internal/syscall/unix/kernel_version_solaris.go was added
+  /usr/lib/go/src/internal/syscall/unix/kernel_version_solaris_test.go was added
+  /usr/lib/go/src/internal/syscall/unix/nofollow_bsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/nofollow_netbsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/nofollow_posix.go was added
+  /usr/lib/go/src/internal/syscall/unix/siginfo_linux.go was added
+  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_mipsx.go was added
+  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_other.go was added
+  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_test.go was added
+  /usr/lib/go/src/internal/syscall/unix/syscall.go was added
+  /usr/lib/go/src/internal/syscall/unix/sysnum_freebsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/tcsetpgrp_bsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/tcsetpgrp_linux.go was added
+  /usr/lib/go/src/internal/syscall/unix/waitid_linux.go was added
+  /usr/lib/go/src/internal/syscall/windows/at_windows.go was added
+  /usr/lib/go/src/internal/syscall/windows/at_windows_test.go was added
+  /usr/lib/go/src/internal/syscall/windows/string_windows.go was added
+  /usr/lib/go/src/internal/syscall/windows/types_windows.go was added
+  /usr/lib/go/src/internal/syscall/windows/version_windows.go was added
+  /usr/lib/go/src/internal/syscall/windows/version_windows_test.go was added
+  /usr/lib/go/src/internal/sysinfo/cpuinfo_bsd.go was added
+  /usr/lib/go/src/internal/sysinfo/export_test.go was added
+  /usr/lib/go/src/internal/sysinfo/sysinfo_test.go was added
+  /usr/lib/go/src/internal/syslist was added
+  /usr/lib/go/src/internal/syslist/syslist.go was added
+  /usr/lib/go/src/internal/trace/base.go was added
+  /usr/lib/go/src/internal/trace/batchcursor.go was added
+  /usr/lib/go/src/internal/trace/batchcursor_test.go was added
+  /usr/lib/go/src/internal/trace/batch.go was added
+  /usr/lib/go/src/internal/trace/event was added
+  /usr/lib/go/src/internal/trace/event/event.go was added
+  /usr/lib/go/src/internal/trace/event.go was added
+  /usr/lib/go/src/internal/trace/event/go122 was added
+  /usr/lib/go/src/internal/trace/event/go122/event.go was added
+  /usr/lib/go/src/internal/trace/event/requirements.go was added
+  /usr/lib/go/src/internal/trace/event_test.go was added
+  /usr/lib/go/src/internal/trace/export_test.go was added
+  /usr/lib/go/src/internal/trace/generation.go was added
+  /usr/lib/go/src/internal/trace/internal was added
+  /usr/lib/go/src/internal/trace/internal/oldtrace was added
+  /usr/lib/go/src/internal/trace/internal/oldtrace/order.go was added
+  /usr/lib/go/src/internal/trace/internal/oldtrace/parser.go was added
+  /usr/lib/go/src/internal/trace/internal/oldtrace/parser_test.go was added
+  /usr/lib/go/src/internal/trace/internal/testgen was added
+  /usr/lib/go/src/internal/trace/internal/testgen/go122 was added
+  /usr/lib/go/src/internal/trace/internal/testgen/go122/trace.go was added
+  /usr/lib/go/src/internal/trace/oldtrace.go was added
+  /usr/lib/go/src/internal/trace/oldtrace_test.go was added
+  /usr/lib/go/src/internal/trace/order_test.go was added
+  /usr/lib/go/src/internal/trace/raw was added
+  /usr/lib/go/src/internal/trace/raw/doc.go was added
+  /usr/lib/go/src/internal/trace/raw/event.go was added
+  /usr/lib/go/src/internal/trace/raw/reader.go was added
+  /usr/lib/go/src/internal/trace/raw/textreader.go was added
+  /usr/lib/go/src/internal/trace/raw/textwriter.go was added
+  /usr/lib/go/src/internal/trace/raw/writer.go was added
+  /usr/lib/go/src/internal/trace/reader.go was added
+  /usr/lib/go/src/internal/trace/reader_test.go was added
+  /usr/lib/go/src/internal/trace/resources.go was added
+  /usr/lib/go/src/internal/trace/testtrace was added
+  /usr/lib/go/src/internal/trace/testtrace/expectation.go was added
+  /usr/lib/go/src/internal/trace/testtrace/format.go was added
+  /usr/lib/go/src/internal/trace/testtrace/validation.go was added
+  /usr/lib/go/src/internal/trace/trace_test.go was added
+  /usr/lib/go/src/internal/trace/value.go was added
+  /usr/lib/go/src/internal/trace/version was added
+  /usr/lib/go/src/internal/trace/version/version.go was added
+  /usr/lib/go/src/log/slog/example_discard_test.go was added
+  /usr/lib/go/src/maps/iter.go was added
+  /usr/lib/go/src/maps/iter_test.go was added
+  /usr/lib/go/src/math/dim_loong64.s was added
+  /usr/lib/go/src/math/floor_loong64.s was added
+  /usr/lib/go/src/math/floor_riscv64.s was added
+  /usr/lib/go/src/net/http/async_test.go was added
+  /usr/lib/go/src/net/http/netconn_test.go was added
+  /usr/lib/go/src/net/http/transport_dial_test.go was added
+  /usr/lib/go/src/net/internal/cgotest was added
+  /usr/lib/go/src/net/internal/cgotest/empty_test.go was added
+  /usr/lib/go/src/net/internal/cgotest/resstate.go was added
+  /usr/lib/go/src/net/sendfile_unix_test.go was added
+  /usr/lib/go/src/net/sock_cloexec_solaris.go was added
+  /usr/lib/go/src/net/splice_linux_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_conf_darwin_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_conf_posix_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_conf_solaris_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_conf_unix_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_conf_windows_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_illumos_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_posix_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_solaris_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_test.go was added
+  /usr/lib/go/src/net/tcpsock_solaris.go was added
+  /usr/lib/go/src/net/tcpsock_unix.go was added
+  /usr/lib/go/src/net/tcpsock_windows.go was added
+  /usr/lib/go/src/os/copy_test.go was added
+  /usr/lib/go/src/os/eloop_netbsd.go was added
+  /usr/lib/go/src/os/eloop_other.go was added
+  /usr/lib/go/src/os/exec_linux.go was added
+  /usr/lib/go/src/os/exec_nohandle.go was added
+  /usr/lib/go/src/os/exec_test.go was added
+  /usr/lib/go/src/os/executable_netbsd.go was added
+  /usr/lib/go/src/os/export_freebsd_test.go was added
+  /usr/lib/go/src/os/getwd_unix_test.go was added
+  /usr/lib/go/src/os/pidfd_linux.go was added
+  /usr/lib/go/src/os/pidfd_linux_test.go was added
+  /usr/lib/go/src/os/pidfd_other.go was added
+  /usr/lib/go/src/os/readfrom_freebsd_test.go was added
+  /usr/lib/go/src/os/readfrom_sendfile_test.go was added
+  /usr/lib/go/src/os/readfrom_solaris_test.go was added
+  /usr/lib/go/src/os/readfrom_unix_test.go was added
+  /usr/lib/go/src/os/root.go was added
+  /usr/lib/go/src/os/root_js.go was added
+  /usr/lib/go/src/os/root_nonwindows.go was added
+  /usr/lib/go/src/os/root_noopenat.go was added
+  /usr/lib/go/src/os/root_openat.go was added
+  /usr/lib/go/src/os/root_plan9.go was added
+  /usr/lib/go/src/os/root_test.go was added
+  /usr/lib/go/src/os/root_unix.go was added
+  /usr/lib/go/src/os/root_windows.go was added
+  /usr/lib/go/src/os/root_windows_test.go was added
+  /usr/lib/go/src/os/user/user_windows_test.go was added
+  /usr/lib/go/src/os/zero_copy_freebsd.go was added
+  /usr/lib/go/src/os/zero_copy_posix.go was added
+  /usr/lib/go/src/os/zero_copy_solaris.go was added
+  /usr/lib/go/src/reflect/badlinkname.go was added
+  /usr/lib/go/src/reflect/export_noswiss_test.go was added
+  /usr/lib/go/src/reflect/export_swiss_test.go was added
+  /usr/lib/go/src/reflect/iter.go was added
+  /usr/lib/go/src/reflect/iter_test.go was added
+  /usr/lib/go/src/reflect/map_noswiss.go was added
+  /usr/lib/go/src/reflect/map_noswiss_test.go was added
+  /usr/lib/go/src/reflect/map_swiss.go was added
+  /usr/lib/go/src/reflect/map_swiss_test.go was added
+  /usr/lib/go/src/runtime/asm_riscv64.h was added
+  /usr/lib/go/src/runtime/badlinkname.go was added
+  /usr/lib/go/src/runtime/badlinkname_linux.go was added
+  /usr/lib/go/src/runtime/bitcursor_test.go was added
+  /usr/lib/go/src/runtime/coro_test.go was added
+  /usr/lib/go/src/runtime/coverage/coverage.go was added
+  /usr/lib/go/src/runtime/debug/example_monitor_test.go was added
+  /usr/lib/go/src/runtime/export_debug_loong64_test.go was added
+  /usr/lib/go/src/runtime/export_map_noswiss_test.go was added
+  /usr/lib/go/src/runtime/export_map_swiss_test.go was added
+  /usr/lib/go/src/runtime/ints.s was added
+  /usr/lib/go/src/runtime/linkname.go was added
+  /usr/lib/go/src/runtime/linkname_swiss.go was added
+  /usr/lib/go/src/runtime/linkname_unix.go was added
+  /usr/lib/go/src/runtime/lock_futex_tristate.go was added
+  /usr/lib/go/src/runtime/lock_sema_tristate.go was added
+  /usr/lib/go/src/runtime/lock_spinbit.go was added
+  /usr/lib/go/src/runtime/map_fast32_noswiss.go was added
+  /usr/lib/go/src/runtime/map_fast32_swiss.go was added
+  /usr/lib/go/src/runtime/map_fast64_noswiss.go was added
+  /usr/lib/go/src/runtime/map_fast64_swiss.go was added
+  /usr/lib/go/src/runtime/map_faststr_noswiss.go was added
+  /usr/lib/go/src/runtime/map_faststr_swiss.go was added
+  /usr/lib/go/src/runtime/map_noswiss.go was added
+  /usr/lib/go/src/runtime/map_noswiss_test.go was added
+  /usr/lib/go/src/runtime/map_swiss.go was added
+  /usr/lib/go/src/runtime/map_swiss_test.go was added
+  /usr/lib/go/src/runtime/mcleanup.go was added
+  /usr/lib/go/src/runtime/mcleanup_test.go was added
+  /usr/lib/go/src/runtime/mem_nonsbrk.go was added
+  /usr/lib/go/src/runtime/msize.go was added
+  /usr/lib/go/src/runtime/netpoll_kqueue_event.go was added
+  /usr/lib/go/src/runtime/netpoll_kqueue_pipe.go was added
+  /usr/lib/go/src/runtime/nosan_linux_test.go was added
+  /usr/lib/go/src/runtime/note_js.go was added
+  /usr/lib/go/src/runtime/note_other.go was added
+  /usr/lib/go/src/runtime/stubs_nonwasm.go was added
+  /usr/lib/go/src/runtime/stubs_wasm.go was added
+  /usr/lib/go/src/runtime/synctest.go was added
+  /usr/lib/go/src/runtime/synctest_test.go was added
+  /usr/lib/go/src/runtime/trace2map_test.go was added
+  /usr/lib/go/src/runtime/traceallocfree.go was added
+  /usr/lib/go/src/runtime/traceback_system_test.go was added
+  /usr/lib/go/src/runtime/tracebuf.go was added
+  /usr/lib/go/src/runtime/tracecpu.go was added
+  /usr/lib/go/src/runtime/traceevent.go was added
+  /usr/lib/go/src/runtime/traceexp.go was added
+  /usr/lib/go/src/runtime/tracemap.go was added
+  /usr/lib/go/src/runtime/traceregion.go was added
+  /usr/lib/go/src/runtime/traceruntime.go was added
+  /usr/lib/go/src/runtime/tracestack.go was added
+  /usr/lib/go/src/runtime/tracestatus.go was added
+  /usr/lib/go/src/runtime/tracestring.go was added
+  /usr/lib/go/src/runtime/tracetime.go was added
+  /usr/lib/go/src/runtime/tracetype.go was added
+  /usr/lib/go/src/runtime/vgetrandom_linux.go was added
+  /usr/lib/go/src/runtime/vgetrandom_unsupported.go was added
+  /usr/lib/go/src/slices/iter.go was added
+  /usr/lib/go/src/slices/iter_test.go was added
+  /usr/lib/go/src/strings/iter.go was added
+  /usr/lib/go/src/structs was added
+  /usr/lib/go/src/structs/doc.go was added
+  /usr/lib/go/src/structs/hostlayout.go was added
+  /usr/lib/go/src/sync/atomic/doc_32.go was added
+  /usr/lib/go/src/sync/atomic/doc_64.go was added
+  /usr/lib/go/src/sync/hashtriemap.go was added
+  /usr/lib/go/src/syscall/badlinkname_unix.go was added
+  /usr/lib/go/src/syscall/export_bsd_test.go was added
+  /usr/lib/go/src/syscall/linkname_bsd.go was added
+  /usr/lib/go/src/syscall/linkname_darwin.go was added
+  /usr/lib/go/src/syscall/linkname_libc.go was added
+  /usr/lib/go/src/syscall/linkname_openbsd.go was added
+  /usr/lib/go/src/syscall/linkname_unix.go was added
+  /usr/lib/go/src/testing/example_loop_test.go was added
+  /usr/lib/go/src/testing/loop_test.go was added
+  /usr/lib/go/src/testing/synctest was added
+  /usr/lib/go/src/testing/synctest/context_example_test.go was added
+  /usr/lib/go/src/testing/synctest/synctest.go was added
+  /usr/lib/go/src/testing/testing_windows_test.go was added
+  /usr/lib/go/src/time/abs_test.go was added
+  /usr/lib/go/src/time/linkname_test.go was added
+  /usr/lib/go/src/unique was added
+  /usr/lib/go/src/unique/clone.go was added
+  /usr/lib/go/src/unique/clone_test.go was added
+  /usr/lib/go/src/unique/doc.go was added
+  /usr/lib/go/src/unique/handle_bench_test.go was added
+  /usr/lib/go/src/unique/handle.go was added
+  /usr/lib/go/src/unique/handle_test.go was added
+  /usr/lib/go/src/vendor/golang.org/x/crypto/chacha20/chacha_ppc64x.go was added
+  /usr/lib/go/src/vendor/golang.org/x/crypto/chacha20/chacha_ppc64x.s was added
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/sum_ppc64x.go was added
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/sum_ppc64x.s was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/asm_darwin_x86_gc.s was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/cpu_darwin_x86.go was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/cpu_gc_x86.s was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/cpu_linux_riscv64.go was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/cpu_other_x86.go was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/syscall_darwin_x86_gc.go was added
+  /usr/lib/go/src/weak was added
+  /usr/lib/go/src/weak/doc.go was added
+  /usr/lib/go/src/weak/pointer.go was added
+  /usr/lib/go/src/weak/pointer_test.go was added
+  /usr/lib/go/test/codegen/atomics.go was added
+  /usr/lib/go/test/codegen/issue59297.go was added
+  /usr/lib/go/test/codegen/issue66585.go was added
+  /usr/lib/go/test/codegen/issue68845.go was added
+  /usr/lib/go/test/codegen/issue69635.go was added
+  /usr/lib/go/test/codegen/spills.go was added
+  /usr/lib/go/test/codegen/typeswitch.go was added
+  /usr/lib/go/test/codegen/unsafe.go was added
+  /usr/lib/go/test/fixedbugs/issue16241_64.go was added
+  /usr/lib/go/test/fixedbugs/issue16241.go was added
+  /usr/lib/go/test/fixedbugs/issue20027.go was added
+  /usr/lib/go/test/fixedbugs/issue24755.go was added
+  /usr/lib/go/test/fixedbugs/issue54542.go was added
+  /usr/lib/go/test/fixedbugs/issue65362.go was added
+  /usr/lib/go/test/fixedbugs/issue65417.go was added
+  /usr/lib/go/test/fixedbugs/issue65778.go was added
+  /usr/lib/go/test/fixedbugs/issue65893.go was added
+  /usr/lib/go/test/fixedbugs/issue65962.go was added
+  /usr/lib/go/test/fixedbugs/issue66261.go was added
+  /usr/lib/go/test/fixedbugs/issue66585.go was added
+  /usr/lib/go/test/fixedbugs/issue66663.go was added
+  /usr/lib/go/test/fixedbugs/issue66873.go was added
+  /usr/lib/go/test/fixedbugs/issue67190.go was added
+  /usr/lib/go/test/fixedbugs/issue67329.go was added
+  /usr/lib/go/test/fixedbugs/issue68054.go was added
+  /usr/lib/go/test/fixedbugs/issue68264.go was added
+  /usr/lib/go/test/fixedbugs/issue68292.go was added
+  /usr/lib/go/test/fixedbugs/issue68322.go was added
+  /usr/lib/go/test/fixedbugs/issue68415.go was added
+  /usr/lib/go/test/fixedbugs/issue68525.go was added
+  /usr/lib/go/test/fixedbugs/issue68526.dir was added
+  /usr/lib/go/test/fixedbugs/issue68526.dir/a was added
+  /usr/lib/go/test/fixedbugs/issue68526.dir/a/a.go was added
+  /usr/lib/go/test/fixedbugs/issue68526.dir/main.go was added
+  /usr/lib/go/test/fixedbugs/issue68526.go was added
+  /usr/lib/go/test/fixedbugs/issue68580.go was added
+  /usr/lib/go/test/fixedbugs/issue68734.go was added
+  /usr/lib/go/test/fixedbugs/issue68809.go was added
+  /usr/lib/go/test/fixedbugs/issue68816.go was added
+  /usr/lib/go/test/fixedbugs/issue69434.go was added
+  /usr/lib/go/test/fixedbugs/issue69507.go was added
+  /usr/lib/go/test/fixedbugs/issue69825.go was added
+  /usr/lib/go/test/fixedbugs/issue70156.go was added
+  /usr/lib/go/test/fixedbugs/issue70175.go was added
+  /usr/lib/go/test/fixedbugs/issue70189.go was added
+  /usr/lib/go/test/fixedbugs/issue70481.go was added
+  /usr/lib/go/test/fixedbugs/issue70481.out was added
+  /usr/lib/go/test/inline_testingbloop.go was added
+  /usr/lib/go/test/internal was added
+  /usr/lib/go/test/internal/runtime was added
+  /usr/lib/go/test/internal/runtime/sys was added
+  /usr/lib/go/test/internal/runtime/sys/inlinegcpc.go was added
+  /usr/lib/go/test/internal/runtime/sys/README was added
+  /usr/lib/go/test/linknameasm.dir was added
+  /usr/lib/go/test/linknameasm.dir/a_amd64.s was added
+  /usr/lib/go/test/linknameasm.dir/x.go was added
+  /usr/lib/go/test/linknameasm.go was added
+  /usr/lib/go/test/tailcall.go was added
+  /usr/lib/go/test/wasmexport2.go was added
+  /usr/lib/go/test/wasmexport.go was added
+  /usr/lib/go/test/wasmmemsize.dir was added
+  /usr/lib/go/test/wasmmemsize.dir/asm_wasm.s was added
+  /usr/lib/go/test/wasmmemsize.dir/main.go was added
+  /usr/lib/go/test/wasmmemsize.go was added
+  /usr/lib/go/test/weak.go was added
+  /usr/lib/go/misc/wasm/go_js_wasm_exec was removed
+  /usr/lib/go/misc/wasm/go_wasip1_wasm_exec was removed
+  /usr/lib/go/misc/wasm/wasm_exec.js was removed
+  /usr/lib/go/misc/wasm/wasm_exec_node.js was removed
+  /usr/lib/go/src/cmd/compile/internal/importer/exportdata.go was removed
+  /usr/lib/go/src/cmd/compile/internal/importer/iimport.go was removed
+  /usr/lib/go/src/cmd/compile/internal/noder/stencil.go was removed
+  /usr/lib/go/src/cmd/compile/internal/noder/stmt.go was removed
+  /usr/lib/go/src/cmd/compile/internal/pgo was removed
+  /usr/lib/go/src/cmd/compile/internal/pgo/internal was removed
+  /usr/lib/go/src/cmd/compile/internal/pgo/internal/graph was removed
+  /usr/lib/go/src/cmd/compile/internal/pgo/internal/graph/graph.go was removed
+  /usr/lib/go/src/cmd/compile/internal/pgo/irgraph.go was removed
+  /usr/lib/go/src/cmd/compile/internal/ssa/phielim.go was removed
+  /usr/lib/go/src/cmd/compile/internal/types/sort.go was removed
+  /usr/lib/go/src/cmd/go/internal/cfg/lookpath.go was removed
+  /usr/lib/go/src/cmd/go/internal/modindex/syslist.go was removed
+  /usr/lib/go/src/cmd/go/internal/par was removed
+  /usr/lib/go/src/cmd/go/internal/par/queue.go was removed
+  /usr/lib/go/src/cmd/go/internal/par/queue_test.go was removed
+  /usr/lib/go/src/cmd/go/internal/par/work.go was removed
+  /usr/lib/go/src/cmd/go/internal/par/work_test.go was removed
+  /usr/lib/go/src/cmd/go/internal/robustio was removed
+  /usr/lib/go/src/cmd/go/internal/robustio/robustio_darwin.go was removed
+  /usr/lib/go/src/cmd/go/internal/robustio/robustio_flaky.go was removed
+  /usr/lib/go/src/cmd/go/internal/robustio/robustio.go was removed
+  /usr/lib/go/src/cmd/go/internal/robustio/robustio_other.go was removed
+  /usr/lib/go/src/cmd/go/internal/robustio/robustio_windows.go was removed
+  /usr/lib/go/src/cmd/go/internal/script was removed
+  /usr/lib/go/src/cmd/go/internal/script/cmds.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/cmds_other.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/cmds_posix.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/conds.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/engine.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/errors.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/scripttest was removed
+  /usr/lib/go/src/cmd/go/internal/script/scripttest/scripttest.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/state.go was removed
+  /usr/lib/go/src/cmd/go/internal/test/test_nonunix.go was removed
+  /usr/lib/go/src/cmd/go/internal/test/test_unix.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256 was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_386.s was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_amd64.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_amd64.s was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_decl.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_generic.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_ppc64x.s was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256_test.go was removed
+  /usr/lib/go/src/cmd/internal/objabi/typekind.go was removed
+  /usr/lib/go/src/cmd/internal/objfile/disasm.go was removed
+  /usr/lib/go/src/cmd/internal/osinfo/os_unix.go was removed
+  /usr/lib/go/src/cmd/trace/annotations.go was removed
+  /usr/lib/go/src/cmd/trace/annotations_test.go was removed
+  /usr/lib/go/src/cmd/trace/trace.go was removed
+  /usr/lib/go/src/cmd/trace/trace_test.go was removed
+  /usr/lib/go/src/cmd/trace/trace_unix_test.go was removed
+  /usr/lib/go/src/cmd/trace/v2 was removed
+  /usr/lib/go/src/cmd/trace/v2/gen.go was removed
+  /usr/lib/go/src/cmd/trace/v2/goroutinegen.go was removed
+  /usr/lib/go/src/cmd/trace/v2/goroutines.go was removed
+  /usr/lib/go/src/cmd/trace/v2/gstate.go was removed
+  /usr/lib/go/src/cmd/trace/v2/jsontrace.go was removed
+  /usr/lib/go/src/cmd/trace/v2/jsontrace_test.go was removed
+  /usr/lib/go/src/cmd/trace/v2/main.go was removed
+  /usr/lib/go/src/cmd/trace/v2/pprof.go was removed
+  /usr/lib/go/src/cmd/trace/v2/procgen.go was removed
+  /usr/lib/go/src/cmd/trace/v2/regions.go was removed
+  /usr/lib/go/src/cmd/trace/v2/tasks.go was removed
+  /usr/lib/go/src/cmd/trace/v2/threadgen.go was removed
+  /usr/lib/go/src/cmd/trace/v2/viewer.go was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/flamegraph.go was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/html/flamegraph.html was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/d3_flame_graph.go was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/D3_FLAME_GRAPH_LICENSE was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/D3_LICENSE was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/index.js was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/package.json was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/package-lock.json was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/README.md was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/update.sh was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/webpack.config.js was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/epoll_zos.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/fstatfs_zos.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/windows/empty.s was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/cmd/bisect/go119.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/cmd/bisect/rand.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/asmdecl/arches_go118.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/asmdecl/arches_go119.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/buildtag/buildtag_old.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/ifaceassert/parameterized.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/astutil was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/astutil/enclosing.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/astutil/imports.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/astutil/rewrite.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/astutil/util.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/types_go121.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/types_go122.go was removed
+  /usr/lib/go/src/crypto/aes/aes_gcm.go was removed
+  /usr/lib/go/src/crypto/aes/asm_amd64.s was removed
+  /usr/lib/go/src/crypto/aes/asm_arm64.s was removed
+  /usr/lib/go/src/crypto/aes/asm_ppc64x.s was removed
+  /usr/lib/go/src/crypto/aes/asm_s390x.s was removed
+  /usr/lib/go/src/crypto/aes/block.go was removed
+  /usr/lib/go/src/crypto/aes/cbc_ppc64x.go was removed
+  /usr/lib/go/src/crypto/aes/cbc_s390x.go was removed
+  /usr/lib/go/src/crypto/aes/cipher_asm.go was removed
+  /usr/lib/go/src/crypto/aes/cipher_generic.go was removed
+  /usr/lib/go/src/crypto/aes/cipher.go was removed
+  /usr/lib/go/src/crypto/aes/cipher_s390x.go was removed
+  /usr/lib/go/src/crypto/aes/const.go was removed
+  /usr/lib/go/src/crypto/aes/ctr_s390x.go was removed
+  /usr/lib/go/src/crypto/aes/gcm_amd64.s was removed
+  /usr/lib/go/src/crypto/aes/gcm_arm64.s was removed
+  /usr/lib/go/src/crypto/aes/gcm_ppc64x.go was removed
+  /usr/lib/go/src/crypto/aes/gcm_ppc64x.s was removed
+  /usr/lib/go/src/crypto/aes/gcm_s390x.go was removed
+  /usr/lib/go/src/crypto/aes/modes.go was removed
+  /usr/lib/go/src/crypto/aes/modes_test.go was removed
+  /usr/lib/go/src/crypto/cipher/cipher_test.go was removed
+  /usr/lib/go/src/crypto/cipher/export_test.go was removed
+  /usr/lib/go/src/crypto/ecdsa/ecdsa_noasm.go was removed
+  /usr/lib/go/src/crypto/ecdsa/ecdsa_s390x.go was removed
+  /usr/lib/go/src/crypto/ecdsa/ecdsa_s390x.s was removed
+  /usr/lib/go/src/crypto/ecdsa/ecdsa_s390x_test.go was removed
+  /usr/lib/go/src/crypto/internal/alias was removed
+  /usr/lib/go/src/crypto/internal/alias/alias.go was removed
+  /usr/lib/go/src/crypto/internal/alias/alias_test.go was removed
+  /usr/lib/go/src/crypto/internal/bigmod was removed
+  /usr/lib/go/src/crypto/internal/bigmod/_asm was removed
+  /usr/lib/go/src/crypto/internal/bigmod/_asm/go.mod was removed
+  /usr/lib/go/src/crypto/internal/bigmod/_asm/go.sum was removed
+  /usr/lib/go/src/crypto/internal/bigmod/_asm/nat_amd64_asm.go was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_386.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_amd64.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_arm64.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_arm.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_asm.go was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat.go was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_noasm.go was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_ppc64x.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_riscv64.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_s390x.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_test.go was removed
+  /usr/lib/go/src/crypto/internal/boring/fipstls was removed
+  /usr/lib/go/src/crypto/internal/boring/fipstls/stub.s was removed
+  /usr/lib/go/src/crypto/internal/boring/fipstls/tls.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519 was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/doc.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/edwards25519.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/edwards25519_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/_asm was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/_asm/fe_amd64_asm.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/_asm/go.mod was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/_asm/go.sum was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_alias_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_amd64.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_amd64_noasm.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_amd64.s was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_arm64.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_arm64_noasm.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_arm64.s was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_bench_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_generic.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalar_alias_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalar_fiat.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalar.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalarmult.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalarmult_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalar_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/tables.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/tables_test.go was removed
+  /usr/lib/go/src/crypto/internal/nistec was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/Dockerfile was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/fiat_test.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/generate.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p224_fiat64.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p224.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p224_invert.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p256_fiat64.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p256.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p256_invert.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p384_fiat64.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p384.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p384_invert.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p521_fiat64.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p521.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p521_invert.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/README was removed
+  /usr/lib/go/src/crypto/internal/nistec/generate.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/nistec.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/nistec_test.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p224.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p224_sqrt.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_amd64.s was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_arm64.s was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_ppc64le.s was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_s390x.s was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_table.bin was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_table_test.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_ordinv.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_ordinv_noasm.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_ordinv_test.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p384.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p521.go was removed
+  /usr/lib/go/src/crypto/rand/rand_batched_test.go was removed
+  /usr/lib/go/src/crypto/rand/rand_getentropy.go was removed
+  /usr/lib/go/src/crypto/rand/rand_getrandom.go was removed
+  /usr/lib/go/src/crypto/rand/rand_js.go was removed
+  /usr/lib/go/src/crypto/rand/rand_plan9.go was removed
+  /usr/lib/go/src/crypto/rand/rand_unix.go was removed
+  /usr/lib/go/src/crypto/rand/rand_wasip1.go was removed
+  /usr/lib/go/src/crypto/rand/rand_windows.go was removed
+  /usr/lib/go/src/crypto/rsa/pss.go was removed
+  /usr/lib/go/src/crypto/sha256/fallback_test.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_386.s was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_amd64.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_amd64.s was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_arm64.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_arm64.s was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_decl.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_generic.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_ppc64x.s was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_s390x.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_s390x.s was removed
+  /usr/lib/go/src/crypto/sha512/fallback_test.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_amd64.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_amd64.s was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_arm64.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_arm64.s was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_decl.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_generic.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_ppc64x.s was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_s390x.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_s390x.s was removed
+  /usr/lib/go/src/crypto/subtle/xor_amd64.go was removed
+  /usr/lib/go/src/crypto/subtle/xor_amd64.s was removed
+  /usr/lib/go/src/crypto/subtle/xor_arm64.go was removed
+  /usr/lib/go/src/crypto/subtle/xor_arm64.s was removed
+  /usr/lib/go/src/crypto/subtle/xor_generic.go was removed
+  /usr/lib/go/src/crypto/subtle/xor_ppc64x.go was removed
+  /usr/lib/go/src/crypto/subtle/xor_ppc64x.s was removed
+  /usr/lib/go/src/crypto/tls/boring.go was removed
+  /usr/lib/go/src/crypto/tls/boring_test.go was removed
+  /usr/lib/go/src/crypto/tls/notboring.go was removed
+  /usr/lib/go/src/crypto/x509/boring.go was removed
+  /usr/lib/go/src/crypto/x509/boring_test.go was removed
+  /usr/lib/go/src/crypto/x509/notboring.go was removed
+  /usr/lib/go/src/encoding/csv/fuzz.go was removed
+  /usr/lib/go/src/go/build/syslist.go was removed
+  /usr/lib/go/src/go/internal/gcimporter/exportdata.go was removed
+  /usr/lib/go/src/go/internal/gcimporter/iimport.go was removed
+  /usr/lib/go/src/go/internal/typeparams was removed
+  /usr/lib/go/src/go/internal/typeparams/typeparams.go was removed
+  /usr/lib/go/src/image/png/fuzz.go was removed
+  /usr/lib/go/src/internal/abi/map.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_allocheaders_off.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_allocheaders_on.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_exectracer2_off.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_exectracer2_on.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_pagetrace_off.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_pagetrace_on.go was removed
+  /usr/lib/go/src/internal/intern was removed
+  /usr/lib/go/src/internal/intern/intern.go was removed
+  /usr/lib/go/src/internal/intern/intern_test.go was removed
+  /usr/lib/go/src/internal/poll/sendfile_bsd.go was removed
+  /usr/lib/go/src/internal/poll/sendfile_linux.go was removed
+  /usr/lib/go/src/internal/poll/sock_cloexec_accept.go was removed
+  /usr/lib/go/src/internal/poll/strconv.go was removed
+  /usr/lib/go/src/internal/profile/legacy_profile.go was removed
+  /usr/lib/go/src/internal/profile/profile_test.go was removed
+  /usr/lib/go/src/internal/safefilepath was removed
+  /usr/lib/go/src/internal/safefilepath/path.go was removed
+  /usr/lib/go/src/internal/safefilepath/path_other.go was removed
+  /usr/lib/go/src/internal/safefilepath/path_test.go was removed
+  /usr/lib/go/src/internal/safefilepath/path_windows.go was removed
+  /usr/lib/go/src/internal/syscall/unix/copy_file_range_linux.go was removed
+  /usr/lib/go/src/internal/syscall/unix/eaccess_bsd.go was removed
+  /usr/lib/go/src/internal/syscall/unix/eaccess_linux.go was removed
+  /usr/lib/go/src/internal/syscall/unix/eaccess_other.go was removed
+  /usr/lib/go/src/internal/syscall/unix/getentropy_darwin.go was removed
+  /usr/lib/go/src/internal/syscall/unix/getentropy_darwin.s was removed
+  /usr/lib/go/src/internal/syscall/unix/getentropy_netbsd.go was removed
+  /usr/lib/go/src/internal/syscall/unix/getentropy_openbsd.go was removed
+  /usr/lib/go/src/internal/syscall/unix/getentropy_openbsd_mips64.go was removed
+  /usr/lib/go/src/internal/trace/goroutines.go was removed
+  /usr/lib/go/src/internal/trace/mkcanned.bash was removed
+  /usr/lib/go/src/internal/trace/parser_test.go was removed
+  /usr/lib/go/src/internal/trace/v2 was removed
+  /usr/lib/go/src/internal/trace/v2/base.go was removed
+  /usr/lib/go/src/internal/trace/v2/batchcursor.go was removed
+  /usr/lib/go/src/internal/trace/v2/batchcursor_test.go was removed
+  /usr/lib/go/src/internal/trace/v2/batch.go was removed
+  /usr/lib/go/src/internal/trace/v2/event was removed
+  /usr/lib/go/src/internal/trace/v2/event/event.go was removed
+  /usr/lib/go/src/internal/trace/v2/event.go was removed
+  /usr/lib/go/src/internal/trace/v2/event/go122 was removed
+  /usr/lib/go/src/internal/trace/v2/event/go122/event.go was removed
+  /usr/lib/go/src/internal/trace/v2/event/requirements.go was removed
+  /usr/lib/go/src/internal/trace/v2/event_test.go was removed
+  /usr/lib/go/src/internal/trace/v2/generation.go was removed
+  /usr/lib/go/src/internal/trace/v2/internal was removed
+  /usr/lib/go/src/internal/trace/v2/internal/testgen was removed
+  /usr/lib/go/src/internal/trace/v2/internal/testgen/go122 was removed
+  /usr/lib/go/src/internal/trace/v2/internal/testgen/go122/trace.go was removed
+  /usr/lib/go/src/internal/trace/v2/mkexp.bash was removed
+  /usr/lib/go/src/internal/trace/v2/order.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw was removed
+  /usr/lib/go/src/internal/trace/v2/raw/doc.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw/event.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw/reader.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw/textreader.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw/textwriter.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw/writer.go was removed
+  /usr/lib/go/src/internal/trace/v2/reader.go was removed
+  /usr/lib/go/src/internal/trace/v2/reader_test.go was removed
+  /usr/lib/go/src/internal/trace/v2/resources.go was removed
+  /usr/lib/go/src/internal/trace/v2/testtrace was removed
+  /usr/lib/go/src/internal/trace/v2/testtrace/expectation.go was removed
+  /usr/lib/go/src/internal/trace/v2/testtrace/format.go was removed
+  /usr/lib/go/src/internal/trace/v2/testtrace/validation.go was removed
+  /usr/lib/go/src/internal/trace/v2/trace_test.go was removed
+  /usr/lib/go/src/internal/trace/v2/value.go was removed
+  /usr/lib/go/src/internal/trace/v2/version was removed
+  /usr/lib/go/src/internal/trace/v2/version/version.go was removed
+  /usr/lib/go/src/internal/trace/writer.go was removed
+  /usr/lib/go/src/maps/maps.s was removed
+  /usr/lib/go/src/net/cgo_unix_cgo_darwin.go was removed
+  /usr/lib/go/src/net/main_noconf_test.go was removed
+  /usr/lib/go/src/net/netip/leaf_alts.go was removed
+  /usr/lib/go/src/net/sendfile_linux_test.go was removed
+  /usr/lib/go/src/net/splice_test.go was removed
+  /usr/lib/go/src/net/tcpsockopt_dragonfly.go was removed
+  /usr/lib/go/src/os/endian_big.go was removed
+  /usr/lib/go/src/os/endian_little.go was removed
+  /usr/lib/go/src/os/error_posix.go was removed
+  /usr/lib/go/src/path/filepath/path_nonwindows.go was removed
+  /usr/lib/go/src/runtime/coverage/apis.go was removed
+  /usr/lib/go/src/runtime/coverage/dummy.s was removed
+  /usr/lib/go/src/runtime/coverage/emitdata_test.go was removed
+  /usr/lib/go/src/runtime/coverage/emit.go was removed
+  /usr/lib/go/src/runtime/coverage/hooks.go was removed
+  /usr/lib/go/src/runtime/coverage/testsupport.go was removed
+  /usr/lib/go/src/runtime/coverage/ts_test.go was removed
+  /usr/lib/go/src/runtime/exithook.go was removed
+  /usr/lib/go/src/runtime/internal/atomic was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_386.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_386.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_amd64.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_amd64.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_andor_generic.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_andor_test.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_arm64.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_arm64.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_arm.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_arm.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_loong64.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_loong64.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_mips64x.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_mips64x.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_mipsx.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_mipsx.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_ppc64x.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_ppc64x.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_riscv64.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_riscv64.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_s390x.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_s390x.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_test.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_wasm.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_wasm.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/bench_test.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/doc.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/stubs.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/sys_linux_arm.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/sys_nonlinux_arm.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/types_64bit.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/types.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/unaligned.go was removed
+  /usr/lib/go/src/runtime/internal/math was removed
+  /usr/lib/go/src/runtime/internal/math/math.go was removed
+  /usr/lib/go/src/runtime/internal/math/math_test.go was removed
+  /usr/lib/go/src/runtime/internal/sys was removed
+  /usr/lib/go/src/runtime/internal/syscall was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_386.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_amd64.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_arm64.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_arm.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_loong64.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_mips64x.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_mipsx.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_ppc64x.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_riscv64.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_s390x.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_386.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_amd64.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_arm64.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_arm.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_loong64.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_mips64x.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_mipsx.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_ppc64x.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_riscv64.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_s390x.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/syscall_linux.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/syscall_linux_test.go was removed
+  /usr/lib/go/src/runtime/internal/sys/consts.go was removed
+  /usr/lib/go/src/runtime/internal/sys/consts_norace.go was removed
+  /usr/lib/go/src/runtime/internal/sys/consts_race.go was removed
+  /usr/lib/go/src/runtime/internal/sys/intrinsics.go was removed
+  /usr/lib/go/src/runtime/internal/sys/intrinsics_test.go was removed
+  /usr/lib/go/src/runtime/internal/sys/nih.go was removed
+  /usr/lib/go/src/runtime/internal/sys/sys.go was removed
+  /usr/lib/go/src/runtime/internal/sys/zversion.go was removed
+  /usr/lib/go/src/runtime/map_fast32.go was removed
+  /usr/lib/go/src/runtime/map_fast64.go was removed
+  /usr/lib/go/src/runtime/map_faststr.go was removed
+  /usr/lib/go/src/runtime/map.go was removed
+  /usr/lib/go/src/runtime/mbitmap_allocheaders.go was removed
+  /usr/lib/go/src/runtime/mbitmap_noallocheaders.go was removed
+  /usr/lib/go/src/runtime/msize_allocheaders.go was removed
+  /usr/lib/go/src/runtime/msize_noallocheaders.go was removed
+  /usr/lib/go/src/runtime/norace_linux_test.go was removed
+  /usr/lib/go/src/runtime/pagetrace_off.go was removed
+  /usr/lib/go/src/runtime/pagetrace_on.go was removed
+  /usr/lib/go/src/runtime/trace2buf.go was removed
+  /usr/lib/go/src/runtime/trace2cpu.go was removed
+  /usr/lib/go/src/runtime/trace2event.go was removed
+  /usr/lib/go/src/runtime/trace2.go was removed
+  /usr/lib/go/src/runtime/trace2map.go was removed
+  /usr/lib/go/src/runtime/trace2region.go was removed
+  /usr/lib/go/src/runtime/trace2runtime.go was removed
+  /usr/lib/go/src/runtime/trace2stack.go was removed
+  /usr/lib/go/src/runtime/trace2status.go was removed
+  /usr/lib/go/src/runtime/trace2string.go was removed
+  /usr/lib/go/src/runtime/trace2time.go was removed
+  /usr/lib/go/src/runtime/trace/trace_stack_test.go was removed
+  /usr/lib/go/src/sort/sort_impl_120.go was removed
+  /usr/lib/go/src/sort/sort_impl_go121.go was removed
+  /usr/lib/go/src/syscall/asan0.go was removed
+  /usr/lib/go/src/syscall/asan.go was removed
+  /usr/lib/go/src/syscall/endian_big.go was removed
+  /usr/lib/go/src/syscall/endian_little.go was removed
+  /usr/lib/go/src/syscall/export_darwin_test.go was removed
+  /usr/lib/go/src/syscall/export_unix_test.go was removed
+  /usr/lib/go/src/syscall/msan0.go was removed
+  /usr/lib/go/src/syscall/msan.go was removed
+  /usr/lib/go/src/syscall/syscall_linux_accept4.go was removed
+  /usr/lib/go/src/syscall/syscall_linux_accept.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/chacha20/chacha_ppc64le.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/chacha20/chacha_ppc64le.s was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/hkdf was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/hkdf/hkdf.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/bits_compat.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/bits_go1.13.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/sum_ppc64le.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/sum_ppc64le.s was removed
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/cpu_x86.s was removed
+  /usr/lib/go/test/runtime was removed
+  /usr/lib/go/test/runtime/inlinegcpc.go was removed
+  /usr/lib/go/test/runtime/README was removed
 
---===============0656166312404369613==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 922 .bb files complete (0 cached, 922 parsed). 1882 targets, 50 skipped, 0 masked, 0 errors.
-Removing 27 recipes from the core2-64 sysroot...done.
-Removing 64 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:c753fed27b161b9f35ef7f9ebf9e0f171f910051"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 499 Local 488 Mirrors 0 Missed 11 Current 269 (97% match, 98% complete)
-Removing 3 stale sstate objects for arch x86_64...done.
-Removing 2 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 271 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 272 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 273 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 274 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-typogrify_2.1.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 275 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-typogrify_2.1.0.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 277 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markdown_3.7.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 279 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygments_2.19.1.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 286 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jinja2_3.1.5.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 290 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-typogrify_2.1.0.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 293 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb:do_package_qa_setscene)
-NOTE: Running setscene task 299 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-typogrify_2.1.0.bb:do_package_qa_setscene)
-NOTE: Running setscene task 300 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 301 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 306 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 326 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_qa_setscene)
-NOTE: Running setscene task 328 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygments_2.19.1.bb:do_package_qa_setscene)
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-markdown-3.7-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-pygments-2.19.1-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_package_qa_setscene: Started
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_package_qa_setscene: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_populate_lic_setscene: Started
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-pygments-2.19.1-r0: task do_package_qa_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_package_qa_setscene: Started
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 336 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markdown_3.7.bb:do_package_write_deb_setscene)
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_package_qa_setscene: Succeeded
-NOTE: Running setscene task 338 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jinja2_3.1.5.bb:do_package_write_ipk_setscene)
-NOTE: recipe python3-markdown-3.7-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-pygments-2.19.1-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 342 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-typogrify_2.1.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 343 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jinja2_3.1.5.bb:do_package_qa_setscene)
-NOTE: Running setscene task 344 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markdown_3.7.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 346 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygments_2.19.1.bb:do_package_write_ipk_setscene)
-NOTE: recipe gi-docgen-2025.3-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe python3-pygments-2.19.1-r0: task do_package_qa_setscene: Succeeded
-NOTE: Running setscene task 347 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygments_2.19.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 353 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb:do_package_write_deb_setscene)
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 360 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygments_2.19.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 368 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markdown_3.7.bb:do_package_qa_setscene)
-NOTE: Running setscene task 369 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jinja2_3.1.5.bb:do_package_write_deb_setscene)
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 376 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_package_qa_setscene: Succeeded
-NOTE: Running setscene task 379 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markdown_3.7.bb:do_create_spdx_setscene)
-NOTE: recipe python3-markdown-3.7-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-markdown-3.7-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-pygments-2.19.1-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_package_qa_setscene: Started
-NOTE: recipe python3-pygments-2.19.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-pygments-2.19.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-markdown-3.7-r0: task do_package_qa_setscene: Started
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-markdown-3.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-markdown-3.7-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 381 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jinja2_3.1.5.bb:do_create_spdx_setscene)
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_package_qa_setscene: Succeeded
-NOTE: Running setscene task 385 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-markdown-3.7-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe python3-markdown-3.7-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 389 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-typogrify_2.1.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe python3-pygments-2.19.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-pygments-2.19.1-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-pygments-2.19.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 392 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.8.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 394 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygments_2.19.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 396 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 397 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 398 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-markdown-3.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 400 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markdown_3.7.bb:do_packagedata_setscene)
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-smartypants-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe python3-3.13.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 401 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 402 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 403 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc_14.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 404 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils_2.44.bb:do_packagedata_setscene)
-NOTE: Running setscene task 405 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 406 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb:do_packagedata_setscene)
-NOTE: Running setscene task 407 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-setuptools-75.8.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pygments-2.19.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pytest-8.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-markdown-3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 408 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.37.bb:do_packagedata_setscene)
-NOTE: recipe python3-smartypants-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 409 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ca-certificates-20241223-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 410 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe binutils-2.44-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pygments-2.19.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-setuptools-75.8.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 411 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jinja2_3.1.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 415 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_create_spdx_setscene)
-NOTE: recipe python3-pytest-8.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 423 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-typogrify_2.1.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 426 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygments_2.19.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 434 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb:do_recipe_qa_setscene)
-NOTE: recipe bash-5.2.37-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-markdown-3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe tzdata-2025a-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 437 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-markdown_3.7.bb:do_recipe_qa_setscene)
-NOTE: recipe ca-certificates-20241223-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-markdown-3.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-pygments-2.19.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 447 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.17.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 449 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 450 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb:do_packagedata_setscene)
-NOTE: recipe tzdata-2025a-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-typogrify-2.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-markupsafe-3.0.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 463 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-pygments-2.19.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-markdown-3.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-2.44-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 469 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.192.bb:do_packagedata_setscene)
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 474 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jinja2_3.1.5.bb:do_recipe_qa_setscene)
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.17.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 479 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 487 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 495 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe coreutils-9.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.2.37-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe elfutils-0.192-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 801 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_recipe_qa)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe base-passwd-3.6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-jinja2-3.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 510 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/mpfr/mpfr_4.2.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_recipe_qa: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 515 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe elfutils-0.192-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 517 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 518 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/json-c/json-c_0.18.bb:do_packagedata_setscene)
-NOTE: Running setscene task 520 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 522 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 527 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 530 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
-NOTE: Running setscene task 532 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
-NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.17.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libarchive-3.7.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 542 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe gi-docgen-2025.3-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1003 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_fetch)
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libarchive-3.7.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 555 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 556 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 557 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.12.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 561 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.46.bb:do_packagedata_setscene)
-NOTE: Running setscene task 574 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 576 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 577 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 578 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 579 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 580 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 581 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
-NOTE: Running setscene task 582 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_packagedata_setscene)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_fetch: Started
-NOTE: recipe libgcrypt-1.11.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe file-5.46-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe curl-8.12.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 584 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 585 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_populate_sysroot_setscene)
-NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.7-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 587 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe file-5.46-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcrypt-1.11.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 588 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 589 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_fetch: Succeeded
-NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Succeeded
-NOTE: recipe curl-8.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 590 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libffi-3.4.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 592 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 594 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 598 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 599 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 601 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 602 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 604 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 609 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_packagedata_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gnutls-3.8.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 611 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 612 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.73.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zstd-1.5.6-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 615 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/lzip/lzlib_1.15.bb:do_packagedata_setscene)
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 616 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe xz-5.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 622 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-2.73-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.4.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe lzlib-1.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 623 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.1.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 624 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/zstd/1.5.6/temp/log.do_packagedata_setscene.284972
-NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 626 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 629 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 631 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_packagedata_setscene)
-NOTE: recipe libffi-3.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 632 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 640 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 642 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe xz-5.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 643 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-2.73-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 649 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 653 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_recipe_qa_setscene)
-NOTE: recipe lzlib-1.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.4.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 655 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.10.1.bb:do_packagedata_setscene)
-NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 656 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Started
-NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgpg-error-1.51-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 657 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 659 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.7.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe nettle-3.10.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 664 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 665 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_package_setscene)
-NOTE: recipe openssl-3.4.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgpg-error-1.51-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe nettle-3.10.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 668 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 678 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 685 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 690 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 692 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 695 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 700 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 702 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 704 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 705 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 709 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 710 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1309 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_unpack)
-NOTE: recipe openssl-3.4.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zstd-1.5.6-r0: task do_package_setscene: Started
-NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xz-5.6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.4.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gi-docgen-2025.3-r0: task do_unpack: Started
-NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 724 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zstd-1.5.6-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 728 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 730 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 731 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_recipe_qa_setscene)
-NOTE: recipe gi-docgen-2025.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1446 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_patch)
-NOTE: recipe zstd-1.5.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_patch: Started
-NOTE: recipe zstd-1.5.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gi-docgen-2025.3-r0: task do_patch: Succeeded
-NOTE: Running task 1452 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1453 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_check_backend)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 733 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
-NOTE: recipe gi-docgen-2025.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_check_backend: Started
-WARNING: gi-docgen-2025.3-r0 do_check_backend: QA Issue: inherits setuptools3 but has pyproject.toml with setuptools.build_meta, use the correct class [pep517-backend]
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_check_backend: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 735 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 736 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 737 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 740 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 741 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 742 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 744 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 745 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 750 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 753 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 754 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 756 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 758 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 760 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 763 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 766 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 767 of 768 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1914 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1936 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_packagedata)
-NOTE: Running task 2081 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_collect_spdx_deps)
-NOTE: recipe gi-docgen-2025.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe zstd-1.5.6-r0: task do_packagedata: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe zstd-1.5.6-r0: task do_packagedata: Succeeded
-NOTE: recipe gi-docgen-2025.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gi-docgen-2025.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2133 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_configure)
-NOTE: recipe gi-docgen-2025.3-r0: task do_configure: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_configure: Succeeded
-NOTE: Running task 2134 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_compile)
-NOTE: recipe gi-docgen-2025.3-r0: task do_compile: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_compile: Succeeded
-NOTE: Running task 2135 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_install)
-NOTE: recipe gi-docgen-2025.3-r0: task do_install: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_install: Succeeded
-NOTE: Running task 2136 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_package)
-NOTE: Running task 2137 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_populate_sysroot)
-NOTE: recipe gi-docgen-2025.3-r0: task do_populate_sysroot: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_package: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gi-docgen-2025.3-r0: task do_package: Succeeded
-NOTE: Running task 2138 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_packagedata)
-NOTE: recipe gi-docgen-2025.3-r0: task do_packagedata: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 2139 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_create_spdx)
-NOTE: Running task 2140 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_package_write_ipk)
-NOTE: Running task 2141 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_package_write_deb)
-NOTE: Running task 2142 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_package_write_rpm)
-NOTE: Running task 2143 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_package_qa)
-NOTE: recipe gi-docgen-2025.3-r0: task do_create_spdx: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_package_write_ipk: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_package_write_deb: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_package_write_rpm: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_package_qa: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2144 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_create_package_spdx)
-NOTE: recipe gi-docgen-2025.3-r0: task do_create_package_spdx: Started
-NOTE: recipe gi-docgen-2025.3-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe gi-docgen-2025.3-r0: task do_package_qa: Succeeded
-NOTE: recipe gi-docgen-2025.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gi-docgen-2025.3-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe gi-docgen-2025.3-r0: task do_package_write_deb: Succeeded
-NOTE: Running noexec task 2145 of 2145 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gi-docgen/gi-docgen_2025.3.bb:do_build)
-NOTE: Tasks Summary: Attempted 2145 tasks of which 2123 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: zstd-1.5.6-r0 do_packagedata_setscene: QA Issue: Package version for package zstd-src went backwards which would break package feeds (from 0:1.5.7-r0 to 0:1.5.6-r0) [version-going-backwards]
-ERROR: zstd-1.5.6-r0 do_packagedata_setscene: QA Issue: Package version for package zstd-dbg went backwards which would break package feeds (from 0:1.5.7-r0 to 0:1.5.6-r0) [version-going-backwards]
-ERROR: zstd-1.5.6-r0 do_packagedata_setscene: QA Issue: Package version for package zstd-staticdev went backwards which would break package feeds (from 0:1.5.7-r0 to 0:1.5.6-r0) [version-going-backwards]
-ERROR: zstd-1.5.6-r0 do_packagedata_setscene: QA Issue: Package version for package zstd-dev went backwards which would break package feeds (from 0:1.5.7-r0 to 0:1.5.6-r0) [version-going-backwards]
-ERROR: zstd-1.5.6-r0 do_packagedata_setscene: QA Issue: Package version for package zstd-doc went backwards which would break package feeds (from 0:1.5.7-r0 to 0:1.5.6-r0) [version-going-backwards]
-ERROR: zstd-1.5.6-r0 do_packagedata_setscene: QA Issue: Package version for package zstd-locale went backwards which would break package feeds (from 0:1.5.7-r0 to 0:1.5.6-r0) [version-going-backwards]
-ERROR: zstd-1.5.6-r0 do_packagedata_setscene: QA Issue: Package version for package libzstd went backwards which would break package feeds (from 0:1.5.7-r0 to 0:1.5.6-r0) [version-going-backwards]
-ERROR: zstd-1.5.6-r0 do_packagedata_setscene: QA Issue: Package version for package zstd went backwards which would break package feeds (from 0:1.5.7-r0 to 0:1.5.6-r0) [version-going-backwards]
-ERROR: zstd-1.5.6-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============0656166312404369613==
+--===============8270838383326846895==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/gi-docgen (sysroot):
-  /usr/lib/python3.13/site-packages/gi_docgen-2024.1.dist-info moved to /usr/lib/python3.13/site-packages/gi_docgen-2025.3.dist-info
+Changes to packages/x86_64-linux/go-binary-native (sysroot):
+  /usr/lib/go/src/cmd/dist/notgo120.go moved to /usr/lib/go/src/cmd/dist/notgo122.go
+  /usr/lib/go/api/go1.23.txt was added
+  /usr/lib/go/api/go1.24.txt was added
+  /usr/lib/go/doc/initial was added
+  /usr/lib/go/doc/initial/1-intro.md was added
+  /usr/lib/go/doc/initial/2-language.md was added
+  /usr/lib/go/doc/initial/3-tools.md was added
+  /usr/lib/go/doc/initial/4-runtime.md was added
+  /usr/lib/go/doc/initial/5-toolchain.md was added
+  /usr/lib/go/doc/initial/6-stdlib was added
+  /usr/lib/go/doc/initial/6-stdlib/0-heading.md was added
+  /usr/lib/go/doc/initial/6-stdlib/99-minor was added
+  /usr/lib/go/doc/initial/6-stdlib/99-minor/0-heading.md was added
+  /usr/lib/go/doc/initial/6-stdlib/99-minor/README was added
+  /usr/lib/go/doc/initial/7-ports.md was added
+  /usr/lib/go/doc/README.md was added
+  /usr/lib/go/lib/fips140 was added
+  /usr/lib/go/lib/fips140/fips140.sum was added
+  /usr/lib/go/lib/fips140/Makefile was added
+  /usr/lib/go/lib/fips140/README.md was added
+  /usr/lib/go/lib/fips140/v1.0.0.zip was added
+  /usr/lib/go/lib/wasm was added
+  /usr/lib/go/lib/wasm/go_js_wasm_exec was added
+  /usr/lib/go/lib/wasm/go_wasip1_wasm_exec was added
+  /usr/lib/go/lib/wasm/wasm_exec.js was added
+  /usr/lib/go/lib/wasm/wasm_exec_node.js was added
+  /usr/lib/go/pkg/include/asm_riscv64.h was added
+  /usr/lib/go/pkg/tool/linux_amd64/preprofile was added
+  /usr/lib/go/src/bytes/iter.go was added
+  /usr/lib/go/src/cmd/cgo/internal/test/cgo_stubs_ppc64x_internal_linking_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/deadlocals was added
+  /usr/lib/go/src/cmd/compile/internal/deadlocals/deadlocals.go was added
+  /usr/lib/go/src/cmd/compile/internal/liveness/intervals.go was added
+  /usr/lib/go/src/cmd/compile/internal/liveness/intervals_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/liveness/mergelocals.go was added
+  /usr/lib/go/src/cmd/compile/internal/pgoir was added
+  /usr/lib/go/src/cmd/compile/internal/pgoir/irgraph.go was added
+  /usr/lib/go/src/cmd/compile/internal/reflectdata/map_noswiss.go was added
+  /usr/lib/go/src/cmd/compile/internal/reflectdata/map_swiss.go was added
+  /usr/lib/go/src/cmd/compile/internal/ssa/_gen/go.mod was added
+  /usr/lib/go/src/cmd/compile/internal/ssa/_gen/go.sum was added
+  /usr/lib/go/src/cmd/compile/internal/ssagen/intrinsics.go was added
+  /usr/lib/go/src/cmd/compile/internal/ssagen/intrinsics_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/syntax/issues_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/test/issue62407_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/test/mergelocals_test.go was added
+  /usr/lib/go/src/cmd/compile/internal/types2/compiler_internal.go was added
+  /usr/lib/go/src/cmd/compile/internal/types2/errsupport.go was added
+  /usr/lib/go/src/cmd/compile/internal/types2/format.go was added
+  /usr/lib/go/src/cmd/compile/internal/types2/literals.go was added
+  /usr/lib/go/src/cmd/compile/internal/types2/README.md was added
+  /usr/lib/go/src/cmd/compile/internal/types2/recording.go was added
+  /usr/lib/go/src/cmd/compile/script_test.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/auth_test.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/gitauth.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/gitauth_test.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/httputils.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/userauth.go was added
+  /usr/lib/go/src/cmd/go/internal/auth/userauth_test.go was added
+  /usr/lib/go/src/cmd/go/internal/base/error_notunix.go was added
+  /usr/lib/go/src/cmd/go/internal/base/error_unix.go was added
+  /usr/lib/go/src/cmd/go/internal/cacheprog was added
+  /usr/lib/go/src/cmd/go/internal/cacheprog/cacheprog.go was added
+  /usr/lib/go/src/cmd/go/internal/fips140 was added
+  /usr/lib/go/src/cmd/go/internal/fips140/fips140.go was added
+  /usr/lib/go/src/cmd/go/internal/fips140/fips_test.go was added
+  /usr/lib/go/src/cmd/go/internal/fips140/mkzip.go was added
+  /usr/lib/go/src/cmd/go/internal/fsys/glob.go was added
+  /usr/lib/go/src/cmd/go/internal/fsys/walk.go was added
+  /usr/lib/go/src/cmd/go/internal/load/printer.go was added
+  /usr/lib/go/src/cmd/go/internal/mmap/mmap_test.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrycmd was added
+  /usr/lib/go/src/cmd/go/internal/telemetrycmd/telemetry.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats/telemetrystats_bootstrap.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats/telemetrystats.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_other.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_unix.go was added
+  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_windows.go was added
+  /usr/lib/go/src/cmd/go/internal/web/intercept was added
+  /usr/lib/go/src/cmd/go/internal/web/intercept/intercept.go was added
+  /usr/lib/go/src/cmd/internal/disasm was added
+  /usr/lib/go/src/cmd/internal/disasm/disasm.go was added
+  /usr/lib/go/src/cmd/internal/dwarf/putvarabbrevgen.go was added
+  /usr/lib/go/src/cmd/internal/dwarf/putvarabbrevgen_test.go was added
+  /usr/lib/go/src/cmd/internal/hash was added
+  /usr/lib/go/src/cmd/internal/hash/hash.go was added
+  /usr/lib/go/src/cmd/internal/macho was added
+  /usr/lib/go/src/cmd/internal/macho/macho.go was added
+  /usr/lib/go/src/cmd/internal/obj/arm64/asm_test.go was added
+  /usr/lib/go/src/cmd/internal/obj/fips140.go was added
+  /usr/lib/go/src/cmd/internal/obj/loong64/asm_test.go was added
+  /usr/lib/go/src/cmd/internal/obj/loong64/doc.go was added
+  /usr/lib/go/src/cmd/internal/obj/mkcnames.go was added
+  /usr/lib/go/src/cmd/internal/osinfo/os_solaris.go was added
+  /usr/lib/go/src/cmd/internal/osinfo/os_syscall.go was added
+  /usr/lib/go/src/cmd/internal/osinfo/os_sysctl.go was added
+  /usr/lib/go/src/cmd/internal/osinfo/os_uname.go was added
+  /usr/lib/go/src/cmd/internal/osinfo/version_unix_test.go was added
+  /usr/lib/go/src/cmd/internal/par was added
+  /usr/lib/go/src/cmd/internal/par/queue.go was added
+  /usr/lib/go/src/cmd/internal/par/queue_test.go was added
+  /usr/lib/go/src/cmd/internal/par/work.go was added
+  /usr/lib/go/src/cmd/internal/par/work_test.go was added
+  /usr/lib/go/src/cmd/internal/pathcache was added
+  /usr/lib/go/src/cmd/internal/pathcache/lookpath.go was added
+  /usr/lib/go/src/cmd/internal/pgo was added
+  /usr/lib/go/src/cmd/internal/pgo/deserialize.go was added
+  /usr/lib/go/src/cmd/internal/pgo/pgo.go was added
+  /usr/lib/go/src/cmd/internal/pgo/pprof.go was added
+  /usr/lib/go/src/cmd/internal/pgo/serialize.go was added
+  /usr/lib/go/src/cmd/internal/pgo/serialize_test.go was added
+  /usr/lib/go/src/cmd/internal/robustio was added
+  /usr/lib/go/src/cmd/internal/robustio/robustio_darwin.go was added
+  /usr/lib/go/src/cmd/internal/robustio/robustio_flaky.go was added
+  /usr/lib/go/src/cmd/internal/robustio/robustio.go was added
+  /usr/lib/go/src/cmd/internal/robustio/robustio_other.go was added
+  /usr/lib/go/src/cmd/internal/robustio/robustio_windows.go was added
+  /usr/lib/go/src/cmd/internal/script was added
+  /usr/lib/go/src/cmd/internal/script/cmds.go was added
+  /usr/lib/go/src/cmd/internal/script/cmds_nonunix.go was added
+  /usr/lib/go/src/cmd/internal/script/cmds_unix.go was added
+  /usr/lib/go/src/cmd/internal/script/conds.go was added
+  /usr/lib/go/src/cmd/internal/script/engine.go was added
+  /usr/lib/go/src/cmd/internal/script/errors.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/conditions.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/doc.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/readme.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/run.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/scripttest.go was added
+  /usr/lib/go/src/cmd/internal/script/scripttest/setup.go was added
+  /usr/lib/go/src/cmd/internal/script/state.go was added
+  /usr/lib/go/src/cmd/internal/sys/arch_test.go was added
+  /usr/lib/go/src/cmd/internal/telemetry was added
+  /usr/lib/go/src/cmd/internal/telemetry/counter was added
+  /usr/lib/go/src/cmd/internal/telemetry/counter/counter_bootstrap.go was added
+  /usr/lib/go/src/cmd/internal/telemetry/counter/counter.go was added
+  /usr/lib/go/src/cmd/internal/telemetry/telemetry_bootstrap.go was added
+  /usr/lib/go/src/cmd/internal/telemetry/telemetry.go was added
+  /usr/lib/go/src/cmd/link/internal/ld/fips140.go was added
+  /usr/lib/go/src/cmd/link/script_test.go was added
+  /usr/lib/go/src/cmd/preprofile was added
+  /usr/lib/go/src/cmd/preprofile/main.go was added
+  /usr/lib/go/src/cmd/relnote was added
+  /usr/lib/go/src/cmd/relnote/relnote_test.go was added
+  /usr/lib/go/src/cmd/trace/gen.go was added
+  /usr/lib/go/src/cmd/trace/goroutinegen.go was added
+  /usr/lib/go/src/cmd/trace/gstate.go was added
+  /usr/lib/go/src/cmd/trace/jsontrace.go was added
+  /usr/lib/go/src/cmd/trace/jsontrace_test.go was added
+  /usr/lib/go/src/cmd/trace/procgen.go was added
+  /usr/lib/go/src/cmd/trace/regions.go was added
+  /usr/lib/go/src/cmd/trace/tasks.go was added
+  /usr/lib/go/src/cmd/trace/threadgen.go was added
+  /usr/lib/go/src/cmd/trace/viewer.go was added
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/html/graph.css was added
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/svgpan/svgpan.js was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64 was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/arg.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/decode.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/gnu.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/inst.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/plan9x.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/loong64/loong64asm/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64 was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/arg.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/csr_string.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/decode.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/gnu.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/inst.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/plan9x.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/riscv64/riscv64asm/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/decode.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/field.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/gnu.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/inst.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/Makefile was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/plan9.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/arch/s390x/s390xasm/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/LICENSE was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/PATENTS was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/dump.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/links.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/relnote.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/errgroup.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/go120.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/pre_go120.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/bpxsvc_zos.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/bpxsvc_zos.s was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/sockcmsg_zos.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/symaddr_zos_s390x.s was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/vgetrandom_linux.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/vgetrandom_unsupported.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/zsymaddr_zos_s390x.s was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/CONTRIBUTING.md was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/counter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest/countertest.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest/countertest_go121.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/doc.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/dir.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/doc.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.dockerignore was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.eslintrc.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.gitattributes was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.gitignore was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/config was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/config/config.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore/download.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore/download_windows.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/counter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/file.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/parse.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/stackcounter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor/crash_go123.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor/monitor.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_other.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_unix.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_windows.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/dateonly.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/dir.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/proginfo.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/types.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/date.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/Doc.txt was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/findwork.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/reports.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/run.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/upload.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/LICENSE was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/mode.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/npm was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/npx was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/package.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/package-lock.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/PATENTS was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.prettierrc.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/README.md was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start_posix.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start_windows.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.stylelintrc.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/tsconfig.json was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/types_alias.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/cases.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/context.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/fold.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/icu.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/info.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/map.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables10.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables11.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables12.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables13.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables15.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables9.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/trieval.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/internal.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/common.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/compact.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/language.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/parents.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/tags.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compose.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/coverage.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/language.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/lookup.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/match.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/parse.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/tags.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/match.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/tag was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/tag/tag.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/coverage.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/doc.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/language.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/match.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/parse.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/tables.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/tags.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/LICENSE was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/PATENTS was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/transform was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/transform/transform.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/composition.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/forminfo.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/input.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/iter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/normalize.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/readwriter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables10.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables11.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables12.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables13.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables15.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables9.0.0.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/transform.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/trie.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/stdversion was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/stdversion/stdversion.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/inspector/iter.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases/aliases.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases/aliases_go122.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib/manifest.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib/stdlib.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typeparams/free.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/element.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/errorcode.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/errorcode_string.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/recv.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/toonew.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/types.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/zerovalue.go was added
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/features.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/break.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/code.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/emoji.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/entity.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/heading.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/html.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/inline.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/LICENSE was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/link.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/list.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/para.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/parse.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/quote.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/README.md was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/table.go was added
+  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/tables.go was added
+  /usr/lib/go/src/crypto/aes/aes.go was added
+  /usr/lib/go/src/crypto/cipher/cbc_test.go was added
+  /usr/lib/go/src/crypto/cipher/modes_test.go was added
+  /usr/lib/go/src/crypto/fips140 was added
+  /usr/lib/go/src/crypto/fips140/fips140.go was added
+  /usr/lib/go/src/crypto/hkdf was added
+  /usr/lib/go/src/crypto/hkdf/example_test.go was added
+  /usr/lib/go/src/crypto/hkdf/hkdf.go was added
+  /usr/lib/go/src/crypto/hkdf/hkdf_test.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest was added
+  /usr/lib/go/src/crypto/internal/cryptotest/aead.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/allocations.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/block.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/blockmode.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/fetchmodule.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/hash.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/implementations.go was added
+  /usr/lib/go/src/crypto/internal/cryptotest/stream.go was added
+  /usr/lib/go/src/crypto/internal/entropy was added
+  /usr/lib/go/src/crypto/internal/entropy/entropy.go was added
+  /usr/lib/go/src/crypto/internal/fips140 was added
+  /usr/lib/go/src/crypto/internal/fips140/aes was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_generic.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/aes_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/ctr was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/ctr/ctr_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/ctr/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/ctr/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/standard was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/standard/aes_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/standard/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/_asm/standard/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/cbc.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/cbc_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/cbc_ppc64x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/cbc_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/const.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_arm64_gen.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/ctr_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/_asm/gcm was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/_asm/gcm/gcm_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/_asm/gcm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/_asm/gcm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/cmac.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/ctrkdf.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_generic.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_nonces.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_ppc64x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/gcm_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/ghash.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/gcm/interface_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/aes/interface_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/alias was added
+  /usr/lib/go/src/crypto/internal/fips140/alias/alias.go was added
+  /usr/lib/go/src/crypto/internal/fips140/asan.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/_asm/nat_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_386.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_arm.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_loong64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_riscv64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/bigmod/nat_wasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/boring.go was added
+  /usr/lib/go/src/crypto/internal/fips140/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/check was added
+  /usr/lib/go/src/crypto/internal/fips140/check/check.go was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_386.s was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_arm.s was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_none.go was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm.s was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/asm_stub.go was added
+  /usr/lib/go/src/crypto/internal/fips140/check/checktest/test.go was added
+  /usr/lib/go/src/crypto/internal/fips140deps was added
+  /usr/lib/go/src/crypto/internal/fips140deps/byteorder was added
+  /usr/lib/go/src/crypto/internal/fips140deps/byteorder/byteorder.go was added
+  /usr/lib/go/src/crypto/internal/fips140deps/cpu was added
+  /usr/lib/go/src/crypto/internal/fips140deps/cpu/cpu.go was added
+  /usr/lib/go/src/crypto/internal/fips140deps/fipsdeps.go was added
+  /usr/lib/go/src/crypto/internal/fips140deps/fipsdeps_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140deps/godebug was added
+  /usr/lib/go/src/crypto/internal/fips140deps/godebug/godebug.go was added
+  /usr/lib/go/src/crypto/internal/fips140/drbg was added
+  /usr/lib/go/src/crypto/internal/fips140/drbg/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/drbg/ctrdrbg.go was added
+  /usr/lib/go/src/crypto/internal/fips140/drbg/rand.go was added
+  /usr/lib/go/src/crypto/internal/fips140/drbg/rand_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdh was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdh/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdh/ecdh.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdh/order_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/ecdsa.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/ecdsa_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/ecdsa_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/ecdsa_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/ecdsa_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ecdsa/hmacdrbg.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ed25519 was added
+  /usr/lib/go/src/crypto/internal/fips140/ed25519/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ed25519/ed25519.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519 was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/doc.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/edwards25519.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/edwards25519_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/_asm/fe_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_alias_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_amd64_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_arm64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_arm64_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_bench_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_generic.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/field/fe_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalar_alias_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalar_fiat.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalar.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalarmult.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalarmult_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/scalar_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/tables.go was added
+  /usr/lib/go/src/crypto/internal/fips140/edwards25519/tables_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/fips140.go was added
+  /usr/lib/go/src/crypto/internal/fips140hash was added
+  /usr/lib/go/src/crypto/internal/fips140/hash.go was added
+  /usr/lib/go/src/crypto/internal/fips140hash/hash.go was added
+  /usr/lib/go/src/crypto/internal/fips140/hkdf was added
+  /usr/lib/go/src/crypto/internal/fips140/hkdf/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/hkdf/hkdf.go was added
+  /usr/lib/go/src/crypto/internal/fips140/hmac was added
+  /usr/lib/go/src/crypto/internal/fips140/hmac/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/hmac/hmac.go was added
+  /usr/lib/go/src/crypto/internal/fips140/indicator.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/field.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/field_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/generate1024.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/mlkem1024.go was added
+  /usr/lib/go/src/crypto/internal/fips140/mlkem/mlkem768.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/_asm/p256_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/benchmark_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/benchmark_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/Dockerfile was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/generate.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p224_fiat64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p224.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p224_invert.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p256_fiat64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p256.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p256_invert.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p384_fiat64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p384.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p384_invert.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p521_fiat64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p521.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/p521_invert.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/fiat/README was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/generate.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/nistec.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p224.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p224_sqrt.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm_ppc64le.s was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_asm_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_ordinv.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_ordinv_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_table.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p256_table_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p384.go was added
+  /usr/lib/go/src/crypto/internal/fips140/nistec/p521.go was added
+  /usr/lib/go/src/crypto/internal/fips140/notasan.go was added
+  /usr/lib/go/src/crypto/internal/fips140/notboring.go was added
+  /usr/lib/go/src/crypto/internal/fips140only was added
+  /usr/lib/go/src/crypto/internal/fips140only/fips140only.go was added
+  /usr/lib/go/src/crypto/internal/fips140/pbkdf2 was added
+  /usr/lib/go/src/crypto/internal/fips140/pbkdf2/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/pbkdf2/pbkdf2.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/keygen.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/keygen_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/pkcs1v15.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/pkcs1v15_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/pkcs1v22.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/pkcs1v22_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/rsa/rsa.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256 was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm/sha256block_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm/sha256block_amd64_avx2.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/_asm/sha256block_amd64_shani.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_386.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_arm64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_loong64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_ppc64x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_riscv64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256block_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha256/sha256.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3 was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/_asm/keccakf_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/hashes.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/keccakf.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/sha3_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha3/shake.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512 was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/_asm was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/_asm/go.mod was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/_asm/go.sum was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/_asm/sha512block_amd64_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_arm64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_asm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_loong64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_noasm.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_ppc64x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_riscv64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_s390x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512block_s390x.s was added
+  /usr/lib/go/src/crypto/internal/fips140/sha512/sha512.go was added
+  /usr/lib/go/src/crypto/internal/fips140/ssh was added
+  /usr/lib/go/src/crypto/internal/fips140/ssh/kdf.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/constant_time.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_amd64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_amd64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_arm64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_arm64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_generic.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_loong64.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_loong64.s was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_ppc64x.go was added
+  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_ppc64x.s was added
+  /usr/lib/go/src/crypto/internal/fips140test was added
+  /usr/lib/go/src/crypto/internal/fips140test/acvp_capabilities.json was added
+  /usr/lib/go/src/crypto/internal/fips140test/acvp_test.config.json was added
+  /usr/lib/go/src/crypto/internal/fips140test/acvp_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/alias_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/cast_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/check_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/cmac_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/ctrdrbg_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/edwards25519_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/fips_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/indicator_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/nistec_ordinv_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/nistec_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/sshkdf_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140test/xaes_test.go was added
+  /usr/lib/go/src/crypto/internal/fips140/tls12 was added
+  /usr/lib/go/src/crypto/internal/fips140/tls12/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/tls12/tls12.go was added
+  /usr/lib/go/src/crypto/internal/fips140/tls13 was added
+  /usr/lib/go/src/crypto/internal/fips140/tls13/cast.go was added
+  /usr/lib/go/src/crypto/internal/fips140/tls13/tls13.go was added
+  /usr/lib/go/src/crypto/internal/hpke was added
+  /usr/lib/go/src/crypto/internal/hpke/hpke.go was added
+  /usr/lib/go/src/crypto/internal/hpke/hpke_test.go was added
+  /usr/lib/go/src/crypto/internal/impl was added
+  /usr/lib/go/src/crypto/internal/impl/impl.go was added
+  /usr/lib/go/src/crypto/internal/sysrand was added
+  /usr/lib/go/src/crypto/internal/sysrand/internal was added
+  /usr/lib/go/src/crypto/internal/sysrand/internal/seccomp was added
+  /usr/lib/go/src/crypto/internal/sysrand/internal/seccomp/seccomp_linux.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/internal/seccomp/seccomp_unsupported.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_aix.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_arc4random.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_getrandom.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_js.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_linux_test.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_netbsd.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_plan9.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_test.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_wasip1.go was added
+  /usr/lib/go/src/crypto/internal/sysrand/rand_windows.go was added
+  /usr/lib/go/src/crypto/md5/_asm was added
+  /usr/lib/go/src/crypto/md5/_asm/go.mod was added
+  /usr/lib/go/src/crypto/md5/_asm/go.sum was added
+  /usr/lib/go/src/crypto/md5/_asm/md5block_amd64_asm.go was added
+  /usr/lib/go/src/crypto/md5/md5block_loong64.s was added
+  /usr/lib/go/src/crypto/md5/md5block_riscv64.s was added
+  /usr/lib/go/src/crypto/mlkem was added
+  /usr/lib/go/src/crypto/mlkem/example_test.go was added
+  /usr/lib/go/src/crypto/mlkem/mlkem.go was added
+  /usr/lib/go/src/crypto/mlkem/mlkem_test.go was added
+  /usr/lib/go/src/crypto/pbkdf2 was added
+  /usr/lib/go/src/crypto/pbkdf2/pbkdf2.go was added
+  /usr/lib/go/src/crypto/pbkdf2/pbkdf2_test.go was added
+  /usr/lib/go/src/crypto/purego_test.go was added
+  /usr/lib/go/src/crypto/rand/text.go was added
+  /usr/lib/go/src/crypto/rand/text_test.go was added
+  /usr/lib/go/src/crypto/rsa/fips.go was added
+  /usr/lib/go/src/crypto/sha1/_asm was added
+  /usr/lib/go/src/crypto/sha1/_asm/go.mod was added
+  /usr/lib/go/src/crypto/sha1/_asm/go.sum was added
+  /usr/lib/go/src/crypto/sha1/_asm/sha1block_amd64_asm.go was added
+  /usr/lib/go/src/crypto/sha1/sha1block_loong64.s was added
+  /usr/lib/go/src/crypto/sha3 was added
+  /usr/lib/go/src/crypto/sha3/sha3.go was added
+  /usr/lib/go/src/crypto/sha3/sha3_test.go was added
+  /usr/lib/go/src/crypto/subtle/dit.go was added
+  /usr/lib/go/src/crypto/subtle/dit_test.go was added
+  /usr/lib/go/src/crypto/subtle/xor_linux_test.go was added
+  /usr/lib/go/src/crypto/tls/bogo_config.json was added
+  /usr/lib/go/src/crypto/tls/bogo_shim_test.go was added
+  /usr/lib/go/src/crypto/tls/defaults.go was added
+  /usr/lib/go/src/crypto/tls/ech.go was added
+  /usr/lib/go/src/crypto/tls/ech_test.go was added
+  /usr/lib/go/src/crypto/tls/fips_test.go was added
+  /usr/lib/go/src/crypto/tls/internal was added
+  /usr/lib/go/src/crypto/tls/internal/fips140tls was added
+  /usr/lib/go/src/crypto/tls/internal/fips140tls/fipstls.go was added
+  /usr/lib/go/src/crypto/x509/pkits_test.go was added
+  /usr/lib/go/src/debug/buildinfo/search_test.go was added
+  /usr/lib/go/src/encoding/csv/fuzz_test.go was added
+  /usr/lib/go/src/flag/example_flagset_test.go was added
+  /usr/lib/go/src/go/ast/internal was added
+  /usr/lib/go/src/go/ast/internal/tests was added
+  /usr/lib/go/src/go/ast/internal/tests/sortimports_test.go was added
+  /usr/lib/go/src/go/ast/walk_test.go was added
+  /usr/lib/go/src/go/build/vendor_test.go was added
+  /usr/lib/go/src/go/types/badlinkname.go was added
+  /usr/lib/go/src/go/types/errsupport.go was added
+  /usr/lib/go/src/go/types/format.go was added
+  /usr/lib/go/src/go/types/iter.go was added
+  /usr/lib/go/src/go/types/literals.go was added
+  /usr/lib/go/src/go/types/README.md was added
+  /usr/lib/go/src/go/types/recording.go was added
+  /usr/lib/go/src/go/types/scope2.go was added
+  /usr/lib/go/src/go/types/scope2_test.go was added
+  /usr/lib/go/src/hash/crc32/crc32_loong64.go was added
+  /usr/lib/go/src/hash/crc32/crc32_loong64.s was added
+  /usr/lib/go/src/hash/crc32/gen.go was added
+  /usr/lib/go/src/internal/abi/escape.go was added
+  /usr/lib/go/src/internal/abi/iface.go was added
+  /usr/lib/go/src/internal/abi/map_noswiss.go was added
+  /usr/lib/go/src/internal/abi/map_select_noswiss.go was added
+  /usr/lib/go/src/internal/abi/map_select_swiss.go was added
+  /usr/lib/go/src/internal/abi/map_swiss.go was added
+  /usr/lib/go/src/internal/abi/rangefuncconsts.go was added
+  /usr/lib/go/src/internal/abi/runtime.go was added
+  /usr/lib/go/src/internal/asan was added
+  /usr/lib/go/src/internal/asan/asan.go was added
+  /usr/lib/go/src/internal/asan/doc.go was added
+  /usr/lib/go/src/internal/asan/noasan.go was added
+  /usr/lib/go/src/internal/byteorder was added
+  /usr/lib/go/src/internal/byteorder/byteorder.go was added
+  /usr/lib/go/src/internal/copyright was added
+  /usr/lib/go/src/internal/copyright/copyright_test.go was added
+  /usr/lib/go/src/internal/coverage/cfile was added
+  /usr/lib/go/src/internal/coverage/cfile/apis.go was added
+  /usr/lib/go/src/internal/coverage/cfile/emitdata_test.go was added
+  /usr/lib/go/src/internal/coverage/cfile/emit.go was added
+  /usr/lib/go/src/internal/coverage/cfile/hooks.go was added
+  /usr/lib/go/src/internal/coverage/cfile/snapshot_test.go was added
+  /usr/lib/go/src/internal/coverage/cfile/testsupport.go was added
+  /usr/lib/go/src/internal/coverage/cfile/ts_test.go was added
+  /usr/lib/go/src/internal/cpu/cpu_loong64_hwcap.go was added
+  /usr/lib/go/src/internal/cpu/cpu_loong64_linux.go was added
+  /usr/lib/go/src/internal/cpu/cpu_loong64.s was added
+  /usr/lib/go/src/internal/exportdata was added
+  /usr/lib/go/src/internal/exportdata/exportdata.go was added
+  /usr/lib/go/src/internal/exportdata/support.go was added
+  /usr/lib/go/src/internal/filepathlite was added
+  /usr/lib/go/src/internal/filepathlite/path.go was added
+  /usr/lib/go/src/internal/filepathlite/path_nonwindows.go was added
+  /usr/lib/go/src/internal/filepathlite/path_plan9.go was added
+  /usr/lib/go/src/internal/filepathlite/path_unix.go was added
+  /usr/lib/go/src/internal/filepathlite/path_windows.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_aliastypeparams_off.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_aliastypeparams_on.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_spinbitmutex_off.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_spinbitmutex_on.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_swissmap_off.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_swissmap_on.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_synchashtriemap_off.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_synchashtriemap_on.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_synctest_off.go was added
+  /usr/lib/go/src/internal/goexperiment/exp_synctest_on.go was added
+  /usr/lib/go/src/internal/msan was added
+  /usr/lib/go/src/internal/msan/doc.go was added
+  /usr/lib/go/src/internal/msan/msan.go was added
+  /usr/lib/go/src/internal/msan/nomsan.go was added
+  /usr/lib/go/src/internal/pkgbits/pkgbits_test.go was added
+  /usr/lib/go/src/internal/pkgbits/version.go was added
+  /usr/lib/go/src/internal/poll/copy_file_range_freebsd.go was added
+  /usr/lib/go/src/internal/poll/copy_file_range_unix.go was added
+  /usr/lib/go/src/internal/poll/sendfile.go was added
+  /usr/lib/go/src/internal/poll/sendfile_unix.go was added
+  /usr/lib/go/src/internal/poll/sock_cloexec_solaris.go was added
+  /usr/lib/go/src/internal/profile/graph.go was added
+  /usr/lib/go/src/internal/profilerecord was added
+  /usr/lib/go/src/internal/profilerecord/profilerecord.go was added
+  /usr/lib/go/src/internal/runtime was added
+  /usr/lib/go/src/internal/runtime/atomic was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_386.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_386.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_amd64.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_amd64.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_andor_generic.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_andor_test.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_arm64.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_arm64.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_arm.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_arm.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_loong64.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_loong64.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_mips64x.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_mips64x.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_mipsx.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_mipsx.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_ppc64x.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_ppc64x.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_riscv64.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_riscv64.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_s390x.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_s390x.s was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_test.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_wasm.go was added
+  /usr/lib/go/src/internal/runtime/atomic/atomic_wasm.s was added
+  /usr/lib/go/src/internal/runtime/atomic/bench_test.go was added
+  /usr/lib/go/src/internal/runtime/atomic/doc.go was added
+  /usr/lib/go/src/internal/runtime/atomic/stubs.go was added
+  /usr/lib/go/src/internal/runtime/atomic/sys_linux_arm.s was added
+  /usr/lib/go/src/internal/runtime/atomic/sys_nonlinux_arm.s was added
+  /usr/lib/go/src/internal/runtime/atomic/types_64bit.go was added
+  /usr/lib/go/src/internal/runtime/atomic/types.go was added
+  /usr/lib/go/src/internal/runtime/atomic/unaligned.go was added
+  /usr/lib/go/src/internal/runtime/atomic/xchg8_test.go was added
+  /usr/lib/go/src/internal/runtime/exithook was added
+  /usr/lib/go/src/internal/runtime/exithook/hooks.go was added
+  /usr/lib/go/src/internal/runtime/maps was added
+  /usr/lib/go/src/internal/runtime/maps/export_noswiss_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/export_swiss_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/export_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/fuzz_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/group.go was added
+  /usr/lib/go/src/internal/runtime/maps/map.go was added
+  /usr/lib/go/src/internal/runtime/maps/map_swiss_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/map_test.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime_fast32_swiss.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime_fast64_swiss.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime_faststr_swiss.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime_noswiss.go was added
+  /usr/lib/go/src/internal/runtime/maps/runtime_swiss.go was added
+  /usr/lib/go/src/internal/runtime/maps/table_debug.go was added
+  /usr/lib/go/src/internal/runtime/maps/table.go was added
+  /usr/lib/go/src/internal/runtime/math was added
+  /usr/lib/go/src/internal/runtime/math/math.go was added
+  /usr/lib/go/src/internal/runtime/math/math_test.go was added
+  /usr/lib/go/src/internal/runtime/sys was added
+  /usr/lib/go/src/internal/runtime/syscall was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_386.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_amd64.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_arm64.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_arm.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_loong64.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_mips64x.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_mipsx.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_ppc64x.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_riscv64.s was added
+  /usr/lib/go/src/internal/runtime/syscall/asm_linux_s390x.s was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_386.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_amd64.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_arm64.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_arm.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_loong64.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_mips64x.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_mipsx.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_ppc64x.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_riscv64.go was added
+  /usr/lib/go/src/internal/runtime/syscall/defs_linux_s390x.go was added
+  /usr/lib/go/src/internal/runtime/syscall/syscall_linux.go was added
+  /usr/lib/go/src/internal/runtime/syscall/syscall_linux_test.go was added
+  /usr/lib/go/src/internal/runtime/sys/consts.go was added
+  /usr/lib/go/src/internal/runtime/sys/consts_norace.go was added
+  /usr/lib/go/src/internal/runtime/sys/consts_race.go was added
+  /usr/lib/go/src/internal/runtime/sys/dit_arm64.go was added
+  /usr/lib/go/src/internal/runtime/sys/dit_arm64.s was added
+  /usr/lib/go/src/internal/runtime/sys/empty.s was added
+  /usr/lib/go/src/internal/runtime/sys/intrinsics.go was added
+  /usr/lib/go/src/internal/runtime/sys/intrinsics_test.go was added
+  /usr/lib/go/src/internal/runtime/sys/nih.go was added
+  /usr/lib/go/src/internal/runtime/sys/no_dit.go was added
+  /usr/lib/go/src/internal/runtime/sys/sys.go was added
+  /usr/lib/go/src/internal/runtime/sys/zversion.go was added
+  /usr/lib/go/src/internal/stringslite was added
+  /usr/lib/go/src/internal/stringslite/strings.go was added
+  /usr/lib/go/src/internal/sync was added
+  /usr/lib/go/src/internal/sync/export_test.go was added
+  /usr/lib/go/src/internal/sync/hashtriemap_bench_test.go was added
+  /usr/lib/go/src/internal/sync/hashtriemap.go was added
+  /usr/lib/go/src/internal/sync/hashtriemap_test.go was added
+  /usr/lib/go/src/internal/sync/mutex.go was added
+  /usr/lib/go/src/internal/sync/runtime.go was added
+  /usr/lib/go/src/internal/synctest was added
+  /usr/lib/go/src/internal/synctest/synctest.go was added
+  /usr/lib/go/src/internal/synctest/synctest_test.go was added
+  /usr/lib/go/src/internal/syscall/unix/arandom_netbsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/arc4random_darwin.go was added
+  /usr/lib/go/src/internal/syscall/unix/arc4random_openbsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/asm_openbsd.s was added
+  /usr/lib/go/src/internal/syscall/unix/at_darwin.go was added
+  /usr/lib/go/src/internal/syscall/unix/at_openbsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/copy_file_range_unix.go was added
+  /usr/lib/go/src/internal/syscall/unix/eaccess.go was added
+  /usr/lib/go/src/internal/syscall/unix/faccessat_bsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/faccessat_darwin.go was added
+  /usr/lib/go/src/internal/syscall/unix/faccessat_openbsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/faccessat_solaris.go was added
+  /usr/lib/go/src/internal/syscall/unix/faccessat_syscall.go was added
+  /usr/lib/go/src/internal/syscall/unix/getrandom_linux_test.go was added
+  /usr/lib/go/src/internal/syscall/unix/kernel_version_freebsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/kernel_version_freebsd_test.go was added
+  /usr/lib/go/src/internal/syscall/unix/kernel_version_solaris.go was added
+  /usr/lib/go/src/internal/syscall/unix/kernel_version_solaris_test.go was added
+  /usr/lib/go/src/internal/syscall/unix/nofollow_bsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/nofollow_netbsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/nofollow_posix.go was added
+  /usr/lib/go/src/internal/syscall/unix/siginfo_linux.go was added
+  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_mipsx.go was added
+  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_other.go was added
+  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_test.go was added
+  /usr/lib/go/src/internal/syscall/unix/syscall.go was added
+  /usr/lib/go/src/internal/syscall/unix/sysnum_freebsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/tcsetpgrp_bsd.go was added
+  /usr/lib/go/src/internal/syscall/unix/tcsetpgrp_linux.go was added
+  /usr/lib/go/src/internal/syscall/unix/waitid_linux.go was added
+  /usr/lib/go/src/internal/syscall/windows/at_windows.go was added
+  /usr/lib/go/src/internal/syscall/windows/at_windows_test.go was added
+  /usr/lib/go/src/internal/syscall/windows/string_windows.go was added
+  /usr/lib/go/src/internal/syscall/windows/types_windows.go was added
+  /usr/lib/go/src/internal/syscall/windows/version_windows.go was added
+  /usr/lib/go/src/internal/syscall/windows/version_windows_test.go was added
+  /usr/lib/go/src/internal/sysinfo/cpuinfo_bsd.go was added
+  /usr/lib/go/src/internal/sysinfo/export_test.go was added
+  /usr/lib/go/src/internal/sysinfo/sysinfo_test.go was added
+  /usr/lib/go/src/internal/syslist was added
+  /usr/lib/go/src/internal/syslist/syslist.go was added
+  /usr/lib/go/src/internal/trace/base.go was added
+  /usr/lib/go/src/internal/trace/batchcursor.go was added
+  /usr/lib/go/src/internal/trace/batchcursor_test.go was added
+  /usr/lib/go/src/internal/trace/batch.go was added
+  /usr/lib/go/src/internal/trace/event was added
+  /usr/lib/go/src/internal/trace/event/event.go was added
+  /usr/lib/go/src/internal/trace/event.go was added
+  /usr/lib/go/src/internal/trace/event/go122 was added
+  /usr/lib/go/src/internal/trace/event/go122/event.go was added
+  /usr/lib/go/src/internal/trace/event/requirements.go was added
+  /usr/lib/go/src/internal/trace/event_test.go was added
+  /usr/lib/go/src/internal/trace/export_test.go was added
+  /usr/lib/go/src/internal/trace/generation.go was added
+  /usr/lib/go/src/internal/trace/internal was added
+  /usr/lib/go/src/internal/trace/internal/oldtrace was added
+  /usr/lib/go/src/internal/trace/internal/oldtrace/order.go was added
+  /usr/lib/go/src/internal/trace/internal/oldtrace/parser.go was added
+  /usr/lib/go/src/internal/trace/internal/oldtrace/parser_test.go was added
+  /usr/lib/go/src/internal/trace/internal/testgen was added
+  /usr/lib/go/src/internal/trace/internal/testgen/go122 was added
+  /usr/lib/go/src/internal/trace/internal/testgen/go122/trace.go was added
+  /usr/lib/go/src/internal/trace/oldtrace.go was added
+  /usr/lib/go/src/internal/trace/oldtrace_test.go was added
+  /usr/lib/go/src/internal/trace/order_test.go was added
+  /usr/lib/go/src/internal/trace/raw was added
+  /usr/lib/go/src/internal/trace/raw/doc.go was added
+  /usr/lib/go/src/internal/trace/raw/event.go was added
+  /usr/lib/go/src/internal/trace/raw/reader.go was added
+  /usr/lib/go/src/internal/trace/raw/textreader.go was added
+  /usr/lib/go/src/internal/trace/raw/textwriter.go was added
+  /usr/lib/go/src/internal/trace/raw/writer.go was added
+  /usr/lib/go/src/internal/trace/reader.go was added
+  /usr/lib/go/src/internal/trace/reader_test.go was added
+  /usr/lib/go/src/internal/trace/resources.go was added
+  /usr/lib/go/src/internal/trace/testtrace was added
+  /usr/lib/go/src/internal/trace/testtrace/expectation.go was added
+  /usr/lib/go/src/internal/trace/testtrace/format.go was added
+  /usr/lib/go/src/internal/trace/testtrace/validation.go was added
+  /usr/lib/go/src/internal/trace/trace_test.go was added
+  /usr/lib/go/src/internal/trace/value.go was added
+  /usr/lib/go/src/internal/trace/version was added
+  /usr/lib/go/src/internal/trace/version/version.go was added
+  /usr/lib/go/src/log/slog/example_discard_test.go was added
+  /usr/lib/go/src/maps/iter.go was added
+  /usr/lib/go/src/maps/iter_test.go was added
+  /usr/lib/go/src/math/dim_loong64.s was added
+  /usr/lib/go/src/math/floor_loong64.s was added
+  /usr/lib/go/src/math/floor_riscv64.s was added
+  /usr/lib/go/src/net/http/async_test.go was added
+  /usr/lib/go/src/net/http/netconn_test.go was added
+  /usr/lib/go/src/net/http/transport_dial_test.go was added
+  /usr/lib/go/src/net/internal/cgotest was added
+  /usr/lib/go/src/net/internal/cgotest/empty_test.go was added
+  /usr/lib/go/src/net/internal/cgotest/resstate.go was added
+  /usr/lib/go/src/net/sendfile_unix_test.go was added
+  /usr/lib/go/src/net/sock_cloexec_solaris.go was added
+  /usr/lib/go/src/net/splice_linux_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_conf_darwin_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_conf_posix_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_conf_solaris_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_conf_unix_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_conf_windows_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_illumos_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_posix_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_solaris_test.go was added
+  /usr/lib/go/src/net/tcpconn_keepalive_test.go was added
+  /usr/lib/go/src/net/tcpsock_solaris.go was added
+  /usr/lib/go/src/net/tcpsock_unix.go was added
+  /usr/lib/go/src/net/tcpsock_windows.go was added
+  /usr/lib/go/src/os/copy_test.go was added
+  /usr/lib/go/src/os/eloop_netbsd.go was added
+  /usr/lib/go/src/os/eloop_other.go was added
+  /usr/lib/go/src/os/exec_linux.go was added
+  /usr/lib/go/src/os/exec_nohandle.go was added
+  /usr/lib/go/src/os/exec_test.go was added
+  /usr/lib/go/src/os/executable_netbsd.go was added
+  /usr/lib/go/src/os/export_freebsd_test.go was added
+  /usr/lib/go/src/os/getwd_unix_test.go was added
+  /usr/lib/go/src/os/pidfd_linux.go was added
+  /usr/lib/go/src/os/pidfd_linux_test.go was added
+  /usr/lib/go/src/os/pidfd_other.go was added
+  /usr/lib/go/src/os/readfrom_freebsd_test.go was added
+  /usr/lib/go/src/os/readfrom_sendfile_test.go was added
+  /usr/lib/go/src/os/readfrom_solaris_test.go was added
+  /usr/lib/go/src/os/readfrom_unix_test.go was added
+  /usr/lib/go/src/os/root.go was added
+  /usr/lib/go/src/os/root_js.go was added
+  /usr/lib/go/src/os/root_nonwindows.go was added
+  /usr/lib/go/src/os/root_noopenat.go was added
+  /usr/lib/go/src/os/root_openat.go was added
+  /usr/lib/go/src/os/root_plan9.go was added
+  /usr/lib/go/src/os/root_test.go was added
+  /usr/lib/go/src/os/root_unix.go was added
+  /usr/lib/go/src/os/root_windows.go was added
+  /usr/lib/go/src/os/root_windows_test.go was added
+  /usr/lib/go/src/os/user/user_windows_test.go was added
+  /usr/lib/go/src/os/zero_copy_freebsd.go was added
+  /usr/lib/go/src/os/zero_copy_posix.go was added
+  /usr/lib/go/src/os/zero_copy_solaris.go was added
+  /usr/lib/go/src/reflect/badlinkname.go was added
+  /usr/lib/go/src/reflect/export_noswiss_test.go was added
+  /usr/lib/go/src/reflect/export_swiss_test.go was added
+  /usr/lib/go/src/reflect/iter.go was added
+  /usr/lib/go/src/reflect/iter_test.go was added
+  /usr/lib/go/src/reflect/map_noswiss.go was added
+  /usr/lib/go/src/reflect/map_noswiss_test.go was added
+  /usr/lib/go/src/reflect/map_swiss.go was added
+  /usr/lib/go/src/reflect/map_swiss_test.go was added
+  /usr/lib/go/src/runtime/asm_riscv64.h was added
+  /usr/lib/go/src/runtime/badlinkname.go was added
+  /usr/lib/go/src/runtime/badlinkname_linux.go was added
+  /usr/lib/go/src/runtime/bitcursor_test.go was added
+  /usr/lib/go/src/runtime/coro_test.go was added
+  /usr/lib/go/src/runtime/coverage/coverage.go was added
+  /usr/lib/go/src/runtime/debug/example_monitor_test.go was added
+  /usr/lib/go/src/runtime/export_debug_loong64_test.go was added
+  /usr/lib/go/src/runtime/export_map_noswiss_test.go was added
+  /usr/lib/go/src/runtime/export_map_swiss_test.go was added
+  /usr/lib/go/src/runtime/ints.s was added
+  /usr/lib/go/src/runtime/linkname.go was added
+  /usr/lib/go/src/runtime/linkname_swiss.go was added
+  /usr/lib/go/src/runtime/linkname_unix.go was added
+  /usr/lib/go/src/runtime/lock_futex_tristate.go was added
+  /usr/lib/go/src/runtime/lock_sema_tristate.go was added
+  /usr/lib/go/src/runtime/lock_spinbit.go was added
+  /usr/lib/go/src/runtime/map_fast32_noswiss.go was added
+  /usr/lib/go/src/runtime/map_fast32_swiss.go was added
+  /usr/lib/go/src/runtime/map_fast64_noswiss.go was added
+  /usr/lib/go/src/runtime/map_fast64_swiss.go was added
+  /usr/lib/go/src/runtime/map_faststr_noswiss.go was added
+  /usr/lib/go/src/runtime/map_faststr_swiss.go was added
+  /usr/lib/go/src/runtime/map_noswiss.go was added
+  /usr/lib/go/src/runtime/map_noswiss_test.go was added
+  /usr/lib/go/src/runtime/map_swiss.go was added
+  /usr/lib/go/src/runtime/map_swiss_test.go was added
+  /usr/lib/go/src/runtime/mcleanup.go was added
+  /usr/lib/go/src/runtime/mcleanup_test.go was added
+  /usr/lib/go/src/runtime/mem_nonsbrk.go was added
+  /usr/lib/go/src/runtime/msize.go was added
+  /usr/lib/go/src/runtime/netpoll_kqueue_event.go was added
+  /usr/lib/go/src/runtime/netpoll_kqueue_pipe.go was added
+  /usr/lib/go/src/runtime/nosan_linux_test.go was added
+  /usr/lib/go/src/runtime/note_js.go was added
+  /usr/lib/go/src/runtime/note_other.go was added
+  /usr/lib/go/src/runtime/stubs_nonwasm.go was added
+  /usr/lib/go/src/runtime/stubs_wasm.go was added
+  /usr/lib/go/src/runtime/synctest.go was added
+  /usr/lib/go/src/runtime/synctest_test.go was added
+  /usr/lib/go/src/runtime/trace2map_test.go was added
+  /usr/lib/go/src/runtime/traceallocfree.go was added
+  /usr/lib/go/src/runtime/traceback_system_test.go was added
+  /usr/lib/go/src/runtime/tracebuf.go was added
+  /usr/lib/go/src/runtime/tracecpu.go was added
+  /usr/lib/go/src/runtime/traceevent.go was added
+  /usr/lib/go/src/runtime/traceexp.go was added
+  /usr/lib/go/src/runtime/tracemap.go was added
+  /usr/lib/go/src/runtime/traceregion.go was added
+  /usr/lib/go/src/runtime/traceruntime.go was added
+  /usr/lib/go/src/runtime/tracestack.go was added
+  /usr/lib/go/src/runtime/tracestatus.go was added
+  /usr/lib/go/src/runtime/tracestring.go was added
+  /usr/lib/go/src/runtime/tracetime.go was added
+  /usr/lib/go/src/runtime/tracetype.go was added
+  /usr/lib/go/src/runtime/vgetrandom_linux.go was added
+  /usr/lib/go/src/runtime/vgetrandom_unsupported.go was added
+  /usr/lib/go/src/slices/iter.go was added
+  /usr/lib/go/src/slices/iter_test.go was added
+  /usr/lib/go/src/strings/iter.go was added
+  /usr/lib/go/src/structs was added
+  /usr/lib/go/src/structs/doc.go was added
+  /usr/lib/go/src/structs/hostlayout.go was added
+  /usr/lib/go/src/sync/atomic/doc_32.go was added
+  /usr/lib/go/src/sync/atomic/doc_64.go was added
+  /usr/lib/go/src/sync/hashtriemap.go was added
+  /usr/lib/go/src/syscall/badlinkname_unix.go was added
+  /usr/lib/go/src/syscall/export_bsd_test.go was added
+  /usr/lib/go/src/syscall/linkname_bsd.go was added
+  /usr/lib/go/src/syscall/linkname_darwin.go was added
+  /usr/lib/go/src/syscall/linkname_libc.go was added
+  /usr/lib/go/src/syscall/linkname_openbsd.go was added
+  /usr/lib/go/src/syscall/linkname_unix.go was added
+  /usr/lib/go/src/testing/example_loop_test.go was added
+  /usr/lib/go/src/testing/loop_test.go was added
+  /usr/lib/go/src/testing/synctest was added
+  /usr/lib/go/src/testing/synctest/context_example_test.go was added
+  /usr/lib/go/src/testing/synctest/synctest.go was added
+  /usr/lib/go/src/testing/testing_windows_test.go was added
+  /usr/lib/go/src/time/abs_test.go was added
+  /usr/lib/go/src/time/linkname_test.go was added
+  /usr/lib/go/src/unique was added
+  /usr/lib/go/src/unique/clone.go was added
+  /usr/lib/go/src/unique/clone_test.go was added
+  /usr/lib/go/src/unique/doc.go was added
+  /usr/lib/go/src/unique/handle_bench_test.go was added
+  /usr/lib/go/src/unique/handle.go was added
+  /usr/lib/go/src/unique/handle_test.go was added
+  /usr/lib/go/src/vendor/golang.org/x/crypto/chacha20/chacha_ppc64x.go was added
+  /usr/lib/go/src/vendor/golang.org/x/crypto/chacha20/chacha_ppc64x.s was added
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/sum_ppc64x.go was added
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/sum_ppc64x.s was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/asm_darwin_x86_gc.s was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/cpu_darwin_x86.go was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/cpu_gc_x86.s was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/cpu_linux_riscv64.go was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/cpu_other_x86.go was added
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/syscall_darwin_x86_gc.go was added
+  /usr/lib/go/src/weak was added
+  /usr/lib/go/src/weak/doc.go was added
+  /usr/lib/go/src/weak/pointer.go was added
+  /usr/lib/go/src/weak/pointer_test.go was added
+  /usr/lib/go/test/codegen/atomics.go was added
+  /usr/lib/go/test/codegen/issue59297.go was added
+  /usr/lib/go/test/codegen/issue66585.go was added
+  /usr/lib/go/test/codegen/issue68845.go was added
+  /usr/lib/go/test/codegen/issue69635.go was added
+  /usr/lib/go/test/codegen/spills.go was added
+  /usr/lib/go/test/codegen/typeswitch.go was added
+  /usr/lib/go/test/codegen/unsafe.go was added
+  /usr/lib/go/test/fixedbugs/issue16241_64.go was added
+  /usr/lib/go/test/fixedbugs/issue16241.go was added
+  /usr/lib/go/test/fixedbugs/issue20027.go was added
+  /usr/lib/go/test/fixedbugs/issue24755.go was added
+  /usr/lib/go/test/fixedbugs/issue54542.go was added
+  /usr/lib/go/test/fixedbugs/issue65362.go was added
+  /usr/lib/go/test/fixedbugs/issue65417.go was added
+  /usr/lib/go/test/fixedbugs/issue65778.go was added
+  /usr/lib/go/test/fixedbugs/issue65893.go was added
+  /usr/lib/go/test/fixedbugs/issue65962.go was added
+  /usr/lib/go/test/fixedbugs/issue66261.go was added
+  /usr/lib/go/test/fixedbugs/issue66585.go was added
+  /usr/lib/go/test/fixedbugs/issue66663.go was added
+  /usr/lib/go/test/fixedbugs/issue66873.go was added
+  /usr/lib/go/test/fixedbugs/issue67190.go was added
+  /usr/lib/go/test/fixedbugs/issue67329.go was added
+  /usr/lib/go/test/fixedbugs/issue68054.go was added
+  /usr/lib/go/test/fixedbugs/issue68264.go was added
+  /usr/lib/go/test/fixedbugs/issue68292.go was added
+  /usr/lib/go/test/fixedbugs/issue68322.go was added
+  /usr/lib/go/test/fixedbugs/issue68415.go was added
+  /usr/lib/go/test/fixedbugs/issue68525.go was added
+  /usr/lib/go/test/fixedbugs/issue68526.dir was added
+  /usr/lib/go/test/fixedbugs/issue68526.dir/a was added
+  /usr/lib/go/test/fixedbugs/issue68526.dir/a/a.go was added
+  /usr/lib/go/test/fixedbugs/issue68526.dir/main.go was added
+  /usr/lib/go/test/fixedbugs/issue68526.go was added
+  /usr/lib/go/test/fixedbugs/issue68580.go was added
+  /usr/lib/go/test/fixedbugs/issue68734.go was added
+  /usr/lib/go/test/fixedbugs/issue68809.go was added
+  /usr/lib/go/test/fixedbugs/issue68816.go was added
+  /usr/lib/go/test/fixedbugs/issue69434.go was added
+  /usr/lib/go/test/fixedbugs/issue69507.go was added
+  /usr/lib/go/test/fixedbugs/issue69825.go was added
+  /usr/lib/go/test/fixedbugs/issue70156.go was added
+  /usr/lib/go/test/fixedbugs/issue70175.go was added
+  /usr/lib/go/test/fixedbugs/issue70189.go was added
+  /usr/lib/go/test/fixedbugs/issue70481.go was added
+  /usr/lib/go/test/fixedbugs/issue70481.out was added
+  /usr/lib/go/test/inline_testingbloop.go was added
+  /usr/lib/go/test/internal was added
+  /usr/lib/go/test/internal/runtime was added
+  /usr/lib/go/test/internal/runtime/sys was added
+  /usr/lib/go/test/internal/runtime/sys/inlinegcpc.go was added
+  /usr/lib/go/test/internal/runtime/sys/README was added
+  /usr/lib/go/test/linknameasm.dir was added
+  /usr/lib/go/test/linknameasm.dir/a_amd64.s was added
+  /usr/lib/go/test/linknameasm.dir/x.go was added
+  /usr/lib/go/test/linknameasm.go was added
+  /usr/lib/go/test/tailcall.go was added
+  /usr/lib/go/test/wasmexport2.go was added
+  /usr/lib/go/test/wasmexport.go was added
+  /usr/lib/go/test/wasmmemsize.dir was added
+  /usr/lib/go/test/wasmmemsize.dir/asm_wasm.s was added
+  /usr/lib/go/test/wasmmemsize.dir/main.go was added
+  /usr/lib/go/test/wasmmemsize.go was added
+  /usr/lib/go/test/weak.go was added
+  /usr/lib/go/misc/wasm/go_js_wasm_exec was removed
+  /usr/lib/go/misc/wasm/go_wasip1_wasm_exec was removed
+  /usr/lib/go/misc/wasm/wasm_exec.js was removed
+  /usr/lib/go/misc/wasm/wasm_exec_node.js was removed
+  /usr/lib/go/src/cmd/compile/internal/importer/exportdata.go was removed
+  /usr/lib/go/src/cmd/compile/internal/importer/iimport.go was removed
+  /usr/lib/go/src/cmd/compile/internal/noder/stencil.go was removed
+  /usr/lib/go/src/cmd/compile/internal/noder/stmt.go was removed
+  /usr/lib/go/src/cmd/compile/internal/pgo was removed
+  /usr/lib/go/src/cmd/compile/internal/pgo/internal was removed
+  /usr/lib/go/src/cmd/compile/internal/pgo/internal/graph was removed
+  /usr/lib/go/src/cmd/compile/internal/pgo/internal/graph/graph.go was removed
+  /usr/lib/go/src/cmd/compile/internal/pgo/irgraph.go was removed
+  /usr/lib/go/src/cmd/compile/internal/ssa/phielim.go was removed
+  /usr/lib/go/src/cmd/compile/internal/types/sort.go was removed
+  /usr/lib/go/src/cmd/go/internal/cfg/lookpath.go was removed
+  /usr/lib/go/src/cmd/go/internal/modindex/syslist.go was removed
+  /usr/lib/go/src/cmd/go/internal/par was removed
+  /usr/lib/go/src/cmd/go/internal/par/queue.go was removed
+  /usr/lib/go/src/cmd/go/internal/par/queue_test.go was removed
+  /usr/lib/go/src/cmd/go/internal/par/work.go was removed
+  /usr/lib/go/src/cmd/go/internal/par/work_test.go was removed
+  /usr/lib/go/src/cmd/go/internal/robustio was removed
+  /usr/lib/go/src/cmd/go/internal/robustio/robustio_darwin.go was removed
+  /usr/lib/go/src/cmd/go/internal/robustio/robustio_flaky.go was removed
+  /usr/lib/go/src/cmd/go/internal/robustio/robustio.go was removed
+  /usr/lib/go/src/cmd/go/internal/robustio/robustio_other.go was removed
+  /usr/lib/go/src/cmd/go/internal/robustio/robustio_windows.go was removed
+  /usr/lib/go/src/cmd/go/internal/script was removed
+  /usr/lib/go/src/cmd/go/internal/script/cmds.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/cmds_other.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/cmds_posix.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/conds.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/engine.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/errors.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/scripttest was removed
+  /usr/lib/go/src/cmd/go/internal/script/scripttest/scripttest.go was removed
+  /usr/lib/go/src/cmd/go/internal/script/state.go was removed
+  /usr/lib/go/src/cmd/go/internal/test/test_nonunix.go was removed
+  /usr/lib/go/src/cmd/go/internal/test/test_unix.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256 was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_386.s was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_amd64.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_amd64.s was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_decl.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_generic.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256block_ppc64x.s was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256.go was removed
+  /usr/lib/go/src/cmd/internal/notsha256/sha256_test.go was removed
+  /usr/lib/go/src/cmd/internal/objabi/typekind.go was removed
+  /usr/lib/go/src/cmd/internal/objfile/disasm.go was removed
+  /usr/lib/go/src/cmd/internal/osinfo/os_unix.go was removed
+  /usr/lib/go/src/cmd/trace/annotations.go was removed
+  /usr/lib/go/src/cmd/trace/annotations_test.go was removed
+  /usr/lib/go/src/cmd/trace/trace.go was removed
+  /usr/lib/go/src/cmd/trace/trace_test.go was removed
+  /usr/lib/go/src/cmd/trace/trace_unix_test.go was removed
+  /usr/lib/go/src/cmd/trace/v2 was removed
+  /usr/lib/go/src/cmd/trace/v2/gen.go was removed
+  /usr/lib/go/src/cmd/trace/v2/goroutinegen.go was removed
+  /usr/lib/go/src/cmd/trace/v2/goroutines.go was removed
+  /usr/lib/go/src/cmd/trace/v2/gstate.go was removed
+  /usr/lib/go/src/cmd/trace/v2/jsontrace.go was removed
+  /usr/lib/go/src/cmd/trace/v2/jsontrace_test.go was removed
+  /usr/lib/go/src/cmd/trace/v2/main.go was removed
+  /usr/lib/go/src/cmd/trace/v2/pprof.go was removed
+  /usr/lib/go/src/cmd/trace/v2/procgen.go was removed
+  /usr/lib/go/src/cmd/trace/v2/regions.go was removed
+  /usr/lib/go/src/cmd/trace/v2/tasks.go was removed
+  /usr/lib/go/src/cmd/trace/v2/threadgen.go was removed
+  /usr/lib/go/src/cmd/trace/v2/viewer.go was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/flamegraph.go was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/html/flamegraph.html was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/d3_flame_graph.go was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/D3_FLAME_GRAPH_LICENSE was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/D3_LICENSE was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/index.js was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/package.json was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/package-lock.json was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/README.md was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/update.sh was removed
+  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/webpack.config.js was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/epoll_zos.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/fstatfs_zos.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/windows/empty.s was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/cmd/bisect/go119.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/cmd/bisect/rand.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/asmdecl/arches_go118.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/asmdecl/arches_go119.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/buildtag/buildtag_old.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/ifaceassert/parameterized.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/astutil was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/astutil/enclosing.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/astutil/imports.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/astutil/rewrite.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/ast/astutil/util.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/types_go121.go was removed
+  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/types_go122.go was removed
+  /usr/lib/go/src/crypto/aes/aes_gcm.go was removed
+  /usr/lib/go/src/crypto/aes/asm_amd64.s was removed
+  /usr/lib/go/src/crypto/aes/asm_arm64.s was removed
+  /usr/lib/go/src/crypto/aes/asm_ppc64x.s was removed
+  /usr/lib/go/src/crypto/aes/asm_s390x.s was removed
+  /usr/lib/go/src/crypto/aes/block.go was removed
+  /usr/lib/go/src/crypto/aes/cbc_ppc64x.go was removed
+  /usr/lib/go/src/crypto/aes/cbc_s390x.go was removed
+  /usr/lib/go/src/crypto/aes/cipher_asm.go was removed
+  /usr/lib/go/src/crypto/aes/cipher_generic.go was removed
+  /usr/lib/go/src/crypto/aes/cipher.go was removed
+  /usr/lib/go/src/crypto/aes/cipher_s390x.go was removed
+  /usr/lib/go/src/crypto/aes/const.go was removed
+  /usr/lib/go/src/crypto/aes/ctr_s390x.go was removed
+  /usr/lib/go/src/crypto/aes/gcm_amd64.s was removed
+  /usr/lib/go/src/crypto/aes/gcm_arm64.s was removed
+  /usr/lib/go/src/crypto/aes/gcm_ppc64x.go was removed
+  /usr/lib/go/src/crypto/aes/gcm_ppc64x.s was removed
+  /usr/lib/go/src/crypto/aes/gcm_s390x.go was removed
+  /usr/lib/go/src/crypto/aes/modes.go was removed
+  /usr/lib/go/src/crypto/aes/modes_test.go was removed
+  /usr/lib/go/src/crypto/cipher/cipher_test.go was removed
+  /usr/lib/go/src/crypto/cipher/export_test.go was removed
+  /usr/lib/go/src/crypto/ecdsa/ecdsa_noasm.go was removed
+  /usr/lib/go/src/crypto/ecdsa/ecdsa_s390x.go was removed
+  /usr/lib/go/src/crypto/ecdsa/ecdsa_s390x.s was removed
+  /usr/lib/go/src/crypto/ecdsa/ecdsa_s390x_test.go was removed
+  /usr/lib/go/src/crypto/internal/alias was removed
+  /usr/lib/go/src/crypto/internal/alias/alias.go was removed
+  /usr/lib/go/src/crypto/internal/alias/alias_test.go was removed
+  /usr/lib/go/src/crypto/internal/bigmod was removed
+  /usr/lib/go/src/crypto/internal/bigmod/_asm was removed
+  /usr/lib/go/src/crypto/internal/bigmod/_asm/go.mod was removed
+  /usr/lib/go/src/crypto/internal/bigmod/_asm/go.sum was removed
+  /usr/lib/go/src/crypto/internal/bigmod/_asm/nat_amd64_asm.go was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_386.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_amd64.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_arm64.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_arm.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_asm.go was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat.go was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_noasm.go was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_ppc64x.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_riscv64.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_s390x.s was removed
+  /usr/lib/go/src/crypto/internal/bigmod/nat_test.go was removed
+  /usr/lib/go/src/crypto/internal/boring/fipstls was removed
+  /usr/lib/go/src/crypto/internal/boring/fipstls/stub.s was removed
+  /usr/lib/go/src/crypto/internal/boring/fipstls/tls.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519 was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/doc.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/edwards25519.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/edwards25519_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/_asm was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/_asm/fe_amd64_asm.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/_asm/go.mod was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/_asm/go.sum was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_alias_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_amd64.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_amd64_noasm.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_amd64.s was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_arm64.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_arm64_noasm.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_arm64.s was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_bench_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_generic.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/field/fe_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalar_alias_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalar_fiat.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalar.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalarmult.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalarmult_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/scalar_test.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/tables.go was removed
+  /usr/lib/go/src/crypto/internal/edwards25519/tables_test.go was removed
+  /usr/lib/go/src/crypto/internal/nistec was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/Dockerfile was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/fiat_test.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/generate.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p224_fiat64.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p224.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p224_invert.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p256_fiat64.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p256.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p256_invert.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p384_fiat64.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p384.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p384_invert.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p521_fiat64.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p521.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/p521_invert.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/fiat/README was removed
+  /usr/lib/go/src/crypto/internal/nistec/generate.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/nistec.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/nistec_test.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p224.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p224_sqrt.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_amd64.s was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_arm64.s was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_ppc64le.s was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_s390x.s was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_table.bin was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_asm_table_test.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_ordinv.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_ordinv_noasm.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p256_ordinv_test.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p384.go was removed
+  /usr/lib/go/src/crypto/internal/nistec/p521.go was removed
+  /usr/lib/go/src/crypto/rand/rand_batched_test.go was removed
+  /usr/lib/go/src/crypto/rand/rand_getentropy.go was removed
+  /usr/lib/go/src/crypto/rand/rand_getrandom.go was removed
+  /usr/lib/go/src/crypto/rand/rand_js.go was removed
+  /usr/lib/go/src/crypto/rand/rand_plan9.go was removed
+  /usr/lib/go/src/crypto/rand/rand_unix.go was removed
+  /usr/lib/go/src/crypto/rand/rand_wasip1.go was removed
+  /usr/lib/go/src/crypto/rand/rand_windows.go was removed
+  /usr/lib/go/src/crypto/rsa/pss.go was removed
+  /usr/lib/go/src/crypto/sha256/fallback_test.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_386.s was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_amd64.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_amd64.s was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_arm64.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_arm64.s was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_decl.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_generic.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_ppc64x.s was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_s390x.go was removed
+  /usr/lib/go/src/crypto/sha256/sha256block_s390x.s was removed
+  /usr/lib/go/src/crypto/sha512/fallback_test.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_amd64.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_amd64.s was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_arm64.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_arm64.s was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_decl.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_generic.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_ppc64x.s was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_s390x.go was removed
+  /usr/lib/go/src/crypto/sha512/sha512block_s390x.s was removed
+  /usr/lib/go/src/crypto/subtle/xor_amd64.go was removed
+  /usr/lib/go/src/crypto/subtle/xor_amd64.s was removed
+  /usr/lib/go/src/crypto/subtle/xor_arm64.go was removed
+  /usr/lib/go/src/crypto/subtle/xor_arm64.s was removed
+  /usr/lib/go/src/crypto/subtle/xor_generic.go was removed
+  /usr/lib/go/src/crypto/subtle/xor_ppc64x.go was removed
+  /usr/lib/go/src/crypto/subtle/xor_ppc64x.s was removed
+  /usr/lib/go/src/crypto/tls/boring.go was removed
+  /usr/lib/go/src/crypto/tls/boring_test.go was removed
+  /usr/lib/go/src/crypto/tls/notboring.go was removed
+  /usr/lib/go/src/crypto/x509/boring.go was removed
+  /usr/lib/go/src/crypto/x509/boring_test.go was removed
+  /usr/lib/go/src/crypto/x509/notboring.go was removed
+  /usr/lib/go/src/encoding/csv/fuzz.go was removed
+  /usr/lib/go/src/go/build/syslist.go was removed
+  /usr/lib/go/src/go/internal/gcimporter/exportdata.go was removed
+  /usr/lib/go/src/go/internal/gcimporter/iimport.go was removed
+  /usr/lib/go/src/go/internal/typeparams was removed
+  /usr/lib/go/src/go/internal/typeparams/typeparams.go was removed
+  /usr/lib/go/src/image/png/fuzz.go was removed
+  /usr/lib/go/src/internal/abi/map.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_allocheaders_off.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_allocheaders_on.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_exectracer2_off.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_exectracer2_on.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_pagetrace_off.go was removed
+  /usr/lib/go/src/internal/goexperiment/exp_pagetrace_on.go was removed
+  /usr/lib/go/src/internal/intern was removed
+  /usr/lib/go/src/internal/intern/intern.go was removed
+  /usr/lib/go/src/internal/intern/intern_test.go was removed
+  /usr/lib/go/src/internal/poll/sendfile_bsd.go was removed
+  /usr/lib/go/src/internal/poll/sendfile_linux.go was removed
+  /usr/lib/go/src/internal/poll/sock_cloexec_accept.go was removed
+  /usr/lib/go/src/internal/poll/strconv.go was removed
+  /usr/lib/go/src/internal/profile/legacy_profile.go was removed
+  /usr/lib/go/src/internal/profile/profile_test.go was removed
+  /usr/lib/go/src/internal/safefilepath was removed
+  /usr/lib/go/src/internal/safefilepath/path.go was removed
+  /usr/lib/go/src/internal/safefilepath/path_other.go was removed
+  /usr/lib/go/src/internal/safefilepath/path_test.go was removed
+  /usr/lib/go/src/internal/safefilepath/path_windows.go was removed
+  /usr/lib/go/src/internal/syscall/unix/copy_file_range_linux.go was removed
+  /usr/lib/go/src/internal/syscall/unix/eaccess_bsd.go was removed
+  /usr/lib/go/src/internal/syscall/unix/eaccess_linux.go was removed
+  /usr/lib/go/src/internal/syscall/unix/eaccess_other.go was removed
+  /usr/lib/go/src/internal/syscall/unix/getentropy_darwin.go was removed
+  /usr/lib/go/src/internal/syscall/unix/getentropy_darwin.s was removed
+  /usr/lib/go/src/internal/syscall/unix/getentropy_netbsd.go was removed
+  /usr/lib/go/src/internal/syscall/unix/getentropy_openbsd.go was removed
+  /usr/lib/go/src/internal/syscall/unix/getentropy_openbsd_mips64.go was removed
+  /usr/lib/go/src/internal/trace/goroutines.go was removed
+  /usr/lib/go/src/internal/trace/mkcanned.bash was removed
+  /usr/lib/go/src/internal/trace/parser_test.go was removed
+  /usr/lib/go/src/internal/trace/v2 was removed
+  /usr/lib/go/src/internal/trace/v2/base.go was removed
+  /usr/lib/go/src/internal/trace/v2/batchcursor.go was removed
+  /usr/lib/go/src/internal/trace/v2/batchcursor_test.go was removed
+  /usr/lib/go/src/internal/trace/v2/batch.go was removed
+  /usr/lib/go/src/internal/trace/v2/event was removed
+  /usr/lib/go/src/internal/trace/v2/event/event.go was removed
+  /usr/lib/go/src/internal/trace/v2/event.go was removed
+  /usr/lib/go/src/internal/trace/v2/event/go122 was removed
+  /usr/lib/go/src/internal/trace/v2/event/go122/event.go was removed
+  /usr/lib/go/src/internal/trace/v2/event/requirements.go was removed
+  /usr/lib/go/src/internal/trace/v2/event_test.go was removed
+  /usr/lib/go/src/internal/trace/v2/generation.go was removed
+  /usr/lib/go/src/internal/trace/v2/internal was removed
+  /usr/lib/go/src/internal/trace/v2/internal/testgen was removed
+  /usr/lib/go/src/internal/trace/v2/internal/testgen/go122 was removed
+  /usr/lib/go/src/internal/trace/v2/internal/testgen/go122/trace.go was removed
+  /usr/lib/go/src/internal/trace/v2/mkexp.bash was removed
+  /usr/lib/go/src/internal/trace/v2/order.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw was removed
+  /usr/lib/go/src/internal/trace/v2/raw/doc.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw/event.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw/reader.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw/textreader.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw/textwriter.go was removed
+  /usr/lib/go/src/internal/trace/v2/raw/writer.go was removed
+  /usr/lib/go/src/internal/trace/v2/reader.go was removed
+  /usr/lib/go/src/internal/trace/v2/reader_test.go was removed
+  /usr/lib/go/src/internal/trace/v2/resources.go was removed
+  /usr/lib/go/src/internal/trace/v2/testtrace was removed
+  /usr/lib/go/src/internal/trace/v2/testtrace/expectation.go was removed
+  /usr/lib/go/src/internal/trace/v2/testtrace/format.go was removed
+  /usr/lib/go/src/internal/trace/v2/testtrace/validation.go was removed
+  /usr/lib/go/src/internal/trace/v2/trace_test.go was removed
+  /usr/lib/go/src/internal/trace/v2/value.go was removed
+  /usr/lib/go/src/internal/trace/v2/version was removed
+  /usr/lib/go/src/internal/trace/v2/version/version.go was removed
+  /usr/lib/go/src/internal/trace/writer.go was removed
+  /usr/lib/go/src/maps/maps.s was removed
+  /usr/lib/go/src/net/cgo_unix_cgo_darwin.go was removed
+  /usr/lib/go/src/net/main_noconf_test.go was removed
+  /usr/lib/go/src/net/netip/leaf_alts.go was removed
+  /usr/lib/go/src/net/sendfile_linux_test.go was removed
+  /usr/lib/go/src/net/splice_test.go was removed
+  /usr/lib/go/src/net/tcpsockopt_dragonfly.go was removed
+  /usr/lib/go/src/os/endian_big.go was removed
+  /usr/lib/go/src/os/endian_little.go was removed
+  /usr/lib/go/src/os/error_posix.go was removed
+  /usr/lib/go/src/path/filepath/path_nonwindows.go was removed
+  /usr/lib/go/src/runtime/coverage/apis.go was removed
+  /usr/lib/go/src/runtime/coverage/dummy.s was removed
+  /usr/lib/go/src/runtime/coverage/emitdata_test.go was removed
+  /usr/lib/go/src/runtime/coverage/emit.go was removed
+  /usr/lib/go/src/runtime/coverage/hooks.go was removed
+  /usr/lib/go/src/runtime/coverage/testsupport.go was removed
+  /usr/lib/go/src/runtime/coverage/ts_test.go was removed
+  /usr/lib/go/src/runtime/exithook.go was removed
+  /usr/lib/go/src/runtime/internal/atomic was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_386.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_386.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_amd64.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_amd64.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_andor_generic.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_andor_test.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_arm64.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_arm64.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_arm.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_arm.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_loong64.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_loong64.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_mips64x.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_mips64x.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_mipsx.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_mipsx.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_ppc64x.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_ppc64x.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_riscv64.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_riscv64.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_s390x.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_s390x.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_test.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_wasm.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/atomic_wasm.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/bench_test.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/doc.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/stubs.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/sys_linux_arm.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/sys_nonlinux_arm.s was removed
+  /usr/lib/go/src/runtime/internal/atomic/types_64bit.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/types.go was removed
+  /usr/lib/go/src/runtime/internal/atomic/unaligned.go was removed
+  /usr/lib/go/src/runtime/internal/math was removed
+  /usr/lib/go/src/runtime/internal/math/math.go was removed
+  /usr/lib/go/src/runtime/internal/math/math_test.go was removed
+  /usr/lib/go/src/runtime/internal/sys was removed
+  /usr/lib/go/src/runtime/internal/syscall was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_386.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_amd64.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_arm64.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_arm.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_loong64.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_mips64x.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_mipsx.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_ppc64x.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_riscv64.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/asm_linux_s390x.s was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_386.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_amd64.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_arm64.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_arm.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_loong64.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_mips64x.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_mipsx.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_ppc64x.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_riscv64.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/defs_linux_s390x.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/syscall_linux.go was removed
+  /usr/lib/go/src/runtime/internal/syscall/syscall_linux_test.go was removed
+  /usr/lib/go/src/runtime/internal/sys/consts.go was removed
+  /usr/lib/go/src/runtime/internal/sys/consts_norace.go was removed
+  /usr/lib/go/src/runtime/internal/sys/consts_race.go was removed
+  /usr/lib/go/src/runtime/internal/sys/intrinsics.go was removed
+  /usr/lib/go/src/runtime/internal/sys/intrinsics_test.go was removed
+  /usr/lib/go/src/runtime/internal/sys/nih.go was removed
+  /usr/lib/go/src/runtime/internal/sys/sys.go was removed
+  /usr/lib/go/src/runtime/internal/sys/zversion.go was removed
+  /usr/lib/go/src/runtime/map_fast32.go was removed
+  /usr/lib/go/src/runtime/map_fast64.go was removed
+  /usr/lib/go/src/runtime/map_faststr.go was removed
+  /usr/lib/go/src/runtime/map.go was removed
+  /usr/lib/go/src/runtime/mbitmap_allocheaders.go was removed
+  /usr/lib/go/src/runtime/mbitmap_noallocheaders.go was removed
+  /usr/lib/go/src/runtime/msize_allocheaders.go was removed
+  /usr/lib/go/src/runtime/msize_noallocheaders.go was removed
+  /usr/lib/go/src/runtime/norace_linux_test.go was removed
+  /usr/lib/go/src/runtime/pagetrace_off.go was removed
+  /usr/lib/go/src/runtime/pagetrace_on.go was removed
+  /usr/lib/go/src/runtime/trace2buf.go was removed
+  /usr/lib/go/src/runtime/trace2cpu.go was removed
+  /usr/lib/go/src/runtime/trace2event.go was removed
+  /usr/lib/go/src/runtime/trace2.go was removed
+  /usr/lib/go/src/runtime/trace2map.go was removed
+  /usr/lib/go/src/runtime/trace2region.go was removed
+  /usr/lib/go/src/runtime/trace2runtime.go was removed
+  /usr/lib/go/src/runtime/trace2stack.go was removed
+  /usr/lib/go/src/runtime/trace2status.go was removed
+  /usr/lib/go/src/runtime/trace2string.go was removed
+  /usr/lib/go/src/runtime/trace2time.go was removed
+  /usr/lib/go/src/runtime/trace/trace_stack_test.go was removed
+  /usr/lib/go/src/sort/sort_impl_120.go was removed
+  /usr/lib/go/src/sort/sort_impl_go121.go was removed
+  /usr/lib/go/src/syscall/asan0.go was removed
+  /usr/lib/go/src/syscall/asan.go was removed
+  /usr/lib/go/src/syscall/endian_big.go was removed
+  /usr/lib/go/src/syscall/endian_little.go was removed
+  /usr/lib/go/src/syscall/export_darwin_test.go was removed
+  /usr/lib/go/src/syscall/export_unix_test.go was removed
+  /usr/lib/go/src/syscall/msan0.go was removed
+  /usr/lib/go/src/syscall/msan.go was removed
+  /usr/lib/go/src/syscall/syscall_linux_accept4.go was removed
+  /usr/lib/go/src/syscall/syscall_linux_accept.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/chacha20/chacha_ppc64le.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/chacha20/chacha_ppc64le.s was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/hkdf was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/hkdf/hkdf.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/bits_compat.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/bits_go1.13.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/sum_ppc64le.go was removed
+  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/sum_ppc64le.s was removed
+  /usr/lib/go/src/vendor/golang.org/x/sys/cpu/cpu_x86.s was removed
+  /usr/lib/go/test/runtime was removed
+  /usr/lib/go/test/runtime/inlinegcpc.go was removed
+  /usr/lib/go/test/runtime/README was removed
 
---===============0656166312404369613==--
+--===============8270838383326846895==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-go-binary-native-upgrade-1.22.12-1.24.0.patch"
+
+RnJvbSBiYjRkM2VmZGQ0MThlOTcxNmZkZTgzYmUzNmExZGIwOGNlNTNhNGE1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwNzozNDowNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdv
+LWJpbmFyeS1uYXRpdmU6IHVwZ3JhZGUgMS4yMi4xMiAtPiAxLjI0LjAKCi0tLQogLi4uXzEuMjIu
+MTIuYmIgPT4gZ28tYmluYXJ5LW5hdGl2ZV8xLjI0LjAuYmJ9IHwgMzQgKysrKysrKysrKysrKysr
+Ky0tLQogMSBmaWxlIGNoYW5nZWQsIDMwIGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL3tnby1iaW5hcnktbmF0aXZlXzEuMjIuMTIu
+YmIgPT4gZ28tYmluYXJ5LW5hdGl2ZV8xLjI0LjAuYmJ9ICg0NiUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLWJpbmFyeS1uYXRpdmVfMS4yMi4xMi5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9nby9nby1iaW5hcnktbmF0aXZlXzEuMjQuMC5iYgpzaW1pbGFyaXR5
+IGluZGV4IDQ2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28tYmluYXJ5
+LW5hdGl2ZV8xLjIyLjEyLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28t
+YmluYXJ5LW5hdGl2ZV8xLjI0LjAuYmIKaW5kZXggNzQ3NzM3ZmY5NC4uYjAyYjEyZmM0NiAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLWJpbmFyeS1uYXRpdmVfMS4yMi4x
+Mi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28tYmluYXJ5LW5hdGl2ZV8xLjI0
+LjAuYmIKQEAgLTEsMTcgKzEsNDMgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZh
+bHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxv
+d2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5z
+ZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5k
+IHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNl
+bnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0
+IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNFCisj
+ICsrKyBMSUNFTlNFCisjIEBAIC0xLDQgKzEsNCBAQAorIyAtQ29weXJpZ2h0IChjKSAyMDA5IFRo
+ZSBHbyBBdXRob3JzLiBBbGwgcmlnaHRzIHJlc2VydmVkLgorIyArQ29weXJpZ2h0IDIwMDkgVGhl
+IEdvIEF1dGhvcnMuCisjICAKKyMgIFJlZGlzdHJpYnV0aW9uIGFuZCB1c2UgaW4gc291cmNlIGFu
+ZCBiaW5hcnkgZm9ybXMsIHdpdGggb3Igd2l0aG91dAorIyAgbW9kaWZpY2F0aW9uLCBhcmUgcGVy
+bWl0dGVkIHByb3ZpZGVkIHRoYXQgdGhlIGZvbGxvd2luZyBjb25kaXRpb25zIGFyZQorIyBAQCAt
+MTAsNyArMTAsNyBAQAorIyAgY29weXJpZ2h0IG5vdGljZSwgdGhpcyBsaXN0IG9mIGNvbmRpdGlv
+bnMgYW5kIHRoZSBmb2xsb3dpbmcgZGlzY2xhaW1lcgorIyAgaW4gdGhlIGRvY3VtZW50YXRpb24g
+YW5kL29yIG90aGVyIG1hdGVyaWFscyBwcm92aWRlZCB3aXRoIHRoZQorIyAgZGlzdHJpYnV0aW9u
+LgorIyAtICAgKiBOZWl0aGVyIHRoZSBuYW1lIG9mIEdvb2dsZSBJbmMuIG5vciB0aGUgbmFtZXMg
+b2YgaXRzCisjICsgICAqIE5laXRoZXIgdGhlIG5hbWUgb2YgR29vZ2xlIExMQyBub3IgdGhlIG5h
+bWVzIG9mIGl0cworIyAgY29udHJpYnV0b3JzIG1heSBiZSB1c2VkIHRvIGVuZG9yc2Ugb3IgcHJv
+bW90ZSBwcm9kdWN0cyBkZXJpdmVkIGZyb20KKyMgIHRoaXMgc29mdHdhcmUgd2l0aG91dCBzcGVj
+aWZpYyBwcmlvciB3cml0dGVuIHBlcm1pc3Npb24uCisjICAKKyMgCisjCisKICMgVGhpcyByZWNp
+cGUgaXMgZm9yIGJvb3RzdHJhcHBpbmcgb3VyIGdvLWNyb3NzIGZyb20gYSBwcmVidWlsdCBiaW5h
+cnkgb2YgR28gZnJvbSBnb2xhbmcub3JnLgogCiBTVU1NQVJZID0gIkdvIHByb2dyYW1taW5nIGxh
+bmd1YWdlIGNvbXBpbGVyICh1cHN0cmVhbSBiaW5hcnkgZm9yIGJvb3RzdHJhcCkiCiBIT01FUEFH
+RSA9ICIgaHR0cDovL2dvbGFuZy5vcmcvIgogTElDRU5TRSA9ICJCU0QtMy1DbGF1c2UiCi1MSUNf
+RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT01ZDQ5NTBlY2I3YjI2ZDJjNWU0ZTdi
+NGUwZGQ3NDcwNyIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTc5OThj
+YjMzOGY4MmQxNWMwZWZmOTNiNzAwNGQyNzJhIgogCiBQUk9WSURFUyA9ICJnby1uYXRpdmUiCiAK
+ICMgQ2hlY2tzdW1zIGF2YWlsYWJsZSBhdCBodHRwczovL2dvLmRldi9kbC8KIFNSQ19VUkkgPSAi
+aHR0cHM6Ly9kbC5nb29nbGUuY29tL2dvL2dvJHtQVn0uJHtCVUlMRF9HT09TfS0ke0JVSUxEX0dP
+QVJDSH0udGFyLmd6O25hbWU9Z29fJHtCVUlMRF9HT1RVUExFfSIKLVNSQ19VUklbZ29fbGludXhf
+YW1kNjQuc2hhMjU2c3VtXSA9ICI0ZmE0Zjg2OWIwZjdmYzZiYjFlYjI2NjBlNzQ2NTdmYmYwNGNk
+ZDI5MGI1YWVmOTA1NTg1Yzg2MDUxYjM0ZDQzIgotU1JDX1VSSVtnb19saW51eF9hcm02NC5zaGEy
+NTZzdW1dID0gImZkMDE3ZTY0N2VjMjg1MjVlODZhZTgyMDMyMzZlMDY1MzI0MjcyMmE3NDM2OTI5
+YjFmNzc1NzQ0ZTI2Mjc4ZTciCi1TUkNfVVJJW2dvX2xpbnV4X3BwYzY0bGUuc2hhMjU2c3VtXSA9
+ICI5NTczZDMwMDAzYjA3OTY3MTdhOTlkOWUyZTk2YzQ4ZmRkZDRmYzBmMjlkODQwZjIxMmM1MDNi
+MDNkN2RlMTEyIgorU1JDX1VSSVtnb19saW51eF9hbWQ2NC5zaGEyNTZzdW1dID0gImRlYTljYTM4
+YTBiODUyYTc0ZTgxYzI2MTM0NjcxYWY3YzBmYmU2NWQ4MWIwZGMxYzViZmUyMmNmN2Q0Yzg4NTgi
+CiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL2dvbGFuZy5vcmcvZGwvIgogVVBTVFJF
+QU1fQ0hFQ0tfUkVHRVggPSAiZ28oP1A8cHZlcj5cZCsoXC5cZCspKylcLmxpbnV4IgotLSAKMi40
+NC4xCgo=
+
+--===============8270838383326846895==--
 
