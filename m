@@ -1,106 +1,107 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53554C19F32
-	for <webhook@archiver.kernel.org>; Sun,  2 Mar 2025 07:44:16 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.26889.1740901447909105537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B59AC19F32
+	for <webhook@archiver.kernel.org>; Sun,  2 Mar 2025 11:19:47 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.28521.1740914383996607082
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Mar 2025 23:44:08 -0800
+ Sun, 02 Mar 2025 03:19:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EvHBapPY;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-390e702d481so1409482f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 23:44:07 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mjwS7Eme;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22355618fd9so57872875ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Mar 2025 03:19:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740901445; x=1741506245; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W73YAwKwWBIBJ7ZuejuZw8jwBFnMxlpeWoV8SesKxCI=;
-        b=EvHBapPYxP9tDrlJYU4D3h9NwjCY9qBrbu1uUuoseXZsySAe00dHr/mLKVHq81iM7k
-         HMoPQAaGKXlhYRMp6sZ/VD6MjFHvuUjmryQd/5g0NupcR9TI09wgagcfCEsiMq99YcZE
-         qJ+2KAV3nwhp8jodJXj9v3T1b78cePcTr5a5ijpstgqGLCKntm+RT6Ree0jKzZwndoEh
-         G9o3C7M8sP7Y+FLn2Dqbn3yyfnNvOJL5tWTSA1QxtewfIW7RAxub9I4tumbDKUAIJDMk
-         ZyE5gN6ID/I1rNSMbXbv8KrBNAqfF9slesXZAQ8DJdLScc8aaTHu8ryAzMjPINH5G9LS
-         TTZQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740914383; x=1741519183; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ChtfZSerK7fTZEeH/ODPPGeJgnVf1wWbczXxIU5tEgQ=;
+        b=mjwS7EmeI9AvEAXEU+UH0ylhzFQ8mHWmHUpeE+F9c7RvbY9qWegye/HMEcxhT7LMfe
+         eokFHQJeJoDrqetLbDtBksxfToUvi+kH5KAPfke1xQuQNIIVMW6Clc2QfiOKN6J32y0L
+         mkrwg33JEQe5QMaAo2QSX6SKnlFTTn5kZqcKCISx/nty00IxYxNeTuFMYtJT/xi3alDt
+         BGKpWXwx0+k54c6MCtSeOw9hpeGiho8VeNMY+Kw2DOpjADB5cUuMBS6KkzSYE7JcOe5O
+         7DhMgA/m6CvYThcYs42im9w3dh33Ga03PKobq++Qh1xmR7h7YDk8GUwLfwFcve5JsO41
+         b6WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740901445; x=1741506245;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W73YAwKwWBIBJ7ZuejuZw8jwBFnMxlpeWoV8SesKxCI=;
-        b=VWb+w7+aWxn3NM3ZU2JnqWEhDGrYg6MdQcN4kQmeaisvY3BkHU1w1fUJdwmTQSylfp
-         ei2RQ2NGGsNh9wr9U6w2R0+x3rQkOi/ODHkkW5Itg007BdE86UfEn07as38ylgmqek+G
-         6gKOytSeKY0ahYToMgpYbnCCAbgKf4v8LLeFBL658rGIOtl7b1rSvboycWxWEzEildB0
-         tLk+7EMPg4oNEB90qzzbofEHHDacmTsQKEmf0NvrYsFhnbsV0lrtwDJpIOOGoClJncMD
-         0A45EhJq82ksv0XOJIv4Mx6JUODTf1DNySzDZRT0riu+n4okfNVWuef6oL1lPXYR/j3E
-         OXNw==
-X-Gm-Message-State: AOJu0YznnPovxHJx3PUFRUDGNn7TyCIf7rFJ22eHGR8a7C/vVnu78T+8
-	aWYyRIBUObjesNhALV5x956RYkb2I3qlgXgxPLn3UB9ZcgCGN9MOp8NjRSu3
-X-Gm-Gg: ASbGnctmJk/oy+o+H2qlhJLfRFP8ZALZLxsqaOLROuW+vO3fhP+ZlWxLR6KytucZ0cI
-	v8dbeG5pPub8LGudIT6SA/jLJOqTJCvlV8nvxpReEKUxiem3woDU1AjFAdbcqBMvoB8Q6QmokVV
-	tAARxDxImxBTaXh3XVSPIH3QEREmoRuQGieCMU84SlvAwSvsex8B/Ncvoj82KpDU9pwmtA9UBhR
-	Fvn2Duzul/nNZRDNLOP6cQMcOlQ9a2ob5O/4qqOkEK7jRi65bQDB8tEOiQcAStU4oQ/9fjro7df
-	SNFEtRWn4yvalKlEKVJHiY0IU0VI/pzX2vLMsaM91UY18aSptnDuK2uRbf5RH/5ngBJoYWG/nsX
-	yiCQOXNqHkXA=
-X-Google-Smtp-Source: AGHT+IHdrylBXc8cSVm0cNYxQuAp/X+DGfPowbPguyv5eTgKIt+1X/hbas5TpzVPz6J1b9X+SWsO4A==
-X-Received: by 2002:a05:6000:188c:b0:38f:3224:65ff with SMTP id ffacd0b85a97d-390ec7c6a8emr6632242f8f.5.1740901445395;
-        Sat, 01 Mar 2025 23:44:05 -0800 (PST)
-Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e47a72d5sm10765076f8f.31.2025.03.01.23.44.04
+        d=1e100.net; s=20230601; t=1740914383; x=1741519183;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ChtfZSerK7fTZEeH/ODPPGeJgnVf1wWbczXxIU5tEgQ=;
+        b=DmaM5fgyAcW69VtvbjvOGujVP4Ng6lEVwx1qqvriiKEtcP8kbGl72z+GNvWgBhhP3C
+         h/oE6RFl9uiT1gQsAy/P4IteEBlGMYQ69wblEFvo1cQwhaVljTqnUIOGxVxpOmLiZlc+
+         /3R0UIyKNQzemJFqWutOo4bhLiC8j5Htevoh/LUcd5ub9Rqax6zfCYVcF/vAepHOIgRS
+         kzv7mpqcRDwq/s1fzbfy9GV9P1rs5vKZlF7KaMRBqobkv1FGNIxgluE9DgZir50maQhE
+         NkxzuCOs08emBkWdcAV1ZQzCE9SvFwn7le8dzTyee/ffjvJEixOpOiGlZZ7SZAQ2zMde
+         WLxQ==
+X-Gm-Message-State: AOJu0Yylqu7rVNZbQPuxEx31pQqlnblO7kSQdc/3HZ+8Lqpl8G9d9LfE
+	rL0efymbZNP7Z/foAjcW3KiqkwtJawYI59UTz8eTn3ZiHL/yD4FQSjNz4HPKw8kINs4fnNPd0m9
+	+
+X-Gm-Gg: ASbGncvlxG6oRX2jEWBne0AWNgQki/nu5ZucLpMFdLI24knWCAEQ8RIRcPt7bFMrNX6
+	llbXl5VD/+tv/QyDI4vprchJSwlFmEPXt91BOuNCKkjZz+TlQ7PV90y0svLWoRPHy6k+APUJbu9
+	JsV0NnYwthDRGsfsM2xVBSarbFDdHn/R+L0rjGafASjb7+ShcyudjQLlYgjqnewt9x/1ZTrvggN
+	SDEofMpcmMlgnBNKlhi1RmvM5wP7m/uA78yA1z/8zsZdObKer6M6DCKoS76VuJZzLBlCWfA9Vqd
+	y7jr9EqQ9bSc4aC6h7UQAdkQ9DTJf2/42rjhd3tSt4hVUI/hfQ==
+X-Google-Smtp-Source: AGHT+IEqw0Gz1nHiivg0cH1R/tOYp7AGBJ3hyE5q5y3xZzY4x9VWUglP9cA7P3B148OcMEo5O4Fq8Q==
+X-Received: by 2002:a05:6a00:1810:b0:736:401f:c7de with SMTP id d2e1a72fcca58-736401fc97fmr2944474b3a.1.1740914382992;
+        Sun, 02 Mar 2025 03:19:42 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-734a002474esm6799262b3a.86.2025.03.02.03.19.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Mar 2025 23:44:04 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core] boost: Use PN/BPN for naming of packages
-Date: Sun,  2 Mar 2025 07:43:35 +0000
-Message-Id: <20250302074334.1775-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 02 Mar 2025 03:19:42 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id EF831100445; Sun,  2 Mar 2025 01:19:41 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 02 Mar 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun,  2 Mar 2025 01:19:41 -1000
+Message-Id: <20250302111941.EF831100445@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Mar 2025 07:44:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212187
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Mar 2025 11:19:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212188
 
-boost-test and boost-serialization were hardcoded, switch to the ${PN} form.
-Also lookup ${BPN} when generating split package names. With these changes,
-generating an explicitly versioned boost package (e.g. "boost-1.82") alongside
-the main boost package ("boost") can be done by copying/renaming the older
-recipe. This is useful when upstream code hasn't yet been ported to newer
-boost and an older version is required.
+Branch: master
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
- meta/recipes-support/boost/boost.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+New this week: 3 CVEs
+CVE-2024-13769 (CVSS3: 5.4 MEDIUM): puzzles https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-13769 *
+CVE-2024-13770 (CVSS3: 9.8 CRITICAL): puzzles https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-13770 *
+CVE-2025-0837 (CVSS3: 5.4 MEDIUM): puzzles https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-0837 *
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index 77105aa1fa13..458dfa9ac2fb 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -69,7 +69,7 @@ python __anonymous () {
-     mlprefix = d.getVar("MLPREFIX")
-     for lib in d.getVar('BOOST_LIBS').split():
-         extras.append("--with-%s" % lib)
--        pkg = "boost-%s" % (lib.replace("_", "-"))
-+        pkg = "%s-%s" % (d.getVar("BPN"), lib.replace("_", "-"))
-         if "-native" in pn:
-             pkg = pkg + "-native"
-         packages.append(mlprefix + pkg)
-@@ -86,9 +86,9 @@ python __anonymous () {
- FILES:${PN}-graph_parallel = "${libdir}/libboost_graph_parallel.so.*"
- FILES:${PN}-locale = "${libdir}/libboost_locale.so.*"
- FILES:${PN}-mpi = "${libdir}/mpi.so ${libdir}/libboost_mpi*.so.*"
--FILES:boost-serialization = "${libdir}/libboost_serialization*.so.* \
-+FILES:${PN}-serialization = "${libdir}/libboost_serialization*.so.* \
- 	${libdir}/libboost_wserialization*.so.*"
--FILES:boost-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
-+FILES:${PN}-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
- 	${libdir}/libboost_unit_test_framework*.so.*"
- 
- # -dev last to pick up the remaining stuff
+Removed this week: 0 CVEs
+
+Full list:  Found 22 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3079 (CVSS3: 8.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3079 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-52904 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52904 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-13769 (CVSS3: 5.4 MEDIUM): puzzles https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-13769 *
+CVE-2024-13770 (CVSS3: 9.8 CRITICAL): puzzles https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-13770 *
+CVE-2024-38381 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-38381 *
+CVE-2024-50613 (CVSS3: 6.5 MEDIUM): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-8354 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
+CVE-2025-0837 (CVSS3: 5.4 MEDIUM): puzzles https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-0837 *
+
+Summary of CVE counts by recipe:
+  linux-yocto: 16
+  puzzles: 3
+  qemu:qemu-native:qemu-system-native: 2
+  libsndfile1: 1
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
