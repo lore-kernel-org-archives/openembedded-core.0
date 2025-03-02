@@ -1,82 +1,106 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 757B5C19F32
-	for <webhook@archiver.kernel.org>; Sun,  2 Mar 2025 04:53:45 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.25234.1740891223163024547
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53554C19F32
+	for <webhook@archiver.kernel.org>; Sun,  2 Mar 2025 07:44:16 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.26889.1740901447909105537
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Mar 2025 20:53:43 -0800
+ Sat, 01 Mar 2025 23:44:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5156d6533d=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5224kD5a006670
-	for <openembedded-core@lists.openembedded.org>; Sun, 2 Mar 2025 04:53:42 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 453s788x2p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 02 Mar 2025 04:53:41 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Sat, 1 Mar 2025 20:53:40 -0800
-Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Sat, 1 Mar 2025 20:53:40 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] tcmode-default: bump GOVERSION to 1.24.0
-Date: Sun, 2 Mar 2025 12:53:39 +0800
-Message-ID: <20250302045339.3836626-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EvHBapPY;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-390e702d481so1409482f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 23:44:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740901445; x=1741506245; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W73YAwKwWBIBJ7ZuejuZw8jwBFnMxlpeWoV8SesKxCI=;
+        b=EvHBapPYxP9tDrlJYU4D3h9NwjCY9qBrbu1uUuoseXZsySAe00dHr/mLKVHq81iM7k
+         HMoPQAaGKXlhYRMp6sZ/VD6MjFHvuUjmryQd/5g0NupcR9TI09wgagcfCEsiMq99YcZE
+         qJ+2KAV3nwhp8jodJXj9v3T1b78cePcTr5a5ijpstgqGLCKntm+RT6Ree0jKzZwndoEh
+         G9o3C7M8sP7Y+FLn2Dqbn3yyfnNvOJL5tWTSA1QxtewfIW7RAxub9I4tumbDKUAIJDMk
+         ZyE5gN6ID/I1rNSMbXbv8KrBNAqfF9slesXZAQ8DJdLScc8aaTHu8ryAzMjPINH5G9LS
+         TTZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740901445; x=1741506245;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W73YAwKwWBIBJ7ZuejuZw8jwBFnMxlpeWoV8SesKxCI=;
+        b=VWb+w7+aWxn3NM3ZU2JnqWEhDGrYg6MdQcN4kQmeaisvY3BkHU1w1fUJdwmTQSylfp
+         ei2RQ2NGGsNh9wr9U6w2R0+x3rQkOi/ODHkkW5Itg007BdE86UfEn07as38ylgmqek+G
+         6gKOytSeKY0ahYToMgpYbnCCAbgKf4v8LLeFBL658rGIOtl7b1rSvboycWxWEzEildB0
+         tLk+7EMPg4oNEB90qzzbofEHHDacmTsQKEmf0NvrYsFhnbsV0lrtwDJpIOOGoClJncMD
+         0A45EhJq82ksv0XOJIv4Mx6JUODTf1DNySzDZRT0riu+n4okfNVWuef6oL1lPXYR/j3E
+         OXNw==
+X-Gm-Message-State: AOJu0YznnPovxHJx3PUFRUDGNn7TyCIf7rFJ22eHGR8a7C/vVnu78T+8
+	aWYyRIBUObjesNhALV5x956RYkb2I3qlgXgxPLn3UB9ZcgCGN9MOp8NjRSu3
+X-Gm-Gg: ASbGnctmJk/oy+o+H2qlhJLfRFP8ZALZLxsqaOLROuW+vO3fhP+ZlWxLR6KytucZ0cI
+	v8dbeG5pPub8LGudIT6SA/jLJOqTJCvlV8nvxpReEKUxiem3woDU1AjFAdbcqBMvoB8Q6QmokVV
+	tAARxDxImxBTaXh3XVSPIH3QEREmoRuQGieCMU84SlvAwSvsex8B/Ncvoj82KpDU9pwmtA9UBhR
+	Fvn2Duzul/nNZRDNLOP6cQMcOlQ9a2ob5O/4qqOkEK7jRi65bQDB8tEOiQcAStU4oQ/9fjro7df
+	SNFEtRWn4yvalKlEKVJHiY0IU0VI/pzX2vLMsaM91UY18aSptnDuK2uRbf5RH/5ngBJoYWG/nsX
+	yiCQOXNqHkXA=
+X-Google-Smtp-Source: AGHT+IHdrylBXc8cSVm0cNYxQuAp/X+DGfPowbPguyv5eTgKIt+1X/hbas5TpzVPz6J1b9X+SWsO4A==
+X-Received: by 2002:a05:6000:188c:b0:38f:3224:65ff with SMTP id ffacd0b85a97d-390ec7c6a8emr6632242f8f.5.1740901445395;
+        Sat, 01 Mar 2025 23:44:05 -0800 (PST)
+Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e47a72d5sm10765076f8f.31.2025.03.01.23.44.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Mar 2025 23:44:04 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core] boost: Use PN/BPN for naming of packages
+Date: Sun,  2 Mar 2025 07:43:35 +0000
+Message-Id: <20250302074334.1775-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: YEe1mA2p_TqVbN2xEp6qcRIZ6nJ-0K1H
-X-Proofpoint-ORIG-GUID: YEe1mA2p_TqVbN2xEp6qcRIZ6nJ-0K1H
-X-Authority-Analysis: v=2.4 cv=cfwormDM c=1 sm=1 tr=0 ts=67c3e455 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=Vs1iUdzkB0EA:10 a=t7CeM3EgAAAA:8 a=GhLjndsn2ZUtR2RJdNIA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-01_10,2025-02-28_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- mlxlogscore=783 lowpriorityscore=0 suspectscore=0 impostorscore=0
- priorityscore=1501 phishscore=0 mlxscore=0 spamscore=0 adultscore=0
- clxscore=1015 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
- definitions=main-2503020035
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Mar 2025 04:53:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212186
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Mar 2025 07:44:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212187
 
-Due to we have upgraded go to 1.24.0, we should also bump GOVERSION
-to fix preferred version warning
-...
-WARNING: preferred version 1.22% of go not available (for item go)
-WARNING: versions of go available: 1.24.0
-...
+boost-test and boost-serialization were hardcoded, switch to the ${PN} form.
+Also lookup ${BPN} when generating split package names. With these changes,
+generating an explicitly versioned boost package (e.g. "boost-1.82") alongside
+the main boost package ("boost") can be done by copying/renaming the older
+recipe. This is useful when upstream code hasn't yet been ported to newer
+boost and an older version is required.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/conf/distro/include/tcmode-default.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/boost/boost.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 13f31d46de..d719b14b26 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -27,7 +27,7 @@ GDBVERSION ?= "16.%"
- GLIBCVERSION ?= "2.41%"
- LINUXLIBCVERSION ?= "6.12%"
- QEMUVERSION ?= "9.2%"
--GOVERSION ?= "1.22%"
-+GOVERSION ?= "1.24%"
- RUSTVERSION ?= "1.82%"
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 77105aa1fa13..458dfa9ac2fb 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -69,7 +69,7 @@ python __anonymous () {
+     mlprefix = d.getVar("MLPREFIX")
+     for lib in d.getVar('BOOST_LIBS').split():
+         extras.append("--with-%s" % lib)
+-        pkg = "boost-%s" % (lib.replace("_", "-"))
++        pkg = "%s-%s" % (d.getVar("BPN"), lib.replace("_", "-"))
+         if "-native" in pn:
+             pkg = pkg + "-native"
+         packages.append(mlprefix + pkg)
+@@ -86,9 +86,9 @@ python __anonymous () {
+ FILES:${PN}-graph_parallel = "${libdir}/libboost_graph_parallel.so.*"
+ FILES:${PN}-locale = "${libdir}/libboost_locale.so.*"
+ FILES:${PN}-mpi = "${libdir}/mpi.so ${libdir}/libboost_mpi*.so.*"
+-FILES:boost-serialization = "${libdir}/libboost_serialization*.so.* \
++FILES:${PN}-serialization = "${libdir}/libboost_serialization*.so.* \
+ 	${libdir}/libboost_wserialization*.so.*"
+-FILES:boost-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
++FILES:${PN}-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
+ 	${libdir}/libboost_unit_test_framework*.so.*"
  
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
--- 
-2.34.1
-
+ # -dev last to pick up the remaining stuff
 
