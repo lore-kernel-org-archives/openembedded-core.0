@@ -1,170 +1,221 @@
-Return-Path: <koen.kooi@oss.qualcomm.com>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BFC6C282D0
-	for <webhook@archiver.kernel.org>; Tue,  4 Mar 2025 09:28:14 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.18300.1741080490834080499
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 04 Mar 2025 01:28:10 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75C80C021B8
+	for <webhook@archiver.kernel.org>; Tue,  4 Mar 2025 10:34:24 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.19145.1741084457256888868
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 04 Mar 2025 02:34:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=gYrKjaav;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: koen.kooi@oss.qualcomm.com)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 523NbrLl024904
-	for <Openembedded-core@lists.openembedded.org>; Tue, 4 Mar 2025 09:28:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	QnBNhsDp2bt4EuzszQlANYyyXTvTZsgQNAD13b/Ds5g=; b=gYrKjaavDjpJkJGs
-	mit1iO7WQTFyNqH04ZFUBKBI9qhGlHW7TaA/j5JiotviK4zngB53hAJeaAuu+h2E
-	zZmy9ZcLLA2Vaq10M8BI3+xod7zkGS6vQ7WhKfRpK/ci5yFRTDhryuEbncGdGJM8
-	ZS6rY37xeECCTUeXXzOW8fsKAToY1h7tX6BeW+hkeJq4aSXdiEXjxhYRm1ZQYsKN
-	PlTScqTV4sas0/xcyiAplc6XoIZ9X8Lb6JvZg19UksqYVTz8qnp8vFLt415ircT5
-	t0H4M9I0Wcj5zYXvTggQOpLBSHvZEmWyX5QxI3qdM3Cc5K4P2KkyCEAhdRtujp9e
-	oFfgEQ==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p931btc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <Openembedded-core@lists.openembedded.org>; Tue, 04 Mar 2025 09:28:10 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6e897598070so117179656d6.0
-        for <Openembedded-core@lists.openembedded.org>; Tue, 04 Mar 2025 01:28:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741080489; x=1741685289;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QnBNhsDp2bt4EuzszQlANYyyXTvTZsgQNAD13b/Ds5g=;
-        b=PJXVtHYdVbxZo2nsw8THvhaW5wwnkJ649n4Ccr804eMk5scJ2H68oKfXd1/B7GaUGb
-         qK2xCVoRP9Rct0m/5pKMgT5Nlc9KRObrrb/62m9uxcdegroAEbWRp4cI3Le1mEICjMZ4
-         i8TKRcTz1uN+ufm3q0FjWGNkKXCJtl6A6ztcPtqRW3CDrxyyLGv2ooq/3gxdshow3Qns
-         Mt0r1Rj4756V4f/5rIRpulEbpk9nFp2pKHRqVFNxGj6WhTG7thlwlytzwwPXimzsFhhU
-         CGjdYsjZUfiOFHR8VuuHUPWwbVqaNKdfmidir3RmsL30KnO68frgcGYe42e35AD+G9KQ
-         Sj/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVVFP2ymEwC0dt4vYXIM/jrKN0Alj6R7jReDTO7zIvjyLb6PLjNLl3+2rqG1uY/Xypt2ixesylnP5NLYvP0ydeiYQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzutbzin8j5VN0EdzwF4B+gtFY7ez0szxSzPBLxIExO9qLs4MZ9
-	9r2X8pKOSytdifwWWwnR0LZBUB7hiinzWwQD6C6K5lBjG2YrQ2LuiOnZa6JuRPibLVRW1Pf5y+J
-	aXobE4l6ahgZYFjsU7e+TG1ID3tqWHFoKpqEkuYDC+1fBA3vtVz2cmxRkpz0xkMBLPiVBEsihKE
-	vmsJA=
-X-Gm-Gg: ASbGnctf4DICH1I70aZWubjOcsMecOCMX4PkCFCdgZQ9ldHw8CGFXekqd1zL38VQH0C
-	ufe6njvFNTF/ByZIsC7DjUnjEeubmdDV1zCaLLrOEAqCf8/Te0J+favnQwdDG9aPUuaQV663sc9
-	weobaUcfO3Jdy2Lzad3dBlemMj652hn5mkRrIVeLEivSLnN8GSZOMVXnnBeYHeBIRaa+Jr3oy8C
-	DY8J1e031xHD1Dn/MHYm4qAvMky8tedtMCjA0UQgC1LaKXPVsVZYv6grXL+N57YN3rMcWo6LzC3
-	XFInLcNXdcGjnH7gh05B/3W7qg1wNhZpF1PHUEpwhg==
-X-Received: by 2002:a05:6214:2687:b0:6d8:b115:76a6 with SMTP id 6a1803df08f44-6e8a0ad8ff5mr256948096d6.0.1741080488788;
-        Tue, 04 Mar 2025 01:28:08 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGp3kf9YpC6V46tB6FJfnUTzMp7+2YrffXQGhtPoE15tENhKyYr4y8b+JwfjW9N9tLdmOsVsA==
-X-Received: by 2002:a05:6214:2687:b0:6d8:b115:76a6 with SMTP id 6a1803df08f44-6e8a0ad8ff5mr256947856d6.0.1741080488371;
-        Tue, 04 Mar 2025 01:28:08 -0800 (PST)
-Received: from smtpclient.apple ([82.163.40.105])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac1ed20a9c8sm122985366b.68.2025.03.04.01.28.07
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 04 Mar 2025 01:28:07 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [OE-core] [PATCH v6] systemd: Build the systemctl executable
-From: Koen Kooi <koen.kooi@oss.qualcomm.com>
-In-Reply-To: <A5978220-EBAF-4C51-8587-76498A346624@arm.com>
-Date: Tue, 4 Mar 2025 10:27:57 +0100
-Cc: "uvv.mail@gmail.com" <uvv.mail@gmail.com>,
-        "Openembedded-core@lists.openembedded.org" <Openembedded-core@lists.openembedded.org>,
-        Alex Kiernan <alex.kiernan@gmail.com>,
-        Mikko Rapeli <mikko.rapeli@linaro.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <229A357F-149F-4722-9680-128739962656@oss.qualcomm.com>
-References: <20250219103908.42513-1-uvv.mail@gmail.com>
- <71BF1160-E808-4212-B790-5462F95BFBA4@arm.com>
- <1825F47182B39BA0.23135@lists.openembedded.org>
- <ae46ffa2-b88d-4ec5-822a-08c00e2baa46@gmail.com>
- <CAO5Uq5SCkF9n9ngCvcNSkHLNSPQpKxwXv+o+OfLP+VkMeq3TQA@mail.gmail.com>
- <A5978220-EBAF-4C51-8587-76498A346624@arm.com>
-To: ross.burton@arm.com
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
-X-Authority-Analysis: v=2.4 cv=Me2Wu4/f c=1 sm=1 tr=0 ts=67c6c7aa cx=c_pps a=wEM5vcRIz55oU/E2lInRtA==:117 a=IQEsc5u+BqvcbVO/417rXg==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=e5mUnYsNAAAA:8 a=Q4-j1AaZAAAA:8 a=pGLkceISAAAA:8 a=E2FL7ofkvHmJnoFXO7YA:9
- a=QEXdDO2ut3YA:10 a=014cFfLqO24A:10 a=P-bUU0mCbqUA:10 a=OIgjcC2v60KrkQgK7BGD:22 a=Vxmtnl_E_bksehYqCbjh:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-GUID: NBwgsMshqI4qxg1REQpOfaJcCV8r7Myw
-X-Proofpoint-ORIG-GUID: NBwgsMshqI4qxg1REQpOfaJcCV8r7Myw
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=515852bd04=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5246hDlc006161
+	for <openembedded-core@lists.openembedded.org>; Tue, 4 Mar 2025 02:34:16 -0800
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2046.outbound.protection.outlook.com [104.47.58.46])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4542mqk3xs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 04 Mar 2025 02:34:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AWjMfSU8TuJSXs4kdZPqvquv4a7paMrJ9w47kNTNU9uewfvKEpMNoBxc8Bk6O5Rag7X4kcAHSnJzx/baNt4K2L+sIv+16wh/ZWj0g+xFtPJtGt32OVOVQkTPOdEeTg+oUi6s2lL2RM+2KY5M7dHLAhd3wCQr+IAVIGtHRdnrYYQoGz9nofYyurtypikIYPDtMT8sJH8pQ82swBGWcszUvZtH9qY/a597wq7zssKjZo2U5o5UYv7t9+HZUzl7pGPke7dsKAUxmzGVhcwSMVF2/46mon/TU7/6vs70r7DWqsVqTlYkmktD8wybk6aFfFL3oNZnYrZ6qvd3D7l+zISY/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NugyjyDbc8PgfYCvtuMaEZWP3Nk3T6s2M9cB47CuHQU=;
+ b=nd3ocyZLA80oQgXbfy7lEdSjuHXR3rm3DKgARZNwXCfpCdKVaMnWidVH3/wXXE3200saONOv8F6jiqJt46OyXeeGrMAzRESG8NBhz3b4d7pmki1nvTp5sj1mEEb2yXcWbV3uynnrS9CZg68g4IbSoGuv4x30qX+sJ2fWmEWif4gFCficBz1SRN+tDti4kqWZIpFDibFxol7X05w+9JjyViLPAwBubbsPgWXS2PJe/RlANP5qUbuJJmIe3SyOdoZdLV6SYYDsExYQRkrD1O0Y9HYflzvRgIHfncE4bp1eWN0a2hUjE4m3Nt4gLKLgJv0pA9D22vj11MQssVbjyfP6kw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
+ by SA1PR11MB6870.namprd11.prod.outlook.com (2603:10b6:806:2b4::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.26; Tue, 4 Mar
+ 2025 10:34:13 +0000
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f%6]) with mapi id 15.20.8489.028; Tue, 4 Mar 2025
+ 10:34:13 +0000
+Message-ID: <4ab6c642-5574-4243-89a1-a4c06997cfb3@windriver.com>
+Date: Tue, 4 Mar 2025 16:04:07 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 2/3] rust: Fix build break because of download-ci-llvm
+To: openembedded-core@lists.openembedded.org
+Cc: Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
+References: <20250303153458.2879205-1-Deepesh.Varatharajan@windriver.com>
+ <20250303153458.2879205-2-Deepesh.Varatharajan@windriver.com>
+Content-Language: en-US
+From: Deepesh Varatharajan <deepesh.varatharajan@windriver.com>
+In-Reply-To: <20250303153458.2879205-2-Deepesh.Varatharajan@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2P287CA0012.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:21b::9) To SJ0PR11MB5648.namprd11.prod.outlook.com
+ (2603:10b6:a03:302::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|SA1PR11MB6870:EE_
+X-MS-Office365-Filtering-Correlation-Id: 26157692-4f34-401d-aa28-08dd5b081b1e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?c010NEw3VDh3cnpPYkR6OGlHbjN6eUpOZmUvOHVqUzRCUTBUbG1XRktjRlY3?=
+ =?utf-8?B?RDlCMmpKYXNNOEVYNVgzNmxwbTZhT2JLYTVreHJUVm95TzREMEVSTE5KbkQv?=
+ =?utf-8?B?VlVIcURiczlZb2k1WUNScFh0NXJCdEl4VFZvSFBHaGdTaHpQWGtVKzBzTC9t?=
+ =?utf-8?B?dUN4UFZBVXlaOXAzdVYwSGdVc2N6UlpsbnlDdVhsQ2pteDBpZEc2WFpKRFM3?=
+ =?utf-8?B?QXhSaUEzZjdqLzZZbk9RYlY2RlZxYXVYa20xYzZ4bVJwLy9oUCs4K3BGbk9K?=
+ =?utf-8?B?MHU5eFlBODE4ZzNhYzMxQzVvVmJUNWxadiszWkJGUzJueDJvKzkxS2VDMElj?=
+ =?utf-8?B?ejJDMVRDT3V5cVpKSG9iNEdUMjZ6S0I4REhvNVVHZnB2WHpSQlk3TWlpY0Y2?=
+ =?utf-8?B?bUFWN1Zpb1lxU0U2ZmY5TnJ1K3JCeDYyMlNKeEIvYVErZ2lLV2xzaElGVDJi?=
+ =?utf-8?B?M01qeHRVWDN4b1VDQWIzZFFRVDRPNWVXMk56d1dreVFlUnVRck1heFQvZ1Mw?=
+ =?utf-8?B?aHpFZUJTeFlybjcyUE5RTWJrYUVxeFNLdFRBV3FZVjdoSDd1c3BGUXU5WEJW?=
+ =?utf-8?B?Nkg1N1VPMzZzMjNlZC9pbXVUNkQ5L2NkRHp1Q0RuMUZRTTQvcEExT0M2QU11?=
+ =?utf-8?B?elYvM2IrbDdxb2FCTWcwVGxpaGxJVHRKVTFHUVcxTnJudFBqbnFJUVRyRVJw?=
+ =?utf-8?B?KzBOaGU2eWdPaTAyS2JnK25YVkFOODdXR1V3YlllaFh1bGJwdWFQa2VlaHBX?=
+ =?utf-8?B?Z0FjenRjN0JCM1l2Ylc5RWg3R1Vic3VoMjBWMnFwMTRGSjMxVEZMK0xmYzBN?=
+ =?utf-8?B?Q0pHKytPQ0c1Rmc4Z2hiNGZrQUEwT0JPeWdpMkIrbXZxdjFmL0ZMVjR2bGow?=
+ =?utf-8?B?bEhQelN1OS85ZXRiNzdhVUxLWnkxZzVydWZ0RnVnK2ZEc2EvN2tacjQza3do?=
+ =?utf-8?B?ZTVIazFQd2xETTdFY2kwV0hodEtKK0h0YnFaSFJlNXZTdEhoTVRsRHFZeU9v?=
+ =?utf-8?B?cWZyN3JTY2NBaEllSml4OFBkTFRwcXVCdlNyT0ZQK2JlYjRFaFY1a1k0Y2ZQ?=
+ =?utf-8?B?dWhvYjZjYTRDSlRkdERKWEU1Y3lGNGF0aGVyM1VpbEw0dUUzNHhxdHBUTC8y?=
+ =?utf-8?B?MGdLOWg0enI4NFJaU0tmTkpzcTQxWGpRMjBXU1RiSE5ZbVhRZmR1NzRrenRy?=
+ =?utf-8?B?K2QycEdWM0tKZVhxS0VZc3Z4eGxXdkxwQXdJOTlGQzdya2xHT3Z2NnkzVXZV?=
+ =?utf-8?B?K2lhVmJiMUJ5UGhYTVQxcnhTMXlSRUZKMHNZTHVOSCtHM29BYldTbmJIbU1i?=
+ =?utf-8?B?aTF2d0hXQTZLQ0swenBid0xuUHRaNDl0MmRwUmFicmxwcy84eFBCMEN6Skxp?=
+ =?utf-8?B?SGlQdzZ2TnZyN2N4Z09QS1pkYWJLdVFzeW9iOEtia1A4T1o1dWI4d2Fna1VR?=
+ =?utf-8?B?amxqVW1aWjFQb0JDNjNhbW5aNjZHRGdsREhQUlFXWEk0ZjVteEY3Rkcvc2Yv?=
+ =?utf-8?B?eWlNWWFQeWlJVzJGMVc5RUhhdWQ3TXQ5Q0IvdEs4OXVhbVNFcURrc2wwUUdj?=
+ =?utf-8?B?eEhlMWJPZ0dUTW1QN050dGNTUVF5RCtPTE9oRzdhKzNFVDB3NXhpdVpHVE9L?=
+ =?utf-8?B?dnlwcUZQeHdvSGhYZlhlaXkyVWNBYnM4UWg0OGlEcTdEaDhuUlpkdEdkQWh3?=
+ =?utf-8?B?TWNCd2hKK0NEd1NXbVdmNkI3NUNLVDczcmJuYU1YWXFpOUozZTZRY3ZMTjBz?=
+ =?utf-8?B?NmZVaGtWMy92T2FtSXl3a3FiSSs0WDVoSlhsMlE4clVhMWZ2YVJsRmViSGZ0?=
+ =?utf-8?B?WFd4TjhqZytIekxCbVA2d3pySHdyaEZER3BFWVlXQzMwem5PaDRIQ2tleVEr?=
+ =?utf-8?Q?ZMr5pfSCSOoyU?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?TDJ0M2xvVnN5RFlQMDJzQnQzMWZGN0xsbHN3Y3pMdk9kNGk1aUpVaHcwWWFJ?=
+ =?utf-8?B?Tjc3bGlZMmZkWnhzOVBnbWVFSGFRbmtFTFA4NTk4Y1VyV043aXRXcWdhL2pk?=
+ =?utf-8?B?bDlqR2JmN0g4RFBhMFlpcnMxa3FYeTJpaEJESitLQkdScElHREVySXYrWlFx?=
+ =?utf-8?B?eWo5d1A3MjdLQk9jVkRENDFyYUI2dGtOZGZZaDk3ZzkyZzE5aVFvcHBXQWNN?=
+ =?utf-8?B?UCtFYVRDdmtzczRDRkVWMXowb2J2STVHY0lGOFB6aVQreVg5d1RKdUpuZ2VD?=
+ =?utf-8?B?SFY4c0diV1VSbnQ0YkQxZVRJRlU3d3ZKakJuL2VLY3JzTXhUUDV1MGVjMkZm?=
+ =?utf-8?B?bEJESTZFN3VkTU96dkc4MmpYb2UyTHVYRWkrakVQK1JxVEF4WnZmMU1ORWkv?=
+ =?utf-8?B?ZUxQbDZnem1zVXFXSCtkSm5tdTNBUVgzaUdrUG5rZTlmMHdQbURyM1NQWkRL?=
+ =?utf-8?B?cTJmY2dvTlpBUmpBNURRTDF0S1R3aWJkc1d5NkdRa05EblFJSFlaOVZ1ampK?=
+ =?utf-8?B?MC9OYnFQcnpnTXgrMUhPYitkcG8yZnNJMDlOTWg3Tk5tejFSQmlUakRRV2J0?=
+ =?utf-8?B?VUQ4UmMxbG1sWUxEK2JValFGWC8zYnMwMjh5bk1qZEN6alBjZEUwOG9GWjZq?=
+ =?utf-8?B?akVmc2NHQTJSMWl6cUVGbzBmQWpseHBIcUMzM2EvaUg3RGNXcGc0U0RySjA5?=
+ =?utf-8?B?US8za0I3UFFRWE5maGJoQWtlbjM5TDFsSDhIQytSVTQ4cXZOdVBWbGVPQ1ZH?=
+ =?utf-8?B?Y0dhWkVWSDVDS0hRdmJjYTVtUVBleVl2RmlhWmg2UGFWZUV5Tk90RHZ4Z0lD?=
+ =?utf-8?B?ckdON1JnMDd2YWx6WjhXQ1pJK0tLZVhiakJta1A4cHJUYUhhUkxpeDBNNkR1?=
+ =?utf-8?B?eFpuSWJEVVpFTTh0c2FMWEV5VHl4eVpVNXRsQUpHdzVtTDV0UUtIOWpBWElL?=
+ =?utf-8?B?TFo5YjlkQ3B4RTlPYXF6eDkxbjMzdDZHUzl2U0dXMU9BNE1UdG5zcUJ0SGJ0?=
+ =?utf-8?B?Z2xUVUVPb0YvMlpPc1REd2N5VHYwbmdQUnIzbFRZL3FVamNQM3VWWlJuRXNQ?=
+ =?utf-8?B?MUlNdUQydWg0Sm1OLzhqY3NPYndYK09ubXN5ZUNWaE1SSDNDbVRpUWVKb21N?=
+ =?utf-8?B?UHBTVXFhVWtkNE5WOGg1UGo0cGZ2b1JNY2dNSmt4dG55UnpDOFVzL0wwTVJh?=
+ =?utf-8?B?NmdJS2U2NllpUzYzd0dKWXlvTzBLeFZoVnRvVXRMNUZRVjNsN2VJZEo1NVRF?=
+ =?utf-8?B?Y0xORnJBNnF3QWFacTc1R0dCOG9PT2s5M1hseTkrWlBueEs2aXFicHRmcW50?=
+ =?utf-8?B?QkRpTmE3OEdJSytFdlRzNFBpdG91bUozSU5VbDJFRmVnWnFjbDdpVWJjakFR?=
+ =?utf-8?B?Q1dVa25ZMUJBaTdKOE5yK1BobWxqR1g2djhuK2o2LzN2MUR0K09jK0UxaXRr?=
+ =?utf-8?B?cHFybnB1ckt4ckRPOHkzSWUyYWJQSWE0R1JtMC9WNkhVb29PeGNsVWhpUXJL?=
+ =?utf-8?B?QjAzVTBMVkkyLzlmSW5xcm5peTBBbERFWGVrOEtaWXdIQTBXeFJGN1BBSm91?=
+ =?utf-8?B?citTbE5ad2tLSFdJdlBTVGtXa2JOZHU3S0tCdDI2enhtbjVEeDNvOTNOUTds?=
+ =?utf-8?B?eEJwMnRJTDcxajBZWFlFSHBGaVhJdkNJaVhtVjVic3grRzBMbjF1OWNJMmF4?=
+ =?utf-8?B?Y3lvQ0hIYzlib0cvL1Y0TVJpdmVidjJZRnNPMVBkQ01UaExZd2ovY3Jac2tC?=
+ =?utf-8?B?WHY4ek5OZ0RqQjZ1MDE1dGdlUVgxN09wdkdPY1dCY09UZ015SFJqcVNCZTI2?=
+ =?utf-8?B?cDFYM2xhUjAvUWpmTDV3R2E0VWFCekxiZXNhcnJ2YUVmQXRNSncyRzlnUGpO?=
+ =?utf-8?B?Zzc0WURhWUVWWFJROGYyY09yUzJBSWJKWlIzcTkzMTFUck5UU2FqUGl4Z0lw?=
+ =?utf-8?B?L1lFdHBTNjFMRzB6RU5ObVFRU1RLWHhNQ3o3eENtVHVDQ3RUZkpqSmxUdGJV?=
+ =?utf-8?B?Ykg1UWtVNSthc0VpYkc1UThIS2srVWJ0TFdFc3EzTXd1K1dROWNFMmlwYUdX?=
+ =?utf-8?B?THpvVzNTTHVYZjdmWDZUUmN3Y25ocnFvNWVjVm84S3lOMFVGa0U0aHpocCsv?=
+ =?utf-8?B?bHRsNk5DNHM1UDhyVnhFeFVrU29WVkR4L0pWTllmME1ONXN4M1lSVW91MkJ3?=
+ =?utf-8?Q?c2EKbMON1g0R5x0S7wdowKQ=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26157692-4f34-401d-aa28-08dd5b081b1e
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2025 10:34:13.2782
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4R/EoFptZQifWlnRx0kQ7WGiG3yTVDnyZTiMXmtZq+F1bovJvKAzj9l1/s9JZnuSHaTssSbdUl0qrUnooUz5bUP0Z6clBUWTE4dK2SYgBuoQt+p6NoxCuuybOVb59paU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6870
+X-Authority-Analysis: v=2.4 cv=F6qtdrhN c=1 sm=1 tr=0 ts=67c6d728 cx=c_pps a=ur2hu7Zt/Tb0cWAHmjvzJg==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Vs1iUdzkB0EA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=PVDZiZbVpKx_aSryWykA:9 a=QEXdDO2ut3YA:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: sF0xhC5duZ35WvPHuMMevxfAlxAar1US
+X-Proofpoint-GUID: sF0xhC5duZ35WvPHuMMevxfAlxAar1US
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-04_04,2025-03-03_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
- suspectscore=0 mlxscore=0 malwarescore=0 phishscore=0 spamscore=0
- adultscore=0 lowpriorityscore=0 mlxlogscore=999 priorityscore=1501
- impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2502100000 definitions=main-2503040080
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 phishscore=0 impostorscore=0
+ mlxscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=987
+ spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
+ definitions=main-2503040089
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Mar 2025 09:28:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212259
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Mar 2025 10:34:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212260
 
 
+On 03-03-2025 21:04, Deepesh.Varatharajan@windriver.com wrote:
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+>
+> -----------------------------------------------------------------------
+> | thread 'main' panicked at src/core/config/config.rs:2047:13:
+> | setting build-target.llvm-config is incompatible with download-ci-llvm.
+> -----------------------------------------------------------------------
+>
+> Disable the automatic download of pre-built LLVM binaries, ensuring
+> compatibility with local LLVM builds and preventing conflicts with other
+> configuration settings.
+>
+> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> ---
+>   meta/recipes-devtools/rust/rust_1.83.0.bb | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/rust/rust_1.83.0.bb b/meta/recipes-devtools/rust/rust_1.83.0.bb
+> index 2bf87ba27e..ffbac267b6 100644
+> --- a/meta/recipes-devtools/rust/rust_1.83.0.bb
+> +++ b/meta/recipes-devtools/rust/rust_1.83.0.bb
+> @@ -129,6 +129,7 @@ python do_configure() {
+>       # [llvm]
+>       config.add_section("llvm")
+>       config.set("llvm", "static-libstdcpp", e(False))
+> +    config.set("llvm", "download-ci-llvm", e(False))
+>       if "llvm" in (d.getVar('TC_CXX_RUNTIME') or ""):
+>           config.set("llvm", "use-libcxx", e(True))
+>   
+Hi All,
 
-> Op 25 feb 2025, om 15:48 heeft Ross Burton via lists.openembedded.org =
-<ross.burton=3Darm.com@lists.openembedded.org> het volgende geschreven:
->=20
-> On 20 Feb 2025, at 15:33, Vyacheslav Yurkov <uvv.mail@gmail.com> =
-wrote:
->> Isn't is supposed to be created on first boot?
->=20
->=20
-> Yes, ish, but our rootfs is read only at this point:
->=20
-> [    7.639766] systemd[1]: System cannot boot: Missing /etc/machine-id =
-and /etc is mounted read-only.
-> [    7.641135] systemd[1]: Booting up is supported only when:
-> [    7.641844] systemd[1]: 1) /etc/machine-id exists and is populated.
-> [    7.642588] systemd[1]: 2) /etc/machine-id exists and is empty.
-> [    7.643279] systemd[1]: 3) /etc/machine-id is missing and /etc is =
-writable.
->=20
-> On 20 Feb 2025, at 16:03, Alex Kiernan <alex.kiernan@gmail.com> wrote:
->> I do know that it was a horrible thing to get right when I rewrote =
-the
->> shell script in python (which I'm very glad to see the back of):
->>=20
->>   # If we populate the systemd links we also create /etc/machine-id, =
-which
->>   # allows systemd to boot with the filesystem read-only before =
-generating
->>   # a real value and then committing it back.
->>   #
->>   # For the stateless configuration, where /etc is generated at =
-runtime
->>   # (for example on a tmpfs), this script shouldn't run at all and we
->>   # allow systemd to completely populate /etc.
->>=20
->> It may be that this behaviour was wrong in some cases, but at the =
-same
->> time, I remember spending a lot of time getting this right!
->=20
-> It certainly looks like it=E2=80=99s =E2=80=9Ctricky=E2=80=9D to get =
-the right semantics here because the range of potential use-cases is too =
-great.
->=20
-> I believe we should be writing /etc/machine-id at rootfs time if =
-systemd is being used.  Currently this is done in the systemctl class if =
-it writes links, and then in the rootfs class if the rootfs is =
-read-only.
->=20
-> I think we should consolidate those into the rootfs class, and give =
-the user the choice of whether to treat the image as booted or not by =
-writing either =E2=80=9C=E2=80=9D or =E2=80=9Cuninitialized=E2=80=9D to =
-the file as per =
-https://www.freedesktop.org/software/systemd/man/latest/machine-id.html#Fi=
-rst%20Boot%20Semantics.
+Previously, download-ci-llvm was set to false. However, with the 
+following commit:
+https://github.com/rust-lang/rust/commit/7d579046c80d3de3143dcb8b2db5640f95b5383c 
+, which has been present from rust_1.83,
+it was changed to true. As a result, after updating to rust_1.83, we 
+encountered the following error during the build:
 
-Generating the machine ID during the build will result in multiple =
-devices sharing the same ID in the wild, which is something we should =
-try to avoid as being the default. It is no fun to debug a cloud where =
-gitlab-runner instances all generate the same token in separate VMs.
+--------------------------------------------------------------------------------------------------------------------
+| thread 'main' panicked at src/core/config/config.rs:2047:13:
+| setting build-target.llvm-config is incompatible with download-ci-llvm.
+| note: run with `RUST_BACKTRACE=1` environment variable to display a 
+backtrace
+--------------------------------------------------------------------------------------------------------------------
 
-So when we a-priori know it will be a read-only FS, option 2) is the =
-least bad one, but you'll get a different ID each boot.
+To resolve this issue, we are setting download-ci-llvm back to false.
 
-regards,
+If no other issues seen in the AB , we will send a V3 with an 
+explanatory commit message.
 
-Koen=
+
+Regards,
+Deepesh
+
 
