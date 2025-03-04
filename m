@@ -2,59 +2,59 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6AD7C021B8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE53AC3DA4A
 	for <webhook@archiver.kernel.org>; Tue,  4 Mar 2025 12:20:34 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.20503.1741090825853967329
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.20397.1741090832116237424
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Mar 2025 04:20:25 -0800
+ Tue, 04 Mar 2025 04:20:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=gPUBpnSW;
- spf=pass (domain: mvista.com, ip: 209.85.214.174, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22355618fd9so94060895ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Mar 2025 04:20:25 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=h1vv8wlJ;
+ spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2239aa5da08so40956835ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Mar 2025 04:20:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1741090825; x=1741695625; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1741090831; x=1741695631; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/bJeje5CwcwjMjX/a94zisPn8KD3gQQ0Z5yFXU7j5h8=;
-        b=gPUBpnSWhi0J4ph3nUY7vr0mBEq+wpFYSDu/sFahDw+uWsN2ULVfBROhWtenwI/Xr0
-         XsA6cQb/U7ZImOclaN20S3+PygygFsKxgqsTSC9l7rzUICAMKaleT8/8w3yuKK/h72PF
-         3F95oxhvHfWFyfdZhN+Tcj/WhWLcRT0T5QM2M=
+        bh=wKvy0wPPcxAslCXxyXpBye6c78c/EwEpCxoN6UJQ7ks=;
+        b=h1vv8wlJ6mJzVDwTbUPRNw9UPrdMUwO7JyLotZAgzmKOlL4vN/Ye/hUBtud8Tkg3hf
+         3NDsvvZaW1YYVr6JPkHRjUCkgP2b1NNDY+tEMNS4+iNWbD9PG2cl+mVPpBdN/NR3fPKM
+         27af2ZmjLG4S3RDL271J3J+A7BIncANHaKzj8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741090825; x=1741695625;
+        d=1e100.net; s=20230601; t=1741090831; x=1741695631;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/bJeje5CwcwjMjX/a94zisPn8KD3gQQ0Z5yFXU7j5h8=;
-        b=QRmROzvre0yn1mQ5ttmlmxuyBpyUes8o4cDT13/cLv+Bpe60GkLq9NzuB/bNv+BDXq
-         PTlj2cFREQBkUVDY+TJ3Bbd9L8UR7E0JZydpqrRimkqd3NXIgkE917xJ/Zyw7Xj9Qk4B
-         dzxHZ4RhhgMbDlRYbxt6pUpxONEYfmngIDbAxB7cTX8kbAcx1xPUOg+FWBj1aSA/0i+t
-         e3QDHHlTwdyBo+9Fzy+ML8LhHKPdMvn5725KOh8ngdYC+zFQGePwnkA1hL5gOYT9HI7J
-         y/vhGvdNOAJJUMCWUCuXAI3QyMUGuDULe2RrdQmHhW3jSuNK5+4K8lGDEP380Ws/Ql8b
-         ai1g==
-X-Gm-Message-State: AOJu0YzSJ9mM8eJdeWdQKrQWf41usKq3wbtr7MokwoPdCAbL8DBL9arL
-	OpOn2xDbs9sEBV2AlKR+gxVAprSmxbwBHPIRNA8eFyPQvzNlbNLVWqEYjbaANGFs5rPfuNSoFn9
-	xNsU=
-X-Gm-Gg: ASbGncslNraXK7KjH8VJES7CLZBKDEhJ+tJN4CLjyVAGo09ZH9ZQ6k8WtZtAaXwoxlF
-	o2NpJfkatNWQ0ltmo9ZcC0LAXFoxYroL6cSRHDeMGp4zTgJo85jaMA3+OhWC/tjFoVqAngMZ8ft
-	FQIi87DNLdo6JLSEUuGCN8IxAoopODTgIeVuh2EJK1lnmXb/xICzTPdryJ+gfigEhkaKTxaR8Jw
-	YwXR6VCuS819t6/XSPdWOma3dSjcwrVg/RNRpKk52CD9H7MPRtPt+BTgYC5ZuU0/saoVFx+Y3iU
-	IGKKvann2wUIU1HXfWlKQRBUB64ajoNUA7ZyHpzQ3KeWNhbqC06j/Q==
-X-Google-Smtp-Source: AGHT+IENJ6/i8JMAtMtisIXGniNylM0uARhXg/jkepo6qygjtsoT4oTr45idDBvtcacS08MeBhVPnQ==
-X-Received: by 2002:a05:6a20:729c:b0:1ee:db10:a4e1 with SMTP id adf61e73a8af0-1f2f4cacc9dmr28163508637.9.1741090823294;
-        Tue, 04 Mar 2025 04:20:23 -0800 (PST)
+        bh=wKvy0wPPcxAslCXxyXpBye6c78c/EwEpCxoN6UJQ7ks=;
+        b=PypztMInteHkXjC/kx83NcsN6yEMuWXJS289c4gz4BkRyie3Rgi4HtvO3z29nkjkLr
+         QVRMsHGBEw34osVW7AwMFz0Bi/VHoiOT0MZrSybIM8nT7x7ZKwzyxn/fy9YdDO+QhUPH
+         mznVP97QZiGol9AXer1nZ5JbSlcCh9MxzWhH8wFxW241PaHNvOMr/cwrGdahry0SfjaI
+         qGAJG4Yhu07d2zOvRxvWWJz0u9I9O0uJvg88fpIVLwNzyI6q2QeGH11Z361nuZmS+Czb
+         y8G3tV8gW4akzsihn0mkHmv3RE4unDvjmNmiGfkm7OYunmSnfO+JXk1d64CoH7bN6cU1
+         gc0w==
+X-Gm-Message-State: AOJu0Yw+7jOfWGHjz4o/eihJGg2mzjDOitk6XZAM/Uxp+tG9ML/ImwCh
+	+EiNG0acsI83MhVw+L6cDqnAbhdFhuvofKnL/97UyGlP4Xs/ovQBojlCcvxh8HI/sSfyFIJDkKJ
+	cI9g=
+X-Gm-Gg: ASbGnct3uccOSPlWXN2dGh+D7SGFxtlIdgGmPjceKYHyIA1xpwsvDCpCnWkHUoWnSlv
+	yGmXhtAHaQS91utixX5prrzFjGGrq/AgHQk+pT4LQd0MLx39MaZMiHNV88K9JlJooNa1PxGyXPo
+	u8WZAk7BTS5zKGXDYvlWA+kgEKH483riTOQE5tIvSNv/fPywzg3DEdlIR1SAtDjFltQxFO3v3pm
+	EZ0OdZQwswOZ5GbJOhHyckeo7pTO6fSSjQm/6x4kWqj+kwctzRULOLTMHCfUL7KiA2irv5pNsOF
+	up+n/Ubi1XCuii8F6upRM3nYwvbnYsLZKObSTfpk+j0EEMk8hInKkA==
+X-Google-Smtp-Source: AGHT+IEaP9M5XH6majufkj1zKCRUHOov0kkfsk+TOPYF+hZQoPBnstM64LU3D8rbmjYFsxyswNnfMw==
+X-Received: by 2002:a05:6a20:7347:b0:1ee:d8c8:4b79 with SMTP id adf61e73a8af0-1f2f4c9c694mr29679260637.2.1741090831003;
+        Tue, 04 Mar 2025 04:20:31 -0800 (PST)
 Received: from MVIN00020.mvista.com ([49.207.225.5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-aee7de1a488sm9859550a12.27.2025.03.04.04.20.21
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-aee7de1a488sm9859550a12.27.2025.03.04.04.20.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 04:20:22 -0800 (PST)
+        Tue, 04 Mar 2025 04:20:30 -0800 (PST)
 From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH 12/14] xwayland: Fix CVE-2025-26599
-Date: Tue,  4 Mar 2025 17:49:16 +0530
-Message-Id: <20250304121918.147345-12-vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH 14/14] xwayland: Fix CVE-2025-26601
+Date: Tue,  4 Mar 2025 17:49:18 +0530
+Message-Id: <20250304121918.147345-14-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250304121918.147345-1-vanusuri@mvista.com>
 References: <20250304121918.147345-1-vanusuri@mvista.com>
@@ -64,241 +64,406 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Mar 2025 12:20:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212277
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212279
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
 The patches are copied from xserver-xorg recipe.
 CVE reported for both and patches apply on both.
 
-Upstream-Commit: https://gitlab.freedesktop.org/xorg/xserver/-/commit/c1ff84be & https://gitlab.freedesktop.org/xorg/xserver/-/commit/b07192a8
+Upstream-Commit: https://gitlab.freedesktop.org/xorg/xserver/-/commit/16a1242d &
+https://gitlab.freedesktop.org/xorg/xserver/-/commit/f52cea2f &
+https://gitlab.freedesktop.org/xorg/xserver/-/commit/8cbc90c8 & https://gitlab.freedesktop.org/xorg/xserver/-/commit/c2857989
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../xwayland/xwayland/CVE-2025-26599-1.patch  |  66 +++++++++
- .../xwayland/xwayland/CVE-2025-26599-2.patch  | 129 ++++++++++++++++++
- .../xwayland/xwayland_22.1.8.bb               |   2 +
- 3 files changed, 197 insertions(+)
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-1.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-2.patch
+ .../xwayland/xwayland/CVE-2025-26601-1.patch  |  71 ++++++++++
+ .../xwayland/xwayland/CVE-2025-26601-2.patch  |  85 +++++++++++
+ .../xwayland/xwayland/CVE-2025-26601-3.patch  |  52 +++++++
+ .../xwayland/xwayland/CVE-2025-26601-4.patch  | 132 ++++++++++++++++++
+ .../xwayland/xwayland_22.1.8.bb               |   4 +
+ 5 files changed, 344 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-1.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-2.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-3.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-4.patch
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-1.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-1.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-1.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-1.patch
 new file mode 100644
-index 0000000000..60b68a0d9a
+index 0000000000..df5416a452
 --- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-1.patch
-@@ -0,0 +1,66 @@
-+From c1ff84bef2569b4ba4be59323cf575d1798ba9be Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-1.patch
+@@ -0,0 +1,71 @@
++From 16a1242d0ffc7f45ed3c595ee7564b5c04287e0b Mon Sep 17 00:00:00 2001
 +From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Tue, 17 Dec 2024 15:19:45 +0100
-+Subject: [PATCH] composite: Handle failure to redirect in compRedirectWindow()
++Date: Mon, 20 Jan 2025 16:52:01 +0100
++Subject: [PATCH] sync: Do not let sync objects uninitialized
 +
-+The function compCheckRedirect() may fail if it cannot allocate the
-+backing pixmap.
++When changing an alarm, the change mask values are evaluated one after
++the other, changing the trigger values as requested and eventually,
++SyncInitTrigger() is called.
 +
-+In that case, compRedirectWindow() will return a BadAlloc error.
++SyncInitTrigger() will evaluate the XSyncCACounter first and may free
++the existing sync object.
 +
-+However that failure code path will shortcut the validation of the
-+window tree marked just before, which leaves the validate data partly
-+initialized.
++Other changes are then evaluated and may trigger an error and an early
++return, not adding the new sync object.
 +
-+That causes a use of uninitialized pointer later.
++This can be used to cause a use after free when the alarm eventually
++triggers.
 +
-+The fix is to not shortcut the call to compHandleMarkedWindows() even in
-+the case of compCheckRedirect() returning an error.
++To avoid the issue, delete the existing sync object as late as possible
++only once we are sure that no further error will cause an early exit.
 +
-+CVE-2025-26599, ZDI-CAN-25851
++CVE-2025-26601, ZDI-CAN-25870
 +
 +This vulnerability was discovered by:
 +Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
 +
 +Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
++Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
 +Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1828>
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/c1ff84be]
-+CVE: CVE-2025-26599
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/16a1242d]
++CVE: CVE-2025-26601
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ composite/compalloc.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
++ Xext/sync.c | 13 ++++++++-----
++ 1 file changed, 8 insertions(+), 5 deletions(-)
 +
-+diff --git a/composite/compalloc.c b/composite/compalloc.c
-+index eaabf0d..0bbbc55 100644
-+--- a/composite/compalloc.c
-++++ b/composite/compalloc.c
-+@@ -140,6 +140,7 @@ compRedirectWindow(ClientPtr pClient, WindowPtr pWin, int update)
-+     CompScreenPtr cs = GetCompScreen(pWin->drawable.pScreen);
-+     WindowPtr pLayerWin;
-+     Bool anyMarked = FALSE;
-++    int status = Success;
-+ 
-+     if (pWin == cs->pOverlayWin) {
-+         return Success;
-+@@ -218,13 +219,13 @@ compRedirectWindow(ClientPtr pClient, WindowPtr pWin, int update)
-+ 
-+     if (!compCheckRedirect(pWin)) {
-+         FreeResource(ccw->id, RT_NONE);
-+-        return BadAlloc;
-++        status = BadAlloc;
++diff --git a/Xext/sync.c b/Xext/sync.c
++index ee0010e657..585cfa6f68 100644
++--- a/Xext/sync.c
+++++ b/Xext/sync.c
++@@ -360,11 +360,6 @@ SyncInitTrigger(ClientPtr client, SyncTrigger * pTrigger, XID syncObject,
++             client->errorValue = syncObject;
++             return rc;
++         }
++-        if (pSync != pTrigger->pSync) { /* new counter for trigger */
++-            SyncDeleteTriggerFromSyncObject(pTrigger);
++-            pTrigger->pSync = pSync;
++-            newSyncObject = TRUE;
++-        }
 +     }
 + 
-+     if (anyMarked)
-+         compHandleMarkedWindows(pWin, pLayerWin);
++     /* if system counter, ask it what the current value is */
++@@ -432,6 +427,14 @@ SyncInitTrigger(ClientPtr client, SyncTrigger * pTrigger, XID syncObject,
++         }
++     }
 + 
-+-    return Success;
-++    return status;
-+ }
-+ 
-+ void
+++    if (changes & XSyncCACounter) {
+++        if (pSync != pTrigger->pSync) { /* new counter for trigger */
+++            SyncDeleteTriggerFromSyncObject(pTrigger);
+++            pTrigger->pSync = pSync;
+++            newSyncObject = TRUE;
+++        }
+++    }
+++
++     /*  we wait until we're sure there are no errors before registering
++      *  a new counter on a trigger
++      */
 +-- 
-+2.25.1
++GitLab
 +
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-2.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-2.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-2.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-2.patch
 new file mode 100644
-index 0000000000..252b033261
+index 0000000000..22e751c017
 --- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-2.patch
-@@ -0,0 +1,129 @@
-+From b07192a8bedb90b039dc0f70ae69daf047ff9598 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-2.patch
+@@ -0,0 +1,85 @@
++From f52cea2f93a0c891494eb3334894442a92368030 Mon Sep 17 00:00:00 2001
 +From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Mon, 13 Jan 2025 16:09:43 +0100
-+Subject: [PATCH] composite: initialize border clip even when pixmap alloc
-+ fails
++Date: Mon, 20 Jan 2025 16:54:30 +0100
++Subject: [PATCH] sync: Check values before applying changes
 +
-+If it fails to allocate the pixmap, the function compAllocPixmap() would
-+return early and leave the borderClip region uninitialized, which may
-+lead to the use of uninitialized value as reported by valgrind:
++In SyncInitTrigger(), we would set the CheckTrigger function before
++validating the counter value.
 +
-+ Conditional jump or move depends on uninitialised value(s)
-+    at 0x4F9B33: compClipNotify (compwindow.c:317)
-+    by 0x484FC9: miComputeClips (mivaltree.c:476)
-+    by 0x48559A: miValidateTree (mivaltree.c:679)
-+    by 0x4F0685: MapWindow (window.c:2693)
-+    by 0x4A344A: ProcMapWindow (dispatch.c:922)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
-+  Uninitialised value was created by a heap allocation
-+    at 0x4841866: malloc (vg_replace_malloc.c:446)
-+    by 0x4F47BC: compRedirectWindow (compalloc.c:171)
-+    by 0x4FA8AD: compCreateWindow (compwindow.c:592)
-+    by 0x4EBB89: CreateWindow (window.c:925)
-+    by 0x4A2E6E: ProcCreateWindow (dispatch.c:768)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
++As a result, if the counter value overflowed, we would leave the
++function SyncInitTrigger() with the CheckTrigger applied but without
++updating the trigger object.
 +
-+ Conditional jump or move depends on uninitialised value(s)
-+    at 0x48EEDBC: pixman_region_translate (pixman-region.c:2233)
-+    by 0x4F9255: RegionTranslate (regionstr.h:312)
-+    by 0x4F9B7E: compClipNotify (compwindow.c:319)
-+    by 0x484FC9: miComputeClips (mivaltree.c:476)
-+    by 0x48559A: miValidateTree (mivaltree.c:679)
-+    by 0x4F0685: MapWindow (window.c:2693)
-+    by 0x4A344A: ProcMapWindow (dispatch.c:922)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
-+  Uninitialised value was created by a heap allocation
-+    at 0x4841866: malloc (vg_replace_malloc.c:446)
-+    by 0x4F47BC: compRedirectWindow (compalloc.c:171)
-+    by 0x4FA8AD: compCreateWindow (compwindow.c:592)
-+    by 0x4EBB89: CreateWindow (window.c:925)
-+    by 0x4A2E6E: ProcCreateWindow (dispatch.c:768)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
++To avoid that issue, move the portion of code checking for the trigger
++check value before updating the CheckTrigger function.
 +
-+ Conditional jump or move depends on uninitialised value(s)
-+    at 0x48EEE33: UnknownInlinedFun (pixman-region.c:2241)
-+    by 0x48EEE33: pixman_region_translate (pixman-region.c:2225)
-+    by 0x4F9255: RegionTranslate (regionstr.h:312)
-+    by 0x4F9B7E: compClipNotify (compwindow.c:319)
-+    by 0x484FC9: miComputeClips (mivaltree.c:476)
-+    by 0x48559A: miValidateTree (mivaltree.c:679)
-+    by 0x4F0685: MapWindow (window.c:2693)
-+    by 0x4A344A: ProcMapWindow (dispatch.c:922)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
-+  Uninitialised value was created by a heap allocation
-+    at 0x4841866: malloc (vg_replace_malloc.c:446)
-+    by 0x4F47BC: compRedirectWindow (compalloc.c:171)
-+    by 0x4FA8AD: compCreateWindow (compwindow.c:592)
-+    by 0x4EBB89: CreateWindow (window.c:925)
-+    by 0x4A2E6E: ProcCreateWindow (dispatch.c:768)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
-+
-+Fix compAllocPixmap() to initialize the border clip even if the creation
-+of the backing pixmap has failed, to avoid depending later on
-+uninitialized border clip values.
-+
-+Related to CVE-2025-26599, ZDI-CAN-25851
++Related to CVE-2025-26601, ZDI-CAN-25870
 +
 +Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
++Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
 +Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1828>
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/b07192a8]
-+CVE: CVE-2025-26599
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/f52cea2f]
++CVE: CVE-2025-26601
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ composite/compalloc.c | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
++ Xext/sync.c | 36 ++++++++++++++++++------------------
++ 1 file changed, 18 insertions(+), 18 deletions(-)
 +
-+diff --git a/composite/compalloc.c b/composite/compalloc.c
-+index 7cf7351e00..4a1243170d 100644
-+--- a/composite/compalloc.c
-++++ b/composite/compalloc.c
-+@@ -605,9 +605,12 @@ compAllocPixmap(WindowPtr pWin)
-+     int h = pWin->drawable.height + (bw << 1);
-+     PixmapPtr pPixmap = compNewPixmap(pWin, x, y, w, h);
-+     CompWindowPtr cw = GetCompWindow(pWin);
-++    Bool status;
-+ 
-+-    if (!pPixmap)
-+-        return FALSE;
-++    if (!pPixmap) {
-++        status = FALSE;
-++        goto out;
-++    }
-+     if (cw->update == CompositeRedirectAutomatic)
-+         pWin->redirectDraw = RedirectDrawAutomatic;
-+     else
-+@@ -621,14 +624,16 @@ compAllocPixmap(WindowPtr pWin)
-+         DamageRegister(&pWin->drawable, cw->damage);
-+         cw->damageRegistered = TRUE;
++diff --git a/Xext/sync.c b/Xext/sync.c
++index 585cfa6f68..10302160fb 100644
++--- a/Xext/sync.c
+++++ b/Xext/sync.c
++@@ -381,6 +381,24 @@ SyncInitTrigger(ClientPtr client, SyncTrigger * pTrigger, XID syncObject,
++         }
 +     }
-++    status = TRUE;
 + 
-++out:
-+     /* Make sure our borderClip is up to date */
-+     RegionUninit(&cw->borderClip);
-+     RegionCopy(&cw->borderClip, &pWin->borderClip);
-+     cw->borderClipX = pWin->drawable.x;
-+     cw->borderClipY = pWin->drawable.y;
+++    if (changes & (XSyncCAValueType | XSyncCAValue)) {
+++        if (pTrigger->value_type == XSyncAbsolute)
+++            pTrigger->test_value = pTrigger->wait_value;
+++        else {                  /* relative */
+++            Bool overflow;
+++
+++            if (pCounter == NULL)
+++                return BadMatch;
+++
+++            overflow = checked_int64_add(&pTrigger->test_value,
+++                                         pCounter->value, pTrigger->wait_value);
+++            if (overflow) {
+++                client->errorValue = pTrigger->wait_value >> 32;
+++                return BadValue;
+++            }
+++        }
+++    }
+++
++     if (changes & XSyncCATestType) {
 + 
-+-    return TRUE;
-++    return status;
-+ }
++         if (pSync && SYNC_FENCE == pSync->type) {
++@@ -409,24 +427,6 @@ SyncInitTrigger(ClientPtr client, SyncTrigger * pTrigger, XID syncObject,
++         }
++     }
 + 
-+ void
++-    if (changes & (XSyncCAValueType | XSyncCAValue)) {
++-        if (pTrigger->value_type == XSyncAbsolute)
++-            pTrigger->test_value = pTrigger->wait_value;
++-        else {                  /* relative */
++-            Bool overflow;
++-
++-            if (pCounter == NULL)
++-                return BadMatch;
++-
++-            overflow = checked_int64_add(&pTrigger->test_value,
++-                                         pCounter->value, pTrigger->wait_value);
++-            if (overflow) {
++-                client->errorValue = pTrigger->wait_value >> 32;
++-                return BadValue;
++-            }
++-        }
++-    }
++-
++     if (changes & XSyncCACounter) {
++         if (pSync != pTrigger->pSync) { /* new counter for trigger */
++             SyncDeleteTriggerFromSyncObject(pTrigger);
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-3.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-3.patch
+new file mode 100644
+index 0000000000..8d714f0302
+--- /dev/null
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-3.patch
+@@ -0,0 +1,52 @@
++From 8cbc90c8817306af75a60f494ec9dbb1061e50db Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Mon, 20 Jan 2025 17:06:07 +0100
++Subject: [PATCH] sync: Do not fail SyncAddTriggerToSyncObject()
++
++We do not want to return a failure at the very last step in
++SyncInitTrigger() after having all changes applied.
++
++SyncAddTriggerToSyncObject() must not fail on memory allocation, if the
++allocation of the SyncTriggerList fails, trigger a FatalError() instead.
++
++Related to CVE-2025-26601, ZDI-CAN-25870
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1828>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/8cbc90c8]
++CVE: CVE-2025-26601
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ Xext/sync.c | 7 +++----
++ 1 file changed, 3 insertions(+), 4 deletions(-)
++
++diff --git a/Xext/sync.c b/Xext/sync.c
++index 10302160fb..65f2d43780 100644
++--- a/Xext/sync.c
+++++ b/Xext/sync.c
++@@ -201,8 +201,8 @@ SyncAddTriggerToSyncObject(SyncTrigger * pTrigger)
++             return Success;
++     }
++ 
++-    if (!(pCur = malloc(sizeof(SyncTriggerList))))
++-        return BadAlloc;
+++    /* Failure is not an option, it's succeed or burst! */
+++    pCur = XNFalloc(sizeof(SyncTriggerList));
++ 
++     pCur->pTrigger = pTrigger;
++     pCur->next = pTrigger->pSync->pTriglist;
++@@ -439,8 +439,7 @@ SyncInitTrigger(ClientPtr client, SyncTrigger * pTrigger, XID syncObject,
++      *  a new counter on a trigger
++      */
++     if (newSyncObject) {
++-        if ((rc = SyncAddTriggerToSyncObject(pTrigger)) != Success)
++-            return rc;
+++        SyncAddTriggerToSyncObject(pTrigger);
++     }
++     else if (pCounter && IsSystemCounter(pCounter)) {
++         SyncComputeBracketValues(pCounter);
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-4.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-4.patch
+new file mode 100644
+index 0000000000..e2261192fa
+--- /dev/null
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26601-4.patch
+@@ -0,0 +1,132 @@
++From c285798984c6bb99e454a33772cde23d394d3dcd Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Mon, 20 Jan 2025 17:10:31 +0100
++Subject: [PATCH] sync: Apply changes last in SyncChangeAlarmAttributes()
++
++SyncChangeAlarmAttributes() would apply the various changes while
++checking for errors.
++
++If one of the changes triggers an error, the changes for the trigger,
++counter or delta value would remain, possibly leading to inconsistent
++changes.
++
++Postpone the actual changes until we're sure nothing else can go wrong.
++
++Related to CVE-2025-26601, ZDI-CAN-25870
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1828>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/c2857989]
++CVE: CVE-2025-26601
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ Xext/sync.c | 42 +++++++++++++++++++++++++++---------------
++ 1 file changed, 27 insertions(+), 15 deletions(-)
++
++diff --git a/Xext/sync.c b/Xext/sync.c
++index 65f2d43780..cab73be927 100644
++--- a/Xext/sync.c
+++++ b/Xext/sync.c
++@@ -830,8 +830,14 @@ SyncChangeAlarmAttributes(ClientPtr client, SyncAlarm * pAlarm, Mask mask,
++     int status;
++     XSyncCounter counter;
++     Mask origmask = mask;
+++    SyncTrigger trigger;
+++    Bool select_events_changed = FALSE;
+++    Bool select_events_value = FALSE;
+++    int64_t delta;
++ 
++-    counter = pAlarm->trigger.pSync ? pAlarm->trigger.pSync->id : None;
+++    trigger = pAlarm->trigger;
+++    delta = pAlarm->delta;
+++    counter = trigger.pSync ? trigger.pSync->id : None;
++ 
++     while (mask) {
++         int index2 = lowbit(mask);
++@@ -847,24 +853,24 @@ SyncChangeAlarmAttributes(ClientPtr client, SyncAlarm * pAlarm, Mask mask,
++         case XSyncCAValueType:
++             mask &= ~XSyncCAValueType;
++             /* sanity check in SyncInitTrigger */
++-            pAlarm->trigger.value_type = *values++;
+++            trigger.value_type = *values++;
++             break;
++ 
++         case XSyncCAValue:
++             mask &= ~XSyncCAValue;
++-            pAlarm->trigger.wait_value = ((int64_t)values[0] << 32) | values[1];
+++            trigger.wait_value = ((int64_t)values[0] << 32) | values[1];
++             values += 2;
++             break;
++ 
++         case XSyncCATestType:
++             mask &= ~XSyncCATestType;
++             /* sanity check in SyncInitTrigger */
++-            pAlarm->trigger.test_type = *values++;
+++            trigger.test_type = *values++;
++             break;
++ 
++         case XSyncCADelta:
++             mask &= ~XSyncCADelta;
++-            pAlarm->delta = ((int64_t)values[0] << 32) | values[1];
+++            delta = ((int64_t)values[0] << 32) | values[1];
++             values += 2;
++             break;
++ 
++@@ -874,10 +880,8 @@ SyncChangeAlarmAttributes(ClientPtr client, SyncAlarm * pAlarm, Mask mask,
++                 client->errorValue = *values;
++                 return BadValue;
++             }
++-            status = SyncEventSelectForAlarm(pAlarm, client,
++-                                             (Bool) (*values++));
++-            if (status != Success)
++-                return status;
+++            select_events_value = (Bool) (*values++);
+++            select_events_changed = TRUE;
++             break;
++ 
++         default:
++@@ -886,25 +890,33 @@ SyncChangeAlarmAttributes(ClientPtr client, SyncAlarm * pAlarm, Mask mask,
++         }
++     }
++ 
+++    if (select_events_changed) {
+++        status = SyncEventSelectForAlarm(pAlarm, client, select_events_value);
+++        if (status != Success)
+++            return status;
+++    }
+++
++     /* "If the test-type is PositiveComparison or PositiveTransition
++      *  and delta is less than zero, or if the test-type is
++      *  NegativeComparison or NegativeTransition and delta is
++      *  greater than zero, a Match error is generated."
++      */
++     if (origmask & (XSyncCADelta | XSyncCATestType)) {
++-        if ((((pAlarm->trigger.test_type == XSyncPositiveComparison) ||
++-              (pAlarm->trigger.test_type == XSyncPositiveTransition))
++-             && pAlarm->delta < 0)
+++        if ((((trigger.test_type == XSyncPositiveComparison) ||
+++              (trigger.test_type == XSyncPositiveTransition))
+++             && delta < 0)
++             ||
++-            (((pAlarm->trigger.test_type == XSyncNegativeComparison) ||
++-              (pAlarm->trigger.test_type == XSyncNegativeTransition))
++-             && pAlarm->delta > 0)
+++            (((trigger.test_type == XSyncNegativeComparison) ||
+++              (trigger.test_type == XSyncNegativeTransition))
+++             && delta > 0)
++             ) {
++             return BadMatch;
++         }
++     }
++ 
++     /* postpone this until now, when we're sure nothing else can go wrong */
+++    pAlarm->delta = delta;
+++    pAlarm->trigger = trigger;
++     if ((status = SyncInitTrigger(client, &pAlarm->trigger, counter, RTCounter,
++                                   origmask & XSyncCAAllTrigger)) != Success)
++         return status;
 +-- 
 +GitLab
 +
 diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-index 9138e1dd0e..1e4a96f86f 100644
+index d90f9970b5..6affd80e22 100644
 --- a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
 +++ b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-@@ -35,6 +35,8 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
-            file://CVE-2025-26596.patch \
-            file://CVE-2025-26597.patch \
-            file://CVE-2025-26598.patch \
-+           file://CVE-2025-26599-1.patch \
-+           file://CVE-2025-26599-2.patch \
+@@ -38,6 +38,10 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+            file://CVE-2025-26599-1.patch \
+            file://CVE-2025-26599-2.patch \
+            file://CVE-2025-26600.patch \
++           file://CVE-2025-26601-1.patch \
++           file://CVE-2025-26601-2.patch \
++           file://CVE-2025-26601-3.patch \
++           file://CVE-2025-26601-4.patch \
  "
  SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
  
