@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BF1C28B25
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CC8BC28B26
 	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 22:11:36 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.6414.1741212693418777469
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.6412.1741212687984970982
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Mar 2025 14:11:33 -0800
+ Wed, 05 Mar 2025 14:11:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vU2OHZWH;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2234bec7192so137485415ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 14:11:33 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lwTavx9R;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22382657540so93566055ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 14:11:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741212693; x=1741817493; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741212687; x=1741817487; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uTdVspFTV2H0dBq9W6uLDAm5Vt686hEreR8F7/e4U6U=;
-        b=vU2OHZWH6UcJHa0KK22QE9RpCg3pMnG9jVA/2+xdirKqqpcWopyI46yUPSZsuVZIKj
-         SGAfITVeOqtEVwTKmBW+0R0CLae7b5LzB7Se0XubtxLtjeVih4hhplVb9UZXB93xrdgd
-         jUZV+kBKzVB18yx15E8syA6c69wPw4Q/hPH/UnKgD3E3z4Sxp/DVqKgVbKb5kLqv6oCo
-         HVX5r6VEwMhTvm1ScOTQ2VDu/MIGbf4eotyhKm2mxzAgTeVDxVCkpUTPyK8FsOTUciVg
-         TnCNOFnS62V5U2SOpFXuNDwHS76LutasEjN0aZlFDxxp0LzskM7hiNtACpi6lAmj5QCX
-         A1fQ==
+        bh=LYXyDo1ZR4IO30ZrckVhdwe+/emlvfJZE68pQzSqjuo=;
+        b=lwTavx9RBhthkL0LOuzQt0Fva7AD1UfH3FJBQCjIGL6xw8taJFImx7ebuDU/M0LSqF
+         z+8eW+h/vndzY+2QvUdI7lPP8c93EiEO/5iiKJ3oICJfGfEANQ0V2VfxkbqvyorcKB6J
+         W8/UzrhwnN6M4dgc1RBroC6dm0cR6AlwUC1WBp4x396s8wRJkr+ZHDRYgqWCAOmKLKlS
+         GzeRmt7zpD2dAiMG+dRP5d0pRie8DV8XaISPfFsDA7dRshAB1zdr5HNOEj8UDy3uwngd
+         aQo/c/6wkFaUmT7DdkfLiksBPPUxmr0y4Deg4k1FlMJdPbSeueCtLt+qaYn3bLRKCxgh
+         QeZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741212693; x=1741817493;
+        d=1e100.net; s=20230601; t=1741212687; x=1741817487;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uTdVspFTV2H0dBq9W6uLDAm5Vt686hEreR8F7/e4U6U=;
-        b=pWfc0uhJcRNzenAt4FKaTHJ3dk59FYSVL/bDwbL+qMgteWJplUxJ6egJxLAsqohqQw
-         TVeQctbez4PYXqy5ShdeCVFrIwWtsac0uK4tR6YCgNLYLouJV6LiVt5q5TyIjZQ+XcJ5
-         xSsgaMOoM/hnNwn09hKLAGjlX+Yif87XqDy/aYuEEWZTw6yzHi3sbtgWxpYhDeQBIUUK
-         XA6sJrOVz5Ss4x4kMwgQx0PLzSH3ZXp940SRXInoUkeKKnuCNbmoCYNahJEWVRxX1egK
-         jzYuiWXH4ZQ/6cyASFQzMQRVbg25qBIoFxIyqFRTKashnYI4qEcw2D9VMyZgfqwvnBal
-         pBlQ==
-X-Gm-Message-State: AOJu0YwVa6B5VYwa/M4dZDbagNWsACW77R2HmOBNbLz+kZKIns4It93c
-	Msifjcl9ic8wFK/TQii8uHQrIw7wt3vjFRiIqdGrwdRjGpIPsjiNcp9oElaBoESAjEv0c1rHjso
-	P
-X-Gm-Gg: ASbGncuJhK3k1JfAyrYBXgcZs6FEtG67vehu+j0lN3dhaOx1rmZoKx4RUqQC3j03Stg
-	H1x2TNejH5F53OqGb86sHNRksO/oovKR1xy69Kf7S+JzFNvsTGXGt4HsW68tQkbtTPeowVbVPtz
-	VVNZY6BvIfAMW3fdi79qo3ghQawCD8FnTYPe9ObYEWzgkoCl7WlXeb6QvkNY7J5DGhDjYcF/LYv
-	Z2TzU/EC+aZv8ztrRX+YVFLzzPLQHYbcDu69vCNxM2fwInfS3e8xuAaRuFSTYNlkvFWQb5wtOiD
-	0USO3KI2KM8md+fruxqN33mHIxgXOsMqCcc=
-X-Google-Smtp-Source: AGHT+IEERS5unmraRDI2PmYjj50oAqTOYfGGfyyem7opIKKu/R1B23sSw700i5lispHhCd0GqPyhhw==
-X-Received: by 2002:a05:6a00:1804:b0:732:1840:8382 with SMTP id d2e1a72fcca58-736829e22cfmr6907506b3a.0.1741212692724;
-        Wed, 05 Mar 2025 14:11:32 -0800 (PST)
+        bh=LYXyDo1ZR4IO30ZrckVhdwe+/emlvfJZE68pQzSqjuo=;
+        b=jRem08fBMc9exRcJJ6KYg6b3TmP1xuCPooVj65B4tGkaDgvXtYkzNlOu2qTt8EA9gs
+         95ajo3J/byBXK/o8U2t5cS8LYJHki0/mJKB8dlzkTo+nqunoCTI5bttEunBv+4mMjMLq
+         C4s8MnNNGHi40WPNoRP4lWcwTAyVFrNcWw7VQl8V7dh88rHwzxQRObz9onDtU3OUFNhG
+         nQ8wMNVMwqe+1O+oXI5qeMvi4j3yQy98NQ6XJW5rRCCf5YFsk0kMPTTnixp2UP2yD4AV
+         Yds9WB07OGdOid46+HAPSlv8y5Yx87OjhN0sicjcEojKF4iX+MqW+u69i77f87qmvG7/
+         Ebig==
+X-Gm-Message-State: AOJu0YwFGZw4f67vDp3cE2iXHm68pea8H6R+/59SzdsOOAMmx7427Vb1
+	FoWyirnizlUumKsAqzWqaq46lE6fZQmWut88INrOlnf89+6M+yacsboHqgnzzCU8sAc0dwcQjU9
+	Z
+X-Gm-Gg: ASbGncv7qKCb/05qvcVUY9+CLz1mhy1aWuMvwayRDC5chJmh8x+5+mf19hegXKIra8r
+	i5alyQVDSQt01iRJYLlLrefSJhF5SHPOWZVvTZ6ZrGphdAA/IEIXAW69hb7AhS+4Ed28skH/H1R
+	F6y/WPGaYIFKZavoAYpwNcN7czQVBaDaRD0jj4KjmEHM22QwCB284oYr2Vm5Itp5f/TQyFqZYHa
+	7yHFvk4CWJ4Q+LmDFQR2Ys1sPwIntizHfkNJoPG5pssjkPMe/56URsunlLs6npCg83stDdp8Aen
+	yIlrDMtb+qNHX6jRXiYGyLVNVJo8ORe+2gY=
+X-Google-Smtp-Source: AGHT+IH0FHneT04aOzA9Hnr4SRrDlkuXcEz4/RtCPA8m53fwYoNnuzf6k1t1B5BO1fJyws1YRsqzCQ==
+X-Received: by 2002:a17:903:1984:b0:220:eade:d77e with SMTP id d9443c01a7336-223f1d20e5fmr81102825ad.40.1741212687287;
+        Wed, 05 Mar 2025 14:11:27 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:2308:d28:2350:a5eb])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7362e19fd7bsm10204855b3a.43.2025.03.05.14.11.32
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7362e19fd7bsm10204855b3a.43.2025.03.05.14.11.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 14:11:32 -0800 (PST)
+        Wed, 05 Mar 2025 14:11:27 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/16] xwayland: Fix CVE-2025-26595
-Date: Wed,  5 Mar 2025 14:11:04 -0800
-Message-ID: <f801e34c07472af8384e69da27271584ee6a8d1c.1741206348.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 02/16] curl: ignore CVE-2025-0725
+Date: Wed,  5 Mar 2025 14:11:01 -0800
+Message-ID: <8c3b4a604b40260e7ca9575715dd8017e17d35c0.1741206348.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741206348.git.steve@sakoman.com>
 References: <cover.1741206348.git.steve@sakoman.com>
@@ -67,103 +67,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 22:11:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212355
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212352
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Poonam Jadhav <poonam.jadhav@kpit.com>
 
-Upstream-Status: Backport from https://gitlab.freedesktop.org/xorg/xserver/-/commit/11fcda87
+CVE-2025-0725 can only trigger for curl when using a runtime
+zlib version 1.2.0.3 or older and scarthgap supports
+zlib 1.3.1 version, hence ignore cve for scarthgap
+https://curl.se/docs/CVE-2025-0725.html
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xwayland/xwayland/CVE-2025-26595.patch    | 65 +++++++++++++++++++
- .../xwayland/xwayland_23.2.5.bb               |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-26595.patch
+ meta/recipes-support/curl/curl_8.7.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26595.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26595.patch
-new file mode 100644
-index 0000000000..a7478d9e2a
---- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26595.patch
-@@ -0,0 +1,65 @@
-+From 11fcda8753e994e15eb915d28cf487660ec8e722 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 27 Nov 2024 14:41:45 +0100
-+Subject: [PATCH] xkb: Fix buffer overflow in XkbVModMaskText()
-+
-+The code in XkbVModMaskText() allocates a fixed sized buffer on the
-+stack and copies the virtual mod name.
-+
-+There's actually two issues in the code that can lead to a buffer
-+overflow.
-+
-+First, the bound check mixes pointers and integers using misplaced
-+parenthesis, defeating the bound check.
-+
-+But even though, if the check fails, the data is still copied, so the
-+stack overflow will occur regardless.
-+
-+Change the logic to skip the copy entirely if the bound check fails.
-+
-+CVE-2025-26595, ZDI-CAN-25545
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1828>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/11fcda87]
-+CVE: CVE-2025-26595
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ xkb/xkbtext.c | 16 ++++++++--------
-+ 1 file changed, 8 insertions(+), 8 deletions(-)
-+
-+diff --git a/xkb/xkbtext.c b/xkb/xkbtext.c
-+index 0184664207..93262528bb 100644
-+--- a/xkb/xkbtext.c
-++++ b/xkb/xkbtext.c
-+@@ -173,14 +173,14 @@ XkbVModMaskText(XkbDescPtr xkb,
-+                 len = strlen(tmp) + 1 + (str == buf ? 0 : 1);
-+                 if (format == XkbCFile)
-+                     len += 4;
-+-                if ((str - (buf + len)) <= VMOD_BUFFER_SIZE) {
-+-                    if (str != buf) {
-+-                        if (format == XkbCFile)
-+-                            *str++ = '|';
-+-                        else
-+-                            *str++ = '+';
-+-                        len--;
-+-                    }
-++                if ((str - buf) + len > VMOD_BUFFER_SIZE)
-++                    continue; /* Skip */
-++                if (str != buf) {
-++                    if (format == XkbCFile)
-++                        *str++ = '|';
-++                    else
-++                        *str++ = '+';
-++                    len--;
-+                 }
-+                 if (format == XkbCFile)
-+                     sprintf(str, "%sMask", tmp);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
-index 3af0bb9012..2215d2fe4d 100644
---- a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
-@@ -13,6 +13,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
-            file://CVE-2024-9632.patch \
-            file://CVE-2025-26594-1.patch \
-            file://CVE-2025-26594-2.patch \
-+           file://CVE-2025-26595.patch \
- "
- SRC_URI[sha256sum] = "33ec7ff2687a59faaa52b9b09aa8caf118e7ecb6aed8953f526a625ff9f4bd90"
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 439fcb7881..ddd591dd96 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -27,6 +27,8 @@ SRC_URI[sha256sum] = "6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c65
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+ CVE_STATUS[CVE-2024-32928] = "ignored: CURLOPT_SSL_VERIFYPEER was disabled on google cloud services causing a potential man in the middle attack"
  
++CVE_STATUS[CVE-2025-0725] = "not-applicable-config: gzip decompression of content-encoded HTTP responses with the `CURLOPT_ACCEPT_ENCODING` option, using zlib 1.2.0.3 or older"
++
+ inherit autotools pkgconfig binconfig multilib_header ptest
+ 
+ # Entropy source for random PACKAGECONFIG option
 -- 
 2.43.0
 
