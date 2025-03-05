@@ -1,140 +1,104 @@
-Return-Path: <quic_bpothuno@quicinc.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA840C19F32
-	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 06:47:10 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.7886.1741157227048134961
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFAB3C19F32
+	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 07:03:30 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.8068.1741158204166227110
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Mar 2025 22:47:07 -0800
+ Tue, 04 Mar 2025 23:03:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=FUSFqvlS;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: bpothuno@qualcomm.com)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 524NA1io025488
-	for <openembedded-core@lists.openembedded.org>; Wed, 5 Mar 2025 06:47:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=fKmeMgWSlZdOBdW3ktqSD+b6s8yiAbActQ7
-	shKg1En8=; b=FUSFqvlSDO1birbdgUZA+IMCSZdCKy6TTJxLuUTKa19EusUFtu1
-	8LczqsFvTV7L0PzQzseVIB0y6/moFPKHql/ysZvOz919DaOL0J4AauzFg6qosuSx
-	v9Y+Pg6P9HSUOStv24VQtBSKcz6jMfjr45byZ3NBHwjSF8iRCf3BSoKyCSrAsKMa
-	/Wo17RVddbwrk3UElVaHbv70LKFoJjYZd0vpm6lD+610tkMn3I2Ah1Y35NdlFOBU
-	DX0vjAtphAIVrMlqmgvCvGOTbUOaEG3gDMb0vJUmPJw+aq/fUDv4Lhlyi5a+1xmg
-	CUeCoYVKCnw463OZr+b49OaLt7qwGPqdpNg==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6tvd80-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 06:47:05 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5256l2t6026719
-	for <openembedded-core@lists.openembedded.org>; Wed, 5 Mar 2025 06:47:02 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 453uambvet-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 06:47:02 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5256l2sG026713
-	for <openembedded-core@lists.openembedded.org>; Wed, 5 Mar 2025 06:47:02 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com ([10.213.97.93])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 5256l2MS026707
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Mar 2025 06:47:02 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 460767)
-	id A4894579; Wed,  5 Mar 2025 12:17:01 +0530 (+0530)
-From: Balaji Pothunoori <quic_bpothuno@quicinc.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=R46x5hw3;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: zboszor@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-abf6f3b836aso523806366b.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Mar 2025 23:03:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741158202; x=1741763002; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FZT5+l8KP/VS6QC9xpNyP1qr2m5FGAHabggdJmBKcbg=;
+        b=R46x5hw3gIseFHGTQs8hZLJogGeKvs/eU/SsPjZGrMuOQH1DPTXx6bZew3AFSW/HW2
+         C+cra4O6qITzE2mTeV+5DnoKAgPjghh58EyC2my5I2ouKQnoNZnLtoCTlahDd6ZF1cKX
+         KufKuw7IHbWQcWCZP0DRrw6Arzc4tGWLmrRozBCkg3Vhds+PDjoUT9f1zh/ddMo/MKCi
+         PRv2SIEkgMWfst30SQ/yIfhbXwIL4gVCSBFNLCfsoJj5Uf7pxMao2n5E3VzKr8mvf7Vr
+         MVXqUJ69gLeoX2dh5/2KZ/aH4rPNKPpreNwKgXbm/+GhiHu8Y2160T6Wfcbnoc5Y5llo
+         khuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741158202; x=1741763002;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FZT5+l8KP/VS6QC9xpNyP1qr2m5FGAHabggdJmBKcbg=;
+        b=agBFGSI/LT+MdScZ+Cxmui5WUY3fTU+33Xo/EKk8IHTZI4EcH1Tyvd+F50DVVfpwEX
+         FAunX24m1t10hTTf9oHTd36UmvZy3GursY59QJyfFVeMmAobvyBJj1791j37UKRm/gK/
+         q5zwnZ43qKs9zdojB51emRehKSelTydtktyD0LJJ6hg/4MGFbFEDAuSVY4Sf2KLHA/kl
+         LNqmEzWUcADgDhST7KOkm0Sr1mFY24Qr9zjvwoBDJV7JTT3bEHwRi+JFhgNHCbrPaJ4l
+         lgA02luVVVlVl26d4KZipKmk3xQZqLh9awcF0toUxbqQAopEftBb0nFHiNCecjdXjY/j
+         2k6Q==
+X-Gm-Message-State: AOJu0Yxoohr3Vx28G9d+opgA/24S8MoVQ+q5WNDQMVKzzVPyO3drvHpi
+	c+13/v+UKnjuQJispeOzQV3xh9ZNwJZMUsTioVEam8Ue1tCedFcj4uTLeA==
+X-Gm-Gg: ASbGncvIZmJCwi331u3GEOiHr7AWf1kqARvcEPtXIwm6KUtx3GahGEdo4MLjVu0yS6Y
+	ttF58Ebhp7NYo+Q2+QWd+HR/gDenuJ+H88D0mV56FHeTLL1v+s6Ow1n61b909gwkEtzSPBJpl6x
+	kCDAUrR5ySKv6nzd/PYCHpegMRGCZ5vwAIAEHT/YQ6ZAwO8IhATsaIzeYiZSdF68p2we1u94fM0
+	87EnMRDIGH1WwM6DU5NloQTQvZsWebr534DZvVsBEv4ZR2/eAf/uX2Rw7Wwo4gzxnkiDiUVwS9K
+	AsaKXNhHnAHyr7vmr6d4BPPSsnolIaCGB0RxmuPvFboNRo02cvOgRpwaO+uX0AjzYpT8sM8BMGk
+	=
+X-Google-Smtp-Source: AGHT+IFc9avxYaQaQxa94M8XBoxKVDVLxThF5VCRkhDJeLj6Ag0+QTjK1RjEa9dZBZaNX7qYM8fsGQ==
+X-Received: by 2002:a17:907:7f2a:b0:ac1:ebda:afad with SMTP id a640c23a62f3a-ac20e042bc0mr165774466b.54.1741158202063;
+        Tue, 04 Mar 2025 23:03:22 -0800 (PST)
+Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac1fa7294besm199884566b.155.2025.03.04.23.03.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 23:03:21 -0800 (PST)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Balaji Pothunoori <quic_bpothuno@quicinc.com>
-Subject: [PATCH] dhcpcd: fix for unexpected syscall 135 for 10.1.0 version
-Date: Wed,  5 Mar 2025 12:11:01 +0530
-Message-Id: <20250305064101.4065316-1-quic_bpothuno@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Ross Burton <Ross.Burton@arm.com>,
+	Yi Zhao <yi.zhao@windriver.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH] rpm-sequoia-crypto-policy: Don't validate gnutls crypto policy
+Date: Wed,  5 Mar 2025 08:03:19 +0100
+Message-ID: <20250305070319.74490-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: af3IpaRRzx3DDsa0VlzY6aoKZMx9-9Ew
-X-Proofpoint-ORIG-GUID: af3IpaRRzx3DDsa0VlzY6aoKZMx9-9Ew
-X-Authority-Analysis: v=2.4 cv=Sf4NduRu c=1 sm=1 tr=0 ts=67c7f36a cx=c_pps a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17 a=Vs1iUdzkB0EA:10 a=NEAV23lmAAAA:8 a=COk6AnOGAAAA:8 a=29iXaaDHAAAA:8 a=3913LV_Jhq5vo-U7tIkA:9 a=TjNXssC_j7lpFel5tvFf:22
- a=IKEkoQGeIXdUWEBz-oOH:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-05_03,2025-03-04_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 phishscore=0
- suspectscore=0 clxscore=1011 malwarescore=0 bulkscore=0 mlxlogscore=999
- mlxscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2503050052
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 06:47:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212296
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 07:03:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212297
 
-Current dhcpcd (version 10.1.0) service crashes on the WiFi (wlan0)
-interface with the following error:
+Building this recipe may fail on hosts with an old GnuTLS version,
+like Ubuntu 20.04.6 LTS.
 
-"ps_seccomp_violation: unexpected syscall 135"
+Add OLD_GNUTLS=1 to disable validation for this policy variant
+that isn't needed anyway.
 
-This update pulls in fix #421 for dhcpcd 10.1.0 to address this issue.
-
-Signed-off-by: Balaji Pothunoori <quic_bpothuno@quicinc.com>
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+Tested-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../dhcpcd/dhcpcd_10.1.0.bb                   |  1 +
- ...llow-the-__NR_rt_sigprocmask-syscall.patch | 30 +++++++++++++++++++
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
+ .../rpm-sequoia/rpm-sequoia-crypto-policy_git.bb               | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-index 3f806bb18783..99b72852bf34 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
-            file://dhcpcd.service \
-            file://dhcpcd@.service \
-            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
-+           file://0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch \
-            "
+diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
+index f66cb56468..522e9a393d 100644
+--- a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
++++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
+@@ -20,9 +20,10 @@ do_compile () {
+ 	# It speeds up the build and we only need DEFAULT/rpm-sequoia.
+ 	rm -f $(ls -1 policies/*.pol | grep -v DEFAULT.pol) || echo nothing to delete
  
- SRCREV = "57c3506a5622e199cf0e3fc1ef26a71cdedc9521"
-diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
-new file mode 100644
-index 000000000000..7058330165f3
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
-@@ -0,0 +1,30 @@
-+From e9e40400003db2e4f12dba85acabbaf2212a520f Mon Sep 17 00:00:00 2001
-+From: Scott Shambarger <devel@shambarger.net>
-+Date: Sat, 7 Dec 2024 16:37:28 +0000
-+Subject: [PATCH] linux: Allow the __NR_rt_sigprocmask syscall
-+
-+Fixes recent glibc changes to getrandom() used by arc4random().
-+Fixes #421.
-+
-+Upstream-Status: Backport
-+See details in https://github.com/NetworkConfiguration/dhcpcd/issues/421
-+
-+Signed-off-by: Scott Shambarger <devel@shambarger.net>
-+---
-+ src/privsep-linux.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/privsep-linux.c b/src/privsep-linux.c
-+index 8357904c9c9a..e3485a2efdfc 100644
-+--- a/src/privsep-linux.c
-++++ b/src/privsep-linux.c
-+@@ -409,6 +409,9 @@ static struct sock_filter ps_seccomp_filter[] = {
-+ #ifdef __NR_recvmsg
-+ 	SECCOMP_ALLOW(__NR_recvmsg),
-+ #endif
-++#ifdef __NR_rt_sigprocmask
-++	SECCOMP_ALLOW(__NR_rt_sigprocmask),
-++#endif
-+ #ifdef __NR_rt_sigreturn
-+ 	SECCOMP_ALLOW(__NR_rt_sigreturn),
-+ #endif
+-	# Don't validate openssh policy variants.
++	# Don't validate openssh and gnutls policy variants.
+ 	# Validation may fail and these variants are not needed.
+ 	export OLD_OPENSSH=1
++	export OLD_GNUTLS=1
+ 
+ 	make ASCIIDOC=echo XSLTPROC=echo
+ }
+-- 
+2.48.1
+
 
