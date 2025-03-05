@@ -1,119 +1,125 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B562C282D9
-	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 07:19:41 +0000 (UTC)
-Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
- by mx.groups.io with SMTP id smtpd.web10.8209.1741159170606107454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8466CC19F32
+	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 08:46:51 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.9317.1741164398567309265
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Mar 2025 23:19:31 -0800
+ Wed, 05 Mar 2025 00:46:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=gF0E1gjP;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.137, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1741159171; x=1772695171;
-  h=from:to:cc:subject:date:message-id;
-  bh=eIMpBZP5OrFEJ9DAi5gY2aFLlFyS6BIMJCpqCI8aN9o=;
-  b=gF0E1gjPJP9K2KDyOjemfLTx/AtT0cN8EoMPCj0ft1TuBRhluu42CvfU
-   aDkbUNOQrWSRxjcx9yFHcoiTNTnVgeV1zxeZS/Twr7hN5fQ4qn+GdSwoZ
-   Mb6PCWOb+z+HMHaLZTgX8IwYgo4b1wrjcPSCr+7OKazd8/DT97rS3ZYUu
-   2n54nRpg9jtnwNVEvkPnB/qimonD6Y+Vu+XNwkOdYUFk7H+btw/HsCuRV
-   7fnBjDe2lT3DPhANFmwwAyQZFwr9Uqyk7W5W7xw1Sgxuky3waES3/4icz
-   Lxn6hBJEEfjS1j58qawzLdxyqKKHPEOjmlhk4VHIxq7lJRSqlWjnAKeJy
-   g==;
-X-CSE-ConnectionGUID: d3R6VBPCSR+DL6HpP3i1Yg==
-X-CSE-MsgGUID: Rr/8G99VQGibYkOp+Do0zQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="171477596"
-X-IronPort-AV: E=Sophos;i="6.14,222,1736780400"; 
-   d="scan'208";a="171477596"
-Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
-  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 16:19:29 +0900
-Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
-	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 1225C19553
-	for <openembedded-core@lists.openembedded.org>; Wed,  5 Mar 2025 16:19:26 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id CA70810362
-	for <openembedded-core@lists.openembedded.org>; Wed,  5 Mar 2025 16:19:25 +0900 (JST)
-Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5BDFE1A0078;
-	Wed,  5 Mar 2025 15:19:25 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v2] btrfs-tools: upgrade 6.12 -> 6.13
-Date: Wed,  5 Mar 2025 15:19:19 +0800
-Message-Id: <1741159159-21356-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@linaro.org header.s=google header.b=p1dqSN4N;
+ spf=pass (domain: linaro.org, ip: 209.85.208.180, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30ba5cccc19so40309541fa.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 00:46:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741164396; x=1741769196; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DRvt/B64PSbp0Kz0SAg+7W55kwLlNXz77GDczxnFBho=;
+        b=p1dqSN4NwDtFt7O1ru75WV2ofNgfQb8XFpBNZpehHOdRZmOifDSWaOeTiAyiT4wIH1
+         IrIUh/5s6XVjYmH+AlWcjDY0TLdtg7iMbRk+q03TlmhYXjTHnjlHCme2BQ9mSEPGa8vm
+         ATt5naVQqDrwc1RJeBv3XQ2x2LfDK8lcYGKMvrDspfXJhNFGzbIhTfVa2ooTZOv1+mlY
+         HEoPOhU0eNwE4si9qnZsdk4eJFsehJ+JUNwgkknqqM1X51nT2AvSnN9n9i03VEpeHN58
+         ruw2TZP+rITHL2VCiOrW7jFlzW8EjJpSLON9Y2yIMyHqgSG9g71rBZU+WrQ+e+XzOnpD
+         yB0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741164396; x=1741769196;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DRvt/B64PSbp0Kz0SAg+7W55kwLlNXz77GDczxnFBho=;
+        b=hadulozYBJiwD5GbGJGAf0oCG6z8T+2MSZ6v3nRXVF452UilBmQK5ROvSVIi2rexMu
+         B3s3OKGVjMl/9nV3ORzVkC1ZcMHhbOLmT4VJ4t3rQUZVwpi1cqNIDafLg9Pg3Dt3paAA
+         omXMw31o32w/a8gF9WaN8ZB9VCFPLAJjHy4eykHSAG8S4I5tc2Ka8PSd9UaUsUA7Xlow
+         qz9irU8eVM6TheC97Z8MMGkyElDJFTfjucuMzPJTJySWT8iU+3sfs6bzE/YKy1UxdBQf
+         3TPNeZhDIcsbYQDoZe7HasbhH+FgxuLzjztmy+3memlIOQTkXsRB87V7nqPNGlfKase+
+         H9VQ==
+X-Gm-Message-State: AOJu0YzM6U+Zb1ysZ4D/XVnU+ENjJU9Kj6uylElerOFa7t3G/ZaC6SZX
+	VLYmN4tZuzAbc1F3eJHsNbeLD4yMRjOXwUkMCZ+cI9wrh2NarletZMieTxLalwQ=
+X-Gm-Gg: ASbGncvSmjBXsjdNrzqqoNB0SCvHtORe1dtjEVYJxwLS5hvCptCzyVqUjD6fNWoVhNl
+	ld9gHPYtINA8bmJ3MB2UkgP5tQNyfyE3CgPln9mAMn7ytOgiKfaZ4gI/9rgpYT/i1C393gJImaW
+	rNTgwRNwpP3APRo6tcLcGmijAqFrFLoXnz6tF02MDcyy9rFeRct2ELSkFzyOV5Jup6Ivi10+p6b
+	XT/jbqPsWGCg2VlHN8bILcmzE2ZharK3+/JJZ8TntJU4isLS7YKlYpa4ftfHfpYye7JFnBT46h8
+	30kBsG1kacbaz02DHlD1+mLfQCpBwhhoM8hWb6qyzS/XJ0nGrYFLCZwpMfSrDxSFWrNxjrDQXSr
+	Tl2Y8kAMZ+CZxljYHsWWMvmTw
+X-Google-Smtp-Source: AGHT+IGsS0AjnVSwZTKXfyieYn+RuOdyg/NZHjFGqeaX3OqM+EeuRi199dViKA02Ab15ZMEsHRI7NA==
+X-Received: by 2002:a2e:7a1a:0:b0:30b:b78e:c449 with SMTP id 38308e7fff4ca-30bd7a45a33mr6848881fa.11.1741164396457;
+        Wed, 05 Mar 2025 00:46:36 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30b8f2964cbsm17290001fa.28.2025.03.05.00.46.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 00:46:36 -0800 (PST)
+Date: Wed, 5 Mar 2025 10:46:34 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Balaji Pothunoori <quic_bpothuno@quicinc.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] dhcpcd: fix for unexpected syscall 135 for 10.1.0 version
+Message-ID: <kxtt4okxjormycbnwxffxqadztn2mgzthuu6btjlkzqsdhihhc@deieyeztitxj>
+References: <20250305064101.4065316-1-quic_bpothuno@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250305064101.4065316-1-quic_bpothuno@quicinc.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 07:19:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212298
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 08:46:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212299
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+On Wed, Mar 05, 2025 at 12:11:01PM +0530, Balaji Pothunoori wrote:
+> Current dhcpcd (version 10.1.0) service crashes on the WiFi (wlan0)
+> interface with the following error:
 
-The upstream add lzo to --compress option, so add lzo to PACKAGECONFIG.
+There are newer releases, which already have this patch. Any reason for
+not upgrading? For example there was an AUH message from March 1st.
 
-Changelog:
-===========
-* mkfs:
-  * new option to enable compression
-  * updated summary (subvolumes, compression)
-  * completely remove option --leafsize, deprecated long ago
-* btrfstune: add option to remove squota
-* scrub:
-  * start: new option --limit to set the bandwidth limit for the duration of the run
-  * status: fix printing of Rate unit suffix (SI/IEC)
-* qgroup clean-stale: check if quotas are enabled before starting
-filesystem sync()
-* print builtin features and options in --version output (mkfs,
-convert, image, btrfstune)
-* build:
-  * Botan minimum version is now 3.x
-  * target to build compile_commands.json (for LSP)
-* other:
-  * a bit more optimized crc32c code
-  * sync some headers from kernel code
-  * command help updates and fixes
-  * build warning fixes
-  * error message updates
-  * cleanups and refactoring
-  * updated tests
-  * lots of documentation updates
+> 
+> "ps_seccomp_violation: unexpected syscall 135"
+> 
+> This update pulls in fix #421 for dhcpcd 10.1.0 to address this issue.
+> 
+> Signed-off-by: Balaji Pothunoori <quic_bpothuno@quicinc.com>
+> ---
+>  .../dhcpcd/dhcpcd_10.1.0.bb                   |  1 +
+>  ...llow-the-__NR_rt_sigprocmask-syscall.patch | 30 +++++++++++++++++++
+>  2 files changed, 31 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
+> 
+> diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
+> index 3f806bb18783..99b72852bf34 100644
+> --- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
+> +++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
+> @@ -15,6 +15,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+>             file://dhcpcd.service \
+>             file://dhcpcd@.service \
+>             file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
+> +           file://0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch \
+>             "
+>  
+>  SRCREV = "57c3506a5622e199cf0e3fc1ef26a71cdedc9521"
+> diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
+> new file mode 100644
+> index 000000000000..7058330165f3
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
+> @@ -0,0 +1,30 @@
+> +From e9e40400003db2e4f12dba85acabbaf2212a520f Mon Sep 17 00:00:00 2001
+> +From: Scott Shambarger <devel@shambarger.net>
+> +Date: Sat, 7 Dec 2024 16:37:28 +0000
+> +Subject: [PATCH] linux: Allow the __NR_rt_sigprocmask syscall
+> +
+> +Fixes recent glibc changes to getrandom() used by arc4random().
+> +Fixes #421.
+> +
+> +Upstream-Status: Backport
+> +See details in https://github.com/NetworkConfiguration/dhcpcd/issues/421
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../btrfs-tools/{btrfs-tools_6.12.bb => btrfs-tools_6.13.bb}   | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.12.bb => btrfs-tools_6.13.bb} (97%)
+This doesn't follow the established standard. I doubt that it will not
+trigger QA error.
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.12.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
-similarity index 97%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.12.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
-index 3c0bb81f75..afc69a36f2 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.12.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
-@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
- SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
-            "
--SRCREV = "85ca0a6d60c14eefda509970a26616ff16115612"
-+SRCREV = "26e4d9174c70aac0e53c3b5de55cf159f8d9397f"
- S = "${WORKDIR}/git"
- 
- PACKAGECONFIG ??= " \
-@@ -26,6 +26,7 @@ PACKAGECONFIG ??= " \
-     convert \
-     python \
-     crypto-builtin \
-+    lzo \
- "
- PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, python3-sphinx-native python3-sphinx-rtd-theme-native"
- PACKAGECONFIG[programs] = "--enable-programs,--disable-programs"
 -- 
-2.43.0
-
+With best wishes
+Dmitry
 
