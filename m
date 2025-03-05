@@ -2,150 +2,163 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4331C28B26
-	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 15:59:04 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.16558.1741190343973321189
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDF3CC19F32
+	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 15:59:14 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.16709.1741190347240167173
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Mar 2025 07:59:04 -0800
+ Wed, 05 Mar 2025 07:59:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=HCzr7eBm;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2233622fdffso11210485ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 07:59:03 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2CPVhnG2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-223f4c06e9fso16589925ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 07:59:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741190343; x=1741795143; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741190346; x=1741795146; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jjSRWo934dVTNPAKAXrzqIwYyPzxdZuHux0mN/GuTDQ=;
-        b=HCzr7eBmVkJeF3n6prz15Fmdz/wcC6qu2nZNfJwSAxuz6hdGRuFoGm9NLszdE9RQaD
-         BrEtZyff7Nowz4CaCU2FHksir6Vqdd3AH3ChlC3Yp9riFKTHdMgV/u+lNoqMQ39gaQ0E
-         BmN0gTiaLDb2kfp8WDh7BooXh8A7AhOJ0WQViTrNIi7k4gpe0zHoz8wLETPWzO4tVX7Q
-         XLM5yriALKXe5VErVckWknsIJjHcLNYx1dnf8Z13/VhropRz22eojVkYOp4KIYf2yrWk
-         YjFbwWZ6X1TPMoqceUUrOT1DT9XOutMbo4whvlDKNra2Z3mlLYV6QUfywwYvIM0ydgMM
-         kl1g==
+        bh=tnsLbBVOXuuSioqP9PnrzqOLx6rIIRiocH/PhMxqrFM=;
+        b=2CPVhnG2VOBWulFUopk+ZNqWw6NzDjaD/Gk9Yt/j9FcsX9kmjZ77WzK+wrNz6vxl0S
+         tKCvXIrfWtOf64iF6qJLuMe1ZFVvtSdOoWwwvQwPLudkALIop15rX8xjL+oeEVjKpJs2
+         fTgJyHI+qg5O0wCMHkqQhZm47kJixiGVOgq/uIes1cFURiGk5RTO2nNTYbTyb+aTeGbo
+         OQ/iI6tnTK8MSh9mEbs64Jv5vF0Gjs109UEAz9aB4DwIXVVWw1PyC87FS3FNgfmtWsW+
+         VvHccMfxtTA3CbvUvJkqfUdBqPnEm4kRIOzI/mYQn1gP/57V2Kn6j4vBAeMD6CC29j83
+         gF2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741190343; x=1741795143;
+        d=1e100.net; s=20230601; t=1741190346; x=1741795146;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jjSRWo934dVTNPAKAXrzqIwYyPzxdZuHux0mN/GuTDQ=;
-        b=S2GbXToNt8OIvwhJ7BmuutsARjdKYQMcsNY+KObOMMWMSzEXRT2D5ZlQ0Vlqxga5Fx
-         GXdNutWIwqKup4Erkgo5c/dupwEevJJNbYb/bfi30qqphzPU+asjQSOwWZFekr8sJ8+Q
-         edS7vuichbCenYgYchChV99m8Vw0KsVQNSYWFmk/eVkWsTKudjKb6UJV/B6/E1ND1Ujo
-         pO0K7wtmfBYu2yclTCLgNSwcAzVbbNJzqEL5zCh2w3bTDEtM379zbDg2YM18BbNSZ//1
-         xGym1yzcp8uZeNFQsUhQe5C9HSDdDcGVhdUbH8Ke43v6V7MVqgP4u7OzGcDym5oI6qdT
-         9apQ==
-X-Gm-Message-State: AOJu0Yxm7Oqsg1T4IKwd78AT/nstQnH7BMgf8AXAhVDO9Gx6lgua0dBA
-	DHOfNzdpa3xyt59eQXWrOlgjnkalFgDnDrQ58YjXy4oqLEv0nwTbK0zsAiGCUpg2s1usqL1Audu
-	Y
-X-Gm-Gg: ASbGncvBhhC7KFyvcvZ54RUa2kt5OJ/dbLlpa3BuCm99E22sKzrNbnpYEOQ5ePKVs1y
-	frazrKwq7GCbjuQ5vB1MZINbzJCP92zgKXLDqE8jUKXDBQ1cauVcKLpLpmiz6aSRxF6ci9fTwlt
-	mHFKOONx2Azrz0vrfeQBcb0EE7YccM48esRT8tHkpP4JvuLFgnNI3ZZ0FL9gKfFxjuTYocvHEyB
-	gGi4RynWTnR0jH6EQlpQ2eheotvlRL2OGjmMupvbFz4wSXB5gRdjv0aJTXtYZQ9JwYCD6uvViMk
-	g7+QKwJn4b9lMs/7kudKQJIQ0cNLVoAUVik=
-X-Google-Smtp-Source: AGHT+IHLa4O+q7EaZ45l7WV3X+rJJDdd6s5ax03z+5Skc5CpcZWR8mw2RKyGn2t5j+3fGgHWfDtVUQ==
-X-Received: by 2002:a17:903:186:b0:21f:7082:1137 with SMTP id d9443c01a7336-223f1ca2630mr67355805ad.22.1741190343222;
-        Wed, 05 Mar 2025 07:59:03 -0800 (PST)
+        bh=tnsLbBVOXuuSioqP9PnrzqOLx6rIIRiocH/PhMxqrFM=;
+        b=taerpwztyVvBM1VZRF4bGsVMqJePSxTsponwlwdyBTQaxL56fVsS5dWQQDqHqku08+
+         xP8lAqSLFLIWTIrzUZXV1DLk7iynhXLCGJtqbXwmwDl3MBJK4pGr+R49LmLJWKijmypd
+         t65o3uPg2WtTigtmvvS79N1zdUOflzDzvrURP332I+twB8zfVS1ghVIDsUb3RUsNlOmv
+         RTXWqUMXypRtTgOYafUJkSmmgKgWQnvSNsb7E0nfncrwnxSkJ52Nmx6U7smPoFmtgWk1
+         9wVZjiJeyOpoiG9i7RGGuWM2HP8a12r4ZQSLZSPrmYLVUc/uLCYAy0in1oUSg10iXZJn
+         OUZw==
+X-Gm-Message-State: AOJu0YxMKugZn0gFmJpo0dfvnvLEbRmtcdrj+/E3/kuUYfFInq67dayW
+	uYtxJ51+AjxiMlhFk5k8UAU5hEedmQcWIy/tL/TZK9r0F+MHFGFDAmuUPUVO7/RDjIqk7DmHtNq
+	i
+X-Gm-Gg: ASbGncuCEGJ48nLJPEOOzO1UIP2MfX791Njl/krkFX0cOZ7hlcRWjxpV9OdLmbizJZj
+	B8uG7p7c6O7WWlhegPae7nvEov5+JrBzKZGXsUInlGuij4LNKDL9UJEdhfg41ErpnPDjEubFLiu
+	hZrqGdxZSIp/c2h5DNXQoS1sqOBysRFgjafYcClCGLzLA8wEXl5WZKf6wSO+uXm7t7XX+V1DIKJ
+	5yFlIvZk3yEWNlRZg8d6TQgeWoSYndK/CrVWXzAyPIRnBQzN25vAD0k8IDrY0I5O0ej4fyygpMz
+	9bFLK1/FNacedlkMyqi9WhO2EzwIgRIQpYc=
+X-Google-Smtp-Source: AGHT+IHpMSFLkNJaWyhNFLahSH2JGuQC62RqWw/KCvSsbfg3eZTecH/Id8+wn4sl7Jz4E28E9NIxUg==
+X-Received: by 2002:a17:903:41cd:b0:220:fe36:650c with SMTP id d9443c01a7336-223f1e074e1mr62690025ad.23.1741190346524;
+        Wed, 05 Mar 2025 07:59:06 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:2308:d28:2350:a5eb])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-223501f97bfsm115411025ad.85.2025.03.05.07.59.01
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-223501f97bfsm115411025ad.85.2025.03.05.07.59.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 07:59:02 -0800 (PST)
+        Wed, 05 Mar 2025 07:59:06 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/16] xwayland: Fix CVE-2024-31081
-Date: Wed,  5 Mar 2025 07:58:34 -0800
-Message-ID: <3575ad718c8ea7d808247842df19982f00725187.1741190221.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 07/16] xwayland: Fix CVE-2024-9632
+Date: Wed,  5 Mar 2025 07:58:36 -0800
+Message-ID: <2158a34839068b878344d214d3fc9feeb17e504a.1741190221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741190221.git.steve@sakoman.com>
 References: <cover.1741190221.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 15:59:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212327
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 15:59:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212329
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
 Patch copied from xserver-xorg recipe.
 CVE reported for both and patch apply on both.
 
-Upstream-Commit: https://gitlab.freedesktop.org/xorg/xserver/-/commit/3e77295f888c67fc7645db5d0c00926a29ffecee
+Upstream-Commit: https://gitlab.freedesktop.org/xorg/xserver/-/commit/ba1d14f8eff2a123bd7ff4d48c02e1d5131358e0
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xwayland/xwayland/CVE-2024-31081.patch    | 47 +++++++++++++++++++
+ .../xwayland/xwayland/CVE-2024-9632.patch     | 59 +++++++++++++++++++
  .../xwayland/xwayland_22.1.8.bb               |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2024-31081.patch
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2024-9632.patch
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2024-31081.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2024-31081.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2024-9632.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2024-9632.patch
 new file mode 100644
-index 0000000000..4380004700
+index 0000000000..54888f6347
 --- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2024-31081.patch
-@@ -0,0 +1,47 @@
-+From 3e77295f888c67fc7645db5d0c00926a29ffecee Mon Sep 17 00:00:00 2001
-+From: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Date: Fri, 22 Mar 2024 18:56:27 -0700
-+Subject: [PATCH] Xi: ProcXIPassiveGrabDevice needs to use unswapped length to
-+ send reply
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2024-9632.patch
+@@ -0,0 +1,59 @@
++From ba1d14f8eff2a123bd7ff4d48c02e1d5131358e0 Mon Sep 17 00:00:00 2001
++From: Matthieu Herrb <matthieu@herrb.eu>
++Date: Thu, 10 Oct 2024 10:37:28 +0200
++Subject: [PATCH] xkb: Fix buffer overflow in _XkbSetCompatMap()
 +
-+CVE-2024-31081
++The _XkbSetCompatMap() function attempts to resize the `sym_interpret`
++buffer.
 +
-+Fixes: d220d6907 ("Xi: add GrabButton and GrabKeysym code.")
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1463>
++However, It didn't update its size properly. It updated `num_si` only,
++without updating `size_si`.
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/3e77295f888c67fc7645db5d0c00926a29ffecee]
-+CVE: CVE-2024-31081
++This may lead to local privilege escalation if the server is run as root
++or remote code execution (e.g. x11 over ssh).
++
++CVE-2024-9632, ZDI-CAN-24756
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
++Tested-by: Peter Hutterer <peter.hutterer@who-t.net>
++Reviewed-by: José Expósito <jexposit@redhat.com>
++(cherry picked from commit 85b77657)
++
++Part-of: <!1734>
++
++CVE: CVE-2024-9632
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/ba1d14f8eff2a123bd7ff4d48c02e1d5131358e0]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ Xi/xipassivegrab.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
++ xkb/xkb.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/Xi/xipassivegrab.c b/Xi/xipassivegrab.c
-+index c9ac2f8553..896233bec2 100644
-+--- a/Xi/xipassivegrab.c
-++++ b/Xi/xipassivegrab.c
-+@@ -93,6 +93,7 @@ ProcXIPassiveGrabDevice(ClientPtr client)
-+     GrabParameters param;
-+     void *tmp;
-+     int mask_len;
-++    uint32_t length;
-+ 
-+     REQUEST(xXIPassiveGrabDeviceReq);
-+     REQUEST_FIXED_SIZE(xXIPassiveGrabDeviceReq,
-+@@ -247,9 +248,11 @@ ProcXIPassiveGrabDevice(ClientPtr client)
++diff --git a/xkb/xkb.c b/xkb/xkb.c
++index 276dc19..7da00a0 100644
++--- a/xkb/xkb.c
+++++ b/xkb/xkb.c
++@@ -2992,13 +2992,13 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr dev,
++         XkbSymInterpretPtr sym;
++         unsigned int skipped = 0;
++
++-        if ((unsigned) (req->firstSI + req->nSI) > compat->num_si) {
++-            compat->num_si = req->firstSI + req->nSI;
+++        if ((unsigned) (req->firstSI + req->nSI) > compat->size_si) {
+++            compat->num_si = compat->size_si = req->firstSI + req->nSI;
++             compat->sym_interpret = reallocarray(compat->sym_interpret,
++-                                                 compat->num_si,
+++                                                 compat->size_si,
++                                                  sizeof(XkbSymInterpretRec));
++             if (!compat->sym_interpret) {
++-                compat->num_si = 0;
+++                compat->num_si = compat->size_si = 0;
++                 return BadAlloc;
++             }
 +         }
-+     }
-+ 
-++    /* save the value before SRepXIPassiveGrabDevice swaps it */
-++    length = rep.length;
-+     WriteReplyToClient(client, sizeof(rep), &rep);
-+     if (rep.num_modifiers)
-+-        WriteToClient(client, rep.length * 4, modifiers_failed);
-++        WriteToClient(client, length * 4, modifiers_failed);
-+ 
-+  out:
-+     free(modifiers_failed);
-+-- 
-+GitLab
-+
++--
++2.40.0
 diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-index 78e849b305..5fa2402234 100644
+index 258a875697..23575b387e 100644
 --- a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
 +++ b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-@@ -25,6 +25,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
-            file://CVE-2024-21886-1.patch \
-            file://CVE-2024-21886-2.patch \
-            file://CVE-2024-31080.patch \
-+           file://CVE-2024-31081.patch \
+@@ -28,6 +28,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+            file://CVE-2024-31081.patch \
+            file://CVE-2024-31083-0001.patch \
+            file://CVE-2024-31083-0002.patch \
++           file://CVE-2024-9632.patch \
  "
  SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
  
