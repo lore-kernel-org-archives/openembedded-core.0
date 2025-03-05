@@ -1,211 +1,157 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F69BC19F32
-	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 15:47:04 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web11.16367.1741189616752212747
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E9BC282EC
+	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 15:59:04 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.16702.1741190340835482090
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Mar 2025 07:46:56 -0800
+ Wed, 05 Mar 2025 07:59:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KZdCzIHT;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-472242b0da5so62551941cf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 07:46:56 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=liFsfPuN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22401f4d35aso9894995ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 07:59:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741189616; x=1741794416; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZkq0XNMNelg6R1fOm5pkAYJ5vNZd57+XSbNuButYtA=;
-        b=KZdCzIHTzVuEeuTSQXWh76dpB9nkWVvwfPhB5abfKcxqWgJktEZcqyQ6wyquWTyO3t
-         NnloDrrg3pH8DyxUuQQBvYoWfFDlVYMECL3L4c0gW+79ZOB5XDL0FhEKCGr3Pe1TMdL9
-         e/1ezegPvHNmOkTe9i8HJJwk08p6FyyDUO1SE/FXrCxPXogLnMZxLrwrs0Etz99hEjWI
-         lz4WMfGdPkYLHtAj62gwlVxe5yDK3mygadoCPD8+0fM+T91RvyDVKmY2omdGk92Z334o
-         XeQ6wWZxIKWfhO0liITD5K/DqISqP+eG+yA2EVyLEiZi/hQXHdFy7fgl3GLhmsWbA9HO
-         /iIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741189616; x=1741794416;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741190340; x=1741795140; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TZkq0XNMNelg6R1fOm5pkAYJ5vNZd57+XSbNuButYtA=;
-        b=aNiVvCrODyMFcRxr8+Un21cMhOOUfbjtafee3Uuhp7lQ/ZGB5c0vHuRad7r/yDqX36
-         AxbyPPWy9ovEcPF0QfNtlKRW0U8Vmr3cjGfvOtRm/b+8HOIONyKB+tGxhxldplvdsYC5
-         s5NWBnDyXYWmE1WI9Y6t/1J3132Z9Quvto9KoKiZVtEpQENWZGUapujFGjqWJrH5askK
-         bJCrNdrGJyqxQqyWe6ai9Ot21i92JdHIVqs1U9UiTLWMJiKrVg+MkaIHN8uX85aP3gP7
-         6MJa0yTPby450ArPy3m/M3pQCDbf94/ErFp6mDoZhgMQLc6hbB1Z/ckiMFdvNotgOXQ/
-         0wDw==
-X-Gm-Message-State: AOJu0YxPBQxquOyShpp87a55kITH3CxaW6l2N8ok1il5PVc6cuL+DDGI
-	rF5GldyBGsN+ZAYqpOzZ8u9aKCaC7X0U48ZIwCv6x0uo2ygfnI+IPpURo/L4PCInjBSpXk3sx7r
-	bwxbpylzJxZVGzUkC5xdtK/buyHg=
-X-Gm-Gg: ASbGncsBcaBjW9gjw+OtPQPuJTjNHbPp2Wszg24WSZbX6aGxf+IWZqxlzcLjQe9MxSM
-	OJsawHg2D6zypYHWcPnzP0rjAVxv6dz0W6NFcSyvBCwwSlyGtjTGu7x5sSHS7AuUsOtgFYlFtHl
-	QWH0LncHajDDjoOV6RCUM6s3BG5ibYYDr7yu8Dx30K0rvHiYHxcpfRx4P/LMVB
-X-Google-Smtp-Source: AGHT+IGrobWoAsnWYCgiKVQdOq0Ir1Oh2eUz/Jag8EHd4amQFjKxzMnT9SoZchM2XvQBVb6xZJGrM6F5WRY3d4/s1Bs=
-X-Received: by 2002:a05:6214:3002:b0:6e8:9797:f94e with SMTP id
- 6a1803df08f44-6e8e6d13921mr47929226d6.35.1741189615019; Wed, 05 Mar 2025
- 07:46:55 -0800 (PST)
+        bh=ynvfTxCo1YXf4irWDLt7okSJKLwwD7Xj5DhWNiyJws8=;
+        b=liFsfPuNp1fsoVE8Uqn2iJWhtT4YMe23+2zij7QlgIM9PO/wcT47vpCxbNpMKoK2rD
+         TEt6RkhSbNykkDG+03VA6XnVfAECHCoLjlakSUwGRe3NUlirVGaD0cQjqDy6H/9bGNLT
+         kp03ok04SDKZu6IokSWofcl5Nhksmx++Fmr5o/vnNQQLODB4JGVzhuorACC1SNkYfnAR
+         dc04St7exR90PL0+ZejnO59aUA89W87gYwQy2H+TI4lKoZ1oRiw3raEKLPpwirBnBsc8
+         14kmf0RgxktGNtnVCrn6m9GaQWZ+b8odcKXKX/mTiKvnZfdS8KfXcraBRpSjITOJGGon
+         tYTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741190340; x=1741795140;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ynvfTxCo1YXf4irWDLt7okSJKLwwD7Xj5DhWNiyJws8=;
+        b=Bb/kuQuIOurnJexJCqsYy0SlB8H/vdC1d04V2X89z4lowjGisFzuypD0lRu2KSmoPp
+         IYq1cNLYJ0kK4g7nExWz1QyQq0Vf2nBiztUjjwgFUmiGu2djtnaNW5/FuYcvO8SDhcA4
+         +zNlfzvT3eP70Pxa+zvGI3nRwH5AIbY+ANtVsyNXVRY3GFpZlvKDvCz/BxEriMQpPTOJ
+         olbsTa5aPQHJKe4iXC8GTQRvMA+sOFfjknnkR2yIwW2Bx5gsSA9UvPfYOVbrTR5KP5jx
+         61NyhLhO/UZMQB6v7Ck8E6eGhN2m5GQwqmy7SNtbmSzf5kWM72glkxykPTSefajm5rSK
+         1zsw==
+X-Gm-Message-State: AOJu0YyIPpN+dMQiAAWDKEqt9OSzl9BCLEuOkk32464O0nUhuL8CzPXa
+	96U/AiD/h1X8QhWtVIqieTcJRywSjdnGvHBRgRMl7YwIYQwNK0e+3Ij08JoAfNS07sCGUV1nIXv
+	p
+X-Gm-Gg: ASbGncvz6efYQ97OUJFvirdptExMV/Ce5gv5P+mFw2iaoqO3tEI0Pdogyblo1NrxfkU
+	Vob4f1dRivcITOIkCLymuu05AQtDzL6JdHlj8Gj6iqGD5As/E0x5fumHOKttQ7sp/XNe+zp/b1S
+	bwh+cSsatOrXeoionCSzOgPUZ+vHI+njlgLVkpiM/HifVcUjdKofDy+QbbTkE/aE95QimQWRUAj
+	S/coCU+If5je7A8L6Dz8hIBxGRJ+xJH3Nzz6n54+PfqzlPXxhUppndqz8rCGdzRCXrtj+t1VJKv
+	OCY1Jpi1nSI1rZWEm5PIP8QxBrbhdrz1mJQ=
+X-Google-Smtp-Source: AGHT+IGqkOeweBNcabWa8jjQ/M9rC161PoHQvAY/W6h9TggPkuYpj6Wx6L2fRjBT6EIdCvMQQpDmRw==
+X-Received: by 2002:a17:902:d50f:b0:223:5e76:637a with SMTP id d9443c01a7336-223f1c97445mr44146195ad.23.1741190340069;
+        Wed, 05 Mar 2025 07:59:00 -0800 (PST)
+Received: from hexa.. ([2602:feb4:3b:2100:2308:d28:2350:a5eb])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-223501f97bfsm115411025ad.85.2025.03.05.07.58.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 07:58:59 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 04/16] xwayland: Fix CVE-2024-31080
+Date: Wed,  5 Mar 2025 07:58:33 -0800
+Message-ID: <4e41b1c8cccd3b2f359ee949cad402b9418f5983.1741190221.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1741190221.git.steve@sakoman.com>
+References: <cover.1741190221.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <c29e6b35-9b3c-009b-3ff5-25d57725da8b@duagon.com>
-In-Reply-To: <c29e6b35-9b3c-009b-3ff5-25d57725da8b@duagon.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 5 Mar 2025 16:46:43 +0100
-X-Gm-Features: AQ5f1JpcVOhJdDeL79VcIvPMOOZSBQTTKZgayypyZTCpDxOEMyVRPrJWGv2dbc4
-Message-ID: <CANNYZj_H_CQzwynmj418=5qgn0x8pjz8EaOhWcWUkSF_2Avi1g@mail.gmail.com>
-Subject: Re: [PATCH v2] python3: Remove DEBUG_PREFIX_MAP completely from sysconfigdata
-To: Jorge Sanjuan Garcia <dev-jorge.sanjuangarcia@duagon.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 15:47:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212321
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 15:59:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212326
 
-Thanks, lgtm.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Alex
+Patch copied from xserver-xorg recipe.
+CVE reported for both and patch apply on both.
 
-On Wed, 5 Mar 2025 at 15:47, Jorge Sanjuan Garcia
-<dev-jorge.sanjuangarcia@duagon.com> wrote:
->
-> Paths in DEBUG_PREFIX_MAP are not being removed from sysconfigdata correctly.
->
-> The contents of DEBUG_PREFIX_MAP is typically a set of flags defined as
-> space separeted values. However, the sysconfigdata build artifact contains
-> those as line separated values.
->
-> Eg of DEBUG_PREFIX_MAP:
-> ```
-> DEBUG_PREFIX_MAP="
->          -fcanon-prefix-map  \
->          -fmacro-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/Python-3.13.2=/usr/src/debug/python3/3.13.2 \
->          -fdebug-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/Python-3.13.2=/usr/src/debug/python3/3.13.2  \
->          -fmacro-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/build=/usr/src/debug/python3/3.13.2 \
->          ... \
-> "
-> ```
->
-> From sysconfigdata artifact:
-> ```
-> 'CFLAGS': '-fno-strict-overflow '
->            '-Wsign-compare '
->            '-DNDEBUG '
->            '-g '
->            '-O3 '
->            '-Wall '
->            '-O2 '
->            '-g '
->            '-fcanon-prefix-map  '
->            '-fmacro-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/Python-3.13.2=/usr/src/debug/python3/3.13.2  '
->            '-fdebug-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/Python-3.13.2=/usr/src/debug/python3/3.13.2  '
->            '-fmacro-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/build=/usr/src/debug/python3/3.13.2  '
->            '-fdebug-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/build=/usr/src/debug/python3/3.13.2  '
->            '-fdebug-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/recipe-sysroot=  '
->            '-fmacro-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/recipe-sysroot=  '
->            '-fdebug-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/recipe-sysroot-native=  '
->            '-fmacro-prefix-map=/build/tmp/work/core2-64-oe-linux/python3/3.13.2/recipe-sysroot-native=  '
->            '-pipe  '
->            ...
-> ```
->
-> Create regular expresion for sed that would replace every entry from
-> DEBUG_PREFIX_MAP to remove build paths.
->
-> Also, avoid having previous sed expressions that may partially replace
-> values from DEBUG_PREFIX_MAP with `/build/path/unavailable/`, which will
-> make the removal of all DEBUG_PREFIX_MAP entries fail.
->
-> Before applying this patch:
-> ```
-> 'CFLAGS': '-fno-strict-overflow '
->             '-Wsign-compare '
->             '-DNDEBUG '
->             '-g '
->             '-O3 '
->             '-Wall '
->             '-O2 '
->             '-g '
->             '-fcanon-prefix-map  '
->             '-fmacro-prefix-map=/python3/3.13.2/Python-3.13.2=/usr/src/debug/python3/3.13.2  '
->             '-fdebug-prefix-map=/python3/3.13.2/Python-3.13.2=/usr/src/debug/python3/3.13.2  '
->             '-fmacro-prefix-map=/build/path/unavailable/=/usr/src/debug/python3/3.13.2  '
->             '-fdebug-prefix-map=/build/path/unavailable/=/usr/src/debug/python3/3.13.2  '
->             '-fdebug-prefix-map==  '
->             '-fmacro-prefix-map==  '
->             '-fdebug-prefix-map==  '
->             '-fmacro-prefix-map==  '
->             '-pipe  '
->             ...
-> ```
->
-> After applying this patch:
-> ```
-> 'CFLAGS': '-fno-strict-overflow '
->            '-Wsign-compare '
->            '-DNDEBUG '
->            '-g '
->            '-O3 '
->            '-Wall '
->            '-O2 '
->            '-g                   '
->            '-pipe '
->            ...
-> ```
->
-> Signed-off-by: Jorge Sanjuan Garcia <jorge.sanjuangarcia@duagon.com>
-> ---
->   meta/recipes-devtools/python/python3_3.13.2.bb | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-devtools/python/python3_3.13.2.bb b/meta/recipes-devtools/python/python3_3.13.2.bb
-> index 52fac76c00..e6922f74fa 100644
-> --- a/meta/recipes-devtools/python/python3_3.13.2.bb
-> +++ b/meta/recipes-devtools/python/python3_3.13.2.bb
-> @@ -206,10 +206,6 @@ do_install:append:class-native() {
->           # tarballs and sysroot creation.
->           find ${D} -name *.pyc -delete
->
-> -        # Nothing should be looking into ${B} for python3-native
-> -        sed -i -e 's:${B}:/build/path/unavailable/:g' \
-> -                ${D}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile
-> -
->           # disable the lookup in user's site-packages globally
->           sed -i 's#ENABLE_USER_SITE = None#ENABLE_USER_SITE = False#' ${D}${libdir}/python${PYTHON_MAJMIN}/site.py
->
-> @@ -217,6 +213,7 @@ do_install:append:class-native() {
->           mv ${D}/${bindir}/${PN}/python*config ${D}/${bindir}/
->   }
->
-> +
->   do_install:append() {
->           for c in ${D}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py; do
->               python3 ${UNPACKDIR}/reformat_sysconfig.py $c
-> @@ -231,7 +228,6 @@ do_install:append() {
->                   -e "s,^ 'CONFINCLUDEDIR'.*, 'CONFINCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
->                   -e "s,^ 'INCLUDEPY'.*, 'INCLUDEPY': '${STAGING_INCDIR}/python${PYTHON_MAJMIN}'\,,g" \
->                   -e "s,^ 'CONFINCLUDEPY'.*, 'CONFINCLUDEPY': '${STAGING_INCDIR}/python${PYTHON_MAJMIN}'\,,g" \
-> -                -e "s,${B},/build/path/unavailable/,g" \
->                   $sysconfigfile
->           cp $sysconfigfile ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
->
-> @@ -290,11 +286,13 @@ SSTATE_HASHEQUIV_FILEMAP = " \
->       populate_sysroot:*/lib*/python-sysconfigdata/_sysconfigdata.py:${COREBASE} \
->       "
->   PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
-> +DEBUG_PREFIX_MAP_REGEX = "${@'\\|'.join(d.getVar('DEBUG_PREFIX_MAP').split())}"
->
->   py_package_preprocess () {
->           # Remove references to buildmachine paths in target Makefile and _sysconfigdata
->           sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
-> -                -e 's|${DEBUG_PREFIX_MAP}||g' \
-> +                -e 's,${DEBUG_PREFIX_MAP_REGEX},,g' \
-> +                -e 's,${B},/build/path/unavailable/,g' \
->                   -e 's:${HOSTTOOLS_DIR}/::g' \
->                   -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
->                   -e 's:${RECIPE_SYSROOT}::g' \
-> --
-> 2.43.0
->
+Upstream-Commit: https://gitlab.freedesktop.org/xorg/xserver/-/commit/96798fc1967491c80a4d0c8d9e0a80586cb2152b
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../xwayland/xwayland/CVE-2024-31080.patch    | 49 +++++++++++++++++++
+ .../xwayland/xwayland_22.1.8.bb               |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2024-31080.patch
+
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2024-31080.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2024-31080.patch
+new file mode 100644
+index 0000000000..40296903cd
+--- /dev/null
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2024-31080.patch
+@@ -0,0 +1,49 @@
++From 96798fc1967491c80a4d0c8d9e0a80586cb2152b Mon Sep 17 00:00:00 2001
++From: Alan Coopersmith <alan.coopersmith@oracle.com>
++Date: Fri, 22 Mar 2024 18:51:45 -0700
++Subject: [PATCH] Xi: ProcXIGetSelectedEvents needs to use unswapped length to
++ send reply
++
++CVE-2024-31080
++
++Reported-by: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=69762
++Fixes: 53e821ab4 ("Xi: add request processing for XIGetSelectedEvents.")
++Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1463>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/96798fc1967491c80a4d0c8d9e0a80586cb2152b]
++CVE: CVE-2024-31080
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ Xi/xiselectev.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/Xi/xiselectev.c b/Xi/xiselectev.c
++index edcb8a0d36..ac14949871 100644
++--- a/Xi/xiselectev.c
+++++ b/Xi/xiselectev.c
++@@ -349,6 +349,7 @@ ProcXIGetSelectedEvents(ClientPtr client)
++     InputClientsPtr others = NULL;
++     xXIEventMask *evmask = NULL;
++     DeviceIntPtr dev;
+++    uint32_t length;
++ 
++     REQUEST(xXIGetSelectedEventsReq);
++     REQUEST_SIZE_MATCH(xXIGetSelectedEventsReq);
++@@ -418,10 +419,12 @@ ProcXIGetSelectedEvents(ClientPtr client)
++         }
++     }
++ 
+++    /* save the value before SRepXIGetSelectedEvents swaps it */
+++    length = reply.length;
++     WriteReplyToClient(client, sizeof(xXIGetSelectedEventsReply), &reply);
++ 
++     if (reply.num_masks)
++-        WriteToClient(client, reply.length * 4, buffer);
+++        WriteToClient(client, length * 4, buffer);
++ 
++     free(buffer);
++     return Success;
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
+index 1d4e699d94..78e849b305 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
+@@ -24,6 +24,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+            file://CVE-2024-21885.patch \
+            file://CVE-2024-21886-1.patch \
+            file://CVE-2024-21886-2.patch \
++           file://CVE-2024-31080.patch \
+ "
+ SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
+ 
+-- 
+2.43.0
+
 
