@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D30C19F32
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96602C28B22
 	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 22:11:46 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.6380.1741212699761053660
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.6416.1741212696657803010
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Mar 2025 14:11:39 -0800
+ Wed, 05 Mar 2025 14:11:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TYrvTb5n;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2235908a30aso137273995ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 14:11:39 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aBqMYeoZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-224019ad9edso21561195ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 14:11:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741212699; x=1741817499; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741212696; x=1741817496; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JL0ThBNQyg7ZetjvvAQV2NNy3Xq/PCHq0AK6zbQPHRY=;
-        b=TYrvTb5nNNUYM4KWJQTgHEENxzUS4mYaPVnQfhPctqZYQIQz7y/PpCbjB3hP/YCX+Y
-         I7iC1AJ2ZgWAIWJYYUkqFTwsYdCzT7d+J3VJKRq9xbtYSkdEZR9YsKxA8mglIiJnhHrj
-         rsn4RGGdmM5/Wx3M52A8YJFl0cfb9gHTi+DavlyXZKfS8ps9FGR/sjLzvPRMssAwHIKm
-         GldeOGFNoei5sInVz/7HR8admqfwPd919oFcgAWlto7ePavn3Q/55YpeHQHmHq3+8POS
-         wZE0+WwvDKmmTBvNnzNY1q8QcsUM1Uswnb5FCV9bU63Ch0oFCRoXsOs/LlMSvaKmNxo5
-         V8ew==
+        bh=jIKHo1sQoxAz+9Uu7TU29bnW0F57Zpf+hPjdtDmPvtY=;
+        b=aBqMYeoZ8GD8llfHXTtLFO/Sc2lVBruA1TUJSZ4lGZY1DtOqfdG0cdL21c7BmmjyUv
+         djrmiTRmXXczecB5qc76QbLIRnw0WIMTQ+JoXWSpnpP8gJJd5x+nnKWoEYB7hL0Nvt99
+         uMI1o/q3HJzYdI+Ep/wo+Ny9KLmpovLLGUXDzpk9kgMa5WcfNEoEgcZzHnz2+TuSXsB4
+         SPnfF/yXcFSu/E8XM4bocfQzv2+lNU5cQaRJfMsFdHQBE47UTm0NPm/jUwjx0BOGH749
+         JabX2MW3pXjoIo7VRQ7GgET4f0PGrtScDkQ5yeCwB57OkmSFo79QyppZ78f0MRQ2Hck+
+         9CvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741212699; x=1741817499;
+        d=1e100.net; s=20230601; t=1741212696; x=1741817496;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JL0ThBNQyg7ZetjvvAQV2NNy3Xq/PCHq0AK6zbQPHRY=;
-        b=esqeM+bfC5vV3tXfkuat2HWmkSI3bGR6iV2wFbv1cWIAT7AAb24cOvmUOuRS9ZUgYI
-         sIY2JShLeWj1tnPstq30C5D55+i2akdfgaVEYcxNrq7UYCpw/NnZN+xqTyoALTqS5zWm
-         udJCTNVwmna4q6AZQkGNtY3kXn87dDpgfV93YiwZ8aGrKTq2Bl3CNJ+vFT2CTvzTiS9f
-         eJWYK6lFidhubOvlu8xBcNqZspLMAdHJnUgoEdvT4nwEnscRArzdmGx2piKVk2MmDBnB
-         +xlaKT5r6PXfAVzDXGNgc8OkBf0kjn68iw+UkF3/v/TBqsyaCRWtgNx6WBxGQfyTNotw
-         mrVQ==
-X-Gm-Message-State: AOJu0YzY1DoeSwMX5/t+pY8qAORJRTtbl/+fDYwm1NY8gHa7fNJixy6I
-	Q9OMhvM+dmn1Hiuaz4dZAhvGIRZZsWJ2LiUJV5I3/N01GTGHi1CPtDgwzsGWzWVqVndaBB2P/yk
-	/
-X-Gm-Gg: ASbGncsgxsngu3hzlAecfJQGH3hzpryWqtoNGg8feOpS/DU/Qyaati8Ftkb5aStJmUf
-	nMK99ekfmnoIPAjr4ihEbXSJ+FXQLHF1WXmiej33vcAWvpnMyP4PQH+LaGxwNFZzMg8bGcFzLBt
-	W49l6kp4fOcyQS3N8+vB3ZvqUlwW5q5p0pVTWdpgxzhz2Rv9JerDsW+NziAjetbocvksmhRAxf1
-	IgjCDL35z53J9MAyt1Flq0vjlhYL6q7BuNH8n6Ynra29k70og2QtTqCGlRYbqSs0xUYGkmDbGc5
-	9oi4qA8X7I1GOwNaD2M8THuZmFqw6LsHt7A=
-X-Google-Smtp-Source: AGHT+IGYluduCbrGm6cfdfsm4rZr0b8TFFAlKNHoVn9y512KAsFg4eefW4+knOyw2XvSjFTVOZaALg==
-X-Received: by 2002:a17:903:192:b0:216:69ca:770b with SMTP id d9443c01a7336-223f1c8035amr69728285ad.12.1741212698956;
-        Wed, 05 Mar 2025 14:11:38 -0800 (PST)
+        bh=jIKHo1sQoxAz+9Uu7TU29bnW0F57Zpf+hPjdtDmPvtY=;
+        b=OMJi/snKGLKYO+JYlAsVEw6yFKL73NNDDDmtUrZVTunlsRMPTUE5Fq9PwH3VoPLF26
+         ZRyoZqsfp3JSYUfz4xPLbpFvdRiKHRz/5Gpixaw38WZ9/zC1RHQ4cmfZVh0yBVVtJz2A
+         FdpVKfz27EmEpiEN/GgumSHOrCIj/JkR+M8+QEDQnMgKMPLh9wsdJ3e1V8pFry2L7CBp
+         VshBGWgbOnY6Z4bmHfuHcfZyt3C1zClykY/+8E8GgVKstK34E1XKPhPPNLKj9npJFDGj
+         W7DjCA0rxtzLNa5vatzbvn0UegFzJrsQlyr73nky2xIKZBuYgDsbFTGN7nw+GJokblxC
+         NUtQ==
+X-Gm-Message-State: AOJu0YwDTTeGXUoBqTGPaAbc4B40vdIgV60e8/3KIFNKQQuWljJ/mfA2
+	pradYjqSZx+IhU/X2S7CquxssNvrhd5twFAPpn5fRk+lsl4+YvBJRUvvcSSd/M5cYvXJOn36QUE
+	i
+X-Gm-Gg: ASbGncu1nYNVFyL2dA/IxJMazWKVVz+JsfpTkJIhBxZuzJAAVu1WtIUhHFNd62gzpsZ
+	ktxwuQtfwDtn567Dn82SczzFFuesTv6UDBEk2Ggs3dnPFDudRtQOiTWgnBEAHNayt0t6tAFwksS
+	If2GJdZh96ocvlAlJ8Q/xoYGsrt08ba1M+HUyfDQi4pDhTbSp756KrEZ345t9LSZsj9o6HGNRN/
+	rxM/gcZknmePyLxu170BUZxPY3u8vMfiEP5fpSztRgAdJm/h3iN85k05u5LGruK3DDF5MOZ7KcM
+	nutK3OsK9on5h6ChyCIcv0qMSlNVoc+m7gY=
+X-Google-Smtp-Source: AGHT+IE48uwPwd81vE1TqiY/NDCbSskhCdeqTIROmNvnI92aqHyX8eUOa1/QaZRhkumfsjhZYb7WGQ==
+X-Received: by 2002:a05:6a00:3d14:b0:736:6202:3530 with SMTP id d2e1a72fcca58-73682caa185mr7165766b3a.22.1741212695944;
+        Wed, 05 Mar 2025 14:11:35 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:2308:d28:2350:a5eb])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7362e19fd7bsm10204855b3a.43.2025.03.05.14.11.38
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7362e19fd7bsm10204855b3a.43.2025.03.05.14.11.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 14:11:38 -0800 (PST)
+        Wed, 05 Mar 2025 14:11:35 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 09/16] xwayland: Fix CVE-2025-26599
-Date: Wed,  5 Mar 2025 14:11:08 -0800
-Message-ID: <aea55eb6eb5610ef6e7d37fadcbb7e760bf80d7d.1741206348.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 07/16] xwayland: Fix CVE-2025-26597
+Date: Wed,  5 Mar 2025 14:11:06 -0800
+Message-ID: <6e19f26f4f152316badf3668b74cfc50d8d12528.1741206348.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741206348.git.steve@sakoman.com>
 References: <cover.1741206348.git.steve@sakoman.com>
@@ -67,240 +67,81 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 22:11:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212359
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212357
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream-Status: Backport from
-https://gitlab.freedesktop.org/xorg/xserver/-/commit/c1ff84be & https://gitlab.freedesktop.org/xorg/xserver/-/commit/b07192a8
+Upstream-Status: Backport from https://gitlab.freedesktop.org/xorg/xserver/-/commit/0e4ed949
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xwayland/xwayland/CVE-2025-26599-1.patch  |  66 +++++++++
- .../xwayland/xwayland/CVE-2025-26599-2.patch  | 129 ++++++++++++++++++
- .../xwayland/xwayland_23.2.5.bb               |   2 +
- 3 files changed, 197 insertions(+)
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-1.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-2.patch
+ .../xwayland/xwayland/CVE-2025-26597.patch    | 46 +++++++++++++++++++
+ .../xwayland/xwayland_23.2.5.bb               |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-26597.patch
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-1.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-1.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26597.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26597.patch
 new file mode 100644
-index 0000000000..60b68a0d9a
+index 0000000000..b0735d0b46
 --- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-1.patch
-@@ -0,0 +1,66 @@
-+From c1ff84bef2569b4ba4be59323cf575d1798ba9be Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26597.patch
+@@ -0,0 +1,46 @@
++From 0e4ed94952b255c04fe910f6a1d9c852878dcd64 Mon Sep 17 00:00:00 2001
 +From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Tue, 17 Dec 2024 15:19:45 +0100
-+Subject: [PATCH] composite: Handle failure to redirect in compRedirectWindow()
++Date: Thu, 28 Nov 2024 14:09:04 +0100
++Subject: [PATCH] xkb: Fix buffer overflow in XkbChangeTypesOfKey()
 +
-+The function compCheckRedirect() may fail if it cannot allocate the
-+backing pixmap.
++If XkbChangeTypesOfKey() is called with nGroups == 0, it will resize the
++key syms to 0 but leave the key actions unchanged.
 +
-+In that case, compRedirectWindow() will return a BadAlloc error.
++If later, the same function is called with a non-zero value for nGroups,
++this will cause a buffer overflow because the key actions are of the wrong
++size.
 +
-+However that failure code path will shortcut the validation of the
-+window tree marked just before, which leaves the validate data partly
-+initialized.
++To avoid the issue, make sure to resize both the key syms and key actions
++when nGroups is 0.
 +
-+That causes a use of uninitialized pointer later.
-+
-+The fix is to not shortcut the call to compHandleMarkedWindows() even in
-+the case of compCheckRedirect() returning an error.
-+
-+CVE-2025-26599, ZDI-CAN-25851
++CVE-2025-26597, ZDI-CAN-25683
 +
 +This vulnerability was discovered by:
 +Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
 +
 +Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
++Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
 +Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1828>
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/c1ff84be]
-+CVE: CVE-2025-26599
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/0e4ed949]
++CVE: CVE-2025-26597
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ composite/compalloc.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
++ xkb/XKBMisc.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/composite/compalloc.c b/composite/compalloc.c
-+index eaabf0d..0bbbc55 100644
-+--- a/composite/compalloc.c
-++++ b/composite/compalloc.c
-+@@ -140,6 +140,7 @@ compRedirectWindow(ClientPtr pClient, WindowPtr pWin, int update)
-+     CompScreenPtr cs = GetCompScreen(pWin->drawable.pScreen);
-+     WindowPtr pLayerWin;
-+     Bool anyMarked = FALSE;
-++    int status = Success;
-+ 
-+     if (pWin == cs->pOverlayWin) {
++diff --git a/xkb/XKBMisc.c b/xkb/XKBMisc.c
++index abbfed90eb..fd180fad2c 100644
++--- a/xkb/XKBMisc.c
+++++ b/xkb/XKBMisc.c
++@@ -553,6 +553,7 @@ XkbChangeTypesOfKey(XkbDescPtr xkb,
++         i = XkbSetNumGroups(i, 0);
++         xkb->map->key_sym_map[key].group_info = i;
++         XkbResizeKeySyms(xkb, key, 0);
+++        XkbResizeKeyActions(xkb, key, 0);
 +         return Success;
-+@@ -218,13 +219,13 @@ compRedirectWindow(ClientPtr pClient, WindowPtr pWin, int update)
-+ 
-+     if (!compCheckRedirect(pWin)) {
-+         FreeResource(ccw->id, RT_NONE);
-+-        return BadAlloc;
-++        status = BadAlloc;
 +     }
 + 
-+     if (anyMarked)
-+         compHandleMarkedWindows(pWin, pLayerWin);
-+ 
-+-    return Success;
-++    return status;
-+ }
-+ 
-+ void
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-2.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-2.patch
-new file mode 100644
-index 0000000000..252b033261
---- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-26599-2.patch
-@@ -0,0 +1,129 @@
-+From b07192a8bedb90b039dc0f70ae69daf047ff9598 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Mon, 13 Jan 2025 16:09:43 +0100
-+Subject: [PATCH] composite: initialize border clip even when pixmap alloc
-+ fails
-+
-+If it fails to allocate the pixmap, the function compAllocPixmap() would
-+return early and leave the borderClip region uninitialized, which may
-+lead to the use of uninitialized value as reported by valgrind:
-+
-+ Conditional jump or move depends on uninitialised value(s)
-+    at 0x4F9B33: compClipNotify (compwindow.c:317)
-+    by 0x484FC9: miComputeClips (mivaltree.c:476)
-+    by 0x48559A: miValidateTree (mivaltree.c:679)
-+    by 0x4F0685: MapWindow (window.c:2693)
-+    by 0x4A344A: ProcMapWindow (dispatch.c:922)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
-+  Uninitialised value was created by a heap allocation
-+    at 0x4841866: malloc (vg_replace_malloc.c:446)
-+    by 0x4F47BC: compRedirectWindow (compalloc.c:171)
-+    by 0x4FA8AD: compCreateWindow (compwindow.c:592)
-+    by 0x4EBB89: CreateWindow (window.c:925)
-+    by 0x4A2E6E: ProcCreateWindow (dispatch.c:768)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
-+
-+ Conditional jump or move depends on uninitialised value(s)
-+    at 0x48EEDBC: pixman_region_translate (pixman-region.c:2233)
-+    by 0x4F9255: RegionTranslate (regionstr.h:312)
-+    by 0x4F9B7E: compClipNotify (compwindow.c:319)
-+    by 0x484FC9: miComputeClips (mivaltree.c:476)
-+    by 0x48559A: miValidateTree (mivaltree.c:679)
-+    by 0x4F0685: MapWindow (window.c:2693)
-+    by 0x4A344A: ProcMapWindow (dispatch.c:922)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
-+  Uninitialised value was created by a heap allocation
-+    at 0x4841866: malloc (vg_replace_malloc.c:446)
-+    by 0x4F47BC: compRedirectWindow (compalloc.c:171)
-+    by 0x4FA8AD: compCreateWindow (compwindow.c:592)
-+    by 0x4EBB89: CreateWindow (window.c:925)
-+    by 0x4A2E6E: ProcCreateWindow (dispatch.c:768)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
-+
-+ Conditional jump or move depends on uninitialised value(s)
-+    at 0x48EEE33: UnknownInlinedFun (pixman-region.c:2241)
-+    by 0x48EEE33: pixman_region_translate (pixman-region.c:2225)
-+    by 0x4F9255: RegionTranslate (regionstr.h:312)
-+    by 0x4F9B7E: compClipNotify (compwindow.c:319)
-+    by 0x484FC9: miComputeClips (mivaltree.c:476)
-+    by 0x48559A: miValidateTree (mivaltree.c:679)
-+    by 0x4F0685: MapWindow (window.c:2693)
-+    by 0x4A344A: ProcMapWindow (dispatch.c:922)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
-+  Uninitialised value was created by a heap allocation
-+    at 0x4841866: malloc (vg_replace_malloc.c:446)
-+    by 0x4F47BC: compRedirectWindow (compalloc.c:171)
-+    by 0x4FA8AD: compCreateWindow (compwindow.c:592)
-+    by 0x4EBB89: CreateWindow (window.c:925)
-+    by 0x4A2E6E: ProcCreateWindow (dispatch.c:768)
-+    by 0x4A25B5: Dispatch (dispatch.c:560)
-+    by 0x4B082A: dix_main (main.c:282)
-+    by 0x429233: main (stubmain.c:34)
-+
-+Fix compAllocPixmap() to initialize the border clip even if the creation
-+of the backing pixmap has failed, to avoid depending later on
-+uninitialized border clip values.
-+
-+Related to CVE-2025-26599, ZDI-CAN-25851
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1828>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/b07192a8]
-+CVE: CVE-2025-26599
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ composite/compalloc.c | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
-+
-+diff --git a/composite/compalloc.c b/composite/compalloc.c
-+index 7cf7351e00..4a1243170d 100644
-+--- a/composite/compalloc.c
-++++ b/composite/compalloc.c
-+@@ -605,9 +605,12 @@ compAllocPixmap(WindowPtr pWin)
-+     int h = pWin->drawable.height + (bw << 1);
-+     PixmapPtr pPixmap = compNewPixmap(pWin, x, y, w, h);
-+     CompWindowPtr cw = GetCompWindow(pWin);
-++    Bool status;
-+ 
-+-    if (!pPixmap)
-+-        return FALSE;
-++    if (!pPixmap) {
-++        status = FALSE;
-++        goto out;
-++    }
-+     if (cw->update == CompositeRedirectAutomatic)
-+         pWin->redirectDraw = RedirectDrawAutomatic;
-+     else
-+@@ -621,14 +624,16 @@ compAllocPixmap(WindowPtr pWin)
-+         DamageRegister(&pWin->drawable, cw->damage);
-+         cw->damageRegistered = TRUE;
-+     }
-++    status = TRUE;
-+ 
-++out:
-+     /* Make sure our borderClip is up to date */
-+     RegionUninit(&cw->borderClip);
-+     RegionCopy(&cw->borderClip, &pWin->borderClip);
-+     cw->borderClipX = pWin->drawable.x;
-+     cw->borderClipY = pWin->drawable.y;
-+ 
-+-    return TRUE;
-++    return status;
-+ }
-+ 
-+ void
 +-- 
 +GitLab
 +
 diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
-index b46a02e5c3..cafddc62b5 100644
+index 63803a7a44..7f94c5e2e2 100644
 --- a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
 +++ b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
-@@ -17,6 +17,8 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+@@ -15,6 +15,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+            file://CVE-2025-26594-2.patch \
+            file://CVE-2025-26595.patch \
             file://CVE-2025-26596.patch \
-            file://CVE-2025-26597.patch \
-            file://CVE-2025-26598.patch \
-+           file://CVE-2025-26599-1.patch \
-+           file://CVE-2025-26599-2.patch \
++           file://CVE-2025-26597.patch \
  "
  SRC_URI[sha256sum] = "33ec7ff2687a59faaa52b9b09aa8caf118e7ecb6aed8953f526a625ff9f4bd90"
  
