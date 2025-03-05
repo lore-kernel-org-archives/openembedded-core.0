@@ -1,125 +1,116 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8466CC19F32
-	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 08:46:51 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.9317.1741164398567309265
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 652E0C282D3
+	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 08:47:21 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.9212.1741164434866752157
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Mar 2025 00:46:38 -0800
+ Wed, 05 Mar 2025 00:47:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=p1dqSN4N;
- spf=pass (domain: linaro.org, ip: 209.85.208.180, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30ba5cccc19so40309541fa.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 00:46:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=K5Fkvl6x;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-390fdaf2897so3621232f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 00:47:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741164396; x=1741769196; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DRvt/B64PSbp0Kz0SAg+7W55kwLlNXz77GDczxnFBho=;
-        b=p1dqSN4NwDtFt7O1ru75WV2ofNgfQb8XFpBNZpehHOdRZmOifDSWaOeTiAyiT4wIH1
-         IrIUh/5s6XVjYmH+AlWcjDY0TLdtg7iMbRk+q03TlmhYXjTHnjlHCme2BQ9mSEPGa8vm
-         ATt5naVQqDrwc1RJeBv3XQ2x2LfDK8lcYGKMvrDspfXJhNFGzbIhTfVa2ooTZOv1+mlY
-         HEoPOhU0eNwE4si9qnZsdk4eJFsehJ+JUNwgkknqqM1X51nT2AvSnN9n9i03VEpeHN58
-         ruw2TZP+rITHL2VCiOrW7jFlzW8EjJpSLON9Y2yIMyHqgSG9g71rBZU+WrQ+e+XzOnpD
-         yB0g==
+        d=gmail.com; s=20230601; t=1741164433; x=1741769233; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eiMI1i9lgigM0yAtPVZ7cKWiBmON+x79p+Z360H8CR4=;
+        b=K5Fkvl6xLSckFvRRnaZh5PZpIenIFTOBmQfwRW3CQm8RKuEpEWfkZ1EPsgJulxoojr
+         rVt6jn6Qjl1unRQiJn33OR/GLtTyO7laWgtvfVrd3l2JLx28Q5AEwuICBHQLFoLtM5tW
+         CiJq8TNyLI5ELH0enT1BiAMaji6mylUDeeanDL3PsZxHJewheVFqZ//jlvm7qn11FgWG
+         cgMnPPIM6G3TQE37/T9YSML+gWAAzgKQ9WSrvuMEepmMjxsy4uPgnNUgQR5gkHvhINqH
+         2RbxaCGR0xq7Xqe7bdhOiTVep6w7IHb1/VP0b6yV1ozR+1/P2Ku8LcrCo0GXcNaxY6jT
+         18DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741164396; x=1741769196;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DRvt/B64PSbp0Kz0SAg+7W55kwLlNXz77GDczxnFBho=;
-        b=hadulozYBJiwD5GbGJGAf0oCG6z8T+2MSZ6v3nRXVF452UilBmQK5ROvSVIi2rexMu
-         B3s3OKGVjMl/9nV3ORzVkC1ZcMHhbOLmT4VJ4t3rQUZVwpi1cqNIDafLg9Pg3Dt3paAA
-         omXMw31o32w/a8gF9WaN8ZB9VCFPLAJjHy4eykHSAG8S4I5tc2Ka8PSd9UaUsUA7Xlow
-         qz9irU8eVM6TheC97Z8MMGkyElDJFTfjucuMzPJTJySWT8iU+3sfs6bzE/YKy1UxdBQf
-         3TPNeZhDIcsbYQDoZe7HasbhH+FgxuLzjztmy+3memlIOQTkXsRB87V7nqPNGlfKase+
-         H9VQ==
-X-Gm-Message-State: AOJu0YzM6U+Zb1ysZ4D/XVnU+ENjJU9Kj6uylElerOFa7t3G/ZaC6SZX
-	VLYmN4tZuzAbc1F3eJHsNbeLD4yMRjOXwUkMCZ+cI9wrh2NarletZMieTxLalwQ=
-X-Gm-Gg: ASbGncvSmjBXsjdNrzqqoNB0SCvHtORe1dtjEVYJxwLS5hvCptCzyVqUjD6fNWoVhNl
-	ld9gHPYtINA8bmJ3MB2UkgP5tQNyfyE3CgPln9mAMn7ytOgiKfaZ4gI/9rgpYT/i1C393gJImaW
-	rNTgwRNwpP3APRo6tcLcGmijAqFrFLoXnz6tF02MDcyy9rFeRct2ELSkFzyOV5Jup6Ivi10+p6b
-	XT/jbqPsWGCg2VlHN8bILcmzE2ZharK3+/JJZ8TntJU4isLS7YKlYpa4ftfHfpYye7JFnBT46h8
-	30kBsG1kacbaz02DHlD1+mLfQCpBwhhoM8hWb6qyzS/XJ0nGrYFLCZwpMfSrDxSFWrNxjrDQXSr
-	Tl2Y8kAMZ+CZxljYHsWWMvmTw
-X-Google-Smtp-Source: AGHT+IGsS0AjnVSwZTKXfyieYn+RuOdyg/NZHjFGqeaX3OqM+EeuRi199dViKA02Ab15ZMEsHRI7NA==
-X-Received: by 2002:a2e:7a1a:0:b0:30b:b78e:c449 with SMTP id 38308e7fff4ca-30bd7a45a33mr6848881fa.11.1741164396457;
-        Wed, 05 Mar 2025 00:46:36 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30b8f2964cbsm17290001fa.28.2025.03.05.00.46.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 00:46:36 -0800 (PST)
-Date: Wed, 5 Mar 2025 10:46:34 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Balaji Pothunoori <quic_bpothuno@quicinc.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] dhcpcd: fix for unexpected syscall 135 for 10.1.0 version
-Message-ID: <kxtt4okxjormycbnwxffxqadztn2mgzthuu6btjlkzqsdhihhc@deieyeztitxj>
-References: <20250305064101.4065316-1-quic_bpothuno@quicinc.com>
+        d=1e100.net; s=20230601; t=1741164433; x=1741769233;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eiMI1i9lgigM0yAtPVZ7cKWiBmON+x79p+Z360H8CR4=;
+        b=S+eQ/x2hEAONoiW+L8XeEWgkgubXUjysJtqxvEpLgen3hlNQwAlJyMUkLJx6ZnZDei
+         isHkEEfiS5buU2C56dY0cvov4h62sG6CxHeM6Jwi1GwWsxFIvpAQaHszNkidG4+XCCKB
+         K6FrkZqSjAR8lRdfH4WH1CNV5NoQXNn3nNPt9lC3mZI7MW2NKKUJMqqx4MGtbbrEVxnB
+         HLyKwK/+iP+x8Ag/ezYk5NO7Gvp+gRn2A1SDckDSvPJE+PuTplqOmdxPxOUa6vVAKzDc
+         AqOsgC0IpZUCoTvTlek8bcTP0Mv9vAwNBJmAx+IQIEBzBO4tRHxdUnDiU2+PMRlIIl5r
+         Ms+A==
+X-Gm-Message-State: AOJu0YxLbwZ4+F4Booyh7xWqX35VNJnh+jC2YLp7gBj+zNj9criqkRQK
+	X0JZpp2EryrGGzGGK4WbLV9x1Dix2jUaHVw0/tskbwdaWmgV8SzO
+X-Gm-Gg: ASbGncuLxnGcXU16Fre8MbuJBQ22mKEY5SuoJBU3uQfG4bmgHmTr+NwIFvZiD79uH88
+	iylytwHfA5jLlYfk7EzweZUBN81eWhSExu7V/AknThlWhhl8eln6yC1LFWiP8bHuAJDmFVIoSnV
+	MHEU9sgP+V3L5K9gyIRJnAVZQpUVjvBlk8gk7wY627wIPCkOQGeBxRr8RjYHuiYmzM2xyn/RTgj
+	/7wLMy+aIURfx4QX3nmIX1o+1S+AeymaE2QOxEfyMCUxoGd06rKZI8iJBA9ZmQmzuBBMPJJFgDB
+	9TWviZtKkkEhcnqGWxOVMBwocd7QU9I5zXKpdxihf4ojbolQp5yU2tRA
+X-Google-Smtp-Source: AGHT+IEeLxlVdW5PhMyB8LQreGmDeHCOvJ8bpr4qW3ZycQ7WMpgHrk5baON+jLRMrEJaLFlHUIF+KQ==
+X-Received: by 2002:a05:6000:4026:b0:391:a43:8bbd with SMTP id ffacd0b85a97d-3911f7403bemr1900240f8f.21.1741164432953;
+        Wed, 05 Mar 2025 00:47:12 -0800 (PST)
+Received: from [10.37.19.126] ([169.150.242.5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e485e13fsm20073893f8f.100.2025.03.05.00.47.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Mar 2025 00:47:12 -0800 (PST)
+Message-ID: <15092370-b19d-4ea6-a690-d12ee427b2d7@gmail.com>
+Date: Wed, 5 Mar 2025 09:47:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250305064101.4065316-1-quic_bpothuno@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] cmake-native: support RUNTIME_DEPENDENCIES for
+ OE cross compiling
+To: alex.kanavin@gmail.com, hongxu.jia@eng.windriver.com
+Cc: openembedded-core@lists.openembedded.org
+References: <20250302043802.3279519-1-hongxu.jia@windriver.com>
+ <CANNYZj_ALBg=8wdXXiGwG1XM05z-oS2Su0FCeg318KKXFPTE3w@mail.gmail.com>
+Content-Language: en-US
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: <CANNYZj_ALBg=8wdXXiGwG1XM05z-oS2Su0FCeg318KKXFPTE3w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 08:46:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212299
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 08:47:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212300
 
-On Wed, Mar 05, 2025 at 12:11:01PM +0530, Balaji Pothunoori wrote:
-> Current dhcpcd (version 10.1.0) service crashes on the WiFi (wlan0)
-> interface with the following error:
+On 04.03.2025 19:09, Alexander Kanavin via lists.openembedded.org wrote:
+> On Sun, 2 Mar 2025 at 05:38, hongxu via lists.openembedded.org
+> <hongxu.jia=eng.windriver.com@lists.openembedded.org> wrote:
+>> +Subject: [PATCH] support RUNTIME_DEPENDENCIES for oe cross compiling
+>> +
+>> +According to upstream cmake doc[1]:
+>> +...
+>> +``RUNTIME_DEPENDENCIES``
+>> +  .. versionadded:: 3.21
+>> +
+>> +  This option causes all runtime dependencies of installed executable, shared
+>> +  library, and module targets to be installed along with the targets
+>> +  themselves. The ``RUNTIME``, ``LIBRARY``, ``FRAMEWORK``, and generic
+>> +  arguments are used to determine the properties (``DESTINATION``,
+>> +  ``COMPONENT``, etc.) of the installation of these dependencies.
+>> +...
+>> +
+>> +But it does not support cross compiling, this commit adds environment
+>> +OECMAKE_FORCE_CROSSCOMPILING to force support RUNTIME_DEPENDENCIES for
+>> +OE cross compiling
+>> +
+>> +[1] https://gitlab.kitware.com/cmake/cmake/-/commit/72f2448e82d8b3e90fa733cb6c631298083ae06b
+>> +
+>> +Upstream-Status: Inappropriate [oe specific]
+>> +
+>> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> +---
+>> + Source/cmInstallCommand.cxx | 7 +++++--
+> I'm not sure. This doesn't seem to be common, can we rather just patch
+> specific components instead, and not alter cmake behaviour?
+>
+> At the very least, a patch like this needs an upstream ticket
+> describing the problem to upstream.
+>
+> Alex
+>
 
-There are newer releases, which already have this patch. Any reason for
-not upgrading? For example there was an AUH message from March 1st.
+I'm inclined to agree with Alex here.
 
-> 
-> "ps_seccomp_violation: unexpected syscall 135"
-> 
-> This update pulls in fix #421 for dhcpcd 10.1.0 to address this issue.
-> 
-> Signed-off-by: Balaji Pothunoori <quic_bpothuno@quicinc.com>
-> ---
->  .../dhcpcd/dhcpcd_10.1.0.bb                   |  1 +
->  ...llow-the-__NR_rt_sigprocmask-syscall.patch | 30 +++++++++++++++++++
->  2 files changed, 31 insertions(+)
->  create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
-> 
-> diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-> index 3f806bb18783..99b72852bf34 100644
-> --- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-> +++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-> @@ -15,6 +15,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
->             file://dhcpcd.service \
->             file://dhcpcd@.service \
->             file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
-> +           file://0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch \
->             "
->  
->  SRCREV = "57c3506a5622e199cf0e3fc1ef26a71cdedc9521"
-> diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
-> new file mode 100644
-> index 000000000000..7058330165f3
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
-> @@ -0,0 +1,30 @@
-> +From e9e40400003db2e4f12dba85acabbaf2212a520f Mon Sep 17 00:00:00 2001
-> +From: Scott Shambarger <devel@shambarger.net>
-> +Date: Sat, 7 Dec 2024 16:37:28 +0000
-> +Subject: [PATCH] linux: Allow the __NR_rt_sigprocmask syscall
-> +
-> +Fixes recent glibc changes to getrandom() used by arc4random().
-> +Fixes #421.
-> +
-> +Upstream-Status: Backport
-> +See details in https://github.com/NetworkConfiguration/dhcpcd/issues/421
+Slava
 
-This doesn't follow the established standard. I doubt that it will not
-trigger QA error.
-
--- 
-With best wishes
-Dmitry
 
