@@ -1,94 +1,116 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12AE6C282D1
-	for <webhook@archiver.kernel.org>; Thu,  6 Mar 2025 17:43:54 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web11.20444.1741283024057236872
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36BD8C282DE
+	for <webhook@archiver.kernel.org>; Thu,  6 Mar 2025 18:56:03 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.2045.1741287355473352718
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Mar 2025 09:43:44 -0800
+ Thu, 06 Mar 2025 10:55:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=M9lEUcAe;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6e8f06e13a4so16427626d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 09:43:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741283023; x=1741887823; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=e1U/06SEdFT/AcPjyilQbmRaPNL9agD4QsGqxYwQV80=;
-        b=M9lEUcAemB2LWq9fDDiqBFi8HyVX49vQi2bnr/EOF/gkwfoKQu9b8p3lHWd3eAzv79
-         +xio0P5DaKso7rBJ76Gt7VQonO3MIJBub+HMEbWulVNw6ycZfUqWhfcg2PmDEDI+ngfW
-         9lPvuVk74NneQfM4SSDBi8AYO8qey0XJfwx+ymUnaXNILYo3u3JyhuJBLoF8ZBQGwSrk
-         NhLFe0bVWuDQocCYwhfkzcp03B7JPGxbvkWU7Y0ZC8lv6MNFde+6qytu28dnMCJmwaed
-         jm8LTkkd+XzVLEQbSSNKaQ1WNlMxyTRRX0u1dXe4pW6wtHn25jKHA3WPDXYmgM+xrU6a
-         U62g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741283023; x=1741887823;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e1U/06SEdFT/AcPjyilQbmRaPNL9agD4QsGqxYwQV80=;
-        b=NdTFxCH2/TRml6AYmFhEQTRygDaxtCJ7Bo06JAE0kNv0hpNR2+5cy28JfT9mMGNbtV
-         rq7SNmvUGQIBT5U7Hxv6a6BBDLvSFMkCR6zSHDF+sXYs7mPV/8+gQSUVQJfhsMdBK/9x
-         2S43SOAd18+1EWlQ9GEUUNw9q8zql9lXr7ov9FA5+jnO0IWagqEqiX/b4lvWN1rLT5Fy
-         ks0HuwSIgmAxl7XcoBypKb6lFZdA54sHQNslMUF1bwz+mOvuI7K4hvQ/nfh4Ev6BV4bE
-         16A/x2ibHHo8jYEZreInywhS0+dKRNYqopy2ZSmwALzzFjqYVfshz/h78oDOnlCZHo5O
-         8hwA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9bIcBuQv0J332aNM0Zb5e8hx0hzokfUqmjAPJc2MgmwkHvi372g6PJ4K7hlHYgPvUL/sSSMpNYBWnieBqt177DA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzaXuxwWJ01Md8AHN7+Yl3TWC9Xkzx5SfmbEp+JolO4H8sFBT+O
-	Wm4D+KWRwLLJrFN8G8TX+6TDDsSbIuZeD1IGMkUNsq/l4kJvbmI8H4tLqKdMVDzSsbnnLwSpLjo
-	d4CWb9oNvdDm/RiOps6l4vQ8haYY=
-X-Gm-Gg: ASbGncsUvrsRgnC+TK2o/tOZEmG/eWOyQBJpL2Bx69cELIPHtUlhGYsqYEfuHmcNr0z
-	Ys0vxNVewK1ITU0J6DR6qWgmgrGuO71M7bN2D0BFaj3IsxCuZ0ljb1ghhwS2K3hhmPMzrdpDFeN
-	Rjb9SqpvvH1XNqwkgbuvJj+VUwGoypgenumXDulkMLbFEnWDQE2g4Bl756jEHt
-X-Google-Smtp-Source: AGHT+IFrgtJ1I4pVMXZwPAgGYVF41NWnTVqhZ5F0NNHg2I+rdjBno+VxzbNqkrA9NAOAH16twTHzNExMHxxyqKp2jSc=
-X-Received: by 2002:a05:6214:20e7:b0:6e5:a0fc:f65d with SMTP id
- 6a1803df08f44-6e8f46e4aa2mr54848866d6.10.1741283023061; Thu, 06 Mar 2025
- 09:43:43 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5160c4373b=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 526BwFDx003817;
+	Thu, 6 Mar 2025 18:55:54 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 456cux2dcc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 06 Mar 2025 18:55:54 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Thu, 6 Mar 2025 10:55:52 -0800
+Received: from pop-os.wrs.com (172.25.44.6) by ala-exchng01.corp.ad.wrs.com
+ (147.11.82.252) with Microsoft SMTP Server id 15.1.2507.43 via Frontend
+ Transport; Thu, 6 Mar 2025 10:55:52 -0800
+From: <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <raj.khem@gmail.com>, <bruce.ashfield@gmail.com>
+Subject: [PATCH 1/2] tcmode-default: eliminate needless gdb, qemu defaults
+Date: Thu, 6 Mar 2025 13:55:50 -0500
+Message-ID: <20250306185551.1758417-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250306145246.2923077-1-quic_bpothuno@quicinc.com>
- <0ba2e2413c2573331e643f0021dc0aed964e005e.camel@linuxfoundation.org> <d5b6d423c5284906a7e69eb0184938d8@quicinc.com>
-In-Reply-To: <d5b6d423c5284906a7e69eb0184938d8@quicinc.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 6 Mar 2025 18:43:31 +0100
-X-Gm-Features: AQ5f1JpU8HKUrX2HcgoA1fgVCon7PnsbJSKvsEKxsl-HkMPoBGXtTIsk-maMk1o
-Message-ID: <CANNYZj_rQ8YVcAGshyb0Ju84b0FPqzJ=RQ2nT3pUOJ5A2H6dew@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] dhcpcd: upgrade 10.1.0 -> 10.2.2
-To: quic_bpothuno@quicinc.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: JN-nYqQOhT7n9Nvd3JxXYuDHb_w2jNmB
+X-Authority-Analysis: v=2.4 cv=ddB63WXe c=1 sm=1 tr=0 ts=67c9efba cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=Vs1iUdzkB0EA:10 a=t7CeM3EgAAAA:8 a=pM9yUfARAAAA:8 a=2FVDWizQa2oQGW6_s9wA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=YH-7kEGJnRg4CV3apUU-:22
+X-Proofpoint-ORIG-GUID: JN-nYqQOhT7n9Nvd3JxXYuDHb_w2jNmB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-06_06,2025-03-06_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ priorityscore=1501 adultscore=0 suspectscore=0 impostorscore=0 mlxscore=0
+ mlxlogscore=861 malwarescore=0 lowpriorityscore=0 spamscore=0
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
+ definitions=main-2503060143
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 17:43:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212401
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 18:56:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212402
 
-On Thu, 6 Mar 2025 at 18:17, Balaji Pothunoori via
-lists.openembedded.org
-<quic_bpothuno=quicinc.com@lists.openembedded.org> wrote:
-> > The key thing we need to know is did the license of the code change?
-> > The recipe says it is BSD-2-Clause, is that still the case?
->
-> I noticed that the dhcpd source code is licensed under the BSD 2-Clause License.
-> The MD5 checksum of the dhcpcd LICENSE file has changed, causing the recipe to throw a compilation error.
->
-> ERROR: dhcpcd-10.2.2-r0 do_populate_lic: QA Issue: dhcpcd: The LIC_FILES_CHKSUM does not match for file://LICENSE;md5=d296c4bec306f351e676705aaf237c8c
-> dhcpcd: The new md5 checksum is 4dda5beb433a809f2e0aeffbf9da3d91
->
-> &
->
-> #md5sum LICENSE
-> 4dda5beb433a809f2e0aeffbf9da3d91  LICENSE
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
 
-In this case, you need to actually check what changed in the LICENSE
-file, and summarize it in License-Update tag. You cannot simply say
-"License-Update: something changed".
+Manually setting preferred version/provider is not required so remove
+that for gdb and qemu as a first step of cleaning up this file.
 
-It's probably just copyright years:
-https://github.com/NetworkConfiguration/dhcpcd/commits/master/LICENSE
+This PREFERRED_VERSION list dates back to 2006, which is an era where
+several versions of a given recipe was a common occurence.
 
-Alex
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+---
+ meta/conf/distro/include/tcmode-default.inc | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 079a7ca3ea..ce0c8235e4 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -6,18 +6,14 @@ PREFERRED_PROVIDER_virtual/cross-binutils = "${MLPREFIX}binutils-cross-${TARGET_
+ PREFERRED_PROVIDER_virtual/cross-binutils:class-nativesdk ?= "binutils-crosssdk-${SDK_SYS}"
+ PREFERRED_PROVIDER_virtual/nativesdk-cross-binutils ?= "binutils-crosssdk-${SDK_SYS}"
+ 
+-PREFERRED_PROVIDER_gdb = "gdb"
+-
+ # Default libc config
+ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+ 
+ GCCVERSION ?= "14.%"
+ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.44%"
+-GDBVERSION ?= "16.%"
+ GLIBCVERSION ?= "2.41%"
+ LINUXLIBCVERSION ?= "6.12%"
+-QEMUVERSION ?= "9.2%"
+ GOVERSION ?= "1.24%"
+ RUSTVERSION ?= "1.83%"
+ 
+@@ -40,9 +36,6 @@ PREFERRED_VERSION_binutils-native ?= "${BINUVERSION}"
+ PREFERRED_VERSION_binutils-cross-${TARGET_ARCH} ?= "${BINUVERSION}"
+ PREFERRED_VERSION_binutils-crosssdk-${SDK_SYS} ?= "${BINUVERSION}"
+ PREFERRED_VERSION_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${BINUVERSION}"
+-PREFERRED_VERSION_gdb ?= "${GDBVERSION}"
+-PREFERRED_VERSION_gdb-cross-${TARGET_ARCH} ?= "${GDBVERSION}"
+-PREFERRED_VERSION_gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GDBVERSION}"
+ 
+ PREFERRED_VERSION_linux-libc-headers ?= "${LINUXLIBCVERSION}"
+ PREFERRED_VERSION_nativesdk-linux-libc-headers ?= "${LINUXLIBCVERSION}"
+@@ -53,10 +46,6 @@ PREFERRED_VERSION_glibc-scripts            ?= "${GLIBCVERSION}"
+ PREFERRED_VERSION_nativesdk-glibc          ?= "${GLIBCVERSION}"
+ PREFERRED_VERSION_cross-localedef-native   ?= "${GLIBCVERSION}"
+ 
+-PREFERRED_VERSION_qemu ?= "${QEMUVERSION}"
+-PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
+-PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
+-
+ # Bootstrap Go using a binary release from golang.org.  If you want to bootstrap
+ # from source using the C-implemented Go 1.4 (only supports x86-64 hosts) then use
+ # go-native.
+-- 
+2.34.1
+
 
