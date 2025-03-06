@@ -1,100 +1,132 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0490BC282D1
-	for <webhook@archiver.kernel.org>; Thu,  6 Mar 2025 10:17:22 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.9504.1741256232008815606
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A6F8C282D1
+	for <webhook@archiver.kernel.org>; Thu,  6 Mar 2025 10:31:42 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.9941.1741257101188300968
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Mar 2025 02:17:12 -0800
+ Thu, 06 Mar 2025 02:31:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=i6H8HO7k;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=iogMXbh+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101956af588a8-0ba6fb7c-ad95-451d-ba53-23c4908b6690-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1741256231; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ic8oAJ1nRgxNQ8wTwEaU5v/OQ+I7CUV9H877Lnwd1QM=;
-	b=i6H8HO7k/w13ByQuORaWzvzkMZEISxXYIDRLpo0F9XoqdmO8INLoGocF8vAsmARU
-	8kBOZTYnCl3XZ4BIYLsn1I0CSy9UCesPN//qm6GBOTU0RV35I90FGg0h0Rq8Jd1kki9
-	HI/NPA+Bj+rF7uG0f6e6Xi7thbEM7icu+KHy+ats=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1741256231;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ic8oAJ1nRgxNQ8wTwEaU5v/OQ+I7CUV9H877Lnwd1QM=;
-	b=iogMXbh+R4n4W0ue4L8CIzvvq1ZGIvMIzDmLajfhbwpq0/R360m4vaTSdfbiwZac
-	7hhSzv1QxBE2zsRDMIXD6q05zdrifabe3Wcw0L6CvlvQn+XAwla45s+i0tDX55ia4bk
-	f4xSR4CR7zostg2slWFIb08Ggl0QNMVBtnNdOvEs=
-From: patchtest@automation.yoctoproject.org
-To: Balaji Pothunoori <quic_bpothuno@quicinc.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] dhcpcd: upgrade 10.1.0 -> 10.2.2
-In-Reply-To: <20250306095947.2681969-1-quic_bpothuno@quicinc.com>
-References: <20250306095947.2681969-1-quic_bpothuno@quicinc.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101956af588a8-0ba6fb7c-ad95-451d-ba53-23c4908b6690-000000@us-west-2.amazonses.com>
-Date: Thu, 6 Mar 2025 10:17:11 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.06-54.240.27.191
+ dkim=pass header.i=@smile.fr header.s=google header.b=ZT6QOwmM;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3912fdddf8fso52073f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 02:31:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1741257099; x=1741861899; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+kYcxAtROLH5jvaw+qBUya4likOB5NVa74+SaDi/6LE=;
+        b=ZT6QOwmMBlVyDzyOntSDW4dlbxT+rC44e57EBSZfKfXyGEM3x5JFqg6lgIk/GwXPcP
+         bC5/RSYhvLW1Avxykd67Rx0zo48mKIcKSfaPl1hTRRYz7a2306RwSUzj+WUB8K3NDPOn
+         4otgLw7p9C7gTFsYroUFp1Ng2jP/sSc5fQaw4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741257099; x=1741861899;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+kYcxAtROLH5jvaw+qBUya4likOB5NVa74+SaDi/6LE=;
+        b=MyaHwrZxVF6aIrrAoEsBBdfXP/t+XN4sVaDwRCZwjMoC9ibhAFh4ayLiDbJu5E1YuS
+         EapbReEEe5kHgtHwGthW1bb+5beXWsDJY7/hki8EJQEaIfC5QrNMy8m4eXhwqMuHhdCW
+         X1fBXayBg/lOP9SO6ndil3J4nwHxbIceg4BaHcnQQseda6c5WamkC1UFQ9ydZjDVqZ0h
+         slDVyHgPpelQjL0at3BXJHrKr4GVXtIxetibYV+IrbW4ATR6IiLnIbImblGoHdPpA1Nh
+         0jU+2YAg/QShkGmTbKPygfHaTS9CfB24uNMKsmsTwnRvxWld8ENmsut7I2zp0xEt0/PF
+         KYyQ==
+X-Gm-Message-State: AOJu0Ywv1Zk4CBh5ObQYTVwG2byc0hM92TH6DXtbSCfNnyVqmSzsd71H
+	A+Wdry3MxCEaXw9s1GFsYgm68U2gphbdx1tEVKDXq/BE2ZYbEsaUZ3gNTMAIVCA9NfaKAFeuJ8x
+	NoM7PcMTP4wVApkuEsBLtGgZxYTZ5mibilDXexw==
+X-Gm-Gg: ASbGncvjnxW+U8C/QiamqtP0+LQC4w0EjhteGTiVgNDhwwUJRxeGJdxKgFT6i0j+Vzd
+	EcSgrokeqZfwFNDUvyV/Urvms6ZvAVxPRwBGQYV2MHfYLt6qW6zV7aFQ/cCqHC1a2PDQPAZsvM7
+	sBFqztitaTSgwyoqkAdiEP+20HPwn1
+X-Google-Smtp-Source: AGHT+IE4z6l9QdRhjzaUDOpJCzkO+iYN79FrnOFqLgQfWt4JZwpGa+XhWylstkOGKTlWjXZUgIjkWSgNomIjwLuVV+Y=
+X-Received: by 2002:a05:6000:459e:b0:391:bc8:564a with SMTP id
+ ffacd0b85a97d-3912982ea65mr1727528f8f.22.1741257099490; Thu, 06 Mar 2025
+ 02:31:39 -0800 (PST)
+MIME-Version: 1.0
+References: <20250301094303.10707-1-peter.marko@siemens.com>
+In-Reply-To: <20250301094303.10707-1-peter.marko@siemens.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Thu, 6 Mar 2025 11:31:12 +0100
+X-Gm-Features: AQ5f1JrGUuAyCRzxwFWkt_2sARW9JmScWGm4803IBlmaBThiuVdfI9HEX2fKVOw
+Message-ID: <CAMSfU+6N6xHjqxCso_09sb6ia7dYJbPDoh6pFYMFeHaMivkePA@mail.gmail.com>
+Subject: Re: [OE-core][master][styhead][scarthgap][kirkstone][PATCH] puzzles:
+ set CVE product
+To: peter.marko@siemens.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Steve Sakoman <steve@sakoman.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 10:17:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212380
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 10:31:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212381
 
---NextPart
-Content-Type: text/plain
+Hello,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Le sam. 1 mars 2025 =C3=A0 10:44, Peter Marko via lists.openembedded.org
+<peter.marko=3Dsiemens.com@lists.openembedded.org> a =C3=A9crit :
+>
+> From: Peter Marko <peter.marko@siemens.com>
+>
+> CVE reports now show 3 CVEs for this component.
+> They are for "The Puzzles theme for WordPress" with cpe like
+> "cpe:2.3:a:themerex:puzzles:*:*:*:*:*:wordpress:*:*".
+>
+> Setting vendor solves these false positives.
+> Vendor is set per git path "git://git.tartarus.org/simon/puzzles.git".
+> This may be wrong value, but since we don't support negative regex, this
+> is the best we can do now if we don't want to start marking all with
+> cpe-incorrect status one by one.
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
 
----
-Testing patch /home/patchtest/share/mboxes/dhcpcd-upgrade-10.1.0---10.2.2.patch
+Thank you for taking care of the CVEs.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+For this patch though, another patch was prefered :
+https://lists.openembedded.org/g/openembedded-core/message/212280 (now
+in master-next, should be merged soon)
+The rationale is: since there is no CVEs on "our" puzzles, we can't
+predict what the CPE will be when that happen, so, in the meantime, we
+explicitly ignore CVEs from the wordpress plugin.
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+Regards,
 
 
---NextPart--
+> ---
+>  meta/recipes-sato/puzzles/puzzles_git.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato=
+/puzzles/puzzles_git.bb
+> index 677a9e291e0..df2491ec850 100644
+> --- a/meta/recipes-sato/puzzles/puzzles_git.bb
+> +++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+> @@ -20,6 +20,8 @@ inherit cmake features_check pkgconfig
+>
+>  DEPENDS +=3D "gtk+3"
+>
+> +CVE_PRODUCT =3D "simon:puzzles"
+> +
+>  do_install:append () {
+>      # net conflicts with Samba, so rename it
+>      mv ${D}${bindir}/net ${D}${bindir}/puzzles-net
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#212092): https://lists.openembedded.org/g/openembedde=
+d-core/message/212092
+> Mute This Topic: https://lists.openembedded.org/mt/111449818/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [yo=
+ann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+
+--
+Yoann Congal
+Smile ECS - Tech expert
 
