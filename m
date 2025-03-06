@@ -1,103 +1,104 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36BA8C282D1
-	for <webhook@archiver.kernel.org>; Thu,  6 Mar 2025 18:56:03 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.2004.1741287355766076856
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBFB2C282D1
+	for <webhook@archiver.kernel.org>; Thu,  6 Mar 2025 21:20:23 +0000 (UTC)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+ by mx.groups.io with SMTP id smtpd.web11.6139.1741296015424279358
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Mar 2025 10:55:55 -0800
+ Thu, 06 Mar 2025 13:20:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5160c4373b=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 526BwFE0003817;
-	Thu, 6 Mar 2025 18:55:54 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 456cux2dcc-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 06 Mar 2025 18:55:54 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 6 Mar 2025 10:55:53 -0800
-Received: from pop-os.wrs.com (172.25.44.6) by ala-exchng01.corp.ad.wrs.com
- (147.11.82.252) with Microsoft SMTP Server id 15.1.2507.43 via Frontend
- Transport; Thu, 6 Mar 2025 10:55:53 -0800
-From: <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <raj.khem@gmail.com>, <bruce.ashfield@gmail.com>
-Subject: [PATCH 2/2] tcmode-default: eliminate needless 'go' defaults
-Date: Thu, 6 Mar 2025 13:55:51 -0500
-Message-ID: <20250306185551.1758417-2-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250306185551.1758417-1-Randy.MacLeod@windriver.com>
-References: <20250306185551.1758417-1-Randy.MacLeod@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eI2W7S1v;
+ spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-72a16478125so339641a34.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 13:20:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741296013; x=1741900813; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EC7gRvjiN2fVHYWr1CKvXEwvXAAg3BDZbYyw3AUnZsE=;
+        b=eI2W7S1v8JD5BvdibKhsOriwCu0TTNvPdRDp2jemCPA6UKBJysM+vRsIXJAwKEyXCH
+         EW7fkE7rGmBbTg9GgcyjpVSGUZ1rzOCmEC2tASMZzqDaeDgI5N3rKcgKoO7axxOUXsid
+         RTofmIr4OHgwYJyBTCtcHL3BeifIelxLDhy1aMDYep8fy/iMGTjrr5OO/jDc8DcXEfyD
+         IHD5KIN7E/x6zg2ZEx4CDVf6QyiAYM2zE/3am0B4Cui+CPLkSxR8CdYcxKRGjKYXDtX4
+         5yrlaiBlhwUKM29iQnX6v4cjQ/uwWDciqfzUHOy7+iawgC7/6yVFjaRBbV2GchiULriM
+         XNIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741296013; x=1741900813;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EC7gRvjiN2fVHYWr1CKvXEwvXAAg3BDZbYyw3AUnZsE=;
+        b=Rw1nFxbM5L4IkBXBiseux44leQyyWMY4nIQ6StWAcHqBjeFaF1IOccX6s3FO9p3okk
+         xpRsExHxGq/jpfz9fC99El3q2Gov95xIOh4xT4jm8eOY8cOwtoA2vv0KfOGFLNHsH28E
+         rhAPf2qwK7J7idEZYonB01MNbkLKJAIVd+DBN2i92nb12ZvamdFGfNk1ViqYsIEB/rwV
+         14z0Mfe62NSEJ/monXQSgy/Sh60nsOmja0zLWxyew3S1syMeT8OeyMvFvl6x4QmwWJfz
+         F4Dqc2ropzh+oNLLvNdH62b1zoWBzMcp27o9jENyF9D4MTN+UAGk9lKGWNOGXkRldd66
+         jW7w==
+X-Gm-Message-State: AOJu0YxGs3JqvS+9z120JNwAQDQ7aebAyYjGga6WieO3AI018CjB+610
+	WWEp2SL6ukwULHWwSOmZr8b4ESl/Cw2FPa2Hv/sKnTi829k9lT0PZfjOWA==
+X-Gm-Gg: ASbGncvenEvShjn/b7XgbSefkqCcsi4pb0H6OdA70JdHQX7AN5DG4GITUXdKhXVKwGX
+	HC3cdcNSF87XKnskF8hjnEayhX9HyBDyoZmxPOmOy1WXpKyD0wbjOZCSEQxULV/9miAFkTQjmSc
+	SV78lH1HOi6Ig9Vg6PkZ9/BDwe5gXALPsoWcB+8wxjzQGw0AZNF27L86ejRgv9P+hbKk+W/Qgzp
+	75OciX2OeT3/borJNMT7sc4M9mw3YvIMBSSo4jwfpclTClzaNeAn0ovSrJkeEMavJ6fN/KST016
+	cUREr7S11Mwvg8hRTRlFmmMtxpFq0XI/VRFPQeO1Qg==
+X-Google-Smtp-Source: AGHT+IG0pYeVuj2ZEJ+PxsYP3iKPGwDAk4SX7Az5Mv8dKx7Oloj0Ub+O8bw+s9QVUmy5sXXEL8eyNQ==
+X-Received: by 2002:a05:6830:6f44:b0:72a:d54:a77c with SMTP id 46e09a7af769-72a37b378bbmr508569a34.6.1741296013372;
+        Thu, 06 Mar 2025 13:20:13 -0800 (PST)
+Received: from localhost.localdomain ([2601:282:4300:19e0::152])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72a2db0c42bsm404829a34.40.2025.03.06.13.20.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Mar 2025 13:20:11 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] lib: spdx30_tasks: Handle patched CVEs
+Date: Thu,  6 Mar 2025 14:20:07 -0700
+Message-ID: <20250306212007.44880-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: M8ovlCQ4bf8nuynDN08f377BjUy4xPuC
-X-Authority-Analysis: v=2.4 cv=ddB63WXe c=1 sm=1 tr=0 ts=67c9efba cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=Vs1iUdzkB0EA:10 a=t7CeM3EgAAAA:8 a=pM9yUfARAAAA:8 a=FCXYrjMRZPpG5gPt0PQA:9 a=FdTzh2GWekK77mhwV6Dw:22
- a=YH-7kEGJnRg4CV3apUU-:22
-X-Proofpoint-ORIG-GUID: M8ovlCQ4bf8nuynDN08f377BjUy4xPuC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-06_06,2025-03-06_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 impostorscore=0 mlxscore=0
- mlxlogscore=824 malwarescore=0 lowpriorityscore=0 spamscore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
- definitions=main-2503060143
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 18:56:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212403
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 21:20:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212404
 
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
+The code to iterate over patched CVEs (e.g. those patched by a .patch
+file in SRC_URI) was accidentally omitted when writing the SPDX 3
+handling. Add it in now
 
-Manually setting preferred version/provider is not required so remove that for 'go'.
+[YOCTO #15789]
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/conf/distro/include/tcmode-default.inc | 15 ---------------
- 1 file changed, 15 deletions(-)
+ meta/lib/oe/spdx30_tasks.py | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index ce0c8235e4..702fa4d75f 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -14,7 +14,6 @@ SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.44%"
- GLIBCVERSION ?= "2.41%"
- LINUXLIBCVERSION ?= "6.12%"
--GOVERSION ?= "1.24%"
- RUSTVERSION ?= "1.83%"
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index e3e5dbc7427..e20bb0c86f3 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -498,6 +498,16 @@ def create_spdx(d):
+     # Add CVEs
+     cve_by_status = {}
+     if include_vex != "none":
++        for cve in oe.cve_check.get_patched_cves(d):
++            spdx_cve = build_objset.new_cve_vuln(cve)
++            build_objset.set_element_alias(spdx_cve)
++
++            cve_by_status.setdefault("Patched", {})[cve] = (
++                spdx_cve,
++                "patched",
++                "",
++            )
++
+         for cve in d.getVarFlags("CVE_STATUS") or {}:
+             decoded_status = oe.cve_check.decode_cve_status(d, cve)
  
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
-@@ -46,20 +45,6 @@ PREFERRED_VERSION_glibc-scripts            ?= "${GLIBCVERSION}"
- PREFERRED_VERSION_nativesdk-glibc          ?= "${GLIBCVERSION}"
- PREFERRED_VERSION_cross-localedef-native   ?= "${GLIBCVERSION}"
- 
--# Bootstrap Go using a binary release from golang.org.  If you want to bootstrap
--# from source using the C-implemented Go 1.4 (only supports x86-64 hosts) then use
--# go-native.
--PREFERRED_PROVIDER_go-native ?= "go-binary-native"
--PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
--PREFERRED_VERSION_go-cross-${TUNE_PKGARCH} ?= "${GOVERSION}"
--PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?= "${GOVERSION}"
--PREFERRED_VERSION_go-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GOVERSION}"
--PREFERRED_VERSION_go ?= "${GOVERSION}"
--PREFERRED_VERSION_go-native ?= "${GOVERSION}"
--PREFERRED_VERSION_go-runtime ?= "${GOVERSION}"
--PREFERRED_VERSION_nativesdk-go ?= "${GOVERSION}"
--PREFERRED_VERSION_nativesdk-go-runtime ?= "${GOVERSION}"
--
- # Rust toolchain preferred versions:
- 
- PREFERRED_VERSION_cargo ?= "${RUSTVERSION}"
 -- 
-2.34.1
+2.47.1
 
 
