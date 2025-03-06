@@ -1,174 +1,145 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8D2CC19F32
-	for <webhook@archiver.kernel.org>; Wed,  5 Mar 2025 22:15:06 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.6459.1741212897961855508
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 543C6C19F32
+	for <webhook@archiver.kernel.org>; Thu,  6 Mar 2025 00:51:29 +0000 (UTC)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+ by mx.groups.io with SMTP id smtpd.web11.1357.1741222285109443420
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Mar 2025 14:14:58 -0800
+ Wed, 05 Mar 2025 16:51:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=MHYwINwL;
- spf=pass (domain: linaro.org, ip: 209.85.208.169, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30ba563a6d1so15551551fa.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 14:14:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KwB9kq8W;
+ spf=pass (domain: gmail.com, ip: 209.85.160.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2c12b7af278so118214fac.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 16:51:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741212896; x=1741817696; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1wZ9c4RDgkTavqKM/0Ps55Ls+BJwugYj7FvfmZfbmYQ=;
-        b=MHYwINwLSetVHPKsCTpDulFrMwm/rl9Sw/X+ti8iafgmiQIOXB+bhnuUEWXPbc3m2E
-         FEzVxI0HMtKG6DU/TMwRVSmPCfSuMZitktV14Ng2uuUU5qm7h3p35F3Ji68EFvY2j7Nx
-         MJo1ajntivP/K2pBuVmb0sI9C5sKvPMx+zhbjxTr/pJrDv90ZVS+C15kIvHTKqmEDvxJ
-         F+nDRPxIEFx4OECJ8e4gFT/x4L6ihsClyIIPU3wlmANWE8ZzwH4YbVjimjPsfmmPBAh7
-         UVf+POOikgz9TvQWXzT9wwrZdEerkCHpru3uXztVsp6X7HkeCyQc81frvyGQ9Fekd+xv
-         E/1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741212896; x=1741817696;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1741222284; x=1741827084; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1wZ9c4RDgkTavqKM/0Ps55Ls+BJwugYj7FvfmZfbmYQ=;
-        b=L2PD5CkCCZ9EwNTO7gEVAuMLosqC/DMOq8OvzkYD05+rIWyjmhWdk1vx9HqGtfzchv
-         3gSo67DYxdyZKgnOWNdmphLMZxP+XFsqHI09YkyXU4STZd+e58MLrjZoiucVzyJdymxN
-         kigy08MQzA0+bk9HZt+N9+tAWA6swtmULf8I+LBI7CPSVyLSLSw73POWQiiVmLyL3flb
-         Kg74Kvl73Yigc1Tsb6VET0SL4h/lRmiPT7/WfcVh6yti77fHfTD9DgwCRAHoyObt8RYO
-         jYdm9aFvq+AqeuJMaKdwy3nxZnZ8UEzn2GsFCd5sNjYE3T/2XhFa/tDdn6G7IoGSG7Mu
-         /mVA==
-X-Gm-Message-State: AOJu0YxQmMZeeka3qGZpMSHJvkTSgdTG1Vx870+kbKesiUyNINi7ox21
-	g3B//1+yVbwAIRmCH7NNmfwpoW2FtOd6K+mPxKBLP9SmqG+SIdjlVbIYMtp/xuklLVv3H9OvDk+
-	7OwA=
-X-Gm-Gg: ASbGnctpdBhVnZNmPQ6UuesBgtplaZUJaUhf51LOs9eXQ8S8prFUzGx9q42t8pkQ5lp
-	KwZ6vWNUzMQSlfAz6D6pxPVO7rhXcNKphwL/hGtBuU20/bv6HW+wruYFNX0ME7Wn7nSKzE9i0+J
-	gLSBL7PBHYEFIt286PXj3Obv/W269isPsq6r7d2gAxjpqZYIdxi87rALr6pvHjH+w9JcxLEgmmD
-	j6tbuYyQ6aLFpFfhJ8bVLGRp8exRNN0j64FbvhF9SYn7iwhKj/viud1+CX7ScrFs+VaA8nP1t9H
-	ip5N1wlR6oxxq9AmHGDTWL9GSLqK8P27YGUdnXij/nm3plX9z+Mww7I1n+UDqKP0kIjqWeyeRXW
-	skLasqz2geo5A4TVkApMuzF2E
-X-Google-Smtp-Source: AGHT+IEd1QfZbGucfSzWjGvd9LrTOnryYj6T9r5rgAvL5uHsyqI4CpaojsPnV1owSUov+Jn5UJyNxg==
-X-Received: by 2002:a2e:a9a7:0:b0:30b:c36c:ba96 with SMTP id 38308e7fff4ca-30be33e6468mr4085561fa.1.1741212896052;
-        Wed, 05 Mar 2025 14:14:56 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30bae18057csm13031211fa.26.2025.03.05.14.14.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 14:14:54 -0800 (PST)
-Date: Thu, 6 Mar 2025 00:14:52 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: "Balaji Pothunoori (QUIC)" <quic_bpothuno@quicinc.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dhcpcd: fix for unexpected syscall 135 for 10.1.0 version
-Message-ID: <nusi2skcsvsplsotq55paza3iar6vh6pr2ei7jxyp6n6t7nc2r@hdejz62wmusf>
-References: <20250305064101.4065316-1-quic_bpothuno@quicinc.com>
- <kxtt4okxjormycbnwxffxqadztn2mgzthuu6btjlkzqsdhihhc@deieyeztitxj>
- <88cc44853dc94eb3b5b7a0c9abfa4ff3@quicinc.com>
+        bh=IEDHcru9/j2Xns2zyPmYw6jLT9EHrGgB/EI4gZq3OBs=;
+        b=KwB9kq8WY4LwHUTwp38//lyJFjls2wNExaeb/vT5Y/r8/zDmPap4jpkvhTCwqqiZJ7
+         8pX0mFPywt4XrZS3prnlT6zNAKy7YtxaaSheowvCeZlTcn0d9nBbMLVP8NqxW9UVoLEK
+         CqfYrtcyyX6lhCXqMFn7ge4YfXvkCKnLzFJ2OF5WCa/G3ycJapVOzxAq6Guq/cFXU7kI
+         AUdbAAarY9TBlOoIARLB8y5Z+QLnxC8oAQtag6jJq9cehPmdSn875SyHWr1GX8YrJxiF
+         rTbesWQIp6d8nJlpDMXfC6emoh9mvQIBDdOev1HG8ht/LSNaZv0YT00abyH4gMdofGi3
+         0agQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741222284; x=1741827084;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IEDHcru9/j2Xns2zyPmYw6jLT9EHrGgB/EI4gZq3OBs=;
+        b=bXEo2Me6ZxPHZDOuYMoDDJnXsc9ZTu9VSBtvOad2Wvz5BCU14juXUN+n/YvjpCGdG6
+         l64HMYPJJ5dhN2wVb3E9aeWo7Jf/P75uN4E/WZf/5cyIvyTOLW7VqpVfR1PLTyZgZ/al
+         TGSgOJduK/oujJi8wY7F19d7eLZ6roI7Gm12l21klxriPin6UMqt5Jye9ysbexQbcV63
+         ozur7at/ko8/iNSu7o/Q/GkXuYpG7LO7j+EM3Tt1/i8eTastpWl5Kkg1pgAPTfxX9fKt
+         Q5i5LoPnmf7wtLnjELgFYGZXYVszK0o0pcCjnH1TpzR3/jquY9NDLIN7Wus94O2LaPJH
+         E+jQ==
+X-Gm-Message-State: AOJu0YwXvYROSIHaWUM9Lkcnu8j/q9m3RxDdO7zUV2A+RibrF/4Ya+cm
+	LOABcc3j0W67LULxbsGZl+iW5Kv1qnJ9PK8XrTqD0dlJqJfhl8HmanlXRJeYl8hUb24fiIRdtJW
+	/KEckOCZ6NDboWKDoUeyW/QDYrzY=
+X-Gm-Gg: ASbGncuC1mDm64W8hxNZhgPjofg9nXQxg7Je/t5fmMIMVJ/fFaXzrVRMWsE1w5wj2Zi
+	xQWkph6MDHM5KtcRoAjIiN6mJtaOx9mB1jXR0ku5yEQP1erff0aP0A3fTn4BMDt8e2OONvTdk+G
+	tf9kxkZb6AUl3a3Hd6fL0l1tEA
+X-Google-Smtp-Source: AGHT+IF6kdGCkpeozITasQnu3VgrPuCqZeOzkJnPzQJ3w1QCU6xFANZJ2sMDllK2dfTjOLlRDcUFnaUY0WcODQdmF3o=
+X-Received: by 2002:a05:6870:a995:b0:2c1:556f:f752 with SMTP id
+ 586e51a60fabf-2c23e4b494dmr861907fac.0.1741222284239; Wed, 05 Mar 2025
+ 16:51:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <88cc44853dc94eb3b5b7a0c9abfa4ff3@quicinc.com>
+References: <20250305151906.269922-1-f_l_k@t-online.de>
+In-Reply-To: <20250305151906.269922-1-f_l_k@t-online.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 5 Mar 2025 19:50:57 -0500
+X-Gm-Features: AQ5f1Jp_V2XRW0ctX6Yzj5X5_OOXXt7iRePDh26Y7nt0NzZSMssKerVlZunEMeI
+Message-ID: <CAMKF1srzaSQFbJgAfGu4VFujBaHn7Zdu4oM60nsB9hCgiF9hLA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH] fastfloat: add recipe
+To: f_l_k@t-online.de
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Mar 2025 22:15:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212367
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 00:51:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212368
 
-On Wed, Mar 05, 2025 at 12:08:09PM +0000, Balaji Pothunoori (QUIC) wrote:
-> > -----Original Message-----
-> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Sent: Wednesday, March 5, 2025 2:17 PM
-> > To: Balaji Pothunoori (QUIC) <quic_bpothuno@quicinc.com>
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [PATCH] dhcpcd: fix for unexpected syscall 135 for 10.1.0 version
-> > 
-> > On Wed, Mar 05, 2025 at 12:11:01PM +0530, Balaji Pothunoori wrote:
-> > > Current dhcpcd (version 10.1.0) service crashes on the WiFi (wlan0)
-> > > interface with the following error:
-> > 
-> > There are newer releases, which already have this patch. Any reason for not
-> > upgrading? For example there was an AUH message from March 1st.
-> 
-> Few patches are applied as OE Specific in https://git.openembedded.org/openembedded-core/tree/meta/recipes-connectivity/dhcpcd/files 
-> Hence, I can't perform end to end testing for upgrade, So proceeded with patch BACKPORT for 10.1.0 version.
+On Wed, Mar 5, 2025 at 10:19=E2=80=AFAM Markus Volk via lists.openembedded.=
+org
+<f_l_k=3Dt-online.de@lists.openembedded.org> wrote:
+>
+> A header-only library for fast number parsing
+> An older version of this recipe is included in meta-oe, since fastfloat
+> is also used by libplacebo. If the recipe is accepted, I will send a patc=
+h for
+> removal there.
+>
+> The reason why this is needed in oe-core is the upcoming vte release,
+> which uses fastfloat but pulls it as a wrap-based subproject by default.
+>
 
-I don't follow this. Surely you can. Upgrade the dhcpcd, refresh the
-patches (or just apply the patch from AUH, I hope you've seen it),
-verify the end-result, post the upgrade patch.
+Yes, that's right. LGTM
 
-> 
-> > 
-> > >
-> > > "ps_seccomp_violation: unexpected syscall 135"
-> > >
-> > > This update pulls in fix #421 for dhcpcd 10.1.0 to address this issue.
-> > >
-> > > Signed-off-by: Balaji Pothunoori <quic_bpothuno@quicinc.com>
-> > > ---
-> > >  .../dhcpcd/dhcpcd_10.1.0.bb                   |  1 +
-> > >  ...llow-the-__NR_rt_sigprocmask-syscall.patch | 30
-> > > +++++++++++++++++++
-> > >  2 files changed, 31 insertions(+)
-> > >  create mode 100644
-> > > meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_si
-> > > gprocmask-syscall.patch
-> > >
-> > > diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-> > > b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-> > > index 3f806bb18783..99b72852bf34 100644
-> > > --- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-> > > +++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-> > > @@ -15,6 +15,7 @@ SRC_URI =
-> > "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
-> > >             file://dhcpcd.service \
-> > >             file://dhcpcd@.service \
-> > >
-> > > file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
-> > > +
-> > > + file://0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch \
-> > >             "
-> > >
-> > >  SRCREV = "57c3506a5622e199cf0e3fc1ef26a71cdedc9521"
-> > > diff --git
-> > > a/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_
-> > > sigprocmask-syscall.patch
-> > > b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_
-> > > sigprocmask-syscall.patch
-> > > new file mode 100644
-> > > index 000000000000..7058330165f3
-> > > --- /dev/null
-> > > +++ b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR
-> > > +++ _rt_sigprocmask-syscall.patch
-> > > @@ -0,0 +1,30 @@
-> > > +From e9e40400003db2e4f12dba85acabbaf2212a520f Mon Sep 17
-> > 00:00:00
-> > > +2001
-> > > +From: Scott Shambarger <devel@shambarger.net>
-> > > +Date: Sat, 7 Dec 2024 16:37:28 +0000
-> > > +Subject: [PATCH] linux: Allow the __NR_rt_sigprocmask syscall
-> > > +
-> > > +Fixes recent glibc changes to getrandom() used by arc4random().
-> > > +Fixes #421.
-> > > +
-> > > +Upstream-Status: Backport
-> > > +See details in
-> > > +https://github.com/NetworkConfiguration/dhcpcd/issues/421
-> > 
-> > This doesn't follow the established standard. I doubt that it will not trigger QA
-> > error.
-> 
-> Validated the patch using " patchtest --patch <patch_name>"
-
-See https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status
-
-> 
-> > 
-> > --
-> > With best wishes
-> > Dmitry
-> 
-> Regards,
-> Balaji.
-> 
-
--- 
-With best wishes
-Dmitry
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  meta/conf/distro/include/maintainers.inc          |  1 +
+>  .../recipes-devtools/fastfloat/fastfloat_8.0.0.bb | 15 +++++++++++++++
+>  2 files changed, 16 insertions(+)
+>  create mode 100644 meta/recipes-devtools/fastfloat/fastfloat_8.0.0.bb
+>
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+> index a6f413caa9..5515d46ca5 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -174,6 +174,7 @@ RECIPE_MAINTAINER:pn-eudev =3D "Anuj Mittal <anuj.mit=
+tal@intel.com>"
+>  RECIPE_MAINTAINER:pn-expat =3D "Yi Zhao <yi.zhao@windriver.com>"
+>  RECIPE_MAINTAINER:pn-expect =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+>  RECIPE_MAINTAINER:pn-ffmpeg =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+> +RECIPE_MAINTAINER:pn-fastfloat =3D "Markus Volk <f_l_k@t-online.de>"
+>  RECIPE_MAINTAINER:pn-file =3D "Yi Zhao <yi.zhao@windriver.com>"
+>  RECIPE_MAINTAINER:pn-findutils =3D "Chen Qi <Qi.Chen@windriver.com>"
+>  RECIPE_MAINTAINER:pn-flac =3D "Michael Opdenacker <michael@opdenacker.or=
+g>"
+> diff --git a/meta/recipes-devtools/fastfloat/fastfloat_8.0.0.bb b/meta/re=
+cipes-devtools/fastfloat/fastfloat_8.0.0.bb
+> new file mode 100644
+> index 0000000000..6426a1d2ec
+> --- /dev/null
+> +++ b/meta/recipes-devtools/fastfloat/fastfloat_8.0.0.bb
+> @@ -0,0 +1,15 @@
+> +SUMMARY =3D "fast_float number parsing library: 4x faster than strtod"
+> +HOMEPAGE =3D "https://github.com/fastfloat/fast_float"
+> +LICENSE =3D "Apache-2.0 & BSL-1.0 & MIT"
+> +LIC_FILES_CHKSUM =3D " \
+> +       file://LICENSE-MIT;md5=3D32b11d50c7d9788d4270f6a83f3e68eb \
+> +       file://LICENSE-APACHE;md5=3D81db248e90379bcfc0582b578b009bc3 \
+> +       file://LICENSE-BOOST;md5=3D2c7a3fa82e66676005cd4ee2608fd7d2 \
+> +"
+> +
+> +SRC_URI =3D "git://github.com/fastfloat/fast_float.git;protocol=3Dhttps;=
+branch=3Dmain"
+> +
+> +SRCREV =3D "77cc847c842c49e7e3477c1e95da2b6540166d66"
+> +S =3D "${WORKDIR}/git"
+> +
+> +inherit cmake
+> --
+> 2.48.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#212320): https://lists.openembedded.org/g/openembedde=
+d-core/message/212320
+> Mute This Topic: https://lists.openembedded.org/mt/111529479/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
