@@ -1,131 +1,242 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45338C282D1
-	for <webhook@archiver.kernel.org>; Thu,  6 Mar 2025 22:03:07 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.275.1741298580250904419
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AC72C282D1
+	for <webhook@archiver.kernel.org>; Thu,  6 Mar 2025 23:24:57 +0000 (UTC)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web11.2213.1741303493036412268
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Mar 2025 14:03:00 -0800
+ Thu, 06 Mar 2025 15:24:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hl1cRcTt;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43bcb1a9890so16063775e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 14:03:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h63AczOQ;
+ spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3f422d6e3b0so367517b6e.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 15:24:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1741298578; x=1741903378; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4UMAAGc2j5hj4DnzeKQJZ/oziHzN22ch8Kcd5qs/EGc=;
-        b=hl1cRcTtZWLMUc/mFIUFICnDE6LGaC20I5XW1VSCS2P3r9cJnWLtxmzVZ5ueb+kekC
-         /Ua3P+cS+iJxLqgo1b7Et7bzrEhtmwNIKl8nvQCrFO+5ZeMxjM+gnI+4BlZTdlgZMpHo
-         KACOATBocPeattADUWGwRPdx4rOVgKzbR59/s=
+        d=gmail.com; s=20230601; t=1741303492; x=1741908292; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ux8VBTVas/EXUJlYWMlF8RTDYusWt4sqjyGIm58k4nk=;
+        b=h63AczOQIe0irb2S2Xy8qjIerb33lcjc5wJHbqR23kY/6pBN1UqPCozWC18U3TdTGi
+         XdZ5yTg1RpLY8gQrAStE4za3ABECWrr2p9bflgKepbOCQhcPFr6rCIlWvRr+3F5S92IW
+         GCKApytdwN4b8eyCkVCOXay19+LqpkZIE6W+rvu/xyhKogOUnCBIf3MjJRSd67RRTWMR
+         CtmhjwqGvQf4P8CRH07WHW7DUmhzRftrPEFmNLauWc8zfQrcUFTaKSabutiLCFrEEVvL
+         /IGowI8yQhG3X2XemWVTqk2e/S4EhH8udxId6ru9SIDZS8EEoZTVltfb/3OrBTiR12IG
+         cSBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741298578; x=1741903378;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4UMAAGc2j5hj4DnzeKQJZ/oziHzN22ch8Kcd5qs/EGc=;
-        b=sSv7FhX2uxJuCLjhDuLBMHob+BAx3ANgtoyJE2XvY12uzoh4VzmaFdP4FYpMcKiar2
-         DZp50hILoKUj1dGHLKKJ3XkQo0vjmjFCPxl//nSxL8g3E8DSRTMSEz7U6EoZNd14y2CJ
-         x8MQxFem5/MnRi/tXzXBSJ+mqF48aIWmK0SWrC0xvul3jdz2jqp+HPB4HzIxvEHLQbsD
-         8jvN5U4fpoJ9mBH+R9DVLbri+gwP44T0qDP8eU4m0y27R1NkhEVsfYn+IfklkjzEAoeK
-         FFaoheDZ3c37srwoy8vw9i/nSHpGSj1Uy8cfXnuRemuRiYwT1vyB6OBpP3x9MnaimZkU
-         rzyw==
-X-Forwarded-Encrypted: i=1; AJvYcCWCmBG1c9q+ofSFEQLSKvhCV6O836V0w2oMMVF31IX9ybP4zKdXIZjZ/3Um7ilY+RRGARqc/qOLBT0pLYjLo5c6vw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzUJsQEytOu2P2oysoTngFTH1ucr7PL+Wo6uv+tAJlTLF4fhhE3
-	yoljvByoiZTlRH1nbuurjJMo9SCT3sL8qMJ1JrfggvlbLbqKSpnwuwRG9VVMO9Y=
-X-Gm-Gg: ASbGnctVbrBzsnu6zL0pB2RSj+wuWFkUK3bGAoU9LjMEcyPTGzJNPFgikxBrjrwP8xI
-	Jb4L4+R54812Ogi9Z1AsTnQtkck3HUEg1rUBH97squTllO5UOssQbXxRZJDfSydAyfNMft2tyiC
-	aeexQwcP1KDXE+Oxwfj7Vct/QJNaGGaD49mKq67h+H3yxmDEPRUGbJjwz63lLCz6qibx+xtJt00
-	ZqfjbKVL0Lek263f8OBS8/wOIQYETdCIydEkIR9DKDltumk8MYP5Au38+vBbXwmx+58ag8h3+Vr
-	lTC0M8Ouvnda4W0qA7kwNsN2cfwcGsX7UUfHjuYcGCY27/ELIWPaKIns+Ow5vTp1Koa0smuerNC
-	s8EnpR49pBns1Y5QcOlsYTk5JiYyT
-X-Google-Smtp-Source: AGHT+IFYfRq8P9+DHJo6/85hPyF9MICH+nwL1tzCNK/DHO/ICJ9qT7+GBay2WymEzo5D8gWTHD2gRg==
-X-Received: by 2002:a7b:cb94:0:b0:435:edb0:5d27 with SMTP id 5b1f17b1804b1-43bdb38f1fdmr42698595e9.9.1741298578554;
-        Thu, 06 Mar 2025 14:02:58 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2d49:705a:d4c1:b0? ([2001:8b0:aba:5f3c:2d49:705a:d4c1:b0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bd4352eccsm61051745e9.27.2025.03.06.14.02.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 14:02:57 -0800 (PST)
-Message-ID: <e6e54559c99cf639e8c082196af5a2853b2bcfd4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kernel-arch: use file-prefix-map in KERNEL_CC
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: S.Mueller-Klieser@phytec.de, openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 06 Mar 2025 22:02:57 +0000
-In-Reply-To: <20250306-fix_tmpdir-v1-1-3575a7ec43af@phytec.de>
-References: <20250306-fix_tmpdir-v1-1-3575a7ec43af@phytec.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2-0ubuntu1 
+        d=1e100.net; s=20230601; t=1741303492; x=1741908292;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ux8VBTVas/EXUJlYWMlF8RTDYusWt4sqjyGIm58k4nk=;
+        b=p7JPBfdnT2Q7rn5upJAY1cqzLWOfmewO3hBNHtMWGbD229d+RFwAsolHToJOynynxT
+         ++sBi5SQ41iuX09ikwhFX+GOz339UnDu2seoC+MfHkJE8xDP+ponIAZ2mMpS2M5cC3ND
+         jB+kvRcVCT/4SBD1MOAdIdTOCSikqXhad+h0LNuncWKx3OSax4cYClJQwo8iOSBIFAOw
+         9qcbZ+7GiE7OODu8yhjKwwpfINWu1/D5H1Uvvoq0DwoBTj7bs5/O1PoMZrd6/BaxEX9w
+         1KRRjOu64yIjymsMvy3Rt1OfcnUlIU5cDnDbI0vHQ9rpYZfjU2ARIUKIbJJhFbYc1uAG
+         zBlw==
+X-Gm-Message-State: AOJu0YytwcGXdkuu18YHy/TK9t8zRzSyr6dL5+Sqf0zu6mtzRQ4uv6kT
+	FnwpEPKUG4NCQsh4euQ89RdeiRvhKSsQQF6axbQsqvRBk8KHvhuFJ8Za9hzmbXPUWipJXaUOW2u
+	5wOO1LvHVwzzJyRoLx/uc3/UxlIg=
+X-Gm-Gg: ASbGncvu2EOZNOo+8yGlHtXiK4kTylQysdhVSkP78mMkvNMIVPYdZz5k9WR7eUAibsh
+	J5YfQzf8amQ7qSwpsrAogrT1TJbla1D63IlHjUz3VtfDXKferBDH2HiwmfNwGGewkvCztoUnZGs
+	Px6shMi9UL2YpDAHRN1VM6adb8ODvkOq06mkQWlZksH1Ssjmw5GOSohDv02w5h
+X-Google-Smtp-Source: AGHT+IFGLm4MWppis5boYdVG+rgWVi8MUlhMUVw1I55MacHbvLt4dC75x+6Cl0jhM7A0Zthf7jdM4QdFGH5/TSfwl28=
+X-Received: by 2002:a05:6808:211e:b0:3f6:6cbc:9326 with SMTP id
+ 5614622812f47-3f697bf2c0cmr759740b6e.29.1741303492248; Thu, 06 Mar 2025
+ 15:24:52 -0800 (PST)
 MIME-Version: 1.0
+References: <20250306185551.1758417-1-Randy.MacLeod@windriver.com>
+In-Reply-To: <20250306185551.1758417-1-Randy.MacLeod@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 6 Mar 2025 18:24:39 -0500
+X-Gm-Features: AQ5f1Jpaimeudd_rt_D15OR2iNwsAoNqJ2ZK5lEkfm-eYof1Cfjayg7K-rgeoPM
+Message-ID: <CAMKF1sp=ovCd8xsQ=LLcYpENio=rP7sgecnUBrhjYKc3gRqYCg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] tcmode-default: eliminate needless gdb, qemu defaults
+To: Randy.MacLeod@windriver.com
+Cc: openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com
+Content-Type: multipart/alternative; boundary="0000000000001a1431062fb4d03d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 22:03:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212405
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 23:24:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212406
 
-On Thu, 2025-03-06 at 17:46 +0100, Stefan Mueller-Klieser via lists.openemb=
-edded.org wrote:
-> When building external modules, macros can include absolute names of
-> kernel headers. The macro-prefix-map for the STAGING_KERNEL_DIR is
-> currently missing. Add it by switching to the file-prefix-map which
-> includes both.
->=20
-> This fixes reproducible builds and following build error:
-> ERROR: cryptodev-module-1.14-r0 do_package_qa: QA Issue: File <..>
-> cryptodev.ko <..> contains reference to TMPDIR [buildpaths]
->=20
-> Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
+--0000000000001a1431062fb4d03d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Are we sure that we don=E2=80=99t have external toolchains feeding gdb thes=
+e days
+
+On Thu, Mar 6, 2025 at 1:55=E2=80=AFPM <Randy.MacLeod@windriver.com> wrote:
+
+> From: Randy MacLeod <Randy.MacLeod@windriver.com>
+>
+> Manually setting preferred version/provider is not required so remove
+> that for gdb and qemu as a first step of cleaning up this file.
+>
+> This PREFERRED_VERSION list dates back to 2006, which is an era where
+> several versions of a given recipe was a common occurence.
+>
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 > ---
-> I don't know if this is the preferred solution. The macro-prefix-map
-> could also go into the modules-base.bbclass. But then we have yet
-> another place where KERNEL_CC gets modified and ordering matters. With
-> this patch it is done similiarly to the default cc settings in
-> bitbake.conf except by switching to the file-prefix-map.
-> ---
-> =C2=A0meta/classes-recipe/kernel-arch.bbclass | 6 +++++-
-> =C2=A01 file changed, 5 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recip=
-e/kernel-arch.bbclass
-> index b32f6137a2fe02f7a56a746cc3f4e76f1528e5a0..145ce24a48f52eb44be08c03f=
-1110a228e899747 100644
-> --- a/meta/classes-recipe/kernel-arch.bbclass
-> +++ b/meta/classes-recipe/kernel-arch.bbclass
-> @@ -71,7 +71,11 @@ HOST_AR_KERNEL_ARCH ?=3D "${TARGET_AR_KERNEL_ARCH}"
-> =C2=A0TARGET_OBJCOPY_KERNEL_ARCH ?=3D ""
-> =C2=A0HOST_OBJCOPY_KERNEL_ARCH ?=3D "${TARGET_OBJCOPY_KERNEL_ARCH}"
-> =C2=A0
-> -KERNEL_CC =3D "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-l=
-d=3Dbfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=3D${STAGING_KERNEL_DIR}=3D${=
-KERNEL_SRC_PATH} -fdebug-prefix-map=3D${STAGING_KERNEL_BUILDDIR}=3D${KERNEL=
-_SRC_PATH}"
-> +KERNEL_CC =3D "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} \
-> + -fuse-ld=3Dbfd ${DEBUG_PREFIX_MAP} \
-> + -ffile-prefix-map=3D${STAGING_KERNEL_DIR}=3D${KERNEL_SRC_PATH} \
-> + -fdebug-prefix-map=3D${STAGING_KERNEL_BUILDDIR}=3D${KERNEL_SRC_PATH} \
-> +"
-> =C2=A0KERNEL_LD =3D "${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
-> =C2=A0KERNEL_AR =3D "${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
-> =C2=A0KERNEL_OBJCOPY =3D "${HOST_PREFIX}objcopy ${HOST_OBJCOPY_KERNEL_ARC=
-H}"
+>  meta/conf/distro/include/tcmode-default.inc | 11 -----------
+>  1 file changed, 11 deletions(-)
+>
+> diff --git a/meta/conf/distro/include/tcmode-default.inc
+> b/meta/conf/distro/include/tcmode-default.inc
+> index 079a7ca3ea..ce0c8235e4 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -6,18 +6,14 @@ PREFERRED_PROVIDER_virtual/cross-binutils =3D
+> "${MLPREFIX}binutils-cross-${TARGET_
+>  PREFERRED_PROVIDER_virtual/cross-binutils:class-nativesdk ?=3D
+> "binutils-crosssdk-${SDK_SYS}"
+>  PREFERRED_PROVIDER_virtual/nativesdk-cross-binutils ?=3D
+> "binutils-crosssdk-${SDK_SYS}"
+>
+> -PREFERRED_PROVIDER_gdb =3D "gdb"
+> -
+>  # Default libc config
+>  PREFERRED_PROVIDER_virtual/gettext ??=3D "gettext"
+>
+>  GCCVERSION ?=3D "14.%"
+>  SDKGCCVERSION ?=3D "${GCCVERSION}"
+>  BINUVERSION ?=3D "2.44%"
+> -GDBVERSION ?=3D "16.%"
+>  GLIBCVERSION ?=3D "2.41%"
+>  LINUXLIBCVERSION ?=3D "6.12%"
+> -QEMUVERSION ?=3D "9.2%"
+>  GOVERSION ?=3D "1.24%"
+>  RUSTVERSION ?=3D "1.83%"
+>
+> @@ -40,9 +36,6 @@ PREFERRED_VERSION_binutils-native ?=3D "${BINUVERSION}"
+>  PREFERRED_VERSION_binutils-cross-${TARGET_ARCH} ?=3D "${BINUVERSION}"
+>  PREFERRED_VERSION_binutils-crosssdk-${SDK_SYS} ?=3D "${BINUVERSION}"
+>  PREFERRED_VERSION_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} ?=3D
+> "${BINUVERSION}"
+> -PREFERRED_VERSION_gdb ?=3D "${GDBVERSION}"
+> -PREFERRED_VERSION_gdb-cross-${TARGET_ARCH} ?=3D "${GDBVERSION}"
+> -PREFERRED_VERSION_gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} ?=3D
+> "${GDBVERSION}"
+>
+>  PREFERRED_VERSION_linux-libc-headers ?=3D "${LINUXLIBCVERSION}"
+>  PREFERRED_VERSION_nativesdk-linux-libc-headers ?=3D "${LINUXLIBCVERSION}=
+"
+> @@ -53,10 +46,6 @@ PREFERRED_VERSION_glibc-scripts            ?=3D
+> "${GLIBCVERSION}"
+>  PREFERRED_VERSION_nativesdk-glibc          ?=3D "${GLIBCVERSION}"
+>  PREFERRED_VERSION_cross-localedef-native   ?=3D "${GLIBCVERSION}"
+>
+> -PREFERRED_VERSION_qemu ?=3D "${QEMUVERSION}"
+> -PREFERRED_VERSION_qemu-native ?=3D "${QEMUVERSION}"
+> -PREFERRED_VERSION_nativesdk-qemu ?=3D "${QEMUVERSION}"
+> -
+>  # Bootstrap Go using a binary release from golang.org.  If you want to
+> bootstrap
+>  # from source using the C-implemented Go 1.4 (only supports x86-64 hosts=
+)
+> then use
+>  # go-native.
+> --
+> 2.34.1
+>
+>
 
-At first glance, file-prefix-map sounds great. The challenge, at least
-last time I checked, is that some tools don't process it and only
-process macro-prefix-map (perhaps the C preprocessor?). This meant we
-had build failures last time I tried to simply the entry in
-bitbake.conf.
+--0000000000001a1431062fb4d03d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'm ok with changing it in this file but we may want to copy what
-bitbake.conf is doing and set both?
+<div dir=3D"auto">Are we sure that we don=E2=80=99t have external toolchain=
+s feeding gdb these days=C2=A0</div><div><br><div class=3D"gmail_quote gmai=
+l_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 6, 202=
+5 at 1:55=E2=80=AFPM &lt;<a href=3D"mailto:Randy.MacLeod@windriver.com">Ran=
+dy.MacLeod@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
+-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">From: Ran=
+dy MacLeod &lt;<a href=3D"mailto:Randy.MacLeod@windriver.com" target=3D"_bl=
+ank">Randy.MacLeod@windriver.com</a>&gt;<br>
+<br>
+Manually setting preferred version/provider is not required so remove<br>
+that for gdb and qemu as a first step of cleaning up this file.<br>
+<br>
+This PREFERRED_VERSION list dates back to 2006, which is an era where<br>
+several versions of a given recipe was a common occurence.<br>
+<br>
+Signed-off-by: Randy MacLeod &lt;<a href=3D"mailto:Randy.MacLeod@windriver.=
+com" target=3D"_blank">Randy.MacLeod@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/distro/include/tcmode-default.inc | 11 -----------<br>
+=C2=A01 file changed, 11 deletions(-)<br>
+<br>
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro=
+/include/tcmode-default.inc<br>
+index 079a7ca3ea..ce0c8235e4 100644<br>
+--- a/meta/conf/distro/include/tcmode-default.inc<br>
++++ b/meta/conf/distro/include/tcmode-default.inc<br>
+@@ -6,18 +6,14 @@ PREFERRED_PROVIDER_virtual/cross-binutils =3D &quot;${MLP=
+REFIX}binutils-cross-${TARGET_<br>
+=C2=A0PREFERRED_PROVIDER_virtual/cross-binutils:class-nativesdk ?=3D &quot;=
+binutils-crosssdk-${SDK_SYS}&quot;<br>
+=C2=A0PREFERRED_PROVIDER_virtual/nativesdk-cross-binutils ?=3D &quot;binuti=
+ls-crosssdk-${SDK_SYS}&quot;<br>
+<br>
+-PREFERRED_PROVIDER_gdb =3D &quot;gdb&quot;<br>
+-<br>
+=C2=A0# Default libc config<br>
+=C2=A0PREFERRED_PROVIDER_virtual/gettext ??=3D &quot;gettext&quot;<br>
+<br>
+=C2=A0GCCVERSION ?=3D &quot;14.%&quot;<br>
+=C2=A0SDKGCCVERSION ?=3D &quot;${GCCVERSION}&quot;<br>
+=C2=A0BINUVERSION ?=3D &quot;2.44%&quot;<br>
+-GDBVERSION ?=3D &quot;16.%&quot;<br>
+=C2=A0GLIBCVERSION ?=3D &quot;2.41%&quot;<br>
+=C2=A0LINUXLIBCVERSION ?=3D &quot;6.12%&quot;<br>
+-QEMUVERSION ?=3D &quot;9.2%&quot;<br>
+=C2=A0GOVERSION ?=3D &quot;1.24%&quot;<br>
+=C2=A0RUSTVERSION ?=3D &quot;1.83%&quot;<br>
+<br>
+@@ -40,9 +36,6 @@ PREFERRED_VERSION_binutils-native ?=3D &quot;${BINUVERSIO=
+N}&quot;<br>
+=C2=A0PREFERRED_VERSION_binutils-cross-${TARGET_ARCH} ?=3D &quot;${BINUVERS=
+ION}&quot;<br>
+=C2=A0PREFERRED_VERSION_binutils-crosssdk-${SDK_SYS} ?=3D &quot;${BINUVERSI=
+ON}&quot;<br>
+=C2=A0PREFERRED_VERSION_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} ?=
+=3D &quot;${BINUVERSION}&quot;<br>
+-PREFERRED_VERSION_gdb ?=3D &quot;${GDBVERSION}&quot;<br>
+-PREFERRED_VERSION_gdb-cross-${TARGET_ARCH} ?=3D &quot;${GDBVERSION}&quot;<=
+br>
+-PREFERRED_VERSION_gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} ?=3D &quot;=
+${GDBVERSION}&quot;<br>
+<br>
+=C2=A0PREFERRED_VERSION_linux-libc-headers ?=3D &quot;${LINUXLIBCVERSION}&q=
+uot;<br>
+=C2=A0PREFERRED_VERSION_nativesdk-linux-libc-headers ?=3D &quot;${LINUXLIBC=
+VERSION}&quot;<br>
+@@ -53,10 +46,6 @@ PREFERRED_VERSION_glibc-scripts=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ?=3D &quot;${GLIBCVERSION}&quot;<br>
+=C2=A0PREFERRED_VERSION_nativesdk-glibc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ?=
+=3D &quot;${GLIBCVERSION}&quot;<br>
+=C2=A0PREFERRED_VERSION_cross-localedef-native=C2=A0 =C2=A0?=3D &quot;${GLI=
+BCVERSION}&quot;<br>
+<br>
+-PREFERRED_VERSION_qemu ?=3D &quot;${QEMUVERSION}&quot;<br>
+-PREFERRED_VERSION_qemu-native ?=3D &quot;${QEMUVERSION}&quot;<br>
+-PREFERRED_VERSION_nativesdk-qemu ?=3D &quot;${QEMUVERSION}&quot;<br>
+-<br>
+=C2=A0# Bootstrap Go using a binary release from <a href=3D"http://golang.o=
+rg" rel=3D"noreferrer" target=3D"_blank">golang.org</a>.=C2=A0 If you want =
+to bootstrap<br>
+=C2=A0# from source using the C-implemented Go 1.4 (only supports x86-64 ho=
+sts) then use<br>
+=C2=A0# go-native.<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div></div>
 
-Cheers,
-
-Richard
-
-
+--0000000000001a1431062fb4d03d--
 
