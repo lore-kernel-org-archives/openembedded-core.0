@@ -1,89 +1,180 @@
-Return-Path: <victor.hansen@remarkable.no>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BF0AC282D0
-	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 16:37:10 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web11.15682.1741365420994265187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD43DC19F32
+	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 16:49:00 +0000 (UTC)
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+ by mx.groups.io with SMTP id smtpd.web11.15983.1741366135641702762
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Mar 2025 08:37:01 -0800
+ Fri, 07 Mar 2025 08:48:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@remarkable.no header.s=google header.b=dPF2qEDr;
- spf=pass (domain: remarkable.no, ip: 209.85.208.176, mailfrom: victor.hansen@remarkable.no)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30beef77634so9578731fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 08:37:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZeyrTIZb;
+ spf=pass (domain: gmail.com, ip: 209.85.161.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-60047980ffdso713766eaf.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 08:48:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=remarkable.no; s=google; t=1741365419; x=1741970219; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=c/TvFZev2uJtqYhggRmMF9G9legDpFofEjg1ekO4VJI=;
-        b=dPF2qEDrOIo9dj4Yahc2RK5FlfDXMiBs4NzIgFDDaDorrXY/kItDjSiV0y3rFFybD5
-         XK559iiJp1DGVtHfG0oJXduo+ZMsOX72EwnKle+pAbu1u9NPZ2OF06KHigUvA1M1h+oj
-         ENxDjSplJGj/FhF8fc3wIfxKhMCdP6F1q76YC6YPS13S/6qCSiPd4eCUu1uRtikUBizM
-         ZE6PZVHNmSq+jKOlMT+ApobexM35ot2ttgimu1xmtZkj0XiCY+2pPAfujuUjlI5nzhlU
-         G4PuPaYWMIFrftZxqWDLnA9LA77uJyo9MeeE7qB73U0NtSnmFSNmGGzekbJiMYyXthhw
-         aifA==
+        d=gmail.com; s=20230601; t=1741366135; x=1741970935; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NP8Oh/vi15JUUjaPmGRrxh71PZEn4jJmlVCXLO5z898=;
+        b=ZeyrTIZbZeVM+QVXozC5Z0Dr76Lri2N9o8WCGInqW9PmpCZ43XP6FATWXLiA8O5lwo
+         NV03EzVk/ZRt6/oA0hsbT1GonUa1XK3gDkcV4UWFAZCC6QwZhnnrLiyX4kTghZ0b/sFR
+         mozKy21WdbFlviLBZMEIvSsJkc+4F0EXY1No0HdAN2KrNosvAU+ayRqGKejtBlXc79bg
+         lf+cmMschSVv0N/STv9h5J0NybmwkSB3ZTqHLEBdRFBgsXtpkn5WfBbG2AGVH72M5iYM
+         m32ZdoPTIDHxj6Q1xJC/xS3CigV7QkSRVbFmCWTwRLmDo+1/PxYstRQzF6iOjmXhZ5IF
+         OFiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741365419; x=1741970219;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c/TvFZev2uJtqYhggRmMF9G9legDpFofEjg1ekO4VJI=;
-        b=Vm2jTFkJOQ/96CqJ0Ok2KseWaP42Hor0kG9WYDLz8sFF5sgGprjeLMvbYX8T+p+Jzs
-         QbnKt5SXgJr7CqqNh5OWsb51rCySL9cefCkW/LDUJYe7xZLjI2wIUL1UfoB+Kl43ZwoZ
-         BGOvMGbFUjwofKAkfnV+Ev2Km0dOL/8O1MWZiFugFUfS+0F4QbfVGU5QLhY+Q7QUBM8r
-         NYszZR1poo1qD057oZFZjrV2YEXSktvV9GyLr/iJGXKu/Rujk8Ue9yuM3khUm4bVp3NL
-         R3mcF0efkxwHCsq6ujbITizYtYIZg8es/JUHUzNbglRiLjEj7x3y9D2uXsGOmGvBzLku
-         RFHg==
-X-Gm-Message-State: AOJu0YxEfZbUUg6UgC2kunl91hdBrRWhB+m+Sm9khuRGjWo0ktZ1VHU9
-	UlBWJWUb7vwHsN8l1gaUgzCyPXmxeYDyfsNBaFWAd/32GEDQHcguFy0HMWAsKFWOgpzPuRnFs4+
-	nwXk=
-X-Gm-Gg: ASbGncvrw1+lAObVKck/0BXJ+QfsqW3ItUMCf8YqoA8MIu+k0sC9HQbnjs90na69C1B
-	x+G3+p/Ywcw2OSNPolRltU/HvMR0J3s8yvPJKp8VKowAUOs9Zzo0AVQ1B6dUj5d3AbwjclQJFIK
-	kdO4lqWnrYB49EZ3wMNLWh14Eh4LR5kqGk8rQm1HOqL0zLbJIskeLcufJYdDNHCFvdBef8b9Z4a
-	jWoJ/1V5676GwgasOtDshOyVK/3FNmSJbzI8YX3EN937PYdngNw5hAy0SuJQFC6fLaLoBfP78xg
-	91YvDh7Gkag7xAr75LM64865qGVQoCUdfIc3RFU9FqClTbYkLfD34qSXNknovYgxtxbJ52s=
-X-Google-Smtp-Source: AGHT+IEI9uI11gpULrvNShgoEvEbStQqCtxAOCSOQWsiQtzZnTJmTiYndyMxWqiyF9bK+ia4qxx4ww==
-X-Received: by 2002:a05:651c:1546:b0:308:efa4:d277 with SMTP id 38308e7fff4ca-30bf451a693mr16574071fa.15.1741365418927;
-        Fri, 07 Mar 2025 08:36:58 -0800 (PST)
-Received: from localhost.localdomain ([2a01:799:c96:7901:5b3f:c02c:b0ae:4afc])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30bfb656dbbsm1132681fa.50.2025.03.07.08.36.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Mar 2025 08:36:58 -0800 (PST)
-From: victor.hansen@remarkable.no
-To: openembedded-core@lists.openembedded.org
-Cc: "Victor J. Hansen" <victor.hansen@remarkable.no>
-Subject: [PATCH] cmake.bbclass: remove whitespace
-Date: Fri,  7 Mar 2025 17:36:37 +0100
-Message-ID: <20250307163636.823918-2-victor.hansen@remarkable.no>
-X-Mailer: git-send-email 2.48.1
+        d=1e100.net; s=20230601; t=1741366135; x=1741970935;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NP8Oh/vi15JUUjaPmGRrxh71PZEn4jJmlVCXLO5z898=;
+        b=CftR/2mT0wPvoAxJJdIhhute3goJl7EQspQAYa5SZGIQapJnEwVKcc2CCC0QVA3fWl
+         kUwItzbuAUZ3l04jl6GrEgA6G4LU7K8qpNK2wloUvvrYawpVffzfo6B1JVb39pfknzui
+         VFoLCGv+xt6NX+UkP1AoWaKnw9wGMyR1tkDfkxooaBul+7N5M9fyEiutHCNwZxSmhMLv
+         MMpeoAFzH4qk4CKQ7ZuBXtV0bfiTVJE+xcxVjRg+Cu8ro7QjSrBTrE+HMYKwZtVtZAvA
+         EIiGZU7oNQWrZaF+n8rOzxeW9dH/gAcD2f67seuYVKB0Npon0GMyUuZW9C4VJ3ZdCsm8
+         7T0w==
+X-Gm-Message-State: AOJu0YxH0iAUcDOqHuKqf/bKncA7til9IViyRNpTXYpdZ15Ki5Bd7gzL
+	23MlM9PQBpQTNleTpeAP8fXwtDy+9aWniNDZZ4cHOD8pcCVp0r2X0akQNKGG1lftlrYR+mIEwac
+	c+tQAkvO/PQWkboQvFWOV8K6rjOc=
+X-Gm-Gg: ASbGnctZsvz8OQxnM8TTWTGHfMSBGZ8wOD3qUgECMLEHH98ZxYK5dV63GvkRg9X/VTx
+	ZGgEs9gapzKCwpvq/Ac4ZjNBbaazteOz+Oial2zdF4f6mB7I2WRSTeVPtTj0qYV5zfAh+aFIdx+
+	fS0I0copWRfKREJ6G6bLH5xpGzcw==
+X-Google-Smtp-Source: AGHT+IHBPvZhmwdlfoBl4EL3kPRjH83B5d1kjxCeKqupUHaIg/aPLv3EIhgoFVlAKY7Nxg5VY2WRAJUqKw9wcF0ZvwE=
+X-Received: by 2002:a05:6808:14d3:b0:3f3:f89d:3558 with SMTP id
+ 5614622812f47-3f697b61e93mr2620911b6e.19.1741366134846; Fri, 07 Mar 2025
+ 08:48:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250306185551.1758417-1-Randy.MacLeod@windriver.com>
+ <CAMKF1sp=ovCd8xsQ=LLcYpENio=rP7sgecnUBrhjYKc3gRqYCg@mail.gmail.com> <b2c632c7-30ca-486a-ba14-46c0f404f9e6@windriver.com>
+In-Reply-To: <b2c632c7-30ca-486a-ba14-46c0f404f9e6@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 7 Mar 2025 08:48:28 -0800
+X-Gm-Features: AQ5f1JpTOKSgTqB_3exPH2KIz7En9zTi8AeJVWXBU7oOfxUdmB3eNWkoHzKivCY
+Message-ID: <CAMKF1srSJWbHYB9ZvNCLt0PFrHeua6C47Op9tU01Mc8_PZNJOQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] tcmode-default: eliminate needless gdb, qemu defaults
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com, 
+	Mark Hatle <mark.hatle@kernel.crashing.org>, Ross Burton <ross.burton@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 16:37:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212457
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 16:49:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212458
 
-From: "Victor J. Hansen" <victor.hansen@remarkable.no>
+On Thu, Mar 6, 2025 at 5:40=E2=80=AFPM Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+>
+> On 2025-03-06 6:24 p.m., Khem Raj wrote:
+>
+> Are we sure that we don=E2=80=99t have external toolchains feeding gdb th=
+ese days
+>
+>
+> I'm not sure. That's why I cc'ed you.  :-)
+>
+> How would I check or who would we ask?
+>
+> Let's start with Mark and Ross.
+> It's easy enough to revert if we find that someone, somehow needs this
+> but I plan to remove the rust and binutils bits next and if that goes wel=
+l,
+> drop the rest of the file at the start of 5.3 if not sooner.
+>
 
-Signed-off-by: Victor J. Hansen <victor.hansen@remarkable.no>
----
- meta/classes-recipe/cmake.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+In general I am ok with this it does make core policies a bit tighter,
+and I do not have usecase for external toolchains myself
+but we have tried to accommodate other providers of external
+toolchains in past but there is
+PREFERRED_PROVIDER way of hooking the overriding toolchains as well
+e.g. in meta-go-binary layer
+this is the way it is used.
 
-diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
-index e79f8a7435..b342deb671 100644
---- a/meta/classes-recipe/cmake.bbclass
-+++ b/meta/classes-recipe/cmake.bbclass
-@@ -170,7 +170,7 @@ OECMAKE_ARGS = "\
-     -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
-     -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
-     -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
--    -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.getVar('prefix') + '/')} \
-     -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
-     -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
-     -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
+> ../Randy
+>
+>
+>
+> On Thu, Mar 6, 2025 at 1:55=E2=80=AFPM <Randy.MacLeod@windriver.com> wrot=
+e:
+>>
+>> From: Randy MacLeod <Randy.MacLeod@windriver.com>
+>>
+>> Manually setting preferred version/provider is not required so remove
+>> that for gdb and qemu as a first step of cleaning up this file.
+>>
+>> This PREFERRED_VERSION list dates back to 2006, which is an era where
+>> several versions of a given recipe was a common occurence.
+>>
+>> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+>> ---
+>>  meta/conf/distro/include/tcmode-default.inc | 11 -----------
+>>  1 file changed, 11 deletions(-)
+>>
+>> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/dis=
+tro/include/tcmode-default.inc
+>> index 079a7ca3ea..ce0c8235e4 100644
+>> --- a/meta/conf/distro/include/tcmode-default.inc
+>> +++ b/meta/conf/distro/include/tcmode-default.inc
+>> @@ -6,18 +6,14 @@ PREFERRED_PROVIDER_virtual/cross-binutils =3D "${MLPRE=
+FIX}binutils-cross-${TARGET_
+>>  PREFERRED_PROVIDER_virtual/cross-binutils:class-nativesdk ?=3D "binutil=
+s-crosssdk-${SDK_SYS}"
+>>  PREFERRED_PROVIDER_virtual/nativesdk-cross-binutils ?=3D "binutils-cros=
+ssdk-${SDK_SYS}"
+>>
+>> -PREFERRED_PROVIDER_gdb =3D "gdb"
+>> -
+>>  # Default libc config
+>>  PREFERRED_PROVIDER_virtual/gettext ??=3D "gettext"
+>>
+>>  GCCVERSION ?=3D "14.%"
+>>  SDKGCCVERSION ?=3D "${GCCVERSION}"
+>>  BINUVERSION ?=3D "2.44%"
+>> -GDBVERSION ?=3D "16.%"
+>>  GLIBCVERSION ?=3D "2.41%"
+>>  LINUXLIBCVERSION ?=3D "6.12%"
+>> -QEMUVERSION ?=3D "9.2%"
+>>  GOVERSION ?=3D "1.24%"
+>>  RUSTVERSION ?=3D "1.83%"
+>>
+>> @@ -40,9 +36,6 @@ PREFERRED_VERSION_binutils-native ?=3D "${BINUVERSION}=
+"
+>>  PREFERRED_VERSION_binutils-cross-${TARGET_ARCH} ?=3D "${BINUVERSION}"
+>>  PREFERRED_VERSION_binutils-crosssdk-${SDK_SYS} ?=3D "${BINUVERSION}"
+>>  PREFERRED_VERSION_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} ?=
+=3D "${BINUVERSION}"
+>> -PREFERRED_VERSION_gdb ?=3D "${GDBVERSION}"
+>> -PREFERRED_VERSION_gdb-cross-${TARGET_ARCH} ?=3D "${GDBVERSION}"
+>> -PREFERRED_VERSION_gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} ?=3D "${=
+GDBVERSION}"
+>>
+>>  PREFERRED_VERSION_linux-libc-headers ?=3D "${LINUXLIBCVERSION}"
+>>  PREFERRED_VERSION_nativesdk-linux-libc-headers ?=3D "${LINUXLIBCVERSION=
+}"
+>> @@ -53,10 +46,6 @@ PREFERRED_VERSION_glibc-scripts            ?=3D "${GL=
+IBCVERSION}"
+>>  PREFERRED_VERSION_nativesdk-glibc          ?=3D "${GLIBCVERSION}"
+>>  PREFERRED_VERSION_cross-localedef-native   ?=3D "${GLIBCVERSION}"
+>>
+>> -PREFERRED_VERSION_qemu ?=3D "${QEMUVERSION}"
+>> -PREFERRED_VERSION_qemu-native ?=3D "${QEMUVERSION}"
+>> -PREFERRED_VERSION_nativesdk-qemu ?=3D "${QEMUVERSION}"
+>> -
+>>  # Bootstrap Go using a binary release from golang.org.  If you want to =
+bootstrap
+>>  # from source using the C-implemented Go 1.4 (only supports x86-64 host=
+s) then use
+>>  # go-native.
+>> --
+>> 2.34.1
+>>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
 
