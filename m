@@ -1,71 +1,102 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB497C19F32
-	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 16:19:50 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web11.15212.1741364383877463876
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87845C19F32
+	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 16:24:30 +0000 (UTC)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+ by mx.groups.io with SMTP id smtpd.web11.15341.1741364670076581108
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Mar 2025 08:19:44 -0800
+ Fri, 07 Mar 2025 08:24:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
-Received: from fwd74.aul.t-online.de (fwd74.aul.t-online.de [10.223.144.100])
-	by mailout11.t-online.de (Postfix) with SMTP id AB39B67E;
-	Fri,  7 Mar 2025 17:19:41 +0100 (CET)
-Received: from [192.168.178.20] ([84.154.160.145]) by fwd74.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1tqaQF-4OP8qG0; Fri, 7 Mar 2025 17:19:39 +0100
-Date: Fri, 07 Mar 2025 17:20:16 +0100
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCH] glib-2.0: update 2.82.4 -> 2.84.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-Id: <SDHRSS.W4LS3ITNHVRU1@t-online.de>
-In-Reply-To: <182A8F15FD14C8CF.13616@lists.openembedded.org>
-References: <20250307132900.456962-1-f_l_k@t-online.de>
-	<CANNYZj_Y9kM=uq0pKWduZt4LQ9zVwLXnOzu+HAhWJBApAfwduA@mail.gmail.com>
-	<182A8AC2C61D2C82.9571@lists.openembedded.org>
-	<OFCRSS.DMAMQS5P3JTF@t-online.de>
-	<CANNYZj_uNe90wTLJkJhnL17JSbWi6xA1x+_YXHZ_ccWCHOhKrg@mail.gmail.com>
-	<182A8DD37F985901.9571@lists.openembedded.org>
-	<182A8F15FD14C8CF.13616@lists.openembedded.org>
-X-Mailer: geary/46.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=S9HnRfYO;
+ spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2c1c44c3f8dso877469fac.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 08:24:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741364668; x=1741969468; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XQV6Sty9QFeTTgAUrIRNyE7RAW6qZKPAyqwmAg74X8c=;
+        b=S9HnRfYOcKFexhiM22J3n94fBIBk3gKEpCKHpqWUmizY6kDBQjeCgwOR+vEdhAaStd
+         JpAezu6XzbDamDLRgmwhG/m3blWzsSJF7eJs4q9K5ZuSyf4klyqg0J8/O90d+q1jTNg8
+         CaR3VMeLHH4hkqh7Ib4X2ZM9zZPOLtjN7L5165Gu+UuLkLnf7WHBW+GnIyTmTHA6YAax
+         uNOhrJ+s/vbzJ9oyHZ3wxLxfp7c3PL+ZrTWUcWbXGS8boJ9ih8eW8Am1H1UGNra1dJyd
+         pckN11okNLHtyDObFOdZLRFoXb8OqjsnzG38wk+6lxaS/Rgy4Rf25GrmhOeFWWdTXteb
+         mgpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741364668; x=1741969468;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XQV6Sty9QFeTTgAUrIRNyE7RAW6qZKPAyqwmAg74X8c=;
+        b=mId1V3VbOf5w+jjlUWYU2i9Wm4MD8co3FfTO0Yn2MKzWO5DG5xJLGoIZ5SzOLE6050
+         UNA1Ap1TMurZx4moEOv15GqSA/MWtzISSwGLc1BKYRLHSybWV9lKcuezOENNs818+qS1
+         W1/17PRcNhKm+ROao7fG8rEgohskIpbviejXUgXe3ChH/JpkmjSkqhumr30P03CR2/dG
+         bA38VcEs9u0cWkXpVkXNZ320HljtbZmD58jeZAgzkieeIHlFnwYZIAIPxDBB9S+Pl4zP
+         R83TiIMKYLE1Qr3i6kgW4ZVnRl8pGmMNc+xlhp5i98XocyLeaCt/czogI8+pDTlCzvAx
+         ESJw==
+X-Gm-Message-State: AOJu0YyN2M+tNQRHFaE7/2jn1oetPLIzVgUpzZO/OAXIuiKSBUNJiP6b
+	HRkXEp/JIWy3xiOS2ajx1woqtmi/s7JdN+ZkN9le3IyGsYu+biMkmb+YFw==
+X-Gm-Gg: ASbGncuk9ZcSXsQH/EiKK7UTRIAdlIml0Vf//j2KiiqyNgirEdfrUL3WKAPrgJX791Z
+	IVOzslDwheknhwqEgSEZRCarIYdr+2Xum9miyx2NpmduhGmogFLlgCCQ0MdQQSBTTHd88iGgwjC
+	hq3VGth0+Yk10lw/IgmLPY/sCi0jCj5qS0BuSERIi2qNn3ksT9tk9rYW/1BUVtssslrUQx1Xv90
+	/AGOI5DUHBKozBfxIO5G+Fm9eI/4Wh57JFaVkyh+NsKJHAf7/DEiLi2s+weCp4KdjFxBJG1c+LJ
+	BqkZQaXHmAvmmWJZLDCkxYc67ZoIvDcF5YL1jnAX7CY=
+X-Google-Smtp-Source: AGHT+IG7cqfaydO+iAcfAVOScBmz5++zZPrs6x+nQltCoHB7blKKWHSXSLg9krOUfcUOnpWQfmVFvg==
+X-Received: by 2002:a05:6870:9726:b0:2bc:8c86:ea31 with SMTP id 586e51a60fabf-2c2610d9f7cmr2158704fac.20.1741364668496;
+        Fri, 07 Mar 2025 08:24:28 -0800 (PST)
+Received: from localhost.localdomain ([2601:282:4300:19e0::1fad])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72a2dbc3836sm692656a34.58.2025.03.07.08.24.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Mar 2025 08:24:27 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] lib: spdx30_tasks: Use Fetch.expanded_urldata()
+Date: Fri,  7 Mar 2025 09:24:25 -0700
+Message-ID: <20250307162426.1152646-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-+g9l2SkjdnA7IGxB3Baz"
-X-TOI-EXPURGATEID: 150726::1741364379-C9FF8999-B91B1318/0/0 CLEAN NORMAL
-X-TOI-MSGID: 6bb05ef6-493c-4485-8907-72ac8e65d7f9
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 16:19:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212454
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 16:24:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212455
 
---=-+g9l2SkjdnA7IGxB3Baz
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Converts the SPDX 3 code to use the Fetch.expanded_urldata() API instead
+of iterating over all the SRC_URI entries manually. This will correctly
+report additional download URIs (e.g. submodules) in the SPDX data.
 
-On Fri, Mar 7 2025 at 16:32:45 +01:00:00, Markus Volk 
-<f_l_k@t-online.de> wrote:
-> 
-> Looks good at first glance. Using ptest in DISTRO_FEATURES installs 
-> the files into the ptest package, so this patch seems to fix the 
-> problem. I'll send it to upstream in the next few days and see what I 
-> hear there
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oe/spdx30_tasks.py | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-After thinking a little bit more about this, I'd say the proper fix 
-would be to build tests only, if ptest is enabled:
-
-PACKAGECONFIG[tests] = "-Dtests=true 
--Dinstalled_tests=true,-Dtests=false -Dinstalled_tests=false,"
-
-The option 'tests' is enabled by default so we at least need to add 
-'-Dtests=false' to make the PACKAGECONFIG work properly
-
-
---=-+g9l2SkjdnA7IGxB3Baz
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto">On Fri, Mar 7 2025 at 16:32:45 +01:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><blockquote type="cite"><div><br></div><div>Looks good at first glance. Using ptest in DISTRO_FEATURES installs the files into the ptest package, so this patch seems to fix the problem. I'll send it to upstream in the next few days and see what I hear there</div></blockquote><div><br></div><div>After thinking a little bit more about this, I'd say the proper fix would be to build tests only, if ptest is enabled:</div><div><br></div><div>PACKAGECONFIG[tests] = "-Dtests=true -Dinstalled_tests=true,-Dtests=false -Dinstalled_tests=false,"</div><div><br></div><div>The option 'tests' is enabled by default so we at least need to add '-Dtests=false' to make the PACKAGECONFIG work properly</div></div>
---=-+g9l2SkjdnA7IGxB3Baz--
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index e20bb0c86f3..f85fbeb0f0a 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -349,12 +349,11 @@ def add_download_files(d, objset):
+     urls = d.getVar("SRC_URI").split()
+     fetch = bb.fetch2.Fetch(urls, d)
+ 
+-    for download_idx, src_uri in enumerate(urls):
+-        fd = fetch.ud[src_uri]
+-
++    for download_idx, fd in enumerate(fetch.expanded_urldata()):
+         for name in fd.names:
+-            file_name = os.path.basename(fetch.localpath(src_uri))
+-            if oe.patch.patch_path(src_uri, fetch, "", expand=False):
++            fd.setup_localpath(d)
++            file_name = os.path.basename(fd.localpath)
++            if oe.patch.patch_path(fd.url, fetch, "", expand=False):
+                 primary_purpose = oe.spdx30.software_SoftwarePurpose.patch
+             else:
+                 primary_purpose = oe.spdx30.software_SoftwarePurpose.source
+-- 
+2.47.1
 
 
