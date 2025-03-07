@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE029C28B25
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D814AC28B26
 	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 13:58:59 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.11555.1741355934981225305
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.11556.1741355936249558004
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Mar 2025 05:58:55 -0800
+ Fri, 07 Mar 2025 05:58:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=b99sQY0k;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22423adf751so24123235ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 05:58:54 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tvM6IjyG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2ff6cf448b8so3421827a91.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 05:58:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741355934; x=1741960734; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741355935; x=1741960735; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zudmKu0O/1jApobdAOuA7+TnUZuFTt5A5V+SbucWJFk=;
-        b=b99sQY0kFuEHJbAYwS+LSnK0qtU50tH6WnQK1MllXReIZ2N/nCOaiLA6qzj8pz9/mT
-         jZPcyfSV2Dd2ZoJ9kNf+i3WpwnGELKhLjFJqM86NR8ZxZvaeELjBe4C1Hm6aiSJi1gv3
-         UopwxSY57d59ZJR0SnFNCRP2mB3WqDl5elUF64qfHhLJOPIKghFQUlzNdp56H0XTliRR
-         0kcv9JnLjv7PNz7IZ0+nacE1fLSp5uKW8ZPkzmfkOyM5alITA/a7F3oyKfCpRZmzqzFj
-         cf3f9HFloUQKe+WTHU/dGn9LGUsoBRZQb3YaYaMg3tPyaWbOH6enRmRj2a7S/PbyvZwd
-         V+Rg==
+        bh=vU11L5Bon5V6WxJh0GHOIQjjRzFi0b0t+TzGR1sEcGs=;
+        b=tvM6IjyGTVmHZKQ6M55czOWtbudE049h3zBs8Ia3Yf8vOnkhEwepm5eirKowW/vvg7
+         PtXwJ2h+z2beCRqKEXEACawzHmsDWaWpQHkNvDLvik5WPsKtnTIxsNqG1h1RuuSlhJFc
+         zdUE9DyEAQX657x8lkuZl+MUWsj6r2hQy6FrTA/aSSwBuN1YSaAxPX/KmdCPN/z1hlxr
+         6MuEDq6asiURy/Jt5cujRrAh1VLz6FHcgD2syss8AJaEvdm8BjPipqrTFkGXMEE2V3jP
+         5o3zy5Eha/wHepgwZ6oJMl6g58dpzjRnMA2En4C7xtme1qoyOY4VKQM0vwRU6ozhgfxp
+         8P6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741355934; x=1741960734;
+        d=1e100.net; s=20230601; t=1741355935; x=1741960735;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zudmKu0O/1jApobdAOuA7+TnUZuFTt5A5V+SbucWJFk=;
-        b=pUQDheKS3AIROqfXfRa9U83ael+r6B73VkdZolio/8WU4rSLs6J5yLohoVYO66pfHO
-         3q5GJ5fzMbwI469Q5L+prz7cpBOQxItqjx5n9k9kY4I2L9Hcq1H7RbWZW0s36RuNtwfS
-         mKS4yVrtx8lrV7Y2vRScStEtDTM0WxNtQPvmxhcw9ERGftaYEC++p11lCcfhhrpIfywA
-         kebFKhZpc7BXEjhqzrKxzw/e2vZ02ZQR4V3QiY0omY+5V+P8vhcjsBQ8nTnuD7LqEX6w
-         rxHM8AqXW46RhiWRH7bsS4FzDnU2O3jcwpkL3mu7kE2Zido2kAqjkBQ9nzGjE2pXHl7O
-         3wXA==
-X-Gm-Message-State: AOJu0Yx6XDNNsHaK1v7VOrRV5EioI6SIek382hyZIab1/ly7thyFSags
-	jH5EwqVG1J6CV7Ak5P4QalMRc2Oy/ZdQLuQWGU8oM/tYGghnmDYD7mdfeY1BPTPRmS9pJ0+jhF+
-	s
-X-Gm-Gg: ASbGncs1weh/X1+CDKqcRbg+gNPf4huYB8V4c9VAFLeCQk6eqgdsK4aE6GW6AsiDow0
-	ToFr2mvYNPFxdrvY7Rcd/N+nFGnsUoCrXG6eJskCM4dVpoXo5W7Rhnyzq2RjvbmXX8FWpS6mpEN
-	5jWIZDVK5VUGVTQj291GQHq8BcATr2kTkp0Pu9D2/tI9epuuuUuL1AdFZCUPHtY6JA4+kIS8pGv
-	QDrexK2y919VJHTRZeG6aAP+gpDSxexckSkbvr3XpGWkwTHqZ5bCH8UACXVULWoArgOfp75guwc
-	FIsXI7gaOProgQi7i4QS4M7fu7ZC2uZO/Czj
-X-Google-Smtp-Source: AGHT+IHNLdFpUzBg9ZVW9yQ8l6LOMaJPyIfgy7rZoRJJNk4CWXZp3+BjRq8y0vfvlJtiyKBnkMmy0g==
-X-Received: by 2002:a05:6a00:2e17:b0:736:3c6a:be02 with SMTP id d2e1a72fcca58-736aa9f73d5mr5328856b3a.11.1741355934133;
-        Fri, 07 Mar 2025 05:58:54 -0800 (PST)
+        bh=vU11L5Bon5V6WxJh0GHOIQjjRzFi0b0t+TzGR1sEcGs=;
+        b=PcW6iuoharq0fxk+cE6CQuYCh4yusnXkejQ5Jcj2PbItUQkMqbsM35r4bbxQWyUUsR
+         ZtQ746rHwBOMYk/yfyEmcntydDaw0S2g6IomfwtD9YkqCptr7sbyydW92eqeKo9SR8ko
+         QVAGy8+7pz9Jh6UJQsRsU/YkfI/mgMfpVXQh1E0+xmSocNIx9/S8Wxf2Gmxw/azj4ykf
+         vv1xnxcACLar7lMIhHEYvssrxUD2JXXl+0I8OIrAqynaJAlMqrOaarAd/qJD07BoEBMt
+         38k7pJQaxo8S2PAC6HI3zhsS5Hp6BglLRAtsCQcx01QVHOThTViMcnnV/dUMXybfbHmJ
+         BK/g==
+X-Gm-Message-State: AOJu0Yye69QiqfbQxUn/YejVC/nYdTYLaAABJTD5IkWFzefIsHnd0cia
+	bWBPORkZxzrlf5Fqfrsa9bYBShplifhp5/HtV6j+Hv8xpjctnRqIw++WstWjxpKNeMBkYevyFJt
+	u
+X-Gm-Gg: ASbGnctb/1It5W3m7hZ7ZOD7hkN+qwO7kfScSnQ+UwdZIbl2GwZdDTJff3BuNXqUo6I
+	uQRxXF5aOqd05s6V/LuhoA6bQuMtv1Nfby7AAEodGyqBGsKJb53qL09nw07qgaPv2ovkx1aoDbX
+	xFwWLCTt89T3n4Sd76SOVTs2yVhihGzotc/N8v5KZU96KaCxEsVPWGslRJc2GYBir8sUIGio+R1
+	yAiIbvkfZWTmcHWtGkjQ0Mh5xt0iY53xuoramt85Ag7vDiBAt+w0SMKRn45hxpwvNwY0ovdZ6aw
+	sTPxV77tCY9xU7Ox4wWptqrccm2gwooA6CQl
+X-Google-Smtp-Source: AGHT+IFXrLa5R1vNTTLdmdXK4lUZfMEK6WqziY0EWgicJ8a8nwlsxsz9Z2wRcXd87HPkexf/uoT8Og==
+X-Received: by 2002:a05:6a20:7f92:b0:1ee:c390:58ac with SMTP id adf61e73a8af0-1f544f3dc31mr7709453637.34.1741355935504;
+        Fri, 07 Mar 2025 05:58:55 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:cfcd:40b4:f918:b895])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7369844cfeesm3230656b3a.77.2025.03.07.05.58.53
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7369844cfeesm3230656b3a.77.2025.03.07.05.58.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Mar 2025 05:58:53 -0800 (PST)
+        Fri, 07 Mar 2025 05:58:55 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 3/4] tzdata/tzcode-native: upgrade 2024b -> 2025a
-Date: Fri,  7 Mar 2025 05:58:39 -0800
-Message-ID: <a752a41ce11f3796861b303d28a39a40bd9b059b.1741355808.git.steve@sakoman.com>
+Subject: [OE-core][styhead 4/4] tzcode-native: Fix compiler setting from 2023d version
+Date: Fri,  7 Mar 2025 05:58:40 -0800
+Message-ID: <7adb3079430af789f73550eba2da2495b30e78a4.1741355808.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741355808.git.steve@sakoman.com>
 References: <cover.1741355808.git.steve@sakoman.com>
@@ -67,40 +67,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 13:58:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212441
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212442
 
-From: Priyal Doshi <pdoshi@mvista.com>
+From: Alessio Cascone <alessio.cascone@vimar.com>
 
-Signed-off-by: Priyal Doshi <pdoshi@mvista.com>
+Starting from 2023d version, tzcode makefile does not use anymore "cc"
+variable for C compiler, due to Makefile refactoring.
+Replacing "cc" with "CC" fixes the issue.
+
+Signed-off-by: Alessio Cascone <alessio.cascone@vimar.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a15c4e6793c55c8084a61298ef3695e1db2f60cd)
+(cherry picked from commit b3cdfca5ef84ed2054faef9abddef3aeed930e17)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-extended/timezone/tzcode-native.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index adf095280f..f1dbd7ba81 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+diff --git a/meta/recipes-extended/timezone/tzcode-native.bb b/meta/recipes-extended/timezone/tzcode-native.bb
+index d0b23a9d80..dc9f076377 100644
+--- a/meta/recipes-extended/timezone/tzcode-native.bb
++++ b/meta/recipes-extended/timezone/tzcode-native.bb
+@@ -4,7 +4,7 @@ SUMMARY = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
  
--PV = "2024b"
-+PV = "2025a"
+ inherit native
  
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
+-EXTRA_OEMAKE += "cc='${CC}'"
++EXTRA_OEMAKE += "CC='${CC}'"
  
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "5e438fc449624906af16a18ff4573739f0cda9862e5ec28d3bcb19cbaed0f672"
--SRC_URI[tzdata.sha256sum] = "70e754db126a8d0db3d16d6b4cb5f7ec1e04d5f261255e4558a67fe92d39e550"
-+SRC_URI[tzcode.sha256sum] = "119679d59f76481eb5e03d3d2a47d7870d592f3999549af189dbd31f2ebf5061"
-+SRC_URI[tzdata.sha256sum] = "4d5fcbc72c7c450ebfe0b659bd0f1c02fbf52fd7f517a9ea13fe71c21eb5f0d0"
+ do_install () {
+         install -d ${D}${bindir}/
 -- 
 2.43.0
 
