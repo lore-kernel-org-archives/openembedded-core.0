@@ -1,121 +1,161 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 659A2C28B2F
-	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 21:50:25 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web10.106.1741384222946435735
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E89B0C28B25
+	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 23:37:49 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.778.1741390666373299923
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Mar 2025 13:50:23 -0800
+ Fri, 07 Mar 2025 15:37:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OesKnOB2;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-22438c356c8so13899585ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 13:50:22 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XvWBpF2K;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39104c1cbbdso1210407f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 15:37:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741384222; x=1741989022; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PNKMiFy+wTVMOgENyzMMH3nxZX+QbCgmQY4+zAZPVTM=;
-        b=OesKnOB2CTY4G7PnoU/3rWW59ogsnJNVylUA5Cl8qKYSiNkkhlEk6HxLrSCudmZHqH
-         cHNiLcU1nfaD1ZOAcdjK8ptWyuzekxkX3DNnN/zNsuSuUPHfPLwZHIIn1m7tokJH51GP
-         HSRCMp6KzRjfZBnlDeoS1LhTKlkhI4Bx4iH20su+lzwCcZyC3ACVcqN9x91HXfCmAS6j
-         mPqRcOgLSfNw7xIm7CpIefeKNBavy1NTNU4PXAVIMCNAN8zoAcUdIpTkNvEJJOifdGop
-         adzWLupq3WF5jS3pRSIU9KM+CjcBKT8fMNTol0ybCnftpQDBdKyVoRqumB00LNext0d5
-         6jUg==
+        d=linuxfoundation.org; s=google; t=1741390664; x=1741995464; darn=lists.openembedded.org;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=hPYY3X8Xjhd9dMrMpDmeIeI8O+YF0qF6H99ZnH5lXlQ=;
+        b=XvWBpF2K7lgxG2G3dvakYzyDFsw6pYJSmrpdymEzoox1ly2yT1pI0Pp1AcY2eI7i3v
+         +LU3RAY8UWY+bSv5xX9Bx0M7EpnUSYueFukkjmpOe5Y8YXzkyKvpegcGetqT2Ik/aQ5e
+         IquGrAEo7DlB6G5ks/ifcdlmW8ycpcG1O++D4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741384222; x=1741989022;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PNKMiFy+wTVMOgENyzMMH3nxZX+QbCgmQY4+zAZPVTM=;
-        b=PXI7MS9P4pWQvVDOTzzz5jgwx+SzJ0WOslbGTPye2RqOiIv0KBYiLiJkveBIEQ2Y/N
-         +lspwZ58rRX8E4kZLj4h/oU16YAFZ2EpMFgBvhOoEcxy3uB5YjyhJehsZW9ofzfDt5TO
-         MEafbefvTz+X10kRSmA9uhimn9S4Ptdz0jyIHa6DE10tIq9yidZ5yV2odNrQLFsmPXm+
-         ur0f0QZyhlK/7Mg6rlQR1LE0pC7E6ILOgnc4sEX66aejr7A4NleJsO0FH1GmFIkXUX4B
-         +QW8NijWIDJlaSZO/Hp7NIKanOvZHQETHhbKsfFB5Zum6WbH5ZmD8e3VeZ+NadWAYn5n
-         dJtw==
-X-Gm-Message-State: AOJu0YxOZyyNIgOr0bHSyixo56XRtD9XqslSx11k0+KONJ2zRNlpAN2o
-	PLGuKoaROjJ4fT1tSFnCrHkjkDEqMfulHe/R1R7pcOeboK7xs6ctRjGkEXr2CaIOIG9/CIb8XF2
-	w
-X-Gm-Gg: ASbGncvxrESX4nYmpHpuj6/KFA//7K4S8+FpLei/mIaG/cd1dB9smJvchK9k1WmfLIU
-	/AwByKgKNB9dZ03pEgVvyiIVBNzKkviNgQnYlN1hlXf1GxbRzOxmxAUeNc6lxiowBHdssPEVnj6
-	vqxB3rI+ve7J0FW/xFH/KgS1b0EkqcBycAoPPpUu9wlSCAip2Ncsw2DZW3+wv4kqVuT/B89qddk
-	tshGvbr8qxaiZ6gf/9U/YDtd3pEPvRGzwqfuULGQAnkWcI4IzEmQQWgNNndfCJ5dUfJtNzDq/x6
-	Auf98A3v8h6+E8ysS1UZZGoR9/vIsqeMCT0h
-X-Google-Smtp-Source: AGHT+IFV5qjzD/S4ee+NwmhLdHpeP/H2XIfJ2BEsNthj8cOO+ZbPJE9EtMoUYeGOqEYAZAySOTH0zg==
-X-Received: by 2002:a17:902:eb81:b0:223:5ca1:3b0b with SMTP id d9443c01a7336-22428bd592amr99768195ad.40.1741384222196;
-        Fri, 07 Mar 2025 13:50:22 -0800 (PST)
-Received: from hexa.. ([2602:feb4:3b:2100:cfcd:40b4:f918:b895])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410aa8a86sm35008645ad.240.2025.03.07.13.50.21
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1741390664; x=1741995464;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hPYY3X8Xjhd9dMrMpDmeIeI8O+YF0qF6H99ZnH5lXlQ=;
+        b=CuX7aMoVi1ICj7BH/5tIm13xnJWrN+Tvh511P/mLmP9DHMrHH6UUa38OeQCKzC4mDk
+         Kn4ykgPu75JRvjFuOclWs7hIJxKVVZLximVkuxosJ4jv3+xPGfroZFb6XoADcYj45WTX
+         qGOxAFEjxx11RVwlc9VDJjDGqmECo4kuPIzZkuC6tCxSjuDlTE3ndVq6baJfzJE9JP/A
+         oXDk0ZpXm4PgEYEy9fD71FDgm5bzIDNsS/vj4aCwfJjqp2GAqs56hpCEidX3kmiw1+nG
+         yx6/4O864othLuQ8EQeeqyHOJp0UlaR2GTg57xDCJCwXRmDuzoAMbs86Cd/JSUnipayJ
+         NULg==
+X-Forwarded-Encrypted: i=1; AJvYcCWkGbYG/U7lwaIjAzJakARgl5JlVxr8XFJwefNZ24Jt0YPEycko1uQ//4ubkUEWYKmYpaqQ2XZPw05SBzbVYU0++Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwUwM9Rjqt7No6MWwiQ+PeaAjrrUG1+YoCayAhQaD0PAVK0iWir
+	9WmB5Pgii6h6tTrgcRYHBSa4EA45hm2wAbKORIT5b4Yd6El6dVvn63J9/rm/dUs=
+X-Gm-Gg: ASbGncsjA+62610W48x7qz/2x4GhMbXulD6OwASql3Zpm0p6imX15cfMt3LqvIpLNPp
+	qiE4PMYwehZCv1src+isqIt7cBO56YJF9zct7R4uI8GNvHHa2ZE3qdWP8QPUVqC65CA/VTXIyzZ
+	P7ZC2cAODNL7B9n8OfMByBVT/1Kgq0K14t5I/umGYS85DTfWkZ9+fpZw9FjHOiF+MRN1nuYfmU6
+	uuiNdy3t65FQLnMEl9R5+o01GcPhvzgKKqMC9wkNvBs+XbkCDdiKTW9Nf19L2Lphl7fTVOOeiw4
+	3XIuExmSnzDY+P+Z8LaeYb69VFQdcDFWh1XaM1VN00jHie0+TgT5icxtGQxM2eWEbQr638cCDkQ
+	RqIXXx+s9OlW5WD27D8JRvmuNVuHRBWQ=
+X-Google-Smtp-Source: AGHT+IGmkceGqEmQfh66BDvZbOOr12rNIKtIwC5WQUWLdJ7+JPjmT88XFZuRKwkH5JAOaw0+pAEmPA==
+X-Received: by 2002:a5d:64c2:0:b0:391:3c12:d0af with SMTP id ffacd0b85a97d-3913c12d254mr206806f8f.41.1741390664536;
+        Fri, 07 Mar 2025 15:37:44 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e207:c497:9edd:1dc? ([2001:8b0:aba:5f3c:e207:c497:9edd:1dc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912c1031e3sm6711817f8f.82.2025.03.07.15.37.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Mar 2025 13:50:21 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 3/3] libtasn1: upgrade 4.19.0 -> 4.20.0
-Date: Fri,  7 Mar 2025 13:50:12 -0800
-Message-ID: <fc5814dfa49c67157def00b323656f15e8bc457b.1741384034.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1741384034.git.steve@sakoman.com>
-References: <cover.1741384034.git.steve@sakoman.com>
+        Fri, 07 Mar 2025 15:37:42 -0800 (PST)
+Message-ID: <5d748ede629df75d0ed30df5418b42b936d5416b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V4 2/3] rust: Upgrade 1.82.0->1.83.0 --> bloat
+ alert !!
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <randy.macleod@windriver.com>, 
+	deepesh.varatharajan@windriver.com
+Cc: Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com, 
+ Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 07 Mar 2025 23:37:41 +0000
+In-Reply-To: <c411d58d-bd27-4107-9b98-e39de14204df@windriver.com>
+References: <20250305134459.2275598-1-Deepesh.Varatharajan@windriver.com>
+	 <20250305134459.2275598-2-Deepesh.Varatharajan@windriver.com>
+	 <c411d58d-bd27-4107-9b98-e39de14204df@windriver.com>
+Content-Type: multipart/alternative; boundary="=-HOL+k3nseYwGC/hi271V"
+User-Agent: Evolution 3.54.2-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 21:50:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212471
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 23:37:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212472
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+--=-HOL+k3nseYwGC/hi271V
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* Noteworthy changes in release 4.20.0 (2025-02-01) [stable]
-- The release tarball is now reproducible.
-- We publish a minimal source-only tarball generated by 'git archive'.
-- Update gnulib files and various build/maintenance fixes.
-- Fix CVE-2024-12133: Potential DoS in handling of numerous SEQUENCE OF or SET
-OF elements
+On Fri, 2025-03-07 at 16:02 -0500, Randy MacLeod wrote:
+> =20
+> =E2=9D=AF for i in `ls -d *src`; do du -sh $i; done
+> 3.5G=C2=A0=C2=A0=C2=A0 rustc-1.82.0-src
+> 4.8G=C2=A0=C2=A0=C2=A0 rustc-1.83.0-src
+> 4.9G=C2=A0=C2=A0=C2=A0 rustc-1.84.0-src
+> 3.9G=C2=A0=C2=A0=C2=A0 rustc-1.85.0-src
+> =20
+> I didn't check for the other 4 GB yet...
+> =20
+>=20
+> =20
+rust, rust-native, nativesdk-rust, cargo and so on.
 
-License-Update: file COPYING.LESSER renamed to COPYING.LESSERv2 & Copyright year updated to 2025
+> Should we do that an host the tarball=C2=A0 on yoctoproject.org?
+> Should we write a custom unpack rule to --exclude=3Drustc-1.83.0-
+> src/src/gcc ?
+Or just delete the directory in a do_unpack postfunc?
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../gnutls/{libtasn1_4.19.0.bb => libtasn1_4.20.0.bb}      | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-support/gnutls/{libtasn1_4.19.0.bb => libtasn1_4.20.0.bb} (63%)
+Or wait for 1.85?
 
-diff --git a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-similarity index 63%
-rename from meta/recipes-support/gnutls/libtasn1_4.19.0.bb
-rename to meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-index 5fb8b54c06..8127ba5b1d 100644
---- a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-@@ -6,9 +6,8 @@ HOMEPAGE = "http://www.gnu.org/software/libtasn1/"
- LICENSE = "GPL-3.0-or-later & LGPL-2.1-or-later"
- LICENSE:${PN}-bin = "GPL-3.0-or-later"
- LICENSE:${PN} = "LGPL-2.1-or-later"
--LIC_FILES_CHKSUM = "file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://doc/COPYING.LESSER;md5=4fbd65380cdd255951079008b364516c \
--                    file://COPYING;md5=75ac100ec923f959898182307970c360"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
-+                    file://COPYING.LESSERv2;md5=4bf661c1e3793e55c8d1051bc5e0ae21"
- 
- SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-            file://dont-depend-on-help2man.patch \
-@@ -16,7 +15,7 @@ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
- 
- DEPENDS = "bison-native"
- 
--SRC_URI[sha256sum] = "1613f0ac1cf484d6ec0ce3b8c06d56263cc7242f1c23b30d82d23de345a63f7a"
-+SRC_URI[sha256sum] = "92e0e3bd4c02d4aeee76036b2ddd83f0c732ba4cda5cb71d583272b23587a76c"
- 
- inherit autotools texinfo lib_package gtk-doc
- 
--- 
-2.43.0
+This is annoying "bloat" which we at least need to identify and work
+out a plan for.
+>=20
+>=20
+> Next week, I'll also dig into the 'tmp' usage increase to understand
+> where the 5 GB that Richard reported comes from.
+See above, I'm guessing so it needs to be confirmed but...
 
+Cheers,
+
+Richard
+
+> =20
+
+
+--=-HOL+k3nseYwGC/hi271V
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head>
+
+  <style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head>
+  <body><div>On Fri, 2025-03-07 at 16:02 -0500, Randy MacLeod wrote:</div><=
+blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fc=
+f solid;padding-left:1ex"><div> </div><div class=3D"moz-cite-prefix">=E2=9D=
+=AF for i in `ls -d *src`; do du -sh $i; done</div><p> 3.5G&nbsp;&nbsp;&nbs=
+p; rustc-1.82.0-src<br> 4.8G&nbsp;&nbsp;&nbsp; rustc-1.83.0-src<br> 4.9G&nb=
+sp;&nbsp;&nbsp; rustc-1.84.0-src<br> 3.9G&nbsp;&nbsp;&nbsp; rustc-1.85.0-sr=
+c<br> </p><div> </div><p>I didn't check for the other 4 GB yet...</p><div> =
+</div><p><br> </p></blockquote><div>rust, rust-native, nativesdk-rust, carg=
+o and so on.</div><div><br></div><blockquote type=3D"cite" style=3D"margin:=
+0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><p>Should we do=
+ that an host the tarball&nbsp; on yoctoproject.org?</p><p> Should we write=
+ a custom unpack rule to --exclude=3Drustc-1.83.0-src/src/gcc ?<br> </p></b=
+lockquote><div>Or just delete the directory in a do_unpack postfunc?</div><=
+div><br></div><div>Or wait for 1.85?</div><div><br></div><div>This is annoy=
+ing "bloat" which we at least need to identify and work out a plan for.</di=
+v><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #72=
+9fcf solid;padding-left:1ex"><p><br> <br> Next week, I'll also dig into the=
+ 'tmp' usage increase to understand where the 5 GB that Richard reported co=
+mes from.<br> </p></blockquote><div>See above, I'm guessing so it needs to =
+be confirmed but...</div><div><br></div><div>Cheers,</div><div><br></div><d=
+iv>Richard</div><div><br></div><blockquote type=3D"cite" style=3D"margin:0 =
+0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><div> </div></blo=
+ckquote><div><br></div><div><span></span></div></body></html>
+
+--=-HOL+k3nseYwGC/hi271V--
 
