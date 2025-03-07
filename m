@@ -1,145 +1,169 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EEC4C19F32
-	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 09:53:18 +0000 (UTC)
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
- by mx.groups.io with SMTP id smtpd.web11.7731.1741341192701597229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B6C3C19F32
+	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 09:55:28 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.7755.1741341322838312944
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Mar 2025 01:53:13 -0800
+ Fri, 07 Mar 2025 01:55:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=fm2 header.b=NZj5AJei;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=x8uNSNPr;
- spf=pass (domain: zhukoff.net, ip: 103.168.172.147, mailfrom: pavel@zhukoff.net)
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfout.phl.internal (Postfix) with ESMTP id C451E13826AB;
-	Fri,  7 Mar 2025 04:53:11 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Fri, 07 Mar 2025 04:53:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1741341191; x=1741427591; bh=38uxszOJXPDUItpvD18q9
-	S7mC1Y/Frz0HudY6UVx8e8=; b=NZj5AJei9xc4A7IgyDXGwwaXMhYoW1fRLGCKd
-	XlzzihAggTcIYz87QHnegrZhq56qsnVCS+m9vnVfz7aiKN2zlhAXxsnzmMOcJDwP
-	FTnix6MDEo5lIAqA+6KPMRHcH0aR4pVUoJ4JhVf9BqHXZeUQVpw1wmI59so2fSvB
-	D97/8CmMvA36SvSrAOJHYgvmKaZZgf5QqisytJ58j19R8i1vPMX/yodIEzYFmv30
-	HLIMV2Tx3CgLW3+RAyzES9xev9sFysulet9lhekgpifiDvaOAI+Bb7W6hFoMNhLM
-	V7lkw4C/5EbFMqjn0CAamgqr0vutDaWxL5ENSvwEeAgjgJTCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1741341191; x=1741427591; bh=38uxszOJXPDUItpvD18q9S7mC1Y/Frz0Hud
-	Y6UVx8e8=; b=x8uNSNPrRCH4/m+zD8TdKSlpZXiFWZPaYV5l/FdVF/gk/8oIDa1
-	uJoDsrjSjkgkHdHJ8FCuBzO5FWZwOluJ3HvEJL2Uc5rm3pkxvjC7QirbUKS7wFSP
-	54bg46pQhHh93fJVxUF83+w8AQNAGJAixdvngo4l8NmTA87uHP8fk7pqZih7POrf
-	n3PjTPaHdB8ZvJG5HCl6KwY8XKztHm2NhKxQaP0+HvvLblw3aQClLAja8J9pBaZM
-	XO3mj+FuyKo6xobQQpiydUyJjR3nS2RzOpcmxwAIs0bP//an87u1PaHsa0d6qI02
-	h0cKyBOESCugSdPAxIupEfuTn4OId5mklBA==
-X-ME-Sender: <xms:B8LKZ7o6nCzZWKvpOKRmXoOeBEB93K7WpMcicAgo9ZzyGcDaNC2emA>
-    <xme:B8LKZ1o5thIlZmtxw4RmG3LZl8lNyJSppWQToxYqi5EnjFRFj9gx2e3SEAUcEnzI7
-    bownxfhDZ67NQh-z2o>
-X-ME-Received: <xmr:B8LKZ4OfdZHpbQo_yK0rr-Ovu0s8gC-9VPmPaIK3AMd4HLr6OZBVVZLDLJyn9s89-1ZGG-aEEu26zuCaz8EG>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduuddtfeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
-    evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefrrghvvghlucgkhhhukhhovhcu
-    oehprghvvghlseiihhhukhhofhhfrdhnvghtqeenucggtffrrghtthgvrhhnpeeikeffhe
-    eigeffffegtdekgfefhfevgfeuieevudduffevgfffffelleeludeuveenucffohhmrghi
-    nhepfhgvughorhgrphhrohhjvggtthdrohhrghenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehprghvvghlseiihhhukhhofhhfrdhnvghtpdhn
-    sggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehophgvnh
-    gvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhr
-    ghdprhgtphhtthhopehprghvvghlseiihhhukhhofhhfrdhnvght
-X-ME-Proxy: <xmx:B8LKZ-4IDIh8s6IunnbcvFrCg_Hn8_LGwFULeuw7h1B4CS6gtbwNsA>
-    <xmx:B8LKZ65l0ZjCaLim_h9TpftvYuyAFyjmKGhfQjKluucOHtH36HHP0A>
-    <xmx:B8LKZ2g70VPjhQdpyE8DxnOt0UjUXE9Ov_x-FM8ApBOI7NQS82UAqg>
-    <xmx:B8LKZ85M8xFHldx4zf7oxAHil2-sRa8l1Q_rxCp-hknXnutru87rVw>
-    <xmx:B8LKZ6E6FkKEz3OXO4DZxGCS_8o2X6TjSUtZhHJFdMpCQkDvW9Ov7rfS>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 7 Mar 2025 04:53:10 -0500 (EST)
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: openembedded-core@lists.openembedded.org
-Cc: Pavel Zhukov <pavel@zhukoff.net>
-Subject: [PATCH v3] ovmf: Add PACKAGECONFIG[debug]
-Date: Fri,  7 Mar 2025 10:52:57 +0100
-Message-ID: <20250307095256.482939-2-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.48.1
+ dkim=pass header.i=@smile.fr header.s=google header.b=PyWPPDEZ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-390e88caa4dso896418f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 01:55:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1741341321; x=1741946121; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=78S0e4JjBVmFV4gwZqlLx6GXPtWT8zTJYbpGuw+yseU=;
+        b=PyWPPDEZQ2PSQ8WXSf8YamLjCTfBK/jeQ4L5PwZLxkIsbVez2tR9ZuzWV9huJNrTaL
+         jF3PM0mamOIl46a+OECJjnqgrTzstQltiL5JXVa4CJLLjP8y3Wfk7fpfn9O1UYHmfEZa
+         /I8Tsys0w5Cw2lrR1ZT6Pwz7vul7n3rVm3eWg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741341321; x=1741946121;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=78S0e4JjBVmFV4gwZqlLx6GXPtWT8zTJYbpGuw+yseU=;
+        b=D8Ru96Mrt+blAcSzGu2A/w1jAADS06hx0iN/Vqzu/NJrschalzuBc0ZSvDuBJ/kt8t
+         IwXbDFWcDL3w/Lv8r7eGxfgOuLDImOGbZOnLaR8Q60XJfdiHWdwyg6DGE9Rw9RrdbfAe
+         pfDavJvJEcGwLhD3olxmvfX4PEqnPzDSQE6yXUcqwQW09myVihY5O7EICs+WJzhLoBhG
+         dy5Gum46OjiSKaXIFSNlwvJWnqyLcNkx5JsGW4QzQYLJSYOmzIBwuYKnvZ5uR1qFIl1I
+         IOeTgF3bO10jQ9q00+/QaS+BsI7a4+WAYbe0fRl53Xn8ebGZ8X1IoKE+QxNiIg7SZFt2
+         loKg==
+X-Forwarded-Encrypted: i=1; AJvYcCUuFCTdwNCdf7olDEDl7vQjtUyMZpUr+qkgpdeAaZepkhWq54e9YA74OwaZkJqhKLdXS1RFd4aDxBrwsss8WrNOMg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx7LUyau9O6W/qB5qLD/WihAcNpPBrF7Tl9A5ByPCZ9DgByq83X
+	VTjvNT7IoRPb+St9bnVF0f3sLW8hUqBhuiLaBk6WWVzQxntRx7jerHb8ezDXaUr6zdB9qkdOcJh
+	apZbg4JYd68UaaDzxCuI17YZaxaRCss34Ngrn4Q==
+X-Gm-Gg: ASbGncurcuX/qd0mV9OJlQE4AjpBs7ImfrfBieA7mZvsWp4r32kVmja/dzEdmqCar+L
+	UtBuyb8dUO2eJG25Q78QozEzhveuFM106MgWrd++fQ2/VOCxhIYvVXqmjC0q1fAg5tc0yosvI+6
+	b7yyVSdPYfJ+cjfQs2FXEyaUA3W82FfPlButnnEJFkuQqL5Cc0pUJBf9hwMPs=
+X-Google-Smtp-Source: AGHT+IEg7fUusnzZ6ky8Qcr+e9XomuHQtFnhf58Eqp/nVQl3qXBe7PVcI+ubTHtRboPG4amLBZUfUdBugVlcDOCqp7A=
+X-Received: by 2002:a05:6000:18a9:b0:391:13f7:92ad with SMTP id
+ ffacd0b85a97d-39132d95913mr2039705f8f.27.1741341320963; Fri, 07 Mar 2025
+ 01:55:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250301094303.10707-1-peter.marko@siemens.com>
+ <CAMSfU+6N6xHjqxCso_09sb6ia7dYJbPDoh6pFYMFeHaMivkePA@mail.gmail.com> <AS1PR10MB569775A17468AB0D08EC7F4EFDCA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB569775A17468AB0D08EC7F4EFDCA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Fri, 7 Mar 2025 10:54:54 +0100
+X-Gm-Features: AQ5f1Jp243qdiQaotHepNPR8asSmuW_mLCb59s41u-IxyfIdm4S7vv7SZS0zLk0
+Message-ID: <CAMSfU+4fGUgBnYqDmTWBdw3cYfV7c-09WQ1WkTwwjkOxG=ZcQQ@mail.gmail.com>
+Subject: Re: [OE-core][master][styhead][scarthgap][kirkstone][PATCH] puzzles:
+ set CVE product
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: Ross Burton <ross.burton@arm.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Steve Sakoman <steve@sakoman.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 09:53:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212423
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 09:55:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212424
 
-In release mode, OVMF does not output any debug information to the QEMU port, making it extremely difficult to debug boot issues.
-This commit introduces packageconfig debug flag to enable it
+Hi,
 
-Usage:
-PACKAGECONFIG:append:pn-ovmf = " debug"
-runqemu qemuparams="-debugcon file:debug.log -global isa-debugcon.iobase=0x402"
+Le jeu. 6 mars 2025 =C3=A0 13:22, Marko, Peter <Peter.Marko@siemens.com> a =
+=C3=A9crit :
+> Sure, no problem.
+> Will the patch from Ross be backported to all three active branches to cl=
+eanup those CVEs there, too?
 
-The OVMF debug console output will be written to debug.log.
+We did not talk about that during review but the best way to be sure
+of this will be to send a backport request for each active stable
+branch.
 
-Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
----
- meta/recipes-core/ovmf/ovmf_git.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+> Peter
+>
+> > -----Original Message-----
+> > From: Yoann Congal <yoann.congal@smile.fr>
+> > Sent: Thursday, March 6, 2025 11:31
+> > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+> > Cc: openembedded-core@lists.openembedded.org; Steve Sakoman
+> > <steve@sakoman.com>
+> > Subject: Re: [OE-core][master][styhead][scarthgap][kirkstone][PATCH] pu=
+zzles: set
+> > CVE product
+> >
+> > Hello,
+> >
+> > Le sam. 1 mars 2025 =C3=A0 10:44, Peter Marko via lists.openembedded.or=
+g
+> > <peter.marko=3Dsiemens.com@lists.openembedded.org> a =C3=A9crit :
+> > >
+> > > From: Peter Marko <peter.marko@siemens.com>
+> > >
+> > > CVE reports now show 3 CVEs for this component.
+> > > They are for "The Puzzles theme for WordPress" with cpe like
+> > > "cpe:2.3:a:themerex:puzzles:*:*:*:*:*:wordpress:*:*".
+> > >
+> > > Setting vendor solves these false positives.
+> > > Vendor is set per git path "git://git.tartarus.org/simon/puzzles.git"=
+.
+> > > This may be wrong value, but since we don't support negative regex, t=
+his
+> > > is the best we can do now if we don't want to start marking all with
+> > > cpe-incorrect status one by one.
+> > >
+> > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> >
+> > Thank you for taking care of the CVEs.
+> >
+> > For this patch though, another patch was prefered :
+> > https://lists.openembedded.org/g/openembedded-core/message/212280 (now
+> > in master-next, should be merged soon)
+> > The rationale is: since there is no CVEs on "our" puzzles, we can't
+> > predict what the CPE will be when that happen, so, in the meantime, we
+> > explicitly ignore CVEs from the wordpress plugin.
+> >
+> > Regards,
+> >
+> >
+> > > ---
+> > >  meta/recipes-sato/puzzles/puzzles_git.bb | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-
+> > sato/puzzles/puzzles_git.bb
+> > > index 677a9e291e0..df2491ec850 100644
+> > > --- a/meta/recipes-sato/puzzles/puzzles_git.bb
+> > > +++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+> > > @@ -20,6 +20,8 @@ inherit cmake features_check pkgconfig
+> > >
+> > >  DEPENDS +=3D "gtk+3"
+> > >
+> > > +CVE_PRODUCT =3D "simon:puzzles"
+> > > +
+> > >  do_install:append () {
+> > >      # net conflicts with Samba, so rename it
+> > >      mv ${D}${bindir}/net ${D}${bindir}/puzzles-net
+> > >
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#212092): https://lists.openembedded.org/g/openemb=
+edded-
+> > core/message/212092
+> > > Mute This Topic: https://lists.openembedded.org/mt/111449818/4316185
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> > [yoann.congal@smile.fr]
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >
+> >
+> >
+> > --
+> > Yoann Congal
+> > Smile ECS - Tech expert
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 559c86b546..764d79854f 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -12,9 +12,11 @@ LIC_FILES_CHKSUM = "file://OvmfPkg/License.txt;md5=06357ddc23f46577c2aeaeaf7b776
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.contains('MACHINE_FEATURES', 'tpm', 'tpm', '', d)}"
- PACKAGECONFIG += "${@bb.utils.contains('MACHINE_FEATURES', 'tpm2', 'tpm', '', d)}"
-+PACKAGECONFIG[debug] = ",,,"
- PACKAGECONFIG[secureboot] = ",,,"
- PACKAGECONFIG[tpm] = "-D TPM_ENABLE=TRUE,-D TPM_ENABLE=FALSE,,"
- 
-+
- # GCC12 trips on it
- #see https://src.fedoraproject.org/rpms/edk2/blob/rawhide/f/0032-Basetools-turn-off-gcc12-warning.patch
- BUILD_CFLAGS += "-Wno-error=stringop-overflow"
-@@ -67,6 +69,8 @@ OVMF_SECURE_BOOT_FLAGS = "-DSECURE_BOOT_ENABLE=TRUE ${OVMF_SECURE_BOOT_EXTRA_FLA
- 
- export PYTHON_COMMAND = "${HOSTTOOLS_DIR}/python3"
- 
-+OVMF_BUILD_TYPE = "${@bb.utils.contains('PACKAGECONFIG', 'debug', 'DEBUG', 'RELEASE', d)}"
-+
- do_patch[postfuncs] += "fix_basetools_location"
- fix_basetools_location () {
- }
-@@ -200,11 +204,11 @@ do_compile:class-target() {
-     fi
-     FIXED_GCCVER=$(fixup_target_tools ${GCC_VER})
-     bbnote FIXED_GCCVER is ${FIXED_GCCVER}
--    build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/RELEASE_${FIXED_GCCVER}"
-+    build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/${OVMF_BUILD_TYPE}_${FIXED_GCCVER}"
- 
-     bbnote "Building without Secure Boot."
-     rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
--    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS}
-+    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b ${OVMF_BUILD_TYPE} -t ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS}
-     ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/ovmf.fd
-     ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/ovmf.code.fd
-     ln ${build_dir}/FV/OVMF_VARS.fd ${WORKDIR}/ovmf/ovmf.vars.fd
-@@ -214,7 +218,7 @@ do_compile:class-target() {
-         # Repeat build with the Secure Boot flags.
-         bbnote "Building with Secure Boot."
-         rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
--        ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS} ${OVMF_SECURE_BOOT_FLAGS}
-+        ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b ${OVMF_BUILD_TYPE} -t ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS} ${OVMF_SECURE_BOOT_FLAGS}
-         ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/ovmf.secboot.fd
-         ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/ovmf.secboot.code.fd
-         ln ${build_dir}/${OVMF_ARCH}/EnrollDefaultKeys.efi ${WORKDIR}/ovmf/
--- 
-2.48.1
 
+
+--=20
+Yoann Congal
+Smile ECS - Tech expert
 
