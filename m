@@ -1,172 +1,209 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <louis.rannou@syslinbit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A99C19F32
-	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 06:14:37 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.5080.1741328073682577362
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71EB7C19F32
+	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 07:46:07 +0000 (UTC)
+Received: from 1.mo550.mail-out.ovh.net (1.mo550.mail-out.ovh.net [178.32.127.22])
+ by mx.groups.io with SMTP id smtpd.web10.6256.1741333559793295839
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Mar 2025 22:14:33 -0800
+ Thu, 06 Mar 2025 23:46:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=ZLJ9VsZu;
- spf=pass (domain: mvista.com, ip: 209.85.214.171, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22374f56453so36891175ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Mar 2025 22:14:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1741328073; x=1741932873; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jVv7I1DptJB156oPPi5l5x80nFViQ1D7SUFMz2YZxjs=;
-        b=ZLJ9VsZubcYP0YjFMoVtAQbgmM655d3/nSMBXRtlWiiucuo9o6YrRQWkP2N+q+SFcD
-         p5hXERUmSDdtzlk8Y3+y5NDmzOMmFvhogWB/vq7QUB68T66CnYHL/tXptZrmjSSPJxOT
-         t1okxI7L8ZoKcwnmfeoS7nEAfJ2WIy+OC0Ldg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741328073; x=1741932873;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jVv7I1DptJB156oPPi5l5x80nFViQ1D7SUFMz2YZxjs=;
-        b=PTF/1JzLxt1v8dhpicV2uGdAQnw7yVdjBS+GB3GaBlaSzJMdFThATAkFnTI8y9f7Py
-         WUNRp0KWqMsVgrAukSmVD/6cED9wRBXDRxJbsN1cnXOFyTO7VuDRpAAXeBPa66rCKbI0
-         gyqshYGFmFX9kkYDeNXQztp+SttlRig9UAl0qRBLp1ZIr4leqSzzt72N9V2DrdGONKtb
-         oInjOO+vxRZJSX6dfxkBGvfKS8naqdiOzTtmELmF3r37sCDDUKIRTykT6LwbJUjHOBwt
-         cZ0+NuWXGGLflzszfJL5ifJx9vwwckADTS4gRkBne5bRpXDC+KSz1gfm6Ib4S/WVKbmL
-         YFxw==
-X-Gm-Message-State: AOJu0YyXe6oVwYwhtoQOiKPTROd+/D5vblZ93tOKoOoBA6O0oWHC52ey
-	qDw1s/WYZehJF9P1W3fZ/ZGVmhqU5ol8HAmpetm7RsP09H5xzZNnC7eeKs8/xkx+W/Ndlv9Q3nC
-	b
-X-Gm-Gg: ASbGncv1AIKEG6h/cio+QR/Cq6Nh0rgiPmPkef55iN8BN9UQgpnASpJ7xmkab/EebwI
-	h+k3+cIRKL1ad0jFQVLfC2TQNyw4TlkNIm+G0upfd0fa8HsZcwn8nv3kRp5LfsbRIS42lhl2S4A
-	7ROPRm1iJSOrHgBIPLQRYIaQ7DuW/j8E2JwoSaBXXid1s+fvfvhT7MibOmxEawdIW3aAbfT+25o
-	QqfuaBQ2kgN3UkbenDfbihfjtaBQPnjWe6F/4jfFuaPyV7Z68qk26ay2pBGPQqjjclzygmWZBG/
-	UPzKKS0Y2PtgeDjUP1sYm2VYrKRtMmqlpBNqulLWRhwvyq2Qk7+I6Hbv9A==
-X-Google-Smtp-Source: AGHT+IGkvsXhHV7yivfcc4No7m8Zcl1I6TrgMdhjB3M71OIYmfP2jI4OA3urAuSCK7xSO41o2ooLUQ==
-X-Received: by 2002:a17:902:d4cc:b0:220:c164:6ee1 with SMTP id d9443c01a7336-22428ab72fdmr27930415ad.32.1741328072912;
-        Thu, 06 Mar 2025 22:14:32 -0800 (PST)
-Received: from MVIN00016.mvista.com ([27.121.101.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-224109e9fe2sm22440195ad.94.2025.03.06.22.14.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 22:14:32 -0800 (PST)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] ruby: Fix CVE-2025-27220
-Date: Fri,  7 Mar 2025 11:44:19 +0530
-Message-Id: <20250307061419.54446-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@syslinbit.com header.s=ovhmo4479509-selector1 header.b=QSr+OWSi;
+ spf=softfail (domain: syslinbit.com, ip: 178.32.127.22, mailfrom: louis.rannou@syslinbit.com)
+Received: from director7.ghost.mail-out.ovh.net (unknown [10.108.17.93])
+	by mo550.mail-out.ovh.net (Postfix) with ESMTP id 4Z8JHn5Vkpz1R7L
+	for <openembedded-core@lists.openembedded.org>; Fri,  7 Mar 2025 07:45:57 +0000 (UTC)
+Received: from ghost-submission-5b5ff79f4f-jlktv (unknown [10.110.96.192])
+	by director7.ghost.mail-out.ovh.net (Postfix) with ESMTPS id D116F1FE10;
+	Fri,  7 Mar 2025 07:45:56 +0000 (UTC)
+Received: from syslinbit.com ([37.59.142.96])
+	by ghost-submission-5b5ff79f4f-jlktv with ESMTPSA
+	id +2iuJTSkymcrshAASOXjJw
+	(envelope-from <louis.rannou@syslinbit.com>); Fri, 07 Mar 2025 07:45:56 +0000
+Authentication-Results: garm.ovh; auth=pass (GARM-96R00113b4b1d2-0a6c-4997-acc9-efa252f61537,
+                    41C07068488AB225264E31DD5BD4A72BFCDE237E) smtp.auth=louis.rannou@syslinbit.com
+X-OVh-ClientIp: 45.81.62.9
+Message-ID: <6209fffe-ae60-4379-b991-9ac6c1bafde3@syslinbit.com>
+Date: Fri, 7 Mar 2025 08:45:56 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] classes/kernel: add QA to check required or
+ forbidden kernel configs
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, pascal.eberhard@se.com,
+ Louis Rannou <louis.rannou@non.se.com>
+References: <20250306-qa_kernel-v1-1-e83431c29799@syslinbit.com>
+ <CADkTA4ObLCgE_Ra9QoxYSJXYE-Wb8L3VVZ8B9j3jv9=XszxKug@mail.gmail.com>
+Content-Language: en-US
+From: Louis Rannou <louis.rannou@syslinbit.com>
+In-Reply-To: <CADkTA4ObLCgE_Ra9QoxYSJXYE-Wb8L3VVZ8B9j3jv9=XszxKug@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Ovh-Tracer-Id: 11832363596044557633
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduuddtuddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucftrghnnhhouhcuoehlohhuihhsrdhrrghnnhhouhesshihshhlihhnsghithdrtghomheqnecuggftrfgrthhtvghrnhepveehffefheekheevkedvfeehvdejhfegueehheeuvdeivdeitdeigedtjeetkedvnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghenucfkphepuddvjedrtddrtddruddpgeehrdekuddriedvrdelpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomheplhhouhhishdrrhgrnhhnohhusehshihslhhinhgsihhtrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdfovfetjfhoshhtpehmohehhedtmgdpmhhouggvpehsmhhtphhouhht
+DKIM-Signature: a=rsa-sha256; bh=7M5hgZrglV/VV3c7Ew87gLBtQdL9xxoNogKVON1KC3I=;
+ c=relaxed/relaxed; d=syslinbit.com; h=From; s=ovhmo4479509-selector1;
+ t=1741333557; v=1;
+ b=QSr+OWSi0pPYkufJYG0S86Os63Ma3HhEfpgEjrZGkYTOCPB9ZZ07BVU8rpRmOAs219NrJWnw
+ mamv+XoeGZoox3kWes5QqTxhgqRgkAP9e2BR9e6lB2Gq0T8Y73zcytjiswz1KSFyyw1E4mYXrDC
+ 0wk6PmabnmuXvm1gSfixqoH2k2x/HE1mX1qNEncD4vflu8ziLU+/0A4GTd6PAPb+xF09xHRrYcp
+ mqxg/ia5yQDCI9Xeie3mVpi2Bue3lKDyllcGDnTN7OUqsjFRs8ylrLIiB/as/JoHh5bSTY6RDN2
+ ZBfGRCRJ1ht35Movmyrr2LgPs6Jq8UcM8gw4oRLP8uHCA==
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 06:14:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212411
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 07:46:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212412
 
-Upstream-Status: Backport from https://github.com/ruby/cgi/commit/cd1eb08076c8b8e310d4d553d427763f2577a1b6
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../ruby/ruby/CVE-2025-27220.patch            | 76 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.1.3.bb      |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch b/meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch
-new file mode 100644
-index 0000000000..4fc71f7ff9
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch
-@@ -0,0 +1,76 @@
-+From cd1eb08076c8b8e310d4d553d427763f2577a1b6 Mon Sep 17 00:00:00 2001
-+From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-+Date: Fri, 21 Feb 2025 15:53:31 +0900
-+Subject: [PATCH] Escape/unescape unclosed tags as well
-+
-+Co-authored-by: Nobuyoshi Nakada <nobu@ruby-lang.org>
-+
-+Upstream-Status: Backport [https://github.com/ruby/cgi/commit/cd1eb08076c8b8e310d4d553d427763f2577a1b6]
-+CVE: CVE-2025-27220
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/cgi/util.rb           |  4 ++--
-+ test/cgi/test_cgi_util.rb | 18 ++++++++++++++++++
-+ 2 files changed, 20 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/cgi/util.rb b/lib/cgi/util.rb
-+index 5a5c77a..ce77a0c 100644
-+--- a/lib/cgi/util.rb
-++++ b/lib/cgi/util.rb
-+@@ -178,7 +178,7 @@ module CGI::Util
-+   def escapeElement(string, *elements)
-+     elements = elements[0] if elements[0].kind_of?(Array)
-+     unless elements.empty?
-+-      string.gsub(/<\/?(?:#{elements.join("|")})(?!\w)(?:.|\n)*?>/i) do
-++      string.gsub(/<\/?(?:#{elements.join("|")})\b[^<>]*+>?/im) do
-+         CGI.escapeHTML($&)
-+       end
-+     else
-+@@ -198,7 +198,7 @@ module CGI::Util
-+   def unescapeElement(string, *elements)
-+     elements = elements[0] if elements[0].kind_of?(Array)
-+     unless elements.empty?
-+-      string.gsub(/&lt;\/?(?:#{elements.join("|")})(?!\w)(?:.|\n)*?&gt;/i) do
-++      string.gsub(/&lt;\/?(?:#{elements.join("|")})\b(?>[^&]+|&(?![gl]t;)\w+;)*(?:&gt;)?/im) do
-+         unescapeHTML($&)
-+       end
-+     else
-+diff --git a/test/cgi/test_cgi_util.rb b/test/cgi/test_cgi_util.rb
-+index a3be193..d058ccc 100644
-+--- a/test/cgi/test_cgi_util.rb
-++++ b/test/cgi/test_cgi_util.rb
-+@@ -244,6 +244,14 @@ class CGIUtilTest < Test::Unit::TestCase
-+     assert_equal("<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escapeElement('<BR><A HREF="url"></A>', ["A", "IMG"]))
-+     assert_equal("<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escape_element('<BR><A HREF="url"></A>', "A", "IMG"))
-+     assert_equal("<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escape_element('<BR><A HREF="url"></A>', ["A", "IMG"]))
-++
-++    assert_equal("&lt;A &lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escapeElement('<A <A HREF="url"></A>', "A", "IMG"))
-++    assert_equal("&lt;A &lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escapeElement('<A <A HREF="url"></A>', ["A", "IMG"]))
-++    assert_equal("&lt;A &lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escape_element('<A <A HREF="url"></A>', "A", "IMG"))
-++    assert_equal("&lt;A &lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escape_element('<A <A HREF="url"></A>', ["A", "IMG"]))
-++
-++    assert_equal("&lt;A &lt;A ", escapeElement('<A <A ', "A", "IMG"))
-++    assert_equal("&lt;A &lt;A ", escapeElement('<A <A ', ["A", "IMG"]))
-+   end
-+ 
-+ 
-+@@ -252,6 +260,16 @@ class CGIUtilTest < Test::Unit::TestCase
-+     assert_equal('&lt;BR&gt;<A HREF="url"></A>', unescapeElement(escapeHTML('<BR><A HREF="url"></A>'), ["A", "IMG"]))
-+     assert_equal('&lt;BR&gt;<A HREF="url"></A>', unescape_element(escapeHTML('<BR><A HREF="url"></A>'), "A", "IMG"))
-+     assert_equal('&lt;BR&gt;<A HREF="url"></A>', unescape_element(escapeHTML('<BR><A HREF="url"></A>'), ["A", "IMG"]))
-++
-++    assert_equal('<A <A HREF="url"></A>', unescapeElement(escapeHTML('<A <A HREF="url"></A>'), "A", "IMG"))
-++    assert_equal('<A <A HREF="url"></A>', unescapeElement(escapeHTML('<A <A HREF="url"></A>'), ["A", "IMG"]))
-++    assert_equal('<A <A HREF="url"></A>', unescape_element(escapeHTML('<A <A HREF="url"></A>'), "A", "IMG"))
-++    assert_equal('<A <A HREF="url"></A>', unescape_element(escapeHTML('<A <A HREF="url"></A>'), ["A", "IMG"]))
-++
-++    assert_equal('<A <A ', unescapeElement(escapeHTML('<A <A '), "A", "IMG"))
-++    assert_equal('<A <A ', unescapeElement(escapeHTML('<A <A '), ["A", "IMG"]))
-++    assert_equal('<A <A ', unescape_element(escapeHTML('<A <A '), "A", "IMG"))
-++    assert_equal('<A <A ', unescape_element(escapeHTML('<A <A '), ["A", "IMG"]))
-+   end
-+ end
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-index 96873fd7fa..ac9dec3514 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-@@ -46,6 +46,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://CVE-2024-49761-0008.patch \
-            file://CVE-2024-49761-0009.patch \
-            file://CVE-2024-41946.patch \
-+           file://CVE-2025-27220.patch \
-            "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
- 
--- 
-2.25.1
+On 06/03/2025 16:36, Bruce Ashfield wrote:
+>=20
+>=20
+> On Thu, Mar 6, 2025 at 10:04=E2=80=AFAM Louis Rannou via lists.openembe=
+dded.org=20
+> <http://lists.openembedded.org>=20
+> <louis.rannou=3Dsyslinbit.com@lists.openembedded.org=20
+> <mailto:syslinbit.com@lists.openembedded.org>> wrote:
+>=20
+>     From: Louis Rannou <louis.rannou@non.se.com
+>     <mailto:louis.rannou@non.se.com>>
+>=20
+>     Add a QARECIPETEST kernel-config to the kernel to check the kernel
+>     config has
+>     set (or unset) config listed in variables QA_KERNEL_CONFIGS_REQUIRE=
+D (or
+>     QA_KERNEL_CONFIGS_FORBIDDEN).
+>=20
+>=20
+> We already have audit tools that can do this, the approach of opening
+> the .config, iterating and then hard binding ourselves to the very spec=
+ific
+> kernel configuration names has been considered and rejected many
+> times.
+>=20
+> What exactly isn't working with the already supported mechanism ?
+
+My ignorance I suppose. I didn't know about the audit phase and=20
+kernel-cache. I guess I have to read the doc...
+
+Louis
+
+>=20
+> Bruce
+>=20
+>     Signed-off-by: Louis Rannou <louis.rannou@non.se.com
+>     <mailto:louis.rannou@non.se.com>>
+>     ---
+>      =C2=A0meta/classes-recipe/kernel.bbclass | 38 ++++++++++++++++++++=
+++++++
+>     ++++++++++++
+>      =C2=A01 file changed, 38 insertions(+)
+>=20
+>     diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-
+>     recipe/kernel.bbclass
+>     index
+>     64a685a964dab942db05b8d9e08cc22a3bbb152e..4a82b84d479667bf4a6e64ad3=
+e99d934c6868b98 100644
+>     --- a/meta/classes-recipe/kernel.bbclass
+>     +++ b/meta/classes-recipe/kernel.bbclass
+>     @@ -867,3 +867,41 @@ EXPORT_FUNCTIONS do_deploy
+>=20
+>      =C2=A0# Add using Device Tree support
+>      =C2=A0inherit kernel-devicetree
+>     +
+>     +
+>     +# Add QA test to check some required/forbidden kernel configs are
+>     set or not.
+>     +QA_KERNEL_CONFIGS_REQUIRED ??=3D ""
+>     +QA_KERNEL_CONFIGS_FORBIDDEN ??=3D ""
+>     +
+>     +WARN_QA:append =3D " kernel-config"
+>     +
+>     +QARECIPETEST[kernel-config] =3D "package_qa_check_kernel_config"
+>     +def package_qa_check_kernel_config(pn, d):
+>     +=C2=A0 =C2=A0 from pathlib import Path
+>     +=C2=A0 =C2=A0 import re
+>     +
+>     +=C2=A0 =C2=A0 config_path =3D Path(d.getVar("B"), ".config")
+>     +=C2=A0 =C2=A0 if not config_path.exists():
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.qa.handle_error("kernel-config",
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"Kernel configs have not been checked "\
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"as the kernel .config is not found: "\
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"%s." % config_path)
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return
+>     +
+>     +=C2=A0 =C2=A0 config_list =3D {}
+>     +=C2=A0 =C2=A0 with config_path.open('r') as f_config:
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in f_config.read().splitlines=
+():
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 configset =3D re.match(r=
+'# (\w+) is not set|
+>     (\w+)=3D([ymn])', line)
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if configset is not None=
+:
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if configs=
+et.group(1) is not None:
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 config_list[configset.group(1)] =3D "n"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 config_list[configset.group(2)] =3D
+>     configset.group(3)
+>     +
+>     +=C2=A0 =C2=A0 for conf in d.getVar("QA_KERNEL_CONFIGS_REQUIRED").s=
+plit():
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if conf not in config_list or config_l=
+ist[conf] =3D=3D "n":
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.qa.handle_error("kern=
+el-config", "Kernel config is
+>     required: %s" % conf, d)
+>     +
+>     +=C2=A0 =C2=A0 for conf in d.getVar("QA_KERNEL_CONFIGS_FORBIDDEN").=
+split():
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if conf in config_list and config_list=
+[conf] in "ym":
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.qa.handle_error("kern=
+el-config", "Kernel config is
+>     forbidden: %s" % conf, d)
+>=20
+>     ---
+>     base-commit: b72823fc09674f78ad452250f453f6e47d9444de
+>     change-id: 20250306-qa_kernel-061a37e316c4
+>=20
+>     Best regards,
+>     --=20
+>     Louis Rannou <louis.rannou@syslinbit.com
+>     <mailto:louis.rannou@syslinbit.com>>
+>=20
+>=20
+>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>     Links: You receive all messages sent to this group.
+>     View/Reply Online (#212394): https://lists.openembedded.org/g/
+>     openembedded-core/message/212394 <https://lists.openembedded.org/g/
+>     openembedded-core/message/212394>
+>     Mute This Topic: https://lists.openembedded.org/mt/111549046/105081=
+0
+>     <https://lists.openembedded.org/mt/111549046/1050810>
+>     Group Owner: openembedded-core+owner@lists.openembedded.org
+>     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+>     Unsubscribe: https://lists.openembedded.org/g/openembedded-core/
+>     unsub <https://lists.openembedded.org/g/openembedded-core/unsub>
+>     [bruce.ashfield@gmail.com <mailto:bruce.ashfield@gmail.com>]
+>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+>=20
+>=20
+> --=20
+> - Thou shalt not follow the NULL pointer, for chaos and madness await=20
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>=20
 
 
