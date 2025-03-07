@@ -1,132 +1,100 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A92F3C282D0
-	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 08:40:17 +0000 (UTC)
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
- by mx.groups.io with SMTP id smtpd.web11.6907.1741336813525794666
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BDAC19F32
+	for <webhook@archiver.kernel.org>; Fri,  7 Mar 2025 08:46:27 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.6962.1741337181743810140
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Mar 2025 00:40:14 -0800
+ Fri, 07 Mar 2025 00:46:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=fm2 header.b=VXBVzpf8;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=Cv7BZ9EF;
- spf=pass (domain: zhukoff.net, ip: 103.168.172.146, mailfrom: pavel@zhukoff.net)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.phl.internal (Postfix) with ESMTP id 6C2181382821;
-	Fri,  7 Mar 2025 03:40:12 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Fri, 07 Mar 2025 03:40:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1741336812; x=1741423212; bh=XIsfO11WI4oWTrhsyuvxz
-	tDs5HZA3kI5YqFRYbYLyaA=; b=VXBVzpf8wholAdEEBSZRXckJTwcWcwAI4ArvS
-	vPn7K/lnSMbINP6RjsVzwHniXBEv3UfUkuJrfoQ4+1Ps21TmLv1FmpV8N4du2Fom
-	YbCLkFuBIoR2zcjDFsCqqvlWS/1/AwYrToSLFq/WZVfnFWtdtgEP2ZBwe+x5IlKF
-	y8ra3U2ZGFWaPwO9we/Ee9zZxIuQeadKclKsHCoL26xT2NDW2+QE8m3yIPHRuBSf
-	nKP4zCxRv0Y1XNTyP6xOgux1VMExwg6ZBfv58vDYgwkWrFSPgNMZAZ7p8rie1fhW
-	NzRZswUZ32U8g5Nx8Fka7MGjV4JbpJw5dMIxcoVXFkEO4m9iQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1741336812; x=1741423212; bh=XIsfO11WI4oWTrhsyuvxztDs5HZA3kI5YqF
-	RYbYLyaA=; b=Cv7BZ9EFzlj2h4ZdIllpXN3GtUKI5uF7K/OzLV4kWG8dwH5HFJl
-	MZ8FLudlpSAG59F74aYLIrPwjLH4fwZj0Lp8bLCsoiMcd+odK1zG8ZzUpD8GKqTQ
-	gpOkd68qp2NZz7wNjwYp05C5Kcpvdf87kDM/zl4fLN3VF6hiLNfzEL/VGJnPaDJa
-	siS9UzQexeKR27oA3VONubYF5fVY46viQXlwPBpOMnGpVVOy/i6m+hVDQi3khejY
-	uRy7wjnntnuifmA1BluIKRgp282ZnICIX1Keba3lzieNkJ4GmbAKgQ5QSke/0Dn/
-	DQHKIRV2yUJF/q9bU9g/qjl+3S+cz0cC0PA==
-X-ME-Sender: <xms:7LDKZ-JTUZ4Siz9RoDJOWzmeUWcvN1NCWYX2MtGSyPxSiwgoTqz0Hg>
-    <xme:7LDKZ2LfSxLJIHe18AHvZ4fOBLXgY6snP9LeNwd4uPOIaTbr8sTRcA4yX47OfNvb-
-    U2juy9QDA1Dse73XVg>
-X-ME-Received: <xmr:7LDKZ-uAuNby2nHunidQhChmKu5t0YAkIg6zrBrod0WkdmBCE10EXxGMaP9L4J9HiF7juafQJon1e-CcWD7e>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduuddtvddtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
-    evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefrrghvvghlucgkhhhukhhovhcu
-    oehprghvvghlseiihhhukhhofhhfrdhnvghtqeenucggtffrrghtthgvrhhnpeevfeejke
-    ejudegledtkeejhfettdefjeeuffehieekvddugfdtffffledvvdefhfenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghvvghlseiihhhukh
-    hofhhfrdhnvghtpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmh
-    gsvgguuggvugdrohhrghdprhgtphhtthhopehprghvvghlseiihhhukhhofhhfrdhnvght
-X-ME-Proxy: <xmx:7LDKZzZy6RfEoTpAKGzEV7R5cIuJIK1YGWSKMGlZ4msYp58absBxOg>
-    <xmx:7LDKZ1bpDUXk037htQT8DmvKXytHGlN7ocy4Ffihzi8t_KqGSPyimw>
-    <xmx:7LDKZ_A5vhahusvp8hUVPQA-ywIEPZPecJmmmxxhU1aZJjxxt7L2wQ>
-    <xmx:7LDKZ7bc6ZKqROROPf4KVqkWtj4M4t4F9bu4oXs1nAFCdsVgE9TshQ>
-    <xmx:7LDKZ0mL8GqEkyWZSycFP63dNNsf7m_YwZ3oyYNccftKYce-JsbEdUya>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 7 Mar 2025 03:40:11 -0500 (EST)
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: openembedded-core@lists.openembedded.org
-Cc: Pavel Zhukov <pavel@zhukoff.net>
-Subject: [PATCH] ovmf: Add OVMF_BUILD_TYPE to support debug builds
-Date: Fri,  7 Mar 2025 09:40:08 +0100
-Message-ID: <20250307084008.450059-1-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.48.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NVIakV9V;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=kiK736vc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101956fc8ba6e-16d79da6-e390-4f1f-8358-f457a5207a52-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1741337180; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=YLgXSLxOigW8jgjd3icATIfPE84dViHdDd1mc6M96SQ=;
+	b=NVIakV9VwrTqstyGNSHSNVE8qI6OwRul+vV29s5RX/O05AAdjfTphuCmE279cBFI
+	iTDyM7FGq9J7Y+fjKVSDBmt9ELEl/9zR0vt6529uiw0E3B467fUJV7nIIbb9pwGy69w
+	BEf7xy6lYyHk7Ejm+txSCaTxwyUfTSL7VZ03r1pI=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1741337180;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=YLgXSLxOigW8jgjd3icATIfPE84dViHdDd1mc6M96SQ=;
+	b=kiK736vcYJCAWa+zyOcL+qQftT1JYPEsx7Nm3PElWy3YcqeaEQ6KGNfU9rxDdkqF
+	xdg8UlxoAXx4oggogqQMdluRYxlb1kmLSVcMddhxxOpIR4wlk8O23jhCQFq/Ws+ouma
+	uxXgNIqZqRLqxHfSpvFdhvryg7kYE08qKk+dHItU=
+From: patchtest@automation.yoctoproject.org
+To: Pavel Zhukov <pavel@zhukoff.net>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] ovmf: Add OVMF_BUILD_TYPE to support debug builds
+In-Reply-To: <20250307084008.450059-1-pavel@zhukoff.net>
+References: <20250307084008.450059-1-pavel@zhukoff.net>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101956fc8ba6e-16d79da6-e390-4f1f-8358-f457a5207a52-000000@us-west-2.amazonses.com>
+Date: Fri, 7 Mar 2025 08:46:20 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.07-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 08:40:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212415
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Mar 2025 08:46:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212416
 
-In release mode, OVMF does not output any debug information to the QEMU port, making it extremely difficult to debug boot issues.
-This commit introduces the OVMF_BUILD_TYPE variable (RELEASE|DEBUG) to enable debug mode.
+--NextPart
+Content-Type: text/plain
 
-Usage:
-OVMF_BUILD_TYPE="DEBUG"
-runqemu qemuparams="-debugcon file:debug.log -global isa-debugcon.iobase=0x402"
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-The OVMF debug console output will be written to debug.log.
 ---
- meta/recipes-core/ovmf/ovmf_git.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Testing patch /home/patchtest/share/mboxes/ovmf-Add-OVMF_BUILD_TYPE-to-support-debug-builds.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 559c86b546..920944b713 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -67,6 +67,10 @@ OVMF_SECURE_BOOT_FLAGS = "-DSECURE_BOOT_ENABLE=TRUE ${OVMF_SECURE_BOOT_EXTRA_FLA
- 
- export PYTHON_COMMAND = "${HOSTTOOLS_DIR}/python3"
- 
-+# Build type (RELEASE|DEBUG)
-+# in RELEASE mode debug console is disabled. Switch to DEBUG to enable it.
-+OVMF_BUILD_TYPE ?= "RELEASE"
-+
- do_patch[postfuncs] += "fix_basetools_location"
- fix_basetools_location () {
- }
-@@ -200,11 +204,11 @@ do_compile:class-target() {
-     fi
-     FIXED_GCCVER=$(fixup_target_tools ${GCC_VER})
-     bbnote FIXED_GCCVER is ${FIXED_GCCVER}
--    build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/RELEASE_${FIXED_GCCVER}"
-+    build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/${OVMF_BUILD_TYPE}_${FIXED_GCCVER}"
- 
-     bbnote "Building without Secure Boot."
-     rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
--    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS}
-+    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b ${OVMF_BUILD_TYPE} -t ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS}
-     ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/ovmf.fd
-     ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/ovmf.code.fd
-     ln ${build_dir}/FV/OVMF_VARS.fd ${WORKDIR}/ovmf/ovmf.vars.fd
-@@ -214,7 +218,7 @@ do_compile:class-target() {
-         # Repeat build with the Secure Boot flags.
-         bbnote "Building with Secure Boot."
-         rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
--        ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS} ${OVMF_SECURE_BOOT_FLAGS}
-+        ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b ${OVMF_BUILD_TYPE} -t ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS} ${OVMF_SECURE_BOOT_FLAGS}
-         ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/ovmf.secboot.fd
-         ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/ovmf.secboot.code.fd
-         ln ${build_dir}/${OVMF_ARCH}/EnrollDefaultKeys.efi ${WORKDIR}/ovmf/
--- 
-2.48.1
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
