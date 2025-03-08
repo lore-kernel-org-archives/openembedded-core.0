@@ -1,83 +1,146 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F1BAC282EC
-	for <webhook@archiver.kernel.org>; Sat,  8 Mar 2025 18:07:24 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.765.1741457235810868902
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 213CAC282EC
+	for <webhook@archiver.kernel.org>; Sat,  8 Mar 2025 19:42:15 +0000 (UTC)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+ by mx.groups.io with SMTP id smtpd.web11.2303.1741462926239615215
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Mar 2025 10:07:16 -0800
+ Sat, 08 Mar 2025 11:42:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NEhcmd7d;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-390effd3e85so2560622f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Mar 2025 10:07:15 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ky4OYNMT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.180, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e5dc299dee9so2705027276.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Mar 2025 11:42:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1741457234; x=1742062034; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741462925; x=1742067725; darn=lists.openembedded.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=THpyNJLjVxziMVCFhTlLILuLSoiJ+q344GyNlPdt+dg=;
-        b=NEhcmd7diq7ngWV3CgtCz1AW1NQvPVRs4qF7X4ovbYLW3fDv5CUO7fYOIx+7KEg9WD
-         sQNO4Vv/OzAoy7o7JSWaOWh06dZ4A2LQLjyoEuBCSCSP9F8ajvy3GE/g3qxH83NOSYv4
-         39FcyiKwkoqB9ID84bzC5IHVZKxhBBZtAfvag=
+        bh=R+WCuHao7MA5EjeIJHfGA425ZUcMy6GfEmDNT4gw57I=;
+        b=ky4OYNMTZaGz0CqSwNUIO7fKSJDXSxgfXqxQ1TFoKYXKSI2+a2uGFZzH+zpqSSnT70
+         dhvUDKQDwM2Oe8MqkKFO/o6dS5JpBEpjBDoQ3iL0yGN+yvO9h6mLkh1MmIMV+YfHP6Pj
+         4HIehOxQdFmb9BGExNIqxrCYGYaBFaD7eEZoAKaRYkMsQrtjIkfKxDwwTmWgk9gazz6Z
+         G2Z2A2vciPSwKDEsy5s3tKgliwi7hHOWCF5JiJ3kUp6cR6joEnUItMYjZ2b8lFpHbWC4
+         /WYILKEZqqOPCycR/oh7/HPhtCpX2FodSmFSF+hj+kTXjLWouvMUfWGjdt1uQWL1yRFu
+         nYSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741457234; x=1742062034;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=THpyNJLjVxziMVCFhTlLILuLSoiJ+q344GyNlPdt+dg=;
-        b=WqjuiMWR16GDuCdnDSlQ67SzTdb7XVygNEK/6xe7L93iaPO6dFBQuFHCe0/cR5C70I
-         iIK39NlfRQWM/3pV/5fdPXZ1flyucutjWd4OTVsVu3Pm2w8Rta+hrVVJzO4ZmSk8KYyt
-         7+2q8zaD3gD3RdFTW71m/RbGYt50xZkTXmX3rAd8tZeZP52GyC4V9fe3nlSVTrJkeYB4
-         ErHS/wvgTmmAJQM7yF5sKNibSpQ+zrk+YOnKrxaosRKoHkaadF5aJ9GjiNH8+wbq9opy
-         qBG0uw1Czr5aLfyHN1aYCFslsbBP+dZlUBgYWMH70+Oqmh1aB5vZjJnr1WrQfzQNDlRi
-         2HmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVYYi0Re9Y4z3zDP5caT+cZloBBAB8v58wbLb3i9Wi/DL610O5EHRGrQAtBg0ZGmzCveaNPk4kxt33JBFvVhuGUYA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz6eyt8KO8hZesnLnS7gR46sKFxA1PdEavYoNN/fIFBpnGAtT57
-	GsS70+EtIib1C14VmQfCTf6fQihyL8FGE3UAf3FgTGWXrJoo8AWn2BUPBVOoyhU=
-X-Gm-Gg: ASbGncvGXyArjWv98ZxLQ6n7fZRzL2WJcI0WbqfEjro1+9Cfm9ZSimVJTEa0AZTn3uv
-	tSSRvenPTielPgL0x6PgDMZc4UhgGbVemv46dBt1N275CYPffI4mFpfOk3PEpUnkJWPR15WB6jg
-	oazaMddpdqMIZ9ZFT3M2EQ3J6bbZCA2fBhulkV/Oopq1x6bTXiPr74dJRMx53/EsdITQJFIhfFp
-	tnu93y/L0VhgJnl11DVaeYSZr2oE8wN3Q2VWDgR5O6xIwY8inwQTLhq8v/SmomqouEDRA1605Vv
-	SeU7Aij/GnQW+6CF0JIA7QvzuweUb8MdXGDeyoQwNnf4BRYIFsojCDPDVwkkTNZrdqkLjTtJQIL
-	UpsOuvtwc8cp9YcbOdyT8Fyg6A0CjbtGoHCRGB0mHe9Ek
-X-Google-Smtp-Source: AGHT+IEHdPHRpB09m0xzNquYWoY6UbXphwiYVGSE2MrwfRgTPs3n90Yqzij4sUZCK876nZt9XPpSyg==
-X-Received: by 2002:a05:6000:156c:b0:391:5f:fa4e with SMTP id ffacd0b85a97d-39132d81196mr5114496f8f.29.1741457234203;
-        Sat, 08 Mar 2025 10:07:14 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1adb:4ff6:dee8:845c? ([2001:8b0:aba:5f3c:1adb:4ff6:dee8:845c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ceaac390bsm23759665e9.35.2025.03.08.10.07.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Mar 2025 10:07:13 -0800 (PST)
-Message-ID: <3ebbe1b5e26f764636ec34c4acebe4d8a588386f.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCHv2] glib-2.0: update 2.82.4 -> 2.84.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: f_l_k@t-online.de, openembedded-core@lists.openembedded.org
-Date: Sat, 08 Mar 2025 18:07:12 +0000
-In-Reply-To: <20250307163724.3459192-1-f_l_k@t-online.de>
-References: <20250307163724.3459192-1-f_l_k@t-online.de>
+        d=1e100.net; s=20230601; t=1741462925; x=1742067725;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R+WCuHao7MA5EjeIJHfGA425ZUcMy6GfEmDNT4gw57I=;
+        b=HdrKvY8k935HDiaVl+BD8YoXcpi+rQRs5Kc9Mj9MUwjyEztBK8RKUA2d8TVJ95ZlTu
+         jthVZVaZi9/NSuuR13qK/B2ZjWy/M2eBXzNiTinmX3/nh4cVJmtKUsqPAv8BozfZbUqq
+         YCejak818mDrYL9EQ+3K8ME3tmroE4cu6bPu6fd4yIuIOT+yJD06ue+nN9roeY/Q2mOJ
+         QabJB3vpTpZEc0Y+2SSDd414FkF+nXVC6sUdD+6sGUyOxF/2SklEnjbHaLCsh5n2kyqr
+         JzE2i/K1m7ON4ohPSkltSEzMa72fONCmWxBO0ebRRkJBFQC5M6cHxxr9qDrxnYJx8tf4
+         ruRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrvdd5GpxPksyQejlvHygddkPYM/2uZnFF9z4G+mqTrBWCbw+MllgZM63CQknl4ET9183lIRFxlRmU4YxFv3b24A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwBnEA+gKerK11UwLqSPnLjjABh7tYM6IHgzYdeY4uUzJRrMtAC
+	/hZjBtg8pwF0xlRYTzB0PiX+8G3c36tlld6yQMbzbp8ZVi0Pd3QR+6uQj1tW7FO3Z2E6pN1T0A5
+	w+bA6+XMNAr7rraTvha6VqO/TNVBI/gddjWPr0080VFQj5m2Qf70=
+X-Gm-Gg: ASbGnct9ySiH/BYR5P3cW9ovTlig18mO0LInN9KaOCopZA1HPTrGk1SRK78ZdhFomlz
+	n+GJRAPk4oNNaHFftN01VSwZdOMBlaGhn24cmCeHvgFd1HfkvjlYUBdhKgV3/oXvqbux330+8z4
+	xpz8xZN3rM3DXQ09yxxhtPCpH8GcVuPW7IymzPoVmCHKRzY0tQCj2UxjESdA==
+X-Google-Smtp-Source: AGHT+IHPXvDTmc/qszXIBtmmwzJmahuD2zDEsFlEG1rCbxFqa/SoAI7lFR0ZF8K7pLXTsMf1RUfYEnTKY+ggdxDC+XA=
+X-Received: by 2002:a05:6902:114a:b0:e61:1b54:2d1 with SMTP id
+ 3f1490d57ef6-e635c18bac8mr8439476276.27.1741462925190; Sat, 08 Mar 2025
+ 11:42:05 -0800 (PST)
+MIME-Version: 1.0
+References: <20250306105643.2292192-1-kai.kang@windriver.com>
+In-Reply-To: <20250306105643.2292192-1-kai.kang@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Sat, 8 Mar 2025 11:41:54 -0800
+X-Gm-Features: AQ5f1JoYyEsrdNAeEC9jYp1Gh2pexPty4PcejFi-ECmdiDBliUfmVGdiqPGa-OM
+Message-ID: <CAOSpxdY6wxiyxCoN0rROi3=iyqNT=4hOmO4pOt2yy9JQXZHotA@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH] qemu: retain default trace backend
+ if 'ust' is not enabled
+To: kai.kang@windriver.com, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 08 Mar 2025 18:07:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212474
+ <openembedded-core@lists.openembedded.org>; Sat, 08 Mar 2025 19:42:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212475
 
-On Fri, 2025-03-07 at 17:37 +0100, Markus Volk via lists.openembedded.org w=
-rote:
-> - Add option for tests to prevent them from being built without
-> PACKAGECONFIG[tests] being selected
+I'm getting errors on the reproducible build test:
 
-The v2 still has ptest failures:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/1180/ste=
+ps/12/logs/stdio
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/1074
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/1077
+Looks like host paths are leaking into the qemu-src package:
 
-Cheers,
+https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20250308-s52sakkc/=
+packages/diff-html/
 
-Richard
+Steve
+
+On Thu, Mar 6, 2025 at 2:56=E2=80=AFAM Kai Kang via lists.openembedded.org
+<kai.kang=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
+>
+> The qemu build system enables the 'log' trace backend by default, if no
+> explicit choice was made with '--enable-trace-backend=3DCHOICE'.
+>
+> However, the qemu recipe uses the following PACKAGECONFIG line:
+>     PACKAGECONFIG[ust] =3D "--enable-trace-backend=3Dust,--enable-trace-b=
+ackend=3Dnop,lttng-ust,"
+>
+> which means that the 'nop' trace backend will be explicitly selected if t=
+he
+> 'ust' feature is not enabled. The 'nop' backend removes almost all trace
+> points at compile time, and thus basically means 'disable tracing'.
+>
+> To retain the default trace backend if 'ust' is not enabled, the above
+> PACKAGECONFIG line should either explicitly fall back to the 'log' backen=
+d,
+> or not provide any value for the 'disabled' case. This commit chooses the
+> latter to not make any assumption about the upstream default.
+>
+> (From OE-Core rev: c31396a30dcf17ab23ff4dd5943eef5fba20cba6)
+>
+> Signed-off-by: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com=
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-devtools/qemu/qemu.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+> index bee30cd56f..137636ef82 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -298,7 +298,7 @@ PACKAGECONFIG[libxml2] =3D "--enable-libxml2,--disabl=
+e-libxml2,libxml2"
+>  PACKAGECONFIG[attr] =3D "--enable-attr,--disable-attr,attr,"
+>  PACKAGECONFIG[rbd] =3D "--enable-rbd,--disable-rbd,ceph,ceph"
+>  PACKAGECONFIG[vhost] =3D "--enable-vhost-net,--disable-vhost-net,,"
+> -PACKAGECONFIG[ust] =3D "--enable-trace-backend=3Dust,--enable-trace-back=
+end=3Dnop,lttng-ust,"
+> +PACKAGECONFIG[ust] =3D "--enable-trace-backend=3Dust,,lttng-ust,"
+>  PACKAGECONFIG[pie] =3D "--enable-pie,--disable-pie,,"
+>  PACKAGECONFIG[seccomp] =3D "--enable-seccomp,--disable-seccomp,libseccom=
+p"
+>  # libnfs is currently provided by meta-kodi
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#212384): https://lists.openembedded.org/g/openembedde=
+d-core/message/212384
+> Mute This Topic: https://lists.openembedded.org/mt/111545623/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
