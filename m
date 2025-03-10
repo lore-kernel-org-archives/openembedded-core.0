@@ -1,248 +1,393 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23079C28B2E
-	for <webhook@archiver.kernel.org>; Mon, 10 Mar 2025 12:40:57 +0000 (UTC)
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.60])
- by mx.groups.io with SMTP id smtpd.web11.36198.1741610448233762335
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A920C282DE
+	for <webhook@archiver.kernel.org>; Mon, 10 Mar 2025 12:48:37 +0000 (UTC)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web11.36337.1741610914439216523
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Mar 2025 05:40:48 -0700
+ Mon, 10 Mar 2025 05:48:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=US9SGqRY;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=US9SGqRY;
- spf=pass (domain: arm.com, ip: 40.107.247.60, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=EJW08n4f8Z5CgdnDKZYjMHzQTuvcVBhgg9+RZNwhhyLsJ1gWrvX/xzCEtRgWRVoEle2RmmjW7T9g5iZOysUH05bW5Cdc08cItxL5xYuWX9f3L92Lh7ooTHNn3OIIIdK0r2oZCFdKh6/Df4Vffack50Iwp1tGzDqNurP4idSRrF4S7A9qdIHcLnQcdlIgKehdKvs0jcA0zIvHwbhUosp7/COa8dFAYLymbds+BQkr6pT8YO4GuiJ6k4L1DD4CNPeQydOofKnHB1zV1uo4fENwyHdOr78+HG1lnZAMyK+Y0i+E4bhMLC8OW4QP+fVAqjMaSWzUVUuP7JGrm8yN5VC14w==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u4Y9/D2JTyN6dloiMdoLGPTB2DtLtuUfZTYS92TCnGo=;
- b=QpDHFWsaocZ4ENOFaSxbIc74b+MNDqssT1SuQY4fgJUW87oUfLzlPq+UnlONeO6ea91RD3qSLG4msOPxBW0mWfwrr99oUW8uz5RiMnB77bjo6tkiTArFRMTBJazv2fnCQ1qKcB5avQjTFrgnFcFmEbkY3Dl2LiPFzaSO9fT6/ShGQzHqH2Gjc3qiSfqSAwjSQoD+6s4y6VNDtBqz7dV3a+G4InmAuzWDwpE4OZDmh1ltXA3x2BNzR9RUJ2gGU09wZPZm09InZ31j0CvIxqvU5V5macRF01uuJS9OAszGzaPbQeoF33lZFd6cazmbyHD9U3E1Qik6MVMkZ/cgrIlw/g==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u4Y9/D2JTyN6dloiMdoLGPTB2DtLtuUfZTYS92TCnGo=;
- b=US9SGqRYlF5JteELLe4FtO0MBZQQBvZ8FSybW9DiYQ/KZ8S6I6oRau8RKlxp7vuWwCpv3trQYO90ZF61/ynQpylJHmfymGAAjxZIO0KS6IbQh7jE/tRT7JrygW0hPOjDP1QaIH2BwJLr5z8XptNt+2dkL0x2ryXGjAvED7hAqJA=
-Received: from AS4P195CA0051.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:65a::17)
- by AS1PR08MB7426.eurprd08.prod.outlook.com (2603:10a6:20b:4c5::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Mon, 10 Mar
- 2025 12:40:44 +0000
-Received: from AMS0EPF000001B7.eurprd05.prod.outlook.com
- (2603:10a6:20b:65a:cafe::24) by AS4P195CA0051.outlook.office365.com
- (2603:10a6:20b:65a::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8511.26 via Frontend Transport; Mon,
- 10 Mar 2025 12:40:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AMS0EPF000001B7.mail.protection.outlook.com (10.167.16.171) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.20
- via Frontend Transport; Mon, 10 Mar 2025 12:40:44 +0000
-Received: ("Tessian outbound 93a06e49d4fd:v585"); Mon, 10 Mar 2025 12:40:43 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 44abe031f4901486
-X-TessianGatewayMetadata: oW5XXNOykklTpxnzQfQypXeN1vHgGCBlS770A7Hskoy9kS18LB6Cc9wfhzGC7BxFbppG1WEIewDTQXFwCDjTpzeiZr9yQZ8H0FD06xdoHNj6LzSwhzgPBCfNDKQRYCj70RdPFehIfMn1TGPD2/kBW+PhZ/EvPFfZiH8FuJAMeFo=
-X-CR-MTA-TID: 64aa7808
-Received: from La7c31470a711.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 47E619A9-5D90-4930-8A57-6761D8DC10E7.1;
-	Mon, 10 Mar 2025 12:40:36 +0000
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id La7c31470a711.1
-    (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-    Mon, 10 Mar 2025 12:40:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g0PRLu2SqRA/JqDWDL9kookYonmJIOCtQjzabb15FhXz4w8Uy2e2OCkrVmKrwlkrY9V6OKD7efiIm2B0wLLJPt3JggK7x+NPlZRB064w9hyP5ukFkodDoR2PSM34CUQ3QxBVQJUteb9DVI3833cBTPg8Prs+UYAWUbguVWnlPuZBY2DieLunix/2cQTQMIO9RlGOdGLfWGejYzPvG+Kq+ldmE8WMLaoy0/5Ue4Fj6gbt7xwWJKJqTCZ6NUHrpexJPCdlocr4s52iqMe3MY6OWPgdMSdCL1sYxQa/hF8z92BC/pMLtrzML4JpH00xMMNKd3GY6HWQ/kfx1tYSWcn1Xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u4Y9/D2JTyN6dloiMdoLGPTB2DtLtuUfZTYS92TCnGo=;
- b=p36mEWCmGiHQIJiC/lfrKnmvlylIthU8inwRfbdff+MSWjA3CSY9hu1KzginDeS9RHkxNLSE92ahMihTG1v6Ck4WCtxYUXWuxdWFiBr9SiDyCz1W437/hKZtOY6Xj9MJ8vnTLoEU6I1/w+G32DGZ33v58zGVJdp1loODhCx8f95EMYuFPVv2ZhdWGgOKD4ZTo+VeaAHK3iHya2jgMuFnn5aA2706qcHFYYGZbm/7O+ZbIcD8zDcx7asL0euj84T8FNq3L6jHKMNGyyMa2aF8KystX9NOcaUEsyNm7dgVZ5uS+OKnjdcxVIcG6LwkoQgMwstqxyeYRbhkNhzegsR8kA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u4Y9/D2JTyN6dloiMdoLGPTB2DtLtuUfZTYS92TCnGo=;
- b=US9SGqRYlF5JteELLe4FtO0MBZQQBvZ8FSybW9DiYQ/KZ8S6I6oRau8RKlxp7vuWwCpv3trQYO90ZF61/ynQpylJHmfymGAAjxZIO0KS6IbQh7jE/tRT7JrygW0hPOjDP1QaIH2BwJLr5z8XptNt+2dkL0x2ryXGjAvED7hAqJA=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by PA4PR08MB7596.eurprd08.prod.outlook.com (2603:10a6:102:272::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.26; Mon, 10 Mar
- 2025 12:40:32 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8511.025; Mon, 10 Mar 2025
- 12:40:32 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "steve@sakoman.com" <steve@sakoman.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"yocto-security@lists.yoctoproject.org"
-	<yocto-security@lists.yoctoproject.org>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 09 Mar
- 2025 01:00:01 AM HST
-Thread-Topic: [yocto-security] OE-core CVE metrics for master on Sun 09 Mar
- 2025 01:00:01 AM HST
-Thread-Index: AQHbkOVgeRr54CFPkkKfsOByxCW3nLNsUWGA
-Date: Mon, 10 Mar 2025 12:40:32 +0000
-Message-ID: <0AB16BCB-8FD3-4548-84F7-B2B9C4DEB8CE@arm.com>
-References: <20250309112109.633831003CB@builder.sakoman.com>
-In-Reply-To: <20250309112109.633831003CB@builder.sakoman.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.300.87.4.3)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|PA4PR08MB7596:EE_|AMS0EPF000001B7:EE_|AS1PR08MB7426:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed91ffac-00e5-4abc-1e61-08dd5fd0c651
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?WjZYQmZ2NmhEUXdTaFRYV3JLU29vNVRiclRGNk9kSmpFZVd2S0JFRGpwTzZm?=
- =?utf-8?B?emcxMjJJL3J0UnVlSnJSLzAvc2JLNFByWktJUHdSaGsycGtONC8rOFVzaXZa?=
- =?utf-8?B?TkU1ZFZNZnM3MjFMdmtSMHZTVUpjcGdZbDhxU0NsNTFiN2VEVWttN0hUVzJY?=
- =?utf-8?B?U1BmTGlaenBpNXNVdm9rb3dndkZsN0o4enhmM1V6NXNPMU9aaWRqZXZwYTUw?=
- =?utf-8?B?aWZWajVlQTZ3TG5RY2FteFJJSXhDR0ZrdEFTRHVLN0tzRDROVWpIS0k5MEtN?=
- =?utf-8?B?NWJwQTBqTlRybVg5RzZIaEZjOVZhRWNFUkdUV3lVWERUWGYyOHVXRWN5NG90?=
- =?utf-8?B?V1h0ZVcwY1k2UUk2ZDF5Z21kRWxINVJ6ZGlsWHpyenRFa3VzNi9OL1J2MjdM?=
- =?utf-8?B?RGluU0E2aktER0c4V29xZ1ZBSEd3ZG03N0Q0dXFWMGdEbWJ4ZDQvMmo3K05j?=
- =?utf-8?B?cWdvYjRDYnYxUU0wbVRVbEM4ZHhwQUh5M1puZlNvQ3lyQ0VYdWt0blA5cXpE?=
- =?utf-8?B?aVFZY0hCTFNEenpWYVY4dmtTT1J4ai9jUEdzVU5kcCtuR280KzBPdDVNdFRD?=
- =?utf-8?B?amp4b3lUZnd6UU1NZ0szU1VvTXM0TmhoMWk0Q0dmaHcwTnVTelNKU0U2MEJX?=
- =?utf-8?B?V2tVRWh2WGZldktJMVJ2WU1Fc0ZKVFJrNVpBUXRNZmxkVWN4TFAzTURLYW5y?=
- =?utf-8?B?MFN0SUR6UkQ0d0ErNXRHUUk3dXJJYzhCajlIemFnR2xGVE1XQ1FtWVJKR2J4?=
- =?utf-8?B?SlJVVmZxU2ZmSGVlaktEUFFGMXBTMC9VSVBxcVFMU0Fndm5XZVliV3RCbXRa?=
- =?utf-8?B?MkdrVXMwbjdUTTkyMW1CYTg4WjdkTGVIN1c3b3hjNXZVYWJhTTFib3k4UDNo?=
- =?utf-8?B?YVBRM1drbm9GZVh6aGE4d3FGQU1yVFhWV1Q2K3lYTG1ic2xkb0xkaWp5dnlE?=
- =?utf-8?B?VmIwUUEySElTS1pyQmVWTW9zN1J5ZVorSE1JOUVJYlFrQzg4WlhySGxsemxD?=
- =?utf-8?B?cFNJcHl5ZVpFbFdTNkdiTERiNUhmQ3FBcnUzdDlpSXhtdkJYL3M0VVRyUkRo?=
- =?utf-8?B?MTcxUUZrb09ydlQ0NEZDVnZQMmF5U0E4QVU5VGg2R1lycFNYbDJNTTRvSTBv?=
- =?utf-8?B?b3FBeDlZNVVMZytNcWdhNThicno1SGlaMXQ2TzBIT1FvVEF0RWdBd1VyaXRX?=
- =?utf-8?B?RDROV1Y3dVFOZ3krdU40cHBzdmUvS0lSOWdvUTdCczhtVE5Gai83ZXZtMDNC?=
- =?utf-8?B?aVh4RzFvM2hMOHJ1M3NRcG5zcUQ5WDBETGkxald5TEU0ckx6M2FTL1FvcXZx?=
- =?utf-8?B?M3U0aVIyWjNITDlWQXpZQXB0QkZoQjRBSlJleW1pTnlnd0lsOG1MQkNVU2Nr?=
- =?utf-8?B?cElGYkp1L2Y1clNpbm5tcFFrbU0rMFV3NWNTb2JRV2hicUd2UVd0STVtWHZJ?=
- =?utf-8?B?aExtc1dOaXp6VWZsNjZmd1ZtcDRSUXVOUkVTWmM5eHdGUnhtYXBaTWh0WUZF?=
- =?utf-8?B?bHU2KzFma0xIQjJseGtRZVhGdTFEQmxzc1JvTStrc28xclVISkhLYkpjTzZj?=
- =?utf-8?B?RUxPTFJRU0xkMVVVT24vRS80MjI0WmNZdzJML0kxTDlCdkpUK2dKY2JJbFJJ?=
- =?utf-8?B?Z0pTMnBYcnFrcEExc21mczkyV2hhd2F6VzN5NFBpUjI0bVhBNHNGNk1PVDRH?=
- =?utf-8?B?N2prR1pDd01RblQ5bklTbm1ESEV0YjJwcHl1ZTdQRk1FQlN2ZzdVdDJDdU0z?=
- =?utf-8?B?L1Eyek5NQmxQamJxclBRVGVyZkNnbzZkUXRmcHJ5bjBGdVNNM0hvcUhzOFpS?=
- =?utf-8?B?cW41OEZVaG1mZDlveExOa08xYysxWm9Yb05SNFJIdUdXenFHT0RCNGVQSjBh?=
- =?utf-8?B?TGhST0xlV09lc2p4N2plNTVnSFIvRmhUUkhSVDd5anBKb0dZMklDbGl2LzdO?=
- =?utf-8?Q?9+GlEjuC7Q+Y3PrgxuZ3r9cLw4Q0pzBF?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6B905A4FC33DE1419B711E136C883505@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JazQI6Tb;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-476977848c4so527111cf.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 05:48:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741610913; x=1742215713; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IIDw0YEltYeGV/1pZ6aEXndaVrcaWZDjlraEMFzKegQ=;
+        b=JazQI6TbFc5Ruvb/h5epYYUE15PLc/tCyHk5avWBMSjcaPpTikc80TDSfVOHTNXVqs
+         clqBE9FaD3HRMR/1lnXLIFFwXbXtpSSeGpiqyOhQS6X1M/wk5B/2pC2YZMOjJTnD3/dQ
+         oS1Z/toKj2pAPE6uVF0BcRnQ4CeldJZm4/QslM/fqPIaIhm6r8dVcFKnuOxxrqR65eqf
+         f+eeb+offmhMv0d1vbkltQfFXw+VgCvZHEZegyW1sCfXaOq2svolcZS2Th0SpAB1Oqpw
+         qIXCwY8EBw3FzUitLFQ/R0EQy4B5payNh+gYfsIAGsOwyvFr/NBTufACiHKXC8K9vzlR
+         ZpYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741610913; x=1742215713;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IIDw0YEltYeGV/1pZ6aEXndaVrcaWZDjlraEMFzKegQ=;
+        b=bDhAxZVG5uDrmwQG+zEEpIbwX80895uKQOawoYYiee1PcRcmvNubPUfQH9BeGtgcX3
+         iMaLrYP7c+y0JIXGgTROvCNe61BzXJW/zQ5rDItobKvHjCayFOoXU/Fe6Wr0rjzXJa1N
+         limIW7c1G7tYwt6rNZE+0CVSQ0oc6YM5kvx6TsEw+tYqA7ehW3cFOXpJlUcQ84h17fnA
+         tGw8wK9RVkId7uUgSo+w40pFquLXGxwGflTsgdY/hyxYatK93D/1h9tLUUbliowBzxjb
+         bsbj+rh6oXZtsKBrwweM0UGsAwhEQgkXsyQnpHGUSD/w25+hi05R7/EJFcNRvfmMuYoN
+         adTQ==
+X-Gm-Message-State: AOJu0Yx13PmC9CS7tFfyWm0N5pN+6yMhUFXkTAc/JVGVY6fArXzJxqFi
+	XhvPmyjAvZshZMve5JMN7H91y7soVJ/VJnaDLpJ2VeaHN1o47l3XNuDBU6RrAmlECqO4+6NRmJ9
+	pqd9l3n9OlViCRAnBGWRTFPh6JVc=
+X-Gm-Gg: ASbGncsYhQKY2+S089uZHIvKCIMsZVCpfRAuQi5Ne7BFP0x2G7jIuhDvprSce69854A
+	rPnEzPe7wBrgr+rclhAQQb6WaZkXi/91HptnzMKZg6fo1hcyDLqMItoWpYlthk8tHqN6JEDqxgY
+	RkmCwAIIu0r3WqxzQihEZ8pX98
+X-Google-Smtp-Source: AGHT+IGSB1gqjYPEPvJn4azU7NIQduhb9boLKSYb4DWj87EiqNV/+nGSQU5ucEyRhRJ9Mgs9PqGpGoZCFp4pX09L5FA=
+X-Received: by 2002:a05:6214:27e2:b0:6e8:9444:7ac8 with SMTP id
+ 6a1803df08f44-6e9005f78cfmr186063896d6.17.1741610911732; Mon, 10 Mar 2025
+ 05:48:31 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB7596
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-SkipListedInternetSender: 
- ip=[2603:10a6:102:2a3::12];domain=PA4PR08MB7411.eurprd08.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF000001B7.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	01967e2a-1226-447d-d670-08dd5fd0bf1f
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|14060799003|36860700013|1800799024|35042699022|82310400026|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?RVpPSDMyL3VkWDZSdkJROFk0YVBJTFRZZjNIRzhqVTluT00rY2lFSzFFOVJo?=
- =?utf-8?B?R052WmpOUU1ZT0VuWTRCKzB2WVFDbEtKR1ZrODNiVWN6WEFyckRnaHR1Ynpo?=
- =?utf-8?B?SHJQRUNYRytQUTZmQXlOdVdoWHlBWGRDNXpnV0lnOEg1TXdLYXFVTForMUJX?=
- =?utf-8?B?eExiUUM5MHBXUEYrbHg1b200MTExMGtGTGZoL1ZwS05pWEdZcllOVEs0OXpH?=
- =?utf-8?B?S041WVFyampHZnF2VWF2dGdOUkE2NEdrZHVNcFF5VnJsT2E0OEdtSUVzS1NQ?=
- =?utf-8?B?RGJhcG1OeXNEb1BFSmFVZFg4N3VGRzVvRVYzakFodkduSUdoS3lRWWI4bDRT?=
- =?utf-8?B?MjJBREJWMGgyRmZ0dk0xZlU0RTBFRjdVNmN0L29yZ2lXWHRZem91THRWTWlU?=
- =?utf-8?B?Ynh6bXJEVlJ1UEhVWFRWL3hmQTc1eHpSd1Y1VUk4b3pLVU93RDk0YWJWYlhH?=
- =?utf-8?B?NmtKdDg1QWljU1RkWC9tVnErT0pYYjJxa21SSnNvdjlVRm42TkorNGRNZ05J?=
- =?utf-8?B?RTYrS2Y1ZjlZWk9yQXZnbUVqWUI3QUVwVHZKaW9xRlB4UTg3Y3FPOGVBTm5o?=
- =?utf-8?B?K1M4a2ZVcDZHWVZlZTF5anl6NVJ6RlVZcE4zQ0l6ZFZNMkJKSmV2RmdVOUxr?=
- =?utf-8?B?L3NpbnlYZzA3bmRqTE1GMHNnT285NjZyWW85eEpoSkRmNkpMTnFBZGhDalo0?=
- =?utf-8?B?S3FWMExZSDIvZTdBUm1FUG51Qy9GWXRjZ0NMUHlINWhsUzJTTTJESisxeTlx?=
- =?utf-8?B?clhDWmpoeGtac0RqR3NXM1U1MW1uVUtlNzZ3a3dtSXFtUzRJYzJPU0l1SDRp?=
- =?utf-8?B?dUI0b1hmS1Z5UGI3aTJiVVA0dFFmN0xmZFYzOU1Fc3F5Z1VZcGlMUTFhcVBN?=
- =?utf-8?B?U2NoRzQ2eWpsZVFmeERtelJlYXluRjViU0k3MlEvTThhTVd3azFLNTFtbE52?=
- =?utf-8?B?Vm4wVEQ2dkRXTHplQndxZjFzSGNFTzZKOTBUQlF0QkU2OHZPMW5IOWc3NzR6?=
- =?utf-8?B?emU0R2FtNUJ0SlVlWFhtMUsybC94NWZkWEo5aTRvTmpNc05sZ2M1YkFkS1ly?=
- =?utf-8?B?MzB5ZHZURE5INlRpV3ljQmNnSXV1L3ZTYjNJaHlnZEx0UEtkK29uRGlrMkRB?=
- =?utf-8?B?Z1RTNlV6SFpyVGkwUHlYZlNtWjB3OXhydklyTERDTGk0RDh0SGNYd1NOS1FF?=
- =?utf-8?B?emFVY0I5Mm4rMGQxbFRjOG9hZE5tWUo3SU9PczI2YVpCQ1pQelQ1NlZ0VS9S?=
- =?utf-8?B?M1F6UmtXaUE1cWNoNTE5OExKcjBXbStUQnkzN1gvbWZQNkZIQnUwenN6R21V?=
- =?utf-8?B?cXFLV1Y5SWd6a0JIUU5WdnMvZVFkMDdlbVlvWXl5Q0dIS3cxdHlRek0xMXRM?=
- =?utf-8?B?U1pPVWVMT0hMQ0F6SHJjbnUxMEZOZGhSYlMrS1lyeFNKR2QrcFoveGZPa1hE?=
- =?utf-8?B?d29GMjVYWUtxR3ZEUHYzVWprdnVVVjZ1RkVocXNOQmVKdkNwaE1WK29YK2xU?=
- =?utf-8?B?OEQ5S0NOVlQvTWFFT0UwTmM3azZsVUc0Z28rbXVoejNQRVlzY2IwL3lsN0Nz?=
- =?utf-8?B?OGo4UVJSR0hFVFdRL2JEdXRvKzlleHEzbG04KzNYeTBNcDVkcHdHZW8vVUxG?=
- =?utf-8?B?Q3l6R1d1NW4vZ1ArNm95dTNiWnpSLzRHdVdyck5lZXBFNDFGMUFEalFyNm9K?=
- =?utf-8?B?UDIxRkJ6dVlZbXRLVG1qMlRTcEx4Mk1BVU94UUhnWDBSbDhlclVNdGFkR1BG?=
- =?utf-8?B?cGZrS2ZBMzVqaGpqVnFvVzdUM3VzWnA0YkxrMFlMTUU1blJNN28rVGxFTUdH?=
- =?utf-8?B?bGdNQkRpTmFETlpqZHVWODF1K0tmODdjb1YwOFZLSktlVENIZUlGSGc0SkNG?=
- =?utf-8?B?M1hOU0NXcGtYWTNwR3ZRREloSzkrUWJRdlNLaG9URFVhcUtCMXNpeG5oNU9P?=
- =?utf-8?B?ZEl6TW83Y2JpVklwT095Y2xCWUlvS25reFJLQjRLUitBMTJMRExlZ3FLVHlp?=
- =?utf-8?Q?AyRV+V9N3Mhl/ktxKJiveWopwVEqNU=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:64aa7808-outbound-1.mta.getcheckrecipient.com;CAT:NONE;SFS:(13230040)(376014)(14060799003)(36860700013)(1800799024)(35042699022)(82310400026)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 12:40:44.1050
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed91ffac-00e5-4abc-1e61-08dd5fd0c651
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001B7.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR08MB7426
+References: <20250310071133.2713991-1-bin.lan.cn@windriver.com> <20250310071133.2713991-2-bin.lan.cn@windriver.com>
+In-Reply-To: <20250310071133.2713991-2-bin.lan.cn@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 10 Mar 2025 13:48:17 +0100
+X-Gm-Features: AQ5f1JrTrINGEE3OVBeuCKJrGQl8eNiNALtsGUSaAu0sy9rsooHYJN2LhZ-cXis
+Message-ID: <CANNYZj96yOjER4+xHS5mxjbcj7QeNookrsR_+ee=pz2_TnEayQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v4 1/1] babeltrace2: upgrade 2.0.6 -> 2.1.0
+To: bin.lan.cn@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 12:40:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212511
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 12:48:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212512
 
-T24gOSBNYXIgMjAyNSwgYXQgMTE6MjEsIFN0ZXZlIFNha29tYW4gdmlhIGxpc3RzLnlvY3RvcHJv
-amVjdC5vcmcgPHN0ZXZlPXNha29tYW4uY29tQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc+IHdyb3Rl
-Og0KPiBDVkUtMjAyNS0yNjU5NCAoQ1ZTUzM6IDcuOCBISUdIKTogeHNlcnZlci14b3JnOnh3YXls
-YW5kIGh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUt
-MjAyNS0yNjU5NCAqDQo+IENWRS0yMDI1LTI2NTk1IChDVlNTMzogNy44IEhJR0gpOiB4c2VydmVy
-LXhvcmc6eHdheWxhbmQgaHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/
-dnVsbklkPUNWRS0yMDI1LTI2NTk1ICoNCj4gQ1ZFLTIwMjUtMjY1OTYgKENWU1MzOiA3LjggSElH
-SCk6IHhzZXJ2ZXIteG9yZzp4d2F5bGFuZCBodHRwczovL3dlYi5udmQubmlzdC5nb3Yvdmlldy92
-dWxuL2RldGFpbD92dWxuSWQ9Q1ZFLTIwMjUtMjY1OTYgKg0KPiBDVkUtMjAyNS0yNjU5NyAoQ1ZT
-UzM6IDcuOCBISUdIKTogeHNlcnZlci14b3JnOnh3YXlsYW5kIGh0dHBzOi8vd2ViLm52ZC5uaXN0
-Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAyNS0yNjU5NyAqDQo+IENWRS0yMDI1
-LTI2NTk4IChDVlNTMzogNy44IEhJR0gpOiB4c2VydmVyLXhvcmc6eHdheWxhbmQgaHR0cHM6Ly93
-ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklkPUNWRS0yMDI1LTI2NTk4ICoN
-Cj4gQ1ZFLTIwMjUtMjY1OTkgKENWU1MzOiA3LjggSElHSCk6IHhzZXJ2ZXIteG9yZzp4d2F5bGFu
-ZCBodHRwczovL3dlYi5udmQubmlzdC5nb3Yvdmlldy92dWxuL2RldGFpbD92dWxuSWQ9Q1ZFLTIw
-MjUtMjY1OTkgKg0KPiBDVkUtMjAyNS0yNjYwMCAoQ1ZTUzM6IDcuOCBISUdIKTogeHNlcnZlci14
-b3JnOnh3YXlsYW5kIGh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1
-bG5JZD1DVkUtMjAyNS0yNjYwMCAqDQo+IENWRS0yMDI1LTI2NjAxIChDVlNTMzogNy44IEhJR0gp
-OiB4c2VydmVyLXhvcmc6eHdheWxhbmQgaHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVs
-bi9kZXRhaWw/dnVsbklkPUNWRS0yMDI1LTI2NjAxICoNCg0KV2XigJlyZSBtaXNzaW5nIGFuIHhz
-ZXJ2ZXIgdXBncmFkZSwgYnV0IGZvciB4d2F5bGFuZCB0aGVzZSBhcmUgZmFsc2UgcG9zaXRpdmVz
-IGZyb20gdmFndWUgQ1BFcywgSeKAmXZlIHNlbnQgQ1BFIGZpeGVzIHRvIE5JU1QuDQoNClJvc3M=
+Please do not add new Pending patches, especially without an
+explanation of what is pending.
+
+If they're suitable for upstream submission, then you should do so
+before submitting them to oe-core.
+
+Alex
+
+On Mon, 10 Mar 2025 at 08:12, Bin Lan via lists.openembedded.org
+<bin.lan.cn=windriver.com@lists.openembedded.org> wrote:
+>
+> From: Bin Lan <bin.lan.cn@windriver.com>
+>
+> Update 0001-Make-manpages-multilib-identical.patch with correct line number.
+> 0001-tests-do-not-run-some-tests.patch is used to disable some new test
+> cases.
+> 0001-tests-do-not-run-test-applications-from-.libs.patch is deleted for the
+> commit log is not very accurate and the line number is changed, is replaced
+> by 001-tests-set-the-correct-plugin-directory.patch.
+> 0001-tests-set-the-correct-plugin-directory.patch is used to set
+> the correct directory of plugin shared library.
+>
+> Copy the trace files (*.ref) and the metadata files (*.mctf) which are required
+> by test cases from source directory in babeltrace2_2.1.0.bb.
+> Set the correct test environment variables in tests/utils/env.sh when running in an
+> embedded environment. Remove "GREP=grep SED=sed PYTHON=python3" from the file run-ptest
+> for these test environment variables are set in tests/utils/env.sh.
+>
+> License-Update: add new license BSD-4-Clause GPL-3.0-or-later CC-BY-SA-4.0 PSF-2.0
+> Babeltrace 2.1 is a major change. Babeltrace 2.1 is released after five years
+> of development after the release of Babeltrace 2.0. The licenses did change
+> significantly.
+>
+> Changelog:
+> Babeltrace 2.1, MIP 1 is available and adds many functions
+> to support CTF 2 features.
+> The Python bindings wrap all the library changes in the same
+> systematic way as in Babeltrace 2.0. Add type hints to the
+> public API to assist with static analysis of your applications.
+>
+> Details about the 2.1.0 release:
+> https://babeltrace.org/docs/release-notes/babeltrace-2.1.0-release-notes.html
+>
+> Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
+> ---
+>  ...001-Make-manpages-multilib-identical.patch |  9 +--
+>  .../0001-tests-do-not-run-some-tests.patch    | 58 +++++++++++++++++++
+>  ...not-run-test-applications-from-.libs.patch | 28 ---------
+>  ...sts-set-the-correct-plugin-directory.patch | 29 ++++++++++
+>  .../lttng/babeltrace2/run-ptest               |  4 +-
+>  ...eltrace2_2.0.6.bb => babeltrace2_2.1.0.bb} | 33 +++++++++--
+>  6 files changed, 122 insertions(+), 39 deletions(-)
+>  create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-some-tests.patch
+>  delete mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-test-applications-from-.libs.patch
+>  create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
+>  rename meta/recipes-kernel/lttng/{babeltrace2_2.0.6.bb => babeltrace2_2.1.0.bb} (70%)
+>
+> diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
+> index 2401b176e6..76bef9c3b8 100644
+> --- a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
+> +++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
+> @@ -5,15 +5,17 @@ Subject: [PATCH] Make manpages multilib identical
+>
+>  Upstream-Status: Pending
+>  Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+> +Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
+>  ---
+>   doc/man/asciidoc-attrs.conf.in | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+>  diff --git a/doc/man/asciidoc-attrs.conf.in b/doc/man/asciidoc-attrs.conf.in
+> -index ad1183f1..e11c7031 100644
+> +index 88fb13ce2..27858b720 100644
+>  --- a/doc/man/asciidoc-attrs.conf.in
+>  +++ b/doc/man/asciidoc-attrs.conf.in
+> -@@ -1,7 +1,7 @@
+> +@@ -4,8 +4,8 @@
+> +
+>   [attributes]
+>   # default values
+>  -system_plugin_path="@LIBDIR@/babeltrace2/plugins"
+> @@ -24,5 +26,4 @@ index ad1183f1..e11c7031 100644
+>   enable_debug_info="@ENABLE_DEBUG_INFO_VAL@"
+>   defrdport=5344
+>  --
+> -2.24.1
+> -
+> +2.34.1
+> diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-some-tests.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-some-tests.patch
+> new file mode 100644
+> index 0000000000..11d97a276b
+> --- /dev/null
+> +++ b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-some-tests.patch
+> @@ -0,0 +1,58 @@
+> +From da489a5476249dbf087cef7f5da57e61aedd443b Mon Sep 17 00:00:00 2001
+> +From: Bin Lan <bin.lan.cn@windriver.com>
+> +Date: Thu, 6 Mar 2025 16:14:45 +0800
+> +Subject: [PATCH] tests: do not run cpp test applications and
+> + src.ctf.lttng-live/test-live.sh
+> +
+> +These cpp common test applications are needed to re-build
+> +in the target. The test cases src.ctf.lttng-live/test-live.sh
+> +need a local or remote LTTng relay daemon.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
+> +---
+> + tests/Makefile.am | 13 +++++++------
+> + 1 file changed, 7 insertions(+), 6 deletions(-)
+> +
+> +diff --git a/tests/Makefile.am b/tests/Makefile.am
+> +index 2a4022bc4..df990218d 100644
+> +--- a/tests/Makefile.am
+> ++++ b/tests/Makefile.am
+> +@@ -128,10 +128,11 @@ cpp_common_test_unicode_conv_LDADD = \
+> +       $(top_builddir)/src/lib/libbabeltrace2.la \
+> +       $(COMMON_TEST_LDADD)
+> +
+> +-TESTS_CPP_COMMON = \
+> +-      cpp-common/test-c-string-view \
+> +-      cpp-common/test-uuid \
+> +-      cpp-common/test-unicode-conv
+> ++TESTS_CPP_COMMON =
+> ++#TESTS_CPP_COMMON = \
+> ++#     cpp-common/test-c-string-view \
+> ++#     cpp-common/test-uuid \
+> ++#     cpp-common/test-unicode-conv
+> +
+> + TESTS_LIB = \
+> +       lib/test-bt-uuid \
+> +@@ -225,7 +226,7 @@ endif
+> + endif
+> +
+> + if HAVE_PYTHON
+> +-TESTS_PLUGINS += plugins/src.ctf.lttng-live/test-live.sh
+> ++#TESTS_PLUGINS += plugins/src.ctf.lttng-live/test-live.sh
+> +
+> + if DEV_MODE
+> + TESTS_LIB += lib/conds/test-conds.sh
+> +@@ -272,7 +273,7 @@ endef
+> + $(eval $(call check_target,bindings,$(TESTS_BINDINGS)))
+> + $(eval $(call check_target,bitfield,$(TESTS_BITFIELD)))
+> + $(eval $(call check_target,cli,$(TESTS_CLI)))
+> +-$(eval $(call check_target,cpp-common,$(TESTS_CPP_COMMON)))
+> ++#$(eval $(call check_target,cpp-common,$(TESTS_CPP_COMMON)))
+> + $(eval $(call check_target,ctf-writer,$(TESTS_CTF_WRITER)))
+> + $(eval $(call check_target,lib,$(TESTS_LIB)))
+> + $(eval $(call check_target,plugins,$(TESTS_PLUGINS)))
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-test-applications-from-.libs.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-test-applications-from-.libs.patch
+> deleted file mode 100644
+> index 805dde8064..0000000000
+> --- a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-test-applications-from-.libs.patch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -From 582713cc9a013481eeef253195d644020f637ec4 Mon Sep 17 00:00:00 2001
+> -Message-Id: <582713cc9a013481eeef253195d644020f637ec4.1583403622.git.wallinux@gmail.com>
+> -From: Anders Wallin <wallinux@gmail.com>
+> -Date: Thu, 5 Mar 2020 11:20:04 +0100
+> -Subject: [PATCH] tests: do not run test applications from .libs
+> -
+> -Cross compile specific change
+> -
+> -Upstream-Status: Inappropriate [oe-core specific]
+> -
+> -Signed-off-by: Anders Wallin <wallinux@gmail.com>
+> ----
+> - tests/lib/test_plugin | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/tests/lib/test_plugin b/tests/lib/test_plugin
+> -index 652c90cc..1f817c50 100755
+> ---- a/tests/lib/test_plugin
+> -+++ b/tests/lib/test_plugin
+> -@@ -26,4 +26,4 @@ fi
+> - # shellcheck source=../utils/utils.sh
+> - source "$UTILSSH"
+> -
+> --"${BT_TESTS_BUILDDIR}/lib/plugin" "${BT_TESTS_BUILDDIR}/lib/test-plugin-plugins/.libs"
+> -+"${BT_TESTS_BUILDDIR}/lib/plugin" "${BT_TESTS_BUILDDIR}/lib/test-plugin-plugins"
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
+> new file mode 100644
+> index 0000000000..6a46c821bf
+> --- /dev/null
+> +++ b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
+> @@ -0,0 +1,29 @@
+> +From 32494b1726a881883cb6d317ab76d1ec3f1fa740 Mon Sep 17 00:00:00 2001
+> +From: Bin Lan <bin.lan.cn@windriver.com>
+> +Date: Wed, 5 Mar 2025 10:51:11 +0800
+> +Subject: [PATCH] tests: set the correct directory of plugin shared library
+> +
+> +test-plugins-plugins/.libs is not exist when cross build. The plugin shared
+> +libraries are moved from its original test-plugins-plugins/.libs directory
+> +to test-plugins-plugins directory when cross build.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
+> +---
+> + tests/lib/test-plugins.sh | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/tests/lib/test-plugins.sh b/tests/lib/test-plugins.sh
+> +index f83e42baa..939236393 100755
+> +--- a/tests/lib/test-plugins.sh
+> ++++ b/tests/lib/test-plugins.sh
+> +@@ -14,4 +14,4 @@ fi
+> + # shellcheck source=../utils/utils.sh
+> + source "$UTILSSH"
+> +
+> +-"${BT_TESTS_BUILDDIR}/lib/test-plugins" "${BT_TESTS_BUILDDIR}/lib/test-plugins-plugins/.libs"
+> ++"${BT_TESTS_BUILDDIR}/lib/test-plugins" "${BT_TESTS_BUILDDIR}/lib/test-plugins-plugins"
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-kernel/lttng/babeltrace2/run-ptest b/meta/recipes-kernel/lttng/babeltrace2/run-ptest
+> index 71a9c81bfb..a0bf33b75d 100755
+> --- a/meta/recipes-kernel/lttng/babeltrace2/run-ptest
+> +++ b/meta/recipes-kernel/lttng/babeltrace2/run-ptest
+> @@ -4,7 +4,7 @@
+>
+>  # Without --ignore-exit, the tap harness causes any FAILs within a
+>  # test plan to raise ERRORs; this is just noise.
+> -makeargs="LOG_DRIVER_FLAGS=--ignore-exit abs_top_srcdir=$PWD abs_top_builddir=$PWD GREP=grep SED=sed PYTHON=python3"
+> +makeargs="LOG_DRIVER_FLAGS=--ignore-exit abs_top_srcdir=$PWD abs_top_builddir=$PWD"
+>
+>  exec 2> error.log
+>  make -C tests -k -s $makeargs $target
+> @@ -16,4 +16,4 @@ if [ -e tests/test-suite.log ]; then
+>      cat tests/test-suite.log
+>  fi
+>
+> -exit $exitcode
+> \ No newline at end of file
+> +exit $exitcode
+> diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
+> similarity index 70%
+> rename from meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
+> rename to meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
+> index 6a0052f779..090d9293e4 100644
+> --- a/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
+> +++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
+> @@ -2,17 +2,18 @@ SUMMARY = "Babeltrace2 - Trace Format Babel Tower"
+>  DESCRIPTION = "Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log."
+>  HOMEPAGE = "http://babeltrace.org/"
+>  BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
+> -LICENSE = "MIT & GPL-2.0-only & LGPL-2.1-only & BSD-2-Clause"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=a6a458c13f18385b7bc5069a6d7b176e"
+> +LICENSE = "MIT & GPL-2.0-only & LGPL-2.1-only & BSD-2-Clause & BSD-4-Clause & GPL-3.0-or-later & CC-BY-SA-4.0 & PSF-2.0"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=f6b015e4f388d6e78adb1b1f9a887d06"
+>
+>  DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
+>
+> -SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0;protocol=https \
+> +SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=https \
+>             file://run-ptest \
+> -           file://0001-tests-do-not-run-test-applications-from-.libs.patch \
+>             file://0001-Make-manpages-multilib-identical.patch \
+> +           file://0001-tests-do-not-run-some-tests.patch \
+> +           file://0001-tests-set-the-correct-plugin-directory.patch \
+>             "
+> -SRCREV = "0a6632f77801f3218a288604c646f8a39cb0d2c4"
+> +SRCREV = "e61d41ff3c3ac6a123930d4e60cf710ff9ea18e0"
+>  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+>
+>  S = "${WORKDIR}/git"
+> @@ -33,6 +34,14 @@ LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld ptest', '-fuse-ld
+>  # coreutils since we need full mktemp
+>  RDEPENDS:${PN}-ptest += "bash gawk python3 make grep coreutils findutils"
+>
+> +do_configure:append() {
+> +    # when doing cross compile, the path ${B}/src/plugins/ctf/common/src/metadata/tsdl
+> +    # is not created by the babeltrace2 build system. It is need when generating
+> +    # parser.cpp by executing /bin/bash ../../git/config/ylwrap.
+> +    # So make this directory after configuration.
+> +    mkdir -p ${B}/src/plugins/ctf/common/src/metadata/tsdl
+> +}
+> +
+>  do_compile_ptest () {
+>      make -C tests all
+>  }
+> @@ -51,6 +60,10 @@ do_install_ptest () {
+>              -exec install -t "${D}${PTEST_PATH}/tests/$d" {} \;
+>         find "${S}/tests/$d" -maxdepth 1 -name *.expect \
+>              -exec install -t "${D}${PTEST_PATH}/tests/$d" {} \;
+> +       find "${S}/tests/$d" -maxdepth 1 -name *.ref \
+> +            -exec install -t "${D}${PTEST_PATH}/tests/$d" {} \;
+> +       find "${S}/tests/$d" -maxdepth 1 -name *.mctf \
+> +            -exec install -t "${D}${PTEST_PATH}/tests/$d" {} \;
+>      done
+>      install -d "${D}${PTEST_PATH}/tests/data/ctf-traces/"
+>      cp -a ${S}/tests/data/ctf-traces/* ${D}${PTEST_PATH}/tests/data/ctf-traces/
+> @@ -92,6 +105,16 @@ do_install_ptest () {
+>
+>      # Remove architechture specific testfiles
+>      rm -rf ${D}${PTEST_PATH}/tests/data/plugins/flt.lttng-utils.debug-info/*
+> +
+> +    # Set the correct environment variables when running embedded environment
+> +    envsh=${D}${PTEST_PATH}/tests/utils/env.sh
+> +    sed -i "/BT_TESTS_SRCDIR/c\_set_var_def BT_TESTS_SRCDIR '/usr/lib64/babeltrace2/ptest/tests'" $envsh
+> +    sed -i "/BT_TESTS_BUILDDIR/c\_set_var_def BT_TESTS_BUILDDIR '/usr/lib64/babeltrace2/ptest/tests'" $envsh
+> +    sed -i "/BT_TESTS_AWK_BIN/c\_set_var_def BT_TESTS_AWK_BIN 'gawk'" $envsh
+> +    sed -i "/BT_TESTS_GREP_BIN/c\_set_var_def BT_TESTS_GREP_BIN 'grep'" $envsh
+> +    sed -i "/BT_TESTS_PYTHON_BIN/c\_set_var_def BT_TESTS_PYTHON_BIN 'python3'" $envsh
+> +    sed -i "/BT_TESTS_SED_BIN/c\_set_var_def BT_TESTS_SED_BIN 'sed'" $envsh
+> +    sed -i "/BT_TESTS_CC_BIN/c\_set_var_def BT_TESTS_CC_BIN ''" $envsh
+>  }
+>
+>  do_install:append:class-nativesdk() {
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#212489): https://lists.openembedded.org/g/openembedded-core/message/212489
+> Mute This Topic: https://lists.openembedded.org/mt/111614780/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
