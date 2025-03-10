@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 970C4C28B2E
-	for <webhook@archiver.kernel.org>; Mon, 10 Mar 2025 13:36:37 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.37883.1741613793569312780
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 764A1C35FF1
+	for <webhook@archiver.kernel.org>; Mon, 10 Mar 2025 13:36:47 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.37889.1741613799732544959
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Mar 2025 06:36:33 -0700
+ Mon, 10 Mar 2025 06:36:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pjN+BFHH;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-223378e2b0dso59568985ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 06:36:33 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=T70Ezo+S;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22409077c06so6728335ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 06:36:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741613793; x=1742218593; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741613799; x=1742218599; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Awc7dfy8s4Sb7BYiLaR37u6wO7XQlrmdmXKzoqyDnGM=;
-        b=pjN+BFHHrXVaRmhK3l8SZ1JVtBwVTPKhkPUAwpL3nYEoT4g9EKi4vQb/cMSzkmEVKl
-         2H1hUt/xtzdewOBKlvGKQLX5Fq2s4s02H6oRTQUKQ46k7TvNvRJByXdxlxSjuKhH5/jZ
-         rK7/dMvMGvfBsdv3LDStawt99NhDZCIGGNn/PXutZxpQub/eMsGC9xunTMBQifL9kJ47
-         KlkY4ss0UQ6eg6yBWsCA9x8NJQd68oCy3+WkMdGjL6pgg0EftEpJCCb27FXVs0w1jT/L
-         G2in6EAL3qfw2e0zjU8MnIAuohG3M5aqxnykJYKDBep01JrtYlxDgxRZxk5gWgp9CEiZ
-         R2SQ==
+        bh=lz9rVcWajbdtrjZzpBqvZ7xBxzyMxa5elfPIbN312kg=;
+        b=T70Ezo+SoDgSKQpQInir72pi7KD+Qt+MJGuyGu60Cn0nhdpQ+9yogLy5gi03TlM9pm
+         7MY7Znp6Y1lhXuYSnLrB217Jpr//m9DjOSu9ScMhSM2UNbyKjYz0P4vWFHNhqeMOOaXC
+         zanjSDTtPFiV35jJk/zSKA+6MFXjmFmLpyOYgVL1PVQroeL1IbE3ScfZPhoadpC1FAby
+         VZWuijokkFnXx5ecbGhWNsH45MNVjDdIXEkR9rN1l94+MmvgZYsiTz76VXED6oe5V6lQ
+         ULEtJWvP+yoXxL32jHh/qyW9loioC9cPSr4YAWF8EtBYLXHgJwcgN1sxeEGetSxW2d4Z
+         Kb6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741613793; x=1742218593;
+        d=1e100.net; s=20230601; t=1741613799; x=1742218599;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Awc7dfy8s4Sb7BYiLaR37u6wO7XQlrmdmXKzoqyDnGM=;
-        b=U4/BE43iCSLNIDILLwNRbaWyl689+ri/4vboQJ+lYMQA90GT12MmDFM0wHJk7sCZb5
-         yXnkqQNLg4tITD+U6lZlSbMEsbQ3tCR6RwfI9USkNcFMRV2ziifAy/WIJgeyFjT7zoVB
-         Oprz67NPXfPkzRme8e+HLGrZTWr8kucbZGQSxcU3qKhEz0CeAWWcVkUdX+VFbwdqnNEi
-         9FS8kTbOnt01emyBikFyOMip0N5c5T8Pr2nZWYfJnJ0g43SFQyGOTmsriToLNE+6vScJ
-         mDT8+0qdbPz5M55zAfcdQ9qRqge0ZPRbxhMI3G7GDFrzRibDkl/QwqSOYXSt83DVR/54
-         7VJw==
-X-Gm-Message-State: AOJu0Yw3Bm4wsXx86+Gtn9oZpdqI1Mx61x38NNNXnlwYbPPs1yvZc3gf
-	YgHJomn/ftX3buzQqrX9Ndo7N5IYtaRsQEJYvWmBfc7rfaskQ5l7gBtqd+8NWMR/7chudf/i7tH
-	M
-X-Gm-Gg: ASbGnctMLxo87zghvi8ys0coHpJtTB+OYhBPsIh1B3y5bls3SUs34g9go5wFhL6tcyf
-	bXoBFGPThgSQC1cJ5uN51GJH3VUdJM87cbRX5SojjoT1BzfvUa9c2rEljFK6AWYNDCwBeNoFwXU
-	IeOYZ8LXDJSpG08LCD4WL48/TIwHKoRHzLbHlZmX78TM6h3KhiUF/kNLNu+UGlvWiSkbDMIsrEc
-	FYxkaGBkK1jkh2up/wYgbGnpxgL2kh6Hvs3D3rDkSiVj/v+NruDvfslErTATvvPmxJEm52wf5gf
-	qjP8fN+j7ZBKyiw5fYeLsgcqSca9bSUa8ytG
-X-Google-Smtp-Source: AGHT+IHDiBi1XV7UBz8KRVykPWHRI1tIL67BnlTVZaMwRchiUxAdC1B4TqStZmJNr8f/NBhW7ZArsQ==
-X-Received: by 2002:a17:902:ce87:b0:21f:5cd8:c67 with SMTP id d9443c01a7336-22428ab58d8mr245273825ad.31.1741613792700;
-        Mon, 10 Mar 2025 06:36:32 -0700 (PDT)
+        bh=lz9rVcWajbdtrjZzpBqvZ7xBxzyMxa5elfPIbN312kg=;
+        b=Z3vqjaNnckTx533GuPKDNJKthtq1+LiZsfYgfFt7TwuhYC1lyOQmtwpyF5ZHzWJVaG
+         1N8fM9BT8wR7zoD+ddQ2yhq9nF6dY+5xxM5QrnkfVeLIlirCo3J7K4CpvtDNz83PmkRe
+         e1y/xlcs5q6xdwPzWHlKeOekkcgyka9ASDCCnn6+pfhhCeaYhoB0kQ/jg4L1COBRP/5j
+         3qtb50V4pZpxcHLG/O20vyxbhOIX8pNHGbRwfuqqE+y/LAg0x9sgsM4OkD8VbW0OzPMd
+         l0A0CNSpV+fENWYsAXEIgnnO6kCo3ycu9HnGqheWXmoK07EhVmsNkNL7pcAA4HYaMIHU
+         qmoA==
+X-Gm-Message-State: AOJu0YzJSDzKXuEGsN8BoQCZTXtOB0LU8wOhryCU3NAJcDT2WzYOJEOl
+	brZO8C62A4a0vwlQugcSjwiNOLoniSLKEsLHU/a1qIpD/IAkfAEFUcYX7EyoTxbsu2KjvgZTYKK
+	O
+X-Gm-Gg: ASbGnct+bN9acoR1b5Kl8snbTZeszsmR/qrNrlUqNcb1LOHKwDLxaYVvfGijN+H8fpl
+	Ifw9WGNupl+RYLcDV8my0JcL1JjKWAVMzr6oxHzJP+ipsnDKUXT0l86VwH1wI2wKzMVp5uhFk0h
+	mr4O5r/6i1pcDqCKRgNVaeSXE7gt94bRv2stI7cDr/iLupLLjTKU4LXNd9J2ciu/nZdRQLhXOfo
+	8eekQmMn6sNvmUHedcxMWPdIxtn909D9tHj4c+cROisQ5wmT6Cjnu8qAPI5EAeleCXOePKIQffc
+	ZXMw36oXYN14d/NgRNyAjImMkNT2ejAKZgUGKoN3FtaZXEc=
+X-Google-Smtp-Source: AGHT+IEZ4IdrXBSLEUSfKkmyTiZHfdEWgGijUIi4caM06zMHmRrghMCKxik+EBtDJJCh5wcqoOsEPA==
+X-Received: by 2002:a17:902:da8c:b0:223:8256:533d with SMTP id d9443c01a7336-22428bf7ad4mr218822175ad.46.1741613799031;
+        Mon, 10 Mar 2025 06:36:39 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:2ea8:96c2:9f70:5c1e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-224109ddfbcsm77820095ad.21.2025.03.10.06.36.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-224109ddfbcsm77820095ad.21.2025.03.10.06.36.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Mar 2025 06:36:32 -0700 (PDT)
+        Mon, 10 Mar 2025 06:36:38 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 1/6] openssh: Fix CVE-2025-26465
-Date: Mon, 10 Mar 2025 06:36:19 -0700
-Message-ID: <934c212859e12235599835e8cfd8857e4be44ff8.1741613667.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 5/6] tzdata/tzcode-native: upgrade 2024b -> 2025a
+Date: Mon, 10 Mar 2025 06:36:23 -0700
+Message-ID: <4dc7731d350eab8952330f01beb5acdba7d88bb9.1741613667.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741613667.git.steve@sakoman.com>
 References: <cover.1741613667.git.steve@sakoman.com>
@@ -66,179 +66,41 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 13:36:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212521
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 13:36:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212525
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Priyal Doshi <pdoshi@mvista.com>
 
-Upstream-Status: Backport from https://github.com/openssh/openssh-portable/commit/0832aac79517611dd4de93ad0a83577994d9c907
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Priyal Doshi <pdoshi@mvista.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a15c4e6793c55c8084a61298ef3695e1db2f60cd)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssh/openssh/CVE-2025-26465.patch      | 140 ++++++++++++++++++
- .../openssh/openssh_8.9p1.bb                  |   1 +
- 2 files changed, 141 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-26465.patch
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2025-26465.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2025-26465.patch
-new file mode 100644
-index 0000000000..ffc798a158
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2025-26465.patch
-@@ -0,0 +1,140 @@
-+From 0832aac79517611dd4de93ad0a83577994d9c907 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Tue, 18 Feb 2025 08:02:48 +0000
-+Subject: [PATCH] upstream: Fix cases where error codes were not correctly set
-+
-+Reported by the Qualys Security Advisory team. ok markus@
-+
-+OpenBSD-Commit-ID: 7bcd4ffe0fa1e27ff98d451fb9c22f5fae6e610d
-+
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/0832aac79517611dd4de93ad0a83577994d9c907]
-+CVE: CVE-2025-26465
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ krl.c           | 2 ++
-+ ssh-agent.c     | 3 +++
-+ ssh-sk-client.c | 2 ++
-+ sshconnect2.c   | 5 ++++-
-+ sshsig.c        | 1 +
-+ 5 files changed, 12 insertions(+), 1 deletion(-)
-+
-+diff --git a/krl.c b/krl.c
-+index 17b88ed..aef2001 100644
-+--- a/krl.c
-++++ b/krl.c
-+@@ -674,6 +674,7 @@ revoked_certs_generate(struct revoked_certs *rc, struct sshbuf *buf)
-+ 			break;
-+ 		case KRL_SECTION_CERT_SERIAL_BITMAP:
-+ 			if (rs->lo - bitmap_start > INT_MAX) {
-++				r = SSH_ERR_INVALID_FORMAT;
-+ 				error_f("insane bitmap gap");
-+ 				goto out;
-+ 			}
-+@@ -1008,6 +1009,7 @@ ssh_krl_from_blob(struct sshbuf *buf, struct ssh_krl **krlp,
-+ 		goto out;
-+ 
-+ 	if ((krl = ssh_krl_init()) == NULL) {
-++		r = SSH_ERR_ALLOC_FAIL;
-+ 		error_f("alloc failed");
-+ 		goto out;
-+ 	}
-+diff --git a/ssh-agent.c b/ssh-agent.c
-+index 4dbb4f3..6382ef4 100644
-+--- a/ssh-agent.c
-++++ b/ssh-agent.c
-+@@ -1198,6 +1198,7 @@ parse_key_constraint_extension(struct sshbuf *m, char **sk_providerp,
-+ 	    "restrict-destination-v00@openssh.com") == 0) {
-+ 		if (*dcsp != NULL) {
-+ 			error_f("%s already set", ext_name);
-++			r = SSH_ERR_INVALID_FORMAT;
-+ 			goto out;
-+ 		}
-+ 		if ((r = sshbuf_froms(m, &b)) != 0) {
-+@@ -1207,6 +1208,7 @@ parse_key_constraint_extension(struct sshbuf *m, char **sk_providerp,
-+ 		while (sshbuf_len(b) != 0) {
-+ 			if (*ndcsp >= AGENT_MAX_DEST_CONSTRAINTS) {
-+ 				error_f("too many %s constraints", ext_name);
-++				r = SSH_ERR_INVALID_FORMAT;
-+ 				goto out;
-+ 			}
-+ 			*dcsp = xrecallocarray(*dcsp, *ndcsp, *ndcsp + 1,
-+@@ -1663,6 +1665,7 @@ process_ext_session_bind(SocketEntry *e)
-+ 	/* record new key/sid */
-+ 	if (e->nsession_ids >= AGENT_MAX_SESSION_IDS) {
-+ 		error_f("too many session IDs recorded");
-++		r = -1;
-+ 		goto out;
-+ 	}
-+ 	e->session_ids = xrecallocarray(e->session_ids, e->nsession_ids,
-+diff --git a/ssh-sk-client.c b/ssh-sk-client.c
-+index 321fe53..750accb 100644
-+--- a/ssh-sk-client.c
-++++ b/ssh-sk-client.c
-+@@ -439,6 +439,7 @@ sshsk_load_resident(const char *provider_path, const char *device,
-+ 		}
-+ 		if ((srk = calloc(1, sizeof(*srk))) == NULL) {
-+ 			error_f("calloc failed");
-++			r = SSH_ERR_ALLOC_FAIL;
-+ 			goto out;
-+ 		}
-+ 		srk->key = key;
-+@@ -450,6 +451,7 @@ sshsk_load_resident(const char *provider_path, const char *device,
-+ 		if ((tmp = recallocarray(srks, nsrks, nsrks + 1,
-+ 		    sizeof(*srks))) == NULL) {
-+ 			error_f("recallocarray keys failed");
-++			r = SSH_ERR_ALLOC_FAIL;
-+ 			goto out;
-+ 		}
-+ 		debug_f("srks[%zu]: %s %s uidlen %zu", nsrks,
-+diff --git a/sshconnect2.c b/sshconnect2.c
-+index 83ae4a4..6cfae2a 100644
-+--- a/sshconnect2.c
-++++ b/sshconnect2.c
-+@@ -97,7 +97,7 @@ static int
-+ verify_host_key_callback(struct sshkey *hostkey, struct ssh *ssh)
-+ {
-+ 	if (verify_host_key(xxx_host, xxx_hostaddr, hostkey,
-+-	    xxx_conn_info) == -1)
-++	    xxx_conn_info) != 0)
-+ 		fatal("Host key verification failed.");
-+ 	return 0;
-+ }
-+@@ -713,6 +713,7 @@ input_userauth_pk_ok(int type, u_int32_t seq, struct ssh *ssh)
-+ 
-+ 	if ((pktype = sshkey_type_from_name(pkalg)) == KEY_UNSPEC) {
-+ 		debug_f("server sent unknown pkalg %s", pkalg);
-++		r = SSH_ERR_INVALID_FORMAT;
-+ 		goto done;
-+ 	}
-+ 	if ((r = sshkey_from_blob(pkblob, blen, &key)) != 0) {
-+@@ -723,6 +724,7 @@ input_userauth_pk_ok(int type, u_int32_t seq, struct ssh *ssh)
-+ 		error("input_userauth_pk_ok: type mismatch "
-+ 		    "for decoded key (received %d, expected %d)",
-+ 		    key->type, pktype);
-++		r = SSH_ERR_INVALID_FORMAT;
-+ 		goto done;
-+ 	}
-+ 
-+@@ -742,6 +744,7 @@ input_userauth_pk_ok(int type, u_int32_t seq, struct ssh *ssh)
-+ 		    SSH_FP_DEFAULT);
-+ 		error_f("server replied with unknown key: %s %s",
-+ 		    sshkey_type(key), fp == NULL ? "<ERROR>" : fp);
-++		r = SSH_ERR_INVALID_FORMAT;
-+ 		goto done;
-+ 	}
-+ 	ident = format_identity(id);
-+diff --git a/sshsig.c b/sshsig.c
-+index 7736134..76d7c21 100644
-+--- a/sshsig.c
-++++ b/sshsig.c
-+@@ -857,6 +857,7 @@ cert_filter_principals(const char *path, u_long linenum,
-+ 	}
-+ 	if ((principals = sshbuf_dup_string(nprincipals)) == NULL) {
-+ 		error_f("buffer error");
-++		r = SSH_ERR_ALLOC_FAIL;
-+ 		goto out;
-+ 	}
-+ 	/* success */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-index d2c477a062..54b4d238eb 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-@@ -37,6 +37,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2023-51384.patch \
-            file://CVE-2023-51385.patch \
-            file://CVE-2024-6387.patch \
-+           file://CVE-2025-26465.patch \
-            "
- SRC_URI[sha256sum] = "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 8935d1cd8c..3fe6c3142b 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
+-PV = "2024b"
++PV = "2025a"
+ 
+ SRC_URI =" https://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            https://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "https://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "5e438fc449624906af16a18ff4573739f0cda9862e5ec28d3bcb19cbaed0f672"
+-SRC_URI[tzdata.sha256sum] = "70e754db126a8d0db3d16d6b4cb5f7ec1e04d5f261255e4558a67fe92d39e550"
++SRC_URI[tzcode.sha256sum] = "119679d59f76481eb5e03d3d2a47d7870d592f3999549af189dbd31f2ebf5061"
++SRC_URI[tzdata.sha256sum] = "4d5fcbc72c7c450ebfe0b659bd0f1c02fbf52fd7f517a9ea13fe71c21eb5f0d0"
 -- 
 2.43.0
 
