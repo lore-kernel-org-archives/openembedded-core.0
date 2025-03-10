@@ -2,158 +2,116 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89F5CC3DA4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 887A7C282EC
 	for <webhook@archiver.kernel.org>; Mon, 10 Mar 2025 13:36:37 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.37884.1741613795271186646
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.37434.1741613791256673589
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Mar 2025 06:36:35 -0700
+ Mon, 10 Mar 2025 06:36:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lzM5rI6K;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-22355618fd9so75411885ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 06:36:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Fk4QbSOa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-224341bbc1dso44259535ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 06:36:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741613794; x=1742218594; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C+V1zJKKFt2OfuzNtZ5l+9Vkg47wJcnAgRElGI37ADs=;
-        b=lzM5rI6KXnS+mTYOO0EE3AStu8cg00k+WYftASMljwFt3l++wewGdYFFE/k6aztHfu
-         Zq0aLZAnEKMx0+9fkNw+PEhhSeyDeEDO3mOS/SIN89G0lHLZ1+loXmi5MloueCxgXOOG
-         kSJrUfRad2rBuhtIiLmOtbH2Xs4jWWOvGc+F6JIxuk/7eGSst7cpllfQqtaGNUbAuaSv
-         1EAKYrD5LdmjXiPsiieBOfX0yffVQhDskyS/gzaN8dIxQn3WwDN06zLuALMyKZwrtLDR
-         s/UxN/Pb5OS9S9q5bp/ygVoqkd6rI981h2eCby6KQsJgR8CU9uLtbgAxTOse99vlfttG
-         PftA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741613790; x=1742218590; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TY0/mtF1iAAsjbafjrjWqO2nfaE5fhr+voBzP8unTaU=;
+        b=Fk4QbSOa6No49AORLeichTLo83YTvop+cPrBddf9ojuHA4zWZ96278pdt/VkBtw/IV
+         TGuxgkDGkhKuAEHYTpFgXNOVAvFA7rH8OluoVRURXP6/hheAGTkpGQTcNLsjnZpEmkr+
+         QLctVau3+d08hbNinEM1YtPJPtszzBW9yKQ1/eeC/YbuYsgPA4RMKk0ZYBu4pFg9/yRL
+         YEL6H1CqRQTZiX1OD+jFOr7nbKt8cWsL0pFDVEuevXa3iuKPwXY8HkHhFFvhiKOiToiI
+         mdJKmiqUSTZlA6XMxoFkLUbbIleV2M/PeMXKDFEd7+lGp/al2PLUgRRbVSckXP0uJ0Kw
+         HD6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741613794; x=1742218594;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C+V1zJKKFt2OfuzNtZ5l+9Vkg47wJcnAgRElGI37ADs=;
-        b=e9RI6U9763w1hvSXP+d5ruaJ0Q/GWO6v9uuDrBaLhc82nxL8HiTtcVxlSmIjtWt9Wc
-         5f5S/ZrSmlEQu+owMhHJeSRXJBMgf7h/Vd78o5HXX5q0XKwP6OGQAdAQ2Y2nqnRKZ8SA
-         xvoBZb8iY6qOtNywbylCIC0oycIMfO7ZKw4z0D7TWorw1HfVIq+PVIN9MQ5vrrfM8Cph
-         HULAj1quKTQrqqJIJH3It9doBony+DgO3sNI3RIzEEM+bD+D5W8ly74MSNL2dYQijxVR
-         o7TvoGeaKxxm4mfVwP6SaL0V4Rd7C795qxaPtUUpGIdf1q2uTPYltpwTxKPjZk7w0Bfd
-         qLYA==
-X-Gm-Message-State: AOJu0Yy4/ROigQ6yhS+1P/q2oBGqLMgd/ZWMO7lTDq8iCTRci+Xh230q
-	J7sh8lnVtgnG4edGv4Yn/O4SpxW2haMVcPXBu6igo1fNRmwnV+xJ3WujSF6bWrF7nR1tqpyROkn
-	J
-X-Gm-Gg: ASbGncv2GIRwP6VzOFlS782QYbfdbvk5QcAFtxXssbPE5wWE/z3R7n9tR456UfFIWXb
-	zUUhB1bczR94J41eLGTnoOGEG1mizRO9W6n44SI3W2J2PMSH5H6j79MSK2pM237VHP+lc56n71r
-	juyNQMn0imJtsGDnW6wlWFwoOvJKm1jY8Fzc+QLJb2SoMYx5/GIvYZeJA9up/GXStKVVavPjfAB
-	JZmkEzwwubPCB0OEvq9oSlZy3NG+uWLdoi2NZxWVRzZBa+J+qIE43M+kArBfsbdrBRXWXBcSj57
-	ECesRcBOAGPRBlz8lnf9Xa7J6g+SO/0PECoFWPYESkhI+Fo=
-X-Google-Smtp-Source: AGHT+IE30DGhEO8TpRjwfZaxruBbY0L8Lz5jSEQhHYHXsVeBUOdCIJTC36HJS+JAfcSZd3q2XtWFWA==
-X-Received: by 2002:a17:902:e74e:b0:224:b60:3cd3 with SMTP id d9443c01a7336-22428a89074mr215017675ad.19.1741613794482;
-        Mon, 10 Mar 2025 06:36:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1741613790; x=1742218590;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TY0/mtF1iAAsjbafjrjWqO2nfaE5fhr+voBzP8unTaU=;
+        b=LBdWclPA4EUKnR6ZO1DctGzuIFS0zwqgJFm67W3dv/PONFQS9vOod2X0RKrvAaJwTH
+         Zv/GbCtZUDpmxXTFtrl/IiNhVoaY3r577AKdC3fw84ud7cLq/fbBGggxx3YK62bApUzo
+         We4n4pNytgUIRKZ5hwyT1gjWi0V0GtjtlV1wKijPRUOYyvKrvCjfMUl5CKp6FQiUS8lq
+         D7La+hvEja3vVwU6jLga5z2DER34M3J8O3F7444PTHkbeOVYpJf3yI8mozkNmwqMX4Zp
+         E9aPnJF7bAzhx72bmca+Iq1BD5712P7vPitQAesK2IaUdIBczX/D5TChw9P2DnJD8WGa
+         YnwQ==
+X-Gm-Message-State: AOJu0YyF/ZRl25PMzsGDvAAfzfov5xqwjxo6kaFzOWP0E53P7YUPpkcS
+	j6sttzS91R6D+uHaKzZ8xR41+vIHqdMCo4Q+6DO+J0kuk4xvVyDvO2WQBYuWTSsoDh0jG/ru0pb
+	H
+X-Gm-Gg: ASbGncsQ72tW6x/gj4RgiDcH8dM/VJVMiubRB0YrglVpZca/CNXQUqVLoVG8qg4cVOX
+	th0g03ImMiMf2BKf9CXrqXqYsfNfWZ3+VZmk1Ng3mE28PFfE8gk27+ecSOQDluQ0lML/hVvHQ7k
+	OZ+7x+EE++KviboETB0b4L+Ig1i1oXmlBeup0nMAHdIbYb0b8wqYXp+00sUcocrvjCSsfDZrD03
+	yQvBcWCT0BiPVfc9zurUZKt3QehZVOjqcHaDcmfR5CjfwH5kzyan95hTsK7R+A7E+xtU/O+lT9M
+	rhSvq0WhG6r087f8FAm5YS+zs34mt1VO/cHeVCMHvzv+6SU=
+X-Google-Smtp-Source: AGHT+IGry2YTRtTx9nFUuIQKZtkLcGE1dnU+W3hK4aeGNaikhPCXM+MKYD4ytNFLi/kfm24ZsEwyaw==
+X-Received: by 2002:a17:902:f645:b0:21f:4c8b:c4de with SMTP id d9443c01a7336-22428ac90a6mr201020375ad.42.1741613790408;
+        Mon, 10 Mar 2025 06:36:30 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:2ea8:96c2:9f70:5c1e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-224109ddfbcsm77820095ad.21.2025.03.10.06.36.33
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-224109ddfbcsm77820095ad.21.2025.03.10.06.36.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Mar 2025 06:36:34 -0700 (PDT)
+        Mon, 10 Mar 2025 06:36:30 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 2/6] binutils: Fix CVE-2025-0840
-Date: Mon, 10 Mar 2025 06:36:20 -0700
-Message-ID: <e12ee4b1713aa25465aa3f866d345d84e9eb948a.1741613667.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 0/6] Patch review
+Date: Mon, 10 Mar 2025 06:36:18 -0700
+Message-ID: <cover.1741613667.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1741613667.git.steve@sakoman.com>
-References: <cover.1741613667.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 13:36:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212522
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212520
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Wednesday, March 12
 
-PR32560 stack-buffer-overflow at objdump disassemble_bytes
+Passed a-full on autobuilder:
 
-Backport a patch from upstream to fix CVE-2025-0840
-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=baac6c221e9d69335bf41366a1c7d87d8ab2f893]
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1152
 
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/0038-CVE-2025-0840.patch         | 53 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
+The following changes since commit 0d9f2fcc2058407eb138297d9f8f12595851b963:
+
+  mesa: Fix missing GLES3 headers in SDK sysroot (2025-03-04 08:43:39 -0800)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Alessio Cascone (1):
+  tzcode-native: Fix compiler setting from 2023d version
+
+Deepesh Varatharajan (1):
+  binutils: Fix CVE-2025-0840
+
+Hitendra Prajapati (1):
+  ruby: Fix CVE-2025-27220
+
+Priyal Doshi (1):
+  tzdata/tzcode-native: upgrade 2024b -> 2025a
+
+Vijay Anusuri (2):
+  openssh: Fix CVE-2025-26465
+  libtasn1: upgrade 4.19.0 -> 4.20.0
+
+ .../openssh/openssh/CVE-2025-26465.patch      | 140 ++++++++++++++++++
+ .../openssh/openssh_8.9p1.bb                  |   1 +
+ .../binutils/binutils-2.38.inc                |   1 +
+ .../binutils/0038-CVE-2025-0840.patch         |  53 +++++++
+ .../ruby/ruby/CVE-2025-27220.patch            |  76 ++++++++++
+ meta/recipes-devtools/ruby/ruby_3.1.3.bb      |   1 +
+ meta/recipes-extended/timezone/timezone.inc   |   6 +-
+ .../timezone/tzcode-native.bb                 |   2 +-
+ ...{libtasn1_4.19.0.bb => libtasn1_4.20.0.bb} |   7 +-
+ 9 files changed, 279 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-26465.patch
  create mode 100644 meta/recipes-devtools/binutils/binutils/0038-CVE-2025-0840.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch
+ rename meta/recipes-support/gnutls/{libtasn1_4.19.0.bb => libtasn1_4.20.0.bb} (63%)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index e577a10cb8..26d0b570f3 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -72,5 +72,6 @@ SRC_URI = "\
-      file://0035-CVE-2023-39129.patch \
-      file://0036-CVE-2023-39130.patch \
-      file://0037-CVE-2024-53589.patch \
-+     file://0038-CVE-2025-0840.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0038-CVE-2025-0840.patch b/meta/recipes-devtools/binutils/binutils/0038-CVE-2025-0840.patch
-new file mode 100644
-index 0000000000..b04e750690
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0038-CVE-2025-0840.patch
-@@ -0,0 +1,53 @@
-+Author: Alan Modra <amodra@gmail.com>
-+Date:   Wed, 15 Jan 2025 19:13:43 +1030
-+
-+PR32560 stack-buffer-overflow at objdump disassemble_bytes
-+
-+There's always someone pushing the boundaries.
-+
-+	PR 32560
-+	* objdump.c (MAX_INSN_WIDTH): Define.
-+	(insn_width): Make it an unsigned long.
-+	(disassemble_bytes): Use MAX_INSN_WIDTH to size buffer.
-+	(main <OPTION_INSN_WIDTH>): Restrict size of insn_width.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=baac6c221e9d69335bf41366a1c7d87d8ab2f893]
-+CVE: CVE-2025-0840
-+
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+
-+diff --git a/binutils/objdump.c b/binutils/objdump.c
-+index 59f454b0..bd6180be 100644
-+--- a/binutils/objdump.c
-++++ b/binutils/objdump.c
-+@@ -110,7 +110,8 @@ static bool disassemble_all;		/* -D */
-+ static int disassemble_zeroes;		/* --disassemble-zeroes */
-+ static bool formats_info;		/* -i */
-+ static int wide_output;			/* -w */
-+-static int insn_width;			/* --insn-width */
-++#define MAX_INSN_WIDTH 49
-++static unsigned long insn_width;        /* --insn-width */
-+ static bfd_vma start_address = (bfd_vma) -1; /* --start-address */
-+ static bfd_vma stop_address = (bfd_vma) -1;  /* --stop-address */
-+ static int dump_debugging;		/* --debugging */
-+@@ -2897,7 +2898,7 @@ disassemble_bytes (struct disassemble_info *inf,
-+ 	}
-+       else
-+ 	{
-+-	  char buf[50];
-++	  char buf[MAX_INSN_WIDTH + 1];
-+ 	  unsigned int bpc = 0;
-+ 	  unsigned int pb = 0;
-+ 
-+@@ -5457,8 +5458,9 @@ main (int argc, char **argv)
-+ 	  break;
-+ 	case OPTION_INSN_WIDTH:
-+ 	  insn_width = strtoul (optarg, NULL, 0);
-+-	  if (insn_width <= 0)
-+-	    fatal (_("error: instruction width must be positive"));
-++	  if (insn_width - 1 >= MAX_INSN_WIDTH)
-++	    fatal (_("error: instruction width must be in the range 1 to "
-++                     XSTRING (MAX_INSN_WIDTH)));
-+ 	  break;
-+ 	case OPTION_INLINES:
-+ 	  unwind_inlines = true;
 -- 
 2.43.0
 
