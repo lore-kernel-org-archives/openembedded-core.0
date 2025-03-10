@@ -1,336 +1,170 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <guocai.he.cn@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82181C282DE
-	for <webhook@archiver.kernel.org>; Mon, 10 Mar 2025 07:29:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E59DFC282DE
+	for <webhook@archiver.kernel.org>; Mon, 10 Mar 2025 09:01:25 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.31782.1741591761159223840
+ by mx.groups.io with SMTP id smtpd.web10.33296.1741597281118216411
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Mar 2025 00:29:21 -0700
+ Mon, 10 Mar 2025 02:01:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=51640283d4=hongxu.jia@windriver.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5164f71202=guocai.he.cn@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52A6SUhx008299
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 07:29:20 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 458cv8sqxx-1
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52A79H0T002895
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 09:01:20 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2047.outbound.protection.outlook.com [104.47.73.47])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 458cv8std0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 07:29:19 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52A7TJTd031476;
-	Mon, 10 Mar 2025 07:29:19 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2046.outbound.protection.outlook.com [104.47.66.46])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 458cv8sqxv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Mar 2025 07:29:19 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 09:01:20 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Jh5/v6Ky+3jdk9WFo5JGG1vHnTW+b4Szn5FRfFr8WmMkGYhecVjpxLlF/TjB3sS4mi/KGFxJ/1ksJjb3NLJYdeTrIKbD/XE6LcmqfMKf9Lf6Du3a5NMUxsBf+aesGYRXFJlWv7C+UUZeRZ7DZBPDATUOC0CiNuKpJ/BxXVHDfuZuthnYSMn3SwW/vQw/mIv8l9prt3XJ/96wvaYVnXaAqRycQ2J94gXoxCUJ6RMcWECOoO749tJ7SyJJgz8nrceIohskG0FVLGAGbn9GwMOxH5t0ZIfN9LUD4ilPW8QadyDDIM41mdbcO8kthLU1cMhWOnzhHsmiviZEx5hL+SVyCQ==
+ b=yWOxAbNBFgtm2VGanRaDO8UPD32CL0iCw5+BVYgxgJeQ29OvsX67J1sW/eFymZln9YK7APjvP3lGOKc32NHN/uukoN19jfkBU5zhR6HxiouZ5Avp0OGDVftM9tt29i1l/bpzQzwj4H3YrYk7udCtowkQK9Xq+I4iUuwLC29Auk7t+M1K2O4AJzBygStmkCKbH2SVRWAP+JxqvP3VO+pwyPP3VqeTGuFULuc6BNVHJ718Cr1c0UZp6ZGOpos57XeawvKuNWO4I5YMXBNarDdh1sgdL50POgLyNfaH7ZMOd4fLpHOxw9clr7izJt97V4rpPjq4mkg1iRHoNcOuMMRmRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W9isdFcl5YMBHc1IqGqJKatuttlBEsw3GTGsDSAAWkQ=;
- b=Rr+JPncpIKYsu95OFOvlw5luW13/j8mLuRcWkXthjL2qk7ICCoEcZHhRz8PUIu/EhX+M2u5OhLIQcy6qC+DDTRanWdAe1PmB+fSsFcWkhjOLr0KBYSuC13D01Ho8t3R32+V46QLuOEGOryFb1z3n0Gpgky5OAJq6EIkP+glnyA62D9620UA3Y/QPIkvbmNqxDX5xnCP3GUnFzynim/FUeFWpCczf9AlhqWfFG5kdhytfFSL8dMop1aWB/oylJJT187GQrkXMfjAN0i84fSV/1m/Zy7B5ysHzpLVgnpcp1ghy2Fn2B3oX/kfil/UBhGKxFUnR2lrDZTP5k1Gc1ujk8w==
+ bh=/mBFf+8WWCYPbFX56RD9rXrVZY53SRlWKBFxoXqQ5a8=;
+ b=ZvAEyLR+cv2/Ftb5nJ3zYkw6okoNhoyl7u+V7znK05tXCU90MePaYCLRZY+D/TZ3TtWucQVdFPEW+tIORdltsBJWRNFK38R2qHfR+rp0Y5FYQ3il6oA2Fkr0CrSCKXiamp6haoXXJlPbQhBS35rgfm5Z45Lwe6eUQ4ADkdBUHz6J6W/zPYnc07IAIesqhub5USXxhZMhbudKJ8eRc0ELqlPALXUN8/qxUIIOumvug8i5DkSxYei042sNQxBxfQm41EEIuzAfO1AzW6OcFMu/W7ncaLJO8Fq07Uf4ezIz9nb8ooyti8IMzxvev2btYngKlCx0S+G2EUDcPHFL6zNC5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
- by SJ0PR11MB4925.namprd11.prod.outlook.com (2603:10b6:a03:2df::13) with
+Received: from SN6PR11MB2671.namprd11.prod.outlook.com (2603:10b6:805:60::18)
+ by CY8PR11MB7082.namprd11.prod.outlook.com (2603:10b6:930:52::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.26; Mon, 10 Mar
- 2025 07:29:15 +0000
-Received: from PH7PR11MB7608.namprd11.prod.outlook.com
- ([fe80::ef64:bc9f:eb8c:e6e]) by PH7PR11MB7608.namprd11.prod.outlook.com
- ([fe80::ef64:bc9f:eb8c:e6e%7]) with mapi id 15.20.8511.025; Mon, 10 Mar 2025
- 07:29:14 +0000
-Content-Type: multipart/alternative;
- boundary="------------rNVTKcsDGc08gni0MABUzPGk"
-Message-ID: <64fe699d-a030-4777-82fa-faef18ca9c22@windriver.com>
-Date: Mon, 10 Mar 2025 15:29:09 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: Patchtest results for [PATCH] docbook-xml-dtd4: correct license
- name
-To: patchtest@automation.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-References: <20250310071234.2370628-1-hongxu.jia@windriver.com>
- <010101957ee9e7b8-265cb694-4d61-42b6-b160-8ba936e42232-000000@us-west-2.amazonses.com>
-Content-Language: en-US
-From: Hongxu Jia <hongxu.jia@windriver.com>
-In-Reply-To: <010101957ee9e7b8-265cb694-4d61-42b6-b160-8ba936e42232-000000@us-west-2.amazonses.com>
-X-ClientProxiedBy: TYCPR01CA0135.jpnprd01.prod.outlook.com
- (2603:1096:400:26d::15) To PH7PR11MB7608.namprd11.prod.outlook.com
- (2603:10b6:510:269::20)
+ 2025 09:01:17 +0000
+Received: from SN6PR11MB2671.namprd11.prod.outlook.com
+ ([fe80::3e06:cc6f:58bb:3326]) by SN6PR11MB2671.namprd11.prod.outlook.com
+ ([fe80::3e06:cc6f:58bb:3326%3]) with mapi id 15.20.8511.025; Mon, 10 Mar 2025
+ 09:01:17 +0000
+From: guocai.he.cn@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][kirkstone][PATCH 1/1] boost: update SRC_URI
+Date: Mon, 10 Mar 2025 17:01:01 +0800
+Message-Id: <20250310090101.446602-1-guocai.he.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0018.APCP153.PROD.OUTLOOK.COM (2603:1096:4:140::9)
+ To SN6PR11MB2671.namprd11.prod.outlook.com (2603:10b6:805:60::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|SJ0PR11MB4925:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3dc9dc6-10f2-45bf-3683-08dd5fa54279
+X-MS-TrafficTypeDiagnostic: SN6PR11MB2671:EE_|CY8PR11MB7082:EE_
+X-MS-Office365-Filtering-Correlation-Id: d14ccfdb-9982-49fa-c437-08dd5fb21e46
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|1800799024|13003099007|8096899003|7053199007;
+	BCL:0;ARA:13230040|376014|366016|52116014|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?eVo0eDEzVFNtblJ3SmxkV2FwMEtKdHRFb3VGcEcxOTlMY3M5Y01UNTZmL2pD?=
- =?utf-8?B?alRFR05sVjJPOXpCSzVGeVNlRkxMK3cxdXUzanpBTHRGZUtwWncwd2pmQVJu?=
- =?utf-8?B?L3dIMFlVdTBnWHhrMVZ4b1NndFYwdTB2V0RQajliV1JZMmp2cW52eTRTc2k3?=
- =?utf-8?B?L2QwMnFhcEVacmw2QXpMeERxeXlIcXlVTkRZRlJ4d1hiR0NHVjQ3M293dGd5?=
- =?utf-8?B?R051M2NrWklNS0FHZnVSRmpqM05pdVM5dUlRVlc5VHQ4YS8zaTlsWjlPMmpy?=
- =?utf-8?B?aUZwZmxrR25RaVpsSVE5ZkRKdk5sd0JQMTI0NHY1WnR4QnhZYjcvdE1aVVNa?=
- =?utf-8?B?YjZzd1pydzlPckxKd1lSaFl5dFh5L1l1VG9VbTRGMzg2TDBGVTlIelkvVU1K?=
- =?utf-8?B?V3EvaTdSNzVjVDFkTUJrZlY1d28rU2Ryelp1S3VBdmpBMUdVUm4xUUgxWlVW?=
- =?utf-8?B?cmtoaUJxM1R1WTNwWStVVjNHOTgzbXNPNmx0TTRCWHJpUnlsSm1hRUQwaThp?=
- =?utf-8?B?SXZBYVhvc2JlSVE2eTluWnFVVDkrMGtwaGVZK1VGK2JPWTZ3QWo1eW8vTy9W?=
- =?utf-8?B?Y2YycXlNT1oycXY2WWM5MXh0bmtITDRGNjlFWExQSDZSUzk5UDhId3ZuaUZH?=
- =?utf-8?B?cDF0Qjd2NHNheVQ1UGtHYy9TYjJURjkyTEJFNnBTVnRiVWJUMDFqaDgyd3Fl?=
- =?utf-8?B?a21zYllQbHljZHByajgwaWsxWThCS01HdlJXU0JCU3JibEZodWswTmp4MXQ2?=
- =?utf-8?B?QWl2RG8rQVoyY3F6bnp2MFd5RlNtZjNoRUEzU3BGbW9SakhsQ2JYZ3d3NmJp?=
- =?utf-8?B?SWFaNm43a1FaZWtMZmc3Sm9YQ1lzWVhlanJsak00ODdxWFd3RFh4bE01VTc3?=
- =?utf-8?B?UjBTWHM2bE1EYnhmeTJ3Tk1VTzlrdnhKaDRycWpnZFdqUVdGWmlLdmNPY2VE?=
- =?utf-8?B?RFdqZWV4Q2hvWTVQNWhWekNqcEpZMzVJTDhDNENKSitVbkI5TGExa3lzeTJq?=
- =?utf-8?B?MExUQW5DYkRoSHRMblUxNHJNOXlHdDA2dG16WnF3Z21IRGY1Y3dBamk4M3NR?=
- =?utf-8?B?UTJkVG4raTFQYkFYTllxd3R0Q2RUYU9UZ1lkaUlQRXl2Y0V5Vnk5UDVITHpq?=
- =?utf-8?B?VjJrNUFEMkxoRm1GaStQWFlYRDRZZUFrbVBpYU1yRHFKekFNT2FBY0JaNUdM?=
- =?utf-8?B?NzVGWnFkWm1BM2laSjd1WW1nVmhJRy92YlNMU2ZWL2tRdTN2UDkyYXVMVlFk?=
- =?utf-8?B?Y2ZpTDhhR2htWFArRTNkMnpFT3d2V0NmRWlyU0F5cFZyZC9pc2pYaWZhcjZu?=
- =?utf-8?B?bXlBNTV1anBQNWVPRFRnOWdBSjd4U2kxSFhwYVVJcTVKNjhEMUNudlYyd1h2?=
- =?utf-8?B?OFRRUmd4RDBnYVhKbitoeVVubG9YYXVhUWM1SHZGRE5LcGk3dEw0dVgrVnRL?=
- =?utf-8?B?SWRidG94c0tadk0zam82VlVLbFZaNnhPS3BLdStFaFpCcVhPcEJlMzNZaVFn?=
- =?utf-8?B?SFJtMVRyd3MwQ0NrRWxYTnBDRDZab1BXaHdNcVpTdHdwSzAzbzQzZ1h1VUs0?=
- =?utf-8?B?ZkRXWS8wVmpSWXBRUGR3MGpJKzZmZHo5V0Yzb3JNTVYxSnhUQ1FCSlBEUU5P?=
- =?utf-8?B?UFBRS3h1VkdneUNzL0pFbndNSFRaZmtBa0hwMXNXYjcvVlZmQjF2UFNOQ3NM?=
- =?utf-8?B?dVdJaitGQW5jWDZabXY3QWhSNmtEb2xvdDZZMlNTVEo0SytIb2pOSjFhc0Nk?=
- =?utf-8?B?YmtGQi81dEErRHBrN1RRSnF2eDhRL0V1enV3MXMzRGNObDBubUQyMDN3d016?=
- =?utf-8?B?UkJBSVJTZjB3KzhnUWhsdz09?=
+	=?us-ascii?Q?qVHiF8zKAip6rsr5Ne6J3/QRYADRqMa4MfmTtV/BLrbE8A6gyREQmX+Zp0Wz?=
+ =?us-ascii?Q?IP2lzeQ/7GdPKMh+2IUD99hf8siEJ+EkgplH6tXGjkq9mQIvZWnnTp9H0ZJN?=
+ =?us-ascii?Q?qnyBr2wA31EWPxBMYlf/haH1PWTkqhmsN0CeeSaLGEjIv1GphH1rFbsO2xKo?=
+ =?us-ascii?Q?xvu/9w/w+QaiuDfX0s79swGzHQiZ8KVCg5+aQFkW3u81tCxo2lc0B+raswUL?=
+ =?us-ascii?Q?UibiM42j1tptE/WUWR2THRgIDhTJeFSKqikHOi+txurW2z/2ByvQtJeAZ2YJ?=
+ =?us-ascii?Q?j5oofjQVFtEtBTYF/l2OLo5jYDsWvxCKkaSMy4fjk8AEVo9Zh/tElWPPRyTG?=
+ =?us-ascii?Q?+zhxLntQIMCsPo73R/fCX0ZzE/Y1Hd6mPoJO1Kev1XWZQqbsjv2WN0xEMTtr?=
+ =?us-ascii?Q?0K+mTTZsOW/JStG58LjnUSb/Igjy4sslWleWUy2glkQ6j2E/a4A1NFp2Y25P?=
+ =?us-ascii?Q?HDuB5FJ5IXZYBzM3G0BqyuA5qOn79cpbC+gN6sOBf0TiAbrYFgQ0KJc1QTE9?=
+ =?us-ascii?Q?vY1F1g2TSybiW0DgTl1hOedp+dtSwCEVxQ23IldrOCTWM7sFNDIYX0SzaQzK?=
+ =?us-ascii?Q?EHNa9q8QQzEySLSCCjPNhOuyBSxamEXo6Fb31k8jjFRh/rDc8dk7PDPwnCoF?=
+ =?us-ascii?Q?MCl9tNJcJcVjvGMxyV6btOrpPDVEAg+/B5coo5pY+1Ph/7j7ofxyVGvTb7+Q?=
+ =?us-ascii?Q?HvAFscFzqQJqz2+JuSBWNX1jGjGdeBre2akHuPS9bSI78bEc3zFCksnCJObq?=
+ =?us-ascii?Q?UciYAVaLqvHx9iu4qYERRH1/cWFLSE+WfY298cZIT5AD5d+I4IvFswDIQ19h?=
+ =?us-ascii?Q?RHA5rsBDjjifsmhUxLhrfAura82vIembPADtuTDQemWsTsulnT68b4dZPQef?=
+ =?us-ascii?Q?WTsCDnusQt1Ub6MAM+8PGuXXfDoFwkAC72kGmslqWNA9jgbctnSA12TqrNoA?=
+ =?us-ascii?Q?UtcC4E0fTNfUTEuZ4rIQbwv5bRhnZFKj/41lpqsDjvMlmBlBx0ySxva4IUXX?=
+ =?us-ascii?Q?JL+gJRTQE75zfBu1biZnz1fbqDl75EELArIKrm41Odu+3ZwCxqBfPlZRmMWZ?=
+ =?us-ascii?Q?gP8nSrxzal7P4q0v1hGQT6rZeDSIz5Eefw9JDkcEYeuFDDdWLnZ+tXrfza/f?=
+ =?us-ascii?Q?3NKlMqdrqmHCEy1H19KEy/2ECGvflAWap0rV1wxBuO4ljxUWTC3QD2XirjxJ?=
+ =?us-ascii?Q?CSa7yBZNDOjUIgwu7CQ4dzwA0yqqHgCfiaspRc6TVm+W+lGhJJ9Qxv6+n1iw?=
+ =?us-ascii?Q?z7uWcHNEf2sx1hx8mC28sxpehy8x5SaQ9cNPLdhoLTQgL/62sraulP6RYgj+?=
+ =?us-ascii?Q?t4mELgnMvmS2vnFGXYIyWUYxWfR/R7t0fUQfUgMzpAhDPDWbZAQgBVVof8Ph?=
+ =?us-ascii?Q?ef5wBXge3lnDHO+r43qNWbh4dfjs?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(13003099007)(8096899003)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2671.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?VUhPYmVkUW9JK2F5V1NTYUFEY1pGL3pUQlhnMXVDaithOXYyMFY4OFhhcFBw?=
- =?utf-8?B?Tm5KL0ptdU54a1JVcmk3QXNveklnMHNrZWt3WktDb2JJNEtJTmJ5VTl5eVpn?=
- =?utf-8?B?cUE4ZlY5d1FqeVlsWmJpbzV2TG5RY2FKdzJaYTNMQ0lXT09CSXUvd2xlMkJF?=
- =?utf-8?B?N1JnTHArZmEwQzA1RjRROW1CV25HdnREM2dNSXhVd21ESEk1bUNNL3l1bnRy?=
- =?utf-8?B?U1FVaFFkWC9kdmlJMnVzMnpmQzdRN3hsRmhiTkwwTzlXYmJ4SVE2UVgxUjJx?=
- =?utf-8?B?bmpjUDNGeVd2N1JhQi91bW5HbS9RcW5HekR6U2lucUZqdnZMY01RdUs5NjBB?=
- =?utf-8?B?UkJRMW9lUjRQZWhLanRBb2NiNDBxNjVWQUhtaDJTUEJ0NDlOUkloSlMvL1Fo?=
- =?utf-8?B?Z2lvMEc5bHh3dWZ1T3pkVXpiWmlLc3dRZk1HcGdjdzdYazJyOEtlNTE3ZHJn?=
- =?utf-8?B?eVozb2c2dVR1K0JEdXNmQ1R1R1ZXSFNMZFA0bWhUVUZscnRoeTJnRENFUG5C?=
- =?utf-8?B?eDlORVRmNGo0M1dSZnNYNlY5R1lzSXVRdk5lOCtoNHZGdjdram5vVDU3Uk54?=
- =?utf-8?B?UXpEM1dBbHhWZFNlRkhsWTJneDBVUnpuTUNsKzNYcE05U3B4RlBSb0VzZDZ4?=
- =?utf-8?B?ZmRtamRDa0dqTTlxYWdUNmI1Q3R1MzcveFlUV0dXQTV2TW4yb09US2dnTUJn?=
- =?utf-8?B?MVdQRFh4OWs1K0QyRlBNZi9icTVIbGV5dUZPTGM0MVZXZ2ZFQWZ4cytBNk1t?=
- =?utf-8?B?dUJ6cWtOc0RrQjhuOXdqaTVjcUlYQzlKcVJ4bGhQZCtZUytBeGRGZE5nM2Rk?=
- =?utf-8?B?Tm9LY29rUzhwMEdMY3JQanlTVUFaQXMxR3ptVkVFTjZSWS8yYXdLOS91WmxD?=
- =?utf-8?B?WHFOSHZiU3JsUFZTR1h6eWRQRXYzVzdvWExidjVGMkhKS3FUcG11T0poRitH?=
- =?utf-8?B?REVPcVBTYWViOGtNS2VtUnZPY3pjVzRCZVYxMm5tMmsrZEpHRnB2SWs1U0tJ?=
- =?utf-8?B?MWhUdWlYeHZOR3MvdkZycjNGWTZlZVpBTG1KS1RtTHF5dFlzRWdtcGFtanBm?=
- =?utf-8?B?YnR6OFpsdlIzaUtyUHFPbnlOVmk0NWNGSm1PMTNwZ1lWUjVLM0pOL0VTWXJE?=
- =?utf-8?B?YmNpZlNiRlNJRko0a3ZpbE5wUG9CU3FmUHd0UEMrWk1xSFlpYkdncWNEMlBI?=
- =?utf-8?B?MUplRVY0dVRFUjgwOWJUK2FFeDNBSkh0TmVLdVN0bVZMZ3NXTVJwV2RjazZm?=
- =?utf-8?B?SEZDWlZtTGJvbUs1MW9nOEZVdTBiOEY1SGhTTjB2cHhmTitoRGg0UXh0VWhE?=
- =?utf-8?B?MFBldnE4WDdXVzFWUGV1TWVQSVhqNk5uVDVJQndMVytkZ3dOejVndWRKS2dn?=
- =?utf-8?B?aWIzZFhQY21aNDBMcUxxM2gvVzIyOXRyWDB1eW9MakI5a3NaMjFtSnFVZDdZ?=
- =?utf-8?B?UnIxcGxYNmtnWGtQYk0rSmlEdW1jY2lZU0ExeHlneGtSMWdTTnlGME5MT20r?=
- =?utf-8?B?Y2lzVVR4NHM1WkNmOW94czdSYzdBcjl0NC9HLzBoeEl4V1Bud3ZaSGxSTUQy?=
- =?utf-8?B?TzhkakJXUWhyb2xCRzZqN1BYakljeDZmenM2WFJNd1VMVEJpazdtMFpsUkor?=
- =?utf-8?B?RDh2L3g1M0xmd0MrWFBYR0xHYW81Um9rVVZCL081WUQ3WUFtVUdma3hoM29X?=
- =?utf-8?B?K2d4Yk5PWUxjUzNxWWloMlY0WHVOa1BBRkNKSS9EL3VWc2ZMUzBvSzJBOUF1?=
- =?utf-8?B?RG9ycXpXblplMCtHSWo4N2RvM1BrOUdSV1RMMmpXZ2sxTHRKeGZVSi85WUx5?=
- =?utf-8?B?NE96RndoMVgxa1RFMEN5VHUzZlBMUVdBS3JJQTRYTHBRYUlvRHZQVXFJVVdX?=
- =?utf-8?B?Z0UxTmc4S1IxdTdBMG94S25jZnNMN1prVFlEcE84dFNZY1lTeVRUbEVkc2pm?=
- =?utf-8?B?bjI3RWVNT0pURE10R3FSdDB4aUptcE40aFVuWDNXbEd0T3ZvakNlVGJDNzB6?=
- =?utf-8?B?eUJhOFhNR3ZiNWJxOFk3aFFKR3doOFRyeWpnY0hvWHBiZEF6ODF0c3lWRXhl?=
- =?utf-8?B?SmduK3N5Z2lQcGRRMnFNQWVqa2RIQ3IxNFI4ckhXcVlIT1hxNlUvWFdUdU16?=
- =?utf-8?B?K0dlbzJGMGtwSmI5YWQ0MW55SnhFOHk0WjB6UDV0OTFHQ20yL3FkSlBjRlNz?=
- =?utf-8?B?QUE9PQ==?=
+	=?us-ascii?Q?2m+7GRWY2RIuQyCI8JRa/3FHQlEtSXUATgmLtE4rjnAqa2LIUeZdG/pyhHyx?=
+ =?us-ascii?Q?JwgMOgjLSf/pKUl1PC2HGKYJF3nVCqSg5B8o641A6i6Hvhx62zQRkBrANt7v?=
+ =?us-ascii?Q?V85r0kL+xik8WP3VLLnUGU6vvd0pKuWrw56HwlIWYukoJtqUde5CaoBjCDfN?=
+ =?us-ascii?Q?hK/yxZSjPxBXJOdJctZWm+8Leg5iHsuy4VProG0wGrEuxTPSaU5/j2yEO+Z5?=
+ =?us-ascii?Q?NOBGBI67PZavHlnNqTqK7ExENqPCZeqEZlVCqDuyvfyEvpMVO4GSMD/BIor1?=
+ =?us-ascii?Q?8yvSOk9Du661MdLcceaeNM2YC2EmOp/TYIpw5ZuK5dmrCGrwBSR/Az5HFxlY?=
+ =?us-ascii?Q?FuvB/2YXuWYYrBLGZ07H3PpWeOL3t2Rj+7r6XHvmEcJNq3yG2vXUXz+rA2CL?=
+ =?us-ascii?Q?Sij72RnE9hxAt8l6deDdN8J8MHuYrolP2UTivrpwCYIjecJINLE3d08IST3L?=
+ =?us-ascii?Q?CQFcPymD14mJyyMkyBWamgq+nG7vsVQtVV4PbCuuwENVDe6/B+wk7SmYFU65?=
+ =?us-ascii?Q?OTsP8zyt2JNPm0J6P7gliJZtFaOyJgKyzOASAZYwj0bOHGWTSTAOSsAptTiS?=
+ =?us-ascii?Q?BqX5BNGE7hJRaK3n4kFgH/NeXMCj2608kgjUO9gGIn/mxyHamik8S64ZWJTM?=
+ =?us-ascii?Q?uGTbiH+O0dooOxtXEm4HKXyxBKCTuEHzhCXTlT0FkoMofKVLMHuAhegNCNJI?=
+ =?us-ascii?Q?ps7CAzuS8zkBseFMBKgUMazfe3L89tze0WDJu2Zs2DuWxBSDOCmFNdgzIxop?=
+ =?us-ascii?Q?eOs8FIDM8EjkYljOd+iaoCebE84WO+ZU3l1lc1CyksuQViZUd0aqBI/ex0MI?=
+ =?us-ascii?Q?NJvuMqL+fsr+QbTo2yrGq//5Yk/O5+afYOhnQBM6lH7XFo0t32WNTDF+Ks8g?=
+ =?us-ascii?Q?Y43uKbFNu6XcRIA5XS7ztKZGJmbX7LudpAqoBr8eM3BqYDaiGvu4xvcQoxX6?=
+ =?us-ascii?Q?crigjfmsCcqhvKB3dsuBU7kESUUxo7+b6BmZtDkvOgTTa1YVeAgXOrX/4Z+O?=
+ =?us-ascii?Q?8+TfFj6oZcvkvUJlZkocezV4JFf2NwedsEjhbVm5LgDQ65XPGni/4C9NZR7a?=
+ =?us-ascii?Q?rRmEkvATiHlSbi51jgs4joQw4/NE8VOh76s/t0xgv1kJlb/Vnz3cevKVu494?=
+ =?us-ascii?Q?UY4CG4zE4Bmhv6ffWaXfR/Jx9C5/xQETrM3xuY53jT0NjKKr1/lhFlXUroJd?=
+ =?us-ascii?Q?vueWcIgxDVUG0x8veT+9jPcoRfl1VmMzGv6LuXpNolyG7iVd0D+RxL8OT0gX?=
+ =?us-ascii?Q?qgtWQdKHZ+fikpus5Lx88K8Zb45iSdNgOcVYH2bl0NUC46KYGW4bCdWk+MoW?=
+ =?us-ascii?Q?Ni/fJOmAJ8jWstas1cV7JrXsz0alQ86WmPTA3D2UYH+Nr8fA0jI+UUWoMMV4?=
+ =?us-ascii?Q?pzIzj2Ea4V4MR2yclEZquhhAzrigBnfNpZZb2pewG0GDtQpDJjYrFlA4UsXW?=
+ =?us-ascii?Q?OVektgDS/JlaRZmgkGpSc45u0kB8tdnGnjIO7HaMymbWVoUjubY99uJ3SFcN?=
+ =?us-ascii?Q?kzEqhe2c6R3cNCjk1WEOAL4qFl0o1X1IENAi8UWkAs8SzBOHOedMgCDOYCo2?=
+ =?us-ascii?Q?4L6ekEZ4aoBiZlyMxjz0uVXY4KBQ3PB7WNc8cHMMphsCP2WL5L7aiVY8MrN6?=
+ =?us-ascii?Q?UQ=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3dc9dc6-10f2-45bf-3683-08dd5fa54279
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d14ccfdb-9982-49fa-c437-08dd5fb21e46
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2671.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 07:29:14.8170
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 09:01:17.6916
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j6QI9xoAYbNDNMgCz8NoIHaRb3TNg3OrGPuly7m7p2ET61EJyl5YZoAVIZ/KjUVmYYIJ4yxxhELMWCgAbn9rpgBpn2iReYVowE+IpqpaTqY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4925
-X-Proofpoint-ORIG-GUID: pTJFgSw3BPg23iCdjO60SToWpUhdz6gl
-X-Authority-Analysis: v=2.4 cv=QbKcvtbv c=1 sm=1 tr=0 ts=67ce94d0 cx=c_pps a=gaH0ZU3udx4N2M5FeSqnRg==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
- a=iGHA9ds3AAAA:8 a=axM0gMKoedX3htypnKUA:9 a=QEXdDO2ut3YA:10 a=B8ibFTVmAAAA:8 a=LVVdaqqDU9W9cF4QaU8A:9 a=doWNUa8G51Ujv-tt:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=xvSgdcfEVHFitugM1GHH:22
-X-Proofpoint-GUID: bKz1yS4IqwryGKDleBUqMHNVVOAxL75W
+X-MS-Exchange-CrossTenant-UserPrincipalName: JD7jNPk4Ny8FpVjcxf563Z1gzi5tvcLP4+Xu+6qdmCepT8tBi37MZ5oF27YusbNe5OLyF4HfLBoSUd76c6VbcdycTkVQImuuE7tR1piqcs8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7082
+X-Proofpoint-ORIG-GUID: FwMJ_a09pzlIFLroLeQDTOKLJ36rau0c
+X-Authority-Analysis: v=2.4 cv=QbKcvtbv c=1 sm=1 tr=0 ts=67ceaa60 cx=c_pps a=2scX5b6JGDBY9+deG5t9BQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
+ a=gvic6WYWAAAA:8 a=ovJmrJClAAAA:8 a=AIPdC31oAAAA:8 a=t7CeM3EgAAAA:8 a=qGZC1g6ORkK1xQXCNfoA:9 a=PupUpSa0FqD61Tkl4dNl:22 a=brTEhlvMp4NY0_u118I2:22 a=5478VIVnyzLWgM9zoUhq:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: FwMJ_a09pzlIFLroLeQDTOKLJ36rau0c
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-10_02,2025-03-07_03,2024-11-22_01
+ definitions=2025-03-10_03,2025-03-07_03,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
  lowpriorityscore=0 clxscore=1015 spamscore=0 adultscore=0 phishscore=0
  mlxlogscore=999 mlxscore=0 priorityscore=1501 impostorscore=0
  suspectscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
  authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.21.0-2502100000 definitions=main-2503100057
+ engine=8.21.0-2502100000 definitions=main-2503100070
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 07:29:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212492
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Mar 2025 09:01:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212493
 
---------------rNVTKcsDGc08gni0MABUzPGk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Guocai He <guocai.he.cn@windriver.com>
 
-On 3/10/25 15:16, patchtest@automation.yoctoproject.org wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
->
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
->
-> ---
-> Testing patch /home/patchtest/share/mboxes/docbook-xml-dtd4-correct-license-name.patch
->
-> FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
+The official archive location of the Boost tarball has changed to:
+https://archives.boost.io/release/
 
-I am afraid it is a false alarm,
-
-the local file 
-meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/LICENSE-OASIS was 
-removed,
-
-and rename meta/files/common-licenses/OASIS to 
-meta/files/common-licenses/DocBook
-
-But the review patch renamed 
-meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/LICENSE-OASIS to 
-meta/files/common-licenses/DocBook
-
-and remove meta/files/common-licenses/OASIS
-
-rename from meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/LICENSE-OASIS
-rename to meta/files/common-licenses/DocBook
-...
---- a/meta/files/common-licenses/OASIS
-+++ /dev/null
-
-//Hongxu
-
-> PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-> PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-> PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-> PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-> PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-> PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-> PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
->
-> SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-> SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-> SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-> SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-> SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-> SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-> SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-> SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-> SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
->
-> ---
->
-> Please address the issues identified and
-> submit a new revision of the patch, or alternatively, reply to this
-> email with an explanation of why the patch should be accepted. If you
-> believe these results are due to an error in patchtest, please submit a
-> bug athttps://bugzilla.yoctoproject.org/  (use the 'Patchtest' category
-> under 'Yocto Project Subprojects'). For more information on specific
-> failures, see:https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-> you!
-
-
---------------rNVTKcsDGc08gni0MABUzPGk
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 3/10/25 15:16,
-      <a class="moz-txt-link-abbreviated" href="mailto:patchtest@automation.yoctoproject.org">patchtest@automation.yoctoproject.org</a> wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:010101957ee9e7b8-265cb694-4d61-42b6-b160-8ba936e42232-000000@us-west-2.amazonses.com">
-      <pre class="moz-quote-pre" wrap="">CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and know the content is safe.
-
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/docbook-xml-dtd4-correct-license-name.patch
+ meta/recipes-support/boost/boost-1.78.0.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
-</pre>
-    </blockquote>
-    <p>I am afraid it is a <span data-slate-fragment="JTVCJTdCJTIydHlwZSUyMiUzQSUyMnBhcmFncmFwaCUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjIwQkF6cm54Z0F2JTIyJTJDJTIycGFyYUlkeCUyMiUzQTIlMkMlMjJzcmMlMjIlM0ElMjJTb2Z0d2FyZSUyMHdpbGwlMjBleGlzdC4lMjIlMkMlMjJkc3QlMjIlM0ElMjIlRTglQkQlQUYlRTQlQkIlQjYlRTUlQjAlODYlRTQlQkMlOUElRTUlQUQlOTglRTUlOUMlQTglRTMlODAlODIlMjIlMkMlMjJtZXRhZGF0YSUyMiUzQSUyMiUyMiUyQyUyMm1hdGNoZXMlMjIlM0FudWxsJTJDJTIybWV0YURhdGElMjIlM0ElNUIlNUQlMkMlMjJ0ZXh0JTIyJTNBJTIyZmFsc2UlMjBhbGFybSUyMiU3RCU1RCU3RCU1RA==" style="white-space: pre;">false alarm,</span></p>
-    <p><span data-slate-fragment="JTVCJTdCJTIydHlwZSUyMiUzQSUyMnBhcmFncmFwaCUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjIwQkF6cm54Z0F2JTIyJTJDJTIycGFyYUlkeCUyMiUzQTIlMkMlMjJzcmMlMjIlM0ElMjJTb2Z0d2FyZSUyMHdpbGwlMjBleGlzdC4lMjIlMkMlMjJkc3QlMjIlM0ElMjIlRTglQkQlQUYlRTQlQkIlQjYlRTUlQjAlODYlRTQlQkMlOUElRTUlQUQlOTglRTUlOUMlQTglRTMlODAlODIlMjIlMkMlMjJtZXRhZGF0YSUyMiUzQSUyMiUyMiUyQyUyMm1hdGNoZXMlMjIlM0FudWxsJTJDJTIybWV0YURhdGElMjIlM0ElNUIlNUQlMkMlMjJ0ZXh0JTIyJTNBJTIyZmFsc2UlMjBhbGFybSUyMiU3RCU1RCU3RCU1RA==" style="white-space: pre;">the local file </span><span style="white-space: pre-wrap">meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/LICENSE-OASIS was removed,</span></p>
-    <p><span style="white-space: pre-wrap">and rename </span><span style="white-space: pre-wrap">meta/files/common-licenses/OASIS to </span><span style="white-space: pre-wrap">meta/files/common-licenses/DocBook</span></p>
-    <p><span style="white-space: pre-wrap">
-</span></p>
-    <p><span style="white-space: pre-wrap">But the review patch renamed </span><span data-slate-fragment="JTVCJTdCJTIydHlwZSUyMiUzQSUyMnBhcmFncmFwaCUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjIwQkF6cm54Z0F2JTIyJTJDJTIycGFyYUlkeCUyMiUzQTIlMkMlMjJzcmMlMjIlM0ElMjJTb2Z0d2FyZSUyMHdpbGwlMjBleGlzdC4lMjIlMkMlMjJkc3QlMjIlM0ElMjIlRTglQkQlQUYlRTQlQkIlQjYlRTUlQjAlODYlRTQlQkMlOUElRTUlQUQlOTglRTUlOUMlQTglRTMlODAlODIlMjIlMkMlMjJtZXRhZGF0YSUyMiUzQSUyMiUyMiUyQyUyMm1hdGNoZXMlMjIlM0FudWxsJTJDJTIybWV0YURhdGElMjIlM0ElNUIlNUQlMkMlMjJ0ZXh0JTIyJTNBJTIyZmFsc2UlMjBhbGFybSUyMiU3RCU1RCU3RCU1RA==" style="white-space: pre;"></span><span style="white-space: pre-wrap">meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/LICENSE-OASIS </span><span style="white-space: pre-wrap">to </span><span style="white-space: pre-wrap">meta/files/common-licenses/DocBook</span></p>
-    <p><span style="white-space: pre-wrap">and remove </span><span style="white-space: pre-wrap">meta/files/common-licenses/OASIS</span></p>
-    <pre class="moz-quote-pre" wrap="">rename from meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/LICENSE-OASIS
-rename to meta/files/common-licenses/DocBook
-...
---- a/meta/files/common-licenses/OASIS
-+++ /dev/null</pre>
-    <p></p>
-    <p><span data-slate-fragment="JTVCJTdCJTIydHlwZSUyMiUzQSUyMnBhcmFncmFwaCUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjIwQkF6cm54Z0F2JTIyJTJDJTIycGFyYUlkeCUyMiUzQTIlMkMlMjJzcmMlMjIlM0ElMjJTb2Z0d2FyZSUyMHdpbGwlMjBleGlzdC4lMjIlMkMlMjJkc3QlMjIlM0ElMjIlRTglQkQlQUYlRTQlQkIlQjYlRTUlQjAlODYlRTQlQkMlOUElRTUlQUQlOTglRTUlOUMlQTglRTMlODAlODIlMjIlMkMlMjJtZXRhZGF0YSUyMiUzQSUyMiUyMiUyQyUyMm1hdGNoZXMlMjIlM0FudWxsJTJDJTIybWV0YURhdGElMjIlM0ElNUIlNUQlMkMlMjJ0ZXh0JTIyJTNBJTIyZmFsc2UlMjBhbGFybSUyMiU3RCU1RCU3RCU1RA==" style="white-space: pre;">//Hongxu
-</span></p>
-    <blockquote type="cite" cite="mid:010101957ee9e7b8-265cb694-4d61-42b6-b160-8ba936e42232-000000@us-west-2.amazonses.com">
-      <pre class="moz-quote-pre" wrap="">
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-support/boost/boost-1.78.0.inc b/meta/recipes-support/boost/boost-1.78.0.inc
+index 729a47b54f..98f4f7ff30 100644
+--- a/meta/recipes-support/boost/boost-1.78.0.inc
++++ b/meta/recipes-support/boost/boost-1.78.0.inc
+@@ -11,7 +11,7 @@ BOOST_VER = "${@"_".join(d.getVar("PV").split("."))}"
+ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
+ 
+-SRC_URI = "https://boostorg.jfrog.io/artifactory/main/release/${PV}/source/${BOOST_P}.tar.bz2"
++SRC_URI = "https://archives.boost.io/release/${PV}/source/${BOOST_P}.tar.bz2"
+ SRC_URI[sha256sum] = "8681f175d4bdb26c52222665793eef08490d7758529330f98d3b29dd0735bccc"
+ 
+ UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
+-- 
+2.34.1
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at <a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/">https://bugzilla.yoctoproject.org/</a> (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: <a class="moz-txt-link-freetext" href="https://wiki.yoctoproject.org/wiki/Patchtest">https://wiki.yoctoproject.org/wiki/Patchtest</a>. Thank
-you!
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------rNVTKcsDGc08gni0MABUzPGk--
 
