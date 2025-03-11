@@ -1,101 +1,83 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B86FC282EC
-	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 10:46:50 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.5871.1741690008672329077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D7DC282EC
+	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 10:49:40 +0000 (UTC)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.web11.5914.1741690171596889918
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Mar 2025 03:46:48 -0700
+ Tue, 11 Mar 2025 03:49:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bxsvKCV+;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=I4O7Ft+T;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019584d0708c-a903a18d-97f5-46df-9513-9c257de15f09-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1741690007; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=AG0vPDNYDwvUWrecfphrQpdNp+6gGC1OFl19NX93E2I=;
-	b=bxsvKCV+PTlBN1rRvEpN/DHUgsm2OYI/jv+cXsFoZvuuzFr40uhAL05lz2sGXauP
-	VBB2tz5ERadB6HVtDkPNmQJ3qjysd69SvJo1DhWQrY6G2rsYM5WIdiXXcWLEkPE1pLm
-	uJnan3MK5YBlU2vHxrhsq+ClpuHMvnQMa4xDuq9Q=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1741690007;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=AG0vPDNYDwvUWrecfphrQpdNp+6gGC1OFl19NX93E2I=;
-	b=I4O7Ft+TaPU27WCaRumI00Fu9HYBXPvquNilk6hSRCk0u2WBeD+shreSeYVt39xX
-	p+EPFv8hBewERJfimUhDQbqU3hQztLOIf6fc8l751rdU4JaRwvyAQiQFLLnwxse0q5y
-	rqg/n3MCXmXEnHdX8vP10X1nuOJuqAFX9sQt6Dck=
-From: patchtest@automation.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] scripts/install-buildtools: add an option to preserve
- downloads
-In-Reply-To: <20250311104152.393470-1-alex.kanavin@gmail.com>
-References: <20250311104152.393470-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019584d0708c-a903a18d-97f5-46df-9513-9c257de15f09-000000@us-west-2.amazonses.com>
-Date: Tue, 11 Mar 2025 10:46:47 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.11-54.240.27.33
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kxAP0nTT;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-476805acddaso23637911cf.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 03:49:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741690170; x=1742294970; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XBHrXnySrl4YceQISZkNBUxt8mHiKf5A0oBNWYNbo3M=;
+        b=kxAP0nTTw26/MHRRAmxxOSmWvgvxUXJKN8/EHkeDpw2N9LPhWjDSIdKDTf//GRxiz7
+         kRdsMmWBHmL4PaSduYcWH++rpetwz7XBhgzlh4Sh+ZrKogFrS0QA9DTMDPKIp4BmJQvA
+         vb8WK2umO30yDSqnDVMPkQ3jt35M4LJ0fGxSrhhZHwN4P6kaMVTgJYxcwfivOdttXQIy
+         1uGqQxWTK5EtrJKyDQdLfQVi5TN3AByrxVC0KpWpFC8j0UdDW8s2I3D0VOUKmQ4xbXLd
+         ekg35fWgIYiuTIx1nGyRjvRwBOcTZPOTJZFv6DecK+iXUmjI8QsNuLiXLtQrYrMBCB2J
+         z8Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741690170; x=1742294970;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XBHrXnySrl4YceQISZkNBUxt8mHiKf5A0oBNWYNbo3M=;
+        b=IqUfMQh8uY3I2SRW7ECrPg6YS/wqfL+ATct6Ecic/k2G2uLfzEdBx7niWDGbjCo8Ki
+         COVWLDmTHqeBf7U8hGCEthNbow/dYdt3enWtQ+XAQMXDOe3E/f0YQ7u43PfkRJIaDonl
+         MYZkY5KluHijgMtK7ndtlwr42bYCbmIws+cHBhmD0loUyW67JaHy3hSIu8txEPhVH49D
+         Q4NomxdUniEKWjS7N6/l+yrm1AnwXS61nHZprkKmscBfi7FmlQchcQ5OJonkXa8DmYZa
+         wen2vVRbxoLSEVsI3H+lEito2fcq+pEDbW3btVi/TwudGs52s8v1CmpF1NrmIZ3ovu7T
+         zNYQ==
+X-Gm-Message-State: AOJu0YynwmNeY6WCWrZS7PVUORXVrqn40aQbz9MvjQ169zWqW+Tjb9+V
+	2NetoMxutyl27lpKgvqFLs1+aH+UcCMVle6WTy0sCsVaFWvlIiYtYVkyh9WTlzXJjX/ZdiFpu+d
+	UEbPR4rIf5XVMpYmiMjd9Wo2s7RY=
+X-Gm-Gg: ASbGnctwusJZu0A/eff6GewmL5nPoFpcr55lLaK/h2FlIRkETKLh5xHoiP6iXh7YVsE
+	tsU7mG218kQUxunKiX4qlBx+fM5cVuXNPLdVdV+32QUMjOyn73xSG1OLdSv7UYLACQWjmI4yNt4
+	h0YtBfuDjmfiyPBdr0Y+CHemd1u0THxQhFy9FzFtvvOgTr0Yi6JQJpfnZ4QjtStV49f9USW3Y=
+X-Google-Smtp-Source: AGHT+IHx0m+6pPaPxiwGHeY0qKygRzSuAAppcHLJBFDjnBygQcp5fp+vlb9hewcXvFPRYQmfglyTGiQLXQr4P9x/u3s=
+X-Received: by 2002:ad4:5d65:0:b0:6e6:668a:a27f with SMTP id
+ 6a1803df08f44-6e9006049efmr216832646d6.17.1741690170456; Tue, 11 Mar 2025
+ 03:49:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250311100500.355914-1-alex.kanavin@gmail.com>
+ <20250311100500.355914-3-alex.kanavin@gmail.com> <CAApg2=QaDqX6UngNosZqkiAQiC3iKo99-gx63DJPUq-h3SFaXw@mail.gmail.com>
+In-Reply-To: <CAApg2=QaDqX6UngNosZqkiAQiC3iKo99-gx63DJPUq-h3SFaXw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 11 Mar 2025 11:49:18 +0100
+X-Gm-Features: AQ5f1JpVXZEVmvRFIWPCRGg1wLcSnyrMbYfABlbu5yZkV40Fygvriv8xbBNHa1Q
+Message-ID: <CANNYZj9FPonC00f=js4pDaan4Fm5fqyA1WDmJo8h05nxK4hK3g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/4] gnupg: follow odd-even scheme in upstream
+ version checks
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 10:46:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212557
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 10:49:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212558
 
---NextPart
-Content-Type: text/plain
+On Tue, 11 Mar 2025 at 11:42, Marta Rybczynska <rybczynska@gmail.com> wrote:
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+> Could you maybe add a comment next to the version hash saying that the project is using odd/even
+> convention and that people should only update to stable branches? At least it might avoid the error
+> next time.
 
----
-Testing patch /home/patchtest/share/mboxes/1-2-scripts-install-buildtools-add-an-option-to-preserve-downloads.patch
+This change is not only for version checks, it also affects version
+upgrade attempts with devtool or AUH, that from now on would only
+consider even versions.
 
-FAIL: test max line length: Patch line too long (current length 201, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+We have many other recipes with this restriction, and generally people
+don't attempt to manually update to something else.
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Alex
 
