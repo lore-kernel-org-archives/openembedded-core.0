@@ -1,158 +1,126 @@
-Return-Path: <quic_bpothuno@quicinc.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 009FFC282EC
-	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 12:59:31 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.8227.1741697969331753506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01754C28B2E
+	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 13:01:41 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.8287.1741698095397565933
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Mar 2025 05:59:29 -0700
+ Tue, 11 Mar 2025 06:01:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=AFH/Umau;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: bpothuno@qualcomm.com)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52B80Wlx010923
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=7MIxS0r8vtdDGBadrifG8A1GKnysDTrmAp0
-	sUbYqk6Q=; b=AFH/Umaui1EyiBemOCAE6lKrUNGIdjncxkTnNB/ztruLIedlVyw
-	gnqx4MKh0S18gR+1QvRCuHDNNLoLxx3pN01hDKoRWpyBG6yJ6PcuCmBao5LfoA0E
-	DROScGpwriVok3GcIaObY7WP1/MpKQA03Qv3GoEPRJm3eA1gSXGeII6A2kDRlSHV
-	AsXIYcu40H2OYk6fHU3fS6UK39+CslLJl9rSsqkzwbf+W/2rw6xdCsFnHU94Ghie
-	jOoh3C21vsm0SgX3Pke6zQu8DCejntW3Z4c3uOSoQXziNgMIc7Bvu3Our51ILwEa
-	+69une+e1w1WD+c0ko5yucibOJaEazAA73Q==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 458eyugmun-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:28 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 52BCxPYq012218
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:25 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 458yn37c44-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:25 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 52BCxOdN012213
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:24 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com ([10.213.97.93])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 52BCxOls012211
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Mar 2025 12:59:24 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 460767)
-	id DF4F956E; Tue, 11 Mar 2025 18:29:23 +0530 (+0530)
-From: Balaji Pothunoori <quic_bpothuno@quicinc.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Balaji Pothunoori <quic_bpothuno@quicinc.com>
-Subject: [PATCH v4] dhcpcd: upgrade 10.1.0 -> 10.2.2
-Date: Tue, 11 Mar 2025 18:29:19 +0530
-Message-Id: <20250311125919.2325099-1-quic_bpothuno@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cxOTDAb0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43d0782d787so2945255e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 06:01:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1741698094; x=1742302894; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=mmSThGeEeClp2XT8C1MsbJfvKxHTadzai53pYK6Dzq4=;
+        b=cxOTDAb0Y0QDs6YMV4jDrjpra+/gAN0LSyPmR6woI2cmHhLZG7Gdc56BPC7eJmV3x8
+         6wlfaSquzIV3JKGMOoyt3y10pziaAn6poU/ymBghjMrRsSc7FRYLPNWRqcrmN9MgEJd2
+         eCKwCV+gcmpB9gtI6mhgcJYQNiZk3MxNaThAU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741698094; x=1742302894;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mmSThGeEeClp2XT8C1MsbJfvKxHTadzai53pYK6Dzq4=;
+        b=ulK1ck/nc2v4Lf5pC7wUG9BaJLx5qGIfnxt96oz94wiK/GRPoV3t4nXISgFoWhySrF
+         1G9omcmKvLfxCq9Dd3HCaTP3WgD5KkNi2caVSOF3MxkZGORwMguN1CzcNOS+vdZQsIUg
+         5i2cyXDdLat3JcEGsP3EGrRMbzc6KlhH2F/vREsPTCFfvwPCO00dPaFF165flwNnJgRu
+         hb4jGpuYN/lGxO3ZFBySlTpPMOXZkHbe90soqYQrHSw7rApPcEbVrXxdRIa18Phn0eFC
+         2YoM8d2y800L54jv8/2cVUc4VPa6URHsQA6V/qLrVbeFdTT3sUJWZUMsnsuXwa95a8us
+         5a6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVYJToKwD19NgHOoF4Al7NzkLGGIvfNjQdkKgCl5DQLBCJBo4U31utJ6yauBydvz2Eh6rQ7k2RQVfdZEsLv9r0CzQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwQSAsZ3Y+i/CzG7zk+B2VuB43+Jkz4XtjipSzhDULQSmLZhSyo
+	+ga89V8dySj9JxtLlqNIEazW6U01+PeE6lpfMZr4mvDlstQJZ579LYxGHDPgcTc=
+X-Gm-Gg: ASbGncsKzwsBn+YjnTe8x0Bfmh/KdY1d3DF771Ai+qVv6/qu9RQAKd6RLwiqCrFSbXX
+	sTUKg8MndDhMVrQkhlM4g2OWuFxPk/MqXIlnaDG+7ac6CXy9FIPb3Vg8dII+8QqCqgxE+u0KhXD
+	OABEK1rZN65yqVaYfV51Wysar/EAHM9kNcUY0/oDmouB1BoBnHt0siexTH7y4UyL5LlRVlT3mHp
+	BFBsGJCeDT2xJciawqHBuroToNyvj5jL33afcjUWKVhMGwVQ/fjDK1m0tz7iIU2vQ9mJkFSJ2Nx
+	X03JWKUw5qjfInavJ7NUp2mBQ1JTrhbbEm/+1w4+oees66gu3HU+021ZVagK7fBwukZ9VHA9ZiM
+	k55sVvVQzDHpuFrOFDay/vx/EXyqCE1Sq5QR1kg9JUw==
+X-Google-Smtp-Source: AGHT+IFsOtqkmKeYHA5YQ2tPZ9tuxYC3CtT1OG9T5ftMHRKFWCfEGeVnndGqeuOkBUNQaJDhSh8aoA==
+X-Received: by 2002:a05:600c:4e8e:b0:43d:83a:417d with SMTP id 5b1f17b1804b1-43d083a43ebmr7760715e9.12.1741698093305;
+        Tue, 11 Mar 2025 06:01:33 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:98ce:619b:b74:b8c9? ([2001:8b0:aba:5f3c:98ce:619b:b74:b8c9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912c01d2cdsm18309439f8f.57.2025.03.11.06.01.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Mar 2025 06:01:32 -0700 (PDT)
+Message-ID: <76e6fb1b98cc7269d4290bb4e92d0adf2d3567d7.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] lib: spdx30_tasks: Handle patched CVEs
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Ross Burton <ross.burton@arm.com>
+Date: Tue, 11 Mar 2025 13:01:29 +0000
+In-Reply-To: <20250306212007.44880-1-JPEWhacker@gmail.com>
+References: <20250306212007.44880-1-JPEWhacker@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=cbIormDM c=1 sm=1 tr=0 ts=67d033b0 cx=c_pps a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17 a=Vs1iUdzkB0EA:10 a=Q4-j1AaZAAAA:8 a=Pm3Ii0ycAAAA:8 a=NEAV23lmAAAA:8 a=COk6AnOGAAAA:8 a=29iXaaDHAAAA:8
- a=cRRSNJyts1ZrZyEANQIA:9 a=-FEs8UIgK8oA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=Lb0xad9IhAkqXp0dotAK:22 a=TjNXssC_j7lpFel5tvFf:22 a=IKEkoQGeIXdUWEBz-oOH:22
-X-Proofpoint-ORIG-GUID: icK0yTj3dbMcqShlr63Ux5H3665D0unr
-X-Proofpoint-GUID: icK0yTj3dbMcqShlr63Ux5H3665D0unr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-11_02,2025-03-11_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- impostorscore=0 bulkscore=0 suspectscore=0 priorityscore=1501 phishscore=0
- malwarescore=0 adultscore=0 clxscore=1015 spamscore=0 mlxlogscore=940
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2503110083
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212566
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 13:01:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212567
 
-This change includes:
-a. upgrades dhcpcd version to latest 10.2.2.
-b. Update LIC_FILES_CHKSUM for dhcpcd
-License-Update: Updated MD5 checksum for LICENSE as Copyright year updated to
-2025 in source/LICENSE files.
-c. remove following change, as it is specific to 10.1.0 version:
-https://git.openembedded.org/openembedded-core/commit/?id=2bb20f49ada56f1c7707565e475051174feba945
+On Thu, 2025-03-06 at 14:20 -0700, Joshua Watt via
+lists.openembedded.org wrote:
+> The code to iterate over patched CVEs (e.g. those patched by a .patch
+> file in SRC_URI) was accidentally omitted when writing the SPDX 3
+> handling. Add it in now
+>=20
+> [YOCTO #15789]
+>=20
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+> =C2=A0meta/lib/oe/spdx30_tasks.py | 10 ++++++++++
+> =C2=A01 file changed, 10 insertions(+)
+>=20
+> diff --git a/meta/lib/oe/spdx30_tasks.py
+> b/meta/lib/oe/spdx30_tasks.py
+> index e3e5dbc7427..e20bb0c86f3 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -498,6 +498,16 @@ def create_spdx(d):
+> =C2=A0=C2=A0=C2=A0=C2=A0 # Add CVEs
+> =C2=A0=C2=A0=C2=A0=C2=A0 cve_by_status =3D {}
+> =C2=A0=C2=A0=C2=A0=C2=A0 if include_vex !=3D "none":
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for cve in oe.cve_check.get_p=
+atched_cves(d):
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spdx_=
+cve =3D build_objset.new_cve_vuln(cve)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 build=
+_objset.set_element_alias(spdx_cve)
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cve_b=
+y_status.setdefault("Patched", {})[cve] =3D (
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 spdx_cve,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 "patched",
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 "",
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 )
+> +
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for cve in d.getVarFlags=
+("CVE_STATUS") or {}:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+decoded_status =3D oe.cve_check.decode_cve_status(d, cve)
+> =C2=A0
 
-Signed-off-by: Balaji Pothunoori <quic_bpothuno@quicinc.com>
----
- v2: added commit text.
- v3: rebased on TIP.
- v4: addressed patchtest warnings.
+I worry this has increased the build time by around 10 mins (~25%):
 
- .../dhcpcd/dhcpcd_10.1.0.bb                   |  5 ++--
- ...llow-the-__NR_rt_sigprocmask-syscall.patch | 30 -------------------
- 2 files changed, 2 insertions(+), 33 deletions(-)
- delete mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
+https://valkyrie.yocto.io/pub/non-release/20250311-54/testresults/buildperf=
+-alma8/perf-alma8-vk_master_20250311090119_046a92d351.html
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-index 99b72852bf34..0b4345e7fa4a 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-@@ -7,7 +7,7 @@ DESCRIPTION = "dhcpcd runs on your machine and silently configures your \
- HOMEPAGE = "http://roy.marples.name/projects/dhcpcd/"
- 
- LICENSE = "BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=d296c4bec306f351e676705aaf237c8c"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=4dda5beb433a809f2e0aeffbf9da3d91"
- 
- SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=master \
-            file://0001-remove-INCLUDEDIR-to-prevent-build-issues.patch \
-@@ -15,10 +15,9 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
-            file://dhcpcd.service \
-            file://dhcpcd@.service \
-            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
--           file://0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch \
-            "
- 
--SRCREV = "57c3506a5622e199cf0e3fc1ef26a71cdedc9521"
-+SRCREV = "f6983c18dbf7989f43a2838beeaf62a54c53ff1d"
- S = "${WORKDIR}/git"
- 
- inherit pkgconfig autotools-brokensep systemd useradd
-diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
-deleted file mode 100644
-index 7058330165f3..000000000000
---- a/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From e9e40400003db2e4f12dba85acabbaf2212a520f Mon Sep 17 00:00:00 2001
--From: Scott Shambarger <devel@shambarger.net>
--Date: Sat, 7 Dec 2024 16:37:28 +0000
--Subject: [PATCH] linux: Allow the __NR_rt_sigprocmask syscall
--
--Fixes recent glibc changes to getrandom() used by arc4random().
--Fixes #421.
--
--Upstream-Status: Backport
--See details in https://github.com/NetworkConfiguration/dhcpcd/issues/421
--
--Signed-off-by: Scott Shambarger <devel@shambarger.net>
-----
-- src/privsep-linux.c | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/src/privsep-linux.c b/src/privsep-linux.c
--index 8357904c9c9a..e3485a2efdfc 100644
----- a/src/privsep-linux.c
--+++ b/src/privsep-linux.c
--@@ -409,6 +409,9 @@ static struct sock_filter ps_seccomp_filter[] = {
-- #ifdef __NR_recvmsg
-- 	SECCOMP_ALLOW(__NR_recvmsg),
-- #endif
--+#ifdef __NR_rt_sigprocmask
--+	SECCOMP_ALLOW(__NR_rt_sigprocmask),
--+#endif
-- #ifdef __NR_rt_sigreturn
-- 	SECCOMP_ALLOW(__NR_rt_sigreturn),
-- #endif
+Cheers,
+
+Richard
+
+
 
