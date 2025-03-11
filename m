@@ -1,134 +1,152 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A56FC282EC
-	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 13:46:41 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.9507.1741700793598867620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2DB0C282EC
+	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 14:03:21 +0000 (UTC)
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+ by mx.groups.io with SMTP id smtpd.web10.9752.1741701795867283568
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Mar 2025 06:46:33 -0700
+ Tue, 11 Mar 2025 07:03:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=vssZAUOT;
- spf=pass (domain: linaro.org, ip: 209.85.208.177, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-307d1ab59c6so58565621fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 06:46:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J751Aa7Q;
+ spf=pass (domain: gmail.com, ip: 209.85.166.178, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3d43bb5727fso14937825ab.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 07:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741700791; x=1742305591; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zl1DK1MxPwvCexllAv20RWkJekD/sVWqWHSTCuCoWkg=;
-        b=vssZAUOT7EchpuHq296zQsqE+E0XQHswYahV7oOVhA6uroZ0M7x2pyBBNCVbB4FhyH
-         6azWT9/IYWNeZqYvgDlGOLOcpsdmARZIpn8OWJLWdIBHZBLoIamBctUYy6GaFkTt1T+q
-         robjk8PdNqYtOtkMapgYdofEDY2WagjbTK7wijDebZ551emWW/TUYONZzAvyDfufpUKT
-         TPKv2uVKihuxuV0U1B0b2m+iMG24fIxoXFw43s1sTXB6xh6mScBvFUSeudxlUaMrYr79
-         LAYrafSwWCJUMX59Q1NtTKGKt/gY2DVdrmFAJkM7X6IlLe3ttZaMBEdAk46GS7slLxdL
-         l8vg==
+        d=gmail.com; s=20230601; t=1741701794; x=1742306594; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OnilzOE1T8F3X0TRevqxMc4t4LLZA2gsWPHPyCIODNk=;
+        b=J751Aa7Qu9EEG346wGyg4R8IKySkYx5xqQREizcvqa+nCOk6zPbOSQpl9Us4vUS4Jn
+         0iJqhNXhgy7JzuRRJNrarL+yVi8nBrvTlwtmJGsPyrAbrvkMZRtMB1M3OhpbvdFnKslG
+         Me6Th+Q7xf68TFdKopsK9bdIFaaUM6jBxJP8JagVUqg5JqDhEgAtRSAkgTgvAOcHwqlg
+         crqRwnjUHFRDCYv0+wwTgGK4Ak7LVS2JUK+Z1cJ2xOINU7ZQKSGTiXQK4Yx9MGkHC0I/
+         DgCtawxRauiBptkWfTU+qFSL/NRRxvjmXJ0DtFc7QNpFEFTzGBSTmQUxFROHRRfNeEw6
+         jarA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741700791; x=1742305591;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zl1DK1MxPwvCexllAv20RWkJekD/sVWqWHSTCuCoWkg=;
-        b=uSh5zeSsg6iNWUMOX11XwXxI7r3lA7PV3iTZayagA7IsWnWUEneFzFlsKJR8dEzvt8
-         Yt5MRqHpxQvz2oMgmV+jdyWUlc+5bJRpH4LLwAWeDLO8W5QgISDo4Q4tBc8Au4w7vUuc
-         bmwL0mGD5oiZEzAku8Eq2um/WWK7wU2/aX2m0qpe2qMXf8fKGI/35ZwjsB6vbP4yc4X5
-         kA6l9jEAdFCwJQ5lotQgKA6/5yAb8Mm8LhLnaqoPY+HsFdTeOLNEbGPqrk4e5MfC/DRN
-         Sbgssv7G7DutcCh4L3MtPca6WsrdgW7BR05kkdAm+dU49yU3MBt1kyvl+4AFpnbkBZaB
-         Cw3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVxlT8FLj1xCg6rHE2NBG/i/UjsPw10xr7jWpzVpRQVmfkpmFRIMLkNfARBFx+hB2sIVhbUBh9cEcBFux+RH976/A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy16Mefh/vfLGnMnIOJNTXUQAkPLrZJ9mJt6BJgXgigTV/pSj2S
-	lnprDxv0uFgbtKGKaY7eZEtl+joEOIffIn3N1aaYHCGujErmFOpIJyPmSrQzI80=
-X-Gm-Gg: ASbGncsFWhxLOJ9LYvgG6/TxKqVgMNx8HTdDX7pjjU+XvTI3+TIDtWp4ZqOofbCUHkx
-	IzoeYNZnxrZDhI62ARgynx9EfuviC9ItEhZLkFtZFLrZ1nykXhcNn5K8XETW3UYvh9yoN4ug0tP
-	Abu+TRnsnBrME9aNfCG0aWdQtLY5rtEGDcg64KTuM/MiBV4klV9J53Yh1CkuIY3d2rw5WP90693
-	v3e36C0Cx2kqqQMcFbNf1m3TecsvekYnaz0x5FoVQQKmeFgP/qAwA7eJRstcB3E74iS+TvYalGQ
-	y6oQbtNAgCzyjUj8H7ARRxUjM6eUsBDOJXjN0hT+bFwaZ0bbQiF0rZ1VV7kP8aNO5OJFZw==
-X-Google-Smtp-Source: AGHT+IH8X2XOaNVNO6CwT7OrDp0m5fbWuYPZO9djeha5/ZM2ccWAuZ0BY8XwbkM0K10F+gVH/6YhuQ==
-X-Received: by 2002:a05:651c:b2c:b0:30b:f138:1b9f with SMTP id 38308e7fff4ca-30bf452d3f3mr54066471fa.17.1741700791526;
-        Tue, 11 Mar 2025 06:46:31 -0700 (PDT)
-Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30be99c84fesm20660991fa.70.2025.03.11.06.46.29
+        d=1e100.net; s=20230601; t=1741701794; x=1742306594;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OnilzOE1T8F3X0TRevqxMc4t4LLZA2gsWPHPyCIODNk=;
+        b=okuk7VlJghNJ3CS2yE0ZVJswZCpuivQpog7F0N0eEm3UM2LiAX53+N4CgA2YrzW5x+
+         cqIMnDqFECkkEdqDKQMaxOmCXWjzZ+UqGMEtr/vPigonQPhp6XTqzTQhYXqCxjsKH4Iz
+         8ZFZwVqaFMTPmHoMgrKC28cE46Pdy9bELsLyS51uumSr/moGgsJdBbKMteVMHGojx4s7
+         du8o1aL2Lg7ytM0RlXBDZS9ynkAVGsa0CrZGz/q5Bd6biC1l+C1MmjSEvLZiIbgA4MJB
+         LAlUzl0W4glxyZpJJQHPImxVqwGYHdNBdeIRzFVt9DG7VBbZmhtiR2yUzZwjsVIuWuQq
+         kKyQ==
+X-Gm-Message-State: AOJu0Ywm50ArxpNL5+281sRTf2OWnCFP2wiNdXT1mmBHzQGFzRoGMXF/
+	qQ8gTv/QTAGEIxqELVrwl92/4Z8xhK84AhjBhmQn0RS97FEUdVthDvgaqw==
+X-Gm-Gg: ASbGncs01JHMqWZ9ZuqB7G0MYQwx6wdL6T0rI7Z31Am3aNNNV8reEMIjAix4u0CGF5P
+	Z9A7YyNUxBOzkPZWjB9SPVmX3iBqCUQjiYDsiLn8vJqdLnI5U0wEGrRsBdH5ooYiiSUv7ec2ugX
+	RObbM/VYxHBup9mC18yCoOuV8j70934DHqlPkrGAxwt30Zqq+ikEfeJXI47off/sK8rCx+opNId
+	SgDKIcyfsd0tO9WsAPLE1mrNjeSwxM7ARdRnwg2mI032ls5RY7yqVfQbjKJyPQ0ae21tccR1X2e
+	Pyp3wJPiAct+sou4lzOQ2X8u02S9o/qaHlQ11vlMqVA=
+X-Google-Smtp-Source: AGHT+IFNTFxvDFU6QGOtD7UJi32ULVvZuXiyU0TjErcdhVXy4/goF9tRABcHkxyhCZNrmkHjxZD5KA==
+X-Received: by 2002:a05:6e02:32c1:b0:3ce:4b12:fa17 with SMTP id e9e14a558f8ab-3d4419af2a4mr215906685ab.19.1741701794386;
+        Tue, 11 Mar 2025 07:03:14 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4300:19e0::70b8])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f233752cb3sm1223447173.90.2025.03.11.07.03.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 06:46:29 -0700 (PDT)
-Date: Tue, 11 Mar 2025 15:46:27 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: JPEWhacker@gmail.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Ross Burton <ross.burton@arm.com>
-Subject: Re: [OE-core][PATCH] lib: spdx30_tasks: Handle patched CVEs
-Message-ID: <Z9A-s_NNJl_Cw3sf@nuoska>
-References: <20250306212007.44880-1-JPEWhacker@gmail.com>
- <76e6fb1b98cc7269d4290bb4e92d0adf2d3567d7.camel@linuxfoundation.org>
- <CAJdd5GY=pQ85g4M6gYHq2y7JKTT4BK+A2mi8dTJ6APnapvuozA@mail.gmail.com>
+        Tue, 11 Mar 2025 07:03:12 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v2] lib: Fix dependencies on SPDX code
+Date: Tue, 11 Mar 2025 08:03:02 -0600
+Message-ID: <20250311140302.2947498-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250307154313.1143215-1-JPEWhacker@gmail.com>
+References: <20250307154313.1143215-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJdd5GY=pQ85g4M6gYHq2y7JKTT4BK+A2mi8dTJ6APnapvuozA@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 13:46:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212569
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 14:03:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212570
 
-Hi,
+The SPDX library code was being ignored from taskhash calculations due
+to accidentally being omitted from BBIMPORTS. This meant that changes in
+the code or dependent variables would not cause the task to rebuild
+correctly.
 
-On Tue, Mar 11, 2025 at 07:17:33AM -0600, Joshua Watt via lists.openembedded.org wrote:
-> On Tue, Mar 11, 2025, 7:01 AM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> 
-> > On Thu, 2025-03-06 at 14:20 -0700, Joshua Watt via
-> > lists.openembedded.org wrote:
-> > > The code to iterate over patched CVEs (e.g. those patched by a .patch
-> > > file in SRC_URI) was accidentally omitted when writing the SPDX 3
-> > > handling. Add it in now
-> > >
-> > > [YOCTO #15789]
-> > >
-> > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > > ---
-> > >  meta/lib/oe/spdx30_tasks.py | 10 ++++++++++
-> > >  1 file changed, 10 insertions(+)
-> > >
-> > > diff --git a/meta/lib/oe/spdx30_tasks.py
-> > > b/meta/lib/oe/spdx30_tasks.py
-> > > index e3e5dbc7427..e20bb0c86f3 100644
-> > > --- a/meta/lib/oe/spdx30_tasks.py
-> > > +++ b/meta/lib/oe/spdx30_tasks.py
-> > > @@ -498,6 +498,16 @@ def create_spdx(d):
-> > >      # Add CVEs
-> > >      cve_by_status = {}
-> > >      if include_vex != "none":
-> > > +        for cve in oe.cve_check.get_patched_cves(d):
-> > > +            spdx_cve = build_objset.new_cve_vuln(cve)
-> > > +            build_objset.set_element_alias(spdx_cve)
-> > > +
-> > > +            cve_by_status.setdefault("Patched", {})[cve] = (
-> > > +                spdx_cve,
-> > > +                "patched",
-> > > +                "",
-> > > +            )
-> > > +
-> > >          for cve in d.getVarFlags("CVE_STATUS") or {}:
-> > >              decoded_status = oe.cve_check.decode_cve_status(d, cve)
-> > >
-> >
-> > I worry this has increased the build time by around 10 mins (~25%):
-> >
-> >
-> > https://valkyrie.yocto.io/pub/non-release/20250311-54/testresults/buildperf-alma8/perf-alma8-vk_master_20250311090119_046a92d351.html
-> 
-> 
-> Ok. Let me see what I can do about that
+In order to add spdx_common, convert the `Dep` object from a named tuple
+to a frozen dataclass. These function more or less equivalently, but the
+bitbake code parser cannot handle named tuples.
 
-Yes please. I think the kernel build time increase from ~4 minutes to ~16 minutes is
-what I saw in my local builds. Both kernel and image builds are affected by these
-SDPX CVE data changes, as we discussed yesterday on #yocto irc.
+Finally, the vardepsexclude that used to be present on the recipe tasks
+needs to be moved to the python code in order for the variables to be
+correctly ignored. Several unused exclusions were removed
 
-Cheers,
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/create-spdx-3.0.bbclass | 3 +--
+ meta/lib/oe/__init__.py              | 2 +-
+ meta/lib/oe/spdx_common.py           | 8 ++++++--
+ 3 files changed, 8 insertions(+), 5 deletions(-)
 
--Mikko
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index 25f3aa5f433..b4a5156e709 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -134,7 +134,6 @@ python do_create_spdx() {
+     import oe.spdx30_tasks
+     oe.spdx30_tasks.create_spdx(d)
+ }
+-do_create_spdx[vardepsexclude] += "BB_NUMBER_THREADS SPDX_BUILD_HOST"
+ do_create_spdx[vardeps] += "\
+     SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
+     SPDX_PACKAGE_ADDITIONAL_PURPOSE \
+@@ -170,7 +169,7 @@ python do_create_package_spdx() {
+     import oe.spdx30_tasks
+     oe.spdx30_tasks.create_package_spdx(d)
+ }
+-do_create_package_spdx[vardepsexclude] += "OVERRIDES SPDX_MULTILIB_SSTATE_ARCHS"
++oe.spdx30_tasks.create_package_spdx[vardepsexclude] = "OVERRIDES"
+ 
+ addtask do_create_package_spdx after do_create_spdx before do_build do_rm_work
+ SSTATETASKS += "do_create_package_spdx"
+diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py
+index d7604812834..3179a3f3d2c 100644
+--- a/meta/lib/oe/__init__.py
++++ b/meta/lib/oe/__init__.py
+@@ -11,4 +11,4 @@ __path__ = extend_path(__path__, __name__)
+ # processed correctly (e.g. qa)
+ BBIMPORTS = ["qa", "data", "path", "utils", "types", "package", "packagedata", \
+              "packagegroup", "sstatesig", "lsb", "cachedpath", "license", \
+-             "reproducible", "rust", "buildcfg", "go"]
++             "reproducible", "rust", "buildcfg", "go", "spdx30_tasks", "spdx_common"]
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+index 23a17271d6c..e1b26edaaf6 100644
+--- a/meta/lib/oe/spdx_common.py
++++ b/meta/lib/oe/spdx_common.py
+@@ -12,7 +12,7 @@ import re
+ import shutil
+ 
+ from pathlib import Path
+-
++from dataclasses import dataclass
+ 
+ LIC_REGEX = re.compile(
+     rb"^\W*SPDX-License-Identifier:\s*([ \w\d.()+-]+?)(?:\s+\W*)?$",
+@@ -77,7 +77,11 @@ def process_sources(d):
+     return True
+ 
+ 
+-Dep = collections.namedtuple("Dep", ["pn", "hashfn", "in_taskhash"])
++@dataclass(frozen=True)
++class Dep(object):
++    pn: str
++    hashfn: str
++    in_taskhash: bool
+ 
+ 
+ def collect_direct_deps(d, dep_task):
+-- 
+2.47.1
+
 
