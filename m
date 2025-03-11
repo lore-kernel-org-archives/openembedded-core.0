@@ -2,137 +2,116 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 074A4C282EC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 087CDC28B2E
 	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 10:42:10 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.5833.1741689727922338893
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.5834.1741689728470367840
  for <openembedded-core@lists.openembedded.org>;
  Tue, 11 Mar 2025 03:42:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PNP12DRy;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43cf680d351so12124195e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 03:42:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=END9f4kv;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43d04ea9d9aso2720735e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 03:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741689726; x=1742294526; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p+7CKKRLgFMSduyq+GsNxPUiI3Zwt32mLDAPDL9eVcY=;
-        b=PNP12DRyfMQ3WQl1kfGefE+RmXpDo/mb9EhTTJUUGzjN4mvbP6gQGYRmMoF6R2utBM
-         oFqD6BpHcqsVoImzE9Ac41yDKIqtocU6JGTCp0QnarFtCV45ExTD+AnkK3Ye/mh2AcP0
-         iOmRdPsHjgYaE8qk0bWPP8+eJa4P0JE4xGbpsKW/hAF/NXldvwe1D817f3z+CAuyTf9K
-         HHjwuR1ZeA4bYPpOtJBo4/Bk6k9oyOriQP4PZVVWtM3NM+fcHDlDgNg6QhlKLyfu7mTt
-         F3mtTl8nM6z/F5cKrYNHYMcgSjoJoiYtgnJw9pqQIKHbnTH38k3RiSzFL/gQJuAE3KQ4
-         C9Jw==
+        d=gmail.com; s=20230601; t=1741689727; x=1742294527; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k7RZuAgqryPgfR2+3suPbYftZYOYzI0CrvzEMaB9FBw=;
+        b=END9f4kv4bF4fCgnTWw2FsmLwXUlQip0r08XkwTtPqsk2/zFlKXZk6unklBy1ZTBe1
+         hIbWgVr0y9Hgux4i/qN5uolrnXOkZqCBBEQPcehx2v0nbQ2cCkDd8y78dmp0T+Iur69D
+         p150n8dQVVy9+xXIAxCX+JAnBT8/f5C6pu4Ti/uhoBYso7UPbwDQT2dheaizqChvEk+m
+         x4QQbUxaeHAzbG30OiDt0AMgv9D33MOD716Nz0JvkGBdTDqNFl4Pbg6zrxZ4hisJ1lS6
+         wLV4paf+qEzwBviggqygrJHlmUrvxjPTmkv9517UqYn6qD1mVWpbbZExF1CHfgE9XOVM
+         a1bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741689726; x=1742294526;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p+7CKKRLgFMSduyq+GsNxPUiI3Zwt32mLDAPDL9eVcY=;
-        b=iLeZvbf3AwlL/5WvJ0vyJPEpLOmAcqjFKqBOk7CzPhxmqMy7sGwO4PzDVbSp1qpej8
-         uQ8NLYUZ8iwcoEogQUW/7l0jDt5myUKzfV0BBqZhdBDoCUbsUZkTiIF4MKw0pBTE9rwR
-         AGRLppX8WZm7lfEyA2R0CRc+c1hhBoiNwd7/B/yN19TYZ/BrDTo0qZyFsKJiJ8Httuc8
-         FWC0ulpmihmpitHppiqAdASYyytHTETGIqMhlwC6W4LIF2Xujf0CL42TY+1ZWBYIP5gA
-         o72fkZ/C9UddfijibVnUAgoZF68GsXikZtNst4ujjQp4VbHN0ZKgJT8KDWyAeaM20QC3
-         tp2A==
-X-Gm-Message-State: AOJu0YxXShPHAMQiSxmT/TaMCwVMZUv4QegAQBWh5rDk3f+q5RONLAKi
-	o2H6Xha1TqugDt457aQQBVR1ciBnfMUfEBK6ZNTsuNTm13jWDU6vG0ACTw==
-X-Gm-Gg: ASbGncvaOZchNN0Z3D86YYVnsPvk1sEU2iYA9hL8raZdu0mEfD+r4g8kkT0HeFuHsTL
-	qkRhwEcdmkPEawJscYerdE9OusRHH1EVXuZ1VYmIUIVXS1tc4s6J/4m6nm445OHyJE5IMhxyjER
-	zv3+s4hWpwCcgD3sZTqnvaiby16rJMDyK0TbgXbs6uSghD+PTkZ0WNRevtzxz3iLqxwYwtBXyxW
-	v7++aaoyR4lkTbdrDUHjQYQtLiVw2cPUZ2m0LZL70bsdlfhLkbqqxCj+ND3aRnfipN4Jlv0Ky1Q
-	PRuJT8+0DLhewHFVOOrfLhJ9sTGQ9ijq5Fm5BOE+syjA/B8AEVcbh6nkPFd5nx9hBMCfxaZag+W
-	oXoS0m+3Kep/89Ber
-X-Google-Smtp-Source: AGHT+IFQlY5jUNtrv1kq1HWSW0kNGUeEuMV8MA2IitEyJAj4YOtrxVC4hF9QsZVvbE1rjc+2HVn0IQ==
-X-Received: by 2002:a05:600c:4f8a:b0:43b:bfa7:c7d with SMTP id 5b1f17b1804b1-43d01d0b51cmr36409945e9.2.1741689726153;
+        d=1e100.net; s=20230601; t=1741689727; x=1742294527;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k7RZuAgqryPgfR2+3suPbYftZYOYzI0CrvzEMaB9FBw=;
+        b=azK3wi3pDCGSTm02J2F96hKK6pjvGgWc2ZElgWiv/qjSU1kqJ1ikle8OEwWCbkdRdf
+         jMCrqMRNpgnMscykIb14FqbBJCryVXVHyIESJM1mPkSKCAOZU16DzAdTqYYGbHd+5gJZ
+         WF0r2w+wgwVE1s9EKuU1UkExP7fzqfvcSsy3TEZgfUde6diBiyVJ9Weuc37FntxO9mg9
+         TK4EwmiIuSxkN5R3ql+c2SsM9f3P3kr7txYUUI0C2r16jY2HcpgCrG4t9Nvrt/6fWErv
+         lnPXzAZTAzwjdn4yJGLjtD11exGn4lUD+btPYrGb+6lfamulmX01spD3zN68PBRQ+ST4
+         +Bgg==
+X-Gm-Message-State: AOJu0YwxPZGW+OTuMrJo075xxYGHP2OpwnLDL2Do/eAtXOI/CS1hFjJW
+	AHKAZ74YMpR0vHjk52UyOcqJ/PUD6OEpp3+qWIoo4b46kB2Bkn/ckQdrjg==
+X-Gm-Gg: ASbGncvzPKlLrpveyBkbiI0mHwbmCmMB8RQxtOMnxJUNidECkO0UjBT2SDnzPtve/dC
+	uuyZzmf3zdcyZOum2lCfEu9xjhLbkD1EhhQYOepS6FerlR5TXGHWj+JUMzszFADoZtquJyefTo7
+	t808KOcReuXG6svWcJeRMJ0h92Y/Ac6n0Gzkafg7eyXZ4TlpaYcv5CLu8ChixSUnr5u249Cosyc
+	DWMIqNB3H1quNQTL8AqPiIcdIIsOtIiC77JJTh+TZJIqYVk7GHMIKODlNMkrMaKbTixwFWSh8Qa
+	Jst+21r4gwJvZUJqAtZxIUP8/J4V/xUlf8/So7+nRDhhnLZEU95UBo9l1RiAjjAEVDoc6pt/JN2
+	soYwW3A==
+X-Google-Smtp-Source: AGHT+IEpKDGD2ZHtcUt1cgHzrRBdq4RMH5A4GTfAhkvM4sGJCOTVnX4+czKTPFRyT8aWZPWNbaqlzA==
+X-Received: by 2002:a05:600c:4e8b:b0:43c:eea9:f45d with SMTP id 5b1f17b1804b1-43ceea9f8b7mr88072495e9.18.1741689726789;
         Tue, 11 Mar 2025 03:42:06 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43cee67ae5esm96201095e9.33.2025.03.11.03.42.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43cee67ae5esm96201095e9.33.2025.03.11.03.42.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 03:42:05 -0700 (PDT)
+        Tue, 11 Mar 2025 03:42:06 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/2] scripts/install-buildtools: add an option to preserve downloads
-Date: Tue, 11 Mar 2025 11:41:51 +0100
-Message-Id: <20250311104152.393470-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/2] scripts/install-buildtools: write download URLs to files for traceability
+Date: Tue, 11 Mar 2025 11:41:52 +0100
+Message-Id: <20250311104152.393470-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250311104152.393470-1-alex.kanavin@gmail.com>
+References: <20250311104152.393470-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 10:42:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212554
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212555
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-By default the script puts everything it downloads into a temporary
-directory and erases it after unpacking and installing the buildtools.
+This extends the previous commit, so that download URLs are preserved
+in addition to actual artefacts. By default it's all written to a temporary
+directory and erased together with artefacts, but users can choose
+to preserve both:
 
-This isn't great for traceability and reproducibility of builds
-(being able to see what was downloaded exactly, and being able
-to reproduce setting up a build, especially if the buildtools
-download location isn't available for whatever reason).
+$ install-buildtools -D --keep-downloads-directory=.
+...
 
-This commit adds an option to download items into a specified directory
-and keep them there. I would particularly like to use it
-with bitbake-setup, where an optional script to install the buildtools
-would ensure the tarball remains available on local disk.
+$ ls -1
+buildtools_url
+check_url
+x86_64-buildtools-extended-nativesdk-standalone-5.1.2.sh
+x86_64-buildtools-extended-nativesdk-standalone-5.1.2.sh.sha256sum
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/install-buildtools | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ scripts/install-buildtools | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 639ebb12d78..1a68aad53e7 100755
+index 1a68aad53e7..7bd6556edf6 100755
 --- a/scripts/install-buildtools
 +++ b/scripts/install-buildtools
-@@ -142,6 +142,9 @@ def main():
-                         default=DEFAULT_INSTALL_DIR,
-                         help='directory where buildtools SDK will be installed (optional)',
-                         action='store')
-+    parser.add_argument('--keep-downloads-directory',
-+                        help='use this directory for tarball/checksum downloads and do not erase them (default is a temporary directory which is deleted after unpacking and installing the buildtools)',
-+                        action='store')
-     parser.add_argument('-r', '--release',
-                         default=DEFAULT_RELEASE,
-                         help='Yocto Project release string for SDK which will be '
-@@ -235,11 +238,11 @@ def main():
-                 safe_filename = quote(filename)
-                 buildtools_url = "%s/%s/buildtools/%s" % (base_url, args.release, safe_filename)
- 
--    tmpsdk_dir = tempfile.mkdtemp()
-+    sdk_dir = args.keep_downloads_directory or tempfile.mkdtemp()
-     try:
+@@ -243,6 +243,8 @@ def main():
          # Fetch installer
          logger.info("Fetching buildtools installer")
--        tmpbuildtools = os.path.join(tmpsdk_dir, filename)
-+        tmpbuildtools = os.path.join(sdk_dir, filename)
+         tmpbuildtools = os.path.join(sdk_dir, filename)
++        with open(os.path.join(sdk_dir, 'buildtools_url'), 'w') as f:
++            f.write(buildtools_url)
          ret = subprocess.call("wget -q -O %s %s" %
                                (tmpbuildtools, buildtools_url), shell=True)
          if ret != 0:
-@@ -252,7 +255,7 @@ def main():
-             checksum_type = "sha256sum"
+@@ -256,6 +258,8 @@ def main():
              check_url = "{}.{}".format(buildtools_url, checksum_type)
              checksum_filename = "{}.{}".format(filename, checksum_type)
--            tmpbuildtools_checksum = os.path.join(tmpsdk_dir, checksum_filename)
-+            tmpbuildtools_checksum = os.path.join(sdk_dir, checksum_filename)
+             tmpbuildtools_checksum = os.path.join(sdk_dir, checksum_filename)
++            with open(os.path.join(sdk_dir, 'check_url'), 'w') as f:
++                f.write(check_url)
              ret = subprocess.call("wget -q -O %s %s" %
                                      (tmpbuildtools_checksum, check_url), shell=True)
              if ret != 0:
-@@ -347,7 +350,8 @@ def main():
- 
-     finally:
-         # cleanup tmp directory
--        shutil.rmtree(tmpsdk_dir)
-+        if not args.keep_downloads_directory:
-+            shutil.rmtree(sdk_dir)
- 
- 
- if __name__ == '__main__':
 -- 
 2.39.5
 
