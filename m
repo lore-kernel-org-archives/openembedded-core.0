@@ -1,100 +1,158 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <quic_bpothuno@quicinc.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3DF4C282EC
-	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 12:46:40 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.7999.1741697191315227627
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 009FFC282EC
+	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 12:59:31 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.8227.1741697969331753506
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Mar 2025 05:46:31 -0700
+ Tue, 11 Mar 2025 05:59:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dLiX52oD;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=YX8UF0Pp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010195853e0a7a-37e24fe0-df68-443a-bcd8-6a649c34d2a2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1741697190; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=cP6pApimm45MOynBqoom9cXMCL3NYWe9DObhFN4gNK4=;
-	b=dLiX52oD+sObGdwM2aL6o9F98OqlJ5HmOCp3tfXn09C6MPJbmJ+xodFUFhe6du9V
-	1kj5Sm9Lnjb7vqoXT1sZ81qbhWb5Wnox6Ta3hqcFlLa+0pACxYKQuiI78pBo0/YucBL
-	uVfvX7TET8YASc9vch1ORWsA+kGIASuwqF0uMaU4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1741697190;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=cP6pApimm45MOynBqoom9cXMCL3NYWe9DObhFN4gNK4=;
-	b=YX8UF0PpZ9bY7RtjIX08JHUC7xflAHhWJ+OauX+pv6SiPoJFlzFjd7ZZRySTRYiQ
-	2Y6Cq5YQWuAZHHcHZtRkCHbG8mkccuCnrZHNAgmIuCZv0sKrejxoQd6lNzX1g2OpB/D
-	hNeFa/PQUvwFhLl0ljKxvsnj0D1+tPqy2B37j430=
-From: patchtest@automation.yoctoproject.org
-To: Balaji Pothunoori <quic_bpothuno@quicinc.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v3] dhcpcd: upgrade 10.1.0 -> 10.2.2
-In-Reply-To: <20250311123910.1887566-1-quic_bpothuno@quicinc.com>
-References: <20250311123910.1887566-1-quic_bpothuno@quicinc.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195853e0a7a-37e24fe0-df68-443a-bcd8-6a649c34d2a2-000000@us-west-2.amazonses.com>
-Date: Tue, 11 Mar 2025 12:46:30 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.11-54.240.27.23
+ dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=AFH/Umau;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: bpothuno@qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52B80Wlx010923
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=7MIxS0r8vtdDGBadrifG8A1GKnysDTrmAp0
+	sUbYqk6Q=; b=AFH/Umaui1EyiBemOCAE6lKrUNGIdjncxkTnNB/ztruLIedlVyw
+	gnqx4MKh0S18gR+1QvRCuHDNNLoLxx3pN01hDKoRWpyBG6yJ6PcuCmBao5LfoA0E
+	DROScGpwriVok3GcIaObY7WP1/MpKQA03Qv3GoEPRJm3eA1gSXGeII6A2kDRlSHV
+	AsXIYcu40H2OYk6fHU3fS6UK39+CslLJl9rSsqkzwbf+W/2rw6xdCsFnHU94Ghie
+	jOoh3C21vsm0SgX3Pke6zQu8DCejntW3Z4c3uOSoQXziNgMIc7Bvu3Our51ILwEa
+	+69une+e1w1WD+c0ko5yucibOJaEazAA73Q==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 458eyugmun-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:28 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 52BCxPYq012218
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:25 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 458yn37c44-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:25 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 52BCxOdN012213
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:24 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com ([10.213.97.93])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 52BCxOls012211
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Mar 2025 12:59:24 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 460767)
+	id DF4F956E; Tue, 11 Mar 2025 18:29:23 +0530 (+0530)
+From: Balaji Pothunoori <quic_bpothuno@quicinc.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Balaji Pothunoori <quic_bpothuno@quicinc.com>
+Subject: [PATCH v4] dhcpcd: upgrade 10.1.0 -> 10.2.2
+Date: Tue, 11 Mar 2025 18:29:19 +0530
+Message-Id: <20250311125919.2325099-1-quic_bpothuno@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=cbIormDM c=1 sm=1 tr=0 ts=67d033b0 cx=c_pps a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17 a=Vs1iUdzkB0EA:10 a=Q4-j1AaZAAAA:8 a=Pm3Ii0ycAAAA:8 a=NEAV23lmAAAA:8 a=COk6AnOGAAAA:8 a=29iXaaDHAAAA:8
+ a=cRRSNJyts1ZrZyEANQIA:9 a=-FEs8UIgK8oA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=Lb0xad9IhAkqXp0dotAK:22 a=TjNXssC_j7lpFel5tvFf:22 a=IKEkoQGeIXdUWEBz-oOH:22
+X-Proofpoint-ORIG-GUID: icK0yTj3dbMcqShlr63Ux5H3665D0unr
+X-Proofpoint-GUID: icK0yTj3dbMcqShlr63Ux5H3665D0unr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-11_02,2025-03-11_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 bulkscore=0 suspectscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 adultscore=0 clxscore=1015 spamscore=0 mlxlogscore=940
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503110083
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:46:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212565
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 12:59:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212566
 
---NextPart
-Content-Type: text/plain
+This change includes:
+a. upgrades dhcpcd version to latest 10.2.2.
+b. Update LIC_FILES_CHKSUM for dhcpcd
+License-Update: Updated MD5 checksum for LICENSE as Copyright year updated to
+2025 in source/LICENSE files.
+c. remove following change, as it is specific to 10.1.0 version:
+https://git.openembedded.org/openembedded-core/commit/?id=2bb20f49ada56f1c7707565e475051174feba945
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Balaji Pothunoori <quic_bpothuno@quicinc.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v3-dhcpcd-upgrade-10.1.0---10.2.2.patch
+ v2: added commit text.
+ v3: rebased on TIP.
+ v4: addressed patchtest warnings.
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+ .../dhcpcd/dhcpcd_10.1.0.bb                   |  5 ++--
+ ...llow-the-__NR_rt_sigprocmask-syscall.patch | 30 -------------------
+ 2 files changed, 2 insertions(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
+index 99b72852bf34..0b4345e7fa4a 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
+@@ -7,7 +7,7 @@ DESCRIPTION = "dhcpcd runs on your machine and silently configures your \
+ HOMEPAGE = "http://roy.marples.name/projects/dhcpcd/"
+ 
+ LICENSE = "BSD-2-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=d296c4bec306f351e676705aaf237c8c"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=4dda5beb433a809f2e0aeffbf9da3d91"
+ 
+ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=master \
+            file://0001-remove-INCLUDEDIR-to-prevent-build-issues.patch \
+@@ -15,10 +15,9 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://dhcpcd.service \
+            file://dhcpcd@.service \
+            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
+-           file://0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch \
+            "
+ 
+-SRCREV = "57c3506a5622e199cf0e3fc1ef26a71cdedc9521"
++SRCREV = "f6983c18dbf7989f43a2838beeaf62a54c53ff1d"
+ S = "${WORKDIR}/git"
+ 
+ inherit pkgconfig autotools-brokensep systemd useradd
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
+deleted file mode 100644
+index 7058330165f3..000000000000
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From e9e40400003db2e4f12dba85acabbaf2212a520f Mon Sep 17 00:00:00 2001
+-From: Scott Shambarger <devel@shambarger.net>
+-Date: Sat, 7 Dec 2024 16:37:28 +0000
+-Subject: [PATCH] linux: Allow the __NR_rt_sigprocmask syscall
+-
+-Fixes recent glibc changes to getrandom() used by arc4random().
+-Fixes #421.
+-
+-Upstream-Status: Backport
+-See details in https://github.com/NetworkConfiguration/dhcpcd/issues/421
+-
+-Signed-off-by: Scott Shambarger <devel@shambarger.net>
+----
+- src/privsep-linux.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/src/privsep-linux.c b/src/privsep-linux.c
+-index 8357904c9c9a..e3485a2efdfc 100644
+---- a/src/privsep-linux.c
+-+++ b/src/privsep-linux.c
+-@@ -409,6 +409,9 @@ static struct sock_filter ps_seccomp_filter[] = {
+- #ifdef __NR_recvmsg
+- 	SECCOMP_ALLOW(__NR_recvmsg),
+- #endif
+-+#ifdef __NR_rt_sigprocmask
+-+	SECCOMP_ALLOW(__NR_rt_sigprocmask),
+-+#endif
+- #ifdef __NR_rt_sigreturn
+- 	SECCOMP_ALLOW(__NR_rt_sigreturn),
+- #endif
 
