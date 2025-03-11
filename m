@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 172DEC28B2F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 206C2C35FF1
 	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 18:19:23 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.17699.1741717151419383529
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.17465.1741717158311463493
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Mar 2025 11:19:13 -0700
+ Tue, 11 Mar 2025 11:19:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=DfZqLgqW;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2025031118191290d97e8dfcb50fd5c0-yhiwiz@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2025031118191290d97e8dfcb50fd5c0
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=SV53kqLI;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2025031118191692a364879058a0abaf-ghlh_9@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2025031118191692a364879058a0abaf
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 11 Mar 2025 19:19:12 +0100
+        Tue, 11 Mar 2025 19:19:16 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=U1gVEr6FazRKeHYwokNU5D8KZGNFJIt0z7eykoiCgLg=;
- b=DfZqLgqW1OdxG//1fqFHh/h1k9HyBcUxxYaA2WvwVBAPxb0rGugJHxcqgV/jSA4/QbioWh
- 8d6KtJG6A2JCEsD7MvjZ14nhW+t2kfLr15xZoTzydEqOyfVFefui4E0F7CJRBJpohn7KnfKM
- leJtbtpHM+UMJ95oxQiKgN33G1kSRiV2Kj0TXVNg2k8V+RErz1YF2lMXd+KAjbEDSsIzTcPo
- 483k8a1BLMen+slg0HvVZbu5DfiTdm62LMiiDhNlT3AUUaUIYar03YpJHISszOsv1MQPTGr5
- zWtVn2mClh1NiiUpQ28jFNmxMrtjlSLOnRc79qnzG9Zz1998b3a0CMvQ==;
+ bh=0vNJqo49hgXKb983BQOCeFnC/cTRqc3TDxQemORdkMM=;
+ b=SV53kqLIzbJ1x8wc0A8Rg+8yM+hqiB+dJj9AKbj1WQ871+F3Xj+McJOZvdJ1SqP00cCb+w
+ 68PFMM71F1VhUCbqxZNukadabJUw04kytvCl6uXyDc3/5/8tKRQnOi5uTzCX8DA5ipqnxj7p
+ vi3l0nPH1w1yGQnASIb3++XpIeEznVqUkaFoLByZ3d4Gw8w1jK7cje0cQBaTb0Jp8U4SBBFp
+ tY2rRtKOHR+V54rTtfvS2HpvHkxOvJkjsyHVqZrM+f55smxQuBbyrwMwrOFEAzk204wgMmNU
+ abJxW0yO1qGAvoxOrPQUTs0AuO1eAlmj2EXMRmIDCClJsC/yXoJ7gpQw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH 14/17] grub: patch CVE-2025-1118
-Date: Tue, 11 Mar 2025 19:17:22 +0100
-Message-Id: <20250311181725.8986-14-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH 16/17] grub: patch CVE-2025-0677, CVE-2025-0684, CVE-2025-0685, CVE-2025-0686 and CVE-2025-0689
+Date: Tue, 11 Mar 2025 19:17:24 +0100
+Message-Id: <20250311181725.8986-16-peter.marko@siemens.com>
 In-Reply-To: <20250311181725.8986-1-peter.marko@siemens.com>
 References: <20250311181725.8986-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -39,71 +39,411 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 18:19:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212626
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212628
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Cherry-pick patch mentioning this CVE.
+Cherry-pick patch mentioning these CVEs.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../grub/files/CVE-2025-1118.patch            | 37 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-1118.patch
+ ...025-0685_CVE-2025-0686_CVE-2025-0689.patch | 377 ++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |   1 +
+ 2 files changed, 378 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-1118.patch b/meta/recipes-bsp/grub/files/CVE-2025-1118.patch
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch b/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
 new file mode 100644
-index 0000000000..e6906d909c
+index 0000000000..d5563cecc4
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-1118.patch
-@@ -0,0 +1,37 @@
-+From 34824806ac6302f91e8cabaa41308eaced25725f Mon Sep 17 00:00:00 2001
-+From: B Horn <b@horn.uk>
-+Date: Thu, 18 Apr 2024 20:29:39 +0100
-+Subject: [PATCH] commands/minicmd: Block the dump command in lockdown mode
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
+@@ -0,0 +1,377 @@
++From 47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10 Mon Sep 17 00:00:00 2001
++From: Daniel Axtens <dja@axtens.net>
++Date: Sat, 23 Mar 2024 16:20:45 +1100
++Subject: [PATCH] fs: Disable many filesystems under lockdown
 +
-+The dump enables a user to read memory which should not be possible
-+in lockdown mode.
++The idea is to permit the following: btrfs, cpio, exfat, ext, f2fs, fat,
++hfsplus, iso9660, squash4, tar, xfs and zfs.
 +
-+Fixes: CVE-2025-1118
++The JFS, ReiserFS, romfs, UDF and UFS security vulnerabilities were
++reported by Jonathan Bar Or <jonathanbaror@gmail.com>.
 +
-+Reported-by: B Horn <b@horn.uk>
-+Reported-by: Jonathan Bar Or <jonathanbaror@gmail.com>
-+Signed-off-by: B Horn <b@horn.uk>
++Fixes: CVE-2025-0677
++Fixes: CVE-2025-0684
++Fixes: CVE-2025-0685
++Fixes: CVE-2025-0686
++Fixes: CVE-2025-0689
++
++Suggested-by: Daniel Axtens <dja@axtens.net>
++Signed-off-by: Daniel Axtens <dja@axtens.net>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+CVE: CVE-2025-1118
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=34824806ac6302f91e8cabaa41308eaced25725f]
++CVE: CVE-2025-0677
++CVE: CVE-2025-0684
++CVE: CVE-2025-0685
++CVE: CVE-2025-0686
++CVE: CVE-2025-0689
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ grub-core/commands/minicmd.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ grub-core/fs/affs.c     | 9 +++++++--
++ grub-core/fs/cbfs.c     | 9 +++++++--
++ grub-core/fs/jfs.c      | 9 +++++++--
++ grub-core/fs/minix.c    | 9 +++++++--
++ grub-core/fs/nilfs2.c   | 9 +++++++--
++ grub-core/fs/ntfs.c     | 9 +++++++--
++ grub-core/fs/reiserfs.c | 9 +++++++--
++ grub-core/fs/romfs.c    | 9 +++++++--
++ grub-core/fs/sfs.c      | 9 +++++++--
++ grub-core/fs/udf.c      | 9 +++++++--
++ grub-core/fs/ufs.c      | 9 +++++++--
++ 11 files changed, 77 insertions(+), 22 deletions(-)
 +
-+diff --git a/grub-core/commands/minicmd.c b/grub-core/commands/minicmd.c
-+index 286290866..8c5ee3e60 100644
-+--- a/grub-core/commands/minicmd.c
-++++ b/grub-core/commands/minicmd.c
-+@@ -203,8 +203,8 @@ GRUB_MOD_INIT(minicmd)
-+     grub_register_command ("help", grub_mini_cmd_help,
-+ 			   0, N_("Show this message."));
-+   cmd_dump =
-+-    grub_register_command ("dump", grub_mini_cmd_dump,
-+-			   N_("ADDR [SIZE]"), N_("Show memory contents."));
-++    grub_register_command_lockdown ("dump", grub_mini_cmd_dump,
-++				    N_("ADDR [SIZE]"), N_("Show memory contents."));
-+   cmd_rmmod =
-+     grub_register_command ("rmmod", grub_mini_cmd_rmmod,
-+ 			   N_("MODULE"), N_("Remove a module."));
++diff --git a/grub-core/fs/affs.c b/grub-core/fs/affs.c
++index ed606b3f1..352f5d232 100644
++--- a/grub-core/fs/affs.c
+++++ b/grub-core/fs/affs.c
++@@ -26,6 +26,7 @@
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
++ #include <grub/charset.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -703,11 +704,15 @@ static struct grub_fs grub_affs_fs =
++ 
++ GRUB_MOD_INIT(affs)
++ {
++-  grub_fs_register (&grub_affs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_affs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(affs)
++ {
++-  grub_fs_unregister (&grub_affs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_affs_fs);
++ }
++diff --git a/grub-core/fs/cbfs.c b/grub-core/fs/cbfs.c
++index 8ab7106af..f6349df34 100644
++--- a/grub-core/fs/cbfs.c
+++++ b/grub-core/fs/cbfs.c
++@@ -26,6 +26,7 @@
++ #include <grub/dl.h>
++ #include <grub/i18n.h>
++ #include <grub/cbfs_core.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -390,12 +391,16 @@ GRUB_MOD_INIT (cbfs)
++ #if (defined (__i386__) || defined (__x86_64__)) && !defined (GRUB_UTIL) && !defined (GRUB_MACHINE_EMU) && !defined (GRUB_MACHINE_XEN)
++   init_cbfsdisk ();
++ #endif
++-  grub_fs_register (&grub_cbfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_cbfs_fs);
+++    }
++ }
++ 
++ GRUB_MOD_FINI (cbfs)
++ {
++-  grub_fs_unregister (&grub_cbfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_cbfs_fs);
++ #if (defined (__i386__) || defined (__x86_64__)) && !defined (GRUB_UTIL) && !defined (GRUB_MACHINE_EMU) && !defined (GRUB_MACHINE_XEN)
++   fini_cbfsdisk ();
++ #endif
++diff --git a/grub-core/fs/jfs.c b/grub-core/fs/jfs.c
++index 6f7c43904..c0bbab8a9 100644
++--- a/grub-core/fs/jfs.c
+++++ b/grub-core/fs/jfs.c
++@@ -26,6 +26,7 @@
++ #include <grub/types.h>
++ #include <grub/charset.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -963,11 +964,15 @@ static struct grub_fs grub_jfs_fs =
++ 
++ GRUB_MOD_INIT(jfs)
++ {
++-  grub_fs_register (&grub_jfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_jfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(jfs)
++ {
++-  grub_fs_unregister (&grub_jfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_jfs_fs);
++ }
++diff --git a/grub-core/fs/minix.c b/grub-core/fs/minix.c
++index 5354951d1..c267298b5 100644
++--- a/grub-core/fs/minix.c
+++++ b/grub-core/fs/minix.c
++@@ -25,6 +25,7 @@
++ #include <grub/dl.h>
++ #include <grub/types.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -734,7 +735,10 @@ GRUB_MOD_INIT(minix)
++ #endif
++ #endif
++ {
++-  grub_fs_register (&grub_minix_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_minix_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++@@ -756,5 +760,6 @@ GRUB_MOD_FINI(minix)
++ #endif
++ #endif
++ {
++-  grub_fs_unregister (&grub_minix_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_minix_fs);
++ }
++diff --git a/grub-core/fs/nilfs2.c b/grub-core/fs/nilfs2.c
++index fc7374ead..08abf173f 100644
++--- a/grub-core/fs/nilfs2.c
+++++ b/grub-core/fs/nilfs2.c
++@@ -34,6 +34,7 @@
++ #include <grub/dl.h>
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -1231,11 +1232,15 @@ GRUB_MOD_INIT (nilfs2)
++ 				  grub_nilfs2_dat_entry));
++   COMPILE_TIME_ASSERT (1 << LOG_INODE_SIZE
++ 		       == sizeof (struct grub_nilfs2_inode));
++-  grub_fs_register (&grub_nilfs2_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_nilfs2_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI (nilfs2)
++ {
++-  grub_fs_unregister (&grub_nilfs2_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_nilfs2_fs);
++ }
++diff --git a/grub-core/fs/ntfs.c b/grub-core/fs/ntfs.c
++index de435aa14..8cc2ba3d5 100644
++--- a/grub-core/fs/ntfs.c
+++++ b/grub-core/fs/ntfs.c
++@@ -27,6 +27,7 @@
++ #include <grub/fshelp.h>
++ #include <grub/ntfs.h>
++ #include <grub/charset.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -1320,11 +1321,15 @@ static struct grub_fs grub_ntfs_fs =
++ 
++ GRUB_MOD_INIT (ntfs)
++ {
++-  grub_fs_register (&grub_ntfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_ntfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI (ntfs)
++ {
++-  grub_fs_unregister (&grub_ntfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_ntfs_fs);
++ }
++diff --git a/grub-core/fs/reiserfs.c b/grub-core/fs/reiserfs.c
++index 36b26ac98..cdef2eba0 100644
++--- a/grub-core/fs/reiserfs.c
+++++ b/grub-core/fs/reiserfs.c
++@@ -39,6 +39,7 @@
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -1417,11 +1418,15 @@ static struct grub_fs grub_reiserfs_fs =
++ 
++ GRUB_MOD_INIT(reiserfs)
++ {
++-  grub_fs_register (&grub_reiserfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_reiserfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(reiserfs)
++ {
++-  grub_fs_unregister (&grub_reiserfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_reiserfs_fs);
++ }
++diff --git a/grub-core/fs/romfs.c b/grub-core/fs/romfs.c
++index 1f7dcfca1..acf8dd21e 100644
++--- a/grub-core/fs/romfs.c
+++++ b/grub-core/fs/romfs.c
++@@ -23,6 +23,7 @@
++ #include <grub/disk.h>
++ #include <grub/fs.h>
++ #include <grub/fshelp.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -475,10 +476,14 @@ static struct grub_fs grub_romfs_fs =
++ 
++ GRUB_MOD_INIT(romfs)
++ {
++-  grub_fs_register (&grub_romfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_romfs_fs);
+++    }
++ }
++ 
++ GRUB_MOD_FINI(romfs)
++ {
++-  grub_fs_unregister (&grub_romfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_romfs_fs);
++ }
++diff --git a/grub-core/fs/sfs.c b/grub-core/fs/sfs.c
++index 983e88008..f64bdd2df 100644
++--- a/grub-core/fs/sfs.c
+++++ b/grub-core/fs/sfs.c
++@@ -26,6 +26,7 @@
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
++ #include <grub/charset.h>
+++#include <grub/lockdown.h>
++ #include <grub/safemath.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++@@ -779,11 +780,15 @@ static struct grub_fs grub_sfs_fs =
++ 
++ GRUB_MOD_INIT(sfs)
++ {
++-  grub_fs_register (&grub_sfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_sfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(sfs)
++ {
++-  grub_fs_unregister (&grub_sfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_sfs_fs);
++ }
++diff --git a/grub-core/fs/udf.c b/grub-core/fs/udf.c
++index b836e6107..a60643be1 100644
++--- a/grub-core/fs/udf.c
+++++ b/grub-core/fs/udf.c
++@@ -27,6 +27,7 @@
++ #include <grub/fshelp.h>
++ #include <grub/charset.h>
++ #include <grub/datetime.h>
+++#include <grub/lockdown.h>
++ #include <grub/udf.h>
++ #include <grub/safemath.h>
++ 
++@@ -1455,11 +1456,15 @@ static struct grub_fs grub_udf_fs = {
++ 
++ GRUB_MOD_INIT (udf)
++ {
++-  grub_fs_register (&grub_udf_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_udf_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI (udf)
++ {
++-  grub_fs_unregister (&grub_udf_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_udf_fs);
++ }
++diff --git a/grub-core/fs/ufs.c b/grub-core/fs/ufs.c
++index 01235101b..6b496e7b8 100644
++--- a/grub-core/fs/ufs.c
+++++ b/grub-core/fs/ufs.c
++@@ -25,6 +25,7 @@
++ #include <grub/dl.h>
++ #include <grub/types.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -899,7 +900,10 @@ GRUB_MOD_INIT(ufs1)
++ #endif
++ #endif
++ {
++-  grub_fs_register (&grub_ufs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_ufs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++@@ -913,6 +917,7 @@ GRUB_MOD_FINI(ufs1)
++ #endif
++ #endif
++ {
++-  grub_fs_unregister (&grub_ufs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_ufs_fs);
++ }
++ 
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index af6f434c5f..dbceaf9931 100644
+index ef16242ed3..f34b5ee50e 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -33,6 +33,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2024-45776.patch \
-            file://CVE-2024-45777.patch \
+@@ -35,6 +35,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://CVE-2025-0690.patch \
-+           file://CVE-2025-1118.patch \
+            file://CVE-2025-1118.patch \
+            file://CVE-2024-45778_CVE-2024-45779.patch \
++           file://CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch \
  "
  
  SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154cb9c91"
