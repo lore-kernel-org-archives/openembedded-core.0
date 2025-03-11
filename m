@@ -1,182 +1,101 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E41AEC28B2E
-	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 10:42:39 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web11.5839.1741689756183883255
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B86FC282EC
+	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 10:46:50 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.5871.1741690008672329077
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Mar 2025 03:42:36 -0700
+ Tue, 11 Mar 2025 03:46:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HrJFim6q;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: rybczynska@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2ff187f027fso8827617a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 03:42:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741689755; x=1742294555; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=j/Ry8UGIyJ57Yl9TAan2VQL+/BETQuW8axSVtz/HsSc=;
-        b=HrJFim6q1VAXaPRL48pe2PsOW1VcqS5wB+p5JuJuyOpatTh93NvJBxQSZ2H3lKVo1u
-         LBNzNOh32SwQWxpgqrLuKC6bfhz6Z4ThiZ2wVGQrUFXbc5GrMD50yDVINHPRDXbBPwss
-         J3xOc9F8A4tBKkNThDdR75vabenjHZ/8M0BW/tTdRvjFk4QyhZ5gXEJPO4CwVLYxnZ7j
-         SjGETdr9bo7203urAMQ14Wm1JjF0iFQngMultNNXAv80yagM/lFVdoT3ZErVbtyiJPt6
-         nbIb01+u25QRCqM3JGH0mMoiSPz4tUrvc/tDJ7758cSWJcuL8rOf4rSgwc88/bbhYqnc
-         TJfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741689755; x=1742294555;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j/Ry8UGIyJ57Yl9TAan2VQL+/BETQuW8axSVtz/HsSc=;
-        b=W9NBIpbsQaIHrjKa7fxHzZkE0q1fVqz7Dues4ll/vGsSDf+gtIcKM+MoaQTmyPMbFu
-         Nzl8qMdC3MEYlSIO+eaHqnrDz0U/ZElgCQaevtOM9i8ewo5dJjbt7TwPl+jSa8Ypzypw
-         YzrqWkhPam3URPlOtuWu4I8Ty/nKbeGD5sIC+I6iHOvqGivIRrYuQiS3/ZQwOJ4jzVhi
-         h70B0UMpeyxH2/ACYGUT7u9Zzxlov3F8zvLWJj/WMUTVcMleE1XrEHN4ux5SF6Ytx8tT
-         K/61my/hzbAtYHq8/rAFfNpaLQNJDL7FfWTIocSotXgeK+224i3QVJ5QJvPFwas0MbcZ
-         sPfw==
-X-Gm-Message-State: AOJu0Yy+EOUK2j7eYvd7CesO2Up+oikCLR9cd522k6dQ6JNmlklHRu5c
-	JUetlcwbiLtIncYJbWVRNjx1HuNZN1r4PNSnsoTQDxpoy2+Sl0YZ7WBKf16Rm2in8uY9F8P9Dfj
-	L2vRF4YPl9NL8ctwdrdO6/gMhVWo=
-X-Gm-Gg: ASbGncsUPZbSTjTQlJpV0V/Bck9gLP0Y+hr+/teY5t3MUE66irjqABWzlKFgykPcsI8
-	BcVOv1IROjHjGOCVg4lG8fWurKF0iXCEvkKZOkfsDdRvr/asFOEeb8G5YXuoSABcqhSTGzjeGRn
-	k4lqSG119Vg9iCuuyLDdg1aYYax2k3
-X-Google-Smtp-Source: AGHT+IH0mZU2Iiyb0spzKpcEdRjNuhe4auNZG+9fITKXUf57a7baJ8nW37chvBriS51UNtvc5rT1n4ekC8+iK7Wgz8o=
-X-Received: by 2002:a17:90b:1d46:b0:2fa:2133:bc87 with SMTP id
- 98e67ed59e1d1-3010051f268mr3948493a91.6.1741689755437; Tue, 11 Mar 2025
- 03:42:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250311100500.355914-1-alex.kanavin@gmail.com> <20250311100500.355914-3-alex.kanavin@gmail.com>
-In-Reply-To: <20250311100500.355914-3-alex.kanavin@gmail.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 11 Mar 2025 11:42:23 +0100
-X-Gm-Features: AQ5f1JoIpLSUyMKXSTSo54ecC9SV2LtVBvutU9u81dPlromz5-oUFS3ziDDwKEw
-Message-ID: <CAApg2=QaDqX6UngNosZqkiAQiC3iKo99-gx63DJPUq-h3SFaXw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/4] gnupg: follow odd-even scheme in upstream
- version checks
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: multipart/alternative; boundary="0000000000002e921006300ebfab"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bxsvKCV+;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=I4O7Ft+T;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019584d0708c-a903a18d-97f5-46df-9513-9c257de15f09-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1741690007; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=AG0vPDNYDwvUWrecfphrQpdNp+6gGC1OFl19NX93E2I=;
+	b=bxsvKCV+PTlBN1rRvEpN/DHUgsm2OYI/jv+cXsFoZvuuzFr40uhAL05lz2sGXauP
+	VBB2tz5ERadB6HVtDkPNmQJ3qjysd69SvJo1DhWQrY6G2rsYM5WIdiXXcWLEkPE1pLm
+	uJnan3MK5YBlU2vHxrhsq+ClpuHMvnQMa4xDuq9Q=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1741690007;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=AG0vPDNYDwvUWrecfphrQpdNp+6gGC1OFl19NX93E2I=;
+	b=I4O7Ft+TaPU27WCaRumI00Fu9HYBXPvquNilk6hSRCk0u2WBeD+shreSeYVt39xX
+	p+EPFv8hBewERJfimUhDQbqU3hQztLOIf6fc8l751rdU4JaRwvyAQiQFLLnwxse0q5y
+	rqg/n3MCXmXEnHdX8vP10X1nuOJuqAFX9sQt6Dck=
+From: patchtest@automation.yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/2] scripts/install-buildtools: add an option to preserve
+ downloads
+In-Reply-To: <20250311104152.393470-1-alex.kanavin@gmail.com>
+References: <20250311104152.393470-1-alex.kanavin@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019584d0708c-a903a18d-97f5-46df-9513-9c257de15f09-000000@us-west-2.amazonses.com>
+Date: Tue, 11 Mar 2025 10:46:47 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.11-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 10:42:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212556
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 10:46:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212557
 
---0000000000002e921006300ebfab
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--NextPart
+Content-Type: text/plain
 
-On Tue, Mar 11, 2025 at 11:05=E2=80=AFAM Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> Unfortunately this has been overlooked, and resulted in
-> erroneous updates to testing/development releases.
->
-> The check will report an 'unknown' latest version until 2.6.0
-> is released.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/recipes-support/gnupg/gnupg_2.5.4.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-support/gnupg/gnupg_2.5.4.bb
-> b/meta/recipes-support/gnupg/gnupg_2.5.4.bb
-> index e6a7e3fb407..0001631d2c5 100644
-> --- a/meta/recipes-support/gnupg/gnupg_2.5.4.bb
-> +++ b/meta/recipes-support/gnupg/gnupg_2.5.4.bb
-> @@ -11,9 +11,9 @@ LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3D189af8afca6d6075ba6c9e0aa8077626 \
->
->  DEPENDS =3D "npth libassuan libksba zlib bzip2 readline libgcrypt"
->
-> -inherit autotools gettext texinfo pkgconfig
-> +inherit autotools gettext texinfo pkgconfig upstream-version-is-even
->
-> -UPSTREAM_CHECK_URI =3D "https://gnupg.org/download/index.html"
-> +UPSTREAM_CHECK_URI =3D "https://gnupg.org/ftp/gcrypt/gnupg/"
->  SRC_URI =3D "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
->             file://0002-use-pkgconfig-instead-of-npth-config.patch \
->
-> file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
->
->
-Could you maybe add a comment next to the version hash saying that the
-project is using odd/even
-convention and that people should only update to stable branches? At least
-it might avoid the error
-next time.
+---
+Testing patch /home/patchtest/share/mboxes/1-2-scripts-install-buildtools-add-an-option-to-preserve-downloads.patch
 
-Kind regards,
-Marta
+FAIL: test max line length: Patch line too long (current length 201, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
---0000000000002e921006300ebfab
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 11,=
- 2025 at 11:05=E2=80=AFAM Alexander Kanavin via <a href=3D"http://lists.ope=
-nembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mai=
-lto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From:=
- Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" target=3D"_bla=
-nk">alex@linutronix.de</a>&gt;<br>
-<br>
-Unfortunately this has been overlooked, and resulted in<br>
-erroneous updates to testing/development releases.<br>
-<br>
-The check will report an &#39;unknown&#39; latest version until 2.6.0<br>
-is released.<br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" =
-target=3D"_blank">alex@linutronix.de</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.5.4.bb" rel=3D"n=
-oreferrer" target=3D"_blank">gnupg_2.5.4.bb</a> | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.5.4.bb" r=
-el=3D"noreferrer" target=3D"_blank">gnupg_2.5.4.bb</a> b/meta/recipes-suppo=
-rt/gnupg/<a href=3D"http://gnupg_2.5.4.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">gnupg_2.5.4.bb</a><br>
-index e6a7e3fb407..0001631d2c5 100644<br>
---- a/meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.5.4.bb" rel=3D"n=
-oreferrer" target=3D"_blank">gnupg_2.5.4.bb</a><br>
-+++ b/meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.5.4.bb" rel=3D"n=
-oreferrer" target=3D"_blank">gnupg_2.5.4.bb</a><br>
-@@ -11,9 +11,9 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D189af8afc=
-a6d6075ba6c9e0aa8077626 \<br>
-<br>
-=C2=A0DEPENDS =3D &quot;npth libassuan libksba zlib bzip2 readline libgcryp=
-t&quot;<br>
-<br>
--inherit autotools gettext texinfo pkgconfig<br>
-+inherit autotools gettext texinfo pkgconfig upstream-version-is-even<br>
-<br>
--UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://gnupg.org/download/index.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://gnupg.org/download/index.=
-html</a>&quot;<br>
-+UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://gnupg.org/ftp/gcrypt/gnupg=
-/" rel=3D"noreferrer" target=3D"_blank">https://gnupg.org/ftp/gcrypt/gnupg/=
-</a>&quot;<br>
-=C2=A0SRC_URI =3D &quot;${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0002-use-pkgconfig-instead=
--of-npth-config.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0004-autogen.sh-fix-find-v=
-ersion-for-beta-checking.patch \<br><br></blockquote><div><br></div><div>Co=
-uld you maybe add a comment next to the version hash saying that the projec=
-t is using odd/even</div><div>convention and that people should only update=
- to stable branches? At least it might avoid the error</div><div>next time.=
-</div><div><br></div><div>Kind regards,</div><div>Marta <br></div></div></d=
-iv>
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
---0000000000002e921006300ebfab--
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
