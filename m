@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1DBCC35FF2
-	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 18:11:42 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web10.17225.1741716697233754773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA51C35FF1
+	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 18:11:52 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.17479.1741716703522631912
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Mar 2025 11:11:37 -0700
+ Tue, 11 Mar 2025 11:11:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=XOOA64Mr;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20250311181135700f8977dcf8e612a3-2x5rm7@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250311181135700f8977dcf8e612a3
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=N+aJeqrl;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2025031118114164a7ef8e4c9b5c0832-xxrzii@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2025031118114164a7ef8e4c9b5c0832
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 11 Mar 2025 19:11:35 +0100
+        Tue, 11 Mar 2025 19:11:41 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=D3SxLvcw0BHyM8CBtvXSYgKLhzM3pApvOULYAJquxkE=;
- b=XOOA64MrbPnTI/k9ogD0w1vffd+g/AlxT/UXpJ7jGS8sf09W90+huQ5fUu1hmPGIxsVo2F
- VP87FtTtp5fUiK3QBNNBzOlNj+J4LpB3HrljpI7F2vGuiH25OyDzaZwWnEmHn+RHr/t1lLnu
- iIXqMdvUF7NjWSR618TwCjbXjc+DeqefCMGdIglVnXSrWRjZ7OBDbgChbz6Bgw0xhBV/TWdZ
- thhSP1orta9IGxfje3s6A7t9K66n7cSPdjYSF6x2BVPsfbh6tUpqKU3cZsxcA97T5a/Z/H82
- Oz+wLrNYEU9b3G2paHQy+xBzKD5RmQtZqcltncsYNmkE1NInsSMTBxfg==;
+ bh=7S0yV/XuvjSnyhKUEDDQxr3+Mw7OuH0xUFMCQcvDZuY=;
+ b=N+aJeqrlIuOSdRmfugY3Gjhzxpwo57nmDhsV77rkF+d0wi8z4yUV7Jhi/EBtqk2SfYxH1K
+ A42J5MFCzmkBmzSas69ssIBeaqCxC+/Kjg6rOPjQlIOaSlCX1jnwkQtG1bGQwzf1souKlqLL
+ 8iOKxzWKsxKzbEdR6LiPeQ41nOhHse0Auy3Eg7RWlNnfzPFNuROpvIC+vXXAWj6D4N8UvV8Z
+ fPlttmWcptitJ6/CsElnq0I272rkETmUPJkZ8ZJPkEeRolJ13Nr7dqqCO8ioE/HB4RDB6Gt3
+ ox8LAwRxltccmkidSl3j9fsovFuBhis8Hvgm2klrIP5+WBkokRLqzMMA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH 11/17] grub: patch CVE-2024-45776
-Date: Tue, 11 Mar 2025 19:09:54 +0100
-Message-Id: <20250311181000.8582-11-peter.marko@siemens.com>
+Subject: [OE-core][PATCH 13/17] grub: patch CVE-2025-0690
+Date: Tue, 11 Mar 2025 19:09:56 +0100
+Message-Id: <20250311181000.8582-13-peter.marko@siemens.com>
 In-Reply-To: <20250311181000.8582-1-peter.marko@siemens.com>
 References: <20250311181000.8582-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -38,8 +38,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 18:11:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212588
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 18:11:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212590
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -47,65 +47,99 @@ Cherry-pick patch mentioning this CVE.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../grub/files/CVE-2024-45776.patch           | 39 +++++++++++++++++++
+ .../grub/files/CVE-2025-0690.patch            | 73 +++++++++++++++++++
  meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45776.patch
+ 2 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0690.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2024-45776.patch b/meta/recipes-bsp/grub/files/CVE-2024-45776.patch
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0690.patch b/meta/recipes-bsp/grub/files/CVE-2025-0690.patch
 new file mode 100644
-index 0000000000..8deea958b8
+index 0000000000..be585c96ad
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2024-45776.patch
-@@ -0,0 +1,39 @@
-+From 09bd6eb58b0f71ec273916070fa1e2de16897a91 Mon Sep 17 00:00:00 2001
-+From: Lidong Chen <lidong.chen@oracle.com>
-+Date: Fri, 22 Nov 2024 06:27:56 +0000
-+Subject: [PATCH] gettext: Integer overflow leads to heap OOB write or read
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0690.patch
+@@ -0,0 +1,73 @@
++From dad8f502974ed9ad0a70ae6820d17b4b142558fc Mon Sep 17 00:00:00 2001
++From: Jonathan Bar Or <jonathanbaror@gmail.com>
++Date: Thu, 23 Jan 2025 19:17:05 +0100
++Subject: [PATCH] commands/read: Fix an integer overflow when supplying more
++ than 2^31 characters
 +
-+Calculation of ctx->grub_gettext_msg_list size in grub_mofile_open() may
-+overflow leading to subsequent OOB write or read. This patch fixes the
-+issue by replacing grub_zalloc() and explicit multiplication with
-+grub_calloc() which does the same thing in safe manner.
++The grub_getline() function currently has a signed integer variable "i"
++that can be overflown when user supplies more than 2^31 characters.
++It results in a memory corruption of the allocated line buffer as well
++as supplying large negative values to grub_realloc().
 +
-+Fixes: CVE-2024-45776
++Fixes: CVE-2025-0690
 +
-+Reported-by: Nils Langius <nils@langius.de>
-+Signed-off-by: Lidong Chen <lidong.chen@oracle.com>
++Reported-by: Jonathan Bar Or <jonathanbaror@gmail.com>
++Signed-off-by: Jonathan Bar Or <jonathanbaror@gmail.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Reviewed-by: Alec Brown <alec.r.brown@oracle.com>
 +
-+CVE: CVE-2024-45776
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=09bd6eb58b0f71ec273916070fa1e2de16897a91]
++CVE: CVE-2025-0690
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=dad8f502974ed9ad0a70ae6820d17b4b142558fc]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ grub-core/gettext/gettext.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ grub-core/commands/read.c | 19 +++++++++++++++----
++ 1 file changed, 15 insertions(+), 4 deletions(-)
 +
-+diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
-+index e4f4f8ee6..63bb1ab73 100644
-+--- a/grub-core/gettext/gettext.c
-++++ b/grub-core/gettext/gettext.c
-+@@ -323,8 +323,8 @@ grub_mofile_open (struct grub_gettext_context *ctx,
-+   for (ctx->grub_gettext_max_log = 0; ctx->grub_gettext_max >> ctx->grub_gettext_max_log;
-+        ctx->grub_gettext_max_log++);
++diff --git a/grub-core/commands/read.c b/grub-core/commands/read.c
++index 597c90706..8d72e45c9 100644
++--- a/grub-core/commands/read.c
+++++ b/grub-core/commands/read.c
++@@ -25,6 +25,7 @@
++ #include <grub/types.h>
++ #include <grub/extcmd.h>
++ #include <grub/i18n.h>
+++#include <grub/safemath.h>
 + 
-+-  ctx->grub_gettext_msg_list = grub_zalloc (ctx->grub_gettext_max
-+-					    * sizeof (ctx->grub_gettext_msg_list[0]));
-++  ctx->grub_gettext_msg_list = grub_calloc (ctx->grub_gettext_max,
-++					    sizeof (ctx->grub_gettext_msg_list[0]));
-+   if (!ctx->grub_gettext_msg_list)
-+     {
-+       grub_file_close (fd);
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -37,13 +38,14 @@ static const struct grub_arg_option options[] =
++ static char *
++ grub_getline (int silent)
++ {
++-  int i;
+++  grub_size_t i;
++   char *line;
++   char *tmp;
++   int c;
+++  grub_size_t alloc_size;
++ 
++   i = 0;
++-  line = grub_malloc (1 + i + sizeof('\0'));
+++  line = grub_malloc (1 + sizeof('\0'));
++   if (! line)
++     return NULL;
++ 
++@@ -59,8 +61,17 @@ grub_getline (int silent)
++       line[i] = (char) c;
++       if (!silent)
++ 	grub_printf ("%c", c);
++-      i++;
++-      tmp = grub_realloc (line, 1 + i + sizeof('\0'));
+++      if (grub_add (i, 1, &i))
+++        {
+++          grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
+++          return NULL;
+++        }
+++      if (grub_add (i, 1 + sizeof('\0'), &alloc_size))
+++        {
+++          grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
+++          return NULL;
+++        }
+++      tmp = grub_realloc (line, alloc_size);
++       if (! tmp)
++ 	{
++ 	  grub_free (line);
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 99174a4f33..4a08a549e5 100644
+index 160dfc5d2b..2c61fb66bc 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -29,6 +29,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2025-0622-01.patch \
-            file://CVE-2025-0622-02.patch \
+@@ -31,6 +31,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://CVE-2025-0622-03.patch \
-+           file://CVE-2024-45776.patch \
+            file://CVE-2024-45776.patch \
+            file://CVE-2024-45777.patch \
++           file://CVE-2025-0690.patch \
  "
  
  SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154cb9c91"
