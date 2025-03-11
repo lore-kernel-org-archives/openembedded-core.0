@@ -1,100 +1,135 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D47C28B2E
-	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 06:31:27 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.2713.1741674680918602103
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B4AC28B2F
+	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 07:36:37 +0000 (UTC)
+Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
+ by mx.groups.io with SMTP id smtpd.web10.3396.1741678591514790424
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Mar 2025 23:31:21 -0700
+ Tue, 11 Mar 2025 00:36:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HwJVGfN0;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=UnqnOQeQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019583e68e6c-dc18e394-59cb-448c-a851-62d9e87761fd-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1741674680; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=yK+buF8hUd0XXC1zmJs2YfpJ6EucW4+oxFzsRhBsreo=;
-	b=HwJVGfN0goxgr+IRAQc8vt8tYe4jTzI3Qc2TKSst7sq33+/s0c/fnkEoY9ZKKxRh
-	uZwpS4lFuX3dZgGusoBf9mLJ6hsIOR2BkzP6tDtqiltMIqX3gUnzg2NQtkJCUpK020U
-	cwYPt5elxjLhxAUzLUCpk0R6A/yrkiqWIYGCLF8U=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1741674680;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=yK+buF8hUd0XXC1zmJs2YfpJ6EucW4+oxFzsRhBsreo=;
-	b=UnqnOQeQQWEkJksvmi4Wok4M4wGNjpELBLt7sTXIaWUuyWmAx+pG+779nnrEA6ZY
-	FPeUelHDNe+1/rO78jQVqkkgQsY9GCHRUzyOeccJZuv349y4/iXeZznW3/cEt7NsdX2
-	h+3O7uzBlbJaNyxte4kn0yyoUvzRdWF8l1p/fUdk=
-From: patchtest@automation.yoctoproject.org
-To: wangmy@fujitsu.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core] [PATCH v3] btrfs-tools: upgrade 6.12 -> 6.13
-In-Reply-To: <1741673936-7373-1-git-send-email-wangmy@fujitsu.com>
-References: <1741673936-7373-1-git-send-email-wangmy@fujitsu.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019583e68e6c-dc18e394-59cb-448c-a851-62d9e87761fd-000000@us-west-2.amazonses.com>
-Date: Tue, 11 Mar 2025 06:31:19 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.11-54.240.27.23
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=YU6kOByO;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.137, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1741678592; x=1773214592;
+  h=from:to:cc:subject:date:message-id;
+  bh=A7GuF3e5hJjZWu2Jz6d7pNLt0OKT1kNcsU10VHpswA8=;
+  b=YU6kOByO1rJzSTdBPrUAJ7oW4+klT67WDpatukYlE8imd+eCRShT0XoN
+   2LSjOHbJpY4tCRm+x3K6MmdBOfAnWkhGKo654HE2vF1qWEiVURIdOwP7E
+   RkUCet3tmBvTbMALuVT1LkV6W9nm63e/u3sYIuGpLmcDCwjMPdZsyo7DU
+   1RIAt4wyyjKZuLWbpy6SOInPfkzz1+Q63gyptfCpCsd3SwwE1zuM+kPoI
+   EUNO4J3APa6DD6QfYQY9QDsOLeZjhLEyzs+oYfo3cIKrnYZM10Ez81Lgm
+   wQYA4XWP2gjxx1PW4eNjCUyQ1qo9dMzxxS8HPC7z37i+PvtF7okhpub+c
+   Q==;
+X-CSE-ConnectionGUID: X9LS+efLRbadADMyjn/Q/w==
+X-CSE-MsgGUID: Tk7/UJjxR5WwfnTBnbwdSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="172130617"
+X-IronPort-AV: E=Sophos;i="6.14,238,1736780400"; 
+   d="scan'208";a="172130617"
+Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
+  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 16:36:30 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 011F2D4C33
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 16:36:27 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id BB109BDC92
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 16:36:26 +0900 (JST)
+Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id E9BC11A0078;
+	Tue, 11 Mar 2025 15:36:25 +0800 (CST)
+From: wangmy@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v4] btrfs-tools: upgrade 6.12 -> 6.13
+Date: Tue, 11 Mar 2025 15:36:18 +0800
+Message-Id: <1741678578-8179-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 06:31:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212545
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 07:36:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212546
 
---NextPart
-Content-Type: text/plain
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Add patch fix the error when do_image_btrfs:
+  ERROR: lzo support not compiled in
 
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v3-btrfs-tools-upgrade-6.12---6.13.patch
+ ...dd-break-to-case-BTRFS_COMPRESS_NONE.patch | 40 +++++++++++++++++++
+ ...trfs-tools_6.12.bb => btrfs-tools_6.13.bb} |  3 +-
+ 2 files changed, 42 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.12.bb => btrfs-tools_6.13.bb} (95%)
 
-FAIL: test Upstream-Status presence: Upstream-Status is in incorrect format (test_patch.TestPatch.test_upstream_status_presence_format)
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch
+new file mode 100644
+index 0000000000..750ba83074
+--- /dev/null
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch
+@@ -0,0 +1,40 @@
++From ae0743dea3498429fce144e75c8b5b6eeed6f490 Mon Sep 17 00:00:00 2001
++From: Wang Mingyu <wangmy@fujitsu.com>
++Date: Tue, 11 Mar 2025 05:24:54 +0000
++Subject: [PATCH] mkfs: add break to case BTRFS_COMPRESS_NONE
++
++when compression null, always through error "lzo support not compiled in"
++
++This bug was imported by following commit:
++----------------------------------------------------
++commit c6d24a363daed6501d13d9125c560387e2d755ca
++Author: Mark Harmstone <maharmstone@fb.com>
++Date:   Thu Dec 12 20:36:55 2024 +0000
++
++     btrfs-progs: mkfs: add lzo to --compress option
++
++     Allow --compress to work with lzo.
++----------------------------------------------------
++
++Upstream-Status: Submitted [https://github.com/kdave/btrfs-progs/pull/967]
++
++Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
++---
++ mkfs/rootdir.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/mkfs/rootdir.c b/mkfs/rootdir.c
++index 1927394..5f4cfb9 100644
++--- a/mkfs/rootdir.c
+++++ b/mkfs/rootdir.c
++@@ -1654,6 +1654,7 @@ int btrfs_mkfs_fill_dir(struct btrfs_trans_handle *trans, const char *source_dir
++ 
++ 	switch (compression) {
++ 	case BTRFS_COMPRESS_NONE:
+++                break;
++ 	case BTRFS_COMPRESS_LZO:
++ #if !COMPRESSION_LZO
++ 		error("lzo support not compiled in");
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.12.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
+similarity index 95%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.12.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
+index 3c0bb81f75..d73d86ba8a 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.12.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
+@@ -17,8 +17,9 @@ DEPENDS = "util-linux zlib"
+ 
+ SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
++           file://0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch \
+            "
+-SRCREV = "85ca0a6d60c14eefda509970a26616ff16115612"
++SRCREV = "26e4d9174c70aac0e53c3b5de55cf159f8d9397f"
+ S = "${WORKDIR}/git"
+ 
+ PACKAGECONFIG ??= " \
+-- 
+2.43.0
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
