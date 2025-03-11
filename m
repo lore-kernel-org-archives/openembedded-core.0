@@ -1,150 +1,141 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 848A3C282EC
-	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 17:07:12 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.15388.1741712830068994407
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E625EC2BA1B
+	for <webhook@archiver.kernel.org>; Tue, 11 Mar 2025 18:11:12 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web10.17208.1741716666394958817
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Mar 2025 10:07:10 -0700
+ Tue, 11 Mar 2025 11:11:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KqoGHznU;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54998f865b8so3668428e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 10:07:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741712828; x=1742317628; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CWb0IUt2rIkx3krFBRMolhJ8UTGWeJouo32930EC7QY=;
-        b=KqoGHznU3lLj4quw1zSKIAyLBClr+lR0g4ISPkQoimuocYWcVvA6IXfYD6OZSJ+mte
-         KAZWGm1QDjMg0uMg5ZjOCsdCIQTN0B4uNY7nJXA0OZ8+XQP49DgtVgIo0s3MfgMcoWi2
-         VktmKLM8kS1Bn9S+M+4vnvXOg4Q1dFhJhCRxhzY1UkwNdrVU6DUzJ+xcmRVslID8Zk9U
-         P7HsTuymciy+Ka1n0v66iK4ock1soAvHJbnVfuG4fzZTZ2OIIbN5uT1rlVVu0qMwqYSA
-         D5tpWdZtgwklyrj1rW+K0zH0VJtARsRB/gsXQbi00TI8x2tWhyVmn9fcfI2iruWkx5h4
-         0ZXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741712828; x=1742317628;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CWb0IUt2rIkx3krFBRMolhJ8UTGWeJouo32930EC7QY=;
-        b=TcjbJGc7yYf8070zb1Usx2geuZ7o8qgnRyy07a0PO59mxIhOo7OtmeUkRmlOlwAs2t
-         HPjbs3ikzDA/qpjAl3/YcfT/1J2rCEOWqi8dgct1QFRuKl/1RAWX+akVQtgV0U6BH7Tv
-         dEB9jKtlGYt2RJOp0pHnRDOX4eCDMewSq7Cha7OjpSIJP8FUPaZkAP3c6aPDGGmsUHG7
-         17WSRuYYVw9aLC/2U8lVOyjg8nrkeLFg6hG+vhhfeoLFwBkdih3yW10YHKeNaDTVNvH/
-         Sy5bPxrgPDp6oijkcwoBlbL2ldjCo8K7wdph3fmwIXp0Y7MmVqe/+shjKtg8rpWEH7Ii
-         4SUQ==
-X-Gm-Message-State: AOJu0Yx/8lY+i5vTrTdaayDKshaGC1+/DDQ+JmVGW130B8idDm7vE9mv
-	J0hhGUpgWKq9C2o+I+cM/6jxLnyOoukK9uMvZ2K267LIGAMvfY4r9B49M6kUcvi1n/bWuI9AAvO
-	ltLdJIUP1FWenXw9RFyKETCaAvfU=
-X-Gm-Gg: ASbGncv4j4MxSNUNL2eEf7CE7IhcwWm64dS3BSiwpvoex/xydVwsSBh9Qvvy+60rpJD
-	c+6PyK6LURtNGb5BqEaMrGhtvMOIic6GXauCGK8OQfgmwy/FgWXT0GW0mzQaUmnOpOcbPmjW/+A
-	jU7hzvskdyWV86Gdbvw0WX7wlrMIzB
-X-Google-Smtp-Source: AGHT+IEtWjPrySWRrNKAci6kCbOCb4voAEyvxYzMQfPELJ1gRVZnMSPNJpTaUPq8tAPe6tpQaBXXERNpzQWnb7B4A7A=
-X-Received: by 2002:a05:6512:3d8f:b0:549:9044:94b3 with SMTP id
- 2adb3069b0e04-54990e67285mr5844398e87.29.1741712827844; Tue, 11 Mar 2025
- 10:07:07 -0700 (PDT)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=bOt9KDu/;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20250311181103bbfe16670c855c41d5-b5lb10@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20250311181103bbfe16670c855c41d5
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 11 Mar 2025 19:11:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=ztuT4HZdBwD2tFiS5tbgiF935lFSHLCoxpS2ZT0kXwM=;
+ b=bOt9KDu/AXsKomOpHYAmlZDGYgMss7NEzkFU/Sc9mv5lM68K3t2JJMuPoxa7C2Nh9h+1fe
+ FJNlo/lpKvxWSn5TwWLeAAa7xhNB1tiWX9dCNaCtCJnXTLW6kmiYfFEiDHVClQSY2SPP65Ie
+ v1gSa52eRpvwI30JHsQ+x2w2kM9umdW3//2SK2+OGoTVcz6U94zGpnRdkdEMupl/guCFa5xD
+ jcqB6K6Y1sl7mufqZDpO7Uau14mCeb77tIkyVzP8YXMPFnMBcDhwMydglFGfxXLMj2wQd5dP
+ qOhKoDrbnXLHcHJfNRQpQXHR+tUyLEnUKq0KtKa+qy1o0xI/gKYWLngw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH 02/17] grub: backport strlcpy function
+Date: Tue, 11 Mar 2025 19:09:45 +0100
+Message-Id: <20250311181000.8582-2-peter.marko@siemens.com>
+In-Reply-To: <20250311181000.8582-1-peter.marko@siemens.com>
+References: <20250311181000.8582-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20250311162532.1676284-1-Randy.MacLeod@windriver.com>
-In-Reply-To: <20250311162532.1676284-1-Randy.MacLeod@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 11 Mar 2025 18:06:55 +0100
-X-Gm-Features: AQ5f1Jr36ORgfMF87spkNI0oFsfOcDDuAr5Y6-4ZhSZJUUDKwcPs8bZoqHZzTgM
-Message-ID: <CA+chaQd7urrvOvB3K1hbh523xW+kYq+pr5=4Y9HgLOwxn6oS4w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] tcmode-default: eliminate needless rust,
- cargo defaults
-To: randy.macleod@windriver.com
-Cc: openembedded-core@lists.openembedded.org, raj.khem@gmail.com, 
-	mathieu.dubois-briand@bootlin.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 17:07:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212577
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 18:11:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212579
 
-I know you want to eliminate this whole file, but I find RUSTVERSION
-useful in situations where some layer wants to backport different
-version of rust and related recipes and then the DISTRO can set just
-the RUSTVERSION variable to choose between the versions available. Now
-the layer with different rust recipes will probably need to provide
-some .inc file with this, so that the users of this layer won't need
-to know which 8 recipes need to have PREFERRED_VERSION set at the same
-time.
+From: Peter Marko <peter.marko@siemens.com>
 
-Like it was with
-https://github.com/meta-rust/meta-rust/commits/master/conf/distro/include/r=
-ust_versions.inc
-https://github.com/meta-rust/meta-rust/commit/9c0a1059be62417439615126ddd30=
-44269406a66
+It is used to fix multiple CVEs.
 
-otherwise the version from layer with higher priority will win and the
-DISTRO won't be able to easily avoid that, other than adding all these
-PREFERRED_VERSIONS or using BBMASK or preventing that layer to be
-included in BBLAYERS.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../0001-misc-Implement-grub_strlcpy.patch    | 68 +++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-misc-Implement-grub_strlcpy.patch
 
-Just my 2c
-
-On Tue, Mar 11, 2025 at 5:25=E2=80=AFPM Randy MacLeod via
-lists.openembedded.org
-<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Randy MacLeod <Randy.MacLeod@windriver.com>
->
-> Manually setting preferred version is not required so remove
-> that for rust and cargo.
->
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> ---
->  meta/conf/distro/include/tcmode-default.inc | 13 -------------
->  1 file changed, 13 deletions(-)
->
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/dist=
-ro/include/tcmode-default.inc
-> index 702fa4d75f..5cc93405f1 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -14,7 +14,6 @@ SDKGCCVERSION ?=3D "${GCCVERSION}"
->  BINUVERSION ?=3D "2.44%"
->  GLIBCVERSION ?=3D "2.41%"
->  LINUXLIBCVERSION ?=3D "6.12%"
-> -RUSTVERSION ?=3D "1.83%"
->
->  PREFERRED_VERSION_gcc ?=3D "${GCCVERSION}"
->  PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?=3D "${GCCVERSION}"
-> @@ -44,15 +43,3 @@ PREFERRED_VERSION_glibc-mtrace             ?=3D "${GLI=
-BCVERSION}"
->  PREFERRED_VERSION_glibc-scripts            ?=3D "${GLIBCVERSION}"
->  PREFERRED_VERSION_nativesdk-glibc          ?=3D "${GLIBCVERSION}"
->  PREFERRED_VERSION_cross-localedef-native   ?=3D "${GLIBCVERSION}"
-> -
-> -# Rust toolchain preferred versions:
-> -
-> -PREFERRED_VERSION_cargo ?=3D "${RUSTVERSION}"
-> -PREFERRED_VERSION_cargo-native ?=3D "${RUSTVERSION}"
-> -PREFERRED_VERSION_libstd-rs ?=3D "${RUSTVERSION}"
-> -PREFERRED_VERSION_rust ?=3D "${RUSTVERSION}"
-> -PREFERRED_VERSION_rust-cross-${TARGET_ARCH} ?=3D "${RUSTVERSION}"
-> -PREFERRED_VERSION_rust-llvm ?=3D "${RUSTVERSION}"
-> -PREFERRED_VERSION_rust-llvm-native ?=3D "${RUSTVERSION}"
-> -PREFERRED_VERSION_rust-native ?=3D "${RUSTVERSION}"
-> -
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#212574): https://lists.openembedded.org/g/openembedde=
-d-core/message/212574
-> Mute This Topic: https://lists.openembedded.org/mt/111643200/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-bsp/grub/files/0001-misc-Implement-grub_strlcpy.patch b/meta/recipes-bsp/grub/files/0001-misc-Implement-grub_strlcpy.patch
+new file mode 100644
+index 0000000000..0ff6dff33a
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/0001-misc-Implement-grub_strlcpy.patch
+@@ -0,0 +1,68 @@
++From ea703528a8581a2ea7e0bad424a70fdf0aec7d8f Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Sat, 15 Jun 2024 02:33:08 +0100
++Subject: [PATCH 1/2] misc: Implement grub_strlcpy()
++
++grub_strlcpy() acts the same way as strlcpy() does on most *NIX,
++returning the length of src and ensuring dest is always NUL
++terminated except when size is 0.
++
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=ea703528a8581a2ea7e0bad424a70fdf0aec7d8f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ include/grub/misc.h | 39 +++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 39 insertions(+)
++
++diff --git a/include/grub/misc.h b/include/grub/misc.h
++index 1578f36c3..14d8f37ac 100644
++--- a/include/grub/misc.h
+++++ b/include/grub/misc.h
++@@ -64,6 +64,45 @@ grub_stpcpy (char *dest, const char *src)
++   return d - 1;
++ }
++ 
+++static inline grub_size_t
+++grub_strlcpy (char *dest, const char *src, grub_size_t size)
+++{
+++  char *d = dest;
+++  grub_size_t res = 0;
+++  /*
+++   * We do not subtract one from size here to avoid dealing with underflowing
+++   * the value, which is why to_copy is always checked to be greater than one
+++   * throughout this function.
+++   */
+++  grub_size_t to_copy = size;
+++
+++  /* Copy size - 1 bytes to dest. */
+++  if (to_copy > 1)
+++    while ((*d++ = *src++) != '\0' && ++res && --to_copy > 1)
+++      ;
+++
+++  /*
+++   * NUL terminate if size != 0. The previous step may have copied a NUL byte
+++   * if it reached the end of the string, but we know dest[size - 1] must always
+++   * be a NUL byte.
+++   */
+++  if (size != 0)
+++    dest[size - 1] = '\0';
+++
+++  /* If there is still space in dest, but are here, we reached the end of src. */
+++  if (to_copy > 1)
+++    return res;
+++
+++  /*
+++   * If we haven't reached the end of the string, iterate through to determine
+++   * the strings total length.
+++   */
+++  while (*src++ != '\0' && ++res)
+++   ;
+++
+++  return res;
+++}
+++
++ /* XXX: If grub_memmove is too slow, we must implement grub_memcpy.  */
++ static inline void *
++ grub_memcpy (void *dest, const void *src, grub_size_t n)
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index a327e7ebdf..a7d24dd68d 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://grub-module-explicitly-keeps-symbole-.module_license.patch \
+            file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
+            file://0001-RISC-V-Restore-the-typcast-to-long.patch \
++           file://0001-misc-Implement-grub_strlcpy.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154cb9c91"
 
