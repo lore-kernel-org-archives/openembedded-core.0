@@ -1,154 +1,200 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CDD3C28B28
-	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:53:57 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web10.4490.1741809231298318061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EFA5C28B28
+	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:55:57 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.4745.1741809355980909286
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 12:53:52 -0700
+ Wed, 12 Mar 2025 12:55:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=HTU+Dovo;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202503121953481b39af8bb0de372bff-x_sgti@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202503121953481b39af8bb0de372bff
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 12 Mar 2025 20:53:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=V0lRLsIC+GrQ/+5XaF8OniK4uq9vxMai2FGJbO42CAk=;
- b=HTU+Dovol6uAeQQkrEEoyYIDEancbqlDBJZVpHurXI7ZR/Y3iXpSBVvE4r6vyHpZyyBFMd
- RbcF8VgjLD3oxk8MjgR7lLFNTfL3baktDjzI9uvGogLFPxafp7/7im3iz/NEnkeNRX0Aarf+
- KC0ReaQBVfCwzYkugGslX4MxEwIxYTmpyrmjMN9bWV/YXyzCQcHs3u8yeoGxegMOdi3a/Qc0
- YCWdyvlIMKikF5H5+by5HtYeCO5HiVdqD90VXg+COcoMRdCiluLUdmK8GJFXzi5HYdcUjd3U
- UJk+P6Sta0oqvX7hvkFGwXcE2nLhJuRC0CDwst6CAGwL2Ipa5mS2ED0w==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TBgsgs+H;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22334203781so24981895ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:55:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809355; x=1742414155; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ky4eDudVQrsbFABDhIpRuVuCZ41eTODha/jWfwYsf3Y=;
+        b=TBgsgs+H/oHWE79r6QDC1rDG0vw1WFsjBjpfdTK0hUXDnC52hKrVQ03mgtKnWrYQVE
+         x9imKSrKwaaf6LZDP3MHdbYIT2qclJ267/5VCdqx8dDfwEz3iImMlxEN1szgNoh+wXhY
+         wJ4OSYxKzli66iCu2T9esFMLZh7vMVDILMVopybeNllZYUBpu30uwoZtlH0hUbVA9atY
+         KLK3m/nc64uY+xSs+ZRRVhXxmr/dZMkhR0P+2QQy0POvBDyIbQtB0K1sV1EedNd4K0mm
+         TkVi2MGbrjndXBRhktWOC7dEqGwlGpBCcFaqnuSABubaz5oy7Dlo7y6ksptmihw2dSEA
+         N+zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741809355; x=1742414155;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ky4eDudVQrsbFABDhIpRuVuCZ41eTODha/jWfwYsf3Y=;
+        b=NUrib/HObTxBb2WZ4BDpp/TXUXhhUcDkaUEe1H+AsiqAq/SgOotfH+B7JV8tSRroAH
+         sGSoHp2JV6zyMSAhGXGAug97AYvHCRYPuWtPgzf4YhymJDPlgt5dfjy4OSYcJd6zJB7q
+         yIs8PnSKJ/WEMbSAT8aJqYJsfXGs/kIKYgL6YgFE6tA4FaIpxpcBNytGd/ML6ImkiozG
+         q4B4/ngXg7RBLGr539A1o0jhek1Jz+gVy4C/3vLbTL45I/C1X1p5rkdkEiPe/I20ld0t
+         obstnwqJaYdkpjlWjWKDpBXC9ZQX/7xOiE3KFNjLo5vxKRah+6Qn9R7/5yip4giWnB5t
+         hqgw==
+X-Gm-Message-State: AOJu0YykK/MxZWKDs/BLom927UfBx7tUakas5iFxYKhHT9iViGWA+Ai+
+	ipqvjiiiDb4RWvju71jUFcG2n+Sl0R6Rv1ThsrDvig/HacVFL1NYiKSrlafZBkhf6Vf2AK1FFpm
+	j
+X-Gm-Gg: ASbGncsJU2a5UiA+SWwTsX5oB8NWec3/HVQqmpHCH8K7oDm+ujcnUBu/1IOFfScUJ6D
+	YZIboYWUrJHT2KcnXvMppnA3zlA40yu8dWXNKYLV3Cd7n2e65YfeBRVcNEm8QgBA7RcsqUJWc0n
+	T//K5EfRkTywEBI0UNRPc3z7WlPr7bkrPAd1xZVCUPsrhtHU/IBdMHrnPTmnyqJMYG+wwowtxcV
+	w/clg/6sOySDWLvqiDiDPr32eIq4B8upHNk8WLD7jXJQB5gEVfKMy7Y8FrIHmjJPs2yzvBrxPW5
+	Run9yc7WANYIDbk6vgCTP37hgma48pxmcVI=
+X-Google-Smtp-Source: AGHT+IFIm0Y/GEa+DujSRY89WLUHKTdBQBFnNyslJ5E+wjPRqP9bfkUJPHtBklw3fInMcc27/WsfqQ==
+X-Received: by 2002:a05:6a00:988:b0:736:9f2e:1357 with SMTP id d2e1a72fcca58-7370d7d7252mr1179834b3a.12.1741809355173;
+        Wed, 12 Mar 2025 12:55:55 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:5779:a397:ba1c:2b0])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af281287c10sm9830332a12.78.2025.03.12.12.55.53
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Mar 2025 12:55:54 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] libarchive: patch CVE-2025-1632 and CVE-2025-25724
-Date: Wed, 12 Mar 2025 20:52:59 +0100
-Message-Id: <20250312195259.2198140-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap 00/28] Patch review
+Date: Wed, 12 Mar 2025 12:55:21 -0700
+Message-ID: <cover.1741809252.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:53:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212693
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:55:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212694
 
-From: Peter Marko <peter.marko@siemens.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Friday, March 14
 
-Pick commit referencing this MR which was merged to master.
+Passed a-full on autobuilder:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../CVE-2025-1632_CVE-2025-25724.patch        | 83 +++++++++++++++++++
- .../libarchive/libarchive_3.7.4.bb            |  1 +
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1176
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch
-new file mode 100644
-index 0000000000..459b664180
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch
-@@ -0,0 +1,83 @@
-+From c9bc934e7e91d302e0feca6e713ccc38d6d01532 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Peter=20K=C3=A4stle?= <peter@piie.net>
-+Date: Mon, 10 Mar 2025 16:43:04 +0100
-+Subject: [PATCH] fix CVE-2025-1632 and CVE-2025-25724 (#2532)
-+
-+Hi,
-+
-+please find my approach to fix the CVE-2025-1632 and CVE-2025-25724
-+vulnerabilities in this pr.
-+As both error cases did trigger a NULL pointer deref (and triggered
-+hopefully everywhere a coredump), we can safely replace the actual
-+information by a predefined invalid string without breaking any
-+functionality.
-+
-+CVE: CVE-2025-1632
-+CVE: CVE-2025-25724
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/c9bc934e7e91d302e0feca6e713ccc38d6d01532]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---------
-+
-+Signed-off-by: Peter Kaestle <peter@piie.net>
-+---
-+ tar/util.c       |  5 ++++-
-+ unzip/bsdunzip.c | 10 +++++++---
-+ 2 files changed, 11 insertions(+), 4 deletions(-)
-+
-+diff --git a/tar/util.c b/tar/util.c
-+index 3b099cb5..f3cbdf0b 100644
-+--- a/tar/util.c
-++++ b/tar/util.c
-+@@ -748,7 +748,10 @@ list_item_verbose(struct bsdtar *bsdtar, FILE *out, struct archive_entry *entry)
-+ #else
-+ 	ltime = localtime(&tim);
-+ #endif
-+-	strftime(tmp, sizeof(tmp), fmt, ltime);
-++	if (ltime)
-++		strftime(tmp, sizeof(tmp), fmt, ltime);
-++	else
-++		sprintf(tmp, "-- -- ----");
-+ 	fprintf(out, " %s ", tmp);
-+ 	safe_fprintf(out, "%s", archive_entry_pathname(entry));
-+ 
-+diff --git a/unzip/bsdunzip.c b/unzip/bsdunzip.c
-+index 7c8cafc3..4a9028b7 100644
-+--- a/unzip/bsdunzip.c
-++++ b/unzip/bsdunzip.c
-+@@ -904,6 +904,7 @@ list(struct archive *a, struct archive_entry *e)
-+ 	char buf[20];
-+ 	time_t mtime;
-+ 	struct tm *tm;
-++	const char *pathname;
-+ 
-+ 	mtime = archive_entry_mtime(e);
-+ 	tm = localtime(&mtime);
-+@@ -912,22 +913,25 @@ list(struct archive *a, struct archive_entry *e)
-+ 	else
-+ 		strftime(buf, sizeof(buf), "%m-%d-%g %R", tm);
-+ 
-++	pathname = archive_entry_pathname(e);
-++	if (!pathname)
-++		pathname = "";
-+ 	if (!zipinfo_mode) {
-+ 		if (v_opt == 1) {
-+ 			printf(" %8ju  %s   %s\n",
-+ 			    (uintmax_t)archive_entry_size(e),
-+-			    buf, archive_entry_pathname(e));
-++			    buf, pathname);
-+ 		} else if (v_opt == 2) {
-+ 			printf("%8ju  Stored  %7ju   0%%  %s  %08x  %s\n",
-+ 			    (uintmax_t)archive_entry_size(e),
-+ 			    (uintmax_t)archive_entry_size(e),
-+ 			    buf,
-+ 			    0U,
-+-			    archive_entry_pathname(e));
-++			    pathname);
-+ 		}
-+ 	} else {
-+ 		if (Z1_opt)
-+-			printf("%s\n",archive_entry_pathname(e));
-++			printf("%s\n", pathname);
-+ 	}
-+ 	ac(archive_read_data_skip(a));
-+ }
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
-index 80b2e49eac..156a6bdaae 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
-@@ -34,6 +34,7 @@ SRC_URI += "file://configurehack.patch \
-             file://CVE-2024-48957.patch \
-             file://CVE-2024-48958.patch \
-             file://CVE-2024-20696.patch \
-+            file://CVE-2025-1632_CVE-2025-25724.patch \
-            "
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
- 
+The following changes since commit cd2b6080a4c0f2ed2c9939ec0b87763aef595048:
+
+  build-appliance-image: Update to scarthgap head revision (2025-03-10 12:32:35 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Archana Polampalli (1):
+  openssh: fix CVE-2025-26465
+
+Ashish Sharma (1):
+  ruby: Fix CVE-2025-27219
+
+Changqing Li (2):
+  babeltrace: extend to nativesdk
+  babeltrace2: extend to nativesdk
+
+Divya Chellam (1):
+  vim: Upgrade 9.1.1043 -> 9.1.1115
+
+Niko Mauno (1):
+  cve-check.bbclass: Mitigate symlink related error
+
+Peter Marko (17):
+  grub: drop obsolete CVE statuses
+  grub: backport strlcpy function
+  grup: patch CVE-2024-45781
+  grub: patch CVE-2024-45782 and CVE-2024-56737
+  grub: patch CVE-2024-45780
+  grub: patch CVE-2024-45783
+  grub: patch CVE-2025-0624
+  grub: patch CVE-2024-45774
+  grub: patch CVE-2024-45775
+  grub: patch CVE-2025-0622
+  grub: patch CVE-2024-45776
+  grub: patch CVE-2024-45777
+  grub: patch CVE-2025-0690
+  grub: patch CVE-2025-1118
+  grub: patch CVE-2024-45778 and CVE-2024-45779
+  grub: patch CVE-2025-0677, CVE-2025-0684, CVE-2025-0685, CVE-2025-0686
+    and CVE-2025-0689
+  grub: patch CVE-2025-0678 and CVE-2025-1125
+
+Ross Burton (3):
+  puzzles: ignore three new CVEs for a different puzzles
+  xserver-xf86-config: add a configuration fragment to disable screen
+    blanking
+  xserver-xf86-config: remove obsolete configuration files
+
+Vijay Anusuri (1):
+  xserver-xorg: upgrade 21.1.15 -> 21.1.16
+
+Wang Mingyu (1):
+  xserver-xorg: upgrade 21.1.14 -> 21.1.15
+
+ meta/classes/cve-check.bbclass                |   6 +-
+ .../0001-misc-Implement-grub_strlcpy.patch    |  68 ++++
+ .../grub/files/CVE-2024-45774.patch           |  37 ++
+ .../grub/files/CVE-2024-45775.patch           |  38 ++
+ .../grub/files/CVE-2024-45776.patch           |  39 ++
+ .../grub/files/CVE-2024-45777.patch           |  57 +++
+ .../files/CVE-2024-45778_CVE-2024-45779.patch |  55 +++
+ .../grub/files/CVE-2024-45780.patch           |  93 +++++
+ .../grub/files/CVE-2024-45781.patch           |  35 ++
+ .../files/CVE-2024-45782_CVE-2024-56737.patch |  36 ++
+ .../grub/files/CVE-2024-45783.patch           |  39 ++
+ .../grub/files/CVE-2025-0622-01.patch         |  35 ++
+ .../grub/files/CVE-2025-0622-02.patch         |  41 ++
+ .../grub/files/CVE-2025-0622-03.patch         |  38 ++
+ .../grub/files/CVE-2025-0624.patch            |  84 ++++
+ ...025-0685_CVE-2025-0686_CVE-2025-0689.patch | 377 ++++++++++++++++++
+ .../files/CVE-2025-0678_CVE-2025-1125.patch   |  87 ++++
+ .../grub/files/CVE-2025-0690.patch            |  73 ++++
+ .../grub/files/CVE-2025-1118.patch            |  37 ++
+ meta/recipes-bsp/grub/grub2.inc               |  21 +-
+ .../openssh/openssh/CVE-2025-26465.patch      | 169 ++++++++
+ .../openssh/openssh_9.6p1.bb                  |   1 +
+ .../ruby/ruby/CVE-2025-27219.patch            |  31 ++
+ meta/recipes-devtools/ruby/ruby_3.3.5.bb      |   1 +
+ .../xserver-xf86-config/qemuall/noblank.conf  |   7 +
+ .../xserver-xf86-config/qemuarm/xorg.conf     |  42 --
+ .../xserver-xf86-config/qemuppc/xorg.conf     |  42 --
+ .../xserver-xf86-config/qemush4/xorg.conf     |  42 --
+ .../xserver-xf86-config/qemux86-64/xorg.conf  |  37 --
+ .../xserver-xf86-config/qemux86/xorg.conf     |  37 --
+ .../xorg-xserver/xserver-xf86-config_0.1.bb   |   6 +
+ ...org_21.1.14.bb => xserver-xorg_21.1.16.bb} |   2 +-
+ .../recipes-kernel/lttng/babeltrace2_2.0.6.bb |  12 +
+ .../recipes-kernel/lttng/babeltrace_1.5.11.bb |   2 +
+ meta/recipes-sato/puzzles/puzzles_git.bb      |   3 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 36 files changed, 1526 insertions(+), 208 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-misc-Implement-grub_strlcpy.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45774.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45775.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45776.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45777.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45778_CVE-2024-45779.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45780.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45781.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45782_CVE-2024-56737.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45783.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0624.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0690.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-1118.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-26465.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27219.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuall/noblank.conf
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.14.bb => xserver-xorg_21.1.16.bb} (92%)
+
+-- 
+2.43.0
+
 
