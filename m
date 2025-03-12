@@ -2,198 +2,99 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EFA5C28B28
-	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:55:57 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.4745.1741809355980909286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A37C2BA1B
+	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:56:07 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.4547.1741809361988076946
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 12:55:56 -0700
+ Wed, 12 Mar 2025 12:56:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TBgsgs+H;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22334203781so24981895ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:55:55 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=H7txTJjo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2ff784dc055so483931a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:56:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809355; x=1742414155; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ky4eDudVQrsbFABDhIpRuVuCZ41eTODha/jWfwYsf3Y=;
-        b=TBgsgs+H/oHWE79r6QDC1rDG0vw1WFsjBjpfdTK0hUXDnC52hKrVQ03mgtKnWrYQVE
-         x9imKSrKwaaf6LZDP3MHdbYIT2qclJ267/5VCdqx8dDfwEz3iImMlxEN1szgNoh+wXhY
-         wJ4OSYxKzli66iCu2T9esFMLZh7vMVDILMVopybeNllZYUBpu30uwoZtlH0hUbVA9atY
-         KLK3m/nc64uY+xSs+ZRRVhXxmr/dZMkhR0P+2QQy0POvBDyIbQtB0K1sV1EedNd4K0mm
-         TkVi2MGbrjndXBRhktWOC7dEqGwlGpBCcFaqnuSABubaz5oy7Dlo7y6ksptmihw2dSEA
-         N+zg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809361; x=1742414161; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+VhVflaFJupykAbr5GMulgMwO4fH5FSAL+vOMgQ8g/Q=;
+        b=H7txTJjoln89QlXvqw7Qupx1bnVaMWGD1WOb2sv+7FuWDITF1UvPUw2IMF7y32ECED
+         2u7tGKQEtgzlouNJ7QM9EUbL27KnrTFb0FNWP5JlZry5i3W2IwZQm37lhvrzXU2zYHwK
+         4KHeq7G04wOGOlX+P4xqmPM+qA4Mpd1Cpub0B3s/c76xeb7/6ci5Ou8eytvQqRZ91/9P
+         gVnXC3MHg9pMHZMgaGD50fcHg3BztdAUqKusz2YB4IpCmB8syMu9SPvWCAgO0tpSJeWG
+         yrjUOHNBrua83qFjSScBkfWL8QGUXPYR4TetgYosMrOir0ASabvXsFfDegMQb80OyIc6
+         69Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741809355; x=1742414155;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ky4eDudVQrsbFABDhIpRuVuCZ41eTODha/jWfwYsf3Y=;
-        b=NUrib/HObTxBb2WZ4BDpp/TXUXhhUcDkaUEe1H+AsiqAq/SgOotfH+B7JV8tSRroAH
-         sGSoHp2JV6zyMSAhGXGAug97AYvHCRYPuWtPgzf4YhymJDPlgt5dfjy4OSYcJd6zJB7q
-         yIs8PnSKJ/WEMbSAT8aJqYJsfXGs/kIKYgL6YgFE6tA4FaIpxpcBNytGd/ML6ImkiozG
-         q4B4/ngXg7RBLGr539A1o0jhek1Jz+gVy4C/3vLbTL45I/C1X1p5rkdkEiPe/I20ld0t
-         obstnwqJaYdkpjlWjWKDpBXC9ZQX/7xOiE3KFNjLo5vxKRah+6Qn9R7/5yip4giWnB5t
-         hqgw==
-X-Gm-Message-State: AOJu0YykK/MxZWKDs/BLom927UfBx7tUakas5iFxYKhHT9iViGWA+Ai+
-	ipqvjiiiDb4RWvju71jUFcG2n+Sl0R6Rv1ThsrDvig/HacVFL1NYiKSrlafZBkhf6Vf2AK1FFpm
-	j
-X-Gm-Gg: ASbGncsJU2a5UiA+SWwTsX5oB8NWec3/HVQqmpHCH8K7oDm+ujcnUBu/1IOFfScUJ6D
-	YZIboYWUrJHT2KcnXvMppnA3zlA40yu8dWXNKYLV3Cd7n2e65YfeBRVcNEm8QgBA7RcsqUJWc0n
-	T//K5EfRkTywEBI0UNRPc3z7WlPr7bkrPAd1xZVCUPsrhtHU/IBdMHrnPTmnyqJMYG+wwowtxcV
-	w/clg/6sOySDWLvqiDiDPr32eIq4B8upHNk8WLD7jXJQB5gEVfKMy7Y8FrIHmjJPs2yzvBrxPW5
-	Run9yc7WANYIDbk6vgCTP37hgma48pxmcVI=
-X-Google-Smtp-Source: AGHT+IFIm0Y/GEa+DujSRY89WLUHKTdBQBFnNyslJ5E+wjPRqP9bfkUJPHtBklw3fInMcc27/WsfqQ==
-X-Received: by 2002:a05:6a00:988:b0:736:9f2e:1357 with SMTP id d2e1a72fcca58-7370d7d7252mr1179834b3a.12.1741809355173;
-        Wed, 12 Mar 2025 12:55:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1741809361; x=1742414161;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+VhVflaFJupykAbr5GMulgMwO4fH5FSAL+vOMgQ8g/Q=;
+        b=Rfotyot8hGwUjLpDgQrOBf3tcNLNzSX2N+gElbhQl+8zv6ciWoNGsUvX3yhe+kTIWS
+         mSq7dVVUtDpvV+Wprlfrmw1EKsD/ZS2ltFe0ByTIr1+am52AiQ030BRQoNeypCX4sVTc
+         ki1JFaZHj8x9/4MKWZnwmth4T/HCsR7B0fClxAw6MVzIGSRiCY3g/W+23obMwKgk4BEA
+         Bvd0fV7Ml4u+i338DkTO+JC7yyxXEK1K00rrVqqiv9mYdw3TLG6rrsF3wYAdiNb/BD7r
+         ebasmUNWH7gIXmXbNl3xyL5hrxngYuthSAr0Sd+wtZbaif8N9T1nzvVPxIWFXT83jiwa
+         ecBA==
+X-Gm-Message-State: AOJu0Yw0fL0qia65hiG/rgDxKrQxooVVXxgGA34OGWmqOU5mRMNGU8mc
+	otDF9pf53MsSO03rQOTozY3zhpISySbFWGTeTVYPW+zK6q9xf03tHojPFGqMblovoFp2UfLp/SZ
+	d
+X-Gm-Gg: ASbGncsgvrTWsjxO9Sta3xLcICzIG0AVj5HXe6Bv/FYTn9efA4qbtBG4MWOADSvtSoZ
+	/buS5oTZdqDa6SiCUyLqEgrZnacLvcwoZYL+cYacl2U6Xp5zEbGDRQySsfJW88GeB+k9BmK+q4d
+	oxM07JWjA+X2Lb5QZFHJaWnNPPbghv1KCH9WFSCG/ZOich9GueEiPZ55nRXDv+6yqJYz31S+Qxc
+	JkhV9o/Whp3sVaamaqJJkEvE00R8mZyZx70BIO5eLkfszwBXko7VGyctyzxEy/fTN0VVCWtaVFp
+	6NSE6YORViKkZe7dTsgr+zhPyyoM+UYkWTE=
+X-Google-Smtp-Source: AGHT+IEHEesg/Ha6AtTs6K4GeP4brbda21i1LVf9uYQ90kO1PWYt9e9Uh6IUGvM5MWqjxfMPcirSnA==
+X-Received: by 2002:a05:6a21:700d:b0:1ee:d8c8:4b82 with SMTP id adf61e73a8af0-1f58cbb5ba7mr14992992637.31.1741809361251;
+        Wed, 12 Mar 2025 12:56:01 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5779:a397:ba1c:2b0])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af281287c10sm9830332a12.78.2025.03.12.12.55.53
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af281287c10sm9830332a12.78.2025.03.12.12.56.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 12:55:54 -0700 (PDT)
+        Wed, 12 Mar 2025 12:56:00 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/28] Patch review
-Date: Wed, 12 Mar 2025 12:55:21 -0700
-Message-ID: <cover.1741809252.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 03/28] puzzles: ignore three new CVEs for a different puzzles
+Date: Wed, 12 Mar 2025 12:55:24 -0700
+Message-ID: <9543945bb935e9a3e2bfbf731412188fc52ad2c9.1741809252.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1741809252.git.steve@sakoman.com>
+References: <cover.1741809252.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:55:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212694
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:56:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212697
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Friday, March 14
+From: Ross Burton <ross.burton@arm.com>
 
-Passed a-full on autobuilder:
+As we just match on product by default, ignore three CVEs which are
+for the "Puzzles" WordPress theme by ThemeREX (CPE themerex:puzzles).
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1176
+(From OE-Core rev: 87326573c82ac1e8dc335319442236ef2341501e)
 
-The following changes since commit cd2b6080a4c0f2ed2c9939ec0b87763aef595048:
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-sato/puzzles/puzzles_git.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-  build-appliance-image: Update to scarthgap head revision (2025-03-10 12:32:35 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Archana Polampalli (1):
-  openssh: fix CVE-2025-26465
-
-Ashish Sharma (1):
-  ruby: Fix CVE-2025-27219
-
-Changqing Li (2):
-  babeltrace: extend to nativesdk
-  babeltrace2: extend to nativesdk
-
-Divya Chellam (1):
-  vim: Upgrade 9.1.1043 -> 9.1.1115
-
-Niko Mauno (1):
-  cve-check.bbclass: Mitigate symlink related error
-
-Peter Marko (17):
-  grub: drop obsolete CVE statuses
-  grub: backport strlcpy function
-  grup: patch CVE-2024-45781
-  grub: patch CVE-2024-45782 and CVE-2024-56737
-  grub: patch CVE-2024-45780
-  grub: patch CVE-2024-45783
-  grub: patch CVE-2025-0624
-  grub: patch CVE-2024-45774
-  grub: patch CVE-2024-45775
-  grub: patch CVE-2025-0622
-  grub: patch CVE-2024-45776
-  grub: patch CVE-2024-45777
-  grub: patch CVE-2025-0690
-  grub: patch CVE-2025-1118
-  grub: patch CVE-2024-45778 and CVE-2024-45779
-  grub: patch CVE-2025-0677, CVE-2025-0684, CVE-2025-0685, CVE-2025-0686
-    and CVE-2025-0689
-  grub: patch CVE-2025-0678 and CVE-2025-1125
-
-Ross Burton (3):
-  puzzles: ignore three new CVEs for a different puzzles
-  xserver-xf86-config: add a configuration fragment to disable screen
-    blanking
-  xserver-xf86-config: remove obsolete configuration files
-
-Vijay Anusuri (1):
-  xserver-xorg: upgrade 21.1.15 -> 21.1.16
-
-Wang Mingyu (1):
-  xserver-xorg: upgrade 21.1.14 -> 21.1.15
-
- meta/classes/cve-check.bbclass                |   6 +-
- .../0001-misc-Implement-grub_strlcpy.patch    |  68 ++++
- .../grub/files/CVE-2024-45774.patch           |  37 ++
- .../grub/files/CVE-2024-45775.patch           |  38 ++
- .../grub/files/CVE-2024-45776.patch           |  39 ++
- .../grub/files/CVE-2024-45777.patch           |  57 +++
- .../files/CVE-2024-45778_CVE-2024-45779.patch |  55 +++
- .../grub/files/CVE-2024-45780.patch           |  93 +++++
- .../grub/files/CVE-2024-45781.patch           |  35 ++
- .../files/CVE-2024-45782_CVE-2024-56737.patch |  36 ++
- .../grub/files/CVE-2024-45783.patch           |  39 ++
- .../grub/files/CVE-2025-0622-01.patch         |  35 ++
- .../grub/files/CVE-2025-0622-02.patch         |  41 ++
- .../grub/files/CVE-2025-0622-03.patch         |  38 ++
- .../grub/files/CVE-2025-0624.patch            |  84 ++++
- ...025-0685_CVE-2025-0686_CVE-2025-0689.patch | 377 ++++++++++++++++++
- .../files/CVE-2025-0678_CVE-2025-1125.patch   |  87 ++++
- .../grub/files/CVE-2025-0690.patch            |  73 ++++
- .../grub/files/CVE-2025-1118.patch            |  37 ++
- meta/recipes-bsp/grub/grub2.inc               |  21 +-
- .../openssh/openssh/CVE-2025-26465.patch      | 169 ++++++++
- .../openssh/openssh_9.6p1.bb                  |   1 +
- .../ruby/ruby/CVE-2025-27219.patch            |  31 ++
- meta/recipes-devtools/ruby/ruby_3.3.5.bb      |   1 +
- .../xserver-xf86-config/qemuall/noblank.conf  |   7 +
- .../xserver-xf86-config/qemuarm/xorg.conf     |  42 --
- .../xserver-xf86-config/qemuppc/xorg.conf     |  42 --
- .../xserver-xf86-config/qemush4/xorg.conf     |  42 --
- .../xserver-xf86-config/qemux86-64/xorg.conf  |  37 --
- .../xserver-xf86-config/qemux86/xorg.conf     |  37 --
- .../xorg-xserver/xserver-xf86-config_0.1.bb   |   6 +
- ...org_21.1.14.bb => xserver-xorg_21.1.16.bb} |   2 +-
- .../recipes-kernel/lttng/babeltrace2_2.0.6.bb |  12 +
- .../recipes-kernel/lttng/babeltrace_1.5.11.bb |   2 +
- meta/recipes-sato/puzzles/puzzles_git.bb      |   3 +
- meta/recipes-support/vim/vim.inc              |   4 +-
- 36 files changed, 1526 insertions(+), 208 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/0001-misc-Implement-grub_strlcpy.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45774.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45775.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45776.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45777.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45778_CVE-2024-45779.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45780.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45781.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45782_CVE-2024-56737.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45783.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0624.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0690.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-1118.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-26465.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27219.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuall/noblank.conf
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.14.bb => xserver-xorg_21.1.16.bb} (92%)
-
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index e9403ee130..48886b3039 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -47,3 +47,6 @@ STOP
+     done
+ }
+ 
++CVE_STATUS[CVE-2024-13769] = "cpe-incorrect: issue in ThemeREX's Wordpress theme Puzzles"
++CVE_STATUS[CVE-2024-13770] = "cpe-incorrect: issue in ThemeREX's Wordpress theme Puzzles"
++CVE_STATUS[CVE-2025-0837] = "cpe-incorrect: issue in ThemeREX's Wordpress theme Puzzles"
 -- 
 2.43.0
 
