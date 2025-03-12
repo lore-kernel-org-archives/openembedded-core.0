@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14952C28B28
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3039FC35FF2
 	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:53:07 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.4668.1741809179198121555
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.4468.1741809183411162366
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 12:52:59 -0700
+ Wed, 12 Mar 2025 12:53:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qMt6ZUqe;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-224341bbc1dso5041735ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:52:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=C9bl20ps;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ff69365e1dso447182a91.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:53:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809178; x=1742413978; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809183; x=1742413983; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ynKNZEyFM+L2OOrDuTYfEEXtZ7j442XcllDgRTu2jcA=;
-        b=qMt6ZUqe9PGbBU3XZpR8vlaX0K408jBoWwb210Qz9Djydeu9yohDUjrw1H/OHLQqLx
-         XCodAyAs5K0truH95lzrXmN7lItBE04ZQkfMiBGnnIbibDPBnqaiJArEI8ma3Z1jTqwz
-         nmvaGvOopM/D4yRiwaiRGR0U9WDonDOtakWurpFIni6SuSAw8FsIdOt4TSW+C4DETKvt
-         61T4BLMYP5c9uzXwRhw6a4nLBNQvTcYMA4Nr+3/W2WCiW0T5/Ut6kNocmZv184M36ziA
-         8Y5wN5ZQnY/n2c7d1TDMkjtIKZPqJ03W/hPZPnzojxVHrK0p2UqSnMsV8eHzpZteV246
-         FpUQ==
+        bh=QLRpJ8PMmpuIhK1x03WAtvUwxD83soOYsme51nHzPM4=;
+        b=C9bl20pseMzOTY96kZqEMSqdgFSBpenAicdKBxAK5Puhcy0vydZJNgf4y5YdSA1E59
+         jjVLUQZTLZhXcl77tgWgXQN1RxL+F0uzG47UJD2D6V0xyn+JcrKtvjsPsjGorI2E3tgP
+         jBn3hkVjVwEbC18lK5u0bGvCVEfJQ4HhOhiL0MgP/tvpgkEn/D5rOQBj89MtT+k5CAbu
+         GufclHVeCdewCzvtANatMry9BnQykxPEDMl/fN/Cabd+DCMlYI4yBjKgSXzN7yKTwal7
+         A7R+caExa7iLR0NfYteC2fBn40XGwAqAPT1EqpBFT32q795d8slxtgDN9tf6ufhdW6pH
+         q1Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741809178; x=1742413978;
+        d=1e100.net; s=20230601; t=1741809183; x=1742413983;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ynKNZEyFM+L2OOrDuTYfEEXtZ7j442XcllDgRTu2jcA=;
-        b=hafruVlt44YN7dK0vTPzceTTsUzrEbM0vSBxlzJpnUqhmeajU5XivOvc0vvywmBHIV
-         32F4u5jKc+yH5ZpLQOmwuUuo6k5dRdLeEw5/tpg7NhTEaLS/GaWRFad67Tra7orBRFqr
-         y20wSeUneopFE6jp6eoJFY+4UghOiXgUI7VRNX1SffBUbrtCbVx9UuezIQxiPScS2qNR
-         PeDvVI6yZRogYj+tGw7enGH88VWRTBnKxYAPURV+yif5HRfPTvzafScrjZIM12NzkNbl
-         C8WY/Ad9VUvgo1QxtXOvTOPn26CtQhZjaO4eStgJDM+ARO6+2N1RmIYnuiK/OCIshCfg
-         idjw==
-X-Gm-Message-State: AOJu0YxRymauwg4dB4elsok6s417j25mqCOI6XGmhn3qlqI0IlEgJwgB
-	QI75SLygxrCezZKcyJNcZiu3ymNN7UzwoSPCMhlFyaDc7wk6C7rpjT5cOokRlf4hXH0pqPxZRZR
-	h
-X-Gm-Gg: ASbGncsVkAPstpG0cWykQzgWAj7N4tSDMydeH7g5mSn/DezJTxtZ3ON/mh49URmQo5I
-	phmbsL7jFkBk+cXBoqspw0xNRvocqrEP19OIcQnNVM7koHoaOzTBbGzVdlRiwLmu3VFC79KJOuq
-	B1qwqPQuHAqOQyPmyDfraZiw8IVcFePd+M3NhXg1+QhY1Xh91/rmjuh+NrowQYeB6/Bb4ZowVLc
-	S/gqnvlJ2aw/tbc0jQEsycK2dRScwbH6iYhy62dva6OBiI3p30Wgldcss1hvEpMPPak6kWvIP1U
-	Nf5Bt5F31skVqqaUVQ9fWJ+q1mETBbCboOPVU0sRsih0hQ==
-X-Google-Smtp-Source: AGHT+IFKah4xrE16iWwvS1qeKmXmC17ukI9nUqWwr+UL+tqZUJqtGGmoedVor+3oSt/6S/oXtOGiMg==
-X-Received: by 2002:a05:6a21:2d85:b0:1f5:80a3:afe8 with SMTP id adf61e73a8af0-1f58cbdd61dmr12211157637.39.1741809178353;
-        Wed, 12 Mar 2025 12:52:58 -0700 (PDT)
+        bh=QLRpJ8PMmpuIhK1x03WAtvUwxD83soOYsme51nHzPM4=;
+        b=BW5nzpHk5yxFihkyFbbju9dXRNYyme1U4e4JHsQ2YGHZO1miaqAPhiiwBtY5YsMxbq
+         ieqhNR9ZKsEQ7sTXWSy3UF12r5ppZFZTyc/dCSRVKagNGov/uG9+sf6iNNUW7ZFfEAPJ
+         A2lFRu92osDHdKXYxzelnNYflUUmfXeWtmQFSdS0vObH3v/OvZHSM155/YiRzrHpINDI
+         XpEQxu+33ud5KrszYMC1vO96EVrDUI8YqIl6/zkC47AiNmVOaY0+01LlVfgAxp4ncEM5
+         lRbMIxxzOcfjqDItAsliVDqHSnu1dG6LmdkQGFvEwFSj5pPsx+PWW7vGBfkoRPPbiVKU
+         HiGQ==
+X-Gm-Message-State: AOJu0YyuBCW8jGTQfRpzOgkmtr06xjS/NsJ074XqaiUX6dIwLqjcHuAJ
+	xNUPrUTbJwu9SmZspovdhlQpzrXBGSB+NyLbs/yUK4YLr3a5gQogJahTY3HGbMZdxVEMlm4+yex
+	f
+X-Gm-Gg: ASbGncs1Dk43JIMHS3HQVdETm/QzYCfrmmJIUjhhNI0Zg1963txhpY5rZYR7Fj0Mw+4
+	e+g1VtPVArGCXMri+5ranuwm04U2RrN53MLKERPgM4yFWt2j0JZ2bcaNHLAMJelyMJxAeUOJ/iD
+	ZlASZ73fwdv4I9dj/N8W/Rc7SDaZZJpE1b7L+IH8qAgR5GP02XMVdmauVNpCtHweuyAzrICTLun
+	grDuza5TFLFGCkXF/1y5x5naqA9lnUJlnNjySrid1Z3HZeA7SjfZBvvHbIhmFNkr33Nbp8tR3bA
+	E49H6/uyVOUfb6Jdc01ms+PPpTKk/9GUSMU=
+X-Google-Smtp-Source: AGHT+IG8s0gApqL0tg5vfqCuknmL5m3KMiOLa7Q2XkJPvBEsmIKiBD4GWNpGcBWgG3ffFUcggzMHAw==
+X-Received: by 2002:a05:6a20:d805:b0:1f5:8622:5ecd with SMTP id adf61e73a8af0-1f5862260c1mr20146481637.32.1741809182598;
+        Wed, 12 Mar 2025 12:53:02 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5779:a397:ba1c:2b0])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56093c2f5sm1389955a12.67.2025.03.12.12.52.57
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56093c2f5sm1389955a12.67.2025.03.12.12.53.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 12:52:58 -0700 (PDT)
+        Wed, 12 Mar 2025 12:53:02 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 12/25] grub: patch CVE-2025-0622
-Date: Wed, 12 Mar 2025 12:52:20 -0700
-Message-ID: <aeefadfda0e98d0b3369c4abc98485774e1fe562.1741808973.git.steve@sakoman.com>
+Subject: [OE-core][styhead 15/25] grub: patch CVE-2025-0690
+Date: Wed, 12 Mar 2025 12:52:23 -0700
+Message-ID: <ab56d0eb79b40f5e60af20dadcda1b0239fe020e.1741808973.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741808973.git.steve@sakoman.com>
 References: <cover.1741808973.git.steve@sakoman.com>
@@ -67,7 +67,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:53:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212679
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212682
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -76,158 +76,99 @@ Cherry-pick patch mentioning this CVE.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../grub/files/CVE-2025-0622-01.patch         | 35 ++++++++++++++++
- .../grub/files/CVE-2025-0622-02.patch         | 41 +++++++++++++++++++
- .../grub/files/CVE-2025-0622-03.patch         | 38 +++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  3 ++
- 4 files changed, 117 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
+ .../grub/files/CVE-2025-0690.patch            | 73 +++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  1 +
+ 2 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0690.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0690.patch b/meta/recipes-bsp/grub/files/CVE-2025-0690.patch
 new file mode 100644
-index 0000000000..09dbfce5f8
+index 0000000000..be585c96ad
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
-@@ -0,0 +1,35 @@
-+From 2123c5bca7e21fbeb0263df4597ddd7054700726 Mon Sep 17 00:00:00 2001
-+From: B Horn <b@horn.uk>
-+Date: Fri, 1 Nov 2024 19:24:29 +0000
-+Subject: [PATCH 1/3] commands/pgp: Unregister the "check_signatures" hooks on
-+ module unload
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0690.patch
+@@ -0,0 +1,73 @@
++From dad8f502974ed9ad0a70ae6820d17b4b142558fc Mon Sep 17 00:00:00 2001
++From: Jonathan Bar Or <jonathanbaror@gmail.com>
++Date: Thu, 23 Jan 2025 19:17:05 +0100
++Subject: [PATCH] commands/read: Fix an integer overflow when supplying more
++ than 2^31 characters
 +
-+If the hooks are not removed they can be called after the module has
-+been unloaded leading to an use-after-free.
++The grub_getline() function currently has a signed integer variable "i"
++that can be overflown when user supplies more than 2^31 characters.
++It results in a memory corruption of the allocated line buffer as well
++as supplying large negative values to grub_realloc().
 +
-+Fixes: CVE-2025-0622
++Fixes: CVE-2025-0690
 +
-+Reported-by: B Horn <b@horn.uk>
-+Signed-off-by: B Horn <b@horn.uk>
++Reported-by: Jonathan Bar Or <jonathanbaror@gmail.com>
++Signed-off-by: Jonathan Bar Or <jonathanbaror@gmail.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+CVE: CVE-2025-0622
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2123c5bca7e21fbeb0263df4597ddd7054700726]
++CVE: CVE-2025-0690
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=dad8f502974ed9ad0a70ae6820d17b4b142558fc]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ grub-core/commands/pgp.c | 2 ++
-+ 1 file changed, 2 insertions(+)
++ grub-core/commands/read.c | 19 +++++++++++++++----
++ 1 file changed, 15 insertions(+), 4 deletions(-)
 +
-+diff --git a/grub-core/commands/pgp.c b/grub-core/commands/pgp.c
-+index c6766f044..5fadc33c4 100644
-+--- a/grub-core/commands/pgp.c
-++++ b/grub-core/commands/pgp.c
-+@@ -1010,6 +1010,8 @@ GRUB_MOD_INIT(pgp)
++diff --git a/grub-core/commands/read.c b/grub-core/commands/read.c
++index 597c90706..8d72e45c9 100644
++--- a/grub-core/commands/read.c
+++++ b/grub-core/commands/read.c
++@@ -25,6 +25,7 @@
++ #include <grub/types.h>
++ #include <grub/extcmd.h>
++ #include <grub/i18n.h>
+++#include <grub/safemath.h>
 + 
-+ GRUB_MOD_FINI(pgp)
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -37,13 +38,14 @@ static const struct grub_arg_option options[] =
++ static char *
++ grub_getline (int silent)
 + {
-++  grub_register_variable_hook ("check_signatures", NULL, NULL);
-++  grub_env_unset ("check_signatures");
-+   grub_verifier_unregister (&grub_pubkey_verifier);
-+   grub_unregister_extcmd (cmd);
-+   grub_unregister_extcmd (cmd_trust);
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
-new file mode 100644
-index 0000000000..be01da3355
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
-@@ -0,0 +1,41 @@
-+From 9c16197734ada8d0838407eebe081117799bfe67 Mon Sep 17 00:00:00 2001
-+From: B Horn <b@horn.uk>
-+Date: Fri, 1 Nov 2024 23:46:55 +0000
-+Subject: [PATCH 2/3] normal: Remove variables hooks on module unload
-+
-+The normal module does not entirely cleanup after itself in
-+its GRUB_MOD_FINI() leaving a few variables hooks in place.
-+It is not possible to unload normal module now but fix the
-+issues for completeness.
-+
-+On the occasion replace 0s with NULLs for "pager" variable
-+hooks unregister.
-+
-+Fixes: CVE-2025-0622
-+
-+Reported-by: B Horn <b@horn.uk>
-+Signed-off-by: B Horn <b@horn.uk>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-0622
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c16197734ada8d0838407eebe081117799bfe67]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ grub-core/normal/main.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
-+index 838f57fa5..04d058f55 100644
-+--- a/grub-core/normal/main.c
-++++ b/grub-core/normal/main.c
-+@@ -582,7 +582,9 @@ GRUB_MOD_FINI(normal)
-+   grub_xputs = grub_xputs_saved;
++-  int i;
+++  grub_size_t i;
++   char *line;
++   char *tmp;
++   int c;
+++  grub_size_t alloc_size;
 + 
-+   grub_set_history (0);
-+-  grub_register_variable_hook ("pager", 0, 0);
-++  grub_register_variable_hook ("pager", NULL, NULL);
-++  grub_register_variable_hook ("color_normal", NULL, NULL);
-++  grub_register_variable_hook ("color_highlight", NULL, NULL);
-+   grub_fs_autoload_hook = 0;
-+   grub_unregister_command (cmd_clear);
-+ }
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
-new file mode 100644
-index 0000000000..79078a4350
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
-@@ -0,0 +1,38 @@
-+From 7580addfc8c94cedb0cdfd7a1fd65b539215e637 Mon Sep 17 00:00:00 2001
-+From: B Horn <b@horn.uk>
-+Date: Fri, 1 Nov 2024 23:52:06 +0000
-+Subject: [PATCH 3/3] gettext: Remove variables hooks on module unload
-+
-+The gettext module does not entirely cleanup after itself in
-+its GRUB_MOD_FINI() leaving a few variables hooks in place.
-+It is not possible to unload gettext module because normal
-+module depends on it. Though fix the issues for completeness.
-+
-+Fixes: CVE-2025-0622
-+
-+Reported-by: B Horn <b@horn.uk>
-+Signed-off-by: B Horn <b@horn.uk>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-0622
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7580addfc8c94cedb0cdfd7a1fd65b539215e637]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ grub-core/gettext/gettext.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
-+index 7a1c14e4f..e4f4f8ee6 100644
-+--- a/grub-core/gettext/gettext.c
-++++ b/grub-core/gettext/gettext.c
-+@@ -535,6 +535,10 @@ GRUB_MOD_INIT (gettext)
++   i = 0;
++-  line = grub_malloc (1 + i + sizeof('\0'));
+++  line = grub_malloc (1 + sizeof('\0'));
++   if (! line)
++     return NULL;
 + 
-+ GRUB_MOD_FINI (gettext)
-+ {
-++  grub_register_variable_hook ("locale_dir", NULL, NULL);
-++  grub_register_variable_hook ("secondary_locale_dir", NULL, NULL);
-++  grub_register_variable_hook ("lang", NULL, NULL);
-++
-+   grub_gettext_delete_list (&main_context);
-+   grub_gettext_delete_list (&secondary_context);
-+ 
++@@ -59,8 +61,17 @@ grub_getline (int silent)
++       line[i] = (char) c;
++       if (!silent)
++ 	grub_printf ("%c", c);
++-      i++;
++-      tmp = grub_realloc (line, 1 + i + sizeof('\0'));
+++      if (grub_add (i, 1, &i))
+++        {
+++          grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
+++          return NULL;
+++        }
+++      if (grub_add (i, 1 + sizeof('\0'), &alloc_size))
+++        {
+++          grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
+++          return NULL;
+++        }
+++      tmp = grub_realloc (line, alloc_size);
++       if (! tmp)
++ 	{
++ 	  grub_free (line);
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index b9b9d37637..7d463f8aeb 100644
+index b67b7d2e16..6f0c8a133f 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -26,6 +26,9 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2025-0624.patch \
-            file://CVE-2024-45774.patch \
-            file://CVE-2024-45775.patch \
-+           file://CVE-2025-0622-01.patch \
-+           file://CVE-2025-0622-02.patch \
-+           file://CVE-2025-0622-03.patch \
+@@ -31,6 +31,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2025-0622-03.patch \
+            file://CVE-2024-45776.patch \
+            file://CVE-2024-45777.patch \
++           file://CVE-2025-0690.patch \
  "
  
  SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154cb9c91"
