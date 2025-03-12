@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 524EDC35FF2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A655C2BA1B
 	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:53:17 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.4680.1741809193352326357
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.4476.1741809191903852910
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 12:53:13 -0700
+ Wed, 12 Mar 2025 12:53:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=C1pBmcmk;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2ff85fec403so2518240a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:53:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fxUCcS2T;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2ff797f8f1bso454765a91.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:53:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809192; x=1742413992; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809191; x=1742413991; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fKH+A6TkiIAbQS8ss2jBCgemCB8K+maPmwTWN2EsumE=;
-        b=C1pBmcmk0j+lW+AtxYXYtbTsnk6ZKxnE14KPnJJX4OqhzgttzZCajM+9LL5DBGUHJq
-         LJp1Pkpw6Jl01Sob6ZMMuLt8MWD/7B/ML4js/nziTnpAJXrSHTnFwfAqt2yFHGm2z6rw
-         S7ebOSFjqg2QF3/C5vZrD8Zfg5L/AC0SMviAMSWT2pEf2/PYvy0KpU2jOFO5PV4XgO+f
-         gSpbnXWLU+4AeyiAEIu3sfTH2U8MoBeHBGvvr9Dv4F/WXA/PTpdJ0pJ22EIh7NWoFT0v
-         4G3s9fQyQeUxyMhPm9jpUaA7dbaLuIpB2Ja9+q1QrS1dzWZdXAHdkCsWOj0A+zgC4Hvu
-         Bx8A==
+        bh=PNKMiFy+wTVMOgENyzMMH3nxZX+QbCgmQY4+zAZPVTM=;
+        b=fxUCcS2T9ixpntO1N1JPp8guQF2oA3HpINIqQA2qe341M1KOsPrDopHxqdCSDWEFaN
+         Oz+JyvZAgSiC5UTifWQKUy6Vwwuxf5mlP/9CuW+zrAclzssw4ixoj9hfI18tqhWft2mA
+         zTOWAMFtvFkDYCh/lNV+wLes8+A8tIWHTwRra8JkGX3Fl4lshY/AGk9lRbq9PZvmCuoy
+         2CkYhxV/p8RlvTfq93QAzEcNj25u8EvnLCDnJFN0PGHATYWJAHmWBSsNuioNvYWdex8v
+         1WMtjPlsHFJGywCbHYoUCQ4EGU3Ne5KLvt4PYCGjz8sYS3Ibt9fhiQEQSkZBSa/fTmgl
+         OdwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741809192; x=1742413992;
+        d=1e100.net; s=20230601; t=1741809191; x=1742413991;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fKH+A6TkiIAbQS8ss2jBCgemCB8K+maPmwTWN2EsumE=;
-        b=w8FOSCjENuclIX6qIKp/SlfjeZJHA0NPP+xts57Tu1G3Oi80s7q2rA9UQKpzqNRcyj
-         HPlNHZdtShiUVCa5X0K795axzlWzv1FwlFPlFKZTZC/tFcuHpVnaaf/2CYCI6RF8vi0s
-         rfKNoJwguzFnpho+t/6nlD9x6UkyXrQahUMzVV+toNipLIx3TVqdwBUrazfaVgupjKjb
-         uoudDP51ksMk9Lkheggtux15LUsFKENotc7oPoO666tTfJ1VvM0UR21Rr9FFuNCnk3pl
-         kIPyg5LEFhoxn5tZ43je7Dt/fMlmdpO66BQmHcsnnUhjebWI3W+Gj5wl89UDbUajQBOS
-         mUlQ==
-X-Gm-Message-State: AOJu0Yz3KWkeQ15B4GMb9fpd7skbln/BEqQyHkREGhNR1CQDJwiXBI76
-	gqXZ81hB3uwzDqmJp+2MaViBz97KKUJFBIxcL4daKIe0T4RkbluLbvo5zu5n8ZAqs03yxmArFPw
-	D
-X-Gm-Gg: ASbGncusMS5y0E675gvr/+yRPY1zHuGUUfjtgLcOt9T1nNHjW5kkvgYg2zY16LkR2r2
-	DXJB+4QXrl8YO7UTranqeV/MTJKbkFagsDVS4FQHcHUhgSnyJb3JTCbGDkTrkMgjzzjBjHLw7Pw
-	HVJPwjjWOjkypTWndMR+MrkUqK5qwyYkbjHA0dVJUnSqqfH9oDX7llEO8I9k9l7Qwf3ipK0Swv2
-	BvW0u0/eybZWKUA9q9iG5TKUgzUHXToB8z+RM9r6tveMpDhNCj3aHh8FRayVVeGpCB8u4HWK0Cv
-	YH05lfZppE8WyNPx5xwRRAmpz25uWT4TOoEpPUAlB1OLsA==
-X-Google-Smtp-Source: AGHT+IGkcY+oJDWDMKgM/XyheqG1OWmvViipzKRNnM5PDUj7Wl/CzDbyaN4F8t8WRrQo0JsmPOvjVA==
-X-Received: by 2002:a05:6a20:b22a:b0:1ee:c7c8:cae with SMTP id adf61e73a8af0-1f5ad81d262mr786790637.9.1741809192654;
-        Wed, 12 Mar 2025 12:53:12 -0700 (PDT)
+        bh=PNKMiFy+wTVMOgENyzMMH3nxZX+QbCgmQY4+zAZPVTM=;
+        b=p0nl52v0uklOd6CxBSJMLVmrj/ibFJpaFpdy5y3VsmioP7NjMS7uDZA6wAFsbKE1GW
+         cswdJwZuqhVukLUg0qoeHJqpW59zhINv3UlME98l4+Q4rNB3xfOmZ3FcMV6ifzXy+cno
+         yhuO/TfRbT7Me5F3C7AayLaxcCWlTlVjsNUDc6gUb2qrN/sTdeIiLeA6UWWGMX2OQ+XM
+         Ec0JjSbFsJrvCoxSj+UXpFo+HsUIdLmZvaWUBW5eJONZyKQijAi/lZv8yJWjiRRflY3N
+         1IHyeLrIJ5f+p6ntyBZGxwUUswt/zlV0DFrl0pkRrZGc+giXD4TNpb2C07wQnQF6Fh2T
+         9ZlA==
+X-Gm-Message-State: AOJu0YzSm8enmh5W3MyX3eLJCGdQPtldVF7ycfTp6wAhUVzz0xP076yt
+	oyTay2Z56yfNxy7XW9emngzabSvw1f1FEkVF0ZMgxE5X6E7Crmu/rfdXFoWVFKc3eYSyg8K2rK9
+	L
+X-Gm-Gg: ASbGncswv2w1QdFAx8v2Y0iJS5XQxjR5eLZI7A0CxK3ubDrFN6bFcomm/vpD5VRk71m
+	xlSDmF8IvwwiqONFFTIiSonRU2M80OKqsp3khC5LyTJp2pOf02Ad/4pOvOVvgVO7GQiBe0PMCbk
+	1nQM9+ivFriZCbDcDk6Lacf93T9D4ygOcXu3+JAF34xnox+dJQBAlBoMUihZCUX0uJyey345Vhs
+	Qm+VGhNZUJcsP0LD3wZrE6GdxseVpoplLylJnRkTZzwmZJU7QiYiUCB4HZdBVLlgPQfMzPUt2Wv
+	jtkJqHI1BtVjQB0uzuN9oZM8Hm6lxUeYz/kQGeV/+t1M3Q==
+X-Google-Smtp-Source: AGHT+IFuU46spOES3Okdg5nQxpIqDK0DziPIBc92W3xziAs8pj/pnqrGA67HjFUZ74mcsFHBhTwMlQ==
+X-Received: by 2002:a05:6a21:493:b0:1f3:41d5:6608 with SMTP id adf61e73a8af0-1f58cbc5068mr13696034637.26.1741809191208;
+        Wed, 12 Mar 2025 12:53:11 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5779:a397:ba1c:2b0])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56093c2f5sm1389955a12.67.2025.03.12.12.53.12
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56093c2f5sm1389955a12.67.2025.03.12.12.53.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 12:53:12 -0700 (PDT)
+        Wed, 12 Mar 2025 12:53:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 22/25] xserver-xorg: upgrade 21.1.14 -> 21.1.15
-Date: Wed, 12 Mar 2025 12:52:30 -0700
-Message-ID: <a97e23fe412b8b382f718f73c5a8b12f26208661.1741808973.git.steve@sakoman.com>
+Subject: [OE-core][styhead 21/25] libtasn1: upgrade 4.19.0 -> 4.20.0
+Date: Wed, 12 Mar 2025 12:52:29 -0700
+Message-ID: <7e79c2dd6cb3b10780219675cf908eaf37046bec.1741808973.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741808973.git.steve@sakoman.com>
 References: <cover.1741808973.git.steve@sakoman.com>
@@ -67,36 +67,54 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:53:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212689
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212688
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ba94110d70ebfb1b4798ecf05389f7ea602b1f55)
+* Noteworthy changes in release 4.20.0 (2025-02-01) [stable]
+- The release tarball is now reproducible.
+- We publish a minimal source-only tarball generated by 'git archive'.
+- Update gnulib files and various build/maintenance fixes.
+- Fix CVE-2024-12133: Potential DoS in handling of numerous SEQUENCE OF or SET
+OF elements
+
+License-Update: file COPYING.LESSER renamed to COPYING.LESSERv2 & Copyright year updated to 2025
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{xserver-xorg_21.1.14.bb => xserver-xorg_21.1.15.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.14.bb => xserver-xorg_21.1.15.bb} (92%)
+ .../gnutls/{libtasn1_4.19.0.bb => libtasn1_4.20.0.bb}      | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/gnutls/{libtasn1_4.19.0.bb => libtasn1_4.20.0.bb} (63%)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.14.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.15.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.14.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.15.bb
-index 28c98eb527..080e6d220e 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.14.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.15.bb
-@@ -3,7 +3,7 @@ require xserver-xorg.inc
- SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-            "
--SRC_URI[sha256sum] = "8f2102cebdc4747d1656c1099ef610f5063c7422c24a177e300de569b354ee35"
-+SRC_URI[sha256sum] = "841c82901282902725762df03adbbcd68153d4cdfb0d61df0cfd73ad677ae089"
+diff --git a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
+similarity index 63%
+rename from meta/recipes-support/gnutls/libtasn1_4.19.0.bb
+rename to meta/recipes-support/gnutls/libtasn1_4.20.0.bb
+index 5fb8b54c06..8127ba5b1d 100644
+--- a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb
++++ b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
+@@ -6,9 +6,8 @@ HOMEPAGE = "http://www.gnu.org/software/libtasn1/"
+ LICENSE = "GPL-3.0-or-later & LGPL-2.1-or-later"
+ LICENSE:${PN}-bin = "GPL-3.0-or-later"
+ LICENSE:${PN} = "LGPL-2.1-or-later"
+-LIC_FILES_CHKSUM = "file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://doc/COPYING.LESSER;md5=4fbd65380cdd255951079008b364516c \
+-                    file://COPYING;md5=75ac100ec923f959898182307970c360"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
++                    file://COPYING.LESSERv2;md5=4bf661c1e3793e55c8d1051bc5e0ae21"
  
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+            file://dont-depend-on-help2man.patch \
+@@ -16,7 +15,7 @@ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+ 
+ DEPENDS = "bison-native"
+ 
+-SRC_URI[sha256sum] = "1613f0ac1cf484d6ec0ce3b8c06d56263cc7242f1c23b30d82d23de345a63f7a"
++SRC_URI[sha256sum] = "92e0e3bd4c02d4aeee76036b2ddd83f0c732ba4cda5cb71d583272b23587a76c"
+ 
+ inherit autotools texinfo lib_package gtk-doc
+ 
 -- 
 2.43.0
 
