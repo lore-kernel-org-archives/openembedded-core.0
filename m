@@ -2,197 +2,206 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F799C28B30
-	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 14:28:10 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.38645.1741789680525044923
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 129BFC28B2F
+	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 16:28:04 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web10.860.1741796874571894446
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 07:28:00 -0700
+ Wed, 12 Mar 2025 09:27:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MWXqdovY;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5495078cd59so7558855e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 07:28:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CFNeyREB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-307325f2436so574151fa.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 09:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741789679; x=1742394479; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1741796873; x=1742401673; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P88/dY+0ZIrhZspC+FN7MvmEgv6Md+Mfo0MXKGxR1yI=;
-        b=MWXqdovYAEr9JNttptYMgTWdl0PBqnmeURIDapJj2L/An6gBenNvLRuJH/dinoW48q
-         65q9xtDiaj0kj2roGLhus0zr34v+LIy8IG8f55lvSvggOXDfkKEv2S3XmQLG0/Ixlbd3
-         Y83QX+MHeyHfTeUP1lXfDoHyOlj9OHIO/pqKs1G53YCzLEF1Jn5A4ZLS7wA87h4EC+C/
-         oqhubLpQPhc9doDUtJdh9C9klhbuaWSSX+IvQQJdVlvrMqnbAXEyTDd/SWcEB8xPTu0P
-         fy153AkpbaG8gu30yUy4SGVWrzv5wBaIro8IxijtZADPFaYa4pJksW9Twplz27BWteJd
-         ihlQ==
+        bh=Z9H+g5KX0f6MWIzq2l5dfEZ0wI2i6WCP7JbYciXc41Y=;
+        b=CFNeyREBPJR5nmpBrt42Tef2fnwDmHLCm/NkxT6gpsG430BCInbcr8PuyVbQ9QDlS4
+         3trb1k5bI14A8ZIW0e95QEg+heeAYEK/2qoieTVkXrnDUsH3EX9ltd8HG7zRIGNKqPRC
+         HHhGtqBL2nfTphGm/qnQPYqe/K0BIH+KLDYyWw9rvsTSSBSfKkr2bKvf5XqFIczzsZke
+         RWFMpQ++ktCtFgIwJHdqsmaYFt6v0vIScaBBA+vCH8zYtQ9JhtTOo5rus/+JBCvUms9K
+         nQS7cDbG2lv9QcP/eBf+cQPlCkN4rINaDw4gFbtv+fpVVK+9Pm34Is2P5iMSLKAssXuc
+         yCWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741789679; x=1742394479;
+        d=1e100.net; s=20230601; t=1741796873; x=1742401673;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=P88/dY+0ZIrhZspC+FN7MvmEgv6Md+Mfo0MXKGxR1yI=;
-        b=Kf4uLqlv6dlJQLLhrZTxaQqZ8Bg99QMMMziIB8DCkbzn6K4P0DJbLc+FGyyETViC4l
-         D8Tcu8qjDa/okvpW5hxlDIyCMtz446t0cIXDaEYuNoQVGBf6ltBzU69QY/9mBsbx7rtw
-         vE4Hcpm0UmJ3+BNY8EbouKdmuAfubvkAwAKDgMI/bp8Z3Q2/PXfV+0BBXxzXQm7Ro+yV
-         nIT1F/1yOIlBL5T+NL6BDzkqAsU07I6oAfbT8G+LTHXK4HOYdC9BeXdx9tudWY6aThGx
-         c2DV2Pv/I9l79MxHfr5c2uHE1cUhGg+mae35d0GxetJqLPQRyqEuPmOj1qZW2uN3Qjpv
-         LFCA==
-X-Gm-Message-State: AOJu0Yz1hFE+M1Xlw02gWjfnEt0WccY7EmOFbY0pZ7goLevmKqgMv9ve
-	cNu/Om3+UC2mrRIDEwT6CluEYJWguK9zWunal8oIBXo0Fo58Zh5ONFLx5XU41bZWpHHK5HVptVf
-	wlb2oTcyKMouUH0V3KPtY6ZRZvXI=
-X-Gm-Gg: ASbGncscRJJxkW08kAM4BUzLWdThoOxz7eSqPXRnAQ8OgQpH/5z6HWjl5nYFj2dEg7A
-	Jq1fNJgEvVsaPgtiKyz13r0/oliXFvTy8fS9BWZkC/GyfI60i3pMwXqO1cEqQfsuN8egkbcdP3n
-	rMuqrzBmYUA8Z9e5JWTe9nH/025w==
-X-Google-Smtp-Source: AGHT+IGSITi6u3svTYNSocSm8SAHYzBidf6tDWqORtPGYebrqpyQl0XgPl20iDQbpkH7Rxf7V0z9+/JTdIcBAIgtK8g=
-X-Received: by 2002:a05:6512:138d:b0:549:6451:7e76 with SMTP id
- 2adb3069b0e04-549abae7019mr3320813e87.33.1741789678257; Wed, 12 Mar 2025
- 07:27:58 -0700 (PDT)
+        bh=Z9H+g5KX0f6MWIzq2l5dfEZ0wI2i6WCP7JbYciXc41Y=;
+        b=r0aGO4xZj89qX9Y92Wir2vQAbaFikA5eFuqwn6L4+4X2P0LfMFX567pOdSfKZotMKa
+         9acEvvnmWvryVNH3mXLJuaRD7xT0AwN5TNS1VaXJkC6iZFdnJF1ahJBA9MwA8h/D7825
+         Qk1uW73hWVVRq88sjtd9DUzTTd0nQ5ejJt7HK0y+FFUdcZ85Tj3lvRrt26enibyFs3VR
+         dR8IVJxmoOIXKYIzYeqIndBzHNGckiYuU1anHmT+EE6/KfSq9JzRyGljtlnzrN8Vt6Bt
+         7Ek2zdzVqOVFhiPp+yXED/w2t67EIEfpSYvx1jqYL+ee0DZ7M8Xigyv/p8yOYJ5Sbp9U
+         LlFw==
+X-Gm-Message-State: AOJu0Yx30mISOKbHRrxVizCGLBt7qU5+LYR/kYExnQiTWH09qizQg8tM
+	ns0HwB3oRTQUS79U45zvunH3kHCIe23hWOCIm6QRfyNahzcrKqgjAk8+S9KfvhWn9x+2OOB3OIi
+	YPpO60CtMLyhu19242BR4MvJrFHA=
+X-Gm-Gg: ASbGnctFSaFDLKcv+0gvL8WBy2GQ1+sfH1T+SrwbJFifJ2AKmIF+5Drg2sauwOScG8d
+	LPM2wPftOCAJ+fhiyAJ/Tsz9uPoeArWFHtyxuupz4/CPowXdAF1HVUmjWVH1eWpolgkUhmk5Bve
+	0zfhJlivrKlyQteDbEGNag7UFw3A==
+X-Google-Smtp-Source: AGHT+IH14LNt76t62ig+Aw2iLscnak1TPTcQx8s7B4BMeYw0XD80Uu2v3o+6/ZZtwE16jU6JTZxXhMpsgRhnzXMjpG8=
+X-Received: by 2002:a05:6512:1195:b0:549:78bd:6b8e with SMTP id
+ 2adb3069b0e04-549910b6127mr8144565e87.37.1741796872413; Wed, 12 Mar 2025
+ 09:27:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250312055803.801070-1-hongxu.jia@windriver.com>
-In-Reply-To: <20250312055803.801070-1-hongxu.jia@windriver.com>
+References: <20250312112351.781019-1-c137.marques@gmail.com>
+In-Reply-To: <20250312112351.781019-1-c137.marques@gmail.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 12 Mar 2025 08:27:45 -0600
-X-Gm-Features: AQ5f1Jom45guJWLGJcCwrKrcxZqjfFxhjJYbP0JmBfjM5dBm4xsvOp9YU1WuQeU
-Message-ID: <CAJdd5GaOZRVenY65w9BQEDxRbY-nfD0fktVNqoAaxqR26YzaxA@mail.gmail.com>
-Subject: Re: [PATCH] lib: spdx30_tasks: remove duplicated patched CVEs
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org, mikko.rapeli@linaro.org
+Date: Wed, 12 Mar 2025 10:27:40 -0600
+X-Gm-Features: AQ5f1Jp5KfgcKOrL3ixMhv9_w7JjIk8U9t1yjaJoZ_4KglzM2xMu-hud6CYWnNQ
+Message-ID: <CAJdd5GaWbQ+LUTo9QvUPPLysbs_FH-XR1NuZ49Os+5Cn9H6MqQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/1] scripts: Add clean-hashserver-database script
+To: c137.marques@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 14:28:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212657
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 16:28:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212658
 
-On Tue, Mar 11, 2025 at 11:58=E2=80=AFPM Hongxu Jia <hongxu.jia@windriver.c=
-om> wrote:
+On Wed, Mar 12, 2025 at 5:24=E2=80=AFAM Alexandre Marques via
+lists.openembedded.org <c137.marques=3Dgmail.com@lists.openembedded.org>
+wrote:
 >
-> Due to commit [lib: spdx30_tasks: Handle patched CVEs][1] applied,
-> duplicated CVE identifier for each CVE which increased +25% build
-> time (image task: do_create_image_sbom_spdx)
+> From: Alexandre Marques <c137.marques@gmail.com>
 >
-> $ bitbake binutils-cross-x86_64
-> $ jq . tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-binutils-cross-x86_64.=
-spdx.json | grep CVE-2023-25584
->       "spdxId": "http://spdx.org/spdxdocs/binutils-cross-x86_64-5de92009-=
-80e6-55c5-8b1f-cc37f04fbe09/962efd5da447b81b017db54d3077be796d2e5b6e770a6b0=
-50467b24339c0995f/vulnerability/CVE-2023-25584",
->           "https://rdf.openembedded.org/spdx/3.0/alias": "http://spdxdocs=
-.org/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce=
-7693a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2=
-023-25584"
->           "identifier": "CVE-2023-25584",
->             "https://cveawg.mitre.org/api/cve/CVE-2023-25584",
->             "https://www.cve.org/CVERecord?id=3DCVE-2023-25584"
->       "spdxId": "http://spdx.org/spdxdocs/binutils-cross-x86_64-5de92009-=
-80e6-55c5-8b1f-cc37f04fbe09/962efd5da447b81b017db54d3077be796d2e5b6e770a6b0=
-50467b24339c0995f/vulnerability/CVE-2023-25584",
->           "https://rdf.openembedded.org/spdx/3.0/alias": "http://spdxdocs=
-.org/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce=
-7693a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2=
-023-25584"
->           "identifier": "CVE-2023-25584",
->             "https://cveawg.mitre.org/api/cve/CVE-2023-25584",
->             "https://www.cve.org/CVERecord?id=3DCVE-2023-25584"
+> Auxiliary script to clean the hashserver database based on the files
+> available in the sstate directory.
 >
-> Since the commit [cve-check: annotate CVEs during analysis][2] improved
-> function get_patched_cves to:
-> - Check each patch file;
-> - Search for additional patched CVEs from CVE_STATUS;
+> It makes used of the new "hashclient gc-mark-stream" command to mark all =
+sstate
+> relevant hashes as "alive" and removes everything else from the
+> database.
 >
-> And return dictionary patched_cve for each cve:
-> {
->   "abbrev-status": "xxx",
->   "status": "xxx",
->   "justification": "xxx",
->   "resource": "xxx",
->   "affected-vendor": "xxx",
->   "affected-product": "xxx",
-> }
+> Usage example:
+> ```
+> ./scripts/clean-hashserver-database \
+>     --sstate-dir ~/build/sstate-cache \
+>     --hashclient ./bitbake/bin/bitabke-hashclient \
+>     --hashserver-address "ws://localhost:8688/ws" \
+>     --mark "alive" \
+>     --clean-db
+> ```
 >
-> But while adding CVE in meta/lib/oe/spdx30_tasks.py, the cve_by_status
-> requires decoded_status
-> {
->   "mapping": "xxx",
->   "detail": "xxx",
->   "description": "xxx",
-> }
->
-> This commit converts patched_cve to decoded_status
->
->   patched_cve["abbrev-status"] --> decoded_status["mapping"]
->   patched_cve["status"] --> decoded_status["detail"]
->   patched_cve["justification"] --> decoded_status["description"]
->
-> And remove duplicated search for additional patched CVEs from CVE_STATUS
-> (calling oe.cve_check.decode_cve_status)
->
-> After applying this commit
-> $ bitbake binutils-cross-x86_64
-> $ jq . tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-binutils-cross-x86_64.=
-spdx.json | grep CVE-2023-25584
->       "spdxId": "http://spdx.org/spdxdocs/binutils-cross-x86_64-5de92009-=
-80e6-55c5-8b1f-cc37f04fbe09/381bf593d99c005ecd2c2e0815b86bca2b9ff4cc2db5958=
-7aaddd3db95c67470/vulnerability/CVE-2023-25584",
->           "https://rdf.openembedded.org/spdx/3.0/alias": "http://spdxdocs=
-.org/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce=
-7693a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2=
-023-25584"
->           "identifier": "CVE-2023-25584",
->             "https://cveawg.mitre.org/api/cve/CVE-2023-25584",
->             "https://www.cve.org/CVERecord?id=3DCVE-2023-25584"
->
-> [1] https://git.openembedded.org/openembedded-core/commit/?id=3D1ff496546=
-279d8a97df5ec475007cfb095c2a0bc
-> [2] https://git.openembedded.org/openembedded-core/commit/?id=3D452e605b5=
-5ad61c08f4af7089a5a9c576ca28f7d
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> Signed-off-by: Alexander Marques <c137.marques@gmail.com>
 > ---
->  meta/lib/oe/spdx30_tasks.py | 19 +++++++------------
->  1 file changed, 7 insertions(+), 12 deletions(-)
+>  scripts/clean-hashserver-database | 73 +++++++++++++++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100755 scripts/clean-hashserver-database
 >
-> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index e20bb0c86f3..3d80f05612f 100644
-> --- a/meta/lib/oe/spdx30_tasks.py
-> +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -498,18 +498,13 @@ def create_spdx(d):
->      # Add CVEs
->      cve_by_status =3D {}
->      if include_vex !=3D "none":
-> -        for cve in oe.cve_check.get_patched_cves(d):
-> -            spdx_cve =3D build_objset.new_cve_vuln(cve)
-> -            build_objset.set_element_alias(spdx_cve)
-> -
-> -            cve_by_status.setdefault("Patched", {})[cve] =3D (
-> -                spdx_cve,
-> -                "patched",
-> -                "",
-> -            )
-> -
-> -        for cve in d.getVarFlags("CVE_STATUS") or {}:
-> -            decoded_status =3D oe.cve_check.decode_cve_status(d, cve)
-> +        patched_cves =3D oe.cve_check.get_patched_cves(d)
+> diff --git a/scripts/clean-hashserver-database b/scripts/clean-hashserver=
+-database
+> new file mode 100755
+> index 0000000000..6eb006758e
+> --- /dev/null
+> +++ b/scripts/clean-hashserver-database
+> @@ -0,0 +1,73 @@
+> +#!/bin/bash
+> +set -euo pipefail
+> +
+> +SSTATE_DIR=3D""
+> +BB_HASHCLIENT=3D""
+> +BB_HASHSERVER=3D""
+> +
+> +ALIVE_DB_MARK=3D"alive"
+> +CLEAN_DB=3D"false"
+> +
+> +function help() {
+> +    cat <<HELP_TEXT
+> +Usage: $0 --sstate-dir path --hashclient path --hashserver-address addre=
+ss [--mark value] [--clean-db]
+> +
+> +Auxiliary script remove unused or no longer relevant entries from the ha=
+shequivalence database, based
+> +on the files available on the sstate directory.
+> +
+> +    -h | --help)               Show this help message and exit
+> +    -s | --sstate-dir)         Path to the sstate dir
+> +    -c | --hashclient)         Path to bitbake-hashclient
+> +    -a | --hashserver-adress)  bitbake-hashserver address
+> +    -m | --mark)               Marker string to mark database entries
+> +    --clean-db)                Remove all unmarked and unused entries fr=
+om the database
+> +HELP_TEXT
+> +}
+> +
+> +function argument_parser() {
+> +    while [ $# -gt 0 ]; do
+> +        case "$1" in
+> +            -h | --help) help; exit 0 ;;
+> +            -s | --sstate-dir) SSTATE_DIR=3D"$2"; shift ;;
+> +            -c | --hashclient) BB_HASHCLIENT=3D"$2"; shift ;;
+> +            -a | --hashserver-address) BB_HASHSERVER=3D"$2"; shift ;;
+> +            -m | --mark) ALIVE_DB_MARK=3D"$2"; shift ;;
+> +            --clean-db) CLEAN_DB=3D"true";;
+> +            *)
+> +                echo "Argument '$1' is not supported" >&2
+> +                help >&2
+> +                exit 1
+> +                ;;
+> +        esac
+> +        shift
+> +    done
+> +
+> +    function validate_mandatory_argument() {
+> +        local var_value=3D"$1"
+> +        local error_message=3D"$2"
+> +
+> +        if [ -z "$var_value" ]; then
+> +            echo "$error_message"
+> +            help >&2
+> +            exit 1
+> +        fi
+> +    }
+> +
+> +    validate_mandatory_argument "$SSTATE_DIR" "Please provide the path t=
+o the sstate dir."
+> +    validate_mandatory_argument "$BB_HASHCLIENT" "Please provide the pat=
+h to bitbake-hashclient."
+> +    validate_mandatory_argument "$BB_HASHSERVER" "Please provide the add=
+ress of bitbake-hashserver."
+> +}
+> +
+> +# -- main code --
+> +argument_parser $@
+> +
+> +# Mark all db sstate hashes
+> +find "$SSTATE_DIR" -name "*.tar.zst" | \
+> +sed 's/.*:\([^_]*\)_.*/unihash \1/' | \
+> +$BB_HASHCLIENT --address "$BB_HASHSERVER" gc-mark-stream "${ALIVE_DB_MAR=
+K}"
+> +
+> +# Remove unmarked and unused entries
+> +if [ "$CLEAN_DB" =3D "true" ]; then
+> +    $BB_HASHCLIENT --address "$BB_HASHSERVER" gc-sweep "${ALIVE_DB_MARK}=
+"
+> +    $BB_HASHCLIENT --address "$BB_HASHSERVER" clean-unused 0
 
-The name of get_patched_cves() is apparently a lie now :)
+The reason for the time is that entries can appear to be unused if
+they are created while a build is in progress and you don't
+necessarily want to remove them. Ideally, this is longer than your
+longest build time. Either way, 0 is probably too aggressive and/or it
+should be configurable on the command line.
 
-Nevertheless, LGTM to me. Thanks.
-
-Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
-
-
-> +        for cve, patched_cve in patched_cves.items():
-> +            decoded_status =3D {
-> +                "mapping": patched_cve["abbrev-status"],
-> +                "detail": patched_cve["status"],
-> +                "description": patched_cve.get("justification", None)
-> +            }
->
->              # If this CVE is fixed upstream, skip it unless all CVEs are
->              # specified.
+> +fi
 > --
 > 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#212644): https://lists.openembedded.org/g/openembedde=
+d-core/message/212644
+> Mute This Topic: https://lists.openembedded.org/mt/111657664/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
