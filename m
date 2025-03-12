@@ -1,251 +1,155 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13CCFC2BA1B
-	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 05:19:17 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web11.30214.1741756754422385172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4902DC28B28
+	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 05:58:17 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.30265.1741759089566058277
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Mar 2025 22:19:14 -0700
+ Tue, 11 Mar 2025 22:58:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Dcfo1nvq;
- spf=pass (domain: mvista.com, ip: 209.85.218.44, mailfrom: vanusuri@mvista.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac2ab99e16eso512603066b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Mar 2025 22:19:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1741756753; x=1742361553; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v1gsQg2bswm9UWRKPklZAVDJvDOd75lXXekJrnVfxIg=;
-        b=Dcfo1nvqAG1YzsY/uzpZ6gTeo5pzB18ZNtJfcSTM91Hcuv9kLWeKm4cf3J/RY0bY+m
-         dvGLcGDo+8bF6wK/n5IYWxlGz/FL+Nq7zz+UrLKysLwXUjb8r52QncPPSjsqBE0rKzcz
-         hyb0FnWvyffj+CpdldNodu02zNK3UCbMMCLJc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741756753; x=1742361553;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v1gsQg2bswm9UWRKPklZAVDJvDOd75lXXekJrnVfxIg=;
-        b=USpTtc7kizIgdsozdDLcbwSRFMKyO0BhtQgHWvBvoXg6Cnvo2Nsjc0f1WdQ7CblC9e
-         jImBnqNXGN954BR5fCJuUJK+Y5NoFghuywvi+8InWw7Dc0DF7YQTthbpS/VfGJvb64fc
-         pOJsIbSsl0I1IizGf3Sgvb2uH9fldIUPnPpMCiLZdLyg9YL2R0wbphYNYG44PPbktirV
-         VdrhPtcFE05WpfKr5NGG7sB4+VT3XLUARQKBNg+l/k+xhoqu1QUIviNsi4Kyw2jJkJbG
-         Nu1VzOmIikK3kOtDEvQL02BokWq/IuUN7NcXzpqYKSliODDRjye6AF95z8j+J+tRfBgZ
-         +kQw==
-X-Gm-Message-State: AOJu0YxdPFYJ8sZKkB8y12ZsZfRkCIx1LsbraBEWOGyOem3Ho3IiG2SS
-	G2n9nCu9dZLi8byDxm+/rQCJIVnS5sBZyXjy+Kkws0GpGdyDrTWXc07TRmgKohC/hOo4y7HfMFP
-	012duO/Ly7sd7hpflU97gCzwEyASIQivn8jJz+A==
-X-Gm-Gg: ASbGnctJYTDlNI8Wa5b0P2MfJ3PcJA04SPgSTveWzr8YAEAqMhlOKxEUNZdzxIwVBxw
-	kjsxMSfWohEcuCt+EVtpSt5DcrrSK7pi1XiEjjRFL/gjEaTbwL9M7ghnPGZQ5k5qJNJrrHhTlm9
-	B5SMDZY7LbAwIV8J6NWlR53KLl4/o3+AMYvwBHaw==
-X-Google-Smtp-Source: AGHT+IHHwzC1bpO1D+a5XgV5y6ZtbrtAsVQlMVjoNga9L7/K7TNLh/DWWjvsTgVPwMHnjlmCCNjKVpSzCGvEIU6pi4s=
-X-Received: by 2002:a17:906:3a85:b0:ac2:7adb:ee3b with SMTP id
- a640c23a62f3a-ac27adbf21emr1589191366b.1.1741756752733; Tue, 11 Mar 2025
- 22:19:12 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=51661f102f=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52C4ii9M030085;
+	Tue, 11 Mar 2025 22:58:06 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45b0j4r6c0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 11 Mar 2025 22:58:06 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 11 Mar 2025 22:58:05 -0700
+Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Tue, 11 Mar 2025 22:58:04 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <JPEWhacker@gmail.com>
+CC: <richard.purdie@linuxfoundation.org>, <mikko.rapeli@linaro.org>
+Subject: [PATCH] lib: spdx30_tasks: remove duplicated patched CVEs
+Date: Wed, 12 Mar 2025 13:58:03 +0800
+Message-ID: <20250312055803.801070-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250311112242.1750761-1-ross.burton@arm.com> <20250311112242.1750761-3-ross.burton@arm.com>
-In-Reply-To: <20250311112242.1750761-3-ross.burton@arm.com>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Wed, 12 Mar 2025 10:48:59 +0530
-X-Gm-Features: AQ5f1JoQEb5fpaiEy3AjRdHvlFhbI5h0YcWXf2QNviB0HgW27l0O796HRzeSTDw
-Message-ID: <CANQUz19SxyTRsA1je40oVM0qoFS2nGznrDV1cvYG55gMB6hxhQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] xserver-xorg: upgrade 21.1.15 -> 21.1.16
-To: ross.burton@arm.com, Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000088476c06301e58ae"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=Cc0I5Krl c=1 sm=1 tr=0 ts=67d1226e cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=Vs1iUdzkB0EA:10 a=24AZYWMyAAAA:8 a=Q4-j1AaZAAAA:8 a=rorgr0BEAAAA:8 a=sMBj6sIwAAAA:8 a=8r2qhXULAAAA:8 a=t7CeM3EgAAAA:8
+ a=dVSUmkUd2pwEVWt61fYA:9 a=bG88sKzkDEFeXWNnvthB:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FuUPMLReglAHmohU_o2S:22 a=8gvLZcY7Nlvl4CGD_6nf:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: wz_11HrpNUuEQgNT8iPILYJ7Ef9D56yM
+X-Proofpoint-GUID: wz_11HrpNUuEQgNT8iPILYJ7Ef9D56yM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-12_02,2025-03-11_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ phishscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ clxscore=1011 impostorscore=0 spamscore=0 bulkscore=0 mlxscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2502280000 definitions=main-2503120039
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 05:19:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212637
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 05:58:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212638
 
---00000000000088476c06301e58ae
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Due to commit [lib: spdx30_tasks: Handle patched CVEs][1] applied,
+duplicated CVE identifier for each CVE which increased +25% build
+time (image task: do_create_image_sbom_spdx)
 
-Thanks Ross.
+$ bitbake binutils-cross-x86_64
+$ jq . tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-binutils-cross-x86_64.spdx.json | grep CVE-2023-25584
+      "spdxId": "http://spdx.org/spdxdocs/binutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc37f04fbe09/962efd5da447b81b017db54d3077be796d2e5b6e770a6b050467b24339c0995f/vulnerability/CVE-2023-25584",
+          "https://rdf.openembedded.org/spdx/3.0/alias": "http://spdxdocs.org/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce7693a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2023-25584"
+          "identifier": "CVE-2023-25584",
+            "https://cveawg.mitre.org/api/cve/CVE-2023-25584",
+            "https://www.cve.org/CVERecord?id=CVE-2023-25584"
+      "spdxId": "http://spdx.org/spdxdocs/binutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc37f04fbe09/962efd5da447b81b017db54d3077be796d2e5b6e770a6b050467b24339c0995f/vulnerability/CVE-2023-25584",
+          "https://rdf.openembedded.org/spdx/3.0/alias": "http://spdxdocs.org/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce7693a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2023-25584"
+          "identifier": "CVE-2023-25584",
+            "https://cveawg.mitre.org/api/cve/CVE-2023-25584",
+            "https://www.cve.org/CVERecord?id=CVE-2023-25584"
 
-Hi Steve,
+Since the commit [cve-check: annotate CVEs during analysis][2] improved
+function get_patched_cves to:
+- Check each patch file;
+- Search for additional patched CVEs from CVE_STATUS;
 
-Can you please merge this patch series to stable branch scarthgap along
-with below commit
+And return dictionary patched_cve for each cve:
+{
+  "abbrev-status": "xxx",
+  "status": "xxx",
+  "justification": "xxx",
+  "resource": "xxx",
+  "affected-vendor": "xxx",
+  "affected-product": "xxx",
+}
 
-https://git.openembedded.org/openembedded-core/commit/?id=3Dba94110d70ebfb1=
-b4798ecf05389f7ea602b1f55
+But while adding CVE in meta/lib/oe/spdx30_tasks.py, the cve_by_status
+requires decoded_status
+{
+  "mapping": "xxx",
+  "detail": "xxx",
+  "description": "xxx",
+}
 
-Thanks & Regards,
-Vijay
+This commit converts patched_cve to decoded_status
 
-On Tue, Mar 11, 2025 at 4:52=E2=80=AFPM Ross Burton via lists.openembedded.=
-org
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
+  patched_cve["abbrev-status"] --> decoded_status["mapping"]
+  patched_cve["status"] --> decoded_status["detail"]
+  patched_cve["justification"] --> decoded_status["description"]
 
-> From: Vijay Anusuri <vanusuri@mvista.com>
->
-> Includes security fix
->
->   * CVE-2025-26594
->   * CVE-2025-26595
->   * CVE-2025-26596
->   * CVE-2025-26597
->   * CVE-2025-26598
->   * CVE-2025-26599
->   * CVE-2025-26600
->   * CVE-2025-26601
->
-> Ref: https://lists.x.org/archives/xorg-announce/2025-February/003584.html
->      https://lists.x.org/archives/xorg-announce/2025-February/003585.html
->
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> ---
->  .../{xserver-xorg_21.1.15.bb =3D> xserver-xorg_21.1.16.bb}        | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.15.bb =3D>
-> xserver-xorg_21.1.16.bb} (92%)
->
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.15.bb
-> b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
-> similarity index 92%
-> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.15.bb
-> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
-> index 080e6d220ed..38c81f2372d 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.15.bb
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
-> @@ -3,7 +3,7 @@ require xserver-xorg.inc
->  SRC_URI +=3D
-> "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
->             file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
->             "
-> -SRC_URI[sha256sum] =3D
-> "841c82901282902725762df03adbbcd68153d4cdfb0d61df0cfd73ad677ae089"
-> +SRC_URI[sha256sum] =3D
-> "b14a116d2d805debc5b5b2aac505a279e69b217dae2fae2dfcb62400471a9970"
->
->  # These extensions are now integrated into the server, so declare the
-> migration
->  # path for in-place upgrades.
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#212562):
-> https://lists.openembedded.org/g/openembedded-core/message/212562
-> Mute This Topic: https://lists.openembedded.org/mt/111637850/7301997
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> vanusuri@mvista.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+And remove duplicated search for additional patched CVEs from CVE_STATUS
+(calling oe.cve_check.decode_cve_status)
 
---00000000000088476c06301e58ae
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+After applying this commit
+$ bitbake binutils-cross-x86_64
+$ jq . tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-binutils-cross-x86_64.spdx.json | grep CVE-2023-25584
+      "spdxId": "http://spdx.org/spdxdocs/binutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc37f04fbe09/381bf593d99c005ecd2c2e0815b86bca2b9ff4cc2db59587aaddd3db95c67470/vulnerability/CVE-2023-25584",
+          "https://rdf.openembedded.org/spdx/3.0/alias": "http://spdxdocs.org/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce7693a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2023-25584"
+          "identifier": "CVE-2023-25584",
+            "https://cveawg.mitre.org/api/cve/CVE-2023-25584",
+            "https://www.cve.org/CVERecord?id=CVE-2023-25584"
 
-<div dir=3D"ltr"><div><div><div>Thanks Ross.<br><br></div>Hi Steve,<br><br>=
-</div>Can you please merge this patch series to stable branch scarthgap alo=
-ng with below commit<br><br><a href=3D"https://git.openembedded.org/openemb=
-edded-core/commit/?id=3Dba94110d70ebfb1b4798ecf05389f7ea602b1f55">https://g=
-it.openembedded.org/openembedded-core/commit/?id=3Dba94110d70ebfb1b4798ecf0=
-5389f7ea602b1f55</a><br><br></div><div>Thanks &amp; Regards,</div><div>Vija=
-y</div></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Tue, Mar 11, 2025 at 4:52=E2=80=AFPM Ross =
-Burton via <a href=3D"http://lists.openembedded.org">lists.openembedded.org=
-</a> &lt;ross.burton=3D<a href=3D"mailto:arm.com@lists.openembedded.org">ar=
-m.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">From: Vijay Anusuri &lt;<a href=3D"mailto:vanus=
-uri@mvista.com" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-<br>
-Includes security fix<br>
-<br>
-=C2=A0 * CVE-2025-26594<br>
-=C2=A0 * CVE-2025-26595<br>
-=C2=A0 * CVE-2025-26596<br>
-=C2=A0 * CVE-2025-26597<br>
-=C2=A0 * CVE-2025-26598<br>
-=C2=A0 * CVE-2025-26599<br>
-=C2=A0 * CVE-2025-26600<br>
-=C2=A0 * CVE-2025-26601<br>
-<br>
-Ref: <a href=3D"https://lists.x.org/archives/xorg-announce/2025-February/00=
-3584.html" rel=3D"noreferrer" target=3D"_blank">https://lists.x.org/archive=
-s/xorg-announce/2025-February/003584.html</a><br>
-=C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.x.org/archives/xorg-announce/2=
-025-February/003585.html" rel=3D"noreferrer" target=3D"_blank">https://list=
-s.x.org/archives/xorg-announce/2025-February/003585.html</a><br>
-<br>
-Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" tar=
-get=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
----<br>
-=C2=A0.../{<a href=3D"http://xserver-xorg_21.1.15.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">xserver-xorg_21.1.15.bb</a> =3D&gt; <a href=3D"http://xserv=
-er-xorg_21.1.16.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.=
-16.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-graphics/xorg-xserver/{<a href=3D"http://xserver-=
-xorg_21.1.15.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.15.=
-bb</a> =3D&gt; <a href=3D"http://xserver-xorg_21.1.16.bb" rel=3D"noreferrer=
-" target=3D"_blank">xserver-xorg_21.1.16.bb</a>} (92%)<br>
-<br>
-diff --git a/meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-x=
-org_21.1.15.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.15.b=
-b</a> b/meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-xorg_2=
-1.1.16.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.16.bb</a>=
-<br>
-similarity index 92%<br>
-rename from meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-xo=
-rg_21.1.15.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.15.bb=
-</a><br>
-rename to meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-xorg=
-_21.1.16.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.16.bb</=
-a><br>
-index 080e6d220ed..38c81f2372d 100644<br>
---- a/meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-xorg_21.=
-1.15.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.15.bb</a><b=
-r>
-+++ b/meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-xorg_21.=
-1.16.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.16.bb</a><b=
-r>
-@@ -3,7 +3,7 @@ require xserver-xorg.inc<br>
-=C2=A0SRC_URI +=3D &quot;file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pr=
-e-gen4-hardwar.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Avoid-duplicate-defin=
-itions-of-IOPortBase.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
--SRC_URI[sha256sum] =3D &quot;841c82901282902725762df03adbbcd68153d4cdfb0d6=
-1df0cfd73ad677ae089&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;b14a116d2d805debc5b5b2aac505a279e69b217dae2fa=
-e2dfcb62400471a9970&quot;<br>
-<br>
-=C2=A0# These extensions are now integrated into the server, so declare the=
- migration<br>
-=C2=A0# path for in-place upgrades.<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#212562): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/212562" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/212562</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/111637850/730=
-1997" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/111637850/7301997</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:vanusuri@mvista.com" targe=
-t=3D"_blank">vanusuri@mvista.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+[1] https://git.openembedded.org/openembedded-core/commit/?id=1ff496546279d8a97df5ec475007cfb095c2a0bc
+[2] https://git.openembedded.org/openembedded-core/commit/?id=452e605b55ad61c08f4af7089a5a9c576ca28f7d
 
---00000000000088476c06301e58ae--
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/lib/oe/spdx30_tasks.py | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
+
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index e20bb0c86f3..3d80f05612f 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -498,18 +498,13 @@ def create_spdx(d):
+     # Add CVEs
+     cve_by_status = {}
+     if include_vex != "none":
+-        for cve in oe.cve_check.get_patched_cves(d):
+-            spdx_cve = build_objset.new_cve_vuln(cve)
+-            build_objset.set_element_alias(spdx_cve)
+-
+-            cve_by_status.setdefault("Patched", {})[cve] = (
+-                spdx_cve,
+-                "patched",
+-                "",
+-            )
+-
+-        for cve in d.getVarFlags("CVE_STATUS") or {}:
+-            decoded_status = oe.cve_check.decode_cve_status(d, cve)
++        patched_cves = oe.cve_check.get_patched_cves(d)
++        for cve, patched_cve in patched_cves.items():
++            decoded_status = {
++                "mapping": patched_cve["abbrev-status"],
++                "detail": patched_cve["status"],
++                "description": patched_cve.get("justification", None)
++            }
+ 
+             # If this CVE is fixed upstream, skip it unless all CVEs are
+             # specified.
+-- 
+2.34.1
+
 
