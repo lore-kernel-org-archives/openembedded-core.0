@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A142C35FF2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91771C35FF1
 	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:56:27 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web10.4562.1741809382102474856
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.4561.1741809381904640800
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 12:56:22 -0700
+ Wed, 12 Mar 2025 12:56:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=n0QTno5s;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2ff6ae7667dso632843a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:56:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JxtYgTnS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22401f4d35aso4633845ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:56:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809381; x=1742414181; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jDZZDwW1eMZ3z1M58WPbv0FrrbMdrP6OXFRNwKq4tSY=;
-        b=n0QTno5s0l70I62rcONok3n9132kd8AA5hSsiLiADs8ia1r74L6gKZa68aKnn9OH8w
-         2UhwjKOOVXevKQUGaFBXtwohxWZwL/Fu3GKPEorhkDMvS9fxZg7N6eLDydHBhOYJMIrj
-         Z2E7IHqXPCUQ6yptkGhuB2QSn9d1/Wqx1Sm2yy2ifYW7Z3z8c1F0rqJ7d0YEvrivlnaY
-         M1C7AsyYWI0c+rMi/ryRO7FAS/sYWLP9PuZ86dwozjjxlQKSs8wr1AISTlr4bwqftR4s
-         Uh43nwMm4YnEF6ts0juzXG3EGVef+EI22OvgD08GcvXuykV/l76cf9q4Z1aqH3cooJwD
-         2pWQ==
+        bh=01BfnFctnzUzL7xhjNoXRVdzWijj1LaOv/5VT1VEaRU=;
+        b=JxtYgTnSMnJZs3c+iGH57undmVQCcK/QDUcLIMko8E+Jp2B4ZhjcQQALsXvUozRoUH
+         A8bjWlDL2SBVod7EsvZM0geeNPEb2M1YYOzGwkau5Hn5t7iJq2Xn6q2HZwee8pEBeN+3
+         uqNf9mLqCHO3fYErhS9wd4LWWY8lEPe9bxYzNmDN75QBVzusU0ZrNHZHlR28w1/7zGsU
+         Os7hLCH/xxUxVCHvu6ot/s/LYt1YqCyIU+s76lQVrUo+i/piKAvazeGpZviZOZoPq2jJ
+         2Y94TZ2ZW+9HIqOj/DTeZwMkujldXs/WrNH86LAiXbSoTDQarwvTZhTgIQPEizAhsTiS
+         8XbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1741809381; x=1742414181;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jDZZDwW1eMZ3z1M58WPbv0FrrbMdrP6OXFRNwKq4tSY=;
-        b=DkKB/YfaMyMwOlvoR1/3yxJ7OFThUpdyT2e25fMt4TJ4A8Jve8lc1qDp3zSxBS8Il7
-         g32BkAIWUBGsT8zJgIc2L0hLprqG8G7bQhSrP88jy+iyX/qjcR6p1m3z1MrxTczZJZSq
-         3yrxw8a2tsPSWVyjC3ojdxM6qHMcXgsdkkljiUNEuNOLf/pTvxa/Y++2BmD54GA4hOUk
-         9BI9lFAXucsOExdXnhC3RiuHjGwbJLcoWdGp/GUVuly4elSJTCor96ueGjueYPIhcelT
-         6bG37sz3FkGkjL6xe7zBNDnvatQTSNqA7qsyu3r6ZV+Mo5JjGzw2TIeySvjECME0iRYl
-         KJnA==
-X-Gm-Message-State: AOJu0YwXKoBlYGJCis0GBfdXhKXHqDhGe6Gk5ZcYYz7JcXh9maMHz44o
-	VOgt0SH2GUOS9+VBXUmNGA8yPhFb2kYMdZvM4nnFJIvyzKIWWBfW2tcL5eKvGbXtm9IIEOF+n4m
+        bh=01BfnFctnzUzL7xhjNoXRVdzWijj1LaOv/5VT1VEaRU=;
+        b=Y2vcrAzgFsHvzXZObqjsxgzG+MS9NV/6jzYa/4KZWAiuXx+E8KnCYYT5KE8LTrHVrp
+         ulSlpJ63TyQ8P87QmLHv2zRhbxEuo4YI6OD+hMuXB3FuU7pmO8sz8WOTW38jvsup84vH
+         ax6idoC1ZGgQQZh/E1+rT55b+/04AQmHCU4YLRJY+qX0FFYLMP1MmZc4A/CZYWSMYc/D
+         SYVfwjwoK9oNoGxv2n/G05pU7S7/kdlNFFbWNP/4euqQU4Hb3zpCBwRbM0y3Yc6GrZUE
+         ZJvwpnL5LBwl/U+1JaArLd7LsHR3ZR5SXoVVXd7fvcU6eyTgqbNX7os9MOGi60c0NQKQ
+         /WFg==
+X-Gm-Message-State: AOJu0Yw7arb5xR4u94gvtpXVz3mx91WW7cjg0wrvkLrlehRXfrKW/6qS
+	WRTRXZddtb9uotrWsPXHbSz+R5OhjHhXNZW+ed2pSIetODyZDITSOVvBG3/CI6Zry6NI9TknGM0
 	/
-X-Gm-Gg: ASbGncsD/3af8KtPG0TYTQtJy4c24wnKITWDMwA0AxUo5OH3Qo/uNaq5RtN5GJcXqHb
-	PRgTd07oOkeqouE2Hfyjwex4TH9VGJ5uFiHy3uNG/x9LrnCZlvzeCkLCVx4096cvEv5Ntcb+LiZ
-	zk0Qa0zipa/xFgD3WxTEZBtCA/vvWebGdh+HNXp0TdzcU6VmSDHv/2uLUhxwRaZoQRZqczNvWmM
-	fnrZNWZSXhGoBDYL3ng00uAWDM45i7+JqNeUpUefSkAxPrNvoslCPvSmmtTrrwJQT+MlhclU8xo
-	QPUtj4hGkbUA0Y+kCHDZs3jiD1jpywDqe3Q=
-X-Google-Smtp-Source: AGHT+IGqXfmk+eqtJZtUbsoGYd8xboGTWMnObLWI7JFmE4T/laWui+Jv3d9pYQdry+kfTCGKgfX+vA==
-X-Received: by 2002:a05:6a20:6f88:b0:1f3:2c55:8d8a with SMTP id adf61e73a8af0-1f544aedaebmr33823842637.12.1741809381353;
-        Wed, 12 Mar 2025 12:56:21 -0700 (PDT)
+X-Gm-Gg: ASbGncubAD9qDPHvFAINRDisHnQTWE/Urb6Z75iLhzNp9h6mTnhDMCokuGMXyUHK7tP
+	JLuyDDFfSnG6nlyVc3gvuvf3mVtlCCoIAf4955zCMCq86195VAdC0V6Q50X/6gY1BHrDXfeRM+w
+	ucYvExzzkU7/spHpcyU6ocwMFj2/ccjKQHfsAEMVj0ulouGE05kqywf8tTQCRhwH4WB0k6cixl5
+	cTl+MXMNndBVNAO6aW7MHebjOR12pZRdTLEhAY8LXOS0HCZAVUABpnLUWxOH1tqPprWLmnkyCSc
+	oatDwrSD7OZqd31IDE8l69+HVn5dNq7CDa8=
+X-Google-Smtp-Source: AGHT+IGpHVTxRXHwcCDSE2HcYLdKoKWwvEWIfc03Zl8t604fInwQBErlxFbz0fhP7Vn1MkyT5dh0cA==
+X-Received: by 2002:a05:6a20:ce4b:b0:1ee:e96a:d9ed with SMTP id adf61e73a8af0-1f58cad4a5dmr14187775637.7.1741809379744;
+        Wed, 12 Mar 2025 12:56:19 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5779:a397:ba1c:2b0])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af281287c10sm9830332a12.78.2025.03.12.12.56.20
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af281287c10sm9830332a12.78.2025.03.12.12.56.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 12:56:21 -0700 (PDT)
+        Wed, 12 Mar 2025 12:56:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 16/28] grub: patch CVE-2024-45777
-Date: Wed, 12 Mar 2025 12:55:37 -0700
-Message-ID: <2ec4bcda16b92cabf7cf5cb7c68cbe45da269364.1741809252.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 15/28] grub: patch CVE-2024-45776
+Date: Wed, 12 Mar 2025 12:55:36 -0700
+Message-ID: <e1e13086f38b021a8aabfe8d044b5755d62ee846.1741809252.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741809252.git.steve@sakoman.com>
 References: <cover.1741809252.git.steve@sakoman.com>
@@ -67,7 +67,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:56:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212710
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212709
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -76,83 +76,65 @@ Cherry-pick patch mentioning this CVE.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../grub/files/CVE-2024-45777.patch           | 57 +++++++++++++++++++
+ .../grub/files/CVE-2024-45776.patch           | 39 +++++++++++++++++++
  meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45777.patch
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45776.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2024-45777.patch b/meta/recipes-bsp/grub/files/CVE-2024-45777.patch
+diff --git a/meta/recipes-bsp/grub/files/CVE-2024-45776.patch b/meta/recipes-bsp/grub/files/CVE-2024-45776.patch
 new file mode 100644
-index 0000000000..0305a95fd5
+index 0000000000..8deea958b8
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2024-45777.patch
-@@ -0,0 +1,57 @@
-+From b970a5ed967816bbca8225994cd0ee2557bad515 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-bsp/grub/files/CVE-2024-45776.patch
+@@ -0,0 +1,39 @@
++From 09bd6eb58b0f71ec273916070fa1e2de16897a91 Mon Sep 17 00:00:00 2001
 +From: Lidong Chen <lidong.chen@oracle.com>
-+Date: Fri, 22 Nov 2024 06:27:57 +0000
-+Subject: [PATCH] gettext: Integer overflow leads to heap OOB write
++Date: Fri, 22 Nov 2024 06:27:56 +0000
++Subject: [PATCH] gettext: Integer overflow leads to heap OOB write or read
 +
-+The size calculation of the translation buffer in
-+grub_gettext_getstr_from_position() may overflow
-+to 0 leading to heap OOB write. This patch fixes
-+the issue by using grub_add() and checking for
-+an overflow.
++Calculation of ctx->grub_gettext_msg_list size in grub_mofile_open() may
++overflow leading to subsequent OOB write or read. This patch fixes the
++issue by replacing grub_zalloc() and explicit multiplication with
++grub_calloc() which does the same thing in safe manner.
 +
-+Fixes: CVE-2024-45777
++Fixes: CVE-2024-45776
 +
 +Reported-by: Nils Langius <nils@langius.de>
 +Signed-off-by: Lidong Chen <lidong.chen@oracle.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +Reviewed-by: Alec Brown <alec.r.brown@oracle.com>
 +
-+CVE: CVE-2024-45777
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=b970a5ed967816bbca8225994cd0ee2557bad515]
++CVE: CVE-2024-45776
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=09bd6eb58b0f71ec273916070fa1e2de16897a91]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ grub-core/gettext/gettext.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
++ grub-core/gettext/gettext.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
 +diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
-+index 63bb1ab73..9ffc73428 100644
++index e4f4f8ee6..63bb1ab73 100644
 +--- a/grub-core/gettext/gettext.c
 ++++ b/grub-core/gettext/gettext.c
-+@@ -26,6 +26,7 @@
-+ #include <grub/file.h>
-+ #include <grub/kernel.h>
-+ #include <grub/i18n.h>
-++#include <grub/safemath.h>
++@@ -323,8 +323,8 @@ grub_mofile_open (struct grub_gettext_context *ctx,
++   for (ctx->grub_gettext_max_log = 0; ctx->grub_gettext_max >> ctx->grub_gettext_max_log;
++        ctx->grub_gettext_max_log++);
 + 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -99,6 +100,7 @@ grub_gettext_getstr_from_position (struct grub_gettext_context *ctx,
-+   char *translation;
-+   struct string_descriptor desc;
-+   grub_err_t err;
-++  grub_size_t alloc_sz;
-+ 
-+   internal_position = (off + position * sizeof (desc));
-+ 
-+@@ -109,7 +111,10 @@ grub_gettext_getstr_from_position (struct grub_gettext_context *ctx,
-+   length = grub_cpu_to_le32 (desc.length);
-+   offset = grub_cpu_to_le32 (desc.offset);
-+ 
-+-  translation = grub_malloc (length + 1);
-++  if (grub_add (length, 1, &alloc_sz))
-++    return NULL;
-++
-++  translation = grub_malloc (alloc_sz);
-+   if (!translation)
-+     return NULL;
-+ 
++-  ctx->grub_gettext_msg_list = grub_zalloc (ctx->grub_gettext_max
++-					    * sizeof (ctx->grub_gettext_msg_list[0]));
+++  ctx->grub_gettext_msg_list = grub_calloc (ctx->grub_gettext_max,
+++					    sizeof (ctx->grub_gettext_msg_list[0]));
++   if (!ctx->grub_gettext_msg_list)
++     {
++       grub_file_close (fd);
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index e4dca6613c..fb33c2bd98 100644
+index 3c8860948c..e4dca6613c 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -31,6 +31,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+@@ -30,6 +30,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2025-0622-01.patch \
             file://CVE-2025-0622-02.patch \
             file://CVE-2025-0622-03.patch \
-            file://CVE-2024-45776.patch \
-+           file://CVE-2024-45777.patch \
++           file://CVE-2024-45776.patch \
  "
  
  SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154cb9c91"
