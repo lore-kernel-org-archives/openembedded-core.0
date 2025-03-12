@@ -1,218 +1,126 @@
-Return-Path: <rs@ti.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD039C28B28
-	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 20:15:57 +0000 (UTC)
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by mx.groups.io with SMTP id smtpd.web10.5043.1741810548046047528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F4BC28B28
+	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 20:20:58 +0000 (UTC)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+ by mx.groups.io with SMTP id smtpd.web10.5158.1741810849740076906
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 13:15:48 -0700
+ Wed, 12 Mar 2025 13:20:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=lVsCllBj;
- spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52CKFVL91160358
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 12 Mar 2025 15:15:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1741810531;
-	bh=Ta9YN3lGmnM1aLvafm51bsuyNc1XkYmA4uTG3hP/xp4=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=lVsCllBjjLOLVO4Vlx7ZyRIk933ifpfRN6BN7P7KrpNKgDsySVDcrRHTLG97C7kAg
-	 5Wd9xyF23FZyAQOMf3iHfBMlNOzO/kWq6jz1l5iYpVvJSAsv3aZ5bwLlbWRP4HHThj
-	 GNCN5ufWZWSh+nZuJ3Uz9gW2pGBA6y9iyX7hUjkE=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 52CKFVoU021625
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 12 Mar 2025 15:15:31 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 12
- Mar 2025 15:15:30 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 12 Mar 2025 15:15:30 -0500
-Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52CKFUNF013021;
-	Wed, 12 Mar 2025 15:15:30 -0500
-From: <rs@ti.com>
-To: <otavio.salvador@ossystems.com.br>, <alex.kanavin@gmail.com>
-CC: <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
-        <alex@linutronix.de>, <otavio@ossystems.com.br>,
-        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
-        <denis@denix.org>, <reatmon@ti.com>,
-        <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][scarthgap][RFC 1/2] emptty: add version 0.13.0
-Date: Wed, 12 Mar 2025 15:13:16 -0500
-Message-ID: <20250312201316.1060199-3-rs@ti.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250312201316.1060199-2-rs@ti.com>
-References: <20250312201316.1060199-2-rs@ti.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TWrrU+Yy;
+ spf=pass (domain: gmail.com, ip: 209.85.167.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3f9eeca67c5so94047b6e.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 13:20:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741810849; x=1742415649; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AvtHmmTaco7ajzz5FTqrVQoY0Zeomzx/JerihhDzH88=;
+        b=TWrrU+YyFxu6/A0fKKfgX87TXK1ubsQ/pTzZHbyj6BSW7mMvBXMw46svRjux+L9YYp
+         TDE6YfYx3dFL1LyFFY7RBOyb2FXtiRrUTaJszIkyXmaoFmBL5fb5AjhLM8WcqQ0ik7fo
+         O6IEjf1K3Km+vHb4uMXxUwE/hqUUGHssyuk9AF5vy9wNGwOnuDyyPhvyQXBnTlXkjYAC
+         fxuDemeI8objw1ESn9+bHvTnTPh5I0MBRHnoSdeVZbSws5KrVAOq+2o4ImQ6dHHHwHm/
+         u9cpza64sGuhp40Zx8e6dvg9dxXTg813I5c1nqps7itEoxUgKN/02gdZrRRr7DLy9GRv
+         JMrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741810849; x=1742415649;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AvtHmmTaco7ajzz5FTqrVQoY0Zeomzx/JerihhDzH88=;
+        b=i5FBCqSTnuIH+u4qJhwiASDscJkgLs/46c17fLJmBQJRkra1D7h/sA+MLVJXJrGLI8
+         WaE3CtVOyxgm7ZomACC94OZcnhwNavF0SizGaVmG1VnuAlSaBiEjIA82pXrG0Bca5s2V
+         DpUPKhPLXWFgjIC+K7FI3Pd4DmVhDi8isBWO87nPQwLizucKQ1GKGQ/G0DdaRI70AuoV
+         5QyDQYe2dzE4G0uWMiisXj8vQQSMqjgLmO7J35IZBAr7tQ0O/AQiq71LEly/s2dPi+Sm
+         iQfIMCURZ1acWhziH0S7jMu4faDjf/Dqqjm04K4OA0HrkqeTyRula1CrnnNZOVe6i70/
+         aAgg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0q2ylN1ZnZDAMtI+UY+Q5QscLgZaFP3C3aFPVqIMDIqK1mTuyUjIbciiT/smugwVV0/YQOTW9/sQ/sZaLVuvfBQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwAszAGTN7e2rt9C+C1AgwC29ugREnRO3GyQZbec4xkHlpVnhny
+	Wpe8GwnHvg3Yz5jQkdrQRJsRJw0IizPKpJR358asDtVWm3tVUCnbfQWoZvbJnAKIlGRUW8JLD9R
+	xlJ5PJMXzhprTv+nRvDazC761hPE=
+X-Gm-Gg: ASbGncumMS/24IdNkcYc3YZourqMFG+IiFMyiUZ2W8pDR2tlSL81XKLGIxyvZuXAKI+
+	jvoWa077CTYi8yM01o69Y2Ff3BvDn87JArDvqUciFiXvUiwDdSIjs3xT434OMrmIdtrW+5LBNfI
+	ZrmYD2OlxcPdlVsENCqKQBRToCeTBd2zslUtdVa/1iAYwm2ZLOI9j4A6w=
+X-Google-Smtp-Source: AGHT+IFi3YWt23tk9tXr7XY7ncBFDDpui2PJCB6Y7VDPpqlxASwhkR+8xqhfQ8eNr3BFHo05oH4urDHs4tT60BLKaJs=
+X-Received: by 2002:a05:6808:2511:b0:3fa:adc7:1ec with SMTP id
+ 5614622812f47-3faadc705bamr4066163b6e.18.1741810848781; Wed, 12 Mar 2025
+ 13:20:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <20250312123610.4018764-1-alex.kanavin@gmail.com>
+ <20250312123610.4018764-2-alex.kanavin@gmail.com> <ad57ccc7a58787ef153e08802fbcaacc1119b0f8.camel@linuxfoundation.org>
+In-Reply-To: <ad57ccc7a58787ef153e08802fbcaacc1119b0f8.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 12 Mar 2025 13:20:22 -0700
+X-Gm-Features: AQ5f1Jpxt2es_m-Mq5gZ1m84i7Ndzi4C6k_hXd1iKz2lKPsZWC1156ZbJFX_FKE
+Message-ID: <CAMKF1spKOca7kCEGZiSRXmWOdGVk7Lz79RDo43t7e_tQVLK2Fg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] glib-2.0: address ptest failures
+To: richard.purdie@linuxfoundation.org
+Cc: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 20:15:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212727
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 20:20:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212728
 
-From: Randolph Sapp <rs@ti.com>
+On Wed, Mar 12, 2025 at 10:35=E2=80=AFAM Richard Purdie via
+lists.openembedded.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+>
+> On Wed, 2025-03-12 at 13:36 +0100, Alexander Kanavin via lists.openembedd=
+ed.org wrote:
+> > From: Alexander Kanavin <alex@linutronix.de>
+> >
+> > Particularly:
+> > - one of the tests requires a C.utf-8 locale
+> > - another needs .gir files to be installed
+> >
+> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > ---
+> >  meta/recipes-core/glib-2.0/glib.inc | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/gl=
+ib-2.0/glib.inc
+> > index c6e2d6e1a0a..1e22a59ffa7 100644
+> > --- a/meta/recipes-core/glib-2.0/glib.inc
+> > +++ b/meta/recipes-core/glib-2.0/glib.inc
+> > @@ -157,7 +157,8 @@ CODEGEN_PYTHON_RDEPENDS:mingw32 =3D ""
+> >
+> >  RDEPENDS:${PN}-codegen +=3D "${CODEGEN_PYTHON_RDEPENDS}"
+> >
+> > -RDEPENDS:${PN}-ptest +=3D "${PN}-utils"
+> > +RDEPENDS:${PN}-ptest +=3D "${PN}-utils ${PN}-dev locale-base-c"
+> > +INSANE_SKIP:${PN}-ptest =3D "dev-deps"
+> >
+>
+> Probably needs a libc override as it breaks musl:
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/1183
 
-Add emptty, a "Dead simple CLI Display Manager on TTY". This is a
-relatively lightweight display manager that supports x11 as well as
-wayland though both a CLI and automatic login mechanism.
+Does it work with locale-base-en-us ? if so then we can use that
+across both libcs
 
-This can effetely replace the custom init scripts for both x11
-(xserver-nodm-init) and wayland (weston-init) with a single tool with
-more verbose logging capabilities.
-
-Signed-off-by: Randolph Sapp <rs@ti.com>
----
- meta/recipes-graphics/emptty/emptty/init      | 26 +++++++
- meta/recipes-graphics/emptty/emptty/pamconf   | 10 +++
- meta/recipes-graphics/emptty/emptty_0.13.0.bb | 78 +++++++++++++++++++
- 3 files changed, 114 insertions(+)
- create mode 100644 meta/recipes-graphics/emptty/emptty/init
- create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
- create mode 100644 meta/recipes-graphics/emptty/emptty_0.13.0.bb
-
-diff --git a/meta/recipes-graphics/emptty/emptty/init b/meta/recipes-graphics/emptty/emptty/init
-new file mode 100644
-index 0000000000..52493142cd
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty/init
-@@ -0,0 +1,26 @@
-+#!/bin/sh
-+
-+PIDFILE=/var/run/emptty.pid
-+
-+# source function library
-+. /etc/init.d/functions
-+
-+case "$1" in
-+	start)
-+		echo "Starting display manager: emptty"
-+		start-stop-daemon -S -p $PIDFILE -x /usr/bin/emptty
-+		;;
-+	stop)
-+		echo "Stopping display manager: emptty"
-+		start-stop-daemon -S -p $PIDFILE -x /usr/bin/emptty
-+		;;
-+	restart)
-+		start-stop-daemon -K -p $PIDFILE --oknodo -x /usr/bin/emptty
-+		sleep 2
-+		start-stop-daemon -S -p $PIDFILE -x /usr/bin/emptty
-+		;;
-+	*)
-+		echo "usage: $0 { start | stop | restart }"
-+		;;
-+esac
-+
-diff --git a/meta/recipes-graphics/emptty/emptty/pamconf b/meta/recipes-graphics/emptty/emptty/pamconf
-new file mode 100644
-index 0000000000..9cbfd6c4a5
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty/pamconf
-@@ -0,0 +1,10 @@
-+#%PAM-1.0
-+auth            sufficient      pam_succeed_if.so user ingroup nopasswdlogin
-+auth            include         common-auth
-+-auth           optional        pam_gnome_keyring.so
-+-auth           optional        pam_kwallet5.so
-+account         include         common-account
-+session         include         common-session
-+-session        optional        pam_gnome_keyring.so auto_start
-+-session        optional        pam_kwallet5.so auto_start force_run
-+password        include         common-password
-diff --git a/meta/recipes-graphics/emptty/emptty_0.13.0.bb b/meta/recipes-graphics/emptty/emptty_0.13.0.bb
-new file mode 100644
-index 0000000000..7129426d71
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty_0.13.0.bb
-@@ -0,0 +1,78 @@
-+SUMMARY = "Dead simple CLI Display Manager on TTY"
-+HOMEPAGE = "https://github.com/tvrzna/emptty"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=d1e4d12c7d1d17367ba5668706a405ba"
-+
-+GO_IMPORT = "github.com/tvrzna/emptty"
-+GO_IMPORT_pam = "github.com/msteinert/pam"
-+SRC_URI = "\
-+    git://${GO_IMPORT}.git;protocol=https;branch=master \
-+    git://${GO_IMPORT_pam}.git;protocol=https;branch=master;name=pam;destsuffix=${S}/src/${GO_IMPORT_pam} \
-+    file://pamconf \
-+    "
-+SRCREV = "4046552b6f5cc1cf76ce8bf333e04e16c59febca"
-+SRCREV_pam = "50ded1b0e7864b9bf75005eb945a8ec826bcf69d"
-+
-+SRCREV_FORMAT .= "_pam"
-+
-+PACKAGES:append = " ${PN}-conf"
-+
-+PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam x11', d)}"
-+PACKAGECONFIG[pam] = ",,libpam"
-+PACKAGECONFIG[x11] = ",,virtual/libx11"
-+
-+GO_TAGS = ""
-+GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', ',nopam', d)}"
-+GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', '', ',noxlib', d)}"
-+
-+GOBUILDFLAGS:append = " -tags=${GO_TAGS}"
-+
-+export GO111MODULE="off"
-+
-+inherit go systemd
-+
-+DEPENDS:append = " gzip"
-+
-+do_install () {
-+    # general collateral
-+    install -Dm755 ${B}/${GO_BUILD_BINDIR}/emptty ${D}${bindir}/emptty
-+    oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-config
-+    install -d ${D}${mandir}/man1
-+    gzip -cn ${S}/src/${GO_IMPORT}/res/emptty.1 > ${D}${mandir}/man1/emptty.1.gz
-+
-+    # pam config
-+    if "${@bb.utils.contains('PACKAGECONFIG','pam','true','false',d)}"
-+    then
-+        install -Dm644 ${WORKDIR}/pamconf ${D}${sysconfdir}/pam.d/emptty
-+    fi
-+
-+    # init services
-+    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}
-+    then
-+        oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-systemd
-+    else
-+        install -Dm755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/emptty
-+    fi
-+}
-+
-+FILES:${PN} = "\
-+    ${systemd_system_unitdir}/emptty.service \
-+    ${sysconfdir}/init.d/emptty \
-+    ${bindir}/emptty \
-+    ${mandir}/man1/emptty.1.gz \
-+    ${sysconfdir}/pam.d/emptty \
-+"
-+
-+FILES:${PN}-conf:append = " ${sysconfdir}/emptty/conf"
-+CONFFILES:${PN}-conf:append = " ${sysconfdir}/emptty/conf"
-+RPROVIDES:${PN}-conf:append = " virtual-emptty-conf"
-+
-+RDEPENDS:${PN}:append = " virtual-emptty-conf pam-plugin-succeed-if"
-+
-+SYSTEMD_SERVICE:${PN} = "emptty.service"
-+
-+INITSCRIPT_NAME = "emptty"
-+INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
-+INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
-+
-+inherit update-rc.d systemd
--- 
-2.48.1
-
+>
+> Cheers,
+>
+> Richard
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#212661): https://lists.openembedded.org/g/openembedde=
+d-core/message/212661
+> Mute This Topic: https://lists.openembedded.org/mt/111658599/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
