@@ -1,220 +1,97 @@
-Return-Path: <c137.marques@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADA51C28B28
-	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 11:28:38 +0000 (UTC)
-Subject: Re: [PATCH v2] scripts: Add clean-hashserver-database script
-To: openembedded-core@lists.openembedded.org
-From: "Alexandre Marques" <c137.marques@gmail.com>
-X-Originating-Location: Vila Nova de Foz Coa, Guarda, PT (213.205.68.220)
-X-Originating-Platform: Linux Firefox 135
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D8BC28B30
+	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 11:42:48 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web11.35119.1741779766513643328
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 12 Mar 2025 04:42:46 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=T9bgZNlw;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6dd01781b56so72673686d6.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 04:42:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741779765; x=1742384565; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VkDphvzaAzZJCC34jrbfTxKmn3v0c8I2Rh5Daa+0ORU=;
+        b=T9bgZNlwwRCLZm7xrJwa9ky4uoDFgaD4YDHVZLd9tr4AP0bEsDrrejJmd1293rdi7t
+         tcHjrc8SKb2e3vg3IwJDcwC/7kuRdGvJCupyxBKT88BBOC9spxlBxUiHn0iWQwzLeaiG
+         15I+EJh2YteuB6aweHxbIblXEbadHedgb9sR/jdn7o/qNu1a5hTb9yQbM2Y0ABYlnFMk
+         5TJGNcogtcdYGjq1qQJY2BLJh2V9AuofRKUHHkh4NQGhwMOhEG9R2Yt4+Vz0opXrYZE7
+         yJVhLeJsAqqPfQKWiNiD/MdvWOKujWxw8e1wPWUG4VZ9IiT5hb7rR2MNc0SI2D4z7dVe
+         qiYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741779765; x=1742384565;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VkDphvzaAzZJCC34jrbfTxKmn3v0c8I2Rh5Daa+0ORU=;
+        b=ZWIyPNeZl/d86xk0DyOya6FVFdKHn9aEUYD4Qq+YcGh1SrQplMRS7gTFyJAixB6V9j
+         wQ28iidln8JAHqMFfh+p809DEgY2HgnnYa33dKo2GBRaGeEvwG8LcmEjS+rsEV1hCLlC
+         c29Df29pdmuYrK23ZlnTczOCgUMZZg8LiRL4Iqpyc//mXxIGlDzCV8EPsUbE1mJhHrST
+         GvOOIwJ9bxjtMBjlC1N/0KdNPkjYUEha0Rm1Wc5Mw9Iq5MBYwhc2M+if7N5iBFKGQdTJ
+         G/AM5dSOeZg4/yeRV+LSRUhSODtWByhcLER5IUxW7SZYoG6Vqfx4biRh53CWKSze/CqC
+         Xxnw==
+X-Forwarded-Encrypted: i=1; AJvYcCXE9PT/XuxNNhgMl8CGeSx0P/9cIPYGZdB/fdd3qE0KQT4oGA/iRRjtvwuorl7Yw2nsnYkolsUrQoAQxsYi/B1Q4Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyHZ9I/UEwGlww4GX0/ngQPmLmlj6Ew/7PkyMhtyxp7I2x8vRgJ
+	92chtoVgeU9UUFJE+Nnw/QZUABByuDNlc8tyxfwg4rTS5WaOvVkAGLX/ArRzu/qWqJ41oAKYXLa
+	0IvFkQl0zwGTKJIFocMFKHAwRacQ=
+X-Gm-Gg: ASbGnctWYoqchUcmbHtzwnwTd1EqgIZjtBWP9beCrfXz3siueKKtbOdABMpMveiYp4S
+	KTq14dzu65mLp2aWRF+wZFrvQDpvFWFBSXQ05ZJqGCJf1i369du51RLtM0GIIq2oSn97+9Hl0Zg
+	0qVcyAG7as8MOXdsYNi7slCKCv
+X-Google-Smtp-Source: AGHT+IEJ9T0C9Iyjn53xYzSGAT57DjNfPO33h5YzNOGp7JIL7BLQD9KcSeVfA2aFui+REeumlteWTu+9xHkNveqLN78=
+X-Received: by 2002:a05:6214:230b:b0:6e6:6a82:4989 with SMTP id
+ 6a1803df08f44-6e9006ad0c5mr302787896d6.44.1741779765586; Wed, 12 Mar 2025
+ 04:42:45 -0700 (PDT)
 MIME-Version: 1.0
-Date: Wed, 12 Mar 2025 04:28:30 -0700
-References: <20250311162716.448364-1-c137.marques@gmail.com>
-In-Reply-To: <20250311162716.448364-1-c137.marques@gmail.com>
-Message-ID: <7223.1741778910371348996@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="GdB5DSCeQFiaDvg2it4r"
+References: <20250307163724.3459192-1-f_l_k@t-online.de> <3ebbe1b5e26f764636ec34c4acebe4d8a588386f.camel@linuxfoundation.org>
+ <182B144118A90ED3.31525@lists.openembedded.org> <VAQYSS.10I1DUCUOUO4@t-online.de>
+In-Reply-To: <VAQYSS.10I1DUCUOUO4@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 12 Mar 2025 12:42:34 +0100
+X-Gm-Features: AQ5f1JqqptmW85WehDwHF96CwozTMYzPlNUztoJ-Rfiyejdldd5PQrn_XL_LiFs
+Message-ID: <CANNYZj_C-zmxSuh0XQRvN8SJzbEMZkP7QNm7o2QutfKjiQEO=A@mail.gmail.com>
+Subject: Re: [oe-core][PATCHv2] glib-2.0: update 2.82.4 -> 2.84.0
+To: f_l_k@t-online.de
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 11:28:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212645
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 11:42:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212646
 
---GdB5DSCeQFiaDvg2it4r
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 11 Mar 2025 at 15:15, Markus Volk via lists.openembedded.org
+<f_l_k=t-online.de@lists.openembedded.org> wrote:
+>
+> Here is what I found out after looking at the problem with the glib ptest
+> I did run the ptest on my yocto-based image booted from an USB drive like this:
+>
+> sudo ptest-runner glib-2.0 > glib.log
+>
+> There were two faulty tests
+>
+> SUMMARY: total=291; passed=289; skipped=0; failed=2; user=233.4s; system=126.5s; maxrss=516636
+> FAIL: glib/gi-compile-repository.py.test (Child process exited with code 1)
+> FAIL: glib/static-link.test (Child process exited with code 1)
 
-On Tue, Mar 11, 2025 at 09:27 AM, Alexandre Marques wrote:
+The autobuilder failures were different:
+{'glib-2.0': ['glib/gi-inspect-typelib.py.test',
+              'glib/gi-compile-repository.py.test']}
 
->=20
-> From: Alexandre Marques <c137.marques@gmail.com>
->=20
-> Auxiliary script to clean the hashserver database based on the files
-> available in the sstate directory.
->=20
-> It makes used of the new "hashclient gc-mark-stream" command to mark all
-> sstate
-> relevant hashes as "alive" and removes everything else from the
-> database.
->=20
-> Usage example:
-> ```
-> ./scripts/clean-hashserver-database \
-> --sstate-dir ~/build/sstate-cache \
-> --hashclient ./bitbake/bin/bitabke-hashclient \
-> --hashserver-address "ws://localhost:8688/ws" \
-> --mark "alive" \
-> --clean-db
-> ```
->=20
-> Signed-off-by: Alexander Marques <c137.marques@gmail.com>
-> ---
-> scripts/clean-hashserver-database | 73 +++++++++++++++++++++++++++++++
-> tmp | 0
-> 2 files changed, 73 insertions(+)
-> create mode 100755 scripts/clean-hashserver-database
-> create mode 100644 tmp
->=20
-> diff --git a/scripts/clean-hashserver-database
-> b/scripts/clean-hashserver-database
-> new file mode 100755
-> index 0000000000..6eb006758e
-> --- /dev/null
-> +++ b/scripts/clean-hashserver-database
-> @@ -0,0 +1,73 @@
-> +#!/bin/bash
-> +set -euo pipefail
-> +
-> +SSTATE_DIR=3D""
-> +BB_HASHCLIENT=3D""
-> +BB_HASHSERVER=3D""
-> +
-> +ALIVE_DB_MARK=3D"alive"
-> +CLEAN_DB=3D"false"
-> +
-> +function help() {
-> + cat <<HELP_TEXT
-> +Usage: $0 --sstate-dir path --hashclient path --hashserver-address
-> address [--mark value] [--clean-db]
-> +
-> +Auxiliary script remove unused or no longer relevant entries from the
-> hashequivalence database, based
-> +on the files available on the sstate directory.
-> +
-> + -h | --help) Show this help message and exit
-> + -s | --sstate-dir) Path to the sstate dir
-> + -c | --hashclient) Path to bitbake-hashclient
-> + -a | --hashserver-adress) bitbake-hashserver address
-> + -m | --mark) Marker string to mark database entries
-> + --clean-db) Remove all unmarked and unused entries from the database
-> +HELP_TEXT
-> +}
-> +
-> +function argument_parser() {
-> + while [ $# -gt 0 ]; do
-> + case "$1" in
-> + -h | --help) help; exit 0 ;;
-> + -s | --sstate-dir) SSTATE_DIR=3D"$2"; shift ;;
-> + -c | --hashclient) BB_HASHCLIENT=3D"$2"; shift ;;
-> + -a | --hashserver-address) BB_HASHSERVER=3D"$2"; shift ;;
-> + -m | --mark) ALIVE_DB_MARK=3D"$2"; shift ;;
-> + --clean-db) CLEAN_DB=3D"true";;
-> + *)
-> + echo "Argument '$1' is not supported" >&2
-> + help >&2
-> + exit 1
-> + ;;
-> + esac
-> + shift
-> + done
-> +
-> + function validate_mandatory_argument() {
-> + local var_value=3D"$1"
-> + local error_message=3D"$2"
-> +
-> + if [ -z "$var_value" ]; then
-> + echo "$error_message"
-> + help >&2
-> + exit 1
-> + fi
-> + }
-> +
-> + validate_mandatory_argument "$SSTATE_DIR" "Please provide the path to
-> the sstate dir."
-> + validate_mandatory_argument "$BB_HASHCLIENT" "Please provide the path t=
-o
-> bitbake-hashclient."
-> + validate_mandatory_argument "$BB_HASHSERVER" "Please provide the addres=
-s
-> of bitbake-hashserver."
-> +}
-> +
-> +# -- main code --
-> +argument_parser $@
-> +
-> +# Mark all db sstate hashes
-> +find "$SSTATE_DIR" -name "*.tar.zst" | \
-> +sed 's/.*:\([^_]*\)_.*/unihash \1/' | \
-> +$BB_HASHCLIENT --address "$BB_HASHSERVER" gc-mark-stream
-> "${ALIVE_DB_MARK}"
-> +
-> +# Remove unmarked and unused entries
-> +if [ "$CLEAN_DB" =3D "true" ]; then
-> + $BB_HASHCLIENT --address "$BB_HASHSERVER" gc-sweep "${ALIVE_DB_MARK}"
-> + $BB_HASHCLIENT --address "$BB_HASHSERVER" clean-unused 0
-> +fi
+Please try to replicate what the autobuilder does, so you do not spend
+time on fails that only occur in your environment :) You should set up
+a qemux86-64 build, and build core-image-ptest-glib-2.0, then use -c
+testimage with it.
 
-Pushed an empty tmp file by mistake.
+I looked into the AB fails; one is caused by a missing utf-8 locale
+setting, the other is indeed relying on .gir files installed on
+target. I'll send a fixup for both in a moment.
 
->=20
-> diff --git a/tmp b/tmp
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> --
-> 2.34.1
-
---GdB5DSCeQFiaDvg2it4r
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>On Tue, Mar 11, 2025 at 09:27 AM, Alexandre Marques wrote:</div>
-<div>
-<blockquote>From: Alexandre Marques &lt;c137.marques@gmail.com&gt;<br /><br=
- />Auxiliary script to clean the hashserver database based on the files<br =
-/>available in the sstate directory.<br /><br />It makes used of the new "h=
-ashclient gc-mark-stream" command to mark all sstate<br />relevant hashes a=
-s "alive" and removes everything else from the<br />database.<br /><br />Us=
-age example:<br />```<br />./scripts/clean-hashserver-database \<br />--sst=
-ate-dir ~/build/sstate-cache \<br />--hashclient ./bitbake/bin/bitabke-hash=
-client \<br />--hashserver-address "ws://localhost:8688/ws" \<br />--mark "=
-alive" \<br />--clean-db<br />```<br /><br />Signed-off-by: Alexander Marqu=
-es &lt;c137.marques@gmail.com&gt;<br />---<br />scripts/clean-hashserver-da=
-tabase | 73 +++++++++++++++++++++++++++++++<br />tmp | 0<br />2 files chang=
-ed, 73 insertions(+)<br />create mode 100755 scripts/clean-hashserver-datab=
-ase<br />create mode 100644 tmp<br /><br />diff --git a/scripts/clean-hashs=
-erver-database b/scripts/clean-hashserver-database<br />new file mode 10075=
-5<br />index 0000000000..6eb006758e<br />--- /dev/null<br />+++ b/scripts/c=
-lean-hashserver-database<br />@@ -0,0 +1,73 @@<br />+#!/bin/bash<br />+set =
--euo pipefail<br />+<br />+SSTATE_DIR=3D""<br />+BB_HASHCLIENT=3D""<br />+B=
-B_HASHSERVER=3D""<br />+<br />+ALIVE_DB_MARK=3D"alive"<br />+CLEAN_DB=3D"fa=
-lse"<br />+<br />+function help() {<br />+ cat &lt;&lt;HELP_TEXT<br />+Usag=
-e: $0 --sstate-dir path --hashclient path --hashserver-address address [--m=
-ark value] [--clean-db]<br />+<br />+Auxiliary script remove unused or no l=
-onger relevant entries from the hashequivalence database, based<br />+on th=
-e files available on the sstate directory.<br />+<br />+ -h | --help) Show =
-this help message and exit<br />+ -s | --sstate-dir) Path to the sstate dir=
-<br />+ -c | --hashclient) Path to bitbake-hashclient<br />+ -a | --hashser=
-ver-adress) bitbake-hashserver address<br />+ -m | --mark) Marker string to=
- mark database entries<br />+ --clean-db) Remove all unmarked and unused en=
-tries from the database<br />+HELP_TEXT<br />+}<br />+<br />+function argum=
-ent_parser() {<br />+ while [ $# -gt 0 ]; do<br />+ case "$1" in<br />+ -h =
-| --help) help; exit 0 ;;<br />+ -s | --sstate-dir) SSTATE_DIR=3D"$2"; shif=
-t ;;<br />+ -c | --hashclient) BB_HASHCLIENT=3D"$2"; shift ;;<br />+ -a | -=
--hashserver-address) BB_HASHSERVER=3D"$2"; shift ;;<br />+ -m | --mark) ALI=
-VE_DB_MARK=3D"$2"; shift ;;<br />+ --clean-db) CLEAN_DB=3D"true";;<br />+ *=
-)<br />+ echo "Argument '$1' is not supported" &gt;&amp;2<br />+ help &gt;&=
-amp;2<br />+ exit 1<br />+ ;;<br />+ esac<br />+ shift<br />+ done<br />+<b=
-r />+ function validate_mandatory_argument() {<br />+ local var_value=3D"$1=
-"<br />+ local error_message=3D"$2"<br />+<br />+ if [ -z "$var_value" ]; t=
-hen<br />+ echo "$error_message"<br />+ help &gt;&amp;2<br />+ exit 1<br />=
-+ fi<br />+ }<br />+<br />+ validate_mandatory_argument "$SSTATE_DIR" "Plea=
-se provide the path to the sstate dir."<br />+ validate_mandatory_argument =
-"$BB_HASHCLIENT" "Please provide the path to bitbake-hashclient."<br />+ va=
-lidate_mandatory_argument "$BB_HASHSERVER" "Please provide the address of b=
-itbake-hashserver."<br />+}<br />+<br />+# -- main code --<br />+argument_p=
-arser $@<br />+<br />+# Mark all db sstate hashes<br />+find "$SSTATE_DIR" =
--name "*.tar.zst" | \<br />+sed 's/.*:\([^_]*\)_.*/unihash \1/' | \<br />+$=
-BB_HASHCLIENT --address "$BB_HASHSERVER" gc-mark-stream "${ALIVE_DB_MARK}"<=
-br />+<br />+# Remove unmarked and unused entries<br />+if [ "$CLEAN_DB" =
-=3D "true" ]; then<br />+ $BB_HASHCLIENT --address "$BB_HASHSERVER" gc-swee=
-p "${ALIVE_DB_MARK}"<br />+ $BB_HASHCLIENT --address "$BB_HASHSERVER" clean=
--unused 0<br />+fi</blockquote>
-Pushed an empty tmp file by mistake.<br />
-<blockquote>diff --git a/tmp b/tmp<br />new file mode 100644<br />index 000=
-0000000..e69de29bb2<br />-- <br />2.34.1</blockquote>
-</div>
-
---GdB5DSCeQFiaDvg2it4r--
+Alex
 
