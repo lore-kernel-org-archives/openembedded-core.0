@@ -1,114 +1,162 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8E9CC28B28
-	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:29:26 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web11.4084.1741807764066060702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FCE1C35FF1
+	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:52:47 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.4651.1741809164100575516
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 12:29:25 -0700
+ Wed, 12 Mar 2025 12:52:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=cv40Jia4;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202503121929217697caa1f0c5ad3625-vfs3kq@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202503121929217697caa1f0c5ad3625
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 12 Mar 2025 20:29:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=arbZvlLkIrrPAWHsercrCut7YQAegRHJXiV/jd9suhE=;
- b=cv40Jia4Xcpzx8okYYDeLIJO3AnUAvwwYma1a7eMGDUPIm4JXtjCaAz5WeDaOjLM8gVbwB
- 3bWWqn4QRL3JZz4Cf+BkvE8ti2hxzh9Z8xLHkbgfX0OU1eCPclJcX1aXG5lBV1Tgr3ZvfoSy
- T9Mrt8ipj4h/QPgfWUf/CymtV8L/V21rji5w2GQJT5m/XnrcVBjVxcId7K5kW39WSGuZnRWl
- GQJes5b6gKGBHLu3vIRoLNnzRymsXFPAHgZbzgP87zfRQJ6fxjsuSFQJLpGpGKKUvw8Vx59F
- cLJ0DdJW/Tj3RBHNtT3eNssBMPK1fa0gkQ4A9hdSxycMVpg5QoUnzzrg==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KxqR/IAw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3012a0c8496so451086a91.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:52:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809163; x=1742413963; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a3Fbmq8z4ONlvbOoLvOi9K1g6U3nxdcgoN+clZp3cgM=;
+        b=KxqR/IAwYDBHfnmDm1xxIERLYMOlu+9u4lqnzg7UumzAR7lWmytOFGtg6E+oSsghoV
+         FcCpTsP/x4z5gd9dqey8AifBLk9xnYwbD/6pGHSghZdsZ/KZhlPCu7rnCQOGcYynZnSy
+         gL7LJtCoNF2MFJrpMHmonBVekfA3AR84Rr2JvRMUq9fzyE7QGDpVAXOZUudNWuGk4wuJ
+         a65iFwDkFbxikSJM8TGT6LQwnqzB0t1fzGHd+lrZ6l/Oweey3QlCOAzMpewsvoYyfGEz
+         fvl6vFbOpD90hMAZ2QJiZjclKGJBX0E9+QwQcN30M+X/Xz5hi7mo8+LtpX+YRsGzjFia
+         Vd/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741809163; x=1742413963;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a3Fbmq8z4ONlvbOoLvOi9K1g6U3nxdcgoN+clZp3cgM=;
+        b=OsF3rD2jauUXryk+WwJqXXEbdULPJa63wdqpi3oLbMniddF+wsG+UKDWHOtyXGoMTN
+         SKTg/5h+2Z4UEK/6kvoXQcIdpiSNyneWi7juLQ/yo60oZNAYXC7XLQl6L3fMInJdwYO5
+         No+3T+OIxfkGZTBoo+LW3hpgOlcGzr5XAk1Zur8a161RILO/fTXYQrztJeI75SxYwxTY
+         ynRq7bVnj4ZLl/o0PKB9DK/3B23636M1v8xe0yXgrHsOjaojRx81U8lj0D4pmxCcrACp
+         iox5pJURVHF9pYI1O6MMBsovgIDImm1LAmecZeGHXwA98CKQl3nqoqiAE5PIbiIdFIWm
+         jDRw==
+X-Gm-Message-State: AOJu0YzMo+J1WlaqiewlHlu6QRUaXVfO33yJG+7StcrmaPXRJyoQbPir
+	4XKLhbZN1VP/t7A9pn4Fv6LtsJXaaan3MGHBZFr4QhfAKqyTp89BrZSH84R7xzNeMxxai604uGZ
+	b
+X-Gm-Gg: ASbGncs4tdq0YHowv+4oFP9b5RlKja234Dh5uEyQ/j0Oz2Ya2iMbrfk4meA8/b8VsL+
+	3XKKrniVPV207cCfbHueeKwO+1bxUO+tKdjpqKKO10sv/fq0Ue2rYXp01Nd4wJgEk0QxJ9g0owe
+	BennP/7RwhnAFkHHh2M+rnpWi10pZK2tKO1yBNKciqOOCrldJV/YPkzUywY5pz7+cXYx5Zg5le7
+	jG63D3sKKEoQuywPYKAdsRFJ3R4md0fLAfIg+TV9Y6d5NXt8/l8nsh2ZAgBBAGy1fvxAsGZZNFt
+	68+R0qB7T/P2TZQhHPdN9g8dJCkCK7Uxzvj7zamn8mVn3Q==
+X-Google-Smtp-Source: AGHT+IHL6jnInKcra42tMY34a/M5ku//TyyjfT1t9NSrMPl8CMcLIwKGWIWoSX3jXUROpz9Nxemocw==
+X-Received: by 2002:a05:6a20:9c91:b0:1f5:8e33:c417 with SMTP id adf61e73a8af0-1f58e33c5ecmr13997147637.2.1741809163320;
+        Wed, 12 Mar 2025 12:52:43 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:5779:a397:ba1c:2b0])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56093c2f5sm1389955a12.67.2025.03.12.12.52.42
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Mar 2025 12:52:43 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] libarchive: patch CVE-2025-25724
-Date: Wed, 12 Mar 2025 20:28:28 +0100
-Message-Id: <20250312192828.1845318-1-peter.marko@siemens.com>
+Subject: [OE-core][styhead 02/25] binutils: patch CVE-2025-0840
+Date: Wed, 12 Mar 2025 12:52:10 -0700
+Message-ID: <059b6bb3058fadbeee2626ab241de315ed1b0baa.1741808973.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1741808973.git.steve@sakoman.com>
+References: <cover.1741808973.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:29:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212666
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:52:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212669
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick commit referencing this MR which was merged to master.
-Note that this commit also patched CVE-2025-1632 in bsdunzip, however
-that utility was introduced only in 3.7.0, so that part is not
-applicable in kirkstone.
+Backport [1] as listed in [2].
+
+[1] https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=baac6c221e9d69335bf41366a1c7d87d8ab2f893
+[2] https://nvd.nist.gov/vuln/detail/CVE-2025-0840
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libarchive/CVE-2025-25724.patch           | 40 +++++++++++++++++++
- .../libarchive/libarchive_3.6.2.bb            |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-25724.patch
+ .../binutils/binutils-2.43.1.inc              |  1 +
+ .../binutils/0016-CVE-2025-0840.patch         | 55 +++++++++++++++++++
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0016-CVE-2025-0840.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-25724.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-25724.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.43.1.inc b/meta/recipes-devtools/binutils/binutils-2.43.1.inc
+index 4a8666b433..091fa61cc6 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.43.1.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.43.1.inc
+@@ -36,5 +36,6 @@ SRC_URI = "\
+      file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
+      file://0015-CVE-2024-53589.patch \
++     file://0016-CVE-2025-0840.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0016-CVE-2025-0840.patch b/meta/recipes-devtools/binutils/binutils/0016-CVE-2025-0840.patch
 new file mode 100644
-index 0000000000..fe489e852f
+index 0000000000..2f60a7a0f1
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-25724.patch
-@@ -0,0 +1,40 @@
-+From c9bc934e7e91d302e0feca6e713ccc38d6d01532 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Peter=20K=C3=A4stle?= <peter@piie.net>
-+Date: Mon, 10 Mar 2025 16:43:04 +0100
-+Subject: [PATCH] fix CVE-2025-1632 and CVE-2025-25724 (#2532)
++++ b/meta/recipes-devtools/binutils/binutils/0016-CVE-2025-0840.patch
+@@ -0,0 +1,55 @@
++From baac6c221e9d69335bf41366a1c7d87d8ab2f893 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Wed, 15 Jan 2025 19:13:43 +1030
++Subject: [PATCH] PR32560 stack-buffer-overflow at objdump disassemble_bytes
 +
-+Hi,
++There's always someone pushing the boundaries.
 +
-+please find my approach to fix the CVE-2025-1632 and CVE-2025-25724
-+vulnerabilities in this pr.
-+As both error cases did trigger a NULL pointer deref (and triggered
-+hopefully everywhere a coredump), we can safely replace the actual
-+information by a predefined invalid string without breaking any
-+functionality.
++	PR 32560
++	* objdump.c (MAX_INSN_WIDTH): Define.
++	(insn_width): Make it an unsigned long.
++	(disassemble_bytes): Use MAX_INSN_WIDTH to size buffer.
++	(main <OPTION_INSN_WIDTH>): Restrict size of insn_width.
 +
-+CVE: CVE-2025-25724
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/c9bc934e7e91d302e0feca6e713ccc38d6d01532]
++CVE: CVE-2025-0840
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=baac6c221e9d69335bf41366a1c7d87d8ab2f893]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---------
-+
-+Signed-off-by: Peter Kaestle <peter@piie.net>
 +---
-+ tar/util.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
++ binutils/objdump.c | 10 ++++++----
++ 1 file changed, 6 insertions(+), 4 deletions(-)
 +
-+diff --git a/tar/util.c b/tar/util.c
-+index 3b099cb5..f3cbdf0b 100644
-+--- a/tar/util.c
-++++ b/tar/util.c
-+@@ -758,7 +758,10 @@ list_item_verbose(struct bsdtar *bsdtar, FILE *out, struct archive_entry *entry)
-+ #else
-+ 	ltime = localtime(&tim);
-+ #endif
-+-	strftime(tmp, sizeof(tmp), fmt, ltime);
-++	if (ltime)
-++		strftime(tmp, sizeof(tmp), fmt, ltime);
-++	else
-++		sprintf(tmp, "-- -- ----");
-+ 	fprintf(out, " %s ", tmp);
-+ 	safe_fprintf(out, "%s", archive_entry_pathname(entry));
++diff --git a/binutils/objdump.c b/binutils/objdump.c
++index ecbe39e942e..80044dea580 100644
++--- a/binutils/objdump.c
+++++ b/binutils/objdump.c
++@@ -117,7 +117,8 @@ static bool disassemble_all;		/* -D */
++ static int disassemble_zeroes;		/* --disassemble-zeroes */
++ static bool formats_info;		/* -i */
++ int wide_output;			/* -w */
++-static int insn_width;			/* --insn-width */
+++#define MAX_INSN_WIDTH 49
+++static unsigned long insn_width;	/* --insn-width */
++ static bfd_vma start_address = (bfd_vma) -1; /* --start-address */
++ static bfd_vma stop_address = (bfd_vma) -1;  /* --stop-address */
++ static int dump_debugging;		/* --debugging */
++@@ -3391,7 +3392,7 @@ disassemble_bytes (struct disassemble_info *inf,
++ 	}
++       else
++ 	{
++-	  char buf[50];
+++	  char buf[MAX_INSN_WIDTH + 1];
++ 	  unsigned int bpc = 0;
++ 	  unsigned int pb = 0;
 + 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-index 6af01cf408..4ceb0df2c0 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-@@ -34,6 +34,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://CVE-2024-48957.patch \
-            file://CVE-2024-48958.patch \
-            file://CVE-2024-20696.patch \
-+           file://CVE-2025-25724.patch \
-            "
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
- 
++@@ -6091,8 +6092,9 @@ main (int argc, char **argv)
++ 	  break;
++ 	case OPTION_INSN_WIDTH:
++ 	  insn_width = strtoul (optarg, NULL, 0);
++-	  if (insn_width <= 0)
++-	    fatal (_("error: instruction width must be positive"));
+++	  if (insn_width - 1 >= MAX_INSN_WIDTH)
+++	    fatal (_("error: instruction width must be in the range 1 to "
+++		     XSTRING (MAX_INSN_WIDTH)));
++ 	  break;
++ 	case OPTION_INLINES:
++ 	  unwind_inlines = true;
+-- 
+2.43.0
+
 
