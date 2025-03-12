@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E591DC28B28
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5950C28B2E
 	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:52:56 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web11.4653.1741809168345822821
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.4457.1741809166855803464
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 12:52:48 -0700
+ Wed, 12 Mar 2025 12:52:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Qd7+Xvf4;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2feb91a2492so487473a91.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:52:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QqOb3RPJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2239aa5da08so4458155ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809167; x=1742413967; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809166; x=1742413966; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lpNSRWK49vv51SeJfLXed+XqSnsTQy6sjzbba/qxboo=;
-        b=Qd7+Xvf4I3I3+GAOe1bZfaJ+D2EW1XwjPqA3JKHje+BSVzjghWOd78mBJdOMfuWyql
-         ir50bdTiQDnidzWzM6RhOhPHpxXHvpYGrU4ZEdnm4PDFzBUdisi4YvvTI1Q5nDdEil5+
-         Z6dnkoNBrgbfcNEfJZg83Gj7X4AIOIiOJjPnCn/fOmTI2pNQDrNkyW/8XE0+vtQz6D4I
-         +U9/LEz0SqfUBEvw9FZZ/LpWFgLO1VDKcvAOw8xkd7l2MSsdQ7xvqB5JEfe2IXHN5fhU
-         imok5RzMaKrKYX0FvnQiM+/m1EByIGbYoEujjs8zgeZFgiA0UZ53GdKxKV0HhWt//ZM4
-         pNUg==
+        bh=LzvtRwCSNa6vIwAGukn3DwIib8dM8VkdYXYvUUj0m3M=;
+        b=QqOb3RPJv1ifm4q0/NcL6/7eRSTogStKNOsnH0BHCno7MUQB5OmHVQF7D6EPqkmx1o
+         f1smqC6ZjvxGHFb+ltxu86gSwaHVb+WUIjNRctHzwIFeFUjle/na7eEPMUS8BsgTn+L8
+         7spfQ68i0UchREtXK9WkDUHARwuXzb/Jz+mVGM/0kXTRWiDDudYuqHlA168JO7H3dLeF
+         XCXRhLfTeJzh3N67BGUxCYdTFvDqZB7opBvgzWSJQwVitSwo+S77D++RsIlO+UpQI0Ap
+         etwS+cuQtTpLec6LWBiyw6jAsy0/1Khu5JCfrWZu/NO1HVA4MAz8t9A5kTcCHwxDKvj9
+         kx0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741809167; x=1742413967;
+        d=1e100.net; s=20230601; t=1741809166; x=1742413966;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lpNSRWK49vv51SeJfLXed+XqSnsTQy6sjzbba/qxboo=;
-        b=OSEJc34G3vFLRRyHd8QVl8cec31zqCy8oHGGnl92cIOCIJchj5uCNQ2X3R1X2isWif
-         +YCxyNOypcBpSngxJ3xW3Yd/OMj+GOYF0Cdiyq6GvJ/779UmsIQoInoGz5GsRsmUoPf3
-         lhanPkFgydRj+IV0u6kE6VGuPuCwN4eecphV9CT5yEjmeKCJKBOBvXfMVR6neTOVvWVp
-         mfIC1EDMQJJ3GUwuU4/yVsZfUQaS+2q2tH7UKwfFB6h5K8HAkWiaf1nQxVb3yKgS4RFT
-         S+IZleCAtEp1DvJGk3yjt5Qg2G2eyvtjjTrNoksFipdVPhuCLWv6j5LN9np8oZs66y3k
-         wagw==
-X-Gm-Message-State: AOJu0YzLPcofi2mx/vPDDeJ7Ua6zMFVZ7qfw1HG1aa9nKytTrZM9XYiz
-	0ddG8mAjlGU6MybL2bQEquFoD6d2tqvoB7FSIxT6B+iGNHArvlVOqXvzDDzhQ7H11mtGfq5Ho1l
-	A
-X-Gm-Gg: ASbGncuS8Stox5lZ8mGDw3hIgAnG4rJGHEM95hpYo8qg58QvU8ZLI2VMJ15YD2ynPi/
-	k89CAPTfFziG+xmCJzUXdN/wA6XVrPGWVINBGoiNeSnF005/Zghw4vmN06NYG7TZGKdRU60ZCh+
-	3M1MpHgh8aTebYY0EI63zB8QWC5JmLhE+fvp3TCWzUT/qxpu/WQ21W/z+cCHEQopGsaSV3/lihx
-	tpKTV8bgPZLcekb8QsRRmn1wKg5e3XCDzJWIsyVkNqOxeIAHsrLJf5LCjV4K1xAzRXn2sKtwDtD
-	ZbyL8jN551kf9H2KGY0fp6pwuaHXfG2J6DeYQlFhtRUXig==
-X-Google-Smtp-Source: AGHT+IEGnFJ+jWuJTUlMlGgh9IbKZZLpwc2DCLMHCM1ozAR+z9z0hPYGemjzCHj6jsmbGechAkay/Q==
-X-Received: by 2002:a05:6a21:6b04:b0:1f5:5903:edd3 with SMTP id adf61e73a8af0-1f55903f155mr27738358637.11.1741809167575;
-        Wed, 12 Mar 2025 12:52:47 -0700 (PDT)
+        bh=LzvtRwCSNa6vIwAGukn3DwIib8dM8VkdYXYvUUj0m3M=;
+        b=ZS13AoP68Kkx/3AjX62t/9vtnp5YYZRC72rryJM6ST6LaydVYfQDJnE2AIAOyyfn3i
+         9EXIoPHE8X+/3r9EqiulkQKNFl/2U5ic7SYATWogbHYtq49R5Sp8XJRFtWAIVH2ITTlG
+         QDyMHLOv+8X+ohAD/QGIO3XkMYffHYEM2mTucqXrNND5iIIjbefGjnGVQ0F3hfeWXfIg
+         QAlPEKNel7WUowovTrpWAYC1en2+1vqqjIO/ZgeRPDMf3pVSuzHeNIMiLXvu07YJwNnC
+         +dsaN/DrIB8ZHkdALvE/BF3coG5rleN7LXP/HmZFZM9aZlEhxWjOn9YAi3AGHM52WGwe
+         Kfpw==
+X-Gm-Message-State: AOJu0YzKZ17g2MJ5UwB9BM/a5vQu5SLbKQjAWDsLzDQsoRC35dWpt5qr
+	xFyN7FoA7JnkzcXym1nGpzJSp0ic4+ToeWzlKvFGKZTq6ZQoB7rF9MhDVfPD5nS7UJhW3jQ1960
+	c
+X-Gm-Gg: ASbGnctN91CgZCS6o5PQ++4k5May0qCxHIxICP3nyyBnMK20OHqSB28uojo52NtGIs/
+	UBsvIxR/bYqrX7VKU55Ltt2H2yREVXMCWKGSvfE+AcumB2lcX2UAzf/43AZYk5/qxJkYapr3UsM
+	N8qm5JBJqgRCcpp1ExVviFKNEsyqbUy69/fEOfXuKExuoqB/WZdw0JlI2yfGE17uHDzUJsUY9SS
+	kRxrfWCau3IY12cfAdmmDUGhNHibC/gD2QgvCOrPQoxRhpmsDB6LxtWjqsbewdso1O6i6SZcm0K
+	0H0P4rNi6a62b6OOQs3645pCCnwR8gAxX0w=
+X-Google-Smtp-Source: AGHT+IFHdbOzQaFyhqj13Szg3eaTTlL0RbUAtr7Ng0qoDrELcoqyYspqZJbU0hhdeZQLOepy6y+D4A==
+X-Received: by 2002:a05:6a21:1583:b0:1f5:8622:5ecb with SMTP id adf61e73a8af0-1f586226198mr18941312637.34.1741809166054;
+        Wed, 12 Mar 2025 12:52:46 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5779:a397:ba1c:2b0])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56093c2f5sm1389955a12.67.2025.03.12.12.52.47
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56093c2f5sm1389955a12.67.2025.03.12.12.52.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 12:52:47 -0700 (PDT)
+        Wed, 12 Mar 2025 12:52:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 05/25] grup: patch CVE-2024-45781
-Date: Wed, 12 Mar 2025 12:52:13 -0700
-Message-ID: <ef41ef5730d08371d1eb03f94fa9357edf26889f.1741808973.git.steve@sakoman.com>
+Subject: [OE-core][styhead 04/25] grub: backport strlcpy function
+Date: Wed, 12 Mar 2025 12:52:12 -0700
+Message-ID: <48cf877397b82449f171190a33a8e723512b8227.1741808973.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741808973.git.steve@sakoman.com>
 References: <cover.1741808973.git.steve@sakoman.com>
@@ -67,70 +67,103 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:52:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212672
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212671
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Cherry-pick patch mentioning this CVE.
+It is used to fix multiple CVEs.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../grub/files/CVE-2024-45781.patch           | 35 +++++++++++++++++++
+ .../0001-misc-Implement-grub_strlcpy.patch    | 68 +++++++++++++++++++
  meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-45781.patch
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-misc-Implement-grub_strlcpy.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2024-45781.patch b/meta/recipes-bsp/grub/files/CVE-2024-45781.patch
+diff --git a/meta/recipes-bsp/grub/files/0001-misc-Implement-grub_strlcpy.patch b/meta/recipes-bsp/grub/files/0001-misc-Implement-grub_strlcpy.patch
 new file mode 100644
-index 0000000000..bd0b6aa04a
+index 0000000000..0ff6dff33a
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2024-45781.patch
-@@ -0,0 +1,35 @@
-+From c1a291b01f4f1dcd6a22b61f1c81a45a966d16ba Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-bsp/grub/files/0001-misc-Implement-grub_strlcpy.patch
+@@ -0,0 +1,68 @@
++From ea703528a8581a2ea7e0bad424a70fdf0aec7d8f Mon Sep 17 00:00:00 2001
 +From: B Horn <b@horn.uk>
-+Date: Sun, 12 May 2024 02:03:33 +0100
-+Subject: [PATCH 2/2] fs/ufs: Fix a heap OOB write
++Date: Sat, 15 Jun 2024 02:33:08 +0100
++Subject: [PATCH 1/2] misc: Implement grub_strlcpy()
 +
-+grub_strcpy() was used to copy a symlink name from the filesystem
-+image to a heap allocated buffer. This led to a OOB write to adjacent
-+heap allocations. Fix by using grub_strlcpy().
++grub_strlcpy() acts the same way as strlcpy() does on most *NIX,
++returning the length of src and ensuring dest is always NUL
++terminated except when size is 0.
 +
-+Fixes: CVE-2024-45781
-+
-+Reported-by: B Horn <b@horn.uk>
 +Signed-off-by: B Horn <b@horn.uk>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+CVE: CVE-2024-45781
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=c1a291b01f4f1dcd6a22b61f1c81a45a966d16ba]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=ea703528a8581a2ea7e0bad424a70fdf0aec7d8f]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ grub-core/fs/ufs.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ include/grub/misc.h | 39 +++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 39 insertions(+)
 +
-+diff --git a/grub-core/fs/ufs.c b/grub-core/fs/ufs.c
-+index a354c92d9..01235101b 100644
-+--- a/grub-core/fs/ufs.c
-++++ b/grub-core/fs/ufs.c
-+@@ -463,7 +463,7 @@ grub_ufs_lookup_symlink (struct grub_ufs_data *data, int ino)
-+   /* Check against zero is paylindromic, no need to swap.  */
-+   if (data->inode.nblocks == 0
-+       && INODE_SIZE (data) <= sizeof (data->inode.symlink))
-+-    grub_strcpy (symlink, (char *) data->inode.symlink);
-++    grub_strlcpy (symlink, (char *) data->inode.symlink, sz);
-+   else
-+     {
-+       if (grub_ufs_read_file (data, 0, 0, 0, sz, symlink) < 0)
++diff --git a/include/grub/misc.h b/include/grub/misc.h
++index 1578f36c3..14d8f37ac 100644
++--- a/include/grub/misc.h
+++++ b/include/grub/misc.h
++@@ -64,6 +64,45 @@ grub_stpcpy (char *dest, const char *src)
++   return d - 1;
++ }
++ 
+++static inline grub_size_t
+++grub_strlcpy (char *dest, const char *src, grub_size_t size)
+++{
+++  char *d = dest;
+++  grub_size_t res = 0;
+++  /*
+++   * We do not subtract one from size here to avoid dealing with underflowing
+++   * the value, which is why to_copy is always checked to be greater than one
+++   * throughout this function.
+++   */
+++  grub_size_t to_copy = size;
+++
+++  /* Copy size - 1 bytes to dest. */
+++  if (to_copy > 1)
+++    while ((*d++ = *src++) != '\0' && ++res && --to_copy > 1)
+++      ;
+++
+++  /*
+++   * NUL terminate if size != 0. The previous step may have copied a NUL byte
+++   * if it reached the end of the string, but we know dest[size - 1] must always
+++   * be a NUL byte.
+++   */
+++  if (size != 0)
+++    dest[size - 1] = '\0';
+++
+++  /* If there is still space in dest, but are here, we reached the end of src. */
+++  if (to_copy > 1)
+++    return res;
+++
+++  /*
+++   * If we haven't reached the end of the string, iterate through to determine
+++   * the strings total length.
+++   */
+++  while (*src++ != '\0' && ++res)
+++   ;
+++
+++  return res;
+++}
+++
++ /* XXX: If grub_memmove is too slow, we must implement grub_memcpy.  */
++ static inline void *
++ grub_memcpy (void *dest, const void *src, grub_size_t n)
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 43ba632ce2..58f4a6e181 100644
+index c93b9594c8..43ba632ce2 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://grub-module-explicitly-keeps-symbole-.module_license.patch \
             file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
             file://0001-RISC-V-Restore-the-typcast-to-long.patch \
-            file://0001-misc-Implement-grub_strlcpy.patch \
-+           file://CVE-2024-45781.patch \
++           file://0001-misc-Implement-grub_strlcpy.patch \
  "
  
  SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154cb9c91"
