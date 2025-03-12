@@ -2,63 +2,63 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E845C28B30
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42CBEC28B2F
 	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 13:01:09 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.36252.1741784465244051944
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web11.36543.1741784467888627678
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 06:01:05 -0700
+ Wed, 12 Mar 2025 06:01:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MGnW91yF;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac25313ea37so1023379866b.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 06:01:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PjYj4X3H;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aaec111762bso1308539966b.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 06:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741784464; x=1742389264; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1741784466; x=1742389266; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BKDXA3Gz2QUeQHr3MtOfjOZAhKqrCh7kQwTK3mqZZH0=;
-        b=MGnW91yFXked2tgk0Bfs2Wj9/kbh1zBK3o622TlaUuUvOTU4+Cb8YSrfa0LKbhWYc3
-         AUKbSAIcIG9+dFKHliIjWIkfQ34/pIpkIFWhl4pjn2hpufyvvwm4mSOi/9jOHDx+8jwX
-         iMPhK4cX2Riu/f1NqQKPMRRts25xMsc5I2cyj65W/Nm8fpQiKfTXm7iNbu7NV6AeshRS
-         gI2AcgZr0IiE5ejnQTX00snnnT7DwZGkZq4/wXh9FIy9EcIKXLbibibuamMMTlw6RSaK
-         muhLIXiqhDupd8zgiI/iwQXtqUtzJENlkzRhHPfx1lBTkYKoHq7BY47GOdpuCQIp6Tv3
-         FfIA==
+        bh=5jRo8kq02xFUrLfITsxeIVNanVwZoXr/ZBMOtspQwEY=;
+        b=PjYj4X3HqGgloRSZkdnbETzra/EaVcc1t8yuJAOdNxNVnMg3JNkoiS0tBvS30mWi2w
+         SzQdtVECMGi/QqYHU1c5772nQlS+Q2hV72E5DtNSZjh+E7PXPb7Cvk9NcbwGIUzyzjEe
+         Wl3HmFxdYAfi5+VTS9F61PXhIqmRKMoDgtU7bKpkS78itboN6vUPfhsDO3R37Qo5eWHx
+         LSnI4FrnIweYa8jeuV7UR+HAJJIg4jbQDg2KrgW1QDoHHK4ohDZa1pUHEIm+9nmenAx7
+         lTusvjmR5SAEmjSRV/BydImlvzHU4cbc9N/L7oYAhm4PlkY67Mzh7YXQs29YOhIX50m7
+         HjiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741784464; x=1742389264;
+        d=1e100.net; s=20230601; t=1741784466; x=1742389266;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BKDXA3Gz2QUeQHr3MtOfjOZAhKqrCh7kQwTK3mqZZH0=;
-        b=j7xshRt2dyPEl6jt1353tIe6x/q0vXh2SwJ1rPWVZFJgx1XPef+M+yc5Nwf4/McbVz
-         pVCojcCQMTUbKwtN8/5NRPr9PtCgB01p3/Bt3zOhmF99l9tB9UKUfuvd9U44TFlLQ8Qi
-         5TJPM/NIf6yL7+CSXBy2bBVJOTWf1ksSeKH+g193Uo2Ml2r38FqMSBqCExFW7K/1txfW
-         9M+5+YudNsLKZiwRNqdHJqZBy035JIGYvy6F8RLRgkrbbxXVjBEWSSd7r2lyl/HYsZey
-         q9SxkcZaObjpmghx46ykViUpDWWWF0bBYZ3Grp7DKxaEDXYYFJc25UU5E9Bl/atJkKUC
-         mMKg==
-X-Gm-Message-State: AOJu0YwZv9dCfm5Q6mk2jNvN+34/sf5cXPePlIO2sEDU3dIM4joqw3di
-	Kzv47zqejt+ruzZ5vWIAiqgpfYxGBV5v2tGWCLA1HSXGtbQPvd+ciXK+tdBs
-X-Gm-Gg: ASbGncuzsPXhZAkP6GHCQtdjFK5VE5e9cntoL0sR5PuXXOB+8eUK5cgAfMryUs+kOca
-	Ix2cIhwTGfu+v0U59zrTl0rn0aZsnMdSyj2LH9/i9c6UmgTt3gTbKxtiJRKH+d7j/xaqWdkX+dG
-	BO0pbL4SKZbl8aUharGFhwmnQYGXKujC3SXGnHt5PLz1PsXgUTn2nbNY+wu0d/pA/y5TdK60puy
-	JVtWCtGC35JjjgVkMtFiY/qet5xILquhPlm3stJ8WBx1BIaesbk94Uw3e25oLIxzVxKibz0OS8o
-	66/8Af6D5+1EjyEVe2cqYZOQuiV6Ilc8Efn8n4ZnFo6RUauyacA1q8ca8ph4pagBBlYSUuK6o15
-	n0QQWHZL6Ucs=
-X-Google-Smtp-Source: AGHT+IHIgqJLlf5IyDpcO4eScR/iqqy5WK06GjZTNIrwOi7ST3TlceDmLqtKSnsWjvj7Uk4+kNflfA==
-X-Received: by 2002:a17:906:1c4a:b0:ac2:7cf9:71a0 with SMTP id a640c23a62f3a-ac27cf9740dmr1797680266b.48.1741784462983;
-        Wed, 12 Mar 2025 06:01:02 -0700 (PDT)
+        bh=5jRo8kq02xFUrLfITsxeIVNanVwZoXr/ZBMOtspQwEY=;
+        b=GUTaME45SZwr08+vQqjXY/qpiIDdz0P4nIj6Foo3UiXRw4v9ccJPLW+Efjlke44D0/
+         gC1JzIN59ZjbxfZ6XajNKuC2rmTmdoDRtVUso68ZbdvVkIsJnD1CIBxX2zod5zy9LXju
+         VEFtRGAxpsd7ldSeNgF24rCEEK/bDxbII/YIVyDdBBtnIKJUUbLxWH2+Wn8nW1hqNwAi
+         QveoC5sim8oWwVpR+dx+Cz3z9451WgYJXrLVuXZGydDAFjvJSLby41HEQJsbW3zMx4RH
+         EIvushjZjHbeYzV/xGCIr+cmHPCx1UYZ5UoXfyLFisByGy0gy4XO/ngGv/4N8xuOYo4X
+         KgIA==
+X-Gm-Message-State: AOJu0YwJLYdZ5Yo1gs9RpYsRBQToViswYzR9gVpSyauqNnTF4qaJypFZ
+	vndx/XgSdyL7IuDbJaCwyqX+aeeg98ljqC7Aakl0U6j2rOXWgObD
+X-Gm-Gg: ASbGnct1mjsxRVTUoxSYWz1uNGgf/XaGkYXXFqFq2YC8LXAL2n9OJDUx/WMUmAAakFV
+	6JCpJlLz8ULFROco2LnvtGjhZXQ3mBldUwg3YuAAb7MA4mUAx4/y8WtA5p5PNSJqdWRQsqoWVvW
+	wIkibJk59z+MFI+L6/h5m7zsVzrdMln9oY9hdqzirkkx7gn7Yeuw2buaFJIRd433IduPPvTGIfk
+	3RfXQXuD1QGEdq0SVq+hdahBhQRohMPyYbr0zGR2Ps+yiMGU+RQhC3ri8QsiocLzHxlRu1Xf3my
+	+Xl87Yy/nNbmiWtJskrp6ft7UjJ+oAYuesOxYzzS2kkeiilpOldoJpjtYSv4sAKmmwrAIS21Uq4
+	CrQxPLCDFoZw=
+X-Google-Smtp-Source: AGHT+IGQGShyJFjfRIRI9K+kE3sr86i2cao/kD2OidrFrZiJ9PLEj+DLAgviIqGkEbYxxnmMmfCAgQ==
+X-Received: by 2002:a17:907:1b05:b0:abf:74d6:e2b0 with SMTP id a640c23a62f3a-ac252747c60mr2759557266b.3.1741784464786;
+        Wed, 12 Mar 2025 06:01:04 -0700 (PDT)
 Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac23988b64asm1068306266b.155.2025.03.12.06.01.02
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac23988b64asm1068306266b.155.2025.03.12.06.01.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 06:01:02 -0700 (PDT)
+        Wed, 12 Mar 2025 06:01:04 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 12 Mar 2025 13:00:44 +0000
-Subject: [PATCH OE-Core 1/4] scdoc: Import from meta-wayland
+Date: Wed, 12 Mar 2025 13:00:46 +0000
+Subject: [PATCH OE-Core 3/4] kmod: Upgrade 33 -> 34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250312-upgrade-kmod-v1-1-4de94f131b64@gmail.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250312-upgrade-kmod-v1-3-4de94f131b64@gmail.com>
 References: <20250312-upgrade-kmod-v1-0-4de94f131b64@gmail.com>
 In-Reply-To: <20250312-upgrade-kmod-v1-0-4de94f131b64@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -68,93 +68,400 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 13:01:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212651
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212653
 
-scdoc is a simple man page generator for POSIX systems written in C99.
+Migrate to meson from autotools. Drop remnants of ptest support which was
+removed in 2015:
+
+  https://git.openembedded.org/openembedded-core/commit/?id=f80d136bdd578468035a88125fa1b84973fd912b
+
+Remove configuration directory/symlink handling which is now done by the meson
+build. Fix manpage generation.
+
+kmod 34
+=======
+
+- Improvements
+
+	- Drop pre-built .ko modules from git - distros/packages will need the
+	  linux-headers to be able to run the testsuite. There was limited use
+	  of the feature, while linters complained about "source-not-included"
+	  or "source-contains-prebuilt-binary".
+
+	- Switch build system to meson: autotools is still supported but slated
+	  for removal on next release. This is the transition release to help
+	  distros and integrators to move to the new build system. Default options
+	  target distros while developers can use the build-dev.ini configuration
+	  file.
+
+	- Allow to load decompression libraries on demand: liblzma.so, libz.so
+	  and libzstd.so can now be loaded on demand, only when there is
+	  such a need. For use during early boot for loading modules, if
+	  configured well it means none of these libraries are loaded: the
+	  module loading logic via finit_module() will just hand over to kernel
+	  the open file descriptor and kernel will use its own decompress routine.
+
+	  If kernel doesn't handle decompression or if the module is compressed
+	  with a different algorithm than the one configured in the kernel,
+	  libkmod can still open the module by dynamically loading the
+	  correspondent library.
+
+	  Tools inspecting the module contents, like modinfo, will load that
+	  single decompression library instead all of them.
+
+	  For distros building with meson it's possible to choose the behavior
+	  per library. Examples: a) -Ddlopen=all uses dlopen behavior for all
+	  the libraries; b) -Ddlopen=xz, will make only xz to be dlopen'ed
+	  while other enabled libraries will be linked in at build time.
+
+	  The use of dlopen is annotated in the ELF file by using the ELF
+	  Package Metadata spec as documented in
+	  https://systemd.io/ELF_PACKAGE_METADATA/. Example:
+
+	  $ dlopen-notes.py libkmod.so
+	  # build/libkmod.so
+	  [
+	    {
+	      "feature": "xz",
+	      "description": "Support for uncompressing xz-compressed modules",
+	      "priority": "recommended",
+	      "soname": [
+	        "liblzma.so.5"
+	      ]
+	    }
+	  ]
+
+	- Add -m / --moduledir to depmod to override in runtime the module
+	  directory that was already possible to set on build time. Document
+	  the interaction between the dir options: base, module and output.
+
+	- Better error propagation in libkmod for its internal APIs and libc
+	  functions up to the callers.
+
+	- Improve libkmod API documentation by adding new sections, documenting
+	  functions previously missing, rewording existing ones, adding version
+	  information, cross-referencing, etc.
+
+	- Remove deprecated arguments for depmod: --unresolved-error, --quiet,
+	  --root and --map.
+
+	- Remove deprecated arguments for rmmod: -w.
+
+	- Remove deprecated arguments for insmod: -p and -s.
+
+	- Add --syslog and --force for insmod to normalize it with other tools.
+
+	- Add bash, fish and zsh shell-completion for insmod, rmmod and lsmod.
+
+	- Remove depmod_module_directory_override from .pc as the kernel side
+	  is not making use of it and will likely not need it.
+
+	- Improve builtin module listing and retrieving information from its
+	  modinfo index which reduces the amount of needed syscalls by 90%.
+
+	- Improve zstd decompression by using streaming bufferless mode which
+	  reduces the amount of syscalls by 65%.
+
+	- Increase use of pread while parsing ELF and indexes in order to reduce
+	  syscalls and improve performance.
+
+	- Improve module sorting in depmod to speedup the use of the
+	  modules.order index and support duplicate lines in it.
+
+	- Avoid misaligned memory access while reading module signature in
+	  libkmod.
+
+	- Add more documentation for contributing to kmod. New developers are
+	  welcome to look at the new README.md and CONTRIBUTING.md files for
+	  information on process, coding style, build/installation, etc.
+
+	- Overhaul man pages with multiple clarifications, section rewrites and
+	  additional documentation.
+
+	- Drop --with-rootlibdir as it's seldom used and was partially broken.
+
+	- Drop strndupa() and alloca() for increased libc compatibility.
+
+	- Better handling of LFS for increased compatibility with libc.
+
+	- Protect kmod_get_dirname() and kmod_new() against NULL argument.
+
+	- Normalize --version / --help output across all tools.
+
+	- Always include log priority in messages, even when building with debug.
+
+	- Optimize index reading by lazily reading nodes on demand, reducing
+	  FILE overhead and reducing code duplication wrt FILE vs mmap
+	  implementations, etc.
+
+	- Switch index to pre-order to improve performance in both read and
+	  write, meaning faster lookup and faster depmod. Some examples:
+	  a) traversing all indexes via configuration dump shows a 9%
+	  improvement on Raspberry Pi 2. b) writing the indexes takes 90% less
+	  lseek() calls, leading to a performance gain of 13%.
+
+	- Make symlink install locations more similar to what distros are
+	  using: by default it installs the kmod binary as bin/kmod and the
+	  symlinks are located in e.g. `sbin/depmod -> ../bin/kmod`. Changing
+	  the sbin location is sufficient to move the symlinks to the
+	  appropriate place, so distros using `--sbin /usr/bin` will have them
+	  installed in that directory. This avoids distros having to remove the
+	  symlink and add the symlinks by themselves. (meson only)
+
+	- Install configuration directories,
+	  /{etc,usr/lib}/{depmod,modprobe}.d/ as part of installation, matching
+	  what several distros do during packaging. (meson only)
+
+- Bug fixes
+
+	- Fix testsuite using when using configurable module dir.
+
+	- Fix typos on documentation and source code.
+
+	- Fix out of bound access in multiple places when using long paths,
+	  synthetic huge files, or handling memory allocation errors, or
+	  inconsistent variable types, particularly on 32b builds.
+
+	- Fix internal array APIs, with better error checking: improve execution on
+	  very memory-constrained scenarios or very long paths.
+
+	- Fix absolute path handling in depmod.
+
+	- Fix libkmod memory leaks on error handling when getting builtin
+	  module list.
+
+	- Do not crash on invalid modules.builtin.modinfo file.
+
+	- Fix link with lld resulting in empty testsuite.
+
+	- Fix testsuite build/execution with musl.
+
+- Others
+
+	- Adopt clang-format and editorconfig for coding style and setup CI
+	  action to keep the codebase consistent.
+
+	- Adopt codespell in CI.
+
+	- Adopt CodeQL integration in CI.
+
+	- Adopt Codecov in CI.
+
+	- Adopt SPDX copyright and license identifiers throughout the project.
+
+	- Add more distros to CI, 32b builds, clang as compiler and lld as
+	  linker.
+
+	- Add support for clang sanitizers and squelch warnings.
+
+	- Add tests for builtin modules from modinfo index file.
+
+	- Multiple testsuite refactors and fixes to make it simpler to write tests.
+
+	- Add CI coverage for docs
+
+	- Improve strbuf implementation with more error checks and generalize
+	  it to cover the role of scratchbuf. This allows to remove the
+	  scratchbuf implementation.
+
+	- Use common array and strbuf code in depmod to remove duplication.
+
+	- Add abstraction and use more compiler builtins for addition and
+	  multiplication with overflow checking.
+
+	- Normalize use of C attributes throughout the project.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc           |  1 +
- .../0001-Makefile-dont-add-static-to-LDFLAGS.patch | 27 ++++++++++++++++++++++
- meta/recipes-extended/scdoc/scdoc_git.bb           | 25 ++++++++++++++++++++
- 3 files changed, 53 insertions(+)
+ .../kmod/kmod/avoid_parallel_tests.patch           | 30 ------------
+ meta/recipes-kernel/kmod/kmod/gtkdocdir.patch      | 30 ------------
+ meta/recipes-kernel/kmod/kmod/run-ptest            |  5 --
+ .../kmod/{kmod_33.bb => kmod_34.1.bb}              | 57 +++++++++-------------
+ 4 files changed, 22 insertions(+), 100 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 5515d46ca5b1aad22c46665c78e4707bc22e3a0a..df7480d51301b4203c703a420e1522e221f77048 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -761,6 +761,7 @@ RECIPE_MAINTAINER:pn-sassc = "Simone Weiß <simone.p.weiss@posteo.com>"
- RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-sato-icon-theme = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER:pn-sbc = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-scdoc = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-screen = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-seatd = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-sed = "Chen Qi <Qi.Chen@windriver.com>"
-diff --git a/meta/recipes-extended/scdoc/scdoc/0001-Makefile-dont-add-static-to-LDFLAGS.patch b/meta/recipes-extended/scdoc/scdoc/0001-Makefile-dont-add-static-to-LDFLAGS.patch
-new file mode 100644
-index 0000000000000000000000000000000000000000..b520e949c0b31c0908118cba4f6c2b6ea26f5a26
---- /dev/null
-+++ b/meta/recipes-extended/scdoc/scdoc/0001-Makefile-dont-add-static-to-LDFLAGS.patch
-@@ -0,0 +1,27 @@
-+From 2cac433806d9622dbc005fe5738f1ae8c33a98cb Mon Sep 17 00:00:00 2001
-+From: Markus Volk <f_l_k@t-online.de>
-+Date: Thu, 13 Jul 2023 19:26:40 +0200
-+Subject: [PATCH] Makefile: dont add -static to LDFLAGS
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+---
-+ Makefile | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 60a80b8..49021fa 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -1,7 +1,6 @@
-+ VERSION=1.11.2
-+ CFLAGS?=-g
-+ MAINFLAGS:=-DVERSION='"$(VERSION)"' -Wall -Wextra -Werror -Wno-unused-parameter
-+-LDFLAGS+=-static
-+ INCLUDE+=-Iinclude
-+ PREFIX?=/usr/local
-+ BINDIR?=$(PREFIX)/bin
-+-- 
-+2.39.3
-+
-diff --git a/meta/recipes-extended/scdoc/scdoc_git.bb b/meta/recipes-extended/scdoc/scdoc_git.bb
-new file mode 100644
-index 0000000000000000000000000000000000000000..224e5417342e9db820456ec54476a1e3cac0e4e4
---- /dev/null
-+++ b/meta/recipes-extended/scdoc/scdoc_git.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "scdoc is a simple man page generator for POSIX systems written in C99."
-+HOMEPAGE = "https://github.com/ddevault/scdoc"
-+BUGTRACKER = "https://github.com/ddevault/scdoc/issues"
-+SECTION = "base/doc"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=31752b4a8edd3fb9ddba1cb90fada74d"
-+
-+SRC_URI = " \
-+	git://git.sr.ht/~sircmpwn/scdoc;protocol=https;branch=master \
-+	file://0001-Makefile-dont-add-static-to-LDFLAGS.patch \
+diff --git a/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch b/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
+deleted file mode 100644
+index 6db4fa7e97e55ea0d9e34c8caa35357ff2052adb..0000000000000000000000000000000000000000
+--- a/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 7a22abf188e5b688080bb1321a77588474114339 Mon Sep 17 00:00:00 2001
+-From: Tudor Florea <tudor.florea@enea.com>
+-Date: Fri, 6 Sep 2013 21:11:57 +0000
+-Subject: [PATCH] kmod: avoid parallel-tests
+-
+-Avoid parallel-tests as it remove
+-buildtest-TESTS and runtest-TESTS targets required by ptest.
+-In automake 1.13.4 parallel-tests is assumed by defauls.
+-In order to have buildtest-TESTS and runtest-TESTS targets
+-serial-tests is now required
+-
+-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+-Upstream-Status: Inappropriate (disable feature incompatible with ptest)
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 2f1c525..7056aae 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -14,7 +14,7 @@ AC_USE_SYSTEM_EXTENSIONS
+- AC_SYS_LARGEFILE
+- AC_PREFIX_DEFAULT([/usr])
+- AM_MAINTAINER_MODE([enable])
+--AM_INIT_AUTOMAKE([check-news foreign 1.11 silent-rules tar-pax no-dist-gzip dist-xz subdir-objects color-tests parallel-tests])
+-+AM_INIT_AUTOMAKE([check-news foreign 1.11 silent-rules tar-pax no-dist-gzip dist-xz subdir-objects color-tests serial-tests])
+- AM_SILENT_RULES([yes])
+- LT_INIT([disable-static pic-only])
+- 
+diff --git a/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch b/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
+deleted file mode 100644
+index 91d622b8c7b04a34b875efb8c2579614bdb90668..0000000000000000000000000000000000000000
+--- a/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 90fb7bb85002cde39de3b3d2e2481933390832af Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Fri, 8 Dec 2023 22:35:45 +0000
+-Subject: [PATCH] configure: set docdir in GTK_DOC_CHECK
+-
+-By passing --docdir in the GTK_DOC_CHECK arguments (to match
+-autogen.sh) autoreconf will work out of the box.
+-
+-Without this autoreconf fails due to the documentation not being in
+-./docs, the default location.
+-
+-Upstream-Status: Submitted [https://lore.kernel.org/linux-modules/20231208224511.1363066-1-ross.burton@arm.com/T/#u]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 7056aae..d53a20c 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -236,7 +236,7 @@ AS_IF([test "x$enable_coverage" = "xyes"], [
+- AM_CONDITIONAL([ENABLE_COVERAGE], [test "x$enable_coverage" = "xyes"])
+- 
+- m4_ifdef([GTK_DOC_CHECK], [
+--GTK_DOC_CHECK([1.14],[--flavour no-tmpl-flat])
+-+GTK_DOC_CHECK([1.14],[--flavour no-tmpl-flat --docdir libkmod/docs])
+- ], [
+- AM_CONDITIONAL([ENABLE_GTK_DOC], false)])
+- 
+diff --git a/meta/recipes-kernel/kmod/kmod/run-ptest b/meta/recipes-kernel/kmod/kmod/run-ptest
+deleted file mode 100755
+index 598dd2cb5fbad194a135e5d06601847e00df1586..0000000000000000000000000000000000000000
+--- a/meta/recipes-kernel/kmod/kmod/run-ptest
++++ /dev/null
+@@ -1,5 +0,0 @@
+-#!/bin/sh
+-touch testsuite/stamp-rootfs
+-tar xf testmodule.tar
+-make -k runtest-TESTS 2>/dev/null| grep -e ^PASS -e ^FAIL
+-find testsuite -name *.ko -exec rm -f {} \;
+diff --git a/meta/recipes-kernel/kmod/kmod_33.bb b/meta/recipes-kernel/kmod/kmod_34.1.bb
+similarity index 58%
+rename from meta/recipes-kernel/kmod/kmod_33.bb
+rename to meta/recipes-kernel/kmod/kmod_34.1.bb
+index 15f42766f3b5e484a8f0519fc037b32fa62a4754..daa9327f712e5a68a3e7f6058b22b313a6733ce9 100644
+--- a/meta/recipes-kernel/kmod/kmod_33.bb
++++ b/meta/recipes-kernel/kmod/kmod_34.1.bb
+@@ -13,28 +13,27 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://libkmod/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://tools/COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                    "
+-inherit autotools bash-completion gtk-doc pkgconfig update-alternatives
++inherit bash-completion gtk-doc manpages meson pkgconfig update-alternatives
+ 
+-SRCREV = "e193aeb99a04fb4b63ce47eb2c7f119db59446a0"
+-
+-SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;branch=master;protocol=https \
++SRC_URI = "https://www.kernel.org/pub/linux/utils/kernel/${BPN}/${BP}.tar.xz \
+            file://depmod-search.conf \
+-           file://avoid_parallel_tests.patch \
+-           file://gtkdocdir.patch \
+            "
++SRC_URI[sha256sum] = "125957c9125fc5db1bd6a2641a1c9a6a0b500882fb8ccf7fb6483fcae5309b17"
+ 
+-S = "${WORKDIR}/git"
+-
+-EXTRA_OECONF += "--enable-tools"
++EXTRA_OEMESON += "\
++    -Ddistconfdir=${nonarch_base_libdir} \
++    -Dtools=true \
 +"
++#-Dmoduledir=${nonarch_base_libdir}/modules
+ 
+ PACKAGECONFIG ??= "zlib xz openssl"
+-PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
+-PACKAGECONFIG[logging] = " --enable-logging,--disable-logging"
+-PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, scdoc-native"
+-PACKAGECONFIG[openssl] = "--with-openssl,--without-openssl,openssl"
+-PACKAGECONFIG[xz] = "--with-xz,--without-xz,xz"
+-PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
+-PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
++PACKAGECONFIG[debug] = "-Ddebug-messages=true,-Ddebug-messages=false"
++PACKAGECONFIG[logging] = " -Dlogging=true,-Dlogging=false"
++PACKAGECONFIG[manpages] = "-Dmanpages=true,-Dmanpages=false,scdoc-native"
++PACKAGECONFIG[openssl] = "-Dopenssl=enabled,-Dopenssl=disabled,openssl"
++PACKAGECONFIG[xz] = "-Dxz=enabled,-Dxz=disabled,xz"
++PACKAGECONFIG[zlib] = "-Dzlib=enabled,-Dzlib=disabled,zlib"
++PACKAGECONFIG[zstd] = "-Dzstd=enabled,-Dzstd=disabled,zstd"
+ 
+ PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+ RPROVIDES:${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+@@ -44,24 +43,7 @@ RREPLACES:${PN} += "module-init-tools-insmod-static module-init-tools-depmod mod
+ # to force user to remove old module-init-tools and replace them with kmod variants
+ RCONFLICTS:libkmod2 += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+ 
+-# autotools set prefix to /usr, however we want them in /bin and /sbin
+-EXTRA_OECONF += "--bindir=${base_bindir} --sbindir=${base_sbindir}"
+-
+ do_install:append () {
+-        install -dm755 ${D}${base_bindir}
+-        install -dm755 ${D}${base_sbindir}
+-        # add symlinks to kmod
+-        [ -e ${D}${base_bindir}/lsmod ] || ln -rs ${D}${base_bindir}/kmod ${D}${base_bindir}/lsmod
+-        for tool in insmod rmmod depmod modinfo modprobe; do
+-                rm -f ${D}${base_bindir}/${tool}
+-                ln -rs ${D}${base_bindir}/kmod ${D}${base_sbindir}/${tool}
+-        done
+-        # configuration directories
+-        install -dm755 ${D}${nonarch_base_libdir}/depmod.d
+-        install -dm755 ${D}${nonarch_base_libdir}/modprobe.d
+-        install -dm755 ${D}${sysconfdir}/depmod.d
+-        install -dm755 ${D}${sysconfdir}/modprobe.d
+-
+         # install depmod.d file for search/ dir
+         install -Dm644 "${UNPACKDIR}/depmod-search.conf" "${D}${nonarch_base_libdir}/depmod.d/search.conf"
+ 
+@@ -69,6 +51,11 @@ do_install:append () {
+         echo "exclude .debug" > ${D}${nonarch_base_libdir}/depmod.d/exclude.conf
+ }
+ 
++PACKAGES += "${PN}-fish-completion ${PN}-zsh-completion"
 +
-+DEPENDS = "scdoc-native"
++FILES:${PN}-fish-completion = "${datadir}/fish"
++FILES:${PN}-zsh-completion = "${datadir}/zsh"
 +
-+S = "${WORKDIR}/git"
-+PV = "1.11.2"
-+SRCREV = "afeda241f3f9b2c27e461f32d9c2a704ab82ef61"
-+
-+EXTRA_OEMAKE:class-native = "PREFIX=${prefix}"
-+EXTRA_OEMAKE:class-target = "PREFIX=${prefix} HOST_SCDOC=${STAGING_BINDIR_NATIVE}/scdoc"
-+
-+inherit autotools-brokensep
-+	
-+BBCLASSEXTEND = "native"
-+
+ ALTERNATIVE_PRIORITY = "70"
+ 
+ ALTERNATIVE:kmod = "insmod modprobe rmmod modinfo bin-lsmod lsmod depmod"
+@@ -78,9 +65,9 @@ ALTERNATIVE_LINK_NAME[insmod] = "${base_sbindir}/insmod"
+ ALTERNATIVE_LINK_NAME[modprobe] = "${base_sbindir}/modprobe"
+ ALTERNATIVE_LINK_NAME[rmmod] = "${base_sbindir}/rmmod"
+ ALTERNATIVE_LINK_NAME[modinfo] = "${base_sbindir}/modinfo"
+-ALTERNATIVE_LINK_NAME[bin-lsmod] = "${base_bindir}/lsmod"
++ALTERNATIVE_LINK_NAME[bin-lsmod] = "${base_sbindir}/lsmod"
+ ALTERNATIVE_LINK_NAME[lsmod] = "${base_sbindir}/lsmod"
+-ALTERNATIVE_TARGET[lsmod] = "${base_bindir}/lsmod.${BPN}"
++ALTERNATIVE_TARGET[lsmod] = "${base_sbindir}/lsmod.${BPN}"
+ 
+ PACKAGES =+ "libkmod"
+ FILES:libkmod = "${base_libdir}/libkmod*${SOLIBS} ${libdir}/libkmod*${SOLIBS}"
 
 -- 
 2.25.1
