@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A655C2BA1B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F0E6C35FF3
 	for <webhook@archiver.kernel.org>; Wed, 12 Mar 2025 19:53:17 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web10.4476.1741809191903852910
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.4685.1741809196531776180
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 12:53:11 -0700
+ Wed, 12 Mar 2025 12:53:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fxUCcS2T;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2ff797f8f1bso454765a91.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:53:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PYzw7b4Z;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2255003f4c6so4916255ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 12:53:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809191; x=1742413991; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741809196; x=1742413996; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PNKMiFy+wTVMOgENyzMMH3nxZX+QbCgmQY4+zAZPVTM=;
-        b=fxUCcS2T9ixpntO1N1JPp8guQF2oA3HpINIqQA2qe341M1KOsPrDopHxqdCSDWEFaN
-         Oz+JyvZAgSiC5UTifWQKUy6Vwwuxf5mlP/9CuW+zrAclzssw4ixoj9hfI18tqhWft2mA
-         zTOWAMFtvFkDYCh/lNV+wLes8+A8tIWHTwRra8JkGX3Fl4lshY/AGk9lRbq9PZvmCuoy
-         2CkYhxV/p8RlvTfq93QAzEcNj25u8EvnLCDnJFN0PGHATYWJAHmWBSsNuioNvYWdex8v
-         1WMtjPlsHFJGywCbHYoUCQ4EGU3Ne5KLvt4PYCGjz8sYS3Ibt9fhiQEQSkZBSa/fTmgl
-         OdwQ==
+        bh=xwCY3/Dt0bi3hQjfeUAJOjCoE/Ao8NdT0f7z//fPoAU=;
+        b=PYzw7b4ZXt9J79UrASU8njDMbj6Jh/fIPqEhqN11UEAcEF5H4J0JDikzzv/psVLvOh
+         hAqoCtts0uQi8mQN/5kWWxBI3pfHMArrM1O2XvHA6BUQ2jqDceM6/wvm+xdCxm5tOuZj
+         G75mrRqte80n8bF0oMABA9EUoRHYPzg992IrbttNWkAbKojV9iF3KASKkq9UD1V+kGVq
+         Rf1EGufmtGWMKwbKaKAuxhREADXNu/Vu9IFhTcIsIk/pnvX8GRnF64mAuBT6P0lFRai0
+         iY4S3oJW3axzg+FWzxVyCOb2KahJCcSgA4yqfuIEPift2nA78ZgtU7sMnWK6tFRbNZLw
+         LRcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741809191; x=1742413991;
+        d=1e100.net; s=20230601; t=1741809196; x=1742413996;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PNKMiFy+wTVMOgENyzMMH3nxZX+QbCgmQY4+zAZPVTM=;
-        b=p0nl52v0uklOd6CxBSJMLVmrj/ibFJpaFpdy5y3VsmioP7NjMS7uDZA6wAFsbKE1GW
-         cswdJwZuqhVukLUg0qoeHJqpW59zhINv3UlME98l4+Q4rNB3xfOmZ3FcMV6ifzXy+cno
-         yhuO/TfRbT7Me5F3C7AayLaxcCWlTlVjsNUDc6gUb2qrN/sTdeIiLeA6UWWGMX2OQ+XM
-         Ec0JjSbFsJrvCoxSj+UXpFo+HsUIdLmZvaWUBW5eJONZyKQijAi/lZv8yJWjiRRflY3N
-         1IHyeLrIJ5f+p6ntyBZGxwUUswt/zlV0DFrl0pkRrZGc+giXD4TNpb2C07wQnQF6Fh2T
-         9ZlA==
-X-Gm-Message-State: AOJu0YzSm8enmh5W3MyX3eLJCGdQPtldVF7ycfTp6wAhUVzz0xP076yt
-	oyTay2Z56yfNxy7XW9emngzabSvw1f1FEkVF0ZMgxE5X6E7Crmu/rfdXFoWVFKc3eYSyg8K2rK9
-	L
-X-Gm-Gg: ASbGncswv2w1QdFAx8v2Y0iJS5XQxjR5eLZI7A0CxK3ubDrFN6bFcomm/vpD5VRk71m
-	xlSDmF8IvwwiqONFFTIiSonRU2M80OKqsp3khC5LyTJp2pOf02Ad/4pOvOVvgVO7GQiBe0PMCbk
-	1nQM9+ivFriZCbDcDk6Lacf93T9D4ygOcXu3+JAF34xnox+dJQBAlBoMUihZCUX0uJyey345Vhs
-	Qm+VGhNZUJcsP0LD3wZrE6GdxseVpoplLylJnRkTZzwmZJU7QiYiUCB4HZdBVLlgPQfMzPUt2Wv
-	jtkJqHI1BtVjQB0uzuN9oZM8Hm6lxUeYz/kQGeV/+t1M3Q==
-X-Google-Smtp-Source: AGHT+IFuU46spOES3Okdg5nQxpIqDK0DziPIBc92W3xziAs8pj/pnqrGA67HjFUZ74mcsFHBhTwMlQ==
-X-Received: by 2002:a05:6a21:493:b0:1f3:41d5:6608 with SMTP id adf61e73a8af0-1f58cbc5068mr13696034637.26.1741809191208;
-        Wed, 12 Mar 2025 12:53:11 -0700 (PDT)
+        bh=xwCY3/Dt0bi3hQjfeUAJOjCoE/Ao8NdT0f7z//fPoAU=;
+        b=J/UWBH/Ib+bF04Na8AGzvpoZw5imvn6Hebe94IP4Ja503Xg2D40VBcWJ16ZOoGmqA7
+         Gz28gmn1fj3NgBEM4kjQW2QaK2F7nhuBJ6bhzuiVY8HdDzAPRtVKNAl+AukJ2bOyiwUs
+         DxLQC7C9SuNexWjhUFB8OeeZvziIWiOZiKdLscmk0+EFcVl8dUuTtFwMxxiq+sFIiiww
+         wfeqtRSPYfHtQIqWMqZheldsBK+RsGjsYSNshBCE27I/A6KzeTziihvM3W3MqJ+4DSM1
+         S6V3vJ7BvEwpPs6wuVrAbUD64/NZ252JNr6CfBPm6Jv0XJPy7WjBUvDCqQ52Gx4lplNw
+         0/mQ==
+X-Gm-Message-State: AOJu0YwGDL/2abVcPH98OzXXAqOmd4ShYDVhUsyle4BHxBDS0vEQlDLx
+	6CjdHZ5qImUzEnWSJTmqU5nroMD/CCNRJDGjcdZManjYoUDWZiE3Lok12Jxx848W32ZoNNIWAMM
+	c
+X-Gm-Gg: ASbGnct7+eYUehoeK7nrnZgXTl4gzYpAg8MME/LOdc5J5KdnQAwieYfbm0/9lfl3mEO
+	38SSRDeC7cF/+gJNpncsKTWGwZpscG+K6LFTYiIH0RVH0XhWKzwVEIsZPUZtQId2cXL38lvJ5bW
+	NOhduTYRLyZsg2vUqLmg9m3pte/zUQ0R+wVKSemrQE+ISPKaz7PvEU7zohsZ3wlbNnXHmGsLddE
+	0vNd06iqYqz1qZxC/6Z3ToATzLAiprfX1dVGl99NipMKC4fUOCRfpfMdojGSah9l2BX7A3OE3yd
+	6vMzAAAkQ8KO6B87Um3+bQVl/K2zN3l7ZiU=
+X-Google-Smtp-Source: AGHT+IF9CCLF4xP0z2xKlLWzWWJwEWlxFxmo0deXeaWbKSQnwgLFDmQ7WruYU8bgE+FY5Azfby+yGA==
+X-Received: by 2002:a05:6a21:4cc7:b0:1f3:36f7:c0d2 with SMTP id adf61e73a8af0-1f58cbf3befmr14041344637.41.1741809195637;
+        Wed, 12 Mar 2025 12:53:15 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5779:a397:ba1c:2b0])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56093c2f5sm1389955a12.67.2025.03.12.12.53.10
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56093c2f5sm1389955a12.67.2025.03.12.12.53.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 12:53:10 -0700 (PDT)
+        Wed, 12 Mar 2025 12:53:15 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 21/25] libtasn1: upgrade 4.19.0 -> 4.20.0
-Date: Wed, 12 Mar 2025 12:52:29 -0700
-Message-ID: <7e79c2dd6cb3b10780219675cf908eaf37046bec.1741808973.git.steve@sakoman.com>
+Subject: [OE-core][styhead 24/25] xserver-xf86-config: remove obsolete configuration files
+Date: Wed, 12 Mar 2025 12:52:32 -0700
+Message-ID: <73f39fe8a5367ad905002df03e10fbf59b8f8921.1741808973.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741808973.git.steve@sakoman.com>
 References: <cover.1741808973.git.steve@sakoman.com>
@@ -67,54 +67,270 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Mar 2025 19:53:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212688
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212691
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Ross Burton <ross.burton@arm.com>
 
-* Noteworthy changes in release 4.20.0 (2025-02-01) [stable]
-- The release tarball is now reproducible.
-- We publish a minimal source-only tarball generated by 'git archive'.
-- Update gnulib files and various build/maintenance fixes.
-- Fix CVE-2024-12133: Potential DoS in handling of numerous SEQUENCE OF or SET
-OF elements
+For reasons we have explicit xorg.conf files for a number of the qemu
+machines, but not all of them. These mainly disabled screen blanking
+(which is now down with a separate fragment) but also explictly set the
+device driver to fbdev which meant they didn't use the modesettings
+driver as they should (with the virtio framebuffer from qemu).
 
-License-Update: file COPYING.LESSER renamed to COPYING.LESSERv2 & Copyright year updated to 2025
+This is the root cause of why the xserver 21.1.16 upgrade doesn't work
+on a number of machines: the /sys probing changed and the fbdev driver
+now refuses to use the PCI framebuffer device as there are better
+drivers, but we've explictly told xorg to use the wrong driver.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+For more details, see https://gitlab.freedesktop.org/xorg/xserver/-/issues/1798.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 8c8039bf4c2d011e3d12c970ce45036b184902a9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gnutls/{libtasn1_4.19.0.bb => libtasn1_4.20.0.bb}      | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-support/gnutls/{libtasn1_4.19.0.bb => libtasn1_4.20.0.bb} (63%)
+ .../xserver-xf86-config/qemuarm/xorg.conf     | 42 -------------------
+ .../xserver-xf86-config/qemuppc/xorg.conf     | 42 -------------------
+ .../xserver-xf86-config/qemush4/xorg.conf     | 42 -------------------
+ .../xserver-xf86-config/qemux86-64/xorg.conf  | 37 ----------------
+ .../xserver-xf86-config/qemux86/xorg.conf     | 37 ----------------
+ 5 files changed, 200 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
 
-diff --git a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-similarity index 63%
-rename from meta/recipes-support/gnutls/libtasn1_4.19.0.bb
-rename to meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-index 5fb8b54c06..8127ba5b1d 100644
---- a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-@@ -6,9 +6,8 @@ HOMEPAGE = "http://www.gnu.org/software/libtasn1/"
- LICENSE = "GPL-3.0-or-later & LGPL-2.1-or-later"
- LICENSE:${PN}-bin = "GPL-3.0-or-later"
- LICENSE:${PN} = "LGPL-2.1-or-later"
--LIC_FILES_CHKSUM = "file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://doc/COPYING.LESSER;md5=4fbd65380cdd255951079008b364516c \
--                    file://COPYING;md5=75ac100ec923f959898182307970c360"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
-+                    file://COPYING.LESSERv2;md5=4bf661c1e3793e55c8d1051bc5e0ae21"
- 
- SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-            file://dont-depend-on-help2man.patch \
-@@ -16,7 +15,7 @@ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
- 
- DEPENDS = "bison-native"
- 
--SRC_URI[sha256sum] = "1613f0ac1cf484d6ec0ce3b8c06d56263cc7242f1c23b30d82d23de345a63f7a"
-+SRC_URI[sha256sum] = "92e0e3bd4c02d4aeee76036b2ddd83f0c732ba4cda5cb71d583272b23587a76c"
- 
- inherit autotools texinfo lib_package gtk-doc
- 
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
+deleted file mode 100644
+index 3eb380a0a4..0000000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
++++ /dev/null
+@@ -1,42 +0,0 @@
+-
+-Section "Files"
+-EndSection
+-
+-Section "Device"
+-    Identifier    "Graphics Controller"
+-    Driver        "fbdev"
+-EndSection
+-
+-Section "Monitor"
+-    Identifier    "Generic Monitor"
+-    Option        "DPMS"
+-    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
+-    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
+-    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
+-    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
+-    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
+-    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
+-    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
+-    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
+-    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
+-    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
+-EndSection
+-
+-Section "Screen"
+-    Identifier    "Default Screen"
+-    Device        "Graphics Controller"
+-    Monitor        "Generic Monitor"
+-    SubSection "Display"
+-        Modes     "640x480"
+-    EndSubSection
+-EndSection
+-
+-Section "ServerLayout"
+-    Identifier    "Default Layout"
+-    Screen        "Default Screen"
+-    Option         "AllowEmptyInput" "no"
+-    Option        "BlankTime" "0"
+-    Option        "StandbyTime" "0"
+-    Option        "SuspendTime" "0"
+-    Option        "OffTime" "0"
+-EndSection
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
+deleted file mode 100644
+index 3eb380a0a4..0000000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
++++ /dev/null
+@@ -1,42 +0,0 @@
+-
+-Section "Files"
+-EndSection
+-
+-Section "Device"
+-    Identifier    "Graphics Controller"
+-    Driver        "fbdev"
+-EndSection
+-
+-Section "Monitor"
+-    Identifier    "Generic Monitor"
+-    Option        "DPMS"
+-    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
+-    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
+-    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
+-    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
+-    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
+-    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
+-    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
+-    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
+-    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
+-    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
+-EndSection
+-
+-Section "Screen"
+-    Identifier    "Default Screen"
+-    Device        "Graphics Controller"
+-    Monitor        "Generic Monitor"
+-    SubSection "Display"
+-        Modes     "640x480"
+-    EndSubSection
+-EndSection
+-
+-Section "ServerLayout"
+-    Identifier    "Default Layout"
+-    Screen        "Default Screen"
+-    Option         "AllowEmptyInput" "no"
+-    Option        "BlankTime" "0"
+-    Option        "StandbyTime" "0"
+-    Option        "SuspendTime" "0"
+-    Option        "OffTime" "0"
+-EndSection
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
+deleted file mode 100644
+index 3eb380a0a4..0000000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
++++ /dev/null
+@@ -1,42 +0,0 @@
+-
+-Section "Files"
+-EndSection
+-
+-Section "Device"
+-    Identifier    "Graphics Controller"
+-    Driver        "fbdev"
+-EndSection
+-
+-Section "Monitor"
+-    Identifier    "Generic Monitor"
+-    Option        "DPMS"
+-    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
+-    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
+-    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
+-    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
+-    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
+-    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
+-    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
+-    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
+-    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
+-    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
+-EndSection
+-
+-Section "Screen"
+-    Identifier    "Default Screen"
+-    Device        "Graphics Controller"
+-    Monitor        "Generic Monitor"
+-    SubSection "Display"
+-        Modes     "640x480"
+-    EndSubSection
+-EndSection
+-
+-Section "ServerLayout"
+-    Identifier    "Default Layout"
+-    Screen        "Default Screen"
+-    Option         "AllowEmptyInput" "no"
+-    Option        "BlankTime" "0"
+-    Option        "StandbyTime" "0"
+-    Option        "SuspendTime" "0"
+-    Option        "OffTime" "0"
+-EndSection
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
+deleted file mode 100644
+index c01c3331c5..0000000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
++++ /dev/null
+@@ -1,37 +0,0 @@
+-
+-Section "Files"
+-EndSection
+-
+-Section "Monitor"
+-    Identifier    "Generic Monitor"
+-    Option        "DPMS"
+-    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
+-    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
+-    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
+-    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
+-    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
+-    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
+-    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
+-    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
+-    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
+-    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
+-EndSection
+-
+-Section "Screen"
+-    Identifier    "Default Screen"
+-    Device        "Graphics Controller"
+-    Monitor        "Generic Monitor"
+-    SubSection "Display"
+-        Modes     "640x480"
+-    EndSubSection
+-EndSection
+-
+-Section "ServerLayout"
+-    Identifier    "Default Layout"
+-    Screen        "Default Screen"
+-    Option         "AllowEmptyInput" "no"
+-    Option        "BlankTime" "0"
+-    Option        "StandbyTime" "0"
+-    Option        "SuspendTime" "0"
+-    Option        "OffTime" "0"
+-EndSection
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
+deleted file mode 100644
+index c01c3331c5..0000000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
++++ /dev/null
+@@ -1,37 +0,0 @@
+-
+-Section "Files"
+-EndSection
+-
+-Section "Monitor"
+-    Identifier    "Generic Monitor"
+-    Option        "DPMS"
+-    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
+-    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
+-    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
+-    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
+-    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
+-    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
+-    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
+-    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
+-    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
+-    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
+-EndSection
+-
+-Section "Screen"
+-    Identifier    "Default Screen"
+-    Device        "Graphics Controller"
+-    Monitor        "Generic Monitor"
+-    SubSection "Display"
+-        Modes     "640x480"
+-    EndSubSection
+-EndSection
+-
+-Section "ServerLayout"
+-    Identifier    "Default Layout"
+-    Screen        "Default Screen"
+-    Option         "AllowEmptyInput" "no"
+-    Option        "BlankTime" "0"
+-    Option        "StandbyTime" "0"
+-    Option        "SuspendTime" "0"
+-    Option        "OffTime" "0"
+-EndSection
 -- 
 2.43.0
 
