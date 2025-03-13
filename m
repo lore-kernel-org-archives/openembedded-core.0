@@ -1,109 +1,133 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E7D0C282DE
-	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 14:29:21 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.16213.1741876157802730006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1AAC282DE
+	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 14:29:41 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.16306.1741876171960528970
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Mar 2025 07:29:18 -0700
+ Thu, 13 Mar 2025 07:29:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LbadsNY5;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cfdc2c8c9so6872995e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 07:29:17 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=c679sc81;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43d07ca6a80so7027165e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 07:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741876156; x=1742480956; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9RX22DntgFk+MYA2vilvyxqQk7ZpAldYuEGkrUTcks8=;
-        b=LbadsNY5B138DLyIihLSiPsmwINd4f1+/7Q8DAPQCLREwQBQObK6Zkuv/6F14ai2Rq
-         dXRak2AMfcbUJJwVZcLls24TGbg+cbiOywJEW+2uJiYcXnnpao+7Wv2qJewCBxge8Y+B
-         fpCxYmjjJ9Zf8LbquZgMzhu95Xkh8IAKVbO5nSpfxBE970caA9Ob6s85KfF2h8iu1j0O
-         pEA7d8H2PNAf8QXZp8Mn9X80G1fv+PQ3/kdKVyCoHMa595DigWiuP2y3KnjwppsN+/UT
-         PCARa2WrzQY1s3eFFcRdXuTURuHPRvHwFXwlFOQb4vxl1a/1PpCYvanaoTi7ID5zl68+
-         3zHw==
+        d=linuxfoundation.org; s=google; t=1741876170; x=1742480970; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Cg6JcBs4+lBf5GPQHA5tZvitbpFDUl3qCG/ZYWpFA8Y=;
+        b=c679sc81Lf3acMKlpTZA5O/GkCZhE0uLCyDU8mbnmD9Q7K4fXRW7PdzhXUK93bnewU
+         NoPw5Tevov7cr5wUyHmzRtFsR3mRcezoMz5YGF4/qLobuCLVztnsx54KwhEa9bh6QPUJ
+         Z2wJSft0032NN1jIXeK1hNsV9UNn2Es4zM21Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741876156; x=1742480956;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9RX22DntgFk+MYA2vilvyxqQk7ZpAldYuEGkrUTcks8=;
-        b=hSQndsoxgHCVnVfeCCREzTMefGMJviGRURHrIFuEB1Z/SYbgIUS8D8UunrTeEIMiBM
-         Zz5qZmeKAxGpH/WE8gY3wrr795w4cVlgnntgaHJN1NEpFMp/JidqRcQFeFz1sylNEqlv
-         EhV7rVuxkeGsjpPv1l2F8vLptUjCgyYKK1HjeWAxyBjBOWqPfovjTt90I6k034g8sm7s
-         CxnY7uwwWgmFEPd0bziX2vEJaCIXaijNN77fa2CjHbxjP7WLixHw9r1/5ELRZpR3cM2U
-         0jRhq7WTlD5uVksKWjlYJXkPdaYnJPPQhU0EEm5gNfJYbiNIkYz8/2RTz0c4ZhZD5R33
-         L2Tg==
-X-Forwarded-Encrypted: i=1; AJvYcCXRuIWOZhh+h0QxCTB6E/V3ZM1z55ikA3bryKHE+cCh6m3moeaJCvLLH7ozYEmAn7KxLKHDIChFC/cHpKSOTpYYJg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxmBkBz6TMbKGDSuFJ/4wv0eSikxER3tn2DH9Yl+aAYKDx2he5X
-	v5T6rECD3GP6vu0IksrkhpRub1c4jY6+I4ramcE6V8tCHrdpYlWi/dwiDQ==
-X-Gm-Gg: ASbGncsfZWUSINzbVrZH5NJJpIfjQgqER7rg3RKpONjSIbn208Y8Y2w01wnNfD2FITo
-	+azl2TgT6Jty323knpa0gFluf3E93tiFQTXyBdzErSvaGb3j7iZtTvdsxOfCv+BcadNQp0xEJRx
-	Kr3Q85Le1TEYrymxEcSGY6rErTfx3K/eYpayiWxE927+DF93TpSlmF9oiomCGxDA1fMUGxkS2eS
-	T/uxRTiVrnuGve9u58iNHJhOCXWwZ27zhunKdKYlkiEN9H12QuM8uTMjEhgDw9hUUM3QcY//FaL
-	DwVSIc37rgcazVl3iqsJjBnSO3u2qgMd74mppRpJI9ZXmdr5pP2WoO+a+nUAbJE4AATwLNH2yHz
-	Y1A==
-X-Google-Smtp-Source: AGHT+IFURmb0gRPC/peiFNyStIpFWofqn6OFUREx8LpOsYKbxnUuwdQrVtueDO68bxXhn2vHpcCwlA==
-X-Received: by 2002:a05:600c:470d:b0:43c:fab3:4fad with SMTP id 5b1f17b1804b1-43cfab351c6mr155188855e9.16.1741876154385;
-        Thu, 13 Mar 2025 07:29:14 -0700 (PDT)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d18a4c608sm21817965e9.38.2025.03.13.07.29.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Mar 2025 07:29:14 -0700 (PDT)
-Message-ID: <82e68825-b7ad-4236-a898-3fc97fa57bd4@gmail.com>
-Date: Thu, 13 Mar 2025 15:29:13 +0100
+        d=1e100.net; s=20230601; t=1741876170; x=1742480970;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Cg6JcBs4+lBf5GPQHA5tZvitbpFDUl3qCG/ZYWpFA8Y=;
+        b=n9WX7ZkfFQj+Wky7molVitfzXw54yuUALudX9lQHA2VdNSXgjT0hHLaCqM1cWhioE5
+         oDku0kt+4uh+xBstiEqD2qHuQTgSLTIhZZHqf83+uTv63E4HGJqMzbYuDkOmUPB4E5dT
+         u8ihw2A8Y9Cb1hHirmZRvWVU8U/ZBSCdl6dzHnquo9mo1MNoKeUpr7sN3F0wwbyhB07o
+         jh8vwM0sEFtHvvyjQeTVhAGcxeGK4y5og0fgmT6hwT6RbcJreL4VD0KI3mB3EZdAPPUC
+         8un3hsCk+yllw8AX4D4b8KzrLpU4dKmg/NmNUUQJI7ukVlCARsr5Ly9fBtQr8Xr/gKaD
+         PeCw==
+X-Forwarded-Encrypted: i=1; AJvYcCWfSbjOqYpKXjPfd2hDH5KQJd21hBKbvpvE1HYzwc1t9q9gbjh/3mKIUKbiQ3V4UmzLIwVzMpviBHid4pf3VCIe0Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyDK043axvGucYsX75McL0vKq1s/tXLkq+1SdcMXaVvvimFsldv
+	D6S1FrheHImJKSjl9D8Ls3/1fvn7MZVGwwv/cU2ls4RJn85tnLveL/dI4cYgRUzg+LxxYWx075a
+	R
+X-Gm-Gg: ASbGncsALXNH46O8Ucb05AEUw3mEMlRQ8/jXZvhaesgtl++g56TsM2rAdyiTeb5YPhv
+	PzO1oZQ/AqUvaZAopI9QQ/yCwX7iKFN01b0JcbAHUTcUb/7FWutc+kyRN2RUIxklkfyjLzRDmfN
+	Jux52VZkKuX+45ipFyfhEhf5056hSdgsmwYn+Wtd/btF9eLnWhAN58Zt9lAM5/oDtuyhsURtSuG
+	xuT2vLEZmhAnQbDSjWXGbkspjtrQcRNeQOL9k9JPYh7bfburEOEiACCtQK2KEsQumjofTuNFcpl
+	/htatSnvHuA2swwVnRY5D8lN/b2tXTybOPuPfho/IGNAyuc9L72ysAbaX8qcwCVTpxPBqki6KxM
+	2YodZNTdLkPCoZEWkW2S0P3H9COMbaUW7xjFc42RWw2LY
+X-Google-Smtp-Source: AGHT+IHWkYVhS4RsxsASryO6kCgzC/85XKynnQLw384Q7dvWybYBjwTzvkNgspC9YZY9wQ/yPX8nQw==
+X-Received: by 2002:a5d:59a5:0:b0:391:4674:b10f with SMTP id ffacd0b85a97d-3914674b5d4mr14484909f8f.36.1741876170253;
+        Thu, 13 Mar 2025 07:29:30 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:cc37:5f80:1a41:4bc8? ([2001:8b0:aba:5f3c:cc37:5f80:1a41:4bc8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d188b754asm22096695e9.14.2025.03.13.07.29.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Mar 2025 07:29:29 -0700 (PDT)
+Message-ID: <aa654d9ac3d79d02192b1bfb00ab725f116efc70.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] lib/oe/qa: raise error on objdump failure
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: thomas.perrot@bootlin.com, openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com
+Date: Thu, 13 Mar 2025 14:29:27 +0000
+In-Reply-To: <20250313093437.95237-1-thomas.perrot@bootlin.com>
+References: <20250313093437.95237-1-thomas.perrot@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/4] systemd-systemctl-native: correctly set PV
-To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-References: <20250311100500.355914-1-alex.kanavin@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <20250311100500.355914-1-alex.kanavin@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 14:29:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212780
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 14:29:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212781
 
-I don't know who else has run into this, but having
-
-     DISTRO_FEATURES_NATIVE="systemd"
-
-produces circular dependency between
-systemd-systemctl-native and util-linux-native. FWIW, I do not know why I had it, but I 
-did since 2020. With that setting removed, the build can start.
-
-The build warns about other obsolete settings,
-can this be added to the set of warnings somehow?
-
-2025. 03. 11. 11:04 keltezéssel, Alexander Kanavin via lists.openembedded.org írta:
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+On Thu, 2025-03-13 at 10:34 +0100, Thomas Perrot via lists.openembedded.org=
+ wrote:
+> From: Thomas Perrot <thomas.perrot@bootlin.com>
+>=20
+> Change the log level from 'note' to 'fatal' when objdump fails.
+> This ensures failures are treated with higher severity, providing
+> more visible feedback when objdump commands fail.
+>=20
+> Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
 > ---
->   ...temd-systemctl-native.bb => systemd-systemctl-native_257.3.bb} | 0
->   1 file changed, 0 insertions(+), 0 deletions(-)
->   rename meta/recipes-core/systemd/{systemd-systemctl-native.bb => systemd-systemctl-native_257.3.bb} (100%)
->
-> diff --git a/meta/recipes-core/systemd/systemd-systemctl-native.bb b/meta/recipes-core/systemd/systemd-systemctl-native_257.3.bb
-> similarity index 100%
-> rename from meta/recipes-core/systemd/systemd-systemctl-native.bb
-> rename to meta/recipes-core/systemd/systemd-systemctl-native_257.3.bb
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#212550): https://lists.openembedded.org/g/openembedded-core/message/212550
-> Mute This Topic: https://lists.openembedded.org/mt/111637143/3617728
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> =C2=A0meta/lib/oe/qa.py | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+> index cd36cb5070d1..c1e295029abb 100644
+> --- a/meta/lib/oe/qa.py
+> +++ b/meta/lib/oe/qa.py
+> @@ -155,7 +155,7 @@ class ELFFile:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+self.objdump_output[cmd] =3D bb.process.run([objdump, cmd, self.name], env=
+=3Denv, shell=3DFalse)[0]
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+return self.objdump_output[cmd]
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except Exception as e:
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.no=
+te("%s %s %s failed: %s" % (objdump, cmd, self.name, e))
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fa=
+tal("%s %s %s failed: %s" % (objdump, cmd, self.name, e))
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+return ""
+> =C2=A0
+> =C2=A0def elf_machine_to_string(machine):
+>=20
+
+Unfortunately this will break things:
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/78/builds/1210/ste=
+ps/13/logs/stdio
+
+bb.process.ExecutionError: Execution of 'x86_64-poky-linux-objdump -p /srv/=
+pokybuild/yocto-worker/build-appliance/build/build/tmp/work/core2-64-poky-l=
+inux/python3-packaging/24.2/packages-split/python3-packaging-ptest/usr/lib/=
+python3-packaging/ptest/tests/manylinux/hello-world-x86_64-x32' failed with=
+ exit code 1:
+x86_64-poky-linux-objdump: /srv/pokybuild/yocto-worker/build-appliance/buil=
+d/build/tmp/work/core2-64-poky-linux/python3-packaging/24.2/packages-split/=
+python3-packaging-ptest/usr/lib/python3-packaging/ptest/tests/manylinux/hel=
+lo-world-x86_64-x32: file format not recognized
+
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/99/builds/1174
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/13/builds/1092
+
+and more in that build.
+
+Cheers,
+
+Richard
+
+
 
 
