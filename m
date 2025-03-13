@@ -1,117 +1,110 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5717AC282EC
-	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 13:45:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78DA3C282DE
+	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 14:13:41 +0000 (UTC)
 Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.14939.1741873497810826289
+ by mx.groups.io with SMTP id smtpd.web10.15930.1741875217844042176
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Mar 2025 06:44:58 -0700
+ Thu, 13 Mar 2025 07:13:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LCxiPYUz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so8768475e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 06:44:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XQUUzVHS;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4394a823036so9421195e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 07:13:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1741873496; x=1742478296; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kVESxqyMnsvSTdMS/JKqwctZMT6nAKmuPv+iXTbece8=;
-        b=LCxiPYUzGsh8enn985AQcaXw5C7Drl8feaJpo2dnIjezHLnZgjhFLSjGN1wItY+Zlx
-         gEnB+V1CLj4sD3jjCmZC+MJu01/mTzhM+pxfz4YpYVu8W7uhVmw48F50aEmNe9erFrYB
-         2pIWT4/aSY8ccpxX+V+8vMqNyQL2IeQ/B4LQY=
+        d=gmail.com; s=20230601; t=1741875216; x=1742480016; darn=lists.openembedded.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OfPq8ADtLczjXP81fqQzVSfXjG9XXgOKnR8xhbEJKJs=;
+        b=XQUUzVHSGHpTgv/ZjYwcZTe3Pgwx1Opl/DXJSF+CqLVsmASeRY24jCUfdupTlNSpJM
+         KMdG5ds0TkHiFU8mC/Bwp+fDWuXzzIGnZohGBCNd2eIa7rFZdX/eFV1b+Hklg0c03ztM
+         LphdPTiE1J5ViStaF0sn/F8siVjMGikDa/Ad2gfRtXH611ArLJ4WzYnI1HRtpCJcyGkc
+         bgnz4VrOO1zvvm0FaBv5+Q/4rU3HW8zuVsOgd6rGe2dKxBELdWsR5D6yS3bi/xEoXL2Q
+         SbWoSUMP3CxP1xwqTfny5buYXjVxwpCUWTHqLJZI3nlK9om/ZvlKVEWTtwVBBpXViDaA
+         CbJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741873496; x=1742478296;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kVESxqyMnsvSTdMS/JKqwctZMT6nAKmuPv+iXTbece8=;
-        b=sk9HJqCNKq4dxIrQ+3yNFLTjpn+gH2MTFzG3K7bHzRjlWKNOs8d03C2NKhXVV6FToX
-         2LjRRsIRenofr7LC7zPHEp7FohljdiKbeEWE+IQdAxAROrBsWoFGBHfPO0a1Jr4Zut5M
-         C3zMveZiYnYfqHHLkHgd1mdILtziE26KQFIe1gwfDxj7mEgVC7jwM/uHabOKA2iGoCCp
-         FhfwBa1zjlFvXP7kNYs7EocGyq43qWqV1x3bdvba54Fl1RrQvtGnCR3N1flhPESE/skA
-         Fx1r4IjyroQzkskAqdv+3DV3sYzcJJgQWEmGQ63aSXqe4/rkFSJi2f3JVUzb+B12fICv
-         W+xw==
-X-Forwarded-Encrypted: i=1; AJvYcCXdMJ1pneT803fMZwnnFiO2hKFbvVLGgxmO/Rmoj7sASs7Y6yiwbnoPdZjpmfsiMKSzITKWnac746FgLyoAnhgixg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw9/5iynRG9dltYNuTMEKdWmnqQQknYEY43qMcVtVDzXcBLWWol
-	7qM1Dns6EPX9xg0he8iuKUJi+YBh8KhAG5dkEgWUq/tR1jmpbIJZKL/nJhRVkAc=
-X-Gm-Gg: ASbGncu0D+w7MlqOMnD8xsvJzgz2miWDKOHwSEl1dSo6xUMm9xW8Lts43U+wJK3YFoH
-	OgtcxWiQbPFqu3WnAPWfwbniPwA4uhSmEuIlpNwTULXaP5FDBV/IdOS3wWAB6LzcWCoQ4MamcF3
-	jxwx8BUmm0usoWQOzYMROMjfsWRfojpIMh5FfgEWLi/kueUsGvcjjaaQ+ww9PgDEwAsEjD72Tcp
-	wCNt5HrLGP2YDO3RK67DEcwpaTAF98SDazBdVvRBkRANNyloJDIF6+SNQMJBWZ+ltZTVMnwtoYf
-	873elAs49UWXq9zDQUpTu4xDtbu4rAMFKYPFDcKKP0uiYw3P16d6dEOn5NI1XIC6Pzoa5axHMvN
-	4zrboZLLrd0gcU6f4QR1U83vyIJ4dcC/diQ==
-X-Google-Smtp-Source: AGHT+IGflX6Ec98zZCRDuUcxUOIWeyJznKlI6/eeafVEoaYhWZ8/xWMl6BDXNg1GcjayRgD2BHHrMg==
-X-Received: by 2002:a05:600c:3b1a:b0:43c:fe5e:f03b with SMTP id 5b1f17b1804b1-43cfe5ef197mr145697125e9.30.1741873495996;
-        Thu, 13 Mar 2025 06:44:55 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:cc37:5f80:1a41:4bc8? ([2001:8b0:aba:5f3c:cc37:5f80:1a41:4bc8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d0a74cfa5sm54205965e9.10.2025.03.13.06.44.55
+        d=1e100.net; s=20230601; t=1741875216; x=1742480016;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OfPq8ADtLczjXP81fqQzVSfXjG9XXgOKnR8xhbEJKJs=;
+        b=tsScyRiAJk2B2bVOcEDG41iHbk5kaD+bAcyI2nM+8KyQpm4BnLNHeHzcGADgThkl31
+         p9yM3e+7eyOUFRz1uvBCL2DXrbivUFLNAc5ZHzcJ/1Dmazgd79X1EmswcfL7nc7X4NoD
+         mr4W+E1Ge5YXHSytsB1hdEUQVHTiOTl86h5G03/r1V38Vj59FIM9ngDI7CLlyVcQXyPt
+         5uZZ7zWQjFgjrfkVPPwHzY7pMpU94/g+hpTiwxojMDNEUe7WyxS+LB5T/yCwo+NnFi22
+         99vTNjaZfB0KTNSh2Rau47YJZGArdp7Fa+xWZg8tsWQyz+Dgx+lztZZFzHgLorY0FELg
+         sxjQ==
+X-Gm-Message-State: AOJu0YxL/16KbMi44zBbSZj2EyBluS4ce46nyAXS5GzzDw5huskI79Rz
+	sEQIJ4vb05WyhTQZonGBEgDNsCZYJk2H4QF9oJFvTFUyBH60xKB/aOqfGcng
+X-Gm-Gg: ASbGncs8ovN+vkQzVOn+LTvzNTb1oj4Cenz+xHAMUIBs58jRzKAvDIIOc6xnfZP7shD
+	MnyR5QPstO4fmo9qEoMpfX+65HIaX5WgzJfRFX199VcVR8wITBubgWvzZBY7YHY8JWLsdGd0A7V
+	FbW2oXGk8n1BWoZ1p1U8JLpFU7847SLvYwGIPuIsO1WyKenjABD61RCBc0GFSLpdrM/A9OsxHyj
+	sgmoBtB3sNQC0uaOmtwrhEY7g0D2ytak5/uRrA75ZAPkYk7depIheTShMqcLzzg+gWBdDxDFrw6
+	taF6Y/toHp9ssoJJWWEpnVXhnG7SEX0D75YZmJvoZ2ekHnutNguq8uVB1qTooXyLjZ2VZRG+HAe
+	BtPVQ+NMP1IgzjRrWjt4EGg==
+X-Google-Smtp-Source: AGHT+IEcaA6n/2P3TQWVVv4CS5xOF1990DjwBv4QSXpms8xgaS1DXxis3am5bxg8V7E+HC4LnhHpwA==
+X-Received: by 2002:a05:600c:4f02:b0:43c:f87c:24d3 with SMTP id 5b1f17b1804b1-43d01c121bbmr102017065e9.20.1741875215477;
+        Thu, 13 Mar 2025 07:13:35 -0700 (PDT)
+Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d18a4c613sm21845565e9.40.2025.03.13.07.13.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 06:44:55 -0700 (PDT)
-Message-ID: <81d7c05f0a4e1e3f8615e4b7f1dfd2d736d6dd13.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] rpm: fix redudant slash remove and add
- lacking dependency
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: artemiy.romanov@yadro.com, openembedded-core@lists.openembedded.org
-Date: Thu, 13 Mar 2025 13:44:54 +0000
-In-Reply-To: <20250313091557.4153150-1-artemiy.romanov@yadro.com>
-References: <20250313091557.4153150-1-artemiy.romanov@yadro.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2-0ubuntu1 
+        Thu, 13 Mar 2025 07:13:35 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [PATCH OE-Core v3 0/4] Upgrade kmod 33 -> 34.1
+Date: Thu, 13 Mar 2025 14:13:20 +0000
+Message-Id: <20250313-kmod-v3-0-a8b5d73c83a5@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAHo0mcC/0XMywrCMBCF4VcpszaSTmxBV75H6WLIpR00TUk0K
+ CXvbqwLl//h8G2QbGSb4NJsEG3mxGGpoQ4N6JmWyQo2tQEldlK1Stx8MIK0Us6Q608dQr2u0Tp
+ +7cww1p45PUJ872rG7/oHnusUydgflFFIga1Ums6EPZnr5InvRx08jKWUD81IJQ2gAAAA
+X-Change-ID: 20250313-kmod-ac33fdaf6452
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+X-Mailer: b4 0.14.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 13:45:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212770
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 14:13:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212771
 
-On Thu, 2025-03-13 at 12:15 +0300, Artemiy Romanov via lists.openembedded.o=
-rg wrote:
-> do_install:append() formats paths using sed in macro files incorrectly
-> causing resulting paths to have format 'usr/*' instead of=C2=A0 '/usr/*'.
->=20
-> Absence of debugedit-native recipe in DEPEDS variable results in
-> incorrect expansion of '%__find_debuginfo' in usr/lib/rpm/macro file
-> which looks like this:
->=20
-> %__find_debuginfo	__FIND_DEBUGINFO-NOTFOUND
->=20
-> Adding debugedit-native in DEPENDS:append:class-native is not fixing
-> the problem while adding it in DEPENDS fixes that:
->=20
-> %__find_debuginfo	/usr/bin/find-debuginfo
->=20
-> Signed-off-by: Artemiy Romanov <artemiy.romanov@yadro.com>
-> ---
-> =C2=A0meta/recipes-devtools/rpm/rpm_4.20.0.bb | 8 ++++----
-> =C2=A01 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/rpm/rpm_4.20.0.bb b/meta/recipes-devto=
-ols/rpm/rpm_4.20.0.bb
-> index 281fde1c82..004c847fb8 100644
-> --- a/meta/recipes-devtools/rpm/rpm_4.20.0.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_4.20.0.bb
-> @@ -46,7 +46,7 @@ SRCREV =3D "b3323786668cf99bc9aed7e60ccdab0bc25e19da"
-> =C2=A0
-> =C2=A0S =3D "${WORKDIR}/git"
-> =C2=A0
-> -DEPENDS =3D "lua libgcrypt file popt xz bzip2 elfutils python3 sqlite3 z=
-std"
-> +DEPENDS =3D "lua libgcrypt file popt xz bzip2 elfutils python3 sqlite3 z=
-std debugedit-native"
-> =C2=A0DEPENDS:append:class-native =3D " file-replacement-native bzip2-rep=
-lacement-native"
+Bring scdoc in from meta-wayland to support generation of the manpages. Convert
+to meson from autotools. Clean up usage of kmod in eudev.
 
-Adding a build time dependency just to set a path correctly seems a bit
-heavy. Can we configure the path instead?
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+Changes in v3:
+- Fix maintainer for scdoc
+- Stop using autotools in scdoc (it just has a Makefile)
+- Set upstream commit correctly for scdoc 1.11.3
+- Fix scdcoc metadata
+- Link to v2: https://lore.kernel.org/r/20250313-upgrade-kmod-v2-0-2103ca9a26ad@gmail.com
 
-The reason is we don't want to slow down builds unnecessarily and this
-kind of addition will affect performance.
+---
+Alex Kiernan (4):
+      scdoc: Import from meta-wayland
+      scdoc: Upgrade 1.11.2 -> 1.11.3
+      kmod: Upgrade 33 -> 34.1
+      eudev: Drop --output=... from kmod call in init script
 
-Cheers,
+ meta/conf/distro/include/maintainers.inc           |  1 +
+ meta/recipes-core/udev/eudev/init                  |  3 +-
+ .../scdoc/scdoc/0001-Makefile-drop-static.patch    | 23 +++++++++
+ meta/recipes-extended/scdoc/scdoc_1.11.3.bb        | 22 ++++++++
+ .../kmod/kmod/avoid_parallel_tests.patch           | 30 -----------
+ meta/recipes-kernel/kmod/kmod/gtkdocdir.patch      | 30 -----------
+ meta/recipes-kernel/kmod/kmod/run-ptest            |  5 --
+ .../kmod/{kmod_33.bb => kmod_34.1.bb}              | 58 +++++++++-------------
+ 8 files changed, 70 insertions(+), 102 deletions(-)
+---
+base-commit: cb9bff9eac3670253076d5d09c6893e372be40a8
+change-id: 20250313-kmod-ac33fdaf6452
 
-Richard
+Best regards,
+-- 
+Alex Kiernan <alex.kiernan@gmail.com>
+
 
