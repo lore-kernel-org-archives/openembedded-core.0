@@ -1,295 +1,191 @@
-Return-Path: <macpaul.lin@mediatek.com>
+Return-Path: <bin.lan.cn@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A75DCC28B28
-	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 02:13:06 +0000 (UTC)
-Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [210.61.82.184])
- by mx.groups.io with SMTP id smtpd.web11.5463.1741831977747586250
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C51CEC28B2F
+	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 02:18:16 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.5527.1741832292307693607
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Mar 2025 19:12:58 -0700
+ Wed, 12 Mar 2025 19:18:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mediatek.com header.s=dk header.b=Eeb/c1/f;
- spf=pass (domain: mediatek.com, ip: 210.61.82.184, mailfrom: macpaul.lin@mediatek.com)
-X-UUID: aaac4d5affb011ef8eb9c36241bbb6fb-20250313
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=o+R+TtVhCJzsi6fca5mKxBt11HGGbKJuyWjAS8q4keE=;
-	b=Eeb/c1/fRm7TREFW7z6Li/Z8KNn2JUOuKcl9eEcDA0KZwX8gajYasj7ka/NyfCTBO/whCEqyACwfWXuFcQ0kHfrXVeAcvYDrLdzOGggDmMreu+n2eIamka4kuYFc2sFW2hT1GmKDOvW1BmHibwM5sJvnFEGuqktiCC0wA1LPqvc=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.2.1,REQID:8ded1d5b-b363-48b8-b21c-bdabac24a815,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:0ef645f,CLOUDID:2de94d8c-f5b8-47d5-8cf3-b68fe7530c9a,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
-	l,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: aaac4d5affb011ef8eb9c36241bbb6fb-20250313
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 813332132; Thu, 13 Mar 2025 10:12:51 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Thu, 13 Mar 2025 10:12:50 +0800
-Received: from mtksitap99.mediatek.inc (10.233.130.16) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.28 via Frontend Transport; Thu, 13 Mar 2025 10:12:50 +0800
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-To: Anuj Mittal <anuj.mittal@intel.com>, Steve Sakoman <steve@sakoman.com>,
-	"Alexander Kanavin via lists . openembedded . org"
-	<alex.kanavin=gmail.com@lists.openembedded.org>,
-	<openembedded-core@lists.openembedded.org>,
-	=?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
-	Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
-	Macpaul Lin <macpaul@gmail.com>, <linux-usb@vger.kernel.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH] bluez5: upgrade 5.72 -> 5.77
-Date: Thu, 13 Mar 2025 10:12:43 +0800
-Message-ID: <20250313021247.2615117-1-macpaul.lin@mediatek.com>
-X-Mailer: git-send-email 2.45.2
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5167d38173=bin.lan.cn@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52D1oVxu021683
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 02:18:11 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2043.outbound.protection.outlook.com [104.47.70.43])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45b0ga1e9t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 02:18:11 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bvmK8d3Ikycok+QZYUrGJ/hq1Uzd2cDqeCM+3g1G+YdMbzSOmEVFXi35AKafGIEWwzC22CBa1hYlDRchD5NCrapUqiOpP+uxbKOaocgsQTCe/bsqKYF5OYJd/8rT8bO9F9qoZI9nE3Hu54yTOQ49wzSnMe7ELoJwYy5SHgL+SXcvBfHcgQiQLyMqfy5+mjelli1UP/lU7tO2JIfEzvA/kxsnzf7DHIGsFcow7lYg11OOiCXW5nEHzH7VWih+4xpeBWEGgu8KSh4++OVJvLL0SLEzclNiqu1zTR0dKm0yrAD15dtBAiIFMrakvuW/U23JbtVW0gYjcfRRANcMxxLsmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ncMCk4rlsuNofNQCHDKvYZ5tWrHgWwROCsjPupFlsmw=;
+ b=GGOybmGDq1JHn1jjYXtIGl1JMQaT3CWIPjPd1yVDnfsDWKuBflsw5qpq7t3FMCPVCvxWY8WmL81tOLlUPlhu0OtSz/ZjEuM0z5ttaj/5aWUxtIBBMXxu9iOGNMPSkOF81hm0mRThd5TkEg9C4w2sx8rvKIi0g2sRJ8STSggjwed/Dvqv7h/CUx0CEF9utr+gkRTq76wXFEwiJlDbwY5eP4KHWrdE13UynbpWSEuNfVypFBze7L9RG2cly+B58pHWtRAQ2rcJdBzF//6degXqOScxRApwRqKJ0+1HUnXKn3SPUoMExsleCDXGi9yFh45FJ5HayEmN75d7rhQDlQo3uQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8701.namprd11.prod.outlook.com (2603:10b6:610:1c8::10)
+ by PH7PR11MB6555.namprd11.prod.outlook.com (2603:10b6:510:1a9::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Thu, 13 Mar
+ 2025 02:18:09 +0000
+Received: from CH3PR11MB8701.namprd11.prod.outlook.com
+ ([fe80::5727:1867:fb60:69d0]) by CH3PR11MB8701.namprd11.prod.outlook.com
+ ([fe80::5727:1867:fb60:69d0%2]) with mapi id 15.20.8511.026; Thu, 13 Mar 2025
+ 02:18:09 +0000
+From: bin.lan.cn@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH v5 0/1] babeltrace2: upgrade 2.0.6 -> 2.1.0
+Date: Thu, 13 Mar 2025 10:17:50 +0800
+Message-Id: <20250313021751.2313822-1-bin.lan.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
-X-MTK: N
+Content-Type: text/plain
+X-ClientProxiedBy: SG3P274CA0007.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::19)
+ To CH3PR11MB8701.namprd11.prod.outlook.com (2603:10b6:610:1c8::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8701:EE_|PH7PR11MB6555:EE_
+X-MS-Office365-Filtering-Correlation-Id: b848c34f-5d29-487a-5b81-08dd61d54c02
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?wV6IqzxwPLiG7YyjY7+gDLzgJh13w/3ZNHhLSGXBGGRAx5/UFoKwFTLz/YyP?=
+ =?us-ascii?Q?dH/5UaN6Enp3EzIsx/t3xradsH85qPBvOH/UwSJLRs+QJDZ705sCkDmi7/7v?=
+ =?us-ascii?Q?Ek9gcdwhRkBl8rBruvpmqnL/mYIRzyUKAPnMWQX5vx16Ci43WP00MCT5nFuR?=
+ =?us-ascii?Q?iOBHyGH8Xzx06y0o11yBf0PCl4+2IQjmr/cRN6ZhC3zJhcXzAio54O7VJKDV?=
+ =?us-ascii?Q?BhHie66fknwcSm+/HmSY4VB/TE0145D3nj167jk3K4BwdcTuTqTQUbNBXRQD?=
+ =?us-ascii?Q?+vsG0hNwKSoKQ7HICgRIKE4diNebcG2xT/hDU4DAKPrkCRiTqjzhSLSrzVQ6?=
+ =?us-ascii?Q?7bax//cmvgCFs2ChCHxHfUluCG4w0hLFjQqSnrIAbEfcaderzz+CKVOVvH60?=
+ =?us-ascii?Q?pldw5LKLUoOwmMVgbG65ND1WUM72YaY/b/yrsafe+kihZXUcEOBUeHUg014x?=
+ =?us-ascii?Q?WD5weS+WIzkb38jq4tBzjJBHsvmEhIQwW3HYQJ6wW3Cn8ovroI7xWqYsK1aM?=
+ =?us-ascii?Q?0My7B5DOtmCselH/dhzM/Sp/ZGWQuGB4CtJTg9F+MnDGX3YTga+50cWinuij?=
+ =?us-ascii?Q?aYC8Yx5/kEC+abEleavedluraUoz1e1d6bwm7xksIbJ73IDkCQOkuuokCKjr?=
+ =?us-ascii?Q?/phxkVtImaB9jCnfLUsOncUVXiyVmP8ILj54fh9eJMqDnnzckOLM5CNpr6dK?=
+ =?us-ascii?Q?hFVt/TjDSgD+Flmu0KcrV8P12zaOGvSqlY8xzQUIBi2t2M5HBb4jcvfC8Y+P?=
+ =?us-ascii?Q?4Jj/0xkozCbMnk+9N7Jsym/GmF9O5FXSPILEJ7sFhk7cKr+JFivIqZYTfnWb?=
+ =?us-ascii?Q?p8pACxqKqB7gAuim7HYcLj2ZW5/Mv8SgiqBm5leP3fnybj0OJR+noePKo0AQ?=
+ =?us-ascii?Q?tKkIYmQqxOoci24mvnpoSwLx49txtg65gMLQddJ6jM5ndwI/d/SxZ58HNko6?=
+ =?us-ascii?Q?6AuPw7TyPd98TBP71qd5dGY9Dj4UdW+0ug71b6LLuekHm2aj4oNAxKItisKp?=
+ =?us-ascii?Q?Mdv947GDmF+D1QCgS7R+AsmroF57Al1Ft/EqXRTdPvj6SIDc3gc/fqhJPXc9?=
+ =?us-ascii?Q?EM4mxEvU8xO5pVLBmduwuafZjrv7c+FezLuHG7p2zieLGbLXb14fN20pVUC9?=
+ =?us-ascii?Q?qcOXosMFQUpWwlIPZIFIzRPebfUDd7PbkbSFaBg+rMwbJsWpWFCVO1ADhEGi?=
+ =?us-ascii?Q?2cI/+TwStQxbJgN6E6xZiKgkW+8c/+k2RGivLHl+uUkkJ/0/N2kL9c2/c2e5?=
+ =?us-ascii?Q?XvuHR+Q57kNDKUH/2yMyKlMQhFCNcdKjAIChIofJzBpbNFVbRrpmjjU/osAz?=
+ =?us-ascii?Q?5mXcfkt7884teDfxs/QqWJfFeX4u97MHjsrx7N0SH0qD33OLFT+x1xczkxvX?=
+ =?us-ascii?Q?DoYH9yzpxg7EX5U66RUMmnNEup6DkerTV7rfNRHFhwM4/gze9MUhCgvLbuaF?=
+ =?us-ascii?Q?UkoAZfBaMm7AetDW1fuokCmXwIgl5S00?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8701.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?jmBBe8mtEAte7EMH8MJQ8s95aJxHnQj83kgXma3RKT0eIHC0C40lVnnjphhJ?=
+ =?us-ascii?Q?uzthcZhTR1EfSpFn3gWZ92OAMHQefNGf7UeP2O32Ezc6IYAvr7Msj4KGHwb1?=
+ =?us-ascii?Q?dFnBjmuqnwcGArB2X4L20yDHD/jI0Iw06Lgr3aUV/slpe1FESJVwjShcoGbZ?=
+ =?us-ascii?Q?d8+nssjfnZsSNzAyzD2JRySTh+vRhs+xkjDxksOWviQwaLf1l2l16YCk21sB?=
+ =?us-ascii?Q?AkY8sYyNtexrv1NhY7d0ErrVAPXkQhNK0ibRs+4Vvk/7xUvW1j3Yk+JpxekI?=
+ =?us-ascii?Q?35cuKp2nCZyPaYzadd0rzw6R3saGxqudoVh1rM4z36ZDBOjYEkTnh+6CRV3v?=
+ =?us-ascii?Q?2ZP2YA55woS5MQZPZVqIpCOvCewZSbpCGgxQHsUPdlQ4vrFHIiL0qE1CVb2L?=
+ =?us-ascii?Q?dWp73xGGBcO0MDqw8WDWGxkKXl4pX7cPTViA/AzD5oK1kEbTpzENCSwPFtyM?=
+ =?us-ascii?Q?r7vOT0YqysVH9vzivB4VwNG2FE0fusaJTmhgjuFEByB+TcCqxAZo6WLUbBrG?=
+ =?us-ascii?Q?CqxlabG1gg1iviBHeUuooIlsSriOwT1jXoynEh4ZEywe1vRbL4/Fy3b2RpO2?=
+ =?us-ascii?Q?nVZp0J5aGpdzyJgyFewknEn3UAvgeFmMAFjG5DcNdCWkdLixcM6Y6fhPtU++?=
+ =?us-ascii?Q?UBbIjG1A9km/l3ErPsGx+NTP1Hk9UhPgXzwiK4u+7OpStoRMx7LLzW2um7J/?=
+ =?us-ascii?Q?sXS6sBOieEqnXCgezUzHR/LAkoRAuFcJSMUYjX4d9tx2Ns83XPB9vKMVtOGP?=
+ =?us-ascii?Q?ei7S8eOU7FAehTvAIirC9wC5VeEyEbxehZKyBd7E5683k4q+HaxlbWyzMnA6?=
+ =?us-ascii?Q?KokKaN3l4AnXr7MXrLQdtiW6b15uEMOoBMLXw5rH5oiBS9KVd2+07AdonaGH?=
+ =?us-ascii?Q?Rn2pwXfu1vQeCWDdyFawUnbSQKBilKmBeiccdLRobVK1MikZwFl1Yvchm/HN?=
+ =?us-ascii?Q?VonWZy6elTMDoqgT5SksKJTJS52d9cbqdw1ycp7LrVIRp5lthKLufHne9WAy?=
+ =?us-ascii?Q?ciWhWMIIMOAs8QWF3Fp5+lf4DqU1lbrtPKDl7PeCuKsX8mk3LpAYksKUGJnO?=
+ =?us-ascii?Q?vfLdMAWFgAOysKerCvmZ4StmCW0Nlf5iY4UIcyYeW83uGgSqy+7bLAdZ7qfu?=
+ =?us-ascii?Q?Z9emSmKOW1sdTpt/MQ2GbTDVkSfnXLrrxUIw7SqbXtPQny7/v+zyI/N6kn0k?=
+ =?us-ascii?Q?p33TcYjawnyRLO9Tp2nopdf3WgfvVF5emssEBU8n5xwjTF8FE5eNGOZFeICl?=
+ =?us-ascii?Q?vaId+rE0iPirIBlFF/RGKMNn+419hFqr0BsGfEZaiWqwNNWlwXAopIyQ41s6?=
+ =?us-ascii?Q?YdlR78euZvOUASiLn47Jnk2ciIowIqTUsalV5zCJ8cTK/KRpTllX212MLyef?=
+ =?us-ascii?Q?J4YGCDe6rp0xc3NbPEI854F6fBC9y4xAAlniPnG3l1AXy50UTnDvK8Q9hcbJ?=
+ =?us-ascii?Q?cT7mbgzXmzFSIcTg6KwHg72V6gPK6yQ2VvMDhPIgDGKe0ZM6NLlGczHOvn4c?=
+ =?us-ascii?Q?LCmE/1duBjALwGKUQWMk1bFTKoNcuBWVMPGNjeI741YVobvHUr57S11ukuhs?=
+ =?us-ascii?Q?FLj0lbXJgojIGusnc1Xze50O8O/ZlEx5LAu33dhj7H8y4Ko2+jNIpxYEQdqY?=
+ =?us-ascii?Q?/A=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b848c34f-5d29-487a-5b81-08dd61d54c02
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8701.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2025 02:18:08.9710
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZzXK09jECjZWsSck2K2F0o12aK+t50Qt6WpgP4I1qVrcNeUW+yp4Jc2PTuuT6lJ/xZciT0Na5RroZRHEdnmEWT7o0gnFfAeMrB+KgRNUpRc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6555
+X-Proofpoint-GUID: EI0q4o6Rc0NvBqr3ZnP7QRaC71P6P5a0
+X-Proofpoint-ORIG-GUID: EI0q4o6Rc0NvBqr3ZnP7QRaC71P6P5a0
+X-Authority-Analysis: v=2.4 cv=ZrXtK87G c=1 sm=1 tr=0 ts=67d24063 cx=c_pps a=GoGv2RwMe+/7w9MjyR+VRg==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
+ a=H5OGdu5hBBwA:10 a=t7CeM3EgAAAA:8 a=mI1Z5NRhbHgcbJjFYI8A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-13_01,2025-03-11_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ mlxlogscore=999 priorityscore=1501 mlxscore=0 phishscore=0 spamscore=0
+ malwarescore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2503130017
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 02:13:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212731
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 02:18:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212732
 
-From: gudnimg <gudni.m.g@gmail.com>
+From: Bin Lan <bin.lan.cn@windriver.com>
 
-Changelog:
-* https://github.com/bluez/bluez/releases/tag/5.77
-* https://github.com/bluez/bluez/releases/tag/5.76
-* https://github.com/bluez/bluez/releases/tag/5.75
-* https://github.com/bluez/bluez/releases/tag/5.74
-* https://github.com/bluez/bluez/releases/tag/5.73
+v3:
+Some failed test cases are disabled.
+All test cases are passed when running in intel-x86-64 board.
 
-Changes relevant to the build:
-* One patch file is dropped.
-* /etc/bluetooth is now installed with 555 permission bits when systemd
-is not enabled. The do_install function was edited to change it back to
-755. This was causing test failure when testing SDK packaging
-* Added a few missing PACKAGECONFIGs which are enabled by default.
-- asha-profiles: new in BlueZ 5.77
-- ccp-profiles: new in BlueZ 5.73
-- micp-profiles: new in BlueZ 5.70
-- csip-profiles: new in BlueZ 5.67
-- bass-profiles: new in BlueZ 5.67
-- vcp-profiles: new in BlueZ 5.66
-- mcp-profiles: new in BlueZ 5.66
-- bap-profiles: new in BlueZ 5.66
+v4:
+The Upstream-Status of patches is set to Pending, I will discuss it with Babeltrace2 project.
+Add some notes in the commit log to explain the license change significantly.
+Add more notes in the commit message to explain the change of babeltrace2_2.1.0.bb.
+Remove "INSANE_SKIP:${PN}-ptest += "buildpaths" in this patch by setting the correct environment variables in env.sh.
+All test cases are passed when running in intel-x86-64 board.
 
-(From OE-Core rev: ebbdb7cf5c0a3f0e6773704d4c4cc570358ec611)
+v5:
+0001-Make-manpages-multilib-identical.patch and 0001-tests-set-the-correct-plugin-directory.patch
+are submitted to Babeltrace project.
+All test cases (no skipped test cases) are passed when running in intel-x86-64 
+and qemux86-64 as the following shown:
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc   | 22 +++++++-
- ...d-without-systemd-in-the-user-sessio.patch | 56 -------------------
- .../0001-test-gatt-Fix-hung-issue.patch       |  7 +--
- ...et-for-building-tests-without-runnin.patch |  7 +--
- .../bluez5/{bluez5_5.72.bb => bluez5_5.77.bb} |  2 +-
- 5 files changed, 28 insertions(+), 66 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
- rename meta/recipes-connectivity/bluez5/{bluez5_5.72.bb => bluez5_5.77.bb} (94%)
+Testsuite summary for babeltrace2 2.1.0
+# TOTAL: 2022
+# PASS:  2022
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  0
+# XPASS: 0
+# ERROR: 0
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 39e1bf389ce4..e927d3071e5d 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -18,6 +18,14 @@ PACKAGECONFIG ??= "obex-profiles \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-     a2dp-profiles \
-     avrcp-profiles \
-+    bap-profiles \
-+    bass-profiles \
-+    mcp-profiles \
-+    ccp-profiles \
-+    vcp-profiles \
-+    micp-profiles \
-+    csip-profiles \
-+    asha-profiles \
-     network-profiles \
-     hid-profiles \
-     hog-profiles \
-@@ -39,6 +47,14 @@ PACKAGECONFIG[network-profiles] = "--enable-network,--disable-network"
- PACKAGECONFIG[hid-profiles] = "--enable-hid,--disable-hid"
- PACKAGECONFIG[hog-profiles] = "--enable-hog,--disable-hog"
- PACKAGECONFIG[health-profiles] = "--enable-health,--disable-health"
-+PACKAGECONFIG[bap-profiles] = "--enable-bap,--disable-bap"
-+PACKAGECONFIG[bass-profiles] = "--enable-bass,--disable-bass"
-+PACKAGECONFIG[mcp-profiles] = "--enable-mcp,--disable-mcp"
-+PACKAGECONFIG[ccp-profiles] = "--enable-ccp,--disable-ccp"
-+PACKAGECONFIG[vcp-profiles] = "--enable-vcp,--disable-vcp"
-+PACKAGECONFIG[micp-profiles] = "--enable-micp,--disable-micp"
-+PACKAGECONFIG[csip-profiles] = "--enable-csip,--disable-csip"
-+PACKAGECONFIG[asha-profiles] = "--enable-asha,--disable-asha"
- PACKAGECONFIG[sixaxis] = "--enable-sixaxis,--disable-sixaxis"
- PACKAGECONFIG[tools] = "--enable-tools,--disable-tools"
- PACKAGECONFIG[threads] = "--enable-threads,--disable-threads"
-@@ -51,7 +67,6 @@ PACKAGECONFIG[manpages] = "--enable-manpages,--disable-manpages,python3-docutils
- SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://init \
-            file://run-ptest \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
-            file://0001-adapter-Fix-up-address-type-when-loading-keys.patch \
-@@ -107,6 +122,11 @@ do_install:append() {
- 	# Patch python tools to use Python 3; they should be source compatible, but
- 	# still refer to Python 2 in the shebang
- 	sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${libdir}/bluez/test/*
-+
-+	# Fix the /etc/bluetooth directory permissions when systemd is disabled
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'false', 'true', d)}; then
-+		chmod 0755 ${D}${sysconfdir}/bluetooth
-+	fi
- }
- 
- PACKAGES =+ "${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
-deleted file mode 100644
-index 618ed734a96a..000000000000
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--From f74eb97c9fb3c0ee2895742e773ac6a3c41c999c Mon Sep 17 00:00:00 2001
--From: Giovanni Campagna <gcampagna-cNUdlRotFMnNLxjTenLetw@public.gmane.org>
--Date: Sat, 12 Oct 2013 17:45:25 +0200
--Subject: [PATCH] Allow using obexd without systemd in the user session
--
--Not all sessions run systemd --user (actually, the majority
--doesn't), so the dbus daemon must be able to spawn obexd
--directly, and to do so it needs the full path of the daemon.
--
--Upstream-Status: Denied
--
--Not accepted by upstream maintainer for being a distro specific
--configuration. See thread:
--
--http://thread.gmane.org/gmane.linux.bluez.kernel/38725/focus=38843
--
--Signed-off-by: Javier Viguera <javier.viguera@digi.com>
--
-----
-- Makefile.obexd                                                | 4 ++--
-- .../src/{org.bluez.obex.service => org.bluez.obex.service.in} | 2 +-
-- 2 files changed, 3 insertions(+), 3 deletions(-)
-- rename obexd/src/{org.bluez.obex.service => org.bluez.obex.service.in} (76%)
--
--diff --git a/Makefile.obexd b/Makefile.obexd
--index de59d29..73004a3 100644
----- a/Makefile.obexd
--+++ b/Makefile.obexd
--@@ -1,12 +1,12 @@
-- if SYSTEMD
-- systemduserunitdir = $(SYSTEMD_USERUNITDIR)
-- systemduserunit_DATA = obexd/src/obex.service
--+endif
-- 
-- dbussessionbusdir = $(DBUS_SESSIONBUSDIR)
-- dbussessionbus_DATA = obexd/src/org.bluez.obex.service
---endif
-- 
---EXTRA_DIST += obexd/src/obex.service.in obexd/src/org.bluez.obex.service
--+EXTRA_DIST += obexd/src/obex.service.in obexd/src/org.bluez.obex.service.in
-- 
-- if OBEX
-- 
--diff --git a/obexd/src/org.bluez.obex.service b/obexd/src/org.bluez.obex.service.in
--similarity index 76%
--rename from obexd/src/org.bluez.obex.service
--rename to obexd/src/org.bluez.obex.service.in
--index a538088..9c815f2 100644
----- a/obexd/src/org.bluez.obex.service
--+++ b/obexd/src/org.bluez.obex.service.in
--@@ -1,4 +1,4 @@
-- [D-BUS Service]
-- Name=org.bluez.obex
---Exec=/bin/false
--+Exec=@libexecdir@/obexd
-- SystemdService=dbus-org.bluez.obex.service
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
-index b1e93dbe19ef..ae113a9a6d7a 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
-@@ -1,4 +1,4 @@
--From fb583a57f9f4ab956a09e9bb96d89aa13553bf21 Mon Sep 17 00:00:00 2001
-+From eeb62ab04b3789a27074236cd0bed7cc64759f4d Mon Sep 17 00:00:00 2001
- From: Mingli Yu <Mingli.Yu@windriver.com>
- Date: Fri, 24 Aug 2018 12:04:03 +0800
- Subject: [PATCH] test-gatt: Fix hung issue
-@@ -21,16 +21,15 @@ no action.
- Upstream-Status: Submitted [https://marc.info/?l=linux-bluetooth&m=153508881804635&w=2]
- 
- Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
--
- ---
-  unit/test-gatt.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/unit/test-gatt.c b/unit/test-gatt.c
--index 5e06d4e..4864d36 100644
-+index 1613fbc..25dd614 100644
- --- a/unit/test-gatt.c
- +++ b/unit/test-gatt.c
--@@ -4546,7 +4546,7 @@ int main(int argc, char *argv[])
-+@@ -4547,7 +4547,7 @@ int main(int argc, char *argv[])
-  			test_server, service_db_1, NULL,
-  			raw_pdu(0x03, 0x00, 0x02),
-  			raw_pdu(0xbf, 0x00),
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-index 881494a3543e..37253b9725b2 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-@@ -1,20 +1,19 @@
--From 738e73b386352fd90f1f26cc1ee75427cf4dc23b Mon Sep 17 00:00:00 2001
-+From c06fecbb009f4c42f01d86383d4571c96ba872f0 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 1 Apr 2016 17:07:34 +0300
- Subject: [PATCH] tests: add a target for building tests without running them
- 
- Upstream-Status: Inappropriate [oe specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  Makefile.am | 3 +++
-  1 file changed, 3 insertions(+)
- 
- diff --git a/Makefile.am b/Makefile.am
--index e738eb3..dab17dd 100644
-+index 0ae7211..c8bcaca 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -710,6 +710,9 @@ endif
-+@@ -713,6 +713,9 @@ endif
-  TESTS = $(unit_tests)
-  AM_TESTS_ENVIRONMENT = MALLOC_CHECK_=3 MALLOC_PERTURB_=69
-  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.72.bb b/meta/recipes-connectivity/bluez5/bluez5_5.77.bb
-similarity index 94%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.72.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.77.bb
-index 9fda960ea72e..55264fd6b760 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.72.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.77.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
- 
--SRC_URI[sha256sum] = "499d7fa345a996c1bb650f5c6749e1d929111fa6ece0be0e98687fee6124536e"
-+SRC_URI[sha256sum] = "5d032fdc1d4a085813554f57591e2e1fb0ceb2b3616ee56f689bc00e1d150812"
- 
- CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
- 
+Bin Lan (1):
+  babeltrace2: upgrade 2.0.6 -> 2.1.0
+
+ ...001-Make-manpages-multilib-identical.patch |  12 +-
+ ...not-run-test-applications-from-.libs.patch |  28 ----
+ ...-fix-test-applications-in-cpp-common.patch | 129 ++++++++++++++++++
+ ...sts-set-the-correct-plugin-directory.patch |  30 ++++
+ .../lttng/babeltrace2/run-ptest               |   4 +-
+ ...eltrace2_2.0.6.bb => babeltrace2_2.1.0.bb} |  35 ++++-
+ 6 files changed, 198 insertions(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-test-applications-from-.libs.patch
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
+ rename meta/recipes-kernel/lttng/{babeltrace2_2.0.6.bb => babeltrace2_2.1.0.bb} (69%)
+
 -- 
-2.45.2
+2.34.1
 
 
