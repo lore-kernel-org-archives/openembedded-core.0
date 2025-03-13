@@ -1,81 +1,124 @@
-Return-Path: <d.makhnin@yadro.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C394C282DE
-	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 14:27:51 +0000 (UTC)
-Received: from mta-03.yadro.com (mta-03.yadro.com [89.207.88.253])
- by mx.groups.io with SMTP id smtpd.web10.16256.1741876063793850744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0459C282DE
+	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 14:29:01 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.16285.1741876133672307921
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Mar 2025 07:27:44 -0700
+ Thu, 13 Mar 2025 07:28:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@yadro.com header.s=mta-04 header.b=XHzRLpvW;
- dkim=fail reason="dkim: body hash did not verify" header.i=@yadro.com header.s=mta-03 header.b=M9bXNzCa;
- spf=pass (domain: yadro.com, ip: 89.207.88.253, mailfrom: d.makhnin@yadro.com)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-03.yadro.com 0358BE0004
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-04;
-	t=1741876061; bh=STjL5FsrX5yBm7Czw7VKg9zbmD/tdNim/aUfNdyIbD4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=XHzRLpvWwmik/DlOHuaFaSQrP7hPV+38D310DkcU9fxoxrnS1HJz7PQvC1zorp22h
-	 XJbntARLgvCGFlmFBZ0DKvpw0ts09OHJgrUz0Ue+0NAbOOPOA49GEEucZ3hRZXw4Zg
-	 4693p7oc+8i/8AgqaKjByYjCngxQ6qfhOkaxGIuIh4qu+vy0s56npLnA7L/A35ZABv
-	 PtnDN+M0lk1u9wsbMdTVOFHTePUG+FJVLKswpSwUL+9oGEPKbM0TRXP5rdbi02/ept
-	 QuOGX9bVF1yfxtU9FdSWv7dYdjIMKdg2QaHKCM5DljnXRxXvpuzHCCMj/jbOSpbpmQ
-	 5gmDNWv1N6GCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
-	t=1741876061; bh=STjL5FsrX5yBm7Czw7VKg9zbmD/tdNim/aUfNdyIbD4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=M9bXNzCapXVbnzNACHzAdlp83DdlOemTAQUogDLt9TpAhmlX/NxGXV0Mwy3YUOOmW
-	 uuI7Xap8DehQBpeXqzVVXI5rTNhHF9GklPEGMKvqvfXijqKC44o4c/fiyBhvA02ImK
-	 JIDb4g8j49atwKaoOjNLsKO6fMTMxexQ/KfW39SGsWKKsfSUr1KwtSP5JYRYEmzYQS
-	 WBhcS/wZ3v8eb2c2LJaVqT3hdsRWMA8XaorcGf6nMuQSq2+T6km0qewxfYObTKojpE
-	 qNLjPBntCZ622SOaoGSiGRSzQFagJzLAEUuJwn3fdiCQ44Qro7GpTZoDCm0yktVIKX
-	 XxRXPPiXkE8qA==
-From: Dmitry Makhnin <d.makhnin@yadro.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Dmitry Makhnin <d.makhnin@yadro.com>
-Subject: [PATCH] waf-samba: using python variable from python3native.bbclass
-Date: Thu, 13 Mar 2025 17:27:20 +0300
-Message-ID: <20250313142720.957159-1-d.makhnin@yadro.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NJXC5FTR;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5499c8fa0f3so1173198e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 07:28:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741876131; x=1742480931; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4I4uMuIp5b5/u7yktzs6wyHxlYtwi6VYVznVEEltLVM=;
+        b=NJXC5FTRxhULUmgZXzEZWRe9k4FVtQmI6fbWPLfpv8Ni3J6MX4+J7cyxOr9YAxSM1y
+         o7+2WOvGBEVek1IjDVyENM2LYhA3Stxv+fx6ka8USe88CLbH6EwwCK538wsAHrdzsGvw
+         vih0E2UjZJANUazYdLSfioEvXm+nk0nTCp7UfkIbby+5RjVnpyT4+jOAh0AmmNIf6DV5
+         ib284f/aMX0lXFnN4KU/uTd/1vlJnY3Ex7xEz77lLxz7tH+yMJXODIKoG9zX+TIuFqh7
+         ZDcS6beLWIaOXhDyDe9Xf5t1nEO/Ox4QHOCovI7kvTCJF8ixbcJbZy9JGxiAnu3HbVXD
+         RNQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741876131; x=1742480931;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4I4uMuIp5b5/u7yktzs6wyHxlYtwi6VYVznVEEltLVM=;
+        b=J5UubZiwjt4Cnf7nfCtEXH4czm5nc02WvSBRE67zyV+glzP9MZYxfTrv4rC5r2pagv
+         YUZjad7xsXmWPxlcCqaDpInEx8Nk1F886Jlrsi/EiAqFDzfy0QwzdKMNKUVIag7EunqT
+         /QTqAhfuuRerPDxAgh38C6t4FUW43k5fKmfGJKxJeJiQJv+5hxjucRNGXjIMV9ne8YMi
+         4JS6V9Hd3Rc4ejVXihayOBHrTwlIIHLABu+E8oVPGiQGKl8bLXlV9W7IqR2PLsMLAxYw
+         YSh1wJKLBKayapnI8/CHpZ823g0SynYGqSU0WWaEq+XCEduFHn/O59p/WuWxJhUfRYIi
+         7CkQ==
+X-Gm-Message-State: AOJu0Yx4jRVYCE8+Q3B0nUPNLet6V4zXPSy5f2khdo+zQ5gEV68Tv1Gh
+	aj9aOXiwp/nsEGq8G+SatndOESR40qp6k+XuOZn2GDllwCo5ddS+3VkltTgO/+LGDLMamaAYeNI
+	D4nYEkw9eN4zAGOB1/ZaHzSBB2fgig/Tn
+X-Gm-Gg: ASbGncteHWly4d6PDD4OyxV9Fq3NhaaarCcf0a++x3sRP1q2zhaBdDnNirfD+0PFqnW
+	AaAFonH/fziURmu/K48opQ6BiElaBY9+8MZDQi/r17vsjLCB/TTuWrj0F3eol1iABAfQlx5Fjwc
+	LcpRUnt5pMGG/rEK6YzE1v6on7SdDy9YGta8matlK9
+X-Google-Smtp-Source: AGHT+IF3rmrt0dX2cxGLhC1RtDKZAv5VA/wr9hhnHEauygj1A89xmXweHoyez/elOkNeUX/FOH1qHb7WkfgwosrguM4=
+X-Received: by 2002:a05:6512:3d8f:b0:545:c7d:1790 with SMTP id
+ 2adb3069b0e04-54990e5da79mr9345196e87.22.1741876130331; Thu, 13 Mar 2025
+ 07:28:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: T-EXCH-08.corp.yadro.com (172.17.11.58) To
- T-EXCH-12.corp.yadro.com (172.17.11.143)
-Content-Transfer-Encoding: quoted-printable
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 13 Mar 2025 08:28:38 -0600
+X-Gm-Features: AQ5f1Jp-_zq5cQXN30EclDRh0mGMafp5jQmCQcYAYduwYaUhhjjBzHXVV4jbU68
+Message-ID: <CAJdd5GZNUAHKx1SH-8HCkRJ111zheEA_aLPJg3bRkt8==niqFg@mail.gmail.com>
+Subject: SPDX 3 Improvements for performance and VEX
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	Ross Burton <ross.burton@arm.com>, Colin <colinmca242@gmail.com>, 
+	Marta Rybczynska <rybczynska@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 14:27:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212777
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 14:29:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212778
 
-Waf-samba.bbclass inherits python3native.bbclass
-which has the variable PYTHON=3D"${STAGING_BINDIR_NATIVE}/python3-native/=
-python3".
-This allows this variable to be used in do_compile instead of python3.
+All,
 
-Signed-off-by: Dmitry Makhnin <d.makhnin@yadro.com>
----
- meta-networking/classes/waf-samba.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I've push a very rough draft of some proposed changes to SPDX 3 to
+help with the performance and also the generation of VEX data:
+https://git.yoctoproject.org/poky-contrib/log/?h=jpew/spdx-3-improvements
 
-diff --git a/meta-networking/classes/waf-samba.bbclass b/meta-networking/=
-classes/waf-samba.bbclass
-index 79acacc989..cb78ce6b0d 100644
---- a/meta-networking/classes/waf-samba.bbclass
-+++ b/meta-networking/classes/waf-samba.bbclass
-@@ -113,7 +113,7 @@ do_configure() {
-=20
- do_compile[progress] =3D "outof:^\[\s*(\d+)/\s*(\d+)\]\s+"
- do_compile () {
--    python3 ./buildtools/bin/waf ${@oe.utils.parallel_make_argument(d, '=
--j%d', limit=3D64)}
-+    $PYTHON ./buildtools/bin/waf ${@oe.utils.parallel_make_argument(d, '=
--j%d', limit=3D64)}
- }
-=20
- do_install() {
---=20
-2.30.2
+Richard: Most of these changes are pretty straightforward, so I'm not
+worried about them. The only one where I fear I may have committed
+crimes against bitbake is the very top change ("spdx: Add product SBoM
+collection"); If you would mind taking a look I'd appreciate it.
 
+Everyone else:
+
+This change basically introduces the concept of "product" SPDX package
+that describes the upstream source and everything our recipe
+"statically" knows about it. The term "product" is shamelessly stolen
+from VEX, it's probably an awful name, and I might change it, but I'm
+sticking with it for this email.
+The product SPDX package has a number of advantages:
+ 1) It can be generated by running only the do_create_product_spdx()
+task, no building of any source code is required.
+ 2) It contains all the VEX data (so, no build is necessary to
+generate the VEX data)
+ 3) It significantly cuts down on the amount of processing for the
+SPDX VEX data, because there is a single package that the data is
+reported against, instead of it being reported against each runtime
+package. This significantly improves SPDX task performance for
+pathological recipes with a lot of VEX information, and a lot of
+packages (I'm looking at you linux-yocto). Guesstimate SPDX build time
+reduction for linux-yocto goes from 10's of minutes to 10's of
+seconds.
+
+With this change, we can pretty simply generate a SBoM of all product
+data (and thus all VEX data), with:
+
+  bitbake -c collect_product_spdx core-image-minimal
+
+This will output
+"${DEPLOY_DIR_IMAGE}/core-image-minimal-products.spdx.json". I've
+tested that this can be converted to OpenVEX using the tool I wrote
+that does the conversion [1], and it all looks reasonable. If there is
+additional information that is not captured by standard VEX, we should
+be able to augment the SPDX data to include that quite easily, since
+SPDX is quite extensible (we already do this a lot internally while
+generating the SPDX to make it all make sense when we assemble a final
+SBoM).
+
+I think with a little more work we can probably also do something that
+allows generating a report for `world`, but I need to figure out how
+to do that.
+
+Feel free to give the branch a test drive and let me know if you have
+questions or comments. I'm certian that once this is polished more
+we'll end up doing it for the performance gains; I'm hopeful we can
+leverage it to solve our CVE reporting also, since it basically comes
+along for the ride without much additional cost.
+
+Thanks,
+Joshua Watt
 
