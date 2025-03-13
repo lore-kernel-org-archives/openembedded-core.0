@@ -1,141 +1,101 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78E2FC282EC
-	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 17:22:42 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.20949.1741886552282177690
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78B81C282DE
+	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 17:31:52 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.20993.1741887108177301898
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Mar 2025 10:22:32 -0700
+ Thu, 13 Mar 2025 10:31:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UIsufSnN;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-39104c1cbbdso755061f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 10:22:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741886551; x=1742491351; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dyYaOVB/s6dmk1YwYjZNKe9b5t65q8muFF5V2JJ/mIA=;
-        b=UIsufSnNnzvpH0VVcvCKb0IumHpBGdF3G7XK4hKfLw0EN5fsOQ3cusuWimQszYg+pc
-         IhnlGbA0x3iyh/Rpy4/DfSCTw++EyMtgRnOGE024mBCSW92Nex6IPkfuUZh/TU2vj3rX
-         JXPGykbmcpBJTUuo5rlDvh3iGWBFXk038Mo+wlNOc58vWqP/KJr3LIGtQURbsRMEAIUX
-         mZx/oGdmwFQc/YIqOP8OA6HjdEUvL+GQk2cg6cFz1SXDRoRXcM++yjEqVOgaFnpWMG4h
-         0pH81fQY3QPOQz46oKhBYyovs+6BatNjrjNRcPMP1kvOuAzqXlnrk3VlkJDR/dxlerry
-         WwNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741886551; x=1742491351;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dyYaOVB/s6dmk1YwYjZNKe9b5t65q8muFF5V2JJ/mIA=;
-        b=Mw1ehaNXj9SFX0dO84D2jr6gTofjU2K0zPXgyRz3qvuzorS01AUXYkay0foGzb//Tp
-         x8z2Ik5Bh3Mv7rnZIU0jY8khWWdPRylFaXg3JcQkWU/lZNm72AAZ568q3GFAhEcAqbad
-         Lz3oDhgxrbmydatCDJARkvmQMPO4eOIrcsSqT/WfY/PxeAhpkfUwi7CMYvl9DYHGFZs6
-         RGJa7G3Dn0V4H6Kviq8J/hIc/YFuDzdKRzQ5niSR6CiTtwc+OtIT/46lPDDSNRwwBp7a
-         +IHy4TGSLKFcq/mnTfbeNWMFIGvjT+9sa7DUJ7TamSdU/HXPYMW5sq2OohNDnW8e5FiI
-         KrIQ==
-X-Gm-Message-State: AOJu0Yw1hZBThTiK2KLsDF/s44H50k0e04bvNWsE2YXQVVC5IGijkxqH
-	ZvRVy6ES3oeScVmp9cLZdZd5gAEMAdFlV0akhcvI0evZrcLoAIk6M1hm+w==
-X-Gm-Gg: ASbGncvKeDY5uUTYdxvr2LRkzuqqRvMs+hEYwlSxO0KoVLQv8QXqXkcmkEUgTb6cqVQ
-	3XXc8ySmGcPgBKpFDxWwvu+QAjShOjbcHJmjPXNPicK2GRKrEoL83MyKfoF73AOt39r635KU5u7
-	wBWBrymQmUtX5fXUj3seDcyg9+PwgorjUQKKsrVGEyxqYd+SAHegBFbH7zcb7Kzgdk7xuiMEvHx
-	KhXxFHEPIHB2ARwJAfh8eF3pnqlemCm6k2utQyMel+n7oMh4GJ23FYfT55JK4pmm4/vZl/sjHlo
-	VoK+LrWMe4udJJdbKRrtGM7npfn11BRDRgTwJoW41cGYVUxMq9ga52UOA61V3Gidop61igA2AM1
-	Ql9nBhQ==
-X-Google-Smtp-Source: AGHT+IEQrBU366M/Jy+4Jn1Jcba2UTFt9VlX36GRPTct/obMyizXXQsbbTcDjkUQnzmrU2ufncS4qg==
-X-Received: by 2002:a05:6000:1863:b0:391:3988:1c97 with SMTP id ffacd0b85a97d-392641bd708mr10653152f8f.17.1741886550573;
-        Thu, 13 Mar 2025 10:22:30 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb40cdafsm2758445f8f.62.2025.03.13.10.22.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 10:22:30 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH v2 1/2] scripts/install-buildtools: add an option to specify where downloads go
-Date: Thu, 13 Mar 2025 18:22:22 +0100
-Message-Id: <20250313172223.3407902-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LRYJ0nl9;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=fhPA3sNs;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010195908ff0fe-7e6da621-20a2-4e2a-8d67-c65c313326bf-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1741887107; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=P+cM0S4xzCfFNCv34Kh0Jccvu1Mviv3sXhFefbu7EO8=;
+	b=LRYJ0nl9jgK1ecntcuy1qoRneuGTv7xkxgyoRPrffSJytX1CTjwxBd6tSXtGfsnj
+	ya/hPJ4Kt7Q6I+cZE2ArpmnjiU3HsLc1VwNW8CDEsPLPwjyYKGr8tK6NnzeMoU2FOhb
+	/Jym/WNkU3RD++eVhlkMarc95HNN6RbeKshPpcfA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1741887107;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=P+cM0S4xzCfFNCv34Kh0Jccvu1Mviv3sXhFefbu7EO8=;
+	b=fhPA3sNs7RZYSOptfb1pjZ7Sz0idDO3i3JemTmcGZNMJ8bvcddUPoMll2tFfhoqS
+	SvcGOYhOmQb8sFCMeMiKP7TjJ0VbUbN7mCbpvt9BNmrqMr1G0Dg4GYswNzUNiUxxVwm
+	VH6Wss9xXfiTzqni04GFWtUs2apqNQclO7RsCZ2M=
+From: patchtest@automation.yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 1/2] scripts/install-buildtools: add an option to specify
+ where downloads go
+In-Reply-To: <20250313172223.3407902-1-alex.kanavin@gmail.com>
+References: <20250313172223.3407902-1-alex.kanavin@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010195908ff0fe-7e6da621-20a2-4e2a-8d67-c65c313326bf-000000@us-west-2.amazonses.com>
+Date: Thu, 13 Mar 2025 17:31:47 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.13-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 17:22:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212795
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 17:31:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212797
 
-From: Alexander Kanavin <alex@linutronix.de>
+--NextPart
+Content-Type: text/plain
 
-By default the script puts everything it downloads into a temporary
-directory and erases it after unpacking and installing the buildtools.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-This isn't great for traceability and reproducibility of builds
-(being able to see what was downloaded exactly, and being able
-to reproduce setting up a build, especially if the buildtools
-download location isn't available for whatever reason).
-
-This commit adds an option to download items into a specified directory
-and keep them there. I would particularly like to use it with
-bitbake-setup, where an optional feature to install the buildtools
-(exact implementation details tbd) would ensure the tarball remains
-available on local disk.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/install-buildtools | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Testing patch /home/patchtest/share/mboxes/v2-1-2-scripts-install-buildtools-add-an-option-to-specify-where-downloads-go.patch
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 639ebb12d78..6287416c9a7 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -142,6 +142,9 @@ def main():
-                         default=DEFAULT_INSTALL_DIR,
-                         help='directory where buildtools SDK will be installed (optional)',
-                         action='store')
-+    parser.add_argument('--downloads-directory',
-+                        help='use this directory for tarball/checksum downloads and do not erase them (default is a temporary directory which is deleted after unpacking and installing the buildtools)',
-+                        action='store')
-     parser.add_argument('-r', '--release',
-                         default=DEFAULT_RELEASE,
-                         help='Yocto Project release string for SDK which will be '
-@@ -235,11 +238,12 @@ def main():
-                 safe_filename = quote(filename)
-                 buildtools_url = "%s/%s/buildtools/%s" % (base_url, args.release, safe_filename)
- 
--    tmpsdk_dir = tempfile.mkdtemp()
-+    sdk_dir = args.downloads_directory or tempfile.mkdtemp()
-+    os.makedirs(sdk_dir, exist_ok=True)
-     try:
-         # Fetch installer
-         logger.info("Fetching buildtools installer")
--        tmpbuildtools = os.path.join(tmpsdk_dir, filename)
-+        tmpbuildtools = os.path.join(sdk_dir, filename)
-         ret = subprocess.call("wget -q -O %s %s" %
-                               (tmpbuildtools, buildtools_url), shell=True)
-         if ret != 0:
-@@ -252,7 +256,7 @@ def main():
-             checksum_type = "sha256sum"
-             check_url = "{}.{}".format(buildtools_url, checksum_type)
-             checksum_filename = "{}.{}".format(filename, checksum_type)
--            tmpbuildtools_checksum = os.path.join(tmpsdk_dir, checksum_filename)
-+            tmpbuildtools_checksum = os.path.join(sdk_dir, checksum_filename)
-             ret = subprocess.call("wget -q -O %s %s" %
-                                     (tmpbuildtools_checksum, check_url), shell=True)
-             if ret != 0:
-@@ -347,7 +351,8 @@ def main():
- 
-     finally:
-         # cleanup tmp directory
--        shutil.rmtree(tmpsdk_dir)
-+        if not args.downloads_directory:
-+            shutil.rmtree(sdk_dir)
- 
- 
- if __name__ == '__main__':
--- 
-2.39.5
+FAIL: test max line length: Patch line too long (current length 201, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
