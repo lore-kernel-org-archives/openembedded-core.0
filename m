@@ -1,1434 +1,962 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96B1FC282DE
-	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 07:36:28 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web11.9021.1741851384186051626
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B1D0C28B28
+	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 08:39:09 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.10080.1741855145219954394
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Mar 2025 00:36:24 -0700
+ Thu, 13 Mar 2025 01:39:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
-Received: from fwd73.aul.t-online.de (fwd73.aul.t-online.de [10.223.144.99])
-	by mailout05.t-online.de (Postfix) with SMTP id 7D96699A
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 08:36:22 +0100 (CET)
-Received: from [192.168.178.20] ([79.219.231.110]) by fwd73.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1tsd77-1SbL4y0; Thu, 13 Mar 2025 08:36:21 +0100
-Date: Thu, 13 Mar 2025 08:37:07 +0100
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [RFC][gnome48][oe-core][PATCHv2 1/4] gtk4: update 4.16.2 ->
- 4.17.6
+ dkim=pass header.i=@mvista.com header.s=google header.b=YapN2/Wu;
+ spf=pass (domain: mvista.com, ip: 209.85.214.181, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2255003f4c6so12212685ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 01:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1741855144; x=1742459944; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dNHt4jdWB9vvSvlhll+3rSvxcfMNJ3T4JxQYmc+Ps1A=;
+        b=YapN2/Wus03i2E39ZsV4Sc9WltaMvGfMMdHrbkunulr2Tn6menwBkPXEX6Lzkag65f
+         yF/KIIVuhuv0TWFaKRK1TgWycp19DVKh4RNs06amBr5DQBDVOj2Eg0AQy8osB5yzp5+V
+         TupAnky2eWMTvrQcKdpwwvqbfSGEoBSx4x1VM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741855144; x=1742459944;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dNHt4jdWB9vvSvlhll+3rSvxcfMNJ3T4JxQYmc+Ps1A=;
+        b=tqv+BZeBuOEY6lzoRQ9AE1TyxQ8Q6prSFg/TwMVdwvKvtfCbaza3CQsPhvW5krIQjD
+         aQLT7WKiUE265LF87f0cqfDva2N8euwp1Np8cru75nXQ2ooIZd0W35N+UBLZlgeNWcm5
+         g1joVsd6s2d5uJJRCJlOhvJWq4nHG1eu1RPmlyEZ6ACtrungH/xh47x52dg9KDcooSOC
+         J4+zLfvcGoeY07o4cDBkdEYQeaCLFzclr0T9ARi/OMScFe2y4wcWcj49hToFI6kgZ742
+         cMpIOtt3SC2IbE0jVewrc5GTLU6gxn5L1mK5rRLf0EUDmohoxtYSGJCPr5XBks6cxR9e
+         m+ZQ==
+X-Gm-Message-State: AOJu0YykEX7vOaPzhc48DapYJvjABxlpuArjfy8TaJ3u+fbLgCvlbBWQ
+	+XgneSgPMzLyInAL7z5fCo58BSbYBfpRFHFIcailHUTP74vSkThU1mcFQy7OJS1g90UKbbq1+DF
+	h
+X-Gm-Gg: ASbGnctTQ/OoG+hz/ZBK3/px5rF/EbHl81kJXZkeKLL0w4JRHXzqRqw4kNdyWOuFAO6
+	wRTKArxqaj4A9RwvVZPs5fUprONHI3oVnULMj9EDiaxKEpQaLB2w/d98pwNPkVQzorp7N6zEJ4s
+	H/Tse42u27SbovGrxlNhUMB/V6GKtng42ksk247769H2yOQs6O7DGRZgSg1Vkp+bxD5RhucNhi1
+	bXq8kB+CwIYQmHUrwyaiIL5Z4e6vMtCyMryl6nnM2NzLyE/HI3lscFsRaeLAcsNMzA/PktdU16V
+	UAmpOA1H6EUr91SESxIv/uG7v/4ibzbgIKbHAgfnjandtg3TNWHg8j9hZ+q+BnqmNOPX
+X-Google-Smtp-Source: AGHT+IHl1D1fTE6//B2KWVDClmVeiAwaTZ1IaWHut7HdM+tXoT1ZKdMIklrAC4QZt3jFuh+13FQPpA==
+X-Received: by 2002:a05:6a00:6c96:b0:737:9b:582a with SMTP id d2e1a72fcca58-737009b5927mr8440639b3a.24.1741855143839;
+        Thu, 13 Mar 2025 01:39:03 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([43.249.234.149])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7371167d764sm830735b3a.98.2025.03.13.01.39.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Mar 2025 01:39:03 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Message-Id: <V5X1TS.HBD5YCCH8B233@t-online.de>
-In-Reply-To: <182C4C786D6C4810.16826@lists.openembedded.org>
-References: <182C4C786D6C4810.16826@lists.openembedded.org>
-X-Mailer: geary/46.0
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] grub: Fix multiple CVEs
+Date: Thu, 13 Mar 2025 14:08:45 +0530
+Message-Id: <20250313083845.258812-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-x9JKFeuFAUZDw2KgrvJC"
-X-TOI-EXPURGATEID: 150726::1741851381-89FF9447-0BB0E00F/0/0 CLEAN NORMAL
-X-TOI-MSGID: 605593f2-0698-4d68-95ac-8405dd498026
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 07:36:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212745
-
---=-x9JKFeuFAUZDw2KgrvJC
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-
-v2: package the desktop files provided by ${datadir}xdg-terminals in=20
-vte-gtk4 instead of vte-prompt
-
-On Do, M=C3=A4r 13 2025 at 08:34:30 +01:00:00, Markus Volk=20
-<f_l_k@t-online.de> wrote:
-> Overview of Changes in 4.17.6, 04-03-2025
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> Note: The buffer sizing fixes in this release are known to
-> not work with fractional scales on macOS. This will hopefully
-> be fixed soon. In the meantime, you can use the cairo renderer.
->=20
-> * GSK rendering issues on Asahi Linux are fixed
->=20
-> * Buffer sizing issues with fractional scaling are fixed
->=20
-> * GtkFontChooser scrolls to the initially selected font
->=20
-> * Font rendering with the new default GNOME font is improved
->=20
-> * The Wayland cursor shape protocol is supported
->=20
-> * Initial focus for popups on Android is fixed
->=20
-> * Bugs fixed:
->   - #3184 Application crashes when presenting popover menus (Matthias=20
-> Clasen)
->   - #4019 Crash on ListBoxRow.get_index (Matthias Clasen)
->   - #6455 GtkFlowBox aligns incorrectly with GTK_ALIGN_END and
->     min/max_children_per_line (Gergo Koteles)
->   - #6817 Null pointer dereference in gdk_surface_request_motion=20
-> (Matthias
->     Clasen)
->   - #7146 GSK issues illegal render ops with load=3Ddont-care and=20
-> blend=3Dover with
->     Wayland fractional scaling, causing graphical corruption=20
-> (Benjamin Otte)
->   - #7282 memorytexture testsuite fails the float tests (Benjamin=20
-> Otte)
->   - #7314 Incorrect height calculations with fractional scaling under=20
-> vulkan
->     renderer (violates vulkan validation layers) (Benjamin Otte)
->   - #7369 GtkTextView does not claim all click gestures (Maximiliano=20
-> Sandoval)
->   - #7370 activating `GDK_DEBUG=3DEVENTS` crashes the application if a=20
-> touch event
->     occurs (Matthias Clasen)
->   - #7384 Comment required for search string (Matthias Clasen)
->   - !6617 Fix measuring label min wfh with wrap+ellipsize+lines
->   - !6635 gtkmodelbutton: Always close submenus when changing parent=20
-> item
->   - !7746 ci: Regenerate Fedora image from F41
->   - !8028 fontchooser: scroll to selected font
->   - !8111 macos: Re-enable macOS GIR generation
->   - !8154 adjustment: Verify that values are finite
->   - !8156 Clarify hide-on-close documentation
->   - !8188 gdkkeys-win32: Add keymap=20
-> get_active_layout_index/get_layout_names
->   - !8231 docs: Fix the missing image in the picture screenshots
->   - !8232 gdk: Fix spelling for GdkAndroidDisplayNightMode enum value=20
-> nick
->   - !8234 wayland: Update color coordinates for extra precision
->   - !8235 Drop GskProfiler
->   - !8241 macos: Do not occupy space for window buttons when full=20
-> screen
->   - !8242 android: Update focus state on motion events for autohide=20
-> surfaces
->   - !8243 gdk: Deprecate gdk_cairo_context_cairo_create()
->   - !8246 cpdb: Update gtk_print_backend_cpdb_init for latest CPDB=20
-> version
->   - !8247 wayland: Support the cursor-shape protocol
->   - !8248 docs: Fix an image name
->   - !8250 macos: Track number of button widgets realized on a window
->   - !8251 wayland: Go back to the old none cursor
->   - !8253 Bring back unhinted extents
->   - !8256 wayland: Fix none cursor check
->   - !8263 inspector: Show font options
->   - !8264 Try again to fix font rendering
->=20
-> * Translation updates:
->   - Basque (Asier Sarasua Garmendia)
->   - Bulgarian (twlvnn kraftwerk, Alexander Shopov)
->   - Catalan (Jordi Mas i Hernandez)
->   - Chinese (China) (Luming Zh)
->   - Czech (Daniel Rusek)
->   - Finnish (Jiri Gr=C3=B6nroos)
->   - Galician (Fran Dieguez)
->   - Georgian (Ekaterine Papava)
->   - Hebrew (Yosef Or Boczko)
->   - Indonesian (Andika Triwidada)
->   - Korean (Changwoo Ryu)
->   - Lithuanian (Aurimas =C4=8Cernius)
->   - Persian (Danial Behzadi)
->   - Polish (Piotr Dr=C4=85g)
->   - Portuguese (Hugo Carvalho)
->   - Portuguese (Brazil) (Rafael Fontenelle)
->   - Slovenian (Martin)
->   - Spanish (Daniel Mustieles)
->   - Turkish (Sabri =C3=9Cnal)
->   - Ukrainian (Yuri Chornoivan)
->=20
-> Overview of Changes in 4.17.5, 23-02-2025
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * Numeric mode in GtkSpinButtons works again
->=20
-> * Client-side dialogs can be made fully modal
->=20
-> * Portals work better for unsandboxed apps, by registering
->=20
-> * Editable labels have a context menu
->=20
-> * GtkListBox size allocation has been improved
->=20
-> * We require wayland 1.23 and wayland-protocols 1.41
->=20
-> * We use the wp_color_manager_v1 protocol for color management under=20
-> Wayland
->=20
-> * Most screenshots in the documentation have a dark variant
->=20
-> * GtkBuilder allows inline definition for GMenu-valued properties
->=20
-> * Headerbars can use native window controls on macOS
->=20
-> * Bugs fixed:
->   - #4353 Keyboard: Set shortcut does not work for key-codes > 247=20
-> (Matthias
->     Clasen)
->   - #5125 Demo / Menu: Popup at wrong position, hangs on Wayland=20
-> (Matthias
->     Clasen)
->   - #5815 builder: integrate menus more properly (Matthias Clasen)
->   - #6010 gtk4-demo > Lists > Selections emits CRITICALS (Matthias=20
-> Clasen)
->   - #6272 a11y: API for updating platform state for custom=20
-> GtkAccessible
->     implementations is missing (Emmanuele Bassi)
->   - #6355 gtk_widget_compute_transform() not working correctly with=20
-> GtkPopover
->     (Alessandro Astone)
->   - #6379 GtkListBox crashes if the placeholder is focused and then=20
-> TAB is
->     pressed
->   - #7191 Have a way to block parent shortcuts in AdwDialog (Matthias=20
-> Clasen)
->   - #7215 Changing the click behavior of Gtk.EditableLabel (Matthias=20
-> Clasen)
->   - #7229 GSK/vulkan uses mipmaps without checking the formats/tiling
->     `VkImageFormatProperties.maxMipLevels` (Janne Grunau)
->   - #7249 Cursor hotspot and cursor image are not updated atomically=20
-> on Wayland
->     (Carlos Garnacho)
->   - #7257 Unexpected spacing at the end of a textview when using=20
-> child widgets.
->     (Sergey Bugaev)
->   - #7286 GtkApplicationWindow show-menubar documentation inconsistent
->   - #7307 GtkAppChooserWidget doesn't fit in a mobile screen=20
-> (Automeris naranja)
->   - #7310 Inspector showing child widgets & controllers twice (Florian
->     "sp1rit"=E2=80=8B)
->   - #7311 GtkSpinButton:numeric=3DTrue doesn't work (Matthias Clasen)
->   - #7312 Dead link in common questions
->   - #7321 mem leak in emoji chooser (Matthias Clasen)
->   - #7322 invalid array index use
->   - #7324 Missing support for F17, F18, F19 and F20 keys on MacOS=20
-> (Elisa Pau)
->   - #7334 Gtk password inputs should expose the displayed text (e.g.=20
-> black
->     circles) via AT-SPI; not the underlying value (Emmanuele Bassi)
->   - #7340 Job Failed #4757144: Meson error
->   - !7951 ListBox hacking
->   - !8071 macos: Native window controls
->   - !8073 gpu: Fix off-by-one error in gsk_vulkan_mipmap_levels
->   - !8155 application: Register host apps with portal
->   - !8177 Small Android fixes
->   - !8178 Fix typo in `FileLauncher.set_always_ask` docs
->   - !8179 gdk/wayland: Use forgotten include guards
->   - !8180 docs: fix some typos, mainly closing ticks
->   - !8184 android: Provide Gdk.FOCUS_CHANGE events
->   - !8187 demos: Fix gettext domain in metainfo
->   - !8195 gtk-demo: Tweak the fixed demo
->   - !8196 settings: Fix GdkDisplay values ignored at init
->   - !8197 popovermenubar: Do not steal the focus on hover
->   - !8198 gi: Add missing annotation to=20
-> WaylandSurface.force_next_commit
->   - !8200 rendernode: Add fixed-size annotations
->   - !8201 fontdialogbutton: Gracefully handle unknown font
->   - !8205 Update getting_started.md - point to Gtk.Widget.present=20
-> instead of
->     show
->   - !8206 docs: Fix 'Title overline too short' error
->   - !8207 Update getting_started for=20
-> gdk_surface_create_similar_surface
->     depreaction
->   - !8208 a11y: Fix issues in text attribute run logic
->   - !8210 gdk: Small documentation improvements
->   - !8211 wayland: Use the wp_color_manager_v1 protocol
->   - !8217 macos: Disable animations if setting "Reduce Motion" is=20
-> active
->   - !8219 application: Clean up dangling inhibitor surface
->   - !8221 gtk-demo: Improve colors of triangle in GLArea demo
->   - !8222 vulkan: Fix max amount of modifiers per format
->   - !8223 docs: Add dark variants to widget gallery
->   - !8224 docs: Fix gallery images for menus
->   - !8228 gsk: Don't color-convert empty surfaces
->   - !8229 gdk: Remove GDK_DEBUG=3Dgl-no-fractional
->=20
-> * Translation updates:
->   - Catalan (Jordi Mas)
->   - Chinese (Taiwan) (Chao-Hsiung Liao)
->   - French (Vincent Chatelain)
->   - Georgian (Ekaterine Papava)
->   - Nepali (Pawan Chitrakar)
->   - Persian (Danial Behzadi)
->   - Polish (Piotr Dr=C4=85g)
->   - Slovenian (Martin)
->=20
-> Overview of Changes in 4.17.4, 01-02-2025
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> This release introduces a new backend, which allows running
-> GTK applications on Android phones. It is still considered
-> experimental. Feedback and improvements are welcome!
->=20
-> We have a ci job that produces signed apks for gtk4-demo,
-> to make it easy to try this out.
->=20
-> * GtkFileChooser:
->  - Stop replacing : (colon) with U+2236 (ratio)
->=20
-> * GtkSpinButton:
->  - Avoid out-of-bounds values in some cases
->=20
-> * GtkWindow:
->  - Send expected a11y events when a window is closed
->  - Change accessible role back to GTK_ACCESSIBLE_ROLE_WINDOW
->=20
-> * GtkLabel:
->  - Make context menus keyboard-navigatable
->=20
-> * GtkVideo:
->  - Support rotated videos
->=20
-> * GDK:
->  - Add a way to retrieve keyboard layout information
->  - Use libpng api for cicp if available
->=20
-> * GSK
->  - Drop the old GL renderer
->=20
-> * Accessibility:
->  - Maintain inverse relations
->=20
-> * macOS:
->  - Enable AccessKit in ci
->  - Fix inverted pen tilt
->=20
-> * Deprecations:
->  - The x11 backend
->  - The Broadway backend
->=20
-> * Build:
->  - Require cairo 1.18.2
->=20
-> * Bugs fixed:
->   - #6755 Accessible `window:activate` events missing for Gtk4=20
-> (Matthias Clasen)
->   - #6823 Enumeration values starting with numbers (Matthias Clasen)
->   - #7210 ci: Build with -Daccesskit=3Denabled on macOS
->   - #7228 gtk4-demo settings demo does not actually write settings=20
-> (Matthias
->     Clasen)
->   - #7246 Cannot navigate context menu of GtkLabel with keyboard
->   - #7268 RFC: API to query the current keyboard layout ?
->   - #7271 Test failures with libpng-1.6.45 (Alessandro Astone)
->   - #7279 GTKFileChooserWidget incorrectly displays "Modified" time=20
-> of file when
->     format should be "%H:%M" (Matthias Clasen)
->   - #7294 Hovering buttons causes "g_object_unref: assertion=20
-> 'G_IS_OBJECT
->     (object)' failed" (Matthias Clasen)
->   - !7555 Introducing new android backend
->   - !8017 gdk: fix crash on Wayland with already destroyed surface.
->   - !8060 Deprecate the X11 backend
->   - !8115 Introduce the label for relation and the concept of reverse=20
-> relations
->   - !8118 Prepare the 4.17.3 release
->   - !8119 Post-release version bump
->   - !8121 vulkan: Handle VK_PRESENT_MODE_FIFO_LATEST_READY_EXT
->   - !8124 Fix the archive URL for Boost
->   - !8126 docs: Mark GtkShortcutsWindow as deprecated
->   - !8127 tools: Drop support for the gl renderer
->   - !8128 spinbutton: Consider adjustment value sanitization
->   - !8129 Drop test exclusions for the gl renderer
->   - !8133 ci: Move subproject download and update over to a separate=20
-> job
->   - !8134 Keep installing gsk/gl/gskglrenderer.h
->   - !8137 gtktextattributes and gtkaccessible copy-paste errors
->   - !8138 gtk-demo: Plug a memory leak
->   - !8139 window: Hide accessible earlier
->   - !8140 Keep installing gsk/gl/gskglrenderer.h
->   - !8142 gtk4-builder-tool: Plug a few memory leaks
->   - !8144 macos: fix broken accounting messages and click after=20
-> moving the
->     window
->   - !8147 Docs: Small fixes
->   - !8148 text: Correct the documentation
->   - !8150 Avoid using deprecated GtkWindow::keys-changed internally
->   - !8151 gstreamer: Implement rotation tag support
->   - !8157 gstreamer: Improve rotation tag support
->   - !8160 docs: Don't recommend usage of deprecated ToggleButton=20
-> method
->   - !8163 gdk/contentserializer: Force specific URI schemes to=20
-> serialize as URI
->   - !8164 gdk/wayland: Ensure to generate grab broken events before=20
-> crossings
->   - !8166 filedialog: fix typo in docs
->   - !8167 macos: Gtk4: Fix inverted pen Y tilt on macOS
->=20
-> * Translation updates:
->   - Slovenian (Martin)
->   - Thai (Aefgh Threenine)
->=20
-> Overview of Changes in 4.17.3, 16-01-2025
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * GtkText:
->  - Consume Ctrl-A
->  - Handle Cut', Copy, Paste, Undo, and Redo keys
->  - Improve a11y representation
->=20
-> * GtkLabel:
->  - Consume Ctrl-A when we handle it
->  - Pass mnemonics to a11y
->=20
-> * GtkTextView:
->  - Handle Cut, Copy, Paste, Undo, and Redo keys
->  - Fix disappearing carets after focus changes
->=20
-> * GtkFileChooser:
->  - Handle Find keys
->  - Set a11y label on Search button
->  - Set a11y labels on pathbar buttons
->  - Pass key-shortcuts for the "New folder" button
->=20
-> * GtkAppChooser:
->  - Fix sorting
->=20
-> * GtkListBox:
->  - Improve a11y representation
->=20
-> * GtkColumnView:
->  - Fix column dnd in right-to-left context
->=20
-> * GtkWindow:
->  - Make resize corners gapless with rounded corners
->=20
-> * GtkPopoverMenu:
->  - Show mnemonics on Alt press
->=20
-> * GtkMenuButton:
->  - Improve a11y representation
->=20
-> * GtkFileDialog:
->  - Fix a crash
->  - Add more text file api variants
->=20
-> * GtkSizeGroup:
->  - Improve consistency measurements and allocations
->=20
-> * GtkBuilder:
->  - Parse tab arrays and font descriptions in Pango syntax
->=20
-> * Wayland:
->  - Rely on scale events for pointer surfaces
->  - Make idle inhibit work with fullscreen subsurfaces
->=20
-> * Accessibility:
->  - Implement GetKeyBinding properly for actions
->  - Set key-shortcuts attribute
->  - Fix state change notification for some states
->  - Set application ID attribute
->=20
-> * MacOS:
->  - Make the NGL renderer work again
->=20
-> * GSK:
->  - Don't double-clip edges for shadows
->=20
-> * Demos:
->  - widget-factory: Set alternative text on pictures
->  - gtk-demo: Allow to run as a service
->=20
-> * Deprecations:
->  - GtkShortcutsWindow
->  - Loading themes from ~/.themes
->  - <child> in ui files where child properties exist
->=20
-> * Translation updates:
->  Brazilian Portuguese
->  Georgian
->  Turkish
->=20
-> Overview of Changes in 4.17.2, 26-12-2024
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * GtkWindow:
->  - Rework computing the minimum size
->=20
-> * GtkPicture:
->  - Fix measuring with content-fit =3D scale-down
->=20
-> * GtkStack:
->  - Report constant size request mode in more cases
->  - Avoid measuring children aginst preferred request mode
->  - Fix measuring during size interpolation
->=20
-> * GtkFlowBox:
->  - Improve size request mode reporting
->  - Fix measuring minimum height
->  - Fix measuring natural width
->  - Implement hfw vai binary search
->=20
-> * GtkScrolledWindow:
->  - Report constant size request mode in more cases
->  - Skip measuring children if we can
->=20
-> * GtkBox:
->  - Don't always reserve height for baseline alignment
->  - Rework natural opposite size-for-size computation
->  - Add fast paths for some cases of measurement and allocation
->=20
-> * GtkLayoutManager:
->  - Skip invisible children for request mode determination
->  - Prefer hfw, all things being equal
->=20
-> * GtkColorPicker:
->  - Respect GDK_DEBUG=3Dno-portals
->=20
-> * GtkEntry:
->  - Stop guessing text direction from keyboard layout
->  - Add a shortcut and context menu item to change text direction
->=20
-> * GtkSpinButton:
->  - Make numeric spin buttons always LTR
->=20
-> * GtkAboutDialog:
->  - Small UI improvements
->=20
-> * Accessibility:
->  - Add an AccessKit backend. Use -Daccesskit=3Denabled to build it
->    and GTK_A11Y=3Daccesskit to use it
->=20
-> * Windows:
->  - Drop the AeroSnap emulation
->=20
-> * Wayland:
->  - Always clear exported surface IDs on finalize
->  - Use the correct display for imcontext
->=20
-> * Vulkan:
->  - Make GdkVulkanContext work with Android armv7
->=20
-> * Build:
->  - Require GLib 2.80
->  - Require harfbuzz 8.4
->  - Require pango 1.55
->  - Require C11
->=20
-> * Translation update:
->  Russian
->=20
-> Overview of Changes in 4.17.1, 06-12-2024
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> This release switches our portal support from opt-in to opt-out.
-> We will use portals by default, unless you set GDK_DEBUG=3Dno-portals.
-> And we will *always* use portals in flatpaks.
->=20
-> * Text rendering:
->  - Make error underlines smaller
->=20
-> * GtkText:
->  - Avoid selecting inserted Emoji
->=20
-> * GtkPlacesView:
->  - Improve accessibility
->=20
-> * GtkFileChooser:
->  - Fix a case where search was stealing focus
->=20
-> * GtkEmojiChooser:
->  - Update to CLDR 46 / Unicode 16
->=20
-> * Accessibility:
->  - Fix DBus signature of ChildrenChanged
->=20
-> * GDK:
->  - Don't recycle threads too aggressively
->  - Add GDK_DISABLE=3Dthreads to disable threaded operations
->  - Improve parallelization for small tasks
->=20
-> * GSK:
->  - Make occlusion checking more effective
->  - Clip luminosity when clipping colors (avoiding masking artifacts)
->  - Fix problems with dihedral transforms
->=20
-> * Vulkan:
->  - Streamline Vulkan setup
->  - Fix blurry rendering at certain scale/size combinations
->=20
-> * OpenGL:
->  - Conform to buffer offset alignment requirements
->=20
-> * Windows:
->  - Fix pasting certain bitmaps
->=20
-> * Documentation:
->  - Revise and modernize some docs
->=20
-> * Debugging:
->  - Inspector: Show surfaces and renderers in the tree
->  - Inspector: Make the object tree resizable
->  - Inspector: Add a "Copy for gitlab" button
->=20
-> * Translation updates
->  Icelandic
->  Serbian
->  Slovenian
->=20
-> Overview of Changes in 4.17.0, 06-11-2024
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * GtkScrolledWindow
->  - Fix criticals in size allocation code
->=20
-> * GtkFileChooser
->  - Fix a crash in the portal code
->=20
-> * GtkFontChoser
->  - Make the dialog more shrinkable
->=20
-> * GtkPicture
->  - Avoid unnecessary resizes
->=20
-> * GtkVideo
->  - Make dmabufs work without GL
->=20
-> * GtkListBox:
->  - Add a tab-behavior property to influence keynav
->=20
-> * GtkEmojiChooser:
->  - Fix problems with insertion and selection
->=20
-> * GtkStringList:
->  - Add gtk_string_list_find
->=20
-> * GtkApplication:
->  - Respect GDK_DEBUG=3Dno-portals
->  - Set default window icon from app ID
->=20
-> * GtkTextView:
->  - Vertical and horizontal positioning of the textview is now=20
-> quantized
->    to the nearest device pixel. This should improve the perceived=20
-> smoothness
->    of scrolling with fractional scaling and font hinting.
->  - Incorrect re-use of cached styling was fixed
->  - Fix some missing CSS invalidation
->  - Handle charsets in clipboard datatypes
->=20
-> * Printing:
->  - Avoid warnings for avahi errors
->  - Fix a segfault in the print dialog setup code
->=20
-> * Accessibility:
->  - Always realize non-widget accessibles, to help webkit
->  - Fix list view selection implementation
->  - Handle NULL values in more places
->=20
-> * Gstreamer:
->  - Make dmabufs works without GL
->=20
-> * Gdk:
->  - Add OKLAB and OKLCH color states
->  - GL: Drop support for GLES 2 and GL < 3.3
->  - GL: Use the ngl dmabuf downloader instead of the GL downloader
->  - Vulkan: Drop the GDK_VULKAN_DEVICE env var. Use=20
-> MESA_VK_DEVICE_SELECT instead
->  - Vulkan: Use the swapchain maintenance extension to release swap=20
-> images
->  - Forbid opening displays before gtk_init()
->=20
-> * Gsk:
->  - Many improvements to the dmabuf downloaders
->  - ngl: Avoid glBufferSubData for globals, speeding up llvmpipe
->  - Renderer selection will no longer consider the GL renderer
->  - Allow Vulkan software rendering as fallback
->  - Support gradient interpolation in different color states
->=20
-> * Wayland:
->  - Improve settings portal handling
->  - Improve fallback for cursor themes
->  - Make cursor theme changes apply immediately
->  - Use a viewporter for cursor image scaling
->  - Improve cursor size handling
->  - Use the system bell protocol if available
->  - Fix possible deadlock with high-priority sources triggering=20
-> roundtrips
->=20
-> * Windows:
->  - Improve the backend code
->  - Fix some problems with WGL on NVidia
->  - Many testsuite fixes for Windows compatibility
->  - Make all pixbuf loaders builtin in the gdk-pixbuf subproject
->  - Add GDK_DISABLE=3Daerosnap to disable aerosnap
->  - Improve clipboard handling
->  - Fix behavior or gdk_display_open() on Windows
->  - Numerous papercut fixes
->  - Require Windows 10
->=20
-> * Macos:
->  - Fix crashes when dragging libadwaita TabView tabs
->  - Require macOS 10.15
->=20
-> * Tools and demos
->  - gtk4-demo: Make demos standalone
->  - gtk4-demo: Drop GL shader demos
->  - gtk4-demo: Improve scrolling benchmarks
->  - gtk4-builder-tool: Improve separator handling
->  - gtk4-image-tool: Better color state support
->=20
-> * Build:
->  - Don't set GSK_RENDERER in our flatpaks
->  - Require meson 1.2
->=20
-> * Translation updates
->  Belarusian
->  Brazilian Portuguese
->  British English
->  Galician
->  Lithuanian
->  Romanian
->  Slovenian
->  Swedish
->=20
-> Signed-off-by: Markus Volk <f_l_k@t-online.de=20
-> <mailto:f_l_k@t-online.de>>
-> ---
->  meta/recipes-gnome/gtk+/{gtk4_4.16.12.bb =3D> gtk4_4.17.6.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-gnome/gtk+/{gtk4_4.16.12.bb =3D> gtk4_4.17.6.bb}=20
-> (98%)
->=20
-> diff --git a/meta/recipes-gnome/gtk+/gtk4_4.16.12.bb=20
-> b/meta/recipes-gnome/gtk+/gtk4_4.17.6.bb
-> similarity index 98%
-> rename from meta/recipes-gnome/gtk+/gtk4_4.16.12.bb
-> rename to meta/recipes-gnome/gtk+/gtk4_4.17.6.bb
-> index d8d37a526d..9e3ac729ca 100644
-> --- a/meta/recipes-gnome/gtk+/gtk4_4.16.12.bb
-> +++ b/meta/recipes-gnome/gtk+/gtk4_4.17.6.bb
-> @@ -38,7 +38,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
->  UPSTREAM_CHECK_REGEX =3D=20
-> "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.xz"
->=20
->  SRC_URI =3D=20
-> "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-${PV}.tar.xz=20
-> <http://ftp.gnome.org/pub/gnome/sources/gtk/$%7BMAJ_VER%7D/gtk-$%7BPV%7D.=
-tar.xz>"
-> -SRC_URI[sha256sum] =3D=20
-> "ef31bdbd6f082c4401634a20c850b0050c9bf252ef1e079764ee95a2a0c4c95a"
-> +SRC_URI[sha256sum] =3D=20
-> "dfae9ba1263f84afa83a494db2ed14c7392c67840b6730bfa26eb79fde1e13a1"
->=20
->  S =3D "${WORKDIR}/gtk-${PV}"
->=20
-> --
-> 2.48.1
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#212742):=20
-> <https://lists.openembedded.org/g/openembedded-core/message/212742>
-> Mute This Topic: <https://lists.openembedded.org/mt/111675689/3618223>
-> Group Owner: openembedded-core+owner@lists.openembedded.org=20
-> <mailto:openembedded-core+owner@lists.openembedded.org>
-> Unsubscribe:=20
-> <https://lists.openembedded.org/g/openembedded-core/unsub>=20
-> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
-
---=-x9JKFeuFAUZDw2KgrvJC
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div id=3D"geary-body" dir=3D"auto"><div>v2: package the desktop files prov=
-ided by ${datadir}xdg-terminals in vte-gtk4 instead of vte-prompt&nbsp;</di=
-v></div><div id=3D"geary-quote" dir=3D"auto"><br>On Do, M=C3=A4r 13 2025 at=
- 08:34:30 +01:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><block=
-quote type=3D"cite"><div class=3D"plaintext" style=3D"white-space: break-sp=
-aces;">Overview of Changes in 4.17.6, 04-03-2025
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-Note: The buffer sizing fixes in this release are known to
-not work with fractional scales on macOS. This will hopefully
-be fixed soon. In the meantime, you can use the cairo renderer.
-
-* GSK rendering issues on Asahi Linux are fixed
-
-* Buffer sizing issues with fractional scaling are fixed
-
-* GtkFontChooser scrolls to the initially selected font
-
-* Font rendering with the new default GNOME font is improved
-
-* The Wayland cursor shape protocol is supported
-
-* Initial focus for popups on Android is fixed
-
-* Bugs fixed:
-  - #3184 Application crashes when presenting popover menus (Matthias Clase=
-n)
-  - #4019 Crash on ListBoxRow.get_index (Matthias Clasen)
-  - #6455 GtkFlowBox aligns incorrectly with GTK_ALIGN_END and
-    min/max_children_per_line (Gergo Koteles)
-  - #6817 Null pointer dereference in gdk_surface_request_motion (Matthias
-    Clasen)
-  - #7146 GSK issues illegal render ops with load=3Ddont-care and blend=3Do=
-ver with
-    Wayland fractional scaling, causing graphical corruption (Benjamin Otte=
-)
-  - #7282 memorytexture testsuite fails the float tests (Benjamin Otte)
-  - #7314 Incorrect height calculations with fractional scaling under vulka=
-n
-    renderer (violates vulkan validation layers) (Benjamin Otte)
-  - #7369 GtkTextView does not claim all click gestures (Maximiliano Sandov=
-al)
-  - #7370 activating `GDK_DEBUG=3DEVENTS` crashes the application if a touc=
-h event
-    occurs (Matthias Clasen)
-  - #7384 Comment required for search string (Matthias Clasen)
-  - !6617 Fix measuring label min wfh with wrap+ellipsize+lines
-  - !6635 gtkmodelbutton: Always close submenus when changing parent item
-  - !7746 ci: Regenerate Fedora image from F41
-  - !8028 fontchooser: scroll to selected font
-  - !8111 macos: Re-enable macOS GIR generation
-  - !8154 adjustment: Verify that values are finite
-  - !8156 Clarify hide-on-close documentation
-  - !8188 gdkkeys-win32: Add keymap get_active_layout_index/get_layout_name=
-s
-  - !8231 docs: Fix the missing image in the picture screenshots
-  - !8232 gdk: Fix spelling for GdkAndroidDisplayNightMode enum value nick
-  - !8234 wayland: Update color coordinates for extra precision
-  - !8235 Drop GskProfiler
-  - !8241 macos: Do not occupy space for window buttons when full screen
-  - !8242 android: Update focus state on motion events for autohide surface=
-s
-  - !8243 gdk: Deprecate gdk_cairo_context_cairo_create()
-  - !8246 cpdb: Update gtk_print_backend_cpdb_init for latest CPDB version
-  - !8247 wayland: Support the cursor-shape protocol
-  - !8248 docs: Fix an image name
-  - !8250 macos: Track number of button widgets realized on a window
-  - !8251 wayland: Go back to the old none cursor
-  - !8253 Bring back unhinted extents
-  - !8256 wayland: Fix none cursor check
-  - !8263 inspector: Show font options
-  - !8264 Try again to fix font rendering
-
-* Translation updates:
-  - Basque (Asier Sarasua Garmendia)
-  - Bulgarian (twlvnn kraftwerk, Alexander Shopov)
-  - Catalan (Jordi Mas i Hernandez)
-  - Chinese (China) (Luming Zh)
-  - Czech (Daniel Rusek)
-  - Finnish (Jiri Gr=C3=B6nroos)
-  - Galician (Fran Dieguez)
-  - Georgian (Ekaterine Papava)
-  - Hebrew (Yosef Or Boczko)
-  - Indonesian (Andika Triwidada)
-  - Korean (Changwoo Ryu)
-  - Lithuanian (Aurimas =C4=8Cernius)
-  - Persian (Danial Behzadi)
-  - Polish (Piotr Dr=C4=85g)
-  - Portuguese (Hugo Carvalho)
-  - Portuguese (Brazil) (Rafael Fontenelle)
-  - Slovenian (Martin)
-  - Spanish (Daniel Mustieles)
-  - Turkish (Sabri =C3=9Cnal)
-  - Ukrainian (Yuri Chornoivan)
-
-Overview of Changes in 4.17.5, 23-02-2025
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* Numeric mode in GtkSpinButtons works again
-
-* Client-side dialogs can be made fully modal
-
-* Portals work better for unsandboxed apps, by registering
-
-* Editable labels have a context menu
-
-* GtkListBox size allocation has been improved
-
-* We require wayland 1.23 and wayland-protocols 1.41
-
-* We use the wp_color_manager_v1 protocol for color management under Waylan=
-d
-
-* Most screenshots in the documentation have a dark variant
-
-* GtkBuilder allows inline definition for GMenu-valued properties
-
-* Headerbars can use native window controls on macOS
-
-* Bugs fixed:
-  - #4353 Keyboard: Set shortcut does not work for key-codes &gt; 247 (Matt=
-hias
-    Clasen)
-  - #5125 Demo / Menu: Popup at wrong position, hangs on Wayland (Matthias
-    Clasen)
-  - #5815 builder: integrate menus more properly (Matthias Clasen)
-  - #6010 gtk4-demo &gt; Lists &gt; Selections emits CRITICALS (Matthias Cl=
-asen)
-  - #6272 a11y: API for updating platform state for custom GtkAccessible
-    implementations is missing (Emmanuele Bassi)
-  - #6355 gtk_widget_compute_transform() not working correctly with GtkPopo=
-ver
-    (Alessandro Astone)
-  - #6379 GtkListBox crashes if the placeholder is focused and then TAB is
-    pressed
-  - #7191 Have a way to block parent shortcuts in AdwDialog (Matthias Clase=
-n)
-  - #7215 Changing the click behavior of Gtk.EditableLabel (Matthias Clasen=
-)
-  - #7229 GSK/vulkan uses mipmaps without checking the formats/tiling
-    `VkImageFormatProperties.maxMipLevels` (Janne Grunau)
-  - #7249 Cursor hotspot and cursor image are not updated atomically on Way=
-land
-    (Carlos Garnacho)
-  - #7257 Unexpected spacing at the end of a textview when using child widg=
-ets.
-    (Sergey Bugaev)
-  - #7286 GtkApplicationWindow show-menubar documentation inconsistent
-  - #7307 GtkAppChooserWidget doesn't fit in a mobile screen (Automeris nar=
-anja)
-  - #7310 Inspector showing child widgets &amp; controllers twice (Florian
-    "sp1rit"=E2=80=8B)
-  - #7311 GtkSpinButton:numeric=3DTrue doesn't work (Matthias Clasen)
-  - #7312 Dead link in common questions
-  - #7321 mem leak in emoji chooser (Matthias Clasen)
-  - #7322 invalid array index use
-  - #7324 Missing support for F17, F18, F19 and F20 keys on MacOS (Elisa Pa=
-u)
-  - #7334 Gtk password inputs should expose the displayed text (e.g. black
-    circles) via AT-SPI; not the underlying value (Emmanuele Bassi)
-  - #7340 Job Failed #4757144: Meson error
-  - !7951 ListBox hacking
-  - !8071 macos: Native window controls
-  - !8073 gpu: Fix off-by-one error in gsk_vulkan_mipmap_levels
-  - !8155 application: Register host apps with portal
-  - !8177 Small Android fixes
-  - !8178 Fix typo in `FileLauncher.set_always_ask` docs
-  - !8179 gdk/wayland: Use forgotten include guards
-  - !8180 docs: fix some typos, mainly closing ticks
-  - !8184 android: Provide Gdk.FOCUS_CHANGE events
-  - !8187 demos: Fix gettext domain in metainfo
-  - !8195 gtk-demo: Tweak the fixed demo
-  - !8196 settings: Fix GdkDisplay values ignored at init
-  - !8197 popovermenubar: Do not steal the focus on hover
-  - !8198 gi: Add missing annotation to WaylandSurface.force_next_commit
-  - !8200 rendernode: Add fixed-size annotations
-  - !8201 fontdialogbutton: Gracefully handle unknown font
-  - !8205 Update getting_started.md - point to Gtk.Widget.present instead o=
-f
-    show
-  - !8206 docs: Fix 'Title overline too short' error
-  - !8207 Update getting_started for gdk_surface_create_similar_surface
-    depreaction
-  - !8208 a11y: Fix issues in text attribute run logic
-  - !8210 gdk: Small documentation improvements
-  - !8211 wayland: Use the wp_color_manager_v1 protocol
-  - !8217 macos: Disable animations if setting "Reduce Motion" is active
-  - !8219 application: Clean up dangling inhibitor surface
-  - !8221 gtk-demo: Improve colors of triangle in GLArea demo
-  - !8222 vulkan: Fix max amount of modifiers per format
-  - !8223 docs: Add dark variants to widget gallery
-  - !8224 docs: Fix gallery images for menus
-  - !8228 gsk: Don't color-convert empty surfaces
-  - !8229 gdk: Remove GDK_DEBUG=3Dgl-no-fractional
-
-* Translation updates:
-  - Catalan (Jordi Mas)
-  - Chinese (Taiwan) (Chao-Hsiung Liao)
-  - French (Vincent Chatelain)
-  - Georgian (Ekaterine Papava)
-  - Nepali (Pawan Chitrakar)
-  - Persian (Danial Behzadi)
-  - Polish (Piotr Dr=C4=85g)
-  - Slovenian (Martin)
-
-Overview of Changes in 4.17.4, 01-02-2025
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-This release introduces a new backend, which allows running
-GTK applications on Android phones. It is still considered
-experimental. Feedback and improvements are welcome!
-
-We have a ci job that produces signed apks for gtk4-demo,
-to make it easy to try this out.
-
-* GtkFileChooser:
- - Stop replacing : (colon) with U+2236 (ratio)
-
-* GtkSpinButton:
- - Avoid out-of-bounds values in some cases
-
-* GtkWindow:
- - Send expected a11y events when a window is closed
- - Change accessible role back to GTK_ACCESSIBLE_ROLE_WINDOW
-
-* GtkLabel:
- - Make context menus keyboard-navigatable
-
-* GtkVideo:
- - Support rotated videos
-
-* GDK:
- - Add a way to retrieve keyboard layout information
- - Use libpng api for cicp if available
-
-* GSK
- - Drop the old GL renderer
-
-* Accessibility:
- - Maintain inverse relations
-
-* macOS:
- - Enable AccessKit in ci
- - Fix inverted pen tilt
-
-* Deprecations:
- - The x11 backend
- - The Broadway backend
-
-* Build:
- - Require cairo 1.18.2
-
-* Bugs fixed:
-  - #6755 Accessible `window:activate` events missing for Gtk4 (Matthias Cl=
-asen)
-  - #6823 Enumeration values starting with numbers (Matthias Clasen)
-  - #7210 ci: Build with -Daccesskit=3Denabled on macOS
-  - #7228 gtk4-demo settings demo does not actually write settings (Matthia=
-s
-    Clasen)
-  - #7246 Cannot navigate context menu of GtkLabel with keyboard
-  - #7268 RFC: API to query the current keyboard layout ?
-  - #7271 Test failures with libpng-1.6.45 (Alessandro Astone)
-  - #7279 GTKFileChooserWidget incorrectly displays "Modified" time of file=
- when
-    format should be "%H:%M" (Matthias Clasen)
-  - #7294 Hovering buttons causes "g_object_unref: assertion 'G_IS_OBJECT
-    (object)' failed" (Matthias Clasen)
-  - !7555 Introducing new android backend
-  - !8017 gdk: fix crash on Wayland with already destroyed surface.
-  - !8060 Deprecate the X11 backend
-  - !8115 Introduce the label for relation and the concept of reverse relat=
-ions
-  - !8118 Prepare the 4.17.3 release
-  - !8119 Post-release version bump
-  - !8121 vulkan: Handle VK_PRESENT_MODE_FIFO_LATEST_READY_EXT
-  - !8124 Fix the archive URL for Boost
-  - !8126 docs: Mark GtkShortcutsWindow as deprecated
-  - !8127 tools: Drop support for the gl renderer
-  - !8128 spinbutton: Consider adjustment value sanitization
-  - !8129 Drop test exclusions for the gl renderer
-  - !8133 ci: Move subproject download and update over to a separate job
-  - !8134 Keep installing gsk/gl/gskglrenderer.h
-  - !8137 gtktextattributes and gtkaccessible copy-paste errors
-  - !8138 gtk-demo: Plug a memory leak
-  - !8139 window: Hide accessible earlier
-  - !8140 Keep installing gsk/gl/gskglrenderer.h
-  - !8142 gtk4-builder-tool: Plug a few memory leaks
-  - !8144 macos: fix broken accounting messages and click after moving the
-    window
-  - !8147 Docs: Small fixes
-  - !8148 text: Correct the documentation
-  - !8150 Avoid using deprecated GtkWindow::keys-changed internally
-  - !8151 gstreamer: Implement rotation tag support
-  - !8157 gstreamer: Improve rotation tag support
-  - !8160 docs: Don't recommend usage of deprecated ToggleButton method
-  - !8163 gdk/contentserializer: Force specific URI schemes to serialize as=
- URI
-  - !8164 gdk/wayland: Ensure to generate grab broken events before crossin=
-gs
-  - !8166 filedialog: fix typo in docs
-  - !8167 macos: Gtk4: Fix inverted pen Y tilt on macOS
-
-* Translation updates:
-  - Slovenian (Martin)
-  - Thai (Aefgh Threenine)
-
-Overview of Changes in 4.17.3, 16-01-2025
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkText:
- - Consume Ctrl-A
- - Handle Cut', Copy, Paste, Undo, and Redo keys
- - Improve a11y representation
-
-* GtkLabel:
- - Consume Ctrl-A when we handle it
- - Pass mnemonics to a11y
-
-* GtkTextView:
- - Handle Cut, Copy, Paste, Undo, and Redo keys
- - Fix disappearing carets after focus changes
-
-* GtkFileChooser:
- - Handle Find keys
- - Set a11y label on Search button
- - Set a11y labels on pathbar buttons
- - Pass key-shortcuts for the "New folder" button
-
-* GtkAppChooser:
- - Fix sorting
-
-* GtkListBox:
- - Improve a11y representation
-
-* GtkColumnView:
- - Fix column dnd in right-to-left context
-
-* GtkWindow:
- - Make resize corners gapless with rounded corners
-
-* GtkPopoverMenu:
- - Show mnemonics on Alt press
-
-* GtkMenuButton:
- - Improve a11y representation
-
-* GtkFileDialog:
- - Fix a crash
- - Add more text file api variants
-
-* GtkSizeGroup:
- - Improve consistency measurements and allocations
-
-* GtkBuilder:
- - Parse tab arrays and font descriptions in Pango syntax
-
-* Wayland:
- - Rely on scale events for pointer surfaces
- - Make idle inhibit work with fullscreen subsurfaces
-
-* Accessibility:
- - Implement GetKeyBinding properly for actions
- - Set key-shortcuts attribute
- - Fix state change notification for some states
- - Set application ID attribute
-
-* MacOS:
- - Make the NGL renderer work again
-
-* GSK:
- - Don't double-clip edges for shadows
-
-* Demos:
- - widget-factory: Set alternative text on pictures
- - gtk-demo: Allow to run as a service
-
-* Deprecations:
- - GtkShortcutsWindow
- - Loading themes from ~/.themes
- - &lt;child&gt; in ui files where child properties exist
-
-* Translation updates:
- Brazilian Portuguese
- Georgian
- Turkish
-
-Overview of Changes in 4.17.2, 26-12-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkWindow:
- - Rework computing the minimum size
-
-* GtkPicture:
- - Fix measuring with content-fit =3D scale-down
-
-* GtkStack:
- - Report constant size request mode in more cases
- - Avoid measuring children aginst preferred request mode
- - Fix measuring during size interpolation
-
-* GtkFlowBox:
- - Improve size request mode reporting
- - Fix measuring minimum height
- - Fix measuring natural width
- - Implement hfw vai binary search
-
-* GtkScrolledWindow:
- - Report constant size request mode in more cases
- - Skip measuring children if we can
-
-* GtkBox:
- - Don't always reserve height for baseline alignment
- - Rework natural opposite size-for-size computation
- - Add fast paths for some cases of measurement and allocation
-
-* GtkLayoutManager:
- - Skip invisible children for request mode determination
- - Prefer hfw, all things being equal
-
-* GtkColorPicker:
- - Respect GDK_DEBUG=3Dno-portals
-
-* GtkEntry:
- - Stop guessing text direction from keyboard layout
- - Add a shortcut and context menu item to change text direction
-
-* GtkSpinButton:
- - Make numeric spin buttons always LTR
-
-* GtkAboutDialog:
- - Small UI improvements
-
-* Accessibility:
- - Add an AccessKit backend. Use -Daccesskit=3Denabled to build it
-   and GTK_A11Y=3Daccesskit to use it
-
-* Windows:
- - Drop the AeroSnap emulation
-
-* Wayland:
- - Always clear exported surface IDs on finalize
- - Use the correct display for imcontext
-
-* Vulkan:
- - Make GdkVulkanContext work with Android armv7
-
-* Build:
- - Require GLib 2.80
- - Require harfbuzz 8.4
- - Require pango 1.55
- - Require C11
-
-* Translation update:
- Russian
-
-Overview of Changes in 4.17.1, 06-12-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-This release switches our portal support from opt-in to opt-out.
-We will use portals by default, unless you set GDK_DEBUG=3Dno-portals.
-And we will *always* use portals in flatpaks.
-
-* Text rendering:
- - Make error underlines smaller
-
-* GtkText:
- - Avoid selecting inserted Emoji
-
-* GtkPlacesView:
- - Improve accessibility
-
-* GtkFileChooser:
- - Fix a case where search was stealing focus
-
-* GtkEmojiChooser:
- - Update to CLDR 46 / Unicode 16
-
-* Accessibility:
- - Fix DBus signature of ChildrenChanged
-
-* GDK:
- - Don't recycle threads too aggressively
- - Add GDK_DISABLE=3Dthreads to disable threaded operations
- - Improve parallelization for small tasks
-
-* GSK:
- - Make occlusion checking more effective
- - Clip luminosity when clipping colors (avoiding masking artifacts)
- - Fix problems with dihedral transforms
-
-* Vulkan:
- - Streamline Vulkan setup
- - Fix blurry rendering at certain scale/size combinations
-
-* OpenGL:
- - Conform to buffer offset alignment requirements
-
-* Windows:
- - Fix pasting certain bitmaps
-
-* Documentation:
- - Revise and modernize some docs
-
-* Debugging:
- - Inspector: Show surfaces and renderers in the tree
- - Inspector: Make the object tree resizable
- - Inspector: Add a "Copy for gitlab" button
-
-* Translation updates
- Icelandic
- Serbian
- Slovenian
-
-Overview of Changes in 4.17.0, 06-11-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkScrolledWindow
- - Fix criticals in size allocation code
-
-* GtkFileChooser
- - Fix a crash in the portal code
-
-* GtkFontChoser
- - Make the dialog more shrinkable
-
-* GtkPicture
- - Avoid unnecessary resizes
-
-* GtkVideo
- - Make dmabufs work without GL
-
-* GtkListBox:
- - Add a tab-behavior property to influence keynav
-
-* GtkEmojiChooser:
- - Fix problems with insertion and selection
-
-* GtkStringList:
- - Add gtk_string_list_find
-
-* GtkApplication:
- - Respect GDK_DEBUG=3Dno-portals
- - Set default window icon from app ID
-
-* GtkTextView:
- - Vertical and horizontal positioning of the textview is now quantized
-   to the nearest device pixel. This should improve the perceived smoothnes=
-s
-   of scrolling with fractional scaling and font hinting.
- - Incorrect re-use of cached styling was fixed
- - Fix some missing CSS invalidation
- - Handle charsets in clipboard datatypes
-
-* Printing:
- - Avoid warnings for avahi errors
- - Fix a segfault in the print dialog setup code
-
-* Accessibility:
- - Always realize non-widget accessibles, to help webkit
- - Fix list view selection implementation
- - Handle NULL values in more places
-
-* Gstreamer:
- - Make dmabufs works without GL
-
-* Gdk:
- - Add OKLAB and OKLCH color states
- - GL: Drop support for GLES 2 and GL &lt; 3.3
- - GL: Use the ngl dmabuf downloader instead of the GL downloader
- - Vulkan: Drop the GDK_VULKAN_DEVICE env var. Use MESA_VK_DEVICE_SELECT in=
-stead
- - Vulkan: Use the swapchain maintenance extension to release swap images
- - Forbid opening displays before gtk_init()
-
-* Gsk:
- - Many improvements to the dmabuf downloaders
- - ngl: Avoid glBufferSubData for globals, speeding up llvmpipe
- - Renderer selection will no longer consider the GL renderer
- - Allow Vulkan software rendering as fallback
- - Support gradient interpolation in different color states
-
-* Wayland:
- - Improve settings portal handling
- - Improve fallback for cursor themes
- - Make cursor theme changes apply immediately
- - Use a viewporter for cursor image scaling
- - Improve cursor size handling
- - Use the system bell protocol if available
- - Fix possible deadlock with high-priority sources triggering roundtrips
-
-* Windows:
- - Improve the backend code
- - Fix some problems with WGL on NVidia
- - Many testsuite fixes for Windows compatibility
- - Make all pixbuf loaders builtin in the gdk-pixbuf subproject
- - Add GDK_DISABLE=3Daerosnap to disable aerosnap
- - Improve clipboard handling
- - Fix behavior or gdk_display_open() on Windows
- - Numerous papercut fixes
- - Require Windows 10
-
-* Macos:
- - Fix crashes when dragging libadwaita TabView tabs
- - Require macOS 10.15
-
-* Tools and demos
- - gtk4-demo: Make demos standalone
- - gtk4-demo: Drop GL shader demos
- - gtk4-demo: Improve scrolling benchmarks
- - gtk4-builder-tool: Improve separator handling
- - gtk4-image-tool: Better color state support
-
-* Build:
- - Don't set GSK_RENDERER in our flatpaks
- - Require meson 1.2
-
-* Translation updates
- Belarusian
- Brazilian Portuguese
- British English
- Galician
- Lithuanian
- Romanian
- Slovenian
- Swedish
-
-Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de">f_l_k@t=
--online.de</a>&gt;
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 08:39:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212746
+
+Backport fixes for :
+
+* CVE-2025-0622 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2123c5bca7e21fbeb0263df4597ddd7054700726 && https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c16197734ada8d0838407eebe081117799bfe67 && https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7580addfc8c94cedb0cdfd7a1fd65b539215e637
+* CVE-2025-0624 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=5eef88152833062a3f7e017535372d64ac8ef7e1
+* CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10
+* CVE-2025-0678_CVE-2025-1125 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=84bc0a9a68835952ae69165c11709811dae7634e
+* CVE-2025-0690 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=dad8f502974ed9ad0a70ae6820d17b4b142558fc
+* CVE-2025-1118 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=34824806ac6302f91e8cabaa41308eaced25725f
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-gnome/gtk+/{gtk4_4.16.12.bb =3D&gt; gtk4_4.17.6.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gtk+/{gtk4_4.16.12.bb =3D&gt; gtk4_4.17.6.bb} (9=
-8%)
+ .../grub/files/CVE-2025-0622-01.patch         |  39 ++
+ .../grub/files/CVE-2025-0622-02.patch         |  44 ++
+ .../grub/files/CVE-2025-0622-03.patch         |  41 ++
+ .../grub/files/CVE-2025-0624.patch            |  87 ++++
+ ...025-0685_CVE-2025-0686_CVE-2025-0689.patch | 380 ++++++++++++++++++
+ .../files/CVE-2025-0678_CVE-2025-1125.patch   |  90 +++++
+ .../grub/files/CVE-2025-0690.patch            |  75 ++++
+ .../grub/files/CVE-2025-1118.patch            |  40 ++
+ meta/recipes-bsp/grub/grub2.inc               |   8 +
+ 9 files changed, 804 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0624.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0690.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-1118.patch
 
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.16.12.bb b/meta/recipes-gnome/g=
-tk+/gtk4_4.17.6.bb
-similarity index 98%
-rename from meta/recipes-gnome/gtk+/gtk4_4.16.12.bb
-rename to meta/recipes-gnome/gtk+/gtk4_4.17.6.bb
-index d8d37a526d..9e3ac729ca 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.16.12.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.17.6.bb
-@@ -38,7 +38,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
- UPSTREAM_CHECK_REGEX =3D "gtk-(?P&lt;pver&gt;\d+\.(\d*[02468])+(\.\d+)+)\.=
-tar.xz"
-=20
- SRC_URI =3D "<a href=3D"http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_V=
-ER}/gtk-${PV}.tar.xz">http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}=
-/gtk-${PV}.tar.xz</a>"
--SRC_URI[sha256sum] =3D "ef31bdbd6f082c4401634a20c850b0050c9bf252ef1e079764=
-ee95a2a0c4c95a"
-+SRC_URI[sha256sum] =3D "dfae9ba1263f84afa83a494db2ed14c7392c67840b6730bfa2=
-6eb79fde1e13a1"
-=20
- S =3D "${WORKDIR}/gtk-${PV}"
-=20
-<div>--=20
-</div>2.48.1
-
-</div><div class=3D"plaintext" style=3D"white-space: break-spaces;">
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#212742): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/212742">https://lists.openembedded.org/g/openembedd=
-ed-core/message/212742</a>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/111675689/361=
-8223">https://lists.openembedded.org/mt/111675689/3618223</a>
-Group Owner: <a href=3D"mailto:openembedded-core+owner@lists.openembedded.o=
-rg">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a hre=
-f=3D"mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
-</div></blockquote></div>
---=-x9JKFeuFAUZDw2KgrvJC--
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
+new file mode 100644
+index 0000000000..9b300c7224
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
+@@ -0,0 +1,39 @@
++From 2123c5bca7e21fbeb0263df4597ddd7054700726 Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Fri, 1 Nov 2024 19:24:29 +0000
++Subject: [PATCH 1/3] commands/pgp: Unregister the "check_signatures" hooks on
++ module unload
++
++If the hooks are not removed they can be called after the module has
++been unloaded leading to an use-after-free.
++
++Fixes: CVE-2025-0622
++
++Reported-by: B Horn <b@horn.uk>
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0622
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2123c5bca7e21fbeb0263df4597ddd7054700726]
++
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/commands/pgp.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/grub-core/commands/pgp.c b/grub-core/commands/pgp.c
++index 5daa1e9..1abdea6 100644
++--- a/grub-core/commands/pgp.c
+++++ b/grub-core/commands/pgp.c
++@@ -1010,6 +1010,8 @@ GRUB_MOD_INIT(pgp)
++ 
++ GRUB_MOD_FINI(pgp)
++ {
+++  grub_register_variable_hook ("check_signatures", NULL, NULL);
+++  grub_env_unset ("check_signatures");
++   grub_verifier_unregister (&grub_pubkey_verifier);
++   grub_unregister_extcmd (cmd);
++   grub_unregister_extcmd (cmd_trust);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
+new file mode 100644
+index 0000000000..17800dd7c4
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
+@@ -0,0 +1,44 @@
++From 9c16197734ada8d0838407eebe081117799bfe67 Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Fri, 1 Nov 2024 23:46:55 +0000
++Subject: [PATCH 2/3] normal: Remove variables hooks on module unload
++
++The normal module does not entirely cleanup after itself in
++its GRUB_MOD_FINI() leaving a few variables hooks in place.
++It is not possible to unload normal module now but fix the
++issues for completeness.
++
++On the occasion replace 0s with NULLs for "pager" variable
++hooks unregister.
++
++Fixes: CVE-2025-0622
++
++Reported-by: B Horn <b@horn.uk>
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0622
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c16197734ada8d0838407eebe081117799bfe67]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/normal/main.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
++index c4ebe9e..31c53a6 100644
++--- a/grub-core/normal/main.c
+++++ b/grub-core/normal/main.c
++@@ -581,7 +581,9 @@ GRUB_MOD_FINI(normal)
++   grub_xputs = grub_xputs_saved;
++ 
++   grub_set_history (0);
++-  grub_register_variable_hook ("pager", 0, 0);
+++  grub_register_variable_hook ("pager", NULL, NULL);
+++  grub_register_variable_hook ("color_normal", NULL, NULL);
+++  grub_register_variable_hook ("color_highlight", NULL, NULL);
++   grub_fs_autoload_hook = 0;
++   grub_unregister_command (cmd_clear);
++ }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
+new file mode 100644
+index 0000000000..c3147cdb1f
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
+@@ -0,0 +1,41 @@
++From 7580addfc8c94cedb0cdfd7a1fd65b539215e637 Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Fri, 1 Nov 2024 23:52:06 +0000
++Subject: [PATCH 3/3] gettext: Remove variables hooks on module unload
++
++The gettext module does not entirely cleanup after itself in
++its GRUB_MOD_FINI() leaving a few variables hooks in place.
++It is not possible to unload gettext module because normal
++module depends on it. Though fix the issues for completeness.
++
++Fixes: CVE-2025-0622
++
++Reported-by: B Horn <b@horn.uk>
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0622
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7580addfc8c94cedb0cdfd7a1fd65b539215e637]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/gettext/gettext.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
++index 85ea44a..7a25c9d 100644
++--- a/grub-core/gettext/gettext.c
+++++ b/grub-core/gettext/gettext.c
++@@ -540,6 +540,10 @@ GRUB_MOD_INIT (gettext)
++ 
++ GRUB_MOD_FINI (gettext)
++ {
+++  grub_register_variable_hook ("locale_dir", NULL, NULL);
+++  grub_register_variable_hook ("secondary_locale_dir", NULL, NULL);
+++  grub_register_variable_hook ("lang", NULL, NULL);
+++
++   grub_gettext_delete_list (&main_context);
++   grub_gettext_delete_list (&secondary_context);
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0624.patch b/meta/recipes-bsp/grub/files/CVE-2025-0624.patch
+new file mode 100644
+index 0000000000..02f270a033
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0624.patch
+@@ -0,0 +1,87 @@
++From 5eef88152833062a3f7e017535372d64ac8ef7e1 Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Fri, 15 Nov 2024 13:12:09 +0000
++Subject: [PATCH] net: Fix OOB write in grub_net_search_config_file()
++
++The function included a call to grub_strcpy() which copied data from an
++environment variable to a buffer allocated in grub_cmd_normal(). The
++grub_cmd_normal() didn't consider the length of the environment variable.
++So, the copy operation could exceed the allocation and lead to an OOB
++write. Fix the issue by replacing grub_strcpy() with grub_strlcpy() and
++pass the underlying buffers size to the grub_net_search_config_file().
++
++Fixes: CVE-2025-0624
++
++Reported-by: B Horn <b@horn.uk>
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0624
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=5eef88152833062a3f7e017535372d64ac8ef7e1]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/net/net.c     | 7 ++++---
++ grub-core/normal/main.c | 2 +-
++ include/grub/net.h      | 2 +-
++ 3 files changed, 6 insertions(+), 5 deletions(-)
++
++diff --git a/grub-core/net/net.c b/grub-core/net/net.c
++index 4d3eb5c..ec7f01c 100644
++--- a/grub-core/net/net.c
+++++ b/grub-core/net/net.c
++@@ -1773,14 +1773,15 @@ grub_config_search_through (char *config, char *suffix,
++ }
++ 
++ grub_err_t
++-grub_net_search_config_file (char *config)
+++grub_net_search_config_file (char *config, grub_size_t config_buf_len)
++ {
++-  grub_size_t config_len;
+++  grub_size_t config_len, suffix_len;
++   char *suffix;
++ 
++   config_len = grub_strlen (config);
++   config[config_len] = '-';
++   suffix = config + config_len + 1;
+++  suffix_len = config_buf_len - (config_len + 1);
++ 
++   struct grub_net_network_level_interface *inf;
++   FOR_NET_NETWORK_LEVEL_INTERFACES (inf)
++@@ -1806,7 +1807,7 @@ grub_net_search_config_file (char *config)
++ 
++       if (client_uuid)
++         {
++-          grub_strcpy (suffix, client_uuid);
+++          grub_strlcpy (suffix, client_uuid, suffix_len);
++           if (grub_config_search_through (config, suffix, 1, 0) == 0)
++             return GRUB_ERR_NONE;
++         }
++diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
++index 31c53a6..a95c25e 100644
++--- a/grub-core/normal/main.c
+++++ b/grub-core/normal/main.c
++@@ -344,7 +344,7 @@ grub_cmd_normal (struct grub_command *cmd __attribute__ ((unused)),
++ 
++           if (grub_strncmp (prefix + 1, "tftp", sizeof ("tftp") - 1) == 0 &&
++               !disable_net_search)
++-            grub_net_search_config_file (config);
+++            grub_net_search_config_file (config, config_len);
++ 
++ 	  grub_enter_normal_mode (config);
++ 	  grub_free (config);
++diff --git a/include/grub/net.h b/include/grub/net.h
++index 7ae4b6b..d6ba8b1 100644
++--- a/include/grub/net.h
+++++ b/include/grub/net.h
++@@ -570,7 +570,7 @@ void
++ grub_net_remove_dns_server (const struct grub_net_network_level_address *s);
++ 
++ grub_err_t
++-grub_net_search_config_file (char *config);
+++grub_net_search_config_file (char *config, grub_size_t config_buf_len);
++ 
++ extern char *grub_net_default_server;
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch b/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
+new file mode 100644
+index 0000000000..f955611d9d
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
+@@ -0,0 +1,380 @@
++From 47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10 Mon Sep 17 00:00:00 2001
++From: Daniel Axtens <dja@axtens.net>
++Date: Sat, 23 Mar 2024 16:20:45 +1100
++Subject: [PATCH] fs: Disable many filesystems under lockdown
++
++The idea is to permit the following: btrfs, cpio, exfat, ext, f2fs, fat,
++hfsplus, iso9660, squash4, tar, xfs and zfs.
++
++The JFS, ReiserFS, romfs, UDF and UFS security vulnerabilities were
++reported by Jonathan Bar Or <jonathanbaror@gmail.com>.
++
++Fixes: CVE-2025-0677
++Fixes: CVE-2025-0684
++Fixes: CVE-2025-0685
++Fixes: CVE-2025-0686
++Fixes: CVE-2025-0689
++
++Suggested-by: Daniel Axtens <dja@axtens.net>
++Signed-off-by: Daniel Axtens <dja@axtens.net>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0677
++CVE: CVE-2025-0684
++CVE: CVE-2025-0685
++CVE: CVE-2025-0686
++CVE: CVE-2025-0689
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/fs/affs.c     | 9 +++++++--
++ grub-core/fs/cbfs.c     | 9 +++++++--
++ grub-core/fs/jfs.c      | 9 +++++++--
++ grub-core/fs/minix.c    | 9 +++++++--
++ grub-core/fs/nilfs2.c   | 9 +++++++--
++ grub-core/fs/ntfs.c     | 9 +++++++--
++ grub-core/fs/reiserfs.c | 9 +++++++--
++ grub-core/fs/romfs.c    | 9 +++++++--
++ grub-core/fs/sfs.c      | 9 +++++++--
++ grub-core/fs/udf.c      | 9 +++++++--
++ grub-core/fs/ufs.c      | 9 +++++++--
++ 11 files changed, 77 insertions(+), 22 deletions(-)
++
++diff --git a/grub-core/fs/affs.c b/grub-core/fs/affs.c
++index cafcd0f..d676532 100644
++--- a/grub-core/fs/affs.c
+++++ b/grub-core/fs/affs.c
++@@ -26,6 +26,7 @@
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
++ #include <grub/charset.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -699,11 +700,15 @@ static struct grub_fs grub_affs_fs =
++ 
++ GRUB_MOD_INIT(affs)
++ {
++-  grub_fs_register (&grub_affs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_affs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(affs)
++ {
++-  grub_fs_unregister (&grub_affs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_affs_fs);
++ }
++diff --git a/grub-core/fs/cbfs.c b/grub-core/fs/cbfs.c
++index 581215e..477a14e 100644
++--- a/grub-core/fs/cbfs.c
+++++ b/grub-core/fs/cbfs.c
++@@ -26,6 +26,7 @@
++ #include <grub/dl.h>
++ #include <grub/i18n.h>
++ #include <grub/cbfs_core.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -390,12 +391,16 @@ GRUB_MOD_INIT (cbfs)
++ #if (defined (__i386__) || defined (__x86_64__)) && !defined (GRUB_UTIL) && !defined (GRUB_MACHINE_EMU) && !defined (GRUB_MACHINE_XEN)
++   init_cbfsdisk ();
++ #endif
++-  grub_fs_register (&grub_cbfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_cbfs_fs);
+++    }
++ }
++ 
++ GRUB_MOD_FINI (cbfs)
++ {
++-  grub_fs_unregister (&grub_cbfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_cbfs_fs);
++ #if (defined (__i386__) || defined (__x86_64__)) && !defined (GRUB_UTIL) && !defined (GRUB_MACHINE_EMU) && !defined (GRUB_MACHINE_XEN)
++   fini_cbfsdisk ();
++ #endif
++diff --git a/grub-core/fs/jfs.c b/grub-core/fs/jfs.c
++index 6f7c439..c0bbab8 100644
++--- a/grub-core/fs/jfs.c
+++++ b/grub-core/fs/jfs.c
++@@ -26,6 +26,7 @@
++ #include <grub/types.h>
++ #include <grub/charset.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -963,11 +964,15 @@ static struct grub_fs grub_jfs_fs =
++ 
++ GRUB_MOD_INIT(jfs)
++ {
++-  grub_fs_register (&grub_jfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_jfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(jfs)
++ {
++-  grub_fs_unregister (&grub_jfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_jfs_fs);
++ }
++diff --git a/grub-core/fs/minix.c b/grub-core/fs/minix.c
++index 3cd18c8..7588835 100644
++--- a/grub-core/fs/minix.c
+++++ b/grub-core/fs/minix.c
++@@ -25,6 +25,7 @@
++ #include <grub/dl.h>
++ #include <grub/types.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -732,7 +733,10 @@ GRUB_MOD_INIT(minix)
++ #endif
++ #endif
++ {
++-  grub_fs_register (&grub_minix_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_minix_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++@@ -754,5 +758,6 @@ GRUB_MOD_FINI(minix)
++ #endif
++ #endif
++ {
++-  grub_fs_unregister (&grub_minix_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_minix_fs);
++ }
++diff --git a/grub-core/fs/nilfs2.c b/grub-core/fs/nilfs2.c
++index 3c248a9..3f8e495 100644
++--- a/grub-core/fs/nilfs2.c
+++++ b/grub-core/fs/nilfs2.c
++@@ -34,6 +34,7 @@
++ #include <grub/dl.h>
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -1231,11 +1232,15 @@ GRUB_MOD_INIT (nilfs2)
++ 				  grub_nilfs2_dat_entry));
++   COMPILE_TIME_ASSERT (1 << LOG_INODE_SIZE
++ 		       == sizeof (struct grub_nilfs2_inode));
++-  grub_fs_register (&grub_nilfs2_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_nilfs2_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI (nilfs2)
++ {
++-  grub_fs_unregister (&grub_nilfs2_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_nilfs2_fs);
++ }
++diff --git a/grub-core/fs/ntfs.c b/grub-core/fs/ntfs.c
++index 8f63c83..713e24d 100644
++--- a/grub-core/fs/ntfs.c
+++++ b/grub-core/fs/ntfs.c
++@@ -27,6 +27,7 @@
++ #include <grub/fshelp.h>
++ #include <grub/ntfs.h>
++ #include <grub/charset.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -1254,11 +1255,15 @@ static struct grub_fs grub_ntfs_fs =
++ 
++ GRUB_MOD_INIT (ntfs)
++ {
++-  grub_fs_register (&grub_ntfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_ntfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI (ntfs)
++ {
++-  grub_fs_unregister (&grub_ntfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_ntfs_fs);
++ }
++diff --git a/grub-core/fs/reiserfs.c b/grub-core/fs/reiserfs.c
++index af6a226..76cb231 100644
++--- a/grub-core/fs/reiserfs.c
+++++ b/grub-core/fs/reiserfs.c
++@@ -39,6 +39,7 @@
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -1417,11 +1418,15 @@ static struct grub_fs grub_reiserfs_fs =
++ 
++ GRUB_MOD_INIT(reiserfs)
++ {
++-  grub_fs_register (&grub_reiserfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_reiserfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(reiserfs)
++ {
++-  grub_fs_unregister (&grub_reiserfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_reiserfs_fs);
++ }
++diff --git a/grub-core/fs/romfs.c b/grub-core/fs/romfs.c
++index d97b8fb..d174449 100644
++--- a/grub-core/fs/romfs.c
+++++ b/grub-core/fs/romfs.c
++@@ -23,6 +23,7 @@
++ #include <grub/disk.h>
++ #include <grub/fs.h>
++ #include <grub/fshelp.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -475,10 +476,14 @@ static struct grub_fs grub_romfs_fs =
++ 
++ GRUB_MOD_INIT(romfs)
++ {
++-  grub_fs_register (&grub_romfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_romfs_fs);
+++    }
++ }
++ 
++ GRUB_MOD_FINI(romfs)
++ {
++-  grub_fs_unregister (&grub_romfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_romfs_fs);
++ }
++diff --git a/grub-core/fs/sfs.c b/grub-core/fs/sfs.c
++index 983e880..f64bdd2 100644
++--- a/grub-core/fs/sfs.c
+++++ b/grub-core/fs/sfs.c
++@@ -26,6 +26,7 @@
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
++ #include <grub/charset.h>
+++#include <grub/lockdown.h>
++ #include <grub/safemath.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++@@ -779,11 +780,15 @@ static struct grub_fs grub_sfs_fs =
++ 
++ GRUB_MOD_INIT(sfs)
++ {
++-  grub_fs_register (&grub_sfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_sfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(sfs)
++ {
++-  grub_fs_unregister (&grub_sfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_sfs_fs);
++ }
++diff --git a/grub-core/fs/udf.c b/grub-core/fs/udf.c
++index 2ac5c1d..f89c6b0 100644
++--- a/grub-core/fs/udf.c
+++++ b/grub-core/fs/udf.c
++@@ -27,6 +27,7 @@
++ #include <grub/fshelp.h>
++ #include <grub/charset.h>
++ #include <grub/datetime.h>
+++#include <grub/lockdown.h>
++ #include <grub/udf.h>
++ #include <grub/safemath.h>
++ 
++@@ -1382,11 +1383,15 @@ static struct grub_fs grub_udf_fs = {
++ 
++ GRUB_MOD_INIT (udf)
++ {
++-  grub_fs_register (&grub_udf_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_udf_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI (udf)
++ {
++-  grub_fs_unregister (&grub_udf_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_udf_fs);
++ }
++diff --git a/grub-core/fs/ufs.c b/grub-core/fs/ufs.c
++index 4727266..90fda07 100644
++--- a/grub-core/fs/ufs.c
+++++ b/grub-core/fs/ufs.c
++@@ -25,6 +25,7 @@
++ #include <grub/dl.h>
++ #include <grub/types.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -899,7 +900,10 @@ GRUB_MOD_INIT(ufs1)
++ #endif
++ #endif
++ {
++-  grub_fs_register (&grub_ufs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_ufs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++@@ -913,6 +917,7 @@ GRUB_MOD_FINI(ufs1)
++ #endif
++ #endif
++ {
++-  grub_fs_unregister (&grub_ufs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_ufs_fs);
++ }
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch b/meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
+new file mode 100644
+index 0000000000..5e06a64969
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
+@@ -0,0 +1,90 @@
++From 84bc0a9a68835952ae69165c11709811dae7634e Mon Sep 17 00:00:00 2001
++From: Lidong Chen <lidong.chen@oracle.com>
++Date: Tue, 21 Jan 2025 19:02:37 +0000
++Subject: [PATCH] fs: Prevent overflows when allocating memory for arrays
++
++Use grub_calloc() when allocating memory for arrays to ensure proper
++overflow checks are in place.
++
++The HFS+ and squash4 security vulnerabilities were reported by
++Jonathan Bar Or <jonathanbaror@gmail.com>.
++
++Fixes: CVE-2025-0678
++Fixes: CVE-2025-1125
++
++Signed-off-by: Lidong Chen <lidong.chen@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0678
++CVE: CVE-2025-1125
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=84bc0a9a68835952ae69165c11709811dae7634e]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/fs/btrfs.c       | 4 ++--
++ grub-core/fs/hfspluscomp.c | 9 +++++++--
++ grub-core/fs/squash4.c     | 8 ++++----
++ 3 files changed, 13 insertions(+), 8 deletions(-)
++
++diff --git a/grub-core/fs/btrfs.c b/grub-core/fs/btrfs.c
++index 6320303..3b8b2f0 100644
++--- a/grub-core/fs/btrfs.c
+++++ b/grub-core/fs/btrfs.c
++@@ -1197,8 +1197,8 @@ grub_btrfs_mount (grub_device_t dev)
++     }
++ 
++   data->n_devices_allocated = 16;
++-  data->devices_attached = grub_malloc (sizeof (data->devices_attached[0])
++-					* data->n_devices_allocated);
+++  data->devices_attached = grub_calloc (data->n_devices_allocated,
+++					sizeof (data->devices_attached[0]));
++   if (!data->devices_attached)
++     {
++       grub_free (data);
++diff --git a/grub-core/fs/hfspluscomp.c b/grub-core/fs/hfspluscomp.c
++index d76f3f1..4965ef1 100644
++--- a/grub-core/fs/hfspluscomp.c
+++++ b/grub-core/fs/hfspluscomp.c
++@@ -244,14 +244,19 @@ hfsplus_open_compressed_real (struct grub_hfsplus_file *node)
++ 	  return 0;
++ 	}
++       node->compress_index_size = grub_le_to_cpu32 (index_size);
++-      node->compress_index = grub_malloc (node->compress_index_size
++-					  * sizeof (node->compress_index[0]));
+++      node->compress_index = grub_calloc (node->compress_index_size,
+++					  sizeof (node->compress_index[0]));
++       if (!node->compress_index)
++ 	{
++ 	  node->compressed = 0;
++ 	  grub_free (attr_node);
++ 	  return grub_errno;
++ 	}
+++
+++      /*
+++       * The node->compress_index_size * sizeof (node->compress_index[0]) is safe here
+++       * due to relevant checks done in grub_calloc() above.
+++       */
++       if (grub_hfsplus_read_file (node, 0, 0,
++ 				  0x104 + sizeof (index_size),
++ 				  node->compress_index_size
++diff --git a/grub-core/fs/squash4.c b/grub-core/fs/squash4.c
++index 6dd731e..f79fc75 100644
++--- a/grub-core/fs/squash4.c
+++++ b/grub-core/fs/squash4.c
++@@ -804,10 +804,10 @@ direct_read (struct grub_squash_data *data,
++ 	  break;
++ 	}
++       total_blocks = ((total_size + data->blksz - 1) >> data->log2_blksz);
++-      ino->block_sizes = grub_malloc (total_blocks
++-				      * sizeof (ino->block_sizes[0]));
++-      ino->cumulated_block_sizes = grub_malloc (total_blocks
++-						* sizeof (ino->cumulated_block_sizes[0]));
+++      ino->block_sizes = grub_calloc (total_blocks,
+++				      sizeof (ino->block_sizes[0]));
+++      ino->cumulated_block_sizes = grub_calloc (total_blocks,
+++						sizeof (ino->cumulated_block_sizes[0]));
++       if (!ino->block_sizes || !ino->cumulated_block_sizes)
++ 	{
++ 	  grub_free (ino->block_sizes);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0690.patch b/meta/recipes-bsp/grub/files/CVE-2025-0690.patch
+new file mode 100644
+index 0000000000..9a2ca50d02
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0690.patch
+@@ -0,0 +1,75 @@
++From dad8f502974ed9ad0a70ae6820d17b4b142558fc Mon Sep 17 00:00:00 2001
++From: Jonathan Bar Or <jonathanbaror@gmail.com>
++Date: Thu, 23 Jan 2025 19:17:05 +0100
++Subject: [PATCH] commands/read: Fix an integer overflow when supplying more
++ than 2^31 characters
++
++The grub_getline() function currently has a signed integer variable "i"
++that can be overflown when user supplies more than 2^31 characters.
++It results in a memory corruption of the allocated line buffer as well
++as supplying large negative values to grub_realloc().
++
++Fixes: CVE-2025-0690
++
++Reported-by: Jonathan Bar Or <jonathanbaror@gmail.com>
++Signed-off-by: Jonathan Bar Or <jonathanbaror@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0690
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=dad8f502974ed9ad0a70ae6820d17b4b142558fc]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/commands/read.c | 19 +++++++++++++++----
++ 1 file changed, 15 insertions(+), 4 deletions(-)
++
++diff --git a/grub-core/commands/read.c b/grub-core/commands/read.c
++index fe3e88b..f3ff826 100644
++--- a/grub-core/commands/read.c
+++++ b/grub-core/commands/read.c
++@@ -25,19 +25,21 @@
++ #include <grub/types.h>
++ #include <grub/command.h>
++ #include <grub/i18n.h>
+++#include <grub/safemath.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++ static char *
++ grub_getline (void)
++ {
++-  int i;
+++  grub_size_t i;
++   char *line;
++   char *tmp;
++   char c;
+++  grub_size_t alloc_size;
++ 
++   i = 0;
++-  line = grub_malloc (1 + i + sizeof('\0'));
+++  line = grub_malloc (1 + sizeof('\0'));
++   if (! line)
++     return NULL;
++ 
++@@ -50,8 +52,17 @@ grub_getline (void)
++       line[i] = c;
++       if (grub_isprint (c))
++ 	grub_printf ("%c", c);
++-      i++;
++-      tmp = grub_realloc (line, 1 + i + sizeof('\0'));
+++      if (grub_add (i, 1, &i))
+++        {
+++          grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
+++          return NULL;
+++        }
+++      if (grub_add (i, 1 + sizeof('\0'), &alloc_size))
+++        {
+++          grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
+++          return NULL;
+++        }
+++      tmp = grub_realloc (line, alloc_size);
++       if (! tmp)
++ 	{
++ 	  grub_free (line);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-1118.patch b/meta/recipes-bsp/grub/files/CVE-2025-1118.patch
+new file mode 100644
+index 0000000000..e26b5c8752
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-1118.patch
+@@ -0,0 +1,40 @@
++From 34824806ac6302f91e8cabaa41308eaced25725f Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Thu, 18 Apr 2024 20:29:39 +0100
++Subject: [PATCH] commands/minicmd: Block the dump command in lockdown mode
++
++The dump enables a user to read memory which should not be possible
++in lockdown mode.
++
++Fixes: CVE-2025-1118
++
++Reported-by: B Horn <b@horn.uk>
++Reported-by: Jonathan Bar Or <jonathanbaror@gmail.com>
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-1118
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=34824806ac6302f91e8cabaa41308eaced25725f]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/commands/minicmd.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/grub-core/commands/minicmd.c b/grub-core/commands/minicmd.c
++index fa49893..903af33 100644
++--- a/grub-core/commands/minicmd.c
+++++ b/grub-core/commands/minicmd.c
++@@ -203,8 +203,8 @@ GRUB_MOD_INIT(minicmd)
++     grub_register_command ("help", grub_mini_cmd_help,
++ 			   0, N_("Show this message."));
++   cmd_dump =
++-    grub_register_command ("dump", grub_mini_cmd_dump,
++-			   N_("ADDR [SIZE]"), N_("Show memory contents."));
+++    grub_register_command_lockdown ("dump", grub_mini_cmd_dump,
+++				    N_("ADDR [SIZE]"), N_("Show memory contents."));
++   cmd_rmmod =
++     grub_register_command ("rmmod", grub_mini_cmd_rmmod,
++ 			   N_("MODULE"), N_("Remove a module."));
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 259a0a4c3d..cb61080aeb 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -51,6 +51,14 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2024-45781.patch \
+            file://CVE-2024-45782_CVE-2024-56737.patch \
+            file://CVE-2024-45783.patch \
++           file://CVE-2025-0622-01.patch \
++           file://CVE-2025-0622-02.patch \
++           file://CVE-2025-0622-03.patch \
++           file://CVE-2025-0624.patch \
++           file://CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch \
++           file://CVE-2025-0678_CVE-2025-1125.patch \
++           file://CVE-2025-0690.patch \
++           file://CVE-2025-1118.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
+-- 
+2.25.1
 
 
