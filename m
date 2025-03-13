@@ -1,348 +1,212 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C699C282DE
-	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 16:45:12 +0000 (UTC)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
- by mx.groups.io with SMTP id smtpd.web10.19939.1741884304738888479
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61EF8C282EC
+	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 17:00:22 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.20369.1741885211979394136
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Mar 2025 09:45:05 -0700
+ Thu, 13 Mar 2025 10:00:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qZbMDa6k;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.182, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e634c42a296so1025929276.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 09:45:04 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LpxpJoly;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfa7e7f54so8543125e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 10:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741884304; x=1742489104; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1741885210; x=1742490010; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O3RAUHCKi0x77lXSS1nnZ0KC7DP4cZYeVQWVqcGuY5g=;
-        b=qZbMDa6kOVmd7vBERY3z2LTf2hUjaQNK+BohBcO+u3B3EU9yejsKYmkyCxoBA09sxt
-         7uQ4mSXSuwMMVkTGoNW2aDxCVYJY5hNbq2YXCi1qFv4eQ2HLigrnq1RMo6lnSSZR7kBj
-         lL+D4JnkoHb6Su/nrPqTmLQUkSy64Nfe0s5hpIW7mJOizsr3BgPNesfoGS8hK2VMPCco
-         LZlAcw0oc5Ur2oBiEVw+VeQPDC5+Gu5P1Jecc5ijgn7MTEbNIp7QhjMXMAPyowWp9KAk
-         P78Z+j/ydAW2pJu47g1L1bKFRv5E/joV6TBbQvlDi7rOAZ10UMUC32m+JPnoa/I93gkA
-         by8A==
+        bh=ldRh5MgwbnfEM+90kCqj6uzzyVELltvZ+4DXiTvBwVs=;
+        b=LpxpJolyfo8VDc14Y1id9fRFoTtGHQYWtEQjgH2usa+65N2Squl861V2Rr3/hcx8r4
+         wdD6MKRSA+XbIDniuLr7xSvm7EjrqS2ZLPT/k05tzO3YFGKbw9qw4XrKxW6a2RmSplHH
+         KEShTkvKIVC3e/IhPHqpuDbrD8VxiT2JlLWwI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741884304; x=1742489104;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=O3RAUHCKi0x77lXSS1nnZ0KC7DP4cZYeVQWVqcGuY5g=;
-        b=Z1iS6bR5ewaQkHyzEO4gmai3QnG4W6XavqyGTy57StWH83D9D3PHdwq0gpGm2m2dOI
-         CckBA7T4ISwmAM2gTQfczX28PcM0U2p15k/hhIiQhtb9cpxcDCgRv7L0RUYtEXrsrS1+
-         gxERNuIlRXnicghf1R7/P2I5ilKI4Zl+vJYnQfgWRHukcJEF4+4mM3+1A9WF/g3AAUbo
-         PjFX4qw2PYC1oNGo4tlu3+7xUcxEyvOxPnP9DJ7g/CN31JAVO6nsQj/j+Q9Oz5MG9HAn
-         TMwf4cZVFbHK1lwcRbT9P9bpK82DKNyQdl01K6w78G9LSxwsc0wG84lbdq/tq++UF9x9
-         hgPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX99Fgky7sBw7Bn3xKKDBlgsPp83PJsk22cP4CnyRQEQ2ktaTHbGUOzz1BQzUQEKLqDeJClqHtQG4/Hsc4kCfkqZg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw7qUecQOoRU4a4pEbQ2huEN3ydHWR6pB6l8ezj2fYYjqMCuhTl
-	3wMS9jSFTMZcHV2YdPXSH/8p3aw9XTktjFc74bUyr3a/+GRUvrEFyPLDNFD+9+ekyeCciSekIIx
-	ILH6At+v+f1qAMaEzibMz3suu3BFAV+Mvvbodyg==
-X-Gm-Gg: ASbGncvdkQasPjJmP1z0hIw9pduum7uKE6U6WjIq++DzuoHN0iN8445RIHlBL5E6qyv
-	x+M1HPbsKNmAwSIw2sch0Vi65MjEkln5HI0VYflKvrXLLQEFB16J7Z6uYIZcTjL395ONVTdG4XX
-	wpxM8p+cwazY7XnBjHJTjQL3l2Qd1dClMVUT2AtU70JUWMJ5yUF2Endt4vxw==
-X-Google-Smtp-Source: AGHT+IGutNpkXyficPjJ5h93uA3OSMx2hjYNuGIaAqq2FHYGsyfK2PXKoEhA04wkHW4vzbG9x9dYGnW0O2DSMZWne+E=
-X-Received: by 2002:a05:6902:220f:b0:e63:4b42:6940 with SMTP id
- 3f1490d57ef6-e63b5158790mr15737633276.2.1741884303797; Thu, 13 Mar 2025
- 09:45:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250313021247.2615117-1-macpaul.lin@mediatek.com>
-In-Reply-To: <20250313021247.2615117-1-macpaul.lin@mediatek.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 13 Mar 2025 09:44:52 -0700
-X-Gm-Features: AQ5f1JrX16nqzANaYaVUM0qJ-yUkx7F2Q-dk5l6_7IOhys9xU1SlhUYrfDdkLFU
-Message-ID: <CAOSpxdZJjZwGg2oKzjKnbkBnCu4O_2Vr2fOVK7bPTGvmP9GX4w@mail.gmail.com>
-Subject: Re: [scarthgap][PATCH] bluez5: upgrade 5.72 -> 5.77
-To: Macpaul Lin <macpaul.lin@mediatek.com>
-Cc: Anuj Mittal <anuj.mittal@intel.com>, 
-	"Alexander Kanavin via lists . openembedded . org" <alex.kanavin=gmail.com@lists.openembedded.org>, 
-	openembedded-core@lists.openembedded.org, 
-	=?UTF-8?Q?Gu=C3=B0ni_M=C3=A1r_Gilbert?= <gudni.m.g@gmail.com>, 
-	Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>, 
-	Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, linux-usb@vger.kernel.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1741885210; x=1742490010;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ldRh5MgwbnfEM+90kCqj6uzzyVELltvZ+4DXiTvBwVs=;
+        b=RyAZJSTAH5Gt/NLcN6kt79bznW/hN6OaDgInlHwGsQB2oRN43XrjXGanla9wvD3Bfw
+         3HT04gWzG6MhjPTeJbQ0viuH4V3EDN+yrsXZo6T7atZ+cfo+EngkG+ZgpWsixenm9MgK
+         pIWJPiJJaqBkUulbXhF14DpDT9Z+FLLtKHknTmOxVSkP3FE+6oqbjyFxZ06Wh9bBV5/A
+         l4zDVhZSuepKhcZAEqF2M0Wg4PoDtO8fvTX/vwtsOJR1OdjDamhWvlK+S+6ZF6Kkrkg0
+         6HRM1lRbEaIE/vBmvweOzAAWw8oF9QTNyLvAwHNK/WoCMokRMpskjmE+JPUJ4iPckGP9
+         O6yQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhwFVwf2h556NYn2mgm6IPBY0LmFognHh4w+wAGzYJn4Br8RhurLd3uvR1TAJZEidSTS6GRfaXJz0CyFLmWqG1BA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxfuGnypD4EtFdQOrS8b1TZNnca2LWsjJRrsDN30zityh81Sequ
+	ahpu6Mf67ilfcXfNep5q5LGnCSZtaidn1JcXCHJ6ih+rzlxFWSz9j9sC80zt1z8=
+X-Gm-Gg: ASbGnctu3GlvQ0DvTg6EXvoNJzP4mcpCIM5rJ/tJ0mqvQ8fEm14/JP1jwBX/vMDOrJn
+	XBl3MvkXVbCv337i0gC4v11+L+m1aPfZi3nDSOo8KFdSSHdkN3mdIxPJ3W1DIr6b9JdMh79Tugl
+	y9dclKgpOl+MaWMr+2aCfZsRHVRG5OPBWMhUK7plM8aftJRvumJezH+Msuhda1h5OHfkCvQ2rUD
+	SQAwtAQlr7j/POQDw3QOCIY8jPGxoxMYZvzIiAqU5NdD+G5AcKgcB2MMcbfzD+Eq+2PW8i4KJEa
+	GLButGZso12WcPenYZwBY3FH/qb8cEXVkEECMKbjrwmXQh+UBFqfeN9lYD/5wO5WexwSf0qjfld
+	NTjFzvismWdbwJzM17xo0k+oTPjFUeEES4A==
+X-Google-Smtp-Source: AGHT+IHe+8zZoNWXcaf4V17+m5QjxlsUtZkaeU0KsvLE3/Da7qfuOpyDS+X7ClG52ZFOdS/rCKjvtQ==
+X-Received: by 2002:a05:600c:ac4:b0:435:edb0:5d27 with SMTP id 5b1f17b1804b1-43d180811c3mr29142675e9.9.1741885209930;
+        Thu, 13 Mar 2025 10:00:09 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:cc37:5f80:1a41:4bc8? ([2001:8b0:aba:5f3c:cc37:5f80:1a41:4bc8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d188b754asm26192435e9.14.2025.03.13.10.00.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Mar 2025 10:00:09 -0700 (PDT)
+Message-ID: <a752573b969f0e2ea3d52ec5d0053e3dc21a8396.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 1/1] scripts: Add clean-hashserver-database
+ script
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: c137.marques@gmail.com, openembedded-core@lists.openembedded.org
+Date: Thu, 13 Mar 2025 17:00:08 +0000
+In-Reply-To: <7915.1741861308881806700@lists.openembedded.org>
+References: 
+	<CAJdd5GaWbQ+LUTo9QvUPPLysbs_FH-XR1NuZ49Os+5Cn9H6MqQ@mail.gmail.com>
+	 <7915.1741861308881806700@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 16:45:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212791
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 17:00:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212792
 
-Sorry, I can't take these version bumps since policy only allows
-bug/security fix releases.  These version bumps also include new
-features and hence aren't allowed.
+On Thu, 2025-03-13 at 03:21 -0700, Alexandre Marques via
+lists.openembedded.org wrote:
+> On Wed, Mar 12, 2025 at 09:27 AM, Joshua Watt wrote:
+>=20
+>=20
+> > On Wed, Mar 12, 2025 at 5:24=E2=80=AFAM Alexandre Marques via
+> > lists.openembedded.org
+> > <c137.marques=3Dgmail.com@lists.openembedded.org>
+> > wrote:
+> > > From: Alexandre Marques <c137.marques@gmail.com>
+> > >=20
+> > > Auxiliary script to clean the hashserver database based on the
+> > > files
+> > > available in the sstate directory.
+> > >=20
+> > > It makes used of the new "hashclient gc-mark-stream" command to
+> > > mark all sstate
+> > > relevant hashes as "alive" and removes everything else from the
+> > > database.
+> > >=20
+> > > Usage example:
+> > > ```
+> > > ./scripts/clean-hashserver-database \
+> > > --sstate-dir ~/build/sstate-cache \
+> > > --hashclient ./bitbake/bin/bitabke-hashclient \
+> > > --hashserver-address "ws://localhost:8688/ws" \
+> > > --mark "alive" \
+> > > --clean-db
+> > > ```
+> > >=20
+> > > Signed-off-by: Alexander Marques <c137.marques@gmail.com>
+> > > ---
+> > > scripts/clean-hashserver-database | 73
+> > > +++++++++++++++++++++++++++++++
+> > > 1 file changed, 73 insertions(+)
+> > > create mode 100755 scripts/clean-hashserver-database
+> > >=20
+> > > diff --git a/scripts/clean-hashserver-database b/scripts/clean-
+> > > hashserver-database
+> > > new file mode 100755
+> > > index 0000000000..6eb006758e
+> > > --- /dev/null
+> > > +++ b/scripts/clean-hashserver-database
+> > > @@ -0,0 +1,73 @@
+> > > +#!/bin/bash
+> > > +set -euo pipefail
+> > > +
+> > > +SSTATE_DIR=3D""
+> > > +BB_HASHCLIENT=3D""
+> > > +BB_HASHSERVER=3D""
+> > > +
+> > > +ALIVE_DB_MARK=3D"alive"
+> > > +CLEAN_DB=3D"false"
+> > > +
+> > > +function help() {
+> > > + cat <<HELP_TEXT
+> > > +Usage: $0 --sstate-dir path --hashclient path --hashserver-
+> > > address address [--mark value] [--clean-db]
+> > > +
+> > > +Auxiliary script remove unused or no longer relevant entries
+> > > from the hashequivalence database, based
+> > > +on the files available on the sstate directory.
+> > > +
+> > > + -h | --help) Show this help message and exit
+> > > + -s | --sstate-dir) Path to the sstate dir
+> > > + -c | --hashclient) Path to bitbake-hashclient
+> > > + -a | --hashserver-adress) bitbake-hashserver address
+> > > + -m | --mark) Marker string to mark database entries
+> > > + --clean-db) Remove all unmarked and unused entries from the
+> > > database
+> > > +HELP_TEXT
+> > > +}
+> > > +
+> > > +function argument_parser() {
+> > > + while [ $# -gt 0 ]; do
+> > > + case "$1" in
+> > > + -h | --help) help; exit 0 ;;
+> > > + -s | --sstate-dir) SSTATE_DIR=3D"$2"; shift ;;
+> > > + -c | --hashclient) BB_HASHCLIENT=3D"$2"; shift ;;
+> > > + -a | --hashserver-address) BB_HASHSERVER=3D"$2"; shift ;;
+> > > + -m | --mark) ALIVE_DB_MARK=3D"$2"; shift ;;
+> > > + --clean-db) CLEAN_DB=3D"true";;
+> > > + *)
+> > > + echo "Argument '$1' is not supported" >&2
+> > > + help >&2
+> > > + exit 1
+> > > + ;;
+> > > + esac
+> > > + shift
+> > > + done
+> > > +
+> > > + function validate_mandatory_argument() {
+> > > + local var_value=3D"$1"
+> > > + local error_message=3D"$2"
+> > > +
+> > > + if [ -z "$var_value" ]; then
+> > > + echo "$error_message"
+> > > + help >&2
+> > > + exit 1
+> > > + fi
+> > > + }
+> > > +
+> > > + validate_mandatory_argument "$SSTATE_DIR" "Please provide the
+> > > path to the sstate dir."
+> > > + validate_mandatory_argument "$BB_HASHCLIENT" "Please provide
+> > > the path to bitbake-hashclient."
+> > > + validate_mandatory_argument "$BB_HASHSERVER" "Please provide
+> > > the address of bitbake-hashserver."
+> > > +}
+> > > +
+> > > +# -- main code --
+> > > +argument_parser $@
+> > > +
+> > > +# Mark all db sstate hashes
+> > > +find "$SSTATE_DIR" -name "*.tar.zst" | \
+> > > +sed 's/.*:\([^_]*\)_.*/unihash \1/' | \
+> > > +$BB_HASHCLIENT --address "$BB_HASHSERVER" gc-mark-stream
+> > > "${ALIVE_DB_MARK}"
+> > > +
+> > > +# Remove unmarked and unused entries
+> > > +if [ "$CLEAN_DB" =3D "true" ]; then
+> > > + $BB_HASHCLIENT --address "$BB_HASHSERVER" gc-sweep
+> > > "${ALIVE_DB_MARK}"
+> > > + $BB_HASHCLIENT --address "$BB_HASHSERVER" clean-unused 0
+> > The reason for the time is that entries can appear to be unused if
+> > they are created while a build is in progress and you don't
+> > necessarily want to remove them. Ideally, this is longer than your
+> > longest build time. Either way, 0 is probably too aggressive and/or
+> > it
+> > should be configurable on the command line.
+> Makes sense. Thanks for the review.
+> Pushed a new version in the meanwhile.
+>=20
 
-Steve
+Was the new version meant to make the 0 configurable?
 
-On Wed, Mar 12, 2025 at 7:12=E2=80=AFPM Macpaul Lin <macpaul.lin@mediatek.c=
-om> wrote:
->
-> From: gudnimg <gudni.m.g@gmail.com>
->
-> Changelog:
-> * https://github.com/bluez/bluez/releases/tag/5.77
-> * https://github.com/bluez/bluez/releases/tag/5.76
-> * https://github.com/bluez/bluez/releases/tag/5.75
-> * https://github.com/bluez/bluez/releases/tag/5.74
-> * https://github.com/bluez/bluez/releases/tag/5.73
->
-> Changes relevant to the build:
-> * One patch file is dropped.
-> * /etc/bluetooth is now installed with 555 permission bits when systemd
-> is not enabled. The do_install function was edited to change it back to
-> 755. This was causing test failure when testing SDK packaging
-> * Added a few missing PACKAGECONFIGs which are enabled by default.
-> - asha-profiles: new in BlueZ 5.77
-> - ccp-profiles: new in BlueZ 5.73
-> - micp-profiles: new in BlueZ 5.70
-> - csip-profiles: new in BlueZ 5.67
-> - bass-profiles: new in BlueZ 5.67
-> - vcp-profiles: new in BlueZ 5.66
-> - mcp-profiles: new in BlueZ 5.66
-> - bap-profiles: new in BlueZ 5.66
->
-> (From OE-Core rev: ebbdb7cf5c0a3f0e6773704d4c4cc570358ec611)
->
-> Signed-off-by: Gu=C3=B0ni M=C3=A1r Gilbert <gudni.m.g@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> ---
->  meta/recipes-connectivity/bluez5/bluez5.inc   | 22 +++++++-
->  ...d-without-systemd-in-the-user-sessio.patch | 56 -------------------
->  .../0001-test-gatt-Fix-hung-issue.patch       |  7 +--
->  ...et-for-building-tests-without-runnin.patch |  7 +--
->  .../bluez5/{bluez5_5.72.bb =3D> bluez5_5.77.bb} |  2 +-
->  5 files changed, 28 insertions(+), 66 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Allow-us=
-ing-obexd-without-systemd-in-the-user-sessio.patch
->  rename meta/recipes-connectivity/bluez5/{bluez5_5.72.bb =3D> bluez5_5.77=
-.bb} (94%)
->
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
-onnectivity/bluez5/bluez5.inc
-> index 39e1bf389ce4..e927d3071e5d 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -18,6 +18,14 @@ PACKAGECONFIG ??=3D "obex-profiles \
->      ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
->      a2dp-profiles \
->      avrcp-profiles \
-> +    bap-profiles \
-> +    bass-profiles \
-> +    mcp-profiles \
-> +    ccp-profiles \
-> +    vcp-profiles \
-> +    micp-profiles \
-> +    csip-profiles \
-> +    asha-profiles \
->      network-profiles \
->      hid-profiles \
->      hog-profiles \
-> @@ -39,6 +47,14 @@ PACKAGECONFIG[network-profiles] =3D "--enable-network,=
---disable-network"
->  PACKAGECONFIG[hid-profiles] =3D "--enable-hid,--disable-hid"
->  PACKAGECONFIG[hog-profiles] =3D "--enable-hog,--disable-hog"
->  PACKAGECONFIG[health-profiles] =3D "--enable-health,--disable-health"
-> +PACKAGECONFIG[bap-profiles] =3D "--enable-bap,--disable-bap"
-> +PACKAGECONFIG[bass-profiles] =3D "--enable-bass,--disable-bass"
-> +PACKAGECONFIG[mcp-profiles] =3D "--enable-mcp,--disable-mcp"
-> +PACKAGECONFIG[ccp-profiles] =3D "--enable-ccp,--disable-ccp"
-> +PACKAGECONFIG[vcp-profiles] =3D "--enable-vcp,--disable-vcp"
-> +PACKAGECONFIG[micp-profiles] =3D "--enable-micp,--disable-micp"
-> +PACKAGECONFIG[csip-profiles] =3D "--enable-csip,--disable-csip"
-> +PACKAGECONFIG[asha-profiles] =3D "--enable-asha,--disable-asha"
->  PACKAGECONFIG[sixaxis] =3D "--enable-sixaxis,--disable-sixaxis"
->  PACKAGECONFIG[tools] =3D "--enable-tools,--disable-tools"
->  PACKAGECONFIG[threads] =3D "--enable-threads,--disable-threads"
-> @@ -51,7 +67,6 @@ PACKAGECONFIG[manpages] =3D "--enable-manpages,--disabl=
-e-manpages,python3-docutils
->  SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
->             file://init \
->             file://run-ptest \
-> -           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file:=
-//0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
->             file://0001-tests-add-a-target-for-building-tests-without-run=
-nin.patch \
->             file://0001-test-gatt-Fix-hung-issue.patch \
->             file://0001-adapter-Fix-up-address-type-when-loading-keys.pat=
-ch \
-> @@ -107,6 +122,11 @@ do_install:append() {
->         # Patch python tools to use Python 3; they should be source compa=
-tible, but
->         # still refer to Python 2 in the shebang
->         sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${libdir}/bl=
-uez/test/*
-> +
-> +       # Fix the /etc/bluetooth directory permissions when systemd is di=
-sabled
-> +       if ${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'false', 'tru=
-e', d)}; then
-> +               chmod 0755 ${D}${sysconfdir}/bluetooth
-> +       fi
->  }
->
->  PACKAGES =3D+ "${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obe=
-xd-without-systemd-in-the-user-sessio.patch b/meta/recipes-connectivity/blu=
-ez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
-> deleted file mode 100644
-> index 618ed734a96a..000000000000
-> --- a/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-with=
-out-systemd-in-the-user-sessio.patch
-> +++ /dev/null
-> @@ -1,56 +0,0 @@
-> -From f74eb97c9fb3c0ee2895742e773ac6a3c41c999c Mon Sep 17 00:00:00 2001
-> -From: Giovanni Campagna <gcampagna-cNUdlRotFMnNLxjTenLetw@public.gmane.o=
-rg>
-> -Date: Sat, 12 Oct 2013 17:45:25 +0200
-> -Subject: [PATCH] Allow using obexd without systemd in the user session
-> -
-> -Not all sessions run systemd --user (actually, the majority
-> -doesn't), so the dbus daemon must be able to spawn obexd
-> -directly, and to do so it needs the full path of the daemon.
-> -
-> -Upstream-Status: Denied
-> -
-> -Not accepted by upstream maintainer for being a distro specific
-> -configuration. See thread:
-> -
-> -http://thread.gmane.org/gmane.linux.bluez.kernel/38725/focus=3D38843
-> -
-> -Signed-off-by: Javier Viguera <javier.viguera@digi.com>
-> -
-> ----
-> - Makefile.obexd                                                | 4 ++--
-> - .../src/{org.bluez.obex.service =3D> org.bluez.obex.service.in} | 2 +-
-> - 2 files changed, 3 insertions(+), 3 deletions(-)
-> - rename obexd/src/{org.bluez.obex.service =3D> org.bluez.obex.service.in=
-} (76%)
-> -
-> -diff --git a/Makefile.obexd b/Makefile.obexd
-> -index de59d29..73004a3 100644
-> ---- a/Makefile.obexd
-> -+++ b/Makefile.obexd
-> -@@ -1,12 +1,12 @@
-> - if SYSTEMD
-> - systemduserunitdir =3D $(SYSTEMD_USERUNITDIR)
-> - systemduserunit_DATA =3D obexd/src/obex.service
-> -+endif
-> -
-> - dbussessionbusdir =3D $(DBUS_SESSIONBUSDIR)
-> - dbussessionbus_DATA =3D obexd/src/org.bluez.obex.service
-> --endif
-> -
-> --EXTRA_DIST +=3D obexd/src/obex.service.in obexd/src/org.bluez.obex.serv=
-ice
-> -+EXTRA_DIST +=3D obexd/src/obex.service.in obexd/src/org.bluez.obex.serv=
-ice.in
-> -
-> - if OBEX
-> -
-> -diff --git a/obexd/src/org.bluez.obex.service b/obexd/src/org.bluez.obex=
-.service.in
-> -similarity index 76%
-> -rename from obexd/src/org.bluez.obex.service
-> -rename to obexd/src/org.bluez.obex.service.in
-> -index a538088..9c815f2 100644
-> ---- a/obexd/src/org.bluez.obex.service
-> -+++ b/obexd/src/org.bluez.obex.service.in
-> -@@ -1,4 +1,4 @@
-> - [D-BUS Service]
-> - Name=3Dorg.bluez.obex
-> --Exec=3D/bin/false
-> -+Exec=3D@libexecdir@/obexd
-> - SystemdService=3Ddbus-org.bluez.obex.service
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-h=
-ung-issue.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fi=
-x-hung-issue.patch
-> index b1e93dbe19ef..ae113a9a6d7a 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-iss=
-ue.patch
-> +++ b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-iss=
-ue.patch
-> @@ -1,4 +1,4 @@
-> -From fb583a57f9f4ab956a09e9bb96d89aa13553bf21 Mon Sep 17 00:00:00 2001
-> +From eeb62ab04b3789a27074236cd0bed7cc64759f4d Mon Sep 17 00:00:00 2001
->  From: Mingli Yu <Mingli.Yu@windriver.com>
->  Date: Fri, 24 Aug 2018 12:04:03 +0800
->  Subject: [PATCH] test-gatt: Fix hung issue
-> @@ -21,16 +21,15 @@ no action.
->  Upstream-Status: Submitted [https://marc.info/?l=3Dlinux-bluetooth&m=3D1=
-53508881804635&w=3D2]
->
->  Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> -
->  ---
->   unit/test-gatt.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/unit/test-gatt.c b/unit/test-gatt.c
-> -index 5e06d4e..4864d36 100644
-> +index 1613fbc..25dd614 100644
->  --- a/unit/test-gatt.c
->  +++ b/unit/test-gatt.c
-> -@@ -4546,7 +4546,7 @@ int main(int argc, char *argv[])
-> +@@ -4547,7 +4547,7 @@ int main(int argc, char *argv[])
->                         test_server, service_db_1, NULL,
->                         raw_pdu(0x03, 0x00, 0x02),
->                         raw_pdu(0xbf, 0x00),
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-tar=
-get-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/blu=
-ez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-> index 881494a3543e..37253b9725b2 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for=
--building-tests-without-runnin.patch
-> +++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for=
--building-tests-without-runnin.patch
-> @@ -1,20 +1,19 @@
-> -From 738e73b386352fd90f1f26cc1ee75427cf4dc23b Mon Sep 17 00:00:00 2001
-> +From c06fecbb009f4c42f01d86383d4571c96ba872f0 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Fri, 1 Apr 2016 17:07:34 +0300
->  Subject: [PATCH] tests: add a target for building tests without running =
-them
->
->  Upstream-Status: Inappropriate [oe specific]
->  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> -
->  ---
->   Makefile.am | 3 +++
->   1 file changed, 3 insertions(+)
->
->  diff --git a/Makefile.am b/Makefile.am
-> -index e738eb3..dab17dd 100644
-> +index 0ae7211..c8bcaca 100644
->  --- a/Makefile.am
->  +++ b/Makefile.am
-> -@@ -710,6 +710,9 @@ endif
-> +@@ -713,6 +713,9 @@ endif
->   TESTS =3D $(unit_tests)
->   AM_TESTS_ENVIRONMENT =3D MALLOC_CHECK_=3D3 MALLOC_PERTURB_=3D69
->
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.72.bb b/meta/recip=
-es-connectivity/bluez5/bluez5_5.77.bb
-> similarity index 94%
-> rename from meta/recipes-connectivity/bluez5/bluez5_5.72.bb
-> rename to meta/recipes-connectivity/bluez5/bluez5_5.77.bb
-> index 9fda960ea72e..55264fd6b760 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5_5.72.bb
-> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.77.bb
-> @@ -1,6 +1,6 @@
->  require bluez5.inc
->
-> -SRC_URI[sha256sum] =3D "499d7fa345a996c1bb650f5c6749e1d929111fa6ece0be0e=
-98687fee6124536e"
-> +SRC_URI[sha256sum] =3D "5d032fdc1d4a085813554f57591e2e1fb0ceb2b3616ee56f=
-689bc00e1d150812"
->
->  CVE_STATUS[CVE-2020-24490] =3D "cpe-incorrect: This issue has kernel fix=
-es rather than bluez fixes"
->
-> --
-> 2.45.2
->
+Cheers,
+
+Richard
 
