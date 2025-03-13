@@ -1,408 +1,962 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3764AC282DE
-	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 08:40:59 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.10096.1741855249068763736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FE49C282DE
+	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 08:41:49 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.10111.1741855299268986930
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Mar 2025 01:40:49 -0700
+ Thu, 13 Mar 2025 01:41:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jolGpP2c;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: rybczynska@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22409077c06so17897335ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 01:40:49 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=NTxQUeRh;
+ spf=pass (domain: mvista.com, ip: 209.85.214.178, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-224341bbc1dso12879595ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 01:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741855248; x=1742460048; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ENsX973usEW/IYNL7nvgRnss++eLqx0mSLpNuxHuieE=;
-        b=jolGpP2cY4XF2gpQjBmThCSvav5iLepq3IRmF7a+5YHyGqtLz/LzYXemSDKPPi3xp+
-         J8L0zefKrRKUMD9Nirtn6Z5zW4yggyjgzpAFO1P5j9O8JP0cwPmaX3u8cHmtEyUEhbBl
-         ELkUUtxAK3hVRMV+T1aMvAtOwSXI5vElkzplYfEKH425rIvXsZrLsda8xWstrk6ZB5a3
-         Tt1O2VxYGPYFeaE67Pp1uB5BWZdw6uJDcWuljxTlqR38k/3EDt00WoQXk9ML1LCVod3B
-         oyC2j4zMehoqQmIIfJeGaHTbynhtn6jSaV6nbe+lWL9SKn7kQWqRE7Jd4G3/ThyRm/ls
-         Pleg==
+        d=mvista.com; s=google; t=1741855298; x=1742460098; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dNHt4jdWB9vvSvlhll+3rSvxcfMNJ3T4JxQYmc+Ps1A=;
+        b=NTxQUeRh4CWuJyCAnmhqCgl1qAbvKLJ/LomUFFIJRZIeqZQc7h8WMGC7k6kfoMvhFO
+         8XMEubfveZQVM/St/AsKhaI35Sa+28jWJIKCcksVtDsLdBxLoWnvXhLYS6km/bQHFzzL
+         HtEHIlIVVVkyv81Y8jbiGDZqWXhJMKBXzb4aA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741855248; x=1742460048;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1741855298; x=1742460098;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ENsX973usEW/IYNL7nvgRnss++eLqx0mSLpNuxHuieE=;
-        b=JG06RkTI5rVPAytVBGMRVT8WGDqyT13yYASRGQC2dxPYUlv47T74WFX7degWQGEYW8
-         5HY80Qo5YKvGROqQV1qdDbqTxBgAZ2ytgfUsmaeSJmocRTaMZhFsPaOYQqyOeTwuCVcC
-         inIKNmXDvuIBsraHZs7st8CoDPTjEXRgvxt/o/Bu65dQSNbTrnhcBSUWMvVFHnSl96Qb
-         3w3JwV+/fLiYxG9Q5CIn24ue/GOkbP9grIeIr2hIOWss0uvfnG+9fVAZJ709q2sbikuN
-         Vj2HejNGEdKTr7rOzvYWShmoB+p0CjX1lwkJ0Jt+7KeePqF+P5ttiu3ESFWJAXUZXYJX
-         5PuQ==
-X-Gm-Message-State: AOJu0Yynq4R0wsoUB70Wujf4miOOBCXZwS+KeTvYmqTz912hDCPehQOc
-	cv1n42+Vhxw9QfK0Ca3kx7pdVEl6WRu/uzgXHuT/fXhwt48UvXCQjhPumcVhCvg/ooZFGjuMF0F
-	SghtMcsvSbV42RcB+qmKNcXW9F7Y=
-X-Gm-Gg: ASbGncs/L/CH6lah+YU6geHYtBjmAQae+3DZ8mlB64hp034FfjcbmglaExouPNCJHW0
-	lyevsLIiVscl5N9Jb47irlZ2q+gX70NeNeGQuFMWLvQU9M2ZkcGeRH0xRhCzELyjOsYwLzkW991
-	CNp0qNHnFL4TDmjguM+eLGGCCHAN6GJgbbXqs=
-X-Google-Smtp-Source: AGHT+IGcyZ3usCMWGhSnrBzMNWXCBRmbZlSMfOzbOsiPujeBNmx0B1FknsxztP5RjvyskNjk1UkGSU4wkuMmqIYTSvs=
-X-Received: by 2002:a17:903:1b63:b0:223:536d:f67b with SMTP id
- d9443c01a7336-22428bded61mr421209195ad.38.1741855248387; Thu, 13 Mar 2025
- 01:40:48 -0700 (PDT)
+        bh=dNHt4jdWB9vvSvlhll+3rSvxcfMNJ3T4JxQYmc+Ps1A=;
+        b=SUdav6FL/A+XAATXS+dSDbeFBZDQOcnEx7/WIWHezl6OEAYNC6SiblA6yD4m3XOLPz
+         44nL6lwXbGted7SbSeG5hEyz1IkqoByDEYT1e7JfkUob73RxLZdV0x+bVQyoWKWzz4jn
+         YoQmTR1FQb5TGQ/zWg5cvoLMpQ/Re4vFOKW5Sp+jN1YrW6qUUTpqz0oBBdBQ1qLBsn/j
+         PIY1gFh1R+Z4Rv72BCIjESJo4lZipkqhJmOOLdt/tfnXS1H/JblpNlsF/JxFXj1JsDRO
+         qQoxA7xESRwOCT4usF0p5KCfmmmkqhfdGJm648Sg327PSKlTcv76f1t6MNRUaAx3n9ik
+         ZNhQ==
+X-Gm-Message-State: AOJu0YyLCM5ZeUCAQPZfZM3MHAySLlAUnE5SDlh2maS5ONyBBBr1jQ+a
+	MNGqpC8tBEJZ3lx85DFe+fWrNPwvhhKLYHSpopjbq3Vv1kiU2dj7d6w+oFY+Djxxx/4Fk9hjVw0
+	M
+X-Gm-Gg: ASbGnctn1tCfVRfZzow0+Plq2h4SoKhuEnBchqPdHVkgH2Vo4/VQNdI6jeY7h6Qh1Cb
+	he+AgHarW/OWX0GOlOaV4CkcCb4Z8zAn85SUy24kRB8/7R7N9aoFQnqrNs5MGsVFMnkAHYK4+6T
+	jQCf4ERdRbm8N2nZHXMvLF1kQS7hvm6q3KbvrgAiDcZ3gCsaXl4+oJTTC27UQmPSfpviPu/8PJl
+	sPYMK04GPm0o407FjEeYbq5khmcapi8VY/KX+TDZbALxY4b6C7C3LKR+7pvtctS1PKkjvA8EGDK
+	CwBKfcOOILFBl0+GTLhIy2V/G25d5ttiXzuF+Ha06NvxiwDW9PakYK3ZdA==
+X-Google-Smtp-Source: AGHT+IGBJTVq9h3iKUuit0vCcAOcykUAGobxijoJikNpwSXyG8Jzj5YvM8WGCKg/MsxvblFPrwACGg==
+X-Received: by 2002:a17:902:ea08:b0:224:584:6f07 with SMTP id d9443c01a7336-22593183dc8mr145182345ad.37.1741855298261;
+        Thu, 13 Mar 2025 01:41:38 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([43.249.234.149])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-301192870b7sm3273506a91.43.2025.03.13.01.41.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Mar 2025 01:41:37 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] grub: fix Multiple CVEs
+Date: Thu, 13 Mar 2025 14:11:25 +0530
+Message-Id: <20250313084125.259006-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20250312055803.801070-1-hongxu.jia@windriver.com>
-In-Reply-To: <20250312055803.801070-1-hongxu.jia@windriver.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Thu, 13 Mar 2025 09:40:37 +0100
-X-Gm-Features: AQ5f1Jrgpw2y4BrFC1WazkPCCqBNIZeAbkBfkV3m9ChUKeA-L3Vtvc7VuNfZzhU
-Message-ID: <CAApg2=Tz1Ok-Jcp=pWwLY3t2Woentg6QyiEEwKPATVdLk862AA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] lib: spdx30_tasks: remove duplicated patched CVEs
-To: hongxu.jia@eng.windriver.com
-Cc: openembedded-core@lists.openembedded.org, JPEWhacker@gmail.com, 
-	richard.purdie@linuxfoundation.org, mikko.rapeli@linaro.org
-Content-Type: multipart/alternative; boundary="00000000000054990806303547c1"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 08:40:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212747
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 08:41:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212748
 
---00000000000054990806303547c1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Backport fixes for :
 
-On Wed, Mar 12, 2025 at 6:58=E2=80=AFAM hongxu via lists.openembedded.org
-<hongxu.jia=3Deng.windriver.com@lists.openembedded.org> wrote:
+* CVE-2025-0622 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2123c5bca7e21fbeb0263df4597ddd7054700726 && https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c16197734ada8d0838407eebe081117799bfe67 && https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7580addfc8c94cedb0cdfd7a1fd65b539215e637
+* CVE-2025-0624 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=5eef88152833062a3f7e017535372d64ac8ef7e1
+* CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10
+* CVE-2025-0678_CVE-2025-1125 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=84bc0a9a68835952ae69165c11709811dae7634e
+* CVE-2025-0690 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=dad8f502974ed9ad0a70ae6820d17b4b142558fc
+* CVE-2025-1118 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=34824806ac6302f91e8cabaa41308eaced25725f
 
-> Due to commit [lib: spdx30_tasks: Handle patched CVEs][1] applied,
-> duplicated CVE identifier for each CVE which increased +25% build
-> time (image task: do_create_image_sbom_spdx)
->
-> $ bitbake binutils-cross-x86_64
-> $ jq .
-> tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-binutils-cross-x86_64.spdx.js=
-on
-> | grep CVE-2023-25584
->       "spdxId": "
-> http://spdx.org/spdxdocs/binutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc=
-37f04fbe09/962efd5da447b81b017db54d3077be796d2e5b6e770a6b050467b24339c0995f=
-/vulnerability/CVE-2023-25584
-> ",
->           "https://rdf.openembedded.org/spdx/3.0/alias": "
-> http://spdxdocs.org/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d390=
-5303ffb04b016c3ce7693a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vu=
-lnerability/CVE-2023-25584
-> "
->           "identifier": "CVE-2023-25584",
->             "https://cveawg.mitre.org/api/cve/CVE-2023-25584",
->             "https://www.cve.org/CVERecord?id=3DCVE-2023-25584"
->       "spdxId": "
-> http://spdx.org/spdxdocs/binutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc=
-37f04fbe09/962efd5da447b81b017db54d3077be796d2e5b6e770a6b050467b24339c0995f=
-/vulnerability/CVE-2023-25584
-> ",
->           "https://rdf.openembedded.org/spdx/3.0/alias": "
-> http://spdxdocs.org/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d390=
-5303ffb04b016c3ce7693a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vu=
-lnerability/CVE-2023-25584
-> "
->           "identifier": "CVE-2023-25584",
->             "https://cveawg.mitre.org/api/cve/CVE-2023-25584",
->             "https://www.cve.org/CVERecord?id=3DCVE-2023-25584"
->
-> Since the commit [cve-check: annotate CVEs during analysis][2] improved
-> function get_patched_cves to:
-> - Check each patch file;
-> - Search for additional patched CVEs from CVE_STATUS;
->
-> And return dictionary patched_cve for each cve:
-> {
->   "abbrev-status": "xxx",
->   "status": "xxx",
->   "justification": "xxx",
->   "resource": "xxx",
->   "affected-vendor": "xxx",
->   "affected-product": "xxx",
-> }
->
-> But while adding CVE in meta/lib/oe/spdx30_tasks.py, the cve_by_status
-> requires decoded_status
-> {
->   "mapping": "xxx",
->   "detail": "xxx",
->   "description": "xxx",
-> }
->
-> This commit converts patched_cve to decoded_status
->
->   patched_cve["abbrev-status"] --> decoded_status["mapping"]
->   patched_cve["status"] --> decoded_status["detail"]
->   patched_cve["justification"] --> decoded_status["description"]
->
-> And remove duplicated search for additional patched CVEs from CVE_STATUS
-> (calling oe.cve_check.decode_cve_status)
->
-> After applying this commit
-> $ bitbake binutils-cross-x86_64
-> $ jq .
-> tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-binutils-cross-x86_64.spdx.js=
-on
-> | grep CVE-2023-25584
->       "spdxId": "
-> http://spdx.org/spdxdocs/binutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc=
-37f04fbe09/381bf593d99c005ecd2c2e0815b86bca2b9ff4cc2db59587aaddd3db95c67470=
-/vulnerability/CVE-2023-25584
-> ",
->           "https://rdf.openembedded.org/spdx/3.0/alias": "
-> http://spdxdocs.org/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d390=
-5303ffb04b016c3ce7693a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vu=
-lnerability/CVE-2023-25584
-> "
->           "identifier": "CVE-2023-25584",
->             "https://cveawg.mitre.org/api/cve/CVE-2023-25584",
->             "https://www.cve.org/CVERecord?id=3DCVE-2023-25584"
->
-> [1]
-> https://git.openembedded.org/openembedded-core/commit/?id=3D1ff496546279d=
-8a97df5ec475007cfb095c2a0bc
-> [2]
-> https://git.openembedded.org/openembedded-core/commit/?id=3D452e605b55ad6=
-1c08f4af7089a5a9c576ca28f7d
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/lib/oe/spdx30_tasks.py | 19 +++++++------------
->  1 file changed, 7 insertions(+), 12 deletions(-)
->
-> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index e20bb0c86f3..3d80f05612f 100644
-> --- a/meta/lib/oe/spdx30_tasks.py
-> +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -498,18 +498,13 @@ def create_spdx(d):
->      # Add CVEs
->      cve_by_status =3D {}
->      if include_vex !=3D "none":
-> -        for cve in oe.cve_check.get_patched_cves(d):
-> -            spdx_cve =3D build_objset.new_cve_vuln(cve)
-> -            build_objset.set_element_alias(spdx_cve)
-> -
-> -            cve_by_status.setdefault("Patched", {})[cve] =3D (
-> -                spdx_cve,
-> -                "patched",
-> -                "",
-> -            )
-> -
-> -        for cve in d.getVarFlags("CVE_STATUS") or {}:
-> -            decoded_status =3D oe.cve_check.decode_cve_status(d, cve)
-> +        patched_cves =3D oe.cve_check.get_patched_cves(d)
-> +        for cve, patched_cve in patched_cves.items():
-> +            decoded_status =3D {
-> +                "mapping": patched_cve["abbrev-status"],
-> +                "detail": patched_cve["status"],
-> +                "description": patched_cve.get("justification", None)
-> +            }
->
->              # If this CVE is fixed upstream, skip it unless all CVEs are
->              # specified.
->
->
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../grub/files/CVE-2025-0622-01.patch         |  39 ++
+ .../grub/files/CVE-2025-0622-02.patch         |  44 ++
+ .../grub/files/CVE-2025-0622-03.patch         |  41 ++
+ .../grub/files/CVE-2025-0624.patch            |  87 ++++
+ ...025-0685_CVE-2025-0686_CVE-2025-0689.patch | 380 ++++++++++++++++++
+ .../files/CVE-2025-0678_CVE-2025-1125.patch   |  90 +++++
+ .../grub/files/CVE-2025-0690.patch            |  75 ++++
+ .../grub/files/CVE-2025-1118.patch            |  40 ++
+ meta/recipes-bsp/grub/grub2.inc               |   8 +
+ 9 files changed, 804 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0624.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0690.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-1118.patch
 
-This is enough to use get_patched_cves() here. And it would allow to fill a
-little more of the entry too.
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
+new file mode 100644
+index 0000000000..9b300c7224
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
+@@ -0,0 +1,39 @@
++From 2123c5bca7e21fbeb0263df4597ddd7054700726 Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Fri, 1 Nov 2024 19:24:29 +0000
++Subject: [PATCH 1/3] commands/pgp: Unregister the "check_signatures" hooks on
++ module unload
++
++If the hooks are not removed they can be called after the module has
++been unloaded leading to an use-after-free.
++
++Fixes: CVE-2025-0622
++
++Reported-by: B Horn <b@horn.uk>
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0622
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2123c5bca7e21fbeb0263df4597ddd7054700726]
++
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/commands/pgp.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/grub-core/commands/pgp.c b/grub-core/commands/pgp.c
++index 5daa1e9..1abdea6 100644
++--- a/grub-core/commands/pgp.c
+++++ b/grub-core/commands/pgp.c
++@@ -1010,6 +1010,8 @@ GRUB_MOD_INIT(pgp)
++ 
++ GRUB_MOD_FINI(pgp)
++ {
+++  grub_register_variable_hook ("check_signatures", NULL, NULL);
+++  grub_env_unset ("check_signatures");
++   grub_verifier_unregister (&grub_pubkey_verifier);
++   grub_unregister_extcmd (cmd);
++   grub_unregister_extcmd (cmd_trust);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
+new file mode 100644
+index 0000000000..17800dd7c4
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
+@@ -0,0 +1,44 @@
++From 9c16197734ada8d0838407eebe081117799bfe67 Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Fri, 1 Nov 2024 23:46:55 +0000
++Subject: [PATCH 2/3] normal: Remove variables hooks on module unload
++
++The normal module does not entirely cleanup after itself in
++its GRUB_MOD_FINI() leaving a few variables hooks in place.
++It is not possible to unload normal module now but fix the
++issues for completeness.
++
++On the occasion replace 0s with NULLs for "pager" variable
++hooks unregister.
++
++Fixes: CVE-2025-0622
++
++Reported-by: B Horn <b@horn.uk>
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0622
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c16197734ada8d0838407eebe081117799bfe67]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/normal/main.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
++index c4ebe9e..31c53a6 100644
++--- a/grub-core/normal/main.c
+++++ b/grub-core/normal/main.c
++@@ -581,7 +581,9 @@ GRUB_MOD_FINI(normal)
++   grub_xputs = grub_xputs_saved;
++ 
++   grub_set_history (0);
++-  grub_register_variable_hook ("pager", 0, 0);
+++  grub_register_variable_hook ("pager", NULL, NULL);
+++  grub_register_variable_hook ("color_normal", NULL, NULL);
+++  grub_register_variable_hook ("color_highlight", NULL, NULL);
++   grub_fs_autoload_hook = 0;
++   grub_unregister_command (cmd_clear);
++ }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
+new file mode 100644
+index 0000000000..c3147cdb1f
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
+@@ -0,0 +1,41 @@
++From 7580addfc8c94cedb0cdfd7a1fd65b539215e637 Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Fri, 1 Nov 2024 23:52:06 +0000
++Subject: [PATCH 3/3] gettext: Remove variables hooks on module unload
++
++The gettext module does not entirely cleanup after itself in
++its GRUB_MOD_FINI() leaving a few variables hooks in place.
++It is not possible to unload gettext module because normal
++module depends on it. Though fix the issues for completeness.
++
++Fixes: CVE-2025-0622
++
++Reported-by: B Horn <b@horn.uk>
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0622
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7580addfc8c94cedb0cdfd7a1fd65b539215e637]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/gettext/gettext.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
++index 85ea44a..7a25c9d 100644
++--- a/grub-core/gettext/gettext.c
+++++ b/grub-core/gettext/gettext.c
++@@ -540,6 +540,10 @@ GRUB_MOD_INIT (gettext)
++ 
++ GRUB_MOD_FINI (gettext)
++ {
+++  grub_register_variable_hook ("locale_dir", NULL, NULL);
+++  grub_register_variable_hook ("secondary_locale_dir", NULL, NULL);
+++  grub_register_variable_hook ("lang", NULL, NULL);
+++
++   grub_gettext_delete_list (&main_context);
++   grub_gettext_delete_list (&secondary_context);
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0624.patch b/meta/recipes-bsp/grub/files/CVE-2025-0624.patch
+new file mode 100644
+index 0000000000..02f270a033
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0624.patch
+@@ -0,0 +1,87 @@
++From 5eef88152833062a3f7e017535372d64ac8ef7e1 Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Fri, 15 Nov 2024 13:12:09 +0000
++Subject: [PATCH] net: Fix OOB write in grub_net_search_config_file()
++
++The function included a call to grub_strcpy() which copied data from an
++environment variable to a buffer allocated in grub_cmd_normal(). The
++grub_cmd_normal() didn't consider the length of the environment variable.
++So, the copy operation could exceed the allocation and lead to an OOB
++write. Fix the issue by replacing grub_strcpy() with grub_strlcpy() and
++pass the underlying buffers size to the grub_net_search_config_file().
++
++Fixes: CVE-2025-0624
++
++Reported-by: B Horn <b@horn.uk>
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0624
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=5eef88152833062a3f7e017535372d64ac8ef7e1]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/net/net.c     | 7 ++++---
++ grub-core/normal/main.c | 2 +-
++ include/grub/net.h      | 2 +-
++ 3 files changed, 6 insertions(+), 5 deletions(-)
++
++diff --git a/grub-core/net/net.c b/grub-core/net/net.c
++index 4d3eb5c..ec7f01c 100644
++--- a/grub-core/net/net.c
+++++ b/grub-core/net/net.c
++@@ -1773,14 +1773,15 @@ grub_config_search_through (char *config, char *suffix,
++ }
++ 
++ grub_err_t
++-grub_net_search_config_file (char *config)
+++grub_net_search_config_file (char *config, grub_size_t config_buf_len)
++ {
++-  grub_size_t config_len;
+++  grub_size_t config_len, suffix_len;
++   char *suffix;
++ 
++   config_len = grub_strlen (config);
++   config[config_len] = '-';
++   suffix = config + config_len + 1;
+++  suffix_len = config_buf_len - (config_len + 1);
++ 
++   struct grub_net_network_level_interface *inf;
++   FOR_NET_NETWORK_LEVEL_INTERFACES (inf)
++@@ -1806,7 +1807,7 @@ grub_net_search_config_file (char *config)
++ 
++       if (client_uuid)
++         {
++-          grub_strcpy (suffix, client_uuid);
+++          grub_strlcpy (suffix, client_uuid, suffix_len);
++           if (grub_config_search_through (config, suffix, 1, 0) == 0)
++             return GRUB_ERR_NONE;
++         }
++diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
++index 31c53a6..a95c25e 100644
++--- a/grub-core/normal/main.c
+++++ b/grub-core/normal/main.c
++@@ -344,7 +344,7 @@ grub_cmd_normal (struct grub_command *cmd __attribute__ ((unused)),
++ 
++           if (grub_strncmp (prefix + 1, "tftp", sizeof ("tftp") - 1) == 0 &&
++               !disable_net_search)
++-            grub_net_search_config_file (config);
+++            grub_net_search_config_file (config, config_len);
++ 
++ 	  grub_enter_normal_mode (config);
++ 	  grub_free (config);
++diff --git a/include/grub/net.h b/include/grub/net.h
++index 7ae4b6b..d6ba8b1 100644
++--- a/include/grub/net.h
+++++ b/include/grub/net.h
++@@ -570,7 +570,7 @@ void
++ grub_net_remove_dns_server (const struct grub_net_network_level_address *s);
++ 
++ grub_err_t
++-grub_net_search_config_file (char *config);
+++grub_net_search_config_file (char *config, grub_size_t config_buf_len);
++ 
++ extern char *grub_net_default_server;
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch b/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
+new file mode 100644
+index 0000000000..f955611d9d
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
+@@ -0,0 +1,380 @@
++From 47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10 Mon Sep 17 00:00:00 2001
++From: Daniel Axtens <dja@axtens.net>
++Date: Sat, 23 Mar 2024 16:20:45 +1100
++Subject: [PATCH] fs: Disable many filesystems under lockdown
++
++The idea is to permit the following: btrfs, cpio, exfat, ext, f2fs, fat,
++hfsplus, iso9660, squash4, tar, xfs and zfs.
++
++The JFS, ReiserFS, romfs, UDF and UFS security vulnerabilities were
++reported by Jonathan Bar Or <jonathanbaror@gmail.com>.
++
++Fixes: CVE-2025-0677
++Fixes: CVE-2025-0684
++Fixes: CVE-2025-0685
++Fixes: CVE-2025-0686
++Fixes: CVE-2025-0689
++
++Suggested-by: Daniel Axtens <dja@axtens.net>
++Signed-off-by: Daniel Axtens <dja@axtens.net>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0677
++CVE: CVE-2025-0684
++CVE: CVE-2025-0685
++CVE: CVE-2025-0686
++CVE: CVE-2025-0689
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/fs/affs.c     | 9 +++++++--
++ grub-core/fs/cbfs.c     | 9 +++++++--
++ grub-core/fs/jfs.c      | 9 +++++++--
++ grub-core/fs/minix.c    | 9 +++++++--
++ grub-core/fs/nilfs2.c   | 9 +++++++--
++ grub-core/fs/ntfs.c     | 9 +++++++--
++ grub-core/fs/reiserfs.c | 9 +++++++--
++ grub-core/fs/romfs.c    | 9 +++++++--
++ grub-core/fs/sfs.c      | 9 +++++++--
++ grub-core/fs/udf.c      | 9 +++++++--
++ grub-core/fs/ufs.c      | 9 +++++++--
++ 11 files changed, 77 insertions(+), 22 deletions(-)
++
++diff --git a/grub-core/fs/affs.c b/grub-core/fs/affs.c
++index cafcd0f..d676532 100644
++--- a/grub-core/fs/affs.c
+++++ b/grub-core/fs/affs.c
++@@ -26,6 +26,7 @@
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
++ #include <grub/charset.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -699,11 +700,15 @@ static struct grub_fs grub_affs_fs =
++ 
++ GRUB_MOD_INIT(affs)
++ {
++-  grub_fs_register (&grub_affs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_affs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(affs)
++ {
++-  grub_fs_unregister (&grub_affs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_affs_fs);
++ }
++diff --git a/grub-core/fs/cbfs.c b/grub-core/fs/cbfs.c
++index 581215e..477a14e 100644
++--- a/grub-core/fs/cbfs.c
+++++ b/grub-core/fs/cbfs.c
++@@ -26,6 +26,7 @@
++ #include <grub/dl.h>
++ #include <grub/i18n.h>
++ #include <grub/cbfs_core.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -390,12 +391,16 @@ GRUB_MOD_INIT (cbfs)
++ #if (defined (__i386__) || defined (__x86_64__)) && !defined (GRUB_UTIL) && !defined (GRUB_MACHINE_EMU) && !defined (GRUB_MACHINE_XEN)
++   init_cbfsdisk ();
++ #endif
++-  grub_fs_register (&grub_cbfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_cbfs_fs);
+++    }
++ }
++ 
++ GRUB_MOD_FINI (cbfs)
++ {
++-  grub_fs_unregister (&grub_cbfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_cbfs_fs);
++ #if (defined (__i386__) || defined (__x86_64__)) && !defined (GRUB_UTIL) && !defined (GRUB_MACHINE_EMU) && !defined (GRUB_MACHINE_XEN)
++   fini_cbfsdisk ();
++ #endif
++diff --git a/grub-core/fs/jfs.c b/grub-core/fs/jfs.c
++index 6f7c439..c0bbab8 100644
++--- a/grub-core/fs/jfs.c
+++++ b/grub-core/fs/jfs.c
++@@ -26,6 +26,7 @@
++ #include <grub/types.h>
++ #include <grub/charset.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -963,11 +964,15 @@ static struct grub_fs grub_jfs_fs =
++ 
++ GRUB_MOD_INIT(jfs)
++ {
++-  grub_fs_register (&grub_jfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_jfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(jfs)
++ {
++-  grub_fs_unregister (&grub_jfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_jfs_fs);
++ }
++diff --git a/grub-core/fs/minix.c b/grub-core/fs/minix.c
++index 3cd18c8..7588835 100644
++--- a/grub-core/fs/minix.c
+++++ b/grub-core/fs/minix.c
++@@ -25,6 +25,7 @@
++ #include <grub/dl.h>
++ #include <grub/types.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -732,7 +733,10 @@ GRUB_MOD_INIT(minix)
++ #endif
++ #endif
++ {
++-  grub_fs_register (&grub_minix_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_minix_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++@@ -754,5 +758,6 @@ GRUB_MOD_FINI(minix)
++ #endif
++ #endif
++ {
++-  grub_fs_unregister (&grub_minix_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_minix_fs);
++ }
++diff --git a/grub-core/fs/nilfs2.c b/grub-core/fs/nilfs2.c
++index 3c248a9..3f8e495 100644
++--- a/grub-core/fs/nilfs2.c
+++++ b/grub-core/fs/nilfs2.c
++@@ -34,6 +34,7 @@
++ #include <grub/dl.h>
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -1231,11 +1232,15 @@ GRUB_MOD_INIT (nilfs2)
++ 				  grub_nilfs2_dat_entry));
++   COMPILE_TIME_ASSERT (1 << LOG_INODE_SIZE
++ 		       == sizeof (struct grub_nilfs2_inode));
++-  grub_fs_register (&grub_nilfs2_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_nilfs2_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI (nilfs2)
++ {
++-  grub_fs_unregister (&grub_nilfs2_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_nilfs2_fs);
++ }
++diff --git a/grub-core/fs/ntfs.c b/grub-core/fs/ntfs.c
++index 8f63c83..713e24d 100644
++--- a/grub-core/fs/ntfs.c
+++++ b/grub-core/fs/ntfs.c
++@@ -27,6 +27,7 @@
++ #include <grub/fshelp.h>
++ #include <grub/ntfs.h>
++ #include <grub/charset.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -1254,11 +1255,15 @@ static struct grub_fs grub_ntfs_fs =
++ 
++ GRUB_MOD_INIT (ntfs)
++ {
++-  grub_fs_register (&grub_ntfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_ntfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI (ntfs)
++ {
++-  grub_fs_unregister (&grub_ntfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_ntfs_fs);
++ }
++diff --git a/grub-core/fs/reiserfs.c b/grub-core/fs/reiserfs.c
++index af6a226..76cb231 100644
++--- a/grub-core/fs/reiserfs.c
+++++ b/grub-core/fs/reiserfs.c
++@@ -39,6 +39,7 @@
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -1417,11 +1418,15 @@ static struct grub_fs grub_reiserfs_fs =
++ 
++ GRUB_MOD_INIT(reiserfs)
++ {
++-  grub_fs_register (&grub_reiserfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_reiserfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(reiserfs)
++ {
++-  grub_fs_unregister (&grub_reiserfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_reiserfs_fs);
++ }
++diff --git a/grub-core/fs/romfs.c b/grub-core/fs/romfs.c
++index d97b8fb..d174449 100644
++--- a/grub-core/fs/romfs.c
+++++ b/grub-core/fs/romfs.c
++@@ -23,6 +23,7 @@
++ #include <grub/disk.h>
++ #include <grub/fs.h>
++ #include <grub/fshelp.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -475,10 +476,14 @@ static struct grub_fs grub_romfs_fs =
++ 
++ GRUB_MOD_INIT(romfs)
++ {
++-  grub_fs_register (&grub_romfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_romfs_fs);
+++    }
++ }
++ 
++ GRUB_MOD_FINI(romfs)
++ {
++-  grub_fs_unregister (&grub_romfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_romfs_fs);
++ }
++diff --git a/grub-core/fs/sfs.c b/grub-core/fs/sfs.c
++index 983e880..f64bdd2 100644
++--- a/grub-core/fs/sfs.c
+++++ b/grub-core/fs/sfs.c
++@@ -26,6 +26,7 @@
++ #include <grub/types.h>
++ #include <grub/fshelp.h>
++ #include <grub/charset.h>
+++#include <grub/lockdown.h>
++ #include <grub/safemath.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++@@ -779,11 +780,15 @@ static struct grub_fs grub_sfs_fs =
++ 
++ GRUB_MOD_INIT(sfs)
++ {
++-  grub_fs_register (&grub_sfs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_sfs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI(sfs)
++ {
++-  grub_fs_unregister (&grub_sfs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_sfs_fs);
++ }
++diff --git a/grub-core/fs/udf.c b/grub-core/fs/udf.c
++index 2ac5c1d..f89c6b0 100644
++--- a/grub-core/fs/udf.c
+++++ b/grub-core/fs/udf.c
++@@ -27,6 +27,7 @@
++ #include <grub/fshelp.h>
++ #include <grub/charset.h>
++ #include <grub/datetime.h>
+++#include <grub/lockdown.h>
++ #include <grub/udf.h>
++ #include <grub/safemath.h>
++ 
++@@ -1382,11 +1383,15 @@ static struct grub_fs grub_udf_fs = {
++ 
++ GRUB_MOD_INIT (udf)
++ {
++-  grub_fs_register (&grub_udf_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_udf_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++ GRUB_MOD_FINI (udf)
++ {
++-  grub_fs_unregister (&grub_udf_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_udf_fs);
++ }
++diff --git a/grub-core/fs/ufs.c b/grub-core/fs/ufs.c
++index 4727266..90fda07 100644
++--- a/grub-core/fs/ufs.c
+++++ b/grub-core/fs/ufs.c
++@@ -25,6 +25,7 @@
++ #include <grub/dl.h>
++ #include <grub/types.h>
++ #include <grub/i18n.h>
+++#include <grub/lockdown.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++@@ -899,7 +900,10 @@ GRUB_MOD_INIT(ufs1)
++ #endif
++ #endif
++ {
++-  grub_fs_register (&grub_ufs_fs);
+++  if (!grub_is_lockdown ())
+++    {
+++      grub_fs_register (&grub_ufs_fs);
+++    }
++   my_mod = mod;
++ }
++ 
++@@ -913,6 +917,7 @@ GRUB_MOD_FINI(ufs1)
++ #endif
++ #endif
++ {
++-  grub_fs_unregister (&grub_ufs_fs);
+++  if (!grub_is_lockdown ())
+++    grub_fs_unregister (&grub_ufs_fs);
++ }
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch b/meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
+new file mode 100644
+index 0000000000..5e06a64969
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
+@@ -0,0 +1,90 @@
++From 84bc0a9a68835952ae69165c11709811dae7634e Mon Sep 17 00:00:00 2001
++From: Lidong Chen <lidong.chen@oracle.com>
++Date: Tue, 21 Jan 2025 19:02:37 +0000
++Subject: [PATCH] fs: Prevent overflows when allocating memory for arrays
++
++Use grub_calloc() when allocating memory for arrays to ensure proper
++overflow checks are in place.
++
++The HFS+ and squash4 security vulnerabilities were reported by
++Jonathan Bar Or <jonathanbaror@gmail.com>.
++
++Fixes: CVE-2025-0678
++Fixes: CVE-2025-1125
++
++Signed-off-by: Lidong Chen <lidong.chen@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0678
++CVE: CVE-2025-1125
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=84bc0a9a68835952ae69165c11709811dae7634e]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/fs/btrfs.c       | 4 ++--
++ grub-core/fs/hfspluscomp.c | 9 +++++++--
++ grub-core/fs/squash4.c     | 8 ++++----
++ 3 files changed, 13 insertions(+), 8 deletions(-)
++
++diff --git a/grub-core/fs/btrfs.c b/grub-core/fs/btrfs.c
++index 6320303..3b8b2f0 100644
++--- a/grub-core/fs/btrfs.c
+++++ b/grub-core/fs/btrfs.c
++@@ -1197,8 +1197,8 @@ grub_btrfs_mount (grub_device_t dev)
++     }
++ 
++   data->n_devices_allocated = 16;
++-  data->devices_attached = grub_malloc (sizeof (data->devices_attached[0])
++-					* data->n_devices_allocated);
+++  data->devices_attached = grub_calloc (data->n_devices_allocated,
+++					sizeof (data->devices_attached[0]));
++   if (!data->devices_attached)
++     {
++       grub_free (data);
++diff --git a/grub-core/fs/hfspluscomp.c b/grub-core/fs/hfspluscomp.c
++index d76f3f1..4965ef1 100644
++--- a/grub-core/fs/hfspluscomp.c
+++++ b/grub-core/fs/hfspluscomp.c
++@@ -244,14 +244,19 @@ hfsplus_open_compressed_real (struct grub_hfsplus_file *node)
++ 	  return 0;
++ 	}
++       node->compress_index_size = grub_le_to_cpu32 (index_size);
++-      node->compress_index = grub_malloc (node->compress_index_size
++-					  * sizeof (node->compress_index[0]));
+++      node->compress_index = grub_calloc (node->compress_index_size,
+++					  sizeof (node->compress_index[0]));
++       if (!node->compress_index)
++ 	{
++ 	  node->compressed = 0;
++ 	  grub_free (attr_node);
++ 	  return grub_errno;
++ 	}
+++
+++      /*
+++       * The node->compress_index_size * sizeof (node->compress_index[0]) is safe here
+++       * due to relevant checks done in grub_calloc() above.
+++       */
++       if (grub_hfsplus_read_file (node, 0, 0,
++ 				  0x104 + sizeof (index_size),
++ 				  node->compress_index_size
++diff --git a/grub-core/fs/squash4.c b/grub-core/fs/squash4.c
++index 6dd731e..f79fc75 100644
++--- a/grub-core/fs/squash4.c
+++++ b/grub-core/fs/squash4.c
++@@ -804,10 +804,10 @@ direct_read (struct grub_squash_data *data,
++ 	  break;
++ 	}
++       total_blocks = ((total_size + data->blksz - 1) >> data->log2_blksz);
++-      ino->block_sizes = grub_malloc (total_blocks
++-				      * sizeof (ino->block_sizes[0]));
++-      ino->cumulated_block_sizes = grub_malloc (total_blocks
++-						* sizeof (ino->cumulated_block_sizes[0]));
+++      ino->block_sizes = grub_calloc (total_blocks,
+++				      sizeof (ino->block_sizes[0]));
+++      ino->cumulated_block_sizes = grub_calloc (total_blocks,
+++						sizeof (ino->cumulated_block_sizes[0]));
++       if (!ino->block_sizes || !ino->cumulated_block_sizes)
++ 	{
++ 	  grub_free (ino->block_sizes);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0690.patch b/meta/recipes-bsp/grub/files/CVE-2025-0690.patch
+new file mode 100644
+index 0000000000..9a2ca50d02
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-0690.patch
+@@ -0,0 +1,75 @@
++From dad8f502974ed9ad0a70ae6820d17b4b142558fc Mon Sep 17 00:00:00 2001
++From: Jonathan Bar Or <jonathanbaror@gmail.com>
++Date: Thu, 23 Jan 2025 19:17:05 +0100
++Subject: [PATCH] commands/read: Fix an integer overflow when supplying more
++ than 2^31 characters
++
++The grub_getline() function currently has a signed integer variable "i"
++that can be overflown when user supplies more than 2^31 characters.
++It results in a memory corruption of the allocated line buffer as well
++as supplying large negative values to grub_realloc().
++
++Fixes: CVE-2025-0690
++
++Reported-by: Jonathan Bar Or <jonathanbaror@gmail.com>
++Signed-off-by: Jonathan Bar Or <jonathanbaror@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-0690
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=dad8f502974ed9ad0a70ae6820d17b4b142558fc]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/commands/read.c | 19 +++++++++++++++----
++ 1 file changed, 15 insertions(+), 4 deletions(-)
++
++diff --git a/grub-core/commands/read.c b/grub-core/commands/read.c
++index fe3e88b..f3ff826 100644
++--- a/grub-core/commands/read.c
+++++ b/grub-core/commands/read.c
++@@ -25,19 +25,21 @@
++ #include <grub/types.h>
++ #include <grub/command.h>
++ #include <grub/i18n.h>
+++#include <grub/safemath.h>
++ 
++ GRUB_MOD_LICENSE ("GPLv3+");
++ 
++ static char *
++ grub_getline (void)
++ {
++-  int i;
+++  grub_size_t i;
++   char *line;
++   char *tmp;
++   char c;
+++  grub_size_t alloc_size;
++ 
++   i = 0;
++-  line = grub_malloc (1 + i + sizeof('\0'));
+++  line = grub_malloc (1 + sizeof('\0'));
++   if (! line)
++     return NULL;
++ 
++@@ -50,8 +52,17 @@ grub_getline (void)
++       line[i] = c;
++       if (grub_isprint (c))
++ 	grub_printf ("%c", c);
++-      i++;
++-      tmp = grub_realloc (line, 1 + i + sizeof('\0'));
+++      if (grub_add (i, 1, &i))
+++        {
+++          grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
+++          return NULL;
+++        }
+++      if (grub_add (i, 1 + sizeof('\0'), &alloc_size))
+++        {
+++          grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
+++          return NULL;
+++        }
+++      tmp = grub_realloc (line, alloc_size);
++       if (! tmp)
++ 	{
++ 	  grub_free (line);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-1118.patch b/meta/recipes-bsp/grub/files/CVE-2025-1118.patch
+new file mode 100644
+index 0000000000..e26b5c8752
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-1118.patch
+@@ -0,0 +1,40 @@
++From 34824806ac6302f91e8cabaa41308eaced25725f Mon Sep 17 00:00:00 2001
++From: B Horn <b@horn.uk>
++Date: Thu, 18 Apr 2024 20:29:39 +0100
++Subject: [PATCH] commands/minicmd: Block the dump command in lockdown mode
++
++The dump enables a user to read memory which should not be possible
++in lockdown mode.
++
++Fixes: CVE-2025-1118
++
++Reported-by: B Horn <b@horn.uk>
++Reported-by: Jonathan Bar Or <jonathanbaror@gmail.com>
++Signed-off-by: B Horn <b@horn.uk>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++CVE: CVE-2025-1118
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=34824806ac6302f91e8cabaa41308eaced25725f]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/commands/minicmd.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/grub-core/commands/minicmd.c b/grub-core/commands/minicmd.c
++index fa49893..903af33 100644
++--- a/grub-core/commands/minicmd.c
+++++ b/grub-core/commands/minicmd.c
++@@ -203,8 +203,8 @@ GRUB_MOD_INIT(minicmd)
++     grub_register_command ("help", grub_mini_cmd_help,
++ 			   0, N_("Show this message."));
++   cmd_dump =
++-    grub_register_command ("dump", grub_mini_cmd_dump,
++-			   N_("ADDR [SIZE]"), N_("Show memory contents."));
+++    grub_register_command_lockdown ("dump", grub_mini_cmd_dump,
+++				    N_("ADDR [SIZE]"), N_("Show memory contents."));
++   cmd_rmmod =
++     grub_register_command ("rmmod", grub_mini_cmd_rmmod,
++ 			   N_("MODULE"), N_("Remove a module."));
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 259a0a4c3d..cb61080aeb 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -51,6 +51,14 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2024-45781.patch \
+            file://CVE-2024-45782_CVE-2024-56737.patch \
+            file://CVE-2024-45783.patch \
++           file://CVE-2025-0622-01.patch \
++           file://CVE-2025-0622-02.patch \
++           file://CVE-2025-0622-03.patch \
++           file://CVE-2025-0624.patch \
++           file://CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch \
++           file://CVE-2025-0678_CVE-2025-1125.patch \
++           file://CVE-2025-0690.patch \
++           file://CVE-2025-1118.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
+-- 
+2.25.1
 
-Regards,
-Marta
-
---00000000000054990806303547c1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 12,=
- 2025 at 6:58=E2=80=AFAM hongxu via <a href=3D"http://lists.openembedded.or=
-g">lists.openembedded.org</a> &lt;hongxu.jia=3D<a href=3D"mailto:eng.windri=
-ver.com@lists.openembedded.org">eng.windriver.com@lists.openembedded.org</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Due=
- to commit [lib: spdx30_tasks: Handle patched CVEs][1] applied,<br>
-duplicated CVE identifier for each CVE which increased +25% build<br>
-time (image task: do_create_image_sbom_spdx)<br>
-<br>
-$ bitbake binutils-cross-x86_64<br>
-$ jq . tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-binutils-cross-x86_64.sp=
-dx.json | grep CVE-2023-25584<br>
-=C2=A0 =C2=A0 =C2=A0 &quot;spdxId&quot;: &quot;<a href=3D"http://spdx.org/s=
-pdxdocs/binutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc37f04fbe09/962efd5d=
-a447b81b017db54d3077be796d2e5b6e770a6b050467b24339c0995f/vulnerability/CVE-=
-2023-25584" rel=3D"noreferrer" target=3D"_blank">http://spdx.org/spdxdocs/b=
-inutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc37f04fbe09/962efd5da447b81b0=
-17db54d3077be796d2e5b6e770a6b050467b24339c0995f/vulnerability/CVE-2023-2558=
-4</a>&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://rdf.openembedde=
-d.org/spdx/3.0/alias" rel=3D"noreferrer" target=3D"_blank">https://rdf.open=
-embedded.org/spdx/3.0/alias</a>&quot;: &quot;<a href=3D"http://spdxdocs.org=
-/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce7693=
-a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2023-=
-25584" rel=3D"noreferrer" target=3D"_blank">http://spdxdocs.org/openembedde=
-d-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce7693a775cca08be5=
-af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2023-25584</a>&qu=
-ot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;identifier&quot;: &quot;CVE-2023-2=
-5584&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://cveawg.m=
-itre.org/api/cve/CVE-2023-25584" rel=3D"noreferrer" target=3D"_blank">https=
-://cveawg.mitre.org/api/cve/CVE-2023-25584</a>&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://www.cve.=
-org/CVERecord?id=3DCVE-2023-25584" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://www.cve.org/CVERecord?id=3DCVE-2023-25584</a>&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 &quot;spdxId&quot;: &quot;<a href=3D"http://spdx.org/s=
-pdxdocs/binutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc37f04fbe09/962efd5d=
-a447b81b017db54d3077be796d2e5b6e770a6b050467b24339c0995f/vulnerability/CVE-=
-2023-25584" rel=3D"noreferrer" target=3D"_blank">http://spdx.org/spdxdocs/b=
-inutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc37f04fbe09/962efd5da447b81b0=
-17db54d3077be796d2e5b6e770a6b050467b24339c0995f/vulnerability/CVE-2023-2558=
-4</a>&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://rdf.openembedde=
-d.org/spdx/3.0/alias" rel=3D"noreferrer" target=3D"_blank">https://rdf.open=
-embedded.org/spdx/3.0/alias</a>&quot;: &quot;<a href=3D"http://spdxdocs.org=
-/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce7693=
-a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2023-=
-25584" rel=3D"noreferrer" target=3D"_blank">http://spdxdocs.org/openembedde=
-d-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce7693a775cca08be5=
-af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2023-25584</a>&qu=
-ot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;identifier&quot;: &quot;CVE-2023-2=
-5584&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://cveawg.m=
-itre.org/api/cve/CVE-2023-25584" rel=3D"noreferrer" target=3D"_blank">https=
-://cveawg.mitre.org/api/cve/CVE-2023-25584</a>&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://www.cve.=
-org/CVERecord?id=3DCVE-2023-25584" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://www.cve.org/CVERecord?id=3DCVE-2023-25584</a>&quot;<br>
-<br>
-Since the commit [cve-check: annotate CVEs during analysis][2] improved<br>
-function get_patched_cves to:<br>
-- Check each patch file;<br>
-- Search for additional patched CVEs from CVE_STATUS;<br>
-<br>
-And return dictionary patched_cve for each cve:<br>
-{<br>
-=C2=A0 &quot;abbrev-status&quot;: &quot;xxx&quot;,<br>
-=C2=A0 &quot;status&quot;: &quot;xxx&quot;,<br>
-=C2=A0 &quot;justification&quot;: &quot;xxx&quot;,<br>
-=C2=A0 &quot;resource&quot;: &quot;xxx&quot;,<br>
-=C2=A0 &quot;affected-vendor&quot;: &quot;xxx&quot;,<br>
-=C2=A0 &quot;affected-product&quot;: &quot;xxx&quot;,<br>
-}<br>
-<br>
-But while adding CVE in meta/lib/oe/spdx30_tasks.py, the cve_by_status<br>
-requires decoded_status<br>
-{<br>
-=C2=A0 &quot;mapping&quot;: &quot;xxx&quot;,<br>
-=C2=A0 &quot;detail&quot;: &quot;xxx&quot;,<br>
-=C2=A0 &quot;description&quot;: &quot;xxx&quot;,<br>
-}<br>
-<br>
-This commit converts patched_cve to decoded_status<br>
-<br>
-=C2=A0 patched_cve[&quot;abbrev-status&quot;] --&gt; decoded_status[&quot;m=
-apping&quot;]<br>
-=C2=A0 patched_cve[&quot;status&quot;] --&gt; decoded_status[&quot;detail&q=
-uot;]<br>
-=C2=A0 patched_cve[&quot;justification&quot;] --&gt; decoded_status[&quot;d=
-escription&quot;]<br>
-<br>
-And remove duplicated search for additional patched CVEs from CVE_STATUS<br=
->
-(calling oe.cve_check.decode_cve_status)<br>
-<br>
-After applying this commit<br>
-$ bitbake binutils-cross-x86_64<br>
-$ jq . tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-binutils-cross-x86_64.sp=
-dx.json | grep CVE-2023-25584<br>
-=C2=A0 =C2=A0 =C2=A0 &quot;spdxId&quot;: &quot;<a href=3D"http://spdx.org/s=
-pdxdocs/binutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc37f04fbe09/381bf593=
-d99c005ecd2c2e0815b86bca2b9ff4cc2db59587aaddd3db95c67470/vulnerability/CVE-=
-2023-25584" rel=3D"noreferrer" target=3D"_blank">http://spdx.org/spdxdocs/b=
-inutils-cross-x86_64-5de92009-80e6-55c5-8b1f-cc37f04fbe09/381bf593d99c005ec=
-d2c2e0815b86bca2b9ff4cc2db59587aaddd3db95c67470/vulnerability/CVE-2023-2558=
-4</a>&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://rdf.openembedde=
-d.org/spdx/3.0/alias" rel=3D"noreferrer" target=3D"_blank">https://rdf.open=
-embedded.org/spdx/3.0/alias</a>&quot;: &quot;<a href=3D"http://spdxdocs.org=
-/openembedded-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce7693=
-a775cca08be5af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2023-=
-25584" rel=3D"noreferrer" target=3D"_blank">http://spdxdocs.org/openembedde=
-d-alias/by-doc-hash/594f521fb7a3a4e9a2d3905303ffb04b016c3ce7693a775cca08be5=
-af4d06658/binutils-cross-x86_64/UNIHASH/vulnerability/CVE-2023-25584</a>&qu=
-ot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;identifier&quot;: &quot;CVE-2023-2=
-5584&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://cveawg.m=
-itre.org/api/cve/CVE-2023-25584" rel=3D"noreferrer" target=3D"_blank">https=
-://cveawg.mitre.org/api/cve/CVE-2023-25584</a>&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://www.cve.=
-org/CVERecord?id=3DCVE-2023-25584" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://www.cve.org/CVERecord?id=3DCVE-2023-25584</a>&quot;<br>
-<br>
-[1] <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D=
-1ff496546279d8a97df5ec475007cfb095c2a0bc" rel=3D"noreferrer" target=3D"_bla=
-nk">https://git.openembedded.org/openembedded-core/commit/?id=3D1ff49654627=
-9d8a97df5ec475007cfb095c2a0bc</a><br>
-[2] <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D=
-452e605b55ad61c08f4af7089a5a9c576ca28f7d" rel=3D"noreferrer" target=3D"_bla=
-nk">https://git.openembedded.org/openembedded-core/commit/?id=3D452e605b55a=
-d61c08f4af7089a5a9c576ca28f7d</a><br>
-<br>
-Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com" t=
-arget=3D"_blank">hongxu.jia@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oe/spdx30_tasks.py | 19 +++++++------------<br>
-=C2=A01 file changed, 7 insertions(+), 12 deletions(-)<br>
-<br>
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py<br>
-index e20bb0c86f3..3d80f05612f 100644<br>
---- a/meta/lib/oe/spdx30_tasks.py<br>
-+++ b/meta/lib/oe/spdx30_tasks.py<br>
-@@ -498,18 +498,13 @@ def create_spdx(d):<br>
-=C2=A0 =C2=A0 =C2=A0# Add CVEs<br>
-=C2=A0 =C2=A0 =C2=A0cve_by_status =3D {}<br>
-=C2=A0 =C2=A0 =C2=A0if include_vex !=3D &quot;none&quot;:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 for cve in oe.cve_check.get_patched_cves(d):<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 spdx_cve =3D build_objset.new_cv=
-e_vuln(cve)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build_objset.set_element_alias(s=
-pdx_cve)<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cve_by_status.setdefault(&quot;P=
-atched&quot;, {})[cve] =3D (<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 spdx_cve,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;patched&quot=
-;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 for cve in d.getVarFlags(&quot;CVE_STATUS&quot=
-;) or {}:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 decoded_status =3D oe.cve_check.=
-decode_cve_status(d, cve)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 patched_cves =3D oe.cve_check.get_patched_cves=
-(d)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for cve, patched_cve in patched_cves.items():<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 decoded_status =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;mapping&quot=
-;: patched_cve[&quot;abbrev-status&quot;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;detail&quot;=
-: patched_cve[&quot;status&quot;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;description&=
-quot;: patched_cve.get(&quot;justification&quot;, None)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# If this CVE is fixed upst=
-ream, skip it unless all CVEs are<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# specified.<br><br></block=
-quote><div><br></div><div><br></div><div>This is enough to use get_patched_=
-cves() here. And it would allow to fill a little more of the entry too.</di=
-v><div><br></div><div>Regards,</div><div>Marta<br></div></div></div>
-
---00000000000054990806303547c1--
 
