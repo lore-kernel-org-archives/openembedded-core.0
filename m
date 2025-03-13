@@ -1,157 +1,389 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABCE6C282DE
-	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 18:15:02 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.3])
- by mx.groups.io with SMTP id smtpd.web10.22170.1741889699614570839
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9982C282DE
+	for <webhook@archiver.kernel.org>; Thu, 13 Mar 2025 18:49:12 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.22942.1741891743304975970
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Mar 2025 11:15:00 -0700
+ Thu, 13 Mar 2025 11:49:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=j4p1YONk;
- spf=pass (domain: siemens.com, ip: 40.107.162.3, mailfrom: peter.marko@siemens.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5167dd2ec4=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52D82rZs031546
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 11:49:03 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45b0j4tdym-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 11:49:02 -0700 (PDT)
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52DImd2q017201
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 11:49:02 -0700
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04lp2042.outbound.protection.outlook.com [104.47.74.42])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45b0j4tdyh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 13 Mar 2025 11:49:02 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D6oLwwCosEIjx4wcZbYPJ2leQ49Jz311HW0FqhqBq3W4IXPdEVtoo2uaS5RrwnYxkLt231S1198foJeM1S65OErRmg47qx+YSLg3vRMq9CkXUuXKcrrMbrdSPbWKs7/t/FNDfI+2Rs0L4ieDQulA31t7docaoh5OrQC6C6KchC9qP84xARcqEarObazuBrSBMxIwj2iNzt/mYSIc857EL9yPETqWgSXvSXT3yerGLux9CvYfljGfqEbMJ2+b/0ZrZXiloWMtv/5qmY/uiryicYvw8cyFoGMIXJOYyppMudZMQiUZ2gMTf6Bkp0g7v77kcXjc1eMCrZONCnKfzQsJnA==
+ b=ut9iGMqpEo0cBbP1e2MAh61HlcL+hcEgsmPWrKnz9LXii1LgKNnmb9mm84TRa/Zor9MI0FAPou/vz+FOxIFz4sFwoktR67ueYW53QhhUC0TJvVS8SiSZr5aKwznWKrfgE8rVjbRsK0WBvq9pIdpx0LccoOjuUnqiIqdn+4mGFXX0zS54BJh7YZbTDDjKIflviOtMdIk0JDd/oSjs1xG2byZIMC/hsUataTwWHp1krQ+fDaRmpmviE1OOIJn7K7rfdGKC4VKWhY0zgNOm1RHpAnPAebDbn93Bn6Pi5Ym3l9X1aIdaB5chlXYKDZ2WmzcJ1R5dQn9d94ZV+D/E8J0epQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=piAI3p94eLufSHkDn83RNnWHtTuEsVbvb9Q9Qh0go1s=;
- b=KBNDsPO6NcESMbF/55EJDwgxczQst4GEOISzjiCQ5+lKvc0ZbKSajd5AT4bG7p+fSyKEdVKglNOh28lZ54YH1/6AJ9C5gXFVgxrLlk+BP4lIq4C4O/RoAwdq348sIcOdTcwkjS0ZGS4kR7LxtbpZZKy3+bbsEgZGc58ajPtcHdyOmbHfE9BS/S3DKyX9Vvn7W0BlPQY6reFSLnofqfiuLkHFq3KHoBpGQbs1mhnm6W+yzkfT7fBag0T4opbWpkp5qPMWo7+lIQ8fbGp5yzzSy/PM10p/MuLuH4mLFrm3XK6RoEM1RdELbRRkmpp1ktW/iaDD5Nbe/r6aKrQecFn17Q==
+ bh=dsJBBdJeBNXZlQeDjYbZDpkNsIXm/ck/v2QUBW+p//E=;
+ b=m/LgjK8EHAT36u5Jj80IVjiQpiAnR75TKjqJW4n4ezHAj0SFG4qyG/rNTVqEuDvc8RFf8OOXXtK44C0uWBCYgztM/mREfNdaFYjFuYDrgifjBTlPn7kpIargxVCtdxoOTcFPTm6+a8HqXVifqS8uhPmsGL65q1gY4SJnJQRowbCxnF97jjlJ/SxRggHlDuLmtNyVc5EyRQePC4nUUYd83fBjQsg9xoKdt+YoJ8WNMHrZnemPFT+xMtNDB0kOmkdGFaZ6zVrS8ArZJ50KvF317DrSQx0JP25AhdHktUI1tpFq+vKfivkyyNDw5YKJ7UgnlgYlOZ6gBQ/LHki/UXzMNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=piAI3p94eLufSHkDn83RNnWHtTuEsVbvb9Q9Qh0go1s=;
- b=j4p1YONkKGpK8+YB7q7BshE8IIVslV4m+zZ2kWXlzuQLPPy4E75LZV2MqG9N9CX0mfuJ6gidXt1CyI5s/tHdnABtGLZcw25B1QX6EK/ypQDP0RgMwyL4O2WsfH5VXpWEMiUnLw6lsrlNrHbScJy7MlSIhcz/4Z2hsfQvnGPaf8HEyhXKSo+8liURdLMeOatIpPdrn8A3p0+IyK+L/PC+50Hknt4J+9ebK7y4JxXfSxT82NQOnEE6KdmthUNxhj7JkXbRuiQL/R4EsRbsnpnVED9vhHyCynTJ42IyPsA8Z982ytRMAYLEIuo+G53MCPRQ7tPUq7DdHw3juTcJVTcUYQ==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by GV1PR10MB9025.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:1c5::12) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by SA2PR11MB5018.namprd11.prod.outlook.com (2603:10b6:806:11a::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.27; Thu, 13 Mar
- 2025 18:14:55 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%3]) with mapi id 15.20.8511.026; Thu, 13 Mar 2025
- 18:14:55 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Jose Quaresma <jose.quaresma@foundries.io>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH v2] go: upgrade 1.24.0 -> 1.24.1
-Thread-Topic: [OE-core][PATCH v2] go: upgrade 1.24.0 -> 1.24.1
-Thread-Index: AQHbksbUDqN/puT780CoKa29SaSDrLNxXgIw
-Date: Thu, 13 Mar 2025 18:14:55 +0000
-Message-ID: 
- <AS1PR10MB5697DEF32F93D862F25BC8CEFDD32@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250311204646.1661420-1-peter.marko@siemens.com>
-In-Reply-To: <20250311204646.1661420-1-peter.marko@siemens.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=ef6e2240-a5fb-48d2-81a7-65189caadcd0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-03-13T18:00:19Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV1PR10MB9025:EE_
-x-ms-office365-filtering-correlation-id: 66676386-a7d3-401a-c9f5-08dd625af4e5
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?ky2/i2MyKG/QkW35xwLrmF5vsWJ78m+rW50vDTJfpJ6j0xcE4Cxl65ezS7a7?=
- =?us-ascii?Q?XyyAwBZH44JxdXO9NvTO1A0lnuyCIEYCdv0JrxYD3dIJDCSzSH9sxkBOG+mA?=
- =?us-ascii?Q?RWb2A/qzcwopVEnpnvUYVD4eN0yh72/8fgJsKRKP84uyh0p3wrTqrrtfjOVH?=
- =?us-ascii?Q?lxzJRFiA6q7OZvDF3FZdWnWgien2BVXmrTe+t572sy7JABOYQ2dHQw4OzbJK?=
- =?us-ascii?Q?JB8nfoGrsAZsohfoddjHep2lhwWo/hwxb94A6DvUOu9kxqyKJ5M3bWjq6pIM?=
- =?us-ascii?Q?OF9R8DJsIA7iePnE0eA2meR/Pd4Q4FzK08X/5WgeSIiA6L+5fjHU/TZAgBTY?=
- =?us-ascii?Q?kB09k5BQABzcXSvaz1Iw9o1fGQEP1RTVq2JyH7oGV/NWFtpAn7AjY//7Ju8D?=
- =?us-ascii?Q?aE/zYKwSRQhWxQe1Rp5E6Zz/CKKyTNoxXjMI9gAlDmuZLGxBkqvDPYn3TIZt?=
- =?us-ascii?Q?Tc7wGKVCmBPXqCb0pajKp3aqBUHHtYUjvvOgpi42TQRRE4QjzXYzUdQdTq/u?=
- =?us-ascii?Q?JT/8YN7zMHJdv1FVWr6k48gh2z0GwegDdgTpM7FYxTQfEgDEXEDH7fwBBKcO?=
- =?us-ascii?Q?39vlgwxtHn/bK9DcZJ9DndBeQxRXFucNgGEwh1jDhoLGa/iwmEFKRUOpZKxE?=
- =?us-ascii?Q?7tpEuanKVnvEjSb+vk5ta09FRjlVxa20sz/zKvzVftQR+wvFa6ulinYDdbq+?=
- =?us-ascii?Q?m56A58HeSEtvzp3HMftJoekDMxyY4Y3slrZGiLnU3BV85P4KmkiBJLw8vBMC?=
- =?us-ascii?Q?bfBYazz+fcWySNjgXomoR69oWr4L4l6VjjV17fLn8TpN/fKZgvq/MqMSkhrW?=
- =?us-ascii?Q?3VmxNED0uSCjpOXEvNSerZHWDdes+DOgnqyY3O3+vW0KKDJaqjtQfC/unQwH?=
- =?us-ascii?Q?uNL0mrOqKr1V4n5woWEjMU9E+iA5ACE5bkNk0CGCB3U2fgLM3Z2k6apfmpfL?=
- =?us-ascii?Q?g1o7fHyl8Uw9jyeSjTUSOafgWagEA5+e0hFhi4azAYprjYRYyoQmEhbfs0UK?=
- =?us-ascii?Q?qlSOpT5sT+i+WIjAmjqB9sJ77Y4NoL2UxZG/ie6pd5qfTjQteC6X6cQkGknV?=
- =?us-ascii?Q?QIV9+6NhEA9s/IC623KO3p3JkG8zsYYJZopK8bsxdmHKO1n+RNz4Fha2+cTW?=
- =?us-ascii?Q?9j2VpTaReXuACYpgzUkqgQU5OYFrNjPWJtFd5RVsPzFHKoM21fsOH+CuHswG?=
- =?us-ascii?Q?utq3J9yZhij2gBofPGDkhDnB3B7kBMsGAw+6ueRlRr55YUCuRii5YHLUUsxz?=
- =?us-ascii?Q?SRNDts005csy6Wpo8BvBDXvZK8VVeEqTiCXeWu4h/3lHRu3df6KDAIxgDfO/?=
- =?us-ascii?Q?beY2hlSvFWSZnR8LFJRuxudeOIpSEwb90nvFjGGVnDDWphztLcVUHKVhQDd2?=
- =?us-ascii?Q?513Lm+Nuvi3BFx1iS0ZUtPkFWe18HXfAJrH8eB1iztQRJI9aA6DM8zFqRrS4?=
- =?us-ascii?Q?hW6qjowow7TgXQ0N6zJmUQIqHfqr5xn4?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?nS/5Ga1fxdVT53DxjK0ZAx4JB4h2UQwxY+9yBCf1w3u2WtnAl0aKAeUoYNSZ?=
- =?us-ascii?Q?SUH6LKGl+jxX2PamG+xxHQZPSz/EHj7rOR6ci4elyj762uD/ndFgEsCqRHca?=
- =?us-ascii?Q?uqbU9x6hPcOPvnSVeohOKZXDaTssdeVG1SBvNER8o3BKRKpCMO6No5LG6y5x?=
- =?us-ascii?Q?s11m7INmoNaLU1OVeJQgrmIRk9PvYi6HCnmXbDmD+gyqVnENjtk0Pfx5L3Fb?=
- =?us-ascii?Q?iOq4Zhd04hJJ32jmfHFR9c66i7W6RZJ9er+oTs/sKr8YhzOYs8xr8IzsqGzF?=
- =?us-ascii?Q?p+QyBWv6sshXRHTgJDuCm1+ck+nSF3kzmpV1DUkjHLt2ywyv6Np4Xfx8bmnq?=
- =?us-ascii?Q?KGlvgyqN+GaXerHBjLjcS5soP3N9XI2iFghgIKUBkNgut6ouPiTPazF+i+2k?=
- =?us-ascii?Q?fWLg9z6eEOlLXP9XOTCOYM2R7c4HOMJh49S4v6EMHrGE95KZjV2w7elkhZMY?=
- =?us-ascii?Q?PoLcv37eCENppVqQyWxLOAms6if/gutkN1C/5WbbZ0ZkWMnpr8LFFCix5cCI?=
- =?us-ascii?Q?jDTCQHflh/7ik0lBF76Cjvzg6cqh2FK9GtwOZ+kESSqELHLc9Y3yzeu0BU0X?=
- =?us-ascii?Q?U556tgosCvtv6YAIqpNQ62X2f7FXc9Wq0VzOgPz+WBEJFPvVUKKCV+dNseph?=
- =?us-ascii?Q?aOgLlL1gtk77ML22XIYxoAxQv6SDbndls5i5bqzTF8n3rYi15iUfVFSJIH8l?=
- =?us-ascii?Q?vPD9v9i8myCEtomUMDSIZQyq00XTn/jwqdmMJANroMgQSFXbg58eLqHRaid4?=
- =?us-ascii?Q?iac2e5utR524tbwLTHwE/8PwW6PzjJpE0dipBjjSdNJ7P+88qvHhOhv/3uwV?=
- =?us-ascii?Q?X61dwe+wRk868TBkvX7maD7iWlqpL4Zb4obLZQJQ7uF7L6Is/SEnQk32aajn?=
- =?us-ascii?Q?KXEMfo1s7+YVrGE9wWR7gIBe99cDUnEflqnv5KNuQMjxJMbG8ZSOQvfdsFxo?=
- =?us-ascii?Q?9idtfaOPB99ggQiMqWybnY77Qk18ElSu4d0RwxjbQROfwlwDBMttYX1JIQ5F?=
- =?us-ascii?Q?A4kxlThyXK3urYsupKhZdaVseUi85ZIUVp87fBDegYwtp4E8QLxbq9G4Dqo5?=
- =?us-ascii?Q?M/wYOKsS3YY7iU5rOJ8QlLCYdMMyvLXM63r2ICHjV9EdY6S704oc4Gv8jI1F?=
- =?us-ascii?Q?XhnLZZHhl/APuW8DnD9xcee9X766ldvL1B+wrn6ryQRyzYFRCeSXWNdE91l3?=
- =?us-ascii?Q?IC8fr7obrp3oSjqyvqaLfO6JVDojdhc7ZKjhcQeg1RQxCBvTL7ZahJXROn/l?=
- =?us-ascii?Q?KsJvY75ETVsoI/Mt5T0KD+f/YWVaz5qJPEjQzYDF8UivfhAJaZB84jx6nbIu?=
- =?us-ascii?Q?xsP4vn5eqGDESoGUR9E1twinKkiYy5LaNQSL6W54oFVAHmTqICdkekhnQ3Bq?=
- =?us-ascii?Q?Q2HVzZevvnA9fMmAXU5mhFyNkm86Ch38H1XyKD3hsKc/8Qj3SmoFGEIkGz7e?=
- =?us-ascii?Q?zn2HmJ8Sc2eGxr0BGTw3GBZ5Kc79fP3yhwo4aG76Vh6T/UHxRYsnlP/uc3rM?=
- =?us-ascii?Q?XCb7BDF1epEEzqPWKHFfIzMmVUbbBBkAeWOO29GFnYC16nntpYtYnVOyP22r?=
- =?us-ascii?Q?abwksNvrMXtIYcaWxpHMlabcZcc/eFOZI+o42XJg?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Thu, 13 Mar
+ 2025 18:48:59 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552%4]) with mapi id 15.20.8511.026; Thu, 13 Mar 2025
+ 18:48:59 +0000
+Content-Type: multipart/alternative;
+ boundary="------------WbEnpArZ0VoPR0VtTxLjns0c"
+Message-ID: <03997060-1f1c-4784-af57-bb83b0514ebb@windriver.com>
+Date: Thu, 13 Mar 2025 14:48:55 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH V4 2/3] rust: Upgrade 1.82.0->1.83.0 --> bloat
+ alert !!
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        deepesh.varatharajan@windriver.com,
+        "Shinde, Yash"
+ <yash.shinde@windriver.com>
+Cc: Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com,
+        Khem Raj <raj.khem@gmail.com>,
+        openembedded-core@lists.openembedded.org
+References: <20250305134459.2275598-1-Deepesh.Varatharajan@windriver.com>
+ <20250305134459.2275598-2-Deepesh.Varatharajan@windriver.com>
+ <c411d58d-bd27-4107-9b98-e39de14204df@windriver.com>
+ <5d748ede629df75d0ed30df5418b42b936d5416b.camel@linuxfoundation.org>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <5d748ede629df75d0ed30df5418b42b936d5416b.camel@linuxfoundation.org>
+X-ClientProxiedBy: PH8P221CA0040.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:510:346::17) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|SA2PR11MB5018:EE_
+X-MS-Office365-Filtering-Correlation-Id: d9a12262-e19a-4c94-0a03-08dd625fb6fa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|8096899003|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?UWx1dlFmRWZmcFhhVGJNSnNKcllrZERiSmNWQUJHYVkyMXJyRjcrbVdnNENS?=
+ =?utf-8?B?M09qRzlEVGlPNE9qZ3BrYWxPVW9raDBESk1Yd0NVZ0RFbXBGSWNLNjVSWkVh?=
+ =?utf-8?B?NVB0ME1zYVVLQS8rMTh0WEFNQmpyREc3bmNNNW9qTnZZWURHTGlSNjlJTHZs?=
+ =?utf-8?B?K3U2dk9QOWIyVTNNOGgxNVdLMjlrUjRUUkZacjZ6OWhKdUdDMzlnRXlLbzFt?=
+ =?utf-8?B?S2U3ekd4Wmt4V2s2S21SY3cvN0Z4MUZiVml1N2JQcDczeWdKU05tTmFGVUJk?=
+ =?utf-8?B?Q1l2MlZTNVBtM004SXVnSEFHRHY4R0t3UW4rbkE2SWt4aEJLdzdJOEkxbi8z?=
+ =?utf-8?B?alBHSCs1ajJyUGJQREpFNmNjWVQ2K1daU2FaN0ZMenNrWjZkWDFQdHhZM3g4?=
+ =?utf-8?B?ZE9VV0hiMmVJZmhTbmJIV1BheitWRXZ0NC9BUHdaclYrK3hrNjdJblE1NkxY?=
+ =?utf-8?B?SWZGMHBMQk0waFZYck1RMFU5MkcrWHlsQ3I4eittWkNFQk43eHF0Q0xKK3Ro?=
+ =?utf-8?B?RGR3L21tQ3lyelpaZitoQ0F2VDdsWmYzM2JLVGpOUWs0dkl5YzJTRVg5Y3dH?=
+ =?utf-8?B?cUdLVGhGdEZNUmlaM0tUMlgyNS9YZzFtOERaTWhTSlJGcTdXbjh4V3dvV2h0?=
+ =?utf-8?B?T25TdmRnS1czejV6bHZFeFcwb1hvRjBsYmVPbFZZeDhUOUg2T0VIbzd0dzUw?=
+ =?utf-8?B?dmcydjNkS0h3U0tIM2ZkWElHeUdYL2NXejZYN0FhdDBVM3JMSmUxc0dPYUpV?=
+ =?utf-8?B?QTVPc0lnQmhlOTEwRUU2NXBmNHFtODRHeEl3dFo4b0o0NVNUbDNwc0tOVmxw?=
+ =?utf-8?B?Ti9sc05GRVE1VzRNY0RQYUd4c0xpL3h4eXJKSWtKcXNodTVJQWs5c3lSbzBt?=
+ =?utf-8?B?cXRVcDdjdVpWbjdzdk80dG5yU2JodGp5UisrTnJUVTZSdkgycEE5bi9KNk1I?=
+ =?utf-8?B?MThOS3BtMmt3bVRJSWUrWkcxT1ZOYzdJWVZ5a1AzTVZ3UGxzMVpSdHFTbk1Z?=
+ =?utf-8?B?QklXZm1JbHJGd21tRWpGZEN6Uk5MK2Z4VTEvN2Q1NzdrNG8yVmFBOWpZdzYx?=
+ =?utf-8?B?clhJMm5rUzIrZzZJNkMrc3pUeUtkTURwZStLNVg5aThLOEJnL1YwdXV6bklq?=
+ =?utf-8?B?OFBYZXA2em9pRG1VUGordm8zdVNkTkhPQkRUNStiWWFvTDJmaHFleXBzWkdR?=
+ =?utf-8?B?S2JXaUMwc01wRFlOc0JCTFVVR0dKV0N1eGtadTZoQWdYa1B1UGlKT3hnL3Rw?=
+ =?utf-8?B?UVRvMy84NHplV0VZQzE2aGZmeXBvUTlqNy9WNjJvZGNablJFOWZiZHF4YzJE?=
+ =?utf-8?B?SUxad1c5eTQ5bVliZUs0N2tWVVdyZUNUeVE2aHBPOEVRYTYxOUtlenRVSkhQ?=
+ =?utf-8?B?aExzcVNkSnJrTUVUZVhHenQvelVXektJMTlRUUZFSjRGd21rcWdjVk5qRHRQ?=
+ =?utf-8?B?dEJISFV2eTdNMHZTY0N4bEFEZ0hHZHF5ZTNYcFd3RXA0aXlWMEVObHZXZ05u?=
+ =?utf-8?B?NWRNT25tSnVPQVJaS0FHMytVanRZM0pSYlRvSUNWTzNPazVlVzV6WGlCRUEv?=
+ =?utf-8?B?NmlTTlNZM2JGclpha0RsLzZXZUVOSDNMYllmQm9DemVMM2NDNkZTYzJPY2pw?=
+ =?utf-8?B?OTJUaDBnWHljYjZ1blRDSkYxMzVtZll4eTkvTCtzREl1TWpwc1pGRXUwRi9z?=
+ =?utf-8?B?Z3BPRFJLSlo5eGc0YnJGZGVZeWdxVVpud2dibERKcTNTWGRMVVFiRk5zaFpU?=
+ =?utf-8?Q?8Mw2c1bPRW2HVA6mxeFuiaUkPdGzjv6H52kkW7S?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?SkxYdit2dzRERmI5K1NJc0hwNFhUR0IyUWRFSnRhVkNQTWgvVkhoTWpWT2lT?=
+ =?utf-8?B?cGFNcE42bEZLRlc4ZWdBRUphOVlTTVlpMm45Rk9xTmpWVjR1MFRSWE9HSFZp?=
+ =?utf-8?B?anAwWjh1elVMaGxnL3BZbnN3YngxS1hyQjg5L0gxYWtkV1MraTRBNUNiVGE2?=
+ =?utf-8?B?eTZ6NW5ES0VSSkZLTjRPclhMWFJQdGxtOUR2bGc1c1lNdzBXQldvcjlqVERw?=
+ =?utf-8?B?dEU1SC9qSzNTMWs1Y0U0NTgrdERoV1VCd0V6cFE1MGtaY1Q0WUs3M0o0U1Vh?=
+ =?utf-8?B?aEVrVTNQOStHZm1BT2pUS0h1T1MwOHJ2SG9HVUdNZUorc01OTkNYMnZNZ3F6?=
+ =?utf-8?B?VVRXOE55SjhwYmtYTC9mMGlKZXM2cXZNVDlNMWJwQnNFMHRkSnRCekt0QjNN?=
+ =?utf-8?B?WHJMNEgxOVFwNHZ2aGV6SE80OWMwSS9WRVk2bjJXY0lkSDFFTFIyRDZCbW5G?=
+ =?utf-8?B?cW14TndISytvR0hFMk5IeHRSdXpkbG9Td3lmTlBPYW1yQ1RJVWFJT1BDUDcw?=
+ =?utf-8?B?d0x3OCtzMnZZMHdCQUpZalNaOXc2MjJKQVlIZDFBVlAxWmExN2p3QjNhQnNy?=
+ =?utf-8?B?Zy9ob3RPWWN0TWJGdlE3MHNXTHUzaWtEM29FOWY4TEVqVVlSdy80dEpxUFdl?=
+ =?utf-8?B?NE1scExLMVJrTjNhZWRORHc5TXJ3VitSU0Jlb0Y0M3NwSll6R2RmaTQ2N1Z6?=
+ =?utf-8?B?ZXJTdHR5WEl4eFIzZkZrSzJHTndNcGxmY3N0Z3FETER0ZG04eEJEcmVGTHl0?=
+ =?utf-8?B?ZkN5YXJjMzl6Z3cyRzFJUEVsYkhtK3A3RWRUMWcweGdRYkkyOGpJVnlpdFB0?=
+ =?utf-8?B?ZjgyN1MrZXB0dHU3RytlYVFoVVZSVzhseDVneWpmeWNJTXdOUkp4eFkrTG9m?=
+ =?utf-8?B?UW50Wm5FS3A0amduMXpVVWUyRGdRRDNnNDBLTHpscG5yUVRoUjVCb1FVa1Z6?=
+ =?utf-8?B?K3lLMFgrUDk3OERiUFBKbjVaQVZyUzNIOUpmTk5FQW9BR3Z5WS9vb21RQzVs?=
+ =?utf-8?B?M1B2MCtwczd0Y0NoWjlwUVNxSVA4Vis5M01aY2wrL05LYmlQVGtFcDBaNWdP?=
+ =?utf-8?B?QmNOSE44ejZjRi9pUDMwTGtLM3JTWDJIbFAweTRiR0FiTnV0dWFPUDdsYnFx?=
+ =?utf-8?B?aUhmQ0luQUxnR0Z3eVBaVEdLaHpqdUNzZlJERThvbTNWMHNWVmdEajVTbGlz?=
+ =?utf-8?B?blJ2QUJsd3lvSVNHMSs2RzZnb0UzdzIxZVAyZ2R2ZlFHcmowclptWnBaeTV4?=
+ =?utf-8?B?Z1RUbVQ0SGhGQUJaM25XaFBPWkdwcTJmV0gvWHV0QTd6TlJDREtiU3RtLzFM?=
+ =?utf-8?B?T0tSSkdWQ1gxMk1xUVZ1UWRlcTFLdTk3VWg1L3N3WjZJaVo3aWxkWEh6OG0r?=
+ =?utf-8?B?SEJST3V1ZDg0NVZLUjZxTEhtTy94N0EzdTVSME1COFhBVHplMUlGY0JXVGdK?=
+ =?utf-8?B?OUtOR2E3VDZMOXlmMFVMSkNzVS9iQWZGcC9weE02K1RVajFiQ3NOaEtySXU5?=
+ =?utf-8?B?T3VNcERSWXo5aEhSN1FmZFd6SHY2ZVpDSmdsYi8rZGkxSXNNbXpIQmQ3d0JE?=
+ =?utf-8?B?S2Q5NWw0SlRnclVoMlhFcHh3MGdzWGR1VmNuS2NjZzZBdGpmYW5zZVQ3SXYx?=
+ =?utf-8?B?bWRhN25CZXlSTC9vTWo1U25IdG83RW45WCtsYVF4aVZNd0lQNCtBeS81RjF5?=
+ =?utf-8?B?Y0ozeTR4ZzI5Qy8rTUxMM0pYcVFvUTA3azR0T1hDNjFLY1VYSlRhUjBENXEx?=
+ =?utf-8?B?czNKVTBqNnFBRHNzSEJxa2JZYkJtMnR5UzkzWDZZbWJSbStSNjZLejVYV1h4?=
+ =?utf-8?B?VTBsZkpRcVJBUWdZa3d4YUU4OUVOcFpBb1JTaUNCY01xWjRFRVcyZGx1V3cr?=
+ =?utf-8?B?L21TcG5KVFpMQXp6Nm0zMEM0QWN3YmRGWVdKUmlpOUYyaHNwcWM1dmNXZldM?=
+ =?utf-8?B?OHVDKzVFQ1lraXhMTFVlQ2xJYnF4K3ZxNHJRSFRPSXE3Vkp1ejdEZzhEL3Zt?=
+ =?utf-8?B?eHVwL2Mxbkc0amhtRDNZMUlRemZ3bHpBcG9tSHNpSHgzMEV4WkRoV3FhTU1Y?=
+ =?utf-8?B?QlJhbDc0KzZOM0xDaFZaVkV0alg2Vk5HR1gyZ2N0RGNwSko3Vk9scTJnZmhU?=
+ =?utf-8?B?RnFsSkFYYWhiYUVaRFZFQ2JpT1JmdjZYY1lEZW5KZ3JhaVhqSCtjWWFWRVpO?=
+ =?utf-8?B?eWc9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9a12262-e19a-4c94-0a03-08dd625fb6fa
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66676386-a7d3-401a-c9f5-08dd625af4e5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2025 18:14:55.1702
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2025 18:48:58.9389
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: U8DQdw5h/Lcfwf/yqWKO41blqLUQd9rgMLHjS+r3AFF6xBqSgAlQryEYt2udIFhUlNyytjYIy6JKW+4kzinQ6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB9025
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x6nFcohXulLWCDaTg1Aa5pz/qyN3b0O7yKiIF2heIAWUJ0gU8qrtigHI7xRSxCDIWsZamjKGOqtu1AeZsdKDhyizdOOtHMcQGz7iv+Z/nvg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5018
+X-Authority-Analysis: v=2.4 cv=Cc0I5Krl c=1 sm=1 tr=0 ts=67d3289e cx=c_pps a=CZyBIZNk7+VlD+/eRBofeA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
+ a=H5OGdu5hBBwA:10 a=iGHA9ds3AAAA:8 a=Vm3fI9Ul8ISHkK0xiFwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=ag1SF4gXAAAA:8 a=XVP9M1yeY91XspFWo-IA:9 a=UZCjmXDf8yDmc8dL:21 a=_W_S_7VecoQA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-ORIG-GUID: yOEhB4Cx-dfk0tzAlwGHvIXQNyRUSpNQ
+X-Proofpoint-GUID: 4W2C-rk_TTHzg1BEgMvZDGJ2ktYZN8X8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-13_08,2025-03-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ phishscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ clxscore=1015 impostorscore=0 spamscore=0 bulkscore=0 mlxscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2502280000 definitions=main-2503130143
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 18:15:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212801
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Mar 2025 18:49:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212802
 
-Hi Jose,
+--------------WbEnpArZ0VoPR0VtTxLjns0c
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 52D82rZs031546
 
-After go upgrades on oe-core master, meta-lts-mixins kisktone/go
-branch become outdated together with oe-core scarthgap.
-We have now one open CVE and more will come.
+On 2025-03-07 6:37 p.m., Richard Purdie wrote:
+> On Fri, 2025-03-07 at 16:02 -0500, Randy MacLeod wrote:
+>> =E2=9D=AF for i in `ls -d *src`; do du -sh $i; done
+>>
+>> 3.5G=C2=A0=C2=A0=C2=A0 rustc-1.82.0-src
+>> 4.8G=C2=A0=C2=A0=C2=A0 rustc-1.83.0-src
+>> 4.9G=C2=A0=C2=A0=C2=A0 rustc-1.84.0-src
+>> 3.9G=C2=A0=C2=A0=C2=A0 rustc-1.85.0-src
+>>
+>> I didn't check for the other 4 GB yet...
+>>
+>>
+> rust, rust-native, nativesdk-rust, cargo and so on.
+>
+>> Should we do that an host the tarball=C2=A0 on yoctoproject.org?=20
+>> <https://urldefense.com/v3/__http://yoctoproject.org?__;!!AjveYdw8EvQ!=
+fJXJLq5zUX_ORAdT0imsy5PfIAHVBjw3rwJRpJH0HgmwRJiTyMFIQebHf7jG9o_l7GKu06t9z=
+K2RNaNX3CujsTYP40pyXJxYOXO78vw$>
+>>
+>> Should we write a custom unpack rule to=20
+>> --exclude=3Drustc-1.83.0-src/src/gcc ?
+>>
+> Or just delete the directory in a do_unpack postfunc?
 
-Would you pick new versions up to 1.24.1 to kirkstone/go?
-Would you also volunteer to create and maintain scarthgap/go?
+Yash has 1.84 mostly working and
 
-And if we would like to follow what rust mixins did, there should
-be a branch-off of current kirkstone/go to kirkstone/go-1.22 to have
-a kirkstone mixins branch equivalent to oe-core scarthgap.
+will add a post unpack change to rm -rf rustc-1.83.0-src/src/gcc
 
-Peter
+>
+> Or wait for 1.85?
+
+This likely won't get merged until YP-5.3. We'll see how long it takes=20
+to be ready for review.
+
+
+>
+> This is annoying "bloat" which we at least need to identify and work=20
+> out a plan for.
+>>
+>>
+>>
+>> Next week, I'll also dig into the 'tmp' usage increase to understand=20
+>> where the 5 GB that Richard reported comes from.
+>>
+> See above, I'm guessing so it needs to be confirmed but...
+
+
+Yashe,
+
+Can you review the reason for the FSspace usage difference between 1.82,=20
+1.83 when you have time?
+
+
+../Randy
+
+
+
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+--=20
+# Randy MacLeod
+# Wind River Linux
+
+--------------WbEnpArZ0VoPR0VtTxLjns0c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 52D82rZs031546
+
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <div class=3D"moz-cite-prefix">On 2025-03-07 6:37 p.m., Richard Purdi=
+e
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:5d748ede629df75d0ed30df5418b42b=
+936d5416b.camel@linuxfoundation.org">
+     =20
+      <style>pre,code,address {
+  margin: 0px;
+}h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}</style>
+      <div>On Fri, 2025-03-07 at 16:02 -0500, Randy MacLeod wrote:</div>
+      <blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2=
+px #729fcf solid;padding-left:1ex">
+        <div> </div>
+        <div class=3D"moz-cite-prefix">=E2=9D=AF for i in `ls -d *src`; d=
+o du -sh
+          $i; done</div>
+        <p> 3.5G&nbsp;&nbsp;&nbsp; rustc-1.82.0-src<br>
+          4.8G&nbsp;&nbsp;&nbsp; rustc-1.83.0-src<br>
+          4.9G&nbsp;&nbsp;&nbsp; rustc-1.84.0-src<br>
+          3.9G&nbsp;&nbsp;&nbsp; rustc-1.85.0-src<br>
+        </p>
+        <div> </div>
+        <p>I didn't check for the other 4 GB yet...</p>
+        <div> </div>
+        <p><br>
+        </p>
+      </blockquote>
+      <div>rust, rust-native, nativesdk-rust, cargo and so on.</div>
+      <div><br>
+      </div>
+      <blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2=
+px #729fcf solid;padding-left:1ex">
+        <p>Should we do that an host the tarball&nbsp; on <a href=3D"http=
+s://urldefense.com/v3/__http://yoctoproject.org?__;!!AjveYdw8EvQ!fJXJLq5z=
+UX_ORAdT0imsy5PfIAHVBjw3rwJRpJH0HgmwRJiTyMFIQebHf7jG9o_l7GKu06t9zK2RNaNX3=
+CujsTYP40pyXJxYOXO78vw$" moz-do-not-send=3D"true">yoctoproject.org?</a></=
+p>
+        <p> Should we write a custom unpack rule to
+          --exclude=3Drustc-1.83.0-src/src/gcc ?<br>
+        </p>
+      </blockquote>
+      <div>Or just delete the directory in a do_unpack postfunc?</div>
+    </blockquote>
+    <p>Yash has 1.84 mostly working and&nbsp;</p>
+    <p>will add a post unpack change to rm -rf rustc-1.83.0-src/src/gcc</=
+p>
+    <blockquote type=3D"cite" cite=3D"mid:5d748ede629df75d0ed30df5418b42b=
+936d5416b.camel@linuxfoundation.org">
+      <div><br>
+      </div>
+      <div>Or wait for 1.85?</div>
+    </blockquote>
+    <p>This likely won't get merged until YP-5.3. We'll see how long it
+      takes to be ready for review.</p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:5d748ede629df75d0ed30df5418b42b=
+936d5416b.camel@linuxfoundation.org">
+      <div><br>
+      </div>
+      <div>This is annoying &quot;bloat&quot; which we at least need to i=
+dentify
+        and work out a plan for.</div>
+      <blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2=
+px #729fcf solid;padding-left:1ex">
+        <p><br>
+          <br>
+          Next week, I'll also dig into the 'tmp' usage increase to
+          understand where the 5 GB that Richard reported comes from.<br>
+        </p>
+      </blockquote>
+      <div>See above, I'm guessing so it needs to be confirmed but...</di=
+v>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Yashe, <br>
+      <br>
+      Can you review the reason for the FSspace usage difference between
+      1.82, 1.83 when you have time?</p>
+    <p><br>
+    </p>
+    <p>../Randy</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:5d748ede629df75d0ed30df5418b42b=
+936d5416b.camel@linuxfoundation.org">
+      <div><br>
+      </div>
+      <div>Cheers,</div>
+      <div><br>
+      </div>
+      <div>Richard</div>
+      <div><br>
+      </div>
+      <blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2=
+px #729fcf solid;padding-left:1ex">
+        <div> </div>
+      </blockquote>
+      <div><br>
+      </div>
+      <div><span></span></div>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------WbEnpArZ0VoPR0VtTxLjns0c--
 
