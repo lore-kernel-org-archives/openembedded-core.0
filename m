@@ -1,1097 +1,631 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 797BDC35FF1
-	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 14:10:35 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.15446.1741961430005792702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BCE0C282EC
+	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 15:51:16 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.18365.1741967470571726575
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Mar 2025 07:10:30 -0700
+ Fri, 14 Mar 2025 08:51:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yiXMKMMh;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22355618fd9so43208215ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 07:10:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741961429; x=1742566229; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VEI7b3MOEpDRklXILya41OGU5U6rIVJsgylePKSQmso=;
-        b=yiXMKMMhmz2l5JlLfUKxxvDQsA2yEAO1rt38KNa0jwBEmDuGH0rVdUWhzhV1veq6mR
-         p0S/CGEtXyx3gqyiSQyKSns8VJgehTu/5DMb2NiKd97m9GmDDYD8o6WDlk0mXxFmNu9l
-         NajTaV9p1tRTjcJEufOmu8rAjmjj23r932xJXpbCxodwvMwcultiPnVe9Oto3MCEL5u2
-         4RB4mh0zMP9leXZ7PD20nSfvn2gKxL0QJxmtAc40ad4fxZYlqu/dTiaBH3phq0e9+r6B
-         oBLtZP9BeZofuMIIEQQpTqjpqTdk7JoafDECpljta+bqjCwR1LQVOMjfTuNZBqBBKzdu
-         lpYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741961429; x=1742566229;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VEI7b3MOEpDRklXILya41OGU5U6rIVJsgylePKSQmso=;
-        b=aKSBUxQ53PHvSy0tPkscCcjaqfdiytYv/BrqwsJvzzZzDqAaBWwmjMj0T/rYo4D37i
-         ccJsgmT19cOq7R+0QVXxWyhw57H2j+ZDsGyvEA++EX6Gtbq8QBD+huZH2Qj9GSRUtSyr
-         bFtR1gn1URRPI9nQtVNagln+b/9BkT1aIF2eGk0/vdDxGZw+ODMBoW/UXOFL58qXofp3
-         5vuc+Oao4aMP+bpU3WsDlnjS9SJ8RFEnhLQBMXYD71Y5q1o92mhMG3Trf5mbPJ5NnIIO
-         RTT5n2vm8tpCznUg51dN8IyLJsLKrGqHcBJaamXFjOKnRvh/VOjRVoVgWQzPebKFT8/p
-         YH1Q==
-X-Gm-Message-State: AOJu0Yyn5M21WRmZCw9B4iFMj6GY0vOY/0z171Fq2oyHLua/OEEaiufd
-	1/a5oVb8OHemU2pviAlEY1NgoGgG5IDDDLzvZR9nGPXn9xgNfPTuqEz7CN5kOtcLIxUMiAkEwwt
-	e
-X-Gm-Gg: ASbGncs/fJLcshJd0uNbFSrQb+qZLi/G7YtLNuZbkSY9nBVBmXAI3dCi/LdyGokeLrF
-	PS0yb34UnRVaIYKrWoa1C1JMjDHnCwoNv2ny8FDQkqbLvgF3RY1HPAKhaArNnxBnO5jckLk3sQ8
-	vMRCYrE2sBmIVRGp15L1je1M1UAHGhAeml+ZFxhdkBUc7Vk+QUtF9fLG25WV9pDXA4kfA3VXTrQ
-	dHrWFfKQXa0JWI/j1uXfTwfxrRTgktKBXyVlyitIo3BKxwY3HhMHNgeksVcyvHUNvCB7WyHAzGC
-	QabSxX0Gn3B3RoxewV0qY+Da7nsotLOkGpbw
-X-Google-Smtp-Source: AGHT+IGNUssbFJxk06WaExoOWbszOc5b3PEdk+M2oYtvMiv16e+uVpGhXSyODbksgEjLk6xEiWUi9g==
-X-Received: by 2002:a05:6a00:14c1:b0:736:51ab:7ae1 with SMTP id d2e1a72fcca58-737224378cbmr3005223b3a.16.1741961428172;
-        Fri, 14 Mar 2025 07:10:28 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:f60d:ac2a:8f85:c2ab])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73711559269sm3000774b3a.65.2025.03.14.07.10.26
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 07:10:27 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 6/7] mpg123: fix CVE-2024-10573
-Date: Fri, 14 Mar 2025 07:10:08 -0700
-Message-ID: <a227b80e29c5ba5d963acaa4ddb4b9ad45483bd5.1741961309.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1741961309.git.steve@sakoman.com>
-References: <cover.1741961309.git.steve@sakoman.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=51686a36d0=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52EBHMZ9018256
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 15:51:09 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45bxxp9ke0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 15:51:09 +0000 (GMT)
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52EFnBJr029922
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 15:51:08 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45bxxp9kdw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Mar 2025 15:51:08 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CM6aeP14w532syCd5P2Y7qpHW3ww0zanerpcEuYmIoFIQBc9N+S27CzFZXi9gts+okDMJ2pfPNbV6yto4GU+UWEx/tDIGJzoOtmLVwpwRxnHlOQwGFV09nsdjyX9w7v3X5ucNuG2XgD0XVe27Q7AqYzHe/yAOp7swoR+Nlf8kb7LlxyTIR+3B0e0kHVaTgNVQVYa4cYWlHaCLGCfsv1hF+5IW7erG3vaD1tXnk5gaCuBygxVSeRrDhrMNXZJdAKKDdbtVleGIE5WIEvMwcyRQoEmcESAKMFxixymXvqVe5WXAliIIKtieP1WEXCyRGlV5zTFXnpfSFuSqab9FQRXaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fdH+2dk8rV/TSA1eAPTXL3QUDIzTX61oMMnLr+037f0=;
+ b=ZrW3VKAaDlHTkfuS9SyIpQA5lrDfAHdZUNlG50nU6kudzKti//0uRwph+O0U8ty5buUsQieDOPdfdM4w1QQ9dPxTdgMOQQ8RKm+OuNwtxMjJrQ+/AvZ3/9almHda8d3kcGRJXMu0tadfmOz5qZ4zfFJEf5UlbdRKODugjBVN/JHGX2CPlVmRoSZ0Ce2pLRlUGfdrQ7P6P7bieQDoIj/AX9bDh0OrF7QeHhQ/9nAMg69CkPljqvcNMkjKiYZpOHegh+6P2oAfSziKVmLp+Dpyu2J3t+4x6GLgcohT3SFOvoCnQuFSbApeohyr+HAaz+82I2mjptBHr+zs75fPOT6RyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
+ by PH7PR11MB7962.namprd11.prod.outlook.com (2603:10b6:510:245::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.28; Fri, 14 Mar
+ 2025 15:51:04 +0000
+Received: from PH7PR11MB7593.namprd11.prod.outlook.com
+ ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
+ ([fe80::2688:e731:421b:5ebc%3]) with mapi id 15.20.8511.026; Fri, 14 Mar 2025
+ 15:51:03 +0000
+Content-Type: multipart/alternative;
+ boundary="------------46cFzvx5owk5HxGGtBhN4www"
+Message-ID: <aa6b3d4c-bf6b-41b2-98e4-0ff854c5fc8d@windriver.com>
+Date: Fri, 14 Mar 2025 21:20:56 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH V4 2/3] rust: Upgrade 1.82.0->1.83.0 --> bloat
+ alert !!
+To: Randy MacLeod <randy.macleod@windriver.com>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>,
+        deepesh.varatharajan@windriver.com
+Cc: Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com,
+        Khem Raj <raj.khem@gmail.com>,
+        openembedded-core@lists.openembedded.org
+References: <20250305134459.2275598-1-Deepesh.Varatharajan@windriver.com>
+ <20250305134459.2275598-2-Deepesh.Varatharajan@windriver.com>
+ <c411d58d-bd27-4107-9b98-e39de14204df@windriver.com>
+ <5d748ede629df75d0ed30df5418b42b936d5416b.camel@linuxfoundation.org>
+ <03997060-1f1c-4784-af57-bb83b0514ebb@windriver.com>
+ <a82ea56c-dc36-4784-a6cd-33d97014bdbe@windriver.com>
+ <70820f45-41b1-487b-ac53-1e49ef57fd5f@windriver.com>
+Content-Language: en-US
+From: Yash Shinde <Yash.Shinde@windriver.com>
+In-Reply-To: <70820f45-41b1-487b-ac53-1e49ef57fd5f@windriver.com>
+X-ClientProxiedBy: SJ0PR13CA0169.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::24) To PH7PR11MB7593.namprd11.prod.outlook.com
+ (2603:10b6:510:27f::9)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|PH7PR11MB7962:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e8f1c71-65d4-40ca-2072-08dd63100653
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|8096899003|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?Qkk4cEp1RmMxM2hrb25USGh3aWFWQlplU1JESGpBVU9hOXIrY3h2TVVadXM2?=
+ =?utf-8?B?a3NXcndLbkNpVlZBblNIS0JVZ203cTRiZ2hQSlk2a09oYzJXRGdsNFZDN3Zk?=
+ =?utf-8?B?b1VEYnRJZWdnZU1GdnRYYkpNWVIxb1VIMXRmZ0luaXlsenpRUVlSaEdCczRz?=
+ =?utf-8?B?dXRaaGlMYnBzc05aR1R3VitQdzJVUFNYK0poeFFGb2N3eElxQ1g1NGdIOUdo?=
+ =?utf-8?B?UUJhcE1NZ1UvR3l1UUl1Y2NrU2lJbVJidnFOcXR5R0pOYmRJRDF3b293U2R4?=
+ =?utf-8?B?T1FuaVA0RllvZkt3eGtEMnhQbnA2WVQ0NFFZbytXWFQreG04WFR1VFJFK0Vu?=
+ =?utf-8?B?NUFSenZpV3h2Zy9FeXVyM2x6MlpNYUh6SjQ2R1RNZXYvKzh3OVdYVlVlV0RJ?=
+ =?utf-8?B?cGNQNWI5VVZUdEVrUUFFV0lpc3B4cmdzeEpPU2tDTkJiTFZCN3J0N2I3Q1VB?=
+ =?utf-8?B?eFhPcXd4M2JyVDh6U1MxYjFpZWk3MEZFTjNvK0Y1OEc1QTBoWlViN1AvRjJr?=
+ =?utf-8?B?emZseTVUMkNnQUkzems1dTUvbXdHOTFIWWs4RXd4WWQ3MHo2NlViSGVjS1Jy?=
+ =?utf-8?B?TG5lQlN5a1N4cGw5TjZaTnRhaWVaWlNQQVQvL3hEbGw1UkQwVS9UQ0NNWENN?=
+ =?utf-8?B?RXBWMmx0Z2h2SHFYRyt4RktQZlh5emdNejlLWkdNUEZxUnVpeFdNQVE2NDR2?=
+ =?utf-8?B?bVhXdEhVV0pUdzFxSm5wZjRxZk1ibmtibURLcGdYSDJod0tvR1ZJSXBvM3o3?=
+ =?utf-8?B?RTMzQ01EcWMrMlkwRm9GaTllM0V4elFFQ3ZnTXJLc2IyTU5qOVlFVEZ1UVhM?=
+ =?utf-8?B?c3ltRFBvSlJGc0RKS08wSjRhSWhIcUE0U1dIeWR2OG4xK1hVUWRlRUUxMTcy?=
+ =?utf-8?B?L0V3M2Z4NkV0bFVlSUtzZVZtaVpUaGVOUzIvamdHMDFYUU9DS2xkNkhtTUVx?=
+ =?utf-8?B?YU1hbG1uWGd5dkY3VnlHZzVwWEVwVng3VEQzK0VhTi8rWTRKT1lNbk5SRUlV?=
+ =?utf-8?B?L1V2T2Iya0dUUmxacisxZHlzc3F1eFh4ZHkxQUVlYnVzSHJWMmVNRWo3VEdU?=
+ =?utf-8?B?TmlyVTRSYUs2TjBNR0pRTjBvRjdQZDVoTHk4YXloM1h3cllUMUdGbkN6NzlC?=
+ =?utf-8?B?SXJRWFRnbUFRQVVWeXVGSTFHUENVdVl5aG9xcTJkTURmZjdSaDgxdEQ2OTVX?=
+ =?utf-8?B?SWtGTDZrM0x5ZEorKzRhME90aEM3R0tHTi9jdjlEeG9wOGFvWWVFYXJnWm1B?=
+ =?utf-8?B?N3hXVjdrWHNkWk5mdTZLT085VVNGZHlzaUxBRHlISnQ1ZDlvbC9EL21kWEh3?=
+ =?utf-8?B?QkVCNjRRcWRBSWxmQ1ppY29UVHdycnIwWnR4NnZEd1lCQUNWSE9hSGl3SWZF?=
+ =?utf-8?B?QmJpTVNrTDNlUXNidExSRVVMQ0xuRjdRb0pRTXhWUndseWFHTi9xOFdGWVNh?=
+ =?utf-8?B?OFlZSWI1MGIzYzJVUWc2cVB3ZDdpWVM0MWVTR0swcWV6em4wR3JaTnRwd2ZR?=
+ =?utf-8?B?QjZyZnFxY094QlRURVRMcm1UaysvOGlUVk1BVFl3M3FqN0xRUG1Sa1NsaWg0?=
+ =?utf-8?B?YkpYRmdRMEF1OWhDaSsvT3ovU1dHM1hQMWhqenkrNXZWNjU3ZkV6dkZBUFlV?=
+ =?utf-8?B?ZnQyUG5yTHAxSitDdXN6ODdMSWZndWtOci9QL0RLYWxhMGZ5QjdnNURrWTZp?=
+ =?utf-8?B?aHZNSldUYWcvelRCRlRJNHZ4dlJMTzBiSnNFdVNxYnk1aml3RmtzWjRIOWFN?=
+ =?utf-8?B?dHZvUkZ6R2ZBajRuYXRZT2E4RTJiVU5IRzBQU0VrZFd3SXpLeFA1NXAwMUNY?=
+ =?utf-8?B?bWRWdnBVYW8vdVdmVHcwUT09?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?a3BFNEpDTzlDQm0vOXNsV056NlRqdFZSMElTVzYyRUhsbmZVV1QvVW9mYU52?=
+ =?utf-8?B?cTNmRUhFSWRKblkxUkx1cW9nQUVYOWxISlY5V2dFYVBWbHdUNnJDU2dWUnZX?=
+ =?utf-8?B?SXFDMXZUWTBNeHpBaDZocmJlQzI3OFVnMXBQM05hRGx5YjVWU3hIWE0vbERy?=
+ =?utf-8?B?TGxRY0I5MlZOQ0huTjMrVTVGbXdDc0U3ZUcxV0pLL0x5Yk5MS01xRHkwMU9l?=
+ =?utf-8?B?alBOMktMRDJETzhNSVVEdnJldEZ4OFZQU0o2K1ZpeTNzUUNVNGRFUVY1RXIz?=
+ =?utf-8?B?ekcxb2xvaVp3NTBoYUlyQUVoQnBYS1d1OHVnZDdxUTRsdkpNTGJWejFZRENF?=
+ =?utf-8?B?M0xPY1dQQXZFQS94dnhEOExNNlpwTlh0QXhRL1NkQXVRTDJKVzlBRlNLT2tl?=
+ =?utf-8?B?NlNMeXVvWkR1aVo4OW13cGZOZk51VHJiYk1wUHFRRzNYS1M0Nzg3UEgxYnZ0?=
+ =?utf-8?B?R3JaMDhJZjZoemU5WTJoSWRrZEh1K0oybk90S2pwa0lnQUVKR1RvbVVuY0ZF?=
+ =?utf-8?B?VTZ2dkEvQ2h2czVnZE1MR2M2QTU2VkZkU2hyMVFGWWd1UFNJT3Y4UFJkcmwr?=
+ =?utf-8?B?RXMwQ0NDTytCVW1tZXVmcTlFWWl2czViNGZ3dEo3WFk5dWd4N2hGSUZvck1l?=
+ =?utf-8?B?UW9hSG1DaUh6SkxVeUxxendJZ0hoc1RvS2ZmbVRmd2ExK2I0QnZyZXBIdElm?=
+ =?utf-8?B?QUpicEdUa01DbXhSZ1hLeWtyZmVsZkdZQURUT092NWhQUmkzcGR3QnNTL0Ry?=
+ =?utf-8?B?T05XS1R0TEhWQUJDWEdmcXZ2NndEejRPU2YvTEd4SUxYQTIvUUNlWlJ5Z2Q3?=
+ =?utf-8?B?bUkwWHVLaGJud3ova1k0Mng2c01IR0hXUi9pWjBuWHlycW1pTkd1b05RTFRZ?=
+ =?utf-8?B?ZkZVcHNHeUdIdG1zUXpBd3pQSndwTW4wTWh5NldsMktscFE5OGFTeWw3c2Y2?=
+ =?utf-8?B?N2NoWFFKemdLbHZuWjJDbWhZSTQvc2d1TS83RVN4cG9NYzhnUFZCSDUwNThp?=
+ =?utf-8?B?eUZRUGN4Z2VrazlpVGk3QkxiSk93aGdqT3p4OENRYVhFL0dvdEwxSlc5dE5o?=
+ =?utf-8?B?cmxtbURjRExPWVRwQ1psZnd0VGk4T3BEMUgrMW1TdXlUcjVkaDZpUTlycktr?=
+ =?utf-8?B?TmlKV1JBWWlzMHpkb1EvSE1tdGJmT1I0cUFpY2lieDRpTHc5YUV5bVFoQmVH?=
+ =?utf-8?B?YTJSMXhVZWtPY2JRL2sxTkJBZ0hqcTJ4dHI3cHRnRHdFZXRBSC92YnhmRVBp?=
+ =?utf-8?B?eXlGUUFhbE80NTVoZ05IYk0vZHdUZnp2NTIyS240RmVMWExFVjBBZ3U2VnVp?=
+ =?utf-8?B?VW5waDNVUm9zVTUvdGM3MTY3TXoyOWY3Mlg0T0dUdDQ5VU53aTZXa3crTjFr?=
+ =?utf-8?B?cWozTGVFbFVHNmhEL2N1UFpuK21oaFp1a0tBWFh2bjhzMExXTkRJT1FpTHZj?=
+ =?utf-8?B?bjNiMjlYRTh6TFEyRWc2NnZoSFJlVWRUN2thNlFhd0xrOWh2QmtOQk5Bb3Vr?=
+ =?utf-8?B?T1duZ2xGL2JSZ3hHZTVRZkt3Rys5c1NGYlpIZVF1Q0dzUm85ZkYwYUJSaVNR?=
+ =?utf-8?B?M2pKcG5RU3ZuN0dTSmNibkdTOHd4S2l0OFZ3bVc5cXhtTjJjZTFXMXBORnI5?=
+ =?utf-8?B?b1FsMTk5aE1SMUYxdG9Id0d3Ujl4bWxPTXZySldZRitUZ0dRKzQrMVk4V2Ri?=
+ =?utf-8?B?MU0yMFVGR2gxR3J1NHVJZjNSZU56Yit6VVJjdW04b3NVM01VaHI2dFhNeFd3?=
+ =?utf-8?B?Zk02cHNPRHBZRmgyc1l1TG03c0E0RFI1WTNvd1B0NytvUkJ1V0JDK24yVWpC?=
+ =?utf-8?B?VkRvU0FWNTJkN0xYdDVhenRLa01vclhGTlJWL3FMSmFiMlFHSlYxMlVSRGVF?=
+ =?utf-8?B?RDl4eGJEejBrSGo1b2lGQTN2d20rSHQwSXQ0MjVXU3BPSzdTa1pENStzamlC?=
+ =?utf-8?B?bk5BTk9oT0VNOWV3RFA0YjVmSDJxZEJyd3k1M2grZnk4RVNra0Zkb3JkWWtx?=
+ =?utf-8?B?VjVYNksrZks4ZXRUa2hkVFM1Z1hpcFNEdHRmVXVtZENDMWZqRW9DYkFXWHRt?=
+ =?utf-8?B?YmZTNWRSOWJ4RUQ5S0dTcXBZQTh5NHVHMWo3SlNVMTA0eDlFUXBTQWNZUC9G?=
+ =?utf-8?B?S0ZxQ0JJeFhxSEdJQWxpTllNS3k1R0NSYldlRGRIM1YxWlFsaEQ2MnBxZU52?=
+ =?utf-8?B?NkE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e8f1c71-65d4-40ca-2072-08dd63100653
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2025 15:51:03.5909
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qd9+3w+ngNi5hytse4QiTGJSXT5mAE2ki+U/LqctyFyNsrzc5gLjpRPqzIdI4Z98xBCXsUnQHyoMsh/jTvS5L2zUFGps3qirbu8acfKi68w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7962
+X-Proofpoint-ORIG-GUID: GRsFY1gtP7k4iYKgnXdShDj7R4zgQ51b
+X-Authority-Analysis: v=2.4 cv=C+PpyRP+ c=1 sm=1 tr=0 ts=67d4506d cx=c_pps a=c8UlD/aNTkVRGuk1JCy5IQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
+ a=H5OGdu5hBBwA:10 a=iGHA9ds3AAAA:8 a=NEAV23lmAAAA:8 a=DDSR2f3-EjuoMR2uMJcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=t7CeM3EgAAAA:8 a=ag1SF4gXAAAA:8 a=ykgYWsb9Q86-sIhXOMYA:9 a=6z-XYWhYEN0STv3a:21 a=_W_S_7VecoQA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-GUID: GnB2NPu0Tg1aEkjmGvKtJVtcigdSf2kD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-14_06,2025-03-14_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ spamscore=0 bulkscore=0 phishscore=0 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 adultscore=0 impostorscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2503140125
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 14:10:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212852
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 15:51:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212854
 
-From: Zhang Peng <peng.zhang1.cn@windriver.com>
+--------------46cFzvx5owk5HxGGtBhN4www
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-MIME-Autoconverted: from 8bit to base64 by mx0a-0064b401.pphosted.com id 52EBHMZ9018256
 
-CVE-2024-10573:
-An out-of-bounds write flaw was found in mpg123 when handling crafted streams.
-When decoding PCM, the libmpg123 may write past the end of a heap-located buffer.
-Consequently, heap corruption may happen, and arbitrary code execution is not
-discarded. The complexity required to exploit this flaw is considered high as
-the payload must be validated by the MPEG decoder and the PCM synth before execution.
-Additionally, to successfully execute the attack, the user must scan through the
-stream, making web live stream content (such as web radios) a very unlikely attack vector.
+DQpPbiAxNC0wMy0yMDI1IDE5OjE4LCBSYW5keSBNYWNMZW9kIHdyb3RlOg0KPiBPbiAyMDI1
+LTAzLTE0IDg6NTIgYS5tLiwgWWFzaCBTaGluZGUgd3JvdGU6DQo+Pg0KPj4NCj4+IE9uIDE0
+LTAzLTIwMjUgMDA6MTgsIFJhbmR5IE1hY0xlb2Qgd3JvdGU6DQo+Pj4gT24gMjAyNS0wMy0w
+NyA2OjM3IHAubS4sIFJpY2hhcmQgUHVyZGllIHdyb3RlOg0KPj4+PiBPbiBGcmksIDIwMjUt
+MDMtMDcgYXQgMTY6MDIgLTA1MDAsIFJhbmR5IE1hY0xlb2Qgd3JvdGU6DQo+Pj4+PiDina8g
+Zm9yIGkgaW4gYGxzIC1kICpzcmNgOyBkbyBkdSAtc2ggJGk7IGRvbmUNCj4+Pj4+DQo+Pj4+
+PiAzLjVHwqDCoMKgIHJ1c3RjLTEuODIuMC1zcmMNCj4+Pj4+IDQuOEfCoMKgwqAgcnVzdGMt
+MS44My4wLXNyYw0KPj4+Pj4gNC45R8KgwqDCoCBydXN0Yy0xLjg0LjAtc3JjDQo+Pj4+PiAz
+LjlHwqDCoMKgIHJ1c3RjLTEuODUuMC1zcmMNCj4+Pj4+DQo+Pj4+PiBJIGRpZG4ndCBjaGVj
+ayBmb3IgdGhlIG90aGVyIDQgR0IgeWV0Li4uDQo+Pj4+Pg0KPj4+Pj4NCj4+Pj4gcnVzdCwg
+cnVzdC1uYXRpdmUsIG5hdGl2ZXNkay1ydXN0LCBjYXJnbyBhbmQgc28gb24uDQo+Pj4+DQo+
+Pj4+PiBTaG91bGQgd2UgZG8gdGhhdCBhbiBob3N0IHRoZSB0YXJiYWxswqAgb24geW9jdG9w
+cm9qZWN0Lm9yZz8gDQo+Pj4+PiA8aHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHA6
+Ly95b2N0b3Byb2plY3Qub3JnP19fOyEhQWp2ZVlkdzhFdlEhZkpYSkxxNXpVWF9PUkFkVDBp
+bXN5NVBmSUFIVkJqdzNyd0pScEpIMEhnbXdSSmlUeU1GSVFlYkhmN2pHOW9fbDdHS3UwNnQ5
+eksyUk5hTlgzQ3Vqc1RZUDQwcHlYSnhZT1hPNzh2dyQ+DQo+Pj4+Pg0KPj4+Pj4gU2hvdWxk
+IHdlIHdyaXRlIGEgY3VzdG9tIHVucGFjayBydWxlIHRvIA0KPj4+Pj4gLS1leGNsdWRlPXJ1
+c3RjLTEuODMuMC1zcmMvc3JjL2djYyA/DQo+Pj4+Pg0KPj4+PiBPciBqdXN0IGRlbGV0ZSB0
+aGUgZGlyZWN0b3J5IGluIGEgZG9fdW5wYWNrIHBvc3RmdW5jPw0KPj4+DQo+Pj4gWWFzaCBo
+YXMgMS44NCBtb3N0bHkgd29ya2luZyBhbmQNCj4+Pg0KPj4+IHdpbGwgYWRkIGEgcG9zdCB1
+bnBhY2sgY2hhbmdlIHRvIHJtIC1yZiBydXN0Yy0xLjgzLjAtc3JjL3NyYy9nY2MNCj4+Pg0K
+Pj4+Pg0KPj4+PiBPciB3YWl0IGZvciAxLjg1Pw0KPj4+DQo+Pj4gVGhpcyBsaWtlbHkgd29u
+J3QgZ2V0IG1lcmdlZCB1bnRpbCBZUC01LjMuIFdlJ2xsIHNlZSBob3cgbG9uZyBpdCANCj4+
+PiB0YWtlcyB0byBiZSByZWFkeSBmb3IgcmV2aWV3Lg0KPj4+DQo+Pj4NCj4+Pj4NCj4+Pj4g
+VGhpcyBpcyBhbm5veWluZyAiYmxvYXQiIHdoaWNoIHdlIGF0IGxlYXN0IG5lZWQgdG8gaWRl
+bnRpZnkgYW5kIA0KPj4+PiB3b3JrIG91dCBhIHBsYW4gZm9yLg0KPj4+Pj4NCj4+Pj4+DQo+
+Pj4+Pg0KPj4+Pj4gTmV4dCB3ZWVrLCBJJ2xsIGFsc28gZGlnIGludG8gdGhlICd0bXAnIHVz
+YWdlIGluY3JlYXNlIHRvIA0KPj4+Pj4gdW5kZXJzdGFuZCB3aGVyZSB0aGUgNSBHQiB0aGF0
+IFJpY2hhcmQgcmVwb3J0ZWQgY29tZXMgZnJvbS4NCj4+Pj4+DQo+Pj4+IFNlZSBhYm92ZSwg
+SSdtIGd1ZXNzaW5nIHNvIGl0IG5lZWRzIHRvIGJlIGNvbmZpcm1lZCBidXQuLi4NCj4+Pg0K
+Pj4+DQo+Pj4gWWFzaGUsDQo+Pj4NCj4+PiBDYW4geW91IHJldmlldyB0aGUgcmVhc29uIGZv
+ciB0aGUgRlNzcGFjZSB1c2FnZSBkaWZmZXJlbmNlIGJldHdlZW4gDQo+Pj4gMS44MiwgMS44
+MyB3aGVuIHlvdSBoYXZlIHRpbWU/DQo+Pj4NCj4+DQo+PiBUaGUgZm9sbG93aW5nIGRpZmZl
+cmVuY2VzIHdlcmUgc2VlbiB3aGVuIGNvbXBhcmVkIHRoZSBGUyB1c2FnZSANCj4+IGJldHdl
+ZW4gdjEuODIgYW5kIHYxLjgzOg0KPj4NCj4+IEkgZGlkIGEgYmFzaWMgImJpdGJha2UgcnVz
+dCIgYnVpbGQgKGluIHNlcGFyYXRlIGRpciBwYXRocykgdG8gY2hlY2sgDQo+PiB0aGUgZWZm
+ZWN0IG9uIFlvY3RvIGJ1aWxkIEZTOg0KPj4NCj4+IFRoZSBUTVBESVIgRlMgdXNhZ2U6DQo+
+Pg0KPj4gVE1ESVIgRlMgdXNhZ2UgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDC
+oCDCoMKgwqAgwqDCoMKgIMKgIHYxLjgyLjAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKg
+IA0KPj4gwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqAgdjEuODMuMA0KPj4gZHUg
+LXNoIHBva3kvYnVpbGQvdG1wLyDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKg
+IMKgwqDCoCDCoMKgIMKgwqAgNjUgRyDCoMKgwqAgwqDCoMKgIMKgwqDCoCANCj4+IMKgwqDC
+oCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqDCoCDCoMKgIDczIEcNCj4+IGR1IC1zaCAN
+Cj4+IHBva3kvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9ydXN0LzEuOHgu
+MC9ydXN0Yy0xLjh4LjAtc3JjLyANCj4+IMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDC
+oMKgwqAgwqDCoCDCoMKgIDkuOCBHIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKg
+wqAgwqDCoMKgIMKgwqDCoCDCoMKgIDEyIEcNCj4+DQo+Pg0KPj4gSXQncyBtb3JlIDhHIGlu
+IHYxLjgzLg0KPj4NCj4NCj4gVGhhbmtzIFlhc2ghDQo+DQo+IEl0J3MgYSBiaXQgb2RkIHRo
+YXQgeW91IHNlZSBhbiA4RyBkaWZmIGFuZCBZUCBBQiBzYXcgNSBHQiBidXQgdGhhdCdzIA0K
+PiBjbG9zZSBlbm91Z2ggZm9yIG5vdy4NCj4NCj4gUGxlYXNlIHJ1biB0aGUgc2FtZSBhbmFs
+eXNpcyBmb3IgMS44NCB1cGRhdGUgYm90aCBiZWZvcmUgYW5kIGFmdGVyIA0KPiByZW1vdmlu
+ZyB0aGUgc3JjL2djYyAuDQo+DQo+IFBsZWFzZSBzdW1tYXJpemUgdGhlIGRhdGEgZm9yIDEu
+ODIsIDEuODMgYW5kIHRoZSB0d28gc2V0cyBvZiBkYXRhIGZvciANCj4gMS44NC4NCj4NCj4g
+SSdkIGV4cGVjdCAxLjg0ICsgInJtIC1yZiBzcmMvZ2NjIiB0byBiZSBzb21ld2hhdCBsYXJn
+ZXIgdGhhbiAxLjgyIGJ1dCANCj4gbXVjaCBzbWFsbGVyIHRoYW4gMS44My4NCj4NClRNRElS
+IEZTIHVzYWdlIMKgwqDCoCDCoMKgwqAgwqDCoCB2MS44Mi4wwqDCoCDCoMKgwqAgwqDCoMKg
+IMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqAgdjEuODMuMCDCoMKgwqAgDQogwqDCoMKgIMKg
+wqAgdjEuODQuMMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKg
+IHYxLjg0ICsgcm0gLXJmIHNyYy9nY2MNCmR1IC1zaCBwb2t5L2J1aWxkL3RtcC8gwqDCoMKg
+IMKgwqDCoMKgwqAgNjUgR8KgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDC
+oCDCoMKgwqDCoCDCoMKgIDczIEcgDQogwqDCoMKgIMKgwqDCoCDCoMKgwqDCoMKgwqDCoCA3
+MyBHwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgNzIgRw0KDQpkdSAtc2jCoCBw
+b2t5L2J1aWxkLy4uLzEuOHguMC9ydXN0Yy0xLjh4LjAtc3JjL8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgOS44IA0KR8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIDEyIEcgMTIgDQpHwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIDExIEcNCg0KVGhlIHNpemUgb2YgVE1QRElSIGluY3JlYXNlZCBmcm9tIDY1
+IEcgaW4gMS44MiB0byA3MyBHIGluIDEuODMgYW5kIA0KcmVtYWluZWQgc2FtZSBpbiAxLjg0
+Lg0KQWZ0ZXIgcmVtb3ZpbmcgInNyYy9nY2MiKDEuMSBHKSB0aGUgc2l6ZSBpcyByZWR1Y2Vk
+IHRvIDcyRy4NCg0KVGhhbmtzLA0KWWFzaC4NCg0KPg0KPiAuLi9SYW5keQ0KPg0KPg0KPj4N
+Cj4+IFRoZSBtYWluIHJlYXNvbiBmb3IgRlMgdXN1YWdlIGRpZmZlcmVuY2VzIGluIHYxLjgz
+IGFyZToNCj4+IDEuIEFkZGl0aW9uIG9mIGdjYyAgfjEuMSBHLjIuIFRoZSBhZGRpdGlvbiBv
+ZiBlbnp5bWUgQUQgc3ViIG1vZHVsZSB+MzkyIE1iLg0KPj4NCj4+IFJlZmVyZW5jZXM6DQo+
+PiBodHRwczovL2dpdGh1Yi5jb20vcnVzdC1sYW5nL3J1c3QvY29tbWl0LzkwMjgxNzcxMTU3
+MThiMzhjMGExODljNGZiOWVkYTAzYTE0ODQxZDcNCj4+IGh0dHBzOi8vZ2l0aHViLmNvbS9y
+dXN0LWxhbmcvcnVzdC9pc3N1ZXMvMTI0NTA5DQo+PiBodHRwczovL2dpdGh1Yi5jb20vcnVz
+dC1sYW5nL3J1c3QvcHVsbC8xMjkxNzUgDQo+PiBodHRwczovL2dpdGh1Yi5jb20vcnVzdC1s
+YW5nL3J1c3QvY29tbWl0LzU5ZDQxMTRiMmQxYWFhYzlhNmRmZTc3MDk5N2YyZTc5Y2NmZDI4
+YWINCj4+DQo+Pg0KPj4gRGlyDQo+PiAJMS44Mi4wDQo+PiAJMS44My4wDQo+PiAJRGlmZg0K
+Pj4gcnVzdGMtMS44eC4wLXNyYy50YXIueHoNCj4+IAkyMTBNYg0KPj4gCTMzOE1iDQo+PiAJ
+MTI4TWINCj4+IHJ1c3RjLTEuOHguMC1zcmMNCj4+IAkzLjVHDQo+PiAJNC44Rw0KPj4gCTEu
+M0cNCj4+DQo+PiAoUFM6IFBsZWFzZSBpZ25vcmUgdGhlIHByZXZpb3VzIG1haWwuKQ0KPj4N
+Cj4+IFJlZ2FyZHMsDQo+PiBZYXNoDQo+Pj4NCj4+Pg0KPj4+IC4uL1JhbmR5DQo+Pj4NCj4+
+Pg0KPj4+DQo+Pj4NCj4+Pj4NCj4+Pj4gQ2hlZXJzLA0KPj4+Pg0KPj4+PiBSaWNoYXJkDQo+
+Pj4+DQo+Pj4+DQo+Pj4NCj4+PiAtLSANCj4+PiAjIFJhbmR5IE1hY0xlb2QNCj4+PiAjIFdp
+bmQgUml2ZXIgTGludXgNCj4NCj4NCj4gLS0gDQo+ICMgUmFuZHkgTWFjTGVvZA0KPiAjIFdp
+bmQgUml2ZXIgTGludXgNCg0KLS0gDQpSZWdhcmRzLA0KWWFzaCBTaGluZGUNCg==
+--------------46cFzvx5owk5HxGGtBhN4www
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 52EBHMZ9018256
 
-Reference: [https://nvd.nist.gov/vuln/detail/CVE-2024-10573]
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 14-03-2025 19:18, Randy MacLeod
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:70820f45-41b1-487b-ac53-1e49ef5=
+7fd5f@windriver.com">
+     =20
+      <div class=3D"moz-cite-prefix">On 2025-03-14 8:52 a.m., Yash Shinde
+        wrote:<br>
+      </div>
+      <blockquote type=3D"cite" cite=3D"mid:a82ea56c-dc36-4784-a6cd-33d97=
+014bdbe@windriver.com">
+        <p><br>
+        </p>
+        <div class=3D"moz-cite-prefix">On 14-03-2025 00:18, Randy MacLeod
+          wrote:<br>
+        </div>
+        <blockquote type=3D"cite" cite=3D"mid:03997060-1f1c-4784-af57-bb8=
+3b0514ebb@windriver.com">
+          <div class=3D"moz-cite-prefix">On 2025-03-07 6:37 p.m., Richard
+            Purdie wrote:<br>
+          </div>
+          <blockquote type=3D"cite" cite=3D"mid:5d748ede629df75d0ed30df54=
+18b42b936d5416b.camel@linuxfoundation.org">
+            <style>pre,code,address {
+  margin: 0px;
+}h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}</style>
+            <div>On Fri, 2025-03-07 at 16:02 -0500, Randy MacLeod wrote:<=
+/div>
+            <blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-=
+left:2px #729fcf solid;padding-left:1ex">
+              <div> </div>
+              <div class=3D"moz-cite-prefix">=E2=9D=AF for i in `ls -d *s=
+rc`; do
+                du -sh $i; done</div>
+              <p> 3.5G&nbsp;&nbsp;&nbsp; rustc-1.82.0-src<br>
+                4.8G&nbsp;&nbsp;&nbsp; rustc-1.83.0-src<br>
+                4.9G&nbsp;&nbsp;&nbsp; rustc-1.84.0-src<br>
+                3.9G&nbsp;&nbsp;&nbsp; rustc-1.85.0-src<br>
+              </p>
+              <div> </div>
+              <p>I didn't check for the other 4 GB yet...</p>
+              <div> </div>
+              <p><br>
+              </p>
+            </blockquote>
+            <div>rust, rust-native, nativesdk-rust, cargo and so on.</div=
+>
+            <div><br>
+            </div>
+            <blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-=
+left:2px #729fcf solid;padding-left:1ex">
+              <p>Should we do that an host the tarball&nbsp; on <a href=3D=
+"https://urldefense.com/v3/__http://yoctoproject.org?__;!!AjveYdw8EvQ!fJX=
+JLq5zUX_ORAdT0imsy5PfIAHVBjw3rwJRpJH0HgmwRJiTyMFIQebHf7jG9o_l7GKu06t9zK2R=
+NaNX3CujsTYP40pyXJxYOXO78vw$" moz-do-not-send=3D"true">yoctoproject.org?<=
+/a></p>
+              <p> Should we write a custom unpack rule to
+                --exclude=3Drustc-1.83.0-src/src/gcc ?<br>
+              </p>
+            </blockquote>
+            <div>Or just delete the directory in a do_unpack postfunc?</d=
+iv>
+          </blockquote>
+          <p>Yash has 1.84 mostly working and&nbsp;</p>
+          <p>will add a post unpack change to rm -rf
+            rustc-1.83.0-src/src/gcc</p>
+          <blockquote type=3D"cite" cite=3D"mid:5d748ede629df75d0ed30df54=
+18b42b936d5416b.camel@linuxfoundation.org">
+            <div><br>
+            </div>
+            <div>Or wait for 1.85?</div>
+          </blockquote>
+          <p>This likely won't get merged until YP-5.3. We'll see how
+            long it takes to be ready for review.</p>
+          <p><br>
+          </p>
+          <blockquote type=3D"cite" cite=3D"mid:5d748ede629df75d0ed30df54=
+18b42b936d5416b.camel@linuxfoundation.org">
+            <div><br>
+            </div>
+            <div>This is annoying &quot;bloat&quot; which we at least nee=
+d to
+              identify and work out a plan for.</div>
+            <blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-=
+left:2px #729fcf solid;padding-left:1ex">
+              <p><br>
+                <br>
+                Next week, I'll also dig into the 'tmp' usage increase
+                to understand where the 5 GB that Richard reported comes
+                from.<br>
+              </p>
+            </blockquote>
+            <div>See above, I'm guessing so it needs to be confirmed
+              but...</div>
+          </blockquote>
+          <p><br>
+          </p>
+          <p>Yashe, <br>
+            <br>
+            Can you review the reason for the FSspace usage difference
+            between 1.82, 1.83 when you have time?</p>
+        </blockquote>
+        <br>
+        <p>The following differences were seen when compared the FS
+          usage between v1.82 and v1.83:<br>
+          <br>
+          I did a basic &quot;bitbake rust&quot; build (in separate dir p=
+aths) to
+          check the effect on Yocto build FS:<br>
+          <br>
+          The TMPDIR FS usage:<br>
+          <br>
+          TMDIR FS usage&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp=
+;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&n=
+bsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp=
+;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nb=
+sp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;=
+&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nb=
+sp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nb=
+sp; v1.82.0&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp=
+;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nb=
+sp;&nbsp;&nbsp; &nbsp;&nbsp; v1.83.0<br>
+          du -sh poky/build/tmp/&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nb=
+sp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;=
+&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nb=
+sp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;=
+ &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nb=
+sp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nb=
+sp; 65 G&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&n=
+bsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nb=
+sp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 73 G<br>
+          du -sh&nbsp;
+          poky/build/tmp/work/core2-64-poky-linux/rust/1.8x.0/rustc-1.8x.=
+0-src/&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 9.8 G&nbsp;&nbs=
+p; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&=
+nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nb=
+sp;&nbsp; 12 G<br>
+          <br>
+          <br>
+          It's more 8G in v1.83.</p>
+      </blockquote>
+      <p><br>
+      </p>
+      <p>Thanks Yash!</p>
+      <p>It's a bit odd that you see an 8G diff and YP AB saw 5 GB but
+        that's close enough for now.</p>
+      <p>Please run the same analysis for 1.84 update both before and
+        after removing the src/gcc .</p>
+      <p> Please summarize the data for 1.82, 1.83 and the two sets of
+        data for 1.84.<br>
+        <br>
+        I'd expect 1.84 + &quot;rm -rf src/gcc&quot; to be somewhat large=
+r than
+        1.82 but much smaller than 1.83.<br>
+      </p>
+    </blockquote>
+    <p>TMDIR FS usage&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&n=
+bsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp=
+;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&n=
+bsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; v1.82.0&nbsp;&nb=
+sp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;=
+&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; v1.83.0&nbsp;&nbsp; &nbsp;&nbsp;&n=
+bsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; v1.84.0&nbsp;&nb=
+sp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;=
+&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; v1.84 + rm -rf src/gcc<br>
+      du -sh poky/build/tmp/&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; =
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbs=
+p; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&=
+nbsp;
+      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 65 G&nbsp;&nbsp; =
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbs=
+p; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 73 G&nbsp;&nb=
+sp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp; 73 G&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 72
+      G<br>
+    </p>
+    <p>du -sh&nbsp; poky/build/../1.8x.0/rustc-1.8x.0-src/&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9.8
+      G&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 12 G&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;
+      12 G&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11 G<br>
+      <br>
+      The size of TMPDIR increased from 65 G in 1.82 to 73 G in 1.83 and
+      remained same in 1.84.<br>
+      After removing &quot;src/gcc&quot;(1.1 G) the size is reduced to 72=
+G.<br>
+    </p>
+    <p>Thanks,<br>
+      Yash.</p>
+    <blockquote type=3D"cite" cite=3D"mid:70820f45-41b1-487b-ac53-1e49ef5=
+7fd5f@windriver.com"><br>
+      <p>../Randy</p>
+      <p><br>
+      </p>
+      <blockquote type=3D"cite" cite=3D"mid:a82ea56c-dc36-4784-a6cd-33d97=
+014bdbe@windriver.com">
+        <p><br>
+        </p>
+        <pre>The main reason for FS usuage differences in v1.83 are:
+1. Addition of gcc  ~1.1 G.2. The addition of enzyme AD sub module ~392 M=
+b.
 
-Upstream patches: [svn://scm.orgis.org/mpg123/branches/1.31-fixes@5442]
+References:
+<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/rust-lang/r=
+ust/commit/9028177115718b38c0a189c4fb9eda03a14841d7" moz-do-not-send=3D"t=
+rue">https://github.com/rust-lang/rust/commit/9028177115718b38c0a189c4fb9=
+eda03a14841d7</a>
+<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/rust-lang/r=
+ust/issues/124509" moz-do-not-send=3D"true">https://github.com/rust-lang/=
+rust/issues/124509</a>
+<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/rust-lang/r=
+ust/pull/129175" moz-do-not-send=3D"true">https://github.com/rust-lang/ru=
+st/pull/129175</a>=20
+<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/rust-lang/r=
+ust/commit/59d4114b2d1aaac9a6dfe770997f2e79ccfd28ab" moz-do-not-send=3D"t=
+rue">https://github.com/rust-lang/rust/commit/59d4114b2d1aaac9a6dfe770997=
+f2e79ccfd28ab</a></pre>
+        <p><br>
+        </p>
+        <p> </p>
+        <table cellpadding=3D"2" cellspacing=3D"2" border=3D"2" width=3D"=
+714" height=3D"118">
+          <tbody>
+            <tr>
+              <td valign=3D"top" align=3D"center">Dir<br>
+              </td>
+              <td valign=3D"top" align=3D"center">1.82.0<br>
+              </td>
+              <td valign=3D"top" align=3D"center">1.83.0<br>
+              </td>
+              <td valign=3D"top" align=3D"center">Diff <br>
+              </td>
+            </tr>
+            <tr>
+              <td valign=3D"top" align=3D"center">rustc-1.8x.0-src.tar.xz=
+<br>
+              </td>
+              <td valign=3D"top" align=3D"center">210Mb<br>
+              </td>
+              <td valign=3D"top" align=3D"center">338Mb<br>
+              </td>
+              <td valign=3D"top" align=3D"center">128Mb<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign=3D"top" align=3D"center">rustc-1.8x.0-src<br>
+              </td>
+              <td valign=3D"top" align=3D"center">3.5G<br>
+              </td>
+              <td valign=3D"top" align=3D"center">4.8G<br>
+              </td>
+              <td valign=3D"top" align=3D"center">1.3G<br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pre>(PS: Please ignore the previous mail.)
+</pre>
+        <br>
+        Regards,<br>
+        Yash<br>
+        <blockquote type=3D"cite" cite=3D"mid:03997060-1f1c-4784-af57-bb8=
+3b0514ebb@windriver.com">
+          <p><br>
+          </p>
+          <p>../Randy</p>
+          <p><br>
+          </p>
+          <p><br>
+          </p>
+          <p><br>
+          </p>
+          <blockquote type=3D"cite" cite=3D"mid:5d748ede629df75d0ed30df54=
+18b42b936d5416b.camel@linuxfoundation.org">
+            <div><br>
+            </div>
+            <div>Cheers,</div>
+            <div><br>
+            </div>
+            <div>Richard</div>
+            <div><br>
+            </div>
+            <div><span><br>
+              </span></div>
+          </blockquote>
+          <p><br>
+          </p>
+          <pre class=3D"moz-signature" cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+        </blockquote>
+      </blockquote>
+      <p><br>
+      </p>
+      <pre class=3D"moz-signature" cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+    </blockquote>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+Regards,
+Yash Shinde</pre>
+  </body>
+</html>
 
-Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../mpg123/mpg123/CVE-2024-10573.patch        | 978 ++++++++++++++++++
- .../mpg123/mpg123_1.29.3.bb                   |   4 +-
- 2 files changed, 981 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/mpg123/mpg123/CVE-2024-10573.patch
-
-diff --git a/meta/recipes-multimedia/mpg123/mpg123/CVE-2024-10573.patch b/meta/recipes-multimedia/mpg123/mpg123/CVE-2024-10573.patch
-new file mode 100644
-index 0000000000..ef7b84027d
---- /dev/null
-+++ b/meta/recipes-multimedia/mpg123/mpg123/CVE-2024-10573.patch
-@@ -0,0 +1,978 @@
-+From 89d1e6cfbfa5f34a4ba706cad1034e6ad7373726 Mon Sep 17 00:00:00 2001
-+From: thor <thor@35dc7657-300d-0410-a2e5-dc2837fedb53>
-+Date: Sat, 26 Oct 2024 16:23:36 +0000
-+Subject: [PATCH] backport Frankenstein's Monster fix
-+
-+git-svn-id: svn://scm.orgis.org/mpg123/branches/1.31-fixes@5442 35dc7657-300d-0410-a2e5-dc2837fedb53
-+
-+CVE: CVE-2024-10573
-+Upstream-Status: Backport [svn://scm.orgis.org/mpg123/branches/1.31-fixes@5442]
-+
-+The original patch is adjusted to fit for the current version.
-+
-+Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
-+---
-+ src/libmpg123/frame.c     |  15 +--
-+ src/libmpg123/frame.h     |  46 +++++---
-+ src/libmpg123/layer1.c    |   2 +-
-+ src/libmpg123/layer2.c    |   6 +-
-+ src/libmpg123/layer3.c    |  42 +++----
-+ src/libmpg123/libmpg123.c |  22 ++--
-+ src/libmpg123/parse.c     | 241 ++++++++++++++++++++++----------------
-+ 7 files changed, 211 insertions(+), 163 deletions(-)
-+
-+diff --git a/src/libmpg123/frame.c b/src/libmpg123/frame.c
-+index b14908f2..20d56931 100644
-+--- a/src/libmpg123/frame.c
-++++ b/src/libmpg123/frame.c
-+@@ -515,6 +515,7 @@ static void frame_fixed_reset(mpg123_handle *fr)
-+ {
-+ 	frame_icy_reset(fr);
-+ 	open_bad(fr);
-++	memset(&(fr->hdr), 0, sizeof(fr->hdr));
-+ 	fr->to_decode = FALSE;
-+ 	fr->to_ignore = FALSE;
-+ 	fr->metaflags = 0;
-+@@ -528,15 +529,12 @@ static void frame_fixed_reset(mpg123_handle *fr)
-+ 	fr->clip = 0;
-+ 	fr->oldhead = 0;
-+ 	fr->firsthead = 0;
-+-	fr->lay = 0;
-+ 	fr->vbr = MPG123_CBR;
-+ 	fr->abr_rate = 0;
-+ 	fr->track_frames = 0;
-+ 	fr->track_samples = -1;
-+-	fr->framesize=0; 
-+ 	fr->mean_frames = 0;
-+ 	fr->mean_framesize = 0;
-+-	fr->freesize = 0;
-+ 	fr->lastscale = -1;
-+ 	fr->rva.level[0] = -1;
-+ 	fr->rva.level[1] = -1;
-+@@ -571,8 +569,7 @@ static void frame_fixed_reset(mpg123_handle *fr)
-+ 	fr->icy.next = 0;
-+ #endif
-+ 	fr->halfphase = 0; /* here or indeed only on first-time init? */
-+-	fr->error_protection = 0;
-+-	fr->freeformat_framesize = fr->p.freeformat_framesize;
-++	fr->hdr.freeformat_framesize = fr->p.freeformat_framesize;
-+ 	fr->enc_delay = -1;
-+ 	fr->enc_padding = -1;
-+ 	memset(fr->id3buf, 0, sizeof(fr->id3buf));
-+@@ -637,7 +634,7 @@ int attribute_align_arg mpg123_framedata(mpg123_handle *mh, unsigned long *heade
-+ 
-+ 	if(header    != NULL) *header    = mh->oldhead;
-+ 	if(bodydata  != NULL) *bodydata  = mh->bsbuf;
-+-	if(bodybytes != NULL) *bodybytes = mh->framesize;
-++	if(bodybytes != NULL) *bodybytes = mh->hdr.framesize;
-+ 
-+ 	return MPG123_OK;
-+ }
-+@@ -906,9 +903,9 @@ static off_t ignoreframe(mpg123_handle *fr)
-+ {
-+ 	off_t preshift = fr->p.preframes;
-+ 	/* Layer 3 _really_ needs at least one frame before. */
-+-	if(fr->lay==3 && preshift < 1) preshift = 1;
-++	if(fr->hdr.lay==3 && preshift < 1) preshift = 1;
-+ 	/* Layer 1 & 2 reall do not need more than 2. */
-+-	if(fr->lay!=3 && preshift > 2) preshift = 2;
-++	if(fr->hdr.lay!=3 && preshift > 2) preshift = 2;
-+ 
-+ 	return fr->firstframe - preshift;
-+ }
-+@@ -953,7 +950,7 @@ void frame_set_frameseek(mpg123_handle *fr, off_t fe)
-+ void frame_skip(mpg123_handle *fr)
-+ {
-+ #ifndef NO_LAYER3
-+-	if(fr->lay == 3) set_pointer(fr, 1, 512);
-++	if(fr->hdr.lay == 3) set_pointer(fr, 1, 512);
-+ #endif
-+ }
-+ 
-+diff --git a/src/libmpg123/frame.h b/src/libmpg123/frame.h
-+index e34ea16f..fcdae8a8 100644
-+--- a/src/libmpg123/frame.h
-++++ b/src/libmpg123/frame.h
-+@@ -96,6 +96,33 @@ enum frame_state_flags
-+ 	,FRAME_DECODER_LIVE  = 0x8  /**<     1000 Decoder can be used. */
-+ };
-+ 
-++// separate frame header structure for safe decoding of headers without
-++// modifying the main frame struct before we are sure that we can read a
-++// frame into it
-++struct frame_header
-++{
-++	int lay;
-++	// lots of flags that could share storage, should reform that
-++	int lsf; /* 0: MPEG 1.0; 1: MPEG 2.0/2.5 -- both used as bool and array index! */
-++	int mpeg25;
-++	int error_protection;
-++	int bitrate_index;
-++	int sampling_frequency;
-++	int padding;
-++	int extension;
-++	int mode;
-++	int mode_ext;
-++	int copyright;
-++	int original;
-++	int emphasis;
-++	// Even 16 bit int is enough for MAXFRAMESIZE
-++	int framesize; /* computed framesize */
-++	int freeformat;
-++	int freeformat_framesize;
-++	// Derived from header and checked against the above.
-++	int ssize;
-++};
-++
-+ /* There is a lot to condense here... many ints can be merged as flags; though the main space is still consumed by buffers. */
-+ struct mpg123_handle_struct
-+ {
-+@@ -199,26 +226,12 @@ struct mpg123_handle_struct
-+ 	int single;
-+ 	int II_sblimit;
-+ 	int down_sample_sblimit;
-+-	int lsf; /* 0: MPEG 1.0; 1: MPEG 2.0/2.5 -- both used as bool and array index! */
-+ 	/* Many flags in disguise as integers... wasting bytes. */
-+-	int mpeg25;
-+ 	int down_sample;
-+ 	int header_change;
-+-	int lay;
-++	struct frame_header hdr;
-+ 	long spf; /* cached count of samples per frame */
-+ 	int (*do_layer)(mpg123_handle *);
-+-	int error_protection;
-+-	int bitrate_index;
-+-	int sampling_frequency;
-+-	int padding;
-+-	int extension;
-+-	int mode;
-+-	int mode_ext;
-+-	int copyright;
-+-	int original;
-+-	int emphasis;
-+-	int framesize; /* computed framesize */
-+-	int freesize;  /* free format frame size */
-+ 	enum mpg123_vbr vbr; /* 1 if variable bitrate was detected */
-+ 	off_t num; /* frame offset ... */
-+ 	off_t input_offset; /* byte offset of this frame in input stream */
-+@@ -227,8 +240,6 @@ struct mpg123_handle_struct
-+ 	int state_flags;
-+ 	char silent_resync; /* Do not complain for the next n resyncs. */
-+ 	unsigned char* xing_toc; /* The seek TOC from Xing header. */
-+-	int freeformat;
-+-	long freeformat_framesize;
-+ 
-+ 	/* bitstream info; bsi */
-+ 	int bitindex;
-+@@ -255,7 +266,6 @@ struct mpg123_handle_struct
-+ 	double mean_framesize;
-+ 	off_t mean_frames;
-+ 	int fsizeold;
-+-	int ssize;
-+ 	unsigned int bitreservoir;
-+ 	unsigned char bsspace[2][MAXFRAMESIZE+512+4]; /* MAXFRAMESIZE */
-+ 	unsigned char *bsbuf;
-+diff --git a/src/libmpg123/layer1.c b/src/libmpg123/layer1.c
-+index c5bfc75d..048611e1 100644
-+--- a/src/libmpg123/layer1.c
-++++ b/src/libmpg123/layer1.c
-+@@ -217,7 +217,7 @@ int do_layer1(mpg123_handle *fr)
-+ 	real (*fraction)[SBLIMIT] = fr->layer1.fraction; /* fraction[2][SBLIMIT] */
-+ 	int single = fr->single;
-+ 
-+-	fr->jsbound = (fr->mode == MPG_MD_JOINT_STEREO) ? (fr->mode_ext<<2)+4 : 32;
-++	fr->jsbound = (fr->hdr.mode == MPG_MD_JOINT_STEREO) ? (fr->hdr.mode_ext<<2)+4 : 32;
-+ 
-+ 	if(stereo == 1 || single == SINGLE_MIX) /* I don't see mixing handled here */
-+ 	single = SINGLE_LEFT;
-+diff --git a/src/libmpg123/layer2.c b/src/libmpg123/layer2.c
-+index 0f2071b5..910f0bf9 100644
-+--- a/src/libmpg123/layer2.c
-++++ b/src/libmpg123/layer2.c
-+@@ -313,10 +313,10 @@ static void II_select_table(mpg123_handle *fr)
-+ 	const struct al_table *tables[5] = { alloc_0, alloc_1, alloc_2, alloc_3 , alloc_4 };
-+ 	const int sblims[5] = { 27 , 30 , 8, 12 , 30 };
-+ 
-+-	if(fr->sampling_frequency >= 3)	/* Or equivalent: (fr->lsf == 1) */
-++	if(fr->hdr.sampling_frequency >= 3)	/* Or equivalent: (fr->lsf == 1) */
-+ 	table = 4;
-+ 	else
-+-	table = translate[fr->sampling_frequency][2-fr->stereo][fr->bitrate_index];
-++	table = translate[fr->hdr.sampling_frequency][2-fr->stereo][fr->hdr.bitrate_index];
-+ 
-+ 	sblim = sblims[table];
-+ 	fr->alloc      = tables[table];
-+@@ -337,7 +337,7 @@ int do_layer2(mpg123_handle *fr)
-+ 	int single = fr->single;
-+ 
-+ 	II_select_table(fr);
-+-	fr->jsbound = (fr->mode == MPG_MD_JOINT_STEREO) ? (fr->mode_ext<<2)+4 : fr->II_sblimit;
-++	fr->jsbound = (fr->hdr.mode == MPG_MD_JOINT_STEREO) ? (fr->hdr.mode_ext<<2)+4 : fr->II_sblimit;
-+ 
-+ 	if(fr->jsbound > fr->II_sblimit)
-+ 	{
-+diff --git a/src/libmpg123/layer3.c b/src/libmpg123/layer3.c
-+index a25ef098..83912503 100644
-+--- a/src/libmpg123/layer3.c
-++++ b/src/libmpg123/layer3.c
-+@@ -127,16 +127,16 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
-+ 	int powdiff = (single == SINGLE_MIX) ? 4 : 0;
-+ 
-+ 	const int tabs[2][5] = { { 2,9,5,3,4 } , { 1,8,1,2,9 } };
-+-	const int *tab = tabs[fr->lsf];
-++	const int *tab = tabs[fr->hdr.lsf];
-+ 
-+ 	{ /* First ensure we got enough bits available. */
-+ 		unsigned int needbits = 0;
-+ 		needbits += tab[1]; /* main_data_begin */
-+ 		needbits += stereo == 1 ? tab[2] : tab[3]; /* private */
-+-		if(!fr->lsf)
-++		if(!fr->hdr.lsf)
-+ 			needbits += stereo*4; /* scfsi */
-+ 		/* For each granule for each channel ... */
-+-		needbits += tab[0]*stereo*(29+tab[4]+1+22+(!fr->lsf?1:0)+2);
-++		needbits += tab[0]*stereo*(29+tab[4]+1+22+(!fr->hdr.lsf?1:0)+2);
-+ 		if(fr->bits_avail < needbits) \
-+ 		{
-+ 			if(NOQUIET)
-+@@ -154,7 +154,7 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
-+ 
-+ 		/*  overwrite main_data_begin for the really available bit reservoir */
-+ 		backbits(fr, tab[1]);
-+-		if(fr->lsf == 0)
-++		if(fr->hdr.lsf == 0)
-+ 		{
-+ 			fr->wordpointer[0] = (unsigned char) (fr->bitreservoir >> 1);
-+ 			fr->wordpointer[1] = (unsigned char) ((fr->bitreservoir & 1) << 7);
-+@@ -163,7 +163,7 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
-+ 
-+ 		/* zero "side-info" data for a silence-frame
-+ 		without touching audio data used as bit reservoir for following frame */
-+-		memset(fr->wordpointer+2, 0, fr->ssize-2);
-++		memset(fr->wordpointer+2, 0, fr->hdr.ssize-2);
-+ 
-+ 		/* reread the new bit reservoir offset */
-+ 		si->main_data_begin = getbits(fr, tab[1]);
-+@@ -171,11 +171,11 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
-+ 
-+ 	/* Keep track of the available data bytes for the bit reservoir.
-+ 	   CRC is included in ssize already. */
-+-	fr->bitreservoir = fr->bitreservoir + fr->framesize - fr->ssize;
-++	fr->bitreservoir = fr->bitreservoir + fr->hdr.framesize - fr->hdr.ssize;
-+ 
-+ 	/* Limit the reservoir to the max for MPEG 1.0 or 2.x . */
-+-	if(fr->bitreservoir > (unsigned int) (fr->lsf == 0 ? 511 : 255))
-+-	fr->bitreservoir = (fr->lsf == 0 ? 511 : 255);
-++	if(fr->bitreservoir > (unsigned int) (fr->hdr.lsf == 0 ? 511 : 255))
-++	fr->bitreservoir = (fr->hdr.lsf == 0 ? 511 : 255);
-+ 
-+ 	/* Now back into less commented territory. It's code. It works. */
-+ 
-+@@ -184,7 +184,7 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
-+ 	else 
-+ 	si->private_bits = getbits(fr, tab[3]);
-+ 
-+-	if(!fr->lsf) for(ch=0; ch<stereo; ch++)
-++	if(!fr->hdr.lsf) for(ch=0; ch<stereo; ch++)
-+ 	{
-+ 		si->ch[ch].gr[0].scfsi = -1;
-+ 		si->ch[ch].gr[1].scfsi = getbits(fr, 4);
-+@@ -249,14 +249,14 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
-+ 			}
-+ 
-+ 			/* region_count/start parameters are implicit in this case. */       
-+-			if( (!fr->lsf || (gr_info->block_type == 2)) && !fr->mpeg25)
-++			if( (!fr->hdr.lsf || (gr_info->block_type == 2)) && !fr->hdr.mpeg25)
-+ 			{
-+ 				gr_info->region1start = 36>>1;
-+ 				gr_info->region2start = 576>>1;
-+ 			}
-+ 			else
-+ 			{
-+-				if(fr->mpeg25)
-++				if(fr->hdr.mpeg25)
-+ 				{ 
-+ 					int r0c,r1c;
-+ 					if((gr_info->block_type == 2) && (!gr_info->mixed_block_flag) ) r0c = 5;
-+@@ -291,7 +291,7 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
-+ 			gr_info->block_type = 0;
-+ 			gr_info->mixed_block_flag = 0;
-+ 		}
-+-		if(!fr->lsf) gr_info->preflag = get1bit(fr);
-++		if(!fr->hdr.lsf) gr_info->preflag = get1bit(fr);
-+ 
-+ 		gr_info->scalefac_scale = get1bit(fr);
-+ 		gr_info->count1table_select = get1bit(fr);
-+@@ -1717,7 +1717,7 @@ int do_layer3(mpg123_handle *fr)
-+ 	int stereo = fr->stereo;
-+ 	int single = fr->single;
-+ 	int ms_stereo,i_stereo;
-+-	int sfreq = fr->sampling_frequency;
-++	int sfreq = fr->hdr.sampling_frequency;
-+ 	int stereo1,granules;
-+ 
-+ 	if(stereo == 1)
-+@@ -1730,14 +1730,14 @@ int do_layer3(mpg123_handle *fr)
-+ 	else
-+ 	stereo1 = 2;
-+ 
-+-	if(fr->mode == MPG_MD_JOINT_STEREO)
-++	if(fr->hdr.mode == MPG_MD_JOINT_STEREO)
-+ 	{
-+-		ms_stereo = (fr->mode_ext & 0x2)>>1;
-+-		i_stereo  = fr->mode_ext & 0x1;
-++		ms_stereo = (fr->hdr.mode_ext & 0x2)>>1;
-++		i_stereo  = fr->hdr.mode_ext & 0x1;
-+ 	}
-+ 	else ms_stereo = i_stereo = 0;
-+ 
-+-	granules = fr->lsf ? 1 : 2;
-++	granules = fr->hdr.lsf ? 1 : 2;
-+ 
-+ 	/* quick hack to keep the music playing */
-+ 	/* after having seen this nasty test file... */
-+@@ -1752,7 +1752,7 @@ int do_layer3(mpg123_handle *fr)
-+ 	if(fr->pinfo)
-+ 	{
-+ 		fr->pinfo->maindata = sideinfo.main_data_begin;
-+-		fr->pinfo->padding  = fr->padding;
-++		fr->pinfo->padding  = fr->hdr.padding;
-+ 	}
-+ #endif
-+ 	for(gr=0;gr<granules;gr++)
-+@@ -1773,7 +1773,7 @@ int do_layer3(mpg123_handle *fr)
-+ 					,	gr_info->part2_3_length, fr->bits_avail );
-+ 				return clip;
-+ 			}
-+-			if(fr->lsf)
-++			if(fr->hdr.lsf)
-+ 			part2bits = III_get_scale_factors_2(fr, scalefacs[0],gr_info,0);
-+ 			else
-+ 			part2bits = III_get_scale_factors_1(fr, scalefacs[0],gr_info,0,gr);
-+@@ -1813,7 +1813,7 @@ int do_layer3(mpg123_handle *fr)
-+ 		{
-+ 			struct gr_info_s *gr_info = &(sideinfo.ch[1].gr[gr]);
-+ 			long part2bits;
-+-			if(fr->lsf) 
-++			if(fr->hdr.lsf) 
-+ 			part2bits = III_get_scale_factors_2(fr, scalefacs[1],gr_info,i_stereo);
-+ 			else
-+ 			part2bits = III_get_scale_factors_1(fr, scalefacs[1],gr_info,1,gr);
-+@@ -1863,7 +1863,7 @@ int do_layer3(mpg123_handle *fr)
-+ 				}
-+ 			}
-+ 
-+-			if(i_stereo) III_i_stereo(hybridIn,scalefacs[1],gr_info,sfreq,ms_stereo,fr->lsf);
-++			if(i_stereo) III_i_stereo(hybridIn,scalefacs[1],gr_info,sfreq,ms_stereo,fr->hdr.lsf);
-+ 
-+ 			if(ms_stereo || i_stereo || (single == SINGLE_MIX) )
-+ 			{
-+diff --git a/src/libmpg123/libmpg123.c b/src/libmpg123/libmpg123.c
-+index f175a5c9..8ad068b1 100644
-+--- a/src/libmpg123/libmpg123.c
-++++ b/src/libmpg123/libmpg123.c
-+@@ -434,7 +434,7 @@ int attribute_align_arg mpg123_getstate(mpg123_handle *mh, enum mpg123_state key
-+ 			theval = mh->enc_padding;
-+ 		break;
-+ 		case MPG123_DEC_DELAY:
-+-			theval = mh->lay == 3 ? GAPLESS_DELAY : -1;
-++			theval = mh->hdr.lay == 3 ? GAPLESS_DELAY : -1;
-+ 		break;
-+ 		default:
-+ 			mh->err = MPG123_BAD_KEY;
-+@@ -1154,10 +1154,10 @@ static int init_track(mpg123_handle *mh)
-+ 	b = init_track(mh); \
-+ 	if(b < 0) return b; \
-+  \
-+-	mi->version = mh->mpeg25 ? MPG123_2_5 : (mh->lsf ? MPG123_2_0 : MPG123_1_0); \
-+-	mi->layer = mh->lay; \
-++	mi->version = mh->hdr.mpeg25 ? MPG123_2_5 : (mh->hdr.lsf ? MPG123_2_0 : MPG123_1_0); \
-++	mi->layer = mh->hdr.lay; \
-+ 	mi->rate = frame_freq(mh); \
-+-	switch(mh->mode) \
-++	switch(mh->hdr.mode) \
-+ 	{ \
-+ 		case 0: mi->mode = MPG123_M_STEREO; break; \
-+ 		case 1: mi->mode = MPG123_M_JOINT;  break; \
-+@@ -1165,14 +1165,14 @@ static int init_track(mpg123_handle *mh)
-+ 		case 3: mi->mode = MPG123_M_MONO;   break; \
-+ 		default: mi->mode = 0; /* Nothing good to do here. */ \
-+ 	} \
-+-	mi->mode_ext = mh->mode_ext; \
-+-	mi->framesize = mh->framesize+4; /* Include header. */ \
-++	mi->mode_ext = mh->hdr.mode_ext; \
-++	mi->framesize = mh->hdr.framesize+4; /* Include header. */ \
-+ 	mi->flags = 0; \
-+-	if(mh->error_protection) mi->flags |= MPG123_CRC; \
-+-	if(mh->copyright)        mi->flags |= MPG123_COPYRIGHT; \
-+-	if(mh->extension)        mi->flags |= MPG123_PRIVATE; \
-+-	if(mh->original)         mi->flags |= MPG123_ORIGINAL; \
-+-	mi->emphasis = mh->emphasis; \
-++	if(mh->hdr.error_protection) mi->flags |= MPG123_CRC; \
-++	if(mh->hdr.copyright)        mi->flags |= MPG123_COPYRIGHT; \
-++	if(mh->hdr.extension)        mi->flags |= MPG123_PRIVATE; \
-++	if(mh->hdr.original)         mi->flags |= MPG123_ORIGINAL; \
-++	mi->emphasis = mh->hdr.emphasis; \
-+ 	mi->bitrate  = frame_bitrate(mh); \
-+ 	mi->abr_rate = mh->abr_rate; \
-+ 	mi->vbr = mh->vbr; \
-+diff --git a/src/libmpg123/parse.c b/src/libmpg123/parse.c
-+index c2efd3dc..a026d6fb 100644
-+--- a/src/libmpg123/parse.c
-++++ b/src/libmpg123/parse.c
-+@@ -63,9 +63,10 @@ static const int tabsel_123[2][3][16] =
-+ 
-+ static const long freqs[9] = { 44100, 48000, 32000, 22050, 24000, 16000 , 11025 , 12000 , 8000 };
-+ 
-+-static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeformat_count);
-+-static int skip_junk(mpg123_handle *fr, unsigned long *newheadp, long *headcount);
-+-static int do_readahead(mpg123_handle *fr, unsigned long newhead);
-++static int decode_header(mpg123_handle *fr, struct frame_header *hdr, unsigned long newhead, int *freeformat_count);
-++static void apply_header(mpg123_handle *fr, struct frame_header *hdr);
-++static int skip_junk(mpg123_handle *fr, unsigned long *newheadp, long *headcount, struct frame_header *nhdr);
-++static int do_readahead(mpg123_handle *fr, struct frame_header *nhdr, unsigned long newhead);
-+ static int wetwork(mpg123_handle *fr, unsigned long *newheadp);
-+ 
-+ /* These two are to be replaced by one function that gives all the frame parameters (for outsiders).*/
-+@@ -73,12 +74,12 @@ static int wetwork(mpg123_handle *fr, unsigned long *newheadp);
-+ 
-+ int frame_bitrate(mpg123_handle *fr)
-+ {
-+-	return tabsel_123[fr->lsf][fr->lay-1][fr->bitrate_index];
-++	return tabsel_123[fr->hdr.lsf][fr->hdr.lay-1][fr->hdr.bitrate_index];
-+ }
-+ 
-+ long frame_freq(mpg123_handle *fr)
-+ {
-+-	return freqs[fr->sampling_frequency];
-++	return freqs[fr->hdr.sampling_frequency];
-+ }
-+ 
-+ /* compiler is smart enought to inline this one or should I really do it as macro...? */
-+@@ -141,8 +142,8 @@ static int check_lame_tag(mpg123_handle *fr)
-+ 		Mono                                17       9
-+ 	*/
-+ 	int lame_offset = (fr->stereo == 2)
-+-	? (fr->lsf ? 17 : 32)
-+-	: (fr->lsf ? 9  : 17);
-++	? (fr->hdr.lsf ? 17 : 32)
-++	: (fr->hdr.lsf ? 9  : 17);
-+ 
-+ 	if(fr->p.flags & MPG123_IGNORE_INFOFRAME) goto check_lame_tag_no;
-+ 
-+@@ -154,7 +155,7 @@ static int check_lame_tag(mpg123_handle *fr)
-+ 		for the actual data, have to check if each byte of information is present.
-+ 		But: 4 B Info/Xing + 4 B flags is bare minimum.
-+ 	*/
-+-	if(fr->framesize < lame_offset+8) goto check_lame_tag_no;
-++	if(fr->hdr.framesize < lame_offset+8) goto check_lame_tag_no;
-+ 
-+ 	/* only search for tag when all zero before it (apart from checksum) */
-+ 	for(i=2; i < lame_offset; ++i) if(fr->bsbuf[i] != 0) goto check_lame_tag_no;
-+@@ -190,7 +191,7 @@ static int check_lame_tag(mpg123_handle *fr)
-+ 
-+ 	/* From now on, I have to carefully check if the announced data is actually
-+ 	   there! I'm always returning 'yes', though.  */
-+-	#define check_bytes_left(n) if(fr->framesize < lame_offset+n) \
-++	#define check_bytes_left(n) if(fr->hdr.framesize < lame_offset+n) \
-+ 		goto check_lame_tag_yes
-+ 	if(xing_flags & 1) /* total bitstream frames */
-+ 	{
-+@@ -443,10 +444,10 @@ static int head_compatible(unsigned long fred, unsigned long bret)
-+ static void halfspeed_prepare(mpg123_handle *fr)
-+ {
-+ 	/* save for repetition */
-+-	if(fr->p.halfspeed && fr->lay == 3)
-++	if(fr->p.halfspeed && fr->hdr.lay == 3)
-+ 	{
-+ 		debug("halfspeed - reusing old bsbuf ");
-+-		memcpy (fr->ssave, fr->bsbuf, fr->ssize);
-++		memcpy (fr->ssave, fr->bsbuf, fr->hdr.ssize);
-+ 	}
-+ }
-+ 
-+@@ -462,8 +463,8 @@ static int halfspeed_do(mpg123_handle *fr)
-+ 			fr->to_decode = fr->to_ignore = TRUE;
-+ 			--fr->halfphase;
-+ 			set_pointer(fr, 0, 0);
-+-			if(fr->lay == 3) memcpy (fr->bsbuf, fr->ssave, fr->ssize);
-+-			if(fr->error_protection) fr->crc = getbits(fr, 16); /* skip crc */
-++			if(fr->hdr.lay == 3) memcpy (fr->bsbuf, fr->ssave, fr->hdr.ssize);
-++			if(fr->hdr.error_protection) fr->crc = getbits(fr, 16); /* skip crc */
-+ 			return 1;
-+ 		}
-+ 		else
-+@@ -496,10 +497,11 @@ int read_frame(mpg123_handle *fr)
-+ 	/* TODO: rework this thing */
-+ 	int freeformat_count = 0;
-+ 	unsigned long newhead;
-++	/* Start with current frame header state as copy for roll-back ability. */
-++	struct frame_header nhdr = fr->hdr;
-+ 	off_t framepos;
-+ 	int ret;
-+ 	/* stuff that needs resetting if complete frame reading fails */
-+-	int oldsize  = fr->framesize;
-+ 	int oldphase = fr->halfphase;
-+ 
-+ 	/* The counter for the search-first-header loop.
-+@@ -507,11 +509,12 @@ int read_frame(mpg123_handle *fr)
-+ 	   when repeatedly headers are found that do not have valid followup headers. */
-+ 	long headcount = 0;
-+ 
-+-	fr->fsizeold=fr->framesize;       /* for Layer3 */
-++	fr->fsizeold=fr->hdr.framesize;       /* for Layer3 */
-+ 
-+ 	if(halfspeed_do(fr) == 1) return 1;
-+ 
-+ 	/* From now on, old frame data is tainted by parsing attempts. */
-++	// Handling premature effects of decode_header now, more decoupling would be welcome.
-+ 	fr->to_decode = fr->to_ignore = FALSE;
-+ 
-+ 	if( fr->p.flags & MPG123_NO_FRANKENSTEIN &&
-+@@ -540,13 +543,13 @@ init_resync:
-+ #ifdef SKIP_JUNK
-+ 	if(!fr->firsthead && !head_check(newhead))
-+ 	{
-+-		ret = skip_junk(fr, &newhead, &headcount);
-++		ret = skip_junk(fr, &newhead, &headcount, &nhdr);
-+ 		JUMP_CONCLUSION(ret);
-+ 	}
-+ #endif
-+ 
-+ 	ret = head_check(newhead);
-+-	if(ret) ret = decode_header(fr, newhead, &freeformat_count);
-++	if(ret) ret = decode_header(fr, &nhdr, newhead, &freeformat_count);
-+ 
-+ 	JUMP_CONCLUSION(ret); /* That only continues for ret == PARSE_BAD or PARSE_GOOD. */
-+ 	if(ret == PARSE_BAD)
-+@@ -561,7 +564,7 @@ init_resync:
-+ 	{
-+ 		ret = fr->p.flags & MPG123_NO_READAHEAD
-+ 		?	PARSE_GOOD
-+-		:	do_readahead(fr, newhead);
-++		:	do_readahead(fr, &nhdr, newhead);
-+ 		/* readahead can fail mit NEED_MORE, in which case we must also make the just read header available again for next go */
-+ 		if(ret < 0) fr->rd->back_bytes(fr, 4);
-+ 		JUMP_CONCLUSION(ret);
-+@@ -585,8 +588,8 @@ init_resync:
-+ 	{
-+ 		unsigned char *newbuf = fr->bsspace[fr->bsnum]+512;
-+ 		/* read main data into memory */
-+-		debug2("read frame body of %i at %"OFF_P, fr->framesize, framepos+4);
-+-		if((ret=fr->rd->read_frame_body(fr,newbuf,fr->framesize))<0)
-++		debug2("read frame body of %i at %"PRIi64, nhdr.framesize, framepos+4);
-++		if((ret=fr->rd->read_frame_body(fr,newbuf,nhdr.framesize))<0)
-+ 		{
-+ 			/* if failed: flip back */
-+ 			debug1("%s", ret == MPG123_NEED_MORE ? "need more" : "read error");
-+@@ -597,6 +600,10 @@ init_resync:
-+ 	}
-+ 	fr->bsnum = (fr->bsnum + 1) & 1;
-+ 
-++	// We read the frame body, time to apply the matching header.
-++	// Even if erroring out later, the header state needs to match the body.
-++	apply_header(fr, &nhdr);
-++
-+ 	if(!fr->firsthead)
-+ 	{
-+ 		fr->firsthead = newhead; /* _now_ it's time to store it... the first real header */
-+@@ -608,7 +615,7 @@ init_resync:
-+ 			fr->audio_start = framepos;
-+ 			/* Only check for LAME  tag at beginning of whole stream
-+ 			   ... when there indeed is one in between, it's the user's problem. */
-+-			if(fr->lay == 3 && check_lame_tag(fr) == 1)
-++			if(fr->hdr.lay == 3 && check_lame_tag(fr) == 1)
-+ 			{ /* ...in practice, Xing/LAME tags are layer 3 only. */
-+ 				if(fr->rd->forget != NULL) fr->rd->forget(fr);
-+ 
-+@@ -624,6 +631,8 @@ init_resync:
-+ 
-+ 	set_pointer(fr, 0, 0);
-+ 
-++	// No use of nhdr from here on. It is fr->hdr now!
-++
-+ 	/* Question: How bad does the floating point value get with repeated recomputation?
-+ 	   Also, considering that we can play the file or parts of many times. */
-+ 	if(++fr->mean_frames != 0)
-+@@ -632,7 +641,7 @@ init_resync:
-+ 	}
-+ 	++fr->num; /* 0 for first frame! */
-+ 	debug4("Frame %"OFF_P" %08lx %i, next filepos=%"OFF_P, 
-+-	(off_p)fr->num, newhead, fr->framesize, (off_p)fr->rd->tell(fr));
-++	(off_p)fr->num, newhead, fr->hdr.framesize, (off_p)fr->rd->tell(fr));
-+ 	if(!(fr->state_flags & FRAME_FRANKENSTEIN) && (
-+ 		(fr->track_frames > 0 && fr->num >= fr->track_frames)
-+ #ifdef GAPLESS
-+@@ -664,7 +673,7 @@ init_resync:
-+ 	if(fr->rd->forget != NULL) fr->rd->forget(fr);
-+ 
-+ 	fr->to_decode = fr->to_ignore = TRUE;
-+-	if(fr->error_protection) fr->crc = getbits(fr, 16); /* skip crc */
-++	if(fr->hdr.error_protection) fr->crc = getbits(fr, 16); /* skip crc */
-+ 
-+ 	/*
-+ 		Let's check for header change after deciding that the new one is good
-+@@ -711,7 +720,6 @@ read_frame_bad:
-+ 
-+ 	fr->silent_resync = 0;
-+ 	if(fr->err == MPG123_OK) fr->err = MPG123_ERR_READER;
-+-	fr->framesize = oldsize;
-+ 	fr->halfphase = oldphase;
-+ 	/* That return code might be inherited from some feeder action, or reader error. */
-+ 	return ret;
-+@@ -725,9 +733,9 @@ read_frame_bad:
-+  * <0: error codes, possibly from feeder buffer (NEED_MORE)
-+  *  PARSE_BAD: cannot get the framesize for some reason and shall silentry try the next possible header (if this is no free format stream after all...)
-+  */
-+-static int guess_freeformat_framesize(mpg123_handle *fr, unsigned long oldhead)
-++static int guess_freeformat_framesize(mpg123_handle *fr, unsigned long oldhead, int *framesize)
-+ {
-+-	long i;
-++	int i;
-+ 	int ret;
-+ 	unsigned long head;
-+ 	if(!(fr->rdat.flags & (READER_SEEKABLE|READER_BUFFERED)))
-+@@ -748,7 +756,7 @@ static int guess_freeformat_framesize(mpg123_handle *fr, unsigned long oldhead)
-+ 		if((head & HDR_SAMEMASK) == (oldhead & HDR_SAMEMASK))
-+ 		{
-+ 			fr->rd->back_bytes(fr,i+1);
-+-			fr->framesize = i-3;
-++			*framesize = i-3;
-+ 			return PARSE_GOOD; /* Success! */
-+ 		}
-+ 	}
-+@@ -765,8 +773,13 @@ static int guess_freeformat_framesize(mpg123_handle *fr, unsigned long oldhead)
-+  *  0: no valid header
-+  * <0: some error
-+  * You are required to do a head_check() before calling!
-++ *
-++ * This now only operates on a frame header struct, not the full frame structure.
-++ * The scope is limited to parsing header information and determining the size of
-++ * the frame body to read. Everything else belongs into a later stage of applying
-++ * header information to the main decoder frame structure.
-+  */
-+-static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeformat_count)
-++static int decode_header(mpg123_handle *fr, struct frame_header *fh, unsigned long newhead, int *freeformat_count)
-+ {
-+ #ifdef DEBUG /* Do not waste cycles checking the header twice all the time. */
-+ 	if(!head_check(newhead))
-+@@ -777,43 +790,42 @@ static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeforma
-+ 	/* For some reason, the layer and sampling freq settings used to be wrapped
-+ 	   in a weird conditional including MPG123_NO_RESYNC. What was I thinking?
-+ 	   This information has to be consistent. */
-+-	fr->lay = 4 - HDR_LAYER_VAL(newhead);
-++	fh->lay = 4 - HDR_LAYER_VAL(newhead);
-+ 
-+ 	if(HDR_VERSION_VAL(newhead) & 0x2)
-+ 	{
-+-		fr->lsf = (HDR_VERSION_VAL(newhead) & 0x1) ? 0 : 1;
-+-		fr->mpeg25 = 0;
-+-		fr->sampling_frequency = HDR_SAMPLERATE_VAL(newhead) + (fr->lsf*3);
-++		fh->lsf = (HDR_VERSION_VAL(newhead) & 0x1) ? 0 : 1;
-++		fh->mpeg25 = 0;
-++		fh->sampling_frequency = HDR_SAMPLERATE_VAL(newhead) + (fh->lsf*3);
-+ 	}
-+ 	else
-+ 	{
-+-		fr->lsf = 1;
-+-		fr->mpeg25 = 1;
-+-		fr->sampling_frequency = 6 + HDR_SAMPLERATE_VAL(newhead);
-++		fh->lsf = 1;
-++		fh->mpeg25 = 1;
-++		fh->sampling_frequency = 6 + HDR_SAMPLERATE_VAL(newhead);
-+ 	}
-+ 
-+ 	#ifdef DEBUG
-+ 	/* seen a file where this varies (old lame tag without crc, track with crc) */
-+-	if((HDR_CRC_VAL(newhead)^0x1) != fr->error_protection) debug("changed crc bit!");
-++	if((HDR_CRC_VAL(newhead)^0x1) != fh->error_protection) debug("changed crc bit!");
-+ 	#endif
-+-	fr->error_protection = HDR_CRC_VAL(newhead)^0x1;
-+-	fr->bitrate_index    = HDR_BITRATE_VAL(newhead);
-+-	fr->padding          = HDR_PADDING_VAL(newhead);
-+-	fr->extension        = HDR_PRIVATE_VAL(newhead);
-+-	fr->mode             = HDR_CHANNEL_VAL(newhead);
-+-	fr->mode_ext         = HDR_CHANEX_VAL(newhead);
-+-	fr->copyright        = HDR_COPYRIGHT_VAL(newhead);
-+-	fr->original         = HDR_ORIGINAL_VAL(newhead);
-+-	fr->emphasis         = HDR_EMPHASIS_VAL(newhead);
-+-	fr->freeformat       = !(newhead & HDR_BITRATE);
-+-
-+-	fr->stereo = (fr->mode == MPG_MD_MONO) ? 1 : 2;
-++	fh->error_protection = HDR_CRC_VAL(newhead)^0x1;
-++	fh->bitrate_index    = HDR_BITRATE_VAL(newhead);
-++	fh->padding          = HDR_PADDING_VAL(newhead);
-++	fh->extension        = HDR_PRIVATE_VAL(newhead);
-++	fh->mode             = HDR_CHANNEL_VAL(newhead);
-++	fh->mode_ext         = HDR_CHANEX_VAL(newhead);
-++	fh->copyright        = HDR_COPYRIGHT_VAL(newhead);
-++	fh->original         = HDR_ORIGINAL_VAL(newhead);
-++	fh->emphasis         = HDR_EMPHASIS_VAL(newhead);
-++	fh->freeformat       = !(newhead & HDR_BITRATE);
-++
-+ 
-+ 	/* we can't use tabsel_123 for freeformat, so trying to guess framesize... */
-+-	if(fr->freeformat)
-++	if(fh->freeformat)
-+ 	{
-+ 		/* when we first encounter the frame with freeformat, guess framesize */
-+-		if(fr->freeformat_framesize < 0)
-++		if(fh->freeformat_framesize < 0)
-+ 		{
-+ 			int ret;
-+ 			if(fr->p.flags & MPG123_NO_READAHEAD)
-+@@ -828,12 +840,12 @@ static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeforma
-+ 				if(VERBOSE3) error("You fooled me too often. Refusing to guess free format frame size _again_.");
-+ 				return PARSE_BAD;
-+ 			}
-+-			ret = guess_freeformat_framesize(fr, newhead);
-++			ret = guess_freeformat_framesize(fr, newhead, &(fh->framesize));
-+ 			if(ret == PARSE_GOOD)
-+ 			{
-+-				fr->freeformat_framesize = fr->framesize - fr->padding;
-++				fh->freeformat_framesize = fh->framesize - fh->padding;
-+ 				if(VERBOSE2)
-+-				fprintf(stderr, "Note: free format frame size %li\n", fr->freeformat_framesize);
-++				fprintf(stderr, "Note: free format frame size %i\n", fh->freeformat_framesize);
-+ 			}
-+ 			else
-+ 			{
-+@@ -848,81 +860,110 @@ static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeforma
-+ 		/* freeformat should be CBR, so the same framesize can be used at the 2nd reading or later */
-+ 		else
-+ 		{
-+-			fr->framesize = fr->freeformat_framesize + fr->padding;
-++			fh->framesize = fh->freeformat_framesize + fh->padding;
-+ 		}
-+ 	}
-+ 
-+-	switch(fr->lay)
-++	switch(fh->lay)
-+ 	{
-+ #ifndef NO_LAYER1
-+ 		case 1:
-+-			fr->spf = 384;
-+-			fr->do_layer = do_layer1;
-+-			if(!fr->freeformat)
-++			if(!fh->freeformat)
-+ 			{
-+-				long fs = (long) tabsel_123[fr->lsf][0][fr->bitrate_index] * 12000;
-+-				fs /= freqs[fr->sampling_frequency];
-+-				fs = ((fs+fr->padding)<<2)-4;
-+-				fr->framesize = (int)fs;
-++				long fs = (long) tabsel_123[fh->lsf][0][fh->bitrate_index] * 12000;
-++				fs /= freqs[fh->sampling_frequency];
-++				fs = ((fs+fh->padding)<<2)-4;
-++				fh->framesize = (int)fs;
-+ 			}
-+ 		break;
-+ #endif
-+ #ifndef NO_LAYER2
-+ 		case 2:
-+-			fr->spf = 1152;
-+-			fr->do_layer = do_layer2;
-+-			if(!fr->freeformat)
-++			if(!fh->freeformat)
-+ 			{
-+-				debug2("bitrate index: %i (%i)", fr->bitrate_index, tabsel_123[fr->lsf][1][fr->bitrate_index] );
-+-				long fs = (long) tabsel_123[fr->lsf][1][fr->bitrate_index] * 144000;
-+-				fs /= freqs[fr->sampling_frequency];
-+-				fs += fr->padding - 4;
-+-				fr->framesize = (int)fs;
-++				debug2("bitrate index: %i (%i)", fh->bitrate_index, tabsel_123[fh->lsf][1][fh->bitrate_index] );
-++				long fs = (long) tabsel_123[fh->lsf][1][fh->bitrate_index] * 144000;
-++				fs /= freqs[fh->sampling_frequency];
-++				fs += fh->padding - 4;
-++				fh->framesize = (int)fs;
-+ 			}
-+ 		break;
-+ #endif
-+ #ifndef NO_LAYER3
-+ 		case 3:
-+-			fr->spf = fr->lsf ? 576 : 1152; /* MPEG 2.5 implies LSF.*/
-+-			fr->do_layer = do_layer3;
-+-			if(fr->lsf)
-+-			fr->ssize = (fr->stereo == 1) ? 9 : 17;
-++			if(fh->lsf)
-++			fh->ssize = (fh->mode == MPG_MD_MONO) ? 9 : 17;
-+ 			else
-+-			fr->ssize = (fr->stereo == 1) ? 17 : 32;
-++			fh->ssize = (fh->mode == MPG_MD_MONO) ? 17 : 32;
-+ 
-+-			if(fr->error_protection)
-+-			fr->ssize += 2;
-++			if(fh->error_protection)
-++			fh->ssize += 2;
-+ 
-+-			if(!fr->freeformat)
-++			if(!fh->freeformat)
-+ 			{
-+-				long fs = (long) tabsel_123[fr->lsf][2][fr->bitrate_index] * 144000;
-+-				fs /= freqs[fr->sampling_frequency]<<(fr->lsf);
-+-				fs += fr->padding - 4;
-+-				fr->framesize = fs;
-++				long fs = (long) tabsel_123[fh->lsf][2][fh->bitrate_index] * 144000;
-++				fs /= freqs[fh->sampling_frequency]<<(fh->lsf);
-++				fs += fh->padding - 4;
-++				fh->framesize = fs;
-+ 			}
-+-			if(fr->framesize < fr->ssize)
-++			if(fh->framesize < fh->ssize)
-+ 			{
-+ 				if(NOQUIET)
-+ 					error2( "Frame smaller than mandatory side info (%i < %i)!"
-+-					,	fr->framesize, fr->ssize );
-++					,	fh->framesize, fh->ssize );
-+ 				return PARSE_BAD;
-+ 			}
-+ 		break;
-+ #endif 
-+ 		default:
-+-			if(NOQUIET) error1("Layer type %i not supported in this build!", fr->lay); 
-++			if(NOQUIET) error1("Layer type %i not supported in this build!", fh->lay); 
-+ 
-+ 			return PARSE_BAD;
-+ 	}
-+-	if (fr->framesize > MAXFRAMESIZE)
-++	if (fh->framesize > MAXFRAMESIZE)
-+ 	{
-+-		if(NOQUIET) error1("Frame size too big: %d", fr->framesize+4-fr->padding);
-++		if(NOQUIET) error1("Frame size too big: %d", fh->framesize+4-fh->padding);
-+ 
-+ 		return PARSE_BAD;
-+ 	}
-+ 	return PARSE_GOOD;
-+ }
-+ 
-++// Apply decoded header structure to frame struct, including
-++// main decoder function pointer.
-++static void apply_header(mpg123_handle *fr, struct frame_header *hdr)
-++{
-++	// copy the whole struct, do some postprocessing
-++	fr->hdr = *hdr;
-++	fr->stereo = (fr->hdr.mode == MPG_MD_MONO) ? 1 : 2;
-++	switch(fr->hdr.lay)
-++	{
-++#ifndef NO_LAYER1
-++		case 1:
-++			fr->spf = 384;
-++			fr->do_layer = INT123_do_layer1;
-++		break;
-++#endif
-++#ifndef NO_LAYER2
-++		case 2:
-++			fr->spf = 1152;
-++			fr->do_layer = INT123_do_layer2;
-++		break;
-++#endif
-++#ifndef NO_LAYER3
-++		case 3:
-++			fr->spf = fr->hdr.lsf ? 576 : 1152; /* MPEG 2.5 implies LSF.*/
-++			fr->do_layer = INT123_do_layer3;
-++#endif 
-++		break;
-++		default:
-++			// No error checking/message here, been done in decode_header().
-++			fr->spf = 0;
-++			fr->do_layer = NULL;
-++	}
-++}
-++
-++
-+ /* Prepare for bit reading. Two stages:
-+   0. Layers 1 and 2, side info for layer 3
-+   1. Second call for possible bit reservoir for layer 3 part 2,3.
-+@@ -934,26 +975,26 @@ static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeforma
-+ void set_pointer(mpg123_handle *fr, int part2, long backstep)
-+ {
-+ 	fr->bitindex = 0;
-+-	if(fr->lay == 3)
-++	if(fr->hdr.lay == 3)
-+ 	{
-+ 		if(part2)
-+ 		{
-+-			fr->wordpointer = fr->bsbuf + fr->ssize - backstep;
-++			fr->wordpointer = fr->bsbuf + fr->hdr.ssize - backstep;
-+ 			if(backstep)
-+ 				memcpy( fr->wordpointer, fr->bsbufold+fr->fsizeold-backstep
-+ 				,	backstep );
-+-			fr->bits_avail = (long)(fr->framesize - fr->ssize + backstep)*8;
-++			fr->bits_avail = (long)(fr->hdr.framesize - fr->hdr.ssize + backstep)*8;
-+ 		}
-+ 		else
-+ 		{
-+ 			fr->wordpointer = fr->bsbuf;
-+-			fr->bits_avail  = fr->ssize*8;
-++			fr->bits_avail  = fr->hdr.ssize*8;
-+ 		}
-+ 	}
-+ 	else
-+ 	{
-+ 		fr->wordpointer = fr->bsbuf;
-+-		fr->bits_avail  = fr->framesize*8;
-++		fr->bits_avail  = fr->hdr.framesize*8;
-+ 	}
-+ }
-+ 
-+@@ -961,7 +1002,7 @@ void set_pointer(mpg123_handle *fr, int part2, long backstep)
-+ 
-+ double compute_bpf(mpg123_handle *fr)
-+ {
-+-	return (fr->framesize > 0) ? fr->framesize + 4.0 : 1.0;
-++	return (fr->hdr.framesize > 0) ? fr->hdr.framesize + 4.0 : 1.0;
-+ }
-+ 
-+ int attribute_align_arg mpg123_spf(mpg123_handle *mh)
-+@@ -977,8 +1018,8 @@ double attribute_align_arg mpg123_tpf(mpg123_handle *fr)
-+ 	double tpf;
-+ 	if(fr == NULL || !fr->firsthead) return MPG123_ERR;
-+ 
-+-	tpf = (double) bs[fr->lay];
-+-	tpf /= freqs[fr->sampling_frequency] << (fr->lsf);
-++	tpf = (double) bs[fr->hdr.lay];
-++	tpf /= freqs[fr->hdr.sampling_frequency] << (fr->hdr.lsf);
-+ 	return tpf;
-+ }
-+ 
-+@@ -1062,7 +1103,7 @@ int get_songlen(mpg123_handle *fr,int no)
-+ }
-+ 
-+ /* first attempt of read ahead check to find the real first header; cannot believe what junk is out there! */
-+-static int do_readahead(mpg123_handle *fr, unsigned long newhead)
-++static int do_readahead(mpg123_handle *fr, struct frame_header *nhdr, unsigned long newhead)
-+ {
-+ 	unsigned long nexthead = 0;
-+ 	int hd = 0;
-+@@ -1074,9 +1115,9 @@ static int do_readahead(mpg123_handle *fr, unsigned long newhead)
-+ 
-+ 	start = fr->rd->tell(fr);
-+ 
-+-	debug2("doing ahead check with BPF %d at %"OFF_P, fr->framesize+4, (off_p)start);
-++	debug2("doing ahead check with BPF %d at %"OFF_P, nhdr->framesize+4, (off_p)start);
-+ 	/* step framesize bytes forward and read next possible header*/
-+-	if((oret=fr->rd->skip_bytes(fr, fr->framesize))<0)
-++	if((oret=fr->rd->skip_bytes(fr, nhdr->framesize))<0)
-+ 	{
-+ 		if(oret==READER_ERROR && NOQUIET) error("cannot seek!");
-+ 
-+@@ -1211,7 +1252,7 @@ static int forget_head_shift(mpg123_handle *fr, unsigned long *newheadp, int for
-+ }
-+ 
-+ /* watch out for junk/tags on beginning of stream by invalid header */
-+-static int skip_junk(mpg123_handle *fr, unsigned long *newheadp, long *headcount)
-++static int skip_junk(mpg123_handle *fr, unsigned long *newheadp, long *headcount, struct frame_header *nhdr)
-+ {
-+ 	int ret;
-+ 	int freeformat_count = 0;
-+@@ -1267,7 +1308,7 @@ static int skip_junk(mpg123_handle *fr, unsigned long *newheadp, long *headcount
-+ 		if(++forgetcount > FORGET_INTERVAL) forgetcount = 0;
-+ 		if((ret=forget_head_shift(fr, &newhead, !forgetcount))<=0) return ret;
-+ 
-+-		if(head_check(newhead) && (ret=decode_header(fr, newhead, &freeformat_count))) break;
-++		if(head_check(newhead) && (ret=decode_header(fr, nhdr, newhead, &freeformat_count))) break;
-+ 	} while(1);
-+ 	if(ret<0) return ret;
-+ 
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb b/meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb
-index 0baa7aa4a1..62c6564cec 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb
-@@ -9,7 +9,9 @@ SECTION = "multimedia"
- LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
- 
--SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
-+SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2 \
-+           file://CVE-2024-10573.patch \
-+           "
- SRC_URI[sha256sum] = "963885d8cc77262f28b77187c7d189e32195e64244de2530b798ddf32183e847"
- 
- UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
--- 
-2.43.0
-
+--------------46cFzvx5owk5HxGGtBhN4www--
 
