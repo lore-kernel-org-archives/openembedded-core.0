@@ -2,63 +2,63 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4E3C282EC
-	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 11:20:34 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.11885.1741951228181264736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 768ABC28B2F
+	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 11:22:34 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.11925.1741951352768989207
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Mar 2025 04:20:28 -0700
+ Fri, 14 Mar 2025 04:22:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=y1+hhg8W;
- spf=pass (domain: linaro.org, ip: 209.85.208.172, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30bfb6ab47cso19111371fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 04:20:27 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=dSKTZPg4;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-549644ae382so2238287e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 04:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741951226; x=1742556026; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1741951351; x=1742556151; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mowHB+GyPObXHHUyFruDF08rUA0X5sNItOs/AzldHBM=;
-        b=y1+hhg8WcOF3a0H3D6zJVN8d5TyqSO1YFPP3d7cqpkuPGnpdLnvseRAVkuos1PAkDb
-         JzNzQfZKr/32AwTU1ye9sKyLUQ7seTAEFskg0K4bfDcg3dQL3Z5uBNcTH/YxO4p/9a7f
-         EoxeRnEoL6T80sxKCzR3gje16Or/EYXNqXZqD3dM/Yz0S4ZMysIpOTeJg69xIBaQaL7w
-         rKZPn2F7gKcahrEnTjS8/0RMPhkLARa0FMMYAKWj7+fqiJfNPSUhLzRZcZ2KtGWhn/WW
-         iFsErb8pn/Dhb6yPC+ERoqRt+UllCE2jL9RmW3MkVPGvH85N/v5fKpJYc6QP6272Wc1o
-         lE7A==
+        bh=AK8nMh0RFc9VWODTCuiY5Wm+0L8cBbjVb7Duc6PWdzc=;
+        b=dSKTZPg4SusKy6bq0kDUjOpiF/YD4AsrZ8mdhbiZ/Ie70NNEhmCaZXsGT419p4g2wI
+         JhfhCPpa3DgYPeuCRGXFgYKwwYCxrkO5YjTXQllsZmEwbtbv82R1k8OJP2Mc07lwbErB
+         r0miYPHL0TR131lP8JSyVKfZsBv9iyW7Wl9B/A/1l2hM9xxRFkChn9VXxiOO2EyRcBM0
+         wrmVXX43uXcOpVeunS7TkDwRzm3Uc1VfPT19RqdXcfa6AZTaOYNqb1zKnJB7Rfv5KtBA
+         HiGYSkkbqoEr9bY+L/uLfO9NMlND3yY+N/4zk0oEqcp2NkBoJjsFIjrme1rstkZDa2hp
+         MwKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741951226; x=1742556026;
+        d=1e100.net; s=20230601; t=1741951351; x=1742556151;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mowHB+GyPObXHHUyFruDF08rUA0X5sNItOs/AzldHBM=;
-        b=A8eSNDwzAwJeLXrO4swvLSQ4ffETk/afpM0PNYr9cGGZQKkayAFO+JsXawYpI0ERV1
-         I56Tq43UmJiOwTtKonDqeoYJvRPhoXWuSXxK+awThKnsQQxDzgo0XKAYHbqdEl3hCKmb
-         Wsz9jI/HP1bc9tmsbg9X4Hw0LwgJkhGjeFE1/dOMMGITjWmxUZHpcHCPhXka8poPHg2U
-         3AnPK2lpeYB3zzJe6n0Rar96GdxHK2GnaaqbfeZqnX1XsSljgrLSFXpXfDksgoujaMFX
-         WjdGOt4ciPstgT62M+/NM55Oa1SZGL5JbAG/VeP3BT83aVJboZcKxxpQik0irecuwsuJ
-         bszg==
-X-Gm-Message-State: AOJu0YzkU5eug6u0S0DjrqUCjiavfLj/LSFchIevBEgYbuscPEAZiRhK
-	uSfjOHEwOyxPW9fradD1atiUzhw3me+NqoPJchpM1YcTfB+vk3e/POVH9yRWmIXgygXuXBBmB7L
-	Yy4Y=
-X-Gm-Gg: ASbGncvbmSFh+j9lHZVFLS2mu2D5dEyYt9f33Y5JaFH1I10nx8Sm+/IRn+vT9jC3lgJ
-	54k1EOhqfoDbAE2HwyrHHUv9W6RxdvI66+j3K/Wv0gof9wVONnzHH6vNczFiQR0FMI3wbxEkeGT
-	BqUXDh2Slwg9zvkKafod0OUbI3UPOFj3Ad+JP7fgPDJvG+pvHrElq4xPiJzPvEO9vdl4WwNyHMN
-	1oG/kp8c3g+fnZSDZAylwIO9ZjJWq1Vizv2ekYpCb7ARhFhKjYWcZS8E7lYGijlq08usmGOk/yx
-	yI8u6So1xRZXOvKns2lCDsKOH/CABI0H6i9aGUkR+pS6ZMCIbmhxemhTpBl3UqeJESMh4ZryWEH
-	c0cCZwT7qhZhLqMELpu1AKWAW
-X-Google-Smtp-Source: AGHT+IF5n7i1F+gDNZZ/21sbcGtEICLA9cA23aFTFHrY9lQ0SbIr5qQ/7c46SPeaXtnBLMppS5Cd9g==
-X-Received: by 2002:a05:651c:210c:b0:30b:c83e:720a with SMTP id 38308e7fff4ca-30c4a7538a1mr8173451fa.1.1741951226262;
-        Fri, 14 Mar 2025 04:20:26 -0700 (PDT)
+        bh=AK8nMh0RFc9VWODTCuiY5Wm+0L8cBbjVb7Duc6PWdzc=;
+        b=n39j8doejiiKqFH+6wzjWenIi6lkAHBSD6RWOK1+FP5Ymt5ZlQ8PZErCNOzZE/gBfv
+         1ic/HiN2S21eX3ZLkocqQabskWPpwgwwWe5a5UH5IWd9A1u+LonhcCXFhiNbrmdArLzL
+         JLervCVQ7S98WiZ+WwM2JpsgbD8ExIv5HxNtbjKgXn0GZLV9J4oACSa3K0xyIL0+H+QX
+         Uh7i9F04hp/HAGdGOlK42ag4NWMRgwHmJpF4TkAYZv8sWItek87vpgFm1Et+5Y7qukab
+         +FZNAqBgACqByICOipzVSZ4KyLmkWiDLivVaUlh1NRqPy+0cdu+uOQtORWNWYDsW9K6m
+         Tsrw==
+X-Gm-Message-State: AOJu0YwhPpixgpxXUhOb7sYvCY3waXClID+SdZRLMXQkBnbYL0J8BYef
+	6aEWCW2UASZiFS7tgvaJjM0WavUrkMAibzTcTDCH3gVEMY+S64AtpAB1iVFV/Rk=
+X-Gm-Gg: ASbGncu6dxgK3dAuwD5Eet/bRk4Gz6Z77f2a8Qs1pgX7X+BeLP5d0uLyX7BqlvzRfkf
+	wnztwEoKgtSUJYwS1E7TZbCysKDT8eN/npLyMYbtlhLBxNPUKcQ+qQ7AmtjBxsiY4CKmkLCVits
+	fW59/zixqlXuRXeQjrhzFJtIk+TXUCYg1annZ4vjpt6yn537f2UDNMnKIfFF+88rgXjCtz2w1SF
+	0WCJVjhLGR7Hnz2hNYv0NYJp8GQobCurQAquHwijqvu+x3zt7RDoNzTBv8ouc++DHNuoH1LI11u
+	O4dCaxmcPqsnSJeA/j+8wWYP6rEV/Q+KaOO39RYQSRvFSdDLGk1tU7emus0tAOhO6JjZedlsPrz
+	QzmiqqP1gqsOYFg==
+X-Google-Smtp-Source: AGHT+IFe5WWg0LBBMd+uw2J3U5j3+DZi2wUnJ6o2AG8ysZ68XviVgmgH01eG1qZdAoiuNVlkR+ZepQ==
+X-Received: by 2002:a05:6512:1392:b0:549:4d73:641a with SMTP id 2adb3069b0e04-549c39af674mr675149e87.45.1741951350688;
+        Fri, 14 Mar 2025 04:22:30 -0700 (PDT)
 Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f0d26e5sm5364391fa.20.2025.03.14.04.20.24
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba8821f6sm484702e87.176.2025.03.14.04.22.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 04:20:24 -0700 (PDT)
+        Fri, 14 Mar 2025 04:22:29 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 6/6] oeqa selftest uki.py: add aarch64/arm test with systemd based initrd
-Date: Fri, 14 Mar 2025 13:19:42 +0200
-Message-ID: <20250314111942.304800-6-mikko.rapeli@linaro.org>
+To: poky@lists.yoctoproject.org
+Cc: openembedded-core@lists.openembedded.org,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v2 1/6] systemd: use serial-getty-generator on genericarm64
+Date: Fri, 14 Mar 2025 13:21:57 +0200
+Message-ID: <20250314112158.305010-1-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250314111942.304800-1-mikko.rapeli@linaro.org>
 References: <20250314111942.304800-1-mikko.rapeli@linaro.org>
@@ -67,103 +67,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 11:20:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212837
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 11:22:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212838
 
-Use core-image-initramfs-boot with systemd to boot via UKI on
-arm/aarch64. Tested on qemuarm, qemuarm64 and genericarm64
-on aarch64 build host. The machines have different image
-and qemuboot configs so they need to be configured in test.
+systemd-serialgetty recipe sets serial consoles based
+on SERIAL_CONSOLES build time variable. These fail to
+be detected on multiple devices including qemu and the
+resulting failures delay boot to systemd "running" state
+by one minute on an example aarch64 build machine and qemu.
+Serial console login works with both since udev will
+trigger agetty on correct devices. Using systemd side
+serial-getty-generator disables systemd-serialgetty.
+
+qemu-system-aarch64 core-image-base boot time with
+systemd-serialgetty before this patch:
+
+$ systemd-analyze
+Startup finished in 8.314s (firmware) + 9.805s (loader) + 14.338s (kernel) + 1min 34.392s (userspace) = 2min 6.851s
+multi-user.target reached after 1min 34.387s in userspace.
+
+with this patch:
+
+Startup finished in 8.312s (firmware) + 9.804s (loader) + 14.295s (kernel) + 29.808s (userspace) = 1min 2.220s
+multi-user.target reached after 29.802s in userspace.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/lib/oeqa/selftest/cases/uki.py | 76 +++++++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
+ meta-yocto-bsp/recipes-core/systemd/systemd_%.bbappend | 3 +++
+ 1 file changed, 3 insertions(+)
+ create mode 100644 meta-yocto-bsp/recipes-core/systemd/systemd_%.bbappend
 
-diff --git a/meta/lib/oeqa/selftest/cases/uki.py b/meta/lib/oeqa/selftest/cases/uki.py
-index 9a1aa4e269..4830fb3403 100644
---- a/meta/lib/oeqa/selftest/cases/uki.py
-+++ b/meta/lib/oeqa/selftest/cases/uki.py
-@@ -139,3 +139,79 @@ IMAGE_CLASSES:remove = 'testimage'
-             cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderEntrySelected-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep '%s'" % (uki_filename)
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+
-+    @skipIfNotArch(['aarch64', 'arm'])
-+    @OETestTag("runqemu")
-+    def test_uki_boot_systemd_initrd(self):
-+        """Build and boot into UEFI firmware (u-boot), systemd-boot, initrd with systemd, rootfs with systemd"""
-+        image = "core-image-base"
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', image) or ""
-+        cmd = "runqemu %s nographic serial wic" % (runqemu_params)
-+
-+        self.write_config("""
-+# efi firmware must load systemd-boot, not grub
-+EFI_PROVIDER = "systemd-boot"
-+
-+# image format must be wic, needs esp partition for firmware etc
-+IMAGE_FSTYPES:pn-%s:append = " wic"
-+WKS_FILE = "efi-uki-bootdisk.wks.in"
-+
-+# efi, uki and systemd features must be enabled
-+INIT_MANAGER = "systemd"
-+DISTRO_FEATURES += "systemd-initramfs"
-+MACHINE_FEATURES:append = " efi"
-+IMAGE_CLASSES:append:pn-core-image-base = " uki"
-+
-+# uki embeds also an initrd
-+INITRAMFS_IMAGE = "core-image-initramfs-boot"
-+
-+# runqemu must not load kernel separately, it's in the uki
-+QB_KERNEL_ROOT = ""
-+QB_DEFAULT_KERNEL = "none"
-+
-+# u-boot, not all qemu* machines set this correctly
-+QB_DEFAULT_BIOS = "u-boot.bin"
-+# machines may not set this correctly
-+QB_DEFAULT_FSTYPE = "wic"
-+
-+# u-boot needs to find ESP partition so use virtio block device instead of default scsi
-+QB_ROOTFS_OPT = "-drive id=root,file=@ROOTFS@,if=none,format=raw -device virtio-blk-pci,drive=root"
-+QB_DRIVE_TYPE = "/dev/vd"
-+
-+# boot command line provided via uki, not via bootloader
-+UKI_CMDLINE = "rootwait root=LABEL=root"
-+# enable if debug output is needed
-+# UKI_CMDLINE += "systemd.log_level=debug systemd.log_target=console systemd.journald.forward_to_console=1"
-+
-+# disable kvm, breaks boot
-+QEMU_USE_KVM = ""
-+
-+IMAGE_CLASSES:remove = 'testimage'
-+""" % (image))
-+
-+        uki_filename = get_bb_var('UKI_FILENAME', image)
-+
-+        bitbake(image + " u-boot")
-+        with runqemu(image, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-+
-+            # Verify from efivars that firmware was:
-+            # aarch64
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderFirmwareInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep 'Das U-Boot'"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+
-+            # Check that systemd-boot was the loader
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep systemd-boot"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+
-+            # Check that systemd-stub was used
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/StubInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep systemd-stub"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+
-+            # Check that the compiled uki file was booted into
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderEntrySelected-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep '%s'" % (uki_filename)
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+v1: https://lists.yoctoproject.org/g/poky/message/13522
+
+diff --git a/meta-yocto-bsp/recipes-core/systemd/systemd_%.bbappend b/meta-yocto-bsp/recipes-core/systemd/systemd_%.bbappend
+new file mode 100644
+index 0000000000..f23852a351
+--- /dev/null
++++ b/meta-yocto-bsp/recipes-core/systemd/systemd_%.bbappend
+@@ -0,0 +1,3 @@
++# auto detection instead of build time configured via SERIAL_CONSOLES
++# to support multiple devices
++PACKAGECONFIG:append:genericarm64 = " serial-getty-generator"
 -- 
 2.43.0
 
