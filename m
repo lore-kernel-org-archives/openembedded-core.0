@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6D39C35FF7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C43F9C282EC
 	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 19:36:03 +0000 (UTC)
 Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.2820.1741980963150484952
+ by mx.groups.io with SMTP id smtpd.web10.2818.1741980960090097416
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Mar 2025 12:36:03 -0700
+ Fri, 14 Mar 2025 12:36:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vN7h6Mr2;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Mc7ow0ID;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2254e0b4b79so64080805ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 12:36:03 -0700 (PDT)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2235189adaeso44374405ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 12:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741980962; x=1742585762; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741980959; x=1742585759; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NymLU09W9Y/xdNghmsoOM6ZWCGXd7ZPeLyf+o0Y0adU=;
-        b=vN7h6Mr2AePCyk17/rHsin5JURHPTrW0yOeEdNaIT1TQY/S7orPTtva8g7r2BDfTUm
-         ZCcBBDnmRVrr9jHgLgzS2lERckHaxIsptU1p6Ln1s/8Dq2wtrCxoqXJjrm/+1S1zUxGL
-         EQjMLvtLQ6jbu9aY0wpJtIsmrpPxFSzilnEvXZW+jyRxc+giDUDVYiH5EfoIdNpnADHS
-         +yFgIIp9dedg1NcsHN/uK3Vmk5nnZW+RyzHi/tynBwf+x3DoNM53oRVrOh4vHXXs38oV
-         DNXFcTox8SDBFzoND0jmv8k2afpYGigLMMHXYfZl3d6TXNm9e+bWu1ieAMJNpHvsGR2c
-         mlDQ==
+        bh=YdK75pJJvOAyZ7RacQCXP0X/9zt+mZmlsyt17OKzdiE=;
+        b=Mc7ow0IDQnP1EUP/H6zajd/GRBNJkk3I5wKXMRMvAm1oqoYeIZkEzZDI+0yBjpJZ6n
+         AIY/Aw3cg7kQ5P2Wn5CEcBXs66nS4mN1M3fZraMNf9w6V1dptJ4XUIRVpyUDlOLU/D03
+         wj6DETBM/mFCkYsTtWyMl9OMxqTH6peuRtDUajlcdCr8f8MOR4Hv5rTIH2HBIDThvIry
+         QEZV/7w3gxpD/uGerETIHlyQVQAvtAs3uOYySVipsldJz0iNevF6Nhk8fNqChvQLL4tD
+         Z75z7AS+4wXXyrKx2TjM3y0FZASWTlE88TkjyRsfvGupjHtvbJ6lKSFqbRsqJfUIcLPK
+         +5OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741980962; x=1742585762;
+        d=1e100.net; s=20230601; t=1741980959; x=1742585759;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NymLU09W9Y/xdNghmsoOM6ZWCGXd7ZPeLyf+o0Y0adU=;
-        b=FAB9vOcBHI730X4BnvG3p9WGe/+JspxrVF7nstSHRjRln2UptgXKYr5VnsRJcAuZ3X
-         dmgHakpMg0dobnF8KRHDi/tiA0SAI7XSjkpXZmQDAnfmpp+F6ocjjjzubVn45pK2/AHh
-         eeqWg6+kJE0KLYynflO72Tev9kPSemQnPSuo4npp3mrBEClMCPoa51vFgc12SGXFZO87
-         EBvTGJ1zxkVesp2hcZOzjBusZbAbzAtGKMRWE9DbiZv07rlIsGgmgyc988d8gG7CX0dE
-         cV4aoN+Z0dcpyDmrmu6Wno9ASjTx6YyCLXIickbCGp7D/bpsntdg/9bbhzjvbXm8ArOE
-         ZpUQ==
-X-Gm-Message-State: AOJu0YzJq0f6dbddeRml/xyYI4F5n9BRCgMa6TPdOWptqaezUYemJQc2
-	zm5ttPLDbk9UHtH11bo1YVhxxRSBnmj2191LV/HcDU+2/JdImkBlFix38Faht8QOnmqmJU9C4Fo
-	O
-X-Gm-Gg: ASbGncuYMLdzLWmjE34R14vuBN81WaD5qipV3oVd2sykHEwO+shORJ4xOJXKyYg+if9
-	7diecNCa+s16O8MgFJt9TR6VtrZv1w94gzNU2SQ57lNj8HXNONc15YX/DSXLPKGkmVsDaUQqUm1
-	JGWR5cnXuVYoXb/SUWMadVyYRgA6MUeyPxq8IX3vRrkPwXu8btbmlDNWLLdFrDrsMxGr/tDiMoy
-	Xh2ajH0vbZoCu8UdHI4p4ELFd9Musjo8XuFTy67XtBJvyiBZ9Q47uaDLUFD84vPysrQK6BUQXm9
-	fHOxobDyvrBupiCqxIG2UZ5wPKyXxwXX55I0
-X-Google-Smtp-Source: AGHT+IFnEEuWdef0wAXFx6xIYMok3sCfiqDlmii5ppsOOC77l5u6dPyxBqFV/LjowS1iRz7P7SwyZg==
-X-Received: by 2002:a17:902:d482:b0:224:1219:934b with SMTP id d9443c01a7336-225e0b298eemr42199765ad.50.1741980962418;
-        Fri, 14 Mar 2025 12:36:02 -0700 (PDT)
+        bh=YdK75pJJvOAyZ7RacQCXP0X/9zt+mZmlsyt17OKzdiE=;
+        b=IvTnU2BDXZNuf4btRYP/DQOSV3wQynsMZGKdjG3hOqccCgtWidc6TIoZc08jefUUd1
+         CVFhJRCAaF61slclFJa+ffweDe0KakyQT88p2CcFi0GCifNpeFUcZ7P4ApB0z9kAVzsD
+         WufjYng2U8Fbjl5F/8gKap6kXmNCjyX8tnjDkchhTXN7dkXpUkx8wTRXNAFgkAPOqmeE
+         3wL9+LO5kMd7ZXXWHVF8nFk3YPZPWVezJ9+UykBnQX1XxuI2REm81cA7rlPXhEXfFSLJ
+         0gbzZ3iWBQsgTE0POyavVw3zsuVeaxJsMibe09dpOr7SnEBZ5AEDA6q2BCTJ98cJfWb0
+         rJAQ==
+X-Gm-Message-State: AOJu0YxKNODt4pPalpvy6MwsnP2tpAqO0m9suz558WjCdwMQm13Wlsjz
+	OONr+sg7uyqlLS0vZ4tV5EBVET3KnSzdqfCgnqsZzBHCyujn3eRuHO5WUA6tJ6vOVXnXM3x3rfh
+	+
+X-Gm-Gg: ASbGncvigW9FOvWiBCBr5KtLLue0O4ACMys5LjADJxsTyYTVBKTdNCd/XXFJHeYXOry
+	AplR3i5VB21C92OQmpET/1XiRGAlF3FSkgXeg6Kdq9A38a+tLxIsoONF7x08+jUUILDWTwM0cqR
+	j0o3QD83hjZbL9B28cjkHYlCr05uIPNoVaxQ+BQc8wcso6LqGFDYvCspUR3VLBsUZb8RJDjn7dj
+	6m37o8GPUw4IHoryY1oTSuDd+N53Lrv+Xluv5cr/u4EpmGFu0kUBoKMsrWc+24h8YzzMzlSK9oK
+	UOUBUVF3zrrYmMs5Ga1vjHJGosnnh/GZu/XdPCIQ7BBtufI=
+X-Google-Smtp-Source: AGHT+IH5cMQYaOz86mQpSgf2LTaQT9OPo93yh3PWb3bqf1nC0Qdmn5u4hI+LXWgwqLXoaX+tWIdBuQ==
+X-Received: by 2002:a17:903:13ce:b0:215:758c:52e8 with SMTP id d9443c01a7336-225e16b1b84mr56340005ad.12.1741980959314;
+        Fri, 14 Mar 2025 12:35:59 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:6978:e88e:1ab7:676a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6d5dsm32265685ad.153.2025.03.14.12.36.01
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6d5dsm32265685ad.153.2025.03.14.12.35.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 12:36:02 -0700 (PDT)
+        Fri, 14 Mar 2025 12:35:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 4/4] gcc-cross-canadian.inc: Fix buildpaths error for pthread.h
-Date: Fri, 14 Mar 2025 12:35:39 -0700
-Message-ID: <d3c294ee0afe4d2eb46320945d41064ebfb5cbff.1741980835.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 2/4] mpg123: upgrade 1.32.6 -> 1.32.10
+Date: Fri, 14 Mar 2025 12:35:37 -0700
+Message-ID: <a3db638932e76ac0972d7905072cc7ab3f2abb75.1741980835.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741980835.git.steve@sakoman.com>
 References: <cover.1741980835.git.steve@sakoman.com>
@@ -67,42 +67,58 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 19:36:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212863
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212861
 
-From: Sana Kazi <sanakazi720@gmail.com>
+From: Zhang Peng <peng.zhang1.cn@windriver.com>
 
-Replace the hardcoded path with /not/exist as used for other
-options[--with-sysroot] to ensure pthread.h does not contain
-hardocded references to TMPDIR:
+Changelog:
+==========
+1.32.10
+  - scripts/tag_lyrics.py: fix for python3
+  - libout123: Use strtok_r() to avoid conflicts multithreaded contexts
+  - libmpg123: Un-break DLL builds that need I/O functions defined in libmpg123.c
+  - ports/cmake: More fixup to also produce .pc files with Libs.private.
+1.32.9
+  - libmpg123:
+    -- enable 64 bit offset path for MSVCRT and avoid warnings about
+       MS's game about POSIX API with and without underscores
+    -- Increase the library patchlevel, as was forgotten on previous
+      release.
+1.32.8
+  Update: The buffer overflow got assigned the CVE ID CVE-2024-10573.
+  - libmpg123:
+    -- Add sections to assembly to support PAC/BTI code
+       for aarch64 (-mbranch-protection variants)
+    -- Prevent premature application of header info into decoding structure,
+       at worst having triggered out-of-bounds writes of decoded PCM data
+  - out123: Show --quiet in --longhelp.
+1.32.7
+  - ports/cmake: Work around bug in CMake that does not detect FPU on Apple ARM CPUs.
+  - Fix some laziness (func() to func(void)) for standards conformance.
 
-ERROR: gcc-cross-canadian-x86-64-13.3.0-r0 do_package_qa: QA Issue:
-File /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/
-usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/13.3.0/include-fixed/
-pthread.h in package gcc-cross-canadian-x86-64 contains reference to
-TMPDIR [buildpaths]
-
-Signed-off-by: Sana Kazi <sanakazi720@gmail.com>
+Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../mpg123/{mpg123_1.32.6.bb => mpg123_1.32.10.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/mpg123/{mpg123_1.32.6.bb => mpg123_1.32.10.bb} (96%)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index adcaef2b0f..06f0cef864 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -118,6 +118,11 @@ do_install () {
- 	# We don't care about the gcc-<version> copies
- 	rm -f ${D}${bindir}/*gcc-${BINV}*
+diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.32.6.bb b/meta/recipes-multimedia/mpg123/mpg123_1.32.10.bb
+similarity index 96%
+rename from meta/recipes-multimedia/mpg123/mpg123_1.32.6.bb
+rename to meta/recipes-multimedia/mpg123/mpg123_1.32.10.bb
+index f7786e8588..82f7b7d332 100644
+--- a/meta/recipes-multimedia/mpg123/mpg123_1.32.6.bb
++++ b/meta/recipes-multimedia/mpg123/mpg123_1.32.10.bb
+@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
  
-+        # Remove buildpaths from pthread.h
-+        sed -i -e "s|${RECIPE_SYSROOT_NATIVE}|/not/exist|g" \
-+        -e "s|${RECIPE_SYSROOT}|/not/exist|g" \
-+        ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed/pthread.h
-+
- 	# Cleanup empty directories which are not shipped
- 	# we use rmdir instead of 'rm -f' to ensure the non empty directories are not deleted
- 	# ${D}${libdir}/../lib only seems to appear with SDKMACHINE=i686
+ SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "ccdd1d0abc31d73d8b435fc658c79049d0a905b30669b6a42a03ad169dc609e6"
++SRC_URI[sha256sum] = "87b2c17fe0c979d3ef38eeceff6362b35b28ac8589fbf1854b5be75c9ab6557c"
+ 
+ UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
 -- 
 2.43.0
 
