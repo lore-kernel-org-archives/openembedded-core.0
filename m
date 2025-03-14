@@ -1,148 +1,112 @@
-Return-Path: <rs@ti.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE28CC282EC
-	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 19:14:23 +0000 (UTC)
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by mx.groups.io with SMTP id smtpd.web10.2354.1741979660925983797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5E49C28B2F
+	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 19:36:03 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.2788.1741980955803694743
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Mar 2025 12:14:21 -0700
+ Fri, 14 Mar 2025 12:35:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=Gx0x6Nmh;
- spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52EJEAIq1775815
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 14 Mar 2025 14:14:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1741979650;
-	bh=ecTMOKkfIVU0v8pEht3y9eudNskMdnisOnGQoF2uGD8=;
-	h=Date:CC:Subject:From:To:References:In-Reply-To;
-	b=Gx0x6NmhqRhHalHWTCVGan7vkrep8ujdZ4hkoi7Tbtg9HpBlEy5/ADSYO1+SCsR36
-	 NjHFOPdpuJsSaPmPneSGV/UsllgiCOQm/sk7OqUxDds84xpy/Ps+JNIWpW/xBNtlqf
-	 UG4a1M5MJoJdiwZlZHCc+nXioTvs+93ZI+Y5bThM=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 52EJEACG030878
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 14 Mar 2025 14:14:10 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 14
- Mar 2025 14:14:09 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 14 Mar 2025 14:14:09 -0500
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52EJE9xH094498;
-	Fri, 14 Mar 2025 14:14:09 -0500
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wkCUP2Sy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-224341bbc1dso49956915ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 12:35:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741980955; x=1742585755; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wYYbU4sZz5fgb8CH9qLRNhogFWNnQkyvndE42ymvbYY=;
+        b=wkCUP2SyGxW1BfIgVcOJWygVClR3ud+QwJ/0AEiOT+CeRBjM1gPLhYrIBI+wNkuAf0
+         R8tuUZG6Qe1xohRMWNfPqO+SRoeT3B38DlDdMKFDZeYbWrV4Wwn6Zv/ZEdbPS7Ur4LiT
+         G57b/ZKp3tEAU4G0IUx+1atqBByxp7M4Xs/9x6EsuFj/r/oNSGSjy/dJ84/9nclXcIxu
+         YlBv7FmMDwGH5dSsn5ENfWPUH+mVVLWcdI8mnNKQFaD2roQG4p7GHL3nw/WIgPM4ivgr
+         OOYdieMJ+plPeRA2ekHMyeS7uZMpVjQPznDx+D6ZoN+xZzcOJaQQ8824gI3T/XSHMpTU
+         Azbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741980955; x=1742585755;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wYYbU4sZz5fgb8CH9qLRNhogFWNnQkyvndE42ymvbYY=;
+        b=aRWnuyylrx9PQ1Gnms5zOsD7FCkz/KwOXRyZ1qJBcrm+zoHiqvD9fv/3vq65ipqLUd
+         ekn07Vr8yDPjZKnYOFaGrCmjFFTqdeqCAcY9MVutN8W5bMh+xIMcb/zrJ0/jK0Yo3Ukm
+         exMnzG06G/lBZ/n4b0jle/81pQb3NHhWU99xPo380HWK+AAN5aMKBIYfTVAx4GM8fJPl
+         Ok8Php/XcbwqtT3lCBREyB13yVuV1hhPmaeK7jFvpKJDS9l5MnKZVOzMRXQznjtlDUxP
+         A/EVS5wDZeuLcB79PgQ15k+Gb3/Ft3OFn8NT5IllKIblOJwknVacVXuEPbGx8PfM4lTw
+         gkPQ==
+X-Gm-Message-State: AOJu0YyoUrlG3lPXc/1+c1bqmbqZaswMKo1d61E90XjKvZ+XMY9xubA2
+	ZGGyW2Ol+z5ulda76bvJyT2BB8LLGEubF40K/qE12lCkf60Bbdv0xDTv7PynNi0NlnnKw4soW+f
+	O
+X-Gm-Gg: ASbGncsxp2yuTn1osn3zcpqcxHdmFU/eU60DO/K1CO5ooLw3spctQ0yjxYgOhVq3eTe
+	7mBqtlaFu9n2Mixnzm7TbJMkXjh8JY1NPeREOObAVRb5qUfKKGIOlmtHt1MvZuQqC1qhdzwjAl8
+	PEm0lVLVwDUPlu6x77W80ofXSwGxy1MM7+T9GLmszwy/WZdMvdh953TNS/ZJ/m19sToYYR6CkiN
+	70Pi+gSmLDcD0YiVYHfbyjzsypujPO94RCfKI9jVyXao4Ql+LZS/ygnDLsPnLmbPsH2oYl93I+G
+	bcfiZbmW2yY2WXK3BTRwmkfUAznTtRL9yAOh
+X-Google-Smtp-Source: AGHT+IE/GZnuM4iQ+Ly0ggZvMthQRVZikhzwTkDErrRk7L38dubyc3aiBW6kbPK87izXrWc5HFEoKA==
+X-Received: by 2002:a17:902:d4c5:b0:223:3ef1:a30a with SMTP id d9443c01a7336-225e0b0987cmr49366005ad.45.1741980954906;
+        Fri, 14 Mar 2025 12:35:54 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:6978:e88e:1ab7:676a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6d5dsm32265685ad.153.2025.03.14.12.35.53
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Mar 2025 12:35:54 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 0/4] Patch review
+Date: Fri, 14 Mar 2025 12:35:35 -0700
+Message-ID: <cover.1741980835.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Fri, 14 Mar 2025 14:14:09 -0500
-Message-ID: <D8G88ZDV4PX6.1Z1L5E9XBFF8X@ti.com>
-CC: <otavio.salvador@ossystems.com.br>, <richard.purdie@linuxfoundation.org>,
-        <ross.burton@arm.com>, <alex@linutronix.de>, <otavio@ossystems.com.br>,
-        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
-        <denis@denix.org>, <reatmon@ti.com>,
-        <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: Re: [oe-core][RFC 0/3] Display manager proposal for x11 and wayland
-From: Randolph Sapp <rs@ti.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250314002937.672768-1-rs@ti.com>
- <CANNYZj98ByWNO+dPwKXGr-9_w5Z_ajwYqMAbWo_u8sdUAsYEWA@mail.gmail.com>
-In-Reply-To: <CANNYZj98ByWNO+dPwKXGr-9_w5Z_ajwYqMAbWo_u8sdUAsYEWA@mail.gmail.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 19:14:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212858
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 19:36:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212859
 
-On Fri Mar 14, 2025 at 4:14 AM CDT, Alexander Kanavin wrote:
-> On Fri, 14 Mar 2025 at 01:30, <rs@ti.com> wrote:
->> Example implementation of emptty for weston-init following the request o=
-n the
->> previous RFC [1] and previous example [2]. This variant is applicable to=
- master.
->>
->> This packages emptty and a default configuration for emptty as "emptty" =
-and
->> "emptty-conf" respectively. This allows the existing init packages to ov=
-erride
->> the configuration similar to the way grub boot configs are handled.
->>
->> The weston-init package still handles the weston config and weston user =
-setup as
->> it always has. The only real difference from a consumer standpoint is th=
-at the
->> autologin group for the weston user changed from "wayland" to the more g=
-eneric
->> "nopasswdlogin".
->>
->> [1] https://lists.openembedded.org/g/openembedded-core/message/212640
->> [2] https://lists.openembedded.org/g/openembedded-core/message/212785
->
-> I quickly checked this locally. There are some issues that need to be
-> addressed before this goes to the autobuilder:
->
-> 1. WARNING: emptty-0.13.0-r0 do_recipe_qa: QA Issue: Recipe emptty in
-> /srv/work/alex/poky/meta/recipes-graphics/emptty/emptty_0.13.0.bb does
-> not have an assigned maintainer. Please add an entry into
-> meta/conf/distro/include/maintainers.inc. [missing-maintainer]
+Please review this set of changes for kirkstone and have comments back by
+end of day Tuesday, March 18
 
-Yeah. I wouldn't mind maintaining this package and can set that. Just didn'=
-t
-know if there was someone I needed to check with before I did that.
+Passed a-full on autobuilder:
 
-> 2. With default poky config:
->
-> ERROR: Nothing RPROVIDES 'pam-plugin-succeed-if' (but
-> /srv/work/alex/poky/meta/recipes-graphics/emptty/emptty_0.13.0.bb
-> RDEPENDS on or otherwise requires it)
-> NOTE: Runtime target 'pam-plugin-succeed-if' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['pam-plugin-succeed-if']
-> ERROR: Required build target 'emptty' has no buildable providers.
-> Missing or unbuildable dependency chain was: ['emptty', 'pam-plugin-succe=
-ed-if']
->
-> You should either make the pam dependency optional (via PACKAGECONFIG
-> subject to pam in DISTRO_FEATURES), or use REQUIRED_DISTRO_FEATURES.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1193
 
-Good point. I added the PACKAGECONFIG to remove pam support, that should al=
-so
-toggle the runtime dep on pam-plugin-succeed-if. Will address in the proper
-series.
+The following changes since commit b00b0d744a1768843386cfd529b73cc17c88bec9:
 
-> 3. Again, with default poky config:
->
-> NOTE: Multiple providers are available for runtime virtual-emptty-conf
-> (emptty, weston-init)
-> Consider defining a PREFERRED_RPROVIDER entry to match virtual-emptty-con=
-f
->
->
-> Alex
+  babeltrace2: extend to nativesdk (2025-03-12 07:14:12 -0700)
 
-That last note is perplexing. Patch 3/3 is literally setting the default ru=
-ntime
-provider for virtual-emptty-conf. I'm also seeing the following notice thou=
-gh:
+are available in the Git repository at:
 
-NOTE: Multiple providers are available for runtime libnss-mdns (avahi-libns=
-s-mdns, mdns)   =20
-Consider defining a PREFERRED_RPROVIDER entry to match libnss-mdns         =
-                                                 =20
-Is there some other variable I need to set for master? Is that message now =
-being
-printed if 2 package are being produced?  If that's the case I can check th=
-e
-PREFERRED_RPROVIDER variable and conditionally prevent producing the emptty=
--conf
-package, but that feels a little hacky. Anyone have any better ideas about =
-that?
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
 
-- Randolph
+Oleksandr Hnatiuk (1):
+  gcc: remove paths to sysroot from configargs.h and checksum-options
+    for gcc-cross-canadian
+
+Peter Marko (1):
+  libarchive: patch CVE-2025-1632 and CVE-2025-25724
+
+Sana Kazi (1):
+  gcc-cross-canadian.inc: Fix buildpaths error for pthread.h
+
+Zhang Peng (1):
+  mpg123: upgrade 1.32.6 -> 1.32.10
+
+ meta/recipes-devtools/gcc/gcc-common.inc      | 22 +++++
+ .../gcc/gcc-configure-common.inc              |  1 -
+ .../gcc/gcc-cross-canadian.inc                |  8 ++
+ meta/recipes-devtools/gcc/gcc-cross.inc       | 15 +---
+ meta/recipes-devtools/gcc/gcc-target.inc      | 16 +---
+ .../CVE-2025-1632_CVE-2025-25724.patch        | 83 +++++++++++++++++++
+ .../libarchive/libarchive_3.7.4.bb            |  1 +
+ .../{mpg123_1.32.6.bb => mpg123_1.32.10.bb}   |  2 +-
+ 8 files changed, 119 insertions(+), 29 deletions(-)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch
+ rename meta/recipes-multimedia/mpg123/{mpg123_1.32.6.bb => mpg123_1.32.10.bb} (96%)
+
+-- 
+2.43.0
+
 
