@@ -2,113 +2,97 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BA3DC282EC
-	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 11:20:14 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.11875.1741951207711611639
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5849FC28B2F
+	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 11:20:24 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web10.11880.1741951216977454165
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Mar 2025 04:20:08 -0700
+ Fri, 14 Mar 2025 04:20:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Fy6t6JIL;
- spf=pass (domain: linaro.org, ip: 209.85.208.175, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-307325f2436so19134231fa.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 04:20:07 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=pFLxv0tx;
+ spf=pass (domain: linaro.org, ip: 209.85.208.182, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30bfc79ad97so31591571fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 04:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741951206; x=1742556006; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kuZJxZRkEpt8xsZxnwZl3yzeOAN2FOmvkLBErroOjUM=;
-        b=Fy6t6JILzM7YRjGwB1H5GnoakT4IvXlhiWvrJM+txhC9/E2CXY3aNUfSFZfCX4BjHu
-         g8LpcDkcWoxc85lgKYoctqJ2M4U49GKs2Aio4ag7gxXlfGoLfNknLG1y5e+FvrBzF1pG
-         HGUmFq9dnv4boPuhjKcRlPH1CrcGxt0yYkzfbygDNd82TXvdYlt1SrnmgjpK4hnS7xiV
-         NEEF9/eU5uq3Vd7ZgOVZdAN2uzK/6WQgyt4XYDplkYt8QBTXAuf0b1K+RXMWytfAhxDY
-         BwklCa7BiTn95J22ERhBdnvYzfjncZMyvWUq0AMPMliUDVpScICS6GkJKYdIjDQckvtZ
-         B8Ig==
+        d=linaro.org; s=google; t=1741951215; x=1742556015; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xULRQVdTY/LxRb9S1oZ219XVrnqgSCEV0rTfQfvvQAA=;
+        b=pFLxv0txW4mAebprqQDctdE7RbbV/vS+MUI0FthITFij5xjRWgYHpjfCGCnyidBp6X
+         QeIbdWCO3/HlWZXUi2jam7U0gxgdP1EtPL5r+WIm4kT+pvyPNB+28C9ojlxGkzbhwog+
+         90zo5mBI1gFR0PLwwONN1hXHWEz3Cffc6xpO/Do30kRPBeY/Xpv08uSRDsAGblaIvrbq
+         Nds2YC35WM18M5TZdofgT2n9ccWarRL3WGhw3l7nDbix7ySFRuCGKRAWhAdz18Do4WO0
+         GYaTZc1oD0OuECAXGctjzmDK9YHab6W70fw8sneDY82pu9aYshIeDVAonOQ1bygt5tMF
+         bkuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741951206; x=1742556006;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kuZJxZRkEpt8xsZxnwZl3yzeOAN2FOmvkLBErroOjUM=;
-        b=iZY1bUxaKUuH3plD0OiPwO7wyfhcUgOT/2MYl5J+nKlDVya5ELI3FBiwXdkWrCLgI6
-         +nA6d85rpx8ovOVAPJZC29OkyUirD/exGxyfNjBx6bhbdyr5IHO+7CID9sbhPfrnALW3
-         tXfGAJLcTJIhLbfpzqjvl1ABFLQ6pij2y6wmEhG81X75U98cay4lOxPKsOnozxfLK6Z3
-         qo/ujl1+AmGnLeiKMN36QYwhEXmiyEZK9R8KrSJsRXhEpRhhH2HYz5Eg5+YVfiyOWMea
-         O7eX7C5mfVjgFTH4bJ3Q1C0UrApHDY92KzFTKuGKecAnGq9LndfF1q1T+47X/VKVZAe7
-         HEBA==
-X-Gm-Message-State: AOJu0Yyr+BxPe5AWxukiqkz/erjlOxJXMicxjfMHPrmf7O8GIwo/dXRX
-	9ykSuiQCreUOurdAJDDN5Ietnq3CauAg3x2DyUOeq18vXJYp/dfAlZTHUP1TiA4T58hphx7Y4at
-	9/GI=
-X-Gm-Gg: ASbGncuIkUh+9FraQx8IsGeAUX7TKEFQy6XxI2TEGjyfIRS69FrisWUDlWQy9QkEEoq
-	MrK7FzvkVwibgsqiz8acZ0KHH6sVvB1T31t/YAQomDPm0GYMXZ7LLCIOP2B+9m2FS4S0+CIJ8vL
-	CBcvujVDkKTwJInQyf/++m1eopCrDnmz5jxSsE40XOwNijdJcxobnZbmnMheuPeZh+l/Cr58Pjd
-	7eIvRA6daOuijaN/Fx6c55TLJdOkPJKm13AzdgGaNMsUQmkfmkUsGrGovkUA1C94djD3ghNPbZf
-	bja6fGdQTZkOAWkHcXlltT7q2Tn8QBHPKOY1LeJ39dpUE+Q83JmIQbHDr2G68Dehqy7j2OPva0C
-	6+PB90UaXIU42aA==
-X-Google-Smtp-Source: AGHT+IFPd1lPW6iJ/CwElGoZHpeB3yB5axlyzfWW3h7hSqAK8rzqBVbDFmNEOgAo4UfXwltvLXX1sQ==
-X-Received: by 2002:a05:651c:881:b0:30c:2e21:9958 with SMTP id 38308e7fff4ca-30c4a8edd69mr9139211fa.32.1741951205638;
-        Fri, 14 Mar 2025 04:20:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1741951215; x=1742556015;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xULRQVdTY/LxRb9S1oZ219XVrnqgSCEV0rTfQfvvQAA=;
+        b=ZXV2NzfvEGc6mei8dgjePGyXADOSxGa2rTFVN1d+Q1n9qgeeC8uXWy7vgjRLWyxJII
+         q0MKwd5gZvPa/fiIj+dUTfT1QZlbyYmfH6shEHMwxCcB5X4kLM1Zi4SJC6LevnJq/zuY
+         kDsA+2AakIAItDqxe9+g6UURIelJvNXtHMp9hpWJ+pX5oyblaGD089w9F6gMafhAFvk6
+         r2rHSWV+XqGWIjlKwskQ1zK2Uc1UKyaaXP66iNI02yDMoEfVwzo2dHLGF/qU5wkiZnOc
+         YgByrwx9KRlS/37nz/y5FCx0cJfWkFGqWxWfOT9ahbwBAkc56wwu9RjLA+Ge0ayr7miX
+         LIeg==
+X-Gm-Message-State: AOJu0YxC4847TYd753SNurw42v2PLuB4d++WlCyrl0JTIaWY4Fw6o/di
+	bVd3jCKgQiQ1a3kRfmVaxJHBp4TtSfN/I4NQ+ifrqznyLsY+AypMK+c2sC5DsmlMh46XAHT3hTe
+	LjkA=
+X-Gm-Gg: ASbGncvmNVjJbxBUWvEPlkdm78yzW9Ekb+/Hu3ld/jcQBMbNcYj3zF3tyx42nn2WRHr
+	Xyr1S0cYrM+dLBVRXDWC5UMlVh/Sxok/XJXOQO65xg2mKfIcA9/Std+bFwKU/6+s3si4JgTdmb1
+	QOYUqXwB6gCMwR3cJktjgt0wczFYq/xSN/8iyWp6EtvBd49egQrEmwnLA/dJAgym5GUlfsH2ru0
+	jlgn2bL1IjLDcZBT27bzggz66G5gDEci6c3ouGiBrwFwyttXOvGv16t7yOcR2r3yz0spDy5jwt3
+	6nzU3tbkJu61OrppI5WIKkge8xN4QJdlChwNEuL9k6buieKq3xnail+7353htJqsTN3ENFB4osx
+	WKKL5Rhmgh2BfIg==
+X-Google-Smtp-Source: AGHT+IGMZNEvcponC1DHxf5eD/n8NYKEy62pa1AIY/6OulzzR3GhhnsoRfG6TIgZak0ivooIISb1Nw==
+X-Received: by 2002:a2e:95ca:0:b0:30b:f92c:16f3 with SMTP id 38308e7fff4ca-30c3de16cafmr22612641fa.11.1741951215080;
+        Fri, 14 Mar 2025 04:20:15 -0700 (PDT)
 Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f0d26e5sm5364391fa.20.2025.03.14.04.20.02
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f0d26e5sm5364391fa.20.2025.03.14.04.20.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 04:20:03 -0700 (PDT)
+        Fri, 14 Mar 2025 04:20:13 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 0/6] systemd based initrd and modular kernel support
-Date: Fri, 14 Mar 2025 13:19:37 +0200
-Message-ID: <20250314111942.304800-1-mikko.rapeli@linaro.org>
+Subject: [PATCH 3/6] uki.bbclass: drop serial console from kernel command line
+Date: Fri, 14 Mar 2025 13:19:39 +0200
+Message-ID: <20250314111942.304800-3-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250314111942.304800-1-mikko.rapeli@linaro.org>
+References: <20250314111942.304800-1-mikko.rapeli@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 11:20:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212832
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 11:20:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212834
 
-systemd based initrd supports more security, encryption etc features
-than custom shell script ones but oe-core lacks support for it.
-Convert core-image-initramfs-boot to create systemd based initrd
-if "systemd-initramfs" is set in DISTRO_FEATURES. Includes a test
-for this initrd to mount rootfs via Unified Kernel Image uki.py.
+The kernel will continue using console from firmware which is
+much better on HW when we may not know at build time which
+console HW and drivers are available, e.g. like on
+genericarm64 machine.
 
-Sadly the boot time is really slow, e.g. over 30 seconds with
-systemd based initrd. One of the major reasons is the large
-amount of kernel modules built into the linux-yocto kernel and
-processing of their udev events in userspace. Thus add
-kernel-initrd-modules meta package to easily install
-subset of all kernel modules to initrd. The subset
-supports "mount rootfs from any block device" but
-doesn't include graphics, UBS etc support. Without this
-generated meta package, initrd recipe needs to manually define
-which exact kernel modules to include which breaks if
-those modules are built into the kernel. Thus the initrd
-becomes machine and kernel config specific and hard to maintain.
-With this meta package a generic initrd can be created.
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/classes-recipe/uki.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Separate changes to linux-yocto compile a lot more drivers
-as modules but they depend on these initrd changes.
-
-Mikko Rapeli (6):
-  systemd: use serial-getty-generator on genericarm64
-  systemd: enable efi support if in MACHINE_FEATURES too
-  uki.bbclass: drop serial console from kernel command line
-  kernel.bbclass: add kernel-initrd-modules meta package
-  core-image-initramfs-boot: add option to build systemd based initrd
-  oeqa selftest uki.py: add aarch64/arm test with systemd based initrd
-
- .../recipes-core/systemd/systemd_%.bbappend   |  3 +
- .../kernel-module-split.bbclass               | 46 +++++++++++
- meta/classes-recipe/kernel.bbclass            |  5 +-
- meta/classes-recipe/module.bbclass            | 37 +++++++++
- meta/classes-recipe/uki.bbclass               |  2 +-
- meta/lib/oeqa/selftest/cases/uki.py           | 76 +++++++++++++++++++
- .../images/core-image-initramfs-boot.bb       | 28 ++++++-
- meta/recipes-core/systemd/systemd_257.3.bb    |  1 +
- 8 files changed, 193 insertions(+), 5 deletions(-)
- create mode 100644 meta-yocto-bsp/recipes-core/systemd/systemd_%.bbappend
-
+diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
+index d9a7fb0e6f..fedff222c6 100644
+--- a/meta/classes-recipe/uki.bbclass
++++ b/meta/classes-recipe/uki.bbclass
+@@ -81,7 +81,7 @@ UKIFY_CMD ?= "ukify build"
+ UKI_CONFIG_FILE ?= "${UNPACKDIR}/uki.conf"
+ UKI_FILENAME ?= "uki.efi"
+ UKI_KERNEL_FILENAME ?= "${KERNEL_IMAGETYPE}"
+-UKI_CMDLINE ?= "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
++UKI_CMDLINE ?= "rootwait root=LABEL=root"
+ # secure boot keys and cert, needs sbsign-tools-native (meta-secure-core)
+ #UKI_SB_KEY ?= ""
+ #UKI_SB_CERT ?= ""
 -- 
 2.43.0
 
