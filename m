@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C43F9C282EC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC6E3C3DA4A
 	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 19:36:03 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.2818.1741980960090097416
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.2790.1741980958397802777
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Mar 2025 12:36:00 -0700
+ Fri, 14 Mar 2025 12:35:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Mc7ow0ID;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2235189adaeso44374405ad.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 12:36:00 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Q7HG2yOH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22423adf751so40341515ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 12:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741980959; x=1742585759; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741980958; x=1742585758; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YdK75pJJvOAyZ7RacQCXP0X/9zt+mZmlsyt17OKzdiE=;
-        b=Mc7ow0IDQnP1EUP/H6zajd/GRBNJkk3I5wKXMRMvAm1oqoYeIZkEzZDI+0yBjpJZ6n
-         AIY/Aw3cg7kQ5P2Wn5CEcBXs66nS4mN1M3fZraMNf9w6V1dptJ4XUIRVpyUDlOLU/D03
-         wj6DETBM/mFCkYsTtWyMl9OMxqTH6peuRtDUajlcdCr8f8MOR4Hv5rTIH2HBIDThvIry
-         QEZV/7w3gxpD/uGerETIHlyQVQAvtAs3uOYySVipsldJz0iNevF6Nhk8fNqChvQLL4tD
-         Z75z7AS+4wXXyrKx2TjM3y0FZASWTlE88TkjyRsfvGupjHtvbJ6lKSFqbRsqJfUIcLPK
-         +5OQ==
+        bh=0xQx9g9vrnjZtQUiUBybHDlx54xXQkiVVvlB7/G7wfA=;
+        b=Q7HG2yOHZn3hGT/S1SoR56cnwE60+1RAnE8kVbT/u81mr47OjFVskX4iu8OpmPazvY
+         4FT+SFUHwNZNLKpWce34om587LMOEfKX7Ne4Q84NARzk5QIcZzrx61YUvlclW4Y9xPCV
+         iziBX/g/N4bZ+etFtKK7t0pcw5UYccc7R2g006T4KHjNvbPR6g9kU/lJkliUKoP6J+o/
+         wX8JJP/3Pd+xmcxsBvzrbwothQJ6vAtocT5hONOY9QbYCTpnYfcYIsfvewzs+3fjCyA6
+         XS2C1gMXNt6tyT7GRqX+Zjuo3A+rjVhtnDmFv1Hlqn9aEATD8+JbVsVaKH5QO8m8A3q7
+         +mMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741980959; x=1742585759;
+        d=1e100.net; s=20230601; t=1741980958; x=1742585758;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YdK75pJJvOAyZ7RacQCXP0X/9zt+mZmlsyt17OKzdiE=;
-        b=IvTnU2BDXZNuf4btRYP/DQOSV3wQynsMZGKdjG3hOqccCgtWidc6TIoZc08jefUUd1
-         CVFhJRCAaF61slclFJa+ffweDe0KakyQT88p2CcFi0GCifNpeFUcZ7P4ApB0z9kAVzsD
-         WufjYng2U8Fbjl5F/8gKap6kXmNCjyX8tnjDkchhTXN7dkXpUkx8wTRXNAFgkAPOqmeE
-         3wL9+LO5kMd7ZXXWHVF8nFk3YPZPWVezJ9+UykBnQX1XxuI2REm81cA7rlPXhEXfFSLJ
-         0gbzZ3iWBQsgTE0POyavVw3zsuVeaxJsMibe09dpOr7SnEBZ5AEDA6q2BCTJ98cJfWb0
-         rJAQ==
-X-Gm-Message-State: AOJu0YxKNODt4pPalpvy6MwsnP2tpAqO0m9suz558WjCdwMQm13Wlsjz
-	OONr+sg7uyqlLS0vZ4tV5EBVET3KnSzdqfCgnqsZzBHCyujn3eRuHO5WUA6tJ6vOVXnXM3x3rfh
-	+
-X-Gm-Gg: ASbGncvigW9FOvWiBCBr5KtLLue0O4ACMys5LjADJxsTyYTVBKTdNCd/XXFJHeYXOry
-	AplR3i5VB21C92OQmpET/1XiRGAlF3FSkgXeg6Kdq9A38a+tLxIsoONF7x08+jUUILDWTwM0cqR
-	j0o3QD83hjZbL9B28cjkHYlCr05uIPNoVaxQ+BQc8wcso6LqGFDYvCspUR3VLBsUZb8RJDjn7dj
-	6m37o8GPUw4IHoryY1oTSuDd+N53Lrv+Xluv5cr/u4EpmGFu0kUBoKMsrWc+24h8YzzMzlSK9oK
-	UOUBUVF3zrrYmMs5Ga1vjHJGosnnh/GZu/XdPCIQ7BBtufI=
-X-Google-Smtp-Source: AGHT+IH5cMQYaOz86mQpSgf2LTaQT9OPo93yh3PWb3bqf1nC0Qdmn5u4hI+LXWgwqLXoaX+tWIdBuQ==
-X-Received: by 2002:a17:903:13ce:b0:215:758c:52e8 with SMTP id d9443c01a7336-225e16b1b84mr56340005ad.12.1741980959314;
-        Fri, 14 Mar 2025 12:35:59 -0700 (PDT)
+        bh=0xQx9g9vrnjZtQUiUBybHDlx54xXQkiVVvlB7/G7wfA=;
+        b=oLEiGsLaE5OjzRpUZyPL+B4yUbs3ita8TF0sZM3wjd5yKOqIE9I2KfrL6aGBUr/uTO
+         gibGvl2mTHjxq6RF/AqnJoi8XICs/GfmFH+0SNhtjSiHUIOkX13W+ecpbNeuzCCJhRic
+         aJq2TUyjhmHCMkNC+nafJmMcOXUmpzAGV6pGGkLbO7eJSucBijiU62sXDa2zSO0QvR+H
+         qSNjNYcUIkXOWc+gXtvH7fesdo41ypedyiz0Rr2JIRWko59MmIxu5qopLkT4tyebaYWM
+         5axmEqaikwNH02vRuyDFZb+3DYa+883/JXMU5C+AzU0d/xlUMeWWUrJxvPaaBEZtpprc
+         FGfw==
+X-Gm-Message-State: AOJu0YxGjVycjAocoeAf78NT7RDI1YK8I7PrptAjURS36IGT9g+bm/Dy
+	z1S3gNtVZsJLeCXbpjJweG0XoY2/6ktOsu0jMstvSICJqIsbrmRyHh+azbLKVyaaTWm+o1thVFD
+	J
+X-Gm-Gg: ASbGncuAFnVaJjkvD61DP9N3ot7aqyFIJQDhzWtNx01xQl5DSJVtMSlhLvgmXjRBjnt
+	lnUx8HzgPJn0LZLM4u+OvYQyWszOcwF2lItLUM6tos3MGA5SfvJSEFkH6USQSnwPtn3vWYqzKXI
+	6q/r/OwBwv7zea2/j2mqpkf2wTLER6grCfQQhVd/StcI1FojrKU7U4CvXiq5R+LKVe3R9C93Ihl
+	wwH45KoAOtH3IL3DmaGPHPQ9YpKCC7Fe8nvd13+PKI5k56TCZByGirnNeSEZ4NtAGzVdGYe92gn
+	XxJiFuTO8XGwZd3yI3aPgLLYnWQUvtWDXpQ8
+X-Google-Smtp-Source: AGHT+IEz9s+ovpR+DrQCWJJl+bYkffNCmxP/7/ore5xJjARPMa5nS7VVBWs9ZsBNRdwt1AyRBKIafw==
+X-Received: by 2002:a17:902:c406:b0:224:c47:cbd with SMTP id d9443c01a7336-225e08682b3mr43664415ad.0.1741980957645;
+        Fri, 14 Mar 2025 12:35:57 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:6978:e88e:1ab7:676a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6d5dsm32265685ad.153.2025.03.14.12.35.58
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6d5dsm32265685ad.153.2025.03.14.12.35.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 12:35:58 -0700 (PDT)
+        Fri, 14 Mar 2025 12:35:57 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 2/4] mpg123: upgrade 1.32.6 -> 1.32.10
-Date: Fri, 14 Mar 2025 12:35:37 -0700
-Message-ID: <a3db638932e76ac0972d7905072cc7ab3f2abb75.1741980835.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 1/4] libarchive: patch CVE-2025-1632 and CVE-2025-25724
+Date: Fri, 14 Mar 2025 12:35:36 -0700
+Message-ID: <a4ff82c789d50a3f411170636679ce46c8f84b25.1741980835.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741980835.git.steve@sakoman.com>
 References: <cover.1741980835.git.steve@sakoman.com>
@@ -67,57 +67,120 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 19:36:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212861
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212860
 
-From: Zhang Peng <peng.zhang1.cn@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Changelog:
-==========
-1.32.10
-  - scripts/tag_lyrics.py: fix for python3
-  - libout123: Use strtok_r() to avoid conflicts multithreaded contexts
-  - libmpg123: Un-break DLL builds that need I/O functions defined in libmpg123.c
-  - ports/cmake: More fixup to also produce .pc files with Libs.private.
-1.32.9
-  - libmpg123:
-    -- enable 64 bit offset path for MSVCRT and avoid warnings about
-       MS's game about POSIX API with and without underscores
-    -- Increase the library patchlevel, as was forgotten on previous
-      release.
-1.32.8
-  Update: The buffer overflow got assigned the CVE ID CVE-2024-10573.
-  - libmpg123:
-    -- Add sections to assembly to support PAC/BTI code
-       for aarch64 (-mbranch-protection variants)
-    -- Prevent premature application of header info into decoding structure,
-       at worst having triggered out-of-bounds writes of decoded PCM data
-  - out123: Show --quiet in --longhelp.
-1.32.7
-  - ports/cmake: Work around bug in CMake that does not detect FPU on Apple ARM CPUs.
-  - Fix some laziness (func() to func(void)) for standards conformance.
+Pick commit referencing this MR which was merged to master.
 
-Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../mpg123/{mpg123_1.32.6.bb => mpg123_1.32.10.bb}              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/mpg123/{mpg123_1.32.6.bb => mpg123_1.32.10.bb} (96%)
+ .../CVE-2025-1632_CVE-2025-25724.patch        | 83 +++++++++++++++++++
+ .../libarchive/libarchive_3.7.4.bb            |  1 +
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch
 
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.32.6.bb b/meta/recipes-multimedia/mpg123/mpg123_1.32.10.bb
-similarity index 96%
-rename from meta/recipes-multimedia/mpg123/mpg123_1.32.6.bb
-rename to meta/recipes-multimedia/mpg123/mpg123_1.32.10.bb
-index f7786e8588..82f7b7d332 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.32.6.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.32.10.bb
-@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
- 
- SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "ccdd1d0abc31d73d8b435fc658c79049d0a905b30669b6a42a03ad169dc609e6"
-+SRC_URI[sha256sum] = "87b2c17fe0c979d3ef38eeceff6362b35b28ac8589fbf1854b5be75c9ab6557c"
- 
- UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch
+new file mode 100644
+index 0000000000..459b664180
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch
+@@ -0,0 +1,83 @@
++From c9bc934e7e91d302e0feca6e713ccc38d6d01532 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Peter=20K=C3=A4stle?= <peter@piie.net>
++Date: Mon, 10 Mar 2025 16:43:04 +0100
++Subject: [PATCH] fix CVE-2025-1632 and CVE-2025-25724 (#2532)
++
++Hi,
++
++please find my approach to fix the CVE-2025-1632 and CVE-2025-25724
++vulnerabilities in this pr.
++As both error cases did trigger a NULL pointer deref (and triggered
++hopefully everywhere a coredump), we can safely replace the actual
++information by a predefined invalid string without breaking any
++functionality.
++
++CVE: CVE-2025-1632
++CVE: CVE-2025-25724
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/c9bc934e7e91d302e0feca6e713ccc38d6d01532]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---------
++
++Signed-off-by: Peter Kaestle <peter@piie.net>
++---
++ tar/util.c       |  5 ++++-
++ unzip/bsdunzip.c | 10 +++++++---
++ 2 files changed, 11 insertions(+), 4 deletions(-)
++
++diff --git a/tar/util.c b/tar/util.c
++index 3b099cb5..f3cbdf0b 100644
++--- a/tar/util.c
+++++ b/tar/util.c
++@@ -748,7 +748,10 @@ list_item_verbose(struct bsdtar *bsdtar, FILE *out, struct archive_entry *entry)
++ #else
++ 	ltime = localtime(&tim);
++ #endif
++-	strftime(tmp, sizeof(tmp), fmt, ltime);
+++	if (ltime)
+++		strftime(tmp, sizeof(tmp), fmt, ltime);
+++	else
+++		sprintf(tmp, "-- -- ----");
++ 	fprintf(out, " %s ", tmp);
++ 	safe_fprintf(out, "%s", archive_entry_pathname(entry));
++ 
++diff --git a/unzip/bsdunzip.c b/unzip/bsdunzip.c
++index 7c8cafc3..4a9028b7 100644
++--- a/unzip/bsdunzip.c
+++++ b/unzip/bsdunzip.c
++@@ -904,6 +904,7 @@ list(struct archive *a, struct archive_entry *e)
++ 	char buf[20];
++ 	time_t mtime;
++ 	struct tm *tm;
+++	const char *pathname;
++ 
++ 	mtime = archive_entry_mtime(e);
++ 	tm = localtime(&mtime);
++@@ -912,22 +913,25 @@ list(struct archive *a, struct archive_entry *e)
++ 	else
++ 		strftime(buf, sizeof(buf), "%m-%d-%g %R", tm);
++ 
+++	pathname = archive_entry_pathname(e);
+++	if (!pathname)
+++		pathname = "";
++ 	if (!zipinfo_mode) {
++ 		if (v_opt == 1) {
++ 			printf(" %8ju  %s   %s\n",
++ 			    (uintmax_t)archive_entry_size(e),
++-			    buf, archive_entry_pathname(e));
+++			    buf, pathname);
++ 		} else if (v_opt == 2) {
++ 			printf("%8ju  Stored  %7ju   0%%  %s  %08x  %s\n",
++ 			    (uintmax_t)archive_entry_size(e),
++ 			    (uintmax_t)archive_entry_size(e),
++ 			    buf,
++ 			    0U,
++-			    archive_entry_pathname(e));
+++			    pathname);
++ 		}
++ 	} else {
++ 		if (Z1_opt)
++-			printf("%s\n",archive_entry_pathname(e));
+++			printf("%s\n", pathname);
++ 	}
++ 	ac(archive_read_data_skip(a));
++ }
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
+index 80b2e49eac..156a6bdaae 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
+@@ -34,6 +34,7 @@ SRC_URI += "file://configurehack.patch \
+             file://CVE-2024-48957.patch \
+             file://CVE-2024-48958.patch \
+             file://CVE-2024-20696.patch \
++            file://CVE-2025-1632_CVE-2025-25724.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
  
 -- 
 2.43.0
