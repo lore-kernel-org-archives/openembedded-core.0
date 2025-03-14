@@ -1,100 +1,106 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <artemiy.romanov@yadro.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A76C282EC
-	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 11:34:04 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.12200.1741952034575916887
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C61E1C28B2F
+	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 12:27:34 +0000 (UTC)
+Received: from mta-03.yadro.com (mta-03.yadro.com [89.207.88.253])
+ by mx.groups.io with SMTP id smtpd.web10.12972.1741955251493099475
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Mar 2025 04:33:54 -0700
+ Fri, 14 Mar 2025 05:27:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Am1VJKxW;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DrnEPNOF;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010195946ea395-4660de72-128a-48d8-9b54-12c4400ab6ab-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1741952033; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=JpG0Kf8mKna1BiWF7qP5x3yJfBspgXONCCWG3X09ZdM=;
-	b=Am1VJKxWlIEgpqkFaG4UlD9VGijBIM6Rl5yc7pypOwrNJLLl+jeGDaZ9nQ0iQqji
-	hykcHneMhOGaNegetgzGudcjH7JYRIDhn7fv53NljE6YEiYuQ2JmO1GKEjvnvsgcPo/
-	lyON3VyiRm0ryf2RvxUXMpSlJOFEvw7WhqsfXLlg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1741952033;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=JpG0Kf8mKna1BiWF7qP5x3yJfBspgXONCCWG3X09ZdM=;
-	b=DrnEPNOFqPKLcQuBRU8e5lmkbPKWmCi3bZBGsmVjYdjuBRT18qwv3W4+5sPaiuxQ
-	CsOhV8+f08K+F1fkATed4VpKdCp/tTJ8aRS/ZTWoutOgvAz/IeH6oHcZbsByP8qYyqv
-	GLXD7+7oKIiUc2k5J1fuZiKnxp0cZ8vTj1no1ltA=
-From: patchtest@automation.yoctoproject.org
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2 1/6] systemd: use serial-getty-generator on genericarm64
-In-Reply-To: <20250314112158.305010-1-mikko.rapeli@linaro.org>
-References: <20250314112158.305010-1-mikko.rapeli@linaro.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195946ea395-4660de72-128a-48d8-9b54-12c4400ab6ab-000000@us-west-2.amazonses.com>
-Date: Fri, 14 Mar 2025 11:33:53 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.14-54.240.27.23
+ dkim=fail reason="dkim: body hash did not verify" header.i=@yadro.com header.s=mta-04 header.b=KxvypZR6;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@yadro.com header.s=mta-03 header.b=x9BJnKgX;
+ spf=pass (domain: yadro.com, ip: 89.207.88.253, mailfrom: artemiy.romanov@yadro.com)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-03.yadro.com A65B2E0002
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-04;
+	t=1741955247; bh=isjbkvrl5FdJQ2F3Z6xiLyUeT5//qCv1wGaDq5DJZNc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=KxvypZR66jaz2TQh6zt1lMHrz4EONYZh4MuEQ4jjGq6Zxh30jIdbKGFFJIPwPa9J5
+	 6hn227yT/JGNeO2f4JyNIRI3hG5yBfKHgWkwiXkI44uBYsIeAf45wBUP50vuqQtKEB
+	 lcpbSCX4uv2yPTRNs/pSr2eNsG4VVEKAn2l5dxbd71xvzLIDa1I3qQMZthX8sqpJer
+	 z8hedz71N3Afcokn1mODoGaMgRfPwoowMVCw2HPJ/pA0epkMHxW8Ump99BZooc7cTe
+	 uKih8PIcDnzzepXSItGlF+b0hJ3fjOqYwTn6uAOy+4DLTBTTt3TPMuj4jq57LTX9vy
+	 w+Mh1v3gJ41yA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
+	t=1741955247; bh=isjbkvrl5FdJQ2F3Z6xiLyUeT5//qCv1wGaDq5DJZNc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=x9BJnKgXszuLmq8apONIbc3d6zxkSb7eU/aSlK682/D3P39bWlO3ywVHYp6J2IZPY
+	 7JRVEaLknY8Fpisr3MIqgfA8uBrDiiNS9cxqZNawGjgn1Rg1xprhjjXgoMTflObtHD
+	 +pDD6HumsHcwal3epjnu+BuyfZJTJMeQHTq/+Qo9F+8CyYa6rwGIqA+CTuj4TFVrvS
+	 Q3Ne4Rh2ImycVP9SGisc3KitLhG8b/OwJiyolEsnm4lg1iKHOvKOSRQFS8n6dv4BTQ
+	 U5W7hG+8NvvCv/hNeUEIDxkCaVlkn1bGNlyihYjTcwsYAmQSo9HMbrYzj45lM6ZWxS
+	 lpx8GpFpO+86A==
+From: Artemiy Romanov <artemiy.romanov@yadro.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Artemiy Romanov <artemiy.romanov@yadro.com>
+Subject: [PATCH] rpm: fix redudant slash remove and add extra cmake flag
+Date: Fri, 14 Mar 2025 15:27:06 +0300
+Message-ID: <20250314122706.531626-1-artemiy.romanov@yadro.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Type: text/plain
+X-ClientProxiedBy: T-EXCH-09.corp.yadro.com (172.17.11.59) To
+ T-EXCH-12.corp.yadro.com (172.17.11.143)
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 11:34:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212839
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 12:27:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212840
 
---NextPart
-Content-Type: text/plain
+do_install:append() formats paths using sed in macro files incorrectly
+causing resulting paths to have format 'usr/*' instead of  '/usr/*'.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Absence of debugedit in build-time depends results in incorrect expansion
+of '%__find_debuginfo' in usr/lib/rpm/macro file which looks like this:
 
+%__find_debuginfo	__FIND_DEBUGINFO-NOTFOUND
+
+Adding debugedit-native in DEPENDS affects performance, so better
+solution is passing extra argument to cmake build call via EXTRA_OECMAKE
+variable which fixes the problem:
+
+%__find_debuginfo	/usr/bin/find-debuginfo
+
+Signed-off-by: Artemiy Romanov <artemiy.romanov@yadro.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-1-6-systemd-use-serial-getty-generator-on-genericarm64.patch
+ meta/recipes-devtools/rpm/rpm_4.20.0.bb | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-devtools/rpm/rpm_4.20.0.bb b/meta/recipes-devto=
+ols/rpm/rpm_4.20.0.bb
+index 281fde1c82..cf01335799 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.20.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.20.0.bb
+@@ -57,6 +57,8 @@ EXTRA_OECMAKE:append:libc-musl =3D " -DENABLE_NLS=3DOFF=
+ -DENABLE_OPENMP=3DOFF"
+ EXTRA_OECMAKE:append:class-native =3D " -DCMAKE_INSTALL_SYSCONFDIR:PATH=3D=
+/etc -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=3D/var"
+ EXTRA_OECMAKE:append:class-nativesdk =3D " -DCMAKE_INSTALL_SYSCONFDIR:PA=
+TH=3D/etc -DCMAKE_INSTALL_FULL_SYSCONFDIR=3D/etc"
+=20
++EXTRA_OECMAKE:append =3D " -D__FIND_DEBUGINFO=3D${bindir}/find-debuginfo=
+"
++
+ inherit cmake gettext pkgconfig python3targetconfig
+ OECMAKE_GENERATOR =3D "Unix Makefiles"
+=20
+@@ -131,10 +133,10 @@ do_install:append:class-nativesdk() {
+ }
+=20
+ do_install:append () {
+-	sed -i -e 's:${HOSTTOOLS_DIR}/::g' \
+-            -e 's:${STAGING_DIR_NATIVE}/::g' \
++	sed -i -e 's:${HOSTTOOLS_DIR}::g' \
++            -e 's:${STAGING_DIR_NATIVE}::g' \
+ 	    ${D}/${libdir}/rpm/macros
+-	sed -i -e 's:${RECIPE_SYSROOT}/::g' \
++	sed -i -e 's:${RECIPE_SYSROOT}::g' \
+ 	    ${D}/${libdir}/cmake/rpm/rpm-targets.cmake
+=20
+ }
+--=20
+2.30.2
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
