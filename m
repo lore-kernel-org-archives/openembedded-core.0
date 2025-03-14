@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F9AC35FF6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 797BDC35FF1
 	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 14:10:35 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.15401.1741961425412615952
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.15446.1741961430005792702
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Mar 2025 07:10:25 -0700
+ Fri, 14 Mar 2025 07:10:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=C4cg1TbE;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2232aead377so47385015ad.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 07:10:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yiXMKMMh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22355618fd9so43208215ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 07:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741961424; x=1742566224; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1741961429; x=1742566229; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kElCm6tRMqNOX4jmaNGaiY/yGa0e4NW6rHDrEErZ+IE=;
-        b=C4cg1TbEh9kVpz/DsS5OIAtWdtzBzufWbEMLxGqgYddkLsfrRDCABvCIQJrOEmqypk
-         G8e9zZlnJBEc7gObaQMAAtf0ETMvuvqLZIeYcoTdX0MVhYNpL5J/YlSHsGDvL3cV27BM
-         MHbWIdS53Pq/noFPqxAfrQFsRlHAb1Lbp7Ux9OguCyuv01Gbso1lqLu5eiFgQAzB+lEp
-         ggpbVNkt+xyh8gxhOzk/w/I1kiNrc26Zd/ZmGEH6NWibo+oVc5/54cUhBbNDMQX+q16e
-         u4sp0VhUkTgxnc3tkMXEjakkNm2Xv+qGkPAlmSWoJVduPAR71Lns7970Z00XstAw8ovP
-         nZVw==
+        bh=VEI7b3MOEpDRklXILya41OGU5U6rIVJsgylePKSQmso=;
+        b=yiXMKMMhmz2l5JlLfUKxxvDQsA2yEAO1rt38KNa0jwBEmDuGH0rVdUWhzhV1veq6mR
+         p0S/CGEtXyx3gqyiSQyKSns8VJgehTu/5DMb2NiKd97m9GmDDYD8o6WDlk0mXxFmNu9l
+         NajTaV9p1tRTjcJEufOmu8rAjmjj23r932xJXpbCxodwvMwcultiPnVe9Oto3MCEL5u2
+         4RB4mh0zMP9leXZ7PD20nSfvn2gKxL0QJxmtAc40ad4fxZYlqu/dTiaBH3phq0e9+r6B
+         oBLtZP9BeZofuMIIEQQpTqjpqTdk7JoafDECpljta+bqjCwR1LQVOMjfTuNZBqBBKzdu
+         lpYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741961424; x=1742566224;
+        d=1e100.net; s=20230601; t=1741961429; x=1742566229;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kElCm6tRMqNOX4jmaNGaiY/yGa0e4NW6rHDrEErZ+IE=;
-        b=Fr4HBU6MCXYlNNYFFGx51zonEq26Zht9LwgxiCKJbmUkpoLGR/JhfR1jCx6fK2uKa3
-         DLGUnoLFs8gV1SBfj71hx8bhoGSCs4Y0t8iNmVjnmWdZkzDXmouYyhv7dC2L3Vi9r35l
-         i8DnFZTg+3ND5Y71cqjQ8RUf9McnTadlhHg1I3enUbQzaLaisGTJtdlXoihIwZi43Oow
-         97R0ZdYgoyYga+UHXjHEmw5Tls6UppwlbrTW8a+US4U2W6Qe7ekJktJn7ZLTKtPNaLSw
-         2c0TRv+jKQdlDPT5pkoZ9CaTwW7zFbzRDKpcJXQvPhYxeGfz2ermKQVwfInpCphTdHL2
-         JLGA==
-X-Gm-Message-State: AOJu0YzfAAkcoucF4yzHKw7rah9TmlfJGt+VIKqD74BpkkiaXOIIcExv
-	GiLKgXdKkoZ4uoKtb/OMccuThZJT83bOKNM5uvI8yQJduXRgNz8rZAURiNvQoL2Suo6FfueUkTK
-	8
-X-Gm-Gg: ASbGncu2hPJE2dAa0HdYPeUF6pUoUdTMlBO1cHMQ77IKqvBb/zXVfPjSUCz8O/H99X+
-	NAoJtg311G8bZiNCj2dgR3kkjpr48U3A65hDiEw/c1JAWgfstc+ONBkhabQe6vmrtQYbZPOuFA/
-	9Nn6kx8/YskKClDEZpZe0P6tcWvqmb5VOx2MSnh4GCBDNRksbT7aBOvnj1Muq3O2UzhYGAcQilp
-	DpddI0+xu/jbAzHOzHSEBTJk4KqvUDpUhNUgZk+rAvXnKHHxBdp8ASs9CtuuxNiLczLvwKFy5Xk
-	YmQ2fvGZxCauvXUwJH2duHBvHte5SwuDcZ3g
-X-Google-Smtp-Source: AGHT+IF/Bj/kfJ0UnPVsmVHaW4UQM7eu6nk8I1yPiod79yUuy1jFbL/Wx/a68xqcJuIEHjFmi2wbrw==
-X-Received: by 2002:aa7:88d5:0:b0:732:a24:7354 with SMTP id d2e1a72fcca58-737223702c0mr3881917b3a.4.1741961423554;
-        Fri, 14 Mar 2025 07:10:23 -0700 (PDT)
+        bh=VEI7b3MOEpDRklXILya41OGU5U6rIVJsgylePKSQmso=;
+        b=aKSBUxQ53PHvSy0tPkscCcjaqfdiytYv/BrqwsJvzzZzDqAaBWwmjMj0T/rYo4D37i
+         ccJsgmT19cOq7R+0QVXxWyhw57H2j+ZDsGyvEA++EX6Gtbq8QBD+huZH2Qj9GSRUtSyr
+         bFtR1gn1URRPI9nQtVNagln+b/9BkT1aIF2eGk0/vdDxGZw+ODMBoW/UXOFL58qXofp3
+         5vuc+Oao4aMP+bpU3WsDlnjS9SJ8RFEnhLQBMXYD71Y5q1o92mhMG3Trf5mbPJ5NnIIO
+         RTT5n2vm8tpCznUg51dN8IyLJsLKrGqHcBJaamXFjOKnRvh/VOjRVoVgWQzPebKFT8/p
+         YH1Q==
+X-Gm-Message-State: AOJu0Yyn5M21WRmZCw9B4iFMj6GY0vOY/0z171Fq2oyHLua/OEEaiufd
+	1/a5oVb8OHemU2pviAlEY1NgoGgG5IDDDLzvZR9nGPXn9xgNfPTuqEz7CN5kOtcLIxUMiAkEwwt
+	e
+X-Gm-Gg: ASbGncs/fJLcshJd0uNbFSrQb+qZLi/G7YtLNuZbkSY9nBVBmXAI3dCi/LdyGokeLrF
+	PS0yb34UnRVaIYKrWoa1C1JMjDHnCwoNv2ny8FDQkqbLvgF3RY1HPAKhaArNnxBnO5jckLk3sQ8
+	vMRCYrE2sBmIVRGp15L1je1M1UAHGhAeml+ZFxhdkBUc7Vk+QUtF9fLG25WV9pDXA4kfA3VXTrQ
+	dHrWFfKQXa0JWI/j1uXfTwfxrRTgktKBXyVlyitIo3BKxwY3HhMHNgeksVcyvHUNvCB7WyHAzGC
+	QabSxX0Gn3B3RoxewV0qY+Da7nsotLOkGpbw
+X-Google-Smtp-Source: AGHT+IGNUssbFJxk06WaExoOWbszOc5b3PEdk+M2oYtvMiv16e+uVpGhXSyODbksgEjLk6xEiWUi9g==
+X-Received: by 2002:a05:6a00:14c1:b0:736:51ab:7ae1 with SMTP id d2e1a72fcca58-737224378cbmr3005223b3a.16.1741961428172;
+        Fri, 14 Mar 2025 07:10:28 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:f60d:ac2a:8f85:c2ab])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73711559269sm3000774b3a.65.2025.03.14.07.10.22
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73711559269sm3000774b3a.65.2025.03.14.07.10.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 07:10:23 -0700 (PDT)
+        Fri, 14 Mar 2025 07:10:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/7] grub: Fix multiple CVEs
-Date: Fri, 14 Mar 2025 07:10:06 -0700
-Message-ID: <5c4ee702f93f9bb4fcb557fd067242da16d63da2.1741961309.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 6/7] mpg123: fix CVE-2024-10573
+Date: Fri, 14 Mar 2025 07:10:08 -0700
+Message-ID: <a227b80e29c5ba5d963acaa4ddb4b9ad45483bd5.1741961309.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1741961309.git.steve@sakoman.com>
 References: <cover.1741961309.git.steve@sakoman.com>
@@ -67,904 +67,1030 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 14:10:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212850
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212852
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Zhang Peng <peng.zhang1.cn@windriver.com>
 
-Backport fixes for :
+CVE-2024-10573:
+An out-of-bounds write flaw was found in mpg123 when handling crafted streams.
+When decoding PCM, the libmpg123 may write past the end of a heap-located buffer.
+Consequently, heap corruption may happen, and arbitrary code execution is not
+discarded. The complexity required to exploit this flaw is considered high as
+the payload must be validated by the MPEG decoder and the PCM synth before execution.
+Additionally, to successfully execute the attack, the user must scan through the
+stream, making web live stream content (such as web radios) a very unlikely attack vector.
 
-* CVE-2025-0622 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2123c5bca7e21fbeb0263df4597ddd7054700726 && https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c16197734ada8d0838407eebe081117799bfe67 && https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7580addfc8c94cedb0cdfd7a1fd65b539215e637
-* CVE-2025-0624 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=5eef88152833062a3f7e017535372d64ac8ef7e1
-* CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10
-* CVE-2025-0678_CVE-2025-1125 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=84bc0a9a68835952ae69165c11709811dae7634e
-* CVE-2025-0690 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=dad8f502974ed9ad0a70ae6820d17b4b142558fc
-* CVE-2025-1118 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=34824806ac6302f91e8cabaa41308eaced25725f
+Reference: [https://nvd.nist.gov/vuln/detail/CVE-2024-10573]
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Upstream patches: [svn://scm.orgis.org/mpg123/branches/1.31-fixes@5442]
+
+Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../grub/files/CVE-2025-0622-01.patch         |  39 ++
- .../grub/files/CVE-2025-0622-02.patch         |  44 ++
- .../grub/files/CVE-2025-0622-03.patch         |  41 ++
- .../grub/files/CVE-2025-0624.patch            |  87 ++++
- ...025-0685_CVE-2025-0686_CVE-2025-0689.patch | 380 ++++++++++++++++++
- .../files/CVE-2025-0678_CVE-2025-1125.patch   |  90 +++++
- .../grub/files/CVE-2025-0690.patch            |  75 ++++
- .../grub/files/CVE-2025-1118.patch            |  40 ++
- meta/recipes-bsp/grub/grub2.inc               |   8 +
- 9 files changed, 804 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0624.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-0690.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-1118.patch
+ .../mpg123/mpg123/CVE-2024-10573.patch        | 978 ++++++++++++++++++
+ .../mpg123/mpg123_1.29.3.bb                   |   4 +-
+ 2 files changed, 981 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/mpg123/mpg123/CVE-2024-10573.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
+diff --git a/meta/recipes-multimedia/mpg123/mpg123/CVE-2024-10573.patch b/meta/recipes-multimedia/mpg123/mpg123/CVE-2024-10573.patch
 new file mode 100644
-index 0000000000..9b300c7224
+index 0000000000..ef7b84027d
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-01.patch
-@@ -0,0 +1,39 @@
-+From 2123c5bca7e21fbeb0263df4597ddd7054700726 Mon Sep 17 00:00:00 2001
-+From: B Horn <b@horn.uk>
-+Date: Fri, 1 Nov 2024 19:24:29 +0000
-+Subject: [PATCH 1/3] commands/pgp: Unregister the "check_signatures" hooks on
-+ module unload
++++ b/meta/recipes-multimedia/mpg123/mpg123/CVE-2024-10573.patch
+@@ -0,0 +1,978 @@
++From 89d1e6cfbfa5f34a4ba706cad1034e6ad7373726 Mon Sep 17 00:00:00 2001
++From: thor <thor@35dc7657-300d-0410-a2e5-dc2837fedb53>
++Date: Sat, 26 Oct 2024 16:23:36 +0000
++Subject: [PATCH] backport Frankenstein's Monster fix
 +
-+If the hooks are not removed they can be called after the module has
-+been unloaded leading to an use-after-free.
++git-svn-id: svn://scm.orgis.org/mpg123/branches/1.31-fixes@5442 35dc7657-300d-0410-a2e5-dc2837fedb53
 +
-+Fixes: CVE-2025-0622
++CVE: CVE-2024-10573
++Upstream-Status: Backport [svn://scm.orgis.org/mpg123/branches/1.31-fixes@5442]
 +
-+Reported-by: B Horn <b@horn.uk>
-+Signed-off-by: B Horn <b@horn.uk>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++The original patch is adjusted to fit for the current version.
 +
-+CVE: CVE-2025-0622
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2123c5bca7e21fbeb0263df4597ddd7054700726]
-+
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
 +---
-+ grub-core/commands/pgp.c | 2 ++
-+ 1 file changed, 2 insertions(+)
++ src/libmpg123/frame.c     |  15 +--
++ src/libmpg123/frame.h     |  46 +++++---
++ src/libmpg123/layer1.c    |   2 +-
++ src/libmpg123/layer2.c    |   6 +-
++ src/libmpg123/layer3.c    |  42 +++----
++ src/libmpg123/libmpg123.c |  22 ++--
++ src/libmpg123/parse.c     | 241 ++++++++++++++++++++++----------------
++ 7 files changed, 211 insertions(+), 163 deletions(-)
 +
-+diff --git a/grub-core/commands/pgp.c b/grub-core/commands/pgp.c
-+index 5daa1e9..1abdea6 100644
-+--- a/grub-core/commands/pgp.c
-++++ b/grub-core/commands/pgp.c
-+@@ -1010,6 +1010,8 @@ GRUB_MOD_INIT(pgp)
-+ 
-+ GRUB_MOD_FINI(pgp)
++diff --git a/src/libmpg123/frame.c b/src/libmpg123/frame.c
++index b14908f2..20d56931 100644
++--- a/src/libmpg123/frame.c
+++++ b/src/libmpg123/frame.c
++@@ -515,6 +515,7 @@ static void frame_fixed_reset(mpg123_handle *fr)
 + {
-++  grub_register_variable_hook ("check_signatures", NULL, NULL);
-++  grub_env_unset ("check_signatures");
-+   grub_verifier_unregister (&grub_pubkey_verifier);
-+   grub_unregister_extcmd (cmd);
-+   grub_unregister_extcmd (cmd_trust);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
-new file mode 100644
-index 0000000000..17800dd7c4
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-02.patch
-@@ -0,0 +1,44 @@
-+From 9c16197734ada8d0838407eebe081117799bfe67 Mon Sep 17 00:00:00 2001
-+From: B Horn <b@horn.uk>
-+Date: Fri, 1 Nov 2024 23:46:55 +0000
-+Subject: [PATCH 2/3] normal: Remove variables hooks on module unload
-+
-+The normal module does not entirely cleanup after itself in
-+its GRUB_MOD_FINI() leaving a few variables hooks in place.
-+It is not possible to unload normal module now but fix the
-+issues for completeness.
-+
-+On the occasion replace 0s with NULLs for "pager" variable
-+hooks unregister.
-+
-+Fixes: CVE-2025-0622
-+
-+Reported-by: B Horn <b@horn.uk>
-+Signed-off-by: B Horn <b@horn.uk>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-0622
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c16197734ada8d0838407eebe081117799bfe67]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/normal/main.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
-+index c4ebe9e..31c53a6 100644
-+--- a/grub-core/normal/main.c
-++++ b/grub-core/normal/main.c
-+@@ -581,7 +581,9 @@ GRUB_MOD_FINI(normal)
-+   grub_xputs = grub_xputs_saved;
++ 	frame_icy_reset(fr);
++ 	open_bad(fr);
+++	memset(&(fr->hdr), 0, sizeof(fr->hdr));
++ 	fr->to_decode = FALSE;
++ 	fr->to_ignore = FALSE;
++ 	fr->metaflags = 0;
++@@ -528,15 +529,12 @@ static void frame_fixed_reset(mpg123_handle *fr)
++ 	fr->clip = 0;
++ 	fr->oldhead = 0;
++ 	fr->firsthead = 0;
++-	fr->lay = 0;
++ 	fr->vbr = MPG123_CBR;
++ 	fr->abr_rate = 0;
++ 	fr->track_frames = 0;
++ 	fr->track_samples = -1;
++-	fr->framesize=0; 
++ 	fr->mean_frames = 0;
++ 	fr->mean_framesize = 0;
++-	fr->freesize = 0;
++ 	fr->lastscale = -1;
++ 	fr->rva.level[0] = -1;
++ 	fr->rva.level[1] = -1;
++@@ -571,8 +569,7 @@ static void frame_fixed_reset(mpg123_handle *fr)
++ 	fr->icy.next = 0;
++ #endif
++ 	fr->halfphase = 0; /* here or indeed only on first-time init? */
++-	fr->error_protection = 0;
++-	fr->freeformat_framesize = fr->p.freeformat_framesize;
+++	fr->hdr.freeformat_framesize = fr->p.freeformat_framesize;
++ 	fr->enc_delay = -1;
++ 	fr->enc_padding = -1;
++ 	memset(fr->id3buf, 0, sizeof(fr->id3buf));
++@@ -637,7 +634,7 @@ int attribute_align_arg mpg123_framedata(mpg123_handle *mh, unsigned long *heade
 + 
-+   grub_set_history (0);
-+-  grub_register_variable_hook ("pager", 0, 0);
-++  grub_register_variable_hook ("pager", NULL, NULL);
-++  grub_register_variable_hook ("color_normal", NULL, NULL);
-++  grub_register_variable_hook ("color_highlight", NULL, NULL);
-+   grub_fs_autoload_hook = 0;
-+   grub_unregister_command (cmd_clear);
++ 	if(header    != NULL) *header    = mh->oldhead;
++ 	if(bodydata  != NULL) *bodydata  = mh->bsbuf;
++-	if(bodybytes != NULL) *bodybytes = mh->framesize;
+++	if(bodybytes != NULL) *bodybytes = mh->hdr.framesize;
++ 
++ 	return MPG123_OK;
 + }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch b/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
-new file mode 100644
-index 0000000000..c3147cdb1f
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-0622-03.patch
-@@ -0,0 +1,41 @@
-+From 7580addfc8c94cedb0cdfd7a1fd65b539215e637 Mon Sep 17 00:00:00 2001
-+From: B Horn <b@horn.uk>
-+Date: Fri, 1 Nov 2024 23:52:06 +0000
-+Subject: [PATCH 3/3] gettext: Remove variables hooks on module unload
-+
-+The gettext module does not entirely cleanup after itself in
-+its GRUB_MOD_FINI() leaving a few variables hooks in place.
-+It is not possible to unload gettext module because normal
-+module depends on it. Though fix the issues for completeness.
-+
-+Fixes: CVE-2025-0622
-+
-+Reported-by: B Horn <b@horn.uk>
-+Signed-off-by: B Horn <b@horn.uk>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-0622
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7580addfc8c94cedb0cdfd7a1fd65b539215e637]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/gettext/gettext.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
-+index 85ea44a..7a25c9d 100644
-+--- a/grub-core/gettext/gettext.c
-++++ b/grub-core/gettext/gettext.c
-+@@ -540,6 +540,10 @@ GRUB_MOD_INIT (gettext)
-+ 
-+ GRUB_MOD_FINI (gettext)
++@@ -906,9 +903,9 @@ static off_t ignoreframe(mpg123_handle *fr)
 + {
-++  grub_register_variable_hook ("locale_dir", NULL, NULL);
-++  grub_register_variable_hook ("secondary_locale_dir", NULL, NULL);
-++  grub_register_variable_hook ("lang", NULL, NULL);
++ 	off_t preshift = fr->p.preframes;
++ 	/* Layer 3 _really_ needs at least one frame before. */
++-	if(fr->lay==3 && preshift < 1) preshift = 1;
+++	if(fr->hdr.lay==3 && preshift < 1) preshift = 1;
++ 	/* Layer 1 & 2 reall do not need more than 2. */
++-	if(fr->lay!=3 && preshift > 2) preshift = 2;
+++	if(fr->hdr.lay!=3 && preshift > 2) preshift = 2;
++ 
++ 	return fr->firstframe - preshift;
++ }
++@@ -953,7 +950,7 @@ void frame_set_frameseek(mpg123_handle *fr, off_t fe)
++ void frame_skip(mpg123_handle *fr)
++ {
++ #ifndef NO_LAYER3
++-	if(fr->lay == 3) set_pointer(fr, 1, 512);
+++	if(fr->hdr.lay == 3) set_pointer(fr, 1, 512);
++ #endif
++ }
++ 
++diff --git a/src/libmpg123/frame.h b/src/libmpg123/frame.h
++index e34ea16f..fcdae8a8 100644
++--- a/src/libmpg123/frame.h
+++++ b/src/libmpg123/frame.h
++@@ -96,6 +96,33 @@ enum frame_state_flags
++ 	,FRAME_DECODER_LIVE  = 0x8  /**<     1000 Decoder can be used. */
++ };
++ 
+++// separate frame header structure for safe decoding of headers without
+++// modifying the main frame struct before we are sure that we can read a
+++// frame into it
+++struct frame_header
+++{
+++	int lay;
+++	// lots of flags that could share storage, should reform that
+++	int lsf; /* 0: MPEG 1.0; 1: MPEG 2.0/2.5 -- both used as bool and array index! */
+++	int mpeg25;
+++	int error_protection;
+++	int bitrate_index;
+++	int sampling_frequency;
+++	int padding;
+++	int extension;
+++	int mode;
+++	int mode_ext;
+++	int copyright;
+++	int original;
+++	int emphasis;
+++	// Even 16 bit int is enough for MAXFRAMESIZE
+++	int framesize; /* computed framesize */
+++	int freeformat;
+++	int freeformat_framesize;
+++	// Derived from header and checked against the above.
+++	int ssize;
+++};
 ++
-+   grub_gettext_delete_list (&main_context);
-+   grub_gettext_delete_list (&secondary_context);
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0624.patch b/meta/recipes-bsp/grub/files/CVE-2025-0624.patch
-new file mode 100644
-index 0000000000..02f270a033
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-0624.patch
-@@ -0,0 +1,87 @@
-+From 5eef88152833062a3f7e017535372d64ac8ef7e1 Mon Sep 17 00:00:00 2001
-+From: B Horn <b@horn.uk>
-+Date: Fri, 15 Nov 2024 13:12:09 +0000
-+Subject: [PATCH] net: Fix OOB write in grub_net_search_config_file()
-+
-+The function included a call to grub_strcpy() which copied data from an
-+environment variable to a buffer allocated in grub_cmd_normal(). The
-+grub_cmd_normal() didn't consider the length of the environment variable.
-+So, the copy operation could exceed the allocation and lead to an OOB
-+write. Fix the issue by replacing grub_strcpy() with grub_strlcpy() and
-+pass the underlying buffers size to the grub_net_search_config_file().
-+
-+Fixes: CVE-2025-0624
-+
-+Reported-by: B Horn <b@horn.uk>
-+Signed-off-by: B Horn <b@horn.uk>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-0624
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=5eef88152833062a3f7e017535372d64ac8ef7e1]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/net/net.c     | 7 ++++---
-+ grub-core/normal/main.c | 2 +-
-+ include/grub/net.h      | 2 +-
-+ 3 files changed, 6 insertions(+), 5 deletions(-)
-+
-+diff --git a/grub-core/net/net.c b/grub-core/net/net.c
-+index 4d3eb5c..ec7f01c 100644
-+--- a/grub-core/net/net.c
-++++ b/grub-core/net/net.c
-+@@ -1773,14 +1773,15 @@ grub_config_search_through (char *config, char *suffix,
-+ }
-+ 
-+ grub_err_t
-+-grub_net_search_config_file (char *config)
-++grub_net_search_config_file (char *config, grub_size_t config_buf_len)
++ /* There is a lot to condense here... many ints can be merged as flags; though the main space is still consumed by buffers. */
++ struct mpg123_handle_struct
 + {
-+-  grub_size_t config_len;
-++  grub_size_t config_len, suffix_len;
-+   char *suffix;
++@@ -199,26 +226,12 @@ struct mpg123_handle_struct
++ 	int single;
++ 	int II_sblimit;
++ 	int down_sample_sblimit;
++-	int lsf; /* 0: MPEG 1.0; 1: MPEG 2.0/2.5 -- both used as bool and array index! */
++ 	/* Many flags in disguise as integers... wasting bytes. */
++-	int mpeg25;
++ 	int down_sample;
++ 	int header_change;
++-	int lay;
+++	struct frame_header hdr;
++ 	long spf; /* cached count of samples per frame */
++ 	int (*do_layer)(mpg123_handle *);
++-	int error_protection;
++-	int bitrate_index;
++-	int sampling_frequency;
++-	int padding;
++-	int extension;
++-	int mode;
++-	int mode_ext;
++-	int copyright;
++-	int original;
++-	int emphasis;
++-	int framesize; /* computed framesize */
++-	int freesize;  /* free format frame size */
++ 	enum mpg123_vbr vbr; /* 1 if variable bitrate was detected */
++ 	off_t num; /* frame offset ... */
++ 	off_t input_offset; /* byte offset of this frame in input stream */
++@@ -227,8 +240,6 @@ struct mpg123_handle_struct
++ 	int state_flags;
++ 	char silent_resync; /* Do not complain for the next n resyncs. */
++ 	unsigned char* xing_toc; /* The seek TOC from Xing header. */
++-	int freeformat;
++-	long freeformat_framesize;
 + 
-+   config_len = grub_strlen (config);
-+   config[config_len] = '-';
-+   suffix = config + config_len + 1;
-++  suffix_len = config_buf_len - (config_len + 1);
++ 	/* bitstream info; bsi */
++ 	int bitindex;
++@@ -255,7 +266,6 @@ struct mpg123_handle_struct
++ 	double mean_framesize;
++ 	off_t mean_frames;
++ 	int fsizeold;
++-	int ssize;
++ 	unsigned int bitreservoir;
++ 	unsigned char bsspace[2][MAXFRAMESIZE+512+4]; /* MAXFRAMESIZE */
++ 	unsigned char *bsbuf;
++diff --git a/src/libmpg123/layer1.c b/src/libmpg123/layer1.c
++index c5bfc75d..048611e1 100644
++--- a/src/libmpg123/layer1.c
+++++ b/src/libmpg123/layer1.c
++@@ -217,7 +217,7 @@ int do_layer1(mpg123_handle *fr)
++ 	real (*fraction)[SBLIMIT] = fr->layer1.fraction; /* fraction[2][SBLIMIT] */
++ 	int single = fr->single;
 + 
-+   struct grub_net_network_level_interface *inf;
-+   FOR_NET_NETWORK_LEVEL_INTERFACES (inf)
-+@@ -1806,7 +1807,7 @@ grub_net_search_config_file (char *config)
++-	fr->jsbound = (fr->mode == MPG_MD_JOINT_STEREO) ? (fr->mode_ext<<2)+4 : 32;
+++	fr->jsbound = (fr->hdr.mode == MPG_MD_JOINT_STEREO) ? (fr->hdr.mode_ext<<2)+4 : 32;
 + 
-+       if (client_uuid)
-+         {
-+-          grub_strcpy (suffix, client_uuid);
-++          grub_strlcpy (suffix, client_uuid, suffix_len);
-+           if (grub_config_search_through (config, suffix, 1, 0) == 0)
-+             return GRUB_ERR_NONE;
-+         }
-+diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
-+index 31c53a6..a95c25e 100644
-+--- a/grub-core/normal/main.c
-++++ b/grub-core/normal/main.c
-+@@ -344,7 +344,7 @@ grub_cmd_normal (struct grub_command *cmd __attribute__ ((unused)),
++ 	if(stereo == 1 || single == SINGLE_MIX) /* I don't see mixing handled here */
++ 	single = SINGLE_LEFT;
++diff --git a/src/libmpg123/layer2.c b/src/libmpg123/layer2.c
++index 0f2071b5..910f0bf9 100644
++--- a/src/libmpg123/layer2.c
+++++ b/src/libmpg123/layer2.c
++@@ -313,10 +313,10 @@ static void II_select_table(mpg123_handle *fr)
++ 	const struct al_table *tables[5] = { alloc_0, alloc_1, alloc_2, alloc_3 , alloc_4 };
++ 	const int sblims[5] = { 27 , 30 , 8, 12 , 30 };
 + 
-+           if (grub_strncmp (prefix + 1, "tftp", sizeof ("tftp") - 1) == 0 &&
-+               !disable_net_search)
-+-            grub_net_search_config_file (config);
-++            grub_net_search_config_file (config, config_len);
++-	if(fr->sampling_frequency >= 3)	/* Or equivalent: (fr->lsf == 1) */
+++	if(fr->hdr.sampling_frequency >= 3)	/* Or equivalent: (fr->lsf == 1) */
++ 	table = 4;
++ 	else
++-	table = translate[fr->sampling_frequency][2-fr->stereo][fr->bitrate_index];
+++	table = translate[fr->hdr.sampling_frequency][2-fr->stereo][fr->hdr.bitrate_index];
 + 
-+ 	  grub_enter_normal_mode (config);
-+ 	  grub_free (config);
-+diff --git a/include/grub/net.h b/include/grub/net.h
-+index 7ae4b6b..d6ba8b1 100644
-+--- a/include/grub/net.h
-++++ b/include/grub/net.h
-+@@ -570,7 +570,7 @@ void
-+ grub_net_remove_dns_server (const struct grub_net_network_level_address *s);
++ 	sblim = sblims[table];
++ 	fr->alloc      = tables[table];
++@@ -337,7 +337,7 @@ int do_layer2(mpg123_handle *fr)
++ 	int single = fr->single;
 + 
-+ grub_err_t
-+-grub_net_search_config_file (char *config);
-++grub_net_search_config_file (char *config, grub_size_t config_buf_len);
++ 	II_select_table(fr);
++-	fr->jsbound = (fr->mode == MPG_MD_JOINT_STEREO) ? (fr->mode_ext<<2)+4 : fr->II_sblimit;
+++	fr->jsbound = (fr->hdr.mode == MPG_MD_JOINT_STEREO) ? (fr->hdr.mode_ext<<2)+4 : fr->II_sblimit;
 + 
-+ extern char *grub_net_default_server;
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch b/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
-new file mode 100644
-index 0000000000..f955611d9d
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch
-@@ -0,0 +1,380 @@
-+From 47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10 Mon Sep 17 00:00:00 2001
-+From: Daniel Axtens <dja@axtens.net>
-+Date: Sat, 23 Mar 2024 16:20:45 +1100
-+Subject: [PATCH] fs: Disable many filesystems under lockdown
-+
-+The idea is to permit the following: btrfs, cpio, exfat, ext, f2fs, fat,
-+hfsplus, iso9660, squash4, tar, xfs and zfs.
-+
-+The JFS, ReiserFS, romfs, UDF and UFS security vulnerabilities were
-+reported by Jonathan Bar Or <jonathanbaror@gmail.com>.
-+
-+Fixes: CVE-2025-0677
-+Fixes: CVE-2025-0684
-+Fixes: CVE-2025-0685
-+Fixes: CVE-2025-0686
-+Fixes: CVE-2025-0689
-+
-+Suggested-by: Daniel Axtens <dja@axtens.net>
-+Signed-off-by: Daniel Axtens <dja@axtens.net>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-0677
-+CVE: CVE-2025-0684
-+CVE: CVE-2025-0685
-+CVE: CVE-2025-0686
-+CVE: CVE-2025-0689
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=47b2dfc7953f70f98ddf35dfdd6e7f4f20283b10]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/fs/affs.c     | 9 +++++++--
-+ grub-core/fs/cbfs.c     | 9 +++++++--
-+ grub-core/fs/jfs.c      | 9 +++++++--
-+ grub-core/fs/minix.c    | 9 +++++++--
-+ grub-core/fs/nilfs2.c   | 9 +++++++--
-+ grub-core/fs/ntfs.c     | 9 +++++++--
-+ grub-core/fs/reiserfs.c | 9 +++++++--
-+ grub-core/fs/romfs.c    | 9 +++++++--
-+ grub-core/fs/sfs.c      | 9 +++++++--
-+ grub-core/fs/udf.c      | 9 +++++++--
-+ grub-core/fs/ufs.c      | 9 +++++++--
-+ 11 files changed, 77 insertions(+), 22 deletions(-)
-+
-+diff --git a/grub-core/fs/affs.c b/grub-core/fs/affs.c
-+index cafcd0f..d676532 100644
-+--- a/grub-core/fs/affs.c
-++++ b/grub-core/fs/affs.c
-+@@ -26,6 +26,7 @@
-+ #include <grub/types.h>
-+ #include <grub/fshelp.h>
-+ #include <grub/charset.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -699,11 +700,15 @@ static struct grub_fs grub_affs_fs =
-+ 
-+ GRUB_MOD_INIT(affs)
-+ {
-+-  grub_fs_register (&grub_affs_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_affs_fs);
-++    }
-+   my_mod = mod;
-+ }
-+ 
-+ GRUB_MOD_FINI(affs)
-+ {
-+-  grub_fs_unregister (&grub_affs_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_affs_fs);
-+ }
-+diff --git a/grub-core/fs/cbfs.c b/grub-core/fs/cbfs.c
-+index 581215e..477a14e 100644
-+--- a/grub-core/fs/cbfs.c
-++++ b/grub-core/fs/cbfs.c
-+@@ -26,6 +26,7 @@
-+ #include <grub/dl.h>
-+ #include <grub/i18n.h>
-+ #include <grub/cbfs_core.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -390,12 +391,16 @@ GRUB_MOD_INIT (cbfs)
-+ #if (defined (__i386__) || defined (__x86_64__)) && !defined (GRUB_UTIL) && !defined (GRUB_MACHINE_EMU) && !defined (GRUB_MACHINE_XEN)
-+   init_cbfsdisk ();
-+ #endif
-+-  grub_fs_register (&grub_cbfs_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_cbfs_fs);
-++    }
-+ }
-+ 
-+ GRUB_MOD_FINI (cbfs)
-+ {
-+-  grub_fs_unregister (&grub_cbfs_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_cbfs_fs);
-+ #if (defined (__i386__) || defined (__x86_64__)) && !defined (GRUB_UTIL) && !defined (GRUB_MACHINE_EMU) && !defined (GRUB_MACHINE_XEN)
-+   fini_cbfsdisk ();
-+ #endif
-+diff --git a/grub-core/fs/jfs.c b/grub-core/fs/jfs.c
-+index 6f7c439..c0bbab8 100644
-+--- a/grub-core/fs/jfs.c
-++++ b/grub-core/fs/jfs.c
-+@@ -26,6 +26,7 @@
-+ #include <grub/types.h>
-+ #include <grub/charset.h>
-+ #include <grub/i18n.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -963,11 +964,15 @@ static struct grub_fs grub_jfs_fs =
-+ 
-+ GRUB_MOD_INIT(jfs)
-+ {
-+-  grub_fs_register (&grub_jfs_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_jfs_fs);
-++    }
-+   my_mod = mod;
-+ }
-+ 
-+ GRUB_MOD_FINI(jfs)
-+ {
-+-  grub_fs_unregister (&grub_jfs_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_jfs_fs);
-+ }
-+diff --git a/grub-core/fs/minix.c b/grub-core/fs/minix.c
-+index 3cd18c8..7588835 100644
-+--- a/grub-core/fs/minix.c
-++++ b/grub-core/fs/minix.c
-+@@ -25,6 +25,7 @@
-+ #include <grub/dl.h>
-+ #include <grub/types.h>
-+ #include <grub/i18n.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -732,7 +733,10 @@ GRUB_MOD_INIT(minix)
-+ #endif
-+ #endif
-+ {
-+-  grub_fs_register (&grub_minix_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_minix_fs);
-++    }
-+   my_mod = mod;
-+ }
-+ 
-+@@ -754,5 +758,6 @@ GRUB_MOD_FINI(minix)
-+ #endif
-+ #endif
-+ {
-+-  grub_fs_unregister (&grub_minix_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_minix_fs);
-+ }
-+diff --git a/grub-core/fs/nilfs2.c b/grub-core/fs/nilfs2.c
-+index 3c248a9..3f8e495 100644
-+--- a/grub-core/fs/nilfs2.c
-++++ b/grub-core/fs/nilfs2.c
-+@@ -34,6 +34,7 @@
-+ #include <grub/dl.h>
-+ #include <grub/types.h>
-+ #include <grub/fshelp.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -1231,11 +1232,15 @@ GRUB_MOD_INIT (nilfs2)
-+ 				  grub_nilfs2_dat_entry));
-+   COMPILE_TIME_ASSERT (1 << LOG_INODE_SIZE
-+ 		       == sizeof (struct grub_nilfs2_inode));
-+-  grub_fs_register (&grub_nilfs2_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_nilfs2_fs);
-++    }
-+   my_mod = mod;
-+ }
-+ 
-+ GRUB_MOD_FINI (nilfs2)
-+ {
-+-  grub_fs_unregister (&grub_nilfs2_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_nilfs2_fs);
-+ }
-+diff --git a/grub-core/fs/ntfs.c b/grub-core/fs/ntfs.c
-+index 8f63c83..713e24d 100644
-+--- a/grub-core/fs/ntfs.c
-++++ b/grub-core/fs/ntfs.c
-+@@ -27,6 +27,7 @@
-+ #include <grub/fshelp.h>
-+ #include <grub/ntfs.h>
-+ #include <grub/charset.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -1254,11 +1255,15 @@ static struct grub_fs grub_ntfs_fs =
-+ 
-+ GRUB_MOD_INIT (ntfs)
-+ {
-+-  grub_fs_register (&grub_ntfs_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_ntfs_fs);
-++    }
-+   my_mod = mod;
-+ }
-+ 
-+ GRUB_MOD_FINI (ntfs)
-+ {
-+-  grub_fs_unregister (&grub_ntfs_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_ntfs_fs);
-+ }
-+diff --git a/grub-core/fs/reiserfs.c b/grub-core/fs/reiserfs.c
-+index af6a226..76cb231 100644
-+--- a/grub-core/fs/reiserfs.c
-++++ b/grub-core/fs/reiserfs.c
-+@@ -39,6 +39,7 @@
-+ #include <grub/types.h>
-+ #include <grub/fshelp.h>
-+ #include <grub/i18n.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -1417,11 +1418,15 @@ static struct grub_fs grub_reiserfs_fs =
-+ 
-+ GRUB_MOD_INIT(reiserfs)
-+ {
-+-  grub_fs_register (&grub_reiserfs_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_reiserfs_fs);
-++    }
-+   my_mod = mod;
-+ }
-+ 
-+ GRUB_MOD_FINI(reiserfs)
-+ {
-+-  grub_fs_unregister (&grub_reiserfs_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_reiserfs_fs);
-+ }
-+diff --git a/grub-core/fs/romfs.c b/grub-core/fs/romfs.c
-+index d97b8fb..d174449 100644
-+--- a/grub-core/fs/romfs.c
-++++ b/grub-core/fs/romfs.c
-+@@ -23,6 +23,7 @@
-+ #include <grub/disk.h>
-+ #include <grub/fs.h>
-+ #include <grub/fshelp.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -475,10 +476,14 @@ static struct grub_fs grub_romfs_fs =
-+ 
-+ GRUB_MOD_INIT(romfs)
-+ {
-+-  grub_fs_register (&grub_romfs_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_romfs_fs);
-++    }
-+ }
-+ 
-+ GRUB_MOD_FINI(romfs)
-+ {
-+-  grub_fs_unregister (&grub_romfs_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_romfs_fs);
-+ }
-+diff --git a/grub-core/fs/sfs.c b/grub-core/fs/sfs.c
-+index 983e880..f64bdd2 100644
-+--- a/grub-core/fs/sfs.c
-++++ b/grub-core/fs/sfs.c
-+@@ -26,6 +26,7 @@
-+ #include <grub/types.h>
-+ #include <grub/fshelp.h>
-+ #include <grub/charset.h>
-++#include <grub/lockdown.h>
-+ #include <grub/safemath.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+@@ -779,11 +780,15 @@ static struct grub_fs grub_sfs_fs =
-+ 
-+ GRUB_MOD_INIT(sfs)
-+ {
-+-  grub_fs_register (&grub_sfs_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_sfs_fs);
-++    }
-+   my_mod = mod;
-+ }
-+ 
-+ GRUB_MOD_FINI(sfs)
-+ {
-+-  grub_fs_unregister (&grub_sfs_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_sfs_fs);
-+ }
-+diff --git a/grub-core/fs/udf.c b/grub-core/fs/udf.c
-+index 2ac5c1d..f89c6b0 100644
-+--- a/grub-core/fs/udf.c
-++++ b/grub-core/fs/udf.c
-+@@ -27,6 +27,7 @@
-+ #include <grub/fshelp.h>
-+ #include <grub/charset.h>
-+ #include <grub/datetime.h>
-++#include <grub/lockdown.h>
-+ #include <grub/udf.h>
-+ #include <grub/safemath.h>
-+ 
-+@@ -1382,11 +1383,15 @@ static struct grub_fs grub_udf_fs = {
-+ 
-+ GRUB_MOD_INIT (udf)
-+ {
-+-  grub_fs_register (&grub_udf_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_udf_fs);
-++    }
-+   my_mod = mod;
-+ }
-+ 
-+ GRUB_MOD_FINI (udf)
-+ {
-+-  grub_fs_unregister (&grub_udf_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_udf_fs);
-+ }
-+diff --git a/grub-core/fs/ufs.c b/grub-core/fs/ufs.c
-+index 4727266..90fda07 100644
-+--- a/grub-core/fs/ufs.c
-++++ b/grub-core/fs/ufs.c
-+@@ -25,6 +25,7 @@
-+ #include <grub/dl.h>
-+ #include <grub/types.h>
-+ #include <grub/i18n.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -899,7 +900,10 @@ GRUB_MOD_INIT(ufs1)
-+ #endif
-+ #endif
-+ {
-+-  grub_fs_register (&grub_ufs_fs);
-++  if (!grub_is_lockdown ())
-++    {
-++      grub_fs_register (&grub_ufs_fs);
-++    }
-+   my_mod = mod;
-+ }
-+ 
-+@@ -913,6 +917,7 @@ GRUB_MOD_FINI(ufs1)
-+ #endif
-+ #endif
-+ {
-+-  grub_fs_unregister (&grub_ufs_fs);
-++  if (!grub_is_lockdown ())
-++    grub_fs_unregister (&grub_ufs_fs);
-+ }
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch b/meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
-new file mode 100644
-index 0000000000..5e06a64969
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-0678_CVE-2025-1125.patch
-@@ -0,0 +1,90 @@
-+From 84bc0a9a68835952ae69165c11709811dae7634e Mon Sep 17 00:00:00 2001
-+From: Lidong Chen <lidong.chen@oracle.com>
-+Date: Tue, 21 Jan 2025 19:02:37 +0000
-+Subject: [PATCH] fs: Prevent overflows when allocating memory for arrays
-+
-+Use grub_calloc() when allocating memory for arrays to ensure proper
-+overflow checks are in place.
-+
-+The HFS+ and squash4 security vulnerabilities were reported by
-+Jonathan Bar Or <jonathanbaror@gmail.com>.
-+
-+Fixes: CVE-2025-0678
-+Fixes: CVE-2025-1125
-+
-+Signed-off-by: Lidong Chen <lidong.chen@oracle.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-0678
-+CVE: CVE-2025-1125
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=84bc0a9a68835952ae69165c11709811dae7634e]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/fs/btrfs.c       | 4 ++--
-+ grub-core/fs/hfspluscomp.c | 9 +++++++--
-+ grub-core/fs/squash4.c     | 8 ++++----
-+ 3 files changed, 13 insertions(+), 8 deletions(-)
-+
-+diff --git a/grub-core/fs/btrfs.c b/grub-core/fs/btrfs.c
-+index 6320303..3b8b2f0 100644
-+--- a/grub-core/fs/btrfs.c
-++++ b/grub-core/fs/btrfs.c
-+@@ -1197,8 +1197,8 @@ grub_btrfs_mount (grub_device_t dev)
-+     }
-+ 
-+   data->n_devices_allocated = 16;
-+-  data->devices_attached = grub_malloc (sizeof (data->devices_attached[0])
-+-					* data->n_devices_allocated);
-++  data->devices_attached = grub_calloc (data->n_devices_allocated,
-++					sizeof (data->devices_attached[0]));
-+   if (!data->devices_attached)
-+     {
-+       grub_free (data);
-+diff --git a/grub-core/fs/hfspluscomp.c b/grub-core/fs/hfspluscomp.c
-+index d76f3f1..4965ef1 100644
-+--- a/grub-core/fs/hfspluscomp.c
-++++ b/grub-core/fs/hfspluscomp.c
-+@@ -244,14 +244,19 @@ hfsplus_open_compressed_real (struct grub_hfsplus_file *node)
-+ 	  return 0;
-+ 	}
-+       node->compress_index_size = grub_le_to_cpu32 (index_size);
-+-      node->compress_index = grub_malloc (node->compress_index_size
-+-					  * sizeof (node->compress_index[0]));
-++      node->compress_index = grub_calloc (node->compress_index_size,
-++					  sizeof (node->compress_index[0]));
-+       if (!node->compress_index)
++ 	if(fr->jsbound > fr->II_sblimit)
 + 	{
-+ 	  node->compressed = 0;
-+ 	  grub_free (attr_node);
-+ 	  return grub_errno;
++diff --git a/src/libmpg123/layer3.c b/src/libmpg123/layer3.c
++index a25ef098..83912503 100644
++--- a/src/libmpg123/layer3.c
+++++ b/src/libmpg123/layer3.c
++@@ -127,16 +127,16 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
++ 	int powdiff = (single == SINGLE_MIX) ? 4 : 0;
++ 
++ 	const int tabs[2][5] = { { 2,9,5,3,4 } , { 1,8,1,2,9 } };
++-	const int *tab = tabs[fr->lsf];
+++	const int *tab = tabs[fr->hdr.lsf];
++ 
++ 	{ /* First ensure we got enough bits available. */
++ 		unsigned int needbits = 0;
++ 		needbits += tab[1]; /* main_data_begin */
++ 		needbits += stereo == 1 ? tab[2] : tab[3]; /* private */
++-		if(!fr->lsf)
+++		if(!fr->hdr.lsf)
++ 			needbits += stereo*4; /* scfsi */
++ 		/* For each granule for each channel ... */
++-		needbits += tab[0]*stereo*(29+tab[4]+1+22+(!fr->lsf?1:0)+2);
+++		needbits += tab[0]*stereo*(29+tab[4]+1+22+(!fr->hdr.lsf?1:0)+2);
++ 		if(fr->bits_avail < needbits) \
++ 		{
++ 			if(NOQUIET)
++@@ -154,7 +154,7 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
++ 
++ 		/*  overwrite main_data_begin for the really available bit reservoir */
++ 		backbits(fr, tab[1]);
++-		if(fr->lsf == 0)
+++		if(fr->hdr.lsf == 0)
++ 		{
++ 			fr->wordpointer[0] = (unsigned char) (fr->bitreservoir >> 1);
++ 			fr->wordpointer[1] = (unsigned char) ((fr->bitreservoir & 1) << 7);
++@@ -163,7 +163,7 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
++ 
++ 		/* zero "side-info" data for a silence-frame
++ 		without touching audio data used as bit reservoir for following frame */
++-		memset(fr->wordpointer+2, 0, fr->ssize-2);
+++		memset(fr->wordpointer+2, 0, fr->hdr.ssize-2);
++ 
++ 		/* reread the new bit reservoir offset */
++ 		si->main_data_begin = getbits(fr, tab[1]);
++@@ -171,11 +171,11 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
++ 
++ 	/* Keep track of the available data bytes for the bit reservoir.
++ 	   CRC is included in ssize already. */
++-	fr->bitreservoir = fr->bitreservoir + fr->framesize - fr->ssize;
+++	fr->bitreservoir = fr->bitreservoir + fr->hdr.framesize - fr->hdr.ssize;
++ 
++ 	/* Limit the reservoir to the max for MPEG 1.0 or 2.x . */
++-	if(fr->bitreservoir > (unsigned int) (fr->lsf == 0 ? 511 : 255))
++-	fr->bitreservoir = (fr->lsf == 0 ? 511 : 255);
+++	if(fr->bitreservoir > (unsigned int) (fr->hdr.lsf == 0 ? 511 : 255))
+++	fr->bitreservoir = (fr->hdr.lsf == 0 ? 511 : 255);
++ 
++ 	/* Now back into less commented territory. It's code. It works. */
++ 
++@@ -184,7 +184,7 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
++ 	else 
++ 	si->private_bits = getbits(fr, tab[3]);
++ 
++-	if(!fr->lsf) for(ch=0; ch<stereo; ch++)
+++	if(!fr->hdr.lsf) for(ch=0; ch<stereo; ch++)
++ 	{
++ 		si->ch[ch].gr[0].scfsi = -1;
++ 		si->ch[ch].gr[1].scfsi = getbits(fr, 4);
++@@ -249,14 +249,14 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
++ 			}
++ 
++ 			/* region_count/start parameters are implicit in this case. */       
++-			if( (!fr->lsf || (gr_info->block_type == 2)) && !fr->mpeg25)
+++			if( (!fr->hdr.lsf || (gr_info->block_type == 2)) && !fr->hdr.mpeg25)
++ 			{
++ 				gr_info->region1start = 36>>1;
++ 				gr_info->region2start = 576>>1;
++ 			}
++ 			else
++ 			{
++-				if(fr->mpeg25)
+++				if(fr->hdr.mpeg25)
++ 				{ 
++ 					int r0c,r1c;
++ 					if((gr_info->block_type == 2) && (!gr_info->mixed_block_flag) ) r0c = 5;
++@@ -291,7 +291,7 @@ static int III_get_side_info(mpg123_handle *fr, struct III_sideinfo *si,int ster
++ 			gr_info->block_type = 0;
++ 			gr_info->mixed_block_flag = 0;
++ 		}
++-		if(!fr->lsf) gr_info->preflag = get1bit(fr);
+++		if(!fr->hdr.lsf) gr_info->preflag = get1bit(fr);
++ 
++ 		gr_info->scalefac_scale = get1bit(fr);
++ 		gr_info->count1table_select = get1bit(fr);
++@@ -1717,7 +1717,7 @@ int do_layer3(mpg123_handle *fr)
++ 	int stereo = fr->stereo;
++ 	int single = fr->single;
++ 	int ms_stereo,i_stereo;
++-	int sfreq = fr->sampling_frequency;
+++	int sfreq = fr->hdr.sampling_frequency;
++ 	int stereo1,granules;
++ 
++ 	if(stereo == 1)
++@@ -1730,14 +1730,14 @@ int do_layer3(mpg123_handle *fr)
++ 	else
++ 	stereo1 = 2;
++ 
++-	if(fr->mode == MPG_MD_JOINT_STEREO)
+++	if(fr->hdr.mode == MPG_MD_JOINT_STEREO)
++ 	{
++-		ms_stereo = (fr->mode_ext & 0x2)>>1;
++-		i_stereo  = fr->mode_ext & 0x1;
+++		ms_stereo = (fr->hdr.mode_ext & 0x2)>>1;
+++		i_stereo  = fr->hdr.mode_ext & 0x1;
 + 	}
++ 	else ms_stereo = i_stereo = 0;
++ 
++-	granules = fr->lsf ? 1 : 2;
+++	granules = fr->hdr.lsf ? 1 : 2;
++ 
++ 	/* quick hack to keep the music playing */
++ 	/* after having seen this nasty test file... */
++@@ -1752,7 +1752,7 @@ int do_layer3(mpg123_handle *fr)
++ 	if(fr->pinfo)
++ 	{
++ 		fr->pinfo->maindata = sideinfo.main_data_begin;
++-		fr->pinfo->padding  = fr->padding;
+++		fr->pinfo->padding  = fr->hdr.padding;
++ 	}
++ #endif
++ 	for(gr=0;gr<granules;gr++)
++@@ -1773,7 +1773,7 @@ int do_layer3(mpg123_handle *fr)
++ 					,	gr_info->part2_3_length, fr->bits_avail );
++ 				return clip;
++ 			}
++-			if(fr->lsf)
+++			if(fr->hdr.lsf)
++ 			part2bits = III_get_scale_factors_2(fr, scalefacs[0],gr_info,0);
++ 			else
++ 			part2bits = III_get_scale_factors_1(fr, scalefacs[0],gr_info,0,gr);
++@@ -1813,7 +1813,7 @@ int do_layer3(mpg123_handle *fr)
++ 		{
++ 			struct gr_info_s *gr_info = &(sideinfo.ch[1].gr[gr]);
++ 			long part2bits;
++-			if(fr->lsf) 
+++			if(fr->hdr.lsf) 
++ 			part2bits = III_get_scale_factors_2(fr, scalefacs[1],gr_info,i_stereo);
++ 			else
++ 			part2bits = III_get_scale_factors_1(fr, scalefacs[1],gr_info,1,gr);
++@@ -1863,7 +1863,7 @@ int do_layer3(mpg123_handle *fr)
++ 				}
++ 			}
++ 
++-			if(i_stereo) III_i_stereo(hybridIn,scalefacs[1],gr_info,sfreq,ms_stereo,fr->lsf);
+++			if(i_stereo) III_i_stereo(hybridIn,scalefacs[1],gr_info,sfreq,ms_stereo,fr->hdr.lsf);
++ 
++ 			if(ms_stereo || i_stereo || (single == SINGLE_MIX) )
++ 			{
++diff --git a/src/libmpg123/libmpg123.c b/src/libmpg123/libmpg123.c
++index f175a5c9..8ad068b1 100644
++--- a/src/libmpg123/libmpg123.c
+++++ b/src/libmpg123/libmpg123.c
++@@ -434,7 +434,7 @@ int attribute_align_arg mpg123_getstate(mpg123_handle *mh, enum mpg123_state key
++ 			theval = mh->enc_padding;
++ 		break;
++ 		case MPG123_DEC_DELAY:
++-			theval = mh->lay == 3 ? GAPLESS_DELAY : -1;
+++			theval = mh->hdr.lay == 3 ? GAPLESS_DELAY : -1;
++ 		break;
++ 		default:
++ 			mh->err = MPG123_BAD_KEY;
++@@ -1154,10 +1154,10 @@ static int init_track(mpg123_handle *mh)
++ 	b = init_track(mh); \
++ 	if(b < 0) return b; \
++  \
++-	mi->version = mh->mpeg25 ? MPG123_2_5 : (mh->lsf ? MPG123_2_0 : MPG123_1_0); \
++-	mi->layer = mh->lay; \
+++	mi->version = mh->hdr.mpeg25 ? MPG123_2_5 : (mh->hdr.lsf ? MPG123_2_0 : MPG123_1_0); \
+++	mi->layer = mh->hdr.lay; \
++ 	mi->rate = frame_freq(mh); \
++-	switch(mh->mode) \
+++	switch(mh->hdr.mode) \
++ 	{ \
++ 		case 0: mi->mode = MPG123_M_STEREO; break; \
++ 		case 1: mi->mode = MPG123_M_JOINT;  break; \
++@@ -1165,14 +1165,14 @@ static int init_track(mpg123_handle *mh)
++ 		case 3: mi->mode = MPG123_M_MONO;   break; \
++ 		default: mi->mode = 0; /* Nothing good to do here. */ \
++ 	} \
++-	mi->mode_ext = mh->mode_ext; \
++-	mi->framesize = mh->framesize+4; /* Include header. */ \
+++	mi->mode_ext = mh->hdr.mode_ext; \
+++	mi->framesize = mh->hdr.framesize+4; /* Include header. */ \
++ 	mi->flags = 0; \
++-	if(mh->error_protection) mi->flags |= MPG123_CRC; \
++-	if(mh->copyright)        mi->flags |= MPG123_COPYRIGHT; \
++-	if(mh->extension)        mi->flags |= MPG123_PRIVATE; \
++-	if(mh->original)         mi->flags |= MPG123_ORIGINAL; \
++-	mi->emphasis = mh->emphasis; \
+++	if(mh->hdr.error_protection) mi->flags |= MPG123_CRC; \
+++	if(mh->hdr.copyright)        mi->flags |= MPG123_COPYRIGHT; \
+++	if(mh->hdr.extension)        mi->flags |= MPG123_PRIVATE; \
+++	if(mh->hdr.original)         mi->flags |= MPG123_ORIGINAL; \
+++	mi->emphasis = mh->hdr.emphasis; \
++ 	mi->bitrate  = frame_bitrate(mh); \
++ 	mi->abr_rate = mh->abr_rate; \
++ 	mi->vbr = mh->vbr; \
++diff --git a/src/libmpg123/parse.c b/src/libmpg123/parse.c
++index c2efd3dc..a026d6fb 100644
++--- a/src/libmpg123/parse.c
+++++ b/src/libmpg123/parse.c
++@@ -63,9 +63,10 @@ static const int tabsel_123[2][3][16] =
++ 
++ static const long freqs[9] = { 44100, 48000, 32000, 22050, 24000, 16000 , 11025 , 12000 , 8000 };
++ 
++-static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeformat_count);
++-static int skip_junk(mpg123_handle *fr, unsigned long *newheadp, long *headcount);
++-static int do_readahead(mpg123_handle *fr, unsigned long newhead);
+++static int decode_header(mpg123_handle *fr, struct frame_header *hdr, unsigned long newhead, int *freeformat_count);
+++static void apply_header(mpg123_handle *fr, struct frame_header *hdr);
+++static int skip_junk(mpg123_handle *fr, unsigned long *newheadp, long *headcount, struct frame_header *nhdr);
+++static int do_readahead(mpg123_handle *fr, struct frame_header *nhdr, unsigned long newhead);
++ static int wetwork(mpg123_handle *fr, unsigned long *newheadp);
++ 
++ /* These two are to be replaced by one function that gives all the frame parameters (for outsiders).*/
++@@ -73,12 +74,12 @@ static int wetwork(mpg123_handle *fr, unsigned long *newheadp);
++ 
++ int frame_bitrate(mpg123_handle *fr)
++ {
++-	return tabsel_123[fr->lsf][fr->lay-1][fr->bitrate_index];
+++	return tabsel_123[fr->hdr.lsf][fr->hdr.lay-1][fr->hdr.bitrate_index];
++ }
++ 
++ long frame_freq(mpg123_handle *fr)
++ {
++-	return freqs[fr->sampling_frequency];
+++	return freqs[fr->hdr.sampling_frequency];
++ }
++ 
++ /* compiler is smart enought to inline this one or should I really do it as macro...? */
++@@ -141,8 +142,8 @@ static int check_lame_tag(mpg123_handle *fr)
++ 		Mono                                17       9
++ 	*/
++ 	int lame_offset = (fr->stereo == 2)
++-	? (fr->lsf ? 17 : 32)
++-	: (fr->lsf ? 9  : 17);
+++	? (fr->hdr.lsf ? 17 : 32)
+++	: (fr->hdr.lsf ? 9  : 17);
++ 
++ 	if(fr->p.flags & MPG123_IGNORE_INFOFRAME) goto check_lame_tag_no;
++ 
++@@ -154,7 +155,7 @@ static int check_lame_tag(mpg123_handle *fr)
++ 		for the actual data, have to check if each byte of information is present.
++ 		But: 4 B Info/Xing + 4 B flags is bare minimum.
++ 	*/
++-	if(fr->framesize < lame_offset+8) goto check_lame_tag_no;
+++	if(fr->hdr.framesize < lame_offset+8) goto check_lame_tag_no;
++ 
++ 	/* only search for tag when all zero before it (apart from checksum) */
++ 	for(i=2; i < lame_offset; ++i) if(fr->bsbuf[i] != 0) goto check_lame_tag_no;
++@@ -190,7 +191,7 @@ static int check_lame_tag(mpg123_handle *fr)
++ 
++ 	/* From now on, I have to carefully check if the announced data is actually
++ 	   there! I'm always returning 'yes', though.  */
++-	#define check_bytes_left(n) if(fr->framesize < lame_offset+n) \
+++	#define check_bytes_left(n) if(fr->hdr.framesize < lame_offset+n) \
++ 		goto check_lame_tag_yes
++ 	if(xing_flags & 1) /* total bitstream frames */
++ 	{
++@@ -443,10 +444,10 @@ static int head_compatible(unsigned long fred, unsigned long bret)
++ static void halfspeed_prepare(mpg123_handle *fr)
++ {
++ 	/* save for repetition */
++-	if(fr->p.halfspeed && fr->lay == 3)
+++	if(fr->p.halfspeed && fr->hdr.lay == 3)
++ 	{
++ 		debug("halfspeed - reusing old bsbuf ");
++-		memcpy (fr->ssave, fr->bsbuf, fr->ssize);
+++		memcpy (fr->ssave, fr->bsbuf, fr->hdr.ssize);
++ 	}
++ }
++ 
++@@ -462,8 +463,8 @@ static int halfspeed_do(mpg123_handle *fr)
++ 			fr->to_decode = fr->to_ignore = TRUE;
++ 			--fr->halfphase;
++ 			set_pointer(fr, 0, 0);
++-			if(fr->lay == 3) memcpy (fr->bsbuf, fr->ssave, fr->ssize);
++-			if(fr->error_protection) fr->crc = getbits(fr, 16); /* skip crc */
+++			if(fr->hdr.lay == 3) memcpy (fr->bsbuf, fr->ssave, fr->hdr.ssize);
+++			if(fr->hdr.error_protection) fr->crc = getbits(fr, 16); /* skip crc */
++ 			return 1;
++ 		}
++ 		else
++@@ -496,10 +497,11 @@ int read_frame(mpg123_handle *fr)
++ 	/* TODO: rework this thing */
++ 	int freeformat_count = 0;
++ 	unsigned long newhead;
+++	/* Start with current frame header state as copy for roll-back ability. */
+++	struct frame_header nhdr = fr->hdr;
++ 	off_t framepos;
++ 	int ret;
++ 	/* stuff that needs resetting if complete frame reading fails */
++-	int oldsize  = fr->framesize;
++ 	int oldphase = fr->halfphase;
++ 
++ 	/* The counter for the search-first-header loop.
++@@ -507,11 +509,12 @@ int read_frame(mpg123_handle *fr)
++ 	   when repeatedly headers are found that do not have valid followup headers. */
++ 	long headcount = 0;
++ 
++-	fr->fsizeold=fr->framesize;       /* for Layer3 */
+++	fr->fsizeold=fr->hdr.framesize;       /* for Layer3 */
++ 
++ 	if(halfspeed_do(fr) == 1) return 1;
++ 
++ 	/* From now on, old frame data is tainted by parsing attempts. */
+++	// Handling premature effects of decode_header now, more decoupling would be welcome.
++ 	fr->to_decode = fr->to_ignore = FALSE;
++ 
++ 	if( fr->p.flags & MPG123_NO_FRANKENSTEIN &&
++@@ -540,13 +543,13 @@ init_resync:
++ #ifdef SKIP_JUNK
++ 	if(!fr->firsthead && !head_check(newhead))
++ 	{
++-		ret = skip_junk(fr, &newhead, &headcount);
+++		ret = skip_junk(fr, &newhead, &headcount, &nhdr);
++ 		JUMP_CONCLUSION(ret);
++ 	}
++ #endif
++ 
++ 	ret = head_check(newhead);
++-	if(ret) ret = decode_header(fr, newhead, &freeformat_count);
+++	if(ret) ret = decode_header(fr, &nhdr, newhead, &freeformat_count);
++ 
++ 	JUMP_CONCLUSION(ret); /* That only continues for ret == PARSE_BAD or PARSE_GOOD. */
++ 	if(ret == PARSE_BAD)
++@@ -561,7 +564,7 @@ init_resync:
++ 	{
++ 		ret = fr->p.flags & MPG123_NO_READAHEAD
++ 		?	PARSE_GOOD
++-		:	do_readahead(fr, newhead);
+++		:	do_readahead(fr, &nhdr, newhead);
++ 		/* readahead can fail mit NEED_MORE, in which case we must also make the just read header available again for next go */
++ 		if(ret < 0) fr->rd->back_bytes(fr, 4);
++ 		JUMP_CONCLUSION(ret);
++@@ -585,8 +588,8 @@ init_resync:
++ 	{
++ 		unsigned char *newbuf = fr->bsspace[fr->bsnum]+512;
++ 		/* read main data into memory */
++-		debug2("read frame body of %i at %"OFF_P, fr->framesize, framepos+4);
++-		if((ret=fr->rd->read_frame_body(fr,newbuf,fr->framesize))<0)
+++		debug2("read frame body of %i at %"PRIi64, nhdr.framesize, framepos+4);
+++		if((ret=fr->rd->read_frame_body(fr,newbuf,nhdr.framesize))<0)
++ 		{
++ 			/* if failed: flip back */
++ 			debug1("%s", ret == MPG123_NEED_MORE ? "need more" : "read error");
++@@ -597,6 +600,10 @@ init_resync:
++ 	}
++ 	fr->bsnum = (fr->bsnum + 1) & 1;
++ 
+++	// We read the frame body, time to apply the matching header.
+++	// Even if erroring out later, the header state needs to match the body.
+++	apply_header(fr, &nhdr);
 ++
-++      /*
-++       * The node->compress_index_size * sizeof (node->compress_index[0]) is safe here
-++       * due to relevant checks done in grub_calloc() above.
-++       */
-+       if (grub_hfsplus_read_file (node, 0, 0,
-+ 				  0x104 + sizeof (index_size),
-+ 				  node->compress_index_size
-+diff --git a/grub-core/fs/squash4.c b/grub-core/fs/squash4.c
-+index 6dd731e..f79fc75 100644
-+--- a/grub-core/fs/squash4.c
-++++ b/grub-core/fs/squash4.c
-+@@ -804,10 +804,10 @@ direct_read (struct grub_squash_data *data,
-+ 	  break;
++ 	if(!fr->firsthead)
++ 	{
++ 		fr->firsthead = newhead; /* _now_ it's time to store it... the first real header */
++@@ -608,7 +615,7 @@ init_resync:
++ 			fr->audio_start = framepos;
++ 			/* Only check for LAME  tag at beginning of whole stream
++ 			   ... when there indeed is one in between, it's the user's problem. */
++-			if(fr->lay == 3 && check_lame_tag(fr) == 1)
+++			if(fr->hdr.lay == 3 && check_lame_tag(fr) == 1)
++ 			{ /* ...in practice, Xing/LAME tags are layer 3 only. */
++ 				if(fr->rd->forget != NULL) fr->rd->forget(fr);
++ 
++@@ -624,6 +631,8 @@ init_resync:
++ 
++ 	set_pointer(fr, 0, 0);
++ 
+++	// No use of nhdr from here on. It is fr->hdr now!
+++
++ 	/* Question: How bad does the floating point value get with repeated recomputation?
++ 	   Also, considering that we can play the file or parts of many times. */
++ 	if(++fr->mean_frames != 0)
++@@ -632,7 +641,7 @@ init_resync:
 + 	}
-+       total_blocks = ((total_size + data->blksz - 1) >> data->log2_blksz);
-+-      ino->block_sizes = grub_malloc (total_blocks
-+-				      * sizeof (ino->block_sizes[0]));
-+-      ino->cumulated_block_sizes = grub_malloc (total_blocks
-+-						* sizeof (ino->cumulated_block_sizes[0]));
-++      ino->block_sizes = grub_calloc (total_blocks,
-++				      sizeof (ino->block_sizes[0]));
-++      ino->cumulated_block_sizes = grub_calloc (total_blocks,
-++						sizeof (ino->cumulated_block_sizes[0]));
-+       if (!ino->block_sizes || !ino->cumulated_block_sizes)
-+ 	{
-+ 	  grub_free (ino->block_sizes);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-0690.patch b/meta/recipes-bsp/grub/files/CVE-2025-0690.patch
-new file mode 100644
-index 0000000000..9a2ca50d02
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-0690.patch
-@@ -0,0 +1,75 @@
-+From dad8f502974ed9ad0a70ae6820d17b4b142558fc Mon Sep 17 00:00:00 2001
-+From: Jonathan Bar Or <jonathanbaror@gmail.com>
-+Date: Thu, 23 Jan 2025 19:17:05 +0100
-+Subject: [PATCH] commands/read: Fix an integer overflow when supplying more
-+ than 2^31 characters
-+
-+The grub_getline() function currently has a signed integer variable "i"
-+that can be overflown when user supplies more than 2^31 characters.
-+It results in a memory corruption of the allocated line buffer as well
-+as supplying large negative values to grub_realloc().
-+
-+Fixes: CVE-2025-0690
-+
-+Reported-by: Jonathan Bar Or <jonathanbaror@gmail.com>
-+Signed-off-by: Jonathan Bar Or <jonathanbaror@gmail.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-0690
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=dad8f502974ed9ad0a70ae6820d17b4b142558fc]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/commands/read.c | 19 +++++++++++++++----
-+ 1 file changed, 15 insertions(+), 4 deletions(-)
-+
-+diff --git a/grub-core/commands/read.c b/grub-core/commands/read.c
-+index fe3e88b..f3ff826 100644
-+--- a/grub-core/commands/read.c
-++++ b/grub-core/commands/read.c
-+@@ -25,19 +25,21 @@
-+ #include <grub/types.h>
-+ #include <grub/command.h>
-+ #include <grub/i18n.h>
-++#include <grub/safemath.h>
++ 	++fr->num; /* 0 for first frame! */
++ 	debug4("Frame %"OFF_P" %08lx %i, next filepos=%"OFF_P, 
++-	(off_p)fr->num, newhead, fr->framesize, (off_p)fr->rd->tell(fr));
+++	(off_p)fr->num, newhead, fr->hdr.framesize, (off_p)fr->rd->tell(fr));
++ 	if(!(fr->state_flags & FRAME_FRANKENSTEIN) && (
++ 		(fr->track_frames > 0 && fr->num >= fr->track_frames)
++ #ifdef GAPLESS
++@@ -664,7 +673,7 @@ init_resync:
++ 	if(fr->rd->forget != NULL) fr->rd->forget(fr);
 + 
-+ GRUB_MOD_LICENSE ("GPLv3+");
++ 	fr->to_decode = fr->to_ignore = TRUE;
++-	if(fr->error_protection) fr->crc = getbits(fr, 16); /* skip crc */
+++	if(fr->hdr.error_protection) fr->crc = getbits(fr, 16); /* skip crc */
 + 
-+ static char *
-+ grub_getline (void)
++ 	/*
++ 		Let's check for header change after deciding that the new one is good
++@@ -711,7 +720,6 @@ read_frame_bad:
++ 
++ 	fr->silent_resync = 0;
++ 	if(fr->err == MPG123_OK) fr->err = MPG123_ERR_READER;
++-	fr->framesize = oldsize;
++ 	fr->halfphase = oldphase;
++ 	/* That return code might be inherited from some feeder action, or reader error. */
++ 	return ret;
++@@ -725,9 +733,9 @@ read_frame_bad:
++  * <0: error codes, possibly from feeder buffer (NEED_MORE)
++  *  PARSE_BAD: cannot get the framesize for some reason and shall silentry try the next possible header (if this is no free format stream after all...)
++  */
++-static int guess_freeformat_framesize(mpg123_handle *fr, unsigned long oldhead)
+++static int guess_freeformat_framesize(mpg123_handle *fr, unsigned long oldhead, int *framesize)
 + {
-+-  int i;
-++  grub_size_t i;
-+   char *line;
-+   char *tmp;
-+   char c;
-++  grub_size_t alloc_size;
++-	long i;
+++	int i;
++ 	int ret;
++ 	unsigned long head;
++ 	if(!(fr->rdat.flags & (READER_SEEKABLE|READER_BUFFERED)))
++@@ -748,7 +756,7 @@ static int guess_freeformat_framesize(mpg123_handle *fr, unsigned long oldhead)
++ 		if((head & HDR_SAMEMASK) == (oldhead & HDR_SAMEMASK))
++ 		{
++ 			fr->rd->back_bytes(fr,i+1);
++-			fr->framesize = i-3;
+++			*framesize = i-3;
++ 			return PARSE_GOOD; /* Success! */
++ 		}
++ 	}
++@@ -765,8 +773,13 @@ static int guess_freeformat_framesize(mpg123_handle *fr, unsigned long oldhead)
++  *  0: no valid header
++  * <0: some error
++  * You are required to do a head_check() before calling!
+++ *
+++ * This now only operates on a frame header struct, not the full frame structure.
+++ * The scope is limited to parsing header information and determining the size of
+++ * the frame body to read. Everything else belongs into a later stage of applying
+++ * header information to the main decoder frame structure.
++  */
++-static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeformat_count)
+++static int decode_header(mpg123_handle *fr, struct frame_header *fh, unsigned long newhead, int *freeformat_count)
++ {
++ #ifdef DEBUG /* Do not waste cycles checking the header twice all the time. */
++ 	if(!head_check(newhead))
++@@ -777,43 +790,42 @@ static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeforma
++ 	/* For some reason, the layer and sampling freq settings used to be wrapped
++ 	   in a weird conditional including MPG123_NO_RESYNC. What was I thinking?
++ 	   This information has to be consistent. */
++-	fr->lay = 4 - HDR_LAYER_VAL(newhead);
+++	fh->lay = 4 - HDR_LAYER_VAL(newhead);
 + 
-+   i = 0;
-+-  line = grub_malloc (1 + i + sizeof('\0'));
-++  line = grub_malloc (1 + sizeof('\0'));
-+   if (! line)
-+     return NULL;
-+ 
-+@@ -50,8 +52,17 @@ grub_getline (void)
-+       line[i] = c;
-+       if (grub_isprint (c))
-+ 	grub_printf ("%c", c);
-+-      i++;
-+-      tmp = grub_realloc (line, 1 + i + sizeof('\0'));
-++      if (grub_add (i, 1, &i))
-++        {
-++          grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
-++          return NULL;
-++        }
-++      if (grub_add (i, 1 + sizeof('\0'), &alloc_size))
-++        {
-++          grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
-++          return NULL;
-++        }
-++      tmp = grub_realloc (line, alloc_size);
-+       if (! tmp)
++ 	if(HDR_VERSION_VAL(newhead) & 0x2)
 + 	{
-+ 	  grub_free (line);
++-		fr->lsf = (HDR_VERSION_VAL(newhead) & 0x1) ? 0 : 1;
++-		fr->mpeg25 = 0;
++-		fr->sampling_frequency = HDR_SAMPLERATE_VAL(newhead) + (fr->lsf*3);
+++		fh->lsf = (HDR_VERSION_VAL(newhead) & 0x1) ? 0 : 1;
+++		fh->mpeg25 = 0;
+++		fh->sampling_frequency = HDR_SAMPLERATE_VAL(newhead) + (fh->lsf*3);
++ 	}
++ 	else
++ 	{
++-		fr->lsf = 1;
++-		fr->mpeg25 = 1;
++-		fr->sampling_frequency = 6 + HDR_SAMPLERATE_VAL(newhead);
+++		fh->lsf = 1;
+++		fh->mpeg25 = 1;
+++		fh->sampling_frequency = 6 + HDR_SAMPLERATE_VAL(newhead);
++ 	}
++ 
++ 	#ifdef DEBUG
++ 	/* seen a file where this varies (old lame tag without crc, track with crc) */
++-	if((HDR_CRC_VAL(newhead)^0x1) != fr->error_protection) debug("changed crc bit!");
+++	if((HDR_CRC_VAL(newhead)^0x1) != fh->error_protection) debug("changed crc bit!");
++ 	#endif
++-	fr->error_protection = HDR_CRC_VAL(newhead)^0x1;
++-	fr->bitrate_index    = HDR_BITRATE_VAL(newhead);
++-	fr->padding          = HDR_PADDING_VAL(newhead);
++-	fr->extension        = HDR_PRIVATE_VAL(newhead);
++-	fr->mode             = HDR_CHANNEL_VAL(newhead);
++-	fr->mode_ext         = HDR_CHANEX_VAL(newhead);
++-	fr->copyright        = HDR_COPYRIGHT_VAL(newhead);
++-	fr->original         = HDR_ORIGINAL_VAL(newhead);
++-	fr->emphasis         = HDR_EMPHASIS_VAL(newhead);
++-	fr->freeformat       = !(newhead & HDR_BITRATE);
++-
++-	fr->stereo = (fr->mode == MPG_MD_MONO) ? 1 : 2;
+++	fh->error_protection = HDR_CRC_VAL(newhead)^0x1;
+++	fh->bitrate_index    = HDR_BITRATE_VAL(newhead);
+++	fh->padding          = HDR_PADDING_VAL(newhead);
+++	fh->extension        = HDR_PRIVATE_VAL(newhead);
+++	fh->mode             = HDR_CHANNEL_VAL(newhead);
+++	fh->mode_ext         = HDR_CHANEX_VAL(newhead);
+++	fh->copyright        = HDR_COPYRIGHT_VAL(newhead);
+++	fh->original         = HDR_ORIGINAL_VAL(newhead);
+++	fh->emphasis         = HDR_EMPHASIS_VAL(newhead);
+++	fh->freeformat       = !(newhead & HDR_BITRATE);
+++
++ 
++ 	/* we can't use tabsel_123 for freeformat, so trying to guess framesize... */
++-	if(fr->freeformat)
+++	if(fh->freeformat)
++ 	{
++ 		/* when we first encounter the frame with freeformat, guess framesize */
++-		if(fr->freeformat_framesize < 0)
+++		if(fh->freeformat_framesize < 0)
++ 		{
++ 			int ret;
++ 			if(fr->p.flags & MPG123_NO_READAHEAD)
++@@ -828,12 +840,12 @@ static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeforma
++ 				if(VERBOSE3) error("You fooled me too often. Refusing to guess free format frame size _again_.");
++ 				return PARSE_BAD;
++ 			}
++-			ret = guess_freeformat_framesize(fr, newhead);
+++			ret = guess_freeformat_framesize(fr, newhead, &(fh->framesize));
++ 			if(ret == PARSE_GOOD)
++ 			{
++-				fr->freeformat_framesize = fr->framesize - fr->padding;
+++				fh->freeformat_framesize = fh->framesize - fh->padding;
++ 				if(VERBOSE2)
++-				fprintf(stderr, "Note: free format frame size %li\n", fr->freeformat_framesize);
+++				fprintf(stderr, "Note: free format frame size %i\n", fh->freeformat_framesize);
++ 			}
++ 			else
++ 			{
++@@ -848,81 +860,110 @@ static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeforma
++ 		/* freeformat should be CBR, so the same framesize can be used at the 2nd reading or later */
++ 		else
++ 		{
++-			fr->framesize = fr->freeformat_framesize + fr->padding;
+++			fh->framesize = fh->freeformat_framesize + fh->padding;
++ 		}
++ 	}
++ 
++-	switch(fr->lay)
+++	switch(fh->lay)
++ 	{
++ #ifndef NO_LAYER1
++ 		case 1:
++-			fr->spf = 384;
++-			fr->do_layer = do_layer1;
++-			if(!fr->freeformat)
+++			if(!fh->freeformat)
++ 			{
++-				long fs = (long) tabsel_123[fr->lsf][0][fr->bitrate_index] * 12000;
++-				fs /= freqs[fr->sampling_frequency];
++-				fs = ((fs+fr->padding)<<2)-4;
++-				fr->framesize = (int)fs;
+++				long fs = (long) tabsel_123[fh->lsf][0][fh->bitrate_index] * 12000;
+++				fs /= freqs[fh->sampling_frequency];
+++				fs = ((fs+fh->padding)<<2)-4;
+++				fh->framesize = (int)fs;
++ 			}
++ 		break;
++ #endif
++ #ifndef NO_LAYER2
++ 		case 2:
++-			fr->spf = 1152;
++-			fr->do_layer = do_layer2;
++-			if(!fr->freeformat)
+++			if(!fh->freeformat)
++ 			{
++-				debug2("bitrate index: %i (%i)", fr->bitrate_index, tabsel_123[fr->lsf][1][fr->bitrate_index] );
++-				long fs = (long) tabsel_123[fr->lsf][1][fr->bitrate_index] * 144000;
++-				fs /= freqs[fr->sampling_frequency];
++-				fs += fr->padding - 4;
++-				fr->framesize = (int)fs;
+++				debug2("bitrate index: %i (%i)", fh->bitrate_index, tabsel_123[fh->lsf][1][fh->bitrate_index] );
+++				long fs = (long) tabsel_123[fh->lsf][1][fh->bitrate_index] * 144000;
+++				fs /= freqs[fh->sampling_frequency];
+++				fs += fh->padding - 4;
+++				fh->framesize = (int)fs;
++ 			}
++ 		break;
++ #endif
++ #ifndef NO_LAYER3
++ 		case 3:
++-			fr->spf = fr->lsf ? 576 : 1152; /* MPEG 2.5 implies LSF.*/
++-			fr->do_layer = do_layer3;
++-			if(fr->lsf)
++-			fr->ssize = (fr->stereo == 1) ? 9 : 17;
+++			if(fh->lsf)
+++			fh->ssize = (fh->mode == MPG_MD_MONO) ? 9 : 17;
++ 			else
++-			fr->ssize = (fr->stereo == 1) ? 17 : 32;
+++			fh->ssize = (fh->mode == MPG_MD_MONO) ? 17 : 32;
++ 
++-			if(fr->error_protection)
++-			fr->ssize += 2;
+++			if(fh->error_protection)
+++			fh->ssize += 2;
++ 
++-			if(!fr->freeformat)
+++			if(!fh->freeformat)
++ 			{
++-				long fs = (long) tabsel_123[fr->lsf][2][fr->bitrate_index] * 144000;
++-				fs /= freqs[fr->sampling_frequency]<<(fr->lsf);
++-				fs += fr->padding - 4;
++-				fr->framesize = fs;
+++				long fs = (long) tabsel_123[fh->lsf][2][fh->bitrate_index] * 144000;
+++				fs /= freqs[fh->sampling_frequency]<<(fh->lsf);
+++				fs += fh->padding - 4;
+++				fh->framesize = fs;
++ 			}
++-			if(fr->framesize < fr->ssize)
+++			if(fh->framesize < fh->ssize)
++ 			{
++ 				if(NOQUIET)
++ 					error2( "Frame smaller than mandatory side info (%i < %i)!"
++-					,	fr->framesize, fr->ssize );
+++					,	fh->framesize, fh->ssize );
++ 				return PARSE_BAD;
++ 			}
++ 		break;
++ #endif 
++ 		default:
++-			if(NOQUIET) error1("Layer type %i not supported in this build!", fr->lay); 
+++			if(NOQUIET) error1("Layer type %i not supported in this build!", fh->lay); 
++ 
++ 			return PARSE_BAD;
++ 	}
++-	if (fr->framesize > MAXFRAMESIZE)
+++	if (fh->framesize > MAXFRAMESIZE)
++ 	{
++-		if(NOQUIET) error1("Frame size too big: %d", fr->framesize+4-fr->padding);
+++		if(NOQUIET) error1("Frame size too big: %d", fh->framesize+4-fh->padding);
++ 
++ 		return PARSE_BAD;
++ 	}
++ 	return PARSE_GOOD;
++ }
++ 
+++// Apply decoded header structure to frame struct, including
+++// main decoder function pointer.
+++static void apply_header(mpg123_handle *fr, struct frame_header *hdr)
+++{
+++	// copy the whole struct, do some postprocessing
+++	fr->hdr = *hdr;
+++	fr->stereo = (fr->hdr.mode == MPG_MD_MONO) ? 1 : 2;
+++	switch(fr->hdr.lay)
+++	{
+++#ifndef NO_LAYER1
+++		case 1:
+++			fr->spf = 384;
+++			fr->do_layer = INT123_do_layer1;
+++		break;
+++#endif
+++#ifndef NO_LAYER2
+++		case 2:
+++			fr->spf = 1152;
+++			fr->do_layer = INT123_do_layer2;
+++		break;
+++#endif
+++#ifndef NO_LAYER3
+++		case 3:
+++			fr->spf = fr->hdr.lsf ? 576 : 1152; /* MPEG 2.5 implies LSF.*/
+++			fr->do_layer = INT123_do_layer3;
+++#endif 
+++		break;
+++		default:
+++			// No error checking/message here, been done in decode_header().
+++			fr->spf = 0;
+++			fr->do_layer = NULL;
+++	}
+++}
+++
+++
++ /* Prepare for bit reading. Two stages:
++   0. Layers 1 and 2, side info for layer 3
++   1. Second call for possible bit reservoir for layer 3 part 2,3.
++@@ -934,26 +975,26 @@ static int decode_header(mpg123_handle *fr,unsigned long newhead, int *freeforma
++ void set_pointer(mpg123_handle *fr, int part2, long backstep)
++ {
++ 	fr->bitindex = 0;
++-	if(fr->lay == 3)
+++	if(fr->hdr.lay == 3)
++ 	{
++ 		if(part2)
++ 		{
++-			fr->wordpointer = fr->bsbuf + fr->ssize - backstep;
+++			fr->wordpointer = fr->bsbuf + fr->hdr.ssize - backstep;
++ 			if(backstep)
++ 				memcpy( fr->wordpointer, fr->bsbufold+fr->fsizeold-backstep
++ 				,	backstep );
++-			fr->bits_avail = (long)(fr->framesize - fr->ssize + backstep)*8;
+++			fr->bits_avail = (long)(fr->hdr.framesize - fr->hdr.ssize + backstep)*8;
++ 		}
++ 		else
++ 		{
++ 			fr->wordpointer = fr->bsbuf;
++-			fr->bits_avail  = fr->ssize*8;
+++			fr->bits_avail  = fr->hdr.ssize*8;
++ 		}
++ 	}
++ 	else
++ 	{
++ 		fr->wordpointer = fr->bsbuf;
++-		fr->bits_avail  = fr->framesize*8;
+++		fr->bits_avail  = fr->hdr.framesize*8;
++ 	}
++ }
++ 
++@@ -961,7 +1002,7 @@ void set_pointer(mpg123_handle *fr, int part2, long backstep)
++ 
++ double compute_bpf(mpg123_handle *fr)
++ {
++-	return (fr->framesize > 0) ? fr->framesize + 4.0 : 1.0;
+++	return (fr->hdr.framesize > 0) ? fr->hdr.framesize + 4.0 : 1.0;
++ }
++ 
++ int attribute_align_arg mpg123_spf(mpg123_handle *mh)
++@@ -977,8 +1018,8 @@ double attribute_align_arg mpg123_tpf(mpg123_handle *fr)
++ 	double tpf;
++ 	if(fr == NULL || !fr->firsthead) return MPG123_ERR;
++ 
++-	tpf = (double) bs[fr->lay];
++-	tpf /= freqs[fr->sampling_frequency] << (fr->lsf);
+++	tpf = (double) bs[fr->hdr.lay];
+++	tpf /= freqs[fr->hdr.sampling_frequency] << (fr->hdr.lsf);
++ 	return tpf;
++ }
++ 
++@@ -1062,7 +1103,7 @@ int get_songlen(mpg123_handle *fr,int no)
++ }
++ 
++ /* first attempt of read ahead check to find the real first header; cannot believe what junk is out there! */
++-static int do_readahead(mpg123_handle *fr, unsigned long newhead)
+++static int do_readahead(mpg123_handle *fr, struct frame_header *nhdr, unsigned long newhead)
++ {
++ 	unsigned long nexthead = 0;
++ 	int hd = 0;
++@@ -1074,9 +1115,9 @@ static int do_readahead(mpg123_handle *fr, unsigned long newhead)
++ 
++ 	start = fr->rd->tell(fr);
++ 
++-	debug2("doing ahead check with BPF %d at %"OFF_P, fr->framesize+4, (off_p)start);
+++	debug2("doing ahead check with BPF %d at %"OFF_P, nhdr->framesize+4, (off_p)start);
++ 	/* step framesize bytes forward and read next possible header*/
++-	if((oret=fr->rd->skip_bytes(fr, fr->framesize))<0)
+++	if((oret=fr->rd->skip_bytes(fr, nhdr->framesize))<0)
++ 	{
++ 		if(oret==READER_ERROR && NOQUIET) error("cannot seek!");
++ 
++@@ -1211,7 +1252,7 @@ static int forget_head_shift(mpg123_handle *fr, unsigned long *newheadp, int for
++ }
++ 
++ /* watch out for junk/tags on beginning of stream by invalid header */
++-static int skip_junk(mpg123_handle *fr, unsigned long *newheadp, long *headcount)
+++static int skip_junk(mpg123_handle *fr, unsigned long *newheadp, long *headcount, struct frame_header *nhdr)
++ {
++ 	int ret;
++ 	int freeformat_count = 0;
++@@ -1267,7 +1308,7 @@ static int skip_junk(mpg123_handle *fr, unsigned long *newheadp, long *headcount
++ 		if(++forgetcount > FORGET_INTERVAL) forgetcount = 0;
++ 		if((ret=forget_head_shift(fr, &newhead, !forgetcount))<=0) return ret;
++ 
++-		if(head_check(newhead) && (ret=decode_header(fr, newhead, &freeformat_count))) break;
+++		if(head_check(newhead) && (ret=decode_header(fr, nhdr, newhead, &freeformat_count))) break;
++ 	} while(1);
++ 	if(ret<0) return ret;
++ 
 +-- 
-+2.25.1
++2.43.0
 +
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-1118.patch b/meta/recipes-bsp/grub/files/CVE-2025-1118.patch
-new file mode 100644
-index 0000000000..e26b5c8752
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-1118.patch
-@@ -0,0 +1,40 @@
-+From 34824806ac6302f91e8cabaa41308eaced25725f Mon Sep 17 00:00:00 2001
-+From: B Horn <b@horn.uk>
-+Date: Thu, 18 Apr 2024 20:29:39 +0100
-+Subject: [PATCH] commands/minicmd: Block the dump command in lockdown mode
-+
-+The dump enables a user to read memory which should not be possible
-+in lockdown mode.
-+
-+Fixes: CVE-2025-1118
-+
-+Reported-by: B Horn <b@horn.uk>
-+Reported-by: Jonathan Bar Or <jonathanbaror@gmail.com>
-+Signed-off-by: B Horn <b@horn.uk>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-1118
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=34824806ac6302f91e8cabaa41308eaced25725f]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/commands/minicmd.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/grub-core/commands/minicmd.c b/grub-core/commands/minicmd.c
-+index fa49893..903af33 100644
-+--- a/grub-core/commands/minicmd.c
-++++ b/grub-core/commands/minicmd.c
-+@@ -203,8 +203,8 @@ GRUB_MOD_INIT(minicmd)
-+     grub_register_command ("help", grub_mini_cmd_help,
-+ 			   0, N_("Show this message."));
-+   cmd_dump =
-+-    grub_register_command ("dump", grub_mini_cmd_dump,
-+-			   N_("ADDR [SIZE]"), N_("Show memory contents."));
-++    grub_register_command_lockdown ("dump", grub_mini_cmd_dump,
-++				    N_("ADDR [SIZE]"), N_("Show memory contents."));
-+   cmd_rmmod =
-+     grub_register_command ("rmmod", grub_mini_cmd_rmmod,
-+ 			   N_("MODULE"), N_("Remove a module."));
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 259a0a4c3d..cb61080aeb 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -51,6 +51,14 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2024-45781.patch \
-            file://CVE-2024-45782_CVE-2024-56737.patch \
-            file://CVE-2024-45783.patch \
-+           file://CVE-2025-0622-01.patch \
-+           file://CVE-2025-0622-02.patch \
-+           file://CVE-2025-0622-03.patch \
-+           file://CVE-2025-0624.patch \
-+           file://CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch \
-+           file://CVE-2025-0678_CVE-2025-1125.patch \
-+           file://CVE-2025-0690.patch \
-+           file://CVE-2025-1118.patch \
- "
+diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb b/meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb
+index 0baa7aa4a1..62c6564cec 100644
+--- a/meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb
++++ b/meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb
+@@ -9,7 +9,9 @@ SECTION = "multimedia"
+ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
  
- SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
+-SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
++SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2 \
++           file://CVE-2024-10573.patch \
++           "
+ SRC_URI[sha256sum] = "963885d8cc77262f28b77187c7d189e32195e64244de2530b798ddf32183e847"
+ 
+ UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.43.0
 
