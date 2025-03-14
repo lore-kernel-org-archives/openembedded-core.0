@@ -1,115 +1,202 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <sanakazi720@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E25C282EC
-	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 09:14:53 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web10.9740.1741943687741569306
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0338DC282EC
+	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 09:28:14 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.10082.1741944489494558332
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Mar 2025 02:14:47 -0700
+ Fri, 14 Mar 2025 02:28:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZhRFQvg+;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6e8efefec89so17062966d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 02:14:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fVaq/pGL;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: sanakazi720@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-22409077c06so49167565ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 02:28:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741943687; x=1742548487; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WUHRCB/Op/UgEirsn+VHnJB3x8nsPcMnYLSqqM8GROA=;
-        b=ZhRFQvg+hb0bGNmxBi5ywK0pYY0bPKJw93JuLcXrH8M+p7Px+8MOA2o0OhdI3IY1os
-         /Q+rT730fiJsM11wj+FMo4nkZr93sGp0KhNip666VtqLzIrTSox2UFIPvf7gq8GtaVjQ
-         +q5cpOXw7GBhhH7Zg5OtEunxSjdpjkWL62kWXg7dIUyd5sBi91OuMRHENXYCnBS2HzZU
-         M9j/qUrSLU/Ju4/Mg5NtfPDBaJDM3ESwkPQuz+rxyq7JeAh5ejRgaSYazYQJ0quS/cU/
-         hqDJ/JDoycV++XeAtmm7r3gs/1s7ho9lIYCWEnrGdiH6ujEDzvWPmcflsXaVv7uuilr7
-         KwDg==
+        d=gmail.com; s=20230601; t=1741944489; x=1742549289; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PrtNnLdsT7wCXgposWTjD/SrXYLYKUFtOLAK6bT06JI=;
+        b=fVaq/pGLeg6oFa6xnHeIuGtdIrl1grppPHUBWWepCLvCu57mYvWZi89Kp0BDQtAPcb
+         Xhjc5mU88GV3F1nsmWkRW3W49aR3+giB6zLmw3ZdU7rzLG0jh9DnCPcnPwsVgXOlgDO2
+         Fl9af4jvR5N00bH61fsPtC1UNChqvYshX92r8fcW/c++R0LaMsyEsJN0WIEE7zkKSxA+
+         35kJOcvC7kT7UGu9oFIp/qwjHRaP095+jNlLQwTcDCtHNKNzNmvUA2TfbPIQuMEWS6tq
+         mKW24hczGhHGCQhXt0v5tB2QhNWUZbEA/3heAWkA3F+Lx2ITOZCsKii0kkqACU6kUmef
+         6u7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741943687; x=1742548487;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WUHRCB/Op/UgEirsn+VHnJB3x8nsPcMnYLSqqM8GROA=;
-        b=IbJoIwjRyzF1xIE5NWI1Ly8VnWrf3UQJj6K7Y5W0yGG5F1m78qFCTX5gvwUxFky2lZ
-         1Ee5A0fKHFevPQQFz1SzX+HblT3+fneuoCOdojyqYaS1NeGKCYnRpocmayJ8yPhQHGE2
-         G/4EJ0lIHjIfH55J5I99XDlEuHnmowxionJ7CyGrFMiCI0cKYjwA1v/dzfLehgY/iRmT
-         Q6gqo7LmvlOD/oUkDeM1ZsTdY1J/5mncUma0C/s/lhrZb2soZSEhioqRVxAzbf9iqlnq
-         aB4isEhaCiVkqEXjvrw97NAXf941jGPu2X0hq5gGtoIIlLWGGzdLMsuf2usqQPo2nmOe
-         NTVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWo1FrCuiI6X59swAHSB6EOAkqo96IGHRhVilbIltIspxopwEzj/THU8P+NYncsKVWqGaDX0dDDeVD/Fx32lwPz3Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxspldrGMcauLr8Z54LSqM54lEi2uP8jYUfLdcRFM2jMKl6xaIZ
-	thDb8fkAmXkbVsOlmoroKfTjBGO1HuiGMK+9rl4sNfoOQiveRkJk4aJ2oJ8nlWsmYOE9QVeG9Rk
-	N6GnjjkmMs4MBdnq+LscTHfAIIFY=
-X-Gm-Gg: ASbGnctQ0mIXEc/d7Hd4ij8ahVU2GqyR1Z6VzODMvx9tTMIN4j9jk7e5Dk2eyo1q33C
-	AY/Ll4CqvdA3SxorqABI/2D9600rw+XmNy2AIdFh9NfNuyVdZndP7K38WHfY7Qq7tjb/liNrtTW
-	IQX3XmRg7V3WrpBplY+BYu5nK+
-X-Google-Smtp-Source: AGHT+IFi0H40uUsDaxhRoJJDNLyYNV2Qrszo7twBytErjVQAqjtTJbPyY2zJT8yH84Z+SjuJagF9uWybZjwhJfPDgWg=
-X-Received: by 2002:a05:6214:ca3:b0:6e8:9bcd:bba6 with SMTP id
- 6a1803df08f44-6eaea9f545fmr21328146d6.7.1741943686696; Fri, 14 Mar 2025
- 02:14:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1741944489; x=1742549289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PrtNnLdsT7wCXgposWTjD/SrXYLYKUFtOLAK6bT06JI=;
+        b=bf1sDj0Z2awN6Gt+mfV9B3+o24KrR9lfE1uBjLxr2L3C37I6rX/AySoDsbFt8GOsOJ
+         Rl6fJ2/KmhyHi8+JZzGn87mEWABloPZ1cjG6PrqQhKvLBsR212NMvTnZqyeW67H7gYfx
+         0LXCJ7wyCSBMzPwFzcoF+VNLDo+4qVmBSwJigMihi3PoqBEQ5lKIHgSgspD0ID2vnOzd
+         EnQt1KZfspFCzI8rYGprJpnK2OS52VRHzdPvuDJIMn7gTQgLdwYFNclUm2sK1oldbdEA
+         mWFNYUuynu5tKq7MEPQynqIbmaML7e3qPBTG9BWoTc16YtL5dk52ES5Qzgg9MiEgA6gX
+         Rglw==
+X-Gm-Message-State: AOJu0YyNxp37ZjD8BCZIp2LsaRAuciUCEry6GnPJ6OjF0qDTqWU8pZCn
+	DRlFSrgI80LOKS2b1HERnqxeyGCphdwsw1H1ZljYtFFwfDOEzW8/c0rF7A==
+X-Gm-Gg: ASbGncs8H6EA1FR0W5iunx1z1RmkPjGE9Fhr3AryfUGtE5TARQSWjciQw59sM6YiHk/
+	BPEcU798jeVT/om52dvLIqzbQOAWYp8KcRmnwAr8hvoG5M8M0w29V3RuVPPqtpLKix4QSLPJirV
+	qChU3vjg4Jj8NlSqAXCw2IxwtfZJ60BEl67Nrf9IgQo/11V/sXoiBMQO4G4hMqsc6MYvmI/Lt/4
+	P5f3gqcnT3aLzKAZ76L0gKBAXMEJtX4Uct/uFZTChGgIlehc2FGFz6hENHH+qe8ZTmlDwUm3zM2
+	M8/b2uwvZ1AmEO24hmbr5wcieWyr9tm0hNkrI6M5yj3Nn9Hpa3TPReJGZ/1xmLVdt8Bn5Mi1BZ0
+	=
+X-Google-Smtp-Source: AGHT+IGhZJ7jk76crvIr3lz5QPb9Ubqp1jyUkXj37dU3xvKVjjaj+svYQXtepKbbsggoQM/lGV2cGA==
+X-Received: by 2002:a17:902:eccc:b0:220:f87d:9d5b with SMTP id d9443c01a7336-225e0a64aa7mr31134275ad.24.1741944488548;
+        Fri, 14 Mar 2025 02:28:08 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:1c16:2c8d:afef:6fd8:d5a3:eab2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68885acsm25442145ad.32.2025.03.14.02.28.07
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Mar 2025 02:28:07 -0700 (PDT)
+From: Sana Kazi <sanakazi720@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [scarthgap][PATCH 1/2] gcc: remove paths to sysroot from configargs.h and checksum-options for gcc-cross-canadian
+Date: Fri, 14 Mar 2025 14:57:54 +0530
+Message-Id: <20250314092755.22607-1-sanakazi720@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20250314002937.672768-1-rs@ti.com>
-In-Reply-To: <20250314002937.672768-1-rs@ti.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 14 Mar 2025 10:14:35 +0100
-X-Gm-Features: AQ5f1JqLIcN0gppx-Xg6J3FsUjxbpwyvkpKKKFyQdSznCyyUtbFLCOqYCW7AKnM
-Message-ID: <CANNYZj98ByWNO+dPwKXGr-9_w5Z_ajwYqMAbWo_u8sdUAsYEWA@mail.gmail.com>
-Subject: Re: [oe-core][RFC 0/3] Display manager proposal for x11 and wayland
-To: rs@ti.com
-Cc: otavio.salvador@ossystems.com.br, richard.purdie@linuxfoundation.org, 
-	ross.burton@arm.com, alex@linutronix.de, otavio@ossystems.com.br, 
-	kexin.hao@windriver.com, afd@ti.com, detheridge@ti.com, denis@denix.org, 
-	reatmon@ti.com, openembedded-core@lists.openembedded.org, vijayp@ti.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 09:14:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212824
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 09:28:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212825
 
-On Fri, 14 Mar 2025 at 01:30, <rs@ti.com> wrote:
-> Example implementation of emptty for weston-init following the request on the
-> previous RFC [1] and previous example [2]. This variant is applicable to master.
->
-> This packages emptty and a default configuration for emptty as "emptty" and
-> "emptty-conf" respectively. This allows the existing init packages to override
-> the configuration similar to the way grub boot configs are handled.
->
-> The weston-init package still handles the weston config and weston user setup as
-> it always has. The only real difference from a consumer standpoint is that the
-> autologin group for the weston user changed from "wayland" to the more generic
-> "nopasswdlogin".
->
-> [1] https://lists.openembedded.org/g/openembedded-core/message/212640
-> [2] https://lists.openembedded.org/g/openembedded-core/message/212785
+From: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
 
-I quickly checked this locally. There are some issues that need to be
-addressed before this goes to the autobuilder:
+Apply fixes from gcc-cross (84a78f46d594 and 0ead8cbdfb96) to gcc-cross-canadian.
+This will improve (but not fix) reproducibility of gcc-cross-canadian.
+Also move this code to functions to avoid code duplication.
 
-1. WARNING: emptty-0.13.0-r0 do_recipe_qa: QA Issue: Recipe emptty in
-/srv/work/alex/poky/meta/recipes-graphics/emptty/emptty_0.13.0.bb does
-not have an assigned maintainer. Please add an entry into
-meta/conf/distro/include/maintainers.inc. [missing-maintainer]
+[RP: Tweak patch to make the function parameters clear and fix quoting issues
+ensuring the code exactly matches the original replacements with an additional
+parameter.]
 
-2. With default poky config:
+(From OE-Core rev: 350ff7d53f7506de2bc01f0efc569b8294b9afea)
 
-ERROR: Nothing RPROVIDES 'pam-plugin-succeed-if' (but
-/srv/work/alex/poky/meta/recipes-graphics/emptty/emptty_0.13.0.bb
-RDEPENDS on or otherwise requires it)
-NOTE: Runtime target 'pam-plugin-succeed-if' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['pam-plugin-succeed-if']
-ERROR: Required build target 'emptty' has no buildable providers.
-Missing or unbuildable dependency chain was: ['emptty', 'pam-plugin-succeed-if']
+Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
+Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit f1ad5be4337c5d45c0f1bed48184336e9ab1fad8)
+Signed-off-by: Sana Kazi <sanakazi720@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-common.inc      | 22 +++++++++++++++++++
+ .../gcc/gcc-configure-common.inc              |  1 -
+ .../gcc/gcc-cross-canadian.inc                |  3 +++
+ meta/recipes-devtools/gcc/gcc-cross.inc       | 15 ++-----------
+ meta/recipes-devtools/gcc/gcc-target.inc      | 16 ++------------
+ 5 files changed, 29 insertions(+), 28 deletions(-)
 
-You should either make the pam dependency optional (via PACKAGECONFIG
-subject to pam in DISTRO_FEATURES), or use REQUIRED_DISTRO_FEATURES.
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index 5ac82b1b57..7f5cc109e6 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -116,3 +116,25 @@ target_prefix ?= "${prefix}"
+ # The real WORKDIR location isn't a dependency for the shared workdir.
+ src_patches[vardepsexclude] = "WORKDIR"
+ should_apply[vardepsexclude] += "PN"
++
++remove_sysroot_paths_from_configargs () {
++	replacement=${1}
++	# Prevent sysroot path from being used in configargs.h header, as it will
++	# be rewritten when used by other sysroots preventing support for gcc
++	# plugins. Additionally the path is embeddeded into the output binary, this
++	# prevents building a reproducible binary.
++	oe_runmake configure-gcc
++	sed -i "s@${STAGING_DIR_TARGET}@$replacement@g" ${B}/gcc/configargs.h
++	sed -i "s@${STAGING_DIR_HOST}@/$replacement@g" ${B}/gcc/configargs.h
++}
++
++remove_sysroot_paths_from_checksum_options () {
++	stagingdir=${1}
++	replacement=${2}
++	# Prevent sysroot/workdir paths from being used in checksum-options.
++	# checksum-options is used to generate a checksum which is embedded into
++	# the output binary.
++	oe_runmake TARGET-gcc=checksum-options all-gcc
++	sed -i "s@${DEBUG_PREFIX_MAP}@@g" ${B}/gcc/checksum-options
++	sed -i "s@$stagingdir@$replacement@g" ${B}/gcc/checksum-options
++}
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index dba25eb754..bc17f10468 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -119,4 +119,3 @@ do_configure () {
+ 
+ 	oe_runconf
+ }
+-
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+index ec87b46219..adcaef2b0f 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+@@ -63,6 +63,9 @@ do_configure () {
+ }
+ 
+ do_compile () {
++	remove_sysroot_paths_from_configargs '/host'
++	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_HOST}' '/host'
++
+ 	oe_runmake all-host configure-target-libgcc
+ 	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c unwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
+ }
+diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+index a540fb2434..1dbb6dc42b 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+@@ -61,19 +61,8 @@ do_compile () {
+ 	export CXXFLAGS_FOR_TARGET="${TARGET_CXXFLAGS}"
+ 	export LDFLAGS_FOR_TARGET="${TARGET_LDFLAGS}"
+ 
+-	# Prevent native/host sysroot path from being used in configargs.h header,
+-	# as it will be rewritten when used by other sysroots preventing support
+-	# for gcc plugins
+-	oe_runmake configure-gcc
+-	sed -i 's@${STAGING_DIR_TARGET}@/host@g' ${B}/gcc/configargs.h
+-	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/configargs.h
+-
+-	# Prevent sysroot/workdir paths from being used in checksum-options.
+-	# checksum-options is used to generate a checksum which is embedded into
+-	# the output binary.
+-	oe_runmake TARGET-gcc=checksum-options all-gcc
+-	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
+-	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/checksum-options
++	remove_sysroot_paths_from_configargs '/host'
++	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_HOST}' '/host'
+ 
+ 	oe_runmake all-host configure-target-libgcc
+ 	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c unwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index 7dac3ef422..f51d94cd65 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -140,20 +140,8 @@ FILES:${PN}-doc = "\
+ "
+ 
+ do_compile () {
+-	# Prevent full target sysroot path from being used in configargs.h header,
+-	# as it will be rewritten when used by other sysroots preventing support
+-	# for gcc plugins. Additionally the path is embeddeded into the output
+-	# binary, this prevents building a reproducible binary.
+-	oe_runmake configure-gcc
+-	sed -i 's@${STAGING_DIR_TARGET}@/@g' ${B}/gcc/configargs.h
+-	sed -i 's@${STAGING_DIR_HOST}@/@g' ${B}/gcc/configargs.h
+-
+-	# Prevent sysroot/workdir paths from being used in checksum-options.
+-	# checksum-options is used to generate a checksum which is embedded into
+-	# the output binary.
+-	oe_runmake TARGET-gcc=checksum-options all-gcc
+-	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
+-	sed -i 's@${STAGING_DIR_TARGET}@/@g' ${B}/gcc/checksum-options
++	remove_sysroot_paths_from_configargs '/'
++	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_TARGET}' '/'
+ 
+ 	oe_runmake all-host
+ }
+-- 
+2.25.1
 
-3. Again, with default poky config:
-
-NOTE: Multiple providers are available for runtime virtual-emptty-conf
-(emptty, weston-init)
-Consider defining a PREFERRED_RPROVIDER entry to match virtual-emptty-conf
-
-
-Alex
 
