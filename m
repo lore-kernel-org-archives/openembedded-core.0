@@ -1,784 +1,197 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20FD5C28B28
-	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 12:29:09 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web11.8728.1742041740199152730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F8BFC28B28
+	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:09 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.10350.1742048286063781878
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 05:29:00 -0700
+ Sat, 15 Mar 2025 07:18:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
-Received: from fwd78.aul.t-online.de (fwd78.aul.t-online.de [10.223.144.104])
-	by mailout05.t-online.de (Postfix) with SMTP id 4F65511CB
-	for <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 13:28:58 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([79.219.225.204]) by fwd78.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1ttQdN-16vm7N0; Sat, 15 Mar 2025 13:28:57 +0100
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] gtk4: update 4.16.2 -> 4.18.1
-Date: Sat, 15 Mar 2025 13:29:35 +0100
-Message-ID: <20250315122935.303344-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.48.1
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ft0/iLEZ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Caq7Ef76;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101959a2b51ab-0bf9ac58-aee5-4c56-98a1-02c6c9894192-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1742048285;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=q3CmrDz0Ru8TnEjAn3smCx2yMqUca0qC2gzVq47TCPQ=;
+	b=ft0/iLEZP0rVL1KFCX2B4qjZGTCKrsxAeDePpBggSFT3bvagsm1lhWtdUpFtq+6l
+	CUaZk+YAiqjyjMVmKvSDNlkH3zhCCHHgVacWxNLGauKy0J9KWZi1KGOImsL+nwokit/
+	PlmIVis0xEJn3d3TOZHrWcM3bsVG0IGAcIhMC7oo=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048285;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=q3CmrDz0Ru8TnEjAn3smCx2yMqUca0qC2gzVq47TCPQ=;
+	b=Caq7Ef76ptP3GUcI07zcn2+63uUgd2Z8efQPVZme3z5srUaFEWESwkQpUmLRzvQe
+	OxPteSFmCQTaZjqSbNm7G0uFKMOaPuT31oY+He2Exu0cn5+CDkbpm0M8V5jsqT+rNPt
+	nXdWHwORSHScAQVg+oLwhnPafl4AstJG7n0Vimfg=
+Content-Type: multipart/mixed; boundary="===============8832014181173089825=="
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TOI-EXPURGATEID: 150726::1742041737-77FFD40E-D0A29B6F/0/0 CLEAN NORMAL
-X-TOI-MSGID: 47efc6ba-8a6b-46d9-aaa1-046f5af9525e
-Content-Transfer-Encoding: quoted-printable
+From: auh@yoctoproject.org
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gettext,gettext-minimal-native: upgrading to 0.24,0.24 FAILED
+Message-ID: <010101959a2b51ab-0bf9ac58-aee5-4c56-98a1-02c6c9894192-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Mar 2025 14:18:05 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 12:29:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212875
-
-Overview of Changes in 4.18.1, 14-03-2025
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-Note: This release makes the use of the Wayland color-management protocol
-opt-in, since our code is not quite ready for being used by default yet.
-To enable the color management protocol, use GDK_DEBUG=3Dcolor-mgmt.
-
-* macOS: Make fractional scaling work again
-
-* Android: Provide a GL renderer
-
-* Bugs fixed:
-  - #7386 Deadkeys using UFDD modifiers do not work under gtk4 apps (Matt=
-hias
-    Clasen)
-  - #7390 recorder.ui's action items made available for translation (Matt=
-hias
-    Clasen)
-  - #7402 Trying to measure GtkPopover 0x42761b0 for height of 277, but i=
-t needs
-    at least 313 (Sergey Bugaev)
-  - #7406 Nautilus crashes when try to pin any folder as a new bookmark o=
-n the
-    side panel. (Matthias Clasen)
-  - !8191 treeview: Drop cell-only states when rendering the empty bottom=
- area
-  - !8237 paned: Fix handle jump on drag start
-  - !8258 Revamp the portal check
-  - !8260 fix: Fix the type conversion (gtk demo) in the gtkgear example
-  - !8262 bitset: Fix annotations
-  - !8268 Add another font testcase
-  - !8269 inspector: Make editing attributes work
-  - !8270 docs: Add some a11y references
-  - !8271 docs: fix typo
-  - !8272 inspector: Don't translate action names
-  - !8273 macos: Fix HiDPI rendering on macOS
-  - !8274 call nproc once in gdk parallel
-  - !8276 docs: Clarify invalidation replacements
-  - !8278 android: Introduced partial OpenGL backend
-  - !8280 Tweak text layout
-  - !8282 inspector: Allow editing PangoTabArrays
-  - !8283 egl: modifers must be an array
-  - !8284 gpu: Make sure we actually download dmabuf textures again
-  - !8285 Make color management opt-in
-  - !8287 Improve key event logging
-  - !8288 Tweak font rendering more
-  - !8289 API: Deprecate gdk_surface_create_cairo_context()
-  - !8291 Use gtk_shell version to announce wl_surface.offset support for=
- cursors
-  - !8292 gsk: Fix multiple clipping of partial pixels
-  - !8294 vulkan: Prepare for Vulkan using wp-color-v1
-  - !8296 gsk: Pad text node bounds
-  - !8298 window: Fix destroying with transient parent
-  - !8299 stack: Fix adjusting child allocation
-
-* Translation updates:
-  - Basque (Asier Saratsua Garmendia)
-  - Bulgarian (Alexander Shopov)
-  - Catalan (Jordi Mas i Hernandez)
-  - Chinese (China) (Luming Zh)
-  - Czech (Daniel Rusek)
-  - Danish (Ask Hjorth Larsen)
-  - French (Vincent Chatelain)
-  - Galician (Fran Dieguez)
-  - Georgian (Ekaterine Papava)
-  - Hebrew (Yosef Or Boczko)
-  - Hungarian (Bal=C3=A1zs =C3=9Ar)
-  - Indonesian (Andika Triwidada)
-  - Korean (Changwoo Ryu)
-  - Lithuanian (Aurimas =C4=8Cernius)
-  - Persian (Danial Behzadi)
-  - Polish (Piotr Dr=C4=85g)
-  - Portuguese (Hugo Carvalho)
-  - Portuguese (Brazil) (Artur Miranda)
-  - Russian (Artur S0)
-  - Slovenian (Martin)
-  - Swedish (Anders Jonsson)
-  - Turkish (Sabri =C3=9Cnal)
-  - Ukrainian (Yuri Chornoivan)
-
-Overview of Changes in 4.17.6, 04-03-2025
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-Note: The buffer sizing fixes in this release are known to
-not work with fractional scales on macOS. This will hopefully
-be fixed soon. In the meantime, you can use the cairo renderer.
-
-* GSK rendering issues on Asahi Linux are fixed
-
-* Buffer sizing issues with fractional scaling are fixed
-
-* GtkFontChooser scrolls to the initially selected font
-
-* Font rendering with the new default GNOME font is improved
-
-* The Wayland cursor shape protocol is supported
-
-* Initial focus for popups on Android is fixed
-
-* Bugs fixed:
-  - #3184 Application crashes when presenting popover menus (Matthias Cla=
-sen)
-  - #4019 Crash on ListBoxRow.get_index (Matthias Clasen)
-  - #6455 GtkFlowBox aligns incorrectly with GTK_ALIGN_END and
-    min/max_children_per_line (Gergo Koteles)
-  - #6817 Null pointer dereference in gdk_surface_request_motion (Matthia=
-s
-    Clasen)
-  - #7146 GSK issues illegal render ops with load=3Ddont-care and blend=3D=
-over with
-    Wayland fractional scaling, causing graphical corruption (Benjamin Ot=
-te)
-  - #7282 memorytexture testsuite fails the float tests (Benjamin Otte)
-  - #7314 Incorrect height calculations with fractional scaling under vul=
-kan
-    renderer (violates vulkan validation layers) (Benjamin Otte)
-  - #7369 GtkTextView does not claim all click gestures (Maximiliano Sand=
-oval)
-  - #7370 activating `GDK_DEBUG=3DEVENTS` crashes the application if a to=
-uch event
-    occurs (Matthias Clasen)
-  - #7384 Comment required for search string (Matthias Clasen)
-  - !6617 Fix measuring label min wfh with wrap+ellipsize+lines
-  - !6635 gtkmodelbutton: Always close submenus when changing parent item
-  - !7746 ci: Regenerate Fedora image from F41
-  - !8028 fontchooser: scroll to selected font
-  - !8111 macos: Re-enable macOS GIR generation
-  - !8154 adjustment: Verify that values are finite
-  - !8156 Clarify hide-on-close documentation
-  - !8188 gdkkeys-win32: Add keymap get_active_layout_index/get_layout_na=
-mes
-  - !8231 docs: Fix the missing image in the picture screenshots
-  - !8232 gdk: Fix spelling for GdkAndroidDisplayNightMode enum value nic=
-k
-  - !8234 wayland: Update color coordinates for extra precision
-  - !8235 Drop GskProfiler
-  - !8241 macos: Do not occupy space for window buttons when full screen
-  - !8242 android: Update focus state on motion events for autohide surfa=
-ces
-  - !8243 gdk: Deprecate gdk_cairo_context_cairo_create()
-  - !8246 cpdb: Update gtk_print_backend_cpdb_init for latest CPDB versio=
-n
-  - !8247 wayland: Support the cursor-shape protocol
-  - !8248 docs: Fix an image name
-  - !8250 macos: Track number of button widgets realized on a window
-  - !8251 wayland: Go back to the old none cursor
-  - !8253 Bring back unhinted extents
-  - !8256 wayland: Fix none cursor check
-  - !8263 inspector: Show font options
-  - !8264 Try again to fix font rendering
-
-* Translation updates:
-  - Basque (Asier Sarasua Garmendia)
-  - Bulgarian (twlvnn kraftwerk, Alexander Shopov)
-  - Catalan (Jordi Mas i Hernandez)
-  - Chinese (China) (Luming Zh)
-  - Czech (Daniel Rusek)
-  - Finnish (Jiri Gr=C3=B6nroos)
-  - Galician (Fran Dieguez)
-  - Georgian (Ekaterine Papava)
-  - Hebrew (Yosef Or Boczko)
-  - Indonesian (Andika Triwidada)
-  - Korean (Changwoo Ryu)
-  - Lithuanian (Aurimas =C4=8Cernius)
-  - Persian (Danial Behzadi)
-  - Polish (Piotr Dr=C4=85g)
-  - Portuguese (Hugo Carvalho)
-  - Portuguese (Brazil) (Rafael Fontenelle)
-  - Slovenian (Martin)
-  - Spanish (Daniel Mustieles)
-  - Turkish (Sabri =C3=9Cnal)
-  - Ukrainian (Yuri Chornoivan)
-
-Overview of Changes in 4.17.5, 23-02-2025
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* Numeric mode in GtkSpinButtons works again
-
-* Client-side dialogs can be made fully modal
-
-* Portals work better for unsandboxed apps, by registering
-
-* Editable labels have a context menu
-
-* GtkListBox size allocation has been improved
-
-* We require wayland 1.23 and wayland-protocols 1.41
-
-* We use the wp_color_manager_v1 protocol for color management under Wayl=
-and
-
-* Most screenshots in the documentation have a dark variant
-
-* GtkBuilder allows inline definition for GMenu-valued properties
-
-* Headerbars can use native window controls on macOS
-
-* Bugs fixed:
-  - #4353 Keyboard: Set shortcut does not work for key-codes > 247 (Matth=
-ias
-    Clasen)
-  - #5125 Demo / Menu: Popup at wrong position, hangs on Wayland (Matthia=
-s
-    Clasen)
-  - #5815 builder: integrate menus more properly (Matthias Clasen)
-  - #6010 gtk4-demo > Lists > Selections emits CRITICALS (Matthias Clasen=
-)
-  - #6272 a11y: API for updating platform state for custom GtkAccessible
-    implementations is missing (Emmanuele Bassi)
-  - #6355 gtk_widget_compute_transform() not working correctly with GtkPo=
-pover
-    (Alessandro Astone)
-  - #6379 GtkListBox crashes if the placeholder is focused and then TAB i=
-s
-    pressed
-  - #7191 Have a way to block parent shortcuts in AdwDialog (Matthias Cla=
-sen)
-  - #7215 Changing the click behavior of Gtk.EditableLabel (Matthias Clas=
-en)
-  - #7229 GSK/vulkan uses mipmaps without checking the formats/tiling
-    `VkImageFormatProperties.maxMipLevels` (Janne Grunau)
-  - #7249 Cursor hotspot and cursor image are not updated atomically on W=
-ayland
-    (Carlos Garnacho)
-  - #7257 Unexpected spacing at the end of a textview when using child wi=
-dgets.
-    (Sergey Bugaev)
-  - #7286 GtkApplicationWindow show-menubar documentation inconsistent
-  - #7307 GtkAppChooserWidget doesn't fit in a mobile screen (Automeris n=
-aranja)
-  - #7310 Inspector showing child widgets & controllers twice (Florian
-    "sp1rit"=E2=80=8B)
-  - #7311 GtkSpinButton:numeric=3DTrue doesn't work (Matthias Clasen)
-  - #7312 Dead link in common questions
-  - #7321 mem leak in emoji chooser (Matthias Clasen)
-  - #7322 invalid array index use
-  - #7324 Missing support for F17, F18, F19 and F20 keys on MacOS (Elisa =
-Pau)
-  - #7334 Gtk password inputs should expose the displayed text (e.g. blac=
-k
-    circles) via AT-SPI; not the underlying value (Emmanuele Bassi)
-  - #7340 Job Failed #4757144: Meson error
-  - !7951 ListBox hacking
-  - !8071 macos: Native window controls
-  - !8073 gpu: Fix off-by-one error in gsk_vulkan_mipmap_levels
-  - !8155 application: Register host apps with portal
-  - !8177 Small Android fixes
-  - !8178 Fix typo in `FileLauncher.set_always_ask` docs
-  - !8179 gdk/wayland: Use forgotten include guards
-  - !8180 docs: fix some typos, mainly closing ticks
-  - !8184 android: Provide Gdk.FOCUS_CHANGE events
-  - !8187 demos: Fix gettext domain in metainfo
-  - !8195 gtk-demo: Tweak the fixed demo
-  - !8196 settings: Fix GdkDisplay values ignored at init
-  - !8197 popovermenubar: Do not steal the focus on hover
-  - !8198 gi: Add missing annotation to WaylandSurface.force_next_commit
-  - !8200 rendernode: Add fixed-size annotations
-  - !8201 fontdialogbutton: Gracefully handle unknown font
-  - !8205 Update getting_started.md - point to Gtk.Widget.present instead=
- of
-    show
-  - !8206 docs: Fix 'Title overline too short' error
-  - !8207 Update getting_started for gdk_surface_create_similar_surface
-    depreaction
-  - !8208 a11y: Fix issues in text attribute run logic
-  - !8210 gdk: Small documentation improvements
-  - !8211 wayland: Use the wp_color_manager_v1 protocol
-  - !8217 macos: Disable animations if setting "Reduce Motion" is active
-  - !8219 application: Clean up dangling inhibitor surface
-  - !8221 gtk-demo: Improve colors of triangle in GLArea demo
-  - !8222 vulkan: Fix max amount of modifiers per format
-  - !8223 docs: Add dark variants to widget gallery
-  - !8224 docs: Fix gallery images for menus
-  - !8228 gsk: Don't color-convert empty surfaces
-  - !8229 gdk: Remove GDK_DEBUG=3Dgl-no-fractional
-
-* Translation updates:
-  - Catalan (Jordi Mas)
-  - Chinese (Taiwan) (Chao-Hsiung Liao)
-  - French (Vincent Chatelain)
-  - Georgian (Ekaterine Papava)
-  - Nepali (Pawan Chitrakar)
-  - Persian (Danial Behzadi)
-  - Polish (Piotr Dr=C4=85g)
-  - Slovenian (Martin)
-
-Overview of Changes in 4.17.4, 01-02-2025
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-This release introduces a new backend, which allows running
-GTK applications on Android phones. It is still considered
-experimental. Feedback and improvements are welcome!
-
-We have a ci job that produces signed apks for gtk4-demo,
-to make it easy to try this out.
-
-* GtkFileChooser:
- - Stop replacing : (colon) with U+2236 (ratio)
-
-* GtkSpinButton:
- - Avoid out-of-bounds values in some cases
-
-* GtkWindow:
- - Send expected a11y events when a window is closed
- - Change accessible role back to GTK_ACCESSIBLE_ROLE_WINDOW
-
-* GtkLabel:
- - Make context menus keyboard-navigatable
-
-* GtkVideo:
- - Support rotated videos
-
-* GDK:
- - Add a way to retrieve keyboard layout information
- - Use libpng api for cicp if available
-
-* GSK
- - Drop the old GL renderer
-
-* Accessibility:
- - Maintain inverse relations
-
-* macOS:
- - Enable AccessKit in ci
- - Fix inverted pen tilt
-
-* Deprecations:
- - The x11 backend
- - The Broadway backend
-
-* Build:
- - Require cairo 1.18.2
-
-* Bugs fixed:
-  - #6755 Accessible `window:activate` events missing for Gtk4 (Matthias =
-Clasen)
-  - #6823 Enumeration values starting with numbers (Matthias Clasen)
-  - #7210 ci: Build with -Daccesskit=3Denabled on macOS
-  - #7228 gtk4-demo settings demo does not actually write settings (Matth=
-ias
-    Clasen)
-  - #7246 Cannot navigate context menu of GtkLabel with keyboard
-  - #7268 RFC: API to query the current keyboard layout ?
-  - #7271 Test failures with libpng-1.6.45 (Alessandro Astone)
-  - #7279 GTKFileChooserWidget incorrectly displays "Modified" time of fi=
-le when
-    format should be "%H:%M" (Matthias Clasen)
-  - #7294 Hovering buttons causes "g_object_unref: assertion 'G_IS_OBJECT
-    (object)' failed" (Matthias Clasen)
-  - !7555 Introducing new android backend
-  - !8017 gdk: fix crash on Wayland with already destroyed surface.
-  - !8060 Deprecate the X11 backend
-  - !8115 Introduce the label for relation and the concept of reverse rel=
-ations
-  - !8118 Prepare the 4.17.3 release
-  - !8119 Post-release version bump
-  - !8121 vulkan: Handle VK_PRESENT_MODE_FIFO_LATEST_READY_EXT
-  - !8124 Fix the archive URL for Boost
-  - !8126 docs: Mark GtkShortcutsWindow as deprecated
-  - !8127 tools: Drop support for the gl renderer
-  - !8128 spinbutton: Consider adjustment value sanitization
-  - !8129 Drop test exclusions for the gl renderer
-  - !8133 ci: Move subproject download and update over to a separate job
-  - !8134 Keep installing gsk/gl/gskglrenderer.h
-  - !8137 gtktextattributes and gtkaccessible copy-paste errors
-  - !8138 gtk-demo: Plug a memory leak
-  - !8139 window: Hide accessible earlier
-  - !8140 Keep installing gsk/gl/gskglrenderer.h
-  - !8142 gtk4-builder-tool: Plug a few memory leaks
-  - !8144 macos: fix broken accounting messages and click after moving th=
-e
-    window
-  - !8147 Docs: Small fixes
-  - !8148 text: Correct the documentation
-  - !8150 Avoid using deprecated GtkWindow::keys-changed internally
-  - !8151 gstreamer: Implement rotation tag support
-  - !8157 gstreamer: Improve rotation tag support
-  - !8160 docs: Don't recommend usage of deprecated ToggleButton method
-  - !8163 gdk/contentserializer: Force specific URI schemes to serialize =
-as URI
-  - !8164 gdk/wayland: Ensure to generate grab broken events before cross=
-ings
-  - !8166 filedialog: fix typo in docs
-  - !8167 macos: Gtk4: Fix inverted pen Y tilt on macOS
-
-* Translation updates:
-  - Slovenian (Martin)
-  - Thai (Aefgh Threenine)
-
-Overview of Changes in 4.17.3, 16-01-2025
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkText:
- - Consume Ctrl-A
- - Handle Cut', Copy, Paste, Undo, and Redo keys
- - Improve a11y representation
-
-* GtkLabel:
- - Consume Ctrl-A when we handle it
- - Pass mnemonics to a11y
-
-* GtkTextView:
- - Handle Cut, Copy, Paste, Undo, and Redo keys
- - Fix disappearing carets after focus changes
-
-* GtkFileChooser:
- - Handle Find keys
- - Set a11y label on Search button
- - Set a11y labels on pathbar buttons
- - Pass key-shortcuts for the "New folder" button
-
-* GtkAppChooser:
- - Fix sorting
-
-* GtkListBox:
- - Improve a11y representation
-
-* GtkColumnView:
- - Fix column dnd in right-to-left context
-
-* GtkWindow:
- - Make resize corners gapless with rounded corners
-
-* GtkPopoverMenu:
- - Show mnemonics on Alt press
-
-* GtkMenuButton:
- - Improve a11y representation
-
-* GtkFileDialog:
- - Fix a crash
- - Add more text file api variants
-
-* GtkSizeGroup:
- - Improve consistency measurements and allocations
-
-* GtkBuilder:
- - Parse tab arrays and font descriptions in Pango syntax
-
-* Wayland:
- - Rely on scale events for pointer surfaces
- - Make idle inhibit work with fullscreen subsurfaces
-
-* Accessibility:
- - Implement GetKeyBinding properly for actions
- - Set key-shortcuts attribute
- - Fix state change notification for some states
- - Set application ID attribute
-
-* MacOS:
- - Make the NGL renderer work again
-
-* GSK:
- - Don't double-clip edges for shadows
-
-* Demos:
- - widget-factory: Set alternative text on pictures
- - gtk-demo: Allow to run as a service
-
-* Deprecations:
- - GtkShortcutsWindow
- - Loading themes from ~/.themes
- - <child> in ui files where child properties exist
-
-* Translation updates:
- Brazilian Portuguese
- Georgian
- Turkish
-
-Overview of Changes in 4.17.2, 26-12-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkWindow:
- - Rework computing the minimum size
-
-* GtkPicture:
- - Fix measuring with content-fit =3D scale-down
-
-* GtkStack:
- - Report constant size request mode in more cases
- - Avoid measuring children aginst preferred request mode
- - Fix measuring during size interpolation
-
-* GtkFlowBox:
- - Improve size request mode reporting
- - Fix measuring minimum height
- - Fix measuring natural width
- - Implement hfw vai binary search
-
-* GtkScrolledWindow:
- - Report constant size request mode in more cases
- - Skip measuring children if we can
-
-* GtkBox:
- - Don't always reserve height for baseline alignment
- - Rework natural opposite size-for-size computation
- - Add fast paths for some cases of measurement and allocation
-
-* GtkLayoutManager:
- - Skip invisible children for request mode determination
- - Prefer hfw, all things being equal
-
-* GtkColorPicker:
- - Respect GDK_DEBUG=3Dno-portals
-
-* GtkEntry:
- - Stop guessing text direction from keyboard layout
- - Add a shortcut and context menu item to change text direction
-
-* GtkSpinButton:
- - Make numeric spin buttons always LTR
-
-* GtkAboutDialog:
- - Small UI improvements
-
-* Accessibility:
- - Add an AccessKit backend. Use -Daccesskit=3Denabled to build it
-   and GTK_A11Y=3Daccesskit to use it
-
-* Windows:
- - Drop the AeroSnap emulation
-
-* Wayland:
- - Always clear exported surface IDs on finalize
- - Use the correct display for imcontext
-
-* Vulkan:
- - Make GdkVulkanContext work with Android armv7
-
-* Build:
- - Require GLib 2.80
- - Require harfbuzz 8.4
- - Require pango 1.55
- - Require C11
-
-* Translation update:
- Russian
-
-Overview of Changes in 4.17.1, 06-12-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-This release switches our portal support from opt-in to opt-out.
-We will use portals by default, unless you set GDK_DEBUG=3Dno-portals.
-And we will *always* use portals in flatpaks.
-
-* Text rendering:
- - Make error underlines smaller
-
-* GtkText:
- - Avoid selecting inserted Emoji
-
-* GtkPlacesView:
- - Improve accessibility
-
-* GtkFileChooser:
- - Fix a case where search was stealing focus
-
-* GtkEmojiChooser:
- - Update to CLDR 46 / Unicode 16
-
-* Accessibility:
- - Fix DBus signature of ChildrenChanged
-
-* GDK:
- - Don't recycle threads too aggressively
- - Add GDK_DISABLE=3Dthreads to disable threaded operations
- - Improve parallelization for small tasks
-
-* GSK:
- - Make occlusion checking more effective
- - Clip luminosity when clipping colors (avoiding masking artifacts)
- - Fix problems with dihedral transforms
-
-* Vulkan:
- - Streamline Vulkan setup
- - Fix blurry rendering at certain scale/size combinations
-
-* OpenGL:
- - Conform to buffer offset alignment requirements
-
-* Windows:
- - Fix pasting certain bitmaps
-
-* Documentation:
- - Revise and modernize some docs
-
-* Debugging:
- - Inspector: Show surfaces and renderers in the tree
- - Inspector: Make the object tree resizable
- - Inspector: Add a "Copy for gitlab" button
-
-* Translation updates
- Icelandic
- Serbian
- Slovenian
-
-Overview of Changes in 4.17.0, 06-11-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkScrolledWindow
- - Fix criticals in size allocation code
-
-* GtkFileChooser
- - Fix a crash in the portal code
-
-* GtkFontChoser
- - Make the dialog more shrinkable
-
-* GtkPicture
- - Avoid unnecessary resizes
-
-* GtkVideo
- - Make dmabufs work without GL
-
-* GtkListBox:
- - Add a tab-behavior property to influence keynav
-
-* GtkEmojiChooser:
- - Fix problems with insertion and selection
-
-* GtkStringList:
- - Add gtk_string_list_find
-
-* GtkApplication:
- - Respect GDK_DEBUG=3Dno-portals
- - Set default window icon from app ID
-
-* GtkTextView:
- - Vertical and horizontal positioning of the textview is now quantized
-   to the nearest device pixel. This should improve the perceived smoothn=
-ess
-   of scrolling with fractional scaling and font hinting.
- - Incorrect re-use of cached styling was fixed
- - Fix some missing CSS invalidation
- - Handle charsets in clipboard datatypes
-
-* Printing:
- - Avoid warnings for avahi errors
- - Fix a segfault in the print dialog setup code
-
-* Accessibility:
- - Always realize non-widget accessibles, to help webkit
- - Fix list view selection implementation
- - Handle NULL values in more places
-
-* Gstreamer:
- - Make dmabufs works without GL
-
-* Gdk:
- - Add OKLAB and OKLCH color states
- - GL: Drop support for GLES 2 and GL < 3.3
- - GL: Use the ngl dmabuf downloader instead of the GL downloader
- - Vulkan: Drop the GDK_VULKAN_DEVICE env var. Use MESA_VK_DEVICE_SELECT =
-instead
- - Vulkan: Use the swapchain maintenance extension to release swap images
- - Forbid opening displays before gtk_init()
-
-* Gsk:
- - Many improvements to the dmabuf downloaders
- - ngl: Avoid glBufferSubData for globals, speeding up llvmpipe
- - Renderer selection will no longer consider the GL renderer
- - Allow Vulkan software rendering as fallback
- - Support gradient interpolation in different color states
-
-* Wayland:
- - Improve settings portal handling
- - Improve fallback for cursor themes
- - Make cursor theme changes apply immediately
- - Use a viewporter for cursor image scaling
- - Improve cursor size handling
- - Use the system bell protocol if available
- - Fix possible deadlock with high-priority sources triggering roundtrips
-
-* Windows:
- - Improve the backend code
- - Fix some problems with WGL on NVidia
- - Many testsuite fixes for Windows compatibility
- - Make all pixbuf loaders builtin in the gdk-pixbuf subproject
- - Add GDK_DISABLE=3Daerosnap to disable aerosnap
- - Improve clipboard handling
- - Fix behavior or gdk_display_open() on Windows
- - Numerous papercut fixes
- - Require Windows 10
-
-* Macos:
- - Fix crashes when dragging libadwaita TabView tabs
- - Require macOS 10.15
-
-* Tools and demos
- - gtk4-demo: Make demos standalone
- - gtk4-demo: Drop GL shader demos
- - gtk4-demo: Improve scrolling benchmarks
- - gtk4-builder-tool: Improve separator handling
- - gtk4-image-tool: Better color state support
-
-* Build:
- - Don't set GSK_RENDERER in our flatpaks
- - Require meson 1.2
-
-* Translation updates
- Belarusian
- Brazilian Portuguese
- British English
- Galician
- Lithuanian
- Romanian
- Slovenian
- Swedish
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/recipes-gnome/gtk+/{gtk4_4.16.12.bb =3D> gtk4_4.18.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gtk+/{gtk4_4.16.12.bb =3D> gtk4_4.18.1.bb} (98=
-%)
-
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.16.12.bb b/meta/recipes-gnome=
-/gtk+/gtk4_4.18.1.bb
-similarity index 98%
-rename from meta/recipes-gnome/gtk+/gtk4_4.16.12.bb
-rename to meta/recipes-gnome/gtk+/gtk4_4.18.1.bb
-index d8d37a526d..2396b391f1 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.16.12.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.18.1.bb
-@@ -38,7 +38,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
- UPSTREAM_CHECK_REGEX =3D "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
-xz"
-=20
- SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-$=
-{PV}.tar.xz"
--SRC_URI[sha256sum] =3D "ef31bdbd6f082c4401634a20c850b0050c9bf252ef1e0797=
-64ee95a2a0c4c95a"
-+SRC_URI[sha256sum] =3D "6a1c3bc2dc7cacd28fba3b885ecb4086aa85b3d0941265d6=
-651e92c7ff909e74"
-=20
- S =3D "${WORKDIR}/gtk-${PV}"
-=20
---=20
-2.48.1
-
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212876
+
+--===============8832014181173089825==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *gettext,gettext-minimal-native* to *0.24,0.24* has Failed (devtool error).
+
+Detailed error information:
+
+Running 'devtool upgrade' for recipe gettext failed.
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 923 .bb files complete (0 cached, 923 parsed). 1884 targets, 39 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:6610cad12a062592956257961a790ec6a3012b8b"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 924 .bb files complete (0 cached, 924 parsed). 1885 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:6610cad12a062592956257961a790ec6a3012b8b"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-en9kif57: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-dx1pcj8r/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-dx1pcj8r/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   2% |                                    | ETA:  0:00:04
+Adding changed files:   4% |#                                   | ETA:  0:00:03
+Adding changed files:   6% |##                                  | ETA:  0:00:03
+Adding changed files:   8% |##                                  | ETA:  0:00:02
+Adding changed files:  10% |###                                 | ETA:  0:00:03
+Adding changed files:  12% |####                                | ETA:  0:00:03
+Adding changed files:  14% |#####                               | ETA:  0:00:03
+Adding changed files:  16% |#####                               | ETA:  0:00:02
+Adding changed files:  18% |######                              | ETA:  0:00:02
+Adding changed files:  20% |#######                             | ETA:  0:00:02
+Adding changed files:  22% |########                            | ETA:  0:00:02
+Adding changed files:  24% |########                            | ETA:  0:00:02
+Adding changed files:  26% |#########                           | ETA:  0:00:02
+Adding changed files:  28% |##########                          | ETA:  0:00:02
+Adding changed files:  31% |###########                         | ETA:  0:00:02
+Adding changed files:  33% |###########                         | ETA:  0:00:02
+Adding changed files:  35% |############                        | ETA:  0:00:02
+Adding changed files:  37% |#############                       | ETA:  0:00:02
+Adding changed files:  39% |##############                      | ETA:  0:00:02
+Adding changed files:  41% |##############                      | ETA:  0:00:01
+Adding changed files:  43% |###############                     | ETA:  0:00:01
+Adding changed files:  45% |################                    | ETA:  0:00:01
+Adding changed files:  47% |#################                   | ETA:  0:00:01
+Adding changed files:  49% |#################                   | ETA:  0:00:01
+Adding changed files:  51% |##################                  | ETA:  0:00:01
+Adding changed files:  53% |###################                 | ETA:  0:00:01
+Adding changed files:  55% |####################                | ETA:  0:00:01
+Adding changed files:  57% |####################                | ETA:  0:00:01
+Adding changed files:  60% |#####################               | ETA:  0:00:01
+Adding changed files:  62% |######################              | ETA:  0:00:01
+Adding changed files:  64% |#######################             | ETA:  0:00:01
+Adding changed files:  66% |#######################             | ETA:  0:00:01
+Adding changed files:  68% |########################            | ETA:  0:00:00
+Adding changed files:  70% |#########################           | ETA:  0:00:00
+Adding changed files:  72% |##########################          | ETA:  0:00:00
+Adding changed files:  74% |##########################          | ETA:  0:00:00
+Adding changed files:  76% |###########################         | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files:  80% |#############################       | ETA:  0:00:00
+Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  91% |################################    | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:03
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftp.gnu.org/gnu/gettext/gettext-0.24.tar.gz...
+INFO: Rebasing devtool onto 0f9d61d4438ffc5e26cbbb2167cfdb65aa85fd26
+WARNING: Command 'git rebase 0f9d61d4438ffc5e26cbbb2167cfdb65aa85fd26' failed:
+Auto-merging configure.ac
+CONFLICT (content): Merge conflict in configure.ac
+Auto-merging gettext-runtime/configure.ac
+CONFLICT (content): Merge conflict in gettext-runtime/configure.ac
+Auto-merging gettext-tools/configure.ac
+CONFLICT (content): Merge conflict in gettext-tools/configure.ac
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/gettext
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/gettext/gettext_0.24.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============8832014181173089825==--
 
