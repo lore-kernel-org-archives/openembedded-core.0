@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF9FFC35FF9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D564AC36002
 	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:42 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.10328.1742048293317838247
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.10338.1742048300015176170
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 07:18:40 -0700
+ Sat, 15 Mar 2025 07:18:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=RVYIyYJs;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Kp31BjvK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101959a2bd96f-7951d574-fd9d-45d8-b817-4475194321bd-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fS3SF7vu;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=hS4AWrJn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101959a2bc3ee-389bf540-4dc5-4ce9-94eb-8a1b10b334a6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742048319;
+	t=1742048314;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=uzmYEkg5yUuFaCS8WUUWiRS3K/VAOMyBeSPpz9ZQ5MY=;
-	b=RVYIyYJsZsU4WzEDwZsEbi0R6lUOmBrmhe8NWKvBuoVrcvyeG/chlvd+RhJe3Z/9
-	sPlgSVOhMWVFhMXIzo645IgR3Fy8tePY0nhXYBCNqym9ZqGoTUUb5Soi+xnq/XEgbn2
-	VgM4ckYc8bizLj7lhhRr8b88qAq1th4voEqRS7gg=
+	bh=n6R6/lDIrnVPX+T5UWwIRVaka07bhoEYR+tKAJCtso0=;
+	b=fS3SF7vu32geCOTegKM+rZsL50pECFvVXfReiPJ9SBurCa+a4zQRdWjFB7wLQw3y
+	XmvsVWaUAfBO8cVCr7062yWNt6qG/nT7qE+He2TTXT1cor0pm/BVreCNNtSIqDa5QT3
+	1cJBGZzQGFsuZzjV5zeCIHtWrrbeCup9mj5uW3jE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048319;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048314;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=uzmYEkg5yUuFaCS8WUUWiRS3K/VAOMyBeSPpz9ZQ5MY=;
-	b=Kp31BjvK+kVEo43qnGlXOfXmQpVIn6N14k07zGomuZ0bm3xa3UVn7n4ADqGFB6Ss
-	ttqMsvfYfvE6AKwYeIBtrc31ggF4kJHcoGyyMjfSW7sqnHMjlz+mqNRacKMpNMGrGlF
-	1/7SVRsN4c0Huv0byK5+phFADHkPYdLxhq2cMTtM=
-Content-Type: multipart/mixed; boundary="===============0028498833940991803=="
+	bh=n6R6/lDIrnVPX+T5UWwIRVaka07bhoEYR+tKAJCtso0=;
+	b=hS4AWrJnRvZIOo2lwL8e7v1lXjhFK7fvJGDjFShg0Hoe5UVynv9D1LDtYECHGV9q
+	SYoyrWXVNSSYSQvJnQ886P7895/PH5CtR0BQ9NBWrUElNA6hYtszZYwYA7fZhYGqG6j
+	fbeHfSOSmtJUKEbtVjGV1PV+mfcSJfYd++X+Cx2s=
+Content-Type: multipart/mixed; boundary="===============3356335248006576089=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vte: upgrading to 0.78.4 FAILED
-Message-ID: <010101959a2bd96f-7951d574-fd9d-45d8-b817-4475194321bd-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Mar 2025 14:18:39 +0000
+Subject: [AUH] kmod: upgrading to 34.1 FAILED
+Message-ID: <010101959a2bc3ee-389bf540-4dc5-4ce9-94eb-8a1b10b334a6-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Mar 2025 14:18:34 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.31
+X-SES-Outgoing: 2025.03.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212980
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212957
 
---===============0028498833940991803==
+--===============3356335248006576089==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,14 +51,15 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *vte* to *0.78.4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *kmod* to *34.1* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe vte failed.
+Running 'devtool upgrade' for recipe kmod failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1884 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -74,59 +75,25 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:28efaf5911b85cfc8ec97f3b6e816c31fa88c59e"
+workspace            = "tmp-auh-upgrades:32efa7393b5095acba65927cbe6b9a020194cfc7"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 924 .bb files complete (0 cached, 924 parsed). 1885 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:28efaf5911b85cfc8ec97f3b6e816c31fa88c59e"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-w3sx62kh: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-0m5z6otp/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-0m5z6otp/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//vte/0.78/vte-0.78.4.tar.xz;name=archive...
-INFO: Rebasing devtool onto fe86012effbd53db108b4d68ae23aa34db535e38
-WARNING: Command 'git rebase fe86012effbd53db108b4d68ae23aa34db535e38' failed:
-Auto-merging README.md
-CONFLICT (content): Merge conflict in README.md
+INFO: Rebasing devtool onto c4f9d944940550b0cb36e071bca995706c1bb6fa
+WARNING: Command 'git rebase c4f9d944940550b0cb36e071bca995706c1bb6fa' failed:
+Auto-merging configure.ac
+CONFLICT (content): Merge conflict in configure.ac
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/vte
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/vte/vte_0.78.4.bb
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/kmod
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/kmod/kmod_34.1.bb
 
 
 
@@ -135,5 +102,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0028498833940991803==--
+--===============3356335248006576089==--
 
