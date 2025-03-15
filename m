@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC87AC36017
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0284C36014
 	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:20 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.10325.1742048289486558995
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.10331.1742048293648897277
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 07:18:19 -0700
+ Sat, 15 Mar 2025 07:18:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JujaTLFz;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=sZ84NpO9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101959a2b872e-d027eed5-0949-4812-a4a1-a5999882a130-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=EjqMhrp0;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ZQ9110kO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101959a2b7045-983abcde-f724-4247-9466-ed6c72451cfb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742048299;
+	t=1742048293;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FAwBOhAtpoA6lo2HY2CuiQHAThHBw8+jWQhfJEL1oho=;
-	b=JujaTLFzGuLYyrubNxsK92k343HYsDkfhEsuYy97LMRrT71aWD3DliZRx3S+Elfy
-	5OIWWGvtp+ok89BFI/32b5+95eqSYBAANmwCjrNYgJ6XRYtg59z/gcHnKpjeEpurmcF
-	aTKXr+/e9vzN97JwR9RHB2SJr1VPqA2h20eulIPk=
+	bh=yk3FtlOxg2n2bQ2GsLyDml7aFuU1w2P4Kt5YfNie8/Y=;
+	b=EjqMhrp0H9PwJYMJYZ7nc91rhlxZ4CI+ouWKW80DBoM9i/OcOtrS+mXCu/3cs4ha
+	fcbxLA2YWdgacPT5+7CbhHQetpXQboJKRPIFsaThEpUf3l8B/+0XQf2ZK0VBak9UAAn
+	LG7EeYR23D0YommY/l/LP2qbEHOf65IGxWbklbsk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048299;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048293;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FAwBOhAtpoA6lo2HY2CuiQHAThHBw8+jWQhfJEL1oho=;
-	b=sZ84NpO9HJDHGCV99+qhoeNqkPU09zpc8olP7UYfZ9p1jQ/8dTGVH1MwyXZ/Trzd
-	yscfKCkovjCrbM0E3zvOs7lrwlsm8t+YqI6+Wx2EfNQcEu/NOFdD+LKbG5vy9QPuNDv
-	MgaLlnbk/1daBuP0fIReK9tXqTO+xZB19yV4R0Bc=
-Content-Type: multipart/mixed; boundary="===============6532763172436822163=="
+	bh=yk3FtlOxg2n2bQ2GsLyDml7aFuU1w2P4Kt5YfNie8/Y=;
+	b=ZQ9110kOqz+AZo8aozun+hkHEN79rWORZjmeW0IdmH89820+xfZ34xKa9OReZGYk
+	AzTJ4BSFpQ/lpFb6x1NUWUE6J/JadlZjv+8zbbwROWFTtpKziXjfagK3TwaDa7BuhWL
+	oJRi3hYsk5J2xIBDybfrJiNibfts20Gu0KVZgqYE=
+Content-Type: multipart/mixed; boundary="===============2288333151243807447=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-attrs: upgrading to 25.3.0 SUCCEEDED
-Message-ID: <010101959a2b872e-d027eed5-0949-4812-a4a1-a5999882a130-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Mar 2025 14:18:18 +0000
+Subject: [AUH] expat: upgrading to 2.7.0 SUCCEEDED
+Message-ID: <010101959a2b7045-983abcde-f724-4247-9466-ed6c72451cfb-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Mar 2025 14:18:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.30
+X-SES-Outgoing: 2025.03.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212909
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212894
 
---===============6532763172436822163==
+--===============2288333151243807447==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-attrs* to *25.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *expat* to *2.7.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-attrs-upgrade-25.1.0-25.3.0.patch
+    - apply the patch: git am 0001-expat-upgrade-2.6.4-2.7.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,65 +72,105 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 478946f849223321637a4e802aced5c194cbd0c8 Mon Sep 17 00:00:00 2001
+From 2f2a2d573abe43b6bb112bd39114c5ebc4db414e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Mar 2025 09:06:46 +0000
-Subject: [PATCH] python3-attrs: upgrade 25.1.0 -> 25.3.0
+Date: Sat, 15 Mar 2025 07:35:57 +0000
+Subject: [PATCH] expat: upgrade 2.6.4 -> 2.7.0
 
 ---
- .../python/{python3-attrs_25.1.0.bb => python3-attrs_25.3.0.bb} | 2 +-
+ meta/recipes-core/expat/{expat_2.6.4.bb => expat_2.7.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-attrs_25.1.0.bb => python3-attrs_25.3.0.bb} (86%)
+ rename meta/recipes-core/expat/{expat_2.6.4.bb => expat_2.7.0.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-attrs_25.1.0.bb b/meta/recipes-devtools/python/python3-attrs_25.3.0.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-attrs_25.1.0.bb
-rename to meta/recipes-devtools/python/python3-attrs_25.3.0.bb
-index 852c546bb3..bed26a5184 100644
---- a/meta/recipes-devtools/python/python3-attrs_25.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-attrs_25.3.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.attrs.org/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5e55731824cf9205cfabeab9a0600887"
+diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.7.0.bb
+similarity index 92%
+rename from meta/recipes-core/expat/expat_2.6.4.bb
+rename to meta/recipes-core/expat/expat_2.7.0.bb
+index f383792793..f3659d9f90 100644
+--- a/meta/recipes-core/expat/expat_2.6.4.bb
++++ b/meta/recipes-core/expat/expat_2.7.0.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+ UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
  
--SRC_URI[sha256sum] = "1c97078a80c814273a76b2a298a932eb681c87415c11dee0a6921de7f1b02c3e"
-+SRC_URI[sha256sum] = "75d7cefc7fb576747b2c81b4442d4d4a1ce0900973527c011d1030fd3bf4af1b"
+-SRC_URI[sha256sum] = "8dc480b796163d4436e6f1352e71800a774f73dbae213f1860b60607d2a83ada"
++SRC_URI[sha256sum] = "10f3e94896cd7f44de566cafa2e0e1f35e8df06d119b38d117c0e72d74a4b4b7"
  
- inherit pypi ptest-python-pytest python_hatchling
+ EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
  
 -- 
 2.44.1
 
 
---===============6532763172436822163==
+--===============2288333151243807447==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-expat-upgrade-2.6.4-2.7.0.patch"
+
+RnJvbSAyZjJhMmQ1NzNhYmU0M2I2YmIxMTJiZDM5MTE0YzVlYmM0ZGI0MTRlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMDc6MzU6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+eHBhdDogdXBncmFkZSAyLjYuNCAtPiAyLjcuMAoKLS0tCiBtZXRhL3JlY2lwZXMtY29yZS9leHBh
+dC97ZXhwYXRfMi42LjQuYmIgPT4gZXhwYXRfMi43LjAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNv
+cmUvZXhwYXQve2V4cGF0XzIuNi40LmJiID0+IGV4cGF0XzIuNy4wLmJifSAoOTIlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuNi40LmJiIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvZXhwYXQvZXhwYXRfMi43LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi42LjQuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuNy4wLmJiCmluZGV4IGYzODM3OTI3OTMuLmYz
+NjU5ZDlmOTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuNi40
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuNy4wLmJiCkBAIC0xNSw3
+ICsxNSw3IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL1JfJHtWRVJT
+SU9OX1RBR30vZXhwYXQtJHtQVn0udGFyLmJ6MiAgXAogR0lUSFVCX0JBU0VfVVJJID0gImh0dHBz
+Oi8vZ2l0aHViLmNvbS9saWJleHBhdC9saWJleHBhdC9yZWxlYXNlcy8iCiBVUFNUUkVBTV9DSEVD
+S19SRUdFWCA9ICJyZWxlYXNlcy90YWcvUl8oP1A8cHZlcj4uKykiCiAKLVNSQ19VUklbc2hhMjU2
+c3VtXSA9ICI4ZGM0ODBiNzk2MTYzZDQ0MzZlNmYxMzUyZTcxODAwYTc3NGY3M2RiYWUyMTNmMTg2
+MGI2MDYwN2QyYTgzYWRhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjEwZjNlOTQ4OTZjZDdmNDRk
+ZTU2NmNhZmEyZTBlMWYzNWU4ZGYwNmQxMTliMzhkMTE3YzBlNzJkNzRhNGI0YjciCiAKIEVYVFJB
+X09FQ01BS0U6Y2xhc3MtbmF0aXZlICs9ICItREVYUEFUX0JVSUxEX0RPQ1M9T0ZGIgogCi0tIAoy
+LjQ0LjEKCg==
+
+--===============2288333151243807447==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-attrs: PV changed from "25.1.0" to "25.3.0"
-packages/core2-64-poky-linux/python3-attrs: PKGV changed from 25.1.0 [default] to 25.3.0 [default]
-packages/core2-64-poky-linux/python3-attrs: SRC_URI changed from "https://files.pythonhosted.org/packages/source/a/attrs/attrs-25.1.0.tar.gz;downloadfilename=attrs-25.1.0.tar.gz" to "https://files.pythonhosted.org/packages/source/a/attrs/attrs-25.3.0.tar.gz;downloadfilename=attrs-25.3.0.tar.gz"
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-dbg: PV changed from "25.1.0" to "25.3.0"
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-dbg: PKGV changed from 25.1.0 [default] to 25.3.0 [default]
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-dev: PV changed from "25.1.0" to "25.3.0"
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-dev: PKGV changed from 25.1.0 [default] to 25.3.0 [default]
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-doc: PV changed from "25.1.0" to "25.3.0"
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-doc: PKGV changed from 25.1.0 [default] to 25.3.0 [default]
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-locale: PV changed from "25.1.0" to "25.3.0"
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-locale: PKGV changed from 25.1.0 [default] to 25.3.0 [default]
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-ptest: PKGSIZE changed from 360359 to 364543 (+1%)
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-ptest: PV changed from "25.1.0" to "25.3.0"
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-ptest: PKGV changed from 25.1.0 [default] to 25.3.0 [default]
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-src: PV changed from "25.1.0" to "25.3.0"
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-src: PKGV changed from 25.1.0 [default] to 25.3.0 [default]
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-staticdev: PV changed from "25.1.0" to "25.3.0"
-packages/core2-64-poky-linux/python3-attrs/python3-attrs-staticdev: PKGV changed from 25.1.0 [default] to 25.3.0 [default]
-packages/core2-64-poky-linux/python3-attrs/python3-attrs: PKGSIZE changed from 401479 to 408157 (+2%)
-packages/core2-64-poky-linux/python3-attrs/python3-attrs: PV changed from "25.1.0" to "25.3.0"
-packages/core2-64-poky-linux/python3-attrs/python3-attrs: PKGV changed from 25.1.0 [default] to 25.3.0 [default]
-Changes to packages/core2-64-poky-linux/python3-attrs (sysroot):
-  /usr/lib/python3.13/site-packages/attrs-25.1.0.dist-info moved to /usr/lib/python3.13/site-packages/attrs-25.3.0.dist-info
+packages/core2-64-poky-linux/expat/expat-bin: PKGV changed from 2.6.4 [default] to 2.7.0 [default]
+packages/core2-64-poky-linux/expat/expat-bin: PV changed from "2.6.4" to "2.7.0"
+packages/core2-64-poky-linux/expat/expat-dbg: PKGSIZE changed from 2584840 to 2645224 (+2%)
+packages/core2-64-poky-linux/expat/expat-dbg: FILELIST: removed "/usr/lib/.debug/libexpat.so.1.10.0", added "/usr/lib/.debug/libexpat.so.1.10.1"
+packages/core2-64-poky-linux/expat/expat-dbg: PKGV changed from 2.6.4 [default] to 2.7.0 [default]
+packages/core2-64-poky-linux/expat/expat-dbg: PV changed from "2.6.4" to "2.7.0"
+packages/core2-64-poky-linux/expat/expat-dev: PKGSIZE changed from 65883 to 65893 (+0%)
+packages/core2-64-poky-linux/expat/expat-dev: PKGV changed from 2.6.4 [default] to 2.7.0 [default]
+packages/core2-64-poky-linux/expat/expat-dev: PV changed from "2.6.4" to "2.7.0"
+packages/core2-64-poky-linux/expat/expat-doc: PKGSIZE changed from 90264 to 94321 (+4%)
+packages/core2-64-poky-linux/expat/expat-doc: PKGV changed from 2.6.4 [default] to 2.7.0 [default]
+packages/core2-64-poky-linux/expat/expat-doc: PV changed from "2.6.4" to "2.7.0"
+packages/core2-64-poky-linux/expat/expat-locale: PKGV changed from 2.6.4 [default] to 2.7.0 [default]
+packages/core2-64-poky-linux/expat/expat-locale: PV changed from "2.6.4" to "2.7.0"
+packages/core2-64-poky-linux/expat/expat-ptest: PKGSIZE changed from 980472 to 996856 (+2%)
+packages/core2-64-poky-linux/expat/expat-ptest: PKGV changed from 2.6.4 [default] to 2.7.0 [default]
+packages/core2-64-poky-linux/expat/expat-ptest: PV changed from "2.6.4" to "2.7.0"
+packages/core2-64-poky-linux/expat/expat-src: PKGSIZE changed from 1256718 to 1282715 (+2%)
+packages/core2-64-poky-linux/expat/expat-src: PKGV changed from 2.6.4 [default] to 2.7.0 [default]
+packages/core2-64-poky-linux/expat/expat-src: PV changed from "2.6.4" to "2.7.0"
+packages/core2-64-poky-linux/expat/expat-staticdev: PKGV changed from 2.6.4 [default] to 2.7.0 [default]
+packages/core2-64-poky-linux/expat/expat-staticdev: PV changed from "2.6.4" to "2.7.0"
+packages/core2-64-poky-linux/expat/expat: PKGSIZE changed from 174066 to 178162 (+2%)
+packages/core2-64-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.10.0", added "/usr/lib/libexpat.so.1.10.1"
+packages/core2-64-poky-linux/expat/expat: PKGV changed from 2.6.4 [default] to 2.7.0 [default]
+packages/core2-64-poky-linux/expat/expat: PV changed from "2.6.4" to "2.7.0"
+packages/core2-64-poky-linux/expat: PKGV changed from 2.6.4 [default] to 2.7.0 [default]
+packages/core2-64-poky-linux/expat: SRC_URI changed from "https://github.com/libexpat/libexpat/releases//download/R_2_6_4/expat-2.6.4.tar.bz2 file://run-ptest" to "https://github.com/libexpat/libexpat/releases//download/R_2_7_0/expat-2.7.0.tar.bz2 file://run-ptest"
+packages/core2-64-poky-linux/expat: PV changed from "2.6.4" to "2.7.0"
+Changes to packages/core2-64-poky-linux/expat (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.10.0 to libexpat.so.1.10.1
+  /usr/lib/cmake/expat-2.6.4 moved to /usr/lib/cmake/expat-2.7.0
+  /usr/lib/libexpat.so.1.10.0 moved to /usr/lib/libexpat.so.1.10.1
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -456,6 +496,10 @@ Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
   /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
   /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+Changes to packages/x86_64-linux/expat-native (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.10.0 to libexpat.so.1.10.1
+  /usr/lib/cmake/expat-2.6.4 moved to /usr/lib/cmake/expat-2.7.0
+  /usr/lib/libexpat.so.1.10.0 moved to /usr/lib/libexpat.so.1.10.1
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1961,45 +2005,45 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8200.4-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8200.4-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8200.4-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8200.4-gdb.py was removed
 
---===============6532763172436822163==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-attrs-upgrade-25.1.0-25.3.0.patch"
-
-RnJvbSA0Nzg5NDZmODQ5MjIzMzIxNjM3YTRlODAyYWNlZDVjMTk0Y2JkMGM4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMDk6MDY6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWF0dHJzOiB1cGdyYWRlIDI1LjEuMCAtPiAyNS4zLjAKCi0tLQogLi4uL3B5dGhvbi97
-cHl0aG9uMy1hdHRyc18yNS4xLjAuYmIgPT4gcHl0aG9uMy1hdHRyc18yNS4zLjAuYmJ9IHwgMiAr
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1hdHRyc18yNS4xLjAuYmIgPT4g
-cHl0aG9uMy1hdHRyc18yNS4zLjAuYmJ9ICg4NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWF0dHJzXzI1LjEuMC5iYiBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1hdHRyc18yNS4zLjAuYmIKc2ltaWxhcml0eSBpbmRleCA4
-NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWF0dHJz
-XzI1LjEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LWF0dHJzXzI1LjMuMC5iYgppbmRleCA4NTJjNTQ2YmIzLi5iZWQyNmE1MTg0IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtYXR0cnNfMjUuMS4wLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1hdHRyc18yNS4zLjAuYmIK
-QEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHA6Ly93d3cuYXR0cnMub3JnLyIKIExJQ0VO
-U0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NWU1NTcz
-MTgyNGNmOTIwNWNmYWJlYWI5YTA2MDA4ODciCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxYzk3
-MDc4YTgwYzgxNDI3M2E3NmIyYTI5OGE5MzJlYjY4MWM4NzQxNWMxMWRlZTBhNjkyMWRlN2YxYjAy
-YzNlIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc1ZDdjZWZjN2ZiNTc2NzQ3YjJjODFiNDQ0MmQ0
-ZDRhMWNlMDkwMDk3MzUyN2MwMTFkMTAzMGZkM2JmNGFmMWIiCiAKIGluaGVyaXQgcHlwaSBwdGVz
-dC1weXRob24tcHl0ZXN0IHB5dGhvbl9oYXRjaGxpbmcKIAotLSAKMi40NC4xCgo=
-
---===============6532763172436822163==
+--===============2288333151243807447==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-attrs (sysroot):
-  /usr/lib/python3.13/site-packages/attrs-25.1.0.dist-info moved to /usr/lib/python3.13/site-packages/attrs-25.3.0.dist-info
+packages/core2-64-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.10.0", added "/usr/lib/libexpat.so.1.10.1"
+Changes to packages/core2-64-poky-linux/expat (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.10.0 to libexpat.so.1.10.1
+  /usr/lib/cmake/expat-2.6.4 moved to /usr/lib/cmake/expat-2.7.0
+  /usr/lib/libexpat.so.1.10.0 moved to /usr/lib/libexpat.so.1.10.1
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2325,6 +2369,10 @@ Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
   /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
   /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+Changes to packages/x86_64-linux/expat-native (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.10.0 to libexpat.so.1.10.1
+  /usr/lib/cmake/expat-2.6.4 moved to /usr/lib/cmake/expat-2.7.0
+  /usr/lib/libexpat.so.1.10.0 moved to /usr/lib/libexpat.so.1.10.1
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3830,6 +3878,33 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8200.4-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8200.4-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8200.4-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.82.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8200.4-gdb.py was removed
 
---===============6532763172436822163==--
+--===============2288333151243807447==--
 
