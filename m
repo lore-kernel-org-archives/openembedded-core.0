@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 011E0C28B28
-	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:30 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.10339.1742048300101882048
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 019E8C35FF6
+	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:31 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.10358.1742048293296256688
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Mar 2025 07:18:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HgYgGH8G;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DhTM2DLY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101959a2b9478-b0c9ee17-3646-4385-9d8e-2d718a15c1e4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=hX+GbA7N;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=aywnTj0p;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101959a2b946c-0ba1ffa8-3cf7-4ebf-bd19-7112bf2daac8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1742048302;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VmNzfYTSpuGjpm3uqfUiCd+ZxS576ZZ3zlaxEoVxpys=;
-	b=HgYgGH8Gm08YYR1QLzCYClkhSFj8S3kKETobx6soDrMZk36eKbACYK6uviIH/J4A
-	cJwX/Bms4WM2E1MPcvd64Gb8kpSTA2SxzUIF0hr6dl0WZI900c7K4/hLZjZviETFwq3
-	fm0/DFJVIGW7ql9k93xHTt6QqniFDjC6GfC2ApNQ=
+	bh=xlml1UAVSXIP80oAGW8uXzaMbaKzLGYakkMhJYt/Wsw=;
+	b=hX+GbA7NaI2igVLyhr9L1uhCtcBt3etFhBbReqKqVKTCxcV6v7UzU12tub04BXX3
+	jockC95/IMpGMfDBPejHpYeALi0HVbmM0Cvhsl6kgpGJ+QBOS+XyG6igMIfnGxA62ai
+	znXZH6Vcls3RC2GgTz5UHAXu7L/1tLSZy6NZpbd4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048302;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VmNzfYTSpuGjpm3uqfUiCd+ZxS576ZZ3zlaxEoVxpys=;
-	b=DhTM2DLY22A0KtR74Me2fcHZdZEZwj1iS3H6sUZYGq5hHwuD+qMlB2oZyL1tAi46
-	B6t+n0ZNQvf0qXpx0Bqr9iQjfMp3DPm9QBuc8oZnwlW+oCpVp8RZoDT7g8PQGYKj+wm
-	zopaKH/GEEOauL/I/ZNLuProb2vlnHAjzpk2RxRs=
-Content-Type: multipart/mixed; boundary="===============7552004583834754089=="
+	bh=xlml1UAVSXIP80oAGW8uXzaMbaKzLGYakkMhJYt/Wsw=;
+	b=aywnTj0pJt5g6vKlGBHeRUH/RYazZrvrnwXyI1kJNubPIadKGzENqiuFOgQJTldC
+	xY477SNS3OUAj9ifZeOW0ufcBkMBYucvRZxoEQ1BARU5MjlVhOU8RDjlHdm67Vs0pU7
+	9ZoKp0J7BrffOu8b0eUV4wBSud5qOn3l/MKJqLCo=
+Content-Type: multipart/mixed; boundary="===============6935432747004979599=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-websockets: upgrading to 15.0.1 SUCCEEDED
-Message-ID: <010101959a2b9478-b0c9ee17-3646-4385-9d8e-2d718a15c1e4-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-trove-classifiers: upgrading to 2025.3.13.13 SUCCEEDED
+Message-ID: <010101959a2b946c-0ba1ffa8-3cf7-4ebf-bd19-7112bf2daac8-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Mar 2025 14:18:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.23
+X-SES-Outgoing: 2025.03.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212921
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212922
 
---===============7552004583834754089==
+--===============6935432747004979599==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-websockets* to *15.0.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-trove-classifiers* to *2025.3.13.13* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-websockets-upgrade-15.0-15.0.1.patch
+    - apply the patch: git am 0001-python3-trove-classifiers-upgrade-2025.2.18.16-2025..patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,129 +72,112 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ecb7efde084bdaed4997ccaea6a195df1cf75174 Mon Sep 17 00:00:00 2001
+From 4c50ed4156d564f3884dec80b05f421fac77206a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Mar 2025 09:53:59 +0000
-Subject: [PATCH] python3-websockets: upgrade 15.0 -> 15.0.1
+Date: Sat, 15 Mar 2025 09:49:24 +0000
+Subject: [PATCH] python3-trove-classifiers: upgrade 2025.2.18.16 ->
+ 2025.3.13.13
 
 ---
- ...{python3-websockets_15.0.bb => python3-websockets_15.0.1.bb} | 2 +-
+ ...025.2.18.16.bb => python3-trove-classifiers_2025.3.13.13.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-websockets_15.0.bb => python3-websockets_15.0.1.bb} (79%)
+ rename meta/recipes-devtools/python/{python3-trove-classifiers_2025.2.18.16.bb => python3-trove-classifiers_2025.3.13.13.bb} (83%)
 
-diff --git a/meta/recipes-devtools/python/python3-websockets_15.0.bb b/meta/recipes-devtools/python/python3-websockets_15.0.1.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-websockets_15.0.bb
-rename to meta/recipes-devtools/python/python3-websockets_15.0.1.bb
-index 9a7456dee4..2e1b0f0919 100644
---- a/meta/recipes-devtools/python/python3-websockets_15.0.bb
-+++ b/meta/recipes-devtools/python/python3-websockets_15.0.1.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=51924a6af4495b8cfaee1b1da869b6f4"
+diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2025.2.18.16.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2025.3.13.13.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-trove-classifiers_2025.2.18.16.bb
+rename to meta/recipes-devtools/python/python3-trove-classifiers_2025.3.13.13.bb
+index 6bdce9dc79..f2b06b2919 100644
+--- a/meta/recipes-devtools/python/python3-trove-classifiers_2025.2.18.16.bb
++++ b/meta/recipes-devtools/python/python3-trove-classifiers_2025.3.13.13.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/trove-classifiers"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
  
- inherit pypi python_setuptools_build_meta
+-SRC_URI[sha256sum] = "b1ee2e1668589217d4edf506743e28b1834da128f8a122bad522c02d837006e1"
++SRC_URI[sha256sum] = "2a5e24ddafb20da2225a825fe167c4fd4ecbf312cef4310d67f19dc40da7dc8d"
  
--SRC_URI[sha256sum] = "ca36151289a15b39d8d683fd8b7abbe26fc50be311066c5f8dcf3cb8cee107ab"
-+SRC_URI[sha256sum] = "82544de02076bafba038ce055ee6412d68da13ab47f0c60cab827346de828dee"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+ PYPI_PACKAGE = "trove_classifiers"
+ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
 -- 
 2.44.1
 
 
---===============7552004583834754089==
+--===============6935432747004979599==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-websockets-upgrade-15.0-15.0.1.patch"
+ filename="0001-python3-trove-classifiers-upgrade-2025.2.18.16-2025..patch"
 
-RnJvbSBlY2I3ZWZkZTA4NGJkYWVkNDk5N2NjYWVhNmExOTVkZjFjZjc1MTc0IE1vbiBTZXAgMTcg
+RnJvbSA0YzUwZWQ0MTU2ZDU2NGYzODg0ZGVjODBiMDVmNDIxZmFjNzcyMDZhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMDk6NTM6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXdlYnNvY2tldHM6IHVwZ3JhZGUgMTUuMCAtPiAxNS4wLjEKCi0tLQogLi4ue3B5dGhv
-bjMtd2Vic29ja2V0c18xNS4wLmJiID0+IHB5dGhvbjMtd2Vic29ja2V0c18xNS4wLjEuYmJ9IHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy13ZWJzb2NrZXRzXzE1LjAu
-YmIgPT4gcHl0aG9uMy13ZWJzb2NrZXRzXzE1LjAuMS5iYn0gKDc5JSkKCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2Vic29ja2V0c18xNS4wLmJiIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdlYnNvY2tldHNfMTUuMC4xLmJi
-CnNpbWlsYXJpdHkgaW5kZXggNzklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy13ZWJzb2NrZXRzXzE1LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy13ZWJzb2NrZXRzXzE1LjAuMS5iYgppbmRleCA5YTc0NTZk
-ZWU0Li4yZTFiMGYwOTE5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtd2Vic29ja2V0c18xNS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy13ZWJzb2NrZXRzXzE1LjAuMS5iYgpAQCAtNiw3ICs2LDcgQEAgTElDX0ZJ
-TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NTE5MjRhNmFmNDQ5NWI4Y2ZhZWUxYjFk
-YTg2OWI2ZjQiCiAKIGluaGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhCiAK
-LVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjYTM2MTUxMjg5YTE1YjM5ZDhkNjgzZmQ4YjdhYmJlMjZm
-YzUwYmUzMTEwNjZjNWY4ZGNmM2NiOGNlZTEwN2FiIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjgy
-NTQ0ZGUwMjA3NmJhZmJhMDM4Y2UwNTVlZTY0MTJkNjhkYTEzYWI0N2YwYzYwY2FiODI3MzQ2ZGU4
-MjhkZWUiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotLSAKMi40NC4x
-Cgo=
+CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMDk6NDk6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzOiB1cGdyYWRlIDIwMjUuMi4xOC4xNiAtPgogMjAyNS4z
+LjEzLjEzCgotLS0KIC4uLjAyNS4yLjE4LjE2LmJiID0+IHB5dGhvbjMtdHJvdmUtY2xhc3NpZmll
+cnNfMjAyNS4zLjEzLjEzLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
+KSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5
+dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNfMjAyNS4yLjE4LjE2LmJiID0+IHB5dGhvbjMtdHJvdmUt
+Y2xhc3NpZmllcnNfMjAyNS4zLjEzLjEzLmJifSAoODMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI1LjIuMTgu
+MTYuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHJvdmUtY2xhc3Np
+ZmllcnNfMjAyNS4zLjEzLjEzLmJiCnNpbWlsYXJpdHkgaW5kZXggODMlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI1
+LjIuMTguMTYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My10cm92ZS1jbGFzc2lmaWVyc18yMDI1LjMuMTMuMTMuYmIKaW5kZXggNmJkY2U5ZGM3OS4uZjJi
+MDZiMjkxOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjUuMi4xOC4xNi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNfMjAyNS4zLjEzLjEzLmJiCkBA
+IC0zLDcgKzMsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vcHlwYS90cm92ZS1j
+bGFzc2lmaWVycyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19GSUxFU19DSEtTVU0gPSAi
+ZmlsZTovL0xJQ0VOU0U7bWQ1PTg2ZDNmM2E5NWMzMjRjOTQ3OWJkODk4Njk2OGY0MzI3IgogCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiYjFlZTJlMTY2ODU4OTIxN2Q0ZWRmNTA2NzQzZTI4YjE4MzRk
+YTEyOGY4YTEyMmJhZDUyMmMwMmQ4MzcwMDZlMSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyYTVl
+MjRkZGFmYjIwZGEyMjI1YTgyNWZlMTY3YzRmZDRlY2JmMzEyY2VmNDMxMGQ2N2YxOWRjNDBkYTdk
+YzhkIgogCiBQWVBJX1BBQ0tBR0UgPSAidHJvdmVfY2xhc3NpZmllcnMiCiBVUFNUUkVBTV9DSEVD
+S19QWVBJX1BBQ0tBR0UgPSAiJHtQWVBJX1BBQ0tBR0V9IgotLSAKMi40NC4xCgo=
 
---===============7552004583834754089==
+--===============6935432747004979599==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-websockets: PKGV changed from 15.0 [default] to 15.0.1 [default]
-packages/core2-64-poky-linux/python3-websockets: SRC_URI changed from "https://files.pythonhosted.org/packages/source/w/websockets/websockets-15.0.tar.gz;downloadfilename=websockets-15.0.tar.gz" to "https://files.pythonhosted.org/packages/source/w/websockets/websockets-15.0.1.tar.gz;downloadfilename=websockets-15.0.1.tar.gz"
-packages/core2-64-poky-linux/python3-websockets: PV changed from "15.0" to "15.0.1"
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-dbg: PKGSIZE changed from 24096 to 24104 (+0%)
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-dbg: PKGV changed from 15.0 [default] to 15.0.1 [default]
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-dbg: PV changed from "15.0" to "15.0.1"
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-dev: PKGV changed from 15.0 [default] to 15.0.1 [default]
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-dev: PV changed from "15.0" to "15.0.1"
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-doc: PKGV changed from 15.0 [default] to 15.0.1 [default]
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-doc: PV changed from "15.0" to "15.0.1"
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-locale: PKGV changed from 15.0 [default] to 15.0.1 [default]
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-locale: PV changed from "15.0" to "15.0.1"
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-src: PKGV changed from 15.0 [default] to 15.0.1 [default]
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-src: PV changed from "15.0" to "15.0.1"
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-staticdev: PKGV changed from 15.0 [default] to 15.0.1 [default]
-packages/core2-64-poky-linux/python3-websockets/python3-websockets-staticdev: PV changed from "15.0" to "15.0.1"
-packages/core2-64-poky-linux/python3-websockets/python3-websockets: PKGSIZE changed from 1274161 to 1275451 (+0%)
-packages/core2-64-poky-linux/python3-websockets/python3-websockets: FILELIST: removed "/usr/lib/python3.13/site-packages/websockets-15.0.dist-info/WHEEL /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/METADATA /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/LICENSE /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/top_level.txt", added "/usr/lib/python3.13/site-packages/websockets/__pycache__/cli.cpython-313.pyc /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/top_level.txt /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/METADATA /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/LICENSE /usr/lib/python3.13/site-packages/websockets/cli.py /usr/bin/websockets /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/WHEEL"
-packages/core2-64-poky-linux/python3-websockets/python3-websockets: PKGV changed from 15.0 [default] to 15.0.1 [default]
-packages/core2-64-poky-linux/python3-websockets/python3-websockets: PV changed from "15.0" to "15.0.1"
-Changes to packages/core2-64-poky-linux/python3-websockets (sysroot):
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/LICENSE was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/websockets/cli.py was added
-  /usr/lib/python3.13/site-packages/websockets/__pycache__/cli.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info was removed
-  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/LICENSE was removed
-  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/WHEEL was removed
+packages/core2-64-poky-linux/python3-trove-classifiers: PV changed from "2025.2.18.16" to "2025.3.13.13"
+packages/core2-64-poky-linux/python3-trove-classifiers: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2025.2.18.16.tar.gz;downloadfilename=trove_classifiers-2025.2.18.16.tar.gz" to "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2025.3.13.13.tar.gz;downloadfilename=trove_classifiers-2025.3.13.13.tar.gz"
+packages/core2-64-poky-linux/python3-trove-classifiers: PKGV changed from 2025.2.18.16 [default] to 2025.3.13.13 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PV changed from "2025.2.18.16" to "2025.3.13.13"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PKGV changed from 2025.2.18.16 [default] to 2025.3.13.13 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PV changed from "2025.2.18.16" to "2025.3.13.13"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PKGV changed from 2025.2.18.16 [default] to 2025.3.13.13 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PV changed from "2025.2.18.16" to "2025.3.13.13"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PKGV changed from 2025.2.18.16 [default] to 2025.3.13.13 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PV changed from "2025.2.18.16" to "2025.3.13.13"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PKGV changed from 2025.2.18.16 [default] to 2025.3.13.13 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PV changed from "2025.2.18.16" to "2025.3.13.13"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PKGV changed from 2025.2.18.16 [default] to 2025.3.13.13 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PV changed from "2025.2.18.16" to "2025.3.13.13"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PKGV changed from 2025.2.18.16 [default] to 2025.3.13.13 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PV changed from "2025.2.18.16" to "2025.3.13.13"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PKGV changed from 2025.2.18.16 [default] to 2025.3.13.13 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PV changed from "2025.2.18.16" to "2025.3.13.13"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGV changed from 2025.2.18.16 [default] to 2025.3.13.13 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGSIZE changed from 93215 to 93387 (+0%)
+Changes to packages/core2-64-poky-linux/python3-trove-classifiers (sysroot):
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.2.18.16.dist-info moved to /usr/lib/python3.13/site-packages/trove_classifiers-2025.3.13.13.dist-info
+Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.2.18.16.dist-info moved to /usr/lib/python3.13/site-packages/trove_classifiers-2025.3.13.13.dist-info
 
---===============7552004583834754089==
+--===============6935432747004979599==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-websockets/python3-websockets: FILELIST: removed "/usr/lib/python3.13/site-packages/websockets-15.0.dist-info/top_level.txt /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/WHEEL /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/LICENSE /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/METADATA", added "/usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/top_level.txt /usr/bin/websockets /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/WHEEL /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/LICENSE /usr/lib/python3.13/site-packages/websockets/cli.py /usr/lib/python3.13/site-packages/websockets/__pycache__/cli.cpython-313.pyc /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/METADATA /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/entry_points.txt"
-Changes to packages/core2-64-poky-linux/python3-websockets (sysroot):
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/LICENSE was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/websockets/cli.py was added
-  /usr/lib/python3.13/site-packages/websockets/__pycache__/cli.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info was removed
-  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/LICENSE was removed
-  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/WHEEL was removed
+Changes to packages/core2-64-poky-linux/python3-trove-classifiers (sysroot):
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.2.18.16.dist-info moved to /usr/lib/python3.13/site-packages/trove_classifiers-2025.3.13.13.dist-info
+Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.2.18.16.dist-info moved to /usr/lib/python3.13/site-packages/trove_classifiers-2025.3.13.13.dist-info
 
---===============7552004583834754089==--
+--===============6935432747004979599==--
 
