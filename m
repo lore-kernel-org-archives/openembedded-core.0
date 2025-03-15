@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E1BFC369B9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B9FC369BD
 	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:43 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.10365.1742048297131722748
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.10330.1742048293593537702
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 07:18:38 -0700
+ Sat, 15 Mar 2025 07:18:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Wce0h3aC;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=dwGsBjHc;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101959a2bd2ad-049c003f-043d-4c0a-b979-8c84cccd03ca-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gWVRYoEV;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=TQXBprfR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101959a2bd4b2-bbcf9f42-ef4a-4b21-8ff0-3e73f25f1676-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1742048318;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3sWK/8lXmLoU7EcJxTFo6xEqNxOXINRkKKCspJwA/os=;
-	b=Wce0h3aCgMoMyRCyMn/PQw4Z9aQ7TAob6m4vYXFO8Zmp0BaO82KIHFyflGiCT4XN
-	UzOyRAPOzNvYV+xxN+wOZYVVX0zNz3JHLgqxBFeQXGAX1sc95VrsVXIOKO12yYF1miq
-	cOAbN/wFWJ/QKdo/P6tzni6GAlMXw2m7XAcPJb/U=
+	bh=DHHnIOJm/o9VN41pfjJpE5+OSej6fBaMvIXaKF26MBo=;
+	b=gWVRYoEVExHvOs/r79rCVUozQXmPdog8CQ/uJCgteSa/fD8FTjWBd85EOIvrZA7b
+	7pnKv/U9G3PpGt5NtrCeQOyuUhG8TtbalFxFisU0NMatAxiNZp5QM+SI6vRWRHLduCS
+	LXC5lqeXtBsa6rO3b4ZEyPxiQvfQtQQj7rOG5ouE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048318;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3sWK/8lXmLoU7EcJxTFo6xEqNxOXINRkKKCspJwA/os=;
-	b=dwGsBjHc736od+tKGGobr1nnwGe9pS5WRrmHI3dMuW1SBIKY2L3Qhs9rRbwCaYVd
-	0Ej8LM1JDUFvLI63DtelIBDWmKHeZBKfD6cpdhwnTYKUYQ/M3/cPIJelo6oEDN0IcxY
-	6HbiE3fwmPsyqdAzBtobFffFlHm0YhJpdge7/mi8=
-Content-Type: multipart/mixed; boundary="===============5650926969410862350=="
+	bh=DHHnIOJm/o9VN41pfjJpE5+OSej6fBaMvIXaKF26MBo=;
+	b=TQXBprfRl+ofORFg7pF5enBa67ZZQYMeA3izJuTPM9odimYXw/lhY5EN6bfxJZTe
+	agN6yveZpGMPlIM93BbZcnw1jJSaMmU4EJ8B6Omg1N6vTmcR8POZYXSFeMz3s2JPlBd
+	nY9UXuA6a+ygOCVDRJQf4zX143MrMdMKsaDbJx38=
+Content-Type: multipart/mixed; boundary="===============1491190860178289260=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] wpebackend-fdo: upgrading to 1.16.0 SUCCEEDED
-Message-ID: <010101959a2bd2ad-049c003f-043d-4c0a-b979-8c84cccd03ca-000000@us-west-2.amazonses.com>
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libical: upgrading to 3.0.20 SUCCEEDED
+Message-ID: <010101959a2bd4b2-bbcf9f42-ef4a-4b21-8ff0-3e73f25f1676-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Mar 2025 14:18:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.191
+X-SES-Outgoing: 2025.03.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212976
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212977
 
---===============5650926969410862350==
+--===============1491190860178289260==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *wpebackend-fdo* to *1.16.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libical* to *3.0.20* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-wpebackend-fdo-upgrade-1.14.3-1.16.0.patch
+    - apply the patch: git am 0001-libical-upgrade-3.0.19-3.0.20.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,68 +72,88 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8f13eae55e3827b9d503cae512a5d790e4c6a857 Mon Sep 17 00:00:00 2001
+From c749b0f7b0ad7f933001017a51043d4a8fbd4dee Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Mar 2025 13:52:24 +0000
-Subject: [PATCH] wpebackend-fdo: upgrade 1.14.3 -> 1.16.0
+Date: Sat, 15 Mar 2025 14:11:31 +0000
+Subject: [PATCH] libical: upgrade 3.0.19 -> 3.0.20
 
 ---
- .../{wpebackend-fdo_1.14.3.bb => wpebackend-fdo_1.16.0.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{wpebackend-fdo_1.14.3.bb => wpebackend-fdo_1.16.0.bb} (90%)
+ .../libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch | 2 +-
+ .../libical/{libical_3.0.19.bb => libical_3.0.20.bb}            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libical/{libical_3.0.19.bb => libical_3.0.20.bb} (96%)
 
-diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.16.0.bb
-similarity index 90%
-rename from meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb
-rename to meta/recipes-sato/webkit/wpebackend-fdo_1.16.0.bb
-index c8cce5447b..aa6c58d176 100644
---- a/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb
-+++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.16.0.bb
-@@ -13,7 +13,7 @@ inherit meson features_check pkgconfig
- REQUIRED_DISTRO_FEATURES = "opengl"
+diff --git a/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch b/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch
+index 0a7c696530..0f0dadb4e4 100644
+--- a/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch
++++ b/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch
+@@ -1,4 +1,4 @@
+-From 145a0f3919f6884c377a9e6b8a03de707feb45fe Mon Sep 17 00:00:00 2001
++From 7b20ca7f24a4cac25998bfcc70eed75bf796816b Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 3 Mar 2022 20:10:04 -0800
+ Subject: [PATCH] cmake: Do not export CC into gir compiler
+diff --git a/meta/recipes-support/libical/libical_3.0.19.bb b/meta/recipes-support/libical/libical_3.0.20.bb
+similarity index 96%
+rename from meta/recipes-support/libical/libical_3.0.19.bb
+rename to meta/recipes-support/libical/libical_3.0.20.bb
+index 1ee39aa94f..d62c88e347 100644
+--- a/meta/recipes-support/libical/libical_3.0.19.bb
++++ b/meta/recipes-support/libical/libical_3.0.20.bb
+@@ -15,7 +15,7 @@ SECTION = "libs"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
+            file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch \
+           "
+-SRC_URI[sha256sum] = "6a1e7f0f50a399cbad826bcc286ce10d7151f3df7cc103f641de15160523c73f"
++SRC_URI[sha256sum] = "e73de92f5a6ce84c1b00306446b290a2b08cdf0a80988eca0a2c9d5c3510b4c2"
  
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "10121842595a850291db3e82f3db0b9984df079022d386ce42c2b8508159dc6c"
-+SRC_URI[sha256sum] = "beddf321232d5bd08106c179dbc600f8ce88eb3620b4a59a6329063b78f64635"
+ inherit cmake pkgconfig gobject-introspection vala github-releases
  
- # Especially helps compiling with clang which enable this as error when
- # using c++11
 -- 
 2.44.1
 
 
---===============5650926969410862350==
+--===============1491190860178289260==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/wpebackend-fdo: PV changed from "1.14.3" to "1.16.0"
-packages/core2-64-poky-linux/wpebackend-fdo: SRC_URI changed from "https://wpewebkit.org/releases/wpebackend-fdo-1.14.3.tar.xz" to "https://wpewebkit.org/releases/wpebackend-fdo-1.16.0.tar.xz"
-packages/core2-64-poky-linux/wpebackend-fdo: PKGV changed from 1.14.3 [default] to 1.16.0 [default]
-Changes to packages/core2-64-poky-linux/wpebackend-fdo (sysroot):
-  /usr/lib/libWPEBackend-fdo-1.0.so.1 changed symlink target from libWPEBackend-fdo-1.0.so.1.9.5 to libWPEBackend-fdo-1.0.so.1.10.1
-  /usr/lib/libWPEBackend-fdo-1.0.so.1.10.1 was added
-  /usr/lib/libWPEBackend-fdo-1.0.so.1.9.5 was removed
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: PV changed from "1.14.3" to "1.16.0"
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: PKGV changed from 1.14.3 [default] to 1.16.0 [default]
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: FILELIST: removed "/usr/lib/.debug/libWPEBackend-fdo-1.0.so.1.9.5", added "/usr/lib/.debug/libWPEBackend-fdo-1.0.so.1.10.1"
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-dev: PV changed from "1.14.3" to "1.16.0"
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-dev: PKGSIZE changed from 45495 to 46448 (+2%)
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-dev: PKGV changed from 1.14.3 [default] to 1.16.0 [default]
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-doc: PV changed from "1.14.3" to "1.16.0"
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-doc: PKGV changed from 1.14.3 [default] to 1.16.0 [default]
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-locale: PV changed from "1.14.3" to "1.16.0"
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-locale: PKGV changed from 1.14.3 [default] to 1.16.0 [default]
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-src: PV changed from "1.14.3" to "1.16.0"
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-src: PKGSIZE changed from 338724 to 339697 (+0%)
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-src: PKGV changed from 1.14.3 [default] to 1.16.0 [default]
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-staticdev: PV changed from "1.14.3" to "1.16.0"
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo-staticdev: PKGV changed from 1.14.3 [default] to 1.16.0 [default]
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo: PV changed from "1.14.3" to "1.16.0"
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo: PKGSIZE changed from 92654 to 92655 (+0%)
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo: PKGV changed from 1.14.3 [default] to 1.16.0 [default]
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.9.5", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.10.1"
+packages/core2-64-poky-linux/libical: PV changed from "3.0.19" to "3.0.20"
+packages/core2-64-poky-linux/libical: SRC_URI changed from "https://github.com/libical/libical/releases//download/v3.0.19/libical-3.0.19.tar.gz file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch" to "https://github.com/libical/libical/releases//download/v3.0.20/libical-3.0.20.tar.gz file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch"
+packages/core2-64-poky-linux/libical: PKGV changed from 3.0.19 [default] to 3.0.20 [default]
+packages/core2-64-poky-linux/libical/libical-dbg: PKGSIZE changed from 3355592 to 3355760 (+0%)
+packages/core2-64-poky-linux/libical/libical-dbg: PV changed from "3.0.19" to "3.0.20"
+packages/core2-64-poky-linux/libical/libical-dbg: FILELIST: removed "/usr/lib/.debug/libical-glib.so.3.0.19 /usr/lib/.debug/libical.so.3.0.19 /usr/lib/.debug/libicalss.so.3.0.19 /usr/lib/.debug/libicalvcal.so.3.0.19 /usr/lib/.debug/libical_cxx.so.3.0.19 /usr/lib/.debug/libicalss_cxx.so.3.0.19", added "/usr/lib/.debug/libical-glib.so.3.0.20 /usr/lib/.debug/libicalss.so.3.0.20 /usr/lib/.debug/libicalss_cxx.so.3.0.20 /usr/lib/.debug/libicalvcal.so.3.0.20 /usr/lib/.debug/libical_cxx.so.3.0.20 /usr/lib/.debug/libical.so.3.0.20"
+packages/core2-64-poky-linux/libical/libical-dbg: PKGV changed from 3.0.19 [default] to 3.0.20 [default]
+packages/core2-64-poky-linux/libical/libical-dev: PKGSIZE changed from 2984516 to 2984289 (-0%)
+packages/core2-64-poky-linux/libical/libical-dev: PV changed from "3.0.19" to "3.0.20"
+packages/core2-64-poky-linux/libical/libical-dev: PKGV changed from 3.0.19 [default] to 3.0.20 [default]
+packages/core2-64-poky-linux/libical/libical-doc: PV changed from "3.0.19" to "3.0.20"
+packages/core2-64-poky-linux/libical/libical-doc: PKGV changed from 3.0.19 [default] to 3.0.20 [default]
+packages/core2-64-poky-linux/libical/libical-locale: PV changed from "3.0.19" to "3.0.20"
+packages/core2-64-poky-linux/libical/libical-locale: PKGV changed from 3.0.19 [default] to 3.0.20 [default]
+packages/core2-64-poky-linux/libical/libical-src: PKGSIZE changed from 3069812 to 3069606 (-0%)
+packages/core2-64-poky-linux/libical/libical-src: PV changed from "3.0.19" to "3.0.20"
+packages/core2-64-poky-linux/libical/libical-src: PKGV changed from 3.0.19 [default] to 3.0.20 [default]
+packages/core2-64-poky-linux/libical/libical-staticdev: PV changed from "3.0.19" to "3.0.20"
+packages/core2-64-poky-linux/libical/libical-staticdev: PKGV changed from 3.0.19 [default] to 3.0.20 [default]
+packages/core2-64-poky-linux/libical/libical: PV changed from "3.0.19" to "3.0.20"
+packages/core2-64-poky-linux/libical/libical: FILELIST: removed "/usr/lib/libicalss.so.3.0.19 /usr/lib/libicalvcal.so.3.0.19 /usr/lib/libical-glib.so.3.0.19 /usr/lib/libical_cxx.so.3.0.19 /usr/lib/libical.so.3.0.19 /usr/lib/libicalss_cxx.so.3.0.19", added "/usr/lib/libicalss.so.3.0.20 /usr/lib/libicalss_cxx.so.3.0.20 /usr/lib/libical-glib.so.3.0.20 /usr/lib/libical.so.3.0.20 /usr/lib/libicalvcal.so.3.0.20 /usr/lib/libical_cxx.so.3.0.20"
+packages/core2-64-poky-linux/libical/libical: PKGV changed from 3.0.19 [default] to 3.0.20 [default]
+Changes to packages/core2-64-poky-linux/libical (sysroot):
+  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.19 to libical_cxx.so.3.0.20
+  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.19 to libical-glib.so.3.0.20
+  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.19 to libical.so.3.0.20
+  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.19 to libicalss_cxx.so.3.0.20
+  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.19 to libicalss.so.3.0.20
+  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.19 to libicalvcal.so.3.0.20
+  /usr/lib/libical_cxx.so.3.0.19 moved to /usr/lib/libical_cxx.so.3.0.20
+  /usr/lib/libical-glib.so.3.0.19 moved to /usr/lib/libical-glib.so.3.0.20
+  /usr/lib/libical.so.3.0.19 moved to /usr/lib/libical.so.3.0.20
+  /usr/lib/libicalss_cxx.so.3.0.19 moved to /usr/lib/libicalss_cxx.so.3.0.20
+  /usr/lib/libicalss.so.3.0.19 moved to /usr/lib/libicalss.so.3.0.20
+  /usr/lib/libicalvcal.so.3.0.19 moved to /usr/lib/libicalvcal.so.3.0.20
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1639,18 +1659,40 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libical-native (sysroot):
+  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.19 to libical_cxx.so.3.0.20
+  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.19 to libical-glib.so.3.0.20
+  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.19 to libical.so.3.0.20
+  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.19 to libicalss_cxx.so.3.0.20
+  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.19 to libicalss.so.3.0.20
+  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.19 to libicalvcal.so.3.0.20
+  /usr/lib/libical_cxx.so.3.0.19 moved to /usr/lib/libical_cxx.so.3.0.20
+  /usr/lib/libical-glib.so.3.0.19 moved to /usr/lib/libical-glib.so.3.0.20
+  /usr/lib/libical.so.3.0.19 moved to /usr/lib/libical.so.3.0.20
+  /usr/lib/libicalss_cxx.so.3.0.19 moved to /usr/lib/libicalss_cxx.so.3.0.20
+  /usr/lib/libicalss.so.3.0.19 moved to /usr/lib/libicalss.so.3.0.20
+  /usr/lib/libicalvcal.so.3.0.19 moved to /usr/lib/libicalvcal.so.3.0.20
 
---===============5650926969410862350==
+--===============1491190860178289260==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/wpebackend-fdo (sysroot):
-  /usr/lib/libWPEBackend-fdo-1.0.so.1 changed symlink target from libWPEBackend-fdo-1.0.so.1.9.5 to libWPEBackend-fdo-1.0.so.1.10.1
-  /usr/lib/libWPEBackend-fdo-1.0.so.1.10.1 was added
-  /usr/lib/libWPEBackend-fdo-1.0.so.1.9.5 was removed
-packages/core2-64-poky-linux/wpebackend-fdo/wpebackend-fdo: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.9.5", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.10.1"
+packages/core2-64-poky-linux/libical/libical: FILELIST: removed "/usr/lib/libicalss_cxx.so.3.0.19 /usr/lib/libical-glib.so.3.0.19 /usr/lib/libicalss.so.3.0.19 /usr/lib/libical.so.3.0.19 /usr/lib/libicalvcal.so.3.0.19 /usr/lib/libical_cxx.so.3.0.19", added "/usr/lib/libicalss_cxx.so.3.0.20 /usr/lib/libicalvcal.so.3.0.20 /usr/lib/libicalss.so.3.0.20 /usr/lib/libical-glib.so.3.0.20 /usr/lib/libical_cxx.so.3.0.20 /usr/lib/libical.so.3.0.20"
+Changes to packages/core2-64-poky-linux/libical (sysroot):
+  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.19 to libical_cxx.so.3.0.20
+  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.19 to libical-glib.so.3.0.20
+  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.19 to libical.so.3.0.20
+  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.19 to libicalss_cxx.so.3.0.20
+  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.19 to libicalss.so.3.0.20
+  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.19 to libicalvcal.so.3.0.20
+  /usr/lib/libical_cxx.so.3.0.19 moved to /usr/lib/libical_cxx.so.3.0.20
+  /usr/lib/libical-glib.so.3.0.19 moved to /usr/lib/libical-glib.so.3.0.20
+  /usr/lib/libical.so.3.0.19 moved to /usr/lib/libical.so.3.0.20
+  /usr/lib/libicalss_cxx.so.3.0.19 moved to /usr/lib/libicalss_cxx.so.3.0.20
+  /usr/lib/libicalss.so.3.0.19 moved to /usr/lib/libicalss.so.3.0.20
+  /usr/lib/libicalvcal.so.3.0.19 moved to /usr/lib/libicalvcal.so.3.0.20
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3156,37 +3198,63 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libical-native (sysroot):
+  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.19 to libical_cxx.so.3.0.20
+  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.19 to libical-glib.so.3.0.20
+  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.19 to libical.so.3.0.20
+  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.19 to libicalss_cxx.so.3.0.20
+  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.19 to libicalss.so.3.0.20
+  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.19 to libicalvcal.so.3.0.20
+  /usr/lib/libical_cxx.so.3.0.19 moved to /usr/lib/libical_cxx.so.3.0.20
+  /usr/lib/libical-glib.so.3.0.19 moved to /usr/lib/libical-glib.so.3.0.20
+  /usr/lib/libical.so.3.0.19 moved to /usr/lib/libical.so.3.0.20
+  /usr/lib/libicalss_cxx.so.3.0.19 moved to /usr/lib/libicalss_cxx.so.3.0.20
+  /usr/lib/libicalss.so.3.0.19 moved to /usr/lib/libicalss.so.3.0.20
+  /usr/lib/libicalvcal.so.3.0.19 moved to /usr/lib/libicalvcal.so.3.0.20
 
---===============5650926969410862350==
+--===============1491190860178289260==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-wpebackend-fdo-upgrade-1.14.3-1.16.0.patch"
+ filename="0001-libical-upgrade-3.0.19-3.0.20.patch"
 
-RnJvbSA4ZjEzZWFlNTVlMzgyN2I5ZDUwM2NhZTUxMmE1ZDc5MGU0YzZhODU3IE1vbiBTZXAgMTcg
+RnJvbSBjNzQ5YjBmN2IwYWQ3ZjkzMzAwMTAxN2E1MTA0M2Q0YThmYmQ0ZGVlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMTM6NTI6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-cGViYWNrZW5kLWZkbzogdXBncmFkZSAxLjE0LjMgLT4gMS4xNi4wCgotLS0KIC4uLi97d3BlYmFj
-a2VuZC1mZG9fMS4xNC4zLmJiID0+IHdwZWJhY2tlbmQtZmRvXzEuMTYuMC5iYn0gICAgICB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC97d3BlYmFja2VuZC1mZG9fMS4xNC4zLmJiID0+IHdw
-ZWJhY2tlbmQtZmRvXzEuMTYuMC5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-c2F0by93ZWJraXQvd3BlYmFja2VuZC1mZG9fMS4xNC4zLmJiIGIvbWV0YS9yZWNpcGVzLXNhdG8v
-d2Via2l0L3dwZWJhY2tlbmQtZmRvXzEuMTYuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkwJQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd3BlYmFja2VuZC1mZG9fMS4xNC4zLmJi
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd3BlYmFja2VuZC1mZG9fMS4xNi4w
-LmJiCmluZGV4IGM4Y2NlNTQ0N2IuLmFhNmM1OGQxNzYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1zYXRvL3dlYmtpdC93cGViYWNrZW5kLWZkb18xLjE0LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LXNhdG8vd2Via2l0L3dwZWJhY2tlbmQtZmRvXzEuMTYuMC5iYgpAQCAtMTMsNyArMTMsNyBAQCBp
-bmhlcml0IG1lc29uIGZlYXR1cmVzX2NoZWNrIHBrZ2NvbmZpZwogUkVRVUlSRURfRElTVFJPX0ZF
-QVRVUkVTID0gIm9wZW5nbCIKIAogU1JDX1VSSSA9ICJodHRwczovL3dwZXdlYmtpdC5vcmcvcmVs
-ZWFzZXMvJHtCUE59LSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxMDEyMTg0
-MjU5NWE4NTAyOTFkYjNlODJmM2RiMGI5OTg0ZGYwNzkwMjJkMzg2Y2U0MmMyYjg1MDgxNTlkYzZj
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImJlZGRmMzIxMjMyZDViZDA4MTA2YzE3OWRiYzYwMGY4
-Y2U4OGViMzYyMGI0YTU5YTYzMjkwNjNiNzhmNjQ2MzUiCiAKICMgRXNwZWNpYWxseSBoZWxwcyBj
-b21waWxpbmcgd2l0aCBjbGFuZyB3aGljaCBlbmFibGUgdGhpcyBhcyBlcnJvciB3aGVuCiAjIHVz
-aW5nIGMrKzExCi0tIAoyLjQ0LjEKCg==
+CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMTQ6MTE6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJpY2FsOiB1cGdyYWRlIDMuMC4xOSAtPiAzLjAuMjAKCi0tLQogLi4uL2xpYmljYWwvMDAwMS1j
+bWFrZS1Eby1ub3QtZXhwb3J0LUNDLWludG8tZ2lyLWNvbXBpbGVyLnBhdGNoIHwgMiArLQogLi4u
+L2xpYmljYWwve2xpYmljYWxfMy4wLjE5LmJiID0+IGxpYmljYWxfMy4wLjIwLmJifSAgICAgICAg
+ICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC97bGliaWNhbF8zLjAuMTku
+YmIgPT4gbGliaWNhbF8zLjAuMjAuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGliaWNhbC9saWJpY2FsLzAwMDEtY21ha2UtRG8tbm90LWV4cG9ydC1DQy1pbnRv
+LWdpci1jb21waWxlci5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmljYWwvbGliaWNh
+bC8wMDAxLWNtYWtlLURvLW5vdC1leHBvcnQtQ0MtaW50by1naXItY29tcGlsZXIucGF0Y2gKaW5k
+ZXggMGE3YzY5NjUzMC4uMGYwZGFkYjRlNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvbGliaWNhbC9saWJpY2FsLzAwMDEtY21ha2UtRG8tbm90LWV4cG9ydC1DQy1pbnRvLWdpci1j
+b21waWxlci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJpY2FsL2xpYmljYWwv
+MDAwMS1jbWFrZS1Eby1ub3QtZXhwb3J0LUNDLWludG8tZ2lyLWNvbXBpbGVyLnBhdGNoCkBAIC0x
+LDQgKzEsNCBAQAotRnJvbSAxNDVhMGYzOTE5ZjY4ODRjMzc3YTllNmI4YTAzZGU3MDdmZWI0NWZl
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA3YjIwY2E3ZjI0YTRjYWMyNTk5OGJmY2M3
+MGVlZDc1YmY3OTY4MTZiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWog
+PHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFRodSwgMyBNYXIgMjAyMiAyMDoxMDowNCAtMDgw
+MAogU3ViamVjdDogW1BBVENIXSBjbWFrZTogRG8gbm90IGV4cG9ydCBDQyBpbnRvIGdpciBjb21w
+aWxlcgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsXzMu
+MC4xOS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmljYWwvbGliaWNhbF8zLjAuMjAuYmIK
+c2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
+aWNhbC9saWJpY2FsXzMuMC4xOS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
+aWNhbC9saWJpY2FsXzMuMC4yMC5iYgppbmRleCAxZWUzOWFhOTRmLi5kNjJjODhlMzQ3IDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJpY2FsL2xpYmljYWxfMy4wLjE5LmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmljYWwvbGliaWNhbF8zLjAuMjAuYmIKQEAgLTE1
+LDcgKzE1LDcgQEAgU0VDVElPTiA9ICJsaWJzIgogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VS
+SX0vZG93bmxvYWQvdiR7UFZ9LyR7QlB9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAx
+LWNtYWtlLURvLW5vdC1leHBvcnQtQ0MtaW50by1naXItY29tcGlsZXIucGF0Y2ggXAogICAgICAg
+ICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2YTFlN2YwZjUwYTM5OWNiYWQ4MjZiY2MyODZj
+ZTEwZDcxNTFmM2RmN2NjMTAzZjY0MWRlMTUxNjA1MjNjNzNmIgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gImU3M2RlOTJmNWE2Y2U4NGMxYjAwMzA2NDQ2YjI5MGEyYjA4Y2RmMGE4MDk4OGVjYTBhMmM5
+ZDVjMzUxMGI0YzIiCiAKIGluaGVyaXQgY21ha2UgcGtnY29uZmlnIGdvYmplY3QtaW50cm9zcGVj
+dGlvbiB2YWxhIGdpdGh1Yi1yZWxlYXNlcwogCi0tIAoyLjQ0LjEKCg==
 
---===============5650926969410862350==--
+--===============1491190860178289260==--
 
