@@ -2,48 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 342DCC36006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C6EDC36004
 	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:20 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.10335.1742048297258881824
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.10357.1742048292608056005
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 07:18:17 -0700
+ Sat, 15 Mar 2025 07:18:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dZ7RdAVW;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=JgKmGIxA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101959a2b7e8c-5750d20f-2ebc-45e8-8278-d09f8417f592-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=DVP+Xncp;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Iw5oQZvG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101959a2b6c66-61077d5a-c6a2-405b-8759-5794a0ef9f55-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742048296;
+	t=1742048292;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=IBHVYRYnWj6Qmbi3/jlvrF+uUWXAhCAAD17BmXJeO28=;
-	b=dZ7RdAVW16D0fEWqDFvnwzP0aLWUUqadaRvJytHL2bi+xR5220w1NBpQjGpZVazn
-	RpDwmF215Y2Q26Gp/DIFDJZVaxf/Ckpi0GDf7Kp/NJApqpGpdmtZQDsDa1+vMB8wJml
-	kdHSaIUCpz/0/8Kp6OdwF+REzvAB3zZMWVbfcbZM=
+	bh=LYl0Qwq1RPeoCuCNiebTnfEXpW26eoVzufkrYTffHdY=;
+	b=DVP+XncpT1p0vU5iSKahTIsaB4gtjPhlGykQx+JyLw6fEkqnyb5CltGg/qq5lbPb
+	14SxTzLYegDlbs7w1nxTI//ZbY8MDW0iM2bEjSd0RpWCxjGL15TEHkutLfzIe7412ST
+	mU32gUUd59VF5sHWL1OU1SFmfCTmmDpvoQfOZUmA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048296;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048292;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=IBHVYRYnWj6Qmbi3/jlvrF+uUWXAhCAAD17BmXJeO28=;
-	b=JgKmGIxAmH+mcFpOPpqmd3aSzmgwcYJxwvLzgcRbM7oXjtSK4drQ8KEIQj/i+WBG
-	azhkGDw7spG17+FGWbmtpQ2DbNeZ4h0Gt2cwfJmu7sZ/Cl/xcz0FwZRZxuTr43HiAyR
-	vUY6StgyK1zw4L4JKpugyq5/oBWKiAx6EhPFVBw0=
-Content-Type: multipart/mixed; boundary="===============5833077861335558226=="
+	bh=LYl0Qwq1RPeoCuCNiebTnfEXpW26eoVzufkrYTffHdY=;
+	b=Iw5oQZvGCT0yyaGJziF10Y8cz0d0Pr98pS/LuHVTahokdnV5vVDpLxWViu24W9ue
+	EV4TXmneAWk/BB4ytQz9pwmTTwV8MCbmQ2M7YxVa9wE05fcJ7wST6qhMczKpJZOKJzM
+	r1YI4E+Zrp9ZhppmXhX/t+RMlZd9JxGks5dbkt6k=
+Content-Type: multipart/mixed; boundary="===============4100450605673882017=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>, Anuj Mittal <anuj.mittal@intel.com>, 
+	Anuj Mittal <anuj.mittal@intel.com>, 
+	Anuj Mittal <anuj.mittal@intel.com>, 
+	Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pkgconf: upgrading to 2.4.3 SUCCEEDED
-Message-ID: <010101959a2b7e8c-5750d20f-2ebc-45e8-8278-d09f8417f592-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Mar 2025 14:18:16 +0000
+Subject: [AUH]
+ gstreamer1.0-plugins-ugly,gstreamer1.0-plugins-bad,gstreamer1.0-rtsp-server,gstreamer1.0-plugins-good,gstreamer1.0-plugins-base:
+ upgrading to 1.26.0,1.26.0,1.26.0,1.26.0,1.26.0 FAILED
+Message-ID: <010101959a2b6c66-61077d5a-c6a2-405b-8759-5794a0ef9f55-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Mar 2025 14:18:11 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.33
+X-SES-Outgoing: 2025.03.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212905
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212885
 
---===============5833077861335558226==
+--===============4100450605673882017==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,133 +56,89 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *pkgconf* to *2.4.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-plugins-ugly,gstreamer1.0-plugins-bad,gstreamer1.0-rtsp-server,gstreamer1.0-plugins-good,gstreamer1.0-plugins-base* to *1.26.0,1.26.0,1.26.0,1.26.0,1.26.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-pkgconf-upgrade-2.3.0-2.4.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade gstreamer1.0-plugins-bad -V 1.26.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1884 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 924 .bb files complete (923 cached, 1 parsed). 1885 targets, 39 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:d08db7bd6f784e3908aad3a7c157a9fe0be7fb33"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 925 .bb files complete (0 cached, 925 parsed). 1886 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:d08db7bd6f784e3908aad3a7c157a9fe0be7fb33"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-qk0xwc9k: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-f75eivb9/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-f75eivb9/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   8% |###                                 | ETA:  0:00:01
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.0.tar.xz...
+ERROR: Execution of 'git add -f -A "sys/d3d12/gstd3d12window-win32.h" "sys/d3d12/gstd3d12yadif.cpp" "sys/d3d12/gstd3d12yadif.h" "sys/dwrite/gstdwriterender.cpp" "sys/dwrite/gstdwriterender.h" "sys/dwrite/gstdwriterender_bitmap.cpp" "sys/dwrite/gstdwriterender_bitmap.h" "sys/dwrite/gstdwriterender_d3d11.cpp" "sys/dwrite/gstdwriterender_d3d11.h" "sys/dwrite/gstdwriterender_d3d12.cpp" "sys/dwrite/gstdwriterender_d3d12.h" "sys/nvcodec/gstcudacompositor.cpp" "sys/nvcodec/gstcudacompositor.h" "sys/nvcodec/gstcudaconverter.cpp" "sys/nvcodec/gstcudainterop_d3d12.cpp" "sys/nvcodec/gstcudainterop_d3d12.h" "sys/nvcodec/gstnvav1encoder.cpp" "sys/nvcodec/gstnvav1encoder.h" "sys/nvcodec/gstnvcodecutils.cpp" "sys/nvcodec/kernel/collect_ptx_headers.py" "sys/nvcodec/kernel/gstcudaconverter-unpack.cu" "sys/nvcodec/kernel/gstcudaconverter.cu" "sys/nvcodec/kernel/gstnvjpegenc.cu" "sys/nvcodec/kernel/meson.build" "sys/v4l2codecs/linux/drm_fourcc.h" "sys/va/gstvacodecalphadecodebin.c" "sys/va/gstvacodecal
+ phadecodebin.h" "sys/va/gstvah266dec.c" "sys/va/gstvah266dec.h" "sys/va/gstvajpegenc.c" "sys/va/gstvajpegenc.h" "sys/va/gstvavp8enc.c" "sys/va/gstvavp8enc.h" "sys/va/gstvavp9enc.c" "sys/va/gstvavp9enc.h" "sys/webview2/gstwebview2object.cpp" "sys/webview2/gstwebview2object.h" "sys/webview2/gstwebview2src.cpp" "sys/webview2/gstwebview2src.h" "sys/webview2/meson.build" "sys/webview2/plugin.cpp" "tests/check/elements/dashsink.c" "tests/check/elements/h266parse.c" "tests/check/libs/d3d12device.cpp" "tests/check/libs/h266parser.c" "tests/check/libs/jpegbitwriter.c" "tests/check/libs/vkcodecparams_h264.c" "tests/check/libs/vkcodecparams_h265.c" "tests/check/libs/vkvideoencodeh264.c" "tests/check/libs/vkvideoencodeh265.c" "tests/check/libs/vp9bitwriter.c" "tests/examples/codecparsers/parse-h264-drop-frames.c" "tests/examples/cuda/cuda-template.c" "tests/examples/cuda/cudamemory-sync.c" "tests/examples/cuda/cudamemorypool.c" "tests/examples/cuda/meson.build" "tests/examples/cuda/nvenc-extern
+ -pool.c" "tests/examples/cuda/template-plugin/cuda-transform-ip-template.c" "tests/examples/cuda/template-plugin/cuda-transform-ip-template.h" "tests/examples/cuda/template-plugin/plugin.c" "tests/examples/d3d11/d3d11decoder-appsink2.cpp" "tests/examples/d3d12/d3d12swapchainsink-win32.cpp" "tests/examples/d3d12/d3d12swapchainsink-winrt.cpp" "tests/examples/d3d12/d3d12videosink-overlay.cpp" "tests/examples/d3d12/d3d12videosink-switch.cpp" "tests/files/audio-8s-then-reverse.ogg" "tests/interactive/pitch-playback-test.c" "tests/validate/autovideoconvert/renegotiate/flow-expectations/log-^convert-src$-expected" "tests/validate/pitch/change_pitch_properties.validatetest" "tests/validate/pitch/change_pitch_properties/flow-expectations/log-pitch-src-expected" "tests/validate/pitch/maintain_pitch_with_variable_playback_rates.validatetest" "tests/validate/pitch/maintain_pitch_with_variable_playback_rates/flow-expectations/log-pitch-src-expected" "tests/validate/pitch/pitch-test.meta" "tests/
+ validate/pitch/reverse.change_pitch_properties.validatetest" "tests/validate/pitch/reverse.change_pitch_properties/flow-expectations/log-pitch-src-expected" "tests/validate/pitch/reverse.maintain_pitch_with_variable_playback_rates.validatetest" "tests/validate/pitch/reverse.maintain_pitch_with_variable_playback_rates/flow-expectations/log-pitch-src-expected" "ChangeLog" "NEWS" "README.md" "RELEASE" "docs/libs/cuda/index.md" "docs/meson.build" "docs/plugins/gst_plugins_cache.json" "ext/aes/meson.build" "ext/analyticsoverlay/gstobjectdetectionoverlay.c" "ext/analyticsoverlay/meson.build" "ext/aom/gstav1enc.c" "ext/aom/gstav1enc.h" "ext/aom/meson.build" "ext/assrender/meson.build" "ext/avtp/gstavtpsrc.c" "ext/avtp/gstavtpsrc.h" "ext/avtp/meson.build" "ext/bs2b/meson.build" "ext/bz2/meson.build" "ext/chromaprint/meson.build" "ext/closedcaption/ccutils.c" "ext/closedcaption/ccutils.h" "ext/closedcaption/gstcccombiner.c"' failed with exit code 128:
+fatal: pathspec 'tests/validate/autovideoconvert/renegotiate/flow-expectations/log-^convert-srchBcexpected' did not match any files
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From e7cfd2c022504cb97d19fa1e8c8b6eed4ceba7ba Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Mar 2025 09:04:06 +0000
-Subject: [PATCH] pkgconf: upgrade 2.3.0 -> 2.4.3
-
----
- .../pkgconf/{pkgconf_2.3.0.bb => pkgconf_2.4.3.bb}              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/pkgconf/{pkgconf_2.3.0.bb => pkgconf_2.4.3.bb} (96%)
-
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf_2.3.0.bb b/meta/recipes-devtools/pkgconf/pkgconf_2.4.3.bb
-similarity index 96%
-rename from meta/recipes-devtools/pkgconf/pkgconf_2.3.0.bb
-rename to meta/recipes-devtools/pkgconf/pkgconf_2.4.3.bb
-index c95ab74838..9695e37bbd 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf_2.3.0.bb
-+++ b/meta/recipes-devtools/pkgconf/pkgconf_2.4.3.bb
-@@ -20,7 +20,7 @@ SRC_URI = "\
-     file://pkg-config-native.in \
-     file://pkg-config-esdk.in \
- "
--SRC_URI[sha256sum] = "3a9080ac51d03615e7c1910a0a2a8df08424892b5f13b0628a204d3fcce0ea8b"
-+SRC_URI[sha256sum] = "51203d99ed573fa7344bf07ca626f10c7cc094e0846ac4aa0023bd0c83c25a41"
- 
- inherit autotools
- 
--- 
-2.44.1
-
-
---===============5833077861335558226==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-pkgconf-upgrade-2.3.0-2.4.3.patch"
-
-RnJvbSBlN2NmZDJjMDIyNTA0Y2I5N2QxOWZhMWU4YzhiNmVlZDRjZWJhN2JhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMDk6MDQ6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-a2djb25mOiB1cGdyYWRlIDIuMy4wIC0+IDIuNC4zCgotLS0KIC4uLi9wa2djb25mL3twa2djb25m
-XzIuMy4wLmJiID0+IHBrZ2NvbmZfMi40LjMuYmJ9ICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9wa2djb25mL3twa2djb25mXzIuMy4wLmJiID0+IHBrZ2NvbmZfMi40LjMu
-YmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtn
-Y29uZl8yLjMuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZfMi40
-LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3BrZ2NvbmYvcGtnY29uZl8yLjMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3BrZ2NvbmYvcGtnY29uZl8yLjQuMy5iYgppbmRleCBjOTVhYjc0ODM4Li45Njk1ZTM3YmJk
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2djb25mXzIuMy4w
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZfMi40LjMuYmIK
-QEAgLTIwLDcgKzIwLDcgQEAgU1JDX1VSSSA9ICJcCiAgICAgZmlsZTovL3BrZy1jb25maWctbmF0
-aXZlLmluIFwKICAgICBmaWxlOi8vcGtnLWNvbmZpZy1lc2RrLmluIFwKICIKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICIzYTkwODBhYzUxZDAzNjE1ZTdjMTkxMGEwYTJhOGRmMDg0MjQ4OTJiNWYxM2Iw
-NjI4YTIwNGQzZmNjZTBlYThiIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjUxMjAzZDk5ZWQ1NzNm
-YTczNDRiZjA3Y2E2MjZmMTBjN2NjMDk0ZTA4NDZhYzRhYTAwMjNiZDBjODNjMjVhNDEiCiAKIGlu
-aGVyaXQgYXV0b3Rvb2xzCiAKLS0gCjIuNDQuMQoK
-
---===============5833077861335558226==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/pkgconf: PKGV changed from 2.3.0 [default] to 2.4.3 [default]
-packages/core2-64-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.ariadne.space/pkgconf/pkgconf-2.3.0.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.ariadne.space/pkgconf/pkgconf-2.4.3.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
-packages/core2-64-poky-linux/pkgconf: PV changed from "2.3.0" to "2.4.3"
-packages/core2-64-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 339224 to 361072 (+6%)
-packages/core2-64-poky-linux/pkgconf/pkgconf-dbg: FILELIST: removed "/usr/lib/.debug/libpkgconf.so.5.0.0", added "/usr/lib/.debug/libpkgconf.so.6.0.0"
-packages/core2-64-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 2.3.0 [default] to 2.4.3 [default]
-packages/core2-64-poky-linux/pkgconf/pkgconf-dbg: PV changed from "2.3.0" to "2.4.3"
-packages/core2-64-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 24551 to 25651 (+4%)
-packages/core2-64-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 2.3.0 [default] to 2.4.3 [default]
-packages/core2-64-poky-linux/pkgconf/pkgconf-dev: PV changed from "2.3.0" to "2.4.3"
-packages/core2-64-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 2.3.0 [default] to 2.4.3 [default]
-packages/core2-64-poky-linux/pkgconf/pkgconf-doc: PV changed from "2.3.0" to "2.4.3"
-packages/core2-64-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 2.3.0 [default] to 2.4.3 [default]
-packages/core2-64-poky-linux/pkgconf/pkgconf-locale: PV changed from "2.3.0" to "2.4.3"
-packages/core2-64-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 279444 to 288390 (+3%)
-packages/core2-64-poky-linux/pkgconf/pkgconf-src: FILELIST: directory renamed /usr/src/debug/pkgconf/2.3.0/cli/bomtool -> /usr/src/debug/pkgconf/2.4.3/cli/bomtool, directory renamed /usr/src/debug/pkgconf/2.3.0/cli -> /usr/src/debug/pkgconf/2.4.3/cli, removed "/usr/src/debug/pkgconf/2.3.0/libpkgconf/audit.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/libpkgconf.h /usr/src/debug/pkgconf/2.3.0/libpkgconf/client.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/parser.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/pkg.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/queue.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/iter.h /usr/src/debug/pkgconf/2.3.0/libpkgconf/argvsplit.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/cache.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/dependency.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/bsdstubs.h /usr/src/debug/pkgconf/2.3.0/libpkgconf/fileio.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/fragment.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/tuple.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/path.
- c /usr/src/debug/pkgconf/2.3.0/libpkgconf/bsdstubs.c /usr/src/debug/pkgconf/2.3.0/libpkgconf/personality.c", added "/usr/src/debug/pkgconf/2.4.3/libpkgconf/audit.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/libpkgconf.h /usr/src/debug/pkgconf/2.4.3/libpkgconf/client.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/parser.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/pkg.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/buffer.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/iter.h /usr/src/debug/pkgconf/2.4.3/libpkgconf/argvsplit.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/cache.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/dependency.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/bsdstubs.h /usr/src/debug/pkgconf/2.4.3/libpkgconf/fileio.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/fragment.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/queue.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/path.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/bsdstubs.c /usr/src/debug/pkgconf/2.4.3/libpkgconf/personality.c /usr/src/debug/pkgconf/2.4.3/libpkgc
- onf/tuple.c"
-packages/core2-64-poky-linux/pkgconf/pkgconf-src: PKGV changed from 2.3.0 [default] to 2.4.3 [default]
-packages/core2-64-poky-linux/pkgconf/pkgconf-src: PV changed from "2.3.0" to "2.4.3"
-packages/core2-64-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 2.3.0 [default] to 2.4.3 [default]
-packages/core2-64-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "2.3.0" to "2.4.3"
-packages/core2-64-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 154584 to 162725 (+5%)
-packages/core2-64-poky-linux/pkgconf/pkgconf: FILELIST: removed "/usr/lib/libpkgconf.so.5 /usr/lib/libpkgconf.so.5.0.0", added "/usr/lib/libpkgconf.so.6 /usr/lib/libpkgconf.so.6.0.0"
-packages/core2-64-poky-linux/pkgconf/pkgconf: PKGV changed from 2.3.0 [default] to 2.4.3 [default]
-packages/core2-64-poky-linux/pkgconf/pkgconf: PV changed from "2.3.0" to "2.4.3"
-Changes to packages/core2-64-poky-linux/pkgconf (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.5.0.0 to libpkgconf.so.6.0.0
-  /usr/lib/libpkgconf.so.5.0.0 moved to /usr/lib/libpkgconf.so.6.0.0
-  /usr/lib/libpkgconf.so.5 moved to /usr/lib/libpkgconf.so.6
-
---===============5833077861335558226==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/pkgconf/pkgconf: FILELIST: removed "/usr/lib/libpkgconf.so.5.0.0 /usr/lib/libpkgconf.so.5", added "/usr/lib/libpkgconf.so.6.0.0 /usr/lib/libpkgconf.so.6"
-Changes to packages/core2-64-poky-linux/pkgconf (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.5.0.0 to libpkgconf.so.6.0.0
-  /usr/lib/libpkgconf.so.5.0.0 moved to /usr/lib/libpkgconf.so.6.0.0
-  /usr/lib/libpkgconf.so.5 moved to /usr/lib/libpkgconf.so.6
-
---===============5833077861335558226==--
+--===============4100450605673882017==--
 
