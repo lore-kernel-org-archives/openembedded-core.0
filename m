@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8CD8C369A2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2BEBC369A6
 	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:31 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.10369.1742048307222181788
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.10365.1742048297131722748
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 07:18:27 -0700
+ Sat, 15 Mar 2025 07:18:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SYnkI30X;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Oxcs47k3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101959a2ba4d4-59a343c8-702d-49e3-939d-8c1a1668f70c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NGTPpcWm;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=PMXv1Awc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101959a2baf20-114a3f16-69db-4cae-86e2-f52ad6bb7416-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742048306;
+	t=1742048309;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7G5aQQ+rdZEaSBKwm1dXA5uPwGz/z7y2jf+jE6vz1wQ=;
-	b=SYnkI30XVHY/l2CZt0lFq0mPj4mdChBMqNRMWYhSseIjnWv28pcZm/PVrgphIhpw
-	JSoU5WmZLiTHeHEEP17tpbgzu+Omg8QGaWZq5S6wAXPcd1Y7PC/ZL8r2bF3cRQkpo09
-	I9GScoIeAOEa9oVqeiR4A2ldDc222+RcjmRebKf4=
+	bh=OG4j4WrBAkEjVME6SPx2Nm1rGn+evO5owGq56d9FzcU=;
+	b=NGTPpcWmnVgn+w+Xd64Q19RkkTt3CUoge5wOQETPOsUhEpPxR0HFoDllD0kME66K
+	LnA9QUrzgXMHAxVxjIxuXhYerwA57L2RNUMGV65p6T7ENE0X5C6NFRS2WxcaqiiWHuL
+	O/5/dePnV+V9lCVjB5VLa8WpksXeeIXZVOxTb2AQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048306;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048309;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7G5aQQ+rdZEaSBKwm1dXA5uPwGz/z7y2jf+jE6vz1wQ=;
-	b=Oxcs47k3oIAxdwkvHs3/cNcg5fLtQppZP3ZsFhADXKsUh8ij1u8f00OzgVPjpIkt
-	v+IDykaVCse5QSdvvAP+L/KD/M6ZYONjB7vLWrS9YrhBOm/ZJ2/n/FS2V5u0QGOxt5D
-	yGu6QW/dxFCjFYwO+/c2xY6PjGd1HIjauK+gp44Y=
-Content-Type: multipart/mixed; boundary="===============3983912747502091945=="
+	bh=OG4j4WrBAkEjVME6SPx2Nm1rGn+evO5owGq56d9FzcU=;
+	b=PMXv1Awca/hWPZzpxe3IkPjxSc0JMaJwVvQeKsphe0sQgh1VRSOK24kwC5uk6kCV
+	ltlQk05AsbZhq0PF8hvg0aOSN7FS5bdQ2v1GSYu56tP2RLm8EYlsfL+WW85PcfdVm1z
+	AcuGHEvreFO6S4nhflukJaxbdDs+k68G1mYAG28c=
+Content-Type: multipart/mixed; boundary="===============0270014427501594102=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] gcr: upgrading to 4.3.1 SUCCEEDED
-Message-ID: <010101959a2ba4d4-59a343c8-702d-49e3-939d-8c1a1668f70c-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Mar 2025 14:18:26 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] cairo: upgrading to 1.18.4 SUCCEEDED
+Message-ID: <010101959a2baf20-114a3f16-69db-4cae-86e2-f52ad6bb7416-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Mar 2025 14:18:29 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.33
+X-SES-Outgoing: 2025.03.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212936
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212945
 
---===============3983912747502091945==
+--===============0270014427501594102==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gcr* to *4.3.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *cairo* to *1.18.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gcr-upgrade-4.3.0-4.3.1.patch
+    - apply the patch: git am 0001-cairo-upgrade-1.18.2-1.18.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,287 +72,173 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 20c44e205d9277dfb0c223438b25de5431019a2a Mon Sep 17 00:00:00 2001
+From 3ae6ba16d050abc0e115318ce7973a99247c4ec1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Mar 2025 11:38:09 +0000
-Subject: [PATCH] gcr: upgrade 4.3.0 -> 4.3.1
+Date: Sat, 15 Mar 2025 11:55:11 +0000
+Subject: [PATCH] cairo: upgrade 1.18.2 -> 1.18.4
 
 ---
- meta/recipes-gnome/gcr/{gcr_4.3.0.bb => gcr_4.3.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gcr/{gcr_4.3.0.bb => gcr_4.3.1.bb} (95%)
+ ...tmap_surface-bsc1036789-CVE-2017-7475.diff | 19 +++++++++++++------
+ .../{cairo_1.18.2.bb => cairo_1.18.4.bb}      |  2 +-
+ 2 files changed, 14 insertions(+), 7 deletions(-)
+ rename meta/recipes-graphics/cairo/{cairo_1.18.2.bb => cairo_1.18.4.bb} (97%)
 
-diff --git a/meta/recipes-gnome/gcr/gcr_4.3.0.bb b/meta/recipes-gnome/gcr/gcr_4.3.1.bb
-similarity index 95%
-rename from meta/recipes-gnome/gcr/gcr_4.3.0.bb
-rename to meta/recipes-gnome/gcr/gcr_4.3.1.bb
-index 3fc8ec0a64..f556376258 100644
---- a/meta/recipes-gnome/gcr/gcr_4.3.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_4.3.1.bb
-@@ -19,7 +19,7 @@ UPSTREAM_CHECK_REGEX = "gcr-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+diff --git a/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff b/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
+index 6c761bf2a7..79ef16dfb9 100644
+--- a/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
++++ b/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
+@@ -1,4 +1,8 @@
+-Cairo: Fix Denial-of-Service Attack due to Logical Problem in Program
++From 054ad9b65e074899c82e75cfc6623cfe29ab1fea Mon Sep 17 00:00:00 2001
++From: Fan Xin <fan.xin@jp.fujitsu.com>
++Date: Tue, 6 Jun 2017 15:57:52 +0900
++Subject: [PATCH] Cairo: Fix Denial-of-Service Attack due to Logical Problem in
++ Program
  
- REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'opengl', '', d)}"
+ https://bugs.freedesktop.org/show_bug.cgi?id=100763
  
--SRC_URI[archive.sha256sum] = "c3ee8728e4364b0397f435fa20f92f901ab139d2b264f4e059d67b3c0f43cd36"
-+SRC_URI[archive.sha256sum] = "b2f070fff1840eef70546a28be80235427c116aadc593b5b68ccc869be3aa09d"
+@@ -6,12 +10,15 @@ CVE: CVE-2017-7475
+ Upstream-Status: Submitted [https://gitlab.freedesktop.org/cairo/cairo/-/issues/80]
  
- PACKAGECONFIG ??= " \
- 	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+ Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++---
++ src/cairo-ft-font.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-Index: cairo-1.15.4/src/cairo-ft-font.c
+-===================================================================
+---- cairo-1.15.4.orig/src/cairo-ft-font.c
+-+++ cairo-1.15.4/src/cairo-ft-font.c
+-@@ -1149,7 +1149,7 @@ _get_bitmap_surface (FT_Bitmap		     *bi
++diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
++index b5d08ee..5e20ae1 100644
++--- a/src/cairo-ft-font.c
+++++ b/src/cairo-ft-font.c
++@@ -1220,7 +1220,7 @@ _get_bitmap_surface (FT_Bitmap		     *bitmap,
+      width = bitmap->width;
+      height = bitmap->rows;
+  
+diff --git a/meta/recipes-graphics/cairo/cairo_1.18.2.bb b/meta/recipes-graphics/cairo/cairo_1.18.4.bb
+similarity index 97%
+rename from meta/recipes-graphics/cairo/cairo_1.18.2.bb
+rename to meta/recipes-graphics/cairo/cairo_1.18.4.bb
+index 65ee310212..81c7aa66f0 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.18.2.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.18.4.bb
+@@ -32,7 +32,7 @@ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+            file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \
+           "
+ 
+-SRC_URI[sha256sum] = "a62b9bb42425e844cc3d6ddde043ff39dbabedd1542eba57a2eb79f85889d45a"
++SRC_URI[sha256sum] = "445ed8208a6e4823de1226a74ca319d3600e83f6369f99b14265006599c32ccb"
+ 
+ inherit meson pkgconfig upstream-version-is-even gtk-doc multilib_script
+ 
 -- 
 2.44.1
 
 
---===============3983912747502091945==
+--===============0270014427501594102==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-gcr-upgrade-4.3.0-4.3.1.patch"
+Content-Disposition: attachment;
+ filename="0001-cairo-upgrade-1.18.2-1.18.4.patch"
 
-RnJvbSAyMGM0NGUyMDVkOTI3N2RmYjBjMjIzNDM4YjI1ZGU1NDMxMDE5YTJhIE1vbiBTZXAgMTcg
+RnJvbSAzYWU2YmExNmQwNTBhYmMwZTExNTMxOGNlNzk3M2E5OTI0N2M0ZWMxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMTE6Mzg6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-Y3I6IHVwZ3JhZGUgNC4zLjAgLT4gNC4zLjEKCi0tLQogbWV0YS9yZWNpcGVzLWdub21lL2djci97
-Z2NyXzQuMy4wLmJiID0+IGdjcl80LjMuMS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZ2Ny
-L3tnY3JfNC4zLjAuYmIgPT4gZ2NyXzQuMy4xLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1nbm9tZS9nY3IvZ2NyXzQuMy4wLmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2djci9n
-Y3JfNC4zLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWdub21lL2djci9nY3JfNC4zLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1nbm9tZS9nY3Iv
-Z2NyXzQuMy4xLmJiCmluZGV4IDNmYzhlYzBhNjQuLmY1NTYzNzYyNTggMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1nbm9tZS9nY3IvZ2NyXzQuMy4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9t
-ZS9nY3IvZ2NyXzQuMy4xLmJiCkBAIC0xOSw3ICsxOSw3IEBAIFVQU1RSRUFNX0NIRUNLX1JFR0VY
-ID0gImdjci0oP1A8cHZlcj5cZCtcLlxkK1wuKD8hOVxkKylcZCspIgogCiBSRVFVSVJFRF9ESVNU
-Uk9fRkVBVFVSRVMgPSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICd4
-MTEnLCAnb3BlbmdsJywgJycsIGQpfSIKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAi
-YzNlZTg3MjhlNDM2NGIwMzk3ZjQzNWZhMjBmOTJmOTAxYWIxMzlkMmIyNjRmNGUwNTlkNjdiM2Mw
-ZjQzY2QzNiIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImIyZjA3MGZmZjE4NDBlZWY3
-MDU0NmEyOGJlODAyMzU0MjdjMTE2YWFkYzU5M2I1YjY4Y2NjODY5YmUzYWEwOWQiCiAKIFBBQ0tB
-R0VDT05GSUcgPz89ICIgXAogCSR7QGJiLnV0aWxzLmZpbHRlcignRElTVFJPX0ZFQVRVUkVTJywg
-J3N5c3RlbWQnLCBkKX0gXAotLSAKMi40NC4xCgo=
+CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMTE6NTU6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+YWlybzogdXBncmFkZSAxLjE4LjIgLT4gMS4xOC40CgotLS0KIC4uLnRtYXBfc3VyZmFjZS1ic2Mx
+MDM2Nzg5LUNWRS0yMDE3LTc0NzUuZGlmZiB8IDE5ICsrKysrKysrKysrKystLS0tLS0KIC4uLi97
+Y2Fpcm9fMS4xOC4yLmJiID0+IGNhaXJvXzEuMTguNC5iYn0gICAgICB8ICAyICstCiAyIGZpbGVz
+IGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL2NhaXJvL3tjYWlyb18xLjE4LjIuYmIgPT4gY2Fpcm9fMS4xOC40LmJi
+fSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9jYWlyby9jYWlyby9j
+YWlyby1nZXRfYml0bWFwX3N1cmZhY2UtYnNjMTAzNjc4OS1DVkUtMjAxNy03NDc1LmRpZmYgYi9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvY2Fpcm8vY2Fpcm8vY2Fpcm8tZ2V0X2JpdG1hcF9zdXJmYWNl
+LWJzYzEwMzY3ODktQ1ZFLTIwMTctNzQ3NS5kaWZmCmluZGV4IDZjNzYxYmYyYTcuLjc5ZWYxNmRm
+YjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9jYWlyby9jYWlyby9jYWlyby1n
+ZXRfYml0bWFwX3N1cmZhY2UtYnNjMTAzNjc4OS1DVkUtMjAxNy03NDc1LmRpZmYKKysrIGIvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL2NhaXJvL2NhaXJvL2NhaXJvLWdldF9iaXRtYXBfc3VyZmFjZS1i
+c2MxMDM2Nzg5LUNWRS0yMDE3LTc0NzUuZGlmZgpAQCAtMSw0ICsxLDggQEAKLUNhaXJvOiBGaXgg
+RGVuaWFsLW9mLVNlcnZpY2UgQXR0YWNrIGR1ZSB0byBMb2dpY2FsIFByb2JsZW0gaW4gUHJvZ3Jh
+bQorRnJvbSAwNTRhZDliNjVlMDc0ODk5YzgyZTc1Y2ZjNjYyM2NmZTI5YWIxZmVhIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQorRnJvbTogRmFuIFhpbiA8ZmFuLnhpbkBqcC5mdWppdHN1LmNvbT4K
+K0RhdGU6IFR1ZSwgNiBKdW4gMjAxNyAxNTo1Nzo1MiArMDkwMAorU3ViamVjdDogW1BBVENIXSBD
+YWlybzogRml4IERlbmlhbC1vZi1TZXJ2aWNlIEF0dGFjayBkdWUgdG8gTG9naWNhbCBQcm9ibGVt
+IGluCisgUHJvZ3JhbQogCiBodHRwczovL2J1Z3MuZnJlZWRlc2t0b3Aub3JnL3Nob3dfYnVnLmNn
+aT9pZD0xMDA3NjMKIApAQCAtNiwxMiArMTAsMTUgQEAgQ1ZFOiBDVkUtMjAxNy03NDc1CiBVcHN0
+cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2Nh
+aXJvL2NhaXJvLy0vaXNzdWVzLzgwXQogCiBTaWduZWQtb2ZmLWJ5OiBGYW4gWGluIDxmYW4ueGlu
+QGpwLmZ1aml0c3UuY29tPgorLS0tCisgc3JjL2NhaXJvLWZ0LWZvbnQuYyB8IDIgKy0KKyAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAotSW5kZXg6IGNhaXJv
+LTEuMTUuNC9zcmMvY2Fpcm8tZnQtZm9udC5jCi09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tLS0gY2Fpcm8tMS4xNS40
+Lm9yaWcvc3JjL2NhaXJvLWZ0LWZvbnQuYwotKysrIGNhaXJvLTEuMTUuNC9zcmMvY2Fpcm8tZnQt
+Zm9udC5jCi1AQCAtMTE0OSw3ICsxMTQ5LDcgQEAgX2dldF9iaXRtYXBfc3VyZmFjZSAoRlRfQml0
+bWFwCQkgICAgICpiaQorZGlmZiAtLWdpdCBhL3NyYy9jYWlyby1mdC1mb250LmMgYi9zcmMvY2Fp
+cm8tZnQtZm9udC5jCitpbmRleCBiNWQwOGVlLi41ZTIwYWUxIDEwMDY0NAorLS0tIGEvc3JjL2Nh
+aXJvLWZ0LWZvbnQuYworKysrIGIvc3JjL2NhaXJvLWZ0LWZvbnQuYworQEAgLTEyMjAsNyArMTIy
+MCw3IEBAIF9nZXRfYml0bWFwX3N1cmZhY2UgKEZUX0JpdG1hcAkJICAgICAqYml0bWFwLAogICAg
+ICB3aWR0aCA9IGJpdG1hcC0+d2lkdGg7CiAgICAgIGhlaWdodCA9IGJpdG1hcC0+cm93czsKICAK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9jYWlyby9jYWlyb18xLjE4LjIuYmIg
+Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvY2Fpcm8vY2Fpcm9fMS4xOC40LmJiCnNpbWlsYXJpdHkg
+aW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9jYWlyby9jYWlyb18x
+LjE4LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9jYWlyby9jYWlyb18xLjE4
+LjQuYmIKaW5kZXggNjVlZTMxMDIxMi4uODFjN2FhNjZmMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL2NhaXJvL2NhaXJvXzEuMTguMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvY2Fpcm8vY2Fpcm9fMS4xOC40LmJiCkBAIC0zMiw3ICszMiw3IEBAIFNSQ19VUkkgPSAi
+aHR0cDovL2NhaXJvZ3JhcGhpY3Mub3JnL3JlbGVhc2VzL2NhaXJvLSR7UFZ9LnRhci54eiBcCiAg
+ICAgICAgICAgIGZpbGU6Ly9jYWlyby1nZXRfYml0bWFwX3N1cmZhY2UtYnNjMTAzNjc4OS1DVkUt
+MjAxNy03NDc1LmRpZmYgXAogICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImE2
+MmI5YmI0MjQyNWU4NDRjYzNkNmRkZGUwNDNmZjM5ZGJhYmVkZDE1NDJlYmE1N2EyZWI3OWY4NTg4
+OWQ0NWEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDQ1ZWQ4MjA4YTZlNDgyM2RlMTIyNmE3NGNh
+MzE5ZDM2MDBlODNmNjM2OWY5OWIxNDI2NTAwNjU5OWMzMmNjYiIKIAogaW5oZXJpdCBtZXNvbiBw
+a2djb25maWcgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGd0ay1kb2MgbXVsdGlsaWJfc2NyaXB0
+CiAKLS0gCjIuNDQuMQoK
 
---===============3983912747502091945==
+--===============0270014427501594102==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gcr/gcr-dbg: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-dbg: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-dbg: PKGSIZE changed from 2617696 to 2618520 (+0%)
-packages/core2-64-poky-linux/gcr/gcr-dbg: FILELIST: removed "/usr/lib/.debug/libgck-2.so.2.3.0 /usr/lib/.debug/libgcr-4.so.4.3.0", added "/usr/lib/.debug/libgck-2.so.2.3.1 /usr/lib/.debug/libgcr-4.so.4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-dev: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-dev: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-dev: PKGSIZE changed from 1164540 to 1164828 (+0%)
-packages/core2-64-poky-linux/gcr/gcr-doc: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-doc: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ab: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ab: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-af: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-af: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ar: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ar: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-as: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-as: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ast: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ast: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-az: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-az: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-be+latin: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-be+latin: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-be: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-be: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-bg: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-bg: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-bn-in: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-bn-in: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-bn: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-bn: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-bs: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-bs: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ca+valencia: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ca+valencia: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ca: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ca: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ckb: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ckb: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-cs: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-cs: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-cy: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-cy: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-da: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-da: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-de: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-de: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-dz: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-dz: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-el: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-el: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-el: PKGSIZE changed from 21945 to 14731 (-33%)
-packages/core2-64-poky-linux/gcr/gcr-locale-en+shaw: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-en+shaw: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-en-ca: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-en-ca: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-en-gb: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-en-gb: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-en-gb: PKGSIZE changed from 11224 to 11218 (-0%)
-packages/core2-64-poky-linux/gcr/gcr-locale-eo: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-eo: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-es: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-es: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-et: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-et: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-eu: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-eu: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-fa: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-fa: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-fi: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-fi: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-fr: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-fr: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-fur: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-fur: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ga: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ga: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-gl: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-gl: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-gu: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-gu: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-he: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-he: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-hi: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-hi: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-hi: PKGSIZE changed from 22002 to 15935 (-28%)
-packages/core2-64-poky-linux/gcr/gcr-locale-hr: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-hr: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-hu: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-hu: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-id: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-id: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ie: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ie: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-is: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-is: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-it: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-it: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ja: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ja: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ka: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ka: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-kab: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-kab: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-kab: PKGSIZE changed from 4213 to 6402 (+52%)
-packages/core2-64-poky-linux/gcr/gcr-locale-kk: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-kk: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-kn: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-kn: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ko: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ko: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-lt: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-lt: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-lv: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-lv: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-mai: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-mai: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-mg: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-mg: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-mk: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-mk: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ml: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ml: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-mn: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-mn: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-mr: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-mr: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ms: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ms: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-nb: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-nb: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ne: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ne: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ne: PKGSIZE changed from 13348 to 16449 (+23%)
-packages/core2-64-poky-linux/gcr/gcr-locale-nl: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-nl: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-nn: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-nn: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-oc: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-oc: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-or: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-or: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-pa: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-pa: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-pl: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-pl: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-pt-br: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-pt-br: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-pt: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-pt: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ro: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ro: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ru: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ru: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-rw: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-rw: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-si: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-si: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-sk: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-sk: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-sk: PKGSIZE changed from 18051 to 11805 (-35%)
-packages/core2-64-poky-linux/gcr/gcr-locale-sl: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-sl: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-sq: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-sq: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-sr+latin: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-sr+latin: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-sr+latin: PKGSIZE changed from 15805 to 11493 (-27%)
-packages/core2-64-poky-linux/gcr/gcr-locale-sr: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-sr: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-sr: PKGSIZE changed from 11507 to 14045 (+22%)
-packages/core2-64-poky-linux/gcr/gcr-locale-sv: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-sv: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ta: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ta: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-te: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-te: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-tg: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-tg: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-th: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-th: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-tr: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-tr: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-ug: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-ug: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-uk: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-uk: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-vi: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-vi: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-xh: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-xh: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-zh-cn: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-zh-cn: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-zh-hk: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-zh-hk: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-locale-zh-tw: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-locale-zh-tw: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-src: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-src: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr-src: PKGSIZE changed from 1828826 to 1831074 (+0%)
-packages/core2-64-poky-linux/gcr/gcr-src: FILELIST: directory renamed /usr/src/debug/gcr/4.3.0/gcr -> /usr/src/debug/gcr/4.3.1/gcr, directory renamed /usr/src/debug/gcr/4.3.0/tools/viewer -> /usr/src/debug/gcr/4.3.1/tools/viewer, directory renamed /usr/src/debug/gcr/4.3.0/gck -> /usr/src/debug/gcr/4.3.1/gck, removed "/usr/src/debug/gcr/4.3.0/egg/egg-dn.h /usr/src/debug/gcr/4.3.0/egg/egg-openssl.h /usr/src/debug/gcr/4.3.0/egg/egg-padding.h /usr/src/debug/gcr/4.3.0/egg/egg-decimal.h /usr/src/debug/gcr/4.3.0/egg/egg-hex.c /usr/src/debug/gcr/4.3.0/egg/egg-dn.c /usr/src/debug/gcr/4.3.0/egg/egg-hex.h /usr/src/debug/gcr/4.3.0/egg/egg-decimal.c /usr/src/debug/gcr/4.3.0/egg/egg-openssl.c /usr/src/debug/gcr/4.3.0/egg/egg-padding.c /usr/src/debug/gcr/4.3.0/egg/egg-secure-memory.c /usr/src/debug/gcr/4.3.0/egg/egg-dh.h /usr/src/debug/gcr/4.3.0/egg/egg-error.h /usr/src/debug/gcr/4.3.0/egg/egg-dh.c /usr/src/debug/gcr/4.3.0/egg/egg-secure-memory.h /usr/src/debug/gcr/4.3.0/egg/egg-hkdf-libgcrypt.c /u
- sr/src/debug/gcr/4.3.0/egg/egg-armor.c /usr/src/debug/gcr/4.3.0/egg/egg-libgcrypt.c /usr/src/debug/gcr/4.3.0/egg/egg-oid.c /usr/src/debug/gcr/4.3.0/egg/egg-armor.h /usr/src/debug/gcr/4.3.0/egg/pk.asn.h /usr/src/debug/gcr/4.3.0/egg/egg-libgcrypt.h /usr/src/debug/gcr/4.3.0/egg/egg-oid.h /usr/src/debug/gcr/4.3.0/egg/egg-buffer.c /usr/src/debug/gcr/4.3.0/egg/egg-symkey.c /usr/src/debug/gcr/4.3.0/egg/egg-dh-libgcrypt.c /usr/src/debug/gcr/4.3.0/egg/egg-crypto.h /usr/src/debug/gcr/4.3.0/egg/egg-buffer.h /usr/src/debug/gcr/4.3.0/egg/egg-symkey.h /usr/src/debug/gcr/4.3.0/egg/egg-asn1x.c /usr/src/debug/gcr/4.3.0/egg/egg-asn1-defs.h /usr/src/debug/gcr/4.3.0/egg/egg-asn1x.h /usr/src/debug/gcr/4.3.0/egg/egg-crypto-libgcrypt.c /usr/src/debug/gcr/4.3.0/egg/egg-hkdf.h /usr/src/debug/gcr/4.3.0/egg/pkix.asn.h", added "/usr/src/debug/gcr/4.3.1/egg/egg-dn.h /usr/src/debug/gcr/4.3.1/egg/egg-openssl.h /usr/src/debug/gcr/4.3.1/egg/egg-padding.h /usr/src/debug/gcr/4.3.1/egg/egg-decimal.h /usr/src/debug/gcr
- /4.3.1/egg/egg-hex.c /usr/src/debug/gcr/4.3.1/egg/egg-dn.c /usr/src/debug/gcr/4.3.1/egg/egg-hex.h /usr/src/debug/gcr/4.3.1/egg/egg-decimal.c /usr/src/debug/gcr/4.3.1/egg/egg-openssl.c /usr/src/debug/gcr/4.3.1/egg/egg-padding.c /usr/src/debug/gcr/4.3.1/egg/egg-secure-memory.c /usr/src/debug/gcr/4.3.1/egg/egg-dh.h /usr/src/debug/gcr/4.3.1/egg/egg-error.h /usr/src/debug/gcr/4.3.1/egg/egg-dh.c /usr/src/debug/gcr/4.3.1/egg/egg-secure-memory.h /usr/src/debug/gcr/4.3.1/egg/egg-fips-libgcrypt.c /usr/src/debug/gcr/4.3.1/egg/egg-hkdf-libgcrypt.c /usr/src/debug/gcr/4.3.1/egg/egg-armor.c /usr/src/debug/gcr/4.3.1/egg/egg-libgcrypt.c /usr/src/debug/gcr/4.3.1/egg/egg-oid.c /usr/src/debug/gcr/4.3.1/egg/egg-armor.h /usr/src/debug/gcr/4.3.1/egg/pk.asn.h /usr/src/debug/gcr/4.3.1/egg/egg-libgcrypt.h /usr/src/debug/gcr/4.3.1/egg/egg-oid.h /usr/src/debug/gcr/4.3.1/egg/egg-buffer.c /usr/src/debug/gcr/4.3.1/egg/egg-symkey.c /usr/src/debug/gcr/4.3.1/egg/egg-dh-libgcrypt.c /usr/src/debug/gcr/4.3.1/egg/egg-cr
- ypto.h /usr/src/debug/gcr/4.3.1/egg/egg-buffer.h /usr/src/debug/gcr/4.3.1/egg/egg-symkey.h /usr/src/debug/gcr/4.3.1/egg/egg-asn1x.c /usr/src/debug/gcr/4.3.1/egg/egg-asn1-defs.h /usr/src/debug/gcr/4.3.1/egg/egg-asn1x.h /usr/src/debug/gcr/4.3.1/egg/egg-crypto-libgcrypt.c /usr/src/debug/gcr/4.3.1/egg/egg-fips.h /usr/src/debug/gcr/4.3.1/egg/egg-hkdf.h /usr/src/debug/gcr/4.3.1/egg/pkix.asn.h"
-packages/core2-64-poky-linux/gcr/gcr-staticdev: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr-staticdev: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr: PV changed from "4.3.0" to "4.3.1"
-packages/core2-64-poky-linux/gcr/gcr: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr/gcr: FILELIST: removed "/usr/lib/libgcr-4.so.4.3.0 /usr/lib/libgck-2.so.2.3.0", added "/usr/lib/libgcr-4.so.4.3.1 /usr/lib/libgck-2.so.2.3.1"
-packages/core2-64-poky-linux/gcr: SRC_URI changed from "https://download.gnome.org/sources//gcr/4.3/gcr-4.3.0.tar.xz;name=archive" to "https://download.gnome.org/sources//gcr/4.3/gcr-4.3.1.tar.xz;name=archive"
-packages/core2-64-poky-linux/gcr: PKGV changed from 4.3.0 [default] to 4.3.1 [default]
-packages/core2-64-poky-linux/gcr: PV changed from "4.3.0" to "4.3.1"
-Changes to packages/core2-64-poky-linux/gcr (sysroot):
-  /usr/lib/libgck-2.so.2 changed symlink target from libgck-2.so.2.3.0 to libgck-2.so.2.3.1
-  /usr/lib/libgcr-4.so.4 changed symlink target from libgcr-4.so.4.3.0 to libgcr-4.so.4.3.1
-  /usr/lib/libgck-2.so.2.3.0 moved to /usr/lib/libgck-2.so.2.3.1
-  /usr/lib/libgcr-4.so.4.3.0 moved to /usr/lib/libgcr-4.so.4.3.1
+packages/core2-64-poky-linux/cairo/cairo-dbg: PKGSIZE changed from 6631712 to 6631832 (+0%)
+packages/core2-64-poky-linux/cairo/cairo-dbg: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo/cairo-dbg: FILELIST: removed "/usr/lib/.debug/libcairo.so.2.11802.2 /usr/lib/.debug/libcairo-gobject.so.2.11802.2 /usr/lib/.debug/libcairo-script-interpreter.so.2.11802.2", added "/usr/lib/.debug/libcairo.so.2.11804.4 /usr/lib/.debug/libcairo-gobject.so.2.11804.4 /usr/lib/.debug/libcairo-script-interpreter.so.2.11804.4"
+packages/core2-64-poky-linux/cairo/cairo-dbg: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+packages/core2-64-poky-linux/cairo/cairo-dev: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo/cairo-dev: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+packages/core2-64-poky-linux/cairo/cairo-doc: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo/cairo-doc: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+packages/core2-64-poky-linux/cairo/cairo-gobject: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo/cairo-gobject: FILELIST: removed "/usr/lib/libcairo-gobject.so.2.11802.2", added "/usr/lib/libcairo-gobject.so.2.11804.4"
+packages/core2-64-poky-linux/cairo/cairo-gobject: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+packages/core2-64-poky-linux/cairo/cairo-locale: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo/cairo-locale: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+packages/core2-64-poky-linux/cairo/cairo-perf-utils: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo/cairo-perf-utils: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+packages/core2-64-poky-linux/cairo/cairo-script-interpreter: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo/cairo-script-interpreter: FILELIST: removed "/usr/lib/libcairo-script-interpreter.so.2.11802.2", added "/usr/lib/libcairo-script-interpreter.so.2.11804.4"
+packages/core2-64-poky-linux/cairo/cairo-script-interpreter: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+packages/core2-64-poky-linux/cairo/cairo-src: PKGSIZE changed from 5912873 to 5912961 (+0%)
+packages/core2-64-poky-linux/cairo/cairo-src: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo/cairo-src: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+packages/core2-64-poky-linux/cairo/cairo-staticdev: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo/cairo-staticdev: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+packages/core2-64-poky-linux/cairo/cairo: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo/cairo: FILELIST: removed "/usr/lib/libcairo.so.2.11802.2", added "/usr/lib/libcairo.so.2.11804.4"
+packages/core2-64-poky-linux/cairo/cairo: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+packages/core2-64-poky-linux/cairo: PV changed from "1.18.2" to "1.18.4"
+packages/core2-64-poky-linux/cairo: SRC_URI changed from "http://cairographics.org/releases/cairo-1.18.2.tar.xz file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff" to "http://cairographics.org/releases/cairo-1.18.4.tar.xz file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff"
+packages/core2-64-poky-linux/cairo: PKGV changed from 1.18.2 [default] to 1.18.4 [default]
+Changes to packages/core2-64-poky-linux/cairo (sysroot):
+  /usr/lib/libcairo-gobject.so.2 changed symlink target from libcairo-gobject.so.2.11802.2 to libcairo-gobject.so.2.11804.4
+  /usr/lib/libcairo-script-interpreter.so.2 changed symlink target from libcairo-script-interpreter.so.2.11802.2 to libcairo-script-interpreter.so.2.11804.4
+  /usr/lib/libcairo.so.2 changed symlink target from libcairo.so.2.11802.2 to libcairo.so.2.11804.4
+  /usr/lib/libcairo-gobject.so.2.11802.2 moved to /usr/lib/libcairo-gobject.so.2.11804.4
+  /usr/lib/libcairo-script-interpreter.so.2.11802.2 moved to /usr/lib/libcairo-script-interpreter.so.2.11804.4
+  /usr/lib/libcairo.so.2.11802.2 moved to /usr/lib/libcairo.so.2.11804.4
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1859,25 +1745,22 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============3983912747502091945==
+--===============0270014427501594102==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/gcr/gcr-locale-el: PKGSIZE changed from 21945 to 14731 (-33%)
-packages/core2-64-poky-linux/gcr/gcr-locale-hi: PKGSIZE changed from 22002 to 15935 (-28%)
-packages/core2-64-poky-linux/gcr/gcr-locale-kab: PKGSIZE changed from 4213 to 6402 (+52%)
-packages/core2-64-poky-linux/gcr/gcr-locale-ne: PKGSIZE changed from 13348 to 16449 (+23%)
-packages/core2-64-poky-linux/gcr/gcr-locale-sk: PKGSIZE changed from 18051 to 11805 (-35%)
-packages/core2-64-poky-linux/gcr/gcr-locale-sr+latin: PKGSIZE changed from 15805 to 11493 (-27%)
-packages/core2-64-poky-linux/gcr/gcr-locale-sr: PKGSIZE changed from 11507 to 14045 (+22%)
-packages/core2-64-poky-linux/gcr/gcr: FILELIST: removed "/usr/lib/libgck-2.so.2.3.0 /usr/lib/libgcr-4.so.4.3.0", added "/usr/lib/libgck-2.so.2.3.1 /usr/lib/libgcr-4.so.4.3.1"
-Changes to packages/core2-64-poky-linux/gcr (sysroot):
-  /usr/lib/libgck-2.so.2 changed symlink target from libgck-2.so.2.3.0 to libgck-2.so.2.3.1
-  /usr/lib/libgcr-4.so.4 changed symlink target from libgcr-4.so.4.3.0 to libgcr-4.so.4.3.1
-  /usr/lib/libgck-2.so.2.3.0 moved to /usr/lib/libgck-2.so.2.3.1
-  /usr/lib/libgcr-4.so.4.3.0 moved to /usr/lib/libgcr-4.so.4.3.1
+packages/core2-64-poky-linux/cairo/cairo-gobject: FILELIST: removed "/usr/lib/libcairo-gobject.so.2.11802.2", added "/usr/lib/libcairo-gobject.so.2.11804.4"
+packages/core2-64-poky-linux/cairo/cairo-script-interpreter: FILELIST: removed "/usr/lib/libcairo-script-interpreter.so.2.11802.2", added "/usr/lib/libcairo-script-interpreter.so.2.11804.4"
+packages/core2-64-poky-linux/cairo/cairo: FILELIST: removed "/usr/lib/libcairo.so.2.11802.2", added "/usr/lib/libcairo.so.2.11804.4"
+Changes to packages/core2-64-poky-linux/cairo (sysroot):
+  /usr/lib/libcairo-gobject.so.2 changed symlink target from libcairo-gobject.so.2.11802.2 to libcairo-gobject.so.2.11804.4
+  /usr/lib/libcairo-script-interpreter.so.2 changed symlink target from libcairo-script-interpreter.so.2.11802.2 to libcairo-script-interpreter.so.2.11804.4
+  /usr/lib/libcairo.so.2 changed symlink target from libcairo.so.2.11802.2 to libcairo.so.2.11804.4
+  /usr/lib/libcairo-gobject.so.2.11802.2 moved to /usr/lib/libcairo-gobject.so.2.11804.4
+  /usr/lib/libcairo-script-interpreter.so.2.11802.2 moved to /usr/lib/libcairo-script-interpreter.so.2.11804.4
+  /usr/lib/libcairo.so.2.11802.2 moved to /usr/lib/libcairo.so.2.11804.4
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3384,5 +3267,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============3983912747502091945==--
+--===============0270014427501594102==--
 
