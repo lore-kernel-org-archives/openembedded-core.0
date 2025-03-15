@@ -1,100 +1,172 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8B44C28B28
-	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 17:16:45 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.13865.1742058997669147822
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 601A0C28B28
+	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 19:44:06 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.16543.1742067843055306817
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 10:16:37 -0700
+ Sat, 15 Mar 2025 12:44:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=g8dUGoPg;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=KQOs4wZD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101959acec3a2-7a0046d8-8e74-4616-9b1b-a16798ebfdf6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742058996; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=hAASZd8pyq2HFoAH5y8XluUAyGP9T/8MR7uQhfyZe2Y=;
-	b=g8dUGoPgruwbWp9m4/pXby+pp3XItTKncQBeCWXx3YJhMntdBRVvQqROH9j28s6v
-	Ip5m1kDIw19GcQjnzb+WY3QW4wnQnFdFwsRr3aQ2/y4P/PuveLFJphn9fflxOQP7PXP
-	+ok8LpGzrNVA2nqfNkfjvR0BJjvnR7iW38sAwkXc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742058996;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=hAASZd8pyq2HFoAH5y8XluUAyGP9T/8MR7uQhfyZe2Y=;
-	b=KQOs4wZDoUjQNSHgfshJEeV9K6DucaDI5Ri2NPDnbpjkcXClcedYz9p84TFNHV/R
-	eC6IYFw+wQH4KM7YUbSb9xm4EK91pbOd6x4WKurfFNBojfjsErbUKtmASqmWmJ6OLlS
-	XAsJwSp7vlYLTWE7MoMMdFnq9yBBP6QNWU1BihXo=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] gmp: Fix build with GCC15/C23
-In-Reply-To: <20250315170523.2522104-1-raj.khem@gmail.com>
-References: <20250315170523.2522104-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101959acec3a2-7a0046d8-8e74-4616-9b1b-a16798ebfdf6-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Mar 2025 17:16:36 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.193
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UytpoN9l;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-224341bbc1dso59727715ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 12:44:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742067842; x=1742672642; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nu0E30Kp5tLz6qf7vk9ya3rVu9ij5X8LQH6kJb0G/fs=;
+        b=UytpoN9lfqfvgUezU8G+ZRXYbazrqBCD7vsV3r0KZc4WrG0U+JSEnp4I3mWJXB/gnU
+         vSyWuZ4S7Rxqv7l0aHPEVS4lnno2JuqN1Z3gxUP6nUP8FLyFmcR32L9IbD0yjcG5dr65
+         NGmp+Z2Hoyl2HlE1l728ZG91XC1L6N81268TOMzblEmlTaL/1X5s/qK69Stoo8o73hw5
+         gvFZkwMyRzO6AEj7Y/CNYm/MSUjcddOgmebFPlJrd9NGXSG1Vo+lk8b21B4aNzLExhsr
+         tBHr8VSIaxeudnIQm1CnXKnhwh0Ka9DSKan7l8SlQzHpzVKB8v+NpeDrGHsavENYPEtB
+         LFMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742067842; x=1742672642;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Nu0E30Kp5tLz6qf7vk9ya3rVu9ij5X8LQH6kJb0G/fs=;
+        b=Ud013uXNM8cEl5mx6u4RAqieKTDD8TieH5UHdbhO4UuOoc7I5qpLRct9EA0pbz+wc/
+         hbJ3Rkk5xPTiiXh+AK93BfENOsHzEu1mm5l2othxfNpXFK2Q7MvXjzR2/I4pgbq+T+G2
+         0a9EilhhS30V4FKXNIqqgYWqj5qZQ2AEM98Bhb5o0KRDRqJs7WJgAFXhaUjI1G3msjm1
+         V2gE1tdShpijrRRwOtXceF5vtnELMInV0omT/DqXnX3l6MzKw1RPTTQLRosFHk0Edezy
+         kMFhpwOlLwwROatfjx9bVeBYx1bxYC/de6P0fjbF5lQiYrx97jjGgkGP6CK5orLzdV9e
+         Ub1Q==
+X-Gm-Message-State: AOJu0Yx7FwSyvEOI9G2YBk1mzGUY7tnsGQ+I7rrdzW62++q3YKmWUMkI
+	//jj7a80SmUElc/0D9wYpfxXhaWokPL/nsOKGj6FHFPNHrhF3NEsztp6JhTw
+X-Gm-Gg: ASbGnct1HNnan7n6FnwdpdfTLi6P+zrzPnZfz4n3YvO/YWsS/Y2vzZsm2tqZNyrR8A8
+	GglnhU0Af2eNlAhyI5Wxs3nTzdh2Hj1bdXhb1LJ5rLtHZUwtWtkefOuv6nzL0dEmFhbGokdrXMk
+	whyhcpQUYxnlApv4cd64wQqvqbJ3Jr4Bieiq10Wmt3rrJlJAUOvc1P9rCP3OGa09XMQYld2JRlk
+	O5CDkQWsB0MdKJGCfI6W2evkhHHsr/U3yqgUAWg+oSeuL2zsUeDERi65wP5VhMRbXVYq1umQIo2
+	HjrCJ8exSGw9Cgoac5ucOv0ZnHNEtTF5PxUieDSUlrho4jA=
+X-Google-Smtp-Source: AGHT+IEJLkvD90IFKSjAX4oCKje2gwqb8WXCkNz9myS7mDgujg7yURl95Y9iVHb8pBJ+zlm/YYOn5Q==
+X-Received: by 2002:a17:903:f86:b0:220:c4e8:3b9f with SMTP id d9443c01a7336-225e08605f9mr81944725ad.0.1742067842040;
+        Sat, 15 Mar 2025 12:44:02 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba740bsm47489195ad.122.2025.03.15.12.44.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Mar 2025 12:44:01 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] ppp: Replace K&R style C declarations
+Date: Sat, 15 Mar 2025 12:43:57 -0700
+Message-ID: <20250315194358.3962845-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.48.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 17:16:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212983
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 19:44:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212984
 
---NextPart
-Content-Type: text/plain
+GCC uses C23 standard by default which does not allow
+K&R style declarations
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-gmp-Fix-build-with-GCC15-C23.patch
+ ...pdump-Fixed-building-with-GCC-15-548.patch | 75 +++++++++++++++++++
+ meta/recipes-connectivity/ppp/ppp_2.5.2.bb    |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-building-with-GCC-15-548.patch
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-building-with-GCC-15-548.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-building-with-GCC-15-548.patch
+new file mode 100644
+index 00000000000..2a3b3cc84ab
+--- /dev/null
++++ b/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-building-with-GCC-15-548.patch
+@@ -0,0 +1,75 @@
++From 44a766a3d086f10cb584a0c423e5bed6af2e3615 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Jaroslav=20=C5=A0karvada?= <jskarvad@redhat.com>
++Date: Thu, 27 Feb 2025 23:00:16 +0100
++Subject: [PATCH] pppdump: Fixed building with GCC 15 (#548)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++GCC 15 defaults to C23 which does not allow K&R declarations.
++
++Credit Yaakov Selkowitz in:
++https://src.fedoraproject.org/rpms/ppp/pull-request/12
++
++Upstream-Status: Backport [https://github.com/ppp-project/ppp/pull/548]
++
++Signed-off-by: Jaroslav Škarvada <jskarvad@redhat.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ pppdump/pppdump.c | 20 +++++++-------------
++ 1 file changed, 7 insertions(+), 13 deletions(-)
++
++diff --git a/pppdump/pppdump.c b/pppdump/pppdump.c
++index c24208a..1534036 100644
++--- a/pppdump/pppdump.c
+++++ b/pppdump/pppdump.c
++@@ -42,14 +42,12 @@ int tot_sent, tot_rcvd;
++ extern int optind;
++ extern char *optarg;
++ 
++-void dumplog();
++-void dumpppp();
++-void show_time();
+++void dumplog(FILE *);
+++void dumpppp(FILE *);
+++void show_time(FILE *, int);
++ 
++ int
++-main(ac, av)
++-    int ac;
++-    char **av;
+++main(int ac, char **av)
++ {
++     int i;
++     char *p;
++@@ -97,8 +95,7 @@ main(ac, av)
++ }
++ 
++ void
++-dumplog(f)
++-    FILE *f;
+++dumplog(FILE *f)
++ {
++     int c, n, k, col;
++     int nb, c2;
++@@ -241,8 +238,7 @@ struct pkt {
++ unsigned char dbuf[8192];
++ 
++ void
++-dumpppp(f)
++-    FILE *f;
+++dumpppp(FILE *f)
++ {
++     int c, n, k;
++     int nb, nl, dn, proto, rv;
++@@ -375,9 +371,7 @@ dumpppp(f)
++ }
++ 
++ void
++-show_time(f, c)
++-    FILE *f;
++-    int c;
+++show_time(FILE *f, int c)
++ {
++     time_t t;
++     int n;
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb b/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
+index 9ea99cc15a3..5565ce51cff 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
+@@ -23,6 +23,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
+            file://ppp_on_boot \
+            file://provider \
+            file://ppp@.service \
++           file://0001-pppdump-Fixed-building-with-GCC-15-548.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "47da358de54a10cb10bf6ff2cf9b1c03c0d3555518f6182e8f701b8e55733cb2"
 
