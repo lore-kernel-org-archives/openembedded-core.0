@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55468C369BC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D03CDC369BE
 	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:43 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.10334.1742048296517799448
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.10350.1742048315318507935
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 07:18:39 -0700
+ Sat, 15 Mar 2025 07:18:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ftgodoPc;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=c2O743b8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101959a2bd66c-b7fe5a1c-c82e-4b63-a7e3-aa185d4c4b11-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=WMdFPZBY;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=qDcw+dJf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101959a2bc536-da0c8541-fcc4-426d-a98d-31556e4143e3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742048319;
+	t=1742048314;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=GDJcegdvoD9xksch3Z5C98IgzPIUbtTWPIfBU/LlmYk=;
-	b=ftgodoPcnwgUJ5KBFFrH07atjK0lwJQSqJN30e/FHRRgrAVlW+Ss4HEWuWKnSHjd
-	+jXRSFZeuAPvac3don8WsNGFzjegnojpfo0iwksznlLHvEj+vAjzEKmD2ApCnO3UhW0
-	Lf9wHNOrwyYbQ5cKh8JZyio4vYzK2iEmrX30ccys=
+	bh=qM2jCZZO8K9D5hS7deqE8GC5dSvYFEWOfXFkGNYHpWk=;
+	b=WMdFPZBYYbbmFMDbYqcYyw8s+uH47WpadaJVJ20x3LNz5VGfcmmn1F0uuq1ECE9f
+	V/eGqAUy3yB4Vb4/mkuqeMUzIMuwndPhnGAzHZmeYQsw2Gs1bG9IrG9mdUIXCldPD90
+	DUQflS8jUj4jW6W1s7rMVbhQPb4fCZz0ghOl1LTA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048319;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048314;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=GDJcegdvoD9xksch3Z5C98IgzPIUbtTWPIfBU/LlmYk=;
-	b=c2O743b8ZXG29iwEQbRRUX6ptcctjIRq4CS+3jhVpecf6Q4aaS4MFmNydAXJsqCY
-	JmwKE/rcbgcxjfCXS00Q0Zg9/fWmq0atxOkkNaZpQAdN6+bNhezO+BU92tOLBaWCMX6
-	SVQXjHU6xJDj0MEfSlixqpmAPsl2fuh+fhB+Bpy0=
-Content-Type: multipart/mixed; boundary="===============7472110695254613532=="
+	bh=qM2jCZZO8K9D5hS7deqE8GC5dSvYFEWOfXFkGNYHpWk=;
+	b=qDcw+dJfGu1gLLj92QY2kruvSvw3jjTAtPGBsEMwZTBHgU9QsVGRnqUtx4faeyy6
+	28xWwmdwafJw7qR/DS8VIxTq1zg7GIdU9wPMiSY1Owsg2rWh0s3RSYx97VGy/qaj0m1
+	+Zz8VlbrNcLP0nNf8tef0fTHeTW0PLZQFBhXREnY=
+Content-Type: multipart/mixed; boundary="===============3328096013762205106=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sqlite3: upgrading to 3.49.1 FAILED
-Message-ID: <010101959a2bd66c-b7fe5a1c-c82e-4b63-a7e3-aa185d4c4b11-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Mar 2025 14:18:39 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] babeltrace2: upgrading to 2.1.0 FAILED
+Message-ID: <010101959a2bc536-da0c8541-fcc4-426d-a98d-31556e4143e3-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Mar 2025 14:18:34 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.23
+X-SES-Outgoing: 2025.03.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212978
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212964
 
---===============7472110695254613532==
+--===============3328096013762205106==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,15 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *sqlite3* to *3.49.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *babeltrace2* to *2.1.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade sqlite3 -V 3.49.1
+Running 'devtool upgrade' for recipe babeltrace2 failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1884 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -75,7 +74,7 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:28efaf5911b85cfc8ec97f3b6e816c31fa88c59e"
+workspace            = "tmp-auh-upgrades:0df91bfae5524f20d357357b2764088722bc7c3d"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
@@ -84,48 +83,17 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 924 .bb files complete (0 cached, 924 parsed). 1885 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:28efaf5911b85cfc8ec97f3b6e816c31fa88c59e"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL http://www.sqlite.org/2024/sqlite-autoconf-3490100.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250315141545.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250315141545.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching http://www.sqlite.org/2024/sqlite-autoconf-3490100.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ckpu09lf/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ckpu09lf/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ckpu09lf/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ckpu09lf/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
- cipetool-ckpu09lf/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ckpu09lf/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget -t 2 -T 100 -O /srv/pokybuild/yocto-worker/auh/build/build/downloads/sqlite-autoconf-3490100.tar.gz.tmp -P /srv/pokybuild/yocto-worker/auh/build/build/downloads 'http://www.sqlite.org/2024/sqlite-autoconf-3490100.tar.gz' --progress=dot -v failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.sqlite.org/2024/sqlite-autoconf-3490100.tar.gz')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ckpu09lf/work/temp/log.do_fetch.1803072
-ERROR: Failed to fetch URL http://www.sqlite.org/2024/sqlite-autoconf-3490100.tar.gz
+INFO: Rebasing devtool onto e61d41ff3c3ac6a123930d4e60cf710ff9ea18e0
+WARNING: Command 'git rebase e61d41ff3c3ac6a123930d4e60cf710ff9ea18e0' failed:
+Auto-merging ChangeLog
+CONFLICT (content): Merge conflict in ChangeLog
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/babeltrace2
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/babeltrace2/babeltrace2_2.1.0.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -133,5 +101,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7472110695254613532==--
+--===============3328096013762205106==--
 
