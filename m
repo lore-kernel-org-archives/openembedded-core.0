@@ -1,90 +1,162 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42012C28B28
-	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 07:29:57 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.5798.1742023790332269383
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ED51C28B28
+	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 10:24:48 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.7204.1742034282463712376
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 00:29:50 -0700
+ Sat, 15 Mar 2025 03:24:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aLqXsjdy;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22403cbb47fso52028805ad.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 00:29:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bHK0K4fN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so3146675e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 03:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742023789; x=1742628589; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k6H0xrArj6j9O8aUkjLK4QdI+063+1y70QVLJ/uTvw4=;
-        b=aLqXsjdya+6u9dVMSkTmtcVtdA1WriednGsdQlgTpYzlDzNuFZWxCYoJzjdptBghc4
-         ObiMJCOR6ED8+gSWZWIGUq9TiWKP7XZ388lgffEpZ3QeuB0+TT1zwRlZK5NiBZ0iuEP6
-         PlvVTPgY8cZ0LzfJUMmZ2UoQBR8XrnWruGy1g8vKBCYaS8FzaOZl/WonFtsoXD2ut2o1
-         RPjIU+ApHUiY+kqod2zuVYVpgNQP2p/P81EXvmbkU+n385/a1kZ6JecLrwbnLzF5U8XJ
-         OOhxLECBu0t5TqAQwvzOTyYzSke7OvQmtoDn+mbTsCc7ZxuJHUXqJfZk2c/Ec26LKiFi
-         3lPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742023789; x=1742628589;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1742034281; x=1742639081; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=k6H0xrArj6j9O8aUkjLK4QdI+063+1y70QVLJ/uTvw4=;
-        b=TbHg/aKjkxlnbTRq8gAPTFPe5QIWy26rcNZNJYx7GqZH+BhwO3hY8I3md7uFIcSlLJ
-         juAepD3H+be2zrkg4vNpliWM5KGGiCe+VKzGsCRNG2oMsIN12XWSP16HAGED4XB8xZ6v
-         TWbAV+ZAt4z+JNAGdPC9WbThdVe8sLyCKruLGwLr+mpRswUWt16Jz+i5QM8dj5aMmasX
-         fxD4YuJ8wVhl3QU6j4mJvc5xm9En4j/VC9UbAYBb6S5GNetuBbVBp5hXjiEMMlOqWgrB
-         QlZe5ai1JMrm8L/LECeo38MzJy1LjADXhdo8FX50S7eeWIaq4+67GjdmByTHv12R+IvN
-         m39A==
-X-Gm-Message-State: AOJu0YwMi88qTswPTXQtQrbKD599fnws8c962pAUvWZApqL0p7K9N7GE
-	BX+guzF2rL0em+UuAu9D17KX8JjhRBc50bpB/U6Sm+v1gDjysikVymuvhMCc
-X-Gm-Gg: ASbGnctcNGdAcsZksRW2GDNnfabWPErdU5ebznZp7mQj3ThFXr01CIdpeixWzYsj3tf
-	HqTLgVQi9CkP2ANFguRkQaJWyd/wjBU0C12+Yhc2vOuHuPa3XaDta1L1kGBnYCSZfHV6/IrLqXU
-	DJDhKVxqY19P6dR5VoyUid4AK2KbJuiYnMqIBghn26KCTfR0yEVzMduB2J/N66jkOcv3EMkYSUt
-	YKszXiG+g8B/P1+cSu//wSNrlVqHLlVOY280YPl9igr42qtWYie79MrjRkWxtLgIjXVxs0Hwd3S
-	IlaqrLQVf0vB3X8Sm8N4m+pLhwN4zki+9CF3
-X-Google-Smtp-Source: AGHT+IHvDOa4CXCtOkg+S9mkrbuOAKnXg/R3dUWgAJqRiiSTeZBSpPykETID8UMYdDatAeT5H0SBGQ==
-X-Received: by 2002:a05:6a21:9185:b0:1f5:70af:a32a with SMTP id adf61e73a8af0-1f5c1386049mr8609967637.32.1742023789308;
-        Sat, 15 Mar 2025 00:29:49 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56ea7c7ffsm3147561a12.55.2025.03.15.00.29.48
+        bh=UwkH+akqEM/sl7hthMHgdzFvfW9jjqRRcMUORZZW/0c=;
+        b=bHK0K4fNsOAZPQiERoaKkh/meaLxdxqRHf9F9IPkUeMQjkCwiN5UaE4s/UKiMt2qKq
+         oRZ/fIHy4R7fZLz6/fll1R4NZx9YLs91NB4VzQW+DqArAccKDhQeYArrbec+6YPdpFMr
+         a6DAJnqg65IPK4l43zIpnvdA68wFA3DbEspn5YXn0ZCI9ehrp3orkgvKrQWg90vvf0A9
+         BWdnX1WrvUcuPp8kr9LetcunMnZpwrKlEqqU67crVCnH4VghE5fx4YvQCHrko97Xj8QX
+         /Wpuuc98hXcqbze9xsTe15mah6W03rCA75Tb3UwgmlWpGXvdQNL+yx6oVJ2Kvp6k48Cf
+         srww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742034281; x=1742639081;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UwkH+akqEM/sl7hthMHgdzFvfW9jjqRRcMUORZZW/0c=;
+        b=ShHfZga7Uz+SQnzaT+F4E5q+IeQ3oygIEtb+hRyPwHxV8TKphVrYRju3h4pIEA4Rz7
+         TTHQUq7KR4UL7+fhV3rtQHV9lOKY9gCJh4mXOSx3gQYAGXyfZe4QHIzD6LiBgUu/At29
+         CqdTpCs67xAyWouJvd2yemr4WUhn8HQOghZ07ZSiL/f1pC7pr+1pXplAzKN2PZEXGIDV
+         aarx1FU+K4Eq73zQ6Np+IxczdLlyJC4x0Wkd8FLfzMFYHrQWsV5dWuByRP+o6jL+81nx
+         BVRA4As2o078CUtpPHuvHV1ADBLzwsOnsxkT9P1HFAxftVVd96FkmdaLoAQiluw/3xOU
+         gH/Q==
+X-Gm-Message-State: AOJu0YwKHE5tAINEz2DKzhWuE3fAGNZlkuxRWyErLyfTEyKudrMqaW4m
+	aGmkWQ1l2oR/v/ThvvlavVauViIvRTlaCVdEiSLmUbRvA451RVDa
+X-Gm-Gg: ASbGnct86t4z4HrnXP9MBoy1DEre4jTBy+CRHc4cjg43+IgQaqIxUc23PQ6skR40sV0
+	MLFni5prKciqpbYbgMYeOUExrN+gchf3myH6ildk0VmiTlgkqvMq1Dgwjf9jViqjbQ/O04/l0oy
+	ylNp2Dragk8gPUslQL/Bmh968V0IhLMTrkOXoPSPz/py0U24fbbgU1bgIKptaKJxBOvNUhGs+LN
+	L8PrR9WD3CZWu6C8CfXD0OlFmhUuV95M3y4HeimmPYYA9xo1zuOAfRKQ+2T7QXwGGhDZZ+2Wo4G
+	tsJCOnhmONVufwxsFldAoRkdcv07WAOpxuSR36E21lR8+TAB6/OjyMnyy7gjW6rzJIipHCZdWPn
+	5+pDruEFl7aT+ryA2fmSD1A==
+X-Google-Smtp-Source: AGHT+IHQK4I9x9d/jscdG5mLN3XBnHQBQPb4G6yKN03rkZZon1FoTTrVMAoPe9Q1Skupo/1aZh2VPQ==
+X-Received: by 2002:a05:600c:548c:b0:43c:f8fc:f697 with SMTP id 5b1f17b1804b1-43d1ec7795fmr69294775e9.9.1742034280524;
+        Sat, 15 Mar 2025 03:24:40 -0700 (PDT)
+Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d1fe05e8dsm45186145e9.9.2025.03.15.03.24.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Mar 2025 00:29:48 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] m4: Stick to C17 standard
-Date: Sat, 15 Mar 2025 00:29:46 -0700
-Message-ID: <20250315072946.215678-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.48.1
+        Sat, 15 Mar 2025 03:24:40 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Sat, 15 Mar 2025 10:24:38 +0000
+Subject: [PATCH OE-Core v4 1/5] scdoc: Import from meta-wayland
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20250315-kmod-v4-1-946682cc4090@gmail.com>
+References: <20250315-kmod-v4-0-946682cc4090@gmail.com>
+In-Reply-To: <20250315-kmod-v4-0-946682cc4090@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+X-Mailer: b4 0.14.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 07:29:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212868
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 10:24:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212870
 
-GCC15 imposes C23 by default and 1.4.19 release has gnulib version which
-can not be compiled without errors, while new release of m4 is in progress
-we might use C17 until then and use GCC15 to compile it
+scdoc is a simple man page generator for POSIX systems written in C99.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-devtools/m4/m4-1.4.19.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/conf/distro/include/maintainers.inc           |  1 +
+ .../0001-Makefile-dont-add-static-to-LDFLAGS.patch | 27 ++++++++++++++++++++++
+ meta/recipes-extended/scdoc/scdoc_git.bb           | 25 ++++++++++++++++++++
+ 3 files changed, 53 insertions(+)
 
-diff --git a/meta/recipes-devtools/m4/m4-1.4.19.inc b/meta/recipes-devtools/m4/m4-1.4.19.inc
-index 8fb13f543b2..6a6aa21dafe 100644
---- a/meta/recipes-devtools/m4/m4-1.4.19.inc
-+++ b/meta/recipes-devtools/m4/m4-1.4.19.inc
-@@ -27,6 +27,8 @@ EXTRA_OECONF += "--without-libsigsegv-prefix"
- 
- EXTRA_OEMAKE += "'infodir=${infodir}'"
- 
-+CFLAGS += "-std=gnu17"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 5515d46ca5b1aad22c46665c78e4707bc22e3a0a..2b47d3103c03b1b8a11f40566fdd5334d906860d 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -761,6 +761,7 @@ RECIPE_MAINTAINER:pn-sassc = "Simone Weiß <simone.p.weiss@posteo.com>"
+ RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-sato-icon-theme = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-sbc = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-scdoc = "Alex Kiernan <alex.kiernan@gmail.com>"
+ RECIPE_MAINTAINER:pn-screen = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-seatd = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-sed = "Chen Qi <Qi.Chen@windriver.com>"
+diff --git a/meta/recipes-extended/scdoc/scdoc/0001-Makefile-dont-add-static-to-LDFLAGS.patch b/meta/recipes-extended/scdoc/scdoc/0001-Makefile-dont-add-static-to-LDFLAGS.patch
+new file mode 100644
+index 0000000000000000000000000000000000000000..b520e949c0b31c0908118cba4f6c2b6ea26f5a26
+--- /dev/null
++++ b/meta/recipes-extended/scdoc/scdoc/0001-Makefile-dont-add-static-to-LDFLAGS.patch
+@@ -0,0 +1,27 @@
++From 2cac433806d9622dbc005fe5738f1ae8c33a98cb Mon Sep 17 00:00:00 2001
++From: Markus Volk <f_l_k@t-online.de>
++Date: Thu, 13 Jul 2023 19:26:40 +0200
++Subject: [PATCH] Makefile: dont add -static to LDFLAGS
 +
- do_compile_ptest() {
- 	cd ${B}/tests
- 	sed -i '/^buildtest-TESTS: /c buildtest-TESTS: $(TESTS) $(check_LIBRARIES) $(check_PROGRAMS)' Makefile
++Signed-off-by: Markus Volk <f_l_k@t-online.de>
++
++Upstream-Status: Inappropriate [oe-specific]
++---
++ Makefile | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index 60a80b8..49021fa 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -1,7 +1,6 @@
++ VERSION=1.11.2
++ CFLAGS?=-g
++ MAINFLAGS:=-DVERSION='"$(VERSION)"' -Wall -Wextra -Werror -Wno-unused-parameter
++-LDFLAGS+=-static
++ INCLUDE+=-Iinclude
++ PREFIX?=/usr/local
++ BINDIR?=$(PREFIX)/bin
++-- 
++2.39.3
++
+diff --git a/meta/recipes-extended/scdoc/scdoc_git.bb b/meta/recipes-extended/scdoc/scdoc_git.bb
+new file mode 100644
+index 0000000000000000000000000000000000000000..224e5417342e9db820456ec54476a1e3cac0e4e4
+--- /dev/null
++++ b/meta/recipes-extended/scdoc/scdoc_git.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "scdoc is a simple man page generator for POSIX systems written in C99."
++HOMEPAGE = "https://github.com/ddevault/scdoc"
++BUGTRACKER = "https://github.com/ddevault/scdoc/issues"
++SECTION = "base/doc"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=31752b4a8edd3fb9ddba1cb90fada74d"
++
++SRC_URI = " \
++	git://git.sr.ht/~sircmpwn/scdoc;protocol=https;branch=master \
++	file://0001-Makefile-dont-add-static-to-LDFLAGS.patch \
++"
++
++DEPENDS = "scdoc-native"
++
++S = "${WORKDIR}/git"
++PV = "1.11.2"
++SRCREV = "afeda241f3f9b2c27e461f32d9c2a704ab82ef61"
++
++EXTRA_OEMAKE:class-native = "PREFIX=${prefix}"
++EXTRA_OEMAKE:class-target = "PREFIX=${prefix} HOST_SCDOC=${STAGING_BINDIR_NATIVE}/scdoc"
++
++inherit autotools-brokensep
++	
++BBCLASSEXTEND = "native"
++
+
+-- 
+2.25.1
+
 
