@@ -2,157 +2,357 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F559C3600B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C88FC3600E
 	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:43 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.10328.1742048293317838247
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.10360.1742048293526563129
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Mar 2025 07:18:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=J9GIj8aO;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=F15jIu9W;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101959a2bd147-2b230009-5b88-4ff1-b1f1-9948c0b6c9b8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=giXx0eKI;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=r3SK8m2/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101959a2bd321-c4d75fec-03f0-475e-89e3-100df82eebef-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742048317;
+	t=1742048318;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=g+QtW6MhwUQoS1JwmhLzBz+ckUUS+6emtKYP8b3CSK4=;
-	b=J9GIj8aONPrfGisXwyxyyjiumMQhyze8MMWGI/EO6DCPQ1xD6VDSiMklcrnfEgmZ
-	pLMdjmWI1G4R+SkF/fAHCqaOBSla1T9xbtpeuCsfdAAo52IRPRSh403jpgYxfJgg5uW
-	/tCV06D2qTIfBBWuOXqz+MKyAZbDOKPZEOmn0cUo=
+	bh=ujo33zyyfoQkPm1RbBAP2kKCYuHEWjDZ5zwKtbwyRTs=;
+	b=giXx0eKIkQwkwKh14KKEbUTM+DL7FsrA00CCaTQ9VJwTgOfnasuKLvj8Vsru4sQh
+	DmAzIUQJAbd2blYMUDh45UobQeVJlJnadqfcOqfU8DpBRX4scBwApugAPF362eyUdyj
+	rApeCLs0gTIxDo7S75BI2V+1CaI9T2M0WINresxA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048317;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048318;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=g+QtW6MhwUQoS1JwmhLzBz+ckUUS+6emtKYP8b3CSK4=;
-	b=F15jIu9W//TOELmuyXS+xh6jNrX9BksxzoM5AZRtyUlJwIEYdnVjtGfjQTlVuaiL
-	9IvyyxF+q/elZ397KHhYNyqiOuHri8or6maMEK1Zbgk8Rpvfh7PVuQieWnsPyEw1yeM
-	fwsCBlHOK74qfHrR1+8cqjJuMjMKe6SLsOypvtfk=
-Content-Type: multipart/mixed; boundary="===============5372365808131559658=="
+	bh=ujo33zyyfoQkPm1RbBAP2kKCYuHEWjDZ5zwKtbwyRTs=;
+	b=r3SK8m2/u38/A8VGX5pAvRM7IVk9Rm/p9yVIyMrWhNs7B3+SFAGcRroEBTvl7B8R
+	VaAx3jbzlHdn61bjv5fKOq82Y54pCTsPqjrDBz4MIPXop+TCb+p37KdqL6vw7Tl9CST
+	nOBaD/+sU1teE+eTtFLpljb161kUbGlDm9Lhvnzs=
+Content-Type: multipart/mixed; boundary="===============7665929616089881256=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hiago De Franco <hiago.franco@toradex.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] hwdata: upgrading to 0.393 SUCCEEDED
-Message-ID: <010101959a2bd147-2b230009-5b88-4ff1-b1f1-9948c0b6c9b8-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Mar 2025 14:18:37 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] icu: upgrading to 77-1 FAILED
+Message-ID: <010101959a2bd321-c4d75fec-03f0-475e-89e3-100df82eebef-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Mar 2025 14:18:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.31
+X-SES-Outgoing: 2025.03.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212972
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212975
 
---===============5372365808131559658==
+--===============7665929616089881256==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICppY3UqIHRvICo3Ny0xKiBoYXMgRmFpbGVkKGRvX2NvbXBpbGUpLgoKRGV0YWlsZWQgZXJy
+b3IgaW5mb3JtYXRpb246Cgpkb19jb21waWxlIGZhaWxlZAoKCgpOZXh0IHN0ZXBzOgogICAgLSBh
+cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWljdS11cGdyYWRlLTc2LTEtNzctMS5wYXRjaAog
+ICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJpemUg
+dGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhhdCBj
+b250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRlc3Rz
+CiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMgLS1y
+ZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBtYWls
+aW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hvdWxk
+IG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9fVVBE
+QVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGljIHVw
+Z3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRoZSBh
+dHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRlIGZh
+aWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3ppbGxh
+LnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVwZGF0
+ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJvbSAw
+MzFmYzMxYWZiODlhZGM2YmM0MmMzYmM2ZGMxNDllNDg2ZjI4MmI3IE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRhdGU6
+IFNhdCwgMTUgTWFyIDIwMjUgMTQ6MDA6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBpY3U6IHVw
+Z3JhZGUgNzYtMSAtPiA3Ny0xCgotLS0KIC4uLi8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZv
+ci1MaW51eC5wYXRjaCB8IDEwICsrKy0tLS0KIC4uLi9pY3UvMDAwMS1pY3UtQWRkZWQtYXJtZWIt
+c3VwcG9ydC5wYXRjaCAgICB8IDEwICsrKy0tLS0KIC4uLi9pY3Uve2ljdV83Ni0xLmJiID0+IGlj
+dV83Ny0xLmJifSAgICAgICAgICB8IDI2ICsrKysrKysrKysrKysrKysrLS0KIDMgZmlsZXMgY2hh
+bmdlZCwgMzQgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvaWN1L3tpY3VfNzYtMS5iYiA9PiBpY3VfNzctMS5iYn0gKDg3JSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtRGlzYWJsZS1MREZMQUdT
+SUNVRFQtZm9yLUxpbnV4LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAx
+LURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaAppbmRleCBjMGU5ZTI4MDZiLi5l
+MzA1MjQ2ZmM1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEt
+RGlzYWJsZS1MREZMQUdTSUNVRFQtZm9yLUxpbnV4LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L2ljdS9pY3UvMDAwMS1EaXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2gK
+QEAgLTEsNCArMSw0IEBACi1Gcm9tIDBmNGU5ZWVlNjRiZDQyMjBhYTRmYWUxYWI0ZjdiYmYxMGI4
+N2NkNjkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGRkMjg1ODc0ZDc4Y2FmMjlhOTMz
+ZDE2YzUzNzlmZTVkZmY4NTdmZTUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVt
+IFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogU2F0LCAxNSBGZWIgMjAxNCAyMTowNjo0
+MiArMDAwMAogU3ViamVjdDogW1BBVENIXSBEaXNhYmxlIExERkxBR1NJQ1VEVCBmb3IgTGludXgK
+QEAgLTcsMTMgKzcsMTMgQEAgVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFsgT0UgQ29u
+ZmlndXJhdGlvbiBdCiAKIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
+b20+CiAtLS0KLSBjb25maWcvbWgtbGludXggfCAyICstCisgc291cmNlL2NvbmZpZy9taC1saW51
+eCB8IDIgKy0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IAotZGlmZiAtLWdpdCBhL2NvbmZpZy9taC1saW51eCBiL2NvbmZpZy9taC1saW51eAorZGlmZiAt
+LWdpdCBhL3NvdXJjZS9jb25maWcvbWgtbGludXggYi9zb3VyY2UvY29uZmlnL21oLWxpbnV4CiBp
+bmRleCA1M2Q2NzgwLi5iNjIyNTEzIDEwMDY0NAotLS0tIGEvY29uZmlnL21oLWxpbnV4Ci0rKysg
+Yi9jb25maWcvbWgtbGludXgKKy0tLSBhL3NvdXJjZS9jb25maWcvbWgtbGludXgKKysrKyBiL3Nv
+dXJjZS9jb25maWcvbWgtbGludXgKIEBAIC0yMyw3ICsyMyw3IEBAIExEX1JQQVRIPSAtV2wsLXpv
+cmlnaW4sLXJwYXRoLCckJCdPUklHSU4KICBMRF9SUEFUSF9QUkUgPSAtV2wsLXJwYXRoLAogIApk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLWljdS1BZGRlZC1h
+cm1lYi1zdXBwb3J0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLWlj
+dS1BZGRlZC1hcm1lYi1zdXBwb3J0LnBhdGNoCmluZGV4IGEyNTI4NWZiNTQuLjA5NWYyZjEyMmEg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1pY3UtQWRkZWQt
+YXJtZWItc3VwcG9ydC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAw
+MDEtaWN1LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGNm
+NTVjMDc3Yjc3YjdhMjE5NTAyMzY0ZWFhZGYxMmMwNzRhYjAwNWUgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCitGcm9tIGE5NmNhYzJmMTBhMTZhNWQxNTViZGU4ZGUxN2I3MzZmYWVkOTVmZjYgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBMZWkgTWFvaHVpIDxsZWltYW9odWlAY24uZnVq
+aXRzdS5jb20+CiBEYXRlOiBXZWQsIDggTWF5IDIwMTkgMTQ6NDI6MzAgKzA5MDAKIFN1YmplY3Q6
+IFtQQVRDSF0gaWN1OiBBZGRlZCBhcm1lYiBzdXBwb3J0LgpAQCAtOSwxMyArOSwxMyBAQCBVcHN0
+cmVhbS1TdGF0dXM6IFBlbmRpbmcKIAogU2lnbmVkLW9mZi1ieTogTGVpIE1hb2h1aSA8bGVpbWFv
+aHVpQGNuLmZ1aml0c3UuY29tPgogLS0tCi0gaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5o
+IHwgMiArLQorIHNvdXJjZS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmggfCAyICstCiAg
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKLWRpZmYgLS1n
+aXQgYS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmggYi9pMThuL2RvdWJsZS1jb252ZXJz
+aW9uLXV0aWxzLmgKK2RpZmYgLS1naXQgYS9zb3VyY2UvaTE4bi9kb3VibGUtY29udmVyc2lvbi11
+dGlscy5oIGIvc291cmNlL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaAogaW5kZXggMzAz
+NjY4Zi4uN2Q4NTlkYyAxMDA2NDQKLS0tLSBhL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMu
+aAotKysrIGIvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oCistLS0gYS9zb3VyY2UvaTE4
+bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oCisrKysgYi9zb3VyY2UvaTE4bi9kb3VibGUtY29u
+dmVyc2lvbi11dGlscy5oCiBAQCAtMTQ2LDcgKzE0Niw3IEBAIGludCBtYWluKGludCBhcmdjLCBj
+aGFyKiogYXJndikgewogIC8vCiAgLy8gSWYgaXQgcHJpbnRzICJjb3JyZWN0IiB0aGVuIHRoZSBh
+cmNoaXRlY3R1cmUgc2hvdWxkIGJlIGhlcmUsIGluIHRoZSAiY29ycmVjdCIgc2VjdGlvbi4KZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYiBiL21ldGEvcmVj
+aXBlcy1zdXBwb3J0L2ljdS9pY3VfNzctMS5iYgpzaW1pbGFyaXR5IGluZGV4IDg3JQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc2LTEuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzctMS5iYgppbmRleCAwOGRhYmRlM2FlLi42NDkwODFj
+YmYwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc2LTEuYmIKKysr
+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCkBAIC0xLDMgKzEsMjUgQEAK
+KyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBi
+eSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBi
+ZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRl
+IHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBp
+bgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4
+YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMg
+VGhlIGNoYW5nZXM6CisjCisjIC0tLSAuLi9MSUNFTlNFCisjICsrKyAuLi9MSUNFTlNFCisjIEBA
+IC0yLDcgKzIsNyBAQAorIyAgCisjICBDT1BZUklHSFQgQU5EIFBFUk1JU1NJT04gTk9USUNFCisj
+ICAKKyMgLUNvcHlyaWdodCDCqSAyMDE2LTIwMjQgVW5pY29kZSwgSW5jLgorIyArQ29weXJpZ2h0
+IMKpIDIwMTYtMjAyNSBVbmljb2RlLCBJbmMuCisjICAKKyMgIE5PVElDRSBUTyBVU0VSOiBDYXJl
+ZnVsbHkgcmVhZCB0aGUgZm9sbG93aW5nIGxlZ2FsIGFncmVlbWVudC4gQlkKKyMgIERPV05MT0FE
+SU5HLCBJTlNUQUxMSU5HLCBDT1BZSU5HIE9SIE9USEVSV0lTRSBVU0lORyBEQVRBIEZJTEVTLCBB
+TkQvT1IKKyMgCisjCisKIFNVTU1BUlkgPSAiSW50ZXJuYXRpb25hbCBDb21wb25lbnQgZm9yIFVu
+aWNvZGUgbGlicmFyaWVzIgogREVTQ1JJUFRJT04gPSAiVGhlIEludGVybmF0aW9uYWwgQ29tcG9u
+ZW50IGZvciBVbmljb2RlIChJQ1UpIGlzIGEgbWF0dXJlLCBcCiBwb3J0YWJsZSBzZXQgb2YgQy9D
+KysgYW5kIEphdmEgbGlicmFyaWVzIGZvciBVbmljb2RlIHN1cHBvcnQsIHNvZnR3YXJlIFwKQEAg
+LTkyLDcgKzExNCw3IEBAIEZJTEVTOmxpYmljdWlvID0gIiR7bGliZGlyfS9saWJpY3Vpby5zby4q
+IgogCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCiAKLUxJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovLy4uL0xJQ0VOU0U7bWQ1PTdjMzY0YTBkZWJlY2YxNmQ1YTEzZGUyYjdmMWFh
+YWJkIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9Y2Y1N2Q5NDU5
+YTJjNWY4OGVjZDgzYzc1MjA3Y2M1ZmYiCiAKIGRlZiBpY3VfZG93bmxvYWRfdmVyc2lvbihkKToK
+ICAgICBwdnNwbGl0ID0gZC5nZXRWYXIoJ1BWJykuc3BsaXQoJy0nKQpAQCAtMTI0LDcgKzE0Niw3
+IEBAIFNSQ19VUkkgPSAiJHtCQVNFX1NSQ19VUkl9O25hbWU9Y29kZSBcCiBTUkNfVVJJOmFwcGVu
+ZDpjbGFzcy10YXJnZXQgPSAiXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1EaXNhYmxlLUxERkxB
+R1NJQ1VEVC1mb3ItTGludXgucGF0Y2ggXAogICAgICAgICAgICIKLVNSQ19VUklbY29kZS5zaGEy
+NTZzdW1dID0gImRmYWNiNDZiZmU0NzQ3NDEwNDcyY2UzZTExNDRiZjI4YTEwMmZlZWFhNGUzODc1
+YmFjOWI0YzZjZjMwZjRmM2UiCitTUkNfVVJJW2NvZGUuc2hhMjU2c3VtXSA9ICI1ODhlNDMxZjc3
+MzI3YzM5MDMxZmZiYjg4NDNjMGUzYmMxMjJjMjExMzc0NDg1ZmE4N2RjNWYzZmFmZjI0MDYxIgog
+U1JDX1VSSVtkYXRhLnNoYTI1NnN1bV0gPSAiMTMzYWU1OGE2N2Q2OGI0NmY3Mjk2ODIyOTA0Y2Qz
+YzMwMTI2YTBiNGIyZjY1ZjBmOTA1ZTdmNDdjMGVmOWU0NyIKIAogVVBTVFJFQU1fQ0hFQ0tfUkVH
+RVggPSAicmVsZWFzZXMvdGFnL3JlbGVhc2UtKD9QPHB2ZXI+KD8hLityYykuKykiCi0tIAoyLjQ0
+LjEKCg==
+
+--===============7665929616089881256==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-Hello,
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1886 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 923 .bb files complete (922 cached, 1 parsed). 1884 targets, 39 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *hwdata* to *0.393* has Succeeded.
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:2b12e72dda02b7fe3d90ad683b82f2da4fc338fa"
 
-Next steps:
-    - apply the patch: git am 0001-hwdata-upgrade-0.392-0.393.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 110 Local 94 Mirrors 0 Missed 16 Current 258 (85% match, 95% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 333 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 879 of 1099 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_recipe_qa)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 887 of 1099 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_recipe_qa)
+NOTE: Running setscene task 344 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 345 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe icu-77-1-r0: task do_recipe_qa: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe icu-native-77-1-r0: task do_recipe_qa: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 349 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 353 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe icu-77-1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 968 of 1099 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch)
+NOTE: recipe icu-native-77-1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 969 of 1099 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe icu-77-1-r0: task do_fetch: Started
+NOTE: recipe icu-native-77-1-r0: task do_fetch: Started
+WARNING: icu-77-1-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data - will attempt other sources if available
+WARNING: icu-native-77-1-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data - will attempt other sources if available
+NOTE: recipe icu-77-1-r0: task do_fetch: Failed
+NOTE: recipe icu-native-77-1-r0: task do_fetch: Failed
+NOTE: Tasks Summary: Attempted 1068 tasks of which 1064 didn't need to be rerun and 2 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250315135945.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250315135945.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Summary: 2 tasks failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/77-1/temp/log.do_fetch.1511985
+  virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/77-1/temp/log.do_fetch.1511989
+Summary: There were 2 WARNING messages.
+Summary: There were 4 ERROR messages, returning a non-zero exit code.
+ERROR: icu-77-1-r0 do_fetch: Fetcher failure for URL: 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data'. Checksum mismatch!
+File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip.tmp' has sha256 checksum '1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3' when '133ae58a67d68b46f7296822904cd3c30126a0b4b2f65f0f905e7f47c0ef9e47' was expected
+If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
+SRC_URI[data.sha256sum] = "1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3"
+Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
+ERROR: icu-77-1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data')
+ERROR: icu-native-77-1-r0 do_fetch: Fetcher failure for URL: 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data'. Checksum mismatch!
+File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip.tmp' has sha256 checksum '1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3' when '133ae58a67d68b46f7296822904cd3c30126a0b4b2f65f0f905e7f47c0ef9e47' was expected
+If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
+SRC_URI[data.sha256sum] = "1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3"
+Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
+ERROR: icu-native-77-1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/77-1/temp/log.do_fetch.1511985
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch) failed with exit code '1'
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/77-1/temp/log.do_fetch.1511989
+ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch) failed with exit code '1'
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 853f068e7aaf8e1dc8a174996118093148df3ad5 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Mar 2025 13:57:47 +0000
-Subject: [PATCH] hwdata: upgrade 0.392 -> 0.393
-
----
- .../recipes-support/hwdata/{hwdata_0.392.bb => hwdata_0.393.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/hwdata/{hwdata_0.392.bb => hwdata_0.393.bb} (93%)
-
-diff --git a/meta/recipes-support/hwdata/hwdata_0.392.bb b/meta/recipes-support/hwdata/hwdata_0.393.bb
-similarity index 93%
-rename from meta/recipes-support/hwdata/hwdata_0.392.bb
-rename to meta/recipes-support/hwdata/hwdata_0.393.bb
-index e0a1a7fbb2..1517a1d35f 100644
---- a/meta/recipes-support/hwdata/hwdata_0.392.bb
-+++ b/meta/recipes-support/hwdata/hwdata_0.393.bb
-@@ -8,7 +8,7 @@ LICENSE = "GPL-2.0-or-later | X11"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1556547711e8246992b999edd9445a57"
- 
- SRC_URI = "git://github.com/vcrhonek/${BPN}.git;branch=master;protocol=https"
--SRCREV = "e3aac7f6bed87ca6d701bb5ad30f29a8df857f66"
-+SRCREV = "2b7f8370a5b3b1552d8264b8665ed99ddfea0b57"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.44.1
-
-
---===============5372365808131559658==
+--===============7665929616089881256==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-hwdata-upgrade-0.392-0.393.patch"
+Content-Disposition: attachment; filename="0001-icu-upgrade-76-1-77-1.patch"
 
-RnJvbSA4NTNmMDY4ZTdhYWY4ZTFkYzhhMTc0OTk2MTE4MDkzMTQ4ZGYzYWQ1IE1vbiBTZXAgMTcg
+RnJvbSAwMzFmYzMxYWZiODlhZGM2YmM0MmMzYmM2ZGMxNDllNDg2ZjI4MmI3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMTM6NTc6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
-d2RhdGE6IHVwZ3JhZGUgMC4zOTIgLT4gMC4zOTMKCi0tLQogLi4uL3JlY2lwZXMtc3VwcG9ydC9o
-d2RhdGEve2h3ZGF0YV8wLjM5Mi5iYiA9PiBod2RhdGFfMC4zOTMuYmJ9IHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaHdkYXRhL3tod2RhdGFfMC4zOTIuYmIgPT4gaHdkYXRhXzAuMzkzLmJifSAo
-OTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2RhdGFfMC4z
-OTIuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9od2RhdGEvaHdkYXRhXzAuMzkzLmJiCnNpbWls
-YXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9o
-d2RhdGFfMC4zOTIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2Rh
-dGFfMC4zOTMuYmIKaW5kZXggZTBhMWE3ZmJiMi4uMTUxN2ExZDM1ZiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvaHdkYXRhL2h3ZGF0YV8wLjM5Mi5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9od2RhdGEvaHdkYXRhXzAuMzkzLmJiCkBAIC04LDcgKzgsNyBAQCBMSUNFTlNF
-ID0gIkdQTC0yLjAtb3ItbGF0ZXIgfCBYMTEiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
-SUNFTlNFO21kNT0xNTU2NTQ3NzExZTgyNDY5OTJiOTk5ZWRkOTQ0NWE1NyIKIAogU1JDX1VSSSA9
-ICJnaXQ6Ly9naXRodWIuY29tL3ZjcmhvbmVrLyR7QlBOfS5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90
-b2NvbD1odHRwcyIKLVNSQ1JFViA9ICJlM2FhYzdmNmJlZDg3Y2E2ZDcwMWJiNWFkMzBmMjlhOGRm
-ODU3ZjY2IgorU1JDUkVWID0gIjJiN2Y4MzcwYTViM2IxNTUyZDgyNjRiODY2NWVkOTlkZGZlYTBi
-NTciCiAKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKLS0gCjIuNDQuMQoK
+CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMTQ6MDA6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
+Y3U6IHVwZ3JhZGUgNzYtMSAtPiA3Ny0xCgotLS0KIC4uLi8wMDAxLURpc2FibGUtTERGTEFHU0lD
+VURULWZvci1MaW51eC5wYXRjaCB8IDEwICsrKy0tLS0KIC4uLi9pY3UvMDAwMS1pY3UtQWRkZWQt
+YXJtZWItc3VwcG9ydC5wYXRjaCAgICB8IDEwICsrKy0tLS0KIC4uLi9pY3Uve2ljdV83Ni0xLmJi
+ID0+IGljdV83Ny0xLmJifSAgICAgICAgICB8IDI2ICsrKysrKysrKysrKysrKysrLS0KIDMgZmls
+ZXMgY2hhbmdlZCwgMzQgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvaWN1L3tpY3VfNzYtMS5iYiA9PiBpY3VfNzctMS5iYn0gKDg3JSkK
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtRGlzYWJsZS1M
+REZMQUdTSUNVRFQtZm9yLUxpbnV4LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2lj
+dS8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaAppbmRleCBjMGU5ZTI4
+MDZiLi5lMzA1MjQ2ZmM1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1
+LzAwMDEtRGlzYWJsZS1MREZMQUdTSUNVRFQtZm9yLUxpbnV4LnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1EaXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgu
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDBmNGU5ZWVlNjRiZDQyMjBhYTRmYWUxYWI0Zjdi
+YmYxMGI4N2NkNjkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGRkMjg1ODc0ZDc4Y2Fm
+MjlhOTMzZDE2YzUzNzlmZTVkZmY4NTdmZTUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogU2F0LCAxNSBGZWIgMjAxNCAy
+MTowNjo0MiArMDAwMAogU3ViamVjdDogW1BBVENIXSBEaXNhYmxlIExERkxBR1NJQ1VEVCBmb3Ig
+TGludXgKQEAgLTcsMTMgKzcsMTMgQEAgVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFsg
+T0UgQ29uZmlndXJhdGlvbiBdCiAKIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBn
+bWFpbC5jb20+CiAtLS0KLSBjb25maWcvbWgtbGludXggfCAyICstCisgc291cmNlL2NvbmZpZy9t
+aC1saW51eCB8IDIgKy0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
+b24oLSkKIAotZGlmZiAtLWdpdCBhL2NvbmZpZy9taC1saW51eCBiL2NvbmZpZy9taC1saW51eAor
+ZGlmZiAtLWdpdCBhL3NvdXJjZS9jb25maWcvbWgtbGludXggYi9zb3VyY2UvY29uZmlnL21oLWxp
+bnV4CiBpbmRleCA1M2Q2NzgwLi5iNjIyNTEzIDEwMDY0NAotLS0tIGEvY29uZmlnL21oLWxpbnV4
+Ci0rKysgYi9jb25maWcvbWgtbGludXgKKy0tLSBhL3NvdXJjZS9jb25maWcvbWgtbGludXgKKysr
+KyBiL3NvdXJjZS9jb25maWcvbWgtbGludXgKIEBAIC0yMyw3ICsyMyw3IEBAIExEX1JQQVRIPSAt
+V2wsLXpvcmlnaW4sLXJwYXRoLCckJCdPUklHSU4KICBMRF9SUEFUSF9QUkUgPSAtV2wsLXJwYXRo
+LAogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLWljdS1B
+ZGRlZC1hcm1lYi1zdXBwb3J0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8w
+MDAxLWljdS1BZGRlZC1hcm1lYi1zdXBwb3J0LnBhdGNoCmluZGV4IGEyNTI4NWZiNTQuLjA5NWYy
+ZjEyMmEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1pY3Ut
+QWRkZWQtYXJtZWItc3VwcG9ydC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3Uv
+aWN1LzAwMDEtaWN1LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
+cm9tIGNmNTVjMDc3Yjc3YjdhMjE5NTAyMzY0ZWFhZGYxMmMwNzRhYjAwNWUgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCitGcm9tIGE5NmNhYzJmMTBhMTZhNWQxNTViZGU4ZGUxN2I3MzZmYWVkOTVm
+ZjYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBMZWkgTWFvaHVpIDxsZWltYW9odWlA
+Y24uZnVqaXRzdS5jb20+CiBEYXRlOiBXZWQsIDggTWF5IDIwMTkgMTQ6NDI6MzAgKzA5MDAKIFN1
+YmplY3Q6IFtQQVRDSF0gaWN1OiBBZGRlZCBhcm1lYiBzdXBwb3J0LgpAQCAtOSwxMyArOSwxMyBA
+QCBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcKIAogU2lnbmVkLW9mZi1ieTogTGVpIE1hb2h1aSA8
+bGVpbWFvaHVpQGNuLmZ1aml0c3UuY29tPgogLS0tCi0gaTE4bi9kb3VibGUtY29udmVyc2lvbi11
+dGlscy5oIHwgMiArLQorIHNvdXJjZS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmggfCAy
+ICstCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKLWRp
+ZmYgLS1naXQgYS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmggYi9pMThuL2RvdWJsZS1j
+b252ZXJzaW9uLXV0aWxzLmgKK2RpZmYgLS1naXQgYS9zb3VyY2UvaTE4bi9kb3VibGUtY29udmVy
+c2lvbi11dGlscy5oIGIvc291cmNlL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaAogaW5k
+ZXggMzAzNjY4Zi4uN2Q4NTlkYyAxMDA2NDQKLS0tLSBhL2kxOG4vZG91YmxlLWNvbnZlcnNpb24t
+dXRpbHMuaAotKysrIGIvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oCistLS0gYS9zb3Vy
+Y2UvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oCisrKysgYi9zb3VyY2UvaTE4bi9kb3Vi
+bGUtY29udmVyc2lvbi11dGlscy5oCiBAQCAtMTQ2LDcgKzE0Niw3IEBAIGludCBtYWluKGludCBh
+cmdjLCBjaGFyKiogYXJndikgewogIC8vCiAgLy8gSWYgaXQgcHJpbnRzICJjb3JyZWN0IiB0aGVu
+IHRoZSBhcmNoaXRlY3R1cmUgc2hvdWxkIGJlIGhlcmUsIGluIHRoZSAiY29ycmVjdCIgc2VjdGlv
+bi4KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYiBiL21l
+dGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzctMS5iYgpzaW1pbGFyaXR5IGluZGV4IDg3JQpy
+ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc2LTEuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzctMS5iYgppbmRleCAwOGRhYmRlM2FlLi42
+NDkwODFjYmYwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc2LTEu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCkBAIC0xLDMgKzEs
+MjUgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBk
+YXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVy
+ZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2Ug
+dXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hh
+bmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4K
+KyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykK
+KyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSAuLi9MSUNFTlNFCisjICsrKyAuLi9MSUNFTlNF
+CisjIEBAIC0yLDcgKzIsNyBAQAorIyAgCisjICBDT1BZUklHSFQgQU5EIFBFUk1JU1NJT04gTk9U
+SUNFCisjICAKKyMgLUNvcHlyaWdodCDCqSAyMDE2LTIwMjQgVW5pY29kZSwgSW5jLgorIyArQ29w
+eXJpZ2h0IMKpIDIwMTYtMjAyNSBVbmljb2RlLCBJbmMuCisjICAKKyMgIE5PVElDRSBUTyBVU0VS
+OiBDYXJlZnVsbHkgcmVhZCB0aGUgZm9sbG93aW5nIGxlZ2FsIGFncmVlbWVudC4gQlkKKyMgIERP
+V05MT0FESU5HLCBJTlNUQUxMSU5HLCBDT1BZSU5HIE9SIE9USEVSV0lTRSBVU0lORyBEQVRBIEZJ
+TEVTLCBBTkQvT1IKKyMgCisjCisKIFNVTU1BUlkgPSAiSW50ZXJuYXRpb25hbCBDb21wb25lbnQg
+Zm9yIFVuaWNvZGUgbGlicmFyaWVzIgogREVTQ1JJUFRJT04gPSAiVGhlIEludGVybmF0aW9uYWwg
+Q29tcG9uZW50IGZvciBVbmljb2RlIChJQ1UpIGlzIGEgbWF0dXJlLCBcCiBwb3J0YWJsZSBzZXQg
+b2YgQy9DKysgYW5kIEphdmEgbGlicmFyaWVzIGZvciBVbmljb2RlIHN1cHBvcnQsIHNvZnR3YXJl
+IFwKQEAgLTkyLDcgKzExNCw3IEBAIEZJTEVTOmxpYmljdWlvID0gIiR7bGliZGlyfS9saWJpY3Vp
+by5zby4qIgogCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCiAKLUxJQ19GSUxF
+U19DSEtTVU0gPSAiZmlsZTovLy4uL0xJQ0VOU0U7bWQ1PTdjMzY0YTBkZWJlY2YxNmQ1YTEzZGUy
+YjdmMWFhYWJkIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9Y2Y1
+N2Q5NDU5YTJjNWY4OGVjZDgzYzc1MjA3Y2M1ZmYiCiAKIGRlZiBpY3VfZG93bmxvYWRfdmVyc2lv
+bihkKToKICAgICBwdnNwbGl0ID0gZC5nZXRWYXIoJ1BWJykuc3BsaXQoJy0nKQpAQCAtMTI0LDcg
+KzE0Niw3IEBAIFNSQ19VUkkgPSAiJHtCQVNFX1NSQ19VUkl9O25hbWU9Y29kZSBcCiBTUkNfVVJJ
+OmFwcGVuZDpjbGFzcy10YXJnZXQgPSAiXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1EaXNhYmxl
+LUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2ggXAogICAgICAgICAgICIKLVNSQ19VUklbY29k
+ZS5zaGEyNTZzdW1dID0gImRmYWNiNDZiZmU0NzQ3NDEwNDcyY2UzZTExNDRiZjI4YTEwMmZlZWFh
+NGUzODc1YmFjOWI0YzZjZjMwZjRmM2UiCitTUkNfVVJJW2NvZGUuc2hhMjU2c3VtXSA9ICI1ODhl
+NDMxZjc3MzI3YzM5MDMxZmZiYjg4NDNjMGUzYmMxMjJjMjExMzc0NDg1ZmE4N2RjNWYzZmFmZjI0
+MDYxIgogU1JDX1VSSVtkYXRhLnNoYTI1NnN1bV0gPSAiMTMzYWU1OGE2N2Q2OGI0NmY3Mjk2ODIy
+OTA0Y2QzYzMwMTI2YTBiNGIyZjY1ZjBmOTA1ZTdmNDdjMGVmOWU0NyIKIAogVVBTVFJFQU1fQ0hF
+Q0tfUkVHRVggPSAicmVsZWFzZXMvdGFnL3JlbGVhc2UtKD9QPHB2ZXI+KD8hLityYykuKykiCi0t
+IAoyLjQ0LjEKCg==
 
---===============5372365808131559658==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/all-poky-linux/hwdata/hwdata-dbg: PKGV changed from 0.392 [default] to 0.393 [default]
-packages/all-poky-linux/hwdata/hwdata-dbg: PV changed from "0.392" to "0.393"
-packages/all-poky-linux/hwdata/hwdata-dev: PKGV changed from 0.392 [default] to 0.393 [default]
-packages/all-poky-linux/hwdata/hwdata-dev: PV changed from "0.392" to "0.393"
-packages/all-poky-linux/hwdata/hwdata-doc: PKGV changed from 0.392 [default] to 0.393 [default]
-packages/all-poky-linux/hwdata/hwdata-doc: PV changed from "0.392" to "0.393"
-packages/all-poky-linux/hwdata/hwdata-locale: PKGV changed from 0.392 [default] to 0.393 [default]
-packages/all-poky-linux/hwdata/hwdata-locale: PV changed from "0.392" to "0.393"
-packages/all-poky-linux/hwdata/hwdata-src: PKGV changed from 0.392 [default] to 0.393 [default]
-packages/all-poky-linux/hwdata/hwdata-src: PV changed from "0.392" to "0.393"
-packages/all-poky-linux/hwdata/hwdata-staticdev: PKGV changed from 0.392 [default] to 0.393 [default]
-packages/all-poky-linux/hwdata/hwdata-staticdev: PV changed from "0.392" to "0.393"
-packages/all-poky-linux/hwdata/hwdata: PKGV changed from 0.392 [default] to 0.393 [default]
-packages/all-poky-linux/hwdata/hwdata: PKGSIZE changed from 9845922 to 9869650 (+0%)
-packages/all-poky-linux/hwdata/hwdata: PV changed from "0.392" to "0.393"
-packages/all-poky-linux/hwdata: PKGV changed from 0.392 [default] to 0.393 [default]
-packages/all-poky-linux/hwdata: PV changed from "0.392" to "0.393"
-
---===============5372365808131559658==--
+--===============7665929616089881256==--
 
