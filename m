@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71E66C3600B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C4F9C36002
 	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:20 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.10329.1742048293585493784
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.10363.1742048296653501832
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 07:18:13 -0700
+ Sat, 15 Mar 2025 07:18:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SnukOP41;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=m0IzeOL3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101959a2b6fff-ffc4e7b3-d77c-4ca5-878f-b0b66e48acc6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=alZ6aWg8;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YU7uVIfY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101959a2b7c37-2f27cef6-ff7d-45d4-b70d-e794b22e9c12-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742048293;
+	t=1742048296;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=U2LC1SJbxf5zhcWzWCmsZdh1lmoSuXoj58SY8n/JXRo=;
-	b=SnukOP41XPTWqb08CueN6cUD2KtOb0n0QlPDmCFPnRIQBmaVNcEdsQPKhXheSRNp
-	wPAr7BQjPjtNhdkHME8iKPAqWxA/+CW4pQb8QCptRaBENj+v3jQU5uLy9vqMNt72CZX
-	5qGuSXY1u91gQkIChvTdpAtD8CfmDQNRAuhI9sw8=
+	bh=lLiuGbiL0fLVNqNQjy4SBSceUa2smTqSQPVTyYdE01w=;
+	b=alZ6aWg8+BNL3BBf32l0olkXJK3ue6jg/jgEnJwdl3R5uG0o1jkM+hfV+AB7VDB5
+	XX6xtR8pdBy09heK/rGPG8bAE0r436XreWk+gVTMfIXtgQZTrO02wBMI5pbe7VhZo0y
+	I4Xo6ln2hv03pN5AnXuPQ08Yx4BcWIpKAuvUfyyU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048293;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048296;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=U2LC1SJbxf5zhcWzWCmsZdh1lmoSuXoj58SY8n/JXRo=;
-	b=m0IzeOL352HWCijiVtlTs223P9F0AQMSyjm1voir7/XS7DoYsbCZ9xCAmBPfrZaq
-	zNGH0j1oe4WjzfDqZo6b2Xt72ocgD6XL5uDyI9NuNpZPvmbToqHCKEluDbg/xDLIAL0
-	dv9+tbX7pksq3JFcg+1++ZwTI+8i5CNw7u3FboEo=
-Content-Type: multipart/mixed; boundary="===============4270774619486988626=="
+	bh=lLiuGbiL0fLVNqNQjy4SBSceUa2smTqSQPVTyYdE01w=;
+	b=YU7uVIfY0pAma2tc56hsv/WVsv2MA+B5DMhha4LME1mW+XWADcXMhz0ewA1PxJ0e
+	oRkZdJ3Jg9R5mFtubPChHnVye3ko/zIGQgFFm6DmqpN2D+5L3bPtXZ+je3uetxPl+TE
+	PuDLptLNCT8QACst3wXcVOoORk9Qp95tDRuIdOuc=
+Content-Type: multipart/mixed; boundary="===============0743360562603913585=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] ovmf: upgrading to edk2-stable202502 FAILED
-Message-ID: <010101959a2b6fff-ffc4e7b3-d77c-4ca5-878f-b0b66e48acc6-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Mar 2025 14:18:12 +0000
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] git: upgrading to 2.49.0 SUCCEEDED
+Message-ID: <010101959a2b7c37-2f27cef6-ff7d-45d4-b70d-e794b22e9c12-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Mar 2025 14:18:16 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.45
+X-SES-Outgoing: 2025.03.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212891
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212902
 
---===============4270774619486988626==
+--===============0743360562603913585==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,53 +51,247 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ovmf* to *edk2-stable202502* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *git* to *2.49.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-git-upgrade-2.48.1-2.49.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade ovmf -V edk2-stable202502 -S fbe0805b2091393406952e84724188f8c1941837
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1884 entries from dependency cache.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:9a39a9b6c23ac14424fc12e8a47d1a88eb907d99"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto fbe0805b2091393406952e84724188f8c1941837
-ERROR: Execution of 'git rev-list devtool-base..f4153a09f87cbb9c826d8fc12c74642bb2d879ea' failed with exit code 128:
-fatal: Invalid revision range devtool-base..f4153a09f87cbb9c826d8fc12c74642bb2d879ea
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4270774619486988626==--
+
+-- >8 --
+From bd2d0b985a6bad82bbc477e014bc722a9eaeeadb Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 15 Mar 2025 08:17:35 +0000
+Subject: [PATCH] git: upgrade 2.48.1 -> 2.49.0
+
+---
+ ...nfig.mak.uname-do-not-force-RHEL-7-specific-build-.patch | 2 +-
+ meta/recipes-devtools/git/git/fixsort.patch                 | 6 +++---
+ meta/recipes-devtools/git/{git_2.48.1.bb => git_2.49.0.bb}  | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.48.1.bb => git_2.49.0.bb} (98%)
+
+diff --git a/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch b/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
+index cbe9a32fa1..61bf0e12dc 100644
+--- a/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
++++ b/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
+@@ -1,4 +1,4 @@
+-From 2a97f61c558a03282c7d81797f1cd8b594f953dc Mon Sep 17 00:00:00 2001
++From 325c30dac4eafdd463c8ffcfe1215858d642ab91 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Mon, 7 Feb 2022 10:13:15 +0100
+ Subject: [PATCH] config.mak.uname: do not force RHEL-7 specific build settings
+diff --git a/meta/recipes-devtools/git/git/fixsort.patch b/meta/recipes-devtools/git/git/fixsort.patch
+index e01953e324..e077eba8ff 100644
+--- a/meta/recipes-devtools/git/git/fixsort.patch
++++ b/meta/recipes-devtools/git/git/fixsort.patch
+@@ -1,4 +1,4 @@
+-From 0ada98b8e1de3fe835b439777303dfaf9ac65a08 Mon Sep 17 00:00:00 2001
++From 65fa5c0f849fe4a1e3cb8e6af0086ef0748c28de Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 17 Feb 2021 17:57:13 +0000
+ Subject: [PATCH] generate-configlist.sh: Fix determinism issue
+@@ -23,12 +23,12 @@ Upstream-Status: Submitted [https://public-inbox.org/git/f029a942dd3d50d85e60bd3
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/generate-configlist.sh b/generate-configlist.sh
+-index 5794226..6b0b939 100755
++index dffdaad..cc35a21 100755
+ --- a/generate-configlist.sh
+ +++ b/generate-configlist.sh
+ @@ -15,7 +15,7 @@ static const char *config_name_list[] = {
+  EOF
+- 	grep -h '^[a-zA-Z].*\..*::$' "$SOURCE_DIR"/Documentation/*config.txt "$SOURCE_DIR"/Documentation/config/*.txt |
++ 	grep -h '^[a-zA-Z].*\..*::$' "$SOURCE_DIR"/Documentation/*config.adoc "$SOURCE_DIR"/Documentation/config/*.adoc |
+  	sed '/deprecated/d; s/::$//; s/,  */\n/g' |
+ -	sort |
+ +	LC_ALL=C sort |
+diff --git a/meta/recipes-devtools/git/git_2.48.1.bb b/meta/recipes-devtools/git/git_2.49.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/git/git_2.48.1.bb
+rename to meta/recipes-devtools/git/git_2.49.0.bb
+index e0df23eb47..66082d0bde 100644
+--- a/meta/recipes-devtools/git/git_2.48.1.bb
++++ b/meta/recipes-devtools/git/git_2.49.0.bb
+@@ -164,4 +164,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
+ 
+-SRC_URI[tarball.sha256sum] = "51b4d03b1e311ba673591210f94f24a4c5781453e1eb188822e3d9cdc04c2212"
++SRC_URI[tarball.sha256sum] = "f8047f572f665bebeb637fd5f14678f31b3ca5d2ff9a18f20bd925bd48f75d3c"
+-- 
+2.44.1
+
+
+--===============0743360562603913585==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/git/git-bash-completion: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/git-bash-completion: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git/git-bash-completion: PKGSIZE changed from 93639 to 93804 (+0%)
+packages/core2-64-poky-linux/git/git-dbg: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/git-dbg: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git/git-dbg: PKGSIZE changed from 101066232 to 101611128 (+1%)
+packages/core2-64-poky-linux/git/git-dev: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/git-dev: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git/git-doc: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/git-doc: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git/git-locale: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/git-locale: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git/git-perltools: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/git-perltools: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git/git-src: FILELIST: directory renamed /usr/src/debug/git/2.48.1/trace2 -> /usr/src/debug/git/2.49.0/trace2, directory renamed /usr/src/debug/git/2.48.1/compat -> /usr/src/debug/git/2.49.0/compat, directory renamed /usr/src/debug/git/2.48.1/reftable -> /usr/src/debug/git/2.49.0/reftable, directory renamed /usr/src/debug/git/2.48.1/refs -> /usr/src/debug/git/2.49.0/refs, directory renamed /usr/src/debug/git/2.48.1/ewah -> /usr/src/debug/git/2.49.0/ewah, directory renamed /usr/src/debug/git/2.48.1/compat/linux -> /usr/src/debug/git/2.49.0/compat/linux, directory renamed /usr/src/debug/git/2.48.1/sha256/block -> /usr/src/debug/git/2.49.0/sha256/block, directory renamed /usr/src/debug/git/2.48.1/xdiff -> /usr/src/debug/git/2.49.0/xdiff, directory renamed /usr/src/debug/git/2.48.1/negotiator -> /usr/src/debug/git/2.49.0/negotiator, directory renamed /usr/src/debug/git/2.48.1/sha1dc -> /usr/src/debug/git/2.49.0/sha1dc, removed "/usr/src/debug/git/2.48.1/repla
+ ce-object.h /usr/src/debug/git/2.48.1/replace-object.c /usr/src/debug/git/2.48.1/refs.c /usr/src/debug/git/2.48.1/refs.h /usr/src/debug/git/2.48.1/add-interactive.h /usr/src/debug/git/2.48.1/builtin/mailsplit.c /usr/src/debug/git/2.48.1/builtin/merge-ours.c /usr/src/debug/git/2.48.1/add-interactive.c /usr/src/debug/git/2.48.1/pack-bitmap.c /usr/src/debug/git/2.48.1/pack-bitmap.h /usr/src/debug/git/2.48.1/ident.h /usr/src/debug/git/2.48.1/json-writer.h /usr/src/debug/git/2.48.1/http-backend.c /usr/src/debug/git/2.48.1/json-writer.c /usr/src/debug/git/2.48.1/write-or-die.h /usr/src/debug/git/2.48.1/builtin/ls-files.c /usr/src/debug/git/2.48.1/builtin/annotate.c /usr/src/debug/git/2.48.1/write-or-die.c /usr/src/debug/git/2.48.1/preload-index.h /usr/src/debug/git/2.48.1/run-command.c /usr/src/debug/git/2.48.1/run-command.h /usr/src/debug/git/2.48.1/preload-index.c /usr/src/debug/git/2.48.1/builtin/rev-parse.c /usr/src/debug/git/2.48.1/range-diff.c /usr/src/debug/git/2.48.1/delta.h /usr/
+ src/debug/git/2.48.1/builtin/diff-index.c /usr/src/debug/git/2.48.1/builtin/show-index.c /usr/src/debug/git/2.48.1/range-diff.h /usr/src/debug/git/2.48.1/builtin/commit-tree.c /usr/src/debug/git/2.48.1/fmt-merge-msg.h /usr/src/debug/git/2.48.1/imap-send.c /usr/src/debug/git/2.48.1/fmt-merge-msg.c /usr/src/debug/git/2.48.1/pack.h /usr/src/debug/git/2.48.1/help.h /usr/src/debug/git/2.48.1/repo-settings.h /usr/src/debug/git/2.48.1/repo-settings.c /usr/src/debug/git/2.48.1/help.c /usr/src/debug/git/2.48.1/builtin/upload-pack.c /usr/src/debug/git/2.48.1/builtin/verify-pack.c /usr/src/debug/git/2.48.1/http-push.c /usr/src/debug/git/2.48.1/dir.c /usr/src/debug/git/2.48.1/builtin/credential-store.c /usr/src/debug/git/2.48.1/dir.h /usr/src/debug/git/2.48.1/builtin/get-tar-commit-id.c /usr/src/debug/git/2.48.1/merge-recursive.h /usr/src/debug/git/2.48.1/read-cache.c /usr/src/debug/git/2.48.1/diffcore-rotate.c /usr/src/debug/git/2.48.1/merge-recursive.c /usr/src/debug/git/2.48.1/read-cache.h /
+ usr/src/debug/git/2.48.1/diffcore-rename.c /usr/src/debug/git/2.48.1/sparse-index.c /usr/src/debug/git/2.48.1/builtin/receive-pack.c /usr/src/debug/git/2.48.1/sparse-index.h /usr/src/debug/git/2.48.1/hash-lookup.h /usr/src/debug/git/2.48.1/hash-lookup.c /usr/src/debug/git/2.48.1/builtin/worktree.c /usr/src/debug/git/2.48.1/notes-cache.c /usr/src/debug/git/2.48.1/levenshtein.h /usr/src/debug/git/2.48.1/notes-cache.h /usr/src/debug/git/2.48.1/levenshtein.c /usr/src/debug/git/2.48.1/decorate.c /usr/src/debug/git/2.48.1/dir-iterator.c /usr/src/debug/git/2.48.1/line-range.h /usr/src/debug/git/2.48.1/builtin/refs.c /usr/src/debug/git/2.48.1/decorate.h /usr/src/debug/git/2.48.1/dir-iterator.h /usr/src/debug/git/2.48.1/git.c /usr/src/debug/git/2.48.1/line-range.c /usr/src/debug/git/2.48.1/builtin/check-attr.c /usr/src/debug/git/2.48.1/reachable.h /usr/src/debug/git/2.48.1/lockfile.h /usr/src/debug/git/2.48.1/packfile.h /usr/src/debug/git/2.48.1/tempfile.h /usr/src/debug/git/2.48.1/lockfile.
+ c /usr/src/debug/git/2.48.1/packfile.c /usr/src/debug/git/2.48.1/tempfile.c /usr/src/debug/git/2.48.1/reachable.c /usr/src/debug/git/2.48.1/entry.h /usr/src/debug/git/2.48.1/diff.c /usr/src/debug/git/2.48.1/diff.h /usr/src/debug/git/2.48.1/http-walker.c /usr/src/debug/git/2.48.1/resolve-undo.h /usr/src/debug/git/2.48.1/builtin/verify-tag.c /usr/src/debug/git/2.48.1/resolve-undo.c /usr/src/debug/git/2.48.1/pack-check.c /usr/src/debug/git/2.48.1/builtin/check-mailmap.c /usr/src/debug/git/2.48.1/builtin/notes.c /usr/src/debug/git/2.48.1/builtin/prune.c /usr/src/debug/git/2.48.1/builtin/reset.c /usr/src/debug/git/2.48.1/builtin/stash.c /usr/src/debug/git/2.48.1/builtin/apply.c /usr/src/debug/git/2.48.1/builtin/blame.c /usr/src/debug/git/2.48.1/builtin/clean.c /usr/src/debug/git/2.48.1/builtin/clone.c /usr/src/debug/git/2.48.1/builtin/fetch.c /usr/src/debug/git/2.48.1/builtin/merge.c /usr/src/debug/git/2.48.1/builtin/fast-import.c /usr/src/debug/git/2.48.1/xdiff-interface.c /usr/src/debu
+ g/git/2.48.1/builtin/send-pack.c /usr/src/debug/git/2.48.1/xdiff-interface.h /usr/src/debug/git/2.48.1/bundle-uri.c /usr/src/debug/git/2.48.1/bundle-uri.h /usr/src/debug/git/2.48.1/split-index.h /usr/src/debug/git/2.48.1/builtin/log.c /usr/src/debug/git/2.48.1/split-index.c /usr/src/debug/git/2.48.1/builtin/rm.c /usr/src/debug/git/2.48.1/builtin/shortlog.c /usr/src/debug/git/2.48.1/object-file.c /usr/src/debug/git/2.48.1/checkout.c /usr/src/debug/git/2.48.1/checkout.h /usr/src/debug/git/2.48.1/object-file.h /usr/src/debug/git/2.48.1/url.h /usr/src/debug/git/2.48.1/url.c /usr/src/debug/git/2.48.1/pretty.c /usr/src/debug/git/2.48.1/string-list.c /usr/src/debug/git/2.48.1/diffcore.h /usr/src/debug/git/2.48.1/string-list.h /usr/src/debug/git/2.48.1/config-list.h /usr/src/debug/git/2.48.1/midx.c /usr/src/debug/git/2.48.1/merge-ort.h /usr/src/debug/git/2.48.1/linear-assignment.h /usr/src/debug/git/2.48.1/transport.h /usr/src/debug/git/2.48.1/linear-assignment.c /usr/src/debug/git/2.48.1/m
+ erge-ort.c /usr/src/debug/git/2.48.1/transport.c /usr/src/debug/git/2.48.1/midx.h /usr/src/debug/git/2.48.1/send-pack.h /usr/src/debug/git/2.48.1/connect.h /usr/src/debug/git/2.48.1/convert.h /usr/src/debug/git/2.48.1/gettext.h /usr/src/debug/git/2.48.1/merge-ll.c /usr/src/debug/git/2.48.1/send-pack.c /usr/src/debug/git/2.48.1/simple-ipc.h /usr/src/debug/git/2.48.1/connect.c /usr/src/debug/git/2.48.1/convert.c /usr/src/debug/git/2.48.1/gettext.c /usr/src/debug/git/2.48.1/merge-ll.h /usr/src/debug/git/2.48.1/builtin/diff.c /usr/src/debug/git/2.48.1/credential.h /usr/src/debug/git/2.48.1/upload-pack.h /usr/src/debug/git/2.48.1/userdiff.h /usr/src/debug/git/2.48.1/upload-pack.c /usr/src/debug/git/2.48.1/credential.c /usr/src/debug/git/2.48.1/userdiff.c /usr/src/debug/git/2.48.1/builtin/interpret-trailers.c /usr/src/debug/git/2.48.1/csum-file.c /usr/src/debug/git/2.48.1/symlinks.h /usr/src/debug/git/2.48.1/csum-file.h /usr/src/debug/git/2.48.1/symlinks.c /usr/src/debug/git/2.48.1/commit
+ -reach.c /usr/src/debug/git/2.48.1/line-log.c /usr/src/debug/git/2.48.1/commit-reach.h /usr/src/debug/git/2.48.1/wt-status.h /usr/src/debug/git/2.48.1/line-log.h /usr/src/debug/git/2.48.1/shortlog.h /usr/src/debug/git/2.48.1/builtin/for-each-ref.c /usr/src/debug/git/2.48.1/wt-status.c /usr/src/debug/git/2.48.1/pathspec.h /usr/src/debug/git/2.48.1/pathspec.c /usr/src/debug/git/2.48.1/builtin/init-db.c /usr/src/debug/git/2.48.1/builtin/cat-file.c /usr/src/debug/git/2.48.1/abspath.h /usr/src/debug/git/2.48.1/builtin/push.c /usr/src/debug/git/2.48.1/abspath.c /usr/src/debug/git/2.48.1/builtin/show-branch.c /usr/src/debug/git/2.48.1/builtin/mv.c /usr/src/debug/git/2.48.1/hashmap.c /usr/src/debug/git/2.48.1/mailmap.c /usr/src/debug/git/2.48.1/hashmap.h /usr/src/debug/git/2.48.1/builtin/show-ref.c /usr/src/debug/git/2.48.1/mailmap.h /usr/src/debug/git/2.48.1/read-cache-ll.h /usr/src/debug/git/2.48.1/archive-zip.c /usr/src/debug/git/2.48.1/trailer.c /usr/src/debug/git/2.48.1/midx-write.c /u
+ sr/src/debug/git/2.48.1/pack-write.c /usr/src/debug/git/2.48.1/sideband.c /usr/src/debug/git/2.48.1/wrapper.c /usr/src/debug/git/2.48.1/pack-revindex.h /usr/src/debug/git/2.48.1/sideband.h /usr/src/debug/git/2.48.1/object-store.h /usr/src/debug/git/2.48.1/trailer.h /usr/src/debug/git/2.48.1/wrapper.h /usr/src/debug/git/2.48.1/pack-revindex.c /usr/src/debug/git/2.48.1/builtin/var.c /usr/src/debug/git/2.48.1/unix-socket.h /usr/src/debug/git/2.48.1/parse-options.h /usr/src/debug/git/2.48.1/unix-socket.c /usr/src/debug/git/2.48.1/graph.h /usr/src/debug/git/2.48.1/parse-options.c /usr/src/debug/git/2.48.1/transport-internal.h /usr/src/debug/git/2.48.1/unpack-trees.h /usr/src/debug/git/2.48.1/list.h /usr/src/debug/git/2.48.1/unpack-trees.c /usr/src/debug/git/2.48.1/version.c /usr/src/debug/git/2.48.1/archive-tar.c /usr/src/debug/git/2.48.1/repository.c /usr/src/debug/git/2.48.1/builtin/merge-index.c /usr/src/debug/git/2.48.1/repository.h /usr/src/debug/git/2.48.1/builtin.h /usr/src/debug/
+ git/2.48.1/version.h /usr/src/debug/git/2.48.1/builtin/remote-ext.c /usr/src/debug/git/2.48.1/builtin/fetch-pack.c /usr/src/debug/git/2.48.1/builtin/index-pack.c /usr/src/debug/git/2.48.1/log-tree.c /usr/src/debug/git/2.48.1/worktree.c /usr/src/debug/git/2.48.1/log-tree.h /usr/src/debug/git/2.48.1/builtin/check-ignore.c /usr/src/debug/git/2.48.1/worktree.h /usr/src/debug/git/2.48.1/prompt.h /usr/src/debug/git/2.48.1/rebase.h /usr/src/debug/git/2.48.1/reflog.h /usr/src/debug/git/2.48.1/remote.h /usr/src/debug/git/2.48.1/rerere.h /usr/src/debug/git/2.48.1/transport-helper.c /usr/src/debug/git/2.48.1/branch.h /usr/src/debug/git/2.48.1/base85.h /usr/src/debug/git/2.48.1/bisect.h /usr/src/debug/git/2.48.1/bundle.h /usr/src/debug/git/2.48.1/builtin/range-diff.c /usr/src/debug/git/2.48.1/builtin/archive.c /usr/src/debug/git/2.48.1/builtin/ls-tree.c /usr/src/debug/git/2.48.1/builtin/replace.c /usr/src/debug/git/2.48.1/combine-diff.c /usr/src/debug/git/2.48.1/pack-bitmap-write.c /usr/src/deb
+ ug/git/2.48.1/hook.h /usr/src/debug/git/2.48.1/notes-utils.h /usr/src/debug/git/2.48.1/advice.c /usr/src/debug/git/2.48.1/branch.c /usr/src/debug/git/2.48.1/bundle.c /usr/src/debug/git/2.48.1/cbtree.c /usr/src/debug/git/2.48.1/column.c /usr/src/debug/git/2.48.1/commit.c /usr/src/debug/git/2.48.1/editor.c /usr/src/debug/git/2.48.1/hex-ll.c /usr/src/debug/git/2.48.1/notes-utils.c /usr/src/debug/git/2.48.1/object.c /usr/src/debug/git/2.48.1/hook.c /usr/src/debug/git/2.48.1/environment.c /usr/src/debug/git/2.48.1/environment.h /usr/src/debug/git/2.48.1/builtin/write-tree.c /usr/src/debug/git/2.48.1/builtin/merge-tree.c /usr/src/debug/git/2.48.1/builtin/credential-cache.c /usr/src/debug/git/2.48.1/builtin/commit-graph.c /usr/src/debug/git/2.48.1/builtin/for-each-repo.c /usr/src/debug/git/2.48.1/pack-mtimes.c /usr/src/debug/git/2.48.1/name-hash.h /usr/src/debug/git/2.48.1/name-hash.c /usr/src/debug/git/2.48.1/pack-mtimes.h /usr/src/debug/git/2.48.1/cbtree.h /usr/src/debug/git/2.48.1/colum
+ n.h /usr/src/debug/git/2.48.1/patch-ids.c /usr/src/debug/git/2.48.1/commit.h /usr/src/debug/git/2.48.1/object-store-ll.h /usr/src/debug/git/2.48.1/patch-ids.h /usr/src/debug/git/2.48.1/oidmap.c /usr/src/debug/git/2.48.1/oidset.c /usr/src/debug/git/2.48.1/utf8.h /usr/src/debug/git/2.48.1/builtin/patch-id.c /usr/src/debug/git/2.48.1/utf8.c /usr/src/debug/git/2.48.1/builtin/unpack-objects.c /usr/src/debug/git/2.48.1/builtin/stripspace.c /usr/src/debug/git/2.48.1/fsmonitor-ll.h /usr/src/debug/git/2.48.1/ref-filter.c /usr/src/debug/git/2.48.1/ref-filter.h /usr/src/debug/git/2.48.1/diffcore-pickaxe.c /usr/src/debug/git/2.48.1/parallel-checkout.h /usr/src/debug/git/2.48.1/parallel-checkout.c /usr/src/debug/git/2.48.1/builtin/update-server-info.c /usr/src/debug/git/2.48.1/builtin/checkout--worker.c /usr/src/debug/git/2.48.1/builtin/credential-cache--daemon.c /usr/src/debug/git/2.48.1/gpg-interface.h /usr/src/debug/git/2.48.1/grep.h /usr/src/debug/git/2.48.1/rebase-interactive.c /usr/src/deb
+ ug/git/2.48.1/hook-list.h /usr/src/debug/git/2.48.1/builtin/fsmonitor--daemon.c /usr/src/debug/git/2.48.1/gpg-interface.c /usr/src/debug/git/2.48.1/grep.c /usr/src/debug/git/2.48.1/rebase-interactive.h /usr/src/debug/git/2.48.1/merge-blobs.c /usr/src/debug/git/2.48.1/merge-ort-wrappers.h /usr/src/debug/git/2.48.1/merge-ort-wrappers.c /usr/src/debug/git/2.48.1/merge-blobs.h /usr/src/debug/git/2.48.1/editor.h /usr/src/debug/git/2.48.1/walker.h /usr/src/debug/git/2.48.1/trace2.h /usr/src/debug/git/2.48.1/config.h /usr/src/debug/git/2.48.1/object.h /usr/src/debug/git/2.48.1/hex-ll.h /usr/src/debug/git/2.48.1/advice.h /usr/src/debug/git/2.48.1/oidmap.h /usr/src/debug/git/2.48.1/oidset.h /usr/src/debug/git/2.48.1/pretty.h /usr/src/debug/git/2.48.1/builtin/fast-export.c /usr/src/debug/git/2.48.1/scalar.c /usr/src/debug/git/2.48.1/strbuf.c /usr/src/debug/git/2.48.1/strmap.c /usr/src/debug/git/2.48.1/strvec.c /usr/src/debug/git/2.48.1/walker.c /usr/src/debug/git/2.48.1/prompt.c /usr/src/debu
+ g/git/2.48.1/trace2.c /usr/src/debug/git/2.48.1/daemon.c /usr/src/debug/git/2.48.1/base85.c /usr/src/debug/git/2.48.1/bisect.c /usr/src/debug/git/2.48.1/builtin/hash-object.c /usr/src/debug/git/2.48.1/promisor-remote.h /usr/src/debug/git/2.48.1/promisor-remote.c /usr/src/debug/git/2.48.1/builtin/mailinfo.c /usr/src/debug/git/2.48.1/builtin/fsck.c /usr/src/debug/git/2.48.1/builtin/name-rev.c /usr/src/debug/git/2.48.1/graph.c /usr/src/debug/git/2.48.1/ident.c /usr/src/debug/git/2.48.1/kwset.c /usr/src/debug/git/2.48.1/loose.c /usr/src/debug/git/2.48.1/merge.c /usr/src/debug/git/2.48.1/notes.c /usr/src/debug/git/2.48.1/pager.c /usr/src/debug/git/2.48.1/parse.c /usr/src/debug/git/2.48.1/tree-diff.c /usr/src/debug/git/2.48.1/usage.c /usr/src/debug/git/2.48.1/builtin/check-ref-format.c /usr/src/debug/git/2.48.1/sequencer.h /usr/src/debug/git/2.48.1/sequencer.c /usr/src/debug/git/2.48.1/bulk-checkin.h /usr/src/debug/git/2.48.1/parse.h /usr/src/debug/git/2.48.1/quote.h /usr/src/debug/git/2.
+ 48.1/reset.h /usr/src/debug/git/2.48.1/alias.h /usr/src/debug/git/2.48.1/alloc.h /usr/src/debug/git/2.48.1/apply.h /usr/src/debug/git/2.48.1/blame.h /usr/src/debug/git/2.48.1/bloom.h /usr/src/debug/git/2.48.1/color.h /usr/src/debug/git/2.48.1/bulk-checkin.c /usr/src/debug/git/2.48.1/config.c /usr/src/debug/git/2.48.1/blob.h /usr/src/debug/git/2.48.1/blob.c /usr/src/debug/git/2.48.1/fetch-pack.c /usr/src/debug/git/2.48.1/object-name.h /usr/src/debug/git/2.48.1/prio-queue.h /usr/src/debug/git/2.48.1/object-name.c /usr/src/debug/git/2.48.1/fetch-pack.h /usr/src/debug/git/2.48.1/prio-queue.c /usr/src/debug/git/2.48.1/tar.h /usr/src/debug/git/2.48.1/builtin/credential.c /usr/src/debug/git/2.48.1/commit-graph.h /usr/src/debug/git/2.48.1/builtin/diagnose.c /usr/src/debug/git/2.48.1/patch-delta.c /usr/src/debug/git/2.48.1/commit-graph.c /usr/src/debug/git/2.48.1/thread-utils.c /usr/src/debug/git/2.48.1/thread-utils.h /usr/src/debug/git/2.48.1/builtin/describe.c /usr/src/debug/git/2.48.1/bui
+ ltin/diff-files.c /usr/src/debug/git/2.48.1/tmp-objdir.h /usr/src/debug/git/2.48.1/tmp-objdir.c /usr/src/debug/git/2.48.1/connected.h /usr/src/debug/git/2.48.1/builtin/symbolic-ref.c /usr/src/debug/git/2.48.1/builtin/unpack-file.c /usr/src/debug/git/2.48.1/connected.c /usr/src/debug/git/2.48.1/parse-options-cb.c /usr/src/debug/git/2.48.1/add-patch.c /usr/src/debug/git/2.48.1/wildmatch.c /usr/src/debug/git/2.48.1/sane-ctype.h /usr/src/debug/git/2.48.1/builtin/tag.c /usr/src/debug/git/2.48.1/wildmatch.h /usr/src/debug/git/2.48.1/urlmatch.h /usr/src/debug/git/2.48.1/date.h /usr/src/debug/git/2.48.1/progress.c /usr/src/debug/git/2.48.1/urlmatch.c /usr/src/debug/git/2.48.1/builtin/bugreport.c /usr/src/debug/git/2.48.1/progress.h /usr/src/debug/git/2.48.1/builtin/merge-base.c /usr/src/debug/git/2.48.1/date.c /usr/src/debug/git/2.48.1/tree.c /usr/src/debug/git/2.48.1/server-info.c /usr/src/debug/git/2.48.1/server-info.h /usr/src/debug/git/2.48.1/tree.h /usr/src/debug/git/2.48.1/versioncmp.
+ h /usr/src/debug/git/2.48.1/streaming.h /usr/src/debug/git/2.48.1/builtin/add.c /usr/src/debug/git/2.48.1/streaming.c /usr/src/debug/git/2.48.1/versioncmp.c /usr/src/debug/git/2.48.1/diagnose.h /usr/src/debug/git/2.48.1/diagnose.c /usr/src/debug/git/2.48.1/alias.c /usr/src/debug/git/2.48.1/alloc.c /usr/src/debug/git/2.48.1/apply.c /usr/src/debug/git/2.48.1/builtin/difftool.c /usr/src/debug/git/2.48.1/ws.h /usr/src/debug/git/2.48.1/builtin/diff-tree.c /usr/src/debug/git/2.48.1/builtin/read-tree.c /usr/src/debug/git/2.48.1/fsmonitor.h /usr/src/debug/git/2.48.1/ws.c /usr/src/debug/git/2.48.1/builtin/help.c /usr/src/debug/git/2.48.1/fsmonitor.c /usr/src/debug/git/2.48.1/oid-array.h /usr/src/debug/git/2.48.1/oid-array.c /usr/src/debug/git/2.48.1/diff-no-index.c /usr/src/debug/git/2.48.1/builtin/upload-archive.c /usr/src/debug/git/2.48.1/http-fetch.c /usr/src/debug/git/2.48.1/list-objects.c /usr/src/debug/git/2.48.1/pack-objects.c /usr/src/debug/git/2.48.1/list-objects.h /usr/src/debug/gi
+ t/2.48.1/pack-objects.h /usr/src/debug/git/2.48.1/builtin/column.c /usr/src/debug/git/2.48.1/builtin/commit.c /usr/src/debug/git/2.48.1/builtin/config.c /usr/src/debug/git/2.48.1/builtin/bisect.c /usr/src/debug/git/2.48.1/builtin/mktree.c /usr/src/debug/git/2.48.1/builtin/merge-file.c /usr/src/debug/git/2.48.1/builtin/rebase.c /usr/src/debug/git/2.48.1/builtin/reflog.c /usr/src/debug/git/2.48.1/builtin/remote.c /usr/src/debug/git/2.48.1/builtin/repack.c /usr/src/debug/git/2.48.1/builtin/branch.c /usr/src/debug/git/2.48.1/builtin/replay.c /usr/src/debug/git/2.48.1/builtin/rerere.c /usr/src/debug/git/2.48.1/builtin/revert.c /usr/src/debug/git/2.48.1/builtin/ls-remote.c /usr/src/debug/git/2.48.1/builtin/bundle.c /usr/src/debug/git/2.48.1/object-file-convert.c /usr/src/debug/git/2.48.1/object-file-convert.h /usr/src/debug/git/2.48.1/shallow.c /usr/src/debug/git/2.48.1/chunk-format.c /usr/src/debug/git/2.48.1/shallow.h /usr/src/debug/git/2.48.1/chunk-format.h /usr/src/debug/git/2.48.1/pa
+ th.h /usr/src/debug/git/2.48.1/fsmonitor-ipc.h /usr/src/debug/git/2.48.1/command-list.h /usr/src/debug/git/2.48.1/builtin/gc.c /usr/src/debug/git/2.48.1/path.c /usr/src/debug/git/2.48.1/fsmonitor-ipc.c /usr/src/debug/git/2.48.1/submodule.c /usr/src/debug/git/2.48.1/ls-refs.c /usr/src/debug/git/2.48.1/pkt-line.h /usr/src/debug/git/2.48.1/builtin/checkout.c /usr/src/debug/git/2.48.1/submodule.h /usr/src/debug/git/2.48.1/ls-refs.h /usr/src/debug/git/2.48.1/pkt-line.c /usr/src/debug/git/2.48.1/hex.c /usr/src/debug/git/2.48.1/quote.c /usr/src/debug/git/2.48.1/reset.c /usr/src/debug/git/2.48.1/serve.c /usr/src/debug/git/2.48.1/setup.c /usr/src/debug/git/2.48.1/shell.c /usr/src/debug/git/2.48.1/trace.c /usr/src/debug/git/2.48.1/ctype.c /usr/src/debug/git/2.48.1/serve.h /usr/src/debug/git/2.48.1/setup.h /usr/src/debug/git/2.48.1/entry.c /usr/src/debug/git/2.48.1/trace.h /usr/src/debug/git/2.48.1/khash.h /usr/src/debug/git/2.48.1/kwset.h /usr/src/debug/git/2.48.1/loose.h /usr/src/debug/git/2
+ .48.1/merge.h /usr/src/debug/git/2.48.1/notes.h /usr/src/debug/git/2.48.1/pager.h /usr/src/debug/git/2.48.1/hex.h /usr/src/debug/git/2.48.1/attr.c /usr/src/debug/git/2.48.1/mailinfo.h /usr/src/debug/git/2.48.1/statinfo.h /usr/src/debug/git/2.48.1/blame.c /usr/src/debug/git/2.48.1/bloom.c /usr/src/debug/git/2.48.1/attr.h /usr/src/debug/git/2.48.1/mailinfo.c /usr/src/debug/git/2.48.1/statinfo.c /usr/src/debug/git/2.48.1/varint.h /usr/src/debug/git/2.48.1/git-compat-util.h /usr/src/debug/git/2.48.1/sigchain.h /usr/src/debug/git/2.48.1/sigchain.c /usr/src/debug/git/2.48.1/exec-cmd.h /usr/src/debug/git/2.48.1/notes-merge.c /usr/src/debug/git/2.48.1/rebase.c /usr/src/debug/git/2.48.1/reflog.c /usr/src/debug/git/2.48.1/remote.c /usr/src/debug/git/2.48.1/rerere.c /usr/src/debug/git/2.48.1/sha1dc_git.c /usr/src/debug/git/2.48.1/notes-merge.h /usr/src/debug/git/2.48.1/exec-cmd.c /usr/src/debug/git/2.48.1/sha1dc_git.h /usr/src/debug/git/2.48.1/mem-pool.h /usr/src/debug/git/2.48.1/protocol.h /u
+ sr/src/debug/git/2.48.1/mem-pool.c /usr/src/debug/git/2.48.1/protocol.c /usr/src/debug/git/2.48.1/match-trees.c /usr/src/debug/git/2.48.1/list-objects-filter-options.c /usr/src/debug/git/2.48.1/tag.c /usr/src/debug/git/2.48.1/tag.h /usr/src/debug/git/2.48.1/list-objects-filter-options.h /usr/src/debug/git/2.48.1/match-trees.h /usr/src/debug/git/2.48.1/iterator.h /usr/src/debug/git/2.48.1/sh-i18n--envsubst.c /usr/src/debug/git/2.48.1/hash.h /usr/src/debug/git/2.48.1/builtin/sparse-checkout.c /usr/src/debug/git/2.48.1/stable-qsort.c /usr/src/debug/git/2.48.1/protocol-caps.h /usr/src/debug/git/2.48.1/protocol-caps.c /usr/src/debug/git/2.48.1/builtin/merge-recursive.c /usr/src/debug/git/2.48.1/builtin/count-objects.c /usr/src/debug/git/2.48.1/list-objects-filter.h /usr/src/debug/git/2.48.1/list-objects-filter.c /usr/src/debug/git/2.48.1/diff-merges.c /usr/src/debug/git/2.48.1/builtin/update-ref.c /usr/src/debug/git/2.48.1/diff-merges.h /usr/src/debug/git/2.48.1/builtin/mktag.c /usr/src/
+ debug/git/2.48.1/archive.c /usr/src/debug/git/2.48.1/oidtree.c /usr/src/debug/git/2.48.1/archive.h /usr/src/debug/git/2.48.1/builtin/checkout-index.c /usr/src/debug/git/2.48.1/builtin/submodule--helper.c /usr/src/debug/git/2.48.1/color.c /usr/src/debug/git/2.48.1/oidtree.h /usr/src/debug/git/2.48.1/builtin/pack-redundant.c /usr/src/debug/git/2.48.1/builtin/pull.c /usr/src/debug/git/2.48.1/sub-process.h /usr/src/debug/git/2.48.1/fetch-negotiator.h /usr/src/debug/git/2.48.1/sub-process.c /usr/src/debug/git/2.48.1/builtin/am.c /usr/src/debug/git/2.48.1/fetch-negotiator.c /usr/src/debug/git/2.48.1/delta-islands.h /usr/src/debug/git/2.48.1/submodule-config.c /usr/src/debug/git/2.48.1/remote-curl.c /usr/src/debug/git/2.48.1/delta-islands.c /usr/src/debug/git/2.48.1/submodule-config.h /usr/src/debug/git/2.48.1/diff-lib.c /usr/src/debug/git/2.48.1/git-zlib.c /usr/src/debug/git/2.48.1/tree-walk.h /usr/src/debug/git/2.48.1/tree-walk.c /usr/src/debug/git/2.48.1/git-zlib.h /usr/src/debug/git/2.
+ 48.1/diff-delta.c /usr/src/debug/git/2.48.1/builtin/fmt-merge-msg.c /usr/src/debug/git/2.48.1/refspec.c /usr/src/debug/git/2.48.1/common-main.c /usr/src/debug/git/2.48.1/refspec.h /usr/src/debug/git/2.48.1/http.h /usr/src/debug/git/2.48.1/varint.c /usr/src/debug/git/2.48.1/builtin/remote-fd.c /usr/src/debug/git/2.48.1/http.c /usr/src/debug/git/2.48.1/reflog-walk.h /usr/src/debug/git/2.48.1/builtin/hook.c /usr/src/debug/git/2.48.1/reflog-walk.c /usr/src/debug/git/2.48.1/strbuf.h /usr/src/debug/git/2.48.1/strmap.h /usr/src/debug/git/2.48.1/strvec.h /usr/src/debug/git/2.48.1/cache-tree.h /usr/src/debug/git/2.48.1/builtin/rev-list.c /usr/src/debug/git/2.48.1/cache-tree.c /usr/src/debug/git/2.48.1/builtin/grep.c /usr/src/debug/git/2.48.1/copy.c /usr/src/debug/git/2.48.1/unicode-width.h /usr/src/debug/git/2.48.1/diffcore-break.c /usr/src/debug/git/2.48.1/diffcore-delta.c /usr/src/debug/git/2.48.1/diffcore-order.c /usr/src/debug/git/2.48.1/copy.h /usr/src/debug/git/2.48.1/builtin/verify-co
+ mmit.c /usr/src/debug/git/2.48.1/builtin/multi-pack-index.c /usr/src/debug/git/2.48.1/fsmonitor-settings.c /usr/src/debug/git/2.48.1/builtin/prune-packed.c /usr/src/debug/git/2.48.1/fsmonitor-settings.h /usr/src/debug/git/2.48.1/prune-packed.h /usr/src/debug/git/2.48.1/builtin/update-index.c /usr/src/debug/git/2.48.1/chdir-notify.c /usr/src/debug/git/2.48.1/prune-packed.c /usr/src/debug/git/2.48.1/chdir-notify.h /usr/src/debug/git/2.48.1/builtin/pack-refs.c /usr/src/debug/git/2.48.1/pseudo-merge.h /usr/src/debug/git/2.48.1/fsck.c /usr/src/debug/git/2.48.1/pseudo-merge.c /usr/src/debug/git/2.48.1/fsck.h /usr/src/debug/git/2.48.1/revision.h /usr/src/debug/git/2.48.1/builtin/pack-objects.c /usr/src/debug/git/2.48.1/revision.c", added "/usr/src/debug/git/2.49.0/merge-blobs.c /usr/src/debug/git/2.49.0/fetch-pack.c /usr/src/debug/git/2.49.0/repository.h /usr/src/debug/git/2.49.0/merge-blobs.h /usr/src/debug/git/2.49.0/fetch-pack.h /usr/src/debug/git/2.49.0/repository.c /usr/src/debug/git/
+ 2.49.0/archive-tar.c /usr/src/debug/git/2.49.0/symlinks.c /usr/src/debug/git/2.49.0/symlinks.h /usr/src/debug/git/2.49.0/resolve-undo.c /usr/src/debug/git/2.49.0/help.h /usr/src/debug/git/2.49.0/merge-ll.h /usr/src/debug/git/2.49.0/diff-no-index.c /usr/src/debug/git/2.49.0/help.c /usr/src/debug/git/2.49.0/merge-ll.c /usr/src/debug/git/2.49.0/resolve-undo.h /usr/src/debug/git/2.49.0/builtin/log.c /usr/src/debug/git/2.49.0/builtin/mv.c /usr/src/debug/git/2.49.0/kwset.c /usr/src/debug/git/2.49.0/builtin/merge-file.c /usr/src/debug/git/2.49.0/builtin/worktree.c /usr/src/debug/git/2.49.0/common-exit.c /usr/src/debug/git/2.49.0/builtin/diff.c /usr/src/debug/git/2.49.0/builtin/mailsplit.c /usr/src/debug/git/2.49.0/line-log.h /usr/src/debug/git/2.49.0/shortlog.h /usr/src/debug/git/2.49.0/rerere.c /usr/src/debug/git/2.49.0/line-log.c /usr/src/debug/git/2.49.0/git.c /usr/src/debug/git/2.49.0/builtin/merge-index.c /usr/src/debug/git/2.49.0/refspec.c /usr/src/debug/git/2.49.0/refspec.h /usr/src
+ /debug/git/2.49.0/builtin/archive.c /usr/src/debug/git/2.49.0/builtin/ls-tree.c /usr/src/debug/git/2.49.0/list-objects-filter-options.h /usr/src/debug/git/2.49.0/builtin/diff-tree.c /usr/src/debug/git/2.49.0/builtin/read-tree.c /usr/src/debug/git/2.49.0/builtin/replace.c /usr/src/debug/git/2.49.0/list-objects-filter-options.c /usr/src/debug/git/2.49.0/builtin/merge-base.c /usr/src/debug/git/2.49.0/hash-lookup.h /usr/src/debug/git/2.49.0/unix-socket.c /usr/src/debug/git/2.49.0/versioncmp.h /usr/src/debug/git/2.49.0/unix-socket.h /usr/src/debug/git/2.49.0/versioncmp.c /usr/src/debug/git/2.49.0/hash-lookup.c /usr/src/debug/git/2.49.0/daemon.c /usr/src/debug/git/2.49.0/pager.h /usr/src/debug/git/2.49.0/parse.h /usr/src/debug/git/2.49.0/builtin/unpack-file.c /usr/src/debug/git/2.49.0/promisor-remote.c /usr/src/debug/git/2.49.0/promisor-remote.h /usr/src/debug/git/2.49.0/notes-utils.h /usr/src/debug/git/2.49.0/unpack-trees.h /usr/src/debug/git/2.49.0/loose.c /usr/src/debug/git/2.49.0/comm
+ it-reach.h /usr/src/debug/git/2.49.0/unpack-trees.c /usr/src/debug/git/2.49.0/notes-utils.c /usr/src/debug/git/2.49.0/builtin/commit-graph.c /usr/src/debug/git/2.49.0/common-main.c /usr/src/debug/git/2.49.0/commit-reach.c /usr/src/debug/git/2.49.0/list-objects-filter.c /usr/src/debug/git/2.49.0/path-walk.c /usr/src/debug/git/2.49.0/tree-walk.c /usr/src/debug/git/2.49.0/builtin/checkout.c /usr/src/debug/git/2.49.0/list-objects-filter.h /usr/src/debug/git/2.49.0/path-walk.h /usr/src/debug/git/2.49.0/tree-walk.h /usr/src/debug/git/2.49.0/sideband.h /usr/src/debug/git/2.49.0/sha1dc_git.c /usr/src/debug/git/2.49.0/list-objects.h /usr/src/debug/git/2.49.0/pack-objects.h /usr/src/debug/git/2.49.0/sha1dc_git.h /usr/src/debug/git/2.49.0/sideband.c /usr/src/debug/git/2.49.0/list-objects.c /usr/src/debug/git/2.49.0/pack-objects.c /usr/src/debug/git/2.49.0/submodule-config.h /usr/src/debug/git/2.49.0/userdiff.c /usr/src/debug/git/2.49.0/builtin/ls-files.c /usr/src/debug/git/2.49.0/builtin/bugre
+ port.c /usr/src/debug/git/2.49.0/submodule-config.c /usr/src/debug/git/2.49.0/userdiff.h /usr/src/debug/git/2.49.0/builtin/fast-import.c /usr/src/debug/git/2.49.0/builtin/interpret-trailers.c /usr/src/debug/git/2.49.0/advice.h /usr/src/debug/git/2.49.0/preload-index.c /usr/src/debug/git/2.49.0/preload-index.h /usr/src/debug/git/2.49.0/builtin/diff-files.c /usr/src/debug/git/2.49.0/blob.h /usr/src/debug/git/2.49.0/varint.c /usr/src/debug/git/2.49.0/patch-ids.h /usr/src/debug/git/2.49.0/blob.c /usr/src/debug/git/2.49.0/builtin/merge-recursive.c /usr/src/debug/git/2.49.0/builtin/range-diff.c /usr/src/debug/git/2.49.0/patch-ids.c /usr/src/debug/git/2.49.0/fsmonitor-ll.h /usr/src/debug/git/2.49.0/credential.h /usr/src/debug/git/2.49.0/prio-queue.c /usr/src/debug/git/2.49.0/credential.c /usr/src/debug/git/2.49.0/prio-queue.h /usr/src/debug/git/2.49.0/split-index.h /usr/src/debug/git/2.49.0/pack-mtimes.c /usr/src/debug/git/2.49.0/builtin/for-each-ref.c /usr/src/debug/git/2.49.0/pack-mtimes
+ .h /usr/src/debug/git/2.49.0/split-index.c /usr/src/debug/git/2.49.0/builtin/show-branch.c /usr/src/debug/git/2.49.0/builtin/rev-parse.c /usr/src/debug/git/2.49.0/date.c /usr/src/debug/git/2.49.0/builtin/rev-list.c /usr/src/debug/git/2.49.0/tree.h /usr/src/debug/git/2.49.0/midx.c /usr/src/debug/git/2.49.0/builtin/remote-fd.c /usr/src/debug/git/2.49.0/date.h /usr/src/debug/git/2.49.0/midx.h /usr/src/debug/git/2.49.0/builtin/fmt-merge-msg.c /usr/src/debug/git/2.49.0/tree.c /usr/src/debug/git/2.49.0/common-init.h /usr/src/debug/git/2.49.0/builtin/commit-tree.c /usr/src/debug/git/2.49.0/common-init.c /usr/src/debug/git/2.49.0/trace2.h /usr/src/debug/git/2.49.0/base85.h /usr/src/debug/git/2.49.0/bisect.h /usr/src/debug/git/2.49.0/strbuf.h /usr/src/debug/git/2.49.0/strmap.h /usr/src/debug/git/2.49.0/branch.h /usr/src/debug/git/2.49.0/bundle.h /usr/src/debug/git/2.49.0/object.h /usr/src/debug/git/2.49.0/oidmap.h /usr/src/debug/git/2.49.0/oidset.h /usr/src/debug/git/2.49.0/base85.c /usr/src
+ /debug/git/2.49.0/bisect.c /usr/src/debug/git/2.49.0/branch.c /usr/src/debug/git/2.49.0/bundle.c /usr/src/debug/git/2.49.0/cbtree.c /usr/src/debug/git/2.49.0/column.c /usr/src/debug/git/2.49.0/commit.c /usr/src/debug/git/2.49.0/object.c /usr/src/debug/git/2.49.0/rebase.c /usr/src/debug/git/2.49.0/http-push.c /usr/src/debug/git/2.49.0/notes-merge.h /usr/src/debug/git/2.49.0/notes-merge.c /usr/src/debug/git/2.49.0/strvec.h /usr/src/debug/git/2.49.0/object-store-ll.h /usr/src/debug/git/2.49.0/environment.c /usr/src/debug/git/2.49.0/streaming.h /usr/src/debug/git/2.49.0/http-backend.c /usr/src/debug/git/2.49.0/environment.h /usr/src/debug/git/2.49.0/builtin/remote-ext.c /usr/src/debug/git/2.49.0/streaming.c /usr/src/debug/git/2.49.0/diff-delta.c /usr/src/debug/git/2.49.0/builtin/send-pack.c /usr/src/debug/git/2.49.0/imap-send.c /usr/src/debug/git/2.49.0/builtin/cat-file.c /usr/src/debug/git/2.49.0/builtin/stripspace.c /usr/src/debug/git/2.49.0/pretty.h /usr/src/debug/git/2.49.0/walker.h
+  /usr/src/debug/git/2.49.0/prompt.h /usr/src/debug/git/2.49.0/read-cache-ll.h /usr/src/debug/git/2.49.0/rebase.h /usr/src/debug/git/2.49.0/varint.h /usr/src/debug/git/2.49.0/cbtree.h /usr/src/debug/git/2.49.0/column.h /usr/src/debug/git/2.49.0/commit.h /usr/src/debug/git/2.49.0/builtin/get-tar-commit-id.c /usr/src/debug/git/2.49.0/utf8.c /usr/src/debug/git/2.49.0/urlmatch.c /usr/src/debug/git/2.49.0/advice.c /usr/src/debug/git/2.49.0/pack.h /usr/src/debug/git/2.49.0/builtin/update-server-info.c /usr/src/debug/git/2.49.0/urlmatch.h /usr/src/debug/git/2.49.0/utf8.h /usr/src/debug/git/2.49.0/bundle-uri.h /usr/src/debug/git/2.49.0/bundle-uri.c /usr/src/debug/git/2.49.0/editor.h /usr/src/debug/git/2.49.0/scalar.c /usr/src/debug/git/2.49.0/strbuf.c /usr/src/debug/git/2.49.0/strmap.c /usr/src/debug/git/2.49.0/strvec.c /usr/src/debug/git/2.49.0/builtin/grep.c /usr/src/debug/git/2.49.0/oidmap.c /usr/src/debug/git/2.49.0/oidset.c /usr/src/debug/git/2.49.0/walker.c /usr/src/debug/git/2.49.0/re
+ flog.c /usr/src/debug/git/2.49.0/remote.c /usr/src/debug/git/2.49.0/ls-refs.c /usr/src/debug/git/2.49.0/xdiff-interface.c /usr/src/debug/git/2.49.0/ls-refs.h /usr/src/debug/git/2.49.0/xdiff-interface.h /usr/src/debug/git/2.49.0/builtin/unpack-objects.c /usr/src/debug/git/2.49.0/builtin/credential.c /usr/src/debug/git/2.49.0/builtin/submodule--helper.c /usr/src/debug/git/2.49.0/midx-write.c /usr/src/debug/git/2.49.0/pack-write.c /usr/src/debug/git/2.49.0/fsmonitor.h /usr/src/debug/git/2.49.0/line-range.h /usr/src/debug/git/2.49.0/builtin/apply.c /usr/src/debug/git/2.49.0/builtin/clone.c /usr/src/debug/git/2.49.0/fsmonitor.c /usr/src/debug/git/2.49.0/builtin/merge.c /usr/src/debug/git/2.49.0/builtin/mktag.c /usr/src/debug/git/2.49.0/builtin/notes.c /usr/src/debug/git/2.49.0/builtin/prune.c /usr/src/debug/git/2.49.0/builtin/reset.c /usr/src/debug/git/2.49.0/builtin/stash.c /usr/src/debug/git/2.49.0/line-range.c /usr/src/debug/git/2.49.0/sh-i18n--envsubst.c /usr/src/debug/git/2.49.0/htt
+ p-fetch.c /usr/src/debug/git/2.49.0/builtin/fetch-pack.c /usr/src/debug/git/2.49.0/builtin/index-pack.c /usr/src/debug/git/2.49.0/merge.h /usr/src/debug/git/2.49.0/url.h /usr/src/debug/git/2.49.0/url.c /usr/src/debug/git/2.49.0/command-list.h /usr/src/debug/git/2.49.0/builtin/difftool.c /usr/src/debug/git/2.49.0/tag.h /usr/src/debug/git/2.49.0/tag.c /usr/src/debug/git/2.49.0/diffcore-break.c /usr/src/debug/git/2.49.0/diffcore-delta.c /usr/src/debug/git/2.49.0/diffcore-order.c /usr/src/debug/git/2.49.0/send-pack.c /usr/src/debug/git/2.49.0/builtin/check-ignore.c /usr/src/debug/git/2.49.0/send-pack.h /usr/src/debug/git/2.49.0/reachable.h /usr/src/debug/git/2.49.0/reachable.c /usr/src/debug/git/2.49.0/sequencer.h /usr/src/debug/git/2.49.0/fsmonitor-ipc.c /usr/src/debug/git/2.49.0/fsmonitor-ipc.h /usr/src/debug/git/2.49.0/sequencer.c /usr/src/debug/git/2.49.0/range-diff.c /usr/src/debug/git/2.49.0/transport-helper.c /usr/src/debug/git/2.49.0/builtin/symbolic-ref.c /usr/src/debug/git/2.4
+ 9.0/range-diff.h /usr/src/debug/git/2.49.0/json-writer.c /usr/src/debug/git/2.49.0/prune-packed.h /usr/src/debug/git/2.49.0/unicode-width.h /usr/src/debug/git/2.49.0/editor.c /usr/src/debug/git/2.49.0/prune-packed.c /usr/src/debug/git/2.49.0/json-writer.h /usr/src/debug/git/2.49.0/builtin/patch-id.c /usr/src/debug/git/2.49.0/parse-options.c /usr/src/debug/git/2.49.0/parse-options.h /usr/src/debug/git/2.49.0/archive.h /usr/src/debug/git/2.49.0/oidtree.h /usr/src/debug/git/2.49.0/archive.c /usr/src/debug/git/2.49.0/oidtree.c /usr/src/debug/git/2.49.0/builtin/for-each-repo.c /usr/src/debug/git/2.49.0/fsck.c /usr/src/debug/git/2.49.0/fetch-negotiator.c /usr/src/debug/git/2.49.0/fsck.h /usr/src/debug/git/2.49.0/fetch-negotiator.h /usr/src/debug/git/2.49.0/progress.h /usr/src/debug/git/2.49.0/name-hash.h /usr/src/debug/git/2.49.0/notes.h /usr/src/debug/git/2.49.0/hook.h /usr/src/debug/git/2.49.0/progress.c /usr/src/debug/git/2.49.0/hook.c /usr/src/debug/git/2.49.0/name-hash.c /usr/src/deb
+ ug/git/2.49.0/diff.c /usr/src/debug/git/2.49.0/read-cache.c /usr/src/debug/git/2.49.0/read-cache.h /usr/src/debug/git/2.49.0/diff.h /usr/src/debug/git/2.49.0/upload-pack.h /usr/src/debug/git/2.49.0/builtin/pull.c /usr/src/debug/git/2.49.0/upload-pack.c /usr/src/debug/git/2.49.0/diff-merges.h /usr/src/debug/git/2.49.0/object-name.h /usr/src/debug/git/2.49.0/patch-delta.c /usr/src/debug/git/2.49.0/ref-filter.h /usr/src/debug/git/2.49.0/diff-merges.c /usr/src/debug/git/2.49.0/object-name.c /usr/src/debug/git/2.49.0/ref-filter.c /usr/src/debug/git/2.49.0/diagnose.h /usr/src/debug/git/2.49.0/diagnose.c /usr/src/debug/git/2.49.0/builtin/update-index.c /usr/src/debug/git/2.49.0/shallow.h /usr/src/debug/git/2.49.0/ws.c /usr/src/debug/git/2.49.0/http-walker.c /usr/src/debug/git/2.49.0/shallow.c /usr/src/debug/git/2.49.0/ws.h /usr/src/debug/git/2.49.0/pack-bitmap-write.c /usr/src/debug/git/2.49.0/pretty.c /usr/src/debug/git/2.49.0/prompt.c /usr/src/debug/git/2.49.0/stable-qsort.c /usr/src/deb
+ ug/git/2.49.0/builtin/add.c /usr/src/debug/git/2.49.0/builtin/ls-remote.c /usr/src/debug/git/2.49.0/builtin/refs.c /usr/src/debug/git/2.49.0/git-compat-util.h /usr/src/debug/git/2.49.0/builtin/reflog.c /usr/src/debug/git/2.49.0/builtin/bisect.c /usr/src/debug/git/2.49.0/builtin/branch.c /usr/src/debug/git/2.49.0/builtin/bundle.c /usr/src/debug/git/2.49.0/builtin/check-ref-format.c /usr/src/debug/git/2.49.0/builtin/column.c /usr/src/debug/git/2.49.0/builtin/commit.c /usr/src/debug/git/2.49.0/builtin/config.c /usr/src/debug/git/2.49.0/builtin/mktree.c /usr/src/debug/git/2.49.0/builtin/rebase.c /usr/src/debug/git/2.49.0/sane-ctype.h /usr/src/debug/git/2.49.0/pack-revindex.h /usr/src/debug/git/2.49.0/builtin/check-mailmap.c /usr/src/debug/git/2.49.0/delta-islands.c /usr/src/debug/git/2.49.0/abspath.h /usr/src/debug/git/2.49.0/merge-ort-wrappers.c /usr/src/debug/git/2.49.0/pack-revindex.c /usr/src/debug/git/2.49.0/builtin/tag.c /usr/src/debug/git/2.49.0/merge-ort-wrappers.h /usr/src/debu
+ g/git/2.49.0/abspath.c /usr/src/debug/git/2.49.0/builtin/push.c /usr/src/debug/git/2.49.0/delta-islands.h /usr/src/debug/git/2.49.0/tmp-objdir.h /usr/src/debug/git/2.49.0/tmp-objdir.c /usr/src/debug/git/2.49.0/thread-utils.c /usr/src/debug/git/2.49.0/object-file.c /usr/src/debug/git/2.49.0/pseudo-merge.h /usr/src/debug/git/2.49.0/builtin/upload-pack.c /usr/src/debug/git/2.49.0/builtin/verify-pack.c /usr/src/debug/git/2.49.0/object-file.h /usr/src/debug/git/2.49.0/tree-diff.c /usr/src/debug/git/2.49.0/thread-utils.h /usr/src/debug/git/2.49.0/pseudo-merge.c /usr/src/debug/git/2.49.0/sparse-index.h /usr/src/debug/git/2.49.0/builtin/upload-archive.c /usr/src/debug/git/2.49.0/simple-ipc.h /usr/src/debug/git/2.49.0/builtin/fsmonitor--daemon.c /usr/src/debug/git/2.49.0/sparse-index.c /usr/src/debug/git/2.49.0/merge-recursive.h /usr/src/debug/git/2.49.0/diffcore-rename.c /usr/src/debug/git/2.49.0/diffcore-rotate.c /usr/src/debug/git/2.49.0/merge-recursive.c /usr/src/debug/git/2.49.0/builtin
+ /am.c /usr/src/debug/git/2.49.0/diff-lib.c /usr/src/debug/git/2.49.0/fmt-merge-msg.c /usr/src/debug/git/2.49.0/git-zlib.c /usr/src/debug/git/2.49.0/write-or-die.c /usr/src/debug/git/2.49.0/tar.h /usr/src/debug/git/2.49.0/fmt-merge-msg.h /usr/src/debug/git/2.49.0/git-zlib.h /usr/src/debug/git/2.49.0/write-or-die.h /usr/src/debug/git/2.49.0/builtin/pack-redundant.c /usr/src/debug/git/2.49.0/transport-internal.h /usr/src/debug/git/2.49.0/builtin/show-ref.c /usr/src/debug/git/2.49.0/builtin/hash-object.c /usr/src/debug/git/2.49.0/grep.c /usr/src/debug/git/2.49.0/pack-bitmap.h /usr/src/debug/git/2.49.0/sub-process.h /usr/src/debug/git/2.49.0/sub-process.c /usr/src/debug/git/2.49.0/grep.h /usr/src/debug/git/2.49.0/pack-bitmap.c /usr/src/debug/git/2.49.0/alias.c /usr/src/debug/git/2.49.0/mem-pool.c /usr/src/debug/git/2.49.0/protocol.c /usr/src/debug/git/2.49.0/alloc.c /usr/src/debug/git/2.49.0/apply.c /usr/src/debug/git/2.49.0/mem-pool.h /usr/src/debug/git/2.49.0/protocol.h /usr/src/debug/
+ git/2.49.0/revision.c /usr/src/debug/git/2.49.0/builtin/checkout--worker.c /usr/src/debug/git/2.49.0/revision.h /usr/src/debug/git/2.49.0/builtin/diagnose.c /usr/src/debug/git/2.49.0/trace2.c /usr/src/debug/git/2.49.0/mailinfo.h /usr/src/debug/git/2.49.0/mailmap.h /usr/src/debug/git/2.49.0/statinfo.h /usr/src/debug/git/2.49.0/mailinfo.c /usr/src/debug/git/2.49.0/statinfo.c /usr/src/debug/git/2.49.0/linear-assignment.c /usr/src/debug/git/2.49.0/linear-assignment.h /usr/src/debug/git/2.49.0/hex-ll.h /usr/src/debug/git/2.49.0/lockfile.c /usr/src/debug/git/2.49.0/packfile.c /usr/src/debug/git/2.49.0/gpg-interface.c /usr/src/debug/git/2.49.0/object-store.h /usr/src/debug/git/2.49.0/tempfile.c /usr/src/debug/git/2.49.0/gpg-interface.h /usr/src/debug/git/2.49.0/lockfile.h /usr/src/debug/git/2.49.0/packfile.h /usr/src/debug/git/2.49.0/builtin/hook.c /usr/src/debug/git/2.49.0/diffcore-pickaxe.c /usr/src/debug/git/2.49.0/tempfile.h /usr/src/debug/git/2.49.0/archive-zip.c /usr/src/debug/git/2.
+ 49.0/builtin/rm.c /usr/src/debug/git/2.49.0/builtin/credential-store.c /usr/src/debug/git/2.49.0/builtin/verify-commit.c /usr/src/debug/git/2.49.0/remote-curl.c /usr/src/debug/git/2.49.0/setup.c /usr/src/debug/git/2.49.0/serve.c /usr/src/debug/git/2.49.0/notes.c /usr/src/debug/git/2.49.0/trace.c /usr/src/debug/git/2.49.0/builtin/blame.c /usr/src/debug/git/2.49.0/builtin/clean.c /usr/src/debug/git/2.49.0/builtin/fetch.c /usr/src/debug/git/2.49.0/pager.c /usr/src/debug/git/2.49.0/parse.c /usr/src/debug/git/2.49.0/trace.h /usr/src/debug/git/2.49.0/rebase-interactive.c /usr/src/debug/git/2.49.0/quote.h /usr/src/debug/git/2.49.0/sigchain.c /usr/src/debug/git/2.49.0/reset.h /usr/src/debug/git/2.49.0/serve.h /usr/src/debug/git/2.49.0/setup.h /usr/src/debug/git/2.49.0/entry.h /usr/src/debug/git/2.49.0/graph.h /usr/src/debug/git/2.49.0/ident.h /usr/src/debug/git/2.49.0/commit-graph.h /usr/src/debug/git/2.49.0/rebase-interactive.h /usr/src/debug/git/2.49.0/sigchain.h /usr/src/debug/git/2.49.0
+ /blame.c /usr/src/debug/git/2.49.0/bloom.c /usr/src/debug/git/2.49.0/builtin/mailinfo.c /usr/src/debug/git/2.49.0/pkt-line.h /usr/src/debug/git/2.49.0/builtin/describe.c /usr/src/debug/git/2.49.0/builtin/count-objects.c /usr/src/debug/git/2.49.0/pkt-line.c /usr/src/debug/git/2.49.0/bulk-checkin.c /usr/src/debug/git/2.49.0/builtin/fast-export.c /usr/src/debug/git/2.49.0/dir-iterator.c /usr/src/debug/git/2.49.0/bulk-checkin.h /usr/src/debug/git/2.49.0/dir-iterator.h /usr/src/debug/git/2.49.0/config.h /usr/src/debug/git/2.49.0/builtin/name-rev.c /usr/src/debug/git/2.49.0/hex-ll.c /usr/src/debug/git/2.49.0/builtin/fsck.c /usr/src/debug/git/2.49.0/pathspec.c /usr/src/debug/git/2.49.0/notes-cache.h /usr/src/debug/git/2.49.0/pathspec.h /usr/src/debug/git/2.49.0/combine-diff.c /usr/src/debug/git/2.49.0/notes-cache.c /usr/src/debug/git/2.49.0/decorate.h /usr/src/debug/git/2.49.0/decorate.c /usr/src/debug/git/2.49.0/repo-settings.h /usr/src/debug/git/2.49.0/fsmonitor-settings.h /usr/src/debug
+ /git/2.49.0/repo-settings.c /usr/src/debug/git/2.49.0/fsmonitor-settings.c /usr/src/debug/git/2.49.0/builtin/sparse-checkout.c /usr/src/debug/git/2.49.0/http.c /usr/src/debug/git/2.49.0/builtin/remote.c /usr/src/debug/git/2.49.0/builtin/repack.c /usr/src/debug/git/2.49.0/builtin/replay.c /usr/src/debug/git/2.49.0/builtin/rerere.c /usr/src/debug/git/2.49.0/builtin/revert.c /usr/src/debug/git/2.49.0/http.h /usr/src/debug/git/2.49.0/merge-ort.c /usr/src/debug/git/2.49.0/csum-file.c /usr/src/debug/git/2.49.0/transport.c /usr/src/debug/git/2.49.0/replace-object.c /usr/src/debug/git/2.49.0/csum-file.h /usr/src/debug/git/2.49.0/merge-ort.h /usr/src/debug/git/2.49.0/transport.h /usr/src/debug/git/2.49.0/replace-object.h /usr/src/debug/git/2.49.0/chunk-format.c /usr/src/debug/git/2.49.0/chunk-format.h /usr/src/debug/git/2.49.0/levenshtein.c /usr/src/debug/git/2.49.0/log-tree.c /usr/src/debug/git/2.49.0/builtin/credential-cache--daemon.c /usr/src/debug/git/2.49.0/worktree.c /usr/src/debug/git
+ /2.49.0/levenshtein.h /usr/src/debug/git/2.49.0/log-tree.h /usr/src/debug/git/2.49.0/worktree.h /usr/src/debug/git/2.49.0/builtin/prune-packed.c /usr/src/debug/git/2.49.0/parallel-checkout.c /usr/src/debug/git/2.49.0/parallel-checkout.h /usr/src/debug/git/2.49.0/builtin/credential-cache.c /usr/src/debug/git/2.49.0/list.h /usr/src/debug/git/2.49.0/builtin/pack-refs.c /usr/src/debug/git/2.49.0/quote.c /usr/src/debug/git/2.49.0/reset.c /usr/src/debug/git/2.49.0/merge.c /usr/src/debug/git/2.49.0/config.c /usr/src/debug/git/2.49.0/usage.c /usr/src/debug/git/2.49.0/shell.c /usr/src/debug/git/2.49.0/ctype.c /usr/src/debug/git/2.49.0/color.c /usr/src/debug/git/2.49.0/ident.c /usr/src/debug/git/2.49.0/graph.c /usr/src/debug/git/2.49.0/builtin/merge-ours.c /usr/src/debug/git/2.49.0/checkout.h /usr/src/debug/git/2.49.0/path.c /usr/src/debug/git/2.49.0/builtin/update-ref.c /usr/src/debug/git/2.49.0/checkout.c /usr/src/debug/git/2.49.0/builtin/receive-pack.c /usr/src/debug/git/2.49.0/parse-optio
+ ns-cb.c /usr/src/debug/git/2.49.0/path.h /usr/src/debug/git/2.49.0/copy.c /usr/src/debug/git/2.49.0/copy.h /usr/src/debug/git/2.49.0/khash.h /usr/src/debug/git/2.49.0/kwset.h /usr/src/debug/git/2.49.0/alias.h /usr/src/debug/git/2.49.0/alloc.h /usr/src/debug/git/2.49.0/apply.h /usr/src/debug/git/2.49.0/blame.h /usr/src/debug/git/2.49.0/bloom.h /usr/src/debug/git/2.49.0/color.h /usr/src/debug/git/2.49.0/delta.h /usr/src/debug/git/2.49.0/loose.h /usr/src/debug/git/2.49.0/pack-check.c /usr/src/debug/git/2.49.0/chdir-notify.h /usr/src/debug/git/2.49.0/builtin/pack-objects.c /usr/src/debug/git/2.49.0/chdir-notify.c /usr/src/debug/git/2.49.0/builtin/backfill.c /usr/src/debug/git/2.49.0/dir.h /usr/src/debug/git/2.49.0/add-interactive.c /usr/src/debug/git/2.49.0/add-interactive.h /usr/src/debug/git/2.49.0/dir.c /usr/src/debug/git/2.49.0/builtin.h /usr/src/debug/git/2.49.0/version.h /usr/src/debug/git/2.49.0/builtin/init-db.c /usr/src/debug/git/2.49.0/refs.c /usr/src/debug/git/2.49.0/refs.h /
+ usr/src/debug/git/2.49.0/version.c /usr/src/debug/git/2.49.0/connected.h /usr/src/debug/git/2.49.0/connected.c /usr/src/debug/git/2.49.0/protocol-caps.c /usr/src/debug/git/2.49.0/builtin/help.c /usr/src/debug/git/2.49.0/protocol-caps.h /usr/src/debug/git/2.49.0/hash.h /usr/src/debug/git/2.49.0/commit-graph.c /usr/src/debug/git/2.49.0/add-patch.c /usr/src/debug/git/2.49.0/wildmatch.c /usr/src/debug/git/2.49.0/wildmatch.h /usr/src/debug/git/2.49.0/attr.h /usr/src/debug/git/2.49.0/builtin/multi-pack-index.c /usr/src/debug/git/2.49.0/config-list.h /usr/src/debug/git/2.49.0/attr.c /usr/src/debug/git/2.49.0/string-list.h /usr/src/debug/git/2.49.0/string-list.c /usr/src/debug/git/2.49.0/server-info.c /usr/src/debug/git/2.49.0/exec-cmd.c /usr/src/debug/git/2.49.0/object-file-convert.h /usr/src/debug/git/2.49.0/exec-cmd.h /usr/src/debug/git/2.49.0/server-info.h /usr/src/debug/git/2.49.0/object-file-convert.c /usr/src/debug/git/2.49.0/diffcore.h /usr/src/debug/git/2.49.0/match-trees.c /usr/sr
+ c/debug/git/2.49.0/reflog.h /usr/src/debug/git/2.49.0/remote.h /usr/src/debug/git/2.49.0/rerere.h /usr/src/debug/git/2.49.0/match-trees.h /usr/src/debug/git/2.49.0/reflog-walk.h /usr/src/debug/git/2.49.0/run-command.c /usr/src/debug/git/2.49.0/builtin/var.c /usr/src/debug/git/2.49.0/reflog-walk.c /usr/src/debug/git/2.49.0/run-command.h /usr/src/debug/git/2.49.0/wt-status.c /usr/src/debug/git/2.49.0/oid-array.c /usr/src/debug/git/2.49.0/wt-status.h /usr/src/debug/git/2.49.0/builtin/gc.c /usr/src/debug/git/2.49.0/oid-array.h /usr/src/debug/git/2.49.0/builtin/merge-tree.c /usr/src/debug/git/2.49.0/builtin/write-tree.c /usr/src/debug/git/2.49.0/cache-tree.h /usr/src/debug/git/2.49.0/iterator.h /usr/src/debug/git/2.49.0/builtin/annotate.c /usr/src/debug/git/2.49.0/cache-tree.c /usr/src/debug/git/2.49.0/convert.c /usr/src/debug/git/2.49.0/gettext.c /usr/src/debug/git/2.49.0/connect.c /usr/src/debug/git/2.49.0/entry.c /usr/src/debug/git/2.49.0/submodule.h /usr/src/debug/git/2.49.0/builtin/
+ shortlog.c /usr/src/debug/git/2.49.0/builtin/checkout-index.c /usr/src/debug/git/2.49.0/connect.h /usr/src/debug/git/2.49.0/convert.h /usr/src/debug/git/2.49.0/gettext.h /usr/src/debug/git/2.49.0/submodule.c /usr/src/debug/git/2.49.0/hook-list.h /usr/src/debug/git/2.49.0/builtin/verify-tag.c /usr/src/debug/git/2.49.0/trailer.c /usr/src/debug/git/2.49.0/wrapper.c /usr/src/debug/git/2.49.0/trailer.h /usr/src/debug/git/2.49.0/wrapper.h /usr/src/debug/git/2.49.0/builtin/diff-index.c /usr/src/debug/git/2.49.0/builtin/show-index.c /usr/src/debug/git/2.49.0/hex.h /usr/src/debug/git/2.49.0/hashmap.c /usr/src/debug/git/2.49.0/mailmap.c /usr/src/debug/git/2.49.0/builtin/check-attr.c /usr/src/debug/git/2.49.0/hex.c /usr/src/debug/git/2.49.0/hashmap.h"
+packages/core2-64-poky-linux/git/git-src: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/git-src: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git/git-src: PKGSIZE changed from 9931301 to 9989707 (+1%)
+packages/core2-64-poky-linux/git/git-staticdev: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/git-staticdev: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git/git-tk: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/git-tk: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git/git: FILELIST: added "/usr/libexec/git-core/git-backfill"
+packages/core2-64-poky-linux/git/git: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/git: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git/git: PKGSIZE changed from 24826653 to 24892671 (+0%)
+packages/core2-64-poky-linux/git/gitweb: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git/gitweb: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+packages/core2-64-poky-linux/git: PV changed from "2.48.1" to "2.49.0"
+packages/core2-64-poky-linux/git: SRC_URI changed from "https://cdn.kernel.org/pub/software/scm/git/git-2.48.1.tar.gz;name=tarball file://fixsort.patch file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch" to "https://cdn.kernel.org/pub/software/scm/git/git-2.49.0.tar.gz;name=tarball file://fixsort.patch file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch"
+packages/core2-64-poky-linux/git: PKGV changed from 2.48.1 [default] to 2.49.0 [default]
+
+--===============0743360562603913585==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/git/git: FILELIST: added "/usr/libexec/git-core/git-backfill"
+
+--===============0743360562603913585==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-git-upgrade-2.48.1-2.49.0.patch"
+
+RnJvbSBiZDJkMGI5ODVhNmJhZDgyYmJjNDc3ZTAxNGJjNzIyYTllYWVlYWRiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMDg6MTc6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+aXQ6IHVwZ3JhZGUgMi40OC4xIC0+IDIuNDkuMAoKLS0tCiAuLi5uZmlnLm1hay51bmFtZS1kby1u
+b3QtZm9yY2UtUkhFTC03LXNwZWNpZmljLWJ1aWxkLS5wYXRjaCB8IDIgKy0KIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9naXQvZ2l0L2ZpeHNvcnQucGF0Y2ggICAgICAgICAgICAgICAgIHwgNiArKyst
+LS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQve2dpdF8yLjQ4LjEuYmIgPT4gZ2l0XzIuNDku
+MC5iYn0gIHwgMiArLQogMyBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRp
+b25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC97Z2l0XzIuNDguMS5iYiA9
+PiBnaXRfMi40OS4wLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9naXQvZ2l0LzAwMDEtY29uZmlnLm1hay51bmFtZS1kby1ub3QtZm9yY2UtUkhFTC03LXNwZWNp
+ZmljLWJ1aWxkLS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0LzAwMDEtY29u
+ZmlnLm1hay51bmFtZS1kby1ub3QtZm9yY2UtUkhFTC03LXNwZWNpZmljLWJ1aWxkLS5wYXRjaApp
+bmRleCBjYmU5YTMyZmExLi42MWJmMGUxMmRjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvZ2l0L2dpdC8wMDAxLWNvbmZpZy5tYWsudW5hbWUtZG8tbm90LWZvcmNlLVJIRUwtNy1z
+cGVjaWZpYy1idWlsZC0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC9naXQv
+MDAwMS1jb25maWcubWFrLnVuYW1lLWRvLW5vdC1mb3JjZS1SSEVMLTctc3BlY2lmaWMtYnVpbGQt
+LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyYTk3ZjYxYzU1OGEwMzI4MmM3ZDgxNzk3ZjFj
+ZDhiNTk0Zjk1M2RjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzMjVjMzBkYWM0ZWFm
+ZGQ0NjNjOGZmY2ZlMTIxNTg1OGQ2NDJhYjkxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IE1vbiwgNyBG
+ZWIgMjAyMiAxMDoxMzoxNSArMDEwMAogU3ViamVjdDogW1BBVENIXSBjb25maWcubWFrLnVuYW1l
+OiBkbyBub3QgZm9yY2UgUkhFTC03IHNwZWNpZmljIGJ1aWxkIHNldHRpbmdzCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdC9maXhzb3J0LnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2dpdC9naXQvZml4c29ydC5wYXRjaAppbmRleCBlMDE5NTNlMzI0Li5lMDc3
+ZWJhOGZmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdC9maXhzb3J0
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0L2ZpeHNvcnQucGF0Y2gK
+QEAgLTEsNCArMSw0IEBACi1Gcm9tIDBhZGE5OGI4ZTFkZTNmZTgzNWI0Mzk3NzczMDNkZmFmOWFj
+NjVhMDggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDY1ZmE1YzBmODQ5ZmU0YTFlM2Ni
+OGU2YWYwMDg2ZWYwNzQ4YzI4ZGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBSaWNo
+YXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KIERhdGU6IFdl
+ZCwgMTcgRmViIDIwMjEgMTc6NTc6MTMgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZ2VuZXJhdGUt
+Y29uZmlnbGlzdC5zaDogRml4IGRldGVybWluaXNtIGlzc3VlCkBAIC0yMywxMiArMjMsMTIgQEAg
+VXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8vcHVibGljLWluYm94Lm9yZy9naXQv
+ZjAyOWE5NDJkZDNkNTBkODVlNjBiZDMKICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
+IDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2dlbmVyYXRlLWNvbmZpZ2xpc3Quc2ggYi9n
+ZW5lcmF0ZS1jb25maWdsaXN0LnNoCi1pbmRleCA1Nzk0MjI2Li42YjBiOTM5IDEwMDc1NQoraW5k
+ZXggZGZmZGFhZC4uY2MzNWEyMSAxMDA3NTUKIC0tLSBhL2dlbmVyYXRlLWNvbmZpZ2xpc3Quc2gK
+ICsrKyBiL2dlbmVyYXRlLWNvbmZpZ2xpc3Quc2gKIEBAIC0xNSw3ICsxNSw3IEBAIHN0YXRpYyBj
+b25zdCBjaGFyICpjb25maWdfbmFtZV9saXN0W10gPSB7CiAgRU9GCi0gCWdyZXAgLWggJ15bYS16
+QS1aXS4qXC4uKjo6JCcgIiRTT1VSQ0VfRElSIi9Eb2N1bWVudGF0aW9uLypjb25maWcudHh0ICIk
+U09VUkNFX0RJUiIvRG9jdW1lbnRhdGlvbi9jb25maWcvKi50eHQgfAorIAlncmVwIC1oICdeW2Et
+ekEtWl0uKlwuLio6OiQnICIkU09VUkNFX0RJUiIvRG9jdW1lbnRhdGlvbi8qY29uZmlnLmFkb2Mg
+IiRTT1VSQ0VfRElSIi9Eb2N1bWVudGF0aW9uL2NvbmZpZy8qLmFkb2MgfAogIAlzZWQgJy9kZXBy
+ZWNhdGVkL2Q7IHMvOjokLy87IHMvLCAgKi9cbi9nJyB8CiAtCXNvcnQgfAogKwlMQ19BTEw9QyBz
+b3J0IHwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0XzIuNDguMS5i
+YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0XzIuNDkuMC5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdF8yLjQ4LjEu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0XzIuNDkuMC5iYgppbmRl
+eCBlMGRmMjNlYjQ3Li42NjA4MmQwYmRlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvZ2l0L2dpdF8yLjQ4LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC9naXRf
+Mi40OS4wLmJiCkBAIC0xNjQsNCArMTY0LDQgQEAgRVhUUkFfT0VDT05GICs9ICJhY19jdl9zbnBy
+aW50Zl9yZXR1cm5zX2JvZ3VzPW5vIFwKICAgICAgICAgICAgICAgICAgIgogRVhUUkFfT0VNQUtF
+ICs9ICJOT19HRVRURVhUPTEiCiAKLVNSQ19VUklbdGFyYmFsbC5zaGEyNTZzdW1dID0gIjUxYjRk
+MDNiMWUzMTFiYTY3MzU5MTIxMGY5NGYyNGE0YzU3ODE0NTNlMWViMTg4ODIyZTNkOWNkYzA0YzIy
+MTIiCitTUkNfVVJJW3RhcmJhbGwuc2hhMjU2c3VtXSA9ICJmODA0N2Y1NzJmNjY1YmViZWI2Mzdm
+ZDVmMTQ2NzhmMzFiM2NhNWQyZmY5YTE4ZjIwYmQ5MjViZDQ4Zjc1ZDNjIgotLSAKMi40NC4xCgo=
+
+--===============0743360562603913585==--
 
