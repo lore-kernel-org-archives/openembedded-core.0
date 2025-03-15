@@ -1,247 +1,170 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 098A7C28B2F
-	for <webhook@archiver.kernel.org>; Fri, 14 Mar 2025 19:44:14 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web11.2962.1741981443767355647
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A859C28B2F
+	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 00:36:55 +0000 (UTC)
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by mx.groups.io with SMTP id smtpd.web10.1455.1741999006014226619
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Mar 2025 12:44:03 -0700
+ Fri, 14 Mar 2025 17:36:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RrnxD3vS;
- spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4769bbc21b0so24845081cf.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 12:44:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741981443; x=1742586243; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iW4IjX0eESRxyBNp7sggw2STu/5rt1rA2VUl9uULi3Y=;
-        b=RrnxD3vSJORodnzOMxe23cILmwIcVsYyAxWO2lPOLxLV6OiShPxwJxsOtnXy865bGU
-         vUpKCW/mMLBs61a670ketpe4uGUEjINH8m2LiAHXFBVpZnjRX7YSI82mkFX+MhG4ETLM
-         PyBpYjyOcnakdEkEn7bDOtuLrA9k9B+8LDiobh4oJhpZJqlk5VdPZzwyIx346LjgUVeX
-         iV485glDvqBc6+0uc6MMQMJ3XWQu5ML5Vkg4jqxdXj/ukea0n9ychIgWVQSgxtt7n0jV
-         S3jo012ZhSld0xqQcFVqVp5/+QCPt5ym3FEJNfdRo7EV4C/50+xCvuWlcIlSyUd9K+Ee
-         5y9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741981443; x=1742586243;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iW4IjX0eESRxyBNp7sggw2STu/5rt1rA2VUl9uULi3Y=;
-        b=kBVEFTkkjLEGKhiR4hcv5IcTNWIyyJwCUTQAEMhjelG1SPRZcQtpyqOvKo5wFFN8Bt
-         38t0NvvCop8uhvGHtdXiIIvPfo7qs2ABNylaweUNb1NU78mLTFNH6vRf97Xwk6vzwosG
-         Fh9mVDwU2X/A4XoetZyGF7Nglou0t5g5DxO0r8+eqZb+q5Dpo5YMoD0dFKLEBX22dZig
-         RByOk8C0nEMWprqrLQfUUzW66kfTj9T5f3hWp53MI5lGbHkRmfAHuhIwcdkqQfPWg+wY
-         tRDdwPLU13C51H8/KoauoBz/XRYwJwyj75Tp3pOYZYd4uTMeN0KtNwsHetUNkYzIwmuk
-         71jA==
-X-Gm-Message-State: AOJu0Yy6FfVoEYePnZcpDOIX5U9Z9tDQI/B9oqGWL37pgatiVL5nLdC2
-	1aqrD3/wj2imyHm1+QuhizuvGRQlTeCf9/z7OZ0rrFLvwzQ0+HgJiciXm2YfkPRJs56mZF/HRXQ
-	xiY1i6se8lLAZSMn9/ldIklpzBcLnQg==
-X-Gm-Gg: ASbGncszr/NGX+rcH6iXRkquGOr0Qjl6ZYdOUKT0J8RnoN2G0RZgnkDwghYmFBPt3eS
-	dnl3qP3h22PVB2QQMgyqOvCvxetxgD3veVVK2n706gGaR4GAol8YG2ZCVHotQ6GkN60CL68LNBX
-	e9suF/NAAz1GyiRXn2rQyeJfC21O6wNe3/odfY4lWwWlzRl6c1m/Appmli0V0=
-X-Google-Smtp-Source: AGHT+IG29NtorPShQ2eiv9F3Wo+xuExJd9aisCd6GqQshTUf61gY8sdgVuVeLqBGoLHC51v8Lk3vf4f6JVGfmtb43us=
-X-Received: by 2002:a05:6214:2b0d:b0:6e6:6713:3ea8 with SMTP id
- 6a1803df08f44-6eaeaa970eamr56739166d6.23.1741981442705; Fri, 14 Mar 2025
- 12:44:02 -0700 (PDT)
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=BTp4HT6e;
+ spf=pass (domain: ti.com, ip: 198.47.19.246, mailfrom: rs@ti.com)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52F0aHTS2275773
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 14 Mar 2025 19:36:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1741998977;
+	bh=G35GRApcb4Bmb6lfOIR296mg+hrcbzoivs1oVjRanlE=;
+	h=Date:CC:Subject:From:To:References:In-Reply-To;
+	b=BTp4HT6eDrOnIpzrxgaE8Lhlqcv5fPVFEaI6COT6E1zlfY0HX3S00wz8WY6CeSNqG
+	 YfOPdZum5zKwJSbG7Xgw4p8kCrQ4SXYaTt+Lf7rQYNkoUWjNSYa0VOYucbeN9ZTxgS
+	 NBFA5KVnwOJDA+joKamOBMH8Oh5t2fHehfCePY8Q=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 52F0aHNH031704
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 14 Mar 2025 19:36:17 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 14
+ Mar 2025 19:36:16 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 14 Mar 2025 19:36:17 -0500
+Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52F0aH9I027477;
+	Fri, 14 Mar 2025 19:36:17 -0500
 MIME-Version: 1.0
-References: <20250314094638.1893858-1-alex.kanavin@gmail.com> <CAMKF1spjC=gUZi4-O+qOLNgRu8Pzdc04j0ti=qdrSjokXE6kHw@mail.gmail.com>
-In-Reply-To: <CAMKF1spjC=gUZi4-O+qOLNgRu8Pzdc04j0ti=qdrSjokXE6kHw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 14 Mar 2025 20:43:51 +0100
-X-Gm-Features: AQ5f1JqoAXZldei5cqWp8uuj-Fzr2fBjoN_PGqxPaTijjl5MSnoG19CQ-kIhj2o
-Message-ID: <CANNYZj85oxxiCp4sRK_rL6-YRVrUDK5akza_Q6mWEN_tNw8_4A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ppp: remove erroneous generated header from the
- source tree
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: multipart/alternative; boundary="000000000000190e78063052a9ac"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 14 Mar 2025 19:36:17 -0500
+Message-ID: <D8GF3MBQ4FYJ.1X2RZ51QT237S@ti.com>
+CC: <otavio.salvador@ossystems.com.br>, <richard.purdie@linuxfoundation.org>,
+        <ross.burton@arm.com>, <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+        <denis@denix.org>, <reatmon@ti.com>,
+        <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: Re: [oe-core][RFC 0/3] Display manager proposal for x11 and wayland
+From: Randolph Sapp <rs@ti.com>
+To: Randolph Sapp <rs@ti.com>, Alexander Kanavin <alex.kanavin@gmail.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250314002937.672768-1-rs@ti.com>
+ <CANNYZj98ByWNO+dPwKXGr-9_w5Z_ajwYqMAbWo_u8sdUAsYEWA@mail.gmail.com>
+ <D8G88ZDV4PX6.1Z1L5E9XBFF8X@ti.com>
+In-Reply-To: <D8G88ZDV4PX6.1Z1L5E9XBFF8X@ti.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Mar 2025 19:44:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212864
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 00:36:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212865
 
---000000000000190e78063052a9ac
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Good point that. I=E2=80=99ll make a new patch.
-
-Alex
-
-On Fri 14. Mar 2025 at 19.07, Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Fri, Mar 14, 2025 at 2:46=E2=80=AFAM Alexander Kanavin via
-> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-> wrote:
-> >
-> > From: Alexander Kanavin <alex@linutronix.de>
-> >
-> > ppp-2.5.2 tarball ships a generated header with various
-> > configuration settigns that takes precedence over the same
-> > header generated into the build directory during the actual build.
-> >
-> > This resulted in various linking fails that were worked around
-> > by enabling multilink in 2.5.2 version update. The correct fix
-> > that removes all contamination is to remove the bogus header first.
-> >
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > ---
-> >  meta/recipes-connectivity/ppp/ppp_2.5.2.bb | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
-> b/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
-> > index 9ea99cc15a3..fd9223d2d1c 100644
-> > --- a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
-> > +++ b/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
-> > @@ -29,11 +29,16 @@ SRC_URI[sha256sum] =3D
-> "47da358de54a10cb10bf6ff2cf9b1c03c0d3555518f6182e8f701b8e55
-> >
-> >  inherit autotools pkgconfig systemd
-> >
-> > -PACKAGECONFIG =3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}
-> openssl multilink"
-> > +PACKAGECONFIG =3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}
-> openssl"
-> >  PACKAGECONFIG[pam] =3D "--with-pam=3Dyes,--with-pam=3Dno,libpam"
-> >  PACKAGECONFIG[openssl] =3D "--with-openssl=3Dyes,--with-openssl=3Dno,o=
-penssl"
-> >  PACKAGECONFIG[multilink] =3D "--enable-multilink,--disable-multilink"
-> >
-> > +# https://github.com/ppp-project/ppp/issues/541#issuecomment-272226036=
-3
-> > +do_configure:prepend () {
-> > +       rm -rf ${S}/pppd/pppdconf.h
-> > +}
-> > +
+On Fri Mar 14, 2025 at 2:14 PM CDT, Randolph Sapp wrote:
+> On Fri Mar 14, 2025 at 4:14 AM CDT, Alexander Kanavin wrote:
+>> On Fri, 14 Mar 2025 at 01:30, <rs@ti.com> wrote:
+>>> Example implementation of emptty for weston-init following the request =
+on the
+>>> previous RFC [1] and previous example [2]. This variant is applicable t=
+o master.
+>>>
+>>> This packages emptty and a default configuration for emptty as "emptty"=
+ and
+>>> "emptty-conf" respectively. This allows the existing init packages to o=
+verride
+>>> the configuration similar to the way grub boot configs are handled.
+>>>
+>>> The weston-init package still handles the weston config and weston user=
+ setup as
+>>> it always has. The only real difference from a consumer standpoint is t=
+hat the
+>>> autologin group for the weston user changed from "wayland" to the more =
+generic
+>>> "nopasswdlogin".
+>>>
+>>> [1] https://lists.openembedded.org/g/openembedded-core/message/212640
+>>> [2] https://lists.openembedded.org/g/openembedded-core/message/212785
+>>
+>> I quickly checked this locally. There are some issues that need to be
+>> addressed before this goes to the autobuilder:
+>>
+>> 1. WARNING: emptty-0.13.0-r0 do_recipe_qa: QA Issue: Recipe emptty in
+>> /srv/work/alex/poky/meta/recipes-graphics/emptty/emptty_0.13.0.bb does
+>> not have an assigned maintainer. Please add an entry into
+>> meta/conf/distro/include/maintainers.inc. [missing-maintainer]
 >
-> I wonder if it should be a patch instead, it can be better tracked that
-> way.
+> Yeah. I wouldn't mind maintaining this package and can set that. Just did=
+n't
+> know if there was someone I needed to check with before I did that.
 >
-> >  do_install:append () {
-> >         mkdir -p ${D}${bindir}/ ${D}${sysconfdir}/init.d
-> >         mkdir -p ${D}${sysconfdir}/ppp/ip-up.d/
-> > --
-> > 2.39.5
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#212827):
-> https://lists.openembedded.org/g/openembedded-core/message/212827
-> > Mute This Topic: https://lists.openembedded.org/mt/111695980/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+>> 2. With default poky config:
+>>
+>> ERROR: Nothing RPROVIDES 'pam-plugin-succeed-if' (but
+>> /srv/work/alex/poky/meta/recipes-graphics/emptty/emptty_0.13.0.bb
+>> RDEPENDS on or otherwise requires it)
+>> NOTE: Runtime target 'pam-plugin-succeed-if' is unbuildable, removing...
+>> Missing or unbuildable dependency chain was: ['pam-plugin-succeed-if']
+>> ERROR: Required build target 'emptty' has no buildable providers.
+>> Missing or unbuildable dependency chain was: ['emptty', 'pam-plugin-succ=
+eed-if']
+>>
+>> You should either make the pam dependency optional (via PACKAGECONFIG
+>> subject to pam in DISTRO_FEATURES), or use REQUIRED_DISTRO_FEATURES.
 >
-
---000000000000190e78063052a9ac
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Good point that. I=E2=80=99ll make a new patch.</div><div=
- dir=3D"auto"><br></div><div dir=3D"auto">Alex=C2=A0</div><div><br><div cla=
-ss=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_at=
-tr">On Fri 14. Mar 2025 at 19.07, Khem Raj &lt;<a href=3D"mailto:raj.khem@g=
-mail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-=
-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">On Fr=
-i, Mar 14, 2025 at 2:46=E2=80=AFAM Alexander Kanavin via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.c=
-om@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.o=
-rg</a>&gt;<br>
-wrote:<br>
-&gt;<br>
-&gt; From: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" targ=
-et=3D"_blank">alex@linutronix.de</a>&gt;<br>
-&gt;<br>
-&gt; ppp-2.5.2 tarball ships a generated header with various<br>
-&gt; configuration settigns that takes precedence over the same<br>
-&gt; header generated into the build directory during the actual build.<br>
-&gt;<br>
-&gt; This resulted in various linking fails that were worked around<br>
-&gt; by enabling multilink in 2.5.2 version update. The correct fix<br>
-&gt; that removes all contamination is to remove the bogus header first.<br=
+> Good point. I added the PACKAGECONFIG to remove pam support, that should =
+also
+> toggle the runtime dep on pam-plugin-succeed-if. Will address in the prop=
+er
+> series.
 >
-&gt;<br>
-&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix=
-.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-connectivity/ppp/<a href=3D"http://ppp_2.5.2.bb" re=
-l=3D"noreferrer" target=3D"_blank">ppp_2.5.2.bb</a> | 7 ++++++-<br>
-&gt;=C2=A0 1 file changed, 6 insertions(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-connectivity/ppp/<a href=3D"http://ppp_2.5.2=
-.bb" rel=3D"noreferrer" target=3D"_blank">ppp_2.5.2.bb</a> b/meta/recipes-c=
-onnectivity/ppp/<a href=3D"http://ppp_2.5.2.bb" rel=3D"noreferrer" target=
-=3D"_blank">ppp_2.5.2.bb</a><br>
-&gt; index 9ea99cc15a3..fd9223d2d1c 100644<br>
-&gt; --- a/meta/recipes-connectivity/ppp/<a href=3D"http://ppp_2.5.2.bb" re=
-l=3D"noreferrer" target=3D"_blank">ppp_2.5.2.bb</a><br>
-&gt; +++ b/meta/recipes-connectivity/ppp/<a href=3D"http://ppp_2.5.2.bb" re=
-l=3D"noreferrer" target=3D"_blank">ppp_2.5.2.bb</a><br>
-&gt; @@ -29,11 +29,16 @@ SRC_URI[sha256sum] =3D &quot;47da358de54a10cb10bf6=
-ff2cf9b1c03c0d3555518f6182e8f701b8e55<br>
-&gt;<br>
-&gt;=C2=A0 inherit autotools pkgconfig systemd<br>
-&gt;<br>
-&gt; -PACKAGECONFIG =3D &quot;${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;,=
- &#39;pam&#39;, d)} openssl multilink&quot;<br>
-&gt; +PACKAGECONFIG =3D &quot;${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;,=
- &#39;pam&#39;, d)} openssl&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[pam] =3D &quot;--with-pam=3Dyes,--with-pam=3Dno,li=
-bpam&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[openssl] =3D &quot;--with-openssl=3Dyes,--with-ope=
-nssl=3Dno,openssl&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[multilink] =3D &quot;--enable-multilink,--disable-=
-multilink&quot;<br>
-&gt;<br>
-&gt; +# <a href=3D"https://github.com/ppp-project/ppp/issues/541#issuecomme=
-nt-2722260363" rel=3D"noreferrer" target=3D"_blank">https://github.com/ppp-=
-project/ppp/issues/541#issuecomment-2722260363</a><br>
-&gt; +do_configure:prepend () {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${S}/pppd/pppdconf.h<br>
-&gt; +}<br>
-&gt; +<br>
-<br>
-I wonder if it should be a patch instead, it can be better tracked that way=
-.<br>
-<br>
-&gt;=C2=A0 do_install:append () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${D}${bindir}/ ${D}${sysconf=
-dir}/init.d<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${D}${sysconfdir}/ppp/ip-up.=
-d/<br>
-&gt; --<br>
-&gt; 2.39.5<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#212827): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/212827" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/212827</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/11169598=
-0/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/111695980/1997914</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" t=
-arget=3D"_blank">raj.khem@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</blockquote></div></div>
+>> 3. Again, with default poky config:
+>>
+>> NOTE: Multiple providers are available for runtime virtual-emptty-conf
+>> (emptty, weston-init)
+>> Consider defining a PREFERRED_RPROVIDER entry to match virtual-emptty-co=
+nf
+>>
+>>
+>> Alex
+>
+> That last note is perplexing. Patch 3/3 is literally setting the default =
+runtime
+> provider for virtual-emptty-conf. I'm also seeing the following notice th=
+ough:
+>
+> NOTE: Multiple providers are available for runtime libnss-mdns (avahi-lib=
+nss-mdns, mdns)
+> Consider defining a PREFERRED_RPROVIDER entry to match libnss-mdns
+>
+> Is there some other variable I need to set for master? Is that message no=
+w being
+> printed if 2 package are being produced?  If that's the case I can check =
+the
+> PREFERRED_RPROVIDER variable and conditionally prevent producing the empt=
+ty-conf
+> package, but that feels a little hacky. Anyone have any better ideas abou=
+t that?
+>
+> - Randolph
 
---000000000000190e78063052a9ac--
+Another fun issue. This actually adds additional checks to user accounts us=
+ing
+unix_chkpwd in pam and an equivalent mechanism in the libxcrypt path. It's
+uncovered a relatively interesting issue around device initialization where
+system time is reset to a date prior to the build in the case where there i=
+s no
+RTC to read and the weston user's login attempts fail until the time catche=
+s up.
+The password change for that user is in the future.
+
+Forcing a time jump during startup with a custom service resolves the issue=
+, but
+it's unusual nothing else has had any problems with this. I thought I remem=
+ber
+Yocto defaulting the OS time to the image build time. Was I hallucinating t=
+hat?
+
+- Randolph
 
