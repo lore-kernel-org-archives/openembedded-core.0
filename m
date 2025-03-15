@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E17EEC3601E
-	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:20 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.10326.1742048290056029441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 011E0C28B28
+	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:30 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.10339.1742048300101882048
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 07:18:20 -0700
+ Sat, 15 Mar 2025 07:18:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OikMOkIZ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ozD/4jUi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101959a2b8c68-0cde1636-99b5-498b-9f46-c51ca69e853b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HgYgGH8G;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DhTM2DLY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101959a2b9478-b0c9ee17-3646-4385-9d8e-2d718a15c1e4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742048300;
+	t=1742048302;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=8Eh/H424u2IOkeMeGfI5kN19XG+UAXqDtSn5KTeU41U=;
-	b=OikMOkIZP/L+mDPUFaVYPKZvO5WN98VX0doK+NJcxcRRoRcB9F5ILRpS2LRopUrM
-	/2ycODNRsVYZBLSg+UfxYYBkM2gFEa8eVF774ALYrZzYBJujlJavw843viKYQRoBz5a
-	M9HkWVBuRoKYcXylOjdPRVkhcBiggLimv6CQ/sOE=
+	bh=VmNzfYTSpuGjpm3uqfUiCd+ZxS576ZZ3zlaxEoVxpys=;
+	b=HgYgGH8Gm08YYR1QLzCYClkhSFj8S3kKETobx6soDrMZk36eKbACYK6uviIH/J4A
+	cJwX/Bms4WM2E1MPcvd64Gb8kpSTA2SxzUIF0hr6dl0WZI900c7K4/hLZjZviETFwq3
+	fm0/DFJVIGW7ql9k93xHTt6QqniFDjC6GfC2ApNQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048300;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048302;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=8Eh/H424u2IOkeMeGfI5kN19XG+UAXqDtSn5KTeU41U=;
-	b=ozD/4jUi3wF7LAdODcComiZe56CeySB5HUy2rmy/6MXc3KWhpJMrj50lUD+JIj40
-	s2Un9j38Za9LnS6qut0YL1Gnv3Scx86F/qgTqunFYEexEYcDb4/RIb3mtd3WhGu6xcP
-	Fr/rTlG1d3a6vUwHVwxN4mnxOn9nXiI1m82UlkMo=
-Content-Type: multipart/mixed; boundary="===============1960663137407224780=="
+	bh=VmNzfYTSpuGjpm3uqfUiCd+ZxS576ZZ3zlaxEoVxpys=;
+	b=DhTM2DLY22A0KtR74Me2fcHZdZEZwj1iS3H6sUZYGq5hHwuD+qMlB2oZyL1tAi46
+	B6t+n0ZNQvf0qXpx0Bqr9iQjfMp3DPm9QBuc8oZnwlW+oCpVp8RZoDT7g8PQGYKj+wm
+	zopaKH/GEEOauL/I/ZNLuProb2vlnHAjzpk2RxRs=
+Content-Type: multipart/mixed; boundary="===============7552004583834754089=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-rpds-py: upgrading to 0.23.1 FAILED
-Message-ID: <010101959a2b8c68-0cde1636-99b5-498b-9f46-c51ca69e853b-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Mar 2025 14:18:20 +0000
+Subject: [AUH] python3-websockets: upgrading to 15.0.1 SUCCEEDED
+Message-ID: <010101959a2b9478-b0c9ee17-3646-4385-9d8e-2d718a15c1e4-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Mar 2025 14:18:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.29
+X-SES-Outgoing: 2025.03.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212915
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212921
 
---===============1960663137407224780==
+--===============7552004583834754089==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-rpds-py* to *0.23.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-websockets* to *15.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-rpds-py-upgrade-0.22.3-0.23.1.patch
+    - apply the patch: git am 0001-python3-websockets-upgrade-15.0-15.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,321 +72,129 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e3f9312472758bb34e87dd0b6fd413280d7c8ff4 Mon Sep 17 00:00:00 2001
+From ecb7efde084bdaed4997ccaea6a195df1cf75174 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Mar 2025 09:31:19 +0000
-Subject: [PATCH] python3-rpds-py: upgrade 0.22.3 -> 0.23.1
+Date: Sat, 15 Mar 2025 09:53:59 +0000
+Subject: [PATCH] python3-websockets: upgrade 15.0 -> 15.0.1
 
 ---
- .../python/python3-rpds-py-crates.inc         | 24 +++++++++----------
- ...py_0.22.3.bb => python3-rpds-py_0.23.1.bb} |  2 +-
- 2 files changed, 13 insertions(+), 13 deletions(-)
- rename meta/recipes-devtools/python/{python3-rpds-py_0.22.3.bb => python3-rpds-py_0.23.1.bb} (85%)
+ ...{python3-websockets_15.0.bb => python3-websockets_15.0.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-websockets_15.0.bb => python3-websockets_15.0.1.bb} (79%)
 
-diff --git a/meta/recipes-devtools/python/python3-rpds-py-crates.inc b/meta/recipes-devtools/python/python3-rpds-py-crates.inc
-index 7022cbdcc8..e8a322f1c6 100644
---- a/meta/recipes-devtools/python/python3-rpds-py-crates.inc
-+++ b/meta/recipes-devtools/python/python3-rpds-py-crates.inc
-@@ -13,12 +13,12 @@ SRC_URI += " \
-     crate://crates.io/once_cell/1.19.0 \
-     crate://crates.io/portable-atomic/1.6.0 \
-     crate://crates.io/proc-macro2/1.0.86 \
--    crate://crates.io/pyo3/0.23.3 \
--    crate://crates.io/pyo3-build-config/0.23.3 \
--    crate://crates.io/pyo3-ffi/0.23.3 \
--    crate://crates.io/pyo3-macros/0.23.3 \
--    crate://crates.io/pyo3-macros-backend/0.23.3 \
--    crate://crates.io/python3-dll-a/0.2.11 \
-+    crate://crates.io/pyo3/0.23.4 \
-+    crate://crates.io/pyo3-build-config/0.23.4 \
-+    crate://crates.io/pyo3-ffi/0.23.4 \
-+    crate://crates.io/pyo3-macros/0.23.4 \
-+    crate://crates.io/pyo3-macros-backend/0.23.4 \
-+    crate://crates.io/python3-dll-a/0.2.12 \
-     crate://crates.io/quote/1.0.36 \
-     crate://crates.io/rpds/1.1.0 \
-     crate://crates.io/syn/2.0.69 \
-@@ -39,12 +39,12 @@ SRC_URI[memoffset-0.9.1.sha256sum] = "488016bfae457b036d996092f6cb448677611ce444
- SRC_URI[once_cell-1.19.0.sha256sum] = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
- SRC_URI[portable-atomic-1.6.0.sha256sum] = "7170ef9988bc169ba16dd36a7fa041e5c4cbeb6a35b76d4c03daded371eae7c0"
- SRC_URI[proc-macro2-1.0.86.sha256sum] = "5e719e8df665df0d1c8fbfd238015744736151d4445ec0836b8e628aae103b77"
--SRC_URI[pyo3-0.23.3.sha256sum] = "e484fd2c8b4cb67ab05a318f1fd6fa8f199fcc30819f08f07d200809dba26c15"
--SRC_URI[pyo3-build-config-0.23.3.sha256sum] = "dc0e0469a84f208e20044b98965e1561028180219e35352a2afaf2b942beff3b"
--SRC_URI[pyo3-ffi-0.23.3.sha256sum] = "eb1547a7f9966f6f1a0f0227564a9945fe36b90da5a93b3933fc3dc03fae372d"
--SRC_URI[pyo3-macros-0.23.3.sha256sum] = "fdb6da8ec6fa5cedd1626c886fc8749bdcbb09424a86461eb8cdf096b7c33257"
--SRC_URI[pyo3-macros-backend-0.23.3.sha256sum] = "38a385202ff5a92791168b1136afae5059d3ac118457bb7bc304c197c2d33e7d"
--SRC_URI[python3-dll-a-0.2.11.sha256sum] = "9b9e268ee1be609e93a13eb06839f68f67e5fe0fb4049834d261c2d5091c1b6d"
-+SRC_URI[pyo3-0.23.4.sha256sum] = "57fe09249128b3173d092de9523eaa75136bf7ba85e0d69eca241c7939c933cc"
-+SRC_URI[pyo3-build-config-0.23.4.sha256sum] = "1cd3927b5a78757a0d71aa9dff669f903b1eb64b54142a9bd9f757f8fde65fd7"
-+SRC_URI[pyo3-ffi-0.23.4.sha256sum] = "dab6bb2102bd8f991e7749f130a70d05dd557613e39ed2deeee8e9ca0c4d548d"
-+SRC_URI[pyo3-macros-0.23.4.sha256sum] = "91871864b353fd5ffcb3f91f2f703a22a9797c91b9ab497b1acac7b07ae509c7"
-+SRC_URI[pyo3-macros-backend-0.23.4.sha256sum] = "43abc3b80bc20f3facd86cd3c60beed58c3e2aa26213f3cda368de39c60a27e4"
-+SRC_URI[python3-dll-a-0.2.12.sha256sum] = "9b66f9171950e674e64bad3456e11bb3cca108e5c34844383cfe277f45c8a7a8"
- SRC_URI[quote-1.0.36.sha256sum] = "0fa76aaf39101c457836aec0ce2316dbdc3ab723cdda1c6bd4e6ad4208acaca7"
- SRC_URI[rpds-1.1.0.sha256sum] = "a0e15515d3ce3313324d842629ea4905c25a13f81953eadb88f85516f59290a4"
- SRC_URI[syn-2.0.69.sha256sum] = "201fcda3845c23e8212cd466bfebf0bd20694490fc0356ae8e428e0824a915a6"
-diff --git a/meta/recipes-devtools/python/python3-rpds-py_0.22.3.bb b/meta/recipes-devtools/python/python3-rpds-py_0.23.1.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-rpds-py_0.22.3.bb
-rename to meta/recipes-devtools/python/python3-rpds-py_0.23.1.bb
-index 8eeb954c89..951df147cb 100644
---- a/meta/recipes-devtools/python/python3-rpds-py_0.22.3.bb
-+++ b/meta/recipes-devtools/python/python3-rpds-py_0.23.1.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/rpds-py/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=7767fa537c4596c54141f32882c4a984"
+diff --git a/meta/recipes-devtools/python/python3-websockets_15.0.bb b/meta/recipes-devtools/python/python3-websockets_15.0.1.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-websockets_15.0.bb
+rename to meta/recipes-devtools/python/python3-websockets_15.0.1.bb
+index 9a7456dee4..2e1b0f0919 100644
+--- a/meta/recipes-devtools/python/python3-websockets_15.0.bb
++++ b/meta/recipes-devtools/python/python3-websockets_15.0.1.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=51924a6af4495b8cfaee1b1da869b6f4"
  
--SRC_URI[sha256sum] = "e32fee8ab45d3c2db6da19a5323bc3362237c8b653c70194414b892fd06a080d"
-+SRC_URI[sha256sum] = "7f3240dcfa14d198dba24b8b9cb3b108c06b68d45b7babd9eefc1038fdf7e707"
+ inherit pypi python_setuptools_build_meta
  
- require ${BPN}-crates.inc
+-SRC_URI[sha256sum] = "ca36151289a15b39d8d683fd8b7abbe26fc50be311066c5f8dcf3cb8cee107ab"
++SRC_URI[sha256sum] = "82544de02076bafba038ce055ee6412d68da13ab47f0c60cab827346de828dee"
+ 
+ BBCLASSEXTEND = "native nativesdk"
  
 -- 
 2.44.1
 
 
---===============1960663137407224780==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-Tk9URTogUmVjb25uZWN0aW5nIHRvIGJpdGJha2Ugc2VydmVyLi4uCkxvYWRpbmcgY2FjaGUuLi5k
-b25lLgpMb2FkZWQgMTg4NiBlbnRyaWVzIGZyb20gZGVwZW5kZW5jeSBjYWNoZS4KUGFyc2luZyBy
-ZWNpcGVzLi4uZG9uZS4KUGFyc2luZyBvZiA5MjMgLmJiIGZpbGVzIGNvbXBsZXRlICg5MjIgY2Fj
-aGVkLCAxIHBhcnNlZCkuIDE4ODQgdGFyZ2V0cywgMzkgc2tpcHBlZCwgMCBtYXNrZWQsIDAgZXJy
-b3JzLgpSZW1vdmluZyAxIHJlY2lwZXMgZnJvbSB0aGUgY29yZTItNjQgc3lzcm9vdC4uLmRvbmUu
-ClJlbW92aW5nIDEgcmVjaXBlcyBmcm9tIHRoZSBxZW11eDg2XzY0IHN5c3Jvb3QuLi5kb25lLgpO
-T1RFOiBSZXNvbHZpbmcgYW55IG1pc3NpbmcgdGFzayBxdWV1ZSBkZXBlbmRlbmNpZXMKCkJ1aWxk
-IENvbmZpZ3VyYXRpb246CkJCX1ZFUlNJT04gICAgICAgICAgID0gIjIuOS4xIgpCVUlMRF9TWVMg
-ICAgICAgICAgICA9ICJ4ODZfNjQtbGludXgiCk5BVElWRUxTQlNUUklORyAgICAgID0gInVuaXZl
-cnNhbCIKVEFSR0VUX1NZUyAgICAgICAgICAgPSAieDg2XzY0LXBva3ktbGludXgiCk1BQ0hJTkUg
-ICAgICAgICAgICAgID0gInFlbXV4ODYtNjQiCkRJU1RSTyAgICAgICAgICAgICAgID0gInBva3ki
-CkRJU1RST19WRVJTSU9OICAgICAgID0gIjUuMSIKVFVORV9GRUFUVVJFUyAgICAgICAgPSAibTY0
-IGNvcmUyIgpUQVJHRVRfRlBVICAgICAgICAgICA9ICIiCm1ldGEgICAgICAgICAgICAgICAgIApt
-ZXRhLXBva3kgICAgICAgICAgICAKbWV0YS15b2N0by1ic3AgICAgICAgCndvcmtzcGFjZSAgICAg
-ICAgICAgID0gInRtcC1hdWgtdXBncmFkZXM6NDdlZGFkZDBlZjk2YWM3MzM3NzUxYTZlODAyZTAy
-MDI5ZWJjYzNlMiIKCkluaXRpYWxpc2luZyB0YXNrcy4uLk5PVEU6IFRoZSAvcHJvYy9wcmVzc3Vy
-ZSBmaWxlcyBjYW4ndCBiZSByZWFkLiBDb250aW51aW5nIGJ1aWxkIHdpdGhvdXQgbW9uaXRvcmlu
-ZyBwcmVzc3VyZQpTc3RhdGUgc3VtbWFyeTogV2FudGVkIDM1MSBMb2NhbCAzNDIgTWlycm9ycyAw
-IE1pc3NlZCA5IEN1cnJlbnQgNDY1ICg5NyUgbWF0Y2gsIDk4JSBjb21wbGV0ZSkKZG9uZS4KTk9U
-RTogRXhlY3V0aW5nIFRhc2tzCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA1Njkgb2YgODE2
-ICgvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMjMuMS5iYjpkb19wb3B1bGF0ZV9saWNfc2V0
-c2NlbmUpCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA3ODUgb2YgODE2ICgvc3J2L3Bva3li
-dWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1ycGRzLXB5XzAuMjMuMS5iYjpkb19kZXBsb3lfc291cmNlX2RhdGVfZXBvY2hfc2V0
-c2NlbmUpCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNrIGRvX3Bv
-cHVsYXRlX2xpY19zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5
-LTAuMjMuMS1yMDogdGFzayBkb19kZXBsb3lfc291cmNlX2RhdGVfZXBvY2hfc2V0c2NlbmU6IFN0
-YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fZGVw
-bG95X3NvdXJjZV9kYXRlX2Vwb2NoX3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogcmVjaXBlIHB5
-dGhvbjMtcnBkcy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fcG9wdWxhdGVfbGljX3NldHNjZW5lOiBT
-dWNjZWVkZWQKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNrIDgxNiBvZiA4MTYgKC9zcnYvcG9r
-eWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXJwZHMtcHlfMC4yMy4xLmJiOmRvX3JlY2lwZV9xYV9zZXRzY2VuZSkKTk9URTog
-cmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fcmVjaXBlX3FhX3NldHNj
-ZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNr
-IGRvX3JlY2lwZV9xYV9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IFNldHNjZW5lIHRhc2tzIGNv
-bXBsZXRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMTQ4OSBvZiAyMjg5ICgvc3J2L3Bva3lidWlsZC95
-b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1ycGRzLXB5XzAuMjMuMS5iYjpkb19mZXRjaCkKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1w
-eS0wLjIzLjEtcjA6IHRhc2sgZG9fZmV0Y2g6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMt
-cnBkcy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fZmV0Y2g6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5n
-IHRhc2sgMjI2NiBvZiAyMjg5ICgvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxk
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMjMuMS5iYjpk
-b191bnBhY2spCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjY3IG9mIDIyODkgKC9zcnYvcG9reWJ1aWxk
-L3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXJwZHMtcHlfMC4yMy4xLmJiOmRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3QpCk5PVEU6IHJl
-Y2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNrIGRvX3VucGFjazogU3RhcnRlZApO
-T1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMjMuMS1yMDogdGFzayBkb19wcmVwYXJlX3Jl
-Y2lwZV9zeXNyb290OiBTdGFydGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4x
-LXIwOiB0YXNrIGRvX3VucGFjazogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjY4IG9m
-IDIyODkgKC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHlfMC4yMy4xLmJiOmRvX3BhdGNoKQpOT1RF
-OiBSdW5uaW5nIHRhc2sgMjI2OSBvZiAyMjg5ICgvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIv
-YXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAu
-MjMuMS5iYjpkb19jb2xsZWN0X3NwZHhfZGVwcykKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1w
-eS0wLjIzLjEtcjA6IHRhc2sgZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdDogU3VjY2VlZGVkCk5P
-VEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNrIGRvX3BhdGNoOiBTdGFy
-dGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNrIGRvX2NvbGxl
-Y3Rfc3BkeF9kZXBzOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4x
-LXIwOiB0YXNrIGRvX3BhdGNoOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyNzEgb2Yg
-MjI4OSAoL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmI6ZG9fcnVzdF9jcmVhdGVf
-d3JhcHBlcnMpCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjcyIG9mIDIyODkgKC9zcnYvcG9reWJ1aWxk
-L3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXJwZHMtcHlfMC4yMy4xLmJiOmRvX3J1c3RfZ2VuX3RhcmdldHMpCk5PVEU6IHJlY2lwZSBw
-eXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNrIGRvX2NvbGxlY3Rfc3BkeF9kZXBzOiBTdWNj
-ZWVkZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fcnVz
-dF9jcmVhdGVfd3JhcHBlcnM6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0w
-LjIzLjEtcjA6IHRhc2sgZG9fcnVzdF9nZW5fdGFyZ2V0czogU3RhcnRlZApOT1RFOiByZWNpcGUg
-cHl0aG9uMy1ycGRzLXB5LTAuMjMuMS1yMDogdGFzayBkb19ydXN0X2dlbl90YXJnZXRzOiBTdWNj
-ZWVkZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fcnVz
-dF9jcmVhdGVfd3JhcHBlcnM6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjI3NCBvZiAy
-Mjg5ICgvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMjMuMS5iYjpkb19jb25maWd1cmUpCk5P
-VEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4yMy4xLXIwOiB0YXNrIGRvX2NvbmZpZ3VyZTog
-U3RhcnRlZApOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMjMuMS1yMDogdGFzayBkb19j
-b25maWd1cmU6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjI3NSBvZiAyMjg5ICgvc3J2
-L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMjMuMS5iYjpkb19jb25maWd1cmVfcHRlc3RfYmFzZSkK
-Tk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEtcjA6IHRhc2sgZG9fY29uZmlndXJl
-X3B0ZXN0X2Jhc2U6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjIzLjEt
-cjA6IHRhc2sgZG9fY29uZmlndXJlX3B0ZXN0X2Jhc2U6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5n
-IHRhc2sgMjI3NiBvZiAyMjg5ICgvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxk
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMjMuMS5iYjpk
-b19jb21waWxlKQpOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMjMuMS1yMDogdGFzayBk
-b19jb21waWxlOiBTdGFydGVkCkxvZyBkYXRhIGZvbGxvd3M6CnwgREVCVUc6IEV4ZWN1dGluZyBz
-aGVsbCBmdW5jdGlvbiBkb19jb21waWxlCnwgKiBHZXR0aW5nIGJ1aWxkIGRlcGVuZGVuY2llcyBm
-b3Igd2hlZWwuLi4KfCAqIEJ1aWxkaW5nIHdoZWVsLi4uCnwgUnVubmluZyBgbWF0dXJpbiBwZXA1
-MTcgYnVpbGQtd2hlZWwgLWkgL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9i
-dWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjIzLjEv
-cmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vbmF0aXZlcHl0aG9uMyAtLWNvbXBhdGliaWxp
-dHkgb2ZmYAp8IPCfkqUgbWF0dXJpbiBmYWlsZWQKfCAgIENhdXNlZCBieTogcHlwcm9qZWN0LnRv
-bWwgYXQgL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90bXAvd29y
-ay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjIzLjEvcnBkc19weS0wLjIz
-LjEvcHlwcm9qZWN0LnRvbWwgaXMgaW52YWxpZAp8ICAgQ2F1c2VkIGJ5OiBUT01MIHBhcnNlIGVy
-cm9yIGF0IGxpbmUgMTEsIGNvbHVtbiAxNwp8ICAgIHwKfCAxMSB8IGxpY2Vuc2UtZmlsZXMgPSBb
-IkxJQ0VOU0UiXQp8ICAgIHwgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eCnwgd2FudGVkIHN0
-cmluZyBvciB0YWJsZQp8IAp8IEVycm9yOiBjb21tYW5kIFsnbWF0dXJpbicsICdwZXA1MTcnLCAn
-YnVpbGQtd2hlZWwnLCAnLWknLCAnL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWls
-ZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjIz
-LjEvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vbmF0aXZlcHl0aG9uMycsICctLWNvbXBh
-dGliaWxpdHknLCAnb2ZmJ10gcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMQp8IAp8IEVS
-Uk9SIEJhY2tlbmQgc3VicHJvY2VzcyBleGl0ZWQgd2hlbiB0cnlpbmcgdG8gaW52b2tlIGJ1aWxk
-X3doZWVsCnwgV0FSTklORzogL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9i
-dWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjIzLjEv
-dGVtcC9ydW4uZG9fY29tcGlsZS4yOTk2NjY2OjE5MSBleGl0IDEgZnJvbSAnbmF0aXZlcHl0aG9u
-MyAtbSBidWlsZCAtLW5vLWlzb2xhdGlvbiAtLXdoZWVsIC0tb3V0ZGlyIC9zcnYvcG9reWJ1aWxk
-L3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51
-eC9weXRob24zLXJwZHMtcHkvMC4yMy4xL2Rpc3QgL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2Vy
-L2F1aC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBk
-cy1weS8wLjIzLjEvcnBkc19weS0wLjIzLjEnCnwgV0FSTklORzogQmFja3RyYWNlIChCQiBnZW5l
-cmF0ZWQgc2NyaXB0KToKfCAJIzE6IHB5dGhvbl9wZXA1MTdfZG9fY29tcGlsZSwgL3Nydi9wb2t5
-YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5
-LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjIzLjEvdGVtcC9ydW4uZG9fY29tcGlsZS4yOTk2NjY2
-LCBsaW5lIDE5MQp8IAkjMjogZG9fY29tcGlsZSwgL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2Vy
-L2F1aC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBk
-cy1weS8wLjIzLjEvdGVtcC9ydW4uZG9fY29tcGlsZS4yOTk2NjY2LCBsaW5lIDE2Nwp8IAkjMzog
-bWFpbiwgL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90bXAvd29y
-ay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjIzLjEvdGVtcC9ydW4uZG9f
-Y29tcGlsZS4yOTk2NjY2LCBsaW5lIDIwMgpOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAu
-MjMuMS1yMDogdGFzayBkb19jb21waWxlOiBGYWlsZWQKTk9URTogVGFza3MgU3VtbWFyeTogQXR0
-ZW1wdGVkIDIyNzYgdGFza3Mgb2Ygd2hpY2ggMjI2NiBkaWRuJ3QgbmVlZCB0byBiZSByZXJ1biBh
-bmQgMSBmYWlsZWQuCk5PVEU6IFdyaXRpbmcgYnVpbGRoaXN0b3J5Ck5PVEU6IFdyaXRpbmcgYnVp
-bGRoaXN0b3J5IHRvb2s6IDEgc2Vjb25kcwpOT1RFOiBUaGUgZXJyb3JzIGZvciB0aGlzIGJ1aWxk
-IGFyZSBzdG9yZWQgaW4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWls
-ZC90bXAvbG9nL2Vycm9yLXJlcG9ydC9lcnJvcl9yZXBvcnRfMjAyNTAzMTUwOTMxMDEudHh0Cllv
-dSBjYW4gc2VuZCB0aGUgZXJyb3JzIHRvIGEgcmVwb3J0cyBzZXJ2ZXIgYnkgcnVubmluZzoKICBz
-ZW5kLWVycm9yLXJlcG9ydCAvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1
-aWxkL3RtcC9sb2cvZXJyb3ItcmVwb3J0L2Vycm9yX3JlcG9ydF8yMDI1MDMxNTA5MzEwMS50eHQg
-Wy1zIHNlcnZlcl0KTk9URTogVGhlIGNvbnRlbnRzIG9mIHRoZXNlIGxvZ3Mgd2lsbCBiZSBwb3N0
-ZWQgaW4gcHVibGljIGlmIHlvdSB1c2UgdGhlIGFib3ZlIGNvbW1hbmQgd2l0aCB0aGUgZGVmYXVs
-dCBzZXJ2ZXIuIFBsZWFzZSBlbnN1cmUgeW91IHJlbW92ZSBhbnkgaWRlbnRpZnlpbmcgb3IgcHJv
-cHJpZXRhcnkgaW5mb3JtYXRpb24gd2hlbiBwcm9tcHRlZCBiZWZvcmUgc2VuZGluZy4KClN1bW1h
-cnk6IDEgdGFzayBmYWlsZWQ6CiAgL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWls
-ZC9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmI6
-ZG9fY29tcGlsZQogICAgbG9nOiAvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxk
-L2J1aWxkL3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvcHl0aG9uMy1ycGRzLXB5LzAuMjMu
-MS90ZW1wL2xvZy5kb19jb21waWxlLjI5OTY2NjYKU3VtbWFyeTogVGhlcmUgd2FzIDEgRVJST1Ig
-bWVzc2FnZSwgcmV0dXJuaW5nIGEgbm9uLXplcm8gZXhpdCBjb2RlLgpFUlJPUjogcHl0aG9uMy1y
-cGRzLXB5LTAuMjMuMS1yMCBkb19jb21waWxlOiBFeGVjdXRpb24gb2YgJy9zcnYvcG9reWJ1aWxk
-L3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51
-eC9weXRob24zLXJwZHMtcHkvMC4yMy4xL3RlbXAvcnVuLmRvX2NvbXBpbGUuMjk5NjY2NicgZmFp
-bGVkIHdpdGggZXhpdCBjb2RlIDEKRVJST1I6IExvZ2ZpbGUgb2YgZmFpbHVyZSBzdG9yZWQgaW46
-IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29y
-ZTItNjQtcG9reS1saW51eC9weXRob24zLXJwZHMtcHkvMC4yMy4xL3RlbXAvbG9nLmRvX2NvbXBp
-bGUuMjk5NjY2NgpFUlJPUjogVGFzayAoL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9i
-dWlsZC9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjIzLjEu
-YmI6ZG9fY29tcGlsZSkgZmFpbGVkIHdpdGggZXhpdCBjb2RlICcxJwo=
-
---===============1960663137407224780==
+--===============7552004583834754089==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-rpds-py-upgrade-0.22.3-0.23.1.patch"
+ filename="0001-python3-websockets-upgrade-15.0-15.0.1.patch"
 
-RnJvbSBlM2Y5MzEyNDcyNzU4YmIzNGU4N2RkMGI2ZmQ0MTMyODBkN2M4ZmY0IE1vbiBTZXAgMTcg
+RnJvbSBlY2I3ZWZkZTA4NGJkYWVkNDk5N2NjYWVhNmExOTVkZjFjZjc1MTc0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMDk6MzE6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXJwZHMtcHk6IHVwZ3JhZGUgMC4yMi4zIC0+IDAuMjMuMQoKLS0tCiAuLi4vcHl0aG9u
-L3B5dGhvbjMtcnBkcy1weS1jcmF0ZXMuaW5jICAgICAgICAgfCAyNCArKysrKysrKystLS0tLS0t
-LS0tCiAuLi5weV8wLjIyLjMuYmIgPT4gcHl0aG9uMy1ycGRzLXB5XzAuMjMuMS5iYn0gfCAgMiAr
-LQogMiBmaWxlcyBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXJwZHMtcHlfMC4yMi4z
-LmJiID0+IHB5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmJ9ICg4NSUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHktY3JhdGVzLmluYyBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5LWNyYXRlcy5pbmMKaW5k
-ZXggNzAyMmNiZGNjOC4uZThhMzIyZjFjNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHktY3JhdGVzLmluYworKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weS1jcmF0ZXMuaW5jCkBAIC0xMywxMiArMTMs
-MTIgQEAgU1JDX1VSSSArPSAiIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9vbmNlX2NlbGwvMS4x
-OS4wIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9wb3J0YWJsZS1hdG9taWMvMS42LjAgXAogICAg
-IGNyYXRlOi8vY3JhdGVzLmlvL3Byb2MtbWFjcm8yLzEuMC44NiBcCi0gICAgY3JhdGU6Ly9jcmF0
-ZXMuaW8vcHlvMy8wLjIzLjMgXAotICAgIGNyYXRlOi8vY3JhdGVzLmlvL3B5bzMtYnVpbGQtY29u
-ZmlnLzAuMjMuMyBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHlvMy1mZmkvMC4yMy4zIFwKLSAg
-ICBjcmF0ZTovL2NyYXRlcy5pby9weW8zLW1hY3Jvcy8wLjIzLjMgXAotICAgIGNyYXRlOi8vY3Jh
-dGVzLmlvL3B5bzMtbWFjcm9zLWJhY2tlbmQvMC4yMy4zIFwKLSAgICBjcmF0ZTovL2NyYXRlcy5p
-by9weXRob24zLWRsbC1hLzAuMi4xMSBcCisgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHlvMy8wLjIz
-LjQgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL3B5bzMtYnVpbGQtY29uZmlnLzAuMjMuNCBcCisg
-ICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHlvMy1mZmkvMC4yMy40IFwKKyAgICBjcmF0ZTovL2NyYXRl
-cy5pby9weW8zLW1hY3Jvcy8wLjIzLjQgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL3B5bzMtbWFj
-cm9zLWJhY2tlbmQvMC4yMy40IFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby9weXRob24zLWRsbC1h
-LzAuMi4xMiBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcXVvdGUvMS4wLjM2IFwKICAgICBjcmF0
-ZTovL2NyYXRlcy5pby9ycGRzLzEuMS4wIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9zeW4vMi4w
-LjY5IFwKQEAgLTM5LDEyICszOSwxMiBAQCBTUkNfVVJJW21lbW9mZnNldC0wLjkuMS5zaGEyNTZz
-dW1dID0gIjQ4ODAxNmJmYWU0NTdiMDM2ZDk5NjA5MmY2Y2I0NDg2Nzc2MTFjZTQ0NAogU1JDX1VS
-SVtvbmNlX2NlbGwtMS4xOS4wLnNoYTI1NnN1bV0gPSAiM2ZkYjEyYjI0NzZiNTk1ZjkzNThjNTE2
-MWFhNDY3YzI0Mzg4NTljYWExMzZkZWM4NmMyNmZkZDJlZmUxN2I5MiIKIFNSQ19VUklbcG9ydGFi
-bGUtYXRvbWljLTEuNi4wLnNoYTI1NnN1bV0gPSAiNzE3MGVmOTk4OGJjMTY5YmExNmRkMzZhN2Zh
-MDQxZTVjNGNiZWI2YTM1Yjc2ZDRjMDNkYWRlZDM3MWVhZTdjMCIKIFNSQ19VUklbcHJvYy1tYWNy
-bzItMS4wLjg2LnNoYTI1NnN1bV0gPSAiNWU3MTllOGRmNjY1ZGYwZDFjOGZiZmQyMzgwMTU3NDQ3
-MzYxNTFkNDQ0NWVjMDgzNmI4ZTYyOGFhZTEwM2I3NyIKLVNSQ19VUklbcHlvMy0wLjIzLjMuc2hh
-MjU2c3VtXSA9ICJlNDg0ZmQyYzhiNGNiNjdhYjA1YTMxOGYxZmQ2ZmE4ZjE5OWZjYzMwODE5ZjA4
-ZjA3ZDIwMDgwOWRiYTI2YzE1IgotU1JDX1VSSVtweW8zLWJ1aWxkLWNvbmZpZy0wLjIzLjMuc2hh
-MjU2c3VtXSA9ICJkYzBlMDQ2OWE4NGYyMDhlMjAwNDRiOTg5NjVlMTU2MTAyODE4MDIxOWUzNTM1
-MmEyYWZhZjJiOTQyYmVmZjNiIgotU1JDX1VSSVtweW8zLWZmaS0wLjIzLjMuc2hhMjU2c3VtXSA9
-ICJlYjE1NDdhN2Y5OTY2ZjZmMWEwZjAyMjc1NjRhOTk0NWZlMzZiOTBkYTVhOTNiMzkzM2ZjM2Rj
-MDNmYWUzNzJkIgotU1JDX1VSSVtweW8zLW1hY3Jvcy0wLjIzLjMuc2hhMjU2c3VtXSA9ICJmZGI2
-ZGE4ZWM2ZmE1Y2VkZDE2MjZjODg2ZmM4NzQ5YmRjYmIwOTQyNGE4NjQ2MWViOGNkZjA5NmI3YzMz
-MjU3IgotU1JDX1VSSVtweW8zLW1hY3Jvcy1iYWNrZW5kLTAuMjMuMy5zaGEyNTZzdW1dID0gIjM4
-YTM4NTIwMmZmNWE5Mjc5MTE2OGIxMTM2YWZhZTUwNTlkM2FjMTE4NDU3YmI3YmMzMDRjMTk3YzJk
-MzNlN2QiCi1TUkNfVVJJW3B5dGhvbjMtZGxsLWEtMC4yLjExLnNoYTI1NnN1bV0gPSAiOWI5ZTI2
-OGVlMWJlNjA5ZTkzYTEzZWIwNjgzOWY2OGY2N2U1ZmUwZmI0MDQ5ODM0ZDI2MWMyZDUwOTFjMWI2
-ZCIKK1NSQ19VUklbcHlvMy0wLjIzLjQuc2hhMjU2c3VtXSA9ICI1N2ZlMDkyNDkxMjhiMzE3M2Qw
-OTJkZTk1MjNlYWE3NTEzNmJmN2JhODVlMGQ2OWVjYTI0MWM3OTM5YzkzM2NjIgorU1JDX1VSSVtw
-eW8zLWJ1aWxkLWNvbmZpZy0wLjIzLjQuc2hhMjU2c3VtXSA9ICIxY2QzOTI3YjVhNzg3NTdhMGQ3
-MWFhOWRmZjY2OWY5MDNiMWViNjRiNTQxNDJhOWJkOWY3NTdmOGZkZTY1ZmQ3IgorU1JDX1VSSVtw
-eW8zLWZmaS0wLjIzLjQuc2hhMjU2c3VtXSA9ICJkYWI2YmIyMTAyYmQ4Zjk5MWU3NzQ5ZjEzMGE3
-MGQwNWRkNTU3NjEzZTM5ZWQyZGVlZWU4ZTljYTBjNGQ1NDhkIgorU1JDX1VSSVtweW8zLW1hY3Jv
-cy0wLjIzLjQuc2hhMjU2c3VtXSA9ICI5MTg3MTg2NGIzNTNmZDVmZmNiM2Y5MWYyZjcwM2EyMmE5
-Nzk3YzkxYjlhYjQ5N2IxYWNhYzdiMDdhZTUwOWM3IgorU1JDX1VSSVtweW8zLW1hY3Jvcy1iYWNr
-ZW5kLTAuMjMuNC5zaGEyNTZzdW1dID0gIjQzYWJjM2I4MGJjMjBmM2ZhY2Q4NmNkM2M2MGJlZWQ1
-OGMzZTJhYTI2MjEzZjNjZGEzNjhkZTM5YzYwYTI3ZTQiCitTUkNfVVJJW3B5dGhvbjMtZGxsLWEt
-MC4yLjEyLnNoYTI1NnN1bV0gPSAiOWI2NmY5MTcxOTUwZTY3NGU2NGJhZDM0NTZlMTFiYjNjY2Ex
-MDhlNWMzNDg0NDM4M2NmZTI3N2Y0NWM4YTdhOCIKIFNSQ19VUklbcXVvdGUtMS4wLjM2LnNoYTI1
-NnN1bV0gPSAiMGZhNzZhYWYzOTEwMWM0NTc4MzZhZWMwY2UyMzE2ZGJkYzNhYjcyM2NkZGExYzZi
-ZDRlNmFkNDIwOGFjYWNhNyIKIFNSQ19VUklbcnBkcy0xLjEuMC5zaGEyNTZzdW1dID0gImEwZTE1
-NTE1ZDNjZTMzMTMzMjRkODQyNjI5ZWE0OTA1YzI1YTEzZjgxOTUzZWFkYjg4Zjg1NTE2ZjU5Mjkw
-YTQiCiBTUkNfVVJJW3N5bi0yLjAuNjkuc2hhMjU2c3VtXSA9ICIyMDFmY2RhMzg0NWMyM2U4MjEy
-Y2Q0NjZiZmViZjBiZDIwNjk0NDkwZmMwMzU2YWU4ZTQyOGUwODI0YTkxNWE2IgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHlfMC4yMi4zLmJi
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHlfMC4yMy4xLmJi
-CnNpbWlsYXJpdHkgaW5kZXggODUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMjIuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHlfMC4yMy4xLmJiCmluZGV4IDhlZWI5NTRjODku
-Ljk1MWRmMTQ3Y2IgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy1ycGRzLXB5XzAuMjIuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtcnBkcy1weV8wLjIzLjEuYmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0
-dHBzOi8vcHlwaS5vcmcvcHJvamVjdC9ycGRzLXB5LyIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJ
-TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9Nzc2N2ZhNTM3YzQ1OTZjNTQxNDFmMzI4
-ODJjNGE5ODQiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlMzJmZWU4YWI0NWQzYzJkYjZkYTE5
-YTUzMjNiYzMzNjIyMzdjOGI2NTNjNzAxOTQ0MTRiODkyZmQwNmEwODBkIgorU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjdmMzI0MGRjZmExNGQxOThkYmEyNGI4YjljYjNiMTA4YzA2YjY4ZDQ1YjdiYWJk
-OWVlZmMxMDM4ZmRmN2U3MDciCiAKIHJlcXVpcmUgJHtCUE59LWNyYXRlcy5pbmMKIAotLSAKMi40
-NC4xCgo=
+CkRhdGU6IFNhdCwgMTUgTWFyIDIwMjUgMDk6NTM6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXdlYnNvY2tldHM6IHVwZ3JhZGUgMTUuMCAtPiAxNS4wLjEKCi0tLQogLi4ue3B5dGhv
+bjMtd2Vic29ja2V0c18xNS4wLmJiID0+IHB5dGhvbjMtd2Vic29ja2V0c18xNS4wLjEuYmJ9IHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy13ZWJzb2NrZXRzXzE1LjAu
+YmIgPT4gcHl0aG9uMy13ZWJzb2NrZXRzXzE1LjAuMS5iYn0gKDc5JSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2Vic29ja2V0c18xNS4wLmJiIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdlYnNvY2tldHNfMTUuMC4xLmJi
+CnNpbWlsYXJpdHkgaW5kZXggNzklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy13ZWJzb2NrZXRzXzE1LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy13ZWJzb2NrZXRzXzE1LjAuMS5iYgppbmRleCA5YTc0NTZk
+ZWU0Li4yZTFiMGYwOTE5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtd2Vic29ja2V0c18xNS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy13ZWJzb2NrZXRzXzE1LjAuMS5iYgpAQCAtNiw3ICs2LDcgQEAgTElDX0ZJ
+TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NTE5MjRhNmFmNDQ5NWI4Y2ZhZWUxYjFk
+YTg2OWI2ZjQiCiAKIGluaGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhCiAK
+LVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjYTM2MTUxMjg5YTE1YjM5ZDhkNjgzZmQ4YjdhYmJlMjZm
+YzUwYmUzMTEwNjZjNWY4ZGNmM2NiOGNlZTEwN2FiIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjgy
+NTQ0ZGUwMjA3NmJhZmJhMDM4Y2UwNTVlZTY0MTJkNjhkYTEzYWI0N2YwYzYwY2FiODI3MzQ2ZGU4
+MjhkZWUiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotLSAKMi40NC4x
+Cgo=
 
---===============1960663137407224780==--
+--===============7552004583834754089==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-websockets: PKGV changed from 15.0 [default] to 15.0.1 [default]
+packages/core2-64-poky-linux/python3-websockets: SRC_URI changed from "https://files.pythonhosted.org/packages/source/w/websockets/websockets-15.0.tar.gz;downloadfilename=websockets-15.0.tar.gz" to "https://files.pythonhosted.org/packages/source/w/websockets/websockets-15.0.1.tar.gz;downloadfilename=websockets-15.0.1.tar.gz"
+packages/core2-64-poky-linux/python3-websockets: PV changed from "15.0" to "15.0.1"
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-dbg: PKGSIZE changed from 24096 to 24104 (+0%)
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-dbg: PKGV changed from 15.0 [default] to 15.0.1 [default]
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-dbg: PV changed from "15.0" to "15.0.1"
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-dev: PKGV changed from 15.0 [default] to 15.0.1 [default]
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-dev: PV changed from "15.0" to "15.0.1"
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-doc: PKGV changed from 15.0 [default] to 15.0.1 [default]
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-doc: PV changed from "15.0" to "15.0.1"
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-locale: PKGV changed from 15.0 [default] to 15.0.1 [default]
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-locale: PV changed from "15.0" to "15.0.1"
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-src: PKGV changed from 15.0 [default] to 15.0.1 [default]
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-src: PV changed from "15.0" to "15.0.1"
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-staticdev: PKGV changed from 15.0 [default] to 15.0.1 [default]
+packages/core2-64-poky-linux/python3-websockets/python3-websockets-staticdev: PV changed from "15.0" to "15.0.1"
+packages/core2-64-poky-linux/python3-websockets/python3-websockets: PKGSIZE changed from 1274161 to 1275451 (+0%)
+packages/core2-64-poky-linux/python3-websockets/python3-websockets: FILELIST: removed "/usr/lib/python3.13/site-packages/websockets-15.0.dist-info/WHEEL /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/METADATA /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/LICENSE /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/top_level.txt", added "/usr/lib/python3.13/site-packages/websockets/__pycache__/cli.cpython-313.pyc /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/top_level.txt /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/METADATA /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/LICENSE /usr/lib/python3.13/site-packages/websockets/cli.py /usr/bin/websockets /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/WHEEL"
+packages/core2-64-poky-linux/python3-websockets/python3-websockets: PKGV changed from 15.0 [default] to 15.0.1 [default]
+packages/core2-64-poky-linux/python3-websockets/python3-websockets: PV changed from "15.0" to "15.0.1"
+Changes to packages/core2-64-poky-linux/python3-websockets (sysroot):
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/LICENSE was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/websockets/cli.py was added
+  /usr/lib/python3.13/site-packages/websockets/__pycache__/cli.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info was removed
+  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/LICENSE was removed
+  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/WHEEL was removed
+
+--===============7552004583834754089==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/python3-websockets/python3-websockets: FILELIST: removed "/usr/lib/python3.13/site-packages/websockets-15.0.dist-info/top_level.txt /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/WHEEL /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/LICENSE /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/METADATA", added "/usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/top_level.txt /usr/bin/websockets /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/WHEEL /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/LICENSE /usr/lib/python3.13/site-packages/websockets/cli.py /usr/lib/python3.13/site-packages/websockets/__pycache__/cli.cpython-313.pyc /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/METADATA /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/entry_points.txt"
+Changes to packages/core2-64-poky-linux/python3-websockets (sysroot):
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/LICENSE was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.1.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/websockets/cli.py was added
+  /usr/lib/python3.13/site-packages/websockets/__pycache__/cli.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info was removed
+  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/LICENSE was removed
+  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/websockets-15.0.dist-info/WHEEL was removed
+
+--===============7552004583834754089==--
 
