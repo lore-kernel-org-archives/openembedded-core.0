@@ -2,67 +2,66 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53B56C35FF6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56382C35FF8
 	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 10:24:48 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.7149.1742034282068874350
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.7151.1742034284566215806
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Mar 2025 03:24:42 -0700
+ Sat, 15 Mar 2025 03:24:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MoNgRsEI;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4394a0c65fcso4879245e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 03:24:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GxSn+CCm;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3912fdddf8fso2503609f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 03:24:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742034280; x=1742639080; darn=lists.openembedded.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lU9IsEi9NcpmtKKs1MDs2ZSkXpIkcrTjeMUWHbtNCBQ=;
-        b=MoNgRsEIsLOrnG58m25rP2VVc48rT/wVvM0Wr9cF9kOZa3F6efVpV/uiPfkQS1xJIq
-         7yXB+HRQIF5WSuUFSKcu3CtOyW4RP02f57ZW7d1cTqmBIjQohOU81Hjt3L/MJDUHpPPG
-         Mc6uO/0z/nY76dUXsi8CC6RY1JPb8mLP2SInhmv44q0OPBuEgr2QeiC92Q2fwhTxuF4t
-         iqxkX4zC2OtFP2nLL1f4og+2ZWm5uNa7GpKmP8Ywr+S0BIIBSA7yRyFynE1tdoTItoIK
-         inBOnwEgRVx9ZQV3fmb4977PHi8+JldcX/g2nj/DHJgWCm2itu/CLL+6K0kBcs/VuDcC
-         JUfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742034280; x=1742639080;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1742034283; x=1742639083; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lU9IsEi9NcpmtKKs1MDs2ZSkXpIkcrTjeMUWHbtNCBQ=;
-        b=Z3ND5Hew7yEdV1zUMU703guDpcdwnwcfe8E7VmTvE8HfLLBk1nqwDDhIhdTLLOfRex
-         88PuejjEAxotgNeesDktLHgzNe0ItTXolE3Xl8Y0O118j9B/EKG4Wuj7qsRjrFcRg2cZ
-         XV+j1aW1j/4nv1YpZc2kxORaeijQr74N7KB7DVhxVe31aPjL1kMFIVXriXd5O24+PDZ1
-         nb/bRUNKOojF6K5R5SGPkPQVC15Rc3jgdkxrN+QZoRmWIKyzQQekCdeHBQARejbHytQk
-         Lv4Ulf6PkIMawDNEzAom9wOS4dBvfV1k9UDZBF6Xsb2BfHNL+Pmh4wrvV4T2RxTDypgf
-         1xnQ==
-X-Gm-Message-State: AOJu0Yx5N1gz6kzU6DYgdEzwgVVzAuI/JnHdD3rHdHsAGAg7EaeyimMg
-	SKpTrviejYXGjZZp3+LvHjJaSq47OQJWxjizrSH92hIx2SOuvnCL
-X-Gm-Gg: ASbGncvrNGB3f/XWKAsVRLiQjeqHy0SMRfMlF0iWdPrAyneuG70MvEDqHmEWKIjYNEY
-	rRkRbA6a7IqEp5/mc3JbBeSyQ1nUYRNirG9t0kgYR8I3dwUSBy+8JoxHIY4iD7KnS3gRP0cUWY/
-	VCv2HbqRjzg93c0YaVgpQqxLYdKHRXmHegUrfnk9Pbl8KZkvr+rmDkFoVijaI20fE9vTa84T/Gg
-	03gIn8ZeuuvEe1Eo9J9UKRJnjoi6h6k8qmlFPWENu3nSjw134/Zb/R9m6pDNhHc/5LVFzAM7e2E
-	FN3ynWXXOYMAvjxGZfs3ZPdTDQitdUw6QkP49z5Gu7zNuHrr77kwvAEE5EDwrbAfMmmA1p/iM9b
-	vNfI7UTShdCTSjxKA5ZeEQg==
-X-Google-Smtp-Source: AGHT+IEMW9gts4K2zfE3ufyfKIo0isEpaOEEG5rLhu8Ocnb+0urnmbnvimASe4YzzHDibmTq+rS3iA==
-X-Received: by 2002:a05:6000:702:b0:385:d7f9:f157 with SMTP id ffacd0b85a97d-3972029e4c4mr6823966f8f.36.1742034279953;
-        Sat, 15 Mar 2025 03:24:39 -0700 (PDT)
+        bh=6fu63JtcHPwpM6cFiXKz7Y+T14Et5hHvApyC++dTHvo=;
+        b=GxSn+CCmBiTxendinEdvGZRa+K2TewCf0VKW0o7jRX1yoGSpyAsodHvT4teJ1RhQur
+         uc/Bx3rC35sK/gGJcnZYpDsHfK2hSG6on8Ku8ICeQvjSDw44Pr8xKuXg3K+Q3AsgbUZK
+         vigQGkWCLFSftZJPCH9jp8nmlca5xoKxyOUbrwnijG3tWs+7wVU8zXOghVCyvBv0NH6z
+         u1lLXye1Pv5YRZql5tFVY6ZAqtxDP9LZjhSaezUTKbaarpkKzy6g+OL1mJXYbIDR8oap
+         ZvS9ExE9n3cZFgIyExZhEkONvz68rwjvIHQx5wWvDQQyGOOk9gs13GjERyaw3CIyyYuk
+         2kAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742034283; x=1742639083;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6fu63JtcHPwpM6cFiXKz7Y+T14Et5hHvApyC++dTHvo=;
+        b=ougqkYicfqm9lUKs46184NEIvlbaxeBfsjpEKJt6Q2qfS5Hn72bS7Cv27s+Mpo4JGo
+         44x+cUy2CbCOL/s/5kVU/WCBDbABVW880YbjN4ZW3Jfr8OeB9IgmWGDghs7LONw6T3Lt
+         3fFBM0O5ECBrDD0q4aKVLSbuWGHn+Igm7G77+ZER8jJ7Tkf6lC2PcAADBcl5z7m3KBg/
+         UKMP/fV1F1tri2pZ56N3okS1EbNqVU9/I2Kml0yCn6199KVwShkUcZ1w/w2WJVxWV5ZP
+         QkVuP7fPhWtvcqSEvVBQgYd1URdzxUigrLeqO0+OtY9RGa3vBaRrI1zrhx+hMU0s611R
+         pZpQ==
+X-Gm-Message-State: AOJu0YzO7AFD+SgipdjHK6ihtQQwbIscJJAXzQST4lHB+3Ldic/FRMxi
+	sBLqt0nHauZeabGsKNA13yq8MkHCkgYyfUHlYc3QcIJEGqHiff2yHBDxd90E
+X-Gm-Gg: ASbGnctadJXAzX9dIW5PQduS9XCblIn71kvGjQCSqWeHyYLu9jakxV2vw1bwt0pbTWi
+	PuimTJQ0mB1cPazLXzal9aO8+ufwWiuersSHk89iWLF5vFnnvVNoH2jeFt8aY8olfDYE0HTi7AD
+	fTP/wMvKMcd+Bxga165geXdO9MH49uhfw52qcxpPm7qUyfbGytcbmpC1T7CzuJtc0+iUXuVd9Xz
+	gfiGMTXx/doiKjfvu1oXqlCPvSI7IL6A0fww5WBqbBDnAcwJDGqtxnHMMBdfJMAhJ567TMb9NKl
+	qLe7gkfuQHJJdiVT9/WjJmEocgldQLeubql4RuLlnTxxNKJaWVTx/z35FBr/DP8sWXYCmLmKvgB
+	ZaWr3bGusni4=
+X-Google-Smtp-Source: AGHT+IFDGF7hw4DBCt3ujKm5aZMIIjBS+uUhvg7O/c8NXcU99n8poZFiyJ5V9CAYHhtMPrI0ormp5g==
+X-Received: by 2002:a5d:6c62:0:b0:391:952:c74a with SMTP id ffacd0b85a97d-395b758f7d1mr10930824f8f.8.1742034282868;
+        Sat, 15 Mar 2025 03:24:42 -0700 (PDT)
 Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d1fe05e8dsm45186145e9.9.2025.03.15.03.24.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d1fe05e8dsm45186145e9.9.2025.03.15.03.24.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Mar 2025 03:24:39 -0700 (PDT)
+        Sat, 15 Mar 2025 03:24:42 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [PATCH OE-Core v4 0/5] Upgrade kmod 33 -> 34.1
-Date: Sat, 15 Mar 2025 10:24:37 +0000
-Message-Id: <20250315-kmod-v4-0-946682cc4090@gmail.com>
+Date: Sat, 15 Mar 2025 10:24:40 +0000
+Subject: [PATCH OE-Core v4 3/5] selftest: gdbserver: Adjust regex for
+ change to output
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGVV1WcC/1WMwQ6CMBAFf4X0bE3pUkRO/ofxsLYFNgolrTYaw
- r9b4KAe5+XNTCxYTzawOpuYt5ECuSFBscuY7nBoLSeTmEkhlYAc+K13hqMGaAw2ZaEkS9fR24Z
- ea+Z8SdxReDj/XqtRLus38Bxbj8ZuoSi54DIXoPGIskRzanuk+167ni2hCP/yJkGSsLoqcwBdA
- apfaZ7nDxMm9GzVAAAA
-X-Change-ID: 20250313-kmod-ac33fdaf6452
+Message-Id: <20250315-kmod-v4-3-946682cc4090@gmail.com>
+References: <20250315-kmod-v4-0-946682cc4090@gmail.com>
+In-Reply-To: <20250315-kmod-v4-0-946682cc4090@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
 X-Mailer: b4 0.14.2
@@ -70,52 +69,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 10:24:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212869
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212872
 
-Bring scdoc in from meta-wayland to support generation of the manpages. Convert
-to meson from autotools. Clean up usage of kmod in eudev.
+The updated kmod build (using meson) causes the output which results from `info
+line kmod_help` to change. Relax the regex so that both old and new reponses
+will pass.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
-Changes in v4:
-- Update gdbserver selftest to accomodate change in output
-- Link to v3: https://lore.kernel.org/r/20250313-kmod-v3-0-a8b5d73c83a5@gmail.com
+ meta/lib/oeqa/selftest/cases/gdbserver.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v3:
-- Fix maintainer for scdoc
-- Stop using autotools in scdoc (it just has a Makefile)
-- Set upstream commit correctly for scdoc 1.11.3
-- Fix scdcoc metadata
-- Link to v2: https://lore.kernel.org/r/20250313-upgrade-kmod-v2-0-2103ca9a26ad@gmail.com
+diff --git a/meta/lib/oeqa/selftest/cases/gdbserver.py b/meta/lib/oeqa/selftest/cases/gdbserver.py
+index 9da97ae78037bfd13434e93cf235c62fbbcb66fe..b6b7c5c47337453a49d4aa90166e148eab9038b6 100644
+--- a/meta/lib/oeqa/selftest/cases/gdbserver.py
++++ b/meta/lib/oeqa/selftest/cases/gdbserver.py
+@@ -54,7 +54,7 @@ CORE_IMAGE_EXTRA_INSTALL = "gdbserver"
+                             self.logger.warning("starting gdb %s" % cmd)
+                             r = runCmd(cmd, native_sysroot=native_sysroot, target_sys=target_sys)
+                             self.assertEqual(0, r.status)
+-                            line_re = r"Line \d+ of \"/usr/src/debug/kmod/.*/tools/kmod.c\" starts at address 0x[0-9A-Fa-f]+ <kmod_help>"
++                            line_re = r"Line \d+ of \".*\" starts at address 0x[0-9A-Fa-f]+ <kmod_help>"
+                             self.assertRegex(r.output, line_re)
+                             break
+                         else:
 
-Changes in v2:
-- Set installation directories to base_bindir/base_sbindir
-- Link to v1: https://lore.kernel.org/r/20250312-upgrade-kmod-v1-0-4de94f131b64@gmail.com
-
----
-Alex Kiernan (5):
-      scdoc: Import from meta-wayland
-      scdoc: Upgrade 1.11.2 -> 1.11.3
-      selftest: gdbserver: Adjust regex for change to output
-      kmod: Upgrade 33 -> 34.1
-      eudev: Drop --output=... from kmod call in init script
-
- meta/conf/distro/include/maintainers.inc           |  1 +
- meta/lib/oeqa/selftest/cases/gdbserver.py          |  2 +-
- meta/recipes-core/udev/eudev/init                  |  3 +-
- .../scdoc/scdoc/0001-Makefile-drop-static.patch    | 23 +++++++++
- meta/recipes-extended/scdoc/scdoc_1.11.3.bb        | 22 ++++++++
- .../kmod/kmod/avoid_parallel_tests.patch           | 30 -----------
- meta/recipes-kernel/kmod/kmod/gtkdocdir.patch      | 30 -----------
- meta/recipes-kernel/kmod/kmod/run-ptest            |  5 --
- .../kmod/{kmod_33.bb => kmod_34.1.bb}              | 58 +++++++++-------------
- 9 files changed, 71 insertions(+), 103 deletions(-)
----
-base-commit: cb9bff9eac3670253076d5d09c6893e372be40a8
-change-id: 20250313-kmod-ac33fdaf6452
-
-Best regards,
 -- 
-Alex Kiernan <alex.kiernan@gmail.com>
+2.25.1
 
 
