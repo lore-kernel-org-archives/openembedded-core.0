@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B65ACC36016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2D90C36019
 	for <webhook@archiver.kernel.org>; Sat, 15 Mar 2025 14:18:20 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.10337.1742048299938570352
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.10338.1742048300015176170
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Mar 2025 07:18:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dZ96PT4U;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Q7t0SUqd;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101959a2b88c6-2601e4ac-33c5-404b-a4ea-ff6665fd8d4f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=c6DPTFMp;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=LL5DGEnn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101959a2b895b-6296647d-554b-4bb5-aa55-0009e48b05b8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1742048299;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9ajLzaxO5P6qoR9DKc33o3wIjjl4GtcOAaEqUinLXGo=;
-	b=dZ96PT4UWrA07XHSmbWyOv4/SNzB9dEeQXQkXEJJmq7g0QGJP5kD+YaahlR74M1k
-	lxNLO6r+QF/Qm+i5xjsORInzIykBOg4JYGzoA9E4dg+C+pVzb6rBxYRWtof0UANUr3Q
-	I7ksdyMsfgMiqHhc1AfvlROcK2Wdcwce/NoNqoPA=
+	bh=4xbAFT1d9yZWUJccmHQyjedwlCqyaZdGIVKMbsLsfr0=;
+	b=c6DPTFMp/Na0bQYKw6mFG0m2osn3JFpkmi41sjZ9uWcX9O0ltsE/+7z+G1qABkxt
+	0bl/RBAH7aYPCawOFjRauRAsm+LzrNVeqrq1gXWnKT3gFka4/scHFCQiuBFSNtGr6hO
+	gBUVTccFSrM25dNaaALcgyhVd+4WQY6T8MOBrOuc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742048299;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9ajLzaxO5P6qoR9DKc33o3wIjjl4GtcOAaEqUinLXGo=;
-	b=Q7t0SUqdYjA6t6lh/ZjXk/L50/0EYQ7cMUgnRKXITJp9+puTjJmQxOf2xG1Y7cZD
-	qTUsOGN+jZqK4ya6rL8EJLNbyZZ3ITg9nWTrNLJ+nVAXyLRpmjvMTD4VciqLn/KPk6K
-	tHLxApYx6lMxR/F5r+5A9dP4FtHz7aKYoEf0+K+4=
-Content-Type: multipart/mixed; boundary="===============3780327947327265353=="
+	bh=4xbAFT1d9yZWUJccmHQyjedwlCqyaZdGIVKMbsLsfr0=;
+	b=LL5DGEnneI1IfOkdfG+/9rjJfClwacjM95EumJ2gfs/bFNJ0xfQsCWwOmmnUl+9L
+	ewwIGGLD9MMEiQqJXSgnZBbHuQgbqw6dgKO8fTSM5yPo6g71XH3TZuAiYncUtuygi0x
+	Poe73nDfmqXm/7uoqw1KGAEZPgJG1bpOzZjbDf7w=
+Content-Type: multipart/mixed; boundary="===============8164203892262868532=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Zang Ruochen <zangruochen@loongson.cn>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pbr: upgrading to 6.1.1 FAILED
-Message-ID: <010101959a2b88c6-2601e4ac-33c5-404b-a4ea-ff6665fd8d4f-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-pygobject: upgrading to 3.52.2 FAILED
+Message-ID: <010101959a2b895b-6296647d-554b-4bb5-aa55-0009e48b05b8-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Mar 2025 14:18:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.15-54.240.27.193
+X-SES-Outgoing: 2025.03.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Mar 2025 14:18:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212912
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212913
 
---===============3780327947327265353==
+--===============8164203892262868532==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pbr* to *6.1.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-pygobject* to *3.52.2* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe python3-pbr failed.
+The following devtool command failed:  upgrade python3-pygobject -V 3.52.2
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1884 entries from dependency cache.
@@ -77,10 +77,10 @@ meta-yocto-bsp
 workspace            = "tmp-auh-upgrades:f767a040a9079ae3cdc9670ee4e4808839321267"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 Loading cache...done.
@@ -105,31 +105,26 @@ meta-yocto-bsp
 workspace            = "tmp-auh-upgrades:f767a040a9079ae3cdc9670ee4e4808839321267"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
 done.
 NOTE: Executing Tasks
-WARNING: tmp-recipetool-mg2ov8fn: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-2mw5fad7/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-2mw5fad7/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+WARNING: Failed to fetch URL http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.52/pygobject-3.52.2.tar.xz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 92 tasks of which 90 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250315092603.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250315092603.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/p/pbr/pbr-6.1.1.tar.gz;downloadfilename=pbr-6.1.1.tar.gz...
-INFO: Rebasing devtool onto 156f7142ef6e24a6ae56bee219b20ad294f34301
-WARNING: Command 'git rebase 156f7142ef6e24a6ae56bee219b20ad294f34301' failed:
-Auto-merging pbr/tests/test_integration.py
-Auto-merging pbr/tests/test_packaging.py
-CONFLICT (content): Merge conflict in pbr/tests/test_packaging.py
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/python3-pbr
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/python3-pbr/python3-pbr_6.1.1.bb
-
+INFO: Fetching http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.52/pygobject-3.52.2.tar.xz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5rhye7kr/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5rhye7kr/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5rhye7kr/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5rhye7kr/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
+ cipetool-5rhye7kr/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5rhye7kr/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget -t 2 -T 100 -O /srv/pokybuild/yocto-worker/auh/build/build/downloads/pygobject-3.52.2.tar.xz.tmp -P /srv/pokybuild/yocto-worker/auh/build/build/downloads 'http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.52/pygobject-3.52.2.tar.xz' --progress=dot -v failed with exit code 8, see logfile for output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.52/pygobject-3.52.2.tar.xz')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5rhye7kr/work/temp/log.do_fetch.2972789
+ERROR: Failed to fetch URL http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.52/pygobject-3.52.2.tar.xz
 
 
 Please review the attached files for further information and build/update failures.
@@ -137,5 +132,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3780327947327265353==--
+--===============8164203892262868532==--
 
