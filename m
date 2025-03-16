@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0257EC35FF7
-	for <webhook@archiver.kernel.org>; Sun, 16 Mar 2025 16:13:03 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.31808.1742141579471699531
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DF6C28B2F
+	for <webhook@archiver.kernel.org>; Sun, 16 Mar 2025 16:13:13 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.31825.1742141591071064795
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Mar 2025 09:12:59 -0700
+ Sun, 16 Mar 2025 09:13:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=icBHfr/L;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cf257158fso8121495e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 09:12:59 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WdzX55ME;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso8961395e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 09:13:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742141577; x=1742746377; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1742141589; x=1742746389; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qElHCbxWda5VVfGi3ax9OgTGvLu6Ctd/PhMUjlDsUR0=;
-        b=icBHfr/LUdxDx80foHwaw9Gy5IMnUCnr1Jsr9Q52ozud9/KtM0rwG7691/n+1oTSc0
-         TroHfNa5qgnWyKEI7hsKlRei/NQofwt7OJ1L9n0ZRXzRhLGkqHOGgjpyCuHrmo491XD+
-         x167gHHop3UPj853G92JTyyn6aWrEfDT+T6uw=
+        bh=tkLm4HJVZeOqyiskQev+4BVvTdpZ7ozW2MMYJw+uTHI=;
+        b=WdzX55MEAam1/pX5MccmlzGL2k0ndCtdinlWlGTJeMb0leU+d6hPO0cxaqni4IaZuI
+         YM5go9b1KjeFN5/HbXbD0zPLHwXNmuizX5VLWBWZzhGvHXZE/i4D8TGn21My3prZtzf4
+         r9xORN5LRdu/IXlxdVM8lCYG7aFKGQ3vUnn04=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742141577; x=1742746377;
+        d=1e100.net; s=20230601; t=1742141589; x=1742746389;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qElHCbxWda5VVfGi3ax9OgTGvLu6Ctd/PhMUjlDsUR0=;
-        b=L3nsToKtDuJJ1v5Em/lzxNRUq35o1SnZaRaMvlyrIV9PRQO86ae6N6bIreFKeFDd8T
-         4sQAqR7CH8TiYdDJNzEhrjs4X98Bd22CLXv4JOu6ezEIu2BijEUnav0U3E2vHxFTalCi
-         H5CIYpI6CVGLvp5NcvMe6yfggdgeovp6ygOv2TJ/1C5Q4Zo/UVQFR4YsI36CDkQNR2iC
-         l7eONWMX8UywYuKmiq7hN0s3nrjqnb0kIgELdVJ5UKeNutYYAOnnppjMKuxrQc21NMlV
-         v9071C4t5DCnGMXgSuur//MqCVqCVLkfhsFcvffNjTd99uIWiUSy4GKl4EgypkIP8Mbm
-         AJxA==
-X-Gm-Message-State: AOJu0Yxi/2hfT9xI9kWQwLkY38+HOhhD0xl+A9VoCzg9EWZtrHgIGZaQ
-	KAgMi3I5tg9W2AVAvTNYK6i6/39or4RQVpO68Cc7bQNMyVScNDUrY7If01Ee7MmjqyOizVXkZ1Z
-	r
-X-Gm-Gg: ASbGnct7DFeQLqa3Wa3aaiOqQEfG8mB79zhTizrxwYPzlao4vJj3BkFY9ctwR0YDDX7
-	xsDh1/ACDDtqBiLqGzMyPjfcWe+PWy5buuMRJ+RccIGnQ4GU6HNBi+y4+nnPlwEMyOBMW5O3Jqn
-	ZkMk4bsDD8+gvK5WpD9BoUWnGb0Rp6W8xuwKibz9sTyaZdVFSamZH8TQ2mON5OgFx6hvHlHZ8+l
-	fhg15qJIbx6aWpJm9/ztXVwWYe08sBD3KwPVv+tt2bAwXQuFcMlJANC6xHIC1PYFakYdmDuRvgB
-	MJ4TTk2mMAY15rrpvPix/C9RCzGCi0vpFuxeYsTZ8YP8nhMxz1uFaU5Vgvbpb2Btq/XagotM4g=
-	=
-X-Google-Smtp-Source: AGHT+IGgskoMFZTnqK0m2mtd07tYgN8IkseKSo20szYdeNWkUpT3f42vQP0hNjE2BKXLnsgssdPfCw==
-X-Received: by 2002:a05:600c:3b25:b0:43d:10a:1b90 with SMTP id 5b1f17b1804b1-43d1ecc767dmr109521625e9.16.1742141577511;
-        Sun, 16 Mar 2025 09:12:57 -0700 (PDT)
+        bh=tkLm4HJVZeOqyiskQev+4BVvTdpZ7ozW2MMYJw+uTHI=;
+        b=AevxMA2hNAY4PJMiQemw4GDStXvirxDUSb3/zhkDWmuCuLIl7Po0U8AGiH2A4hRzgF
+         DDJzdtnyawSTVVXcl7cq4wDNMBQ4U0LEEUH/ioWBrDFDnCcExSfZqtUNydQ1uOlaftzH
+         Q1CZsOTow5nRcY8X8m2ooTXSqWpcCQ2wd4HLQLA0PbUnRc+6HFbysz55xcCvcS/GGZi1
+         ACDGvrUDc3emJy6ewKlfIZrK7WXHrLNLDQrPFAfkCKwJn2oL/vgCBiMTgnRQsA9drfvC
+         tHmGSmH8YPC7bEduICmtavKMvnd2YPF3bIeyUJVk6NWcyBeYSI+ENqowsZd+TzXhv9eC
+         5zzQ==
+X-Gm-Message-State: AOJu0YxuA5fFNrwnX+l/vw3Umv/x9bezPEjznxlABYI2y6crAeUCzXQ1
+	odOIgnXM/1AJSCyTY0F+wkU4TcyzMN76CcqoapkT6/E0R/03JV79FdZ3q5L3hu18bydTT7gOvd0
+	S
+X-Gm-Gg: ASbGncu/Rvq9pB5OABaCfCCNYzIMJqcdj5tHMI/Xgn/hVfdsbjdE01NT2mnHloM+ihu
+	erHs2D0/K3/PuwwFXhZXj/6+CU4xpCQhl6o+eQQQnlTp/MVuDV3NFnif+kSkRA0MsSjVp90nqQy
+	KLYxYBjSggBq6vKA34981FseGsMXMTSV19yOR4MrbSqeGY8g1Cd8GPt6XrGgDyyKCCna5DeALlk
+	Jr+O62vfx3AihkKFc+4Pe0ZlvJIkQrFrh9lR5WeZ3OKdaOhMTlpj6M1vSJ4YDGHeeCuw4ITT4vn
+	5SEPTUDeCK8+zg6BMFvNb1MENoamIpm6V25A87BxLILOIHPNR8a6e+bOR9jZYC/nsbKrwQtaPEw
+	E43ofmGOY
+X-Google-Smtp-Source: AGHT+IESlFY+2zm0GWdxJ5MDEeE5dIHZafkeYUYPH+NPPJH6NfReYWoeaYg4QuRR6PW1QeeDsCmccA==
+X-Received: by 2002:a05:600c:1913:b0:43c:fe90:1282 with SMTP id 5b1f17b1804b1-43d1ec79e9emr107326635e9.7.1742141589160;
+        Sun, 16 Mar 2025 09:13:09 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:bead:7cef:d139:9ec0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d200faebbsm80252225e9.30.2025.03.16.09.12.55
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d200faebbsm80252225e9.30.2025.03.16.09.13.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Mar 2025 09:12:55 -0700 (PDT)
+        Sun, 16 Mar 2025 09:13:08 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 32/43] sysvinit: upgrade 3.13 -> 3.14
-Date: Sun, 16 Mar 2025 16:11:58 +0000
-Message-ID: <20250316161209.3629986-32-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 40/43] xinit: upgrade 1.4.3 -> 1.4.4
+Date: Sun, 16 Mar 2025 16:12:06 +0000
+Message-ID: <20250316161209.3629986-40-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250316161209.3629986-1-richard.purdie@linuxfoundation.org>
 References: <20250316161209.3629986-1-richard.purdie@linuxfoundation.org>
@@ -64,49 +64,56 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 16:13:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213035
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 16:13:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213043
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch           | 4 ++--
- .../sysvinit/{sysvinit_3.13.bb => sysvinit_3.14.bb}           | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/sysvinit/{sysvinit_3.13.bb => sysvinit_3.14.bb} (98%)
+ .../xinit/0001-Make-manpage-multilib-identical.patch       | 7 ++-----
+ .../xorg-app/{xinit_1.4.3.bb => xinit_1.4.4.bb}            | 2 +-
+ 2 files changed, 3 insertions(+), 6 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xinit_1.4.3.bb => xinit_1.4.4.bb} (89%)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch b/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
-index ece870c2693..1ac54fb6675 100644
---- a/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
-+++ b/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
+diff --git a/meta/recipes-graphics/xorg-app/xinit/0001-Make-manpage-multilib-identical.patch b/meta/recipes-graphics/xorg-app/xinit/0001-Make-manpage-multilib-identical.patch
+index 649905574cc..05cca7804dd 100644
+--- a/meta/recipes-graphics/xorg-app/xinit/0001-Make-manpage-multilib-identical.patch
++++ b/meta/recipes-graphics/xorg-app/xinit/0001-Make-manpage-multilib-identical.patch
 @@ -1,4 +1,4 @@
--From 19a8777c81bc451d65a4071528e4715e19941e0a Mon Sep 17 00:00:00 2001
-+From f040b04c50d13755b2063c4db0e0be0647cf5d14 Mon Sep 17 00:00:00 2001
- From: Jeff Dike <jdike@x86_64.user-mode-linux.org>
- Date: Wed, 14 Jul 2010 14:35:52 -0400
- Subject: [PATCH] sysvinit - Remove sulogin dependency on /usr/lib*/libcrypt.a
-@@ -14,7 +14,7 @@ Upstream-Status: Inappropriate [configuration]
-  1 file changed, 2 insertions(+), 10 deletions(-)
+-From d642e60d8963f1b90569cd0ab5c29ac2c9bfe939 Mon Sep 17 00:00:00 2001
++From e193ebf82819a24f067a559b42a81bf380d12ab8 Mon Sep 17 00:00:00 2001
+ From: Jeremy Puhlman <jpuhlman@mvista.com>
+ Date: Fri, 6 Mar 2020 22:28:14 +0000
+ Subject: [PATCH] Make manpage multilib identical
+@@ -11,7 +11,7 @@ Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/src/Makefile b/src/Makefile
--index 4ce4889..1611c1c 100644
-+index 6d9f01c..b12a233 100644
- --- a/src/Makefile
- +++ b/src/Makefile
- @@ -97,16 +97,8 @@ else
-diff --git a/meta/recipes-core/sysvinit/sysvinit_3.13.bb b/meta/recipes-core/sysvinit/sysvinit_3.14.bb
-similarity index 98%
-rename from meta/recipes-core/sysvinit/sysvinit_3.13.bb
-rename to meta/recipes-core/sysvinit/sysvinit_3.14.bb
-index d935b0edfd4..521eda0bfba 100644
---- a/meta/recipes-core/sysvinit/sysvinit_3.13.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_3.14.bb
-@@ -18,7 +18,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.xz \
-            file://bootlogd.init \
-            file://01_bootlogd \
-            "
--SRC_URI[sha256sum] = "cbaeabddc35a6511b87c87452ee5e87c678a26329c7d7d17fb69a2b42a314d86"
-+SRC_URI[sha256sum] = "c90874b8c054a35991fb8c4d30c443ed1e9b1815ff6165c7b483f558be4e4b53"
+ diff --git a/man/Makefile.am b/man/Makefile.am
+-index 9c6569f..608e933 100644
++index 9c6569f..e88c4ae 100644
+ --- a/man/Makefile.am
+ +++ b/man/Makefile.am
+ @@ -12,7 +12,7 @@ MAN_SUBSTS+=	-e 's|__XSERVERNAME__|$(XSERVERNAME)|g' \
+@@ -23,6 +23,3 @@ index 9c6569f..608e933 100644
+  		-e 's|__configdir__|$(XINITDIR)|g'
+  
+  
+--- 
+-2.23.0
+-
+diff --git a/meta/recipes-graphics/xorg-app/xinit_1.4.3.bb b/meta/recipes-graphics/xorg-app/xinit_1.4.4.bb
+similarity index 89%
+rename from meta/recipes-graphics/xorg-app/xinit_1.4.3.bb
+rename to meta/recipes-graphics/xorg-app/xinit_1.4.4.bb
+index 519a9fc4efe..b646ac667c6 100644
+--- a/meta/recipes-graphics/xorg-app/xinit_1.4.3.bb
++++ b/meta/recipes-graphics/xorg-app/xinit_1.4.4.bb
+@@ -16,7 +16,7 @@ SRC_URI += "file://0001-Make-manpage-multilib-identical.patch"
  
- S = "${WORKDIR}/sysvinit-${PV}"
+ SRC_URI_EXT = "xz"
  
+-SRC_URI[sha256sum] = "86409f21a6a31148d2c1c17bf5f2d904eb5ef455f9dc67c49fbd0c10ab18fd5a"
++SRC_URI[sha256sum] = "40a47c7a164c7f981ce3787b4b37f7e411fb43231dcde543d70094075dacfef9"
+ 
+ EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie \
+                 --with-xterm=x-terminal-emulator"
 
