@@ -2,62 +2,62 @@ Return-Path: <dixitparmar19@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01049C282DE
-	for <webhook@archiver.kernel.org>; Sun, 16 Mar 2025 08:21:20 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.25517.1742113273625376149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D276C282DE
+	for <webhook@archiver.kernel.org>; Sun, 16 Mar 2025 08:24:20 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.25535.1742113455755447502
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Mar 2025 01:21:13 -0700
+ Sun, 16 Mar 2025 01:24:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KDPa9bMC;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: dixitparmar19@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-223fb0f619dso55489765ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 01:21:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BLYICwh5;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: dixitparmar19@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2260c915749so1319185ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 01:24:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742113273; x=1742718073; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742113455; x=1742718255; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jsCPWZ8tfLJiqYkFmHglT5kMJVj1XIxvQke83h1C4wc=;
-        b=KDPa9bMCe5Optf6zx80IQsxpTfgRxZeyoOfAFlRuzuv0R+CUnc3xs9p9gF9R0HGUop
-         YHXaPkM5gzTNWcxJv5b4MUfZLEK9SilXA8Ksv98CT0ITZrzgL9WTPiLqXlInqNUzv07R
-         341dZ3YU+ZYgY2wt0Pjmb83vcLOA/mD37b7cNgShD1xpLxblkM/qumoR/RJIoyzcv916
-         haqTPdMf03Hn4eHj+ci4XJF45PkTGExy4ATjaAVzL+cRE4CNdxaJAv9stOYZL83Mknk+
-         ILNG0SV2wpDwTTJdolgojdOjEZr3YCVt/FxfLcdkIOY8Udjb9CKWUFomoQMuZ2Qtz2F5
-         I/dQ==
+        bh=DQzwkn0Jz75ppx/NWXQT7j9kvAvYOdNnOpIZFl10bSo=;
+        b=BLYICwh5DdCZcKdDlRwF/wOsFfINC9Vq7zCtEN6bP+51QiKDen5hULzy8YU+M+MAN2
+         1qcNpJuIcr+lbfG2uvua+Aaw70EGVrUUwy0D2ygL1YQr8WkRdfCOWj5XIAj7MbrJWvYU
+         7xQayIXNl1jdv3DFnjAPlX347WNFDf3HcWcUsQnhf4W9M9P0kjGbSqQexeDyqkIfP8Qg
+         drtt999IFf94RiWkM6egaJXmJNw8Ycduv80ue0LZp/mfnyr6HVPCCv4uCLnu2w3AcgSm
+         wwdWcqdOvZDfuQcDYN6RDGDebfPraLsOaYoCradR7r8cLoXHjUCTe3Yh+rBB3kPltX+M
+         XZCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742113273; x=1742718073;
+        d=1e100.net; s=20230601; t=1742113455; x=1742718255;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jsCPWZ8tfLJiqYkFmHglT5kMJVj1XIxvQke83h1C4wc=;
-        b=lx6VulkFeiBqDPkbsOpoLavs5+O8sxhuvo5oaCVyOvmjZ4T1EDrU/ZJ8Mu0qUnnsNk
-         Ts0BgAq1d3KNqxLBL9GvOPcfIY5fZ2iptUNJLcdMHTgH+XzoFqSwlAG2+WR/NmQ8IRJ/
-         hyYQemCNVcR/At1/XOndWdliMyp6X/Gi9GHOiJrnRj7iymEZN+Crf9aqO8+F84oeFBog
-         4KfxKr9asqz4EwAOMBzk/F8Llpa1txEoTBp2hSprXLzbYtwFTw2YBr+/J7/lJ77t0QjQ
-         f5BI4NkvyoUJ+BCSJNVY3TzbyTacI7xW80tg3upBfAhTXb7cRVovROqLa/IlfhyNpg/X
-         FcgA==
-X-Gm-Message-State: AOJu0YxDTnCJexm7gJZEQPe1TWiR4Qqr46FG3S1feFSVEZ3jDaFEDUYR
-	0xN4KKntyKKHGElD4UZkojnf32etFZkFtX02656dr8TRUWHGQG+44Qvy3g==
-X-Gm-Gg: ASbGncsinSSB+eOJeDcg2GwWS5UMlZEcq6r8h7Z3vf+z7S7c+ju4iJapppJjofazIzL
-	8iRcDD+LnydVZjBIsY51RVaNdDIFX7UFKsVxON4neVBHLa+A1SfZauLKkLUL4LmDkUPMyrceUTr
-	iqsItvx4fbFtHuOShNxqSLNiWHw0fpPWFvJr0e0glnOldHECQV0oehnGqt5D0Ur7wOFaXrhVoq1
-	trXWhpUFzzhQqxffaRwvGSTO/GZWY9v2/VGPo37L4qpa8vV59MYOeOAD46Qb47pymqnAC5fsAZx
-	DAg9Zp6v/47GUrTNbrXD0Y18BAekm5iD6T5NMbzjVrkusZFDZG0Hg1ofEw==
-X-Google-Smtp-Source: AGHT+IH/QNqmrzxiH1YXNNcNc0jW9BVijRzyYFaeyXr9Br0mkYl6+hjNM3ORzgxkjLTk9fMjyHymaA==
-X-Received: by 2002:a17:902:dad1:b0:224:b60:3cd3 with SMTP id d9443c01a7336-225e0a6c240mr113463035ad.19.1742113272750;
-        Sun, 16 Mar 2025 01:21:12 -0700 (PDT)
+        bh=DQzwkn0Jz75ppx/NWXQT7j9kvAvYOdNnOpIZFl10bSo=;
+        b=pXQGkoPQM9aiQoQf69eBx8qh56TxeEWxgkN5MOttmvEn4FvY3C0xyhfkDOwi7EKLuu
+         sRr34ELwrhHnkboky6de+DOqN7oXrjXI+bBDFeBrTcLnKF0s3sin8/A7z4BdD3M3vjUj
+         TeVuapJl3M1wk8A8BPk4TMWBW2gDxrgphj+WZlXCf6gCpkril5a+15Sbf6YR6mtYa0Nb
+         LNareUId15wvqCXS/0P2iTZXy1LL+MKHQKUhUQ2Tt6/jdjpC6+iQex2ZkZ9EmxcMaAqk
+         Uh7fcKLlOuFtbkb4CFkhtwxbU0QNBHls3S1eNQPvbkMcRVOimbA2/D/o/bZIebuZKCeO
+         IAYw==
+X-Gm-Message-State: AOJu0Yz3c6WAlrk6IJELjFP775p6neyqPDmIuSFS022TpfJ7WnUGkkqy
+	QPBrba5GLIHpVifv1530I/Bw64iltOMyyfnDs0vARp0Pe/FAQk5Oe2Lo0A==
+X-Gm-Gg: ASbGnctTcVtlIvQzsiwgLnO2VcM53tGnbc4T12Aap+aWctxD5iHB/Zpxc2/9PO8JuSA
+	0qD2M3q5wJb1zJg0dxXnC2sk5JmzqTX37Sj6CP6le3+iKCUGPv787huTbFYunV+w5+6l5ddz4Bo
+	3rnwSfE70Y0dRv1Bd3fozdByEM4qnoZV/jPATNGYJx3gOuxARNDKLWgTMIwB/uxZ1I/gubhcnhO
+	jmKvSlsTZFR63G3/4jXSWS/l0Yo5djN71TBSwojFCPsTuuE1/0g4+kNoeUH7HJDyF1aatgk5f2k
+	x9bAP366vt2FTsyWZXkvF9zr0mtRrL7djSGYHsDpsMg9rcc=
+X-Google-Smtp-Source: AGHT+IHrdEgCKjScrK238in1O1D5NwNxHyUexKanNy1rPzUYCB8tHjlUeH0g5x7kxjmXZZ1/AKcIEg==
+X-Received: by 2002:a17:903:18e:b0:224:3c6:7865 with SMTP id d9443c01a7336-225e0a529bcmr83481365ad.3.1742113454828;
+        Sun, 16 Mar 2025 01:24:14 -0700 (PDT)
 Received: from dixit.. ([2401:4900:1c43:3984:9558:7d48:6917:743])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6d3bsm54585735ad.109.2025.03.16.01.21.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68a407asm54732945ad.62.2025.03.16.01.24.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Mar 2025 01:21:12 -0700 (PDT)
+        Sun, 16 Mar 2025 01:24:14 -0700 (PDT)
 From: Dixit Parmar <dixitparmar19@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Dixit Parmar <dixitparmar19@gmail.com>,
 	George Thopas <george.thopas@gmail.com>
-Subject: [PATCH 1/1] kernel-module-split: fix conf file generation when KERNEL_SPLIT_MODULES=0
-Date: Sun, 16 Mar 2025 13:51:06 +0530
-Message-ID: <20250316082106.14290-1-dixitparmar19@gmail.com>
+Subject: [PATCH V2] kernel-module-split: fix conf file generation when KERNEL_SPLIT_MODULES=0
+Date: Sun, 16 Mar 2025 13:52:41 +0530
+Message-ID: <20250316082407.14359-1-dixitparmar19@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250222071113.81675-1-dixitparmar19@gmail.com>
 References: <20250222071113.81675-1-dixitparmar19@gmail.com>
@@ -66,8 +66,8 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 08:21:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212994
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 08:24:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212995
 
 When KERNEL_SPLIT_MODULES=0 modprobe and autoload conf files are not getting
 generated for the kernel modules.
@@ -81,35 +81,6 @@ splitmods=0 flow in this patch.
 
 Signed-off-by: Dixit Parmar <dixitparmar19@gmail.com>
 Cc: George Thopas <george.thopas@gmail.com>
---
-Can you show the conf files for the same kernel configuration
-with and without the kernel_split_modules enabled ? That way
-we know there's no change in existing behaviour.
-> I have confirmed that in my testing. Can you suggest how I can
-share that information here?
-
-We also should make a test for this in the OE selftests. We
-are adding conditional code paths, so they should be tested
-to ensure no regressions in either in the future.
-> Never done that before. May be I can do it given some direction 
-as separate patch.
-
-I'm curious about the above line. It is unclear to me why we'd
-only have this postinst be relevant if none was previously set.
-> Reverted.
-
-Is there really a scenario where the directory won't exist ? Isn't
-this just running in our own install phase ? So all prerequisites
-and directories should be in place.
-> Ideally no, we kept it for safer side, I have added log warning.
-
-The walking and sorting seems quite heavy.  Isn't this called from do_split_packages indirectly ?
-Do we really need to walk and gather the information ? Is this mainly for the case of no-split
-on the kernel modules ? If that is the case, isn't there a way to short circuit the processing
-on the split-package case ?
-> Litterally I could not think of anything else here and not sure of there
-are any short-circuit options. I have limited knowledge in this. I am open to suggestions
-if this is not the best solution at the moment.
 ---
  .../kernel-module-split.bbclass               | 81 +++++++++++++++----
  1 file changed, 67 insertions(+), 14 deletions(-)
