@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA19BC282DE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0FACC35FF3
 	for <webhook@archiver.kernel.org>; Sun, 16 Mar 2025 16:13:12 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.31815.1742141583062227020
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.31824.1742141589872645833
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Mar 2025 09:13:03 -0700
+ Sun, 16 Mar 2025 09:13:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hG6fN3h2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf034d4abso15234645e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 09:13:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gHP5Ymxg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cf034d4abso15235285e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 09:13:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742141581; x=1742746381; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1742141588; x=1742746388; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m466y37cuNXJE/eUJt1K7CPVsFaRyZBIGy4lVaPOQ70=;
-        b=hG6fN3h2l+ovBGu1yh/f0Df1vYkQDhblxVswd2+zXbCHBSrQTnTKfoMABco9Q7LEXH
-         rc5n28DUzoACVImKCDNrc8voTjqgUzKQadrD0eGykEsLA1GCZ9ipnAP98dOOfLtU2KxA
-         N0RVb6l/DX7Fe/MZgL+BhUBA/DNGL6zB7nU8Y=
+        bh=esVxOVUeec2xNh+LfSYf9DB/s1m+nXwSvSX/oIzeMto=;
+        b=gHP5YmxgnWRXHataHg7jBP/jzo4hjJSwG9nJY/LGGnN7k9gAbIvQsJA85j1vtpCRN4
+         mKLbFol6pg2vbdcLmrTZlXVgt6UI7VledUk344Gd+NND2q1aBbNLAB6E9ZyprvAiBJuR
+         v6VvD6qgBkMN4Y6WUGf0dhq4yfUc5fFGN6nfw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742141581; x=1742746381;
+        d=1e100.net; s=20230601; t=1742141588; x=1742746388;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m466y37cuNXJE/eUJt1K7CPVsFaRyZBIGy4lVaPOQ70=;
-        b=E+oEN3LtrmG8XWOdJcftSiOrDH9YBzEAB/S23uJiWKu6j8tannRcmn4HYRGhRH1lGb
-         7vIqH+TIlw4MaR5ptW22cC2H2LEmBi82YPDCBcUS34soV74KvftfMtbZXFrGGZItavZT
-         c/OzKcDJVRe1Aw1mhroWgLGmsmY+tdnlkv+mRYjruJYl/UtCOLV+KH2zWSdydm4U29SA
-         LL2oDneGi4EgEbW+sEH9sWWRvLJYjIQE1lkHLtB2680UmwEB/fWxGo2fBf3Jp8zQyhYE
-         7RYhHM40ynllXb0/45cOdtHxZpcfUsLhU6b44ODrfClZCyjxkhIfxBJuIM4pIb0wSsxa
-         ANCw==
-X-Gm-Message-State: AOJu0Yxl7DBSYkOlorNgTqkKJ0mYaKF3OPWZSAnlwjog2T+uqP/f/e/J
-	5CDo3exmDjxcS9hplfXVkr8TiPq1P0lehlaEQ1O+ESUCEPjfcNZ0xYzcDC7PXmrRcmUvbx9MVi7
-	n
-X-Gm-Gg: ASbGncumGbx0wAZ9j0W6vWwyQdOBNKP1UimblQjbMM8ic2zV1bxr+gMIcizTzR6bRzU
-	u8awoSjqEBXUpcpdLsUIGKhuGQTyRk+Qf4+Cdb+dVJ3vO14ENj24zriPezo8S53DGov4BtksvWg
-	pd5ckWXa1+zhzIWvBBYK12ehDEbjnJR+0NCxczPV7CiklIiNEYoHbYotLIol1ZLv4pV172Hf25x
-	XB0gvXGdU8mq4gzwa1l4LtUanPJIZl2x19+hBwlursmQGoY+e20krPUSLTBrcBgBcVdT3eyGKoa
-	BldyGDKpHrNitm1mKAOt4J3bxhuWeCSZoFO7cDnGhFzaEOw+GctZ+tYZWiy2RbvDNuHNMSbgow=
+        bh=esVxOVUeec2xNh+LfSYf9DB/s1m+nXwSvSX/oIzeMto=;
+        b=Ex7d5z5AOEYY1I/7c/a1PfCXFYF2MTYFz2Ct+QdnkjlSXAseY6ThdPenqHboQxO+46
+         XRiOc65kUF3uryytQTpxp0p6yLSMp91+sF9utPFqdBDm3Azn/GIJTfraQHnIi63K1nSG
+         EQvqJp7aSDnVrP8Gr6ikdAwmLxMN2pnfTAxNzvljv69NgZUzcE0AkjzR5O+BvSMtEztL
+         xRgpISRIsvG3Bx8EivbH/DyPWYMlJ1W0UjohNmmM6eUBtJcVuM9ztbi0g6bajQDSI/zF
+         dgx74eVuJPZGRby63anhj9L5NmOFNH36Dcq6o/csRYhZ7/gSZwKIO1oXJRdxHaY5lm85
+         eWUQ==
+X-Gm-Message-State: AOJu0YyqdfksTcGQ4AbydZJThdrV18hY3ZWM8rjd8pUvDrBNkzJB1msA
+	LljiBNVpb9fwmRpBCU2F66ahzT4VT32xxJRzV31kAJ0ixzx+apep+/a8m7p+sE7ZtzDv+O/1vX/
+	k
+X-Gm-Gg: ASbGncucLn2gh6iBOhI/lxxbdlBcZM91leIt7GRfW+BA6RMJn6ep4hNuPc/IhPW6Pdj
+	wP1VDmjw3Fb+eD9vCqCdEtA3DJjQgGYpnJ1UmOD53k8EYpIdlrhEQLuOR/eBQUMUlPT9flfwUTj
+	LPyQkqIkWMNqWkHiPxYcTCds1AVSTesRazJr4ejuJupKlCzjvrwFpJCdbA7rDjVjcYabQJ2jTy4
+	srGD3Jnd7jr/oT9ZSUaqZvMdmMD4FZlXVxEMx7XIlprojaU1aSZDW149iyjdGCBQoRue29ZTM9/
+	wNi0St/YfAriCVvfoX3q2iPJwemiR/gcFMSwdWZ9YS6h4+rIrmmp2JR8Bjw1TN92wSwNsQJxcg=
 	=
-X-Google-Smtp-Source: AGHT+IHGJA0dPK9TYvLE5dNXeb0GdSKH7+jcIYutvtELHFZc4cO4SWhFuEKWT/QwKmc/P6JAEod8YQ==
-X-Received: by 2002:a05:600c:3b0a:b0:43c:f969:13c2 with SMTP id 5b1f17b1804b1-43d1ece13a4mr97332035e9.28.1742141580923;
-        Sun, 16 Mar 2025 09:13:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxG8qlO0Snd0r3VOzpgsrX33z8VHVL/WR9Vgek8DTLnvA3nB63DLViUKOm2kdOgytHL1Xs7A==
+X-Received: by 2002:a05:600c:1c9a:b0:43c:f332:7038 with SMTP id 5b1f17b1804b1-43d1ecd0ec2mr88951655e9.21.1742141587682;
+        Sun, 16 Mar 2025 09:13:07 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:bead:7cef:d139:9ec0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d200faebbsm80252225e9.30.2025.03.16.09.12.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d200faebbsm80252225e9.30.2025.03.16.09.13.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Mar 2025 09:12:59 -0700 (PDT)
+        Sun, 16 Mar 2025 09:13:06 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 34/43] wpebackend-fdo: upgrade 1.14.3 -> 1.16.0
-Date: Sun, 16 Mar 2025 16:12:00 +0000
-Message-ID: <20250316161209.3629986-34-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 39/43] xtrans: Upgrade 1.5.2 -> 1.6.0
+Date: Sun, 16 Mar 2025 16:12:05 +0000
+Message-ID: <20250316161209.3629986-39-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250316161209.3629986-1-richard.purdie@linuxfoundation.org>
 References: <20250316161209.3629986-1-richard.purdie@linuxfoundation.org>
@@ -65,28 +65,68 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 16:13:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213037
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213042
+
+License-Update: Update copyright years
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../{wpebackend-fdo_1.14.3.bb => wpebackend-fdo_1.16.0.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{wpebackend-fdo_1.14.3.bb => wpebackend-fdo_1.16.0.bb} (90%)
+ .../xorg-lib/xtrans/multilibfix.patch            | 16 ++++++++++++----
+ .../{xtrans_1.5.2.bb => xtrans_1.6.0.bb}         |  4 ++--
+ 2 files changed, 14 insertions(+), 6 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{xtrans_1.5.2.bb => xtrans_1.6.0.bb} (79%)
 
-diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.16.0.bb
-similarity index 90%
-rename from meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb
-rename to meta/recipes-sato/webkit/wpebackend-fdo_1.16.0.bb
-index c8cce5447bc..aa6c58d1766 100644
---- a/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb
-+++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.16.0.bb
-@@ -13,7 +13,7 @@ inherit meson features_check pkgconfig
- REQUIRED_DISTRO_FEATURES = "opengl"
+diff --git a/meta/recipes-graphics/xorg-lib/xtrans/multilibfix.patch b/meta/recipes-graphics/xorg-lib/xtrans/multilibfix.patch
+index c513bad20e6..21872fe8fe3 100644
+--- a/meta/recipes-graphics/xorg-lib/xtrans/multilibfix.patch
++++ b/meta/recipes-graphics/xorg-lib/xtrans/multilibfix.patch
+@@ -1,14 +1,22 @@
++From 721886265be1fa505f55a7797e089d426459339c Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Fri, 29 Jun 2018 08:02:16 +0000
++Subject: [PATCH] xtrans: Fix multilib .pc file conflict
++
+ The xtrans.pc file is installed into a non-arch directory yet contains libdir
+ which can vary depending on which multilib is configured. The .pc file does
+ not require libdir so remove this to fix multilib builds.
  
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "10121842595a850291db3e82f3db0b9984df079022d386ce42c2b8508159dc6c"
-+SRC_URI[sha256sum] = "beddf321232d5bd08106c179dbc600f8ce88eb3620b4a59a6329063b78f64635"
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Upstream-Status: Pending
++---
++ xtrans.pc.in | 1 -
++ 1 file changed, 1 deletion(-)
  
- # Especially helps compiling with clang which enable this as error when
- # using c++11
+-Index: xtrans-1.3.5/xtrans.pc.in
+-===================================================================
+---- xtrans-1.3.5.orig/xtrans.pc.in
+-+++ xtrans-1.3.5/xtrans.pc.in
++diff --git a/xtrans.pc.in b/xtrans.pc.in
++index cf3e44f..7752996 100644
++--- a/xtrans.pc.in
+++++ b/xtrans.pc.in
+ @@ -1,6 +1,5 @@
+  prefix=@prefix@
+  exec_prefix=@exec_prefix@
+diff --git a/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb b/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb
+similarity index 79%
+rename from meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb
+rename to meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb
+index e391bf8a2b5..75ebd5c6151 100644
+--- a/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb
++++ b/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb
+@@ -10,7 +10,7 @@ except in the X Transport Interface code."
+ require xorg-lib-common.inc
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=bc875e1c864f4f62b29f7d8651f627fa"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d6091702432f176651d4bf09e61bbe2d"
+ 
+ SRC_URI += "file://multilibfix.patch"
+ 
+@@ -22,4 +22,4 @@ inherit gettext
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[sha256sum] = "5c5cbfe34764a9131d048f03c31c19e57fb4c682d67713eab6a65541b4dff86c"
++SRC_URI[sha256sum] = "faafea166bf2451a173d9d593352940ec6404145c5d1da5c213423ce4d359e92"
 
