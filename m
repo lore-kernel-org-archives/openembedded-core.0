@@ -1,208 +1,124 @@
-Return-Path: <quic_vpuar@quicinc.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 763CBC282DE
-	for <webhook@archiver.kernel.org>; Sun, 16 Mar 2025 13:11:41 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.28478.1742130699674228050
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5486CC282DE
+	for <webhook@archiver.kernel.org>; Sun, 16 Mar 2025 16:12:22 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.31772.1742141533256277106
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Mar 2025 06:11:39 -0700
+ Sun, 16 Mar 2025 09:12:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=hkvO3vTa;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.168.131, mailfrom: quic_vpuar@quicinc.com)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52G5mvJS023168
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 13:11:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=W4RQpMtpoZmIcHkzhMo9n8
-	oqMr6P9anJlN7caIC45SI=; b=hkvO3vTaNDkG3j0+D2xid0Ry9iSxCYbuxBkezO
-	Fys+bC0CdhT6uZbIyRMiT51UmHacPZxTAnLM46M0kW85xPV6y9sCvJyjjJImxJtK
-	qPKk0QkIhmCQJEbX3P+g89HWpCzPZiLWkGq3JUmYzm0kr+M5j4x4l2FT320mw9h7
-	IYuiERJF/K4ItPSyBypNNSOZYVyCPu96tNTsyvgQXdoWoLqLrR/yM+XNIVNJhZZI
-	WOgC8f8KyMN5u0cOLsQHtUAJmFVfT7eL2IPwJfHsMwGxC2Rsna4l3CGkFUcK6XhC
-	dGriQW+7jYua2p8TWDHGAlb2WQXM2BwEF1MyvBxU6jYCPhcQ==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d2aha6yk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 13:11:39 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52GDBceg020263
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 13:11:38 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 16 Mar 2025 06:11:37 -0700
-From: Vivek Puar <quic_vpuar@quicinc.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <quic_vpuar@quicinc.com>
-Subject: [PATCH v2] linux-firmware: upgrade 20250211 -> 20250311
-Date: Sun, 16 Mar 2025 18:39:54 +0530
-Message-ID: <20250316130954.2719960-1-quic_vpuar@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VQbYWS9o;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43948021a45so13854215e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 09:12:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1742141531; x=1742746331; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5J99g3K762xN1ekv/LmWPrKK6ksJqyNT6TJ5jMFdu4c=;
+        b=VQbYWS9oLqUq4mB5oc9VmUWUJBqvWgr/fvh48dI/z71DMRfEtSc1/z8FdsIXRlcXjG
+         vmgRIkDQOLzlJDiksDUhOODapUM6jWi6gH1ERi6mmFpj1c/a3IsjjfpKF3xvsRYWllLs
+         vasorfi89J65Ye3hA1fFmVs+A0cs1E+A+7an0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742141531; x=1742746331;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5J99g3K762xN1ekv/LmWPrKK6ksJqyNT6TJ5jMFdu4c=;
+        b=qjONY9CtQpDaa2j7QaUDhyI4gK4rYmgBOgi+tfcx6tMD7hhsZnoSo25loTZl+hJpxZ
+         5BkL75ENruQLYcvgJu37QmPRGYUIOKOuEfPR5IK01sPgImvACgATb8mA5uT5tI8H25Rl
+         KkWiUcZS9wCNam8TTBvR2YJa76Sz5IM1RYOncE96OgBQWNmaxOVwyyyjSz/ghKnxeAuz
+         mjiwD9bLKoZTr4nBPphwQztvUT0SEmJK9MWAio87zGFCzB6Ba93fUiSEnte63KhswrRB
+         yfuaqyZLRDllHVrS1hbBGg/KWcsQgFNSjl+Ybz5JEvGTT72CrRYic6Sc4G4rwxpXGcDU
+         SLtQ==
+X-Gm-Message-State: AOJu0YwH4n6sO0WNueQ2r53oVG/Qx9lg5HC94G/gdd2mNhHmqGdyllWM
+	6M4FTRRHS50gchZ++E07ZgevD+Pb8ksFzkduUJ05kRYDPREOY8nYBz0v9NBYWotMTWJV+/pbdbJ
+	z
+X-Gm-Gg: ASbGncvYXTOt7HSRQZdlX/YJQf5UuVfqRsz2tBT6hubsRIGHRKBCImHHx2OpZ+5Li8M
+	yPNfn6tybzSSlXkJNsklhtvvTS1rSQ3VhLqxp8TWgGjPEBfdbEojcj5EVnAK0H5Uraceaij80C+
+	WV+1jRRY0yTxH4StuEkoXOUcJbaKuofpk6XQYI4AgH3Dg6n2ex9xk9OvgxGLK+fsmFbjopeZWuj
+	MS/XK7jsRQnPv3e467PhdOfkaExy6pKDMuoQ6ZW2EQOZ5XXraDpoTdu3EfQNYlur9X3Cl2hNtwo
+	KnWvFs0m3RtbrS+H64O/G0wxEymC/twRb32h7vynX+3VEHsnaekISPw/V0O/Y6LsZ50LMhe+oQ=
+	=
+X-Google-Smtp-Source: AGHT+IH/oW9nbN4ZBVmEawwjdDnjq7GF/eWNIbc/IZVt8A029uiKtX3yA9DT8Tmd1JSIU2R8yDx2Tw==
+X-Received: by 2002:a05:600c:3505:b0:43c:efae:a73 with SMTP id 5b1f17b1804b1-43d1ec72abemr116569705e9.10.1742141530955;
+        Sun, 16 Mar 2025 09:12:10 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:bead:7cef:d139:9ec0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d200faebbsm80252225e9.30.2025.03.16.09.12.09
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Mar 2025 09:12:10 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 01/43] cairo: upgrade 1.18.2 -> 1.18.4
+Date: Sun, 16 Mar 2025 16:11:27 +0000
+Message-ID: <20250316161209.3629986-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 9IsvU4E5rajXhfthlPpnA8dXkCZKFd4a
-X-Proofpoint-GUID: 9IsvU4E5rajXhfthlPpnA8dXkCZKFd4a
-X-Authority-Analysis: v=2.4 cv=R7kDGcRX c=1 sm=1 tr=0 ts=67d6ce0b cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=VwQbUJbxAAAA:8 a=vvM7_qn4kvGFgj1IoXEA:9
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-16_05,2025-03-14_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- impostorscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- adultscore=0 suspectscore=0 priorityscore=1501 lowpriorityscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503160095
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 13:11:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213003
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 16:12:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213004
 
-Add gpu firmwares for qcs8300 chipset to
-${PN}-qcom-adreno-a623 and
-${PN}-qcom-qcs8300-adreno packages
-
-Add bluetooth firmwares for QCA2066
-to ${PN}-qca-qca2066 package.
-
-Add firmware files for Adreno A225
-to ${PN}-qcom-adreno-a2xx package
-
-License-Update: additional files
-
-Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...20250211.bb => linux-firmware_20250311.bb} | 23 ++++++++++++++-----
- 1 file changed, 17 insertions(+), 6 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250211.bb => linux-firmware_20250311.bb} (98%)
+ ...tmap_surface-bsc1036789-CVE-2017-7475.diff | 19 +++++++++++++------
+ .../{cairo_1.18.2.bb => cairo_1.18.4.bb}      |  2 +-
+ 2 files changed, 14 insertions(+), 7 deletions(-)
+ rename meta/recipes-graphics/cairo/{cairo_1.18.2.bb => cairo_1.18.4.bb} (97%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
-similarity index 98%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
-index 68e0a3b1e4..1a2a6b095e 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
-@@ -160,7 +160,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "65c2919e6511a0d348a009ac419375b7"
-+WHENCE_CHKSUM  = "886924eb733c4efcec21dff980795771"
+diff --git a/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff b/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
+index 6c761bf2a70..79ef16dfb91 100644
+--- a/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
++++ b/meta/recipes-graphics/cairo/cairo/cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff
+@@ -1,4 +1,8 @@
+-Cairo: Fix Denial-of-Service Attack due to Logical Problem in Program
++From 054ad9b65e074899c82e75cfc6623cfe29ab1fea Mon Sep 17 00:00:00 2001
++From: Fan Xin <fan.xin@jp.fujitsu.com>
++Date: Tue, 6 Jun 2017 15:57:52 +0900
++Subject: [PATCH] Cairo: Fix Denial-of-Service Attack due to Logical Problem in
++ Program
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -250,7 +250,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ https://bugs.freedesktop.org/show_bug.cgi?id=100763
  
--SRC_URI[sha256sum] = "2de1345897bf839d532c5de0fdb348770ca2a5f4edfb21971582597abb45297d"
-+SRC_URI[sha256sum] = "b1083a36f19aea46f661dcfd4cd462d13933dcb4e7f0dc809525552dd5c3541d"
+@@ -6,12 +10,15 @@ CVE: CVE-2017-7475
+ Upstream-Status: Submitted [https://gitlab.freedesktop.org/cairo/cairo/-/issues/80]
  
- inherit allarch
+ Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++---
++ src/cairo-ft-font.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
  
-@@ -472,14 +472,14 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 ${PN}-qcom-venus-6.0 \
-              ${PN}-qcom-vpu \
-              ${PN}-qcom-adreno-a2xx ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a4xx ${PN}-qcom-adreno-a530 \
--             ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 ${PN}-qcom-adreno-a663 \
--             ${PN}-qcom-adreno-a702 ${PN}-qcom-adreno-g750 \
-+             ${PN}-qcom-adreno-a623 ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 \
-+             ${PN}-qcom-adreno-a663 ${PN}-qcom-adreno-a702 ${PN}-qcom-adreno-g750 \
-              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
-              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
-              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
-              ${PN}-qcom-qcm6490-adreno \
-              ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute ${PN}-qcom-qcm6490-ipa ${PN}-qcom-qcm6490-wifi \
--             ${PN}-qcom-qcs615-adreno \
-+             ${PN}-qcom-qcs615-adreno ${PN}-qcom-qcs8300-adreno \
-              ${PN}-qcom-qrb4210-adreno \
-              ${PN}-qcom-qrb4210-audio ${PN}-qcom-qrb4210-compute ${PN}-qcom-qrb4210-modem \
-              ${PN}-qcom-sa8775p-adreno ${PN}-qcom-sa8775p-audio ${PN}-qcom-sa8775p-compute \
-@@ -717,6 +717,8 @@ FILES:${PN}-qca-qca2066 = " \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21g.302* \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21.309* \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21g.309* \
-+  ${nonarch_base_libdir}/firmware/qca/hpnv21.30a* \
-+  ${nonarch_base_libdir}/firmware/qca/hpnv21g.30a* \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21.b8c* \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21.b9f* \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21.ba0* \
-@@ -739,6 +741,9 @@ FILES:${PN}-qca-qca2066 = " \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21g.bb8* \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21g.b10c* \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21g.b111* \
-+  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_030a.bin* \
-+  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_gf_030a.bin* \
-+  ${nonarch_base_libdir}/firmware/qca/QCA2066/rampatch_usb_00130201.bin* \
- "
- FILES:${PN}-qca-wcn7850 = " \
-   ${nonarch_base_libdir}/firmware/qca/hmtbtfw20.tlv* \
-@@ -1783,6 +1788,7 @@ LICENSE:${PN}-qcom-adreno-a2xx = "Firmware-qcom Firmware-qcom-yamato"
- LICENSE:${PN}-qcom-adreno-a3xx = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a4xx = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a530 = "Firmware-qcom"
-+LICENSE:${PN}-qcom-adreno-a623 = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a630 = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a650 = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a660 = "Firmware-qcom"
-@@ -1804,6 +1810,7 @@ LICENSE:${PN}-qcom-qcm6490-compute  = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcm6490-ipa  = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcm6490-wifi  = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcs615-adreno = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qcs8300-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-qrb4210-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-qrb4210-audio = "Firmware-qcom"
- LICENSE:${PN}-qcom-qrb4210-compute  = "Firmware-qcom"
-@@ -1851,10 +1858,11 @@ FILES:${PN}-qcom-vpu = " \
-     ${nonarch_base_libdir}/firmware/qcom/vpu-1.0/* \
-     ${nonarch_base_libdir}/firmware/qcom/vpu-2.0/* \
- "
--FILES:${PN}-qcom-adreno-a2xx = "${nonarch_base_libdir}/firmware/qcom/leia_*.fw* ${nonarch_base_libdir}/firmware/qcom/yamato_*.fw*"
-+FILES:${PN}-qcom-adreno-a2xx = "${nonarch_base_libdir}/firmware/qcom/leia_*.fw* ${nonarch_base_libdir}/firmware/qcom/yamato_*.fw* ${nonarch_base_libdir}/firmware/qcom/a2*_*.fw*"
- FILES:${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a3*_*.fw* ${nonarch_base_libdir}/firmware/a300_*.fw*"
- FILES:${PN}-qcom-adreno-a4xx = "${nonarch_base_libdir}/firmware/qcom/a4*_*.fw*"
- FILES:${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.fw*"
-+FILES:${PN}-qcom-adreno-a623 = "${nonarch_base_libdir}/firmware/qcom/a623*.*"
- FILES:${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.*"
- FILES:${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.*"
- FILES:${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
-@@ -1876,6 +1884,7 @@ FILES:${PN}-qcom-qcm6490-compute = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6
- FILES:${PN}-qcom-qcm6490-ipa = "${nonarch_base_libdir}/firmware/qcom/qcm6490/ipa_fws.mbn"
- FILES:${PN}-qcom-qcm6490-wifi = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/wpss.mbn*"
- FILES:${PN}-qcom-qcs615-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs615/a612_zap.mbn*"
-+FILES:${PN}-qcom-qcs8300-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs8300/a623_zap.mbn*"
- FILES:${PN}-qcom-qrb4210-adreno = "${nonarch_base_libdir}/firmware/qcom/qrb4210/a610_zap.mbn*"
- FILES:${PN}-qcom-qrb4210-audio = "${nonarch_base_libdir}/firmware/qcom/qrb4210/adsp*.*"
- FILES:${PN}-qcom-qrb4210-compute = "${nonarch_base_libdir}/firmware/qcom/qrb4210/cdsp*.*"
-@@ -1921,6 +1930,7 @@ RDEPENDS:${PN}-qcom-adreno-a2xx = "${PN}-qcom-license ${PN}-qcom-yamato-license"
- RDEPENDS:${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a4xx = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-adreno-a623 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a660 = "${PN}-qcom-license"
-@@ -1946,6 +1956,7 @@ RDEPENDS:${PN}-qcom-qcm6490-ipa = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcm6490-wifi = "${PN}-qcom-license"
- RPROVIDES:${PN}-qcom-qcm6490-wifi = "${PN}-qcom-qcs6490-wifi"
- RDEPENDS:${PN}-qcom-qcs615-adreno = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qcs8300-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qrb4210-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qrb4210-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qrb4210-compute = "${PN}-qcom-license"
--- 
-2.34.1
-
+-Index: cairo-1.15.4/src/cairo-ft-font.c
+-===================================================================
+---- cairo-1.15.4.orig/src/cairo-ft-font.c
+-+++ cairo-1.15.4/src/cairo-ft-font.c
+-@@ -1149,7 +1149,7 @@ _get_bitmap_surface (FT_Bitmap		     *bi
++diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
++index b5d08ee..5e20ae1 100644
++--- a/src/cairo-ft-font.c
+++++ b/src/cairo-ft-font.c
++@@ -1220,7 +1220,7 @@ _get_bitmap_surface (FT_Bitmap		     *bitmap,
+      width = bitmap->width;
+      height = bitmap->rows;
+  
+diff --git a/meta/recipes-graphics/cairo/cairo_1.18.2.bb b/meta/recipes-graphics/cairo/cairo_1.18.4.bb
+similarity index 97%
+rename from meta/recipes-graphics/cairo/cairo_1.18.2.bb
+rename to meta/recipes-graphics/cairo/cairo_1.18.4.bb
+index 65ee3102120..81c7aa66f01 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.18.2.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.18.4.bb
+@@ -32,7 +32,7 @@ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+            file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \
+           "
+ 
+-SRC_URI[sha256sum] = "a62b9bb42425e844cc3d6ddde043ff39dbabedd1542eba57a2eb79f85889d45a"
++SRC_URI[sha256sum] = "445ed8208a6e4823de1226a74ca319d3600e83f6369f99b14265006599c32ccb"
+ 
+ inherit meson pkgconfig upstream-version-is-even gtk-doc multilib_script
+ 
 
