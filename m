@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 555E4C28B28
-	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 11:17:29 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.49872.1742210245038447153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39E9AC282EC
+	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 11:17:59 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.49875.1742210252736876903
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Mar 2025 04:17:25 -0700
+ Mon, 17 Mar 2025 04:17:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=KMXtdvLs;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=KMJ8SjOB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010195a3d29be1-3f7b0cf3-1658-4a53-863a-3da36a221303-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=IiUQlQL/;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=HRaB0k+w;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010195a3d29f34-f978bd61-65fe-4967-9a7f-800968a2e960-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1742210244; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=SaEpYiRvKc6mlNbKYzBtFVp6JNNWxXidSCiyOf7NYdA=;
-	b=KMXtdvLsZrFGEpjWXFlpyIXs+FmHTnOEShDqynI0szdPnkke7eCsgih2/2qeRmLO
-	uZhW2HjwH9qQNQIJVN7jXipJ454A3hz4u8TYbKiuRmQ3PQ6+fUwdbop+zd2sEPmU9Jx
-	H9NN/o5mOhwbWDlpx6pneLfM/4xAwp02pbskKmuo=
+	bh=p8lHP69t1tqvYPEOTV+zRTBAiRwBJDUGHCKexsy3GlM=;
+	b=IiUQlQL/m04zMG7QU/bBYVqOazgPz0VEBHLvEJp7gH2YMxPTB/ok/7lYBkh7LisB
+	o5UeGKNhPAwIPjHdqvLhPts58P9BQ9nxmNM91Y1sZy0KUHqe45qjIlj3RCeHVitqUFu
+	IIQy+O+857nxycAfks7WEXiS2yRKN8O9ka4eCf6U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742210244;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=SaEpYiRvKc6mlNbKYzBtFVp6JNNWxXidSCiyOf7NYdA=;
-	b=KMJ8SjOB9BXG92fmL6x9RbJfRJQDkv0Q3z30UZr9pZ/ueb+dDhOz8yPjgMD4tsN6
-	+daRra73Tj6v7c+yJeMNeA9MGSR+T4CEADQScl9wcm65ssBQw3mC5adRfaL1+kD6k2g
-	B3ySeuDeRc4YJbJnOfq9wBHb9fQDrL+kdCJlFHQA=
+	bh=p8lHP69t1tqvYPEOTV+zRTBAiRwBJDUGHCKexsy3GlM=;
+	b=HRaB0k+wbvFZD/2wrpXZij54yQyiSgSJClT1iGJGJQFpUAYFcCnYkE6xvv3FBK9M
+	swG9EpZ0YUtwhvqpkYh3vPmqTB+h3nX/YmVNBb9DpXOaMdpNN9/f8ttFxI/JuBGw2/x
+	qwEFJwpSO1JgI//HFekZl8/PnwH1aqh450Jp8nAA=
 From: patchtest@automation.yoctoproject.org
 To: Niko Mauno <niko.mauno@vaisala.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] Add VIRTUAL-RUNTIME_dbus variable
-In-Reply-To: <20250317110519.1562513-2-niko.mauno@vaisala.com>
-References: <20250317110519.1562513-2-niko.mauno@vaisala.com>
+Subject: Patchtest results for [PATCH 2/2] Add PREFERRED_RPROVIDER_dbus-x11 variable
+In-Reply-To: <20250317110519.1562513-3-niko.mauno@vaisala.com>
+References: <20250317110519.1562513-3-niko.mauno@vaisala.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195a3d29be1-3f7b0cf3-1658-4a53-863a-3da36a221303-000000@us-west-2.amazonses.com>
-Date: Mon, 17 Mar 2025 11:17:23 +0000
+Message-ID: <01010195a3d29f34-f978bd61-65fe-4967-9a7f-800968a2e960-000000@us-west-2.amazonses.com>
+Date: Mon, 17 Mar 2025 11:17:24 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.17-54.240.27.29
+X-SES-Outgoing: 2025.03.17-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 11:17:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213073
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 11:17:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213074
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/1-2-Add-VIRTUAL-RUNTIME_dbus-variable.patch
+Testing patch /home/patchtest/share/mboxes/2-2-Add-PREFERRED_RPROVIDER_dbus-x11-variable.patch
 
 FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
