@@ -1,213 +1,112 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 934C8C282EC
-	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 15:30:10 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.66.51])
- by mx.groups.io with SMTP id smtpd.web10.55530.1742225405160061316
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6ECCC35FF3
+	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 15:39:40 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.55988.1742225976221749168
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Mar 2025 08:30:06 -0700
+ Mon, 17 Mar 2025 08:39:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=bfqQ9JVb;
- spf=pass (domain: cherry.de, ip: 52.101.66.51, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lQhKvwI7F54DCJNCRukhrhrVpzDKu/X2242tBMgTkHCpqMddSpqeooiXIUAkO6dzxi6vB2z4Bz5zjfS84hqWjjIt+t+AO1169f9OdmxAFtFYbqDwz4iZUxiyEGetJibT08siLtCCaonDEcswnmsjlpsT8j7IzS77vc+MD2rMJajV9ua0I+xQiSgR7DIRgsIHQ9D5GwKgFUB/KXUAbrSxQwfNdgd4WkXHA/nCytut/B+HvNz27qPVsiOTpkb4JkizyBXyFO2htr8qfLAhVJGjl7qHnNwrEUk0WI4EbVcRWLCT0apT1HqkSHAZECYhhY2C/gSWzN+uPi8hrqKTH+qaMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=42OAxqlwCc2r+e7KvBoUBQQeSEww31W5YBjG4tMkbms=;
- b=lTJaFIpIUAALiHPT8zemrDbGSgfG0tLJeudOfqC9RjBWrRoXin/NY/H5S8dhECVT38c/7/jmDP7ww6KZXdYMRMLaTzN5thrMJhYBAzI373dViDKlQLdafR+Blf7wbSQECxHXZV4t1qiUoA7jVtmCcaVuBueay7AW04OjZC75AwyzQwiJDDskVNRNBuI0TPqeeAyHTmszmXARcsd0GDVCFSz8ivid/Bar5Z5A/1I0kkKj+lvIO1ehgm3sN+yK5dObWwxUJgVOWv8opi/NvTh4k+Y9ivrQGuOwZ5Z8VS8ySiqnoofVkAP607ye8Bq8IGuGp5lYskQXPUVjvwVharugOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=42OAxqlwCc2r+e7KvBoUBQQeSEww31W5YBjG4tMkbms=;
- b=bfqQ9JVbCH6eaVdVamNIkEoK66iH9oj3aKssozq8JXFdLlWRFGY2xRK91cyeDvwLKLdCTXjOZ1NzLXhb1gxPY16eImCS6CJCQHyVam+Bl/pcQjNN0X7df2TB9zw8WMiwYyw6zx4B/ZbQLl+8K82iPPnxoQ1Xq+8Aa51TL9AO/1U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
- by DBBPR04MB7785.eurprd04.prod.outlook.com (2603:10a6:10:1e7::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Mon, 17 Mar
- 2025 15:30:02 +0000
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::35f6:bc7d:633:369a]) by AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::35f6:bc7d:633:369a%6]) with mapi id 15.20.8534.031; Mon, 17 Mar 2025
- 15:29:59 +0000
-Message-ID: <326ed6ab-4d06-4fab-b3b2-23891eb9a77b@cherry.de>
-Date: Mon, 17 Mar 2025 16:29:58 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/2] libcap: recipe cleanup
-To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
-References: <20250317151216.3484052-1-ross.burton@arm.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20250317151216.3484052-1-ross.burton@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0121.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:94::8) To AS8PR04MB8897.eurprd04.prod.outlook.com
- (2603:10a6:20b:42c::20)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CH3Ernqz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43d04dc73b7so23784515e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 08:39:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1742225974; x=1742830774; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nb3SeQutxZJNiGxayVJ0orhQPuDmsdX3ZvrVL4FAfDI=;
+        b=CH3ErnqzKhp9l80jnpPTICh1GeNgmuWbE/SnpOvlZ7Htck4Mgc1sqYV08ltzkHbELU
+         HbWA7vzro1p3WwYOFni0WxlQxNYColkH6JcSCjsLyTjer9ZdAsbBtzciLvZleMI9mLf3
+         5R9+s9xevOnNlUg8QOJQvhjvbep5zRENr8thU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742225974; x=1742830774;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nb3SeQutxZJNiGxayVJ0orhQPuDmsdX3ZvrVL4FAfDI=;
+        b=uJgIN8ql8fCJrNF28ZV2Lvg9KvEDm1dEjmRFTX22rbfM2Y2FLsmMiqlFTKmEIzt2oz
+         cFX5E4aybWKueboERYrhs2vN7BzfBKXsMjep6fYnL8uH/IWjTZ05EnurFLeOdAZqEer/
+         JDJ+H9OvX1wdVDuq1BIeqCw2ecw/bgfpwJlSmJZo9/Ff321Q7UdiWnoz1/xMXTBl+tF4
+         VUdZL+Dg4CcQvu2ghRecVLJi9e9DrJcm88DC46FlvmEOvZm5k1vX96RIGklQVNqLtJ6d
+         sSBmQevxYFU1UDqiD8vnS2+CRszD+vI+GumuLl9e8DwEwxrx1FmPmbLpmHJgYA5sSaTu
+         T3gA==
+X-Gm-Message-State: AOJu0YzFckYZ/bvL2DRjQQfoHP4k2njkxBJqhKok9oaZl59ROsuBmYlI
+	svMmdmYLc0ETrzfj0nh+I6zT7KT0euzyTqI4E/fVuIbB/Ac9bywbAmQpnDirE4qwETf02jF5zVR
+	s
+X-Gm-Gg: ASbGncvCFd6lsSlC6w5OpgUU9DGxdxG+ZiMuh5UsKHs54qSzQ0i9atKbDjRGeozOU/W
+	tli6ny64mdRO9DoNQBnTOkZ08Gt4Uo/DCM1dMcjBvi+3hdmmPidp10aODf+dv9mH1eta9AS86/F
+	1AEsiPCTgMZ+TMVQ1+/cJEuv7jqRqikyY93X3i6713yhLZcOlDVShCAtrZR39cvEg0o+Dz2AhMe
+	R92c1owFIOdBsTc4XpGdWx1PNoteG6cb75LdhQdv0+Go3YnyC/GVOKG6a2FUcBTnTgB1GQjyK64
+	Ofnv2vjasLrsB+t2/kI68oLkRVrGSi0jTgkxnq4aWUz8G0/g1kQ6lexLXgGiMRebLjcJRVXXXVi
+	3wYt1zisn
+X-Google-Smtp-Source: AGHT+IFTcmvz9PZ0K4JTH+DhgUIFfcnaAxRcg2BADhjxU6QHuTraitOwLxSAVDQWJ5DbEX4z6qbvWA==
+X-Received: by 2002:a05:600c:358b:b0:43d:2313:7b54 with SMTP id 5b1f17b1804b1-43d23137e75mr110049005e9.3.1742225973970;
+        Mon, 17 Mar 2025 08:39:33 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:eadc:d6a2:789c:c5c2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d1fe15488sm109421945e9.16.2025.03.17.08.39.32
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Mar 2025 08:39:32 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] native: Drop export statements that aren't needed
+Date: Mon, 17 Mar 2025 15:39:31 +0000
+Message-ID: <20250317153931.3836971-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|DBBPR04MB7785:EE_
-X-MS-Office365-Filtering-Correlation-Id: cd41bd9c-f6f2-477e-e6f9-08dd6568943b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?SmZ5S1h4M2lXT0xnNHBidGVCQzE5ZzBxUEVxdHQwYTRPN21GajBjMTZqRVR1?=
- =?utf-8?B?Uk5nRE0vdmw4L2M2c3pjVmVKQzV0OG04Z0xWRGcyczdtcmhySStxa2NrSWRX?=
- =?utf-8?B?UVpqa25LUEVhZnRzc3FZZmt4VWFJcGVyL25RWVdCMStaQkxtWDl1T1ZNdFFY?=
- =?utf-8?B?QkhJa2ZzOFI2ai9QN3hpeE1XSkU1YllnTklGMG5yZVJObFNYb0RnL0FOVWFY?=
- =?utf-8?B?djFZU1lYWUlaNHV5QndldmFxeTV6eERtbnJNaU5OckxtVlBFZjhuZ0x3d1lV?=
- =?utf-8?B?NEM5SWFrR3Vid1l0NkFZYzZYSXJUZjRYcXNjc1JIUWpOTUdqODdhdThzbVJ3?=
- =?utf-8?B?dlhBNmNsVVF4Q1BjWFhVOGRYTE1YbXhwNFZCK2lnMGRNZjZuVmd2MXRyWXdX?=
- =?utf-8?B?MEl1THBDaUhLWGoxNG05bnRYSmQ3MnZ6T1dUT0VTRnJkZnNlZFhBc1gvalo3?=
- =?utf-8?B?dXJTZEdkY0IrVTVIME9jRVN4SVJML1BPeUE0cHNUQ08wRFRUR0YyOVpQUkZl?=
- =?utf-8?B?NUhkaFovcXVvSjB3THRCK2RBek1VVnpBQlpuTWNzZUdWL2xXc0FzS2FGS0Fz?=
- =?utf-8?B?U2JFK2QrL1RqMXFOZVJ6ZWZmc0lGdVU4UDBQcTJoOEFXNGcrY05QRXVTbXVp?=
- =?utf-8?B?ampCcEh0b3NuRGRRZmtiU3NON2lZQmRUdm1yak5uQTYwRlNEZElxMlpYSkdv?=
- =?utf-8?B?Slo2ZDJiTWR6VURuMFRRYVEraEtiTjNXbEFpbHJ0dTZPL2pLRjBiWlBYOHNl?=
- =?utf-8?B?emxWK3hiWDlCSlg0Ny9xclI5OGwxN3N5Ykl0R09NOE0vZTBEY0ZqaHpKOHFp?=
- =?utf-8?B?UW5ORDh0MXRGOEl2RGRuZ0g2MlkxeVQ3RXk1Tkt0c1MrWFp5djV4WEhBRHFX?=
- =?utf-8?B?TWlEQmlLaWx3UGx3dmNiRlBlWEE4SnBWa0V0MGRsb0ZWNmQ0aHNKekJvQndI?=
- =?utf-8?B?dlUwYjFZNjZnSVlMSnlOcU92RFlaeDBxOEhVMjVYSkpic2VXakdMWld3bllr?=
- =?utf-8?B?YVRUZDNFaE5jci9jSjUrZnE0NVdVbFVpSzJ0a1IvUWNPR1NVbzNEaXEvTGJ0?=
- =?utf-8?B?blBIbUhiZjRUN3JTRjF0N2pJOTBDcmtnUTF6Q0s4Y0l4VG5aRTVDWWhvbHRD?=
- =?utf-8?B?dmFQZXplK0VYZHd4Z3RBOGtYWE92RytXTEhBeXg4MkF0bFM3a3hYbXYzOVhx?=
- =?utf-8?B?OW5kNXg1TTVDeW9zSWdFNTU4Z3p1bXJOMzdwUzFmOGRuRVM1S2E0ZHZhMmpo?=
- =?utf-8?B?MzcxdjV2c04yeFZlZzZhQzd0cmdWeG9oUWhXRDB3Z1g4TEdhSnJab3I2M01p?=
- =?utf-8?B?TkVVeWQrVUYzR0c1UVI5SjhrMHFyamdSaHY1WXhiQ3FkNU8rOC8zUjJTalVE?=
- =?utf-8?B?anh6SnV3NUI4c1YrWHVZaHMrWmNBK05NRnA5NTRjM2dSbDFncWJBQVk3LytC?=
- =?utf-8?B?WFlsWW5FRHFDRXdkSDV0QnBXdFVsK1FHa3dSa0lVdVg3VUZ5S1ZEaWtNTkNj?=
- =?utf-8?B?bWpvRXRNZUJ4OVU0ZEFNc1N5VWJkWjBUNTJoQlpMLy85ck1VWWtrWFpMcHVF?=
- =?utf-8?B?ZFM2bmJpVnRRUkRVaGUyalllVGg4ZWd5R2pCZWlLZ3RxMjZySG1sdDY1YTFy?=
- =?utf-8?B?WTdsODJMcEZjNEhPeUhMVlphbGFLSTBiUnBHV0xIQjZwUFNYbjR4cXdLb0Y2?=
- =?utf-8?B?MitrTDYraTJ0dUVyQS9KTmhWcUZKOFpubHRvT0hCRndZaWpDSVZUQ002a3hn?=
- =?utf-8?B?SFo4a3JXU3lhdDFPazM2cDRRRTUvYkFrbm9mYXFlejRaMU1adnNIYStJSzBI?=
- =?utf-8?B?ZTlhVlpVam5odmVWN2ZwM3IvZVRRQ0ZHK3lGRWlxZXRMTXdBRXZ4ZTBDTWdl?=
- =?utf-8?Q?e9lJGw9N3Vr/k?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?N2ZMVGptQVJlWk1CL2dwVm5LYVcxZHFhbVhwMmxwOEs3QVRDbTZJWDlleTNG?=
- =?utf-8?B?WCtINUUrRXJHTDFHRnI4Y2FnOVFGVDZOdjBLdGxoa1Rvb2poRFI3N01UMkZO?=
- =?utf-8?B?MHRwV24xdndVcnMyamNBYVBpdHRvRDZPZDlIV3dNU1Nmb1BkR2k4R3l5WmVt?=
- =?utf-8?B?Z3NwY1BoTk03Q0wyaUdxelRkNzUyUUVqVllqblZOYmdhcWQ5RkoxOUlBTGtM?=
- =?utf-8?B?Tmhzb2dzNHZvbFNtbXNyQzFSM2Z6RlJKS0d4TzhPaWQ3OFp4R3pLa2R5ZDhD?=
- =?utf-8?B?MEpZYkk0d2VwanhQU1pVVXFjSUJWUHdZMFBmSlZyZU44V0lvV3ZQRCtack9v?=
- =?utf-8?B?Y2RzOTRnSWczQnl4ZlR1dFA3WU5JYVpVcWxRdWIyUTV0azk4Q2txa0hMUnFo?=
- =?utf-8?B?TWV2QzNKVndzTkpsR1h3czZtTTh3SWRraWlTd0xFaFRGUmRoR0VRcFloTzNn?=
- =?utf-8?B?amxoeGpjVDFKd2FteWlYZldJdkJPUUEzRXV1S1BYbThSRmZiNlROL3Ixa1pH?=
- =?utf-8?B?NEtkcFc3TWVYclkzZUp5RWhuYzNvekREcy9NeEx6V3ZQbmIwcTF2aXl4andG?=
- =?utf-8?B?QUtES1Q1bXBxUWJoU1gyYjVaL0tRWW42SGJsdnptelBDZ0tXWFpoemlSTlBB?=
- =?utf-8?B?YWxJL3lNTVNzZUFsZWtvTXVpT3p6ODhVbU1OMG83bmZTdVB1TVpqbmx6eUNv?=
- =?utf-8?B?RGxQNUhSZjFGb0VFc2ZORjducnNDbThZZ2ZCd0tjbnRRN3VEdDJzM1k4RHdr?=
- =?utf-8?B?NnVPcTlubnZhdytZY3ZXMU05bm5IVWtuSXVubGhEZlVaYmRkZXlJbDNoUW4r?=
- =?utf-8?B?bWNZcFBKbUlNODNpR28xaVJSQzFDdzZLcG5scDlRSzlwTndFamVXRlNEdDMw?=
- =?utf-8?B?MThWaDdYY0VYOVB6QzlwYmxZR3dkT2tLZml6TXB6aWc4TUU3L1BIaE56am85?=
- =?utf-8?B?dlVQSG1KbkQyZFE4WlZsVEJrQ3piMkdZcE9ra3AxMmw0YVlidGZodFUxREY0?=
- =?utf-8?B?anQwY0hwSURGd2hsUWNIMW1GWHU2dE5rTU5mVFd4emk4Tm1zS1VpZEthcXBH?=
- =?utf-8?B?eWJBUkNRUTJmTllHblFFLzR4TmRnSnFSWERJN2dKa2pzREZya0tYSEw4SHFU?=
- =?utf-8?B?ZG5mdHVncUUrQkNoR0Z6bU1LQ3FoeXhDTnd6Tzk0eDBIRDRyeHdyZzcxWjlS?=
- =?utf-8?B?dVZid3oxQ0dRcXhRR0QwdW1GMGhtT0RHMVA2cy9hRkNFdmZKQVFwdEhiZ3JV?=
- =?utf-8?B?TUxoY3FDczhkN1dnNS84SUFEN0pQclFySFJOUURpYkZadUxDMUhyYTVuc2l2?=
- =?utf-8?B?WGhhTEtGVDh3QnFlR2xsSnRSTmExcVNHRDJNRDh2TmpBVDZvMnA2d1pvN0ox?=
- =?utf-8?B?Wm1tbjhWOTRjdzFTSkJoZnhrdHZjRDJRRHgvMk9JODYxQ1RXWUNKcmdDRndB?=
- =?utf-8?B?WGV2MVl5YnI4MU9GZDZEWjZ3cGx3TlBtOUZiUUxGYytYOUtsZ1JUN2xkdGRY?=
- =?utf-8?B?ZEhuWGxEOTB6UEZqdUM4U0tHVWhna2hqYzJGWXBpVitFc0hTNkhwUlFlMmli?=
- =?utf-8?B?UXMxRDRPR3FmTW82SWlOMVplVnNlZGNXSE9INzMvM1BWdVo1cmhZR3pXTjFh?=
- =?utf-8?B?RFBkdE5UZm56eTE5OFlMRU9vTTlWaEFCTTNzRmNlMW5TaWxLdzR2dStjZmFp?=
- =?utf-8?B?eWJkcXpHdDh2MmJaUHNGRVBXRE5aY1p0cjdKMy81Si82QTJTU0NhemNIYUpl?=
- =?utf-8?B?d0VvZVN2dGo4amdIbUpBMHFmR3BOTTBHU0MzS2RGTFpJQXlVbEVQSGl2MzNl?=
- =?utf-8?B?WXdCMVFvR1dTWmljLzFjMmNpS0drUDBpTmZla2F1YzFVK3FjUVZMbVRpT2Fk?=
- =?utf-8?B?QVF1MlJvUGlJdHVhYlA1eFZXa1dUL21xRW9UMm04WjlXZ1pjamJsVmhBblBn?=
- =?utf-8?B?Z0sydDRNeDZidGlKWCtCTVNpem5WSzNQN0UxSDRKSWZKZkxzR0RoODJZaE1K?=
- =?utf-8?B?OTMrZXVYTVlHRjFjUGFFMk1ROUd3c0t2a1IvY0NVbWlIZDhSWWFBamNlWkxQ?=
- =?utf-8?B?QnZVTXRGdTREUjlTMkpDdzhGM1RNZU9MTVJwelY4N2FXN0g1a3JPRkJsYmkv?=
- =?utf-8?B?dG1oQ2c3QzZUYmUvbnFSVXdsVitYRGFOTUZrM1k2VDNlSlEzRkV0MU9aWC9t?=
- =?utf-8?B?UlE9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd41bd9c-f6f2-477e-e6f9-08dd6568943b
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2025 15:29:59.6412
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M5A1ZoGXsy0HsOOBY/SSv2MSNaymiIa7fy7sYg2S916XB1ncvB8svMRTpcR4ysBYPdNYL434fQDcQ9Tw7p+TZtPWlVcKZjKp00HKftrG48o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7785
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 15:30:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213109
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 15:39:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213110
 
-Hi Ross,
+These are already exported by bitbake.conf, no need to export them again.
 
-On 3/17/25 4:12 PM, Ross Burton via lists.openembedded.org wrote:
-> Drop 0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch,
-> fixed upstream in "libcap: Fix for older kernels"[1].
-> 
-> Drop 0002-tests-do-not-run-target-executables.patch, doesn't appear to
-> be needed anymore and most likely resolved by "Don't build the
-> tests/binaries until we want to run them"[2].
-> 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-recipe/native.bbclass | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-Could be its own patch.
-
-> There's no need to set PACKAGECONFIG:class-native as we disable PAM in
-> the native DISTRO_FEATURES.
-> 
-
-Could be its own patch.
-
-> The recipe LICENSE needs to reflect the _source_ license, so it can't
-> be controlled by PACKAGECONFIG. Also update the license to reflect the
-> actual licensing.
-> 
-
-Could be its own patch.
-
-Also, would probably be better to have a package license too, to 
-properly report the license based on the presence of the pam module or 
-not, e.g.
-
-LICENSE:${PN} = "(BSD-3-Clause | 
-GPL-2.0-only)${@bb.utils.contains('PACKAGECONFIG', 'pam', ' & 
-(BSD-3-Clause | LGPL-2.0-or-later)', '', d)}"
-
-or something like that? (Not tested)
-
-> No need to set COPTS, since "Canonicalize build system"[3] the exported
-> CFLAGS/CPPFLAGS/LDFLAGS are respected.
-> 
-
-Could be its own patch.
-
-> Merge multiple make arguments into EXTRA_OEMAKE to remove duplication.
-> 
-
-Could be its own patch.
-
-> SYSTEM_HEADERS is not used upstream, remove.
-> 
-
-Could be its own patch.
-
-> Remove redundant FILES:PN-dev, this is part of the default.
-> 
-
-Could be its own patch.
-
-Missing License-Update: trailer like patchtest bot said.
-
-Cheers,
-Quentin
+diff --git a/meta/classes-recipe/native.bbclass b/meta/classes-recipe/native.bbclass
+index febb4b60013..625975a6942 100644
+--- a/meta/classes-recipe/native.bbclass
++++ b/meta/classes-recipe/native.bbclass
+@@ -53,20 +53,20 @@ PTEST_ENABLED = "0"
+ export CONFIG_SITE = "${COREBASE}/meta/site/native"
+ 
+ # set the compiler as well. It could have been set to something else
+-export CC = "${BUILD_CC}"
+-export CXX = "${BUILD_CXX}"
+-export FC = "${BUILD_FC}"
+-export CPP = "${BUILD_CPP}"
+-export LD = "${BUILD_LD}"
+-export CCLD = "${BUILD_CCLD}"
+-export AR = "${BUILD_AR}"
+-export AS = "${BUILD_AS}"
+-export RANLIB = "${BUILD_RANLIB}"
+-export STRIP = "${BUILD_STRIP}"
+-export NM = "${BUILD_NM}"
+-export OBJCOPY = "${BUILD_OBJCOPY}"
+-export OBJDUMP = "${BUILD_OBJDUMP}"
+-export READELF = "${BUILD_READELF}"
++CC = "${BUILD_CC}"
++CXX = "${BUILD_CXX}"
++FC = "${BUILD_FC}"
++CPP = "${BUILD_CPP}"
++LD = "${BUILD_LD}"
++CCLD = "${BUILD_CCLD}"
++AR = "${BUILD_AR}"
++AS = "${BUILD_AS}"
++RANLIB = "${BUILD_RANLIB}"
++STRIP = "${BUILD_STRIP}"
++NM = "${BUILD_NM}"
++OBJCOPY = "${BUILD_OBJCOPY}"
++OBJDUMP = "${BUILD_OBJDUMP}"
++READELF = "${BUILD_READELF}"
+ 
+ # Path prefixes
+ base_prefix = "${STAGING_DIR_NATIVE}"
 
