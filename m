@@ -1,86 +1,127 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FD49C282EC
-	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 10:23:19 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.49002.1742206995343848196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A1DC28B28
+	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 10:37:49 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web10.49174.1742207861207982916
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Mar 2025 03:23:15 -0700
+ Mon, 17 Mar 2025 03:37:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=517106346d=kai.kang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52H80Cv0030305
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 10:23:14 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45cxs0t018-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 10:23:14 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 17 Mar 2025 03:23:13 -0700
-Received: from pek-lpg-core4.wrs.com (128.224.153.44) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Mon, 17 Mar 2025 03:23:12 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/2] libpam: add ptest cases back
-Date: Mon, 17 Mar 2025 18:22:55 +0800
-Message-ID: <20250317102255.318925-2-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250317102255.318925-1-kai.kang@windriver.com>
-References: <20250317102255.318925-1-kai.kang@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZiB5eTkd;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6e900a7ce55so61874916d6.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 03:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742207860; x=1742812660; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6VNawSKM/nKSwGe55phvRtPAcDLTmvA544n/ejbPmxU=;
+        b=ZiB5eTkd7potC+tiNq1aKfDD2zGt8PIfLCGaw/GtkVnNecJlwJrl19PUYUa2DcKkzs
+         GEJpGxjxsrrMvhaRTuiPEKJbvybmbjTrwmOUFop8IZx0IDrxCMFl1rC0S2TIBv/ZVMUT
+         CVYKqINZ+oTKlZ2h+XvlvLWOV/MjC7qYBad0nFcoFy9O0ytWOH+IDlQEtVwNfSxIDJXT
+         MaVxxpK7D4cH029tUGpsGlXC/FbwZvybjYnDm8exKfTBBafi83qFPeeXsD04dQcPdlH+
+         bY3bcKK1V/URAEVfinIFi4w6ozLgPRtabzniiQVOjC+X6YUZwHykcJD8zXwrK0u7hQ2Y
+         02nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742207860; x=1742812660;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6VNawSKM/nKSwGe55phvRtPAcDLTmvA544n/ejbPmxU=;
+        b=NbUlAlXf5nNXC206tVMU207r6OIOpf/QtA2o7r7CmhGfS++qQJm1C+ErgPTvewiMn9
+         ZsVYw9JzZ2PPZJQcUEyAugOd9pdyEksVTf0qkXMuvKoiuOr6KK5AKhOB4u7KsA1gpb3N
+         tfJGtPEuZReHg0hS+4vu6L0l37GBPmBMETuO9/if4NZm2rpaLaGY304Mv92gwJmibrvn
+         Is6+tChzabw48WUACqa9LhbEZoaLWRoehObf7I7QLTmBeN6LRlTN4i+3F0dDnt4R42Bh
+         06lH0Qr/OLN/8x4BT4Lwg6VU7MnKMcX/nmcnTPa12AAMA2c66SearLthxndo4e2uweZ/
+         Md/g==
+X-Gm-Message-State: AOJu0Yye3AocrSIMvW9sQnpSkQXR9V7Yf+QMyIVEe6MdnHEe5Ns3dFf3
+	rJBodKlIUV/e3zhY6KFKO58wTgSVqgvoLMSyJ02S30YFHxbe9yVF32EgsMi/Wy3fO9k0eg7Hp13
+	2q7wuT5eahkif3fgU6XhVXLuCUuA=
+X-Gm-Gg: ASbGncvl6K5ujNpo+fRwCn60UY1EAk1qEjcjFNu6yCOXUKo7Zmg8f3aOGsn5TvXTP9y
+	myJAsNlZZZeFMVAS+M0PFUzyDOhDIB+RSzKtxEvHhSRMw6W2GR6YrRze+AzYWI5q0Py+mXRImVf
+	GRaQdDxLJfLzdz7AXbiQqeoHVJmCNm/BgOINC4ACp+OuirTORnyOGqoGOjsCgJ
+X-Google-Smtp-Source: AGHT+IFd3vndqMq5Ac1/7Ga7k4s+Y8ZtO3ZFzaM5+xP3dZSllnzZkFXpE0yRCMDwT1nw7a76ZhIAJg3QmgNHGUBFgp8=
+X-Received: by 2002:a05:6214:258d:b0:6d4:1ea3:981d with SMTP id
+ 6a1803df08f44-6eaeab38f55mr140098746d6.43.1742207860158; Mon, 17 Mar 2025
+ 03:37:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: N1qvWzEQOma9_b93aARsN5cRfdx6H_J3
-X-Proofpoint-GUID: N1qvWzEQOma9_b93aARsN5cRfdx6H_J3
-X-Authority-Analysis: v=2.4 cv=NY/m13D4 c=1 sm=1 tr=0 ts=67d7f812 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=Vs1iUdzkB0EA:10 a=t7CeM3EgAAAA:8 a=YCsg304685B99ycqEqUA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-17_04,2025-03-17_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- spamscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- clxscore=1015 mlxlogscore=762 impostorscore=0 adultscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2503170076
+References: <20250314111942.304800-1-mikko.rapeli@linaro.org>
+In-Reply-To: <20250314111942.304800-1-mikko.rapeli@linaro.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 17 Mar 2025 11:37:29 +0100
+X-Gm-Features: AQ5f1JrTpZWDVNsyUMy32OGj-2cgoa_nTwUR3wa2dio-rG-3Z9zfRYE3mVWFPjM
+Message-ID: <CANNYZj-DPWnmHev9jS2WR=ZUJMLbQ_CKVVupeKjUYkhN8w65aw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/6] systemd based initrd and modular kernel support
+To: mikko.rapeli@linaro.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 10:23:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213067
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 10:37:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213068
 
-From: Kai Kang <kai.kang@windriver.com>
+Note that the feature freeze is now. This has to wait.
 
-It removes the installation of ptest cases when upgrade libpam to 1.7.0.
-Add them back to make ptest work. And 2 more cases in libpam 1.7.0.
+Alex
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-extended/pam/libpam_1.7.0.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/recipes-extended/pam/libpam_1.7.0.bb b/meta/recipes-extended/pam/libpam_1.7.0.bb
-index 1be3c9e2bb9..4abc52bd93b 100644
---- a/meta/recipes-extended/pam/libpam_1.7.0.bb
-+++ b/meta/recipes-extended/pam/libpam_1.7.0.bb
-@@ -142,6 +142,12 @@ do_install:append() {
- 	fi
- }
- 
-+do_install_ptest() {
-+    mkdir -p ${D}${PTEST_PATH}/tests
-+    find ${B}/tests -maxdepth 1 -type f -exec cp {} ${D}${PTEST_PATH}/tests \;
-+    install -m 0644 ${S}/tests/confdir ${D}${PTEST_PATH}/tests
-+}
-+
- pkg_postinst:${PN}() {
-          if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-                  /etc/init.d/populate-volatile.sh update
--- 
-2.34.1
-
+On Fri, 14 Mar 2025 at 12:20, Mikko Rapeli via lists.openembedded.org
+<mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
+>
+> systemd based initrd supports more security, encryption etc features
+> than custom shell script ones but oe-core lacks support for it.
+> Convert core-image-initramfs-boot to create systemd based initrd
+> if "systemd-initramfs" is set in DISTRO_FEATURES. Includes a test
+> for this initrd to mount rootfs via Unified Kernel Image uki.py.
+>
+> Sadly the boot time is really slow, e.g. over 30 seconds with
+> systemd based initrd. One of the major reasons is the large
+> amount of kernel modules built into the linux-yocto kernel and
+> processing of their udev events in userspace. Thus add
+> kernel-initrd-modules meta package to easily install
+> subset of all kernel modules to initrd. The subset
+> supports "mount rootfs from any block device" but
+> doesn't include graphics, UBS etc support. Without this
+> generated meta package, initrd recipe needs to manually define
+> which exact kernel modules to include which breaks if
+> those modules are built into the kernel. Thus the initrd
+> becomes machine and kernel config specific and hard to maintain.
+> With this meta package a generic initrd can be created.
+>
+> Separate changes to linux-yocto compile a lot more drivers
+> as modules but they depend on these initrd changes.
+>
+> Mikko Rapeli (6):
+>   systemd: use serial-getty-generator on genericarm64
+>   systemd: enable efi support if in MACHINE_FEATURES too
+>   uki.bbclass: drop serial console from kernel command line
+>   kernel.bbclass: add kernel-initrd-modules meta package
+>   core-image-initramfs-boot: add option to build systemd based initrd
+>   oeqa selftest uki.py: add aarch64/arm test with systemd based initrd
+>
+>  .../recipes-core/systemd/systemd_%.bbappend   |  3 +
+>  .../kernel-module-split.bbclass               | 46 +++++++++++
+>  meta/classes-recipe/kernel.bbclass            |  5 +-
+>  meta/classes-recipe/module.bbclass            | 37 +++++++++
+>  meta/classes-recipe/uki.bbclass               |  2 +-
+>  meta/lib/oeqa/selftest/cases/uki.py           | 76 +++++++++++++++++++
+>  .../images/core-image-initramfs-boot.bb       | 28 ++++++-
+>  meta/recipes-core/systemd/systemd_257.3.bb    |  1 +
+>  8 files changed, 193 insertions(+), 5 deletions(-)
+>  create mode 100644 meta-yocto-bsp/recipes-core/systemd/systemd_%.bbappend
+>
+> --
+> 2.43.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#212832): https://lists.openembedded.org/g/openembedded-core/message/212832
+> Mute This Topic: https://lists.openembedded.org/mt/111696849/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
