@@ -1,372 +1,1666 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4671C282EC
-	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 21:29:45 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.2834.1742246976704747929
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0247EC282EC
+	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 21:34:35 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.web10.2924.1742247271916322485
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Mar 2025 14:29:36 -0700
+ Mon, 17 Mar 2025 14:34:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5171afb32b=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52HKZ7HR016583
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:29:35 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45cxs0tn29-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:29:35 +0000 (GMT)
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52HLTZSt030696
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:29:35 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2040.outbound.protection.outlook.com [104.47.70.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45cxs0tn27-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Mar 2025 21:29:34 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gqnJbwdlFS+L8NQWzCriEDgeMcb5e619RWLlacQWwxslxllO4Wm8JpnoYSaS3uDg00CK6qLSGP73AJnVHBdpdHW0seZpRk5ILNfQwMXaJ1TIHqC9s4Gc3+s1wFPAGK60e/hWAlKue7NG7oiS9zM7noqbqE62f0+evHr2FZBI1uCA4079Q14Bm/UTQHi7+iH0b880/IRMlJTbj4cEHQWWcN3qBFZd9h90dH9BxQaLgO2RbaSV5GUUbByNW8RFW8fP7w1GvHUgYFvJuo7J0wybPyDVCEZYwJQy9DDFypNU3vMHQMDIgpMHg1NCKdiJMSh6Ri5lF6j1QxWrMXkdpmV4hQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FI2hQatw/2Cc9OhfVRv+Y1xHFCUT/8VwQzUZsdauFC4=;
- b=KDoPCW6wCyVwY3cO4AP6y/S1eF/QC+ZHIGG483Md4qD+cNvLm7WDsoBsuhbQmWfeTgZ4yY5lEbJONgaoYFJ0G/2EDtDIYt7SuaVJgIgVc+9qIAVQDm+2L9uiRbeoG3yX4o6azV99d9uNjTHk1Zy2d0MyB6U0TI/Qoo2WS6Y0ol6ZNcidNeFYQaYKUbRkFP+04RDh4iHBLcDT68cHQBxRggoEvfg/vK+KJq7BTea36fUap+tuZMoDyKlMAB1li01vvSa+mXUCTbe2ILGoIl9aCbmoejTUdWbJDLVdTPlbRnydHQIz9sNWLsBk/F297GmIRjN1Z2ucQ7LGC/uJFcIjpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by SA1PR11MB6894.namprd11.prod.outlook.com (2603:10b6:806:2b1::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Mon, 17 Mar
- 2025 21:29:31 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552%6]) with mapi id 15.20.8534.031; Mon, 17 Mar 2025
- 21:29:31 +0000
-Content-Type: multipart/alternative;
- boundary="------------BJ2jGDjiN5w8Pbl6E023IKMQ"
-Message-ID: <69571582-71aa-44ea-9601-88da0d8da117@windriver.com>
-Date: Mon, 17 Mar 2025 17:29:29 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v6 1/1] babeltrace2: upgrade 2.0.6 -> 2.1.0
-To: bin.lan.cn@windriver.com, openembedded-core@lists.openembedded.org
-References: <20250314130840.84700-1-bin.lan.cn@windriver.com>
- <20250314130840.84700-2-bin.lan.cn@windriver.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <20250314130840.84700-2-bin.lan.cn@windriver.com>
-X-ClientProxiedBy: MN2PR02CA0035.namprd02.prod.outlook.com
- (2603:10b6:208:fc::48) To CH3PR11MB8496.namprd11.prod.outlook.com
- (2603:10b6:610:1ba::22)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ZrFArsTd;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20250317213428b6889706bf8c59b940-0rjf4d@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20250317213428b6889706bf8c59b940
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 17 Mar 2025 22:34:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=NTQ53DzzPeymgJ2IE7hf8WJg2DqXrfe/934S5dTtCc8=;
+ b=ZrFArsTdgAhvG+axPcx0p+r/44NfCASwAiLfTufA+W9VgJONCGVgDQ9YGSEmLQhRKeckCQ
+ LassMutndf+1TwEfRkTVWL6dO71/LbI1ya/N084wcuYGtbTtuo1qiZfr3kbCF4JE4gjw7fWd
+ uiJ8F+xRGtMdsvFx1Fm2ZNCOBJgKPXixcGug1w5r/CVfWMQQfaf1B2RcjT6lReTYdpvapYcu
+ VViw4GxG8QRXRGVUEwp9oC6QMUoTB9DiTMXhCwP84Nmq93/t1OAR+Cf6tlNiiauf4CbtcjYu
+ 4hiGqgx5N49qGIlHAgRS/VO2DgSYpDeUrhQN6iJOl8H/MHjnkzDbV+qg==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] expat: patch CVE-2024-8176
+Date: Mon, 17 Mar 2025 22:33:35 +0100
+Message-Id: <20250317213335.1865158-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|SA1PR11MB6894:EE_
-X-MS-Office365-Filtering-Correlation-Id: d78e9744-2c22-4f41-738c-08dd659acdf2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|8096899003|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?YytaSFY2dHNlWXNGNVM4SW1NOEQzcnYzN1AxTHUvR2ZydWxHeEhzY1BoOHA4?=
- =?utf-8?B?bWpSQjV1dUZxUWpPcFZydkYvY2hva1l0aVY0TzlpZ0wxamFVUkY5a016YTdW?=
- =?utf-8?B?QTUvQmx6R1AxK2lzQ3lHWkJmRzlpd1FmZFV1Q20wdFk2QzJ0TFRpV2dUa05o?=
- =?utf-8?B?MVVEcktsS1ZnRThhWERNNnRGclBvY0V2RGpuNllHZ1FDVjRLR1J1MWNlWU9p?=
- =?utf-8?B?N0gzamxodWJCd0ZycU0vTVVQenBWM3FnUEEwb1laTFBKeGNsS2czUnM4NjZU?=
- =?utf-8?B?OEpiWUxEOFNIU2RHTTd6QnFidHBXS1VZZkpNTWd6eFpCQ1VHTjNML0huY3Va?=
- =?utf-8?B?bVpMZ2ZjNVMrVEMzTzIwbUpBWldDdEJTTnJxSGFhUmJTUy93UHdHTHZ6aEMr?=
- =?utf-8?B?ZEtRUlJFTFllZ05ORkcxaTZldzVZTWRJbFYrRUhaSVRvb3FSZWpoSG1NKyt6?=
- =?utf-8?B?SmNkeW1teUxHWWtvZkVZa0c2cm52UUUzSVJ5MDBkS0swcHZJMlhtTVdiRlRX?=
- =?utf-8?B?UXpQTGgwQ3M1SGdWa2wrME9idml1aVN2TGxvYVd4ZDlNWEtyVzEwaUlGejJo?=
- =?utf-8?B?VFRaTXJIRExEcG9QajNUbmFQUkthK24vaWhoQlVTVG1TK0ZEaWpNOTNPZGNL?=
- =?utf-8?B?bU5RM1ZQNThKUk1VaU1sbThYLzRnM1hWUkZsK29DMzltaTRUa0tybjJJY3cy?=
- =?utf-8?B?MU4xUHpLbGRMcThlYjNCUS9zTzduYzU3b2REQWc2bXptYmRuZS9obWNOY1dT?=
- =?utf-8?B?eVhhQWYwWVFpRC9YLzRpWmUrZnV5b3dxMk5UWlh0VjV0U21UdWQ4aVVWb1JZ?=
- =?utf-8?B?M1ZYR3pzREhBbkVoTnBJVFN0MHhQck9uODYwSW9raXVRU0pnWnVBNS81K2Rr?=
- =?utf-8?B?Q1NIczNVbDc0R3lTQzZ2MngxeWNhZHdWcnhPZllzVkF0TjRXcHhycm5GMTRP?=
- =?utf-8?B?OTJoNU9KeDEzZVZKbWJyVFhHb0s3dlRRdHdZK2tGUXNQUmxXcVNxTy80MkJP?=
- =?utf-8?B?QS9jOERjcW0vQXRlcUM3ZzRyTnVPd1pXZDVlazd1TXhwa2N6YmNFUW9QZnRB?=
- =?utf-8?B?K2UxU1lwK3FsVmNCY1ZFM2FQL1labWtqWGVUZ1dvL1JxWXMxOUdUc0dEREx0?=
- =?utf-8?B?VC9uY0lFb0x4WEhCTlRXaHhpZkQyTVp6MlBqdXk1T0MweFcybTJoOXFUMkhB?=
- =?utf-8?B?WjY5Q1hTRHFpY2s2MWxlT3g4Z1pqYnBGUGhmQitMTmh0MzN0MHBJbFVwOUFm?=
- =?utf-8?B?a1FjTUhka3dMMWMzUXNBVWpETCt6SGxFbnFkeVpWMytXQ0RabFhmc3MyZ251?=
- =?utf-8?B?M2czYlBKUHBGaGgxb0ZUbExZZVVER21abTlTT1FBMzhLR05YVTRiRjlYay9p?=
- =?utf-8?B?Uzd1eDU3YnJEdWQrSzMxL1dXTHZlSVdVcVZMbnQ0VlB1VGFqa0xxNXlsaDI2?=
- =?utf-8?B?SFg5dm1tS01JQVp1NFdySUFCT1hkdnRCakpwMXRoS09KWFg5S3RMRDQ0S3lM?=
- =?utf-8?B?R1dWZXlwYzBGVEVBT2N4Vk5DbGh0ZDc0Mjlnd0Nqc080dW1OTkVPTWxPbkI5?=
- =?utf-8?B?c210NVNHNUYvR3QwZi93WWZ2Y0wzV1F2dmRDS1V5RHlibW8yTDZYWnd4cUN4?=
- =?utf-8?B?VXRlaDlpa0FoUEh5eDRSTWFNWlJIM1J6c0poNVRrK0VmL0o2U3IxYkpnMVlE?=
- =?utf-8?B?azlKblJ5QTJnZmM3dzNQTCszVVJwaHFIUGFyWFl5VGdZOUxUdjltSmhXN2Jn?=
- =?utf-8?Q?vgMT9yI1suEfye0j9fhIGipZM07lm64AHKQwrSN?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(8096899003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?b3BLcDBSNHFqVVdQOW14eUc1dUVsZU1tZzFMbVhrTzVLSHlsMmRGa1VpVVl2?=
- =?utf-8?B?ZitYZXIyMU9YRGFVSXU5bzh3Y1hvVXVQaW1zNkl4OGhCS2NPMGJ4ZVhULzdQ?=
- =?utf-8?B?ZXNDVlNJNEc3R28vR1pHcGFLdGg1SnhOQ3A1V0NHQnNUQUt6ZUtha0F3N2pD?=
- =?utf-8?B?VCtTelUrQjg2NmZBVjRabFd1ajJacXhnbHowbWlTcVFWT3FqN2FwRk12cVFP?=
- =?utf-8?B?ZDNnNHh2SGZvMXdDMjc1Mmc3b1JzY25SMlhNVlJUdm9YNFpPRkVENC9RY09r?=
- =?utf-8?B?VTFIZlZhWVVLd2JZVkh0c2ZoNmdoTHp2bTRIdkFFbkdXS2hoanh4eDRIUC9L?=
- =?utf-8?B?ZFA2d1pCWFFvZWdKazdzenZ0cVZnTUM0VGlLdU5FZEU4MDVxVkpKUGJFQTMy?=
- =?utf-8?B?UmVIM0ZKNDYvS292SXdISVBrdVpUMU5kTkJlMzdLWUF2MVhLOUJlY3lxdzZu?=
- =?utf-8?B?bGR4SU5CT3VDSnFFNnV5OVhBYzIzcWVyRGtqTDFmUFJwVGNXRUFRTmYveldY?=
- =?utf-8?B?UXlsVERLWHNxWmFWOGhYU1lld1ZUb09BRHBGdmVseVJ3SnRKNkZ4aUtPM3ZO?=
- =?utf-8?B?MkdrMEZlKzkyTkdzbDlEaER5V3RuQ2dwQkNpbUUySDlqVktKVkhmai9oRlRz?=
- =?utf-8?B?enRNWUZpaXB6WEwxZGxmWUUyZERFdmFGMHByU05sanBzY2c1MGYyU3ZKZ0wx?=
- =?utf-8?B?SCsrMU9MMUg5M1ovREY2cWRXZ1ptWU5IV1RzV3Z5SEU3Nk01dnN2d3lkNWNw?=
- =?utf-8?B?MFNpc0c0MC9zbHpyUzFLVG1XM3ZMR285aHFwTWs3QmJBMkg4Rjg1MitQbmRX?=
- =?utf-8?B?QmpYRFhNRUFrMjJWc0JCVENOMDB4V2RURjdCRG5wbk82MEExbHgvWW5QRXdh?=
- =?utf-8?B?eFJqcFMzREdBYVFDTVErNkVKZjB5WFVQNDI0Ny9obUVwQkcxUlFQeDdTUVhI?=
- =?utf-8?B?NVZHcTdwWWVjeTNhRncvVVNoTG0zTmpyMkQyOFhIZG1tZnlhb2ZPK3U3Y1pS?=
- =?utf-8?B?QjBMWTVvd2N3TGxzRjlOM3A2ZzVhN3ROb1loS2h0RllYY0YzY3V0VTRYUkpt?=
- =?utf-8?B?bHBobkwzNStaTWp2ejd5eVRhd0w1YVdCa1R0a3FHWit3SjFQTXdxZmFUR00z?=
- =?utf-8?B?VVU5YU9jTk1FR25CM1FHY01POFhiNEE3elRWcHdLYzdyRkdBVHJZNndTcmti?=
- =?utf-8?B?QVowSllaVHdIZ2taK0p1Q3RZWXFsaHhYazlNSjAwbk1oVGVlblY5VEJhdkM3?=
- =?utf-8?B?WS9QWVpETGJidmFhSEpPSzRuNHJubjA1a2huN0cvN0wwYXlxUzVhaFR4czAy?=
- =?utf-8?B?Vi83NXFIbFpsUG9SanZMVXRaZ1BMaFlXQnYvSjRneEhmbkQrdG5nWHhRUVdw?=
- =?utf-8?B?ckZZSDA5YjdHWU4xeGZDRlUvQ2tJcmt6TWJMS3BraXdrQXJ3MTg3eHkrVjFN?=
- =?utf-8?B?cTNjSHFOazZOb3g5RGlTK1JzRVBZWEVxWGRCdnFoL09OTW9yVGx1TWVnY0Ny?=
- =?utf-8?B?WlVLSy9yakdmV0R3TVc2cDJydnVDaVN0RjZCWVhNbVcrZWo3Y1pHQWxXeG1Q?=
- =?utf-8?B?ay9KQlFMSllBWXRmQlJYSFM3cllzQkJsbFFtYTRhZDZGd1BScVUvbm5JSXQr?=
- =?utf-8?B?cEVQQlRHajNFUjZkNmY5STNXNVdSWkpFUkFpUkhiSWFYVVlJRU9heFRyVWlM?=
- =?utf-8?B?N2ova0FwMDU3Yk52M3dtLzIyZ1hmT05kOGQrR2pqWmIwdWN0K2ZsdXpZZ2Yx?=
- =?utf-8?B?SGNEL3kxNTU0L2JwZGZoeUxTSzZ6QTcxMUxPKzV1Ujc5bXpwL01Jb3JYaEhI?=
- =?utf-8?B?WTYrSFJ4YTJISW5HWGlsc05sSklGUnRPVkpEK016S1l6SkNyNmliaTMyS0Ry?=
- =?utf-8?B?bzMzb2Vwcm9VaWJLSThMYjExYWZHcTNpYzNCaGM5TGkwTlFocmp0d1drYmFl?=
- =?utf-8?B?NVl0S0hmY0JleHpiNWprZnh0T1lWKy9wQVI2aTl1WXhQNEVFSEx5Y2dYVWU3?=
- =?utf-8?B?aHpxdmlpa2VUQS91Y2g4RUlpa0tNOVBDRElxc2dZdWs1NC9iSmxKRWJPeDZk?=
- =?utf-8?B?Y2RnUzZLOWJ2RVo3L05ZdFZRM3BGeDZBSWthQnIvY2VGcEZSRnU5Q3I2MGZn?=
- =?utf-8?B?dkcrNVdnSzhsNEhCbWwwSG5OdW4zNEkwTm9ZbU9QYlFLdXN2TXVnWVc4NmFW?=
- =?utf-8?B?c1E9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d78e9744-2c22-4f41-738c-08dd659acdf2
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2025 21:29:31.2317
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o/Fwp/4Oa5wc5CTGv3aZpimBVLvYaYK82cHUJVuSQT09KKOkCdRtgkn5U9GXmik5FF9OahNQUuvteSmegNTIN8ccFcHsPCl8NvKU2e4/ung=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6894
-X-Proofpoint-ORIG-GUID: EgO0tfN1AeXBARGxwHRaou7CkdhEVXCj
-X-Proofpoint-GUID: Iojv8OeQ1Q3PBBPSEdqKPokkg5qB8egd
-X-Authority-Analysis: v=2.4 cv=NY/m13D4 c=1 sm=1 tr=0 ts=67d8943f cx=c_pps a=bqH6H/OQt14Rv/FmpY1ebg==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
- a=H5OGdu5hBBwA:10 a=U40Yx87jAAAA:8 a=a5LkSv8FAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=7d_E57ReAAAA:8 a=tBCTVLrgolpKgcY5pacA:9 a=QEXdDO2ut3YA:10 a=BBahhS0D0WQA:10 a=6NQArw8eiOICmtVZtyEA:9 a=P0RglhsncjOJt56O:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
- a=ImwWUX5h3JJ3gRE9moBe:22 a=yv_D6YSC6K1Ih23S2Yuy:22 a=E2cWBXyb0kjxxB1PlMdk:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22 a=jhqOcbufqs7Y1TYCrUUU:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-17_09,2025-03-17_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- spamscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- clxscore=1015 mlxlogscore=999 impostorscore=0 adultscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2503170155
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:29:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213125
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:34:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213126
 
---------------BJ2jGDjiN5w8Pbl6E023IKMQ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Peter Marko <peter.marko@siemens.com>
 
-Thanks for providing the version by version changelog; that's very 
-helpful to reviewers.
+Backport https://github.com/libexpat/libexpat/pull/973
+Patch created by:
+git diff 2fc36833334340ff7ddca374d86daa8744c1dfa3..99529768b4a722f46c69b04b874c1d45b3eb819c
 
+Additional backport (containing changes in tests only) was needed to
+apply it cleanly.
 
-On 2025-03-14 9:08 a.m., Bin Lan via lists.openembedded.org wrote:
-> From: Bin Lan<bin.lan.cn@windriver.com>
->
-> Refresh 0001-Make-manpages-multilib-identical.patch with
-...
-> Details about the 2.1.0 release:
-> https://babeltrace.org/docs/release-notes/babeltrace-2.1.0-release-notes.html
->
-> Signed-off-by: Bin Lan<bin.lan.cn@windriver.com>
-> ---
->   ...001-Make-manpages-multilib-identical.patch |  12 +-
->   ...not-run-test-applications-from-.libs.patch |  28 ----
->   ...-fix-test-applications-in-cpp-common.patch | 129 ++++++++++++++++++
->   ...sts-set-the-correct-plugin-directory.patch |  30 ++++
->   .../lttng/babeltrace2/run-ptest               |   4 +-
->   ...eltrace2_2.0.6.bb => babeltrace2_2.1.0.bb} |  38 +++++-
->   6 files changed, 200 insertions(+), 41 deletions(-)
->   delete mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-test-applications-from-.libs.patch
->   create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
->   create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
->   rename meta/recipes-kernel/lttng/{babeltrace2_2.0.6.bb => babeltrace2_2.1.0.bb} (66%)
->
-...
-> diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-> similarity index 66%
-> rename from meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
-> rename to meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-> index 6a0052f779..bf9df2a32d 100644
-> --- a/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
-> +++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-> @@ -2,17 +2,18 @@ SUMMARY = "Babeltrace2 - Trace Format Babel Tower"
->   DESCRIPTION = "Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log."
->   HOMEPAGE ="http://babeltrace.org/"
->   BUGTRACKER ="https://bugs.lttng.org/projects/babeltrace"
-> -LICENSE = "MIT & GPL-2.0-only & LGPL-2.1-only & BSD-2-Clause"
-> -LIC_FILES_CHKSUM ="file://LICENSE;md5=a6a458c13f18385b7bc5069a6d7b176e"
-> +LICENSE = "MIT & GPL-2.0-only & LGPL-2.1-only & BSD-2-Clause & BSD-4-Clause & GPL-3.0-or-later & CC-BY-SA-4.0 & PSF-2.0"
-> +LIC_FILES_CHKSUM ="file://LICENSE;md5=f6b015e4f388d6e78adb1b1f9a887d06"
->   
-> -DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
-> +DEPENDS = "glib-2.0 util-linux popt bison-native flex-native virtual/libiconv"
->   
-> -SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0;protocol=https \
-> +SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=https \
->              file://run-ptest \
-> -file://0001-tests-do-not-run-test-applications-from-.libs.patch \
->              file://0001-Make-manpages-multilib-identical.patch \
-> +file://0001-tests-fix-test-applications-in-cpp-common.patch \
-> +file://0001-tests-set-the-correct-plugin-directory.patch \
->              "
-> -SRCREV = "0a6632f77801f3218a288604c646f8a39cb0d2c4"
-> +SRCREV = "e61d41ff3c3ac6a123930d4e60cf710ff9ea18e0"
->   UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
->   
->   S = "${WORKDIR}/git"
-> @@ -32,6 +33,15 @@ LDFLAGS +="${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld ptest', '-fuse-ld 
-> # coreutils since we need full mktemp RDEPENDS:${PN}-ptest += "bash gawk python3 make grep coreutils findutils"
-> +RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-gconv-utf-16 glibc-gconv-utf-32"
-> +
-> +do_configure:append() {
-> +    # when doing cross compile, the path ${B}/src/plugins/ctf/common/src/metadata/tsdl
-> +    # is not created by the babeltrace2 build system. It is need when generating
-> +    # parser.cpp by executing /bin/bash ../../git/config/ylwrap.
-> +    # So make this directory after configuration.
-> +    mkdir -p ${B}/src/plugins/ctf/common/src/metadata/tsdl
-> +}
-This works but would it make sense to send a patch upstream to get them 
-to add the mkdir to their build steps?
-
-Then later we can either update to 2.1.x or backport the commit and drop 
-this extra step.
-
-
-Thanks,
-
-../Randy
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
---------------BJ2jGDjiN5w8Pbl6E023IKMQ
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">Thanks for providing the version by
-      version changelog; that's very helpful to reviewers.<br>
-    </div>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix">On 2025-03-14 9:08 a.m., Bin Lan via
-      lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20250314130840.84700-2-bin.lan.cn@windriver.com">
-      <pre wrap="" class="moz-quote-pre">From: Bin Lan <a class="moz-txt-link-rfc2396E" href="mailto:bin.lan.cn@windriver.com">&lt;bin.lan.cn@windriver.com&gt;</a>
-
-Refresh 0001-Make-manpages-multilib-identical.patch with</pre>
-    </blockquote>
-    ...<br>
-    <blockquote type="cite" cite="mid:20250314130840.84700-2-bin.lan.cn@windriver.com">
-      <pre wrap="" class="moz-quote-pre">Details about the 2.1.0 release:
-<a class="moz-txt-link-freetext" href="https://babeltrace.org/docs/release-notes/babeltrace-2.1.0-release-notes.html">https://babeltrace.org/docs/release-notes/babeltrace-2.1.0-release-notes.html</a>
-
-Signed-off-by: Bin Lan <a class="moz-txt-link-rfc2396E" href="mailto:bin.lan.cn@windriver.com">&lt;bin.lan.cn@windriver.com&gt;</a>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...001-Make-manpages-multilib-identical.patch |  12 +-
- ...not-run-test-applications-from-.libs.patch |  28 ----
- ...-fix-test-applications-in-cpp-common.patch | 129 ++++++++++++++++++
- ...sts-set-the-correct-plugin-directory.patch |  30 ++++
- .../lttng/babeltrace2/run-ptest               |   4 +-
- ...eltrace2_2.0.6.bb =&gt; babeltrace2_2.1.0.bb} |  38 +++++-
- 6 files changed, 200 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-do-not-run-test-applications-from-.libs.patch
- create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
- create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
- rename meta/recipes-kernel/lttng/{babeltrace2_2.0.6.bb =&gt; babeltrace2_2.1.0.bb} (66%)
+ ...ests-Cover-indirect-entity-recursion.patch |  103 ++
+ .../expat/expat/CVE-2024-8176.patch           | 1477 +++++++++++++++++
+ meta/recipes-core/expat/expat_2.6.4.bb        |    2 +
+ 3 files changed, 1582 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/0001-tests-Cover-indirect-entity-recursion.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176.patch
 
-</pre>
-    </blockquote>
-    ...<br>
-    <blockquote type="cite" cite="mid:20250314130840.84700-2-bin.lan.cn@windriver.com">
-      <pre wrap="" class="moz-quote-pre">
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-similarity index 66%
-rename from meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
-rename to meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-index 6a0052f779..bf9df2a32d 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-@@ -2,17 +2,18 @@ SUMMARY = &quot;Babeltrace2 - Trace Format Babel Tower&quot;
- DESCRIPTION = &quot;Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log.&quot;
- HOMEPAGE = <a class="moz-txt-link-rfc2396E" href="http://babeltrace.org/">&quot;http://babeltrace.org/&quot;</a>
- BUGTRACKER = <a class="moz-txt-link-rfc2396E" href="https://bugs.lttng.org/projects/babeltrace">&quot;https://bugs.lttng.org/projects/babeltrace&quot;</a>
--LICENSE = &quot;MIT &amp; GPL-2.0-only &amp; LGPL-2.1-only &amp; BSD-2-Clause&quot;
--LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://LICENSE;md5=a6a458c13f18385b7bc5069a6d7b176e">&quot;file://LICENSE;md5=a6a458c13f18385b7bc5069a6d7b176e&quot;</a>
-+LICENSE = &quot;MIT &amp; GPL-2.0-only &amp; LGPL-2.1-only &amp; BSD-2-Clause &amp; BSD-4-Clause &amp; GPL-3.0-or-later &amp; CC-BY-SA-4.0 &amp; PSF-2.0&quot;
-+LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://LICENSE;md5=f6b015e4f388d6e78adb1b1f9a887d06">&quot;file://LICENSE;md5=f6b015e4f388d6e78adb1b1f9a887d06&quot;</a>
- 
--DEPENDS = &quot;glib-2.0 util-linux popt bison-native flex-native&quot;
-+DEPENDS = &quot;glib-2.0 util-linux popt bison-native flex-native virtual/libiconv&quot;
- 
--SRC_URI = &quot;git://git.efficios.com/babeltrace.git;branch=stable-2.0;protocol=https \
-+SRC_URI = &quot;git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=https \
-            <a class="moz-txt-link-freetext" href="file://run-ptest">file://run-ptest</a> \
--           <a class="moz-txt-link-freetext" href="file://0001-tests-do-not-run-test-applications-from-.libs.patch">file://0001-tests-do-not-run-test-applications-from-.libs.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://0001-Make-manpages-multilib-identical.patch">file://0001-Make-manpages-multilib-identical.patch</a> \
-+           <a class="moz-txt-link-freetext" href="file://0001-tests-fix-test-applications-in-cpp-common.patch">file://0001-tests-fix-test-applications-in-cpp-common.patch</a> \
-+           <a class="moz-txt-link-freetext" href="file://0001-tests-set-the-correct-plugin-directory.patch">file://0001-tests-set-the-correct-plugin-directory.patch</a> \
-            &quot;
--SRCREV = &quot;0a6632f77801f3218a288604c646f8a39cb0d2c4&quot;
-+SRCREV = &quot;e61d41ff3c3ac6a123930d4e60cf710ff9ea18e0&quot;
- UPSTREAM_CHECK_GITTAGREGEX = &quot;v(?P&lt;pver&gt;2(\.\d+)+)$&quot;
- 
- S = &quot;${WORKDIR}/git&quot;
-@@ -32,6 +33,15 @@ LDFLAGS += <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.utils.contains('DISTRO_FEATURES','ld-is-lldptest','-fuse-ld#coreutilssinceweneedfullmktempRDEPENDS:${PN}-ptest+=">&quot;${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld ptest', '-fuse-ld
- 
- # coreutils since we need full mktemp
- RDEPENDS:${PN}-ptest += &quot;</a>bash gawk python3 make grep coreutils findutils&quot;
-+RDEPENDS:${PN}-ptest:append:libc-glibc = &quot; glibc-gconv-utf-16 glibc-gconv-utf-32&quot;
+diff --git a/meta/recipes-core/expat/expat/0001-tests-Cover-indirect-entity-recursion.patch b/meta/recipes-core/expat/expat/0001-tests-Cover-indirect-entity-recursion.patch
+new file mode 100644
+index 0000000000..802d762787
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/0001-tests-Cover-indirect-entity-recursion.patch
+@@ -0,0 +1,103 @@
++From 3d5fdbb44e80ed789e4f6510542d77d6284fbd0e Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sat, 23 Nov 2024 14:20:21 +0100
++Subject: [PATCH] tests: Cover indirect entity recursion
 +
-+do_configure:append() {
-+    # when doing cross compile, the path ${B}/src/plugins/ctf/common/src/metadata/tsdl
-+    # is not created by the babeltrace2 build system. It is need when generating
-+    # parser.cpp by executing /bin/bash ../../git/config/ylwrap.
-+    # So make this directory after configuration.
-+    mkdir -p ${B}/src/plugins/ctf/common/src/metadata/tsdl
-+}</pre>
-    </blockquote>
-    This works but would it make sense to send a patch upstream to get
-    them to add the mkdir to their build steps?&nbsp;
-    <p>Then later we can either update to 2.1.x or backport the commit
-      and drop this extra step.</p>
-    <p><br>
-    </p>
-    <p>Thanks,</p>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------BJ2jGDjiN5w8Pbl6E023IKMQ--
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/3d5fdbb44e80ed789e4f6510542d77d6284fbd0e]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ expat/tests/basic_tests.c | 74 +++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 74 insertions(+)
++
++diff --git a/expat/tests/basic_tests.c b/expat/tests/basic_tests.c
++index d38b8fd1..d2306772 100644
++--- a/expat/tests/basic_tests.c
+++++ b/expat/tests/basic_tests.c
++@@ -1202,6 +1202,79 @@ START_TEST(test_wfc_no_recursive_entity_refs) {
++ }
++ END_TEST
++ 
+++START_TEST(test_no_indirectly_recursive_entity_refs) {
+++  struct TestCase {
+++    const char *doc;
+++    bool usesParameterEntities;
+++  };
+++
+++  const struct TestCase cases[] = {
+++      // general entity + character data
+++      {"<!DOCTYPE a [\n"
+++       "  <!ENTITY e1 '&e2;'>\n"
+++       "  <!ENTITY e2 '&e1;'>\n"
+++       "]><a>&e2;</a>\n",
+++       false},
+++
+++      // general entity + attribute value
+++      {"<!DOCTYPE a [\n"
+++       "  <!ENTITY e1 '&e2;'>\n"
+++       "  <!ENTITY e2 '&e1;'>\n"
+++       "]><a k1='&e2;' />\n",
+++       false},
+++
+++      // parameter entity
+++      {"<!DOCTYPE doc [\n"
+++       "  <!ENTITY % p1 '&#37;p2;'>\n"
+++       "  <!ENTITY % p2 '&#37;p1;'>\n"
+++       "  <!ENTITY % define_g \"<!ENTITY g '&#37;p2;'>\">\n"
+++       "  %define_g;\n"
+++       "]>\n"
+++       "<doc/>\n",
+++       true},
+++  };
+++  for (size_t i = 0; i < sizeof(cases) / sizeof(cases[0]); i++) {
+++    const char *const doc = cases[i].doc;
+++    const bool usesParameterEntities = cases[i].usesParameterEntities;
+++
+++    set_subtest("[%i] %s", (int)i, doc);
+++
+++#ifdef XML_DTD // both GE and DTD
+++    const bool rejection_expected = true;
+++#elif XML_GE == 1 // GE but not DTD
+++    const bool rejection_expected = ! usesParameterEntities;
+++#else             // neither DTD nor GE
+++    const bool rejection_expected = false;
+++#endif
+++
+++    XML_Parser parser = XML_ParserCreate(NULL);
+++
+++#ifdef XML_DTD
+++    if (usesParameterEntities) {
+++      assert_true(
+++          XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS)
+++          == 1);
+++    }
+++#else
+++    UNUSED_P(usesParameterEntities);
+++#endif // XML_DTD
+++
+++    const enum XML_Status status
+++        = _XML_Parse_SINGLE_BYTES(parser, doc, (int)strlen(doc),
+++                                  /*isFinal*/ XML_TRUE);
+++
+++    if (rejection_expected) {
+++      assert_true(status == XML_STATUS_ERROR);
+++      assert_true(XML_GetErrorCode(parser) == XML_ERROR_RECURSIVE_ENTITY_REF);
+++    } else {
+++      assert_true(status == XML_STATUS_OK);
+++    }
+++
+++    XML_ParserFree(parser);
+++  }
+++}
+++END_TEST
+++
++ START_TEST(test_recursive_external_parameter_entity_2) {
++   struct TestCase {
++     const char *doc;
++@@ -5969,6 +6042,7 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test(tc_basic, test_not_standalone_handler_reject);
++   tcase_add_test(tc_basic, test_not_standalone_handler_accept);
++   tcase_add_test__if_xml_ge(tc_basic, test_wfc_no_recursive_entity_refs);
+++  tcase_add_test(tc_basic, test_no_indirectly_recursive_entity_refs);
++   tcase_add_test__ifdef_xml_dtd(tc_basic, test_ext_entity_invalid_parse);
++   tcase_add_test__if_xml_ge(tc_basic, test_dtd_default_handling);
++   tcase_add_test(tc_basic, test_dtd_attr_handling);
+diff --git a/meta/recipes-core/expat/expat/CVE-2024-8176.patch b/meta/recipes-core/expat/expat/CVE-2024-8176.patch
+new file mode 100644
+index 0000000000..dc8a520161
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2024-8176.patch
+@@ -0,0 +1,1477 @@
++From 3f924a715cfa97e70df1c24334d2d728973d1020 Mon Sep 17 00:00:00 2001
++From: Peter Marko <peter.marko@siemens.com>
++Date: Mon, 17 Mar 2025 20:41:24 +0100
++Subject: [PATCH] [CVE-2024-8176] Resolve the recursion during entity
++ processing to prevent stack overflow (fixes #893)
++
++Fixes #893
++
++CVE: CVE-2024-8176
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/973]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ expat/Changes             |  29 +-
++ expat/lib/xmlparse.c      | 564 ++++++++++++++++++++++++++++----------
++ expat/tests/alloc_tests.c |  27 ++
++ expat/tests/basic_tests.c | 247 +++++++++++++++--
++ expat/tests/handlers.c    |  14 +
++ expat/tests/handlers.h    |   5 +
++ expat/tests/misc_tests.c  |  43 +++
++ 7 files changed, 751 insertions(+), 178 deletions(-)
++
++diff --git a/expat/Changes b/expat/Changes
++index aa19f70a..8c5db88c 100644
++--- a/expat/Changes
+++++ b/expat/Changes
++@@ -11,7 +11,6 @@
++ !! The following topics need *additional skilled C developers* to progress   !!
++ !! in a timely manner or at all (loosely ordered by descending priority):    !!
++ !!                                                                           !!
++-!! - <blink>fixing a complex non-public security issue</blink>,              !!
++ !! - teaming up on researching and fixing future security reports and        !!
++ !!   ClusterFuzz findings with few-days-max response times in communication  !!
++ !!   in order to (1) have a sound fix ready before the end of a 90 days      !!
++@@ -30,6 +29,34 @@
++ !! THANK YOU!                        Sebastian Pipping -- Berlin, 2024-03-09 !!
++ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
++ 
+++Patches:
+++        Security fixes:
+++       #893 #???  CVE-2024-8176 -- Fix crash from chaining a large number
+++                    of entities caused by stack overflow by resolving use of
+++                    recursion, for all three uses of entities:
+++                    - general entities in character data ("<e>&g1;</e>")
+++                    - general entities in attribute values ("<e k1='&g1;'/>")
+++                    - parameter entities ("%p1;")
+++                    Known impact is (reliable and easy) denial of service:
+++                    CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C
+++                    (Base Score: 7.5, Temporal Score: 7.2)
+++                    Please note that a layer of compression around XML can
+++                    significantly reduce the minimum attack payload size.
+++
+++         Special thanks to:
+++            Alexander Gieringer
+++            Berkay Eren Ürün
+++            Jann Horn
+++            Sebastian Andrzej Siewior
+++            Snild Dolkow
+++            Thomas Pröll
+++            Tomas Korbar
+++                 and
+++            Google Project Zero
+++            Linutronix
+++            Red Hat
+++            Siemens
+++
++ Release 2.6.4 Wed November 6 2024
++         Security fixes:
++             #915  CVE-2024-50602 -- Fix crash within function XML_ResumeParser
++diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
++index a4e091e7..473c791d 100644
++--- a/expat/lib/xmlparse.c
+++++ b/expat/lib/xmlparse.c
++@@ -39,7 +39,7 @@
++    Copyright (c) 2022      Sean McBride <sean@rogue-research.com>
++    Copyright (c) 2023      Owain Davies <owaind@bath.edu>
++    Copyright (c) 2023-2024 Sony Corporation / Snild Dolkow <snild@sony.com>
++-   Copyright (c) 2024      Berkay Eren Ürün <berkay.ueruen@siemens.com>
+++   Copyright (c) 2024-2025 Berkay Eren Ürün <berkay.ueruen@siemens.com>
++    Copyright (c) 2024      Hanno Böck <hanno@gentoo.org>
++    Licensed under the MIT license:
++ 
++@@ -325,6 +325,10 @@ typedef struct {
++   const XML_Char *publicId;
++   const XML_Char *notation;
++   XML_Bool open;
+++  XML_Bool hasMore; /* true if entity has not been completely processed */
+++  /* An entity can be open while being already completely processed (hasMore ==
+++    XML_FALSE). The reason is the delayed closing of entities until their inner
+++    entities are processed and closed */
++   XML_Bool is_param;
++   XML_Bool is_internal; /* true if declared in internal subset outside PE */
++ } ENTITY;
++@@ -415,6 +419,12 @@ typedef struct {
++   int *scaffIndex;
++ } DTD;
++ 
+++enum EntityType {
+++  ENTITY_INTERNAL,
+++  ENTITY_ATTRIBUTE,
+++  ENTITY_VALUE,
+++};
+++
++ typedef struct open_internal_entity {
++   const char *internalEventPtr;
++   const char *internalEventEndPtr;
++@@ -422,6 +432,7 @@ typedef struct open_internal_entity {
++   ENTITY *entity;
++   int startTagLevel;
++   XML_Bool betweenDecl; /* WFC: PE Between Declarations */
+++  enum EntityType type;
++ } OPEN_INTERNAL_ENTITY;
++ 
++ enum XML_Account {
++@@ -481,8 +492,8 @@ static enum XML_Error doProlog(XML_Parser parser, const ENCODING *enc,
++                                const char *next, const char **nextPtr,
++                                XML_Bool haveMore, XML_Bool allowClosingDoctype,
++                                enum XML_Account account);
++-static enum XML_Error processInternalEntity(XML_Parser parser, ENTITY *entity,
++-                                            XML_Bool betweenDecl);
+++static enum XML_Error processEntity(XML_Parser parser, ENTITY *entity,
+++                                    XML_Bool betweenDecl, enum EntityType type);
++ static enum XML_Error doContent(XML_Parser parser, int startTagLevel,
++                                 const ENCODING *enc, const char *start,
++                                 const char *end, const char **endPtr,
++@@ -513,18 +524,22 @@ static enum XML_Error storeAttributeValue(XML_Parser parser,
++                                           const char *ptr, const char *end,
++                                           STRING_POOL *pool,
++                                           enum XML_Account account);
++-static enum XML_Error appendAttributeValue(XML_Parser parser,
++-                                           const ENCODING *enc,
++-                                           XML_Bool isCdata, const char *ptr,
++-                                           const char *end, STRING_POOL *pool,
++-                                           enum XML_Account account);
+++static enum XML_Error
+++appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
+++                     const char *ptr, const char *end, STRING_POOL *pool,
+++                     enum XML_Account account, const char **nextPtr);
++ static ATTRIBUTE_ID *getAttributeId(XML_Parser parser, const ENCODING *enc,
++                                     const char *start, const char *end);
++ static int setElementTypePrefix(XML_Parser parser, ELEMENT_TYPE *elementType);
++ #if XML_GE == 1
++ static enum XML_Error storeEntityValue(XML_Parser parser, const ENCODING *enc,
++                                        const char *start, const char *end,
++-                                       enum XML_Account account);
+++                                       enum XML_Account account,
+++                                       const char **nextPtr);
+++static enum XML_Error callStoreEntityValue(XML_Parser parser,
+++                                           const ENCODING *enc,
+++                                           const char *start, const char *end,
+++                                           enum XML_Account account);
++ #else
++ static enum XML_Error storeSelfEntityValue(XML_Parser parser, ENTITY *entity);
++ #endif
++@@ -709,6 +724,10 @@ struct XML_ParserStruct {
++   const char *m_positionPtr;
++   OPEN_INTERNAL_ENTITY *m_openInternalEntities;
++   OPEN_INTERNAL_ENTITY *m_freeInternalEntities;
+++  OPEN_INTERNAL_ENTITY *m_openAttributeEntities;
+++  OPEN_INTERNAL_ENTITY *m_freeAttributeEntities;
+++  OPEN_INTERNAL_ENTITY *m_openValueEntities;
+++  OPEN_INTERNAL_ENTITY *m_freeValueEntities;
++   XML_Bool m_defaultExpandInternalEntities;
++   int m_tagLevel;
++   ENTITY *m_declEntity;
++@@ -756,6 +775,7 @@ struct XML_ParserStruct {
++   ACCOUNTING m_accounting;
++   ENTITY_STATS m_entity_stats;
++ #endif
+++  XML_Bool m_reenter;
++ };
++ 
++ #define MALLOC(parser, s) (parser->m_mem.malloc_fcn((s)))
++@@ -1028,7 +1048,29 @@ callProcessor(XML_Parser parser, const char *start, const char *end,
++ #if defined(XML_TESTING)
++   g_bytesScanned += (unsigned)have_now;
++ #endif
++-  const enum XML_Error ret = parser->m_processor(parser, start, end, endPtr);
+++  // Run in a loop to eliminate dangerous recursion depths
+++  enum XML_Error ret;
+++  *endPtr = start;
+++  while (1) {
+++    // Use endPtr as the new start in each iteration, since it will
+++    // be set to the next start point by m_processor.
+++    ret = parser->m_processor(parser, *endPtr, end, endPtr);
+++
+++    // Make parsing status (and in particular XML_SUSPENDED) take
+++    // precedence over re-enter flag when they disagree
+++    if (parser->m_parsingStatus.parsing != XML_PARSING) {
+++      parser->m_reenter = XML_FALSE;
+++    }
+++
+++    if (! parser->m_reenter) {
+++      break;
+++    }
+++
+++    parser->m_reenter = XML_FALSE;
+++    if (ret != XML_ERROR_NONE)
+++      return ret;
+++  }
+++
++   if (ret == XML_ERROR_NONE) {
++     // if we consumed nothing, remember what we had on this parse attempt.
++     if (*endPtr == start) {
++@@ -1139,6 +1181,8 @@ parserCreate(const XML_Char *encodingName,
++   parser->m_freeBindingList = NULL;
++   parser->m_freeTagList = NULL;
++   parser->m_freeInternalEntities = NULL;
+++  parser->m_freeAttributeEntities = NULL;
+++  parser->m_freeValueEntities = NULL;
++ 
++   parser->m_groupSize = 0;
++   parser->m_groupConnector = NULL;
++@@ -1241,6 +1285,8 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
++   parser->m_eventEndPtr = NULL;
++   parser->m_positionPtr = NULL;
++   parser->m_openInternalEntities = NULL;
+++  parser->m_openAttributeEntities = NULL;
+++  parser->m_openValueEntities = NULL;
++   parser->m_defaultExpandInternalEntities = XML_TRUE;
++   parser->m_tagLevel = 0;
++   parser->m_tagStack = NULL;
++@@ -1251,6 +1297,8 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
++   parser->m_unknownEncodingData = NULL;
++   parser->m_parentParser = NULL;
++   parser->m_parsingStatus.parsing = XML_INITIALIZED;
+++  // Reentry can only be triggered inside m_processor calls
+++  parser->m_reenter = XML_FALSE;
++ #ifdef XML_DTD
++   parser->m_isParamEntity = XML_FALSE;
++   parser->m_useForeignDTD = XML_FALSE;
++@@ -1310,6 +1358,24 @@ XML_ParserReset(XML_Parser parser, const XML_Char *encodingName) {
++     openEntity->next = parser->m_freeInternalEntities;
++     parser->m_freeInternalEntities = openEntity;
++   }
+++  /* move m_openAttributeEntities to m_freeAttributeEntities (i.e. same task but
+++   * for attributes) */
+++  openEntityList = parser->m_openAttributeEntities;
+++  while (openEntityList) {
+++    OPEN_INTERNAL_ENTITY *openEntity = openEntityList;
+++    openEntityList = openEntity->next;
+++    openEntity->next = parser->m_freeAttributeEntities;
+++    parser->m_freeAttributeEntities = openEntity;
+++  }
+++  /* move m_openValueEntities to m_freeValueEntities (i.e. same task but
+++   * for value entities) */
+++  openEntityList = parser->m_openValueEntities;
+++  while (openEntityList) {
+++    OPEN_INTERNAL_ENTITY *openEntity = openEntityList;
+++    openEntityList = openEntity->next;
+++    openEntity->next = parser->m_freeValueEntities;
+++    parser->m_freeValueEntities = openEntity;
+++  }
++   moveToFreeBindingList(parser, parser->m_inheritedBindings);
++   FREE(parser, parser->m_unknownEncodingMem);
++   if (parser->m_unknownEncodingRelease)
++@@ -1323,6 +1389,19 @@ XML_ParserReset(XML_Parser parser, const XML_Char *encodingName) {
++   return XML_TRUE;
++ }
++ 
+++static XML_Bool
+++parserBusy(XML_Parser parser) {
+++  switch (parser->m_parsingStatus.parsing) {
+++  case XML_PARSING:
+++  case XML_SUSPENDED:
+++    return XML_TRUE;
+++  case XML_INITIALIZED:
+++  case XML_FINISHED:
+++  default:
+++    return XML_FALSE;
+++  }
+++}
+++
++ enum XML_Status XMLCALL
++ XML_SetEncoding(XML_Parser parser, const XML_Char *encodingName) {
++   if (parser == NULL)
++@@ -1331,8 +1410,7 @@ XML_SetEncoding(XML_Parser parser, const XML_Char *encodingName) {
++      XXX There's no way for the caller to determine which of the
++      XXX possible error cases caused the XML_STATUS_ERROR return.
++   */
++-  if (parser->m_parsingStatus.parsing == XML_PARSING
++-      || parser->m_parsingStatus.parsing == XML_SUSPENDED)
+++  if (parserBusy(parser))
++     return XML_STATUS_ERROR;
++ 
++   /* Get rid of any previous encoding name */
++@@ -1569,7 +1647,34 @@ XML_ParserFree(XML_Parser parser) {
++     entityList = entityList->next;
++     FREE(parser, openEntity);
++   }
++-
+++  /* free m_openAttributeEntities and m_freeAttributeEntities */
+++  entityList = parser->m_openAttributeEntities;
+++  for (;;) {
+++    OPEN_INTERNAL_ENTITY *openEntity;
+++    if (entityList == NULL) {
+++      if (parser->m_freeAttributeEntities == NULL)
+++        break;
+++      entityList = parser->m_freeAttributeEntities;
+++      parser->m_freeAttributeEntities = NULL;
+++    }
+++    openEntity = entityList;
+++    entityList = entityList->next;
+++    FREE(parser, openEntity);
+++  }
+++  /* free m_openValueEntities and m_freeValueEntities */
+++  entityList = parser->m_openValueEntities;
+++  for (;;) {
+++    OPEN_INTERNAL_ENTITY *openEntity;
+++    if (entityList == NULL) {
+++      if (parser->m_freeValueEntities == NULL)
+++        break;
+++      entityList = parser->m_freeValueEntities;
+++      parser->m_freeValueEntities = NULL;
+++    }
+++    openEntity = entityList;
+++    entityList = entityList->next;
+++    FREE(parser, openEntity);
+++  }
++   destroyBindings(parser->m_freeBindingList, parser);
++   destroyBindings(parser->m_inheritedBindings, parser);
++   poolDestroy(&parser->m_tempPool);
++@@ -1611,8 +1716,7 @@ XML_UseForeignDTD(XML_Parser parser, XML_Bool useDTD) {
++     return XML_ERROR_INVALID_ARGUMENT;
++ #ifdef XML_DTD
++   /* block after XML_Parse()/XML_ParseBuffer() has been called */
++-  if (parser->m_parsingStatus.parsing == XML_PARSING
++-      || parser->m_parsingStatus.parsing == XML_SUSPENDED)
+++  if (parserBusy(parser))
++     return XML_ERROR_CANT_CHANGE_FEATURE_ONCE_PARSING;
++   parser->m_useForeignDTD = useDTD;
++   return XML_ERROR_NONE;
++@@ -1627,8 +1731,7 @@ XML_SetReturnNSTriplet(XML_Parser parser, int do_nst) {
++   if (parser == NULL)
++     return;
++   /* block after XML_Parse()/XML_ParseBuffer() has been called */
++-  if (parser->m_parsingStatus.parsing == XML_PARSING
++-      || parser->m_parsingStatus.parsing == XML_SUSPENDED)
+++  if (parserBusy(parser))
++     return;
++   parser->m_ns_triplets = do_nst ? XML_TRUE : XML_FALSE;
++ }
++@@ -1897,8 +2000,7 @@ XML_SetParamEntityParsing(XML_Parser parser,
++   if (parser == NULL)
++     return 0;
++   /* block after XML_Parse()/XML_ParseBuffer() has been called */
++-  if (parser->m_parsingStatus.parsing == XML_PARSING
++-      || parser->m_parsingStatus.parsing == XML_SUSPENDED)
+++  if (parserBusy(parser))
++     return 0;
++ #ifdef XML_DTD
++   parser->m_paramEntityParsing = peParsing;
++@@ -1915,8 +2017,7 @@ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
++   if (parser->m_parentParser)
++     return XML_SetHashSalt(parser->m_parentParser, hash_salt);
++   /* block after XML_Parse()/XML_ParseBuffer() has been called */
++-  if (parser->m_parsingStatus.parsing == XML_PARSING
++-      || parser->m_parsingStatus.parsing == XML_SUSPENDED)
+++  if (parserBusy(parser))
++     return 0;
++   parser->m_hash_secret_salt = hash_salt;
++   return 1;
++@@ -2230,6 +2331,11 @@ XML_GetBuffer(XML_Parser parser, int len) {
++   return parser->m_bufferEnd;
++ }
++ 
+++static void
+++triggerReenter(XML_Parser parser) {
+++  parser->m_reenter = XML_TRUE;
+++}
+++
++ enum XML_Status XMLCALL
++ XML_StopParser(XML_Parser parser, XML_Bool resumable) {
++   if (parser == NULL)
++@@ -2704,8 +2810,9 @@ static enum XML_Error PTRCALL
++ contentProcessor(XML_Parser parser, const char *start, const char *end,
++                  const char **endPtr) {
++   enum XML_Error result = doContent(
++-      parser, 0, parser->m_encoding, start, end, endPtr,
++-      (XML_Bool)! parser->m_parsingStatus.finalBuffer, XML_ACCOUNT_DIRECT);
+++      parser, parser->m_parentParser ? 1 : 0, parser->m_encoding, start, end,
+++      endPtr, (XML_Bool)! parser->m_parsingStatus.finalBuffer,
+++      XML_ACCOUNT_DIRECT);
++   if (result == XML_ERROR_NONE) {
++     if (! storeRawNames(parser))
++       return XML_ERROR_NO_MEMORY;
++@@ -2793,6 +2900,11 @@ externalEntityInitProcessor3(XML_Parser parser, const char *start,
++       return XML_ERROR_NONE;
++     case XML_FINISHED:
++       return XML_ERROR_ABORTED;
+++    case XML_PARSING:
+++      if (parser->m_reenter) {
+++        return XML_ERROR_UNEXPECTED_STATE; // LCOV_EXCL_LINE
+++      }
+++      /* Fall through */
++     default:
++       start = next;
++     }
++@@ -2966,7 +3078,7 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
++             reportDefault(parser, enc, s, next);
++           break;
++         }
++-        result = processInternalEntity(parser, entity, XML_FALSE);
+++        result = processEntity(parser, entity, XML_FALSE, ENTITY_INTERNAL);
++         if (result != XML_ERROR_NONE)
++           return result;
++       } else if (parser->m_externalEntityRefHandler) {
++@@ -3092,7 +3204,9 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
++     }
++       if ((parser->m_tagLevel == 0)
++           && (parser->m_parsingStatus.parsing != XML_FINISHED)) {
++-        if (parser->m_parsingStatus.parsing == XML_SUSPENDED)
+++        if (parser->m_parsingStatus.parsing == XML_SUSPENDED
+++            || (parser->m_parsingStatus.parsing == XML_PARSING
+++                && parser->m_reenter))
++           parser->m_processor = epilogProcessor;
++         else
++           return epilogProcessor(parser, next, end, nextPtr);
++@@ -3153,7 +3267,9 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
++         }
++         if ((parser->m_tagLevel == 0)
++             && (parser->m_parsingStatus.parsing != XML_FINISHED)) {
++-          if (parser->m_parsingStatus.parsing == XML_SUSPENDED)
+++          if (parser->m_parsingStatus.parsing == XML_SUSPENDED
+++              || (parser->m_parsingStatus.parsing == XML_PARSING
+++                  && parser->m_reenter))
++             parser->m_processor = epilogProcessor;
++           else
++             return epilogProcessor(parser, next, end, nextPtr);
++@@ -3293,6 +3409,12 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
++       return XML_ERROR_NONE;
++     case XML_FINISHED:
++       return XML_ERROR_ABORTED;
+++    case XML_PARSING:
+++      if (parser->m_reenter) {
+++        *nextPtr = next;
+++        return XML_ERROR_NONE;
+++      }
+++      /* Fall through */
++     default:;
++     }
++   }
++@@ -4217,6 +4339,11 @@ doCdataSection(XML_Parser parser, const ENCODING *enc, const char **startPtr,
++       return XML_ERROR_NONE;
++     case XML_FINISHED:
++       return XML_ERROR_ABORTED;
+++    case XML_PARSING:
+++      if (parser->m_reenter) {
+++        return XML_ERROR_UNEXPECTED_STATE; // LCOV_EXCL_LINE
+++      }
+++      /* Fall through */
++     default:;
++     }
++   }
++@@ -4549,7 +4676,7 @@ entityValueInitProcessor(XML_Parser parser, const char *s, const char *end,
++       }
++       /* found end of entity value - can store it now */
++       return storeEntityValue(parser, parser->m_encoding, s, end,
++-                              XML_ACCOUNT_DIRECT);
+++                              XML_ACCOUNT_DIRECT, NULL);
++     } else if (tok == XML_TOK_XML_DECL) {
++       enum XML_Error result;
++       result = processXmlDecl(parser, 0, start, next);
++@@ -4676,7 +4803,7 @@ entityValueProcessor(XML_Parser parser, const char *s, const char *end,
++         break;
++       }
++       /* found end of entity value - can store it now */
++-      return storeEntityValue(parser, enc, s, end, XML_ACCOUNT_DIRECT);
+++      return storeEntityValue(parser, enc, s, end, XML_ACCOUNT_DIRECT, NULL);
++     }
++     start = next;
++   }
++@@ -5119,9 +5246,9 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
++ #if XML_GE == 1
++         // This will store the given replacement text in
++         // parser->m_declEntity->textPtr.
++-        enum XML_Error result
++-            = storeEntityValue(parser, enc, s + enc->minBytesPerChar,
++-                               next - enc->minBytesPerChar, XML_ACCOUNT_NONE);
+++        enum XML_Error result = callStoreEntityValue(
+++            parser, enc, s + enc->minBytesPerChar, next - enc->minBytesPerChar,
+++            XML_ACCOUNT_NONE);
++         if (parser->m_declEntity) {
++           parser->m_declEntity->textPtr = poolStart(&dtd->entityValuePool);
++           parser->m_declEntity->textLen
++@@ -5546,7 +5673,7 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
++           enum XML_Error result;
++           XML_Bool betweenDecl
++               = (role == XML_ROLE_PARAM_ENTITY_REF ? XML_TRUE : XML_FALSE);
++-          result = processInternalEntity(parser, entity, betweenDecl);
+++          result = processEntity(parser, entity, betweenDecl, ENTITY_INTERNAL);
++           if (result != XML_ERROR_NONE)
++             return result;
++           handleDefault = XML_FALSE;
++@@ -5751,6 +5878,12 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
++       return XML_ERROR_NONE;
++     case XML_FINISHED:
++       return XML_ERROR_ABORTED;
+++    case XML_PARSING:
+++      if (parser->m_reenter) {
+++        *nextPtr = next;
+++        return XML_ERROR_NONE;
+++      }
+++    /* Fall through */
++     default:
++       s = next;
++       tok = XmlPrologTok(enc, s, end, &next);
++@@ -5825,21 +5958,49 @@ epilogProcessor(XML_Parser parser, const char *s, const char *end,
++       return XML_ERROR_NONE;
++     case XML_FINISHED:
++       return XML_ERROR_ABORTED;
+++    case XML_PARSING:
+++      if (parser->m_reenter) {
+++        return XML_ERROR_UNEXPECTED_STATE; // LCOV_EXCL_LINE
+++      }
+++    /* Fall through */
++     default:;
++     }
++   }
++ }
++ 
++ static enum XML_Error
++-processInternalEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl) {
++-  const char *textStart, *textEnd;
++-  const char *next;
++-  enum XML_Error result;
++-  OPEN_INTERNAL_ENTITY *openEntity;
+++processEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl,
+++              enum EntityType type) {
+++  OPEN_INTERNAL_ENTITY *openEntity, **openEntityList, **freeEntityList;
+++  switch (type) {
+++  case ENTITY_INTERNAL:
+++    parser->m_processor = internalEntityProcessor;
+++    openEntityList = &parser->m_openInternalEntities;
+++    freeEntityList = &parser->m_freeInternalEntities;
+++    break;
+++  case ENTITY_ATTRIBUTE:
+++    openEntityList = &parser->m_openAttributeEntities;
+++    freeEntityList = &parser->m_freeAttributeEntities;
+++    break;
+++  case ENTITY_VALUE:
+++    openEntityList = &parser->m_openValueEntities;
+++    freeEntityList = &parser->m_freeValueEntities;
+++    break;
+++    /* default case serves merely as a safety net in case of a
+++     * wrong entityType. Therefore we exclude the following lines
+++     * from the test coverage.
+++     *
+++     * LCOV_EXCL_START
+++     */
+++  default:
+++    // Should not reach here
+++    assert(0);
+++    /* LCOV_EXCL_STOP */
+++  }
++ 
++-  if (parser->m_freeInternalEntities) {
++-    openEntity = parser->m_freeInternalEntities;
++-    parser->m_freeInternalEntities = openEntity->next;
+++  if (*freeEntityList) {
+++    openEntity = *freeEntityList;
+++    *freeEntityList = openEntity->next;
++   } else {
++     openEntity
++         = (OPEN_INTERNAL_ENTITY *)MALLOC(parser, sizeof(OPEN_INTERNAL_ENTITY));
++@@ -5847,55 +6008,34 @@ processInternalEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl) {
++       return XML_ERROR_NO_MEMORY;
++   }
++   entity->open = XML_TRUE;
+++  entity->hasMore = XML_TRUE;
++ #if XML_GE == 1
++   entityTrackingOnOpen(parser, entity, __LINE__);
++ #endif
++   entity->processed = 0;
++-  openEntity->next = parser->m_openInternalEntities;
++-  parser->m_openInternalEntities = openEntity;
+++  openEntity->next = *openEntityList;
+++  *openEntityList = openEntity;
++   openEntity->entity = entity;
+++  openEntity->type = type;
++   openEntity->startTagLevel = parser->m_tagLevel;
++   openEntity->betweenDecl = betweenDecl;
++   openEntity->internalEventPtr = NULL;
++   openEntity->internalEventEndPtr = NULL;
++-  textStart = (const char *)entity->textPtr;
++-  textEnd = (const char *)(entity->textPtr + entity->textLen);
++-  /* Set a safe default value in case 'next' does not get set */
++-  next = textStart;
++ 
++-  if (entity->is_param) {
++-    int tok
++-        = XmlPrologTok(parser->m_internalEncoding, textStart, textEnd, &next);
++-    result = doProlog(parser, parser->m_internalEncoding, textStart, textEnd,
++-                      tok, next, &next, XML_FALSE, XML_FALSE,
++-                      XML_ACCOUNT_ENTITY_EXPANSION);
++-  } else {
++-    result = doContent(parser, parser->m_tagLevel, parser->m_internalEncoding,
++-                       textStart, textEnd, &next, XML_FALSE,
++-                       XML_ACCOUNT_ENTITY_EXPANSION);
+++  // Only internal entities make use of the reenter flag
+++  // therefore no need to set it for other entity types
+++  if (type == ENTITY_INTERNAL) {
+++    triggerReenter(parser);
++   }
++-
++-  if (result == XML_ERROR_NONE) {
++-    if (textEnd != next && parser->m_parsingStatus.parsing == XML_SUSPENDED) {
++-      entity->processed = (int)(next - textStart);
++-      parser->m_processor = internalEntityProcessor;
++-    } else if (parser->m_openInternalEntities->entity == entity) {
++-#if XML_GE == 1
++-      entityTrackingOnClose(parser, entity, __LINE__);
++-#endif /* XML_GE == 1 */
++-      entity->open = XML_FALSE;
++-      parser->m_openInternalEntities = openEntity->next;
++-      /* put openEntity back in list of free instances */
++-      openEntity->next = parser->m_freeInternalEntities;
++-      parser->m_freeInternalEntities = openEntity;
++-    }
++-  }
++-  return result;
+++  return XML_ERROR_NONE;
++ }
++ 
++ static enum XML_Error PTRCALL
++ internalEntityProcessor(XML_Parser parser, const char *s, const char *end,
++                         const char **nextPtr) {
+++  UNUSED_P(s);
+++  UNUSED_P(end);
+++  UNUSED_P(nextPtr);
++   ENTITY *entity;
++   const char *textStart, *textEnd;
++   const char *next;
++@@ -5905,68 +6045,67 @@ internalEntityProcessor(XML_Parser parser, const char *s, const char *end,
++     return XML_ERROR_UNEXPECTED_STATE;
++ 
++   entity = openEntity->entity;
++-  textStart = ((const char *)entity->textPtr) + entity->processed;
++-  textEnd = (const char *)(entity->textPtr + entity->textLen);
++-  /* Set a safe default value in case 'next' does not get set */
++-  next = textStart;
++ 
++-  if (entity->is_param) {
++-    int tok
++-        = XmlPrologTok(parser->m_internalEncoding, textStart, textEnd, &next);
++-    result = doProlog(parser, parser->m_internalEncoding, textStart, textEnd,
++-                      tok, next, &next, XML_FALSE, XML_TRUE,
++-                      XML_ACCOUNT_ENTITY_EXPANSION);
++-  } else {
++-    result = doContent(parser, openEntity->startTagLevel,
++-                       parser->m_internalEncoding, textStart, textEnd, &next,
++-                       XML_FALSE, XML_ACCOUNT_ENTITY_EXPANSION);
++-  }
+++  // This will return early
+++  if (entity->hasMore) {
+++    textStart = ((const char *)entity->textPtr) + entity->processed;
+++    textEnd = (const char *)(entity->textPtr + entity->textLen);
+++    /* Set a safe default value in case 'next' does not get set */
+++    next = textStart;
++ 
++-  if (result != XML_ERROR_NONE)
++-    return result;
+++    if (entity->is_param) {
+++      int tok
+++          = XmlPrologTok(parser->m_internalEncoding, textStart, textEnd, &next);
+++      result = doProlog(parser, parser->m_internalEncoding, textStart, textEnd,
+++                        tok, next, &next, XML_FALSE, XML_FALSE,
+++                        XML_ACCOUNT_ENTITY_EXPANSION);
+++    } else {
+++      result = doContent(parser, openEntity->startTagLevel,
+++                         parser->m_internalEncoding, textStart, textEnd, &next,
+++                         XML_FALSE, XML_ACCOUNT_ENTITY_EXPANSION);
+++    }
+++
+++    if (result != XML_ERROR_NONE)
+++      return result;
+++    // Check if entity is complete, if not, mark down how much of it is
+++    // processed
+++    if (textEnd != next
+++        && (parser->m_parsingStatus.parsing == XML_SUSPENDED
+++            || (parser->m_parsingStatus.parsing == XML_PARSING
+++                && parser->m_reenter))) {
+++      entity->processed = (int)(next - (const char *)entity->textPtr);
+++      return result;
+++    }
++ 
++-  if (textEnd != next && parser->m_parsingStatus.parsing == XML_SUSPENDED) {
++-    entity->processed = (int)(next - (const char *)entity->textPtr);
+++    // Entity is complete. We cannot close it here since we need to first
+++    // process its possible inner entities (which are added to the
+++    // m_openInternalEntities during doProlog or doContent calls above)
+++    entity->hasMore = XML_FALSE;
+++    triggerReenter(parser);
++     return result;
++-  }
+++  } // End of entity processing, "if" block will return here
++ 
+++  // Remove fully processed openEntity from open entity list.
++ #if XML_GE == 1
++   entityTrackingOnClose(parser, entity, __LINE__);
++ #endif
+++  // openEntity is m_openInternalEntities' head, as we set it at the start of
+++  // this function and we skipped doProlog and doContent calls with hasMore set
+++  // to false. This means we can directly remove the head of
+++  // m_openInternalEntities
+++  assert(parser->m_openInternalEntities == openEntity);
++   entity->open = XML_FALSE;
++-  parser->m_openInternalEntities = openEntity->next;
+++  parser->m_openInternalEntities = parser->m_openInternalEntities->next;
+++
++   /* put openEntity back in list of free instances */
++   openEntity->next = parser->m_freeInternalEntities;
++   parser->m_freeInternalEntities = openEntity;
++ 
++-  // If there are more open entities we want to stop right here and have the
++-  // upcoming call to XML_ResumeParser continue with entity content, or it would
++-  // be ignored altogether.
++-  if (parser->m_openInternalEntities != NULL
++-      && parser->m_parsingStatus.parsing == XML_SUSPENDED) {
++-    return XML_ERROR_NONE;
++-  }
++-
++-  if (entity->is_param) {
++-    int tok;
++-    parser->m_processor = prologProcessor;
++-    tok = XmlPrologTok(parser->m_encoding, s, end, &next);
++-    return doProlog(parser, parser->m_encoding, s, end, tok, next, nextPtr,
++-                    (XML_Bool)! parser->m_parsingStatus.finalBuffer, XML_TRUE,
++-                    XML_ACCOUNT_DIRECT);
++-  } else {
++-    parser->m_processor = contentProcessor;
++-    /* see externalEntityContentProcessor vs contentProcessor */
++-    result = doContent(parser, parser->m_parentParser ? 1 : 0,
++-                       parser->m_encoding, s, end, nextPtr,
++-                       (XML_Bool)! parser->m_parsingStatus.finalBuffer,
++-                       XML_ACCOUNT_DIRECT);
++-    if (result == XML_ERROR_NONE) {
++-      if (! storeRawNames(parser))
++-        return XML_ERROR_NO_MEMORY;
++-    }
++-    return result;
+++  if (parser->m_openInternalEntities == NULL) {
+++    parser->m_processor = entity->is_param ? prologProcessor : contentProcessor;
++   }
+++  triggerReenter(parser);
+++  return XML_ERROR_NONE;
++ }
++ 
++ static enum XML_Error PTRCALL
++@@ -5982,8 +6121,70 @@ static enum XML_Error
++ storeAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
++                     const char *ptr, const char *end, STRING_POOL *pool,
++                     enum XML_Account account) {
++-  enum XML_Error result
++-      = appendAttributeValue(parser, enc, isCdata, ptr, end, pool, account);
+++  const char *next = ptr;
+++  enum XML_Error result = XML_ERROR_NONE;
+++
+++  while (1) {
+++    if (! parser->m_openAttributeEntities) {
+++      result = appendAttributeValue(parser, enc, isCdata, next, end, pool,
+++                                    account, &next);
+++    } else {
+++      OPEN_INTERNAL_ENTITY *const openEntity = parser->m_openAttributeEntities;
+++      if (! openEntity)
+++        return XML_ERROR_UNEXPECTED_STATE;
+++
+++      ENTITY *const entity = openEntity->entity;
+++      const char *const textStart
+++          = ((const char *)entity->textPtr) + entity->processed;
+++      const char *const textEnd
+++          = (const char *)(entity->textPtr + entity->textLen);
+++      /* Set a safe default value in case 'next' does not get set */
+++      const char *nextInEntity = textStart;
+++      if (entity->hasMore) {
+++        result = appendAttributeValue(
+++            parser, parser->m_internalEncoding, isCdata, textStart, textEnd,
+++            pool, XML_ACCOUNT_ENTITY_EXPANSION, &nextInEntity);
+++        if (result != XML_ERROR_NONE)
+++          break;
+++        // Check if entity is complete, if not, mark down how much of it is
+++        // processed. A XML_SUSPENDED check here is not required as
+++        // appendAttributeValue will never suspend the parser.
+++        if (textEnd != nextInEntity) {
+++          entity->processed
+++              = (int)(nextInEntity - (const char *)entity->textPtr);
+++          continue;
+++        }
+++
+++        // Entity is complete. We cannot close it here since we need to first
+++        // process its possible inner entities (which are added to the
+++        // m_openAttributeEntities during appendAttributeValue)
+++        entity->hasMore = XML_FALSE;
+++        continue;
+++      } // End of entity processing, "if" block skips the rest
+++
+++      // Remove fully processed openEntity from open entity list.
+++#if XML_GE == 1
+++      entityTrackingOnClose(parser, entity, __LINE__);
+++#endif
+++      // openEntity is m_openAttributeEntities' head, since we set it at the
+++      // start of this function and because we skipped appendAttributeValue call
+++      // with hasMore set to false. This means we can directly remove the head
+++      // of m_openAttributeEntities
+++      assert(parser->m_openAttributeEntities == openEntity);
+++      entity->open = XML_FALSE;
+++      parser->m_openAttributeEntities = parser->m_openAttributeEntities->next;
+++
+++      /* put openEntity back in list of free instances */
+++      openEntity->next = parser->m_freeAttributeEntities;
+++      parser->m_freeAttributeEntities = openEntity;
+++    }
+++
+++    // Break if an error occurred or there is nothing left to process
+++    if (result || (parser->m_openAttributeEntities == NULL && end == next)) {
+++      break;
+++    }
+++  }
+++
++   if (result)
++     return result;
++   if (! isCdata && poolLength(pool) && poolLastChar(pool) == 0x20)
++@@ -5996,7 +6197,7 @@ storeAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
++ static enum XML_Error
++ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
++                      const char *ptr, const char *end, STRING_POOL *pool,
++-                     enum XML_Account account) {
+++                     enum XML_Account account, const char **nextPtr) {
++   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
++ #ifndef XML_DTD
++   UNUSED_P(account);
++@@ -6014,6 +6215,9 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
++ #endif
++     switch (tok) {
++     case XML_TOK_NONE:
+++      if (nextPtr) {
+++        *nextPtr = next;
+++      }
++       return XML_ERROR_NONE;
++     case XML_TOK_INVALID:
++       if (enc == parser->m_encoding)
++@@ -6154,21 +6358,11 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
++         return XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF;
++       } else {
++         enum XML_Error result;
++-        const XML_Char *textEnd = entity->textPtr + entity->textLen;
++-        entity->open = XML_TRUE;
++-#if XML_GE == 1
++-        entityTrackingOnOpen(parser, entity, __LINE__);
++-#endif
++-        result = appendAttributeValue(parser, parser->m_internalEncoding,
++-                                      isCdata, (const char *)entity->textPtr,
++-                                      (const char *)textEnd, pool,
++-                                      XML_ACCOUNT_ENTITY_EXPANSION);
++-#if XML_GE == 1
++-        entityTrackingOnClose(parser, entity, __LINE__);
++-#endif
++-        entity->open = XML_FALSE;
++-        if (result)
++-          return result;
+++        result = processEntity(parser, entity, XML_FALSE, ENTITY_ATTRIBUTE);
+++        if ((result == XML_ERROR_NONE) && (nextPtr != NULL)) {
+++          *nextPtr = next;
+++        }
+++        return result;
++       }
++     } break;
++     default:
++@@ -6197,7 +6391,7 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
++ static enum XML_Error
++ storeEntityValue(XML_Parser parser, const ENCODING *enc,
++                  const char *entityTextPtr, const char *entityTextEnd,
++-                 enum XML_Account account) {
+++                 enum XML_Account account, const char **nextPtr) {
++   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
++   STRING_POOL *pool = &(dtd->entityValuePool);
++   enum XML_Error result = XML_ERROR_NONE;
++@@ -6215,8 +6409,9 @@ storeEntityValue(XML_Parser parser, const ENCODING *enc,
++       return XML_ERROR_NO_MEMORY;
++   }
++ 
+++  const char *next;
++   for (;;) {
++-    const char *next
+++    next
++         = entityTextPtr; /* XmlEntityValueTok doesn't always set the last arg */
++     int tok = XmlEntityValueTok(enc, entityTextPtr, entityTextEnd, &next);
++ 
++@@ -6278,16 +6473,8 @@ storeEntityValue(XML_Parser parser, const ENCODING *enc,
++           } else
++             dtd->keepProcessing = dtd->standalone;
++         } else {
++-          entity->open = XML_TRUE;
++-          entityTrackingOnOpen(parser, entity, __LINE__);
++-          result = storeEntityValue(
++-              parser, parser->m_internalEncoding, (const char *)entity->textPtr,
++-              (const char *)(entity->textPtr + entity->textLen),
++-              XML_ACCOUNT_ENTITY_EXPANSION);
++-          entityTrackingOnClose(parser, entity, __LINE__);
++-          entity->open = XML_FALSE;
++-          if (result)
++-            goto endEntityValue;
+++          result = processEntity(parser, entity, XML_FALSE, ENTITY_VALUE);
+++          goto endEntityValue;
++         }
++         break;
++       }
++@@ -6375,6 +6562,81 @@ endEntityValue:
++ #  ifdef XML_DTD
++   parser->m_prologState.inEntityValue = oldInEntityValue;
++ #  endif /* XML_DTD */
+++  // If 'nextPtr' is given, it should be updated during the processing
+++  if (nextPtr != NULL) {
+++    *nextPtr = next;
+++  }
+++  return result;
+++}
+++
+++static enum XML_Error
+++callStoreEntityValue(XML_Parser parser, const ENCODING *enc,
+++                     const char *entityTextPtr, const char *entityTextEnd,
+++                     enum XML_Account account) {
+++  const char *next = entityTextPtr;
+++  enum XML_Error result = XML_ERROR_NONE;
+++  while (1) {
+++    if (! parser->m_openValueEntities) {
+++      result
+++          = storeEntityValue(parser, enc, next, entityTextEnd, account, &next);
+++    } else {
+++      OPEN_INTERNAL_ENTITY *const openEntity = parser->m_openValueEntities;
+++      if (! openEntity)
+++        return XML_ERROR_UNEXPECTED_STATE;
+++
+++      ENTITY *const entity = openEntity->entity;
+++      const char *const textStart
+++          = ((const char *)entity->textPtr) + entity->processed;
+++      const char *const textEnd
+++          = (const char *)(entity->textPtr + entity->textLen);
+++      /* Set a safe default value in case 'next' does not get set */
+++      const char *nextInEntity = textStart;
+++      if (entity->hasMore) {
+++        result = storeEntityValue(parser, parser->m_internalEncoding, textStart,
+++                                  textEnd, XML_ACCOUNT_ENTITY_EXPANSION,
+++                                  &nextInEntity);
+++        if (result != XML_ERROR_NONE)
+++          break;
+++        // Check if entity is complete, if not, mark down how much of it is
+++        // processed. A XML_SUSPENDED check here is not required as
+++        // appendAttributeValue will never suspend the parser.
+++        if (textEnd != nextInEntity) {
+++          entity->processed
+++              = (int)(nextInEntity - (const char *)entity->textPtr);
+++          continue;
+++        }
+++
+++        // Entity is complete. We cannot close it here since we need to first
+++        // process its possible inner entities (which are added to the
+++        // m_openValueEntities during storeEntityValue)
+++        entity->hasMore = XML_FALSE;
+++        continue;
+++      } // End of entity processing, "if" block skips the rest
+++
+++      // Remove fully processed openEntity from open entity list.
+++#  if XML_GE == 1
+++      entityTrackingOnClose(parser, entity, __LINE__);
+++#  endif
+++      // openEntity is m_openValueEntities' head, since we set it at the
+++      // start of this function and because we skipped storeEntityValue call
+++      // with hasMore set to false. This means we can directly remove the head
+++      // of m_openValueEntities
+++      assert(parser->m_openValueEntities == openEntity);
+++      entity->open = XML_FALSE;
+++      parser->m_openValueEntities = parser->m_openValueEntities->next;
+++
+++      /* put openEntity back in list of free instances */
+++      openEntity->next = parser->m_freeValueEntities;
+++      parser->m_freeValueEntities = openEntity;
+++    }
+++
+++    // Break if an error occurred or there is nothing left to process
+++    if (result
+++        || (parser->m_openValueEntities == NULL && entityTextEnd == next)) {
+++      break;
+++    }
+++  }
+++
++   return result;
++ }
++ 
++diff --git a/expat/tests/alloc_tests.c b/expat/tests/alloc_tests.c
++index e5d46ebe..12ea3b2a 100644
++--- a/expat/tests/alloc_tests.c
+++++ b/expat/tests/alloc_tests.c
++@@ -19,6 +19,7 @@
++    Copyright (c) 2020      Tim Gates <tim.gates@iress.com>
++    Copyright (c) 2021      Donghee Na <donghee.na@python.org>
++    Copyright (c) 2023      Sony Corporation / Snild Dolkow <snild@sony.com>
+++   Copyright (c) 2025      Berkay Eren Ürün <berkay.ueruen@siemens.com>
++    Licensed under the MIT license:
++ 
++    Permission is  hereby granted,  free of charge,  to any  person obtaining
++@@ -450,6 +451,31 @@ START_TEST(test_alloc_internal_entity) {
++ }
++ END_TEST
++ 
+++START_TEST(test_alloc_parameter_entity) {
+++  const char *text = "<!DOCTYPE foo ["
+++                     "<!ENTITY % param1 \"<!ENTITY internal 'some_text'>\">"
+++                     "%param1;"
+++                     "]> <foo>&internal;content</foo>";
+++  int i;
+++  const int alloc_test_max_repeats = 30;
+++
+++  for (i = 0; i < alloc_test_max_repeats; i++) {
+++    g_allocation_count = i;
+++    XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+++    if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_TRUE)
+++        != XML_STATUS_ERROR)
+++      break;
+++    alloc_teardown();
+++    alloc_setup();
+++  }
+++  g_allocation_count = -1;
+++  if (i == 0)
+++    fail("Parameter entity processed despite duff allocator");
+++  if (i == alloc_test_max_repeats)
+++    fail("Parameter entity not processed at max allocation count");
+++}
+++END_TEST
+++
++ /* Test the robustness against allocation failure of element handling
++  * Based on test_dtd_default_handling().
++  */
++@@ -2079,6 +2105,7 @@ make_alloc_test_case(Suite *s) {
++   tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_external_entity);
++   tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_ext_entity_set_encoding);
++   tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_internal_entity);
+++  tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_parameter_entity);
++   tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_dtd_default_handling);
++   tcase_add_test(tc_alloc, test_alloc_explicit_encoding);
++   tcase_add_test(tc_alloc, test_alloc_set_base);
++diff --git a/expat/tests/basic_tests.c b/expat/tests/basic_tests.c
++index d2306772..29be32cf 100644
++--- a/expat/tests/basic_tests.c
+++++ b/expat/tests/basic_tests.c
++@@ -10,7 +10,7 @@
++    Copyright (c) 2003      Greg Stein <gstein@users.sourceforge.net>
++    Copyright (c) 2005-2007 Steven Solie <steven@solie.ca>
++    Copyright (c) 2005-2012 Karl Waclawek <karl@waclawek.net>
++-   Copyright (c) 2016-2024 Sebastian Pipping <sebastian@pipping.org>
+++   Copyright (c) 2016-2025 Sebastian Pipping <sebastian@pipping.org>
++    Copyright (c) 2017-2022 Rhodri James <rhodri@wildebeest.org.uk>
++    Copyright (c) 2017      Joe Orton <jorton@redhat.com>
++    Copyright (c) 2017      José Gutiérrez de la Concha <jose@zeroc.com>
++@@ -19,6 +19,7 @@
++    Copyright (c) 2020      Tim Gates <tim.gates@iress.com>
++    Copyright (c) 2021      Donghee Na <donghee.na@python.org>
++    Copyright (c) 2023-2024 Sony Corporation / Snild Dolkow <snild@sony.com>
+++   Copyright (c) 2024-2025 Berkay Eren Ürün <berkay.ueruen@siemens.com>
++    Licensed under the MIT license:
++ 
++    Permission is  hereby granted,  free of charge,  to any  person obtaining
++@@ -1233,44 +1234,58 @@ START_TEST(test_no_indirectly_recursive_entity_refs) {
++        "<doc/>\n",
++        true},
++   };
+++  const XML_Bool reset_or_not[] = {XML_TRUE, XML_FALSE};
+++
++   for (size_t i = 0; i < sizeof(cases) / sizeof(cases[0]); i++) {
++-    const char *const doc = cases[i].doc;
++-    const bool usesParameterEntities = cases[i].usesParameterEntities;
+++    for (size_t j = 0; j < sizeof(reset_or_not) / sizeof(reset_or_not[0]);
+++         j++) {
+++      const XML_Bool reset_wanted = reset_or_not[j];
+++      const char *const doc = cases[i].doc;
+++      const bool usesParameterEntities = cases[i].usesParameterEntities;
++ 
++-    set_subtest("[%i] %s", (int)i, doc);
+++      set_subtest("[%i,reset=%i] %s", (int)i, (int)j, doc);
++ 
++ #ifdef XML_DTD // both GE and DTD
++-    const bool rejection_expected = true;
+++      const bool rejection_expected = true;
++ #elif XML_GE == 1 // GE but not DTD
++-    const bool rejection_expected = ! usesParameterEntities;
+++      const bool rejection_expected = ! usesParameterEntities;
++ #else             // neither DTD nor GE
++-    const bool rejection_expected = false;
+++      const bool rejection_expected = false;
++ #endif
++ 
++-    XML_Parser parser = XML_ParserCreate(NULL);
+++      XML_Parser parser = XML_ParserCreate(NULL);
++ 
++ #ifdef XML_DTD
++-    if (usesParameterEntities) {
++-      assert_true(
++-          XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS)
++-          == 1);
++-    }
+++      if (usesParameterEntities) {
+++        assert_true(
+++            XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS)
+++            == 1);
+++      }
++ #else
++-    UNUSED_P(usesParameterEntities);
+++      UNUSED_P(usesParameterEntities);
++ #endif // XML_DTD
++ 
++-    const enum XML_Status status
++-        = _XML_Parse_SINGLE_BYTES(parser, doc, (int)strlen(doc),
++-                                  /*isFinal*/ XML_TRUE);
+++      const enum XML_Status status
+++          = _XML_Parse_SINGLE_BYTES(parser, doc, (int)strlen(doc),
+++                                    /*isFinal*/ XML_TRUE);
++ 
++-    if (rejection_expected) {
++-      assert_true(status == XML_STATUS_ERROR);
++-      assert_true(XML_GetErrorCode(parser) == XML_ERROR_RECURSIVE_ENTITY_REF);
++-    } else {
++-      assert_true(status == XML_STATUS_OK);
+++      if (rejection_expected) {
+++        assert_true(status == XML_STATUS_ERROR);
+++        assert_true(XML_GetErrorCode(parser) == XML_ERROR_RECURSIVE_ENTITY_REF);
+++      } else {
+++        assert_true(status == XML_STATUS_OK);
+++      }
+++
+++      if (reset_wanted) {
+++        // This covers free'ing of (eventually) all three open entity lists by
+++        // XML_ParserReset.
+++        XML_ParserReset(parser, NULL);
+++      }
+++
+++      // This covers free'ing of (eventually) all three open entity lists by
+++      // XML_ParserFree (unless XML_ParserReset has already done that above).
+++      XML_ParserFree(parser);
++     }
++-
++-    XML_ParserFree(parser);
++   }
++ }
++ END_TEST
++@@ -4033,7 +4048,7 @@ START_TEST(test_skipped_null_loaded_ext_entity) {
++       = {"<!ENTITY % pe1 SYSTEM 'http://example.org/two.ent'>\n"
++          "<!ENTITY % pe2 '%pe1;'>\n"
++          "%pe2;\n",
++-         external_entity_null_loader};
+++         external_entity_null_loader, NULL};
++ 
++   XML_SetUserData(g_parser, &test_data);
++   XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
++@@ -4051,7 +4066,7 @@ START_TEST(test_skipped_unloaded_ext_entity) {
++       = {"<!ENTITY % pe1 SYSTEM 'http://example.org/two.ent'>\n"
++          "<!ENTITY % pe2 '%pe1;'>\n"
++          "%pe2;\n",
++-         NULL};
+++         NULL, NULL};
++ 
++   XML_SetUserData(g_parser, &test_data);
++   XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
++@@ -5351,6 +5366,151 @@ START_TEST(test_pool_integrity_with_unfinished_attr) {
++ }
++ END_TEST
++ 
+++/* Test a possible early return location in internalEntityProcessor */
+++START_TEST(test_entity_ref_no_elements) {
+++  const char *const text = "<!DOCTYPE foo [\n"
+++                           "<!ENTITY e1 \"test\">\n"
+++                           "]> <foo>&e1;"; // intentionally missing newline
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++              == XML_STATUS_ERROR);
+++  assert_true(XML_GetErrorCode(parser) == XML_ERROR_NO_ELEMENTS);
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++/* Tests if chained entity references lead to unbounded recursion */
+++START_TEST(test_deep_nested_entity) {
+++  const size_t N_LINES = 60000;
+++  const size_t SIZE_PER_LINE = 50;
+++
+++  char *const text = (char *)malloc((N_LINES + 4) * SIZE_PER_LINE);
+++  if (text == NULL) {
+++    fail("malloc failed");
+++  }
+++
+++  char *textPtr = text;
+++
+++  // Create the XML
+++  textPtr += snprintf(textPtr, SIZE_PER_LINE,
+++                      "<!DOCTYPE foo [\n"
+++                      "	<!ENTITY s0 'deepText'>\n");
+++
+++  for (size_t i = 1; i < N_LINES; ++i) {
+++    textPtr += snprintf(textPtr, SIZE_PER_LINE, "  <!ENTITY s%lu '&s%lu;'>\n",
+++                        (long unsigned)i, (long unsigned)(i - 1));
+++  }
+++
+++  snprintf(textPtr, SIZE_PER_LINE, "]> <foo>&s%lu;</foo>\n",
+++           (long unsigned)(N_LINES - 1));
+++
+++  const XML_Char *const expected = XCS("deepText");
+++
+++  CharData storage;
+++  CharData_Init(&storage);
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++
+++  XML_SetCharacterDataHandler(parser, accumulate_characters);
+++  XML_SetUserData(parser, &storage);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      == XML_STATUS_ERROR)
+++    xml_failure(parser);
+++
+++  CharData_CheckXMLChars(&storage, expected);
+++  XML_ParserFree(parser);
+++  free(text);
+++}
+++END_TEST
+++
+++/* Tests if chained entity references in attributes
+++lead to unbounded recursion */
+++START_TEST(test_deep_nested_attribute_entity) {
+++  const size_t N_LINES = 60000;
+++  const size_t SIZE_PER_LINE = 100;
+++
+++  char *const text = (char *)malloc((N_LINES + 4) * SIZE_PER_LINE);
+++  if (text == NULL) {
+++    fail("malloc failed");
+++  }
+++
+++  char *textPtr = text;
+++
+++  // Create the XML
+++  textPtr += snprintf(textPtr, SIZE_PER_LINE,
+++                      "<!DOCTYPE foo [\n"
+++                      "	<!ENTITY s0 'deepText'>\n");
+++
+++  for (size_t i = 1; i < N_LINES; ++i) {
+++    textPtr += snprintf(textPtr, SIZE_PER_LINE, "  <!ENTITY s%lu '&s%lu;'>\n",
+++                        (long unsigned)i, (long unsigned)(i - 1));
+++  }
+++
+++  snprintf(textPtr, SIZE_PER_LINE, "]> <foo name='&s%lu;'>mainText</foo>\n",
+++           (long unsigned)(N_LINES - 1));
+++
+++  AttrInfo doc_info[] = {{XCS("name"), XCS("deepText")}, {NULL, NULL}};
+++  ElementInfo info[] = {{XCS("foo"), 1, NULL, NULL}, {NULL, 0, NULL, NULL}};
+++  info[0].attributes = doc_info;
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  ParserAndElementInfo parserPlusElemenInfo = {parser, info};
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserPlusElemenInfo);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      == XML_STATUS_ERROR)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++  free(text);
+++}
+++END_TEST
+++
+++START_TEST(test_deep_nested_entity_delayed_interpretation) {
+++  const size_t N_LINES = 70000;
+++  const size_t SIZE_PER_LINE = 100;
+++
+++  char *const text = (char *)malloc((N_LINES + 4) * SIZE_PER_LINE);
+++  if (text == NULL) {
+++    fail("malloc failed");
+++  }
+++
+++  char *textPtr = text;
+++
+++  // Create the XML
+++  textPtr += snprintf(textPtr, SIZE_PER_LINE,
+++                      "<!DOCTYPE foo [\n"
+++                      "	<!ENTITY %% s0 'deepText'>\n");
+++
+++  for (size_t i = 1; i < N_LINES; ++i) {
+++    textPtr += snprintf(textPtr, SIZE_PER_LINE,
+++                        "  <!ENTITY %% s%lu '&#37;s%lu;'>\n", (long unsigned)i,
+++                        (long unsigned)(i - 1));
+++  }
+++
+++  snprintf(textPtr, SIZE_PER_LINE,
+++           "  <!ENTITY %% define_g \"<!ENTITY g '&#37;s%lu;'>\">\n"
+++           "  %%define_g;\n"
+++           "]>\n"
+++           "<foo/>\n",
+++           (long unsigned)(N_LINES - 1));
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++
+++  XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      == XML_STATUS_ERROR)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++  free(text);
+++}
+++END_TEST
+++
++ START_TEST(test_nested_entity_suspend) {
++   const char *const text = "<!DOCTYPE a [\n"
++                            "  <!ENTITY e1 '<!--e1-->'>\n"
++@@ -5381,6 +5541,35 @@ START_TEST(test_nested_entity_suspend) {
++ }
++ END_TEST
++ 
+++START_TEST(test_nested_entity_suspend_2) {
+++  const char *const text = "<!DOCTYPE doc [\n"
+++                           "  <!ENTITY ge1 'head1Ztail1'>\n"
+++                           "  <!ENTITY ge2 'head2&ge1;tail2'>\n"
+++                           "  <!ENTITY ge3 'head3&ge2;tail3'>\n"
+++                           "]>\n"
+++                           "<doc>&ge3;</doc>";
+++  const XML_Char *const expected = XCS("head3") XCS("head2") XCS("head1")
+++      XCS("Z") XCS("tail1") XCS("tail2") XCS("tail3");
+++  CharData storage;
+++  CharData_Init(&storage);
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  ParserPlusStorage parserPlusStorage = {parser, &storage};
+++
+++  XML_SetCharacterDataHandler(parser, accumulate_char_data_and_suspend);
+++  XML_SetUserData(parser, &parserPlusStorage);
+++
+++  enum XML_Status status = XML_Parse(parser, text, (int)strlen(text), XML_TRUE);
+++  while (status == XML_STATUS_SUSPENDED) {
+++    status = XML_ResumeParser(parser);
+++  }
+++  if (status != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  CharData_CheckXMLChars(&storage, expected);
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
++ /* Regression test for quadratic parsing on large tokens */
++ START_TEST(test_big_tokens_scale_linearly) {
++   const struct {
++@@ -6221,7 +6410,13 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test(tc_basic, test_empty_element_abort);
++   tcase_add_test__ifdef_xml_dtd(tc_basic,
++                                 test_pool_integrity_with_unfinished_attr);
+++  tcase_add_test__if_xml_ge(tc_basic, test_entity_ref_no_elements);
+++  tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_entity);
+++  tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_attribute_entity);
+++  tcase_add_test__if_xml_ge(tc_basic,
+++                            test_deep_nested_entity_delayed_interpretation);
++   tcase_add_test__if_xml_ge(tc_basic, test_nested_entity_suspend);
+++  tcase_add_test__if_xml_ge(tc_basic, test_nested_entity_suspend_2);
++   tcase_add_test(tc_basic, test_big_tokens_scale_linearly);
++   tcase_add_test(tc_basic, test_set_reparse_deferral);
++   tcase_add_test(tc_basic, test_reparse_deferral_is_inherited);
++diff --git a/expat/tests/handlers.c b/expat/tests/handlers.c
++index 0211985f..f15029e3 100644
++--- a/expat/tests/handlers.c
+++++ b/expat/tests/handlers.c
++@@ -1882,6 +1882,20 @@ accumulate_entity_decl(void *userData, const XML_Char *entityName,
++   CharData_AppendXMLChars(storage, XCS("\n"), 1);
++ }
++ 
+++void XMLCALL
+++accumulate_char_data_and_suspend(void *userData, const XML_Char *s, int len) {
+++  ParserPlusStorage *const parserPlusStorage = (ParserPlusStorage *)userData;
+++
+++  CharData_AppendXMLChars(parserPlusStorage->storage, s, len);
+++
+++  for (int i = 0; i < len; i++) {
+++    if (s[i] == 'Z') {
+++      XML_StopParser(parserPlusStorage->parser, /*resumable=*/XML_TRUE);
+++      break;
+++    }
+++  }
+++}
+++
++ void XMLCALL
++ accumulate_start_element(void *userData, const XML_Char *name,
++                          const XML_Char **atts) {
++diff --git a/expat/tests/handlers.h b/expat/tests/handlers.h
++index 8850bb94..4d6a08d5 100644
++--- a/expat/tests/handlers.h
+++++ b/expat/tests/handlers.h
++@@ -325,6 +325,7 @@ extern int XMLCALL external_entity_devaluer(XML_Parser parser,
++ typedef struct ext_hdlr_data {
++   const char *parse_text;
++   XML_ExternalEntityRefHandler handler;
+++  CharData *storage;
++ } ExtHdlrData;
++ 
++ extern int XMLCALL external_entity_oneshot_loader(XML_Parser parser,
++@@ -569,6 +570,10 @@ extern void XMLCALL accumulate_entity_decl(
++     const XML_Char *systemId, const XML_Char *publicId,
++     const XML_Char *notationName);
++ 
+++extern void XMLCALL accumulate_char_data_and_suspend(void *userData,
+++                                                     const XML_Char *s,
+++                                                     int len);
+++
++ extern void XMLCALL accumulate_start_element(void *userData,
++                                              const XML_Char *name,
++                                              const XML_Char **atts);
++diff --git a/expat/tests/misc_tests.c b/expat/tests/misc_tests.c
++index 9afe0922..f9a78f66 100644
++--- a/expat/tests/misc_tests.c
+++++ b/expat/tests/misc_tests.c
++@@ -59,6 +59,9 @@
++ #include "handlers.h"
++ #include "misc_tests.h"
++ 
+++void XMLCALL accumulate_characters_ext_handler(void *userData,
+++                                               const XML_Char *s, int len);
+++
++ /* Test that a failure to allocate the parser structure fails gracefully */
++ START_TEST(test_misc_alloc_create_parser) {
++   XML_Memory_Handling_Suite memsuite = {duff_allocator, realloc, free};
++@@ -519,6 +522,45 @@ START_TEST(test_misc_stopparser_rejects_unstarted_parser) {
++ }
++ END_TEST
++ 
+++/* Adaptation of accumulate_characters that takes ExtHdlrData input to work with
+++ * test_renter_loop_finite_content below */
+++void XMLCALL
+++accumulate_characters_ext_handler(void *userData, const XML_Char *s, int len) {
+++  ExtHdlrData *const test_data = (ExtHdlrData *)userData;
+++  CharData_AppendXMLChars(test_data->storage, s, len);
+++}
+++
+++/* Test that internalEntityProcessor does not re-enter forever;
+++ * based on files tests/xmlconf/xmltest/valid/ext-sa/012.{xml,ent} */
+++START_TEST(test_renter_loop_finite_content) {
+++  CharData storage;
+++  CharData_Init(&storage);
+++  const char *const text = "<!DOCTYPE doc [\n"
+++                           "<!ENTITY e1 '&e2;'>\n"
+++                           "<!ENTITY e2 '&e3;'>\n"
+++                           "<!ENTITY e3 SYSTEM '012.ent'>\n"
+++                           "<!ENTITY e4 '&e5;'>\n"
+++                           "<!ENTITY e5 '(e5)'>\n"
+++                           "<!ELEMENT doc (#PCDATA)>\n"
+++                           "]>\n"
+++                           "<doc>&e1;</doc>\n";
+++  ExtHdlrData test_data = {"&e4;\n", external_entity_null_loader, &storage};
+++  const XML_Char *const expected = XCS("(e5)\n");
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++  XML_SetUserData(parser, &test_data);
+++  XML_SetExternalEntityRefHandler(parser, external_entity_oneshot_loader);
+++  XML_SetCharacterDataHandler(parser, accumulate_characters_ext_handler);
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      == XML_STATUS_ERROR)
+++    xml_failure(parser);
+++
+++  CharData_CheckXMLChars(&storage, expected);
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
++ void
++ make_miscellaneous_test_case(Suite *s) {
++   TCase *tc_misc = tcase_create("miscellaneous tests");
++@@ -545,4 +587,5 @@ make_miscellaneous_test_case(Suite *s) {
++   tcase_add_test(tc_misc, test_misc_char_handler_stop_without_leak);
++   tcase_add_test(tc_misc, test_misc_resumeparser_not_crashing);
++   tcase_add_test(tc_misc, test_misc_stopparser_rejects_unstarted_parser);
+++  tcase_add_test__if_xml_ge(tc_misc, test_renter_loop_finite_content);
++ }
+diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
+index f383792793..1da7141025 100644
+--- a/meta/recipes-core/expat/expat_2.6.4.bb
++++ b/meta/recipes-core/expat/expat_2.6.4.bb
+@@ -10,6 +10,8 @@ VERSION_TAG = "${@d.getVar('PV').replace('.', '_')}"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://run-ptest \
++           file://0001-tests-Cover-indirect-entity-recursion.patch;striplevel=2 \
++           file://CVE-2024-8176.patch;striplevel=2 \
+            "
+ 
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
 
