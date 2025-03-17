@@ -2,102 +2,105 @@ Return-Path: <makchrbiz@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55C18C282EC
-	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 06:26:57 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.46204.1742192812105774137
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CC54C35FF3
+	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 06:27:07 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.46205.1742192818162079220
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Mar 2025 23:26:52 -0700
+ Sun, 16 Mar 2025 23:26:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JN8SdYEG;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: makchrbiz@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3914a5def6bso2030394f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 23:26:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LPPke/+O;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: makchrbiz@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-391211ea598so2106525f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Mar 2025 23:26:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742192810; x=1742797610; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tb67O27lV+kSk6u3wohgDtzLCTBlSQ34kaU04N8s/OU=;
-        b=JN8SdYEGDZqZeYySGs24rZqUEmzhDcjvR4Q3Y3f//tbah/JP1a8RhKWWQVuACe04tI
-         jauG5FJyxUMaRIwqQiZtbNtc39BZUnm/3El659nWTCQ5ihBk+q2RQhCMxkej37cmeHh/
-         ilbEZN4HIGGThjQSRigpCmGwt2kBfQAn1ucfCx4DcX1Jxxcc1vDEMp9cY0QujvdG/PzV
-         41asWyvMZD4xh08aNYyTReppKnqXTfA6UsPSO+jX5DN9eXaZHshD2Eed0yEG5O/m+f7i
-         ErCCljQrv3NYAt3KwHXBKIJ9Pa6UhHcVLzrGeccjCk7a4zrSt/KUfuOFFvHWX8/B22JY
-         VBeg==
+        d=gmail.com; s=20230601; t=1742192816; x=1742797616; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ag5ZVcAOapIyEwNvyNM0Rgse0tjFVebNAnxfb0aD5Kc=;
+        b=LPPke/+OlnfozF8M3zLeT0xu8T6FcDVZfL1UupSLT7DP+Qe4v7iRGcCPAyanMTqR0j
+         gA+j3IbgtgzLWGOnuYN6SJxtSMDEwrDMAi519dZfaZZ7Vp3y8m8KsFRivE4h4QTvqquN
+         Lh+s+xFA7owaPgJTnDd6Jse9SYk+ZaY7aU5NjY0GXBoELVa8F32Iw9NnOUNhNnlopW9e
+         YT0k4TxRu96QO7x2JdGWxroekedpNxKF8vyP8oijQOgtQLh5byV+OuTTgKP+5c+nB58C
+         WZWua9PlwN7Jx3rXYT1nONGB+I/072Ltm2ABdEb2V6kDjTs66LLDScZwVqZ+GHIpl6ex
+         aKuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742192810; x=1742797610;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tb67O27lV+kSk6u3wohgDtzLCTBlSQ34kaU04N8s/OU=;
-        b=EsA3Mtra29Sp3PAvqsRldDVLuehqy0cf3dUVWjs/kv0Da5ctFIICALV+xsj1d+cVJD
-         1uDsKmRwixzHxK9M5STo+i5aXal/xKRbt6GLJCbKVg/sf/rl5azsGPjTcNP7w6+yD50O
-         TAVRZ1aQqah9c96JkTmvStu5xgRo4aVY8v/923qWT6Qixb2r7mNKcVN+l7GhsB/HqsE+
-         xidRl5DkyBSuAUrUT3+jekdtpDOdXZsKgBVlxx38c3Wf5moQLfvTn0zE9XmbGFQ8id6U
-         adK9OA8csTE0+sERsZ7oryR3Al3rmc1QG0/rMBYMKASjdL3fH37VBHoJKsKfKw8i2YQO
-         PkrA==
-X-Gm-Message-State: AOJu0YzhtGDw08Jzclj+rSK+uXe6ha01JAwRCK7+LX+EOKfdsQB7zwGG
-	FWDNMMhW7FdysdLbovMxLog8TcvbImbUi+M+dxBmXWhGcI9BwuCw9Ne5aXFT
-X-Gm-Gg: ASbGncvr9O8y4zZDMT+78pB9iE2Aagl+LOHIi5Y5DnerSo40PaOZvvMbcknabBKXFAg
-	oI/B+XuT7YVEYjacottfVrI+6Fzru5xDFSnSOrH49VnJ6Pe/+IR3dVJ/7ALPcUF01TCKCuG4yvm
-	MjV3hMCFF3bxOFCIH/laElkooqrRcc6mjinPxCOBD/1yASA9m/BYS6brOqg7B67Q4uQrhCD086R
-	pd9xESLjkV2X4PpEuPV2PyOk3hcQPKXO7LB5j0TJVWsKJ8Eu734IFVu2BaIlgoqX2RA9U2VMQb0
-	YABQx0bBpPmw+rwLjaK3D9ilg+/DH/Serg/Nd3kM1ns2KjRNBhA/zTuaFBPkuWA17sOvZqtAbDi
-	yRr73sax67Q==
-X-Google-Smtp-Source: AGHT+IErxmcQ0oF3QIARW5iDf35Xd4lc8jhMfYTI3R5BfTfiofPc78icKBFR07hN7Zf7jozdzS0yhw==
-X-Received: by 2002:adf:a348:0:b0:391:401f:bfd8 with SMTP id ffacd0b85a97d-39720584500mr9796295f8f.55.1742192809488;
-        Sun, 16 Mar 2025 23:26:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742192816; x=1742797616;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ag5ZVcAOapIyEwNvyNM0Rgse0tjFVebNAnxfb0aD5Kc=;
+        b=sQ9rue0V0/zK2c/n3cupUgdB5OL4Jui3cAELBhXUV0o00JcwHQJy89lVH3T9VO3MVU
+         jrLFzVXh2amUB0/c4nX3pya/zIHQxO0YtXLsqYryjECS8C+sJA7sNtmFwe1r/00UoeO1
+         X4xLOEGOVQcH5WV1/AdLGqk2Zw0ZJAEj0UlW6XAEV7r8qczc62mJLuUjM69W0789wb66
+         JuX2TgwnbDWQ17J6sUxx+A3kP7RW4YohMekW3b5AcAAt4XMIbWarBB1tRoXLZrtIqe0L
+         Qlgtj3P7nS4y6J3QPiw/q8KCeatBwSR1Rc6E45vqwWsusqhpu+mV8m4QpiFTWilZG7jm
+         X7kA==
+X-Gm-Message-State: AOJu0Yw0CMZpEqLdw9ARGhaYVO8DZypcRVyePU1puoD4Vivx4Gkkcn93
+	ZWK6/pFicAyAShmzOD+ja8BIFScOc2QIoQRijRnUqLkJgae8HaimtRD1o2YA
+X-Gm-Gg: ASbGnctNq6ZmNmA45+8Ywrx6T+3QGFXn82BLx5GEqhjSZjTJM2M+ONq19z5LOL+IWea
+	nRspQlTOoUDqACflhIMzHEIRoC5OcWGATwICwyIN5Wd2+XWlt/qnxaAYy+AYp2j4DOJp8inFRvX
+	YyfAqvy4QPIeBOBXwQ1YQ7xHAG/2qjr9MpHmGGJJIx3j/oIp+hAGbYF0An5IWeee7vV0XPn7+F3
+	wtzVgFDbXQ5yvSwyV1ZbTgJOU8toV12+W2Di0//EtWJ1OdnVCzy2YXgS2qGstCFd2v3mjerUuT7
+	O7lF9gdguPJo3AQYSaHzxDJc39kJitC1719x4YByZucDzIVzuIF0eDF7EMEoCt79ikuSokKRL6w
+	ZI3HZEI12bA==
+X-Google-Smtp-Source: AGHT+IGI6KJVCzayCucKjflX5YnfgzFPleBHLUa9DbnI7Cf5b8hXsKxG9RjWk1GXlhZMKduSvUkD7w==
+X-Received: by 2002:a5d:5982:0:b0:391:4889:503e with SMTP id ffacd0b85a97d-3971fadd568mr15015571f8f.33.1742192816247;
+        Sun, 16 Mar 2025 23:26:56 -0700 (PDT)
 Received: from localhost.localdomain (ppp079167040036.access.hol.gr. [79.167.40.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb7ebaf8sm14272251f8f.95.2025.03.16.23.26.48
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb7ebaf8sm14272251f8f.95.2025.03.16.23.26.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Mar 2025 23:26:49 -0700 (PDT)
+        Sun, 16 Mar 2025 23:26:56 -0700 (PDT)
 From: Makarios Christakis <makchrbiz@gmail.com>
 To: openembedded-core@lists.openembedded.org
+Cc: Makarios Christakis <makchrbiz@gmail.com>
 Subject: [PATCH] icu: Adjust ICU_DATA_DIR path on big endian targets
-Date: Mon, 17 Mar 2025 08:26:24 +0200
-Message-Id: <20250317062625.431-1-makchrbiz@gmail.com>
+Date: Mon, 17 Mar 2025 08:26:25 +0200
+Message-Id: <20250317062625.431-2-makchrbiz@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250317062625.431-1-makchrbiz@gmail.com>
+References: <20250317062625.431-1-makchrbiz@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 06:26:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213063
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 06:27:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213064
 
-Greetings everyone,
+On big-endian systems the preprocessor define ICU_DATA_DIR
+is currently being set to a path ending with the ${PV} of
+the recipe.
 
-First of all, thanks for the amazing work you're doing on the Yocto project.
+The PV version string has changed to a '-' separator
+since oe-core commit cebe8439cdc656d53355506a31a3782312bf03c5
+whereas the build system installs the data files into a
+path ending with the dot-separated version of ICU.
 
-Migrating our build system from dunfell to scarthgap, I came across an
-interesting issue causing Postgres to not be able to start on our big-endian
-PowerPC boards.
+This causes the ICU data file to not be detected at runtime,
+consequently breaking any dependant applications.
 
-I identified that the root cause was the ICU package which we build with the
-`make-icudata` PACKAGECONFIG option enabled.
+We therefore substitute ${PV} with the dot-separated version
+string of ICU, as returned from the icu_install_folder function,
+on the ICU_DATA_DIR define on big-endian targets.
 
-The icu data file icudt74b.dat is being installed onto the target's rootfs at
+Signed-off-by: Makarios Christakis <makchrbiz@gmail.com>
+---
+ meta/recipes-support/icu/icu_76-1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-${datadir}/${BPN}/${@icu_install_folder(d)}/icudt${ICU_MAJOR_VER}b.dat
-
-by the do_install append of the recipe, which regenerates it for big-endian targets.
-
-The problem seems to be that the runtime ICU data path is being set to the 
-dash-separated version:
-
-$ icuinfo | grep icudata.path
-    <param name="icudata.path">/usr/share/icu/74-2</param>
-
-Which causes any application that tries to load the icu data file to 
-fail with U_FILE_ACCESS_ERROR.
-
-The culprit was the C++ preprocessor define -DICU_DATA_PATH which was being set
-for big-endian targets to the ${PV}-terminated path.
-
-I am therefore proposing to change the PV with a call to `icu_install_folder` in
-order to set the ICU_DATA_PATH appropriately. 
-
-I am not sure if this is the right way to correct this issue, so any comments 
-would be appreciated :)
-
+diff --git a/meta/recipes-support/icu/icu_76-1.bb b/meta/recipes-support/icu/icu_76-1.bb
+index 08dabde3ae..f0890fc890 100644
+--- a/meta/recipes-support/icu/icu_76-1.bb
++++ b/meta/recipes-support/icu/icu_76-1.bb
+@@ -25,7 +25,7 @@ EXTRA_OECONF:class-native = "--disable-icu-config"
+ EXTRA_OECONF:class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config"
+ 
+ EXTRA_OECONF:append:class-target = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}"
+-TARGET_CXXFLAGS:append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${PV}\\""', '', d)}"
++TARGET_CXXFLAGS:append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${@icu_install_folder(d)}\\""', '', d)}"
+ 
+ ASNEEDED = ""
+ 
 
