@@ -1,119 +1,100 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC97FC282EC
-	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 12:55:09 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web10.51547.1742216099918341438
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5012C282EC
+	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 13:02:09 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.51825.1742216524736732122
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Mar 2025 05:55:00 -0700
+ Mon, 17 Mar 2025 06:02:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=dP5j+bzx;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 70EA844400;
-	Mon, 17 Mar 2025 12:54:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742216097;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cDL7LQNAJ7tIRwxdC7OGXKpGidPa5W5gbWkasVYBppk=;
-	b=dP5j+bzxkGWbm8fZzBD/s6PghbVw9IRDprqvY/NRKLB1maMRkt4m01OhxfidJoRqHdJQsS
-	2m5tJHIu1PMR12ZxQgPWJJg+He9egKYoxU8SzalYnqWPINFZxXAie2Q9aMOjTzqOtnjDo0
-	2hj7pefWOlwhXPd1DrhSo25/syS97NjEifv5IiXkQ4MjX4CXoVk98/iyEivGPnNSHKdZuB
-	8/1z4Pb6bsX0pW91ELDgzBfURyhoyFLKPVfW5wDtpOSl5NmQ6NML7VH2NRbPdrhpSy2aeR
-	nrkSy5uNhINqZQEkPHqupKqbdA95FjFn6YzdKixZ6EgsNvzjV8qa1s9jDuuz1A==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 17 Mar 2025 13:54:57 +0100
-Message-Id: <D8IK29UVAJDH.5RMIXD4TDCV7@bootlin.com>
-Subject: Re: [oe-core][PATCH 1/2] gobject-introspection: update 1.82.0 ->
- 1.84.0
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Markus Volk" <f_l_k@t-online.de>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250316161604.2331834-1-f_l_k@t-online.de>
-In-Reply-To: <20250316161604.2331834-1-f_l_k@t-online.de>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeelheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgvdeuteefueeufffgveefveelheehjeffjeffudekfedviefgkedvleehtdevtdenucffohhmrghinhepghhnohhmvgdrohhrghdphihotghtohdrihhopdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepfhgplhgpkhesthdqohhnlhhinhgvrdguvgdprhgtphhtthhopehophgvnhgvm
- hgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ETVrJL3V;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ITPPCIpz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010195a4326fa5-e427333c-0a7c-4720-b9d4-9e6a644910b0-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1742216523; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=ZZTipvCJL8BjfLuM27Dmp3lJVJZGTDA5xD85juRIVUc=;
+	b=ETVrJL3VvhvynrdKo6JhsNyRM3g6edST/8cHXbjDNensQ4JwnWJS+O3laN8RzitD
+	wCgv92UAA9+FFm/hZ0BoalzKMs8QhUJDgveYRQziKWf0SP5LoRhXjIVzLPUQTYMiDIM
+	Zly+9Z4JU6Vw/LX9fecGKK69jfa8NHtUzbPI94V8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742216523;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=ZZTipvCJL8BjfLuM27Dmp3lJVJZGTDA5xD85juRIVUc=;
+	b=ITPPCIpz4ofM1IIQfx1gxIMW2l10E06kogBiAgud8gc+iMMsvJ+vP478w0FuHZ+F
+	um1J/jnmXdOvNfLF0rj8bXaWhx1i4SnkZwt80sHKspESp8dzUDwnn02BGBWljoY2u2N
+	VlgFYFybFzxnke1OILaRMzO+7Io3F2ZIcoFJD4mI=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/2] docbook-xml-dtd4: clean up LICENSE situation
+In-Reply-To: <20250317125159.3675476-1-ross.burton@arm.com>
+References: <20250317125159.3675476-1-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010195a4326fa5-e427333c-0a7c-4720-b9d4-9e6a644910b0-000000@us-west-2.amazonses.com>
+Date: Mon, 17 Mar 2025 13:02:03 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.17-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 12:55:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213089
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 13:02:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213090
 
-On Sun Mar 16, 2025 at 5:16 PM CET, Markus Volk wrote:
-> 1.84.0 - 2025-03-15
-> -------------------
->
-> * No changes
->
-> 1.83.4 - 2025-03-08
-> -------------------
-> * Revert support for "static" virtual functions [!526]
-> 1.83.2 - 2025-03-01
-> -------------------
-> * Improve GType inspection helper [!494]
-> * Parse C11's _Alignas [#520]
-> * Respect custom Python binary [!503]
-> * Fix build on the latest Windows SDK [!498]
-> * Small performance improvement when looking up a signal information [!50=
-4]
-> * Use standard imports in the JavaScript templates for g-ir-doctool [!501=
-]
-> * Ensure that enumeration members can be marked as deprecated [!512]
-> * Add more test coverage for structured union types [!348]
-> * Add an option to skip tests when building [!507]
-> * Fix various MSVC compatibility issues [!511]
-> * Add support for "static" virtual functions [!361]
-> * Allow specifying the format of the documentation inside doc blocks [!40=
-1]
-> * Handle C99's _Complex [!515]
-> * Consider UCRT64 and CLANG64 as mingw32 compilers [!516]
-> * Handle static NSString syntax [!518]
-> * Add instance parameter checks to strict validation [!506, !521]
-> * Documentation improvements [!481, !483, !485, !500]
->
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
+--NextPart
+Content-Type: text/plain
 
-Hi Markus,
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Thanks for your patch.
+---
+Testing patch /home/patchtest/share/mboxes/1-2-docbook-xml-dtd4-clean-up-LICENSE-situation.patch
 
-We do get some fetch errors on gobject-introspection, can you have a
-look at these please?
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
-ERROR: gobject-introspection-1.84.0-r0 do_fetch: Fetcher failure for URL: '=
-https://download.gnome.org/sources//gobject-introspection/1.84/gobject-intr=
-ospection-1.84.0.tar.xz'. Checksum mismatch!
-File: '/srv/autobuilder/valkyrie.yocto.io/current_sources/gobject-introspec=
-tion-1.84.0.tar.xz.tmp' has sha256 checksum '945b57da7ec262e5c266b89e091d14=
-be800cc424277d82a02872b7d794a84779' when '86f02e689ff4df362b2d0f0a9acc262ac=
-e5dc3e71c9078bdba69246748213855' was expected
-If this change is expected (e.g. you have upgraded to a new version without=
- updating the checksums) then you can use these lines within the recipe:
-SRC_URI[sha256sum] =3D "945b57da7ec262e5c266b89e091d14be800cc424277d82a0287=
-2b7d794a84779"
-Otherwise you should retry the download and/or check with upstream to deter=
-mine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: gobject-introspection-1.84.0-r0 do_fetch: Bitbake Fetcher Error: Fet=
-chError('Unable to fetch URL from any source.', 'https://download.gnome.org=
-/sources//gobject-introspection/1.84/gobject-introspection-1.84.0.tar.xz')
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/1787400/raw_inlin=
-e
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+---
 
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
