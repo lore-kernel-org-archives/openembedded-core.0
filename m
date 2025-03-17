@@ -1,116 +1,119 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CECA5C28B30
-	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 12:52:09 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.51576.1742215924240039415
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC97FC282EC
+	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 12:55:09 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.51547.1742216099918341438
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Mar 2025 05:52:04 -0700
+ Mon, 17 Mar 2025 05:55:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71BB013D5
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 05:52:12 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 318313F694
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 05:52:03 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] docbook-xml-dtd4: clean up LICENSE situation
-Date: Mon, 17 Mar 2025 12:51:58 +0000
-Message-ID: <20250317125159.3675476-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=dP5j+bzx;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 70EA844400;
+	Mon, 17 Mar 2025 12:54:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742216097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cDL7LQNAJ7tIRwxdC7OGXKpGidPa5W5gbWkasVYBppk=;
+	b=dP5j+bzxkGWbm8fZzBD/s6PghbVw9IRDprqvY/NRKLB1maMRkt4m01OhxfidJoRqHdJQsS
+	2m5tJHIu1PMR12ZxQgPWJJg+He9egKYoxU8SzalYnqWPINFZxXAie2Q9aMOjTzqOtnjDo0
+	2hj7pefWOlwhXPd1DrhSo25/syS97NjEifv5IiXkQ4MjX4CXoVk98/iyEivGPnNSHKdZuB
+	8/1z4Pb6bsX0pW91ELDgzBfURyhoyFLKPVfW5wDtpOSl5NmQ6NML7VH2NRbPdrhpSy2aeR
+	nrkSy5uNhINqZQEkPHqupKqbdA95FjFn6YzdKixZ6EgsNvzjV8qa1s9jDuuz1A==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 17 Mar 2025 13:54:57 +0100
+Message-Id: <D8IK29UVAJDH.5RMIXD4TDCV7@bootlin.com>
+Subject: Re: [oe-core][PATCH 1/2] gobject-introspection: update 1.82.0 ->
+ 1.84.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Markus Volk" <f_l_k@t-online.de>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250316161604.2331834-1-f_l_k@t-online.de>
+In-Reply-To: <20250316161604.2331834-1-f_l_k@t-online.de>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeelheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgvdeuteefueeufffgveefveelheehjeffjeffudekfedviefgkedvleehtdevtdenucffohhmrghinhepghhnohhmvgdrohhrghdphihotghtohdrihhopdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepfhgplhgpkhesthdqohhnlhhinhgvrdguvgdprhgtphhtthhopehophgvnhgvm
+ hgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 12:52:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213087
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 12:55:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213089
 
-Don't use the common 'OASIS' license, as this isn't a SPDX license and
-is in fact specifically the DocBook XML v4 license text.
+On Sun Mar 16, 2025 at 5:16 PM CET, Markus Volk wrote:
+> 1.84.0 - 2025-03-15
+> -------------------
+>
+> * No changes
+>
+> 1.83.4 - 2025-03-08
+> -------------------
+> * Revert support for "static" virtual functions [!526]
+> 1.83.2 - 2025-03-01
+> -------------------
+> * Improve GType inspection helper [!494]
+> * Parse C11's _Alignas [#520]
+> * Respect custom Python binary [!503]
+> * Fix build on the latest Windows SDK [!498]
+> * Small performance improvement when looking up a signal information [!50=
+4]
+> * Use standard imports in the JavaScript templates for g-ir-doctool [!501=
+]
+> * Ensure that enumeration members can be marked as deprecated [!512]
+> * Add more test coverage for structured union types [!348]
+> * Add an option to skip tests when building [!507]
+> * Fix various MSVC compatibility issues [!511]
+> * Add support for "static" virtual functions [!361]
+> * Allow specifying the format of the documentation inside doc blocks [!40=
+1]
+> * Handle C99's _Complex [!515]
+> * Consider UCRT64 and CLANG64 as mingw32 compilers [!516]
+> * Handle static NSString syntax [!518]
+> * Add instance parameter checks to strict validation [!506, !521]
+> * Documentation improvements [!481, !483, !485, !500]
+>
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
 
-Instead, use NO_GENERIC_LICENSE to ship a custom license file. We still
-need to ship a copy of it in-tree because the license code needs a bare
-copy of the license text.  Reference the in-tree license text in the
-license checksum to show that we've verified they match.
+Hi Markus,
 
-Also, clean up some comments.
+Thanks for your patch.
 
-Thanks to hongxu.jia@eng.windriver.com for a previous iteration of this.
+We do get some fetch errors on gobject-introspection, can you have a
+look at these please?
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../docbook-xml-dtd4/LICENSE-OASIS            |  4 ---
- .../docbook-xml/docbook-xml-dtd4_4.5.bb       | 25 ++++---------------
- 2 files changed, 5 insertions(+), 24 deletions(-)
+ERROR: gobject-introspection-1.84.0-r0 do_fetch: Fetcher failure for URL: '=
+https://download.gnome.org/sources//gobject-introspection/1.84/gobject-intr=
+ospection-1.84.0.tar.xz'. Checksum mismatch!
+File: '/srv/autobuilder/valkyrie.yocto.io/current_sources/gobject-introspec=
+tion-1.84.0.tar.xz.tmp' has sha256 checksum '945b57da7ec262e5c266b89e091d14=
+be800cc424277d82a02872b7d794a84779' when '86f02e689ff4df362b2d0f0a9acc262ac=
+e5dc3e71c9078bdba69246748213855' was expected
+If this change is expected (e.g. you have upgraded to a new version without=
+ updating the checksums) then you can use these lines within the recipe:
+SRC_URI[sha256sum] =3D "945b57da7ec262e5c266b89e091d14be800cc424277d82a0287=
+2b7d794a84779"
+Otherwise you should retry the download and/or check with upstream to deter=
+mine if the file has become corrupted or otherwise unexpectedly modified.
+ERROR: gobject-introspection-1.84.0-r0 do_fetch: Bitbake Fetcher Error: Fet=
+chError('Unable to fetch URL from any source.', 'https://download.gnome.org=
+/sources//gobject-introspection/1.84/gobject-introspection-1.84.0.tar.xz')
 
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/LICENSE-O=
-ASIS b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/LICENSE-OASIS
-index 6da7f5b8c74..13f303dc6ae 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/LICENSE-OASIS
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/LICENSE-OASIS
-@@ -10,7 +10,3 @@ If you modify the DocBook DTD in any way, except for de=
-claring and
- referencing additional sets of general entities and declaring
- additional notations, label your DTD as a variant of DocBook.  See
- the maintenance documentation for more information.
--
--Please direct all questions, bug reports, or suggestions for=20
--changes to the docbook@lists.oasis-open.org mailing list. For more
--information, see http://www.oasis-open.org/docbook/.
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/=
-meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-index 5229a0366c2..58e9b6659e5 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-@@ -3,28 +3,13 @@ DESCRIPTION =3D "Document type definitions for verifica=
-tion of XML data \
- files against the DocBook rule set."
- HOMEPAGE =3D "https://docbook.org"
-=20
--# The upstream sources are not distributed with a license file.
--# LICENSE-OASIS is included as a "patch" to workaround this. When
--# upgrading this recipe, please verify whether this is still needed.
-+LICENSE =3D "DocBook"
-+NO_GENERIC_LICENSE[DocBook] =3D "LICENSE-OASIS"
-=20
--LICENSE =3D "OASIS"
--LIC_FILES_CHKSUM =3D "file://${S}/LICENSE-OASIS;md5=3Dc608985dd5f7f215e6=
-69e7639a0b1d2e"
--
--# To support apps with xml schema backward compatibility, we must
--# install a set of schemas. Install the latest based on PV and then
--# name any specific versions as required. TODO: Figure out a mechanism
--# to filter exactly which versions are necessary, if that's even
--# possible.
--#
--# DocBook.org lists available release packages at https://docbook.org/xm=
-l/.
--#
--# The release packages relate docbook source at
--# https://github.com/docbook/docbook but building them requires the
--# Gradle build system. In future, it might be safer to use the source
--# tree which would also enable proper SBOM generation through the
--# bitbake build system.
--#
-+LIC_FILES_CHKSUM =3D "file://docbook-4.5/docbookx.dtd;beginline=3D15;end=
-line=3D30;md5=3Dab12da76ad94a41d04e1587693ebd9b6 \
-+                    file://LICENSE-OASIS;md5=3Db9ee6208caa6e66c68dfad6f3=
-1d73f92"
-=20
-+# Install the latest 4.5 DTDs, and the previous releases for backward co=
-mpatibility.
- SRC_URI =3D "https://docbook.org/xml/4.1.2/docbkx412.zip;name=3Dpayload4=
-12;subdir=3Ddocbook-4.1.2 \
-            https://docbook.org/xml/4.2/docbook-xml-4.2.zip;name=3Dpayloa=
-d42;subdir=3Ddocbook-4.2 \
-            https://docbook.org/xml/4.3/docbook-xml-4.3.zip;name=3Dpayloa=
-d43;subdir=3Ddocbook-4.3 \
+https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/1787400/raw_inlin=
+e
+
 --=20
-2.43.0
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
