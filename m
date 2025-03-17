@@ -1,197 +1,269 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93ECAC282EC
-	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 12:25:39 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.51095.1742214338163044699
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7ABCC28B30
+	for <webhook@archiver.kernel.org>; Mon, 17 Mar 2025 12:37:09 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.89])
+ by mx.groups.io with SMTP id smtpd.web10.51185.1742215025256699123
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Mar 2025 05:25:38 -0700
+ Mon, 17 Mar 2025 05:37:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f30D8Z1x;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39149bccb69so4270541f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 05:25:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742214336; x=1742819136; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=+g8GrU3F2PEWnQ/1dcLK4qNzbZWN/fWnBxiRUyQZEZc=;
-        b=f30D8Z1xkHgpR49UzhIZvAQ7YJ21XW4BrnwXPK+Cyk3pSUNdGinNtzsJc0qEndUbrn
-         VjxeyQo/gGT742DpxAqlhJIpRCnpnSJVcmbRtchEW+Pt3MnYAtSUFyy0zZDYcL2abLiw
-         TyM6ymbDJgc4azw0ShcrkUGkSxGGwrFSC3GiE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742214336; x=1742819136;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+g8GrU3F2PEWnQ/1dcLK4qNzbZWN/fWnBxiRUyQZEZc=;
-        b=v9pmONh9e7/xL+nZAdqH8Xl2HtQZY8IjMAo6gik0kzrcLd5e07+WrZB/a+oLUymqKo
-         dFn2gx024OEcgDOAI5RI6qWP7cGEwdJBpDTg++FE5IPvEUIo3WAT4OddsSV4w9X8bzlV
-         60pBIh4+MitiLUy1QwlgnlOZukaoMIvdGy/uadF9X0IYLj3RuJTUjq9GMBTStx1n+QlO
-         kcKuH2tjJy6zB5CKHmUF/Vao3IYYd9xI6oHOLqIEEUHd23eHBvNSe2RCzX0/Xf2gIqw+
-         b5PvPZcerp/Tg8rFDnk40qImzF8+D5DdsDEzfXiweH20cEByGu8dnIFO9wXzn3BZs/iB
-         UzyA==
-X-Gm-Message-State: AOJu0YzB0f7P+nAheZRsQfNeu+t0u53Ugj776b54+K4GhXLU5FVeDRqY
-	LYFBU//ewctzKdJ+0FdKmBemZjMsGBt/bdO6S8AW/ryIG0ToGNCIZZUOB0tneTw=
-X-Gm-Gg: ASbGnctYl1LR8BrbU/3/eDo8DtHSmDTN+APsmnQWcQ5D4+nMqkdOYBwcKhYl0Zb4lxc
-	hhq2v6Fv+qc0O4OtJDM06x+2aI1u/Ln1X/71YgrxnhBTdv3cX8YSetsOtgp6cv3/dZDhMnjfvje
-	GcDo/w/x6wo87xABKMqs4SbavJtNAU89q17w7LaUm+MWtYYtutoIVVEHYiHQfW4gkAec+GThYbj
-	drtI8LBS02X7Bjjow4G3omOsqldUDcFQ1pfH4inXR47bBZpjBwxetYqgAu8Lj+/GwluXsSfupDh
-	Qg2wlg8OPhp2MkAYLf4xT0/sWdguxX0z1hmMb50LgdkxCom4vQUXE/D7qCD0BPMpjad00M+qvQA
-	HzOUcaXIR5YcTI0sz02ttCZKI5sIzuxaifg==
-X-Google-Smtp-Source: AGHT+IGb425RfZI0iMihwvFwzLp9XT+/xLVrEK4gEAa13KJfeP6AqI0u0voMvzoQSPCB+c97k4feIw==
-X-Received: by 2002:a5d:6d06:0:b0:391:2ba9:4c59 with SMTP id ffacd0b85a97d-3971e971f44mr13492832f8f.43.1742214336501;
-        Mon, 17 Mar 2025 05:25:36 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:eadc:d6a2:789c:c5c2? ([2001:8b0:aba:5f3c:eadc:d6a2:789c:c5c2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb3189absm15084156f8f.71.2025.03.17.05.25.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Mar 2025 05:25:35 -0700 (PDT)
-Message-ID: <0adf3080610846855e7ab49f0705004712a018ae.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/6] systemd based initrd and modular kernel
- support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Mar 2025 12:25:35 +0000
-In-Reply-To: <Z9gTlqM4WDBVZiSW@nuoska>
-References: <20250314111942.304800-1-mikko.rapeli@linaro.org>
-	 <d9313e60692d537081323a532bd154493efc5975.camel@linuxfoundation.org>
-	 <Z9gTlqM4WDBVZiSW@nuoska>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2-0ubuntu1 
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=J0Hf7kAL;
+ spf=pass (domain: cherry.de, ip: 40.107.20.89, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PB87J+Z8zZn+WoRZJEXB2JLL89NFpNAJj3twXkIyz0aJ+YrlF53ZiUESPFLAeX9grUEZv7DX1Bbc0+2/lcJ1ce4JXaPApDbpmAOR+zenn56oT9y2NUR9MSNIoyRAhb+FG7hKFp/oONVK8gBjGC6CJWeS6a1Wl2N4NFmIgyIW10v+0O2/bub+7woQXER3oan6OnFJvoHV2f55tEUP5sL+8ZPNb9ekoIaR+ItdrunONpPyqviYJHYqvI7qWfHFzUqsfpr2YVE6RyUWwfqAE3BEdxlTTT8KtPVXrM8RqdgIxNLoRn8k3VzgHw8d4ofnOY87YHPsnZunQFtPP2W7pQ50nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qRgqjbNEpKzThsjs08eKjVYN/MDfdi7DfNu9+nxPwRg=;
+ b=jY4Ey2J3Kj+bc9M6ApYOG4jbmkZhnv09Dmn1LFCNcUDlhv/Ina+jl9hq5CKY27YSL9cyYHgbOelTz68tnYIBJlbXikKIj1b1BNcg97zy9q/Zb9PhHobxTT7NwbMEvmJhqXc4XZuUbtBr5rIgHpkR9edmnWgHxg1yZVCoxmEmuiuOOPZXbKaVtkOOsT7Ef2fqpAwq3/YLS/2xK+DeaFyWoqZ41yEezDxsuqhMdfbOaNN6XJzg6IXi41Ghkp72kVcQzfHprSpVsXid5Pi/uDYkpXAwWQMZvqiKNeEi1WI924zLdSpBNFi6Vo6vKxmgPbO/B+Byk53M4qjTv85kHQEe9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qRgqjbNEpKzThsjs08eKjVYN/MDfdi7DfNu9+nxPwRg=;
+ b=J0Hf7kALxyRszTu1l7FzNGO8oxObGtZ8Wd4sOwfaPajQuik3oLxQAnyph7hsKTOyRcUN1NzYHrfehM2l2f53EV31M9tIExoiNAToeMn8eiRNEEc7pPlGPPbodf0IaX52uf/cXaih2EOAc0B6ZbgchHOkqNwUhHVksc0TxGJmnoU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by DB8PR04MB7132.eurprd04.prod.outlook.com (2603:10a6:10:12e::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Mon, 17 Mar
+ 2025 12:37:01 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a%6]) with mapi id 15.20.8534.031; Mon, 17 Mar 2025
+ 12:37:01 +0000
+Message-ID: <8493f82f-abfc-4b6b-85b3-e82b1d38e11e@cherry.de>
+Date: Mon, 17 Mar 2025 13:37:00 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v3 1/2] oe-selftest: fitimage improve bb_vars
+ access
+To: adrian.freihofer@gmail.com, openembedded-core@lists.openembedded.org
+Cc: marex@denx.de, Adrian Freihofer <adrian.freihofer@siemens.com>
+References: <20250317121120.130476-1-adrian.freihofer@siemens.com>
+ <20250317121120.130476-2-adrian.freihofer@siemens.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20250317121120.130476-2-adrian.freihofer@siemens.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0006.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::16) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|DB8PR04MB7132:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f4f8cbf-1808-4230-efb5-08dd65506a81
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?NXp0UFpQeUlrQXhGKzBMYjJjcjZBa3BvZGlkVUlEc1BTcW9kZmYyNTVCaUM2?=
+ =?utf-8?B?dW1HMG1YWkg1Ri9mQ2I4Zk1IZ2dxQVpTY0xzUWlkKzQxTW5mV2VvZzFQVith?=
+ =?utf-8?B?dTJ0dTE3cjl6ajgrSkhQUVIrdDdjaHZ0V09vaC9TQWhEajF5TUFCbG00Vzl1?=
+ =?utf-8?B?Q3g3VExEemkrQmxzUzBybm1EcXBXeDJkbzIwRm5wem11ekFmR0VCODNzN1E1?=
+ =?utf-8?B?WWFWRVZrcElmcEsvZUVRUDVIYUNRSisycTNkWDE3MFREeklnS3BTQWd6dFFX?=
+ =?utf-8?B?QUxzUjBoY1d4RTFpSThzaE16Q3RYZ0V1cWdGSnMzcTJHb0tKNHd6OStIWnRD?=
+ =?utf-8?B?Y2ZIeFAyQ05OdVJrQmU4WFR0QUFFdU5LVWE2MkJJWkhjMVFKcWw2dFYybXI2?=
+ =?utf-8?B?eUdwczNyY0hyM1dqV2l1Tjd3emFIQmMxd1hQQTNKQjhmUDF6RUpRRFdvbTZR?=
+ =?utf-8?B?MWdydXp6WDhTNlp2dFkyQURzaVNYVXZhZ00vUnZxcGF4T3BBckFoZWROMy9V?=
+ =?utf-8?B?QWROUGpHeFRaei9rb3NjWE5YMUZGbHlyUnNWeXRkYnFNRkVaSHJLdnlnMmkz?=
+ =?utf-8?B?anY3MXpTZWFJbkJHTDFpVEN4RnRjK2JlU3N3MnhLTGNpUFlrSVR1ZkR4YlFr?=
+ =?utf-8?B?dkF0TXEwRFEvVjdNMUZTSjFMeS9HQ0s0TmpzOHZrSDF2TWdYbExLbXVXYXhh?=
+ =?utf-8?B?UGJRK0pzajRmc0tOUElWOC9GY0FvOFdBRDhuRmJMWmVpUXZxekpGMjNrR3NY?=
+ =?utf-8?B?MlFsVU5sU01WRTh5WGZudVBCcUFwOEtmYkplaE92NGU3OXh2eXF0L2JSNzFO?=
+ =?utf-8?B?NDJaYzZuN2RMd09wQzZYYWQ2Y2pPMW5UZmQyWDJyS3dmUG9JVnJuKzNjOEwz?=
+ =?utf-8?B?Y2dQNG8zQ2tDYmtpb1lRWFcrZ3RaQ3pmTHVGTm5UM08rZVBUU2RtY05PaC9x?=
+ =?utf-8?B?QnEwcXFXTlZqUTlsTDdiZFE0bEJHdXAxOFVmc0FTS1BaVkJRWXhZbjMwcEpE?=
+ =?utf-8?B?ZzNTcmlRU2FNMmFjUlhRQmhGTFVqMDlsaVZRdlpvVUVVaHNJZ2lwQURyNGZa?=
+ =?utf-8?B?ejZOSGtlbklwRU1aTllyeDhYd1Jhb1NkSGwyeEhhRlY5VlRJT29Cc1QreCto?=
+ =?utf-8?B?ZUxvSjJ1Q3lhYVo3aFhtbmphY2FORTlXRFNHRytBTVNRK3RJUzhwWVMrb0V4?=
+ =?utf-8?B?TWNZckRyNEIxK2t1a3owY3hKdUV5Wk9ERmxRNWczY0I4Mnk0SDRCRjdCdGlK?=
+ =?utf-8?B?UEdnQVdqUGdncC9iOStCUi9mWlByN2czUVRvM2ZUNENhUWgzRTFWbEZlNlpq?=
+ =?utf-8?B?T2FLbTQ1MjVIWVlIV1VHbEZyWDNQdVRlYU1vaEtzejhsTmR0R1pQVEs4clEr?=
+ =?utf-8?B?RFUxa0JiZmwzVFhjTG5vVXBqRUpITm1nYktwdU1vamd1WHdZTnpSUG1oY0R2?=
+ =?utf-8?B?dDA1RURxUk9PQ2UySXdqM3ZBWDF1MzdSWTltTXBKeVVhd2Z5ZEtmMk5pZEww?=
+ =?utf-8?B?NWFTcmMxbjVXVEMySHRLbmZvV0RHM2RMdWpGclROTk1Xa0VWTlZNT1Q2RGVJ?=
+ =?utf-8?B?eHFaQlg4Qk1BRTdNTC85bkxyYmM3Lzg5d0RMenIzTjNRUzRaWm9tRk9iWUtP?=
+ =?utf-8?B?Y0p3eGEvR0lpR2V5a3Q2OW04a0w2YjhEZ21sTXVuT2cxQ2VBV09vSGlHWGVT?=
+ =?utf-8?B?Q0UyMjNoODNYY0Fwd2I1bi8xNGtpZmpqWk8rRzllcTlrTjlDUGRnRGtkOGNl?=
+ =?utf-8?B?R2JabWtDSHJMdFU0VzRGT1J1RFFwWjh1SGVvczloRUtvd1Q5YkM0ckt1WGVP?=
+ =?utf-8?B?MHFNK3N3MFhkTTZvNHZpSnUwOGhMWUJMQ24rYW4vaTVKQUxMcE5tclRhNDJK?=
+ =?utf-8?Q?1P0pUjhDNT8Qu?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?VHZrVmQzOWhkb2pMWUthdm1EMUZWWDN2SnkyakUyY04xT1VsRXRpQlJLQVN0?=
+ =?utf-8?B?cnhDbHg3T2NUSk1hdkdZOHpUNmcvbG9JQTU4bXRpOHRzZGNYWXhLR3lBYUsz?=
+ =?utf-8?B?OExrQTdQM0lST29pRGw2L3gyWTRUenBlQ3U3MHNUSnJkWk5WcnVIOXZJell0?=
+ =?utf-8?B?bmhSdmQzbXdMNTdpMXhWUzNBTVZmdytrVzhvTUZnbVRyU0FWUWFzaklNUHpK?=
+ =?utf-8?B?TTlhMDJadCs4NE1lVk9tc1FKWTN3U0FtYzJ2RjdZU0JlK1M3WFZiMkpHZlZL?=
+ =?utf-8?B?R0VqK2FraUhkZUVSSkxkaGJwdEpneUI0a2ZLellJczZWTGw4aTFxbFN3ajY2?=
+ =?utf-8?B?ZW0zTTF1UHRLbjhIM1VBVWJQOXkvQVQrRWMyR08rY1dzbHBtT1JEYVJvM3pY?=
+ =?utf-8?B?V0ZBZlBVdUNIQlgvd0ZxS2YzS1RBb2FGeHFEdWMzdzBRay9iL2tyR1RpVStH?=
+ =?utf-8?B?dDd3QTBWaUxwV2dyU0xqTm5heWNjeUptdEhIUlRRbzJzVlptU1NJZWltcCsw?=
+ =?utf-8?B?aVNhRElMZXlQVlZBMHFQN2hvTzYwTm5CK3lSN3AwQXczSVd1SGRZQzY5bmdR?=
+ =?utf-8?B?T2FrRGNqR0c5d2JML2hIanl5WGFuWHZoOE9iT1I2Tk91R2I4dEFZNldHQSs0?=
+ =?utf-8?B?NXg4VjRmS0VDYVRiWTdQWlAybnJJNXF5ZFlhbXk3VXVMLzB2R1NWZkJHaHpm?=
+ =?utf-8?B?NHZYYnpvTU52VU9oZEFlbE1JRXplTzA1eFRONzludXM1Z2hHNTBpMncxM1h5?=
+ =?utf-8?B?NmhYL05UeXV2TDIzL1FzZm91Zld5V2JQdm5MdDJCaGNnemdSamxwSUV5SVBK?=
+ =?utf-8?B?dWVQdW04VFlCR2dCVkhSWjFEeFRHamgyTmJib3htbXFlY1d0dUhMbW9iakRT?=
+ =?utf-8?B?Zmw5ZDBDdjNGbE9wTzF0Z285ZjZuRXkrMklQT3lVaVBTcU5pUUVzNXNNeEt4?=
+ =?utf-8?B?a0NUd1luaVpDeTJXT1lMY0pYNktCM01hbDJSYUliMDFMTXJjRWV3NWlLeStK?=
+ =?utf-8?B?dEw0NnAzUmw3VjU3VkczeWZQdm5tdTlkTklTNE1VUHp3SGIveVZGYVZCdUw5?=
+ =?utf-8?B?R21lM1BwTWVQN3hOZFBMVnIwemtnUHFQSlBiVUpMOTBZOCtIbTV6d2o3ZHd3?=
+ =?utf-8?B?RHA5Z0RVSVEvRzZDQmNZUlU2SDVuU2xqaW1qWVdIN1Y5TTRZNGllWk1PWE9G?=
+ =?utf-8?B?QXVORjI5NW1MemVQaURUYWFkV2Q1QmVaWlgwejJ3elg0OUFvNWdEUEU1YlpB?=
+ =?utf-8?B?R3pwVDluT1liMWp3Yzh0aDJZNGZqWVAvNy9FTm5LejN5RjgrYmh2NXhXOGxu?=
+ =?utf-8?B?Ry8za0xldGpiMEJUM3BDZ3BIVVk1WFNUeWd2WnRCa1FmMlZpQi9mU2d4VFBO?=
+ =?utf-8?B?eGhWZkdybC9zOEZQWVZ0eEpWdG1oQ3A5dkc5dDIxZ0VTNlNzanp5VjlqMUt6?=
+ =?utf-8?B?RTFLNTFuWUpqb1dzN0lLVVoxaWdycndFd3d5YzhYQ05mQktHQXBtd3p4QjUy?=
+ =?utf-8?B?R1hOaDFlUzBNQUFSZUR6UkxIN0U5TGtCazBiTWxQTFYyTlRaeFR5cGx1Z0dC?=
+ =?utf-8?B?RU5nTWxHSmRrektYM3FnUDRrSXlLaEZwdS85ckhZMW1IMUhuOFkyUFlhWStN?=
+ =?utf-8?B?QzVPUXVVNkdjVG1YblU4aXk5K25DVzgvNXhuL0YvQ2t2clVkbWkrSlBPT2Vp?=
+ =?utf-8?B?S0F4S05GSXlTTk5KY1VNWThVaEJ1eWlwS0xKMzBSaE9XWm5XS2dqbW01S1N2?=
+ =?utf-8?B?M0JXWlRKNnJnd2dvdktuaUNrU2xxQmJVNkpDQXFhQ2EvL2JpNHUzQThhTVht?=
+ =?utf-8?B?YklVeWlQZHQxMjBTaGNSRkRzaGlOeXViWmhURjJ5UlRXajFLMy9pYkI5Vmsz?=
+ =?utf-8?B?TzhnRXlCamZ3VGUvVVVDTGo2cmw4aGlkT2tpZnFKWjNGL0wrQW9PQjhNR0xi?=
+ =?utf-8?B?OCtwbGVwRDdvVHp6NXZHY3BHUlJiQW9HblRnc3daRWRsdzZuZWhuR0pTWXFK?=
+ =?utf-8?B?RWNQNkJ5MWxXRGl0OXVkczcrZHlMMmxCQy8xRUJ2NUZaTHZraEJKcVAxMVBq?=
+ =?utf-8?B?QkpYNktiYmRza3ZGMHBtZkR0NGJocGpPNURGNjRCRk80dHhFTWRjSEpiQXFr?=
+ =?utf-8?B?a0FtaGl0UG00QWpUcXJsbGlJc1lOVUhCaUUzeDNvMlBjNjIzYnE3MHdYczky?=
+ =?utf-8?B?VEE9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f4f8cbf-1808-4230-efb5-08dd65506a81
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2025 12:37:01.6251
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9T1AYrVnjqGWjXK+prwEH3MoY/E8F6Kbo1vyzZKROUhXaR94im7Vbp6UcTr4AuajP+P2Tt3K8YIdMee1hLfQRtgeqon4hJiMO6n2sGiTkj8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7132
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 12:25:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213084
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 12:37:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213085
 
-On Mon, 2025-03-17 at 14:20 +0200, Mikko Rapeli wrote:
-> Hi,
->=20
-> On Mon, Mar 17, 2025 at 11:50:58AM +0000, Richard Purdie wrote:
-> > On Fri, 2025-03-14 at 13:19 +0200, Mikko Rapeli via lists.openembedded.=
-org wrote:
-> > > systemd based initrd supports more security, encryption etc features
-> > > than custom shell script ones but oe-core lacks support for it.
-> > > Convert core-image-initramfs-boot to create systemd based initrd
-> > > if "systemd-initramfs" is set in DISTRO_FEATURES. Includes a test
-> > > for this initrd to mount rootfs via Unified Kernel Image uki.py.
-> > >=20
-> > > Sadly the boot time is really slow, e.g. over 30 seconds with
-> > > systemd based initrd. One of the major reasons is the large
-> > > amount of kernel modules built into the linux-yocto kernel and
-> > > processing of their udev events in userspace. Thus add
-> > > kernel-initrd-modules meta package to easily install
-> > > subset of all kernel modules to initrd. The subset
-> > > supports "mount rootfs from any block device" but
-> > > doesn't include graphics, UBS etc support. Without this
-> > > generated meta package, initrd recipe needs to manually define
-> > > which exact kernel modules to include which breaks if
-> > > those modules are built into the kernel. Thus the initrd
-> > > becomes machine and kernel config specific and hard to maintain.
-> > > With this meta package a generic initrd can be created.
-> > >=20
-> > > Separate changes to linux-yocto compile a lot more drivers
-> > > as modules but they depend on these initrd changes.
-> > >=20
-> > > Mikko Rapeli (6):
-> > > =C2=A0 systemd: use serial-getty-generator on genericarm64
-> > > =C2=A0 systemd: enable efi support if in MACHINE_FEATURES too
-> > > =C2=A0 uki.bbclass: drop serial console from kernel command line
-> > > =C2=A0 kernel.bbclass: add kernel-initrd-modules meta package
-> > > =C2=A0 core-image-initramfs-boot: add option to build systemd based i=
-nitrd
-> > > =C2=A0 oeqa selftest uki.py: add aarch64/arm test with systemd based =
-initrd
-> > >=20
-> > > =C2=A0.../recipes-core/systemd/systemd_%.bbappend=C2=A0=C2=A0 |=C2=A0=
- 3 +
-> > > =C2=A0.../kernel-module-split.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 46 +++++++++++
-> > > =C2=A0meta/classes-recipe/kernel.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
-> > > =C2=A0meta/classes-recipe/module.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 37 +++++++++
-> > > =C2=A0meta/classes-recipe/uki.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0meta/lib/oeqa/selftest/cases/uki.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 76 +++++++++++++++++++
-> > > =C2=A0.../images/core-image-initramfs-boot.bb=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 28 ++++++-
-> > > =C2=A0meta/recipes-core/systemd/systemd_257.3.bb=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 1 +
-> > > =C2=A08 files changed, 193 insertions(+), 5 deletions(-)
-> > > =C2=A0create mode 100644 meta-yocto-bsp/recipes-core/systemd/systemd_=
-%.bbappend
-> >=20
-> > Unfortunately this series seemed to result in oe-selftest failures on
-> > both aarch64 and x86-64:
-> >=20
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/1242
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1110=
-/steps/14/logs/stdio
->=20
-> Thanks, I will investigate these. I ran into various issues when executin=
-g
-> selftests on my aarch64 build machine.
->=20
-> Is the basehash error related to this series or something else?
->=20
-> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/1782873/raw_inl=
-ine
->=20
-> stdio: ERROR: When reparsing /tmp/selftest-fetchoxfe4t0p/test.bb:do_check=
-uri, the basehash value changed from 84b9e23a83a764e7a5d8a96ee523199e2b1c60=
-4f4280a45030e248de0ff52962 to 4123da244f465feffecb2b4fd2b132b64851981ec2fb7=
-0bf9445df8b0ea6a69e. The metadata is not deterministic and this needs to be=
- fixed.
-> stdio: ERROR: The following commands may help:
-> stdio: ERROR: $ bitbake test -cdo_checkuri -Snone
-> stdio: ERROR: Then:
-> stdio: ERROR: $ bitbake test -cdo_checkuri -Sprintdiff
-> stdio: ERROR: When reparsing /tmp/selftest-fetchoxfe4t0p/test.bb:do_fetch=
-, the basehash value changed from 6d55d6743729b615749dc016857d7e5f9c884a8b9=
-2f0d57f68e743f4910333d3 to fa7d6ea0563b60362418d2a6c5e41a6684183d01ec578b65=
-abd0c64a9cfba7cf. The metadata is not deterministic and this needs to be fi=
-xed.
-> ...
->=20
-> There are a lot of these.
+Hi Adrian,
 
-I don't remember anything in the branch that would do that. It is
-possible these are normal test output and only show up due to the other
-failures. The test output shows everything from that execution thread
-of selftest (due to the way python unittest parallelism was enabled).
+On 3/17/25 1:10 PM, Adrian Freihofer via lists.openembedded.org wrote:
+> Make the code slightly more robust by using e.g.
+> bb_vars.get('UBOOT_SIGN_ENABLE') instead of bb_vars['UBOOT_SIGN_ENABLE']
+> for variables which are potentially undefined.
+> This is a general cleanup but also a preparation for additional test
+> cases.
+> Log bb_vars in verbose mode.
+> Drop one no longer used log message.
+> 
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
+>   meta/lib/oeqa/selftest/cases/fitimage.py | 21 ++++++++++++---------
+>   1 file changed, 12 insertions(+), 9 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+> index 721628d8e73..60c9406489e 100644
+> --- a/meta/lib/oeqa/selftest/cases/fitimage.py
+> +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+> @@ -56,10 +56,10 @@ class FitImageTestCase(OESelftestTestCase):
+>           # Define some variables which are usually defined by the kernel-fitimage.bbclass.
+>           # But for testing purpose check if the uboot-sign.bbclass is independent from
+>           # the kernel-fitimage.bbclass
+> -        fit_sign_numbits = bb_vars['FIT_SIGN_NUMBITS'] or "2048"
+> -        fit_key_genrsa_args = bb_vars['FIT_KEY_GENRSA_ARGS'] or "-F4"
+> -        fit_key_req_args =  bb_vars['FIT_KEY_REQ_ARGS'] or "-batch -new"
+> -        fit_key_sign_pkcs = bb_vars['FIT_KEY_SIGN_PKCS'] or "-x509"
+> +        fit_sign_numbits = bb_vars.get('FIT_SIGN_NUMBITS') or "2048"
+> +        fit_key_genrsa_args = bb_vars.get('FIT_KEY_GENRSA_ARGS') or "-F4"
+> +        fit_key_req_args =  bb_vars.get('FIT_KEY_REQ_ARGS') or "-batch -new"
+> +        fit_key_sign_pkcs = bb_vars.get('FIT_KEY_SIGN_PKCS') or "-x509"
 
-> If there are any boot failures in qemu then I will have a look. The chang=
-es were not
-> supposed to change existing rootfs or initrd images. The new test in uki.=
-py
-> may fail on some configurations which I did no manage to test.
-> Maybe "uki.bbclass: drop serial console from kernel command line" is brea=
-king
-> serial console prompt on some machines. I'll try to reproduce.
->=20
-> Did the test run contain the linux-yocto changes which build a lot of ker=
-nel
-> drivers as modules? I don't think that is ready for AB testing yet, hence=
- RFC in
-> https://lists.yoctoproject.org/g/linux-yocto/message/14866
-> The changes were sent out in-reply-to this thread so it's possible some t=
-ool
-> picked them up. That could explain shell script based initrd boot error m=
-essage:
->=20
-> ERROR: There's no '/dev' on rootfs.
+I believe bb_vars is a Python dict? Therefore, we should be able to make 
+the above
 
-Those were not included.
+<var> = bb_vars.get('<VAR>', '<OR>')
+
+e.g.
+
+fit_key_sign_pkcs = bb_vars.get('FIT_KEY_SIGN_PKCS', '-x509')
+
+c.f. https://docs.python.org/3/library/stdtypes.html#dict.get
+
+EXCEPT if you want to handle the empty string and not just 
+"FIT_KEY_SIGN_PKCS is not defined".
+
+>   
+>           uboot_sign_keydir = bb_vars['UBOOT_SIGN_KEYDIR']
+>           sign_keys = [bb_vars['UBOOT_SIGN_KEYNAME']]
+> @@ -145,7 +145,7 @@ class FitImageTestCase(OESelftestTestCase):
+>   
+>       @staticmethod
+>       def _get_dtb_files(bb_vars):
+> -        kernel_devicetree = bb_vars['KERNEL_DEVICETREE'] or ""
+> +        kernel_devicetree = bb_vars.get('KERNEL_DEVICETREE') or ""
+
+bb_vars.get('KERNEL_DEVICETREE', '')
+
+?
+
+etc.. with the rest of the diff.
+
+>           if kernel_devicetree:
+>               return [os.path.basename(dtb) for dtb in kernel_devicetree.split()]
+>           return []
+> @@ -281,7 +281,6 @@ class FitImageTestCase(OESelftestTestCase):
+>                       key = key.strip()
+>                       value = value.strip()
+>                   except ValueError as val_err:
+> -                    self.logger.debug("dumpimage debug: %s = %s" % (key, line))
+>                       # Handle multiple entries as e.g. for Loadables as a list
+>                       if key and line.startswith("   "):
+>                           value = sections[in_section][key] + "," + line.strip()
+> @@ -377,6 +376,7 @@ class KernelFitImageTests(FitImageTestCase):
+>               'UBOOT_SIGN_KEYNAME',
+>           }
+>           bb_vars = get_bb_vars(list(internal_used | set(additional_vars)), "virtual/kernel")
+> +        self.logger.debug("bb_vars: %s" % pprint.pformat(bb_vars, indent=4))
+>           return bb_vars
+>   
+>       def _config_add_uboot_env(self, config):
+> @@ -441,7 +441,7 @@ class KernelFitImageTests(FitImageTestCase):
+>           fit_uboot_env = bb_vars['FIT_UBOOT_ENV']
+>           initramfs_image = bb_vars['INITRAMFS_IMAGE']
+>           initramfs_image_bundle = bb_vars['INITRAMFS_IMAGE_BUNDLE']
+> -        uboot_sign_enable = bb_vars['UBOOT_SIGN_ENABLE']
+> +        uboot_sign_enable = bb_vars.get('UBOOT_SIGN_ENABLE')
+>   
+>           # image nodes
+>           images = [ 'kernel-1' ]
+> @@ -475,8 +475,8 @@ class KernelFitImageTests(FitImageTestCase):
+>       def _get_req_its_fields(self, bb_vars):
+>           initramfs_image = bb_vars['INITRAMFS_IMAGE']
+>           initramfs_image_bundle = bb_vars['INITRAMFS_IMAGE_BUNDLE']
+> -        uboot_rd_loadaddress = bb_vars['UBOOT_RD_LOADADDRESS']
+> -        uboot_rd_entrypoint = bb_vars['UBOOT_RD_ENTRYPOINT']
+> +        uboot_rd_loadaddress = bb_vars.get('UBOOT_RD_LOADADDRESS')
+> +        uboot_rd_entrypoint = bb_vars.get('UBOOT_RD_ENTRYPOINT')
+>   
+>           its_field_check = [
+>               'description = "%s";' % bb_vars['FIT_DESC'],
+> @@ -506,6 +506,8 @@ class KernelFitImageTests(FitImageTestCase):
+>   
+>       def _get_req_sigvalues_config(self, bb_vars):
+>           """Generate a dictionary of expected configuration signature nodes"""
+> +        if bb_vars.get('UBOOT_SIGN_ENABLE') != "1":
+> +            return {}
+
+I would recommend to split this into a separate patch to explain why 
+that is needed.
 
 Cheers,
-
-Richard
+Quentin
 
