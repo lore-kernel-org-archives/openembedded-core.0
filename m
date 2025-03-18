@@ -2,62 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF78EC36000
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 18:38:55 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.2933.1742323128581139895
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0346DC36002
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 18:38:56 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web11.2874.1742323135419851653
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 11:38:48 -0700
+ Tue, 18 Mar 2025 11:38:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Sc+BYYw7;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ff797f8f1bso5776648a91.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:38:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cnb+CxOH;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2f9d3d0f55dso6749433a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742323128; x=1742927928; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742323135; x=1742927935; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1FkonGlWmIlM3IsS5leGH/uKmdN3husJG9W9mDrXSm4=;
-        b=Sc+BYYw7WlBIMADgvzfOjP5s5J+io+Sp9TMWlekSH2Dyx6qRXVUnOCMOumiVrezvO+
-         pr7wacY0nSO1EKRqvmHq0xRTmt5jm7EVXf9+WdvR8IbriM18Qic0Rwm77ZKhm1HVo5dG
-         qfmjhhkFDTzOyY1sqR7XWg5N+m32kUQupwfuR8S44bMyNvNQ5b17YSlXFED5PuRRloGg
-         e3kv0Ohp+JFxx4kTTVNuE9bOvi6iumokU5Fgplfrq9XmDLbCNoqwwyUAeRlQoEuVZ+sx
-         FIooBrmWfMeoHdKPV4RpVNhIYlsfi0qwzyh7olWIRon0tNkjxIib/QqTqZQu0rTMVClq
-         6vjw==
+        bh=oKrGjdHHjnR7jsgqadzmaAaILBEfzJQIsOo3GFgMEZI=;
+        b=cnb+CxOHs/rHTOzNAebxkYmV1K85z8+q11CC3dYuJhj0sDjTFfEETdusYwsWJgWIju
+         dSqB6+dTPhYi/Y8IzEYePhjYBs9TWrLiSqOj1CtWyhbswVApyCVKAh8D7AU5bH8IRRXU
+         SPyHqtjeDTsxWegtfb6g0vgDhO8jNGwACb/xhoD2rLh42cpAvumxpYIylI8ZMqAoTBu+
+         nK3+lnFxgXubGoM0/ceXv87EiG74ZcJEPuNQevhNQqNdd6qLwPnw9rq125J/prH4qApD
+         EJzDk/f++UTGkK0hWdngbjesGYNvItIE1W2FO9xsv7k6ZcvrCeWdKWKlriisOS99xpBV
+         vMYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742323128; x=1742927928;
+        d=1e100.net; s=20230601; t=1742323135; x=1742927935;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1FkonGlWmIlM3IsS5leGH/uKmdN3husJG9W9mDrXSm4=;
-        b=B6GSGJ0+5F8Y843cd8UOnfdTz59DDLPn28PskJm+pzKhHXNkCwN+gRjBsDzLgFcggS
-         0eRDLR4kI3SjcNCq/hOK6te6qrBfe1CaUn4/GHQwVEmMgo9sdTmztR0zhHzS8H54ZcAI
-         7ZYlA4wD8DhkYjpoDAkhRYvTl3ydd9aXOxXL9Xdf0k+ATBAKOTlASC0cQcj2NuDXz+H1
-         8tXXBNTdrSKdnKvK0RZerbALKh+IkOtb+erAQREdq83+ERDDj55nRqaYQ5ngtFqYO9hL
-         QZj3ajxMcrmHR5TgAsxO8TvfV1a6kUT3n4w1HDJGjcnr6axMCaVruovMbmi1xV/wGQkr
-         gjrA==
-X-Gm-Message-State: AOJu0YyLql9Zl4GZXXlO6/tDx4eO2l2u+pPN9m5e2lmjtrgpVpGWCDEs
-	QTsyUvJfxaaMBcPVMZmS7MaC5U4EIPogxmvtcZNsZOBIvsbFOc+rRasc0IZx
-X-Gm-Gg: ASbGncvEAuJ5xCsL2w2igDNx9WnOsgqWNimVZllIaCvKSYgUkAUpPFaOYWcSMA4UsNh
-	nMSkTWBQKKdbbC9333Zp8dDYdDpDvun2GDCHZiYv3HGtoYmlcf/tI3/iShdodnkVW+nU7S3qs0t
-	0TDHE/Bx391i/P5mJEaoFUP4JA/hQxowx40tBuEGo5Jc/RN3iye+qCqlulAwL3+OY7PUeaTyRtg
-	e1UvL6dhDmmoEBEOt1/Uzz7E1SVmRBCiCEb+p3YBUOfARqrM1NkhKz8bydHlq0Dy7j1taGKuNH/
-	xTizdbzBNZSwTSBK0vAZW30zAGjCa4RuF+pU
-X-Google-Smtp-Source: AGHT+IGi7Y++NNk3UJfQRTfUn92Ss2w32M209lBQ/M7kJBKP1gOHaiBjpvURmFmWgq3/RBliGGwB7g==
-X-Received: by 2002:a17:90b:1b51:b0:2fa:157e:c78e with SMTP id 98e67ed59e1d1-301a5afe9d1mr5437927a91.7.1742323127733;
-        Tue, 18 Mar 2025 11:38:47 -0700 (PDT)
+        bh=oKrGjdHHjnR7jsgqadzmaAaILBEfzJQIsOo3GFgMEZI=;
+        b=HbqsPRckXqf5AAmO2n73kNY02L8SKF04y8BwnxA6hGw/ntmlM/AXLe5+W7X8fO1fDb
+         IUlWkh60oM1JkBx9YlagEW23zuoNkBt1gRGVVYsEvF6pVlySig2j4uvJESe8g3ffUusS
+         re152NYbPFseQedWV2xOJiOCHxB5cNquejZYvUc5JPWjhgaVYrsTB660EzCeNTnQwV9b
+         D8rUAOIya0ClwzMNmpxfw66IDqZ7CSjdVYjsndOned1p65JB+nGPwZcnrEFPmCLLsEPy
+         Fyv1t96rLso9lIxYSTdvRxVCt4NaUk4gfV8v5D1xX5qF9/G0I8HtBmD/tGBUny6i6XRT
+         J9ng==
+X-Gm-Message-State: AOJu0YxveOj+e+Pv6FRHul4f+6B9cdHLalfgER78fcALe7xaGRkhqHxd
+	I7DtcqNMA65oiGi7ZIOdgxFOrUPoK0k9188B5+fv79tgK+V2/oTU15XgF65A
+X-Gm-Gg: ASbGncvCbOAGYPll9rQaJJVAckG0thCHvyUs4DKF8jiMIKQYtU6aXaoGmVmRZDhnhDN
+	8hakLbo3e8gRl+PVhoRFTLMG2kZGxQ4CgvF/SJsbBDRJLirS6pCXoDYVy+uZsTfMWrLUZNgt35N
+	zhwhidxXGi0MNyZku9zHNPrVrhtaF3gLPSzmxPjckTYLe2hJPUKhzkCmf8lxdXIsF3qQQvq8r3P
+	TxWjxGkJrFfA9450Kwi6BMBpiVWD8BS3T9ooQ2zLvvzI8e6zVvjgDH9Dj3lyIIiX0twx0iGbI1i
+	4cEFakXLhzxUwPW/Id5NqsWobBXsefN6N9wd
+X-Google-Smtp-Source: AGHT+IHmVK4mO8OiQnk/4nIspVqN1iHTS4z3o5NgbyF+mpmbItpv50oZH0SRCciQV7O5UBFS3lc6sg==
+X-Received: by 2002:a17:90b:5288:b0:2ff:502e:62d4 with SMTP id 98e67ed59e1d1-301a5b992e9mr4285482a91.32.1742323134572;
+        Tue, 18 Mar 2025 11:38:54 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153afee51sm8537489a91.28.2025.03.18.11.38.47
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153afee51sm8537489a91.28.2025.03.18.11.38.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 11:38:47 -0700 (PDT)
+        Tue, 18 Mar 2025 11:38:54 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Kai Kang <kai.kang@windriver.com>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [[PATCH v2 04/25] libpam: add ptest cases back
-Date: Tue, 18 Mar 2025 11:38:19 -0700
-Message-ID: <20250318183842.2256284-4-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [[PATCH v2 12/25] man-db: Add missing rdep for col utility
+Date: Tue, 18 Mar 2025 11:38:27 -0700
+Message-ID: <20250318183842.2256284-12-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250318183842.2256284-1-raj.khem@gmail.com>
 References: <20250318183842.2256284-1-raj.khem@gmail.com>
@@ -66,35 +65,37 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:38:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213230
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:38:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213238
 
-From: Kai Kang <kai.kang@windriver.com>
+man utility calls col utility internally when formatting is asked for
+therefore it expects col to be in rootfs otherwise silently errors with
+retcode 3 meaning 'file not found' in this case its due to col not being
+found, other distros eg. gets this via bsdextrautils dependency
 
-It removes the installation of ptest cases when upgrade libpam to 1.7.0.
-Add them back to make ptest work. And 2 more cases in libpam 1.7.0.
+libssh2 ptest mansyntax.sh fails due to this error, which now works
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Add util-linux explicitly to DEPENDS as system is not able to trancend
+rdep to dep due to special handling of packages in util-linux recipe
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/pam/libpam_1.7.0.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-extended/man-db/man-db_2.13.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/pam/libpam_1.7.0.bb b/meta/recipes-extended/pam/libpam_1.7.0.bb
-index 1be3c9e2bb9..4abc52bd93b 100644
---- a/meta/recipes-extended/pam/libpam_1.7.0.bb
-+++ b/meta/recipes-extended/pam/libpam_1.7.0.bb
-@@ -142,6 +142,12 @@ do_install:append() {
- 	fi
- }
+diff --git a/meta/recipes-extended/man-db/man-db_2.13.0.bb b/meta/recipes-extended/man-db/man-db_2.13.0.bb
+index 2178239bb60..e9fd3b5ac57 100644
+--- a/meta/recipes-extended/man-db/man-db_2.13.0.bb
++++ b/meta/recipes-extended/man-db/man-db_2.13.0.bb
+@@ -13,8 +13,8 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
+           "
+ SRC_URI[sha256sum] = "82f0739f4f61aab5eb937d234de3b014e777b5538a28cbd31433c45ae09aefb9"
  
-+do_install_ptest() {
-+    mkdir -p ${D}${PTEST_PATH}/tests
-+    find ${B}/tests -maxdepth 1 -type f -exec cp {} ${D}${PTEST_PATH}/tests \;
-+    install -m 0644 ${S}/tests/confdir ${D}${PTEST_PATH}/tests
-+}
-+
- pkg_postinst:${PN}() {
-          if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-                  /etc/init.d/populate-volatile.sh update
+-DEPENDS = "libpipeline gdbm groff-native base-passwd"
+-RDEPENDS:${PN} += "base-passwd"
++DEPENDS = "libpipeline gdbm groff-native base-passwd util-linux"
++RDEPENDS:${PN} += "base-passwd util-linux-col"
+ PACKAGE_WRITE_DEPS += "base-passwd"
+ 
+ # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
 
