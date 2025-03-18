@@ -1,100 +1,112 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8828C35FF3
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 18:57:26 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.3339.1742324238332056679
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26F73C282EC
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 22:23:11 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.100.1742336556261213934
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 11:57:18 -0700
+ Tue, 18 Mar 2025 15:22:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=T45MtRAs;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OmJ1grW1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010195aa9e04ae-2db86af3-3311-4acd-9f06-3d52bc8691ee-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742324237; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=FrGwwYharfyQCzv3qFiaWWfSSBEd9HmlTt287FHCS2k=;
-	b=T45MtRAsMLkm6UD+9WSwE/mdSS/U7hJoF5bZyBBOUlyXpixVS0s661TGpHFksN87
-	MCsWhodvoUh1uX8dNYYWIEgU8Mku25T4BmnnU92ZDMbojhRhwHC9S790bwgZDNEETVh
-	zCrbqP1skszsbg+9LXsCzTysP6iLLAqvC6WDlLHs=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742324237;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=FrGwwYharfyQCzv3qFiaWWfSSBEd9HmlTt287FHCS2k=;
-	b=OmJ1grW1aH801flR3ZcbIsoKUB7J9fILD/s4wVHUU9ltlTgcvVGPqOl6xYBv2GLj
-	43/Y2052I68irgY8VJC99JFUBR7AvFu1WqAgwg9l3ubfwlOo25c7cdvKkUd2Gs/U9dc
-	Y4fi4toPfIAzGxah+jKWxeDhEM8O9JZjlVN98nyw=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [[PATCH v2 14/25] libmatchbox: Fix build with gcc-15
-In-Reply-To: <20250318183842.2256284-14-raj.khem@gmail.com>
-References: <20250318183842.2256284-14-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195aa9e04ae-2db86af3-3311-4acd-9f06-3d52bc8691ee-000000@us-west-2.amazonses.com>
-Date: Tue, 18 Mar 2025 18:57:17 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.18-54.240.27.193
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bjESLEm8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4394036c0efso26404685e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 15:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1742336555; x=1742941355; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LdnloHgXRlfy40uChpDO060KnKixIavUwG68BpKr8Jo=;
+        b=bjESLEm8v/r8UHhhsRuDeYce9+kcaPcXXu/N911wjQQoBJKeOA7e9oYjRayMiGCUkO
+         ctfeXyN/b0t6eTMp6CkEPz0HeEzWiyGhxGZm1y0symvzhNYCElEisPXkmn2TeBq64dZc
+         25en43KAltaVZeAuMN79s4K/jQybKtsM68Ufs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742336555; x=1742941355;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LdnloHgXRlfy40uChpDO060KnKixIavUwG68BpKr8Jo=;
+        b=FWp2SblFIVnECEuvSDu0UZ/2EIs8uMZMcexXrCkjcLesFt8osYhyQ8zns7LNv2QhxY
+         OWDUB8uxMHr6fVGNumDwVSvgzcEUJPtlD8dRBPvu9r9iQ34aKpnl7Jp6FVy+iEhhW9DL
+         tVjM69/TAl6zEWFr0LFIZNnDfMwZ71QvDU2j6QPlFwOfbeiJQzoW4QPS9AQOYGSY6tXN
+         qPmr95bF6cAEZ96PCXOpQia1N88FZWFMJm+Jgb1on8jMMLYefSU1MSExPmstTQ5JbxYy
+         /WVgctoWaHsYStahAczZnYgSe9BNNQG+xKvJTRlh+55iDWGDZN/TuBx6sqoyAZBicKzF
+         Bedw==
+X-Forwarded-Encrypted: i=1; AJvYcCWykzfjTm/RFy7xfS+KcYClibRcOP26D6fA8Ctd42NhpeemdCGascZTeN2Fm2eseKeriNJgnlKBnlDqxlPyzc8byA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxJrQzUsU880h48NMjx9SS+g3sddYmFF9sLKewZ5z8K3Owvbo7u
+	kbRuXRnYPIECI0niWgCh82/MDYgnTAMyfrjyhKL82JKZv+IABPG13/bz1hhlwe0=
+X-Gm-Gg: ASbGncuOCj3Q2Ux3C2JB/+qnf7I6SXRNOzrJdcJQE9LDTPyUt9XApHuVNtg2+cxazzV
+	kUuXlurJvVF5h9T7uhTEJsCeObljLqDU6DjWULmBeRPjtULPqP1mCI5kIWJUBt5uiB+7RY+6SYA
+	WbvjeCSqEwP0327pp/7M15Y1WQXf9e8Q+OvXAZliEr7qy6BXBpKWVuA5m5orarqbtfXHRzQze/H
+	Kgb9guNX4vnkNedDS+C2kSJ2gWpK7ydKxHwU11+jim/iKbBVXrHaXHU9doKkJ1LY1I7SzmlLzaV
+	z+6JkgNtzXYOxFxDL0AWdR2YsIFPvU7W27uo/f2hCRK24kbt6n+xjIkoyWytdn139o1KJugkV82
+	HVbYD/3vV3N0E+jMOCN7LYRT4DTAgwxey9g==
+X-Google-Smtp-Source: AGHT+IH01m79du7bEKrRiHn3Wgz2kdX6gX/6+5e/euFk1RJPnntEhwqMEyfOjN13VZfBZ08MnnV0Hw==
+X-Received: by 2002:a05:600c:5391:b0:43c:f44c:72b7 with SMTP id 5b1f17b1804b1-43d437c3360mr2075475e9.14.1742336554623;
+        Tue, 18 Mar 2025 15:22:34 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:686c:8c32:99b8:c349? ([2001:8b0:aba:5f3c:686c:8c32:99b8:c349])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39971b56299sm1351870f8f.98.2025.03.18.15.22.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Mar 2025 15:22:33 -0700 (PDT)
+Message-ID: <83c9c92162d9c0bc1387c633f1464e67f57c70bc.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Issue: /var/tmp does not persist due to /var/volatile
+ being tmpfs in fstab #scarthgap
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: vs.yocto@outlook.com, openembedded-core@lists.openembedded.org
+Date: Tue, 18 Mar 2025 22:22:32 +0000
+In-Reply-To: <2962.1742314292470649522@lists.openembedded.org>
+References: 
+	<PH0PR11MB561183431E26C593148B543AEDDE2@PH0PR11MB5611.namprd11.prod.outlook.com>
+	 <2962.1742314292470649522@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:57:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213254
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 22:23:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213258
 
---NextPart
-Content-Type: text/plain
+On Tue, 2025-03-18 at 09:11 -0700, Vish via lists.openembedded.org wrote:
+> Thank you for the reply.=C2=A0
+> =C2=A0
+> In Scarthgap LTS implementation is different, but I got the idea.=C2=A0
+> https://git.yoctoproject.org/poky/tree/meta/conf/bitbake.conf?h=3Dscarthg=
+ap#n387
+> =C2=A0
+> I believe default behavior should be same as before to persist
+> /var/temp over reboot and these changes should only be required for
+> any customization. Also somewhat difficult for us to upgrade CI/CD
+> with this config.=C2=A0
+> =C2=A0
+> Can we know the reasons for original changes here?
+> https://git.yoctoproject.org/poky/commit/meta/recipes-core/systemd/system=
+d/00-create-volatile.conf?h=3Dscarthgap&id=3D3cc8c3520cedb66500757f843f7576=
+46da69ab30
+> =C2=A0
+> I reviewed commit message but not giving much details. Considering
+> default base-files and as persistence is required, this newer
+> approach seems be an issue.=C2=A0
+> =C2=A0
+> We recently migrated to Scarthgap and noticed the issues with our
+> system. This can be issue for other developers as well whoever is
+> planning to migrate to Scarthgap and embedded devices in the field.
+> This commit requires all build systems to adopt changes bitbake.conf
+> which is not preferable .=C2=A0=C2=A0
+> =C2=A0
+> What is the usecases targeted with the changes? I believe the commit
+> should be reviewed again and potentially reverted considering default
+> behavior with base-files and 00-create-volatile.conf.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+scarthgap has been released for a while now so making a change like
+this well into the stable release cycle would be a problem in its own
+right. I therefore don't think this can be reverted now regardless of
+whether it should have happened or not.
 
----
-Testing patch /home/patchtest/share/mboxes/PATCH-v2-14-25-libmatchbox-Fix-build-with-gcc-15.patch
+Cheers,
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Richard
 
