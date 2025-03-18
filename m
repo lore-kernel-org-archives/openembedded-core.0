@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A093CC282EC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5AAFC35FFC
 	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 18:38:55 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.2869.1742323133610406423
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web10.2934.1742323131206037470
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 11:38:53 -0700
+ Tue, 18 Mar 2025 11:38:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=O4gPp7YD;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2ff6cf448b8so7717067a91.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:38:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WNWY2S3n;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-301918a4e1bso3407173a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:38:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742323133; x=1742927933; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742323130; x=1742927930; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AhzkP8MEVpHWnx8XNSAlZP6Y3WdVRHIhXu6jRccd0g8=;
-        b=O4gPp7YDx0BmkXDozyM2F6WuZiCdNEbWTz3Lq4APdKELpNR5621vf10DkT2Miu0fC8
-         +tPfY9bQXdQYwYcbM735c9LGU4iPThzj7Zq7zVlv+OsQJzzPW/eQY72wI1roI+FPAqyo
-         tyIWC0DkBeliIEG6ifJPOs6RHQiXsybgeF8Y+f+XWjUGEmW5+HPjCDIoalRLg1NagjIi
-         y0oLxxaKmOW8xlYBw2Mc6SWk4dJ9j5kaeAWnjoWaPlR+QNNj5Waenr5Tc3JMMFOqoLVT
-         +kTmERSIAv9adzV6F0jPB+jtEiG1DiR9pB+2BC/5qfcGS+sLAA/vmyJPF9B8hGC4emKV
-         rf6w==
+        bh=e1//C5f+cDIyqp/SSDe+JcoDCw4ACDBF8//yc/IKcaw=;
+        b=WNWY2S3nA80vsPH2UPXHENZF8HAc/Zi+W2AU8fD8fsWWpMin0iegWkHSG4bFK9QvH1
+         r2mVXuCByVTd6Fy+QEBd4/OYZHitD3rovc6OEC7aB3isaWlxHrrFNGFFwR8tGPzS31CV
+         wP58GvGxvE7nQ/yL6ghbLMb2Xst+IE525h4gV0M/KIM748LhCx2hjfIUu56yQCLmIfvX
+         wvwx1bPaYt+mH+aEpdhmZrUt49yvORHWbSW7OqjxpCbwyS82IZD2UXAQf1YWDE2QqHpy
+         Ll0IJG8ZNZG5nw/qgxi1PHtOaEfkJYWJe1DykJcLMbnTiZXk3S/Mg1YIzwllPWN7Syrw
+         d+Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742323133; x=1742927933;
+        d=1e100.net; s=20230601; t=1742323130; x=1742927930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AhzkP8MEVpHWnx8XNSAlZP6Y3WdVRHIhXu6jRccd0g8=;
-        b=F5cdT79rpa1g2oYZelaD6hR8ZaR/pvFTG4QSXrjj+nowTko5QrbTzQeURkb/EqLrfp
-         3pVps4DLJf13POYgHUJ49AoXb9+wmonkG1w3k4pUODOL0qSRgVUoxCUZ9NXqvGa6S7JU
-         aBInuxyzxASp2iMmqLoJS2IQMAPh1iVodUNh34q8JwnzuqHm3FsfTGNsQFrDUz7gXf8+
-         gwJnCpyrZZGPlbxh2XUB+5PqxYHOTNFGCgakHZIHAnu40k8GS3jM98DGB+iN6AdG+zzP
-         9qZxZ6lX/zc0ioiKXRl0/dPb+pYus09wRTvP10wbfkAlRr+Dps+pavsVbb8lANWlc1r2
-         sQsw==
-X-Gm-Message-State: AOJu0YzEoCTqgX1n3xtv+iDMCnIogJRYdqMES92uajlbyljtRoNY13AZ
-	uZcH5OzUFXnBEref8s/Jlj6/uqfMqN+Wu66ZQEZtZu2QDVSp9HD7HHaY+JUl
-X-Gm-Gg: ASbGncsj/MkFexbYFbqXkgUxXgMf2IDXfQZWCnlUeXQSbctXAuqbT5GebOKY3MbSw7g
-	hz1iPyV780OFKvoVoxMbduALf1lJiSXd0LsDFF/nZ4scviw8LBMO7TijQh4KJ/232oG2befQZwY
-	69c9JYlWfd5uVaaaFNTdK267jl00uJTmlzu2N++8Ynd6Ya7nwCj3FU624/JtfAfQLih8pngY6bU
-	guHL2hG+bDGnkSm+qC5zg0WyIF5Fs2BUMml/QMuzVKRvtQzVIzNP35dAnbmPBBvwjSIaN6GXKFV
-	18gQT67FsH7z5BO80PW6fobT3sG/JTvuln2c
-X-Google-Smtp-Source: AGHT+IEFH+1+KIssCJV0+IKxg5TSwnaKqj+NhxtiabWCJ7DILWHADxRyaHxbUYr5KzM8itmwN9mWeg==
-X-Received: by 2002:a17:90b:4fc5:b0:2ee:ee77:2263 with SMTP id 98e67ed59e1d1-301a5aff206mr5836853a91.7.1742323132788;
-        Tue, 18 Mar 2025 11:38:52 -0700 (PDT)
+        bh=e1//C5f+cDIyqp/SSDe+JcoDCw4ACDBF8//yc/IKcaw=;
+        b=Z/zcQaXx0N5uDp8Sx4NEov0oMoxn2cYz07Let3BbJ5r5c6A/WRzxrHU4HA3nTIakTx
+         bCcqBrpbOtQerpbZFDcm56uhsFByESvhSgXp4/5K28Ma++90Z6jj1VifSc0eljjCAx+t
+         TgcALlo4sMTmWY6PSsPhknxTiRv0+z2C0VyJe+9TQQt6tV2r1RVjaC06z+V/Pybs9ApT
+         DK+1t7tDn9w6zkGG3M5153IihWlJGoQTQ9AclCG4XSZn5qq/Uarcxv+tjQhQklE078gP
+         UqQQrjcN5R/Z4hYWilBjKmY3BhBHiU8Ci6AkrlXiGtnLuYAxN9iGeH53sLSHPlKcU/20
+         2vhw==
+X-Gm-Message-State: AOJu0YwUedtlSzpLqXmVLapW7wQggrvsjmj9ZZgjQclypG3r7DaswIoQ
+	SDqlgZ/V8qoQlSyyMQCifLTWLHH0z5yhX97DT8BqKfGB8ZgyADVdt2klLkeo
+X-Gm-Gg: ASbGnctnRj6ihRA1jdfbV944/hej2wlkesMv85LQRYdkfNZHs7ewxmcm/7H319Sp0X3
+	xzH7CvOXy5+thghdfX9raQkp6c5MbZbcdY77aVY1DzsiyUvImZHi7rm4Fl+oUIcnLBqHBJOMVcf
+	XNbOBMfHR0FECl0fTDH7nY5qXUD1eFELRkNsnfGhNVD4IVAdD1xRr8EkuN8qe/0wdL0vizWRBdA
+	rOCuber95JkTqKEhS7CrglSxY01aH69xz7nL+y4fQGxqiIDhq8IAo7+jmtu8rjtleM0GlsIyP87
+	yiLeFz9vodjX8O+x19i4aEb1c6A8aP7oM9znP3+17tc6i8M=
+X-Google-Smtp-Source: AGHT+IGM6Ws6lWcF91SYOu8nqx8sZ41zbANee+P3DGPwze66IIwPr4Yxl6+Q7iqQyskwZTmUGKfLjg==
+X-Received: by 2002:a17:90b:54cf:b0:2fc:ec7c:d371 with SMTP id 98e67ed59e1d1-301a5b006c0mr4424240a91.3.1742323130365;
+        Tue, 18 Mar 2025 11:38:50 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153afee51sm8537489a91.28.2025.03.18.11.38.52
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153afee51sm8537489a91.28.2025.03.18.11.38.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 11:38:52 -0700 (PDT)
+        Tue, 18 Mar 2025 11:38:49 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [[PATCH v2 10/25] libsndfile1: Include <stdbool.h> instead of redefining bool true and false
-Date: Tue, 18 Mar 2025 11:38:25 -0700
-Message-ID: <20250318183842.2256284-10-raj.khem@gmail.com>
+Subject: [[PATCH v2 07/25] readline: Fixed build with GCC-15
+Date: Tue, 18 Mar 2025 11:38:22 -0700
+Message-ID: <20250318183842.2256284-7-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250318183842.2256284-1-raj.khem@gmail.com>
 References: <20250318183842.2256284-1-raj.khem@gmail.com>
@@ -66,96 +66,61 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:38:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213236
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213233
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...h-instead-of-redefining-bool-true-an.patch | 65 +++++++++++++++++++
- .../libsndfile/libsndfile1_1.2.2.bb           |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch
+ ...ages-that-are-not-compatible-with-C2.patch | 29 +++++++++++++++++++
+ meta/recipes-core/readline/readline_8.2.13.bb |  4 ++-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch
+diff --git a/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch b/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
 new file mode 100644
-index 00000000000..542a7838590
+index 00000000000..3bb4d539601
 --- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch
-@@ -0,0 +1,65 @@
-+From 0ba5ab2fb7f29a01dbe570c324011e8cffc89d82 Mon Sep 17 00:00:00 2001
-+From: Fabian Greffrath <fabian@greffrath.com>
-+Date: Tue, 17 Dec 2024 10:38:47 +0100
-+Subject: [PATCH] Include <stdbool.h> instead of redefining `bool`, `true` and
-+ `false` keywords
++++ b/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
+@@ -0,0 +1,29 @@
++From 9459ee899a291c55f08341df63e9a1b9b7af200a Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 16 Mar 2025 12:48:46 -0700
++Subject: [PATCH] Add fix for packages that are not compatible with C23
 +
-+Fixes #1049
++Fixes builds with GCC-15
++Sourced from Fedora: https://src.fedoraproject.org/rpms/readline/c/c47eb813afb942128253213ad5b8221770557e48?branch=rawhide
 +
-+Upstream-Status: Submitted [https://github.com/libsndfile/libsndfile/pull/1055]
++Help getting packages like bluez5 building
 +
++Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bug-readline/2025-03/msg00001.html]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ src/ALAC/alac_decoder.c | 6 +-----
-+ src/ALAC/alac_encoder.c | 7 +------
-+ 2 files changed, 2 insertions(+), 11 deletions(-)
++ rlstdc.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/ALAC/alac_decoder.c b/src/ALAC/alac_decoder.c
-+index 46d3330..1b4a87c 100644
-+--- a/src/ALAC/alac_decoder.c
-++++ b/src/ALAC/alac_decoder.c
-+@@ -26,6 +26,7 @@
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <stddef.h>
-++#include <stdbool.h>
-+ #include <string.h>
++diff --git a/rlstdc.h b/rlstdc.h
++index 2aaa30b..a7a0ef3 100644
++--- a/rlstdc.h
+++++ b/rlstdc.h
++@@ -44,7 +44,7 @@
 + 
-+ #include "alac_codec.h"
-+@@ -38,11 +39,6 @@
-+ #include "ALACBitUtilities.h"
-+ #include "EndianPortable.h"
-+ 
-+-typedef enum
-+-{	false = 0,
-+-	true = 1
-+-} bool ;
-+-
-+ // constants/data
-+ const uint32_t kMaxBitDepth = 32 ;			// max allowed bit depth is 32
-+ 
-+diff --git a/src/ALAC/alac_encoder.c b/src/ALAC/alac_encoder.c
-+index 599399a..f303311 100644
-+--- a/src/ALAC/alac_encoder.c
-++++ b/src/ALAC/alac_encoder.c
-+@@ -30,6 +30,7 @@
-+ // headers
-+ #include <stdio.h>
-+ #include <stdlib.h>
-++#include <stdbool.h>
-+ #include <string.h>
-+ 
-+ #include "sfendian.h"
-+@@ -44,12 +45,6 @@
-+ #include "ALACAudioTypes.h"
-+ #include "EndianPortable.h"
-+ 
-+-typedef enum
-+-{
-+-	false = 0,
-+-	true = 1
-+-} bool ;
-+-
-+ static void	GetConfig (ALAC_ENCODER *p, ALACSpecificConfig * config) ;
-+ 
-+ static int32_t	EncodeStereo (ALAC_ENCODER *p, struct BitBuffer * bitstream, const int32_t * input, uint32_t stride, uint32_t channelIndex, uint32_t numSamples) ;
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-index 2a1b96d5e79..63c1570621b 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-@@ -11,6 +11,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
-            file://noopus.patch \
-            file://cve-2022-33065.patch \
-            file://CVE-2024-50612.patch \
-+           file://0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch \
-           "
- GITHUB_BASE_URI = "https://github.com/libsndfile/libsndfile/releases/"
++ /* Moved from config.h.in because readline.h:rl_message depends on these
++    defines. */
++-#if defined (__STDC__) && defined (HAVE_STDARG_H)
+++#if defined (__STDC__)
++ #  define PREFER_STDARG
++ #  define USE_VARARGS
++ #else
+diff --git a/meta/recipes-core/readline/readline_8.2.13.bb b/meta/recipes-core/readline/readline_8.2.13.bb
+index 78b988365a6..19b5cb6f583 100644
+--- a/meta/recipes-core/readline/readline_8.2.13.bb
++++ b/meta/recipes-core/readline/readline_8.2.13.bb
+@@ -1,5 +1,7 @@
+ require readline.inc
  
+-SRC_URI += "  file://norpath.patch"
++SRC_URI += "file://norpath.patch \
++            file://0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch \
++            "
+ 
+ SRC_URI[archive.sha256sum] = "0e5be4d2937e8bd9b7cd60d46721ce79f88a33415dd68c2d738fb5924638f656"
 
