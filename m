@@ -2,125 +2,189 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0475EC35FFA
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 04:39:01 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.4273.1742272737691566590
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4049C28B2F
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 04:39:00 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.4304.1742272730898777606
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Mar 2025 21:38:57 -0700
+ Mon, 17 Mar 2025 21:38:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ReSRLH1J;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-225fbdfc17dso38564665ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:38:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GXqwDslL;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-22359001f1aso50782775ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742272737; x=1742877537; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zBRRqPDTmJZKWa94L6KKft2V9agPlHabHhPXheGBHxU=;
-        b=ReSRLH1JcKBT6+Di08XjsztMwE9aieVtACMDalaDbUG0BMPjLm2tMDeVRkFLPqJE7C
-         6hEgFTCqrd9WVs2U3JX2iDQExA1vdkeZ2AUuQExuJ+9fBUM3CmNH33v2vzoNaPNn7pK1
-         xO5yNr7YY9mHAVbgUm4gaMlosZ934eOIVrJZFLh+AJGflEOAK9aPw2y+6azcCH+ZO8LH
-         i+2Wgq0rb9tq5deUcSZxUvlqQWUY+UQjd8LMnjx4RWq3XYvMn/VkLzB41fzD4Z/ElK9S
-         j4Tncon2N+5BrFmWV1bKPldMs2U5oO/zFnmyrlei6kuLhGcDT/eZAcSzYcX25Rui0Cv4
-         cOlQ==
+        d=gmail.com; s=20230601; t=1742272730; x=1742877530; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ewqRR8VT87B87puFMp0A5okGQAGn48mMmTxWndsFaxg=;
+        b=GXqwDslLockdBlc84KXUi3L7XsrK/jmL3jfc91kfNIs/TZE0klbHKLJzvJvY2pu+zs
+         OroSPsF7P8WvdeCGXk198e33ijSMJqVJODxM8Y62D6mo06MzFsexs2V4ct8fSBITcMnq
+         FKqQQy1/qp2EBdppid+anEuoUu69Yj1bJahtvcTNq032QNS9wcTaFkX/Eyl1bCETuNu6
+         +lm5ZzavH3zqrvFR+cFN5celplldrjnMPVw2Ui0tQoKA3UcGWLc1QgYq+C8Gc+4slMnK
+         RqXFAlTVmomjx66go/0qeflLIxlLuFlwbug44SB0Th7510LVaQ9BpvmIQMG3bdX1u8Pq
+         o5Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742272737; x=1742877537;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zBRRqPDTmJZKWa94L6KKft2V9agPlHabHhPXheGBHxU=;
-        b=dU6rqZ6v7gzsRY6uuFt+sxSRuZQlyfBLRsT21Ast4wS6Bhf49Wi7xd7hfiYADQP4L3
-         9WucWLm0ReYhdPRvF0TsRxXJDOgr3TEtL0zDJtZz2cvlTJlqE3L3V+tJMqSNr7tzRW8L
-         InIE0OU0CkjiNshMnL8lB7fk9qcVMUFvP9vSrb6RxjW/zDN5bVFy5bfcyLsbWpjze2FI
-         To/g4Lbp8tg9f1rJotkF/NWJ5chc4q0gQ5vOCpUw5+F4hnsSGL6fkUzhofBoyvN8YuYP
-         sZtkZBMmtNNleT3kcVvdOcRZ1MF2I4RNtOd5O3eeSV8OuWehotbf3e9FWhGOlf46pYZp
-         dkPg==
-X-Gm-Message-State: AOJu0YyrYlIPfsljCYqnObbIxDZdAIlNQWqawFb68Ps4F2kGuHR1GNQH
-	4NqeS/CZ8Nvd7rTIk2NuFoP/Z690mIm6aUEOWEjhMSDNyxxU1flS9Ltq93L2
-X-Gm-Gg: ASbGnctlgfLW2aPdopcUR28IU0MBoQUU5n0d7ukWxuwZ5dCEjfFfCXqwHAqXWc1dfJv
-	9XiXeYVQLxHuCPXUmyUF2kwR0Qag891ep6mis3qy//7S0wEmXf7e5TEyhBFJzV9zyDZsRROqNTE
-	MOEebBfdnE7xSS3asotBNAr8nvg5bGerPHrLKUN1SkJhlAIzImAxZr+o/bNiIe3+vlkN/W4zNV7
-	0+ii5tJuRCfbxVSzMfDgEGB+rVjEUHX1l7UIgaq+zWpWtdXLSrWW+XVLxZB1RogrSuvBCP8IERN
-	ACmgDH3RFmjAUxm/nDN8yZXdk7WfxYfolZSjQS3FGlhfFRs=
-X-Google-Smtp-Source: AGHT+IFJJ+KHBKFkw82CLo5G/pOgniNOULEb1NIzBfgUwA4lVWpP1zp8hg0lkhXZKKbuNME6tqX3TQ==
-X-Received: by 2002:a17:902:d50e:b0:223:2630:6b82 with SMTP id d9443c01a7336-225e0a36298mr194031395ad.10.1742272736817;
-        Mon, 17 Mar 2025 21:38:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742272730; x=1742877530;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ewqRR8VT87B87puFMp0A5okGQAGn48mMmTxWndsFaxg=;
+        b=tFzF7rCoXOAipg45wKGD8jO10vxvG2pWwJGMUhCROiYcWBEemLh7hcUwEEp1FXkkaH
+         rNEU9o9OrykarSdOA/nB/jwZG/vrF10i/9cYqsi+w00IbozWVyY3ujbgBFhMpLTn/k34
+         gzqQtnAIGr+wXIqmccOJUEoTg2m2ydgKZ3wCQI5Z9+d1kpw+5eM7fed0L+smtjemI9eY
+         UAbENbzxOx5T890f8GKEsSqhMSi8b0vZBOEIq+yY9IhQLF10w7WEejSREKJ5MN/xH7b5
+         lLY0g/fcTgp4/HmoTRoV5cDQJJ3maTBI9C6lcF+c6kzQ9ZcgHW8DBLNOmITF2bOVXZy9
+         539w==
+X-Gm-Message-State: AOJu0YxvFECfQMuWFQb49YItTLL/tFvfgdSt55fUA0bbWaGCUnYAf2VW
+	eRKaNmq+FleRqyNM1TFEWoOWaYYmNuBq7YOu+VD4q0hRhvU6MF90G+5LNUgu
+X-Gm-Gg: ASbGncunenY4vOYo3fzohOJIvYaWEmZ4ZPA4NZb8zyRaO1BgkT0dAUGxK3aTTjBa3lV
+	EHLWTbSK7NASsvYDxmmtVqqwz00b6muMGXj1sWqW3fxCIAR8SQPgyNv1j1E0rlkQJEV8N5Z/hwm
+	Q0o/WbmmRRjHH223Xl6FFDMupuyMvnbgzPBBZpwYwLZ+xK0RclGHAIdvnbsG9EpXY0tm+2HNl6f
+	XkoZDgU1d3z5iJEHPRspAEj1HKQ8gxWC7pZv2fEpJyHdTRTiHKAqzaJOZALSj0uiq48rsi7YN0K
+	PPzB7hkvwQ3UkHjRo2P772uiJtOjoYgH0CGW
+X-Google-Smtp-Source: AGHT+IHw0VXr9TLm3A/rzj+HZotEURh7UUw5DpQ+FdpVY2JPMOKbKOwedUhKlsKpejCWJSQhfd/aXA==
+X-Received: by 2002:a17:902:ccc3:b0:224:a79:5fe9 with SMTP id d9443c01a7336-2262c580f3cmr27675505ad.30.1742272729851;
+        Mon, 17 Mar 2025 21:38:49 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbc8c6sm84112375ad.160.2025.03.17.21.38.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbc8c6sm84112375ad.160.2025.03.17.21.38.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Mar 2025 21:38:56 -0700 (PDT)
+        Mon, 17 Mar 2025 21:38:49 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 08/24] readline: Fixed build with GCC-15
-Date: Mon, 17 Mar 2025 21:38:28 -0700
-Message-ID: <20250318043846.2422141-8-raj.khem@gmail.com>
+Cc: Kai Kang <kai.kang@windriver.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 01/24] webkitgtk: 2.46.6 -> 2.48.0
+Date: Mon, 17 Mar 2025 21:38:21 -0700
+Message-ID: <20250318043846.2422141-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250318043846.2422141-1-raj.khem@gmail.com>
-References: <20250318043846.2422141-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 04:39:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213142
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 04:39:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213135
 
+From: Kai Kang <kai.kang@windriver.com>
+
+Upgrade webkitgtk from 2.46.6 to 2.48.0:
+
+* remove backported patch bmalloc-fix.patch
+* update context of no-musttail-arm.patch
+* add PACKAGECONFIG speech
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ages-that-are-not-compatible-with-C2.patch | 29 +++++++++++++++++++
- meta/recipes-core/readline/readline_8.2.13.bb |  4 ++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
+ .../webkit/webkitgtk/bmalloc-fix.patch        | 36 -------------------
+ .../webkit/webkitgtk/no-musttail-arm.patch    | 14 +++++---
+ ...ebkitgtk_2.46.6.bb => webkitgtk_2.48.0.bb} |  4 +--
+ 3 files changed, 11 insertions(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.46.6.bb => webkitgtk_2.48.0.bb} (97%)
 
-diff --git a/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch b/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
-new file mode 100644
-index 00000000000..69fea508908
---- /dev/null
-+++ b/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
-@@ -0,0 +1,29 @@
-+From 9459ee899a291c55f08341df63e9a1b9b7af200a Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 16 Mar 2025 12:48:46 -0700
-+Subject: [PATCH] Add fix for packages that are not compatible with C23
-+
-+Fixes builds with GCC-15
-+Sourced from Fedora: https://src.fedoraproject.org/rpms/readline/c/c47eb813afb942128253213ad5b8221770557e48?branch=rawhide
-+
-+Help getting packages like bluez5 building
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ rlstdc.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/rlstdc.h b/rlstdc.h
-+index 2aaa30b..a7a0ef3 100644
-+--- a/rlstdc.h
-++++ b/rlstdc.h
-+@@ -44,7 +44,7 @@
-+ 
-+ /* Moved from config.h.in because readline.h:rl_message depends on these
-+    defines. */
-+-#if defined (__STDC__) && defined (HAVE_STDARG_H)
-++#if defined (__STDC__)
-+ #  define PREFER_STDARG
-+ #  define USE_VARARGS
-+ #else
-diff --git a/meta/recipes-core/readline/readline_8.2.13.bb b/meta/recipes-core/readline/readline_8.2.13.bb
-index 78b988365a6..19b5cb6f583 100644
---- a/meta/recipes-core/readline/readline_8.2.13.bb
-+++ b/meta/recipes-core/readline/readline_8.2.13.bb
-@@ -1,5 +1,7 @@
- require readline.inc
+diff --git a/meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch b/meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch
+deleted file mode 100644
+index 37e0fdcbbdc..00000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 6ab7d3f7d8d0d8e1ab401d0fb13f60bbc64279a2 Mon Sep 17 00:00:00 2001
+-From: Thomas Klausner <wiz@gatalith.at>
+-Date: Thu, 7 Nov 2024 11:54:30 -0800
+-Subject: [PATCH] bmalloc: Build problem in bmalloc when X11/X.h is in the same
+- namespace https://bugs.webkit.org/show_bug.cgi?id=282693
+-
+-This avoids a build problem when the X11/X.h is included,
+-which defines Success to '0'.
+-
+-Reviewed by Fujii Hironori.
+-
+-* Source/bmalloc/bmalloc/EligibilityResult.h:
+-
+-Canonical link: https://commits.webkit.org/286295@main
+-Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/6ab7d3f7d8d0d8e1ab401d0fb13f60bbc64279a2]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- Source/bmalloc/bmalloc/EligibilityResult.h | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/Source/bmalloc/bmalloc/EligibilityResult.h b/Source/bmalloc/bmalloc/EligibilityResult.h
+-index ead7dbb52c07a..48f9e5bfe8a80 100644
+---- a/Source/bmalloc/bmalloc/EligibilityResult.h
+-+++ b/Source/bmalloc/bmalloc/EligibilityResult.h
+-@@ -29,6 +29,11 @@
+- 
+- #if !BUSE(LIBPAS)
+- 
+-+/* avoid conflict with symbol from X11 headers */
+-+#ifdef Success
+-+#undef Success
+-+#endif
+-+
+- namespace bmalloc {
+- 
+- enum class EligibilityKind {
+diff --git a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
+index c98d8b7727b..367e6b8342a 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
+@@ -11,20 +11,24 @@ this code is new in webkit 2.42[2] thats why we do not see the crash in older we
  
--SRC_URI += "  file://norpath.patch"
-+SRC_URI += "file://norpath.patch \
-+            file://0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch \
-+            "
+ Upstream-Status: Inappropriate [work around to avoid clang compiler crash]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Update context for webkitgtk 2.48.0.
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
+ ---
+  Source/WTF/wtf/Compiler.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI[archive.sha256sum] = "0e5be4d2937e8bd9b7cd60d46721ce79f88a33415dd68c2d738fb5924638f656"
+ diff --git a/Source/WTF/wtf/Compiler.h b/Source/WTF/wtf/Compiler.h
+-index c01ed849..b69b1527 100644
++index 16e416d..68dd9a0 100644
+ --- a/Source/WTF/wtf/Compiler.h
+ +++ b/Source/WTF/wtf/Compiler.h
+-@@ -290,7 +290,7 @@
++@@ -293,7 +293,7 @@
+  #if COMPILER(CLANG)
+  #if __SIZEOF_POINTER__ == 8
+  #if !defined(MUST_TAIL_CALL) && defined(__cplusplus) && defined(__has_cpp_attribute)
+--#if __has_cpp_attribute(clang::musttail) && !defined(__powerpc__)
+-+#if __has_cpp_attribute(clang::musttail) && !defined(__powerpc__) && !defined(__arm__)
++-#if __has_cpp_attribute(clang::musttail) && !defined(__powerpc__) && !defined(_WIN32)
+++#if __has_cpp_attribute(clang::musttail) && !defined(__powerpc__) && !defined(_WIN32) && !defined(__arm__)
+  #define MUST_TAIL_CALL [[clang::musttail]]
+- #endif
++ #define HAVE_MUST_TAIL_CALL 1
+  #endif
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
+similarity index 97%
+rename from meta/recipes-sato/webkit/webkitgtk_2.46.6.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
+index d1f24bbbf70..cb4e09662f7 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
+@@ -15,10 +15,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch \
+            file://no-musttail-arm.patch \
+            file://t6-not-declared.patch \
+-           file://bmalloc-fix.patch \
+            file://sys_futex.patch \
+            "
+-SRC_URI[sha256sum] = "f2b31de693220ba9bab76ce6ddfe5b0bfab2515cb2b0a70f3c54d4050766c32b"
++SRC_URI[sha256sum] = "94904a55cf12d44a4e36ceadafff02d46da73d76be9b4769f34cbfdf0eebf88e"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
+ 
+@@ -81,6 +80,7 @@ PACKAGECONFIG[jpegxl] = "-DUSE_JPEGXL=ON,-DUSE_JPEGXL=OFF,libjxl"
+ PACKAGECONFIG[backtrace] = "-DUSE_LIBBACKTRACE=ON,-DUSE_LIBBACKTRACE=OFF,libbacktrace"
+ PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,libmanette"
+ PACKAGECONFIG[sysprof-capture] = "-DUSE_SYSTEM_SYSPROF_CAPTURE=YES,-DUSE_SYSTEM_SYSPROF_CAPTURE=NO,sysprof"
++PACKAGECONFIG[speech] = "-DENABLE_SPEECH_SYNTHESIS=ON,-DENABLE_SPEECH_SYNTHESIS=OFF,flite"
+ 
+ EXTRA_OECMAKE = " \
+                  -DPORT=GTK \
 
