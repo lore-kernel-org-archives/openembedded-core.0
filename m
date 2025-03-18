@@ -1,152 +1,92 @@
-Return-Path: <vs.yocto@outlook.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AB59C282EC
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 03:17:10 +0000 (UTC)
-Subject: Issue: /var/tmp does not persist due to /var/volatile being tmpfs in fstab #scarthgap
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6ECDC282EC
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 04:39:00 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.4274.1742272739738701938
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 17 Mar 2025 21:38:59 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PO5Jr+72;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2235189adaeso87914555ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742272739; x=1742877539; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XPSfqcsFYCmDEIEBHfIYCnL+AQbT8jQB7KG0eCEwLOk=;
+        b=PO5Jr+721nAyniCtTiDkH/nuh3YyUtPeI2O/DIFLmuJStV9/zo4vagmv6i0/7yLzq6
+         uuN/yUxPCflqDPrwKU2L9l98LXksXyndirvRY/9eNSije2mvQa2fXyZD4gOTxhwIntd5
+         ZCAx8iWVxpI9bTpRWqQGNynXr0a3G+ZUPjp9ISp1DnF28oHuf13mNHsGoQsXxeJAD7tc
+         tsPySLM5agPWYL4nyOpD9tBX95WydfP6C5p6TtKyR7WMtdxa4qdC5qmEE/PCwo5BSYG9
+         ifC2cuzCFntpnyXbQy+ALyIns7vYD0VFo0vBDUslLyzMvMfFowAMz0keShUVi24lPnwW
+         kyeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742272739; x=1742877539;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XPSfqcsFYCmDEIEBHfIYCnL+AQbT8jQB7KG0eCEwLOk=;
+        b=gloApW9Zblrp2c4j7kr4F3UELrwzfjBhy78xXqZK0RKRwsXyNfQgL9EW8/De55nWW8
+         +G1YL6Q40robWMO+1BBcebAe7Wv1eBLHU5hwDurtw4Ag7BkZi5nKw9bkzYeWLq/JvTjg
+         MG8kbdRBpWbS5EkMGKyhqdq+E6JQDk/uGRwzaRfg6tZk/qyUu5W+G10GVO4hOpqje+Rf
+         NBHZ6nrbeVpca1UQbTR85wWFIDkAcx3Qu+/H2HajDRmcojYYfzKJdDUG/kadVpvvUUrx
+         QfrPQByTFS4q5Zed8SfxR9nv3RbVEvTcbhmD5ClPXTFFV0s/3KIfTZHTo8HplJNibjyO
+         aKWg==
+X-Gm-Message-State: AOJu0YxQsBlYvYUVOv9A6gFBAsdqzEcB46istjbKUiAP2ZNQZ7JLszOk
+	p3dYeLuT25n6e3YcH7Z1cd9nOGUWuu2mzfjRrc3UhzlrYVwN+sDYOBsrAtR2
+X-Gm-Gg: ASbGncuyHUwyAUl05/AGRg5Csb2xzhh4QAELAFdlAeuBUJA9F31VdxG71qtYQS6hs2D
+	OKQ7Dcc/w/fQHQOwcAk+XiifyfU6aTFja4PAunJN05N7hDbU06+J9g0lW7W0UMyJgrL9G9kJOcj
+	8gVoa6mEfVnLg5iWpNvu9kMSzqIHYcD872JnhK11tKMm+D9Gbftx1gutbfui7+eAX4cVXjZTih6
+	FG5YP6ikHsU7PmVYTL/hyYF/9gviEkkpE+vHmd0PtoFaJbK3iZe+PtxrdHa9KRfy3zelQLBhRw+
+	9GVyfIynDNkWXfsf3trXPoexU3sHTmQn27l9
+X-Google-Smtp-Source: AGHT+IH4Bmd7Sfp30Ci2JTsZ3iTTAYBdfxb38Jn5TSkAnjriRZPicsndCgmOX+qObSd/fUGburaY8Q==
+X-Received: by 2002:a17:902:f546:b0:220:ff82:1c60 with SMTP id d9443c01a7336-2262caec34bmr24086325ad.14.1742272738705;
+        Mon, 17 Mar 2025 21:38:58 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbc8c6sm84112375ad.160.2025.03.17.21.38.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Mar 2025 21:38:58 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-From: "Vish" <vs.yocto@outlook.com>
-X-Originating-Location: San Ramon, California, US (107.141.38.29)
-X-Originating-Platform: Linux Chrome 127
-User-Agent: GROUPS.IO Web Poster
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 10/24] tcp-wrappers: Stick to C17 standard
+Date: Mon, 17 Mar 2025 21:38:30 -0700
+Message-ID: <20250318043846.2422141-10-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250318043846.2422141-1-raj.khem@gmail.com>
+References: <20250318043846.2422141-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Date: Mon, 17 Mar 2025 20:17:01 -0700
-Message-ID: <ZACt.1742267821118468937.mtpo@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="bXj3DJ3ZDz2T5NSB0ukd"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 03:17:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213134
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 04:39:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213144
 
---bXj3DJ3ZDz2T5NSB0ukd
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+GCC 15 has switched to C23 by default and tcp-wrappers is old code
+pre-c99 and would need to be fixed all around to get to work in C23
 
-The current Yocto basefiles fstab mounts /var/volatile as tmpfs, which resu=
-lts in the loss of all files stored in /var/tmp upon reboot.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-fstab in base-files:
-
-https://git.yoctoproject.org/poky/tree/meta/recipes-core/base-files/base-fi=
-les/fstab?h=3Dscarthgap&id=3D3cc8c3520cedb66500757f843f757646da69ab30#n7
-
-Since /var/volatile is a tmpfs, its contents are lost on reboot.
-
-This commit might have introduced the issue - s ince /var/volatile/tmp is i=
-nside a tmpfs mount, it gets wiped on reboot, meaning /var/tmp is also clea=
-red.
-Commit - https://git.yoctoproject.org/poky/commit/meta/recipes-core/systemd=
-/systemd/00-create-volatile.conf?h=3Dscarthgap&id=3D3cc8c3520cedb66500757f8=
-43f757646da69ab30 ( https://git.yoctoproject.org/poky/commit/meta/recipes-c=
-ore/systemd/systemd/00-create-volatile.conf?h=3Dscarthgap&id=3D3cc8c3520ced=
-b66500757f843f757646da69ab30 )
-
-This commit links /var/tmp to /var/volatile/tmp
-*Expected Behavior*
-
-* /var/tmp should retain files across reboots, as per standard Linux behavi=
-or.
-* Using a symlink to a volatile tmpfs directory contradicts this expectatio=
-n.
-
-*Impact*
-
-* Any application expecting persistent temporary storage in /var/tmp will l=
-ose data after a reboot.
-* This behavior may break software relying on the standard /var/tmp persist=
-ence.
-
-Should /var/tmp continue following standard Linux behavior by *not being li=
-nked to /var/volatile/tmp* , or is this change intentional for specific use=
- cases? If persistence is desired, this approach seems problematic.
-
-Would appreciate input from the maintainers on whether this is a bug or int=
-ended behavior.
-
---bXj3DJ3ZDz2T5NSB0ukd
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><span style=3D"background-color: var(--light-mode-body-color);">The cu=
-rrent Yocto basefiles fstab mounts /var/volatile as tmpfs, which results in=
- the loss of all files stored in /var/tmp upon reboot.</span></div>
-<div>&nbsp;</div>
-<div><span style=3D"background-color: var(--light-mode-body-color);">fstab =
-in base-files:</span></div>
-<div><span style=3D"background-color: var(--light-mode-body-color);"><br />=
-<a href=3D"https://git.yoctoproject.org/poky/tree/meta/recipes-core/base-fi=
-les/base-files/fstab?h=3Dscarthgap&amp;id=3D3cc8c3520cedb66500757f843f75764=
-6da69ab30#n7" target=3D"_blank" rel=3D"noopener">https://git.yoctoproject.o=
-rg/poky/tree/meta/recipes-core/base-files/base-files/fstab?h=3Dscarthgap&am=
-p;id=3D3cc8c3520cedb66500757f843f757646da69ab30#n7</a></span></div>
-<div><span style=3D"background-color: var(--light-mode-body-color);"><br />=
-Since /var/volatile is a tmpfs, its contents are lost on reboot.</span></di=
-v>
-<div>
-<div>
-<div>&nbsp;</div>
-<div>This commit might have introduced the issue - s<span style=3D"backgrou=
-nd-color: var(--light-mode-body-color);">ince </span><code data-start=3D"12=
-10" data-end=3D"1229">/var/volatile/tmp</code><span style=3D"background-col=
-or: var(--light-mode-body-color);"> is inside a tmpfs mount, it gets wiped =
-on reboot, meaning </span><code data-start=3D"1288" data-end=3D"1298">/var/=
-tmp</code><span style=3D"background-color: var(--light-mode-body-color);"> =
-is also cleared.</span></div>
-<div>
-<h4 data-start=3D"1317" data-end=3D"1343"><span style=3D"background-color: =
-var(--light-mode-body-color); font-size: 16px;">Commit - </span><a style=3D=
-"font-size: 16px;" href=3D"https://git.yoctoproject.org/poky/commit/meta/re=
-cipes-core/systemd/systemd/00-create-volatile.conf?h=3Dscarthgap&amp;id=3D3=
-cc8c3520cedb66500757f843f757646da69ab30" target=3D"_blank" rel=3D"noopener"=
->https://git.yoctoproject.org/poky/commit/meta/recipes-core/systemd/systemd=
-/00-create-volatile.conf?h=3Dscarthgap&amp;id=3D3cc8c3520cedb66500757f843f7=
-57646da69ab30&nbsp;</a></h4>
-</div>
-</div>
-<div>&nbsp;</div>
-<div>This commit links <code data-start=3D"1104" data-end=3D"1114">/var/tmp=
-</code> to <code data-start=3D"1118" data-end=3D"1137">/var/volatile/tmp</c=
-ode></div>
-<div>
-<h4 data-start=3D"1317" data-end=3D"1343">&nbsp;</h4>
-<h4 data-start=3D"1317" data-end=3D"1343"><strong data-start=3D"1322" data-=
-end=3D"1343">Expected Behavior</strong></h4>
-<ul data-start=3D"1344" data-end=3D"1502">
-<li data-start=3D"1344" data-end=3D"1424"><code data-start=3D"1346" data-en=
-d=3D"1356">/var/tmp</code> should retain files across reboots, as per stand=
-ard Linux behavior.</li>
-<li data-start=3D"1425" data-end=3D"1502">Using a symlink to a volatile tmp=
-fs directory contradicts this expectation.</li>
-</ul>
-</div>
-<div>
-<h4 data-start=3D"1504" data-end=3D"1519">&nbsp;</h4>
-<h4 data-start=3D"1504" data-end=3D"1519"><strong data-start=3D"1509" data-=
-end=3D"1519">Impact</strong></h4>
-<ul data-start=3D"1520" data-end=3D"1704">
-<li data-start=3D"1520" data-end=3D"1621">Any application expecting persist=
-ent temporary storage in <code data-start=3D"1580" data-end=3D"1590">/var/t=
-mp</code> will lose data after a reboot.</li>
-<li data-start=3D"1622" data-end=3D"1704">This behavior may break software =
-relying on the standard <code data-start=3D"1681" data-end=3D"1691">/var/tm=
-p</code> persistence.</li>
-</ul>
-</div>
-<div>
-<p data-start=3D"1738" data-end=3D"1969">&nbsp;</p>
-<p data-start=3D"1738" data-end=3D"1969">Should <code data-start=3D"1745" d=
-ata-end=3D"1755">/var/tmp</code> continue following standard Linux behavior=
- by <strong data-start=3D"1802" data-end=3D"1845">not being linked to <code=
- data-start=3D"1824" data-end=3D"1843">/var/volatile/tmp</code></strong>, o=
-r is this change intentional for specific use cases? If persistence is desi=
-red, this approach seems problematic.</p>
-<p data-start=3D"1971" data-end=3D"2061">Would appreciate input from the ma=
-intainers on whether this is a bug or intended behavior.&nbsp;<br /><br /><=
-/p>
-</div>
-</div>
-
---bXj3DJ3ZDz2T5NSB0ukd--
+diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+index 8cf927153f0..05644b7db95 100644
+--- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
++++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+@@ -55,6 +55,8 @@ SRC_URI[sha256sum] = "9543d7adedf78a6de0b221ccbbd1952e08b5138717f4ade814039bb489
+ 
+ S = "${WORKDIR}/tcp_wrappers_${PV}"
+ 
++CFLAGS += "-std=gnu17"
++
+ EXTRA_OEMAKE = "'CC=${CC}' \
+                 'AR=${AR}' \
+                 'RANLIB=${RANLIB}' \
 
