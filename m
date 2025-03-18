@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58470C35FF9
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 04:39:11 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.4277.1742272742237003862
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3AF5C282EC
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 04:39:21 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.4316.1742272751767534124
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Mar 2025 21:39:02 -0700
+ Mon, 17 Mar 2025 21:39:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=E3l8/mOO;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-225477548e1so89082245ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:39:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=A6Ul7iXY;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22438c356c8so89496415ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742272741; x=1742877541; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742272751; x=1742877551; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Z80FLWYlIjF5wF1RqFcGBdgb45hxlD07i1vOHGwqVzE=;
-        b=E3l8/mOOJZbYTy3k7+37WslkIsokKMoLKRiCWER2WCUhdx8kgkn2rQ+m4671JGtD1f
-         J85tL12SPkGnqXWJif5wleGF4bUv8sBQRzVd2hQSUg5PovDa/aPomGu5MDiGXFTFv/Zb
-         9H+nVfNvl9eHzdL42sXtGcd7MaV6vXgfWWBudoVHBA5aU7THVgUrEJexO6pJGFNnzRQ5
-         mkU5yy/+KBCX3yyMiusg/hpvQ0k5yGdzhvNOXPiR8f10n3qJgOOZFW43KmnkCIFFK8DC
-         8gkK7QgfuY8oDh2mIpn+8uNARDtouZWhkyvP37b9Y2SaajMgYp4zJz/+2H6ws00wGIRB
-         bENw==
+        bh=VPHM28uBdjpHooxMXjSAs93HbFmeeD990oxPLiAte2E=;
+        b=A6Ul7iXYABCw/88ls+gk117NpNkkV5xKWwzCPUrPrvdWJxL6IzNLobZn1O1nJ4h39q
+         2+GHS1PXwr3ApnSVOMLjLcP2ts21JVow7GOo0DAni4TadV9dIRiwMgeoWgNhLVbaHpiI
+         9XqbVEXGHlQcNzkQqervWcaaTJSmbbf/nGm+6+zuf2XM2J5KYX50z7ss6PoRHObYebtV
+         Om45o3R2ax1zHx8pAZ4nwEjpF4akfDalEehrwA7gwsthYItxpkQ052tWlPAG/CDl+1OH
+         DmJELuf1SwqS/Eg0/8wgwhDWG134cMcJ48RO5hG9BgIB9Sn8kUemmq6Mtu1TPkjS1pVu
+         VjWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742272741; x=1742877541;
+        d=1e100.net; s=20230601; t=1742272751; x=1742877551;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Z80FLWYlIjF5wF1RqFcGBdgb45hxlD07i1vOHGwqVzE=;
-        b=gduVCUYyG4HBK5PPcPiXoTk758lNRu4SVRMvVopElr9Hffn58JP7SK+N4o4pwiqUQm
-         dDdXnZcPM8QlE9nUIhD50Az4BFQQ06lHYTIGo3uwRdMjhhZ0gbdLN+fQl9KFj1SqsoHl
-         K+SuwhuUOCC259BMdbBUQMvFFWV7DqN1eDciIwSfuyR2+9F7f7BUe3BCUgOrxngRMx4L
-         lHAwRZrcLcV2qF74D4+6beT+SAwnghXiZz2iGUHl34k98XGa21Kfax6G3sbVm0DFV1FV
-         jLW0jta4Ko+CtHB5c6cyhc9khSEAn13I0jQlpwI1Gv1Hq8vuRWzJUFxa73GaYspu1016
-         m9vA==
-X-Gm-Message-State: AOJu0YxkhmT4sw1xmVHppo5gnqsE6VEwrRvm5ASrMDmbszbV88eUPpE+
-	9aVvM/dRPd4p9XhEwzgFI9hiupddkfuZ8i8il5Pfietm9m2qOX9ZQoQSj/aF
-X-Gm-Gg: ASbGncsF5qbY4Ra7KCDieyJLPueKLQNk23iAYQv3L3zpaqGX2LRDHy0TlCvG+nWmSvq
-	tTNvKIPZ9VaiV/5Gh5/KOkpIa6yBnGf3MQ7rPqStDG/XcCr8qa3n9iSiAoksZRHdgQtZ/smgTSU
-	B6rJ4Ywq128fsM1QL527OnD678Tp0jk+NGXSljqf5dJYJM4o5RElgh5nkJz22b4asxjBkawfJDf
-	DOxq0sDVM/xXPlvrKwKKNdv//W3DHqlo14o+85zh2IFELNmISySvncJJQaFrTF9pBB3P/K4/20z
-	+zUHNpCozb37UtxMDEhbESlhniwJStsS0u2K
-X-Google-Smtp-Source: AGHT+IGHXnNTSJSfTnWOp9jWl6Nt50ZCspFjlNMMX77kjrjditVKd+X4h/9HYhqj8LpXyKP9wcR5zg==
-X-Received: by 2002:a17:902:e74e:b0:21a:8300:b9d5 with SMTP id d9443c01a7336-225e0a6e646mr203426685ad.23.1742272741427;
-        Mon, 17 Mar 2025 21:39:01 -0700 (PDT)
+        bh=VPHM28uBdjpHooxMXjSAs93HbFmeeD990oxPLiAte2E=;
+        b=Rm4t11j9q3CoPS8wZp8NqwJlCIOz7Nreb/QA13fDYUai0Oc3bPiWY1HxbyE9LflP31
+         pcQE5RjZFqJv2nyu9yFLypoFd1pOlQfZFy7HiIk9PDuBDxlZizkmjrMzqkMM05SAvS0z
+         TI+JOlj6T7ovXKgUp4kCKTjCWb8GanZQgCMlt8Wu3GldriGbSGdRRBDT26w4JxXJsiDK
+         XnVGfhd+jiUsc+3Y8Z8S+DJ1Kcl3pV1g+WX9RCRTgtrtp2GeGSYgQATgldx76ZClXeeZ
+         A2Z+5hzU3sJQ75CW2TIRwCe5VorAuc0W0QET6hWoAZOZENq7+eVT4CxjE3oxPA8xFPdw
+         7aCA==
+X-Gm-Message-State: AOJu0YxT5s34CVZGgkMwufJAyvVli2QqFeVllDFdn9sp11rQ2Oo08lGU
+	Rvog5WOJJDNbGMNgpelhvu3eZUL6X89xPKdtUwa4nhoPCOtsk3WiWA9XsrkU
+X-Gm-Gg: ASbGnctfaVAzGFvnH9tQGfvn886icUoUQNb9Ppw/uXt2JulMFZs6wBDkg0HiS8qr3Yv
+	PeM/HbZAYFFS+e/wt+l2PgItbNZlf0eMeYtsts+NIaCOhLBTQ7r+aAZJ6vJmP0PTMstnZh+OuVE
+	OML0ohvWjZTc7k5dSq8s+7z2+wLAUM0oBlWFypzQuzy7SYkC6mq1IE6ECQmkMiDjGS+lb7Upwqd
+	fJ0XB4muUCvhXsUJs9ylRAKcwyVQ2kYrecmwy8/AOS7/ludLS72VM+Zh3ru5IpASjEtjxlkrTaR
+	8hU3/VgLEUmtcqaWebVB0NL6S59tzuQlW3Th
+X-Google-Smtp-Source: AGHT+IGMlgoQPsXBeP8eKvKFOorj1PUKePFd9UCgv4/kV8dYPAlKP0uIERFTcXje6+tqtLwBesKbng==
+X-Received: by 2002:a17:903:2412:b0:223:5ca1:3b0b with SMTP id d9443c01a7336-225e0af4fe0mr208208095ad.40.1742272750949;
+        Mon, 17 Mar 2025 21:39:10 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbc8c6sm84112375ad.160.2025.03.17.21.39.00
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbc8c6sm84112375ad.160.2025.03.17.21.39.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Mar 2025 21:39:01 -0700 (PDT)
+        Mon, 17 Mar 2025 21:39:10 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 13/24] man-db: Add missing rdep for col utility
-Date: Mon, 17 Mar 2025 21:38:33 -0700
-Message-ID: <20250318043846.2422141-13-raj.khem@gmail.com>
+Subject: [PATCH 24/24] at: Remove mktime signature from posixtm.c
+Date: Mon, 17 Mar 2025 21:38:44 -0700
+Message-ID: <20250318043846.2422141-24-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250318043846.2422141-1-raj.khem@gmail.com>
 References: <20250318043846.2422141-1-raj.khem@gmail.com>
@@ -65,32 +65,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 04:39:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213147
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 04:39:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213158
 
-man utility calls col utility internally when formatting is asked for
-therefore it expects col to be in rootfs otherwise silently errors with
-retcode 3 meaning 'file not found' in this case its due to col not being
-found, other distros eg. gets this via bsdextrautils dependency
+This is in conflict with signature from system time.h
 
-libssh2 ptest mansyntax.sh fails due to this error, which now works
+extern time_t mktime (struct tm *__tp) __THROW;
+
+GCC-15 with C23 on, this is treated at error
+
+ posixtm.c:45:8: error: conflicting types for 'mktime'; have 'time_t(void)' {aka 'long int(void)'}
+|    45 | time_t mktime ();
+|       |        ^~~~~~
+|
+
+config.h is local include file to use quotes to include it
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/man-db/man-db_2.13.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/at/at/posixtm.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/man-db/man-db_2.13.0.bb b/meta/recipes-extended/man-db/man-db_2.13.0.bb
-index 2178239bb60..17bb2996531 100644
---- a/meta/recipes-extended/man-db/man-db_2.13.0.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.13.0.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
- SRC_URI[sha256sum] = "82f0739f4f61aab5eb937d234de3b014e777b5538a28cbd31433c45ae09aefb9"
+diff --git a/meta/recipes-extended/at/at/posixtm.c b/meta/recipes-extended/at/at/posixtm.c
+index 5514ba4fe26..bba8312d9a8 100644
+--- a/meta/recipes-extended/at/at/posixtm.c
++++ b/meta/recipes-extended/at/at/posixtm.c
+@@ -20,7 +20,7 @@
+ /* Yacc-based version written by Jim Kingdon and David MacKenzie.
+    Rewritten by Jim Meyering.  */
  
- DEPENDS = "libpipeline gdbm groff-native base-passwd"
--RDEPENDS:${PN} += "base-passwd"
-+RDEPENDS:${PN} += "base-passwd util-linux-col"
- PACKAGE_WRITE_DEPS += "base-passwd"
+-#include <config.h>
++#include "config.h"
  
- # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+ #include "posixtm.h"
+ 
+@@ -42,8 +42,6 @@
+    of `digit' even when the host does not conform to POSIX.  */
+ #define ISDIGIT(c) ((unsigned int) (c) - '0' <= 9)
+ 
+-time_t mktime ();
+-
+ /*
+   POSIX requires:
+ 
 
