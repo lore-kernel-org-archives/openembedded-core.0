@@ -1,85 +1,100 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1967C36003
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 06:22:12 +0000 (UTC)
-Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
- by mx.groups.io with SMTP id smtpd.web11.5353.1742278929138044005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8203C282EC
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 06:36:52 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.5540.1742279809813712036
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Mar 2025 23:22:09 -0700
+ Mon, 17 Mar 2025 23:36:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=BxuukDRy;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1742278929; x=1773814929;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=FOACTZOSTI+f2USwnjj+mPeqvew1MJgQd1aGubFh1mo=;
-  b=BxuukDRy3plGiswiH7NqyXLhm43W/pSBHoHBk2t7Y5CGgQczFoYGdbip
-   kNn7roinR4MfPH5vsqmFg4E2GwleGZgbECrGxS51KQ5xiK79mT4l0L8JR
-   L6QxR/kozzpF9htHvpS9S8APeEfCdTBp+AvqyMZUTjPa94a4/h/Orl0Ro
-   eHZcMA6vCSXVT8uLZ4Ui4cuAFXWbxkkGXNv2E3UQxkgUPUB3AfJHYZAo5
-   hCAKy331I7CbQRn1Zw1Gxe46pCCV6j1SWPdlJNAPCczyIl5vNMyi5mjXI
-   1S7QKsybQxQQzqGtP3YWooScFwChumOfPmBiFlcESCvuD/9JmsZz7SmQi
-   A==;
-X-CSE-ConnectionGUID: jc87fxQjTIuqTHvbzmbkIA==
-X-CSE-MsgGUID: EYMTCchSS0Wg7YnanKCAjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="193422761"
-X-IronPort-AV: E=Sophos;i="6.14,256,1736780400"; 
-   d="scan'208";a="193422761"
-Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 15:22:06 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 92C3CD4F41
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 15:22:04 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 54C14D50A0
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 15:22:04 +0900 (JST)
-Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id DD9261A0078;
-	Tue, 18 Mar 2025 14:22:03 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 02/12] at-spi2-core: upgrade 2.54.1 -> 2.56.0
-Date: Tue, 18 Mar 2025 14:21:42 +0800
-Message-Id: <1742278912-2989-2-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1742278912-2989-1-git-send-email-wangmy@fujitsu.com>
-References: <1742278912-2989-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fxBrrGAJ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=F5Al0Alp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010195a7f81746-ba9cd404-1b0a-4cdb-8e11-165d4b81c732-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1742279808; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=s9s4PN5oiad7NOp/oN0+18l9KwrTOcXH/7wIhK/JXY0=;
+	b=fxBrrGAJPk7EjAUq0md5fBSOYFVlrxK9qhXbApI/L6o63MIe3T6RZAfpJ4sf0Gr5
+	H1b9T7bDNd2u6Kd4SUL5gsikDTcNgVERprxVkJKuyaqGW93y5sGSgeIx80BI4f0DIWA
+	7T+PC/j7oe+EW4pO7CkxOLQpgqttcf/VfS5uTGI0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742279808;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=s9s4PN5oiad7NOp/oN0+18l9KwrTOcXH/7wIhK/JXY0=;
+	b=F5Al0AlpXSAMpcN/1NfndJAcah2BfQCnelwOSSt0r7nuEHkWD44SSroVKw5RJvAt
+	ln+qkP4Tqxo4f5uF7+Z0boWV+oszs/W4ZNYC5FOsRJhOmiYHvQ/q9jz3lHj3Uj8Xj87
+	RgZygJj7y1YoK7lbMXaT2cGamE3EObOR4le9F0o8=
+From: patchtest@automation.yoctoproject.org
+To: wangmy@fujitsu.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core] [PATCH 03/12] dnf: upgrade 4.22.0 -> 4.23.0
+In-Reply-To: <1742278912-2989-3-git-send-email-wangmy@fujitsu.com>
+References: <1742278912-2989-3-git-send-email-wangmy@fujitsu.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010195a7f81746-ba9cd404-1b0a-4cdb-8e11-165d4b81c732-000000@us-west-2.amazonses.com>
+Date: Tue, 18 Mar 2025 06:36:48 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.18-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 06:22:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213168
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 06:36:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213178
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../atk/{at-spi2-core_2.54.1.bb => at-spi2-core_2.56.0.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.54.1.bb => at-spi2-core_2.56.0.bb} (95%)
+Testing patch /home/patchtest/share/mboxes/03-12-dnf-upgrade-4.22.0---4.23.0.patch
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.54.1.bb b/meta/recipes-support/atk/at-spi2-core_2.56.0.bb
-similarity index 95%
-rename from meta/recipes-support/atk/at-spi2-core_2.54.1.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.56.0.bb
-index 17bb955f19..e897a12913 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.54.1.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.56.0.bb
-@@ -13,7 +13,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "f0729e5c8765feb1969bb6c1fba18afa2582126b0359aa75a173fda1acf93c4c"
-+SRC_URI[sha256sum] = "80d7e8ea0be924e045525367f909d6668dfdd3e87cd40792c6cfd08e6b58e95c"
- 
- DEPENDS = " \
- 	dbus \
--- 
-2.43.0
+FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
