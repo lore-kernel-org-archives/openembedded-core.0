@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5038CC36002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F589C36000
 	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 18:39:06 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.2939.1742323137077817053
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.2946.1742323142068188859
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 11:38:57 -0700
+ Tue, 18 Mar 2025 11:39:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MuNdsGit;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ff694d2d4dso5160155a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:38:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lf50qsid;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-300fefb8e06so6681886a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742323136; x=1742927936; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742323141; x=1742927941; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Not2OL6jS1+oGzZ+d3jIQHLqET8KaVvwVrxHBriJkpg=;
-        b=MuNdsGitRuk9Qw7FH7tnqEoGeuo2ych+qKbNLMyrXq4sUxKnouc4rwKruYbiKXP/JW
-         K+8YXJHGhPqFgUwZ8ROXvqFpS26oKeEAPK7A0siRw0st3xW4uM/BxwoAImjzAg+eSGl+
-         F4B4JUEJaLLB9gSkTbQik0GHCNJkSvytHI+JNUMWk2sHVbbxPIbRqf2T+wgGY0l6NRCv
-         R4sjFOIYH+hy+wvFEj1YZItWDwrIwzZuSwtouDeFvLq0ly921MYNPAge5FBCdluofKj4
-         aSVg78szoRa5NpyjtuHjbly+vctI5mRya3darYXgubdiP7zGXyD688QPqlLQkHiZQ9V5
-         Yc1Q==
+        bh=Ax+aVWiUr1vKokyCy6KsuxLt8SS/aV0dFC7ojI1gB0M=;
+        b=lf50qsidNEFpeHumNsdtXRzsvhVROWL5W9AMS19qtumPyFwjL/pkcu5LG6sPa8+28L
+         cseWTsyGeRMebW6eQWVUBUg8hLdBo7x4AtZcXnkIyosZ5QDHGlbVJw3bJ+9yU/p8A6bw
+         hJKnd0Va5V8dN1s7VE0JRwiqY9ZyJaCXDKl78Lsx7TAGydaHXeLt5g5g9XBb97Lokfn9
+         LLr9THpAvhHaQet0LNIxz3dNKYNUOfJnlz2dTQNIitCzZIT3+4XmaNsMyynIWbLMjVdx
+         M3MTEm2H9MjLT/4m5VMJV7KKw4TyP1XMR69lG1UWCz2tMpxkmX162toh5WunKRCX3ae4
+         ii4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742323136; x=1742927936;
+        d=1e100.net; s=20230601; t=1742323141; x=1742927941;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Not2OL6jS1+oGzZ+d3jIQHLqET8KaVvwVrxHBriJkpg=;
-        b=OCKs1TYB3oMWt1z8bAvNzM4SrPpd4NdVGzxs+vBpssdpcVN81f9nW+DquVxKfHowIA
-         W8PnzZP/FmhtF+JYKG1N027lZ3PxemYvtsqn58KhvLp+Y1vzrRoz3mA7TZalvxLH+tXR
-         og5EXA1PK4yM66p3bo2FsMxALka4EINx02NUN+NK+hVhPkSh+yzslaeqyEVjMFO3Cb+L
-         ZMnXAiYna4pk8p1j2lGyjx79AUeLCuwF5Kxgw3mwz3tb2SMjfP0WXHPR0TpoI/nSJgKR
-         zrkavINfFmyQAU/p8qDMNC2Nm1WRRMe17w4XDImjDg2U8TcqVtFENQUnoSkavlk17cGg
-         FlMQ==
-X-Gm-Message-State: AOJu0YzS17tCxZJLb91vv2x2BxSCyLiVZIQ37EHez1sFlX30tmJlQAaK
-	CNJIv0jnHjDp969hjisK5TJI8m1NjP36tl0cwgEVzNZtVCcpdEuqvPIzIbPk
-X-Gm-Gg: ASbGncvtlux1tApipkTmWSVWP/4nO6qXK/lKDPzmcOD2THgvXpFeRoF4hf72kR0vahF
-	cJLNrTimZSmruB8ChK+AmEw24tZEeUzzKxD7umAKcFLwsWx4zc9TGoVlaUPXNXXtkfvMdb1EM3k
-	l7bF6YmL4eLss8hqtN5pugT2gejvfv7H46bw0mKTST/4g/2zt+tgpKY4yTqeQBLzx5zJLoY5Uvc
-	xhD/+OCc8CqD4oOlBPcKYfTJKqXH+KKc3eZXHnU83Ykpz8GWQzieN3yC4DoUl1RB+6+M9IT8ryV
-	3Lx1hfMgHDONJAN8zdt9xduDsXE401GA9mOz
-X-Google-Smtp-Source: AGHT+IGOqYv1tY/vBMQXM12tkhYliN1rP6ci9YyM82ev6q+6r6zdnesZgD4Ovj4LeZqDCaEi8YiDWA==
-X-Received: by 2002:a17:90b:38cd:b0:2ee:7c65:ae8e with SMTP id 98e67ed59e1d1-301a5b12eeamr4774763a91.11.1742323136269;
-        Tue, 18 Mar 2025 11:38:56 -0700 (PDT)
+        bh=Ax+aVWiUr1vKokyCy6KsuxLt8SS/aV0dFC7ojI1gB0M=;
+        b=iu6kXzmo6BpO8dqH1rf5ywxzxyFd+X/XNFD2Bao9i4IxK1YZw6O/NpMk9jmBUZuIbG
+         4mJiXuTwFh+HTd3EIe3tD7hOTePMX6422tsKoLNl85ubeVSy8VgMeFrbqIrYne6Ke9G/
+         MoUoZ+o6+G4/POvBDPpTqgYpWUOoFDcgoyEDF1MyJHNX0Xx0xJabB4TDZZAdO5c8r3wn
+         nzYMlYS/YjeC5kZcqlslp6Fs8IVmGhR1jArsdoVwGOSecrH3mGn7ZVaCpPb28tWYFbGb
+         4Gllt7QWx46BUTGQ3XDahotzKbknLqw0VBEuPPEc0ar1PKJ6QFGetRlIPal5VLCsFHiU
+         G9nQ==
+X-Gm-Message-State: AOJu0Yx5KgJsyAjHaxYVBAKihHhPs+Lt80ttLWiTplEujgJwP8FsGgk9
+	6bOQxKkT9BtxzAdB/Q2eQo+z9m5wSgNj/VYgdjam6/XLxJr839yKYdInPA75
+X-Gm-Gg: ASbGncucs55vuL3iVEImE4mOMu+pdLNZClhlCnPCnxuRWLtkGILZcOSwF34TvqO38iB
+	bg+tq7uYFig7XO8/9r9Wy+VsH1F8fbj6Uinh3Dp3U1sCSDqKFbujlJg+MVWOs3S7EkF5/4rGgRL
+	5mTuKZKCbADlcKC+OS8QUP4o2RBK4GK4gloemWEf7DB4HzDObJdrq9r//mKGcUQDJetb2NwXc+M
+	qDvXTu5J34Gb+7V/jW2GDFJax35siOcY+12b6wJIhp0LjadGPNnJN1tgs7qly/DMoWFFgC5va5j
+	MgS3719Arsh8zg1GSJEq8bQaGGPBO0U60m1B
+X-Google-Smtp-Source: AGHT+IGWl9EyyPsi8ClvOwtocgw6viTENnSC7Tauc+bIqu2bGOo/ROumONbm1lz7+SPTH8ij7az74Q==
+X-Received: by 2002:a17:90b:4c86:b0:2f4:49d8:e6f6 with SMTP id 98e67ed59e1d1-301a5afed94mr4429363a91.3.1742323141261;
+        Tue, 18 Mar 2025 11:39:01 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153afee51sm8537489a91.28.2025.03.18.11.38.55
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153afee51sm8537489a91.28.2025.03.18.11.39.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 11:38:55 -0700 (PDT)
+        Tue, 18 Mar 2025 11:39:00 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [[PATCH v2 14/25] libmatchbox: Fix build with gcc-15
-Date: Tue, 18 Mar 2025 11:38:29 -0700
-Message-ID: <20250318183842.2256284-14-raj.khem@gmail.com>
+Subject: [[PATCH v2 20/25] cronie: Resolve build failure with GCC15
+Date: Tue, 18 Mar 2025 11:38:35 -0700
+Message-ID: <20250318183842.2256284-20-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250318183842.2256284-1-raj.khem@gmail.com>
 References: <20250318183842.2256284-1-raj.khem@gmail.com>
@@ -66,29 +66,74 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:39:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213240
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213246
+
+Fix function prototypes for C23 to work
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../make_error_func_prototype_complete.patch  | 41 +++++++++++++++++++
+ meta/recipes-extended/cronie/cronie_1.7.2.bb  |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-extended/cronie/cronie/make_error_func_prototype_complete.patch
 
-diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
-index bf3f5c005d9..e99b66855e1 100644
---- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
-+++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
-@@ -15,10 +15,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
+diff --git a/meta/recipes-extended/cronie/cronie/make_error_func_prototype_complete.patch b/meta/recipes-extended/cronie/cronie/make_error_func_prototype_complete.patch
+new file mode 100644
+index 00000000000..71f0153ec6f
+--- /dev/null
++++ b/meta/recipes-extended/cronie/cronie/make_error_func_prototype_complete.patch
+@@ -0,0 +1,41 @@
++From 09c630c654b2aeff06a90a412cce0a60ab4955a4 Mon Sep 17 00:00:00 2001
++From: Tomas Mraz <tmraz@fedoraproject.org>
++Date: Mon, 18 Nov 2024 21:02:30 +0100
++Subject: [PATCH] load_entry(): Make error_func prototype complete
++
++Fixes #193
++
++Upstream-Status: Backport [https://github.com/cronie-crond/cronie/commit/09c630c654b2aeff06a90a412cce0a60ab4955a4]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/entry.c | 2 +-
++ src/funcs.h | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/entry.c b/src/entry.c
++index 586eb9d..a2077e8 100644
++--- a/src/entry.c
+++++ b/src/entry.c
++@@ -90,7 +90,7 @@ void free_entry(entry * e) {
++ /* return NULL if eof or syntax error occurs;
++  * otherwise return a pointer to a new entry.
++  */
++-entry *load_entry(FILE * file, void (*error_func) (), struct passwd *pw,
+++entry *load_entry(FILE * file, void (*error_func) (const char *), struct passwd *pw,
++ 	char **envp) {
++ 	/* this function reads one crontab entry -- the next -- from a file.
++ 	 * it skips any leading blank lines, ignores comments, and returns
++diff --git a/src/funcs.h b/src/funcs.h
++index 427e027..f28d634 100644
++--- a/src/funcs.h
+++++ b/src/funcs.h
++@@ -89,7 +89,7 @@ char		*env_get(const char *, char **),
++ user		*load_user(int, struct passwd *, const char *, const char *, const char *),
++ 		*find_user(cron_db *, const char *, const char *);
++ 
++-entry		*load_entry(FILE *, void (*)(), struct passwd *, char **);
+++entry		*load_entry(FILE *, void (*)(const char *), struct passwd *, char **);
++ 
++ FILE		*cron_popen(char *, const char *, struct passwd *, char **);
++ 
+diff --git a/meta/recipes-extended/cronie/cronie_1.7.2.bb b/meta/recipes-extended/cronie/cronie_1.7.2.bb
+index 496ca39fd71..b250717ab81 100644
+--- a/meta/recipes-extended/cronie/cronie_1.7.2.bb
++++ b/meta/recipes-extended/cronie/cronie_1.7.2.bb
+@@ -17,6 +17,7 @@ SECTION = "utils"
+ GITHUB_BASE_URI = "https://github.com/cronie-crond/${BPN}/releases/"
  
- DEPENDS = "virtual/libx11 libxext"
- 
--#SRCREV for 1.12
--SRCREV = "e846ee434f8e23d9db38af13c523f791495e0e87"
-+PV .= "+git"
-+#SRCREV for 1.12 + 1 patch for gcc15
-+SRCREV = "312c04b6ba60dca0d6c4a7d1393f0ec816a265e3"
- SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master;protocol=https"
--
- S = "${WORKDIR}/git"
- 
- inherit autotools pkgconfig features_check
+ SRC_URI = "${GITHUB_BASE_URI}/download/cronie-${PV}/cronie-${PV}.tar.gz \
++           file://make_error_func_prototype_complete.patch \
+            file://crond.init \
+            file://crontab \
+            file://crond.service \
 
