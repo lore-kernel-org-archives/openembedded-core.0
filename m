@@ -2,92 +2,94 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 205B7C282EC
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 16:31:26 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.web10.1233.1742315481507085100
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EB19C35FF3
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 16:46:06 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.1679.1742316364814666608
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 09:31:21 -0700
+ Tue, 18 Mar 2025 09:46:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=g86o01/H;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6e8fb83e137so47902226d6.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 09:31:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MFxrxUFg;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3913b539aabso3714305f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 09:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742315480; x=1742920280; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eCllkZcNfrC5wS7OT3Fk35ND/3M1dJ8pcqiLuHO1k9I=;
-        b=g86o01/Hm9G6hYIFaNdu422gHXJTgAxZZZBx0Ciibao0/5yjCP1zR1q8O1CTHy8EFA
-         gfS4jR8i2wHXZ3YKy7hg7QA0cUIsrW6BA6IAazs3Ip0rCMXF2AaWFupaTPgECVrArE6v
-         UWbxXL1Hhq8E9fhinZ4R7orntk8zQ5g1Ov6iUhlev29jQiR0rijpQMkeVVGzGDjp/Gmh
-         rRMcVVSWCUTMDTF3inRSchwWQ13ltgRf1jFzQSCrxh+czyu2SZqR/oWPl8vXqbqc6+Ss
-         HoVgdbuxzyp2XJ13yWTk57Jeb/If5/Zj3vBSpaa7pHKQpR+0FFlpDBwyOticK7BI2DON
-         G/qw==
+        d=gmail.com; s=20230601; t=1742316363; x=1742921163; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wyuRtJ4fHIsE6DFqbYks1Ld3Udw+zFV2N8BvAQqCZR4=;
+        b=MFxrxUFgM9JvZkVf6El1bEamYoTzfLdBn8smBQVZU+uFGtcqz4gsbj/sYxIdCE5/cw
+         jtVX7RyMkseA4lzwFoDSQ+lot6FQsAE0REqbQn0C7VaXxUmNAP19KCXu0Ta9yx9OPaK3
+         SEFmZngWulaGq83kqI5WpmlG8ygNsdi65U03DQ1cJwsa4JhvF7ReQ6e2HebpxaloCLBS
+         yWgIro7wMXl00wXLCJ/xHHc4icbXbHZod8iyuks5q6ArUzBB2altF9lZ+zPnPbrWWrR8
+         iUnAujAO3d7BQimfkhc8lA0DUW+K1g5/7l5l0t3tTB8L2MrEs9+J4noXnBfYf6WQHg7F
+         RUbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742315480; x=1742920280;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eCllkZcNfrC5wS7OT3Fk35ND/3M1dJ8pcqiLuHO1k9I=;
-        b=Q1wpt7VpvQBiZzjf1W2eR1tC0fS0HlOqavnGCmGKp5EX92xFxf6+LhePIcax4su0oG
-         iehEb8E88WCOLBIx2E9VHLWpA8rnwahHYP1i3zLbKlJDtSRmERjRMI1UxioqUtFY8z6X
-         oKwMUkU9KELrGywvICc2IvpU2DXBAYU1MYOtsbjPk9gGAQN+5aAwxTQOL46rRM4wnKG1
-         hkPpkYcne4cx8gO48wvMecjd+57XoZQeoOgisxWFWf9GoU4MN6+sGArqKQys/9MC2275
-         5zBbe6KvWGVELwFieMLUDRLPyiJfoVfprIYtl5/2nNOWMVLPgKb0SgImWBofc11v593+
-         CEkw==
-X-Forwarded-Encrypted: i=1; AJvYcCXZrPKqqmVuEUC8ntTalMASeQkMY7HNYyNWoOuVflCWVehiVbBy9Ykzqh28Lgd0pv8b5S8DU9HFcFA3c5BfTnFOcQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxy+Llo6TuyYnEi2zkCI9pEUXkZl/xBvjr87U/Hh4iQ+fX8ydIp
-	ynsymzolZpNndvX2FMD0OBlKClXdecrlg6T3r/ymsuAlb5tihBOP7lkjQJflN3p//wLZAH5mkwq
-	DbgQ135SFzLmU9/Ay4UyhoJNWK8s=
-X-Gm-Gg: ASbGncvjFHQ9fap2eBJI6cGYYG/nuhnmIOzD2GzdJXgudpJKYDt5JPF027bacjgUHxL
-	RPq/D4J3VcYdLsTXxsGWDP5M66bX3clKyCGVOZhMnFHJ5NdQNBHti5WLjH75JHHerxzC+AeDNDo
-	fo/x0YxrwNXvjVurzKan4EQPiatwFjobLvl1nv91XtTcyzbCmS7HiioVoACeqN
-X-Google-Smtp-Source: AGHT+IE8JDM95ZvDk5NObyk4/QGv2dGaGD0gvJJdeTPzP7bQ/QDGaL+p/AkJP4bv29J7VZ0LltHtwdtoxz9hoVpSbYQ=
-X-Received: by 2002:ad4:5dca:0:b0:6e8:f4c6:6813 with SMTP id
- 6a1803df08f44-6eb1b83f886mr58568306d6.13.1742315480535; Tue, 18 Mar 2025
- 09:31:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250318043846.2422141-1-raj.khem@gmail.com> <20250318043846.2422141-5-raj.khem@gmail.com>
- <CANNYZj-_OsiNMuYvm8iVDvKrvcnGujFqN9_in_cB9qj-gdqVBg@mail.gmail.com>
- <CAMKF1sq=tF+-=ReffePVyaSY40DZNytGbbUOmyjSkOHox7FQUw@mail.gmail.com> <182DF220561FBBD8.16918@lists.openembedded.org>
-In-Reply-To: <182DF220561FBBD8.16918@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1742316363; x=1742921163;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wyuRtJ4fHIsE6DFqbYks1Ld3Udw+zFV2N8BvAQqCZR4=;
+        b=tdZooUwAIsM0L/CfOBbF5oeoYB1glQ0SdSwGPR92DEAwm6V29zSpXzt0EY1Vu1E9x5
+         crMLHwc1m1VNj0YwzuDx2y/QiwRDUFB9qNhDGO0Z8kInVVS74gP8U+iedEZfZXp1GzeV
+         B8e8szqw0ddgTUFmSJDvoGO3UYiPQf9R9GNS3XxC/e5NkcYqO8ntuB3/HPGHw0ZfqN1z
+         7Fysxy5FRY9IBScG7wyxGrOdFTbvN72DwMPUDJo9NwaguW4oMvkGMBhlEkZED5ijUC7R
+         qmBMcM90uVWdKb/WLS0V+/r+otabpJiW5oU0gEk/0iN53UFqaRwJdBFLoo+RrmihK9N/
+         ciyw==
+X-Gm-Message-State: AOJu0Yy5YPfoLrWFqTodCZOZdJfwvo61Vs5L1hS9LB1Lwcdb+bxFh2U/
+	W665Ci6l8NXDAqWTIs9O2lOMKcFITSR/M2cna/t9QNyAO0dHZRUba6z3Bw==
+X-Gm-Gg: ASbGncuKnzdod1QjZ43CQyziqn1w/9HI2k3majMqhzGlguo/kcGSAgl7p5P+VJiol2o
+	hMMLobn17iVPokQGlX7/y/DKsUOKVfPtH1G8WnqgakOtYTm462jm08TPl8c4gJhCc2iK1AiQe5L
+	87yoD8v/T3w97ov4wGVMpWXQMqEyeoptxLXa6qybbNvpqWMGs+A45ohHBu+0tOUQAVDSJERna4D
+	YL2VWAxRA3DE88PHoOoSlAPvmRbBE1iRKIqp6l6EKG5LfOPO1vHw/CFKMwxWIAcW9259pN7IavG
+	tnz8KoBkG9VgA1j87qj3SujM45X+vFaB2lFFHK0iI8LEJwwr9m/skxFH0AdcJWMuVWywCc+BXi0
+	+cn+6VQ==
+X-Google-Smtp-Source: AGHT+IH1yxhikUb86nW6X/kLqL1r9cME8FFxF8u6NRkwF7GzVEStN+ltLobtl505YvngeBIu4bDPHA==
+X-Received: by 2002:a05:6000:188e:b0:391:22a9:4427 with SMTP id ffacd0b85a97d-3971e2ae20dmr14126778f8f.12.1742316363159;
+        Tue, 18 Mar 2025 09:46:03 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df35ecsm18804416f8f.16.2025.03.18.09.46.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Mar 2025 09:46:02 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 18 Mar 2025 17:31:08 +0100
-X-Gm-Features: AQ5f1Jqqi9dkm4dzvtTzrrW3p_RfwGyVKxuZFQL49JDdernfKx8JIrAd11bevok
-Message-ID: <CANNYZj8xP5jOPBGZczyOgt9R77zGoUChVTB3Y7nDKbtudN2ORA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 05/24] ncurses: Upgrade to v6_5_20250315
-To: alex.kanavin@gmail.com
-Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/3] qemu: fix upstream version check
+Date: Tue, 18 Mar 2025 17:45:54 +0100
+Message-Id: <20250318164555.1527383-2-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250318164555.1527383-1-alex.kanavin@gmail.com>
+References: <20250318164555.1527383-1-alex.kanavin@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 16:31:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213223
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 16:46:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213225
 
-On Tue, 18 Mar 2025 at 17:20, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> On Tue, 18 Mar 2025 at 17:08, Khem Raj <raj.khem@gmail.com> wrote:
-> > > I know we had them in the past, but ncurses' YYYYMMDD are all random
-> > > development snapshots, and I wouldn't want to update to them. Is it
-> > > possible to cherry-pick needed fixes?
-> >
-> > Fedora is using these releases as well, so I am hoping that it is sane.
->
-> Fedora is wrong too. They're *not* releases. I have to put my foot
-> down here Khem:
->
-> https://github.com/ThomasDickey/ncurses-snapshots/blob/master/NEWS
+From: Alexander Kanavin <alex@linutronix.de>
 
-That said, upstream doesn't seem to be doing proper commits: they just
-roll up any changes into those weekly snapshots:
-https://github.com/ThomasDickey/ncurses-snapshots/commits/master/
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
- I'd still hope you can find the snapshot commit where the gcc15 fixes
-are, and extract just the needed pieces from it.
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index d253529b3d8..53f48375e4a 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -35,6 +35,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
+            "
++# file index at download.qemu.org isn't reliable: https://gitlab.com/qemu-project/qemu-web/-/issues/9
++UPSTREAM_CHECK_URI = "https://www.qemu.org"
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ SRC_URI[sha256sum] = "f859f0bc65e1f533d040bbe8c92bcfecee5af2c921a6687c652fb44d089bd894"
+-- 
+2.39.5
 
-Alex
 
