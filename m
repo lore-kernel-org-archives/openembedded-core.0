@@ -2,189 +2,91 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E3DC3DA4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5DF0C35FF3
 	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 18:38:55 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.2931.1742323125947350221
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.2936.1742323132702204718
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 11:38:46 -0700
+ Tue, 18 Mar 2025 11:38:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fxSS02Jg;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ff6a98c638so6917113a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:38:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kt5DZDc2;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-300fefb8e06so6681578a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742323125; x=1742927925; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ewqRR8VT87B87puFMp0A5okGQAGn48mMmTxWndsFaxg=;
-        b=fxSS02JgYcDVzdq6VjHSqWJ/Xqef5sfQljj1p83+h/VGeWXj52xVwoqfOSJxRiCQKW
-         YXGS9SHWcFTPpOVpOVFfni3Q0q6/ZSgdICpslsbtFFI6X2jPVHvjOARCF/BIchiTURJy
-         5KXhMrXVOqGHRtrFwpizaUCIdCGGzrMxMoMsjRWjfkTTX+pepM92lE/DiJzSFhNWpXZO
-         dCRwXLiKWp4oYa9LDf39ZFTwafRJG8fX4fwzlTj17QoS5YV/eO0JIL1Xkm9KQRjG9mcK
-         P5aRthwj/cOBQMKGraBxaqZJDR1xVfiUwLQYk2SN3KP98xWdn4BccP8zvB5T5VHJa3Ry
-         ohmA==
+        d=gmail.com; s=20230601; t=1742323132; x=1742927932; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XPSfqcsFYCmDEIEBHfIYCnL+AQbT8jQB7KG0eCEwLOk=;
+        b=kt5DZDc2JYd6jfol9lMwsYKIHX7xvWnNK2n8kGoOC7ntq1itvgqwg1tiakuxLLHV4z
+         +YjLs/3hoakqUzHbAMT92ArVbUqpsNgqX1Zb9tca6t98JBT7Q/Ztnt84IfqD09RCAu+r
+         zEYu4f9hhCu5vPObY/LHHibtW4VSfjdgUEKpYi62XPAQ3GE0FQ6YUf4zAMW0P/jnplK1
+         wbU1wNrdP/FcxJgoMUlsmrB55iafT0ocJT2ah7LIfmK1JaILgN5oY9/JVSLsTXg1ps5H
+         N2xRtAieVBkZT7ddTRy0H3G7ObPfIDK9koLhPgq8YwnuEMik0A5mQQBdVhN2WT6v4pJO
+         J/HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742323125; x=1742927925;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ewqRR8VT87B87puFMp0A5okGQAGn48mMmTxWndsFaxg=;
-        b=AgFVm+X28iznJBGSCc9EeAUePZY+EFRc6FBH5N58C6eJIe/ffjp7U6vWgOkzChKO1O
-         1CXhMOLTgvmZzHRcUCIlPZUe80/m6j8B8owI8Te5BvD1ZBpRQuSYu56R9+KAYBjzryfw
-         bqDdTIgj+tzLXoFMHb6SDDoIcOJ5U/l4HELp7hfON1dOwjm6FpUCkrYRaPm5vQbe4d3b
-         UrDS3OgJnHnVzWK1B+FBdHcvd2FhGGdphlyeBoLZUjtW2ebhP3Wk8FxJOWHUUxFfvvNr
-         c2f8b8lzjeHjebGAFPRb/Z4hzxehDPuVYgq6Ms4a3OdxrYpVDtgz2GoHzESOo1mYDH1T
-         kcqw==
-X-Gm-Message-State: AOJu0YwW/jxDuEjvlQ3ePPtKT16Th6nHLuXNUgEawbVfcJBAHUTUK8IR
-	bDPip/756sqm6VroA69rG97gxsVNeYFahvdpF2EK4pagtOW+XSNDdCZ2nbnv
-X-Gm-Gg: ASbGnctb+jvj14SWvopnAzuIxyS5BnvT1bd7biDcaOR3TQA+rwPr9AdBRQoPEemmjGs
-	sa1Ucf9oHhtCGi31/TiM14MR9FfwI7L3Z49LWtP9aKvKuB4J9Hv6nyQqnt3AtcZ4ho1FcRZ7oHE
-	L5TsuhBf2vcGlRgsVK26yKdNeVK0yK027ktm0I9MxOvN4CKtRVGshjd+bqOXb764e0P+E5rhEmy
-	Z+sWqwm42Up1YteJ3s96xeeaY8lLC6Wv9djQ9UaEziJbA7T4uqJjVDdYBBGXR+p9jS+IhFEuX+V
-	50XiU34KPBYId9TIJAqp1CrInWyTO32jLSdt
-X-Google-Smtp-Source: AGHT+IH0S1cwhKSwtTcgrNffimlsaqmntLqWcdo7Jy+bad6rDstG92JeNl8CuBx3cQQ+qaW4cjAuvg==
-X-Received: by 2002:a17:90b:4a82:b0:2fe:baa3:b8bc with SMTP id 98e67ed59e1d1-301ba145d33mr293999a91.23.1742323124773;
-        Tue, 18 Mar 2025 11:38:44 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742323132; x=1742927932;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XPSfqcsFYCmDEIEBHfIYCnL+AQbT8jQB7KG0eCEwLOk=;
+        b=XWrOyoRWXtBxpc2QVGa4sk0liJKi50is7zePuN36RNFQ2DOZaoLKfIj866SD+UFSlS
+         EHahdzHMyzs3J3E8bnStSUvL2NfXu/PWZn6Z1p64Uh5muS11BW3K9jbU55CFcsFT+LJu
+         yMaEnMW8yO14nynKkBQ+nQZNNShB7VE2sqmOBhhlNW/WKhi2wMbYxb8TAaxGcPugPFzu
+         AWt/J1A272gkoQzh/iHUdHwBqy0WgmDwQeT+mtrczmfrOkTts3X0sxQ6AwVNrv8w6cg4
+         nGZ/PSTb3+K2yzUWzim9WXPXd95VRRemCI10tKTJwbPcvO6BkYUemwCK9lb3tlCfdQJJ
+         Mtdw==
+X-Gm-Message-State: AOJu0YxOIsgtY+E7h9mR/C5zOx0UO/wM7/aEqac1yPsMhlFPA33W5bjw
+	J0GbP3J+KCe5lyPJ0JAG8D5nDUGsmW+1glipbrK2K4DIiBhNi0/KG9f33Dgo
+X-Gm-Gg: ASbGncspXDt45RgM2kPOr+Dj3Stuo+Ri0LiSmSZTVjKv09fbELPSDvDq19M4IzB3Hup
+	7G7fXIrCAsUOzCN183Rp2jTmR68F0C8QwVle5SFYGtPgjdtgtLdMUIN2SUtXDgY16cGP0HyqDaR
+	kav8TTtxvLHQDdZlUan2CtFZj2cIgC+NBLqhW4cjjyJDvwZ+vOQ3uhUpuBDQl+5o3EXNB0CDOMq
+	R20Y5+SXHrc8l0wNQqeD3cwU0kT88aYhMX34QwiY7599ROM19K9BI+fjDT/R6MUfPLpv9Xx4GZf
+	WCG0xfjkxlkjlk+eAIG3/wKxPmt4a7w+TApO2cs09AYrIkI=
+X-Google-Smtp-Source: AGHT+IGYGOFdPlVe90/2AFQ8mDW/7mnzoQWhoeEv71ZjWrbtUKvPr03oC5DaBFSiQf3SUpUUkhnzqg==
+X-Received: by 2002:a17:90b:3d0d:b0:2fe:85f0:e115 with SMTP id 98e67ed59e1d1-301a5b80f2amr4474492a91.26.1742323131964;
+        Tue, 18 Mar 2025 11:38:51 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153afee51sm8537489a91.28.2025.03.18.11.38.44
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153afee51sm8537489a91.28.2025.03.18.11.38.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 11:38:44 -0700 (PDT)
+        Tue, 18 Mar 2025 11:38:51 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Kai Kang <kai.kang@windriver.com>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [[PATCH v2 01/25] webkitgtk: 2.46.6 -> 2.48.0
-Date: Tue, 18 Mar 2025 11:38:16 -0700
-Message-ID: <20250318183842.2256284-1-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [[PATCH v2 09/25] tcp-wrappers: Stick to C17 standard
+Date: Tue, 18 Mar 2025 11:38:24 -0700
+Message-ID: <20250318183842.2256284-9-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250318183842.2256284-1-raj.khem@gmail.com>
+References: <20250318183842.2256284-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:38:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213227
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213235
 
-From: Kai Kang <kai.kang@windriver.com>
+GCC 15 has switched to C23 by default and tcp-wrappers is old code
+pre-c99 and would need to be fixed all around to get to work in C23
 
-Upgrade webkitgtk from 2.46.6 to 2.48.0:
-
-* remove backported patch bmalloc-fix.patch
-* update context of no-musttail-arm.patch
-* add PACKAGECONFIG speech
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../webkit/webkitgtk/bmalloc-fix.patch        | 36 -------------------
- .../webkit/webkitgtk/no-musttail-arm.patch    | 14 +++++---
- ...ebkitgtk_2.46.6.bb => webkitgtk_2.48.0.bb} |  4 +--
- 3 files changed, 11 insertions(+), 43 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.46.6.bb => webkitgtk_2.48.0.bb} (97%)
+ meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch b/meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch
-deleted file mode 100644
-index 37e0fdcbbdc..00000000000
---- a/meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 6ab7d3f7d8d0d8e1ab401d0fb13f60bbc64279a2 Mon Sep 17 00:00:00 2001
--From: Thomas Klausner <wiz@gatalith.at>
--Date: Thu, 7 Nov 2024 11:54:30 -0800
--Subject: [PATCH] bmalloc: Build problem in bmalloc when X11/X.h is in the same
-- namespace https://bugs.webkit.org/show_bug.cgi?id=282693
--
--This avoids a build problem when the X11/X.h is included,
--which defines Success to '0'.
--
--Reviewed by Fujii Hironori.
--
--* Source/bmalloc/bmalloc/EligibilityResult.h:
--
--Canonical link: https://commits.webkit.org/286295@main
--Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/6ab7d3f7d8d0d8e1ab401d0fb13f60bbc64279a2]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- Source/bmalloc/bmalloc/EligibilityResult.h | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/Source/bmalloc/bmalloc/EligibilityResult.h b/Source/bmalloc/bmalloc/EligibilityResult.h
--index ead7dbb52c07a..48f9e5bfe8a80 100644
----- a/Source/bmalloc/bmalloc/EligibilityResult.h
--+++ b/Source/bmalloc/bmalloc/EligibilityResult.h
--@@ -29,6 +29,11 @@
-- 
-- #if !BUSE(LIBPAS)
-- 
--+/* avoid conflict with symbol from X11 headers */
--+#ifdef Success
--+#undef Success
--+#endif
--+
-- namespace bmalloc {
-- 
-- enum class EligibilityKind {
-diff --git a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-index c98d8b7727b..367e6b8342a 100644
---- a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-@@ -11,20 +11,24 @@ this code is new in webkit 2.42[2] thats why we do not see the crash in older we
+diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+index 8cf927153f0..05644b7db95 100644
+--- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
++++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+@@ -55,6 +55,8 @@ SRC_URI[sha256sum] = "9543d7adedf78a6de0b221ccbbd1952e08b5138717f4ade814039bb489
  
- Upstream-Status: Inappropriate [work around to avoid clang compiler crash]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ S = "${WORKDIR}/tcp_wrappers_${PV}"
+ 
++CFLAGS += "-std=gnu17"
 +
-+Update context for webkitgtk 2.48.0.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
- ---
-  Source/WTF/wtf/Compiler.h | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Source/WTF/wtf/Compiler.h b/Source/WTF/wtf/Compiler.h
--index c01ed849..b69b1527 100644
-+index 16e416d..68dd9a0 100644
- --- a/Source/WTF/wtf/Compiler.h
- +++ b/Source/WTF/wtf/Compiler.h
--@@ -290,7 +290,7 @@
-+@@ -293,7 +293,7 @@
-  #if COMPILER(CLANG)
-  #if __SIZEOF_POINTER__ == 8
-  #if !defined(MUST_TAIL_CALL) && defined(__cplusplus) && defined(__has_cpp_attribute)
---#if __has_cpp_attribute(clang::musttail) && !defined(__powerpc__)
--+#if __has_cpp_attribute(clang::musttail) && !defined(__powerpc__) && !defined(__arm__)
-+-#if __has_cpp_attribute(clang::musttail) && !defined(__powerpc__) && !defined(_WIN32)
-++#if __has_cpp_attribute(clang::musttail) && !defined(__powerpc__) && !defined(_WIN32) && !defined(__arm__)
-  #define MUST_TAIL_CALL [[clang::musttail]]
-- #endif
-+ #define HAVE_MUST_TAIL_CALL 1
-  #endif
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
-similarity index 97%
-rename from meta/recipes-sato/webkit/webkitgtk_2.46.6.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
-index d1f24bbbf70..cb4e09662f7 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
-@@ -15,10 +15,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch \
-            file://no-musttail-arm.patch \
-            file://t6-not-declared.patch \
--           file://bmalloc-fix.patch \
-            file://sys_futex.patch \
-            "
--SRC_URI[sha256sum] = "f2b31de693220ba9bab76ce6ddfe5b0bfab2515cb2b0a70f3c54d4050766c32b"
-+SRC_URI[sha256sum] = "94904a55cf12d44a4e36ceadafff02d46da73d76be9b4769f34cbfdf0eebf88e"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
- 
-@@ -81,6 +80,7 @@ PACKAGECONFIG[jpegxl] = "-DUSE_JPEGXL=ON,-DUSE_JPEGXL=OFF,libjxl"
- PACKAGECONFIG[backtrace] = "-DUSE_LIBBACKTRACE=ON,-DUSE_LIBBACKTRACE=OFF,libbacktrace"
- PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,libmanette"
- PACKAGECONFIG[sysprof-capture] = "-DUSE_SYSTEM_SYSPROF_CAPTURE=YES,-DUSE_SYSTEM_SYSPROF_CAPTURE=NO,sysprof"
-+PACKAGECONFIG[speech] = "-DENABLE_SPEECH_SYNTHESIS=ON,-DENABLE_SPEECH_SYNTHESIS=OFF,flite"
- 
- EXTRA_OECMAKE = " \
-                  -DPORT=GTK \
+ EXTRA_OEMAKE = "'CC=${CC}' \
+                 'AR=${AR}' \
+                 'RANLIB=${RANLIB}' \
 
