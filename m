@@ -2,85 +2,147 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 243BFC282EC
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 09:51:44 +0000 (UTC)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web11.7799.1742291502153494869
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20039C282EC
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 09:53:34 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web10.7780.1742291613373618051
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 02:51:42 -0700
+ Tue, 18 Mar 2025 02:53:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L6EEhNPY;
- spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-47698757053so65923831cf.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 02:51:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=W8XAIx+/;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6e8f8657f29so43436516d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 02:53:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742291501; x=1742896301; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742291612; x=1742896412; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YABkDBfBF42CohVB8Tz7G/YRWwqpdajEpxf2RRyESDk=;
-        b=L6EEhNPYT/vj1IXKSdxIh8TfFo1PtKvy4bq8T/qWXkvZ6j15YpO0bdg3eUyuuybtCK
-         CCNx4QKJJg5pZoy8iFgzyWO5Goz44ZwI00OeUGyE7qKr1xEEQLI5BjFPgqbadKznY9Kv
-         b9imRDM3y7DddSxY4mb/bFEKJidVO0mLifZ4REVaPv6TuZO++hiGRpBBHMeExmLqo9QS
-         ZKcizcuD2F6re6oPEulCxlVVNYiixzGD1no3C6RZ7cOrWf1E/AE4OgdzLZLY4DgKuG1k
-         v1TrCux2M2rzmcWXebvn0vH9x/SHJsiCX8ng7c1P5V0Vljw+dypnW1Re8uU28d1JP5q+
-         hZJg==
+        bh=0Yw3RrFmqwiExIxeg0kwxLKa48cUhYKgVKqLZLRcaoA=;
+        b=W8XAIx+/yWR3TCJs5uYMqquQuESc2imej0IdSJTlXOFsXWSN0knaKcWyQTzt0sDlrp
+         I6oQXfC8A1p39IHRcX+ukd90CQv8TjoG2G3Zugj0pY3VWLd6Ne8IcUqwYNxXG5Y0xJEx
+         Q7MrPOKH2h3RVyq/cmoJG3HJfmoagwwkFhZVVbLPZ4PDYRWMvQOY6iOwx2PsW3DB01Nu
+         qIlL0u6ydWKFIScSUG2GQfy7sqv2s1nsVKFrrYhsc6ZxSSs6ELNoOtDOpAgj6JSN/h48
+         3hfTIT0okUudtODPwW8lHj5e6Sk5rUXa1tXgT0qXbyspJjJOuQ5p9u5kdiRnaVTkucMs
+         0cLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742291501; x=1742896301;
+        d=1e100.net; s=20230601; t=1742291612; x=1742896412;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YABkDBfBF42CohVB8Tz7G/YRWwqpdajEpxf2RRyESDk=;
-        b=LJEZtdFk3LT3aEisf8vyjVuqj1dsJYKes9iMIfz8zOji+VTahMbnUDRbz5wGQvwpvx
-         HmgY4+Gq0dZFYU/5VPFgFeJCk4QO+pfDsWlD+GjX0glhpluSC1kHrPsbIyADSVbijWY7
-         VT+WWuO1a+DMHuydegrr/OAuehXv/I2yQ2z1QdzZs0tduD195fcIYGph1u3jEaVf6PMp
-         RaG3Hs3ArhfZgb3c0cl2jlzkmkufNbgu4uR750UDN4WbRiGdvROW1/QbOMF4QFDWjFET
-         8y3CIldlbCXHyQMrf0C4+oBgrzhxs2SUFy9rbebqwy0le/A6tvcF9MAruLAppO2rXibd
-         jQqA==
-X-Gm-Message-State: AOJu0YwcHfOU+NtWBHX0IBiWOIFjDgGPz/YfVp/RYjDf0R0rddkXmuic
-	r9FVcYFp8EPjJXWGH51XzxMNv93iUy8HrUFGvG2FkICuu3bGG34xF/KqSNT2rSYAQAcIdnAY2Qb
-	id3rjk3LfRQHpBCsJKyLXl+oS4woF4FoJ
-X-Gm-Gg: ASbGnctWu7/fhSI1icuXAON6O4UDoCayZt2Ey5KnPxBjn6mhj/bIfV/aNUreccS7pAY
-	dEZXUocgKVUwFQBGdfxvvB6StuzIPB8AlpApgn1CkfpKIJTR3DJl9jdiPvWtv5+FER5a00b9Hsx
-	WBhVXNayYJgEMY/Y4nbWgDqc4k3NGPl7Hews5NfzHgbrvlAA5/L5B3Spy7kZsS
-X-Google-Smtp-Source: AGHT+IGv/ObXh1h7p6DcYsS7l/Au3fzEQA+icy/eeExDsPteNc8T1qUq7MGRja8EebhBKsVGQwLjIiHEsJiWLOAbUEE=
-X-Received: by 2002:a05:6214:230e:b0:6e6:6a6e:7596 with SMTP id
- 6a1803df08f44-6eaeaaf3249mr213934966d6.39.1742291501127; Tue, 18 Mar 2025
- 02:51:41 -0700 (PDT)
+        bh=0Yw3RrFmqwiExIxeg0kwxLKa48cUhYKgVKqLZLRcaoA=;
+        b=niO6wMAnWqLmefqVZfopw8VpRuTMfuhXGKPKO7yo8BXYeawglQAyhy66EVh9wWNhbk
+         v622+BAZIeXU3Gsq9MNn7DlSSmZANJgtju5ndfeWTMmctKXSejruZBMDMAs0NlEMXw2z
+         KkrVMCAsGdyNAr1FLiY0SHYHnBVw2titiHRkeSEJm/fj+J0OmNnu9twlOf44xA3L+pCr
+         wx9UZkMBxf3TAYOblDrozR/vZFQi9NFzmP87Ej7oaOPfJd6BAZbOHxu0yrEZwFKJcoLy
+         +wq43T62SBqZ5pPOL24PlQv++R6BNgUG1PIN0+Y9dnzB/ZgigCLxLA64SB6Ot1rP8oF1
+         27oA==
+X-Gm-Message-State: AOJu0YyrJqKN1ABd6TSbN6Cm1LN5GjFDHyxH9GoE9jDHJaXKB3ssg9Wb
+	hBdDxW+igxvpCnP0EKS4BW6506QizDDuFK9cNjpbClenvkgjB7O3elmKbVHdA5Dc9J+zyeDb8kS
+	L91UTlIe07118/ggqVkI6z7oXJ38=
+X-Gm-Gg: ASbGncu61ckeQhcg/aLwAlQ7Up44mor2oP2YsduDbtS43U5csOKa8jQ87cauSjsgsN9
+	Qiqw4++UEEXh/xz/KXva9gHzFfARoavD+Z3baT2Z+UUy7UHtZGXQGP9SoniXDgx0Z30juinPTLg
+	XzIA6u+SfT5cThkAWLOwCcIbo0mcc4nsZAAyIEXqgV2s3HszfC+ZOA+xpzMUIA
+X-Google-Smtp-Source: AGHT+IGE2Rpo6pcKLNvTucOQipHFu8JTaXSUtHCs/QHuB8zmVdGghcNBC6yUDDOQTC7uby7nJB9bCenB5ApAaZZZY0A=
+X-Received: by 2002:a05:6214:d8d:b0:6e8:c713:321f with SMTP id
+ 6a1803df08f44-6eaeaafe44dmr187367136d6.35.1742291612205; Tue, 18 Mar 2025
+ 02:53:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250318043846.2422141-1-raj.khem@gmail.com> <20250318043846.2422141-8-raj.khem@gmail.com>
- <182DDC388EFCF3D4.9747@lists.openembedded.org>
-In-Reply-To: <182DDC388EFCF3D4.9747@lists.openembedded.org>
+References: <20250318061509.1737383-1-rajendra.desai@emerson.com>
+In-Reply-To: <20250318061509.1737383-1-rajendra.desai@emerson.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 18 Mar 2025 10:51:30 +0100
-X-Gm-Features: AQ5f1JoIG1u8FsEgM8d7rZoj4ulgXUHHUlG-SwkE2JFoD68B4mglSUDCpulPBDE
-Message-ID: <CANNYZj_zS7j0JseaRLMxDng1S=AdkXbsbxgRLJB=nPqWu6Sc2w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 08/24] readline: Fixed build with GCC-15
-To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com
+Date: Tue, 18 Mar 2025 10:53:20 +0100
+X-Gm-Features: AQ5f1JobIUfRKaH79b6dhvF2gX9tvynOVE_9f9vznkSGZ_WWp8ZzH7GTJ1Y8SQw
+Message-ID: <CANNYZj8C+a20T6ND2F_TZggQzmzWBwWL9LLMVmGMgmCWt6-pQg@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] perl-ptest: copy xconfig data from
+ perl source directory
+To: rajendra.desai@emerson.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 09:51:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213193
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 09:53:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213194
 
-On Tue, 18 Mar 2025 at 10:39, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> On Tue, 18 Mar 2025 at 05:39, Khem Raj via lists.openembedded.org
-> <raj.khem=gmail.com@lists.openembedded.org> wrote:
-> > +Fixes builds with GCC-15
-> > +Sourced from Fedora: https://src.fedoraproject.org/rpms/readline/c/c47eb813afb942128253213ad5b8221770557e48?branch=rawhide
-> > +
-> > +Help getting packages like bluez5 building
-> > +
-> > +Upstream-Status: Pending
->
-> Please no new Pending.
-
-Per https://tiswww.cwru.edu/php/chet/readline/rltop.html the
-submissions should go to bug-readline@gnu.org, chet.ramey@case.edu
+Is the issue occurring on master as well? If so, you need to explain
+why perl ptest is passing there in yocto CI pipelines, and send a fix
+to master first before it can be backported.
 
 Alex
+
+On Tue, 18 Mar 2025 at 07:15, Rajendra Desai via
+lists.openembedded.org
+<rajendra.desai=emerson.com@lists.openembedded.org> wrote:
+>
+> The following perl ptests:
+>
+>   - dist/ExtUtils-ParseXS/t/001-basic
+>   - dist/ExtUtils-ParseXS/t/002-more
+>   - dist/ExtUtils-ParseXS/t/003-usage
+>   - cpan/ExtUtils-Constant/t/Constant
+>   - cpan/ExtUtils-MakeMaker/t/02-xsdynamic
+>
+> are erroring out with:
+> | /usr/lib/perl/ptest/perl_langinfo.h:8:10: fatal error:
+> xconfig.h: No such file or directory
+> |     8 | #include "xconfig.h"
+>
+> xconfig.h contains references to the build host architecture and was
+> removed by commit 2e0f30c46802 ("perl: do not install files that contain
+> build host specific data")
+>
+> However, it is still included from various other places including these
+> tests, and we are still depending on build host architecture data by
+> including the patches from perl-cross recipe, a dependency to perl recipe.
+>
+> xconfig.h was added back as a copy step in the commit f90922cdeef5
+> ("update 5.36.1 -> 5.38.0") but was not added back in perl-ptest include
+> file.
+>
+> Borrowed the logic from the above commit to make a copy of config.h
+> that is specific to the target architecture. The changes in this commit
+> fixes the test failures.
+>
+> Signed-off-by: Rajendra Desai <rajendra.desai@emerson.com>
+> ---
+>  meta/recipes-devtools/perl/perl-ptest.inc | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
+> index e07355d3f5..42d46dfd78 100644
+> --- a/meta/recipes-devtools/perl/perl-ptest.inc
+> +++ b/meta/recipes-devtools/perl/perl-ptest.inc
+> @@ -20,6 +20,11 @@ do_install_ptest () {
+>
+>         ln -sf ${bindir}/perl ${D}${PTEST_PATH}/t/perl
+>
+> +       # xconfig.h contains references to build host architecture, and yet is included from various other places.
+> +       # To make it reproducible let's make it a copy of config.h patch that is specific to the target architecture.
+> +       # It is believed that the original header is the product of building miniperl (a helper executable built with host compiler).
+> +       cp ${D}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/CORE/config.h ${D}${PTEST_PATH}/xconfig.h
+> +
+>         # Remove build host references from various scattered files...
+>         find "${D}${PTEST_PATH}" \
+>              \( -name '*.PL' -o -name 'myconfig' -o -name 'cflags' -o -name '*.pl' -o -name '*.sh' -o -name '*.pm' \
+> @@ -44,7 +49,7 @@ do_install_ptest () {
+>          sed -i -e '/Autogenerated starting on/d' ${D}${PTEST_PATH}/lib/unicore/mktables.lst
+>
+>          # Remove files with host-specific configuration for building native binaries
+> -        rm ${D}${PTEST_PATH}/Makefile.config ${D}${PTEST_PATH}/xconfig.h ${D}${PTEST_PATH}/xconfig.sh
+> +        rm ${D}${PTEST_PATH}/Makefile.config ${D}${PTEST_PATH}/xconfig.sh
+>  }
+>
+>  python populate_packages:prepend() {
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#213165): https://lists.openembedded.org/g/openembedded-core/message/213165
+> Mute This Topic: https://lists.openembedded.org/mt/111765365/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
