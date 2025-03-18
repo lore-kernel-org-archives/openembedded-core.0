@@ -1,77 +1,87 @@
-Return-Path: <makchrbiz@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 501F7C282EC
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 13:57:35 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.12454.1742306249190217465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 318E7C282EC
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 13:58:05 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web10.12481.1742306278626811431
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 06:57:29 -0700
+ Tue, 18 Mar 2025 06:57:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aO6r8ww9;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: makchrbiz@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aaeec07b705so889719366b.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 06:57:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lTP8mit9;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6df83fd01cbso23584746d6.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 06:57:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742306247; x=1742911047; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QxKuQzAFo8PvmX/UZEZmoPA06KLWjggsj2Mmnc7itcw=;
-        b=aO6r8ww9jsyb08beoCY4/fvitD7s3Mlt/c2vT30BSTbDWmvKOdaXKirlxt9yhBAwNg
-         zrjFFEaB8Ymd42UomWm52d5rC00Slc3WhlLEZW3+/ZOLmz2nOTVNsDJNPZLSCHNY8vfE
-         PwjfD7C8axpXdG3gdcxXEfCBt/ZjheCJHA5QuXNqjFL3nO3WvWz0D0GQbDpTlWWn7V7x
-         FGZYvjRLtklitQTzSF9wM7sX3TWn8USfUA2BNIISz6KwXmOyPUcI2l9u0PxQwGa0z761
-         U039e4h6s1u+M6bbXsg0hhWmKGtoT+debvsU+QPHbvgKZcl9csxDDxGIsrnejIH3iByy
-         HVmQ==
+        d=gmail.com; s=20230601; t=1742306277; x=1742911077; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f8+8CkG246bCNv3BHEhp7XeGii0wVsTuiI7THWNsiNc=;
+        b=lTP8mit9882C0TkBZ2bV15JBzpWDPavt6bN/ijpluIfm26PsXJ8rtjo/TVo/mCrrJc
+         SaIYOw1c8FfE4M59XZObhCaWCMCHnXuOlkh7C9ndaDRpwubGtHOipm0k7L4gXaUzxygd
+         xNPrD28vKrNMDLufERNBvojWGqFfmrDiZnf9jhG18MbGn2l2dADedmZ+PNlzsFm/scjy
+         tZ+VVbvdpRDOqK8sQRPxn9+oq35b/aDjwqbAnwvDiOo4E9RU+G/7GYT46gzvOUUjvdQV
+         Qr5/cDcSPe0twsmob4D/2m24c/S+SuRhYX60XEhRiWiDh4cdfkp5UnuY3BO17mURIrgN
+         1OVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742306247; x=1742911047;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QxKuQzAFo8PvmX/UZEZmoPA06KLWjggsj2Mmnc7itcw=;
-        b=M96mx8ZtnWO0Xsz9WVCwsqPKYBaOy70qQJCUXYK1wdDXLUmOtPQgb5JSQyXG8r09H5
-         MfPK2PRsjE9gP0nOjGthVK31wEW0YTLGvwDNWF9NnOFB0Ro6tWKw44CnkrZzAKb/4y22
-         1OviUVnqBDsFA1TtgtAv07b+Yl+u+4rBuJKhF3Zf+AU5N0IyfmOjlM3Y2aZacOL8Z0Zi
-         ZDR1gpOpkffypvTcF8cCtbdI7Sr7ApztwNQZcqgitlHZRiivhypzvv85zlWe+2eyVq47
-         2pujTZ7YtZxxF17HU/USMcGuZFPqEnu8NAYDi9qzNKoekbzwVA1JT/9FIaqRz/6l9hla
-         vYKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhwEbBM0PSrPBHsvQG6APO14Z/iSJ4yivWBMiJf2w9TSIsBqbR2BU7rpHza+2RaMygjyaT3nkJtwkQU0cobG4YUA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxIdLrbmRl8p/f9DdRsuzIltyUS++BzvXR4pOzIWG03Xfg7cGUN
-	Cm0pXxTgrZNXSkrTS52hilVrEPUYmjNFVQsI7BTQ3KZPEvEkauZlluvvsAEl4Ho85iNXT/BOGIX
-	1ZdFpEUwinbx7DhhoZAOYQ4NP768=
-X-Gm-Gg: ASbGncvteOloR6IWVRi7wKTrCPtBkQMvuZMVzOUzJypmOZT9cj20Q8joTBlMHU8szeE
-	O+8m7mBHIAvrbmNTvM1ThPjJjMXYJ4VTt1MVulOUoP0/efDCyDKZ30Bi+qKhxfIq3JuwBocCjga
-	m2pZ/h3twRvtbsUF24xHpKIJm0zTc7jld1E3XN
-X-Google-Smtp-Source: AGHT+IFGr7VbLUWBxgcGAMkSp4gxBMfmTMyDZdlTWe+rs/D45pGYhntqZPt2i0qa2zMBBlMauOXKBidJ4U7FdzmXx4s=
-X-Received: by 2002:a17:907:1b02:b0:abf:7776:7e0c with SMTP id
- a640c23a62f3a-ac38d45b9a4mr418860466b.33.1742306247069; Tue, 18 Mar 2025
- 06:57:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742306278; x=1742911078;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f8+8CkG246bCNv3BHEhp7XeGii0wVsTuiI7THWNsiNc=;
+        b=FK5aC1ZJ6oU77jGRweNPnr2KPPKdo+mVOHK+aQMqsrrmb442AckkOmZvc2QehLjtUE
+         LxtfGPCCOuRyUMlLQt39santg0CAbcrPsnvzGLcFErztb24JshABOJMUzvU05ljyWQhp
+         MKmHB0kWyJ/Mn9ueYSpwn01Iwxo6lPQK/PjETD/yPrSTw3JEv8fFibrM1pJxCHcxx0gW
+         m2uboaTpgvU1lpGsFlxGi6M8jssr9YEEr0DLCohViYQOLQS366r7ue6S8s9runa2mAFD
+         JWYQYDxvND92PphFo3BBhZOWnBm1UtNIqxA9olRuyC0kOdwQJ7rEyFWxvu1BduHRodKz
+         f7YA==
+X-Gm-Message-State: AOJu0YwDU34JhA92RM7tJkoiAhCbzStX+vTZ25Cb5brtubpaPi/0ptki
+	qCW1xsoYWWw3ztqt/58ghk05KUTRQ6Zxy2Z01uB5K0BI7qv7YVrwszg5FrvO6sr950W5FzVIuUa
+	DxlxuIpU6OYctwaMkprJ75lDQP+E=
+X-Gm-Gg: ASbGnctLzHQ4OmQgaVTBn5HKidDz2KHEQan31yaMT9qf9zBMhor5bQz5Bs9+EB3hTq6
+	8MD8BVbUDJV0Wd9Gfrl+so6BwCrussMptTy6UAPIpCF28ACcvX3sLgoOE8vPFJWiPGrLROrO5Gq
+	P0RdZnrGiyYsJQ5SGGGZjNB6O0H2Nxd6hPyF95CG8Pn/cbHRg2ThVEfXga5yHU
+X-Google-Smtp-Source: AGHT+IFU6rxgpjgb+80sBwD/iVIP/oMCQAgZRSICDRD/uz+16RUAepCehVyRfkOmz81E6G9UFvH8LRktuF0VeQXYhyE=
+X-Received: by 2002:a05:6214:da2:b0:6e8:fa72:be51 with SMTP id
+ 6a1803df08f44-6eaeaa4fa58mr264632706d6.19.1742306277511; Tue, 18 Mar 2025
+ 06:57:57 -0700 (PDT)
 MIME-Version: 1.0
-From: Makarios Christakis <makchrbiz@gmail.com>
-Date: Tue, 18 Mar 2025 15:57:15 +0200
-X-Gm-Features: AQ5f1JoYX9ESkw1U8gSHSzHGFQDrLGG80icNmHyQCL0Vtx_6WQKq23vl3Z47YgY
-Message-ID: <CANpL8Ovos0fzR1eWiDiqURHsQe6WYTeHDgw5MpdqRXh9_qf0yw@mail.gmail.com>
-Subject: [BACKPORT] icu: Adjust ICU_DATA_DIR path on big endian targets
-To: Steve Sakoman <steve@sakoman.com>, openembedded-core@lists.openembedded.org
+References: <20250314144539.2885974-1-frederikbraendstrup@gmail.com> <CADs2FCHRm4-fjjNJyCTB8s_ch6mP62FPjNgp4jKYP=E_tmxK_w@mail.gmail.com>
+In-Reply-To: <CADs2FCHRm4-fjjNJyCTB8s_ch6mP62FPjNgp4jKYP=E_tmxK_w@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 18 Mar 2025 14:57:46 +0100
+X-Gm-Features: AQ5f1JpyzOPUsWJleDCRjQKBUatFl1Qj_2v9v181Jq1g7rQ3H51S6JU1SI40Ukw
+Message-ID: <CANNYZj_h2WdEH3VMkpHFQBkKDGGSYdupSWokzW3V7+fcic7Ghg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] Check if version is actually a file
+To: frederikbraendstrup@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 13:57:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213211
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 13:58:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213212
 
-Hello Steve,
+On Tue, 18 Mar 2025 at 13:19, Frederik Br=C3=A6ndstrup via
+lists.openembedded.org
+<frederikbraendstrup=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> Recipetool incorrectly made the assumption that version is always a
+> file, but when it's a directory, the call to open fails
 
-I would like to backport this bugfix from master to Styhead and Scarthgap.
+Thanks for the patch. There is some missing context in it,
+specifically, filelist is formed like this:
 
-Bug description:
-https://lists.openembedded.org/g/openembedded-core/topic/patch_icu_adjust/111744704
+            filelist =3D RecipeHandler.checkfiles(srctree, ['VERSION', 'ver=
+sion'])
 
-oe-core master ref: 28cdc0110def011e3d690da1d591076385267ef7
+Shouldn't rather this function/method be fixed to only return files?
+There are multiple other places in the same file where the same call
+is used to form filelists, and they all potentially have the same
+issue.
 
-Let me know if this is not the proper way to request this.
-
-Thanks for your efforts,
-
-Makarios Christakis
+Alex
 
