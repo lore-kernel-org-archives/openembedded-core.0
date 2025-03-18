@@ -1,91 +1,102 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CAFCC282EC
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 08:25:03 +0000 (UTC)
-Subject: Notes for BlueZ 5.80 upgrade
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA5BCC28B28
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 09:11:33 +0000 (UTC)
+Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
+ by mx.groups.io with SMTP id smtpd.web11.7273.1742289089170872944
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 18 Mar 2025 02:11:29 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=k/iMZisO;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.137, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1742289089; x=1773825089;
+  h=from:to:cc:subject:date:message-id;
+  bh=vOQ4Xuy4KK/qe0UVVe0dD+6zndkznBu07TnOjQSBPh0=;
+  b=k/iMZisOM9RTrbZurr6cjq73FVMEyHFM9cDiOJjgl/YZMDUiFhAW5mnG
+   qlVX3ldRkWjl92OBksO3zwDbU62SdXHAox5+yI6iF6LeeLu1uV22ktFM3
+   pFAZDu0X8+TqF5wxlszdJxE7MY+FCE0jl7zZvkRLOIXsY0QS23h9ImAN9
+   de0xThYRiUJTNm6k7dKyhkzDyrY27deRzSk/dyl5Ix4syZJvz8lr1MFrm
+   F0fIR4dy4oEOBLMlxCrS/oGJsvmL7RYDYVkWNeaL1O8FGB1mDprgVUzB8
+   05V7sjytRIL/ugDrZrXX20QlBYkIvlHooX76lCvdW3/YHsGmORFqaGcDp
+   Q==;
+X-CSE-ConnectionGUID: ezlWeKzbSu+3VQjaaryDRg==
+X-CSE-MsgGUID: so6+mJXRQ9aMPTZ9e2hCbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="172924047"
+X-IronPort-AV: E=Sophos;i="6.14,256,1736780400"; 
+   d="scan'208";a="172924047"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 18:11:27 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id B3531E8525
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:11:24 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 6E3DBD20AF
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:11:24 +0900 (JST)
+Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id C448A1A0078;
+	Tue, 18 Mar 2025 17:11:23 +0800 (CST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-From: =?UTF-8?B?R3XDsG5pIE3DoXIgR2lsYmVydA==?= <gudni.m.g@gmail.com>
-X-Originating-Location: Reykjavik, Capital Region, IS (213.181.99.234)
-X-Originating-Platform: Windows Firefox 136
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Tue, 18 Mar 2025 01:24:58 -0700
-Message-ID: <RooI.1742286298693917560.s8EM@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="XaiyCmj8hllblWBTBigM"
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [PATCH] [OE-core] [PATCH v2] systemd: upgrade 257.3 -> 257.4
+Date: Tue, 18 Mar 2025 17:11:20 +0800
+Message-Id: <1742289080-4051-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 08:25:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213187
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 09:11:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213188
 
---XaiyCmj8hllblWBTBigM
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Hi all, in case this is useful, I want to share some notes for anyone who w=
-ants to upgrade BlueZ to 5.80 as I've been following upstream commits. My V=
-M's SSD crashed recently such that I lost everything :(, so I can't really =
-do the upgrade myself unless I set everything up again (not sure when that =
-will happen).
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ ...ystemd-boot-native_257.3.bb => systemd-boot-native_257.4.bb} | 0
+ .../systemd/{systemd-boot_257.3.bb => systemd-boot_257.4.bb}    | 0
+ ...temctl-native_257.3.bb => systemd-systemctl-native_257.4.bb} | 0
+ meta/recipes-core/systemd/systemd.inc                           | 2 +-
+ .../recipes-core/systemd/{systemd_257.3.bb => systemd_257.4.bb} | 0
+ 5 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/systemd/{systemd-boot-native_257.3.bb => systemd-boot-native_257.4.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-boot_257.3.bb => systemd-boot_257.4.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-systemctl-native_257.3.bb => systemd-systemctl-native_257.4.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_257.3.bb => systemd_257.4.bb} (100%)
 
-Notes:
-1) We should be able to remove the modifications to /etc/bluetooth director=
-y permissions bits (done in do_install:append function) *[1]*. This was add=
-ed previously for the SDK build so that uninstalling the directory/files wo=
-rks.
-2) AMP code has been removed *[2]*. This means "tools/amptest" can be remov=
-ed from NOINST_TOOLS_BT
-3) One patch can be removed: 0001-gdbus-define-MAX_INPUT-for-musl.patch as =
-it is included in the release now *[3]*
-4) Upstream doesn't test musl builds... so anyone upgrading should test wit=
-h musl also to pass all the checks :)
+diff --git a/meta/recipes-core/systemd/systemd-boot-native_257.3.bb b/meta/recipes-core/systemd/systemd-boot-native_257.4.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot-native_257.3.bb
+rename to meta/recipes-core/systemd/systemd-boot-native_257.4.bb
+diff --git a/meta/recipes-core/systemd/systemd-boot_257.3.bb b/meta/recipes-core/systemd/systemd-boot_257.4.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_257.3.bb
+rename to meta/recipes-core/systemd/systemd-boot_257.4.bb
+diff --git a/meta/recipes-core/systemd/systemd-systemctl-native_257.3.bb b/meta/recipes-core/systemd/systemd-systemctl-native_257.4.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-systemctl-native_257.3.bb
+rename to meta/recipes-core/systemd/systemd-systemctl-native_257.4.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 31d26a9fc1..55389f1050 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "876ee10e0eb4bbb0920bdab7817a9f06cc34910f"
++SRCREV = "5ce1c02abc0cc386332384497b5939108314d80d"
+ SRCBRANCH = "v257-stable"
+ SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH}"
+ 
+diff --git a/meta/recipes-core/systemd/systemd_257.3.bb b/meta/recipes-core/systemd/systemd_257.4.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd_257.3.bb
+rename to meta/recipes-core/systemd/systemd_257.4.bb
+-- 
+2.43.0
 
-[1] - https://github.com/bluez/bluez/commit/b1fd409960001a77cda2a09ecc00147=
-ebd9c3667
-[2] - https://github.com/bluez/bluez/commit/1474c11618bc1092f7dd4b304d3768c=
-e9da02b13
-[3] - https://github.com/bluez/bluez/commit/9d69dba21f1e46b34cdd8ae27fec11d=
-0803907ee
-
-Best regards,
-Gudni
-
---XaiyCmj8hllblWBTBigM
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hi all, in case this is useful, I want to share some notes for anyone =
-who wants to upgrade BlueZ to 5.80 as I've been following upstream commits.=
- My VM's SSD crashed recently such that I lost everything :(, so I can't re=
-ally do the upgrade myself unless I set everything up again (not sure when =
-that will happen).</div>
-<div>&nbsp;</div>
-<div>Notes:</div>
-<div>1) We should be able to remove the modifications to /etc/bluetooth dir=
-ectory permissions bits (done in do_install:append function) <strong>[1]</s=
-trong>. This was added previously for the SDK build so that uninstalling th=
-e directory/files works. </div>
-<div>2) AMP code has been removed <strong>[2]</strong>. This means "tools/a=
-mptest" can be removed from NOINST_TOOLS_BT</div>
-<div>3) One patch can be removed: 0001-gdbus-define-MAX_INPUT-for-musl.patc=
-h as it is included in the release now <strong>[3]</strong></div>
-<div>4) Upstream doesn't test musl builds... so anyone upgrading should tes=
-t with musl also to pass all the checks :)</div>
-<div>&nbsp;</div>
-<div>[1] - <a href=3D"https://github.com/bluez/bluez/commit/b1fd409960001a7=
-7cda2a09ecc00147ebd9c3667" target=3D"_blank" rel=3D"noopener">https://githu=
-b.com/bluez/bluez/commit/b1fd409960001a77cda2a09ecc00147ebd9c3667</a></div>
-<div>[2] - <a href=3D"https://github.com/bluez/bluez/commit/1474c11618bc109=
-2f7dd4b304d3768ce9da02b13" target=3D"_blank" rel=3D"noopener">https://githu=
-b.com/bluez/bluez/commit/1474c11618bc1092f7dd4b304d3768ce9da02b13</a></div>
-<div>[3] - <a href=3D"https://github.com/bluez/bluez/commit/9d69dba21f1e46b=
-34cdd8ae27fec11d0803907ee" target=3D"_blank" rel=3D"noopener">https://githu=
-b.com/bluez/bluez/commit/9d69dba21f1e46b34cdd8ae27fec11d0803907ee</a></div>
-<div>&nbsp;</div>
-<div>Best regards,</div>
-<div>Gudni</div>
-
---XaiyCmj8hllblWBTBigM--
 
