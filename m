@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0EF1C35FFA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8917C36001
 	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 18:38:55 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.2863.1742323126900806159
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.2865.1742323127683844285
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 11:38:46 -0700
+ Tue, 18 Mar 2025 11:38:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gIJ4SukK;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-300fefb8e06so6681424a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:38:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=a294KAWk;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-301493f45aeso5462520a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:38:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742323126; x=1742927926; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742323127; x=1742927927; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qw+nhN2m+PmBymKP8ih20HDcg0YZZTYFFPYwaX9f/Zg=;
-        b=gIJ4SukKBtdMtTVyPdgyS8vWyzpUSBDU0G4J0KtM2cntCDL+53CwoL8yvpK6+XEXGQ
-         RRLivq3QJHu200b7Of2pDeRNRPC7HwaNZQvW/MAT8fPFUqf7hgKTV71/JEzL0p+2Fdt3
-         tJn2pkZ7vy4GyqQHayqY/h7MR4o/KliS/YUimUOY+bgUQxgp5zkxB+/ltx0V2i4baF/q
-         mkaSACo8qDIA2g0rLf8m4Zg6mn/v6Jh5XjirpmAILxKYtlqImU9xvL15ptLv38zTutVj
-         I+0o/c6qTJ0sVYZeo6a8IC5aXBoNHT8XFr2CDkWH6CvYL+xFSCmkQOtjSoeC5e7OMDOt
-         CZLg==
+        bh=+2PtxRgE0TTRXgnqb83QPol09MKM/KsT/+eDq9QzMuk=;
+        b=a294KAWkcLd/CBz6z3YthUry6EG4r0VEr+iIXCD1240VQavelkBHZsMr5eZewKbNvW
+         mJBXbIEFY396zzVCY0esssMgO+Q39GWc5QHMAakCX3vXJQCscS0NUtGn2nCRMfXVmcNE
+         WQORlhtwPn5aYN0jfZJjB3QRLvi7zUlEF8Ucn4cL3eNf4TU/V08qyGVT9zIj6LSmeW3G
+         NARF72M81Tlpq2+lqpu5QYtDrTdDgxd+Dwawxdym5BJpPQWLm6tUWiT4Sz0AwRr1DBmK
+         AzotMkSUQ7g08AlOAoAoFSek5qYD3+Pv2z6gt8JOsBdjEaLXJn7j7PE8B72kn24aXcaE
+         WK1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742323126; x=1742927926;
+        d=1e100.net; s=20230601; t=1742323127; x=1742927927;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Qw+nhN2m+PmBymKP8ih20HDcg0YZZTYFFPYwaX9f/Zg=;
-        b=HbKOK9/1nExUhl+Cm3QUOx2CJBpoya4RTrt951MQn2pzMG01U29uHW6+q6VKCc0skn
-         eObzMfT3xNjprq94UhvbUNxNJxTuyMY60K4B5gL8PQn/Lgjs6/yNtp9+Hogwdony7QoF
-         brYjBeivvVCdvEOLj+SXAvet4oUso9t4gRznTc4gOyCzlW2EVwKjaizBP6WwR3wgF5Yf
-         hhY4ww9cVB0XowUHBGCdfYXUA+mhiJzxpoulFZ8LzbIs/nFqoc4Vlas/APlk+1lNk/4s
-         Br5dC5K38Ev01qrBYhAw6IyJ/xlXZf4p1SiViocKnsiGg9GKCVhbkijAa0BikT+ggmST
-         1BvQ==
-X-Gm-Message-State: AOJu0YzQs03k8H4GwjhJWawmbAQ+wkbpWrfuUheeSag+QtI1fWFT8l6e
-	irXyToQfPE4IX5BzXCm2R2Ppc6qE6t3HwrKV+PUdYP3p4Mo9KWYMWaYpCSOH
-X-Gm-Gg: ASbGncsMTZjOhO4a96Qnmyal4FibHJV+XycCQahzivIjCiVmZKS2pew3ntjHrH3/hzm
-	QhC4ql91n/VGIhT5x5uuvclQpqNfqgb21H8x5AkG6zWn+VPNobAO4lDvke9o88AO9MUJhqBZoym
-	csNn7Ni0ss+Bilnd/O1+7QFG35/0ouktFmxyWTwS60zF5+8w8i4J3F6x6gByWkIulfsttF+gqoq
-	5SksDsZAi1Vqn+yX6ExVPWJcqR2cUajgzbS61u9ophHDVxzbe3ORV6PiiMTOlmJ3jhgUiQXdvTC
-	qEeyHdls9nO4+mSpf5UVuksiA07ydZ4BbQw2
-X-Google-Smtp-Source: AGHT+IFi/eR56MgY16Bkbg+NXVpMrE3Ilv0DUu3stxGKejeQFaGdVzL+9vM+FOlWEugs0yB1pcsNsA==
-X-Received: by 2002:a17:90b:3811:b0:2fe:e9c6:689e with SMTP id 98e67ed59e1d1-301a5b093b5mr4630682a91.8.1742323125911;
-        Tue, 18 Mar 2025 11:38:45 -0700 (PDT)
+        bh=+2PtxRgE0TTRXgnqb83QPol09MKM/KsT/+eDq9QzMuk=;
+        b=HhPXynfBOgJm3BLijEkx1ZvF5A0CVP/MDJg5+4tySdrgi+cCMGVGn50fDVU+I1GzRM
+         dVXGb/WbJ0MAjXJe0AjXZmUA7TSS91tLEoErXr9TJzj3mki26ebBdPM3/17tUuqE5b7Z
+         wTm3Eqk8L7VXmG5qiSxJwGiwEaRt0KHJzLj52FkZU7uky4oMlXxMzxAPvnmAcTl8v3+G
+         UX+LDcp0mDg8vfkK5WfPVTWMEkAjsDVzswGbg8Y6MGDEBVSc0JeuZ9JeI98WoAZYYg52
+         nDKqg8f+tYWLDxgfEU6jMDl0SSZ4GAN8TEkgYV3AEI2j2IgQZfFwuDZ1wmX9tIjc3vc6
+         hnRA==
+X-Gm-Message-State: AOJu0YzYCHPPCZYIcmEi6MEfkQg50hR+cIg09qS0wFyAjRwVfAYaJ8td
+	IwRcFVwYNHfR9Bs4yhgUIHyptk/8MH5U+PXXQR4ZCzmdMz5KZBSlIEaPJr/7
+X-Gm-Gg: ASbGncvX1OTQEvhQIFFIdnjvKaTE2I2pZ9JhS7iX9v2oo/1+/yNpgJ3gKE278NpaiC7
+	QBz/0eEfaCQ6LAA9vbl6me/aLUo0yYjCu3YcT1Q8lN2gIW8ZVkXXzfKO3SgBfkI/gabyoiQnPrD
+	+4IoELFJziatWcbRUjlHllqJPRIUL6CjSGAOiZ5yzcBvHsKA1KMI1Y5TvJbWjceFslvZJHvLSqn
+	G+DbyQ8b8Cgm31kKEuweezBpnXJwQODARTPylndn/ntwpFok3tSriIHZGXY5qA6FW2vwgEgNzwe
+	AjwrU3fro0EQPO1NtKjTzC8zRHoI4WdKkNmUYjEHjG1gK8A=
+X-Google-Smtp-Source: AGHT+IFInI56AR9gLAAuT8eWu593NsN/0b6JNIhRD3ajaJTB+qkylJ8OuVWNtll9gAMgXGgwqSRx6A==
+X-Received: by 2002:a17:90b:4a07:b0:2f2:a664:df20 with SMTP id 98e67ed59e1d1-301b9ea5915mr422673a91.7.1742323126849;
+        Tue, 18 Mar 2025 11:38:46 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153afee51sm8537489a91.28.2025.03.18.11.38.45
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153afee51sm8537489a91.28.2025.03.18.11.38.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 11:38:45 -0700 (PDT)
+        Tue, 18 Mar 2025 11:38:46 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [[PATCH v2 02/25] webkitgtk: Fix build with clang-20
-Date: Tue, 18 Mar 2025 11:38:17 -0700
-Message-ID: <20250318183842.2256284-2-raj.khem@gmail.com>
+Subject: [[PATCH v2 03/25] webkitgtk: Fix assertion options with clang
+Date: Tue, 18 Mar 2025 11:38:18 -0700
+Message-ID: <20250318183842.2256284-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250318183842.2256284-1-raj.khem@gmail.com>
 References: <20250318183842.2256284-1-raj.khem@gmail.com>
@@ -66,109 +66,108 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:38:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213228
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213229
 
-Backport the proposed patch to sync Enum traits header
+libc++20 needs _LIBCPP_HARDENING_MODE while older libc++
+needs _LIBCPP_ENABLE_ASSERTIONS
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...or-no-matching-function-for-call-to-.patch | 77 +++++++++++++++++++
+ ...04-main-7ffc29624258-.-https-bugs.we.patch | 75 +++++++++++++++++++
  meta/recipes-sato/webkit/webkitgtk_2.48.0.bb  |  1 +
- 2 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch b/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
 new file mode 100644
-index 00000000000..5b83d9e7eb2
+index 00000000000..5cbb1035b21
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
-@@ -0,0 +1,77 @@
-+From 7d159a631ae55c10a0b7a92cf031200a11629736 Mon Sep 17 00:00:00 2001
-+From: Fujii Hironori <Hironori.Fujii@sony.com>
-+Date: Tue, 18 Mar 2025 10:25:47 +0900
-+Subject: [PATCH] EnumTraits.h: error: no matching function for call to
-+ 'enumName' with Clang 20 https://bugs.webkit.org/show_bug.cgi?id=289669
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
+@@ -0,0 +1,75 @@
++From 83093455d02d73a327cea502d974aac82b59ad17 Mon Sep 17 00:00:00 2001
++From: Adrian Perez de Castro <aperez@igalia.com>
++Date: Tue, 18 Mar 2025 07:39:01 -0700
++Subject: [PATCH] Cherry-pick 292304@main (7ffc29624258).
++ https://bugs.webkit.org/show_bug.cgi?id=289953
 +
-+Reviewed by NOBODY (OOPS!).
++    [GTK][WPE] Use _LIBCPP_HARDENING_MODE with newer libc++ versions
++    https://bugs.webkit.org/show_bug.cgi?id=289953
 +
-+Clang 20 couldn't compile EnumTraits.h.
++    Reviewed by Alicia Boya Garcia.
 +
-+> wtf/EnumTraits.h:212:33: note: candidate template ignored: invalid explicitly-specified argument for template parameter 'V'
++    * Source/cmake/OptionsCommon.cmake: Add a new check for the libc++
++      version, if it is 19 or newer, use the new _LIBCPP_HARDENING_MODE
++      macro, otherwise for older versions keep _LIBCPP_ENABLE_ASSERTIONS.
 +
-+An invalid enum value can't be specifed to the template parameter `V`.
++    Canonical link: https://commits.webkit.org/292304@main
 +
-+> template<auto V> constexpr std::span<const char> enumName()
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/2c105443d41e5ce3de3a4cac2ed8a07ebd134459]
 +
-+The upstream Magic Enum C++ has a template variable `is_enum_constexpr_static_cast_valid<E, V>` to check a enum value is valid.
-+<https://github.com/Neargye/magic_enum/blob/a413fcc9c46a020a746907136a384c227f3cd095/include/magic_enum/magic_enum.hpp#L624-L634>
++Canonical link: https://commits.webkit.org/290945.71@webkitglib/2.48
 +
-+Imported the template variable.
-+
-+* Source/WTF/wtf/EnumTraits.h:
-+(WTF::enumName):
-+(WTF::makeEnumNames):
-+
-+Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/42597]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ Source/WTF/wtf/EnumTraits.h | 21 ++++++++++++++++++++-
-+ 1 file changed, 20 insertions(+), 1 deletion(-)
++ Source/cmake/OptionsCommon.cmake | 24 +++++++++++++++++++-----
++ 1 file changed, 19 insertions(+), 5 deletions(-)
 +
-+diff --git a/Source/WTF/wtf/EnumTraits.h b/Source/WTF/wtf/EnumTraits.h
-+index 0d33e39a..95e6318b 100644
-+--- a/Source/WTF/wtf/EnumTraits.h
-++++ b/Source/WTF/wtf/EnumTraits.h
-+@@ -152,6 +152,16 @@ constexpr bool isZeroBasedContiguousEnum()
-+ #pragma clang diagnostic ignored "-Wenum-constexpr-conversion"
-+ #endif
++diff --git a/Source/cmake/OptionsCommon.cmake b/Source/cmake/OptionsCommon.cmake
++index f6cf5ee..3178674 100644
++--- a/Source/cmake/OptionsCommon.cmake
+++++ b/Source/cmake/OptionsCommon.cmake
++@@ -229,8 +229,22 @@ set(CXX_STDLIB_TEST_SOURCE "
++ ")
++ check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS_LIBCPP)
++ if (CXX_STDLIB_IS_LIBCPP)
++-    set(CXX_STDLIB_VARIANT "LIBCPP")
++-    set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_ENABLE_ASSERTIONS)
+++    set(CXX_STDLIB_TEST_SOURCE "
+++        #include <utility>
+++        #if _LIBCPP_VERSION >= 190000
+++        int main() { }
+++        #else
+++        #error libc++ is older than 19.x
+++        #endif
+++    ")
+++    check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS_LIBCPP_19_OR_NEWER)
+++    if (CXX_STDLIB_IS_LIBCPP_19_OR_NEWER)
+++        set(CXX_STDLIB_VARIANT "LIBCPP 19+")
+++        set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE)
+++    else ()
+++        set(CXX_STDLIB_VARIANT "LIBCPP <19")
+++        set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_ENABLE_ASSERTIONS=1)
+++    endif ()
++ else ()
++     set(CXX_STDLIB_TEST_SOURCE "
++     #include <utility>
++@@ -239,7 +253,7 @@ else ()
++     check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS_GLIBCXX)
++     if (CXX_STDLIB_IS_GLIBCXX)
++         set(CXX_STDLIB_VARIANT "GLIBCXX")
++-        set(CXX_STDLIB_ASSERTIONS_MACRO _GLIBCXX_ASSERTIONS)
+++        set(CXX_STDLIB_ASSERTIONS_MACRO _GLIBCXX_ASSERTIONS=1)
++     endif ()
++ endif ()
++ message(STATUS "C++ standard library in use: ${CXX_STDLIB_VARIANT}")
++@@ -255,8 +269,8 @@ option(USE_CXX_STDLIB_ASSERTIONS
 + 
-++#if COMPILER(CLANG) && __clang_major__ >= 16
-++template <typename E, auto V, typename = void>
-++inline constexpr bool isEnumConstexprStaticCastValid = false;
-++template <typename E, auto V>
-++inline constexpr bool isEnumConstexprStaticCastValid<E, V, std::void_t<std::integral_constant<E, static_cast<E>(V)>>> = true;
-++#else
-++template <typename, auto>
-++inline constexpr bool isEnumConstexprStaticCastValid = true;
-++#endif
-++
-+ template<typename E>
-+ constexpr std::span<const char> enumTypeNameImpl()
-+ {
-+@@ -215,6 +225,15 @@ constexpr std::span<const char> enumName()
-+     return result;
-+ }
-+ 
-++template<typename E, auto V>
-++constexpr std::span<const char> enumName()
-++{
-++    if constexpr (isEnumConstexprStaticCastValid<E, V>)
-++        return enumName<static_cast<E>(V)>();
-++    else
-++        return { };
-++}
-++
-+ template<typename E>
-+ constexpr std::underlying_type_t<E> enumNamesMin()
-+ {
-+@@ -264,7 +283,7 @@ constexpr auto makeEnumNames(std::index_sequence<Is...>)
-+ {
-+     constexpr auto min = enumNamesMin<E>();
-+     return std::array<std::span<const char>, sizeof...(Is)> {
-+-        enumName<static_cast<E>(static_cast<std::underlying_type_t<E>>(Is) + min)>()...
-++        enumName<E, static_cast<std::underlying_type_t<E>>(Is) + min>()...
-+     };
-+ }
-+ 
++ if (USE_CXX_STDLIB_ASSERTIONS)
++     if (CXX_STDLIB_ASSERTIONS_MACRO)
++-        message(STATUS "  Assertions enabled, ${CXX_STDLIB_ASSERTIONS_MACRO}=1")
++-        add_compile_definitions("${CXX_STDLIB_ASSERTIONS_MACRO}=1")
+++        message(STATUS "  Assertions enabled, ${CXX_STDLIB_ASSERTIONS_MACRO}")
+++        add_compile_definitions("${CXX_STDLIB_ASSERTIONS_MACRO}")
++     else ()
++         message(STATUS "  Assertions disabled, CXX_STDLIB_ASSERTIONS_MACRO undefined")
++     endif ()
 diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
-index cb4e09662f7..afd5dcdd8d8 100644
+index afd5dcdd8d8..dfbf9590542 100644
 --- a/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
 +++ b/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
-@@ -16,6 +16,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://no-musttail-arm.patch \
+@@ -17,6 +17,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
             file://t6-not-declared.patch \
             file://sys_futex.patch \
-+           file://0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch \
+            file://0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch \
++           file://0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch \
             "
  SRC_URI[sha256sum] = "94904a55cf12d44a4e36ceadafff02d46da73d76be9b4769f34cbfdf0eebf88e"
  
