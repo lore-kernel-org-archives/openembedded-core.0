@@ -1,218 +1,200 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BF2C282EC
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 11:07:34 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.1])
- by mx.groups.io with SMTP id smtpd.web10.9169.1742296042860882122
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD4CC35FF3
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 11:23:54 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.9391.1742297025378487616
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 04:07:23 -0700
+ Tue, 18 Mar 2025 04:23:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=PiWaUBmW;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=PiWaUBmW;
- spf=pass (domain: arm.com, ip: 40.107.162.1, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=uGwKbAzDQ4m1NOK35e31OA130X1bN4Va4uq4B/Dozg0ZaHASOPPN5weNHTHCkkaKaslOF6YNmdDnY3ZTUm5wvL8BSTTgwzu2PtimDNNeScpZeYyi/VqQuk6vtOSILYgV+OdJ/tsYhUREj+MCoZKpvp64epflDqj+V0/FhIJHIAm8e/Ymdlt6JmBrHVQsJvA8RrbBB5/ggsXa6dA9FqmCnH3B9d14vs34rA9JxXCvu22BYnpj0W77HqQgyqgLyHSFYAz5OY+EO4OzvUaikMNfxznuOffCi1UafAFpobJsUWTXtWkVitz2T1YCVlGB6ZKPbCvqzWeCFXl0vb6VvEpplw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HqWLh4K5C2vrR7tYxc45NXwgB/lB/sWfQr/DmFwgPv4=;
- b=J5y/ccmj9g2/VLOheiqfie1K4jnPkIlhVoQgjWEg0DueecdNPc3BBK4unjvdQwIXV09rJivTlAr4jK8+/SaitoMNjJ4VxOcjHBcTcZWtA79SKFjNJyg0w7oXRA1zKr8T1MvgVvqVLo6Lm+eRv9EE9+GjAKFlH3QWZSb5AqKPzxWzlcZE80nLNW4nSyR1sqgrZgDR9p6OglaR0KkOl/KytFUwmKFymx5l1fTQWRPfuKD76vXZxT4hwild/UxmeTqyMEB30fOcG5V8CIBRYjJXzBpnnYhYZDlMAgbJSeIG+Dd8pkUN1jajTCxiVJQr9oLoAA7doC/c+k9gqLYV7nHEoQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HqWLh4K5C2vrR7tYxc45NXwgB/lB/sWfQr/DmFwgPv4=;
- b=PiWaUBmW1tC5Xa7pmhpHk3NKTNsnChgNQrbZiBvcR8ZCmSquHth3bjl/7jyS1LGidTWwPK8V7Jdozq85GzUC4KdTl4cKoIwpj7c/JrRD0Er0dagsrN1ux4+VOxHJTnj8mA7+V1S8xmE38FaYybL9Y8io8n1ygZZR4TniVZqQe4I=
-Received: from AS9PR04CA0115.eurprd04.prod.outlook.com (2603:10a6:20b:531::25)
- by GV1PR08MB7850.eurprd08.prod.outlook.com (2603:10a6:150:5d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Tue, 18 Mar
- 2025 11:07:18 +0000
-Received: from AMS0EPF0000019B.eurprd05.prod.outlook.com
- (2603:10a6:20b:531:cafe::66) by AS9PR04CA0115.outlook.office365.com
- (2603:10a6:20b:531::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.33 via Frontend Transport; Tue,
- 18 Mar 2025 11:07:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AMS0EPF0000019B.mail.protection.outlook.com (10.167.16.247) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.20
- via Frontend Transport; Tue, 18 Mar 2025 11:07:18 +0000
-Received: ("Tessian outbound f89894bb7c0d:v594"); Tue, 18 Mar 2025 11:07:17 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 29d9c7d836b064c7
-X-TessianGatewayMetadata: BWEpVQ4H6JA4R3u8PZOcVQyrxhsMAVrHi23Dnd4IIqBYgs9d1Y/ojwHrSc/idK+7JsYeEh5UkJq5B06tbMCvyuwiSWjNRP1T5tcYRqfHbIHT+X3tTRFzO9xfbk0V9yu6SD6tNyDSeYyg0YkEV4YGO2mdnlUyY4T6OmNs+YkqbZc=
-X-CR-MTA-TID: 64aa7808
-Received: from L4cf3154e39be.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 03431AB5-F1E0-4C3B-8DDF-252F59EA1B79.1;
-	Tue, 18 Mar 2025 11:07:11 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id L4cf3154e39be.1
-    (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-    Tue, 18 Mar 2025 11:07:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=stfEQQP+n4AsCxjqqHdlQhaOxU3qJrc4W3kbqYhd/2f3IEE2+zGxSOJNtWjO0yjEE2qggcPajSoHQikEN2SViX5k+LiAW0TWwVNAN7tz156NkXv7WJ3vTWcEz8KOX1CkDVWQbVmFAtWsxe5u39QSAIfwrmqQ7A96ci9NMbqvZjkCdXJ53gZ4J05IZ02+IZl14bn14qKuArrHzQmT6bju7MepcmDFqzuTkqZUvzlI9mTirfQQ/vvKpei4jYmy2KI1PUGlDjOo6ZcdHKG6ZrTlkIMtWnBo06a1p9ssXo9loGDdvddr3HWS249I6ks2CtC81vj60Xv4ai/seyFfGC6Y9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HqWLh4K5C2vrR7tYxc45NXwgB/lB/sWfQr/DmFwgPv4=;
- b=iejIEfGP/ujDanXhp8kO9J9XHjJZo8gnpF/zrOUaabVDD/BXKcfkSGIK3V/IuY5f1FkQuVnozieD2NF7t23LjyMBoSfGB0rz6Fi/Vzr4b4BR8sfjt19h4SKvQavLgviqvvvxDfQLPRW0viYVEF/wnnHDdLLD0JrOJaZeQq86SqMetqV0v105OT18kjnX9K9jMOelgeyg62OURpZLlNgM4nf1d6WeZgJtT62srJQNlllFcxSLC/+n/4c70Wmm5AQCdcIbJpiHMrr4df4nEFAUqRJy6qocLF0X6MblVBQKStUtSZHbD7xWHrK57IHAT+8bWCyZsEn88zP0Gy6F0JuKIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HqWLh4K5C2vrR7tYxc45NXwgB/lB/sWfQr/DmFwgPv4=;
- b=PiWaUBmW1tC5Xa7pmhpHk3NKTNsnChgNQrbZiBvcR8ZCmSquHth3bjl/7jyS1LGidTWwPK8V7Jdozq85GzUC4KdTl4cKoIwpj7c/JrRD0Er0dagsrN1ux4+VOxHJTnj8mA7+V1S8xmE38FaYybL9Y8io8n1ygZZR4TniVZqQe4I=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS4PR08MB8071.eurprd08.prod.outlook.com (2603:10a6:20b:58a::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Tue, 18 Mar
- 2025 11:07:08 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8534.031; Tue, 18 Mar 2025
- 11:07:08 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Marta Rybczynska <rybczynska@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Marta Rybczynska
-	<marta.rybczynska@ygreky.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH] cve-check: change the default feed
-Thread-Topic: [PATCH] cve-check: change the default feed
-Thread-Index: AQHbl9LbHm4/9We/I0CrcEja2El187N4vBUA
-Date: Tue, 18 Mar 2025 11:07:08 +0000
-Message-ID: <04A13835-A7EB-4FCC-9B3D-A59A7986C084@arm.com>
-References: <20250318065403.8198-1-marta.rybczynska@ygreky.com>
- <CAApg2=SHr+uahMKSudWA605zHHpt2mCCGuxvT8i1-xvZGzP-xA@mail.gmail.com>
-In-Reply-To: 
- <CAApg2=SHr+uahMKSudWA605zHHpt2mCCGuxvT8i1-xvZGzP-xA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.400.131.1.6)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS4PR08MB8071:EE_|AMS0EPF0000019B:EE_|GV1PR08MB7850:EE_
-X-MS-Office365-Filtering-Correlation-Id: 367871c5-0056-42ea-182e-08dd660d0c44
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?us-ascii?Q?UALX7YXfDJp5DeaU2jo0XXx1J/vC4jEMBlFjWbM11qUD0e4chgXk1J8oXYNo?=
- =?us-ascii?Q?jdEtqnfCD+k102NfwhdeViqlmYNs3fzGe9+IiVl3fTP6kldSZJEyUJqqRmg6?=
- =?us-ascii?Q?lSUmkkNd/nRhNRrMCvXPg3Sm19arGi7o/zC+HJl20pbCih/oWwFrgsThrwjZ?=
- =?us-ascii?Q?QTL2mTRREZxUJ97SZ5LqQyjdRyvVM0phh3V2xtgwxfS+B7PdPb5YhfRy9VTf?=
- =?us-ascii?Q?MiGAC2mcHbtH/glGjEG9aMslsVGE06y1T6DLDxxi5DbNBAMolB/xCILvBvB4?=
- =?us-ascii?Q?sGJe/6mutmqNBMf/WcckMRI2m6l7w1fdl8qpHJS3sF51mxHGG3KdReARvLbf?=
- =?us-ascii?Q?wfdZpvxWcwxrXC1l4vOw5Nd6OYbhOzVloQJ3mJuDeUEaICfgblzkUWnUR276?=
- =?us-ascii?Q?csDPz7xpmRJOQjRMiaA2TsWkNa0LUUqO4/kBkoGNxaK7EoQow8Ij2NiNXxhb?=
- =?us-ascii?Q?X5fqOEX+UFGHIKC5k0NHY33iUoT3LOaS2/2x84Lfe3mLKzUZ4xQUuG+3foNU?=
- =?us-ascii?Q?ddyvSLIR7tEapM4YniK5177t8lBs7PSJ85tCw/cWXvRRf+v8TTx/MxnGB25E?=
- =?us-ascii?Q?dbX+UmimpD3YKZFsiLhTQhpxLKdb0l++DY33RdwUZhjmoMwug0dXpaSUcyde?=
- =?us-ascii?Q?bXrQCK1OlH/SqjrersUrGFGNX9qgUDA7QfMs7l2zIIEgGtn2g1XqmH5IlHhW?=
- =?us-ascii?Q?46cXvWoQIN3rLbEPQy9Ky4Lws9zFXGSXvKqynr8hbKUOixQ+yUpbqrBF8IJo?=
- =?us-ascii?Q?NOaQVr+f9+YILrYIIsRzpDOr2ascMWQwgrNQdN6bRnwlvWTAcNfv0KKcPVET?=
- =?us-ascii?Q?aaiom0UomfhZ7xr4odrkhFvFQXxEKSH0JTduvKwv1snv5mY4DfT3w+L9RU04?=
- =?us-ascii?Q?V6gIOkzLhzet7SKWH7DdokTc5ppyv/IIVL4GmzK2K3V1BVUN0qpl201/ssmb?=
- =?us-ascii?Q?dG8/i83to3JM5sx4CZod0LGqfGatYXBuIiJOJWtvE6Q6phId3CUnu5BPzt2j?=
- =?us-ascii?Q?c7g7ZG2no6SDQiu26iXYgNaXL7PvNrTzvDZZ1caVSgBHrWxQiz1uJN76yfjB?=
- =?us-ascii?Q?BTtKPYxoJ/9Mvi4miGR3F/gF8z22H/LYLepjr/vrrEk7IyHCng7+kYHjprGs?=
- =?us-ascii?Q?llWEs2oPccD5NYgSXsr8BCttHx74HWj16MEagJMZdKarrli6igrfRJw1ff9b?=
- =?us-ascii?Q?nskOIgGHZwTWeA3U9YrNmzyb1CvkDfIr7lSabnbTBSvmH5nQP5gtimclnq+L?=
- =?us-ascii?Q?qrHIphl8hdQNz/g+B2rYgHXPzjIvGhMMgbh18Cseuvw3tKDFJ5JB0YjW9svo?=
- =?us-ascii?Q?q7nU7cBTHqgnkLK5qqy0EWcAHZwgb/juoFBxPCrp8ZoVITZiscusUUndqOyr?=
- =?us-ascii?Q?jNWICkKcoIJYXtjzKk2JVTm96E7UsKeyGNqo1LqhqSjHRz9asCOBSomf945p?=
- =?us-ascii?Q?77svEDTsZhY2Xf1d3FSJsx8KSqEVz4qO?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <A1920D35CDB98048BBFFDA36FC952821@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Nr+fD/8K;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so32336695e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 04:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1742297023; x=1742901823; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j9afkmMGVzpH3NEiG/s/Fl1I0sqpjYItODAxCms7o18=;
+        b=Nr+fD/8KX2Q8btDxH4EGUX+JSy6a8nYjzm8qhJqVQ9rPGjHCHPsySxhDF0CX5rE0Od
+         WtbGAoonCFZ4gGPzfW06NorNrxJRxKEPUPJ4jT5IiIDOeMw8a1DzIhqosRiBCqdyi54o
+         C5MHEE/hXiJcAZ/2NLoNYbDXjqPA80Yw73DwI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742297023; x=1742901823;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j9afkmMGVzpH3NEiG/s/Fl1I0sqpjYItODAxCms7o18=;
+        b=dwXfty47+fvF/pzP5sPQ9H0z3ZQdOaSE7R2aQA+4Nfj8IJngTQLwMTmhV1R2zxmfmq
+         Dn+aUd3aFsqHPaO2PjWH+m+havSko2vGBprC/jJu6ZCS2ky2hDBqzqt+INiVTtCfy/OQ
+         nOYTyCvPijAw39Mjoc7ri6tELQM8iEZfcQpR7grJA399QUj5pCpEcNZ5r2+74KuZ/ETw
+         +aADC8koGMVGYtWo+y4s0qxowiEE5QymkhNLaLbb/58tq8zzoRsY9YOHcID8twLzbO7d
+         vwaT/4txebVYWJ/EuqRe/fP5YXSTfITXTl03gOQTVhV3aySdL/Wojz5eFmuXAjAYRNbo
+         24eg==
+X-Gm-Message-State: AOJu0Yxy4lYyPwviT1lAWf9cYRqrH33JFFzL3LPy2sYc0ux/VWKAvYqL
+	0Bj9ZFpDRl2LDcUObCDzmMPbgxvlJvAbD80AbokwyZee2/3CMeShg7GfyYjymul0vg+vJSaj2Ua
+	K
+X-Gm-Gg: ASbGncsOobsoeix+PfWaH0aGwZvjy16OAEVgKsyDyzFM/TDATHLefpsRGXUEri1/bG2
+	9ZfA9o5uWq8uouoH0ijXcG5OU7nURh2ldWmjfNT9+RTrWwF+OfnLUpyybbdEyCd72C0gyEkbyXA
+	BFb/TdTlhzmzigh6CDpHUVzqgH9Qxwf8Qc1pjSEgmJW3jgJ2vjibHe6e4CDIybzRONEUEzZB3lK
+	E6XityN2mAn2EaNyVtMW1/nD7SyczZ7RqLRiu13P/VEnOtNSCSv77hIkyxqnrWLHYdupz1Rm1VG
+	yABLIU6Vp+gmvudDcmNP5pNIOnEMXsQBZbXRJTF2SmeZIpBEhEORN6QTxOcNPtfZ49vIYzdO/A=
+	=
+X-Google-Smtp-Source: AGHT+IEoqk0WhF9MMpoEhbZzjIHvwhUP9ZNAVVkqNAFkZyI1FwJG/tkLCfzJTSEcnQnHQrefvWlf7w==
+X-Received: by 2002:a05:600c:450d:b0:43d:683:8cb2 with SMTP id 5b1f17b1804b1-43d3b9b2f56mr19902295e9.14.1742297023309;
+        Tue, 18 Mar 2025 04:23:43 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:791f:f4e7:28a8:7096])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb40cdafsm17972232f8f.62.2025.03.18.04.23.42
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Mar 2025 04:23:42 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] dhcpcd: upgrade 10.1.0 -> 10.2.2
+Date: Tue, 18 Mar 2025 11:23:41 +0000
+Message-ID: <20250318112341.3941239-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB8071
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-SkipListedInternetSender: 
- ip=[2603:10a6:102:2a3::12];domain=PA4PR08MB7411.eurprd08.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF0000019B.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	eb05f6cc-7434-4671-5afa-08dd660d0655
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|35042699022|82310400026|36860700013|14060799003|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?+slSzxBhvQOV9CqRcfrGVBsFaeZv2ld1PkzYLs/UhXEdlyJqcUTzkV4wG9OC?=
- =?us-ascii?Q?EEY1J5V/6QlPY44/pFAj31ql9VLs9pPKaLOcG0nBxTmdMqhrGvyRDrUWyZXJ?=
- =?us-ascii?Q?Imn/C46FJwrb0xWahXzcqPdRGJTA9A7OQIgka5lL+deJVaTu6DKOIojtDFOH?=
- =?us-ascii?Q?XVicURVtRpSZCbhUT3gJR6AByVsPgZ4AEGSNzAi+/eljR6S1P2UVa0zl6cQd?=
- =?us-ascii?Q?L26ieJEfc9FIOke9ObnKhbBieD6qgWrgCKxehIEXzYtzTpwA68xin3STGrDq?=
- =?us-ascii?Q?l3w6ttOo+MhnGmt9nLckv+FDdXHHWc1NszEMfuLXPfXzIoNPBGorYIba7CoM?=
- =?us-ascii?Q?IYQ5z0Nv7CewzwEUTdhDFUxGFVQWpCRDjI+HeLqCaVwg0fyBqrNpi72mAtiw?=
- =?us-ascii?Q?ulXHhsf09gi81nit0O3IlQGKOatBPvdo5yq387R0KR1FORVL4JqORWPbf7cF?=
- =?us-ascii?Q?Lepgg8X0+ll+cTpjOSfDO3sKIkuhAd40sF695/VBUb/lIvHQX2V0TzmLczFt?=
- =?us-ascii?Q?Lpb5dWcP9g7Pi74I14jjYCgk7BnmcFhOweehJsLhrSwbxVfdKijGOCjAvi9G?=
- =?us-ascii?Q?uNiyMuenBYaxja2rgqp7xMd7UGKNFs2e1GVtkGGlK6HCzfwos9BJFON8d4eE?=
- =?us-ascii?Q?N+QneZnNPl0w3YA9j6TQYJ1jDRMijSncRLhNWkAe+0Z/yIkD9xw7AcLRjjcl?=
- =?us-ascii?Q?2DB86qj4JDYfDuOdRDl7jr+ZHxtiCg6QUIMYXLm1GYjiOxcf721ouuAFCtym?=
- =?us-ascii?Q?13SE4ubtQOrAG4XIktITBMy77MbtIsD1F9LfQyqjlUkaxEe64GIFy+EBmWLJ?=
- =?us-ascii?Q?UBIjq94t0frvSBH0eRtKZcS1Mchqd3sLlNhK7dDMKX/94TNcPWfdUpkfGq0L?=
- =?us-ascii?Q?J4EDtAK+ZPDYUil0LdJveAfVPkCpdYL4eeRcRb3vvNJKQdZ23kxbheriYxFI?=
- =?us-ascii?Q?V/hYLFGIEH/BC5Mm+ylhe77Y6rYFtSpPC7tDLeqvU+W30bIKv8C/p54QuWHA?=
- =?us-ascii?Q?YAf6QKLZcw7jsTzBw83I/KgfcnF1FlCNa8wu+LPcZ2oSgfaKxOq82TpEuzbr?=
- =?us-ascii?Q?yOAYrJmlDtKU96OKMRjqXccNEBDa0bH/um2x7UoGMOGcyrZj+8sXB0HciWQ+?=
- =?us-ascii?Q?HD+USMRNrLzdifVyBPi3pBFzZGUMcEZ6l/5jhGPVQ/6e3gUp+rPr5xreki1q?=
- =?us-ascii?Q?jL7a9X2bsv3UHC235NNRv0PXXFD9jiF6wsKqx1E5bDYycdPvN1aYgfkiWWEY?=
- =?us-ascii?Q?RzRKHqSy1IIV/PW3JPVWYynz4OrCOSKRgZCNb3bqtz759oMk5toWiKNd+DFp?=
- =?us-ascii?Q?VYF82Tgxb+6PFWh89Mpy5CtIe02t4Jvixi6XplyKmxEyMubOJhBc1qcA5A2o?=
- =?us-ascii?Q?C0ukBII4dPCr+lNR1BPrXcyipEBtQPcS4m7tKQF+X92WqIn6IHUi09frjW01?=
- =?us-ascii?Q?PsMMtgXCpNM0phhT/cg0Qhe2YxHBqXkSv7hKqFQfHVRmYOr8a7Ug1ouxwKGy?=
- =?us-ascii?Q?lw10Tf+e31DfUkA=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:64aa7808-outbound-1.mta.getcheckrecipient.com;CAT:NONE;SFS:(13230040)(35042699022)(82310400026)(36860700013)(14060799003)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2025 11:07:18.1313
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 367871c5-0056-42ea-182e-08dd660d0c44
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF0000019B.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB7850
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:07:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213203
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 11:23:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213204
 
-On 18 Mar 2025, at 06:56, Marta Rybczynska <rybczynska@gmail.com> wrote:
-> This is late for the release, but I think it might be a reasonable choice=
- for months ahead of us.
-> To be discussed.
+License-Update: Copyright years change only
 
-Given the fetch speed improvements, I think this is acceptable for M4.
+Drop a backported patch
 
-Ross=
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../{dhcpcd_10.1.0.bb => dhcpcd_10.2.2.bb}    |  5 ++--
+ ...mprove-the-sitation-of-working-with-.patch |  5 +---
+ ...-conflict-error-when-enable-multilib.patch |  4 +--
+ ...llow-the-__NR_rt_sigprocmask-syscall.patch | 30 -------------------
+ ...e-INCLUDEDIR-to-prevent-build-issues.patch |  4 +--
+ 5 files changed, 7 insertions(+), 41 deletions(-)
+ rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.1.0.bb => dhcpcd_10.2.2.bb} (91%)
+ delete mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
+
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.2.bb
+similarity index 91%
+rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
+rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.2.bb
+index 99b72852bf3..0b4345e7fa4 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.2.bb
+@@ -7,7 +7,7 @@ DESCRIPTION = "dhcpcd runs on your machine and silently configures your \
+ HOMEPAGE = "http://roy.marples.name/projects/dhcpcd/"
+ 
+ LICENSE = "BSD-2-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=d296c4bec306f351e676705aaf237c8c"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=4dda5beb433a809f2e0aeffbf9da3d91"
+ 
+ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=master \
+            file://0001-remove-INCLUDEDIR-to-prevent-build-issues.patch \
+@@ -15,10 +15,9 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://dhcpcd.service \
+            file://dhcpcd@.service \
+            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
+-           file://0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch \
+            "
+ 
+-SRCREV = "57c3506a5622e199cf0e3fc1ef26a71cdedc9521"
++SRCREV = "f6983c18dbf7989f43a2838beeaf62a54c53ff1d"
+ S = "${WORKDIR}/git"
+ 
+ inherit pkgconfig autotools-brokensep systemd useradd
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
+index 8d1ed6671a5..4f687b0292e 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
+@@ -1,4 +1,4 @@
+-From 02acc4d875ee81e6fd19ef66d69c9f55b4b4a7e7 Mon Sep 17 00:00:00 2001
++From 33710a648a805d96abf49d5adf6ca55b89f9c858 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Wed, 9 Nov 2022 16:33:18 +0800
+ Subject: [PATCH] 20-resolv.conf: improve the sitation of working with systemd
+@@ -77,6 +77,3 @@ index 7c29e276..becc019f 100644
+  		"$resolvconf" -d "$ifname" -f
+  	else
+  		if [ -e "$resolv_conf_dir/$ifname" ]; then
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+index b958110ef1c..484b84f94ae 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+@@ -1,4 +1,4 @@
+-From 1115784dfdf2e7095cf599f9becef705ac57f80e Mon Sep 17 00:00:00 2001
++From e9b1376c59b15e7b03611429187d9d89167154b5 Mon Sep 17 00:00:00 2001
+ From: Lei Maohui <leimaohui@fujitsu.com>
+ Date: Fri, 10 Mar 2023 03:48:46 +0000
+ Subject: [PATCH] dhcpcd.8: Fix conflict error when enable multilib.
+@@ -29,7 +29,7 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/src/dhcpcd.8.in b/src/dhcpcd.8.in
+-index 04bf7d90..9cf10d24 100644
++index 91fdde2c..b467dc3b 100644
+ --- a/src/dhcpcd.8.in
+ +++ b/src/dhcpcd.8.in
+ @@ -826,7 +826,7 @@ Configuration file for dhcpcd.
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch b/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
+deleted file mode 100644
+index 7058330165f..00000000000
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-linux-Allow-the-__NR_rt_sigprocmask-syscall.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From e9e40400003db2e4f12dba85acabbaf2212a520f Mon Sep 17 00:00:00 2001
+-From: Scott Shambarger <devel@shambarger.net>
+-Date: Sat, 7 Dec 2024 16:37:28 +0000
+-Subject: [PATCH] linux: Allow the __NR_rt_sigprocmask syscall
+-
+-Fixes recent glibc changes to getrandom() used by arc4random().
+-Fixes #421.
+-
+-Upstream-Status: Backport
+-See details in https://github.com/NetworkConfiguration/dhcpcd/issues/421
+-
+-Signed-off-by: Scott Shambarger <devel@shambarger.net>
+----
+- src/privsep-linux.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/src/privsep-linux.c b/src/privsep-linux.c
+-index 8357904c9c9a..e3485a2efdfc 100644
+---- a/src/privsep-linux.c
+-+++ b/src/privsep-linux.c
+-@@ -409,6 +409,9 @@ static struct sock_filter ps_seccomp_filter[] = {
+- #ifdef __NR_recvmsg
+- 	SECCOMP_ALLOW(__NR_recvmsg),
+- #endif
+-+#ifdef __NR_rt_sigprocmask
+-+	SECCOMP_ALLOW(__NR_rt_sigprocmask),
+-+#endif
+- #ifdef __NR_rt_sigreturn
+- 	SECCOMP_ALLOW(__NR_rt_sigreturn),
+- #endif
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
+index 8890c2d7dc6..fd3fae7e7e0 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
+@@ -1,4 +1,4 @@
+-From 69babef33b0ee4c60d8821797777b9affedd47da Mon Sep 17 00:00:00 2001
++From c2ebc32112e0cd29390b4dc951b65efae36d607b Mon Sep 17 00:00:00 2001
+ From: Stefano Cappa <stefano.cappa.ks89@gmail.com>
+ Date: Sun, 13 Jan 2019 01:50:52 +0100
+ Subject: [PATCH] remove INCLUDEDIR to prevent build issues
+@@ -11,7 +11,7 @@ Signed-off-by: Stefano Cappa <stefano.cappa.ks89@gmail.com>
+  1 file changed, 5 deletions(-)
+ 
+ diff --git a/configure b/configure
+-index 1a772b02..0f915b39 100755
++index a60da137..3673de8b 100755
+ --- a/configure
+ +++ b/configure
+ @@ -26,7 +26,6 @@ BUILD=
 
