@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C177C35FF8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFED9C35FFB
 	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 18:57:26 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.3408.1742324240483860349
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.3341.1742324239180183477
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 11:57:20 -0700
+ Tue, 18 Mar 2025 11:57:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Z6VR594B;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bk1PsUpJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010195aa9e0d48-2df97e95-134b-42db-9c30-810ec74ffbae-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=i2oMXbEG;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=te2iT2zg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010195aa9e0866-89988ce3-4752-4604-887b-73a19ed1d8a5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742324239; i=@automation.yoctoproject.org;
+	t=1742324238; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=LxF4waKILzgJkTchXVBiVskW3KREHt4KzJdj4oVcrOU=;
-	b=Z6VR594BpNKIIvBjAaYMtA5pVVOOGXNdscS1JPxaB41nWT5ME/5QNE+DM/idOM/W
-	psenV6UY9PysJPS00GKZYqXBfHYBCwjhF0752cnpFCGV2zHTPcAmhzi84qF4tm86Boy
-	NdMi2i8XdHaeSQ8D3lcUEpGTlAmBTLTbFh+vvOg8=
+	bh=oeKDDKJP61lh5+TscYw2IU2UuhfFUdBKlR3LDOHTWEk=;
+	b=i2oMXbEGmQBOQ7oyvdGMkb+N5WvGJwL1Gs6F9AO1ZFDhIX6yTpNT9y+2ZWZ3XA6E
+	X6wxfnimRut8vxgP3UmvzphIFFJ//kNNWZSssylWsx3baWH0W1jZB3aFVp06KZHArRQ
+	Hpd4tn/KQnDa4o/g1jmq/xo1YikpufET8WYz5Rsw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742324239;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742324238;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=LxF4waKILzgJkTchXVBiVskW3KREHt4KzJdj4oVcrOU=;
-	b=bk1PsUpJGA3AZ66V94HKsX+P7MPq6zvyyEoJt4jJFgSPdJ3cjxQtAfACANverFJX
-	Itq8PK/VB37ywjKxhbGfxZ4/qWz6jcUogrNUeksArhKZOb0vTshR/LhCFZPDkB7RNBg
-	HWT1lI4gS4sq4QDxMGtmpIxGqmi2kHhxL40Gl2w8=
+	bh=oeKDDKJP61lh5+TscYw2IU2UuhfFUdBKlR3LDOHTWEk=;
+	b=te2iT2zgQNHW5KcUOMUgXNFj6hIAPi9mq0ZuSBIE5itj3gBdp1rW4RvxZn3385Qs
+	JSd9UDXi7f/Y0quA9pGwCKk2Q+C2B9056gnMeJ3A+nOcIdVt/+JkV4XuK58SOz9nJ9D
+	ROYWKRzNzBX3TGJ15dLsiFERsjcTtVq80mWcsXo0=
 From: patchtest@automation.yoctoproject.org
 To: Khem Raj <raj.khem@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [[PATCH v2 22/25] psplash: Fix build with GCC 15
-In-Reply-To: <20250318183842.2256284-22-raj.khem@gmail.com>
-References: <20250318183842.2256284-22-raj.khem@gmail.com>
+Subject: Patchtest results for [[PATCH v2 16/25] unzip: Fix build with GCC-15
+In-Reply-To: <20250318183842.2256284-16-raj.khem@gmail.com>
+References: <20250318183842.2256284-16-raj.khem@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195aa9e0d48-2df97e95-134b-42db-9c30-810ec74ffbae-000000@us-west-2.amazonses.com>
-Date: Tue, 18 Mar 2025 18:57:19 +0000
+Message-ID: <01010195aa9e0866-89988ce3-4752-4604-887b-73a19ed1d8a5-000000@us-west-2.amazonses.com>
+Date: Tue, 18 Mar 2025 18:57:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.18-54.240.27.192
+X-SES-Outgoing: 2025.03.18-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:57:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213256
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213255
 
 --NextPart
 Content-Type: text/plain
@@ -53,17 +53,17 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/PATCH-v2-22-25-psplash-Fix-build-with-GCC-15.patch
+Testing patch /home/patchtest/share/mboxes/PATCH-v2-16-25-unzip-Fix-build-with-GCC-15.patch
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'gcc15.patch' (test_patch.TestPatch.test_signed_off_by_presence)
 
 PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
 PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
 PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
 PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
 PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
