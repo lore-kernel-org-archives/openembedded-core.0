@@ -1,102 +1,93 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CDCC282EC
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 07:16:33 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.5971.1742282181283627889
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EE93C282EC
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 07:39:33 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.6231.1742283565966033825
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 00:16:21 -0700
+ Tue, 18 Mar 2025 00:39:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=IJU0xvPq;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VfaShzpq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010195a81c474d-8a3e81d4-19da-4d17-88e4-627da8848e0f-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742282180; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=EO3+hWxvAvIwmRAovw63syGbHislAMll9rSVLyQNQXg=;
-	b=IJU0xvPqqcwtvdW28YUrrAVNnV6au6jj3RVst8aVY+BHDcSAU4V7ZB+1YFHisAZD
-	4UaTJ+oA5sXpxW+xVOjH/Stq7QJoNfUl7/ksfRbUuvqTX/N3bDHN/xQ97yNpoQAyjys
-	asznbINjQRCnh4lQzSjmu94HbLu9EilAIiCk02b8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742282180;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=EO3+hWxvAvIwmRAovw63syGbHislAMll9rSVLyQNQXg=;
-	b=VfaShzpqHknm85JRu9q0Z/NVkcZUtBSAnnM6ztTa/zCWuqkIp9jomLE2/IBhE8AO
-	ELrtRqIQ2FDM3Tju9ZDkqnziVkuTGRtI39y8KRDkorZdyO09+0SlkriEABAKA7p/E4z
-	lzoNC8RHh6NX44Mdeza2WemQLTUds6Zp0IJVFkK8=
-From: patchtest@automation.yoctoproject.org
-To: Makarios Christakis <makchrbiz@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [BACKPORT] icu: Adjust ICU_DATA_DIR path on big endian targets
-In-Reply-To: 
- <CANpL8OsjDEO6gw_j+YphY9PNx3SV1AK0dTsG353spS6UDK63EQ@mail.gmail.com>
-References: 
- <CANpL8OsjDEO6gw_j+YphY9PNx3SV1AK0dTsG353spS6UDK63EQ@mail.gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195a81c474d-8a3e81d4-19da-4d17-88e4-627da8848e0f-000000@us-west-2.amazonses.com>
-Date: Tue, 18 Mar 2025 07:16:20 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.18-54.240.27.193
+ dkim=pass header.i=@linaro.org header.s=google header.b=UsRxod2S;
+ spf=pass (domain: linaro.org, ip: 209.85.208.171, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30bfca745c7so54923831fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 00:39:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742283564; x=1742888364; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yDru2v5W2pbRdxedkM/uaEWPkQn8FkyNhP4rO3NJB8A=;
+        b=UsRxod2S1Sd3yAqzFy4XpP0jo/gZmRz7XfFMS5/Hlu1fxtrkAYACTL+egNCisAWJjn
+         1V4NKLHVzcD3YbeUUzGoXZWhf7SxiZyU6f/qL5psG0RS2Yhb0bDuRBah5fiky67eB37F
+         nThYeUODQydDcvnYy933HIdgLPDDqTOMhUj8E2l1cQrgpP/cFbP5o5r1r6zNAkrJaCsW
+         ySsw5xN+KbmGqwTdRQaUvoIvuybYbx5/lwl1Eggg8WyTq7UvLMSXKernK8erDXnndnoj
+         n0CHuIhNPPhiSRuE9L/hJkGVZofBdm+7jfNtusgUcvgKEGTXd2F8l0sfwJLlfIw/bxEK
+         m77g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742283564; x=1742888364;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yDru2v5W2pbRdxedkM/uaEWPkQn8FkyNhP4rO3NJB8A=;
+        b=e+MyK2eWy+PXTGiVZu2+QxNle4RyKs3BMpqjCIPPJwuA5a5zLVX2ovl1HlZbdeFIRA
+         HHLpvs4QTw3PHdNEmDr0aNmBSNtmSzqFc3nBWKjV8+pFtc/cPPx2vrUc2Ar7JWJHk79B
+         fFfg5UR5lRpLM0CGblu5h4B8rULCw/sKOycNeOTW0vLLzGfyzGzVSB3N+P3tlNGhO9hA
+         q7+gidxGyo2lKuYHzGVATcnRkrnnDCS/o3KBbiajbIZUMn1xJW1nToSspAr7lX8EtwRR
+         s0KWC7zhEbSdSvP4UN+RS6O03L4bGNOIQGdfKBZyFrtE2zZ/jiP3mDOm9ha2pm2FEnP+
+         Rumg==
+X-Gm-Message-State: AOJu0YzqcoMms4YWPkYNiyiqf/WXz4Q4HAsdvhfreW9EZugAvmAfiqiE
+	1eHK1XkREMWmu4WvfQfHFgl86BaDfFx3IY1HPG68L3MrHB2BIYqQUTZQbL0puHM=
+X-Gm-Gg: ASbGncuVHhFULpnkCAist6c1G2PmJp9Z0t/IT279Ct2gj3s3GLpXNrAPKF9y2ROdkN+
+	uZUsF2TIr3ZRtcvjLVoztIYCu+9x2XNWRU2CSjJh7+4OZGcuvDB9VJhsHCmb8rTCoYFk2xtGG0g
+	4fLwLQdulY2Rnb0TJWAxhdFLAO8B0LX3BSSTrx2dmZCFeLYh1MvPQZSOENoLu2Yq2cuks4OuZO6
+	EqEsPKcRz/+N4YpBQR9iNiWlqsn2m4x7IBB3QRru2ThIzceASasiG40sWxL2IBr0uawKNbWL65z
+	2nM8946S+RbpYlFpRLPfSk2qi2twxfwX5c9ZQI0AR1ZHl7sFsZK2g2ezfEq1jk0f5wxV78D3K6x
+	d/wxLhdgQyA==
+X-Google-Smtp-Source: AGHT+IF3piiTQzpMqh5Xokq2jJaCDEOR3wERmoQW5E1nBw2Z8aH4eQiHeMdXnnnN92IAMsFZ9eQctA==
+X-Received: by 2002:a05:6512:3e16:b0:545:48c:6de2 with SMTP id 2adb3069b0e04-54a03b9061emr2447421e87.13.1742283563675;
+        Tue, 18 Mar 2025 00:39:23 -0700 (PDT)
+Received: from nuoska (85-76-49-158-nat.elisa-mobile.fi. [85.76.49.158])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba7a835dsm1598298e87.8.2025.03.18.00.39.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Mar 2025 00:39:21 -0700 (PDT)
+Date: Tue, 18 Mar 2025 09:39:19 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 12/12] systemd: upgrade 257.3 -> 257.4
+Message-ID: <Z9kjJzXOkfoHT9Gn@nuoska>
+References: <1742278912-2989-1-git-send-email-wangmy@fujitsu.com>
+ <1742278912-2989-12-git-send-email-wangmy@fujitsu.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1742278912-2989-12-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 07:16:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213182
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 07:39:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213183
 
---NextPart
-Content-Type: text/plain
+Hi,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On Tue, Mar 18, 2025 at 02:21:52PM +0800, wangmy via lists.openembedded.org wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  ...ystemd-boot-native_257.3.bb => systemd-boot-native_257.4.bb} | 0
+>  .../systemd/{systemd-boot_257.3.bb => systemd-boot_257.4.bb}    | 0
+>  meta/recipes-core/systemd/systemd.inc                           | 2 +-
+>  .../recipes-core/systemd/{systemd_257.3.bb => systemd_257.4.bb} | 0
+>  4 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-core/systemd/{systemd-boot-native_257.3.bb => systemd-boot-native_257.4.bb} (100%)
+>  rename meta/recipes-core/systemd/{systemd-boot_257.3.bb => systemd-boot_257.4.bb} (100%)
+>  rename meta/recipes-core/systemd/{systemd_257.3.bb => systemd_257.4.bb} (100%)
 
----
-Testing patch /home/patchtest/share/mboxes/BACKPORT-icu-Adjust-ICU_DATA_DIR-path-on-big-endian-targets.patch
+systemd-systemctl-native should be updated too. Or set the PV in .inc?
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
-FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
+Cheers,
 
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: Parse error Hunk diff line expected: "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config"
-SKIP: test Signed-off-by presence: Parse error Hunk diff line expected: "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config"
-SKIP: test Upstream-Status presence: Parse error Hunk diff line expected: "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config"
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+-Mikko
 
