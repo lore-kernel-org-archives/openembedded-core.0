@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B099DC35FFA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDFB9C36005
 	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 04:39:11 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.4311.1742272743004442029
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.4278.1742272743896145597
  for <openembedded-core@lists.openembedded.org>;
  Mon, 17 Mar 2025 21:39:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ngdj2ij2;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22548a28d0cso141195675ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:39:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FHJG6jrQ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2255003f4c6so89380405ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Mar 2025 21:39:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742272742; x=1742877542; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742272743; x=1742877543; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ynk6VseWbOQWH7Z9/iUfjbzkDci8YP6WROlYoMRCllk=;
-        b=Ngdj2ij2Bup871Gcr9yzgs3G8RVm+0lDioJ+F8qvPAMviCStqvEK6FRtc7s+rh/ttk
-         RBnLcI67hReFhfM9miM5MyOvSQnlwLVCtKpWj9W+4BtXEgg6rFB6RtKAs76qZX8dRhsq
-         GQf9Kvh2FcqKRWP1L4rfpCs9S8qxjc14D1ceffQEFdLIirn4Ci3cdqEs8gTyHDKurc6p
-         POir7+9p6F9+8eun9w4quFuG14q7Ir2Rjyh0Hz+1Qc7OTEQ3BSd9fT11n6XAvtHT7lTm
-         R8w9bRnzfXcOTuuZWwJJgkHuO94S7S0GqnxEdd5bPUOEItDSNP8I3XSETpusoBx1tiMk
-         vsvw==
+        bh=Not2OL6jS1+oGzZ+d3jIQHLqET8KaVvwVrxHBriJkpg=;
+        b=FHJG6jrQOrY8KgqY6szQRirp7l0y83mKwTnwNjwxRnDJxFWXOo5oHi3UitrLrQqjqN
+         9FUUsjIfmvNEnYzqEmlT9DqutY5ACufIb9jXnpf6e8Qv2pEIRNX8pSeKdz7dnTNCrPj6
+         7ZKqwA/wMIFewG1hVgDc4yYF0Zkeeum5yU1ObqR3qzcbiGO8fpfeSZ14bwvtIpIwYxEW
+         WmXLgDM1K+Tjvdn/X5Ua4SolzXnW/o5VPveSN9qEjtGT3CgQjZJKnmZ3AP9YIumaq5/E
+         +xseTnNbnbNYmuKEqnEMV7RGuEBzdS6Mut85vUKZOP+WytraSrAvw1rivx92nXqRSHL/
+         xDKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742272742; x=1742877542;
+        d=1e100.net; s=20230601; t=1742272743; x=1742877543;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ynk6VseWbOQWH7Z9/iUfjbzkDci8YP6WROlYoMRCllk=;
-        b=isrkuEzkfRJ9FBegffLIXyLEJRpluw/ZAfUG1aU4lcwQKTm4gOnjltvqeRz2sTIBcS
-         zNEik/mU5m9Id3Qb39ED3Mwc9eD0bfUEt6U6EZKFGIJQNYHWlHBUUnAAS4SD/5ZpXxLV
-         CM/K8rtZ/uVdc+bNtHU4N0PeOGF5zDei3EOmLXqP/xgwEHAwk7K4OuoYqhjLieEOHf1h
-         e36s4udz6HdwsleeUxPQV85y43VXtWTlQQy0AA/1C80+EiCknBKSoTUucFXE5YmLyNgH
-         9lQ713ta5V3/yaJ8+TKh/hGG/4PU/+J4r+pqWUYXdC6TS0vrckRw2Ru0SnEvZbfKjw8x
-         JIEw==
-X-Gm-Message-State: AOJu0YyEAf5eDUcIvFa/AUll8knyp1Cfh1YhNb5DP/b8b1D5aBH6UpsG
-	3gFsThdXBlMcpvUDZwb3qBYCImAOT8NkSJSZaNneegPSYeJpdtc5ZOnHjzUW
-X-Gm-Gg: ASbGncv4xQHmDbNLtebS2tT0VkrbR5rzwvUNdpaHkKfXhODL1pk6iRAvUm+si5Wt/eJ
-	yrRL8V5lHGUggNu3HRpMMDsx+JRk6X0eRnDdh+09Uyow+BpqjyaW/1+WW+wdaLVvEximusTaMfA
-	vKwpDC08i9QtyRtodDlX5ThF/jtcKlF8ppUhylbXiU9BPVzbw41WVqE/yPhNuLNXgL/JgONyunD
-	rXwdHwiN+tHgVHUqgipE3PehOL/PRaocO2FiBturMxqRES4awUakpa+J4fi+IXRxom+MRucpfiE
-	Wg6mHez/87tSpmQE4lEHDAgsodvUpO7fFJh/nijXYyArlRo=
-X-Google-Smtp-Source: AGHT+IE/AszHYYVu2fBECfZw5Jo7k94cJqjE4hfiYUZPhQcJjDn/kQbH5IYqvzb1RNk2LlMQKQu6qA==
-X-Received: by 2002:a17:903:4403:b0:224:1c1:4ac1 with SMTP id d9443c01a7336-225e0b1a9b6mr189517685ad.47.1742272742269;
-        Mon, 17 Mar 2025 21:39:02 -0700 (PDT)
+        bh=Not2OL6jS1+oGzZ+d3jIQHLqET8KaVvwVrxHBriJkpg=;
+        b=DqwdeWB4D+k/+L9AspfaDTS+wOW0kULafw5GItUQh+vRMLmsSk/XB0+tw1uNfs4agX
+         t2hW3WLbisCaLIhdiBmzq50K6F+cU9kppyvZTap3aUBuT2MqQaEX08ji71Gmcttfugsg
+         RWAAPxFqHn/A6Xcp3qxm6b9hdoK+sPN3fdmxdo5ZkVEtCcLvsDMU5Qx+WOZcK2uGP9m1
+         L19aocWokCV8qRmMpPKNadZhJRRtJFWNNX9upO4YRpHihQu439/AGROjgbK476egedWA
+         flstoI00rM57iaAyjZCt7twN/lRtGUD3aa3jOjxH075hO1VXPKJSQdYs2aDxO8hQh6qy
+         Ngqw==
+X-Gm-Message-State: AOJu0Ywu9INOixVS8BBogx+T7etUpXWNKOEYHWeuYYm+mUyNKcyhzsgY
+	z9GBmJlnlLmYMhgtlSaOS98gI0IvZecw/apiP9t4Z2yBGx6TC1rM5DOtHITU
+X-Gm-Gg: ASbGncvRbdomzo7OTCunse9fq/Bej5oF9lnk65xPr93ghl6pXsOYojy5ybE4KkPrhfV
+	InROJ9fgEGDNqjRzcRn67rrpyLp5TkBCl3+9AjqddN2V1mWwMLMm0sBbt+sfvld3bR8HGe7jgSJ
+	iiZcTbytkS88HFlp7PHFTvqQIL1N40iYvYmOD+DSHvKP93+ZgdG6UWLw2izcKWFSqh1G382ZtP8
+	Nou2gdUGcGvMew0iRF+AtYdQw2sTL4gL84cDmO6DsRFQkHB960WDRQkzmh4Tda2TJ9gR3RZ5A7+
+	giFCnhVUkMglG/QQGHs2jRUdkNHTqKffUXn7hZ3g4TIOXh8=
+X-Google-Smtp-Source: AGHT+IHx5m0t/akSgFdB+Xf+ihJcNemmwmB/3gtnxRG83NeWKqxDjivewkq/NZ30j2xIou5QaT/A1Q==
+X-Received: by 2002:a17:903:3c50:b0:224:1579:5e8e with SMTP id d9443c01a7336-225e0a3635emr202468435ad.1.1742272743051;
+        Mon, 17 Mar 2025 21:39:03 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::6874])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbc8c6sm84112375ad.160.2025.03.17.21.39.01
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbc8c6sm84112375ad.160.2025.03.17.21.39.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Mar 2025 21:39:01 -0700 (PDT)
+        Mon, 17 Mar 2025 21:39:02 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 14/24] dbus-glib: Fix build with GCC 15
-Date: Mon, 17 Mar 2025 21:38:34 -0700
-Message-ID: <20250318043846.2422141-14-raj.khem@gmail.com>
+Subject: [PATCH 15/24] libmatchbox: Fix build with gcc-15
+Date: Mon, 17 Mar 2025 21:38:35 -0700
+Message-ID: <20250318043846.2422141-15-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250318043846.2422141-1-raj.khem@gmail.com>
 References: <20250318043846.2422141-1-raj.khem@gmail.com>
@@ -66,29 +66,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 04:39:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213148
-
-GCC 15 defaults to C23, it can not handle it
-latest release is from 2021, and this seems to be
-deprecated upstream and no longer actively
-developed.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213149
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/dbus/dbus-glib_0.112.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus-glib_0.112.bb b/meta/recipes-core/dbus/dbus-glib_0.112.bb
-index 4acf4356942..e892348262a 100644
---- a/meta/recipes-core/dbus/dbus-glib_0.112.bb
-+++ b/meta/recipes-core/dbus/dbus-glib_0.112.bb
-@@ -26,6 +26,8 @@ PACKAGECONFIG[tests] = "--enable-tests,,,"
+diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
+index bf3f5c005d9..e99b66855e1 100644
+--- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
++++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
+@@ -15,10 +15,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
  
- EXTRA_OECONF:class-target = "--with-dbus-binding-tool=${STAGING_BINDIR_NATIVE}/dbus-binding-tool"
+ DEPENDS = "virtual/libx11 libxext"
  
-+CFLAGS += "-std=gnu17"
-+
- PACKAGES += "${PN}-tests"
+-#SRCREV for 1.12
+-SRCREV = "e846ee434f8e23d9db38af13c523f791495e0e87"
++PV .= "+git"
++#SRCREV for 1.12 + 1 patch for gcc15
++SRCREV = "312c04b6ba60dca0d6c4a7d1393f0ec816a265e3"
+ SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master;protocol=https"
+-
+ S = "${WORKDIR}/git"
  
- FILES:${PN} = "${libdir}/lib*${SOLIBS}"
+ inherit autotools pkgconfig features_check
 
