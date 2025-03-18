@@ -1,80 +1,99 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2651FC282EC
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 09:59:34 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.7888.1742291969407868445
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8F4C35FF8
+	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 10:00:44 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.7917.1742292038075370563
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 02:59:29 -0700
+ Tue, 18 Mar 2025 03:00:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ljx5bnCi;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6e8f05acc13so60254256d6.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 02:59:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742291968; x=1742896768; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2kayLs6czKv1WE0hW2pXmlD1Z9IlQfjaLrrFbhgz5+0=;
-        b=ljx5bnCiSfebdrtPkYYeV6P2sAVkZc61ptF+j0vMKSbaGgR7WjQzp+DMU6mK4U4Fzg
-         bzgwdje0DECYO4zs/6kUkASnuo5so4iayXwcLAqTg91oezJz3UssoErZD3b9yySUTNq8
-         sFUEN2vITScpmuX3/KeMPcqJm075+IiDcgqpz8Wm+iIzJ2JAjLnVRBtvH1Tar+t6i5gl
-         rEwWwAOR23RT1N1zzOWvTBesHgO/DQRl2DQxhrnSol8PlOGAOwMjS8MJ2qn2gngZhgi0
-         oWgt6v8qRXPSkYLaE/Zm8L15fpv9SYfba1sFe1IPmntkwe+bh6ZtbKolnjZAEzaPS1eJ
-         IJaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742291968; x=1742896768;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2kayLs6czKv1WE0hW2pXmlD1Z9IlQfjaLrrFbhgz5+0=;
-        b=c4+wPu+nYdWKcKNoSr/AKUodv8vM28yUqnzp7GVRC5j9nnMOusNNF7peK+LGzhrsKZ
-         +L1pNRPu4xK808tPu+PqtUcAiFYFjbhBJV9GVXMjuc2PkW07bGgcF0i8JBFx4DmExW4u
-         q1vWhQlndbqfCnjN62TDXWfVkYR/J8LiKE78EF4/+4QuPM0OUKpLTnxN4NlJ7kcubbdh
-         twmyIPfLBa9o7FpogjK9K+toETjO8ZsvSyCRNFezp4Hw5cejWAA2T4nZEfoTP6VGJowV
-         97JeZYT2NJIh893noVgLpgqW9/R8UZFPXjdJqlzIqxQxNpnjrsIjycWyTWHk5Onf4gX0
-         iG9w==
-X-Forwarded-Encrypted: i=1; AJvYcCU8JOLFca9E38kSRnMUkpSAHaltXry1bXUDhtgPVu9KkCberGD4ANVXte7j7s3KeKEwneKcG3tlCl58WfTbOV+z9w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyhCSv+2ALrpdKEQfe+WwOhsyW4ZQOLjr0G+xSJZiE5eHfdqbWo
-	c2X3e7Ll6rxXy4TUZ8/iz9+aWSJWV/jx/fumPeYB3m4uxLtfhBNIQv67p46noqN9ebehWGepe6Y
-	MsmSqrsAuqnK/YVwx8CaxmoZf6i8=
-X-Gm-Gg: ASbGnctKBIdu7UMPNCQpb7GkVorbAYIWING+9RDGEdPOkGnAYKue7HnH7Z3vil3RYnx
-	40+s8h2J5wmXOTgHTj/0eQXnAF7b+eHjodrHhFNytpA232AWBqyqI4lbvQ9+pLNrXxat4AyAt3u
-	64wcHGLC4Vm3lXfvWidk3zisXj8+Uk+2qGO2oGH7i0SSUXW/GHUV95dm/MGVUE
-X-Google-Smtp-Source: AGHT+IE7Pd6eoKxt66mihB05Nok5vOMcndgkPlEIfsxAo7xWX2bZJ+PwOWGVm3qKvR5c3Blyey9jNfhEJQzPSSo6BmY=
-X-Received: by 2002:a05:6214:ca9:b0:6e8:f3ec:5406 with SMTP id
- 6a1803df08f44-6eaeaa1d006mr237506806d6.19.1742291968175; Tue, 18 Mar 2025
- 02:59:28 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=G1K0+vst;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D0CBC433C9;
+	Tue, 18 Mar 2025 10:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742292036;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U1ZbK12tTkA5PPOa5hEdQIZ3C1M5qobvnCUdM7cOUyY=;
+	b=G1K0+vstIRXLnnVE9VrWNfuplEJhs0mmGlvYk+qrlpdotmUBh4DfU8xMeDKGdNvsFfUTkW
+	JgeekEZYcH4l3nnjhlpBLh4khURppg4VCNAZFrYJyCkwPB5dqzX1dw+Uj7bsbzCnzjHp+7
+	RABpx5mZ0QUjet++IlR6dHHQRDCIz/VcXgit9c5gn2dD1txyRz25ncnpaQGYgEwRZrpB5W
+	r9guWE4UZ9M/YHzecb3UsiybeQAKERnE5+9SjC7eoRfFwybcJW5WB1eiWysa3xEKOmiCOT
+	kvtcZp7GxhRM0IIZdz2TNl5/lFCIj3WPYJygmvNeJi0RYegjgbRsFZiX22seHw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 18 Mar 2025 11:00:35 +0100
+Message-Id: <D8JAZBGJQKHC.ODYN6REYX2KP@bootlin.com>
+To: <wangmy@fujitsu.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 08/12] python3-dbus: upgrade 1.3.2 -> 1.4.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
 References: <1742278912-2989-1-git-send-email-wangmy@fujitsu.com>
- <1742278912-2989-12-git-send-email-wangmy@fujitsu.com> <Z9kjJzXOkfoHT9Gn@nuoska>
-In-Reply-To: <Z9kjJzXOkfoHT9Gn@nuoska>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 18 Mar 2025 10:59:17 +0100
-X-Gm-Features: AQ5f1Jr1bEGIlplr-MDH8wARGekRhzSCKi7qFZjxxq19IFRLwu5VAIuWXBHGpf4
-Message-ID: <CANNYZj975eQgZ7L1C7ktD-6rmMB+GPMDYydJeYuJ+q-mYm19dw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 12/12] systemd: upgrade 257.3 -> 257.4
-To: mikko.rapeli@linaro.org
-Cc: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ <1742278912-2989-8-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1742278912-2989-8-git-send-email-wangmy@fujitsu.com>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedvudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffvuffhofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeefleehgefhleelvefhleelheegieejieejjeeivddutdffhefhjeeigedvgfefudenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopeifrghnghhmhiesfhhujhhithhsuhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsv
+ gguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 09:59:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213196
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 10:00:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213197
 
-On Tue, 18 Mar 2025 at 08:39, Mikko Rapeli via lists.openembedded.org
-<mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
-> >  rename meta/recipes-core/systemd/{systemd-boot-native_257.3.bb => systemd-boot-native_257.4.bb} (100%)
-> >  rename meta/recipes-core/systemd/{systemd-boot_257.3.bb => systemd-boot_257.4.bb} (100%)
-> >  rename meta/recipes-core/systemd/{systemd_257.3.bb => systemd_257.4.bb} (100%)
+On Tue Mar 18, 2025 at 7:21 AM CET, wangmy via lists.openembedded.org wrote=
+:
+> From: Wang Mingyu <wangmy@fujitsu.com>
 >
-> systemd-systemctl-native should be updated too. Or set the PV in .inc?
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../python/{python3-dbus_1.3.2.bb =3D> python3-dbus_1.4.0.bb}   | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-dbus_1.3.2.bb =3D> python3-=
+dbus_1.4.0.bb} (85%)
+>
+> diff --git a/meta/recipes-devtools/python/python3-dbus_1.3.2.bb b/meta/re=
+cipes-devtools/python/python3-dbus_1.4.0.bb
+> similarity index 85%
+> rename from meta/recipes-devtools/python/python3-dbus_1.3.2.bb
+> rename to meta/recipes-devtools/python/python3-dbus_1.4.0.bb
+> index e0cf64c70e..057c97f656 100644
+> --- a/meta/recipes-devtools/python/python3-dbus_1.3.2.bb
+> +++ b/meta/recipes-devtools/python/python3-dbus_1.4.0.bb
+> @@ -5,9 +5,9 @@ LICENSE =3D "MIT"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D97f58951300aa52a9f9e3a62bd5c8=
+46c"
+>  DEPENDS =3D "expat dbus glib-2.0 virtual/libintl"
+> =20
+> -SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus-python/dbus-pytho=
+n-${PV}.tar.gz"
+> +SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus-python/dbus-pytho=
+n-${PV}.tar.xz"
+> =20
+> -SRC_URI[sha256sum] =3D "ad67819308618b5069537be237f8e68ca1c7fcc95ee4a121=
+fe6845b1418248f8"
+> +SRC_URI[sha256sum] =3D "c36b28f10ffcc8f1f798aca973bcc132f91f33eb9b6b8904=
+381b4077766043d5"
+> =20
+>  S =3D "${WORKDIR}/dbus-python-${PV}"
+> =20
 
-I wouldn't mind that. People constantly forget something in this
-recipe set when updating.
+Hi,
 
-Alex
+I'm dropping this patch for now, as the freedesktop gits are down and
+the file cannot be retrieved from our mirrors: I will try to remember to
+take it in a few days.
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
