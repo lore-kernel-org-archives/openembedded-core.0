@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95EADC282EC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8828C35FF3
 	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 18:57:26 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.3343.1742324241762323741
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.3339.1742324238332056679
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 11:57:21 -0700
+ Tue, 18 Mar 2025 11:57:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=QbRjFTlM;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YMUphuCW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010195aa9e10d9-722e5be6-1ef6-4811-878a-7a895988b790-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=T45MtRAs;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OmJ1grW1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010195aa9e04ae-2db86af3-3311-4acd-9f06-3d52bc8691ee-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742324241; i=@automation.yoctoproject.org;
+	t=1742324237; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=56HPr5M5zoHpwlMibaveJ5Plhp4jcDV5BVi+jin9qqw=;
-	b=QbRjFTlMNYOKF0zkYo/Q5OBQBuhAAfEd9ezEmFGYsnFdTTLVsaB4me4l4BSFREP6
-	2OqOyAEHVCxtSyKqArkkwhp7oCB9mtMHtnGa4eJrgRmJK6i41RXHlReENtMTaVw9QBm
-	0i0UVLs+SqlwUjigICHKr/2XXl8dEExHwi6hdqiM=
+	bh=FrGwwYharfyQCzv3qFiaWWfSSBEd9HmlTt287FHCS2k=;
+	b=T45MtRAsMLkm6UD+9WSwE/mdSS/U7hJoF5bZyBBOUlyXpixVS0s661TGpHFksN87
+	MCsWhodvoUh1uX8dNYYWIEgU8Mku25T4BmnnU92ZDMbojhRhwHC9S790bwgZDNEETVh
+	zCrbqP1skszsbg+9LXsCzTysP6iLLAqvC6WDlLHs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742324241;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742324237;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=56HPr5M5zoHpwlMibaveJ5Plhp4jcDV5BVi+jin9qqw=;
-	b=YMUphuCWH/sP7FuEnRCxepeXu4tgcWpYIqQkoXQy5xu4N0U7jQPaOGGCearc/fEh
-	8nlxt1eJ1ZdTZtscTuH3p+qkrvUDL5KY5+iSNzEaS8suitaW5c5H6NLr07V3IpPtcTC
-	ZNc7darQ6iNvL9ioqAs9l8rFjRqftrD4MY/dLamU=
+	bh=FrGwwYharfyQCzv3qFiaWWfSSBEd9HmlTt287FHCS2k=;
+	b=OmJ1grW1aH801flR3ZcbIsoKUB7J9fILD/s4wVHUU9ltlTgcvVGPqOl6xYBv2GLj
+	43/Y2052I68irgY8VJC99JFUBR7AvFu1WqAgwg9l3ubfwlOo25c7cdvKkUd2Gs/U9dc
+	Y4fi4toPfIAzGxah+jKWxeDhEM8O9JZjlVN98nyw=
 From: patchtest@automation.yoctoproject.org
 To: Khem Raj <raj.khem@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [[PATCH v2 24/25] time: Fix build with musl
-In-Reply-To: <20250318183842.2256284-24-raj.khem@gmail.com>
-References: <20250318183842.2256284-24-raj.khem@gmail.com>
+Subject: Patchtest results for [[PATCH v2 14/25] libmatchbox: Fix build with gcc-15
+In-Reply-To: <20250318183842.2256284-14-raj.khem@gmail.com>
+References: <20250318183842.2256284-14-raj.khem@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195aa9e10d9-722e5be6-1ef6-4811-878a-7a895988b790-000000@us-west-2.amazonses.com>
-Date: Tue, 18 Mar 2025 18:57:20 +0000
+Message-ID: <01010195aa9e04ae-2db86af3-3311-4acd-9f06-3d52bc8691ee-000000@us-west-2.amazonses.com>
+Date: Tue, 18 Mar 2025 18:57:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.18-54.240.27.45
+X-SES-Outgoing: 2025.03.18-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 18:57:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213257
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213254
 
 --NextPart
 Content-Type: text/plain
@@ -53,16 +53,13 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/PATCH-v2-24-25-time-Fix-build-with-musl.patch
+Testing patch /home/patchtest/share/mboxes/PATCH-v2-14-25-libmatchbox-Fix-build-with-gcc-15.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
 PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
 PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
 PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
@@ -75,6 +72,9 @@ PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_file
 PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
 SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
 SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
 SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
