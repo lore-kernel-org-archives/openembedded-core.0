@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0369DC36008
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:29 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.2922.1742372188618242625
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04CEFC35FFA
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:39 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.2952.1742372192059047432
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 01:16:28 -0700
+ Wed, 19 Mar 2025 01:16:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QxsaPkxB;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2243803b776so14966335ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DSz3tbYv;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-224019ad9edso13908335ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742372188; x=1742976988; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742372191; x=1742976991; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZJ05rwQLgpD4nQtUXB+ZH8/aCYggtjCAeomRqpq1MPI=;
-        b=QxsaPkxByBd9bZKTGYlHjcXuWSj3ixUaHsg9f/MQH400vKlKSL/GcPAaBJ/NR0LPfW
-         DGE9/YRAb/ZWZR809g1FjmuwjymCU6COSXEzml6L8/psm7cLPC+xQ2Oej/rQ1PtjN/Uh
-         VGpUiw5gxgyHkgAhlQx//nrs22XN1rzHnewpFZjY1HPxhlbQKOU8bPRTLn4y6sfSjB2u
-         v68OY6iGAlVFWX61Tg+YbL6/C42v8yOfqUzs/obOgiG8F+jhgaROty03ke/OyEEnhN4U
-         UnRtwkJudMl1DiZEpjV06KEAxSXIK/6ZQYUZRtRLdGkFk06CXOYZJHJ1VMxkD6jUAccL
-         BRIw==
+        bh=sZwvUPhg0zmXaS74gLgBF+hjFnxoQ0KnZ7SOFmWX+cM=;
+        b=DSz3tbYvVmKA1Yn3LXCIYSzpuLOe17stwXbBs1PaBAHcjFgkmToyNoDF7AbK2kQhv/
+         75iVEpFn8jM+3T8ntlPUzb51WuDJDGa5KcF1uZrjlfUCjQjDrInUk1xLIc1l54oYHUlx
+         +wnbNFwSenwG0wPdYGS+VrbNbtvao1h0C4jg3tulsiuyemW99XpvfTqJITVql/6MU14R
+         3ZreKr42dxJCnanR5WOJ8AbDUShra/i/+sFUfTIySCurXa/4mu/mY6k0C0keuGmSeIcr
+         xEQBRaFeJsgy7b5ItFx8V+4umjGp7hBBjwi2MwzdfV1wcGdtGtoLQHYusVGS7R4paIMw
+         vr0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742372188; x=1742976988;
+        d=1e100.net; s=20230601; t=1742372191; x=1742976991;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZJ05rwQLgpD4nQtUXB+ZH8/aCYggtjCAeomRqpq1MPI=;
-        b=RR/RmQnTlEzAx/XYYzY7nLE1BlAAXuyZ/XNE7/7a0P2JgmUURdoNL1rJO3C4cRjdjN
-         IeqlJAr2IU5/mboI4SPKuaqvZY6jpydzEDVd1bljqpWbTR7l8jm8Zu8npnvkBY6bpX4S
-         93vnpw25xAkuxWB1NG9WeDjJmGEKWBqT8eZIGsotIXfHrF+2yko9TfnJZXgzvwYI2hho
-         scWyd53/fPm8+Lbq/AJrzSoi/cb+w8Sa/Oiq9NYN0V4I8u1H3oHgpr2jIV96mv6+CJ8A
-         z2tBAQWUUI7FEAoB5pFBJ2z53CYuDq8Yv8HEHOUErRoO9g1yShwd7lwThBxL2QJ2Stkr
-         DHEA==
-X-Gm-Message-State: AOJu0YxIaIMAYlIUws0uqjJytYVTyYimprrYbw69jE+JaUARpsmlrLDb
-	r7F2m28LvtpaBaofr5+CyDZ+gn1CsggwuofnGBdaKyLkrm6u8hAOu/ur7VnA
-X-Gm-Gg: ASbGncsOTkJMeewXYFYmjo0MSZtFcPrZUSVnm2NYeaSS5YnT0XUfIn4VnimQMIARdcG
-	uK7Rq++p7mqaY6kmGOWqtoRn5vU5/Vfu5JfADhT7IAFD1QgaBP6yOB0bWGNMLpXq30MMJkGivCf
-	RUqwPZQz3HXJZGz0+Kpgwlt0/c0MMNMGYflV2Tbyzs4VMgkgFuoAxLAVW/Am4PYZlI5nRipiIzY
-	tC65YsMz9U+LyBlC1ybQdZlijh5NpwAd4XJsdpnbLR5ExIQeHLeGRmotKd6BHu7X4YjiGkQ2Jyj
-	ftHtMOINnR8adFZRy67FyhQrEaKajgr7YbsA
-X-Google-Smtp-Source: AGHT+IENrewDejniNsSvVgiJ1SPc10XgttVWgPYoiBgbSqK5IKkzgmbTxDlxE1mWEobbFBQQUCMvLA==
-X-Received: by 2002:a05:6a21:7a4a:b0:1f5:8622:5ed5 with SMTP id adf61e73a8af0-1fbeb18549amr3398058637.3.1742372187879;
-        Wed, 19 Mar 2025 01:16:27 -0700 (PDT)
+        bh=sZwvUPhg0zmXaS74gLgBF+hjFnxoQ0KnZ7SOFmWX+cM=;
+        b=UvrJQBHj60tydglyjDgbPCRAIWhqsIfAPUUKAUtCdgTNY1r4tagh4Iv7oEw3JBT72W
+         VdAMRNFkBu5lN9DUuUnU6QqXqA/ISvMBpQsaH65229HspWNZrCt5Mdc+k5OlSwsCAeDj
+         hpVIBePjAOgtY07A8Gcxthne12POCCaM5qvebpJTZGY8Twtsm1LnyI6BroSDJh2yPANg
+         Mn7p57uKQJOpJY07Lz9EPU997PUmtWZnSiMvCnv00cx02EJC/au4ayyJYwhMAqXPi5sQ
+         t00Ef7PRBOOl3hTlMj4PezK05DxW57IydEL0Q4LOxbID1mVWRMevGIGge92DzdcZceJa
+         5+pw==
+X-Gm-Message-State: AOJu0YxLnnI0S2ClcVkVEEK3ItL5oO/1BGO6WQQK7BptbBMJ2z06BVrD
+	34OCLv/UOXDHPyUZAnpdoXVpfrad/PEyjfZJsxyFzWG3AOe/JDfjvUn3yl29
+X-Gm-Gg: ASbGncsU6E7bDXjF5GWBfnoWuUTChArqdLqPvSmcqVKOyiCLs3UI6L5fNPZj0Fl3XF9
+	89heFyUy6QAj3MSCGPVxCB8GBWn84UHtHDhjxDNXHnXAfpGyBBo9m3cX+7b5fpKtU4boEmjtAFu
+	GAIt/iJHIgt7z1udYyOLcFAxMYH6JrSMOb0E9YsGg9gWhR6ezys9IQRxzCgHVLOrM/pQdbhqOyg
+	mc9ZTbNWkFewReU7viYDkydqCU+R+9PADNNarauUXXtgNTVrvcLpR88srI5FQdAO6Pmgx84ve1o
+	oeCUmNlTWW6F0i0gc8grhT5QBY8lctMo2sQG
+X-Google-Smtp-Source: AGHT+IG6May+C2mTCg0IdUGosVYiGgjfWW3djVpBuUMAA00/x2HkedBfbzzD78/xUdX+e9Y11ScSmQ==
+X-Received: by 2002:a05:6a21:3993:b0:1f5:a98d:3d8a with SMTP id adf61e73a8af0-1fbed40be09mr3490742637.40.1742372191235;
+        Wed, 19 Mar 2025 01:16:31 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.27
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 01:16:27 -0700 (PDT)
+        Wed, 19 Mar 2025 01:16:30 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 14/27] ppp: Fix build when shadow is enabled
-Date: Wed, 19 Mar 2025 01:15:45 -0700
-Message-ID: <20250319081610.3536475-17-raj.khem@gmail.com>
+Subject: [[PATCH v2 16/25] unzip: Fix build with GCC-15
+Date: Wed, 19 Mar 2025 01:15:49 -0700
+Message-ID: <20250319081610.3536475-21-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250319081610.3536475-1-raj.khem@gmail.com>
 References: <20250319081610.3536475-1-raj.khem@gmail.com>
@@ -65,68 +65,51 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213283
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213287
 
-GCC-15 patch is not sufficient when shadow is enabled, therefore fix
-the remaining issues.
+Add a patch to remove redundant declarations
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...d-session-Fixed-building-with-GCC-15.patch | 33 +++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.5.2.bb    |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppd-session-Fixed-building-with-GCC-15.patch
+ meta/recipes-extended/unzip/unzip/gcc15.patch | 17 +++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
+ 2 files changed, 18 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/gcc15.patch
 
-diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppd-session-Fixed-building-with-GCC-15.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppd-session-Fixed-building-with-GCC-15.patch
+diff --git a/meta/recipes-extended/unzip/unzip/gcc15.patch b/meta/recipes-extended/unzip/unzip/gcc15.patch
 new file mode 100644
-index 00000000000..d95c72e96ba
+index 00000000000..42a2f81681e
 --- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp/0001-pppd-session-Fixed-building-with-GCC-15.patch
-@@ -0,0 +1,33 @@
-+From 5edcb01f1d8d521c819d45df1f1bb87697252130 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 17 Mar 2025 14:38:26 -0700
-+Subject: [PATCH] pppd/session: Fixed building with GCC 15
++++ b/meta/recipes-extended/unzip/unzip/gcc15.patch
+@@ -0,0 +1,17 @@
++Do not redefine gmtime(), localtime()
 +
-+Fixed building with GCC 15 which defaults to C23
-+and find conflicting declration of getspnam() here
-+with the one provided by shadow.h (extern struct spwd *getspnam (const char *__name);)
++They are already provided by system time.h header
 +
-+Fixes
-+../../ppp-2.5.2/pppd/session.c: In function 'session_start':
-+../../ppp-2.5.2/pppd/session.c:185:18: error: conflicting types for 'getspnam'; have 'struct spwd *(void)'
-+  185 |     struct spwd *getspnam();
-+      |                  ^~~~~~~~
++Upstream-Status: Inactive-Upstream [need a new release]
 +
-+Upstream-Status: Submitted [https://github.com/ppp-project/ppp/pull/553]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ pppd/session.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/pppd/session.c b/pppd/session.c
-+index f08d8e1..9cc7538 100644
-+--- a/pppd/session.c
-++++ b/pppd/session.c
-+@@ -182,7 +182,6 @@ session_start(const int flags, const char *user, const char *passwd, const char
-+     char *cbuf;
-+ #ifdef HAVE_SHADOW_H
-+     struct spwd *spwd;
-+-    struct spwd *getspnam();
-+     long now = 0;
-+ #endif /* #ifdef HAVE_SHADOW_H */
-+ #endif /* #ifdef PPP_WITH_PAM */
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb b/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
-index 5565ce51cff..602f98991dc 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
-@@ -24,6 +24,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
-            file://provider \
-            file://ppp@.service \
-            file://0001-pppdump-Fixed-building-with-GCC-15-548.patch \
-+           file://0001-pppd-session-Fixed-building-with-GCC-15.patch \
-            "
++Sign-off-by: Khem Raj <raj.khem@gmail.com>
++--- a/unix/unxcfg.h
+++++ b/unix/unxcfg.h
++@@ -117,7 +117,6 @@ typedef struct stat z_stat;
++ #  endif
++ #else
++ #  include <time.h>
++-   struct tm *gmtime(), *localtime();
++ #endif
++ 
++ #if (defined(BSD4_4) || (defined(SYSV) && defined(MODERN)))
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index c13e7a008ea..0a88b4c092b 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+         file://CVE-2022-0530.patch \
+         file://0001-configure-Add-correct-system-headers-and-prototypes-.patch \
+         file://0001-unix-configure-fix-detection-for-cross-compilation.patch \
++        file://gcc15.patch \
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
  
- SRC_URI[sha256sum] = "47da358de54a10cb10bf6ff2cf9b1c03c0d3555518f6182e8f701b8e55733cb2"
 
