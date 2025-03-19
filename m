@@ -2,122 +2,108 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2F33C36001
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 21:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A79FC36002
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 21:42:30 +0000 (UTC)
 Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.7374.1742420538610249111
+ by mx.groups.io with SMTP id smtpd.web10.7179.1742420545233270039
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 14:42:18 -0700
+ Wed, 19 Mar 2025 14:42:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cEIXYriu;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=USsjKrCL;
  spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2254e0b4b79so869435ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 14:42:18 -0700 (PDT)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22438c356c8so648715ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 14:42:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742420538; x=1743025338; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=e1//C5f+cDIyqp/SSDe+JcoDCw4ACDBF8//yc/IKcaw=;
-        b=cEIXYriuuWePSaGr/d/VQNdQdf2UhycnvaZPUXw1QtCiYa2vTo3ExguCIPI1semUp0
-         33wJukaYAYPbttHnv6+429YH0gOyGbOLWXjnv9BQz2jT6pOSBn0OousIhy8GARhGH3DT
-         reIbcS/j6tXmedrx86+vg8vTdY7bdAC81u22tQ0L/O8rIJ581po1OfjqNHxEayG5o9nv
-         DdXf09WHxm3RMb7n7s0ZUlm071f0Fg3am+1BeLF0nnef2oOah5y2N1Gw39+/JPwjJHeF
-         bShK/yOs7W84fi1SpiuwS3E9hAHB6H63xAP2aSFsiaFE1jXpMdTtxqZuxAPQZBiA6oT5
-         Kgag==
+        d=gmail.com; s=20230601; t=1742420544; x=1743025344; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pj4ZxCeusCJ3SPzLhtDIrUk3aRrSCgkaXac09n9L0Q8=;
+        b=USsjKrCLY34WJ5RspHjZJuDuUwN9vQA0f9LHt5N2alwjvofM2IF8vuG7dCbeKoj9om
+         daP9T8kjKUT4wAigZDaqtBv6gK21/HHbHDIQGeLq9XZRBEL58jq5hXOg0kdOVgeaVXLo
+         okwgUEdttQo3JftZZob/LI2a6klmJiOuO/vpNICM37G5gbysLK2IEP5g4ESYjkiqp6a2
+         ba+6ZpR62t0sZCnfBNrrEfoxRFSnT4WEcxdesNV73yQy5MKURbKnN5B+T6K9SCD4SNqf
+         v4oCRjYJL0hNBrWpqpyVzMGnOiMZkYPvG4wSho07AUrNxtGhKW056SY0JQlFkmrvI+lJ
+         3G9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742420538; x=1743025338;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e1//C5f+cDIyqp/SSDe+JcoDCw4ACDBF8//yc/IKcaw=;
-        b=ijKxIBmZvajocm+r7RNVpkwQLbFa12AXTNCRUtxHCwz3vowEiaTYpTeglUjhsVuEbb
-         pxIpIdFMgcCtSCUPzHSmTnrxFF/gNP6wDToFS3WPB+OafQWiAXfe7pzSd/6HE2Dexv3v
-         5QvNPf+rdUFShcc0tAvKRVCwrE9qjU99/CvJGehnxUO35wHIJsFCegJog3NNZEcf/Hpe
-         keGI/yYLEdITanrC3Bu7fcku7YKy5rmVDHhLDlbbP/HbZfiK0Dy1cxHltjLhDJB0w8g4
-         xSbXGeHRUCBZcIrtc09OccsqyP+QPLRwgvKjioSI/Qp3pgrJnD76o8D1fGR/t7RbvAcJ
-         1UTA==
-X-Gm-Message-State: AOJu0YwwrsuhWZWT19o0hRZ3nyUJ4KA0KS7IBilUuJf5m6PXih+BL2lO
-	x5axcDlboEcm/X75UYs6m56LmPm2fMzOIhaeGOuMsSSa4nw+CGK9lPERF+3c
-X-Gm-Gg: ASbGncuFUWm0SVK6XpilqmztyuPw1nukkqFIS48ngrVkFNP85bkXX9CYTfk/OPzRsC3
-	EUk87bhg7vzSEpObWOo9i5beouEB0atIySRv7Q32yFb95/N6VLcAZuJjkCyMssyywd6enahFOOM
-	NnOoaTr0TglNhWN+QVWdv2/fqLqfnXs+3w3IbkaZ5lDunaRKzEVmm0Zy2fQHrMQdlx1GteNZOLo
-	5RoqmWkf84rn0QgXGTR9bT2IyX3/WsZXgmZ4l/uoKeZiPb63cqyXwfIhNt6h7fkWwBloP/Ibhdc
-	qNibHjf25CH97C9GoUwZmhyZfGbErHZPxgsc
-X-Google-Smtp-Source: AGHT+IFSr2S+WplLCiTxPV5WT8f2oVqOzOJGUjSlK7LJJzbCLNa1U2VKfj0k9bItq5IMFP7pK7wT1Q==
-X-Received: by 2002:a05:6a00:4b13:b0:736:4704:d5da with SMTP id d2e1a72fcca58-7377aa5debbmr1259945b3a.22.1742420537710;
-        Wed, 19 Mar 2025 14:42:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742420544; x=1743025344;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pj4ZxCeusCJ3SPzLhtDIrUk3aRrSCgkaXac09n9L0Q8=;
+        b=YZ/JIvAjpazKy0BIc6xLPEa0N0JmV7dR0h6SXBs9e8UJkGvgkS0UZDqX3IdHlPtmAF
+         Fdbkw4Bv4XC7v0tUqIAk4htl4S9nxONBJ4erdfpvR8rZymu0yl7vpPVlFdr9VlP1kb9J
+         7DsEvmQShwIbAObNHOY/SVxbla9X2gBD0CRoQO8T3R4czXLg1l4bLDiJW0bCF+vm/nAc
+         /DdpK0XhHPPcx+S6bfVtUJmcL208iOxNeyUDUJEzrfbsFZiFca/hjZrFosLkzNB6YwRh
+         DtGE8HqI8yyv9jmT+OdicOx73vO7pNgCDIe1s16ULFsv2cvxVyu3ekPkXzMIFx5D4PIt
+         UUhg==
+X-Gm-Message-State: AOJu0YywCCuxt9jHQh6dapWOtnyVBGZdtMpoI1DnfzYhmxa7gzDUb+Lr
+	Cp3PlPaA8P5ACCYXCwJDp57RjGcBnANAul/fgYHkt2sBQQ8IMHXGnVZ6DuoL
+X-Gm-Gg: ASbGncvXy9y4TdT/MdyrAhah2adxMTJXARdyASAZsYOOHMNOipUPXnOmil2G3yX4x7U
+	qQ61NeTtkCknocUwWdZhNoFTtmamJF7nYClwVdS1fGZT/J3cVVxIMWcaZsbRhuaJlAdMzaQala7
+	JF95OKWfEFWECARBRGbgpbPuufaY0llx+Xl7x26PPK1z+J9kCRKpYbmFvKJ61dPYZiQiM9NwRfH
+	gV7aE3E7gFfXNgXD+f9JbfW42u7CoWc8RDx211mrD82zsvIOcTwShR3kni+0Y02Qqx4WAEMqWA/
+	6n+CZOQqJY6wjs4t4TBZmbZoA6/2k4LKf3eh
+X-Google-Smtp-Source: AGHT+IHIX9PrKP4r6Zfg+vbNzBYMfJLKPsofLfq54wGMb9BbXBp0mqFRld6PgqgGSs2ngD9E7e9S0w==
+X-Received: by 2002:a05:6a00:4b04:b0:736:532b:7c10 with SMTP id d2e1a72fcca58-7377aa4df65mr1202126b3a.21.1742420544270;
+        Wed, 19 Mar 2025 14:42:24 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73766322e03sm3604964b3a.99.2025.03.19.14.42.17
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73766322e03sm3604964b3a.99.2025.03.19.14.42.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 14:42:17 -0700 (PDT)
+        Wed, 19 Mar 2025 14:42:23 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v4 1/9] readline: Fixed build with GCC-15
-Date: Wed, 19 Mar 2025 14:42:04 -0700
-Message-ID: <20250319214213.2505249-1-raj.khem@gmail.com>
+Subject: [PATCH v4 8/9] man-db: Add missing rdep for col utility
+Date: Wed, 19 Mar 2025 14:42:11 -0700
+Message-ID: <20250319214213.2505249-8-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250319214213.2505249-1-raj.khem@gmail.com>
+References: <20250319214213.2505249-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 21:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213356
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 21:42:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213363
+
+man utility calls col utility internally when formatting is asked for
+therefore it expects col to be in rootfs otherwise silently errors with
+retcode 3 meaning 'file not found' in this case its due to col not being
+found, other distros eg. gets this via bsdextrautils dependency
+
+libssh2 ptest mansyntax.sh fails due to this error, which now works
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ages-that-are-not-compatible-with-C2.patch | 29 +++++++++++++++++++
- meta/recipes-core/readline/readline_8.2.13.bb |  4 ++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
+ meta/recipes-extended/man-db/man-db_2.13.0.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch b/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
-new file mode 100644
-index 00000000000..3bb4d539601
---- /dev/null
-+++ b/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
-@@ -0,0 +1,29 @@
-+From 9459ee899a291c55f08341df63e9a1b9b7af200a Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 16 Mar 2025 12:48:46 -0700
-+Subject: [PATCH] Add fix for packages that are not compatible with C23
-+
-+Fixes builds with GCC-15
-+Sourced from Fedora: https://src.fedoraproject.org/rpms/readline/c/c47eb813afb942128253213ad5b8221770557e48?branch=rawhide
-+
-+Help getting packages like bluez5 building
-+
-+Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bug-readline/2025-03/msg00001.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ rlstdc.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/rlstdc.h b/rlstdc.h
-+index 2aaa30b..a7a0ef3 100644
-+--- a/rlstdc.h
-++++ b/rlstdc.h
-+@@ -44,7 +44,7 @@
-+ 
-+ /* Moved from config.h.in because readline.h:rl_message depends on these
-+    defines. */
-+-#if defined (__STDC__) && defined (HAVE_STDARG_H)
-++#if defined (__STDC__)
-+ #  define PREFER_STDARG
-+ #  define USE_VARARGS
-+ #else
-diff --git a/meta/recipes-core/readline/readline_8.2.13.bb b/meta/recipes-core/readline/readline_8.2.13.bb
-index 78b988365a6..19b5cb6f583 100644
---- a/meta/recipes-core/readline/readline_8.2.13.bb
-+++ b/meta/recipes-core/readline/readline_8.2.13.bb
-@@ -1,5 +1,7 @@
- require readline.inc
+diff --git a/meta/recipes-extended/man-db/man-db_2.13.0.bb b/meta/recipes-extended/man-db/man-db_2.13.0.bb
+index 2178239bb60..a6ac82e6628 100644
+--- a/meta/recipes-extended/man-db/man-db_2.13.0.bb
++++ b/meta/recipes-extended/man-db/man-db_2.13.0.bb
+@@ -13,8 +13,9 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
+           "
+ SRC_URI[sha256sum] = "82f0739f4f61aab5eb937d234de3b014e777b5538a28cbd31433c45ae09aefb9"
  
--SRC_URI += "  file://norpath.patch"
-+SRC_URI += "file://norpath.patch \
-+            file://0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch \
-+            "
+-DEPENDS = "libpipeline gdbm groff-native base-passwd"
++DEPENDS = "libpipeline gdbm groff-native base-passwd zlib"
+ RDEPENDS:${PN} += "base-passwd"
++RDEPENDS:${PN}:append:libc-glibc = " util-linux-col"
+ PACKAGE_WRITE_DEPS += "base-passwd"
  
- SRC_URI[archive.sha256sum] = "0e5be4d2937e8bd9b7cd60d46721ce79f88a33415dd68c2d738fb5924638f656"
+ # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+@@ -23,6 +24,10 @@ USE_NLS:libc-musl = "no"
+ inherit gettext pkgconfig autotools systemd
+ 
+ EXTRA_OECONF = "--with-pager=less --with-systemdsystemunitdir=${systemd_system_unitdir}"
++
++# util-linux col is deprecated and only builds for glibc
++EXTRA_OECONF:append:libc-musl = " --with-col=''"
++
+ EXTRA_AUTORECONF += "-I ${S}/gl/m4"
+ 
+ PACKAGECONFIG[bzip2] = "--with-bzip2=bzip2,ac_cv_prog_have_bzip2='',bzip2"
 
