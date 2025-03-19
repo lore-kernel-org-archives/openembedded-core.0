@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C6CC36001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5877C36006
 	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:28 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.2921.1742372183833350552
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.2919.1742372182908108857
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 01:16:23 -0700
+ Wed, 19 Mar 2025 01:16:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kS93+iue;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22398e09e39so140414165ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=j1SNoOmC;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-225a28a511eso111947165ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742372183; x=1742976983; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742372182; x=1742976982; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dytxn8/3v9xEKbbS6QXvvkvya0DqwV1g+1x9oT0lQLE=;
-        b=kS93+iue/X5LnmYvKo9lBodxScSspWpCblhrDafcMXaHZURdIVCpunvWdWQoiZIrSH
-         3lCq1syDehAYueSAVpHydsADBlrll6v1GdUQ7y30lPoPr2vdyfZ2ibxpVM0KsHIClagD
-         +m1bSHi6s846Cjvb6wC1OxjPY3OTMpll41gp2PYIMqVj3M4tqbNRyqEYU9MiZ1CcqFyt
-         HHjmCfZtUi416fwf9sdr9okK6wP3iSrSOh+hJN1xWlEDnXWPQoug9Ex3Yw/xW8/ZdiIk
-         kQDySK2OI8xjwdcMOLlOBaVPqhgs9GOy+V2aCgS5cMmHG0mv44jzUfMEm9JLAOhvmWwk
-         aS/Q==
+        bh=AhzkP8MEVpHWnx8XNSAlZP6Y3WdVRHIhXu6jRccd0g8=;
+        b=j1SNoOmCnipXR0+LJo7nTklhTg04KTSNGkTxsuKsG0TyOAP/cLchdIHsaD8OuuhmMS
+         +nti5UtbkWiLc7lFzE7HrOi8cWVZI16/0DbXVczzLKUyHSht+GIOPGTHhkhkkVGgfzAY
+         BZl/vN3gkQFV32XMrrvl5K9QAhqgKfOqnEkmThrys9ahDuS/Nm1Ka8V8B1e4IJLNBOMc
+         w2UjAmqL/QYSHUTeM3ePeQfxc0+QKWnVDBXU3tAb6LVkKW7XM6wq0COK6In2Ue36lA5X
+         gwzHEjIrg6Gci5lG9sl7Td7n7bAlCSA3NuhtbiHGWTjGQZIEsErOgdOeIptE7hRYBodm
+         jxhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742372183; x=1742976983;
+        d=1e100.net; s=20230601; t=1742372182; x=1742976982;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dytxn8/3v9xEKbbS6QXvvkvya0DqwV1g+1x9oT0lQLE=;
-        b=SdABgZO8o11Wif10TKsSK6YEBYFDwpWncomcOztHz4e15RRAJQ71fRX11OSOMp9q3T
-         et8SWErbyaEHJ4WOMzvYbR8Dvl9vhM5D5IvbmYSHL6a2sLcitoMsDGhLqMW08qvpTvN2
-         kqZmv2sNPzbeY/vi0vtx47hK8vyj+/AXdy3qtgzrMxvD5U1JPLFFs55GNtVfBfN+vaaW
-         qEMpDtwpD+Ih0aewF41WYrCHWTzHkqfdOap5YNIzYNRKrv372Qy4k1T6EyQYfQHawTdD
-         /rMuolooYi4oaqq8ecECSQwLHVyThkaJ7MZ1kS5Gqe6PF5NLYrluNPSishqa4sfQ95YY
-         WTKQ==
-X-Gm-Message-State: AOJu0YxSst7iEZCxnj8yPM/nX2QYekkQ4Q5v3vyAx53D7qu3qcUA+vug
-	lzZqtZlKABweDI/HYy+fbC8wWaS0VdpYZ8gbmWkt8Hd0BVabpq9ETzlQbUv2
-X-Gm-Gg: ASbGncuiDjSHcf8+JRnHb3tfKHH9rglpKnEcn9r5RlS2ixxCBS6VxsPqGcJieUes0i+
-	xZm0Zd8XZhhgoHbKQMkQFJLjMPNsn1ZMvi5E2woo7zi2fqEJ4b2LWGON1ndqErGcETszY//l60/
-	9bKx1gc4lubjqtQ4JC55+hRxplO2xvBUn3+R9vbO2KgorIf3RbEXUbh6L/2Vttvayf4OJk/FB4j
-	x0wbvB3dKzFZXQk+CjKBJRDyQbotH8u56pbmRmiK3GT4knjLiGJHmqOVC1LBt9qz8OxZF8JvcQN
-	oCvnLY6JgKgnZixVJGMPTNyXIPnVsuj9oedx
-X-Google-Smtp-Source: AGHT+IHx7SXweQL+NO0KJtHw2FuU+eVAE4glZv57S3A7QdUqfVAQb2GJyVTSETml4wK7z2Uary/AlA==
-X-Received: by 2002:a05:6a20:c707:b0:1f5:7cb4:b713 with SMTP id adf61e73a8af0-1fbebc8412fmr3210021637.19.1742372182891;
+        bh=AhzkP8MEVpHWnx8XNSAlZP6Y3WdVRHIhXu6jRccd0g8=;
+        b=DUIMOp6P7pDMutsDlQ1P/jqja8V8/m2PwIVSavYMRmnhYAPlzbH3Drq5b+SrFuR+a0
+         OGbqHhco1+Zfe1d9Nr69riGmkvpvPCPaj0gGmYYCURS+OYJ0/a9N9FZ0D37B4pYYWA28
+         +NOolJn/MKYHAVtv3St4xbIvUqPGL86sakzeXMOy2dyiQcHz4cXNA80sTSQzITmUCuCE
+         V0PHGdD7YeVxloXzslW2X9/k0VwRsvPQkB+bPei94xTlorE7laAHjEat5t7meoyW7ls1
+         zwpIa/EjF6TyTkDTkGBNzkT2+FIvzE77j9WP+2LWtBgxqpG5mNW/9531lnuri1eQuNmz
+         KUfg==
+X-Gm-Message-State: AOJu0YwgAFIZnMf+r0Rg4tndTqLmbA2zXL7dW2S0Brgw78L56MWFhhbV
+	pAJJlxhSQvJDNOqrYsyQfhxMVmvFS8iLbSqgIl1wsKEB/3SE58PkzQRp22Nr
+X-Gm-Gg: ASbGncuj+cdbr2KUrKk9gMW8AS7qCe+vru5RusCEs/gCLkRhNU4OPCxym4KJHieXCB7
+	nHE8iVQF0KpsRJ81EElRrQHIYaqTFfiqcX3JUAzsXkZ0MTiXe5mJJPlUNajfXm8fYOwphVvuXZW
+	5EyNRyVgDtRCENzDruIJQPIlr0apUE1tWFwiCWhJJX9IAAaP9aJlyKpEKA+cbb3p1u/TAJ9CZup
+	fB/6eXoGICyTANhvai+wqB79zygLWYh6PCHhaVnlWsz7+R8Ux0cgNnrpm6qUtV0J9kEHxuITXrS
+	Bk1yu2BYpt2BmkbtH+tWHw7ozYNaj00UqNFA
+X-Google-Smtp-Source: AGHT+IF0pIUXO74jjcyfKkGDKSncSR5+9+eJKpSXLgVmMEnrRBVOxvOyE41S2LVAf+vYhrxGhAy95w==
+X-Received: by 2002:a05:6a21:3993:b0:1f5:7df9:f147 with SMTP id adf61e73a8af0-1fbed3161b5mr3630069637.40.1742372182085;
         Wed, 19 Mar 2025 01:16:22 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.22
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 01:16:22 -0700 (PDT)
+        Wed, 19 Mar 2025 01:16:21 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 11/27] e2fsprogs: Fix build failure with gcc 15
-Date: Wed, 19 Mar 2025 01:15:39 -0700
-Message-ID: <20250319081610.3536475-11-raj.khem@gmail.com>
+Subject: [PATCH v3 10/27] libsndfile1: Include <stdbool.h> instead of redefining bool true and false
+Date: Wed, 19 Mar 2025 01:15:38 -0700
+Message-ID: <20250319081610.3536475-10-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250319081610.3536475-1-raj.khem@gmail.com>
 References: <20250319081610.3536475-1-raj.khem@gmail.com>
@@ -66,75 +66,96 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213277
-
-Backport a needed fix
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213276
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-libext2fs-fix-std-c23-build-failure.patch | 42 +++++++++++++++++++
- .../e2fsprogs/e2fsprogs_1.47.1.bb             |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch
+ ...h-instead-of-redefining-bool-true-an.patch | 65 +++++++++++++++++++
+ .../libsndfile/libsndfile1_1.2.2.bb           |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch
 new file mode 100644
-index 00000000000..01ab9d5afb5
+index 00000000000..542a7838590
 --- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch
-@@ -0,0 +1,42 @@
-+From 72dcef02bee9924c4d5b3dc6e7ef4d07becebcc6 Mon Sep 17 00:00:00 2001
-+From: Rudi Heitbaum <rudi@heitbaum.com>
-+Date: Fri, 22 Nov 2024 12:36:32 +0000
-+Subject: [PATCH] libext2fs: fix -std=c23 build failure
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch
+@@ -0,0 +1,65 @@
++From 0ba5ab2fb7f29a01dbe570c324011e8cffc89d82 Mon Sep 17 00:00:00 2001
++From: Fabian Greffrath <fabian@greffrath.com>
++Date: Tue, 17 Dec 2024 10:38:47 +0100
++Subject: [PATCH] Include <stdbool.h> instead of redefining `bool`, `true` and
++ `false` keywords
 +
-+gcc-15 switched to -std=c23 by default:
++Fixes #1049
 +
-+    https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=55e3bd376b2214e200fa76d12b67ff259b06c212
++Upstream-Status: Submitted [https://github.com/libsndfile/libsndfile/pull/1055]
 +
-+As a result `e2fsprogs` fails the build so only typedef int bool
-+for __STDC_VERSION__ <= 201710L (C17)
-+
-+    ../../../lib/ext2fs/tdb.c:113:13: error: two or more data types in declaration specifiers
-+    ../../../lib/ext2fs/tdb.c:113:1: warning: useless type name in empty declaration
-+      113 | typedef int bool;
-+          | ^~~~~~~
-+
-+https://github.com/tytso/e2fsprogs/issues/202
-+
-+Upstream-Status: Backport [https://github.com/tytso/e2fsprogs/commit/49fd04d77b3244c6c6990be41142168eef373aef]
-+Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
-+Link: https://lore.kernel.org/r/Z0B60JhdvT9bpSQ6@6f91903e89da
-+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ lib/ext2fs/tdb.c | 2 ++
-+ 1 file changed, 2 insertions(+)
++ src/ALAC/alac_decoder.c | 6 +-----
++ src/ALAC/alac_encoder.c | 7 +------
++ 2 files changed, 2 insertions(+), 11 deletions(-)
 +
-+diff --git a/lib/ext2fs/tdb.c b/lib/ext2fs/tdb.c
-+index b07b2917..98dc95d8 100644
-+--- a/lib/ext2fs/tdb.c
-++++ b/lib/ext2fs/tdb.c
-+@@ -110,7 +110,9 @@ static char *rep_strdup(const char *s)
-+ #endif
-+ #endif
++diff --git a/src/ALAC/alac_decoder.c b/src/ALAC/alac_decoder.c
++index 46d3330..1b4a87c 100644
++--- a/src/ALAC/alac_decoder.c
+++++ b/src/ALAC/alac_decoder.c
++@@ -26,6 +26,7 @@
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <stddef.h>
+++#include <stdbool.h>
++ #include <string.h>
 + 
-++#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ <= 201710L
-+ typedef int bool;
-++#endif
++ #include "alac_codec.h"
++@@ -38,11 +39,6 @@
++ #include "ALACBitUtilities.h"
++ #include "EndianPortable.h"
 + 
-+ #include "tdb.h"
++-typedef enum
++-{	false = 0,
++-	true = 1
++-} bool ;
++-
++ // constants/data
++ const uint32_t kMaxBitDepth = 32 ;			// max allowed bit depth is 32
 + 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
-index bd6ac92cb14..022b016f123 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
-@@ -4,6 +4,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
-            file://run-ptest \
-            file://ptest.patch \
-            file://mkdir_p.patch \
-+           file://0001-libext2fs-fix-std-c23-build-failure.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
++diff --git a/src/ALAC/alac_encoder.c b/src/ALAC/alac_encoder.c
++index 599399a..f303311 100644
++--- a/src/ALAC/alac_encoder.c
+++++ b/src/ALAC/alac_encoder.c
++@@ -30,6 +30,7 @@
++ // headers
++ #include <stdio.h>
++ #include <stdlib.h>
+++#include <stdbool.h>
++ #include <string.h>
++ 
++ #include "sfendian.h"
++@@ -44,12 +45,6 @@
++ #include "ALACAudioTypes.h"
++ #include "EndianPortable.h"
++ 
++-typedef enum
++-{
++-	false = 0,
++-	true = 1
++-} bool ;
++-
++ static void	GetConfig (ALAC_ENCODER *p, ALACSpecificConfig * config) ;
++ 
++ static int32_t	EncodeStereo (ALAC_ENCODER *p, struct BitBuffer * bitstream, const int32_t * input, uint32_t stride, uint32_t channelIndex, uint32_t numSamples) ;
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+index 2a1b96d5e79..63c1570621b 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+@@ -11,6 +11,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
+            file://noopus.patch \
+            file://cve-2022-33065.patch \
+            file://CVE-2024-50612.patch \
++           file://0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch \
+           "
+ GITHUB_BASE_URI = "https://github.com/libsndfile/libsndfile/releases/"
+ 
 
