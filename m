@@ -1,180 +1,309 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0B75C35FF1
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 04:56:07 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.99])
- by mx.groups.io with SMTP id smtpd.web11.969.1742360161667165842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 307F0C35FF1
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 06:37:18 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.1887.1742366232200782024
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Mar 2025 21:56:03 -0700
+ Tue, 18 Mar 2025 23:37:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@vaisala.com header.s=selector1 header.b=O1GfbAiX;
- spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.21.99, mailfrom: niko.mauno@vaisala.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=51732a5c16=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52J5bGqn013417
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 23:37:11 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45eprr9y60-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 23:37:11 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52J6bAiS002485
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Mar 2025 23:37:10 -0700
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2047.outbound.protection.outlook.com [104.47.58.47])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45eprr9y5x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Mar 2025 23:37:10 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NH4anz405Ua8Racj2zPSx6qgCyevmjVwswFVxerIjo7/SJxYlmB89wXw/lfcHlg+o7/RUffG8EUB8pi+IZpuDvQyE8UUUIJHtNBBZsg/Ih/XJdviJWjYv8H6/5KCnYv5pnHt4K85jYMGy8+n4+f1Tf8DCCU1apfQ2IjUq6NhJJFC2221FdJtvNM9QOFcuk+utMN2i2M5ozS/y81kKhc4oA4oO7LSCfLpFsBOU57zrh9rMuN9kZ3HRx/uhG4FAplKHLOQyywt0lQEiuOmPzv/tKyaet/gYA9hyrHsB26Oyv+Sw6vDHAKSbIG5dNw5DbqX86QywMPag8gUEmqGpb/G6Q==
+ b=XrOqLk4J2YluiselKDq2ehpgiCNi6ta5jEwoVF7uS2lQ4nhA6AQNN49RkEUAVjW3kEtLt4h7hUTw/FHvNM555YQDBY/SSLG/FGkldDfP3D2X+XzXfW7vechDl6sWqXpaGJSltmOGhRaLHderJttXJUKIpiUkf98p8IWHWVqFeSocM+2O7SAzrd/iAPE+cxJomJeYDwuTM88et04E4bzTytCVxSsWJAz5hQDHgQ2KKPUmvJCDx5OCR4wk1Ei4zEkVwQr50OBCao9KYIdgisf02mjjA2NlXwIYpjRyLF2feNB+3uqy0aRoj5WuId+UKmZc4u3JhwgWwkgmk8JAhBxakg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GHLDWkCyLry0//58xl5Vh0Bl3ApuVQcyCT1hWA64wgA=;
- b=okOxowtjpgBd0eT03IeOlbhEaidoUCzPOIcnxCMI/VxxZBLntDmA/3XDoo+LJ22gs2xQLJ5/l2srpnAW6FbkQOG6UOJwo2f0YDOolu9HI0sy8j0pLeJSyVcr4V5+uz7kCmom8iF9EE5JiDiTC7HXjLzTvhT2QDozImvD4z3Fg5SEQ1ZwTuXEl3CQF3ZLhRNFy0R8cY6pKGn4sZZs4AkHsaHM8L9WlFhTS6BQmoAiTm5rlt+8buF4s0a15tzGe0FsEjUn2n+5NF1SOn8zGzFP97OT5w/o919oCmti/6KOvM3fNygmM+vF5hHR4upL5z5MulfB9wUjRNBm/Ll+6qnJMQ==
+ bh=qke2SQw+ezKUQn3v5td4wfowdZ983FJY+I38aHpvl5g=;
+ b=LR+tHHOcF63JWVpzwXS2txUidYMlCqKA57lzsomNqgUreqwilAFLxWtnyOHXFWM1qAxZAvQSiYVQ+XH0aO3DAd1PsDzE6s6XsuHH9tar2VZ23dHdgUPZDe3BLABq3To+Pq3WDUwXltVAsRCDJsVsPmF/ze3tMRbgghHkIH1TA0TCcAyy494T7YCuuO8wAy+7e/QfXhVNzvGkEEQI8MPCGBlF2Qzl1HIbPrCjSqOa1HcEL3J4fgS0g8F8X3ErpXS2q1z55DS/jdjp4eNFxtjOejZs3z0BnNyFp8ngg7WBIsR5jorN8O8VIwGDCBgw6xIRmneCLce+PNrpx2ZtTq02sA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GHLDWkCyLry0//58xl5Vh0Bl3ApuVQcyCT1hWA64wgA=;
- b=O1GfbAiXZL9uWnLivIQSc0fvUmbZJhDl8o49ZiCmEir3K5xjtn/GD54Bk9SQeYDQBCzZUghoQUR+6+lzv1KHDMYEhYXZBSFO/6jUb1GpoucQVVpLDOHX0+dKDLcVK5SRO6lMiCGPRg+01Xvkp+Lfoo3j10ESNmhkf8Sex39aPHF6ei5S3MBjLCHUL/O83irajTZ2sxz2bBDJ/b1YfTQa4KBmm/XouuK03kLF26KCMPuafQMt5smAq/SdEQuTtyGgn58Z/vt4x7ib5Zp4+EEJV4cAvPEnIVNwyMhZd2URfs8bZhz9HvI4z3u9vHmKB6Umj+MevA7i4nH5QB/zYbY8Iw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
- by VI0PR06MB9391.eurprd06.prod.outlook.com (2603:10a6:800:23c::9) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5611.namprd11.prod.outlook.com (2603:10b6:510:ed::9)
+ by BL3PR11MB6313.namprd11.prod.outlook.com (2603:10b6:208:3b0::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Wed, 19 Mar
- 2025 04:55:56 +0000
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.8534.031; Wed, 19 Mar 2025
- 04:55:56 +0000
-Message-ID: <6719c62a-ce76-4dcf-85ef-2cb355d8336e@vaisala.com>
-Date: Wed, 19 Mar 2025 06:55:55 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.34; Wed, 19 Mar
+ 2025 06:37:08 +0000
+Received: from PH0PR11MB5611.namprd11.prod.outlook.com
+ ([fe80::9ea3:51c1:edff:4d3a]) by PH0PR11MB5611.namprd11.prod.outlook.com
+ ([fe80::9ea3:51c1:edff:4d3a%6]) with mapi id 15.20.8511.026; Wed, 19 Mar 2025
+ 06:37:08 +0000
+Content-Type: multipart/alternative;
+ boundary="------------ZzS7VK1ifwQqmWXnxdO09Ynb"
+Message-ID: <6bb26157-a8f6-437f-8b02-3352be8ba006@windriver.com>
+Date: Wed, 19 Mar 2025 14:37:03 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Issue: /var/tmp does not persist due to /var/volatile
- being tmpfs in fstab #scarthgap
-To: vs.yocto@outlook.com, openembedded-core@lists.openembedded.org
-References: <PH0PR11MB561183431E26C593148B543AEDDE2@PH0PR11MB5611.namprd11.prod.outlook.com>
- <2962.1742314292470649522@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH] systemd: check SERIAL_CONSOLES for
+ serial-getty-generator PACKAGECONFIG
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20250313052729.1809525-1-Qi.Chen@windriver.com>
+ <1F0B1D07-29C5-47BE-BA11-A49EA1022B82@arm.com>
+ <182DC6E67082CC9D.9747@lists.openembedded.org>
 Content-Language: en-US
-From: Niko Mauno <niko.mauno@vaisala.com>
-In-Reply-To: <2962.1742314292470649522@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: GV2PEPF000045AD.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:401::40a) To AS4PR06MB8447.eurprd06.prod.outlook.com
- (2603:10a6:20b:4e2::11)
+From: ChenQi <Qi.Chen@windriver.com>
+In-Reply-To: <182DC6E67082CC9D.9747@lists.openembedded.org>
+X-ClientProxiedBy: TYCP286CA0310.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:38b::7) To PH0PR11MB5611.namprd11.prod.outlook.com
+ (2603:10b6:510:ed::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|VI0PR06MB9391:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c9a907f-fdf2-43da-a020-08dd66a2559a
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5611:EE_|BL3PR11MB6313:EE_
+X-MS-Office365-Filtering-Correlation-Id: db16bcd5-813b-4aa3-c5f3-08dd66b07871
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|4022899009|8096899003|13003099007|7053199007;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?LzdFV2ZpSUdwb3dJY0F0VXQ1WTVQOEZSZERWT21EZklYUmRlWlNaaGJnZEdR?=
- =?utf-8?B?VVZlMUJ3bEwrVW51bGplWjVFSWxBUTNGeXBRd0tnZVM0eWZDVDI4dENZQVVi?=
- =?utf-8?B?UThMOW5UclM0anduNTAwWE5HY05mR1hLVllYRWtQdTk1MzNXc0pRVjJsUm95?=
- =?utf-8?B?RGoydjA0VFVWbmZoRmNUU0ZJeS95ZmJIMmE3OFBuUjF0RVU3MXI2UlRld2RT?=
- =?utf-8?B?WkR1VVNpUHB2R0hveEFidmNzYW9ZV1d0R0NFWGJSSkUycWgreDZjeWJaU0dU?=
- =?utf-8?B?WUUzKzhwK0tBR2RDdUwxdE9TSW5mbW5HbWhiU3R0MzJLM0k4T3RadVltMWZh?=
- =?utf-8?B?UzlTV2gxSlVLd3F3R2FsZjFkdm9tV1BablRTVmtOcVgxRFNjWnZOSGt5QVg3?=
- =?utf-8?B?L2cvcWovNWFDZUM3SndocGQ0cWdPTmNsNHYweDJXOFg5VXpKWmV5U3U0SjdT?=
- =?utf-8?B?bXBvZ2dYQWhDWFBELzdhajl0T3ZNZjlud1pyUEU5MDNBMm03cGpnbzJjNEFO?=
- =?utf-8?B?aDlYQTMzWTFraEU2YkYyR25OQmk2eEhWM3ZpU2thcGhDUmRycm1oMXpzeno3?=
- =?utf-8?B?empnSGMzSG94d1hmZFB4MUJhL1dicElhRkNwY3JHa0ZkRXRXTnZRZFhDRFpJ?=
- =?utf-8?B?OWJ3bVVwdWtUanQ0Qy82MW1KR2hPUmhNV1hUc2hZZnp0YkdJWVo2Mk5WZXRr?=
- =?utf-8?B?clNTVnJwQ3ppcDF4MytPNGxERkpKM2hnbU9RSFpveU9Gc2RlR0FWczdqUUw2?=
- =?utf-8?B?TlRMcDZCa2xSU1l6enlrbXBPQmtwTnl2WFFsWFg3YmhaYy9ERUF5clF6UUgz?=
- =?utf-8?B?MHA5NC9kdG50a3hHOEcvby9ZWm9tRENDQ2RiWktncVJ6dXZjZ0lDeDJaaGcz?=
- =?utf-8?B?dE1XWkNUWWswb1ZzMHJFenhNYWE4MXovRmc1RWZYK2piQjdPK3NCTlZvME1J?=
- =?utf-8?B?RGEwVmV4VG1KVFpDd09WbHRPR1BwaXVBMm5rRkhDazgxSUpyYWQrTXdjOUJD?=
- =?utf-8?B?dUkvR3BKK2hJVWRMbWVpVXFmMUpsUFdYNzgrMHFMRjV3OC8vVGRYY3FzNzAx?=
- =?utf-8?B?S0MyQTVidVJhOGdVTDk0ajhaNHBIS1QyNmNZdWxuTjhyeWd2K284TzdDcjBZ?=
- =?utf-8?B?bEhpL29OaCtYLzJTMmU1QU1Ua3pHOEhoZkhIcjFIZHpuSnhNRTczdmFYdFlR?=
- =?utf-8?B?VFJhOFk5VDU4WDQwOHFUSE83bWMzV2dQR3preVpRaGthYmVVbXpKVG8xY21L?=
- =?utf-8?B?MXRCa2UvMDZydVJ6dThkTDRBbENicE84YkRCSWVxMzBySVI2OUtDUHlvU0JE?=
- =?utf-8?B?K3FoQmN3UzZXSkxHQ3FPdDIrTW9tU0tONkZoWkNERFBrWlpFaGJ2MWVRdWhl?=
- =?utf-8?B?ODMwQVlndkhFVDN1bjF0OUFHOVRiL1o1SzF4WGlkSlovNnM3NkJkcVUzd0Rr?=
- =?utf-8?B?b3hGUlp5NHM5Ry9RWkZ2QXVKVzR3SUtFZjI5YndkKzNLOHFTWjhxYUFjbHoz?=
- =?utf-8?B?WU1zcGhLRVJPUHJvYTFHamF2RzNpZmhwMkZMVm0yVkJZWDJEdTVpYnRRREE1?=
- =?utf-8?B?VEg5OElMdlVkQnFPcW1QeEp1SUozdkM3ckdvMGJBK1BiYlZsTDQvOVlkK0dD?=
- =?utf-8?B?S01GYk5JQzlCanlNMjBWdzlUK0szOHNwelBrUkh0YVE2d3NrVzlUS1pHZENE?=
- =?utf-8?B?ZkFtcEUzc011ZXU3WU1saWtzWEk4UFJNU2dMNlBsblJzTW1USkpYRmdsREVW?=
- =?utf-8?B?NksvS0E1WElTNk5JNm1CUGFlMGI3REl1U1N0T1lBcHVTZDNxeVZlNXpTcWdw?=
- =?utf-8?B?WmVzT3NRemhETU1ldGxvUT09?=
+	=?utf-8?B?clFJUTNCMkc4bG15L2Q3bWFWS2RSdk16VWJudDJoYXpBTWFsU3pURVFCaWIv?=
+ =?utf-8?B?UlhpNW1qRFV4K0hxQzV1T29uMTJQeElqTEJBaTZROEJQUjZ0dVowcUN0Mk90?=
+ =?utf-8?B?bHNWYlpMRWZSZVpFNVV5UUFGeFdJZ0lBYmE4VS80MDJFU2gxRnFpVzFldUli?=
+ =?utf-8?B?blZMYkNzR3dhUlVUd0hoODk3OFdwVXNOMS95d21PZ2J2cndORmpFNU5ONm5C?=
+ =?utf-8?B?NWxkWHYvekxqTjhpSk9pMmEvUTBFcGtkOUI2b1JXblNVTU14TlZoS3p6dFRZ?=
+ =?utf-8?B?RDJrZ3ZDbGYwY05oM1kwZUc3amZvSXBpdWN2T0c1VW04SlBvaVRjckJObEVJ?=
+ =?utf-8?B?T2trTjR6dFpjcGtHWU9sMFhWRTZmMzJVSDFPblI2bkVBdjg5bnMvczN3NGhz?=
+ =?utf-8?B?cENJL3BEeEdtQmxUOVQ1a3g3VHhNSVVPSzZhQ2pacnRHR1ZtWm5GbXU3THdU?=
+ =?utf-8?B?QUpiVTIzbHF4eFRuMjZuYnRQWmlmeFp2b3BUbkgxRDVxeGNYTFhpZFNBTlpw?=
+ =?utf-8?B?S1Y4ZEJ4TTk5WEcvdWxVSDFvZi9uZlVkNlBxaFd2Q040aG15Y0pxVHlOZmpj?=
+ =?utf-8?B?YU1COVF5K0hXSWc1aUFvaXhIaS83NHdJZ3g2cDBHV21IcytRM2s1TUFkSDhC?=
+ =?utf-8?B?bUhLV2FZa29LeE9JRjJsSlZPWGUzV002RlZ6enl3WnROZG1tcFN1ckdOcXhu?=
+ =?utf-8?B?N2c0bEtNUmVMYWJwNnVJT2NtOG5POENoVU5Lak92MHg2c0tEQ0E3cnV0UVV5?=
+ =?utf-8?B?cHFvd00xTGJpdElRdk9CSGlhK0tUM2FXcXZXVlJET1RGeUZEcE5RbDI0UWxQ?=
+ =?utf-8?B?WHBLcG1pb2pmSHd6cmtyVEZzYWxWRjNkRDBLT082SEpCcVlEQUt0RjNNb0lJ?=
+ =?utf-8?B?VlZIY1h1a3JWb1ltYXR4SGZqNzQvcnA0dm1IdnduYU1yZlZyTmNQbGQ5d01S?=
+ =?utf-8?B?eVZscTVKS3R5UWRXQi85V01RTUdRay95UFNPQlVpMlBRaStGb1BQUW1kWkY2?=
+ =?utf-8?B?WWJ2SEF2a1JQQnhQRGlaelZlcjRMNmQvVnNYa3dyTmRWTVBLNWhBZlkwYURp?=
+ =?utf-8?B?N1pEcnIybnFDMjVvNzJMTTQyVkNrRTE1cFZ4MHlLYTQySEpUT1p6b1JoTFY3?=
+ =?utf-8?B?US9OdHZ1cjJhZjExSlJLdE9ZVTR5aTBhd3UwY0FzVmRwRmc2UGlQOFROY280?=
+ =?utf-8?B?Z1VvMWp4VWQvd3h4NUFKWVlOUFplWFJHRzJNL3BIOE9HR3BPT2ZVeWlROUxO?=
+ =?utf-8?B?bXVrSElBRlVCdTljVnZ6cHkzS3ltSEdValJva3F1bkNEVjBTWm5vam53ZE9C?=
+ =?utf-8?B?WENQc2tHWkpSQWlGTDNQSFdMVDN5RSttVVBWSUtOeFQ3ZUhUR1BBUC9IQlFv?=
+ =?utf-8?B?bDVZUCtUNVRBb3c0YjlqZCtVWWJVbnBvKytoUDdkVjNWbVM2QWFlcTZudnd0?=
+ =?utf-8?B?OURvVHQrWEcyUVRESkg3b0xwRldyNFZ6TCtiWHA2N25xNndKb244aklnRDZu?=
+ =?utf-8?B?RVJKc1BDaU5yTXF2WHQ4ZGJ6blY2YitTNW41YnkrdmgrUlg1Z05nRzcxRmtZ?=
+ =?utf-8?B?WVB2bFMwNXl1ekMrZHpHeXErS3JsOXkxUTNqTStPc3lSajhCNjhiK3pia2FN?=
+ =?utf-8?B?eC9KemxoMFdRcytRVjFMRis3NHpFcUxONkRiSVAvMkxJNXdQdC9MOStCVEo3?=
+ =?utf-8?B?NnV1NTZjb2pHcFNPNkdCUzQ4WW5XV3V6b0pSN3lrbTNzOS9FMjJuQUFEUkpF?=
+ =?utf-8?B?UjRWWXpKc2xiN1lxMDh4bytnaHB4RElZcmZSU1RERE9jZGVjcnlUalZOQXRj?=
+ =?utf-8?B?WXRkNGdWMU12TG8zaHJtQT09?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5611.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(4022899009)(8096899003)(13003099007)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?YXYvNExPY3ZUTnRkRENrNWRIYmdhN3JwSlRoNGNVZ1VSZm1MYWVUUVpGZjlE?=
- =?utf-8?B?WWpWSTNKdE16dHZrNm5OMDlKOWk1Nkp6SitxVURFeS9TZXBkT3JaNTBMS2J5?=
- =?utf-8?B?MWllVnlxTDN2aThFeU9iaXNLSjZkcFpMbFpzWlhRR21VR3lXL2Nib1kzY2Nl?=
- =?utf-8?B?VUxFRVFNUmVxVEtQaWw3c2JBWVVjL00rY1pHbEY2R050WXNZbjk2Z3gzOEFj?=
- =?utf-8?B?Rm0yZVVLa1VpeFlXdEhYSVNQcmI5WEtFajBPM1BSSG10N2wxWmpoMzNpV09r?=
- =?utf-8?B?bjdRSVQ3MDJZbmQrTStwTGZ0bnRQUG4vbmpWOE5CeWw1M2hJOXpPYjg3c2I4?=
- =?utf-8?B?cklBSDdBWjdDbWJ2b1MyZnFpOGg4Y2JjajZHcUI2WWZpVlNXVGI2OGg1bk5s?=
- =?utf-8?B?VHVPSUFKdWEvTVRLdC9SOFFYalZ6T3BqSnFUMEhPY1pIN3VDRTJXeGFHV3Iz?=
- =?utf-8?B?a0loNUduYmpvYkh5d3o1eHY5dnMyVVhQL2ZZc0tRWENaaU1PSGovKzJYUFEz?=
- =?utf-8?B?Q3pncU0xRWl5bE12UzNvQ21ITVdhbFZqcGtIMjBzWVo3TXlWVldSN25ZSWZy?=
- =?utf-8?B?RjIxUGFVMm1MblVOUDRzcERCUHJNNjlZVGpNZUZjdGhUWXdVK1lIMnhBL2to?=
- =?utf-8?B?Z2pmQitLYU1laDNtOU1xNnc5aUFNYTZpNE1yakJEdG9TMEo4dVNjbFV2UndR?=
- =?utf-8?B?RXc3Q1N4andlajJrNUs2d21hVEh0ZEdhZ0hTUkRFTlZtUTVpanhLSnBZR2lh?=
- =?utf-8?B?U3k0Y2RGV3RPOVhFTWJvMDhXZVJkVlpyMFpWMkJYK1c3M0hwUk1HK3BMVVNJ?=
- =?utf-8?B?d2QwK2NwazgwTWpmVUpPWXl5eHZ3SFJ0K1YvU2Q0ODZyc05mTUt5N25GUEtX?=
- =?utf-8?B?TCtqeGZCbGRwRi9LWVExSzg1ZTFBZ3lSbXQwQTNoMCszUk52L1lBcENOZzlP?=
- =?utf-8?B?d1YwR1NybytpNTBTTS8raDE2b2ZTL1Z2cFhsTUViUURadU5yaUJyZEs3Q1hV?=
- =?utf-8?B?SmZyVHFPd2loaG5zVzVsTURlK0dPcEhwQmVYTzlYZlhreFZtU1R1UTdIODB3?=
- =?utf-8?B?dDQwdk1HU0dSUG9oTExEcm5wRW1aVjJRWXh2RkNNazZleFVlblU2TVJEMWpp?=
- =?utf-8?B?b29wRHJKSmNlb3dBOEZlRU1XaC9yVDYvalpZdjEvek5jSkZabGp0UkNLUXVi?=
- =?utf-8?B?RERoL3d1UTlnVC8yRnlkTUtTOTdsZUdWZlhoTXRzU1hQN1lDNnhSTEYzK2FD?=
- =?utf-8?B?T29VNkNlV1AwbHJtWmZZVzNZSENtcElEUHBkcnlrOFY5ZDgrZE1nMUtBVEo2?=
- =?utf-8?B?d3UrSitESTNVSlF5OGpDalBQSUluQVBaMzFQeEZDRVdiclhlYWZBUWVOTU1V?=
- =?utf-8?B?TFlyZDZxOTlSc24vUTQzT25zcDZIajNGWVF5anloMEdlemIxcS82aERmRS95?=
- =?utf-8?B?WGtOMEpLYlV1bFlZNFpVNkwrb0dIaGtXdTBzNXlHclJqUy9zckJmQ09BTUlk?=
- =?utf-8?B?bnZvWlFYZlQ0dXRsUzNOekFCMmZPcUVmQkV6bzJxeWtJNmw5SWJIUXY1ZzRC?=
- =?utf-8?B?akNTTlQrY09RQW1ianljemFOMjVFZCtjVmJFbmx6eldCOVZKekNNL2JnZVdW?=
- =?utf-8?B?ekN3OGVkZXVaTkErMDlBR3NqMXRvdkdwVEFHT1U4cXd2YkNHRmQrbXRjS1k1?=
- =?utf-8?B?Y3VqMk1uZDRuMjl3REE0SW9sK1d1bklqalNQQXV2VjYveWx0cGFqejlYSm1H?=
- =?utf-8?B?OS81R2FWY2N4ZDJLbE44RjVlMktUcE5taDY5Tk9QNGJFOTIveXJxOWFGaWh1?=
- =?utf-8?B?MTBOQ2w0M2ZBdlFTbDNDVHI3a0NSRnVMWDN0RkNQUGRTOUFMM29CUys2Tlg1?=
- =?utf-8?B?Y0U5U3NXOVpwc2kwRXRuV3cwRG1iZ2hLV1F1QWxsMnY4Q3hoSTJqckJ1MFBO?=
- =?utf-8?B?Y3pFNHRyaXBpMFhxWG1qV002Vnc4Vy9tWWRyNUh4YlFxNE1oS1VnRmh3bjJU?=
- =?utf-8?B?UnNnZVV0NWZtWkNhQ1pUd0owZTlrSXBaclI0b2lHRHVDSWZOU0lnREJ0RmhM?=
- =?utf-8?B?aXpXUGxDWWxKeExaRDhtK0JmcDZhb2pnWk5CaWRzSDNMNXV1S21pUEJrNDVG?=
- =?utf-8?B?T2tGRU82S20zYTdzWCtPaUFGekhzcHBvSTNINlR3eU5HbTQ0TUovcGROVWJO?=
- =?utf-8?B?WlE9PQ==?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c9a907f-fdf2-43da-a020-08dd66a2559a
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
+	=?utf-8?B?REtJbEpDNE1GZXBVQlptNjhXNlc1NlFwUi9uRTI2S013NUlLVzdmWU0xbmtI?=
+ =?utf-8?B?cHhLdTB4dnpDeWIxVWZNREtxZEtzRUNvSnRvTUgwbG1QZThkZG5Xb21jU29I?=
+ =?utf-8?B?TGJiYXBSeExjRjhYQTZ0ZEliLzVBbFgwQTg2NTI4M2FKdWJhUzlEY0FkMG03?=
+ =?utf-8?B?cTRtWXlnN0diQjFleHh4elBFQlFmRGppYk56MmtTckdOcHhIbTJvL1lmSUdV?=
+ =?utf-8?B?Zk40QjhodmtQZEVEWnpHQ1MrVUxjNWtGU01tWmpaVkJTaWNFcENzdFZNUjVa?=
+ =?utf-8?B?aE1nd1FTT0EyN05RbTBBQitGVUFGNGtWdGNDdHU1aElqbzlnaW44MnJCWmJX?=
+ =?utf-8?B?aDZIRUJ6Mi96clNYZlgyM3RQNjlENWJYOHdBVmhxb1RUUlE0alliOWQ4TUsz?=
+ =?utf-8?B?bWpKL2FYZzFxM3g1QkpLWkJ0ZzlUT2gwWGd5aHlQTFZua0w5SmMrTm9nV2xO?=
+ =?utf-8?B?eFkybDROOEJydnBpQmtxZnp4OUIyMUNzOGZGSGFMeVVTbGtmY09qbmpiSlBy?=
+ =?utf-8?B?MmZpallXSS9ndytQSS83SU1TN2NDZEhrRUdSZDRTR1gzSlN6U0tHSGdzUkVv?=
+ =?utf-8?B?bnM4Y2duZkZxWWh5RG9Gb2Z0QmRxWllaL1g0c3VLRWowNTBMVHhROS9FMWRW?=
+ =?utf-8?B?a0hvVDFCT3lseENoSFVRUFhmOXlkNGNETDNiNHlGaDdWZHVJVXdYN1RDK2lE?=
+ =?utf-8?B?NXBla1Yxc3diT3JKWlE5SkszRndZdUc2QjJQcTdLcjVCTTA5UGF1LzNsK3Nw?=
+ =?utf-8?B?WUp3QWhiZzJmbGUxWnBQZGI2aHprbTM1eDAxRW9ZWkwvZzV0b0dUR3N4K1Qx?=
+ =?utf-8?B?Zkp5eTZ3aWt6eHZCQktTUmhuZkhkU042bjlzdU1ta091Nmc5TDNvQW1Rakxj?=
+ =?utf-8?B?ZWpscjA5amk0bEhZdnQ2ckJaOVdjbDE1YkwrUDRGa0lYRGcvTnBlMDdCNmVa?=
+ =?utf-8?B?aDJKUXpXZnBndy9ZeHc4VmZqWDhBTkRJWW1rVzlUMEYrUVk1dHNLTmQrSzYr?=
+ =?utf-8?B?QWh1OWt2N3hXY2xkYzViMTBsYnhUZWdQUkl1T1RycGluaXYvTDJFcXk5TCtU?=
+ =?utf-8?B?UXY4Um9FRVRRMWJtREgrMjk5bFFxR1luVS9kb2VzZGxHSTJUdHF0RkJZc2pS?=
+ =?utf-8?B?ZitLREthQllWdFFEQmgzOGc4OTdLZTZBa2tVU0FZbENPVm9yZ0EvTkx3SzZQ?=
+ =?utf-8?B?WTBmeFJwaE1XWnltZDRJK0ZQemhsQWtQaUIyT3pQQTZMTkV4dldsWFFVU3VY?=
+ =?utf-8?B?VjFrVWVsUEVVYThYUWR1eG5YaU5QZjBJNCthL0JURUdOZlBuVzNRdzhxMWhw?=
+ =?utf-8?B?RTFSUGYzSS9GOEJWTGVsWFBnY1BKTXNtOVhNWmdhb3pIQzFESW5GL0kvaTlD?=
+ =?utf-8?B?UmNyOGVXTVFaUW9lVEplMWhOVVgzWnM2TmJNRDJqcEtIS3pXb1hFei82eWpU?=
+ =?utf-8?B?QjA1YWRkclVjK2VSM1pmcUQyRmlwTmJkK3RkUWRtTU9rKzVQVUx3Mm5VQlZx?=
+ =?utf-8?B?U2cvTzd3Y2w5dWZCZVpqYXdDVkZPRHozd2VnR2RyM3hRREtDdzBNOXhDakVw?=
+ =?utf-8?B?QWpMTktSMjZxWkZnMDJXZGJCYzJ5MUVDSnE1NHhhcXRiOHg1WU9Sd0VIN3Az?=
+ =?utf-8?B?ZEdCR3Q4NG4xZkJMNVcyLzJ6V3NNM2wrcUx3WjduLzJiMStmM0V3TlJqd3hW?=
+ =?utf-8?B?a01NTElhTXpFcm9oMFJvckp2UXlMSlB0MTJnTXdpc0ZMclAvUEIwQkN3TW9W?=
+ =?utf-8?B?eWJXend6K2k1eE5NSHp6Zk81RDdDWnBSMXZDb2F3TkFNTG9aZkVJSGd3dFBl?=
+ =?utf-8?B?SDNpbnFnTmRhTWdHdmlkaWltMG0yOHh2Vzk3clNHbEhpcTJ6RkQybHhYV3NW?=
+ =?utf-8?B?WGJyVC9xenNpWjJaMHZoR3B6aHJnaytDZ2x1aTJEU3VUUDc4NXBBWUM3ekVN?=
+ =?utf-8?B?ZE9wbSttNFdZUmw5TUFzRUNTMlNoSzYyWEphRkR3eXEyTGxFbzlPRTZYZGRs?=
+ =?utf-8?B?Z2daWU02OGtTZ3VsOXJBWktiZlVHYWlzRWkwNHl0YnNvTGNwaDVWN0lmNTNi?=
+ =?utf-8?B?TnppRVZEZmp5SzE5Wm9wa1ZlMkhud1F3RXhyNEpHNWxPNVpvenY1WFkxUzNQ?=
+ =?utf-8?Q?1xPfrDSAMeluzivdeX9r/r1lZ?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db16bcd5-813b-4aa3-c5f3-08dd66b07871
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5611.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 04:55:56.4602
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 06:37:08.1278
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j51uOHMcQn5kpBOWXPwER96AkSWLSuVoGKuegfyspi7D4UWgjs4bw08GD4Bm+z7njfGET3cBAetC4TK2MjHJQg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR06MB9391
+X-MS-Exchange-CrossTenant-UserPrincipalName: F7qVDHiFRV1UYkdGJebNS8vaKMnSKViM8OCmFt9/5TwfSEBtXqsYw/ESTlq1XEBRydrjFPJ9ILxLGhvEuyw+dg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6313
+X-Authority-Analysis: v=2.4 cv=LZw86ifi c=1 sm=1 tr=0 ts=67da6617 cx=c_pps a=zzjaJ2HwkiRAih7KxKuamQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
+ a=H5OGdu5hBBwA:10 a=e5mUnYsNAAAA:8 a=Q4-j1AaZAAAA:8 a=7CQSdrXTAAAA:8 a=t7CeM3EgAAAA:8 a=BysMsrfwQGZIpICi9xwA:9 a=QEXdDO2ut3YA:10 a=-F0DAKMyZqAA:10 a=YaWxdbyzcwAA:10 a=1KWe_MHL-LRyDJDFoE4A:9 a=PD3Fv_tagJvW5nLf:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
+ a=Vxmtnl_E_bksehYqCbjh:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: YdO1wabN65yUQV442I296ZsMzHvNHTX2
+X-Proofpoint-ORIG-GUID: M8HfAj3EA2JlTtItERl26FEq_CXdCY-Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-19_02,2025-03-17_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ bulkscore=0 clxscore=1015 adultscore=0 spamscore=0 phishscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2503190044
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 04:56:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213262
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 06:37:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213263
 
-On 3/18/25 18:11, Vish via lists.openembedded.org wrote:
-> Can we know the reasons for original changes here?
-> https://git.yoctoproject.org/poky/commit/meta/recipes-core/systemd/ 
-> systemd/00-create-volatile.conf? 
-> h=scarthgap&id=3cc8c3520cedb66500757f843f757646da69ab30 <https:// 
-> git.yoctoproject.org/poky/commit/meta/recipes-core/systemd/systemd/00- 
-> create-volatile.conf? 
-> h=scarthgap&id=3cc8c3520cedb66500757f843f757646da69ab30>
-> I reviewed commit message but not giving much details. Considering 
-> default base-files and as persistence is required, this newer approach 
-> seems be an issue.
+--------------ZzS7VK1ifwQqmWXnxdO09Ynb
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Vish, that commit should only have the effect to avoid seeing an 
-associated error line in systemd journal ("/var/tmp" already exists and 
-is not a directory). The error line was stemming from the fact that in 
-Yocto Scarthgap base-files creates /var/tmp as symlink to 
-/var/volatile/tmp 
-(https://git.yoctoproject.org/poky/tree/meta/recipes-core/base-files/base-files_3.0.14.bb?h=scarthgap#n87) 
-which contradicts systemd's default runtime expectations.
+On 3/18/25 11:08, Chen Qi via lists.openembedded.org wrote:
+> Hi Ross,
+>
+> Let me provide some background of the problem I was trying to solve here.
+> Some BSP layers don't set SERIAL_CONSOLES, and they have worked for a long time with previous systemd. Now systemd-getty-generator is deleted by default, and they don't get any serial console.
+>
+> How about using the following solution:
+> Do not delete anything when serial-getty-generator is in PACKAGECONFIG.
+>
+> I suspect deleting systemd-getty-generator will have potential negative impact ongetty@.service. I'm not sure though.
 
-The base-files provided /var/tmp -> /var/volatile/tmp symlink has been 
-prevalent convention in Yocto for a very long time. (If you want to have 
-/var/tmp as directory instead in Scarthgap I believe you can e.g. append 
-base-files do_install() task to remove the symlink and replace it with 
-directory.)
+OK. I just checked. According to 
+https://www.freedesktop.org/software/systemd/man/latest/systemd-getty-generator.html, 
+this affects |serial-getty@.service|, |console-getty.service and 
+||container-getty@.service.
+|
 
-BR, Niko
+Anyway, I'll send out V2 using the above solution.
+
+Please help review when convenient.
+
+Regards,
+Qi
+
+>
+> Regards,
+> Qi
+>
+> -----Original Message-----
+> From: Ross Burton<Ross.Burton@arm.com>  
+> Sent: Tuesday, March 18, 2025 1:47 AM
+> To: Chen, Qi<Qi.Chen@windriver.com>
+> Cc:openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core][PATCH] systemd: check SERIAL_CONSOLES for serial-getty-generator PACKAGECONFIG
+>
+> On 13 Mar 2025, at 05:27, Chen Qi via lists.openembedded.org<Qi.Chen=windriver.com@lists.openembedded.org>  wrote:
+>> So a better default behavior is that if SERIAL_CONSOLES is empty, then
+>> we put serial-getty-generator in PACKAGECONFIG which let systemd to
+>> generate corresponding service instances.
+> Whilst this seems like a good idea, it would also make the systemd recipe machine-specific.  Considering systemd provides libsystemd and libudev, this is not a good idea.
+>
+> Ross
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#213133):https://lists.openembedded.org/g/openembedded-core/message/213133
+> Mute This Topic:https://lists.openembedded.org/mt/111674751/3618072
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [Qi.Chen@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+--------------ZzS7VK1ifwQqmWXnxdO09Ynb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 3/18/25 11:08, Chen Qi via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:182DC6E67082CC9D.9747@lists.openembedded.org">
+      <pre class="moz-quote-pre" wrap="">Hi Ross,
+
+Let me provide some background of the problem I was trying to solve here.
+Some BSP layers don't set SERIAL_CONSOLES, and they have worked for a long time with previous systemd. Now systemd-getty-generator is deleted by default, and they don't get any serial console.
+
+How about using the following solution:
+Do not delete anything when serial-getty-generator is in PACKAGECONFIG.
+
+I suspect deleting systemd-getty-generator will have potential negative impact on <a class="moz-txt-link-abbreviated" href="mailto:getty@.service">getty@.service</a>. I'm not sure though.</pre>
+    </blockquote>
+    <p>OK. I just checked. According to
+<a class="moz-txt-link-freetext" href="https://www.freedesktop.org/software/systemd/man/latest/systemd-getty-generator.html">https://www.freedesktop.org/software/systemd/man/latest/systemd-getty-generator.html</a>,
+      this affects <code class="filename"><a class="moz-txt-link-abbreviated" href="mailto:serial-getty@.service">serial-getty@.service</a></code>,
+      <code class="filename">console-getty.service and </code><code class="filename"><a class="moz-txt-link-abbreviated" href="mailto:container-getty@.service">container-getty@.service</a>.<br>
+      </code></p>
+    <p>Anyway, I'll send out V2 using the above solution.</p>
+    <p>Please help review when convenient.</p>
+    <p>Regards,<br>
+      Qi<br>
+    </p>
+    <blockquote type="cite" cite="mid:182DC6E67082CC9D.9747@lists.openembedded.org">
+      <pre class="moz-quote-pre" wrap="">
+
+Regards,
+Qi
+
+-----Original Message-----
+From: Ross Burton <a class="moz-txt-link-rfc2396E" href="mailto:Ross.Burton@arm.com">&lt;Ross.Burton@arm.com&gt;</a> 
+Sent: Tuesday, March 18, 2025 1:47 AM
+To: Chen, Qi <a class="moz-txt-link-rfc2396E" href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a>
+Cc: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
+Subject: Re: [OE-core][PATCH] systemd: check SERIAL_CONSOLES for serial-getty-generator PACKAGECONFIG
+
+On 13 Mar 2025, at 05:27, Chen Qi via lists.openembedded.org <a class="moz-txt-link-rfc2396E" href="mailto:Qi.Chen=windriver.com@lists.openembedded.org">&lt;Qi.Chen=windriver.com@lists.openembedded.org&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">So a better default behavior is that if SERIAL_CONSOLES is empty, then 
+we put serial-getty-generator in PACKAGECONFIG which let systemd to 
+generate corresponding service instances.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Whilst this seems like a good idea, it would also make the systemd recipe machine-specific.  Considering systemd provides libsystemd and libudev, this is not a good idea.
+
+Ross
+</pre>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#213133): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/213133">https://lists.openembedded.org/g/openembedded-core/message/213133</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/111674751/3618072">https://lists.openembedded.org/mt/111674751/3618072</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------ZzS7VK1ifwQqmWXnxdO09Ynb--
 
