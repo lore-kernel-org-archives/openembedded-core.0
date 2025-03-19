@@ -1,105 +1,125 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EBF5C35FFA
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 16:21:22 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.12412.1742401279754971974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5744AC35FFA
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 16:22:02 +0000 (UTC)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.web10.12425.1742401314454759189
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 09:21:20 -0700
+ Wed, 19 Mar 2025 09:21:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=PWiyNFxE;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7BAB744536;
-	Wed, 19 Mar 2025 16:21:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742401277;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fn3tS4kqkfPFnnOYEVLLdOAhxtgDKG3ZQ0AsM7S9yJE=;
-	b=PWiyNFxEdc7f9s10IJ5aI/FgYxvCBiiBw2hxjMHivpMCf0gLLCDBGgTksI7NXEKgOBk8Dy
-	IOgkaVbgnxppFcGjOlI/oHbzf9YDtot1MwGb+9QeZs1n6Zx6Yp661kCUoJo3iw8RsObwvo
-	SMQxLTTWVwr7m02ZXGwKq4jXTSvMqmMRUKddHlNJ0bKMVCgsAbxr5us2KMu3RvRAjHUBPV
-	DcGyfizDVvR8ZO5vN6UGZfq5oZBklZqQYzJGpwnn2l/rGd7XsLmaeme/A1jUjt1JDodxLX
-	MbMgNFs5H2vo2gEL0veX2LS93EuI7bS7YVXP8+oRWsgiXGpg5eAG4oaRT+UwpQ==
-Mime-Version: 1.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZFp6RlkC;
+ spf=pass (domain: gmail.com, ip: 209.85.167.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3fa6c54cdb2so4716253b6e.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 09:21:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742401314; x=1743006114; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tYFKPyafj3WpyicAXPlDySGn2Rs/bQOmTS+SRiU1YRo=;
+        b=ZFp6RlkC1gE3Z7c3FAGaYYBWZkcadYrqRriAtqI0U+sZ4cnWZCBCj6e+k+9mAjqUhu
+         R5FIxeuEABzBIFENHSsGiCQwAYxhL+dbvvLfdAzvshWSUxUV5Lvd1qkWHscqRV8ODzw4
+         4wknHdvhbsuEi5aTCKGykbt/EfhEmTPlDvGD+zAoSNqkIrRElasM7SMpth8OGDckO23s
+         4StXPwa0MNKYR9I/vf6kABCJFQuF2KdaL64zu24oxnxf8BcVwAQDAlsFVyidaQnaTpMp
+         bVIWcx56K7kw0+2SvnWaprs5gEY3k4CzggNr3a3XOxU5YbOyi8DgM03//CD85cjPVLyU
+         Zbqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742401314; x=1743006114;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tYFKPyafj3WpyicAXPlDySGn2Rs/bQOmTS+SRiU1YRo=;
+        b=Pr6kwMkicjExmJ2iRgn8lKQFu9gbHt1yXaZ2Ac+fHhW7qnp9MuyaDAvtf+2RNLx8/Q
+         kXv3rNuqIiQWHeNzsLPkDropuB6w/ooAi65y4Po4R1G65umRJpDnGDylnLXnAjmY5ABw
+         0qX/wisd0U8lZ0spfbQAOSeTnEu3nHC3yrdXbv2TFiz+oaM4cwb44I0k3rHuqsxKL/Aw
+         RajkjkJ0Lqq4T5zcaV3ttEp0El3SQJvvetl8YPOLosY52r7xj4FuBcpX+itM3C786c7Q
+         g3z+/6+1kBKY4R4BJLfhxaNuYSxbTbhcEh8aAicQyPy4I5F2dqL2wQemEamFEcdGn1+j
+         Wptg==
+X-Gm-Message-State: AOJu0YyS7Zb1eOlaJx8dbw1RuLcgHfKjGMgIXP/eCCb9l2hzEA7X/CWu
+	lqZyrlRm+Aqkq7LjRDjlSPUFxmV2k27kcyr4mjXVLfwPKzHlbxuDawbNQJz6c+f+0OIbOoERc57
+	i8WbehZfFM7k7DS5OPN98v6iOarg=
+X-Gm-Gg: ASbGncvg0dKMJOtc4jOzPPHGsTECA5SpQVB2tOCPxjItxQX5Dpei5Jp511Xdb6fgG6z
+	D9nx9HuL/NssxZO/otl+LVPiGFneVx1MDerwPipYtUf7eUq0OB4xun6IKaZT7YDNq5ZQRwqbUEE
+	7sQLWWcyv38dxXOxwUF+8D8NR9
+X-Google-Smtp-Source: AGHT+IHWjoNm15wiM7LpLYU8S8QrgfQednqOTDT5AwsN8eYWpmnHIx4iuUNhMvR326hN+3D3gzsbab4o6E4/AU6s07E=
+X-Received: by 2002:a05:6808:1887:b0:3fb:e9d1:9548 with SMTP id
+ 5614622812f47-3feb4b805b3mr50140b6e.26.1742401313679; Wed, 19 Mar 2025
+ 09:21:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250319081610.3536475-1-raj.khem@gmail.com> <9f97a4f6c9b8a5bc55f862f69012bb9e8d11a1b9.camel@linuxfoundation.org>
+ <CAMKF1sq-BajTxiE+BwkyyZbo07JiN3OxrcrprMvZubjVcGguKg@mail.gmail.com> <b825d8eb3f5ba20b9ae2ed2b76d7cbf0889e22db.camel@linuxfoundation.org>
+In-Reply-To: <b825d8eb3f5ba20b9ae2ed2b76d7cbf0889e22db.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 19 Mar 2025 09:21:27 -0700
+X-Gm-Features: AQ5f1Jok8Gwitg3QRtl3R1UnPTIrwFVUpPajW-3nrC6nCVjNYoqQYdIFixblu6M
+Message-ID: <CAMKF1sq487JEOzbipbTg0=JTvMyCM+wzE0yWsNkFhjJvnqR36Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 01/27] webkitgtk: 2.46.6 -> 2.48.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 19 Mar 2025 17:21:17 +0100
-Message-Id: <D8KDPCF66QTR.16Z4JHM4GTJVY@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>,
- <wangmy@fujitsu.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 08/12] python3-dbus: upgrade 1.3.2 -> 1.4.0
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <1742278912-2989-1-git-send-email-wangmy@fujitsu.com>
- <1742278912-2989-8-git-send-email-wangmy@fujitsu.com>
- <D8JAZBGJQKHC.ODYN6REYX2KP@bootlin.com>
-In-Reply-To: <D8JAZBGJQKHC.ODYN6REYX2KP@bootlin.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeehkedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffhvffuofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevffetueehffffhfevgfelueetledutedvvefhtddtleettdevgfekveeihfegieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedprhgtphhtthhopehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmp
- dhrtghpthhtohepfigrnhhgmhihsehfuhhjihhtshhurdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 16:21:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213344
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 16:22:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213345
 
-On Tue Mar 18, 2025 at 11:00 AM CET, Mathieu Dubois-Briand wrote:
-> On Tue Mar 18, 2025 at 7:21 AM CET, wangmy via lists.openembedded.org wro=
-te:
-> > From: Wang Mingyu <wangmy@fujitsu.com>
-> >
-> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > ---
-> >  .../python/{python3-dbus_1.3.2.bb =3D> python3-dbus_1.4.0.bb}   | 4 ++=
---
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >  rename meta/recipes-devtools/python/{python3-dbus_1.3.2.bb =3D> python=
-3-dbus_1.4.0.bb} (85%)
-> >
-> > diff --git a/meta/recipes-devtools/python/python3-dbus_1.3.2.bb b/meta/=
-recipes-devtools/python/python3-dbus_1.4.0.bb
-> > similarity index 85%
-> > rename from meta/recipes-devtools/python/python3-dbus_1.3.2.bb
-> > rename to meta/recipes-devtools/python/python3-dbus_1.4.0.bb
-> > index e0cf64c70e..057c97f656 100644
-> > --- a/meta/recipes-devtools/python/python3-dbus_1.3.2.bb
-> > +++ b/meta/recipes-devtools/python/python3-dbus_1.4.0.bb
-> > @@ -5,9 +5,9 @@ LICENSE =3D "MIT"
-> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D97f58951300aa52a9f9e3a62bd5=
-c846c"
-> >  DEPENDS =3D "expat dbus glib-2.0 virtual/libintl"
-> > =20
-> > -SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus-python/dbus-pyt=
-hon-${PV}.tar.gz"
-> > +SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus-python/dbus-pyt=
-hon-${PV}.tar.xz"
-> > =20
-> > -SRC_URI[sha256sum] =3D "ad67819308618b5069537be237f8e68ca1c7fcc95ee4a1=
-21fe6845b1418248f8"
-> > +SRC_URI[sha256sum] =3D "c36b28f10ffcc8f1f798aca973bcc132f91f33eb9b6b89=
-04381b4077766043d5"
-> > =20
-> >  S =3D "${WORKDIR}/dbus-python-${PV}"
-> > =20
+On Wed, Mar 19, 2025 at 9:11=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> Hi,
+> On Wed, 2025-03-19 at 09:07 -0700, Khem Raj wrote:
+> > On Wed, Mar 19, 2025 at 2:40=E2=80=AFAM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > Hi Khem,
+> > >
+> > > I appreciate this patch series is a work in progress and evolving but
+> > > it is creating a headache for those trying to help merge patches.
+> > >
+> > > The problem is that we have bits of this series already going through
+> > > testing/review. We now have a v3 and no idea which bits of it have
+> > > changed. The logical thing for us to do is throw away what we've done
+> > > and start again. If you could give an idea of what has changed that
+> > > would help.
+> > >
+> >
+> > Yeah, I was trying to hurry a bit and pulling many strings together,
+> > sending patches upstream, addressing that feedback where needed and
+> > also ensuring
+> > test combinations are working, probably a cover letter would have been =
+better
+> >
+> > v2 - Address feedback from Mathieu and Alex except ncurses and man-db
+> > patch, fix webkit to work with clang-20
+> > v3 - man-db fix is enhanced to address root cause which is musl
+> > specific and had to do more sadly, address ncurses issue
+> >
+> > The good thing is the changes are done now. I do see some parts of
+> > these changes are already merged so I will send the remaining in v4
+> > after rebase.
 >
-> I'm dropping this patch for now, as the freedesktop gits are down and
-> the file cannot be retrieved from our mirrors: I will try to remember to
-> take it in a few days.
+> Sounds good thanks. I did go through and tried to isolate the bits
+> which hadn't changed and had been tested.
+>
+> I've upgraded dbus-glib, could you check and see if the new version
+> needs gcc 15 fixes or not please?
 
-Back in the queue, it looks like we managed to fetch it this time.
+yeah will factor that into v4
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>
+> I also merged fixes for the libmatchbox and psplash recipes so my
+> patches should replace yours there.
+>
+I also see you have bluez5 fix in master-next as well, I will drop
+that one too in v4
 
+> Resending what is left is the best way forward once those are resolved.
+>
+> Cheers,
+>
+> Richard
+>
+>
 
