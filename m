@@ -1,88 +1,104 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B0AC35FFA
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 14:04:51 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web10.8692.1742393089006029482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F65C36001
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 14:10:41 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.8829.1742393435827317480
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 07:04:49 -0700
+ Wed, 19 Mar 2025 07:10:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YdVbvewn;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6e8f4c50a8fso55643746d6.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 07:04:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Xr6Gx7Yk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2241053582dso38257395ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 07:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742393088; x=1742997888; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MS1pTXYItgU7VhACDGhm05RnRLUialx+ZqLlzpQUAIU=;
-        b=YdVbvewnlRgoyAUJPOIJQQ3RJj+oe4Fest97uC3Mv/3LYdEGzAb8J6Dk6xoDsiIgeE
-         DjEqUT5WvMmsJeqPIfYXbHO58Ow0nYhHO2DGBovgYeANDbQ0GFXtLp80F9vQoDNZB2Dk
-         q6XLNdEV29Zdw/6S6jigI61XK7weGeZs/4ddg7kduV0x584rYnxTLIWbOZdzjOEdgEyk
-         /F5wS7oz81N24IL+X2J0770T73rYVWZ1mtvVSqGSHAqCecXC/MQx2QyGUWtvkzGYlsYl
-         Cvj/nUFxoqjeTKLIJeksI/eTp8hhIC9ldEo50ZlJI/jPxSgwuLDPVqFKKrHVfzHWa9Vq
-         fkqg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1742393435; x=1742998235; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JnAOvN/qtVkz9eUiXu3w/v5nQIMm2tKh5bMFQSCq9Z8=;
+        b=Xr6Gx7YkzycrYj4+SEnKfKUvWxT9TxpIt9kUy9oY+UUDjDZPEO12I53uH5rU+/E2Xc
+         96Lu2cLVZDJg73Q7bLVbcmid+RHJIo0ihY5z2ml3no6duNmuBIVLF91/aVVojcA1NvlZ
+         fFn9s1xjO1yBanWZUJyEr01aiFGBsciao7XiruUnJ78Ckp/mDZrzCmxjL3Tq0tFn7EY9
+         tMmCXHkslg3Pite/sUdRY/iyjnGNN2+vUj50JVovHDwGRefxAvId9iG6Q1GC8082ChXC
+         z6tHBLALSjFS+IpYdqxEirDLgCYch7pe2JwJTIU8p4ySpsgScgpqiQl76CdGlBov/GpO
+         P41w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742393088; x=1742997888;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MS1pTXYItgU7VhACDGhm05RnRLUialx+ZqLlzpQUAIU=;
-        b=UwI4TIKlwOdDZr5R64VoelUTlvYc+81bDwuwc+TKZu8qlcbJijvU74SFDz5UnLYnvf
-         vGeLsp477WwSgP+ZlHZh3x9PW4T9Mt1rrI/x0qTC8U+1yvMeFB2lB6G2UpjlGZJoaPjb
-         UngL+wOLUsLn4HhiJj5buLnBfcWcKZQqSQVqB5izM2FLsvWof0wvl5T8Lwd+cWQdYYXY
-         kTTeWL09dxhqt5dk1rZ3ZZEXl/otQUzgUQquf5mUc9vH2dAUEt9249dFFMOruhfvDaAo
-         4zFzZrl/Njjtng0RihulByJd2rB6BuMifkt9+Y/TS4Pr8wxHTR7uekLSeiqf5HryonGi
-         S3TQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXigvQxDR/p08nWqTshoO1cuIIxWVI8fJ2Y7E5xat7DhtT00b+t99ISyaa2SvCbcA7XY65w/pHu4Hr8WU0aIv/BDA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx/QLZfPTDS/EH7nplf8i3nYu/8YvQLZ1d0oMlgnhH3kTrzqpnI
-	LYD65iW0cAEWovGFQGgQAyEbszQT9ddwXYn3SZeGJWQfOAj0yV8ziuCPhZ2Bvl7agi7GfP3haN0
-	1sRo3TiuOmmv9q5Y/eDJhMEZ68hU=
-X-Gm-Gg: ASbGncuUPxOOnvaPO29zUV/PEPP+E8iafr35sM2BCdFOA1DrSxBs3/hVYejvGa9ifwQ
-	TThw1RNUyEirm2VbqsPbWtvXp0oZCs8wSgSXTG1aES/m7mROjSdUE5b1zvbVY1Rx/5LnSuDPNmv
-	JFOpoiz1mpYlw/Aep7r8XnbH9y1bnUUpUQA9Y9VBgFD6j/uAcOoTBA/YVaMJPb
-X-Google-Smtp-Source: AGHT+IF9AC1qta1uSOG2ugMIp7eFb7t54Z2IRWmg/lH6krDZRFv4ttaxT56YMmt1g+BmMTW16CDqdmUimyE7HJ/HPOs=
-X-Received: by 2002:ad4:5c45:0:b0:6e8:fb44:5bda with SMTP id
- 6a1803df08f44-6eb2939151cmr52087536d6.19.1742393088080; Wed, 19 Mar 2025
- 07:04:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742393435; x=1742998235;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JnAOvN/qtVkz9eUiXu3w/v5nQIMm2tKh5bMFQSCq9Z8=;
+        b=cebJ1FknbOornGNFInJPPvRoicRIx4xhfj5Sdfg7EdRjm++y41d0bogS8rRs0aMHCw
+         y+/T1Kp16ai3fDcwymysop5eOnDgI17Ep+D3FH+fX0BnxFBAdUKRboq7jlvAC9nRxBYQ
+         gwm3jlzBxbfgSVVFXh3HaSEXvVm8/cCDhZ4BlQkbUP5OCWDErJbSg94Es5RCDdZF0PNC
+         8Ku7GWPp9FOBUKToaRRlJrYizp2K4i2gEPuUjZagtIaadL6ROpPIREEnSS8CKOECiaqV
+         WwvIcKpHYLiVxs7dVDLtrevLvpl1kCc/rwHmmIBJ+h0FggsegPvMIAQSsrh7grXz3VHR
+         J2jw==
+X-Gm-Message-State: AOJu0Yz58Hg18Qx0NRhFbF/z3R1m4Zq8q7BHRRAI2UmqrepXGUgK1L5v
+	171f5Nwf/Ph5PHDiKtfOzwCwpDkCr/xTp9lMNfFw5iwoIf8gI4FK04Wf2NkW99PP+DGkvSBx5BL
+	q
+X-Gm-Gg: ASbGncskRTGSIlIM6DJkBPE6B9JKFRLq/ehBUEZe51vkCnIqcSDF9f+zXFlk2S1qWfH
+	9C8IqILAc9Ng1mzWgJQJXzeCvXs7+ZXLKAneHfGbgGFObhvXVxObbpYKJ3RRHY8xgZ3tFGUxBxa
+	DbFM7KzItM4y9Qat6pzmF8ZM/0tnq/kXwbmkkU7rZftbKU6bVBWNoPY83m8nOjvHq4VRKtnITTu
+	yGyLbmAITtGyBmDwSuC7R3+vRcZ8CKo8XxH8G6PwC0/FMpeavfgxDMUreocSLAQywA7q1tnEE3s
+	kqeB1Vdoa1B7/hEU8u/Eyf7EpsY8I0RMxBMi
+X-Google-Smtp-Source: AGHT+IGzVIH4vmgE2km5eGviWHu0rdzZ8rh7Wac2lC/98JRb425MtWlRBB2zSxqa6kpzBq5A04erhQ==
+X-Received: by 2002:a05:6a00:1912:b0:736:ab1d:7ed5 with SMTP id d2e1a72fcca58-7376d4f02a0mr4644273b3a.0.1742393434804;
+        Wed, 19 Mar 2025 07:10:34 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:5e34:462b:e2f0:5898])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-737116b10e1sm11557214b3a.165.2025.03.19.07.10.34
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Mar 2025 07:10:34 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][styhead 0/4] Patch review
+Date: Wed, 19 Mar 2025 07:10:14 -0700
+Message-ID: <cover.1742392880.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250319100959.4102512-1-alex.kanavin@gmail.com>
- <51cc8655a05cc6cfaef32ee550fe11175c23da9c.camel@linuxfoundation.org>
- <CANNYZj_9RmwiA4=PDE1BR-njjX0y0FrCto8H9DTSROJwUjpZCA@mail.gmail.com>
- <d5992c2c2013bf7ff5ce2d76b1b223f020764d03.camel@linuxfoundation.org> <182E2DB6117AAA9A.9767@lists.openembedded.org>
-In-Reply-To: <182E2DB6117AAA9A.9767@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 19 Mar 2025 15:04:37 +0100
-X-Gm-Features: AQ5f1JrPmoCuWVmT8aGJCpxISkDa0m9Ap8poTi20deL_pL3sbGqUPLgfTOxySSw
-Message-ID: <CANNYZj9E9-w-S+ELyuvutKoAQzy7gst=vJ9pmweORVE+v9c3Yg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] mesa: correct download location
-To: alex.kanavin@gmail.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 14:04:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213333
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 14:10:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213334
 
-On Wed, 19 Mar 2025 at 11:32, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
-> > I think we may need to wait for the dust to settle on the
-> > freedesktop.org changes before we update urls...
->
-> The new location is officially documented though:
-> https://docs.mesa3d.org/download.html
+Please review this set of changes for styhead and have comments back by
+end of day Friday, March 21
 
-And the new location was documented already two years ago:
-https://gitlab.freedesktop.org/mesa/mesa/-/commit/67b77d8adeb1132ff99b68f8719f8de341e38ee2
+Passed a-full on autobuilder:
 
-Existing freedesktop link has been a redirect to the new location, and
-that link has now vanished.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1213
 
-Alex
+The following changes since commit a0989930949689dd971dea61e851b548af86a1bf:
+
+  xserver-xorg: upgrade 21.1.15 -> 21.1.16 (2025-03-12 07:10:58 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/styhead-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/styhead-nut
+
+Makarios Christakis (1):
+  icu: Adjust ICU_DATA_DIR path on big endian targets
+
+Peter Marko (3):
+  openssh: patch CVE-2025-26466
+  openssh: patch CVE-2025-26465
+  xserver-xorg: mark CVEs fixed in 21.1.16 as fixed
+
+ .../openssh/openssh/CVE-2025-26465.patch      | 166 ++++++++++++++++++
+ .../openssh/openssh/CVE-2025-26466.patch      |  36 ++++
+ .../openssh/openssh_9.8p1.bb                  |   2 +
+ .../xorg-xserver/xserver-xorg.inc             |   4 +
+ meta/recipes-support/icu/icu_75-1.bb          |   2 +-
+ 5 files changed, 209 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-26465.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-26466.patch
+
+-- 
+2.43.0
+
 
