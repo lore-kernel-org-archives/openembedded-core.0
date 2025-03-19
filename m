@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61505C35FFA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D19C36003
 	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:49 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.2931.1742372201638915240
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.2969.1742372208352208012
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 01:16:41 -0700
+ Wed, 19 Mar 2025 01:16:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cXrfhqR7;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22438c356c8so113245745ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=T8dSQ3/S;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2239c066347so139906705ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742372201; x=1742977001; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742372207; x=1742977007; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hLLvqlax8u+s860s0BUwlOwVbZ4U2+vsW9ruPWvozjY=;
-        b=cXrfhqR76ra6RZA2RRLc7pNolrDJmhDBievsMOWyaL3b1lON5QgSPDYq2YG5IitOxQ
-         EtpyCStvM8pz83iKCBU+/l57+l+j/vEM0pvEd289vnhdScT2UVi8imItHcwBmynSVnDO
-         3k/n3+5/eHkZgK3/sVqZNNXFpbN2Gr5w0kOS7cZ+l65x+Ly+BA9YZXI7y7t6pK0/Z22O
-         wbBStTtbXHP3WqeOYKXkb8eq4kqWuM1XMeIeuR21s421DLLLjZlM9DFbREUIqjlifS2C
-         a4IrRP6b+RWVZtLhUkUbFqHO/d/XWlebX3YpWF/EhiWqYV8VFzLs2Yw6aVJZsq01RS8u
-         4Ssw==
+        bh=GJfhKKk5tXyoAgrACSTBuwSbDibDlnZpMTXJl78eHRI=;
+        b=T8dSQ3/SseGdZZO0u6nmUZgEZr/EcPUWdceiHHMkV6wEM1Qvo9IbMHcXTnyOtwDGhI
+         xiVv1+mOhfzd7xoHJtoiFk7DoISRnYCMbfgY1VGReaNF7gKSLsUtwirXQMb3Y2dn5Kyb
+         44f1Fdig56ZP+h+rGvevscXmJS7R7oMX6GA4lgiODNIRLHjm5gl41bjNyM6404M6w7aH
+         /nvHWxff7fi/9dRVKidC4awysBnZG8EuPa7HKMXxpKwSjthjv/zV7YL4fmyorC3+vf82
+         Cc6FVHHq8/H8ycS6z7Im3H9EAzR8GcMEo11hNk/I6mFRuFWGIyiH/7vKQT/f2D5higMG
+         VmEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742372201; x=1742977001;
+        d=1e100.net; s=20230601; t=1742372207; x=1742977007;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hLLvqlax8u+s860s0BUwlOwVbZ4U2+vsW9ruPWvozjY=;
-        b=mOLffzCExguCcQCBA7H4Fo0YT8LHbdd82GmyIFFShTklZdyvnaPz10jc1b2IEBqdki
-         h1TxhCW5aaWaWGPrhlHfIiPjvOFOhG8Fu6sh241kKybsE/ovh20mtPHGBL1cPMjm6x5R
-         /B6TS4CV11i3hX7cXKrGXBRlv4enNSY/rcTwz2YsKF9SywbBXcF3XA71Vh1Hv7k+tRYT
-         L+wQA7+e9fII4EaJQc8hhnCZczY1jR596eWU8LRd9oA8RmiOLUG0Le+iY0wwTgo4atAJ
-         KxZPrRJjRRB6c8HoaWEmOyNrgP8HC6oZqAQpJZE5TWQk0Q/SlcOJvLeekBBg1CDOiRWR
-         YNIw==
-X-Gm-Message-State: AOJu0YyEmE+Eecm+oyvQQEMHXN3in9F693GYzUhYYMgOmrQVGWDJKSJF
-	aIGnogTR7cCg9I5wUNfm/smfpizb/mOy4PSmmqfEGL7Y0svUEHKbaDCgJVGd
-X-Gm-Gg: ASbGnctStvx8d3RDyKeu7IMsW1ZbK9GpRO9qbY0IWsolu+5pd5rCjLnaLCgJ+BuUCqR
-	C2QO33ZTIOv8MuYwGOo/osL2DxxIEzCVY1+z5lbE2YKEQIlqtw+ewliivTuxLtdrM1BvuCKJ6i1
-	lcZ7FqI3VRIWQ9RaZrMmN2A9qp4+ZRpQnduDEczXbD0xKTd9Os4W8PtwMOa8kGuuSw1zVmmbwll
-	VRxouh2wX9/DS3Ri/cnBDb/JEWn0DeFHDb6AuDtoFX0ADZ35JVZF7GHweY+HJ6eWX76QvpiWF/9
-	DvZyJo4oMRK7BgOFoMD2N3T/rbawwNT+QWE3
-X-Google-Smtp-Source: AGHT+IFXG2+WjqD2gfmx9CkN833JLxc0a9jhQ0D3eGn3Kl7hTNBrq3dt5l8jUChJJPTWH19cJ9LLAA==
-X-Received: by 2002:a05:6a00:8d2:b0:736:4a5b:7f08 with SMTP id d2e1a72fcca58-7376d70ecfbmr3069419b3a.22.1742372200839;
-        Wed, 19 Mar 2025 01:16:40 -0700 (PDT)
+        bh=GJfhKKk5tXyoAgrACSTBuwSbDibDlnZpMTXJl78eHRI=;
+        b=AUOLK9fpJDORrhXGNj/+Jej9LUqtOthFd0PyNHbTFBgv9M/y04ly6Qk9k4O1s9lPSQ
+         xG5pRGO6r18T/WqFnu0UnT1KLlKnvYcPzEW63pn/XCpYMfRMOZ3xYF/l4X2IliQPGM3s
+         fRZUl1XfyKwpXJu4fgq3Vs2ALxRJaJLglmpUw77O2AHeUmQgVKzxDxJe7XlIrYYPwtQ1
+         l+3r3jIQsIyDRA32NW/31j7u4LkhHcjpef/EcZiGBVyuCrpan/EIRHmXfhjwpFwbYoIH
+         bYWXAy8Ecx2RXxiyN6ibrl9I1X1WJ14jxLpyOStnYGJaTBBgWr4xA+Z5QaoJzJRn2GVT
+         VCZg==
+X-Gm-Message-State: AOJu0YyjNc0qE3eqVpKnjHZ+iOT0tjOvTrMzPPMtDPdKTv/AKeqHQVWM
+	oxWcZpjDf2qRTMJF0zcmX31ek2VXxS40xLGA3al30PQDZXKfZQVSa1sBB8rN
+X-Gm-Gg: ASbGnctvUpYhawaCU+gCtmsoZQM90QN3m7m+/MuqpNfi6+i2TCTD1yCI/eMFS5fUWKL
+	9MjKiYZthceZkXm6bXf1Ey0XSsMM7BlbPTl8sLArKzGFOLFOBgdBMJ0eVV6LbwdUR6Gg3n2Mj/E
+	o4lZrwJE9WNyqMcypwwLNoOaIUBslSYK+2maJ2p6fUDEVTiIzp5OncNcNZAzlO25fb5t+BV6TAm
+	tp7Cq4S2TsXKoSp6hBi8u9OIBedUtqm+K02uI55Mt87UxHp04/vzXOhwY/JmdmC164Bh1/izNyx
+	NQk2pJ6i6gJmBsMx1Nkd4POWAnTH9ks75NA8
+X-Google-Smtp-Source: AGHT+IGcYQtgq4nVgD5FXtDMIgmgo3U8go1ltgbu/Fn0TWXIK+Trpi83HxMDMWvUfBifLxf8BL0hHA==
+X-Received: by 2002:a05:6a21:168c:b0:1f5:8cc8:9cbe with SMTP id adf61e73a8af0-1fbeb27ec20mr2985083637.5.1742372207517;
+        Wed, 19 Mar 2025 01:16:47 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.40
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 01:16:40 -0700 (PDT)
+        Wed, 19 Mar 2025 01:16:47 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [[PATCH v2 22/25] psplash: Fix build with GCC 15
-Date: Wed, 19 Mar 2025 01:16:01 -0700
-Message-ID: <20250319081610.3536475-33-raj.khem@gmail.com>
+Subject: [PATCH v3 27/27] man-db: Fix musl build with NLS
+Date: Wed, 19 Mar 2025 01:16:09 -0700
+Message-ID: <20250319081610.3536475-41-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250319081610.3536475-1-raj.khem@gmail.com>
 References: <20250319081610.3536475-1-raj.khem@gmail.com>
@@ -66,63 +66,112 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213299
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213307
+
+_nl_msg_cat_cntr is not defined in libintl on musl systems
+therefore add configure time check for it and use it to guard
+the use of _nl_msg_cat_cntr
+
+Add missing dependency on zlib
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ine-bool-if-using-C-standard-older-t.patch | 32 +++++++++++++++++++
- meta/recipes-core/psplash/psplash_git.bb      |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-core/psplash/files/0001-psplash-Only-define-bool-if-using-C-standard-older-t.patch
+ ...ck-for-_nl_msg_cat_cntr-in-configure.patch | 65 +++++++++++++++++++
+ meta/recipes-extended/man-db/man-db_2.13.0.bb |  4 +-
+ 2 files changed, 66 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/man-db/files/0001-check-for-_nl_msg_cat_cntr-in-configure.patch
 
-diff --git a/meta/recipes-core/psplash/files/0001-psplash-Only-define-bool-if-using-C-standard-older-t.patch b/meta/recipes-core/psplash/files/0001-psplash-Only-define-bool-if-using-C-standard-older-t.patch
+diff --git a/meta/recipes-extended/man-db/files/0001-check-for-_nl_msg_cat_cntr-in-configure.patch b/meta/recipes-extended/man-db/files/0001-check-for-_nl_msg_cat_cntr-in-configure.patch
 new file mode 100644
-index 00000000000..cc5f2e02e65
+index 00000000000..3e32a4777d0
 --- /dev/null
-+++ b/meta/recipes-core/psplash/files/0001-psplash-Only-define-bool-if-using-C-standard-older-t.patch
-@@ -0,0 +1,32 @@
-+From eab6948cd8eba493f2af7533a931df5ef1d30715 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/man-db/files/0001-check-for-_nl_msg_cat_cntr-in-configure.patch
+@@ -0,0 +1,65 @@
++From ea00e32a87cc733dd5aa05cef407a5bee3e6db29 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 17 Mar 2025 20:31:19 -0700
-+Subject: [PATCH] psplash: Only define bool if using C standard older than C23
++Date: Tue, 18 Mar 2025 22:42:45 -0700
++Subject: [PATCH] check for _nl_msg_cat_cntr in configure
 +
-+gcc-15 switched to -std=c23 by default:
++_nl_msg_cat_cntr is not available in all implementations e.g. musl libintl
++does not have it, therefore add a check to detect it and use it only if
++it is found.
 +
-+https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=55e3bd376b2214e200fa76d12b67ff259b06c212
-+
-+only typedef int bool for __STDC_VERSION__ <= 201710L (C17)
-+
-+Upstream-Status: Submitted [https://lists.yoctoproject.org/g/yocto-patches/message/1213]
++Upstream-Status: Submitted [https://gitlab.com/man-db/man-db/-/merge_requests/13]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ psplash.h | 3 +++
-+ 1 file changed, 3 insertions(+)
++ configure.ac        | 9 +++++++++
++ include/manconfig.h | 6 ++++--
++ 2 files changed, 13 insertions(+), 2 deletions(-)
 +
-+diff --git a/psplash.h b/psplash.h
-+index 1c42ec7..138e49d 100644
-+--- a/psplash.h
-++++ b/psplash.h
-+@@ -37,7 +37,10 @@
++diff --git a/configure.ac b/configure.ac
++index bf4628ef..140b4b62 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -404,6 +404,15 @@ AC_TYPE_PID_T
++ AC_TYPE_UID_T
++ AC_TYPE_SIZE_T
 + 
-+ typedef uint8_t  uint8;
-+ typedef uint16_t uint16;
+++dnl _nl_msg_cat_cntr is required for GNU gettext
+++AC_MSG_CHECKING([for _nl_msg_cat_cntr])
+++AC_LINK_IFELSE([AC_LANG_PROGRAM(
+++	[#include <libintl.h>
+++	extern int _nl_msg_cat_cntr;],
+++	[++_nl_msg_cat_cntr;])],
+++	AC_MSG_RESULT([yes]); AC_DEFINE([HAVE_NL_MSG_CAT_CNTR], [], [_nl_msg_cat_cntr from GNU Gettext]),
+++	AC_MSG_RESULT([no]))
 ++
-++#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ <= 201710L
-+ typedef int            bool;
-++#endif
++ # Check for pipeline library.
++ PKG_CHECK_MODULES([libpipeline], [libpipeline >= 1.5.0])
 + 
-+ #ifndef FALSE
-+ #define FALSE 0
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 233c07a380c..e47c9b408dc 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -10,6 +10,7 @@ SRCREV = "5a32cf6392c784a7ae1983a354cf07b024625cd2"
- PV = "0.1+git"
++diff --git a/include/manconfig.h b/include/manconfig.h
++index 62baa184..eb4e5eb1 100644
++--- a/include/manconfig.h
+++++ b/include/manconfig.h
++@@ -24,6 +24,8 @@
++ #ifndef MANCONFIG_H
++ #define MANCONFIG_H
++ 
+++#include "config.h"
+++
++ /* STD_SECTIONS must contain all of your man hierarchy subdirectories. The
++    order is important. Manual pages will be displayed in this order. Ie
++    if "1" comes before "2", then a kill(1) will be displayed in preference to
++@@ -138,13 +140,13 @@
++ #define UNLIKELY(cond) __builtin_expect ((cond), 0)
++ 
++ /* GNU gettext needs to know when the locale changes. This macro tells it. */
++-#ifdef ENABLE_NLS
+++#ifdef HAVE_NL_MSG_CAT_CNTR
++ extern int _nl_msg_cat_cntr;
++ #  define locale_changed()                                                    \
++ 	  do {                                                                \
++ 		  ++_nl_msg_cat_cntr;                                         \
++ 	  } while (0)
++-#else /* !ENABLE_NLS */
+++#else /* !HAVE_NL_MSG_CAT_CNTR */
++ #  define locale_changed()
++ #endif /* ENABLE_NLS */
++ 
+diff --git a/meta/recipes-extended/man-db/man-db_2.13.0.bb b/meta/recipes-extended/man-db/man-db_2.13.0.bb
+index a6ac82e6628..12debfa30d6 100644
+--- a/meta/recipes-extended/man-db/man-db_2.13.0.bb
++++ b/meta/recipes-extended/man-db/man-db_2.13.0.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
  
- SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master;protocol=https \
-+           file://0001-psplash-Only-define-bool-if-using-C-standard-older-t.patch \
-            file://psplash-init \
-            file://psplash-start@.service \
-            file://psplash-systemd.service \
+ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
+            file://flex.patch \
++           file://0001-check-for-_nl_msg_cat_cntr-in-configure.patch \
+            file://99_mandb \
+           "
+ SRC_URI[sha256sum] = "82f0739f4f61aab5eb937d234de3b014e777b5538a28cbd31433c45ae09aefb9"
+@@ -18,9 +19,6 @@ RDEPENDS:${PN} += "base-passwd"
+ RDEPENDS:${PN}:append:libc-glibc = " util-linux-col"
+ PACKAGE_WRITE_DEPS += "base-passwd"
+ 
+-# | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+-USE_NLS:libc-musl = "no"
+-
+ inherit gettext pkgconfig autotools systemd
+ 
+ EXTRA_OECONF = "--with-pager=less --with-systemdsystemunitdir=${systemd_system_unitdir}"
 
