@@ -1,105 +1,80 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 667E3C35FFA
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 10:20:40 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.4445.1742379635110477516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C2F7C35FFA
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 10:28:40 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web10.4558.1742380114004852596
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 03:20:35 -0700
+ Wed, 19 Mar 2025 03:28:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PVO8ft/q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-39141ffa9fcso5765939f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 03:20:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CQebD6nF;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6e8fca43972so59539446d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 03:28:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742379633; x=1742984433; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=iCNDajI1i0wOtnqGzoGbuXYi68QGQm7d6ixEbw9WknE=;
-        b=PVO8ft/qdqomN/xXIWcJ8LY6MhPK3Rb12mwLBO7Xl4KrqNXZ/o54RyVYMd98Yj8e1b
-         8ZtBmf1G9upmWvFqC3OeCVnTjQ6dXIrtESiPPDPSTJnjb4k8yq8zH7BN3OvO8N9rTFTZ
-         WajWC5QZ2yhkVL5lVy3Z8+YPjOgyu8kQh9V7E=
+        d=gmail.com; s=20230601; t=1742380113; x=1742984913; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Cx43DbwPbIbGvPiIpXEoIUGVpW0oW1+o7Ih24w06WI=;
+        b=CQebD6nFiBSoZdUh+5eofZW66vRS1S1eoo4sLPq88zIsmgnNj0VEv9Tg5xAnEqN0AN
+         4Icl5sGD3DzbkL320Ku0Yr7x1GpK6i3m5dS8Cgq7QsMfYeMTcZSFLPB85BnljGqSPuCH
+         xLiP+AsuthzcYthcrplQBGVarP6G6oA/XIlFq79XJJNV8P2AVC9rukVWev62A674mXIR
+         7HqF/Hk2+5PsiRtzbChxRwcaze1SQxVCmYnoyjEPO3JqLY1s7m4tQOCADaPOWVA46Y61
+         wWYHd8y/DuGM9DvDHWGjYAWkptIX7wu4TUaSpAGPzRg+gQWLHHHqY5qrTIeb6Y232uxh
+         eNdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742379633; x=1742984433;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iCNDajI1i0wOtnqGzoGbuXYi68QGQm7d6ixEbw9WknE=;
-        b=Ogpjdl4PCgqELYwSNLF10b8jtl2pK+eFH6z1l9gsiki8VyqIOMlGryfCWDd08NxbGD
-         p4wJomI4iRkhqLGcwJ8KIzHM26LBrRr770bUctUhGTgQxEuE/NiTJW76AcHzlCDFF9EQ
-         aYwiO+Tz51YOG/w23CFgtB1p4OLbG14w3APdTNpoPi/m/NXpzqWsUsDPZqZshN90E/6W
-         Al/l1arybTb+4EJLempJhhzPI/SXh9DF9PalOwYsGQ1cMDdfLrRSOej2cPR2VpndsZXh
-         j76T8dtbsNT26k0+uO1fvWhcffIssgNfDkwVI+iMlEfqZrLpwlqmtA41EfbGgktEJS4i
-         6GHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWo7UlCyMkplF9ztBx6Nba/bsh095Jf6gsRFTJCOWd1Xyq7T+z371O8cGFyhjSWpQVU6sHSDsWT37B0Ywfpp1fNPw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwnZYPPIQozoXx03h27iM+v7X9O6y6EwnKByyaBnRuIbjMP/f+/
-	qtlgRk8UtpNNbsT+Hs7t6eHQT/Uh2REguIJeTGhmKM2CdM/gbkPFsVj8+dONXfM=
-X-Gm-Gg: ASbGncvVmQWY6PIz+Y1uZHLcgbDRKp+AlhhWeaESEb1v4uaKut7DPK24ygt7w7Z1+vf
-	VO8rfQD+favcvudGp+Feqny7k3+PQfYKcZ1vWmXdcuak+PyThOof3G8UgeG8+wIiQxfdlVaKhTZ
-	7ISFWa/Gg7ECmBzuwFfUCLBe3lCT7ZIb5IbWESliyi+tdTvMCENGH6NF4pPzAZcu22C3gfbvgKN
-	9s7KVtB2mS7TX7jxFE84kTs47N2TYvEI08WYjXLlNTinIb1vt7h2+5Yh/gdbJyt5Vfm5lTcjEKr
-	jraXBXkH1JmAMn1g+vP0GyVugV9WlhoIoLqF3FoWf4mKqXBLugWOzBv7w80MhbOR4p+ysuqj3lh
-	vP0wlBDLLTCbgC/Ys3HjQk5dWmsi7FEY=
-X-Google-Smtp-Source: AGHT+IGUTCW0XUQZjXBp97QMA16UHWUsdMA4LOiTONKpqXLXybfg89/ca3Y/ERcwoy2ImSTlMx/UYw==
-X-Received: by 2002:a05:6000:2c7:b0:391:4835:d888 with SMTP id ffacd0b85a97d-39973af9092mr1858035f8f.42.1742379633235;
-        Wed, 19 Mar 2025 03:20:33 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:dad:b471:9c34:4577? ([2001:8b0:aba:5f3c:dad:b471:9c34:4577])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb7ec14bsm20502776f8f.100.2025.03.19.03.20.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 03:20:32 -0700 (PDT)
-Message-ID: <51cc8655a05cc6cfaef32ee550fe11175c23da9c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] mesa: correct download location
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Wed, 19 Mar 2025 10:20:31 +0000
-In-Reply-To: <20250319100959.4102512-1-alex.kanavin@gmail.com>
-References: <20250319100959.4102512-1-alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2-0ubuntu1 
+        d=1e100.net; s=20230601; t=1742380113; x=1742984913;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1Cx43DbwPbIbGvPiIpXEoIUGVpW0oW1+o7Ih24w06WI=;
+        b=G2aIUejvFjx1Ig9br2o3+JpPxgDSHpCnWtrTxHXqcXRHhugqpiDjxvqACsjXlIsxAk
+         8McJGNvccXi/jMX95x06a/TLT6jni3/xyfnC7fndEPiIlDCskZwkTWE53zTfSqH3Vxjw
+         xFk6sQK5s+HqTF23bfic3qr6CCdTt8Tn/iAUmu1gbkXk0B3+D8Fggi9/pj4to2+ay0zK
+         RRAVLUyVZTVdAveSQRyntPoma5FtISiDNVLYPTuMpDgMrjFotp2DQX2ZO68PWFiHDdGt
+         22gPRRVUMeyVTvQ2XAyxuVpTqlNaDpL0BmxR1IJJfDjkO5F+9cj5lBxag9WwRKyJhGxu
+         j4nA==
+X-Gm-Message-State: AOJu0Yx0Y3sDfTWi/HYwBX33FFbGWWaod4Yfb4gApLH+5VLl2UUyQuOA
+	0waIRO/3AnMuq+vhC+mKUaZ/xWXu4c7LysOiLdfbm9wHDCTxRLytWU+X5IdcNV68zK4RHNNpfpA
+	JvwCk+CUGo1KnSCD6zj4wMiO3X+igIj0e
+X-Gm-Gg: ASbGncuOSPNWK+SDTI0OoIAJI7ELUVTR6BeifQy6IciSQkGH41YrTP7JBkf25MWUKEp
+	mxjctgLcftXKIEeWS6m7FejoKU86+YInVmoMTzCXBHKpaNjFggyQssoq2JU4xXE04OJCy1+KgTB
+	WQaUGSLuW47uKVFzAJFhUCW0Db92s/yX0JDql4+Bsm/ZlSd5m2/Z+rWYGlaC51
+X-Google-Smtp-Source: AGHT+IEaM+nxU/3rlLFGRwW34LK4CdfPb1C5l54Dx8m861mVnUmYLQW8vBvm2vmd1lJOmsDVQXZNiI01ty8nKBJpfDo=
+X-Received: by 2002:ad4:5be4:0:b0:6e4:2e12:3a0c with SMTP id
+ 6a1803df08f44-6eb2949600amr29460806d6.39.1742380113026; Wed, 19 Mar 2025
+ 03:28:33 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250319100959.4102512-1-alex.kanavin@gmail.com> <51cc8655a05cc6cfaef32ee550fe11175c23da9c.camel@linuxfoundation.org>
+In-Reply-To: <51cc8655a05cc6cfaef32ee550fe11175c23da9c.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 19 Mar 2025 11:28:21 +0100
+X-Gm-Features: AQ5f1JpG5IPSF33T5wvrmWipFNEbj6RZihfoeTap_vC983IUcnoHsPpi8Ptc1OY
+Message-ID: <CANNYZj_9RmwiA4=PDE1BR-njjX0y0FrCto8H9DTSROJwUjpZCA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] mesa: correct download location
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 10:20:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213320
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 10:28:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213321
 
-On Wed, 2025-03-19 at 11:09 +0100, Alexander Kanavin via lists.openembedded=
-.org wrote:
-> From: Alexander Kanavin <alex@linutronix.de>
->=20
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
-> =C2=A0meta/recipes-graphics/mesa/libglu_9.0.3.bb=C2=A0=C2=A0=C2=A0=C2=A0 =
-| 2 +-
-> =C2=A0meta/recipes-graphics/mesa/mesa-demos_8.5.0.bb | 2 +-
-> =C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
-> =C2=A03 files changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/mesa/libglu_9.0.3.bb b/meta/recipes-gr=
-aphics/mesa/libglu_9.0.3.bb
-> index 8151727c52a..9e23ff830fc 100644
-> --- a/meta/recipes-graphics/mesa/libglu_9.0.3.bb
-> +++ b/meta/recipes-graphics/mesa/libglu_9.0.3.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "file://include/GL/glu.h;endline=
-=3D29;md5=3D6b79c570f644363b35645
-> =C2=A0# Epoch as this used to be part of mesa
-> =C2=A0PE =3D "2"
-> =C2=A0
-> -SRC_URI =3D "https://mesa.freedesktop.org/archive/glu/glu-${PV}.tar.xz=
-=C2=A0\
-> +SRC_URI =3D "https://archive.mesa3d.org/glu/glu-${PV}.tar.xz=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
+On Wed, 19 Mar 2025 at 11:20, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> > -SRC_URI = "https://mesa.freedesktop.org/archive/glu/glu-${PV}.tar.xz \
+> > +SRC_URI = "https://archive.mesa3d.org/glu/glu-${PV}.tar.xz \
+> >             "
+>
+> Doesn't this have issues with the "older-versions" directory that archives are moved off into?
 
-Doesn't this have issues with the "older-versions" directory that archives =
-are moved off into?
+I suspect this is the same directory as the previous location, and the
+issue was already present there? I can't check that anymore: it's now
+404.
 
-Cheers,
-
-Richard
+Alex
 
