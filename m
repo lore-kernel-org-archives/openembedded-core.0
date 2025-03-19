@@ -1,106 +1,99 @@
-Return-Path: <quic_vpuar@quicinc.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3974DC35FFA
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 19:23:49 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.3278.1742412225791061818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E1A8C35FFB
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 19:55:39 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.3908.1742414137840372509
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 12:23:46 -0700
+ Wed, 19 Mar 2025 12:55:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=U+RQTFwH;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.180.131, mailfrom: quic_vpuar@quicinc.com)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52JG7RTH031116
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:23:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=jSwZlBbsAZ+MHXr+//gdFT
-	d3F6VaGGnuhxji0ogdCsg=; b=U+RQTFwHubo0JFRDYaM5vIV/yGMD+/sKY8Q2rN
-	++gSe96r4tf4n5NaCV5bK1HGsHDi/IetJ4P8lv4oGbnFcMgrwBk/rKGF4ZhLchzM
-	DWiyEroMhGtF72NQqRYIDgb7/SRUB/jO1TXr6OOZwnW0gpHgD8ifRZSRtBh6yRUB
-	sNSVVuYU2nOImYWOO5ULnrWc8ZA6KEms0o4Hf0ypZGB6iSeRfuaXnvmZNcLZM7fO
-	pvANaGGJwb5Hi5SNef/F4ubSfio4EsoWfDpg8vqbDrBe+L8UUABtMIVGjjQSbw13
-	aGCQm8MNPOu63Aq2JQDiO96UzR26tlsZDggRt+/mBWAT+rPg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45g15y0gqq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:23:44 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52JJNhGA021692
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:23:43 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 19 Mar 2025 12:23:42 -0700
-From: Vivek Puar <quic_vpuar@quicinc.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <quic_vpuar@quicinc.com>
-Subject: [PATCH] linux-firmware: update qca-qca61x4-usb package contents
-Date: Thu, 20 Mar 2025 00:53:25 +0530
-Message-ID: <20250319192325.952672-1-quic_vpuar@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QcHwPlv6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43d0c18e84eso59095e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 12:55:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1742414136; x=1743018936; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lgANvtJqUziUweGnexgJVDxsqvoOp9sJTGiN1uXJMKA=;
+        b=QcHwPlv6z67GIxtNY6DQqnPotkwu2fVqGop3gWrfQvy9PYUoxwtOUbBDftHcO+Uup9
+         YioEGJCDxks9zWC5jKTVfRV83PYvlOJ9aKd7JenNjrEvOmyVGBU8zMTsgt2Xms7jtxpl
+         ZFqJU4oTayOAT4D8v/F02lJMnoUXt5NbPuJ7A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742414136; x=1743018936;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lgANvtJqUziUweGnexgJVDxsqvoOp9sJTGiN1uXJMKA=;
+        b=PPc2bQ03giGVrxqa83SqPWSbmalvxfcRMZH5jzJtwp6CHG1OEaa5SLAG3MehiQIL4D
+         eXXni9E3V3P1a7t7tmllvSkN0v0EWsfkczE4vRbxkRE0d5AJo+G/YoyptLHCRRlixlnW
+         ae5Cn/j9duSbuAHXAphq4EpAC3bzuIJNW/rzqEAcrDkB6K8C6l2YlzWPRB9JFF+2/VAc
+         mfLnCEFdliKZ3ktl8OSHqWw3bbNALHXZY6iFq3pHk0/tCaaBAcLX65DP1W7ncREDwX67
+         kBWow6zKQLe4cKwRgFEw57xzNdfIHcRQxLu5Y7ecR/MS2oRj1JU75lgxdZ6jt2RgPraE
+         3GjQ==
+X-Gm-Message-State: AOJu0Yy0AU20mPS2Pl2D3l3DbBaFLeSDAYokVMIF2eYfI2YGCWIjuudK
+	SCxlz4UnHEMxafkKLzl/8ybpMAHtE7F+TPck6f+8hSMhzcXsc+SWCt4VttUB6M1KoUllANeqtdR
+	L
+X-Gm-Gg: ASbGncuNr/MPmhQ2UUaSHAIKHMA075CJAIJdCX2qVY9XFb0KbKME0rFkwEUxG77JJDp
+	aoYt5AHZqeLLiTR9phvk5ZbKwQrXYpo6Rixak5uaATEbKgv8mnKkAGDCmqP23qC5tkOx8T9gYWV
+	EQbMp2nKuo8WVFJt0gNjXiuSEonnyf9MKGoGpEIQvzCCVGhxDYsGexGmN08MPRqnDjudtijE0Bq
+	NT/8jLkYNVBl1VvK+ZSIWZnX1rWXUW0blCPYVQzCCYBeTLGt4EjtX/vCCa+ZqJy/fQEyk1SfAib
+	AFHGI4zRPuc2w6D9+xSql6ptAcVmBC4M8aazqEZ26YcTR2aEc26dnF8z8ojng7TDOFMMb3rYtck
+	MN92qjYg=
+X-Google-Smtp-Source: AGHT+IES1vNAK4WAMvH2k+yBFIRDwZVI3qbKjZhdjfmTTk53c1OtWd0w2ZHlNC7piSC7RdGZNBgDvg==
+X-Received: by 2002:a05:600c:1d85:b0:43c:fa3f:8e5d with SMTP id 5b1f17b1804b1-43d4950d2d2mr4124015e9.2.1742414135838;
+        Wed, 19 Mar 2025 12:55:35 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:dad:b471:9c34:4577])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb7eb8c2sm21330269f8f.85.2025.03.19.12.55.34
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Mar 2025 12:55:35 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] sanity: Bump minimum version requirement to 3.9
+Date: Wed, 19 Mar 2025 19:55:34 +0000
+Message-ID: <20250319195534.860324-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 0PW0p8VcO1EmH84TUSkOHdI67tuH6yxr
-X-Proofpoint-ORIG-GUID: 0PW0p8VcO1EmH84TUSkOHdI67tuH6yxr
-X-Authority-Analysis: v=2.4 cv=VaD3PEp9 c=1 sm=1 tr=0 ts=67db19c0 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=xN9hhQR7lVrd8nsUKT4A:9 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-19_07,2025-03-19_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- bulkscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=867 phishscore=0
- spamscore=0 priorityscore=1501 suspectscore=0 mlxscore=0 malwarescore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503190130
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:23:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213351
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:55:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213352
 
-The NVM and rampatch files for QCA61x4 USB chips went 
-to qca-qca2066 instead of -qca-qca61x4. Fix package contents.
+Since Ubuntu 20.04 is heading to EoL and that we're having other issues
+on that platform needing buildtools anyway, we're about to lose the
+last python 3.8 platform we were supporting.
 
-Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
+Bump the minimum version to 3.9 since there are many developers wanting
+access to newer python features.
+
+This likely won't be seen since the bitbake minimum has also been
+increased but helps for documentation purposes.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../linux-firmware/linux-firmware_20250311.bb               | 6 +++---
+ meta/classes-global/sanity.bbclass | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
-index 1a2a6b095e..675d378376 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
-@@ -668,6 +668,9 @@ FILES:${PN}-qca-qca61x4-serial = " \
- FILES:${PN}-qca-qca61x4-usb = " \
-   ${nonarch_base_libdir}/firmware/qca/nvm_usb_*.bin* \
-   ${nonarch_base_libdir}/firmware/qca/rampatch_usb_*.bin* \
-+  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_030a.bin* \
-+  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_gf_030a.bin* \
-+  ${nonarch_base_libdir}/firmware/qca/QCA2066/rampatch_usb_00130201.bin* \
- "
- FILES:${PN}-qca-qca6390 = " \
-   ${nonarch_base_libdir}/firmware/qca/htbtfw20.tlv* \
-@@ -741,9 +744,6 @@ FILES:${PN}-qca-qca2066 = " \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21g.bb8* \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21g.b10c* \
-   ${nonarch_base_libdir}/firmware/qca/hpnv21g.b111* \
--  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_030a.bin* \
--  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_gf_030a.bin* \
--  ${nonarch_base_libdir}/firmware/qca/QCA2066/rampatch_usb_00130201.bin* \
- "
- FILES:${PN}-qca-wcn7850 = " \
-   ${nonarch_base_libdir}/firmware/qca/hmtbtfw20.tlv* \
--- 
-2.34.1
-
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+index 5783b92b26c..d2ffb59fe6a 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -847,10 +847,10 @@ def check_sanity_everybuild(status, d):
+     if 0 == os.getuid():
+         raise_sanity_error("Do not use Bitbake as root.", d)
+ 
+-    # Check the Python version, we now have a minimum of Python 3.8
++    # Check the Python version, we now have a minimum of Python 3.9
+     import sys
+-    if sys.hexversion < 0x030800F0:
+-        status.addresult('The system requires at least Python 3.8 to run. Please update your Python interpreter.\n')
++    if sys.hexversion < 0x030900F0:
++        status.addresult('The system requires at least Python 3.9 to run. Please update your Python interpreter.\n')
+ 
+     # Check the bitbake version meets minimum requirements
+     minversion = d.getVar('BB_MIN_VERSION')
 
