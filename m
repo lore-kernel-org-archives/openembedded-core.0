@@ -1,105 +1,105 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB37EC35FFA
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:20:59 +0000 (UTC)
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
- by mx.groups.io with SMTP id smtpd.web11.3005.1742372454803945110
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D8DC35FFA
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:21:39 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web11.3010.1742372494629688192
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 01:20:54 -0700
+ Wed, 19 Mar 2025 01:21:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jRqfELsw;
- spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5fcd61e9bcdso2876949eaf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:20:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OVdXEn69;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6dd1962a75bso45722196d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742372454; x=1742977254; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BET3KbG37miExkCk7FjpWkSrA9CHTpLzjrd32u6+GrQ=;
-        b=jRqfELswWPKmoVMHf8f07ODB18LlSWJuWWAsXtxBoXLnJVkSoPBmD7tSAnGec582y4
-         4OYhowihrfkaTBLoSjbEGsjDDriQnEjc9iePDWcmPRJH91gW7wSix0HniPo3BjMdMrtQ
-         KumEZJckm7+x5aja/ZI6A5EIDZIBkxdtvuzboWkEmJa6zgFr+w/TWchMMQ1PEsWzLwyg
-         Zv7uUj1nLp1+bqF9D/9X8u3sssM7sH5/Hvw8zG5WECVEKmxP3UDWFhDcfozC2I44VrpO
-         F+LvoU9nhnOSCak8R+TmynOwZmHe0WpHaZhgoym7R3Xg5IvH50B9+G5TGbYgxDLZbhmP
-         RnaQ==
+        d=gmail.com; s=20230601; t=1742372493; x=1742977293; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sU8sPIenjFG3LolLWR1tvsdtThxcm4mQknAKw+MFRf4=;
+        b=OVdXEn69mXhT0GXtkBLAPunsUEbXlkzQ8MaH3r4VhtioCyrViIyQ8Q5doJ+j9kOqz1
+         oGXJ7UoeI48fGgpRhyMvM23AsIARx498K7Efun4jc9Ih3ByNNTgvZiZgykhLvBH8Bdxe
+         oC9RzyvEnxvZkcsZayKvdN0Xxar+BbqB6RpECSifu0rhGsc/ng86BeMTNUvLVIzXEVd9
+         FyD3D1wxTzQFNopSXFHElG49yn3YVJjYjQxh0D8NqhI300ZoekQ1u9x5WOPDEGiW1LLG
+         E7Ef5TE/zRwbuJS42yj94RnlXDw0ZGfpBC/K7Ppw6Cj0TaZCXVa+WNjNl+bfLz1W31Hl
+         HHpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742372454; x=1742977254;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BET3KbG37miExkCk7FjpWkSrA9CHTpLzjrd32u6+GrQ=;
-        b=o1X65/TGvyrzyIRKDWMePTHk31baK8EXxwk6Ops91xWJjj7+IFWj6Y8MlvRkZSUlDF
-         YLKN6Juz03KM4U2fNVDwqJwFTc/JpZ3leuoktR6QxJAdacxVp4bNEnwXXV4s0UC28Kip
-         p3uWv/FIrcYnDTWVnkvK6DFo6irDDhWAlASVGGmHPVgDN7RKMpzo2rjsM+QoKhAiHDF8
-         S8TFyyvg75tl7asBe1liOvea18vUJc72IkvUhBUMr1u2rmJgSl8+yOB+znCC6ETS/PZ/
-         YS1jdfeIz6m9nCkxq8YnSmwx10fuM7ozJDM1Z1OwSDa3Zxis7Ws7SmcnVsNaTaLagiiv
-         VwZA==
-X-Gm-Message-State: AOJu0Yx2OYY804dUvqMcB6xyHn0u4lvOvz4pjJWYP0jvsaOssUJtssHL
-	9N+CUQDieYfx0N0bye0DDM99jC7m1SBqPX1UNMwIlrOM9oa7uLxEEtIIfTajP2dJYyCj3EdLt1c
-	bWnMmzUOkyynMirPPFlioa4p76kY=
-X-Gm-Gg: ASbGnctmEnFCbR4JQB7XRlxVgpQvHMDv2t5Bc6Dhrr+StnLXa78N8Ja4NB+K2CAKiFM
-	msRCSos8pFkPviTH9rJuxVlozb3LseYymlFBelXtB0qOET1LtuM6/pLX3Svgb27K1MNyT3nU9it
-	EhrV2cIEbXE4owRqYENftFhttH
-X-Google-Smtp-Source: AGHT+IFuqmJM9W9nAsQMu0CNE42oENCf7TLN1X/p9OWdKGu+hXL6tf607QOnPV3TM7V8mMMT3yZSLE1ec/4UXS6hpNI=
-X-Received: by 2002:a05:6808:3a08:b0:3fa:d6d4:8160 with SMTP id
- 5614622812f47-3fead586902mr1206305b6e.10.1742372453801; Wed, 19 Mar 2025
- 01:20:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742372493; x=1742977293;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sU8sPIenjFG3LolLWR1tvsdtThxcm4mQknAKw+MFRf4=;
+        b=Zyu7i5Sg1AJxlqEzJ90ITNXRwVCbVfNUNqYcxeF3TySoKoduvXsJO8zmXZf1a2PwRo
+         E1VUE8eOOV4ClXi/BjfdMSPJmEHN58YRTFcFilHz79QS+xrzSckmg4EAy/4ASggcVQhb
+         V9QIMmesdAYnZq5vH2hrXzQkzunk9MweTzgjJwXrIfq2LYQuIt6AzEJ042EHTnlhi8Hs
+         P1rgWfsUH8vDll426MLmHkv86xxlT8YjQ8PZxFlCADOGWCdPSNhri7hPTe77f1Q9zYmw
+         eTMNsm37KzPefADrdptk/HqV4X2il0eyD0peWhrkc7urWYcZojZqF8DhJhAkD01uFB24
+         FjEw==
+X-Gm-Message-State: AOJu0YyFWxgnpY9Q7gU1vbFIGQZaRMZZXMjnAxsN3C1XGGWgFqj8zVJY
+	PyiWP/OBhBMH4gPfgEkTkpZcxScD99fzhuNadAS+HQ8+ONzKE0V/0jPNl5DEOsU+tnMDZbiWAH1
+	/AXgkI050+OnrMZ2zH6CaIF9uZsM=
+X-Gm-Gg: ASbGncu/NpcvKR7dBxmXFKjkcgY5NsOkYCO1spAKgfuZyvuApygvUEXdxspMjaSVAl9
+	vk3I1WQoTSFMraszRhY/Eb2OtJPmQprq7FOGQqkSuGs/yPPjGrhyG3u40hULQugD+lFniUVejdQ
+	dkgZVHa+uFAqNMOYW2sNNSejk6GQnLLMeGRsWdrfaPC5Ijgu/WQ9RYPjcOFnMN
+X-Google-Smtp-Source: AGHT+IHvnXAR/cn0/g3LrpXM1G2pt7rZKNpvKWMYE+zuv0hqGQsrZkXxlkcO2JbeYDeqAEIo3Zt302ng2pWTq778Wi8=
+X-Received: by 2002:a05:6214:20e6:b0:6e8:97d2:99a2 with SMTP id
+ 6a1803df08f44-6eb29489207mr19447176d6.39.1742372493593; Wed, 19 Mar 2025
+ 01:21:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250318043846.2422141-1-raj.khem@gmail.com> <20250318043846.2422141-22-raj.khem@gmail.com>
- <D8JF2MJGLSWW.AS5SZX5T0EB@bootlin.com>
-In-Reply-To: <D8JF2MJGLSWW.AS5SZX5T0EB@bootlin.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Mar 2025 01:20:28 -0700
-X-Gm-Features: AQ5f1Jo3rubLhmhr2ezTOtwWnjXas8P2eWb5MF-ikfcW9m8M8eOUX1Zq3qmevr4
-Message-ID: <CAMKF1sq6VtJ7dPd4jibWNXQUmgHQaZROfQ19Z2i7GCspoK8ukw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 22/24] time: Fix build with GCC 15
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+References: <20250319081610.3536475-1-raj.khem@gmail.com> <20250319081610.3536475-36-raj.khem@gmail.com>
+In-Reply-To: <20250319081610.3536475-36-raj.khem@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 19 Mar 2025 09:21:22 +0100
+X-Gm-Features: AQ5f1JpiSqZDe5ZxeniJRHdj_X0BAQhJcj_XhxyAtzGc1gV-Cy7vknY_qAStK5A
+Message-ID: <CANNYZj8weyRsXkR81_SwBDuqFQAsHx0DyRR7RXaFFQtF4V8U7g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 24/27] ncurses: Pin to C17 standard
+To: raj.khem@gmail.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:20:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213309
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:21:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213310
 
-On Tue, Mar 18, 2025 at 6:12=E2=80=AFAM Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
->
-> On Tue Mar 18, 2025 at 5:38 AM CET, Khem Raj via lists.openembedded.org w=
-rote:
-> > Initialize interrupt_signal and quit_signal with correct type
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
->
-> Hi Khem,
->
-> Thanks for your patch.
->
-> It looks like this is breaking the build, maybe just for musl:
->
-> ERROR: time-1.9-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/=
-musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/time/1.9/temp/ru=
-n.do_compile.3718025' failed with exit code 1
-> ...
-> | ../time-1.9/src/time.c:731:3: error: unknown type name '__sighandler_t'=
-; did you mean 'sighandler_t'?
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/1215
->
-> Can you have a look at this build failure please?
+Thanks, I think this is better than taking a snapshot.
 
-musl found that upstream fix is not complete, I have fixed the fallout
-and sent upstream as well as its included in V3 series here.
+Alex
 
+On Wed, 19 Mar 2025 at 09:17, Khem Raj via lists.openembedded.org
+<raj.khem=gmail.com@lists.openembedded.org> wrote:
 >
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> Newer snapshots of ncurses have the fixes but they are many needed to get
+> C23 going. Until next release lets stick with C17 even while GCC 15 switches
+> to C23 defaults.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/ncurses/ncurses.inc | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+> index 3f93550cf99..1e9ec38ceac 100644
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> @@ -28,6 +28,9 @@ ENABLE_WIDEC ?= "true"
+>  # _GNU_SOURCE is required for widec stuff and is not detected automatically
+>  CPPFLAGS += "-D_GNU_SOURCE"
+>
+> +# Check if we still need it when next release (6.6) happens
+> +CFLAGS += "-std=gnu17"
+> +
+>  # natives don't generally look in base_libdir
+>  base_libdir:class-native = "${libdir}"
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#213301): https://lists.openembedded.org/g/openembedded-core/message/213301
+> Mute This Topic: https://lists.openembedded.org/mt/111785532/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
