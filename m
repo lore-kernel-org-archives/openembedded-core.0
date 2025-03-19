@@ -2,110 +2,114 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB077C36009
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:49 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.2930.1742372200803241635
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBCD2C35FFA
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:19:39 +0000 (UTC)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web10.2992.1742372376619763135
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 01:16:40 -0700
+ Wed, 19 Mar 2025 01:19:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aWgdAkQJ;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-224191d92e4so126431895ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kjo8Ydu1;
+ spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7272cc739f7so262648a34.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:19:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742372200; x=1742977000; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1742372376; x=1742977176; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VPHM28uBdjpHooxMXjSAs93HbFmeeD990oxPLiAte2E=;
-        b=aWgdAkQJ003LUfhqTXa7nvNUs9e6MRHR2uR2tSfC57rsKBxCRyC6xHUxSFC/oIxs6f
-         czhE9edsgxOMTYIh+iQYAfWxS30J4s2XaVYhLuhZmALNt32vPEOQ9g3UjyJOfAHu9qrC
-         6vBwN4w2lm2Ee+QexiuUCu+IgZD9J/8eyVEVPKanMxukKgnbzRXKuF/L56qFAd/Ue4Ur
-         vRV8FMgjdHAYi9/SO8BFQy0QBEUDNEu2vdWM8DQ1P7p7wZuqLaVffFzfE9YKcKPHVFnI
-         XSUdfqeI5jgXoLAaVTfIzfc3I7+U7hbjWAViNSYk57qTObOlZbh+KMgY74HWvWMx/TTw
-         x3nA==
+        bh=y/oexxYiwZDAlqeWH59AdI0nUyGaBgL49vnWmQxjxDs=;
+        b=Kjo8Ydu1kyT58Hw5ZD2Q/nuWVylzx+EmZo9qX4YubR0sFErYYLFewnzu8TKPq+P8/R
+         1R+RKeH1PDP13mJV5bpSxWZWfba8BzMf+sSgy5HwzCgvo22twinNxq6Ei/DtpPNpVs8A
+         LSLHgtJAoAYK2dxvhwYO7LTZ7Vay+i9fcCNCWWRkKbh1SmB/I9ZtOeQwGBEwRsUkBNci
+         +0NGy0L840elcT0SfDpzgTrob3ywwxhE6rELkbMul1eULvd4/f4HDC2qeuNMeh0cKflS
+         pqo7rGCsyYEap3ZEKc0v50wFxNqQeVVtMUhZ57eDllTBmjEGEjZdUKO7w6MRWNLJD6Ri
+         QtEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742372200; x=1742977000;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1742372376; x=1742977176;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VPHM28uBdjpHooxMXjSAs93HbFmeeD990oxPLiAte2E=;
-        b=s5IdvHaIzvDusKHKxFYO+NhSFt6z1X+aADQoxkiA5GSCJY+htzEtlNeUcoG5aQwM13
-         636u4FmaFeAhQwQpOH1UDzq8U9hp5kB2w0GK2hR7q5o4LKiIEGJeR88cP8RgpCDAlxmo
-         /4oY4u89VNQam9DKJifnA+rFHJyawLAbwnPUeDfpOYRTqWPeJOT2ZzrvD8GBsN8YNc2T
-         PsLIWVzVvbxa31NJNy9xo4tSV/AhW2f+UrCx+IDtIjnNlYw/Qjb9uwenrYMI5Cn6w6km
-         cw4uA6QrmpDh0LEeoorvmElFVO33C0ksPYMHVdT3fXT5ZyHmt2qVgd1kIMfyssZofcPK
-         9JOg==
-X-Gm-Message-State: AOJu0YwT7ynboSRivPMAahwf48Nkg896+NTobri9v4CCjvCqEppKISic
-	/JgMSa3wSa34uZ2ppfMP8U8Vi7TtpjKuiAwOX6zZx4hz3Uj4xWmmt4HyApI6
-X-Gm-Gg: ASbGncvb45I77LlNPLDW1EutPAUcsjOisN0Y6ElVLvJ0gI+Hnbj98EBGu58MMH6Zlxu
-	uzQ8kPlxTvTX2hVWkEIvWZeyJ+ERBV0pAg52aEU5pKhJ1ewGGO6ywdB+hRole/ucGXjF4i2btBc
-	AvDBChp3JgaULZY3rTWtyyafwulxv39tQRdwEkxWYi6armktPwdj8ogI24fHu77pYZyzyLKveJv
-	4LDkFNz837enEvZNzT//C7Jbqn6CI/2RUMDCK0egxB9/Hk1kIPmeTKCXO4xst21AM0FtEJKW6f2
-	BLl1WnjkDfQbIXqTqeXjxjUP6we41XdyNHTZ
-X-Google-Smtp-Source: AGHT+IG98F0n/c8SZ+9IA7di2jWlkusAsFGhpdQ7lC+ICFiVjdfba0dThR4+MMieTcrD4r4B42LKWA==
-X-Received: by 2002:a05:6a21:1394:b0:1f5:8153:93fb with SMTP id adf61e73a8af0-1fbeb79ad3amr3113485637.10.1742372200058;
-        Wed, 19 Mar 2025 01:16:40 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 01:16:39 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 22/27] at: Remove mktime signature from posixtm.c
-Date: Wed, 19 Mar 2025 01:16:00 -0700
-Message-ID: <20250319081610.3536475-32-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250319081610.3536475-1-raj.khem@gmail.com>
-References: <20250319081610.3536475-1-raj.khem@gmail.com>
+        bh=y/oexxYiwZDAlqeWH59AdI0nUyGaBgL49vnWmQxjxDs=;
+        b=OFxKJeeYlDjE3nxXgLhc0uR1HXooVX0lZiHrHqfoD6jDXfvA6Pg3/BLOlkFjeAVY5u
+         FTkD/+15WJ5kxNeAUivj6Z3tH7W/HWhFAXwx1vY8u8VqLQqqt15sDS9MSMozPfMZKkxv
+         SIl+YdFb0dS+JWp0IT0Q1DpKbfbUZo/eI8rIIQqxWT0U5COsSTIcCH9f9IEP+ElpZH2Z
+         4UVc3aDmphtmFMra/gtqd1xCTXKHeumj1KLjwxDyTQF9HtcMePUdVBPHPWJ83VsfBaCM
+         xouk8WwWUxo6qABXfJ2QBJ+9tgf4J0eYzaGUfbhYE3dnzioZt570ZNXKWiRkEtlbPzPc
+         5IOA==
+X-Gm-Message-State: AOJu0YwnT5fkp8E+R/c/VnrGXNp6FM5GbmPTbmDo1rlhz3cQKSSKq9Pv
+	7SAa4orMGaflus+s5nI9e6wxBQ98p563FS85ZrRXZ2FoX63JGgl6XnF4VNl73kBjgO91Ne5cKip
+	UTK44gNnelKUyqazD0vJWB80f21/1GI6YPpw=
+X-Gm-Gg: ASbGncv9+Uh1nF5RG0pumDTmGZ0qIHZroocKmXYhGxuvPB+PFMC1cJ4FFYqas2hD2fP
+	GFGzCI4MMOX2aMdoL6tkibx7DLydyLunsYPHlX1qLR1bzKqf5eaARAlnvnQ/1N1BrG+ugNnIRcC
+	CqZcCgIFq0n9ByOC3U7/c+xRt+
+X-Google-Smtp-Source: AGHT+IF13k1+DkeNaad2RV0YTewt3oeoHIktXlDPW4H76duwPguuVhfoikTf7vDpG+yczBXb8QERT1WPlb5cSnZLEvE=
+X-Received: by 2002:a05:6808:1a11:b0:3f6:abd2:8bf9 with SMTP id
+ 5614622812f47-3fea26e2a9emr3678701b6e.19.1742372375863; Wed, 19 Mar 2025
+ 01:19:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250318043846.2422141-1-raj.khem@gmail.com> <20250318043846.2422141-13-raj.khem@gmail.com>
+ <D8JID9D3CPOW.2CKN0S40NRT9D@bootlin.com>
+In-Reply-To: <D8JID9D3CPOW.2CKN0S40NRT9D@bootlin.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 19 Mar 2025 01:19:09 -0700
+X-Gm-Features: AQ5f1JpFS8xdL5bD1ghTx54hLz3yJCcm2pNMdBOat5HGmemlVfpQC4kQZOTb920
+Message-ID: <CAMKF1soz-yprBekgYZxbqK933DPA2JgzE6MtKCYYKYvza=A58A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 13/24] man-db: Add missing rdep for col utility
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213298
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:19:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213308
 
-This is in conflict with signature from system time.h
+On Tue, Mar 18, 2025 at 8:47=E2=80=AFAM Mathieu Dubois-Briand
+<mathieu.dubois-briand@bootlin.com> wrote:
+>
+> On Tue Mar 18, 2025 at 5:38 AM CET, Khem Raj via lists.openembedded.org w=
+rote:
+> > man utility calls col utility internally when formatting is asked for
+> > therefore it expects col to be in rootfs otherwise silently errors with
+> > retcode 3 meaning 'file not found' in this case its due to col not bein=
+g
+> > found, other distros eg. gets this via bsdextrautils dependency
+> >
+> > libssh2 ptest mansyntax.sh fails due to this error, which now works
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+>
+> Hi Khem,
+>
+> This triggers a new QA issue:
+>
+> ERROR: man-db-2.13.0-r0 do_package_qa: QA Issue: man-db rdepends on util-=
+linux-col, but it isn't a build dependency? [build-deps]
+> ERROR: man-db-2.13.0-r0 do_package_qa: Fatal QA errors were found, failin=
+g task.
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/1229
+>
 
-extern time_t mktime (struct tm *__tp) __THROW;
+Its because col utility is deprecated and moreover only built for
+glibc based sysrems see
 
-GCC-15 with C23 on, this is treated at error
+https://github.com/util-linux/util-linux/commit/8886d84e25a457702b45194d69a=
+47313f76dc6bc
 
- posixtm.c:45:8: error: conflicting types for 'mktime'; have 'time_t(void)' {aka 'long int(void)'}
-|    45 | time_t mktime ();
-|       |        ^~~~~~
-|
+Therefore the rdep has to be glibc specific and the second problem is
+that man-db pokes for native tools like col and configures target
+to use it which works in native compile but could be problematic with
+cross compile. I have fixed this in V3 of the patchset so please take
+the full set
 
-config.h is local include file to use quotes to include it
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-extended/at/at/posixtm.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/meta/recipes-extended/at/at/posixtm.c b/meta/recipes-extended/at/at/posixtm.c
-index 5514ba4fe26..bba8312d9a8 100644
---- a/meta/recipes-extended/at/at/posixtm.c
-+++ b/meta/recipes-extended/at/at/posixtm.c
-@@ -20,7 +20,7 @@
- /* Yacc-based version written by Jim Kingdon and David MacKenzie.
-    Rewritten by Jim Meyering.  */
- 
--#include <config.h>
-+#include "config.h"
- 
- #include "posixtm.h"
- 
-@@ -42,8 +42,6 @@
-    of `digit' even when the host does not conform to POSIX.  */
- #define ISDIGIT(c) ((unsigned int) (c) - '0' <= 9)
- 
--time_t mktime ();
--
- /*
-   POSIX requires:
- 
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
 
