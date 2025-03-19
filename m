@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61884C35FFF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61505C35FFA
 	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:49 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.2962.1742372199289927414
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.2931.1742372201638915240
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 01:16:39 -0700
+ Wed, 19 Mar 2025 01:16:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jeoRZkYd;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-224191d92e4so126431585ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cXrfhqR7;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22438c356c8so113245745ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742372198; x=1742976998; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742372201; x=1742977001; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
         bh=hLLvqlax8u+s860s0BUwlOwVbZ4U2+vsW9ruPWvozjY=;
-        b=jeoRZkYdNqDH53/IDw5U8GC13+EsbrR1RGo9K52bUpAcYNIyBTj+KBzxMpwJsm+Ogi
-         gcQJ6Vvo6Q3wqSOme+g+49OPO3/DfsHA9xm9C7ZPjuKYTeVU8AJRn0eCRvXdpFvxKfZN
-         tJyYu+wQJ2NioWWDvThg9aDaIgmKESbdE7KsSZ4nrEs8riM2FP/FvH4VekS6Xh9bj2bb
-         lC7Jzx2bgCUmhwcWdKoEDDyi4IelVjojzX5s9g/hGrvU4ozlj0BoZ+oE48CHr2Byyy8P
-         mb5SnB3ATzbj1VXVPSVrPDLXuUMJTnB9R+D4uGW/2RlevQ82NMwt9Pk4lnCApSoq2psU
-         Kmrg==
+        b=cXrfhqR76ra6RZA2RRLc7pNolrDJmhDBievsMOWyaL3b1lON5QgSPDYq2YG5IitOxQ
+         EtpyCStvM8pz83iKCBU+/l57+l+j/vEM0pvEd289vnhdScT2UVi8imItHcwBmynSVnDO
+         3k/n3+5/eHkZgK3/sVqZNNXFpbN2Gr5w0kOS7cZ+l65x+Ly+BA9YZXI7y7t6pK0/Z22O
+         wbBStTtbXHP3WqeOYKXkb8eq4kqWuM1XMeIeuR21s421DLLLjZlM9DFbREUIqjlifS2C
+         a4IrRP6b+RWVZtLhUkUbFqHO/d/XWlebX3YpWF/EhiWqYV8VFzLs2Yw6aVJZsq01RS8u
+         4Ssw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742372198; x=1742976998;
+        d=1e100.net; s=20230601; t=1742372201; x=1742977001;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=hLLvqlax8u+s860s0BUwlOwVbZ4U2+vsW9ruPWvozjY=;
-        b=Lol27i4Irl2BvfQ335yrgE7bziQ/vibgnI4fIK6vcgIRnKJ1/FTNTbwZ6jUSG0uJsf
-         HSwKIVr8qYcDXa+ecZk7ouYwSigZq3tSglixUmtxkgl7PCUENatjfSrevgaxkyVRNC3j
-         w13XlJUPbSr/dSpGAoPNFFyH5qxzU1GgDJGuV/rrHNnzIla+LPnOR8gl34ERO+klCDwL
-         X8FXIdp92xY+YZeAwYIWz0xUHdhxsm0IK+B/qo/1E46w6DB6oBOgu+ZkylIfuuQuPXw8
-         9bXpaMEu65dTKj124zxQfWNmW4ZVHzDFe0CpJV7D8escH2VyXb9kvMAjOqms35gw7pS6
-         EGLg==
-X-Gm-Message-State: AOJu0YyOysQGIjWygK03aZHU2TqMz+KOCxJ4vArUn4SrAKZzKiVx1PPD
-	TSkQt3RA2wnIQcQV9ujr3k88Jy5QownnKUWdtkOWhNE15dCulSo/R94mklle
-X-Gm-Gg: ASbGncs07LwUsq45TYUPF4XccTV5EBsXg+buiOvV9dyVeaCcvbq2juSatOXl/5fZ6cs
-	2uETlubM3ewcV5mXmTgRBHz4SoBpNPJ3RAu/Nv3unPvTD6ZLCSjQd8z0w4AlF0BLoJhwgtER4Mo
-	WfkX1zEF6WHQmoI18i2eg89t+9CHlbxKnr0jF4RO9yLDi+srOud21wNB5KMSIjJFadnGvaN5iYe
-	RfoVcvCCTr5cVe1O5oznLJIvw4cmmMDo+b4d2LXEsUJalXzsGFIMWj1yog7QnmuhKNbJV5TLTcv
-	wHbBHQ5h5bw9pOa1Q8eSY8FFr3klpVuapny6
-X-Google-Smtp-Source: AGHT+IHJUjlzDwp40lkEyM/VhPNbEaQbUdG1epRVqY8BNR9fiA/0jVuKwtoR3MBgEB/jnzFb1Ixp/Q==
-X-Received: by 2002:a05:6a00:849:b0:736:34a2:8a20 with SMTP id d2e1a72fcca58-7376d70c894mr3284202b3a.21.1742372198498;
-        Wed, 19 Mar 2025 01:16:38 -0700 (PDT)
+        b=mOLffzCExguCcQCBA7H4Fo0YT8LHbdd82GmyIFFShTklZdyvnaPz10jc1b2IEBqdki
+         h1TxhCW5aaWaWGPrhlHfIiPjvOFOhG8Fu6sh241kKybsE/ovh20mtPHGBL1cPMjm6x5R
+         /B6TS4CV11i3hX7cXKrGXBRlv4enNSY/rcTwz2YsKF9SywbBXcF3XA71Vh1Hv7k+tRYT
+         L+wQA7+e9fII4EaJQc8hhnCZczY1jR596eWU8LRd9oA8RmiOLUG0Le+iY0wwTgo4atAJ
+         KxZPrRJjRRB6c8HoaWEmOyNrgP8HC6oZqAQpJZE5TWQk0Q/SlcOJvLeekBBg1CDOiRWR
+         YNIw==
+X-Gm-Message-State: AOJu0YyEmE+Eecm+oyvQQEMHXN3in9F693GYzUhYYMgOmrQVGWDJKSJF
+	aIGnogTR7cCg9I5wUNfm/smfpizb/mOy4PSmmqfEGL7Y0svUEHKbaDCgJVGd
+X-Gm-Gg: ASbGnctStvx8d3RDyKeu7IMsW1ZbK9GpRO9qbY0IWsolu+5pd5rCjLnaLCgJ+BuUCqR
+	C2QO33ZTIOv8MuYwGOo/osL2DxxIEzCVY1+z5lbE2YKEQIlqtw+ewliivTuxLtdrM1BvuCKJ6i1
+	lcZ7FqI3VRIWQ9RaZrMmN2A9qp4+ZRpQnduDEczXbD0xKTd9Os4W8PtwMOa8kGuuSw1zVmmbwll
+	VRxouh2wX9/DS3Ri/cnBDb/JEWn0DeFHDb6AuDtoFX0ADZ35JVZF7GHweY+HJ6eWX76QvpiWF/9
+	DvZyJo4oMRK7BgOFoMD2N3T/rbawwNT+QWE3
+X-Google-Smtp-Source: AGHT+IFXG2+WjqD2gfmx9CkN833JLxc0a9jhQ0D3eGn3Kl7hTNBrq3dt5l8jUChJJPTWH19cJ9LLAA==
+X-Received: by 2002:a05:6a00:8d2:b0:736:4a5b:7f08 with SMTP id d2e1a72fcca58-7376d70ecfbmr3069419b3a.22.1742372200839;
+        Wed, 19 Mar 2025 01:16:40 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.37
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 01:16:38 -0700 (PDT)
+        Wed, 19 Mar 2025 01:16:40 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 21/27] psplash: Fix build with GCC 15
-Date: Wed, 19 Mar 2025 01:15:58 -0700
-Message-ID: <20250319081610.3536475-30-raj.khem@gmail.com>
+Subject: [[PATCH v2 22/25] psplash: Fix build with GCC 15
+Date: Wed, 19 Mar 2025 01:16:01 -0700
+Message-ID: <20250319081610.3536475-33-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250319081610.3536475-1-raj.khem@gmail.com>
 References: <20250319081610.3536475-1-raj.khem@gmail.com>
@@ -66,7 +66,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213296
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213299
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
