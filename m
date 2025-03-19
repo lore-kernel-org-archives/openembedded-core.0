@@ -1,144 +1,160 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27307C35FFF
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 09:11:20 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.3578.1742375470175857170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C5EDC36001
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 09:13:50 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.92])
+ by mx.groups.io with SMTP id smtpd.web11.3603.1742375625665261312
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 02:11:10 -0700
+ Wed, 19 Mar 2025 02:13:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IWpuFYCa;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so28966205e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 02:11:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742375468; x=1742980268; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SvsG9nSbEULJBKqkSKLXw+OL3wrGtlziLpuDYC2fTKk=;
-        b=IWpuFYCa0t7R2m7AbA04MvK0pOvKA5qksZICiMWpCWY5cAZPyuTcKVAZWkBsp6/XAW
-         h9g9YkcyQC2GYIxA8RN7l7e2eZldnW1v3PdJlgHLA9Sp1MPBkcotd2s0qADr9sk1R0sB
-         x6qz0BBMrRMzSDeh3zGdxfxqT4kc4uTQM7SNQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742375468; x=1742980268;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SvsG9nSbEULJBKqkSKLXw+OL3wrGtlziLpuDYC2fTKk=;
-        b=p4ekvg7CWZcFpLed/4g1oabSpVmW3zLBBs6/5sor43ElYsD97lTqQ3QSbvZDXbFAV6
-         jxLFVZcRb6SaMbKnwHFvMEtzEPq8RqwOxw5ys2ZDr4jDoBhvX5dImDm7/gE0BHLpQsJq
-         /GcHuR1Esz+iZ8yK/Cz4G1B/9/opwYqjmNv8mAcmsxJiVaedIHz9IAHSUIj0thkCqdVg
-         3ddUNcoGVK4e2968DS8gckIkK14ErSP476dtiYngfndAk+NDWmMA+ovpVbonL0EnQoNi
-         U36/0DQ7IyccDNsCQd3N0aNbj0Cd0NJIZvxl57Q9RjAJQODUf1QicMA2q3oIgWp68E7P
-         q1CA==
-X-Forwarded-Encrypted: i=1; AJvYcCWoqul+2bX5QSZDmRzd32aASCHtYp7Iupunpeo3EvTrRvmA76GXtZqBfzu9/8jSrKZLpOoz+DdfLWmdVXn6RIyjvg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyDa07NjAvZaTVZGZyc/SCuGmh+NsHi/icfBNNgsU/BKhWksHeZ
-	Wda+YLIsQwJUYSGd8nfAslRXCIT5dxE+lhdrsW2yL5pv7uDzXM2ntOig+C+CODg=
-X-Gm-Gg: ASbGnctmN5vDp5AEsLyHhjYT6YfGXwI3bAzuD4RAu5j4Aw/KkFsLC3TPaD9n/ZADHqO
-	zJAv7+0b+NwLxXtTDJkPO0FQ0yS/g5hWaSqzqS0u9Gtp0iBpuVGkyDhwmwaKSpC5F3tnSntNv4X
-	G31iB4fGiLQld9SSRCJbNjDn9J/qMlMyzL4yyX3e1WfDoayHyzzN3p/1O8wVWlerqaDojpaGtSr
-	6ul1y7qQy8P/fCp4VVOBqpImby5P7O/Kt6V7K3pdrgQWeUanCQAl35zX5Vq/3jZu84Ef+J64PCs
-	Vj1+LItgzNplEMrTcUFfrX6ZEJbNuisf3UWYyWkAMBlHWYaZKUv2xtOX1NE4fnM6OCwWkSmU3uU
-	+I035UgK+FQgsp48Er1SH3TjQF+m7tcM=
-X-Google-Smtp-Source: AGHT+IFoMF1RCDu8289gSqY4Ml7DEMwGEPHdTqz+awzK2xWf0r58CZISsVT9D+0jGVmpIUCpf55dDg==
-X-Received: by 2002:a05:600c:4252:b0:43d:82c:2b11 with SMTP id 5b1f17b1804b1-43d4454b284mr7811595e9.23.1742375468313;
-        Wed, 19 Mar 2025 02:11:08 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:dad:b471:9c34:4577? ([2001:8b0:aba:5f3c:dad:b471:9c34:4577])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d43f74c8esm12766445e9.30.2025.03.19.02.11.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 02:11:06 -0700 (PDT)
-Message-ID: <df7ca8af2883c0b3974df9f95a29be827e817516.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Issue: /var/tmp does not persist due to /var/volatile
- being tmpfs in fstab #scarthgap
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: vs.yocto@outlook.com, openembedded-core@lists.openembedded.org
-Date: Wed, 19 Mar 2025 09:11:04 +0000
-In-Reply-To: <29973.1742340247475380282@lists.openembedded.org>
-References: 
-	<83c9c92162d9c0bc1387c633f1464e67f57c70bc.camel@linuxfoundation.org>
-	 <29973.1742340247475380282@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=n5YW8CzP;
+ spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.22.92, mailfrom: niko.mauno@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gqOQtYlWeKHdapC0S2LGALVZN730fzHJszDxqPQqwK4LcbNewU7Ft+qp7m/IiyoXMKYxPKOVAQVi/YHh6Hcv1bosXsTDrDcZILbgFp7upxJeW3yamVHGsONSL439X5W9su/lg3EtbLPm/fmy3ySdQSAwXSt7YXXbATiDvHAwmmVdkr1TjjOW3KjFu9MDuoAlDiRh0c7Ck3/PpERyLdeozEFKzd6qf7+xergNeFAFSeCBC5LS/f19AGNKdlK7wR0Al8mf5Ca0VnhY0DEOa7GmY85AOU1lQSkEsSADB9ZpSC1H/vAW8zJQIA4uSJQ7ljQYeQhhcRfDm25cAONaHp6Lcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UbHcVyMUApIvTv7IlSzIxrJ02GqyBZ9F8QfYb2d9GLI=;
+ b=nrSLBP+wRyaQtDECOyql4LmWZBq/pY7f0NEKhmnQLkL8rv8+MakdbQj5pGSWTPsVSVg18kDgEEqOmVF7iOkrSTtjW2Y/6WtL20bHM5S+A2WE3awZMMawgT7xdkdkKDMp7WhZ/6R+DHlwKc2AcjIcqgpLchB4WFILfZ7/GH7ddeQSUHhJkMCTT+WK42vfZg6nivT3e8KMML9pGjNxwrr6YSRykrB+a5bcB6d/9/UA9iQBvbFmmf80ENln17x8KDoVmy2IUQHq375eTfS2YEEKnkvRhUbBCARAOIWcbMna9ixdkxlL9TnNQEqQQEBv2eQ0NYYD763cmT2rhU3SfRgwUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UbHcVyMUApIvTv7IlSzIxrJ02GqyBZ9F8QfYb2d9GLI=;
+ b=n5YW8CzPhuTz4d4TpqdLBwRdNybxGzsbhJa8f2S86z2mImnYUWdf0NSzXFMkXe4MGOdQ8aZtQFaod3w8JfL2XLc8DFsheWkZFcGcWz9EUADDj3bIoGYbblcOy/a/25CxOSTi0G7d444TR2bs94bsYLxDYXJsGqkOJb6xOj6PJaGEoZBvXT5n7AWDY/M+4GHVqFYna4F+4+66IcSEItN1HROvvj4qALQ1/5WkdzRzDBAFbydn3L7JrPybR/cTMWTm4skz+je3yforcKwK4/4/LXvM+NIwPEM+43idKNVsv8GQQTH58m0cVGlNiGDcnYvNYqOc4qzFQwkdo1iogxXNSA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from DB9PR06MB8439.eurprd06.prod.outlook.com (2603:10a6:10:371::13)
+ by DBAPR06MB6984.eurprd06.prod.outlook.com (2603:10a6:10:1ab::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Wed, 19 Mar
+ 2025 09:13:41 +0000
+Received: from DB9PR06MB8439.eurprd06.prod.outlook.com
+ ([fe80::1af3:29c4:e7f6:2522]) by DB9PR06MB8439.eurprd06.prod.outlook.com
+ ([fe80::1af3:29c4:e7f6:2522%3]) with mapi id 15.20.8534.031; Wed, 19 Mar 2025
+ 09:13:41 +0000
+From: Niko Mauno <niko.mauno@vaisala.com>
+To: openembedded-core@lists.openembedded.org
+CC: ross.burton@arm.com,
+	Niko Mauno <niko.mauno@vaisala.com>
+Subject: [PATCH 1/2] packagegroup-core-x11: Avoid non-ASCII in RDEPENDS
+Date: Wed, 19 Mar 2025 09:13:28 +0000
+Message-ID: <20250319091329.3057329-1-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.39.5
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2-0ubuntu1 
+X-ClientProxiedBy: GV2PEPF00004598.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:401::443) To DB9PR06MB8439.eurprd06.prod.outlook.com
+ (2603:10a6:10:371::13)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR06MB8439:EE_|DBAPR06MB6984:EE_
+X-MS-Office365-Filtering-Correlation-Id: 281e7804-4d5e-4317-2020-08dd66c65764
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?nsXXTX21+AZZnPZF9E/dDnbTR/eIG+ucrYf1wJ7WhdvfNFbBSzPQ+xEsDlAD?=
+ =?us-ascii?Q?OKN6tKwoK/ZfUP9+GNYaJ1kWjEFrNNFizutyX4iQDiwhKZ0f/bhMRL4ufFu1?=
+ =?us-ascii?Q?tqAHwWg9rcT+oPWRgVL0+41qWF9rgagBcYueJps0Pe/B6IuhDxT2Y8WRsogG?=
+ =?us-ascii?Q?qKCZspnxbEr/ekDcwB+BdksmKUcxGQQOfJKHDs1627KdAK0ZmDY6VJqlBazg?=
+ =?us-ascii?Q?hf5iTi1/vXfDRvLHVTljDvWP2JkzKfKJDT2stQMW0OcOfmAe6GnklSBguuBX?=
+ =?us-ascii?Q?YGgB3XQh90d/dAmv/8zxrIE7Xfs2jmxku8KwETO/Ghz3ZAQj6VcmJHXDE1s/?=
+ =?us-ascii?Q?BTllgrKYuRBHuHZJWBXu2QaFPaDOhvRBt9cljMvBNsx7DzXPHhnm2wnWkie3?=
+ =?us-ascii?Q?nd3AoCk6KBkgOu4zOeZJ9GuP6ZEVEGgHwL1590gllq8hBpRm28jkHLMSlk95?=
+ =?us-ascii?Q?on9n7bLQr5GBakP340/LPybabhgWlnewtptXI4fw51BwRG1ToJgj6DgBz6TA?=
+ =?us-ascii?Q?VT35468gZzQUSMxZ3RUCpV90eOr+enezWBtTCd43u6uiXiajGcvX03UNmPRh?=
+ =?us-ascii?Q?igDuWFnZI3TEBn3aGRrdO78o/T62HH++sRt4E3SBAvDz2oC93c6plFMJSenu?=
+ =?us-ascii?Q?nc7saCuT3x9yo8KfhN0qm1QsIZHsaIPitMW76aarE76q2WEDuKu8Or3DK4Ps?=
+ =?us-ascii?Q?Eo+meioRO1uju+foQD6DwwE9vtndlMSIbkJKFRDxJYQf5IzOHMc6OTFi55ZZ?=
+ =?us-ascii?Q?trkgdDgS+7mIb5mYTyXoROlxJF8LHtyFdPFze6TeexllsXcy5eElQbcSt6ed?=
+ =?us-ascii?Q?jInRvi6jyLXbnGraITYNmq2nEOYjzCo5itykvD96MQla1eb13uvoZlVzE/rx?=
+ =?us-ascii?Q?yWAr6vggOqY0che3B1769dpnK+V/onlnaZzrpV1BA24rwjpqNLKaWAocvMh3?=
+ =?us-ascii?Q?RyjtajJXj3g8I5sIMC6B/YAGuB7Wjd4Vmi9I6EDDu6j50EyweAR+eeZ1cAmZ?=
+ =?us-ascii?Q?G8uMr5V8iRo5rPQMRqnl2M0+lGn5SNp0gevNy0wDqfEuqGPJktzmAKb5gpyj?=
+ =?us-ascii?Q?0+PGOp0jXsjQfeoHFcbYQSvQNsPtnQhP2cUHfy1Wg8YsQueP6L6PhyAdhgX8?=
+ =?us-ascii?Q?yKfVRgUR38SFvcCkZ6EQ9wtTob0ainGl66V9Fr9ifxtTFtE310BQVmUr8n+/?=
+ =?us-ascii?Q?G+nn56XLBNEmPo4XtIK2O+GRZiCyoz+jpfiK4ZTdMSVUMStUf7m5yye8/d2r?=
+ =?us-ascii?Q?ogPX2OxP6wRnohMikgh8arjg1gvjMyfgzistY9aJAyn7+ewOe891mcFm2zn4?=
+ =?us-ascii?Q?nme59CnVxsQdw3Hmd4M6hUnEyQ58DjclJRrfZtmPQdgrQFkn8PHuTK4nIKAB?=
+ =?us-ascii?Q?1LsPsV06chg1LB2DGVW7vUkKzBY+sXTPNZE9hW7pmisHTDgxWDRMP5WZWnN3?=
+ =?us-ascii?Q?nK8fIOE/rAQ1lywHJmKjL54m5jhMyJ5O?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR06MB8439.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?nBWxHCl5ah20gg7zfa2BkkShsIgteX5o4jHm7hoyy95JsSPj+sV+FGHGbCcu?=
+ =?us-ascii?Q?LB3b69n6FJrFjgzzJb7YxFkonFbkxWTQlzA8ZhwI7e9YfWACLL0RLkkKnJiS?=
+ =?us-ascii?Q?9/7+r1BrLUvvYK10mQBS2OIXMZFXvhyR5De8CFJtZCd36Im0KVGGfbeLZiaQ?=
+ =?us-ascii?Q?Ea6l/BHkF9+IfKbXWIz1/ppBPMakopwW6N9tV/xpSCnBrGahFYENOJM8Moai?=
+ =?us-ascii?Q?fVmAd2vvlQLf9p2UcZYzIJboZ8C2zpDYEOuHObPjukZG7resu4Vxq02W/R4+?=
+ =?us-ascii?Q?PEe83+T8/wyAHGUFQ5liC9vm7ovhvBhewuqBf4n60sdHtKc2bj6dXeGBLjH8?=
+ =?us-ascii?Q?m8D51ZpPLXKGO3HCCcYAtoB5VGsuFDeWhNbH7KZuF3TPZXmVQY1z3TDvDa8f?=
+ =?us-ascii?Q?EJU+egZXThkN/fkMKb03BnycMwUDD/xHQEDW/g1TcbDSOqErlYnRQtKmBVT3?=
+ =?us-ascii?Q?Jt5a/qSJwSgqttSWrfqAAdVHhTinp698+0vRIJbd0EmYP4wlTfLfGCBrJ646?=
+ =?us-ascii?Q?C7T9XA/61b+Up/TnUm36Pc3f3KhucVQajoZiT6Fz8c897D4toysTmV3O6TWZ?=
+ =?us-ascii?Q?1XSxeBqwCEDiUpLqmaKLls9gXDKN5jLM0yPcD+JjEiZD8xbpkln8/na+yBd2?=
+ =?us-ascii?Q?lI4DSDv0vkj+qQm0mkWfFkd4AqVYwzAEFNiLnDiCZrCUFcpGAU8WpIPegC7+?=
+ =?us-ascii?Q?mcOcQAgf5gDW72M1rit3Qh9Ri8SWP43dvMrZaJLXgiRfcDYHgul+aS42DAXi?=
+ =?us-ascii?Q?vPiXjCPDkxMlxkrNfkP5shFQ38rnB7lIR3MpNpKYgZiTi182YJ+hVr+lGOd+?=
+ =?us-ascii?Q?1KKANIBFmEOCcFzceD3V+WdelemPhLes5YFvr5uOAJAZTKHUGMiwzsz8Hhfw?=
+ =?us-ascii?Q?gyCydC+VUzNl2+9uArUIP1IgNrsc0zHDKmXeEVzH4gywHsKJT0jZ1b5oIb2b?=
+ =?us-ascii?Q?xkDobiF6xxtbgi1xl/+egVj2+gcWIPnjv14PjhCXGLcjfM9+7aI5dQjpSj2k?=
+ =?us-ascii?Q?q8jzNk1l6nZ3BwTJW65TWQGXbPGhU5FfeKn+oY5uMiMr+RW7i4vV+vivISvb?=
+ =?us-ascii?Q?Ks1NNPcWlgraQYpomIO258OQ9kCOo3M1FwAaqdcT0IQZ3+jVtP3MDr/Mwq0C?=
+ =?us-ascii?Q?sJR1sjxgMN/TrpDW6Krqa4AYe3JLgJ2nguPRIJ51gl/87FZYVQEak1syEz7c?=
+ =?us-ascii?Q?icYsj+Xpm7F3tLRKYoOka4+xOyMIUu2zD084h+r0gCNRbyUWs5oy3xxtZ5J+?=
+ =?us-ascii?Q?+CSgDMWh/jh1J3QgTNacPTOrdocASUV7EUaMYCjFYutLuJ7JxjCczmvpaMFI?=
+ =?us-ascii?Q?8E+4Fu0iHO0oXTxqyP5JgoVyL6wVsn1Ihi4w/Rllv3YJBFRWiZVDaJm+6mv9?=
+ =?us-ascii?Q?Prue6jgPjSa0foqrcwZcYqHHJcCCqIxQfRYP8KEzcECpgeFXNcQifGGLOQDX?=
+ =?us-ascii?Q?D0BCKEYJXm5bAxxRbFSxd5Cf+DQCAv+CLW7N7XZb+c1M+0NJKuL66iviwJjX?=
+ =?us-ascii?Q?FG38rJVg/FLG2RQrx6EtQhbnBUsoex/H1thdwM2dUG98KFCKq77oI2jb0+S/?=
+ =?us-ascii?Q?CSk8THbDLWX3nJX0zF0xnP0joLiK12Gg/aKEm2+8vMUN5zcN1X6EIFb0Oh2O?=
+ =?us-ascii?Q?WA=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 281e7804-4d5e-4317-2020-08dd66c65764
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR06MB8439.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 09:13:41.4719
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QWgj8BKMs4kq+m0BjMiBverY2HXqDtDf5RDV7VtAWRx1ndt31Xu+HIdyqMOOC+hxBQe4RsmRx3cMZhAr8iMpVg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR06MB6984
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 09:11:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213311
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 09:13:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213312
 
-On Tue, 2025-03-18 at 16:24 -0700, Vish via lists.openembedded.org wrote:
-> Thanks for the reply.=C2=A0
-> =C2=A0
-> Do maintainers recognize this as an issue with having this as default
-> option? There are chances that similar to us other devs/orgs are
-> planning migration in phases to Scarthgap considering Kirkstone
-> getting updates, so this could potentially become issue for others as
-> well.
+Replace the UTF8 character for non-breaking space with regular
+(ASCII) space in RDEPENDS:${PN}-utils variable.
 
-I recognise there is an issue when behaviours change. We can't change
-this in that release now but I would happily see patches/updates to the
-migration guide and release notes making the issue clear.
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+---
+ meta/recipes-graphics/packagegroups/packagegroup-core-x11.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> We do have sizable amount of edge systems in production with various
-> CI, and this change broke an important feature and took some time for
-> us to find root cause.
-
-Sorry it was a pain. If you are able to check the state of master
-periodically, it may help head some of these kinds of issues off.
-
-> I believe correcting is still a proper thing to do and can be planned
-> during any releases.
->=20
-> Additional reference -
->=20
->=20
-> https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch05s15.html=C2=A0
-> =C2=A0
-> Also, it would be good to know what scenarios were considered with
-> this change, probably we are missing some context.
-
-Traditionally, OpenEmbedded was used in resource constrained embedded
-systems and all "tmp" space was transient, not persistent. This
-configuration is in keeping with the project's history.
-
-Our approach isn't entirely against FHS, it is just not quite what
-other distros do in our default config. There are other areas we do
-differ from FHS too.
-
-On this specific one, we support two init systems and I think the
-configuration was mismatched between the two and the configuration
-options were hard to get right and not working in all cases. There were
-various patches over the last few years trying to make the docs,
-options and init systems match up and be configurable. I suspect
-somewhere on the way things changed in a way that wasn't realised.
-
-The project is crying out for maintainer and review help. We do the
-best we can with what we have, like most open source projects. An
-implication of this is that where patches are submitted and nobody
-objects and I don't see/spot any problem with them, they can be merged
-even if there is an issue we didn't realise. We do the best we can.
-
-How we react when things are merged depends on the circumstances.
-Scarthgap has been out for nearly a year so a major behaviour change is
-not really an option now. Even for master, I think the situation is
-relatively well understood and more consistent now so any change would
-need to demonstrate that isn't the case and that a change would improve
-things rather than further confuse people.
-
-I don't know who you work for but if you are able to help support the
-project through patch review, recipe maintenance or anything else that
-be nice. Alternatively, project membership does give us funding which
-allows us to help in a different way too if that is an option. If you
-don't do any of these things...
-
-Hope that helps give some of the context.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-x11.bb b=
+/meta/recipes-graphics/packagegroups/packagegroup-core-x11.bb
+index 91db7ed33b..10184f1cf1 100644
+--- a/meta/recipes-graphics/packagegroups/packagegroup-core-x11.bb
++++ b/meta/recipes-graphics/packagegroups/packagegroup-core-x11.bb
+@@ -30,6 +30,6 @@ RDEPENDS:${PN}-utils =3D "\
+     xrandr \
+     xmodmap \
+     xdpyinfo \
+-    xinput-calibrator=C2=A0\
++    xinput-calibrator \
+     dbus-x11 \
+     "
+--=20
+2.39.5
 
 
