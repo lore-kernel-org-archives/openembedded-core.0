@@ -1,132 +1,108 @@
-Return-Path: <philip@balister.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43786C35FFA
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 12:33:11 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.4090.1742378043613471679
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8D8C35FFB
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 12:42:01 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.6846.1742388118136887329
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 02:54:03 -0700
+ Wed, 19 Mar 2025 05:41:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=hiLBP6a+;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52J4lxES019770
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 09:54:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=GKCtwfke0p0ssKtC2cdrvboF
-	OXtp1ruEm7rPWZDQK2s=; b=hiLBP6a+GpSko6QrxkL3tAZswChY6FOGAou7fKVL
-	6B2m/gBqH9/PHUqcvs4eTSieImclJMKuD438/DBn9j43Qr3aqWkaemyx63DS1ABw
-	jsDll1/Opqr3ym3ARzjI1GPpAJnc9CLJ49nnqekt1JHLE8ItuM4V/p1OiqJogbf9
-	H8CLOFgQ2ujS5t6I/mlMVk5XovqzH/4xNm8VeagZEjsAetFOeQ5h4kb3GxQZxcJI
-	Uv5gpS4lInbduGE9qj2WMjQz2AYdHd04B1yk8syL9AtVYVFv92CaUx74QJKtt03z
-	f6MX2wfUP5swNhRqWuL6PbHeDO+3muiMgCsDUQ7BYVK4qA==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d1uu34mq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 09:54:02 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6e8ffb630ffso110775246d6.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 02:54:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dpAaStzo;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-391342fc0b5so5580092f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 05:41:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1742388116; x=1742992916; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wb6FtLyYrj0nIyC/rsxLt1WlaLx7ukxdSm5Dh9y9Yjg=;
+        b=dpAaStzowJzpnOxHJhhBEcNlfAXSZyENfxTcW1/NS5ymXWzJF54FpV6z9iEspjvRrU
+         +BtFL3Cj1h+fuKFxCuaIzflJBB/0/752Kr9fj2zBVHjft1ZDAwDzG0LUvAn6EbzOi6mb
+         7TviyVv8XOD8sJYumhh2fZQ/12M8b27PnizNE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742378042; x=1742982842;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GKCtwfke0p0ssKtC2cdrvboFOXtp1ruEm7rPWZDQK2s=;
-        b=eeLb/IirSMlSsoRZVCdFc/XduOILeJ6SQRtHzX1EgQNCnlBZBPc9UiM21X3IOQRwMu
-         nDAN4AN8d2RogF7WrqWCd6FepSvU3gGTc5nHk+CUJ4p5MZUDV+o9T/04mJm2SofQdg6J
-         +u4j0xCBj6fhhMtfeTC/q7jXZoLgmA8H9cGaSBIMHS1ywocXl6W7mdG0xu74203gUYj5
-         XMJPUP9H6/SSsrPaFpbR6/K+Nhh2lO2DEp2ov31fXS7LJmCWk3gC0AcuL52yYbkWFmEz
-         lnjRxyYsJRtKRNoMmrsRLvzRc4A1ZO9mFiAMGvOR1CNhry/78L7wfIjuopQv8pvRtEx9
-         V3+g==
-X-Gm-Message-State: AOJu0YwWxUs4xTWAZw3dWVCyZBgvywacMnRKalu8bV/11CzMGTa0GCBM
-	gJebX9sfEncvg+4XgXiIMgFxoUjqg+zALCZ8GFBknJGrML6hd2WFRW3uVWMVSXZvnqnkBXwEHFL
-	UwSRZYeO3NuS+XduM9YfjUysnASBALs6jAeJbgm/JbhKrDXxNeITLpTs3aHw5Kk657fFx0XL9WO
-	xZgQY=
-X-Gm-Gg: ASbGncsgY8iZtp7UmTUTr8EUGNIvUV21q5CHbH52Bjrt3hJcvLYOMDZHUxbAe3QqBkR
-	IF+pjXaWRrnF/EDGLd+1AdSmRR8Hcm/Rbztm/YFgHDvYjTrlMbXZwanVdZc92cm5IzF3ZQR+MoZ
-	FJRZt0GElweomAAKKiOyiARgMERZTST94agsiZSTf0qlPW3Ht8HTNHfY5qMqBpLBOx92QPN99VS
-	DBKYL6DgEdA/lOUKlMPZyeGJehCRYt41W3S/oc1HZdV0zbt1Jl+6KUNVJSoX2aevuASEW5VFhJm
-	wZYakJEWBOFoKG3HBYRXgpeVfxn/Wtpa2PTyT9UWKenVZnrxDT1Ya++ww78cy0e2k3GW+4UT/4/
-	u+48=
-X-Received: by 2002:a05:6214:19c2:b0:6e8:f945:ec5 with SMTP id 6a1803df08f44-6eb293be952mr25158746d6.24.1742378041822;
-        Wed, 19 Mar 2025 02:54:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHS80UNC3jA68lhDJf73lGNNau9J64F1KKxrukxcAJsO+Wz5FDOlcVWDYGLmHdQND1Phc89yQ==
-X-Received: by 2002:a05:6214:19c2:b0:6e8:f945:ec5 with SMTP id 6a1803df08f44-6eb293be952mr25158616d6.24.1742378041453;
-        Wed, 19 Mar 2025 02:54:01 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f117461sm22942711fa.61.2025.03.19.02.54.00
+        d=1e100.net; s=20230601; t=1742388116; x=1742992916;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wb6FtLyYrj0nIyC/rsxLt1WlaLx7ukxdSm5Dh9y9Yjg=;
+        b=vhFFw8kk+Fa6/5r6jAr7EmpaknW2GinnujRnpdLXcnryIV2YWZQ36VKfUCrSZuiSW1
+         u7Vnke1W037kqezuOciHaUSy+7gyjnAZWl8gFMlrtaYsD2GBZVfcznbkXM2SrqL1WoTn
+         /q2UASuxplYR6yP8HEbX+N/Luy4v8rOWqjP5cWFZE22BXldErP7N75kMYLDLbR3089zx
+         mFSKGvTn5BJEJP0y4C/Jk/zZtTSR6TDuyd1tqqXb0eRc0dzc3pJWB1Lz/a0N07Iy9TRt
+         a3zlwtlm72D89zKhzUEMHMkLQNGlYyTMpr4dPYNzndvXOJ/hPlQOwnGyjeCh+B3sYgAa
+         /Clg==
+X-Gm-Message-State: AOJu0Yw2amk1sWCsr81wYi2VH2JgrU05chjvOnCxVdSUaIUqxv77CFha
+	GDOwFHdf5hYF/UCrUGaP2lNwdtJbZw8div2qw1q3cL+dQdbVR3nscasu01c+ynG0E4aQwNISpzs
+	i
+X-Gm-Gg: ASbGncuvXQiJX6eOeOQv4uIJkuj0D9/mgfExM7Cyn6cRcogB0p1u+p0szUvywmLOm7F
+	SPAvbkK60cJmn294vxncoWLfZPegrxRVh9c+k+81Y+1iRcVIuKKFZ/v9gX4o8FWTlM4anGGLddQ
+	eu8HkSrJ+U3oDuq5ubxdW2Sann6hlvUfngooMJjapfaF9gDnL0M7+s97HlxXgP/enJhdRNbTA/y
+	LZOFolOV30Dh1zNGvlpLstN5PEbmxCRZ0D3TO53cVt7z2r3AZag8G/KojIcyihjsJQ86HF4/YkQ
+	SDJkCY0dKfCuXSzCY/Ew/Ay7SQMf8s8pUtzZkIQYxRrrEyotxsTYLscA2jusGfI/Ms7QkBsR
+X-Google-Smtp-Source: AGHT+IH0hObpNRY7xqYAs228+ulo4R6qOQEyJ4M9/JUCrR/HAfWyHK4UxBuix0tmewXoQ2FZLjrtwA==
+X-Received: by 2002:a5d:64a7:0:b0:392:bf8:fc96 with SMTP id ffacd0b85a97d-399739b885dmr2193244f8f.4.1742388115729;
+        Wed, 19 Mar 2025 05:41:55 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:dad:b471:9c34:4577])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c82c258bsm20455070f8f.24.2025.03.19.05.41.54
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 02:54:00 -0700 (PDT)
-Date: Wed, 19 Mar 2025 11:53:58 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vivek Puar <quic_vpuar@quicinc.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] linux-firmware: upgrade 20250211 -> 20250311
-Message-ID: <rdo6kbungabjbtwipecsjooppsffxvkftx66tgp2rhsswtvblp@hceblx2nc4la>
-References: <20250316130954.2719960-1-quic_vpuar@quicinc.com>
+        Wed, 19 Mar 2025 05:41:55 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libmatchbox: Upgrade 1.12 -> 1.13
+Date: Wed, 19 Mar 2025 12:41:54 +0000
+Message-ID: <20250319124154.642912-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-In-Reply-To: <20250316130954.2719960-1-quic_vpuar@quicinc.com>
-X-Authority-Analysis: v=2.4 cv=H8Pbw/Yi c=1 sm=1 tr=0 ts=67da943a cx=c_pps a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=U7S0-3dci94F58_gCmQA:9 a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: ZSxpDF12qqQboyGNOpko39seIEkaUPyZ
-X-Proofpoint-ORIG-GUID: ZSxpDF12qqQboyGNOpko39seIEkaUPyZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-19_03,2025-03-17_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=877
- lowpriorityscore=0 bulkscore=0 adultscore=0 spamscore=0 priorityscore=1501
- mlxscore=0 suspectscore=0 malwarescore=0 clxscore=1015 impostorscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503190068
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 12:33:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213326
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 12:42:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213327
 
-On Sun, Mar 16, 2025 at 06:39:54PM +0530, Vivek Puar wrote:
-> Add gpu firmwares for qcs8300 chipset to
-> ${PN}-qcom-adreno-a623 and
-> ${PN}-qcom-qcs8300-adreno packages
-> 
-> Add bluetooth firmwares for QCA2066
-> to ${PN}-qca-qca2066 package.
-> 
-> Add firmware files for Adreno A225
-> to ${PN}-qcom-adreno-a2xx package
-> 
-> License-Update: additional files
-> 
-> Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
-> ---
->  ...20250211.bb => linux-firmware_20250311.bb} | 23 ++++++++++++++-----
->  1 file changed, 17 insertions(+), 6 deletions(-)
->  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250211.bb => linux-firmware_20250311.bb} (98%)
-> 
-> @@ -739,6 +741,9 @@ FILES:${PN}-qca-qca2066 = " \
->    ${nonarch_base_libdir}/firmware/qca/hpnv21g.bb8* \
->    ${nonarch_base_libdir}/firmware/qca/hpnv21g.b10c* \
->    ${nonarch_base_libdir}/firmware/qca/hpnv21g.b111* \
-> +  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_030a.bin* \
-> +  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_gf_030a.bin* \
-> +  ${nonarch_base_libdir}/firmware/qca/QCA2066/rampatch_usb_00130201.bin* \
+This includes fixes for gcc 15.
 
-No, these are USB-related files. Please push them to qca-qca61x4-usb
-instead.
+License fixes were also made in the repository. The license being referred to
+as MIT was in fact HPND. The code is also LGPL-2.0 only, not or later. Fix
+the LICENSE on the recipe accordingly.
 
-The rest looks good to me
+Use the new bitbake tag functionality to verify the commit matches the tagged
+version.
 
->  "
->  FILES:${PN}-qca-wcn7850 = " \
->    ${nonarch_base_libdir}/firmware/qca/hmtbtfw20.tlv* \
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../{libmatchbox_1.12.bb => libmatchbox_1.13.bb}           | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/libmatchbox/{libmatchbox_1.12.bb => libmatchbox_1.13.bb} (91%)
 
--- 
-With best wishes
-Dmitry
+diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.13.bb
+similarity index 91%
+rename from meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
+rename to meta/recipes-graphics/libmatchbox/libmatchbox_1.13.bb
+index bf3f5c005d9..990e50d8455 100644
+--- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
++++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.13.bb
+@@ -7,7 +7,7 @@ SECTION = "x11/libs"
+ HOMEPAGE = "http://matchbox-project.org/"
+ BUGTRACKER = "http://bugzilla.yoctoproject.com/"
+ 
+-LICENSE = "LGPL-2.0-or-later & MIT"
++LICENSE = "LGPL-2.0-only & HPND"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
+                     file://COPYING.MIT;md5=f45ed9332b4f50a35adf2065adde4ca7 \
+                     file://libmb/mbexp.c;endline=20;md5=28c0aef3b23e308464f5dae6a11b0d2f \
+@@ -15,9 +15,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
+ 
+ DEPENDS = "virtual/libx11 libxext"
+ 
+-#SRCREV for 1.12
+-SRCREV = "e846ee434f8e23d9db38af13c523f791495e0e87"
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master;protocol=https"
++SRCREV = "85420fd2d9e26291f6e87e0c406fe8cc55474527"
++SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master;protocol=https;tag=${PV}"
+ 
+ S = "${WORKDIR}/git"
+ 
 
