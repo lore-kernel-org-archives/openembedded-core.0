@@ -2,114 +2,141 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 546BEC36009
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44726C36008
 	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:39 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.2924.1742372190350786527
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.2956.1742372193781995215
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 01:16:30 -0700
+ Wed, 19 Mar 2025 01:16:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AiB2aejB;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2264aefc45dso10491465ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VkYrPdqz;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2243803b776so14967875ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742372189; x=1742976989; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742372193; x=1742976993; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sZwvUPhg0zmXaS74gLgBF+hjFnxoQ0KnZ7SOFmWX+cM=;
-        b=AiB2aejBsZ9LKW3gzsFjwefzdw9HgXeakv898+JSu5A9e4B0VqbG7wL5yGVO4ICbW2
-         lTqyF6DqcyM9B6XJqCsboXvh707yKv2Y6CKYx6XBMFevVc80ZJfASWClG3bLPWwYZaAG
-         uxictSNsHI/cE7bkPPoAnOOamI7fG4G34YtpGquG0pdW2Ddj2hBmDKzaDLK697QysUdW
-         cUzKYb0GtqWPbSWc71cNhel+e7kpiHe0tTxttYsD6E9BD/ZT/0HPHUbiMGPWq+qv6/o3
-         Sq0OfnAdF4JWeu60NsAbQ4fOvG8UtE3iwXMcgfdrUSvmIAbIbAw32DVln6JamE1A+FVI
-         DfkQ==
+        bh=V76gE1t15i7HtBeNxC7RLmZPcN5O/9N+2cvLc5uxWCw=;
+        b=VkYrPdqzUbSpxNf4mjbuqkgjCi8sWpkO9F6pF8U5thNnfyyjBHHeEiYl4Q/qMGDxEn
+         GGutBXcOwW4+9pxvjjXSJtmvAtjZi4byKNo6bstE7sTL4/LRnL4nTdzsl6v1W5RL52Zx
+         RU8tr/b1FHoqMctE/kNc3iR63OXcSriK12pZ604M4U+/Lhj8mlpLqSY3S6YRU1/mvAiA
+         S+9zs6JhupXPMqaJGoHv9X1fD5f+2fBptITxT9R69TO/rR5njd36GVtAJfKG3MOVzVES
+         PYxz7+gPgr2nrz82KlV9uoha+4KElKUe83YzPg60yF33G2cgD5nWZgVnDiPBtCgs+/oY
+         a9tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742372189; x=1742976989;
+        d=1e100.net; s=20230601; t=1742372193; x=1742976993;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sZwvUPhg0zmXaS74gLgBF+hjFnxoQ0KnZ7SOFmWX+cM=;
-        b=KDtOXjc/Lu8Ja2CvGcozQ4nvCvc4h2LHbu9oX6IQYBmH8JwYL7BWTJHqYnj/dQhRP3
-         1HIaqaVKfvrneoh0IfEKdVtb2vp0CwDGrBIpyI8BfaM5jpnUIzMe1rBomoucy4XTyzd2
-         mlTRB7FRcXXZGUIxEB5jnSKn0y+5S0Zgi2pkZT6ZA5Z7wsdQV1WF/zMqyNtdPNSrip/i
-         QnGAFWNEU5aedHrXAN3/r6ZfRzUw6KkxRJtiLcGwomva1CwzVoBBLzo2N52cg9nzJICj
-         N55P8aAD5IOa9wt57PwNEQpBc3hJNEoFtSPR1Oa+ekyGmrpP+bwEvvzlgNBxTV0MNBCP
-         o7GA==
-X-Gm-Message-State: AOJu0YwE5sTTQyjzryn/2HEPPgM36gD3yyjKPKjELrL3z8cVDWgQr9JU
-	BKJmWObrDTucYsI4350fWTUAIl5pNvFPIJRIhUdEIX+phQFyg3jRfrAGfSQI
-X-Gm-Gg: ASbGncudMUXPqWH+46UNpsAgRyUV/FsliYghPCzIDI5HNwvJy+FgI1l5SimWYSHgkzd
-	8UaSbbEtLvAtVLQhT+XdrozliF+kD8qP39HFvhRoFiwzVv3wVKqJowkI24MCNi3rrdvXxzmyVjN
-	8IevgFscpxnhjil3Bmgl5B8rw4MLpHIMPUJCId69HfBMb0r3mvsVw5tgr3AHPAF77gFaToTf3Pg
-	UqiT1T2EAKyGinhMiBxTq2mQ26z7ZJOHfDAzmVHMswO5eoAIN6GiYvsbr4gt17+YGO3E5qoajuN
-	zwP6/zzYgTD5qPOfJdXnVW/Q1g3s5kWBNwkH
-X-Google-Smtp-Source: AGHT+IHMi8Hz+37ucjuvJxZqhmiBj+mXX5uIEtvhLXJ/Md8i1tKEKc0SFmmQp8Hf3O2xWeFYT29UCg==
-X-Received: by 2002:a05:6a21:6da0:b0:1f5:8de8:3b27 with SMTP id adf61e73a8af0-1fbeb6a0523mr3518129637.14.1742372189597;
-        Wed, 19 Mar 2025 01:16:29 -0700 (PDT)
+        bh=V76gE1t15i7HtBeNxC7RLmZPcN5O/9N+2cvLc5uxWCw=;
+        b=DKLm9qZNAjxNyulVDmzrQysnNWnFRc/GHj+6lToGd8JF73e6dEgxdQ2phCMTGu0ab7
+         a9Upe6YUwD0ZlaZbeWVLzagOp3obIiKGeWPzwoBUEzcU/c3FZwmHc/83GDWcp+8Y9Ofy
+         ZC3JHRtYnD0BqhSrRFeqlU+sQ6Ro1VP57BauAXQgxi6bTzEHPNxstPy/l4PIPnryn95H
+         JMfU48sNA5zUchVr6nEmUCc9zb0NJmCQQsti4d2FlXS1f6UScNLDhqjXH1Zkj+IvhXrg
+         R8nLZbmHEg9FgUqEMNarfD4X9L6loj9WCyDA59fILEd+zR+B7OfozwJ5r5nS8a2z4w7x
+         kcAA==
+X-Gm-Message-State: AOJu0YxQ12zQLP8q3kYuP+FDV3YzzgrwEBir7Q4wK8bSekjveCL/+Lpe
+	ZAzfnRVGx7f92mTAkhwjnmyuY9XYZ0ozDXqH3t65mFMiGTD3e/yoIYxU/b86
+X-Gm-Gg: ASbGncul2H2ItHwqJFMzGyD0K9zb05NDMgDwwqKpfywZJ+otVkGpH6LeZgEWBszOlCt
+	rU/vHq9yEnAYvuXePbIXg4zzQ0EB25uXcX0p39B+Rn/bDOzv4o09gRr8NkwWFAFs/5oHvfxpkMi
+	uY+PquQv/+dc940lpLg7kTXSm+tJcLy0noW/mjq9uj6Bp3k8o1ZJuaUmAZabJGXzLC/GKFfU9ZR
+	8EseeiaT9DixTETnz0MoaLX+iFfH4jnCqFQodwckN+lLcW2n1c0WZNfSRchJXmW+s/vSdirBOn0
+	hyYOy+BSErwgo1/CNHfnV8tdbkCUIKqC4ynt
+X-Google-Smtp-Source: AGHT+IFRi3dBt7ponL9sCmsqPjaPWMiwdbpnUzGAjnkLX22/BPSxrOu2YDSbLkJk4YmKWQot+uA6mA==
+X-Received: by 2002:a05:6a21:3993:b0:1f5:a98d:3d8a with SMTP id adf61e73a8af0-1fbed40be09mr3490889637.40.1742372192886;
+        Wed, 19 Mar 2025 01:16:32 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.28
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 01:16:29 -0700 (PDT)
+        Wed, 19 Mar 2025 01:16:32 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 15/27] unzip: Fix build with GCC-15
-Date: Wed, 19 Mar 2025 01:15:47 -0700
-Message-ID: <20250319081610.3536475-19-raj.khem@gmail.com>
+Subject: [[PATCH v2 17/25] makedumpfile: Fix build with GCC-15
+Date: Wed, 19 Mar 2025 01:15:51 -0700
+Message-ID: <20250319081610.3536475-23-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250319081610.3536475-1-raj.khem@gmail.com>
 References: <20250319081610.3536475-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213285
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213289
 
-Add a patch to remove redundant declarations
+fix gcc-15 compiling error: too many arguments to function eppic_init
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/unzip/unzip/gcc15.patch | 17 +++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
- 2 files changed, 18 insertions(+)
- create mode 100644 meta/recipes-extended/unzip/unzip/gcc15.patch
+ ...-compiling-error-too-many-arguments-.patch | 43 +++++++++++++++++++
+ .../makedumpfile/makedumpfile_1.7.6.bb        |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-kernel/makedumpfile/makedumpfile/0001-PATCH-fix-gcc-15-compiling-error-too-many-arguments-.patch
 
-diff --git a/meta/recipes-extended/unzip/unzip/gcc15.patch b/meta/recipes-extended/unzip/unzip/gcc15.patch
+diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile/0001-PATCH-fix-gcc-15-compiling-error-too-many-arguments-.patch b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-PATCH-fix-gcc-15-compiling-error-too-many-arguments-.patch
 new file mode 100644
-index 00000000000..42a2f81681e
+index 00000000000..90f1b4038be
 --- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/gcc15.patch
-@@ -0,0 +1,17 @@
-+Do not redefine gmtime(), localtime()
++++ b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-PATCH-fix-gcc-15-compiling-error-too-many-arguments-.patch
+@@ -0,0 +1,43 @@
++From 73e62a08022bf8e5edad250f8c1452f0be3771a3 Mon Sep 17 00:00:00 2001
++From: Coiby Xu <coxu@redhat.com>
++Date: Thu, 23 Jan 2025 17:47:10 +0800
++Subject: [PATCH] [PATCH] fix gcc-15 compiling error: too many arguments to function eppic_init
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+They are already provided by system time.h header
++Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2340813
 +
-+Upstream-Status: Inactive-Upstream [need a new release]
++When building makekdumpfile against gcc-15, the following error is
++shown,
 +
-+Sign-off-by: Khem Raj <raj.khem@gmail.com>
-+--- a/unix/unxcfg.h
-++++ b/unix/unxcfg.h
-+@@ -117,7 +117,6 @@ typedef struct stat z_stat;
-+ #  endif
-+ #else
-+ #  include <time.h>
-+-   struct tm *gmtime(), *localtime();
-+ #endif
++    erase_info.c: In function ‘process_eppic_file’:
++    erase_info.c:2226:13: error: too many arguments to function ‘eppic_init’; expected 0, have 1
++     2226 |         if (eppic_init(&eppic_cb)) {
++          |             ^~~~~~~~~~ ~~~~~~~~~
++    make: *** [Makefile:109: erase_info.o] Error 1
++
++Upstream-Status: Backport [https://github.com/makedumpfile/makedumpfile/commit/73e62a08022bf8e5edad250f8c1452f0be3771a3]
++
++Signed-off-by: Coiby Xu <coxu@redhat.com>
++Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
++---
++ erase_info.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/erase_info.c b/erase_info.c
++index cbe1681..af6bfae 100644
++--- a/erase_info.c
+++++ b/erase_info.c
++@@ -2192,7 +2192,7 @@ process_eppic_file(char *name_config)
++ {
++ 	void *handle;
++ 	void (*eppic_load)(char *), (*eppic_unload)(char *);
++-	int (*eppic_init)();
+++	int (*eppic_init)(struct call_back *);
 + 
-+ #if (defined(BSD4_4) || (defined(SYSV) && defined(MODERN)))
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index c13e7a008ea..0a88b4c092b 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
-         file://CVE-2022-0530.patch \
-         file://0001-configure-Add-correct-system-headers-and-prototypes-.patch \
-         file://0001-unix-configure-fix-detection-for-cross-compilation.patch \
-+        file://gcc15.patch \
++ 	/*
++ 	 * Dynamically load the eppic_makedumpfile.so library.
++-- 
++2.48.1
++
+diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb
+index 21847ece6b8..46be13e7d0f 100644
+--- a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb
++++ b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb
+@@ -26,6 +26,7 @@ FILES:${PN}-tools = "${bindir}/*.pl"
+ SRC_URI = "\
+     git://github.com/makedumpfile/makedumpfile;branch=${SRCBRANCH};protocol=https \
+     file://0001-makedumpfile-replace-hardcode-CFLAGS.patch \
++    file://0001-PATCH-fix-gcc-15-compiling-error-too-many-arguments-.patch \
  "
- UPSTREAM_VERSION_UNKNOWN = "1"
  
+ S = "${WORKDIR}/git"
 
