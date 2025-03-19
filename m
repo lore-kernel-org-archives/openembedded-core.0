@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE2E8C36003
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C6CC36001
 	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:28 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.2946.1742372185492077784
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.2921.1742372183833350552
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 01:16:25 -0700
+ Wed, 19 Mar 2025 01:16:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fJ+Y1CfM;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2260c915749so45337815ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kS93+iue;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22398e09e39so140414165ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742372185; x=1742976985; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742372183; x=1742976983; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oKrGjdHHjnR7jsgqadzmaAaILBEfzJQIsOo3GFgMEZI=;
-        b=fJ+Y1CfMjxXriJpXG8NN1bgabpriluhMdrFr9NMT0uusuMSqA1k82EeUA6WvfpFC7t
-         GwOC4DOXMTpvyod/DSyVqba6TCWFUnEp4Xf9CJD7axojrQ6idiJXHik0RbwZDBQ4ktjx
-         guVF8cNJ6CtMo/rZ453pz/MQKMzkpHf33+OOd+jDpMN3Y8VKjTs1oAiDUMELqZuV8RPj
-         nhtFiJNkDY8MT/Ih6i+bRihNSgBehVY1+TIWUl523wfx8Um4H83bNn14DMIQA0MGGs2y
-         +6X945yMjYXVA4MHvu32K4E9Mr5N/8p6+BwnqmVr/BQlItOIkEUAfHV4RrLSsdKsNv7R
-         Fzwg==
+        bh=dytxn8/3v9xEKbbS6QXvvkvya0DqwV1g+1x9oT0lQLE=;
+        b=kS93+iue/X5LnmYvKo9lBodxScSspWpCblhrDafcMXaHZURdIVCpunvWdWQoiZIrSH
+         3lCq1syDehAYueSAVpHydsADBlrll6v1GdUQ7y30lPoPr2vdyfZ2ibxpVM0KsHIClagD
+         +m1bSHi6s846Cjvb6wC1OxjPY3OTMpll41gp2PYIMqVj3M4tqbNRyqEYU9MiZ1CcqFyt
+         HHjmCfZtUi416fwf9sdr9okK6wP3iSrSOh+hJN1xWlEDnXWPQoug9Ex3Yw/xW8/ZdiIk
+         kQDySK2OI8xjwdcMOLlOBaVPqhgs9GOy+V2aCgS5cMmHG0mv44jzUfMEm9JLAOhvmWwk
+         aS/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742372185; x=1742976985;
+        d=1e100.net; s=20230601; t=1742372183; x=1742976983;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oKrGjdHHjnR7jsgqadzmaAaILBEfzJQIsOo3GFgMEZI=;
-        b=VAO8afPgUQMcpaCf1gZOGZbKmDDJwfyUk6CyVbeuOcO+nCnt9GH2agrSqkC7vbUJei
-         SMukMMsJS2XXlPYpl19r7Ygyzw9ACn9cITvLT0YhCdir4gvTB2RGF33N8lJOwmCOjrQe
-         VbajRgrWLTP6ZHfA1aCzinGXAtUWbFS7TnaClI2/XbqO23/28LcsOAE1TU31kg/JZHEE
-         xmQJLlSc8B9YZWH67QC6tOeJ7197zrcDuDL2Ag9BAMMVflycm8Ib0HaHr/i29b9LjB9x
-         k12UfsmIgy0bfkLInOYs+eE2JIODrXj7TaZV0/D3coVyGf30UEQCR4PhU4RR1IhULI8G
-         HldQ==
-X-Gm-Message-State: AOJu0YxM3S/biOWPL2vWom6HDXGW204RtZYJ4qttju+QYWMUEtGaiNk8
-	+hinpA0XIqlFQUsB2wjO02jqd+HR+/J3EaOc4jQA6e5byzGf5LYP6xMrh6R3
-X-Gm-Gg: ASbGnct5/ZY/awxvjM73w5lBzxPZ6JsDVBwGOdknC/W9yqXikIhcuej8xdRqAiIlXR1
-	6pSjb7INoOQTzhtcBgGGzh/h5/gFE0tMUacZ26CT4mVK52OZXbZvAXmRcrU8G5lA0whIho5PKCa
-	n14R9gkW8U9aLQE3IqO0BdACDATPWPqiJ/78fBO8BZXjiMzJJsyhoD6ViV8u+kaJRZl1KVM2rI7
-	OEtZgFpKvNNmuHAOysXCibTx21XbCcHJuB4A4Mqvdk4CEAm40tHTmskghhQbDtdicmapMErLFyP
-	A6ESu57PaWpyJsYXt58bosaL7vNegZMEAVSw
-X-Google-Smtp-Source: AGHT+IEbgErBWD0YadtKxOpFrB/c8tATbkjA3NENP0gJFo80yqGcQLiOIUOx4FnjCEs3v7GvLhTWoQ==
-X-Received: by 2002:a05:6a00:cd1:b0:736:a7e3:d4ab with SMTP id d2e1a72fcca58-7376d5f1894mr2713172b3a.5.1742372184678;
-        Wed, 19 Mar 2025 01:16:24 -0700 (PDT)
+        bh=dytxn8/3v9xEKbbS6QXvvkvya0DqwV1g+1x9oT0lQLE=;
+        b=SdABgZO8o11Wif10TKsSK6YEBYFDwpWncomcOztHz4e15RRAJQ71fRX11OSOMp9q3T
+         et8SWErbyaEHJ4WOMzvYbR8Dvl9vhM5D5IvbmYSHL6a2sLcitoMsDGhLqMW08qvpTvN2
+         kqZmv2sNPzbeY/vi0vtx47hK8vyj+/AXdy3qtgzrMxvD5U1JPLFFs55GNtVfBfN+vaaW
+         qEMpDtwpD+Ih0aewF41WYrCHWTzHkqfdOap5YNIzYNRKrv372Qy4k1T6EyQYfQHawTdD
+         /rMuolooYi4oaqq8ecECSQwLHVyThkaJ7MZ1kS5Gqe6PF5NLYrluNPSishqa4sfQ95YY
+         WTKQ==
+X-Gm-Message-State: AOJu0YxSst7iEZCxnj8yPM/nX2QYekkQ4Q5v3vyAx53D7qu3qcUA+vug
+	lzZqtZlKABweDI/HYy+fbC8wWaS0VdpYZ8gbmWkt8Hd0BVabpq9ETzlQbUv2
+X-Gm-Gg: ASbGncuiDjSHcf8+JRnHb3tfKHH9rglpKnEcn9r5RlS2ixxCBS6VxsPqGcJieUes0i+
+	xZm0Zd8XZhhgoHbKQMkQFJLjMPNsn1ZMvi5E2woo7zi2fqEJ4b2LWGON1ndqErGcETszY//l60/
+	9bKx1gc4lubjqtQ4JC55+hRxplO2xvBUn3+R9vbO2KgorIf3RbEXUbh6L/2Vttvayf4OJk/FB4j
+	x0wbvB3dKzFZXQk+CjKBJRDyQbotH8u56pbmRmiK3GT4knjLiGJHmqOVC1LBt9qz8OxZF8JvcQN
+	oCvnLY6JgKgnZixVJGMPTNyXIPnVsuj9oedx
+X-Google-Smtp-Source: AGHT+IHx7SXweQL+NO0KJtHw2FuU+eVAE4glZv57S3A7QdUqfVAQb2GJyVTSETml4wK7z2Uary/AlA==
+X-Received: by 2002:a05:6a20:c707:b0:1f5:7cb4:b713 with SMTP id adf61e73a8af0-1fbebc8412fmr3210021637.19.1742372182891;
+        Wed, 19 Mar 2025 01:16:22 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.24
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 01:16:24 -0700 (PDT)
+        Wed, 19 Mar 2025 01:16:22 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [[PATCH v2 12/25] man-db: Add missing rdep for col utility
-Date: Wed, 19 Mar 2025 01:15:41 -0700
-Message-ID: <20250319081610.3536475-13-raj.khem@gmail.com>
+Subject: [PATCH v3 11/27] e2fsprogs: Fix build failure with gcc 15
+Date: Wed, 19 Mar 2025 01:15:39 -0700
+Message-ID: <20250319081610.3536475-11-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250319081610.3536475-1-raj.khem@gmail.com>
 References: <20250319081610.3536475-1-raj.khem@gmail.com>
@@ -66,36 +66,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213279
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213277
 
-man utility calls col utility internally when formatting is asked for
-therefore it expects col to be in rootfs otherwise silently errors with
-retcode 3 meaning 'file not found' in this case its due to col not being
-found, other distros eg. gets this via bsdextrautils dependency
-
-libssh2 ptest mansyntax.sh fails due to this error, which now works
-
-Add util-linux explicitly to DEPENDS as system is not able to trancend
-rdep to dep due to special handling of packages in util-linux recipe
+Backport a needed fix
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/man-db/man-db_2.13.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...-libext2fs-fix-std-c23-build-failure.patch | 42 +++++++++++++++++++
+ .../e2fsprogs/e2fsprogs_1.47.1.bb             |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch
 
-diff --git a/meta/recipes-extended/man-db/man-db_2.13.0.bb b/meta/recipes-extended/man-db/man-db_2.13.0.bb
-index 2178239bb60..e9fd3b5ac57 100644
---- a/meta/recipes-extended/man-db/man-db_2.13.0.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.13.0.bb
-@@ -13,8 +13,8 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
-           "
- SRC_URI[sha256sum] = "82f0739f4f61aab5eb937d234de3b014e777b5538a28cbd31433c45ae09aefb9"
- 
--DEPENDS = "libpipeline gdbm groff-native base-passwd"
--RDEPENDS:${PN} += "base-passwd"
-+DEPENDS = "libpipeline gdbm groff-native base-passwd util-linux"
-+RDEPENDS:${PN} += "base-passwd util-linux-col"
- PACKAGE_WRITE_DEPS += "base-passwd"
- 
- # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch
+new file mode 100644
+index 00000000000..01ab9d5afb5
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch
+@@ -0,0 +1,42 @@
++From 72dcef02bee9924c4d5b3dc6e7ef4d07becebcc6 Mon Sep 17 00:00:00 2001
++From: Rudi Heitbaum <rudi@heitbaum.com>
++Date: Fri, 22 Nov 2024 12:36:32 +0000
++Subject: [PATCH] libext2fs: fix -std=c23 build failure
++
++gcc-15 switched to -std=c23 by default:
++
++    https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=55e3bd376b2214e200fa76d12b67ff259b06c212
++
++As a result `e2fsprogs` fails the build so only typedef int bool
++for __STDC_VERSION__ <= 201710L (C17)
++
++    ../../../lib/ext2fs/tdb.c:113:13: error: two or more data types in declaration specifiers
++    ../../../lib/ext2fs/tdb.c:113:1: warning: useless type name in empty declaration
++      113 | typedef int bool;
++          | ^~~~~~~
++
++https://github.com/tytso/e2fsprogs/issues/202
++
++Upstream-Status: Backport [https://github.com/tytso/e2fsprogs/commit/49fd04d77b3244c6c6990be41142168eef373aef]
++Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
++Link: https://lore.kernel.org/r/Z0B60JhdvT9bpSQ6@6f91903e89da
++Signed-off-by: Theodore Ts'o <tytso@mit.edu>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ lib/ext2fs/tdb.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/lib/ext2fs/tdb.c b/lib/ext2fs/tdb.c
++index b07b2917..98dc95d8 100644
++--- a/lib/ext2fs/tdb.c
+++++ b/lib/ext2fs/tdb.c
++@@ -110,7 +110,9 @@ static char *rep_strdup(const char *s)
++ #endif
++ #endif
++ 
+++#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ <= 201710L
++ typedef int bool;
+++#endif
++ 
++ #include "tdb.h"
++ 
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+index bd6ac92cb14..022b016f123 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+@@ -4,6 +4,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
+            file://run-ptest \
+            file://ptest.patch \
+            file://mkdir_p.patch \
++           file://0001-libext2fs-fix-std-c23-build-failure.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
 
