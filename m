@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D19C36003
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70BBEC36000
 	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:49 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.2969.1742372208352208012
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.2967.1742372206637997216
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 01:16:48 -0700
+ Wed, 19 Mar 2025 01:16:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=T8dSQ3/S;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2239c066347so139906705ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QmXtRnMH;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-225df540edcso8862475ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742372207; x=1742977007; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742372206; x=1742977006; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GJfhKKk5tXyoAgrACSTBuwSbDibDlnZpMTXJl78eHRI=;
-        b=T8dSQ3/SseGdZZO0u6nmUZgEZr/EcPUWdceiHHMkV6wEM1Qvo9IbMHcXTnyOtwDGhI
-         xiVv1+mOhfzd7xoHJtoiFk7DoISRnYCMbfgY1VGReaNF7gKSLsUtwirXQMb3Y2dn5Kyb
-         44f1Fdig56ZP+h+rGvevscXmJS7R7oMX6GA4lgiODNIRLHjm5gl41bjNyM6404M6w7aH
-         /nvHWxff7fi/9dRVKidC4awysBnZG8EuPa7HKMXxpKwSjthjv/zV7YL4fmyorC3+vf82
-         Cc6FVHHq8/H8ycS6z7Im3H9EAzR8GcMEo11hNk/I6mFRuFWGIyiH/7vKQT/f2D5higMG
-         VmEw==
+        bh=Ftw19h+kZia5z8eykazgmejMJjyL9nIfAhDfR4uaeEA=;
+        b=QmXtRnMHm8l/Qj5Fier4zr/MzvWKS3As9H+51wq13eXEC7yFBebS+hshTyFWLmUpV3
+         1zZVqR807J8tWUb8qf32WVlzeDnINQ+GlbJuw01aa0lZN2qsPG5wXfiKTEHD7CMsSbwa
+         IsPBXzII9FTGZmp0hWQLK71RgSf8GOknsFoSe8EKcN127OS32/NEn0TMlZa5Fy51VOQD
+         0UteE7vw4bfQv0FVBKlZH5bCct568tYeVNPk0njMEvYgq1uZ3Yei1fd81Gd4ILDPJ6P1
+         NVw2P/IUoaIjleDAbsu1Ojea8V6pXz016YYPMWhg2uw1wwbJGFc3cs05RtgYbEnv2HEp
+         x13A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742372207; x=1742977007;
+        d=1e100.net; s=20230601; t=1742372206; x=1742977006;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GJfhKKk5tXyoAgrACSTBuwSbDibDlnZpMTXJl78eHRI=;
-        b=AUOLK9fpJDORrhXGNj/+Jej9LUqtOthFd0PyNHbTFBgv9M/y04ly6Qk9k4O1s9lPSQ
-         xG5pRGO6r18T/WqFnu0UnT1KLlKnvYcPzEW63pn/XCpYMfRMOZ3xYF/l4X2IliQPGM3s
-         fRZUl1XfyKwpXJu4fgq3Vs2ALxRJaJLglmpUw77O2AHeUmQgVKzxDxJe7XlIrYYPwtQ1
-         l+3r3jIQsIyDRA32NW/31j7u4LkhHcjpef/EcZiGBVyuCrpan/EIRHmXfhjwpFwbYoIH
-         bYWXAy8Ecx2RXxiyN6ibrl9I1X1WJ14jxLpyOStnYGJaTBBgWr4xA+Z5QaoJzJRn2GVT
-         VCZg==
-X-Gm-Message-State: AOJu0YyjNc0qE3eqVpKnjHZ+iOT0tjOvTrMzPPMtDPdKTv/AKeqHQVWM
-	oxWcZpjDf2qRTMJF0zcmX31ek2VXxS40xLGA3al30PQDZXKfZQVSa1sBB8rN
-X-Gm-Gg: ASbGnctvUpYhawaCU+gCtmsoZQM90QN3m7m+/MuqpNfi6+i2TCTD1yCI/eMFS5fUWKL
-	9MjKiYZthceZkXm6bXf1Ey0XSsMM7BlbPTl8sLArKzGFOLFOBgdBMJ0eVV6LbwdUR6Gg3n2Mj/E
-	o4lZrwJE9WNyqMcypwwLNoOaIUBslSYK+2maJ2p6fUDEVTiIzp5OncNcNZAzlO25fb5t+BV6TAm
-	tp7Cq4S2TsXKoSp6hBi8u9OIBedUtqm+K02uI55Mt87UxHp04/vzXOhwY/JmdmC164Bh1/izNyx
-	NQk2pJ6i6gJmBsMx1Nkd4POWAnTH9ks75NA8
-X-Google-Smtp-Source: AGHT+IGcYQtgq4nVgD5FXtDMIgmgo3U8go1ltgbu/Fn0TWXIK+Trpi83HxMDMWvUfBifLxf8BL0hHA==
-X-Received: by 2002:a05:6a21:168c:b0:1f5:8cc8:9cbe with SMTP id adf61e73a8af0-1fbeb27ec20mr2985083637.5.1742372207517;
-        Wed, 19 Mar 2025 01:16:47 -0700 (PDT)
+        bh=Ftw19h+kZia5z8eykazgmejMJjyL9nIfAhDfR4uaeEA=;
+        b=QKgpsLuP+gppEeSy9fLm79h2TJ4vnNQN/PFS1qQFHCe8PKnyd6qi/6w44k+YUccLhI
+         VXM3cdQ9tNsY1ENUW4GXmzkaa6y1VRngV8q9sJQyZcwLhK+370F+Y4oCnFuqlZ28CXCt
+         y+bwTjK767ASko3DZZpCwOF12kbiGrWUWvHcZp8ltFHwuBRdo6FvBoMzLm2YS2VkrkaQ
+         dmnU7YJ/teAJYokpJTJFwu2ISCDjPHRnzUln6uSbLplaBfrMFr+9TLvhTFLlpqAjtR46
+         OTYwR7qQCTbMYj5X3m1gqxp44iB3t/IRFZNrkCkMTE5yX+uOpmNjWtsulLfTQLbcCrDU
+         uE9w==
+X-Gm-Message-State: AOJu0YzwETIGVZ0AdQMNvWe9mIiPP76e2Ewaukr4pIpxDsVFYiTxdz3Q
+	+VfqF+XaRpCqwGCpKoIyiPlgEQu31R64E71hc5GV1Ut2CqNxe25b2n3CG+Rn
+X-Gm-Gg: ASbGncsJc+eTQNnhkMDPp5SkcUlU3ZiEXWVcyQmk8TPbJumRuvYIPjaFMR5tG4RTKPv
+	RCGUd1JsWWF+JLwtGS+gMOL8q1GGMV2kz3wNq/SoNRWFiEh1x5aD2YqUK+JDGO4ZcH3gPUjQw0j
+	1rJUbMPQH08TVqwOcGsFYCemLzEJrvbvxtuSHFXI0jmBH5Vx9p7EfYUlucWtoFdiem0odT0ShS8
+	aJwfEaz3Si2M2ERbPTshsLVDr/D5deODh/0e0CSRxCwVC6ualrInxK04BDDzwPLjFLTOYRZmMHk
+	WAW1Gr9hqdUm8Z1gXNRfmNgg2flRzw0xlSHy
+X-Google-Smtp-Source: AGHT+IHgGG68PrU6nFLc5THORsm777efElXSd1neWExKNAnBGQ06TQ+KrhYVnwt6Of2mJitWXg6+sw==
+X-Received: by 2002:a05:6a20:8402:b0:1ee:47e7:7e00 with SMTP id adf61e73a8af0-1fa513b8de9mr9524901637.13.1742372205840;
+        Wed, 19 Mar 2025 01:16:45 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.46
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 01:16:47 -0700 (PDT)
+        Wed, 19 Mar 2025 01:16:45 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 27/27] man-db: Fix musl build with NLS
-Date: Wed, 19 Mar 2025 01:16:09 -0700
-Message-ID: <20250319081610.3536475-41-raj.khem@gmail.com>
+Subject: [PATCH v3 25/27] oeqa: Build cpio with C17 std
+Date: Wed, 19 Mar 2025 01:16:07 -0700
+Message-ID: <20250319081610.3536475-39-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250319081610.3536475-1-raj.khem@gmail.com>
 References: <20250319081610.3536475-1-raj.khem@gmail.com>
@@ -66,112 +66,61 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213307
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213305
 
-_nl_msg_cat_cntr is not defined in libintl on musl systems
-therefore add configure time check for it and use it to guard
-the use of _nl_msg_cat_cntr
-
-Add missing dependency on zlib
+cpio is not yet buildable with C23 standard which is default with
+GCC 15, therefore ensure to apply needed bandage to keep it compiling
+in C17 mode even with GCC 15
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ck-for-_nl_msg_cat_cntr-in-configure.patch | 65 +++++++++++++++++++
- meta/recipes-extended/man-db/man-db_2.13.0.bb |  4 +-
- 2 files changed, 66 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-extended/man-db/files/0001-check-for-_nl_msg_cat_cntr-in-configure.patch
+ meta/lib/oeqa/runtime/cases/buildcpio.py | 4 ++--
+ meta/lib/oeqa/sdk/cases/autotools.py     | 4 ++--
+ meta/lib/oeqa/selftest/cases/meta_ide.py | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-extended/man-db/files/0001-check-for-_nl_msg_cat_cntr-in-configure.patch b/meta/recipes-extended/man-db/files/0001-check-for-_nl_msg_cat_cntr-in-configure.patch
-new file mode 100644
-index 00000000000..3e32a4777d0
---- /dev/null
-+++ b/meta/recipes-extended/man-db/files/0001-check-for-_nl_msg_cat_cntr-in-configure.patch
-@@ -0,0 +1,65 @@
-+From ea00e32a87cc733dd5aa05cef407a5bee3e6db29 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 18 Mar 2025 22:42:45 -0700
-+Subject: [PATCH] check for _nl_msg_cat_cntr in configure
-+
-+_nl_msg_cat_cntr is not available in all implementations e.g. musl libintl
-+does not have it, therefore add a check to detect it and use it only if
-+it is found.
-+
-+Upstream-Status: Submitted [https://gitlab.com/man-db/man-db/-/merge_requests/13]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ configure.ac        | 9 +++++++++
-+ include/manconfig.h | 6 ++++--
-+ 2 files changed, 13 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index bf4628ef..140b4b62 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -404,6 +404,15 @@ AC_TYPE_PID_T
-+ AC_TYPE_UID_T
-+ AC_TYPE_SIZE_T
-+ 
-++dnl _nl_msg_cat_cntr is required for GNU gettext
-++AC_MSG_CHECKING([for _nl_msg_cat_cntr])
-++AC_LINK_IFELSE([AC_LANG_PROGRAM(
-++	[#include <libintl.h>
-++	extern int _nl_msg_cat_cntr;],
-++	[++_nl_msg_cat_cntr;])],
-++	AC_MSG_RESULT([yes]); AC_DEFINE([HAVE_NL_MSG_CAT_CNTR], [], [_nl_msg_cat_cntr from GNU Gettext]),
-++	AC_MSG_RESULT([no]))
-++
-+ # Check for pipeline library.
-+ PKG_CHECK_MODULES([libpipeline], [libpipeline >= 1.5.0])
-+ 
-+diff --git a/include/manconfig.h b/include/manconfig.h
-+index 62baa184..eb4e5eb1 100644
-+--- a/include/manconfig.h
-++++ b/include/manconfig.h
-+@@ -24,6 +24,8 @@
-+ #ifndef MANCONFIG_H
-+ #define MANCONFIG_H
-+ 
-++#include "config.h"
-++
-+ /* STD_SECTIONS must contain all of your man hierarchy subdirectories. The
-+    order is important. Manual pages will be displayed in this order. Ie
-+    if "1" comes before "2", then a kill(1) will be displayed in preference to
-+@@ -138,13 +140,13 @@
-+ #define UNLIKELY(cond) __builtin_expect ((cond), 0)
-+ 
-+ /* GNU gettext needs to know when the locale changes. This macro tells it. */
-+-#ifdef ENABLE_NLS
-++#ifdef HAVE_NL_MSG_CAT_CNTR
-+ extern int _nl_msg_cat_cntr;
-+ #  define locale_changed()                                                    \
-+ 	  do {                                                                \
-+ 		  ++_nl_msg_cat_cntr;                                         \
-+ 	  } while (0)
-+-#else /* !ENABLE_NLS */
-++#else /* !HAVE_NL_MSG_CAT_CNTR */
-+ #  define locale_changed()
-+ #endif /* ENABLE_NLS */
-+ 
-diff --git a/meta/recipes-extended/man-db/man-db_2.13.0.bb b/meta/recipes-extended/man-db/man-db_2.13.0.bb
-index a6ac82e6628..12debfa30d6 100644
---- a/meta/recipes-extended/man-db/man-db_2.13.0.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.13.0.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+diff --git a/meta/lib/oeqa/runtime/cases/buildcpio.py b/meta/lib/oeqa/runtime/cases/buildcpio.py
+index 7be734cb4f4..0c9c57a3cb8 100644
+--- a/meta/lib/oeqa/runtime/cases/buildcpio.py
++++ b/meta/lib/oeqa/runtime/cases/buildcpio.py
+@@ -29,6 +29,6 @@ class BuildCpioTest(OERuntimeTestCase):
+     @OEHasPackage(['autoconf'])
+     def test_cpio(self):
+         self.project.download_archive()
+-        self.project.run_configure()
+-        self.project.run_make()
++        self.project.run_configure(configure_args="CFLAGS='-std=gnu17 -Dbool=int -Dtrue=1 -Dfalse=0 -Wno-error=implicit-function-declaration'")
++        self.project.run_make(make_args="CFLAGS='-std=gnu17 -Dbool=int -Dtrue=1 -Dfalse=0 -Wno-error=implicit-function-declaration'")
+         self.project.run_install()
+diff --git a/meta/lib/oeqa/sdk/cases/autotools.py b/meta/lib/oeqa/sdk/cases/autotools.py
+index 4bac28f04df..b3a71f2aa50 100644
+--- a/meta/lib/oeqa/sdk/cases/autotools.py
++++ b/meta/lib/oeqa/sdk/cases/autotools.py
+@@ -35,8 +35,8 @@ class AutotoolsTest(OESDKTestCase):
+             self.assertTrue(os.path.isdir(dirs["source"]))
+             os.makedirs(dirs["build"])
  
- SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
-            file://flex.patch \
-+           file://0001-check-for-_nl_msg_cat_cntr-in-configure.patch \
-            file://99_mandb \
-           "
- SRC_URI[sha256sum] = "82f0739f4f61aab5eb937d234de3b014e777b5538a28cbd31433c45ae09aefb9"
-@@ -18,9 +19,6 @@ RDEPENDS:${PN} += "base-passwd"
- RDEPENDS:${PN}:append:libc-glibc = " util-linux-col"
- PACKAGE_WRITE_DEPS += "base-passwd"
+-            self._run("cd {build} && {source}/configure $CONFIGURE_FLAGS".format(**dirs))
+-            self._run("cd {build} && make -j".format(**dirs))
++            self._run("cd {build} && {source}/configure CFLAGS='-std=gnu17 -Dbool=int -Dtrue=1 -Dfalse=0 -Wno-error=implicit-function-declaration' $CONFIGURE_FLAGS".format(**dirs))
++            self._run("cd {build} && make CFLAGS='-std=gnu17 -Dbool=int -Dtrue=1 -Dfalse=0 -Wno-error=implicit-function-declaration' -j".format(**dirs))
+             self._run("cd {build} && make install DESTDIR={install}".format(**dirs))
  
--# | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
--USE_NLS:libc-musl = "no"
--
- inherit gettext pkgconfig autotools systemd
- 
- EXTRA_OECONF = "--with-pager=less --with-systemdsystemunitdir=${systemd_system_unitdir}"
+             self.check_elf(os.path.join(dirs["install"], "usr", "local", "bin", "cpio"))
+diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py b/meta/lib/oeqa/selftest/cases/meta_ide.py
+index 5a17ca52ea1..c3a7df4cdf5 100644
+--- a/meta/lib/oeqa/selftest/cases/meta_ide.py
++++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
+@@ -47,9 +47,9 @@ class MetaIDE(OESelftestTestCase):
+                         "https://ftp.gnu.org/gnu/cpio/cpio-2.15.tar.gz",
+                         self.tmpdir_metaideQA, self.td['DATETIME'], dl_dir=dl_dir)
+         self.project.download_archive()
+-        self.assertEqual(self.project.run_configure('$CONFIGURE_FLAGS'), 0,
++        self.assertEqual(self.project.run_configure('CFLAGS="-std=gnu17 -Dbool=int -Dtrue=1 -Dfalse=0 -Wno-error=implicit-function-declaration" $CONFIGURE_FLAGS'), 0,
+                         msg="Running configure failed")
+-        self.assertEqual(self.project.run_make(), 0,
++        self.assertEqual(self.project.run_make(make_args="CFLAGS='-std=gnu17 -Dbool=int -Dtrue=1 -Dfalse=0 -Wno-error=implicit-function-declaration'"), 0,
+                         msg="Running make failed")
+         self.assertEqual(self.project.run_install(), 0,
+                         msg="Running make install failed")
 
