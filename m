@@ -1,146 +1,106 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quic_vpuar@quicinc.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FA7AC35FFA
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 19:19:59 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.3196.1742411991777419830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3974DC35FFA
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 19:23:49 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.3278.1742412225791061818
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 12:19:52 -0700
+ Wed, 19 Mar 2025 12:23:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AHSHitpq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cfdc2c8c9so29814115e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 12:19:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742411990; x=1743016790; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mPU8/I5oRwX8t0fOpsvI7mrS1/UHo3WGUWbBnQX+WVQ=;
-        b=AHSHitpqo97VCjWrpydJNuHLVMbPm8Lp89B2MVq7sOVJz+7RLZT9k7pdIxtpkl9DFw
-         hgY8rTtGxcslHb2eWbhSwlxZnDEwMVM1u38qadq5QXl4lDf86p3ceToIcMU4iVY7xXLd
-         UKY6+2kTKKFBrmioH4XpqdIHkL+sGtmmG4eTk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742411990; x=1743016790;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mPU8/I5oRwX8t0fOpsvI7mrS1/UHo3WGUWbBnQX+WVQ=;
-        b=PXGd1dhNAVvi/B06t8QafkvYp4Vo3e49kQDGZ2OrH0DXWePy142eq4hSbZNvkrX/LL
-         h/kT5ReQ9BlO4wxfOxxts1SyPDNzWEqZo+doYkIFBWAiSQEut88X16gJRdsgiVsbD57h
-         jKCER0YtvfDFhjJYTBon+bfkrYRg0TFSibdC7bhM+ZdZvFvZKjGTIyOxxAJSFrunEelZ
-         lX52KCCsOOc1cwZYshqvL3Ejc/PYZu57AXCEdvjjpL1FyqIoxfF0z7e0iU9oTWWfJJL4
-         Pjt6PHMLKVnt0AI7tDRwAYxlzlEum4INuAhX2+QLAln7F+6DsD7h16QdsbkFoJjPfKtJ
-         pdSw==
-X-Forwarded-Encrypted: i=1; AJvYcCWbw9LBk7JCuWZfreOtbgYBB3kLeIlZMOrmLvCRB1mK48HvhPLDnQDk4nc+f8qG4NCq7H9tj1ujEoXHJQUMvoVgQQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzDvlqzU178WjCPUo+hNQCUbgTYP13R6H4rMXsoMTBEHDoom6G1
-	KOKxXI2mCuQbZd1GS9QHg0MrK1uMN2ZeWs3seTxqO182iS06VvsLp2Nbje/vH04=
-X-Gm-Gg: ASbGncv7Ga9bW/ojzs9pyo28/7YoEH4NmFbzMNWPINcauEcst1ZwtodJh5ZqwzJ0zri
-	t0RMangrdC0P47NPQR6V1G5qt5KCq7vDzDr5HWjmvFwijNRGKT5FA4d+gl6/28f13KcErgdfyQv
-	1urxMBov9EH2pnzLCB02pTcaaN6zAUtRDXfS1YwOcdK7zP2he0Yu2iVhiRERtxNFhrJzRAGTcF7
-	mk4YbUWvOHfUviyl/Oo6wR/7y7s4Mxgr2fdrIVP7qxgJd2REPvuwu6e9mrIuvwaGzfNe1tSOZsN
-	x491QHkG/2LCfhAdlCRkl58bqYRPjby2jdZ4Irr3jmiVxEx57JckRy+V9kE27+k/IcVfDyiYasw
-	t/1xESX0PqDIVwWM7Zfdho5xQuoXFYIQ=
-X-Google-Smtp-Source: AGHT+IEnsG0LKxIqfcHdkjV8ba3bjcN7+uujT+hP+T485pDk3zaI2zKr6iZAdr1oWNFEKdr1HmgfJg==
-X-Received: by 2002:a05:6000:1acc:b0:391:4bfd:6de with SMTP id ffacd0b85a97d-39973b42c2bmr4184844f8f.46.1742411990071;
-        Wed, 19 Mar 2025 12:19:50 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:dad:b471:9c34:4577? ([2001:8b0:aba:5f3c:dad:b471:9c34:4577])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb7e9f8asm21612092f8f.81.2025.03.19.12.19.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 12:19:49 -0700 (PDT)
-Message-ID: <edf8bfba8a9a0e84c6893fdd263fd1c4665b1c55.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] insane: Check if the C++ toolchain supports
- --std=gnu++20
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
-Date: Wed, 19 Mar 2025 19:19:48 +0000
-In-Reply-To: <20250319182029.675932-1-yoann.congal@smile.fr>
-References: <20250319182029.675932-1-yoann.congal@smile.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2-0ubuntu1 
+ dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=U+RQTFwH;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.180.131, mailfrom: quic_vpuar@quicinc.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52JG7RTH031116
+	for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:23:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=jSwZlBbsAZ+MHXr+//gdFT
+	d3F6VaGGnuhxji0ogdCsg=; b=U+RQTFwHubo0JFRDYaM5vIV/yGMD+/sKY8Q2rN
+	++gSe96r4tf4n5NaCV5bK1HGsHDi/IetJ4P8lv4oGbnFcMgrwBk/rKGF4ZhLchzM
+	DWiyEroMhGtF72NQqRYIDgb7/SRUB/jO1TXr6OOZwnW0gpHgD8ifRZSRtBh6yRUB
+	sNSVVuYU2nOImYWOO5ULnrWc8ZA6KEms0o4Hf0ypZGB6iSeRfuaXnvmZNcLZM7fO
+	pvANaGGJwb5Hi5SNef/F4ubSfio4EsoWfDpg8vqbDrBe+L8UUABtMIVGjjQSbw13
+	aGCQm8MNPOu63Aq2JQDiO96UzR26tlsZDggRt+/mBWAT+rPg==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45g15y0gqq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:23:44 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52JJNhGA021692
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:23:43 GMT
+Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 19 Mar 2025 12:23:42 -0700
+From: Vivek Puar <quic_vpuar@quicinc.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Vivek Puar <quic_vpuar@quicinc.com>
+Subject: [PATCH] linux-firmware: update qca-qca61x4-usb package contents
+Date: Thu, 20 Mar 2025 00:53:25 +0530
+Message-ID: <20250319192325.952672-1-quic_vpuar@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 0PW0p8VcO1EmH84TUSkOHdI67tuH6yxr
+X-Proofpoint-ORIG-GUID: 0PW0p8VcO1EmH84TUSkOHdI67tuH6yxr
+X-Authority-Analysis: v=2.4 cv=VaD3PEp9 c=1 sm=1 tr=0 ts=67db19c0 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=xN9hhQR7lVrd8nsUKT4A:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-19_07,2025-03-19_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ bulkscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=867 phishscore=0
+ spamscore=0 priorityscore=1501 suspectscore=0 mlxscore=0 malwarescore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503190130
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:19:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213350
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:23:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213351
 
-On Wed, 2025-03-19 at 19:20 +0100, Yoann Congal via lists.openembedded.org =
-wrote:
-> From: Yoann Congal <yoann.congal@smile.fr>
->=20
-> This is needed to build nodejs from meta-oe. Check this early to avoid
-> an error later in the build.
->=20
-> Fixes [YOCTO #15804]
->=20
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> ---
-> WARNING: as discussed in previous threads [0][1], this will disqualify
-> builds on Ubuntu 20.04 (its g++ does not support the option)
-> [0]: https://lists.openembedded.org/g/openembedded-devel/topic/111740469
-> [1]: https://lists.yoctoproject.org/g/yocto-patches/topic/yocto_autobuild=
-er2_patch/111757761
-> ---
-> =C2=A0meta/classes-global/sanity.bbclass | 25 +++++++++++++++++++++++++
-> =C2=A01 file changed, 25 insertions(+)
->=20
-> diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/san=
-ity.bbclass
-> index 1bae998f74..5783b92b26 100644
-> --- a/meta/classes-global/sanity.bbclass
-> +++ b/meta/classes-global/sanity.bbclass
-> @@ -629,6 +629,28 @@ def check_cpp_toolchain(d):
-> =C2=A0=C2=A0=C2=A0=C2=A0 except subprocess.CalledProcessError as e:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return f"An unexpected i=
-ssue occurred during the C++ toolchain check: {str(e)}"
-> =C2=A0
-> +def check_cpp_stdgnupp20_toolchain(d):
-> +=C2=A0=C2=A0=C2=A0 """
-> +=C2=A0=C2=A0=C2=A0 Checks if the C++ toolchain support the '--std=3Dgnu+=
-+20' option
-> +=C2=A0=C2=A0=C2=A0 """
-> +=C2=A0=C2=A0=C2=A0 import shlex
-> +=C2=A0=C2=A0=C2=A0 import subprocess
-> +
-> +=C2=A0=C2=A0=C2=A0 cpp_code =3D """
-> +=C2=A0=C2=A0=C2=A0 #include <iostream>
-> +=C2=A0=C2=A0=C2=A0 int main() {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 std::cout << "Hello, World!" =
-<< std::endl;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
-> +=C2=A0=C2=A0=C2=A0 }
-> +=C2=A0=C2=A0=C2=A0 """
-> +
-> +=C2=A0=C2=A0=C2=A0 cmd =3D shlex.split(d.getVar("BUILD_CXX")) + ["-x", "=
-c++","-", "-o", "/dev/null", "--std=3Dgnu++20"]
-> +=C2=A0=C2=A0=C2=A0 try:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 subprocess.run(cmd, input=3Dc=
-pp_code, capture_output=3DTrue, text=3DTrue, check=3DTrue)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return None
-> +=C2=A0=C2=A0=C2=A0 except subprocess.CalledProcessError as e:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return f"An unexpected issue =
-occurred during the C++ 'std=3Dgnu++20' toolchain check: {str(e)}"
-> +
-> =C2=A0
+The NVM and rampatch files for QCA61x4 USB chips went 
+to qca-qca2066 instead of -qca-qca61x4. Fix package contents.
 
-I did test this:
+Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
+---
+ .../linux-firmware/linux-firmware_20250311.bb               | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/68/builds/1281
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
+index 1a2a6b095e..675d378376 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
+@@ -668,6 +668,9 @@ FILES:${PN}-qca-qca61x4-serial = " \
+ FILES:${PN}-qca-qca61x4-usb = " \
+   ${nonarch_base_libdir}/firmware/qca/nvm_usb_*.bin* \
+   ${nonarch_base_libdir}/firmware/qca/rampatch_usb_*.bin* \
++  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_030a.bin* \
++  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_gf_030a.bin* \
++  ${nonarch_base_libdir}/firmware/qca/QCA2066/rampatch_usb_00130201.bin* \
+ "
+ FILES:${PN}-qca-qca6390 = " \
+   ${nonarch_base_libdir}/firmware/qca/htbtfw20.tlv* \
+@@ -741,9 +744,6 @@ FILES:${PN}-qca-qca2066 = " \
+   ${nonarch_base_libdir}/firmware/qca/hpnv21g.bb8* \
+   ${nonarch_base_libdir}/firmware/qca/hpnv21g.b10c* \
+   ${nonarch_base_libdir}/firmware/qca/hpnv21g.b111* \
+-  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_030a.bin* \
+-  ${nonarch_base_libdir}/firmware/qca/QCA2066/nvm_usb_00130201_gf_030a.bin* \
+-  ${nonarch_base_libdir}/firmware/qca/QCA2066/rampatch_usb_00130201.bin* \
+ "
+ FILES:${PN}-qca-wcn7850 = " \
+   ${nonarch_base_libdir}/firmware/qca/hmtbtfw20.tlv* \
+-- 
+2.34.1
 
-I'm wondering if we should add:
-
-". Please use a g++ compiler that supports C++20 (e.g. g++ version 10 onwar=
-ds)."
-
-In the meantime, since we're going to do this, I will take the
-opportunity to bump the python version minimum to 3.9 and install
-buildtools on the 20.04 ubuntu workers from now on.
-
-Cheers,
-
-Richard
 
