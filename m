@@ -2,141 +2,127 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54BF2C3DA4A
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:39 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.2925.1742372191231995861
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61884C35FFF
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 08:16:49 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.2962.1742372199289927414
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 01:16:31 -0700
+ Wed, 19 Mar 2025 01:16:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=G0MRAFVF;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-225e3002dffso73940525ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jeoRZkYd;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-224191d92e4so126431585ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 01:16:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742372190; x=1742976990; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742372198; x=1742976998; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V76gE1t15i7HtBeNxC7RLmZPcN5O/9N+2cvLc5uxWCw=;
-        b=G0MRAFVFhVU72jVnqRvFOZOq1taiDdDGz/17ObbjEfajRo/a7AzWp9Sn5Qg31qMaPu
-         ntdCCnf4/dIRYLTCzWtw4DyKSWaXvTOyYSae/Bh96forqTwEC273jqhS4Ho36JavM1DM
-         Fyb2/PkRgHDRVd+fAgf9iUDsEWHioa/56ZEnSzkl25p9FNNDX3+b+JlMVZN+5py8dvMC
-         /3zEoYP8Ta2qy1sAHRtvCI7rxj0TET7KJl+fHQKNLJI19GGrPJr3Ea4WZmG1IvZPwge/
-         xWjmEV0Cl3CX2z6NLz/LvXdabTy9Q2SxRKTZMo1i69UiHiJ+dduwH/2VMH7Ce7/JT3Ih
-         PrZA==
+        bh=hLLvqlax8u+s860s0BUwlOwVbZ4U2+vsW9ruPWvozjY=;
+        b=jeoRZkYdNqDH53/IDw5U8GC13+EsbrR1RGo9K52bUpAcYNIyBTj+KBzxMpwJsm+Ogi
+         gcQJ6Vvo6Q3wqSOme+g+49OPO3/DfsHA9xm9C7ZPjuKYTeVU8AJRn0eCRvXdpFvxKfZN
+         tJyYu+wQJ2NioWWDvThg9aDaIgmKESbdE7KsSZ4nrEs8riM2FP/FvH4VekS6Xh9bj2bb
+         lC7Jzx2bgCUmhwcWdKoEDDyi4IelVjojzX5s9g/hGrvU4ozlj0BoZ+oE48CHr2Byyy8P
+         mb5SnB3ATzbj1VXVPSVrPDLXuUMJTnB9R+D4uGW/2RlevQ82NMwt9Pk4lnCApSoq2psU
+         Kmrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742372190; x=1742976990;
+        d=1e100.net; s=20230601; t=1742372198; x=1742976998;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V76gE1t15i7HtBeNxC7RLmZPcN5O/9N+2cvLc5uxWCw=;
-        b=WGwbCr+g0FaWdctaE3+r5rTAVBAq3SOtPF+dW37L3GpD7Ivxn4yS+ZWihnU8OtNdgO
-         XDHid3U3tu9Cr7prd+S2GNnP7zJFWMOHKEBpqQabhPQzIipx8GjYxOwwBK8h6yetZV7K
-         Mda3F3+sUjhNk96OLJhFki24AZtl9/2RcahNJION3pZOVT2u8YpKnZ+6EEIGoQCvNcLO
-         FYiQme+qyKhzPlboucS4HAHm9Ny07vmfbUqyZ+ZwMrb71SILWPkLMt0Rbr7Pdz7UMHFA
-         il/KwZTHdHpu/VWMyicMunFEtaH8YiT4FF35SqGzqkLsnW52Lo6nxBtcRqvz5kHqZmsW
-         H5cw==
-X-Gm-Message-State: AOJu0YwFYvGjxj11eEEl1pZyktBZBXtjUaRMLSYFEp5enuCk6+e272rv
-	4TrpAPcdV6u5O+qJKmZyvkh/1yZgjo6CWlVJUda0ZjLf2yzWyokQPMVCVyVe
-X-Gm-Gg: ASbGncvx4UJd56+iNRHcnbYF6zmjKxB5HRxSp7JRmyzpXzwt3NGHNkPEIOyC75xzoKB
-	CjenriH8JGXrClhbGdu1lzf1Pj1y8NfvTdsowDnfrB+4v9xbo87EP1jinHlljHTDKtGjmyMP+J8
-	h3h4X5V0WjxP8GVFrEh+KsXjVbarjfLetm59HgJ/xspJOQVieU+vIOD6AW3ihiadeW7eXz9FDpH
-	HJzFvt5Of/MgAnfR+jRoOhxln4MWNetLV5BA/6GUQtO2yhGv7c4OS7odZWg21/GCVsb3xtHZl68
-	rJLvOYmHoSm0rH16LfuP/weDNhRuDx+BRkTpF5Wx5JbUZHc=
-X-Google-Smtp-Source: AGHT+IFf77Hlsc67H20eHyiXXz9D3FAV+p8eyOSHhpv0OMRfwP9+nnQAcZu6AL3ALyi86zgtmAWqGQ==
-X-Received: by 2002:a05:6a21:50b:b0:1ee:e785:a082 with SMTP id adf61e73a8af0-1fbeae911ddmr3057117637.1.1742372190411;
-        Wed, 19 Mar 2025 01:16:30 -0700 (PDT)
+        bh=hLLvqlax8u+s860s0BUwlOwVbZ4U2+vsW9ruPWvozjY=;
+        b=Lol27i4Irl2BvfQ335yrgE7bziQ/vibgnI4fIK6vcgIRnKJ1/FTNTbwZ6jUSG0uJsf
+         HSwKIVr8qYcDXa+ecZk7ouYwSigZq3tSglixUmtxkgl7PCUENatjfSrevgaxkyVRNC3j
+         w13XlJUPbSr/dSpGAoPNFFyH5qxzU1GgDJGuV/rrHNnzIla+LPnOR8gl34ERO+klCDwL
+         X8FXIdp92xY+YZeAwYIWz0xUHdhxsm0IK+B/qo/1E46w6DB6oBOgu+ZkylIfuuQuPXw8
+         9bXpaMEu65dTKj124zxQfWNmW4ZVHzDFe0CpJV7D8escH2VyXb9kvMAjOqms35gw7pS6
+         EGLg==
+X-Gm-Message-State: AOJu0YyOysQGIjWygK03aZHU2TqMz+KOCxJ4vArUn4SrAKZzKiVx1PPD
+	TSkQt3RA2wnIQcQV9ujr3k88Jy5QownnKUWdtkOWhNE15dCulSo/R94mklle
+X-Gm-Gg: ASbGncs07LwUsq45TYUPF4XccTV5EBsXg+buiOvV9dyVeaCcvbq2juSatOXl/5fZ6cs
+	2uETlubM3ewcV5mXmTgRBHz4SoBpNPJ3RAu/Nv3unPvTD6ZLCSjQd8z0w4AlF0BLoJhwgtER4Mo
+	WfkX1zEF6WHQmoI18i2eg89t+9CHlbxKnr0jF4RO9yLDi+srOud21wNB5KMSIjJFadnGvaN5iYe
+	RfoVcvCCTr5cVe1O5oznLJIvw4cmmMDo+b4d2LXEsUJalXzsGFIMWj1yog7QnmuhKNbJV5TLTcv
+	wHbBHQ5h5bw9pOa1Q8eSY8FFr3klpVuapny6
+X-Google-Smtp-Source: AGHT+IHJUjlzDwp40lkEyM/VhPNbEaQbUdG1epRVqY8BNR9fiA/0jVuKwtoR3MBgEB/jnzFb1Ixp/Q==
+X-Received: by 2002:a05:6a00:849:b0:736:34a2:8a20 with SMTP id d2e1a72fcca58-7376d70c894mr3284202b3a.21.1742372198498;
+        Wed, 19 Mar 2025 01:16:38 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.29
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9c95c5sm8704323a12.4.2025.03.19.01.16.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 01:16:30 -0700 (PDT)
+        Wed, 19 Mar 2025 01:16:38 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 16/27] makedumpfile: Fix build with GCC-15
-Date: Wed, 19 Mar 2025 01:15:48 -0700
-Message-ID: <20250319081610.3536475-20-raj.khem@gmail.com>
+Subject: [PATCH v3 21/27] psplash: Fix build with GCC 15
+Date: Wed, 19 Mar 2025 01:15:58 -0700
+Message-ID: <20250319081610.3536475-30-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250319081610.3536475-1-raj.khem@gmail.com>
 References: <20250319081610.3536475-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213286
-
-fix gcc-15 compiling error: too many arguments to function eppic_init
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 08:16:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213296
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-compiling-error-too-many-arguments-.patch | 43 +++++++++++++++++++
- .../makedumpfile/makedumpfile_1.7.6.bb        |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-kernel/makedumpfile/makedumpfile/0001-PATCH-fix-gcc-15-compiling-error-too-many-arguments-.patch
+ ...ine-bool-if-using-C-standard-older-t.patch | 32 +++++++++++++++++++
+ meta/recipes-core/psplash/psplash_git.bb      |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/psplash/files/0001-psplash-Only-define-bool-if-using-C-standard-older-t.patch
 
-diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile/0001-PATCH-fix-gcc-15-compiling-error-too-many-arguments-.patch b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-PATCH-fix-gcc-15-compiling-error-too-many-arguments-.patch
+diff --git a/meta/recipes-core/psplash/files/0001-psplash-Only-define-bool-if-using-C-standard-older-t.patch b/meta/recipes-core/psplash/files/0001-psplash-Only-define-bool-if-using-C-standard-older-t.patch
 new file mode 100644
-index 00000000000..90f1b4038be
+index 00000000000..cc5f2e02e65
 --- /dev/null
-+++ b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-PATCH-fix-gcc-15-compiling-error-too-many-arguments-.patch
-@@ -0,0 +1,43 @@
-+From 73e62a08022bf8e5edad250f8c1452f0be3771a3 Mon Sep 17 00:00:00 2001
-+From: Coiby Xu <coxu@redhat.com>
-+Date: Thu, 23 Jan 2025 17:47:10 +0800
-+Subject: [PATCH] [PATCH] fix gcc-15 compiling error: too many arguments to function eppic_init
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-core/psplash/files/0001-psplash-Only-define-bool-if-using-C-standard-older-t.patch
+@@ -0,0 +1,32 @@
++From eab6948cd8eba493f2af7533a931df5ef1d30715 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 17 Mar 2025 20:31:19 -0700
++Subject: [PATCH] psplash: Only define bool if using C standard older than C23
 +
-+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2340813
++gcc-15 switched to -std=c23 by default:
 +
-+When building makekdumpfile against gcc-15, the following error is
-+shown,
++https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=55e3bd376b2214e200fa76d12b67ff259b06c212
 +
-+    erase_info.c: In function ‘process_eppic_file’:
-+    erase_info.c:2226:13: error: too many arguments to function ‘eppic_init’; expected 0, have 1
-+     2226 |         if (eppic_init(&eppic_cb)) {
-+          |             ^~~~~~~~~~ ~~~~~~~~~
-+    make: *** [Makefile:109: erase_info.o] Error 1
++only typedef int bool for __STDC_VERSION__ <= 201710L (C17)
 +
-+Upstream-Status: Backport [https://github.com/makedumpfile/makedumpfile/commit/73e62a08022bf8e5edad250f8c1452f0be3771a3]
-+
-+Signed-off-by: Coiby Xu <coxu@redhat.com>
-+Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
++Upstream-Status: Submitted [https://lists.yoctoproject.org/g/yocto-patches/message/1213]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ erase_info.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ psplash.h | 3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/erase_info.c b/erase_info.c
-+index cbe1681..af6bfae 100644
-+--- a/erase_info.c
-++++ b/erase_info.c
-+@@ -2192,7 +2192,7 @@ process_eppic_file(char *name_config)
-+ {
-+ 	void *handle;
-+ 	void (*eppic_load)(char *), (*eppic_unload)(char *);
-+-	int (*eppic_init)();
-++	int (*eppic_init)(struct call_back *);
++diff --git a/psplash.h b/psplash.h
++index 1c42ec7..138e49d 100644
++--- a/psplash.h
+++++ b/psplash.h
++@@ -37,7 +37,10 @@
 + 
-+ 	/*
-+ 	 * Dynamically load the eppic_makedumpfile.so library.
-+-- 
-+2.48.1
-+
-diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb
-index 21847ece6b8..46be13e7d0f 100644
---- a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb
-+++ b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb
-@@ -26,6 +26,7 @@ FILES:${PN}-tools = "${bindir}/*.pl"
- SRC_URI = "\
-     git://github.com/makedumpfile/makedumpfile;branch=${SRCBRANCH};protocol=https \
-     file://0001-makedumpfile-replace-hardcode-CFLAGS.patch \
-+    file://0001-PATCH-fix-gcc-15-compiling-error-too-many-arguments-.patch \
- "
++ typedef uint8_t  uint8;
++ typedef uint16_t uint16;
+++
+++#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ <= 201710L
++ typedef int            bool;
+++#endif
++ 
++ #ifndef FALSE
++ #define FALSE 0
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index 233c07a380c..e47c9b408dc 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -10,6 +10,7 @@ SRCREV = "5a32cf6392c784a7ae1983a354cf07b024625cd2"
+ PV = "0.1+git"
  
- S = "${WORKDIR}/git"
+ SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master;protocol=https \
++           file://0001-psplash-Only-define-bool-if-using-C-standard-older-t.patch \
+            file://psplash-init \
+            file://psplash-start@.service \
+            file://psplash-systemd.service \
 
