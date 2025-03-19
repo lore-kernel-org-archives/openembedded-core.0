@@ -1,99 +1,94 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jarsoper@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E1A8C35FFB
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 19:55:39 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.3908.1742414137840372509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0354C35FFA
+	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 20:50:19 +0000 (UTC)
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web11.5510.1742417414168675046
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 12:55:38 -0700
+ Wed, 19 Mar 2025 13:50:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QcHwPlv6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43d0c18e84eso59095e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 12:55:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jLicCW16;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: jarsoper@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-399744f74e9so26168f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 13:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742414136; x=1743018936; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lgANvtJqUziUweGnexgJVDxsqvoOp9sJTGiN1uXJMKA=;
-        b=QcHwPlv6z67GIxtNY6DQqnPotkwu2fVqGop3gWrfQvy9PYUoxwtOUbBDftHcO+Uup9
-         YioEGJCDxks9zWC5jKTVfRV83PYvlOJ9aKd7JenNjrEvOmyVGBU8zMTsgt2Xms7jtxpl
-         ZFqJU4oTayOAT4D8v/F02lJMnoUXt5NbPuJ7A=
+        d=gmail.com; s=20230601; t=1742417412; x=1743022212; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w5UhnjtlDohKfTCpByy//aqTC6oiT1VsE9rl3tG6qJc=;
+        b=jLicCW16hEicu4/JfAf/iBomzppOY2HY3Tglttr0HfGHd5lA84ulbyWrfy/4FRGuxs
+         VE847WAtpB7ka6lQ4JT5GS5OW++a8ocFM/FfuTTqq8sGsmQ2MmK1BFp1Q3am+s9IssJ/
+         aleSWR04aQ+w3eKBQ+AbTtYaOlltYpKY1siVOdFM7+f86ar8Zz85FT45it5tPogLGYQp
+         AiA3oLuvPyiA6GaMvMzqOams7uPcIjMmmGdXQQHPE+2bhqgQ8T4+mKzdsuctuJc1b+37
+         ZwzJXZ8uE7Al3J80GrkNslBWE8uqHU46HeKuvJRv0mtUyCufBSs8h+1aBttfLzdjLKUF
+         aMkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742414136; x=1743018936;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lgANvtJqUziUweGnexgJVDxsqvoOp9sJTGiN1uXJMKA=;
-        b=PPc2bQ03giGVrxqa83SqPWSbmalvxfcRMZH5jzJtwp6CHG1OEaa5SLAG3MehiQIL4D
-         eXXni9E3V3P1a7t7tmllvSkN0v0EWsfkczE4vRbxkRE0d5AJo+G/YoyptLHCRRlixlnW
-         ae5Cn/j9duSbuAHXAphq4EpAC3bzuIJNW/rzqEAcrDkB6K8C6l2YlzWPRB9JFF+2/VAc
-         mfLnCEFdliKZ3ktl8OSHqWw3bbNALHXZY6iFq3pHk0/tCaaBAcLX65DP1W7ncREDwX67
-         kBWow6zKQLe4cKwRgFEw57xzNdfIHcRQxLu5Y7ecR/MS2oRj1JU75lgxdZ6jt2RgPraE
-         3GjQ==
-X-Gm-Message-State: AOJu0Yy0AU20mPS2Pl2D3l3DbBaFLeSDAYokVMIF2eYfI2YGCWIjuudK
-	SCxlz4UnHEMxafkKLzl/8ybpMAHtE7F+TPck6f+8hSMhzcXsc+SWCt4VttUB6M1KoUllANeqtdR
-	L
-X-Gm-Gg: ASbGncuNr/MPmhQ2UUaSHAIKHMA075CJAIJdCX2qVY9XFb0KbKME0rFkwEUxG77JJDp
-	aoYt5AHZqeLLiTR9phvk5ZbKwQrXYpo6Rixak5uaATEbKgv8mnKkAGDCmqP23qC5tkOx8T9gYWV
-	EQbMp2nKuo8WVFJt0gNjXiuSEonnyf9MKGoGpEIQvzCCVGhxDYsGexGmN08MPRqnDjudtijE0Bq
-	NT/8jLkYNVBl1VvK+ZSIWZnX1rWXUW0blCPYVQzCCYBeTLGt4EjtX/vCCa+ZqJy/fQEyk1SfAib
-	AFHGI4zRPuc2w6D9+xSql6ptAcVmBC4M8aazqEZ26YcTR2aEc26dnF8z8ojng7TDOFMMb3rYtck
-	MN92qjYg=
-X-Google-Smtp-Source: AGHT+IES1vNAK4WAMvH2k+yBFIRDwZVI3qbKjZhdjfmTTk53c1OtWd0w2ZHlNC7piSC7RdGZNBgDvg==
-X-Received: by 2002:a05:600c:1d85:b0:43c:fa3f:8e5d with SMTP id 5b1f17b1804b1-43d4950d2d2mr4124015e9.2.1742414135838;
-        Wed, 19 Mar 2025 12:55:35 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:dad:b471:9c34:4577])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb7eb8c2sm21330269f8f.85.2025.03.19.12.55.34
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1742417412; x=1743022212;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w5UhnjtlDohKfTCpByy//aqTC6oiT1VsE9rl3tG6qJc=;
+        b=RqKmWHsvGYsW/tcf3D4kDeBLFXYA+L+DBQpWjutZcALCI7Hbie0ysg3QOU3CUgBqTu
+         53tuQE9UOlvMHMnGSxxb+Xlc/9zY4wZVTX96pXuicf+xMVuHIKo3VNm6kuIAs7smAMb/
+         TEmQxe7K1scQgGIVQq3/UOc5kcSfOXlRWFoHCbXopsNsAbHFATx1nWNhHQ/2DtIbLrQV
+         8nbJ28YjqLRwNOWPryH6zdHp+8EUdixbMwYENxC9biInK7HYo9oAOaP0ak/fpGouCzO4
+         AWQb6O0UVMd63pFAMugZhvN/dwZz40Jxrmdzq3jUcUd2Pm0Z9IiMOO2WMgbfw5cAKyOp
+         a+Fw==
+X-Gm-Message-State: AOJu0YzQPFKvz6VeKUgdfTUh+VmoUq6YewKpsbooxNVpwmtiVW3c2fdN
+	bq6h8xx7AYnc2usaL6xLU497VKGJSIFgf3+x5F8qlNky+BE6l+WeKHkRrN3THj66uA==
+X-Gm-Gg: ASbGncsxKbC+Opxnv34t6dC/aXImaRoLL5Wis5CRN1YRevImFHyAWx6m4b5OXROzMXS
+	p4EPNoVpzx1yEHzVLbdz66US2mDQgmBir99Gl496nt1DKkLzo6o8hzn6VlDML5X5M4CMVWMWWuv
+	pHcTgYdNw66gfQf1r4wZpoY3gPMlf+hGIJj3EZ4qRM9hliHVx81vAh5Fz98ex5sGhBCDAEV7ARQ
+	NUMhJNPZZcJRaIiMx6gfFHw8oVZoktoB3vjJpQuZsnIpGv3nD8GYLayXINklUjRmN1tdJWcUuxz
+	DHWd3V3TKsHmIxUbbw6+znii9Fam3HAJIFBeG3pbBKzjcPzdWZBdNQJgFQCQWzy3/gCtvhKOoz3
+	Gc/vAgap607HvskCr1B6pT5ZW8sA=
+X-Google-Smtp-Source: AGHT+IFsWq2cAwrV8B7GONDKSnvS4lp8s+z3kfelZkGMffimJU8kBrGLxVwPC2Z+ogkRDN6XfpdlHw==
+X-Received: by 2002:adf:a40c:0:b0:391:47a7:299c with SMTP id ffacd0b85a97d-39973af64b7mr3788221f8f.40.1742417412079;
+        Wed, 19 Mar 2025 13:50:12 -0700 (PDT)
+Received: from fedora.. (2a02-8428-db71-3701-4910-aa42-71a4-9a4f.rev.sfr.net. [2a02:8428:db71:3701:4910:aa42:71a4:9a4f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cbbc88f2sm21926213f8f.101.2025.03.19.13.50.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 12:55:35 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Wed, 19 Mar 2025 13:50:11 -0700 (PDT)
+From: jarsoper@gmail.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sanity: Bump minimum version requirement to 3.9
-Date: Wed, 19 Mar 2025 19:55:34 +0000
-Message-ID: <20250319195534.860324-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.45.2
+Cc: Jean-Pierre Geslin <jarsoper@gmail.com>
+Subject: [PATCH] cargo: pass PACKAGECONFIG_CONFARGS to cargo build
+Date: Wed, 19 Mar 2025 21:50:03 +0100
+Message-ID: <20250319205003.1890507-1-jarsoper@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 19:55:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213352
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 20:50:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213353
 
-Since Ubuntu 20.04 is heading to EoL and that we're having other issues
-on that platform needing buildtools anyway, we're about to lose the
-last python 3.8 platform we were supporting.
+From: Jean-Pierre Geslin <jarsoper@gmail.com>
 
-Bump the minimum version to 3.9 since there are many developers wanting
-access to newer python features.
+In order to allow rust packages to define PACKAGECONFIG options, append
+the contents of PACKAGECONFIG_CONFARGS to the build command.
+This patch was already submitted by Bartosz Golaszewski on older
+version but was never merged. It will be really usefull for Rust recipes.
 
-This likely won't be seen since the bitbake minimum has also been
-increased but helps for documentation purposes.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Jean-Pierre Geslin <jarsoper@gmail.com>
 ---
- meta/classes-global/sanity.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes-recipe/cargo.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index 5783b92b26c..d2ffb59fe6a 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -847,10 +847,10 @@ def check_sanity_everybuild(status, d):
-     if 0 == os.getuid():
-         raise_sanity_error("Do not use Bitbake as root.", d)
+diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
+index 76a39668c7..5dea260ba7 100644
+--- a/meta/classes-recipe/cargo.bbclass
++++ b/meta/classes-recipe/cargo.bbclass
+@@ -48,7 +48,7 @@ oe_cargo_build () {
+ 	bbnote "Using rust targets from ${RUST_TARGET_PATH}"
+ 	bbnote "cargo = $(which ${CARGO})"
+ 	bbnote "${CARGO} build ${CARGO_BUILD_FLAGS} $@"
+-	"${CARGO}" build ${CARGO_BUILD_FLAGS} "$@"
++	"${CARGO}" build ${CARGO_BUILD_FLAGS} "${PACKAGECONFIG_CONFARGS}" "$@"
+ }
  
--    # Check the Python version, we now have a minimum of Python 3.8
-+    # Check the Python version, we now have a minimum of Python 3.9
-     import sys
--    if sys.hexversion < 0x030800F0:
--        status.addresult('The system requires at least Python 3.8 to run. Please update your Python interpreter.\n')
-+    if sys.hexversion < 0x030900F0:
-+        status.addresult('The system requires at least Python 3.9 to run. Please update your Python interpreter.\n')
- 
-     # Check the bitbake version meets minimum requirements
-     minversion = d.getVar('BB_MIN_VERSION')
+ do_compile[progress] = "outof:\s+(\d+)/(\d+)"
 
