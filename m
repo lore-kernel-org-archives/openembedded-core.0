@@ -2,96 +2,122 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CF1CC28B30
-	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 16:23:10 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.12207.1742487781051713099
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A0DC28B30
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 16:33:20 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.12375.1742488394671120920
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Mar 2025 09:23:01 -0700
+ Thu, 20 Mar 2025 09:33:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hnW9C/uS;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54991d85f99so2321182e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 09:23:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Suym2e4S;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30762598511so12089691fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 09:33:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742487779; x=1743092579; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742488393; x=1743093193; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/B9wxZfinAaa5qjcP+AunAHiV3ZQ4RPUHku7h8lvrU4=;
-        b=hnW9C/uSsRl5vu0w9uQuH07/RFi8YRSz7mj5ziAHzJFEJfh6bo9DVFBeIrmBaEbxrM
-         wmVQ0Uxer6wne1z/JXDkQF+e19Yg1S96obt8Yp4GosuAXlZvk7toSOgXqiXNrKtm89uI
-         iioKnL9AkyCCx1+kxFlBEJeVG6AFRAFahnrbHEOAxGQst+nu70BhoW95aB26mNITZzna
-         BhUdhPuvnrkqtyHenbAbzvnEg1tUX4FgLLT/NbwHvPwiGi0WMA7WjCKU43Q6BiNWoUwo
-         OBxI9H+egxRgGG/96DhnWlXLrsiIaHzO5mW/C1KZ4eLw2eL5xd2ojP8U8ZCT4J9CfeAd
-         u8+w==
+        bh=L1sFA2dBdVVvg8dvp7J/qix2spre8YV0csa3lDRcL8M=;
+        b=Suym2e4S0LHg3utmwJay6pxW0tb44ktXUOpKY7dN9VpaeeR8y2PQIBW3MfI1bN97U3
+         CX0WwMKitQt2wROcNwU7+3Ap4LJ9nEFUGUaw8qpFYsEWte0zKVoj1ZdV1NhdZQNDs/lq
+         z5BYI6ZgWzA5sB/WLALOhsfjgt+Wk4NuUB7BLrxeb7tkxjIGN/QR5vMs90mHf02ZRG2w
+         SGQD0W92DQHI1aWC5B9XXMaFLBbpNnElxh4MH5hooNdgrJ3USBJJt2mLWWOyTQHSVDFh
+         vbeKNjFEfzFsgnnWLKdHwolewhxWZz/XShLAy6+PCbUclQH6fvszEC8wM291ZZ9HOa0I
+         jY3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742487779; x=1743092579;
+        d=1e100.net; s=20230601; t=1742488393; x=1743093193;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/B9wxZfinAaa5qjcP+AunAHiV3ZQ4RPUHku7h8lvrU4=;
-        b=bkSls1j90kjCKL1FWc/Fyz7krx3vImGbETGC3ifDZtjyP53BfiGvpclgCDKbj+tNBX
-         f3BSiD1oT00YA6WUG/aPajXFqWZlBXn7RtBSp4YQmBJTAlkxonOdqB8iB+mwauG6NrOB
-         j7eiXESxHtmoH6yQyn99eEGg3eNi3qB9xWxcycGtiDvFpdTDAkuk5QLJ0+V9lv/PjcHz
-         aVKK7MoIUWsedgBg+aXc8HwF2OiMto8bLh4x3LVBDhOr2XID0rWoewSUkbkFL/W2Lv8k
-         xFlJZzKvtY5MtAW++cprn60AbZeCLXO4F5jivBMnch5SsARYG8c4gDvtj+BzW/jzWQQ9
-         urcw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpFkgaIYaPgmoqW66joWA7zzsyvZBI20+MmTMzZoYFh7uR28dqApJx8E4liYLg3dR0UK2JvVC9NVdkUnHg3UXQBw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxHStASlRFfmqilGFLi3vEwDkJvAK6PG8q93kRPWn0Voo727vVx
-	oEYwmPy9gqwW8ZKTLzvDgv40+OYSoj9dwFSLVz4odEEHW3cwVrQZigzCI0H94fjvB+pnD/7PbHL
-	zQZGmMpO0CkoI2YQsSTtsOmClgTA=
-X-Gm-Gg: ASbGnctGs1A7uVRnMDndyTBqU2bHB6uyMHGGnq+vfjX7kIBZb5gdvYFFpiS+3GL0Tj2
-	PFo/GqJb9Ajg/clIlmtpRCG1ALXqBq6fVefz+ec+K3UcfY9/j8kPkwAlOV0vCBe6sWqlGuXh4JV
-	DauHVE7WeEr0DiAwgR9oMCBuGa4+Wg
-X-Google-Smtp-Source: AGHT+IGvPxNmLpuK6ahwLjTxwRkKp2Wd3usZxCYpcQs7q4ijiS5Cto2vW/XAJbDWb4ISf3DgbBYlqNTuELVmvfrgayA=
-X-Received: by 2002:a05:6512:3d17:b0:549:981b:169d with SMTP id
- 2adb3069b0e04-54ad60240dcmr91623e87.3.1742487778919; Thu, 20 Mar 2025
- 09:22:58 -0700 (PDT)
+        bh=L1sFA2dBdVVvg8dvp7J/qix2spre8YV0csa3lDRcL8M=;
+        b=ZpTUFWRnIKlVLnjCtKn9tX6XVVKtZJhN/EsYnX5PXH1hZ2pMW91Hp6utsGVxJMkM0p
+         XUngQDVR9vF2AD6gpfQ10cVzRr/vna14p8ZcBx7LBcY+zbYOAL8vN7O80N8J2Gh9ffQX
+         H+f6zoD5fQ4J1HCo28qtITH8Ig2zFvJpmaFo4IJhlQxMVojlWDjVj2RWQSUZwlw9mgq0
+         KZQYgaF/JFp6zws03PYYLfvHTtOQ5n1e5kmmtJ+GRmAFl/bniWSFS4myPZDvK9LZ1ccv
+         MNj97AKANVSZXEa5THEXy/mMpLr11UFtuxKgORZwKqk1l06Q8EoURyjLnfa/TbNsQ/12
+         crUA==
+X-Gm-Message-State: AOJu0YyGuwHalDrQnWxovXjKfRmsDGSN6K3cwRxVDBU/6y32j3G1fjuq
+	43Lbpu86ci5JZ4h8+PLsLO1VaJ6WHcuc25bpoAOcd2VdST4a8n8JBmNrspwgQeEz6k9XAfxi3i3
+	gEAgElCLtpUGGrJ1wuhIVqeXnhj4=
+X-Gm-Gg: ASbGncvP4ppoCZuGexL4jb/rTxTJecwpIH0C7/W+68bMti+fhxyBcp13O2ZJ20x361t
+	RhNKum5Qjrj/rDXFmDsCoptpeAL/GqBduU+ES21lQNakX5uckaFzKffshB4tF0cQYfHRp9kBqDQ
+	ivn6yQo9n3wL4gwBPG+dVEtpEjt5+6qzhzO/nMofw=
+X-Google-Smtp-Source: AGHT+IGNumJQJKNGWoNYYgicjpjB17qfGI9gOj2j70i1/LtL6kO72KETgzef1ChC1SZNSLoDTYme+n0GtwYpnshkOQk=
+X-Received: by 2002:a05:651c:2211:b0:30a:44ca:7e74 with SMTP id
+ 38308e7fff4ca-30d6a3e4308mr32684801fa.12.1742488392524; Thu, 20 Mar 2025
+ 09:33:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1741980835.git.steve@sakoman.com> <d3c294ee0afe4d2eb46320945d41064ebfb5cbff.1741980835.git.steve@sakoman.com>
- <b3d803cb-dbf0-4b05-b7af-a0fa3a8f7a69@ti.com> <CAOSpxdaPLDeHadupRrH=OxhsZ5KKVzn4x40i_Lgod=qME5dmNQ@mail.gmail.com>
- <CA+chaQe26ese9KdXR6X8tdstyMB_RQRWZLHSzd9u8HqV5BUi3A@mail.gmail.com> <CAOSpxdao8QXCRr4yCbw-rAe+pykO8gZzSX4B=Kq2utZ2wukx9w@mail.gmail.com>
-In-Reply-To: <CAOSpxdao8QXCRr4yCbw-rAe+pykO8gZzSX4B=Kq2utZ2wukx9w@mail.gmail.com>
+References: <20250319210905.1896983-1-jarsoper@gmail.com>
+In-Reply-To: <20250319210905.1896983-1-jarsoper@gmail.com>
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 20 Mar 2025 17:22:45 +0100
-X-Gm-Features: AQ5f1Jpw9ASOS01DdfnmtDsv4oM0-a7fJgv-r3mhH_C5gdvnhwjN2_RGuRHAIko
-Message-ID: <CA+chaQc6h142OBBZHwsDy3O6d2oiuBRx6gkFbx2Db5kZvKRCnQ@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap 4/4] gcc-cross-canadian.inc: Fix buildpaths
- error for pthread.h
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Ryan Eatmon <reatmon@ti.com>, Sana Kazi <sanakazi720@gmail.com>, 
-	openembedded-core@lists.openembedded.org
+Date: Thu, 20 Mar 2025 17:33:00 +0100
+X-Gm-Features: AQ5f1Jo_32Y4UsIfu_foXp_GVLJ1F-QdE9raTjVxBGg9vIKr1leqVXiAZ40XvlM
+Message-ID: <CA+chaQfOho3=RFS9eQem1iLcEZSScrs+Rh8AcMDJHX3vgRh3SA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cargo: pass PACKAGECONFIG_CONFARGS to cargo build
+To: jarsoper@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 16:23:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213413
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 16:33:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213414
 
-On Thu, Mar 20, 2025 at 5:18=E2=80=AFPM Steve Sakoman <steve@sakoman.com> w=
-rote:
+The bbnote above wasn't updated to show the whole cargo call, which is
+a bit confusing e.g. now I got:
+
+NOTE: cargo build -v --frozen --target aarch64-webos-linux-gnu
+--release --manifest-path=3D.../git//Cargo.toml
+error: unexpected argument '--cfg' found
+
+Usage: cargo build --verbose... --frozen --target [<TRIPLE>] --release
+--manifest-path <PATH>
+
+and was wondering where --cfg came from. Will send update for bbnote shortl=
+y.
+
+On Wed, Mar 19, 2025 at 10:09=E2=80=AFPM Jean-Pierre Geslin via
+lists.openembedded.org <jarsoper=3Dgmail.com@lists.openembedded.org>
+wrote:
 >
-> On Thu, Mar 20, 2025 at 7:52=E2=80=AFAM Martin Jansa <martin.jansa@gmail.=
-com> wrote:
-> >
-> > I think we should backport:
-> >
-> > https://git.openembedded.org/openembedded-core/commit/?h=3Dstyhead&id=
-=3D350ff7d53f7506de2bc01f0efc569b8294b9afea
-> > https://git.openembedded.org/openembedded-core/commit/?h=3Dstyhead&id=
-=3D9221e4ab8cca4c06dc3d5c1de2fd4ce46477578a
-> >
-> > to fix this issue in scarthgap, that's what I did locally in
-> > gcc-cross-canadian bbappend.
-> >
-> > Steve: should I send the backports?
+> From: Jean-Pierre Geslin <jarsoper@gmail.com>
 >
-> Yes, please do!
-
-Actually the first one was already applied in last scarthgap update,
-so I've sent the 2nd one.
-
-Cheers,
+> In order to allow rust packages to define PACKAGECONFIG options, append
+> the contents of PACKAGECONFIG_CONFARGS to the build command.
+> This patch was already submitted by Bartosz Golaszewski on older
+> version but was never merged. It will be really usefull for Rust recipes.
+>
+> Signed-off-by: Jean-Pierre Geslin <jarsoper@gmail.com>
+> ---
+>  meta/classes-recipe/cargo.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/carg=
+o.bbclass
+> index 76a39668c7..461d100dd9 100644
+> --- a/meta/classes-recipe/cargo.bbclass
+> +++ b/meta/classes-recipe/cargo.bbclass
+> @@ -48,7 +48,7 @@ oe_cargo_build () {
+>         bbnote "Using rust targets from ${RUST_TARGET_PATH}"
+>         bbnote "cargo =3D $(which ${CARGO})"
+>         bbnote "${CARGO} build ${CARGO_BUILD_FLAGS} $@"
+> -       "${CARGO}" build ${CARGO_BUILD_FLAGS} "$@"
+> +       "${CARGO}" build ${CARGO_BUILD_FLAGS} ${PACKAGECONFIG_CONFARGS} "=
+$@"
+>  }
+>
+>  do_compile[progress] =3D "outof:\s+(\d+)/(\d+)"
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#213355): https://lists.openembedded.org/g/openembedde=
+d-core/message/213355
+> Mute This Topic: https://lists.openembedded.org/mt/111798103/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+rtin.jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
