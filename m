@@ -1,128 +1,117 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <matthias.schiffer@ew.tq-group.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37E5FC28B30
-	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 08:36:57 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web10.2764.1742459808132807862
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99E09C36000
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 09:30:37 +0000 (UTC)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by mx.groups.io with SMTP id smtpd.web10.3314.1742463032163637819
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Mar 2025 01:36:48 -0700
+ Thu, 20 Mar 2025 02:30:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=k8tsLneF;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: antonin.godard@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B60A20483;
-	Thu, 20 Mar 2025 08:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742459806;
+ dkim=pass header.i=@tq-group.com header.s=key1 header.b=UfZNiQ8L;
+ dkim=fail reason="dkim: no key for signature: lookup dkim._domainkey.ew.tq-group.com on 100.100.100.100:53: no such host" header.i=@ew.tq-group.com header.s=dkim header.b=oeWCkqCs;
+ spf=pass (domain: ew.tq-group.com, ip: 93.104.207.81, mailfrom: matthias.schiffer@ew.tq-group.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1742463031; x=1773999031;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hPgZlYEnZhmnHh+7AwsqoCqK9Pun2M/xgklM4mL012Y=;
+  b=UfZNiQ8L85i4I1yCOJhMK7dohaUsIHwtIUmVbjzn/qYNqad7ehMQky8z
+   +kIRGoxd7uUWyXUpcNQn5a1xb/Nc21MJbI1AUrAriDHxUxSI0i2wnXi3n
+   90uyZT8eEKG47J1LheBkHqNFRP6pyc20fxAWiPr+4RyfG5H2n/5a2o2lX
+   SLWr4vWxRbqLPIJ8SeWfWsoddMtGzMRO2rrdDtBdZWY44YmcuZeJxkrOq
+   OTasBP7btHtiWUTKSYjLhe3HT4K/Maxri7cqYM/w0hnHg1qnf5AJz1f8s
+   JNLtNYOpEC9Loduil+e2NEMOg+8SD1qx2YygXbt/aSU8Ka0tFSD7tE5Ai
+   w==;
+X-CSE-ConnectionGUID: qfatkbxPSH60Ng+30gkXfQ==
+X-CSE-MsgGUID: PCzbllSDSg+K5fMwzZGRFw==
+X-IronPort-AV: E=Sophos;i="6.14,261,1736809200"; 
+   d="scan'208";a="43065429"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 20 Mar 2025 10:30:28 +0100
+X-CheckPoint: {67DBE036-6-2417938-F0170C2B}
+X-MAIL-CPID: EF7E842DFC55187C6A76AAA60D1BD8D2_2
+X-Control-Analysis: str=0001.0A00636E.67DBE03D.008C,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7A53F163D9F;
+	Thu, 20 Mar 2025 10:30:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1742463025;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s+oOLSXgygUBi37qbtrjiGheivcxd1ZrdlkKxMQ3IpU=;
-	b=k8tsLneFQgFkW2jKas8N4HPWLj06hOQF5jlksxeVrjJu6qXmBRguE2b8HpETZVOPPMPuyl
-	PyZfvdVAsfJnbS9qQf9qhdCaYUC1wBgHJ2ywmpO9ACB/uIFalKr5N+jziVlAmZdBl8kmZn
-	L6s4Eg1wFyFZzhBjwcBHdKvXUYX9LBqs15mBqzNTB294nQGHSKCQlZ4AtbVcuOfPPrb8ZC
-	izTqW/XaYjKOGzS5dOyjkqdAMKRywrNIhy19mtKW2ELNCe+Wqyx+pJUoDefXZlKSa9F/Hl
-	cOiTsUn5TBhr5oC009DJBvNQMSyVRGfldOsArKijmS3sA4DEmA/FYTK9+GZVwQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=hPgZlYEnZhmnHh+7AwsqoCqK9Pun2M/xgklM4mL012Y=;
+	b=oeWCkqCswGBu4r1iB9NiUAa3YL+nlM4l2hmBjkMbc2iRQdbqDZDbIGbxDkuRKAxc+cpEIC
+	fKiACyFUDBf0D3mC9Fe2g87Ojt9z/jyHiWFy9CxbHVgSwP9r3WkP2ISjcX080kES8tqBLX
+	uvH8VNTFyajFfA+ILjlUOI8+WYPHr4ry9ieZ82qZ7p8tQ9TNJ3jTEP6HKXsOWfITjA1oYZ
+	CsS6C6jwTzRiGQZQjOLFfyOaVPfuN96WwS8gwQDNT/H+288+Nad/aJVPdg8Ur82IMGeuyQ
+	3q2Iza2xHV4cJDm4thY8ClMSTIa6BL+VigqktlOn8jSYwJ9G7pKseTXIASm91Q==
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Max Krummenacher <max.krummenacher@toradex.com>,
+	oss@ew.tq-group.com,
+	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Subject: [PATCH] Revert "git: git-replacement-native: depend on ca-certificate"
+Date: Thu, 20 Mar 2025 10:29:59 +0100
+Message-ID: <20250320092959.563213-1-matthias.schiffer@ew.tq-group.com>
+X-Mailer: git-send-email 2.48.1
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 20 Mar 2025 09:36:45 +0100
-Message-Id: <D8KYG809KNRC.1TPCGXGFZBJBT@bootlin.com>
-Subject: Re: [OE-core] [PATCH] insane: Check if the C++ toolchain supports
- --std=gnu++20
-From: "Antonin Godard" <antonin.godard@bootlin.com>
-To: <yoann.congal@smile.fr>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.1-33-g2f9d97d18efa-dirty
-References: <20250319182029.675932-1-yoann.congal@smile.fr>
-In-Reply-To: <20250319182029.675932-1-yoann.congal@smile.fr>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeejjeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdetnhhtohhnihhnucfiohgurghrugdfuceorghnthhonhhinhdrghhouggrrhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeuleelhfdttdeghfejjeekgfffkeevheegleelkeejtefhhefgtdduheelffekgeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeejtgehtgemiegruggvmeejleegkeemgedtheelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeejtgehtgemiegruggvmeejleegkeemgedtheelpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpegrnhhtohhnihhnrdhgohgurghrugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopeihohgrnhhnrdgtohhnghgrlhesshhmihhlvgdrfhhrpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdro
- hhpvghnvghmsggvugguvggurdhorhhg
-X-GND-Sasl: antonin.godard@bootlin.com
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 08:36:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213374
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 09:30:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213375
 
-Hi Yoann,
+This reverts commit 2e99ffda70fd95b5eab3de47048032349cd66f4b.
 
-On Wed Mar 19, 2025 at 7:20 PM CET, Yoann Congal via lists.openembedded.org=
- wrote:
-> From: Yoann Congal <yoann.congal@smile.fr>
->
-> This is needed to build nodejs from meta-oe. Check this early to avoid
-> an error later in the build.
->
-> Fixes [YOCTO #15804]
->
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> ---
-> WARNING: as discussed in previous threads [0][1], this will disqualify
-> builds on Ubuntu 20.04 (its g++ does not support the option)
-> [0]: https://lists.openembedded.org/g/openembedded-devel/topic/111740469
-> [1]: https://lists.yoctoproject.org/g/yocto-patches/topic/yocto_autobuild=
-er2_patch/111757761
-> ---
->  meta/classes-global/sanity.bbclass | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
->
-> diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/san=
-ity.bbclass
-> index 1bae998f74..5783b92b26 100644
-> --- a/meta/classes-global/sanity.bbclass
-> +++ b/meta/classes-global/sanity.bbclass
-> @@ -629,6 +629,28 @@ def check_cpp_toolchain(d):
->      except subprocess.CalledProcessError as e:
->          return f"An unexpected issue occurred during the C++ toolchain c=
-heck: {str(e)}"
-> =20
-> +def check_cpp_stdgnupp20_toolchain(d):
-> +    """
-> +    Checks if the C++ toolchain support the '--std=3Dgnu++20' option
-> +    """
-> +    import shlex
-> +    import subprocess
-> +
-> +    cpp_code =3D """
-> +    #include <iostream>
-> +    int main() {
-> +        std::cout << "Hello, World!" << std::endl;
-> +        return 0;
-> +    }
-> +    """
-> +
-> +    cmd =3D shlex.split(d.getVar("BUILD_CXX")) + ["-x", "c++","-", "-o",=
- "/dev/null", "--std=3Dgnu++20"]
-> +    try:
-> +        subprocess.run(cmd, input=3Dcpp_code, capture_output=3DTrue, tex=
-t=3DTrue, check=3DTrue)
-> +        return None
-> +    except subprocess.CalledProcessError as e:
-> +        return f"An unexpected issue occurred during the C++ 'std=3Dgnu+=
-+20' toolchain check: {str(e)}"
-> +
->  def sanity_handle_abichanges(status, d):
->      #
->      # Check the 'ABI' of TMPDIR
-> @@ -804,6 +826,9 @@ def check_sanity_version_change(status, d):
->      # Check if linking with lstdc++ is failing
->      status.addresult(check_cpp_toolchain(d))
-> =20
-> +    # Check if the C++ toolchain supports --std=3Dgnu++20
-> +    status.addresult(check_cpp_stdgnupp20_toolchain(d))
+git-replacement-native is used only to provide a newer version than may
+be installed on the system; apart from that, it should work more or less
+the same. In particular, it is using the host system's /etc/gitconfig;
+it should also use the system CA certificates, otherwise it will break
+HTTPS connections in environments that need local certificates, for
+example for a corporate HTTP proxy.
 
-The code in check_cpp_stdgnupp20_toolchain is very similar to
-check_cpp_toolchain, maybe an opportunity to do something like
-check_cpp_toolchain(d, flag)?
+Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+---
+ meta/recipes-devtools/git/git_2.49.0.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Antonin
+diff --git a/meta/recipes-devtools/git/git_2.49.0.bb b/meta/recipes-devtools/git/git_2.49.0.bb
+index 66082d0bde..2ca8711f75 100644
+--- a/meta/recipes-devtools/git/git_2.49.0.bb
++++ b/meta/recipes-devtools/git/git_2.49.0.bb
+@@ -4,7 +4,6 @@ DESCRIPTION = "Git is a free and open source distributed version control system
+ SECTION = "console/utils"
+ LICENSE = "GPL-2.0-only & GPL-2.0-or-later & BSD-3-Clause & MIT & BSL-1.0 & LGPL-2.1-or-later"
+ DEPENDS = "openssl zlib"
+-DEPENDS:class-native += "ca-certificates"
+ 
+ PROVIDES:append:class-native = " git-replacement-native"
+ 
+@@ -97,7 +96,6 @@ perl_native_fixup () {
+ 
+ REL_GIT_EXEC_PATH = "${@os.path.relpath(libexecdir, bindir)}/git-core"
+ REL_GIT_TEMPLATE_DIR = "${@os.path.relpath(datadir, bindir)}/git-core/templates"
+-REL_GIT_SSL_CAINFO = "${@os.path.relpath(sysconfdir, bindir)}/ssl/certs/ca-certificates.crt"
+ 
+ do_install:append:class-target () {
+ 	perl_native_fixup
+@@ -106,7 +104,6 @@ do_install:append:class-target () {
+ do_install:append:class-native() {
+ 	create_wrapper ${D}${bindir}/git \
+ 		GIT_EXEC_PATH='`dirname $''realpath`'/${REL_GIT_EXEC_PATH} \
+-		GIT_SSL_CAINFO='`dirname $''realpath`'/${REL_GIT_SSL_CAINFO} \
+ 		GIT_TEMPLATE_DIR='`dirname $''realpath`'/${REL_GIT_TEMPLATE_DIR}
+ }
+ 
+-- 
+TQ-Systems GmbH | Mühlstraße 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht München, HRB 105018
+Geschäftsführer: Detlef Schneider, Rüdiger Stahl, Stefan Schneider
+https://www.tq-group.com/
 
---=20
-Antonin Godard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
