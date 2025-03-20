@@ -1,134 +1,179 @@
-Return-Path: <matthias.schiffer@ew.tq-group.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6452C28B30
-	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 09:53:27 +0000 (UTC)
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by mx.groups.io with SMTP id smtpd.web11.3689.1742464403966563540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2C17C28B30
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 10:16:07 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.119])
+ by mx.groups.io with SMTP id smtpd.web11.3976.1742465758838724127
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Mar 2025 02:53:24 -0700
+ Thu, 20 Mar 2025 03:16:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@tq-group.com header.s=key1 header.b=SJ+yjNok;
- dkim=fail reason="dkim: no key for signature: lookup dkim._domainkey.ew.tq-group.com on 100.100.100.100:53: no such host" header.i=@ew.tq-group.com header.s=dkim header.b=FVhQDRcZ;
- spf=pass (domain: ew.tq-group.com, ip: 93.104.207.81, mailfrom: matthias.schiffer@ew.tq-group.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1742464404; x=1774000404;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=4tLGmoJjPBZchjduvkJpWlzBXUxwsCePrVii+5FELCs=;
-  b=SJ+yjNokm4DbOYnLT2v9wqwE8PWa7HdNNERVegbKEuEkxcPl9Kv+yQrN
-   i9KLZgKdpLQSa9If6pinLsNWMxEGsFqxNAJ4xdmuiHXZ/sedMWt6HCbAe
-   ynQ7mX1+2aAC9aRyoqGX87Ln7s77qOTE9N1nwNqXCL2qaFbnM6B0TwplZ
-   p556dOzuECt0BpgGvP315nSaxs5HJ+/b/QaHT7OIP5cv5/sNKcY6wlxUX
-   at9PqBFHKyzqxELO5jAuctJVMqmleVGzlu0qzhoYWBhJuSa668vToTWIA
-   FCSmLYLnKZZD76gCx7vCUo//r83afzZFVckm0a14q00J79znM5a8WLQqx
-   A==;
-X-CSE-ConnectionGUID: /oXJEin+RsSgW/7KHAv5IA==
-X-CSE-MsgGUID: 0EFsbuGBSyCaoQU0pqHqng==
-X-IronPort-AV: E=Sophos;i="6.14,261,1736809200"; 
-   d="scan'208";a="43066342"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 20 Mar 2025 10:53:20 +0100
-X-CheckPoint: {67DBE590-1A-903EAEAC-E04C76C8}
-X-MAIL-CPID: 3FCF4B25CF0292F1E1FDAF6805730A17_5
-X-Control-Analysis: str=0001.0A00636C.67DBE595.002A,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9167D163B9A;
-	Thu, 20 Mar 2025 10:53:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1742464396;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4tLGmoJjPBZchjduvkJpWlzBXUxwsCePrVii+5FELCs=;
-	b=FVhQDRcZyTJt3XjR2QWdzPz+ctxhGv9NFraNar94LkKHvc+V6rkjLnyBBx60Z2hpBo/M85
-	WvWO2YQOuUqDq0x8V4TWCz28nSkPzogWckuMV1WvM9di1nnWrS61Gw3qputtPZ4V5yTyAr
-	oi26Q2vvegmuTStyi2lX0bSVec6d7URDV21KoZKyn2J9B9a2IugesOrMyJaDZPlnydedUk
-	3CigvkDz9GEaKAOwS/5aI4nxD0aiEDMDIrZ/3uYpKW2rlTPm7v0LoD/2ERUdrjQn76e5Wk
-	jD/kFMlzGd3AV6HIgqDlVPqOFGc4xgS7BPvVNqKoDSI3O7p6Jg6MRAqgGJPxVw==
-Message-ID: <09b5e53a03892d24392293a19aef326d73d10acb.camel@ew.tq-group.com>
-Subject: Re: [OE-core] [PATCH] Revert "git: git-replacement-native: depend
- on ca-certificate"
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Cc: Max Krummenacher <max.krummenacher@toradex.com>, oss@ew.tq-group.com
-Date: Thu, 20 Mar 2025 10:53:15 +0100
-In-Reply-To: <87a48eb28f555495e48fe2b68001b502f2ff860a.camel@linuxfoundation.org>
-References: <20250320092959.563213-1-matthias.schiffer@ew.tq-group.com>
-	 <87a48eb28f555495e48fe2b68001b502f2ff860a.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=15sdmsFI;
+ spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 52.101.72.119, mailfrom: niko.mauno@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Anbv+ufBjUXR/N3yW+vB/XBGnZ9TMVhDi/Pu3pL7+xI67Sqn9TtcVH/Y3TdaousS8kOLmOeuknpv+jLstya4/0od8oK8VuX5Hwmxpctbns4gl5QqFjKaLIJ0bQgasM3sE2+UdwFVKnWzAZoK8BCBXXcltssDEFjlXb+M1tX/cBsFIk1GO/Mrp9BOb3vUCiDEF+JgSlOvMWSaSf3Uyz49pvdQmIxYeiCCLc9JRH0XL/I6H4k3vg0V/Lasfz9p8BRt7dfk6JZXQ1oCUjuE59h4UqCw0GPrqKN/hLi07Eigt2UugN/xGkxngIJ7ckTLpKjvZSa60KAjFOVzvp5vpaC9WA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r25q3Y/R3jOW1SKPd0BzvdnC+pK0IK4K/tNEMDg1DBc=;
+ b=fZIcgX+iWTISjVNzIR26EUxhOzk96YE2333kctu6bo5vNmDlP8KXBybP8uyBEfl0qMbezjGl7km7UxxWLFeL8GVSwP8F87SGUG24SWBnv+B67K0iHfN2KufUk85CKSpcGh/LuhpSor9pC4mda8MNGfpjDBFKcPpfywIUs9qbp7SPiBVokOBOUqEP8gnAYplLvbOZaPWtP0kYFs6mBESYowiepBhoY6gP0mdmwAPbBFiNAAw3geff1k+D4C/0lbuDr8UAQ3kKjxrphFqa+LhLveAXKLPZVGl0a4RZ7p638iXLrH9Etf9e1RUu+rlegNRrhBZvxsR+YQECiPDE/XhsPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r25q3Y/R3jOW1SKPd0BzvdnC+pK0IK4K/tNEMDg1DBc=;
+ b=15sdmsFIycy0xO3LScH9fgB8qqUt0x6oQ9p8GEAtJnQy80ihwaFh2WAWfAOR6ZgVDU7KrucMX3q+uyzFwtMMJDiTdgIyxAqw/HyRfhOdz/cCjuJrk4HWcjqmuC75iNnfe+pSOJkPyWwoz8ndrybX5by4LAfTXMlL5ApEUb1aHHDt+FZpcfY/oHIRP4VDBBwcjEjc0UJ0Ez+knSdscQzEpaF2H71nvssWv6wNnaU/fhqNHHrIZ8iMoqcE+tj5QMyrH7M1MsThlW5fVQGFuPhGVW5O6Rbz0hZELaSFYdyGjGQPZL7CsJHFyJD6v2ICPRK2Z3eZKEg/m0/dI7ZWZvheHg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+ by GVXPR06MB9533.eurprd06.prod.outlook.com (2603:10a6:150:1b4::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.36; Thu, 20 Mar
+ 2025 10:15:55 +0000
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.8534.034; Thu, 20 Mar 2025
+ 10:15:55 +0000
+From: Niko Mauno <niko.mauno@vaisala.com>
+To: openembedded-core@lists.openembedded.org
+CC: changhyeok.bae@gmail.com,
+	Niko Mauno <niko.mauno@vaisala.com>
+Subject: [PATCH] iproute2: Add iptables PACKAGECONFIG knob
+Date: Thu, 20 Mar 2025 10:15:27 +0000
+Message-ID: <20250320101527.2213628-1-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.39.5
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+Content-Type: text/plain
+X-ClientProxiedBy: GV2PEPF00004525.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:401::346) To AS4PR06MB8447.eurprd06.prod.outlook.com
+ (2603:10a6:20b:4e2::11)
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|GVXPR06MB9533:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd842ae5-5e00-4397-8398-08dd679833be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?QWABfbin3modwR0y+obN3TBF5ta9UNmc69J/0f/PTNJHj/QLG+jGM8vxV9Id?=
+ =?us-ascii?Q?Brj87Nuqda2q4eIxBy1tJFOpO8p+FKPpqvNVZG5TRI82EF9z+MZ621y4dbQ3?=
+ =?us-ascii?Q?3ng/kFOoUogajVQ3UsLr4HTzTCYI+9oKFr8cIspm+YOU6b7lzwadmH9zoW8O?=
+ =?us-ascii?Q?xjrr5al1k13Mt3c6tL9xMZ/Z86rF/3DV2NY4FKkCsY8f+JIfViEQJgVjhZG8?=
+ =?us-ascii?Q?hQq9UldoTShpT9qq2UTcGXDuH+dFh2we2mFoWXJZa+nhObW5W/whmGgQrGPK?=
+ =?us-ascii?Q?NZcW+mYOk2tkTtgA070Idpz9NlM9urlnwQNkEzqp3AfOQtG9sms4701+dkUC?=
+ =?us-ascii?Q?mzhvCXjpd88zoIq3PwJqIu4rvIePP2dav+WGDpEMXBM6fRuEVO+fEUmmRxZ5?=
+ =?us-ascii?Q?x4ixNYHz11Bg4G9tiD7xfDWoJQo4Nahv+zpGuw0EyfYKI5S1JIfLbnvH8El6?=
+ =?us-ascii?Q?XKRcESP3QDWDfqmUoC4xS6faELbD1P4OWxdIUyXpu39daMmz91meWOdeEoc1?=
+ =?us-ascii?Q?xQGuCVDwVNIeZ9YGk4ScMZlUpQkqX7Th1qptRs3VCCO5p8kvmwJDAOUkoNQe?=
+ =?us-ascii?Q?LTIA+4r52whW9NgAQftsdfdcyXLYSmb3WICXcwob+5WKr1upa5tCpwYqupPo?=
+ =?us-ascii?Q?KfLSHWC4ppxXz6q7KVX7EXJdOZLSIRPmnZNVwUNGBhml6z1WfClhG3lBhsXw?=
+ =?us-ascii?Q?CjSwRz0PbeWKTaPWhg2z+uK1KOi/xTue95SeVLbf2bAnR+SHIpSUjv37HWy1?=
+ =?us-ascii?Q?vb28Bzn1G5+spI3dWxI3bPPKJAtKuYZlrkD9y729NzMtGAb1bbRPPxm7q2zS?=
+ =?us-ascii?Q?tiv+EU+rP8ynk0WAz/SA0zJC66IRPhXSJAQsaUBmLuUO2If+6hQfiwuZP//o?=
+ =?us-ascii?Q?9BBMLQpG8SeEr0kVZ5zwFW+61ZS27d2Wi8qierUXYPtjjTAEQX+47aMWDKI+?=
+ =?us-ascii?Q?Nbj5D+aXAMkwkoEICM1BQ9tAfYjIO3IUmMymMIvtlI+3PTMf6qkahPjjJEoQ?=
+ =?us-ascii?Q?cN2mZZCfdXHTXiwB7nvr8LLsZYWiQhbiHsg9kdqe1ppRa3w0ujnTWUvgWYrY?=
+ =?us-ascii?Q?wIUOS44qllSfITQwN0bLv4TuJi1MRmsXB0HOpZmnZEz+FPXteUIYpGEu48EY?=
+ =?us-ascii?Q?0X9OaJqZDhTNULaM7bo2Ed6/Jx1cqbdFCJiSUsXcPB5dUHYR9LSi+4lRG0Xm?=
+ =?us-ascii?Q?obG+Ua+Y+6I6nRAAnZqm0mTsJong5GGoMQ+lVc0x0q5cfyfzbKYLQvt6nAez?=
+ =?us-ascii?Q?Tkwl77kCCAUf6+bYl8LOgwqyXDX34mPImGGpSIjNAclFY6en3xpZP1E27cqg?=
+ =?us-ascii?Q?fr5c4B28U/sLr0+EYxyUBatjReGHTtZxaZPl11nHZPAkAucX3DE/TjJ+xyb/?=
+ =?us-ascii?Q?vY6LFrJe0QzJGebKh2I5btuzuZ+djPCGPjwWdqhIpIeTprtRdbeFsYwiOsmP?=
+ =?us-ascii?Q?A6LWqIHL8wPjOWrG92Sl3G6iRCyocN6w?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?T5XYNGem+uQpjt/IYny/qmTRGTsIfxOKyycOfsmy0LTITFX4yYQyIIMi7pGl?=
+ =?us-ascii?Q?ulq0Ka+Iyn9+Is0GmRKic/GeS7ajXFrSQLl/oUNO6JVu/+dpsrT17em7gYJV?=
+ =?us-ascii?Q?qJHIreqTbJs2R5ZL/MVgLb4ARqlyDjAMDsQF8dD0jtCbdUo+5l4H8oVb5J81?=
+ =?us-ascii?Q?GHnvosFkdVKy51h0Melw5ebbrmMLM2orwAfeHG5Tfnbwh+0u0j26ahV7jpFo?=
+ =?us-ascii?Q?/1ur7Yd1jAUdcYXLih7WB4rGpYzlQMFw79thZCzBpqfnXEVUs5p5oPvpqNi8?=
+ =?us-ascii?Q?GOmowNVwNzePP0xqtdtyMzZ87WcSYCpASifJUv36QiunCMpYm/l4PPccyK4u?=
+ =?us-ascii?Q?gjjMquRnHq8f9fQZtv4SCUik5rL4pxoFHGFw8KVsQz+QyRlg7CbiybYTbTrG?=
+ =?us-ascii?Q?SplfsiBcXCYjQ8r6g2HbMbxtvr1Jy5Y4kCNkr5MX2vdY6qtO7hfM+Mrab35B?=
+ =?us-ascii?Q?vL2Wbzxc4qS0CHZtSQZI4uy4DrCznH16HK99e6XnH9GowBmzSMq79X9/f04J?=
+ =?us-ascii?Q?WBfLGAY4Uplr4kMI/00GrQ/GApOwjYaCIppDDBfFfNhLNsxFZaf0sH85CFO3?=
+ =?us-ascii?Q?rjgqsoH7IocXr8A7YmG6wekug9n/UEghP3eJGCtg8JMJ+vnVucl+RrYJMSd4?=
+ =?us-ascii?Q?nzyubzRK1K+aldQvX0tdlwx02I1bl7vYU6xLqUw4Hx994DuwoMu67dhFoxnm?=
+ =?us-ascii?Q?2Irc032jHr6o18r6rOteAdo62NKqKXoLCWGrNp0Z7V2HNYF68sGqpa6/lLYB?=
+ =?us-ascii?Q?TwvLShSI4gnSHmKO+lfb0yc2FKJ+z71yENubCs3eb50IEW3AfyCLengTbvXq?=
+ =?us-ascii?Q?e6OJla6GGJx+VeMg9W4+eDDVhhtXOchvzg8ktKnXRcfvrkHraqak8cPU+Taa?=
+ =?us-ascii?Q?Wh5sRpaypL1YXR/rHGBn+yc0Oua1RhJe6aZmTYoY6bpMKaOksmiJy08pNDJ+?=
+ =?us-ascii?Q?PXWhLhqkfFOhJl3appI6ccIWZeIW9qJRGvdRTdyrRWgSUvjJRSzzF1/isANm?=
+ =?us-ascii?Q?clpqiomimfftE4vQBAb8CfnsmOAaPDOOeoGS50aaLPR+20JNZLRltHCvb46X?=
+ =?us-ascii?Q?jChueTSkXnuan7QTrKkWkLwsVA5eI054nJbFQO7iJ70H1UkTnF6EFNFldyTL?=
+ =?us-ascii?Q?r0ebYZhewTfPQC+SxNpqjhcjiZ46AJF6t3iH2RRwCP1EZJs8IviAAaVe2UXY?=
+ =?us-ascii?Q?Xbh1XzvXfTu/fGViwkbVuZfzQyP3DR6XB+zjJmNI3VEXlQfAF1kJ4L95p1Tr?=
+ =?us-ascii?Q?ILf/O7HtFlR6RfdrRK9/iL5IAPJXpMkWq04FvESE5gRgAsF5/rexD7JJEaid?=
+ =?us-ascii?Q?4Zfgq+FEZ70nUtRenDsLVG5u+ovaWGjPMlN3xr12KIMLFDTz3cLusIANcVUU?=
+ =?us-ascii?Q?wOI/xqlki2ChBcdEPSlBJ22gj6SD34hkjVwIJhTKbbeL5tSIuu70MlarOk89?=
+ =?us-ascii?Q?ACFfoqrCnjX82ZtYG0L2jqYGEruMiT/bjm9jufQNSEQWlyOUfqpCd5k18mdM?=
+ =?us-ascii?Q?CD7SC7UlNe978anQBvIEGYORFcyq3YB6Ai1PE/Crh44NVC2D32iwR7UVFRM3?=
+ =?us-ascii?Q?IOIZhOjb/LJa3KLktclpRR/+SxnvDcTYvfku27Rfg6JCIA07zevY3mlfIIhj?=
+ =?us-ascii?Q?dg=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd842ae5-5e00-4397-8398-08dd679833be
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2025 10:15:55.8561
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /wiSGO3eBCg5gpFGN1yEdkm+GPrFYmKbRb+c1/8dwgfbnm5oEzn3k8sbeuYMA6SXoyYx+pMJXkmouN4jFDy6Ng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR06MB9533
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 09:53:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213378
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 10:16:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213379
 
-On Thu, 2025-03-20 at 09:42 +0000, Richard Purdie wrote:
->=20
-> On Thu, 2025-03-20 at 10:29 +0100, Matthias Schiffer via lists.openembedd=
-ed.org wrote:
-> > This reverts commit 2e99ffda70fd95b5eab3de47048032349cd66f4b.
-> >=20
-> > git-replacement-native is used only to provide a newer version than may
-> > be installed on the system; apart from that, it should work more or les=
-s
-> > the same. In particular, it is using the host system's /etc/gitconfig;
-> > it should also use the system CA certificates, otherwise it will break
-> > HTTPS connections in environments that need local certificates, for
-> > example for a corporate HTTP proxy.
-> >=20
-> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> > ---
-> > =C2=A0meta/recipes-devtools/git/git_2.49.0.bb | 3 ---
-> > =C2=A01 file changed, 3 deletions(-)
->=20
-> This is going to turn into a battle where you and Max both alternate
-> with revert requests as you're seeing different breakage as far as I
-> can tell.
->=20
-> The original commit message says:
->=20
-> """
-> git is delegating webacces for URLs using TLS to libcurl.
-> However our native libcurl build does not find a ca-certificate.crt
-> unless its curl-native work dir still exists and thus git will fail.
-> If a recipe uses AUTOREV with a git repo using https as its protocol
-> parsing of that recipe will fail fetching the latest HEAD.
->=20
-> Fix that by depending on ca-certificate and give its location
-> to libcurl via git's envrironment variable GIT_SSL_CAINFO.
-> """
->=20
-> so the question is, does curl-native now use the system certificates?
->=20
-> Cheers,
+iproute2 detects presence of iptables during building and can also
+be built without it. Add PACKAGECONFIG option which allows user to
+optionally leave it out, and enable it by default to keep current
+recipe behavior.
 
-Ugh, I had thought I had tested this properly, but there is indeed still
-something weird going on with curl-native's certificates. Please disregard =
-this
-patch for now, I'll have to look into the issue again.
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+---
+ meta/recipes-connectivity/iproute2/iproute2_6.13.0.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Best,
-Matthias
-
-
-
-
->=20
-> Richard
-
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.13.0.bb b/meta/r=
+ecipes-connectivity/iproute2/iproute2_6.13.0.bb
+index f2ed381132..0f37eaa7b3 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_6.13.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_6.13.0.bb
+@@ -9,7 +9,7 @@ LICENSE =3D "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Deb723b61539feef013de476e68b5c50=
+a \
+                     "
+=20
+-DEPENDS =3D "flex-native bison-native iptables libcap"
++DEPENDS =3D "flex-native bison-native libcap"
+=20
+ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-include-libnetlink.h-add-missing-include-for-htobe6=
+4.patch \
+@@ -19,10 +19,11 @@ SRC_URI[sha256sum] =3D "a43aa43338d882b44d01e549f3f105a=
+92ae9feea32a82fae45a88e7a49
+=20
+ inherit update-alternatives bash-completion pkgconfig
+=20
+-PACKAGECONFIG ??=3D "tipc elf devlink"
++PACKAGECONFIG ??=3D "tipc elf devlink iptables"
+ PACKAGECONFIG[tipc] =3D ",,libmnl,"
+ PACKAGECONFIG[elf] =3D ",,elfutils,"
+ PACKAGECONFIG[devlink] =3D ",,libmnl,"
++PACKAGECONFIG[iptables] =3D ",,iptables"
+ PACKAGECONFIG[rdma] =3D ",,libmnl,"
+ PACKAGECONFIG[selinux] =3D ",,libselinux"
+=20
 --=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-https://www.tq-group.com/
+2.39.5
+
 
