@@ -1,107 +1,140 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0800C36002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B52BEC3DA4A
 	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 13:40:18 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.7676.1742478014660179738
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web11.7685.1742478016706869106
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Mar 2025 06:40:14 -0700
+ Thu, 20 Mar 2025 06:40:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=skF7GXPJ;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43690d4605dso5304535e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 06:40:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=latHPHPx;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6eb1e09f7e4so9648146d6.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 06:40:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1742478013; x=1743082813; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742478016; x=1743082816; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/p2OScyQrHeCW1OogWc3uNl0IAGgYfliUw0Gy8EV934=;
-        b=skF7GXPJ1nm4rjVt2jMvp1i9XQEIomg/UJXOI6RSqQKMUWN6pgEkZwjaU/SkZH9ZIw
-         PkCaZUdr+ZBKn2s9UW3m9hqTMdvA7Teb4EHhq2cF62SzIqzSjNwUVX0KHPr8UyX71760
-         zBkm/g2AmRFQyXtphKfqXmssk9KByT/06K9Qw=
+        bh=rpuqKv8Q1ByHkTEhB/720vEzKMYczSUNm9q1ImDxfic=;
+        b=latHPHPxGWlcGFB0EeyAmUv3Ti0UnjM3D0a3NdlZ1qd3kPtXC7zKCwWojoT7AFMLaf
+         x6FYsaQJRVJe0PvgpTnQcWjsFyiTu4Stql43y0HTAdP0kjNEAPTxmgR4cjOL0RCsTW+E
+         f1UPoeXMQda2eQPeXslf82SiY+rmgo4jPkjlnEEyEVT6NunPXqaVjTEmNuYtZDN3cG2i
+         ro63bnvyxoFs+TG+obuGZbDNCem2DOEv7WkYwEW9Clo5jZ5ZNkphdZmQXlG31QFMnESN
+         Qk4upsQqe8Btk+tBq6Z+gvctreRYA7L6p0KlYGlJDiFW9TXL4ne/id69V8f7W3oaQr38
+         TNig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742478013; x=1743082813;
+        d=1e100.net; s=20230601; t=1742478016; x=1743082816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/p2OScyQrHeCW1OogWc3uNl0IAGgYfliUw0Gy8EV934=;
-        b=Row4XCiBDRjXhLOhjcGFdZEJchd9yZxeCmZFRiYSP/JPO4dFVM8w5gYlmYdk5y8VY2
-         PoQvcLGy6ZlQ/0UTBiiJX3nGQma2WJzbR0OC8tGqelpLjhPhL93rVym1wJamNdw+9/Cc
-         eg1HmFqCNSrLsTpAut4lpkMSAfI/cU/Mjp5pjssYUtU83JDv+xSLOfseGMOKf1qzlIW0
-         dzPETHpjZqoHQrm4NGGWD63WX8i1nUVZ7o+H6DAE0qSdiKjd4lIyBJDdwF8sC/Ve6lI9
-         TVf0As3HfTiaDa1ngyS3fJsKKQrr6Ms2POssbLlPTZl9X57sqF5MXLEa2kwDWrJjnR+h
-         4D/w==
-X-Gm-Message-State: AOJu0YweinF2qjck4B8WV+Um8Z1hHuq2jfnM0Mwsr4xS4wMV8m9i8ge3
-	n0o3T62UXBd81nDj9xXAVl03X/O+SQpkdbw5zdw0E+8UvnStCJAcqma4sasg10q4SkMSYsBqPH4
-	k
-X-Gm-Gg: ASbGncuqxCnT1HnC/FiU9tdtFhr3d+vkinS7JdhhfNO+4kluCOUqdUTwWKcmxUUmt/n
-	RjJ9ik65MQFMIS4/lJ7JV3fXKTyOurLXshnLeM6jYBsoOk4M1nWxwnKwP/RFWCkPj2TlVhT4cfb
-	Ka+yQs7nAhTRI3Laxp94Pi8Oe5bb/Caqib+qPCxYImPPQ1OI6m9dlTo3q+75fkJfoha1cdswfRm
-	g2ITcKIIN4JMVY4EU5e5W1ysdm3ffGfwb4Qo7O7TOKfGB01VzCs7IOQPqyFLW0uYHDaSIVo4NUn
-	URk1aO+fiilWqhK638zSbSE9/ra6G8OdESYu1G55I2ynReFeZ+Sh9ck9dvWlMviwnvIrPc+Rwon
-	+72l2i5b9fgfATpcnptnAwjEyb9fQG+n3DI+ZLn2ZsAq2fd7m5NOBUfn8OThRc0R/y4G0
-X-Google-Smtp-Source: AGHT+IGE7rBX2YDpAmuaz/gJZKX0BKXfq6fbM3LlgK9o4uTe0hxN+kw2Ky1FsSYOtDqQGp7Xl51I6w==
-X-Received: by 2002:a05:600c:5107:b0:43c:f597:d584 with SMTP id 5b1f17b1804b1-43d43899ffcmr74843655e9.29.1742478012766;
-        Thu, 20 Mar 2025 06:40:12 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d43f8679bsm50069995e9.40.2025.03.20.06.40.12
+        bh=rpuqKv8Q1ByHkTEhB/720vEzKMYczSUNm9q1ImDxfic=;
+        b=eDsFVJJ6IUBkPNZ9H3wZR20NDOuMIs6njoB2aKQNeMqLEOqH6/U3tx7/NWkJpK+Tcq
+         TEl09P19wtTRHKgVqofUNVm+3AIUjLhumbpKYLEM/swPX1uIbhBXgn/tRd4wI1bgNT9/
+         aEZHR+bavNmsOhBcHxzYHCQ/YCxGF5OcTbycKeZQrxu73o+K4DdtL2lo+e35VOOqUNQa
+         hA046olJXpF8s3N0rJaBk6coXssqmKFVQvxRgLj9TvW9F4i0h6TUEfdLELT5xcNQXyrd
+         yqVfnvjgyfrkpd6TMJFVQ6G+BWZopyOH3cmE/EnRKuLC9b3RReXX8bJNnyAKIJYjYXAw
+         gDSQ==
+X-Gm-Message-State: AOJu0YxGJR+XfQZEYMgGDSqFc9T8mDZjK17y+HQDwLTq3DqoXSSP3Y7X
+	2VsUU451EP370UashwC3U73lvC/pg7Tqoqqy6aXmeBF9DzIGAeB8iIU74syeU94=
+X-Gm-Gg: ASbGncuLZMVDWqlB5QT8E8RwSQdzSM/qI+HMTwmik4nBnubANe2LT0xtbo9wk1ndGyR
+	Y1W9lp8MGnzQAosgJcgp/l/DnwBShLmpDx4B2o2Gi6ad1ckTY5jo/+5z0znTSNmE3AwnRnOF5Ur
+	BLqj67hSTz2hS3qjz/FqY5yk3oFGB29apqBUEVcxsMe3WeQs9d3qK6DT0ga+l6NpUMIE0xuyaVf
+	Ldpdo0GFty867+POm/R2RPYOrmlgq69grxsynsFdq/BDDAFINbDmP0AKpH5SoVGB2nFcihJBhwW
+	U6gHvQRgapq0PSP5FlqD6WG9TEN7ALJAH/G/mq8BDJaIiUDhLxKesoliwKkbPwhqG1X4Nj9pOo4
+	ojAybI6J1FzReXrhgpp5IrNYYiL1Jx3zGFvajzTg5b3xjj6F7hsdsDgZy
+X-Google-Smtp-Source: AGHT+IGBIYxUByXimSLEvrSogqc9i8AAiUWczERtLZE+hvtbIDAi2m6VBtyfHN4/gKW+slu7TN5Fsg==
+X-Received: by 2002:a05:6214:2a8f:b0:6e6:6252:ad1a with SMTP id 6a1803df08f44-6eb3536b36bmr42859976d6.28.1742478015619;
+        Thu, 20 Mar 2025 06:40:15 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eade231256sm93954166d6.32.2025.03.20.06.40.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Mar 2025 06:40:12 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH v2 2/2] insane: Check if the C++ toolchain supports --std=gnu++20
-Date: Thu, 20 Mar 2025 14:40:09 +0100
-Message-Id: <20250320134009.2631475-2-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250320134009.2631475-1-yoann.congal@smile.fr>
-References: <20250320134009.2631475-1-yoann.congal@smile.fr>
+        Thu, 20 Mar 2025 06:40:14 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/6] linux-yocto/6.12: genericarm64: set the DMA Contiguous Memory Allocator size to 32MB
+Date: Thu, 20 Mar 2025 09:40:07 -0400
+Message-Id: <e4e891c54cc07149e5d62d55e0d0aa21cad3a517.1742477836.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1742477836.git.bruce.ashfield@gmail.com>
+References: <cover.1742477836.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 13:40:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213390
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213392
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-This is needed to build nodejs from meta-oe. Check this early to avoid
-an error later in the build.
+Integrating the following commit(s) to linux-yocto/.:
 
-Fixes [YOCTO #15804]
+1/1 [
+    Author: Ross Burton
+    Email: ross.burton@arm.com
+    Subject: genericarm64: set the DMA Contiguous Memory Allocator size to 32MB
+    Date: Thu, 27 Feb 2025 17:32:29 +0000
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+    The default is 16MB but the aarch64 defconfig sets it to 32MB.
+
+    Notably this fixes various graphical issues on both the BeaglePlay and
+    KV260, where 16MB isn't sufficient.
+
+    Signed-off-by: Ross Burton <ross.burton@arm.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
-WARNING: as discussed in previous threads [0][1], this will disqualify
-builds on Ubuntu 20.04 (its g++ does not support the option)
-[0]: https://lists.openembedded.org/g/openembedded-devel/topic/111740469
-[1]: https://lists.yoctoproject.org/g/yocto-patches/topic/yocto_autobuilder2_patch/111757761
+ meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-v1->v2:
-* Changed error message
-* Refactor C++ toolchain flag check
----
- meta/classes-global/sanity.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index dc317e846d..ce52bcdf90 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -804,6 +804,11 @@ def check_sanity_version_change(status, d):
-     # Check if linking with lstdc++ is failing
-     status.addresult(check_cpp_toolchain_flag(d, "-lstdc++"))
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
+index 2e16e43628..a7475dd4fd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
+@@ -15,7 +15,7 @@ python () {
+ }
  
-+    # Check if the C++ toochain support the "--std=gnu++20" flag
-+    status.addresult(check_cpp_toolchain_flag(d, "--std=gnu++20",
-+        "An error occurred during checking the C++ toolchain for '--std=gnu++20' support. "
-+        "Please use a g++ compiler that supports C++20 (e.g. g++ version 10 onwards)."))
-+
- def sanity_check_locale(d):
-     """
-     Currently bitbake switches locale to en_US.UTF-8 so check that this locale actually exists.
+ SRCREV_machine ?= "81e03d4794dcbe5a29307241dc110f42fa7d7f76"
+-SRCREV_meta ?= "bb44ae9b6ada9da4729dfdd4cd6075908a02ba31"
++SRCREV_meta ?= "190a3cea8f7382423bc20fcde64847afc9e191ed"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.12;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
+index 6cd0767092..5890379dfb 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "a8ef1d3063769a834565490956e620d38c1ce708"
+-SRCREV_meta ?= "bb44ae9b6ada9da4729dfdd4cd6075908a02ba31"
++SRCREV_meta ?= "190a3cea8f7382423bc20fcde64847afc9e191ed"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
+index 1738300379..6d8ce19efd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "a8ef1d3063769a834565490956e620d38c1ce708"
+ SRCREV_machine:qemux86-64 ?= "a8ef1d3063769a834565490956e620d38c1ce708"
+ SRCREV_machine:qemumips64 ?= "fd60fdcf820529aad2f28d498f7fccb5bce884d8"
+ SRCREV_machine ?= "a8ef1d3063769a834565490956e620d38c1ce708"
+-SRCREV_meta ?= "bb44ae9b6ada9da4729dfdd4cd6075908a02ba31"
++SRCREV_meta ?= "190a3cea8f7382423bc20fcde64847afc9e191ed"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+-- 
+2.39.2
+
 
