@@ -1,263 +1,352 @@
-Return-Path: <jarsoper@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 252C6C28B30
-	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 18:12:04 +0000 (UTC)
-Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com [209.85.219.194])
- by mx.groups.io with SMTP id smtpd.web11.1916.1742494316902448245
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E72A3C28B30
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 19:22:44 +0000 (UTC)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web11.3575.1742498557952993094
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Mar 2025 11:11:57 -0700
+ Thu, 20 Mar 2025 12:22:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aMGc8U5A;
- spf=pass (domain: gmail.com, ip: 209.85.219.194, mailfrom: jarsoper@gmail.com)
-Received: by mail-yb1-f194.google.com with SMTP id 3f1490d57ef6-e64165ae78cso843911276.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 11:11:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=caG014HJ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7c3c4ff7d31so181282285a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 12:22:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742494316; x=1743099116; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MJQ7sTPr7BmGxCaOnJKA6c0Ml8Kxr+1ovJRYmIrS/mE=;
-        b=aMGc8U5ANYDmGn5wqsfonf7pOSfW+EH+kx6wIghUxn+hrpqAkpp0TkWVlIcFC1GEwX
-         SZfn66S5eL+AP6znBTSH2e8a+1QO9LQScL6wJAONKNIF4wvqOyKFGh3CeSVaQul/lGiY
-         5TS7mNFB2cOHWqO3GBpP/s0eTQWUnxn3cIfc8E/Cr46Dv28+SjUgsjFKxCufaWaMxJXT
-         b8IQ/lfqb1a+cKJwHhahK/wCRjCnW9MRu5TqpVGTooBWDo50otE8q3YB4RTnxo95ndwX
-         mqjB/aUj5OEonYuf/+wA2v55rhZY4RHAImIMJZB5zL9KIUl51MXcSaClPG23rb+LRrxS
-         3aJQ==
+        d=gmail.com; s=20230601; t=1742498557; x=1743103357; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NfQGuDmIJGh/ITSOT4YNszWuZawwGFZvKsfzUbZxJ14=;
+        b=caG014HJoE6KNHb44GzrQgvNcLgnzh/yHmushwapMMArg04oDMMDaphyozwtk/MtRp
+         YhNEqhHIWetou3xWedY0bTY3D1HurnlxBZTZzBlUj9LufjnNS6AUmL2+sjQXxU6E89WW
+         ddRsa8QR3j0Ows5RMTkHYGdb7WlHL1l6E1a6SDBY6Jo+S8XkT91MBGW/j8XEPMawYkga
+         kXSVP/XwNUYBGs0s1ua7t34Ynd40p5ITu4Xo63ditXcoXsEyqXaAbPb7KfLt9CHB9zP7
+         im1REGaOApY8a4dHIZFd0uaY9z7L9YsqCN8IheTxCmYkkGs2rm8ioU2h/w9krPDXcwo8
+         /g6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742494316; x=1743099116;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MJQ7sTPr7BmGxCaOnJKA6c0Ml8Kxr+1ovJRYmIrS/mE=;
-        b=gPCUDDJF0/PiU58Oxg32kAQj7AJbKP5xzoeo0aj5HnRFLUydBmKtMmGbrvcDcrhv6o
-         UIq1/871xWYVWq7eFlCNB1jQpRWpVjalcJm0J3QnGPkiLNvijPeqzRWCeILuQunY35A9
-         OhvQ4avUsEbIXTF4321TMCfBKhOG8yzSdtYffqRfkzJDiYYNyXFcwDD324ry6VjMi6Ga
-         XBUjoIgrC0RTXZEUZiUmV8S93LB2nZLGI0KX/s3C5eehTwGgoMjmlqJ1EF3UYYlgnnc4
-         hoYqQLaRYfEWTH7U2pHLKTy2AwwWj/M3JNYS1Q+cEWaa1rkJbEFVa4Irtp1ANV57lxOh
-         o6+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVpbN/fVx3sKLcsHesHzJndqlmCiRJPT0aNLJCJQZKlAIVdvK/gooayprvKIK+8CQqRNKH5e5GEoiJ3HtLZ8BYQNw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzn6UxfEAA51k1oQF4rj0blnbRUBMWs/b0c61T6HGnMSsmSn4Ip
-	h47pOIrCnlFhsqAR5RSqJzXLLC3FxTcfwCnQYGgcCz+alugCvbp3gDIzgUU5zb6XcaYFDgTicGx
-	gqrewASO2pYK7EYB1SsTpnZXOMXE=
-X-Gm-Gg: ASbGncv/j5a/QNyGvbqxQo3tMq+H9BEoU9/f9A3AfeRwA98z2rZf+xYQfoPneonojCX
-	e38SFTMRobABfSFpxp/hetKqeuePDVAR5dYU9pMI3EpWoTLMWmEQzJRHCZq0wzzfDlbsXGDBRPg
-	/vixNMiEQdwRel7Izb+oMy+RnVAV5gRkIuwuySSdm/yt+1Si6vZRYkI7kLQs504oIhOgGVv3w=
-X-Google-Smtp-Source: AGHT+IHf5QT/4ZMpoS4HCYKC7RcUQbbuQ/rSWUU+dVCA0oRbBPYX2jskcSz2WbmPotZ75xp4H95YYzAkf2N09s2A4HE=
-X-Received: by 2002:a05:6902:2786:b0:e61:1dab:3b68 with SMTP id
- 3f1490d57ef6-e66a4d7ea73mr154188276.12.1742494315685; Thu, 20 Mar 2025
- 11:11:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742498557; x=1743103357;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NfQGuDmIJGh/ITSOT4YNszWuZawwGFZvKsfzUbZxJ14=;
+        b=CUTvuCFYgz9GPAgkJWz1g65PcJapeELgtkYA3KtWCtexXRMFeOX15YE5z5i9xLgSE0
+         etqZX2Lcgkkl2WhUwZ00AwxO+tDEdY/MZ4hKgsJj3AzuuE+C3sRZNo7TbvfWd7QlfEOp
+         wxF1MzbDIFBHTlHfZhTDuGWBGSYnsH7xj+UMsvZefl+QiGYWufXEzpw7JQYHvIFFF7Cr
+         7TNbWSv1dOqrCnJRnfBafMfsnPe43sX1z+UxAAINZYiEsZwU66T4ju5esw47oxIBu/dF
+         K6P8Z5ZPCrXuWOqac0zg2SFukNu6apxfYDzgQTDDbKVQ9Al7o9nzaXbmsaHVFTilr/fL
+         y0xw==
+X-Gm-Message-State: AOJu0YzHJvDX8QZxFcSZIKylqlUa4aiaOWkjHXnLp/NsOtuEJDpqTye4
+	Ry+xnPTlC8aw3zvtXEKc47DX+HgtafYhkeqswaa4vWF/bKndk0mTDH8AjPyhUKs=
+X-Gm-Gg: ASbGncukMmYalVMbbJLayvhAMYBiJe62IdEK9NiXX2b8goLM6a6skg+91vhPS14fZJ/
+	cgDYmqQlJxagJB6qG9avQedLH4v7/fq1uB1X5Hz2RtSFFNmWjXReG6PoQuZnhoZckl1HoY38JyU
+	EDVgFuqIwIQ7Y6WSmjAoJ0P+dGKZl6P9Bg7Mf+jUq6yw9YYGPaE1LqHiONsIsQ5TZrf3/UhXoZS
+	IZbLBd1wnKVGRoRsszb99+CW5U8Tr2M8dd/M97em0vW7nXGK9492FARhA0uysWhqFJA9tKPA3EB
+	9ER6QY0LhGikCcyJLn59Q9Z5F2pLLQToIVDpEvAxEAfJhTGMjsY/B2pc0sJEb7S2HySAaLUakrQ
+	mYF6YICOhUATcI/0l5OVr35U=
+X-Google-Smtp-Source: AGHT+IFKY94rvrjNkAOuc00Gdo3kJQ644nILUIfcV8W4E+mxTP0HIFS0TbZFuRQYgrWNmVURN6pcig==
+X-Received: by 2002:a05:620a:40c7:b0:7c5:57e6:ee87 with SMTP id af79cd13be357-7c5ba1e41abmr50161585a.41.1742498556658;
+        Thu, 20 Mar 2025 12:22:36 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5b934844asm23119685a.85.2025.03.20.12.22.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Mar 2025 12:22:35 -0700 (PDT)
+Date: Thu, 20 Mar 2025 15:22:33 -0400
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: dixitparmar19@gmail.com
+Cc: openembedded-core@lists.openembedded.org,
+	George Thopas <george.thopas@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] kernel-module-split: fix conf file
+ generation when KERNEL_SPLIT_MODULES=0
+Message-ID: <Z9xq+a9CuOr5heIs@gmail.com>
+References: <20250222071113.81675-1-dixitparmar19@gmail.com>
+ <20250316082106.14290-1-dixitparmar19@gmail.com>
 MIME-Version: 1.0
-References: <20250320165517.129442-1-martin.jansa@gmail.com>
- <182E912DEB60EF95.20788@lists.openembedded.org> <CA+chaQdD7i8xjuz9iPSNMfETo-5BNxsN=LibdZPrgdTYatccfw@mail.gmail.com>
- <182E91CCE4A2B275.19116@lists.openembedded.org> <d3f1a6601b2438007a963b69bf41d647672f78eb.camel@linuxfoundation.org>
- <CA+chaQc4kxzLcbFkZswbftUevsjcO4aYDzNVh6hMxj4miv9m1A@mail.gmail.com>
-In-Reply-To: <CA+chaQc4kxzLcbFkZswbftUevsjcO4aYDzNVh6hMxj4miv9m1A@mail.gmail.com>
-From: Jean-Pierre Geslin <jarsoper@gmail.com>
-Date: Thu, 20 Mar 2025 19:11:44 +0100
-X-Gm-Features: AQ5f1JoQn3OMFJcJXsZhsgIa_jNRZz4KDm6MVoVzprg-dx-o7Hfw58rfa4Sgq9M
-Message-ID: <CAAuPjF8oBXzYug4E6HjxicDXbkahs7VXdGubsMi0J0VRho2bNQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] cargo.bbclass: allow to avoid appending PACKAGECONFIG_CONFARGS
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	DongJoo Kim <dongjoo.kim@lge.com>
-Content-Type: multipart/alternative; boundary="000000000000b5b5420630ca1224"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250316082106.14290-1-dixitparmar19@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 18:12:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213425
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 19:22:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213426
 
---000000000000b5b5420630ca1224
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In message: [OE-core] [PATCH 1/1] kernel-module-split: fix conf file generation when KERNEL_SPLIT_MODULES=0
+on 16/03/2025 Dixit Parmar via lists.openembedded.org wrote:
 
-In my recipe I use it as:
+> When KERNEL_SPLIT_MODULES=0 modprobe and autoload conf files are not getting
+> generated for the kernel modules.
+> 
+> Separated out conf file handling mechanism as handle_conf_files() function
+> from hook frob_metadata() function. handle_conf_files() gets re-used from the
+> existing hook function and add_conf_files function which got introduced for
+> splitmods=0 flow in this patch.
 
-CARGO_BUILD_FLAGS:append =3D " ${PACKAGECONFIG_CONFARGS}"
-The recipe is public here:
-https://github.com/Jarsop/meta-zenoh/blob/master/meta-zenoh/recipes-connect=
-ivity/zenoh/zenoh_git.bb
+Trevor's advice on the commit message was excellent, I won't repeat
+it here. I'll just simply add that the commit message should give us
+all the information we need about the issue (and what its symptoms
+are) and how this fixes it (not explaining the code, but describing
+the strategy)
 
-Best regards
+> 
+> [YOCTO #15145]
+> 
+> Signed-off-by: Dixit Parmar <dixitparmar19@gmail.com>
+> Cc: George Thopas <george.thopas@gmail.com>
+> --
+> Can you show the conf files for the same kernel configuration
+> with and without the kernel_split_modules enabled ? That way
+> we know there's no change in existing behaviour.
+> > I have confirmed that in my testing. Can you suggest how I can
+> share that information here?
 
-Le jeu. 20 mars 2025 =C3=A0 18:36, Martin Jansa <martin.jansa@gmail.com> a
-=C3=A9crit :
+A good way would simply to put it in the commit message that you've
+built and booted with both modes and that the generated module
+conf files are the same in both cases. Showing a diff command
+that you ran, or how you determined they were the same would be enough
+as well.
 
-> On Thu, Mar 20, 2025 at 6:16=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Thu, 2025-03-20 at 17:06 +0000, Richard Purdie via
-> > lists.openembedded.org wrote:
-> > > On Thu, 2025-03-20 at 17:59 +0100, Martin Jansa via
-> > > lists.openembedded.org wrote:
-> > > > This 2nd one was supposed to be sent only as RFC, but I forgot to
-> > > > update subject sorry.
-> > > >
-> > > > And this version also has a typo "=3D ?=3D", will send v2 if we wan=
-t to
-> > > > do
-> > > > something like this (reverting the
-> > > >
-> https://git.openembedded.org/openembedded-core/commit/?id=3D16745b20452de=
-60ae2474433cc1a2fb1ed9f6a64
-> > > > is imho better as it doesn't respect the original author from
-> > > >
-> https://patchwork.yoctoproject.org/project/oe-core/patch/20220606132653.6=
-0232-4-brgl@bgdev.pl/
-> > > > and with CARGO_BUILD_FLAGS_PACKAGECONFIG it's imho more confusing
-> > > > than
-> > > > useful as the default)
-> > >
-> > > I have a strong preference for not carrying things like this. If
-> > > there
-> > > are existing recipes that break, we should just fix them and move on
-> > > rather than letting the past dictate the future IMO.
-> > >
-> > > I'm trying really hard to simplify things where we can.
-> >
-> > Martin pointed out I was misreading things.
-> >
-> > If there are recipes using packageconfig in RUSTFLAGS then this will
-> > break that. We probably do need to revert as I really don't like the
-> > alternative variable mess. It does mean recipes will specifically need
-> > to add the flags to the carbo build parameters but that is the lesser
-> > of several evils IMO.
->
-> Agreed about the revert being lesser evil.
->
-> I know very little about rust/cargo, so it's also possible that we're
-> using rust/cargo wrong and there is a better way to achieve
-> conditional compilation with flags passed to cargo not by RUSTFLAGS.
->
-> I've checked the recipe where we're using:
-> RUSTFLAGS:append =3D " ${PACKAGECONFIG_CONFARGS}"
-> and it's public as:
->
-> https://github.com/webosose/meta-webosose/blob/master/meta-webos/recipes-=
-multimedia/gstreamer/gstreamer1.0-plugins-webosrs.bb
->
-> With the RUSTFLAGS then being used as
-> PACKAGECONFIG[unifieddecodebin] =3D '--cfg feature=3D\"unifieddecodebin\"=
-'
-> in the recipe and in code e.g.
->
-> https://github.com/webosose/gst-plugins-webos/blob/%40rust/gst-rs/unified=
-bin/src/lib.rs
-> as:
-> #[cfg(feature =3D "unifieddecodebin")]
-> ...
->
-> Will send revert unless Jean-Pierre or Bartosz have better idea how to
-> deal with this.
->
-> Cheers,
+> 
+> We also should make a test for this in the OE selftests. We
+> are adding conditional code paths, so they should be tested
+> to ensure no regressions in either in the future.
+> > Never done that before. May be I can do it given some direction 
+> as separate patch.
+
+Any selftests should be in a separate patch, but they do need
+to come along with any new verions of this. Saying that "it will
+be send later" won't get the patches merged. Since everyone gets
+busy and these sorts of things tend to not happen.
+
+If you search on the mailing list(s) you'll find examples of
+other self tests being submitted. Just follow what they are
+doing. I'd suggest that a self test needs to run both modes
+and do a check that the generated .conf files are correct
+(basically what you'd be showing in the commit message). Even
+better if a boot and showing that they are (auto)loaded.
+
+That's the only way we can be sure this won't break in the
+future and be comfortable with the complexty being added.
+
+> 
+> I'm curious about the above line. It is unclear to me why we'd
+> only have this postinst be relevant if none was previously set.
+> > Reverted.
+> 
+> Is there really a scenario where the directory won't exist ? Isn't
+> this just running in our own install phase ? So all prerequisites
+> and directories should be in place.
+> > Ideally no, we kept it for safer side, I have added log warning.
 >
 
---000000000000b5b5420630ca1224
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+As Trevor mentioned in his reply, it is best to configure your
+mail client to reply inline. I had made that comment near the
+line of code in question, but with the time between my review,
+your reply and now this reply .. the context of what was being
+discussed is very difficult to remember.
 
-<div dir=3D"ltr"><div>In my recipe I use it as:</div><div><br></div><div>CA=
-RGO_BUILD_FLAGS:append =3D &quot; ${PACKAGECONFIG_CONFARGS}&quot;</div><div=
->The recipe is public here: <a href=3D"https://github.com/Jarsop/meta-zenoh=
-/blob/master/meta-zenoh/recipes-connectivity/zenoh/zenoh_git.bb">https://gi=
-thub.com/Jarsop/meta-zenoh/blob/master/meta-zenoh/recipes-connectivity/zeno=
-h/zenoh_git.bb</a></div><div><br></div><div>Best regards</div></div><br><di=
-v class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gma=
-il_attr">Le=C2=A0jeu. 20 mars 2025 =C3=A0=C2=A018:36, Martin Jansa &lt;<a h=
-ref=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; a =C3=
-=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">O=
-n Thu, Mar 20, 2025 at 6:16=E2=80=AFPM Richard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Thu, 2025-03-20 at 17:06 +0000, Richard Purdie via<br>
-&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; &gt; On Thu, 2025-03-20 at 17:59 +0100, Martin Jansa via<br>
-&gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targ=
-et=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; &gt; &gt; This 2nd one was supposed to be sent only as RFC, but I forg=
-ot to<br>
-&gt; &gt; &gt; update subject sorry.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; And this version also has a typo &quot;=3D ?=3D&quot;, will =
-send v2 if we want to<br>
-&gt; &gt; &gt; do<br>
-&gt; &gt; &gt; something like this (reverting the<br>
-&gt; &gt; &gt; <a href=3D"https://git.openembedded.org/openembedded-core/co=
-mmit/?id=3D16745b20452de60ae2474433cc1a2fb1ed9f6a64" rel=3D"noreferrer" tar=
-get=3D"_blank">https://git.openembedded.org/openembedded-core/commit/?id=3D=
-16745b20452de60ae2474433cc1a2fb1ed9f6a64</a><br>
-&gt; &gt; &gt; is imho better as it doesn&#39;t respect the original author=
- from<br>
-&gt; &gt; &gt; <a href=3D"https://patchwork.yoctoproject.org/project/oe-cor=
-e/patch/20220606132653.60232-4-brgl@bgdev.pl/" rel=3D"noreferrer" target=3D=
-"_blank">https://patchwork.yoctoproject.org/project/oe-core/patch/202206061=
-32653.60232-4-brgl@bgdev.pl/</a><br>
-&gt; &gt; &gt; and with CARGO_BUILD_FLAGS_PACKAGECONFIG it&#39;s imho more =
-confusing<br>
-&gt; &gt; &gt; than<br>
-&gt; &gt; &gt; useful as the default)<br>
-&gt; &gt;<br>
-&gt; &gt; I have a strong preference for not carrying things like this. If<=
-br>
-&gt; &gt; there<br>
-&gt; &gt; are existing recipes that break, we should just fix them and move=
- on<br>
-&gt; &gt; rather than letting the past dictate the future IMO.<br>
-&gt; &gt;<br>
-&gt; &gt; I&#39;m trying really hard to simplify things where we can.<br>
-&gt;<br>
-&gt; Martin pointed out I was misreading things.<br>
-&gt;<br>
-&gt; If there are recipes using packageconfig in RUSTFLAGS then this will<b=
-r>
-&gt; break that. We probably do need to revert as I really don&#39;t like t=
-he<br>
-&gt; alternative variable mess. It does mean recipes will specifically need=
-<br>
-&gt; to add the flags to the carbo build parameters but that is the lesser<=
-br>
-&gt; of several evils IMO.<br>
-<br>
-Agreed about the revert being lesser evil.<br>
-<br>
-I know very little about rust/cargo, so it&#39;s also possible that we&#39;=
-re<br>
-using rust/cargo wrong and there is a better way to achieve<br>
-conditional compilation with flags passed to cargo not by RUSTFLAGS.<br>
-<br>
-I&#39;ve checked the recipe where we&#39;re using:<br>
-RUSTFLAGS:append =3D &quot; ${PACKAGECONFIG_CONFARGS}&quot;<br>
-and it&#39;s public as:<br>
-<a href=3D"https://github.com/webosose/meta-webosose/blob/master/meta-webos=
-/recipes-multimedia/gstreamer/gstreamer1.0-plugins-webosrs.bb" rel=3D"noref=
-errer" target=3D"_blank">https://github.com/webosose/meta-webosose/blob/mas=
-ter/meta-webos/recipes-multimedia/gstreamer/gstreamer1.0-plugins-webosrs.bb=
-</a><br>
-<br>
-With the RUSTFLAGS then being used as<br>
-PACKAGECONFIG[unifieddecodebin] =3D &#39;--cfg feature=3D\&quot;unifieddeco=
-debin\&quot;&#39;<br>
-in the recipe and in code e.g.<br>
-<a href=3D"https://github.com/webosose/gst-plugins-webos/blob/%40rust/gst-r=
-s/unifiedbin/src/lib.rs" rel=3D"noreferrer" target=3D"_blank">https://githu=
-b.com/webosose/gst-plugins-webos/blob/%40rust/gst-rs/unifiedbin/src/lib.rs<=
-/a><br>
-as:<br>
-#[cfg(feature =3D &quot;unifieddecodebin&quot;)]<br>
-...<br>
-<br>
-Will send revert unless Jean-Pierre or Bartosz have better idea how to<br>
-deal with this.<br>
-<br>
-Cheers,<br>
-</blockquote></div>
+If that directory doesn't exist, just error out and do not
+continue. This isn't something recoverable, and the build should
+be stopped.
 
---000000000000b5b5420630ca1224--
+
+> The walking and sorting seems quite heavy.  Isn't this called from do_split_packages indirectly ?
+> Do we really need to walk and gather the information ? Is this mainly for the case of no-split
+> on the kernel modules ? If that is the case, isn't there a way to short circuit the processing
+> on the split-package case ?
+> > Litterally I could not think of anything else here and not sure of there
+> are any short-circuit options. I have limited knowledge in this. I am open to suggestions
+> if this is not the best solution at the moment.
+
+Describe the approach in your commit message, this is the type of
+information that we need. To be sure that it isn't adding a lot of
+time to the build, add some timing information with and without
+your changes. This is the type of information we are looking for
+in a review.
+
+See a few more comments below.
+
+> ---
+>  .../kernel-module-split.bbclass               | 81 +++++++++++++++----
+>  1 file changed, 67 insertions(+), 14 deletions(-)
+> 
+> diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
+> index 9487365eb7..b7ee3a8f9e 100644
+> --- a/meta/classes-recipe/kernel-module-split.bbclass
+> +++ b/meta/classes-recipe/kernel-module-split.bbclass
+> @@ -86,11 +86,7 @@ python split_kernel_module_packages () {
+>              vals[m.group(1)] = m.group(2)
+>          return vals
+>  
+> -    def frob_metadata(file, pkg, pattern, format, basename):
+> -        vals = extract_modinfo(file)
+> -
+> -        dvar = d.getVar('PKGD')
+> -
+> +    def handle_conf_files(d, basename, pkg):
+>          # If autoloading is requested, output ${modulesloaddir}/<name>.conf and append
+>          # appropriate modprobe commands to the postinst
+>          autoloadlist = (d.getVar("KERNEL_MODULE_AUTOLOAD") or "").split()
+> @@ -101,7 +97,7 @@ python split_kernel_module_packages () {
+>              bb.warn("module_autoload_%s is defined but '%s' isn't included in KERNEL_MODULE_AUTOLOAD, please add it there" % (basename, basename))
+>          if basename in autoloadlist:
+>              conf = '%s/%s.conf' % (d.getVar('modulesloaddir'), basename)
+> -            name = '%s%s' % (dvar, conf)
+> +            name = '%s%s' % (d.getVar('PKGD'), conf)
+>              os.makedirs(os.path.dirname(name), exist_ok=True)
+>              with open(name, 'w') as f:
+>                  if autoload:
+> @@ -123,7 +119,7 @@ python split_kernel_module_packages () {
+>          modconf = d.getVar('module_conf_%s' % basename)
+>          if modconf and basename in modconflist:
+>              conf = '%s/%s.conf' % (d.getVar('modprobedir'), basename)
+> -            name = '%s%s' % (dvar, conf)
+> +            name = '%s%s' % (d.getVar('PKGD'), conf)
+>              os.makedirs(os.path.dirname(name), exist_ok=True)
+>              with open(name, 'w') as f:
+>                  f.write("%s\n" % modconf)
+> @@ -134,6 +130,63 @@ python split_kernel_module_packages () {
+>          elif modconf:
+>              bb.error("Please ensure module %s is listed in KERNEL_MODULE_PROBECONF since module_conf_%s is set" % (basename, basename))
+>  
+> +    def add_conf_files(d, root, file_regex, output_pattern):
+> +        """
+> +        Arguments:
+> +        root           -- the path in which to search
+> +        file_regex     -- regular expression to match searched files. Use
+> +                          parentheses () to mark the part of this expression
+> +                          that should be used to derive the module name (to be
+> +                          substituted where %s is used in other function
+> +                          arguments as noted below)
+> +        output_pattern -- pattern to use for the package names. Must include %s.
+> +        """
+> +
+> +        dvar = d.getVar('PKGD')
+> +        root = d.expand(root)
+
+root is a passed parameter, you shouldn't need to call d.expand()
+on it. Are you expecting there to be something that can be expanded ?
+
+> +        output_pattern = d.expand(output_pattern)
+
+Likewise with output_pattern
+
+> +
+> +        # check if the root directory doesn't exist for safe side, don't error out later but silently do
+> +        # no splitting.
+> +        if not os.path.exists(dvar + root):
+> +            bb.warn("kernel module root directory path does not exist")
+> +            return []
+
+as I mentioned above, I see this as a fatal error. Something has gone
+terribly wrong if this doesn't exist and we should error and exit.
+
+> +
+> +        # get list of modules
+> +        objs = []
+> +        for walkroot, dirs, files in os.walk(dvar + root):
+> +            for file in files:
+> +                relpath = os.path.join(walkroot, file).replace(dvar + root + '/', '', 1)
+> +                if relpath:
+> +                    objs.append(relpath)
+
+The above block of code needs a comment. What exactly is it doing ?
+My quick read of it makes me think it is checking our staged / rootfs / sysroot
+for the modules, and then removing that part of the path so we'll presumably
+have the path as they will appear on the target when it boots ?
+
+We need explanations in the code about the logic, otherwise, it is going
+to be unmaintainable.
+
+> +
+> +        for o in sorted(objs):
+> +            import re, stat
+> +            if False:
+> +                m = re.match(file_regex, o)
+> +            else:
+> +                m = re.match(file_regex, os.path.basename(o))
+> +
+> +            if not m:
+> +                continue
+
+Why isn't this test just done when walking the module files ? I don't
+see the point in walking once, and not testing to see if they are
+modules during that walk.
+
+> +
+> +            file = os.path.join(dvar + root, o)
+> +            mode = os.lstat(file).st_mode
+> +            if not (stat.S_ISREG(mode) or (allow_links and stat.S_ISLNK(mode)) or (allow_dirs and stat.S_ISDIR(mode))):
+> +                continue
+> +
+> +            on = legitimize_package_name(m.group(1))
+> +            pkg = output_pattern % on
+> +
+> +            basename = m.group(1)
+> +            handle_conf_files(d, basename, pkg)
+> +
+> +    def frob_metadata(file, pkg, pattern, format, basename):
+> +        vals = extract_modinfo(file)
+> +        dvar = d.getVar('PKGD')
+> +
+> +        handle_conf_files(d, basename, pkg)
+> +
+>          if "description" in vals:
+>              old_desc = d.getVar('DESCRIPTION:' + pkg) or ""
+>              d.setVar('DESCRIPTION:' + pkg, old_desc + "; " + vals["description"])
+> @@ -167,19 +220,19 @@ python split_kernel_module_packages () {
+>      postinst = d.getVar('pkg_postinst:modules')
+>      postrm = d.getVar('pkg_postrm:modules')
+>  
+> +    module_regex = r'^(.*)\.k?o(?:\.(gz|xz|zst))?$'
+> +    module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
+> +    module_pattern_suffix = d.getVar('KERNEL_MODULE_PACKAGE_SUFFIX')
+> +    module_pattern = module_pattern_prefix + kernel_package_name + '-module-%s' + module_pattern_suffix
+> +
+>      if splitmods != '1':
+>          d.appendVar('FILES:' + metapkg, '%s %s %s/modules' %
+>              (d.getVar('modulesloaddir'), d.getVar('modprobedir'), d.getVar("nonarch_base_libdir")))
+>          d.appendVar('pkg_postinst:%s' % metapkg, postinst)
+> -        d.prependVar('pkg_postrm:%s' % metapkg, postrm);
+> +        d.prependVar('pkg_postrm:%s' % metapkg, postrm)
+
+Why did you remove the semicolon above ? I admit it is strange to see
+it in the python routine, but it doesn't look related to your changes.
+
+> +        add_conf_files(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern)
+
+I think this would be better called "create_conf_files" or "generate_conf_files".
+
+It was the semicolon and the name of the routine that had me asking about the
+routine being called from do_split_packages(). But I see that it in fact is
+not called during package splitting, but only called once (when splitting is
+not enabled) .. amd I ready that correctly now ?
+
+Bruce
+
+>          return
+>  
+> -    module_regex = r'^(.*)\.k?o(?:\.(gz|xz|zst))?$'
+> -
+> -    module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
+> -    module_pattern_suffix = d.getVar('KERNEL_MODULE_PACKAGE_SUFFIX')
+> -    module_pattern = module_pattern_prefix + kernel_package_name + '-module-%s' + module_pattern_suffix
+> -
+>      modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name, kernel_version))
+>      if modules:
+>          d.appendVar('RDEPENDS:' + metapkg, ' '+' '.join(modules))
+> -- 
+> 2.43.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#212994): https://lists.openembedded.org/g/openembedded-core/message/212994
+> Mute This Topic: https://lists.openembedded.org/mt/111728665/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
