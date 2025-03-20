@@ -1,91 +1,116 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1FFEC28B30
-	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 15:36:39 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.10827.1742484995981078426
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B25C28B30
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 15:39:49 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.10913.1742485181085151530
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Mar 2025 08:36:36 -0700
+ Thu, 20 Mar 2025 08:39:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NVoPkdAf;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-399737f4fa4so540209f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 08:36:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hMNUNFUh;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54954fa61c8so997660e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 08:39:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742484994; x=1743089794; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1742485179; x=1743089979; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FwAlV4xvX3b+oF4sCBLWp3bS7l6TIEuifiM1A+hQ3Cw=;
-        b=NVoPkdAfnZf+GKNFUNw1exFae2g/3UDztVlxiX7n2gkpmqZG56QUWoYRF0maDTwYRZ
-         C20BZiY8eCFzIk4QExvYBAtmZAU2KgvFSPkHMjtPSXGq6cdsTkpCKRwoR6GnJWhfS6xy
-         Did3jUOx8L/L0PNwzD6w3iF9v91ec/+pC4NTM=
+        bh=ZgSxL4ZlY3AO/XxarsJ9opxj735nfjLasiub7M34f6U=;
+        b=hMNUNFUhabg116r3MW8udQIeCjCic2+gMM7+JEOVplofquUEkPFAxCAFHM1/5KiH6g
+         C45fSOMZRUgG7kS9cFyr/r1NBuQZ1FJrNs/atfLHUq2foYsHdoklTcZjireubFk1pWwN
+         OpV5+eV+qMfNU4augvpBoAP4r/M8pw3aD1d6zwrueuy8I89xaHB6wOwxHooNGu89ABFt
+         wfbUAQkBfm+pt8D0m1L7kBTo17pF/uq21Yjy9ueRM8P5LfqwFzfw5uVlb8QajiuKlJBW
+         ECDR2Sd+mmwEJdvSB5X7vM92JZRuoTtRQT5E/IWLgs8cxgXRkSBlfdQXPnSNb02i3I0L
+         t3oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742484994; x=1743089794;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FwAlV4xvX3b+oF4sCBLWp3bS7l6TIEuifiM1A+hQ3Cw=;
-        b=RsRKZ26iy47r8XkbRjjDGxelZRYpAo1n2rQBu4wpJzSKMdbsTEYTsx1lj8j9EyuFE+
-         Sa2QHCKAXkxcc4ojSG0d8a0RFth4QNo91LOR5pOPkDLpoHRNDMDapR01+ORppjEamyMA
-         3eQnn8JWYJ8cM4uf1fRRWdkDRNSXGULHQ5sBJo9GVlfJa5crmp5lu7VuGT66S9VKhJsC
-         oVdX7JBqYWBHyOdDjXFzvrBKxmkqdUo/PIKnsA3gZCMJuojsBN5t/z2h6x9yAk8wAkMS
-         g8HeUbcw4NWj2gsJ87meBI4K2phPxe+v8nI6zMyaRfL43ThB9/LiAm0GJoMmRPDts9rD
-         L4nQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6tneI09nF0neIVGtnbA3/mOj73iHLllb9a8/SX+gnDfxDlOL7dsvpLqUU3/dmRHFwbrWZat8G2v1zrUvb2GGzgQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy3uBvMCROq0kde8DZDPjUsMMO6DYYQzHhW828f1aWmusP75/pA
-	qYdWpJxcmkAXfLPSh0PENTN2WMK4ogYyKYb3TaaR6auJyEHUWP4m+3Lw3VDxqDo=
-X-Gm-Gg: ASbGnct5A9nE7POKI6Y9mSdXWc7wPHxHmgZgcRTqzSzghlniAYaAkKgfMY3a9Tq8+NB
-	JdjeQCywgF7tpFJi6mfcXxnqpOFvbIJ7NjOYXLXMcZveLW+VMeOQfP8KsNWNmK7KQpmfx37yVWM
-	JO3UHYyfTmLiUIdTlIV0IyOn4z22ZcSFmIsFd8yVObmFlyq2xFuKmg6vrL27+vpsbFsC5CYK023
-	TXliyoWoIQgVqrFbbGZs66q5YNj1m4LGAVgE8NgvY4ZvDC9a5zRpUzWrsLJobRM7kA5+MuvuwPZ
-	tx8/dPqfS1D7GKCl3Zmlta3LIiGFUYK9cvE1QsdXOE5JFY5An9Ekd+nmfSnbD0Kbjgos6oWbLcv
-	Sxr/FYV6c6D4oe1JqMPcQzAWuYjSWArnQ8w==
-X-Google-Smtp-Source: AGHT+IFuyBbhD0ljTzjJCghmsbUNHkAnoMicrXTXoDnCKCtiOUfE1a7j0l0GVN4Rx7YxVpkwAJO5kg==
-X-Received: by 2002:a5d:6da6:0:b0:38f:39e5:6b5d with SMTP id ffacd0b85a97d-399795dfe36mr3864154f8f.44.1742484994110;
-        Thu, 20 Mar 2025 08:36:34 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ede9:63ed:996d:ca84? ([2001:8b0:aba:5f3c:ede9:63ed:996d:ca84])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c82c255bsm23650336f8f.23.2025.03.20.08.36.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Mar 2025 08:36:33 -0700 (PDT)
-Message-ID: <d727b0982977c96cfdef97ef4d11ea006abfd72a.camel@linuxfoundation.org>
-Subject: Re: [OE-core][scarthgap][PATCH] expat: patch CVE-2024-8176
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: peter.marko@siemens.com, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Mar 2025 15:36:32 +0000
-In-Reply-To: <AS1PR10MB5697243DCA6D38EC18E2D42BFDD82@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250317213335.1865158-1-peter.marko@siemens.com>
-	 <AS1PR10MB5697243DCA6D38EC18E2D42BFDD82@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+        d=1e100.net; s=20230601; t=1742485179; x=1743089979;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZgSxL4ZlY3AO/XxarsJ9opxj735nfjLasiub7M34f6U=;
+        b=o1Xm/pmivnFuGZEDpa2G8GY907BOA1UaJoS759bq8MAWF0ckEvh55XeadP6uOD9FK8
+         6209yQ4mhgCH3FSGPyOE0O7G//3X9/IaTYZ2nkBuZhjuClwzbEuoc3axTWAmjC/1Azp8
+         q8wttS/t7clrHloJzmUqVyno2DIJ692Mur14LBb4xm1eafH9w0T6MGuty9g14I0RPI+D
+         a8xRYLhZs2x8lmtOa14BlS54kSFCehoHC/q+QHXNqKCjQ8n1XmQXGj+dzfGjPcvsmuez
+         qJOo6YX4ZdsxWbue0MPepLjN2vXrnDBKe6VyJbIV00z4YRK4w6FEIZSeXol6bq4/Dkux
+         IGcA==
+X-Gm-Message-State: AOJu0YyCDcoxFCo+81u9bprNx71NAQq6vcjBvjQ22vXeaZ06w8SO2fIE
+	Y3+f/Mu6M6wAq+mGGgBaFz4rod/khfqHnH4wZXqzJd4LyLETgvhZ0bAaE/qJAHURfKPTeAjb9tH
+	lW+xvhSRrKePS/ru/MscpefRuKdo=
+X-Gm-Gg: ASbGncsGRdti7Dc/iSwkJGs1XhBVx7BQ56s9lY/8dBh/effMszm0YjQXBWYnPrr76YF
+	UJFLsztVqsRq+gIuX+pLc1eZiuIix7w3C6tFJZR+zAJ6a09vPtZ2JEFcPtPm7A9umCnsBCmjQis
+	00F9G4aa9X/z572xadQsY6JGqykBiyrQE34bw/G3W1
+X-Google-Smtp-Source: AGHT+IGZBvG1N75Y83iAS2QvvrdnjI7FuwFWF5rR/quxXTD3o1NzVuuP6jqBKJV/fUTCrsUrFA40rixHmsL2V4pqCQE=
+X-Received: by 2002:a05:6512:23a9:b0:54a:c4d2:4b83 with SMTP id
+ 2adb3069b0e04-54acb1ce7e1mr3311052e87.23.1742485178890; Thu, 20 Mar 2025
+ 08:39:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250320121533.39356-1-peter.marko@siemens.com>
+In-Reply-To: <20250320121533.39356-1-peter.marko@siemens.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 20 Mar 2025 09:39:25 -0600
+X-Gm-Features: AQ5f1JotmxDSc0PwRbByFGmzkvXy_OkV6kpuam9UGLZmhCcHTdE1yF0TPpkN-tI
+Message-ID: <CAJdd5GasOkEqbWHr-Jkok3VmZDwhKeH2cW8wNCkRG+b-=StXPA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] spdx30: handle links to inaccessible locations
+To: peter.marko@siemens.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 15:36:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213408
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 15:39:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213409
 
-On Thu, 2025-03-20 at 15:28 +0000, Peter Marko via
-lists.openembedded.org wrote:
-> Please drop this patch for now.
-> The CVE fix causes a regression, see
-> https://github.com/libexpat/libexpat/issues/980
-> I'll submit a new patch when the regression is fixed.
->=20
-> Expat 2.7.0 was already merged in master.
-> I think we can live with it and hope for a quick fix.
-> I'll be observing the regression discussions.
->=20
+LGTM, Thanks
 
-The expat maintainer did comment privately that this a complex fix and
-not well suited to backporting. We may want to consider a version bump
-for expat for this, once the issues are resolved.
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
-Cheers,
-
-Richard
+On Thu, Mar 20, 2025 at 6:16=E2=80=AFAM Peter Marko via lists.openembedded.=
+org
+<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+>
+> From: Peter Marko <peter.marko@siemens.com>
+>
+> This is the same as e105befbe4ee0d85e94c2048a744f0373e2dbcdf on
+> additional place in the code.
+>
+> When a link is pointing to location inaccessible to build user (e.g. "/ro=
+ot/something"),
+> filepath.is_file() throws "PermissionError: [Errno 13] Permission denied"=
+.
+> Fix this by first checking if it is a link.
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  meta/lib/oe/spdx30_tasks.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index 0618f2f139..bba11ae930 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -1068,7 +1068,7 @@ def create_rootfs_spdx(d):
+>          filenames.sort()
+>          for fn in filenames:
+>              fpath =3D Path(dirpath) / fn
+> -            if not fpath.is_file() or fpath.is_symlink():
+> +            if fpath.is_symlink() or not fpath.is_file():
+>                  continue
+>
+>              relpath =3D str(fpath.relative_to(image_rootfs))
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#213385): https://lists.openembedded.org/g/openembedde=
+d-core/message/213385
+> Mute This Topic: https://lists.openembedded.org/mt/111807091/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
