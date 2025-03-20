@@ -1,90 +1,105 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BADF2C28B30
-	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 07:48:56 +0000 (UTC)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web11.2422.1742456936018624232
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDD2DC36000
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 08:02:56 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.2490.1742457768057359583
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Mar 2025 00:48:56 -0700
+ Thu, 20 Mar 2025 01:02:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=a8m0503G;
- spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3feaedb4085so274290b6e.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 00:48:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742456935; x=1743061735; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vBqnol1b1U07MdPTBArBjwy+SqNB5QKILDiy5yFFkkk=;
-        b=a8m0503GvxBlQ+CddaDpbiu7t6DA31iQUS8Pv5EYu//XfIhESPIW8y9CbkdqC0jtMb
-         sQDdspQpnDWsMaDpIumQ5K4f7bvwOVgBSAALSGPhbhN2bQ+CYQcAduu/1xSetN6WDRNv
-         4d6iaIPCEFPnuf28nBvwAWVckDjResKJqOWYwuPUCQtPhx/G+v/amj+PoG2axUGik4ex
-         Q8hH9BVZ6q7zgIEYXtJCoAS+9N6jTf6Gpe7AomhaHaxdeew90De9eprZUqdusOPfV7i3
-         XEemupF1d7H564xzAWH5qd6+pTiQPaDxNbiLDoqtbbIkHcqbzAh5KrCs5qQQCa8F8Woa
-         XJVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742456935; x=1743061735;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vBqnol1b1U07MdPTBArBjwy+SqNB5QKILDiy5yFFkkk=;
-        b=JpDw/F3+Awta7+gdW4GU11LurXk2rf5koWAryyJhUZVvuBI3EPgS/xU+gnD1n+XOQ0
-         OtRXUzTlp3U9t3tJjmTtis86MQcA/Tafpp2ES+eRt1ph2JmQrbFxMrR5RUG6Jtfua2Fx
-         EOd6lr4ikL5rJlg2po4Xe+W9Oo6SjrRbfSTByDwwbYvkcAq9+pQRk/zUiu2L+sLazJ7N
-         Zj+rOub0nZwQt9EoxsByedM/N1ROgv8k8UjEQ+1tG8uw3uvbUmyFnoRf36/NwLqg1ySB
-         d3cHs9/GHo6vWmAIySDQv3QSmtW/fW8s7G/qo7jDIfVn9b4CL3uhy1IhIyYKH+Y/mfMn
-         yEhw==
-X-Gm-Message-State: AOJu0Yx2L3UMA2mMzIBPtl5SifE60SFRamtnJs7OtyFO/w6Ztcf5pjpy
-	JJQe6aaILkRhtq0G+kLj0Z8VBusra++1/07uIwjL9PhB9UgfFbaDwO9qlhvtNoRhGvYKYuGJiig
-	MsNiW+IxZezPwMtWUSyZ2WTzBRXk=
-X-Gm-Gg: ASbGncti+UDumzoynDFeFJwX4kXdkbpcthW4n0YI2XZticvmTVIbWy2iV+P+rHO4Vkm
-	TlN1V81X9bvZfqVInAD/M1elHLsd4u0XhV2JT4DqnG8QPLvDTveRviN3F7Gi94b9jGSG6NsMNMk
-	XxZkVz4jbfIqsp05boS/IoDWlU
-X-Google-Smtp-Source: AGHT+IEl/KKrpfoWdY+46+9n0siYNowyFblKIdE3gHV8yBXAdii/ngSKnNH0ME4HfjEMMQLlRyRHeGTSz2m9E2KH07w=
-X-Received: by 2002:a05:6808:320c:b0:3fb:174f:821d with SMTP id
- 5614622812f47-3fead610fa6mr4756380b6e.35.1742456935117; Thu, 20 Mar 2025
- 00:48:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250319214213.2505249-1-raj.khem@gmail.com> <20250319214213.2505249-2-raj.khem@gmail.com>
- <4890e4e46e07e1473da235daf0c489585d6b01cd.camel@linuxfoundation.org>
-In-Reply-To: <4890e4e46e07e1473da235daf0c489585d6b01cd.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Mar 2025 00:48:28 -0700
-X-Gm-Features: AQ5f1JqholuJdoL8nbUQ_acK74XKLTcEyqZffp9CsEzoilJ1tFXo9Fa6a5DjllU
-Message-ID: <CAMKF1socZ5d8rXmQz-HtQzDs-9SeWmJtjvv+H2QXtTLKPA-39A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 2/9] dbus-glib: Fix build with GCC 15
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=WHenV9kD;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D4C1E20486;
+	Thu, 20 Mar 2025 08:02:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742457766;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=09lagupKXNo/zkrwnvd5UqJskhpOBq5QfXtOGAm5qnY=;
+	b=WHenV9kDbZjNV0FPC+bREiVkBrQS5uldYYhPfgIXKfdhpp3sK0ncLbjOUAv3bU/1A7ZpTe
+	gyfa3y8W4XXC/WAkyuoCsN0BOkaJOXAUYJZoX6K5eYhhQo7oTb7AtuMwmIH1cHajSFvMDm
+	Qsdrh8T2O0oHvMHyV63ouQaUGKvNdrOoIw/5fAl2R97F79M/gxG3ufuNO7/V6Ol+RGzQjg
+	dvwLOsUAAUbU2j55LpEMBS7N3yaEexD+pfN3gNs2LtAbOawqiK5vjEuMr8HSKYMlTX2NaW
+	qBKLDM5VU+9TOt2HZZIQeQIpeMp4SvUOJf7HQD+iIpEhXBNn2HJt6H8+E9KmYw==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 20 Mar 2025 09:02:45 +0100
+Message-Id: <D8KXQ6QPGOL6.1VKUBIEENIJYU@bootlin.com>
+Subject: Re: [OE-core] [PATCH V2] dnf: upgrade 4.22.0 -> 4.23.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <wangmy@fujitsu.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <1742439740-18703-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1742439740-18703-1-git-send-email-wangmy@fujitsu.com>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeejieekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevvddvhfehgeetgfehteejuedvieevfeehhfeikeehfedvjeelleetjeeigfetieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegvtdgrmegrieeimeefudektdemtgdtsggvmegslegrkeemvgehledvmeeirgeffhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemrgeiieemfedukedtmegttdgsvgemsgelrgekmegvheelvdemiegrfehfpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepfigrnhhgmhihsehfuhhjihhtshhurdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvu
+ gguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 07:48:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213372
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 08:02:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213373
 
-On Thu, Mar 20, 2025 at 12:37=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Thu Mar 20, 2025 at 4:02 AM CET, wangmy via lists.openembedded.org wrote=
+:
+> From: Wang Mingyu <wangmy@fujitsu.com>
 >
-> On Wed, 2025-03-19 at 14:42 -0700, Khem Raj via lists.openembedded.org wr=
-ote:
-> > GCC 15 defaults to C23, it can not handle it
-> > latest release is from 2021, and this seems to be
-> > deprecated upstream and no longer actively
-> > developed.
+> 0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
+> 0005-Do-not-prepend-installroot-to-logdir.patch
+> 0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+> refreshed for 4.23.0
 >
-> This isn't true with 0.114 which was recently released.
->
-> Was it confirmed we still need this with 0.114?
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
 
-No, we do not need this patch with 0.114, you can drop it from the series.
+Hi,
 
->
-> Cheers,
->
-> Richard
->
+Thanks for your patch.
+
+I believe this is responsible of some failures we see on the
+autobuilder:
+
+ERROR: core-image-ptest-util-linux-1.0-r0 do_rootfs: Could not invoke dnf. =
+Command '/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/=
+qemux86_64-poky-linux/core-image-ptest-util-linux/1.0/recipe-sysroot-native=
+/usr/bin/dnf -v --rpmverbosity=3Dinfo -y -c /srv/pokybuild/yocto-worker/qem=
+ux86-64-ptest/build/build/tmp/work/qemux86_64-poky-linux/core-image-ptest-u=
+til-linux/1.0/rootfs/etc/dnf/dnf.conf --setopt=3Dreposdir=3D/srv/pokybuild/=
+yocto-worker/qemux86-64-ptest/build/build/tmp/work/qemux86_64-poky-linux/co=
+re-image-ptest-util-linux/1.0/rootfs/etc/yum.repos.d --installroot=3D/srv/p=
+okybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/qemux86_64-poky=
+-linux/core-image-ptest-util-linux/1.0/rootfs --setopt=3Dlogdir=3D/srv/poky=
+build/yocto-worker/qemux86-64-ptest/build/build/tmp/work/qemux86_64-poky-li=
+nux/core-image-ptest-util-linux/1.0/temp --repofrompath=3Doe-repo,/srv/poky=
+build/yocto-worker/qemux86-64-ptest/build/build/tmp/work/qemux86_64-poky-li=
+nux/core-image-ptest-util-linux/1.0/oe-rootfs-repo makecache --refresh' ret=
+urned 1:
+...
+  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/q=
+emux86_64-poky-linux/core-image-ptest-util-linux/1.0/recipe-sysroot-native/=
+usr/lib/python3.13/site-packages/dnf/conf/substitutions.py", line 57, in __=
+setitem__
+    releasever_major, releasever_minor =3D ConfigParser.splitReleasever(val=
+ue)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'ConfigParser' has no attribute 'splitReleaseve=
+r'
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/1155
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/1242
+
+Can you have a look at this issue please?
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
