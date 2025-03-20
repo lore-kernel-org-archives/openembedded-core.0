@@ -2,174 +2,96 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05033C28B30
-	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 16:21:20 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web10.12047.1742487675960635744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CF1CC28B30
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 16:23:10 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.12207.1742487781051713099
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Mar 2025 09:21:16 -0700
+ Thu, 20 Mar 2025 09:23:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FeKFEvGg;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-aaee2c5ee6eso172976466b.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 09:21:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hnW9C/uS;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54991d85f99so2321182e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 09:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742487674; x=1743092474; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fVj5iWxR4t/KuutbvLoYg0xQ8URsf6bImx9mjFPEQUw=;
-        b=FeKFEvGgloQVGOIuczQcw6XzkjfGl8zeIbF+7xYwb97Y+3pkHh2lyQ+m0Nkwo4Ihoi
-         V0ZqOVwaxcXSwq+dUHtSDDaRSfUhJVe6khIgBqBetpaEobw/iAIGVxxZhTVnGsssTuaV
-         ue9EevSmcuYrpEPqpA4LIPyxxKNkkhRJkXODK78veM8YJPP+ujKuQui4IoDifOCPTMsg
-         jUqh4OewoA3qQXs9yxwqZw/LriY5S6dzRvHIaiPOx6sIUNxljcw5Ju4bpCfDCVoIIAcB
-         OpFqYD+LFE+iCcgDPbJ4uZHzU42uLfmp1/Auje4Jl2e65F4gIsJDxUR5hMLb2eM6hllj
-         EYyg==
+        d=gmail.com; s=20230601; t=1742487779; x=1743092579; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/B9wxZfinAaa5qjcP+AunAHiV3ZQ4RPUHku7h8lvrU4=;
+        b=hnW9C/uSsRl5vu0w9uQuH07/RFi8YRSz7mj5ziAHzJFEJfh6bo9DVFBeIrmBaEbxrM
+         wmVQ0Uxer6wne1z/JXDkQF+e19Yg1S96obt8Yp4GosuAXlZvk7toSOgXqiXNrKtm89uI
+         iioKnL9AkyCCx1+kxFlBEJeVG6AFRAFahnrbHEOAxGQst+nu70BhoW95aB26mNITZzna
+         BhUdhPuvnrkqtyHenbAbzvnEg1tUX4FgLLT/NbwHvPwiGi0WMA7WjCKU43Q6BiNWoUwo
+         OBxI9H+egxRgGG/96DhnWlXLrsiIaHzO5mW/C1KZ4eLw2eL5xd2ojP8U8ZCT4J9CfeAd
+         u8+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742487674; x=1743092474;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fVj5iWxR4t/KuutbvLoYg0xQ8URsf6bImx9mjFPEQUw=;
-        b=gHHkvYiBUbVDp1g8ySg8qDU0evsNoGZxLyUqI1dmErrpBT9CxBjbdUCb6G6Zt5AkVl
-         4pes+rMe4TPWLeQQ5F/oaXuWDR3f8WmFUbhrifT7dI6W8T966/lnAvc4q+HtLd9bMWNv
-         a2YduLvFvBSeN3j+2IZSkuy+p4/YnjrsyEzgx0GrjJlokKeq3+3aDZDRt6qVy/n8u4RF
-         BfLwbnk6j0o9jvj6qUluNbZZ19eDucojbglBrpJrrtcoCexDiHSrJFTAxriCrbMrZ56q
-         kj9yQWBAWEqG0B+LhU12W19H2XeSSMhcmCgkpPjCyxzNCtch9JQSThnopwTD4KDeQSVi
-         kUmw==
-X-Gm-Message-State: AOJu0YyohyWIgJxfj6EA+hq8i87/hkMxPixf8anAa4FNU02JFojIRxWc
-	9JAzG8IbSBbm+2ZQKTcrUC3n/EU8GlCra0MyOaDZ9gsjdPdST+1JL0Xw5A==
-X-Gm-Gg: ASbGnctOFEjiApiiA6/lI5xdpthRvrxQMauTeBYt4DQfFcPqlpHaOxy1DB82ZpNrBaa
-	uqZpuIctB/rBqh5XtnwcMg+V/fUxYaK7H3G7NCHvBUpnImhPw8nXdFjT3R824S3oxpX9GYcXVjd
-	aC5rzHLD3agd5LkPVVv3LvA2IDYyh4PRR13FthxgxWy7zXJmjv4fRt+Z1LU4Nq+5GV0djekE2OG
-	+IVaCUZudGS5nTSxG7TZgLGH9CgE/DNXCR5We/ZKjkw/VjzI6vMtKdU3W2Jzd53k27iWwPWrjvf
-	uf0WZyhdb0rnLvNAyspOoztuhaOfSVUZUEDvuH2dLwLudza9NZlYmeo8a5LMNPucZpCc1cmAKnU
-	Qew==
-X-Google-Smtp-Source: AGHT+IFu2lb+vzm2lWM1dYN7nTROYyYAT0BQ/IB+kHXvEArqQihePnw9HxE9lBmNbZAXN5koHMxNlw==
-X-Received: by 2002:a17:907:6e8c:b0:ac3:8537:904e with SMTP id a640c23a62f3a-ac3ce1c9e00mr434300766b.49.1742487673881;
-        Thu, 20 Mar 2025 09:21:13 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ac3efd48021sm5390766b.168.2025.03.20.09.21.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Mar 2025 09:21:13 -0700 (PDT)
-From: martin.jansa@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Denys Dmytriyenko <denys@konsulko.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH] gcc: unify cleanup of include-fixed, apply to cross-canadian
-Date: Thu, 20 Mar 2025 17:21:07 +0100
-Message-ID: <20250320162107.3852707-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        d=1e100.net; s=20230601; t=1742487779; x=1743092579;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/B9wxZfinAaa5qjcP+AunAHiV3ZQ4RPUHku7h8lvrU4=;
+        b=bkSls1j90kjCKL1FWc/Fyz7krx3vImGbETGC3ifDZtjyP53BfiGvpclgCDKbj+tNBX
+         f3BSiD1oT00YA6WUG/aPajXFqWZlBXn7RtBSp4YQmBJTAlkxonOdqB8iB+mwauG6NrOB
+         j7eiXESxHtmoH6yQyn99eEGg3eNi3qB9xWxcycGtiDvFpdTDAkuk5QLJ0+V9lv/PjcHz
+         aVKK7MoIUWsedgBg+aXc8HwF2OiMto8bLh4x3LVBDhOr2XID0rWoewSUkbkFL/W2Lv8k
+         xFlJZzKvtY5MtAW++cprn60AbZeCLXO4F5jivBMnch5SsARYG8c4gDvtj+BzW/jzWQQ9
+         urcw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpFkgaIYaPgmoqW66joWA7zzsyvZBI20+MmTMzZoYFh7uR28dqApJx8E4liYLg3dR0UK2JvVC9NVdkUnHg3UXQBw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxHStASlRFfmqilGFLi3vEwDkJvAK6PG8q93kRPWn0Voo727vVx
+	oEYwmPy9gqwW8ZKTLzvDgv40+OYSoj9dwFSLVz4odEEHW3cwVrQZigzCI0H94fjvB+pnD/7PbHL
+	zQZGmMpO0CkoI2YQsSTtsOmClgTA=
+X-Gm-Gg: ASbGnctGs1A7uVRnMDndyTBqU2bHB6uyMHGGnq+vfjX7kIBZb5gdvYFFpiS+3GL0Tj2
+	PFo/GqJb9Ajg/clIlmtpRCG1ALXqBq6fVefz+ec+K3UcfY9/j8kPkwAlOV0vCBe6sWqlGuXh4JV
+	DauHVE7WeEr0DiAwgR9oMCBuGa4+Wg
+X-Google-Smtp-Source: AGHT+IGvPxNmLpuK6ahwLjTxwRkKp2Wd3usZxCYpcQs7q4ijiS5Cto2vW/XAJbDWb4ISf3DgbBYlqNTuELVmvfrgayA=
+X-Received: by 2002:a05:6512:3d17:b0:549:981b:169d with SMTP id
+ 2adb3069b0e04-54ad60240dcmr91623e87.3.1742487778919; Thu, 20 Mar 2025
+ 09:22:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1741980835.git.steve@sakoman.com> <d3c294ee0afe4d2eb46320945d41064ebfb5cbff.1741980835.git.steve@sakoman.com>
+ <b3d803cb-dbf0-4b05-b7af-a0fa3a8f7a69@ti.com> <CAOSpxdaPLDeHadupRrH=OxhsZ5KKVzn4x40i_Lgod=qME5dmNQ@mail.gmail.com>
+ <CA+chaQe26ese9KdXR6X8tdstyMB_RQRWZLHSzd9u8HqV5BUi3A@mail.gmail.com> <CAOSpxdao8QXCRr4yCbw-rAe+pykO8gZzSX4B=Kq2utZ2wukx9w@mail.gmail.com>
+In-Reply-To: <CAOSpxdao8QXCRr4yCbw-rAe+pykO8gZzSX4B=Kq2utZ2wukx9w@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 20 Mar 2025 17:22:45 +0100
+X-Gm-Features: AQ5f1Jpw9ASOS01DdfnmtDsv4oM0-a7fJgv-r3mhH_C5gdvnhwjN2_RGuRHAIko
+Message-ID: <CA+chaQc6h142OBBZHwsDy3O6d2oiuBRx6gkFbx2Db5kZvKRCnQ@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap 4/4] gcc-cross-canadian.inc: Fix buildpaths
+ error for pthread.h
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Ryan Eatmon <reatmon@ti.com>, Sana Kazi <sanakazi720@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 16:21:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213412
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 16:23:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213413
 
-From: Denys Dmytriyenko <denys@konsulko.com>
+On Thu, Mar 20, 2025 at 5:18=E2=80=AFPM Steve Sakoman <steve@sakoman.com> w=
+rote:
+>
+> On Thu, Mar 20, 2025 at 7:52=E2=80=AFAM Martin Jansa <martin.jansa@gmail.=
+com> wrote:
+> >
+> > I think we should backport:
+> >
+> > https://git.openembedded.org/openembedded-core/commit/?h=3Dstyhead&id=
+=3D350ff7d53f7506de2bc01f0efc569b8294b9afea
+> > https://git.openembedded.org/openembedded-core/commit/?h=3Dstyhead&id=
+=3D9221e4ab8cca4c06dc3d5c1de2fd4ce46477578a
+> >
+> > to fix this issue in scarthgap, that's what I did locally in
+> > gcc-cross-canadian bbappend.
+> >
+> > Steve: should I send the backports?
+>
+> Yes, please do!
 
-Since target and cross variants were already doing similar cleanup
-of include-fixed headers, as those aren't used, unify the code and
-also apply the same to cross-canadian variant.
+Actually the first one was already applied in last scarthgap update,
+so I've sent the 2nd one.
 
-Some of those header files get processed with a tool that leaves
-absolute buildpaths inside the file's commented section, causing
-QA errors. Since those aren't used, let's remove them.
-
-This may be a temporary solution until the tool itself gets fixed
-to not embed absolute buildpaths in the header files:
-https://lists.openembedded.org/g/openembedded-core/topic/107268307
-
-Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/gcc/gcc-common.inc      |  4 +++
- .../gcc/gcc-cross-canadian.inc                |  2 ++
- meta/recipes-devtools/gcc/gcc-cross.inc       |  2 +-
- meta/recipes-devtools/gcc/gcc-target.inc      | 31 +------------------
- 4 files changed, 8 insertions(+), 31 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 7f5cc109e6..01de93cc3c 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -138,3 +138,7 @@ remove_sysroot_paths_from_checksum_options () {
- 	sed -i "s@${DEBUG_PREFIX_MAP}@@g" ${B}/gcc/checksum-options
- 	sed -i "s@$stagingdir@$replacement@g" ${B}/gcc/checksum-options
- }
-+
-+cleanup_installed_include_fixed () {
-+	find ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed -type f -not -name "README" -not -name limits.h -not -name syslimits.h | xargs rm -f
-+}
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index adcaef2b0f..69ca18bf6e 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -174,6 +174,8 @@ do_install () {
- 			done
- 		done
- 	done
-+
-+	cleanup_installed_include_fixed
- }
- 
- ELFUTILS = "nativesdk-elfutils"
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-index 1dbb6dc42b..9c8cc94c3a 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -108,7 +108,7 @@ do_install () {
- 	cp ${S}/libquadmath/quadmath.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
- 	cp ${S}/libquadmath/quadmath_weak.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
- 
--	find ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed -type f -not -name "README" -not -name limits.h -not -name syslimits.h | xargs rm -f
-+	cleanup_installed_include_fixed
- 
- 	# install LTO linker plugins where binutils tools can find it
- 	install -d ${D}${libdir}/bfd-plugins
-diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-index f51d94cd65..08141f32e6 100644
---- a/meta/recipes-devtools/gcc/gcc-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-target.inc
-@@ -206,37 +206,8 @@ do_install () {
- 	install -d ${D}${libdir}/bfd-plugins
- 	ln -sf ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/liblto_plugin.so ${D}${libdir}/bfd-plugins/liblto_plugin.so
- 	chown -R root:root ${D}
--}
- 
--do_install:append () {
--        #
--        # Thefixinc.sh script, run on the gcc's compile phase, looks into sysroot header
--        # files and places the modified files into
--        # {D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed folder. This makes the
--        # build not deterministic. The following code prunes all those headers
--        # except those under include-fixed/linux, *limits.h and README, yielding
--        # the same include-fixed folders no matter what sysroot
--
--        include_fixed="${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed"
--        for f in $(find ${include_fixed} -type f); do
--                case $f in
--                */include-fixed/linux/*)
--                    continue
--                    ;;
--                */include-fixed/*limits.h)
--                    continue
--                    ;;
--                */include-fixed/README)
--                    continue
--                    ;;
--                *)
--                    # remove file and directory if empty
--                    bbdebug 2 "Pruning $f"
--                    rm $f
--                    find $(dirname $f) -maxdepth 0 -empty -exec rmdir {} \;
--                    ;;
--                esac
--        done
-+	cleanup_installed_include_fixed
- }
- 
- # Installing /usr/lib/gcc/* means we'd have two copies, one from gcc-cross
+Cheers,
 
