@@ -1,162 +1,87 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BCC1C35FFC
-	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 03:02:36 +0000 (UTC)
-Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
- by mx.groups.io with SMTP id smtpd.web10.151.1742439751381972293
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78EE1C36001
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 07:37:06 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.2246.1742456224391486062
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 20:02:31 -0700
+ Thu, 20 Mar 2025 00:37:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=TN4iVdmf;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1742439752; x=1773975752;
-  h=from:to:cc:subject:date:message-id;
-  bh=Aaelos/W4rILE+rjQpOKzTH4yT/EhDDsHDjV548WFjA=;
-  b=TN4iVdmfVMXn4vYrVIcYnqRgNdovP77JUq+rRVQiCFBEPe+m3Y/Bw0sq
-   7QhZ3HMpQZ1gV9Cfq1ldjweHHaqjkD5pYnjYkIvIW68xHcBg/qrTtE1ff
-   vC/sds6NJ3wlIUokAR/OdYKNTLiQyhMDkpGKUjSLewHZwcKJEKlwt8klj
-   a/Bc9gLKW0ayyc8RJq0dKEMNtgquuqRP4s+ZEtk5G2JEvgfZcnhgsmpFs
-   8hAjP0pDXUtycmt52R/nN4u+XdQjRzeB0lrZ0NZpGVP16WchX13iS/Vr7
-   ql5hWnD+nqKyctGDAIzD16JfTiW9uIJwuJtSuRrBx8W676pGc6UUn5tZO
-   Q==;
-X-CSE-ConnectionGUID: Iu5GxfnESWCAXhK5IVKcPg==
-X-CSE-MsgGUID: e3anfLDJQw+yddiNOe/bgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="193645495"
-X-IronPort-AV: E=Sophos;i="6.14,260,1736780400"; 
-   d="scan'208";a="193645495"
-Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 12:02:30 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id ECDA1D4C31
-	for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 12:02:26 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id A7153D4C11
-	for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 12:02:26 +0900 (JST)
-Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id E9F8F1A009A;
-	Thu, 20 Mar 2025 11:02:25 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH V2] dnf: upgrade 4.22.0 -> 4.23.0
-Date: Thu, 20 Mar 2025 11:02:20 +0800
-Message-Id: <1742439740-18703-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ib5nsWyc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso2145035e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 00:37:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1742456222; x=1743061022; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6sdobyLB+2dRo5XTIa5auZVSiF0SHa1kZ0l1WqXOMWo=;
+        b=ib5nsWycew5mVlkbhFoYWWLDqVR1K9DU2ib4i8XbIIN4R1N1U91NvYy/ZN7ZjNbwZA
+         ++vMUFyZnkfKolFI01V9aIhA6n4KcyxSyCamGWzT9VDmE+mKGS9MzFTp4N3Z9Ch0jHSC
+         1g7S5jHHT1611IpnuQcjBYfMZFWQZPbIAhY24=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742456222; x=1743061022;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6sdobyLB+2dRo5XTIa5auZVSiF0SHa1kZ0l1WqXOMWo=;
+        b=H/LgC6h/CKev+QWI5yQ8BBrfhcAdTTyFWh5JIAtI2Du4vhQWmRNmEedD9wqxLE9pyW
+         XFPXCUBRz9DPVYcTReyW3l3XOEdEzmManOQyxPEz26PMruxPeHl+AZY5hT9bwBHRSh2z
+         OmPoTVNBCFHjel4d/w/CeRre2B1QQtqUy5YAr++ZxMM4rpzUggMaRvM7efMvUQeQg/ZL
+         rjmHGNZZynwO/1658Ih6hBhVxlN7pdMrS3ipc2DF+6xudhhCsUkg99SZ3lsuqATaNi4B
+         5nmE/8je9F7GHCIXmcvHr3LIbUSei12uNF/80y8prtbQNV6QJ5e9HU0dMbtIaXSN0J8/
+         6SJA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3iYaII0XVaul/w91qiPgPONGIqFg34iPeUt+SW+zRX3JWMO0/uaviMnSI6KVieHRO+fwOVuLq7lDetKRxfowk5Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwVaQODjfdqAbYpX+SPFtr9KIg+L+wiOwtv38ps3djicpzyJrcc
+	/q1xW/iWvG9d8dBHv4pVlapxpQG/k96mtM27tRAzPCADrTQuuQbRuSgKc7Us6jFf5zEtmWMrlaP
+	n
+X-Gm-Gg: ASbGnctN7ekNu+Qkh/EBv2Vk3H1zII1NNRduwbgaxTABz4BcdzPFJybkFrjjRt66kO9
+	C8+cH1ZAUm1dxlBRWb1B67XsLPBk6OpmHuWAJmo0D4ioGyNODpO5WLDgINhCMOmXQyzW7oSidNV
+	+wIEpRXRc34vuCIRPapdVDKJN2qU9FXSQkMICLMEHEGPwfhP1h8y/usfqVmlUAiRhizvQoo9VjV
+	hJPl7EizuomkDwE2SMS4JSieKBCA7dDS5k77ctBE/690bytQhgl6OOsMjFP7leIQLUB+CbiV4sh
+	+YGi+w7Cf0GUYv55LuceJUUaW4upbjWl0IdXmf7JEGid8DAoJXwsatwZR3p6zHV+LVLgVAk+jIa
+	rQmKhURqzvVr4laySNoUjbZJLSTt+XPqXOg==
+X-Google-Smtp-Source: AGHT+IG+zrMc2mpJym9bImGCrFjpVZ6S/VwrGHJbxxF/2XpdnT7ZVbOZautbNCF0mvKNbDxTHdKcDw==
+X-Received: by 2002:a05:600c:4503:b0:43c:fab3:4fad with SMTP id 5b1f17b1804b1-43d437c3354mr57518885e9.16.1742456222475;
+        Thu, 20 Mar 2025 00:37:02 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ede9:63ed:996d:ca84? ([2001:8b0:aba:5f3c:ede9:63ed:996d:ca84])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c83b6a5esm22633043f8f.27.2025.03.20.00.37.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Mar 2025 00:37:01 -0700 (PDT)
+Message-ID: <4890e4e46e07e1473da235daf0c489585d6b01cd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4 2/9] dbus-glib: Fix build with GCC 15
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Date: Thu, 20 Mar 2025 07:37:00 +0000
+In-Reply-To: <20250319214213.2505249-2-raj.khem@gmail.com>
+References: <20250319214213.2505249-1-raj.khem@gmail.com>
+	 <20250319214213.2505249-2-raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 03:02:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213370
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 07:37:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213371
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+On Wed, 2025-03-19 at 14:42 -0700, Khem Raj via lists.openembedded.org wrot=
+e:
+> GCC 15 defaults to C23, it can not handle it
+> latest release is from 2021, and this seems to be
+> deprecated upstream and no longer actively
+> developed.
 
-0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-0005-Do-not-prepend-installroot-to-logdir.patch
-0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-refreshed for 4.23.0
+This isn't true with 0.114 which was recently released.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- ...-Do-not-hardcode-etc-and-systemd-unit-directories.patch | 7 +++++--
- .../dnf/0005-Do-not-prepend-installroot-to-logdir.patch    | 7 +++++--
- ...9-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch | 7 +++++--
- meta/recipes-devtools/dnf/{dnf_4.22.0.bb => dnf_4.23.0.bb} | 2 +-
- 4 files changed, 16 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/dnf/{dnf_4.22.0.bb => dnf_4.23.0.bb} (98%)
+Was it confirmed we still need this with 0.114?
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-index 37359a5765..24b26f4cb8 100644
---- a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 4aee99fb..9e2e9e9e 100644
-+index a76b6ac..a2ba58c 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -3,8 +3,8 @@ CMAKE_MINIMUM_REQUIRED (VERSION 2.4)
-+@@ -4,8 +4,8 @@ PROJECT (dnf NONE)
-  
-  INCLUDE (${CMAKE_SOURCE_DIR}/VERSION.cmake)
-  
-@@ -24,3 +24,6 @@ index 4aee99fb..9e2e9e9e 100644
-  
-  IF (NOT PYTHON_DESIRED)
-      FIND_PACKAGE (PythonInterp REQUIRED)
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-index a1c58d6563..159dc32c75 100644
---- a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
--index d3844df3..ac080f79 100644
-+index 62b9434..14d4757 100644
- --- a/dnf/cli/cli.py
- +++ b/dnf/cli/cli.py
--@@ -954,7 +954,7 @@ class Cli(object):
-+@@ -1002,7 +1002,7 @@ class Cli(object):
-              logger.warning(_("Unable to detect release version (use '--releasever' to specify "
-                               "release version)"))
-  
-@@ -26,3 +26,6 @@ index d3844df3..ac080f79 100644
-              conf.prepend_installroot(opt)
-  
-          self.base._logging._setup_from_dnf_conf(conf)
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-index 64ea7874d3..09af96048c 100644
---- a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 9e2e9e9e..2056089d 100644
-+index a2ba58c..98aa9df 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -19,7 +19,7 @@ ELSE ()
-+@@ -20,7 +20,7 @@ ELSE ()
-      MESSAGE (FATAL_ERROR "Invalid PYTHON_DESIRED value: " ${PYTHON_DESIRED})
-  ENDIF()
-  
-@@ -22,3 +22,6 @@ index 9e2e9e9e..2056089d 100644
-  MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
-  
-  ADD_SUBDIRECTORY (dnf)
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf_4.22.0.bb b/meta/recipes-devtools/dnf/dnf_4.23.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/dnf/dnf_4.22.0.bb
-rename to meta/recipes-devtools/dnf/dnf_4.23.0.bb
-index e5ac3c9824..fe3deb4344 100644
---- a/meta/recipes-devtools/dnf/dnf_4.22.0.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.23.0.bb
-@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
- 
- SRC_URI:append:class-native = " file://0001-dnf-write-the-log-lock-to-root.patch"
- 
--SRCREV = "da9a7066be8e1628d9453428d33685225cd9c90d"
-+SRCREV = "8fa4bb94a99eadaed91ad2ee51f27a4baafcebed"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
- 
- S = "${WORKDIR}/git"
--- 
-2.43.0
+Cheers,
+
+Richard
 
 
