@@ -1,100 +1,104 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE153C36000
-	for <webhook@archiver.kernel.org>; Wed, 19 Mar 2025 21:50:00 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.7333.1742420998236068025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD3BAC35FFC
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 01:55:36 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.3371.1742435733720415312
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Mar 2025 14:49:58 -0700
+ Wed, 19 Mar 2025 18:55:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZjqucM4T;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=XqwMJ4Wh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010195b06274d3-3c311ba3-7a48-4d30-b420-bf9f54c335a8-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742420997; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=uqYfRPQSLXEEsbdjjZxPsrLCzdZKOpzmDX40pH1ySos=;
-	b=ZjqucM4TzjHqeR3a5DqKWTWRQvTPRFnlmurjChPrwFu5SSusuMmVontaqzz6wp4Y
-	G6yDz8BD3V5n1NErGkLres45Be8cIb7lGwj0/qiqhRqmSnMmpCN31YufZzxxgpTFx8b
-	GS0yZypkCIgvK5xKFiPyR8eFyTPs3pZOWVf2qe7o=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742420997;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=uqYfRPQSLXEEsbdjjZxPsrLCzdZKOpzmDX40pH1ySos=;
-	b=XqwMJ4WhA7xr8Kl3xaAB//ViHYgVlMEUm7MWqgjAuVD73sTtcsfAD7d0PR5XLyw4
-	2qqhMIab3hvnFsdBVnoLJbO8IHQkGPDjeHwQLNleH69ia3AlGhNHOLxa858TzTfQ1ET
-	K/yJPj7mEa3xLwKGjBN26AHAM9Dqtqbg15VRdj6Y=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v4 6/9] time: Fix build with musl
-In-Reply-To: <20250319214213.2505249-6-raj.khem@gmail.com>
-References: <20250319214213.2505249-6-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195b06274d3-3c311ba3-7a48-4d30-b420-bf9f54c335a8-000000@us-west-2.amazonses.com>
-Date: Wed, 19 Mar 2025 21:49:57 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.19-54.240.27.31
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=klqfn8E7;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-225fbdfc17dso2656595ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 18:55:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742435733; x=1743040533; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PQHI4i2AxajOox5Q8cIIpAaiXlHnL3r3RUD+IqNI18M=;
+        b=klqfn8E7jJvCncWjx14xJyhJ+HtxUcFnIMyf7lMD5Ir+oLDKqbJg8FYv9CnmTZxTq/
+         TVlQSj80y/2H+KNQehmjdvpqaXdLjgXSRABsJJyJ6ApmO9i0tXyQ3qaShBIuPIARPdL0
+         HoAdQqbD3N053keEQjsqoTHolaoEoChOPn1aUx9nDDNLzIj7fV2DnEOYyNjvVS/BnQyS
+         m9jB+CynYmBBBBDYDqrJtERC+xQslfZ6kMWducxarguBlQ0KVDEIIsHoZeIcX7G/5q4t
+         lHCzo1h1XCRsruNGP6IJQ8mb8/haVkMb1CKQlUukCm39mH4yXwO86z/GgsvH8mGxrtCK
+         IpDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742435733; x=1743040533;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PQHI4i2AxajOox5Q8cIIpAaiXlHnL3r3RUD+IqNI18M=;
+        b=t8rIqGTaGtFSBvw9I/fL9i6yVfZLEGvDurlEALrnn0UkydAbKXI9vhz7ghG99/QQAM
+         ZNoY/s2lH8AjLsLoGvQ7JdFursybdYhu2vJBu37oKJhD+khahlmcQh5Zw0xYL4LFxnOC
+         +9FSQTGb28hpm0yLNi8eyHmbT9/nu6Ovm0HK2U7PzeMs8Etx9ZkF2KISXSjgx+Zrxp9+
+         mM2HrAx+LK1YVUqTgvkgGAIc459qmSM5jpm+ne3UkAXs4K7F3rjUb3T4khDpgwGIzETX
+         SNXZfuMDWCA9Il/gPbO7OAAFClDQJ4YhSTwxPb6GWpbU6ElmuG4FjfnnrUDjcH9COSE9
+         sCZg==
+X-Gm-Message-State: AOJu0Ywd8WIIhj7u+FheClgApuAImYM1XjgKyO7SDbJlz7welnm+kcgq
+	3zw1f6fYRgYPKI+6rerzUxZ1xhYTFnmkQRP9wJYz+GpsNrKP3pI+Nu0ahnTC
+X-Gm-Gg: ASbGnctKkqzWspbdz+HTyhLjQT2OHI1Ia+5QIsk46SD/b9fGoZ+Owni1j/qkWIyMqSy
+	3xvlgp26pj+TVhUzvnaaO3z3kHgFrjk6HiOzl7XZI/Wtmzx1V8Q8YsmcGHh4FlS3v09Nqegd0qm
+	y3GFd4jBkYwoqS3eYNgDBPAFB2XeoJVnSH2cbZMMOE3sEQXCkSShFAAJlIvLfRBYP4IGbExz7vL
+	NziSEJ01+vcF32/qZYscBc+q1q9Cb8tWD4GdJ1zOrPtHvKcMLLsQEeaX/7+jMd6dSF2pEv1tIiB
+	MD2OBz3DMTeDpsBOm5uuMWEpN6LSc9s87crKLCN0JJd53IM=
+X-Google-Smtp-Source: AGHT+IG+7yWyr6ezPPTknTbNUb6Mim6StRtG7BxmNmPhvjtajI7v2r+vfzJRh5/C/6PKBYmPGbd93w==
+X-Received: by 2002:a17:90a:dfcf:b0:2ff:58c7:a71f with SMTP id 98e67ed59e1d1-301be206993mr6387316a91.32.1742435732529;
+        Wed, 19 Mar 2025 18:55:32 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-301bf5d0cfdsm2482667a91.48.2025.03.19.18.55.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Mar 2025 18:55:32 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] opensbi: Do not inherit autotools bbclass
+Date: Wed, 19 Mar 2025 18:55:29 -0700
+Message-ID: <20250320015529.3212482-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Mar 2025 21:50:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213368
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 01:55:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213369
 
---NextPart
-Content-Type: text/plain
+This package is built using simple makefiles, therefore using
+autotools bbclass is not right and moreover it is now a hard
+error in core
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v4-6-9-time-Fix-build-with-musl.patch
+ meta/recipes-bsp/opensbi/opensbi_1.6.bb | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-bsp/opensbi/opensbi_1.6.bb b/meta/recipes-bsp/opensbi/opensbi_1.6.bb
+index 3c16656b395..ed1a70d01a1 100644
+--- a/meta/recipes-bsp/opensbi/opensbi_1.6.bb
++++ b/meta/recipes-bsp/opensbi/opensbi_1.6.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING.BSD;md5=42dd9555eb177f35150cf9aa240b61e5"
+ 
+ require opensbi-payloads.inc
+ 
+-inherit autotools-brokensep deploy
++inherit deploy
+ 
+ SRCREV = "bd613dd92113f683052acfb23d9dc8ba60029e0a"
+ SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https"
+@@ -26,7 +26,12 @@ EXTRA_OEMAKE:append = " ${@riscv_get_extra_oemake_fdt(d)}"
+ # Required if specifying a custom payload
+ do_compile[depends] += "${@riscv_get_do_compile_depends(d)}"
+ 
+-do_install:append() {
++do_compile() {
++	oe_runmake
++}
++
++do_install() {
++	oe_runmake DESTDIR=${D} install
+ 	# In the future these might be required as a dependency for other packages.
+ 	# At the moment just delete them to avoid warnings
+ 	rm -r ${D}/include
 
