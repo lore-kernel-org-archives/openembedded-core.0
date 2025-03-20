@@ -1,87 +1,90 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78EE1C36001
-	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 07:37:06 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.2246.1742456224391486062
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BADF2C28B30
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 07:48:56 +0000 (UTC)
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+ by mx.groups.io with SMTP id smtpd.web11.2422.1742456936018624232
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Mar 2025 00:37:04 -0700
+ Thu, 20 Mar 2025 00:48:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ib5nsWyc;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso2145035e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 00:37:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=a8m0503G;
+ spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3feaedb4085so274290b6e.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 00:48:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742456222; x=1743061022; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1742456935; x=1743061735; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6sdobyLB+2dRo5XTIa5auZVSiF0SHa1kZ0l1WqXOMWo=;
-        b=ib5nsWycew5mVlkbhFoYWWLDqVR1K9DU2ib4i8XbIIN4R1N1U91NvYy/ZN7ZjNbwZA
-         ++vMUFyZnkfKolFI01V9aIhA6n4KcyxSyCamGWzT9VDmE+mKGS9MzFTp4N3Z9Ch0jHSC
-         1g7S5jHHT1611IpnuQcjBYfMZFWQZPbIAhY24=
+        bh=vBqnol1b1U07MdPTBArBjwy+SqNB5QKILDiy5yFFkkk=;
+        b=a8m0503GvxBlQ+CddaDpbiu7t6DA31iQUS8Pv5EYu//XfIhESPIW8y9CbkdqC0jtMb
+         sQDdspQpnDWsMaDpIumQ5K4f7bvwOVgBSAALSGPhbhN2bQ+CYQcAduu/1xSetN6WDRNv
+         4d6iaIPCEFPnuf28nBvwAWVckDjResKJqOWYwuPUCQtPhx/G+v/amj+PoG2axUGik4ex
+         Q8hH9BVZ6q7zgIEYXtJCoAS+9N6jTf6Gpe7AomhaHaxdeew90De9eprZUqdusOPfV7i3
+         XEemupF1d7H564xzAWH5qd6+pTiQPaDxNbiLDoqtbbIkHcqbzAh5KrCs5qQQCa8F8Woa
+         XJVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742456222; x=1743061022;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6sdobyLB+2dRo5XTIa5auZVSiF0SHa1kZ0l1WqXOMWo=;
-        b=H/LgC6h/CKev+QWI5yQ8BBrfhcAdTTyFWh5JIAtI2Du4vhQWmRNmEedD9wqxLE9pyW
-         XFPXCUBRz9DPVYcTReyW3l3XOEdEzmManOQyxPEz26PMruxPeHl+AZY5hT9bwBHRSh2z
-         OmPoTVNBCFHjel4d/w/CeRre2B1QQtqUy5YAr++ZxMM4rpzUggMaRvM7efMvUQeQg/ZL
-         rjmHGNZZynwO/1658Ih6hBhVxlN7pdMrS3ipc2DF+6xudhhCsUkg99SZ3lsuqATaNi4B
-         5nmE/8je9F7GHCIXmcvHr3LIbUSei12uNF/80y8prtbQNV6QJ5e9HU0dMbtIaXSN0J8/
-         6SJA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3iYaII0XVaul/w91qiPgPONGIqFg34iPeUt+SW+zRX3JWMO0/uaviMnSI6KVieHRO+fwOVuLq7lDetKRxfowk5Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwVaQODjfdqAbYpX+SPFtr9KIg+L+wiOwtv38ps3djicpzyJrcc
-	/q1xW/iWvG9d8dBHv4pVlapxpQG/k96mtM27tRAzPCADrTQuuQbRuSgKc7Us6jFf5zEtmWMrlaP
-	n
-X-Gm-Gg: ASbGnctN7ekNu+Qkh/EBv2Vk3H1zII1NNRduwbgaxTABz4BcdzPFJybkFrjjRt66kO9
-	C8+cH1ZAUm1dxlBRWb1B67XsLPBk6OpmHuWAJmo0D4ioGyNODpO5WLDgINhCMOmXQyzW7oSidNV
-	+wIEpRXRc34vuCIRPapdVDKJN2qU9FXSQkMICLMEHEGPwfhP1h8y/usfqVmlUAiRhizvQoo9VjV
-	hJPl7EizuomkDwE2SMS4JSieKBCA7dDS5k77ctBE/690bytQhgl6OOsMjFP7leIQLUB+CbiV4sh
-	+YGi+w7Cf0GUYv55LuceJUUaW4upbjWl0IdXmf7JEGid8DAoJXwsatwZR3p6zHV+LVLgVAk+jIa
-	rQmKhURqzvVr4laySNoUjbZJLSTt+XPqXOg==
-X-Google-Smtp-Source: AGHT+IG+zrMc2mpJym9bImGCrFjpVZ6S/VwrGHJbxxF/2XpdnT7ZVbOZautbNCF0mvKNbDxTHdKcDw==
-X-Received: by 2002:a05:600c:4503:b0:43c:fab3:4fad with SMTP id 5b1f17b1804b1-43d437c3354mr57518885e9.16.1742456222475;
-        Thu, 20 Mar 2025 00:37:02 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ede9:63ed:996d:ca84? ([2001:8b0:aba:5f3c:ede9:63ed:996d:ca84])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c83b6a5esm22633043f8f.27.2025.03.20.00.37.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Mar 2025 00:37:01 -0700 (PDT)
-Message-ID: <4890e4e46e07e1473da235daf0c489585d6b01cd.camel@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1742456935; x=1743061735;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vBqnol1b1U07MdPTBArBjwy+SqNB5QKILDiy5yFFkkk=;
+        b=JpDw/F3+Awta7+gdW4GU11LurXk2rf5koWAryyJhUZVvuBI3EPgS/xU+gnD1n+XOQ0
+         OtRXUzTlp3U9t3tJjmTtis86MQcA/Tafpp2ES+eRt1ph2JmQrbFxMrR5RUG6Jtfua2Fx
+         EOd6lr4ikL5rJlg2po4Xe+W9Oo6SjrRbfSTByDwwbYvkcAq9+pQRk/zUiu2L+sLazJ7N
+         Zj+rOub0nZwQt9EoxsByedM/N1ROgv8k8UjEQ+1tG8uw3uvbUmyFnoRf36/NwLqg1ySB
+         d3cHs9/GHo6vWmAIySDQv3QSmtW/fW8s7G/qo7jDIfVn9b4CL3uhy1IhIyYKH+Y/mfMn
+         yEhw==
+X-Gm-Message-State: AOJu0Yx2L3UMA2mMzIBPtl5SifE60SFRamtnJs7OtyFO/w6Ztcf5pjpy
+	JJQe6aaILkRhtq0G+kLj0Z8VBusra++1/07uIwjL9PhB9UgfFbaDwO9qlhvtNoRhGvYKYuGJiig
+	MsNiW+IxZezPwMtWUSyZ2WTzBRXk=
+X-Gm-Gg: ASbGncti+UDumzoynDFeFJwX4kXdkbpcthW4n0YI2XZticvmTVIbWy2iV+P+rHO4Vkm
+	TlN1V81X9bvZfqVInAD/M1elHLsd4u0XhV2JT4DqnG8QPLvDTveRviN3F7Gi94b9jGSG6NsMNMk
+	XxZkVz4jbfIqsp05boS/IoDWlU
+X-Google-Smtp-Source: AGHT+IEl/KKrpfoWdY+46+9n0siYNowyFblKIdE3gHV8yBXAdii/ngSKnNH0ME4HfjEMMQLlRyRHeGTSz2m9E2KH07w=
+X-Received: by 2002:a05:6808:320c:b0:3fb:174f:821d with SMTP id
+ 5614622812f47-3fead610fa6mr4756380b6e.35.1742456935117; Thu, 20 Mar 2025
+ 00:48:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250319214213.2505249-1-raj.khem@gmail.com> <20250319214213.2505249-2-raj.khem@gmail.com>
+ <4890e4e46e07e1473da235daf0c489585d6b01cd.camel@linuxfoundation.org>
+In-Reply-To: <4890e4e46e07e1473da235daf0c489585d6b01cd.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 20 Mar 2025 00:48:28 -0700
+X-Gm-Features: AQ5f1JqholuJdoL8nbUQ_acK74XKLTcEyqZffp9CsEzoilJ1tFXo9Fa6a5DjllU
+Message-ID: <CAMKF1socZ5d8rXmQz-HtQzDs-9SeWmJtjvv+H2QXtTLKPA-39A@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v4 2/9] dbus-glib: Fix build with GCC 15
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Date: Thu, 20 Mar 2025 07:37:00 +0000
-In-Reply-To: <20250319214213.2505249-2-raj.khem@gmail.com>
-References: <20250319214213.2505249-1-raj.khem@gmail.com>
-	 <20250319214213.2505249-2-raj.khem@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 07:37:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213371
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 07:48:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213372
 
-On Wed, 2025-03-19 at 14:42 -0700, Khem Raj via lists.openembedded.org wrot=
-e:
-> GCC 15 defaults to C23, it can not handle it
-> latest release is from 2021, and this seems to be
-> deprecated upstream and no longer actively
-> developed.
+On Thu, Mar 20, 2025 at 12:37=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Wed, 2025-03-19 at 14:42 -0700, Khem Raj via lists.openembedded.org wr=
+ote:
+> > GCC 15 defaults to C23, it can not handle it
+> > latest release is from 2021, and this seems to be
+> > deprecated upstream and no longer actively
+> > developed.
+>
+> This isn't true with 0.114 which was recently released.
+>
+> Was it confirmed we still need this with 0.114?
 
-This isn't true with 0.114 which was recently released.
+No, we do not need this patch with 0.114, you can drop it from the series.
 
-Was it confirmed we still need this with 0.114?
-
-Cheers,
-
-Richard
-
+>
+> Cheers,
+>
+> Richard
+>
 
