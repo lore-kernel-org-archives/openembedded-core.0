@@ -1,116 +1,110 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2F7BC28B30
-	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 13:40:08 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.7663.1742477999486903923
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AECF7C35FFF
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 13:40:18 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.7673.1742478014098684379
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Mar 2025 06:40:00 -0700
+ Thu, 20 Mar 2025 06:40:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=OSWmkYcN;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4394a0c65fcso7096065e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 06:39:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QrjjDlU+;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6e8efefec89so6925826d6.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 06:40:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1742477998; x=1743082798; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742478013; x=1743082813; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZQVguQN5BhOUNFu6c7wqZqaa1Cgikpq/Vrxg2JJ6fT4=;
-        b=OSWmkYcNRN+3+WZNzJd5C9jU6nfWmmilrlnV52dyjwjMnHyN76RFwntK+KKh0WCWwp
-         SXEoErDXiIGb9+YKXjRWQpXrgkfg9Z7CWW2yqJHBlJ+brSdBJg6Dh2btkO5ddLH7A/kf
-         QZ51CgTIN7Hwl8W3/stqUwzRvDSYr0oKMejRI=
+        bh=msgupoMAjOiQfS0u4lu5CzaHx+CsXz/aUETZWD7hVL0=;
+        b=QrjjDlU+rfmJFKm1ee7wWGM5ZxzqZs8r5Y+XGXHxDlzqmcyJRmxLAQxietXldaR51o
+         6aqxtIGSDgH/Muoic96AUoYExQfIjkY8SpA0N6wzqq66PkZZQuu9lWWcrHkMshq2XfvT
+         o3GgRDxLzPNDlkNQPEC7u3b7wt2AGGEDKO0rkeMm6r3Aw6lblLYe8XVboJYiTezMXIVT
+         AKitTVOtYEqPbDIoZ7Rlp/Y5UxdD/ChbTeLAvRSfLt4gFjw3AkbmYs8gxD4JvLLcps1X
+         dDUioeneq1i81T7VqwhCgyxxEMPFodnquTlmVUUfc86FPvkS2hCeiDlmZ/ZpLb+1r2wX
+         sGow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742477998; x=1743082798;
+        d=1e100.net; s=20230601; t=1742478013; x=1743082813;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZQVguQN5BhOUNFu6c7wqZqaa1Cgikpq/Vrxg2JJ6fT4=;
-        b=npyofmtNz0yEed3xO/Mfnk0Qyb90M2tTGPW1CSwaaTqPiNka0wjo9cvGM1dD7I6SIs
-         MpZ/alxqOxFGS/UPKgS3V8X0RZ29H6U5is1EZRovYs+XZi4k7XrBj0gPsFZr2Y1+DUEI
-         TGvssOR13OfqDe6zGbjzLepPrX2/UjDLvNILbdYSTwNvU8RKTgaolkJIo/RhVx6vGCP/
-         qXqTANKIRfNdQSRVSNfkzdT8Pd8qFtvNkEf3jwQjVCgG1qzZHTIh3h3AqP1pJxbIfuw0
-         NdwE3cTAOnsQbUBQgokZgxQIoWe+wQ4Qt035o5zPzFDYouDpdER5m8FSEgff9nNCbK4S
-         V+9g==
-X-Gm-Message-State: AOJu0Yz3HOLyrAglazHAjd6huKlBVc77veXkkAEbG37OiZHqRm51/2Oh
-	FfAQpMho+nT1/Tbf/6EkXnPJm7Xj4an5RmIWdGkU83tXbJFIXK8Cca4GlhLd+EkDMrhxJ9Jeqs+
-	o
-X-Gm-Gg: ASbGncvxwIxzBIymm8NB3QWWPvTQpQjBq3TjcFnb01ardOy+E0rXfRSQtSsxFpNIg68
-	qfjIGpulvOEqbSuOJ6Ei9wgWu5Zhp5mAoP2SNejcWeNNep4/5YXslpNtjqOusduK3AJw13HHs2+
-	I7clTANl1LUWeaoq8Dcxffn4Q0tSnS/dP8/KKLQ8Jbz0aV/uRHInC0N6UyEi6bBGx9MgYUg+BLS
-	+86TOpg8yRtHs6sbdukkb7m8OCPtlxsDhGUlN1XdNSlLJatJcW6a84WruiwpY+TFiIl8Cu1rZfa
-	C9KnNjxWsxVHTNzca9e5SJAYJF9FlKU2R/vvM5TaslYXn624sJk6AzjDw5uzkgtxQheDxiRS5nP
-	/phba+afNRwwwhpy3MPY6ReWw+PEPUqfka4j1W/TvdCWAygJNRP2VUDpKhg==
-X-Google-Smtp-Source: AGHT+IE/WXVOWLUtgQaWrMKNR/Z9Ce9pj/xkXls+rgK8TFK9cQ5sKCRRBZm1W5s8LzhkLDqUVrQUGw==
-X-Received: by 2002:a05:600c:1991:b0:43d:1f1:8cd with SMTP id 5b1f17b1804b1-43d438691ecmr42040655e9.24.1742477997564;
-        Thu, 20 Mar 2025 06:39:57 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df320csm23651274f8f.7.2025.03.20.06.39.57
+        bh=msgupoMAjOiQfS0u4lu5CzaHx+CsXz/aUETZWD7hVL0=;
+        b=fZUVtTkJ63cazk0NSMvXX8HQPIn4x69hGkCgDnAg4AgNV5KoUx2BOV+h/ggQaOd5zT
+         SCll93E1FbPvSFAZrkAafDynUvSPEmJEriHg4YUf9I5f7D21N63dhBoNjm665Cm+f0IA
+         UV3LhSQIRRqOQUDOMSLV0ZjCLL6mq68F5/jPYvK9CvHu7/INHLG3tO4pH2jCT6dadi1Q
+         BA5WOrPXVGZVSX4G19GmvYjfvbgcoHIaWkueBmK4MScAgk//ewY82TNH2OKOjZ3xMFb1
+         2/kKx38EA63XXJA/mMIMGWtmFGnGwT6yRNMNm9t6tG7HbmyglO1JhUxjITHeBSeBWRRT
+         eBCw==
+X-Gm-Message-State: AOJu0Yx57+tncM7aYhtXdQw1wpcgIPYs7f1X/B9euh0IbAewL+h+qjL1
+	KTBMufQKo5nxVx+L0deN8SiOzYTdffyoUHXjJWwFOGGRt2mBr9Y3
+X-Gm-Gg: ASbGncvEGyjpGcJiR2kvoFEhgNNV3Yivl9J7mElFC6ml++h6YtvZfo1eC1gXzsjdLJR
+	GGlRm2OQXOfrjPSFz5gDK3WoThEFCzWDJfdBhGdkuU0S/jOC9of68vKK1pv0OiNtunu9Cem1hvm
+	4vgSe4fVB/tFR/3kuspFXzkobuPbepcyBRCVhaRxxsUBDPeZ2driSHr7lOYtNFgs4YMxe9WAwLz
+	huckUyXCuXDed18KM6PRNKLESGKGaqS0ClrkqGE/bnfkL+vrFHm0KlrdXYSWisJCYEvL7thHJ4z
+	xGE3FXORBqSv6MtaOaC65RCD/Tph9u0qa6lxEJbIQgkm3Nn25W/PAs4WLzN05DsuRMHdcxxJI+J
+	SYBAPit0cEscMBQVqkIHwRMX1McT8tzuaq6IfzkSusUY+9r2/XGWLRQk8
+X-Google-Smtp-Source: AGHT+IF70RuWank7N/ilwsYpQ6KzdAPInPOSG0Qpeo0XrdGTIWonbt4qZbnIk1qEDCBbrlqr55+/lQ==
+X-Received: by 2002:a0c:e991:0:b0:6eb:2f30:55cd with SMTP id 6a1803df08f44-6eb2f3f99e7mr60084946d6.45.1742478012997;
+        Thu, 20 Mar 2025 06:40:12 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eade231256sm93954166d6.32.2025.03.20.06.40.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Mar 2025 06:39:57 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH 1/2] sanity: Refactor "C++ toolchain support this flag" check
-Date: Thu, 20 Mar 2025 14:39:45 +0100
-Message-Id: <20250320133946.2631311-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.39.5
+        Thu, 20 Mar 2025 06:40:12 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/6] linux-yocto: -stable and config tweaks
+Date: Thu, 20 Mar 2025 09:40:05 -0400
+Message-Id: <cover.1742477836.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 13:40:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213386
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Mar 2025 13:40:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213388
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-This can be use to check for other flags.
+Hi all,
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/classes-global/sanity.bbclass | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Here are the collected -stable and configuration tweaks that are suitable
+for the upcoming release.
 
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index 1bae998f74..dc317e846d 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -607,9 +607,9 @@ def drop_v14_cross_builds(d):
-                 bb.utils.remove(stamp + "*")
-                 bb.utils.remove(workdir, recurse = True)
- 
--def check_cpp_toolchain(d):
-+def check_cpp_toolchain_flag(d, flag, error_message=None):
-     """
--    it checks if the c++ compiling and linking to libstdc++ works properly in the native system
-+    Checks if the C++ toolchain support the given flag
-     """
-     import shlex
-     import subprocess
-@@ -622,12 +622,12 @@ def check_cpp_toolchain(d):
-     }
-     """
- 
--    cmd = shlex.split(d.getVar("BUILD_CXX")) + ["-x", "c++","-", "-o", "/dev/null", "-lstdc++"]
-+    cmd = shlex.split(d.getVar("BUILD_CXX")) + ["-x", "c++","-", "-o", "/dev/null", flag]
-     try:
-         subprocess.run(cmd, input=cpp_code, capture_output=True, text=True, check=True)
-         return None
-     except subprocess.CalledProcessError as e:
--        return f"An unexpected issue occurred during the C++ toolchain check: {str(e)}"
-+        return error_message or f"An unexpected issue occurred during the C++ toolchain check: {str(e)}"
- 
- def sanity_handle_abichanges(status, d):
-     #
-@@ -802,7 +802,7 @@ def check_sanity_version_change(status, d):
-     status.addresult(check_case_sensitive(tmpdir, "TMPDIR"))
- 
-     # Check if linking with lstdc++ is failing
--    status.addresult(check_cpp_toolchain(d))
-+    status.addresult(check_cpp_toolchain_flag(d, "-lstdc++"))
- 
- def sanity_check_locale(d):
-     """
+These will also include a mips clock change that may or may not have been
+part of RCU stalls seen on the AB.
+
+I'll follow up with -stable pull requests for other releases shortly as
+well.
+
+Bruce
+
+The following changes since commit 9cd6b3ad8b9b9574f1a9f957246b744abb993c2d:
+
+  cronie: Resolve build failure with GCC15 (2025-03-19 12:09:06 +0000)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (6):
+  linux-yocto/6.12: configuration graphics, I2C and warnings
+  linux-yocto/6.12: genericarm64: set the DMA Contiguous Memory
+    Allocator size to 32MB
+  linux-yocto/6.12: update to v6.12.17
+  linux-yocto/6.12: update to v6.12.18
+  linux-yocto/6.12: update to v6.12.19
+  linux-yocto/6.12: yaffs2: fix module build
+
+ .../linux/linux-yocto-rt_6.12.bb              |  6 ++--
+ .../linux/linux-yocto-tiny_6.12.bb            |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb | 28 +++++++++----------
+ 3 files changed, 20 insertions(+), 20 deletions(-)
+
+-- 
+2.39.2
+
 
