@@ -1,267 +1,76 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <Mario.Schuknecht@iris-sensing.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AA88C36001
-	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 13:49:20 +0000 (UTC)
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.88])
- by mx.groups.io with SMTP id smtpd.web10.265.1742564950929792672
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86BF3C36000
+	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 14:57:30 +0000 (UTC)
+Received: from o4.shr1-de.smtp.net (o4.shr1-de.smtp.net [185.71.125.104])
+ by mx.groups.io with SMTP id smtpd.web10.1918.1742569044632645625
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Mar 2025 06:49:11 -0700
+ Fri, 21 Mar 2025 07:57:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=daCHduCc;
- spf=pass (domain: siemens.com, ip: 40.107.241.88, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kbKUiy/CVLqBTl1m+fjJAsBWNqWgQgAYhBjmI/gCiVqlzOp8SsJJA43xubI+ad+9S9np3MawQn7FfcSTDW5pxkvz6v2aN5Qn5yedfaU+wEexjIksG2g1fhxK4bnoj+F/8Ed2XTBo+hw/YoGyJJjVbCAuWc5LtL8XzKorjN2XvRKXXiEGJGdALXRIvWMZGzqGT/Uh5gxxldM+rXnlx2dXSOFH2xp0Q5dH/smnnjnoCV0THoL+Ai90LUR3ynbNhPivGUv5zzqk1qyySQrzRSeclyZU2wv71rNNIXxc1+MaSYWeYGynVcHDTj+2jSQz1ymWEouyXhz1U+pqWvEpOMRoFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=22MjnRppyUYAY4oCuY6SZJKlzmg+WkMxNvLZTH5esXs=;
- b=kfjuvrgH2QN/6FZ4NlMSHHTD8dM41t+RAfaW28zU835PC4GEIPkET4ZQke13Q7hOdFud8/NO2E6AB2nYgrCRaVp83EU5ywxIttQWTndVMXwPQ+tsCVjKohBvkOKyu/b0k4qNCo1WFbelMwXLcdNdBrF0inGXmLeGBMHIZkj73QrhEHXk6BDC/OxdfjvfQVQ5t+bZOhaoAo+cm3Xa85T5zQp6AeCl2Ml1h73HfdbaqLpk5NqUdrH/v5N/z8NXIyYa51UbFmn2VkLN2jvrALjtmCwPcNisZTEtJoxnV2Jkf0ArZih2OhmQtr0831FXCHiGPRFLELSmh2cZD+QTCM7wSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=22MjnRppyUYAY4oCuY6SZJKlzmg+WkMxNvLZTH5esXs=;
- b=daCHduCc1BcekY+o1JbEm4fU8ot6hWnHWdytqVD+2UG+ZaKwKgBn2ob7gBHV5wYicmA8lDf6khonx776tbAi4TON1Jv6lRYa0IX9+1o9HQmTSEVi3lvKs7SRe8u0lFvov6tq4KbGHGqQxIB/QHH6Y2jh3rd0W7L3XEn5SGidDS+/gB3p+6H9Ok+m/optgESLstnrC0YEChvBkVgvCYwWPBMw53L0+bWAjKedEPHb4lmyiBq64b822ocgDkg8DoSwXWrlE3KIuxcwEbB4P4KWH+B/kJ206YTv69NyJ5YS2EYg0PIGMvTZTL1AcSrePf9jYNd2cIneVdFGGDXG8z7KqA==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by PA1PR10MB8838.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:443::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.35; Fri, 21 Mar
- 2025 13:49:07 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%3]) with mapi id 15.20.8534.036; Fri, 21 Mar 2025
- 13:49:07 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH] spdx30: handle links to inaccessible locations
-Thread-Topic: [OE-core][PATCH] spdx30: handle links to inaccessible locations
-Thread-Index: AQHbmZHtnOLt7tZsxUeiBjYBLQkRd7N9iPQAgAAE2aCAAAQLgIAACA1A
-Date: Fri, 21 Mar 2025 13:49:07 +0000
-Message-ID: 
- <AS1PR10MB569770D1D3320698B188A26EFDDB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250320121533.39356-1-peter.marko@siemens.com>
- <exidjcjvhfkvob7yns4tubsqeuajetel5ezaa3gu7aezbksvp3@fuknr23vph64>
- <AS1PR10MB56971AE062D6D2F26A6BFA7BFDDB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <CAO9ioeWYGPC0nvsRocPPiJ-ZVicVsoX3oL5-RvGJ33kAXdp==w@mail.gmail.com>
-In-Reply-To: 
- <CAO9ioeWYGPC0nvsRocPPiJ-ZVicVsoX3oL5-RvGJ33kAXdp==w@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=c28c1098-5279-4344-962c-3e446fad803f;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-03-21T13:38:24Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PA1PR10MB8838:EE_
-x-ms-office365-filtering-correlation-id: f2f5cc48-30d4-4336-5d4d-08dd687f26aa
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?MlVzNzZkZm9weUxLRER0R1ZhMlExa1FFQmxtV0ZNZGp1ZHBvQkl2cGtDQjV5?=
- =?utf-8?B?NHp3dEl3alhNZDRFbHdKdFQzRVhWbDYwR2NxZ0o4MXdIdEpabURoVmtyakgx?=
- =?utf-8?B?QW5WTHJDbktIUXk2bGNQcmNzajJxTnJWdStYdTB5ZmFaUnVqNldoT0k4YXNO?=
- =?utf-8?B?bk9RNTBDcTBSSkVkU2hVT2xncnpvME85MVZlVWN4MEd3MWdTb0didC84MURs?=
- =?utf-8?B?d28zVW5iZllwaGxXRTEwVGpRa21VVkxORzF4UGtiM2UyY3FhVVZjdmRnblRZ?=
- =?utf-8?B?am9LS3lVQjFDRzdReFNTOFBjdi82a0VhZkpCRGVTTEVrejhQczA4SnpmVk9m?=
- =?utf-8?B?U3RtRExyV05rbVhveUlCc2Z6WDR4ZHc4UVRYVStCRE4rMVcwNWNYSHJMSWxW?=
- =?utf-8?B?Y0JNNjhLOTViMjk5dGR4V1FDWHZqWmd0OUlyVnoyc0txSVNUcTd1UUQ0MGpm?=
- =?utf-8?B?aDdIMkZ4M21sTEs3YUU0Y0pFaW5neURKYU16TTVLcmlPZ0haQWhCbTJZUGVW?=
- =?utf-8?B?c0grV1EvTEh6NzhabnpNVk9kU2V0MVJLeFNBMnpNalhBRHhuc3ZvL2lHYVZh?=
- =?utf-8?B?bzBXREVSVVZvN1dDZnltNDZSMTA1emtQTi9OczE4MnhPK2gxNGZPV3R3QnRU?=
- =?utf-8?B?dUVsWllxZmR1TTVWNjRtdXN3bUcrUUVMNDFTRzQvTitMdEowUkY1QlhjUys5?=
- =?utf-8?B?cnJnTk8vaU5uS09kbEM2WTFIZzE1NXJ2M3YwblpUQitROEVZSVBIYnFsY2hi?=
- =?utf-8?B?UjZEUzBuWVdtYVg1YklxZVUyQjdPNDBCYUJpb1BPdWNnUnEwK2FKcitaMnNt?=
- =?utf-8?B?cUVmeU5jYmZXYWhVVUd0T3Z2WkJnNit5WTh5dkplWWFmSUgyNXVFV052WG41?=
- =?utf-8?B?KzEyV0xrbDJPYVlnV05aVzk1dGMzUm9ybFRXeGpRZUIvYjUzWGtQdVhnMkhG?=
- =?utf-8?B?emJTbk9XaUcxQjRZcThjRFB6VzlleTR1N083TGJZYXZQOTc5TGpVQXlxbEtu?=
- =?utf-8?B?ckIySVpTREl1ZUdtZGd4b1JlRWtXMTcxb21NcDFPV0dTSTY5WlJxdGQ2T1g5?=
- =?utf-8?B?elV1Y0RHblpZYkhGYU1qb3IwS2dGdmNKQkJSalF5aC9pVjc1c01ZRjRsTVRw?=
- =?utf-8?B?UzI2dEVXVHlUeGVYVGhQcDR4NlZ3djBuNThaeDU3dzRiNHBadEtWSGJjVFQr?=
- =?utf-8?B?TC9Ea0d5bUR3TEN1WU5HNFFxak80SmpPZC9HamRIdnBBY204SFc2ZmxMM3lt?=
- =?utf-8?B?RU9uY3lEbnd4Z0VkQUdYaDBHOUV6K2R5RnhmV1kxVUJZeWtBYWRjMkNRQ3lF?=
- =?utf-8?B?UEx5MlRTRFp4TGEvUnhnUXRFVTlKdVJwTlpCYnl0MFA5QXlKVU9BemVvWDND?=
- =?utf-8?B?RGpSZHBUMjR0cDdmVVkrL3lxTVVmaXVUWHhhay9hbzdFUUZVdkd6N2RhV0hx?=
- =?utf-8?B?aG9GM2x4aUdvKzJnNlpnN243bTJoOVhidnhKNERGdmFJQnFoOHZDdlFic3cv?=
- =?utf-8?B?dm13Qm5NdHNkeVFOL1JUNXBtZkFucW80UHEyVlFKQ1FzOUpvNXVBYzBoaURp?=
- =?utf-8?B?cU4yazlMa3NiSkVHUHMwV29CR2RSdG5jdlZ1SWJRM1hwNnN0SnBLbWl0U2tv?=
- =?utf-8?B?RVNWRHROUnVDTGs4aGxoUFVUSXpQc0dNWk1pc0tmU1h2eVF6MW5RY21KYWc5?=
- =?utf-8?B?Vmw1d3BKU2xxY3RaRUUzcWdOdFM2R3puUkFkWDRtTmVqK3NObDFUMk9XcFJ2?=
- =?utf-8?B?SG8zanF1eEZTMTJJRGlIcjBxMFl5Q2s3R0lyUjhEeTN4a1JKWXFxaEFhY2tN?=
- =?utf-8?B?SUo0US9yL1BiNlk4cGQwc1A3QnVzTzhBN1BGSW9ZcHNoNE0yNnlOM1F1b09H?=
- =?utf-8?B?SzRTcGM3VGZnM2Q4bDR2S21DazJlblRDUDhxMjU5RTdqSFE9PQ==?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ekhFT2F4d3Z3VUlzb01WZ0ZjNVlWdW5TOGRtY2hVZHlVdTNFSTNnVjR6Y2FH?=
- =?utf-8?B?Vi91Q3lqQXhTalRzVzhaR0xsZkE2VlhXaDdIMWU5TWFUL0ZuMVcyOEZiejB2?=
- =?utf-8?B?bzdjcTFZVnQvbXF2Z2p2ZWg3WXEvSEdISUFOUzlVR2pEd2tYRm00U0NUbTBr?=
- =?utf-8?B?S3ZPdUZHSkJUS2tseTNqQkIwWkthK2N4OFowaXBDUGFMZ3YxdTVoYVdWeU8v?=
- =?utf-8?B?eWdMVFRBUVAxSkl1TFQvRC9CdGZaNDhnTVJzMmdPYnZPU2x4VzlibHdMd1Rx?=
- =?utf-8?B?ajFkN1VZSUl1UUI3MlgvOTI3MHFLbHp0a3kzaGJVeDNLR2U5STMzQjIyWG53?=
- =?utf-8?B?UWFWYnFYUGh0WFUzTSs5Z2pXUndQZGRNR0JaNXZtMlFYb1ppdXZUVVZqS0Qx?=
- =?utf-8?B?aHN1THlaK1BDY2dvd1FOUzlZcks0SExweGVjS2t6OWZZR2k3WUMzeElHblBX?=
- =?utf-8?B?S216bW9oTXFCak5CaExmWk4rcCtjTC92NnlQeVhmb3g4Q2tucmZxSEE2dEpm?=
- =?utf-8?B?cjBKY3NFV0dqYUFQMkFZRlJ3VElhVjlSM0w1ZUVOdFN4VnduNGtHbll0cVRz?=
- =?utf-8?B?WVFMYmJ2Wno5N1JudWdYZUc2VmhwT1RVM245OEJ2NDNsSm00cWVrOUR1ZnFF?=
- =?utf-8?B?eHN6R1JvWW1mYXc1eThMLzNpdzZtamJybEJTTU03MVkxQldaQmdjZERYMGFH?=
- =?utf-8?B?ZzlXUlFzV21lUHJIeno1OU16UUd5T2pEbER2enMxeVZXbWgzeEZNbnNqeUJX?=
- =?utf-8?B?TWd5Qmcxa1lUSXQ2NVFWK3l6NUUrRm5tejM5azd5eTcreUtCZFcyMUtNTHNM?=
- =?utf-8?B?Y09hM2pERDBSaGxiQ2k5OWhySGtUVGJqUlZKTTM4aC9KWkkvbnhtekFucEQ3?=
- =?utf-8?B?bVhmdVpTZisxUEVUcWdrK3duWW1mdGxMK3pSaE40MDYzcWRhTU1tbjg4RlE1?=
- =?utf-8?B?YkFPd3o2Z0Zhd2FTNUlrWnhOblh3LzUwcFY2TzU3NUFMdGJBamduTTFHUndT?=
- =?utf-8?B?UFpsSVdrc0pPcStrNUFsQjBxZExiQnJXdDV2K1hYQW5lTEp2R3crMDVHalRq?=
- =?utf-8?B?M0JvUnhrc0kycVpyYnNoTkprMkorMjdZa3NNWklDRXRWbjZheXJPbWc2aTlK?=
- =?utf-8?B?T3lSV2N4dlR5SXpGUTIramEvT0RwM1c2aUdpT3h1N0dxU2RFRTZ2R0RlSkJU?=
- =?utf-8?B?aUNrOXprK2tmdko0V0JxS0NZVVlTSE1mUk5xdjZJbzZBUndFMXZGZHc4akxt?=
- =?utf-8?B?bDlJdjhGRjM3dTk2cXozODVwc2JjZnEyVWsyWGZNZFk3ZEJ1NWVFL2p4VHhJ?=
- =?utf-8?B?Ni9QcGxsTlpxTlozYXZ6YzBHQmpEN1FrTzAycEpqRHNrKzNoQ054dmc1bnAv?=
- =?utf-8?B?TmI1TUovTVhuZUo1bStjYks1bjZUMk5pMTlud2dQS3grRlRhL3l0R1dlRDlM?=
- =?utf-8?B?SmhLYi92bjFXZWNVTDY2YWdFS283TjNlQnkvcUpwT20rSkZ3V1J4bjkrTzlx?=
- =?utf-8?B?UmVrem01TDI1cnJ2WXQxUWNCeUo2N2VmOWNSZ3pXY1NVdW9RcnNPK2RuMzZX?=
- =?utf-8?B?ZlJ2N2pOcWNJRXlKQkhidG9BMExiZTBqT3Y3aWUwR1VkclpzSWVqOE8rb1N3?=
- =?utf-8?B?WUdqbVhUbTUycTlmc1A2TzVkNHFzSzFTeCtDRXJ6VTdTcVVMRE51QVA3NDRM?=
- =?utf-8?B?dm1vNmo4L1d2TjdNbzVyamlUU3UxYzR0UFkwcEc5ckxvRG5jRk1ad0Z6SFFr?=
- =?utf-8?B?U1kxdlFEeE1VZVMrajVwTktuL0E3VkVDc3FNQlpkSjdQeXdscFBYZGNGK1hS?=
- =?utf-8?B?MytXdHlGbWllZ3IyNkV4cFZvWmVnOGYyd1pQQzZlY2FsRW81c1oycjcxemcz?=
- =?utf-8?B?dDdWNERJZkxKdnJOUVk4aWh3cWpHd1ZDMGpYeENDZkRPTmRpWkhjWlUyNjl0?=
- =?utf-8?B?bEYvRU93aW95RXdTMUF1M0ZtblBuU1dVeGRCNGo4MFEyWlJaWTRNV1Rad3Z2?=
- =?utf-8?B?Q2RGWjIxMEVxU0JBNDU3aFphdHRNamN1eGpUcmhjaHF4OVVMOVdvQi9Hd2ps?=
- =?utf-8?B?eVMvQnVCbWJ1ZFJmUVR5WXl5SDVDczdzSmZWS25Nb2N5VWtScEg0OEp0V2Zx?=
- =?utf-8?Q?VDAQWU20KlLDj87Mewrd9e+Tw?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=mario.schuknecht@iris-sensing.com header.s=smtp header.b=mTP3YFpp;
+ spf=fail (domain: iris-sensing.com, ip: 185.71.125.104, mailfrom: mario.schuknecht@iris-sensing.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; s=smtp; d=iris-sensing.com;
+ h=X-CSA-Complaints:From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+ Content-Transfer-Encoding:List-Help; i=mario.schuknecht@iris-sensing.com;
+ bh=feS3X8moT/1NLMgii2pbKRkYeVnJfSw86pw8Y1kauU8=;
+ b=mTP3YFppbc08k+lD8ChLDxVEJl3+bQFcKO5qBJZvYpqJsrpOLz0naDna5RtH/uILNwc5R7Dna1lz
+   TQaba19+D2J55dCFPSXpQ/pTAL5Led5uNXrE3LD5Te+V9qgXAml/0fOiPOJyV4oKADB08oU+iAkB
+   qEF+5uAxNgy07/szttRbc+eFpj2iktjqzDrqXrVxBzh+PbWN098pTaEPOlEMlw0BVqA6CRWOO3dq
+   xD5uOwqTAxuAGurC74rySrWs/FhPZoJwu+L3jAE5sFL3kdBhYPlkwScwRz9fwEOOrwV6dAtElGxn
+   EcS+k2CZPT8SxNFuRmyiE2OLOQw57DU71BxRjA==
+X-CSA-Complaints: csa-complaints@eco.de
+From: Mario Schuknecht <mario.schuknecht@iris-sensing.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mario Schuknecht <mario.schuknecht@iris-sensing.com>
+Subject: [meta-oe][PATCH v2] libgpg-error: inherit lib_package
+Date: Fri, 21 Mar 2025 15:56:59 +0100
+Message-ID: <20250321145659.9113-1-mario.schuknecht@iris-sensing.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2f5cc48-30d4-4336-5d4d-08dd687f26aa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2025 13:49:07.4924
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: R7jidTWe+Weba2UeswOIF2Kqg9qwUhsj81bEQGz+qw55fJXsuTcks2rKkOnmElP8Hn2YgKrBjpdQ5CaEUcAYoA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR10MB8838
+Content-Transfer-Encoding: 8bit
+X-Complaints-To: abuse@smtp.net
+List-Help: <https://www.rapidmail.de/unsubscribe_help>
+Feedback-ID: ohorkrd6ro6lu91c:3291:trx:rapidmail
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 13:49:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213469
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 14:57:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213470
 
-SSBiZWxpZXZlIHRoYXQgeW91IGhhdmUgYSBwcm9ibGVtIHdpdGg6DQoqIGNvbW1pdCBodHRwczov
-L2dpdC5vcGVuZW1iZWRkZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlL2NvbW1pdC8/aWQ9NDg1OWNk
-Zjk3ZmQ5YTI2MDAzNmUxNDhlMjVmMGI3OGViMzkzZGYxZQ0KKiBjb21taXQgaHR0cHM6Ly9naXQu
-b3BlbmVtYmVkZGVkLm9yZy9iaXRiYWtlL2NvbW1pdC8/aWQ9MjUxNWZiZDEwODI0MDA1ZmE3ZjM0
-ZTg3NzA2MDAwYzA3OTkyMDM2Ng0KVXNpbmcgbmV3IG9lLWNvcmUgd2l0aG91dCBtYXRjaGluZyBi
-aXRiYWtlIGNoYW5nZSB3aWxsIGxlYWQgdG8gdW5rbm93biBhdHRyaWJ1dGUgbmFtZSBzaW5jZSBp
-dCB3YXMgY2hhbmdlZCBmcm9tIG5hbWVzIHRvIG5hbWUgaW4gYm90aCBjb21taXRzIHRvZ2V0aGVy
-Lg0KDQpJIGNhbiBjbGVhbmx5IGJ1aWxkIGNvcmUtaW1hZ2UtbWluaW1hbCB3aXRoIHNwZHgzIGZy
-b20gbGF0ZXN0IHBva3kgbWFzdGVyICh3aGljaCBjb250YWlucyBtYXRjaGluZyBvZS1jb3JlIGFu
-ZCBiaXRiYWtlIHZlcnNpb25zKS4NCk1heWJlIHlvdSBoYXZlIHJldmVydGVkIHdob2xlIG9lLWNv
-cmUgdXBkYXRlIGFuZCBub3QganVzdCBteSBjb21taXQgd2hlbiBsb29raW5nIGZvciB0aGUgYnJl
-YWtpbmcgY2hhbmdlPw0KDQpQZXRlcg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+
-IEZyb206IERtaXRyeSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5c2hrb3ZAb3NzLnF1YWxjb21tLmNv
-bT4NCj4gU2VudDogRnJpZGF5LCBNYXJjaCAyMSwgMjAyNSAxNDoxMA0KPiBUbzogTWFya28sIFBl
-dGVyIChGVCBEIEVVIFNLIEJGUzEpIDxQZXRlci5NYXJrb0BzaWVtZW5zLmNvbT4NCj4gQ2M6IG9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtP
-RS1jb3JlXVtQQVRDSF0gc3BkeDMwOiBoYW5kbGUgbGlua3MgdG8gaW5hY2Nlc3NpYmxlIGxvY2F0
-aW9ucw0KPiANCj4gT24gRnJpLCAyMSBNYXIgMjAyNSBhdCAxNDo1OCwgTWFya28sIFBldGVyIDxQ
-ZXRlci5NYXJrb0BzaWVtZW5zLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBJIHRoaW5rIHRoZXJlIGlz
-IHNvbWV0aGluZyBlbHNlIGJyZWFraW5nIHlvdXIgYnVpbGQuDQo+ID4NCj4gPiBNeSBjb21taXQg
-Y2hhbmdlZCBmdW5jdGlvbiBjcmVhdGVfcm9vdGZzX3NwZHguDQo+ID4gVGhhdCBzaG91bGQgbm90
-IGluZmx1ZW5jZSByZWNpcGUgc3BkeCBjb2RlLi4uDQo+ID4gRGlkIHlvdSB0cnkgYSBidWlsZCB3
-aXRoIG15IGNvbW1pdCByZXZlcnRlZD8NCj4gDQo+IEFzIEkgd3JvdGUsIHJldmVydGluZyBpdCBt
-YWtlcyB0aGUgZXJyb3IgZGlzYXBwZWFyLg0KPiANCj4gPg0KPiA+IFBldGVyDQo+ID4NCj4gPiA+
-IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBEbWl0cnkgQmFyeXNoa292
-IDxkbWl0cnkuYmFyeXNoa292QG9zcy5xdWFsY29tbS5jb20+DQo+ID4gPiBTZW50OiBGcmlkYXks
-IE1hcmNoIDIxLCAyMDI1IDEzOjM4DQo+ID4gPiBUbzogTWFya28sIFBldGVyIChGVCBEIEVVIFNL
-IEJGUzEpIDxQZXRlci5NYXJrb0BzaWVtZW5zLmNvbT4NCj4gPiA+IENjOiBvcGVuZW1iZWRkZWQt
-Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVd
-W1BBVENIXSBzcGR4MzA6IGhhbmRsZSBsaW5rcyB0byBpbmFjY2Vzc2libGUgbG9jYXRpb25zDQo+
-ID4gPg0KPiA+ID4gT24gVGh1LCBNYXIgMjAsIDIwMjUgYXQgMDE6MTU6MzNQTSArMDEwMCwgUGV0
-ZXIgTWFya28gd3JvdGU6DQo+ID4gPiA+IEZyb206IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0Bz
-aWVtZW5zLmNvbT4NCj4gPiA+ID4NCj4gPiA+ID4gVGhpcyBpcyB0aGUgc2FtZSBhcyBlMTA1YmVm
-YmU0ZWUwZDg1ZTk0YzIwNDhhNzQ0ZjAzNzNlMmRiY2RmIG9uDQo+ID4gPiA+IGFkZGl0aW9uYWwg
-cGxhY2UgaW4gdGhlIGNvZGUuDQo+ID4gPiA+DQo+ID4gPiA+IFdoZW4gYSBsaW5rIGlzIHBvaW50
-aW5nIHRvIGxvY2F0aW9uIGluYWNjZXNzaWJsZSB0byBidWlsZCB1c2VyIChlLmcuDQo+ID4gPiAi
-L3Jvb3Qvc29tZXRoaW5nIiksDQo+ID4gPiA+IGZpbGVwYXRoLmlzX2ZpbGUoKSB0aHJvd3MgIlBl
-cm1pc3Npb25FcnJvcjogW0Vycm5vIDEzXSBQZXJtaXNzaW9uIGRlbmllZCIuDQo+ID4gPiA+IEZp
-eCB0aGlzIGJ5IGZpcnN0IGNoZWNraW5nIGlmIGl0IGlzIGEgbGluay4NCj4gPiA+ID4NCj4gPiA+
-ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVyLm1hcmtvQHNpZW1lbnMuY29tPg0K
-PiA+ID4gPiAtLS0NCj4gPiA+ID4gIG1ldGEvbGliL29lL3NwZHgzMF90YXNrcy5weSB8IDIgKy0N
-Cj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0K
-PiA+ID4NCj4gPiA+IFRoaXMgY29tbWl0IGJyZWFrcyBidWlsZGluZyByZWNpcGVzIGhlcmU6DQo+
-ID4gPg0KPiA+ID4gRVJST1I6IHF1aWx0LW5hdGl2ZS0wLjY4LXIwIGRvX2NyZWF0ZV9zcGR4OiBF
-cnJvciBleGVjdXRpbmcgYSBweXRob24gZnVuY3Rpb24NCj4gaW4NCj4gPiA+IGV4ZWNfZnVuY19w
-eXRob24oKSBhdXRvZ2VuZXJhdGVkOg0KPiA+ID4NCj4gPiA+IFRoZSBzdGFjayB0cmFjZSBvZiBw
-eXRob24gY2FsbHMgdGhhdCByZXN1bHRlZCBpbiB0aGlzIGV4Y2VwdGlvbi9mYWlsdXJlIHdhczoN
-Cj4gPiA+IEZpbGU6ICdleGVjX2Z1bmNfcHl0aG9uKCkgYXV0b2dlbmVyYXRlZCcsIGxpbmVubzog
-MiwgZnVuY3Rpb246IDxtb2R1bGU+DQo+ID4gPiAgICAgIDAwMDE6DQo+ID4gPiAgKioqIDAwMDI6
-ZG9fY3JlYXRlX3NwZHgoZCkNCj4gPiA+ICAgICAgMDAwMzoNCj4gPiA+IEZpbGU6ICcvaG9tZS9s
-dW1hZy9Qcm9qZWN0cy9SUEIvYnVpbGQtcnBiL2NvbmYvLi4vLi4vbGF5ZXJzL29wZW5lbWJlZGRl
-ZC0NCj4gPiA+IGNvcmUvbWV0YS9jbGFzc2VzL2NyZWF0ZS1zcGR4LTMuMC5iYmNsYXNzJywgbGlu
-ZW5vOiAxMzUsIGZ1bmN0aW9uOg0KPiBkb19jcmVhdGVfc3BkeA0KPiA+ID4gICAgICAwMTMxOiAg
-ICAiDQo+ID4gPiAgICAgIDAxMzI6DQo+ID4gPiAgICAgIDAxMzM6cHl0aG9uIGRvX2NyZWF0ZV9z
-cGR4KCkgew0KPiA+ID4gICAgICAwMTM0OiAgICBpbXBvcnQgb2Uuc3BkeDMwX3Rhc2tzDQo+ID4g
-PiAgKioqIDAxMzU6ICAgIG9lLnNwZHgzMF90YXNrcy5jcmVhdGVfc3BkeChkKQ0KPiA+ID4gICAg
-ICAwMTM2On0NCj4gPiA+ICAgICAgMDEzNzpkb19jcmVhdGVfc3BkeFt2YXJkZXBzXSArPSAiXA0K
-PiA+ID4gICAgICAwMTM4OiAgICBTUERYX0lOQ0xVREVfQklUQkFLRV9QQVJFTlRfQlVJTEQgXA0K
-PiA+ID4gICAgICAwMTM5OiAgICBTUERYX1BBQ0tBR0VfQURESVRJT05BTF9QVVJQT1NFIFwNCj4g
-PiA+IEZpbGU6ICcvaG9tZS9sdW1hZy9Qcm9qZWN0cy9SUEIvYnVpbGQtcnBiL2NvbmYvLi4vLi4v
-bGF5ZXJzL29wZW5lbWJlZGRlZC0NCj4gPiA+IGNvcmUvbWV0YS9saWIvb2Uvc3BkeDMwX3Rhc2tz
-LnB5JywgbGluZW5vOiA1MzcsIGZ1bmN0aW9uOiBjcmVhdGVfc3BkeA0KPiA+ID4gICAgICAwNTMz
-OiAgICAgICAgICAgICkNCj4gPiA+ICAgICAgMDUzNDoNCj4gPiA+ICAgICAgMDUzNTogICAgY3Bl
-X2lkcyA9IG9lLmN2ZV9jaGVjay5nZXRfY3BlX2lkcyhkLmdldFZhcigiQ1ZFX1BST0RVQ1QiKSwN
-Cj4gPiA+IGQuZ2V0VmFyKCJDVkVfVkVSU0lPTiIpKQ0KPiA+ID4gICAgICAwNTM2Og0KPiA+ID4g
-ICoqKiAwNTM3OiAgICBzb3VyY2VfZmlsZXMgPSBhZGRfZG93bmxvYWRfZmlsZXMoZCwgYnVpbGRf
-b2Jqc2V0KQ0KPiA+ID4gICAgICAwNTM4OiAgICBidWlsZF9pbnB1dHMgfD0gc291cmNlX2ZpbGVz
-DQo+ID4gPiAgICAgIDA1Mzk6DQo+ID4gPiAgICAgIDA1NDA6ICAgIHJlY2lwZV9zcGR4X2xpY2Vu
-c2UgPSBhZGRfbGljZW5zZV9leHByZXNzaW9uKA0KPiA+ID4gICAgICAwNTQxOiAgICAgICAgZCwg
-YnVpbGRfb2Jqc2V0LCBkLmdldFZhcigiTElDRU5TRSIpLCBsaWNlbnNlX2RhdGENCj4gPiA+IEZp
-bGU6ICcvaG9tZS9sdW1hZy9Qcm9qZWN0cy9SUEIvYnVpbGQtcnBiL2NvbmYvLi4vLi4vbGF5ZXJz
-L29wZW5lbWJlZGRlZC0NCj4gPiA+IGNvcmUvbWV0YS9saWIvb2Uvc3BkeDMwX3Rhc2tzLnB5Jywg
-bGluZW5vOiA0MDgsIGZ1bmN0aW9uOiBhZGRfZG93bmxvYWRfZmlsZXMNCj4gPiA+ICAgICAgMDQw
-NDogICAgICAgICAgICAgICAgICAgIGNyZWF0aW9uSW5mbz1vYmpzZXQuZG9jLmNyZWF0aW9uSW5m
-bywNCj4gPiA+ICAgICAgMDQwNTogICAgICAgICAgICAgICAgICAgIG5hbWU9ZmlsZV9uYW1lLA0K
-PiA+ID4gICAgICAwNDA2OiAgICAgICAgICAgICAgICAgICAgc29mdHdhcmVfcHJpbWFyeVB1cnBv
-c2U9cHJpbWFyeV9wdXJwb3NlLA0KPiA+ID4gICAgICAwNDA3Og0KPiA+ID4gc29mdHdhcmVfZG93
-bmxvYWRMb2NhdGlvbj1vZS5zcGR4X2NvbW1vbi5mZXRjaF9kYXRhX3RvX3VyaSgNCj4gPiA+ICAq
-KiogMDQwODogICAgICAgICAgICAgICAgICAgICAgICBmZCwgZmQubmFtZQ0KPiA+ID4gICAgICAw
-NDA5OiAgICAgICAgICAgICAgICAgICAgKSwNCj4gPiA+ICAgICAgMDQxMDogICAgICAgICAgICAg
-ICAgKQ0KPiA+ID4gICAgICAwNDExOiAgICAgICAgICAgICkNCj4gPiA+ICAgICAgMDQxMjoNCj4g
-PiA+IEV4Y2VwdGlvbjogQXR0cmlidXRlRXJyb3I6ICdGZXRjaERhdGEnIG9iamVjdCBoYXMgbm8g
-YXR0cmlidXRlICduYW1lJw0KPiA+ID4NCj4gPiA+IEVSUk9SOiBMb2dmaWxlIG9mIGZhaWx1cmUg
-c3RvcmVkIGluOiAvaG9tZS9sdW1hZy9Qcm9qZWN0cy9SUEIvYnVpbGQtcnBiL3RtcC0NCj4gPiA+
-IG5vZGlzdHJvL3dvcmsveDg2XzY0LWxpbnV4L3F1aWx0LW5hdGl2ZS8wLjY4L3RlbXAvbG9nLmRv
-X2NyZWF0ZV9zcGR4LjMxMTY5MTYNCj4gPiA+IEVSUk9SOiBUYXNrICgvaG9tZS9sdW1hZy9Qcm9q
-ZWN0cy9SUEIvYnVpbGQtDQo+ID4gPiBycGIvY29uZi8uLi8uLi9sYXllcnMvb3BlbmVtYmVkZGVk
-LWNvcmUvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3F1aWx0L3F1aWx0LQ0KPiA+ID4gbmF0aXZlXzAu
-NjguYmI6ZG9fY3JlYXRlX3NwZHgpIGZhaWxlZCB3aXRoIGV4aXQgY29kZSAnMScNCj4gPiA+DQo+
-ID4gPiBSZXZlcnRpbmcgdGhpcyBjb21taXQgbWFrZXMgdGhlIGVycm9yIGRpc2FwcGVhci4NCj4g
-PiA+DQo+ID4gPiA+DQo+ID4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZS9zcGR4MzBfdGFz
-a3MucHkgYi9tZXRhL2xpYi9vZS9zcGR4MzBfdGFza3MucHkNCj4gPiA+ID4gaW5kZXggMDYxOGYy
-ZjEzOS4uYmJhMTFhZTkzMCAxMDA2NDQNCj4gPiA+ID4gLS0tIGEvbWV0YS9saWIvb2Uvc3BkeDMw
-X3Rhc2tzLnB5DQo+ID4gPiA+ICsrKyBiL21ldGEvbGliL29lL3NwZHgzMF90YXNrcy5weQ0KPiA+
-ID4gPiBAQCAtMTA2OCw3ICsxMDY4LDcgQEAgZGVmIGNyZWF0ZV9yb290ZnNfc3BkeChkKToNCj4g
-PiA+ID4gICAgICAgICAgZmlsZW5hbWVzLnNvcnQoKQ0KPiA+ID4gPiAgICAgICAgICBmb3IgZm4g
-aW4gZmlsZW5hbWVzOg0KPiA+ID4gPiAgICAgICAgICAgICAgZnBhdGggPSBQYXRoKGRpcnBhdGgp
-IC8gZm4NCj4gPiA+ID4gLSAgICAgICAgICAgIGlmIG5vdCBmcGF0aC5pc19maWxlKCkgb3IgZnBh
-dGguaXNfc3ltbGluaygpOg0KPiA+ID4gPiArICAgICAgICAgICAgaWYgZnBhdGguaXNfc3ltbGlu
-aygpIG9yIG5vdCBmcGF0aC5pc19maWxlKCk6DQo+ID4gPiA+ICAgICAgICAgICAgICAgICAgY29u
-dGludWUNCj4gPiA+ID4NCj4gPiA+ID4gICAgICAgICAgICAgIHJlbHBhdGggPSBzdHIoZnBhdGgu
-cmVsYXRpdmVfdG8oaW1hZ2Vfcm9vdGZzKSkNCj4gPiA+ID4NCj4gPiA+DQo+ID4gPiAtLQ0KPiA+
-ID4gV2l0aCBiZXN0IHdpc2hlcw0KPiA+ID4gRG1pdHJ5DQo+IA0KPiANCj4gDQo+IC0tDQo+IFdp
-dGggYmVzdCB3aXNoZXMNCj4gRG1pdHJ5DQo=
+Inherit lib_package to create an extra libgpg-error-bin package for
+executables. As a result, the gpg-error and yat2m executables are now in
+this libgpg-error-bin package, and no longer in the libgpg-error
+package.
+
+Signed-off-by: Mario Schuknecht <mario.schuknecht@iris-sensing.com>
+---
+ meta/recipes-support/libgpg-error/libgpg-error_1.51.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb
+index 741969beb0..e0287d813b 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb
+@@ -24,7 +24,7 @@ SRC_URI[sha256sum] = "be0f1b2db6b93eed55369cdf79f19f72750c8c7c39fc20b577e7245454
+ 
+ BINCONFIG = "${bindir}/gpg-error-config"
+ 
+-inherit autotools binconfig-disabled pkgconfig gettext multilib_header multilib_script ptest
++inherit autotools lib_package binconfig-disabled pkgconfig gettext multilib_header multilib_script ptest
+ 
+ RDEPENDS:${PN}-ptest:append = " make bash"
+ 
+@@ -47,7 +47,6 @@ do_install_ptest() {
+     install ${B}/tests/Makefile ${D}${PTEST_PATH}
+ }
+ 
+-FILES:${PN}-dev += "${bindir}/gpg-error"
+ FILES:${PN}-doc += "${datadir}/libgpg-error/errorref.txt"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.35.3
+
 
