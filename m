@@ -1,132 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1347FC36005
-	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 18:04:07 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.145.1742580238762726334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39D1CC36002
+	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 18:21:07 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.573.1742581263872317460
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Mar 2025 11:03:58 -0700
+ Fri, 21 Mar 2025 11:21:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TtBp7pIT;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ff64550991so3183058a91.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 11:03:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742580238; x=1743185038; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XAwFIlp+JeNzR/vBVhkbpZqQljXl2yepHLlvG7YcC3I=;
-        b=TtBp7pITBnpjp1CDgAPIIpRZO3UOr8DL3RoGxadlKZTJBIqsYpP1lE9r0PTbIM16/u
-         iz0g3Fl2cvH8hZ9M2A4iLKyuhKN67RJuIYTZNl3AN+Hxnjw2HdvhcnPfz3moK5TiGZ6e
-         DH7K2zEwlYJCuJJNMtPKzSN3aeUxIfoOyI2n8KTRTGtV2yCq6k+qorSIimhwNAlR1YGQ
-         5DGXq+hnQ+pi919pTAlMgJeOHv6AMnDqtUThjH2qyVMpKTBcK8AnBrH0/xtuOK6JhWNT
-         7CS0fBonstxjp1d+qeXIZCnxajE8Fds8HLC+rW9Dy9Rlgb/PalFtz7+ZXHwPa0IifUwD
-         KuOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742580238; x=1743185038;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XAwFIlp+JeNzR/vBVhkbpZqQljXl2yepHLlvG7YcC3I=;
-        b=hXs2FKYuwsCxtAiJb0pwVpoQSueEZHTdP+4rT2z79NnZrIMrtXW49bCJWTW3f92isj
-         +EBjBS2hNL3P8XTzvIzRF1gsuKoWD905twsd6kPAUNSHEm+/4V2gUVO6m7Fwa3MLJ8Z8
-         EcMn9sz1dRV4E836S195cUec2nwj9kxmbZRNxz16SGg/B0WfAV0dXRc2CNuYboPORRSh
-         /Np3oyy43L8KhNTgsUXcNZCpIZa5HSmr64sQuFfy3DjvpLSlIesu+vGT1owCxirZ7zgS
-         bPrYUJyoHvEf2IqoAkYLTG3vMLbp5TEi37zBNR0lJarbePZoWwZ+k1oVeXtNYWTeFwkc
-         gztA==
-X-Gm-Message-State: AOJu0YxQLjaC/mGLlIiYVa8OUSoFws0LmDJZ7MDt7sZ5kUBta1H92y/8
-	xSQaPQSahbdUnUOr5yuCg8FuxTd9ILC9t6d08GzdFD2q9gyrJ5yhuWwRTHT1
-X-Gm-Gg: ASbGncsaN0TY7WKdczuJ4AGIQVxT8AQGj6Yj/+kta7o5mnkDW3/ppgTvkUHg2qI5epY
-	neI/3ZRv+07LnDgaJTIv1YlIGV4Vr++Y5n6ic8rL9ysM9D8EspnqHZTwh1XY/IyBYcuWo2ZKu6J
-	5KPuG4x74O0cEWlyPeZ1eQIZP1jZ+UK4iZz+a7TFZXwZ4LGkgyL+DvZeL0vcuf1g7sH1qc/p3KD
-	IqavwdrJDxKwGlxzI1vI6ul0WObJHYB+b7QqGAEgihKP0Oc4BcBahws38pkOTIeVP1dKyQzreRk
-	6zdBYkQfijQF2ohptx1FAVRn5AmqC/rDtOx3
-X-Google-Smtp-Source: AGHT+IG0W+EI70HYtfjyWcqbXOO7dnIslPh6hS0mLnm7wyC1LtYMcjT+SYG3He6Pl6c0BdZ1P2emxA==
-X-Received: by 2002:a17:90b:51c1:b0:2ee:d63f:d8f with SMTP id 98e67ed59e1d1-3030fe9538fmr6871938a91.13.1742580237727;
-        Fri, 21 Mar 2025 11:03:57 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::ac74])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3030f80707fsm2342905a91.48.2025.03.21.11.03.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 11:03:57 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] babeltrace2: Fix build with clang on 32bit hosts
-Date: Fri, 21 Mar 2025 11:03:54 -0700
-Message-ID: <20250321180355.1072128-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=YtAHn+pc;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VJPbAm0F;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010195b9efea14-2ad1ede0-7316-4272-af6e-7c2ec3e8bf3b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1742581263; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=f19Vo3NAapBJt5QSIu8QJUQw5VCFxCvYWggVYur1q9A=;
+	b=YtAHn+pcPRRKWN7RH7czd77Lkd965he8RW9DB6nelbum5PtpHGKm+PMsCkTmxw34
+	tudxPqNHFYdg6TTSP4Q03GdyIDsyoSVBCq1ypHN09vv86V4SuaStBbjWfMc2YdmyocB
+	DkhQYGYcwLfhoAbux6N/eTJlI6UtBthvxV1lP9eU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742581263;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=f19Vo3NAapBJt5QSIu8QJUQw5VCFxCvYWggVYur1q9A=;
+	b=VJPbAm0FOHACsa3Mno4uLXS7LNFryndlbl1+5MkdSSx2p3qz+SVgmTHbfOmzGNuX
+	SwTQAg7K5Dy2z0p+ST173oCoanHy0q6sGiwn4cExaI81hCn92wmC/6XPBC2euUnNQBK
+	R5Q674rrVEL4QhSGvk8KM5au9hsfa4bCFbvJFbG8=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 2/2] webkitgtk: Fix build on RISCV
+In-Reply-To: <20250321180355.1072128-2-raj.khem@gmail.com>
+References: <20250321180355.1072128-2-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010195b9efea14-2ad1ede0-7316-4272-af6e-7c2ec3e8bf3b-000000@us-west-2.amazonses.com>
+Date: Fri, 21 Mar 2025 18:21:02 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.21-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 18:04:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213485
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 18:21:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213487
 
-clang-20 unveils more build issues
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...ob_get_length-return-size_t-instead-.patch | 37 +++++++++++++++++++
- .../recipes-kernel/lttng/babeltrace2_2.1.0.bb |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
+Testing patch /home/patchtest/share/mboxes/2-2-webkitgtk-Fix-build-on-RISCV.patch
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
-new file mode 100644
-index 00000000000..d923437a2ab
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
-@@ -0,0 +1,37 @@
-+From 1b514ab2e878216426acc493eeab96088576faf9 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 20 Mar 2025 18:10:08 -0700
-+Subject: [PATCH] Make bt_field_blob_get_length return size_t instead of
-+ uint64_t
-+
-+Fixes errors e.g.
-+| ../../git/src/cpp-common/bt2/field.hpp:1139:82: error: non-constant-expression cannot be narrowed from type 'std::uint64_t' (aka 'unsigned long long') to 'size_type' (aka 'unsigned int') in initializer list [-Wc++11-narrowing]
-+|  1139 |         return {internal::CommonBlobFieldSpec<LibObjT>::data(this->libObjPtr()), this->length()};
-+|       |                                                                                  ^~~~~~~~~~~~~~
-+| ../../git/src/plugins/ctf/common/src/msg-iter.cpp:744:56: note: in instantiation of member function 'bt2::CommonBlobField<bt_field>::data' requested here
-+|   744 |     std::memcpy(&this->_stackTopCurSubField().asBlob().data()[_mCurBlobFieldDataOffset],
-+|       |                                                        ^
-+| ../../git/src/cpp-common/bt2/field.hpp:1139:82: note: insert an explicit cast to silence this issue
-+|  1139 |         return {internal::CommonBlobFieldSpec<LibObjT>::data(this->libObjPtr()), this->length()};
-+|       |                                                                                  ^~~~~~~~~~~~~~
-+|       |                                                                                  static_cast<size_type>( )
-+
-+Upstream-Status: Submitted [https://github.com/efficios/babeltrace/pull/120]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/cpp-common/bt2/field.hpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/cpp-common/bt2/field.hpp b/src/cpp-common/bt2/field.hpp
-+index 8b291f7a1..cbfff84f0 100644
-+--- a/src/cpp-common/bt2/field.hpp
-++++ b/src/cpp-common/bt2/field.hpp
-+@@ -1139,7 +1139,7 @@ public:
-+         return {internal::CommonBlobFieldSpec<LibObjT>::data(this->libObjPtr()), this->length()};
-+     }
-+ 
-+-    std::uint64_t length() const noexcept
-++    std::size_t length() const noexcept
-+     {
-+         return bt_field_blob_get_length(this->libObjPtr());
-+     }
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-index bf9df2a32dd..a9a3a9961be 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-@@ -12,6 +12,7 @@ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=http
-            file://0001-Make-manpages-multilib-identical.patch \
-            file://0001-tests-fix-test-applications-in-cpp-common.patch \
-            file://0001-tests-set-the-correct-plugin-directory.patch \
-+           file://0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch \
-            "
- SRCREV = "e61d41ff3c3ac6a123930d4e60cf710ff9ea18e0"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
