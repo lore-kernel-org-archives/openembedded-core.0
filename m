@@ -2,201 +2,239 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73922C36001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79CA0C36002
 	for <webhook@archiver.kernel.org>; Sat, 22 Mar 2025 00:57:50 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.20728.1742562588411132305
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.5318.1742577473495085348
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Mar 2025 06:09:48 -0700
+ Fri, 21 Mar 2025 10:17:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=m/YvWAmu;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LCSdmZ026093
-	for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 13:09:48 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=TrepEgwM;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LATBjV016515
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 17:17:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=xjeex5hKgcDkEjt6seeiyk7i
-	rQ04vaxIdL/sb6YXhY8=; b=m/YvWAmuJD3XVogftZN6i4dfZ3dX6/0pK0kx5EAJ
-	TeQeLfs9dferqu5mejqZcE1gbdm6uLFK1F4fia105XYLc3RjzeNKqc4HWbXb9QGg
-	dR1sdjWaQHOc4Hi65I18B2NGrJ+NC/fHIJ11HqJ9z3L7aSbjc4IL+O/xE17c7Uw8
-	emRV3oYGpAI1H8UiUwlJXk6lWxXX9FQKL55jMja9WPSWPdl6PN1v5U6/8ZmQMZKS
-	W5SxWG+IITS3tHpB5NAMJD8Xz9GGwx40/6G9+2voD/6k/IrqT55MlS8+oxTn37ZT
-	RtXYj5e3QkC4F9WCk5MHWPxWNNgmj1b+U9xREB7TAHiiEQ==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45h854g3v5-1
+	:references:subject:to; s=qcppdkim1; bh=nRiNK5ba4mISWWJfr+9g56hb
+	MvJ0trcIiHyY36+oTLE=; b=TrepEgwMIdf4ZYUVC53HDuVRw31yCx/aPPsztQdL
+	vJUPMPSba3JTzIilG4fSragzz/Cb+oRMffZGfkjJ9olP80dtZWVxRBkCXGlBN/Ng
+	14F48aiUYOY5DpfkoFGelaV3Rd0aVtcqHodR9bcKecEgJuwNG/0CkOOFd98xmmJC
+	62uUGZR24omB1I8DR0S3zpf0hjC5VWNIAEk6eujwGx0P/++EshWzZEDPSYPVViLP
+	J7GSxznoAUT25dR8IYOsC4eNlbEmpCWp0ftaD863hgvxGUiPdacY/viI7hQGhDym
+	XUQrc13vJMyMJAUARx7FijEi9hVHC+Jh92Z4ja30EutZ6w==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45gcd1djqm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 13:09:47 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-2ff68033070so2962004a91.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 06:09:47 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 17:17:52 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6e917965e3eso29195236d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 10:17:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742562587; x=1743167387;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xjeex5hKgcDkEjt6seeiyk7irQ04vaxIdL/sb6YXhY8=;
-        b=AdvSFXM9pvOa+ZNYwEgN3pNEA30laB2nzFRT0cu1flGLjd9HqNNIIeaddzqXTIChQB
-         Hg6BB7Apo6TivVOj9VcHnr/Jni9G9HG1snsyWhKQEcpfwOL/hwUkMK6yCe096/DI8eUZ
-         DXwey/l8gJZZc9FXmtGQaCaM8OsCu3E8xmcevCRnb7RUPR96NaoUlFs8qEhEqJ4LFXhK
-         gxq873R0jZmKA+1UWnE884VoIKxGZyry4PAnri199KXSbO5ALt/vI7LXG0yOwACkGyae
-         gFjc6wqjyB9iXEsP24AjME1gudkTueFtx4mK/bRF/6aHIFN0aos0ZWej3MHgWPe+xOnX
-         l21A==
-X-Gm-Message-State: AOJu0YxXp2WbNXzLb6PK3Bsum9qu5rhfT/bOvObQDPazEdf6ZShPuyGk
-	pumN7W/Qs5UyS7Xd9jq4eXsSK4PHmT/w83BmzrJoOnnN9KDAtLutUrYqme5x7+2kGlZvsRzx79S
-	RrRZ8xV3H3IylEQ+ylYCNhi112Gfvp8Ai+mpRyJGPXtVzddo7Sn97BBS3JpbXODpik1I3KW7F2h
-	9JmYmk2kfoZG845WxcrUdPJQsjL2TRg4P2hB0sd49mje88lgj2GNBYcQ==
-X-Gm-Gg: ASbGnctdgbo48L0fOE3qA/YJ/1WrF3F1hmWQlhMRwnAhIFNBwNJ1akeGdnTZ5RzjHOF
-	uXd/7txUH76BmzhXPI16kEZuK6+l4OyC3ksKzqsXFRUAox8r8+v/fakI2Rx9HZNdkKHS/ip6J+e
-	6IHx2R/jAvwjTXva1h09+m8Yc2ODAg
-X-Received: by 2002:a17:90b:1811:b0:2fe:d766:ad95 with SMTP id 98e67ed59e1d1-3030fe89e3bmr4869998a91.9.1742562586658;
-        Fri, 21 Mar 2025 06:09:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEZmJ03YamwPYtXaqJDnGe+fdxsRkh8usxt0oRy4zyLA3LsXHfaLU+Whz1vqdVSzJEYPJHJJ1xbGbs5oAXbN9A=
-X-Received: by 2002:a17:90b:1811:b0:2fe:d766:ad95 with SMTP id
- 98e67ed59e1d1-3030fe89e3bmr4869967a91.9.1742562586198; Fri, 21 Mar 2025
- 06:09:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250320121533.39356-1-peter.marko@siemens.com>
- <exidjcjvhfkvob7yns4tubsqeuajetel5ezaa3gu7aezbksvp3@fuknr23vph64> <AS1PR10MB56971AE062D6D2F26A6BFA7BFDDB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB56971AE062D6D2F26A6BFA7BFDDB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+        d=1e100.net; s=20230601; t=1742577471; x=1743182271;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nRiNK5ba4mISWWJfr+9g56hbMvJ0trcIiHyY36+oTLE=;
+        b=P3SU/r84/aeXw2sSBjxBQBRVCSq9kfTbeZo1pnl8FSPimME1Xp6J9KCTttxlx+qsp0
+         Cr+2EpSUsj0Po9GMZwrV0gnf4Hp6RWLduk2NozfFvPtcgLqZ+vjLWCQ5sisjrD1Rxg7n
+         6MCQnQeFjpJKISNKEtKqYjLSqVnHsNlYmiReJT9ZvC/rPVPe8C2N1eLzUeT3Qgh0zxNv
+         4FvX3xUO7mjQEvgvkhR1tdxJWtRNgak3gj6RfMyUqtaLBHkyySB9JHI1McWTVrOlBKCN
+         EoNgeIaWVUS31yrn7IcjUqjeLFi2P1HKxxIuLQipIGVFO6MsqgHtuRjnuftBgsmRTpN6
+         fa1g==
+X-Gm-Message-State: AOJu0YwHW7w0CJEAjzu3VtzWVojeIaEOvmAj1jZ09B4oCq+ak5IbHECV
+	xKNSqTgYIZJbli8xAZuOJSvSsi64tg04vjW5LhIE3logPdRjh6yX5x8UwfmPU1dPkmPZpYUN4g1
+	+uQLU/kN92kWd2VFDJktlZgBSbXTMQXd2ugw2K6PKlrIXSZ5EBmib28mf3RAbNe5/FDaTOQUhwd
+	YIEcg=
+X-Gm-Gg: ASbGnct1PeluwSzSb7Ccv3sk787EC+73q5gdzHFpjNwIjPKuBR2xKHD/FZTHliBce/Q
+	Bzt0FcN1Liw4cD5MSFr/Ypfqf0EmJZnNOeOsM29kIRDfY79ZLgHq2oubwn+piXBV/3hoJHTA+3m
+	sFApKSEIgw5MyT6ZnoZ28jJxMqXWLWmtVjOdgmoKAbE/7+NXyK8TekGttFyY3aabcp7+PAKSa86
+	eYn/pUjU1g9O7cAoa+D7HDtd3nGqCRBOebIbZZC9wSg0VwCREXm0Ij3gXhHcvgkkNAHG53Y4DBX
+	TJ4PiT+Mfbu2T4lLd98z6d0Pl8nxNfxbCYLDlW8y5M94Y69Ud3+umLUdzLIiB0rMEIqkad1raO/
+	IK3I=
+X-Received: by 2002:a05:6214:202d:b0:6e8:8d15:2d3d with SMTP id 6a1803df08f44-6eb3f36c12fmr53590006d6.40.1742577471464;
+        Fri, 21 Mar 2025 10:17:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH6M0ubwJDrsgnx5o98YIgnDQb4bOEC9VNyoAvs7teBTrFbjVy2VJhi5nTZ121GSOK/JMzC4A==
+X-Received: by 2002:a05:6214:202d:b0:6e8:8d15:2d3d with SMTP id 6a1803df08f44-6eb3f36c12fmr53589546d6.40.1742577470858;
+        Fri, 21 Mar 2025 10:17:50 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30d7d7c19c3sm3061231fa.4.2025.03.21.10.17.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Mar 2025 10:17:50 -0700 (PDT)
+Date: Fri, 21 Mar 2025 19:17:48 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Fri, 21 Mar 2025 15:09:35 +0200
-X-Gm-Features: AQ5f1Jophav3V6H2gvI-laKmfK8imNO6lqV4KyvlId7OKA7JGGqnmSwj9vQKWfU
-Message-ID: <CAO9ioeWYGPC0nvsRocPPiJ-ZVicVsoX3oL5-RvGJ33kAXdp==w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] spdx30: handle links to inaccessible locations
 To: "Marko, Peter" <Peter.Marko@siemens.com>
 Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-X-Proofpoint-ORIG-GUID: RDjwEltYZ_IhHQR1q9CoJG9EnYUjkFZx
-X-Authority-Analysis: v=2.4 cv=ZtHtK87G c=1 sm=1 tr=0 ts=67dd651b cx=c_pps a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=a_U1oVfrAAAA:8 a=EUspDBNiAAAA:8 a=Q4-j1AaZAAAA:8 a=NohTf2-OhClZ1b--xSYA:9 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-GUID: RDjwEltYZ_IhHQR1q9CoJG9EnYUjkFZx
+Subject: Re: [OE-core][PATCH] spdx30: handle links to inaccessible locations
+Message-ID: <r6pqdclhbby5zubgv2t6mvcyhsc24gsytafxvhu446lqbwaccr@pbttvvdejy2a>
+References: <20250320121533.39356-1-peter.marko@siemens.com>
+ <exidjcjvhfkvob7yns4tubsqeuajetel5ezaa3gu7aezbksvp3@fuknr23vph64>
+ <AS1PR10MB56971AE062D6D2F26A6BFA7BFDDB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <CAO9ioeWYGPC0nvsRocPPiJ-ZVicVsoX3oL5-RvGJ33kAXdp==w@mail.gmail.com>
+ <AS1PR10MB569770D1D3320698B188A26EFDDB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+MIME-Version: 1.0
+In-Reply-To: <AS1PR10MB569770D1D3320698B188A26EFDDB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+X-Authority-Analysis: v=2.4 cv=bfFrUPPB c=1 sm=1 tr=0 ts=67dd9f40 cx=c_pps a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8 a=a_U1oVfrAAAA:8 a=gYUuNBwdICu0KR1b5QMA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-GUID: E1_Wg3f5R1dd5RK7a5Y7AQR75qYLRXdG
+X-Proofpoint-ORIG-GUID: E1_Wg3f5R1dd5RK7a5Y7AQR75qYLRXdG
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-21_05,2025-03-20_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- mlxlogscore=999 spamscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- phishscore=0 priorityscore=1501 impostorscore=0 adultscore=0 bulkscore=0
+ definitions=2025-03-21_05,2025-03-21_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
+ clxscore=1015 suspectscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 adultscore=0 phishscore=0
  classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503210097
-Content-Type: text/plain; charset="UTF-8"
+ definitions=main-2503210127
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 22 Mar 2025 00:57:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213491
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213492
 
-On Fri, 21 Mar 2025 at 14:58, Marko, Peter <Peter.Marko@siemens.com> wrote:
->
-> I think there is something else breaking your build.
->
-> My commit changed function create_rootfs_spdx.
-> That should not influence recipe spdx code...
-> Did you try a build with my commit reverted?
+On Fri, Mar 21, 2025 at 01:49:07PM +0000, Marko, Peter wrote:
+> I believe that you have a problem with:
+> * commit https://git.openembedded.org/openembedded-core/commit/?id=4859cdf97fd9a260036e148e25f0b78eb393df1e
+> * commit https://git.openembedded.org/bitbake/commit/?id=2515fbd10824005fa7f34e87706000c079920366
+> Using new oe-core without matching bitbake change will lead to unknown attribute name since it was changed from names to name in both commits together.
+> 
+> I can cleanly build core-image-minimal with spdx3 from latest poky master (which contains matching oe-core and bitbake versions).
+> Maybe you have reverted whole oe-core update and not just my commit when looking for the breaking change?
 
-As I wrote, reverting it makes the error disappear.
+Most likely I was unfortunate or there was some repo issue. Afre running
+`repo sync` again, the build succeeds even without a revert. Please
+excuse me for the noise.
 
->
+> 
 > Peter
->
+> 
 > > -----Original Message-----
 > > From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > Sent: Friday, March 21, 2025 13:38
+> > Sent: Friday, March 21, 2025 14:10
 > > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
 > > Cc: openembedded-core@lists.openembedded.org
 > > Subject: Re: [OE-core][PATCH] spdx30: handle links to inaccessible locations
-> >
-> > On Thu, Mar 20, 2025 at 01:15:33PM +0100, Peter Marko wrote:
-> > > From: Peter Marko <peter.marko@siemens.com>
+> > 
+> > On Fri, 21 Mar 2025 at 14:58, Marko, Peter <Peter.Marko@siemens.com> wrote:
 > > >
-> > > This is the same as e105befbe4ee0d85e94c2048a744f0373e2dbcdf on
-> > > additional place in the code.
+> > > I think there is something else breaking your build.
 > > >
-> > > When a link is pointing to location inaccessible to build user (e.g.
-> > "/root/something"),
-> > > filepath.is_file() throws "PermissionError: [Errno 13] Permission denied".
-> > > Fix this by first checking if it is a link.
+> > > My commit changed function create_rootfs_spdx.
+> > > That should not influence recipe spdx code...
+> > > Did you try a build with my commit reverted?
+> > 
+> > As I wrote, reverting it makes the error disappear.
+> > 
 > > >
-> > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > > ---
-> > >  meta/lib/oe/spdx30_tasks.py | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > This commit breaks building recipes here:
-> >
-> > ERROR: quilt-native-0.68-r0 do_create_spdx: Error executing a python function in
-> > exec_func_python() autogenerated:
-> >
-> > The stack trace of python calls that resulted in this exception/failure was:
-> > File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-> >      0001:
-> >  *** 0002:do_create_spdx(d)
-> >      0003:
-> > File: '/home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-
-> > core/meta/classes/create-spdx-3.0.bbclass', lineno: 135, function: do_create_spdx
-> >      0131:    "
-> >      0132:
-> >      0133:python do_create_spdx() {
-> >      0134:    import oe.spdx30_tasks
-> >  *** 0135:    oe.spdx30_tasks.create_spdx(d)
-> >      0136:}
-> >      0137:do_create_spdx[vardeps] += "\
-> >      0138:    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
-> >      0139:    SPDX_PACKAGE_ADDITIONAL_PURPOSE \
-> > File: '/home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-
-> > core/meta/lib/oe/spdx30_tasks.py', lineno: 537, function: create_spdx
-> >      0533:            )
-> >      0534:
-> >      0535:    cpe_ids = oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"),
-> > d.getVar("CVE_VERSION"))
-> >      0536:
-> >  *** 0537:    source_files = add_download_files(d, build_objset)
-> >      0538:    build_inputs |= source_files
-> >      0539:
-> >      0540:    recipe_spdx_license = add_license_expression(
-> >      0541:        d, build_objset, d.getVar("LICENSE"), license_data
-> > File: '/home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-
-> > core/meta/lib/oe/spdx30_tasks.py', lineno: 408, function: add_download_files
-> >      0404:                    creationInfo=objset.doc.creationInfo,
-> >      0405:                    name=file_name,
-> >      0406:                    software_primaryPurpose=primary_purpose,
-> >      0407:
-> > software_downloadLocation=oe.spdx_common.fetch_data_to_uri(
-> >  *** 0408:                        fd, fd.name
-> >      0409:                    ),
-> >      0410:                )
-> >      0411:            )
-> >      0412:
-> > Exception: AttributeError: 'FetchData' object has no attribute 'name'
-> >
-> > ERROR: Logfile of failure stored in: /home/lumag/Projects/RPB/build-rpb/tmp-
-> > nodistro/work/x86_64-linux/quilt-native/0.68/temp/log.do_create_spdx.3116916
-> > ERROR: Task (/home/lumag/Projects/RPB/build-
-> > rpb/conf/../../layers/openembedded-core/meta/recipes-devtools/quilt/quilt-
-> > native_0.68.bb:do_create_spdx) failed with exit code '1'
-> >
-> > Reverting this commit makes the error disappear.
-> >
+> > > Peter
 > > >
-> > > diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> > > index 0618f2f139..bba11ae930 100644
-> > > --- a/meta/lib/oe/spdx30_tasks.py
-> > > +++ b/meta/lib/oe/spdx30_tasks.py
-> > > @@ -1068,7 +1068,7 @@ def create_rootfs_spdx(d):
-> > >          filenames.sort()
-> > >          for fn in filenames:
-> > >              fpath = Path(dirpath) / fn
-> > > -            if not fpath.is_file() or fpath.is_symlink():
-> > > +            if fpath.is_symlink() or not fpath.is_file():
-> > >                  continue
-> > >
-> > >              relpath = str(fpath.relative_to(image_rootfs))
-> > >
-> >
+> > > > -----Original Message-----
+> > > > From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > > > Sent: Friday, March 21, 2025 13:38
+> > > > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+> > > > Cc: openembedded-core@lists.openembedded.org
+> > > > Subject: Re: [OE-core][PATCH] spdx30: handle links to inaccessible locations
+> > > >
+> > > > On Thu, Mar 20, 2025 at 01:15:33PM +0100, Peter Marko wrote:
+> > > > > From: Peter Marko <peter.marko@siemens.com>
+> > > > >
+> > > > > This is the same as e105befbe4ee0d85e94c2048a744f0373e2dbcdf on
+> > > > > additional place in the code.
+> > > > >
+> > > > > When a link is pointing to location inaccessible to build user (e.g.
+> > > > "/root/something"),
+> > > > > filepath.is_file() throws "PermissionError: [Errno 13] Permission denied".
+> > > > > Fix this by first checking if it is a link.
+> > > > >
+> > > > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > > > > ---
+> > > > >  meta/lib/oe/spdx30_tasks.py | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > This commit breaks building recipes here:
+> > > >
+> > > > ERROR: quilt-native-0.68-r0 do_create_spdx: Error executing a python function
+> > in
+> > > > exec_func_python() autogenerated:
+> > > >
+> > > > The stack trace of python calls that resulted in this exception/failure was:
+> > > > File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+> > > >      0001:
+> > > >  *** 0002:do_create_spdx(d)
+> > > >      0003:
+> > > > File: '/home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-
+> > > > core/meta/classes/create-spdx-3.0.bbclass', lineno: 135, function:
+> > do_create_spdx
+> > > >      0131:    "
+> > > >      0132:
+> > > >      0133:python do_create_spdx() {
+> > > >      0134:    import oe.spdx30_tasks
+> > > >  *** 0135:    oe.spdx30_tasks.create_spdx(d)
+> > > >      0136:}
+> > > >      0137:do_create_spdx[vardeps] += "\
+> > > >      0138:    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
+> > > >      0139:    SPDX_PACKAGE_ADDITIONAL_PURPOSE \
+> > > > File: '/home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-
+> > > > core/meta/lib/oe/spdx30_tasks.py', lineno: 537, function: create_spdx
+> > > >      0533:            )
+> > > >      0534:
+> > > >      0535:    cpe_ids = oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"),
+> > > > d.getVar("CVE_VERSION"))
+> > > >      0536:
+> > > >  *** 0537:    source_files = add_download_files(d, build_objset)
+> > > >      0538:    build_inputs |= source_files
+> > > >      0539:
+> > > >      0540:    recipe_spdx_license = add_license_expression(
+> > > >      0541:        d, build_objset, d.getVar("LICENSE"), license_data
+> > > > File: '/home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-
+> > > > core/meta/lib/oe/spdx30_tasks.py', lineno: 408, function: add_download_files
+> > > >      0404:                    creationInfo=objset.doc.creationInfo,
+> > > >      0405:                    name=file_name,
+> > > >      0406:                    software_primaryPurpose=primary_purpose,
+> > > >      0407:
+> > > > software_downloadLocation=oe.spdx_common.fetch_data_to_uri(
+> > > >  *** 0408:                        fd, fd.name
+> > > >      0409:                    ),
+> > > >      0410:                )
+> > > >      0411:            )
+> > > >      0412:
+> > > > Exception: AttributeError: 'FetchData' object has no attribute 'name'
+> > > >
+> > > > ERROR: Logfile of failure stored in: /home/lumag/Projects/RPB/build-rpb/tmp-
+> > > > nodistro/work/x86_64-linux/quilt-native/0.68/temp/log.do_create_spdx.3116916
+> > > > ERROR: Task (/home/lumag/Projects/RPB/build-
+> > > > rpb/conf/../../layers/openembedded-core/meta/recipes-devtools/quilt/quilt-
+> > > > native_0.68.bb:do_create_spdx) failed with exit code '1'
+> > > >
+> > > > Reverting this commit makes the error disappear.
+> > > >
+> > > > >
+> > > > > diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> > > > > index 0618f2f139..bba11ae930 100644
+> > > > > --- a/meta/lib/oe/spdx30_tasks.py
+> > > > > +++ b/meta/lib/oe/spdx30_tasks.py
+> > > > > @@ -1068,7 +1068,7 @@ def create_rootfs_spdx(d):
+> > > > >          filenames.sort()
+> > > > >          for fn in filenames:
+> > > > >              fpath = Path(dirpath) / fn
+> > > > > -            if not fpath.is_file() or fpath.is_symlink():
+> > > > > +            if fpath.is_symlink() or not fpath.is_file():
+> > > > >                  continue
+> > > > >
+> > > > >              relpath = str(fpath.relative_to(image_rootfs))
+> > > > >
+> > > >
+> > > > --
+> > > > With best wishes
+> > > > Dmitry
+> > 
+> > 
+> > 
 > > --
 > > With best wishes
 > > Dmitry
-
-
 
 -- 
 With best wishes
