@@ -1,116 +1,100 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A746AC36000
-	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 15:14:00 +0000 (UTC)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.web11.2374.1742570031434317162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA365C36002
+	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 15:21:50 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.2541.1742570501709127958
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Mar 2025 08:13:51 -0700
+ Fri, 21 Mar 2025 08:21:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hacCqB4N;
- spf=pass (domain: gmail.com, ip: 209.85.210.53, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-727388e8f6cso1276430a34.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 08:13:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742570030; x=1743174830; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zi+kxOUeR9wq+IJ2Q80Tyzi/mTVNnaaMh4LuGZtTU4k=;
-        b=hacCqB4NAxloMUoq+28a+5a25Rx+A43gBDmYCRyshefDKeNXT8zosGE7z9HJwSUtr3
-         VyisrGbWXKWei3dJlfCytduQfLaydx3vh+MH1laFpXzuB3R6+RizfBcto+c5elVRPiDM
-         2jbDdsP4IWw1OA2pZ4hNiWH1zoNlWp3QE1DfI7oADCMlcvnb+fu8YnLlujtkKtW9cqBw
-         4jjUPOxy3haYpX+o414Hv1tF+ITLwfrf0ppbXhTwhPatyGwCqGSdUSbmV8fEOsjNAHiG
-         7Dj6ir7w+/4qPsHwwBFtyvowbQifiowSVeg5ondB68ltemJEYbZv7DspXWl+OUjV45Fw
-         pYMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742570030; x=1743174830;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zi+kxOUeR9wq+IJ2Q80Tyzi/mTVNnaaMh4LuGZtTU4k=;
-        b=izfPOLrFDfvVhHROYMKPhCDCvqHqqt8MMOWdLucJ8tkEAZs9eLmIpt1tAZj+oYpKFJ
-         R1khdCqQ239oIbpsXlLMqnK4IIhPimN6U35T3zdDNp+b3rPTFQXrJ2OmVrQrn9ah3p5H
-         geJ12Olwd1/LghQBgb5Rml8r29JoZSJmOjuqzPBXz7w1UiwU6SO8+1qSPpfV3Z50ZEo1
-         yFGgPD0P0Z7KsTJgguymu+ha+YMxaFV3zKSaz2LoPwWDMXjIYn2c2YTPORLakRKrQpY9
-         Wf0iUdt2LgwJOl0YDFykYZTFTK0ekMkCYKjivQ9mqnDtlCRMC8n3Wq7hxXlHXkw/vJ7v
-         +W5w==
-X-Gm-Message-State: AOJu0YxFPL2sHT0wTWp3gmFQgKD62lvgeUfdKXE4BCYu1ow2Etma+XaJ
-	S6zfTWshwk/UJo3rv7SbuhqYY0/YrQTAi1Us9RfIBxSpA+TjpRZVXhYXew==
-X-Gm-Gg: ASbGncvksa/fOMSrhMVR34LE3rDqW3WKiJJLtGHNsQkapOdzhrfCgAla4uOTEm00eIk
-	avr6fq/sCxfWwGOeKHOmeWvzzfRcLPJFZlq4R/dW3gs1cCDm122VIYppXXAPlqqoGOkt8TOgWVo
-	sCXpzEbQmzIPj0Z8vjPJaE0bVG3BwhVP9o2K/Y1QYPakKTY9Wjm+kVhFOJCyJlVRwFiTpaLjVk6
-	s8RFaZrP5zPAYnXytVpf0RYPE6iPD9GYFc6Vq1HzPbK/NzKuWd1HxVgEUpHOUK1NBJeiy+QZnTy
-	McOoNN5hv/Q4BnSbpdjkLng8i6GguD4mjjk+gpsOqqyfjN3b0QPDag==
-X-Google-Smtp-Source: AGHT+IFtI3EbtfhVUMBNLh+mI3hlQs7035/K6ykW+yX0b7/sHUj1AiVijGnJKGGkRdmMuAMuFV5siQ==
-X-Received: by 2002:a05:6830:6e0e:b0:72b:8f8b:33b with SMTP id 46e09a7af769-72c0ae6a7c7mr2900399a34.10.1742570029894;
-        Fri, 21 Mar 2025 08:13:49 -0700 (PDT)
-Received: from localhost.localdomain ([2601:282:4300:19e0::b36f])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72c0abac389sm425931a34.4.2025.03.21.08.13.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 08:13:48 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 1/2] classes: create-spdx-2.2: Fix dependency handling
-Date: Fri, 21 Mar 2025 09:12:39 -0600
-Message-ID: <20250321151345.484603-2-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250321151345.484603-1-JPEWhacker@gmail.com>
-References: <20250321151345.484603-1-JPEWhacker@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jbjvBPdg;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=KK36Ypzq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010195b94bb286-d3e02a69-44ec-4f8a-968a-0a34697ea096-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1742570500; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=kZ2gpaMvBNHuZjorndJe4LeAYkWTyzjxmNO1oCNt5jM=;
+	b=jbjvBPdgSXh9049iSn9CS5IkufXmz+T7oew6IYaL+ras3weuMAHC4CKZdYzUdO7Z
+	HiiptAHdNwNAMZKGmrMS4E9pJmbL9Mm+gQMj9Fa8nqCehXACSukhDngRjQFEqe0Gaog
+	NZ8T6CkLEeG4pG8vLY2TTWA6tP8oO8+l9Sp/WghE=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742570500;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=kZ2gpaMvBNHuZjorndJe4LeAYkWTyzjxmNO1oCNt5jM=;
+	b=KK36YpzqV7MKhhBw2GqnX1JlaJsPLeLxtVkpc8CNKy07mkFtXm45lDKNKLTZM8Wm
+	RFfHKjcIXm6hxIlx0oWz+0xYe5BRINj01RAX9ALz33OWjfXKDuv2dli9CtiwHfG4SFk
+	j00u1Ds5Pi1ckjwdBd9zfuI9LynjykCgBqI85KxM=
+From: patchtest@automation.yoctoproject.org
+To: Mario Schuknecht <mario.schuknecht@iris-sensing.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [meta-core][PATCH v2] libgpg-error: inherit lib_package
+In-Reply-To: <20250321151245.21227-1-mario.schuknecht@iris-sensing.com>
+References: <20250321151245.21227-1-mario.schuknecht@iris-sensing.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010195b94bb286-d3e02a69-44ec-4f8a-968a-0a34697ea096-000000@us-west-2.amazonses.com>
+Date: Fri, 21 Mar 2025 15:21:40 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.21-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 15:14:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213481
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 15:21:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213483
 
-The common SPDX code was changed to return a dataclass for dependency
-information instead of a namedtuple, but the SPDX 2.2 was missed to
-account for this. Correct the SPDX 2.2 code to correctly handle the new
-datatype
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/classes/create-spdx-2.2.bbclass | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Testing patch /home/patchtest/share/mboxes/meta-core-v2-libgpg-error-inherit-lib_package.patch
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index 8f988de8681..de62379c503 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -279,21 +279,21 @@ def collect_dep_recipes(d, doc, spdx_recipe):
- 
-     deps = oe.spdx_common.get_spdx_deps(d)
- 
--    for dep_pn, dep_hashfn, in_taskhash in deps:
-+    for dep in deps:
-         # If this dependency is not calculated in the taskhash skip it.
-         # Otherwise, it can result in broken links since this task won't
-         # rebuild and see the new SPDX ID if the dependency changes
--        if not in_taskhash:
-+        if not dep.in_taskhash:
-             continue
- 
--        dep_recipe_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, "recipe-" + dep_pn, dep_hashfn)
-+        dep_recipe_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, "recipe-" + dep.pn, dep.hashfn)
-         if not dep_recipe_path:
--            bb.fatal("Cannot find any SPDX file for recipe %s, %s" % (dep_pn, dep_hashfn))
-+            bb.fatal("Cannot find any SPDX file for recipe %s, %s" % (dep.pn, dep.hashfn))
- 
-         spdx_dep_doc, spdx_dep_sha1 = oe.sbom.read_doc(dep_recipe_path)
- 
-         for pkg in spdx_dep_doc.packages:
--            if pkg.name == dep_pn:
-+            if pkg.name == dep.pn:
-                 spdx_dep_recipe = pkg
-                 break
-         else:
--- 
-2.47.1
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
