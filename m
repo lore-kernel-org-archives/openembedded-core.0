@@ -2,62 +2,62 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8ADDC36001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A746AC36000
 	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 15:14:00 +0000 (UTC)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
- by mx.groups.io with SMTP id smtpd.web10.2344.1742570033184360158
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web11.2374.1742570031434317162
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Mar 2025 08:13:53 -0700
+ Fri, 21 Mar 2025 08:13:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jt+DQbob;
- spf=pass (domain: gmail.com, ip: 209.85.210.54, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-72bc3987a05so1078388a34.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 08:13:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hacCqB4N;
+ spf=pass (domain: gmail.com, ip: 209.85.210.53, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-727388e8f6cso1276430a34.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 08:13:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742570032; x=1743174832; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742570030; x=1743174830; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ut6A3xBTYdBfuXc/WX3rqWmIIQ/O9UlwlyIDg/YSAGw=;
-        b=jt+DQbobhfVL/jNgrxSaHrXOINZ1km3TYzDzHl3vehFprNb8asJuis//7dNqYVvT5s
-         VOsZEMe5EptyXP8RnJ8B8Mso8/lGhObVivSKgGRh2Xmuw7UJg/s2mwSVVPeGrLszoxX4
-         YZmJ6kXsJTlBGNegWLWWuOnJFF/VY5iAg0VRyexCEhBe+5Ji/8mL95l62SKDVRWa3o4E
-         NfyPuDluSCLJSpv7z21ewVzPo+O6wgek1sX78B+0ZS4U4bIQG4nTrXuRMVyhD5fVhKea
-         +R/Cd0hpVqQd534vx0sHtU95UPIu4P0Shs51QrxAYj8jK+p6oCJhFWW2cBsnAtZkG0M7
-         N2Cw==
+        bh=zi+kxOUeR9wq+IJ2Q80Tyzi/mTVNnaaMh4LuGZtTU4k=;
+        b=hacCqB4NAxloMUoq+28a+5a25Rx+A43gBDmYCRyshefDKeNXT8zosGE7z9HJwSUtr3
+         VyisrGbWXKWei3dJlfCytduQfLaydx3vh+MH1laFpXzuB3R6+RizfBcto+c5elVRPiDM
+         2jbDdsP4IWw1OA2pZ4hNiWH1zoNlWp3QE1DfI7oADCMlcvnb+fu8YnLlujtkKtW9cqBw
+         4jjUPOxy3haYpX+o414Hv1tF+ITLwfrf0ppbXhTwhPatyGwCqGSdUSbmV8fEOsjNAHiG
+         7Dj6ir7w+/4qPsHwwBFtyvowbQifiowSVeg5ondB68ltemJEYbZv7DspXWl+OUjV45Fw
+         pYMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742570032; x=1743174832;
+        d=1e100.net; s=20230601; t=1742570030; x=1743174830;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ut6A3xBTYdBfuXc/WX3rqWmIIQ/O9UlwlyIDg/YSAGw=;
-        b=wIJo9eVYqqdS+zYt+1T6Joo2+4YvjT1mKexRFU0IKGRLeJCtTc7OxUTEY0REoDbJXo
-         Vlhg8LaoPu00tHri4kibDMtdn+xxcINtJ9OMvd9Eybo/x1Xrl9SschBXW6RjIKPQZ9Br
-         dShpU2L6NGBlwM0JdzeczZaNl42yk/YQDG36ecfo1FpM5QzCGVN1G4QD0AnHFJJQsCpf
-         8k6Yx9fFbBxtE/+p261LXP2so9NR2emXSBXIz/b++Bxch66v7FiMr8oMjbePJClZ56Ap
-         1Dhd/eGDkneFKF+ILMhBKTBhwH3C273vyZOjNSyBA9IsgIPIaWITjRdm2SPKnIEJSop/
-         xU+g==
-X-Gm-Message-State: AOJu0Ywb3OS64NcIayA+/WweagO9rqyrJ7p1RS5cPOWE9ShIYs7EgQ8U
-	X2RxOHVdqEcwdfMuytx1jTUU7/85FPl4r6dLm3mRQIlG3Wenpp+F2Tpp6g==
-X-Gm-Gg: ASbGnctfs6nTfS4P7IyzdBknkdsfm5t1Iwe0JnF55+X+ZognAfQh2jKDEhnJS1gU0ga
-	LMcWUS46jP+kdQ7Ye5I6yjx5uNeJ3L1o1M8A099yUNUAPF/PJQFJbTGW6fNUFrXXijUXwFjua67
-	tr1uRxJX6BClsyv2mHz80hqCzHrjrDOtUbM+akLqUR/dubsFACJG3AC+WN//UKrWBlEzpdCCzFJ
-	55SqCP9iUWa+xgJfLfUoCsyhviig5CWTeRrziUF2LtblrNN8wCd5FvfM3gtq1aqaAXVL9bguQJP
-	KFzhkZAV9u3A8eZFu7uIAifIQUSf4xuBI9QXv6vVrNs=
-X-Google-Smtp-Source: AGHT+IGG/8JIH8/8JmRmVWv7dsaugqqNfbhja7BNxZqrABjYq2WzfflHOM+SmsYljD5oDYsdVtI0kw==
-X-Received: by 2002:a05:6830:6402:b0:72b:7d40:5fe2 with SMTP id 46e09a7af769-72c0aa6e757mr2515144a34.12.1742570031654;
-        Fri, 21 Mar 2025 08:13:51 -0700 (PDT)
+        bh=zi+kxOUeR9wq+IJ2Q80Tyzi/mTVNnaaMh4LuGZtTU4k=;
+        b=izfPOLrFDfvVhHROYMKPhCDCvqHqqt8MMOWdLucJ8tkEAZs9eLmIpt1tAZj+oYpKFJ
+         R1khdCqQ239oIbpsXlLMqnK4IIhPimN6U35T3zdDNp+b3rPTFQXrJ2OmVrQrn9ah3p5H
+         geJ12Olwd1/LghQBgb5Rml8r29JoZSJmOjuqzPBXz7w1UiwU6SO8+1qSPpfV3Z50ZEo1
+         yFGgPD0P0Z7KsTJgguymu+ha+YMxaFV3zKSaz2LoPwWDMXjIYn2c2YTPORLakRKrQpY9
+         Wf0iUdt2LgwJOl0YDFykYZTFTK0ekMkCYKjivQ9mqnDtlCRMC8n3Wq7hxXlHXkw/vJ7v
+         +W5w==
+X-Gm-Message-State: AOJu0YxFPL2sHT0wTWp3gmFQgKD62lvgeUfdKXE4BCYu1ow2Etma+XaJ
+	S6zfTWshwk/UJo3rv7SbuhqYY0/YrQTAi1Us9RfIBxSpA+TjpRZVXhYXew==
+X-Gm-Gg: ASbGncvksa/fOMSrhMVR34LE3rDqW3WKiJJLtGHNsQkapOdzhrfCgAla4uOTEm00eIk
+	avr6fq/sCxfWwGOeKHOmeWvzzfRcLPJFZlq4R/dW3gs1cCDm122VIYppXXAPlqqoGOkt8TOgWVo
+	sCXpzEbQmzIPj0Z8vjPJaE0bVG3BwhVP9o2K/Y1QYPakKTY9Wjm+kVhFOJCyJlVRwFiTpaLjVk6
+	s8RFaZrP5zPAYnXytVpf0RYPE6iPD9GYFc6Vq1HzPbK/NzKuWd1HxVgEUpHOUK1NBJeiy+QZnTy
+	McOoNN5hv/Q4BnSbpdjkLng8i6GguD4mjjk+gpsOqqyfjN3b0QPDag==
+X-Google-Smtp-Source: AGHT+IFtI3EbtfhVUMBNLh+mI3hlQs7035/K6ykW+yX0b7/sHUj1AiVijGnJKGGkRdmMuAMuFV5siQ==
+X-Received: by 2002:a05:6830:6e0e:b0:72b:8f8b:33b with SMTP id 46e09a7af769-72c0ae6a7c7mr2900399a34.10.1742570029894;
+        Fri, 21 Mar 2025 08:13:49 -0700 (PDT)
 Received: from localhost.localdomain ([2601:282:4300:19e0::b36f])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72c0abac389sm425931a34.4.2025.03.21.08.13.50
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72c0abac389sm425931a34.4.2025.03.21.08.13.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 08:13:50 -0700 (PDT)
+        Fri, 21 Mar 2025 08:13:48 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 2/2] oeqa: spdx: Add tar test for SPDX 2.2
-Date: Fri, 21 Mar 2025 09:12:40 -0600
-Message-ID: <20250321151345.484603-3-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 1/2] classes: create-spdx-2.2: Fix dependency handling
+Date: Fri, 21 Mar 2025 09:12:39 -0600
+Message-ID: <20250321151345.484603-2-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250321151345.484603-1-JPEWhacker@gmail.com>
 References: <20250321151345.484603-1-JPEWhacker@gmail.com>
@@ -67,48 +67,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 15:14:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213482
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213481
 
-The base-files test for SPDX 2.2 did not give good coverage, since
-base-files doesn't have any dependencies. Add building tar as another
-test which more fully exercises the code
+The common SPDX code was changed to return a dataclass for dependency
+information instead of a namedtuple, but the SPDX 2.2 was missed to
+account for this. Correct the SPDX 2.2 code to correctly handle the new
+datatype
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/spdx.py | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/classes/create-spdx-2.2.bbclass | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
-index 2351103433a..6eac5f9911f 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -31,13 +31,13 @@ class SPDX22Check(OESelftestTestCase):
-         self.write_config(config)
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index 8f988de8681..de62379c503 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -279,21 +279,21 @@ def collect_dep_recipes(d, doc, spdx_recipe):
  
-         deploy_dir = get_bb_var("DEPLOY_DIR")
--        machine_var = get_bb_var("MACHINE")
-+        arch_dir = get_bb_var("PACKAGE_ARCH", target_name)
-         spdx_version = get_bb_var("SPDX_VERSION")
-         # qemux86-64 creates the directory qemux86_64
--        machine_dir = machine_var.replace("-", "_")
-+        #arch_dir = arch_var.replace("-", "_")
+     deps = oe.spdx_common.get_spdx_deps(d)
  
-         full_file_path = os.path.join(
--            deploy_dir, "spdx", spdx_version, machine_dir, high_level_dir, spdx_file
-+            deploy_dir, "spdx", spdx_version, arch_dir, high_level_dir, spdx_file
-         )
+-    for dep_pn, dep_hashfn, in_taskhash in deps:
++    for dep in deps:
+         # If this dependency is not calculated in the taskhash skip it.
+         # Otherwise, it can result in broken links since this task won't
+         # rebuild and see the new SPDX ID if the dependency changes
+-        if not in_taskhash:
++        if not dep.in_taskhash:
+             continue
  
-         try:
-@@ -68,6 +68,9 @@ class SPDX22Check(OESelftestTestCase):
-     def test_spdx_base_files(self):
-         self.check_recipe_spdx("packages", "base-files.spdx.json", "base-files")
+-        dep_recipe_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, "recipe-" + dep_pn, dep_hashfn)
++        dep_recipe_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, "recipe-" + dep.pn, dep.hashfn)
+         if not dep_recipe_path:
+-            bb.fatal("Cannot find any SPDX file for recipe %s, %s" % (dep_pn, dep_hashfn))
++            bb.fatal("Cannot find any SPDX file for recipe %s, %s" % (dep.pn, dep.hashfn))
  
-+    def test_spdx_tar(self):
-+        self.check_recipe_spdx("packages", "tar.spdx.json", "tar")
-+
+         spdx_dep_doc, spdx_dep_sha1 = oe.sbom.read_doc(dep_recipe_path)
  
- class SPDX3CheckBase(object):
-     """
+         for pkg in spdx_dep_doc.packages:
+-            if pkg.name == dep_pn:
++            if pkg.name == dep.pn:
+                 spdx_dep_recipe = pkg
+                 break
+         else:
 -- 
 2.47.1
 
