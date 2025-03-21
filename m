@@ -1,259 +1,190 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79E42C36001
-	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 12:58:40 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.8])
- by mx.groups.io with SMTP id smtpd.web10.20469.1742561911318436823
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A411EC36001
+	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 13:25:30 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.21052.1742563528896973457
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Mar 2025 05:58:31 -0700
+ Fri, 21 Mar 2025 06:25:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=qVXPECv1;
- spf=pass (domain: siemens.com, ip: 40.107.159.8, mailfrom: peter.marko@siemens.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5175c2733d=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LCbFRf001470
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 13:25:28 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45cxs0yb1c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 13:25:27 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=acJKofsgTMhEwDFSwqLPBrUCWLOqUxtttsQk5AkjxNps1Qd29DyKalFPKdvpDyo7LMYBUJGSCD95crIb6jxvrE74+7DinHKmt3dnC4aY5ofTsZQAacVB6f3T5yFmNkJbROQwUrqdieTNcow/Tsjv30rcMbatyGur1poizoi8vNif+wmcSP+YrbSalyXGdaXPcVhKSHwIzRJEPKQ5qSSrcKn3UkSDIdpBdJZvIxmf34EgN/U1Isikl3Zy1pjIjXGaeiEZk5QBiQ6jSjm0Nir1uQOD7ZHJ1l3oaSwMetaZ6J1ZXS8dVvR+2S2lHSw/SaURYFbzlUsAtOMKtW2iyUp1jg==
+ b=rVS+vgjQinbgphZoNpmMR3RzAC4aORMAGV2ySmXWfCdIo/v/SgFR7+DMTnmkoyAWSv3XB9N4YsPk56MYE7gDZIHemwxtm3+RJNzHYta09SDavgZRVzH8QsAHylYTGXm079QafQsNH7CK4v6JBp5OQN7qckKthC2DhMi+xnMqReDZhTQbW0RCFVZPjoYeZyJ5/GbbmL+1lV6xygEZsugijt/obrVboKMPmH6SQxJs8SNNHIyDx3p7SHiRxq+OZ292O5vdvUJBzm11jCpwqF5hq6exUsHCOWVBUsmSuYJqC5kGpXs9BMt7Ph6L5ZnrYyPxL1EfPpHjc5LPKlgGJU5WEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=znVZL5MddJWUYsQXx3JfKGaTERPQt/QrqDA4f+GzLtA=;
- b=JdnRSCCaU/mwRvL6J8bGALwsZZXqOfR0JyGUZllPVZf6Zpwau1M8UlPKf81S2M9MzyLQrs+gOep+qnnF4q2lKGKNWuvoxUNVKLty8+FddimSree9oI0sgIgupCUUkEh+BbumkBw1p1ge/AMfReYozaPKcT9E5LcDwhSn3TH5tJrXF4xR6M41Dj1i1GVCe0Xir/6jJpdFSegNK60ntqAwSt1M4EshvwuBw77nZYZZtpN1Tzn+0v9rZtwSjDcU2FL46GHB5AYpJXYHwrAoypdHvs86Bxw1KeR8dDDuIje8xLneV1Ze1HHCMJBMGpKrVj7Zy2C2mb9mp32A9KLa4C0uAQ==
+ bh=OB6byxeaJkw1HkWx4+vrGtUWRMEUs0REiTd8piWaUyc=;
+ b=tJ9ciLaE2XsKETArLQ6dnxoMaAK7VY1T3xhP6YcRabUZi4LUm9Zlu8BjaG6JZsg/HUuEBE1Fft3f4gmy7XBLoL4PiRJp2sBwm4PEIeE5CPts+Bsveh1vZLIuuLHnAWY9fNOoY9eo/su05DOyxVPXx/fTkIL19PzUCHznW4m0IBiIWg6MFBjQLnt6J3SS/Cgby0TTME+9hRAZMu7tUNjv8aaaUpzZBnGYZOVMl1QputWMDuqq79qLMg7u2srgqs0kkrT1Z8Kjikq4FlIs7dEOJHoEeeEhNa9nMayDRZRJAUzW88FcQHWiFtmY+1hyJDHgSA4vh3EZSi2KBjKuSYNXPA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=znVZL5MddJWUYsQXx3JfKGaTERPQt/QrqDA4f+GzLtA=;
- b=qVXPECv1ZAuGZbkY8tXSq0PN5f1r908NTZrKKU6VFTBTo+tMpBBiyqSr8WQCQfmoeMRZxvLr84Z2P7wVIcfV1rmFAiHoc57Qsoy9eOgq0VJbg871vIHAb53mcICw7nVq24z6gon/URklfP9MQfi5bYid30fb+RurmzPAw+Mj55/VqBW2wRkrqaE5j9WvVXHIj0xJNxl83h894raVwrwc/AAFAe4474iHsgexE3z8byfbz0yyzfC2BYrCpHV4iNGOG6z3YybGr/EZqozhNSpsQqUEI7l6cMYODCnOCNjwfCPHewFoHijZtRAM8USH6qjSVN7KtS0f9Cal6tENF1IzWw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by GV2PR10MB6306.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:74::11) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
+ by CY5PR11MB6391.namprd11.prod.outlook.com (2603:10b6:930:38::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.36; Fri, 21 Mar
- 2025 12:58:26 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%3]) with mapi id 15.20.8534.036; Fri, 21 Mar 2025
- 12:58:26 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH] spdx30: handle links to inaccessible locations
-Thread-Topic: [OE-core][PATCH] spdx30: handle links to inaccessible locations
-Thread-Index: AQHbmZHtnOLt7tZsxUeiBjYBLQkRd7N9iPQAgAAE2aA=
-Date: Fri, 21 Mar 2025 12:58:26 +0000
-Message-ID: 
- <AS1PR10MB56971AE062D6D2F26A6BFA7BFDDB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250320121533.39356-1-peter.marko@siemens.com>
- <exidjcjvhfkvob7yns4tubsqeuajetel5ezaa3gu7aezbksvp3@fuknr23vph64>
-In-Reply-To: <exidjcjvhfkvob7yns4tubsqeuajetel5ezaa3gu7aezbksvp3@fuknr23vph64>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=030e79b1-84a0-4395-8650-32c9ba179416;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-03-21T12:55:07Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV2PR10MB6306:EE_
-x-ms-office365-filtering-correlation-id: 5d48a0d0-b5af-401d-5888-08dd6878124a
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?RfRcZ1OV9CUwE43xIjvQqG1nckOkj4d3eNEa4ojUDIsZ8hQPOp/Xq9IhS1dP?=
- =?us-ascii?Q?No8XFB8APctPcCCkSFcbVxpLwrcwlC9J8ehYwEEvao1grJA3eYK6lp/Zvkxi?=
- =?us-ascii?Q?mGmEeUEDLE3YlHdsxiXAqOl1G/hz3AddvAFHaO2UxZZ5okfwTK96bo8e/8Mg?=
- =?us-ascii?Q?XHjyLQkAytj87+sMa8g3MKn93CmPMVuzAjAwiSWQeUitQYGP/H1Jz1tSfDUm?=
- =?us-ascii?Q?cCVGJ8L8PS0QAvBTdk2Jqj9VmVj/4u/FTXjVOXGkXQj3RqnjiQAR9BVhJAkX?=
- =?us-ascii?Q?YvMmxffVrKWk5kIBJBjNLmCg1oqlszd73bxxEbAtrboCtJPb+KlN2cdr3Pc9?=
- =?us-ascii?Q?/OPD8VSGWWGyWjaH7tbq/AH01y6Na4irNriyJrPBTQHkCuoAUnIoJDPXDUcw?=
- =?us-ascii?Q?lKxIuqi6JbAeJM6GjEavWHhe5unAxN/iqd6QB3WKMa7sBR/99kSDy/9PhLg4?=
- =?us-ascii?Q?NOgGg7AJodfw/mXEY5VwNj2eIvY8ck8KfD6ObcK/yg6+Sq6LUQqxB19/hhNm?=
- =?us-ascii?Q?JklUTowdLqo8E5beUXSigzb08gRSF/qraDdJxB+VnQN5OB0XP1y7MWFR2Xpj?=
- =?us-ascii?Q?r3OtoAM/NC9t6A9GuGXKoGKJT3GosIyIdDZiLIi/ycRhGn4muu7h66jPJgPl?=
- =?us-ascii?Q?IUcH2rDrtO72BClftTOM7VF+oGiuJbQZRJ2iUco2I+eO7B2Add2lwyAydlDz?=
- =?us-ascii?Q?oDF4et608jC2kESsre0CavhPHJqItOTHzEGQw1wuS4AbmNiX4tojH31CcbVc?=
- =?us-ascii?Q?xzIlpW9JXV+G7gkBplqmKol8xWjuDjE17Z2L/9oYJbuJJytdJJ50k7iLZxpk?=
- =?us-ascii?Q?b1j0WirkazoLlXyV3WbocMvOqJ3MhcF6GUqVwUgKL7wOSja0j917FS7NLVcQ?=
- =?us-ascii?Q?VqC/kiPKb73kBCfIq1pay5HgbRaRDAV1Cr1zj42PasR7cXCpP0iqZ59SYovh?=
- =?us-ascii?Q?UiNotCOTCshLLYfG/yaSyJMu5uSEJ+8ALslBbbaWJqtPHc0NSBzytE6/qLBN?=
- =?us-ascii?Q?1Q0zOUQ7mK95depVP61yWpv5s0zeFSyu2/aDzenjJh+UkXZUsYjSC2ZU+H0C?=
- =?us-ascii?Q?rHNmJWmWuqpXqv4fIX/XBUyPOeAjPfj9Ju6oT1qbDMpn8oX44qFZm8SyH24I?=
- =?us-ascii?Q?UaQiG/dxYyQ76l3JpKmIO62uoaffe7IzL/hmqjcAZCrp640sNt3J1UfItWf5?=
- =?us-ascii?Q?E8nrtQr1VIanCd7TYzl6z3j7syNBqWWtHaNHxhAof865vscaZ1/w004wf+r1?=
- =?us-ascii?Q?MymSIGs3WMglpPc23H5SWXOHgWLVLbN6zUznYYB8qyhWX/MgIakkoVT5dbOu?=
- =?us-ascii?Q?MDUfC5nzBr/VPfMqULlaOJ/a6bRuJgC+gj424zGHhMIkaj5+ix3Gr/dr25+7?=
- =?us-ascii?Q?j7Wvl90f8hslomfU548ujP1EQKsWLo6j9KuaL0eJF3XzR6+dseOI62KWGsHV?=
- =?us-ascii?Q?aKhxJLD/7cra5zpR6bFYlSbeMmo8LVT1?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?zEJFx0yZG/xd3UdfHOejujV2ePJsZkN3CrAmsfjulWTgNLXjBp7elGLpzWny?=
- =?us-ascii?Q?ilGlQetf1PsCrvAYbnLZUnZZNt+IlofrSbfGOtfvIHmLvdEdEnK2fktXgExF?=
- =?us-ascii?Q?lG5AqlKtDCPmo79g4hJG6nMqyyfL/eIBa6VcJP96GclnHVh1JqMxIzdnlENa?=
- =?us-ascii?Q?x7h447NQ4tdy4PAseAhYkgvnrkK4tzeje0Xk06SfeqWNHlbDQrFBwXQ369JI?=
- =?us-ascii?Q?LpmVpjnWa+0Q677H/DJ2CnjsYxzc2UGw3dIU0ovUH7C0S4HaN1YREKc5u8F0?=
- =?us-ascii?Q?IASslA5Ifq1EC6LtTZokgsG+sZL+DiJaQjKeLc/2002QydtyESNOb7OMc2pe?=
- =?us-ascii?Q?ftbW4u1b/SCONUjy6Kz0fhjMEJFiR5l+BhCZt9h4uYUfqdMo9kC4gyhyGBuc?=
- =?us-ascii?Q?TJHxU6yw+PocRFWvNsuTF9tHcV2fkWqq2Ik6Hv20ej8JE+lbxqGvomGNeS1C?=
- =?us-ascii?Q?vodE69CcnyxUDETZWCMuyJG2IIwSqOGdlbMJhjtDH4Q3zuLntYl+kJqTxfJc?=
- =?us-ascii?Q?h4m2z0ZrujkqcArC9e80NfIBqsLNfoGyOGxHzqauBTf3SHKwELXEifyO6upW?=
- =?us-ascii?Q?q8yGequwVhvzlcZZY069CHEn5YmlrmrDP+UbEqHdxBsC3tQJ9mC+GdfId33T?=
- =?us-ascii?Q?vDjC8XWf6Mib8CbCHE4juj6zHIF3E5J8OwRwV4MrA6xEz+c43Bou0yjrNXcP?=
- =?us-ascii?Q?PfIiX2Ut4XHUpPoEf6gNFiqKRAi2MuFODPBs9YLmgv5+ApRRLmsFkj0Jf0n6?=
- =?us-ascii?Q?oAm9r2nDXaWzbLg5GL+xf2WlQHZ8FggvRf5Ye0u+K9SXU58ZE2YF59qxzzjb?=
- =?us-ascii?Q?2rFmYXjB1FN4GFc7ZA1uCoiyvHfodznOsm3RPQoUpTr+15U1B20vx3zBHmZO?=
- =?us-ascii?Q?HhE6jeF+rR6aj2N3wDbmgYTLKIp2XecLc6772UXivwYs7j7MnHkXD/chK8Re?=
- =?us-ascii?Q?0N5v4rIDtvH0eG6lIMleO3caWwyr7BiJiEtpI0LODkmr4p+rjz971zT5WCzZ?=
- =?us-ascii?Q?yH5ZdJp+MKYs1PfBDyl7FAGUoGs0ZorE7016escpt34wseaLWJMw7B7rjNXk?=
- =?us-ascii?Q?SgV+j+T0M4qEX5DbsnWCvDv0oa+9GJGiNEuxLSIx9OvX+CK4g1i/yCdcTVLR?=
- =?us-ascii?Q?OAeG6fUiwt+kvXCjX4WHAxT8JtWx8Sxse3tJl+djyGN27eblxnohEmypO5qJ?=
- =?us-ascii?Q?/m1CwV7CFkjzJF/rzmdal7AsM77czFFf2R7MlwfezaYxGO17X8tze5zlFRZy?=
- =?us-ascii?Q?athxi2t1YU1r5t3V1KWmVRQpSWZWK/Az7RGO/NZn/YrpUE6Zt+c4NKpTh+N1?=
- =?us-ascii?Q?yOQSg9lVFhZauKg8+DRTsaODhNnXAnJXIVF4gxdaC0YS2zFGes3JWjxdQ3uO?=
- =?us-ascii?Q?anBm7DD6RSOraMO/oxeGygAe6UmfkGxDg4TleQXJkNNlS9+CFslfkGGQ+w+I?=
- =?us-ascii?Q?yun7zO3JkqXOjl1MT6C0zqunKb9l8IjQHfmIO2EVp4AUGpIc0NQGCUIUJHnW?=
- =?us-ascii?Q?iACl0/4nPdX5IPcwjJkiu8mdGEx2Ty4Qq83PUNB4JDM7ZtLwb+rYwRnWGiP/?=
- =?us-ascii?Q?5XZyMwI9ks/rQirZGUHHf/XIawU+AN10SHbCz2pK?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 2025 13:25:26 +0000
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f%4]) with mapi id 15.20.8534.034; Fri, 21 Mar 2025
+ 13:25:26 +0000
+From: Deepesh.Varatharajan@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com,
+        Deepesh.Varatharajan@windriver.com
+Subject: [PATCH 3/5] rust: Fix build break because of "download-rustc" and "llvm-tools"
+Date: Fri, 21 Mar 2025 06:24:54 -0700
+Message-ID: <20250321132502.2607941-3-Deepesh.Varatharajan@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250321132502.2607941-1-Deepesh.Varatharajan@windriver.com>
+References: <20250321132502.2607941-1-Deepesh.Varatharajan@windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: DS7PR05CA0095.namprd05.prod.outlook.com
+ (2603:10b6:8:56::29) To SJ0PR11MB5648.namprd11.prod.outlook.com
+ (2603:10b6:a03:302::11)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|CY5PR11MB6391:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a224b99-a949-457d-04c9-08dd687bd777
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?xwtyLrHBU9bT7l2WCutpm/GB694XscpZ70a+WNiazGaGBVhHlaosk9i4qFCu?=
+ =?us-ascii?Q?kbaGfPf8K0kOn3FlB9dXmw+8QFlugHDQWxxhY3BRfV54Icy6UqbW8XZ099jF?=
+ =?us-ascii?Q?9e70Dkei6CAdBWCBFOlmNIOsxp13mR+b3XZ2bfl4kyjB2oRrjGn6XMJPfQZ3?=
+ =?us-ascii?Q?WUbaQCBFFlvcdZ8dgFAyjVcEUQq2xzVrs8lLCiaknAivxb/lqJWWgtpVAwZ3?=
+ =?us-ascii?Q?S5nOGi0ZkJJmsSgyrjYgRDCKN5Vs/ZZJHNO83SM5R0LvYkmhh7fRgdXlzTCe?=
+ =?us-ascii?Q?Z+aygKkdjblZQQJxl5WiiOfqJ9PxRVzZMyVzn2Wq3l32YjhPqxaS9Dy7EbRp?=
+ =?us-ascii?Q?MAHO3QeEX+7VNve4zxwZbi00vqfeQYxaD0zfmSuwh1aXon+dFmmCckF7zZTJ?=
+ =?us-ascii?Q?76Jehp9wqY9ZYn9PZxLfuvdAlU608huf6tj/ScnkSrycAJX0NlMwTeX9UFRq?=
+ =?us-ascii?Q?/YhRyUDL7iC4OhpzS0qDRnKc4Mi4Ip2dX+Nv5qZMH5ntTtG2y7hEaLwRWrrG?=
+ =?us-ascii?Q?ITQYw2xQ85tMmnL7jCV6xL2uw9ro3jCw0J0VdVHC64vDrQ2SjMw16pQjncq3?=
+ =?us-ascii?Q?iM3nFVxKoqGC5KMoXCv1h7JZSkxXDNzMiJLtGvhWR/cC1myrQ54lc9FRqYY6?=
+ =?us-ascii?Q?TCmn1oTqqlzdU3yOol4I958EPhapUYNpimqo5fGe3dARmCYOLgWW1HlMLbqw?=
+ =?us-ascii?Q?WKekCOaXtz4rK2N/BAZ2omb+yEaWi95FyMNbM0AJGVm8HIK6SyAlcUcBdXhA?=
+ =?us-ascii?Q?rhLHqunBBd2c+J2evlGIQrD7j3lUqLTXsrG2sX3iu+/mZcy8k+iZczWinZjg?=
+ =?us-ascii?Q?de9/7pEFQgXOSGjaoAZ1yNT4xbyiFSMklyInDyItl0GsD8uzLXMWeFbid2fR?=
+ =?us-ascii?Q?OBWwnOjRMbqih2qMfZuGyi5eGqP8F2RjxZ1wbfel7O/h/F5lBJOAJgV4G2IO?=
+ =?us-ascii?Q?asyw7VCudOtbcOx3KzWyKZjNWNsB3nvGKMXFNWm6Hk6UP/iW0kxAv/Wl57Z3?=
+ =?us-ascii?Q?X8p9XsWdmhNaNuJ8oyU1JfALd3ghdcY8y4NVHD/rYj7Co3BluFotfxSB73G8?=
+ =?us-ascii?Q?3QfyhEjYs6OXDvMxjA4fQo4AEzDoyRvuFHvbY1IoJXyDyRnpI9fIVbNNRkdn?=
+ =?us-ascii?Q?lOHGuDWn1JrzQVkWbOJg7++Q/KiKsyfb/VHFYrIYVRBWhqU5KKPvc3/4r56b?=
+ =?us-ascii?Q?VAsCAdTn/Hz/xRemy8/7i7A/oIJCKr6ufW20nOpBiiOzMfRahx9gPhgZdVTd?=
+ =?us-ascii?Q?KMpv69UeoT0Rf9krlBA11BQUbNJqNgtVuUO8s+xPTV34eaCuhPB64Vr+/jRk?=
+ =?us-ascii?Q?b7EFZWuk1XqO7bIZU0In/tajyIf5SZMGicaD2KLZTkQyGEaqCX5KLRsNwV9p?=
+ =?us-ascii?Q?/S6uyC5t+L/F4PDHTU+/aWWFGWbirTWCnDOLAgpAajHMbh94XWeFYK1/GD8V?=
+ =?us-ascii?Q?XSmSBurEFt6N74Qr/Vg7tpd3VwvB/TPJBbTfWj2YiO8WEDR+KhXCbA=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?a1nMjVCK4Zi9lCeoGfjeUHfYcZ/+hOeTkWODRTgGePO21eBX3st3GZv+z427?=
+ =?us-ascii?Q?k+PoIp0XwhFbOx1GPXgXmcb1dNa0I0mWNzDGoMtdgLGzKeGHMnYklttWnSgd?=
+ =?us-ascii?Q?68btEX7V9wb1j5kPtNzWKkp3sVL5W1IEUDmOenUIp7ePT9fW97dOtbaADVPV?=
+ =?us-ascii?Q?pUz7+o7MIiQAocPSAgol9yegxXpF3v6UO1zVROyANtUmSwXYcFUiaU18t6Y5?=
+ =?us-ascii?Q?kw3A4+j3RRqTraLh7b5SFaUpA7Yuy0Im6WBVqDxex0roi4GkyDccnS0kudPO?=
+ =?us-ascii?Q?Koe0qnKwa1cQIiZeKOgu1R42NTI/VHFGEUrxzdZ2+vrnZpfw8UaEvlcVCwOC?=
+ =?us-ascii?Q?QV66gvONFzdt3To1A5VTw4/TzFGFcxfU3hRmmJWMicwn0Eko7BKFgbXQtgY3?=
+ =?us-ascii?Q?31mw1enEhi/cQ2Sta3ikG33xwQFjr16Y4YBLunvZ/qi6SgC7m/nfvy2XKMDN?=
+ =?us-ascii?Q?erO3Q2DzptrHNMSB2sFiUJ614v1vsni/Pt4DeqV6xp3toQsCfVj/moZgyTgi?=
+ =?us-ascii?Q?UJitrZlypkr5XQbDna/bCsebLjZY3g8OsrID56TzGijlHIRJGARHwT80Gp4Q?=
+ =?us-ascii?Q?/oeoe/AdOncqw1if5/GRJD6S4ZUsV8coIS8tUu59fVA5ts1HmYLmQxBLzlu5?=
+ =?us-ascii?Q?gJFpM163CM8YSP1rKnxDDFlRyrPeGkr0aJaFIrgwoAb2V7dSatHWTZ9u5hfB?=
+ =?us-ascii?Q?cLwgXjQJ1WOxjbapH6At9YtxJ8q0FDzVaveCl9rKMmgwR4eg0yeV2j0oF9io?=
+ =?us-ascii?Q?AK1n1TTjBwOOXbjYO8DycuwqTU5Zi0VKWo6/gwraa+wNNXval+slxzRcgyMs?=
+ =?us-ascii?Q?fm6dG2r6VB3wYm1doTALq8LufukNk/oH0+Tb9eWNf/IwAJprpaDN3+uElQg9?=
+ =?us-ascii?Q?/J8Uc5BRL/tRjVKGTlfk58Q4twhrBRMQFDd+CIE1imhaDUe6B7hfvjKHQcsY?=
+ =?us-ascii?Q?8GuMo7liLmCKtSDUGb9PKY+exhyY6BGyDvWBXligwjvuKdQmDP8NdMaqqQuP?=
+ =?us-ascii?Q?ZQ/B9BtpXsqDLcuU5jkrrN5i/st3pX1qeBBaI2GdVmxUm3wz8ViK3GtWZMAC?=
+ =?us-ascii?Q?sYXh/X76UZrCSnjM1hjkZLW2az0I28HMMbDVvDugp1vMQghUFeiUgQ/ALgVY?=
+ =?us-ascii?Q?F0+PfvnL3vA5DKGSozKGWX6m/4yhUPFZmgOFLxkmeGB5JFeqEuwdSlzrgOp+?=
+ =?us-ascii?Q?1cUFT49upl8eZjMT9WMAAXWVkyDc1dwCVEvA7olLu8MiFRUMkH/OaWLDAqTh?=
+ =?us-ascii?Q?7OfXvnJ24Ic67vcL4prPGEEVruW7fAlMyPHA5u5JiKAsyP5VKhMh8owV88LZ?=
+ =?us-ascii?Q?NpgDru3gOyUq9rJUslQEBNidqjI7jzVF0Lulfwt2q3t1kX5W8YZv0YUd+484?=
+ =?us-ascii?Q?dF9FR/iYTulDckc/Oj0yXO/8l4yB8znMEz/k9OwmQ7xdRuIel6C9NrcGzssA?=
+ =?us-ascii?Q?lpGLJTFb3DXPjzrAYemh/G1Xm4jwR4k6+0DyCP5fcjlD/tDdGCGEFWkUPgFn?=
+ =?us-ascii?Q?0uBVGgI98exMFQp4iwf8l+IRfeSTC6N0KmIY23HvliNUhkbfNW7OE9rJZb7o?=
+ =?us-ascii?Q?ekZpQjFN+2nqdReFZ7HxppWGSH0dkhB44H8QCjt8rEV7H9zxq2bBrxpdUick?=
+ =?us-ascii?Q?sfV9tPMBv0k9XmCo40Dp0ew=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a224b99-a949-457d-04c9-08dd687bd777
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d48a0d0-b5af-401d-5888-08dd6878124a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2025 12:58:26.8363
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 13:25:26.3128
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zYtPDobh6ntC9QXwoLfhWM+jQBPA7z9dMhLB8F75qikuuzQG95omQS3IGbNvkBN6DlUBhyXQX9CzRHN3/Esqfg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR10MB6306
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MEuJYUSBnfbEC6BaClc8hNEYtpEi6bOIkbx6eWmgQ0zZUu9M5h2m6+ejXIOliCvONlRzlAVAzYuPTkM4TtG95PSJICZju0OyNk7qExLdJxIG5+zf1oiSsuX7OyA+gR9Q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6391
+X-Proofpoint-ORIG-GUID: JIkF4LRkt75R8UoHbtA1eLMGYfVVwQzt
+X-Proofpoint-GUID: JIkF4LRkt75R8UoHbtA1eLMGYfVVwQzt
+X-Authority-Analysis: v=2.4 cv=NY/m13D4 c=1 sm=1 tr=0 ts=67dd68c8 cx=c_pps a=XlWNgFwcAB8XWrBhwjv7Vg==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
+ a=H5OGdu5hBBwA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=PWzzmaXyrbUS9jlXZ2UA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-21_05,2025-03-20_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ spamscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
+ clxscore=1015 mlxlogscore=793 impostorscore=0 adultscore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2503210099
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 12:58:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213450
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 13:25:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213453
 
-I think there is something else breaking your build.
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-My commit changed function create_rootfs_spdx.
-That should not influence recipe spdx code...
-Did you try a build with my commit reverted?
+From Rust 1.84, the download-rustc and llvm-tools options were set to True
+(previously they were False)
 
-Peter
+https://github.com/rust-lang/rust/commit/cce6f03754f096f8a2bdfb357e3739b855e29366
+(download-rustc)
 
-> -----Original Message-----
-> From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Sent: Friday, March 21, 2025 13:38
-> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core][PATCH] spdx30: handle links to inaccessible locati=
-ons
->=20
-> On Thu, Mar 20, 2025 at 01:15:33PM +0100, Peter Marko wrote:
-> > From: Peter Marko <peter.marko@siemens.com>
-> >
-> > This is the same as e105befbe4ee0d85e94c2048a744f0373e2dbcdf on
-> > additional place in the code.
-> >
-> > When a link is pointing to location inaccessible to build user (e.g.
-> "/root/something"),
-> > filepath.is_file() throws "PermissionError: [Errno 13] Permission denie=
-d".
-> > Fix this by first checking if it is a link.
-> >
-> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > ---
-> >  meta/lib/oe/spdx30_tasks.py | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> This commit breaks building recipes here:
->=20
-> ERROR: quilt-native-0.68-r0 do_create_spdx: Error executing a python func=
-tion in
-> exec_func_python() autogenerated:
->=20
-> The stack trace of python calls that resulted in this exception/failure w=
-as:
-> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:do_create_spdx(d)
->      0003:
-> File: '/home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-
-> core/meta/classes/create-spdx-3.0.bbclass', lineno: 135, function: do_cre=
-ate_spdx
->      0131:    "
->      0132:
->      0133:python do_create_spdx() {
->      0134:    import oe.spdx30_tasks
->  *** 0135:    oe.spdx30_tasks.create_spdx(d)
->      0136:}
->      0137:do_create_spdx[vardeps] +=3D "\
->      0138:    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
->      0139:    SPDX_PACKAGE_ADDITIONAL_PURPOSE \
-> File: '/home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-
-> core/meta/lib/oe/spdx30_tasks.py', lineno: 537, function: create_spdx
->      0533:            )
->      0534:
->      0535:    cpe_ids =3D oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"=
-),
-> d.getVar("CVE_VERSION"))
->      0536:
->  *** 0537:    source_files =3D add_download_files(d, build_objset)
->      0538:    build_inputs |=3D source_files
->      0539:
->      0540:    recipe_spdx_license =3D add_license_expression(
->      0541:        d, build_objset, d.getVar("LICENSE"), license_data
-> File: '/home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-
-> core/meta/lib/oe/spdx30_tasks.py', lineno: 408, function: add_download_fi=
-les
->      0404:                    creationInfo=3Dobjset.doc.creationInfo,
->      0405:                    name=3Dfile_name,
->      0406:                    software_primaryPurpose=3Dprimary_purpose,
->      0407:
-> software_downloadLocation=3Doe.spdx_common.fetch_data_to_uri(
->  *** 0408:                        fd, fd.name
->      0409:                    ),
->      0410:                )
->      0411:            )
->      0412:
-> Exception: AttributeError: 'FetchData' object has no attribute 'name'
->=20
-> ERROR: Logfile of failure stored in: /home/lumag/Projects/RPB/build-rpb/t=
-mp-
-> nodistro/work/x86_64-linux/quilt-native/0.68/temp/log.do_create_spdx.3116=
-916
-> ERROR: Task (/home/lumag/Projects/RPB/build-
-> rpb/conf/../../layers/openembedded-core/meta/recipes-devtools/quilt/quilt=
--
-> native_0.68.bb:do_create_spdx) failed with exit code '1'
->=20
-> Reverting this commit makes the error disappear.
->=20
-> >
-> > diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> > index 0618f2f139..bba11ae930 100644
-> > --- a/meta/lib/oe/spdx30_tasks.py
-> > +++ b/meta/lib/oe/spdx30_tasks.py
-> > @@ -1068,7 +1068,7 @@ def create_rootfs_spdx(d):
-> >          filenames.sort()
-> >          for fn in filenames:
-> >              fpath =3D Path(dirpath) / fn
-> > -            if not fpath.is_file() or fpath.is_symlink():
-> > +            if fpath.is_symlink() or not fpath.is_file():
-> >                  continue
-> >
-> >              relpath =3D str(fpath.relative_to(image_rootfs))
-> >
->=20
-> --
-> With best wishes
-> Dmitry
+https://github.com/rust-lang/rust/commit/38f0c099b2e684ea689633eb424d8737a1063a5e
+(llvm-tools)
+
+For tarball sources, the download-rustc option should be False, so it has been
+reverted back to False.
+
+Setting llvm-tools to True caused issues with finding llvm-objcopy, so this
+has been changed back to False.
+
+Upstream-Status: https://github.com/rust-lang/rust/pull/134240/
+
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+---
+ meta/recipes-devtools/rust/rust_1.83.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-devtools/rust/rust_1.83.0.bb b/meta/recipes-devtools/rust/rust_1.83.0.bb
+index ec1e7a683d..1de629b28f 100644
+--- a/meta/recipes-devtools/rust/rust_1.83.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.83.0.bb
+@@ -147,6 +147,8 @@ python do_configure() {
+     config.add_section("rust")
+     config.set("rust", "rpath", e(True))
+     config.set("rust", "remap-debuginfo", e(True))
++    config.set("rust", "download-rustc", e(False))
++    config.set("rust", "llvm-tools", e(False))
+     config.set("rust", "channel", e(d.expand("${RUST_CHANNEL}")))
+ 
+     # Whether or not to optimize the compiler and standard library
+-- 
+2.43.0
+
 
