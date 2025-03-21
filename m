@@ -2,41 +2,43 @@ Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 619CCC36002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A04C36007
 	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 12:56:30 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.20449.1742561778756443086
+ by mx.groups.io with SMTP id smtpd.web10.20433.1742561779022369317
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Mar 2025 05:56:18 -0700
+ Fri, 21 Mar 2025 05:56:19 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5175e5883a=yogita.urade@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LAo2bt015434
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LAo2bu015434
 	for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 05:56:18 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45eprrd11y-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45eprrd11y-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 05:56:17 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 05:56:18 -0700 (PDT)
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Fri, 21 Mar 2025 05:56:14 -0700
+ 15.1.2507.43; Fri, 21 Mar 2025 05:56:16 -0700
 From: yurade <yogita.urade@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] xserver-xorg: fix CVE-2022-49737
-Date: Fri, 21 Mar 2025 12:55:51 +0000
-Message-ID: <20250321125552.1618829-1-yogita.urade@windriver.com>
+Subject: [OE-core][kirkstone][PATCH 1/1] xwayland: fix CVE-2022-49737
+Date: Fri, 21 Mar 2025 12:55:52 +0000
+Message-ID: <20250321125552.1618829-2-yogita.urade@windriver.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20250321125552.1618829-1-yogita.urade@windriver.com>
+References: <20250321125552.1618829-1-yogita.urade@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [147.11.136.210]
 X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
  ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Authority-Analysis: v=2.4 cv=LZw86ifi c=1 sm=1 tr=0 ts=67dd61f2 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=Vs1iUdzkB0EA:10 a=PYnjg3YJAAAA:8 a=e5mUnYsNAAAA:8 a=t7CeM3EgAAAA:8 a=aR16PxjQAAAA:8 a=pGLkceISAAAA:8
- a=isKO8siKdrtMZkWASFIA:9 a=Vxmtnl_E_bksehYqCbjh:22 a=FdTzh2GWekK77mhwV6Dw:22 a=zbFvvTOBjyH4ze5LlUjX:22
-X-Proofpoint-GUID: L7QP4w8818btG832UFS4lJVr6itizED1
-X-Proofpoint-ORIG-GUID: L7QP4w8818btG832UFS4lJVr6itizED1
+X-Authority-Analysis: v=2.4 cv=LZw86ifi c=1 sm=1 tr=0 ts=67dd61f2 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=Vs1iUdzkB0EA:10 a=PYnjg3YJAAAA:8 a=e5mUnYsNAAAA:8 a=aR16PxjQAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
+ a=isKO8siKdrtMZkWASFIA:9 a=Vxmtnl_E_bksehYqCbjh:22 a=zbFvvTOBjyH4ze5LlUjX:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: CiTGTn-ePZALjy1XoOhMCEnhNXmKBl6i
+X-Proofpoint-ORIG-GUID: CiTGTn-ePZALjy1XoOhMCEnhNXmKBl6i
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-21_05,2025-03-20_01,2024-11-22_01
@@ -50,7 +52,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 12:56:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213448
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213449
 
 From: Yogita Urade <yogita.urade@windriver.com>
 
@@ -68,16 +70,16 @@ https://gitlab.freedesktop.org/xorg/xserver/-/commit/dc7cb45482cea6ccec22d117ca0
 
 Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 ---
- .../xserver-xorg/CVE-2022-49737.patch         | 90 +++++++++++++++++++
- .../xorg-xserver/xserver-xorg_21.1.8.bb       |  1 +
+ .../xwayland/xwayland/CVE-2022-49737.patch    | 90 +++++++++++++++++++
+ .../xwayland/xwayland_22.1.8.bb               |  1 +
  2 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2022-49737.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2022-49737.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2022-49737.patch
 new file mode 100644
 index 0000000000..86c9f59f8c
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2022-49737.patch
 @@ -0,0 +1,90 @@
 +From dc7cb45482cea6ccec22d117ca0b489500b4d0a0 Mon Sep 17 00:00:00 2001
 +From: tholin <thomas.lindroth@gmail.com>
@@ -169,17 +171,17 @@ index 0000000000..86c9f59f8c
 +      * we'll always have an SD attached until the MD is removed.
 +--
 +2.40.0
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-index e77b81eed6..6790eb0921 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-@@ -35,6 +35,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
+index 6affd80e22..8b1fc85aab 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
+@@ -42,6 +42,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
             file://CVE-2025-26601-2.patch \
             file://CVE-2025-26601-3.patch \
             file://CVE-2025-26601-4.patch \
 +           file://CVE-2022-49737.patch \
-            "
- SRC_URI[sha256sum] = "38aadb735650c8024ee25211c190bf8aad844c5f59632761ab1ef4c4d5aeb152"
+ "
+ SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
  
 -- 
 2.40.0
