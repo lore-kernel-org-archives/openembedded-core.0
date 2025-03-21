@@ -1,76 +1,83 @@
-Return-Path: <Mario.Schuknecht@iris-sensing.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8C7DC36000
-	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 15:13:40 +0000 (UTC)
-Received: from o1.shr1-de.smtp.net (o1.shr1-de.smtp.net [185.71.125.101])
- by mx.groups.io with SMTP id smtpd.web11.2365.1742570016275619893
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A188DC36001
+	for <webhook@archiver.kernel.org>; Fri, 21 Mar 2025 15:13:50 +0000 (UTC)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+ by mx.groups.io with SMTP id smtpd.web11.2372.1742570029716672355
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Mar 2025 08:13:36 -0700
+ Fri, 21 Mar 2025 08:13:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=mario.schuknecht@iris-sensing.com header.s=smtp header.b=HDEn8wm8;
- spf=fail (domain: iris-sensing.com, ip: 185.71.125.101, mailfrom: mario.schuknecht@iris-sensing.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; s=smtp; d=iris-sensing.com;
- h=X-CSA-Complaints:From:To:Cc:Subject:Date:Message-ID:MIME-Version:
- Content-Transfer-Encoding:List-Help; i=mario.schuknecht@iris-sensing.com;
- bh=feS3X8moT/1NLMgii2pbKRkYeVnJfSw86pw8Y1kauU8=;
- b=HDEn8wm8yjDq87ogQUFuPHHJ54NuF9qPtbcYmyev9PH73aJkR1KW1RZc98DxU+PJfodGzf6+ji5+
-   jxX2LFLky85O/MEnEQgRMuvG+g2UgMbg8k3XOyfDzL4YspKPtMz1ivXxB0eY2LDdfYHt8SBRgW/u
-   4VmPagl0d6HzQz345tEGZfHxvG3xFuKq6x8GhZ7j3NSP7ymk4aNmRDBJicAG7qruny+1bzaly3Gj
-   v/B7Jck611UbvprPKlPKbvxc7gqz7stNNJFTT5HS28+ZWDU5XSEvE1qQtE0cNVp/4OACdGUdzRj9
-   tyrugNOlxnDmRIzd0Fd3fe+eLt8WW6oSzZ1ErQ==
-X-CSA-Complaints: csa-complaints@eco.de
-From: Mario Schuknecht <mario.schuknecht@iris-sensing.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=avgn7Tve;
+ spf=pass (domain: gmail.com, ip: 209.85.210.47, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-728a433ec30so400838a34.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 08:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742570028; x=1743174828; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6/fRFO5thmglnXAwS6fViR+aYRl19/J7fcZEHM8IXes=;
+        b=avgn7TveorJ9HAFfbpi5pE968cAo5eUueygS4qb0vuaXACuFxW97nMkeCM34woWpOZ
+         ers0XbWT8PVrPysVFNHo0zI86IONqEpplwmxGL218OiOH76ug28OzN/RrgH4dhDEQi6b
+         0ekkA6I8nvVbHKt6PZ9ehT1oUSOhzamKhec6dUzDnszGmI9fcnyY3iAsEZJRDDxSLUvU
+         kUbueTMn4kbAUYd/2OlK7XE4LNkPGp3w5CilvIaYepF91kR0FQOdDAdOzTkJ88Hlccvi
+         cIzAehW1STfzcWsuaL9c08vqR72ImVQFk9Yl0jKmzqLizk6cR3rm3SyNPQ7W642JNBOI
+         AY0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742570028; x=1743174828;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6/fRFO5thmglnXAwS6fViR+aYRl19/J7fcZEHM8IXes=;
+        b=nnHXH3rU0JLbV2gQ6L8P+JKmvcEMBXnGl9WU6jc8/hhC86Ou5IoYh/jiRZIYsAoT2J
+         6uHBPtT6kgf+LPeFlLDn5TTuLstkySQ6h9C47bHmPg5YuesqCfo6ROI0S8XN1xt0pDKy
+         HfewcrFLgbGPbxzuT6AtqcFsyrxLeb8V4gJj7eTjTw9GMaSatoFcn2yePD8U03qGQOeL
+         xWdHmd2FPvYurLgEDOMK7W4qMQm390xAarxR32+fPixyOPdFUHprThLBf1oG1cn2yIHL
+         GkAiE2QecyX2ueO9RucxwYXObP0OaFn+9HLJfIMZZIJ/gVXy6xNq4d+yTA13ahCShyc9
+         fDlQ==
+X-Gm-Message-State: AOJu0YxNe7ISYCZtPhTXfVosz2u5HzntYBMbdFskQR8l/nSk4ipEAL0T
+	+jAv5V0PT7syHdifCZB6JwEkZ3Eww0Bci4in9aO5qDmwdStKCvQwLVUtgw==
+X-Gm-Gg: ASbGncteuA74UpZ5tNNTMTs+vCR//eAssCUO750NqrP2J7EhpXb2Axb9oqg844UczZr
+	RGKNjuzkC6i07zkAjR1o/86dxMFxncFbciv8U8KmzGXpSj804Ghg0DVM34Rc+DxKz67WKDVYqTy
+	nY3UXStZMr4bJOpPBLdfxoj7vg2kF8r44u/q1Dec1gOGWoaOyFcgBl6UhSf2kKIU0MWY8C0Ia12
+	ns5A42pidi/2O7DGJBiU1XOfxa7AAmoKRmB0Qg5xPyw2FhZfZhBOHcgYmUhc1NpruiUEqeHQHzK
+	2YMQzgAO5VfDRAjwK91XbVh1SWnKHyZx5WzezJ+kkqs=
+X-Google-Smtp-Source: AGHT+IGddAwD9BTP8H+tFuThjB/uU+IN4R3NtpMsHC/Q9OmLZQLOr51Jbj3yh7m+THzF1uTuiAOJSw==
+X-Received: by 2002:a05:6830:6587:b0:72a:13cf:4aa0 with SMTP id 46e09a7af769-72c0ae99963mr2855813a34.15.1742570028155;
+        Fri, 21 Mar 2025 08:13:48 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4300:19e0::b36f])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72c0abac389sm425931a34.4.2025.03.21.08.13.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Mar 2025 08:13:47 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Mario Schuknecht <mario.schuknecht@iris-sensing.com>
-Subject: [meta-core][PATCH v2] libgpg-error: inherit lib_package
-Date: Fri, 21 Mar 2025 16:12:45 +0100
-Message-ID: <20250321151245.21227-1-mario.schuknecht@iris-sensing.com>
-X-Mailer: git-send-email 2.35.3
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 0/2] Fix SPDX 2.2 for common SPDX changes
+Date: Fri, 21 Mar 2025 09:12:38 -0600
+Message-ID: <20250321151345.484603-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Complaints-To: abuse@smtp.net
-List-Help: <https://www.rapidmail.de/unsubscribe_help>
-Feedback-ID: ohorkrd6ro6lu91c:3291:trx:rapidmail
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 15:13:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213479
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 15:13:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213480
 
-Inherit lib_package to create an extra libgpg-error-bin package for
-executables. As a result, the gpg-error and yat2m executables are now in
-this libgpg-error-bin package, and no longer in the libgpg-error
-package.
+Fixes SPDX 2.2 generation to account for changes to the common SPDX
+code, and improves the testing to get better coverage of SPDX 2.2
 
-Signed-off-by: Mario Schuknecht <mario.schuknecht@iris-sensing.com>
----
- meta/recipes-support/libgpg-error/libgpg-error_1.51.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Joshua Watt (2):
+  classes: create-spdx-2.2: Fix dependency handling
+  oeqa: spdx: Add tar test for SPDX 2.2
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb
-index 741969beb0..e0287d813b 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb
-@@ -24,7 +24,7 @@ SRC_URI[sha256sum] = "be0f1b2db6b93eed55369cdf79f19f72750c8c7c39fc20b577e7245454
- 
- BINCONFIG = "${bindir}/gpg-error-config"
- 
--inherit autotools binconfig-disabled pkgconfig gettext multilib_header multilib_script ptest
-+inherit autotools lib_package binconfig-disabled pkgconfig gettext multilib_header multilib_script ptest
- 
- RDEPENDS:${PN}-ptest:append = " make bash"
- 
-@@ -47,7 +47,6 @@ do_install_ptest() {
-     install ${B}/tests/Makefile ${D}${PTEST_PATH}
- }
- 
--FILES:${PN}-dev += "${bindir}/gpg-error"
- FILES:${PN}-doc += "${datadir}/libgpg-error/errorref.txt"
- 
- BBCLASSEXTEND = "native nativesdk"
+ meta/classes/create-spdx-2.2.bbclass | 10 +++++-----
+ meta/lib/oeqa/selftest/cases/spdx.py |  9 ++++++---
+ 2 files changed, 11 insertions(+), 8 deletions(-)
+
 -- 
-2.35.3
+2.47.1
 
 
