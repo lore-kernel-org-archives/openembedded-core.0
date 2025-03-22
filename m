@@ -1,100 +1,92 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <joaohf@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46536C36002
-	for <webhook@archiver.kernel.org>; Sat, 22 Mar 2025 00:18:20 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.869.1742602695007008688
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73029C36001
+	for <webhook@archiver.kernel.org>; Sat, 22 Mar 2025 00:56:10 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.1433.1742604966117704364
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Mar 2025 17:18:15 -0700
+ Fri, 21 Mar 2025 17:56:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=iU4g9dTg;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=mrARwktN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010195bb36ee0a-32563db4-a4ca-41be-a004-8f47478ef93a-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742602694; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=DuI/jL/fpprEzmMP6xnQdxahk4ZU8/9FZCQeAXG5k+A=;
-	b=iU4g9dTgqV8G8Vn6HoO9ysvJ8HQVE18Nx49HOfkVmoAyLcJRGD1HRZAAMYZ74by5
-	VT95V5D0tuQ1hHk0cl6yvzdIJ+4GzmPGPadO9pdppi6rs4fXR74SzXx3cxabJOm+BP8
-	uuaPZguzIez5mzt/RxeB+1o8JOJwdOCUB7m9TQHc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742602694;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=DuI/jL/fpprEzmMP6xnQdxahk4ZU8/9FZCQeAXG5k+A=;
-	b=mrARwktN8s4VgUJF0u/dz1rF0/g9WeeqZIl2OZO2uLLO5ou1pPX1xmUNF5g1pVaF
-	bM/W2k5IA1IAF0J60/bOFfebALupF/bRN6j7Dl/Rk9wiOOFPeoZrkIHcj9cKt9DXGDT
-	moJz6rLrdj+SgZY1vp/Q+DokPnzUZaneKVLqKKU8=
-From: patchtest@automation.yoctoproject.org
-To: =?utf-8?q?Jo=C3=A3o_Henrique_Ferreira_de_Freitas?= <joaohf@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] neard: use WIRELESS_DAEMON
-In-Reply-To: <20250321235955.556242-1-joaohf@gmail.com>
-References: <20250321235955.556242-1-joaohf@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195bb36ee0a-32563db4-a4ca-41be-a004-8f47478ef93a-000000@us-west-2.amazonses.com>
-Date: Sat, 22 Mar 2025 00:18:14 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.22-54.240.27.191
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q9pP2erj;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: joaohf@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-223fd44daf8so7616745ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Mar 2025 17:56:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742604965; x=1743209765; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PpOnDcNo3hdXJZ/N/ylTDrK41RbygbwuPeSPTlej154=;
+        b=Q9pP2erjKhzSds3F/Ze6YW+ic3RLPWdYiFO0KiIaNt9vErCbjYhHK7XuR3RDRRWf98
+         7juXYVQQhD7uEjKsDxYMdMMS3sjAOeyuQZ/MQeLrztyHU3v6+aOfsq31ihzpVj6BpGvz
+         oMfQpVOrz7B7p3wVrXovHB0BaDFCxBuGQb4vdoeWKCbCYjLfXo+POQWRwXPsnc/z2k8z
+         0FR7TjqCxbhpb8GHFw4KAjPn7iDAcbtsYM3vvOB6qIppcNdb52wh/n8qKVz6sJmcq7Yr
+         chCPvbcc1CqE0zST7Ha+deCsJP+WYtGQQ6XGlPr1g+GOmjdxzVsfzgb4caZrxknmhzXw
+         GjdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742604965; x=1743209765;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PpOnDcNo3hdXJZ/N/ylTDrK41RbygbwuPeSPTlej154=;
+        b=Nre4IhZL8wgqoqNhW+e5ZIa5uLM2E6s0VDotryxohVvTjrsa4OGxxmAerQS3YalfWD
+         8+xyZYlyC7bnNt+/AbyHACNB3MVxLUSfpMu9MHuopXsPR63C0KoRbaeBtbyTVO+touo4
+         +G4kIk0IxbtjREqEnNS5RSP9TYOHhz6Ez0a3xlUKKmADEz0lwi9akZ/xs7zM5DSW4IwH
+         yTanVphYgmgTJ4p35EAZinRJLiwlkadUWdDQoNleRtCt1YS8OA5V13CawvKVyEDNlbME
+         uuPG2nEUI1i1goQFAB5tE0EL3i4sKXLe4HI8NM0HfDuyAkyJThLVezftWQ70vHRAZiAH
+         CpXA==
+X-Gm-Message-State: AOJu0Yztu8MAOIaGKJ2Pkq7kowGetuo/iCl4sYycAp7yFwMIq2Caa/Wu
+	rNeG0maT5oLHwKLGuoQF/ydoDeREARWDg+Geam1d8990Vdrc0dPZYeTOsw==
+X-Gm-Gg: ASbGnctzApx0i1cRvsSqX9dzOZ9a2jR0O7xIEbsljvyhz1KfQ6iljo76luQZ+rLeEuD
+	YfxoK2EN+ZvyIy38DGOH0v1S9R4Q8yFIA00vaVNsojmQjGFfbjJ7n/vHdvIUMoBN+3L8A8BZP5x
+	kAuzhpW+qVMENpkVyswme3AvN5pK/ns/w3pitl7Vcgk5sygekzxAMXULer9beuIqtRAKdi9nFNs
+	sRKBrL1a/8Ryik32aPABVOuUl4LgNOoIiWNPd15pO1pP3U+SXRZhXh9Ny0BxxJ4g20IqWHE6/dO
+	F9zmIQdApJE5OEHibimRZOXOzO+JkvhtK78=
+X-Google-Smtp-Source: AGHT+IEdcf7BXzbEjuP03aodRQ0nQIdu6K4s1blf5htA2NjvXlNf2F4VDcyJYc1JOaLaGmxpUHgdKA==
+X-Received: by 2002:a17:902:ccca:b0:223:5732:9e4f with SMTP id d9443c01a7336-22780e15573mr35211885ad.12.1742604965110;
+        Fri, 21 Mar 2025 17:56:05 -0700 (PDT)
+Received: from porco.. ([189.79.243.162])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7390618de84sm2858782b3a.171.2025.03.21.17.56.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Mar 2025 17:56:04 -0700 (PDT)
+From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?= <joaohf@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?= <joaohf@gmail.com>
+Subject: [PATCH v2] neard: use WIRELESS_DAEMON
+Date: Fri, 21 Mar 2025 21:55:52 -0300
+Message-ID: <20250322005552.603108-1-joaohf@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Mar 2025 00:18:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213489
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Mar 2025 00:56:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213490
 
---NextPart
-Content-Type: text/plain
+Honor WIRELESS_DAEMON when wifi is enable for DISTRO_FEATURE.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/neard-use-WIRELESS_DAEMON.patch
+ meta/recipes-connectivity/neard/neard_0.19.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-connectivity/neard/neard_0.19.bb b/meta/recipes-connectivity/neard/neard_0.19.bb
+index 94df1ac3d6..b04187bcc5 100644
+--- a/meta/recipes-connectivity/neard/neard_0.19.bb
++++ b/meta/recipes-connectivity/neard/neard_0.19.bb
+@@ -40,9 +40,10 @@ do_install:append() {
+ RDEPENDS:${PN} = "dbus"
+ 
+ # Bluez & Wifi are not mandatory except for handover
++WIRELESS_DAEMON ??= "wpa-supplicant"
+ RRECOMMENDS:${PN} = "\
+                      ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez5', '', d)} \
+-                     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
++                     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','${WIRELESS_DAEMON}', '', d)} \
+                     "
+ 
+ INITSCRIPT_NAME = "neard"
 
