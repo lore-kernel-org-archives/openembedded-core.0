@@ -2,113 +2,179 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 254B9C36002
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 18:28:55 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web11.46628.1742840928138733262
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FC46C36008
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 18:55:55 +0000 (UTC)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web10.47724.1742842554827926552
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 11:28:48 -0700
+ Mon, 24 Mar 2025 11:55:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BjvJ9bOM;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6e8fc176825so39830526d6.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 11:28:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gmwZ5q5N;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c0e135e953so494144985a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 11:55:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742840927; x=1743445727; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1nPc0OZ0cJ7UQFumnXxtGVNi9Ar+VbtPf/pJ43YlW9k=;
-        b=BjvJ9bOM204503qAvOibAknDSHrW+1AiPmNWsKwtXcPjW1ZtftS+LXUb3Xm9YnmFbD
-         mMoOqOOTIOIg8qHdIkPssHJ9isX7WrQXcC9cUqDY/GczDTikv9I6v51wD3JcLgETMuW6
-         PP9MwnOEQG0L3bdUI3BGIG6oUXr8XWkUgHpoWVdBBjEDvWWlyrvCzy1/sScxR6jN3Djs
-         eXs4tCaLIt6Q74QbkLQYf8TceF10UNr0zRJyBmTzs/UHFGmBMlfyPdFIyUwN1YiZe0UU
-         FLvAZeJrW4+sJ9Lpa0v1fDeCjdNaYscZnRqdaKpap8L5u3eQD6CHATP6vLCiWizdxbFW
-         Wqnw==
+        d=gmail.com; s=20230601; t=1742842554; x=1743447354; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rInyFQVrdlgb78AMJR/HMtmJxjYeNcGzig9ebEqIYuo=;
+        b=gmwZ5q5NHJFPHfIu110D061+1YzFQlbnOeF0Zd68P0Z4b+36jmnAXAbk59PBIlqkXK
+         GmLvK1NJfTFDkP2LbwrfSECZmm8bxZZPEHlb3XCbf+I3P6YPdW+YTc+mBLmquJnOzEUH
+         XeHvHIP2nPOoqVu3EShwd0MqmCQtScy2ywdmhZRdDgrACnSDsdc1DHru3luyEeOz9oF2
+         V8xIwikDPf7i7kfxymyuIrV4nSxRB+UEQQ/wtZqLIEn3R74LA/73wH+tCI05iY+EB9aB
+         LHR//bm1YYTo05Qs0ao+Licy+5Y4eYUr7nQZUICNdb6EW/ECe57mtGxQWmQ7PqjCis1o
+         74Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742840927; x=1743445727;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1nPc0OZ0cJ7UQFumnXxtGVNi9Ar+VbtPf/pJ43YlW9k=;
-        b=kNXE7iP3V8jMZFx+7XEQrN/0YJ3e3e/3YdmIY9Psi1RBmAjNCMP+/QdfezyC1CPGQm
-         Y8xF9ndACh6OkBa9dJZL5ONnoB2jGSNI40t4aFD1CeyShyaJ1qY4J79rtyhfLwOpXaAn
-         cRv0Tua+jeXjwyFIDfBaddwMhDM/miUPfHHoyZzl92C8PSQVLOgLmMiiIh1reLJpX80f
-         exkem/Zb7piTKUGNrpS/XcRW+hfr/0KmLjAZhhuwLgx13rgF2lXveY0zv2ALLQkxNn86
-         g+faxew7sE+Tjx7fHmRygxM27YZ9VJp1jVnpYi/xW6rK6WfcdXRmSskQJrQHFixHGbpS
-         oOFw==
-X-Gm-Message-State: AOJu0YzOIke3jS1zOzQn0Ke1erWmMxiucJA4qtY5IzLjut4dyKgVtdTo
-	9o0Vo8O+qCz4bYUwU9T9I2DLWmiWlNeqDvq9LSSSLOeoRAkdN1UYVAamoAJ+Q6ENOMuRoTjCcgq
-	uQkqMmAepSs2/26vi7JbajOYQx70=
-X-Gm-Gg: ASbGnct7ofoObxNDXBDcdCZVx/NdXRz7n4GAi9IV2FyQ3zyxQSH44iJmrkPIaDrwjBi
-	LTf47BUyfnarQMDX1hKmIt1V9ZZwYqwyf70s5vfAmAjq83BVHZ/6iDsN10pnDS+TMPvpTyC2zIH
-	K4XEYERXnbw9yghr1Efu/Ha1/ownC/Tf6x9JUfd1BIsefyE7FvQFc9TXUEvX2N
-X-Google-Smtp-Source: AGHT+IGfHsE1PCAX1RgjFfHg23rhWLppChS2Xg9RMjaH6wlA/zhcda45x/0LyLbKPIEd5Tz0F04SiyqW7JE5IvstT1M=
-X-Received: by 2002:ad4:5ca3:0:b0:6e8:9797:f94e with SMTP id
- 6a1803df08f44-6eb3f34460emr197043776d6.35.1742840926939; Mon, 24 Mar 2025
- 11:28:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742842554; x=1743447354;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rInyFQVrdlgb78AMJR/HMtmJxjYeNcGzig9ebEqIYuo=;
+        b=IEe4YHWZyKk3/kdsilR3N0/U/MNvHxJZ2HRdPihodCn2YgpT01p3NrAzfDWlH3OkEt
+         jnwPP16uZo1Xx4siXfQtuHI73MeHcMaj6+zkLq3fSbF9wgOIYPkXOv8vt/sOD5j97bhw
+         2TRHWygALCQXwtpdlQVCCo2eLIobZsJVAG1g9EaHGCgwJiwVVxHhDhVJwEWBPjvhGJx3
+         ywGt/MYECyVvZ4NxFvpbQHVY+JIR+iVJL10C07qE3kPCEWq0dZemetVCBDkrV7hPhnxC
+         4T3LeNzdEZLfGWvZJM/qr1qDs7PAqA71BISpORiembqCGCXcFKORUt77FLBGqjlmx3qp
+         m8nA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNLQU4ptr3fkpaDgZZ6EmsGlgPf3sDYzq+enpiMlUMcvMi1jVk8AKeJsmlJwcHC2nR7R1v2cPmenZQkAHj856bIg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxroOZ27GNbFZn4fYDmuH4tB1DXJZeymv9b8FtRTPMvT1loX/nJ
+	wKEQ8w3TnzVWpaj+x7JmGmKgpGF1/j6cXkhU87GumWJeGir2rZRhqqMpERHwHwQsYkvkbDBYEpT
+	sBNI+yVt+GleX4x4PY2DtQlNjda0=
+X-Gm-Gg: ASbGncs4iCP+9lBXaAcbY3icihvuyGL8CI9eoi6KEZcV5LDlRmioeCAGaWzc9SgdDq/
+	JbhoC6M4pCeq3wXLiNnzPXU7GsAgiaKAsZDM4Czza8gmXwnrfD07ubJZe81V205rZeRwhj36nGo
+	DQ5vzzNa4D1iHm9hvZPGCnfM2sRNYSUGx2nRCVnb3cy7sZE2kmIc8OA4faHb6f
+X-Google-Smtp-Source: AGHT+IFvLPA5juu8+dgWet7ZfeC7TEkiM4OjIMx80xTtKG3K2IQEtFGWXZ3zJT5rgvafj9iIaY71GOQHHK5RXDshYpI=
+X-Received: by 2002:a05:6214:d64:b0:6ea:d629:f48b with SMTP id
+ 6a1803df08f44-6eb3f2e48dbmr267368126d6.19.1742842553535; Mon, 24 Mar 2025
+ 11:55:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250324170911.391159-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20250324170911.391159-1-richard.purdie@linuxfoundation.org>
+References: <20250320165517.129442-1-martin.jansa@gmail.com>
+ <182E912DEB60EF95.20788@lists.openembedded.org> <CA+chaQdD7i8xjuz9iPSNMfETo-5BNxsN=LibdZPrgdTYatccfw@mail.gmail.com>
+ <182E91CCE4A2B275.19116@lists.openembedded.org> <d3f1a6601b2438007a963b69bf41d647672f78eb.camel@linuxfoundation.org>
+ <CA+chaQc4kxzLcbFkZswbftUevsjcO4aYDzNVh6hMxj4miv9m1A@mail.gmail.com> <CAAuPjF8oBXzYug4E6HjxicDXbkahs7VXdGubsMi0J0VRho2bNQ@mail.gmail.com>
+In-Reply-To: <CAAuPjF8oBXzYug4E6HjxicDXbkahs7VXdGubsMi0J0VRho2bNQ@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 24 Mar 2025 19:28:34 +0100
-X-Gm-Features: AQ5f1Jo0kICfy1wv6kM1lZzmSZAUuuLFLEMvOxl1cbwCzidWV8K_tF7SgPGXRZM
-Message-ID: <CANNYZj-WJXunBcAeE0mm36tKE1R_2fUFcFkz7=vB-PSHkj4NpA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] meta/conf: Start to populate autobuilder config fragments
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Mar 2025 19:55:41 +0100
+X-Gm-Features: AQ5f1Jou6SNY6F6u6wSt37_zCKfmEbuDffm2DLEpm_wA-PvYjzxR8ZEAxmeP71o
+Message-ID: <CANNYZj80f3_vmVSP0sBRVWKix+ZAAYSkT4v-prJHbpO6q8XrpA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] cargo.bbclass: allow to avoid appending PACKAGECONFIG_CONFARGS
+To: jarsoper@gmail.com
+Cc: Martin Jansa <martin.jansa@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	DongJoo Kim <dongjoo.kim@lge.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 18:28:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213569
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 18:55:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213570
 
-On Mon, 24 Mar 2025 at 18:09, Richard Purdie via
-lists.openembedded.org
-<richard.purdie=linuxfoundation.org@lists.openembedded.org> wrote:
->
-> This populates the fragments directory with:
->
-> a) the default set of variables used in all autobuilder builds
-> b) three different multilib test configurations used by the autobuilder
->
-> The aim here is to start to make some of the autobuilder configuration more
-> visable and patchable by users, and to allow some test confiturations to
-> be user selectable if appropriate and needed for debugging.
->
-> The main aautobuilder fragment is probably not directly reusable by most
-> users, it contains the resource limits as used on the autobuilder itself. I
-> can see arguments both way for whether this should be included in OE-Core or not
-> but having an example of how we configure this is probably useful.
+I basically agree with Jean-Pierre. Optional features should not be
+set via RUSTFLAGS at all, rather Cargo.toml in the source tree should
+be extended to include them as described here:
 
-I'm glad to see fragments taken into use in one of the most core
-places in yocto :)
+https://doc.rust-lang.org/cargo/reference/features.html
 
-There are a few notes I'd like to make:
-
-- there's a companion patch to yocto-autobuilder-helper that should be
-posted too:
-https://git.yoctoproject.org/yocto-autobuilder-helper/commit/?h=master-next&id=accad467ff54ed71a00a1a97ad015195101dd4c2
-
-- that patch keeps "BB_HASHSERVE = '${AUTOBUILDER_HASHSERV}'" in
-config.json and doesn't move it to the fragment, that should be
-explained.
-
-- the new autobuilder.conf inherits from config.json a variety of
-things in addition to build host resource usage. It also has SDK
-settings, logging/reporting settings, qemu/testimage settings, unsets
-sanity tested distros etc. As a followup, I'd like to structure and
-split this up to different fragments under
-conf/fragments/yocto-autobuilder/. Some of it could probably move to
-poky, so that the delta between what poky users build and what
-autobuilder builds is as minimal as possible, and ideally non-existent
-(e.g. the difference is only in resource limits and directory/url
-settings). All such tweaks should be done in lockstep with changes to
-config.json or meta-poky/ to reflect them. And they must take into
-account the history of config.json changes, e.g. consider why
-something was added to begin with, and whether it is still needed.
-It's a lot of delicate work, but I think it's worth doing (I can find
-time for it).
+So gst-plugins-webos should be fixed, then the recipe for it, then I'd
+say we should reconsider this patch. If a recipe inherits cargo, then
+it is expected to pass configuration settings via cargo, otherwise it
+needs to use its own custom class.
 
 Alex
+
+On Thu, 20 Mar 2025 at 19:11, Jean-Pierre Geslin via
+lists.openembedded.org <jarsoper=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> In my recipe I use it as:
+>
+> CARGO_BUILD_FLAGS:append =3D " ${PACKAGECONFIG_CONFARGS}"
+> The recipe is public here: https://github.com/Jarsop/meta-zenoh/blob/mast=
+er/meta-zenoh/recipes-connectivity/zenoh/zenoh_git.bb
+>
+> Best regards
+>
+> Le jeu. 20 mars 2025 =C3=A0 18:36, Martin Jansa <martin.jansa@gmail.com> =
+a =C3=A9crit :
+>>
+>> On Thu, Mar 20, 2025 at 6:16=E2=80=AFPM Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> >
+>> > On Thu, 2025-03-20 at 17:06 +0000, Richard Purdie via
+>> > lists.openembedded.org wrote:
+>> > > On Thu, 2025-03-20 at 17:59 +0100, Martin Jansa via
+>> > > lists.openembedded.org wrote:
+>> > > > This 2nd one was supposed to be sent only as RFC, but I forgot to
+>> > > > update subject sorry.
+>> > > >
+>> > > > And this version also has a typo "=3D ?=3D", will send v2 if we wa=
+nt to
+>> > > > do
+>> > > > something like this (reverting the
+>> > > > https://git.openembedded.org/openembedded-core/commit/?id=3D16745b=
+20452de60ae2474433cc1a2fb1ed9f6a64
+>> > > > is imho better as it doesn't respect the original author from
+>> > > > https://patchwork.yoctoproject.org/project/oe-core/patch/202206061=
+32653.60232-4-brgl@bgdev.pl/
+>> > > > and with CARGO_BUILD_FLAGS_PACKAGECONFIG it's imho more confusing
+>> > > > than
+>> > > > useful as the default)
+>> > >
+>> > > I have a strong preference for not carrying things like this. If
+>> > > there
+>> > > are existing recipes that break, we should just fix them and move on
+>> > > rather than letting the past dictate the future IMO.
+>> > >
+>> > > I'm trying really hard to simplify things where we can.
+>> >
+>> > Martin pointed out I was misreading things.
+>> >
+>> > If there are recipes using packageconfig in RUSTFLAGS then this will
+>> > break that. We probably do need to revert as I really don't like the
+>> > alternative variable mess. It does mean recipes will specifically need
+>> > to add the flags to the carbo build parameters but that is the lesser
+>> > of several evils IMO.
+>>
+>> Agreed about the revert being lesser evil.
+>>
+>> I know very little about rust/cargo, so it's also possible that we're
+>> using rust/cargo wrong and there is a better way to achieve
+>> conditional compilation with flags passed to cargo not by RUSTFLAGS.
+>>
+>> I've checked the recipe where we're using:
+>> RUSTFLAGS:append =3D " ${PACKAGECONFIG_CONFARGS}"
+>> and it's public as:
+>> https://github.com/webosose/meta-webosose/blob/master/meta-webos/recipes=
+-multimedia/gstreamer/gstreamer1.0-plugins-webosrs.bb
+>>
+>> With the RUSTFLAGS then being used as
+>> PACKAGECONFIG[unifieddecodebin] =3D '--cfg feature=3D\"unifieddecodebin\=
+"'
+>> in the recipe and in code e.g.
+>> https://github.com/webosose/gst-plugins-webos/blob/%40rust/gst-rs/unifie=
+dbin/src/lib.rs
+>> as:
+>> #[cfg(feature =3D "unifieddecodebin")]
+>> ...
+>>
+>> Will send revert unless Jean-Pierre or Bartosz have better idea how to
+>> deal with this.
+>>
+>> Cheers,
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#213425): https://lists.openembedded.org/g/openembedde=
+d-core/message/213425
+> Mute This Topic: https://lists.openembedded.org/mt/111812482/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
