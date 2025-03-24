@@ -2,88 +2,85 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBC3CC36008
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 17:37:24 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.45375.1742837838886445961
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E70FAC36002
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 17:42:54 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.45531.1742838170230030051
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 10:37:19 -0700
+ Mon, 24 Mar 2025 10:42:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KLxwH4TW;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cebe06e9eso35323695e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 10:37:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Symgcm+T;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3912d2c89ecso4457476f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 10:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742837837; x=1743442637; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1742838168; x=1743442968; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xTXdTe2LiTKdlf/04QrV4ZoRH6bCDBFJV812tthr2Gw=;
-        b=KLxwH4TWkJ+xizBtXf4T1d2lYUwNWf4oVgwN6mEybwHZEu5SwdB4nhSo07biYb2ttA
-         /5pgu09Vuzg3CwIVgaN+o9vWcEeYcqjsW0Q1pAjCI1JyJAa58wInkF94lSRqblLF8lQO
-         VXkA6O78xPZbsdaS6huz074QpfbJOAz1CInP4=
+        bh=9zqbhyyIOJ5jonBHIH8baXuSZvLt+0n0f09baDkk3Nw=;
+        b=Symgcm+T5LgYauu0ZGrbmTSlg6hixRhJ2FM0zMzJhNSa4cp1uuKS1MTQn/QjFMiI+S
+         wvRJXlHV8CRRn0ZpqUql689uVJ0WyFxDx3By1UC2mCDXMDL97tFJBXCLDAuPmY/ypMFE
+         namXvycz5jxd5TBWjrmj6CTVdrWCrs1E2waR8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742837837; x=1743442637;
+        d=1e100.net; s=20230601; t=1742838168; x=1743442968;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xTXdTe2LiTKdlf/04QrV4ZoRH6bCDBFJV812tthr2Gw=;
-        b=eoKa9TlwlaPr94oLEKlhUEcBzhFEPn8a85nh4z5WfczAHASk1FzitrtzRkjz7qdNff
-         BawjGc0mOF0kBlT1YzeZvmLK2piAi1Dt2l2U8bekOWEhJzW1BkH+EK6eAB+QleQiDjb6
-         uasSLdHsYiyIAppaXyz8NWVgg0BGeGEGWN3q6r2jhyzRYcj+mN0SWWZ2WDvPsSz5VBZJ
-         ckXXmadPpFiZ39ECj7vaNiN+Ey0OdI7HicmrHTMfOFA/uvG2Kde5hQ74KJVf8heV4XXe
-         VSnQFU4nTVuIYSXwdCSSEQHQvdEN2hvU/kCFPXhdAsjMJ0E/M54P8uiUaeejNYsjOhnB
-         3RZw==
-X-Gm-Message-State: AOJu0YwA3Gqq+N7kdtCYm3FZ2hQosCZRQLUnDx51pVJTuciMOpnb0Pw8
-	5/Tv6smXaja9XMrDVYzMtTOCJDDdUg9CzuPAbXpIjDLjxsnogH9KbOpDdAGHLdGrbO6bl6ZZrl7
-	c
-X-Gm-Gg: ASbGncsg8mkclN4pzPxbSbvZiGW/c5UjPLXc2VNGV+kFJGCf1BRoZVCfdYdwhTg0hzR
-	yUwzpOZJxksbaQ5A4REQguwrWFat+TxM0eTi3cBmI8TPKfxWr4DrTxGCpQXIehunTWWhGD4QyEJ
-	778xt545LRp8SRSkA4zjKYkGAMORf9oZ/HSPFTpYwFfFsKYt5SQs+1AokuK44mk3XSt3hFxjKv4
-	Ryd+Ha8c1/FGW4qlVMQ5aAhVUnHFXgNIrLoSGSbJup77nwiIQP6/Q+8t4CMe0BpwJt4Uf/Nz1B4
-	g2GT5xDU3+E5zdvbbiVkW4ZjmHQGsid2DFSQSvJXRee7iUESIYVrL45d7lLygbcIqv17N2T5e2Y
-	pAAQlc9g=
-X-Google-Smtp-Source: AGHT+IH7cpCPMzFedglo1XOkfeVcW2us+UOA7EFktEqmiWrY494ZZGej1QNiDI5ciaUlaJVusUTbmg==
-X-Received: by 2002:a05:600c:3b9c:b0:43d:934:ea97 with SMTP id 5b1f17b1804b1-43d50a4ada0mr87023235e9.27.1742837836762;
-        Mon, 24 Mar 2025 10:37:16 -0700 (PDT)
+        bh=9zqbhyyIOJ5jonBHIH8baXuSZvLt+0n0f09baDkk3Nw=;
+        b=eGM9gb7C3xot1WkhG3jWemIwvW9aiEoDR/JbeYlm15kB7ZJHxUHpXN3LCjbhn8Wqm/
+         knk9HMFqSTV3G8dKhSbs2lHYIvFIq9ilvmu7K9C8jaNbT/LCruJsNBYEFzUjvy9i6Umf
+         vN3XzwpLRrxhRtjGPefqzvEVEX0BMlvs6/kStZwcAiwmVBmctdgRzNmREeHSFrmfik5x
+         TIvojTGNTRM/LfKsycVT2vvYpkX5+ZRutUtHshrnwGPR6Fme77QGlyBk3S5R1Pdr6O8v
+         Lr9jh0gHBexJSy3WR3g794n7NCMwZxvU2/qZo5WR1EPS50K0VvBQ/C3xkLU2xoiUyG0O
+         fmoQ==
+X-Gm-Message-State: AOJu0YxNJN0/sLnYVUUg+U+wAhzt9lLvAVhRS608nES4jAVvzJ/GxUdU
+	l/IXImOck2UyWQqFRclXTXT5+l1YNeiTN8asn2LEoC+fItUOasjr5Rchf5ShCuB3jiK8COuxMrL
+	w
+X-Gm-Gg: ASbGncvOxtEtRAyCAUWvPOuq94YjPguVn1eG0Vw8PEOpq5wQUInVQEezhbN4ZXwiYVl
+	xiTBngHs81BSgMF++hrwP+suSn/JA7hQMnPUU3N4ZMpFE+PHclNSEHKy2VDA9pYZ+oMCZL/SJAN
+	8YTYAlNueDQuahwQoq1gXuTvfmAjrEwsR9fcLxXreMN50mnEpg4cEPIpUk4eOiTOQCNPVgtt6FD
+	lOHE8tDhAQODsaOXWlByNbLSoZVOBD5a9ROUNNnqN7TtYzWa34smetrPRtrGeApOoDEcvIpir97
+	5WOcQb+avDcFIETpNzEfTUuJN8PXUAstbX7R215vraNgBCrRYa6zZBN/I1Mw0HkUnw13VwFL
+X-Google-Smtp-Source: AGHT+IGOCKTzZuOEBTIDO0FiqMhz7lEXVNuW9NTJnkhHhbBNopgBoWjz/4h+wj5vJst2Q4wO7etzDQ==
+X-Received: by 2002:a05:6000:1f86:b0:391:4743:6de4 with SMTP id ffacd0b85a97d-3997f940e28mr11306728f8f.50.1742838167913;
+        Mon, 24 Mar 2025 10:42:47 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:24f9:315d:dc7:9e14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fd27b59sm126626685e9.23.2025.03.24.10.37.15
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d42b8fcd4sm108373515e9.1.2025.03.24.10.42.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 10:37:16 -0700 (PDT)
+        Mon, 24 Mar 2025 10:42:47 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] Revert "cargo: pass PACKAGECONFIG_CONFARGS to cargo build"
-Date: Mon, 24 Mar 2025 17:37:15 +0000
-Message-ID: <20250324173715.399785-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] sanity.conf: Require bitbake 2.9.2
+Date: Mon, 24 Mar 2025 17:42:46 +0000
+Message-ID: <20250324174246.401636-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 17:37:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213566
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 17:42:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213567
 
-This reverts commit 16745b20452de60ae2474433cc1a2fb1ed9f6a64.
-
-A recipe may need to pass PACKAGECONFIG_CONFARGS to rust instead of cargo
-so the recipe does need to make this choice, the class can't.
+We need a version of bitbake with the fetcher revision changes in it,
+update the minimum version accordingly.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/cargo.bbclass | 2 +-
+ meta/conf/sanity.conf | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
-index 461d100dd96..76a39668c7d 100644
---- a/meta/classes-recipe/cargo.bbclass
-+++ b/meta/classes-recipe/cargo.bbclass
-@@ -48,7 +48,7 @@ oe_cargo_build () {
- 	bbnote "Using rust targets from ${RUST_TARGET_PATH}"
- 	bbnote "cargo = $(which ${CARGO})"
- 	bbnote "${CARGO} build ${CARGO_BUILD_FLAGS} $@"
--	"${CARGO}" build ${CARGO_BUILD_FLAGS} ${PACKAGECONFIG_CONFARGS} "$@"
-+	"${CARGO}" build ${CARGO_BUILD_FLAGS} "$@"
- }
+diff --git a/meta/conf/sanity.conf b/meta/conf/sanity.conf
+index 02775970aee..5f8da8baac9 100644
+--- a/meta/conf/sanity.conf
++++ b/meta/conf/sanity.conf
+@@ -3,7 +3,7 @@
+ # See sanity.bbclass
+ #
+ # Expert users can confirm their sanity with "touch conf/sanity.conf"
+-BB_MIN_VERSION = "2.9.1"
++BB_MIN_VERSION = "2.9.2"
  
- do_compile[progress] = "outof:\s+(\d+)/(\d+)"
+ SANITY_ABIFILE = "${TMPDIR}/abi_version"
+ 
 
