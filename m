@@ -1,93 +1,100 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AAE3C36002
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 14:29:53 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.40824.1742826587948400488
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 285CEC3600B
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 14:50:03 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.41306.1742827797677461390
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 07:29:48 -0700
+ Mon, 24 Mar 2025 07:49:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7B23016F3
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 07:29:53 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CBC6C3F58B
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 07:29:46 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] meson: refresh upstreamed patch
-Date: Mon, 24 Mar 2025 14:29:42 +0000
-Message-ID: <20250324142942.3756014-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FLeVouPv;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=gMwFNXrd;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010195c8a1b711-954f66f6-01c2-4ad3-9211-5051bb318b1f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1742827796; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=bJ7SENX5C1aI/ONGVayaxDa3uG6MoST0ikoiy5RmF2w=;
+	b=FLeVouPvB9HgjrueZg2DYf6Y+artq46+mCqN28d+Rf1W/Mx2mxyubTqMXkQlxtZi
+	h4yriCEqOu66nPSSWJA8Y0Ye2HcIztf6XCXcGMgALA/p17f3zoBgEevZnY+CBmxzu8U
+	uTA+kFTcEEMXJYnHTsH/dXuje3xva5Nj3tO8AV6k=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742827796;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=bJ7SENX5C1aI/ONGVayaxDa3uG6MoST0ikoiy5RmF2w=;
+	b=gMwFNXrdg/YGAvyGvxn89UUL93bq7x739a4j4oaX4/wsQWUSeqKjUNdv3KAtMRs7
+	5qOOhSW4+fxOO5ft61/0KzTH4M6IE4rJtGGb5mwU5AxtRN195DrPVFQFj3dHDr8kWfF
+	E0QtSECeSDhjPjW/cqB9uwl/o1cLNFr0SzuNKrh0=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] meson: refresh upstreamed patch
+In-Reply-To: <20250324142942.3756014-1-ross.burton@arm.com>
+References: <20250324142942.3756014-1-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010195c8a1b711-954f66f6-01c2-4ad3-9211-5051bb318b1f-000000@us-west-2.amazonses.com>
+Date: Mon, 24 Mar 2025 14:49:56 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.24-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 14:29:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213529
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 14:50:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213530
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...cies-dev-prepend-sysroot-when-searching-for-.patch | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Testing patch /home/patchtest/share/mboxes/meson-refresh-upstreamed-patch.patch
 
-diff --git a/meta/recipes-devtools/meson/meson/0001-dependencies-dev-prep=
-end-sysroot-when-searching-for-.patch b/meta/recipes-devtools/meson/meson=
-/0001-dependencies-dev-prepend-sysroot-when-searching-for-.patch
-index e4700bc91d4..b6579c824ef 100644
---- a/meta/recipes-devtools/meson/meson/0001-dependencies-dev-prepend-sys=
-root-when-searching-for-.patch
-+++ b/meta/recipes-devtools/meson/meson/0001-dependencies-dev-prepend-sys=
-root-when-searching-for-.patch
-@@ -1,4 +1,4 @@
--From 6f33fb67097beeb17e2345aaec3bda4a57b0b138 Mon Sep 17 00:00:00 2001
-+From 17117c2732c33ebec39e3fec2ecd5a3515dc7d71 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Wed, 20 Nov 2024 13:09:38 +0000
- Subject: [PATCH] dependencies/dev: prepend sysroot when searching for GT=
-est
-@@ -10,14 +10,14 @@ sources, not ones that we want to use in the sysroot.
-=20
- Closes #12690.
-=20
--Upstream-Status: Submitted [https://github.com/mesonbuild/meson/pull/139=
-34]
-+Upstream-Status: Backport [17117c2732c33ebec39e3fec2ecd5a3515dc7d71]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-  mesonbuild/dependencies/dev.py | 4 +++-
-  1 file changed, 3 insertions(+), 1 deletion(-)
-=20
- diff --git a/mesonbuild/dependencies/dev.py b/mesonbuild/dependencies/de=
-v.py
--index 94f51ff69..cceb1756c 100644
-+index 2725a7bb4e88..0c8886b81a04 100644
- --- a/mesonbuild/dependencies/dev.py
- +++ b/mesonbuild/dependencies/dev.py
- @@ -56,7 +56,9 @@ class GTestDependencySystem(SystemDependency):
-@@ -26,11 +26,8 @@ index 94f51ff69..cceb1756c 100644
-          self.main =3D kwargs.get('main', False)
- -        self.src_dirs =3D ['/usr/src/gtest/src', '/usr/src/googletest/g=
-oogletest/src']
- +
--+        sysroot =3D environment.properties[self.for_machine].get_sys_ro=
-ot() or ""
-++        sysroot =3D environment.properties[self.for_machine].get_sys_ro=
-ot() or ''
- +        self.src_dirs =3D [sysroot + '/usr/src/gtest/src', sysroot + '/=
-usr/src/googletest/googletest/src']
-          if not self._add_sub_dependency(threads_factory(environment, se=
-lf.for_machine, {})):
-              self.is_found =3D False
-              return
----=20
--2.34.1
--
---=20
-2.43.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
