@@ -1,440 +1,189 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 033B1C36002
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 21:24:56 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.51256.1742851490367386517
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F127C36002
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 22:03:26 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.52147.1742853795887094844
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 14:24:50 -0700
+ Mon, 24 Mar 2025 15:03:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDFE516F3
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 14:24:55 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 659243F58B
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 14:24:49 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] acl: improve ptest packaging
-Date: Mon, 24 Mar 2025 21:24:45 +0000
-Message-ID: <20250324212446.1730-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OwTnYJzk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-391342fc1f6so4072447f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 15:03:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1742853794; x=1743458594; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nXJtB8EHMfSfXjI6F0mJFtfpYTl4O5waNoViYCMnAzg=;
+        b=OwTnYJzk22VVWdc+hSBmv6rBMpgn2KNoUaWjgS/lentVO0mOx4HN+vZuUAHA5Sj96f
+         yWA+XkkV9sk6lj3C7x4r+T4re+Dl2iam10onEE4HmMIojb1MSG8YS+JNBLmRPyCRj2Qt
+         jD3QdTXA3mCb+1BNibofBI2MgIFWo6iwMxiCQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742853794; x=1743458594;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nXJtB8EHMfSfXjI6F0mJFtfpYTl4O5waNoViYCMnAzg=;
+        b=wHJ5mEnuPLlZehlc3MJKtSXCrxV66XMguqCwobTmk6qAGl3lnnXjwjgmk7G6pUdfqf
+         YMXKl0Xok3Mc3Jz4/ahqYpH61fAlaA5+tS4MukBxhtRG5hOwwCQYiNt74Kya6/G9Thn9
+         gokIMwuNalzd7+I7vZGWNGZyTHZtsjXRMi+5wKaA6V9M+4SVK8o7VomvFkvikX4+1mXy
+         o8ZH3C7b5Hms0qni5/xKYfmUYg6ZMNC0UyNh53H16ZpY+mqjJYKokegVU1M46cLm+0gi
+         K0eNd+VjKr/UehSK7Bg6LW6bL0w9qafN+dnqfrnjdsYlc0IzYPLdZVpAEsd+2I9I6qYq
+         RDKg==
+X-Gm-Message-State: AOJu0YzYIuIaO1/QV/r6QNKlPENu8zDWOZKrUPwCxfeo109FqJvNm2kS
+	VtSFTpAf35ojxVhshpk1DpUszZRqMl+jwmRAzlZcDLW8hTRFRzmvjNvIb8BcwDQ=
+X-Gm-Gg: ASbGncvOLqqutNn5nPK5HQrU8eGPlNTVWt9yqDQ3yusZKCddFlatWy9JO4ml+v7EuW7
+	hVDTmotA1gOXAyMBTx/8hiiMd7x0z01QMuHOcOeLkRPIQ45PqBAsYX+ngElysmHZlL51OrQD8sZ
+	WdkpBlM0vn1aG1mne2jFbt1Z4KituUr/N7Ec7KD26T41OK/h+bChLeOJREQsZgM2eX8bI8E/QPp
+	m3Cbk0BNtCLdHssYSGlpj0c27Aamjx0HWGVTOI0Yq9ArK84441tp7IdnLkkgHpUYQNBNgWXN2P4
+	OUq/IQ0pk80mdzfKogMjCjj4XBO79//t9ypJpwZFR6V+jvdKKQuWKlGZu9zseavtWIwPNXqz10A
+	8wgFUQbXTfoEDfX+rT1OVHxvydv41yqu3hA==
+X-Google-Smtp-Source: AGHT+IEH5BaB9Hrw8MTRYN8rZv/EjXYULa930VrRJu2uKxZdGO8NWxPRMeHc4V2pPykUaEtSLdwVGg==
+X-Received: by 2002:a5d:64af:0:b0:391:2bcc:11f2 with SMTP id ffacd0b85a97d-3997f8f8321mr13029792f8f.1.1742853794060;
+        Mon, 24 Mar 2025 15:03:14 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a60f:7d04:efa2:677a? ([2001:8b0:aba:5f3c:a60f:7d04:efa2:677a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fd27b59sm132299935e9.23.2025.03.24.15.03.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Mar 2025 15:03:13 -0700 (PDT)
+Message-ID: <5cf7bb8c104d101cf04984770dc00177afbfb9c1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] meta/conf: Start to populate autobuilder
+ config fragments
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Mar 2025 22:03:12 +0000
+In-Reply-To: <CANNYZj-WJXunBcAeE0mm36tKE1R_2fUFcFkz7=vB-PSHkj4NpA@mail.gmail.com>
+References: <20250324170911.391159-1-richard.purdie@linuxfoundation.org>
+	 <CANNYZj-WJXunBcAeE0mm36tKE1R_2fUFcFkz7=vB-PSHkj4NpA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 21:24:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213581
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 22:03:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213582
 
-As there's a small number of  test binaries in acl, instead of
-installing large chunks of the build tree we can install just those and
-use a boilerplate test runner.
+On Mon, 2025-03-24 at 19:28 +0100, Alexander Kanavin wrote:
+> On Mon, 24 Mar 2025 at 18:09, Richard Purdie via
+> lists.openembedded.org
+> <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+> >=20
+> > This populates the fragments directory with:
+> >=20
+> > a) the default set of variables used in all autobuilder builds
+> > b) three different multilib test configurations used by the autobuilder
+> >=20
+> > The aim here is to start to make some of the autobuilder configuration =
+more
+> > visable and patchable by users, and to allow some test confiturations t=
+o
+> > be user selectable if appropriate and needed for debugging.
+> >=20
+> > The main aautobuilder fragment is probably not directly reusable by mos=
+t
+> > users, it contains the resource limits as used on the autobuilder itsel=
+f. I
+> > can see arguments both way for whether this should be included in OE-Co=
+re or not
+> > but having an example of how we configure this is probably useful.
+>=20
+> I'm glad to see fragments taken into use in one of the most core
+> places in yocto :)
+>=20
+> There are a few notes I'd like to make:
+>=20
+> - there's a companion patch to yocto-autobuilder-helper that should be
+> posted too:
+> https://git.yoctoproject.org/yocto-autobuilder-helper/commit/?h=3Dmaster-=
+next&id=3Daccad467ff54ed71a00a1a97ad015195101dd4c2
 
-Drop 0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch and
-replace with an explicit -DBASEDIR=3D flag passed at build time.
+Well, I knew this was going to get rejected so I didn't think it worth
+posting yet.
 
-Drop 0001-test-patch-out-failing-bits.patch and delete the tests that
-fail entirely as they won't work without a specific user/group setup.
+>=20
+> - that patch keeps "BB_HASHSERVE =3D '${AUTOBUILDER_HASHSERV}'" in
+> config.json and doesn't move it to the fragment, that should be
+> explained.
 
-Backport a patch from upstream so that some tests don't use excessive
-amounts of memory.
+Right, there are multiple reasons for that, not least that the
+autobuilder has access to servers in a different way to any other place
+so it can write data to that server. Those settings won't work anywhere
+else at all. There are also cases in the configuration where we need to
+avoid setting or change that, not least when we had two different
+clusters running from the same config with different write locations.
+It was therefore set from local worker specific overrides.
 
-Backport a patch from upstream to cater for both glibc and musl's
-behaviour with interleaved stdout/stderr, fixing the tests on musl.
+This can probably be simplified again in future. I was trying to
+experiment with what we could move out and start working with, not
+least to use the fragments feature.
 
-Clean up dependencies now that we're not shipping the build system.
+> - the new autobuilder.conf inherits from config.json a variety of
+> things in addition to build host resource usage. It also has SDK
+> settings, logging/reporting settings, qemu/testimage settings, unsets
+> sanity tested distros etc. As a followup, I'd like to structure and
+> split this up to different fragments under
+> conf/fragments/yocto-autobuilder/. Some of it could probably move to
+> poky, so that the delta between what poky users build and what
+> autobuilder builds is as minimal as possible, and ideally non-existent
+> (e.g. the difference is only in resource limits and directory/url
+> settings). All such tweaks should be done in lockstep with changes to
+> config.json or meta-poky/ to reflect them. And they must take into
+> account the history of config.json changes, e.g. consider why
+> something was added to begin with, and whether it is still needed.
+> It's a lot of delicate work, but I think it's worth doing (I can find
+> time for it).
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...t_uid-fix-memory-wasting-loop-if-use.patch | 49 +++++++++++++++
- ...isc.test-Don-t-mix-stdout-and-stderr.patch | 35 +++++++++++
- .../0001-test-patch-out-failing-bits.patch    | 60 ------------------
- ...dcode-the-build-path-into-a-helper-l.patch | 24 -------
- meta/recipes-support/attr/acl/run-ptest       | 37 +++++++----
- meta/recipes-support/attr/acl_2.3.2.bb        | 63 +++++++------------
- 6 files changed, 133 insertions(+), 135 deletions(-)
- create mode 100644 meta/recipes-support/attr/acl/0001-libmisc-__acl_get_=
-uid-fix-memory-wasting-loop-if-use.patch
- create mode 100644 meta/recipes-support/attr/acl/0001-test-misc.test-Don=
--t-mix-stdout-and-stderr.patch
- delete mode 100644 meta/recipes-support/attr/acl/0001-test-patch-out-fai=
-ling-bits.patch
- delete mode 100644 meta/recipes-support/attr/acl/0001-tests-do-not-hardc=
-ode-the-build-path-into-a-helper-l.patch
+I'm not sure I 100% agree.
 
-diff --git a/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix=
--memory-wasting-loop-if-use.patch b/meta/recipes-support/attr/acl/0001-li=
-bmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch
-new file mode 100644
-index 00000000000..5052bdaa2f1
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory=
--wasting-loop-if-use.patch
-@@ -0,0 +1,49 @@
-+From 56abe432b65801f31277fb9a3bca0f9e31502315 Mon Sep 17 00:00:00 2001
-+From: Matthias Gerstner <matthias.gerstner@suse.de>
-+Date: Thu, 25 Apr 2024 12:43:49 +0200
-+Subject: [PATCH] libmisc: __acl_get_uid(): fix memory wasting loop if us=
-er
-+ does not exist
-+
-+I noticed that `acl_from_text()` unexpectedly returns ENOMEM for invalid
-+user names. The reason for this is a missing break statement in the for
-+loop in `__acl_get_uid()`, which causes the loop to act as if ERANGE was
-+returned from `getpwnam_r()`, thereby exponentially increasing the
-+buffer size to (in my case) multiple gigabytes, until `grow_buffer()`
-+reports ENOMEM, which terminates the `__acl_get_uid()` function.
-+
-+This is a pretty costly "no such user" lookup that can disturb a
-+process's heap memory management, but can also cause a process to fail
-+e.g. if it is multithreaded and other threads encounter an ENOMEM,
-+before `__acl_get_uid()` frees the gigantic heap buffer and returns.
-+The allocated memory isn't actually used. Therefore on Linux it should
-+not affect other processes by default, due to its overcommit memory
-+and lazy memory allocation strategy.
-+
-+Fix this by properly terminating the for loop on any conditions except
-+an ERANGE error being reported. The same break statement correctly
-+exists in `__acl_get_gid()` already.
-+
-+Fixes: 3737f00 ("use thread-safe getpwnam_r and getgrnam_r")
-+Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ libmisc/uid_gid_lookup.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/libmisc/uid_gid_lookup.c b/libmisc/uid_gid_lookup.c
-+index a4f21f6..74baab4 100644
-+--- a/libmisc/uid_gid_lookup.c
-++++ b/libmisc/uid_gid_lookup.c
-+@@ -91,6 +91,7 @@ __acl_get_uid(const char *token, uid_t *uid_p)
-+ 		if (err =3D=3D ERANGE)
-+ 			continue;
-+ 		errno =3D err ? err : EINVAL;
-++		break;
-+ 	}
-+ 	free(buffer);
-+ 	return result ? 0 : -1;
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-=
-stdout-and-stderr.patch b/meta/recipes-support/attr/acl/0001-test-misc.te=
-st-Don-t-mix-stdout-and-stderr.patch
-new file mode 100644
-index 00000000000..5aa3f3224cb
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-=
-and-stderr.patch
-@@ -0,0 +1,35 @@
-+From 47f8039ec9bd08b629775c8e788d11e41fa95f14 Mon Sep 17 00:00:00 2001
-+From: Andreas Gruenbacher <agruenba@redhat.com>
-+Date: Mon, 24 Mar 2025 21:14:09 +0100
-+Subject: [PATCH] test/misc.test: Don't mix stdout and stderr
-+
-+In different environments, we may not get the stdout and stderr output
-+in the order the run script expects, so check both separately.
-+
-+Fixes: https://savannah.nongnu.org/bugs/?66944
-+Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ test/misc.test | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/test/misc.test b/test/misc.test
-+index 06b3136..57c02e5 100644
-+--- a/test/misc.test
-++++ b/test/misc.test
-+@@ -440,8 +440,9 @@ Dangling symlink test https://savannah.nongnu.org/bu=
-gs/?28131
-+ 	> other::r-x
-+ 	>=20
-+ 	$ setfacl -R -m u:bin:rw d
-+-	$ getfacl -RL d
-++	$ getfacl -RL d > /dev/null
-+ 	> getfacl: d/b: No such file or directory
-++	$ getfacl -RL d 2> /dev/null
-+ 	> # file: d
-+ 	> # owner: %TUSER
-+ 	> # group: %TGROUP
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bi=
-ts.patch b/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits=
-.patch
-deleted file mode 100644
-index 219feaccd07..00000000000
---- a/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patc=
-h
-+++ /dev/null
-@@ -1,60 +0,0 @@
--From 7dec6fa3b3494a55120402ff1ea3eb96b67138e8 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 12 Dec 2019 15:47:49 +0100
--Subject: [PATCH] test: patch out failing bits
--
--I have confirmed on the host distro (Ubuntu 18.04) that they
--fail as well; upstream probably haven't noticed because the
--test is only executed under sudo.
--
--Upstream-Status: Inappropriate [disabling tests instead of fixing them p=
-roperly]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- test/root/permissions.test | 13 -------------
-- 1 file changed, 13 deletions(-)
--
--diff --git a/test/root/permissions.test b/test/root/permissions.test
--index 8f8f825..21e8a95 100644
----- a/test/root/permissions.test
--+++ b/test/root/permissions.test
--@@ -50,10 +50,6 @@ User daemon is a member in the owning group, which ha=
-s only read access.
-- Verify this.
--=20
-- 	$ su daemon
---	$ cat f
---	> root
---	> bin
---
-- 	$ echo daemon >> f
-- 	>~ .*f: Permission denied$
--=20
--@@ -146,8 +142,6 @@ the owning group, he should still have no write acce=
-ss.
-- 	$ setfacl -x g:daemon f
--=20
-- 	$ su daemon
---	$ echo daemon4 >> f
---	>~ .*f: Permission denied$
--=20
--=20
-- Change the owning group. The other permissions should now grant user
--@@ -158,12 +152,6 @@ daemon write access.
--=20
-- 	$ su daemon
-- 	$ echo daemon5 >> f
---	$ cat f
---	> root
---	> bin
---	> daemon
---	> daemon2
---	> daemon5
--=20
--=20
-- Verify that permissions in separate matching ACL entries do not
--@@ -173,7 +161,6 @@ accumulate.
-- 	$ setfacl -m g:bin:r,g:daemon:w f
--=20
-- 	$ su daemon
---	$ : < f
-- 	$ : > f
-- 	$ : <> f
-- 	>~ .*f: Permission denied$
-diff --git a/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the=
--build-path-into-a-helper-l.patch b/meta/recipes-support/attr/acl/0001-te=
-sts-do-not-hardcode-the-build-path-into-a-helper-l.patch
-deleted file mode 100644
-index 748f37f3e7e..00000000000
---- a/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-=
-path-into-a-helper-l.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--From 42ae3f8a5e32ba0681ccd1552a203ddad8748a6e Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 12 Dec 2019 13:45:52 +0100
--Subject: [PATCH] tests: do not hardcode the build path into a helper lib=
-rary
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- test/Makemodule.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/test/Makemodule.am b/test/Makemodule.am
--index e1d715d..cffe732 100644
----- a/test/Makemodule.am
--+++ b/test/Makemodule.am
--@@ -30,7 +30,7 @@ EXTRA_DIST +=3D \
-- check_LTLIBRARIES =3D libtestlookup.la
--=20
-- libtestlookup_la_SOURCES =3D test/test_passwd.c test/test_group.c
---libtestlookup_la_CFLAGS =3D -DBASEDIR=3D\"$(abs_srcdir)\"
--+libtestlookup_la_CFLAGS =3D -DBASEDIR=3D\"/tmp/acl-ptest\"
-- libtestlookup_la_LDFLAGS =3D -rpath $(abs_builddir)
--=20
-- # Make sure translations don't break tests when matching output.
-diff --git a/meta/recipes-support/attr/acl/run-ptest b/meta/recipes-suppo=
-rt/attr/acl/run-ptest
-index 3af75c84fea..f28d8c12122 100644
---- a/meta/recipes-support/attr/acl/run-ptest
-+++ b/meta/recipes-support/attr/acl/run-ptest
-@@ -1,16 +1,31 @@
- #!/bin/sh
--#
--#This script is used to run acl test suites
-=20
--#umask 077
-+failed=3D0
-+all=3D0
-=20
--mkdir -p /tmp/acl-ptest/test
--cp test/test.* /tmp/acl-ptest/test
-=20
--set +e
--make test-suite.log
--exitcode=3D$?
--if [ $exitcode -ne 0 -a -e test-suite.log ]; then
--    cat test-suite.log
-+for f in *.test; do
-+    LD_PRELOAD=3D$(pwd)/libtestlookup.so ./run $f
-+    case "$?" in
-+        0)
-+            echo "PASS: $f"
-+            all=3D$((all + 1))
-+            ;;
-+        77)
-+            echo "SKIP: $f"
-+            ;;
-+        *)
-+            echo "FAIL: $f"
-+            failed=3D$((failed + 1))
-+            all=3D$((all + 1))
-+            ;;
-+    esac
-+done
-+
-+if [ "$failed" -eq 0 ] ; then
-+    echo "All $all tests passed"
-+    exit 0
-+else
-+    echo "$failed of $all tests failed"
-+    exit 1
- fi
--exit $exitcode
-diff --git a/meta/recipes-support/attr/acl_2.3.2.bb b/meta/recipes-suppor=
-t/attr/acl_2.3.2.bb
-index dd959a5051b..a405cc2692e 100644
---- a/meta/recipes-support/attr/acl_2.3.2.bb
-+++ b/meta/recipes-support/attr/acl_2.3.2.bb
-@@ -16,11 +16,10 @@ LIC_FILES_CHKSUM =3D "file://doc/COPYING;md5=3Dc781d7=
-0ed2b4d48995b790403217a249 \
- DEPENDS =3D "attr"
-=20
- SRC_URI =3D "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz \
-+           file://0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-=
-use.patch \
-+           file://0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch =
-\
-            file://run-ptest \
--           file://0001-tests-do-not-hardcode-the-build-path-into-a-helpe=
-r-l.patch \
--           file://0001-test-patch-out-failing-bits.patch \
-            "
--
- SRC_URI[sha256sum] =3D "5f2bdbad629707aa7d85c623f994aa8a1d2dec55a73de520=
-5bac0bf6058a2f7c"
-=20
- inherit autotools gettext ptest
-@@ -31,57 +30,41 @@ PACKAGES =3D+ "lib${BPN}"
-=20
- FILES:lib${BPN} =3D "${libdir}/lib*${SOLIBS}"
-=20
--PTEST_BUILD_HOST_FILES =3D "builddefs"
--PTEST_BUILD_HOST_PATTERN =3D "^RPM"
--
- do_compile_ptest() {
--        oe_runmake libtestlookup.la
-+        oe_runmake libtestlookup.la libtestlookup_la_CFLAGS=3D-DBASEDIR=3D=
-\\\"${PTEST_PATH}\\\"
- }
-=20
- do_install_ptest() {
--	cp -rf ${S}/test/ ${D}${PTEST_PATH}
--	cp -rf ${S}/build-aux/ ${D}${PTEST_PATH}
--        mkdir -p ${D}${PTEST_PATH}/.libs
--	cp -rf ${B}/.libs/libtestlookup* ${D}${PTEST_PATH}/.libs
--        cp ${B}/Makefile ${D}${PTEST_PATH}
-+        install -m755 ${S}/test/run ${S}/test/sort-getfacl-output ${D}${=
-PTEST_PATH}/
-+        install -m644 ${S}/test/*.acl ${D}${PTEST_PATH}/
-=20
--        sed -e 's,--sysroot=3D${STAGING_DIR_TARGET},,g' \
--            -e 's|${DEBUG_PREFIX_MAP}||g' \
--            -e 's:${HOSTTOOLS_DIR}/::g' \
--            -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
--            -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
--            -i ${D}${PTEST_PATH}/Makefile
-+        # Install the tests
-+        for t in $(makefile-getvar ${S}/test/Makemodule.am TESTS); do
-+                install -m644 ${S}/$t ${D}${PTEST_PATH}/
-+        done
-+        # Remove the tests that are expected to fail (they need a NFS se=
-rver configured)
-+        for t in $(makefile-getvar ${S}/test/Makemodule.am XFAIL_TESTS);=
- do
-+                rm ${D}${PTEST_PATH}/$(basename $t)
-+        done
-+        # These tests need a very specific user/group setup
-+        # (https://savannah.nongnu.org/bugs/index.php?66927)
-+        rm -f ${D}${PTEST_PATH}/getfacl.test ${D}${PTEST_PATH}/permissio=
-ns.test ${D}${PTEST_PATH}/restore.test ${D}${PTEST_PATH}/setfacl.test
-=20
--        sed -e "s|^srcdir =3D.*|srcdir =3D .|" \
--	    -e "s|^abs_srcdir =3D.*|abs_srcdir =3D .|" \
--	    -e "s|^abs_top_srcdir =3D.*|abs_top_srcdir =3D ..|" \
--	    -e "s|^Makefile:.*|Makefile:|" \
--	    -e "/^TEST_LOG_DRIVER =3D/s|(top_srcdir)|(top_builddir)|" \
--	    -i ${D}${PTEST_PATH}/Makefile
--
--        rm ${D}${PTEST_PATH}/.libs/libtestlookup.lai
--}
--
--do_install_ptest:append:libc-musl() {
--        sed -i -e '/test\/misc.test/d' ${D}${PTEST_PATH}/Makefile
-+        ${B}/libtool --mode=3Dinstall install ${B}/libtestlookup.la ${D}=
-${PTEST_PATH}/
-+        rm -f ${D}${PTEST_PATH}/*.la
-+        install -d ${D}${PTEST_PATH}/test
-+        install -m644 ${S}/test/test.passwd ${S}/test/test.group ${D}${P=
-TEST_PATH}/test
- }
-=20
- RDEPENDS:${PN}-ptest =3D "acl \
--                        bash \
-                         coreutils \
-                         perl \
--                        perl-module-constant \
--                        perl-module-filehandle \
--                        perl-module-getopt-std \
--                        perl-module-posix \
--                        shadow \
--                        make \
--                        gawk \
--                        e2fsprogs-mke2fs \
-                         perl-module-cwd \
-                         perl-module-file-basename \
-                         perl-module-file-path \
--                        perl-module-file-spec \
-+                        perl-module-filehandle \
-+                        perl-module-getopt-std \
-+                        perl-module-posix \
-                        "
-=20
- BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.43.0
+We're after to expose what the autobuilder is setting and this does so
+in one relatively clear fragment. If we start splitting it up, users
+then need to mentally combine all the different pieces in order to see
+what the autobuilder is using.
+
+The key question is whether any of the fragments are more usable in
+isolation and whether the naming would make sense of it. I guess where
+I worry is the number of fragments you hint at above.
+
+I can see the case for these being separated out:
+
+QEMU_USE_KVM =3D 'True'
+INHERIT +=3D 'report-error'
+PREMIRRORS =3D ''
+BB_GENERATE_MIRROR_TARBALLS =3D '1'
+IMAGE_CLASSES +=3D 'testimage'
+SANITY_TESTED_DISTROS =3D ''
+SDK_EXT_TYPE =3D 'minimal'
+SDK_INCLUDE_TOOLCHAIN =3D '1'
+ESDK_LOCALCONF_REMOVE:append =3D 'BB_HASHSERVE'
+SDK_TOOLCHAIN_LANGS +=3D 'rust'
+
+with the remainder being "resource" constraints. I'm not sure I'd want
+to separate them more than that.
+
+As you say, some of this could potentially move to poky, although I've
+been trying hard not to reduce the differences between nodistro and
+poky rather than increase them, so the case may be for changing
+nodistro, which is a different level of work.
+
+I also realise we could have one fragment including a list of
+fragments. I just worry that if we split this up too much, one of the
+objectives of showing people the autobuilder config easily gets lost.
+The amount I get asked that is scary.
+
+FWIW even getting to the point where I posted this patch was painful
+due to tests failing due to the differing ordering in the config of
+auto.conf vs fragments. The delicate work you mention above is fine, if
+we share a common vision but I'm a bit worried we aren't entirely
+aligned at present :/.
+
+Cheers,
+
+Richard
 
 
