@@ -2,62 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 808EAC36002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 848F8C3DA4A
 	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 16:33:53 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.43711.1742834032619140249
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.44217.1742834030770184594
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 09:33:52 -0700
+ Mon, 24 Mar 2025 09:33:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PZiptWdj;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-224100e9a5cso88985685ad.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 09:33:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Wd1ja36x;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-225477548e1so85757985ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 09:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742834032; x=1743438832; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742834030; x=1743438830; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WgdckzxfRRJRynVpchZ+STqiFpRNhUkvnnc1YwwJeKI=;
-        b=PZiptWdjqmK3z+vsici2jPom7VynygThKbyoezV3hx/Emk/fJU35ZmQvdsyGJjS4V/
-         tpu/1fdA92Kz6vpKIATpCB1UVGlxQtQguSxE12yTSwnZmFxb/CXataTWQV/VkmnPhrUu
-         9G/lViGlYp3F7KX8c84YTcNTWohjJGKo1AThAMYluy4UeFuzt3LqN/3uUwoW2+zjqaMi
-         3vpUOd5OsxGkMpYit5i4f6Jn9xiy2ztiCMohFBEXkeJT496sWswiKiMJGtMzMAZU7s4Y
-         bL67paLQT0uHWf+DbsKfqh58DTNIx8wUtIpDrMG6Xsx6yGhrihVdXFxI6FcYQak/vyW6
-         0cug==
+        bh=v0jxlHIf07Dp0Wa7q5W+LZslLvOP1QqCBnrYe1M7SlY=;
+        b=Wd1ja36x/1iwF9GgCYxv9pJFF1TsSBcpm+GwJMRxteClqiJB8F8h5U+bhvbjn24dZ5
+         VCkTgjqMe96s2Jva5gBxB5zwzu6jnPiPbnaOO9xBxDH0/eU5l3nlkyh6eJDdiS2bBr7f
+         d+etRG1xwrO5cjOeaq8QCnEspTJgLxKwl7RDoi2uEvZ7IsG4wj7NBj/MSVREaaGYcsRm
+         eHGghf0gf6RzYmOrBZC6tjH2MPlMReGnh7AmZSA95lJ2mEj+EBj7TSINiP7sPUeAxPcq
+         aNirnXMApgyBIXVKZgN2IH5ut/P+n+hUzTh+QwRGRWwyUw9RSuDR6MTYQY8kAmcEKZjy
+         ZK6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742834032; x=1743438832;
+        d=1e100.net; s=20230601; t=1742834030; x=1743438830;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WgdckzxfRRJRynVpchZ+STqiFpRNhUkvnnc1YwwJeKI=;
-        b=vYF44BV4U3xopzDgyEXCsrQVHDgqKMOkellw4yYOr3Q6Z4shFCbyVBOLJbmmLzJbWp
-         Qo1gLJ3awq/OrTDzqPaIG/VFQPsm0LiGp419KWvszWDezu8reZDFJY6BYsVhEfxGasTB
-         R6QTIksZvlqI306FmlbxfSauc0hMqUG8BkJSLp9R1EfVqNKrHlJiD1qCaMJmeUxsbFH2
-         PCrxl2y3cbsyylzfK+bqcw6wf7GK9F8l7IzrLUM2K7fkbhgvZgIGboUHB8iPwXn7yr3A
-         0grHPWO9C6iYroNvtfW4Q7CUNpkXS5OTYbgJ6dxnkXgEPmv5tch/6PzvIYfmGSOa09lF
-         QTag==
-X-Gm-Message-State: AOJu0YxBbah83M5PypIgY/Us4iOjqwdPObwlOpESpdtJbCHPD2K0BiFm
-	q/q01lghEGjyqI/7MWW91fvLq9dlJo4quHHUh5TtrcoCULQcKQAvvK2GlqZi
-X-Gm-Gg: ASbGncv85O5j9R9E2uyakfXlvXgaxVp9lnSom35uit1FahfUuWaM00hXglfdfwqtFhh
-	kpYTPKWZZiDIolRD+agdj+wr4GYduljqzrTKoY9w7ZVNNLoD0+75cjg6JOQZuarFhx2kTYidReZ
-	S9yIO5XknGOSqzOZOjeao+9T+DaHHgaxi7rHidlYi13syMWBkYV2NqC7vxpBsRGsb9FE/+OP5rt
-	qe911jRetOvMViMZz5lPavL0AlebAB4m+ozM2QdnttDCbRT8MD0zCPFg3S4l6SwjxF5h0nxbxtj
-	KXQQ0Gdpa2+uMIK3dNR1+SdXBmWIXniLsr66
-X-Google-Smtp-Source: AGHT+IGuGZMhIrsbuQnFrUtAXW0Ihx2FFF4ogG78/5gcPD+n1abYPiXcZ1q8Z0szBd8RVIy5Buvzig==
-X-Received: by 2002:aa7:8892:0:b0:728:e2cc:bfd6 with SMTP id d2e1a72fcca58-73905a3b9d0mr21366676b3a.18.1742834031765;
-        Mon, 24 Mar 2025 09:33:51 -0700 (PDT)
+        bh=v0jxlHIf07Dp0Wa7q5W+LZslLvOP1QqCBnrYe1M7SlY=;
+        b=BV2oAcsNiU+rFnGqGkOpKva9v3pphIlYb/4MgZPsNiQrPVW7Wv5fvkDTVIa/BeVHRo
+         DM23OLPfy+Dk/AVGrxJZNUHk/7LHt5DIFlyO5ElikwSffsjurafiKAPGQ8P937Qa4ZV0
+         PB9N46zoWmrOL241OfdMyE1IjXKvq7P1PNBOarCF5tvxQOHLYjVMv5FHVKcBPxez4Lq8
+         RsG5Afdv1+o2Ij51g52/IDRyeahruOQlk9SIjdNa5mNfKAjolVi/LJj3j6osb82deWTM
+         6WArh05/1fjimzCaNiprx/6/+WEEflV99If0BntL5PCuki1alVdTIJjjH/gUIh9PiW0j
+         rGgw==
+X-Gm-Message-State: AOJu0Yz48BXlAq0VUwubjqZQWPFvp6PWOsqLxGJfH5D4BSmCyZd56V+A
+	ooHxxf+4U+AomLYLh6iTbfqXToVZecU3Q+eSKBeIOQQhke+u6Hme
+X-Gm-Gg: ASbGnctqY7FAP9RKdSCq/9YiHt4qLbaZLHQ2BloQWMucEjPlDiwdEPWGV6wLxVTEkAe
+	8GnKOr6srF6UieD+pXcHwo6d89FLnHY8oxjK3f7qp2oqFiPPPr+/bhQin6Z0HdKmOUvDMIEkbTC
+	ZQTpc4mZPPSuLYBd12PvLkVtcsoDj+6plHT3C3dgZjgYqr0Y0ilsv3DPzIt3JM6jafWbYjYFaE0
+	lhH3SEKsXHKGXpAbO2FvtL786NASnce6Zr67qiaHnueqoO6COuoTu5pblOGYAAL0TEfpOJzwsV5
+	UMW3hPEx0Mhsus8S/CO2Z3MHha1DIxV8cY8p
+X-Google-Smtp-Source: AGHT+IGzlAMis7tl2EVSgLdaY2DseVVv5g9k5Haau/9G05mGhfNdDZTLX2I+/ibHr28f1lVHHGiJ5A==
+X-Received: by 2002:a05:6a21:1:b0:1f5:6d6f:28e with SMTP id adf61e73a8af0-1fe4331ac2amr23173237637.42.1742834029977;
+        Mon, 24 Mar 2025 09:33:49 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::b570])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af8a2803d8csm7372192a12.26.2025.03.24.09.33.51
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af8a2803d8csm7372192a12.26.2025.03.24.09.33.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 09:33:51 -0700 (PDT)
+        Mon, 24 Mar 2025 09:33:49 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 24 Mar 2025 09:33:31 -0700
-Subject: [PATCH 10/21] bc: Add missing params to getopt/getenv signatures
+Date: Mon, 24 Mar 2025 09:33:29 -0700
+Subject: [PATCH 08/21] which: Drop md4sum for SRC_URI
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250324-b4-musl-gcc15-v1-10-ca68c03c5b01@gmail.com>
+Message-Id: <20250324-b4-musl-gcc15-v1-8-ca68c03c5b01@gmail.com>
 References: <20250324-b4-musl-gcc15-v1-0-ca68c03c5b01@gmail.com>
 In-Reply-To: <20250324-b4-musl-gcc15-v1-0-ca68c03c5b01@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -67,74 +67,25 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 16:33:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213542
-
-Fix build with GCC 15 on musl
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213540
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...missing-params-to-getopt-getenv-signature.patch | 40 ++++++++++++++++++++++
- meta/recipes-extended/bc/bc_1.08.1.bb              |  1 +
- 2 files changed, 41 insertions(+)
+ meta/recipes-extended/which/which_2.21.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-extended/bc/bc/0001-getopt-Add-missing-params-to-getopt-getenv-signature.patch b/meta/recipes-extended/bc/bc/0001-getopt-Add-missing-params-to-getopt-getenv-signature.patch
-new file mode 100644
-index 0000000000000000000000000000000000000000..f43f3360757d33c5737da2e78618c1b348f41243
---- /dev/null
-+++ b/meta/recipes-extended/bc/bc/0001-getopt-Add-missing-params-to-getopt-getenv-signature.patch
-@@ -0,0 +1,40 @@
-+From 493997b0d2c3dc6469f967d8f619ed934667c71e Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 22 Mar 2025 18:33:08 -0700
-+Subject: [PATCH] getopt: Add missing params to getopt/getenv signatures
-+
-+This ensures it can compile with GCC 15 on musl
-+
-+Upstream-Status: Submitted [sent to bug-bc@gnu.org]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ h/getopt.h   | 2 +-
-+ lib/getopt.c | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/h/getopt.h b/h/getopt.h
-+index cc45f46..5ea5eac 100644
-+--- a/h/getopt.h
-++++ b/h/getopt.h
-+@@ -141,7 +141,7 @@ struct option
-+    errors, only prototype getopt for the GNU C library.  */
-+ extern int getopt (int ___argc, char *const *___argv, const char *__shortopts);
-+ #else /* not __GNU_LIBRARY__ */
-+-extern int getopt ();
-++extern int getopt (int,  char * const*, const char *);
-+ #endif /* __GNU_LIBRARY__ */
-+ 
-+ #ifndef __need_getopt
-+diff --git a/lib/getopt.c b/lib/getopt.c
-+index b270074..3e6d071 100644
-+--- a/lib/getopt.c
-++++ b/lib/getopt.c
-+@@ -197,7 +197,7 @@ static char *posixly_correct;
-+    whose names are inconsistent.  */
-+ 
-+ #ifndef getenv
-+-extern char *getenv ();
-++extern char *getenv (const char*);
-+ #endif
-+ 
-+ #endif /* not __GNU_LIBRARY__ */
-diff --git a/meta/recipes-extended/bc/bc_1.08.1.bb b/meta/recipes-extended/bc/bc_1.08.1.bb
-index 473d78d8a7741d25c08941c8d080eeecb16a87a6..5fbbe7ef6abaea27c28280641007677a3048636c 100644
---- a/meta/recipes-extended/bc/bc_1.08.1.bb
-+++ b/meta/recipes-extended/bc/bc_1.08.1.bb
-@@ -13,6 +13,7 @@ SECTION = "base"
- DEPENDS = "flex-native"
+diff --git a/meta/recipes-extended/which/which_2.21.bb b/meta/recipes-extended/which/which_2.21.bb
+index c6142759e55565ce5715e378c13b91371bcdd605..6e855bca3feb2f0bf35f4c7de42638fb75281180 100644
+--- a/meta/recipes-extended/which/which_2.21.bb
++++ b/meta/recipes-extended/which/which_2.21.bb
+@@ -21,7 +21,6 @@ SRC_URI = "${GNU_MIRROR}/which/which-${PV}.tar.gz \
+            file://0001-getopt-Fix-signature-of-getenv-function.patch \
+            "
  
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
-+           file://0001-getopt-Add-missing-params-to-getopt-getenv-signature.patch \
-            file://run-ptest"
- SRC_URI[sha256sum] = "b71457ffeb210d7ea61825ff72b3e49dc8f2c1a04102bbe23591d783d1bfe996"
+-SRC_URI[md5sum] = "097ff1a324ae02e0a3b0369f07a7544a"
+ SRC_URI[sha256sum] = "f4a245b94124b377d8b49646bf421f9155d36aa7614b6ebf83705d3ffc76eaad"
  
+ do_configure:prepend() {
 
 -- 
 2.49.0
