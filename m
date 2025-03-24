@@ -1,86 +1,93 @@
-Return-Path: <Divya.Chellam@windriver.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61575C36002
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 12:44:02 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.38430.1742820240728067805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AAE3C36002
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 14:29:53 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.40824.1742826587948400488
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 05:44:00 -0700
+ Mon, 24 Mar 2025 07:29:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5178db5009=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52OCX0LT006493
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 05:44:00 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45hrg41v7m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 05:44:00 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 24 Mar 2025 05:43:58 -0700
-From: dchellam <divya.chellam@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][scarthgap][PATCH 1/1] vim: Upgrade 9.1.1115 -> 9.1.1198
-Date: Mon, 24 Mar 2025 12:43:36 +0000
-Message-ID: <20250324124336.1967060-1-divya.chellam@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7B23016F3
+	for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 07:29:53 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CBC6C3F58B
+	for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 07:29:46 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] meson: refresh upstreamed patch
+Date: Mon, 24 Mar 2025 14:29:42 +0000
+Message-ID: <20250324142942.3756014-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Authority-Analysis: v=2.4 cv=HZwUTjE8 c=1 sm=1 tr=0 ts=67e15390 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=Vs1iUdzkB0EA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=qx_yR4XOc8-HUud59pgA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: RPcsA4TrbA4rm9tNa18DqadtdO0Y6i3i
-X-Proofpoint-ORIG-GUID: RPcsA4TrbA4rm9tNa18DqadtdO0Y6i3i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-24_04,2025-03-21_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- suspectscore=0 bulkscore=0 phishscore=0 malwarescore=0 adultscore=0
- clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501
- mlxlogscore=954 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2503240092
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 12:44:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213528
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 14:29:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213529
 
-From: Divya Chellam <divya.chellam@windriver.com>
-
-This includes CVE-fix for CVE-2025-27423 and CVE-2025-29768
-
-Changes between 9.1.1115 -> 9.1.1198
-====================================
-https://github.com/vim/vim/compare/v9.1.1115...v9.1.1198
-
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...cies-dev-prepend-sysroot-when-searching-for-.patch | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 823cfe24c7..c7f3987134 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".1115"
--SRCREV = "c0f0e2380e5954f4a52a131bf6b8499838ad1dae"
-+PV .= ".1198"
-+SRCREV = "f209dcd3defb95bae21b2740910e6aa7bb940531"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
--- 
-2.40.0
+diff --git a/meta/recipes-devtools/meson/meson/0001-dependencies-dev-prep=
+end-sysroot-when-searching-for-.patch b/meta/recipes-devtools/meson/meson=
+/0001-dependencies-dev-prepend-sysroot-when-searching-for-.patch
+index e4700bc91d4..b6579c824ef 100644
+--- a/meta/recipes-devtools/meson/meson/0001-dependencies-dev-prepend-sys=
+root-when-searching-for-.patch
++++ b/meta/recipes-devtools/meson/meson/0001-dependencies-dev-prepend-sys=
+root-when-searching-for-.patch
+@@ -1,4 +1,4 @@
+-From 6f33fb67097beeb17e2345aaec3bda4a57b0b138 Mon Sep 17 00:00:00 2001
++From 17117c2732c33ebec39e3fec2ecd5a3515dc7d71 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Wed, 20 Nov 2024 13:09:38 +0000
+ Subject: [PATCH] dependencies/dev: prepend sysroot when searching for GT=
+est
+@@ -10,14 +10,14 @@ sources, not ones that we want to use in the sysroot.
+=20
+ Closes #12690.
+=20
+-Upstream-Status: Submitted [https://github.com/mesonbuild/meson/pull/139=
+34]
++Upstream-Status: Backport [17117c2732c33ebec39e3fec2ecd5a3515dc7d71]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ ---
+  mesonbuild/dependencies/dev.py | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
+=20
+ diff --git a/mesonbuild/dependencies/dev.py b/mesonbuild/dependencies/de=
+v.py
+-index 94f51ff69..cceb1756c 100644
++index 2725a7bb4e88..0c8886b81a04 100644
+ --- a/mesonbuild/dependencies/dev.py
+ +++ b/mesonbuild/dependencies/dev.py
+ @@ -56,7 +56,9 @@ class GTestDependencySystem(SystemDependency):
+@@ -26,11 +26,8 @@ index 94f51ff69..cceb1756c 100644
+          self.main =3D kwargs.get('main', False)
+ -        self.src_dirs =3D ['/usr/src/gtest/src', '/usr/src/googletest/g=
+oogletest/src']
+ +
+-+        sysroot =3D environment.properties[self.for_machine].get_sys_ro=
+ot() or ""
+++        sysroot =3D environment.properties[self.for_machine].get_sys_ro=
+ot() or ''
+ +        self.src_dirs =3D [sysroot + '/usr/src/gtest/src', sysroot + '/=
+usr/src/googletest/googletest/src']
+          if not self._add_sub_dependency(threads_factory(environment, se=
+lf.for_machine, {})):
+              self.is_found =3D False
+              return
+---=20
+-2.34.1
+-
+--=20
+2.43.0
 
 
