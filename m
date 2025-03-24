@@ -1,100 +1,144 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 285CEC3600B
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 14:50:03 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.41306.1742827797677461390
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E2E7C36002
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 14:56:53 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.41478.1742828212556139198
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 07:49:57 -0700
+ Mon, 24 Mar 2025 07:56:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FLeVouPv;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=gMwFNXrd;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010195c8a1b711-954f66f6-01c2-4ad3-9211-5051bb318b1f-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742827796; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=bJ7SENX5C1aI/ONGVayaxDa3uG6MoST0ikoiy5RmF2w=;
-	b=FLeVouPvB9HgjrueZg2DYf6Y+artq46+mCqN28d+Rf1W/Mx2mxyubTqMXkQlxtZi
-	h4yriCEqOu66nPSSWJA8Y0Ye2HcIztf6XCXcGMgALA/p17f3zoBgEevZnY+CBmxzu8U
-	uTA+kFTcEEMXJYnHTsH/dXuje3xva5Nj3tO8AV6k=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742827796;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=bJ7SENX5C1aI/ONGVayaxDa3uG6MoST0ikoiy5RmF2w=;
-	b=gMwFNXrdg/YGAvyGvxn89UUL93bq7x739a4j4oaX4/wsQWUSeqKjUNdv3KAtMRs7
-	5qOOhSW4+fxOO5ft61/0KzTH4M6IE4rJtGGb5mwU5AxtRN195DrPVFQFj3dHDr8kWfF
-	E0QtSECeSDhjPjW/cqB9uwl/o1cLNFr0SzuNKrh0=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] meson: refresh upstreamed patch
-In-Reply-To: <20250324142942.3756014-1-ross.burton@arm.com>
-References: <20250324142942.3756014-1-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195c8a1b711-954f66f6-01c2-4ad3-9211-5051bb318b1f-000000@us-west-2.amazonses.com>
-Date: Mon, 24 Mar 2025 14:49:56 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.24-54.240.27.45
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QENcw+4v;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-54963160818so5367653e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 07:56:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742828211; x=1743433011; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sIDixT0asur/f10c6R/24XDOoAgvUV9lc4c7paxmzjM=;
+        b=QENcw+4vyeT3kcp17UGr5CiFefAsz7V7yIcsB/Mem8y/6uG/xsGMG0qs1rv6hsKdSX
+         TVyq/0vQJzGFfkTpLStoEg8ONPODWnwrHmvyLxKZU3k4XZv2HpMBh8r/v7OWSN/yUNFt
+         gcuI2XumJf4azTYV6MczcHcgwjhVRQtpB1AnJr6o02KxtQBJUKb6OYbX0oYm6L2nwNNp
+         fFHJHdy2FTw4pojdVWw760PXzHISVXMiLKRWxlD/y0nGpT2dimX1cj4HZZFFpscQtYy5
+         JWRy+JOn3U5G78kU2O2Hi0Gr5NM12ruYKMtRWKp6K40vkhlXqYhTMJSOTnXJebusIH6F
+         Y4UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742828211; x=1743433011;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sIDixT0asur/f10c6R/24XDOoAgvUV9lc4c7paxmzjM=;
+        b=SFQ2szPh+sbOR5GUPi8XAYnMDx1S4H67Io57Yw2COpbIl2c9UrcnRFhzYncAdH25dj
+         2v8nlLGHouUVZSpvNuqretwzoNsMixlp3fW5qvAptmimiPsykMihb218sNGR+61h2Ofg
+         +ONipd4SPO2rxKJ1lVRmvK4LB2T9/P1XXaaI6mu/xdHefcRhtlk8seFoIMXTuLf4kBL6
+         scuJMY8YXXlI/QHqQ4oJPVLKFZTTgF711nSRY84diyDVLjQjGmsF1wQnNPRRRUg5hJ9D
+         ZgNYo23QFH4dpFKAbpJNA68t5eEA6zVmAIr5eWKljSeRM0WTuxGw0FWyjTJHQQq0SIzs
+         KoWg==
+X-Gm-Message-State: AOJu0YyZubORHzrY1XTpzuMe2wjoJOQD72nUDg3Gf1pPZw8hSR6h+jDF
+	9s/RtXal+ZwYJ6xgyurVKCb5sUaQXsidpn4SJu5TCc2GPS2S6QARskbzXT36DdxU3FhewTAbAZs
+	MJd1GkfqOxhk6MtXaAQeRh/bqiL8vPA==
+X-Gm-Gg: ASbGncvPf9bhjfDwAX6sk4C0PxqZVQwzXEEupW9Go9BbZ4HAXaphZSoq5mbLY7OXqHU
+	eSyW6lcE7Ysa7pMNm2lHLybo3Ddur1HaOF4hsywNpKhYD3SFa4V841kGdkFnwQRKJDWzYqSYju9
+	beQlAfAb9RwrfiRp+L5HxpN3zzyzcsQc1k5VczsQ==
+X-Google-Smtp-Source: AGHT+IFzrq9Nsz3xFr0jivI/5ZpqEgOK/0Ey7hze/N/3VjSDyGFm3t3CMQISk46800C6eH+y/5EHedJR7B5tSdy36VA=
+X-Received: by 2002:a05:6512:304f:b0:542:91a5:2478 with SMTP id
+ 2adb3069b0e04-54ad64ef057mr5022953e87.32.1742828210457; Mon, 24 Mar 2025
+ 07:56:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250324065407.1055382-1-hongxu.jia@windriver.com> <20250324065407.1055382-2-hongxu.jia@windriver.com>
+In-Reply-To: <20250324065407.1055382-2-hongxu.jia@windriver.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 24 Mar 2025 08:56:35 -0600
+X-Gm-Features: AQ5f1JoTtP-Bt6u5610bhmNtWQmI1LHB9MM0UWo_MbU0G35L3g3ge77MsrrQZ7M
+Message-ID: <CAJdd5GaewsPN4GOwnjf0V9up4+JuR8b5wQiJb30SS2H8SFT35w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] spdx3: support to override the version of a package
+ in SBOM 3
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 14:50:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213530
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 14:56:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213531
 
---NextPart
-Content-Type: text/plain
+LGTM, Thanks
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
----
-Testing patch /home/patchtest/share/mboxes/meson-refresh-upstreamed-patch.patch
-
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+On Mon, Mar 24, 2025 at 12:54=E2=80=AFAM Hongxu Jia <hongxu.jia@windriver.c=
+om> wrote:
+>
+> By default, still use ${PV} as the the version of a package in SBOM 3
+> $ bitbake acl
+> $ jq . tmp/deploy/spdx/3.0.1/core2-64/packages/package-acl.spdx.json
+> ...
+>     {
+>       "type": "software_Package",
+>        ...
+>       "name": "acl",
+>       "software_packageVersion": "2.3.2"
+>     },
+> ...
+>
+> Support to override it by setting SPDX_PACKAGE_VERSION, such as
+> set SPDX_PACKAGE_VERSION =3D "${EXTENDPKGV}" in local.conf to append
+> PR to software_packageVersion in SBOM 3
+> $ echo 'SPDX_PACKAGE_VERSION =3D "${EXTENDPKGV}"' >> conf/local.conf
+> $ bitbake acl
+> $ jq . tmp/deploy/spdx/3.0.1/core2-64/packages/package-acl.spdx.json
+> ...
+>     {
+>       "type": "software_Package",
+>        ...
+>       "name": "acl",
+>       "software_packageVersion": "2.3.2-r0"
+>     },
+> ...
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/classes/create-spdx-3.0.bbclass | 3 +++
+>  meta/lib/oe/spdx30_tasks.py          | 2 +-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
+pdx-3.0.bbclass
+> index b4a5156e709..044517d9f72 100644
+> --- a/meta/classes/create-spdx-3.0.bbclass
+> +++ b/meta/classes/create-spdx-3.0.bbclass
+> @@ -113,6 +113,9 @@ SPDX_ON_BEHALF_OF[doc] =3D "The base variable name to=
+ describe the Agent on who's
+>  SPDX_PACKAGE_SUPPLIER[doc] =3D "The base variable name to describe the A=
+gent who \
+>      is supplying artifacts produced by the build"
+>
+> +SPDX_PACKAGE_VERSION ??=3D "${PV}"
+> +SPDX_PACKAGE_VERSION[doc] =3D "The version of a package, software_packag=
+eVersion \
+> +    in software_Package"
+>
+>  IMAGE_CLASSES:append =3D " create-spdx-image-3.0"
+>  SDK_CLASSES +=3D "create-spdx-sdk-3.0"
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index 1629ed69cee..52329760b6a 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -606,7 +606,7 @@ def create_spdx(d):
+>                      _id=3Dpkg_objset.new_spdxid("package", pkg_name),
+>                      creationInfo=3Dpkg_objset.doc.creationInfo,
+>                      name=3Dpkg_name,
+> -                    software_packageVersion=3Dd.getVar("PV"),
+> +                    software_packageVersion=3Dd.getVar("SPDX_PACKAGE_VER=
+SION"),
+>                  )
+>              )
+>              set_timestamp_now(d, spdx_package, "builtTime")
+> --
+> 2.34.1
+>
 
