@@ -1,100 +1,89 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A778AC36002
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 17:34:44 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.45307.1742837677976548441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBC3CC36008
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 17:37:24 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.45375.1742837838886445961
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 10:34:38 -0700
+ Mon, 24 Mar 2025 10:37:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Iroutrwv;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=h+20YAiQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010195c9387bd8-385e1835-87bf-4b16-8b55-4a65b2fcbede-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1742837677; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=s2a8e3hd2UVCYX4z6uMWWssENilGwnJJy3bWKUUQ8T4=;
-	b=IroutrwvviipA8BvDDHoe8b+Ql+YuMm4pAWCrFXqEdTWvLFwV3bjSMfnfwNEFvBf
-	nOZ8OkZ33A9DbOELl4/vNwTsA7DsYPtCt5S2kV95qM8q7p9L4AE/pKdZU1WRf1X3rLL
-	GZ1J4ohenSx7Ln8dT0Fpjj2NKTBysIVgekBeeHlY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742837677;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=s2a8e3hd2UVCYX4z6uMWWssENilGwnJJy3bWKUUQ8T4=;
-	b=h+20YAiQBTD2XdapS0aP2s7TsYJExHk052IVIyXLhZq7sayfBXIvJh61Gbgj8cqj
-	Na075OGmEDX7vwicVg69o8GJPubV6MOBEoFHdmA+wq1Q3bUtppavZxPXGiU4I/jXaFR
-	PLapc1eG3Jw7pKwUInLzwbwv3GI+1EDPyC/MaOA0=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/4] attr: merge .bb and .inc
-In-Reply-To: <20250324172008.3110176-2-ross.burton@arm.com>
-References: <20250324172008.3110176-2-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195c9387bd8-385e1835-87bf-4b16-8b55-4a65b2fcbede-000000@us-west-2.amazonses.com>
-Date: Mon, 24 Mar 2025 17:34:37 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.24-54.240.27.30
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KLxwH4TW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cebe06e9eso35323695e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 10:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1742837837; x=1743442637; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xTXdTe2LiTKdlf/04QrV4ZoRH6bCDBFJV812tthr2Gw=;
+        b=KLxwH4TWkJ+xizBtXf4T1d2lYUwNWf4oVgwN6mEybwHZEu5SwdB4nhSo07biYb2ttA
+         /5pgu09Vuzg3CwIVgaN+o9vWcEeYcqjsW0Q1pAjCI1JyJAa58wInkF94lSRqblLF8lQO
+         VXkA6O78xPZbsdaS6huz074QpfbJOAz1CInP4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742837837; x=1743442637;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xTXdTe2LiTKdlf/04QrV4ZoRH6bCDBFJV812tthr2Gw=;
+        b=eoKa9TlwlaPr94oLEKlhUEcBzhFEPn8a85nh4z5WfczAHASk1FzitrtzRkjz7qdNff
+         BawjGc0mOF0kBlT1YzeZvmLK2piAi1Dt2l2U8bekOWEhJzW1BkH+EK6eAB+QleQiDjb6
+         uasSLdHsYiyIAppaXyz8NWVgg0BGeGEGWN3q6r2jhyzRYcj+mN0SWWZ2WDvPsSz5VBZJ
+         ckXXmadPpFiZ39ECj7vaNiN+Ey0OdI7HicmrHTMfOFA/uvG2Kde5hQ74KJVf8heV4XXe
+         VSnQFU4nTVuIYSXwdCSSEQHQvdEN2hvU/kCFPXhdAsjMJ0E/M54P8uiUaeejNYsjOhnB
+         3RZw==
+X-Gm-Message-State: AOJu0YwA3Gqq+N7kdtCYm3FZ2hQosCZRQLUnDx51pVJTuciMOpnb0Pw8
+	5/Tv6smXaja9XMrDVYzMtTOCJDDdUg9CzuPAbXpIjDLjxsnogH9KbOpDdAGHLdGrbO6bl6ZZrl7
+	c
+X-Gm-Gg: ASbGncsg8mkclN4pzPxbSbvZiGW/c5UjPLXc2VNGV+kFJGCf1BRoZVCfdYdwhTg0hzR
+	yUwzpOZJxksbaQ5A4REQguwrWFat+TxM0eTi3cBmI8TPKfxWr4DrTxGCpQXIehunTWWhGD4QyEJ
+	778xt545LRp8SRSkA4zjKYkGAMORf9oZ/HSPFTpYwFfFsKYt5SQs+1AokuK44mk3XSt3hFxjKv4
+	Ryd+Ha8c1/FGW4qlVMQ5aAhVUnHFXgNIrLoSGSbJup77nwiIQP6/Q+8t4CMe0BpwJt4Uf/Nz1B4
+	g2GT5xDU3+E5zdvbbiVkW4ZjmHQGsid2DFSQSvJXRee7iUESIYVrL45d7lLygbcIqv17N2T5e2Y
+	pAAQlc9g=
+X-Google-Smtp-Source: AGHT+IH7cpCPMzFedglo1XOkfeVcW2us+UOA7EFktEqmiWrY494ZZGej1QNiDI5ciaUlaJVusUTbmg==
+X-Received: by 2002:a05:600c:3b9c:b0:43d:934:ea97 with SMTP id 5b1f17b1804b1-43d50a4ada0mr87023235e9.27.1742837836762;
+        Mon, 24 Mar 2025 10:37:16 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:24f9:315d:dc7:9e14])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fd27b59sm126626685e9.23.2025.03.24.10.37.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Mar 2025 10:37:16 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] Revert "cargo: pass PACKAGECONFIG_CONFARGS to cargo build"
+Date: Mon, 24 Mar 2025 17:37:15 +0000
+Message-ID: <20250324173715.399785-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 17:34:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213565
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 17:37:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213566
 
---NextPart
-Content-Type: text/plain
+This reverts commit 16745b20452de60ae2474433cc1a2fb1ed9f6a64.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+A recipe may need to pass PACKAGECONFIG_CONFARGS to rust instead of cargo
+so the recipe does need to make this choice, the class can't.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Testing patch /home/patchtest/share/mboxes/2-4-attr-merge-.bb-and-.inc.patch
+ meta/classes-recipe/cargo.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
+index 461d100dd96..76a39668c7d 100644
+--- a/meta/classes-recipe/cargo.bbclass
++++ b/meta/classes-recipe/cargo.bbclass
+@@ -48,7 +48,7 @@ oe_cargo_build () {
+ 	bbnote "Using rust targets from ${RUST_TARGET_PATH}"
+ 	bbnote "cargo = $(which ${CARGO})"
+ 	bbnote "${CARGO} build ${CARGO_BUILD_FLAGS} $@"
+-	"${CARGO}" build ${CARGO_BUILD_FLAGS} ${PACKAGECONFIG_CONFARGS} "$@"
++	"${CARGO}" build ${CARGO_BUILD_FLAGS} "$@"
+ }
+ 
+ do_compile[progress] = "outof:\s+(\d+)/(\d+)"
 
