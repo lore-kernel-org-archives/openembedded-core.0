@@ -2,62 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B666BC36010
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 16:33:53 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.44213.1742834025421368881
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2343C3600C
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 16:34:03 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.44227.1742834040695911339
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 09:33:45 -0700
+ Mon, 24 Mar 2025 09:34:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SSZ0roHF;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-227914acd20so42906995ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 09:33:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kuFRI5nX;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-223fd89d036so90365685ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 09:34:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742834025; x=1743438825; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742834040; x=1743438840; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VDxg1Vted7upm9MHaALWX3XE0s8qqEIP/QEHG7I/BxI=;
-        b=SSZ0roHFwOTIoNMPWjw6yl5DvjWHM7dD25F3rwG5b9DRSVC3fRTv7oCmh6IzRR3bRK
-         EcuF0LS1R4M6k0CTbMm8K/Lf/XjMUtX401J+4C/E0vDizfUSuCbP4DgyvE0ttnWp/Jk4
-         B1UlKGiqeEo4+xR59okvE+RiW3u/7GuUPnnUfqmKpR4/qxjeuR25ESRxkx9v2l3oRAB9
-         crD4sjg/y+wpcxzrWxtQJSnWTpke+hNaT3BplOqCWR6Puwgf7VIuJLjnsR1dSRspkJXf
-         OnpzfjQ4V018M8YraU9V7NH38ZVmRHRjA3cd4tAqvwSXIK3rz+Mm0ny6dP8gaotWosUj
-         q3xg==
+        bh=MLw4/mSEaRnBDbnb4/BTwIcX10bTp9W+G36eFvh2LOM=;
+        b=kuFRI5nXlD97pwiEZDQnFSeQ/o+9Dq3v8JhEi1PSc7vZEMv6aku53HRwfCCH60c7qX
+         YlrwShuMaWyzgE12oJb3g0j2sjtZNK6Nfjvi6RVWBmvobq0Y6+J94BwhV9MILhUYiCVW
+         2HXHBjhsDrAD1YP3Qz9x27lU39RG0JUjZ5ty8ycKKWWHpkcAQ13s898Y9FaPP1p5fx30
+         bBEiIJSM6aojv1laxTW5B+NwIxciEUDzOE/lgDO5yUXnSPt/6sNHxU1Q0E5TudAVVJDg
+         HHcEzhtHmHGSl7AvO+Vm0BtyH0nOeU87qHCymD8Vch7Zc8hdqUWgb1fzF+S1O8g5X3Po
+         4gvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742834025; x=1743438825;
+        d=1e100.net; s=20230601; t=1742834040; x=1743438840;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VDxg1Vted7upm9MHaALWX3XE0s8qqEIP/QEHG7I/BxI=;
-        b=DYSE1ZmvwZfSn9dz8nRHB26TxLKNa61VgbjW78tXhKReqg2OGDBLPXzFGmbmxjGuM2
-         BfmL0/qLhxdw4lUCW1sWPu1llQbp/wtKxvYxnm8XMMEucchGD4Si4xoFc4FfL1WCGHIr
-         bz7OC8LdaaaU1bg5FOlL9a6G+GtPksuDubI3P4eCbMUgAo8FvgooMzHJFxsbme1L9Jsy
-         63MEH4vXVizM81VdabMV2M5XpTsrgh020gz4HQ3KoiTe/g/7vhkhcwiKgxtp8wJWTJ3E
-         NbH53y7AddJV/tpWYLfeNRqr1sjqupK5XqHRUYLwVZIipmYB5RdRwrQJWzIiU4uoi9/c
-         c7/w==
-X-Gm-Message-State: AOJu0YwB+/22RTlkq0Nl3b9LEtUTOonqof52terWhhrrs3piOdW2jsTB
-	Xw7sQ+koGQSR6sNDgUnSU+qY8fAPxR+Uv5H5mY52h7SjCPBfNSA8wuWBJq9z
-X-Gm-Gg: ASbGnctLbzq4G6lxp/I8xcLOVqY3T2ije/awW/cRTJxZCaUa/f17QMj2ubjseHGH9Jn
-	JEscQWb/Fdx30ROkqLdQI07ZitIea1Z+mfrfdj9p8OSRpazZguFxQWvA5xwxYJ/pYHTYTqbrtw4
-	fAd17mU6iIwyWQhMdVPWS+cVd4gyT2qfGPmb14K3Ho1GOvGK60v2HV8e3IZha3X98Mh0DFjyFmT
-	ps6jLQJ/t+rD4rOiVt3AD635WGS0YDIZK2OnZE86qllaFJ/059yHK64My1EJ6BRrUGlRe5okqjr
-	p/vF7pMGhHZNB674p96ljrcou2mOHiHOtK8A
-X-Google-Smtp-Source: AGHT+IHwrJ7BqqqcfarxcUFX42Njd1XQG2CB82GUnFWX7ssNAsR3x+4tBVGZyS+Ml/FKCewKg4cDSg==
-X-Received: by 2002:a05:6a20:918d:b0:1ee:d664:17a4 with SMTP id adf61e73a8af0-1fd0904d946mr27096936637.10.1742834024571;
-        Mon, 24 Mar 2025 09:33:44 -0700 (PDT)
+        bh=MLw4/mSEaRnBDbnb4/BTwIcX10bTp9W+G36eFvh2LOM=;
+        b=X/Jknc4Gypr8QdJWhp7Apwhpz8L8Un+3SXiJ8hQbCeLKY8klZMgz51L7IYAnbORCEc
+         nFbQr0xj5M4glh9J1XcdE5tCUWffgGCd5PmauPB7ojsNBydgqjQ8a8t50lsBBTB7K761
+         VywxHnUQTNsU/o9ImDLasJuSUjU7J/vSAs66DlXhlLOlj0C884sf3VUJpZ2krf92KP2b
+         m/xOLA6DoZbWMINu1GbZydhMxFEk2x1xzkfl52ReIEoDvTSVu640+RVKslA/KBtT7RvQ
+         fgeYsOdjfl+PjAwcPcTrFKhTwYjfQyDQdzltsMTvIfH8zYVMjbsnvT0td5g7KZ3QH7H+
+         RvFQ==
+X-Gm-Message-State: AOJu0YwIVoq8cVQQUiUPYWa0jIZFTe1cBfjc6GnzQIHVVxxDPosxZ6Nl
+	eY+A/Q0AapSmU/KGEZwvB2iw5cXKP+w8j1T7VEHuJBsxdatBmPuzfac8TC/m
+X-Gm-Gg: ASbGncum39oTpWcAhkWJYUfFcKkeUeCFlvfpXaA8/QeKzF45W4JhwJM91JKQKDZM5aL
+	OqDEwGVdiZXg8GLZW2wleCtwmgLXNASmjR+tskJMUUEsLvW7KYq4PDLpPl43aGpvTEThNptgkQQ
+	atSwm7J4KJqDBfncX4yx73RZoamH3gDw9ouOWAjrfzCOz99zSFbgtWNdQeqN5vNEbuFd6yevTsF
+	XuZ1tdsgAshW9v0MCd8/JT3DxpKA+EVTll4RXsxG39XjZ0BIdLrwBfO1HIqnzZQtTbl4x+3ubTR
+	qRl7qLGS4cazV1d80+xC7cxnerF4xnZtZ5OumjYags6A/A4=
+X-Google-Smtp-Source: AGHT+IEsFjnQTidyqP0X1SXfyMJKS8xkc6N6zniIvnS5CF6Udzbv1/b8qsskEm0ZM2meoBlSLqtDMQ==
+X-Received: by 2002:a05:6a21:3993:b0:1f5:8622:5ecd with SMTP id adf61e73a8af0-1fe4331e51dmr26636611637.32.1742834039995;
+        Mon, 24 Mar 2025 09:33:59 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::b570])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af8a2803d8csm7372192a12.26.2025.03.24.09.33.43
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af8a2803d8csm7372192a12.26.2025.03.24.09.33.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 09:33:43 -0700 (PDT)
+        Mon, 24 Mar 2025 09:33:58 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 24 Mar 2025 09:33:25 -0700
-Subject: [PATCH 04/21] make: Fix signatures for getenv() and getopt()
+Date: Mon, 24 Mar 2025 09:33:38 -0700
+Subject: [PATCH 17/21] xinetd: Pin to C17 std
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250324-b4-musl-gcc15-v1-4-ca68c03c5b01@gmail.com>
+Message-Id: <20250324-b4-musl-gcc15-v1-17-ca68c03c5b01@gmail.com>
 References: <20250324-b4-musl-gcc15-v1-0-ca68c03c5b01@gmail.com>
 In-Reply-To: <20250324-b4-musl-gcc15-v1-0-ca68c03c5b01@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -66,95 +66,29 @@ X-Mailer: b4 0.14.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 16:33:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213536
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 16:34:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213549
 
-Fixes build with GCC 15
+GCC 15 is coming with C23 as default and code is not ready for C23
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../0001-Fix-signatures-for-getenv-getopt.patch    | 60 ++++++++++++++++++++++
- meta/recipes-devtools/make/make_4.4.1.bb           |  1 +
- 2 files changed, 61 insertions(+)
+ meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/make/make/0001-Fix-signatures-for-getenv-getopt.patch b/meta/recipes-devtools/make/make/0001-Fix-signatures-for-getenv-getopt.patch
-new file mode 100644
-index 0000000000000000000000000000000000000000..707de7f2d0786762be3c5b82b9c5341de30c3c75
---- /dev/null
-+++ b/meta/recipes-devtools/make/make/0001-Fix-signatures-for-getenv-getopt.patch
-@@ -0,0 +1,60 @@
-+From f844b6588dbdb93d9ff0fe883bd801df62c965b7 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 22 Mar 2025 14:07:56 -0700
-+Subject: [PATCH] Fix signatures for getenv/getopt
-+
-+GCC-15 complains about missing parameters, this gets found
-+out when using non-glibc ( e.g. musl ) C library
-+
-+Fixes
-+lib/fnmatch.c:124:14: error: conflicting types for 'getenv'; have 'char *(void)'
-+|   124 | extern char *getenv ();
-+|       |              ^~~~~~
-+
-+Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bug-make/2025-03/msg00032.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ lib/fnmatch.c | 2 +-
-+ src/getopt.c  | 2 +-
-+ src/getopt.h  | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/lib/fnmatch.c b/lib/fnmatch.c
-+index 01da376..cb1c856 100644
-+--- a/lib/fnmatch.c
-++++ b/lib/fnmatch.c
-+@@ -121,7 +121,7 @@ USA.  */
-+    whose names are inconsistent.  */
-+ 
-+ # if !defined _LIBC && !defined getenv
-+-extern char *getenv ();
-++extern char *getenv (const char *);
-+ # endif
-+ 
-+ # ifndef errno
-+diff --git a/src/getopt.c b/src/getopt.c
-+index 7a792de..76251cc 100644
-+--- a/src/getopt.c
-++++ b/src/getopt.c
-+@@ -202,7 +202,7 @@ static char *posixly_correct;
-+    whose names are inconsistent.  */
-+ 
-+ #ifndef getenv
-+-extern char *getenv ();
-++extern char *getenv (const char *);
-+ #endif
-+ 
-+ static char *
-+diff --git a/src/getopt.h b/src/getopt.h
-+index df18cee..d8bb226 100644
-+--- a/src/getopt.h
-++++ b/src/getopt.h
-+@@ -102,7 +102,7 @@ struct option
-+    errors, only prototype getopt for the GNU C library.  */
-+ extern int getopt (int argc, char *const *argv, const char *shortopts);
-+ #else /* not __GNU_LIBRARY__ */
-+-extern int getopt ();
-++extern int getopt (int,  char * const*, const char *);
-+ #endif /* __GNU_LIBRARY__ */
-+ extern int getopt_long (int argc, char *const *argv, const char *shortopts,
-+ 		        const struct option *longopts, int *longind);
-diff --git a/meta/recipes-devtools/make/make_4.4.1.bb b/meta/recipes-devtools/make/make_4.4.1.bb
-index c73751ddcbad5f5adeff6b35fab1464cbb64f45b..0879b3baa927a6ed11ae7faa9d99cc279a783ee4 100644
---- a/meta/recipes-devtools/make/make_4.4.1.bb
-+++ b/meta/recipes-devtools/make/make_4.4.1.bb
-@@ -4,6 +4,7 @@ require make.inc
+diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
+index 897747379bbb8b689b75b7005cdee0d9d2aa185a..d30f08dd7241bf2383f5162fdbe25c525f96db25 100644
+--- a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
++++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
+@@ -30,7 +30,7 @@ INITSCRIPT_PARAMS = "defaults"
+ PACKAGECONFIG ??= "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--with-libwrap,,tcp-wrappers"
  
- SRC_URI += " \
-            file://0001-m4-getloadavg.m4-restrict-AIX-specific-test-on-AIX.patch \
-+           file://0001-Fix-signatures-for-getenv-getopt.patch \
-            "
+-CFLAGS += "-D_GNU_SOURCE"
++CFLAGS += "-D_GNU_SOURCE -std=gnu17"
  
- EXTRA_OECONF += "--without-guile"
+ CONFFILES:${PN} = "${sysconfdir}/xinetd.conf"
+ 
 
 -- 
 2.49.0
