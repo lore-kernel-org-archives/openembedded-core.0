@@ -1,86 +1,212 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Mario.Schuknecht@iris-sensing.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDC5AC36002
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 10:01:51 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.35814.1742810502087421817
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D237C36005
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 10:39:22 +0000 (UTC)
+Received: from FR4P281CU032.outbound.protection.outlook.com (FR4P281CU032.outbound.protection.outlook.com [40.107.149.93])
+ by mx.groups.io with SMTP id smtpd.web11.36065.1742812759077030480
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 03:01:42 -0700
+ Mon, 24 Mar 2025 03:39:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aWSt1Rnk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so38435535e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 03:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742810500; x=1743415300; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=yzUXQTRKxM4dQD4ZSpycg8Fo9CaKtL4skRNAz6QiPjc=;
-        b=aWSt1Rnkgywn2Skpg/XBLKJUsiH9RwZHzCWROVrVsHcxpWyltu20EQa37nfpXC5gTM
-         TJqZR3EcvcOOVm6rLGPUUz+iAa7dt9H+gl7JDOqYMztQ2QkE/6J37+m4UFPgVNDKfbGs
-         RXjxDrOxFty00lz+E9sM31zIVgEod/t1M8Qcs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742810500; x=1743415300;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yzUXQTRKxM4dQD4ZSpycg8Fo9CaKtL4skRNAz6QiPjc=;
-        b=l3HZqSrjQCvNKyk4sbOhSYnmMUyUW3MdWshFQ4rS4mBo3KHfo6N+NiWtCEhbk+kvRp
-         PThNcWBW7n5gZnQEqvKKi8AeBBfsLh6ZOO3i/mcvVu9HXo9NR+IU5glElLy1+Cw4f/Jm
-         qnnPzXiYQAqhcidmpcMjIXzjS8dNQ7VN7L8UvMyJTiJSK2XEU6CQMWh6Jpk/dI85yUt1
-         2zpujYqWrgyLftQ/UrbOrcvbTbmOAqLEyGql8bzPLce78A3zLtATW5rp9U1smIYkG6WK
-         16rPL2YA8OwG88/UM51i8FgkOImqEPH6t/tnkkdQnyky9PvcvibxaN5BMdCH4o1AE4Ae
-         rx5A==
-X-Gm-Message-State: AOJu0YwqeCGG9OECex7VPd97es3u1OxRCwHGsR6ckvPnlbLfTJzwHNXb
-	TyuB99aqe0GOK5+J9CDc/OCzofGtuyvsBCQ9L+cJnYdBvY0Jl/+/uMUbfcJ2u6M=
-X-Gm-Gg: ASbGncuJFUnx6/GcitlLGoLBdDkwXPg11nb6o0ZujuWhwRhuO7KEyYz3tmj7QAVD/l5
-	CNoxwd1+DITYxqJyMXcgtu+/nNc3k8p1epj/4cDIxZRrxKlLlNPpyzYthiB+s/UiCTabBHVYXGK
-	fcGlYnPVYkJO8db/8ypNUinwm+Ihm+X0/bg0Ge0m4HTLp4sey7GZt0V9tRvr4Fc+9PkqCy3xBsQ
-	nlPRrXWm3512kh5CaxoFYMjZZxDefevUScP19KblfkvC9pZUH74fPLfRmZ8jhha36QqKtm5FM3f
-	J1/8GcJlAlxvQOXywnm+QBxwg4eAB40CSnmu4MV/S6Yu160P/XvMNR8I1SrFfFgU6CQsubsbxKS
-	Fb2j0hSItOrh2CEHzgh/155kTY4VPcrg=
-X-Google-Smtp-Source: AGHT+IF5dPvrP2M04yfVnm1kYbGXv7SxmaRHtkLeGNJwxTJ3u9+zeKpa2HkTxes9lr/8Vewqa8wHDA==
-X-Received: by 2002:a05:600c:4e56:b0:43c:fb95:c752 with SMTP id 5b1f17b1804b1-43d509e4386mr127435035e9.3.1742810500416;
-        Mon, 24 Mar 2025 03:01:40 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:24f9:315d:dc7:9e14? ([2001:8b0:aba:5f3c:24f9:315d:dc7:9e14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d43f332adsm167141855e9.3.2025.03.24.03.01.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 03:01:39 -0700 (PDT)
-Message-ID: <f49d559870b8415adc689b46a9a02446251edc5f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] neard: use WIRELESS_DAEMON
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kanavin@gmail.com, joaohf@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Mar 2025 10:01:38 +0000
-In-Reply-To: <CANNYZj9NBth1rVynd=SDAzjdsm2VX=bEPGGrsOZ207SykUmjaA@mail.gmail.com>
-References: <20250322005552.603108-1-joaohf@gmail.com>
-	 <CANNYZj9NBth1rVynd=SDAzjdsm2VX=bEPGGrsOZ207SykUmjaA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@iris-sensing.com header.s=selector1 header.b=0mJQbyUl;
+ spf=pass (domain: iris-sensing.com, ip: 40.107.149.93, mailfrom: mario.schuknecht@iris-sensing.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=O8WGE4lnBc5b6THmVVGDD3Z2HNKoQ22Swdxf8WEESbpb6elNQHbRetp41L5vXFetE6PfbeSDvQDUjlxpQsuKJE/7tqU6B24qvWoQRNlSOuXnyz9p1MiQxv5HU2VTP6aCcmuUg/07FRx7QYPOzae689CmRG5kk/iwjg/3LlUQ9YTB5ykJFdC+iz7akGpcupRbBl3d+vPGsADXC9dxnn7tO6ohMf55Fq2Gh7+5WETJ1Nu5/Cyi2UIG65gDr76zrGS1QqPIa8MbQ55qhno5TwAmw7XyB1JaXW6VWG+AfOeUsrpp+Zy0CxdIka2mHSJryavE1JakM6neIL7iHFE/VDYOAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3pOgzKVi1iNqjNdkFpbKilib34lnr5HMhSMnXr8vcYM=;
+ b=L6608JlELAHabyfudoOb9BLNfOug9YvY/y5BXNIpydGZY73HfuPeTXk9JlLeUZsZIySLF6ZxkRfnWaS4/T42qGhOXHttIaC7nph/dcweGdhXtgKZMWzlXWDKmbNJby92123N0vUohlgXgD3Z0BW1sjyNmlhZReT5diE2UEnm8YWIbOXJzCFf4EOsaBrJDl7fwCFDNrOa3ymdwgSoNyB8x3GahO9XUs3YLlQ/cBUYRJn+0krHgmtGY7pMwFZrf5whPW2Pb4CLCGN0tgKcCHttMU2Kb1d92qtea57eBI4FS6CNxQZefQ5pPjqSfkTipa4yNCMmlHtHL/GQYnLD7daBYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=iris-sensing.com; dmarc=pass action=none
+ header.from=iris-sensing.com; dkim=pass header.d=iris-sensing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iris-sensing.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3pOgzKVi1iNqjNdkFpbKilib34lnr5HMhSMnXr8vcYM=;
+ b=0mJQbyUl9mvHvCgNNaCYIQNOfDuxHC0Y2hxP0Z4OXE0gcYiXPBnbMw+7hS+XfRYTLr4X8GN5t0svlzUrQEWZoOF/WZROEvywDy1DHbargaimXuYdkSgPUyGLYmUYmyz43C8rOrLM5CL+JExuHrwTlra1hkjcfKydsO9W9Blm/TzE14G11hstg4JP0efcxGDtunK4J8I8H+4x+mhJ1BaNrhM6ZsR/tn4+LVXMY8SihmTSIBKe0qiP/cSCifusMUEqm5LV2Aoj+1Al2BALDDXi60iYOMllKvB+HLrEo47T65vm9AB9pAmB1RSXwf8yY+vI0rpcp1vMTcs16w32winqng==
+Received: from FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:34::8) by
+ BEZP281MB1991.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:57::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8534.42; Mon, 24 Mar 2025 10:39:15 +0000
+Received: from FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::6715:31c1:c53c:270b]) by FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::6715:31c1:c53c:270b%5]) with mapi id 15.20.8534.040; Mon, 24 Mar 2025
+ 10:39:15 +0000
+From: Mario Schuknecht <Mario.Schuknecht@iris-sensing.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: AW: [OE-core] [meta-core][PATCH v2] libgpg-error: inherit lib_package
+Thread-Topic: [OE-core] [meta-core][PATCH v2] libgpg-error: inherit
+ lib_package
+Thread-Index: AQHbmnPP0QBf95+sukinf7d01CDLErOBAZGAgAEZvy0=
+Date: Mon, 24 Mar 2025 10:39:15 +0000
+Message-ID: 
+ <FR3P281MB19170866636FFF96C26464B8B6A42@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
+References: <20250321151245.21227-1-mario.schuknecht@iris-sensing.com>
+ <D8NTZA6A6JBD.5NEFFO2SQS5Q@bootlin.com>
+In-Reply-To: <D8NTZA6A6JBD.5NEFFO2SQS5Q@bootlin.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=iris-sensing.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: FR3P281MB1917:EE_|BEZP281MB1991:EE_
+x-ms-office365-filtering-correlation-id: 71f1c865-6a12-4101-afc4-08dd6ac01fd8
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: 
+ =?iso-8859-1?Q?MkdIiLjOFNjIrKRp8t5lY6gX4qPU+odh+w70EYOo35V4HZv+dnnu92oCX0?=
+ =?iso-8859-1?Q?ILGkqOX99F1okxgeirKDBMaF62q38ieGH06V3974S+venNHq9y0z8hJezW?=
+ =?iso-8859-1?Q?9gKQZ6d5Aj20xxyHOHlisU/veEyBtnLseDV2bxFPQoeVcAA4RzF3RlGUBC?=
+ =?iso-8859-1?Q?QkOPjV+m1tjHRVt0z7P/fiA6wssSBxB9ScGK5K8jHQstU8LGIEFd+f1HKO?=
+ =?iso-8859-1?Q?sDhjhg3lBivQq6WURP0W1T0cDZ9KpbUKFcHCSY7t1dEzzj9f4IcC+/Vk73?=
+ =?iso-8859-1?Q?vIkLynwnxH3o/F/WMGEMx+LX8jZcF8WsxTsQVZUISQfCx7Tyi/QD9Y5/vG?=
+ =?iso-8859-1?Q?9Y30hcr/RPZvZIiMQLAASTvKpvXPQ5yNYNj1BS/ABG+5HvSTiXRspajJA9?=
+ =?iso-8859-1?Q?XC64zIBoBm0Ss7vmeJdy9t45JiA0DqRTCn7YO62t9jLUrU88SiC1ftVt6r?=
+ =?iso-8859-1?Q?Df/eHQdRwnZyJKBrsmrV+YeMqi/cuhaHJTc1az+wwmCOkOQcKZ7J9ih6a5?=
+ =?iso-8859-1?Q?9v986DNiEEwgLgLvRBFE5IURVbPRO3FkT2V58Mid+Ao8kndYU6u3OcDHZk?=
+ =?iso-8859-1?Q?VzLHmSVXQS9+c3B0UkDz7Mmu8C3l5zzprBV1QmTFRg2LRFoA8E6uuXFhx6?=
+ =?iso-8859-1?Q?MqE02JQge7yoMj7nhn221pnxLb1egR58nLFjC7lrmRO7aGsuqQUwh8I4fO?=
+ =?iso-8859-1?Q?3Cnt48AJHMFLV6OnBhTI4mahEQ+WLsH4ZlB2jd+RhvEnEBH6lV+Z8t6CxU?=
+ =?iso-8859-1?Q?XT++fa+rjonv/Chz4bSXs79aAf209eQEoA49rdDITYY8SuJbsWtlWuB8Vr?=
+ =?iso-8859-1?Q?Hp/2HkawwX0ZAcKZhENDViUXdZognXZFzG0qyGfaTixUzuYNDP++qApMqW?=
+ =?iso-8859-1?Q?+AAOyTDagFIrIRwxSgYK4RUQocJ4in5DNoAgv2FkpRzCw4egCN8SJxf6qP?=
+ =?iso-8859-1?Q?+LL1S+4idHk9MVwqX/MLN0pWcKOzfsT0lAZcbf4avg5O+j5LSVNB0hVLON?=
+ =?iso-8859-1?Q?PyIu2YY0U3hX6pmM9eu3g0JheOPwuNXXdYpNr9AaMSLswJbXM4cDtsoFlS?=
+ =?iso-8859-1?Q?cisMdzpVStfrm2i2bDpds/sEAjIBT5Genv/pW9sNZ2iynGBnhUfrL4KNTb?=
+ =?iso-8859-1?Q?h1zpz5OpsZv6ztfTzSEPX3wcvBn5sdXpxyTK+UhICB93LSok2xRg2WZ9DI?=
+ =?iso-8859-1?Q?/yfzTykJq+SthQODi99d3eQ93jj5gr/bqYXucLm4TNMIQJcrsVkYITxn7z?=
+ =?iso-8859-1?Q?rDGiApNYc5Vy5B2Id4jTbXYZhn4+zrAYspcebxzOyH5Kf+WycWQESvaXaD?=
+ =?iso-8859-1?Q?wMTZr5tkaIGx+CBFGlJOjIAhIipC5JSVPcHPs3KlqwhDu5VR256enBzseD?=
+ =?iso-8859-1?Q?Cbg9zRlaeTrazsqrnSiw33T30X2KQoCd07kYeu+Nr0kqgX/xaXRTSNMAaQ?=
+ =?iso-8859-1?Q?OHw+m7OrdkwWEEN/2DZWTDvZBryfQOAItpz7K4Do4ZCnUx9HhTiByq8uuW?=
+ =?iso-8859-1?Q?g=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?RbFKjH+kWEknAE80iUBoWVW5Lt+ZLHr8aiiho8ZHSuEqC0OV6Ptit+w65L?=
+ =?iso-8859-1?Q?eWVDR/8mZcYi1iqnKqmcCBtI0wSH1sTVJtcJRnCYuV+zD4wTzGUcIDP7TA?=
+ =?iso-8859-1?Q?0OJhrvKHHsJLvQgXRKWilha1qkSRq+iPkElxJIX8nH7RJqXacK1RJD/ILT?=
+ =?iso-8859-1?Q?q/gOUPnlGko6U1x2w+jllF1Si6CPf8DKgxXlHs1NrfpRs2GtphHDDK69m3?=
+ =?iso-8859-1?Q?Rd9m5MI8bx+pomNIhy7+aBIGg79V91MyllRR7cGjRZ49ERaxiy3ZAWjtKf?=
+ =?iso-8859-1?Q?plXsrF6J/jHxfFgLKyDQL0RkhtNNAG0wRm4Hvj/NAB7oPkD03m9Iwaen68?=
+ =?iso-8859-1?Q?rSJIEq0YMUibbWECuNtBhyOJY3RizQCbxWpKou+4xQ+HCj+RpeQcUHf2LJ?=
+ =?iso-8859-1?Q?9vQvzGaA6pT8lxIGJiOzjXATsdql6nqgWbkpWxh9wE0tUs1Pj/O4fsK5WE?=
+ =?iso-8859-1?Q?zar5w+WesT2TLxGomub91PJwLA3qQkB/3Th8QFbzbQBw48zYLz/BjV3b2T?=
+ =?iso-8859-1?Q?dv8eziYrLWnz3JAgsEVE7OQlyahEA1FuL5JeHHKYX5kzdNZ/58f+rYyCO/?=
+ =?iso-8859-1?Q?RLryEZA8ysXrE8ZHiSEpBDjvgl16QKKxihjryCykrUrOcdNwRHPhNM1Tpi?=
+ =?iso-8859-1?Q?4T5h2NmYe+JxPWMrG+xogwAWfhHsHu3vkamzOSaksQxkkxPtVMxiinfPeu?=
+ =?iso-8859-1?Q?Opj5yjwPKrP1yQpIF+kKqIphBST+W28FSck07HoZUrykk5idhk4CsJ5SFX?=
+ =?iso-8859-1?Q?2WwZJBYzaN8myYMJDCb/yfkM+Bq4vgLX829gVBbnC2ZQzRFtxCTFJf4aXF?=
+ =?iso-8859-1?Q?LhQKfTV0rs5WMVpvrNOI4dVTP7wAYl7diIqq+G92ZTW3tLc9WqC65+sQZU?=
+ =?iso-8859-1?Q?sbq4sjp1Gjq6EtCNMHZyEBNEINzDjqxxbGgmwIyv+ZvB4rydUliFPzlM13?=
+ =?iso-8859-1?Q?KfG00DYAvKhRUWryzim/VLTsBow2XpisxxfTrYfP47mVZFu8rv7nLowVmz?=
+ =?iso-8859-1?Q?PP8lXuIrZc07AKihAjJAnLuaYnyLoMO7vdeGGz7ZisnhSlA85t4CwsyhEa?=
+ =?iso-8859-1?Q?nsTqZ2jQx/xDVfYECEsbbXdByeTqnfOvtSvbid6gPoXbExRg7aBDWWEqqe?=
+ =?iso-8859-1?Q?WbppLWDtCX/iVZxkk++ayW8l17zDpE/Vozwjg4utNPk+9GOgiXgTbhqOMP?=
+ =?iso-8859-1?Q?nsBtugQ3gKf6K3RBJQcwB9TqNvWCcX4tEWOiybZ75UxeeLwzsxx1k6Phqp?=
+ =?iso-8859-1?Q?NrAB88Tj1uHNEF0zmnNfqxFJGNAMXPt8LN+H/lqR0NXQKpG1qyLWrexPF4?=
+ =?iso-8859-1?Q?NdSIrvux7m66dnYwEHI3QN1z8T2LVC7kZ2VOZaR2QpwQ1WCeKWlZ6BpDDO?=
+ =?iso-8859-1?Q?2p3UdFnIKpRVsf2jKao51zW0GIRP3W4kjp8og85WY+O3y6q385Dz2emy03?=
+ =?iso-8859-1?Q?ejXspwdpaKG25ZTuiwJvrgUzbkGDNvSECbwPJCJQWFH9EhOJlcU0L+yRIJ?=
+ =?iso-8859-1?Q?CvR0EZvRBjp/uvlBnDZn/+Z9ZMCv7CR1d01Pb9Ixxd205oGFTwUK/Ym0LO?=
+ =?iso-8859-1?Q?VLmmxmqk8csWQYU5xQyQA8FrmfZosWtYvrXy7jl08buahTmi3BZOYPcul1?=
+ =?iso-8859-1?Q?XO5gcZIcD7awodBx52ZaUjH0tR3I0jEB9a/G0/fa9h0CgEQce+9zCQRA?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
+X-OriginatorOrg: iris-sensing.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71f1c865-6a12-4101-afc4-08dd6ac01fd8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2025 10:39:15.6638
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 963f3913-ffae-43fd-856b-2dfd3f6604e3
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: p+elzTDBivlmFbfVX2vF17uut+x5U/xmPIADUnKuxTO3LLcHLpUQFrjEAVIxL6t7mezLqNY2s5CxqMOzwOqsEwPEBrjItCnu7e+RPK9a7T/6kgFRx2723Hl9411oboIY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BEZP281MB1991
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 10:01:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213523
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 10:39:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213524
 
-On Mon, 2025-03-24 at 10:46 +0100, Alexander Kanavin via lists.openembedded=
+Hi Mathieu,
+
+thanks for your reply.
+
+I have tried to reproduce the error but without success.
+
+How do you set up the environment and what command do you run?
+
+Regards,
+Mario
+
+________________________________________
+Von: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Gesendet: Sonntag, 23. M=E4rz 2025 18:44
+An: Mario Schuknecht <Mario.Schuknecht@iris-sensing.com>; openembedded-core=
+@lists.openembedded.org <openembedded-core@lists.openembedded.org>
+Cc: Mario Schuknecht <mario.schuknecht@iris-sensing.com>
+Betreff: Re: [OE-core] [meta-core][PATCH v2] libgpg-error: inherit lib_pack=
+age
+
+On Fri Mar 21, 2025 at 4:12 PM CET, Mario Schuknecht via lists.openembedded=
 .org wrote:
-> WIRELESS_DAEMON variable is now set separately from three different
-> recipes. Can you make rather make it a PREFERRED_PROVIDER setting?
+> Inherit lib_package to create an extra libgpg-error-bin package for
+> executables. As a result, the gpg-error and yat2m executables are now in
+> this libgpg-error-bin package, and no longer in the libgpg-error
+> package.
+>
+> Signed-off-by: Mario Schuknecht <mario.schuknecht@iris-sensing.com>
+> ---
 
-That is not right since PREFERRED_PROVIDER works on DEPENDS where as
-this is a runtime dependency.
+Hi Mario,
 
-This is where we end up with the VIRTUAL-RUNTIME_* variables, which are
-the best way we have of handling this right now despite my dislike of
-them.
+Thanks for the v2, but it looks like we still have a build error:
 
-Cheers,
+ERROR: core-image-full-cmdline-1.0-r0 do_rootfs: Unable to install packages=
+. Command '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-11=
+48269/tmp/work/qemux86_64-poky-linux/core-image-full-cmdline/1.0/recipe-sys=
+root-native/usr/bin/apt-get  install --allow-downgrades --allow-remove-esse=
+ntial --allow-change-held-packages --allow-unauthenticated --no-remove  apt=
+ dpkg gnupg packagegroup-core-boot packagegroup-core-full-cmdline packagegr=
+oup-core-ssh-openssh psplash run-postinsts signing-keys-packagefeed ssh-pre=
+gen-hostkeys' returned 100:
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
 
-Richard
+The following packages have unmet dependencies:
+ gnupg : Depends: gnupg-gpg but it is not going to be installed
+         Depends: libgpg-error (>=3D 1.51)
+         Recommends: pinentry but it is not going to be installed
+E: Unable to correct problems, you have held broken packages.
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/54/builds/1247
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1159
+
+Best regards,
+Mathieu
+
+--
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com/
 
