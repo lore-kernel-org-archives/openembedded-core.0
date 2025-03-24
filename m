@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3A4C3600D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85AF0C3600C
 	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 19:37:05 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.48750.1742845023072388582
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web10.48748.1742845021506070211
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 12:37:03 -0700
+ Mon, 24 Mar 2025 12:37:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yaWqwnN1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-227a8cdd241so15126685ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 12:37:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=c9brLOLp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2ff694d2d4dso7712430a91.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 12:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1742845022; x=1743449822; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1742845021; x=1743449821; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LbOEYI2Lp5ZGG1wj/WiG4zjRBK+lGG2wFKkxJmYfwqs=;
-        b=yaWqwnN1679VQnZVL//i0RuabBLe97rukyMUz8idAeYP8NCN9OqVmLlC8rq9PF2/Zu
-         W11RZymIRsqIweqsbt9YHQXckz7MV5C5/VUf2igLRHhJFGgj35hIdvl3hgWpB82Hq0IT
-         0eqIEc910YWpu4AwZZeSwfW+Bd9bbpyPLjZeZOSZniS9A3rrx3dDXe+O6TqYXwYRSgUl
-         jypX6HKBEvD70twzIvmsf39WGk5FCkeLg8V2bNoGbPYVjHdt1BdWN/oTyu5gckmW/pXK
-         S4oGfVjFtaSywYJAR7/+JmQDnHCxuM6ZPqLOUbk1DJueUVm/+MRmRL2vwVoxQDNPftLp
-         pE0g==
+        bh=vuiShd1WuSt3JsHHXLCo2txggTisp7O/Qy+zZOGdC34=;
+        b=c9brLOLpkyfdjYNxEEMm4rOBChiiFV7BQHntYm40neNBx7IGRU9VDhVVjUt42lpLa2
+         rJK4nIf4G7ZMQSKpqLjNNgvXjngNLyib5WOBbuNU40CblAB594bJQ9LbWiKIVCTIs2Mk
+         0ASDZPSitCzzX+AvHe83ftVz3MyY5B9OTQNN4hlcaKrrHZPK1Wd1k8jtG1Rw8MwgpLDh
+         lhswJ/ICKNfZDHHosnpEnNbJeptlVn+kMX74fIsVml0+kQGJ1aYKksbA/Kmg/jwOSWIH
+         PJMbrp0C+VjNJiHK4KUm+J9Vg3ryAUHBz8MDkNiP0drjB2FD9xoT1rduhpaEqQr/ENRt
+         5SDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742845022; x=1743449822;
+        d=1e100.net; s=20230601; t=1742845021; x=1743449821;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LbOEYI2Lp5ZGG1wj/WiG4zjRBK+lGG2wFKkxJmYfwqs=;
-        b=vN9/3HYjCKhaW42AIh5ruS6B+81A2LstQEUa/+cs144oauGlrJqGaSwwjlbEqW866X
-         Trv42U9sIul/PdVgnT+bhmKoA9LrBwImM9EBQhWwRItcJ+BY5Ny2Hk1804HhePe+oORe
-         S7+2ClOKP6oOU6Xon5eFxWNALknHmK88a7Mu+TaXDybymUfF7mm4t98/qvQyaH1sPDdY
-         roDWA+b/gMFZCrtRF9cg0KWArzwVFqpswXYXjfopCh9/NpR5hxf6TUQHRGwKrYG4m/da
-         Dzs0/TUOklK0vVbJC0KpfglBSoJPq4Mnk2w7a4i+GbB8hqXh3zb5BQQehuK/IfsK85EL
-         tgXQ==
-X-Gm-Message-State: AOJu0YzuliQnxOblRvapzCXwHidiEXDYMOrvD2TMu0fKKeGnICFBOAd9
-	AelnADXfBMvU4GsVY+uSL+TDFVQHW4cvpmP3+HQ1WG0WJ1ALUDy4sF+3iXg5oS3Vie+1SePkhvP
-	+
-X-Gm-Gg: ASbGncvh9PWmbExWXPPDZ0MVqir8JvaZkNDrcEB531w4k0QsNuwRjMjUSXXCSbZV97q
-	vU5h9kKMHrz3ftH0mrD2kmf7rzHD5FeYHp4kWvNpOT0Y4/vz1jjqaFB0Ujx2MvLpL/HpTQPwW21
-	WZzFqZYPUzbvwRUT2jYfgvZ9fUSdA67oRYyqubAVjYG9JBPz4scLB080qOPpzOgz13PyywHAYV5
-	Uo/jyl3lC9KT74sOvrBEV3wEjbyst+Et0CTpiaG9x4Bb18/iu1vdeU8PLiwXDuLjmPIufPAl8W+
-	9u4QCkoXBQZWHbhwB+0oUJ4pPkBOvfv0SmhX
-X-Google-Smtp-Source: AGHT+IHOXdP8Y+55m4vZbLWinwVvv/j0j5AF/ESjoio65wUipy0RefbJrqumTLV2lbg1UE/6oIGmog==
-X-Received: by 2002:a17:902:f70c:b0:224:c76:5e57 with SMTP id d9443c01a7336-22780e02a4emr252225915ad.39.1742845022109;
-        Mon, 24 Mar 2025 12:37:02 -0700 (PDT)
+        bh=vuiShd1WuSt3JsHHXLCo2txggTisp7O/Qy+zZOGdC34=;
+        b=wdnQm3exYibaGuxD5BivicuLJpgUwXdvWJYSP5zGcDD3t+Q/fqnjsWZjQJRBbR6qZS
+         W3hQbY0PQPdOfV9xkhXfRrCaOAUyhN3LFR2TGiTO2G0WXMl+awnPUPCaE5xXYYpFV1Fv
+         1BmofamD60YMKxgRAsXgUScKPuH7zr/AamrF5G9ZV90r1YZNk3b3cnKZuKI+FXkMd4ig
+         sLY1A+M5QdPbAwJeOOWZB9mMou0boTv85/EvG0lLYRh2Exp69rXmj7fagQLTlv0cYZkz
+         9SpIzGlXUYG3IqcR/yG5GJ2l8L4Oxx01D9bULgQ67gJONuiiLbjVtduZUs1FUCX/s29j
+         eTtg==
+X-Gm-Message-State: AOJu0YyapIvEUgp9Czg6agnkR7FKQ9tR9g1rnIV3C/1LNu44yxe/Qv9x
+	yPVhxZkxYSaaHVj9mKAeLZISNIyjJmE3Tsgn4HSijujLhoHBDPZcHEDBo0GAOLmwpl96p+jrQv5
+	1
+X-Gm-Gg: ASbGncvmtn47OQ4WS8EbJH3io6Nf6ybuwQ7plkVve7bsFwwCFErRKn6KvBi61bXueGP
+	cXE1pCPSlLeOd35oKjLKwEnd3EhW//eNBXY4Acasz1WGCM4YKXICN0MsVR0xlqKBAENnka28gy/
+	jRS2bJv25a7eGF1aTlzKfD4csKqTQYJFA+DTSHiLbQXE2qlOo9afedioADxxT9EKb0E3FcNokhw
+	NmF3J2mI+Qh43jF6cSu6L8ZkzhZbJy+2iSuHw5PpgnLUp29Wh1+qneYkfYKvhmXTGf+F86q/Prg
+	N0CRR8tr3LcMPkYS8IeAORL3l88sjBCqVY4F
+X-Google-Smtp-Source: AGHT+IE0JHroTi4y/03IXg0hbQi26uJc7OIiJ5ptae5a3PRYuZg4XnIDnqf2dNvro+2lEViR5U+Kbw==
+X-Received: by 2002:a17:90b:1f81:b0:2ee:7c65:ae8e with SMTP id 98e67ed59e1d1-3030fe81de2mr23484810a91.11.1742845020599;
+        Mon, 24 Mar 2025 12:37:00 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:ee18:96b4:93d3:b88c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3030f806b48sm8640876a91.44.2025.03.24.12.37.01
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3030f806b48sm8640876a91.44.2025.03.24.12.37.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 12:37:01 -0700 (PDT)
+        Mon, 24 Mar 2025 12:37:00 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 2/6] libxslt: Fix for CVE-2024-55549
-Date: Mon, 24 Mar 2025 12:36:49 -0700
-Message-ID: <eae0c33539f302124544373b74bd6883467ff549.1742844907.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 1/6] tiff: mark CVE-2023-30774 as patched
+Date: Mon, 24 Mar 2025 12:36:48 -0700
+Message-ID: <87893c72efbba029c5f2a9e8e3fff126b2a0cb71.1742844907.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1742844907.git.steve@sakoman.com>
 References: <cover.1742844907.git.steve@sakoman.com>
@@ -67,90 +67,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 19:37:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213574
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213573
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Upstream-Commit: https://gitlab.gnome.org/GNOME/libxslt/-/commit/46041b65f2fbddf5c284ee1a1332fa2c515c0515
+[1] points tu issue [2] which was fixed by [3] together with lot of
+other issues.
+We already have this patch, so mark CVE-2023-30774 in it.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Also split CVE tag to separate entries.
+
+[1] https://nvd.nist.gov/vuln/detail/CVE-2023-30774
+[2] https://gitlab.com/libtiff/libtiff/-/issues/463
+[3] https://gitlab.com/libtiff/libtiff/-/merge_requests/385
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libxslt/libxslt/CVE-2024-55549.patch      | 49 +++++++++++++++++++
- .../recipes-support/libxslt/libxslt_1.1.35.bb |  4 +-
- 2 files changed, 52 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2024-55549.patch
+ ...Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2024-55549.patch b/meta/recipes-support/libxslt/libxslt/CVE-2024-55549.patch
-new file mode 100644
-index 0000000000..88a17a4d0c
---- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/CVE-2024-55549.patch
-@@ -0,0 +1,49 @@
-+From 46041b65f2fbddf5c284ee1a1332fa2c515c0515 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Thu, 5 Dec 2024 12:43:19 +0100
-+Subject: [PATCH] [CVE-2024-55549] Fix UAF related to excluded namespaces
-+
-+Definitions of excluded namespaces could be deleted in
-+xsltParseTemplateContent. Store excluded namespace URIs in the
-+stylesheet's dictionary instead of referencing the namespace definition.
-+
-+Thanks to Ivan Fratric for the report!
-+
-+Fixes #127.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/commit/46041b65f2fbddf5c284ee1a1332fa2c515c0515]
-+CVE: CVE-2024-55549
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libxslt/xslt.c | 12 +++++++++++-
-+ 1 file changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/libxslt/xslt.c b/libxslt/xslt.c
-+index 69116f2..02c2e3a 100644
-+--- a/libxslt/xslt.c
-++++ b/libxslt/xslt.c
-+@@ -153,10 +153,20 @@ xsltParseContentError(xsltStylesheetPtr style,
-+  * in case of error
-+  */
-+ static int
-+-exclPrefixPush(xsltStylesheetPtr style, xmlChar * value)
-++exclPrefixPush(xsltStylesheetPtr style, xmlChar * orig)
-+ {
-++    xmlChar *value;
-+     int i;
-+ 
-++    /*
-++     * orig can come from a namespace definition on a node which
-++     * could be deleted later, for example in xsltParseTemplateContent.
-++     * Store the string in stylesheet's dict to avoid use after free.
-++     */
-++    value = (xmlChar *) xmlDictLookup(style->dict, orig, -1);
-++    if (value == NULL)
-++	return(-1);
-++
-+     if (style->exclPrefixMax == 0) {
-+         style->exclPrefixMax = 4;
-+         style->exclPrefixTab =
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-index 2fd777766c..1f0d845421 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-@@ -13,7 +13,9 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=0cd9a07afbeb24026c9b03aecfeba458"
- SECTION = "libs"
- DEPENDS = "libxml2"
+diff --git a/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch b/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
+index 17b37be041..261421b399 100644
+--- a/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
++++ b/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
+@@ -23,7 +23,9 @@ This MR will close the following issues:  #149, #150, #152, #168 (to be checked)
  
--SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz"
-+SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz \
-+           file://CVE-2024-55549.patch \
-+          "
+ It also fixes the old bug at http://bugzilla.maptools.org/show_bug.cgi?id=2599, for which the limitation of `NumberOfInks = SPP` was introduced, which is in my opinion not necessary and does not solve the general issue.
  
- SRC_URI[sha256sum] = "8247f33e9a872c6ac859aa45018bc4c4d00b97e2feac9eebc10c93ce1f34dd79"
- 
+-CVE: CVE-2022-3599 CVE-2022-4645
++CVE: CVE-2022-3599
++CVE: CVE-2022-4645
++CVE: CVE-2023-30774
+ Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/e813112545942107551433d61afd16ac094ff246.patch]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
 -- 
 2.43.0
 
