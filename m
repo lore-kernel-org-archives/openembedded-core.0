@@ -2,62 +2,65 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 466C9C36002
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 22:24:06 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.53020.1742855042357305143
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C89DC36002
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 22:28:16 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.52623.1742855293110667235
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 15:24:03 -0700
+ Mon, 24 Mar 2025 15:28:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ADK9kCBZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43948f77f1aso32879395e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 15:24:01 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ElnMCfwL;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cf05f0c3eso32039625e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 15:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742855040; x=1743459840; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1742855291; x=1743460091; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IHNP3RCF4Dh5BkTszugmH3TQtbM3ESJ/xN1qT0Jhe1o=;
-        b=ADK9kCBZpEEomIURoALRt5FNlJqbi/yl63/Kj1eGsnd+cufiPmY9r5Sa8/Lozhxm2C
-         +ITowdAM4hxFvO5puPamYzSos3g4sFJ9K9z8JfZjbNNh2S1sZdRjr1w35Y4Qe7XfX53P
-         UnAs3kGQb/LTTzwsLQHVFkniU2gYLUAR8Cquo=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cnqP9YVo6OuvEEjTBRo3l9a/Tgha5+WfQaTMqDBhYYU=;
+        b=ElnMCfwL0U7hXX08rno4hV2Tl8RppGx8qCXdg6I7KuCJSPCY0QuHL6Uw2aUcw0d+/U
+         SzS+73aRJ9JAXjD9LmRC+dWVzLPVlhwSsFlPIRX8W185txXnIiionJMdljhaRx8kJNIk
+         AQ8Jmb1Ttkmm2YzhWz+o/aTiHvsD1NjLrMrOE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742855040; x=1743459840;
+        d=1e100.net; s=20230601; t=1742855291; x=1743460091;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IHNP3RCF4Dh5BkTszugmH3TQtbM3ESJ/xN1qT0Jhe1o=;
-        b=M/6s8bo865PP1QkNcfg4ViI/UU9qqqRQHfwqL4E8vGrBTyvEwFaF4EUOEeWKlpveg8
-         mpQqg3QW+iHBCRY5Gu+oT2eWp/YQF8FOFnphBARqBC2Vqdp+rVGt/2RmIOL5ie4bmt9X
-         vKUqGeVbvrCyI+IhfJ/CINdeUJ2WrO8Io8NT1DDj9VVuFbA0KUSBH1LrR2HoYtj/Hryp
-         GRY+Mrb1/ZPTR8QWIapBd1lJvhw+pQ5jdLlL/8C41MUqpi+ct2mO3Rh5dsJTL9G8p1QT
-         vwmlB4qqcre2czINCwU6O1INekzPZ+FCsjg5nnK0jLF3510Kw0hD0A1wA2MMYX+Qx1gW
-         FP2w==
-X-Forwarded-Encrypted: i=1; AJvYcCWXML/cnQKsHOji6Bgh1U/kz2C5HeCTlKqxBOrw7lhSzQRLjPjUAwA0eGFh1GMbQp0NC8hFW2b0tt85b+G60Z7yVw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzLCwC5PCK83Tlpu2ybvSHB58w1qFajFBu+sADCSd4hM3Lq6R7F
-	lTBlGQ3jPXdIJK/Zh+uPA0PkhqmSaOalTp8dMBvDIeVaGpPJ5kxwIMVh/3p1cSQ=
-X-Gm-Gg: ASbGncs9LcNQKVc3uvfOoJTZd1zPzFYhqAJ9gmWoKSRAgfGNmTO6BEEzW6Q0DRAy7TM
-	I+D6fUnDjbdmrbqd/9ePud2au9cDz4N/04cIOk8jMIgn8UJXJ1iJ+/+s3eSymf/LM669ZNzs2mU
-	NQQySdnnnJsPYqWrIyzoIfiK3ZPXxn/FaePqYzIcFNlma38IchfaMGaq+BqM02vOTyD3UN5vae4
-	4uL87Y42yEfM0n62jtM5Nv13FY0Bnb+d7EuBZPvu/8MuMpopLfB69bXfvBn6XthOxFhg0vx0gv3
-	6IcUFflwsMVaK2D+vKB8q0TUPSP6xYuE4bHguCshQwmkq/3Fh8oHsUXOUpSaYS4H1qFJoHl9jRp
-	pwNAKdbq/l7lm3ZWgg1aZkSnNqinHfvHamg==
-X-Google-Smtp-Source: AGHT+IECMFC86nw8NyZRE0eeN+QWLCCdWJPMzMpyyr2Tkp4KvfBhFvK6EMflKx4PhSXiLb/S5dCesg==
-X-Received: by 2002:a05:600c:3109:b0:43b:cf12:2ca5 with SMTP id 5b1f17b1804b1-43d509efa3bmr127636255e9.8.1742855040425;
-        Mon, 24 Mar 2025 15:24:00 -0700 (PDT)
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cnqP9YVo6OuvEEjTBRo3l9a/Tgha5+WfQaTMqDBhYYU=;
+        b=mV/Hv8VeXmdyVyCo+qE26XX6tx+abSOzNtDybEig4xca7X06XjTG96E+GaAhzgft5L
+         7mf3s3m99vcirj36NK6v2zFanormZVENgQ61uWmVDDfRisyxNcV/Jm6feXLjVFoli+nz
+         dHuHa1nD/gVAu6pqvoS1r3NNZ9sX96Gqgy9cBeOQkl4zPW6vuqQFLfgwhZncdJmEvm17
+         IEeD4vg3wc5MkzQmXedp9IOiKaSm+FS7jemw5XYjG2t0aq57Qke8xUB5QwO67BJcsa5K
+         AS3yOGGugIyf+C6Qra9uqXpsKCMsEGx4H3jkBqDwOpiXCoLRBvRxs8wPzHVVG8kuQHUa
+         CliQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWf7wPo69f+WamvvwNdz5RQqfaarXEsrhTVFAsy4HvfsEoIinH68GeUhjn007En6t6VIu0kE+NywnRwNtdD1jszVA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz9O2Kq78/u9v7aF97DDADkqlrzkhNDFiKMnGJeN/vCBjd61leS
+	yTZVUrPy7CGmkb9/u7SzTUInRNsjHiZWJ8IW706GC7LerchJN8s6q8XSnEldX468O23FU40KSxG
+	f
+X-Gm-Gg: ASbGncswG9bZo59slMvdoqWQgXje936ajtX92uF/wTXWxfMYcSmo5NIdhTpcX2ov6ck
+	FIne6BV9TZ2wdq/LI57hcjLOZDTsEQvWGo2nmQlyD2cV1KON+Qm8ASns9MCVrZ7zj1xi/cGliAw
+	fw69Fp5Kh5uWoH7xKYSH3QLstTfgYn7dZJ8O1egM5AA4cFjLfjAP7xboM0BqESa1ydmw4/KRcrd
+	4JTgi7WNnB6OGKvIWaphxg1L62D4tYnFxdLR61yPZSD28gQE8ZgKxOSiouLK32ZJMyHcdqKIcAv
+	BBFqGwDn/c3Bg1dQFkFxCY7UXMvLJ1nwjFUwzscn2CYyn23AurSkO7IROnCU3SjOYGQqantL88c
+	gShYGNLeO4yQ6Pf9l15EZupexelbyowehzw==
+X-Google-Smtp-Source: AGHT+IHPVZ7hXi0jEZI6BLIpQ5t94mmt0tso/i0TcbSjuL8lCbbO6LPClN4RtQdAuTi24jhIZ64oMg==
+X-Received: by 2002:a05:600c:3c9b:b0:43c:fffc:786c with SMTP id 5b1f17b1804b1-43d50a319a3mr134456975e9.19.1742855291463;
+        Mon, 24 Mar 2025 15:28:11 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:a60f:7d04:efa2:677a? ([2001:8b0:aba:5f3c:a60f:7d04:efa2:677a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fcea6ecsm133975245e9.5.2025.03.24.15.23.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d43f43ecbsm182390995e9.10.2025.03.24.15.28.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 15:23:59 -0700 (PDT)
-Message-ID: <dc2ad3405aaa9383b657dff6dbb731074575da91.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 21/21] vulkan-samples: Fix build with GCC-15
+        Mon, 24 Mar 2025 15:28:10 -0700 (PDT)
+Message-ID: <3b9316c9aa4a857ecfb79f191bf766286b292548.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/5] rust: Fix bloat issue in recent rust
+ updates
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Date: Mon, 24 Mar 2025 22:23:58 +0000
-In-Reply-To: <20250324-b4-musl-gcc15-v1-21-ca68c03c5b01@gmail.com>
-References: <20250324-b4-musl-gcc15-v1-0-ca68c03c5b01@gmail.com>
-	 <20250324-b4-musl-gcc15-v1-21-ca68c03c5b01@gmail.com>
+To: deepesh.varatharajan@windriver.com, 
+	openembedded-core@lists.openembedded.org
+Cc: Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
+Date: Mon, 24 Mar 2025 22:28:09 +0000
+In-Reply-To: <20250321132502.2607941-1-Deepesh.Varatharajan@windriver.com>
+References: <20250321132502.2607941-1-Deepesh.Varatharajan@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.0-1 
@@ -65,29 +68,63 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 22:24:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213583
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 22:28:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213584
 
-On Mon, 2025-03-24 at 09:33 -0700, Khem Raj via lists.openembedded.org wrot=
-e:
-> Include cstdint for uint32_t definition
-> Update to tip if trunk as it helps with GCC-15 fixes
+On Fri, 2025-03-21 at 06:24 -0700, Varatharajan, Deepesh via lists.openembe=
+dded.org wrote:
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 >=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Remove the "src/gcc" directory from the Rust source code to reduce the
+> filesystem build space.
+>=20
+> In Rust 1.83 (and 1.84), a full GCC-14 tree was included, which caused
+> the tar.xz archive to increase by 128 MB and the unpacked sources to
+> grow by 1.3 GB. This was an upstream error that has been resolved in
+> Rust 1.85.
+>=20
+> After updating to Rust 1.85 we can revert this removal of "gcc/src"
+>=20
+> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 > ---
-> =C2=A0...-SpvBuilder.h-add-missing-cstdint-include.patch | 28 +++++++++++=
-+++++++++++
-> =C2=A0.../0001-framework-Include-stdint.h.patch=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 26 ++++++++++++++++++++
-> =C2=A0meta/recipes-graphics/vulkan/vulkan-samples_git.bb |=C2=A0 6 ++++-
-> =C2=A03 files changed, 59 insertions(+), 1 deletion(-)
+> =C2=A0meta/recipes-devtools/rust/rust_1.83.0.bb | 10 ++++++++++
+> =C2=A01 file changed, 10 insertions(+)
+>=20
+> diff --git a/meta/recipes-devtools/rust/rust_1.83.0.bb b/meta/recipes-dev=
+tools/rust/rust_1.83.0.bb
+> index cd470b1883..aaf35692ab 100644
+> --- a/meta/recipes-devtools/rust/rust_1.83.0.bb
+> +++ b/meta/recipes-devtools/rust/rust_1.83.0.bb
+> @@ -50,6 +50,16 @@ setup_cargo_environment () {
+> =C2=A0
+> =C2=A0inherit rust-target-config
+> =C2=A0
+> +do_unpack:append() {
+> +=C2=A0=C2=A0=C2=A0 import os
+> +=C2=A0=C2=A0=C2=A0 import shutil
+> +
+> +=C2=A0=C2=A0=C2=A0 # Remove gcc directory after unpacking
+> +=C2=A0=C2=A0=C2=A0 gcc_dir =3D os.path.join(d.getVar('S'), 'src', 'gcc')
+> +=C2=A0=C2=A0=C2=A0 if os.path.isdir(gcc_dir):
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 shutil.rmtree(gcc_dir)
+> +}
+> +
+> =C2=A0do_rust_setup_snapshot () {
+> =C2=A0=C2=A0=C2=A0=C2=A0 for installer in "${UNPACKDIR}/rust-snapshot-com=
+ponents/"*"/install.sh"; do
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "${installer}" --prefix=
+=3D"${WORKDIR}/rust-snapshot" --disable-ldconfig
 
-This seems to break one of the oe-selftests:
+Thanks for the patch, it is important we fix this. Unfortunately this
+change isn't quite enough. We need to apply it to all users of the rust
+source, so it needs to be in the rust-source.inc file, not in the rust
+recipe.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1166/ste=
-ps/14/logs/stdio
+Secondly, this would be better done as a postfunc for the do_unpack
+task, so it can be a separate function rather than a append. For
+example:
 
-oe-selftest -r devtool.DevtoolUpdateTests.test_devtool_git_submodules
+base.bbclass:do_unpack[postfuncs] +=3D "create_source_date_epoch_stamp"
 
 Cheers,
 
