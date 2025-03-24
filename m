@@ -1,178 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E91EAC36008
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 16:34:13 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.43726.1742834044383442107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EAD3C3600C
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 16:58:34 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.44357.1742835512216176242
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 09:34:04 -0700
+ Mon, 24 Mar 2025 09:58:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OYoxwFF6;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-224019ad9edso13546445ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 09:34:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742834044; x=1743438844; darn=lists.openembedded.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C7UY6n+JgID+Q09CMhSqrh5tMJ8sfwyiy6qkW0aWcfw=;
-        b=OYoxwFF67zEsi+uoVFXh5Ql0dLWnxfPtfWmjYBwpsGTE0gAVTllsYBYCxl28BvoX8I
-         GGXRinxJNWrebkR/dm12z2X8KfSe0MVLgbLR+Iv+mYNbwM6RleKP3zCyy4Le7TIAF8nM
-         T/LVF56bBZPA/J0dtocdiyi87SuUAC/Ebaomgow9pINlYKoH1A92b8SabWs6eBXB9+Ef
-         +6BioLPR/d2bs5J6N+GtQZ4GI1UbxlstnuVSnhvhVwj3p0bwkNMr3epsV4y1nEpLb/o0
-         6bN6JhXWbj7dN3uwFqVBv5O/XLGyQLIQE87f59TOYD0Xo+d2efWnLlCTIshIFcxTzrAo
-         HCww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742834044; x=1743438844;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C7UY6n+JgID+Q09CMhSqrh5tMJ8sfwyiy6qkW0aWcfw=;
-        b=bf0JriE4BT51PfYtIRLMBKso87P60a12JC/nwzIkSTOTcO2dvroOVzWL2gpW8qFcEG
-         kT6ERCXCP1pjJXRL+0p6cScBno+f+EISHlSIfWcfVlHdyg4n7TOhdHxTJjLXaTHNE/Es
-         f9Rlnm+EDER5NDt2Zfsd1zyv1AOYavJA3hmCra0TvYU4zl97L2EI5x/Eh7Zj315+rGTO
-         GhwoFWGGXWFv0n99xy68dRWYlaRV0jdivAZVdu0A+pFLwQwrfG9FVyWpfJ5RSfGLc7R8
-         hnxrOzBHU9/DL0XeuB6MO9nHAruvumKSnVWUUkoet4hPdOiM9vowxURv9Rz2Y1VWTsCe
-         uaBQ==
-X-Gm-Message-State: AOJu0Yy68kO+6SDL8vlxX89VS7jwAsNvsdHuFfxbGcBuSedpGMqKrwlt
-	kXH3ZcQHVL+ESOEY/Zg3A4+og+Fy1AQV+JQ1h0lsMIZStwqQUwvJS8nxjy8Z
-X-Gm-Gg: ASbGncv9Zn925uHMsUhElq1RQr1wI5C6H42AIu3ULHewoVPvkjyEaqI62nIPAZG0tdO
-	QO7fODVPoXMuawJwqRr5u0TANYbauO2o8BOxFTl1uUZE+fdZuqzTjQjcrZWPGSO5LirW4Mzy2TD
-	CN4RS/sNvWbYS7SsVTUR2qYhNJBahnfgq20oFIp+Q187c1tAiLAjAsObgHRyaZpAjgEzCcoNk0L
-	kUZ0IdR6IZoEmYiGKEMYzWW+g87q/l5TfHd32UHD7tpCXdTnY7iJiVWkQGE+k0eDj5pE8GY8WUN
-	cMZc8hkSqAneg6RO2G1Rx59uEXnm8RPpAfir
-X-Google-Smtp-Source: AGHT+IGI0tHEQnLGXZiHItrCQNs/NnkJnlVjJ8qeKi40/0FQaBEyBk7M+8w6I4i3DRWhKf4T3//EJg==
-X-Received: by 2002:a05:6a21:6197:b0:1f5:717b:46dc with SMTP id adf61e73a8af0-1fe432065b3mr22842002637.27.1742834043640;
-        Mon, 24 Mar 2025 09:34:03 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::b570])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af8a2803d8csm7372192a12.26.2025.03.24.09.34.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 09:34:03 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 24 Mar 2025 09:33:42 -0700
-Subject: [PATCH 21/21] vulkan-samples: Fix build with GCC-15
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250324-b4-musl-gcc15-v1-21-ca68c03c5b01@gmail.com>
-References: <20250324-b4-musl-gcc15-v1-0-ca68c03c5b01@gmail.com>
-In-Reply-To: <20250324-b4-musl-gcc15-v1-0-ca68c03c5b01@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-X-Mailer: b4 0.14.2
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=D9dXNeio;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=I8ZZ7mym;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010195c9177053-a944dce1-5c25-46a3-b206-dc57093f8f3f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1742835511; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=McJyWZb2J+9BkCRFKqBA1yf1DEEOYJgdfiUn0oKc3Do=;
+	b=D9dXNeioot4JGerw+9xmWyvKib+8gLdD0dpFkfgSRlwnkLf7B+isb2WWE70gyyjh
+	xO+cr0Y9JE5MfHTY8d3oNyadWq8ej2bGdYFxKRi+Ef8M2Zy2lIjZVZaAi9PzZ1PhwVS
+	DpSClxriN60M1+nnlCnZjo8sZFLbGqDZN/C0Xip4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1742835511;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=McJyWZb2J+9BkCRFKqBA1yf1DEEOYJgdfiUn0oKc3Do=;
+	b=I8ZZ7mymuDnDzDwupoYZcehMHd4JKeWAytCYbb/KZZBBO0+RPuRbazCG300b/xOG
+	1X1McTHXth6cEr2MXqGEsGFwkBrmqHhiffS+S+mAPVwqUmLKLudU10Zq4HnTBbNSvEQ
+	AJXSaoHNG3hLSzNxUyyyJZ+6CKG1Ef/aiK6dHBA8=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 19/21] apt: Fix build with GCC 15
+In-Reply-To: <20250324-b4-musl-gcc15-v1-19-ca68c03c5b01@gmail.com>
+References: <20250324-b4-musl-gcc15-v1-19-ca68c03c5b01@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010195c9177053-a944dce1-5c25-46a3-b206-dc57093f8f3f-000000@us-west-2.amazonses.com>
+Date: Mon, 24 Mar 2025 16:58:31 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.24-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 16:34:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213553
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 16:58:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213559
 
-Include cstdint for uint32_t definition
-Update to tip if trunk as it helps with GCC-15 fixes
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...-SpvBuilder.h-add-missing-cstdint-include.patch | 28 ++++++++++++++++++++++
- .../0001-framework-Include-stdint.h.patch          | 26 ++++++++++++++++++++
- meta/recipes-graphics/vulkan/vulkan-samples_git.bb |  6 ++++-
- 3 files changed, 59 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/19-21-apt-Fix-build-with-GCC-15.patch
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch
-new file mode 100644
-index 0000000000000000000000000000000000000000..392f515b701a62da12535ae059dec85c4c014da8
---- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch
-@@ -0,0 +1,28 @@
-+From e40c14a3e007fac0e4f2e4164fdf14d1712355bd Mon Sep 17 00:00:00 2001
-+From: Sergei Trofimovich <slyich@gmail.com>
-+Date: Fri, 2 Aug 2024 22:44:21 +0100
-+Subject: [PATCH] SPIRV/SpvBuilder.h: add missing <cstdint> include
-+
-+Without the change `glslang` build fails on upcoming `gcc-15` as:
-+
-+    In file included from /build/source/SPIRV/GlslangToSpv.cpp:45:
-+    SPIRV/SpvBuilder.h:248:30: error: 'uint32_t' has not been declared
-+      248 |     Id makeDebugLexicalBlock(uint32_t line);
-+          |                              ^~~~~~~~
-+
-+Upstream-Status: Backport [https://github.com/KhronosGroup/glslang/commit/e40c14a3e007fac0e4f2e4164fdf14d1712355bd]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ SPIRV/SpvBuilder.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+--- a/third_party/glslang/SPIRV/SpvBuilder.h
-++++ b/third_party/glslang/SPIRV/SpvBuilder.h
-+@@ -56,6 +56,7 @@ namespace spv {
-+ }
-+ 
-+ #include <algorithm>
-++#include <cstdint>
-+ #include <map>
-+ #include <memory>
-+ #include <set>
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch
-new file mode 100644
-index 0000000000000000000000000000000000000000..8d323f2cef826a0c2f87e587321b0b3eb5ee169c
---- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch
-@@ -0,0 +1,26 @@
-+From 445fcfd7b9245881d769880a5942ce9faa893045 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 23 Mar 2025 20:09:35 -0700
-+Subject: [PATCH] framework: Include stdint.h
-+
-+Needed for uint32_t used in this header
-+GCC 15 gets upset about it.
-+
-+Upstream-Status: Submitted [https://github.com/KhronosGroup/Vulkan-Samples/pull/1314]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ framework/platform/configuration.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/framework/platform/configuration.h b/framework/platform/configuration.h
-+index f6a9cae..c15f76f 100644
-+--- a/framework/platform/configuration.h
-++++ b/framework/platform/configuration.h
-+@@ -18,6 +18,7 @@
-+ #pragma once
-+ 
-+ #include <algorithm>
-++#include <cstdint>
-+ #include <map>
-+ #include <memory>
-+ #include <string>
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 2dd4bba5230d3c8955e6e7094792c10e3d74abe2..645c13479ad0c8e5fd615daa4f4e8b210f245a09 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -7,16 +7,20 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
- 
- SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protocol=https;lfs=0 \
-            file://0001-vulkan-samples-Fix-reproducibility-issue.patch \
-+           file://0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch \
-+           file://0001-framework-Include-stdint.h.patch \
-            "
- 
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "4838e02a4b08236931bec0532fc26ee3871b466a"
-+SRCREV = "8547ce1022a19870d3e49075b5b08ca2d11c8773"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
- S = "${WORKDIR}/git"
- 
- REQUIRED_DISTRO_FEATURES = 'vulkan'
- 
-+# Avoid erroring on including <ciso646> instead of <version> in c++17
-+CXXFLAGS += "-Wno-error=cpp"
- inherit cmake features_check
- 
- FILES:${PN} += "${datadir}"
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
--- 
-2.49.0
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
