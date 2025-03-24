@@ -1,202 +1,157 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F15CC36002
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 19:30:55 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.48573.1742844653712238604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3A4C3600D
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 19:37:05 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.48750.1742845023072388582
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 12:30:54 -0700
+ Mon, 24 Mar 2025 12:37:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WYu0ZJQu;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-549644ae382so6049545e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 12:30:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yaWqwnN1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-227a8cdd241so15126685ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 12:37:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742844652; x=1743449452; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VEPbUOAbry3GmBvZHD8+E5HpliyrMLIfzC4TN93TS20=;
-        b=WYu0ZJQu2fYJMiDKkcJ/78UUwCzoVIeKRS7vGNBrJzQ2Vo8mKeEI+UZBZL2NyyVDhn
-         hX6L5H5FwLoRtpFY8c4OdWOMr28ukEiTOhk3q5jxc5HufdksYCPB6MSHJO82o1vGihdv
-         niLMb4/zXolNep06eLQFlHsWBRkKnQLfjC8jtL0H0GrqKRJ6TML1MzjIlw5a9yRWbNzb
-         5FMEKPnBk9Pp0Iango9p9BfqFkLsp5Rbq2H6V6Bq3iR7XXIedaa4DeCJtO2gIpbTahKl
-         CSSRxEqI5n1f5YJvJBW3DJM1Lpd2eZruPvL3vWiG14s+D1XQiXapQff57i/mzG8jk9NO
-         1xEg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1742845022; x=1743449822; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LbOEYI2Lp5ZGG1wj/WiG4zjRBK+lGG2wFKkxJmYfwqs=;
+        b=yaWqwnN1679VQnZVL//i0RuabBLe97rukyMUz8idAeYP8NCN9OqVmLlC8rq9PF2/Zu
+         W11RZymIRsqIweqsbt9YHQXckz7MV5C5/VUf2igLRHhJFGgj35hIdvl3hgWpB82Hq0IT
+         0eqIEc910YWpu4AwZZeSwfW+Bd9bbpyPLjZeZOSZniS9A3rrx3dDXe+O6TqYXwYRSgUl
+         jypX6HKBEvD70twzIvmsf39WGk5FCkeLg8V2bNoGbPYVjHdt1BdWN/oTyu5gckmW/pXK
+         S4oGfVjFtaSywYJAR7/+JmQDnHCxuM6ZPqLOUbk1DJueUVm/+MRmRL2vwVoxQDNPftLp
+         pE0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742844652; x=1743449452;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1742845022; x=1743449822;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VEPbUOAbry3GmBvZHD8+E5HpliyrMLIfzC4TN93TS20=;
-        b=v26ZVFEajBLyW9afiuqqLAOPX78U3c0XKPAEqJCODWDA6JB2JE+rxkGix+v475iYw8
-         7V2r9yTKxQp51VqFb3YVOZ4ePvtjDFC8vEAFd1PeEEjtr7jZaKiJoTJOWx9oJJXHgc/R
-         q1F290VP9x+AIzBi4oCydobou1dTZvwbQTbSPIyGYGCv8Rm5XNOmxBjbLv19TSo540wp
-         UUosEaOSvwrGHlmVeamrTrGI/gkUwSbsQwtQT/+ZvTTAQsNXk1thnJ/ncyDyqsDmXss8
-         YS3asAFeiABDXy1AYEBo0dfqbGV5OcxaAmhIwMzk3AyeWSC0r25RZn+x6yH+IzXThuJs
-         GZgw==
-X-Forwarded-Encrypted: i=1; AJvYcCWb2rpHqKffPj0wVRsVVCOs9uLV9xu23fO6UqXNKZM3Z2LI8dvCIJ35k4+Q6V4xcP8aBwJUj7Q1UY1ZHNfxBqZ3TA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YypR7A0ZpNPwIsmNpadyK/LSIAqudIusJvDxR0fjgwKX1DpTb6B
-	lRR+RyLqPaf50pombOh7Em+IFzgkouqRDxVXr4lCaHAiHn5Dv/mVCtzrmKdt6OOaLqHi15SlFf2
-	fNL90YZ4Iqzj0z2k7FceGYCfZDjc=
-X-Gm-Gg: ASbGncuoPtX/P8bzOBWPYdZBHKWiiCl4tayjLtp9bdcyW4LYkOGI1CE3N9Xo6owcBTd
-	bvy1W7kxq6gJ6dGDhfsq5JH+O+VNtjFeeJXr3vXqARjN6G/cpR4Wa5Le1+OZ4UQUxEhg40Gmlc2
-	R0DU0jSlvFRzrKP0VKNyDDErOjT+ix
-X-Google-Smtp-Source: AGHT+IEqwAVM7e/bhUPEcoLKAEry7bbYchiHLUV5u3YUEksCuzIGKefwAUvqxOd9KqiKHJWu6/0bANnJkYlf6gewGzQ=
-X-Received: by 2002:a05:6512:3e18:b0:549:883f:665b with SMTP id
- 2adb3069b0e04-54ad64ef063mr5780405e87.34.1742844651524; Mon, 24 Mar 2025
- 12:30:51 -0700 (PDT)
+        bh=LbOEYI2Lp5ZGG1wj/WiG4zjRBK+lGG2wFKkxJmYfwqs=;
+        b=vN9/3HYjCKhaW42AIh5ruS6B+81A2LstQEUa/+cs144oauGlrJqGaSwwjlbEqW866X
+         Trv42U9sIul/PdVgnT+bhmKoA9LrBwImM9EBQhWwRItcJ+BY5Ny2Hk1804HhePe+oORe
+         S7+2ClOKP6oOU6Xon5eFxWNALknHmK88a7Mu+TaXDybymUfF7mm4t98/qvQyaH1sPDdY
+         roDWA+b/gMFZCrtRF9cg0KWArzwVFqpswXYXjfopCh9/NpR5hxf6TUQHRGwKrYG4m/da
+         Dzs0/TUOklK0vVbJC0KpfglBSoJPq4Mnk2w7a4i+GbB8hqXh3zb5BQQehuK/IfsK85EL
+         tgXQ==
+X-Gm-Message-State: AOJu0YzuliQnxOblRvapzCXwHidiEXDYMOrvD2TMu0fKKeGnICFBOAd9
+	AelnADXfBMvU4GsVY+uSL+TDFVQHW4cvpmP3+HQ1WG0WJ1ALUDy4sF+3iXg5oS3Vie+1SePkhvP
+	+
+X-Gm-Gg: ASbGncvh9PWmbExWXPPDZ0MVqir8JvaZkNDrcEB531w4k0QsNuwRjMjUSXXCSbZV97q
+	vU5h9kKMHrz3ftH0mrD2kmf7rzHD5FeYHp4kWvNpOT0Y4/vz1jjqaFB0Ujx2MvLpL/HpTQPwW21
+	WZzFqZYPUzbvwRUT2jYfgvZ9fUSdA67oRYyqubAVjYG9JBPz4scLB080qOPpzOgz13PyywHAYV5
+	Uo/jyl3lC9KT74sOvrBEV3wEjbyst+Et0CTpiaG9x4Bb18/iu1vdeU8PLiwXDuLjmPIufPAl8W+
+	9u4QCkoXBQZWHbhwB+0oUJ4pPkBOvfv0SmhX
+X-Google-Smtp-Source: AGHT+IHOXdP8Y+55m4vZbLWinwVvv/j0j5AF/ESjoio65wUipy0RefbJrqumTLV2lbg1UE/6oIGmog==
+X-Received: by 2002:a17:902:f70c:b0:224:c76:5e57 with SMTP id d9443c01a7336-22780e02a4emr252225915ad.39.1742845022109;
+        Mon, 24 Mar 2025 12:37:02 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:ee18:96b4:93d3:b88c])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3030f806b48sm8640876a91.44.2025.03.24.12.37.01
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Mar 2025 12:37:01 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 2/6] libxslt: Fix for CVE-2024-55549
+Date: Mon, 24 Mar 2025 12:36:49 -0700
+Message-ID: <eae0c33539f302124544373b74bd6883467ff549.1742844907.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1742844907.git.steve@sakoman.com>
+References: <cover.1742844907.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <20250320165517.129442-1-martin.jansa@gmail.com>
- <182E912DEB60EF95.20788@lists.openembedded.org> <CA+chaQdD7i8xjuz9iPSNMfETo-5BNxsN=LibdZPrgdTYatccfw@mail.gmail.com>
- <182E91CCE4A2B275.19116@lists.openembedded.org> <d3f1a6601b2438007a963b69bf41d647672f78eb.camel@linuxfoundation.org>
- <CA+chaQc4kxzLcbFkZswbftUevsjcO4aYDzNVh6hMxj4miv9m1A@mail.gmail.com>
- <CAAuPjF8oBXzYug4E6HjxicDXbkahs7VXdGubsMi0J0VRho2bNQ@mail.gmail.com> <CANNYZj80f3_vmVSP0sBRVWKix+ZAAYSkT4v-prJHbpO6q8XrpA@mail.gmail.com>
-In-Reply-To: <CANNYZj80f3_vmVSP0sBRVWKix+ZAAYSkT4v-prJHbpO6q8XrpA@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 24 Mar 2025 20:30:38 +0100
-X-Gm-Features: AQ5f1Joy4A2q1FdR2XAWct6BL9G7ayOy42MAolQD5-gLiOJ3Jqk_lRwbQ67wytY
-Message-ID: <CA+chaQfsMaBR7NgCKbrw56VSHFNj09r3irFNiCuBeMmZivv37w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] cargo.bbclass: allow to avoid appending PACKAGECONFIG_CONFARGS
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: jarsoper@gmail.com, Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	DongJoo Kim <dongjoo.kim@lge.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 19:30:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213571
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 19:37:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213574
 
-I had to patch Cargo.toml in gst-plugins-webos to define all possible
-options in [features] to avoid "error: the package
-'gst-plugin-unifiedbin' does not contain these features:
-unifieddecodebin, .." and then I was able to change our PACKAGECONFIG
-to pass them with --features instead of --cfg feature and use them
-with cargo as the previous patch did. I didn't verify it in runtime
-yet, but it passed the build.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-If that's the recommended option, then I'm fine with that and only 1/2
-should be merged and not this 2/2 nor the revert RP sent earlier
-today.
+Upstream-Commit: https://gitlab.gnome.org/GNOME/libxslt/-/commit/46041b65f2fbddf5c284ee1a1332fa2c515c0515
 
-Regards,
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libxslt/libxslt/CVE-2024-55549.patch      | 49 +++++++++++++++++++
+ .../recipes-support/libxslt/libxslt_1.1.35.bb |  4 +-
+ 2 files changed, 52 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2024-55549.patch
 
-On Mon, Mar 24, 2025 at 7:55=E2=80=AFPM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> I basically agree with Jean-Pierre. Optional features should not be
-> set via RUSTFLAGS at all, rather Cargo.toml in the source tree should
-> be extended to include them as described here:
->
-> https://doc.rust-lang.org/cargo/reference/features.html
->
-> So gst-plugins-webos should be fixed, then the recipe for it, then I'd
-> say we should reconsider this patch. If a recipe inherits cargo, then
-> it is expected to pass configuration settings via cargo, otherwise it
-> needs to use its own custom class.
->
-> Alex
->
-> On Thu, 20 Mar 2025 at 19:11, Jean-Pierre Geslin via
-> lists.openembedded.org <jarsoper=3Dgmail.com@lists.openembedded.org>
-> wrote:
-> >
-> > In my recipe I use it as:
-> >
-> > CARGO_BUILD_FLAGS:append =3D " ${PACKAGECONFIG_CONFARGS}"
-> > The recipe is public here: https://github.com/Jarsop/meta-zenoh/blob/ma=
-ster/meta-zenoh/recipes-connectivity/zenoh/zenoh_git.bb
-> >
-> > Best regards
-> >
-> > Le jeu. 20 mars 2025 =C3=A0 18:36, Martin Jansa <martin.jansa@gmail.com=
-> a =C3=A9crit :
-> >>
-> >> On Thu, Mar 20, 2025 at 6:16=E2=80=AFPM Richard Purdie
-> >> <richard.purdie@linuxfoundation.org> wrote:
-> >> >
-> >> > On Thu, 2025-03-20 at 17:06 +0000, Richard Purdie via
-> >> > lists.openembedded.org wrote:
-> >> > > On Thu, 2025-03-20 at 17:59 +0100, Martin Jansa via
-> >> > > lists.openembedded.org wrote:
-> >> > > > This 2nd one was supposed to be sent only as RFC, but I forgot t=
-o
-> >> > > > update subject sorry.
-> >> > > >
-> >> > > > And this version also has a typo "=3D ?=3D", will send v2 if we =
-want to
-> >> > > > do
-> >> > > > something like this (reverting the
-> >> > > > https://git.openembedded.org/openembedded-core/commit/?id=3D1674=
-5b20452de60ae2474433cc1a2fb1ed9f6a64
-> >> > > > is imho better as it doesn't respect the original author from
-> >> > > > https://patchwork.yoctoproject.org/project/oe-core/patch/2022060=
-6132653.60232-4-brgl@bgdev.pl/
-> >> > > > and with CARGO_BUILD_FLAGS_PACKAGECONFIG it's imho more confusin=
-g
-> >> > > > than
-> >> > > > useful as the default)
-> >> > >
-> >> > > I have a strong preference for not carrying things like this. If
-> >> > > there
-> >> > > are existing recipes that break, we should just fix them and move =
-on
-> >> > > rather than letting the past dictate the future IMO.
-> >> > >
-> >> > > I'm trying really hard to simplify things where we can.
-> >> >
-> >> > Martin pointed out I was misreading things.
-> >> >
-> >> > If there are recipes using packageconfig in RUSTFLAGS then this will
-> >> > break that. We probably do need to revert as I really don't like the
-> >> > alternative variable mess. It does mean recipes will specifically ne=
-ed
-> >> > to add the flags to the carbo build parameters but that is the lesse=
-r
-> >> > of several evils IMO.
-> >>
-> >> Agreed about the revert being lesser evil.
-> >>
-> >> I know very little about rust/cargo, so it's also possible that we're
-> >> using rust/cargo wrong and there is a better way to achieve
-> >> conditional compilation with flags passed to cargo not by RUSTFLAGS.
-> >>
-> >> I've checked the recipe where we're using:
-> >> RUSTFLAGS:append =3D " ${PACKAGECONFIG_CONFARGS}"
-> >> and it's public as:
-> >> https://github.com/webosose/meta-webosose/blob/master/meta-webos/recip=
-es-multimedia/gstreamer/gstreamer1.0-plugins-webosrs.bb
-> >>
-> >> With the RUSTFLAGS then being used as
-> >> PACKAGECONFIG[unifieddecodebin] =3D '--cfg feature=3D\"unifieddecodebi=
-n\"'
-> >> in the recipe and in code e.g.
-> >> https://github.com/webosose/gst-plugins-webos/blob/%40rust/gst-rs/unif=
-iedbin/src/lib.rs
-> >> as:
-> >> #[cfg(feature =3D "unifieddecodebin")]
-> >> ...
-> >>
-> >> Will send revert unless Jean-Pierre or Bartosz have better idea how to
-> >> deal with this.
-> >>
-> >> Cheers,
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#213425): https://lists.openembedded.org/g/openembed=
-ded-core/message/213425
-> > Mute This Topic: https://lists.openembedded.org/mt/111812482/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alex.kanavin@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2024-55549.patch b/meta/recipes-support/libxslt/libxslt/CVE-2024-55549.patch
+new file mode 100644
+index 0000000000..88a17a4d0c
+--- /dev/null
++++ b/meta/recipes-support/libxslt/libxslt/CVE-2024-55549.patch
+@@ -0,0 +1,49 @@
++From 46041b65f2fbddf5c284ee1a1332fa2c515c0515 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Thu, 5 Dec 2024 12:43:19 +0100
++Subject: [PATCH] [CVE-2024-55549] Fix UAF related to excluded namespaces
++
++Definitions of excluded namespaces could be deleted in
++xsltParseTemplateContent. Store excluded namespace URIs in the
++stylesheet's dictionary instead of referencing the namespace definition.
++
++Thanks to Ivan Fratric for the report!
++
++Fixes #127.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/commit/46041b65f2fbddf5c284ee1a1332fa2c515c0515]
++CVE: CVE-2024-55549
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ libxslt/xslt.c | 12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/libxslt/xslt.c b/libxslt/xslt.c
++index 69116f2..02c2e3a 100644
++--- a/libxslt/xslt.c
+++++ b/libxslt/xslt.c
++@@ -153,10 +153,20 @@ xsltParseContentError(xsltStylesheetPtr style,
++  * in case of error
++  */
++ static int
++-exclPrefixPush(xsltStylesheetPtr style, xmlChar * value)
+++exclPrefixPush(xsltStylesheetPtr style, xmlChar * orig)
++ {
+++    xmlChar *value;
++     int i;
++ 
+++    /*
+++     * orig can come from a namespace definition on a node which
+++     * could be deleted later, for example in xsltParseTemplateContent.
+++     * Store the string in stylesheet's dict to avoid use after free.
+++     */
+++    value = (xmlChar *) xmlDictLookup(style->dict, orig, -1);
+++    if (value == NULL)
+++	return(-1);
+++
++     if (style->exclPrefixMax == 0) {
++         style->exclPrefixMax = 4;
++         style->exclPrefixTab =
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
+index 2fd777766c..1f0d845421 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
+@@ -13,7 +13,9 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=0cd9a07afbeb24026c9b03aecfeba458"
+ SECTION = "libs"
+ DEPENDS = "libxml2"
+ 
+-SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz"
++SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz \
++           file://CVE-2024-55549.patch \
++          "
+ 
+ SRC_URI[sha256sum] = "8247f33e9a872c6ac859aa45018bc4c4d00b97e2feac9eebc10c93ce1f34dd79"
+ 
+-- 
+2.43.0
+
 
