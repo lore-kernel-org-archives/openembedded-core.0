@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73696C3600C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDF4C36002
 	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 19:37:15 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.48390.1742845027694094704
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web11.48389.1742845026136281783
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 12:37:07 -0700
+ Mon, 24 Mar 2025 12:37:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gc3EnWQ8;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3015001f862so6002160a91.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 12:37:07 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FeJd1iWp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3012a0c8496so6066132a91.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 12:37:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1742845027; x=1743449827; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1742845025; x=1743449825; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3ii6DtFK/vJFbtwa8ylFkR6czi57/S1Mv6CMoUNFxTk=;
-        b=gc3EnWQ8ZZi1lBfYnqSY12qQQXwW6ulh/9HaRr9LjGGn25GeTCou+7suuAmc1gmgRP
-         YxlrtnrEUKzf62ogIAZMEy4woZ8h+Let6IdFWXd5J0BTDQK5PEwMS4/1Wda1x53BPrKV
-         SMLNMlgMAxGNapIK5czUcZEzcwt93PO09/1j1jfl6Y8vOmA72wQhOXbIHV1zIHX9rrcH
-         qlx4gDo1PrrgvW1zsMGldzgfPO9QH1rUvH6lHb07iNoIRk5GmVp3jpQzmIGgPdSjru6t
-         iWpQFMNY7yirdwl4SDVUkRdmbgrGtZWo4ExDOZD1+O03gkMHFg62W0xWweHH71XmgUMS
-         zKqw==
+        bh=cX7fF3I+fMLqXu77EdamZbDuztb6k9ULUTHnPrsF3h4=;
+        b=FeJd1iWpBVfHUtsl9Tei7KYM569hiuG+eWv9YwuAtDEfa87YVqID1kts5w4F9cxWvE
+         +fbyEkoitlZ17n2ZGQeCkbPPDT8OLZrQswMtMkfkVEcVEeqm+6fW3nQIwXbsg0+3sOKm
+         khh+6KR3TNqwkfzB/sLaxkBAPNVgwk4Y+pH/Z3Jr/ZfpQM1fCwYxe3kM/30sLN1Lt0iQ
+         n8znYzxNiAIOcXpNb9ISSVCv4pRDfiBYOlCTPWq8zlwXsIMmDeyt7Ui2qVxzlZFW3uL7
+         kilFKdCyogYbwemq2hD5Z8oE7Z+XIvWGU8GXCfQZuBUTzJgtSziYW0EdzI6k/cKPyLSw
+         ta3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742845027; x=1743449827;
+        d=1e100.net; s=20230601; t=1742845025; x=1743449825;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3ii6DtFK/vJFbtwa8ylFkR6czi57/S1Mv6CMoUNFxTk=;
-        b=J57lWFRDRM0Zqe5OS77hE3FuzbGz9U3Bber1OrQlMiP3NwTGZ0Ui4uNL+PazD+qA6d
-         y+KqftxZS6+KT0D31DN9mv1mgQrTNEV7tf+Suwj8buFAQbTreEz5WUqHZkj0Bb/aXW8z
-         7V2urDm34nzm1TH9HTRyHx0MBZRwxl2CuksQwzW1coD/zp6dk2lwytNv7YDk8kdAU9Jh
-         ASrzuUrLlUo3h5LhOQ0siDYZNlwLA/r+6LN1CDOnAreckmOLz43vFDwEF/NtAIewYrtC
-         oD1w4A5GACNESEKoXhvzatmhRzoUEWRCO8JV0UEATkXxGWPHZKxnRZ6TDNeWv07zfBM4
-         2u2w==
-X-Gm-Message-State: AOJu0Yz9BopS7X1HeE0QFO9kZe33YosAo60sFDoqt/Hes0rvGuQnOlWS
-	p0dum2QMMYKjG+OEkf9PB8FhIR8KQc9sm32B0MvnzBmwb9VBcGsSb4AV+Ivip5sG+mNiT+DAYvY
-	r
-X-Gm-Gg: ASbGncupLVFRzNTmIYmzJNl0CTQZ7vJirdU8/IsIRgTDp5btAOWpKt8tv5Qaex/oeoe
-	qTycex5rED3YVTmcrokmudkKBA2e/Z8We2+5kIfjIlVKnbrEsxRWLluQxsK7YiJCcH0tjDs3RV2
-	tFOTofXAoVtp5j4QniAtdOs10OkkxptCkU/GxjM1C4soYWl1wrJ7ZJfYlmsaypiuzB+qSlp2O8u
-	+yz8d4aJm9cE6pVtMo3IGLqEaF+aJW9toqUMphzbOZv7Mrd9vBa+BBsdyGzzheRlzf/fP1MKy2j
-	DoUN6lQ61+gMHpGSUOft7IJ9RISRSZan1tdt
-X-Google-Smtp-Source: AGHT+IE9AiXn7juizqlcxee7RuY+m7xLGC9+XjJsmSEW4ywnfoYjreCsavFKXUJ0xujHcjGJ7jgAOA==
-X-Received: by 2002:a17:90b:184e:b0:2ff:6e72:b8e2 with SMTP id 98e67ed59e1d1-3030ff24b2dmr21582501a91.31.1742845026693;
-        Mon, 24 Mar 2025 12:37:06 -0700 (PDT)
+        bh=cX7fF3I+fMLqXu77EdamZbDuztb6k9ULUTHnPrsF3h4=;
+        b=TKfgBSDL51YQ3AFcQBtYQlZiObX+5Z/dzypAfGRjPgza6bnJeSUejbZXLGIMgSurHy
+         SkCpjQ8uEgAuqAemlP+urRZoMNT9cAkBxp7n2wNfvdJl/1YttFAksWkaJTyBJQL0shIe
+         eHyLNhfRNtnLrUzjn5Rd3IIJdLp8VaITJSs6VO0qY7mE2nXKfby47DIsoIiu1VwVElYb
+         NblxkqzKfYSjJe35z2O7dVmWT1o4gnD6/wmGWZNb24D5R3fOAi4ZB8JtBM4BpTW+MABh
+         Yj56+yotBDb/2S4Nd1JWTK4jw+A/eXdtcRlSEwJPFbA0qUxkHtDaNg9L/ztNzSbuIwJU
+         pXrA==
+X-Gm-Message-State: AOJu0Yyqz8fRMo5LV+WlLmYR+2CXyIQ+vVJ/U0JcrAWb42TjIaEhbFoD
+	4WoDi17AOI/0pKEBII5TwXA0vK8OJzm1TPgUgNQoB/76letOq8ZlWHno8/PiSq7HdPBYlSMWvpq
+	P
+X-Gm-Gg: ASbGncsUB0F1jYvVBchBbpfsDMbzxI0yiF1214fUSIF1J/1LwkscTxwalgROgaTIrTA
+	nLOrsTog4j6q75daVWbZBbBeA09Rnlt++A6/njAl0C+jL3jSRoJ8PMOZSJT4CBfcpuAP/3XV9wQ
+	w9Z3/8EE71Db5vilIq3hFQWfUnN2iWIqhm6worc5PLqVz/sGntgn2ayDajSO6kIA+GPCUM347Xs
+	hbNfxEX27bN6bL+C0S4N1u67qMhYXPBaJ/lPsK5qbOVcJmAtK9wPmxfwP5gkmkcB8DqHdG12Rqu
+	wAy+7Q8XVYkY7UBBiwF8ylu5ic+j7vmiVCqOLOr+Z7N6Zw8=
+X-Google-Smtp-Source: AGHT+IECZzZclhr6zqYw+sO5/seuk/4Q8zOSE1U+TaR+F1ly3DLLceysDC7/ElKr90MMaPUxj5ndcw==
+X-Received: by 2002:a17:90b:3948:b0:301:1d9f:4ba2 with SMTP id 98e67ed59e1d1-3030fee95demr23705902a91.28.1742845025073;
+        Mon, 24 Mar 2025 12:37:05 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:ee18:96b4:93d3:b88c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3030f806b48sm8640876a91.44.2025.03.24.12.37.06
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3030f806b48sm8640876a91.44.2025.03.24.12.37.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 12:37:06 -0700 (PDT)
+        Mon, 24 Mar 2025 12:37:04 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/6] xwayland: fix CVE-2022-49737
-Date: Mon, 24 Mar 2025 12:36:52 -0700
-Message-ID: <740ea9019cf5cf309c5a4ef380eac17d21078ac8.1742844907.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/6] xserver-xorg: fix CVE-2022-49737
+Date: Mon, 24 Mar 2025 12:36:51 -0700
+Message-ID: <c6a8ad45174a416c4129deb210eab9b7721ce01d.1742844907.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1742844907.git.steve@sakoman.com>
 References: <cover.1742844907.git.steve@sakoman.com>
@@ -67,7 +67,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 19:37:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213577
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213576
 
 From: Yogita Urade <yogita.urade@windriver.com>
 
@@ -86,16 +86,16 @@ https://gitlab.freedesktop.org/xorg/xserver/-/commit/dc7cb45482cea6ccec22d117ca0
 Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xwayland/xwayland/CVE-2022-49737.patch    | 90 +++++++++++++++++++
- .../xwayland/xwayland_22.1.8.bb               |  1 +
+ .../xserver-xorg/CVE-2022-49737.patch         | 90 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.8.bb       |  1 +
  2 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2022-49737.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2022-49737.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2022-49737.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch
 new file mode 100644
 index 0000000000..86c9f59f8c
 --- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2022-49737.patch
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch
 @@ -0,0 +1,90 @@
 +From dc7cb45482cea6ccec22d117ca0b489500b4d0a0 Mon Sep 17 00:00:00 2001
 +From: tholin <thomas.lindroth@gmail.com>
@@ -187,17 +187,17 @@ index 0000000000..86c9f59f8c
 +      * we'll always have an SD attached until the MD is removed.
 +--
 +2.40.0
-diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-index 6affd80e22..8b1fc85aab 100644
---- a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-@@ -42,6 +42,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
+index e77b81eed6..6790eb0921 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
+@@ -35,6 +35,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
             file://CVE-2025-26601-2.patch \
             file://CVE-2025-26601-3.patch \
             file://CVE-2025-26601-4.patch \
 +           file://CVE-2022-49737.patch \
- "
- SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
+            "
+ SRC_URI[sha256sum] = "38aadb735650c8024ee25211c190bf8aad844c5f59632761ab1ef4c4d5aeb152"
  
 -- 
 2.43.0
