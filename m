@@ -1,118 +1,129 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E88C36002
-	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 08:53:31 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.34816.1742806404320413489
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ED09C36002
+	for <webhook@archiver.kernel.org>; Mon, 24 Mar 2025 09:01:21 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.34946.1742806874015080712
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Mar 2025 01:53:24 -0700
+ Mon, 24 Mar 2025 02:01:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LkAbXxfw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43cf257158fso26860295e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 01:53:24 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=qouJi/Kv;
+ spf=pass (domain: linaro.org, ip: 209.85.167.47, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5499d2134e8so5035765e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 02:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742806403; x=1743411203; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=80nLxLSXeAj7Mg3FK1vvaQGUa8rFE9EkaEpGkJqFkp4=;
-        b=LkAbXxfwA+BV7aZJtHSHRRvgLh0hPypynOXGqktf/905a3p2KHoRKagcMwfvW/Cw5y
-         MCrKGthjHnq+vQ6o/E+GfsM5Yz1xC+O5fAnfl7BNE2QnLMRSAPhXIyl1qPXnogf96fK9
-         KQ3aKbU/7QWy+SiFd+maoqwwYM94eO76XzB/Y=
+        d=linaro.org; s=google; t=1742806872; x=1743411672; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MdACWdEfZrLOgCU+tKmM+5RV8JS26ShtEvMrw6PTAeA=;
+        b=qouJi/KvP+3wnmMtcd0Nsc1D+cL7Sz8kQn9Q8Wktn4WwS0DtnlfDLUR7woqR+8bWHu
+         VqQFMMUDn2itqOOzWcquQEQpdYRIaDDlSvt5vW4kzzsVj639zJWBfd6FPkgAM4EG851w
+         pdzDxJFlU1utNj8/euq4VTu3JURx442ufdZ1ZzFTc2zAJPf5fLTSB9mw7Gl3V2zwf4io
+         GF9oymG65ZF2+5/Om7TErZIJq1k+Sh8nU/PTsfvM6PCmM5wA01hS+MTZSj//68XA8uOw
+         hgKhUeelZYiTh5fJvULo+gjCgM4VR9g19l8tuKTsUM7GG9++G0iCOlqFc4qHAdGAsIKC
+         d1Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742806403; x=1743411203;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=80nLxLSXeAj7Mg3FK1vvaQGUa8rFE9EkaEpGkJqFkp4=;
-        b=jhu3iqThQ4/SpAOjCiskJFoWOYOI/JwuhQbyJGt9kZq4yOqonxwJLxIhiSo5e7qknM
-         AgVuiVXVVha7NhaWkakvw7Mid8Q+wO0MbFpgETtDuv51W8/GtU7P5XBk3qwpmliOgkll
-         ApgpsUgUq7SDXYGVaqnUCdwWqC0xyJQ5WpyWolwwvJgy0t0DC+LGPcjPjXpvU5say1YY
-         HEBXR3CwT7dXRmyUigVcXg+SiuE3fCi/Yo5Q9Xov9vfAfLPN6ERlT8A6grVw6qpFKVjn
-         Tk4aO4AXygfwNaBAfuO8CDlYyl/GEUvxJRQITkRepVNopz2sFA6t3KgSS2cdulvWoeiB
-         OELw==
-X-Forwarded-Encrypted: i=1; AJvYcCWseP1NjHrUMMjMt3zO3gszQvxT5NR1+s39Dr5UoV+6wSvuQF/IuJIzVIvKbxf9tMLQjpNlknmhxpmJLlDRJAkBrg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxXHOeoFjNFP50L0SbtZ/s9BiPV7Yw5lvmOpU7+YQJZ8IBkFE81
-	EgokY4wVU5YzUiTC0mPkA4KbKpla6CK22bT3e1YbdGjyqFWtR0uSO6W/pMLXJolT/Ijip9vwaWt
-	1
-X-Gm-Gg: ASbGncu0s2CZ81Z4EsorNzwN/heroySqpAnoob3Ado31bCSOupvxl6mL5IExIjdw2g9
-	kBphYXXOxDe5fl7ZJ51H8fNSWTsaz+SYV4fr5uVYFBZzxe756iEbH/R17gXqJ4NlnYiUoNxyyOF
-	48HwpQAOhtIIUbpe7bOuNcP24uxRmkb8fFdHDcEmd/IpEBRJH+WgTt/K27L+f3IRCCSG/tzp8Ro
-	QgzneDUxA1ApdZ5v3bU+AsasStqArRp3g2ucgkmp6qbTi0eMIYAZMbrpoCUJYEiYqayDzGEfgUO
-	u5FZU0uzdSLkfDSvx/FDRlxujSvTh+eeveE5zGna6w1DpcAGKnS2etHr1g1nZz3Zxx055sdc2Ja
-	QD6YndoMcgBtBnhwDiLwUd76Aa+MmTFo=
-X-Google-Smtp-Source: AGHT+IF5urqEdx+CAukhbkUspZxOGUsnp3dCLqF6lcVGoDVW0B12emwoCSibCgVpocQfCH+Znq29tA==
-X-Received: by 2002:a05:600c:44c6:b0:43b:ce36:7574 with SMTP id 5b1f17b1804b1-43d5114e467mr85694705e9.11.1742806402682;
-        Mon, 24 Mar 2025 01:53:22 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:24f9:315d:dc7:9e14? ([2001:8b0:aba:5f3c:24f9:315d:dc7:9e14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d53678dfcsm101624195e9.18.2025.03.24.01.53.21
+        d=1e100.net; s=20230601; t=1742806872; x=1743411672;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MdACWdEfZrLOgCU+tKmM+5RV8JS26ShtEvMrw6PTAeA=;
+        b=j8Dw4sVlWlLKpxBBJsIC6n5oBQ5Mt7/UxSr0Ln6Em60w2RiQ+gVglxXHigeuO6ymLe
+         2vcaOHNH1VPkW18MQZiMVdEreACPcDwxMsoGP5zgz6IfrCY5IPOogfafKkaPHKRTYVXM
+         D/8D4FNIe4EQZ5f8TyDg9gl1dvkaIf9bDXnj7MyTR4DxjSPqOkf0zcyaVHoTxpL/lgfU
+         UvXEmuhro/0vSqNyo2tMEjyoPj8E6Pf6orRDQ42bmHf03xYorVqajr20CFdln8Lex2ww
+         EFaC0DQQQF0Thd5cIE2599lkMiJhgZvoxDpuRmXTNm3DowG/25L8cGRVWlbj8252pFi4
+         eDmg==
+X-Forwarded-Encrypted: i=1; AJvYcCU64S7fIw87OWKlq9Y0M7Lp7P6zduEbvZJljOxmTIAvEJXcwS9V7RXkGaa5bo0a4yRdep083/ovwaWTndQQEyTKFQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YykPpKlJkzg4BBmn7XSquZPgrVk+uMtV6sWlEKG6zsIp9a7RhXL
+	p1TFSxR04cHG1FK+pZOVFeuqD+b62TCAy4zWo4kFsZ2tEK9NJAhgeDg7Cf+K8ks=
+X-Gm-Gg: ASbGncv1lhWAOgiFgjk4nx05kQvrjX52WzodwVX9oBTDwT4GF9BlWL1gt0rx2QR/YCR
+	Di6Z8OcgdWRjXdjlkRnOuXgStec3ArKtFf1pIoL9OF2sv9+3LfUtX/+nR3hh7v5IvMzNlTbBXs+
+	OdOkDGgJKT1UeAJa0imv86Ugg1LKoUUi1s8d1wDP1iZ21R+XT74SaeWkFUIExIzLzSE35rJEEIc
+	2O5+C5NqaY1z0S4BqFOy4NPN2k4C3twMrg2A/LqZ25QQk+i7Z6Z2KsFqeZgfShX3mc7Zzbi6PAO
+	t0xSZY3q3EQedOzS8OXp3DbyWAJOdydermpl+7OuwkvkwolXBjz32DRQCeGrj6R6kTIMHrf23ND
+	f9kGaEBVAYVNj
+X-Google-Smtp-Source: AGHT+IHFxmyhTLoyhGrF1blIAidJkI2960o3W7FgkZbFLtyDi1Q71cyzG4V0ZwUkumxWUJhCmsqJZA==
+X-Received: by 2002:a05:6512:2247:b0:545:2fcf:642d with SMTP id 2adb3069b0e04-54ad6479f26mr3867387e87.6.1742806871944;
+        Mon, 24 Mar 2025 02:01:11 -0700 (PDT)
+Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad64688f9sm1050543e87.15.2025.03.24.02.01.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 01:53:21 -0700 (PDT)
-Message-ID: <ee5ec3420a89c2e32c539b1f1ceaa0f02db8c25f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] bluez5: upgrade 5.79 -> 5.80
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: gudni.m.g@gmail.com, openembedded-core@lists.openembedded.org
-Date: Mon, 24 Mar 2025 08:53:21 +0000
-In-Reply-To: <15989.1742751113848859897@lists.openembedded.org>
-References: <1298.1742735985396496900@lists.openembedded.org>
-	 <15989.1742751113848859897@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Mon, 24 Mar 2025 02:01:09 -0700 (PDT)
+Date: Mon, 24 Mar 2025 11:01:06 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Koen Kooi <koen.kooi@oss.qualcomm.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2 01/11] systemd: enable efi support if in
+ MACHINE_FEATURES too
+Message-ID: <Z-EfUqkUG5WnuGup@nuoska>
+References: <20250321132517.670372-1-mikko.rapeli@linaro.org>
+ <20250321132517.670372-2-mikko.rapeli@linaro.org>
+ <d0f4460cc8338769479b0efdfbf4ed68b491fae1.camel@linuxfoundation.org>
+ <Z-EJ7EqalYachfbb@nuoska>
+ <C27BE692-BD0E-4928-B510-02EA5FF51991@oss.qualcomm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <C27BE692-BD0E-4928-B510-02EA5FF51991@oss.qualcomm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 08:53:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213518
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Mar 2025 09:01:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213519
 
-On Sun, 2025-03-23 at 10:31 -0700, Gu=C3=B0ni M=C3=A1r Gilbert via lists.op=
-enembedded.org wrote:
-> I managed to reproduce this locally using QEMU. It looks like to me
-> this is not a new issue, see the following two Github issues which
-> are mostly report from users with Alpine Linux using musl:
-> =C2=A0
-> * https://github.com/bluez/bluez/issues/683
-> * https://github.com/bluez/bluez/issues/726
-> =C2=A0
-> There is a theory in one of the Github issues that the problem is
-> related to enabling LTO. I'm not sure how to proceed/debug this
-> exactly but I'll at least add my input into the Github issue in case
-> it helps.
-> =C2=A0
-> Moving forward... is it acceptable to disable running this test? I
-> don't personally like it as it is likely it won't be enabled again.
+Hi,
 
-We could patch it out, then we'd see the patch each time we upgrade the
-recipe. The ideal solution is to fix the underlying problem (or the
-test).
+On Mon, Mar 24, 2025 at 09:50:42AM +0100, Koen Kooi wrote:
+> 
+> > Op 24 mrt 2025, om 08:29 heeft Mikko Rapeli via lists.openembedded.org <mikko.rapeli=linaro.org@lists.openembedded.org> het volgende geschreven:
+> > 
+> > Hi,
+> > 
+> > On Sun, Mar 23, 2025 at 10:53:59AM +0000, Richard Purdie wrote:
+> >> On Fri, 2025-03-21 at 15:25 +0200, Mikko Rapeli via lists.openembedded.org wrote:
+> >>> For example genericarm64 enables "efi" in MACHINE_FEATURES
+> >>> and in u-boot. Boot without "efi" in systemd works with
+> >>> EFI protocols but for example efivars is not mounted at
+> >>> all so various checks fail in userspace. Fix these by
+> >>> enabling "efi" support if it's in MACHINE_FEATURES.
+> >>> Fixes efivars mount to /sys/firmware/efi/efivars etc.
+> >>> 
+> >>> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> >>> ---
+> >>>  meta/recipes-core/systemd/systemd_257.3.bb | 1 +
+> >>>  1 file changed, 1 insertion(+)
+> >>> 
+> >>> diff --git a/meta/recipes-core/systemd/systemd_257.3.bb b/meta/recipes-core/systemd/systemd_257.3.bb
+> >>> index 64fb8fe69a..9bc4532021 100644
+> >>> --- a/meta/recipes-core/systemd/systemd_257.3.bb
+> >>> +++ b/meta/recipes-core/systemd/systemd_257.3.bb
+> >>> @@ -69,6 +69,7 @@ PAM_PLUGINS = " \
+> >>>  
+> >>>  PACKAGECONFIG ??= " \
+> >>>      ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit apparmor efi ldconfig pam pni-names selinux smack polkit seccomp', d)} \
+> >>> +    ${@bb.utils.filter('MACHINE_FEATURES', 'efi', d)} \
+> >>>      ${@bb.utils.contains('DISTRO_FEATURES', 'minidebuginfo', 'coredump elfutils', '', d)} \
+> >>>      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', d)} \
+> >>>      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+> >> 
+> >> This makes the systemd recipe machine specific which isn't currently the case.
+> > 
+> > Can we enable "efi" in DISTRO_FEATURES by default?
+> > 
+> > That would solve the issue without checking MACHINE_FEATURES in systemd recipe.
+> 
+> If your DISTRO doesn't enable it you can either pick a more suitable DISTRO or send patches to fix your DISTRO. Changing OE-core wide defaults is the wrong thing to do.
 
-> For reference, these are the commands I used:
-> =C2=A0
-> On host machine:
-> =C2=A0
-> 1) source layers/openembedded-core/oe-init-build-env
-> 2) bitbake core-image-ptest-bluez5
-> 3) runqemu qemux86-64 core-image-ptest-bluez5 slirp nographic
-> =C2=A0
-> Within the QEMU image terminal:
-> 1) ptest-runner bluez5
-> =C2=A0
-> In local.conf I added:
-> TCLIBC=3D"musl"
-> DISTRO_FEATURES:append =3D " ptest"
-> EXTRA_IMAGE_FEATURES +=3D "ptest-pkgs"
-> IMAGE_FEATURES:append =3D " allow-empty-password empty-root-password
-> allow-root-login" # (I was having some trouble with the root login,
-> this line seemed to work for QEMU)
+The DISTROs I care about with this patch set are poky or poky-altcfg.
 
-We don't use musl on the autobuilder ptests so in theory this should
-also reproduce with glibc.
+When systemd is selected as init, it currently doesn't work in initramfs
+on UEFI systemd even when MACHINE_FEATURES has "efi" enabled.
 
 Cheers,
 
-Richard
+-Mikko
 
