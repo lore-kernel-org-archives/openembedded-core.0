@@ -2,69 +2,69 @@ Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75923C36005
-	for <webhook@archiver.kernel.org>; Tue, 25 Mar 2025 21:51:52 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.8302.1742939504550560069
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC90C36008
+	for <webhook@archiver.kernel.org>; Tue, 25 Mar 2025 21:55:12 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.8373.1742939703774672644
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Mar 2025 14:51:44 -0700
+ Tue, 25 Mar 2025 14:55:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WZ0Wmc8p;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: hiagofranco@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-227aaa82fafso70253085ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 14:51:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IfpnF5oE;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2239c066347so143411215ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 14:55:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742939504; x=1743544304; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1742939702; x=1743544502; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/+VSF14Zy0C4O27JW83BZKa36SrKGy5QIYIhonbgKQA=;
-        b=WZ0Wmc8p59qFDxHsfTitRaMtYH/uzQTkW+9b6ivivN+1NWuUF+AVWXZLAxprabWzgs
-         k7xpTxV28o3sUYI7SLPWTQeqSU4MwufcBMBBdQJcoLRKhlJO4QAjF8VwcUhgd7hxEJrq
-         PMZT65YmgsyjQIiJJxq4zMrOiKYcAnCNiuZRe2j1iyB83pX1zyKbd7psg7vowm2QoQ50
-         tgjS70JFKcTeCOPsrFp+A2TCkPZ730R3cftcBgW91PXUbOIpWQpEqQAEGeM66IihcyS5
-         SjKdEGUnPptkfQkQL3SaZHnMiClEs+i7NCfIkGnpE6YtmizYHUeO8EtF/dOJB2EiMkYT
-         IZIA==
+        bh=L5QDZq9w0zITjlxekJR9VrDYLRqvMogiRPQcM2gff18=;
+        b=IfpnF5oEbXqhl0vEkI/voIEOX7wAFTklcjnj5Q58SYmQCFpm5MJvkdeDI1YT4ymTyD
+         9SRzMKO400864YlS+nAGuZQq1/y9ebfIyiX081klm9YpapYcRZyAUbZFXSgAmbmydqfw
+         5BM16Yx9dwzo7Ytvb5S58+XgSA0pqeKQgPsFJE3cJojGyHyBXfXE3inijaTSIB4b5bFA
+         l07Tv2inXYNBbWkGJMvJv4Yq5xwJVuKl9QC5jG0H2KwvV91Du3M3b+lBkhqgzSg9TlHn
+         5LmwzFzIB84x+vJI2xyXEchTtnnvfkDG5Li2noRPuhTB+dNRQq2VCo2rkylNDFG4APgr
+         OChA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742939504; x=1743544304;
+        d=1e100.net; s=20230601; t=1742939702; x=1743544502;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/+VSF14Zy0C4O27JW83BZKa36SrKGy5QIYIhonbgKQA=;
-        b=Ynz2D3kh/j+ax0iuwitdU4rx+rnjqruEAdlzBSPtvplYl3BnfNiZXIsZ5exMk5JeXj
-         0u1xmKlHLpftK/0X8IqSacQUmsUEHAl0Mmlf1U6Nl/TPisKzd87ccxs9+LdfdvnfLpwo
-         QdZqhvyFXql1ZeP7c75XVczO0G+zrAGdkiWgPXcISQEZBRteU3J0/FFmcIt28XzmVYph
-         1YSxdJT3SVMAEP1uy/vQmpa/GGF6+zOvfcmYqRpBk9D53j4Lo73ltEdvYiJk67DfVdv6
-         /5kW6G2HKNVcrcvUQtt8q0f/wicvq5GTMKS23M0eB2lKJaypcfDmtE8BoH9EHZSJOdQ6
-         /UJg==
-X-Gm-Message-State: AOJu0YzJP3j4mLFWp5whY0l+ZUzLixseULwEf6Lr6HreiCXLCFiT3aoW
-	mJExv49q1kdVPoF7LpP3wrnWa4EeqGmsNC7KzW4liR+SHrVBX3HuJ+X32w==
-X-Gm-Gg: ASbGncuq0tJIFODe5oZ9xTMgVw+tvM6XSBJD4czKJXfXoYabHppHDInvE8gDVMVEowA
-	z6ZM7ORebKsNeOsAPvrph5lmNbKZgjJ9Z4kDv71SMVktMg4A7esNJZDgJDsZf24JeQ3O3dZAtX3
-	VaByR4GU2Vyel4YV2ayGpIScWra9DGqIkK5d+TMY87y3TOkTwrwbpZ1c/j5k0lR7zBGUcb8DeE5
-	otwcxtvZmdJuBeCmfD5ZWsyvMBq08NQBYJe4kt9dFH7ETRUpgpgT//Jw+rILc6pLItf2RPlEDaX
-	zQ/BNHuhK4aBiMTpmrbDcKCo9JXq56iRrhDY/0qWikV+KOm3s9Z3we140izs
-X-Google-Smtp-Source: AGHT+IGph5TllIEDBXYfmFqUUpBEIfmWoPL8PEN2vUUae0NMMrk/d4xGUCRMSI/QEALMEY6mbNLXdw==
-X-Received: by 2002:a17:903:244f:b0:21f:5cd8:c67 with SMTP id d9443c01a7336-22780dae04dmr282881365ad.31.1742939503430;
-        Tue, 25 Mar 2025 14:51:43 -0700 (PDT)
+        bh=L5QDZq9w0zITjlxekJR9VrDYLRqvMogiRPQcM2gff18=;
+        b=kABDTaTlTAzlo1f03jMyQM5WGGLJgvBfnyhxXnfDQLJIZRQWgyQuBMxTmsezGI7phY
+         3BfiAkPq9Aqasse9rBkkJnpNvZuvaYe6sR0c+2rjSA+JpWBUb6ujbl7hmQSE+br5wJqn
+         Jb3RLlvzKlHjvkWPnSz4PHSGDU8qOQ0BhDwLl2RVnQcLYc9Z/YK2jrQgCpdKuXH4LN1v
+         fbQ90C7TaryD12o4XAhZWd17MYHZCIhkfmv4iIsTB7EJ1qU39QWITxWYaamXv/6jyTUR
+         Gc5g8MgCkPSOi/tH7fTYzgbnnskuTw+m1FTYLisQSmMexBt9EJHXvoV4Z+GuzuMjIz0Z
+         /HtA==
+X-Gm-Message-State: AOJu0Yzo/1NE/iLR60qzLo5Q8u/zuhjEjFC5wItWS4dsN8vN7UhiTnop
+	bfLgpxaSH9L/6X+181zN/bs4t9IFBElaswgvDvFMYnOOw8Lx6eD9Mu/X/g==
+X-Gm-Gg: ASbGnctvcEAEaw8Tcr7IgirlQY+F002uW6kkNPbsPA1lCPf+9tsRpo/RFGnWGdP1oC/
+	nenE/ErBNlOPw0A26aHYadxpYyOPIEdVkQcNh5WLYCSoYYBJ7ZhjF2Ey5UGkMzwh4ED2bmUAHI5
+	yfNK/0n8VkLLKQdfnZfSSSs0mieU3+v/gC4wRrz8TLkxSsKfA3oTT5Zmrdn7QdC9YyDdM/8kdTO
+	UtGsEQNswBFEI49/KmT78UpFwPIWhQunVmMuV/FVB97+9oMn7ZsjxXPlJdP/CXamj/y05ZAzW6R
+	2hUBkipKoZJp52NDpduJQHzGaM/05x0ZvJJ4hkDyEsvvlxrQTfB7BrHn7z44rFRn0xEq4J4=
+X-Google-Smtp-Source: AGHT+IHaAmmlgIqpXhezJi3eDwOPWNlJq7/h93c5CMfBrv70c3C8rJZlrIUMCNkXrcTm4esahWRnXg==
+X-Received: by 2002:a05:6a20:7f8e:b0:1f5:7d57:8309 with SMTP id adf61e73a8af0-1fe42fd12d9mr28194009637.21.1742939702358;
+        Tue, 25 Mar 2025 14:55:02 -0700 (PDT)
 Received: from localhost.localdomain ([2804:1b3:a7c1:da40:79cd:9ebb:d848:99b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-227811c1b8fsm95438395ad.154.2025.03.25.14.51.41
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73905fa97fdsm10717612b3a.26.2025.03.25.14.55.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Mar 2025 14:51:42 -0700 (PDT)
+        Tue, 25 Mar 2025 14:55:01 -0700 (PDT)
 From: Hiago De Franco <hiagofranco@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
 	Hiago De Franco <hiago.franco@toradex.com>
-Subject: [styhead][PATCH] linux-firmware: upgrade 20240909 -> 20250311
-Date: Tue, 25 Mar 2025 18:51:15 -0300
-Message-Id: <20250325215115.10430-1-hiagofranco@gmail.com>
+Subject: [scarthgap][PATCH] linux-firmware: upgrade 20240909 -> 20250311
+Date: Tue, 25 Mar 2025 18:54:44 -0300
+Message-Id: <20250325215444.11125-1-hiagofranco@gmail.com>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 21:51:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213621
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 21:55:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213622
 
 From: Hiago De Franco <hiago.franco@toradex.com>
 
@@ -85,10 +85,10 @@ diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb b/met
 similarity index 99%
 rename from meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
 rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
-index 4bcda67c8f04..69d081ccefa3 100644
+index 30c47d772088..2ba362ed3b33 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
-@@ -158,7 +158,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+@@ -154,7 +154,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
                      "
  # WHENCE checksum is defined separately to ease overriding it if
  # class-devupstream is selected.
@@ -97,7 +97,7 @@ index 4bcda67c8f04..69d081ccefa3 100644
  
  # These are not common licenses, set NO_GENERIC_LICENSE for them
  # so that the license files will be copied from fetched source
-@@ -247,23 +247,35 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+@@ -241,23 +241,35 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
  # Pin this to the 20220509 release, override this in local.conf
  SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
  
@@ -136,8 +136,8 @@ index 4bcda67c8f04..69d081ccefa3 100644
 +                oe_runmake 'DESTDIR=${D}' 'FIRMWAREDIR=${nonarch_base_libdir}/firmware' dedup
 +        fi
          cp LICEN[CS]E.* WHENCE ${D}${nonarch_base_libdir}/firmware/
-         cp wfx/LICEN[CS]E.* ${D}${nonarch_base_libdir}/firmware/wfx/
  }
+ 
 -- 
 2.39.5
 
