@@ -1,102 +1,109 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2297C35FFC
-	for <webhook@archiver.kernel.org>; Tue, 25 Mar 2025 09:08:00 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.61605.1742893679575810596
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97065C36008
+	for <webhook@archiver.kernel.org>; Tue, 25 Mar 2025 09:08:10 +0000 (UTC)
+Received: from smtp-1908.mail.infomaniak.ch (smtp-1908.mail.infomaniak.ch [185.125.25.8])
+ by mx.groups.io with SMTP id smtpd.web10.61610.1742893689787859336
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Mar 2025 02:07:59 -0700
+ Tue, 25 Mar 2025 02:08:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=51792dbb80=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52P7jBhZ021478
-	for <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 02:07:59 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45hvqkar21-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 02:07:58 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 25 Mar 2025 02:07:56 -0700
-From: yurade <yogita.urade@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH 1/1] libarchive: upgrade 3.7.7 -> 3.7.8
-Date: Tue, 25 Mar 2025 09:07:33 +0000
-Message-ID: <20250325090733.1137503-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.8, mailfrom: foss+yocto@0leil.net)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4ZMPGH66Nzz4BC;
+	Tue, 25 Mar 2025 10:08:07 +0100 (CET)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4ZMPGH2McLzyG3;
+	Tue, 25 Mar 2025 10:08:07 +0100 (CET)
+From: Quentin Schulz <foss+yocto@0leil.net>
+Date: Tue, 25 Mar 2025 10:07:54 +0100
+Subject: [PATCH] b4-wrapper-poky.py: output errors to stderr
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Authority-Analysis: v=2.4 cv=XNkwSRhE c=1 sm=1 tr=0 ts=67e2726e cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=Vs1iUdzkB0EA:10 a=3uWsZ661AAAA:8 a=t7CeM3EgAAAA:8 a=yMtZ7uqkIXQdOIziOvQA:9 a=fYNom5PXsM5enKJDCoVv:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: SAR8P0W62_JGkPRQFlbieAcm-hygKW99
-X-Proofpoint-ORIG-GUID: SAR8P0W62_JGkPRQFlbieAcm-hygKW99
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-25_03,2025-03-25_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
- mlxscore=0 impostorscore=0 adultscore=0 spamscore=0 phishscore=0
- mlxlogscore=999 malwarescore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2503250063
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250325-b4-poky-stderr-v1-1-85c23d0f950b@cherry.de>
+X-B4-Tracking: v=1; b=H4sIAGpy4mcC/x3MwQpAQBCA4VfRnE2tXRt5FTkYZpkUmpVI3t3m+
+ B3+/4HIKhyhyR5QPiXKtiYUeQbD3K8To4zJYI31xlmPVOK+LTfGY2RVrCtbDUTBERlI0a4c5Pq
+ Hbfe+H0iQ48hgAAAA
+X-Change-ID: 20250325-b4-poky-stderr-8727cbbf3bb0
+To: openembedded-core@lists.openembedded.org
+Cc: Quentin Schulz <quentin.schulz@cherry.de>, 
+ Khem Raj <raj.khem@gmail.com>
+X-Mailer: b4 0.14.2
+X-Infomaniak-Routing: alpha
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 09:08:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213596
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 09:08:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213597
 
-From: Yogita Urade <yogita.urade@windriver.com>
+From: Quentin Schulz <quentin.schulz@cherry.de>
 
-This upgrade includes fix for CVE-2024-57970, CVE-2025-25724 and
-CVE-2025-1632
+Print error messages to stderr instead of stdout.
 
-Changelog:
-==========
-Libarchive 3.7.8 is a bugfix and security release
+The commands run as part of send-auto-cc-cmd and send-auto-to-cmd b4
+commands will make b4 raise an Exception if they return a non-zero
+return code and it will only print the content of stderr before that.
 
-Security fixes:
-tar reader: Handle truncation in the middle of a GNU long linkname (#2422, CVE-2024-57970)
-unzip: fix null pointer dereference (#2532, CVE-2025-1632)
-tar reader: fix unchecked return value in list_item_verbose() (#2532, CVE-2025-25724)
+Because print defaults to stdout, b4 would raise the exception and not
+tell the user why. This commit should now provide a hint to the user
+about what went wrong.
 
-Important bugfixes:
-7zip reader: add SPARC (#2399) and POWERPC (#2459) filter support for non-LZMA compressors
-tar reader: Ignore ustar size when pax size is present (#2405)
-tar writer: Fix bug when -s/a/b/ used more than once with b flag (#2435)
-cpio: Fix a Y2038 bug on Windows (#2471)
-libarchive: Handle ARCHIVE_FILTER_LZOP in archive_read_append_filter (#2519)
-libarchive: Adding missing seeker function to archive_read_open_FILE() (#2539)
-
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+Reported-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- .../libarchive/{libarchive_3.7.7.bb => libarchive_3.7.8.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/libarchive/{libarchive_3.7.7.bb => libarchive_3.7.8.bb} (96%)
+ scripts/b4-wrapper-poky.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.7.bb b/meta/recipes-extended/libarchive/libarchive_3.7.8.bb
-similarity index 96%
-rename from meta/recipes-extended/libarchive/libarchive_3.7.7.bb
-rename to meta/recipes-extended/libarchive/libarchive_3.7.8.bb
-index 0a0a6b374b..d78b38d3e9 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.7.7.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.7.8.bb
-@@ -33,7 +33,7 @@ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+diff --git a/scripts/b4-wrapper-poky.py b/scripts/b4-wrapper-poky.py
+index ec6568eb9b7cab389178c08173a43caa2fc6bd48..f1170db06bf0d41c7251dca54cf43912c04ace7b 100755
+--- a/scripts/b4-wrapper-poky.py
++++ b/scripts/b4-wrapper-poky.py
+@@ -53,7 +53,7 @@ subject = None
+ ref = None
  
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ if not shutil.which("lsdiff"):
+-    print("lsdiff missing from host, please install patchutils")
++    print("lsdiff missing from host, please install patchutils", file=sys.stderr)
+     sys.exit(-1)
  
--SRC_URI[sha256sum] = "4cc540a3e9a1eebdefa1045d2e4184831100667e6d7d5b315bb1cbc951f8ddff"
-+SRC_URI[sha256sum] = "a123d87b1bd8adb19e8c187da17ae2d957c7f9596e741b929e6b9ceefea5ad0f"
+ try:
+@@ -80,7 +80,7 @@ try:
+                 break
  
- CVE_STATUS[CVE-2023-30571] = "upstream-wontfix: upstream has documented that reported function is not thread-safe"
+         if not ref:
+-            print("Failed to find ref to cover letter (References:)...")
++            print("Failed to find ref to cover letter (References:)...", file=sys.stderr)
+             sys.exit(-2)
  
+         ref = ref.group(1)
+@@ -143,7 +143,8 @@ try:
+ 
+     if cmd == "prep-perpatch-check-cmd":
+         if len(projs) > 1:
+-            print(f"Diff spans more than one project ({', '.join(sorted(projs))}), split into multiple commits...")
++            print(f"Diff spans more than one project ({', '.join(sorted(projs))}), split into multiple commits...",
++                  file=sys.stderr)
+             sys.exit(-3)
+ 
+         # No need to check other patches in the series as there aren't any
+@@ -164,7 +165,8 @@ try:
+         series_check.write_text('\n'.join(uniq_series_projs))
+ 
+         if len(uniq_series_projs) > 1:
+-            print(f"Series spans more than one project ({', '.join(sorted(uniq_series_projs))}), split into multiple series...")
++            print(f"Series spans more than one project ({', '.join(sorted(uniq_series_projs))}), split into multiple series...",
++                  file=sys.stderr)
+             sys.exit(-4)
+     else:  # send-auto-cc-cmd / send-auto-to-cmd
+         ml_projs = {
+
+---
+base-commit: 6edb7e77f1342cb63f11067c50f9a2b10f10b3b9
+change-id: 20250325-b4-poky-stderr-8727cbbf3bb0
+
+Best regards,
 -- 
-2.40.0
+Quentin Schulz <quentin.schulz@cherry.de>
 
 
