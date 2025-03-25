@@ -1,205 +1,189 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24548C36005
-	for <webhook@archiver.kernel.org>; Tue, 25 Mar 2025 21:14:52 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web10.7470.1742937285900800517
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 739BDC3600D
+	for <webhook@archiver.kernel.org>; Tue, 25 Mar 2025 21:42:12 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.8064.1742938922724565455
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Mar 2025 14:14:46 -0700
+ Tue, 25 Mar 2025 14:42:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=VEEUURxV;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202503252114428e033088443a4064cc-qqcmhk@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202503252114428e033088443a4064cc
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 25 Mar 2025 22:14:43 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=FlR1DtvR9xhuFMR3uVvzGX1kjSs/MgC44G7sDSJarEU=;
- b=VEEUURxVuc2QzbSXnvZMTedU9nIZr3Ueg6BVGX4czu0o76YKI12qq8y8vQ1eYYOYJMKm5L
- tvmLoGbsPQZua4+uiK0NQMqB4FXrSpmbgRSwOZDhhuexkZ08aAbbD742DwXH5YQJl+LrykEk
- hrpK4IC1XLjuFDJ4SvrI3U9K2/9FAkYUecWBBEtEPt4yf1bTCtbRoUeuDAY4TToAOXXjfsm8
- g8U9fReFJ05m9HRScgJ5DcaVYrapcxGo1AVWW+YA7tRzpt2BYvyN0s7Nf1pLW1VWXU7ubg2S
- ZyrL/jH5JNkpnsRZebRLRpV5kWJzvnnSscWcP2o49ZP804yIpgmGv4XA==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MFXmAGFl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso60538845e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 14:42:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1742938921; x=1743543721; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KV5dUU5CVKd4N4V08uGG3V2Zcx7+hkdknKz53f0IxPk=;
+        b=MFXmAGFllgaabEB5AfU5ztrhJpsKWpOO8sdYkbSq2T4JXFoNw7Z1zc8Ch2wsZjZi/n
+         e4oO14l5D3rTXv3Zrwuoyi1sq3OPtg10uZyXLHWZP94HxDr3hRVLv1pZnIgzaWsSsrau
+         7+K1z02/sq166iJmkDGvQAyTKohXN04j3Q5JM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742938921; x=1743543721;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KV5dUU5CVKd4N4V08uGG3V2Zcx7+hkdknKz53f0IxPk=;
+        b=GMLgxRhkfLNnoYdPNSRqCbr5ETfEWwIokCSE+kzyyvac/xlzNJvuNFHVAT+VG0GP2r
+         D+QrTGBK+fF3eY10MGlOEL9iJS4XyRFi5WOSNnWGtyLV6XMKjHzD9Phk1pRfhFLVjx0X
+         Z0Akp3zxsMf/EN6xjnceJoIuv4Vjx3dmR/VCqo9pbeehT1yeJE6T52JjuxBluLbwowkT
+         SNCsBpxdw/6B4v1Nnm0WL7lCO1c/0YQsdlUQNVHSNOvTtoEe92WGhdaWxErw0WY/kiZC
+         UUoYwRwk+lPkqpJnSKs1VKgWiPxsGHQUpqDSRnc6zT2lV/SvCbDtmDgCdeWEXApySmCk
+         33aQ==
+X-Gm-Message-State: AOJu0YwI9bZ5OEFs4/yWYeMDBzwTP2iOKVvrVSutVbsoX7hJM1WJSu9u
+	P8NU1YousQ05gCL2bxUHGpFj+f613Vs5RHrzfGdVaP/ScRueMB4nVkO1jyw+Iy7uKj1ZPdBcFK2
+	3
+X-Gm-Gg: ASbGncsXuNbhVez4EE+5rRPiefdOQsvLjIsQRyVCry7a5EOB/BimretygJORgjptAHg
+	5TOu+ifAJ7vfBez+lsBrDe/IkhNgdV3/GrF213BogSlNyrJN37a0cgBtPkicPp3uhsJgn1Oc6aC
+	1He+jbs7gbNpyz1x3CAt7nZGQpzdTgzZv2BK4KygnYNmZLuRp9VUfcJgODImrgss0favGwY/8kl
+	6tJ0euWHMdVY4zw2X7XUYkXIrXHixDoV8GplKx1c3hxAVYehUFjpW+dm2q2sQc2ivzVVCa+3zq/
+	AhXxFKzy1wV3AeN2AlC97Zs+tMrkqdaOQ6I5iSxtjeeGt2NEs+M7ImZHtSlhieEe0i++TmAEaA=
+	=
+X-Google-Smtp-Source: AGHT+IHC/Eht7eroA9Cd4ItabEdzmN7B40JSn8JfkBf/KyQ+S2+R5TFDBcVVFwTcOgICRhzTj8lXiA==
+X-Received: by 2002:a05:600c:46c3:b0:43b:ce3c:19d0 with SMTP id 5b1f17b1804b1-43d5e6fc3b6mr97756745e9.29.1742938920453;
+        Tue, 25 Mar 2025 14:42:00 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:367a:5014:d4b0:4e9f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f995423sm14628537f8f.20.2025.03.25.14.41.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Mar 2025 14:41:59 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] python3: patch CVE-2025-0938
-Date: Tue, 25 Mar 2025 22:13:56 +0100
-Message-Id: <20250325211356.9735-1-peter.marko@siemens.com>
+Subject: [PATCH v2] meta/conf: Start to populate autobuilder config fragments
+Date: Tue, 25 Mar 2025 21:41:58 +0000
+Message-ID: <20250325214158.641463-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 21:14:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213618
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 21:42:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213619
 
-From: Peter Marko <peter.marko@siemens.com>
+This populates the fragments directory with:
 
-Pick commit mentioned in NDV CVE report
-https://github.com/python/cpython/commit/b8b4b713c5f8ec0958c7ef8d29d6711889bc94ab
-which is on 3.10 branch.
+a) the default set of variables used in all autobuilder builds
+b) the default resource related variables used in all autobuilder builds
+c) three different multilib test configurations used by the autobuilder
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+The aim here is to start to make some of the autobuilder configuration more
+visable and patchable by users, and to allow some test confiturations to
+be user selectable if appropriate and needed for debugging.
+
+The main aautobuilder fragment is probably not directly reusable by most
+users, it contains the resource limits as used on the autobuilder itself. I
+can see arguments both way for whether this should be included in OE-Core or not
+but having an example of how we configure this is probably useful.
+
+Not all configuration in the autobuilder is being moved, this set of variables
+is just a basic starting point. Some variables may ultimately make more sense
+being migrated elsewhere, perhaps updating the main defaults for poky or nodistro.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../python/python3/CVE-2025-0938.patch        | 131 ++++++++++++++++++
- .../python/python3_3.10.16.bb                 |   1 +
- 2 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-0938.patch
+ .../autobuilder-resource-constraints.conf     | 26 +++++++++++++++++++
+ .../yocto-autobuilder/autobuilder.conf        | 14 ++++++++++
+ .../multilib-mips64-n32.conf                  |  8 ++++++
+ .../yocto-autobuilder/multilib-x86-lib32.conf |  6 +++++
+ .../yocto-autobuilder/multilib-x86-lib64.conf |  6 +++++
+ 5 files changed, 60 insertions(+)
+ create mode 100644 meta/conf/fragments/yocto-autobuilder/autobuilder-resource-constraints.conf
+ create mode 100644 meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+ create mode 100644 meta/conf/fragments/yocto-autobuilder/multilib-mips64-n32.conf
+ create mode 100644 meta/conf/fragments/yocto-autobuilder/multilib-x86-lib32.conf
+ create mode 100644 meta/conf/fragments/yocto-autobuilder/multilib-x86-lib64.conf
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-0938.patch b/meta/recipes-devtools/python/python3/CVE-2025-0938.patch
+diff --git a/meta/conf/fragments/yocto-autobuilder/autobuilder-resource-constraints.conf b/meta/conf/fragments/yocto-autobuilder/autobuilder-resource-constraints.conf
 new file mode 100644
-index 0000000000..5730008f4b
+index 00000000000..58cadd92b64
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2025-0938.patch
-@@ -0,0 +1,131 @@
-+From b8b4b713c5f8ec0958c7ef8d29d6711889bc94ab Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Wed, 19 Feb 2025 14:36:23 +0100
-+Subject: [PATCH] [3.10] gh-105704: Disallow square brackets (`[` and `]`) in
-+ domain names for parsed URLs (GH-129418) (#129529)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/conf/fragments/yocto-autobuilder/autobuilder-resource-constraints.conf
+@@ -0,0 +1,26 @@
++BB_CONF_FRAGMENT_SUMMARY = "Resource constraint variables used on the Yocto Projects autobuilder"
++BB_CONF_FRAGMENT_DESCRIPTION = "Resource constraint variables used on the Yocto Projects autobuilder"
 +
-+(cherry picked from commit d89a5f6a6e65511a5f6e0618c4c30a7aa5aba56a)
++BB_NUMBER_THREADS = '16'
++BB_NUMBER_PARSE_THREADS = '16'
++BB_SERVER_TIMEOUT = '60'
++PARALLEL_MAKE = '-j 16 -l 75'
++BB_PRESSURE_MAX_CPU = '20000'
++BB_PRESSURE_MAX_IO = '20000'
++BB_LOADFACTOR_MAX = '1.5'
++XZ_MEMLIMIT = '5%'
++XZ_THREADS = '8'
++ZSTD_THREADS = '8'
++BB_TASK_NICE_LEVEL = '5'
++BB_TASK_NICE_LEVEL:task-testimage = '0'
++BB_TASK_IONICE_LEVEL = '2.7'
++BB_TASK_IONICE_LEVEL:task-testimage = '2.1'
++TEST_QEMUBOOT_TIMEOUT = '1500'
++BB_DISKMON_DIRS ?= 'STOPTASKS,${TMPDIR},1G,100K STOPTASKS,${DL_DIR},1G STOPTASKS,${SSTATE_DIR},1G STOPTASKS,/tmp,100M,30K HALT,${TMPDIR},100M,1K HALT,${DL_DIR},100M HALT,${SSTATE_DIR},100M HALT,/tmp,10M,1K'
++RUNQEMU_TMPFS_DIR = '/home/pokybuild/tmp'
++BB_HEARTBEAT_EVENT ?= '60'
++BB_LOG_HOST_STAT_ON_INTERVAL = '1'
++BB_LOG_HOST_STAT_CMDS_INTERVAL = 'oe-time-dd-test.sh -c 100 -t 3'
++BB_LOG_HOST_STAT_ON_FAILURE = '1'
++BB_LOG_HOST_STAT_CMDS_FAILURE = 'oe-time-dd-test.sh -l'
 +
-+Co-authored-by: Seth Michael Larson <seth@python.org>
-+Co-authored-by: Peter Bierma <zintensitydev@gmail.com>
-+Co-authored-by: Łukasz Langa <lukasz@langa.pl>
+diff --git a/meta/conf/fragments/yocto-autobuilder/autobuilder.conf b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+new file mode 100644
+index 00000000000..cdccc1390a3
+--- /dev/null
++++ b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+@@ -0,0 +1,14 @@
++BB_CONF_FRAGMENT_SUMMARY = "Default variables used on the Yocto Projects autobuilder builds"
++BB_CONF_FRAGMENT_DESCRIPTION = "Default variables used on the Yocto Projects autobuilder builds"
 +
-+CVE: CVE-2025-0938
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/b8b4b713c5f8ec0958c7ef8d29d6711889bc94ab]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ Lib/test/test_urlparse.py                     | 37 ++++++++++++++++++-
-+ Lib/urllib/parse.py                           | 20 +++++++++-
-+ ...-01-28-14-08-03.gh-issue-105704.EnhHxu.rst |  4 ++
-+ 3 files changed, 58 insertions(+), 3 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2025-01-28-14-08-03.gh-issue-105704.EnhHxu.rst
++QEMU_USE_KVM ?= 'True'
++INHERIT += 'report-error'
++PREMIRRORS = ''
++BB_GENERATE_MIRROR_TARBALLS = '1'
++IMAGE_CLASSES += 'testimage'
++SANITY_TESTED_DISTROS = ''
++SDK_EXT_TYPE = 'minimal'
++SDK_INCLUDE_TOOLCHAIN = '1'
++ESDK_LOCALCONF_REMOVE:append = 'BB_HASHSERVE'
++SDK_TOOLCHAIN_LANGS += 'rust'
 +
-+diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
-+index f2ffc452e5..280644ef0b 100644
-+--- a/Lib/test/test_urlparse.py
-++++ b/Lib/test/test_urlparse.py
-+@@ -1149,16 +1149,51 @@ class UrlParseTestCase(unittest.TestCase):
-+         self.assertRaises(ValueError, urllib.parse.urlsplit, 'Scheme://user@[0439:23af::2309::fae7:1234]/Path?Query')
-+         self.assertRaises(ValueError, urllib.parse.urlsplit, 'Scheme://user@[0439:23af:2309::fae7:1234:2342:438e:192.0.2.146]/Path?Query')
-+         self.assertRaises(ValueError, urllib.parse.urlsplit, 'Scheme://user@]v6a.ip[/Path')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[v6a.ip]')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[v6a.ip].suffix')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[v6a.ip]/')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[v6a.ip].suffix/')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[v6a.ip]?')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[v6a.ip].suffix?')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[::1]')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[::1].suffix')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[::1]/')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[::1].suffix/')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[::1]?')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[::1].suffix?')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[::1]:a')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[::1].suffix:a')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[::1]:a1')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[::1].suffix:a1')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[::1]:1a')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[::1].suffix:1a')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[::1]:')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[::1].suffix:/')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[::1]:?')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://user@prefix.[v6a.ip]')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://user@[v6a.ip].suffix')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://[v6a.ip')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://v6a.ip]')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://]v6a.ip[')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://]v6a.ip')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://v6a.ip[')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix.[v6a.ip')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://v6a.ip].suffix')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix]v6a.ip[suffix')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://prefix]v6a.ip')
-++        self.assertRaises(ValueError, urllib.parse.urlsplit, 'scheme://v6a.ip[suffix')
-+ 
-+     def test_splitting_bracketed_hosts(self):
-+-        p1 = urllib.parse.urlsplit('scheme://user@[v6a.ip]/path?query')
-++        p1 = urllib.parse.urlsplit('scheme://user@[v6a.ip]:1234/path?query')
-+         self.assertEqual(p1.hostname, 'v6a.ip')
-+         self.assertEqual(p1.username, 'user')
-+         self.assertEqual(p1.path, '/path')
-++        self.assertEqual(p1.port, 1234)
-+         p2 = urllib.parse.urlsplit('scheme://user@[0439:23af:2309::fae7%test]/path?query')
-+         self.assertEqual(p2.hostname, '0439:23af:2309::fae7%test')
-+         self.assertEqual(p2.username, 'user')
-+         self.assertEqual(p2.path, '/path')
-++        self.assertIs(p2.port, None)
-+         p3 = urllib.parse.urlsplit('scheme://user@[0439:23af:2309::fae7:1234:192.0.2.146%test]/path?query')
-+         self.assertEqual(p3.hostname, '0439:23af:2309::fae7:1234:192.0.2.146%test')
-+         self.assertEqual(p3.username, 'user')
-+diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
-+index 07e3248504..e1ee36d98e 100644
-+--- a/Lib/urllib/parse.py
-++++ b/Lib/urllib/parse.py
-+@@ -442,6 +442,23 @@ def _checknetloc(netloc):
-+             raise ValueError("netloc '" + netloc + "' contains invalid " +
-+                              "characters under NFKC normalization")
-+ 
-++def _check_bracketed_netloc(netloc):
-++    # Note that this function must mirror the splitting
-++    # done in NetlocResultMixins._hostinfo().
-++    hostname_and_port = netloc.rpartition('@')[2]
-++    before_bracket, have_open_br, bracketed = hostname_and_port.partition('[')
-++    if have_open_br:
-++        # No data is allowed before a bracket.
-++        if before_bracket:
-++            raise ValueError("Invalid IPv6 URL")
-++        hostname, _, port = bracketed.partition(']')
-++        # No data is allowed after the bracket but before the port delimiter.
-++        if port and not port.startswith(":"):
-++            raise ValueError("Invalid IPv6 URL")
-++    else:
-++        hostname, _, port = hostname_and_port.partition(':')
-++    _check_bracketed_host(hostname)
-++
-+ # Valid bracketed hosts are defined in
-+ # https://www.rfc-editor.org/rfc/rfc3986#page-49 and https://url.spec.whatwg.org/
-+ def _check_bracketed_host(hostname):
-+@@ -505,8 +522,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
-+                 (']' in netloc and '[' not in netloc)):
-+             raise ValueError("Invalid IPv6 URL")
-+         if '[' in netloc and ']' in netloc:
-+-            bracketed_host = netloc.partition('[')[2].partition(']')[0]
-+-            _check_bracketed_host(bracketed_host)
-++            _check_bracketed_netloc(netloc)
-+     if allow_fragments and '#' in url:
-+         url, fragment = url.split('#', 1)
-+     if '?' in url:
-+diff --git a/Misc/NEWS.d/next/Security/2025-01-28-14-08-03.gh-issue-105704.EnhHxu.rst b/Misc/NEWS.d/next/Security/2025-01-28-14-08-03.gh-issue-105704.EnhHxu.rst
-+new file mode 100644
-+index 0000000000..bff1bc6b0d
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2025-01-28-14-08-03.gh-issue-105704.EnhHxu.rst
-+@@ -0,0 +1,4 @@
-++When using :func:`urllib.parse.urlsplit` and :func:`urllib.parse.urlparse` host
-++parsing would not reject domain names containing square brackets (``[`` and
-++``]``). Square brackets are only valid for IPv6 and IPvFuture hosts according to
-++`RFC 3986 Section 3.2.2 <https://www.rfc-editor.org/rfc/rfc3986#section-3.2.2>`__.
-diff --git a/meta/recipes-devtools/python/python3_3.10.16.bb b/meta/recipes-devtools/python/python3_3.10.16.bb
-index 48f845b089..932791f38d 100644
---- a/meta/recipes-devtools/python/python3_3.10.16.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.16.bb
-@@ -37,6 +37,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-test_storlines-skip-due-to-load-variability.patch \
-            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
-+           file://CVE-2025-0938.patch \
-            "
- 
- SRC_URI:append:class-native = " \
+diff --git a/meta/conf/fragments/yocto-autobuilder/multilib-mips64-n32.conf b/meta/conf/fragments/yocto-autobuilder/multilib-mips64-n32.conf
+new file mode 100644
+index 00000000000..ec076b59f9f
+--- /dev/null
++++ b/meta/conf/fragments/yocto-autobuilder/multilib-mips64-n32.conf
+@@ -0,0 +1,8 @@
++BB_CONF_FRAGMENT_SUMMARY = "Enable a MIPS64 triarch multilib"
++BB_CONF_FRAGMENT_DESCRIPTION = "Enable a MIPS64 triarch multilib"
++
++require conf/multilib.conf
++MULTILIBS = 'multilib:lib64 multilib:lib32'
++DEFAULTTUNE = 'mips64-n32'
++DEFAULTTUNE:virtclass-multilib-lib64 = 'mips64'
++DEFAULTTUNE:virtclass-multilib-lib32 = 'mips32r2'
+diff --git a/meta/conf/fragments/yocto-autobuilder/multilib-x86-lib32.conf b/meta/conf/fragments/yocto-autobuilder/multilib-x86-lib32.conf
+new file mode 100644
+index 00000000000..9b0e2578ac9
+--- /dev/null
++++ b/meta/conf/fragments/yocto-autobuilder/multilib-x86-lib32.conf
+@@ -0,0 +1,6 @@
++BB_CONF_FRAGMENT_SUMMARY = "Enable an x86 lib32 multilib"
++BB_CONF_FRAGMENT_DESCRIPTION = "Enable an x86 lib32 multilib"
++
++require conf/multilib.conf
++MULTILIBS = 'multilib:lib32'
++DEFAULTTUNE:virtclass-multilib-lib32 = 'x86'
+diff --git a/meta/conf/fragments/yocto-autobuilder/multilib-x86-lib64.conf b/meta/conf/fragments/yocto-autobuilder/multilib-x86-lib64.conf
+new file mode 100644
+index 00000000000..1986b994e4b
+--- /dev/null
++++ b/meta/conf/fragments/yocto-autobuilder/multilib-x86-lib64.conf
+@@ -0,0 +1,6 @@
++BB_CONF_FRAGMENT_SUMMARY = "Enable an x86 lib64 multilib"
++BB_CONF_FRAGMENT_DESCRIPTION = "Enable an x86 lib64 multilib"
++
++require conf/multilib.conf
++MULTILIBS = 'multilib:lib64'
++DEFAULTTUNE:virtclass-multilib-lib64 = 'x86-64'
 
