@@ -1,126 +1,110 @@
-Return-Path: <rajendra.desai@emerson.com>
+Return-Path: <christoph-cordt.von-egidy@compleo-cs.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC8CC35FFC
-	for <webhook@archiver.kernel.org>; Tue, 25 Mar 2025 15:54:43 +0000 (UTC)
-Received: from mx0b-00300601.pphosted.com (mx0b-00300601.pphosted.com [148.163.142.35])
- by mx.groups.io with SMTP id smtpd.web11.69338.1742918079740445917
- for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Mar 2025 08:54:39 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@emerson.com header.s=email header.b=aVVqVIIN;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: emerson.com, ip: 148.163.142.35, mailfrom: prvs=2179673b40=rajendra.desai@emerson.com)
-Received: from pps.filterd (m0144091.ppops.net [127.0.0.1])
-	by mx0b-00300601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52PDnnRY016114
-	for <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 15:54:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emerson.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=email; bh=UBFmROsgIPbZUEUDjcU+lABEEg
-	VfCMM6V82Ny7n3OLM=; b=aVVqVIINy3uXiEMDV428vdmGfheF+jm6jLVCrbaT+k
-	XY269wHXy0+oW+JHPbylpzImyrzWUtrimfF/zc271eVjWRqSJcicuwgyJyAG2RdA
-	+HrtAxYUkm6Mcygs42esRGlWVwLVl1Vp1XSANuQFyl93UARRX0jNqKvlvOMvB2U+
-	cRIcDYacdOtAgWbtyWL8jmLxoxG9N0tJ5S0BT9AV3JGT5tSzn6zZvyAO4qZetxc2
-	ZIhkrBitCFn0lYjUFMjcHaW5Cu1+3kG4MikX8xoRXFrk2liRegofx0yCSGXSQ/zK
-	+RPUVzS66FwrbitKnVJLpFqjk41zi2B40C5pZyaqPxGQ==
-Received: from us-aus-excas-p2.ni.corp.natinst.com ([130.164.94.74])
-	by mx0b-00300601.pphosted.com (PPS) with ESMTPS id 45kwqbjp0k-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 15:54:38 +0000 (GMT)
-Received: from us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) by
- us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Tue, 25 Mar 2025 10:54:37 -0500
-Received: from sombRayRo.ni.corp.natinst.com (172.18.68.32) by
- us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) with Microsoft SMTP
- Server id 15.2.1258.28 via Frontend Transport; Tue, 25 Mar 2025 10:54:36
- -0500
-From: Rajendra Desai <rajendra.desai@emerson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Rajendra Desai <rajendra.desai@emerson.com>
-Subject: [PATCH] perl-ptest: copy xconfig data from perl source directory
-Date: Tue, 25 Mar 2025 21:21:48 +0530
-Message-ID: <20250325155148.981445-1-rajendra.desai@emerson.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9CE3C3600B
+	for <webhook@archiver.kernel.org>; Tue, 25 Mar 2025 16:40:49 +0000 (UTC)
+Subject: eSDK: extra nativesdk binaries are not relocated
+To: openembedded-core@lists.openembedded.org
+From: christoph-cordt.von-egidy@compleo-cs.com
+X-Originating-Location: Grevenbroich, North Rhine-Westphalia, DE (91.25.195.251)
+X-Originating-Platform: Linux Firefox 136
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: FKUjM6rCdshGoZ75LZ6sI0YWoAhCxai9
-X-Proofpoint-ORIG-GUID: FKUjM6rCdshGoZ75LZ6sI0YWoAhCxai9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-25_06,2025-03-25_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- adultscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- suspectscore=0 clxscore=1015 priorityscore=1501 spamscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503250111
+Date: Tue, 25 Mar 2025 09:40:49 -0700
+Message-ID: <88Lh.1742920849565347329.2cvL@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="K6esPU0MBF1VdRkcwuzG"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 15:54:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213604
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 16:40:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213605
 
-The following perl ptests:
+--K6esPU0MBF1VdRkcwuzG
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-  - dist/ExtUtils-ParseXS/t/001-basic
-  - dist/ExtUtils-ParseXS/t/002-more
-  - dist/ExtUtils-ParseXS/t/003-usage
-  - cpan/ExtUtils-Constant/t/Constant
-  - cpan/ExtUtils-MakeMaker/t/02-xsdynamic
+Dear all,
 
-are erroring out with:
-| /usr/lib/perl/ptest/perl_langinfo.h:8:10: fatal error:
-xconfig.h: No such file or directory
-|     8 | #include "xconfig.h"
+I am trying to add some native tools to the (bundled) extensible SDK. Unfor=
+tunately, the executables don't seem to be relocated during installation an=
+d setup of the eSDK, and thus cannot be run. To eliminate possible conflict=
+s with our yocto setup, I tested again with the vanilla poky distribution a=
+nd was able to reproduce the issue:
 
-xconfig.h contains references to the build host architecture and was
-removed by commit 2e0f30c46802 ("perl: do not install files that contain
-build host specific data")
+* clone and initialize poky ( *kirkstone* )
+* add the desired package (e.g. socat) and the necessary dummies to local.c=
+onf:
+TOOLCHAIN_HOST_TASK_ESDK:append =3D " nativesdk-socat nativesdk-sdk-provide=
+s-dummy"
+* create the eSDK for core-image-sato:
+bitbake -c populate_sdk_ext core-image-sato
 
-However, it is still included from various other places including these
-tests, and we are still depending on build host architecture data by
-including the patches from perl-cross recipe, a dependency to perl recipe.
+After installing the resulting eSDK, socat's libraries and executables are =
+copied to the eSDK's sysroot directly ("<sdkpath>/sysroots/x86_64-pokysdk-l=
+inux/..."). However, their dynamic loader is still set to the placeholder "=
+/usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/lib/ld-=
+linux-x86-64.so.2". Possible symlinks (as installed for e.g. nativesdk-file=
+) also target a sysroot at "/usr/local/oe-sdk-hardcoded-buildpath/sysroots/=
+x86_64-pokysdk-linux/...". If python or a package requiring it is installed=
+, it even breaks devtool, as it is found via PATH before the "<sdkpath>/bui=
+ldtools/sysroots"'s python (which is relocated correctly).
 
-xconfig.h was added back as a copy step in the commit f90922cdeef5
-("update 5.36.1 -> 5.38.0") but was not added back in perl-ptest include
-file.
+When testing the scenario with *scarthgap* , the installed extra binaries r=
+emain "unrelocated". But apparently devtool was moved away from "<sdkpath>/=
+sysroots", and the environment-setup script no longer adds this sysroot to =
+PATH.
 
-Borrowed the logic from the above commit to make a copy of config.h
-that is specific to the target architecture. The changes in this commit
-fixes the test failures.
+So, how should tools that I want to run on the sdk machine be added to the =
+eSDK? Should they somehow be added to the buildtools, for which the relocat=
+ion is still performed?
 
-Signed-off-by: Rajendra Desai <rajendra.desai@emerson.com>
----
- meta/recipes-devtools/perl/perl-ptest.inc | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Thanks and best regards
+Cordt
 
-diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
-index e07355d3f5..42d46dfd78 100644
---- a/meta/recipes-devtools/perl/perl-ptest.inc
-+++ b/meta/recipes-devtools/perl/perl-ptest.inc
-@@ -20,6 +20,11 @@ do_install_ptest () {
- 
- 	ln -sf ${bindir}/perl ${D}${PTEST_PATH}/t/perl
- 
-+	# xconfig.h contains references to build host architecture, and yet is included from various other places.
-+	# To make it reproducible let's make it a copy of config.h patch that is specific to the target architecture.
-+	# It is believed that the original header is the product of building miniperl (a helper executable built with host compiler).
-+	cp ${D}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/CORE/config.h ${D}${PTEST_PATH}/xconfig.h
-+
- 	# Remove build host references from various scattered files...
- 	find "${D}${PTEST_PATH}" \
- 	     \( -name '*.PL' -o -name 'myconfig' -o -name 'cflags' -o -name '*.pl' -o -name '*.sh' -o -name '*.pm' \
-@@ -44,7 +49,7 @@ do_install_ptest () {
- 	 sed -i -e '/Autogenerated starting on/d' ${D}${PTEST_PATH}/lib/unicore/mktables.lst
- 
- 	 # Remove files with host-specific configuration for building native binaries
--	 rm ${D}${PTEST_PATH}/Makefile.config ${D}${PTEST_PATH}/xconfig.h ${D}${PTEST_PATH}/xconfig.sh
-+	 rm ${D}${PTEST_PATH}/Makefile.config ${D}${PTEST_PATH}/xconfig.sh
- }
- 
- python populate_packages:prepend() {
--- 
-2.34.1
+--K6esPU0MBF1VdRkcwuzG
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div>
+<div>Dear all,</div>
+<div>&nbsp;</div>
+<div>I am trying to add some native tools to the (bundled) extensible SDK. =
+Unfortunately, the executables don't seem to be relocated during installati=
+on and setup of the eSDK, and thus cannot be run. To eliminate possible con=
+flicts with our yocto setup, I tested again with the vanilla poky distribut=
+ion and was able to reproduce the issue:</div>
+<ul>
+<li>clone and initialize poky (<strong>kirkstone</strong>)</li>
+<li>add the desired package (e.g. socat) and the necessary dummies to local=
+.conf:<br /><span style=3D"font-family: 'courier new', courier;">TOOLCHAIN_=
+HOST_TASK_ESDK:append =3D " nativesdk-socat nativesdk-sdk-provides-dummy"</=
+span></li>
+<li>create the eSDK for core-image-sato:<br /><span style=3D"font-family: '=
+courier new', courier;">bitbake -c populate_sdk_ext core-image-sato</span><=
+/li>
+</ul>
+<div>After installing the resulting eSDK, socat's libraries and executables=
+ are copied to the eSDK's sysroot directly ("&lt;sdkpath&gt;/sysroots/x86_6=
+4-pokysdk-linux/..."). However, their dynamic loader is still set to the pl=
+aceholder "/usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-li=
+nux/lib/ld-linux-x86-64.so.2". Possible symlinks (as installed for e.g. nat=
+ivesdk-file) also target a sysroot at "/usr/local/oe-sdk-hardcoded-buildpat=
+h/sysroots/x86_64-pokysdk-linux/...". If python or a package requiring it i=
+s installed, it even breaks devtool, as it is found via PATH before the "&l=
+t;sdkpath&gt;/buildtools/sysroots"'s python (which is relocated correctly).=
+</div>
+<div>&nbsp;</div>
+<div>When testing the scenario with <strong>scarthgap</strong>, the install=
+ed extra binaries remain "unrelocated". But apparently devtool was moved aw=
+ay from "&lt;sdkpath&gt;/sysroots", and the environment-setup script no lon=
+ger adds this sysroot to PATH.</div>
+<div>&nbsp;</div>
+<div>So, how should tools that I want to run on the sdk machine be added to=
+ the eSDK? Should they somehow be added to the buildtools, for which the re=
+location is still performed?</div>
+<div><br />Thanks and best regards<br />Cordt</div>
+</div>
+
+--K6esPU0MBF1VdRkcwuzG--
 
