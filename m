@@ -2,66 +2,66 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 739BDC3600D
-	for <webhook@archiver.kernel.org>; Tue, 25 Mar 2025 21:42:12 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.8064.1742938922724565455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62CD2C36005
+	for <webhook@archiver.kernel.org>; Tue, 25 Mar 2025 21:50:12 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.8248.1742939404991006912
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Mar 2025 14:42:03 -0700
+ Tue, 25 Mar 2025 14:50:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MFXmAGFl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso60538845e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 14:42:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C8MAbIGf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43948f77f1aso41765545e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 14:50:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1742938921; x=1743543721; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1742939403; x=1743544203; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KV5dUU5CVKd4N4V08uGG3V2Zcx7+hkdknKz53f0IxPk=;
-        b=MFXmAGFllgaabEB5AfU5ztrhJpsKWpOO8sdYkbSq2T4JXFoNw7Z1zc8Ch2wsZjZi/n
-         e4oO14l5D3rTXv3Zrwuoyi1sq3OPtg10uZyXLHWZP94HxDr3hRVLv1pZnIgzaWsSsrau
-         7+K1z02/sq166iJmkDGvQAyTKohXN04j3Q5JM=
+        bh=cf6rZ3u4EX+V5jdUIfm6V05sBZxRCgvzDzqw88ZPmnI=;
+        b=C8MAbIGfpAbvhBc8cDuiZKSwg20763THlFdRTlu7aIlqq3HINwat59pGYFbaY0zoQY
+         IzdRYgNiUVfU6c2TcFuUDqFmwjBcxagdHR9Ifza2be6tccuojahqnl8t4+T/XejVg63n
+         pG05kca7SGs/BRqkSMLbiN5Hdnf25JbqNylEQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742938921; x=1743543721;
+        d=1e100.net; s=20230601; t=1742939403; x=1743544203;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KV5dUU5CVKd4N4V08uGG3V2Zcx7+hkdknKz53f0IxPk=;
-        b=GMLgxRhkfLNnoYdPNSRqCbr5ETfEWwIokCSE+kzyyvac/xlzNJvuNFHVAT+VG0GP2r
-         D+QrTGBK+fF3eY10MGlOEL9iJS4XyRFi5WOSNnWGtyLV6XMKjHzD9Phk1pRfhFLVjx0X
-         Z0Akp3zxsMf/EN6xjnceJoIuv4Vjx3dmR/VCqo9pbeehT1yeJE6T52JjuxBluLbwowkT
-         SNCsBpxdw/6B4v1Nnm0WL7lCO1c/0YQsdlUQNVHSNOvTtoEe92WGhdaWxErw0WY/kiZC
-         UUoYwRwk+lPkqpJnSKs1VKgWiPxsGHQUpqDSRnc6zT2lV/SvCbDtmDgCdeWEXApySmCk
-         33aQ==
-X-Gm-Message-State: AOJu0YwI9bZ5OEFs4/yWYeMDBzwTP2iOKVvrVSutVbsoX7hJM1WJSu9u
-	P8NU1YousQ05gCL2bxUHGpFj+f613Vs5RHrzfGdVaP/ScRueMB4nVkO1jyw+Iy7uKj1ZPdBcFK2
-	3
-X-Gm-Gg: ASbGncsXuNbhVez4EE+5rRPiefdOQsvLjIsQRyVCry7a5EOB/BimretygJORgjptAHg
-	5TOu+ifAJ7vfBez+lsBrDe/IkhNgdV3/GrF213BogSlNyrJN37a0cgBtPkicPp3uhsJgn1Oc6aC
-	1He+jbs7gbNpyz1x3CAt7nZGQpzdTgzZv2BK4KygnYNmZLuRp9VUfcJgODImrgss0favGwY/8kl
-	6tJ0euWHMdVY4zw2X7XUYkXIrXHixDoV8GplKx1c3hxAVYehUFjpW+dm2q2sQc2ivzVVCa+3zq/
-	AhXxFKzy1wV3AeN2AlC97Zs+tMrkqdaOQ6I5iSxtjeeGt2NEs+M7ImZHtSlhieEe0i++TmAEaA=
-	=
-X-Google-Smtp-Source: AGHT+IHC/Eht7eroA9Cd4ItabEdzmN7B40JSn8JfkBf/KyQ+S2+R5TFDBcVVFwTcOgICRhzTj8lXiA==
-X-Received: by 2002:a05:600c:46c3:b0:43b:ce3c:19d0 with SMTP id 5b1f17b1804b1-43d5e6fc3b6mr97756745e9.29.1742938920453;
-        Tue, 25 Mar 2025 14:42:00 -0700 (PDT)
+        bh=cf6rZ3u4EX+V5jdUIfm6V05sBZxRCgvzDzqw88ZPmnI=;
+        b=WOhwUYl2h/nH7B2D0cYEmVFnVXm/iGiFzZkSX1TDz1HwiG8iUaZ3HabsEjbZ2kG7bm
+         FgzcpDR0eYFSuHgE69BOhIOdxTFWON9niuEhufQENu6jBhPQx9gQEKrSQtJmO7I27TgX
+         Vh4dG3w+L2YaEK51ZBlev8bPeF9FGptQAMcA8n7vJUw8PjknwJQzE79JlOzEtg+90v4T
+         xvUbKBFUa4Oee3SZhr/E+0ezKQgbx+o7oZOSr3cctRx8HkvvWNlhRt8iabaZ/vE2i/l+
+         yFr2OSTZSdG4P9FwiamaFDFCG0Z6Vkm5FaJMwmmedyNRfjI2m1ephYZr7xlAJrQNKGt3
+         x+Ow==
+X-Gm-Message-State: AOJu0Yxsp6eFFaG/gv89nWiMM1M3UPWTELOoYnHJmauDVw5TkFTN6F9I
+	GebJky3caJAUhFhbmflFDEBZgLk42xfk8SzynNl/HXlxZhERWL5pr+Kij52oxUCT/TjvwwsEZ/8
+	v
+X-Gm-Gg: ASbGncuLrjHXpRDS3EVRLMZblrmwCxqdeK3AIffxoF9G9AGPR7Yxgg4PLhNKKLNU2lc
+	8AalbZ0PcxqApKX2vzH+oQekd1BAvGnmKgzE0fbVCraUPNYEXAINJGxzwzyATB3bjXtxsqOeurQ
+	QAe13ZqcVqM+SROpJ4wqFDmYAsqslsmnvCePhSTvCGj4VAUsSDY8N8sdXs0f/yxC2iaGdQSiZBd
+	2OuKr4L2og76zalHlP/AUB/lbrn1GGYf98zrEzE1xev9f/+nYoUsKm/e2vyrsA4IcM1tm/bkf6g
+	qVq51wUn6v+MjF9SZoy2JmWJ3Jw679SG35Ijys6hbY83Z6hFLeeCFuh4y2blKAIwOuQUA2Ntqu4
+	Ac6z20ETN
+X-Google-Smtp-Source: AGHT+IGnAj9i5phfNfWyh+Cz4vU/TJJXdytl39HfOC+r/wpG6UYJHaGWUX2/B7hOiGWNNK4OtR1RvA==
+X-Received: by 2002:a05:600c:3ca5:b0:43c:ea1a:720a with SMTP id 5b1f17b1804b1-43d509e663cmr142382585e9.1.1742939402800;
+        Tue, 25 Mar 2025 14:50:02 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:367a:5014:d4b0:4e9f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f995423sm14628537f8f.20.2025.03.25.14.41.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d43f55750sm216955795e9.21.2025.03.25.14.50.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Mar 2025 14:41:59 -0700 (PDT)
+        Tue, 25 Mar 2025 14:50:02 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] meta/conf: Start to populate autobuilder config fragments
-Date: Tue, 25 Mar 2025 21:41:58 +0000
-Message-ID: <20250325214158.641463-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH v3] meta/conf: Start to populate autobuilder config fragments
+Date: Tue, 25 Mar 2025 21:50:01 +0000
+Message-ID: <20250325215001.643993-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 21:42:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213619
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Mar 2025 21:50:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213620
 
 This populates the fragments directory with:
 
@@ -85,11 +85,11 @@ being migrated elsewhere, perhaps updating the main defaults for poky or nodistr
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
  .../autobuilder-resource-constraints.conf     | 26 +++++++++++++++++++
- .../yocto-autobuilder/autobuilder.conf        | 14 ++++++++++
+ .../yocto-autobuilder/autobuilder.conf        | 13 ++++++++++
  .../multilib-mips64-n32.conf                  |  8 ++++++
  .../yocto-autobuilder/multilib-x86-lib32.conf |  6 +++++
  .../yocto-autobuilder/multilib-x86-lib64.conf |  6 +++++
- 5 files changed, 60 insertions(+)
+ 5 files changed, 59 insertions(+)
  create mode 100644 meta/conf/fragments/yocto-autobuilder/autobuilder-resource-constraints.conf
  create mode 100644 meta/conf/fragments/yocto-autobuilder/autobuilder.conf
  create mode 100644 meta/conf/fragments/yocto-autobuilder/multilib-mips64-n32.conf
@@ -130,10 +130,10 @@ index 00000000000..58cadd92b64
 +
 diff --git a/meta/conf/fragments/yocto-autobuilder/autobuilder.conf b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
 new file mode 100644
-index 00000000000..cdccc1390a3
+index 00000000000..e3bac343390
 --- /dev/null
 +++ b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
-@@ -0,0 +1,14 @@
+@@ -0,0 +1,13 @@
 +BB_CONF_FRAGMENT_SUMMARY = "Default variables used on the Yocto Projects autobuilder builds"
 +BB_CONF_FRAGMENT_DESCRIPTION = "Default variables used on the Yocto Projects autobuilder builds"
 +
@@ -142,7 +142,6 @@ index 00000000000..cdccc1390a3
 +PREMIRRORS = ''
 +BB_GENERATE_MIRROR_TARBALLS = '1'
 +IMAGE_CLASSES += 'testimage'
-+SANITY_TESTED_DISTROS = ''
 +SDK_EXT_TYPE = 'minimal'
 +SDK_INCLUDE_TOOLCHAIN = '1'
 +ESDK_LOCALCONF_REMOVE:append = 'BB_HASHSERVE'
