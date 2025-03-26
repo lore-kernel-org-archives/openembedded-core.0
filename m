@@ -2,66 +2,65 @@ Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1990CC36008
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A47BC3600E
 	for <webhook@archiver.kernel.org>; Wed, 26 Mar 2025 20:30:02 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.33369.1743020994633071490
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.33420.1743020997338214132
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Mar 2025 13:29:54 -0700
+ Wed, 26 Mar 2025 13:29:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=R6L3aysS;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: hiagofranco@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ff615a114bso2241221a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 13:29:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=E0bPn2gS;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22423adf751so5809705ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 13:29:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743020994; x=1743625794; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1743020996; x=1743625796; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UQi7z89ko/qYaR8FgqLbY+8rXAXO0zbw21Pci01jojY=;
-        b=R6L3aysS5wczoxxXPHX+Bn38C+vRxtjNRREYqFozAUJFSjre05eHp20fU6vDNpvPj5
-         xzwF4dXSii0vrZXdYT7wEPdy7+rbHw146XWBI5V5gWQZXoNk7CIG2hYRop/9qBECPMSd
-         uvUcLgb2wPxdzOQeGuTx5ylkWUKHnMdtLjqHEiM5+q51qagawi76KXm+BsDVGiLf2Q9N
-         DR0FQ1SguhILr7Kan0RJusK1eySKpMzbfk4o+Fy1iq7R5bKkP6hbNgJgFwB88nmFVqjd
-         lTZP8e6GCwD0/6jeugPw2qV38reGi2j4U7zJwexJjjohqnI81jydcrf213YaqE4r+8Zj
-         T2BA==
+        bh=rNk2ph1rv2UiPhhzjg3qKubcriZPaFBe4ba83j+QNMA=;
+        b=E0bPn2gSfRi0/k8vyttL+H98+YUHTUX4NtvqBdUDgGYkifzYeRH8PjaL6M8qpW5xs9
+         iSjre0tbBbQwjMg2hLvMiMvGeFIhbmz8YhKv3gIeommfo+AXHK50RTZPjEK8QB/T/MuJ
+         eJN7BiujZDY1gLBgR3Y3jEhEnvGtejYQL6P2NHJ5so9hKw4TEgZACaYPk545nNAHa4B2
+         vFyaG/n7AxROR1WQhnu+sicZcLe/A6l34ymrwrD4Vm+NZP5N3volLVsj5N1nYJO7QNMd
+         1mdJg1Ho+Y04ed2Ok5mWXmWIxc9MwvCgpky50WpZ3WWpGQOCfVehsfeE+3j+Ewozd90X
+         Ls9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743020994; x=1743625794;
+        d=1e100.net; s=20230601; t=1743020996; x=1743625796;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UQi7z89ko/qYaR8FgqLbY+8rXAXO0zbw21Pci01jojY=;
-        b=L3lsnUuQaZiF0HflJA45AgKiMqkQduTIPkS8GvG7WWO6hKA7raJsUGAeHqkEjbOnfd
-         eFkijLuXvjYsVLEe17MtimJ19pdHSjNaBuRumMyDXA9kTEChJuuInntQLw5iyIpM99Gg
-         orqUYsZZJO9Zy0iZWr9z9IlgsoONL7ejvuIVUcIQ/sGeskvN+/6U2XU+HZFcGwywOtZ7
-         PboxzEyeYZvlQRGXoNO9J1m3vb8uUaHTw+eyxSPgTwvyJ7XncCqfIo4w5NKzfcyD0VYI
-         mcSGtSKWVsX3/pxia1IGzq07mGItPWOT48pzvY1J+Z+kIeJuAPumfDh1rEuRlbA1huwo
-         hdzQ==
-X-Gm-Message-State: AOJu0YzEazWO0N+TBRNz4RiE/gvZ/k8Ly8kIa5I/k/BKok1QF2QrY+sr
-	MYtbEffqGEpM1DTVtU8v2qQQfT7JIbCeporx701rRxSQhBb/UDVF2byoZCdv
-X-Gm-Gg: ASbGncuiOd6G8XWb1Ce/rR+5xxTpWCdo763v9bm6Hu0xJhl2Cv+XbLeF/9Y1iX/GljE
-	AsnTiylr1ydE5xj5Rn7Vj34TOxu3nS8omgUk0XuTEE8b0nxJX1d3j3xsGXtOP7iXO7ZKBIVp6MK
-	ri9huPlGFOvUrwb//O76/82hZ/ojZ5STrfmoPyk+GWF65p4GRvJyivjAa0+DsJ8kfFDrzeQ8+Zm
-	jphO2FTtSP0HdqD+sze/FjlNxVMPo4nc9vIZE0aI9++DtlEmwvPgOovSnPsodh0ygXK4aq6O42d
-	YxZycwuvV/macFqJP+JQyiAaXF9TOvapi3S7cC+C8Fn2/5KY7Ou4YlMVEVXWxIy5Pso=
-X-Google-Smtp-Source: AGHT+IFqdwXIRUTi/9EiYZ8NrzUgI6cUPSCRB0DNDOILB/u9C9cLZGrO9BRmM9M5lygaCM3fnPMU6Q==
-X-Received: by 2002:a17:90b:1ccd:b0:2fa:2133:bc87 with SMTP id 98e67ed59e1d1-303788d90b1mr7878879a91.6.1743020993783;
-        Wed, 26 Mar 2025 13:29:53 -0700 (PDT)
+        bh=rNk2ph1rv2UiPhhzjg3qKubcriZPaFBe4ba83j+QNMA=;
+        b=Y4udpnqHcW8suQCXese7CAclSKdYSV2ICdwAPLfSPCqpaVafCDc/1EAztDeU96w9Oj
+         MDDBd8eDFZQqqBpuDK8cL7z/3238AFbl2Tec608jt3wZGDgNnA6oFvykzix+0sPgQBOp
+         lnhr/o6p89uqTHrlVAyQEFSMAXu014oQ9NQTJ4IcgHUmo8jxZ92gpRLKTYBHYA0+J7GV
+         4ZgnaXLqhukSTRmSUTZJpcRzTiawrA9ectFSoMiQhGOXY9tw0HEhQS2nFBdpAUL8zbWD
+         JzwNllBKl9/pQSrU4JBe7M5rD/CZsOrrMbcdOpAbRpyzWfhGLFkTiZ8/AHY/dH1JgCVv
+         ywqA==
+X-Gm-Message-State: AOJu0YwpBK4PL/dpx8nJcRKb0V+CLizr26Wl2JTrpndu1gAoUtGl5+cR
+	mPlKAub2F+ClXXlt0E19IRYT87H8x/VQD0B4ANqcWIFiSp8jyH3nm4+HMSBF
+X-Gm-Gg: ASbGncunbQqH+PtAQ6pEV3mNs4DASfZEs/DLhWfM0eQDF/pbeZqeMTGASWQlC4JAN1F
+	ZTFtXrzVcbUB/lvsmelhH7kXB3gADO/UxWDd4DkgGbtsy0AjEuQzKvGq/Y0Vrb0nYJDcWXucisy
+	axhws6aYXx130j+yfFagh5iai7tg2HDcHYQPPhf5g2g/BZ2i0f4guGCYEpHKmKjlxr2EPs0cv9r
+	zNboqBqcwCCuKFKBNaXBRfHJcg16kGMgPxPRloe/Al+6YSw4XG+jAaTutstOp4JtL1qg4eLKNE9
+	I4u5AsbSUb9vs/9Qz69Til0uu1qRP3Dtu5mPb6+gzTXrgAQ+uymCr77LzH74w+HMfUI=
+X-Google-Smtp-Source: AGHT+IGsVgB94elm3WepvQRFJwhIvlupypNGpR9Qkj1yJAFrf16BTr03HYLfaUvoBcxCxMjyEE6QNg==
+X-Received: by 2002:a17:90b:53d0:b0:301:9f62:a944 with SMTP id 98e67ed59e1d1-303a916a704mr1557243a91.33.1743020996381;
+        Wed, 26 Mar 2025 13:29:56 -0700 (PDT)
 Received: from hiagof-nb.corp.toradex.com ([67.159.246.222])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3039f1d4b6asm661625a91.38.2025.03.26.13.29.51
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3039f1d4b6asm661625a91.38.2025.03.26.13.29.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 13:29:53 -0700 (PDT)
+        Wed, 26 Mar 2025 13:29:55 -0700 (PDT)
 From: Hiago De Franco <hiagofranco@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: quentin.schulz@cherry.de,
 	steve@sakoman.com,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Marc Ferland <marc.ferland@sonatest.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Ross Burton <ross.burton@arm.com>
-Subject: [styhead][PATCH v2 19/31] linux-firmware: split amdgpu firmwares in separate packages
-Date: Wed, 26 Mar 2025 17:28:05 -0300
-Message-Id: <20250326202817.64437-20-hiagofranco@gmail.com>
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: [styhead][PATCH v2 20/31] linux-firmware: split ath12k firmwares in separate packages
+Date: Wed, 26 Mar 2025 17:28:06 -0300
+Message-Id: <20250326202817.64437-21-hiagofranco@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250326202817.64437-1-hiagofranco@gmail.com>
 References: <20250326202817.64437-1-hiagofranco@gmail.com>
@@ -71,229 +70,102 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 20:30:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213679
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213680
 
 From: Marc Ferland <marc.ferland@sonatest.com>
 
-This patch introduces the following packages for AMD gpu chips:
+This patch introduces the following packages for ath12k based chips:
 
-- linux-firmware-amdgpu-aldebaran
-- linux-firmware-amdgpu-carrizo
-- linux-firmware-amdgpu-cezanne
-- linux-firmware-amdgpu-fiji
-- linux-firmware-amdgpu-hawaii
-- linux-firmware-amdgpu-navi10
-- linux-firmware-amdgpu-navi14
-- linux-firmware-amdgpu-navi21
-- linux-firmware-amdgpu-navi22
-- linux-firmware-amdgpu-navi23
-- linux-firmware-amdgpu-navi24
-- linux-firmware-amdgpu-navi31
-- linux-firmware-amdgpu-navi32
-- linux-firmware-amdgpu-oland
-- linux-firmware-amdgpu-polaris10
-- linux-firmware-amdgpu-polaris11
-- linux-firmware-amdgpu-polaris12
-- linux-firmware-amdgpu-raven
-- linux-firmware-amdgpu-rembrandt
-- linux-firmware-amdgpu-renoir
-- linux-firmware-amdgpu-stoney
-- linux-firmware-amdgpu-tonga
-- linux-firmware-amdgpu-topaz
-- linux-firmware-amdgpu-vega10
-- linux-firmware-amdgpu-vega12
-- linux-firmware-amdgpu-misc: catches all firmwares that are not
-  already included in the other -amdgpu- packages.
+- linux-firmware-ath12k-qcn9274
+- linux-firmware-ath12k-wcn7850
+- linux-firmware-ath12k-misc: catches all firmwares that are not
+  already included in the other -ath12k- packages (currently empty).
 
-This list was partly inspired from:
-
-https://wiki.gentoo.org/wiki/AMDGPU#Known_firmware_blobs
-
-Many other firmware packages could be created out of what is in
--misc. Looking at the different commits in the linux-firmware
-repository gives a very good idea of which firmware goes with each
-chip.
-
-Note: Altough this patch might break some installations that assumed
-that _all_ firmwares where installed by the linux-firmware-amdgpu
-package, I think it is a step in the right direction as the number of
-firmwares under amdgpu is constantly increasing (currently ~103MB).
-
-Tested with a renoir gpu.
+linux-firmware-ath12k is now a meta package that depends on all of the
+split-out ath11k packages.
 
 Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-(cherry picked from commit 4bcb1cd5803d7b664140f177730af3c0e0b60968)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c35c99c60f1aad5757de0cd754c0d15aa622122a)
 ---
- .../linux-firmware/linux-firmware_20250109.bb | 128 +++++++++++++++++-
- 1 file changed, 126 insertions(+), 2 deletions(-)
+ .../linux-firmware/linux-firmware_20250109.bb | 28 ++++++++++++++++---
+ 1 file changed, 24 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-index 8211bd1eb13f..6380a5303c41 100644
+index 6380a5303c41..d2c0c7c1fdcb 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-@@ -290,6 +290,32 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-mt76x-license ${PN}-mt7601u ${PN}-mt7650 ${PN}-mt76x2 \
-              ${PN}-radeon-license ${PN}-radeon \
-              ${PN}-amdgpu-license ${PN}-amdgpu \
-+             ${PN}-amdgpu-aldebaran \
-+             ${PN}-amdgpu-carrizo \
-+             ${PN}-amdgpu-cezanne \
-+             ${PN}-amdgpu-fiji \
-+             ${PN}-amdgpu-hawaii \
-+             ${PN}-amdgpu-navi10 \
-+             ${PN}-amdgpu-navi14 \
-+             ${PN}-amdgpu-navi21 \
-+             ${PN}-amdgpu-navi22 \
-+             ${PN}-amdgpu-navi23 \
-+             ${PN}-amdgpu-navi24 \
-+             ${PN}-amdgpu-navi31 \
-+             ${PN}-amdgpu-navi32 \
-+             ${PN}-amdgpu-oland \
-+             ${PN}-amdgpu-polaris10 \
-+             ${PN}-amdgpu-polaris11 \
-+             ${PN}-amdgpu-polaris12 \
-+             ${PN}-amdgpu-raven \
-+             ${PN}-amdgpu-rembrandt \
-+             ${PN}-amdgpu-renoir \
-+             ${PN}-amdgpu-stoney \
-+             ${PN}-amdgpu-tonga \
-+             ${PN}-amdgpu-topaz \
-+             ${PN}-amdgpu-vega10 \
-+             ${PN}-amdgpu-vega12 \
-+             ${PN}-amdgpu-misc \
-              ${PN}-marvell-license ${PN}-pcie8897 ${PN}-pcie8997 \
-              ${PN}-mediatek-license ${PN}-mediatek \
-              ${PN}-microchip-license ${PN}-microchip \
-@@ -712,13 +738,107 @@ RDEPENDS:${PN}-radeon += "${PN}-radeon-license"
- # For amdgpu
- LICENSE:${PN}-amdgpu = "Firmware-amdgpu"
- LICENSE:${PN}-amdgpu-license = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-aldebaran = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-carrizo = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-cezanne = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-fiji = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-hawaii = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-navi10 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-navi14 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-navi21 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-navi22 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-navi23 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-navi24 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-navi31 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-navi32 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-oland = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-polaris10 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-polaris11 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-polaris12 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-raven = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-rembrandt = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-renoir = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-stoney = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-tonga = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-topaz = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-vega10 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-vega12 = "Firmware-amdgpu"
-+LICENSE:${PN}-amdgpu-misc = "Firmware-amdgpu"
+@@ -393,7 +393,11 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-ath11k-wcn6750 \
+              ${PN}-ath11k-wcn6855 \
+              ${PN}-ath11k-misc \
+-             ${PN}-ath12k ${PN}-qca \
++             ${PN}-ath12k \
++             ${PN}-ath12k-qcn9274 \
++             ${PN}-ath12k-wcn7850 \
++             ${PN}-ath12k-misc \
++             ${PN}-qca \
+              \
+              ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-imx7d \
+              \
+@@ -575,6 +579,10 @@ LICENSE:${PN}-ath11k-qcn9074 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath11k-wcn6750 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath11k-wcn6855 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath11k-misc    = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath12k = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath12k-qcn9274 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath12k-wcn7850 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath12k-misc = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-qca = "Firmware-qualcommAthos_ath10k"
  
- FILES:${PN}-amdgpu-license = "${nonarch_base_libdir}/firmware/LICENSE.amdgpu"
--FILES:${PN}-amdgpu = " \
--  ${nonarch_base_libdir}/firmware/amdgpu \
-+FILES:${PN}-amdgpu-aldebaran = "${nonarch_base_libdir}/firmware/amdgpu/aldebaran_*.bin"
-+FILES:${PN}-amdgpu-carrizo = "${nonarch_base_libdir}/firmware/amdgpu/carrizo_*.bin"
-+FILES:${PN}-amdgpu-cezanne = "${nonarch_base_libdir}/firmware/amdgpu/green_sardine_*.bin"
-+FILES:${PN}-amdgpu-fiji = "${nonarch_base_libdir}/firmware/amdgpu/fiji_*.bin"
-+FILES:${PN}-amdgpu-hawaii = "${nonarch_base_libdir}/firmware/amdgpu/hawaii_*.bin"
-+FILES:${PN}-amdgpu-navi10 = "${nonarch_base_libdir}/firmware/amdgpu/navi10_*.bin"
-+FILES:${PN}-amdgpu-navi14 = "${nonarch_base_libdir}/firmware/amdgpu/navi14_*.bin"
-+FILES:${PN}-amdgpu-navi21 = "${nonarch_base_libdir}/firmware/amdgpu/sienna_cichlid_*.bin"
-+FILES:${PN}-amdgpu-navi22 = "${nonarch_base_libdir}/firmware/amdgpu/navy_flounder_*.bin"
-+FILES:${PN}-amdgpu-navi23 = "${nonarch_base_libdir}/firmware/amdgpu/dimgrey_cavefish_*.bin"
-+FILES:${PN}-amdgpu-navi24 = "${nonarch_base_libdir}/firmware/amdgpu/beige_goby_*.bin"
-+FILES:${PN}-amdgpu-navi31 = "${nonarch_base_libdir}/firmware/amdgpu/gc_11_0_0_*.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/psp_13_0_0_sos.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/psp_13_0_0_ta.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/smu_13_0_0.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/dcn_3_2_0_dmcub.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/sdma_6_0_0.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/vcn_4_0_0.bin \
- "
-+FILES:${PN}-amdgpu-navi32 = "${nonarch_base_libdir}/firmware/amdgpu/dcn_3_2_0_dmcub.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/gc_11_0_3_*.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/psp_13_0_10_sos.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/psp_13_0_10_ta.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/sdma_6_0_3.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/smu_13_0_10.bin \
-+    ${nonarch_base_libdir}/firmware/amdgpu/vcn_4_0_0.bin \
-+"
-+FILES:${PN}-amdgpu-oland = "${nonarch_base_libdir}/firmware/amdgpu/oland_*.bin"
-+FILES:${PN}-amdgpu-polaris10 = "${nonarch_base_libdir}/firmware/amdgpu/polaris10_*.bin"
-+FILES:${PN}-amdgpu-polaris11 = "${nonarch_base_libdir}/firmware/amdgpu/polaris11_*.bin"
-+FILES:${PN}-amdgpu-polaris12 = "${nonarch_base_libdir}/firmware/amdgpu/polaris12_*.bin"
-+FILES:${PN}-amdgpu-raven = "${nonarch_base_libdir}/firmware/amdgpu/raven_*.bin"
-+FILES:${PN}-amdgpu-rembrandt = "${nonarch_base_libdir}/firmware/amdgpu/yellow_carp_*.bin"
-+FILES:${PN}-amdgpu-renoir = "${nonarch_base_libdir}/firmware/amdgpu/renoir_*.bin"
-+FILES:${PN}-amdgpu-stoney = "${nonarch_base_libdir}/firmware/amdgpu/stoney_*.bin"
-+FILES:${PN}-amdgpu-tonga = "${nonarch_base_libdir}/firmware/amdgpu/tonga_*.bin"
-+FILES:${PN}-amdgpu-topaz = "${nonarch_base_libdir}/firmware/amdgpu/topaz_*.bin"
-+FILES:${PN}-amdgpu-vega10 = "${nonarch_base_libdir}/firmware/amdgpu/vega10_*.bin"
-+FILES:${PN}-amdgpu-vega12 = "${nonarch_base_libdir}/firmware/amdgpu/vega12_*.bin"
-+FILES:${PN}-amdgpu-misc = "${nonarch_base_libdir}/firmware/amdgpu/*"
-+# -amdgpu is a virtual package that depends upon all amdgpu packages.
-+ALLOW_EMPTY:${PN}-amdgpu = "1"
-+# -amdgpu-misc is a catch all package that includes all the amdgpu
-+# firmwares that are not already included in other -amdgpu- packages.
-+ALLOW_EMPTY:${PN}-amdgpu-misc = "1"
+ FILES:${PN}-ar3k-license = "${nonarch_base_libdir}/firmware/LICENSE.QualcommAtheros_ar3k"
+@@ -614,9 +622,14 @@ ALLOW_EMPTY:${PN}-ath11k = "1"
+ # firmwares that are not already included in other -ath11k- packages.
+ ALLOW_EMPTY:${PN}-ath11k-misc = "1"
  
- RDEPENDS:${PN}-amdgpu += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-aldebaran += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-carrizo += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-cezanne += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-fiji += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-hawaii += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-navi10 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-navi14 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-navi21 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-navi22 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-navi23 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-navi24 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-navi31 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-navi32 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-oland += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-polaris10 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-polaris11 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-polaris12 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-raven += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-rembrandt += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-renoir += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-stoney += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-tonga += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-topaz += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-vega10 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-vega12 += "${PN}-amdgpu-license"
-+RDEPENDS:${PN}-amdgpu-misc += "${PN}-amdgpu-license"
+-FILES:${PN}-ath12k = " \
+-  ${nonarch_base_libdir}/firmware/ath12k \
+-"
++FILES:${PN}-ath12k-qcn9274 = "${nonarch_base_libdir}/firmware/ath12k/QCN9274"
++FILES:${PN}-ath12k-wcn7850 = "${nonarch_base_libdir}/firmware/ath12k/WCN7850"
++FILES:${PN}-ath12k-misc = "${nonarch_base_libdir}/firmware/ath12k/*"
++# -ath12k is a virtual package that depends upon all ath12k packages.
++ALLOW_EMPTY:${PN}-ath12k = "1"
++# -ath12k-misc is a catch all package that includes all the ath12k
++# firmwares that are not already included in other -ath12k- packages.
++ALLOW_EMPTY:${PN}-ath12k-misc = "1"
  
- # For lontium
- LICENSE:${PN}-lt9611uxc = "Firmware-Lontium"
-@@ -1775,6 +1895,7 @@ RDEPENDS:${PN} += "${PN}-whence-license"
+ FILES:${PN}-qca = " \
+   ${nonarch_base_libdir}/firmware/qca \
+@@ -645,6 +658,9 @@ RDEPENDS:${PN}-ath11k-wcn6750 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath11k-wcn6855 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath11k-misc += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath12k += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath12k-qcn9274 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath12k-wcn7850 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath12k-misc += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-qca += "${PN}-ath10k-license"
+ 
+ # For ralink
+@@ -1895,6 +1911,7 @@ RDEPENDS:${PN} += "${PN}-whence-license"
  # Make linux-firmware-ibt depend on all of the split-out ibt packages.
  # Make linux-firmware-ath10k depend on all of the split-out ath10k packages.
  # Make linux-firmware-ath11k depend on all of the split-out ath11k packages.
-+# Make linux-firmware-amdgpu depend on all of the split-out amdgpu packages.
++# Make linux-firmware-ath12k depend on all of the split-out ath12k packages.
+ # Make linux-firmware-amdgpu depend on all of the split-out amdgpu packages.
  python populate_packages:prepend () {
      firmware_pkgs = oe.utils.packages_filter_out_system(d)
-     d.appendVar('RRECOMMENDS:linux-firmware', ' ' + ' '.join(firmware_pkgs))
-@@ -1790,6 +1911,9 @@ python populate_packages:prepend () {
- 
+@@ -1912,6 +1929,9 @@ python populate_packages:prepend () {
      ath11k_pkgs = filter(lambda x: x.find('-ath11k-') != -1, firmware_pkgs)
      d.appendVar('RRECOMMENDS:linux-firmware-ath11k', ' ' + ' '.join(ath11k_pkgs))
-+
-+    amdgpu_pkgs = filter(lambda x: x.find('-amdgpu-') != -1, firmware_pkgs)
-+    d.appendVar('RRECOMMENDS:linux-firmware-amdgpu', ' ' + ' '.join(amdgpu_pkgs))
- }
  
- # Firmware files are generally not ran on the CPU, so they can be
++    ath12k_pkgs = filter(lambda x: x.find('-ath12k-') != -1, firmware_pkgs)
++    d.appendVar('RRECOMMENDS:linux-firmware-ath12k', ' ' + ' '.join(ath12k_pkgs))
++
+     amdgpu_pkgs = filter(lambda x: x.find('-amdgpu-') != -1, firmware_pkgs)
+     d.appendVar('RRECOMMENDS:linux-firmware-amdgpu', ' ' + ' '.join(amdgpu_pkgs))
+ }
 -- 
 2.39.5
 
