@@ -2,65 +2,66 @@ Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A59C3600E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 229E9C36010
 	for <webhook@archiver.kernel.org>; Wed, 26 Mar 2025 20:29:52 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.33362.1743020986561243465
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.33368.1743020991896364573
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Mar 2025 13:29:46 -0700
+ Wed, 26 Mar 2025 13:29:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IMJG7cq1;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: hiagofranco@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3014678689aso343745a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 13:29:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eVYkBUBf;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2ff694d2d4dso370260a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 13:29:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743020986; x=1743625786; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1743020991; x=1743625791; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UooPfrwCOqek3KLa8hPrgiqlRjMOTB01QfXxv7DFu70=;
-        b=IMJG7cq15QFhcqyFxHYo4bqFQOPWG3eA7lJz/FDlG6F7wS2ijBNte+RpX9gq72+U25
-         9def0rS2ajaKGSInPSIWO9FM3qEbWmWpB98JF2e5CWhxXexEOzu4hq4GvTGgeZpKn9sH
-         jr89MMwImj5S4z1JPI4kNI+bE+beUXeEOeP74hnUOVYnuLIMRUL8OzHwlyLQA7OX7GDH
-         PKEc9nCO/bHpp9WMV/bPYIBj5gDiqvyiVaOWT/Zi097Y0fhqduIGAwwRN0hmX5b3O/30
-         XftthR0Q3maHeq55Za/+EWJkFStzS2GoMeQV9wUj9wt8tU52nRiG72Fyp4w/9s17hgG9
-         8gNA==
+        bh=lcf49NHgl+kh8SFhL2PhKUXyPUKwjux/8/Wo8m6yV+8=;
+        b=eVYkBUBfrNWjVCj+UdrHxs4guwlZTOY1sX5Sm/uMRcW2t5Tjmnmd5DizwoKfwmwyjY
+         I3ZmXsr2Xb9lD5qbRPVckMkzXc7lDTBt7QFofPsk3S4HF95SbfjGkXRWL7JXIORtRZl/
+         ly+au6WLY39hd2Z3MrvnsQsD6/eQIrebWqg+A5vXXhSzE3c0lOqws9RxfCeF85BrvUa0
+         KzWLlygVT/oPvwsVXI/ngda79/7ULm0yRfReWuRDa/JGCHvpGMunUkE7IS8ES5Pj6Tqv
+         cZ4Tdpo0HEiMauWa35dQ8hs9Gmv6/WrIciYAwUrK43zsib0NNWJDLPOBsaPx9WZMpGBb
+         iVuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743020986; x=1743625786;
+        d=1e100.net; s=20230601; t=1743020991; x=1743625791;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UooPfrwCOqek3KLa8hPrgiqlRjMOTB01QfXxv7DFu70=;
-        b=uc/YJldSjaLN94R6fWk5tHb1meE7LrNrGuCah2EwpCFtYEsUjzj/jXNE1IT9hTrB5V
-         6VlI0FWg/ExLk3ConBL+tbgKfHo2kbbn2pjE66UBI1z52IyNwtLMY9CF7vU5QErb+bcm
-         y3bzwvDBsZrBZJGrbpcPwxSN/17Z3sAFexFY7DKrixbcs6FZszJlNFF+urrUGGjN6RA4
-         841H4cXrNJVSfQ3PFw+sjsrIEdR56jWWxad3esTonvDMYJtJPrjYWiyewZmqJ+94I33H
-         sDi2jqnSGKFuupxzpZS6hNW7gCPpevrtRCiFDnGK3EGEYUuLLSQ7B3MU/7am+7kmMNed
-         tFFg==
-X-Gm-Message-State: AOJu0YwCV65I/f5JPhdkAYrcA6KHBHoRPW/8bHyaynGZuxeFKyqhEUwQ
-	BPLnrlZXbiZPe6Z28hhOXW+HoUU07a19VCWaWZv1hYk64gIa9pL/d1rpp4fJ
-X-Gm-Gg: ASbGncskKHFgd1tdsIcsOvJjBSeQgX3aET3+W/MwYNoFH8ZaM0btJ8SzX8P3pSEUezN
-	S8hc4NEsLRRnqy8Tcvh0O/ayCZQOMiCCwdEkrHqvX8JmX2gsNHRoSRHcGih7vnKBBS0IYF6cl0Q
-	/9guDnYrGgCh8dCMqpC7/wjTtl02EIcbGsnBlSlofPFgqeoGPNp4LY0W0BKZLaJu9kg8zwkfDi+
-	PwliVGpHfhR1xlcXMtaZsoXr1LGDIV29Z8i0IXftijgnHJ9DFPyVdYZXzcDOlTTO88AB2ce76Uv
-	3Aa1q+WvB7gqPm0PsRlj6uNSlHKWO/kyhSVQLFrkcxTYoP0ealy+3c6uRBKp6GIqSjo=
-X-Google-Smtp-Source: AGHT+IGtqQRUoqBthDyF32VgtB7/U+ZDJcX8BmzV+0XulQGC6/cLwlvGLVTGSplod8JzId3tQ2sFAQ==
-X-Received: by 2002:a17:90b:2b8b:b0:2ee:ed1c:e451 with SMTP id 98e67ed59e1d1-303a7f6eb38mr1536953a91.15.1743020985659;
-        Wed, 26 Mar 2025 13:29:45 -0700 (PDT)
+        bh=lcf49NHgl+kh8SFhL2PhKUXyPUKwjux/8/Wo8m6yV+8=;
+        b=GYjYGHRJj7a+BmlWA4awQXA5KhNOH4+IQdVkPMuqclVrwY/l2Q+X8jCF9FzN0bBDyL
+         WGuFL/CxHdlSWoV0PsxkPAwWWapZVw0AyPI/oVJ1sbv09bvYZyC0aBnJohxQtsK7tB1y
+         fXa5gXrEaBEce/0ELkpMgvVjPIZurUDMnv96NsWYgZMDHlqTtf0vykBI285Iqp7abdKi
+         aHgCUmh/Qu3N763A13xJJmEO20JXcfHASk88H3+D9V8STxNknXokoeh/S/KbgGCQCH33
+         76kdty7jztD8qRVkAiLDMSah5Go5dLQCtS3MD+Dd/jv7EyTH3hZJyOP3XHw0JPaMVgB1
+         F6LA==
+X-Gm-Message-State: AOJu0Yxx/6Rbw1Q4ffiFONcviwpdPOsdm6XitDOu/PP/xwUECG8fod2i
+	CiCwvKbTI9aSHLjZ3W4yX2hhfW2/VdCITZWAtxySNJTaoIOjEd67G+FFPdUW
+X-Gm-Gg: ASbGncsfmPWjQw4I66HTHCLQOxZg99LZUa6V1fTK+10KRe+S5jfP5wju6d4s/NyBPMb
+	NyemXSw7+8K+5SqPveEaVUPfP+rf30LTzi4xYDvyRTXeG/1tMV1z9nLzsj9Ik9MqRKyL9E9SghE
+	/gS/UkNwGnrFIhhHYu0BE2ceH74pCjCCGQvuuav5BrYcADfu+h29bMtdI16DMhTq8CdGayYwoWB
+	my4/zuQk61E0u9Qxxb6xJ4lxcXgyb0+eX+l/d9RZ4cAEWrSZbxuWQwZj983oi99LENIQ2nnLfpH
+	Mtp1IM8bBf5mGeXbFobekaaObx+LJUPeqOf5jsuWfUny5m9MZjNO1236EPusetn2XGM=
+X-Google-Smtp-Source: AGHT+IEG9e+iF/3IyteXgNJPaEeI0bKq4XJk3ewFqUW5fNkrd1eLaNlPWAV/K0nwtU4d71ksjS/ruQ==
+X-Received: by 2002:a17:90a:c88c:b0:301:1bce:c255 with SMTP id 98e67ed59e1d1-303a906c3fcmr1527950a91.27.1743020991082;
+        Wed, 26 Mar 2025 13:29:51 -0700 (PDT)
 Received: from hiagof-nb.corp.toradex.com ([67.159.246.222])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3039f1d4b6asm661625a91.38.2025.03.26.13.29.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3039f1d4b6asm661625a91.38.2025.03.26.13.29.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 13:29:45 -0700 (PDT)
+        Wed, 26 Mar 2025 13:29:50 -0700 (PDT)
 From: Hiago De Franco <hiagofranco@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: quentin.schulz@cherry.de,
 	steve@sakoman.com,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [styhead][PATCH v2 16/31] linux-firmware: upgrade 20241210 -> 20250109
-Date: Wed, 26 Mar 2025 17:28:02 -0300
-Message-Id: <20250326202817.64437-17-hiagofranco@gmail.com>
+	Marc Ferland <marc.ferland@sonatest.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [styhead][PATCH v2 18/31] linux-firmware: split ath11k firmwares in separate packages
+Date: Wed, 26 Mar 2025 17:28:04 -0300
+Message-Id: <20250326202817.64437-19-hiagofranco@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250326202817.64437-1-hiagofranco@gmail.com>
 References: <20250326202817.64437-1-hiagofranco@gmail.com>
@@ -70,59 +71,132 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 20:29:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213676
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213678
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Marc Ferland <marc.ferland@sonatest.com>
 
-The linux-firmware now requires GNU Parallel in order to run parallel
-builds. As the GNU Parallel is not a part of oe-core (the recipe is
-present in meta-oe) disable parallel builds.
+This patch introduces the following packages for ath11k based chips:
 
-License-Update: additional files
+- linux-firmware-ath11k-ipq5018
+- linux-firmware-ath11k-ipq6018
+- linux-firmware-ath11k-ipq8074
+- linux-firmware-ath11k-qca2066
+- linux-firmware-ath11k-qca6390
+- linux-firmware-ath11k-qcn9074
+- linux-firmware-ath11k-wcn6750
+- linux-firmware-ath11k-wcn6855
+- linux-firmware-ath11k-misc: catches all firmwares that are not
+  already included in the other -ath11k- packages (currently empty).
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+linux-firmware-ath11k is now a meta package that depends on all of the
+split-out ath11k packages.
+
+Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 16e86b63696177a6f8b8f73b41e55dd6389f9e1c)
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+(cherry picked from commit 635f0cc49f91b79b1cee40e2825514d7ce474d32)
 ---
- ...nux-firmware_20241210.bb => linux-firmware_20250109.bb} | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20241210.bb => linux-firmware_20250109.bb} (99%)
+ .../linux-firmware/linux-firmware_20250109.bb | 52 +++++++++++++++++--
+ 1 file changed, 48 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-index d3757b5bbc92..ba66ea407dec 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
+index da253219c0c5..8211bd1eb13f 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-@@ -158,7 +158,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "0b30c661e226decdac3acd31d83517e0"
-+WHENCE_CHKSUM  = "c90a25ccbd027eb8d61b2943ab68447c"
+@@ -357,7 +357,17 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-ath10k-qca99x0 \
+              ${PN}-ath10k-wcn3990 \
+              ${PN}-ath10k-misc \
+-             ${PN}-ath11k ${PN}-ath12k ${PN}-qca \
++             ${PN}-ath11k \
++             ${PN}-ath11k-ipq5018 \
++             ${PN}-ath11k-ipq6018 \
++             ${PN}-ath11k-ipq8074 \
++             ${PN}-ath11k-qca2066 \
++             ${PN}-ath11k-qca6390 \
++             ${PN}-ath11k-qcn9074 \
++             ${PN}-ath11k-wcn6750 \
++             ${PN}-ath11k-wcn6855 \
++             ${PN}-ath11k-misc \
++             ${PN}-ath12k ${PN}-qca \
+              \
+              ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-imx7d \
+              \
+@@ -529,6 +539,16 @@ LICENSE:${PN}-ath10k-qca99x0 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath10k-wcn3990 = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath10k-misc    = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath10k-license = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath11k = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath11k-ipq5018 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath11k-ipq6018 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath11k-ipq8074 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath11k-qca2066 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath11k-qca6390 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath11k-qcn9074 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath11k-wcn6750 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath11k-wcn6855 = "Firmware-qualcommAthos_ath10k"
++LICENSE:${PN}-ath11k-misc    = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-qca = "Firmware-qualcommAthos_ath10k"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -247,7 +247,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ FILES:${PN}-ar3k-license = "${nonarch_base_libdir}/firmware/LICENSE.QualcommAtheros_ar3k"
+@@ -553,9 +573,20 @@ ALLOW_EMPTY:${PN}-ath10k = "1"
+ # firmwares that are not already included in other -ath10k- packages.
+ ALLOW_EMPTY:${PN}-ath10k-misc = "1"
  
--SRC_URI[sha256sum] = "2bb035708576d076f97d4196a1c22e0a4d33fbb0210d05428d0bf4f243e99af5"
-+SRC_URI[sha256sum] = "a12cb38f4793394bf56c6702be29b6e4f09deca0714943bba98a492030651570"
+-FILES:${PN}-ath11k = " \
+-  ${nonarch_base_libdir}/firmware/ath11k \
+-"
++FILES:${PN}-ath11k-ipq5018 = "${nonarch_base_libdir}/firmware/ath11k/IPQ5018"
++FILES:${PN}-ath11k-ipq6018 = "${nonarch_base_libdir}/firmware/ath11k/IPQ6018"
++FILES:${PN}-ath11k-ipq8074 = "${nonarch_base_libdir}/firmware/ath11k/IPQ8074"
++FILES:${PN}-ath11k-qca2066 = "${nonarch_base_libdir}/firmware/ath11k/QCA2066"
++FILES:${PN}-ath11k-qca6390 = "${nonarch_base_libdir}/firmware/ath11k/QCA6390"
++FILES:${PN}-ath11k-qcn9074 = "${nonarch_base_libdir}/firmware/ath11k/QCN9074"
++FILES:${PN}-ath11k-wcn6750 = "${nonarch_base_libdir}/firmware/ath11k/WCN6750"
++FILES:${PN}-ath11k-wcn6855 = "${nonarch_base_libdir}/firmware/ath11k/WCN6855"
++FILES:${PN}-ath11k-misc = "${nonarch_base_libdir}/firmware/ath11k/*"
++# -ath11k is a virtual package that depends upon all ath11k packages.
++ALLOW_EMPTY:${PN}-ath11k = "1"
++# -ath11k-misc is a catch all package that includes all the ath11k
++# firmwares that are not already included in other -ath11k- packages.
++ALLOW_EMPTY:${PN}-ath11k-misc = "1"
  
- inherit allarch
+ FILES:${PN}-ath12k = " \
+   ${nonarch_base_libdir}/firmware/ath12k \
+@@ -578,6 +609,15 @@ RDEPENDS:${PN}-ath10k-qca99x0 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath10k-wcn3990 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath10k-misc += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath11k += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath11k-ipq5018 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath11k-ipq6018 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath11k-ipq8074 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath11k-qca2066 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath11k-qca6390 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath11k-qcn9074 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath11k-wcn6750 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath11k-wcn6855 += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath11k-misc += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath12k += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-qca += "${PN}-ath10k-license"
  
-@@ -259,6 +259,9 @@ PACKAGECONFIG[deduplicate] = ",,rdfind-native"
- # Possible values are "xz" and "zst".
- FIRMWARE_COMPRESSION ?= ""
+@@ -1734,6 +1774,7 @@ RDEPENDS:${PN} += "${PN}-whence-license"
+ # Make linux-firmware-iwlwifi depend on all of the split-out iwlwifi packages.
+ # Make linux-firmware-ibt depend on all of the split-out ibt packages.
+ # Make linux-firmware-ath10k depend on all of the split-out ath10k packages.
++# Make linux-firmware-ath11k depend on all of the split-out ath11k packages.
+ python populate_packages:prepend () {
+     firmware_pkgs = oe.utils.packages_filter_out_system(d)
+     d.appendVar('RRECOMMENDS:linux-firmware', ' ' + ' '.join(firmware_pkgs))
+@@ -1746,6 +1787,9 @@ python populate_packages:prepend () {
  
-+# Specifying -j requires GNU parallel, which is a part of meta-oe
-+PARALLEL_MAKE = ""
+     ath10k_pkgs = filter(lambda x: x.find('-ath10k-') != -1, firmware_pkgs)
+     d.appendVar('RRECOMMENDS:linux-firmware-ath10k', ' ' + ' '.join(ath10k_pkgs))
 +
- def fw_compr_suffix(d):
-     compr = d.getVar('FIRMWARE_COMPRESSION')
-     if compr == '':
++    ath11k_pkgs = filter(lambda x: x.find('-ath11k-') != -1, firmware_pkgs)
++    d.appendVar('RRECOMMENDS:linux-firmware-ath11k', ' ' + ' '.join(ath11k_pkgs))
+ }
+ 
+ # Firmware files are generally not ran on the CPU, so they can be
 -- 
 2.39.5
 
