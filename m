@@ -2,55 +2,55 @@ Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 133F3C36008
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A59C3600E
 	for <webhook@archiver.kernel.org>; Wed, 26 Mar 2025 20:29:52 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web11.33358.1743020984148444996
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.33362.1743020986561243465
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Mar 2025 13:29:44 -0700
+ Wed, 26 Mar 2025 13:29:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KWgUeJ+U;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: hiagofranco@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-301918a4e1bso304021a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 13:29:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IMJG7cq1;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3014678689aso343745a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 13:29:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743020983; x=1743625783; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1743020986; x=1743625786; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oIaEs22Vs3wriV7mGRge3bJW2aoP0TMeV2sXevIYzzg=;
-        b=KWgUeJ+USqDdjSKBhGjKulJ/ASXPhwkb5TYVZGmRNDKZx5WJw91s7pI1kliDIHHcRV
-         2A6kN7acBoHFPJp9cdWKLGqbBD9oAiYKP+Hh+p6Y1cZwWcDQQPCn5hmZIF3CPW9+jMny
-         8fUuwDv++9UlPJQHk7nK8gTXsgF3C5mUC3EYnLG+R8WnCyZ4DLqZSmiIU/HWdarcIX/j
-         DVMM4QxQ9Tng8f6QJl8MIxKubLkwL7D9ey93rCkE54U6s8oYnb992n0nEzLjCPugMxhf
-         aenFq6A/QrEZTFvWeE3R/YYibSOc2+5Je6S1nQM77gFj9sssyuDWBZt09U3VAGi5Ade1
-         MwMA==
+        bh=UooPfrwCOqek3KLa8hPrgiqlRjMOTB01QfXxv7DFu70=;
+        b=IMJG7cq15QFhcqyFxHYo4bqFQOPWG3eA7lJz/FDlG6F7wS2ijBNte+RpX9gq72+U25
+         9def0rS2ajaKGSInPSIWO9FM3qEbWmWpB98JF2e5CWhxXexEOzu4hq4GvTGgeZpKn9sH
+         jr89MMwImj5S4z1JPI4kNI+bE+beUXeEOeP74hnUOVYnuLIMRUL8OzHwlyLQA7OX7GDH
+         PKEc9nCO/bHpp9WMV/bPYIBj5gDiqvyiVaOWT/Zi097Y0fhqduIGAwwRN0hmX5b3O/30
+         XftthR0Q3maHeq55Za/+EWJkFStzS2GoMeQV9wUj9wt8tU52nRiG72Fyp4w/9s17hgG9
+         8gNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743020983; x=1743625783;
+        d=1e100.net; s=20230601; t=1743020986; x=1743625786;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oIaEs22Vs3wriV7mGRge3bJW2aoP0TMeV2sXevIYzzg=;
-        b=Z+jqnkrFN2cHX0UfPgx+KIPx4WpgvHHKyayNZCSz2z73UGFZaAywAggApHp+VcUekq
-         P7YhlQsXoU2ARxK2RhrvPYAZVMFaXTxXS8Sy1igk0YXQdvOEiNv3ad3CiluLbsTzA/WH
-         pLOHnSODMTmwuxOF90Ye1GWSqbdONh7hsHWoen8qkQBR7MEaMO3Y1XogjlDqG7ZSId5W
-         kq0cAFROEWtby69UUuA6JGpunkf0sGn1EiOhzjDzyHmZwcTp3/Qj378iIO5kCy9M+Wcj
-         XF39ktuO9ruW04YCcMaXMDuKYu/fo/ZM3xitI7Ii5oOAkpzymQTm8aN0dHf5VdXwKmFg
-         bkyQ==
-X-Gm-Message-State: AOJu0YwnNGHdX12EJ92pt7JSgd+MGl6zYsa0D4PCAuM2z2xCDJggkoly
-	7W4NCsIL1ODmMK6RjYK4VzUhFHutMH7YGApgTurTQTOb1fdOWRlVNIv0GHBl
-X-Gm-Gg: ASbGncvaIWNpA0iTTboZbMIjevLxEZQ6y6pFVE0u7/Rs84u/NEOh0QjDDhEsfOvhDdx
-	0E2w1HbkXbb60oqQLHM6KDwlN9mW8w4VSq5Kf2nZERO3g0VwB2wqRaKDglcXBq3D7/oVJhKWhZF
-	3RvajzE6PopZySIaM7NJLdgHd0SjP1xM0LUJDTYJOGhKmLDhAuIN+aFe3JV57AP0lLLyJEzXl2c
-	6FEHPe95b2FnbYTFB9woFnvIZ7ZzR4SucdCJ2pdP8IE5cUD4hUxZlK039fqJwnVIjVKk/5vTpLh
-	L5Vjw8s6fuRyc08zwm+OxE5TctSCmD4d+1dWom1naDOw+JLY2AEUnu4c9M/pFO4bTrA=
-X-Google-Smtp-Source: AGHT+IFfsaOaPQcuYvKrncDg/Vm5vQxWJ+kP0XfCOowdrkN6cVx40r7n8QZjvn0hn+tVSZ/3IMN2Ng==
-X-Received: by 2002:a17:90b:5824:b0:2f8:b2c:5ef3 with SMTP id 98e67ed59e1d1-303a7f6eb13mr1802149a91.14.1743020983152;
-        Wed, 26 Mar 2025 13:29:43 -0700 (PDT)
+        bh=UooPfrwCOqek3KLa8hPrgiqlRjMOTB01QfXxv7DFu70=;
+        b=uc/YJldSjaLN94R6fWk5tHb1meE7LrNrGuCah2EwpCFtYEsUjzj/jXNE1IT9hTrB5V
+         6VlI0FWg/ExLk3ConBL+tbgKfHo2kbbn2pjE66UBI1z52IyNwtLMY9CF7vU5QErb+bcm
+         y3bzwvDBsZrBZJGrbpcPwxSN/17Z3sAFexFY7DKrixbcs6FZszJlNFF+urrUGGjN6RA4
+         841H4cXrNJVSfQ3PFw+sjsrIEdR56jWWxad3esTonvDMYJtJPrjYWiyewZmqJ+94I33H
+         sDi2jqnSGKFuupxzpZS6hNW7gCPpevrtRCiFDnGK3EGEYUuLLSQ7B3MU/7am+7kmMNed
+         tFFg==
+X-Gm-Message-State: AOJu0YwCV65I/f5JPhdkAYrcA6KHBHoRPW/8bHyaynGZuxeFKyqhEUwQ
+	BPLnrlZXbiZPe6Z28hhOXW+HoUU07a19VCWaWZv1hYk64gIa9pL/d1rpp4fJ
+X-Gm-Gg: ASbGncskKHFgd1tdsIcsOvJjBSeQgX3aET3+W/MwYNoFH8ZaM0btJ8SzX8P3pSEUezN
+	S8hc4NEsLRRnqy8Tcvh0O/ayCZQOMiCCwdEkrHqvX8JmX2gsNHRoSRHcGih7vnKBBS0IYF6cl0Q
+	/9guDnYrGgCh8dCMqpC7/wjTtl02EIcbGsnBlSlofPFgqeoGPNp4LY0W0BKZLaJu9kg8zwkfDi+
+	PwliVGpHfhR1xlcXMtaZsoXr1LGDIV29Z8i0IXftijgnHJ9DFPyVdYZXzcDOlTTO88AB2ce76Uv
+	3Aa1q+WvB7gqPm0PsRlj6uNSlHKWO/kyhSVQLFrkcxTYoP0ealy+3c6uRBKp6GIqSjo=
+X-Google-Smtp-Source: AGHT+IGtqQRUoqBthDyF32VgtB7/U+ZDJcX8BmzV+0XulQGC6/cLwlvGLVTGSplod8JzId3tQ2sFAQ==
+X-Received: by 2002:a17:90b:2b8b:b0:2ee:ed1c:e451 with SMTP id 98e67ed59e1d1-303a7f6eb38mr1536953a91.15.1743020985659;
+        Wed, 26 Mar 2025 13:29:45 -0700 (PDT)
 Received: from hiagof-nb.corp.toradex.com ([67.159.246.222])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3039f1d4b6asm661625a91.38.2025.03.26.13.29.40
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3039f1d4b6asm661625a91.38.2025.03.26.13.29.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 13:29:42 -0700 (PDT)
+        Wed, 26 Mar 2025 13:29:45 -0700 (PDT)
 From: Hiago De Franco <hiagofranco@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: quentin.schulz@cherry.de,
@@ -58,9 +58,9 @@ Cc: quentin.schulz@cherry.de,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [styhead][PATCH v2 15/31] linux-firmware: package firmware for Qualcomm AIC100 and QDU100
-Date: Wed, 26 Mar 2025 17:28:01 -0300
-Message-Id: <20250326202817.64437-16-hiagofranco@gmail.com>
+Subject: [styhead][PATCH v2 16/31] linux-firmware: upgrade 20241210 -> 20250109
+Date: Wed, 26 Mar 2025 17:28:02 -0300
+Message-Id: <20250326202817.64437-17-hiagofranco@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250326202817.64437-1-hiagofranco@gmail.com>
 References: <20250326202817.64437-1-hiagofranco@gmail.com>
@@ -70,62 +70,59 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 20:29:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213675
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213676
 
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Split packages with firmware for Qualcomm AIC100 (AI accelerator) and
-QDU100 (5G RAN Accelerator).
+The linux-firmware now requires GNU Parallel in order to run parallel
+builds. As the GNU Parallel is not a part of oe-core (the recipe is
+present in meta-oe) disable parallel builds.
+
+License-Update: additional files
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 856d828963a1bd3b2be0b5eef6df97ea682412c3)
+(cherry picked from commit 16e86b63696177a6f8b8f73b41e55dd6389f9e1c)
 ---
- .../linux-firmware/linux-firmware_20241210.bb          | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ ...nux-firmware_20241210.bb => linux-firmware_20250109.bb} | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20241210.bb => linux-firmware_20250109.bb} (99%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb
-index b3be4452ca97..d3757b5bbc92 100644
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
+index d3757b5bbc92..ba66ea407dec 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb
-@@ -400,6 +400,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qat ${PN}-qat-license \
-              ${PN}-qed \
-              ${PN}-qcom-license ${PN}-qcom-yamato-license \
-+             ${PN}-qcom-aic100 ${PN}-qcom-qdu100 \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 ${PN}-qcom-venus-6.0 \
-              ${PN}-qcom-vpu \
-              ${PN}-qcom-adreno-a2xx ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a4xx ${PN}-qcom-adreno-a530 \
-@@ -1422,6 +1423,8 @@ FILES:${PN}-linaro-license   = "${nonarch_base_libdir}/firmware/LICENCE.linaro"
- # For QCOM VPU/GPU and SDM845
- LICENSE:${PN}-qcom-license = "Firmware-qcom"
- LICENSE:${PN}-qcom-yamato-license = "Firmware-qcom-yamato"
-+LICENSE:${PN}-qcom-aic100 = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qdu100 = "Firmware-qcom"
- LICENSE:${PN}-qcom-venus-1.8 = "Firmware-qcom"
- LICENSE:${PN}-qcom-venus-4.2 = "Firmware-qcom"
- LICENSE:${PN}-qcom-venus-5.2 = "Firmware-qcom"
-@@ -1478,6 +1481,10 @@ LICENSE:${PN}-qcom-x1e80100-audio = "Firmware-qcom"
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
+@@ -158,7 +158,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "0b30c661e226decdac3acd31d83517e0"
++WHENCE_CHKSUM  = "c90a25ccbd027eb8d61b2943ab68447c"
  
- FILES:${PN}-qcom-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
- FILES:${PN}-qcom-yamato-license = "${nonarch_base_libdir}/firmware/LICENSE.qcom_yamato"
-+
-+FILES:${PN}-qcom-aic100 = "${nonarch_base_libdir}/firmware/qcom/aic100/*"
-+FILES:${PN}-qcom-qdu100 = "${nonarch_base_libdir}/firmware/qcom/qdu100/*"
-+
- FILES:${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
- FILES:${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
- FILES:${PN}-qcom-venus-5.2 = "${nonarch_base_libdir}/firmware/qcom/venus-5.2/*"
-@@ -1538,6 +1545,9 @@ FILES:${PN}-qcom-sm8650-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm865
- FILES:${PN}-qcom-x1e80100-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/gen70500_zap.mbn*"
- FILES:${PN}-qcom-x1e80100-audio = "${nonarch_base_libdir}/firmware/qcom/x1e80100/adsp*.* ${nonarch_base_libdir}/firmware/qcom/x1e80100/battmgr.jsn"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -247,7 +247,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
  
-+RDEPENDS:${PN}-qcom-aic100 = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qdu100 = "${PN}-qcom-license"
+-SRC_URI[sha256sum] = "2bb035708576d076f97d4196a1c22e0a4d33fbb0210d05428d0bf4f243e99af5"
++SRC_URI[sha256sum] = "a12cb38f4793394bf56c6702be29b6e4f09deca0714943bba98a492030651570"
+ 
+ inherit allarch
+ 
+@@ -259,6 +259,9 @@ PACKAGECONFIG[deduplicate] = ",,rdfind-native"
+ # Possible values are "xz" and "zst".
+ FIRMWARE_COMPRESSION ?= ""
+ 
++# Specifying -j requires GNU parallel, which is a part of meta-oe
++PARALLEL_MAKE = ""
 +
- RDEPENDS:${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-venus-5.2 = "${PN}-qcom-license"
+ def fw_compr_suffix(d):
+     compr = d.getVar('FIRMWARE_COMPRESSION')
+     if compr == '':
 -- 
 2.39.5
 
