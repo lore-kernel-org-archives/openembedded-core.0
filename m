@@ -1,101 +1,225 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07EB4C36008
-	for <webhook@archiver.kernel.org>; Wed, 26 Mar 2025 21:16:53 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.35392.1743023804185471744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C1BC36008
+	for <webhook@archiver.kernel.org>; Wed, 26 Mar 2025 21:28:43 +0000 (UTC)
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+ by mx.groups.io with SMTP id smtpd.web10.35688.1743024512993887190
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Mar 2025 14:16:44 -0700
+ Wed, 26 Mar 2025 14:28:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=G/jLQpa3;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=QaoYut/y;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010195d4508b2a-479de281-b35d-4978-b5ee-c47d2790bb75-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743023803; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=aldltXkIePxq++BPTiLLAGWRVsP84oHdJ1x4Jn9++80=;
-	b=G/jLQpa32KOAWfq33c4Ra1/uazUu8ODca9PPSNWyOGkv+l3AVRWmIe05rvJ3tm5p
-	KYWar660g0xHWr06KKG/1nz6btnsQ897TBPWxXhcChKOnTOv+VER88xJuG1FyQhlAER
-	7tMH4UUCcgYgsip2qAphOuMs295FjlaAeX1KwOb0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743023803;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=aldltXkIePxq++BPTiLLAGWRVsP84oHdJ1x4Jn9++80=;
-	b=QaoYut/yoAC0VV1s78Q7GfQ/oBMFRdke9K9U+8vjJ5oq+5caSTyWlGWzTdSKYprS
-	DxFKGJabGgnjYRt/HKm5bBk70nKto9yZdNm28KXmwkq3o6M4wf+3WmCm60Wp3jfGZMp
-	Cpgk+zpj6RKeudMiXgkg+cuB9CSGwxNj7+rlyFWM=
-From: patchtest@automation.yoctoproject.org
-To: Hiago De Franco <hiagofranco@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [styhead][PATCH v2 22/31] meta/meta-selftest: Fix variable assignment
- whitespace
-In-Reply-To: <20250326202817.64437-23-hiagofranco@gmail.com>
-References: <20250326202817.64437-23-hiagofranco@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195d4508b2a-479de281-b35d-4978-b5ee-c47d2790bb75-000000@us-west-2.amazonses.com>
-Date: Wed, 26 Mar 2025 21:16:43 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.26-54.240.27.30
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kjnIDIoI;
+ spf=pass (domain: gmail.com, ip: 209.85.161.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6003b679812so83040eaf.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 14:28:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743024512; x=1743629312; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/VuVI9T2T71SplxrksqHQiafGkb15PnAoBOse0KuN2U=;
+        b=kjnIDIoIdVuZHmMO5SsjW4d5abxJsKcvtAdWoTOueSzuttiCFaYL0Btj8tR8f9Wd7U
+         YEWubSxKIojL6rcTW+RDBp+aUZyg9PMjDTbDwzo+En/DvikhTyFgMlKOOfkcNV6etjsp
+         gBZBX3Co4UmbJ7q177fu8sSITYzOuKUr92DQKmC48PBAnCOC7TTsYuDkVgNkSWG9bLD7
+         w9fjv5Ct++MQS708/wkDAQyDrvMs09AXDIRg5v2OsSEQQOaRNNNDfDk+01bLEFWmS6q9
+         h8Bo8W3GMc/gItnKnZ4Io5yE0u3eL2JwcvVMbi9yv2UT6D16hdl7fq8uO/pNHsZDsfIo
+         fbyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743024512; x=1743629312;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/VuVI9T2T71SplxrksqHQiafGkb15PnAoBOse0KuN2U=;
+        b=wdPb5nO52Kc5xsEmhPJpNdxILBD8FP5GMD+rUm++2n0aqUPWLBDwy28LZrfmncVCLu
+         bmRJ9qHmth4I8eSqz3IJHs94GGkb/8/dmUcEJKsjw7K3V2yt0v0v3OvrchRNW86Cnwmc
+         FE7MOBM8qjbGOAwDWGBtnt34D2t4PNHkBxIj0AgEt1ZqNKv2i1SoyeHURqxeCXiGj/yI
+         4kSonRvk3mpduTGYGKVOZVkrg4joSUPIVHxG1Ozn+xwTLWw1joCkRUXQD39H1vH4gUKU
+         hs8PsB4u5D3U2QkJ3LpQRMDHxjjzAHiiPjhtg4Dl9TmTpTYcB/AyiMOB3rnmA2SAv4zc
+         RgnA==
+X-Gm-Message-State: AOJu0YzIHCYuqq3NdkHngmzM7lw6r4pYb/IHEE/ee3pHr8LBAwgUKoh/
+	apOGQe7IfId4KpLlVwypA0jqC2UnlqDCcQNUtUg0WLSgJ0j9SopEXsCeBuRei2ysijV4iWb/qE5
+	4oAQ/BzQhCY7b07sV0vY32g80RJ+y70mRyf4=
+X-Gm-Gg: ASbGncu9WbwhZyLTLLEBrI7ALK77lIgF1qB0Zlgq+ZsUUBlHpaX6JrFN2nhEhvvSVqe
+	Tt4MoH+xSHgw93rVSugar4x3XYc8srFbdNBOFrWvm6lnCItYoiXSomYPTZXcHJWrK76s4uy8pyi
+	u60agMxzjIctivO1en7GVhynaq4/ZjT/whcgeqeGzwCw0qmM0T3M1naQ==
+X-Google-Smtp-Source: AGHT+IG948/+UzvOeUsFLjjIOhHpMT16fwwxhd0WFd5uZog+Ip3QowdTFZmkxjwZxFyPb5TVcWRU1RDtkQQxz8I5t1I=
+X-Received: by 2002:a05:6820:2226:b0:602:65eb:eef5 with SMTP id
+ 006d021491bc7-602785a0a26mr676435eaf.1.1743024511858; Wed, 26 Mar 2025
+ 14:28:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <5be84788-6fa5-453c-83bc-d547246dc037@bootlin.com>
+ <296b0e95be234db91dfaa8164e45d035973aa459.camel@linuxfoundation.org>
+ <29e667c7-c9d9-496c-b7b7-bf580c39eda4@bootlin.com> <CAMKF1srT0JWLi5+1gv+W2xu-HyfzgZRaGAgFAGeHVx75+YOdsg@mail.gmail.com>
+ <9a00d30a-cd78-4c34-bd9f-c2bcbeee2a05@bootlin.com>
+In-Reply-To: <9a00d30a-cd78-4c34-bd9f-c2bcbeee2a05@bootlin.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 26 Mar 2025 14:28:06 -0700
+X-Gm-Features: AQ5f1Jp2yZMzq2CZ7w-Xl1VTEZdHyh3N8vLYIKQcxZVSyFw9YotiQP6UXZMPqs8
+Message-ID: <CAMKF1srEXJgsc5StuD2rh4FDhKAERrXnN1QBV=g+pZ80rXCCMg@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap] recipe's sysroot misconfiguration in multilib
+To: joaomarcos.costa@bootlin.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 21:16:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213694
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 21:28:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213695
 
---NextPart
-Content-Type: text/plain
+On Wed, Mar 26, 2025 at 1:54=E2=80=AFPM Joao Marcos Costa via
+lists.openembedded.org
+<joaomarcos.costa=3Dbootlin.com@lists.openembedded.org> wrote:
+>
+> Hello,
+>
+> On 3/26/25 20:26, Khem Raj via lists.openembedded.org wrote:
+> > On Wed, Mar 26, 2025 at 12:15=E2=80=AFPM Joao Marcos Costa
+> > <joaomarcos.costa@bootlin.com> wrote:
+> >>
+> >> Hello, Richard
+> >>
+> >> Thanks for your reply
+> >>
+> >> On 3/26/25 19:55, Richard Purdie via lists.openembedded.org wrote:
+> >>> On Wed, 2025-03-26 at 19:47 +0100, Joao Marcos Costa wrote:
+> >>>> I have been trying to set up a multilib environment to generate
+> >>>> libraries built with Control Flow Integrity support. The gcc toolcha=
+in
+> >>>> is already patched to support this custom multilib ABI, and it is in=
+deed
+> >>>> capable of generating binaries with the CFI flags.
+> >>>>
+> >>>> I am, however, facing this strange issue where a header is not found=
+ in
+> >>>> the multilib recipe-sysroot (i.e., libcfi-recipe-sysroot) of a given
+> >>>> package (e.g., zstd), and do_compile task fails:
+> >>>>
+> >> (...)
+> >>>>
+> >>>> Besides my TUNE_*, DEFAULTTUNE, BASE_LIB values set up, I also added
+> >>>> 'GCCMULTILIB =3D "--enable-multilib"' to gcc-cross.inc, to enable mu=
+ltilib
+> >>>> for the cross toolchain. Could I be missing something, maybe with
+> >>>> recipes-devtools/gcc/gcc-multilib-config.inc?
+> >>>
+> >>> I'm finding it odd that you have to add --enable-multilib since in
+> >>> general with gcc-cross, we use separate cross toolchains for each
+> >>> multilib. This kind of implies you're configuring the setup different=
+ly
+> >>> to how the system would expect.
+> >>
+> >> If I don't, my cross toolchain is configured with "--disable-multilib"=
+.
+> >> To confirm this, I ran gcc with "-v" from within the recipe's native
+> >> sysroot, and the output is:
+> >>
+> >> Target: riscv64-freedomusdkmllibcfi-linux
+> >> Configured with:
+> >> ../../../../../../work-shared/gcc-internal-13.2.0-r0/git/configure
+> >> --build=3Dx86_64-linux --host=3Dx86_64-linux
+> >> --target=3Driscv64-freedomusdkmllibcfi-linux --prefix=3D//host/usr
+> >> --exec_prefix=3D//host/usr
+> >> --bindir=3D//host/usr/bin/riscv64-freedomusdkmllibcfi-linux
+> >> --sbindir=3D//host/usr/bin/riscv64-freedomusdkmllibcfi-linux
+> >> --libexecdir=3D//host/usr/libexec/riscv64-freedomusdkmllibcfi-linux
+> >> --datadir=3D//host/usr/share --sysconfdir=3D//host/etc
+> >> --sharedstatedir=3D//host/com --localstatedir=3D//host/var
+> >> --libdir=3D//host/usr/lib/riscv64-freedomusdkmllibcfi-linux
+> >> --includedir=3D//host/usr/include --oldincludedir=3D//host/usr/include
+> >> --infodir=3D//host/usr/share/info --mandir=3D//host/usr/share/man
+> >> --disable-silent-rules --disable-dependency-tracking
+> >> --with-libtool-sysroot=3D//host --enable-clocale=3Dgeneric --with-gnu-=
+ld
+> >> --enable-shared --enable-languages=3Dc,c++,fortran --enable-threads=3D=
+posix
+> >> --disable-multilib --enable-default-pie --enable-c99 --enable-long-lon=
+g
+> >> --enable-(...)
+> >>
+> >> As a consequence, the build fails even before it gets to libcfi-zstd:
+> >>
+> >> ...libcfi-glibc-internal/2.37/recipe-sysroot-native/usr/bin/riscv64-fr=
+eedomusdkmllibcfi-linux/../../libexec/riscv64-freedomusdkmllibcfi-linux/gcc=
+/riscv64-freedomusdkmllibcfi-linux/13.2.0/ld.bfd:
+> >> cannot find -lgcc: No such file or directory
+> >> | collect2: error: ld returned 1 exit status
+> >> | make[2]: *** [Makefile:1293:
+> >
+> > OE's notion of multilib is at system level, which means it will need
+> > full runtimes for the chosen multilibs, GCC builds the compiler
+> > runtime and has its own
+> > directory naming structure to place them which may not be inline with
+> > what OE toolchain is doing. For hosted targets we do not build a
+> > toolchain with all
+> > possible multilibs for a given architecture which technically is
+> > possible with gcc. our mutlilibs are a small subset of that and that
+> > is what toolchain will recognise
+> > provided its placed in right locations in sysroot.
+> >
+>
+> Thanks, Khem.
+>
+> After your reply and Richard's, I checked with a Poky build (arm64 +
+> lib32 multilib), and doing the same test (i.e., gcc -v) I see both
+> compilers (64-bit and 32-bit) were configured with "--disable-multilib".
+> I will get rid of that GCCMULTILIB then.
+>
+> Please tell me if I got your point correctly: each multilib ABI (lib32,
+> lib64, libfoo, libbar) will have it's respective toolchain built, and as
+> long as the toolchain's naming matches what OE expects in terms of
+> sysroot structure, everything will work transparently.
+>
+> In case I got you right, how can I tell what exactly OE expects of the
+> sysroot locations and directory names? I ask this specially because in
+> my arm64 + lib32 test, the target sysroots are:
+>
+> lib32-zstd/1.5.6/lib32-recipe-sysroot/usr/lib
+> zstd/1.5.6/recipe-sysroot/usr/lib (with a symlink inside to lib64)
+> zstd/1.5.6/recipe-sysroot/usr/lib64
+>
+> and to be fair, I was expecting the very opposite. Something like:
+> lib32-zstd/1.5.6/lib32-recipe-sysroot/usr/lib32
+> zstd/1.5.6/recipe-sysroot/usr/lib
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+zstd(64-bit ABI) and lib32-zstd(32bit ABI) packages will build in there own
+recipe specific sysroots. Difference will be in the the libdir and PN
+e.g. see below for 64bit and 32bit respectively
+zstd/1.5.6/lib32-recipe-sysroot/usr/lib64
+lib32-zstd/1.5.6/lib32-recipe-sysroot/usr/lib
 
----
-Testing patch /home/patchtest/share/mboxes/styhead-v2-22-31-meta-meta-selftest-Fix-variable-assignment-whitespace.patch
-
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+The multilib dir could be lib lib32 lib64 and it is primarily driven from l=
+egacy
+and how linux systems accomodated 32bit arch on 64bit systems so there
+is no rule but convention that was followed by the OS builders and it is no=
+t
+same across different architectures e.g. ppc/ppc64 mips/mipsn32/mips64
+i686/x86_64
+arm/aarch64 might have differences e.g. lib may contain 64bit
+libraries in that case
+lib32 may contain 32bit and lib64 may contain 64bit in that case lib
+may have 32bit binaries
 
 
---NextPart--
+>
+> In other words, the target architecture libdir would remain the same
+> (i.e. usr/lib) and the multilib variant would be usr/lib32).
+>
+> Thanks once more.
+>
+> --
+> Best regards,
+> Jo=C3=A3o Marcos Costa
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#213692): https://lists.openembedded.org/g/openembedde=
+d-core/message/213692
+> Mute This Topic: https://lists.openembedded.org/mt/111923149/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
