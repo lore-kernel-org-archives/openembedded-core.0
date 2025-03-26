@@ -2,55 +2,55 @@ Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 056F7C36011
-	for <webhook@archiver.kernel.org>; Wed, 26 Mar 2025 20:29:22 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.33348.1743020961397916246
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09A9FC36008
+	for <webhook@archiver.kernel.org>; Wed, 26 Mar 2025 20:29:32 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.33351.1743020966204119070
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Mar 2025 13:29:21 -0700
+ Wed, 26 Mar 2025 13:29:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cg/oBtck;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: hiagofranco@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-223fb0f619dso6686805ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 13:29:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ti4A8fSE;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3014cb646ecso275868a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 13:29:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743020960; x=1743625760; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1743020965; x=1743625765; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qAJFo2CgrMzcq4U/sdV9LdPnFbp7uOyerdqPVJKWUNc=;
-        b=cg/oBtckfWb8qpbDATOiee4+zzR4C6ZIhrWaUKcdTx6Hhp5KCmjXLYefEE7vT5bCFC
-         pVn3+oJQRHaRGO+u16PzS8bo2o5gJ3THwhgvAfrRmWd+LsMuyZ0Npvh5zr68agrPGk4M
-         BEtGW6E2gkm/HMDTUqpxIhX6+MnmkD4DIlRoEQnansFh1pAb/A2duWsWrVkJxmOujly6
-         3YM3vG4QsbL+6c9Kks3qX//ufEgnKtdAUgIx04tJ6gEfwjdFDd1/RMFPhCkTMkx1dHxn
-         8ypcU6Hu8X79lpuy7juDElsIhIBXnwvzu1bsiJ1i0hiQ1QEiIed/YKJpN0SOwj3E+/xe
-         M/NA==
+        bh=mMu44ASmMTqn/E9RWfWo7GOVFe5CMJUFS0SiwJySe5g=;
+        b=Ti4A8fSEIvxf9XjpOIeFwiUbpRV2m4sOln2csUWOr4ohp7JJjj5rA77CHxXup+3LW9
+         gspGtuuVFul0rmek0DipNd+Be8wO20qDXH+TFQbS7ge832wwphYpmhacLBybGYWHT8KP
+         41OjyLkZ/2DuLlMhSVLyROKtIT55tdmpDdPKwhsx0aE3vzJ9TaTJq5bco3XswdwVYRXh
+         fTuQHqKwQ4m6rp6XLdauLmiBTu0MOlYX9qIlR7uLYHynkmcSourrA1foWIPVkDocbYDc
+         epn9Dg4zTVQe8ZO1OPwFXNpllM7KWnBe4u8BE3DMeZ1xW+TpMuuPqD/5RN1U5iv5m+0e
+         Ex7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743020960; x=1743625760;
+        d=1e100.net; s=20230601; t=1743020965; x=1743625765;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qAJFo2CgrMzcq4U/sdV9LdPnFbp7uOyerdqPVJKWUNc=;
-        b=SXe7shvDWTulykRQg7nJkhmeziX9IyFXRsXwLWSca6/2n40Kx406Vm3OOo9te+0n7D
-         /Hgqvd8UBWltZE+sNjMOgBTZy5I5iP9SvhpAfPgpSS6jYUe143AaTN0J/l4oN/LXPkYA
-         6tBo8XXk1pi1epNNYj1AZb+NXCO3jWI8sFFemY2Xuh4LAiMHkmY914zMtLb0MoCIHXQf
-         7d1gJBaKm7pAs8Pjw+gUytslnL5Zm9jv/SXGrhmDs9aDrPYT4pqg8k3J0wOAbosdYqyA
-         hsgRW1lFnAK4xSsgpp6HSuz6HkS7e3uza5AklNiiB6inBt5TFRwvp+P8YNCpJvignpfW
-         WEqw==
-X-Gm-Message-State: AOJu0YxqqY1vIAb2YtXfB+AReWps/iZSEo5unREUgOYRwhTz8Up0Xcsn
-	PEurJQNuwR5Ng16fZ5RdyoF9BOBk9A1lMp9qFruE9UYnMFBL+sz5dVOH1eRJ
-X-Gm-Gg: ASbGncs8AZkh92fF79OcxOL8962tsFQ4VPlnihnG+cu34k0w0vMP+2iwQrjwqcLgkc+
-	OF6jhgfLQ/v9Oztn3iMl0KLnOc2qEDJAIjQFkyQQthvPYBlT3XY8FI3irKxXLo45XCZbq+49bTW
-	H73jEZ+/hR/8gvHmcPTD7VOnyrInQ5eZyACgd8ZuU/SEZCi4V6RXzx5157RtiAf885zHcJe4n85
-	Q0hQsJpXhKxx4kDCuyAw6X++IXlXN1JrqWWZ/DoewbpSv2yINVA4eeyKfZHwByPvfUIPUiovtI5
-	XXA/vAXU+DWM/GDwFOsPvtGFZWxLT+EjDfKgZ7tEhgW4lwQbyNSUJ0Y4LmRi5Fvu4n0=
-X-Google-Smtp-Source: AGHT+IEZiXcz0YsaKEAeixuP+RHALGLOUFuwmKiXDsHw5HSs3R/LnSZn6aJuwTXw9m2/joDxV1kz5A==
-X-Received: by 2002:a17:90b:2d46:b0:2fe:99cf:f579 with SMTP id 98e67ed59e1d1-303a7b59fa7mr1415627a91.4.1743020960447;
-        Wed, 26 Mar 2025 13:29:20 -0700 (PDT)
+        bh=mMu44ASmMTqn/E9RWfWo7GOVFe5CMJUFS0SiwJySe5g=;
+        b=UbKLtQWGWZ5k3jUIwWIWSB4EbWlvOhNO8xaGvFwn3nKMZcsCjumbaKhd8lgUCp6uJW
+         A7Ct8eTcdEQM2nFQETrjDzUFIraWjQod/D5Zhw8tZOUDOW/gDKo0Uomex3yNztvTxC13
+         +NZXGFbbycWzB9I25lidx7U2SMujUTAPdcoi8gbJz//CqWVyo3DqFrcKEAP+vgbCDqZx
+         v1yrCersyeY1XeaUNnCVFP48xLOmY0ehSfgpIqXfHVU72ACDls2CAO53tISYbTp0WQYo
+         kJwIOF1qW5xU59pXJKi5/ffvD7YzZC2IoFBENz3hGKoY1IERAOcj5+eya3AOPVbW26dA
+         LNWQ==
+X-Gm-Message-State: AOJu0YxQ9JG/sPhnTT1NuYjsXQ+g1ihVic4tO9JkxDsA753uczJ3s5VD
+	RFOJJ8nGsbR9H57oWozqgdm23tGMAZO2erpWDHtqOAFCR9+kFhEOjQaEaKFp
+X-Gm-Gg: ASbGnctQuEzSw2o7Qk1HCJvkTAy4vWts4dZCOU9AmVOBl9Jnlo0it2N+T5t24b+rKWK
+	UuAQeMN3MbMDc+Wgm8rIhbWKEU471cOW6rt24Z1zU7dmE07BVyT0QzsSc18D1RoAvb54mQ7l7Ip
+	LyNsftfUqplnxpW4xCE9QzMxLDaH3FOR3V69NKPrYM2cWI365tfG/msCwaZhMTyZ69LUrXYe7dw
+	cCK6+N7x5qaORIRfd8RTrI/qIxemp8XKexeQSNlayYR4zbp4IrLKHxsIas2o/p6B0DMvtLarnm9
+	+eDpyLvVijDt4b2t8kjw/gY+UvORqGPefO7PugZG4E5lYuEYYCKCrqMujOVlpdUun08=
+X-Google-Smtp-Source: AGHT+IFwUHW34askaC7S2t5d/JaAwlyvWsf5qwcCcPilWgvWb2cYrhbvAHl+I6YIujIGRP0rM76zPQ==
+X-Received: by 2002:a17:90b:1f81:b0:2ee:af31:a7bd with SMTP id 98e67ed59e1d1-303a7c5b94fmr1502417a91.5.1743020965256;
+        Wed, 26 Mar 2025 13:29:25 -0700 (PDT)
 Received: from hiagof-nb.corp.toradex.com ([67.159.246.222])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3039f1d4b6asm661625a91.38.2025.03.26.13.29.18
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3039f1d4b6asm661625a91.38.2025.03.26.13.29.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 13:29:19 -0700 (PDT)
+        Wed, 26 Mar 2025 13:29:24 -0700 (PDT)
 From: Hiago De Franco <hiagofranco@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: quentin.schulz@cherry.de,
@@ -58,9 +58,9 @@ Cc: quentin.schulz@cherry.de,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Dmitry Baryshkov <dbaryshkov@gmail.com>,
 	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [styhead][PATCH v2 06/31] linux-firmware: split qcm6490 ZAP shader to separate package
-Date: Wed, 26 Mar 2025 17:27:52 -0300
-Message-Id: <20250326202817.64437-7-hiagofranco@gmail.com>
+Subject: [styhead][PATCH v2 08/31] linux-firmware: make ${PN}-qcom-adreno-a663 depend on -a660
+Date: Wed, 26 Mar 2025 17:27:54 -0300
+Message-Id: <20250326202817.64437-9-hiagofranco@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250326202817.64437-1-hiagofranco@gmail.com>
 References: <20250326202817.64437-1-hiagofranco@gmail.com>
@@ -69,68 +69,40 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 20:29:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213666
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 20:29:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213668
 
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-Adreno zap.mbn files are platform-specific. As such they shouldn't be a
-part of the generic ${PN}-qcom-adreno-aNNN packages. Move it to the
-${PN}-qcom-qcm6490-adreno package.
+Adreno A663 requires two files to function: one is a663_gmu.bin,
+provided by the ${PN}-qcom-adreno-a663 package, another one is
+a660_sqe.fw, provided by the ${PN}-qcom-adreno-a660 package.
 
-Fixes: 6026fdda9021 ("linux-firmware: add new fw file to ${PN}-qcom-adreno-a660")
+Make the ${PN}-qcom-adreno-a663 depend on -a660, so that the platforms
+requiring A663 firmware don't have to care about the details and can
+simply require the A663 firmware package.
+
+Fixes: 02dec6af254c ("linux-firmware: Add qcom-adreno-a663 package")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit af95f7e3d9db9b8a1b2f503f6c6ff14bebaeb583)
+(cherry picked from commit 26db3e9d3627d45097371e39ef5b43e479e34119)
 ---
- .../linux-firmware/linux-firmware_20241017.bb               | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
-index d75a587db931..957452947d5e 100644
+index b40c33d5ada8..c99a1ea997f8 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
-@@ -408,6 +408,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
-              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
-              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
-+             ${PN}-qcom-qcm6490-adreno \
-              ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute ${PN}-qcom-qrb4210-adreno \
-              ${PN}-qcom-qrb4210-audio ${PN}-qcom-qrb4210-compute ${PN}-qcom-qrb4210-modem \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-compat \
-@@ -1443,6 +1444,7 @@ LICENSE:${PN}-qcom-qcm2290-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcm2290-audio = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcm2290-modem = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcm2290-wifi = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qcm6490-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcm6490-audio = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcm6490-compute  = "Firmware-qcom"
- LICENSE:${PN}-qcom-qrb4210-adreno = "Firmware-qcom"
-@@ -1485,7 +1487,7 @@ FILES:${PN}-qcom-adreno-a4xx = "${nonarch_base_libdir}/firmware/qcom/a4*_*.fw*"
- FILES:${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.fw*"
- FILES:${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.*"
- FILES:${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.*"
--FILES:${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.* ${nonarch_base_libdir}/firmware/qcom/qcm6490/a660_zap.mbn*"
-+FILES:${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
- FILES:${PN}-qcom-adreno-a663 = "${nonarch_base_libdir}/firmware/qcom/a663*.* ${nonarch_base_libdir}/firmware/qcom/sa8775p/a663_zap.mbn*"
- FILES:${PN}-qcom-adreno-a702 = "${nonarch_base_libdir}/firmware/qcom/a702*.*"
- FILES:${PN}-qcom-adreno-g750 = "${nonarch_base_libdir}/firmware/qcom/gen70500_*.*"
-@@ -1498,6 +1500,7 @@ FILES:${PN}-qcom-qcm2290-adreno = "${nonarch_base_libdir}/firmware/qcom/qcm2290/
- FILES:${PN}-qcom-qcm2290-audio = "${nonarch_base_libdir}/firmware/qcom/qcm2290/adsp*.*"
- FILES:${PN}-qcom-qcm2290-modem = "${nonarch_base_libdir}/firmware/qcom/qcm2290/modem*.*"
- FILES:${PN}-qcom-qcm2290-wifi = "${nonarch_base_libdir}/firmware/qcom/qcm2290/wlanmdsp.mbn* ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/qcm2290/*"
-+FILES:${PN}-qcom-qcm6490-adreno = "${nonarch_base_libdir}/firmware/qcom/qcm6490/a660_zap.mbn*"
- FILES:${PN}-qcom-qcm6490-audio = "${nonarch_base_libdir}/firmware/qcom/qcm6490/adsp*.* ${nonarch_base_libdir}/firmware/qcom/qcm6490/battmgr.jsn"
- FILES:${PN}-qcom-qcm6490-compute = "${nonarch_base_libdir}/firmware/qcom/qcm6490/cdsp*.*"
- FILES:${PN}-qcom-qrb4210-adreno = "${nonarch_base_libdir}/firmware/qcom/qrb4210/a610_zap.mbn*"
-@@ -1549,6 +1552,7 @@ RDEPENDS:${PN}-qcom-qcm2290-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcm2290-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcm2290-modem = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcm2290-wifi = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qcm6490-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcm6490-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcm6490-compute = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qrb4210-adreno = "${PN}-qcom-license"
+@@ -1543,7 +1543,7 @@ RDEPENDS:${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a660 = "${PN}-qcom-license"
+-RDEPENDS:${PN}-qcom-adreno-a663 = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-adreno-a663 = "${PN}-qcom-license ${PN}-qcom-adreno-a660"
+ RDEPENDS:${PN}-qcom-adreno-a702 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-g750 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8016-modem = "${PN}-qcom-license"
 -- 
 2.39.5
 
