@@ -2,51 +2,51 @@ Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48286C3600E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C0AC36010
 	for <webhook@archiver.kernel.org>; Wed, 26 Mar 2025 03:57:45 +0000 (UTC)
-Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
- by mx.groups.io with SMTP id smtpd.web11.14546.1742961463570957644
+Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
+ by mx.groups.io with SMTP id smtpd.web11.14547.1742961463796483593
  for <openembedded-core@lists.openembedded.org>;
  Tue, 25 Mar 2025 20:57:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Gx4omtPB;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: leimaohui@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=b9bp1y66;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: leimaohui@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
   t=1742961464; x=1774497464;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=RnohN74U4IF4jDyngFb/42XbOiFq7pylgHn9+Oxf4sc=;
-  b=Gx4omtPBPL7fdc+RJOnACaLpWOj7mZrsRgTg/uHknfIx3ZFlHltoO0D2
-   X69jPxVlV+zurqa4yPqEi2UXwna0olTD9AGplvcH6R0fSmy9z72hvxNSK
-   75qqqUg06hjon7Syrl0IOsbHPVl8x9SmZvpgIwiAoXI3eKgPe09tewkys
-   4OV0o3RrpmEDlo4EDtel1lw8rcYV9vSyDkUeV83GlB2mzVHvscm60TCnW
-   Ee1wliHRMhexQ9trnYyGK2PGbHsSqfeHJnq4fHE6YWguossBmNiJqURRu
-   WRed2ppB93SwHmHQ2kODmbEPZ8sTK3THXR8RcBTANzIqE5AGtRjIpCiRG
-   g==;
-X-CSE-ConnectionGUID: thCIpARYRGyvp76BiQMlcw==
-X-CSE-MsgGUID: /fNbu68BQ1+RdKiquwTyYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="193500310"
+  bh=S0e9pDv/yQTVlZoGXbPfvtKccfwBfJ1p2mlooiGHvl4=;
+  b=b9bp1y66Rck5fTDw7ZMbsU7mehE/0sNf1vtyBlcK/FoAEjQzX83A7wkW
+   NXDguwrZmJR5uOJvGGK/AzpiY0yRhGKGBq5i23YIR/GPGcTDrXmrCkOQI
+   ssgaaFD0AK3g/8hk/m3holDN7Izhs2Whi5rNvPH/IQmKtEK1KWwg9igkZ
+   snYF+5hb825FSV3VW2nW5aGZpNhgJsBJ1VfoVpPcvFbqs/JWVnH5joK+O
+   TCaUrg94Bzvtis+RD7ULQEzwNatwxu5bKv+gSK4WEOv7kN0WJk/TUgrCM
+   /6G6y6aUKUgqZHkf6VRc0RlCtXoDw/xY4H7Y0oQMI3MDKaVWCkUwh8EBu
+   Q==;
+X-CSE-ConnectionGUID: u/cwtPlMRBOADsNRddpekA==
+X-CSE-MsgGUID: hdztG0a/SpCdiD63qG+zyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="194297643"
 X-IronPort-AV: E=Sophos;i="6.14,276,1736780400"; 
-   d="scan'208";a="193500310"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 12:57:41 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 02158D5076
+   d="scan'208";a="194297643"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 12:57:42 +0900
+Received: from oym-m3.gw.nic.fujitsu.com (oym-nat-oym-m3.gw.nic.fujitsu.com [192.168.87.60])
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 31670D4807
 	for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 12:57:39 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id B9BE7D091B
+	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id EB47CD6FE3
 	for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 12:57:38 +0900 (JST)
 Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.167.135.33])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 30BE21A009A;
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 8F3C61A0078;
 	Wed, 26 Mar 2025 11:57:38 +0800 (CST)
 From: Lei Maohui <leimaohui@fujitsu.com>
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org,
 	Lei Maohui <leimaohui@fujitsu.com>
-Subject: [OE-core] [PATCH 6/7] gstreamer1.0-plugins-{ugly,base,good}: upgrade 1.24.12 -> 1.26.0
-Date: Wed, 26 Mar 2025 11:56:38 +0800
-Message-Id: <20250326035639.1919-6-leimaohui@fujitsu.com>
+Subject: [OE-core] [PATCH 7/7] gstreamer1.0-{plugins-bad, python}: upgrade 1.24.12 -> 1.26.0
+Date: Wed, 26 Mar 2025 11:56:39 +0800
+Message-Id: <20250326035639.1919-7-leimaohui@fujitsu.com>
 X-Mailer: git-send-email 2.38.1.windows.1
 In-Reply-To: <20250326035639.1919-1-leimaohui@fujitsu.com>
 References: <20250326035639.1919-1-leimaohui@fujitsu.com>
@@ -56,108 +56,76 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 03:57:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213630
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213631
+
+Couple these two together since 1.26.0 version of gstpython add depends on "analytics" plugin of gstbad
+
+When build 1.26.0 gstreamer1.0-python, issue occurs:
+  |../../../../../../workspace/sources/gstreamer1.0-python/meson.build:23:13: ERROR: Dependency "gstreamer-analytics-1.0" not found, tried pkgconfig
+
+Source code:
+  | $ vi  workspace/sources/gstreamer1.0-python/meson.build
+  | 23 gstbad_dep = dependency('gstreamer-analytics-1.0', version :gst_req,
+  | 24   fallback : [])
 
 Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
 ---
- ...1-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch | 4 ++--
- .../0002-ssaparse-enhance-SSA-text-lines-parsing.patch        | 2 +-
- .../0003-viv-fb-Make-sure-config.h-is-included.patch          | 2 +-
- ...ns-base_1.24.12.bb => gstreamer1.0-plugins-base_1.26.0.bb} | 2 +-
- ...ns-good_1.24.12.bb => gstreamer1.0-plugins-good_1.26.0.bb} | 2 +-
- ...ns-ugly_1.24.12.bb => gstreamer1.0-plugins-ugly_1.26.0.bb} | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.24.12.bb => gstreamer1.0-plugins-base_1.26.0.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.24.12.bb => gstreamer1.0-plugins-good_1.26.0.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.24.12.bb => gstreamer1.0-plugins-ugly_1.26.0.bb} (94%)
+ ...ns-bad_1.24.12.bb => gstreamer1.0-plugins-bad_1.26.0.bb} | 6 +++---
+ ...r1.0-python_1.24.12.bb => gstreamer1.0-python_1.26.0.bb} | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.24.12.bb => gstreamer1.0-plugins-bad_1.26.0.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.24.12.bb => gstreamer1.0-python_1.26.0.bb} (88%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-index e35ec026e4..7373bd3e26 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-@@ -1,4 +1,4 @@
--From e0478a9b3bb1b49c34aaf076152ed8e49cf909e0 Mon Sep 17 00:00:00 2001
-+From bd1436f0027bb09cdcf90386910a497422d9a871 Mon Sep 17 00:00:00 2001
- From: zhouming <b42586@freescale.com>
- Date: Wed, 14 May 2014 10:16:20 +0800
- Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
-@@ -16,7 +16,7 @@ Signed-off-by: zhouming <b42586@freescale.com>
- diff --git a/gst-libs/gst/tag/gsttagdemux.c b/gst-libs/gst/tag/gsttagdemux.c
- old mode 100644
- new mode 100755
--index ef0ff90..53f05c8
-+index 975fe83..df82840
- --- a/gst-libs/gst/tag/gsttagdemux.c
- +++ b/gst-libs/gst/tag/gsttagdemux.c
- @@ -1796,6 +1796,19 @@ gst_tag_demux_pad_query (GstPad * pad, GstObject * parent, GstQuery * query)
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-index 810a4ba676..fc9ad474d9 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-@@ -1,4 +1,4 @@
--From 1b9887421de593854632571327b4918b880900c6 Mon Sep 17 00:00:00 2001
-+From 1cc876662b7707eb5a2f668654f7921b5642e108 Mon Sep 17 00:00:00 2001
- From: Mingke Wang <mingke.wang@freescale.com>
- Date: Thu, 19 Mar 2015 14:17:10 +0800
- Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-index 8fa46d809a..06b5bc41ed 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-@@ -1,4 +1,4 @@
--From 22a0e3a5288486991a15c48fdcb730eaa6dc08e5 Mon Sep 17 00:00:00 2001
-+From c0c6944eca0c497477aa9f2cec2c83c4ea7a70e5 Mon Sep 17 00:00:00 2001
- From: Carlos Rafael Giani <crg7475@mailbox.org>
- Date: Tue, 21 May 2019 14:01:11 +0200
- Subject: [PATCH] viv-fb: Make sure config.h is included
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.0.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.12.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.0.bb
-index f4505d831e..bd0131c647 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.12.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.0.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "f6efbaa8fea8d00bc380bccca76a530527b1f083e8523eafb3e9b1e18bc653d3"
-+SRC_URI[sha256sum] = "e23189fbed2ec486690382d1055c19eeaf5aae3e95e2576fc4c884d96a90e69e"
- 
- S = "${WORKDIR}/gst-plugins-base-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.0.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.0.bb
 similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.12.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.0.bb
-index 9cc2d462f6..a2c6426c34 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.12.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.0.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.12.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.0.bb
+index 91d9150359..53947efa15 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.12.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.0.bb
+@@ -8,9 +8,8 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/issues"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-${PV}.tar.xz \
+            file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch \
+            file://0002-avoid-including-sys-poll.h-directly.patch \
+-           file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+            "
+-SRC_URI[sha256sum] = "3d386af3d1dbd1a06c74a6251250c269b481e703f0e3255ba89ef6c1e063afea"
++SRC_URI[sha256sum] = "f8287a84c5f66368a5a50da5f969994a02c47f20220ffe1ca3154193e65af216"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz"
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
  
--SRC_URI[sha256sum] = "d0e66e2f935d1575f6adbef7d0a2b3faba7360344383c51bf0233b39e0489a64"
-+SRC_URI[sha256sum] = "9e18f139ef69ad0867c2dfbb8fe1d1736d76df11aac83f60e8d3adb1e2eaf03b"
+@@ -28,10 +27,11 @@ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
+     bz2 closedcaption curl dash dtls hls openssl sbc smoothstreaming \
+-    sndfile ttml uvch264 webp \
++    sndfile ttml uvch264 webp analytics \
+     ${@bb.utils.contains('TUNE_FEATURES', 'mx32', '', 'rsvg', d)} \
+ "
  
- S = "${WORKDIR}/gst-plugins-good-${PV}"
++PACKAGECONFIG[analytics]       = "-Danalyticsoverlay=enabled,-Danalyticsoverlay=disabled,"
+ PACKAGECONFIG[aom]             = "-Daom=enabled,-Daom=disabled,aom"
+ PACKAGECONFIG[assrender]       = "-Dassrender=enabled,-Dassrender=disabled,libass"
+ PACKAGECONFIG[avtp]            = "-Davtp=enabled,-Davtp=disabled,libavtp"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.0.bb
+similarity index 88%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.12.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.0.bb
+index f62cb159c2..04c96a879f 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.12.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.0.bb
+@@ -8,9 +8,9 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.0.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.12.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.0.bb
-index 75f528216f..f0e42ad8fb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.12.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.0.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "d679e2ca3e655a7328627c4670c324fc22f588d2cb8ecd2fa7a6a42df51132cc"
++SRC_URI[sha256sum] = "e5046a05d77abb15671ad01cd1908d17d62e5a06f5d7841be4342ade2a3fb8db"
  
--SRC_URI[sha256sum] = "19ed6eef4ea1a742234fb35e2cdb107168595a4dd409a9fac0b7a16543eee78b"
-+SRC_URI[sha256sum] = "a86b51c8454a813120848c803421f327d8c07aabcae461e0597cc49398c0fcde"
+-DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
++DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject gstreamer1.0-plugins-bad"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
  
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
- 
+ PNREAL = "gst-python"
 -- 
 2.43.0
 
