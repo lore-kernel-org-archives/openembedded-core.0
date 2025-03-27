@@ -2,28 +2,28 @@ Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79562C3600C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70041C3600B
 	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 06:22:16 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.43951.1743056527064339881
+ by mx.groups.io with SMTP id smtpd.web11.43811.1743056526434005291
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Mar 2025 23:22:07 -0700
+ Wed, 26 Mar 2025 23:22:06 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5181519be0=qi.chen@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5wYHV005249
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5wYHU005249
 	for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 23:22:06 -0700
 Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2169.outbound.protection.outlook.com [104.47.73.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45hvqkd9k2-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45hvqkd9k2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 23:22:06 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 23:22:05 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XfECx52DaO4sPsn1o/O5fymVj9IVYja3kvqDA9yrvrj7Ir9HyZvLMansa4UreS3ygkbZNl2WBcaxG3YoyzBUQA+Tk2jZgJ8PsDZiHbgoj31tmxp+81FjW4pC41kE0K35YIIDc/dLOs8qolfFRK7yAKeTRjlpdTTOUyOyCSjL2amPvRAbKJrm8wdd01OM63FcqGR+CqxdX58C+qZ9Vd1bghLJR2Wr1uVRlusuhVmUBC9vFy4BYdCVwFOQalnNA20JJlq59kIoZ+sbh9YsVRIP/A52hqHclTXS7n/6hDnR25PjLFiNVAZl/gCHsSPJx9D4RVpRlRyt+mWngOuPCuoZdQ==
+ b=TgIi/FHlIMkWkDhgXSnuoemXiF5hkgFqrvc4H7p4263bp31e3Dei79wEhgep8t6gtdk9ZztOeSaTZvu7t4MnOPvhNVON4yHSCVn+lgk/Ur8+dQIghfYAhyJ8H/xsYCvfn9rmdmKeB5eeHaonn7xd9Jbvaqtvxx/zqunAgc2jFcwUzb2Br9u+c367TgVyaptC+kBxCjNjIV/eREVoRsaf0maL3/5WUjjCFRT+ilcK92xa7IuBoa2WoFakXEt5bcWP8gCbZdkD281K5vsYA6D31ZmHZzBHtGPGgtgK7vbp+CuqJ8TtAD+G4yh6wDx2KfA6dsydRXTOBhRwZwnZHKInHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LNPWF39HaYEBRqrkyfcublUQD6o17HDAZDR4jFEFsk0=;
- b=Beh1s0T608PzDozipHNKAJoOLIYMJhrnsIjBOTuOn2mLuU1oAlPvKSfe1WD5l471gRqecCEm4S2cQ/B578DZ/8OXeKXibKNmOpvMuXWtCHI8mPaX8gFjTg1j95Bj6XmJ8HhYFfnk3JTE0crmtuAcLrFAoGczkSInt1DEaitqqsR66pu3gEYtUmtY9lCTSErlMtzmPMVFRMk+c2VnDLyeK7wx4uJ5zC16wRHHm+1OsPjV8ffrG6GrqlFEBr19Pr0NTf5ZKejZbB4Jj9iRfw615ju2P2OJhQDIH8YmDCgggJtLYJ4Bv3LfVOGRy7Ncs45w7ZsRFp55Wdhn6TfqCdbsrQ==
+ bh=azuDI7LGgIpnwOy77zEEPcXbDVSXrv6wKDvbgBAb6h4=;
+ b=nSw+6ZT94JeDmbUYuIDcmvp1GEV9QQgMtJbB9p7My8xhfKcYQ7I63Z0UkeUSPzVMkUuMt3IuEEPJ0lbBlSyDwivp4IRzvuaRtgqgz5tT1Jd7agqCExPQpTQv5IT05jUBGO/7klxexqxhZfDQ3vMqbcIBcQ1Jmuw1g5mL6YM63jnQs0ErC/SL+uH4sqHvTAP16O1YY1D25Vyh76fUbKzjORGXUASp3WrWYB+8qPKWsf6PhY9Z6m5Yg5NTn9QVonuEHUYLS4p97wK7BnIZeNQmJM7gp6CjnWSQVkkExp9su4gWJa3ruKl6Vflwa5IorO/zF+KVgTEHYPZw+zFZz15hqQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,20 +31,18 @@ Received: from PH0PR11MB5611.namprd11.prod.outlook.com (2603:10b6:510:ed::9)
  by IA1PR11MB7869.namprd11.prod.outlook.com (2603:10b6:208:3f6::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Thu, 27 Mar
- 2025 06:22:05 +0000
+ 2025 06:22:03 +0000
 Received: from PH0PR11MB5611.namprd11.prod.outlook.com
  ([fe80::9ea3:51c1:edff:4d3a]) by PH0PR11MB5611.namprd11.prod.outlook.com
  ([fe80::9ea3:51c1:edff:4d3a%5]) with mapi id 15.20.8534.043; Thu, 27 Mar 2025
- 06:22:05 +0000
+ 06:22:02 +0000
 From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: randy.macleod@windriver.com
-Subject: [RFC PATCH 1/3] version-check.conf: add mechanism for checking version mismatch
-Date: Thu, 27 Mar 2025 14:21:42 +0800
-Message-Id: <2ade23315e080afec9b58e7dbb615b5e6d3262aa.1743052694.git.Qi.Chen@windriver.com>
+Subject: [RFC PATCH 0/3] Add a mechanism to check runtime and recipe version mismatch
+Date: Thu, 27 Mar 2025 14:21:41 +0800
+Message-Id: <cover.1743052694.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1743052694.git.Qi.Chen@windriver.com>
-References: <cover.1743052694.git.Qi.Chen@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: TYCPR01CA0183.jpnprd01.prod.outlook.com
@@ -53,83 +51,82 @@ X-ClientProxiedBy: TYCPR01CA0183.jpnprd01.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH0PR11MB5611:EE_|IA1PR11MB7869:EE_
-X-MS-Office365-Filtering-Correlation-Id: d78dd833-b452-4ad7-0a6d-08dd6cf7b0e5
+X-MS-Office365-Filtering-Correlation-Id: 159f51d5-4177-4d01-ce69-08dd6cf7af8f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?Fs+0uWRPW7EKvaAsD/6xKCm322+5gAD5RBSKFgpiaXU5v82074VQcwEsntmn?=
- =?us-ascii?Q?S3MQF63uBmDdWFDlQrUJNs3I3J/IM5BMK1otSC/rz8SjRoD71quz/pbgqiiW?=
- =?us-ascii?Q?S0N7K6diTGwMBsQlmkP8ZttpQt2NpxMx5PAkpAIShLXWR5IWggrLY3iPA1gm?=
- =?us-ascii?Q?i3d36mEBlsXC0otYf8A2c+jEG/B7V8eCS80x+LjZ/hstMMaV287we6h28EdN?=
- =?us-ascii?Q?WBo/gEnEBnNLaK4W9e/D6hA7CPW78Uwm+F9vG6F80JlyNZkZNqtzseZI88Gm?=
- =?us-ascii?Q?Q9ToNa7FhAV/UkM3v91EV/negzrxAucYK0EFioGdSm6RvfexDYKR2nUinR82?=
- =?us-ascii?Q?i1gU12di3ZAXSjz4lPfoyHJfbWvfHPTV6YDvEXv2E8Bxs2CDZ9WnygHvSxdD?=
- =?us-ascii?Q?9VqKBIAxdhug2Nc9rBxqjPrAuvwOwmqrpch8PemoJj9Za4dmniRORApL+Jea?=
- =?us-ascii?Q?lqnNFlgmqgyhXFioSgNVREE169osUbeAv1ygEHR2nnS9dUg3iuQDQ3Dmt4vj?=
- =?us-ascii?Q?lvUrEHXL69sAVq4dvlkMLtH9+GrFoXLg8LodGwLhbG5RsuOM1xcTJpfMtMr1?=
- =?us-ascii?Q?4o4y/kKQhAvzxpAXTCmMDz2t3ur/ulN3bd1LMT9pLvupEr42cnmPtoQ7HM9H?=
- =?us-ascii?Q?7hQ+v4eBu3qJMi27QBYte0yhgzseqLlU51qQaIW7BeAtVEBTzGmuyXW/yRI2?=
- =?us-ascii?Q?ceP4farJOUA2NZnIA5/apC2EOYRzRysS2E4WISHqA83Z3g+ifX3ex6jU5iHG?=
- =?us-ascii?Q?TTAN3XU8+PYA9PCnC2GIQAva1P30PbMUc22pmHy+k8cn2m/69gVQip7aNqi6?=
- =?us-ascii?Q?KI2B+RAGILz893Ww3tdMZ6RExomcrze/Ffd+qu8wJbhbJP1GmLOSCz9FMQX0?=
- =?us-ascii?Q?Puau8iILp2wPi+MEMQ14fqkUj3z9mk+DenwVXoDMhniCClZHw/hxWJjm/G/h?=
- =?us-ascii?Q?enPEsmytO9rPlYgstlGUrDHcuv5FE2R9FqUQjBj571CwYSGM7a/lE4hveWlT?=
- =?us-ascii?Q?DixNi8ljl/9y7GON72xliALGSkkPeH2V8K5n/Z+BOxtdCZYRu85XAajyc48q?=
- =?us-ascii?Q?Lf3ZdoHjY8VxbVn5nOoKOgoWUoJDq9YmY+9FORng+8XaSd0H0awmcAPUDavM?=
- =?us-ascii?Q?iQCca9Kq3C1TP55hG/fVQ+ijkLghvuKwA1TNEbLHHXNgxLAULKuMiEwJkKrw?=
- =?us-ascii?Q?cNtEcEhhkfAR+NDflfh1lAbZrwNMdmVSYk1niJWA73lmqH9O3Oeuikkp1a/D?=
- =?us-ascii?Q?jsASD17pJcWxX55wY5T2UVWX45a6WQ+qNeFsA/Dy7f5NhYmUBd9gqMHxJIli?=
- =?us-ascii?Q?su9O5ko+aSb31t3JFe36n8FDnoLH6R00PLkauvcRty7xDJKsU/AI+Ua+vfRN?=
- =?us-ascii?Q?y4SRUmZBPHF+GzTp7CzQM2jdghtmMScn31lFAulJDODlYtImVyzBtHmR8ZRJ?=
- =?us-ascii?Q?GELDNtYHIqa+yRjUVadEIRESgd0Wp6Pf?=
+	=?us-ascii?Q?2dVNSvStoirYnqxoBTq+JWliFTFbY+koUDFGecbZ2Rwa7p8HdRzmf3M27tV+?=
+ =?us-ascii?Q?vYILmjac9XsIZ6pSX8R2TfaBhp1D99n7/G88g662PPBR+TmD5PTybuek2WU6?=
+ =?us-ascii?Q?hzgkq4Q4tZzg0YTVKGPcr+OOs6Fqbhs/oEzh/tuIkKcx2pKoGbJVqr9Q0dUZ?=
+ =?us-ascii?Q?0EqDBDdSzIyY3VZNw9gYGavk6b3U1h2+lzkkyqUZlQjhx7/Qkjdn4LBzZva9?=
+ =?us-ascii?Q?BeT+Qo2KMj7H2WqMCKvcUf0WQMqtVhZRq+36dDtkBPejP2RDvU+rLH7OVhrp?=
+ =?us-ascii?Q?Gi+QwFMx485aesJVcD021E4AUy+eMGRqBnSP7UixqFezf9SZrxcusARG2JJ3?=
+ =?us-ascii?Q?DwuYvPVdp73q6fjNltc63/hYQSL50ecqkLLLI38JMB+LIA3mOiOYVjfCb3gn?=
+ =?us-ascii?Q?LYHTyEEG5FtXtWQIe0XMf/HmGvNWhvaWukVX843BEFy4K2ux+auCSrsNEeHN?=
+ =?us-ascii?Q?29N14NO9Rz/Hn9jnPMTQyXNwBXmvzxs1j4Ar5EMYt1T0kV3YzWaJAJ9VumRO?=
+ =?us-ascii?Q?arg5DVR424TL1gd9or56iHmmPHd2Y7odcx27/LE3UHFxL7PnAj+rg+qUornN?=
+ =?us-ascii?Q?r9adhCyhhHqp9G5eSxO4yL0lQyxyaKU+Pxhq8rqZ4JKBUEfm7tDEwV6rDcS0?=
+ =?us-ascii?Q?zSWxxVj/kkOt/dGI0BROj6j9BAd07ihp47Uhz+t2RFJ9PEEXYrfFFLKn785F?=
+ =?us-ascii?Q?bvOqkdF2aQmFj4QOMzxqWJHscMt+A+z+4NeZL6tdDpzo1cIMlqHGjOwEOTiW?=
+ =?us-ascii?Q?hZ52bXTB/+dzxwBrY2Im08vEe15M2qAMcutP6807khXGgewqt8pVzxPwh2fO?=
+ =?us-ascii?Q?GDyBGAHKrAMRfmGqWISR0JyNTjr5TxIPwoAfnSpzoEXMs33DvewPX0W9MvLz?=
+ =?us-ascii?Q?ZCs/EM0fAfSQChcJLHOFjtsKAOtbExbDipy8yquvrMBJHHxdytB1xDc072GN?=
+ =?us-ascii?Q?mGsmV8XNVQhtedmchIUuEOIC9C4842zdEpDErRUhwgYVjlJRbBzkN2hhHUmB?=
+ =?us-ascii?Q?P5PEQpr9c9G9V+/wM3e2XqhB80o/y8g/GgzyFFvrqgSLv/dIBAlniI1ZG0K7?=
+ =?us-ascii?Q?lsKeuEd+EozZoksO4K+jAsrTPPiyiqiiFomQQ4Dv2xwa8VU0vrApx94I32LR?=
+ =?us-ascii?Q?Q/odfpm5sf020R08kzsqIPv1RpBarN3tBHzlVEB4cBk22zLo0QMI9h0qUYDv?=
+ =?us-ascii?Q?sneddEiFT3OVXCnw9p9FRB4j6x8/KXcuTpsfzDDgDzNgxGiQR/8Q1YWV+Xv7?=
+ =?us-ascii?Q?1vIU6mFNZ4nWx8vxRDIAp9hKAkBRuJ9J2AL/HqtNW2C+vd9NxWoA1t9p2RgD?=
+ =?us-ascii?Q?I/XkX/eEZf6z5+qsYewoHQYGdpQkKSJ5WC//xzl10N/OOcwUTBz0eInrAvnp?=
+ =?us-ascii?Q?hg8d4mqiPfqMJY0V2UShPdgrMQf5cRLBM8hvbRuMiy286w6gPA=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5611.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?+/tU6iOQaJpmSrTWrx8ECW+ZVG7HlKw7jTxZH+FjIhyU9Et76B4WeeBiuMEz?=
- =?us-ascii?Q?IXO1G3RYKoq+17efvVi9u8hFrPG4WxdjyYucTBUzdpoZUX5BoILlf4V5XTXg?=
- =?us-ascii?Q?k+lqbWEKKwhBqsbcuRkWzIIOy3SJxv4KXFnqs9LvniC8KWeVrlsDY8UGMaME?=
- =?us-ascii?Q?WWVK74BOixBx5lc0Kz67MgQB+KkrHuv9eqxHjRiiUMC0MOE3hglCmrNc7UJZ?=
- =?us-ascii?Q?dlVsyLHFU3LnMKUvMfeQBFonLguuC51OyybQWxX2ml3GmKJkJCN/wyXxxSxd?=
- =?us-ascii?Q?OWiZR0Vsrxiw+XaKFRwPj7MaAZ/jla+V8WfS17UB3wm2BRncsMD9GKR2SsGw?=
- =?us-ascii?Q?lQ+X4uSG44gy4MS1zntjDj5eDXMR2gVPNosTNUkepwJWUfvrYQ/SQataFMXj?=
- =?us-ascii?Q?oEYMu9N/QcYTtMhvFrMl1hIIeVTjURdGObMFA/P/3Wf93EK6qnXtonigLzLN?=
- =?us-ascii?Q?Q2wWZmirHzo/F6O8Z4VrV7vKwBO7R1Wun7uvG0l2F1S5rfILfULmbTWem6ok?=
- =?us-ascii?Q?Bw/XdRPI5+6wiVwgL29aFoX9Rvv1069izj8cGTbSgDVeb7ozH4O0ew9ra+L4?=
- =?us-ascii?Q?gwyYN6UUcxCgcu+TRVddbeDUJy7VHT2UkBFksV7a1C3+68ihAg6pXfeKVpTE?=
- =?us-ascii?Q?kTkesxlkB9hfMe/PfZRyjaGCrgApB3fsm1FYumOD7RR3oYLy8XwctcWR6mE2?=
- =?us-ascii?Q?upKeufdSlhQQ9SjDmYK1jAt8Ttck0yMmEkDY5zFXDCpmj3orfY97AdksJmFg?=
- =?us-ascii?Q?uGCE9H+x63jSFEBCaphEmLnWxnIo4LFyqaaOPK+lJ13QgUOA3ewHpNBDUVpL?=
- =?us-ascii?Q?toh2BKK+kmCaK9VfL7frb9eKcUD0N1plH+faCFZabszSBnOxARmqtUw+GXxl?=
- =?us-ascii?Q?IyHE13dvL3MJspMhd0w2T18RyIeCa7eD6L8rcsHXBf/zRhyia7qGJZfA1Aj9?=
- =?us-ascii?Q?zAKJ0sm7+s9rcjURTWOplBknzb98lUaQpYmEHH8NlvjP9DzZJZxIbRmIbk97?=
- =?us-ascii?Q?FVL4DyTf6JjwL235gqnY9Xi2TEWBbOe+mKS2Qo56IHT483V+2C7GI/grZRod?=
- =?us-ascii?Q?uWGO4fRmHhYByMK3qmRXrWKwXACeOeBM+MQE42/QV+43g7Axbgnhr8Jpy+B0?=
- =?us-ascii?Q?k3G5riZsNzlflva9hHbiDZmdmyNbo7leCrqgbgxqXa0QgssvDbOiqme8rioY?=
- =?us-ascii?Q?L2tuuwV0WipjdFnqWiAPQhoMXk+oSFK/pM8hodnDw6JYaDLPTgwovENGhPQH?=
- =?us-ascii?Q?ICL84kZYxJ0pSYBXL7KiPojsYAQlJEGT034Cx1a8jLYgsl40adG5ig1e0gTE?=
- =?us-ascii?Q?DCLfAKl7Twxw8inWClu/mDHmzVUqtiiyMc7rV1PrhB0FhEPhwZt3UeHz66+j?=
- =?us-ascii?Q?FkbgsiWPqbsBY9NGEv0xUjC/+6qfcOVgtOQG6rU3LlbFmjY3SwJlhVz1xMbI?=
- =?us-ascii?Q?VDLnf8oil8i+9xtc4Rqq6FuX74n5GksfGUWltT85r1RKdOwxCvz5Htmt7dNM?=
- =?us-ascii?Q?glGES0e/TVE03zctiHMKsCaTp0d/Eqr1tujVq6TkSwVex930bCW02gVxEzNI?=
- =?us-ascii?Q?Po1Y9qkdra47phF5kd+4npaPMoTHZGb4VS6GYQhO?=
+	=?us-ascii?Q?Rz+IGJAtwHwGoAFaHEJNOV+lYWKmtrbCrPCyosdc1T9qcS6f5Ysh2kZQVyUM?=
+ =?us-ascii?Q?Dwfw0WcA7C73vgJNlRBdxKZuiqN0aChFNQsirRbcKtLB87UdHZf+nx4tDeFU?=
+ =?us-ascii?Q?oWB/fTrfqYEWl/dEPmQy51miFWW5jvGUGejyCjfLYUfuBzTk50FxNJKLsp4L?=
+ =?us-ascii?Q?910DnSx3EBwMKwJomkrXEN9VEKflqzIF5IQKIl+hYwXQT6DxHJv9xeTns6gt?=
+ =?us-ascii?Q?N+P0JAYPIdlZIWc13PW6kh+SJB18zmmR0qU+lfjqgcZ37CeAjUHsOIpWUmvz?=
+ =?us-ascii?Q?0S2LZt5/qRDqLsHk6WyZePl4pNMlgIPhkGY54xcReBazDZW0Ki48ew8BVtdO?=
+ =?us-ascii?Q?u94p/lRBNZJELIyFscmzCee89akZijnkwOdLlAiDTn7F4UDYMApqleciFKhK?=
+ =?us-ascii?Q?MDTGhQwDlYimrnc+KnjfVjc4/7EMSKvs7gk7u9pdLP7aplltqq+/POz9rl6L?=
+ =?us-ascii?Q?JmK9p0HCzNwwlvllI05I3K8AyWbOmLYS8NiBQK5c8eRWfip4folRX5Yp3UQ8?=
+ =?us-ascii?Q?9NpKdyvcjtGMka62NlxtXtVWekzrbEeSFzs/dng4QfL8Kq1m1fucZ6buB8q/?=
+ =?us-ascii?Q?bwMQ+7FEMwONcrKGq9KbHJpsfmwDIBKxfTSlTHbQ3+8F7/kQzYwp7NTEiynC?=
+ =?us-ascii?Q?2EEYpjHPxriOS8ku6XjqAef0bq2DBWvsYk/885qvsVhKDS6p/4ze3BeJI9hW?=
+ =?us-ascii?Q?UOGu1LD86E2rC4KQPtdYR8EFi6fpRQ+pEJsKks06Mx/j9h9TtV6hYfBc5GXi?=
+ =?us-ascii?Q?qX30TOCRp18DzhJdoyiSp5qTGKrPDvhpSS6Btxro68giImUCfBM/TtMNuD37?=
+ =?us-ascii?Q?w/2Ly7s4+iD+Jv0FxvvbXsThSXODQy4u+FQ77xnDQaYt4GEVihtVAHawtpFB?=
+ =?us-ascii?Q?/4JcQaTo/QZi/wCCFXwbZ0tj+/gnPppRFSjdZYovm8Ssvkfysrf84WhFgHk/?=
+ =?us-ascii?Q?vQmkq66i4GisU/io8ShFaapCcwcOA6QmIwQxbclAFK7MV2qr/i+GaLVWt/jh?=
+ =?us-ascii?Q?F+PXeszPrQZC3aXwZ8toavtpPBxoTYdqWiMz8ydLpEdYtJ1pBYq4shx31uZM?=
+ =?us-ascii?Q?aQ2+slmwTwWAyJDUtcTwQA4+b3RFKyJewlfZh7m/eWFQyNSUVhARCAk4ToK/?=
+ =?us-ascii?Q?lOYcqKnANieKT54HbXClpzIyFKeMnCZp+wQeoQmzlnCSIEngLWDttsrhfAGB?=
+ =?us-ascii?Q?fUNiMYB8E0Cjb7Yy5idKR8mF3jsKtHjwzoRobElKmp+INiBjB9drM/Oblecg?=
+ =?us-ascii?Q?hvhK645233EIXyxdaffVRCIOUeZnIc7YTKWuABpEd7NQIgiqp952K/28ntQL?=
+ =?us-ascii?Q?u/o1T89jR5Aw3Lti2DmYeZ5x7MmIpPCmU3+sPnMocudwb2J7yR7BI4kVw5o/?=
+ =?us-ascii?Q?AGcwsKvsBqQ1UqFgDSV4k5YFHejjIdtdO3pbu2kqs76IWdBl4A9JIMAmK5LW?=
+ =?us-ascii?Q?wtjQjf1byj1d6caxbqcS2cVxy/If7In+h4obNpH4+36ryDLKcVbne3TkyWvo?=
+ =?us-ascii?Q?QhDLxL4xFVz+/5/65BnqrdOeB3AH5ixHzeKWpDRzrrNdpdLMKS0U6+YZiQzB?=
+ =?us-ascii?Q?auo8Y9UszCGE7WVScRqLlUhKSBBzHud5ZtiF8yaD?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d78dd833-b452-4ad7-0a6d-08dd6cf7b0e5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 159f51d5-4177-4d01-ce69-08dd6cf7af8f
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5611.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2025 06:22:05.0320
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2025 06:22:02.3766
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EnW16i2f5FEMowa8aamiOii5Gap6CuDPAQ9DG3HZ35JZdXvoQuU6V5vP3u3zTOsHtt3V7DQ2mY3tlCYVlcv4FQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZoRs2ab2x9mXIEb65255faTSO8IL+0lkP0MdxskA9wmpTgvzhzkh19qSkXpYW+YpwymxdYKMPe3Y5XwNmEveXg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7869
-X-Authority-Analysis: v=2.4 cv=XNkwSRhE c=1 sm=1 tr=0 ts=67e4ee8e cx=c_pps a=FmV7mXqD6UovpQmy5PTGeA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
- a=H5OGdu5hBBwA:10 a=t7CeM3EgAAAA:8 a=iX_doNFVrK8UyYuocnMA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: FlvMhtTHHdfi8u3j7owqFesjJg3Jt9ZH
-X-Proofpoint-ORIG-GUID: FlvMhtTHHdfi8u3j7owqFesjJg3Jt9ZH
+X-Authority-Analysis: v=2.4 cv=XNkwSRhE c=1 sm=1 tr=0 ts=67e4ee8d cx=c_pps a=FmV7mXqD6UovpQmy5PTGeA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
+ a=H5OGdu5hBBwA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=DxEYq33yoFQCuKJewsIA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: vwWpTbXtEaheCOJWtj1eRVaaPds_HYzk
+X-Proofpoint-ORIG-GUID: vwWpTbXtEaheCOJWtj1eRVaaPds_HYzk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-26_09,2025-03-26_02,2024-11-22_01
@@ -143,485 +140,101 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 06:22:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213706
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213705
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-Add a mechanism to check mismatch between runtime version and build time version.
+This RFC add a mechanims to check runtime and recipe version mismatch.
+For example, if some tool says its runtime version is 1.0, but its recipe version is 1.1,
+we can now detect it at build time.
 
-To use, add the following line to local.conf:
+Let me explain the most important thing in this cover letter: why.
 
-  include conf/version-check.conf
+Briefly speaking, there are two major benefits:
+1) Make things look better.
+2) Detect potential problems.
 
-The basic idea is to use qemu to run executables at build time, extract
-possible versions, and check if there's a mismatch found.
+See more detailed explanations below.
 
-Python meta data and .pc files are also checked for quick match. This
-is because such info are also easy to be checked by users.
+When people use some software they care about, they would type "--version" or something similar
+to check its version. And if the output does not match the package version that is installed, or
+there's some "bad" words in output such as "unknown", "dirty", "dev", they would raise questions in
+their minds: Does the vendor really know what it's building? Am I using stable versions? If they can't
+even get versions right, how can I trust them on other things?
 
-check-version-mismatch.bbclass is the class that does the actual work.
-A new variable, CHECK_VERSION_PV, is introduced. It defaults to ${PKGV},
-but also allows override. This allows us to handle special cases in each
-layer.
+So here comes the first reason on adding such a mechanim: we can detect version mismatch, we can then
+fix them. This makes things look better. Patch 3/3 is an example fix.
 
-version-check.conf is the configuration file that makes this functionality
-easier to use and draws some baseline. It contains some override settings
-for some recipes. With these overrides, all recipes in oe-core are handled
-well. All warnings are valid warnings.
+Another reason, which might be a more important reason, is that it helps us defect potential problems.
+First of all, version information sometimes matters more than just showing user some info. It affects
+runtime behavior. A typical example is k8s. If k8s is built with correct version info, it will try to
+pull major.minor version compatible images and do its work. But if it's built with a wrong version,
+either init fails or it pulls some incompatible images. Secondly, a version mismatch indicates some
+potential error. Use sassc an an example. It got a version mismatch because it's not using the header
+file generated under build directory. Instead, it uses the default one with the same name in source
+directory. Luckily, that header file only contains version info. But this case demonstrates that
+a version mismatch actually indicates some error.
 
-Note that 'ps' is added to HOSTTOOLS in version-check.conf. This is because
-we need 'ps' to find stale processes and then clean them.
+During development, I found the errors that version mismatch indicates fall into the following categories:
+1) The upstream project made a mistake.
+   e.g.,
+   libuser got a mismatch because upstream project forgets to update configure.ac/configure files.
+2) The recipe made a mistake.
+   e.g.,
+   python3-pyyaml-include_2.2.bb got a mismatch because it's srcrev actually points to v2.2a1 tag instead
+   of the v2.2 tag.
+3) Some corner case will raise a mismatch that normal build does not see.
+   e.g.,
+   If we build libsass from git shallow tarball, we got a mismatch. The "Version" field in .pc file is
+   7073 which is wrong. In a normal build, the "Version" field in the .pc file is 3.6.6 which is correct.
 
-The warnings are like below:
+With this mechanism added, we can detect such problems and fix them in time.
 
-  WARNING: time-1.9-r0 do_package_check_version_mismatch: Possible runtime versions ['UNKNOWN'] do not match recipe version 1.9
-  WARNING: python3-unittest-automake-output-0.2-r0 do_package_check_version_mismatch: Possible runtime versions ['0.1'] do not match recipe version 0.2
-  WARNING: pinentry-1.3.1-r0 do_package_check_version_mismatch: Possible runtime versions ['1.3.1-unknown'] do not match recipe version 1.3.1
-  ...
+Hope to hear your opinions.
 
-There will be a data directory containing all details: tmp/check-version-mismatch.
-This directory contains detailed data for each recipe that is built.
-If users don't want it, they can set DEBUG_VERSION_MISMATCH_CHECK to 0.
+Regards,
+Qi
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
+
+--- Result for oe-core world build (11 mismatches) ---
+WARNING: python3-unittest-automake-output-0.2-r0 do_package_check_version_mismatch: Possible runtime versions ['0.1'] do not match recipe version 0.2
+WARNING: time-1.9-r0 do_package_check_version_mismatch: Possible runtime versions ['UNKNOWN'] do not match recipe version 1.9
+WARNING: pinentry-1.3.1-r0 do_package_check_version_mismatch: Possible runtime versions ['1.3.1-unknown'] do not match recipe version 1.3.1
+WARNING: gnupg-2.5.5-r0 do_package_check_version_mismatch: Possible runtime versions ['1.11.0-unknown', '1.6.7-unknown', '2.5.5-unknown'] do not match recipe version 2.5.5
+WARNING: dpkg-1.22.11-r0 do_package_check_version_mismatch: Possible runtime versions ['1.22.11-dirty'] do not match recipe version 1.22.11
+WARNING: libgpg-error-1.51-r0 do_package_check_version_mismatch: Possible runtime versions ['1.51-unknown'] do not match recipe version 1.51
+WARNING: sassc-3.6.2-r0 do_package_check_version_mismatch: Possible runtime versions ['1.1.1', '3.5'] do not match recipe version 3.6.2
+WARNING: libassuan-3.0.2-r0 do_package_check_version_mismatch: Possible runtime versions ['3.0.2-unknown'] do not match recipe version 3.0.2
+WARNING: libksba-1.6.7-r0 do_package_check_version_mismatch: Possible runtime versions ['1.6.7-unknown'] do not match recipe version 1.6.7
+WARNING: libgcrypt-1.11.0-r0 do_package_check_version_mismatch: Possible runtime versions ['1.11.0-unknown'] do not match recipe version 1.11.0
+WARNING: glslang-1_1.3.296.0-r0 do_package_check_version_mismatch: Possible runtime versions ['0.97', '15.0.0', '3.20', '4.60'] do not match recipe version 1.3.296.0
+----------------------------------------
+
+
+The following changes since commit 6610cad12a062592956257961a790ec6a3012b8b:
+
+  bitbake: data_smart: Ensure module dependency changes invalidate the base config cache (2025-03-13 21:21:04 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/ChenQi1989/poky version-check
+  https://github.com/ChenQi1989/poky/tree/version-check
+
+Chen Qi (3):
+  version-check.conf: add mechanism for checking version mismatch
+  mc: fix buildpath QA regarding unzip
+  time: fix runtime version from UNKNOWN to 1.9
+
  meta/classes/check-version-mismatch.bbclass   | 399 ++++++++++++++++++
  meta/{classes-recipe => classes}/qemu.bbclass |   0
  meta/conf/version-check.conf                  |  14 +
- 3 files changed, 413 insertions(+)
+ meta/recipes-extended/mc/mc_4.8.33.bb         |   1 +
+ meta/recipes-extended/time/time_1.9.bb        |   6 +
+ 5 files changed, 420 insertions(+)
  create mode 100644 meta/classes/check-version-mismatch.bbclass
  rename meta/{classes-recipe => classes}/qemu.bbclass (100%)
  create mode 100644 meta/conf/version-check.conf
 
-diff --git a/meta/classes/check-version-mismatch.bbclass b/meta/classes/check-version-mismatch.bbclass
-new file mode 100644
-index 0000000000..fac24ad45b
---- /dev/null
-+++ b/meta/classes/check-version-mismatch.bbclass
-@@ -0,0 +1,399 @@
-+inherit qemu
-+
-+ENABLE_VERSION_MISMATCH_CHECK ?= "${@'1' if bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', True, False, d) else '0'}"
-+DEBUG_VERSION_MISMATCH_CHECK ?= "1"
-+CHECK_VERSION_PV ?= ""
-+
-+DEPENDS:append:class-target = "${@' qemu-native' if bb.utils.to_boolean(d.getVar('ENABLE_VERSION_MISMATCH_CHECK')) else ''}"
-+
-+QEMU_EXEC ?= "${@qemu_wrapper_cmdline(d, '${STAGING_DIR_HOST}', ['${STAGING_DIR_HOST}${libdir}','${STAGING_DIR_HOST}${base_libdir}', '${PKGD}${libdir}', '${PKGD}${base_libdir}'])}"
-+
-+python do_package_check_version_mismatch() {
-+    import re
-+    import subprocess
-+    import shutil
-+    import signal
-+
-+    classes_skip = ["nopackage", "image", "native", "cross", "crosssdk", "cross-canadian"]
-+    for cs in classes_skip:
-+        if bb.data.inherits_class(cs, d):
-+            bb.note(f"Skip do_package_check_version_mismatch as {cs} is inherited.")
-+            return
-+
-+    if not bb.utils.to_boolean(d.getVar('ENABLE_VERSION_MISMATCH_CHECK')):
-+        bb.note("Skip do_package_check_version_mismatch as ENABLE_VERSION_MISMATCH_CHECK is disabled.")
-+        return
-+
-+    __regexp_version_broad_match__ = re.compile(r"(?:\s|^|-|_|/|=| go|\()" +
-+                                                r"(?P<version>v?[0-9][0-9.][0-9+.\-_~\(\)]*?|UNKNOWN)" +
-+                                                r"(?:-release|-stable|)" +
-+                                                r"(?P<extra>[+\-]unknown|[+\-]dirty|[+\-]rc?\d{1,3}|\+cargo-[0-9.]+|" +
-+                                                r"[a-z]|-?[pP][0-9]{1,3}|-beta[^\s]*|-alpha[^\s]*|)" +
-+                                                r"(?P<extra2>[+\-]dev|)" +
-+                                                r"(?:,|:|\.|\)|)" +
-+                                                r"(?=\s|$)"
-+                                                )
-+    __regexp_exclude_year__ = re.compile(r"^(19|20)[0-9]{2}$")
-+    __regexp_single_number_ending_with_dot__ = re.compile(r"^\d\.$")
-+
-+    def is_shared_library(filepath):
-+        return re.match(r'.*\.so(\.\d+)*$', filepath) is not None
-+
-+    def get_possible_versions(output_contents, full_cmd=None, max_lines=None):
-+        #
-+        # Algorithm:
-+        #   1. Check version line by line.
-+        #   2. Skip some lines which we know that do not contain version information, e.g., License, Copyright.
-+        #   3. Do broad match, finding all possible versions.
-+        #   4. If there's a version found by any match, do exclude match (e.g., exclude years)
-+        #   5. If there's a valid version, do stripping and converting and then add to possible_versions.
-+        #   6. Return possible_versions
-+        #
-+        possible_versions = []
-+        content_lines = output_contents.split("\n")
-+        if max_lines:
-+            content_lines = content_lines[0:max_lines]
-+        if full_cmd:
-+            base_cmd = os.path.basename(full_cmd)
-+        __regex_help_format__ = re.compile(r"-[^\s].*")
-+        for line in content_lines:
-+            line = line.strip()
-+            # skip help lines
-+            if __regex_help_format__.match(line):
-+                continue
-+            # avoid command itself affecting output
-+            if full_cmd:
-+                if line.startswith(base_cmd):
-+                    line = line[len(base_cmd):]
-+                elif line.startswith(full_cmd):
-+                    line = line[len(full_cmd):]
-+            # skip specific lines
-+            skip_keywords_start = ["Copyright", "License"]
-+            skip_line = False
-+            for sks in skip_keywords_start:
-+                if line.startswith(sks):
-+                    skip_line = True
-+                    break
-+            if skip_line:
-+                continue
-+
-+            # try broad match
-+            for match in __regexp_version_broad_match__.finditer(line):
-+                version = match.group("version")
-+                #print(f"version = {version}")
-+                # do exclude match
-+                exclude_match = __regexp_exclude_year__.match(version)
-+                if exclude_match:
-+                    continue
-+                exclude_match = __regexp_single_number_ending_with_dot__.match(version)
-+                if exclude_match:
-+                    continue
-+                # do some stripping and converting
-+                if version.startswith("("):
-+                    version = version[1:-1]
-+                if version.startswith("v"):
-+                    version = version[1:]
-+                if version.endswith(")") and "(" not in version:
-+                    version = version[:-1]
-+                # handle extra version info
-+                version = version + match.group("extra") + match.group("extra2")
-+                possible_versions.append(version)
-+        return possible_versions
-+
-+    def is_version_mismatch(rvs, pv):
-+        got_match = False
-+        if pv.startswith("git"):
-+            return False
-+        if "-pre" in pv:
-+            pv = pv.split("-pre")[0]
-+        if pv.startswith("v"):
-+            pv = pv[1:]
-+        for rv in rvs:
-+            if rv == pv:
-+                got_match = True
-+                break
-+            pv = pv.split("+git")[0]
-+            # handle % character in pv which means matching any chars
-+            if '%' in pv:
-+                escaped_pv = re.escape(pv)
-+                regex_pattern = escaped_pv.replace('%', '.*')
-+                regex_pattern = f'^{regex_pattern}$'
-+                if re.fullmatch(regex_pattern, rv):
-+                    got_match = True
-+                    break
-+                else:
-+                    continue
-+            # handle cases such as 2.36.0-r0 v.s. 2.36.0
-+            if "-r" in rv:
-+                rv = rv.split("-r")[0]
-+            chars_to_replace = ["-", "+", "_", "~"]
-+            # convert to use "." as the version seperator
-+            for cr in chars_to_replace:
-+                rv = rv.replace(cr, ".")
-+                pv = pv.replace(cr, ".")
-+            if rv == pv:
-+                got_match = True
-+                break
-+            # handle case such as 5.2.37(1) v.s. 5.2.37
-+            if "(" in rv:
-+                rv = rv.split("(")[0]
-+                if rv == pv:
-+                    got_match = True
-+                    break
-+            # handle case such as 4.4.3p1
-+            if "p" in pv and "p" in rv.lower():
-+                pv = pv.lower().replace(".p", "p")
-+                rv = rv.lower().replace(".p", "p")
-+                if pv == rv:
-+                    got_match = True
-+                    break
-+            # handle cases such as 6.00 v.s. 6.0
-+            if rv.startswith(pv):
-+                if rv == pv + "0" or rv == pv + ".0":
-+                    got_match = True
-+                    break
-+            elif pv.startswith(rv):
-+                if pv == rv + "0" or pv == rv + ".0":
-+                    got_match = True
-+                    break
-+            # handle cases such as 21306 v.s. 2.13.6
-+            if "." in pv and not "." in rv:
-+                pv_components = pv.split(".")
-+                if rv.startswith(pv_components[0]):
-+                    pv_num = 0
-+                    for i in range(0, len(pv_components)):
-+                        pv_num = pv_num * 100 + int(pv_components[i])
-+                    if pv_num == int(rv):
-+                        got_match = True
-+                        break
-+        if got_match:
-+            return False
-+        else:
-+            return True
-+
-+    # helper function to get PKGV, useful for recipes such as perf
-+    def get_pkgv(pn):
-+        pkgdestwork = d.getVar("PKGDESTWORK")
-+        recipe_data_fn = pkgdestwork + "/" + pn
-+        pn_data = oe.packagedata.read_pkgdatafile(recipe_data_fn)
-+        if not "PACKAGES" in pn_data:
-+            return d.getVar("PV")
-+        packages = pn_data["PACKAGES"].split()
-+        for pkg in packages:
-+            pkg_fn = pkgdestwork + "/runtime/" + pkg
-+            pkg_data = oe.packagedata.read_pkgdatafile(pkg_fn)
-+            if "PKGV" in pkg_data:
-+                return pkg_data["PKGV"]
-+
-+    #
-+    # traverse PKGD, find executables and run them to get runtime version information and compare it with recipe version information
-+    #
-+    enable_debug = bb.utils.to_boolean(d.getVar("DEBUG_VERSION_MISMATCH_CHECK"))
-+    pkgd = d.getVar("PKGD")
-+    pn = d.getVar("PN")
-+    pv = d.getVar("CHECK_VERSION_PV")
-+    if not pv:
-+        pv = get_pkgv(pn)
-+    qemu_exec = d.getVar("QEMU_EXEC").strip()
-+    executables = []
-+    possible_versions_all = []
-+    data_lines = []
-+
-+    if enable_debug:
-+        debug_directory = d.getVar("TMPDIR") + "/check-version-mismatch"
-+        debug_data_file = debug_directory + "/" + pn
-+        os.makedirs(debug_directory, exist_ok=True)
-+        data_lines.append("pv: %s\n" % pv)
-+
-+    got_quick_match_result = False
-+    # handle python3-xxx recipes quickly
-+    __regex_python_module_version__ = re.compile(r"(?:^|.*:)Version: (?P<version>.*)$")
-+    if "python3-" in pn:
-+        version_check_cmd = "find %s -name 'METADATA' | xargs grep '^Version: '" % pkgd
-+        try:
-+            output = subprocess.check_output(version_check_cmd, shell=True).decode("utf-8")
-+            data_lines.append("version_check_cmd: %s\n" % version_check_cmd)
-+            data_lines.append("output:\n'''\n%s'''\n" % output)
-+            possible_versions = []
-+            for line in output.split("\n"):
-+                match = __regex_python_module_version__.match(line)
-+                if match:
-+                    possible_versions.append(match.group("version"))
-+            possible_versions = sorted(set(possible_versions))
-+            data_lines.append("possible versions: %s\n" % possible_versions)
-+            if is_version_mismatch(possible_versions, pv):
-+                data_lines.append("FINAL RESULT: MISMATCH (%s v.s. %s)\n\n" % (possible_versions, pv))
-+                bb.warn("Possible runtime versions %s do not match recipe version %s" % (possible_versions, pv))
-+            else:
-+                data_lines.append("FINAL RESULT: MATCH (%s v.s. %s)\n\n" % (possible_versions, pv))
-+            got_quick_match_result = True
-+        except:
-+            data_lines.append("version_check_cmd: %s\n" % version_check_cmd)
-+            data_lines.append("result: RUN_FAILED\n\n")
-+    if got_quick_match_result:
-+        if enable_debug:
-+            with open(debug_data_file, "w") as f:
-+                f.writelines(data_lines)
-+        return
-+
-+    # handle .pc files
-+    version_check_cmd = "find %s -name '*.pc' | xargs grep -i version" % pkgd
-+    try:
-+        output = subprocess.check_output(version_check_cmd, shell=True).decode("utf-8")
-+        data_lines.append("version_check_cmd: %s\n" % version_check_cmd)
-+        data_lines.append("output:\n'''\n%s'''\n" % output)
-+        possible_versions = get_possible_versions(output)
-+        possible_versions = sorted(set(possible_versions))
-+        data_lines.append("possible versions: %s\n" % possible_versions)
-+        if is_version_mismatch(possible_versions, pv):
-+            if pn.startswith("lib"):
-+                data_lines.append("FINAL RESULT: MISMATCH (%s v.s. %s)\n\n" % (possible_versions, pv))
-+                bb.warn("Possible runtime versions %s do not match recipe version %s" % (possible_versions, pv))
-+                got_quick_match_result = True
-+            else:
-+                data_lines.append("result: MISMATCH (%s v.s. %s)\n\n" % (possible_versions, pv))
-+        else:
-+            data_lines.append("FINAL RESULT: MATCH (%s v.s. %s)\n\n" % (possible_versions, pv))
-+            got_quick_match_result = True
-+    except:
-+        data_lines.append("version_check_cmd: %s\n" % version_check_cmd)
-+        data_lines.append("result: RUN_FAILED\n\n")
-+    if got_quick_match_result:
-+        if enable_debug:
-+            with open(debug_data_file, "w") as f:
-+                f.writelines(data_lines)
-+        return
-+
-+    skipped_directories = [".debug", "ptest", "installed-tests", "tests", "test", "__pycache__", "testcases"]
-+    pkgd_libdir = pkgd + d.getVar("libdir")
-+    pkgd_base_libdir = pkgd + d.getVar("base_libdir")
-+    extra_exec_libdirs = []
-+    for root, dirs, files in os.walk(pkgd):
-+        for dname in dirs:
-+            fdir = os.path.join(root, dname)
-+            if os.path.isdir(fdir) and fdir != pkgd_libdir and fdir != pkgd_base_libdir:
-+                if fdir.startswith(pkgd_libdir) or fdir.startswith(pkgd_base_libdir):
-+                    for sd in skipped_directories:
-+                        if fdir.endswith("/" + sd) or ("/" + sd + "/") in fdir:
-+                            break
-+                    else:
-+                        extra_exec_libdirs.append(fdir)
-+        for fname in files:
-+            fpath = os.path.join(root, fname)
-+            if os.path.isfile(fpath) and os.access(fpath, os.X_OK):
-+                for sd in skipped_directories:
-+                    if ("/" + sd + "/") in fpath:
-+                        break
-+                else:
-+                    if is_shared_library(fpath):
-+                        # we don't check shared libraries
-+                        continue
-+                    else:
-+                        executables.append(fpath)
-+    if enable_debug:
-+        data_lines.append("executables: %s\n" % executables)
-+
-+    found_match = False
-+    some_cmd_succeed = False
-+    if not executables:
-+        bb.debug(1, "No executable found for %s" % pn)
-+        data_lines.append("FINAL RESULT: NO_EXECUTABLE_FOUND\n\n")
-+    else:
-+        # first we extend qemu_exec to include library path if needed
-+        if extra_exec_libdirs:
-+            qemu_exec += ":" + ":".join(extra_exec_libdirs)
-+        for fexec in executables:
-+            for version_option in ["--version", "-V", "-v", "--help"]:
-+                version_check_cmd_full = "%s %s %s" % (qemu_exec, fexec, version_option)
-+                version_check_cmd = version_check_cmd_full
-+                #version_check_cmd = "%s %s" % (os.path.relpath(fexec, pkgd), version_option)
-+                
-+                try:
-+                    cwd_temp = d.getVar("TMPDIR") + "/check-version-mismatch/cwd-temp/" + pn
-+                    os.makedirs(cwd_temp, exist_ok=True)
-+                    # avoid pseudo to manage any file we create
-+                    sp_env = os.environ.copy()
-+                    sp_env["PSEUDO_UNLOAD"] = "1"
-+                    output = subprocess.check_output(version_check_cmd_full,
-+                                                     shell=True,
-+                                                     stderr=subprocess.STDOUT,
-+                                                     cwd=cwd_temp,
-+                                                     timeout=10,
-+                                                     env=sp_env).decode("utf-8")
-+                    some_cmd_succeed = True
-+                    data_lines.append("version_check_cmd: %s\n" % version_check_cmd)
-+                    data_lines.append("output:\n'''\n%s'''\n" % output)
-+                    if version_option == "--help":
-+                        max_lines = 5
-+                    else:
-+                        max_lines = None
-+                    possible_versions = get_possible_versions(output, full_cmd=fexec, max_lines=max_lines)
-+                    if "." in pv:
-+                        possible_versions = [item for item in possible_versions if "." in item or item == "UNKNOWN"]
-+                    data_lines.append("possible versions: %s\n" % possible_versions)
-+                    if not possible_versions:
-+                        data_lines.append("result: NO_RUNTIME_VERSION_FOUND\n\n")
-+                        continue
-+                    possible_versions_all.extend(possible_versions)
-+                    possible_versions_all = sorted(set(possible_versions_all))
-+                    if is_version_mismatch(possible_versions, pv):
-+                        data_lines.append("result: MISMATCH (%s v.s. %s)\n\n" % (possible_versions, pv))
-+                    else:
-+                        found_match = True
-+                        data_lines.append("result: MATCH (%s v.s. %s)\n\n" % (possible_versions, pv))
-+                        break
-+                except:
-+                    data_lines.append("version_check_cmd: %s\n" % version_check_cmd)
-+                    data_lines.append("result: RUN_FAILED\n\n")
-+                finally:
-+                    shutil.rmtree(cwd_temp)
-+            if found_match:
-+                break
-+    if executables:
-+        if found_match:
-+            data_lines.append("FINAL RESULT: MATCH (%s v.s. %s)\n" % (possible_versions_all, pv))
-+        elif len(possible_versions_all) == 0:
-+            if some_cmd_succeed:
-+                bb.debug(1, "No valid runtime version found")
-+                data_lines.append("FINAL RESULT: NO_VALID_RUNTIME_VERSION_FOUND\n")
-+            else:
-+                bb.debug(1, "All version check command failed")
-+                data_lines.append("FINAL RESULT: RUN_FAILED\n")
-+        else:
-+            bb.warn("Possible runtime versions %s do not match recipe version %s" % (possible_versions_all, pv))
-+            data_lines.append("FINAL RESULT: MISMATCH (%s v.s. %s)\n" % (possible_versions_all, pv))
-+
-+    if enable_debug:
-+        with open(debug_data_file, "w") as f:
-+            f.writelines(data_lines)
-+
-+    # clean up stale processes
-+    process_name_common_prefix = "%s %s" % (' '.join(qemu_exec.split()[1:]), pkgd)
-+    find_stale_process_cmd = "ps -e -o pid,args | grep -v grep | grep -F '%s'" % process_name_common_prefix
-+    try:
-+        stale_process_output = subprocess.check_output(find_stale_process_cmd, shell=True).decode("utf-8")
-+        stale_process_pids = []
-+        for line in stale_process_output.split("\n"):
-+            line = line.strip()
-+            if not line:
-+                continue
-+            pid = line.split()[0]
-+            stale_process_pids.append(pid)
-+        for pid in stale_process_pids:
-+            os.kill(int(pid), signal.SIGKILL)
-+    except Exception as e:
-+        bb.debug(1, "No stale process")
-+}
-+
-+addtask do_package_check_version_mismatch after do_package before do_build
-+
-+do_build[rdeptask] += "do_package_check_version_mismatch"
-+do_rootfs[recrdeptask] += "do_package_check_version_mismatch"
-+
-+SSTATETASKS += "do_package_check_version_mismatch"
-+do_package_check_version_mismatch[sstate-inputdirs] = ""
-+do_package_check_version_mismatch[sstate-outputdirs] = ""
-+python do_package_check_version_mismatch_setscene () {
-+    sstate_setscene(d)
-+}
-+addtask do_package_check_version_mismatch_setscene
-diff --git a/meta/classes-recipe/qemu.bbclass b/meta/classes/qemu.bbclass
-similarity index 100%
-rename from meta/classes-recipe/qemu.bbclass
-rename to meta/classes/qemu.bbclass
-diff --git a/meta/conf/version-check.conf b/meta/conf/version-check.conf
-new file mode 100644
-index 0000000000..154bc4a637
---- /dev/null
-+++ b/meta/conf/version-check.conf
-@@ -0,0 +1,14 @@
-+INHERIT += "check-version-mismatch"
-+# we need ps command to clean stale processes
-+HOSTTOOLS += "ps"
-+
-+# Special cases that need to be handled.
-+# % has the same meaning as in bbappend files, that is, match any chars.
-+CHECK_VERSION_PV:pn-rust-llvm = "${LLVM_RELEASE}"
-+CHECK_VERSION_PV:pn-igt-gpu-tools = "${PV}-${PV}"
-+CHECK_VERSION_PV:pn-vim = "${@'.'.join(d.getVar('PV').split('.')[:-1])}"
-+CHECK_VERSION_PV:pn-vim-tiny = "${@'.'.join(d.getVar('PV').split('.')[:-1])}"
-+CHECK_VERSION_PV:pn-ncurses = "${PV}.%"
-+CHECK_VERSION_PV:pn-alsa-tools = "%"
-+CHECK_VERSION_PV:pn-gst-examples = "%"
-+CHECK_VERSION_PV:pn-libedit = "${@d.getVar('PV').split('-')[1]}"
 -- 
 2.34.1
 
