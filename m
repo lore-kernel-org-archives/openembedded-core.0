@@ -1,134 +1,100 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C40F1C3600B
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 16:49:27 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.1271.1743094165936734749
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2BB3C3600B
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 16:50:07 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.1291.1743094204248008303
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 09:49:26 -0700
+ Thu, 27 Mar 2025 09:50:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=QThX987/;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B7BE1444E8;
-	Thu, 27 Mar 2025 16:49:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1743094164;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=04RCLv3JPi1N0Y1+ZYuYRViRqN4n15J960m9npHoruQ=;
-	b=QThX987/sp70nGOPG5lJDwgh8vncj1rjBgC1xJpJjnHW0Rsq3EVPvr8iEne/Ec4EjHH41A
-	AOLnhkRaRoiyZqEN4bOaPrhzZBXh0DN2+26KYJpnN/8njasSLtceH1RIHlgBcnZ2ryTZ6+
-	ptunckwXCcJlsXlHW05uh8UeBkX3UV05M7gr8psavYfZVqHp/dcradVYIfDq7wS/wuT2kl
-	49skaA57AMR+kMOKsldHXiVmeIBox6fBz8xcraCvuUbVsQ8vto7GOb9pYOFvlWN/3Olwbn
-	hDmYh3T9ilUxlNqGL2duqqEz5VTrRZkPbRCCTEQjw+kWfUx3VcdPZu7UkDDEcA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 27 Mar 2025 17:49:21 +0100
-Message-Id: <D8R7B70V1WMV.1PUDNR0TONAIY@bootlin.com>
-To: <dmitry.baryshkov@oss.qualcomm.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 0/8] mesa: upgrade to 25.0.2
-Cc: "Khem Raj" <raj.khem@gmail.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250327135520.3920189-1-dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20250327135520.3920189-1-dmitry.baryshkov@oss.qualcomm.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieekleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvffuvefhofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgueeltefhudegffekvdevtdfgveffjeegjeduhfduvefgveeuhfeiteejgffftdenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefpdhrtghpthhtohepughmihhtrhihrdgsrghrhihsh
- hhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehrrghjrdhkhhgvmhesghhmrghilhdrtghomh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MfKuGne5;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=e2o/XQmY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010195d882c31e-61bcbed4-d899-4a17-bfd5-b3153f22a5a0-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1743094203; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=aLkg2ciomi5K2U1Q4JlDllqu3UPY51NP0+pqtJJgwqg=;
+	b=MfKuGne5JRcvVtUSNpZrbveEJlOr0kfGqAmonhf2p62Ptop0HpesW3gguLWV3aJl
+	OKxuRr9eMGm6pdcVojxX/2u9oKUWKvhMe5MbaHVB+ImJ1HL/iQfnIGuiSuIouf8BtCp
+	Xb014PC7Y1AQ7h6n1wq84JcwRfvKfvuvKe0kMIY4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743094203;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=aLkg2ciomi5K2U1Q4JlDllqu3UPY51NP0+pqtJJgwqg=;
+	b=e2o/XQmY2qDzXqtcysle2nDcV1Uv1z0p75dY6jQf0NNbQHyHi8dtjq0Us67ew/dn
+	yT0Tdlk71xeqFwQmp4EMUY7jj1nuvs2Q7gkFdAFNekCS+dMHwokyGpA1uKn9qRdWYG8
+	uezxXf41dnrCCTmjmxXCovvth5v/EvMtyxZtdLUY=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] fmt: Backport patch to fix spdlog ABI issue
+In-Reply-To: <20250327163238.442756-1-raj.khem@gmail.com>
+References: <20250327163238.442756-1-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010195d882c31e-61bcbed4-d899-4a17-bfd5-b3153f22a5a0-000000@us-west-2.amazonses.com>
+Date: Thu, 27 Mar 2025 16:50:03 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.03.27-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 16:49:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213768
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 16:50:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213769
 
-On Thu Mar 27, 2025 at 2:55 PM CET, Dmitry Baryshkov via lists.openembedded=
-.org wrote:
-> libclc is required in order to build Intel drivers in Mesa 24.1 and
-> later. Thus OE-Core is currently locked to the 24.0.x branch, which is
-> no longer maintained, having last release in June 2024.
->
-> A clean solution is to package Clang, then use it to build libclc and
-> SPIRV-LLVM-Translator (required for Mesa OpenCL support). However
-> creating proper recipes for Clang is a long process (ongoing by Khem
-> Raj).
->
-> This patchset attempts to solve the issue in a simpler way: by building
-> libclc and SPIRV-LLVM-Translator together with the LLVM. This way we
-> don't have to create target Clang recipes, there is no extra toolchain
-> to support, etc. Clang binaries are creted as a part of the build
-> process (in order to support building target packages), however it only
-> hits the LLVM sysroot-native and is only used by the LLVM target build.
->
-> Future work by Khem (once Clang is properly supported in OE-Core) should
-> allow us to create proper recipes for libclc and spirv-llvm-translator
-> and drop them from the llvm / clang recipe.
->
-> I think this approach provides a good balance between OE-Core being
-> stuck with the outdated Mesa release and being able to upgrade it,
-> bringing support for new hardware.
->
-> Last two patches of the series bring in RustiCL support, a new OpenCL
-> implementation within Mesa. They are optional for the sake of the
-> upgrade and can be dropped if there is any issue with those. RustiCL
-> support is mostly compile-tested at this point.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+--NextPart
+Content-Type: text/plain
 
-Hi Dmitry,
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Thanks for your patch.
+---
+Testing patch /home/patchtest/share/mboxes/fmt-Backport-patch-to-fix-spdlog-ABI-issue.patch
 
-It looks like this is breaking some builds on the autobuilder, with
-following error:
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
-| --- stdout ---
-|
-| --- stderr ---
-| <built-in>:1:10: fatal error: 'opencl-c-base.h' file not found
-| Error executing LLVM compilation action.
-|
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-This one did happen in a lot of builds, here are the first ones:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/1284
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/1283
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/1298
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
-Another one, maybe related to musl:
+---
 
-| /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/hosttools/ld:=
- /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-=
-poky-linux-musl/llvm/20.1.0/recipe-sysroot-native/usr/lib/libzstd.so: undef=
-ined reference to `pthread_join@GLIBC_2.34'
-| /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/hosttools/ld:=
- /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-=
-poky-linux-musl/llvm/20.1.0/recipe-sysroot-native/usr/lib/libzstd.so: undef=
-ined reference to `pthread_create@GLIBC_2.34'
-| collect2: error: ld returned 1 exit status
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/1320
+--NextPart
 
-And another one:
 
-| ../mesa-25.0.2/src/compiler/spirv/meson.build:85:22: ERROR: Tried to mix =
-a host machine library ("vtn") with a build machine target "vtn_bindgen" Th=
-is is not possible in a cross build.
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/1251
-
-Best regards,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+--NextPart--
 
