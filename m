@@ -1,104 +1,119 @@
-Return-Path: <hiagofranco@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 699E6C36013
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 19:01:48 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.4353.1743102101843105895
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A86FDC36013
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 19:44:28 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.5270.1743104662459533610
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 12:01:41 -0700
+ Thu, 27 Mar 2025 12:44:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EgZRKaqV;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: hiagofranco@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-224019ad9edso37448655ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:01:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qh6MT2kV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-224100e9a5cso29738805ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743102101; x=1743706901; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UHd20QuVf9/0uFChlVr8l8EKt9WckiSM0v2w+s6U5Jo=;
-        b=EgZRKaqVWxWVMXZ/q4CgzLWCHV59upvHyV+o3Xo41vQCJuBlVDQH+LIpf8RcbHD/rR
-         8pivlvI0z7gjx5WD2gLQJqVRL00BshNGwaU2gQVszcNb+n81cosuER7A91aihL7P3jMR
-         itnQa4ikDueEsHJo3MBpn9hjOpITiWMzur2RdRUpPH7XfmdT6T2PLUderFgHDxjGuTON
-         m5MVbslDWK++EnEFlzV0YlQOZfkjWaKQofIuv9zOYjcuuUjTjF+aB9BfADzAHcY5kFTP
-         t9tcVZbe+0D9kZBOERTKybCM0M/jwN4zTephC5HoXMYmd2xLr7MFfxNDvXrZDCuWQD1g
-         aqEw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743104662; x=1743709462; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ttLpmQ4ulsN7mkxAeIAjJclF08NuzvP3L8E0tOauKkE=;
+        b=qh6MT2kVqbWq1vBcTW+BSO/7HCjk9iKjpUkLjDdIkt8seYgid9IyuQ/B0cSoglVSSY
+         9qBYN0k2zwtlXOYnnOaatJ8vv3KjTs75KwPOnh1AuoRs87B0gCVKwVpJWoggG6TFMRc8
+         C5NWFWYQcq/D0S/uFtV7g1yDDze3RYbBtxQBHoP3VmU0dB5ILa7Ukfsp8mO1LdhP84/P
+         OSrue4NK8sN+pN9mp6fk5tO+KAM0E4jscIkkt1ZrzzXRftgaBdBlfWfkefQ1Ptuml8CU
+         3PuPEMKjAZjQ+dbSpX48ImOyoijdB9tthhfqOpxnVAhKSXR/DTsXoqEJIn+No1ofqNjj
+         9MaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743102101; x=1743706901;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UHd20QuVf9/0uFChlVr8l8EKt9WckiSM0v2w+s6U5Jo=;
-        b=aYJfLkJMQjIbEaAhYHRXIoblAmS36PzAllchYcPvTAYIwe9TBv+ts2YGJlTrDYgJbs
-         yF8al8tECAMTlvRoJ/OWcaFU33X4XQz6mCAcbNR0FxFu2quVxyZCLIgJWwOtsuVAnri3
-         MFS7WtHRULWwLm+DNXtYNNcI7Acz0huArM3n5oKE+fu9CrWLWNQEcYSScEFMm3D/CTUT
-         kOXuykP01eoHgw5t9gyImAT41Mr+q8s0jK1iswi5O9GgukGoaZG0Sp0ta8gV+dpDsDJx
-         Ch0ysaLlCjDHE6cYlwJFgNIYjR9YNk+CQdo4niOeHC5L61Jg3qh2Seh71WxwP9cezNrk
-         pJOw==
-X-Forwarded-Encrypted: i=1; AJvYcCVOOMqANdxZKqyaXu/q9eSbIc/elKmdMb8Z+vQJUOEGVNdHX/C+vkseWfD9iQGSGHM5TWdiHufP9qj/MlhdjHRUHg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwJQ0G0b7S8HxyxKn1mzPVG+REWYDlDJU/eVwKxBjibTfM+o+mh
-	IjhDlX+1/tNG44BJs4rBdEJOmroMwYtyFOcA6iSA06qCI1F3gsGh
-X-Gm-Gg: ASbGnct3jHjdc57JS4FPTC+ZikapvfA+NFbMCQ2Eeu1OALPHaHDhrFxI19HGTSJiXGQ
-	MjI2Wz/vDF0eec9lGCinEtHSeKwB53LooW3oWaAWl1UcZYniGAwgZM85U0vdtZhmXsSyjMZJ1xj
-	z64h1jtRsP5oCXPvesvCE7TS3uH250C3wgSoLa83MjmYVQ2Jcf8aJKs+G6s2CvvUIbA/u9d7UoS
-	YxlXtAhhJfsHPAx4ak7W59z52Ojil3AdIKc5m0cG3ot3t3jbToKkE5WqZiDGccSpvbAGTF3x/dv
-	vxMrembY1Zy59iAsA+Z513bcEey8IxOR38koVfGmNY0gld5pSQGi4g==
-X-Google-Smtp-Source: AGHT+IG9wLpEtcRyK+LzeX5ie/3hShSzM1F5u30GFPW474vl+V6Q+C5pDADtAV5OjqqmkMjLG7yTSQ==
-X-Received: by 2002:a17:902:eb8d:b0:224:b60:3ce0 with SMTP id d9443c01a7336-22804882d89mr80726825ad.5.1743102100991;
-        Thu, 27 Mar 2025 12:01:40 -0700 (PDT)
-Received: from hiago-nb ([67.159.246.222])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291f1e9b46sm3130245ad.211.2025.03.27.12.01.38
+        d=1e100.net; s=20230601; t=1743104662; x=1743709462;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ttLpmQ4ulsN7mkxAeIAjJclF08NuzvP3L8E0tOauKkE=;
+        b=L8S5/PoXJ6k6hvxFJKTMW2SlBz5ksv0dv3Kw6emrqHwR4d8U2tc4mJPYFmpqbr9TYi
+         fG2lzuwWU57Jm5qEip2/aFzGq4mbusPP6t9Lul5qlMIKdy4qUDTQ+pCa7ydGShV+ED6y
+         3Ag/M89KqvPFs+JYUeORsKqKr/oINdYv6DRINvkNtyR4kbphrJnpNeyMT7oNhBXO81Jk
+         xTjB0rM1vkCFYY6iUfC3cdSDY95QpZ5g32CsCPRHyqMCZCcOsFFz6TP+ep9baYSCE+3V
+         wOMN9QjRJY/aK7Xk7Jc1jsH3DadtD+8MmgFpMs6IDwzsh07GzF7qz0zqVgtLiC9oRzvC
+         DKLQ==
+X-Gm-Message-State: AOJu0YzkzVgFyFK2+SL1a8BxF8b3p3oraoucc9Fcyp1MiXZC3X4RmUEh
+	s+1bH3zxxWhRkPDrcq9qB+r6Sqef44ZX30SJn1bHSi9Xj64RZW7PUqBFlPEB1/rxkj9ooGywIM/
+	j
+X-Gm-Gg: ASbGncvwQhc97MCZRX9qsVhbzP4tNDvXEadnY6Xix7rwvlSJRYupHv67dCqKmke4kQ9
+	zwqaNB6mNGZvHff2hFZk4ri5a9diqBo75E1UynbZAZ8ImdO5tQb/qHif3xgaGE3o8twgiL1VyDn
+	tX0MK3hiOWL/E+DIzI/U5XcYqwExjwBgSvH4g2e7NiL6DGraNlVxEI/wOh0lgFXcKNSzCxoKZrX
+	aIOuvzy+9KJ6g4vnY+bNc6V8vRxkHPku3arIZmx3fYINLQiJ1hWRfGY+MNRymuVm8F3Ym18FhxZ
+	4nM6CpZMryWfaRsCb2rUiooGB3i7hfb4xvc=
+X-Google-Smtp-Source: AGHT+IHKwdqnsvQjzXSAq7Ma/VR+FngD9Lxk7d06+H4JkA3hh4/bDvPxVKx5pB09R+2KBIMLt2hUjw==
+X-Received: by 2002:a17:902:f64e:b0:224:2a6d:55ae with SMTP id d9443c01a7336-2280491c3e7mr83384885ad.48.1743104661359;
+        Thu, 27 Mar 2025 12:44:21 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:811c:968e:2c1:6363])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee0882sm3865875ad.75.2025.03.27.12.44.20
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 12:01:40 -0700 (PDT)
-Date: Thu, 27 Mar 2025 16:01:37 -0300
-From: Hiago De Franco <hiagofranco@gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Quentin Schulz <quentin.schulz@cherry.de>,
-	Steve Sakoman <steve@sakoman.com>,
-	openembedded-core@lists.openembedded.org,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Hiago De Franco <hiago.franco@toradex.com>
-Subject: Re: [OE-core] [styhead][PATCH v2 00/31] linux-firmware: upgrade
- 20240909 -> 20250311
-Message-ID: <20250327190137.sfgisyjocd3ktje6@hiago-nb>
-References: <5a7b5f6c-1be9-4c5d-bf2e-59e115762d6a@cherry.de>
- <CAOSpxdajP0E0uVMR3QmRCqqmmRMAMnXiZM3bPmOXHGyRrVTfDw@mail.gmail.com>
- <20250327171239.kvs4jtetjkcs3i2u@hiago-nb>
- <CANNYZj-+2ESLmCUjGR9ZXK62=wJno85DgFdU3tjsu1O7G5DPGA@mail.gmail.com>
+        Thu, 27 Mar 2025 12:44:21 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 00/10] Patch review
+Date: Thu, 27 Mar 2025 12:44:05 -0700
+Message-ID: <cover.1743104524.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj-+2ESLmCUjGR9ZXK62=wJno85DgFdU3tjsu1O7G5DPGA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 19:01:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213775
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 19:44:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213776
 
-On Thu, Mar 27, 2025 at 06:29:18PM +0100, Alexander Kanavin wrote:
-> On Thu, 27 Mar 2025 at 18:12, Hiago De Franco via
-> lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org>
-> wrote:
-> 
-> > What do you reccomend? Should I try to keep the patch with minimal
-> > differences as possible?
-> 
-> You might consider adding this to meta-lts-mixins?
+Please review this set of changes for scarthgap and have comments back by
+end of day Monday, March 31
 
-This would be another option, but before going into this direction, I
-am still wondering if the bump on Scarthgap is valid.
+Passed a-full on autobuilder:
 
-From the git history I can see this recipe was already bumped in the
-past, until it got to 20240909, inside Scarthgap. From the bugfixing
-point of view, it would be good to incorporate these changes into
-Scarthgap directly. I am not sure how is the policy/procedure to bump a
-LTS branch, maybe you guys can help me understand this a little bit.
-Then I will be happy to propose a patch and try to work this out ;-)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1283
 
-> 
-> Alex
+The following changes since commit a720df7ad77af1f8b1c00a211c88537e5f23edbc:
 
-Thanks again,
-Hiago.
+  nativesdk-libtool: sanitize the script, remove buildpaths (2025-03-20 12:51:41 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Bruce Ashfield (6):
+  linux-yocto/6.6: update to v6.6.77
+  linux-yocto/6.6: update to v6.6.78
+  linux-yocto/6.6: update to v6.6.80
+  linux-yocto/6.6: update to v6.6.82
+  linux-yocto/6.6: update to v6.6.83
+  linux-yocto/6.6: update to v6.6.84
+
+Divya Chellam (1):
+  ruby: fix CVE-2025-27220
+
+Madhu Marri (1):
+  qemu 8.2.7: ignore CVE-2023-1386
+
+Stefan Mueller-Klieser (1):
+  kernel-arch: add macro-prefix-map in KERNEL_CC
+
+Vijay Anusuri (1):
+  vim: Upgrade 9.1.1115 -> 9.1.1198
+
+ meta/classes-recipe/kernel-arch.bbclass       |  8 +-
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +
+ .../ruby/ruby/CVE-2025-27220.patch            | 78 +++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.3.5.bb      |  1 +
+ .../linux/linux-yocto-rt_6.6.bb               |  6 +-
+ .../linux/linux-yocto-tiny_6.6.bb             |  6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++----
+ meta/recipes-support/vim/vim.inc              |  4 +-
+ 8 files changed, 110 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch
+
+-- 
+2.43.0
+
 
