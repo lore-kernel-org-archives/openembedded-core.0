@@ -1,120 +1,134 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3C7DC36010
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 16:45:37 +0000 (UTC)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
- by mx.groups.io with SMTP id smtpd.web10.1172.1743093933293473184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C40F1C3600B
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 16:49:27 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web10.1271.1743094165936734749
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 09:45:33 -0700
+ Thu, 27 Mar 2025 09:49:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dzSf1r+l;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.175, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6f6ae4846c7so13548947b3.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 09:45:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743093932; x=1743698732; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SHyL785eKz2IZUT5T3oTgn+TB1LmNocorBpsWFf4p+4=;
-        b=dzSf1r+lUsbPl26bYT3FTnoJRz7lHhWYP1MdfyB/dzB9NMCruMUux5zSOZ3Uza9o4V
-         XcOm2VyIsuI3R94AWyIJipe6P3x1hTKEJnp9KMvfNWJReU/HurNMmIPtjTfA9aS+3X4z
-         ckGOZFzuaZqxDhPYm4FLbf4JkPLUkFx1+7/91R/xwU3YHix81NWUux/Nn+7DlstaAnUG
-         E4ZSTzf/we7i9WxdcDOu+QMuOw/mobjFaL884s/tYPGAn5DWamTRiW3hhR98JkP990po
-         2K4g2t4LQ+/NtAsEj7XowBgKGhFl7Fs6WC692BplxFElQETTpafiB78/4g452oANb1QX
-         cZBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743093932; x=1743698732;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SHyL785eKz2IZUT5T3oTgn+TB1LmNocorBpsWFf4p+4=;
-        b=edLOm/TEMx8s1nOum2kjIyTPPcnh3fsBDCs8jhlqSTkHzv6d+VLWiH37QO5Kc94kn0
-         7dp0fssotJRNBOKOCoKYgKf9iKUa0RaB2v+dTYEW9PgCa9kk3vEOOPpJ6SP0p8A4Ttj1
-         GMR7vf3yUHoo5h+jXNx9kTzXfiDnddZ1pURIe14otALTASi1RRe0kTf1fj6uvAmDJHER
-         L/eJu6s09SkFpttjiuHsU3g3n6dPKPDoJFfncNVfPi3IvfkeaWvE46XMA7DCYolIYPtT
-         unzf/0lsCvfjmrPaF45pVRS0f3HNcW+kZrE9zRn6L7B1bBJquRQfNmDIgb0V/125yve+
-         8A1w==
-X-Gm-Message-State: AOJu0Yw1D+7hHN/Ui9ECm0rwQ5zwx/FxxZNp9xKKd6X+AnIO1NmPcIwA
-	uK8EXoQAT5Fo7/gDTkD8K+p9QTmnUDFlvOhLl+b4IO4/kayaQOJObY8UqIAclxnMFW1zK6NxeBe
-	qnQARF+7PSPri9T3F2kGYrTGnP8uG45NkMb7qSg==
-X-Gm-Gg: ASbGnctKYgESOvYvITj3By3JavVR/Zsw3wNb7s9C9dkL28CYmIrrom8GITAcw8F1gmN
-	3ekJqJdkAFEmh82We2R1ZUbhivkd8Yy834JxLdZp7XDLph64kEWoOjQt6ngTxhgw4XLkvjdhnMw
-	8YCHP9N6H1OpjxCw1FlRuFFv2QCqTpq3xp7sXMFRq8YVWVp/RnD4lhG3d/
-X-Google-Smtp-Source: AGHT+IH8oVf3qQsZ4JRlh34eyJjXz4GI4Fi37w3i5AYsSNoYbmfG++9V//ZzwGIjCEWDkQQlcS08HRjwV1Oz/K3/J5k=
-X-Received: by 2002:a05:690c:6f89:b0:6ef:8dd0:fff9 with SMTP id
- 00721157ae682-70224ef9a35mr56570647b3.8.1743093932286; Thu, 27 Mar 2025
- 09:45:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250326202817.64437-1-hiagofranco@gmail.com> <CAOSpxdZR3JA-h_4ujbOzDK2YaX=9pBztTp-O3R111JE6DYK77Q@mail.gmail.com>
- <20250327161904.hjqfngvg4irhrk7e@hiago-nb>
-In-Reply-To: <20250327161904.hjqfngvg4irhrk7e@hiago-nb>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 27 Mar 2025 09:45:21 -0700
-X-Gm-Features: AQ5f1JqFOs25z029cFuf4584NwJ19f6UfSmv0ATAgpRf4OlRAyR2nwEJ8bA97kM
-Message-ID: <CAOSpxdajP0E0uVMR3QmRCqqmmRMAMnXiZM3bPmOXHGyRrVTfDw@mail.gmail.com>
-Subject: Re: [styhead][PATCH v2 00/31] linux-firmware: upgrade 20240909 -> 20250311
-To: Hiago De Franco <hiagofranco@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, quentin.schulz@cherry.de, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Hiago De Franco <hiago.franco@toradex.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=QThX987/;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B7BE1444E8;
+	Thu, 27 Mar 2025 16:49:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1743094164;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=04RCLv3JPi1N0Y1+ZYuYRViRqN4n15J960m9npHoruQ=;
+	b=QThX987/sp70nGOPG5lJDwgh8vncj1rjBgC1xJpJjnHW0Rsq3EVPvr8iEne/Ec4EjHH41A
+	AOLnhkRaRoiyZqEN4bOaPrhzZBXh0DN2+26KYJpnN/8njasSLtceH1RIHlgBcnZ2ryTZ6+
+	ptunckwXCcJlsXlHW05uh8UeBkX3UV05M7gr8psavYfZVqHp/dcradVYIfDq7wS/wuT2kl
+	49skaA57AMR+kMOKsldHXiVmeIBox6fBz8xcraCvuUbVsQ8vto7GOb9pYOFvlWN/3Olwbn
+	hDmYh3T9ilUxlNqGL2duqqEz5VTrRZkPbRCCTEQjw+kWfUx3VcdPZu7UkDDEcA==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 27 Mar 2025 17:49:21 +0100
+Message-Id: <D8R7B70V1WMV.1PUDNR0TONAIY@bootlin.com>
+To: <dmitry.baryshkov@oss.qualcomm.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 0/8] mesa: upgrade to 25.0.2
+Cc: "Khem Raj" <raj.khem@gmail.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250327135520.3920189-1-dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250327135520.3920189-1-dmitry.baryshkov@oss.qualcomm.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieekleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvffuvefhofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgueeltefhudegffekvdevtdfgveffjeegjeduhfduvefgveeuhfeiteejgffftdenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefpdhrtghpthhtohepughmihhtrhihrdgsrghrhihsh
+ hhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehrrghjrdhkhhgvmhesghhmrghilhdrtghomh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 16:45:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213767
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 16:49:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213768
 
-On Thu, Mar 27, 2025 at 9:19=E2=80=AFAM Hiago De Franco <hiagofranco@gmail.=
-com> wrote:
+On Thu Mar 27, 2025 at 2:55 PM CET, Dmitry Baryshkov via lists.openembedded=
+.org wrote:
+> libclc is required in order to build Intel drivers in Mesa 24.1 and
+> later. Thus OE-Core is currently locked to the 24.0.x branch, which is
+> no longer maintained, having last release in June 2024.
 >
-> Hi Steve,
+> A clean solution is to package Clang, then use it to build libclc and
+> SPIRV-LLVM-Translator (required for Mesa OpenCL support). However
+> creating proper recipes for Clang is a long process (ongoing by Khem
+> Raj).
 >
-> On Thu, Mar 27, 2025 at 07:54:53AM -0700, Steve Sakoman wrote:
-> > On Wed, Mar 26, 2025 at 1:29=E2=80=AFPM Hiago De Franco <hiagofranco@gm=
-ail.com> wrote:
-> > >
-> > > From: Hiago De Franco <hiago.franco@toradex.com>
-> > >
-> > > Update the linux-firmware recipe to the most recent upstream tag.
-> > >
-> > > This is basically a backport of the commits from master into styhead,
-> > > related to the linux-firmware recipe.
-> >
-> > Sorry I missed seeing this yesterday.
-> >
-> > The final release of styhead is now in QA, there are no further
-> > releases planned.
-> >
-> > If this changes for any reason I will consider this series.
-> >
-> > The project weekly status report publishes the complete schedule of
-> > releases for all branches.
+> This patchset attempts to solve the issue in a simpler way: by building
+> libclc and SPIRV-LLVM-Translator together with the LLVM. This way we
+> don't have to create target Clang recipes, there is no extra toolchain
+> to support, etc. Clang binaries are creted as a part of the build
+> process (in order to support building target packages), however it only
+> hits the LLVM sysroot-native and is only used by the LLVM target build.
 >
-> All right, thanks for letting me know. I did not realise that.
+> Future work by Khem (once Clang is properly supported in OE-Core) should
+> allow us to create proper recipes for libclc and spirv-llvm-translator
+> and drop them from the llvm / clang recipe.
 >
-> I think the real work is on scarthgap and kirkstone, which I will send
-> another series. Can you comment if this is the right approach for
-> kirkstone and scarhgap as well?
+> I think this approach provides a good balance between OE-Core being
+> stuck with the outdated Mesa release and being able to upgrade it,
+> bringing support for new hardware.
 >
-> From what I understood, I need to backport these patches for the other
-> LTS branches as well, without breaking the compatibility. Is this
-> correct?
+> Last two patches of the series bring in RustiCL support, a new OpenCL
+> implementation within Mesa. They are optional for the sake of the
+> upgrade and can be dropped if there is any issue with those. RustiCL
+> support is mostly compile-tested at this point.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-In theory, yes.  However after seeing the extent of changes required
-to bring styhead up to date (31 patches!) I fear that the changes for
-older releases will be way more extensive than I feel comfortable
-with.
+Hi Dmitry,
 
-I don't see how we can assert that compatibility will be maintained
-with that level of change.  Especially since our automated testing of
-the linux-firmware package is pretty minimal :-(
+Thanks for your patch.
 
-So I'm not inclined to take such a patchset, since I think the risk
-outweighs the benefit.
+It looks like this is breaking some builds on the autobuilder, with
+following error:
 
-Steve
+| --- stdout ---
+|
+| --- stderr ---
+| <built-in>:1:10: fatal error: 'opencl-c-base.h' file not found
+| Error executing LLVM compilation action.
+|
+
+This one did happen in a lot of builds, here are the first ones:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/1284
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/1283
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/1298
+
+Another one, maybe related to musl:
+
+| /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/hosttools/ld:=
+ /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-=
+poky-linux-musl/llvm/20.1.0/recipe-sysroot-native/usr/lib/libzstd.so: undef=
+ined reference to `pthread_join@GLIBC_2.34'
+| /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/hosttools/ld:=
+ /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-=
+poky-linux-musl/llvm/20.1.0/recipe-sysroot-native/usr/lib/libzstd.so: undef=
+ined reference to `pthread_create@GLIBC_2.34'
+| collect2: error: ld returned 1 exit status
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/1320
+
+And another one:
+
+| ../mesa-25.0.2/src/compiler/spirv/meson.build:85:22: ERROR: Tried to mix =
+a host machine library ("vtn") with a build machine target "vtn_bindgen" Th=
+is is not possible in a cross build.
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/1251
+
+Best regards,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
