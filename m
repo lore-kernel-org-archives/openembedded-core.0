@@ -2,280 +2,337 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E29C5C36012
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 13:55:49 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.50545.1743083741581711936
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D77B4C3600B
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 13:55:59 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.50405.1743083751058324049
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 06:55:41 -0700
+ Thu, 27 Mar 2025 06:55:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=HSjCRFtW;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5jRnE012841
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 13:55:41 GMT
+ dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=V0uAkwa+;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5jGq8022921
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 13:55:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=2L1YqyzMcWE
-	FSrFFjAKwckg73pcKfdXuizGOneATh9w=; b=HSjCRFtW4DJBFpAcN59EYK58RUV
-	VbrH8YuPb5qs05BAP/kKMNSyQa+QxjEWTeCv9natT2XidOknERHLjgN+2A5+hJS5
-	QK3qQuzy15txPaPF/oFdZJJWIdczl2RWHEeOm1A69WbyS+3qH2H/Ds04Rz+xeCQV
-	XPxzl+eO/55wXVPdpNHDVAiDEswm8nAELeXQxd7YnoTcaso5O8xk+uGczzHm8c2l
-	tKgnZhLHJreWjHCvSI5KN6aTWrcV9kPQTgtZG+C5VhCe5V8j/6TapeUVqvrHEKaq
-	GfKXdwWSvhDVIl2VNBaAbPCi6xCZalfqYY+qwoI7xc7sJW6q0KTGaQf5Nvg==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45mmutk4n4-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	R408BpbNP8yU6VNZxLumx3rlFUhr7aYowf+OKNehUzA=; b=V0uAkwa+xsOr0sGK
+	lsx7cSfa8kgI+2CHYO2OhFfz4gv+SWsd+CRuOvMMTcn5ylyPNBuOuDmKfuVmQCTP
+	CillsLj+D1+Zgt3FMwOvkwCKQEtz1Zt6Hjq1IIoKxo/59KYG702zO3V4A70sRzzD
+	JSvopYIiODEtNNIrQBViFeueqVlybJ+cM2kAtaVI9fI5FZ/3tb88h2xlxz2/SG79
+	bJifoUfA9Cdn6G4UDVBfPhc3n3p1OZntMfb1I34WHUknYX/eiR71WB/K9Gmyklr5
+	PO0bHL/l8rcOh4NUAKP2aiYNJ+3kxE3p/PSZOsY+a1clslrykjHiPT4cxrhaFohh
+	/yK9UQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45mb9mvygc-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 13:55:41 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6ed0526b507so16081746d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 06:55:40 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 13:55:50 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4768488f4d7so15867531cf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 06:55:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743083729; x=1743688529;
+        d=1e100.net; s=20230601; t=1743083734; x=1743688534;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2L1YqyzMcWEFSrFFjAKwckg73pcKfdXuizGOneATh9w=;
-        b=bSmw1Yvx1zyBijK+6bADURAnurQAIJXZBsSEK3Zv++dxl4gFPODuvK73Kpu0d2t9SA
-         ldHT8mQ+Zlq8rw2MPkWZ9LRZeMEP4//EEEC5B2CzRvKoOOg5Mz2WMiHU+LGHGEhebyvO
-         AyFwU7Chv4F5sINlWLIXVxZFyJYAekc2OhNVa9wCd2UbZgNo9HOZhTBNAqsGKtEe5IsH
-         Re1fCCpV9BXe33Y5ohHQ8ftPfPtKn4FFoWloG/uTe1RefFYuO0XMdpUAsFik6tpWXx6O
-         PxYK7bzFP/bGN0m+Nm6AxDoQfJvLkuQD91/88KTGdPDIiN9Yty4VhmXRY8RGCKKtpu9N
-         dikQ==
-X-Gm-Message-State: AOJu0YwV7VFmM8TB+prw5vjhMhDD5CByebuyfLSMpUc6iLYDbn4TS+VK
-	1cKoU3RV/01lgnPE9A62icR2wfEIY3EN5VNt//pAGM0YfLfhpwtQJpFKBH12BlkoaWuw6OkRdgG
-	/4L24+Zmh5UslREAw95Oh0Y4nKNd7bDzVGHUcgT/ilVhDIBGhfYqdV4DNqVvGLHQwUbozwhG1DR
-	Mcd/NIS5+/gvM=
-X-Gm-Gg: ASbGncv94XLsl8FSsf4HXay08bzmWsWh9tV//j+kBg9KrMIGR24IeweJBogHjSWCqLQ
-	RyFxPlP4e35sCPuFwzHZjl+V/ZJ5n9t+L4O9xJ8B4k50KdnYlWXiIXAzisMS6O3KRd+Jrem/5wb
-	xUmMLK8X17eOrtS6d1+W3/Y0DDOq5VXvM6MwcQ6DKudmOUGAVxZMIyyPcXNUu3f0nia4Y2Fzjmx
-	iBw/AGb1YnMOFA/3fVSFWSwWkcn3lJsfsT+P3BepktvgEEqnqiD/hV8vHha8V/Ka9YMZQPUV8Vc
-	rABKX30vANmy5ivIzKSnU7i9wdBRnbIOYbHmmhQLGRioTswa6zJfRlua4aSrROJVR0n1PCo7MsH
-	alHq3OoXGm/WCeEs38yUxNzZA2xUa
-X-Received: by 2002:a05:6214:acc:b0:6e8:eabf:fd55 with SMTP id 6a1803df08f44-6ed2392f050mr45766026d6.39.1743083728761;
-        Thu, 27 Mar 2025 06:55:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGswRBsVy98CTNEBzxmg1QckYC5TWLAkr/BvdFb1mTDtD0XsYKhLjfys6mMB65lc1wpTtMc8Q==
-X-Received: by 2002:a05:6214:acc:b0:6e8:eabf:fd55 with SMTP id 6a1803df08f44-6ed2392f050mr45765586d6.39.1743083728129;
-        Thu, 27 Mar 2025 06:55:28 -0700 (PDT)
+        bh=R408BpbNP8yU6VNZxLumx3rlFUhr7aYowf+OKNehUzA=;
+        b=a/xdHXaHEI6XKPYjyqYwJCv+O835PRNXl4h0fyYRX255pxYCK3sHL2D/qkL33zFwfY
+         YdhbSH8LOJOMHKy5bdKNi/ppEnuH9M6RKDR+weIL92u+o+bV0O8esVpQK4vuJKN+2YQe
+         KcnIYFMfhS9JmmkVpUKpWQIm6MopM7cmUF16oaLJlJ94f7PmGbU32iuS5tT7JMr8YCtI
+         egU71NdGdzlw01XYQi9/50opeRWJ+t7yFTTbAM9DO/YaOzT/H7ewUoPQDs4JTAEcJTAv
+         YCGVNqlw4rMkUuGwHJp0+xaZ7Qnl++6kCBwQaVhrz9vYHCtpAu345g9AW4GcRsT/O1Qt
+         mgGg==
+X-Gm-Message-State: AOJu0Yy0WQ/tum97hk32nm4LjOVv6GTqQzMkkKPydamB7D5Ea0Z+My9Z
+	4CCzr/1zXo6sFdnKFnQyX259d+p7asF6qxZgn/JbYGj0AcU99pMrTPRKnSbK0b77/9iJOtyq4LB
+	DWf5UpwV1leegEeGeupO/kiUohdE+ozhGKpKs1wrs2aSs9wfj2RNcGfPNNJyzl8y8EdLh9UF/Al
+	x67ThYOufyq08=
+X-Gm-Gg: ASbGnctzrIf1TVxpcWY7ZepIz4wBxdlV455Bw4NXcqB2JstAybAgffl+TLudd2Ikx/i
+	cM7D/OmXQrEzVOSIbLxGA2+btT8bfkWfukNqK0JkoyRApqO65CCAgLMa1DsvrgjsWDAQsHMor5a
+	ZfGvRXdZWFpfiQ58w49LmOhx9kFFllTjLdJR1GEBfWAPxjBmf5OIDTDN0N5DpIvZzT7/OQ94ued
+	84evB+RkfNEdqsx7s6wwNTj/ZfEtT5Cxqh14IpalzKno2KGj1cygDr2mj6kL0PYFPfkGwSy8+i+
+	/q9c9skxXe7OCY7blugbqh8hIrjeubwE3XPEeGz/oJgrcgA/jc0yOhQQ9uSu02ULeU/Idxxemii
+	OUc4+cM26Rtf6rDnknvzHaQ7mUSv4
+X-Received: by 2002:a05:622a:480f:b0:475:287:12fb with SMTP id d75a77b69052e-4776e18e8ebmr63693761cf.36.1743083734146;
+        Thu, 27 Mar 2025 06:55:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGJbgMdQG1PAsdlKCokpc/rF5hRctUAz2/go1gbJiICdtvDNiL6i47TyveNDtmNlVC1F9OjGw==
+X-Received: by 2002:a05:622a:480f:b0:475:287:12fb with SMTP id d75a77b69052e-4776e18e8ebmr63693251cf.36.1743083733617;
+        Thu, 27 Mar 2025 06:55:33 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30d7d910e70sm24288271fa.105.2025.03.27.06.55.27
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30d7d910e70sm24288271fa.105.2025.03.27.06.55.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 06:55:27 -0700 (PDT)
+        Thu, 27 Mar 2025 06:55:30 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 5/8] llvm: add SPIRV-LLVM-Translator support
-Date: Thu, 27 Mar 2025 15:55:17 +0200
-Message-Id: <20250327135520.3920189-6-dmitry.baryshkov@oss.qualcomm.com>
+Cc: Khem Raj <raj.khem@gmail.com>,
+        =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH 8/8] mesa: add support for RustiCL under PACKAGECONFIG "opencl"
+Date: Thu, 27 Mar 2025 15:55:20 +0200
+Message-Id: <20250327135520.3920189-9-dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250327135520.3920189-1-dmitry.baryshkov@oss.qualcomm.com>
 References: <20250327135520.3920189-1-dmitry.baryshkov@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: a9kiJHzlGJvfeMS07iLCpmSylaOLKSWf
-X-Authority-Analysis: v=2.4 cv=MqlS63ae c=1 sm=1 tr=0 ts=67e558dd cx=c_pps a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=NxEeosk9xJlwc9cSGm8A:9 a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-GUID: a9kiJHzlGJvfeMS07iLCpmSylaOLKSWf
+Content-Type: text/plain; charset=UTF-8
+X-Authority-Analysis: v=2.4 cv=cs+bk04i c=1 sm=1 tr=0 ts=67e558e6 cx=c_pps a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=ZpVaWaFtAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=dgon86aGx0aU30rBFdEA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22 a=5tn4MO8azEBWFjlAA-rn:22
+X-Proofpoint-GUID: 5knx2XOVnFbOSHFnsqyQzpvM5PKE2eDt
+X-Proofpoint-ORIG-GUID: 5knx2XOVnFbOSHFnsqyQzpvM5PKE2eDt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-27_01,2025-03-26_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 mlxlogscore=999 mlxscore=0 bulkscore=0 adultscore=0
- malwarescore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015
- phishscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503270096
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=999 malwarescore=0 lowpriorityscore=0
+ clxscore=1015 adultscore=0 priorityscore=1501 phishscore=0 suspectscore=0
+ mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503270096
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 52R5jGq8022921
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 13:55:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213738
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 13:55:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213739
 
-Mesa builds require SPIRV-LLVM-Translator in order to build CLC support.
-While it is possible to build it separately (like meta-clang does), it
-also requires a separate clang compiler (which OE-Core doesn't provide).
+From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
 
-Use an alternative path and build SPIRV-LLVM-Translator as a part of the
-LLVM build process, lifting the requirement for the separate clang. Once
-clang is properly integrated into the OE-Core layer, this can be split
-to a separate package and dropped.
+Mesa now has two OpenCL implementations: Clover (older one) and RustiCL
+(newer one). Extend the "opencl" package config to include both
+implementations into the libopencl-mesa (-dev) packages. As the Clover
+implementation is in maintenance mode and is expected to be removed at
+Mesa 25.2, it doesn't make sense to split the packages or to provide
+two config options.
 
+Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+[DB: merged "rusticl" and "clover" back to "opencl", reworked rust inheri=
+tance]
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- ...ossCompile-pass-SPIR-V-headers-path-.patch | 40 +++++++++++++++++++
- .../llvm/llvm/spirv-internal-build.patch      | 27 +++++++++++++
- meta/recipes-devtools/llvm/llvm_20.1.0.bb     | 32 ++++++++++++---
- 3 files changed, 94 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-devtools/llvm/llvm/0001-cmake-modules-CrossCompile-pass-SPIR-V-headers-path-.patch
- create mode 100644 meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch
+ ...son-use-target-path-for-Clang-libdir.patch | 18 +++++-
+ ...cross-compilation-arguments-to-LLVM-.patch | 64 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           | 21 ++++--
+ 3 files changed, 96 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-rusticl-provide=
+-cross-compilation-arguments-to-LLVM-.patch
 
-diff --git a/meta/recipes-devtools/llvm/llvm/0001-cmake-modules-CrossCompile-pass-SPIR-V-headers-path-.patch b/meta/recipes-devtools/llvm/llvm/0001-cmake-modules-CrossCompile-pass-SPIR-V-headers-path-.patch
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-use-target-path-=
+for-Clang-libdir.patch b/meta/recipes-graphics/mesa/files/0001-meson-use-=
+target-path-for-Clang-libdir.patch
+index ef7ae8942e33..e2f9562ea64e 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson-use-target-path-for-Cla=
+ng-libdir.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson-use-target-path-for-Cla=
+ng-libdir.patch
+@@ -1,4 +1,4 @@
+-From ecea6fe0d250c3026c22a60ac5420528cc3632d8 Mon Sep 17 00:00:00 2001
++From 11b93f72936ce367306ae299549c39fc21ef21c3 Mon Sep 17 00:00:00 2001
+ From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ Date: Wed, 26 Mar 2025 12:19:10 +0200
+ Subject: [PATCH] meson: use target path for Clang libdir
+@@ -10,9 +10,23 @@ options. Clang is known to use the same libdir in OE b=
+uild environment.
+ Upstream-Status: Inappropriate [OE-Specific]
+ Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ ---
++ src/compiler/clc/meson.build             | 2 +-
+  src/gallium/frontends/clover/meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
++ 2 files changed, 2 insertions(+), 2 deletions(-)
+=20
++diff --git a/src/compiler/clc/meson.build b/src/compiler/clc/meson.build
++index 743cd236bb5c..af36dae3dde9 100644
++--- a/src/compiler/clc/meson.build
+++++ b/src/compiler/clc/meson.build
++@@ -8,7 +8,7 @@ files_libmesaclc =3D files(
++ )
++=20
++ _libmesaclc_c_args =3D []
++-_libmesaclc_cpp_args =3D ['-DLLVM_LIB_DIR=3D"@0@"'.format(llvm_libdir)]
+++_libmesaclc_cpp_args =3D ['-DLLVM_LIB_DIR=3D"@0@"'.format(get_option('l=
+ibdir'))]
++ _libmesaclc_sources =3D []
++=20
++ if not _shared_llvm
+ diff --git a/src/gallium/frontends/clover/meson.build b/src/gallium/fron=
+tends/clover/meson.build
+ index e569b86a1bea..2fc30ffe1ac2 100644
+ --- a/src/gallium/frontends/clover/meson.build
+diff --git a/meta/recipes-graphics/mesa/files/0001-rusticl-provide-cross-=
+compilation-arguments-to-LLVM-.patch b/meta/recipes-graphics/mesa/files/0=
+001-rusticl-provide-cross-compilation-arguments-to-LLVM-.patch
 new file mode 100644
-index 000000000000..316a6bdbf2b1
+index 000000000000..c9213fbe4eec
 --- /dev/null
-+++ b/meta/recipes-devtools/llvm/llvm/0001-cmake-modules-CrossCompile-pass-SPIR-V-headers-path-.patch
-@@ -0,0 +1,40 @@
-+From e94e529aefb28b65165e978daa2bfd89867ee8d0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/mesa/files/0001-rusticl-provide-cross-compila=
+tion-arguments-to-LLVM-.patch
+@@ -0,0 +1,64 @@
++From b9cf34f39ca7e7546508ce2ab1f053edef5fc201 Mon Sep 17 00:00:00 2001
 +From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Date: Fri, 21 Mar 2025 17:17:52 +0200
-+Subject: [PATCH] cmake/modules/CrossCompile: pass SPIR-V headers path to
-+ native build
++Date: Wed, 26 Mar 2025 17:47:09 +0200
++Subject: [PATCH] rusticl: provide cross-compilation arguments to LLVM bi=
+ndgen
++ invocation
 +
-+In case LLVM is being built together with SPIRV-LLVM-Translator, it
-+might be required to pass LLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR define
-+to the native build too. Extend native build setup to pass that variable
-+to the called cmake too.
++Correctly generating LLVM bindings requires several croos-compilation
++arguments. Provide them to rust.bindgen().
 +
-+Upstream-Status: Inappropriate [OE-Specific build-system fix]
++Upstream-Status: Inappropriate [OE-Specific]
 +Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 +---
-+ llvm/cmake/modules/CrossCompile.cmake | 5 +++++
-+ 1 file changed, 5 insertions(+)
++ meson_options.txt                         | 14 ++++++++++++++
++ src/gallium/frontends/rusticl/meson.build |  8 ++++++++
++ 2 files changed, 22 insertions(+)
 +
-+diff --git a/llvm/cmake/modules/CrossCompile.cmake b/llvm/cmake/modules/CrossCompile.cmake
-+index 3b31d3e218a3..24b62f4ff8af 100644
-+--- a/llvm/cmake/modules/CrossCompile.cmake
-++++ b/llvm/cmake/modules/CrossCompile.cmake
-+@@ -81,6 +81,10 @@ function(llvm_create_cross_target project_name target_name toolchain buildtype)
-+     set(libc_flags -DLLVM_LIBC_GPU_BUILD=ON)
-+   endif()
-+ 
-++  if (LLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR)
-++    set(spirv_headers "-DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=${LLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR}")
-++  endif()
++diff --git a/meson_options.txt b/meson_options.txt
++index 0147cafcb146..f73e83fded18 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -796,3 +796,17 @@ option(
++   value : false,
++   description : 'Install the drivers internal shader compilers (if need=
+ed for cross builds).'
++ )
 ++
-+   add_custom_command(OUTPUT ${${project_name}_${target_name}_BUILD}/CMakeCache.txt
-+     COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
-+         -DCMAKE_MAKE_PROGRAM="${CMAKE_MAKE_PROGRAM}"
-+@@ -101,6 +105,7 @@ function(llvm_create_cross_target project_name target_name toolchain buildtype)
-+         -DLLVM_INCLUDE_BENCHMARKS=OFF
-+         -DLLVM_INCLUDE_TESTS=OFF
-+         ${build_type_flags} ${linker_flag} ${external_clang_dir} ${libc_flags}
-++        ${spirv_headers}
-+         ${ARGN}
-+     WORKING_DIRECTORY ${${project_name}_${target_name}_BUILD}
-+     DEPENDS CREATE_${project_name}_${target_name}
-diff --git a/meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch b/meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch
-new file mode 100644
-index 000000000000..14233d312870
---- /dev/null
-+++ b/meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch
-@@ -0,0 +1,27 @@
-+From e94e529aefb28b65165e978daa2bfd89867ee8d0 Mon Sep 17 00:00:00 2001
-+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Date: Fri, 21 Mar 2025 17:17:52 +0200
-+Subject: [PATCH] SPIRV-LLVM-Translator: fix handling of built-in SPIRV targer
+++option(
+++  'bindgen-includedir',
+++  type : 'string',
+++  value : '',
+++  description : 'system-wide include directory for cross-generating LLV=
+M bindings'
+++  )
+++
+++option(
+++  'bindgen-target',
+++  type : 'string',
+++  value : '',
+++  description : 'Clang target for cross-generating LLVM bindings'
+++  )
++diff --git a/src/gallium/frontends/rusticl/meson.build b/src/gallium/fro=
+ntends/rusticl/meson.build
++index a5d1dcf3abb9..480c220b7f5f 100644
++--- a/src/gallium/frontends/rusticl/meson.build
+++++ b/src/gallium/frontends/rusticl/meson.build
++@@ -180,13 +180,21 @@ rusticl_opencl_gen =3D static_library(
++   ],
++ )
++=20
+++bindgen_c_args =3D []
+++bindgen_target =3D get_option('bindgen-target')
+++if bindgen_target !=3D ''
+++  bindgen_c_args +=3D [ '-target', bindgen_target ]
+++endif
+++
++ rusticl_llvm_bindings_rs =3D rust.bindgen(
++   input : 'rusticl_llvm_bindings.hpp',
++   output : 'rusticl_llvm_bindings.rs',
++   c_args : [
++     rusticl_bindgen_c_args,
++     pre_args,
+++    bindgen_c_args,
++   ],
+++  include_directories : get_option('bindgen-includedir'),
++   dependencies : [
++     dep_clang,
++     dep_llvm,
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+index 9d71cd7917e2..105df1eaf347 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -18,6 +18,7 @@ SRC_URI =3D "https://archive.mesa3d.org/mesa-${PV}.tar.=
+xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
+h \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.p=
+atch\
+            file://0001-meson-use-target-path-for-Clang-libdir.patch \
++           file://0001-rusticl-provide-cross-compilation-arguments-to-LL=
+VM-.patch \
+ "
+=20
+ SRC_URI[sha256sum] =3D "adf904d083b308df95898600ffed435f4b5c600d95fb6ec6=
+d4c45638627fdc97"
+@@ -46,7 +47,7 @@ PROVIDES =3D " \
+     virtual/mesa \
+     "
+=20
+-inherit meson pkgconfig python3native gettext features_check
++inherit meson pkgconfig python3native gettext features_check rust
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+=20
+@@ -85,6 +86,9 @@ PACKAGECONFIG =3D " \
+ 	${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'zink', '', d)} \
+ "
+=20
++# skip all Rust dependencies if we are not building OpenCL"
++INHIBIT_DEFAULT_RUST_DEPS =3D "${@bb.utils.contains('PACKAGECONFIG', 'op=
+encl', '', '1', d)}"
 +
-+Upstream-Status: Pending
-+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ PACKAGECONFIG:append:x86 =3D " libclc gallium-llvm"
+ PACKAGECONFIG:append:x86-64 =3D " libclc gallium-llvm"
+ PACKAGECONFIG:append:class-native =3D " libclc gallium-llvm r600"
+@@ -147,9 +151,16 @@ INSTALL_MESA_CLC:class-native =3D "true"
+ MESA_NATIVE =3D "mesa-native"
+ MESA_NATIVE:class-native =3D ""
+=20
++BINDGEN_TARGET =3D "${TARGET_ARCH}-${TARGET_OS}${LIBCEXTENSION}${@['-gnu=
+', ''][d.getVar('LIBCEXTENSION') !=3D '']}"
 +
-+Index: llvm-project-20.1.0.src/llvm/projects/SPIRV-LLVM-Translator/CMakeLists.txt
-+===================================================================
-+--- llvm-project-20.1.0.src.orig/llvm/projects/SPIRV-LLVM-Translator/CMakeLists.txt
-++++ llvm-project-20.1.0.src/llvm/projects/SPIRV-LLVM-Translator/CMakeLists.txt
-+@@ -116,6 +116,14 @@ if(LLVM_SPIRV_BUILD_EXTERNAL)
-+     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-+     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
-+   endif()
-++else()
-++  message(STATUS "Internal LLVM library")
-++  is_llvm_target_library("SPIRV" spirv_present_result INCLUDED_TARGETS)
-++  if(spirv_present_result)
-++    message(STATUS "Found SPIR-V Backend")
-++    set(SPIRV_BACKEND_FOUND TRUE)
-++    add_compile_definitions(LLVM_SPIRV_BACKEND_TARGET_PRESENT)
-++  endif()
-+ endif()
-+ 
-+ set(LLVM_SPIRV_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
-diff --git a/meta/recipes-devtools/llvm/llvm_20.1.0.bb b/meta/recipes-devtools/llvm/llvm_20.1.0.bb
-index 0fb336ee7747..df2c497c14cc 100644
---- a/meta/recipes-devtools/llvm/llvm_20.1.0.bb
-+++ b/meta/recipes-devtools/llvm/llvm_20.1.0.bb
-@@ -23,10 +23,20 @@ MAJ_MIN_VERSION = "${@oe.utils.trim_version("${PV}", 2)}"
- 
- LLVM_RELEASE = "${PV}"
- 
-+SRCREV_spirv = "68edc9d3d10ff6ec6353803a1bc60a5c25e7b715"
-+SPIRV_BRANCH = "llvm_release_200"
-+
-+SRC_URI_SPIRV = " \
-+    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;name=spirv;branch=${SPIRV_BRANCH};destsuffix=llvm-project-${PV}.src/llvm/projects/SPIRV-LLVM-Translator \
-+    file://0001-cmake-modules-CrossCompile-pass-SPIR-V-headers-path-.patch \
-+    file://spirv-internal-build.patch \
+ # "opencl" also requires libclc and gallium-llvm to be present in PKGCON=
+FIG!
+ # Be sure to enable them both for the target and for the native build.
+-PACKAGECONFIG[opencl] =3D "-Dgallium-opencl=3Dicd -Dmesa-clc=3D${MESA_CL=
+C} -Dinstall-mesa-clc=3D${INSTALL_MESA_CLC},-Dgallium-opencl=3Ddisabled,$=
+{MESA_NATIVE}"
++PACKAGECONFIG[opencl] =3D " \
++    -Dgallium-opencl=3Dicd -Dmesa-clc=3D${MESA_CLC} -Dinstall-mesa-clc=3D=
+${INSTALL_MESA_CLC} \
++    -Dgallium-rusticl=3Dtrue -Dbindgen-includedir=3D${STAGING_INCDIR} -D=
+bindgen-target=3D${BINDGEN_TARGET},\
++    -Dgallium-opencl=3Ddisabled -Dgallium-rusticl=3Dfalse, \
++    ${MESA_NATIVE} bindgen-cli-native \
 +"
-+
- SRC_URI = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/llvm-project-${PV}.src.tar.xz \
-            file://0007-llvm-allow-env-override-of-exe-path.patch \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch \
-            file://fix-native-compilation.patch \
-+           ${@bb.utils.contains('PACKAGECONFIG', 'spirv', '${SRC_URI_SPIRV}', '', d)} \
-            file://llvm-config \
-            "
- 
-@@ -58,11 +68,12 @@ def get_llvm_arch(bb, d, arch_var):
- def get_llvm_host_arch(bb, d):
-     return get_llvm_arch(bb, d, 'HOST_ARCH')
- 
--PACKAGECONFIG ??= "libllvm libclc"
-+PACKAGECONFIG ??= "libllvm libclc spirv"
- # if optviewer OFF, force the modules to be not found or the ones on the host would be found
- PACKAGECONFIG[optviewer] = ",-DPY_PYGMENTS_FOUND=OFF -DPY_PYGMENTS_LEXERS_C_CPP_FOUND=OFF -DPY_YAML_FOUND=OFF,python3-pygments python3-pyyaml,python3-pygments python3-pyyaml"
- PACKAGECONFIG[libllvm] = ""
- PACKAGECONFIG[libclc] = ""
-+PACKAGECONFIG[spirv] = "-DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=${STAGING_INCDIR}/.. ,,spirv-tools-native spirv-headers"
- 
- #
- # Default to build all OE-Core supported target arches (user overridable).
-@@ -72,7 +83,9 @@ LLVM_TARGETS ?= "AMDGPU;NVPTX;SPIRV;${@get_llvm_host_arch(bb, d)}"
- ARM_INSTRUCTION_SET:armv5 = "arm"
- ARM_INSTRUCTION_SET:armv4t = "arm"
- 
--LLVM_PROJECTS = "${@bb.utils.contains('PACKAGECONFIG', 'libclc', 'clang;libclc', '', d)}"
-+LLVM_PROJECTS_CLANG = "${@bb.utils.contains_any('PACKAGECONFIG', 'libclc spirv', 'clang', '', d)}"
-+LLVM_PROJECTS_CLC = "${@bb.utils.contains('PACKAGECONFIG', 'libclc', ';libclc', '', d)}"
-+LLVM_PROJECTS = "${LLVM_PROJECTS_CLANG}${LLVM_PROJECTS_CLC}"
- 
- EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
-                   -DLLVM_ENABLE_EXPENSIVE_CHECKS=OFF \
-@@ -147,7 +160,7 @@ do_install() {
-     fi
- 
-     # Remove clang bits from target packages, we are not providing it for the system
--    if ${@bb.utils.contains('PACKAGECONFIG', 'libclc', 'true', 'false', d)} &&
-+    if ${@bb.utils.contains_any('PACKAGECONFIG', 'libclc spirv', 'true', 'false', d)} &&
-        [ "${CLASSOVERRIDE}" != "class-native" ] ; then
-         rm -f  ${D}${bindir}/clang*
-         rm -fr ${D}${libdir}/clang
-@@ -176,11 +189,12 @@ llvm_sysroot_preprocess() {
- 	ln -sf llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/llvm-config${PV}
- }
- 
--PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto ${PN}-clc"
--PROVIDES = "libclc"
-+PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto ${PN}-clc ${PN}-spirv"
-+PROVIDES = "libclc spirv-llvm-translator"
- 
- RRECOMMENDS:${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liboptremarks"
- RPROVIDES:${PN}-clc += "libclc"
-+RPROVIDES:${PN}-spirv += "spirv-llvm-translator"
- 
- FILES:${PN}-bugpointpasses = "\
-     ${libdir}/BugpointPasses.so \
-@@ -215,6 +229,14 @@ FILES:${PN}-staticdev += "\
- 
- FILES:${PN}-clc += "${datadir}/clc"
- 
-+FILES:${PN}-spirv = " \
-+    ${bindir}/llvm-spirv \
-+    ${includedir}/LLVMSPIRVLib \
-+    ${libdir}/pkgconfig/LLVMSPIRVLib.pc \
-+    ${libdir}/libLLVMSPIRV* \
-+"
-+
- INSANE_SKIP:${PN}-libllvm += "dev-so"
-+INSANE_SKIP:${PN}-spirv += "staticdev"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
+=20
+ PACKAGECONFIG[broadcom] =3D ""
+ PACKAGECONFIG[etnaviv] =3D ",,python3-pycparser-native"
+@@ -242,7 +253,7 @@ RDEPENDS:libgles3-mesa-dev +=3D "libgles2-mesa-dev"
+ RDEPENDS:libgles2-mesa +=3D "libgles3-mesa"
+ ALLOW_EMPTY:libgles3-mesa =3D "1"
+=20
+-RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
+ncl', 'libclc spirv-tools', '', d)}"
++RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
+ncl', 'libclc spirv-tools spirv-llvm-translator', '', d)}"
+=20
+ PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
+              libosmesa libosmesa-dev \
+@@ -348,7 +359,7 @@ FILES:libgles1-mesa =3D "${libdir}/libGLESv1*.so.*"
+ FILES:libgles2-mesa =3D "${libdir}/libGLESv2.so.*"
+ FILES:libgl-mesa =3D "${libdir}/libGL.so.*"
+ FILES:libglx-mesa =3D "${libdir}/libGLX*.so.*"
+-FILES:libopencl-mesa =3D "${libdir}/libMesaOpenCL.so.* ${libdir}/gallium=
+-pipe/*.so ${sysconfdir}/OpenCL/vendors/mesa.icd"
++FILES:libopencl-mesa =3D "${libdir}/lib*OpenCL.so.* ${libdir}/gallium-pi=
+pe/*.so ${sysconfdir}/OpenCL/vendors/*.icd"
+ FILES:libglapi =3D "${libdir}/libglapi.so.*"
+ FILES:libosmesa =3D "${libdir}/libOSMesa.so.*"
+ FILES:libxatracker =3D "${libdir}/libxatracker.so.*"
+@@ -362,7 +373,7 @@ FILES:libglapi-dev =3D "${libdir}/libglapi.*"
+ FILES:libgles1-mesa-dev =3D "${libdir}/libGLESv1*.* ${includedir}/GLES $=
+{libdir}/pkgconfig/glesv1*.pc"
+ FILES:libgles2-mesa-dev =3D "${libdir}/libGLESv2.* ${includedir}/GLES2 $=
+{libdir}/pkgconfig/glesv2.pc"
+ FILES:libgles3-mesa-dev =3D "${includedir}/GLES3"
+-FILES:libopencl-mesa-dev =3D "${libdir}/libMesaOpenCL.so"
++FILES:libopencl-mesa-dev =3D "${libdir}/lib*OpenCL.so"
+ FILES:libosmesa-dev =3D "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h=
+ ${libdir}/pkgconfig/osmesa.pc"
+ FILES:libxatracker-dev =3D "${libdir}/libxatracker.so ${libdir}/libxatra=
+cker.la \
+                           ${includedir}/xa_tracker.h ${includedir}/xa_co=
+mposite.h ${includedir}/xa_context.h \
+--=20
 2.39.5
 
 
