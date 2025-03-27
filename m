@@ -2,30 +2,30 @@ Return-Path: <Divya.Chellam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE20DC3600B
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 10:58:08 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.46937.1743073088094094642
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 031B8C3600B
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 11:16:39 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.47435.1743074194846459695
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 03:58:08 -0700
+ Thu, 27 Mar 2025 04:16:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5181cfc623=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5wYPX005249
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 03:58:07 -0700
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5181cfc623=divya.chellam@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R8aID6024246
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 11:16:33 GMT
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45hvqkdgy8-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45hje1nvv0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 03:58:07 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 11:16:33 +0000 (GMT)
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 27 Mar 2025 03:58:05 -0700
+ 15.1.2507.43; Thu, 27 Mar 2025 04:16:30 -0700
 From: dchellam <divya.chellam@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][scarthgap][PATCH 1/1] ruby :fix CVE-2025-27220
-Date: Thu, 27 Mar 2025 10:57:44 +0000
-Message-ID: <20250327105744.3196379-1-divya.chellam@windriver.com>
+Subject: [OE-core][kirkstone][PATCH 1/1] zlib: fix CVE-2014-9485
+Date: Thu, 27 Mar 2025 11:16:08 +0000
+Message-ID: <20250327111608.3963780-1-divya.chellam@windriver.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -33,138 +33,126 @@ Content-Type: text/plain
 X-Originating-IP: [147.11.136.210]
 X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
  ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Authority-Analysis: v=2.4 cv=XNkwSRhE c=1 sm=1 tr=0 ts=67e52f3f cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=Vs1iUdzkB0EA:10 a=xNf9USuDAAAA:8 a=NEAV23lmAAAA:8 a=w2PP7KgtAAAA:8 a=t7CeM3EgAAAA:8
- a=vtqi6Q1M_KoHZG1lmhYA:9 a=rCQTDf3W91zKeElX:21 a=CDB6uwv3NW-08_pL9N3q:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: MA0He5o4tUNH9gIDtjPj6-tk-LCyzMjY
-X-Proofpoint-ORIG-GUID: MA0He5o4tUNH9gIDtjPj6-tk-LCyzMjY
+X-Authority-Analysis: v=2.4 cv=KPVaDEFo c=1 sm=1 tr=0 ts=67e53391 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=Vs1iUdzkB0EA:10 a=xNf9USuDAAAA:8 a=NEAV23lmAAAA:8 a=QLcvo1IBAAAA:8 a=PYnjg3YJAAAA:8 a=fXms6y0vAAAA:8
+ a=t7CeM3EgAAAA:8 a=vggBfdFIAAAA:8 a=sdZd56HHFjl-pXYmjU0A:9 a=RzNUdsAQ-ru6qNZnpkRj:22 a=c6Zb8eaUoX5VaqycxFvw:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: N1V5b9tdgGBYWxZClPRWpDWtIXcoljKU
+X-Proofpoint-ORIG-GUID: N1V5b9tdgGBYWxZClPRWpDWtIXcoljKU
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-27_01,2025-03-26_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
- mlxscore=0 impostorscore=0 adultscore=0 spamscore=0 phishscore=0
- mlxlogscore=786 malwarescore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
+ adultscore=0 impostorscore=0 mlxlogscore=964 malwarescore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2503270075
+ definitions=main-2503270077
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 10:58:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213722
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 11:16:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213723
 
 From: Divya Chellam <divya.chellam@windriver.com>
 
-In the CGI gem before 0.4.2 for Ruby, a Regular Expression Denial
-of Service (ReDoS) vulnerability exists in the Util#escapeElement method.
+Directory traversal vulnerability in the do_extract_currentfile
+function in miniunz.c in miniunzip in minizip before 1.1-5 might
+allow remote attackers to write to arbitrary files via a crafted
+entry in a ZIP archive.
 
 Reference:
-https://security-tracker.debian.org/tracker/CVE-2025-27220
+https://security-tracker.debian.org/tracker/CVE-2014-9485
 
 Upstream-patch:
-https://github.com/ruby/cgi/commit/cd1eb08076c8b8e310d4d553d427763f2577a1b6
+https://github.com/madler/zlib/commit/14a5f8f266c16c87ab6c086fc52b770b27701e01
 
 Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 ---
- .../ruby/ruby/CVE-2025-27220.patch            | 78 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.3.5.bb      |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch
+ .../zlib/zlib/CVE-2014-9485.patch             | 64 +++++++++++++++++++
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2014-9485.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch b/meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch
+diff --git a/meta/recipes-core/zlib/zlib/CVE-2014-9485.patch b/meta/recipes-core/zlib/zlib/CVE-2014-9485.patch
 new file mode 100644
-index 0000000000..f2f8bc7f76
+index 0000000000..bf575d59f7
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch
-@@ -0,0 +1,78 @@
-+From cd1eb08076c8b8e310d4d553d427763f2577a1b6 Mon Sep 17 00:00:00 2001
-+From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-+Date: Fri, 21 Feb 2025 15:53:31 +0900
-+Subject: [PATCH] Escape/unescape unclosed tags as well
++++ b/meta/recipes-core/zlib/zlib/CVE-2014-9485.patch
+@@ -0,0 +1,64 @@
++From 14a5f8f266c16c87ab6c086fc52b770b27701e01 Mon Sep 17 00:00:00 2001
++From: Matt Wilson <msw@amazon.com>
++Date: Wed, 17 Jan 2024 14:46:18 -0800
++Subject: [PATCH] Neutralize zip file traversal attacks in miniunz.
 +
-+Co-authored-by: Nobuyoshi Nakada <nobu@ruby-lang.org>
++Archive formats such as .zip files are generally susceptible to
++so-called "traversal attacks". This allows an attacker to craft
++an archive that writes to unexpected locations of the file system
++(e.g., /etc/shadow) if an unspecting root user were to unpack a
++malicious archive.
 +
-+CVE: CVE-2025-27220
++This patch neutralizes absolute paths such as /tmp/moo and deeply
++relative paths such as dummy/../../../../../../../../../../tmp/moo
 +
-+Upstream-Status: Backport [https://github.com/ruby/cgi/commit/cd1eb08076c8b8e310d4d553d427763f2577a1b6]
++The Debian project requested CVE-2014-9485 be allocated for the
++first identified weakness. The fix was incomplete, resulting in a
++revised patch applied here. Since there wasn't an updated version
++released by Debian with the incomplete fix, I suggest we use this
++CVE to identify both issues.
++
++Link: https://security.snyk.io/research/zip-slip-vulnerability
++Link: https://bugs.debian.org/774321
++Link: https://bugs.debian.org/776831
++Link: https://nvd.nist.gov/vuln/detail/CVE-2014-9485
++Reported-by: Jakub Wilk <jwilk@debian.org>
++Fixed-by: Michael Gilbert <mgilbert@debian.org>
++
++CVE: CVE-2014-9485
++
++Upstream-Status: Backport [https://github.com/madler/zlib/commit/14a5f8f266c16c87ab6c086fc52b770b27701e01]
 +
 +Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 +---
-+ lib/cgi/util.rb           |  4 ++--
-+ test/cgi/test_cgi_util.rb | 18 ++++++++++++++++++
-+ 2 files changed, 20 insertions(+), 2 deletions(-)
++ contrib/minizip/miniunz.c | 14 ++++++++++++++
++ 1 file changed, 14 insertions(+)
 +
-+diff --git a/lib/cgi/util.rb b/lib/cgi/util.rb
-+index 4986e54..5f12eae 100644
-+--- a/lib/cgi/util.rb
-++++ b/lib/cgi/util.rb
-+@@ -184,7 +184,7 @@ module CGI::Util
-+   def escapeElement(string, *elements)
-+     elements = elements[0] if elements[0].kind_of?(Array)
-+     unless elements.empty?
-+-      string.gsub(/<\/?(?:#{elements.join("|")})(?!\w)(?:.|\n)*?>/i) do
-++      string.gsub(/<\/?(?:#{elements.join("|")})\b[^<>]*+>?/im) do
-+         CGI.escapeHTML($&)
-+       end
-+     else
-+@@ -204,7 +204,7 @@ module CGI::Util
-+   def unescapeElement(string, *elements)
-+     elements = elements[0] if elements[0].kind_of?(Array)
-+     unless elements.empty?
-+-      string.gsub(/&lt;\/?(?:#{elements.join("|")})(?!\w)(?:.|\n)*?&gt;/i) do
-++      string.gsub(/&lt;\/?(?:#{elements.join("|")})\b(?>[^&]+|&(?![gl]t;)\w+;)*(?:&gt;)?/im) do
-+         unescapeHTML($&)
-+       end
-+     else
-+diff --git a/test/cgi/test_cgi_util.rb b/test/cgi/test_cgi_util.rb
-+index b0612fc..bff77f7 100644
-+--- a/test/cgi/test_cgi_util.rb
-++++ b/test/cgi/test_cgi_util.rb
-+@@ -269,6 +269,14 @@ class CGIUtilTest < Test::Unit::TestCase
-+     assert_equal("<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escapeElement('<BR><A HREF="url"></A>', ["A", "IMG"]))
-+     assert_equal("<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escape_element('<BR><A HREF="url"></A>', "A", "IMG"))
-+     assert_equal("<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escape_element('<BR><A HREF="url"></A>', ["A", "IMG"]))
-++
-++    assert_equal("&lt;A &lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escapeElement('<A <A HREF="url"></A>', "A", "IMG"))
-++    assert_equal("&lt;A &lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escapeElement('<A <A HREF="url"></A>', ["A", "IMG"]))
-++    assert_equal("&lt;A &lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escape_element('<A <A HREF="url"></A>', "A", "IMG"))
-++    assert_equal("&lt;A &lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;", escape_element('<A <A HREF="url"></A>', ["A", "IMG"]))
-++
-++    assert_equal("&lt;A &lt;A ", escapeElement('<A <A ', "A", "IMG"))
-++    assert_equal("&lt;A &lt;A ", escapeElement('<A <A ', ["A", "IMG"]))
-+   end
++diff --git a/contrib/minizip/miniunz.c b/contrib/minizip/miniunz.c
++index 3d65401..479e475 100644
++--- a/contrib/minizip/miniunz.c
+++++ b/contrib/minizip/miniunz.c
++@@ -367,6 +367,20 @@ int do_extract_currentfile(uf,popt_extract_without_path,popt_overwrite,password)
++         else
++             write_filename = filename_withoutpath;
 + 
-+ 
-+@@ -277,6 +285,16 @@ class CGIUtilTest < Test::Unit::TestCase
-+     assert_equal('&lt;BR&gt;<A HREF="url"></A>', unescapeElement(escapeHTML('<BR><A HREF="url"></A>'), ["A", "IMG"]))
-+     assert_equal('&lt;BR&gt;<A HREF="url"></A>', unescape_element(escapeHTML('<BR><A HREF="url"></A>'), "A", "IMG"))
-+     assert_equal('&lt;BR&gt;<A HREF="url"></A>', unescape_element(escapeHTML('<BR><A HREF="url"></A>'), ["A", "IMG"]))
+++        if (write_filename[0]!='\0')
+++        {
+++            const char* relative_check = write_filename;
+++            while (relative_check[1]!='\0')
+++            {
+++                if (relative_check[0]=='.' && relative_check[1]=='.')
+++                    write_filename = relative_check;
+++                relative_check++;
+++            }
+++        }
 ++
-++    assert_equal('<A <A HREF="url"></A>', unescapeElement(escapeHTML('<A <A HREF="url"></A>'), "A", "IMG"))
-++    assert_equal('<A <A HREF="url"></A>', unescapeElement(escapeHTML('<A <A HREF="url"></A>'), ["A", "IMG"]))
-++    assert_equal('<A <A HREF="url"></A>', unescape_element(escapeHTML('<A <A HREF="url"></A>'), "A", "IMG"))
-++    assert_equal('<A <A HREF="url"></A>', unescape_element(escapeHTML('<A <A HREF="url"></A>'), ["A", "IMG"]))
+++        while (write_filename[0]=='/' || write_filename[0]=='.')
+++            write_filename++;
 ++
-++    assert_equal('<A <A ', unescapeElement(escapeHTML('<A <A '), "A", "IMG"))
-++    assert_equal('<A <A ', unescapeElement(escapeHTML('<A <A '), ["A", "IMG"]))
-++    assert_equal('<A <A ', unescape_element(escapeHTML('<A <A '), "A", "IMG"))
-++    assert_equal('<A <A ', unescape_element(escapeHTML('<A <A '), ["A", "IMG"]))
-+   end
-+ end
-+ 
++         err = unzOpenCurrentFilePassword(uf,password);
++         if (err!=UNZ_OK)
++         {
 +-- 
 +2.40.0
 +
-diff --git a/meta/recipes-devtools/ruby/ruby_3.3.5.bb b/meta/recipes-devtools/ruby/ruby_3.3.5.bb
-index 4354107a85..c91c51657f 100644
---- a/meta/recipes-devtools/ruby/ruby_3.3.5.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.3.5.bb
-@@ -27,6 +27,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://0006-Make-gemspecs-reproducible.patch \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-            file://CVE-2025-27219.patch \
-+           file://CVE-2025-27220.patch \
+diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
+index 393ac61e3d..dc8f7c6c85 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.11.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+ 	    file://CVE-2022-37434.patch \
+            file://CVE-2023-45853.patch \
++           file://CVE-2014-9485.patch \
             "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
+ UPSTREAM_CHECK_URI = "http://zlib.net/"
  
 -- 
 2.40.0
