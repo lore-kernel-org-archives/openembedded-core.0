@@ -1,86 +1,254 @@
-Return-Path: <Divya.Chellam@windriver.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB7EEC36008
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 02:37:54 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.41262.1743043065434635107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DD3C36008
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 02:47:35 +0000 (UTC)
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by mx.groups.io with SMTP id smtpd.web10.41468.1743043654362921964
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Mar 2025 19:37:45 -0700
+ Wed, 26 Mar 2025 19:47:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5181cfc623=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R1aC84031526
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 19:37:44 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45hrg45ahj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Mar 2025 19:37:44 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 26 Mar 2025 19:37:41 -0700
-From: dchellam <divya.chellam@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] vim: Upgrade 9.1.1115 -> 9.1.1198
-Date: Thu, 27 Mar 2025 02:37:16 +0000
-Message-ID: <20250327023716.2316368-1-divya.chellam@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=QbLyheTu;
+ spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: rs@ti.com)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52R2lIPJ2266294
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 26 Mar 2025 21:47:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1743043638;
+	bh=xlkzeC75pQxsrNCT/gHSTtx5NDIZ43xWUvt4E9M7EBA=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=QbLyheTu40OPUKVyoo84797vFtFE5h7pzBGuXKJ2MsdJHxKMStUNKlqeXLxwOQmzV
+	 LVJURDVvYDi9A+5GphB13xGQlt9mgwrN373UMqu9I2nXzjBy5HwHYMAmspl+Hhz0Xx
+	 3oUICi92oF8GJhudw0W4bE1QTFxllGxMZtDYzrYI=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 52R2lIpZ095710
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 26 Mar 2025 21:47:18 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 26
+ Mar 2025 21:47:18 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 26 Mar 2025 21:47:18 -0500
+Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52R2lIaG084714;
+	Wed, 26 Mar 2025 21:47:18 -0500
+From: <rs@ti.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
+        <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>
+CC: Andrew Davis <afd@ti.com>, Darren Etheridge <detheridge@ti.com>,
+        Denys
+ Dmytriyenko <denis@denix.org>, Ryan Eatmon <reatmon@ti.com>,
+        <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: [oe-core][RFC 1/3] emptty: add version 0.13.0
+Date: Wed, 26 Mar 2025 21:47:06 -0500
+Message-ID: <20250327024708.3026503-2-rs@ti.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250327024708.3026503-1-rs@ti.com>
+References: <20250327024708.3026503-1-rs@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Authority-Analysis: v=2.4 cv=HZwUTjE8 c=1 sm=1 tr=0 ts=67e4b9f8 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=Vs1iUdzkB0EA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=qx_yR4XOc8-HUud59pgA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: 033vWxYSVw5iGM4Wp9_Ggff7dQQJ0EQk
-X-Proofpoint-ORIG-GUID: 033vWxYSVw5iGM4Wp9_Ggff7dQQJ0EQk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-26_09,2025-03-26_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- suspectscore=0 bulkscore=0 phishscore=0 malwarescore=0 adultscore=0
- clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501
- mlxlogscore=954 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2503270016
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 02:37:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213697
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 02:47:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213698
 
-From: Divya Chellam <divya.chellam@windriver.com>
+From: Randolph Sapp <rs@ti.com>
 
-This includes CVE-fix for CVE-2025-27423 and CVE-2025-29768
+Add emptty, a "Dead simple CLI Display Manager on TTY". This is a
+relatively lightweight display manager that supports x11 as well as
+wayland though both a CLI and automatic login mechanism.
 
-Changes between 9.1.1115 -> 9.1.1198
-====================================
-https://github.com/vim/vim/compare/v9.1.1115...v9.1.1198
+This can effetely replace the custom init scripts for both x11
+(xserver-nodm-init) and wayland (weston-init) with a single tool with
+more verbose logging capabilities.
 
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+This is split into two recipes. The emptty package provides the binary
+and various agnostic configs while the emptty-conf package provides the
+default configuration for the application itself. This RPROVIDES
+virtual-emptty-conf, allowing other recipes to provide their own
+configurations to override the default behavior.
+
+Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../conf/distro/include/default-providers.inc |  1 +
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ meta/recipes-graphics/emptty/emptty-conf.bb   | 14 +++++
+ meta/recipes-graphics/emptty/emptty.inc       | 26 +++++++++
+ .../recipes-graphics/emptty/emptty/emptty.tab |  1 +
+ meta/recipes-graphics/emptty/emptty/pamconf   | 10 ++++
+ meta/recipes-graphics/emptty/emptty_0.13.0.bb | 53 +++++++++++++++++++
+ 7 files changed, 106 insertions(+)
+ create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
+ create mode 100644 meta/recipes-graphics/emptty/emptty.inc
+ create mode 100644 meta/recipes-graphics/emptty/emptty/emptty.tab
+ create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
+ create mode 100644 meta/recipes-graphics/emptty/emptty_0.13.0.bb
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 823cfe24c7..c7f3987134 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index d3eefb754b..04383f192f 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -63,3 +63,4 @@ PREFERRED_RPROVIDER_initd-functions ?= "initscripts"
+ PREFERRED_PROVIDER_nativesdk-mesa ?= "nativesdk-mesa"
  
--PV .= ".1115"
--SRCREV = "c0f0e2380e5954f4a52a131bf6b8499838ad1dae"
-+PV .= ".1198"
-+SRCREV = "f209dcd3defb95bae21b2740910e6aa7bb940531"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+ PREFERRED_RPROVIDER_virtual-x-terminal-emulator ?= "rxvt-unicode"
++PREFERRED_RPROVIDER_virtual-emptty-conf ?= "emptty-conf"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 2b47d3103c..a85c272dd7 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -165,6 +165,7 @@ RECIPE_MAINTAINER:pn-efivar = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-efibootmgr = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-elfutils = "Zang Ruochen <zangruochen@loongson.cn>"
+ RECIPE_MAINTAINER:pn-ell = "Zang Ruochen <zangruochen@loongson.cn>"
++RECIPE_MAINTAINER:pn-emptty = "Randolph Sapp <rs@ti.com>"
+ RECIPE_MAINTAINER:pn-enchant2 = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-encodings = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-epiphany = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-graphics/emptty/emptty-conf.bb b/meta/recipes-graphics/emptty/emptty-conf.bb
+new file mode 100644
+index 0000000000..0aacb086cd
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty-conf.bb
+@@ -0,0 +1,14 @@
++require emptty.inc
++
++SUMMARY += " (Default config)"
++
++do_configure[noexec] = "1"
++do_compile[noexec] = "1"
++
++do_install () {
++    oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-config
++}
++
++FILES:${PN}-conf = "${sysconfdir}/emptty/conf"
++CONFFILES:${PN}-conf = "${sysconfdir}/emptty/conf"
++RPROVIDES:${PN}-conf += "virtual-emptty-conf"
+diff --git a/meta/recipes-graphics/emptty/emptty.inc b/meta/recipes-graphics/emptty/emptty.inc
+new file mode 100644
+index 0000000000..0b28cec359
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty.inc
+@@ -0,0 +1,26 @@
++SUMMARY = "Dead simple CLI Display Manager on TTY"
++DESCRIPTION = "Emptty is a simple display manager with a command line greeter \
++It supports both X11 and Wayland sessions, exporting required variables and \
++creating user paths as necessary."
++
++HOMEPAGE = "https://github.com/tvrzna/emptty"
++BUGTRACKER = "https://github.com/tvrzna/emptty/issues"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=d1e4d12c7d1d17367ba5668706a405ba"
++
++S = "${UNPACKDIR}"
++
++FILESEXTRAPATHS:append = ":${THISDIR}/emptty"
++
++GO_IMPORT = "github.com/tvrzna/emptty"
++GO_IMPORT_pam = "github.com/msteinert/pam"
++SRC_URI = "\
++    git://${GO_IMPORT}.git;protocol=https;branch=master;destsuffix=src/${GO_IMPORT} \
++    git://${GO_IMPORT_pam}.git;protocol=https;branch=master;name=pam;destsuffix=src/${GO_IMPORT_pam} \
++    file://pamconf \
++    file://emptty.tab \
++    "
++SRCREV = "4046552b6f5cc1cf76ce8bf333e04e16c59febca"
++SRCREV_pam = "50ded1b0e7864b9bf75005eb945a8ec826bcf69d"
++
++SRCREV_FORMAT .= "_pam"
+diff --git a/meta/recipes-graphics/emptty/emptty/emptty.tab b/meta/recipes-graphics/emptty/emptty/emptty.tab
+new file mode 100644
+index 0000000000..6359c7224d
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty/emptty.tab
+@@ -0,0 +1 @@
++7:5:respawn:/usr/bin/emptty -t 7 -d
+diff --git a/meta/recipes-graphics/emptty/emptty/pamconf b/meta/recipes-graphics/emptty/emptty/pamconf
+new file mode 100644
+index 0000000000..9cbfd6c4a5
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty/pamconf
+@@ -0,0 +1,10 @@
++#%PAM-1.0
++auth            sufficient      pam_succeed_if.so user ingroup nopasswdlogin
++auth            include         common-auth
++-auth           optional        pam_gnome_keyring.so
++-auth           optional        pam_kwallet5.so
++account         include         common-account
++session         include         common-session
++-session        optional        pam_gnome_keyring.so auto_start
++-session        optional        pam_kwallet5.so auto_start force_run
++password        include         common-password
+diff --git a/meta/recipes-graphics/emptty/emptty_0.13.0.bb b/meta/recipes-graphics/emptty/emptty_0.13.0.bb
+new file mode 100644
+index 0000000000..25a7f05820
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty_0.13.0.bb
+@@ -0,0 +1,53 @@
++require emptty.inc
++
++PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam x11', d)}"
++PACKAGECONFIG[pam] = ",,libpam,pam-plugin-succeed-if"
++PACKAGECONFIG[x11] = ",,virtual/libx11"
++
++DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', 'libxcrypt', d)}"
++
++GO_TAGS = ""
++GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', ',nopam', d)}"
++GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', '', ',noxlib', d)}"
++
++GOBUILDFLAGS:append = " -tags=${GO_TAGS}"
++
++export GO111MODULE="off"
++
++inherit go
++
++DEPENDS += "gzip"
++
++do_install () {
++    # general collateral
++    install -Dm755 ${B}/${GO_BUILD_BINDIR}/emptty ${D}${bindir}/emptty
++    install -d ${D}${mandir}/man1
++    gzip -cn ${S}/src/${GO_IMPORT}/res/emptty.1 > ${D}${mandir}/man1/emptty.1.gz
++
++    # pam config
++    if "${@bb.utils.contains('PACKAGECONFIG','pam','true','false',d)}"
++    then
++        install -Dm644 ${S}/pamconf ${D}${sysconfdir}/pam.d/emptty
++    fi
++
++    # init services
++    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}
++    then
++        oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-systemd
++    else
++        install -Dm644 ${S}/emptty.tab ${D}${sysconfdir}/inittab.d/emptty.tab
++    fi
++}
++
++FILES:${PN} = "\
++    ${systemd_system_unitdir}/emptty.service \
++    ${sysconfdir}/inittab.d/emptty.tab \
++    ${bindir}/emptty \
++    ${mandir}/man1/emptty.1.gz \
++    ${sysconfdir}/pam.d/emptty \
++"
++
++RDEPENDS:${PN} += "virtual-emptty-conf"
++SYSTEMD_SERVICE:${PN} = "emptty.service"
++
++inherit systemd
 -- 
-2.40.0
+2.49.0
 
 
