@@ -2,185 +2,279 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B82FC3600B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA8DC36011
 	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 14:20:50 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.48941.1743079040115451455
+ by mx.groups.io with SMTP id smtpd.web10.48942.1743079043570422028
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 05:37:20 -0700
+ Thu, 27 Mar 2025 05:37:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Pjk+jaJi;
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=k/WLHn6J;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5jFCv010898
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:37:20 GMT
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5jF4P010192
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:37:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=fxx1fa5HZBr
-	rEZSe2K5qu3SgXGL/0e99fwkiFL3qFrc=; b=Pjk+jaJiJfXxc/yo/nQuvHuQ6or
-	xqGeQmjxqs72zclsOSXrl11YspYOZZLKyWL68/0sVbw/DMmTBkFu/lbhFZXpkTS6
-	/TiOHdu+SPm2XNHkbJ+7zQbemWyK2shC7Oxv22tJHQ3oX7BN3bctx6AyqHxF9N40
-	WVSIsNPfTA6QAQFnzgC/Fc8AGYI5NowJMFECHD1Y+VyVvsa1oKw/IwC41XA3dVW3
-	Kf0Iq2ZuagsS7Wq+esHL3Yw+U34OBjv0YD74JxdFHhKK7F7UN0PA54xNNqjO3HzC
-	WNgZmLO3lPI/KULag3usveDg7PhylUj+nMrF/55mCHnNssj3QGbZm2lkchg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45n0kqh4g0-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=2L1YqyzMcWE
+	FSrFFjAKwckg73pcKfdXuizGOneATh9w=; b=k/WLHn6Jov8nNc187dXVMhnirdP
+	5lBa9KdjA7zq2npZqcfBCzzOVO3WlT2Rr+lZfoKJEeclZGCLyJ3pCxY1ugsexDxY
+	ihHPkkJ8X3xupjQXJHB7MzXhrqp2S30b7M+/EOzLq/K8eFkv/BTZA/+063sJXkKW
+	Uix28BSDNCyE8H/E2EW8ANoonZZBLeyxRDK7A3KweMjmjiAk6M2f1yU8GlLVkXND
+	AaQ4cDJdWth0A3HiDwituh/rVsD8ib0FDcARTLkcfSz9CXo5FaQOQnOxlgtQEqwI
+	QJAua+2gb3IrUJDbwqEgVZDyYFaDw4KzK/z20vcHxZfyypK+lfgeMMFZIhw==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45kmcygkfx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:37:19 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c5ac559cbaso160486585a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 05:37:19 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:37:23 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5f3b8b1a1so48894385a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 05:37:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743079037; x=1743683837;
+        d=1e100.net; s=20230601; t=1743079041; x=1743683841;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fxx1fa5HZBrrEZSe2K5qu3SgXGL/0e99fwkiFL3qFrc=;
-        b=ELRi0MwE+6XWvu45vQ5JviHCLxgP6QH46pdtTAeEgNZ45JaCUP9DaqssCymY3JUjyd
-         D3dUvmAGE6n1cBpbZnO4aC3xkjxlib37ZTgcN8g59Z1qACUc/niqRiJ23pWtL68+/HA8
-         SbnCbIMw9vyIPKjYWtVN2+zJnzWZ1y1xQaE1Xz/g4b2MZFGF3tnW+LSaGoyeunk6y9yz
-         NOboyzG7Ln1z5tk2LfJot9e96k++orHiFK2+2TCVBCryslBReGgVktLGFherjvMNyPB1
-         +Jmqrxh0gpef2wr5evWFxsU/16zgLSxab0orbYPMJ8i/E1f66PKD3XPSFNLwxyt0LN1l
-         iCuw==
-X-Gm-Message-State: AOJu0YxT5+2i3yEzMWobzrTfcsdDXFkJJCjH6o6c9Qw+BdzXc5BzBNnN
-	nZ2BDuFr3fjfiOyhwaaXuEzyC/E8Ajsa7aDuBK4eC2J30I1WzX7wwXpFkgEjx6fb4e4GSrn8qlG
-	RAwRgPPRJpoujVuWGYXmzwqKM1vWWMf3m4VOTdL7wy5ic++9Ffw5mUTnUPZ6IHEoxwfK0RCubD1
-	rNSgh/MKThFZE=
-X-Gm-Gg: ASbGncsF2kzh0ipC3g/LnD/LHtkhLJwaY3j7kWJaLQmnsON/KNyxDbuz/M3Lryis9SY
-	JeGX+PHyuhcNbuKhY9iW0d6I/v4Wb3J+WOHkRlshWpUzBGu44tyK+OE9s9ocVUJ525kFfELTf7o
-	ooX6LYflXwBMrKsYNbAvIs9CvQlZA+DaA/MMTGgHD19kTF3P8fYxBUaMZKd+vvDOocXOq0GVoYC
-	lpQ8kVutDqdL4ypNI/fxPyoyrsrfevx80yDB8yP4Xv0n8mMHKwEjY1PAguyr+cq/3mrL/2CF4DK
-	FiMLsMaOdwRVVIzoNXlLRknkr9wDycaA3LnTgIioOEVn8fKkPY2SFAEX1FihZENroflT+ZMdkoU
-	b2GDZLM83LXZf6hspesmlpCv0+4z+
-X-Received: by 2002:a05:620a:29c9:b0:7c5:5f38:ba4b with SMTP id af79cd13be357-7c5ed9da8bcmr500669085a.10.1743079037162;
-        Thu, 27 Mar 2025 05:37:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEskDuXwLx8xL/ko91Sz2vfvzQzPko6KqtXJAa1GkQYeWn1lg7fEUpkcv2IdBI/yi4dIVsylQ==
-X-Received: by 2002:a05:620a:29c9:b0:7c5:5f38:ba4b with SMTP id af79cd13be357-7c5ed9da8bcmr500664585a.10.1743079036611;
-        Thu, 27 Mar 2025 05:37:16 -0700 (PDT)
+        bh=2L1YqyzMcWEFSrFFjAKwckg73pcKfdXuizGOneATh9w=;
+        b=i6WMIzgX0+qHKFSKlsXjT9OHNJ1EQu/dpI1BSWrDWP7igdwLP6zz9OfwmKSJVjTYfR
+         SNoUFmsyEXfgHOHqp3+3iVNwAqWyzJrY3Hbqq1uFGpdIUvpmuWO5HX+VbHx90q407xV8
+         LOsHsx8RO1vNsARTS6HnSlOMPRxW4k6U4L5kUiXvWZ/TIECpijOFrGjwm9I+J6/zzHJ6
+         +94FrBPAvf2mfYbjOAd16qq4nYO1ANECkkSiadEDT8wizNTeA7jNtunsEHn5Qp+Ppyor
+         OCpi9QScX/Dp31Jzw8lrZDFLGPkJojkGmUEMyPSJ1kxtq2TJugvE39xXbmEAa1aMtADG
+         D1sQ==
+X-Gm-Message-State: AOJu0YyGPv8Q0Z1d8QEHsCPECFJEpfT6Df0ZvFvMabYt5SNLboQM8V+O
+	kVBZv7fPeXh9Fu8DGED/wpvvSS1QPd4mZjOqLWvLuFqMY7meqgZID0AdSIrTwE9Ji6e4PXRFULk
+	fzTLrRJ2ctWVPcvskCjUX/5RLttnFGeBLU6rbvHxAkale8BIb4uYR82PC8Bi9hSjjZZdQlHJNW4
+	eiIK3ae9NInDg=
+X-Gm-Gg: ASbGncsrdtuksDvJf5bqJKhuYOLUGx7wel2yR1HXRY6k/enGwo6RloWCnT3djpq7Nqh
+	zdqvYxI3tnt3I0iBjkAsdlVzq9JzoL9eRodJHiYWOBgCrRNeHsYZd5zLwiY1I87Co1cET7bT5fG
+	CJO4mWSKvbRAFp41VK40aPuNL2mljr+iMIZ15V9mi2Ko0m6AFgogSSU60xWFrR9QiVzFX2uevxB
+	xZ90rZZBiZ6rBtw1A6sh5wF9lrbUHaflyQGu1XibXdHkZCq52X2MTnnPhkP1XhPHsEcF+SiI9qA
+	fOXQXARBJV6XCAXzd2sFUvkvTu0jporSNB8jmoC8j/QfnM7c/w3/yKeju6n5kbIYIPKvWLzrwMU
+	8mLZZobyKcbq6zRedxR13HKvdfOTO
+X-Received: by 2002:a05:620a:2492:b0:7c5:ad3c:8478 with SMTP id af79cd13be357-7c5ed9f4f9cmr446326085a.16.1743079041015;
+        Thu, 27 Mar 2025 05:37:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGqP1InmEz0+L4+Xs620KCQ1kDBbRciPknm16DYkl0bZTuqWHmI9jE5uAq3KwAUxk0fHhr9dg==
+X-Received: by 2002:a05:620a:2492:b0:7c5:ad3c:8478 with SMTP id af79cd13be357-7c5ed9f4f9cmr446321785a.16.1743079040446;
+        Thu, 27 Mar 2025 05:37:20 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad65121e2sm2053600e87.235.2025.03.27.05.37.15
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad65121e2sm2053600e87.235.2025.03.27.05.37.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 05:37:15 -0700 (PDT)
+        Thu, 27 Mar 2025 05:37:18 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 4/8] llvm: import YOCTO_ALTERNATE_LIBDIR patch from meta-clang
-Date: Thu, 27 Mar 2025 14:36:57 +0200
-Message-Id: <20250327123701.3906604-5-dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH 5/8] llvm: add SPIRV-LLVM-Translator support
+Date: Thu, 27 Mar 2025 14:36:58 +0200
+Message-Id: <20250327123701.3906604-6-dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250327123701.3906604-1-dmitry.baryshkov@oss.qualcomm.com>
 References: <20250327123701.3906604-1-dmitry.baryshkov@oss.qualcomm.com>
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: jhLv9aKulIpACg5BKUf08_Pb7tmWH7eT
-X-Authority-Analysis: v=2.4 cv=FrcF/3rq c=1 sm=1 tr=0 ts=67e5467f cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=IvTj1HvjAAAA:8 a=pGLkceISAAAA:8 a=mnq_9Jzftx32lQRVvlkA:9 a=NFOGd7dJGGMPyQGDc5-O:22
- a=kmyLcwvAnC_t3PsnBtKb:22
-X-Proofpoint-GUID: jhLv9aKulIpACg5BKUf08_Pb7tmWH7eT
+X-Authority-Analysis: v=2.4 cv=EZ3IQOmC c=1 sm=1 tr=0 ts=67e54683 cx=c_pps a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=NxEeosk9xJlwc9cSGm8A:9 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: nxlkp8VeSL30fbHcmit9OMkIEtY5nt0q
+X-Proofpoint-GUID: nxlkp8VeSL30fbHcmit9OMkIEtY5nt0q
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-27_01,2025-03-26_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=999
- clxscore=1015 suspectscore=0 malwarescore=0 adultscore=0 impostorscore=0
- mlxscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ impostorscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
+ spamscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0 phishscore=0
+ adultscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2503270087
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 14:20:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213744
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213745
 
-Cross-building of mesa requires us to be able to provide target-specific
-value for --libdir.  Update the cross-environment llvm-config patch from
-meta-clang in order to allow overriding the --libdir output.
+Mesa builds require SPIRV-LLVM-Translator in order to build CLC support.
+While it is possible to build it separately (like meta-clang does), it
+also requires a separate clang compiler (which OE-Core doesn't provide).
+
+Use an alternative path and build SPIRV-LLVM-Translator as a part of the
+LLVM build process, lifting the requirement for the separate clang. Once
+clang is properly integrated into the OE-Core layer, this can be split
+to a separate package and dropped.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- ...-llvm-allow-env-override-of-exe-path.patch | 41 +++++++++++++++++--
- meta/recipes-devtools/llvm/llvm/llvm-config   |  7 ++++
- 2 files changed, 45 insertions(+), 3 deletions(-)
+ ...ossCompile-pass-SPIR-V-headers-path-.patch | 40 +++++++++++++++++++
+ .../llvm/llvm/spirv-internal-build.patch      | 27 +++++++++++++
+ meta/recipes-devtools/llvm/llvm_20.1.0.bb     | 32 ++++++++++++---
+ 3 files changed, 94 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0001-cmake-modules-CrossCompile-pass-SPIR-V-headers-path-.patch
+ create mode 100644 meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch
 
-diff --git a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-index 29266013ecb1..e598a9e5d49b 100644
---- a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-+++ b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-@@ -8,16 +8,18 @@ return the libraries, include directories, etc. from inside the sysroot rather
- than from the native sysroot. Thus provide an env override for calling
- llvm-config from a target sysroot.
- 
-+Add YOCTO_ALTERNATE_LIBDIR and YOCTO_ALTERNATE_EXE_PATH env variables
+diff --git a/meta/recipes-devtools/llvm/llvm/0001-cmake-modules-CrossCompile-pass-SPIR-V-headers-path-.patch b/meta/recipes-devtools/llvm/llvm/0001-cmake-modules-CrossCompile-pass-SPIR-V-headers-path-.patch
+new file mode 100644
+index 000000000000..316a6bdbf2b1
+--- /dev/null
++++ b/meta/recipes-devtools/llvm/llvm/0001-cmake-modules-CrossCompile-pass-SPIR-V-headers-path-.patch
+@@ -0,0 +1,40 @@
++From e94e529aefb28b65165e978daa2bfd89867ee8d0 Mon Sep 17 00:00:00 2001
++From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
++Date: Fri, 21 Mar 2025 17:17:52 +0200
++Subject: [PATCH] cmake/modules/CrossCompile: pass SPIR-V headers path to
++ native build
 +
- Upstream-Status: Inappropriate [OE-specific]
- 
- Signed-off-by: Martin Kelly <mkelly@xevo.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- llvm/tools/llvm-config/llvm-config.cpp | 7 +++++++
-- 1 file changed, 7 insertions(+)
-+ llvm/tools/llvm-config/llvm-config.cpp | 25 +++++++++++++++++++------
-+ 1 file changed, 19 insertions(+), 6 deletions(-)
- 
- diff --git a/llvm/tools/llvm-config/llvm-config.cpp b/llvm/tools/llvm-config/llvm-config.cpp
--index d5b76b1bb..6c28c34bc 100644
-+index d5b76b1bb6c1..a739f0d8dbea 100644
- --- a/llvm/tools/llvm-config/llvm-config.cpp
- +++ b/llvm/tools/llvm-config/llvm-config.cpp
- @@ -246,6 +246,13 @@ Typical components:\n\
-@@ -34,3 +36,36 @@ index d5b76b1bb..6c28c34bc 100644
-    // This just needs to be some symbol in the binary; C++ doesn't
-    // allow taking the address of ::main however.
-    void *P = (void *)(intptr_t)GetExecutablePath;
-+@@ -325,7 +332,7 @@ int main(int argc, char **argv) {
-+   // Compute various directory locations based on the derived location
-+   // information.
-+   std::string ActivePrefix, ActiveBinDir, ActiveIncludeDir, ActiveLibDir,
-+-              ActiveCMakeDir;
-++              ActiveCMakeDir, BaseLibDir;
-+   std::string ActiveIncludeOption;
-+   if (IsInDevelopmentTree) {
-+     ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include";
-+@@ -366,12 +373,18 @@ int main(int argc, char **argv) {
-+       sys::fs::make_absolute(ActivePrefix, Path);
-+       ActiveBinDir = std::string(Path);
-+     }
-+-    ActiveLibDir = ActivePrefix + "/lib" + LLVM_LIBDIR_SUFFIX;
-+-    {
-+-      SmallString<256> Path(LLVM_INSTALL_PACKAGE_DIR);
-+-      sys::fs::make_absolute(ActivePrefix, Path);
-+-      ActiveCMakeDir = std::string(Path);
-++    // Hack for Yocto: we need to override the lib path when we are using
-++    // llvm-config from within a target sysroot since LLVM_LIBDIR_SUFFIX
-++    // maybe different for host llvm vs target e.g. ppc64 Libdir=lib64 but
-++    // x86_64 Libdir = lib
-++    const char *YoctoLibDir = std::getenv("YOCTO_ALTERNATE_LIBDIR");
-++    if (YoctoLibDir != nullptr) {
-++      BaseLibDir = std::string(YoctoLibDir);
-++    } else {
-++      BaseLibDir = std::string("/lib") + LLVM_LIBDIR_SUFFIX;
-+     }
-++    ActiveLibDir = ActivePrefix + BaseLibDir;
-++    ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
-+     ActiveIncludeOption = "-I" + ActiveIncludeDir;
-+   }
++In case LLVM is being built together with SPIRV-LLVM-Translator, it
++might be required to pass LLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR define
++to the native build too. Extend native build setup to pass that variable
++to the called cmake too.
++
++Upstream-Status: Inappropriate [OE-Specific build-system fix]
++Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
++---
++ llvm/cmake/modules/CrossCompile.cmake | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/llvm/cmake/modules/CrossCompile.cmake b/llvm/cmake/modules/CrossCompile.cmake
++index 3b31d3e218a3..24b62f4ff8af 100644
++--- a/llvm/cmake/modules/CrossCompile.cmake
+++++ b/llvm/cmake/modules/CrossCompile.cmake
++@@ -81,6 +81,10 @@ function(llvm_create_cross_target project_name target_name toolchain buildtype)
++     set(libc_flags -DLLVM_LIBC_GPU_BUILD=ON)
++   endif()
 + 
-diff --git a/meta/recipes-devtools/llvm/llvm/llvm-config b/meta/recipes-devtools/llvm/llvm/llvm-config
-index 5e4ded2da5bc..d9d994a2032f 100644
---- a/meta/recipes-devtools/llvm/llvm/llvm-config
-+++ b/meta/recipes-devtools/llvm/llvm/llvm-config
-@@ -9,6 +9,13 @@
- # Provide ours from the environment instead.
+++  if (LLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR)
+++    set(spirv_headers "-DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=${LLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR}")
+++  endif()
+++
++   add_custom_command(OUTPUT ${${project_name}_${target_name}_BUILD}/CMakeCache.txt
++     COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
++         -DCMAKE_MAKE_PROGRAM="${CMAKE_MAKE_PROGRAM}"
++@@ -101,6 +105,7 @@ function(llvm_create_cross_target project_name target_name toolchain buildtype)
++         -DLLVM_INCLUDE_BENCHMARKS=OFF
++         -DLLVM_INCLUDE_TESTS=OFF
++         ${build_type_flags} ${linker_flag} ${external_clang_dir} ${libc_flags}
+++        ${spirv_headers}
++         ${ARGN}
++     WORKING_DIRECTORY ${${project_name}_${target_name}_BUILD}
++     DEPENDS CREATE_${project_name}_${target_name}
+diff --git a/meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch b/meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch
+new file mode 100644
+index 000000000000..14233d312870
+--- /dev/null
++++ b/meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch
+@@ -0,0 +1,27 @@
++From e94e529aefb28b65165e978daa2bfd89867ee8d0 Mon Sep 17 00:00:00 2001
++From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
++Date: Fri, 21 Mar 2025 17:17:52 +0200
++Subject: [PATCH] SPIRV-LLVM-Translator: fix handling of built-in SPIRV targer
++
++Upstream-Status: Pending
++Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
++
++Index: llvm-project-20.1.0.src/llvm/projects/SPIRV-LLVM-Translator/CMakeLists.txt
++===================================================================
++--- llvm-project-20.1.0.src.orig/llvm/projects/SPIRV-LLVM-Translator/CMakeLists.txt
+++++ llvm-project-20.1.0.src/llvm/projects/SPIRV-LLVM-Translator/CMakeLists.txt
++@@ -116,6 +116,14 @@ if(LLVM_SPIRV_BUILD_EXTERNAL)
++     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
++     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
++   endif()
+++else()
+++  message(STATUS "Internal LLVM library")
+++  is_llvm_target_library("SPIRV" spirv_present_result INCLUDED_TARGETS)
+++  if(spirv_present_result)
+++    message(STATUS "Found SPIR-V Backend")
+++    set(SPIRV_BACKEND_FOUND TRUE)
+++    add_compile_definitions(LLVM_SPIRV_BACKEND_TARGET_PRESENT)
+++  endif()
++ endif()
++ 
++ set(LLVM_SPIRV_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
+diff --git a/meta/recipes-devtools/llvm/llvm_20.1.0.bb b/meta/recipes-devtools/llvm/llvm_20.1.0.bb
+index 0fb336ee7747..df2c497c14cc 100644
+--- a/meta/recipes-devtools/llvm/llvm_20.1.0.bb
++++ b/meta/recipes-devtools/llvm/llvm_20.1.0.bb
+@@ -23,10 +23,20 @@ MAJ_MIN_VERSION = "${@oe.utils.trim_version("${PV}", 2)}"
  
- NEXT_LLVM_CONFIG="$(which -a llvm-config | sed -n 2p)"
-+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-+export YOCTO_ALTERNATE_EXE_PATH="${YOCTO_ALTERNATE_EXE_PATH:="$(readlink -f "$SCRIPT_DIR/../llvm-config")"}"
-+if [ -n "$( echo $base_libdir | sed -n '/lib64/p')" ]; then
-+    export YOCTO_ALTERNATE_LIBDIR="${YOCTO_ALTERNATE_LIBDIR:="/lib64"}"
-+else
-+    export YOCTO_ALTERNATE_LIBDIR="${YOCTO_ALTERNATE_LIBDIR:="/lib"}"
-+fi
- if [[ $# == 0 ]]; then
-   exec "$NEXT_LLVM_CONFIG"
- fi
+ LLVM_RELEASE = "${PV}"
+ 
++SRCREV_spirv = "68edc9d3d10ff6ec6353803a1bc60a5c25e7b715"
++SPIRV_BRANCH = "llvm_release_200"
++
++SRC_URI_SPIRV = " \
++    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;name=spirv;branch=${SPIRV_BRANCH};destsuffix=llvm-project-${PV}.src/llvm/projects/SPIRV-LLVM-Translator \
++    file://0001-cmake-modules-CrossCompile-pass-SPIR-V-headers-path-.patch \
++    file://spirv-internal-build.patch \
++"
++
+ SRC_URI = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/llvm-project-${PV}.src.tar.xz \
+            file://0007-llvm-allow-env-override-of-exe-path.patch \
+            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch \
+            file://fix-native-compilation.patch \
++           ${@bb.utils.contains('PACKAGECONFIG', 'spirv', '${SRC_URI_SPIRV}', '', d)} \
+            file://llvm-config \
+            "
+ 
+@@ -58,11 +68,12 @@ def get_llvm_arch(bb, d, arch_var):
+ def get_llvm_host_arch(bb, d):
+     return get_llvm_arch(bb, d, 'HOST_ARCH')
+ 
+-PACKAGECONFIG ??= "libllvm libclc"
++PACKAGECONFIG ??= "libllvm libclc spirv"
+ # if optviewer OFF, force the modules to be not found or the ones on the host would be found
+ PACKAGECONFIG[optviewer] = ",-DPY_PYGMENTS_FOUND=OFF -DPY_PYGMENTS_LEXERS_C_CPP_FOUND=OFF -DPY_YAML_FOUND=OFF,python3-pygments python3-pyyaml,python3-pygments python3-pyyaml"
+ PACKAGECONFIG[libllvm] = ""
+ PACKAGECONFIG[libclc] = ""
++PACKAGECONFIG[spirv] = "-DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=${STAGING_INCDIR}/.. ,,spirv-tools-native spirv-headers"
+ 
+ #
+ # Default to build all OE-Core supported target arches (user overridable).
+@@ -72,7 +83,9 @@ LLVM_TARGETS ?= "AMDGPU;NVPTX;SPIRV;${@get_llvm_host_arch(bb, d)}"
+ ARM_INSTRUCTION_SET:armv5 = "arm"
+ ARM_INSTRUCTION_SET:armv4t = "arm"
+ 
+-LLVM_PROJECTS = "${@bb.utils.contains('PACKAGECONFIG', 'libclc', 'clang;libclc', '', d)}"
++LLVM_PROJECTS_CLANG = "${@bb.utils.contains_any('PACKAGECONFIG', 'libclc spirv', 'clang', '', d)}"
++LLVM_PROJECTS_CLC = "${@bb.utils.contains('PACKAGECONFIG', 'libclc', ';libclc', '', d)}"
++LLVM_PROJECTS = "${LLVM_PROJECTS_CLANG}${LLVM_PROJECTS_CLC}"
+ 
+ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
+                   -DLLVM_ENABLE_EXPENSIVE_CHECKS=OFF \
+@@ -147,7 +160,7 @@ do_install() {
+     fi
+ 
+     # Remove clang bits from target packages, we are not providing it for the system
+-    if ${@bb.utils.contains('PACKAGECONFIG', 'libclc', 'true', 'false', d)} &&
++    if ${@bb.utils.contains_any('PACKAGECONFIG', 'libclc spirv', 'true', 'false', d)} &&
+        [ "${CLASSOVERRIDE}" != "class-native" ] ; then
+         rm -f  ${D}${bindir}/clang*
+         rm -fr ${D}${libdir}/clang
+@@ -176,11 +189,12 @@ llvm_sysroot_preprocess() {
+ 	ln -sf llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/llvm-config${PV}
+ }
+ 
+-PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto ${PN}-clc"
+-PROVIDES = "libclc"
++PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto ${PN}-clc ${PN}-spirv"
++PROVIDES = "libclc spirv-llvm-translator"
+ 
+ RRECOMMENDS:${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liboptremarks"
+ RPROVIDES:${PN}-clc += "libclc"
++RPROVIDES:${PN}-spirv += "spirv-llvm-translator"
+ 
+ FILES:${PN}-bugpointpasses = "\
+     ${libdir}/BugpointPasses.so \
+@@ -215,6 +229,14 @@ FILES:${PN}-staticdev += "\
+ 
+ FILES:${PN}-clc += "${datadir}/clc"
+ 
++FILES:${PN}-spirv = " \
++    ${bindir}/llvm-spirv \
++    ${includedir}/LLVMSPIRVLib \
++    ${libdir}/pkgconfig/LLVMSPIRVLib.pc \
++    ${libdir}/libLLVMSPIRV* \
++"
++
+ INSANE_SKIP:${PN}-libllvm += "dev-so"
++INSANE_SKIP:${PN}-spirv += "staticdev"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.39.5
 
