@@ -2,117 +2,107 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A86FDC36013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A76C1C3600B
 	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 19:44:28 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.5270.1743104662459533610
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.5462.1743104667297152157
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 12:44:22 -0700
+ Thu, 27 Mar 2025 12:44:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qh6MT2kV;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-224100e9a5cso29738805ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:44:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xlEvnKRK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-223f4c06e9fso27554285ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743104662; x=1743709462; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ttLpmQ4ulsN7mkxAeIAjJclF08NuzvP3L8E0tOauKkE=;
-        b=qh6MT2kVqbWq1vBcTW+BSO/7HCjk9iKjpUkLjDdIkt8seYgid9IyuQ/B0cSoglVSSY
-         9qBYN0k2zwtlXOYnnOaatJ8vv3KjTs75KwPOnh1AuoRs87B0gCVKwVpJWoggG6TFMRc8
-         C5NWFWYQcq/D0S/uFtV7g1yDDze3RYbBtxQBHoP3VmU0dB5ILa7Ukfsp8mO1LdhP84/P
-         OSrue4NK8sN+pN9mp6fk5tO+KAM0E4jscIkkt1ZrzzXRftgaBdBlfWfkefQ1Ptuml8CU
-         3PuPEMKjAZjQ+dbSpX48ImOyoijdB9tthhfqOpxnVAhKSXR/DTsXoqEJIn+No1ofqNjj
-         9MaQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743104666; x=1743709466; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zH852jpgzzlbcznKEWymn2jkDxLZ++SiZ/5aMCcV6rc=;
+        b=xlEvnKRK9TZEOppfsertUXxPCLYJ15y346HjKsZE8o+8n1YcZnF3c32go+xY9oPSaO
+         ueSA/dqADZxXh6zgcDzKax9OYlm897aDoiE63RsAb48dQ41fZxMzWuDgt8WPZxA83wKd
+         vs19gt+PXePLoegSl5UzQE5okQmAuB3ssxvnXjaWzzbVs9cRT71VCJ3TBy6IF/HL3gjz
+         IaRDZQxVBpHRgIe3baCNWg7Y4djf+xgVLlC3IqsSTUMIMA6e+1R7jllaf93lvFfoHukZ
+         +eM5aKcUiHnI5dmsaqgpRUfk/ZTA9VutsBfDjgkb/8+2YjtmSlemodrx+6ZlDtFYo5YY
+         b1pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743104662; x=1743709462;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ttLpmQ4ulsN7mkxAeIAjJclF08NuzvP3L8E0tOauKkE=;
-        b=L8S5/PoXJ6k6hvxFJKTMW2SlBz5ksv0dv3Kw6emrqHwR4d8U2tc4mJPYFmpqbr9TYi
-         fG2lzuwWU57Jm5qEip2/aFzGq4mbusPP6t9Lul5qlMIKdy4qUDTQ+pCa7ydGShV+ED6y
-         3Ag/M89KqvPFs+JYUeORsKqKr/oINdYv6DRINvkNtyR4kbphrJnpNeyMT7oNhBXO81Jk
-         xTjB0rM1vkCFYY6iUfC3cdSDY95QpZ5g32CsCPRHyqMCZCcOsFFz6TP+ep9baYSCE+3V
-         wOMN9QjRJY/aK7Xk7Jc1jsH3DadtD+8MmgFpMs6IDwzsh07GzF7qz0zqVgtLiC9oRzvC
-         DKLQ==
-X-Gm-Message-State: AOJu0YzkzVgFyFK2+SL1a8BxF8b3p3oraoucc9Fcyp1MiXZC3X4RmUEh
-	s+1bH3zxxWhRkPDrcq9qB+r6Sqef44ZX30SJn1bHSi9Xj64RZW7PUqBFlPEB1/rxkj9ooGywIM/
-	j
-X-Gm-Gg: ASbGncvwQhc97MCZRX9qsVhbzP4tNDvXEadnY6Xix7rwvlSJRYupHv67dCqKmke4kQ9
-	zwqaNB6mNGZvHff2hFZk4ri5a9diqBo75E1UynbZAZ8ImdO5tQb/qHif3xgaGE3o8twgiL1VyDn
-	tX0MK3hiOWL/E+DIzI/U5XcYqwExjwBgSvH4g2e7NiL6DGraNlVxEI/wOh0lgFXcKNSzCxoKZrX
-	aIOuvzy+9KJ6g4vnY+bNc6V8vRxkHPku3arIZmx3fYINLQiJ1hWRfGY+MNRymuVm8F3Ym18FhxZ
-	4nM6CpZMryWfaRsCb2rUiooGB3i7hfb4xvc=
-X-Google-Smtp-Source: AGHT+IHKwdqnsvQjzXSAq7Ma/VR+FngD9Lxk7d06+H4JkA3hh4/bDvPxVKx5pB09R+2KBIMLt2hUjw==
-X-Received: by 2002:a17:902:f64e:b0:224:2a6d:55ae with SMTP id d9443c01a7336-2280491c3e7mr83384885ad.48.1743104661359;
-        Thu, 27 Mar 2025 12:44:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743104666; x=1743709466;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zH852jpgzzlbcznKEWymn2jkDxLZ++SiZ/5aMCcV6rc=;
+        b=QoTD3/shA83Hrtq8gp+zqcFIT1yXaIcLF6Oln9ByozEz0nmLBU7WeoT/g0c4bK6Z9F
+         lZbQLLA0eZmSeYYOqtbgv6mfv0rZxmMde5GnCvoW2guwfhoYTl00FAcbvqhCCRKoLP3L
+         lUVKfkLw8R1Shidh/HnUZwAEXamnT1EeaIeJxTWMS9Jr/KU5qPfLGDncaQCIIQE5dxi5
+         jAeu5rVTNzntMs6T8Rn8nbxGwYD59ap1BvorJs8d9M452fxqiiYYuk2wsKnE2FyL/5L5
+         +rjWcDR0qDamN+gquR/uTpFiZxA1Pa4tOtSANI7wS9XJ77Avaze5OGr7vx6liY+gMmH1
+         djjg==
+X-Gm-Message-State: AOJu0YxSLsGi5DLL1JsI7T14zuDRziIVjHlFmhcwEUtXzYHt7uLSj05s
+	VUeneeNRyBwHkb5i7C4m93fJWLY1pkBvSf2B5vzrJm8YQSB0m/BzNy/1DOFueIlgm9JhnWu06Np
+	p
+X-Gm-Gg: ASbGnctP1FulAT4KF2JqYCdYEIxYJfZJAROTEHKvUCL3UIsPSyP5xyjmrUX0GrUEEYF
+	xzRBXTng5VfvXja8JWefoddAtMAMqPyiQt/cgyyKEBx4wWV6BmfejYS74Tprb50Ou0pJU79CgAa
+	99u6FkrHRVYl82yvK+OK4Iah4VX+3Fj4UaU7xSRpk60ieIN5nwK3SbwVKqgCkuEXMfIye+oTExB
+	PKS4BMoYwvpXBc8NWpiIz7hDa+5CpLWXfjjqh1rNaaYlWcB8ukRD9BuPNE0nYrnSOZbM8ppjtR7
+	91Tul7tAgt0mfHp6+8JPFfScTRq7WqIPXzW0Vr262d1czA==
+X-Google-Smtp-Source: AGHT+IGsAdr/vP4dnUS60hosVRXosK+J9xHpk4FZNuHRNvVcVJk93zWiZK1ZPV4uA0dod3msQwhP8Q==
+X-Received: by 2002:a17:902:e744:b0:21f:98fc:8414 with SMTP id d9443c01a7336-22921d733b6mr841365ad.26.1743104666297;
+        Thu, 27 Mar 2025 12:44:26 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:811c:968e:2c1:6363])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee0882sm3865875ad.75.2025.03.27.12.44.20
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee0882sm3865875ad.75.2025.03.27.12.44.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 12:44:21 -0700 (PDT)
+        Thu, 27 Mar 2025 12:44:26 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/10] Patch review
-Date: Thu, 27 Mar 2025 12:44:05 -0700
-Message-ID: <cover.1743104524.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 01/10] qemu 8.2.7: ignore CVE-2023-1386
+Date: Thu, 27 Mar 2025 12:44:06 -0700
+Message-ID: <6a5d9e3821246c39ec57fa483802e1bb74fca724.1743104524.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1743104524.git.steve@sakoman.com>
+References: <cover.1743104524.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 19:44:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213776
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213777
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Monday, March 31
+From: Madhu Marri <madmarri@cisco.com>
 
-Passed a-full on autobuilder:
+Upstream Repository: https://gitlab.com/qemu-project/qemu.git
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1283
+Bug Details:  https://nvd.nist.gov/vuln/detail/CVE-2023-1386
+Type: Security Advisory
+CVE: CVE-2023-1386
+Score: 3.3
 
-The following changes since commit a720df7ad77af1f8b1c00a211c88537e5f23edbc:
+Analysis:
+- According to redhat[1] this CVE has closed as not a bug.
 
-  nativesdk-libtool: sanitize the script, remove buildpaths (2025-03-20 12:51:41 -0700)
+Reference:
+[1] https://bugzilla.redhat.com/show_bug.cgi?id=2223985
 
-are available in the Git repository at:
+Signed-off-by: Madhu Marri <madmarri@cisco.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Bruce Ashfield (6):
-  linux-yocto/6.6: update to v6.6.77
-  linux-yocto/6.6: update to v6.6.78
-  linux-yocto/6.6: update to v6.6.80
-  linux-yocto/6.6: update to v6.6.82
-  linux-yocto/6.6: update to v6.6.83
-  linux-yocto/6.6: update to v6.6.84
-
-Divya Chellam (1):
-  ruby: fix CVE-2025-27220
-
-Madhu Marri (1):
-  qemu 8.2.7: ignore CVE-2023-1386
-
-Stefan Mueller-Klieser (1):
-  kernel-arch: add macro-prefix-map in KERNEL_CC
-
-Vijay Anusuri (1):
-  vim: Upgrade 9.1.1115 -> 9.1.1198
-
- meta/classes-recipe/kernel-arch.bbclass       |  8 +-
- meta/recipes-devtools/qemu/qemu.inc           |  2 +
- .../ruby/ruby/CVE-2025-27220.patch            | 78 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.3.5.bb      |  1 +
- .../linux/linux-yocto-rt_6.6.bb               |  6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |  6 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++----
- meta/recipes-support/vim/vim.inc              |  4 +-
- 8 files changed, 110 insertions(+), 23 deletions(-)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27220.patch
-
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index c3401533cf..38ed637b93 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -82,6 +82,8 @@ CVE_STATUS[CVE-2023-6693] = "cpe-incorrect: Applies only against version 8.2.0 a
+ # NVD DB has this CVE as version-less (with "-")
+ CVE_STATUS[CVE-2024-6505] = "fixed-version: this CVE is fixed since 9.1.0"
+ 
++CVE_STATUS[CVE-2023-1386] = "disputed: not an issue as per https://bugzilla.redhat.com/show_bug.cgi?id=2223985"
++
+ COMPATIBLE_HOST:mipsarchn32 = "null"
+ COMPATIBLE_HOST:mipsarchn64 = "null"
+ COMPATIBLE_HOST:riscv32 = "null"
 -- 
 2.43.0
 
