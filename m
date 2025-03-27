@@ -1,100 +1,208 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2BB3C3600B
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 16:50:07 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.1291.1743094204248008303
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C29C3600B
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 17:12:47 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web11.1853.1743095564647896536
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 09:50:04 -0700
+ Thu, 27 Mar 2025 10:12:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MfKuGne5;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=e2o/XQmY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010195d882c31e-61bcbed4-d899-4a17-bfd5-b3153f22a5a0-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743094203; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=aLkg2ciomi5K2U1Q4JlDllqu3UPY51NP0+pqtJJgwqg=;
-	b=MfKuGne5JRcvVtUSNpZrbveEJlOr0kfGqAmonhf2p62Ptop0HpesW3gguLWV3aJl
-	OKxuRr9eMGm6pdcVojxX/2u9oKUWKvhMe5MbaHVB+ImJ1HL/iQfnIGuiSuIouf8BtCp
-	Xb014PC7Y1AQ7h6n1wq84JcwRfvKfvuvKe0kMIY4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743094203;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=aLkg2ciomi5K2U1Q4JlDllqu3UPY51NP0+pqtJJgwqg=;
-	b=e2o/XQmY2qDzXqtcysle2nDcV1Uv1z0p75dY6jQf0NNbQHyHi8dtjq0Us67ew/dn
-	yT0Tdlk71xeqFwQmp4EMUY7jj1nuvs2Q7gkFdAFNekCS+dMHwokyGpA1uKn9qRdWYG8
-	uezxXf41dnrCCTmjmxXCovvth5v/EvMtyxZtdLUY=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] fmt: Backport patch to fix spdlog ABI issue
-In-Reply-To: <20250327163238.442756-1-raj.khem@gmail.com>
-References: <20250327163238.442756-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195d882c31e-61bcbed4-d899-4a17-bfd5-b3153f22a5a0-000000@us-west-2.amazonses.com>
-Date: Thu, 27 Mar 2025 16:50:03 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.27-54.240.27.193
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cQf3iYVx;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ff6cf448b8so2853589a91.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 10:12:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743095564; x=1743700364; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=lQZ8fkwIEO6HxR6AVhhAmn5NKNW+t+RyQ5Sk0tPF4cw=;
+        b=cQf3iYVxj8T1173gct9uDh9a1VM4phHQ/pYCx796bMGwBcGOB22/cPwuJf5B7KEJyo
+         84HPbkllegEitWKyMsfI8N1xWl7I1SmI0hAulwkTX0JpFraYk8yqwwtM8Py/tdOkoCMa
+         WN9ZiP/XpHSur/WfzSn7o2+RkmYz+pHw+9kkXzC91D+68kjxx+gcLgeSllvIkyHEuh92
+         0mzNzdiQsX/XiLF9gY2JAsWxvenkaJk9kzmhjQZONd6LV7slBskqNKYXE3a5FaZElNEd
+         WWpRW+Mf1dG982LjfZQieQzr2VWFo9E5tN3V9ONaKCsQmZ/N5uaMsHYjdT6LBViQAluF
+         zzgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743095564; x=1743700364;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lQZ8fkwIEO6HxR6AVhhAmn5NKNW+t+RyQ5Sk0tPF4cw=;
+        b=ByG8Lu1Zba5N4iJc9aeBYkVEGhle5Pw22CzXqI05pd53A29bU1WLIjqGFvcpAEE9MK
+         SlVA/t8y0TMK3s3fNv+ulR15H3SaW3pLdeSUiKAE4Bp2blHz+VQBc0Pq+BqwAgSPJRgE
+         rDhzSJG8N7e7aC1ZYCVuNO4CiO7wncFb268xbupC4kCfCHy1JW/X7oK3H0lMye8hFGVA
+         LAr0yVDLbhA6RM3lEoCC04VtbBC5wsNYzLCQyDJx/MVNxQspDyHRCniUI1PUYqksQlVm
+         JrdXly8ZQsI0ywqZdI096eeZapjQ+VDyZFPXsNdxDg1hb9dXV/WLkIBgZHq4fdd73WZ4
+         9T+Q==
+X-Gm-Message-State: AOJu0Ywy/f9y0+rHMqmVJN8A6EM8R+R0xmBe4QZkY9QogvJTdHotFsWX
+	BsIafrj5MguHrhVPW4lJbTlJT3ZdTUO72AVPgL7/YgPMCisJGZ31
+X-Gm-Gg: ASbGncvEMp7AGp3BGeD3Y/1Ai6jSeCBgImQqyPwzSIt86/2sRuUb3VN9thpBDSpdLVE
+	FIddKTOeuAioPq/YocSFZ1j0UwvKD/ukcfylE94b2tXnJQezbReIDT/pk0MUgNXPT2KVnome+9H
+	J3+MZD4swgvn8HI/52uT7KnOBSL6+5jfY/ra6c/7np2Hx3bIRXp6wrB5IuXQHMSpXyxBTfb5WoL
+	foT7cppEIkMRNwa9hTZoNjCE9k48x97sm3wuJTRL5s0tPAnIY6g4p/3lozK7by7Zjv5S5Yz6d/N
+	koWFHl0F8jwKtHOm0P6xkUtbrwc1S4Yi+EVTDFCvfvilNg7CyDQwQw==
+X-Google-Smtp-Source: AGHT+IFuv2ljpwPibwUuLEtLTs42TEgTybu5wAZgVPomSbqs14cswPWPZ1tjph/1r76yL+RzrtosTg==
+X-Received: by 2002:a17:90b:5403:b0:2ea:bf1c:1e3a with SMTP id 98e67ed59e1d1-303a7d699b2mr7962966a91.12.1743095563719;
+        Thu, 27 Mar 2025 10:12:43 -0700 (PDT)
+Received: from hiago-nb ([67.159.246.222])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30516d56521sm150355a91.19.2025.03.27.10.12.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Mar 2025 10:12:43 -0700 (PDT)
+Date: Thu, 27 Mar 2025 14:12:39 -0300
+From: Hiago De Franco <hiagofranco@gmail.com>
+To: Quentin Schulz <quentin.schulz@cherry.de>,
+	Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Hiago De Franco <hiago.franco@toradex.com>
+Subject: Re: [styhead][PATCH v2 00/31] linux-firmware: upgrade 20240909 ->
+ 20250311
+Message-ID: <20250327171239.kvs4jtetjkcs3i2u@hiago-nb>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a7b5f6c-1be9-4c5d-bf2e-59e115762d6a@cherry.de>
+ <CAOSpxdajP0E0uVMR3QmRCqqmmRMAMnXiZM3bPmOXHGyRrVTfDw@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 16:50:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213769
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 17:12:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213770
 
---NextPart
-Content-Type: text/plain
+Hi Quentin and Steve,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On Thu, Mar 27, 2025 at 05:27:44PM +0100, Quentin Schulz wrote:
+> Hi Hiago,
+> 
+> On 3/27/25 5:19 PM, Hiago De Franco wrote:
+> > Hi Steve,
+> > 
+> > On Thu, Mar 27, 2025 at 07:54:53AM -0700, Steve Sakoman wrote:
+> > > On Wed, Mar 26, 2025 at 1:29 PM Hiago De Franco <hiagofranco@gmail.com> wrote:
+> > > > 
+> > > > From: Hiago De Franco <hiago.franco@toradex.com>
+> > > > 
+> > > > Update the linux-firmware recipe to the most recent upstream tag.
+> > > > 
+> > > > This is basically a backport of the commits from master into styhead,
+> > > > related to the linux-firmware recipe.
+> > > 
+> > > Sorry I missed seeing this yesterday.
+> > > 
+> > > The final release of styhead is now in QA, there are no further
+> > > releases planned.
+> > > 
+> > > If this changes for any reason I will consider this series.
+> > > 
+> > > The project weekly status report publishes the complete schedule of
+> > > releases for all branches.
+> > 
+> > All right, thanks for letting me know. I did not realise that.
+> > 
+> > I think the real work is on scarthgap and kirkstone, which I will send
+> > another series. Can you comment if this is the right approach for
+> > kirkstone and scarhgap as well?
+> > 
+> >  From what I understood, I need to backport these patches for the other
+> > LTS branches as well, without breaking the compatibility. Is this
+> > correct?
+> > 
+> 
+> Will let Steve confirm but seems right to me.
+> 
+> As for the compatibility part, for firmware files being split into a new
+> package, I would suggest to have the "old" package the firmware used to be
+> in have an RDEPENDS on the new package so that anything that was requesting
+> the old package still gets the firmware, except from the new package, but it
+> gets brought in the image via the RDEPENDS mechanism. That could be the case
+> for a bunch of files moved out of the catch-all -misc packages for example.
+> 
+> For when firmware files are moved from one package to another that already
+> has other files that's a different topic. I would assume we simply do not
+> backport that part of the change and keep the firmware in its original
+> package.
 
----
-Testing patch /home/patchtest/share/mboxes/fmt-Backport-patch-to-fix-spdlog-ABI-issue.patch
+Ok, got it, thanks for sharing. I will proceed as you described, if we
+agree to continue the work.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+> 
+> Cheers,
+> Quentin
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+On Thu, Mar 27, 2025 at 09:45:21AM -0700, Steve Sakoman wrote:
+> On Thu, Mar 27, 2025 at 9:19 AM Hiago De Franco <hiagofranco@gmail.com> wrote:
+> >
+> > Hi Steve,
+> >
+> > On Thu, Mar 27, 2025 at 07:54:53AM -0700, Steve Sakoman wrote:
+> > > On Wed, Mar 26, 2025 at 1:29 PM Hiago De Franco <hiagofranco@gmail.com> wrote:
+> > > >
+> > > > From: Hiago De Franco <hiago.franco@toradex.com>
+> > > >
+> > > > Update the linux-firmware recipe to the most recent upstream tag.
+> > > >
+> > > > This is basically a backport of the commits from master into styhead,
+> > > > related to the linux-firmware recipe.
+> > >
+> > > Sorry I missed seeing this yesterday.
+> > >
+> > > The final release of styhead is now in QA, there are no further
+> > > releases planned.
+> > >
+> > > If this changes for any reason I will consider this series.
+> > >
+> > > The project weekly status report publishes the complete schedule of
+> > > releases for all branches.
+> >
+> > All right, thanks for letting me know. I did not realise that.
+> >
+> > I think the real work is on scarthgap and kirkstone, which I will send
+> > another series. Can you comment if this is the right approach for
+> > kirkstone and scarhgap as well?
+> >
+> > From what I understood, I need to backport these patches for the other
+> > LTS branches as well, without breaking the compatibility. Is this
+> > correct?
+> 
+> In theory, yes.  However after seeing the extent of changes required
+> to bring styhead up to date (31 patches!) I fear that the changes for
+> older releases will be way more extensive than I feel comfortable
+> with.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Yes, I think the recipes deviates a bit. For example, a simple git log
+between scarthgap and master for linux-firmware shows 47 commits.
 
----
+We do have commits creating new packages, which I think we could keep
+them out of the backport (for example, create the ibt-18 package). I do
+not know how many commits are only fixes or related to 20250311 itself,
+I will have to check, but maybe we are able to keep only minimal amount
+of patches.
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+> 
+> I don't see how we can assert that compatibility will be maintained
+> with that level of change.  Especially since our automated testing of
+> the linux-firmware package is pretty minimal :-(
+> 
+> So I'm not inclined to take such a patchset, since I think the risk
+> outweighs the benefit.
 
---NextPart
+I think the benefit here would be the bugfixes we would integrate with
+the firmware bump. For example, in our case I am doing the bump because
+we experienced a bug on the sd8997 firmware release 20240909 which was
+later fixed on 20250311. I know I can easily add a bbappend into our
+layer, but would be great to instead upstream this change.
 
+What do you reccomend? Should I try to keep the patch with minimal
+differences as possible?
 
---NextPart--
+> 
+> Steve
+
+Thanks!
+
+Hiago.
 
