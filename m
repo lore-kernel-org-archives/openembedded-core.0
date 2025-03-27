@@ -2,81 +2,80 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0775FC3600C
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 17:29:38 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web10.2203.1743096571245994869
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF461C3600C
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 17:54:27 +0000 (UTC)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.web10.2813.1743098064165643293
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 10:29:31 -0700
+ Thu, 27 Mar 2025 10:54:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DtAuNheV;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6ed0cc5eca4so25702956d6.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 10:29:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y0fN+fSZ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6e8efefec89so10321386d6.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 10:54:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743096570; x=1743701370; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1743098063; x=1743702863; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=evJ7YMJBEuSbCblF8z1pTQmfRZ5usKgpJ8qfMolYRlI=;
-        b=DtAuNheVv2w5RIGveJNBEGa9V9ai38Ts6VtZg1DDZfpQwcXfo7KHU5ZdirOdrwIqzF
-         NfIZBCtSZwLG3L2CUyZCu5ZMAkYkYFml6m3lkCDaU5JSC3K7kxkeVZMgTXChey9O7dA2
-         lebqtjjb+DDyE1xhoF2T2FoGDJQOjw+kY70n8s6mGPieAneYg5DLDswPqa5bnTfGDiuZ
-         pMT/CppmHj9U5mKYB/KoLunyV+5hAaLWfdqA0dMZ8pelzfOMRPVjWeyKZJVKcHxK77Kc
-         qa0cup2Ua3Zf8NwjYXb/zXvsmHWNrn92Z+QhxL4iATs82Rl+Ke6kBz+CnmP3PffXljKg
-         kefA==
+        bh=tMndSBKrv6uuSCV+dsqvHZldSsxdjWH15AE5UaII7Tw=;
+        b=Y0fN+fSZ4Zl9gPwqAkyqoNz69CuA9FO/mTS3X4r7MHrohJVs+JmMBfJ1ebibNcQ84U
+         Hpa8fl409spqjix+kBxjozy8B/83Dhnld1kYW0IWB+0dvxKieKZn/Dvj2fmrLZh3MK/X
+         R7RY2RjU08k+pNb3H2+Xy1sfGjso9LBGSMWFK/4yeIDNT/cXCKkufzCKgTJXJ7EoVbOS
+         zsWSyq3mi8m79W0in8DA2fwvyy452ewOh1ViPfoDxpt+vqbOXzz70HmEWFMa6cXQ/mIk
+         dZzIo32ozPFy15R1QRY9qcqeq4DEDil8Gb0iUJryHGkqXHhK/29VPi8OFMx3wfmEgakV
+         8hhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743096570; x=1743701370;
+        d=1e100.net; s=20230601; t=1743098063; x=1743702863;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=evJ7YMJBEuSbCblF8z1pTQmfRZ5usKgpJ8qfMolYRlI=;
-        b=CYlyAn1FDVLW3i505SgeXIi+RWhSaB+umnZDk6J1Sp61hl1C7YER3cqVdr7ViltHi2
-         GqDvdyhgZbzoOVj85Sut0BRe0RvGwKCylQg5eFvAUsaTim/2dKRF588FFw+cQZbymBUD
-         99P8WVtHdO6z0z3PNc7j/50Reuh9507fY5RapbCUkCgqehLQ0JwlvXQCoULOiNRPje1n
-         o4hAjsyeY2QDP4T517SEHsVHOpRnY7ko3qZ9CKDbIIjoCSZ0aGVls94j1ednceva07UX
-         yZQj5SYvJ4MhLjJBVKQrbaCLlNQtqWW8HG/+FrGFmP1p9Yy20wVeJd8+CaEFbWICwfEU
-         +MEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHldy3LiKnmAvTxt1V0NXNQk9EgNRqZK7EZTeBx0kYnxOizOjx61KSISyi72Yk53v1dqlkXGNALUOtklrw0o4UBA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyTE/tJT9euJamExDYnxHojM9QngGhv2m50/Z7M3V8Al8RhlQL2
-	g6KY8ItR9mTyw9tihQ65qUedNiM/m70CvJ00gRgiD5pIyrkdN4yEYMfs2PNKR+wttp0pFCsHwwo
-	2pkGZLhAoNKy+AgrI6sDSSh+VK0o=
-X-Gm-Gg: ASbGncvyrouZWc+g62B/0Kfz1vPfbJlFp8qT3Ai1a+BwMef1fK4igCnwzXnHWe7h6Jq
-	PQ84cQ7bzrr25cTWB3QEG93MVGqbSnT2oA72uaD7xtkrpLUStpJDFkB7/Sl1Dl1VD8ENbuZSXcb
-	3q+jjAwwWN+/nTo6+msid7aWWds+R8FjfUTwRIQJzxlaYYvlMtrksz8UuOpkdQ
-X-Google-Smtp-Source: AGHT+IFZfz/4lv0XO94MDh0N+n4mFRnL09jBwJ8NI8PlFiksbsr1cqANFMp34c9DJD5DCm6njsjgrHcSDu3v1/yGyNU=
-X-Received: by 2002:a05:6214:627:b0:6e4:3478:8ea7 with SMTP id
- 6a1803df08f44-6eec7a4606bmr16519756d6.4.1743096569947; Thu, 27 Mar 2025
- 10:29:29 -0700 (PDT)
+        bh=tMndSBKrv6uuSCV+dsqvHZldSsxdjWH15AE5UaII7Tw=;
+        b=bGaDoNhchPigBH9z+li5ud+s1uIs7ES3WOVG2AowuKZqsjznANft6hGAdyqO95IpT5
+         vXReGoRGezXd7V+UcO0waaKOaImgv2ZqhaQHbJN1tTvGcJcwmtDn6POHzwQnt7P0s0QC
+         J/MvzFuqysZxjzioLupRkwETzFPbh23UPqoWH0bGKAeChbK7t3wBEU/3/sHdaO0AAqGr
+         umpoz1t0oTwSPmEIzwJAhlqe1z0Icxv0FURYlVThJPzzd8DTIZErrG6Ey1oK4RP6RERT
+         7wGE2BkTSPiaZgFTudROuog4hqBqD9pgi27QMr14SijMZJmetG31vzpU1imud3jgbket
+         1HUw==
+X-Gm-Message-State: AOJu0Ywoc0gkUYd8sWBLrRCTMNPudKwbWwhH7txRm/TAlUKDlLn0USiL
+	tG5SKBjEyn0FWkgNQ7H1HD0tm0qJh6EVDoAt9nJA8tBdZmpMghOfl6RHgGUupXmNKFzc206LMEM
+	j49+S9PaqVmb1fy49vc1xa7rhcDI=
+X-Gm-Gg: ASbGncvE+4uvhfQTrjY9+hEKMdUXI+UXROnaGQOp1S64z5mfU7Orx80R33BiIFceCPN
+	F5AZmd+BAjWf+QmKoyVDWAwbwqS6QtXroTAcg8gvyrkSZxQSNLRsrkOHuJytDiqXlP3uIGt1EVe
+	EZINi/mvy6E2gmcECBFWU2mqeGrDAMkvplbHmUy7JwiKJocU4Nh0+tbYchXBuj
+X-Google-Smtp-Source: AGHT+IFiWMw+yloqlhfBa2GbCnKgIov6TzmOzqe9yP1eXFrenJ1RkoYAhaMPfkteYGkigoCsFLm5RuRC790Wl6RTyME=
+X-Received: by 2002:ad4:5c42:0:b0:6e8:fcc9:a29c with SMTP id
+ 6a1803df08f44-6ed238be16fmr74276836d6.19.1743098062984; Thu, 27 Mar 2025
+ 10:54:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <5a7b5f6c-1be9-4c5d-bf2e-59e115762d6a@cherry.de>
- <CAOSpxdajP0E0uVMR3QmRCqqmmRMAMnXiZM3bPmOXHGyRrVTfDw@mail.gmail.com> <20250327171239.kvs4jtetjkcs3i2u@hiago-nb>
-In-Reply-To: <20250327171239.kvs4jtetjkcs3i2u@hiago-nb>
+References: <20250327123701.3906604-1-dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250327123701.3906604-1-dmitry.baryshkov@oss.qualcomm.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 27 Mar 2025 18:29:18 +0100
-X-Gm-Features: AQ5f1JppkrxVukFXV1BBG2gcFO49TWbwFUiZNS8H0UKgio5uNL2f0bKxR0W9LM0
-Message-ID: <CANNYZj-+2ESLmCUjGR9ZXK62=wJno85DgFdU3tjsu1O7G5DPGA@mail.gmail.com>
-Subject: Re: [OE-core] [styhead][PATCH v2 00/31] linux-firmware: upgrade
- 20240909 -> 20250311
-To: hiagofranco@gmail.com
-Cc: Quentin Schulz <quentin.schulz@cherry.de>, Steve Sakoman <steve@sakoman.com>, 
-	openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Hiago De Franco <hiago.franco@toradex.com>
+Date: Thu, 27 Mar 2025 18:54:11 +0100
+X-Gm-Features: AQ5f1JokY4pRWZr6_4cXyvEuqvzqI9ReGyn1UanXpfFCvA_3VWa8gBxMpBvFJs4
+Message-ID: <CANNYZj-MktGQNmmejNBici+8wjPWRCZJfLCYV0T+2ETrBWEArw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/8] mesa: upgrade to 25.0.2
+To: dmitry.baryshkov@oss.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 17:29:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213772
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 17:54:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213773
 
-On Thu, 27 Mar 2025 at 18:12, Hiago De Franco via
-lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org>
-wrote:
+On Thu, 27 Mar 2025 at 15:20, Dmitry Baryshkov via
+lists.openembedded.org
+<dmitry.baryshkov=oss.qualcomm.com@lists.openembedded.org> wrote:
+> I think this approach provides a good balance between OE-Core being
+> stuck with the outdated Mesa release and being able to upgrade it,
+> bringing support for new hardware.
 
-> What do you reccomend? Should I try to keep the patch with minimal
-> differences as possible?
+I like the approach, but I don't particularly like the volume and
+amount of 'Inappropriate' patches this set brings in. This will
+complicate future maintenance, and particularly version updates.
 
-You might consider adding this to meta-lts-mixins?
+In addition to what Ross said, can you see what can be reworked for
+upstream submission, and what can be at least reported to upstream?
 
 Alex
 
