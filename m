@@ -2,148 +2,91 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78540C3600C
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 09:53:28 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web10.46288.1743069202682786884
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A92CC3600C
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 09:55:18 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web10.46304.1743069316888863202
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 02:53:22 -0700
+ Thu, 27 Mar 2025 02:55:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NIhtF1EY;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6ecfbf8fa76so9186796d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 02:53:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LLcYE6QD;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6ecf99dd567so8761966d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 02:55:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743069202; x=1743674002; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FSBk5kZ1ma5SBkJ34QyWzRgWjzcwYYM361KPpEldMs8=;
-        b=NIhtF1EYr9KZrk5f86Pgw+3j05FpZeUd3OSXs51PEzGmEWiy6698g3+AdgqJ8MDhMl
-         kTc93z58IIz9Nay9FXZCAjq06Swm4pbqsW+Y4mAlmfjqLrTyeb1R1HAW1q74x0f2HXLe
-         C56+1lXjhCMihogT/XZynHNIEMR4WwTj4Uf3ZvrJZ1d/j3q4NQSjy8H2zA1eJbfBCIki
-         bzpbN6ZtDDWXq6wVkbmTjFskUcEvRFbHlgICcJWOyyiBIMSmV54TDj2PmkTeBzx+/itU
-         G6yIxFtnGQVOckh469MVlf1USqFlNLvLKQyaUECQJtpA42Iib9J1JfjHo9hjVv6ihnc7
-         16aA==
+        d=gmail.com; s=20230601; t=1743069316; x=1743674116; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+4cuVanqRPnBE6Glr/cVe0VpGuY/sFGo+jkXNQhxH1o=;
+        b=LLcYE6QDaC3yzQDpJdreH77PPmo6ItM76yNfM54x+05cY7Jfyly01tpii/E+UTMn8M
+         H2bdKXd5q6zuddiNujwuO5zJVOqisu1ogopWDv841HbmZVwA87RsMpjOPZQbxVsZSCX4
+         dahZfJd+r+q+3kSg4Ii5CNyUbzp5xPlRG178vaQiV+ODdcTENHRpiB0/ShJ70H+3p9RX
+         C3oHKBrv1MttAyttrWEEXynuIVhYror9gwO9klVJc10jIfDGGxlNt9Ac634kSywqZDIY
+         md5Ht706WmJxcPT7FDQcQokIZuGLwYJt6x7KzTk+MJrYe9aDL0xD/Yjz4Nw//IQDu+e9
+         98+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743069202; x=1743674002;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FSBk5kZ1ma5SBkJ34QyWzRgWjzcwYYM361KPpEldMs8=;
-        b=hvY8088cKAs2XcuKczTOxwZ8GFbVC65+xRrFMK00KiSBm0Gcu4aiT8DONEsfRii2d7
-         G0WayYiw+yLQz75ckVOv4gh7zd8qFZ1U1RXavvqg8ql4CN9FRnEmJJXFKkY37yfoqLVP
-         lffl/pMRUZv+PW44l6EL4AC2lYMSBgRNTxvpM/Jkq5RPZOnm6OFD1RUZUln+GRg6c7Im
-         7m764vNCxIbEustCthQFLx9PdY3cieXu1+aNuBIJYjc04dwUyA8imyuKZ6k+oZNSxcIF
-         UJaT9H3xsuQicjs0PJ2pYgOzb66bZhH5ZutHO8JOrs6a6keE74ULF/obz2crDXRm0CKp
-         Xz0w==
-X-Gm-Message-State: AOJu0YyXpuDneemgb4TDKDFndmZYBPiRct6dcV7z+ywJrIWdtOQC58Bo
-	tlFtxAhInE9DBPRNJqSPT+er98336WF/pXiB0k7AjaPj+qud2AJPosGxIYqXa5PRwpYawDW2bHK
-	CPAfcWm6bncvatee0hm8zjkFtzmhxMbqr
-X-Gm-Gg: ASbGncumArFj1rEKX5y2cvKlmzP6Bxa/RkWNlmHHNyStK7ehZ5cQ2KK69w48zVrrJZ6
-	k/D/mw9kMzZkNp5x6aJtPDj7O8+YUSwEIamlIkRp9pRT+Bl90YENWWgxlBh1NnvadcJabjO90TI
-	r+4Emr0Y8h1zHwk+J0TEiYObfIVKhcuBOQe6mmdcGpJ/4Sdkng/gHb8Z04upfY
-X-Google-Smtp-Source: AGHT+IFylySQfAJNnyfnHldq1eIvF/UDU0KrV6sq0pAwuOrT+vLYlrYiLchg7ZXwPkI5DYX9GHi7cdJFFyaiSrvaob8=
-X-Received: by 2002:ad4:4eaa:0:b0:6e4:2e12:3a0c with SMTP id
- 6a1803df08f44-6ed23917d29mr32296916d6.39.1743069201484; Thu, 27 Mar 2025
- 02:53:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743069316; x=1743674116;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+4cuVanqRPnBE6Glr/cVe0VpGuY/sFGo+jkXNQhxH1o=;
+        b=uEcZ/aEhiL2Wk2OAYxqfg1+LGAGBJGW8M9lxHfaFigwQYhmaSrQxvc7m9+tpzhCA37
+         MpieAR6T0TgT20kqrwWBXPFH0r65cdBx+Ff5af0blOl9CrLm7v0IjxAF0hFoLMEDzhef
+         cYmjlirF/C6jlu4X7+hqclkA07u23hxiUyBr8na8HMkpCJwcImfNIITN6TOufni8PrTE
+         8yrH5cKzATaT/CGKYIbgj37MNqEWkixdCrNujN9BrV4u/Lciyh0MjzJsBNY4wma/W6GL
+         z+sHL/MD5i6bA7XmjFYJc7khRdxXelFP6UliPrvhKw6L61Wtd/ynnfbtj60ZMf09JxuF
+         VdkA==
+X-Gm-Message-State: AOJu0YyL72IkZtvsyD7BxDvYGz0HUpbdLg+Xwg7BE1BkgOlOV1UDhCy1
+	DQfbYHYyWNHu6DCVZW+YKUKOnA8CFCmBRZM9kOXi0ZNpUZ/Hqix7bX708vHVBz9By5qmx8LgV4q
+	qwh8tWTn1Z1nvBBQTQxYcCE5fmgbRFg==
+X-Gm-Gg: ASbGnctgnyjzEl2x40JtmQVxoFMpCiblpv2zIt//ba6nP8pZK0uPiFaY1ZncWVEBa+3
+	dwcAY90kBFAgT0ngi2EGvANpyA2/vY9DqzADNp1Ae7N0toL3ipuj0fIbJaYZc8FRcaorKl7Dezj
+	lqpz+xvggyMFAE7UR8qZ0Bm8Cw53ImrR/OGbxapIhjPj64Ii6WnU5r3IO/WppiByqZE4z+my4=
+X-Google-Smtp-Source: AGHT+IHHfb/UMYeKvT4yupidiqTXK7ASKa8mIM9GYxDi2ndDlijwRxqzv0isjfAKL7vDcr0Wz11+fkSvoFdatehehBI=
+X-Received: by 2002:a05:6214:3012:b0:6e6:668a:a27f with SMTP id
+ 6a1803df08f44-6ed23889164mr42207046d6.17.1743069315727; Thu, 27 Mar 2025
+ 02:55:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250327060855.428041-1-rajendra.desai@emerson.com>
-In-Reply-To: <20250327060855.428041-1-rajendra.desai@emerson.com>
+References: <ee5ec3420a89c2e32c539b1f1ceaa0f02db8c25f.camel@linuxfoundation.org>
+ <1262.1743063639790716018@lists.openembedded.org>
+In-Reply-To: <1262.1743063639790716018@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 27 Mar 2025 10:53:10 +0100
-X-Gm-Features: AQ5f1Jpjl-Oc1SCCU7Ew-xYQ93XD6y75OGCs7-u7U5l04iT-6HyVV_Sli49KjfQ
-Message-ID: <CANNYZj8ko8LF8m32CoM2fWTCryTWW_Nwya62K_dpBZqdU_WZZg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] perl-ptest: copy xconfig data from perl source directory
-To: rajendra.desai@emerson.com
+Date: Thu, 27 Mar 2025 10:55:04 +0100
+X-Gm-Features: AQ5f1JpVmKvHlFRHBaRrrVY8GvwWpxLz4dKQfECkFAZkcVi3zAlPMXNVPGE3gIg
+Message-ID: <CANNYZj-5g0OYMyORQa93ycfR=k6oc87FtHAPDpPmZsyo6fs0_Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bluez5: upgrade 5.79 -> 5.80
+To: gudni.m.g@gmail.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 09:53:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213718
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 09:55:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213719
 
-This doesn't address the feedback given previously. Which is:
-
-Is the issue occurring on master as well? If so, you need to explain
-why perl ptest is passing in yocto CI pipelines. How can we observe
-the error on master?
+Please make sure upstream is aware of the issue. It's best to include
+a link to any relevant report/ticket/etc.
 
 Alex
 
-On Thu, 27 Mar 2025 at 07:11, Rajendra Desai via
-lists.openembedded.org
-<rajendra.desai=emerson.com@lists.openembedded.org> wrote:
+On Thu, 27 Mar 2025 at 09:20, Gu=C3=B0ni M=C3=A1r Gilbert via
+lists.openembedded.org <gudni.m.g=3Dgmail.com@lists.openembedded.org>
+wrote:
 >
-> The following perl ptests:
+> I'll try to find time next weekend to submit a v2 with the test disabled.=
+ It looks like the issue is timing related as the issue can go away dependi=
+ng on how you are executing the test. No fix in upstream yet.
 >
->   - dist/ExtUtils-ParseXS/t/001-basic
->   - dist/ExtUtils-ParseXS/t/002-more
->   - dist/ExtUtils-ParseXS/t/003-usage
->   - cpan/ExtUtils-Constant/t/Constant
->   - cpan/ExtUtils-MakeMaker/t/02-xsdynamic
->
-> are erroring out with:
-> | /usr/lib/perl/ptest/perl_langinfo.h:8:10: fatal error:
-> xconfig.h: No such file or directory
-> |     8 | #include "xconfig.h"
->
-> xconfig.h contains references to the build host architecture and was
-> removed by commit 2e0f30c46802 ("perl: do not install files that contain
-> build host specific data")
->
-> However, it is still included from various other places including these
-> tests, and we are still depending on build host architecture data by
-> including the patches from perl-cross recipe, a dependency to perl recipe.
->
-> xconfig.h was added back as a copy step in the commit f90922cdeef5
-> ("update 5.36.1 -> 5.38.0") but was not added back in perl-ptest include
-> file.
->
-> Borrowed the logic from the above commit to make a copy of config.h
-> that is specific to the target architecture. The changes in this commit
-> fixes the test failures.
->
-> Signed-off-by: Rajendra Desai <rajendra.desai@emerson.com>
-> ---
->  meta/recipes-devtools/perl/perl-ptest.inc | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
-> index 4b4756118c..49d322a848 100644
-> --- a/meta/recipes-devtools/perl/perl-ptest.inc
-> +++ b/meta/recipes-devtools/perl/perl-ptest.inc
-> @@ -20,6 +20,11 @@ do_install_ptest () {
->
->         ln -sf ${bindir}/perl ${D}${PTEST_PATH}/t/perl
->
-> +       # xconfig.h contains references to build host architecture, and yet is included from various other places.
-> +       # To make it reproducible let's make it a copy of config.h patch that is specific to the target architecture.
-> +       # It is believed that the original header is the product of building miniperl (a helper executable built with host compiler).
-> +       cp ${D}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/CORE/config.h ${D}${PTEST_PATH}/xconfig.h
-> +
->         # Remove build host references from various scattered files...
->         find "${D}${PTEST_PATH}" \
->              \( -name '*.PL' -o -name 'myconfig' -o -name 'cflags' -o -name '*.pl' -o -name '*.sh' -o -name '*.pm' \
-> @@ -44,7 +49,7 @@ do_install_ptest () {
->          sed -i -e '/Autogenerated starting on/d' ${D}${PTEST_PATH}/lib/unicore/mktables.lst
->
->          # Remove files with host-specific configuration for building native binaries
-> -        rm ${D}${PTEST_PATH}/Makefile.config ${D}${PTEST_PATH}/xconfig.h ${D}${PTEST_PATH}/xconfig.sh
-> +        rm ${D}${PTEST_PATH}/Makefile.config ${D}${PTEST_PATH}/xconfig.sh
->
->           # create an empty file that is checked for existence by makerel test
->           touch ${D}${PTEST_PATH}/win32/Makefile
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#213704): https://lists.openembedded.org/g/openembedded-core/message/213704
-> Mute This Topic: https://lists.openembedded.org/mt/111899754/1686489
+> View/Reply Online (#213710): https://lists.openembedded.org/g/openembedde=
+d-core/message/213710
+> Mute This Topic: https://lists.openembedded.org/mt/111848497/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
