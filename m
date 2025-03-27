@@ -1,332 +1,191 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C0F8C3600C
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 08:29:57 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.45067.1743064196692390918
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A768C3600B
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 09:06:37 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.45499.1743066390378886160
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 01:29:57 -0700
+ Thu, 27 Mar 2025 02:06:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=w5QYkPi+;
- spf=pass (domain: linaro.org, ip: 209.85.208.174, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30613802a6bso7627711fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 01:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743064195; x=1743668995; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VNgxoM0N75isYbtbLqW3UBXp1DagqYNwqx2LHyGUw/E=;
-        b=w5QYkPi+GK7NzYWzHRyh//DWjiOUAm058J3S3am3wjTls8DUyQZSl82tk9jj9fzkT6
-         0SIHDhfN9l8u6c5FlFbcbhPhylYa/5WfQQCkd3CU7HighaDe90VMdbUevhzt8g5/HLNU
-         JehUskVPw2rdbrupkGMK5IXTan9IZvXRbYhVhX5WYqGIa8z4cmbbmEDltUAm+PAU8G5i
-         m+d4mDxYBypY9kUaAdVXleMVMvdpbnKnccaliSEptDnnXOYAPRsSD5uSjzsuYGcd0D2Q
-         cLp+xR8JfsJ8vfNXaT1VBGEy2d2PEh/vSCuXJVjAYvtO43FfymHxxWGPv/0D7CUFavx2
-         AA8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743064195; x=1743668995;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VNgxoM0N75isYbtbLqW3UBXp1DagqYNwqx2LHyGUw/E=;
-        b=fmzQcnAp6wiTkJ04f0OuzyNUcIBZUj9C3kHibu4eQAbJEqQyfPbcvBAUclehez9IEv
-         33EvFb2w66HYoMXbEjL2H4JyIwiaXXj0/RespzEN6a5JnYloe36WoWYbe5Y923H++kjo
-         vniCYsa9iTS5K1C1PWT6fO4rqBJ1TqYQ63g9COrkBCFMAs92eZvsT93U5Aj7LbLkqRUb
-         VCsUEVwNaB4gcQwjOUXB8JQ8dB2WQh/POyR1NqNuxrqiH4xwFAAvfjv7IQ4HC9LVNaJp
-         iigFukBgLyUqyJZ8/DfLaDnWC3JDwUzfexBrzHo8fif234GvniVP80sTHGndc5jViIEN
-         WMdg==
-X-Gm-Message-State: AOJu0YxxHvO8IoGLTyegvXyTBHm2zIvL0OVPXQLP5yZ7CzNG4ucQ0SJf
-	FUJL9hiZ9xaT0YAwREbeapYj4eH/9Fz97uvYc9M9PXCs8rOFWw1VvhuVENM8b74=
-X-Gm-Gg: ASbGncsIZHDVotPzrcWehdRLU+I2Iwz/lMgwqMad6UQnxQWoEcOcAg7Bo+DBg2AgWBc
-	oL5/jUYjdwfw2Rw72Bxu9CYRkW0hllOhvCguWFs5Osyx9kup1N2XLOiC7S+2CWUXP5Nph/nE6bp
-	j8VEa/0KSWpWo7ZDhLPiq41+DmVBfFKwAIowVcYvIqs61AHLbxYNKUQu2/SEKSyvovAaBEi11Tz
-	X22QwFDFt+a39HCYWWBWVNX3zsFoO4niXqLNC0SP2kLwxSwhc7Uwd4jgxhetEFy5VIjgEy5ha5N
-	KTaiPld2zrCIny1k4gZ3zv+jHAQrTgglcxScWV1zNPWzSb+8weP/uFEUG1JKnR7jyYkGuCuwHw0
-	Du63HBQfcyKcL
-X-Google-Smtp-Source: AGHT+IEqNBdJaBa/z8lOxNhC2BL6O4MvLTQRwNurwTgzRX+gJsypdiq/841Aj9Yl6eqaElG2rEzPUQ==
-X-Received: by 2002:a2e:be9f:0:b0:30b:9813:b00c with SMTP id 38308e7fff4ca-30dc5f22937mr10070691fa.27.1743064194597;
-        Thu, 27 Mar 2025 01:29:54 -0700 (PDT)
-Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30d7d9107eesm24571831fa.92.2025.03.27.01.29.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 01:29:54 -0700 (PDT)
-Date: Thu, 27 Mar 2025 10:29:52 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2 03/11] kernel.bbclass: add
- kernel-initrd-modules meta package
-Message-ID: <Z-UMgOrrXLIQH0IA@nuoska>
-References: <20250321132517.670372-1-mikko.rapeli@linaro.org>
- <20250321132517.670372-4-mikko.rapeli@linaro.org>
- <Z91+5mpCocPjYM+F@gmail.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=518172d04b=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5S3Ef025707
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 02:06:30 -0700
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45hvqkddtu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 02:06:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pawF1/l0GQlmgbn0Ep3Bwx2N8QLNfBVgDFMM7M3JqGPyJOs3LXMdKXl66pH7AnBIfamf43prabgsUG9vnayEjbny9TjV9VfX9UbEmjY9WY2+lKOiwGNJF5zk36uJxxKyXhTYM/0O0lCoNtj4gMWjdUc43oNY61/W4CBnxNre+Upr8ky+g8ohweEVKDf7vT+uaghLIal2Ml6WCDO8BJ7lxaEII+QrR2Dog2yzrN8VJck+8/H+MW7Iu+InQ2LXo8n9mQ2Eq3VODy4SvqPLHkGPNjOU5WqRlthoSznB5O3JSyF/ZOriZsXtvIbjsJYZ/VtRe5bxqmooID8lYdNL/fZN/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r12eEvhacbkmVDZNfvztzMMiD0mZ0KxHzOUD2ufQu2Q=;
+ b=QGm0O/Bu96ndZEyosLKX/+391mnE7L1FqW4ROEizmY3gNVit6/NiRUwj0T6lnnyB4E2FBF65zEPNPKLaZ4vRLn2eYrD5P1dfJ44rLKjfRgMfopRFKWet0+ZUCrtdvKeT9c221MBYWdVw6D7dlEIh7A3lqnTX5YLDzSvPmVfo/VuWfQPSYW8vaHiiOXSOpNb8O6UBPOt/4Is5Dj/3wXZQGYyTjmo/HwPJLq6l80mkx+IB7G4G5ku4iCRsLvl8lffIgfX5k35fppgfz1tOto4ogtfFjJdm3rNe21cZppyGNPuHu0EWKugxUw/AzGHzVmCyDzUtetwCMtxkhbyIV3zuow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM8PR11MB5637.namprd11.prod.outlook.com (2603:10b6:8:33::5) by
+ IA4PR11MB9060.namprd11.prod.outlook.com (2603:10b6:208:56d::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Thu, 27 Mar
+ 2025 09:06:27 +0000
+Received: from DM8PR11MB5637.namprd11.prod.outlook.com
+ ([fe80::8ee7:3d97:35d6:d1e7]) by DM8PR11MB5637.namprd11.prod.outlook.com
+ ([fe80::8ee7:3d97:35d6:d1e7%5]) with mapi id 15.20.8534.043; Thu, 27 Mar 2025
+ 09:06:27 +0000
+From: Deepesh.Varatharajan@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Shivaprasad.Moodalappa@windriver.com,
+        Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
+Subject: [PATCH V2 2/5] rust: Fix build break because of "download-rustc" and "llvm-tools"
+Date: Thu, 27 Mar 2025 02:06:04 -0700
+Message-ID: <20250327090609.1096447-2-Deepesh.Varatharajan@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250327090609.1096447-1-Deepesh.Varatharajan@windriver.com>
+References: <20250327090609.1096447-1-Deepesh.Varatharajan@windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR05CA0029.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::34) To DM8PR11MB5637.namprd11.prod.outlook.com
+ (2603:10b6:8:33::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z91+5mpCocPjYM+F@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM8PR11MB5637:EE_|IA4PR11MB9060:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10be6692-90c5-4092-b166-08dd6d0ea7e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?c9Zyb4EFvyYEizlHrM1L4+LE+Idq9qle/GWrV0NDNHe5HNKBFTYDNHL9kwLj?=
+ =?us-ascii?Q?E5AWMsqb7aAELe0h1zxcEesXWJAWXoIiYegWPcrcnuDTax87Q+WWroTiei5+?=
+ =?us-ascii?Q?3S+uj1wOAWKEv20LI3h67DuK60+sNwTdky835nXcGDZXNbUv7Y4qHpuEIZkI?=
+ =?us-ascii?Q?mn3pQcUnvACvZZJsFfx+SmOx/jDhXctOcCON6KcO0Wmne+uGAwLLgGnhrr36?=
+ =?us-ascii?Q?kA8j1D+b4v8TQRcyNJo/FvBdux5eSpHgfb+Rg1DU9uWnCEjMQVwkxof7tSf5?=
+ =?us-ascii?Q?hH7s07ypHHVhO8gy/ENSbRL2JsjA3rmvNrhF4q/wF2dnxc5OsE8+fl99M4WI?=
+ =?us-ascii?Q?Z0VGZCUzNHvms3TuVUzX/DlVoDk9KUIqWDQftrBR673Hcve2RVbDa/okDwQw?=
+ =?us-ascii?Q?L/vjpxx69J325Wpz7kdOtlhcL5lBlJU/DNQY4umKEkc/UjzWCd730e1ajPcg?=
+ =?us-ascii?Q?uqr8wWQEDx4MT1H9mC/pNn2tN7uzyAhxbn3d/I//83pMHodJ83DV8tQHVtaC?=
+ =?us-ascii?Q?I2V3zv6DmZU9KnNTKcgm3erEpMsbS5ZvOsiNo/Osky7ZJK9ls1Ao8DfB2hw1?=
+ =?us-ascii?Q?iFxgkURiFYiyBVmBqAFZBlKtty/DGiHYxySplagDG+VrvvoTmDQieRKySoKX?=
+ =?us-ascii?Q?dgD6CwFxjuDoZ0W2knXm5i4Fz+ijJ5LpAjuZYIETuM+NFN9xH3iRKQ1spJwu?=
+ =?us-ascii?Q?j8wfJcJxCvmwjiMMD0NHhh2FLdjCpaJhB1hchnrig/nyXO0BIervhjVHuVVU?=
+ =?us-ascii?Q?GcTwazaNa8OlyDppwSwwC8mzVbdPP/TVzVO4zA0X2AwWTtvBHrODg0jmMTk4?=
+ =?us-ascii?Q?KLbbL44RLJ7a3GLXuJzFD81DGvs3Yh7L6YPD1nNj9jm0WTQkTpIJ1Dkb53oT?=
+ =?us-ascii?Q?14BlLQTpYmTag5TnI/pGpgxWBzf3KIWaMgggS7H3orRI1TThpenhbshDKDYh?=
+ =?us-ascii?Q?a+LD9y8yiZH48x/4Snlw/jx5TRWQrQQhzyUXbp/NXJGIZ82taGeKmpRG0lCN?=
+ =?us-ascii?Q?WFTla9tGY07S32Kz4Z+dheusW1r5l8TI/Hw3SZ7GHajhAmuamjl8LmDXJ+H8?=
+ =?us-ascii?Q?cZzGEqaFXpl49QNYmsh7Qn9ibSdT30ZUwo7mATPlgsqIybzW+cxUq23SnyHs?=
+ =?us-ascii?Q?Z2D0eglXud2D3/NBsREXC8cHtK1BPmAalvviCspKU1hRkCdcAN3VeDiQN9y+?=
+ =?us-ascii?Q?uw5xXQ8alfwKwGlZWnju+JzDNa9TPsp6eYroldwOb7BqVXnoicnB6CM1MOs2?=
+ =?us-ascii?Q?yvOjahuHYlGLn29jVPBFp74w9LtVoEmW8cr8tOACDJNHwrxdpq30WB3/Rt0E?=
+ =?us-ascii?Q?3LM9NknzEPZhAETGAw3Iry1r2xv8x3PqD0EqOyoGgCfiCueWtqx8fwljnWld?=
+ =?us-ascii?Q?ifniN5mx99GKd3EOl+ihHNmBgAEi5k49PPPwGewGNCHBx1gUtWFJUr4lO6Mp?=
+ =?us-ascii?Q?gOn/xrhYwaDquEZl6ktL639cUBQLXm3A+3wVSBI5K26ZAqCsnN+cZ/W3hoHe?=
+ =?us-ascii?Q?Ms9+41PIJsVTFg0=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5637.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?mzfRglQAo44tMdMDUASwLpbwGA1czAE8JuBkUGpqk04VZ9XnZY8f7YhT3Wj5?=
+ =?us-ascii?Q?wfY0l0obYziRtyY3EkkJMIlIIhTVo+FuNBtAJQhMPL7EoUH1Ud5logfpvkpt?=
+ =?us-ascii?Q?wC99wwgTrdWZfFyHbojk1M/+VyrelDUxRZpqXd4acSUjPdv61if6ED89Gk+V?=
+ =?us-ascii?Q?J/bwAU8bMvPh2v2AT/0V4sWEsRRk023DcwxuwkuTIAjnMqUc1RbDGTvm5aR7?=
+ =?us-ascii?Q?ks76u3Fri/wibFoYqRlS7m+7CPET5mq0j5MaReckU+h+g4PlLlrrccUa9aYc?=
+ =?us-ascii?Q?dsU8PYCfPjnHWr5nbapEOXP6/MswBpxtpOP6rGbQVWINhY2wlyntR0MZoE81?=
+ =?us-ascii?Q?8GjHwTPUFGRBjCuioHWLEV6Cn+M2g4WjFU16gntMROG2KzrH7l8VOAc+mpHd?=
+ =?us-ascii?Q?WYjTTG5oCMEL9dNH1LWzZEgcuJb4hhs4AStin0kJ9bF8rQciImqXKp7178f5?=
+ =?us-ascii?Q?Q17e83SAORN1ce1QVkF1p3RgREb6UkGRfnczSMCHkTf+UkJzQTQxYVYxVdiR?=
+ =?us-ascii?Q?niNKdlozEugyTrx2GC88eoBXfMdh/iFjUJgL2JVZLSwK8cBb25NH6+CvXrDY?=
+ =?us-ascii?Q?qAGzhFLuV7F+K+kw+IvWo4G0beDda6edKorXn7rYZ0bZ9WYnrB+dMt9eJ5Qu?=
+ =?us-ascii?Q?CHR+uMOhy+g9rTtWycxUu1ox0HLOmvZPQ3UOOwAWVfSUFmysZSofEHPeujNz?=
+ =?us-ascii?Q?AScQg5YgltBplIv6WTSYPdNnMwM3eyDriXrBMAXhUoPIEBddkyI3kQif3XW2?=
+ =?us-ascii?Q?ekBFskL8+tsVzKIQHYkVDAOv0/+3FBx9HuGlUguRLcfgA4lJgGMEOCAESASl?=
+ =?us-ascii?Q?PoDK0uhEtW/4J3KkZn2N974m2f2Pqn3qhDRF8/4aMkJZrySmpNAoGir0tPlS?=
+ =?us-ascii?Q?SBSwgqx+YpJLjkh61FM9YWaynrjJ/ipiDRSKfM06e2A5IoapC3pLsPbuwxl4?=
+ =?us-ascii?Q?BDeZl9ltPB4thzQkL5qNyN1bFqnCMeIvmUDFprDZpdp8LtV1u6Hhmjp9hyUZ?=
+ =?us-ascii?Q?vWHBvtg9Nf3AuuPKJhbZPYB6bXzAGbvJPoirfGkS5qAg4BCtR72MvgH0S/A9?=
+ =?us-ascii?Q?fgGGbGu6SiavauyEPZKw5DPkXfuwbN5qZFlZU/ZCwKcoqwlgXoGFH5HwsmWx?=
+ =?us-ascii?Q?gmn/tuVxoU9pxSMj7alJZY2gqEW8YmkgNIGnZ/x659FNlAbfmy/fPhgLr3C9?=
+ =?us-ascii?Q?e7iaaxSypIkzmV+wHyn0MGSnyPcY2cA0nWGLOzrsnMyQdtD34MImEmm82NSE?=
+ =?us-ascii?Q?pWs/0Vlev2zBWCxwCP2NLDv4CGl5dQOmfmL4i8xH/YvwNZoqHhcr7K3M7+Lg?=
+ =?us-ascii?Q?gTOk75hRRJdHa4jy0MPeRvqf1aMRpcSTb8xXXFbRCxLTwXGc4vw6JEt9QQDH?=
+ =?us-ascii?Q?NhgsxJl6OFVL+f12NEB7/UCdlWrQKqeptJYytBLaiE9FW70X9EaJrapO1wTJ?=
+ =?us-ascii?Q?ICWSOVQdC2I18RDhVqD502zG3+cFQR1cSn2rZJWwegsC0WxRdVkJluqM3EPh?=
+ =?us-ascii?Q?b66eFl91FzCHWoYgs8idJW8jJ5KicOtAkXlofjz/QHyvkPui3o2c+QaifVU4?=
+ =?us-ascii?Q?FEbutQ7V93kMOK9jr6fDOF7Yx8Y6uLB2d8EpxITS6jgYwNCpa0R3NBDYUKAk?=
+ =?us-ascii?Q?EPBk640pcLtmX+ucd4P0UCs=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10be6692-90c5-4092-b166-08dd6d0ea7e7
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5637.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2025 09:06:27.1545
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c7zmtMjs0KbRsptTitH/3geHYaPr3lCpEW8FaeBM4kCjSMLHySTk3MK38C8aVp4WKpdeF43bXWyvQd3c5D4y62ee8XOD0ct8SmvctsWJrWWtMKPyRY6HA/y/8LSfGN6w
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9060
+X-Authority-Analysis: v=2.4 cv=XNkwSRhE c=1 sm=1 tr=0 ts=67e51515 cx=c_pps a=b6GhQBMDPEYsGtK7UrBDFg==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
+ a=H5OGdu5hBBwA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=PWzzmaXyrbUS9jlXZ2UA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: wPvTfo9s7un7nZSVXiEi7PxstN5OEutX
+X-Proofpoint-ORIG-GUID: wPvTfo9s7un7nZSVXiEi7PxstN5OEutX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-26_09,2025-03-26_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ mlxscore=0 impostorscore=0 adultscore=0 spamscore=0 phishscore=0
+ mlxlogscore=794 malwarescore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2503270061
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 08:29:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213711
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 09:06:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213713
 
-Hi,
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-On Fri, Mar 21, 2025 at 10:59:50AM -0400, Bruce Ashfield wrote:
-> I was going to reply to v1, but v2 came out before I got to it!
-> 
-> In message: [OE-core] [PATCH v2 03/11] kernel.bbclass: add kernel-initrd-modules meta package
-> on 21/03/2025 Mikko Rapeli via lists.openembedded.org wrote:
-> 
-> > At the moment linux-yocto kernels for various architectures
-> > are not very modular and a lot of drivers are built into the kernel
-> > even when they are not needed at runtime. These make the main kernel
-> > binary big and slow to boot. This also impacts udev in userspace
-> > which takes a long time processing events from all these built in drivers,
-> > for example when udev runs in initrd.
-> > 
-> > Then constructing the initrd is very device and kernel configuration specific.
-> > initrd image needs explicitly define which binary packages to install
-> > to avoid pulling in complex dependencies. A full set of kernel modules
-> > via kernel-modules meta package is too big for initrd and most of the
-> > drivers are not needed for use cases like "just load modules to mount
-> > main rootfs". Then the initrd configuration breaks if kernel driver
-> > is built into the kernel since the binary package doesn't exist.
-> > 
-> > Introduce kernel-initrd-modules meta package to solve these problems.
-> > The meta package adds dependencies to real kernel modules based on
-> > the kernel module file paths so that it will include several
-> > kernel subsystems and their drivers which are often needed to find
-> > main rootfs from some block device. This works when drivers are built
-> > as modules but does not break if drivers are built into the kernel.
-> 
-> The list of paths gives me the nagging feeling that there's
-> a better way. With the paths, it is just something else to
-> maintain and has to work against an undefined set of kernel and
-> kernel versions (not that major directories in the kernel change,
-> so I don't think it is a big issue).
-> 
-> There won't be a way to do this generically, but I'd prefer that
-> this was driven from the kernel recipes down to the packaging,
-> instead of the packaging (the classes) coming along after and
-> trying to serve the needs of those undefined sets of recipes and
-> configurations.
->
-> The simplest would be to have the kernel recipes provide that
-> regex. That way the coupling of directories to the kernel
-> version and provider is explicit. Sure, that means the regex
-> is in recipes (and possibly repeated), but individual layers
-> and kernel providers can figure out how to minimize that
-> themselvs (.inc or whatever), so it is a solvable problem.
+From Rust 1.84, the download-rustc and llvm-tools options were set to True
+(previously they were False)
 
-What about BSP kernels which don't use linux-yocto but do use
-the kernel bbclasses?
+https://github.com/rust-lang/rust/commit/cce6f03754f096f8a2bdfb357e3739b855e29366
+(download-rustc)
 
-I think they should be made compatible with initrd recipes
-and thus the classes should generate this meta package and also
-initialize the regex and other variables with some simple defaults.
+https://github.com/rust-lang/rust/commit/38f0c099b2e684ea689633eb424d8737a1063a5e
+(llvm-tools)
 
-This could make it easier to boot upstream initrd and images with
-vendor kernels and configurations.
+For tarball sources, the download-rustc option should be False, so it has been
+reverted back to False.
 
-Cheers,
+Setting llvm-tools to True caused issues with finding llvm-objcopy, so this
+has been changed back to False.
 
--Mikko
+Upstream-Status: https://github.com/rust-lang/rust/pull/134240/
 
-> The other way that I was thinking was an annotation in the
-> module meta-data that could do the same thing. i.e. it could
-> tag a configuration option's purpose and then use that to
-> generate the list of modules (versus the directories), but
-> again, that would just go in the recipe versus the base classes
-> and would allow different providers to have different ways
-> of specifying what is for the initrd.
-> 
-> I honestly wouldn't provide a default in the bbclass as we
-> just have no way to test it for all the different kernels
-> and kernel providers in the ecosystem. Make the opt-in
-> explicit by requiring it in the kernel recipe to start
-> building the meta-package.
-> 
-> > 
-> > The resulting initrd is also smaller since only a subset of drivers
-> > are needed for "mount the rootfs" usecase. Tested on genericarm64
-> > kernel and qemu and AMD KV260 HW.
-> > 
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > ---
-> >  .../kernel-module-split.bbclass               | 46 +++++++++++++++++++
-> >  meta/classes-recipe/kernel.bbclass            |  5 +-
-> >  meta/classes-recipe/module.bbclass            | 37 +++++++++++++++
-> >  3 files changed, 87 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
-> > index 9487365eb7..06e8fbed6e 100644
-> > --- a/meta/classes-recipe/kernel-module-split.bbclass
-> > +++ b/meta/classes-recipe/kernel-module-split.bbclass
-> > @@ -42,6 +42,40 @@ KERNEL_MODULE_PACKAGE_PREFIX ?= ""
-> >  KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
-> >  KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
-> >  
-> > +# subset of kernel modules needed in initrd, to e.g. mount rootfs from block device
-> > +KERNEL_INITRD_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-initrd-modules"
-> > +
-> > +# match regex to path or file name. E.g. include all drivers with files in path /drivers/ata/
-> > +KERNEL_INITRD_MODULES_REGEX ?= "(.*)(\
-> > +/drivers/acpi/|\
-> > +/drivers/ata/|\
-> > +/drivers/block/|\
-> > +/drivers/cdrom/|\
-> > +/drivers/char/hw_random/|\
-> > +/drivers/char/tpm/|\
-> > +/drivers/char/|\
-> > +/drivers/crypto/|\
-> > +/drivers/dax/|\
-> > +/drivers/firmware/arm_scmi/|\
-> > +/drivers/gpu/drm/|\
-> > +/drivers/md/|\
-> > +/drivers/mmc/|\
-> > +/drivers/mtd/|\
-> > +/drivers/nvdimm/|\
-> > +/drivers/nvme/|\
-> > +/drivers/pci/|\
-> > +/drivers/scsi/|\
-> > +/drivers/tee/|\
-> > +/drivers/tty/serial/|\
-> > +/drivers/virtio/|\
-> > +/drivers/watchdog/|\
-> > +/kernel/arch/|\
-> > +/kernel/block/|\
-> > +/kernel/crypto/|\
-> > +/kernel/fs/|\
-> > +/kernel/lib/\
-> > +)(.*)"
-> > +
-> 
-> Is that the same regex in both files ? We probably should unify them or
-> maintainence will be harder, which is why I'm suggesting that this
-> should come from the recipes, not the bbclass itself.
-> 
-> >  python split_kernel_module_packages () {
-> >      import re
-> >  
-> > @@ -183,6 +217,18 @@ python split_kernel_module_packages () {
-> >      modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name, kernel_version))
-> >      if modules:
-> >          d.appendVar('RDEPENDS:' + metapkg, ' '+' '.join(modules))
-> > +
-> > +    initrd_metapkg = d.getVar('KERNEL_INITRD_MODULES_META_PACKAGE')
-> > +    initrd_module_regex = re.compile(d.getVar('KERNEL_INITRD_MODULES_REGEX'))
-> > +    initrd_modules = []
-> > +    for module in modules:
-> > +        files = d.getVar('FILES:' + module)
-> > +        m = re.match(initrd_module_regex, files)
-> > +        if m:
-> > +            initrd_modules.append(module)
-> > +
-> > +    if initrd_modules:
-> > +        d.appendVar('RDEPENDS:' + initrd_metapkg, ' '+' '.join(initrd_modules))
-> 
-> I'd suggest that we could also have a flag to completely skip the
-> processing. It isn't a particularly expensive set of operations, but
-> we tend to not do processing for boot modes that won't be used.
-> 
-> If it was driven top-down from a kernel recipe like I mentioned
-> above, just testing if the KERNEL_INITRD_MODULES_REGEX was defined
-> might be a good flag for the job.
-> 
-> Bruce
-> 
-> >  }
-> >  
-> >  do_package[vardeps] += '${@" ".join(map(lambda s: "module_conf_" + s, (d.getVar("KERNEL_MODULE_PROBECONF") or "").split()))}'
-> > diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-> > index 64a685a964..8fda61574d 100644
-> > --- a/meta/classes-recipe/kernel.bbclass
-> > +++ b/meta/classes-recipe/kernel.bbclass
-> > @@ -695,13 +695,14 @@ EXPORT_FUNCTIONS do_compile do_transform_kernel do_transform_bundled_initramfs d
-> >  
-> >  # kernel-base becomes kernel-${KERNEL_VERSION}
-> >  # kernel-image becomes kernel-image-${KERNEL_VERSION}
-> > -PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules ${KERNEL_PACKAGE_NAME}-dbg"
-> > +PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules ${KERNEL_PACKAGE_NAME}-initrd-modules ${KERNEL_PACKAGE_NAME}-dbg"
-> >  FILES:${PN} = ""
-> >  FILES:${KERNEL_PACKAGE_NAME}-base = "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"
-> >  FILES:${KERNEL_PACKAGE_NAME}-image = ""
-> >  FILES:${KERNEL_PACKAGE_NAME}-dev = "/${KERNEL_IMAGEDEST}/System.map* /${KERNEL_IMAGEDEST}/Module.symvers* /${KERNEL_IMAGEDEST}/config* ${KERNEL_SRC_PATH} ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
-> >  FILES:${KERNEL_PACKAGE_NAME}-vmlinux = "/${KERNEL_IMAGEDEST}/vmlinux-${KERNEL_VERSION_NAME}"
-> >  FILES:${KERNEL_PACKAGE_NAME}-modules = ""
-> > +FILES:${KERNEL_PACKAGE_NAME}-initrd-modules = ""
-> >  FILES:${KERNEL_PACKAGE_NAME}-dbg = "/usr/lib/debug /usr/src/debug"
-> >  RDEPENDS:${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base (= ${EXTENDPKGV})"
-> >  # Allow machines to override this dependency if kernel image files are
-> > @@ -716,7 +717,9 @@ ALLOW_EMPTY:${KERNEL_PACKAGE_NAME} = "1"
-> >  ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-base = "1"
-> >  ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-image = "1"
-> >  ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-modules = "1"
-> > +ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-initrd-modules = "1"
-> >  DESCRIPTION:${KERNEL_PACKAGE_NAME}-modules = "Kernel modules meta package"
-> > +DESCRIPTION:${KERNEL_PACKAGE_NAME}-initrd-modules = "Kernel initrd modules meta package"
-> >  
-> >  pkg_postinst:${KERNEL_PACKAGE_NAME}-base () {
-> >  	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
-> > diff --git a/meta/classes-recipe/module.bbclass b/meta/classes-recipe/module.bbclass
-> > index f2f0b25a2d..51f864f1f9 100644
-> > --- a/meta/classes-recipe/module.bbclass
-> > +++ b/meta/classes-recipe/module.bbclass
-> > @@ -86,3 +86,40 @@ EXPORT_FUNCTIONS do_compile do_install
-> >  KERNEL_MODULES_META_PACKAGE = "${PN}"
-> >  FILES:${PN} = ""
-> >  ALLOW_EMPTY:${PN} = "1"
-> > +
-> > +# subset of kernel modules needed in initrd, to e.g. mount rootfs from block device
-> > +KERNEL_INITRD_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-initrd-modules"
-> > +
-> > +# match regex to path or file name. E.g. include all drivers with files in path /drivers/ata/
-> > +KERNEL_INITRD_MODULES_REGEX ?= "(.*)(\
-> > +/drivers/acpi/|\
-> > +/drivers/ata/|\
-> > +/drivers/block/|\
-> > +/drivers/cdrom/|\
-> > +/drivers/char/hw_random/|\
-> > +/drivers/char/tpm/|\
-> > +/drivers/char/|\
-> > +/drivers/crypto/|\
-> > +/drivers/dax/|\
-> > +/drivers/firmware/arm_scmi/|\
-> > +/drivers/gpu/drm/|\
-> > +/drivers/md/|\
-> > +/drivers/mmc/|\
-> > +/drivers/mtd/|\
-> > +/drivers/nvdimm/|\
-> > +/drivers/nvme/|\
-> > +/drivers/pci/|\
-> > +/drivers/scsi/|\
-> > +/drivers/tee/|\
-> > +/drivers/tty/serial/|\
-> > +/drivers/virtio/|\
-> > +/drivers/watchdog/|\
-> > +/kernel/arch/|\
-> > +/kernel/block/|\
-> > +/kernel/crypto/|\
-> > +/kernel/fs/|\
-> > +/kernel/lib/\
-> > +)(.*)"
-> > +
-> > +FILES:${PN}-initrd = ""
-> > +ALLOW_EMPTY:${PN}-initrd = "1"
-> > -- 
-> > 2.43.0
-> > 
-> 
-> > 
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#213459): https://lists.openembedded.org/g/openembedded-core/message/213459
-> > Mute This Topic: https://lists.openembedded.org/mt/111827585/1050810
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > 
-> 
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+---
+ meta/recipes-devtools/rust/rust_1.83.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-devtools/rust/rust_1.83.0.bb b/meta/recipes-devtools/rust/rust_1.83.0.bb
+index cd470b1883..ee8c782ce3 100644
+--- a/meta/recipes-devtools/rust/rust_1.83.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.83.0.bb
+@@ -137,6 +137,8 @@ python do_configure() {
+     config.add_section("rust")
+     config.set("rust", "rpath", e(True))
+     config.set("rust", "remap-debuginfo", e(True))
++    config.set("rust", "download-rustc", e(False))
++    config.set("rust", "llvm-tools", e(False))
+     config.set("rust", "channel", e(d.expand("${RUST_CHANNEL}")))
+ 
+     # Whether or not to optimize the compiler and standard library
+-- 
+2.43.0
+
 
