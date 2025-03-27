@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A76C1C3600B
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 19:44:28 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.5462.1743104667297152157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83E84C36011
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 19:44:38 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.5273.1743104670015861937
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 12:44:27 -0700
+ Thu, 27 Mar 2025 12:44:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xlEvnKRK;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-223f4c06e9fso27554285ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:44:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=g0nl9hZ9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-224191d92e4so29627665ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743104666; x=1743709466; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743104669; x=1743709469; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zH852jpgzzlbcznKEWymn2jkDxLZ++SiZ/5aMCcV6rc=;
-        b=xlEvnKRK9TZEOppfsertUXxPCLYJ15y346HjKsZE8o+8n1YcZnF3c32go+xY9oPSaO
-         ueSA/dqADZxXh6zgcDzKax9OYlm897aDoiE63RsAb48dQ41fZxMzWuDgt8WPZxA83wKd
-         vs19gt+PXePLoegSl5UzQE5okQmAuB3ssxvnXjaWzzbVs9cRT71VCJ3TBy6IF/HL3gjz
-         IaRDZQxVBpHRgIe3baCNWg7Y4djf+xgVLlC3IqsSTUMIMA6e+1R7jllaf93lvFfoHukZ
-         +eM5aKcUiHnI5dmsaqgpRUfk/ZTA9VutsBfDjgkb/8+2YjtmSlemodrx+6ZlDtFYo5YY
-         b1pw==
+        bh=Ezc4l0ONo4CBQGusmJWtNZx+ToEBnBifGHnoPUJqlk4=;
+        b=g0nl9hZ9AeDvO6RbuCwK5xCyoMNjYdDpY5IUeaWFYhKWOcq3jZftHD1NuXuUWtY5O8
+         +DTZDBczMxppAUdt+Fsmk/y9c7CzVU4/bb+B/XIkUCCLBCX6oXmckffIW5Of7+WqM4Cr
+         bLz5dEpC+RKjd73+M3EUrrtS96TmGNCkk9jBdJdqaUrt8vBIBvlitsQ7Z5r792heNDOc
+         uZQzmFytxlEI22wndBI/O2P4Gm6ap5IecGf5GfPsg/bdM5+zdYBM7DLiNA5n4EZBwfqx
+         P2BajN8v4kXasttl7B2o0WzRqgfxYGdwxI4jzjjrStxkX7I+1ZN3/x0p8k0o1uTNXOF7
+         IgTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743104666; x=1743709466;
+        d=1e100.net; s=20230601; t=1743104669; x=1743709469;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zH852jpgzzlbcznKEWymn2jkDxLZ++SiZ/5aMCcV6rc=;
-        b=QoTD3/shA83Hrtq8gp+zqcFIT1yXaIcLF6Oln9ByozEz0nmLBU7WeoT/g0c4bK6Z9F
-         lZbQLLA0eZmSeYYOqtbgv6mfv0rZxmMde5GnCvoW2guwfhoYTl00FAcbvqhCCRKoLP3L
-         lUVKfkLw8R1Shidh/HnUZwAEXamnT1EeaIeJxTWMS9Jr/KU5qPfLGDncaQCIIQE5dxi5
-         jAeu5rVTNzntMs6T8Rn8nbxGwYD59ap1BvorJs8d9M452fxqiiYYuk2wsKnE2FyL/5L5
-         +rjWcDR0qDamN+gquR/uTpFiZxA1Pa4tOtSANI7wS9XJ77Avaze5OGr7vx6liY+gMmH1
-         djjg==
-X-Gm-Message-State: AOJu0YxSLsGi5DLL1JsI7T14zuDRziIVjHlFmhcwEUtXzYHt7uLSj05s
-	VUeneeNRyBwHkb5i7C4m93fJWLY1pkBvSf2B5vzrJm8YQSB0m/BzNy/1DOFueIlgm9JhnWu06Np
-	p
-X-Gm-Gg: ASbGnctP1FulAT4KF2JqYCdYEIxYJfZJAROTEHKvUCL3UIsPSyP5xyjmrUX0GrUEEYF
-	xzRBXTng5VfvXja8JWefoddAtMAMqPyiQt/cgyyKEBx4wWV6BmfejYS74Tprb50Ou0pJU79CgAa
-	99u6FkrHRVYl82yvK+OK4Iah4VX+3Fj4UaU7xSRpk60ieIN5nwK3SbwVKqgCkuEXMfIye+oTExB
-	PKS4BMoYwvpXBc8NWpiIz7hDa+5CpLWXfjjqh1rNaaYlWcB8ukRD9BuPNE0nYrnSOZbM8ppjtR7
-	91Tul7tAgt0mfHp6+8JPFfScTRq7WqIPXzW0Vr262d1czA==
-X-Google-Smtp-Source: AGHT+IGsAdr/vP4dnUS60hosVRXosK+J9xHpk4FZNuHRNvVcVJk93zWiZK1ZPV4uA0dod3msQwhP8Q==
-X-Received: by 2002:a17:902:e744:b0:21f:98fc:8414 with SMTP id d9443c01a7336-22921d733b6mr841365ad.26.1743104666297;
-        Thu, 27 Mar 2025 12:44:26 -0700 (PDT)
+        bh=Ezc4l0ONo4CBQGusmJWtNZx+ToEBnBifGHnoPUJqlk4=;
+        b=cCoQHHJYxhTvrveoLNz7XngrFWQDzZYKPn5M2QHWBuR0xSVrvtbyiE/hJM7WVzVj/U
+         XHokGNXNAShWQiZR1XpngA7+a3djX51Kb2h89ckKVo9BTVL+T19EArIWxH3zi7Mslvj4
+         ssV0oCs6aDHqjqSwEu1F6II9DZ9s/YWVTc3xsqw+cb1EPo69elkuEQRBkw4SJRpqoPW+
+         hx3YMWGbXcy1yLfqvR9dP0J6bB8cRz87DxSxCnEyHna834By5q1CbFp6bkDnnlZOpdfi
+         hk5hlK8oq22w38k9si3pCrUo9Up8ckkvRpw+mkAwf8i7GxqhrG0xS55f6hlfhclu+A+2
+         z2/w==
+X-Gm-Message-State: AOJu0YxbnAA28LJea37fx/KDrPom527iFZnoeTLMLin/sKOn4jDyUTAf
+	1j72p+OFM6Svb0xSvJX5McPHuZJKPowuXpWhIodamwY+EMrH7HVo0RvsMaK9pmAXsN6xHumL/vA
+	K
+X-Gm-Gg: ASbGncuGBuWpKtYRfx6B/RWQ+JSRAPKY0jPKvMytkaZ8HHBYwv6JwY7Uui1T4c6v0Zz
+	eIvSmhqsfne5NW6m6AF4xHRBvc97CmF9+bMusRgFpwOL1ToFrkFHcxGua2ctcfXPGcDis9sM1EM
+	2nhDuistR8u6Cb+d7BpG1LUX3Z5Kjd1WhJr9eQ4ek2H5KH1X7lach//BD2Qiqo0+jrUkkVqZ1My
+	JCa8ZumMKuJpmS+w051sV8q5DG9+lAuaczOR233CNW4/35/fLun4K2iltQgiuuAv2Uxj3KGs7g3
+	n2JawAhOeBG8FI3xDN1OQUWGW3QY8MIvmHhXpNY9jjQR9g==
+X-Google-Smtp-Source: AGHT+IFRlsa5sioGMIhJuKOLzhcdI4l1GvA3OZYz3a11R+f0Q5sYDCT6GYnp99ETwmY+9sZIhMaBVw==
+X-Received: by 2002:a17:902:d551:b0:216:794f:6d7d with SMTP id d9443c01a7336-2280495aa5bmr84025145ad.48.1743104669230;
+        Thu, 27 Mar 2025 12:44:29 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:811c:968e:2c1:6363])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee0882sm3865875ad.75.2025.03.27.12.44.25
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee0882sm3865875ad.75.2025.03.27.12.44.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 12:44:26 -0700 (PDT)
+        Thu, 27 Mar 2025 12:44:28 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 01/10] qemu 8.2.7: ignore CVE-2023-1386
-Date: Thu, 27 Mar 2025 12:44:06 -0700
-Message-ID: <6a5d9e3821246c39ec57fa483802e1bb74fca724.1743104524.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 03/10] vim: Upgrade 9.1.1115 -> 9.1.1198
+Date: Thu, 27 Mar 2025 12:44:08 -0700
+Message-ID: <a6cf72f3a01d8e6ea310d6759d5b98813e3edaac.1743104524.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1743104524.git.steve@sakoman.com>
 References: <cover.1743104524.git.steve@sakoman.com>
@@ -66,43 +66,41 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 19:44:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213777
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 19:44:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213779
 
-From: Madhu Marri <madmarri@cisco.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream Repository: https://gitlab.com/qemu-project/qemu.git
+This includes CVE-fix for CVE-2025-27423 and CVE-2025-29768
 
-Bug Details:  https://nvd.nist.gov/vuln/detail/CVE-2023-1386
-Type: Security Advisory
-CVE: CVE-2023-1386
-Score: 3.3
+Changes between 9.1.1115 -> 9.1.1198
+====================================
+https://github.com/vim/vim/compare/v9.1.1115...v9.1.1198
 
-Analysis:
-- According to redhat[1] this CVE has closed as not a bug.
-
-Reference:
-[1] https://bugzilla.redhat.com/show_bug.cgi?id=2223985
-
-Signed-off-by: Madhu Marri <madmarri@cisco.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 8e540bd287fd56e3a714f81395b59dd508a6d957)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index c3401533cf..38ed637b93 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -82,6 +82,8 @@ CVE_STATUS[CVE-2023-6693] = "cpe-incorrect: Applies only against version 8.2.0 a
- # NVD DB has this CVE as version-less (with "-")
- CVE_STATUS[CVE-2024-6505] = "fixed-version: this CVE is fixed since 9.1.0"
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 823cfe24c7..c7f3987134 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://no-path-adjust.patch \
+            "
  
-+CVE_STATUS[CVE-2023-1386] = "disputed: not an issue as per https://bugzilla.redhat.com/show_bug.cgi?id=2223985"
-+
- COMPATIBLE_HOST:mipsarchn32 = "null"
- COMPATIBLE_HOST:mipsarchn64 = "null"
- COMPATIBLE_HOST:riscv32 = "null"
+-PV .= ".1115"
+-SRCREV = "c0f0e2380e5954f4a52a131bf6b8499838ad1dae"
++PV .= ".1198"
++SRCREV = "f209dcd3defb95bae21b2740910e6aa7bb940531"
+ 
+ # Do not consider .z in x.y.z, as that is updated with every commit
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
 -- 
 2.43.0
 
