@@ -1,338 +1,248 @@
-Return-Path: <philip@balister.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C808C36018
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 14:20:50 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.48796.1743079049716837604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59301C3600B
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 14:27:20 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.17])
+ by mx.groups.io with SMTP id smtpd.web11.51128.1743085637311860576
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 05:37:29 -0700
+ Thu, 27 Mar 2025 07:27:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=b/tjw9MC;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5ja2J012658
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:37:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	R408BpbNP8yU6VNZxLumx3rlFUhr7aYowf+OKNehUzA=; b=b/tjw9MCa+2jCXkm
-	CpN36qpR2+jQPr5/h+lYcga6Z3onpBdSxP8iqswCfGUzxKOXe7z8tDbman5UU1ep
-	FL1tmOlKjL4QxDVzHrAcRnVKLggFm32ZhT3WJv8IOOXa83jG8uD1xeu5WtTnL6t9
-	ESh1VATntMUBGoS+7O/pCHsDFNdKpOdiuvf3xXZAKtdz6lk7LGJDnnrSpgaGZ0Fm
-	L52e9GBMpgL323043Klpclrf1zMCt5KnkL2Teb9FV4cj0rTKj8x57dZNTgeS8RPZ
-	V675kcaQGqAnj5scqT6XNzu7m+Q4dYDNgKewaT7pJCtLDmwRjVp/Mq4pHCjjxkCI
-	leccsg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45manj4wns-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 12:37:28 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7bb849aa5fbso200743385a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 05:37:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743079048; x=1743683848;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R408BpbNP8yU6VNZxLumx3rlFUhr7aYowf+OKNehUzA=;
-        b=IMaxoM8e67ToCJwR+hkekaS9zAe0+bL/AJ2ARzaZzwvYFiZ0WeN80NpPJpN9xmvUHC
-         SxURRotF9doBdXqxoZIGBMDA40+/umx8pjJsztoVuQgDAC7oNaYGoQ1Wo8j1qAf0d74E
-         fqPcaEOc6cJbBdC6QgRi+meWn6bIoBqnxcwjlQNRpc8SDavmn3POmn1wLulFRIUHwH5D
-         fchISEbkK2xZ2W6QVaCDMadHH0Eyxs8lCuwL/wGcZZGdbA4/FabmXrvmS0Z9YfsRZBKY
-         n1EyB87t/ejO/s8ZNI+mlqHaX9w3vTLlZ6kaZJTtpZzvxJFQPHOiNnxJR0Y5eEOegdno
-         /kRg==
-X-Gm-Message-State: AOJu0Yz4E7ozwW66R5jQXf/QIbdSQD46pYu0h2QDN/NUEG6XtE5xoBNT
-	RAToDYvOTXq/ikpT6Ikf9L8RWxPymp6HkeOeiuoUT1aGteLx1LSH46Zm810P+Al2It9DJKRk8+V
-	koZLAQe/jbf4rN8ot4RpwPWy8PIqr4MfO+ZCGT4SeS6N/pKybmO0E+AagucmZWDHoB1+0dusAEA
-	VvtJmXfgiVHPw=
-X-Gm-Gg: ASbGnctOgqWpzyead54x1jajU4XcLc/37NnV73doyxhfkZiER2AJwWZMJzI6unuRMrg
-	EyDt8YyNt9Zs/N/xvvsQSmt7T0EXhea5ObrU9vxRHFi1yahqSim3ZcPN5+MFfJOd3PqkK9SEWgm
-	YhJUGirhZY3VCNg1g4nt77NJbzhglzdlb34lW+DQBp622+z18kYk4B8H9sO/bXpjnxU2jn+/QPT
-	vVtCCxy+Vftax7iSF3sqnUHXYgtOFI4X3Z5u3aP6wLJk4hd/z3sDFKz5SEzO5deKuvrQlTg6Z27
-	GtP0EJUEnLDXFVFBEDtzDw6O4ROReuZqnAFQaiZ2eplzkOwtXUeW8N7YR0+dJFW9zNPCZhL7dpD
-	FSO59Pw3PNHmdj46a6sIK1ymA5IkE
-X-Received: by 2002:a05:620a:40c4:b0:7c5:5768:40b9 with SMTP id af79cd13be357-7c5eda8001amr473906985a.43.1743079047593;
-        Thu, 27 Mar 2025 05:37:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFgHC0x0S3skNR/K45SU9fpxMwhULH55X/AHn0qMWYMynfuNsJDujP7WBClMqEY/S/lvN9JNw==
-X-Received: by 2002:a05:620a:40c4:b0:7c5:5768:40b9 with SMTP id af79cd13be357-7c5eda8001amr473902485a.43.1743079047042;
-        Thu, 27 Mar 2025 05:37:27 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad65121e2sm2053600e87.235.2025.03.27.05.37.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 05:37:26 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-        =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH 8/8] mesa: add support for RustiCL under PACKAGECONFIG "opencl"
-Date: Thu, 27 Mar 2025 14:37:01 +0200
-Message-Id: <20250327123701.3906604-9-dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250327123701.3906604-1-dmitry.baryshkov@oss.qualcomm.com>
-References: <20250327123701.3906604-1-dmitry.baryshkov@oss.qualcomm.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=h5SQs6gJ;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=h5SQs6gJ;
+ spf=pass (domain: arm.com, ip: 40.107.130.17, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=Q13qTphk1WJks5qZZ2aqElKB5lZEg8qYFGtJIAxijXxBgsAoDV/FpGnFn5sunEhgWrNxwPZy83/Cwi8D6HqrdKN2sMSHXxHysw0bDCF4b8UL6rALfkG+vNkInftQSZkBmdOIxcWtoSgryftgSygK/AHo/leDDPgsYiQ+vc9/JLVVOSaC61uTZewPk6aAqGmFbUahCI154UMknjBkHV0fjU11V0KuATJiio/m9OcfxSLzIsS+8yP3sF5JXaowLmomvsk+cPbippgRzXQQwaSDCH5J4XbGbAcVmOioVIQsyeEb9BT8MC6sdaZ9u38wc2JrIAgqhAx1KgjdLY2P4Rkhow==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5PVMOrfOwGADvPTHQB0YXnjD6dRUnJRaKwA/GzHcRAM=;
+ b=HQ19Bcwa9OHuMtXGq1M6i1BVHb1nrdbryOGL6KQ54ypC2C0x1PqO2YOHSZ12tWPI7UT5gX8n/biiwB2+acvrMQmA1TVwyKh0A53Iy/qnXt3DK+jCzAkQW1nAjO9/laR3LKG7alCj5Ya94jCKLak6BQZHwhwTrYz4E/v4X/D7k1XLG4sg7+26DAY/fsKLr89uhZHPck99Vr8Wn4P1v9SMeete3orzxjN7DJyMIPVlMK6VfJ9cwWvHJB60jGUk4JgNgyCV8PH0mHS91DTQ2J1pRKCPyX8dc/hDLl8ZJ2CYpHL1A07rDajzij7yhki3V0RyZvaqkIASJKywE+4cGQUlmQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=fail (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=siemens.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5PVMOrfOwGADvPTHQB0YXnjD6dRUnJRaKwA/GzHcRAM=;
+ b=h5SQs6gJ1WdhzMF11lIF5AACoCJNAdwf41Cxi/zPxyoBiTxQCZ8o7hHfyRjfV2dxHOpKivi6NhV3zmKo88YvDcmSokQggIl1TvEhEOf+Tf7eIMF4IwDeko7IPW0shzvJpk50gT+aZti1ZoQwphgpnWOjzEn672HYc76R3otJqZk=
+Received: from DUZPR01CA0198.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b6::29) by AM8PR08MB5812.eurprd08.prod.outlook.com
+ (2603:10a6:20b:1d5::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Thu, 27 Mar
+ 2025 14:27:11 +0000
+Received: from DB5PEPF00014B92.eurprd02.prod.outlook.com
+ (2603:10a6:10:4b6:cafe::43) by DUZPR01CA0198.outlook.office365.com
+ (2603:10a6:10:4b6::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.43 via Frontend Transport; Thu,
+ 27 Mar 2025 14:27:11 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Fail (protection.outlook.com: domain of arm.com does not
+ designate 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com;
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB5PEPF00014B92.mail.protection.outlook.com (10.167.8.230) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.20
+ via Frontend Transport; Thu, 27 Mar 2025 14:27:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SVBOJODOS4/HV+Iv4FdwO6h2iX0d2HoL7fdwK9Dx8CPfTwMTmgJHlYDHdtMCk+EO4BHCq2S4QBsTrw3/C7u8F7Nwf0pUQPWDJuTYDPawFJdb8pbbHVZlYUTpCcmWshbhVE5K7C2w+gZtowMBiTpqdOE28LE41swcA96mRZRBMavHl6Ww+DAPeNjJnFqZw1Zj4Xtx37MohhuY2qhP4otfvYowPe9YUR3I4rrWhSRrK+Iv3bg3mazQMPmFl8qLbgdHodS2A7R4vdJwYarJ3GtEZp/XfCdnz9aRLQOC5zvy1qhk8lhCPFC2ZBOPjlJ5ag4TJTi2YHKSt88rSUCpToC+8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5PVMOrfOwGADvPTHQB0YXnjD6dRUnJRaKwA/GzHcRAM=;
+ b=OU3exNkxqwIpRfkBlo64Uy8GY14Xr8U5nDUMMISUoJycNFQ0ILcJ+qx9GYwd6p3VrMyc55Xy/TRWZ4x+D7BXk8blaqVE5J3UaCTWNU7ndXgTS1Ta0P7itb90hLfVmg01CmY6sQcZjNS3fYyUaMqwf3x7oQVCHZo6D57oXniK7CRlgHefhf77L1J+YLkvvwpNisALeST7ssEVaHUSEI4bn9u9Xd7v+FFk3LOA4WpjgakJ2n1K1sgZOKqtPc50Z7pPku9p7C3+qTkwA+eG13SsvIamuCYuT0jiWLnDJaptZObcWGCVAcN3JwdaogFmhsNqN0K5zLBq9pU0zKlGipJVBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5PVMOrfOwGADvPTHQB0YXnjD6dRUnJRaKwA/GzHcRAM=;
+ b=h5SQs6gJ1WdhzMF11lIF5AACoCJNAdwf41Cxi/zPxyoBiTxQCZ8o7hHfyRjfV2dxHOpKivi6NhV3zmKo88YvDcmSokQggIl1TvEhEOf+Tf7eIMF4IwDeko7IPW0shzvJpk50gT+aZti1ZoQwphgpnWOjzEn672HYc76R3otJqZk=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by PAWPR08MB9807.eurprd08.prod.outlook.com (2603:10a6:102:2ee::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Thu, 27 Mar
+ 2025 14:26:39 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8534.043; Thu, 27 Mar 2025
+ 14:26:39 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "adriaan.schmidt@siemens.com" <adriaan.schmidt@siemens.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/1] libunwind: update 1.6.2 -> 1.8.1
+Thread-Topic: [OE-core] [PATCH 1/1] libunwind: update 1.6.2 -> 1.8.1
+Thread-Index: AQHbnyOfNZLEbyCx8EGAKjVX+HMKtbOHCi6A
+Date: Thu, 27 Mar 2025 14:26:39 +0000
+Message-ID: <607113C9-1438-4B7C-8B23-FA8911BEC331@arm.com>
+References: <20250327141258.2690906-1-adriaan.schmidt@siemens.com>
+In-Reply-To: <20250327141258.2690906-1-adriaan.schmidt@siemens.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.400.131.1.6)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|PAWPR08MB9807:EE_|DB5PEPF00014B92:EE_|AM8PR08MB5812:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2330ef4b-1852-4835-c1b7-08dd6d3b7694
+x-checkrecipientrouted: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|4022899009|376014|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?MUliYjY4czREcFU0L2Zibmo4VlVqL3F0dUVEV1BoNHkxdks2RFBDSitJbjFj?=
+ =?utf-8?B?TUZnYlU2RnRWWEpvSUJRWWt3cllkcDN1ZzVyeGxkdHA1Q2p6eFZjajZaT3Vz?=
+ =?utf-8?B?Ti9FeWNCSXNCcklqTUpDVCs0bExSeG1reE45aGo2ZkRESjg5NWdRNUpXSWUw?=
+ =?utf-8?B?aGF1R3hPRDF6T0FaNWZTK2d1S0h0VHdGTUcrTnhuSFBZMFlrZmNnekV2SFRX?=
+ =?utf-8?B?N2dQZUJqMUlTejRIL0swUzBpbURuNkJ3Q0I3UUpUUzZvVG1UQXdTblo1RHE5?=
+ =?utf-8?B?aGUrZXRLTVpMditJbEZnaDNhbEtWOEQvVTVZZ0RXN243SW53dEFVV2pidUdE?=
+ =?utf-8?B?NkdGTHRKY21nYnVZeEtlYXU2eEhxZDlQMDFiTGM5Z2Frd2QyaUM1VnNtQWpy?=
+ =?utf-8?B?OFAzNlZucGk0YzQvVjdrUnQyMFF4eFJrYkx6V0ZldTI5bXJoME9nT2JyeFh4?=
+ =?utf-8?B?cUE1Ynp1VUJOSUQvcFJuL0kzSHVsTHNnRTViVEc2R3hwMzZpazQ5WVNKbnpK?=
+ =?utf-8?B?eVpGa1FPdW5SUVFXdVVQc2Q1Rm5Hb3BuZ2lrbGhFcEs0b2tYbVhWVG5lekFt?=
+ =?utf-8?B?MEdPL1dQY2ptZ05ZZ1ZscEVyajcvNVI1VVg0Z3NDT05nci9LR2MraEFoTUs3?=
+ =?utf-8?B?RHQ1YXhtemZEUFdHcUZFZHZlRTdicDhRVXY0ci9va2hVWTVrUUlDN3NrWk1M?=
+ =?utf-8?B?TnhhQitPNkNBandMQThDcVI0Z01MeFV3cHBDK1Q1R09aeTROOXYrUmhPMjhB?=
+ =?utf-8?B?bHNIMGVSNTlJQ29nc3pTRDUyVXQ5ZEVOSjFmKzFiTFdnbEl4dDUweC8vNi9o?=
+ =?utf-8?B?VEkzSGZ0NmVBWXFFUFRMWnhzMXl5dnNwT2tiU1ZRSDM1YlBUNi9IY0gzR3Nw?=
+ =?utf-8?B?bXEyb3dlYk5oRHFLMktmU2U2bXA5b0VWcTg4WDBKd1dUVFV6UU1DMkRxank2?=
+ =?utf-8?B?czFSV3gvNXBPQnhtOStLMml5WTJxcWl5S1lXQ3BicGNDSnMxM2hZTmd2bk03?=
+ =?utf-8?B?WXNRSTIxK3BoZ3VqUUhsbjd3YUdmODZQK0YwcW1zdXVtOGFpaWNWUldtYVVv?=
+ =?utf-8?B?U0ZZeUg2YmdjRElzdjRuN1NhVTRQY0xDdG1xOHZEdFVRU0JoL2FDVUxZRDFE?=
+ =?utf-8?B?SC9qakd4NWRTS05HWWZESzd0anVFTTIwT2t6WVl4aWZacW94TXRWQTVqQnVD?=
+ =?utf-8?B?M2M3aDdlVCtzaXB5bHFoZW9HTkVMSUxBakdIWlExVmZRQXJlNnAzTnd4VkY1?=
+ =?utf-8?B?T0h3YmdlRU14eU1OeE1vWDcxanZQUkNpcWd5M0krREJnQ3QrakRXQ1A2WHFm?=
+ =?utf-8?B?RXR2SE1NQmdPVWFUYURLV1IyWjhJV3BtbTZPc2EyaWNLVHhTa3FxMktCTWlu?=
+ =?utf-8?B?a21QVE5zS3dXL1g4Z1BFZmJZaHdyNW1xaWwzS2JyYUQzc1pJNGtWL3VsaUhx?=
+ =?utf-8?B?a1pwclFNRmpDMzRhUHZnUU12UjU0R0lXa0U0ei9rTUJaVFZOSXB6UGdmaVht?=
+ =?utf-8?B?T082L0tRWUw4blFiTGRiVlJQRW9PNEg1UnFlTjd0UVlwWkFMTSs2VGZDLzg4?=
+ =?utf-8?B?bUx4ZjZtbEpSeVU3K012UjE0QzVMWGl4ZWN6WjhKNkNhdnZlb1hDV2lNdHV1?=
+ =?utf-8?B?UC9GelYzNFFkVTh1alpTYWM2cG9aRzV2KzlGYUcyRytOUzR3VXVxeW1EZXR0?=
+ =?utf-8?B?Wk5DV0VLTllaOWVLNWNUTGtVcFJGeVk3QXVWczJTRGpjOTU4TklMKzM0Tzgw?=
+ =?utf-8?B?WGZDaytCVUNGRjdQcEpGYXRhVmdvangxaWlEbnpxWWZwTlp2dEd5N1VkN3BT?=
+ =?utf-8?B?RndJcmtoai9hNUxiNW5RcEVPWVRtaG5zbWtCTzlVVHNVWVBiQ1hqOEFVa2pG?=
+ =?utf-8?B?N05haDIvN29LbjIxeGxSTlhGdFk2Q2RWUENUemw5NDNYWW5waHZwTDJFeGxX?=
+ =?utf-8?Q?X1z48i11RpdD44mssPAI0LmEHy9X9/+n?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(4022899009)(376014)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BD427637E1FB484BBFE267906990AFDD@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Proofpoint-GUID: vGqninUlRR1lzZ3UcIyfVhhoQ30xHkPg
-X-Proofpoint-ORIG-GUID: vGqninUlRR1lzZ3UcIyfVhhoQ30xHkPg
-X-Authority-Analysis: v=2.4 cv=KvJN2XWN c=1 sm=1 tr=0 ts=67e54688 cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=ZpVaWaFtAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=dgon86aGx0aU30rBFdEA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=5tn4MO8azEBWFjlAA-rn:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-27_01,2025-03-26_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
- malwarescore=0 priorityscore=1501 clxscore=1015 mlxscore=0 spamscore=0
- impostorscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
- adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503270087
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 52R5ja2J012658
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB9807
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5PEPF00014B92.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	c6ea0d72-6413-4eba-4e4a-08dd6d3b6379
+NoDisclaimer: true
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|14060799003|35042699022|376014|1800799024|82310400026|4022899009|36860700013|13003099007|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?YVE5NFlRQ2g2WmMzS04zZ01EZnVGYjZkaEJpU1dDWExRODk3VTZiSnVTbS9M?=
+ =?utf-8?B?bGJlMm1wM1JKc1dHRjB3dGJYeGFRWkhOVG0xYWpMeExzR1M5RE9XOGhDSkFh?=
+ =?utf-8?B?QXNlNnRSSVFJR0luS2QvVE1HMHN2eitRYTJ6VEo5VlpwZzZxT3dIRWliMVRM?=
+ =?utf-8?B?V0JkYmx6YUVLMUF6bkN5WDhYM2hBeFBLZ1dhTVZFY1lyWXIrUFI1dDg5eDlt?=
+ =?utf-8?B?QXZjaFBrUHhueHBvampHZm84NE9uTytPYlZ4QVVQa1R1Q2tEMHloSjB2ak5x?=
+ =?utf-8?B?a0pTd3MzMDFOUURGY1gwZm5uQ3hrMmttNTRvTGR6R0xzTGYzZENBQnlORXZS?=
+ =?utf-8?B?eWo5UHc5ZzBsQW1VdVZBR21Tc1lFTmN6NHJkNkRGSmlYWVJ3R3lJVDRkOHIx?=
+ =?utf-8?B?d2NZd2hqMHorc2x6RlFjbFJQNm9sdmQ3MUNRQkVtTjdOVk53UTQ4Z0VSNlMx?=
+ =?utf-8?B?MDlHNFc1ekFVRDhScEJmUWpUNjliaGgyRXpoeEFFaDhTakR5clphaWUzUVpl?=
+ =?utf-8?B?V1RkUUxjYlNmQlBhZlRDK1dkUUNtamJuMkNmVlozbEtSdklHSTRrRzNzaVVS?=
+ =?utf-8?B?U3pLaTh4ejRvb1pCamFCUlU1YUZrS3kwZkR2OGJsekRPTDVtOU9IcWphYnRC?=
+ =?utf-8?B?a29BTUluQk1SMExmNlgxRTY3OVFDYXAzeXpRb3RCeURRRVNvRWZxME1RdHdM?=
+ =?utf-8?B?VngwUEZIT3lFTW1tLytHdStFcXJwT0tERXlRUEdSZzdtK2ZVVVdjNjlBSTBS?=
+ =?utf-8?B?N2wyUGRlWFdLNzc2TWY2UVRFczJSbEVUOVVaWlJmTVBFaldXQXl5SUtncmt2?=
+ =?utf-8?B?Qmp6aGFqeW9lUXNjV25YdGVpUXFBNzhibUdXQ2JRODBINXR3UksxenhYa0tz?=
+ =?utf-8?B?VmY1Y3hXYWFWcUVaVDVqekltN0wrY0FFZ0FJRFkrdFBBb1dleGtVVHIzMkYv?=
+ =?utf-8?B?ZE9hRS9vZWt3b0Jma1RDbFV5dGNzZk43TndMUTI0dlhoQ1JkNWVJcGZtMlZU?=
+ =?utf-8?B?K2trbTdVdEtzVms0R29SUUVYOUhKeFRBSlpzTUZUYUpyV1FWQnZRMnhDNUNm?=
+ =?utf-8?B?cSt2eUF2SUNJOEpuNlNKZ051ZStnS2pZMFJUeHdEZUU0U0dTcitoMWZWSEJH?=
+ =?utf-8?B?Q1dOaGZGRmJVOFo0N08yUWNLd3JDRzBjZFBtWG9ISW81Q29UTGFTYzBhbXhE?=
+ =?utf-8?B?SnVySm9KWkZlUWJ2RVQzNGNQYVN4SXdabFI1Mmc0L2VxeFd3VWRrb3IvS1hX?=
+ =?utf-8?B?R0lwcTV0MlFpUlRLeVVpbjgwdlZlV0E0V043YXdnZUxxeWp2ejJYZnhiZDNZ?=
+ =?utf-8?B?THBtWEFmKzRCd0FOeksyR3p6UnhoVUdiekxXaHFHRmhMZWozSHdDZlVrdnor?=
+ =?utf-8?B?d3dWTSswRndtYTB1anlKRHlwc2xGdlZ0SFhRTVBzSFA1TG16bGhlK3J1WXYx?=
+ =?utf-8?B?YzdqSWtaRG5rTG9jSFFOVVRDUlRTVnZQdUFoTlFUOEhLYTNEaXNzM1pkTTVS?=
+ =?utf-8?B?enZDR0xaLzRGZWNLaE1SVzVna1pKaTNqUUZucXY5NUtJaG9PQURpUGhJdzFV?=
+ =?utf-8?B?YVF0cDhmTkhiNWpDSEhhKzBzSXpCajVxMHNOMzVzUFdGQVo5VW5rbWpzSlNi?=
+ =?utf-8?B?LytOS2oybDBnVHJqMWNZbCtweU5CU0w2d1NwWTh6RmJScWFTQXlRNUc5OGFp?=
+ =?utf-8?B?dGVKUWZMUm5oOE9RL2srV2xsNGZ1Slo2aWl0M1lmdmJyMytPZzZhVnUxQ0w1?=
+ =?utf-8?B?S1I5bTVOeVZ0d3JTT3dSMUxpejJqZ3g4Y21uejJuN2dNRVZxLzNnay8zOWUx?=
+ =?utf-8?B?VW1sUEdwVDJVNVhVT2tVNGgrMGRweW9ZK2ZlUm43SnU0bFlPdkVLMzVsM1Nq?=
+ =?utf-8?B?U0E1d1lHZ3NVenY3N2RCYzQ3a3VpeWtnaytpUUYzazJuaVpBK0xKaURkaHlW?=
+ =?utf-8?Q?R75QnmKd5JMb1C97BUDOhVmDWp+kWpXz?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(35042699022)(376014)(1800799024)(82310400026)(4022899009)(36860700013)(13003099007)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2025 14:27:11.5968
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2330ef4b-1852-4835-c1b7-08dd6d3b7694
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B92.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5812
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 14:20:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213748
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 14:27:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213750
 
-From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-
-Mesa now has two OpenCL implementations: Clover (older one) and RustiCL
-(newer one). Extend the "opencl" package config to include both
-implementations into the libopencl-mesa (-dev) packages. As the Clover
-implementation is in maintenance mode and is expected to be removed at
-Mesa 25.2, it doesn't make sense to split the packages or to provide
-two config options.
-
-Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-[DB: merged "rusticl" and "clover" back to "opencl", reworked rust inheri=
-tance]
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- ...son-use-target-path-for-Clang-libdir.patch | 18 +++++-
- ...cross-compilation-arguments-to-LLVM-.patch | 64 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           | 21 ++++--
- 3 files changed, 96 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-rusticl-provide=
--cross-compilation-arguments-to-LLVM-.patch
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-use-target-path-=
-for-Clang-libdir.patch b/meta/recipes-graphics/mesa/files/0001-meson-use-=
-target-path-for-Clang-libdir.patch
-index ef7ae8942e33..e2f9562ea64e 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson-use-target-path-for-Cla=
-ng-libdir.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-use-target-path-for-Cla=
-ng-libdir.patch
-@@ -1,4 +1,4 @@
--From ecea6fe0d250c3026c22a60ac5420528cc3632d8 Mon Sep 17 00:00:00 2001
-+From 11b93f72936ce367306ae299549c39fc21ef21c3 Mon Sep 17 00:00:00 2001
- From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
- Date: Wed, 26 Mar 2025 12:19:10 +0200
- Subject: [PATCH] meson: use target path for Clang libdir
-@@ -10,9 +10,23 @@ options. Clang is known to use the same libdir in OE b=
-uild environment.
- Upstream-Status: Inappropriate [OE-Specific]
- Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
- ---
-+ src/compiler/clc/meson.build             | 2 +-
-  src/gallium/frontends/clover/meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-=20
-+diff --git a/src/compiler/clc/meson.build b/src/compiler/clc/meson.build
-+index 743cd236bb5c..af36dae3dde9 100644
-+--- a/src/compiler/clc/meson.build
-++++ b/src/compiler/clc/meson.build
-+@@ -8,7 +8,7 @@ files_libmesaclc =3D files(
-+ )
-+=20
-+ _libmesaclc_c_args =3D []
-+-_libmesaclc_cpp_args =3D ['-DLLVM_LIB_DIR=3D"@0@"'.format(llvm_libdir)]
-++_libmesaclc_cpp_args =3D ['-DLLVM_LIB_DIR=3D"@0@"'.format(get_option('l=
-ibdir'))]
-+ _libmesaclc_sources =3D []
-+=20
-+ if not _shared_llvm
- diff --git a/src/gallium/frontends/clover/meson.build b/src/gallium/fron=
-tends/clover/meson.build
- index e569b86a1bea..2fc30ffe1ac2 100644
- --- a/src/gallium/frontends/clover/meson.build
-diff --git a/meta/recipes-graphics/mesa/files/0001-rusticl-provide-cross-=
-compilation-arguments-to-LLVM-.patch b/meta/recipes-graphics/mesa/files/0=
-001-rusticl-provide-cross-compilation-arguments-to-LLVM-.patch
-new file mode 100644
-index 000000000000..c9213fbe4eec
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-rusticl-provide-cross-compila=
-tion-arguments-to-LLVM-.patch
-@@ -0,0 +1,64 @@
-+From b9cf34f39ca7e7546508ce2ab1f053edef5fc201 Mon Sep 17 00:00:00 2001
-+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Date: Wed, 26 Mar 2025 17:47:09 +0200
-+Subject: [PATCH] rusticl: provide cross-compilation arguments to LLVM bi=
-ndgen
-+ invocation
-+
-+Correctly generating LLVM bindings requires several croos-compilation
-+arguments. Provide them to rust.bindgen().
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+---
-+ meson_options.txt                         | 14 ++++++++++++++
-+ src/gallium/frontends/rusticl/meson.build |  8 ++++++++
-+ 2 files changed, 22 insertions(+)
-+
-+diff --git a/meson_options.txt b/meson_options.txt
-+index 0147cafcb146..f73e83fded18 100644
-+--- a/meson_options.txt
-++++ b/meson_options.txt
-+@@ -796,3 +796,17 @@ option(
-+   value : false,
-+   description : 'Install the drivers internal shader compilers (if need=
-ed for cross builds).'
-+ )
-++
-++option(
-++  'bindgen-includedir',
-++  type : 'string',
-++  value : '',
-++  description : 'system-wide include directory for cross-generating LLV=
-M bindings'
-++  )
-++
-++option(
-++  'bindgen-target',
-++  type : 'string',
-++  value : '',
-++  description : 'Clang target for cross-generating LLVM bindings'
-++  )
-+diff --git a/src/gallium/frontends/rusticl/meson.build b/src/gallium/fro=
-ntends/rusticl/meson.build
-+index a5d1dcf3abb9..480c220b7f5f 100644
-+--- a/src/gallium/frontends/rusticl/meson.build
-++++ b/src/gallium/frontends/rusticl/meson.build
-+@@ -180,13 +180,21 @@ rusticl_opencl_gen =3D static_library(
-+   ],
-+ )
-+=20
-++bindgen_c_args =3D []
-++bindgen_target =3D get_option('bindgen-target')
-++if bindgen_target !=3D ''
-++  bindgen_c_args +=3D [ '-target', bindgen_target ]
-++endif
-++
-+ rusticl_llvm_bindings_rs =3D rust.bindgen(
-+   input : 'rusticl_llvm_bindings.hpp',
-+   output : 'rusticl_llvm_bindings.rs',
-+   c_args : [
-+     rusticl_bindgen_c_args,
-+     pre_args,
-++    bindgen_c_args,
-+   ],
-++  include_directories : get_option('bindgen-includedir'),
-+   dependencies : [
-+     dep_clang,
-+     dep_llvm,
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 9d71cd7917e2..105df1eaf347 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -18,6 +18,7 @@ SRC_URI =3D "https://archive.mesa3d.org/mesa-${PV}.tar.=
-xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.p=
-atch\
-            file://0001-meson-use-target-path-for-Clang-libdir.patch \
-+           file://0001-rusticl-provide-cross-compilation-arguments-to-LL=
-VM-.patch \
- "
-=20
- SRC_URI[sha256sum] =3D "adf904d083b308df95898600ffed435f4b5c600d95fb6ec6=
-d4c45638627fdc97"
-@@ -46,7 +47,7 @@ PROVIDES =3D " \
-     virtual/mesa \
-     "
-=20
--inherit meson pkgconfig python3native gettext features_check
-+inherit meson pkgconfig python3native gettext features_check rust
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-=20
-@@ -85,6 +86,9 @@ PACKAGECONFIG =3D " \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'zink', '', d)} \
- "
-=20
-+# skip all Rust dependencies if we are not building OpenCL"
-+INHIBIT_DEFAULT_RUST_DEPS =3D "${@bb.utils.contains('PACKAGECONFIG', 'op=
-encl', '', '1', d)}"
-+
- PACKAGECONFIG:append:x86 =3D " libclc gallium-llvm"
- PACKAGECONFIG:append:x86-64 =3D " libclc gallium-llvm"
- PACKAGECONFIG:append:class-native =3D " libclc gallium-llvm r600"
-@@ -147,9 +151,16 @@ INSTALL_MESA_CLC:class-native =3D "true"
- MESA_NATIVE =3D "mesa-native"
- MESA_NATIVE:class-native =3D ""
-=20
-+BINDGEN_TARGET =3D "${TARGET_ARCH}-${TARGET_OS}${LIBCEXTENSION}${@['-gnu=
-', ''][d.getVar('LIBCEXTENSION') !=3D '']}"
-+
- # "opencl" also requires libclc and gallium-llvm to be present in PKGCON=
-FIG!
- # Be sure to enable them both for the target and for the native build.
--PACKAGECONFIG[opencl] =3D "-Dgallium-opencl=3Dicd -Dmesa-clc=3D${MESA_CL=
-C} -Dinstall-mesa-clc=3D${INSTALL_MESA_CLC},-Dgallium-opencl=3Ddisabled,$=
-{MESA_NATIVE}"
-+PACKAGECONFIG[opencl] =3D " \
-+    -Dgallium-opencl=3Dicd -Dmesa-clc=3D${MESA_CLC} -Dinstall-mesa-clc=3D=
-${INSTALL_MESA_CLC} \
-+    -Dgallium-rusticl=3Dtrue -Dbindgen-includedir=3D${STAGING_INCDIR} -D=
-bindgen-target=3D${BINDGEN_TARGET},\
-+    -Dgallium-opencl=3Ddisabled -Dgallium-rusticl=3Dfalse, \
-+    ${MESA_NATIVE} bindgen-cli-native \
-+"
-=20
- PACKAGECONFIG[broadcom] =3D ""
- PACKAGECONFIG[etnaviv] =3D ",,python3-pycparser-native"
-@@ -242,7 +253,7 @@ RDEPENDS:libgles3-mesa-dev +=3D "libgles2-mesa-dev"
- RDEPENDS:libgles2-mesa +=3D "libgles3-mesa"
- ALLOW_EMPTY:libgles3-mesa =3D "1"
-=20
--RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
-ncl', 'libclc spirv-tools', '', d)}"
-+RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
-ncl', 'libclc spirv-tools spirv-llvm-translator', '', d)}"
-=20
- PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
-              libosmesa libosmesa-dev \
-@@ -348,7 +359,7 @@ FILES:libgles1-mesa =3D "${libdir}/libGLESv1*.so.*"
- FILES:libgles2-mesa =3D "${libdir}/libGLESv2.so.*"
- FILES:libgl-mesa =3D "${libdir}/libGL.so.*"
- FILES:libglx-mesa =3D "${libdir}/libGLX*.so.*"
--FILES:libopencl-mesa =3D "${libdir}/libMesaOpenCL.so.* ${libdir}/gallium=
--pipe/*.so ${sysconfdir}/OpenCL/vendors/mesa.icd"
-+FILES:libopencl-mesa =3D "${libdir}/lib*OpenCL.so.* ${libdir}/gallium-pi=
-pe/*.so ${sysconfdir}/OpenCL/vendors/*.icd"
- FILES:libglapi =3D "${libdir}/libglapi.so.*"
- FILES:libosmesa =3D "${libdir}/libOSMesa.so.*"
- FILES:libxatracker =3D "${libdir}/libxatracker.so.*"
-@@ -362,7 +373,7 @@ FILES:libglapi-dev =3D "${libdir}/libglapi.*"
- FILES:libgles1-mesa-dev =3D "${libdir}/libGLESv1*.* ${includedir}/GLES $=
-{libdir}/pkgconfig/glesv1*.pc"
- FILES:libgles2-mesa-dev =3D "${libdir}/libGLESv2.* ${includedir}/GLES2 $=
-{libdir}/pkgconfig/glesv2.pc"
- FILES:libgles3-mesa-dev =3D "${includedir}/GLES3"
--FILES:libopencl-mesa-dev =3D "${libdir}/libMesaOpenCL.so"
-+FILES:libopencl-mesa-dev =3D "${libdir}/lib*OpenCL.so"
- FILES:libosmesa-dev =3D "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h=
- ${libdir}/pkgconfig/osmesa.pc"
- FILES:libxatracker-dev =3D "${libdir}/libxatracker.so ${libdir}/libxatra=
-cker.la \
-                           ${includedir}/xa_tracker.h ${includedir}/xa_co=
-mposite.h ${includedir}/xa_context.h \
---=20
-2.39.5
-
+SSBzdGFydGVkIGRvaW5nIHRoaXMgdXBncmFkZSBzb21lIHRpbWUgYWdvIGFuZCBpdOKAmXMgbm9u
+LXRyaXZpYWzigKYNCg0KRGlkIHlvdSB2ZXJpZnkgdGhhdCBwcGMvbWlwcy9hcm0gYWxsIGJ1aWxk
+IHdpdGggYm90aCBnY2MgYW5kIGNsYW5nPw0KDQpSb3NzDQoNCj4gT24gMjcgTWFyIDIwMjUsIGF0
+IDE0OjEyLCBBZHJpYWFuIFNjaG1pZHQgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPGFkcmlh
+YW4uc2NobWlkdD1zaWVtZW5zLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4g
+DQo+IFJlbGVhc2VzID4xLjYuMiBhcmUgbm90IGhvc3RlZCBvbiB0aGUgc2F2YW5uYWggc2VydmVy
+LCBzbyBjaGFuZ2luZyBkb3dubG9hZCBsb2NhdGlvbiB0byBnaXRodWIuDQo+IA0KPiBTaWduZWQt
+b2ZmLWJ5OiBBZHJpYWFuIFNjaG1pZHQgPGFkcmlhYW4uc2NobWlkdEBzaWVtZW5zLmNvbT4NCj4g
+LS0tDQo+IC4uLi9saWJ1bndpbmQve2xpYnVud2luZF8xLjYuMi5iYiA9PiBsaWJ1bndpbmRfMS44
+LjEuYmJ9ICAgICAgfCA0ICsrLS0NCj4gMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
+MiBkZWxldGlvbnMoLSkNCj4gcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVud2luZC97
+bGlidW53aW5kXzEuNi4yLmJiID0+IGxpYnVud2luZF8xLjguMS5iYn0gKDkyJSkNCj4gDQo+IGRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ1bndpbmQvbGlidW53aW5kXzEuNi4y
+LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidW53aW5kL2xpYnVud2luZF8xLjguMS5iYg0K
+PiBzaW1pbGFyaXR5IGluZGV4IDkyJQ0KPiByZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9y
+dC9saWJ1bndpbmQvbGlidW53aW5kXzEuNi4yLmJiDQo+IHJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJ1bndpbmQvbGlidW53aW5kXzEuOC4xLmJiDQo+IGluZGV4IGIyZTdlYzc3MTku
+LmZhZjA1Njc2MmYgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVud2lu
+ZC9saWJ1bndpbmRfMS42LjIuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidW53
+aW5kL2xpYnVud2luZF8xLjguMS5iYg0KPiBAQCAtNiwxNCArNiwxNCBAQCBMSUNfRklMRVNfQ0hL
+U1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0yZDgwYzhlZDQwNjJiODMzOWI3MTVmOTBmYTY4Y2M5
+ZiINCj4gREVQRU5EUyArPSAibGliYXRvbWljLW9wcyINCj4gREVQRU5EUzphcHBlbmQ6bGliYy1t
+dXNsID0gIiBsaWJ1Y29udGV4dCINCj4gDQo+IC1TUkNfVVJJID0gImh0dHA6Ly9kb3dubG9hZC5z
+YXZhbm5haC5ub25nbnUub3JnL3JlbGVhc2VzL2xpYnVud2luZC9saWJ1bndpbmQtJHtQVn0udGFy
+Lmd6IFwNCj4gK1NSQ19VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xpYnVud2luZC9saWJ1bndp
+bmQvcmVsZWFzZXMvZG93bmxvYWQvdiR7UFZ9L2xpYnVud2luZC0ke1BWfS50YXIuZ3ogXA0KPiAg
+ICAgICAgICAgIGZpbGU6Ly9taXBzLWJ5dGUtb3JkZXIucGF0Y2ggXA0KPiAgICAgICAgICAgIGZp
+bGU6Ly9taXBzLWNvcmVkdW1wLXJlZ2lzdGVyLnBhdGNoIFwNCj4gICAgICAgICAgICBmaWxlOi8v
+MDAwNS1wcGMzMi1Db25zaWRlci11Y29udGV4dC1taXNtYXRjaGVzLWJldHdlZW4tZ2xpYmMtYW5k
+LnBhdGNoIFwNCj4gICAgICAgICAgICBmaWxlOi8vMDAwMS1zcmMtR3RyYWNlLXJlbW92ZS11bmd1
+YXJkZWQtcHJpbnQtY2FsbHMucGF0Y2ggXA0KPiAgICAgICAgICAgICINCj4gDQo+IC1TUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiNGE2YWVjNjY2OTkxZmI0NWQwODg5YzQ0YWVkZThhZDZlYjEwODA3MWMz
+NTU0ZmNkZmY2NzFmOWM5NDc5NDk3NiINCj4gK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkZGYwZTMy
+ZGQ1ZmFmZTUyODMxOThkMzdlNGJmOWRlY2Y3YmExNzcwYjZlN2UwMDZjMzNlNmRmNzllNmE2MTU3
+Ig0KPiANCj4gaW5oZXJpdCBhdXRvdG9vbHMgbXVsdGlsaWJfaGVhZGVyDQo+IA0KPiAtLSANCj4g
+Mi4zOS4yDQo+IA0KPiANCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gTGlua3M6IFlvdSBy
+ZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuDQo+IFZpZXcvUmVwbHkgT25s
+aW5lICgjMjEzNzQ5KTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVk
+ZGVkLWNvcmUvbWVzc2FnZS8yMTM3NDkNCj4gTXV0ZSBUaGlzIFRvcGljOiBodHRwczovL2xpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcvbXQvMTExOTM2ODgxLzY4NzU4ODgNCj4gR3JvdXAgT3duZXI6IG9w
+ZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gVW5zdWJzY3Jp
+YmU6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vu
+c3ViIFtyb3NzLmJ1cnRvbkBhcm0uY29tXQ0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiAN
+Cg0K
 
