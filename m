@@ -1,121 +1,109 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67BCFC3600B
-	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 14:34:00 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.51294.1743086039989882930
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A32C36010
+	for <webhook@archiver.kernel.org>; Thu, 27 Mar 2025 14:43:40 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.51529.1743086619925977892
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Mar 2025 07:34:00 -0700
+ Thu, 27 Mar 2025 07:43:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Sav83b9y;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52RENgl2005277
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 14:33:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	9D7iaVFQHAEUvXgpygkedX2qzEXZjv5GdH8SK2S+S5E=; b=Sav83b9y1E6YCB6v
-	DOyP2obMhc1YxT+ui1bOjnNbdZMWtXXVBF8bRyCDan2VQEi0GXqTBvPwxE6aM4dg
-	ieDbyl5de6JJYtpLqvYhwEmpmzZnt88iJ5kbWwbb7tqXgt7LUARVbVudZzPapgqV
-	6axhq/IAijW/0ks2BYLCCYAxlA3YDVQFoRwfKNDWL7/FL26JRc49xdzykKSVw1u5
-	7WcCn1JF2xFc7HNGs2wgg3o6A+Wljrhtn5wgN4g0LsNI53moL2XDcGoMhDKwmokj
-	bB0TXEQN4rQywu8lkjJZdP9LMLshkbNNuBATdS6hbGY+/q85wYK/1TjSbRiCod38
-	bykE7g==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ktenfngm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 14:33:58 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-2ff58318acaso2870448a91.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 07:33:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oGESFoNr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2240b4de12bso30741835ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 07:43:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743086619; x=1743691419; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VEn5zMwKIePrA2lhTiXhEMd9UMW3DQsYFGeKTBcKskI=;
+        b=oGESFoNrUfoavVnlLnWGBgAYFc0LUt0utN5RrnpBxaDKFtMpe/5z3NYdDh4JeuuY1o
+         eKszbGPUf6OsiPnSqqaAu6JtHG8oZkSWRRzeCU6qp+igLiUMMsAESrp+sxCTziuD863c
+         5Gjaejk78qVt56K55GxIc3kyZRaT0Squ1zlJtv727LRO/CrFGIJjGvvZa6jrA0OUcQgu
+         XPHAIZ8RPJp5u0d8htPa1+QCEzvPgHqvQ9GXp/PLx6Wqz6U15uh72qMM6KFmbJ4he3oK
+         /IY/t9U63sDd0P82h/Cuv4CaxB+9XnLNSoadNTv9W0snJzsfEt8tkvHnc07SoPlLlLbe
+         9fwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743086037; x=1743690837;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9D7iaVFQHAEUvXgpygkedX2qzEXZjv5GdH8SK2S+S5E=;
-        b=s2CzK/eogghWD5tny5WIqGr4xl8q81f42UjtCWOSdC5Y1V2yjnYGD79wpaKEX+tesc
-         g3LG+CW1CxHBVqtUpYl1qoIun+XZHdwliNWHz4eeJ5XcC1zMgcngXRWaBUpDGQt03tVW
-         NK0sCUw1saYWBoSRZjgXBa0o07RQjKXNwmjyQvJmcCSlo3rz9Fcfux7LDOwtnyRorebh
-         hy4XvUmL2/vAP2quWbxeatVALGBOYd3N08m1086MKSnyBX+24AeP6vsiJyv3D1ySsgfM
-         Yte+wEtJCBdAr0REEFYgSdCXlbMVPltlHMb7CGlqGpscrjehMP1C5k/CaetBLGIkliAW
-         9YQw==
-X-Gm-Message-State: AOJu0Yw1xyoxoA1a8yvO9JBfNWOisfk+FeiWatLXtbLHT5JSn9fbGcq1
-	4JdVHdbh1JWrcoTJNJrkqogVICcXkOfDMcxNm8eHT6OL4vJdZFObd44jQvNvRbsty+zg500duP0
-	CmJTjV5UG4X2+G3j8Fcq4OlTCwdZPai/NxSXwA0ILE8M6C6jpAgIV5cowYKluOYF9UPIxhz3ovK
-	BncelRIlhZD51PiS5YyL7Pm7sz55PoT6jvAuzV2ikWFHPJE9dYFoTFZw==
-X-Gm-Gg: ASbGnctA/LcPmJHvcmDaVnKVr3kF0xSw5PxWaqwDw1TXn4ywiZlxomgJtSnN6v1h6rV
-	SsdHANVt6jSZJsQTHximRqkN0DX7EkMB0m/P6tX3vFyL9OWV/1ALsw1gqu12yKGtTxxhNC09OyK
-	DtRFP8+WVhpZTrDm0N+03vlo1XDBPw
-X-Received: by 2002:a17:90b:3eca:b0:2ff:592d:23bc with SMTP id 98e67ed59e1d1-303a7c5a48amr5844225a91.4.1743086037473;
-        Thu, 27 Mar 2025 07:33:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEuqZ98L2NUl1KLz0gVi/Nw5p9Xef/j0VEV2ZINpE0LcLu5TJllsmxJT6Gjez0hUS2FcKcz6Rf9jhAYe4joOKs=
-X-Received: by 2002:a17:90b:3eca:b0:2ff:592d:23bc with SMTP id
- 98e67ed59e1d1-303a7c5a48amr5844179a91.4.1743086036848; Thu, 27 Mar 2025
- 07:33:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743086619; x=1743691419;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VEn5zMwKIePrA2lhTiXhEMd9UMW3DQsYFGeKTBcKskI=;
+        b=d0vNwflKSpiVPf886YTPfyOBECcLix8ntqpNgE1htBH4bT26SH3Q5zeLWcduWQPxoU
+         7dfnphgqjT10U3d0tlJ1OErUH38qVrn0GIZog9uCScpq5o1qEdBkuPHd/7WdqbwKZL3K
+         FS2dBxJ0k68BnabJOEfHQnWoG5GxgDaTCkiDcHBfYjeuFY5hos+YGujeSlPmcag9zD0/
+         yETl7/xGTOM8h1aIiI4HjLNlJ4b3lzF3Mjdatz0RUMvsdnWn/gzNHUyhUZ/Zg6SKHnf2
+         biGPUrxjEGY35+1imCl3SQzSNMyC05rNWysXMk+3UsustQxPIby2vQsIwuVgMtAW6UNx
+         lurw==
+X-Gm-Message-State: AOJu0Yy2Y4p7SEjIpCId7GHnecH9ujGXTRJNEEh/PDfwDHdB+QHcc7vZ
+	kcpZUwQJyd5J9Y/7/Q/IwmB7kBy74xi7mOHqB80Fc7iNMoFzZNTfFW6Z8dEJ+f64vP1qE9mivx1
+	f
+X-Gm-Gg: ASbGncsdbNKKero3g9x4lUgycjyGmIqIb6eq7PwQut1Q4Za15Htd23nwB03GDZGr+Hn
+	AzYTymBHq5hx47YeYCaBKfuGO+MCn9uHhCBYq30XH/uBohxAl7mNHC4GP8g1aw1YeYa8DXnG4Oe
+	2nXBkwZTyoWNIaRQB9GJvs1JJYou4j0SM51Lk4dWBWAstI6shg0kOxxnEzDYqbed8QwnpMDQshg
+	KYkI9ub5ydTKbWFmE7Nv/3gf6hvSbqkywZwZE5Lt+IDC8wbTnO9FEEdMarzUrbn/oWZy1jD6Txp
+	9WQxxY55THDv33Ry+pvicbAXT+6KR8lJi8AS+qTaH65Qwg==
+X-Google-Smtp-Source: AGHT+IE6sG1QD4OGI9NKrx00wf6g/UULi7PiiftOJ3BaYZ9NvvPYViF8d+x9obHoQX/WT/kIYHZ6Og==
+X-Received: by 2002:a17:903:11d2:b0:224:1609:a74a with SMTP id d9443c01a7336-22804931e4dmr63620205ad.34.1743086618953;
+        Thu, 27 Mar 2025 07:43:38 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:811c:968e:2c1:6363])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7390618e5absm14819074b3a.175.2025.03.27.07.43.38
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Mar 2025 07:43:38 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/4] Patch review
+Date: Thu, 27 Mar 2025 07:43:26 -0700
+Message-ID: <cover.1743086467.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250327135520.3920189-1-dmitry.baryshkov@oss.qualcomm.com>
- <20250327135520.3920189-5-dmitry.baryshkov@oss.qualcomm.com> <330A44DD-3537-4BB7-9D9C-279AE88921F7@arm.com>
-In-Reply-To: <330A44DD-3537-4BB7-9D9C-279AE88921F7@arm.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Thu, 27 Mar 2025 16:33:45 +0200
-X-Gm-Features: AQ5f1JqrfaNo4XkaZElBM6P-n0YrI5fCo8fCJVVT2aJBG_ZA7jlBfh5bqZ3uWxQ
-Message-ID: <CAO9ioeWov6KKabzi4LcVPbON_07_NtEb6PNJwOc1B3ZW6891HQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/8] llvm: import YOCTO_ALTERNATE_LIBDIR patch
- from meta-clang
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
-        Khem Raj <raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=TuvmhCXh c=1 sm=1 tr=0 ts=67e561d7 cx=c_pps a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=7CQSdrXTAAAA:8 a=Q4-j1AaZAAAA:8 a=jour3KitnczWllB1C9AA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
- a=a-qgeE7W1pNrGK8U0ZQC:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-GUID: cXUDUJ03PdtMgw-vQlVLi2PcahPQqYPO
-X-Proofpoint-ORIG-GUID: cXUDUJ03PdtMgw-vQlVLi2PcahPQqYPO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-27_01,2025-03-26_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- malwarescore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 adultscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0
- mlxscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503270099
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 14:34:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213752
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Mar 2025 14:43:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213753
 
-On Thu, 27 Mar 2025 at 16:30, Ross Burton <Ross.Burton@arm.com> wrote:
->
-> On 27 Mar 2025, at 13:55, Dmitry Baryshkov via lists.openembedded.org <dm=
-itry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
-> >
-> > Cross-building of mesa requires us to be able to provide target-specifi=
-c
-> > value for --libdir.  Update the cross-environment llvm-config patch fro=
-m
-> > meta-clang in order to allow overriding the --libdir output.
->
-> Is this actually needed now that mesa uses Meson and we can (and do) expl=
-icitly tell it where to find llvm-config?  This is obviously a horrible hac=
-k and the meson/llvm configuration should be sufficient to do the right thi=
-ng.  If it=E2=80=99s not, then we need to talk to the meson maintainers.
+Please review this set of changes for kirktone and have comments back by
+end of day Monday, March 31
 
-I must admit, here I mostly followed the existing approach. The
-problem is that Mesa queries the llvm-config and/or LLVM_LIBRARY_DIR
-variable instead of just using get_option('libdir'). As you can see in
-the following patches in some cases I manually patched mesa to use
-'libdir' directly.
+Passed a-full on autobuilder:
 
-Maybe you are right and it's better to drop this and always use
-get_option('libdir') in mesa's scripts. WDYT?
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1277
 
+The following changes since commit 1172a71f2104454a13e64886adbdb381aa8d6e0e:
 
---=20
-With best wishes
-Dmitry
+  libxcrypt-compat: Remove libcrypt.so to fix conflict with libcrypt (2025-03-21 06:48:11 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Bruce Ashfield (2):
+  linux-yocto/5.15: update to v5.15.179
+  linux-yocto/5.10: update to v5.10.234
+
+Peter Marko (1):
+  python3: patch CVE-2025-0938
+
+Vijay Anusuri (1):
+  vim: Upgrade 9.1.1115 -> 9.1.1198
+
+ .../python/python3/CVE-2025-0938.patch        | 131 ++++++++++++++++++
+ .../python/python3_3.10.16.bb                 |   1 +
+ .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+ .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 ++--
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 9 files changed, 172 insertions(+), 40 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-0938.patch
+
+-- 
+2.43.0
+
 
