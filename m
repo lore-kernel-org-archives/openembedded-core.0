@@ -1,158 +1,202 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <tom.hochstein@oss.nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB8EEC28B20
-	for <webhook@archiver.kernel.org>; Fri, 28 Mar 2025 19:21:40 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.40])
- by mx.groups.io with SMTP id smtpd.web11.2539.1743189699336736609
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF6AC28B20
+	for <webhook@archiver.kernel.org>; Fri, 28 Mar 2025 19:50:40 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.65])
+ by mx.groups.io with SMTP id smtpd.web11.3137.1743191436102873649
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Mar 2025 12:21:39 -0700
+ Fri, 28 Mar 2025 12:50:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=H0JqEB67;
- spf=pass (domain: axis.com, ip: 40.107.20.40, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=wnPHpWk5;
+ spf=pass (domain: oss.nxp.com, ip: 40.107.162.65, mailfrom: tom.hochstein@oss.nxp.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RDYNtDRlq8GjYVlD9KcLt4jcgSqOESE3O6fsYVUVfCWGfojyyKtAcSlbT9T9COsVPArHWZ1HC443LVb1crQkXgLIxzgXclgVv25+rGUUDUP5I+zxHYF+OcHY0dNZhuMt6blUZCNtGWoSmhRtSK179MA5OZkL9BQAOtm0GbHhzyvjeScjRgI2muOGraQ/h4haqBARKPzLwxBkn7TkNFpH30egc8ieDvLUILmy2KRIyI2qMyqhp8KXdJjpm+7hY+/HeGG1QlJBtcU1ZJatKXUWCmrpuH0EjUo/6CHJt5Q/jo2hXi1+moL+J5A6+VQzmIeJ6wEeZjvQBN2WXAH/i3wdug==
+ b=nq3YgY1QIUqZSeje6g2WY+rOAmKFkOopO1W/vWAHrjkiTUgCgGtYzfLl2JYrrcBUG22xHluBZmrI08DuKtZJsgHEk8yi/Glj0K6XJFOhATguEbkjVNdzj+vFSJM6zIl+edUvMSNeb/Z368//6cMHmdn9UD+UDCzl1Azjm3apzzL6qYG176L2yA79VJm2SeOJJpRBovDldYuN8wgHDyl5Ug/Fq42Y/912lybudr39VigRiSClOgbuMX2YXaFhQCsHyXpebcFFu9slYuIEfps7iLYm9Ef7IqZWTKv+gjU1H3PJ+Yhy7n8jPIBJ69EA9mhe1Y8G5jX9mhTBsQ0nIiu0wg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ohVnHuznZChNkr16bXC/+k3WE9qePG7/NCbCEvBGchA=;
- b=y1rUaQ8I5pTUc2t9tvkbb+ql7nXHMXU5ox22Qz3WVVlWdD00G5mXeDbl8sY2FX6EevqdH6EmA1ju8Ac6LcHAk08gUu7BQL8+UToDKeKi0IgEm4IvBM0IeTj5wH83Sp+jVcl3nG89xKdtj2VQ9127jDOgSKt6cWhSd1GOY1E9cSp5fZouplTANBcEvg0LyyH08xhx6hZatV1CgXNt5ah0qCZIhalmiMxqm/gxMDPFOatifY/rS+e3UweaW8UzfrmkKWu6C3SnUP2RSySF08Y+0bbd5s9WNTkEoe4x2y84XrnNf32o/4yJu1W5l2tcBaLlazFcfm82Xt3Neo291m0MDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ bh=9NXLGdBMKa2/NdLfvhiNjIeojxKVpvqXN2NQxBg2AgQ=;
+ b=aUuW0UunO6KpCATBNrSRdiDPLrZGOpeP+C+2RvcVfI2ycL5yw3DCLZsJYrCafXSESiUENi0wuETtk1LdldftWKDWgl8y2UYwKewzJxkDd6kBCUGaDWEujO50LVFZaRKxSPQ0oqSfcEF0UBUHRHdZ3RaP76oFdrF55OaW27JaDUQEcFqH9LIJIDITMcqG7IwnXhQx4zMWU7uAkNBrE5a3d8RPW7zhxU/vo88mAekGuWKb6QaEyJvaAgRGaO07uVgUjmr1VRjgn1MIcscHaipZAR9ANYlAI39Dbn2oenSmm3tE8aORR0tMjh8LyetnPx3byQy5lTr0oSj34ZK0MWhmBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ohVnHuznZChNkr16bXC/+k3WE9qePG7/NCbCEvBGchA=;
- b=H0JqEB67nE8D7RXxyJFxgIpKUJBq1mtGr+cFSt8pxo3BNHtzeIYfKhSsS42cCqhGf1/7ZpRcbmh58mUJ9avCAjDVoxK3g6rP5jeQ1Ei4Xv36lmfgVB3qj2y07EC7ZLE378aKMVAiKSH1g1XDhyQ29uUuXewT04j382czswN4JkI=
-Received: from AS9PR05CA0280.eurprd05.prod.outlook.com (2603:10a6:20b:492::32)
- by AS2PR02MB8792.eurprd02.prod.outlook.com (2603:10a6:20b:553::14) with
+ bh=9NXLGdBMKa2/NdLfvhiNjIeojxKVpvqXN2NQxBg2AgQ=;
+ b=wnPHpWk5S8qCT7jYGuw6FGZ0hknXdujhdhPY/z2W6PKVhV2j71iHv6EUpey1oT08HfFeItsYUWzxK5vr9xAGxT5iUfEua9O7cpiPOgeeb3LGqVGhBsZ/4a6ioiltKMnhq+lhxjS9lcdvRuUXVVoqjiYKvNevckcbZeK72zW98Fg61HZjzbXqn2+LNKaTmgeOtX+zrk+9i1Mdqi4DWV1m068o0S/a/qNI40GcQ9OCXZGLXR4n7Qv8medz+39z4Vfs5zqkdZNORxvuiZBmk1fqFcjbM2yf+Ah9M2TDtSEYQDnXL6xpesWd3IAtUynOWRua5tP3wBJGZHQMUN0HkcvLbQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+ by PAXPR04MB8489.eurprd04.prod.outlook.com (2603:10a6:102:1dd::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Fri, 28 Mar
- 2025 19:21:36 +0000
-Received: from AM2PEPF0001C713.eurprd05.prod.outlook.com
- (2603:10a6:20b:492:cafe::9a) by AS9PR05CA0280.outlook.office365.com
- (2603:10a6:20b:492::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.45 via Frontend Transport; Fri,
- 28 Mar 2025 19:21:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AM2PEPF0001C713.mail.protection.outlook.com (10.167.16.183) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8534.20 via Frontend Transport; Fri, 28 Mar 2025 19:21:35 +0000
-Received: from SE-MAIL21W.axis.com (10.20.40.16) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Fri, 28 Mar
- 2025 20:21:35 +0100
-Received: from se-mail01w.axis.com (10.20.40.7) by SE-MAIL21W.axis.com
- (10.20.40.16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Fri, 28 Mar
- 2025 20:21:35 +0100
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
- Transport; Fri, 28 Mar 2025 20:21:35 +0100
-Received: from saur (saur.se.axis.com [10.92.3.10])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 1BE691AE
-	for <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 20:21:35 +0100 (CET)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur (8.17.1/8.15.2) with ESMTPS id 52SJLY0D1766682
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 20:21:35 +0100
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 52SJLYsl1766681
-	for openembedded-core@lists.openembedded.org; Fri, 28 Mar 2025 20:21:34 +0100
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] systemd-systemctl-native: Use += instead of :append
-Date: Fri, 28 Mar 2025 20:21:31 +0100
-Message-ID: <20250328192131.1766660-1-pkj@axis.com>
-X-Mailer: git-send-email 2.40.1
+ 2025 19:50:32 +0000
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc%4]) with mapi id 15.20.8534.048; Fri, 28 Mar 2025
+ 19:50:32 +0000
+Message-ID: <e5cbfc98-16ed-4bd7-839c-fee188865098@oss.nxp.com>
+Date: Fri, 28 Mar 2025 14:50:25 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/2] meson: Allow user to override setup command
+ options
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+References: <20250327225959.3611495-1-tom.hochstein@oss.nxp.com>
+ <D8RU02JC2FSE.3ORJNCQOPYRSJ@bootlin.com>
+Content-Language: en-US
+From: Tom Hochstein <tom.hochstein@oss.nxp.com>
+In-Reply-To: <D8RU02JC2FSE.3ORJNCQOPYRSJ@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR01CA0011.prod.exchangelabs.com (2603:10b6:a02:80::24)
+ To PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM2PEPF0001C713:EE_|AS2PR02MB8792:EE_
-X-MS-Office365-Filtering-Correlation-Id: abc4e77a-dc25-48fe-ac47-08dd6e2dc192
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|PAXPR04MB8489:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4055c201-96fc-4af3-445a-08dd6e31cc5e
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|1800799024|13003099007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?emHrjTe6Oyk5+MKnvLGd0ceCw1/Nf11u7vSCHXyKeyh8wf7vEnxX6B+b0oca?=
- =?us-ascii?Q?NVRHLoBJtLTuyeA0QIR0sDY9oXPthPvF8XlTrY/dMamEBHydwDVyLrkyMk/U?=
- =?us-ascii?Q?ys5ftq6DLJUirQ8UjigWUx6DQs7PW0NHMFWr7AidIM7mc0CTf1VA78n+YEI5?=
- =?us-ascii?Q?lKDrKcqFOji4r8ECauI6NIpyOST+Mn7FelkZqoYCzj8H4gqyX2/2kUB8b//p?=
- =?us-ascii?Q?QW8ERckwfkVdf13LJcBF4BQyFqWEH/c/GHOd2c5xGwiZwG4AH2Y4ffBl8QlR?=
- =?us-ascii?Q?cXwphlnIWxqD4yCKp9q+2cVNtLEQ7QoNWZNG9gAgcFvvnwXU5Cbm6XXOj2yY?=
- =?us-ascii?Q?LWApIPUJ9je8Ow4zRmLIik1id6HqZicgG1xxQxNjPl8c8sOvcxN4Ce6AyS+/?=
- =?us-ascii?Q?rrpYO59yw2frlTBZYXtomKDdDBnk5IwES7aOYUXR0cSzow6ko7HvnVMST8jZ?=
- =?us-ascii?Q?O2uHiA6HP1DJj6LUpdbExwJ2VifkAwp4f9WcOX5YLDYi2KM2p/xkaMyEs75H?=
- =?us-ascii?Q?7FhHWwqeG/HzYfWGs0W7F/Y3iGrE26DOINb2u+ehvTSdkz7b2yoGSIJLC6JP?=
- =?us-ascii?Q?enGj3OV1s2b2eqCDIGzc93SrMYhzpkckuQbAptC5rBSfbN0HKSyrk+LihXpf?=
- =?us-ascii?Q?gpnHLxNNN9Sx6yPG6k5u6LjSQN4hhZwPgSpoFp0Fy8sBdoZBYDkOBYt3UbJp?=
- =?us-ascii?Q?h66e/xLT743f4A5VAGeEWMdJv/eq10IRZ2xF8jo7uSe8GXkDx4JnOcPo7Kgs?=
- =?us-ascii?Q?dICChKM5FA1fn3cULarttUVLr4JKB5WUgmGojDpvKWFO7qfl9D5QKrexocWb?=
- =?us-ascii?Q?ajcsZvTEU5r2Pa2ZDUnugNf31UNXfR1Q0RWzop72sdVySPUk0vVoeiaJX5u+?=
- =?us-ascii?Q?ZQsSXLSjbycZoD+RUxoCQsBkOVNazcXdM6F58kzA3CeKZs0KESoNu6tEGiaW?=
- =?us-ascii?Q?IyWJVcSn8W1RbLG/9Ra3QHQtwMt7ieSCf+BquYJ5B4pNvUCRF5cG3NzWFTpb?=
- =?us-ascii?Q?2e3W+5VpNWJs+/rAYpcUNF/eb3z4OohKI7CGUeHTv54sGHvv5se5OS8gqkUR?=
- =?us-ascii?Q?yvMhtgc5i/UkwDZO3veVLYld1eCc0YKLnYYZmmRRJEiUSyXtm2YRpKq8tX0N?=
- =?us-ascii?Q?Bc6Cdxjc+ioLwcr+CJw8torom8Ql8ZnV6uPG89IA6apPnpRDyeTNr/3VbdAU?=
- =?us-ascii?Q?JvgxjtLG3aRF9Dw53Q2feeUcnVcKujbYKxEFlJkwoO70eYsy2es6KqlR0rEu?=
- =?us-ascii?Q?vockxh33w/j8OCloD/Ff5bSikb5Koq4NsYMcryRNxPN+s7ay8UW9rqh4qrzS?=
- =?us-ascii?Q?DCPbhBFP6kFqBT7qEmwvC4AT4iAqK1hLXKoZ16xNW9k35Ack5B8bDseevsX4?=
- =?us-ascii?Q?6pfAge8ZQYGHpTeh7jT1YnY0vsG3RxrHLUQ5G38kSuZOYDbj8oIWlnG1gcyR?=
- =?us-ascii?Q?PJAw+scpjxE=3D?=
+	=?utf-8?B?eVFnOGJ3YWZXcXdKdC8wTm5jMlN0ZUI0M2JlclI5czh6UXMwYU0wVE1wczJY?=
+ =?utf-8?B?NUk1S2VoN0NjZjhSRXZldUpFa1BiZ01tZlJqMXgyMlk1bm5MbVFHdTVtNTZm?=
+ =?utf-8?B?dE1wWnAvNHdNYlhJQm1XbWMzdmFOelFMRS9XMS9QWlg2NzV3cEROU0lXSC9K?=
+ =?utf-8?B?R1hCVmlLWjZteDNwcWU1TE1RMHp4OS9ybER2QWZLOUtyU3NBQUpuc3Y1SFdX?=
+ =?utf-8?B?bDVGRDQxUFVQK1puR3BZMGdhRjZtTWxiWEZ5VDMzcVNKcjYybEprcXJjSGYv?=
+ =?utf-8?B?SmpGcE11U3pTSVMyc2RmL2cySGhzSGp5RXRRRkRvcGdwaUpoZGl2RnZOcjZn?=
+ =?utf-8?B?N3RrcW1Fc1hKdk94Q1g0MDI3NXlKaWJVVGpPcm81K2tBYUQwalJRNlZPUzdK?=
+ =?utf-8?B?eVMwdUZnMjk5OFFjZlZvUkx5eVJXYzV1N0UwczJQd3ZvOTU0clRTdHJrbVVG?=
+ =?utf-8?B?RkZRUzV6MkttZHpzaFQxY2g4U2NhRFBTUDdJRFc2NHk4K2N0RHBxZ3UwZHpS?=
+ =?utf-8?B?aTAvYTgxYXZZMWRLR0RUZ2wxa2ZmRWJ1SXdRRTE0V3R4L3NLVjdOQzlMWXlo?=
+ =?utf-8?B?YUsraTRDVnROSnhOQ096WWVEV0Y3VzcyN3l1dWRrZ0d4Qi8xUnRvUm4vTlBy?=
+ =?utf-8?B?dVNUV2hXUWx2VGNKSkdFMHdXM0hRMzA4UXhOZzZoSHdFU0VOS09hSytpZjJs?=
+ =?utf-8?B?RDY3VVpiSFd1WjhaS2lEcVZ1YnNwVDR1VWJQNmRndTFNYUxiTmFYWnQycVFJ?=
+ =?utf-8?B?bTNndEl0blhUYzgra0NrN0IwMUpJaWJFam1ZekJFakJ0T3N4clJJTDZCQllD?=
+ =?utf-8?B?c25ONy9xM1h0RE1uNTlzVE9ic0NIK2VOeE53bVhPMjNTc3FKM2c4RTlvNWRS?=
+ =?utf-8?B?SllJUDljM2Q4ODZub0FvbXA1Qmc5YlZoOXVra0ZPL1V2TGZNNEdRQWM1eFRm?=
+ =?utf-8?B?OG9wOTM3eWJpTWwrL0lDNzQvZEp2eGRkeVhKYlZMWXVocXRoWG9VcFhYcFZB?=
+ =?utf-8?B?VHFkMElWblBIQ3JFdUhxbzdMcXpkSVlKTTNVdHZmY1JyNlJ0TElEcmRhcUVJ?=
+ =?utf-8?B?dHlrcTJSdktPUndMdzVxV0FwMzhTcDBKZnRaTGRFSjVRZlBNdHRrcEJVMHVG?=
+ =?utf-8?B?RmJNMmEzQ0lldzBpNzNxcGFFaFpvbHptT0xCQ25RcytkN3hCN2c2UmkvN1ZM?=
+ =?utf-8?B?cEpJd1JaYVJyOG1UQVFYS2l5dmRGTkFSNTZiaUxSNVJYNUZHcXpLL1EwejNR?=
+ =?utf-8?B?dmlFaVNoTTZWandwTmE0VlVSM2FPREEzK3pRMkkzKy9jeVRGU2xOcGh0Wklp?=
+ =?utf-8?B?bTFFRW9JelRVakMrbk84SkxVN0RSNk92MDk5bnluSkQ4bWRzcUlvd0MycUpR?=
+ =?utf-8?B?OVpJN0dhUWg1Qyt5UmMwUS9kS256VUdZWkw3Sk9DR1NwdzdYQ01Hdm90Nm44?=
+ =?utf-8?B?WXVWOG9pY0tvSjhYZ3QyWmZkTFVyTFhOUGNCQjVRVmp1VzJvbzFJbm9JTUZH?=
+ =?utf-8?B?OTRyUkR4aWxRK2k0KzhxZklIQW5RL0VCSjJLUjcrbkJ2RzM4VEVUTmdkc2th?=
+ =?utf-8?B?dUZZbzFnYXVKZWRPckJEZjdkd0FVdURFc1crakg4YjZocDFBczJPVUVFcnFJ?=
+ =?utf-8?B?U3RzNmk3V0NJcjl0ekI2TEExcU1pMEJJeHlrcDNjNTBBaVdaTTFveEp2Uko3?=
+ =?utf-8?B?VDdpaHIxUDV1eGp6MGhvd3VQQ2NCejM1a2QxN3ZoMGJmWHpOMmRNamkzbElk?=
+ =?utf-8?Q?GT8d2e4ZYBdikVE6aAzMk3vhSLLtbTVZgVIZqPx?=
 X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2025 19:21:35.6364
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ZzRCTGhnTjFRRTN4R0p3NWloY0tDOHhwVXJQdXJrRkd3bWQvdXA3TlZYRnVs?=
+ =?utf-8?B?eTZRS0tTWElYMUNnS3U3bnBSVFQ3SE5ZdllBSVpINlNJUmJvVFhURlVRc2pv?=
+ =?utf-8?B?bTYrTEVGMy9sc0lXbWVPd3d1MWF4Zms3STdjSHJRMVJiUE5ZbWJBZkgrY09y?=
+ =?utf-8?B?QjJOMjdhL0VJYVMxOE1Fb1VRTGJDS3l4VVpoS2l6N1V3TlE0UC9wNFB3ZVJs?=
+ =?utf-8?B?T0loS0dOV3Z3bmlLM1NPT1ZBRXVDSE5QdGVXWDZjNDUxeklSbWNzVnB5TTh4?=
+ =?utf-8?B?YXRydGJtUEloZXpEN0NoN0I3VmMwbjI3eFNmUHNDeXJ2T3Z0RENGYWRUSnJ5?=
+ =?utf-8?B?U3hHRVBuYVpwczlRYkNSOEM4b1pkbGZOVDVuY3dYbWtmSnVSeUV1TEc3UXph?=
+ =?utf-8?B?NzVqL0hRSG1Telk2Q3JSaDVPdWt3VFpTZ1RZWHJmWkMrY0ZNeHJtZGcvSk1j?=
+ =?utf-8?B?RjRNTDZLSDRkaUhZU0d5T08xeTdHTjM5enZyZnMreXVWRTByKzlDcTExYStu?=
+ =?utf-8?B?bzlKQmZkejc0MW1nbVk1WXFaOTlRNTlrR3gra0pnakV5eUlQY1V2N1oxVG1y?=
+ =?utf-8?B?Vkl2eC9XdyszcmZjR081eHFPay8xclhsMEJXdWhJTnoxUUN1aDZ1MzE0UnpI?=
+ =?utf-8?B?TkJ1N1N3S3duaFB1TDVGL2pEdXl3em5XdlBiM3VXcm4vOHJjOUhQOTBqQStp?=
+ =?utf-8?B?RTlHSldZejRiTlN3ckxPUGNWbVZHL3ZsRUs3d0tsT2JJYkZzRk53L2NJc252?=
+ =?utf-8?B?L3BYbnIvVm1jL0RGT0k3dWV4N3dyVXIxTC94REhCYkFkTTNQZEREZFRXYlE1?=
+ =?utf-8?B?RmdoRTU5N2svK0RGVkJHTmZoK2gxdmc3YlJoUzJhYnVlZCsrc0Zqcm5zaCtv?=
+ =?utf-8?B?djE2VjhjNGxvdmFkVUMydm1GOWNhaFluMDNOSEJVM3dTWEdweDlRYmNBQmt0?=
+ =?utf-8?B?dzlZbFQzdzk0TWtvSS9hNVRLMG52cWJDbXpRSXVVOTloNmdTTGw5OEVQaWgx?=
+ =?utf-8?B?NGpvOHVWOWdRSXFENFVTZ2JuLzRlTTFsV2k5R3RQZjVXRzhlOUF4SU55TmFD?=
+ =?utf-8?B?eGhVcTFnWkZkelprYlpkOTlVZXFlMTQ5cnAybURrZUpySk96SGhNalZEL1NY?=
+ =?utf-8?B?R2ZOcnQvVmtEMjh5ODExM1lFdE5WYXhiQ2J2Uy8zM2JOZHNnQTZSeGkvdmxW?=
+ =?utf-8?B?ZU1DTStONjJEZ0QzQ2cwS2xRVHVFZjI3N1pTSWVjbDd0Nmg2RW1lZDZEM2RW?=
+ =?utf-8?B?c3JTaXJWejlJMHBnY0dYQ3lXeW1HM0RiZjJENXZCMU92N3JCZ0MvYnlDMHpS?=
+ =?utf-8?B?SUR0T0VmNCtnRjRiUkQvbUZhdkRwZWNFZTdYVFlYQ205N1dmbmNpL09pdkpT?=
+ =?utf-8?B?Njd2SG9ZdURwYlZocmJQdytzQVJUUXJIK1NRenA0bTRmVHdRVk8vNlkyZ25F?=
+ =?utf-8?B?emRxTDJWUkVCajRVRGJGY3hDbENkTHN4VCtBN05SN0VPTTBNQ2kyQlI3SFhv?=
+ =?utf-8?B?ZVlYTXFFUzM4Q280citpL2VTdll0bHRRaDBWT2VvNXJiRjM1TTE4N3pHMElD?=
+ =?utf-8?B?RFpIZ1hraDcyamprOG1EaCtQeXZwZGsvZGVZU1BNM3lqbEhLZFRQSkJncmNj?=
+ =?utf-8?B?bGtpc2FsZXNlaXlxa0lhSk9jVUZ2dzF4YmhreWQzdEZQQ05ERmZ5WVYxQWlu?=
+ =?utf-8?B?eGJPV3VuelY4VWNPMlFVa2xhVnV3WHVpa1FhVGFVM3VzY01EbUduZFZ0R2Ir?=
+ =?utf-8?B?MFZCTnhkdDEvQ3ZrQ0RhdmZyZDludVRwbzhHY1Q0M1NYT1NDMUFCVFVLRG5q?=
+ =?utf-8?B?NHVQbjNGYWNjenZWOXZ3VkNDRERnZkl5cXk2U1RPNzg4Tnd0V2tWYkF3Vmto?=
+ =?utf-8?B?cE9wNFUyNWNNVUxsMnVEMjRCTmkrSVRnN09ZVFdmSmxBUkswY1FyVWQxODVV?=
+ =?utf-8?B?WlJacUNsMTZLVkZ4WkhraXg1cy9GWUc4L251aFJSekloemRjbkhDOWF6WkRK?=
+ =?utf-8?B?enU1OVBBY1c0U2YvQmpVUEttcnJHV21zMWw3OEcvZE8weTdHb1BWcmordm1k?=
+ =?utf-8?B?cDdML1dneHhWSUEzZVpFNHh5cy9vdElEK0FETTNyVDMyajBpYm1UR2tYaUhQ?=
+ =?utf-8?B?SUlvWHNDSkxldWExM2FYOUNtYVNZVzJMU2RhdmtIK2NaemZrVUNSYjdGQ3Z6?=
+ =?utf-8?B?R3c9PQ==?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4055c201-96fc-4af3-445a-08dd6e31cc5e
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2025 19:50:32.1720
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: abc4e77a-dc25-48fe-ac47-08dd6e2dc192
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM2PEPF0001C713.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR02MB8792
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SxudnsVYHqJ2CoYbDLMzUsr4aJ7+8yc7R5g60GFXSwbFJo1/PLFWhfwhVsVBnLDOjz3/Ci9/uHIwBLR+Iy2O+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8489
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 19:21:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213864
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 19:50:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213865
 
-There is no reason to use EXTRA_OEMESON:append when +=3D will do.
+On 3/28/2025 5:36 AM, Mathieu Dubois-Briand wrote:
+> [You don't often get email from mathieu.dubois-briand@bootlin.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> On Thu Mar 27, 2025 at 11:59 PM CET, Tom Hochstein via lists.openembedded.org wrote:
+>> The user cannot override the setup command options --cross-file and
+>> --native-file because the meson-wrapper places these options on the
+>> command line after the user options. This problem was noticed when
+>> trying to build with an SDK using a custom cross-file.
+>>
+>> Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
+>> ---
+> 
+> Hi Tom,
+> 
+> Thanks for your patch.
+> 
+> It looks it breaks some test on the autobuilder, maybe specific to x86:
+> 
+> Traceback (most recent call last):
+>    File "/srv/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/sdk/cases/meson.py", line 42, in test_epoxy
+>      log = self._run("meson --warnlevel 1 -Degl=no -Dglx=no -Dx11=false {build} {source}".format(**dirs))
+>    File "/srv/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/sdk/case.py", line 15, in _run
+>      return subprocess.check_output(". %s > /dev/null; %s;" % \
+>    File "/usr/lib/python3.9/subprocess.py", line 424, in check_output
+>      return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+>    File "/usr/lib/python3.9/subprocess.py", line 528, in run
+>      raise CalledProcessError(retcode, process.args,
+> oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testimage-sdk/environment-setup-core2-32-poky-linux > /dev/null; meson --warnlevel 1 -Degl=no -Dglx=no -Dx11=false /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testimage-sdk/epoxy9vkngm2b/build /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testimage-sdk/epoxy9vkngm2b/libepoxy-1.5.3;' returned non-zero exit status 1
+> Standard Output: meson-wrapper: Implicit setup command assumed
+> meson-wrapper: Running meson with setup options: " --cross-file=/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testimage-sdk/sysroots/x86_64-pokysdk-linux/usr/share/meson/i686-poky-linux-meson.cross --native-file=/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testimage-sdk/sysroots/x86_64-pokysdk-linux/usr/share/meson/meson.native "
+> 
+> ERROR: Unknown CPU family i686, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.
+> 
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/1265
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/1283
+> 
+> Can you have a look at these test failures please?
+> 
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+> 
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-core/systemd/systemd-systemctl-native_257.4.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks, Mathieu. It appears that the problem goes deeper. V2 coming.
 
-diff --git a/meta/recipes-core/systemd/systemd-systemctl-native_257.4.bb b/=
-meta/recipes-core/systemd/systemd-systemctl-native_257.4.bb
-index 73862b4e23..041a040a26 100644
---- a/meta/recipes-core/systemd/systemd-systemctl-native_257.4.bb
-+++ b/meta/recipes-core/systemd/systemd-systemctl-native_257.4.bb
-@@ -8,9 +8,9 @@ inherit pkgconfig meson native
-=20
- MESON_TARGET =3D "systemctl:executable"
- MESON_INSTALL_TAGS =3D "systemctl"
--EXTRA_OEMESON:append =3D " -Dlink-systemctl-shared=3Dfalse"
-+EXTRA_OEMESON +=3D "-Dlink-systemctl-shared=3Dfalse"
-=20
- # Systemctl is supposed to operate on target, but the target sysroot is no=
-t
- # determined at run-time, but rather set during configure
- # More details are here https://github.com/systemd/systemd/issues/35897#is=
-suecomment-2665405887
--EXTRA_OEMESON:append =3D " --sysconfdir ${sysconfdir_native}"
-+EXTRA_OEMESON +=3D "--sysconfdir ${sysconfdir_native}"
+Tom
+
 
