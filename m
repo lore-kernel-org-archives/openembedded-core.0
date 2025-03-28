@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51BF7C36013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50C08C36011
 	for <webhook@archiver.kernel.org>; Fri, 28 Mar 2025 14:50:17 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.13068.1743173409712454292
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.13041.1743173411015291892
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Mar 2025 07:50:09 -0700
+ Fri, 28 Mar 2025 07:50:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gywUp22R;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=mwsZnfWA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010195dd3b58a9-5549bfcc-b16a-4967-bc0b-c0d655b56364-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=iHhJceKp;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=pJ/eofih;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010195dd3b5bb7-623875a9-3788-4920-8ccd-e4296b6cba11-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743173409; i=@automation.yoctoproject.org;
+	t=1743173410; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=oPa4e7xTWZSxpxyhG6enENoUT+ZITCqL8ojYg8NUVVg=;
-	b=gywUp22RwI05FikjcdNVMAkq4AAUSBVMEfA7StZ+uvhOiyTwVdHWCvqZE6mCAu1V
-	4qLO14Y9RMxPBozOqfYuoZ4adK6r7KhsURaggjr/gPQH8xJw1SpeOCxVJ05GcJVo1ca
-	MUklst/f2OuTwFiHcqYw5cNFVQTJxClDj1O1L3I0=
+	bh=PGl0LZoORM2FkbqDzQnl6Dz3QB0yQ/sOJbWzjNk5nqA=;
+	b=iHhJceKpoudPInTrzB0EzvpHNNYDZnkotPSywg/7QnGVQLH4H0vL3v9RPNYQJaJQ
+	vVuBU+KMF5pIMjDQVn7KuzfCy/wRip4FXn7tuzGm6cmWag9UVrLK8rChHBVv5IOeVwR
+	H3IEYxVu1pk9/oLveUvl1O/O/Ehv7QPciF+qYQQY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743173409;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743173410;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=oPa4e7xTWZSxpxyhG6enENoUT+ZITCqL8ojYg8NUVVg=;
-	b=mwsZnfWAx7TtvcIq9t2TxLq/Zf+u/aSwWt981DxDWbg85lbeOQryHNcJnYmGF/mn
-	wKQeRN1p+KXW7gkev+93m7zBvYlfFahLQRjmKX6GV8VdVXZk7KIMHAVDiF6K0zzbw71
-	+O6xSrRL7aIzUxX5MzOQZAd51SiSshd1V8cup/IU=
+	bh=PGl0LZoORM2FkbqDzQnl6Dz3QB0yQ/sOJbWzjNk5nqA=;
+	b=pJ/eofih07GAmkMGe0VXLyC5YlXrOyul8OZH1rDWf+Fzr5Ne70UpuMOjrsQVA1dB
+	O8QexZQL8nTKls4vzrOeHsCavCFs0wDhEk8k6hgkN7BIbYVk5nS6wC7aAw/eKQFFUXw
+	B2M6vzmsBJrIAyaD4XMsWPpSvfuHD92VrJhxWHn8=
 From: patchtest@automation.yoctoproject.org
 To: Yash.Shinde@windriver.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/3] rust: Upgrade 1.84.1->1.85.0
-In-Reply-To: <20250328143005.880998-2-Yash.Shinde@windriver.com>
-References: <20250328143005.880998-2-Yash.Shinde@windriver.com>
+Subject: Patchtest results for [PATCH 3/3] rust: Upgrade 1.85.0->1.85.1
+In-Reply-To: <20250328143005.880998-3-Yash.Shinde@windriver.com>
+References: <20250328143005.880998-3-Yash.Shinde@windriver.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010195dd3b58a9-5549bfcc-b16a-4967-bc0b-c0d655b56364-000000@us-west-2.amazonses.com>
-Date: Fri, 28 Mar 2025 14:50:08 +0000
+Message-ID: <01010195dd3b5bb7-623875a9-3788-4920-8ccd-e4296b6cba11-000000@us-west-2.amazonses.com>
+Date: Fri, 28 Mar 2025 14:50:09 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.28-54.240.27.192
+X-SES-Outgoing: 2025.03.28-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 14:50:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213843
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213844
 
 --NextPart
 Content-Type: text/plain
@@ -53,16 +53,13 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/2-3-rust-Upgrade-1.84.1--1.85.0.patch
+Testing patch /home/patchtest/share/mboxes/3-3-rust-Upgrade-1.85.0--1.85.1.patch
 
 FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
 PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
 PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
@@ -75,6 +72,9 @@ PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_file
 PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
 SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
 SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
 SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
