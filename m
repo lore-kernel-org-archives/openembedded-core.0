@@ -1,78 +1,109 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC97C28B20
-	for <webhook@archiver.kernel.org>; Fri, 28 Mar 2025 10:01:35 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web10.7737.1743156084171042393
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9009FC36010
+	for <webhook@archiver.kernel.org>; Fri, 28 Mar 2025 10:08:45 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.web11.7801.1743156525097475418
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Mar 2025 03:01:24 -0700
+ Fri, 28 Mar 2025 03:08:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TYe5d1X1;
- spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5e6f4b3ebe5so3704548a12.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 03:01:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nGayV+mT;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6ed0cc5eca4so32594146d6.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 03:08:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743156082; x=1743760882; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P+H3mIn+Iuzunx7lQK13NNvqhnfeAvF3a5dYf6+AnZY=;
-        b=TYe5d1X1BqGeUYce/mcAJgW2vXtZLW6nCtN2pDnyugQHGVz3zD07LET1T7GfkKyNWd
-         FWBA7qJZjq2GcGiY18vlOPZzcWmjRetxDWBESW90DvWHTeMLaZ/Ij+B7C2MxuBeM5H4+
-         8vCmD+0sYbsVnQK+By9Yy7ODBw/WeA7t27wtYRleLELLatQULbyouXdqYzuRTLaYKF/J
-         hWB9eHHzjY5EBfcpzWx/CNZDY569g1IhZdtmW2SD2Erch2LxHJFE+P/l7b2sq26ENfHv
-         Ka4/NwWBhb1b4/MU+7GEpr1koqLghJ6jZbGKepO00e0fvF4MdaVDtjg9clgL+sk8dF8+
-         BhEQ==
+        d=gmail.com; s=20230601; t=1743156524; x=1743761324; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=C52GQ1JtR5dw1NCrjFF1YeksN0W5W65qe0jdu/9Jw3Y=;
+        b=nGayV+mT4mVZmMG6J7i7OpGejwNYgeN+w/NM/+BgeRe8uqkRjoIsjCPuaBo/3pOdiy
+         i0gK3AAZh5BcHfoqacY/Mx/4QbErJk64qYlIdjHgv4uVm0Kdn4Hrw5nm63Mn79t4/oSa
+         twBCnF1YzCiwIQ5NORenrP26RcB6Oa+Dtfs+MQeWuVYzkTfNw34fl7VQBQWWO0kK9kNK
+         qZEiFfwkN/1BnqQo6cxj7wWmmSld8TTdgAqMd8MuLRKLd0QhVHvKoLzHRrQ5N7ywANP/
+         hLBdgt2+6r5MpxvOdLiuR91P/83ECOGcLXG8jYqB6QfXwYc7ZtUx0FyIJbAH3wB9CCjz
+         9X5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743156082; x=1743760882;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P+H3mIn+Iuzunx7lQK13NNvqhnfeAvF3a5dYf6+AnZY=;
-        b=X0masGPgHF1m+6XMMVGKA5Kui43zBXMphspRXWaJooH2dN5tLZ2mxg1jJc09zFfQre
-         ERyXYc0NCNRksJQS4VWpFkdV+cmkerJS/wMdGPmPjXDLFu543XoDorokUgrsv9j5EGvJ
-         XSNxo8hMSCGkdR/yoGGwxlPhxiheFGrOOJ31s7YjhCsvCfYOypwKQprhFjfYHxbzPMVi
-         X/oaHXYUAexS1h1ziLzoQGUoQgTI13TvXsJQgez6IwOoGjkgAaGfqr/tFBJrzTC+xd7d
-         A/VelhqXElSvKjgaa62yVohFXGE3JxX2PPnEg5Npg0GZ9lAKC4XSBo9rC9+7+ASYX3z1
-         TdZg==
-X-Forwarded-Encrypted: i=1; AJvYcCUlqQkNXN38vTEP0PYxYQP3vseUedxbvN2Xi1WUIZm1tUjfciZ6LYSxF9ZkpIFXiLlVsUdPdECoFUbvyuiwP/8yfg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YySkuI1e2FMr9lzwCnjZYpBJKwe1wOi9eRzJOkf6tPnUFsUWcti
-	b7DWjLsbL17Hx0wZhB63r+Ntk3+ffT6/h9rcNW33xhWNkjRdcXgM
-X-Gm-Gg: ASbGnctuwiB2uy6XjSx3eSgug4P+9o3pO21QKUNK6skPzSNq0v/Sl4+LJRZw1U3xjPJ
-	QwNKBHt3XA5LY1Cczf6PcjBF431vDFosZm8MnnkHPhp8tE95IsyHMFvuXgJQYHwTUsy+7DjN55c
-	VwVPt8NTRjApYDrdIEHcbO0eThb4QTRQZdMoWhaQbX4D11YzeI1xOS6siAd3z9Xy5BL6U6gYPfO
-	IJBnKe5X6x88zxocNJNSAcdvqAxRVZe1gTOhKddKWhdRRblnODhAMLO9X2/0a0dWFMD3fB/JUJB
-	TtMcl+bI3snR3dHezKeRqyR5Z8t23izXkO+fW1DhTbwShCfcdb1U
-X-Google-Smtp-Source: AGHT+IFhvu6yBc+WDZfpgEAfpOXnd/N/asfHYf7m7XiMxgL23qQLXQ4cEwzsvSMjcVQTmwcAoEwB/Q==
-X-Received: by 2002:a05:6402:1d49:b0:5ed:6535:b6d2 with SMTP id 4fb4d7f45d1cf-5ed8e4a92bfmr6721367a12.15.1743156081742;
-        Fri, 28 Mar 2025 03:01:21 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5edc17b2214sm1105101a12.54.2025.03.28.03.01.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Mar 2025 03:01:21 -0700 (PDT)
-Message-ID: <dd128a8c-71c1-40fb-87e9-d48b7a75a512@gmail.com>
-Date: Fri, 28 Mar 2025 11:01:20 +0100
+        d=1e100.net; s=20230601; t=1743156524; x=1743761324;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C52GQ1JtR5dw1NCrjFF1YeksN0W5W65qe0jdu/9Jw3Y=;
+        b=Jwm2BGJzvYmRvfIrquY3uCNupJ3kyPvHErtyRlr3L/AbSn/7UKZNuejzXQ1duQY78p
+         Pe/pzL35N2XHuEbbeS8wYad9000FRlrX5jPaoRf6L/qzQq8nBbWyFpySfD6jEsKwjHqR
+         5PPQALWNPB09FmiF69U5UwV8wPXXEqm7u3Ji6rk8v5jHM2P0PQiuTBn9S4WLz+sQmQj6
+         eaKRlwccvyWCHtmwiNWVLQDCa1AVDuZmNYj6uvK4pHZ9dWXE5qI56tAVzD4imwmkWxfZ
+         2ygsibaXxXlYCzDjCGsmB8aUO902P5sS0l/EWBIVIwmtSib196ahqzMFS/7teyQF+2Tj
+         HlIQ==
+X-Gm-Message-State: AOJu0YwK7U4C1DjGGI96sf+drY9FgArX6ACNsvic4LKudOP5tVUhSkE8
+	h0b7NbdO7RXEYY2lqBtg6/le3C5wna0KDW3RdnvyUyFOTcjsV6JsrcCBQiDvxraTCJPQdgQSM5H
+	KhQe0nB5ul6wWMS3Q5KAqf9FlLW0=
+X-Gm-Gg: ASbGncsx3izGxg19Ida+cHVHBDzi7CcMYSDdTmPLx5qoYrpuPWcdaDaSfpxuce9vdLT
+	hmfBM7XqRnYAPLKUqLlEJergPJs8eyJHn0rlXHIvoWykEZUsMihQMHBKP7hxCvGZslDerbiyvbY
+	xkP0xJRW43S66nQE9FliBgnCMLpQ3MRmcWO6Un4d6J4401Qceztyc3Qvql6tCy
+X-Google-Smtp-Source: AGHT+IE7puC2pJAqzNZiqg3MVrO4sg/iPZ2iDblx1LS/RiuF2zjzGflQ/P64IZLm1AtX0ER7aIlx/q5k0lw97YWCSYI=
+X-Received: by 2002:a05:6214:19ed:b0:6e8:9053:825e with SMTP id
+ 6a1803df08f44-6eecc3974c6mr28829346d6.17.1743156523849; Fri, 28 Mar 2025
+ 03:08:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [scarthgap] [PATCH] qemu 8.2.7: ignore CVE-2023-1386
-To: madmarri@cisco.com, openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com
-References: <20250325071248.882336-1-madmarri@cisco.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <20250325071248.882336-1-madmarri@cisco.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250327225959.3611495-1-tom.hochstein@oss.nxp.com> <20250327225959.3611495-2-tom.hochstein@oss.nxp.com>
+In-Reply-To: <20250327225959.3611495-2-tom.hochstein@oss.nxp.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 28 Mar 2025 11:08:31 +0100
+X-Gm-Features: AQ5f1Jq9kR5mksdfqAMyPGO-Pnz-FWQ9WJc2Jm7gJ9CyqsiV6dYAZCH8rtvSxL8
+Message-ID: <CANNYZj_KZjgk3DnoKwYHgDa95q4fVwP-c-5ZL8oHw+WZckGaTA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] meson: Fix host_machine setting for native cross-file
+To: tom.hochstein@oss.nxp.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 10:01:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213823
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 10:08:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213824
 
-On 3/25/25 08:12, Madhu Marri via lists.openembedded.org wrote:
-> - According to redhat[1] this CVE has closed as not a bug.
-FWIW upstream qemu isn't rejecting it (though they are also not too
-worried about it): https://gitlab.com/qemu-project/qemu/-/issues/2579
+On Fri, 28 Mar 2025 at 00:00, Tom Hochstein via lists.openembedded.org
+<tom.hochstein=oss.nxp.com@lists.openembedded.org> wrote:
+
+> For native and nativesdk, the meson cross-file settings for
+> `host_machine` are incorrectly set for the build machine, not the
+> "machine on which the compiled binary will run". See
+> https://mesonbuild.com/Cross-compilation.html.
+...
+>  [host_machine]
+> -system = '$host_system'
+> -cpu_family = '$host_cpu_family'
+> -cpu = '$host_cpu'
+> -endian = '$host_endian'
+> +system = @OECORE_TARGET_OS
+> +cpu_family = @OECORE_TARGET_ARCH
+> +cpu = @OECORE_TARGET_ARCH
+> +endian = @OECORE_TARGET_ENDIAN
+>  EOF
+>  }
+>
+>  do_install:append:class-nativesdk() {
+> -    host_system=${SDK_OS}
+> -    host_cpu_family=${@meson_cpu_family("SDK_ARCH", d)}
+> -    host_cpu=${SDK_ARCH}
+> -    host_endian=${@meson_endian("SDK", d)}
+>      install_templates
+>
+>      install -d ${D}${SDKPATHNATIVE}/post-relocate-setup.d
+> @@ -143,10 +139,6 @@ do_install:append:class-nativesdk() {
+>  FILES:${PN}:append:class-nativesdk = "${datadir}/meson ${SDKPATHNATIVE}"
+>
+>  do_install:append:class-native() {
+> -    host_system=${HOST_OS}
+> -    host_cpu_family=${@meson_cpu_family("HOST_ARCH", d)}
+> -    host_cpu=${HOST_ARCH}
+> -    host_endian=${@meson_endian("HOST", d)}
+>      install_templates
+
+I'm struggling to see how the existing code ends up with incorrect
+values in both native and nativesdk cases. Can you provide specific
+example values and a way to see them?
+
+Alex
 
