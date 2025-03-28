@@ -2,201 +2,184 @@ Return-Path: <tom.hochstein@oss.nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF6AC28B20
-	for <webhook@archiver.kernel.org>; Fri, 28 Mar 2025 19:50:40 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.65])
- by mx.groups.io with SMTP id smtpd.web11.3137.1743191436102873649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 168B3C36013
+	for <webhook@archiver.kernel.org>; Fri, 28 Mar 2025 20:02:01 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.61])
+ by mx.groups.io with SMTP id smtpd.web11.3390.1743192114318143811
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Mar 2025 12:50:36 -0700
+ Fri, 28 Mar 2025 13:01:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=wnPHpWk5;
- spf=pass (domain: oss.nxp.com, ip: 40.107.162.65, mailfrom: tom.hochstein@oss.nxp.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=ErnFAH9y;
+ spf=pass (domain: oss.nxp.com, ip: 40.107.20.61, mailfrom: tom.hochstein@oss.nxp.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nq3YgY1QIUqZSeje6g2WY+rOAmKFkOopO1W/vWAHrjkiTUgCgGtYzfLl2JYrrcBUG22xHluBZmrI08DuKtZJsgHEk8yi/Glj0K6XJFOhATguEbkjVNdzj+vFSJM6zIl+edUvMSNeb/Z368//6cMHmdn9UD+UDCzl1Azjm3apzzL6qYG176L2yA79VJm2SeOJJpRBovDldYuN8wgHDyl5Ug/Fq42Y/912lybudr39VigRiSClOgbuMX2YXaFhQCsHyXpebcFFu9slYuIEfps7iLYm9Ef7IqZWTKv+gjU1H3PJ+Yhy7n8jPIBJ69EA9mhe1Y8G5jX9mhTBsQ0nIiu0wg==
+ b=RS/j8n/klK5wUKdi2t+8u+xNBNjd1931lcYWSEKTu87SyfuZ0+bnuQiiWZFfvk79gwInUdSXjHcie66oJPS5GGMnGwdYqngtHUgqSlimT/kEe5nmzVmSF64VXYW7l91HBn2VHkXdWWe9tH5tU4xrl1uYCLXXczbNdIkq2moyttQwnb7MLHUgtQZqyu3Gymcop+iaagw2wIfgEbuuvSLFefNxQGyZiYWiP+OnSQFhQc6xouYKS5MLxoP3M1X+oNAHcz0pDjJGgxpA+0chs5yowCHEpBoqOxGTo3nrBiwGD8qQe97LcBw+0gOEFFb4bbpI6Vj0WUcl9X859zQcvOMbeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9NXLGdBMKa2/NdLfvhiNjIeojxKVpvqXN2NQxBg2AgQ=;
- b=aUuW0UunO6KpCATBNrSRdiDPLrZGOpeP+C+2RvcVfI2ycL5yw3DCLZsJYrCafXSESiUENi0wuETtk1LdldftWKDWgl8y2UYwKewzJxkDd6kBCUGaDWEujO50LVFZaRKxSPQ0oqSfcEF0UBUHRHdZ3RaP76oFdrF55OaW27JaDUQEcFqH9LIJIDITMcqG7IwnXhQx4zMWU7uAkNBrE5a3d8RPW7zhxU/vo88mAekGuWKb6QaEyJvaAgRGaO07uVgUjmr1VRjgn1MIcscHaipZAR9ANYlAI39Dbn2oenSmm3tE8aORR0tMjh8LyetnPx3byQy5lTr0oSj34ZK0MWhmBg==
+ bh=8FO87xwqxP7d00iPFCh0YkZyeqnOpOG3yddk373tQ6Q=;
+ b=i/o8bKuMeLqLOKSsNU4tBa+1kB3VRu5NInrfb0euqmek/91u3o9KpY3octAMYhWjQe9ylw4X6Vhmg5W3eAoy69UgXXhtiO8W116SAqWA+UUS3NAUdYzPnsI05F4YpVfJs854ev+NQedlvT4hxpGaIMBacB9iC91XAmyp0jZPpf5NpLI42Q6MJQO80q3JaXHs/HoqSt4g/MKzk4d4u9jJBf2kYh7uwi4NivRPHZ2GqS5znTnjNZmYaECl1Xsm0SqEtjjexCXNs8v6MupYiGa4Q2xekJePOocGVBm/wJqcEDSuioDccZpAHA8n/sI0uWb/YCqRkTtGYDyGMw3g/QJTsw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9NXLGdBMKa2/NdLfvhiNjIeojxKVpvqXN2NQxBg2AgQ=;
- b=wnPHpWk5S8qCT7jYGuw6FGZ0hknXdujhdhPY/z2W6PKVhV2j71iHv6EUpey1oT08HfFeItsYUWzxK5vr9xAGxT5iUfEua9O7cpiPOgeeb3LGqVGhBsZ/4a6ioiltKMnhq+lhxjS9lcdvRuUXVVoqjiYKvNevckcbZeK72zW98Fg61HZjzbXqn2+LNKaTmgeOtX+zrk+9i1Mdqi4DWV1m068o0S/a/qNI40GcQ9OCXZGLXR4n7Qv8medz+39z4Vfs5zqkdZNORxvuiZBmk1fqFcjbM2yf+Ah9M2TDtSEYQDnXL6xpesWd3IAtUynOWRua5tP3wBJGZHQMUN0HkcvLbQ==
+ bh=8FO87xwqxP7d00iPFCh0YkZyeqnOpOG3yddk373tQ6Q=;
+ b=ErnFAH9ysLC/0Hv3OBY7/4kPihbPqQW0hylOBteRB9IQOfdU7z79kgFKTUEJnEKs9mqVlo13eU3GR4rwwak/orhbOooam/3adrtsaOzVJAl5cOGWNowqtIHVtAyQhf1xLFaIBuaSWJLXdGZvXEwFebXfrD43E6wv27c9d5gYNl/4CB9+gn9x9sdT0ept9zMDgnA/iNrngac115LufCp/JCL/PVI7OqdLs4f6PWLjhlG6PKzok8ptgRqqhCSJ32pjgVUiBs9qEwiht16R8Bw/XzlBpyTnDAqbtJJRPP5NCK+K+q0KsuM1w8kRBsk4/YRFo2wuXRGmfKs+6iPQnqdmtA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
- by PAXPR04MB8489.eurprd04.prod.outlook.com (2603:10a6:102:1dd::20) with
+ by DU2PR04MB8741.eurprd04.prod.outlook.com (2603:10a6:10:2df::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Fri, 28 Mar
- 2025 19:50:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.46; Fri, 28 Mar
+ 2025 20:01:54 +0000
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::51ae:5f12:9744:1abc%4]) with mapi id 15.20.8534.048; Fri, 28 Mar 2025
- 19:50:32 +0000
-Message-ID: <e5cbfc98-16ed-4bd7-839c-fee188865098@oss.nxp.com>
-Date: Fri, 28 Mar 2025 14:50:25 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/2] meson: Allow user to override setup command
- options
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- openembedded-core@lists.openembedded.org
-References: <20250327225959.3611495-1-tom.hochstein@oss.nxp.com>
- <D8RU02JC2FSE.3ORJNCQOPYRSJ@bootlin.com>
-Content-Language: en-US
+ 20:01:54 +0000
 From: Tom Hochstein <tom.hochstein@oss.nxp.com>
-In-Reply-To: <D8RU02JC2FSE.3ORJNCQOPYRSJ@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR01CA0011.prod.exchangelabs.com (2603:10b6:a02:80::24)
- To PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+To: openembedded-core@lists.openembedded.org
+CC: Tom Hochstein <tom.hochstein@oss.nxp.com>
+Subject: [PATCH v2 4/4] meson: Allow user to override setup command options
+Date: Fri, 28 Mar 2025 15:01:25 -0500
+Message-ID: <20250328200125.1051797-4-tom.hochstein@oss.nxp.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250328200125.1051797-1-tom.hochstein@oss.nxp.com>
+References: <20250328200125.1051797-1-tom.hochstein@oss.nxp.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: PH7P220CA0013.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:326::30) To PAXPR04MB9448.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b1::21)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|PAXPR04MB8489:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4055c201-96fc-4af3-445a-08dd6e31cc5e
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|DU2PR04MB8741:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc132c25-9ce1-4591-5c9d-08dd6e33631f
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?eVFnOGJ3YWZXcXdKdC8wTm5jMlN0ZUI0M2JlclI5czh6UXMwYU0wVE1wczJY?=
- =?utf-8?B?NUk1S2VoN0NjZjhSRXZldUpFa1BiZ01tZlJqMXgyMlk1bm5MbVFHdTVtNTZm?=
- =?utf-8?B?dE1wWnAvNHdNYlhJQm1XbWMzdmFOelFMRS9XMS9QWlg2NzV3cEROU0lXSC9K?=
- =?utf-8?B?R1hCVmlLWjZteDNwcWU1TE1RMHp4OS9ybER2QWZLOUtyU3NBQUpuc3Y1SFdX?=
- =?utf-8?B?bDVGRDQxUFVQK1puR3BZMGdhRjZtTWxiWEZ5VDMzcVNKcjYybEprcXJjSGYv?=
- =?utf-8?B?SmpGcE11U3pTSVMyc2RmL2cySGhzSGp5RXRRRkRvcGdwaUpoZGl2RnZOcjZn?=
- =?utf-8?B?N3RrcW1Fc1hKdk94Q1g0MDI3NXlKaWJVVGpPcm81K2tBYUQwalJRNlZPUzdK?=
- =?utf-8?B?eVMwdUZnMjk5OFFjZlZvUkx5eVJXYzV1N0UwczJQd3ZvOTU0clRTdHJrbVVG?=
- =?utf-8?B?RkZRUzV6MkttZHpzaFQxY2g4U2NhRFBTUDdJRFc2NHk4K2N0RHBxZ3UwZHpS?=
- =?utf-8?B?aTAvYTgxYXZZMWRLR0RUZ2wxa2ZmRWJ1SXdRRTE0V3R4L3NLVjdOQzlMWXlo?=
- =?utf-8?B?YUsraTRDVnROSnhOQ096WWVEV0Y3VzcyN3l1dWRrZ0d4Qi8xUnRvUm4vTlBy?=
- =?utf-8?B?dVNUV2hXUWx2VGNKSkdFMHdXM0hRMzA4UXhOZzZoSHdFU0VOS09hSytpZjJs?=
- =?utf-8?B?RDY3VVpiSFd1WjhaS2lEcVZ1YnNwVDR1VWJQNmRndTFNYUxiTmFYWnQycVFJ?=
- =?utf-8?B?bTNndEl0blhUYzgra0NrN0IwMUpJaWJFam1ZekJFakJ0T3N4clJJTDZCQllD?=
- =?utf-8?B?c25ONy9xM1h0RE1uNTlzVE9ic0NIK2VOeE53bVhPMjNTc3FKM2c4RTlvNWRS?=
- =?utf-8?B?SllJUDljM2Q4ODZub0FvbXA1Qmc5YlZoOXVra0ZPL1V2TGZNNEdRQWM1eFRm?=
- =?utf-8?B?OG9wOTM3eWJpTWwrL0lDNzQvZEp2eGRkeVhKYlZMWXVocXRoWG9VcFhYcFZB?=
- =?utf-8?B?VHFkMElWblBIQ3JFdUhxbzdMcXpkSVlKTTNVdHZmY1JyNlJ0TElEcmRhcUVJ?=
- =?utf-8?B?dHlrcTJSdktPUndMdzVxV0FwMzhTcDBKZnRaTGRFSjVRZlBNdHRrcEJVMHVG?=
- =?utf-8?B?RmJNMmEzQ0lldzBpNzNxcGFFaFpvbHptT0xCQ25RcytkN3hCN2c2UmkvN1ZM?=
- =?utf-8?B?cEpJd1JaYVJyOG1UQVFYS2l5dmRGTkFSNTZiaUxSNVJYNUZHcXpLL1EwejNR?=
- =?utf-8?B?dmlFaVNoTTZWandwTmE0VlVSM2FPREEzK3pRMkkzKy9jeVRGU2xOcGh0Wklp?=
- =?utf-8?B?bTFFRW9JelRVakMrbk84SkxVN0RSNk92MDk5bnluSkQ4bWRzcUlvd0MycUpR?=
- =?utf-8?B?OVpJN0dhUWg1Qyt5UmMwUS9kS256VUdZWkw3Sk9DR1NwdzdYQ01Hdm90Nm44?=
- =?utf-8?B?WXVWOG9pY0tvSjhYZ3QyWmZkTFVyTFhOUGNCQjVRVmp1VzJvbzFJbm9JTUZH?=
- =?utf-8?B?OTRyUkR4aWxRK2k0KzhxZklIQW5RL0VCSjJLUjcrbkJ2RzM4VEVUTmdkc2th?=
- =?utf-8?B?dUZZbzFnYXVKZWRPckJEZjdkd0FVdURFc1crakg4YjZocDFBczJPVUVFcnFJ?=
- =?utf-8?B?U3RzNmk3V0NJcjl0ekI2TEExcU1pMEJJeHlrcDNjNTBBaVdaTTFveEp2Uko3?=
- =?utf-8?B?VDdpaHIxUDV1eGp6MGhvd3VQQ2NCejM1a2QxN3ZoMGJmWHpOMmRNamkzbElk?=
- =?utf-8?Q?GT8d2e4ZYBdikVE6aAzMk3vhSLLtbTVZgVIZqPx?=
+	=?us-ascii?Q?7kwRZ2MP6XKz/Sg4ZzSgMQ+PuRpZTRKR+VhmSeMFsPOo15MQsqQJ/ZlIht1o?=
+ =?us-ascii?Q?xOsPSGC6GZR/vio4mk06o4UpZGPcPmGNMWLoiyuT4rzKVADOuhw24Qkeesc4?=
+ =?us-ascii?Q?h1BDm31e5Usnk7xAv9TUNVUMgpl5pdXWOGOc7VvKLosvB8zCmijiNzocmvoH?=
+ =?us-ascii?Q?JjSgycFRKWiPG39opnlQ+zMi00HLboRCALp9/hDZA6eZFhrgvqF2EnDudArN?=
+ =?us-ascii?Q?yDO6j0F6Skq1dkuQ2mH1CSflmXEKwO+r0unE2VPJe+usOMPkuLtsA6sB5dHn?=
+ =?us-ascii?Q?o7qOz1hSgUpLqIG76bTv4WWEfOhuDCB/LxHyXr87dsSGkWEzw9wxuNGGIdYe?=
+ =?us-ascii?Q?5tqjD8bfdmOwtwyS/Fx2CYF1gF3+Wg94rKGZYIvQSdJCh5/qCW1Bd5ATo2e/?=
+ =?us-ascii?Q?RYItxOFNH8W79oJY8XyBrxNnX/Ol4h1QObQP1ok319IEaIBwjB5ae7+uiGiU?=
+ =?us-ascii?Q?EYvfN1qgbN4BQOz0HiE+xR13Bt4ZnLgANT3YkkKzA78dYOoDJP7Mny7oITyB?=
+ =?us-ascii?Q?iT0M20wwTWs69EcKN/J3WItPQcDLrb/SxpEZ7RCTZ7S/uvV9LxMETxcGADly?=
+ =?us-ascii?Q?vOIDfsc4Tp65KUfBIV+jfqsUETsE8IcWPZBEd2t+plEgXCHE0TpqV319I40I?=
+ =?us-ascii?Q?F49DBMYh6v19MSo2UjuBHMI1klwaa+/HlHo7GTyl8SI+zupNSIDZ60HJJoU5?=
+ =?us-ascii?Q?OPyKh4a7zEgPG4cYPzO53lDeR5uVOhyAHbep7a+q2+9Xd9XX/f6viGcyE+9U?=
+ =?us-ascii?Q?meD8QRw2i8Ef9xRaX9M6ORhdYwxmeluV4oExhMdDikAfIogeiBAjg9v+yO6N?=
+ =?us-ascii?Q?CQ8QpNCjmLCEY5c06xmOc7ZzLRwNemk4sQDpRsS5F5Yz73I1qWcyhQLeFzhC?=
+ =?us-ascii?Q?4e90Ql6S4NgHPfYN6BokG7Dkved7xzwC78gk3CMW3U1ZFWColRU/M/EL6vrT?=
+ =?us-ascii?Q?A2s37dn8bwWIyPQ3cEdbO04c4Z5HGMeIYGFMvlccWi1EcyDRwNG0lbKPzLw8?=
+ =?us-ascii?Q?dDDqw2gy5zDP5ZMB2Q/w/RvF90Krnaoo+OnnFBZRuZeJUeXF/+R73xBu4hTR?=
+ =?us-ascii?Q?bNrT2RWBPIgQ9sYL22TjY93vyzxAyFExBE5lRibmqThdfylDa37iDQx/bVRk?=
+ =?us-ascii?Q?bMXdP756RHiNSJ+Q99t8HuQouCJWxBnIeG6coqj7xKpuiTL98qPJmKT3CRQw?=
+ =?us-ascii?Q?xFeC3JnhSPkZaIocrncKkoVypvJgN3V3XKZ165RRBjSgC6s/jmy/e+H3mxmB?=
+ =?us-ascii?Q?zbX4T4O+0+mwDLM0DMhMvZfPITu2joJdnaAQeRPNpiEyD/8V/p/9P6kq5OYb?=
+ =?us-ascii?Q?YyzOXv3zR6ZpQzJYxFJ7qlbmbJZnk34z58Gx1dErhq42jCpeL52KvBWC/tHQ?=
+ =?us-ascii?Q?hqlwj0tW7jbp8+7d07jw+ktKVJ5Yt8xKcew3XoOPVyD0V8HAWsJ05FxfTwQi?=
+ =?us-ascii?Q?tp5Wl8tT6QI6GM2N5stBHPb5oi/esmFGVYi+WYbaT0LTw+xvnWvOyw=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ZzRCTGhnTjFRRTN4R0p3NWloY0tDOHhwVXJQdXJrRkd3bWQvdXA3TlZYRnVs?=
- =?utf-8?B?eTZRS0tTWElYMUNnS3U3bnBSVFQ3SE5ZdllBSVpINlNJUmJvVFhURlVRc2pv?=
- =?utf-8?B?bTYrTEVGMy9sc0lXbWVPd3d1MWF4Zms3STdjSHJRMVJiUE5ZbWJBZkgrY09y?=
- =?utf-8?B?QjJOMjdhL0VJYVMxOE1Fb1VRTGJDS3l4VVpoS2l6N1V3TlE0UC9wNFB3ZVJs?=
- =?utf-8?B?T0loS0dOV3Z3bmlLM1NPT1ZBRXVDSE5QdGVXWDZjNDUxeklSbWNzVnB5TTh4?=
- =?utf-8?B?YXRydGJtUEloZXpEN0NoN0I3VmMwbjI3eFNmUHNDeXJ2T3Z0RENGYWRUSnJ5?=
- =?utf-8?B?U3hHRVBuYVpwczlRYkNSOEM4b1pkbGZOVDVuY3dYbWtmSnVSeUV1TEc3UXph?=
- =?utf-8?B?NzVqL0hRSG1Telk2Q3JSaDVPdWt3VFpTZ1RZWHJmWkMrY0ZNeHJtZGcvSk1j?=
- =?utf-8?B?RjRNTDZLSDRkaUhZU0d5T08xeTdHTjM5enZyZnMreXVWRTByKzlDcTExYStu?=
- =?utf-8?B?bzlKQmZkejc0MW1nbVk1WXFaOTlRNTlrR3gra0pnakV5eUlQY1V2N1oxVG1y?=
- =?utf-8?B?Vkl2eC9XdyszcmZjR081eHFPay8xclhsMEJXdWhJTnoxUUN1aDZ1MzE0UnpI?=
- =?utf-8?B?TkJ1N1N3S3duaFB1TDVGL2pEdXl3em5XdlBiM3VXcm4vOHJjOUhQOTBqQStp?=
- =?utf-8?B?RTlHSldZejRiTlN3ckxPUGNWbVZHL3ZsRUs3d0tsT2JJYkZzRk53L2NJc252?=
- =?utf-8?B?L3BYbnIvVm1jL0RGT0k3dWV4N3dyVXIxTC94REhCYkFkTTNQZEREZFRXYlE1?=
- =?utf-8?B?RmdoRTU5N2svK0RGVkJHTmZoK2gxdmc3YlJoUzJhYnVlZCsrc0Zqcm5zaCtv?=
- =?utf-8?B?djE2VjhjNGxvdmFkVUMydm1GOWNhaFluMDNOSEJVM3dTWEdweDlRYmNBQmt0?=
- =?utf-8?B?dzlZbFQzdzk0TWtvSS9hNVRLMG52cWJDbXpRSXVVOTloNmdTTGw5OEVQaWgx?=
- =?utf-8?B?NGpvOHVWOWdRSXFENFVTZ2JuLzRlTTFsV2k5R3RQZjVXRzhlOUF4SU55TmFD?=
- =?utf-8?B?eGhVcTFnWkZkelprYlpkOTlVZXFlMTQ5cnAybURrZUpySk96SGhNalZEL1NY?=
- =?utf-8?B?R2ZOcnQvVmtEMjh5ODExM1lFdE5WYXhiQ2J2Uy8zM2JOZHNnQTZSeGkvdmxW?=
- =?utf-8?B?ZU1DTStONjJEZ0QzQ2cwS2xRVHVFZjI3N1pTSWVjbDd0Nmg2RW1lZDZEM2RW?=
- =?utf-8?B?c3JTaXJWejlJMHBnY0dYQ3lXeW1HM0RiZjJENXZCMU92N3JCZ0MvYnlDMHpS?=
- =?utf-8?B?SUR0T0VmNCtnRjRiUkQvbUZhdkRwZWNFZTdYVFlYQ205N1dmbmNpL09pdkpT?=
- =?utf-8?B?Njd2SG9ZdURwYlZocmJQdytzQVJUUXJIK1NRenA0bTRmVHdRVk8vNlkyZ25F?=
- =?utf-8?B?emRxTDJWUkVCajRVRGJGY3hDbENkTHN4VCtBN05SN0VPTTBNQ2kyQlI3SFhv?=
- =?utf-8?B?ZVlYTXFFUzM4Q280citpL2VTdll0bHRRaDBWT2VvNXJiRjM1TTE4N3pHMElD?=
- =?utf-8?B?RFpIZ1hraDcyamprOG1EaCtQeXZwZGsvZGVZU1BNM3lqbEhLZFRQSkJncmNj?=
- =?utf-8?B?bGtpc2FsZXNlaXlxa0lhSk9jVUZ2dzF4YmhreWQzdEZQQ05ERmZ5WVYxQWlu?=
- =?utf-8?B?eGJPV3VuelY4VWNPMlFVa2xhVnV3WHVpa1FhVGFVM3VzY01EbUduZFZ0R2Ir?=
- =?utf-8?B?MFZCTnhkdDEvQ3ZrQ0RhdmZyZDludVRwbzhHY1Q0M1NYT1NDMUFCVFVLRG5q?=
- =?utf-8?B?NHVQbjNGYWNjenZWOXZ3VkNDRERnZkl5cXk2U1RPNzg4Tnd0V2tWYkF3Vmto?=
- =?utf-8?B?cE9wNFUyNWNNVUxsMnVEMjRCTmkrSVRnN09ZVFdmSmxBUkswY1FyVWQxODVV?=
- =?utf-8?B?WlJacUNsMTZLVkZ4WkhraXg1cy9GWUc4L251aFJSekloemRjbkhDOWF6WkRK?=
- =?utf-8?B?enU1OVBBY1c0U2YvQmpVUEttcnJHV21zMWw3OEcvZE8weTdHb1BWcmordm1k?=
- =?utf-8?B?cDdML1dneHhWSUEzZVpFNHh5cy9vdElEK0FETTNyVDMyajBpYm1UR2tYaUhQ?=
- =?utf-8?B?SUlvWHNDSkxldWExM2FYOUNtYVNZVzJMU2RhdmtIK2NaemZrVUNSYjdGQ3Z6?=
- =?utf-8?B?R3c9PQ==?=
+	=?us-ascii?Q?BT7Ly1Ktaof3pt3J+DREpToqtjJHSOyfTHY1v2QzEJZNe2O9JUydQRfCV9ZF?=
+ =?us-ascii?Q?wTBco2XZ+Lk64bo1/uP19rvaeffc/zPE32DHZvNRGkCtQDcHD5jt7FIxlUP1?=
+ =?us-ascii?Q?e2hMz2w0chzmafEuz70/jRQptqPyDzgSyTw5g82HnOa11gQhMnH49SeC37Bv?=
+ =?us-ascii?Q?UUbW92Wa3RZ8oQ+QKAk1Su9MRJSi6lGYTz0j9W+L3xPkc3ZIJacaKmpLP6Qb?=
+ =?us-ascii?Q?3r591YOw9J3cEW+8MEdo1Q+FNVi7sQnTtgiTYq9ASAaag+JgdoKiih36/4ZM?=
+ =?us-ascii?Q?7M/m8COc9xDqu7ELLhDRAYYaKMVrsolTk566pOnoG4xsujdFvPQbj49L5WLP?=
+ =?us-ascii?Q?R7veNjZFSbhxVxADqa9BeVG/O+kBO4vzwGjAz2W+LGiiI8790b3BKUiTd8t0?=
+ =?us-ascii?Q?b3rr+Chm/CDbdHveq6rGWG8UgtlK4CsQdAyZ3gBLwj9fisXrT5fkJTHNX+Ji?=
+ =?us-ascii?Q?tXUP/Q69UyOS2kxUxKoBHdSKMw85yXiHJVhqVjKjwMsevnCjfzwFvcEZlxXX?=
+ =?us-ascii?Q?tlO0ITaNU/w4AdyHqDYUq1JqNjAl3TeDhQWEkcLriNlOmCIEZ9h8TwQMFDoz?=
+ =?us-ascii?Q?KWPkubn6xQtLetB3OKQMiyP/hVY3yaexdyviBoaSwj6m7O2bnIEyDhA0LWmN?=
+ =?us-ascii?Q?V12+QeNrhP18XC0ABeTrVGjEPZi5i09jXwddAebXbxZYChr7AqOAUEE4j4iC?=
+ =?us-ascii?Q?n3M9rXQBcbeLb5apO74TDxKBHkBYhuXffgRaN71/pLakhpdYmDgWnx9P+5pe?=
+ =?us-ascii?Q?76Rd3Wb+JnKDSy/NQ95V26H2vfI5XNWaeQfZKN486BKeJEoc6ovVyJglj1Of?=
+ =?us-ascii?Q?ApXhCdH6OlR7+vMaehlbwRWu8TRVplHUbxxFHu1jG810rEE1D8uvf5chtbab?=
+ =?us-ascii?Q?l0EeTkMvrHYYogePI9KFyW6NVmmwREHi6+JPQB4ZQUmxHwUoCPYWaHRSAekW?=
+ =?us-ascii?Q?cUTt6/BdeJz93giG2Xtjj+aXgLXO95daUyhc9OEi35wJs/PkPFjGMeTv2+xu?=
+ =?us-ascii?Q?ZxCFNQZ3DohfFyhtgJt/tkq9bAenKZNcbY9DJHTsRCP6lQqHqtlrLbwwv1e7?=
+ =?us-ascii?Q?f6h3AMQDcUfZ0EffRNrgqBPEBOlV+1emXdrBB8xvT7nkcv+J2jQTMaysDNTI?=
+ =?us-ascii?Q?KEzo6x+3BtofFrEwz0uuJzf3YnBk4c2U1BlS8lVr0uLg3g3NvxqEyrvX/0S8?=
+ =?us-ascii?Q?zOfAVHi60gFcXpiUWtgCFoLkAd3HBijFtjwRiYaVM8nTsRhqEGM8GS/JrJCB?=
+ =?us-ascii?Q?giyRS7Sw7xfinps8bglQZB5+yW4CRsC3faLieZbhb5TBV00Eh9CJPtj/wQlW?=
+ =?us-ascii?Q?clN5RieCxGnTaKTPqHUz1RueheL2/21c3K5J9B34wb7t4w+pBYb3JqfX7qPU?=
+ =?us-ascii?Q?Ic2c7texdgAOvUZZ7T7Ax2GDB9csfeeVNHNF1NgV3vHnzfiZstSHrBFidD2l?=
+ =?us-ascii?Q?sUHF9EECsZ2i6N7emphgLCfeo/QPb6OMiD+t4VivgZv/dJ2S13EfqlMo+CTK?=
+ =?us-ascii?Q?Df15GVjAh9v6wsL9h5bFVXGjCJVFXliJgG274Ps9CIMW5SMJRrY9/LTE+Hka?=
+ =?us-ascii?Q?G7vCrX1DaL2lL8Q5+ru5en4Sg+9aCIk5/nADTgVb?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4055c201-96fc-4af3-445a-08dd6e31cc5e
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc132c25-9ce1-4591-5c9d-08dd6e33631f
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2025 19:50:32.1720
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2025 20:01:54.3485
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SxudnsVYHqJ2CoYbDLMzUsr4aJ7+8yc7R5g60GFXSwbFJo1/PLFWhfwhVsVBnLDOjz3/Ci9/uHIwBLR+Iy2O+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8489
+X-MS-Exchange-CrossTenant-UserPrincipalName: WLSFoS5y6G6/Spc4henyPuhHEqTMcPWJcV7mM9yQTuvaJKiA4n+OHW6pL7LRZaRX9d0gebUVNmvOW4wSzfko0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8741
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 19:50:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213865
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 20:02:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213869
 
-On 3/28/2025 5:36 AM, Mathieu Dubois-Briand wrote:
-> [You don't often get email from mathieu.dubois-briand@bootlin.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> On Thu Mar 27, 2025 at 11:59 PM CET, Tom Hochstein via lists.openembedded.org wrote:
->> The user cannot override the setup command options --cross-file and
->> --native-file because the meson-wrapper places these options on the
->> command line after the user options. This problem was noticed when
->> trying to build with an SDK using a custom cross-file.
->>
->> Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
->> ---
-> 
-> Hi Tom,
-> 
-> Thanks for your patch.
-> 
-> It looks it breaks some test on the autobuilder, maybe specific to x86:
-> 
-> Traceback (most recent call last):
->    File "/srv/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/sdk/cases/meson.py", line 42, in test_epoxy
->      log = self._run("meson --warnlevel 1 -Degl=no -Dglx=no -Dx11=false {build} {source}".format(**dirs))
->    File "/srv/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/sdk/case.py", line 15, in _run
->      return subprocess.check_output(". %s > /dev/null; %s;" % \
->    File "/usr/lib/python3.9/subprocess.py", line 424, in check_output
->      return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
->    File "/usr/lib/python3.9/subprocess.py", line 528, in run
->      raise CalledProcessError(retcode, process.args,
-> oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testimage-sdk/environment-setup-core2-32-poky-linux > /dev/null; meson --warnlevel 1 -Degl=no -Dglx=no -Dx11=false /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testimage-sdk/epoxy9vkngm2b/build /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testimage-sdk/epoxy9vkngm2b/libepoxy-1.5.3;' returned non-zero exit status 1
-> Standard Output: meson-wrapper: Implicit setup command assumed
-> meson-wrapper: Running meson with setup options: " --cross-file=/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testimage-sdk/sysroots/x86_64-pokysdk-linux/usr/share/meson/i686-poky-linux-meson.cross --native-file=/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testimage-sdk/sysroots/x86_64-pokysdk-linux/usr/share/meson/meson.native "
-> 
-> ERROR: Unknown CPU family i686, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.
-> 
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/1265
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/1283
-> 
-> Can you have a look at these test failures please?
-> 
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-> 
+The user cannot override the setup command options --cross-file and
+--native-file because the meson-wrapper places these options on the
+command line after the user options. This problem was noticed when
+trying to build with an SDK using a custom cross-file.
 
-Thanks, Mathieu. It appears that the problem goes deeper. V2 coming.
+Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
+---
+ meta/recipes-devtools/meson/meson/meson-wrapper | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-Tom
+diff --git a/meta/recipes-devtools/meson/meson/meson-wrapper b/meta/recipes=
+-devtools/meson/meson/meson-wrapper
+index 7455985297..3aa1a93520 100755
+--- a/meta/recipes-devtools/meson/meson/meson-wrapper
++++ b/meta/recipes-devtools/meson/meson/meson-wrapper
+@@ -14,8 +14,14 @@ fi
+ unset CC CXX CPP LD AR NM STRIP
+=20
+ case "$1" in
+-setup|configure|dist|install|introspect|init|test|wrap|subprojects|rewrite=
+|compile|devenv|env2mfile|help) MESON_CMD=3D"$1" ;;
+-*) echo meson-wrapper: Implicit setup command assumed; MESON_CMD=3Dsetup ;=
+;
++setup|configure|dist|install|introspect|init|test|wrap|subprojects|rewrite=
+|compile|devenv|env2mfile|help)
++    MESON_CMD=3D"$1"
++    shift
++    ;;
++*)
++    MESON_CMD=3Dsetup
++    echo meson-wrapper: Implicit setup command assumed
++    ;;
+ esac
+=20
+ if [ "$MESON_CMD" =3D "setup" ]; then
+@@ -27,5 +33,6 @@ if [ "$MESON_CMD" =3D "setup" ]; then
+ fi
+=20
+ exec "$OECORE_NATIVE_SYSROOT/usr/bin/meson.real" \
+-    "$@" \
+-    $MESON_SETUP_OPTS
++    $MESON_CMD \
++    $MESON_SETUP_OPTS \
++    "$@"
+--=20
+2.34.1
 
 
