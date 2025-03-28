@@ -2,8 +2,8 @@ Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B881C28B20
-	for <webhook@archiver.kernel.org>; Fri, 28 Mar 2025 05:37:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 787AEC28B20
+	for <webhook@archiver.kernel.org>; Fri, 28 Mar 2025 05:50:34 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
  by mx.groups.io with SMTP id smtpd.web10.5102.1743140267218502609
  for <openembedded-core@lists.openembedded.org>;
@@ -44,7 +44,7 @@ Received: from PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::f440:269f:9645:29c0%4]) with mapi id 15.20.8534.043; Fri, 28 Mar 2025
  05:37:42 +0000
 Message-ID: <1800bd6b-be1d-43a0-80b0-076f4471e631@windriver.com>
-Date: Fri, 28 Mar 2025 11:07:24 +0530
+Date: Thu, 27 Mar 2025 22:50:28 -0700
 User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [PATCH] binutils: Fix CVE-2025-1148
 To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
@@ -52,11 +52,8 @@ To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 Cc: Sundeep.Kokkonda@windriver.com
 References: <20250319093535.3368863-1-Harish.Sadineni@windriver.com>
  <D8P6NR9WNLW8.2A85J29IONJA7@bootlin.com>
-Content-Language: en-US
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+From: "Sadineni, Harish" <Harish.Sadineni@windriver.com>
 In-Reply-To: <D8P6NR9WNLW8.2A85J29IONJA7@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: SJ0PR05CA0077.namprd05.prod.outlook.com
  (2603:10b6:a03:332::22) To PH0PR11MB5658.namprd11.prod.outlook.com
  (2603:10b6:510:e2::23)
@@ -167,18 +164,25 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspect
  clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
  definitions=main-2503280036
+X-Old-Date: Fri, 28 Mar 2025 11:07:24 +0530
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 05:37:54 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Mar 2025 05:50:34 -0000
 X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213811
+Message-ID: <20250328055028.zxTpDWIy45vV-iTYIQbBGZVODpCT9ZF60kDtb6MB5go@z>
 
 
 On 3/25/2025 1:23 PM, Mathieu Dubois-Briand wrote:
 > CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+> Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
 >
-> On Wed Mar 19, 2025 at 10:35 AM CET, Harish via lists.openembedded.org Sadineni wrote:
+> On Wed Mar 19, 2025 at 10:35 AM CET, Harish via lists.openembedded.org Sa=
+dineni wrote:
 >> From: Harish Sadineni <Harish.Sadineni@windriver.com>
 >>
 >> A few place dealing with ld script handling made some attempt to free
@@ -187,7 +191,8 @@ On 3/25/2025 1:23 PM, Mathieu Dubois-Briand wrote:
 >> mallocing in many more cases.
 >>
 >> Backport a patch from upstream to fix CVE-2025-1148
->> Upstream-Status: Backport [https://sourceware.org/cgit/binutils-gdb/commit/?id=d4115c2c8d447e297ae353892de89192c1996211]
+>> Upstream-Status: Backport [https://sourceware.org/cgit/binutils-gdb/comm=
+it/?id=3Dd4115c2c8d447e297ae353892de89192c1996211]
 >>
 >> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 >> ---
@@ -198,16 +203,19 @@ On 3/25/2025 1:23 PM, Mathieu Dubois-Briand wrote:
 > I've seen it is already discussed, but as an additional note, current
 > version seems to generate some build error on the autobuilder:
 >
-> ERROR: gdb-16.2-r0 do_package_qa: QA Issue: The /usr/share/info/dir file is not meant to be shipped in a particular package. [infodir]
+> ERROR: gdb-16.2-r0 do_package_qa: QA Issue: The /usr/share/info/dir file =
+is not meant to be shipped in a particular package. [infodir]
 >
 > https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/1170
 >
-> I tested "bitbake world" with the same configuration as in qemux86-world-alt with the current patch, and the issue did not occur.
-> Typically, errors like "file is not meant to be shipped in a particular package" arise when there is a change in the recipe
-> related to installation or packaging.
->
-> Thanks,
-> Harish
+ I tested "bitbake world" with the same configuration as in qemux86-world-a=
+lt with the current patch, and the issue did not occur.
+Typically, errors like "file is not meant to be shipped in a particular pac=
+kage" arise when there is a change in the recipe
+related to installation or packaging.
+
+ Thanks,
+ Harish
 >
 > --
 > Mathieu Dubois-Briand, Bootlin
