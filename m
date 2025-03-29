@@ -1,208 +1,141 @@
-Return-Path: <tom.hochstein@oss.nxp.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6509C36008
-	for <webhook@archiver.kernel.org>; Sat, 29 Mar 2025 18:10:07 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.65.7])
- by mx.groups.io with SMTP id smtpd.web10.15959.1743271800691159313
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B6EC36014
+	for <webhook@archiver.kernel.org>; Sat, 29 Mar 2025 20:07:28 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.17852.1743278844812327074
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Mar 2025 11:10:00 -0700
+ Sat, 29 Mar 2025 13:07:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=XP2GFEZr;
- spf=pass (domain: oss.nxp.com, ip: 52.101.65.7, mailfrom: tom.hochstein@oss.nxp.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ShuycPv7+4HvDEDu776oJcl2240+zSzuD8apcDr5Ya8z4aNatwdGfFspvfSmjbs7FbvzfYY2UwL6dyw0u/huHr9zssGonbtYDGj+YCwilTPvZRpCmniS5pxJBABChoarWXTJFj5Zcnu4NofjQc7DKdTr6Za3yXkttD4IiVjAnoBpQQEcRvOqCPl8W0wBfXmAXp+7Mq3TToJnAoOntEfLG4fciTu0TSlYX5vFThzIZ63W05Lu72Gk2w7594dY1Hj0tyAgi3QSQL+mIe2mKUOdLpK8cQdmG3Hvk+aGAXhxxLSrMB8vdlOm8cXqMTC1PLpmVrkY4Nh9aV9mfTnUicwwNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W+w3pME1eI6TEoCUrllVK6R9T4f3Bhm82OWMZIIPPKk=;
- b=k2IauriQGd52phT5skR6BicYfKMYG2rZOB2k8+wX5POF423kHnryJWW3XeK8kBdEzZerjUWmX/PAzqkHquhw5U/vEcKCWfibdXY7tAHn6RbYR3alAM+HGFC5/CzlVHWlZOHv2a8Oe9aBWC3sm/Fn47hboTo9x/4eQGX2rwGhUxgVH12yuo7x7Idq8b4W/lcqQnxAc4lYV1Sle9uXgj15bfB5dH4IBlnpGmyBLt4Vp/0HsF92RLTgZROfUDJHn5cPHmp3Uw1Q4rb3U6cgn7Hg5MQ4iS8nDA89ClTXWlGMhiL9cDqI3S5M5VlbG205G/ROX+vXyV0soxJYVej7KEC1QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W+w3pME1eI6TEoCUrllVK6R9T4f3Bhm82OWMZIIPPKk=;
- b=XP2GFEZrIcuxTjruOsOqRnLD4q7ggxY/HCsBbx0edMd/uDdPYy45ziG4P1bpwt94VRZsVtzsX25qqpWgeUiswYntXbpy0u6gA6alWxl1JMaewN5I/H1iIfXfjFRPd7xywJUzrIQ9XdB5XOgw4fNQv/X02p0E6qI4mVAgECa2Zstft9fecCj3cUbs8hfVTJr91HgnWO4nrHiCVwDsMbvqo2hplr9fWrm8vY92/MtYAAlGLLLA/vw/sqPQ923NAj2HstFvRdkS5vTYB4WwP0NvkjWglZMZehU9fJd0tIasiy8jsObj58FC5BjEeztUs5SaI3ElcbuRGr5eeMg40eFghA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
- by DU0PR04MB9394.eurprd04.prod.outlook.com (2603:10a6:10:359::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Sat, 29 Mar
- 2025 18:09:57 +0000
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc%4]) with mapi id 15.20.8534.048; Sat, 29 Mar 2025
- 18:09:57 +0000
-Message-ID: <2d6b7401-08dc-466d-b03c-c1feea0f564d@oss.nxp.com>
-Date: Sat, 29 Mar 2025 13:09:51 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v3] meson: Allow user to override setup command
- options
-To: openembedded-core@lists.openembedded.org
-References: <1831574B856D1B1D.15810@lists.openembedded.org>
-Content-Language: en-US
-From: Tom Hochstein <tom.hochstein@oss.nxp.com>
-In-Reply-To: <1831574B856D1B1D.15810@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR07CA0046.namprd07.prod.outlook.com
- (2603:10b6:a03:60::23) To PAXPR04MB9448.eurprd04.prod.outlook.com
- (2603:10a6:102:2b1::21)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=MltELmga;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52TJrplt026666
+	for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 20:07:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	nIhSfy/SDR/jkHbaHlF49+XBVFaur1v4uEyKSY8Df5A=; b=MltELmgaZCUlBkMd
+	Xhb3IRk76b3J19ZvbehfKjhEVrjVV4i9OqVoYcWtP4wbvVwEkMxYxKtc397IyIE5
+	usOsYhLE0SV3ouhHkOEW820HxTxrpMfI38iuzbT8nBhi6kdATe58QI7CZ8jj9y7q
+	Xw8CJFaDgRT0AZA2BZDdNlnFCoz0/vn1WYpjpNvwXehmDFygk4IZz2k5T68Cbhf5
+	ooUjIAzPocSblIGSRuBZV6d0NCm79557y2rG45+ww7FnTX9Ads9wquWU4/J2cWvR
+	SC2Cwv/Ef2LiMNfCq9gdkvrxD6m46Sqsyph+U+foozW9Vc6oR37+YPmo4xQPypzx
+	NOSvLQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p7v89bnm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 20:07:23 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c5ac559cbaso537047685a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 13:07:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743278843; x=1743883643;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nIhSfy/SDR/jkHbaHlF49+XBVFaur1v4uEyKSY8Df5A=;
+        b=a6IOSriETsqmpmwuiJvgfyGpFk+tOYLnq7XdgcOKOWs5K42RpHKjcFfCnlyr56x+7c
+         JaHro7m3hQwpTQBD/5dnYJuXX5/QoO1P1Wr6+Gm39gSVjMRHnYeQkZdB+axK8EQvmALW
+         tVwJ7OQkcXmCsLzAQT0fdb8TmMYWJeECHuwufs4qhsA8NLUZSIv7Q7vzRY3K9qJkjYhE
+         rgOqMt5gt0n1vN/C3t3XQnGxKMg/+F/4c/hmDxu5H4t0NoodPyK6UMwCNJldjBXaHIBQ
+         nm+c5/D3xovXVLoRS/32Ny9gKrV0j/1xz3krF2ZGG8do6BWptHS0pXw53ukpXyoAvGNL
+         p1Ug==
+X-Gm-Message-State: AOJu0Yxb78SsGaLfJLLF0IznFqk8EmkjKENqKuk2b4IwiWEiL+Oci6pB
+	X3lGjTgingb1CPzimbZKKcgY+FJJkejHM6WAJjLFI0o59I7+p2iDLOq+eJyEAj4WNYlKfRU//Mz
+	5bpNntKEK6crj+Dljt4pwS5WuintnXsoGOhBHObPS+rponXD0Ausu9Wjkb6TZ8t4tR4NkBPPRkG
+	yoKMg=
+X-Gm-Gg: ASbGncsCEz/D4of3YXAH6Q/5c4/Fbme/FDKnzxYoH2bvdbOvvA2ikKywWiLz9TElGNK
+	rRVTu7dtNxxY03m4xpOwRVGt0AGpaGbPhDmUT6YdUFUQPJR4ox8B3cLRzAZyxL/Ssu2xKMx3njh
+	oLMc7xLutsx2HCAB2r82nrwkw69UHHTWabhV6qcTvYMLK6YI8Y4oYy6loTwNbrCxxiJnOtwK1OM
+	k58y63k7GjwAeIFHyDAMEaShmyxM+8xXTogxOb63FCsT6ftxcCkpP4BIe5mlhY5Jz43AR3rmJc/
+	wdwYV29iNYsbP7GRPbcpXAE3WffkqU0Hd+OcL6bCJWClFuiv4riIbVTpIHimtdRXlNpXsesq6pv
+	eV1pVZ+oN6UhLGu/izAhIaVuLJ1W+
+X-Received: by 2002:a05:620a:40d1:b0:7c5:3b52:517d with SMTP id af79cd13be357-7c690893bc0mr574665885a.54.1743278843132;
+        Sat, 29 Mar 2025 13:07:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEVAWc0o8omBrWpyhUx8P9EapbP3JKHU/GDgQuwtDPAV+Fc2kNn2awy3dQjZNtKLhJmGnEfaQ==
+X-Received: by 2002:a05:620a:40d1:b0:7c5:3b52:517d with SMTP id af79cd13be357-7c690893bc0mr574663285a.54.1743278842772;
+        Sat, 29 Mar 2025 13:07:22 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b094bb365sm685848e87.29.2025.03.29.13.07.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Mar 2025 13:07:20 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Sat, 29 Mar 2025 22:07:12 +0200
+Subject: [PATCH v3 1/9] llvm: move libLLVM.so.N.M to llvm-libllvm package
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|DU0PR04MB9394:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25161e26-ad21-44e6-ac37-08dd6eece981
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|4022899009|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?Rm9BcG1ORXJKMHNLZTN1K1hCQ3RrTWtUY1Z4QmtHcFlKcVFuTklwQm1FRXc2?=
- =?utf-8?B?U09xTUlkNlVidUlmU3J6NHl2M3lDNGNNTXZ0N1o3dXBIdlJBSnAwOW5WRytE?=
- =?utf-8?B?WjJXeWtzYUVMOTBmR3U2MXVoTU1FYjRyalhNeEV2M0htZDc4UDFHZFNkMVQv?=
- =?utf-8?B?QU00cnhTdVdxT3Rxb1VFdkd4NGZCSUhaaU5ET24wdlFsN2h2N0lsaDZCblVs?=
- =?utf-8?B?bGlTWW5FNzE3cVhqcnk4emNpRmx2RjMvSlV2WHhoeStKN3NvZGM2V0xNdG51?=
- =?utf-8?B?VXR3M2lZOUNBSU9ycHVZRStqMzNkUzd1Uis2bVZCNW1JeU1HQlFyVFU1ODB2?=
- =?utf-8?B?cjZRY0pCbTFQdXdNcGVlaUFFenhvUmllRzdTME9KZndwWFQxZlR1d0R4c3k4?=
- =?utf-8?B?am4vRWxyYzlKakxxcklmNTExVFZNbEVFR1hmb0pHcDZTTkdORXdGZE5CcnNS?=
- =?utf-8?B?STBVMk5LRzFNYWd4N3h6T1o0VDhMNjJ0c09nSERXQUVNM21FTVAwd1RtTmVO?=
- =?utf-8?B?RWVoS3dHKytMWkJjUTdkSnAyOHJucFNPN0hvQzBrSlhoeHNENWh4aTdxYzhB?=
- =?utf-8?B?amtjMUY4NmtSY09HZXRSVytYaU5mV2JTVytiWllaVCtkMHBHMStTWXVldkRa?=
- =?utf-8?B?b1JuRVpNb1crMEo5eE00STdyRUdrMVJFSnhmL0N0VGpCeWgrMGNiTitaL2FV?=
- =?utf-8?B?T29Hc25RaFFIV2NMYkJRWk5QMkVTdHJEMnc5RjJhOUtEaThyTE8rMDNEcHh0?=
- =?utf-8?B?ZHRUWHlwVndZQkpLMHNyeHhVajk5YUZiSmFBc2QvYnE1ZmcySmM3a3pSQ1Uy?=
- =?utf-8?B?KzBkY2FvQkR4akIxcnlGVWhIdzB1MllJRkNwZUZBR1c3M3cvTkxmN0hKd3lX?=
- =?utf-8?B?Qi9aN3czcUg5VmpJY2tDQWs4Zk5KVEpYdUZNck52cEVxdHh4bUw0V3lVRHRw?=
- =?utf-8?B?RFJYNG5qZFcyVVowM3U3Rm82R0VxM0ozNlpPRE45UlBtRHlNTzdTNFRRK3lx?=
- =?utf-8?B?NlRiSGxpcFF3MU9aWTZ1K1pYeTJJeXBhbFBrb2NaK0plVXZkc01QK2JRdXR6?=
- =?utf-8?B?RjNFaWYrWVlLR1BJOFlvU3JVQ1NXa0JGVnlOMWZCdU5rUExwL0hxaHJpenJG?=
- =?utf-8?B?Z0ZZNllXSDhGaEhKOWd6Uk9qdmU0bVFxajRWSFNoSms2UGlrbFFTWm9KNVdu?=
- =?utf-8?B?UkhPeVczWHZhUTJQQm1mclVQK2dyVjVlbFFjL0l2S1BvcWZwc2pySjVrNmov?=
- =?utf-8?B?dkNZM3JBZzVHSUZIVk5QcEczbGVoZnBCc2w0UXJXU1dzZFJtb1dxQXVGdHo2?=
- =?utf-8?B?RmF4K215V0hPeE1PSlhNQUFiSGlCWkZ3NTZzTDA1d3NpenFOZndVVTREZW5y?=
- =?utf-8?B?MUhzc2I3azRUZnJ4aWZ0dWg3ODk2WEl6Q2U1TncrbytwejlhVHBaZVRwVlR3?=
- =?utf-8?B?TjY3cEpCTy9yQ2krWnF2SkhFUkxjVTlwcmpJNTN3TktVZDhna2E2WVhhclVk?=
- =?utf-8?B?ZWNXVVc1TlpCUnZ6ancwdisrSHh5V2tqa3RZc0lObnZ3V2lBTXBLODlRMHpH?=
- =?utf-8?B?QmovVC8rL0NKQTdYRnlpZkJMbVg2RnF1ZTVsVHBBUVVTaVdkVFhiZnNiRkZ6?=
- =?utf-8?B?KzBJN1VJd2NGSTJpa2k1UDhPNmUzb3B5eW5KeFI2N0RZUWZOQ1IxYjk4Rmth?=
- =?utf-8?B?YnM0MnRSdmZ4NTcxcURPTkVDcmlmditZK2VjOThWNDVMcndDREVjbEdselNi?=
- =?utf-8?Q?BcTtjXo91L7VtMZbl5EuVQme8CM6V6DQ2uaKlot?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(4022899009)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?czlZcWowODlvVUczbHovUUVsaUg2bWlOOW53UTk4Z3E5S1Q5b2hueVl0alJR?=
- =?utf-8?B?SUExVGx5ZlViSWEwWCtGRzNvOSsvR2JwMURudnhSdUh1K1FodzZLcU0vOXNN?=
- =?utf-8?B?Q3hwaVlCYUJhYWN2WjhhRk1zN0RrTXlYZzdSOXlWKytpWUNBVW83YXh5TURi?=
- =?utf-8?B?Y3ZvcEx1VUNSUStMdEYxcFN3c2RMM1ZPY0c1SkdhOGJGQTBUN0dUQWVPMjdq?=
- =?utf-8?B?OHdBQXVhNVlOZERYMTdFUkRteVEwd0NnWVRSS0NZRGIrYTRQQ2NkU0lvWlBx?=
- =?utf-8?B?dVRIMGM0VlJxMmczSlNnUWNna3B5SHhlZEJ1S2dOb2Q4TkdpT29jNk0yaDVy?=
- =?utf-8?B?WTBOWGJkaUNISE5zOEtmbi9VNVpSRTF4MEZjaUJZUlVXbEJDTnE3RzNMODE2?=
- =?utf-8?B?bmhWblhvQzh3WXFnU3pqZzFIdTM2UXVTK2VFYkJrQXZ6WXN6TzV2dmdIRDRt?=
- =?utf-8?B?TUM4eGs1ZVNhSFdDSnlza2RIYTh0ZXZLSmowTDA4RE1rdW9RK0tFM1M0R1Q4?=
- =?utf-8?B?MzJ5YzVEcHZPSkhCZzRvL0xxM0FTbzhncmRRY050bGlvREYxNGtVTGFYU3Bt?=
- =?utf-8?B?VkVQWktENElZN0Z1OVJuMHpQOXRDUXNwKzZaQVVYak94NDZVWGdlbTB1Tnl5?=
- =?utf-8?B?VndIL2NZTXNyS1V4ZG1zUFVnbWNUVi84QUcwamVaQXRZdGYwVGI0bFdjMVoz?=
- =?utf-8?B?TEs2U25wZGxIYXJ3aGFCbHV1L0tWUzVpdHBIU2tVNUVVQTRFcllXdHoxMzhq?=
- =?utf-8?B?TUFxQThITGMyQjFuWCtudkU1WUY2QnV2bG9SYWN6QjBKblBDMzg0RmQ0N0xD?=
- =?utf-8?B?RUlPcVNNeFhWdUJzSXhwRkt3ZUR3dWtQZXZuVGR2dVAzejhsZTg4VUN0Rkh6?=
- =?utf-8?B?UVNtemhvbW1vVC9QT2FZdVcySGtFQlA1dlNxbGZxdnlHanNOWllNcEM1OXBa?=
- =?utf-8?B?K2Nibms5aG9QcjZ0ckRXdjllVVVhL20xR0RBYWJnTS9ZdjhPWkdVbmg4amtY?=
- =?utf-8?B?UVNFRTlCTTNHNnJjbER5ZWxpV1ZjckRwWTErMy9KVlFTNmkxWElyRTdaNXh3?=
- =?utf-8?B?WEs1d1JoUDMvcGxHUmdrZE1waU83T1ZYUHBSWUVpS29pQ3M4YkhnVFFjTUpI?=
- =?utf-8?B?Zy81NlJlUW5pclpDWjM5bFlXVWVXaVdvTzhoYzczNTUrSUlkd3ZUakR3MDJ1?=
- =?utf-8?B?VjhBK1poRUs0K0ZQWG1yMWt2eTQ0ZlU3ayttV1kxUHRCRFJTZ0JnZHREUXUz?=
- =?utf-8?B?ckhncDl6RC9DT0NyUzlNVHVORlVwSDYvdlZnbGxHUFRuZ09oVCtqdHlkdC92?=
- =?utf-8?B?djFQa3ovRTg3YkpsOFc3S01DaktpR2NKZlI3cEpuWFBFSHE1SmpoNGVOc1Qr?=
- =?utf-8?B?ODBDV1RTZm9oUW5zaHJLcURSR2lRYytMTnE4YnRNOU12OXJTNFFDUVRTbURG?=
- =?utf-8?B?T3pocC9DWlR1Yzk5enJhZUI3MEFiS2x1MkpyNmw1ZkZvamFmYnR3b3h4NEhX?=
- =?utf-8?B?TVpNeGlXOFljVEhNZ2hqV25vUCt3cW1weW1nLzhYaDJCaElBcWV2bjZ4NTQv?=
- =?utf-8?B?cjZDZ3FvaFVvbXJuZ0lNOEhSM1EycG1hbEhZdkFyZFdJMXVSZDdWUkhmWUh2?=
- =?utf-8?B?VGpFWWtOY2ZVMU1CWitvdHRJb1ZRUG51Zk9wY1NoYnJLUjBxWnJjMFA3QXZz?=
- =?utf-8?B?aFZ3bVJoQ3NpcnR0RUpKTjhaamRsQjhqbmJWT0lUOGdhbzFYT05kU1RzTWpV?=
- =?utf-8?B?ZXA3REJ6VnhEc2ZuYUR4ZHdDYU9NdE10WVM5R2c4NXV5bXZKcGhFWGY1RnVF?=
- =?utf-8?B?OWthQlpZWmZwZzl4U2gxVXp1K2hjVmhyUWUyUGhpMGgzVmhwZUFWOWtjRGZU?=
- =?utf-8?B?UFY1b0swV2FncXBabVNzYjRQa2I4V1lrVkwvZDFRcGtwZlRaRnl6eFM0elQy?=
- =?utf-8?B?TU02SEVwRHcxM1c4QmFlc0R4NUh5VDJ0Y1JwZDdRejQ5QVlhWEVHRWJKRW1H?=
- =?utf-8?B?YXJPUUh5Z01qa3hjNXY5cE94cG54a05ZZjJkSitnMEdvVEI3TkM2REgzSy9I?=
- =?utf-8?B?TUFJSW5nTUNJb2NvMU1leWVRTTM2NUJkK1FFbllQTXdKK2o4bDNBbGhtNEd3?=
- =?utf-8?B?RzdoNFJja016MGtxT1Vxc2I4QmNpRU1ieVkyR0h4dy85cVBXa0s4ZXVuejRw?=
- =?utf-8?B?Nmc9PQ==?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25161e26-ad21-44e6-ac37-08dd6eece981
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2025 18:09:57.0392
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8Z69bOyGMSNriwygCGRtphT/1bArAoMo6p4bW4Ngpn4AAJwFQPcbJw6mVfwajFkR63ZC33zMEtl9wcAlTdXGJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9394
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250329-mesa-25-v3-1-f4d0328eb867@oss.qualcomm.com>
+References: <20250329-mesa-25-v3-0-f4d0328eb867@oss.qualcomm.com>
+In-Reply-To: <20250329-mesa-25-v3-0-f4d0328eb867@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1221;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=eGTibRIRqDUKSL6bHzN2H6rb0V+z74KRWUYbtuHsbiI=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBn6FL0Rz8ZvyVa05M3widAv2y5tnHXOpjU3Jjah
+ VWBK2C3ghCJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ+hS9AAKCRCLPIo+Aiko
+ 1V7cB/9XtRWfOlmVJm7y9W8aFoOvmCfUlMaZ/AszoXU0h4x5LqxcbWvIlEiOWTt4xBbTCFuJItk
+ aQvbb39MNaJ+I8FBRlmHyGdf+TE44oTaaQr6epWqUaYaurXHLFSzaFDP2fiD2+iIfXjBDVf1E9l
+ 1YX8UGLu36WwsclZrAsP581I/jQQElH5POPctge7KmIucqU+ZRFEavJ/YozEAAQH2L1JSBVJvfa
+ JLZCUJLggCPHdhaRl+4cODmzUKxQ1P5c/6Tlq1NGzjyfnRDCRjcSwLipngP22KrdxgVznyiLyql
+ e5TYKEKUnZZwmkf8I0PQhgVSldlLOy9EesUnndkblQMmhyab
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-ORIG-GUID: uyra_PAjpT9dcUgEIxewQku5WKIXlKET
+X-Authority-Analysis: v=2.4 cv=fdaty1QF c=1 sm=1 tr=0 ts=67e852fb cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=sEhaxK_mCjGFFgskTosA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: uyra_PAjpT9dcUgEIxewQku5WKIXlKET
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-29_03,2025-03-27_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 spamscore=0 impostorscore=0
+ priorityscore=1501 mlxscore=0 mlxlogscore=778 clxscore=1015 adultscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503290146
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 18:10:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213893
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 20:07:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213895
 
-Oops, please ignore this one.
+Neither MAJOR_VER nor MINOR_VER are defined, so libLLVM.so.N.M ends up
+in the main libllvm package rather than the llvm-libllvm package, as
+expected. Fix this by properly using two-component version.
 
-On 3/29/2025 12:48 PM, Tom Hochstein via lists.openembedded.org wrote:
-> The user cannot override the setup command options --cross-file and
-> --native-file because the meson-wrapper places these options on the
-> command line after the user options. This problem was noticed when
-> trying to build with an SDK using a custom cross-file.
-> 
-> Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
-> ---
->   meta/recipes-devtools/meson/meson/meson-wrapper | 15 +++++++++++----
->   1 file changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/meson/meson/meson-wrapper b/meta/recipes-devtools/meson/meson/meson-wrapper
-> index 7455985297..3aa1a93520 100755
-> --- a/meta/recipes-devtools/meson/meson/meson-wrapper
-> +++ b/meta/recipes-devtools/meson/meson/meson-wrapper
-> @@ -14,8 +14,14 @@ fi
->   unset CC CXX CPP LD AR NM STRIP
->   
->   case "$1" in
-> -setup|configure|dist|install|introspect|init|test|wrap|subprojects|rewrite|compile|devenv|env2mfile|help) MESON_CMD="$1" ;;
-> -*) echo meson-wrapper: Implicit setup command assumed; MESON_CMD=setup ;;
-> +setup|configure|dist|install|introspect|init|test|wrap|subprojects|rewrite|compile|devenv|env2mfile|help)
-> +    MESON_CMD="$1"
-> +    shift
-> +    ;;
-> +*)
-> +    MESON_CMD=setup
-> +    echo meson-wrapper: Implicit setup command assumed
-> +    ;;
->   esac
->   
->   if [ "$MESON_CMD" = "setup" ]; then
-> @@ -27,5 +33,6 @@ if [ "$MESON_CMD" = "setup" ]; then
->   fi
->   
->   exec "$OECORE_NATIVE_SYSROOT/usr/bin/meson.real" \
-> -    "$@" \
-> -    $MESON_SETUP_OPTS
-> +    $MESON_CMD \
-> +    $MESON_SETUP_OPTS \
-> +    "$@"
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#213888): https://lists.openembedded.org/g/openembedded-core/message/213888
-> Mute This Topic: https://lists.openembedded.org/mt/111974936/3617670
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tom.hochstein@oss.nxp.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Fixes: db3bf550a372 ("llvm: Update to 18.1.0 RC4")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ meta/recipes-devtools/llvm/llvm_20.1.0.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/llvm/llvm_20.1.0.bb b/meta/recipes-devtools/llvm/llvm_20.1.0.bb
+index 7ffc6ec1cb8a041f3ce1c3ac75fad30f1d793916..296a164cdd7ffb45f056c879cc5fc4fbc459caba 100644
+--- a/meta/recipes-devtools/llvm/llvm_20.1.0.bb
++++ b/meta/recipes-devtools/llvm/llvm_20.1.0.bb
+@@ -19,6 +19,7 @@ VER_SUFFIX = ""
+ PV .= "${VER_SUFFIX}"
+ 
+ MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
++MAJ_MIN_VERSION = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ LLVM_RELEASE = "${PV}"
+ 
+@@ -152,7 +153,7 @@ FILES:${PN}-bugpointpasses = "\
+ 
+ FILES:${PN}-libllvm = "\
+     ${libdir}/libLLVM-${MAJOR_VERSION}.so \
+-    ${libdir}/libLLVM.so.${MAJOR_VER}.${MINOR_VER} \
++    ${libdir}/libLLVM.so.${MAJ_MIN_VERSION} \
+ "
+ 
+ FILES:${PN}-liblto += "\
+
+-- 
+2.39.5
 
 
