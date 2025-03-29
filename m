@@ -1,170 +1,125 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5CADC36008
-	for <webhook@archiver.kernel.org>; Sat, 29 Mar 2025 14:03:06 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.11302.1743256979308274866
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8ED7C36008
+	for <webhook@archiver.kernel.org>; Sat, 29 Mar 2025 14:26:26 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.11704.1743258374566726877
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Mar 2025 07:02:59 -0700
+ Sat, 29 Mar 2025 07:26:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=O0JO/11f;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43d07ca6a80so16523585e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 07:02:59 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ma4wHKY8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3913958ebf2so2480414f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 07:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743256978; x=1743861778; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1743258373; x=1743863173; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=7cVw2db+XM3pWriZ00YbkNZBaVem7QJp9VOwYccCylY=;
-        b=O0JO/11fX7Ziy3uNZRTdFBqO9N5Zi6sCXrYB9b89ERBAOv2RvMWO2wGu4qjgnDOk6p
-         j6Kf6wa9LTNNTUBdvUxQ8t5ZNrvYv/v/aMC5RFfNpjAgbhFTAgtHC4FNZucqK1h3w1ZW
-         DreUUiKnHhInt+k8VHNuTZon+PMmJVJJ9Tsh/DhWScV/9xvIq/XsI8MUcXVdAk3d3wVk
-         vBsn80JM1d20Z8M0vQ6IQh+x2s0Yo9UH9r22f0dfTlWn61i+eg2VbUx74YQi00aUxIja
-         Hzxv6fBrjRleSe6z07CY2cWJa8S4+vjP9ubWfTiyMGxuu9PEmzrcNRu368T/3Cqg+5xE
-         W2hQ==
+        bh=ncPIBfCr+84/OpUaRidYCzSz22Mqf09fHfF9nq3EJtg=;
+        b=Ma4wHKY8YfKELDgrVckMT0rxF/8tJoBBuHR+/RrG2kAQ1E7eoJgqc2nDMs6+vRGb+N
+         b9VAqi3P+1olWQrbDfyXaWj1cVj5q9lavd5PEUc6d9oI40N5klYIxkrb7Z5k6hP+DWFt
+         bMdmHMJxOYEE70GLQjepGWUtxv7HaFYSoJ7AM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743256978; x=1743861778;
+        d=1e100.net; s=20230601; t=1743258373; x=1743863173;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7cVw2db+XM3pWriZ00YbkNZBaVem7QJp9VOwYccCylY=;
-        b=wBj76Cqfh4r1nAOUb3g55EeuDGaNuMR+TNJV0ZRGIB8RQd1WZMUFtDQ2MMxKtZTb2u
-         x2dRdMuD8PYvoHZchABgGV+vIcqB+SN1nvyM2Bk/BDg/vQyvUyEC8fNg89E5VL/Ffloc
-         MddWYxm8xKh5Y/Mh9nmnQJo6XEZhqIgWKpgcjAKamQzGcNYCcwLluPbl4a1np9WEj9NX
-         uyVqyxrX9ZMs+5jCWVBiVduFejPlXLhckgSipGrhIKCgyIymSLLQ2k2pjvRu/k59dO1w
-         MGKSPEkcmLjtlltgQrzXcUwduWQihPSnxVjs9k6rCB2GmYIbrZ5qLbXMZtEaXbh0DpX7
-         1eIw==
-X-Forwarded-Encrypted: i=1; AJvYcCWIsQUc5gH0sb56gXSp+5nXlYbg38QRUs2l2ve5CrqO0YGzDDbLKrMCQqDCg0b1rgbFa5uPIG1VqA4DzpTgmrfT9g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyNLU3iacrWhAfLMsLAQ7rmc/01WdP219THBU/ORWrO1u0zwWs2
-	o9nXAmUWtw18fr9/WOS7z6B3xc1o8Mipsv4RcsTe4xCPXs5bh8/v
-X-Gm-Gg: ASbGncu1MHr4Sye0dUI7kSF7yLKmb6l9ttaWIub1FbBFxUVpltDzNHpjyXSCrSTu302
-	a/raDf6dVvJZWdjKwEQ3ye3tXMbCSe3BH/JfDkQdnNSM3J4Gm7MJOY4NDjJzCjjcsWb7NfMNVTj
-	g5JhX67AbYEO2Ui+9b2eSqkyP2ih0WgT4kcaw0qL4ga6kKxfJPhnQxpwbhqC7r1NGsiv7LVzXdz
-	kOb4me0sl51i4joh4Ap9hM2yeODdwt9zMg+wNqsVl4T0dOZ3rtgW5q+oXYhooMG0pgGB6t/uKjW
-	TT0YCA9r0J/5I0tqjQAL6323zJOIUEKNfUicbVhqy/Dt4BvM550B/3WlD8sw1UCllnSngLov5iR
-	DM9vmYP5RAhndQzN+Tg==
-X-Google-Smtp-Source: AGHT+IEAF1SASmNPcBwBhx9poc0imyY9RyBBZ12SHzLy4U8EZm9bxUEEwoybvEzVO9r0OmLeE2mYCg==
-X-Received: by 2002:a05:600c:384d:b0:43c:fded:9654 with SMTP id 5b1f17b1804b1-43db62bd0a5mr24015585e9.19.1743256977360;
-        Sat, 29 Mar 2025 07:02:57 -0700 (PDT)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d8fbbfeaasm62932595e9.9.2025.03.29.07.02.56
+        bh=ncPIBfCr+84/OpUaRidYCzSz22Mqf09fHfF9nq3EJtg=;
+        b=T35fypdTVh1vM3tiQp/eqTIIOhQvnKVnnBPgtNztWKHvRMRbTyocyqEOtX9LlOmFZP
+         DTei+iLdio9Uu7IL24kpPru1dvx6+RBfNLsh+bJZJVmwIIIJQMzq9p4bjqeLddyjk+A2
+         kR1/KkA1yRutGy9lqRzxDYloKdQ7wdgtNxCYmz8CvRjDlhNAF5FSOXXTcuTLI1omJapz
+         BzVsgJ1eoynOCutIygt2SkW4PsExdTy2sw4Qw1LZueayE52+GJBAK8x6P/ZWdW9++cPa
+         ASxqx4z+QTKtbrtOwn0OAKk6ERL0kLcHGF0QxrZLYJGa1q0JwIkxLA85q7HN8YuXq/Ik
+         kW1w==
+X-Forwarded-Encrypted: i=1; AJvYcCUynC+m6Ghc0OtAf4T9nCJQfwHlqVtjj7OMvZn0gkkbkNk0ya8hSAArRkD7PfUmU8r38QA2ucSFtxB3fZeZZw8WKg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxP4U1WCrcswKqaYgJmKiw9naWJaZJEX+iy/KHdfSKwf9LoUsnG
+	EdytG+z8pnUeHDVK0mwnckVgMe75Qi7DVEGOmq6JGTaAP5k6K2mX2kZ120ToHjk=
+X-Gm-Gg: ASbGncu1z0i/2NuOStnuEoaOCkyWR+k8JawZJJBn9FoF9BjrnatiCpbYciD6kvV+fqR
+	3wiUUaSeCdBL9HxbzMpKNTYHIeRMKYb2fEb12Eh63hhgMUh6vSAZ7l46kQZue7eD/DYFR7i1KL9
+	pogYfx0+veTc95594Jw+CaJi+2zLGPoMTxSazcymkpDxLFbhFeByyNHhk216xWc/MzRltRPfBh/
+	008CdmGayWrpKUKTv1ipQDih0Rha/aK2YBJEGbfbgt9jPZcj3sUPsrt8mS4ZQTU7JapaWcT698F
+	EqqjNu1MQ1LIdMloAe9t16lvSPERutO2H8iiMDvg5rQPhCYuArQuUcTVdzJUZViUnb6d0floAAc
+	gsIOSkRDlL1DeFD7BgwurhNBdqPSNkjW6BYJfSqI=
+X-Google-Smtp-Source: AGHT+IGtu+PMJF5tjOaylx3Z+smpNdK9jbQU4abD2mZkDr2lc24hmLMf01vgU8rbuclPuU7NP8oc3g==
+X-Received: by 2002:a05:6000:2a5:b0:390:e8e4:7e3e with SMTP id ffacd0b85a97d-39c120ccb86mr2305524f8f.6.1743258373013;
+        Sat, 29 Mar 2025 07:26:13 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:aa52:226c:d1da:79? ([2001:8b0:aba:5f3c:aa52:226c:d1da:79])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b663564sm5945880f8f.32.2025.03.29.07.26.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Mar 2025 07:02:56 -0700 (PDT)
-Message-ID: <bd99e47f7600f91dd2eca63437fe0b03b7c385a2.camel@gmail.com>
+        Sat, 29 Mar 2025 07:26:12 -0700 (PDT)
+Message-ID: <02ed3be215555452cabd3f02473d7d6abee5343f.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH v2 1/6] default-providers: Add
  VIRTUAL-RUNTIME_dbus variable
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: niko.mauno@vaisala.com, openembedded-core@lists.openembedded.org
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: adrian.freihofer@gmail.com, niko.mauno@vaisala.com, 
+	openembedded-core@lists.openembedded.org
 Cc: ross.burton@arm.com
-Date: Sat, 29 Mar 2025 15:02:55 +0100
-In-Reply-To: <20250328150136.1855862-1-niko.mauno@vaisala.com>
+Date: Sat, 29 Mar 2025 14:26:11 +0000
+In-Reply-To: <bd99e47f7600f91dd2eca63437fe0b03b7c385a2.camel@gmail.com>
 References: <20250328150136.1855862-1-niko.mauno@vaisala.com>
+	 <bd99e47f7600f91dd2eca63437fe0b03b7c385a2.camel@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41app1) 
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 14:03:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213878
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 14:26:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213879
 
-Hi Niko
+On Sat, 2025-03-29 at 15:02 +0100, Adrian Freihofer via lists.openembedded.=
+org wrote:
+> Hi Niko
+>=20
+> Thank you for the patch. It would be nice to have an easy way to switch
+> to dbus-broker.
+>=20
+> On Fri, 2025-03-28 at 15:01 +0000, Niko Mauno via
+> lists.openembedded.org wrote:
+> > The purpose of the new variable is to facilitate oe-core users who
+> > wish
+> > to use an alternative runtime D-Bus implementation instead of the
+> > default Freedesktop.org's dbus, such as dbus-broker, a recipe for
+> > which
+> > is currently available under
+> > meta-openembedded/meta-oe/recipes-core/dbus/
+> >=20
+> > While introducing this facilitation the intent is to preserve the
+> > existing functionality, while allowing the user to optionally select
+> > an
+> > alternative runtime D-Bus implementation by adding the following line
+> > e.g. to local.conf file:
+> >=20
+> > =C2=A0 VIRTUAL-RUNTIME_dbus =3D "dbus-broker"
+>=20
+> Introducing a VIRTUAL-RUNTIME_dbus variable would work. But it requires
+> to change all dbus related recipes which are not only in oe-core.
+>=20
+> I'm wondering if using a PREFERRED_RPROVIDER would simplify this.
+> https://docs.yoctoproject.org/dev/ref-manual/variables.html#term-PREFERRE=
+D_RPROVIDER
+>=20
+> This would probably allow a back and forward compatible implementation
+> with changing only the dbus-broker and maybe the dbus recipes plus
+> adding something like
+> =C2=A0 PREFERRED_RPROVIDER_dbus ?=3D "dbus"
+> or
+> =C2=A0 PREFERRED_RPROVIDER_virtual-dbus ?=3D "dbus"
+> to OE-core.
 
-Thank you for the patch. It would be nice to have an easy way to switch
-to dbus-broker.
+Sadly it doesn't work like that. I regret adding PREFERRED_RPROVIDER as
+it doesn't work as people think and only helps under very very rare
+circumstances.
 
-On Fri, 2025-03-28 at 15:01 +0000, Niko Mauno via
-lists.openembedded.org wrote:
-> The purpose of the new variable is to facilitate oe-core users who
-> wish
-> to use an alternative runtime D-Bus implementation instead of the
-> default Freedesktop.org's dbus, such as dbus-broker, a recipe for
-> which
-> is currently available under
-> meta-openembedded/meta-oe/recipes-core/dbus/
->=20
-> While introducing this facilitation the intent is to preserve the
-> existing functionality, while allowing the user to optionally select
-> an
-> alternative runtime D-Bus implementation by adding the following line
-> e.g. to local.conf file:
->=20
-> =C2=A0 VIRTUAL-RUNTIME_dbus =3D "dbus-broker"
+Runtime issues are a package manager level problem, not a bitbake one,
+unless bitbake is doing variable substitution beforehand, which it only
+does with the normal rules.
 
-Introducing a VIRTUAL-RUNTIME_dbus variable would work. But it requires
-to change all dbus related recipes which are not only in oe-core.
+Cheers,
 
-I'm wondering if using a PREFERRED_RPROVIDER would simplify this.
-https://docs.yoctoproject.org/dev/ref-manual/variables.html#term-PREFERRED_=
-RPROVIDER
-
-This would probably allow a back and forward compatible implementation
-with changing only the dbus-broker and maybe the dbus recipes plus
-adding something like
-  PREFERRED_RPROVIDER_dbus ?=3D "dbus"
-or
-  PREFERRED_RPROVIDER_virtual-dbus ?=3D "dbus"
-to OE-core.
-
-Regards,
-Adrian
-
->=20
-> As a background, for example the Fedora distribution uses dbus-broker
-> instead of Freedesktop.org's D-Bus implementation. The following
-> excerpts from
-> https://fedoraproject.org/wiki/Changes/DbusBrokerAsTheDefaultDbusImplemen=
-tation
-> provide background for their technological decision
->=20
-> =C2=A0 This change provides a more scalable and more reliable
-> implementation in place of the reference implementation.
-> =C2=A0 The reference implementation suffers from long-standing issues
-> including potential dead-locks and susceptibility to denial of
-> service attacks, which the replacement implementation does not.
->=20
-> and
->=20
-> =C2=A0 No visible changes in behavior are expected, except for different
-> log messages.
-> =C2=A0 Any visibly different behavior to `dbus-daemon` should be reported
-> as a regression.
-> =C2=A0 Ideally, this change should only improve the performance and
-> security of the message bus.
->=20
-> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-> ---
-> =C2=A0meta/conf/distro/include/default-providers.inc | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/conf/distro/include/default-providers.inc
-> b/meta/conf/distro/include/default-providers.inc
-> index d3eefb754b..cebd0400f4 100644
-> --- a/meta/conf/distro/include/default-providers.inc
-> +++ b/meta/conf/distro/include/default-providers.inc
-> @@ -31,6 +31,7 @@ VIRTUAL-RUNTIME_base-utils ?=3D "busybox"
-> =C2=A0VIRTUAL-RUNTIME_base-utils-hwclock ?=3D "busybox-hwclock"
-> =C2=A0VIRTUAL-RUNTIME_base-utils-syslog ?=3D "busybox-syslog"
-> =C2=A0VIRTUAL-RUNTIME_keymaps ?=3D "keymaps"
-> +VIRTUAL-RUNTIME_dbus ?=3D "dbus"
-> =C2=A0
-> =C2=A0#
-> =C2=A0# Default recipe providers
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#213847):
-> https://lists.openembedded.org/g/openembedded-core/message/213847
-> Mute This Topic: https://lists.openembedded.org/mt/111955697/4454582
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
+Richard
 
