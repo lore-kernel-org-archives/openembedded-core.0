@@ -2,120 +2,85 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15106C36008
-	for <webhook@archiver.kernel.org>; Sat, 29 Mar 2025 15:26:47 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.12833.1743262004209106277
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13EB4C36008
+	for <webhook@archiver.kernel.org>; Sat, 29 Mar 2025 15:31:07 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.12849.1743262266259622129
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Mar 2025 08:26:44 -0700
+ Sat, 29 Mar 2025 08:31:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OynKI4jx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3913d45a148so2695694f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 08:26:43 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PzwNQ7sy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3913d45a148so2698191f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 08:31:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743262002; x=1743866802; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=50SRXvYlEULMbaIKzkt0y11dNWErCSJPogmYibpzknc=;
-        b=OynKI4jx9AyDKPyj7LqcBdl+sIu5alGMosLWJ/OqE2T/80enidIKa3np/xwVjPwOk5
-         0GumzOOM4g6f/fn6E3DVmPCAD+gGxLajsbT6IHKu1E07EEa1Ha5BaPEINoskYnSkHtPE
-         pe3cdJIRT9i31NoJhacFH0CPlue2Ag0iNPUvE=
+        d=linuxfoundation.org; s=google; t=1743262264; x=1743867064; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uYqi1HDSa/c33nUNM3zEqVfnpNu0Jy6W/N85BuyzLRg=;
+        b=PzwNQ7syfHOpIUhmApTY02PKAEnuXqxKWo3dJ2IJih9drklk3dYGw44cEskL1/o8Mo
+         pC6RcEuA8KPJM7K/VKwb1GQhw+Vz5P+z2ACCkvm0InzXOMHRRQ24VF/kYeOyaJrTCbRr
+         DdWEhBVu/EBgIOfLQjg59PEIziogabBWZJg6o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743262002; x=1743866802;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=50SRXvYlEULMbaIKzkt0y11dNWErCSJPogmYibpzknc=;
-        b=N8lN3dDGYRxecSwZq9ZVbgUxhyGzogO7eSHlArQYLYVauxgJ+M9KW4S5eNhW/okT0q
-         AsAkjf/eyhQg4GzMDSBCgfaPFBkJZaXtbYZBFeNCuc+bIcGi50cGwWJNB2RNIDPWUSrt
-         hx2LFXCMszP0UaLBH9aSDLsyt1TrNPaYUA6ONRR/zFyGzALtpJlkcvjZ/taZwKowRcSK
-         hbAf4yq23EqBhEnWvyVrnImsXeef68MNK2/kxExLVMg6jBrRym/bm822thBA1DFpQgpg
-         T5frKNEVpI93PyPnGLokEnGZTP3Qqt3I+lUppepLmWWHKyAA79XydDfO30rfFkG8gOLY
-         NjUA==
-X-Forwarded-Encrypted: i=1; AJvYcCXcX9TzKd1crz3dSrSQ3HJAktvxBdyhAhimqY32WsHNZsDqcwZNhMM7x5qaeGhCDVlTVZeolgJc6hq6+5pigsYpSw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyeUCkBxcPDQWIGglBujG/ZMBzF5+TQcNtLfBCzX8Zh+qs8yydf
-	+TivLJMitw5822123ItXK/JnT+GQUZV/i1Qyr0JQm3i2VYrZdGkMlCJP1KkTfiaWr4H5Rqiwvdn
-	V
-X-Gm-Gg: ASbGnct4NzzULzdAWTks9397iy46wccDKEjCEh8i++qFoDcQSkN4ZAd/3b/j0VHaydC
-	COcDBHuxwSX4cQwQ6y3+oX8ZuV+r5BlqSgY8OfV4igsZzwdd6pe76WmkvB8BIMApa4rRry6M2jx
-	o4WWfLadsVil5e77QL5nQ/BossGotmV9MJwH+szBWasTHHNQS9RbuhelXJTia8zTQa9r4dCRUn4
-	LbdTjeN6Ss7yrUctUDGF7Mr/gll4YY5C4Mhku/KSMQikYKdK5iKJvdaG6wXavEQjeS8lrHZCCLt
-	S23k7+PcjCIToaymO9YDhVeUT+fHmOK3NB4SComIgpWw9RbYwtGMpecBcwOw9toW9pUOL4cKMd+
-	FMf+/7+PzHgSL2xmkBPfCVYJl5d67
-X-Google-Smtp-Source: AGHT+IHhB7bVkCi7YkPzzBKIAJAGKjMS/drEvpgdUxVGkauc1HOp79rIwBKRoNU+8PH2vkNL0s9Jog==
-X-Received: by 2002:a5d:5983:0:b0:390:ebae:6c18 with SMTP id ffacd0b85a97d-39c120db794mr2206430f8f.12.1743262002554;
-        Sat, 29 Mar 2025 08:26:42 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:aa52:226c:d1da:79? ([2001:8b0:aba:5f3c:aa52:226c:d1da:79])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b79e0a3sm6113952f8f.71.2025.03.29.08.26.39
+        d=1e100.net; s=20230601; t=1743262264; x=1743867064;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uYqi1HDSa/c33nUNM3zEqVfnpNu0Jy6W/N85BuyzLRg=;
+        b=WQ95v9s3Iqwn13QqNVMXTLMn5hyS8R1aRMrNmR5rpfenYWX9eY+iwLbf5D2fdDiK30
+         qdxAagePuywhVwktVrKXPyH+NfuV+GiWGMsHQH9u3+npY5vCejfci/NbZw8GYh6GTU60
+         s6s+npmYa+2rQC5dnfrASi7SqZaHs9OVyt3WHim+I5lJWbjDKhuIG8RxIxZAI6f3PCBC
+         Jqzg1PkYNAjZenxCVAD5Q2lsqqkZutap1DVMdtbVHnvk3AthQNtfMWKwVv8pKc3mHqbw
+         M5/SqEhQhe1RCLx8ZefDmeSug6LmlfGcQEUyYSFxeglde4VwZGNmwgSw/c1V2gYLU9q6
+         6E2g==
+X-Gm-Message-State: AOJu0Yw9WAPSoUZuNBX1JMlZHf4TZYNh5LhQa4WbhDV6H0oy/AahvH2c
+	Js73lTtVLzUCAMqTPlkiiolptxMkVF972u9x8kFBnob4BVHrk2k2dtoiqft4bO+eU9vzh/uisUX
+	u
+X-Gm-Gg: ASbGncsbXXH6nshz498MyBhB2qKHrqW7oSBNRod4Ap0KNzHHuNCoiHr947L448yQlzs
+	q2XtT4PJv3abcZ8lXbXmoXTP99AsIdEwZygyUajtdNSEwuNfttm8NJioqskVhoVjDILdkWAHBQB
+	GtaXpHC6J/awRlwtYkhqX1t0HuJYSqsNHFS8HJN32v6gTXM5N8fQmeknq7HdbsJTVNM2nAJpv0a
+	WhrpVf0nagdyuto+PHu9L60WrAW5dUm7vLZlKw0B9hC6KGaSy6NSgL9TrouJpRGsDEIPK+29bPy
+	NkZjUA5b1BCT+I7D/nqVHP/SMh+5gW5NOYFKBs1t3KViHUFvyoIALpuUEm59e6X41wbeeeA=
+X-Google-Smtp-Source: AGHT+IFRfda95cPsI9juX4P7cjfDriPXm4j6XrtVudiKpOYV9jrKEym9kd2JwHm91jMKzWwn7zbHOg==
+X-Received: by 2002:a05:6000:2484:b0:39c:13f5:dba0 with SMTP id ffacd0b85a97d-39c13f5dd18mr1495359f8f.13.1743262264234;
+        Sat, 29 Mar 2025 08:31:04 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:aa52:226c:d1da:79])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b66ae8bsm6099263f8f.55.2025.03.29.08.31.03
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Mar 2025 08:26:40 -0700 (PDT)
-Message-ID: <12776bb304a6c5a98f34325fca117ae7a541ef2e.camel@linuxfoundation.org>
-Subject: Re: [PATCH 2/3] rust: Upgrade 1.84.1->1.85.0
+        Sat, 29 Mar 2025 08:31:03 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>, Yash.Shinde@windriver.com, 
-	openembedded-core@lists.openembedded.org, Deepesh Varatharajan
-	 <Deepesh.Varatharajan@windriver.com>
-Cc: Sundeep.Kokkonda@windriver.com
-Date: Sat, 29 Mar 2025 15:26:38 +0000
-In-Reply-To: <e961e1bc-bfd6-49b0-82dc-c00ac879ad76@windriver.com>
-References: <20250328143005.880998-1-Yash.Shinde@windriver.com>
-	 <20250328143005.880998-2-Yash.Shinde@windriver.com>
-	 <e961e1bc-bfd6-49b0-82dc-c00ac879ad76@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] sanity.conf: Update minimum bitbake version to 2.12.0
+Date: Sat, 29 Mar 2025 15:31:01 +0000
+Message-ID: <20250329153102.1612894-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 15:26:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213882
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 15:31:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213883
 
-On Fri, 2025-03-28 at 16:56 -0400, Randy MacLeod wrote:
-> =C2=A0On 2025-03-28 10:30 a.m., Yash.Shinde@windriver.com wrote:
-> >=20
-> > =C2=A0RUSTSRC =3D "${WORKDIR}/rustc-${RUST_VERSION}-src"
-> > =C2=A0
-> >=20
-> >=20
-> >=20
-> > -#After updating to Rust 1.85 we can revert this removal of "src/gcc"
-> > -remove_gcc_directory() {
-> > -    # Ensure the gcc directory exists
-> > -    gcc_dir=3D"${S}/src/gcc"
-> > -    if [ -d "$gcc_dir" ]; then
-> > -        rm -rf "$gcc_dir"
-> > -    fi
-> > -}
-> > -# Add postfunc to the do_unpack task
-> > -do_unpack[postfuncs] +=3D "remove_gcc_directory"
-> > -
-> > =C2=A0
-> >=20
-> >=20
-> >=20
-> =C2=A0
->=20
->=20
->=20
->=20
-> =C2=A0On IRC, Richard said:
-> =C2=A0=C2=A0=C2=A0=C2=A0 I'm puzzled as the rust space fix didn't have th=
-e impact on the metrics I'd hoped for :/
-> =C2=A0=C2=A0=C2=A0=C2=A0 I think there is something else going on. ...
-> =C2=A0
->=20
->=20
->=20
-> =C2=A0
+This should have been 2.11 previously but the numbers got confused.
+Correct it for release.
 
-I a look and realised the issue, the trouble is S is not always
-RUSTSRC. I've sent a patch, hopefully the metrics look better this
-time.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/sanity.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/conf/sanity.conf b/meta/conf/sanity.conf
+index 5f8da8baac9..6d3911ff94e 100644
+--- a/meta/conf/sanity.conf
++++ b/meta/conf/sanity.conf
+@@ -3,7 +3,7 @@
+ # See sanity.bbclass
+ #
+ # Expert users can confirm their sanity with "touch conf/sanity.conf"
+-BB_MIN_VERSION = "2.9.2"
++BB_MIN_VERSION = "2.12.0"
+ 
+ SANITY_ABIFILE = "${TMPDIR}/abi_version"
+ 
 
