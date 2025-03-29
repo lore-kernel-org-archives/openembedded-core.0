@@ -2,251 +2,349 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C29DC36014
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 643E2C36008
 	for <webhook@archiver.kernel.org>; Sat, 29 Mar 2025 20:07:48 +0000 (UTC)
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.17861.1743278860009276325
+ by mx.groups.io with SMTP id smtpd.web10.18134.1743278865093785955
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Mar 2025 13:07:40 -0700
+ Sat, 29 Mar 2025 13:07:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=P1tL7Lve;
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=J5oqA8QT;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52TJOkPN013835
-	for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 20:07:39 GMT
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52TJYM32025685
+	for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 20:07:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	cyObMMbIWnDCspubLYE7fEt02BK6SyUeFrlsbTGApjI=; b=P1tL7LveZe3LYho3
-	zIHnxbsIjn6qGZAmYOJ7NssmJE73RXR4++aT/lwN0lLgkV38ZtHtIuX3KzHx5k0R
-	cMywdSQn8rCYeau5UeU4RUhgcpKZYc8OGfI+P/AmBb9EgN0ylR3Uwr2F8JQmaYk8
-	AQ01rpAqm0mB4dSTb4ZHj6uNlFqdFQl/jrlFaxa0Jo8S/k6cm9wukvdsKSfs1MGt
-	/0pRVGU2jP2qzXmZ0UXYmXUJQrbMmEW+UNcgILYNOFEUV7F9CPnMX37+8A/Dzna5
-	u9UJvm2m4v8IAPDJd0Shadx9bLoFI42sneD4b8cnuMzE4EpJBCIPyCu1HE1C3RXs
-	6K2fqQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p8xv98hk-1
+	rk4wwrwQ0aif+eL6Lh2gg3Wq6h8qgsyu/4DC1HHUkWY=; b=J5oqA8QTs4Um7zdL
+	SD+dZA9mBmnNeluZHBOOGl5/2Pwt1wXGAFzgiUEYChbSk3vNdrMBlIqaCqsXuNFV
+	oNfJIaWa+eA2bbXY88u04E0gbf6kmw04QEkq2pmSjkAkkGYnaXh+HqnPVA7kBqw5
+	VW6+Sm4UMbLL7n7slyMz9aXu4lrNu4xVmQcPXqTvpTM8xdGQzmt/9WpwbV/xeVqx
+	5pGNwSUaC3fls/BozbTQdmZDFwjuqwjus2aaR0Hpsqtl3OyUKKmuXxgx36ZZF6wo
+	RUNNU6rtO2u7H0hoWCn+ScC8pyZ5nofdTxv6QR3ZWKXEazMxmtFl9N4VVuLGsPjA
+	sSqOrQ==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p7v89bpa-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 20:07:39 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c0b0cf53f3so503831885a.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 13:07:39 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 20:07:44 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5d9d8890fso788184085a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 13:07:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743278858; x=1743883658;
+        d=1e100.net; s=20230601; t=1743278863; x=1743883663;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cyObMMbIWnDCspubLYE7fEt02BK6SyUeFrlsbTGApjI=;
-        b=erBdYatTWEnVkbsl1nePEAeZi+tqRUtp1TS3Uj+6yNl9aLaVdML6IXDKVCxpQLoERQ
-         fHwLMYsnHa7OB5VqQ1rD2y2j8zBHyEJbkOzJwOVTdg6v47tDXjNpzGGSDSjE2/ARITuZ
-         r83RTzzSdTu8r30+H0bdaIJQ23flJh+j4vTx1HYdGcOXEKG5eby7FPmDbp/39kRq03LB
-         WkEW5/oJVl+0eosbhuoQXcHIObGBsdM39vpP62SNH1JsINWaILnuhWA4X2TuTaz9hXgd
-         +ioCafkty2VFehtq/eMTFlGXW84blTviA2y/jsLdA6p3EFa/kWi5zYgW6bRwg4akrK8N
-         pOIQ==
-X-Gm-Message-State: AOJu0YwS/uF0tJFDzwcimb3NLtiknSXCrxuhtPxc/8NbyfxS11zfcKQZ
-	ji2o1qv3hQvLZCQatd4gf4Pqk6jd/iszmcTmd4L4AO2Wa6bEN0UxCZILb6xb4RI8cxGsmE7jK33
-	3dZ6iWbI35ad16ENrBssYwmhGz4TtplE1QkUZVOhRgD+VGHhs7uPPtoXxchR212i4kQJkKp81i0
-	L0/gYuz3q8IQM=
-X-Gm-Gg: ASbGncvcLOrHUJP5tsdYCmSZeIzR4QEQ85uft1WtAbe7QjM7ut08mKK4Drpa8mNeb44
-	JhRAWX1T2WUTdsmI4QxFS8i1Sf76nobpjL4aGugJucLFzV/KLnlo2257drW6Mn3s4GH/wb3XTK6
-	21IvON4p/Zw8rSaAvmMyr2rdmQD2PtgJ+KpkCtQaxYy5A2K8ftxdnsJteiw2mQXMazhBRXvivCd
-	pz/99F1splx5w3tBdLe3hUniKlYJldIOyHdSUhDn6LFj8vJRwFm0k83KXJ64hRUNNuI9pgtQcrW
-	zqCoYK46EhgjGrf78eV29eLTaWgwTM2gVxsawKfB/jIu+tMLFCd8Sb2Q8Y6mmtWZVqbwD8M/oqJ
-	Q7P3rHfOAeStHEdmvM0qt7V9Kp6O2
-X-Received: by 2002:a05:620a:2494:b0:7c5:99a6:a1ae with SMTP id af79cd13be357-7c67d22c22bmr488563185a.0.1743278857849;
-        Sat, 29 Mar 2025 13:07:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFvDwdTKorc+7HLCkvyWIlxfdZcLX0oZG7+/ZEp1V/QrUfcL/GhyPn7tO7pt7WvSBdWEyidiA==
-X-Received: by 2002:a05:620a:2494:b0:7c5:99a6:a1ae with SMTP id af79cd13be357-7c67d22c22bmr488560585a.0.1743278857471;
-        Sat, 29 Mar 2025 13:07:37 -0700 (PDT)
+        bh=rk4wwrwQ0aif+eL6Lh2gg3Wq6h8qgsyu/4DC1HHUkWY=;
+        b=vbAmlGDl3ATeQYNiOt/h26slZTxvmW1dy2OaxSGh85WA2FLef9ypVrYcjb/k79J9vd
+         qViecqkONVxqAFRdQRthSBd/U1bx/VYS2Dkav63ZgvQamOmtaGQFokV4qXlsp2EkSn1T
+         xaYkmH4D4k6uA813BE9XTFoMd8/Qo4BBpKSB+77IzEZck5PtBPXkm0D6GdQ9nppCkan5
+         cvdN+xZR6x6o3/3F9lVhVK2NuEQ+9iK5pKxqo5Xykx+JOIHmJNlKMbe8rqQDsZJp2j5w
+         DLzJGIloNNySzw664tilqDB0l/n6UJZpFE2nXqy1Nezkc3PWaD5rqWnfU0JYPWBPKss/
+         v4RQ==
+X-Gm-Message-State: AOJu0YwbTu6YgY7bNcqwV1yvO3tMfNbfqajjkLppPdNCKlTHTKmGVpgj
+	LuT3BFGgpEziUWyV8J9ZeqRIAknaOk07yHl1QvLHhEcoIUOUwa7WmYi5MamJ6JrNh8UrJ0lJ4tz
+	vd1To1H31dzUaI7Ki/H0C0mUxVFDWS0y25/IIa0X3irggMCKXzG45b4wYZIAMH1QrlnZUxMntSw
+	MYaGFJhW+X6KQ=
+X-Gm-Gg: ASbGnctsnNGVUOPtFdPwYXmFo5baEsw0q88QGKuWrpBzNh5V2WMEEuzDeDChUUw0l3X
+	KlitIemyLGETVuoh3pKEN5xncpZtnrsRIlZEwIisNVhVqcke3p2D6bgI89ILbh6MfRltxsCGDGc
+	wuMFhRS+PRfxwITlMT0760byc4CBSI4/KjIgYVm1MbzpVCWqHe+xwgXlp32Sd9NHH5W89JcDjqT
+	5eK1tO5w037wbn616vvTp8ikqzuhIwZfej99BdR5oTVyDPMfimWTBhv56ZcTxlOJG7IGdRQtC4o
+	W9DPBS++dh9TLN+wyfFpcpJXfXrjFrup2HQAh3Z7KylIngIkuB9XX2PQKV5qfkGAqe/92koHUuD
+	xPZUP5zOm0YOetzhKRFS1xZsyZ57D
+X-Received: by 2002:a05:620a:2890:b0:7c3:c9e5:e4ba with SMTP id af79cd13be357-7c5f9c24ec7mr1179152585a.29.1743278862849;
+        Sat, 29 Mar 2025 13:07:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFL/+GJ9N94HM2tKBi/M+xZ/O+RO/FJ+YAqiseOTXJHU82h3oLNDRof96eDzGBAhEoZ+Zcj1Q==
+X-Received: by 2002:a05:620a:2890:b0:7c3:c9e5:e4ba with SMTP id af79cd13be357-7c5f9c24ec7mr1179149185a.29.1743278862357;
+        Sat, 29 Mar 2025 13:07:42 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b094bb365sm685848e87.29.2025.03.29.13.07.35
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b094bb365sm685848e87.29.2025.03.29.13.07.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Mar 2025 13:07:36 -0700 (PDT)
+        Sat, 29 Mar 2025 13:07:40 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sat, 29 Mar 2025 22:07:17 +0200
-Subject: [PATCH v3 6/9] llvm: add SPIRV-LLVM-Translator support
+Date: Sat, 29 Mar 2025 22:07:19 +0200
+Subject: [PATCH v3 8/9] bindgen-cli: a tool to generate Rust bindings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250329-mesa-25-v3-6-f4d0328eb867@oss.qualcomm.com>
+Message-Id: <20250329-mesa-25-v3-8-f4d0328eb867@oss.qualcomm.com>
 References: <20250329-mesa-25-v3-0-f4d0328eb867@oss.qualcomm.com>
 In-Reply-To: <20250329-mesa-25-v3-0-f4d0328eb867@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7041;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=16753;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=0t52XQmcNxbHcipnHSDPFwtUM4TdZrAWToPhySXflWI=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBn6FL1GN9nC40FcdelvUAxla7OHUijYTXwGlMyM
- QRCaksRk56JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ+hS9QAKCRCLPIo+Aiko
- 1eaVCACUrlwBTnEPimfxKEa0Eb+Vb5YWTb1+i3NW9r7d35AyBby7rtSX7ACZIeshNzq5opD3G+P
- dH4O3Bb2bpjPmkf9aXInf4TZ+HuuwEyuQTJdo7Ej+k5+a/YMOfjiR37QYDPZ9ooxUtz8PG748dx
- 1EzayEvL7cW9ql0FKBDX6ZHO2BuQJ9bF5cCfT6e43Vkqi7FV294zxXQHFlRZH36gVsK7fFFG21a
- Fvs9/AgTHdWyS2Xeg0fk8ynLOtcqYAZ8vCc142YElm8nz2fNY3B09rrRDnyI6lAWl+ToG1GeINn
- axYpeD1ALfEB4hQ7dOUrfnS5v9rRyoIQad/nd1hoFCmMn8lN
+ bh=YBZYBfYJ3JbKP7K0Jlp7EFib9eFhm7DpT046ALwrANQ=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBn6FL1bOklZ6Hk6iCs0UhFVFj9ywhV7c+kV/HIQ
+ Oom2idJOlyJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ+hS9QAKCRCLPIo+Aiko
+ 1QR+B/4rrCWZpIIMBz3kLRKcJ7MqtZKX4Mn5tYzDHEXk/NiQnpZmIIqPZFiw1RUlJhGrK0mMEnJ
+ 01flchSGE+LK4b22UL4/cN9M9OXjG/E1kd+i7Sq1NpRvP8Kj05j0Bia+lVjmpDbzSg6L4z/ZBtU
+ RPKwDIdPnBmHwHUuePx/ukl68+5YF+GiLeqf/gJ0UdAJ7gr6LKhyiTk8m5hOCgCGlbE/6LXb9je
+ cCLDWZIIfv5i9MEVC+312iCdOwPdOh80VRFsu5LPoBasDxgeRYve+nFtBjzufkOnQRKll2xAgDN
+ lYZmoTPAlXAS4iav+wEuM38a05rQ0frInkBx77A4IKN3y0QW
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: 3ks5AnL9BW5iHSLefA_qRZJ-adM3of_f
-X-Authority-Analysis: v=2.4 cv=PquTbxM3 c=1 sm=1 tr=0 ts=67e8530b cx=c_pps a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=xUEQSCNU_4zy9qS9kesA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: 3ks5AnL9BW5iHSLefA_qRZJ-adM3of_f
+X-Proofpoint-ORIG-GUID: Y-5dlxC5-3tvIUf2zEhGH52KFU-cdbXm
+X-Authority-Analysis: v=2.4 cv=fdaty1QF c=1 sm=1 tr=0 ts=67e85310 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=R22tBeTbAAAA:8 a=EUspDBNiAAAA:8 a=t7CeM3EgAAAA:8 a=iGHA9ds3AAAA:8 a=QyXUC8HyAAAA:8
+ a=pGLkceISAAAA:8 a=NEAV23lmAAAA:8 a=yg5Tb1XzTRPOZogEtRIA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=71pCXManv-pOE82v44e3:22 a=FdTzh2GWekK77mhwV6Dw:22 a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-GUID: Y-5dlxC5-3tvIUf2zEhGH52KFU-cdbXm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-29_03,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 phishscore=0 mlxscore=0 suspectscore=0 spamscore=0
- clxscore=1015 mlxlogscore=999 impostorscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503290146
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 spamscore=0 impostorscore=0
+ priorityscore=1501 mlxscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503290146
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 20:07:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213900
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213902
 
-Mesa builds require SPIRV-LLVM-Translator in order to build CLC support.
-While it is possible to build it separately (like meta-clang does), it
-also requires a separate clang compiler (which OE-Core doesn't provide).
-
-Use an alternative path and build SPIRV-LLVM-Translator as a part of the
-LLVM build process, lifting the requirement for the separate clang. Once
-Clang is properly integrated into the OE-Core layer, this can be split
-to a separate package and dropped. In order to ease migration from
-meta-clang and to ease future split, PROVIDE the spirv-llvm-translator
-and make the llvm-spirv package RPROVIDE spirv-llvm-translator.
+Import bindgen-cli from the meta-clang layer, as it is required to
+generate bindings for Mesa / RustiCL. Specify Khem as maintainer as he
+is maintaining the meta-clang layer, which included this recipe too.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- .../llvm/llvm/spirv-internal-build.patch           | 30 +++++++++++++++++++
- meta/recipes-devtools/llvm/llvm_20.1.0.bb          | 34 ++++++++++++++++++----
- 2 files changed, 59 insertions(+), 5 deletions(-)
+ meta/conf/distro/include/maintainers.inc           |   1 +
+ .../bindgen-cli/bindgen-cli-crates.inc             | 186 +++++++++++++++++++++
+ .../bindgen-cli/bindgen-cli_0.71.1.bb              |  19 +++
+ 3 files changed, 206 insertions(+)
 
-diff --git a/meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch b/meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 2b47d3103c03b1b8a11f40566fdd5334d906860d..953abed2a9433bf1842b92ca7fc0b99f4df8bcd9 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -64,6 +64,7 @@ RECIPE_MAINTAINER:pn-bash = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-bash-completion = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-bc = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-bind = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-bindgen-cli = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-binutils = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-binutils-cross-${TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
+diff --git a/meta/recipes-devtools/bindgen-cli/bindgen-cli-crates.inc b/meta/recipes-devtools/bindgen-cli/bindgen-cli-crates.inc
 new file mode 100644
-index 0000000000000000000000000000000000000000..555d40f4fb07342cc204c7c578662688605b2cb1
+index 0000000000000000000000000000000000000000..a758440c9d324a2f17e6b2fef296d0d0dbd5e450
 --- /dev/null
-+++ b/meta/recipes-devtools/llvm/llvm/spirv-internal-build.patch
-@@ -0,0 +1,30 @@
-+From e94e529aefb28b65165e978daa2bfd89867ee8d0 Mon Sep 17 00:00:00 2001
-+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Date: Fri, 21 Mar 2025 17:17:52 +0200
-+Subject: [PATCH] SPIRV-LLVM-Translator: fix handling of built-in SPIRV targer
++++ b/meta/recipes-devtools/bindgen-cli/bindgen-cli-crates.inc
+@@ -0,0 +1,186 @@
++# Autogenerated with 'bitbake -c update_crates bindgen-cli'
 +
-+If the SPIRV-LLVM-Translator is being built together with the LLVM, set
-+the defines declaring whether SPIRV target is also included into the
-+LLVM library or not. Otherwise llvm-spirv execution fails because
-+spirv-ext option is registered twice.
-+
-+Upstream-Status: Pending [will be submitted upstream after internal clearance]
-+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+
-+Index: llvm-project-20.1.0.src/llvm/projects/SPIRV-LLVM-Translator/CMakeLists.txt
-+===================================================================
-+--- llvm-project-20.1.0.src.orig/llvm/projects/SPIRV-LLVM-Translator/CMakeLists.txt
-++++ llvm-project-20.1.0.src/llvm/projects/SPIRV-LLVM-Translator/CMakeLists.txt
-+@@ -116,6 +116,12 @@ if(LLVM_SPIRV_BUILD_EXTERNAL)
-+     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-+     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
-+   endif()
-++else()
-++  is_llvm_target_library("SPIRV" spirv_present_result INCLUDED_TARGETS)
-++  if(spirv_present_result)
-++    set(SPIRV_BACKEND_FOUND TRUE)
-++    add_compile_definitions(LLVM_SPIRV_BACKEND_TARGET_PRESENT)
-++  endif()
-+ endif()
-+ 
-+ set(LLVM_SPIRV_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
-diff --git a/meta/recipes-devtools/llvm/llvm_20.1.0.bb b/meta/recipes-devtools/llvm/llvm_20.1.0.bb
-index 84345531714baa308077ff55b90d015f6fa167e6..9ae5a5d380f074d942c94d4169671f42355c20dc 100644
---- a/meta/recipes-devtools/llvm/llvm_20.1.0.bb
-+++ b/meta/recipes-devtools/llvm/llvm_20.1.0.bb
-@@ -23,9 +23,18 @@ MAJ_MIN_VERSION = "${@oe.utils.trim_version("${PV}", 2)}"
- 
- LLVM_RELEASE = "${PV}"
- 
-+SRCREV_spirv = "68edc9d3d10ff6ec6353803a1bc60a5c25e7b715"
-+SPIRV_BRANCH = "llvm_release_200"
-+
-+SRC_URI_SPIRV = " \
-+    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;name=spirv;branch=${SPIRV_BRANCH};destsuffix=llvm-project-${PV}.src/llvm/projects/SPIRV-LLVM-Translator \
-+    file://spirv-internal-build.patch \
++# from Cargo.lock
++SRC_URI += " \
++    crate://crates.io/aho-corasick/1.1.3 \
++    crate://crates.io/annotate-snippets/0.11.4 \
++    crate://crates.io/anstyle/1.0.10 \
++    crate://crates.io/autocfg/1.4.0 \
++    crate://crates.io/bitflags/1.3.2 \
++    crate://crates.io/bitflags/2.2.1 \
++    crate://crates.io/block/0.1.6 \
++    crate://crates.io/cc/1.2.2 \
++    crate://crates.io/cexpr/0.6.0 \
++    crate://crates.io/cfg-if/1.0.0 \
++    crate://crates.io/clang-sys/1.8.1 \
++    crate://crates.io/clap/4.1.4 \
++    crate://crates.io/clap_complete/4.2.0 \
++    crate://crates.io/clap_derive/4.1.0 \
++    crate://crates.io/clap_lex/0.3.1 \
++    crate://crates.io/either/1.13.0 \
++    crate://crates.io/env_logger/0.10.0 \
++    crate://crates.io/env_logger/0.8.4 \
++    crate://crates.io/errno/0.3.10 \
++    crate://crates.io/fastrand/1.9.0 \
++    crate://crates.io/getrandom/0.2.15 \
++    crate://crates.io/glob/0.3.1 \
++    crate://crates.io/heck/0.4.1 \
++    crate://crates.io/hermit-abi/0.3.9 \
++    crate://crates.io/hermit-abi/0.4.0 \
++    crate://crates.io/humantime/2.1.0 \
++    crate://crates.io/instant/0.1.12 \
++    crate://crates.io/io-lifetimes/1.0.11 \
++    crate://crates.io/is-terminal/0.4.13 \
++    crate://crates.io/itertools/0.13.0 \
++    crate://crates.io/libc/0.2.167 \
++    crate://crates.io/libloading/0.8.6 \
++    crate://crates.io/linux-raw-sys/0.3.8 \
++    crate://crates.io/log/0.4.22 \
++    crate://crates.io/malloc_buf/0.0.6 \
++    crate://crates.io/memchr/2.7.4 \
++    crate://crates.io/minimal-lexical/0.2.1 \
++    crate://crates.io/nom/7.1.3 \
++    crate://crates.io/objc/0.2.7 \
++    crate://crates.io/once_cell/1.20.2 \
++    crate://crates.io/os_str_bytes/6.4.1 \
++    crate://crates.io/owo-colors/4.1.0 \
++    crate://crates.io/prettyplease/0.2.25 \
++    crate://crates.io/proc-macro-error-attr/1.0.4 \
++    crate://crates.io/proc-macro-error/1.0.4 \
++    crate://crates.io/proc-macro2/1.0.92 \
++    crate://crates.io/quickcheck/1.0.3 \
++    crate://crates.io/quote/1.0.37 \
++    crate://crates.io/rand/0.8.5 \
++    crate://crates.io/rand_core/0.6.4 \
++    crate://crates.io/redox_syscall/0.3.5 \
++    crate://crates.io/regex-automata/0.4.9 \
++    crate://crates.io/regex-syntax/0.8.5 \
++    crate://crates.io/regex/1.11.1 \
++    crate://crates.io/rustc-hash/2.1.0 \
++    crate://crates.io/rustix/0.37.27 \
++    crate://crates.io/shlex/1.3.0 \
++    crate://crates.io/similar/2.6.0 \
++    crate://crates.io/strsim/0.10.0 \
++    crate://crates.io/syn/1.0.109 \
++    crate://crates.io/syn/2.0.90 \
++    crate://crates.io/tempfile/3.6.0 \
++    crate://crates.io/termcolor/1.2.0 \
++    crate://crates.io/unicode-ident/1.0.14 \
++    crate://crates.io/unicode-width/0.1.14 \
++    crate://crates.io/version_check/0.9.4 \
++    crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
++    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi-util/0.1.5 \
++    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi/0.3.9 \
++    crate://crates.io/windows-sys/0.48.0 \
++    crate://crates.io/windows-sys/0.52.0 \
++    crate://crates.io/windows-targets/0.48.5 \
++    crate://crates.io/windows-targets/0.52.6 \
++    crate://crates.io/windows_aarch64_gnullvm/0.48.5 \
++    crate://crates.io/windows_aarch64_gnullvm/0.52.6 \
++    crate://crates.io/windows_aarch64_msvc/0.48.5 \
++    crate://crates.io/windows_aarch64_msvc/0.52.6 \
++    crate://crates.io/windows_i686_gnu/0.48.5 \
++    crate://crates.io/windows_i686_gnu/0.52.6 \
++    crate://crates.io/windows_i686_gnullvm/0.52.6 \
++    crate://crates.io/windows_i686_msvc/0.48.5 \
++    crate://crates.io/windows_i686_msvc/0.52.6 \
++    crate://crates.io/windows_x86_64_gnu/0.48.5 \
++    crate://crates.io/windows_x86_64_gnu/0.52.6 \
++    crate://crates.io/windows_x86_64_gnullvm/0.48.5 \
++    crate://crates.io/windows_x86_64_gnullvm/0.52.6 \
++    crate://crates.io/windows_x86_64_msvc/0.48.5 \
++    crate://crates.io/windows_x86_64_msvc/0.52.6 \
 +"
 +
- SRC_URI = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/llvm-project-${PV}.src.tar.xz \
-            file://0007-llvm-allow-env-override-of-exe-path.patch \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch \
-+           ${@bb.utils.contains('PACKAGECONFIG', 'spirv', '${SRC_URI_SPIRV}', '', d)} \
-            file://llvm-config \
-            "
- SRC_URI[sha256sum] = "4579051e3c255fb4bb795d54324f5a7f3ef79bd9181e44293d7ee9a7f62aad9a"
-@@ -56,11 +65,12 @@ def get_llvm_arch(bb, d, arch_var):
- def get_llvm_host_arch(bb, d):
-     return get_llvm_arch(bb, d, 'HOST_ARCH')
- 
--PACKAGECONFIG ??= "libllvm libclc"
-+PACKAGECONFIG ??= "libllvm libclc spirv"
- # if optviewer OFF, force the modules to be not found or the ones on the host would be found
- PACKAGECONFIG[optviewer] = ",-DPY_PYGMENTS_FOUND=OFF -DPY_PYGMENTS_LEXERS_C_CPP_FOUND=OFF -DPY_YAML_FOUND=OFF,python3-pygments python3-pyyaml,python3-pygments python3-pyyaml"
- PACKAGECONFIG[libllvm] = ""
- PACKAGECONFIG[libclc] = ""
-+PACKAGECONFIG[spirv] = "-DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=${STAGING_INCDIR}/.. ,,spirv-tools-native spirv-headers"
- 
- #
- # Default to build all OE-Core supported target arches (user overridable).
-@@ -70,7 +80,9 @@ LLVM_TARGETS ?= "AMDGPU;NVPTX;SPIRV;${@get_llvm_host_arch(bb, d)}"
- ARM_INSTRUCTION_SET:armv5 = "arm"
- ARM_INSTRUCTION_SET:armv4t = "arm"
- 
--LLVM_PROJECTS = "${@bb.utils.contains('PACKAGECONFIG', 'libclc', 'clang;libclc', '', d)}"
-+LLVM_PROJECTS_CLANG = "${@bb.utils.contains_any('PACKAGECONFIG', 'libclc spirv', 'clang', '', d)}"
-+LLVM_PROJECTS_CLC = "${@bb.utils.contains('PACKAGECONFIG', 'libclc', ';libclc', '', d)}"
-+LLVM_PROJECTS = "${LLVM_PROJECTS_CLANG}${LLVM_PROJECTS_CLC}"
- 
- EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
-                   -DLLVM_ENABLE_EXPENSIVE_CHECKS=OFF \
-@@ -136,7 +148,7 @@ do_install() {
-     fi
- 
-     # Remove clang bits from target packages, we are not providing it for the system
--    if ${@bb.utils.contains('PACKAGECONFIG', 'libclc', 'true', 'false', d)} &&
-+    if ${@bb.utils.contains_any('PACKAGECONFIG', 'libclc spirv', 'true', 'false', d)} &&
-        [ "${CLASSOVERRIDE}" != "class-native" ] ; then
-         rm -f  ${D}${bindir}/clang*
-         rm -fr ${D}${libdir}/clang
-@@ -174,11 +186,12 @@ llvm_sysroot_preprocess() {
- 	ln -sf llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/llvm-config${PV}
- }
- 
--PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto ${PN}-clc"
--PROVIDES = "libclc"
-+PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto ${PN}-clc ${PN}-spirv"
-+PROVIDES = "libclc spirv-llvm-translator"
- 
- RRECOMMENDS:${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liboptremarks"
- RPROVIDES:${PN}-clc += "libclc"
-+RPROVIDES:${PN}-spirv += "spirv-llvm-translator"
- 
- FILES:${PN}-bugpointpasses = "\
-     ${libdir}/BugpointPasses.so \
-@@ -213,6 +226,17 @@ FILES:${PN}-staticdev += "\
- 
- FILES:${PN}-clc += "${datadir}/clc"
- 
-+FILES:${PN}-spirv = " \
-+    ${bindir}/llvm-spirv \
-+    ${includedir}/LLVMSPIRVLib \
-+    ${libdir}/pkgconfig/LLVMSPIRVLib.pc \
-+    ${libdir}/libLLVMSPIRV* \
-+"
++SRC_URI[aho-corasick-1.1.3.sha256sum] = "8e60d3430d3a69478ad0993f19238d2df97c507009a52b3c10addcd7f6bcb916"
++SRC_URI[annotate-snippets-0.11.4.sha256sum] = "24e35ed54e5ea7997c14ed4c70ba043478db1112e98263b3b035907aa197d991"
++SRC_URI[anstyle-1.0.10.sha256sum] = "55cc3b69f167a1ef2e161439aa98aed94e6028e5f9a59be9a6ffb47aef1651f9"
++SRC_URI[autocfg-1.4.0.sha256sum] = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
++SRC_URI[bitflags-1.3.2.sha256sum] = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
++SRC_URI[bitflags-2.2.1.sha256sum] = "24a6904aef64d73cf10ab17ebace7befb918b82164785cb89907993be7f83813"
++SRC_URI[block-0.1.6.sha256sum] = "0d8c1fef690941d3e7788d328517591fecc684c084084702d6ff1641e993699a"
++SRC_URI[cc-1.2.2.sha256sum] = "f34d93e62b03caf570cccc334cbc6c2fceca82f39211051345108adcba3eebdc"
++SRC_URI[cexpr-0.6.0.sha256sum] = "6fac387a98bb7c37292057cffc56d62ecb629900026402633ae9160df93a8766"
++SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
++SRC_URI[clang-sys-1.8.1.sha256sum] = "0b023947811758c97c59bf9d1c188fd619ad4718dcaa767947df1cadb14f39f4"
++SRC_URI[clap-4.1.4.sha256sum] = "f13b9c79b5d1dd500d20ef541215a6423c75829ef43117e1b4d17fd8af0b5d76"
++SRC_URI[clap_complete-4.2.0.sha256sum] = "01c22dcfb410883764b29953103d9ef7bb8fe21b3fa1158bc99986c2067294bd"
++SRC_URI[clap_derive-4.1.0.sha256sum] = "684a277d672e91966334af371f1a7b5833f9aa00b07c84e92fbce95e00208ce8"
++SRC_URI[clap_lex-0.3.1.sha256sum] = "783fe232adfca04f90f56201b26d79682d4cd2625e0bc7290b95123afe558ade"
++SRC_URI[either-1.13.0.sha256sum] = "60b1af1c220855b6ceac025d3f6ecdd2b7c4894bfe9cd9bda4fbb4bc7c0d4cf0"
++SRC_URI[env_logger-0.10.0.sha256sum] = "85cdab6a89accf66733ad5a1693a4dcced6aeff64602b634530dd73c1f3ee9f0"
++SRC_URI[env_logger-0.8.4.sha256sum] = "a19187fea3ac7e84da7dacf48de0c45d63c6a76f9490dae389aead16c243fce3"
++SRC_URI[errno-0.3.10.sha256sum] = "33d852cb9b869c2a9b3df2f71a3074817f01e1844f839a144f5fcef059a4eb5d"
++SRC_URI[fastrand-1.9.0.sha256sum] = "e51093e27b0797c359783294ca4f0a911c270184cb10f85783b118614a1501be"
++SRC_URI[getrandom-0.2.15.sha256sum] = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
++SRC_URI[glob-0.3.1.sha256sum] = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
++SRC_URI[heck-0.4.1.sha256sum] = "95505c38b4572b2d910cecb0281560f54b440a19336cbbcb27bf6ce6adc6f5a8"
++SRC_URI[hermit-abi-0.3.9.sha256sum] = "d231dfb89cfffdbc30e7fc41579ed6066ad03abda9e567ccafae602b97ec5024"
++SRC_URI[hermit-abi-0.4.0.sha256sum] = "fbf6a919d6cf397374f7dfeeea91d974c7c0a7221d0d0f4f20d859d329e53fcc"
++SRC_URI[humantime-2.1.0.sha256sum] = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
++SRC_URI[instant-0.1.12.sha256sum] = "7a5bbe824c507c5da5956355e86a746d82e0e1464f65d862cc5e71da70e94b2c"
++SRC_URI[io-lifetimes-1.0.11.sha256sum] = "eae7b9aee968036d54dce06cebaefd919e4472e753296daccd6d344e3e2df0c2"
++SRC_URI[is-terminal-0.4.13.sha256sum] = "261f68e344040fbd0edea105bef17c66edf46f984ddb1115b775ce31be948f4b"
++SRC_URI[itertools-0.13.0.sha256sum] = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
++SRC_URI[libc-0.2.167.sha256sum] = "09d6582e104315a817dff97f75133544b2e094ee22447d2acf4a74e189ba06fc"
++SRC_URI[libloading-0.8.6.sha256sum] = "fc2f4eb4bc735547cfed7c0a4922cbd04a4655978c09b54f1f7b228750664c34"
++SRC_URI[linux-raw-sys-0.3.8.sha256sum] = "ef53942eb7bf7ff43a617b3e2c1c4a5ecf5944a7c1bc12d7ee39bbb15e5c1519"
++SRC_URI[log-0.4.22.sha256sum] = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
++SRC_URI[malloc_buf-0.0.6.sha256sum] = "62bb907fe88d54d8d9ce32a3cceab4218ed2f6b7d35617cafe9adf84e43919cb"
++SRC_URI[memchr-2.7.4.sha256sum] = "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3"
++SRC_URI[minimal-lexical-0.2.1.sha256sum] = "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
++SRC_URI[nom-7.1.3.sha256sum] = "d273983c5a657a70a3e8f2a01329822f3b8c8172b73826411a55751e404a0a4a"
++SRC_URI[objc-0.2.7.sha256sum] = "915b1b472bc21c53464d6c8461c9d3af805ba1ef837e1cac254428f4a77177b1"
++SRC_URI[once_cell-1.20.2.sha256sum] = "1261fe7e33c73b354eab43b1273a57c8f967d0391e80353e51f764ac02cf6775"
++SRC_URI[os_str_bytes-6.4.1.sha256sum] = "9b7820b9daea5457c9f21c69448905d723fbd21136ccf521748f23fd49e723ee"
++SRC_URI[owo-colors-4.1.0.sha256sum] = "fb37767f6569cd834a413442455e0f066d0d522de8630436e2a1761d9726ba56"
++SRC_URI[prettyplease-0.2.25.sha256sum] = "64d1ec885c64d0457d564db4ec299b2dae3f9c02808b8ad9c3a089c591b18033"
++SRC_URI[proc-macro-error-attr-1.0.4.sha256sum] = "a1be40180e52ecc98ad80b184934baf3d0d29f979574e439af5a55274b35f869"
++SRC_URI[proc-macro-error-1.0.4.sha256sum] = "da25490ff9892aab3fcf7c36f08cfb902dd3e71ca0f9f9517bea02a73a5ce38c"
++SRC_URI[proc-macro2-1.0.92.sha256sum] = "37d3544b3f2748c54e147655edb5025752e2303145b5aefb3c3ea2c78b973bb0"
++SRC_URI[quickcheck-1.0.3.sha256sum] = "588f6378e4dd99458b60ec275b4477add41ce4fa9f64dcba6f15adccb19b50d6"
++SRC_URI[quote-1.0.37.sha256sum] = "b5b9d34b8991d19d98081b46eacdd8eb58c6f2b201139f7c5f643cc155a633af"
++SRC_URI[rand-0.8.5.sha256sum] = "34af8d1a0e25924bc5b7c43c079c942339d8f0a8b57c39049bef581b46327404"
++SRC_URI[rand_core-0.6.4.sha256sum] = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
++SRC_URI[redox_syscall-0.3.5.sha256sum] = "567664f262709473930a4bf9e51bf2ebf3348f2e748ccc50dea20646858f8f29"
++SRC_URI[regex-automata-0.4.9.sha256sum] = "809e8dc61f6de73b46c85f4c96486310fe304c434cfa43669d7b40f711150908"
++SRC_URI[regex-syntax-0.8.5.sha256sum] = "2b15c43186be67a4fd63bee50d0303afffcef381492ebe2c5d87f324e1b8815c"
++SRC_URI[regex-1.11.1.sha256sum] = "b544ef1b4eac5dc2db33ea63606ae9ffcfac26c1416a2806ae0bf5f56b201191"
++SRC_URI[rustc-hash-2.1.0.sha256sum] = "c7fb8039b3032c191086b10f11f319a6e99e1e82889c5cc6046f515c9db1d497"
++SRC_URI[rustix-0.37.27.sha256sum] = "fea8ca367a3a01fe35e6943c400addf443c0f57670e6ec51196f71a4b8762dd2"
++SRC_URI[shlex-1.3.0.sha256sum] = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
++SRC_URI[similar-2.6.0.sha256sum] = "1de1d4f81173b03af4c0cbed3c898f6bff5b870e4a7f5d6f4057d62a7a4b686e"
++SRC_URI[strsim-0.10.0.sha256sum] = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
++SRC_URI[syn-1.0.109.sha256sum] = "72b64191b275b66ffe2469e8af2c1cfe3bafa67b529ead792a6d0160888b4237"
++SRC_URI[syn-2.0.90.sha256sum] = "919d3b74a5dd0ccd15aeb8f93e7006bd9e14c295087c9896a110f490752bcf31"
++SRC_URI[tempfile-3.6.0.sha256sum] = "31c0432476357e58790aaa47a8efb0c5138f137343f3b5f23bd36a27e3b0a6d6"
++SRC_URI[termcolor-1.2.0.sha256sum] = "be55cf8942feac5c765c2c993422806843c9a9a45d4d5c407ad6dd2ea95eb9b6"
++SRC_URI[unicode-ident-1.0.14.sha256sum] = "adb9e6ca4f869e1180728b7950e35922a7fc6397f7b641499e8f3ef06e50dc83"
++SRC_URI[unicode-width-0.1.14.sha256sum] = "7dd6e30e90baa6f72411720665d41d89b9a3d039dc45b8faea1ddd07f617f6af"
++SRC_URI[version_check-0.9.4.sha256sum] = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
++SRC_URI[wasi-0.11.0+wasi-snapshot-preview1.sha256sum] = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
++SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
++SRC_URI[winapi-util-0.1.5.sha256sum] = "70ec6ce85bb158151cae5e5c87f95a8e97d2c0c4b001223f33a334e3ce5de178"
++SRC_URI[winapi-x86_64-pc-windows-gnu-0.4.0.sha256sum] = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
++SRC_URI[winapi-0.3.9.sha256sum] = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
++SRC_URI[windows-sys-0.48.0.sha256sum] = "677d2418bec65e3338edb076e806bc1ec15693c5d0104683f2efe857f61056a9"
++SRC_URI[windows-sys-0.52.0.sha256sum] = "282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d"
++SRC_URI[windows-targets-0.48.5.sha256sum] = "9a2fa6e2155d7247be68c096456083145c183cbbbc2764150dda45a87197940c"
++SRC_URI[windows-targets-0.52.6.sha256sum] = "9b724f72796e036ab90c1021d4780d4d3d648aca59e491e6b98e725b84e99973"
++SRC_URI[windows_aarch64_gnullvm-0.48.5.sha256sum] = "2b38e32f0abccf9987a4e3079dfb67dcd799fb61361e53e2882c3cbaf0d905d8"
++SRC_URI[windows_aarch64_gnullvm-0.52.6.sha256sum] = "32a4622180e7a0ec044bb555404c800bc9fd9ec262ec147edd5989ccd0c02cd3"
++SRC_URI[windows_aarch64_msvc-0.48.5.sha256sum] = "dc35310971f3b2dbbf3f0690a219f40e2d9afcf64f9ab7cc1be722937c26b4bc"
++SRC_URI[windows_aarch64_msvc-0.52.6.sha256sum] = "09ec2a7bb152e2252b53fa7803150007879548bc709c039df7627cabbd05d469"
++SRC_URI[windows_i686_gnu-0.48.5.sha256sum] = "a75915e7def60c94dcef72200b9a8e58e5091744960da64ec734a6c6e9b3743e"
++SRC_URI[windows_i686_gnu-0.52.6.sha256sum] = "8e9b5ad5ab802e97eb8e295ac6720e509ee4c243f69d781394014ebfe8bbfa0b"
++SRC_URI[windows_i686_gnullvm-0.52.6.sha256sum] = "0eee52d38c090b3caa76c563b86c3a4bd71ef1a819287c19d586d7334ae8ed66"
++SRC_URI[windows_i686_msvc-0.48.5.sha256sum] = "8f55c233f70c4b27f66c523580f78f1004e8b5a8b659e05a4eb49d4166cca406"
++SRC_URI[windows_i686_msvc-0.52.6.sha256sum] = "240948bc05c5e7c6dabba28bf89d89ffce3e303022809e73deaefe4f6ec56c66"
++SRC_URI[windows_x86_64_gnu-0.48.5.sha256sum] = "53d40abd2583d23e4718fddf1ebec84dbff8381c07cae67ff7768bbf19c6718e"
++SRC_URI[windows_x86_64_gnu-0.52.6.sha256sum] = "147a5c80aabfbf0c7d901cb5895d1de30ef2907eb21fbbab29ca94c5b08b1a78"
++SRC_URI[windows_x86_64_gnullvm-0.48.5.sha256sum] = "0b7b52767868a23d5bab768e390dc5f5c55825b6d30b86c844ff2dc7414044cc"
++SRC_URI[windows_x86_64_gnullvm-0.52.6.sha256sum] = "24d5b23dc417412679681396f2b49f3de8c1473deb516bd34410872eff51ed0d"
++SRC_URI[windows_x86_64_msvc-0.48.5.sha256sum] = "ed94fce61571a4006852b7389a063ab983c02eb1bb37b47f8272ce92d06d9538"
++SRC_URI[windows_x86_64_msvc-0.52.6.sha256sum] = "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
+\ No newline at end of file
+diff --git a/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.71.1.bb b/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.71.1.bb
+new file mode 100644
+index 0000000000000000000000000000000000000000..5578fb3d18bf9cb622859ab3ff64ea23ea642e96
+--- /dev/null
++++ b/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.71.1.bb
+@@ -0,0 +1,19 @@
++SUMMARY = "Automatically generates Rust FFI bindings to C and C++ libraries."
++HOMEPAGE = "https://rust-lang.github.io/rust-bindgen/"
++LICENSE = "BSD-3-Clause"
 +
- INSANE_SKIP:${PN}-libllvm += "dev-so"
- 
-+# SPIRV-LLVM-Translator provides only static libraries, they are included into
-+# the llvm-spirv package.
-+INSANE_SKIP:${PN}-spirv += "staticdev"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=0b9a98cb3dcdefcceb145324693fda9b"
 +
- BBCLASSEXTEND = "native nativesdk"
++inherit rust cargo cargo-update-recipe-crates
++
++SRC_URI += "git://github.com/rust-lang/rust-bindgen.git;protocol=https;branch=main"
++SRCREV = "af7fd38d5e80514406fb6a8bba2d407d252c30b9"
++S = "${WORKDIR}/git"
++
++require ${BPN}-crates.inc
++
++do_install:append:class-native() {
++	create_wrapper ${D}/${bindir}/bindgen LIBCLANG_PATH="${STAGING_LIBDIR_NATIVE}"
++}
++
++BBCLASSEXTEND = "native"
 
 -- 
 2.39.5
