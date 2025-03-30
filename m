@@ -2,64 +2,61 @@ Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE82C36008
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E235C36013
 	for <webhook@archiver.kernel.org>; Sun, 30 Mar 2025 02:41:30 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.24387.1743302480068844777
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.24097.1743302475578191167
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Mar 2025 19:41:20 -0700
+ Sat, 29 Mar 2025 19:41:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ki7DhuSx;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-399744f74e9so2278894f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 19:41:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=S0HqGnPZ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: gudni.m.g@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3912d2c89ecso3056615f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 Mar 2025 19:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743302478; x=1743907278; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OLpnB9H4pZd6/8asaGRfp7PAwUjUvQwK7tPTJbtIZwc=;
-        b=ki7DhuSxza8WDZBUJiw0NY4IY8xF2VZiKgS1JNl+nTm9hQ8+UmIXzzDJ9LN+WQ5HZj
-         0ifvBWETySs32i78UqGkI9nTcIODKpeSY9JaCK5usTqA7TI1zWZEyU0u5eGBLPr+e6Fe
-         kkicqaGNq35hejLCKi9DojiKMacZlFMRhCFqzxg6J/qyxMmr+KQvCveXamo2I+0Zr4KI
-         kzYFe51XZ7JhCFvaAQIdpr3P/rr/pvyESkEBoe2ahWjLpAPeIh466mSS/agE3BG541ef
-         rcj/tSZY90hAilzLqFoc70jyxOJrWEIyGGD+sGS7PKn4O2ttcKkaD/3IqYLKfTmDx4c7
-         vOSw==
+        d=gmail.com; s=20230601; t=1743302473; x=1743907273; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+WGvQCr9UeSiHTxR9l0/EI9F9ugYdAZPy5SLFy0AWtQ=;
+        b=S0HqGnPZLdWzsnrvIjoS7xawCq4+RTefdegr/1lj1gjddHUcjulTNdi38Nw7EnhL3a
+         CiL2FI+6ZcjsHd3VyXDqm1ulebcA8aBROamrVcHDDR2L4acxiTymXZRfwfpkieqJrBq7
+         7vVALMIN/PALYdPYBscIO2XnBbmK5XyZj/3sv7vY68MtfrljOdtu0tsnCzmd+MkZoUrk
+         VwtEplNahB6NkjtVclBmi3RtHuOV83btK+ZMRa1u9CqDRfvasEmlQEwzvJTnHUx2u94o
+         DMxNnBJU1gpNbYryXh6XcL51+GE6nVFOG4zDhKJ/tOB20Ssq6G/qJQ9Z9N/xdkYZHEjJ
+         dv3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743302478; x=1743907278;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OLpnB9H4pZd6/8asaGRfp7PAwUjUvQwK7tPTJbtIZwc=;
-        b=gf0zTnRyahQ6fgVqyBTNQ3aCvhZ5X03NDI3C6e49gkMJUm812dU+tIbA8jE5DPWub6
-         g2X6zM+j1wODivP7C763xBXqijeYplbup3DNfJHNPfscxrJNiQ0BmtnTuMGsFW5n2k7c
-         ShGuRn8+eyKle6mgW28WRr9/hbZcG8IeD1hZ/ELrdHm8Yv1+HrLZICtvos/2YQ07Yplo
-         31VLn2U7SE7c0BGVxJmE4/ZAoJxHON6EHpgv6KoM9J3aSWdrPoY2h+Vgd5FdXpu+UvFV
-         dkj3aGWtC2npc4CT+y44UnwSR2L434yVyvNHTiPUd5ORiApWp2xvCVr75ceq0W2pVMcH
-         weBw==
-X-Gm-Message-State: AOJu0YzXIj2lQOPaveXL+CWneggeuGfFJYPea00UKUx8O4XM67ZU99Xu
-	bftqu72xZC9ibYQF8MlOZN846cSlMcMEz3RtSBSxcumpwAM6wAuEVCGJdQ==
-X-Gm-Gg: ASbGncsrzjKRlTaEe9xLdUTgnwN1xGxFPwkzDxik4auN6/QxRgFJjxS+Thr/0HwisI9
-	7cAH1OlcsiyH494cpKQbsoBbj+YtjnEheP93lrL4BLZMmiCtletJ8owK3dsRwt4dg9wC80BNayr
-	NcIW+N4iNwdIU5poK10nRbICW7AxgqlZXafh4eSEkganOkYUkm6p/M+IF6PDuBpWXeRSKrCIIaP
-	Sc0fpKk9WQargyy47MRJHzjAbG8J0De/KVct9O1hGaR5vQeXLKoGJwDOjQyWwzNiS8gFYbz3dZK
-	GEdOMhRFWesiXELdGL7fOC9cWONyrj+t/dSJ4kC3W0AXepjy8zYejKZB6Nz/ay75wYvHpQ==
-X-Google-Smtp-Source: AGHT+IGLkeMQVi0APKRRpju3j0K6AaUMahijA50fvYYzZf8o0Vbj6jwcuChhDdsvs7rH7eSC+wVM7w==
-X-Received: by 2002:a05:6000:4202:b0:38f:3a89:fdb5 with SMTP id ffacd0b85a97d-39c120c7d6fmr2962801f8f.11.1743302477885;
-        Sat, 29 Mar 2025 19:41:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743302473; x=1743907273;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+WGvQCr9UeSiHTxR9l0/EI9F9ugYdAZPy5SLFy0AWtQ=;
+        b=V0ebNnWA4TlGSHnTmd8xouLBu8F+cnlLtuUQu0A7GcvC1lkbkvS8WITJzfexSuiSPx
+         PwZR3Ec/FtDcTY+OHTRrjyUhyW7iL5SG/22MEB30uXKqUr09nBGvG85uexem8HTf98OX
+         Tsc7drjleNaOeVXJ2zZFRAFOSUQvqjFT6MjcSKAhqyTTsH92s4ZkfvX37gYdccpq64C7
+         iGQPWWB7kBut7cH+r/bt/XolIC+nxpJaAdJF/gXpwC7shnoqhd17cjO9QMBOkfjkZRdK
+         JLqZjy40I3efiBCOdYAIA9BiYDis30NcAgk/r7SQECbZSURq7YSph2bGG7jimRb8clOU
+         a0uw==
+X-Gm-Message-State: AOJu0YykQLBGwnw3Jlc4NEEQfT8WDjRFYUsEOeNjq0rxwRBpRbrNbwlF
+	szlnZdAOGJyQh7bXD0OPkMu/gd+13S/mNdGYAv/ZmgPzdv8AY2VNxkTTvA==
+X-Gm-Gg: ASbGnctHlBoUtNZ9axfINEyqquDo7MbSy7lxMENsUwtnW+zctdKpk5JGPJKKJFkUWmd
+	J0cF76wVFj1teGjL9sGaqgX2pIHkXxns2Zzdw5b8XmIDBfbmx4PCMqiuQvligJN4PvGV6Pxj4N1
+	MfpNBI5dLFWxRY97wCelk+9t0oqgvLYjxwGxmIYcuDAMS6zhCErSaHRbm5m9gQCm+zFT64Z4y1H
+	NFEk4Tffku+lAKZEqs6SF9vggkxlei8UDQ6wLfPAdDVWXxNLUmxo0ZjEbZLmUc7sv3MhILE7N6B
+	smBZDfaE1yBbXUA5lgnfHtgYJ8dkC1aavSDI/gcMSdzy9SyW/rnvcxMNUqfZ6WbBAAj5pA==
+X-Google-Smtp-Source: AGHT+IFtsL8/KK6RCNGkqmZt/mkKG0v4bCubGurIBv2wDmraGuLYvhsHyQTVmGy0vUghQ38/Ke+Nlg==
+X-Received: by 2002:a5d:588a:0:b0:391:3fa7:bf77 with SMTP id ffacd0b85a97d-39c120e3519mr2847680f8f.31.1743302473392;
+        Sat, 29 Mar 2025 19:41:13 -0700 (PDT)
 Received: from localhost.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0dcc66a4sm6328999f8f.42.2025.03.29.19.41.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0dcc66a4sm6328999f8f.42.2025.03.29.19.41.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Mar 2025 19:41:16 -0700 (PDT)
+        Sat, 29 Mar 2025 19:41:11 -0700 (PDT)
 From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCH v3 3/3] bluez5: disable aics tests
-Date: Sun, 30 Mar 2025 02:41:02 +0000
-Message-ID: <20250330024103.64558-3-gudni.m.g@gmail.com>
+Subject: [PATCH v3 1/3] bluez5: upgrade 5.79 -> 5.80
+Date: Sun, 30 Mar 2025 02:41:00 +0000
+Message-ID: <20250330024103.64558-1-gudni.m.g@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250330024103.64558-1-gudni.m.g@gmail.com>
-References: <20250330024103.64558-1-gudni.m.g@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -67,81 +64,317 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Mar 2025 02:41:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213913
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213911
 
-Temporarily disable aics tests as they can fail
-depending on how the tests are executed. Sometimes they pass,
-sometimes they fail. The issue has been observed since BlueZ 5.72 to 5.80
+Changes relevant for the build:
+* Four patches are dropped because they are included in 5.80.
+* Removed changes to etc/bluetooth directory permission bits. They are
+  now set correctly in 5.80 [1].
+* AMP code has been removed [2]. This means "tools/amptest" can be
+  removed from NOINST_TOOLS_BT
 
-Starting with BlueZ 5.80, the tests began failing when using the
-ptest-runner script. This is not a new issue in BlueZ 5.80 which is
-why the test is disabled with this commit until a solution is found.
+[1] - https://github.com/bluez/bluez/commit/b1fd409960001a77cda2a09ecc00147ebd9c3667
+[2] - https://github.com/bluez/bluez/commit/1474c11618bc1092f7dd4b304d3768ce9da02b13
+
+Changelog:
+
+    Fix issue with handling address type for all types of keys.
+    Fix issue with handling maximum number of GATT channels.
+    Fix issue with handling MTU auto-tuning feature.
+    Fix issue with handling AVRCP volume in reconfigured transports.
+    Fix issue with handling VCP volume setting requests.
+    Fix issue with handling VCP connection management.
+    Fix issue with handling MAP qualification.
+    Fix issue with handling PBAP qualification.
+    Fix issue with handling BNEP qualification.
+    Add support for PreferredBearer device property.
+    Add support for SupportedTypes Message Access property.
+    Add support for HFP, A2DP, AVRCP, AVCTP and MAP latest versions.
 
 Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- .../0001-bluez5-disable-aics-tests.patch      | 40 +++++++++++++++++++
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  9 ---
+ ...0001-gdbus-define-MAX_INPUT-for-musl.patch | 34 -----------
+ ...-shared-ad-fix-std-c23-build-failure.patch | 34 -----------
+ .../0001-test-gatt-Fix-hung-issue.patch       |  2 +-
+ ...et-for-building-tests-without-runnin.patch |  6 +-
+ ...ared-shell-fix-std-c23-build-failure.patch | 34 -----------
+ ...tt-helpers-fix-std-c23-build-failure.patch | 58 -------------------
+ .../bluez5/{bluez5_5.79.bb => bluez5_5.80.bb} |  3 +-
+ 8 files changed, 5 insertions(+), 175 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-gdbus-define-MAX_INPUT-for-musl.patch
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-shared-ad-fix-std-c23-build-failure.patch
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0002-shared-shell-fix-std-c23-build-failure.patch
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0003-shared-gatt-helpers-fix-std-c23-build-failure.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.79.bb => bluez5_5.80.bb} (93%)
 
 diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index a81f317a37..f240743a05 100644
+index d626872103..a81f317a37 100644
 --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -69,6 +69,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+@@ -69,10 +69,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
             file://run-ptest \
             file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
             file://0001-test-gatt-Fix-hung-issue.patch \
-+           file://0001-bluez5-disable-aics-tests.patch \
+-           file://0001-gdbus-define-MAX_INPUT-for-musl.patch \
+-           file://0001-shared-ad-fix-std-c23-build-failure.patch \
+-           file://0002-shared-shell-fix-std-c23-build-failure.patch \
+-           file://0003-shared-gatt-helpers-fix-std-c23-build-failure.patch \
             "
  S = "${WORKDIR}/bluez-${PV}"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
-new file mode 100644
-index 0000000000..e5ece59cec
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
-@@ -0,0 +1,40 @@
-+From 9958e88edf74509faf759099896b37477625913f Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-+Date: Sun, 30 Mar 2025 02:20:24 +0000
-+Subject: [PATCH] bluez5: disable aics tests
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Temporarily disable aics tests as they can fail
-+depending on how the tests are executed. Sometimes they pass,
-+sometimes they fail. The issue has been observed since BlueZ 5.72 to 5.80
-+
-+Starting with BlueZ 5.80, the tests began failing when using the
-+ptest-runner script. This is not a new issue in BlueZ 5.80 which is
-+why the test is disabled with this commit until a solution is found.
-+
-+See discussion on Github:
-+https://github.com/bluez/bluez/issues/726
-+https://github.com/bluez/bluez/issues/683
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+
-+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
-+---
-+ unit/test-vcp.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/unit/test-vcp.c b/unit/test-vcp.c
-+index 6a61ea2..04b92e4 100644
-+--- a/unit/test-vcp.c
-++++ b/unit/test-vcp.c
-+@@ -2754,7 +2754,7 @@ int main(int argc, char *argv[])
-+ 	tester_init(&argc, &argv);
-+ 
-+ 	test_vocs_unit_testcases();
-+-	test_aics_unit_testcases();
-++	//test_aics_unit_testcases();
-+ 
-+ 	return tester_run();
-+ }
+@@ -113,11 +109,6 @@ do_install:append() {
+ 	for f in ${NOINST_TOOLS} ; do
+ 		install -m 755 ${B}/$f ${D}${bindir}
+ 	done
+-
+-	# Fix the /etc/bluetooth directory permissions when systemd is disabled
+-	if ${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'false', 'true', d)}; then
+-		chmod 0755 ${D}${sysconfdir}/bluetooth
+-	fi
+ }
+ 
+ PACKAGES =+ "${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-gdbus-define-MAX_INPUT-for-musl.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-gdbus-define-MAX_INPUT-for-musl.patch
+deleted file mode 100644
+index de01dc864e..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-gdbus-define-MAX_INPUT-for-musl.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 6f40d44acbfb0021f21bd63e6c0703ba701d19c4 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+-Date: Sat, 2 Nov 2024 16:03:34 +0000
+-Subject: [PATCH] gdbus: define MAX_INPUT for musl
+-
+-This is the same solution as was done in src/shared/util.c
+-
+-Upstream-Status: Submitted [https://marc.info/?l=linux-bluetooth&m=173056368428988&w=2]
+-
+-Signed-off-by: Guðni Már Gilbert  <gudni.m.g@gmail.com.com>
+----
+- gdbus/object.c | 6 ++++++
+- 1 file changed, 6 insertions(+)
+-
+-diff --git a/gdbus/object.c b/gdbus/object.c
+-index 84f116bf1..7b0476f1a 100644
+---- a/gdbus/object.c
+-+++ b/gdbus/object.c
+-@@ -20,6 +20,12 @@
+- #include <dbus/dbus.h>
+- 
+- #include "gdbus.h"
+-+
+-+/* define MAX_INPUT for musl */
+-+#ifndef MAX_INPUT
+-+#define MAX_INPUT _POSIX_MAX_INPUT
+-+#endif
+-+
+- #include "src/shared/util.h"
+- 
+- #define info(fmt...)
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-shared-ad-fix-std-c23-build-failure.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-shared-ad-fix-std-c23-build-failure.patch
+deleted file mode 100644
+index 82eaed7929..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-shared-ad-fix-std-c23-build-failure.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 5c4cbf5cb95e4fc1a53545af52b420a8008b3ffa Mon Sep 17 00:00:00 2001
+-From: Rudi Heitbaum <rudi@heitbaum.com>
+-Date: Wed, 20 Nov 2024 13:02:56 +0000
+-Subject: [PATCH 1/3] shared/ad: fix -std=c23 build failure
+-
+-gcc-15 switched to -std=c23 by default:
+-
+-    https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=55e3bd376b2214e200fa76d12b67ff259b06c212
+-
+-As a result `bluez` fails the build as:
+-
+-    src/shared/ad.c:1090:24: error: incompatible types when returning type '_Bool' but 'const char *' was expected
+-     1090 |                 return false;
+-          |                        ^~~~~
+-
+-Upstream-Status: Backport [https://web.git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=da5b5b0ecb1ead38676768ef78d46449d404bdc0]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/shared/ad.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/shared/ad.c b/src/shared/ad.c
+-index d08ce7a..dac381b 100644
+---- a/src/shared/ad.c
+-+++ b/src/shared/ad.c
+-@@ -1087,7 +1087,7 @@ bool bt_ad_add_name(struct bt_ad *ad, const char *name)
+- const char *bt_ad_get_name(struct bt_ad *ad)
+- {
+- 	if (!ad)
+--		return false;
+-+		return NULL;
+- 
+- 	return ad->name;
+- }
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
+index 572f5b0be3..90c5ebdcc6 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
+@@ -1,4 +1,4 @@
+-From 825e15ddda4aa6d8e37c1c52181f7175d2237f66 Mon Sep 17 00:00:00 2001
++From 0787e67bebbf8492b6c5f03ed816cf881edbea64 Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <Mingli.Yu@windriver.com>
+ Date: Fri, 24 Aug 2018 12:04:03 +0800
+ Subject: [PATCH] test-gatt: Fix hung issue
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+index f56142ee50..ad04a46a36 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+@@ -1,4 +1,4 @@
+-From 9ce6360d11f0b1252f61ff78ce6f8ef03b150dfd Mon Sep 17 00:00:00 2001
++From b6438d9e6cd5bdbca05b444ff6d955e5b70dbb2e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 1 Apr 2016 17:07:34 +0300
+ Subject: [PATCH] tests: add a target for building tests without running them
+@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 3 insertions(+)
+ 
+ diff --git a/Makefile.am b/Makefile.am
+-index 68bf058..a376d10 100644
++index 0821530..e7cefb5 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -713,6 +713,9 @@ endif
++@@ -723,6 +723,9 @@ endif
+  TESTS = $(unit_tests)
+  AM_TESTS_ENVIRONMENT = MALLOC_CHECK_=3 MALLOC_PERTURB_=69
+  
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0002-shared-shell-fix-std-c23-build-failure.patch b/meta/recipes-connectivity/bluez5/bluez5/0002-shared-shell-fix-std-c23-build-failure.patch
+deleted file mode 100644
+index 9ea622601b..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/0002-shared-shell-fix-std-c23-build-failure.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 408510d751e9482fe965e5dd96fbac7f9ee2ef62 Mon Sep 17 00:00:00 2001
+-From: Rudi Heitbaum <rudi@heitbaum.com>
+-Date: Wed, 20 Nov 2024 13:03:29 +0000
+-Subject: [PATCH 2/3] shared/shell: fix -std=c23 build failure
+-
+-gcc-15 switched to -std=c23 by default:
+-
+-    https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=55e3bd376b2214e200fa76d12b67ff259b06c212
+-
+-As a result `bluez` fails the build as:
+-
+-    src/shared/shell.c:365:24: error: incompatible types when returning type '_Bool' but 'struct input *' was expected
+-      365 |                 return false;
+-          |                        ^~~~~
+-
+-Upstream-Status: Backport [https://web.git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=4d60826865c760cc4e5718b6414746a394768110]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/shared/shell.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/shared/shell.c b/src/shared/shell.c
+-index a8fa876..aa6c16c 100644
+---- a/src/shared/shell.c
+-+++ b/src/shared/shell.c
+-@@ -362,7 +362,7 @@ static struct input *input_new(int fd)
+- 
+- 	io = io_new(fd);
+- 	if (!io)
+--		return false;
+-+		return NULL;
+- 
+- 	input = new0(struct input, 1);
+- 	input->io = io;
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0003-shared-gatt-helpers-fix-std-c23-build-failure.patch b/meta/recipes-connectivity/bluez5/bluez5/0003-shared-gatt-helpers-fix-std-c23-build-failure.patch
+deleted file mode 100644
+index 996bb048ac..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/0003-shared-gatt-helpers-fix-std-c23-build-failure.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From 7c07bb10f57c80467bc3079d45dac4d3839927d0 Mon Sep 17 00:00:00 2001
+-From: Rudi Heitbaum <rudi@heitbaum.com>
+-Date: Wed, 20 Nov 2024 13:03:55 +0000
+-Subject: [PATCH 3/3] shared/gatt-helpers: fix -std=c23 build failure
+-
+-gcc-15 switched to -std=c23 by default:
+-
+-    https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=55e3bd376b2214e200fa76d12b67ff259b06c212
+-
+-As a result `bluez` fails the build as:
+-
+-    src/shared/gatt-helpers.c:1136:24: error: incompatible types when returning type '_Bool' but 'struct bt_gatt_request *' was expected
+-     1136 |                 return false;
+-          |                        ^~~~~
+-    src/shared/gatt-helpers.c:1250:24: error: incompatible types when returning type '_Bool' but 'struct bt_gatt_request *' was expected
+-     1250 |                 return false;
+-          |                        ^~~~~
+-    src/shared/gatt-helpers.c:1478:24: error: incompatible types when returning type '_Bool' but 'struct bt_gatt_request *' was expected
+-     1478 |                 return false;
+-          |                        ^~~~~
+-
+-Upstream-Status: Backport [https://web.git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=6f3111eb680df9c13502aacd65554846a9e13a3f]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/shared/gatt-helpers.c | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/shared/gatt-helpers.c b/src/shared/gatt-helpers.c
+-index 50fcb26..f1fa630 100644
+---- a/src/shared/gatt-helpers.c
+-+++ b/src/shared/gatt-helpers.c
+-@@ -1133,7 +1133,7 @@ struct bt_gatt_request *bt_gatt_discover_included_services(struct bt_att *att,
+- 	uint8_t pdu[6];
+- 
+- 	if (!att)
+--		return false;
+-+		return NULL;
+- 
+- 	op = new0(struct bt_gatt_request, 1);
+- 	op->att = att;
+-@@ -1247,7 +1247,7 @@ struct bt_gatt_request *bt_gatt_discover_characteristics(struct bt_att *att,
+- 	uint8_t pdu[6];
+- 
+- 	if (!att)
+--		return false;
+-+		return NULL;
+- 
+- 	op = new0(struct bt_gatt_request, 1);
+- 	op->att = att;
+-@@ -1475,7 +1475,7 @@ struct bt_gatt_request *bt_gatt_discover_descriptors(struct bt_att *att,
+- 	uint8_t pdu[4];
+- 
+- 	if (!att)
+--		return false;
+-+		return NULL;
+- 
+- 	op = new0(struct bt_gatt_request, 1);
+- 	op->att = att;
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.79.bb b/meta/recipes-connectivity/bluez5/bluez5_5.80.bb
+similarity index 93%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.79.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.80.bb
+index 30ea6d317b..6e5b621971 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.79.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.80.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
+ 
+-SRC_URI[sha256sum] = "4164a5303a9f71c70f48c03ff60be34231b568d93a9ad5e79928d34e6aa0ea8a"
++SRC_URI[sha256sum] = "a4d0bca3299691f06d5bd9773b854638204a51a5026c42b0ad7f1c6cf16b459a"
+ 
+ CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
+ 
+@@ -41,7 +41,6 @@ NOINST_TOOLS_BT ?= " \
+     tools/avinfo \
+     tools/avtest \
+     tools/scotest \
+-    tools/amptest \
+     tools/hwdb \
+     tools/hcieventmask \
+     tools/hcisecfilter \
 -- 
 2.43.0
 
