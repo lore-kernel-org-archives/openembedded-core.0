@@ -1,132 +1,105 @@
-Return-Path: <jan.vermaete@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E49BC28B20
-	for <webhook@archiver.kernel.org>; Sun, 30 Mar 2025 10:19:53 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.27870.1743329987007731616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73201C36011
+	for <webhook@archiver.kernel.org>; Sun, 30 Mar 2025 11:10:03 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.28289.1743332997061714997
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Mar 2025 03:19:47 -0700
+ Sun, 30 Mar 2025 04:09:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=am25fN4i;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: jan.vermaete@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4394345e4d5so22179405e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Mar 2025 03:19:46 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=axceIvQx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22580c9ee0aso74377955ad.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Mar 2025 04:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743329985; x=1743934785; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ooMzPEKgR0+HXmC5QobDfFi/GI+D2JStT09ZiTibbtk=;
-        b=am25fN4iz4Qe88b7WMaWmaO86QSTBN9iJYfpIPeiiLFbCu4Kmnbt570s4r4nQyij1x
-         smoAmdD+nlfWfUgQXfAdE3duo90fjwVtmRSRRaV4BQS6bWLmXQG4ehNu9O3pCpx3bFD1
-         YpkehEaPZZNO0Ap9fFMHvnHkM9KBIxxGFNqEYC6fTx9xx1GOCZsoTNkITa5Xnc/6T+vg
-         5UUGHbSKoA1taH3DMmx27lRFch0F5eVyjB2uTvWKZ0jgZu9AtxQV1y16QocwBfDEleYw
-         e96Tow2t+49rnzgkaNWe7BpTrbN6L+TnJVKQBep43NDRLAmGkGXkE1sh1/QEslp+RDys
-         MTrg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743332996; x=1743937796; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XiOlvVTsJpc+d0o18+B1ABv4PWzGFwYxeFDbV9BRfQk=;
+        b=axceIvQxsMY8x7TZe2A0EiMYhS7/Xytk1evPTP5dHtRSWmE7pkTmwFWwdsUIskJgRi
+         n91Q7D4OzwNUZ81J9t8wegzurEETXJQpaP7ZKLJB6f90MLX0Nchw+9uSRI/EEYfgdRNz
+         tgSQDXl7RTHt3FjazCXNHa2FZlQP5hXVEt6O3Yh64PNd16GkvJgLSym5rFo8ZPqGpYzp
+         xu9JUOlJsGMFwrPnfWxgVlMAj03bCnPN5MBq4McA6Xf/NeqkiiTdNq8jSVUL+f+nZ8QE
+         BwtwJUHdkvRpksYr/x1tuSI4rYYY+D0tzLCgrWl8DrontQYUPqgQAF8tLGLSuRlQEZVC
+         S5FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743329985; x=1743934785;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ooMzPEKgR0+HXmC5QobDfFi/GI+D2JStT09ZiTibbtk=;
-        b=JZqOu5vEAI6Jnk3cmflbDJFxC7S5X8UkGNNYIFqBq27Bb8qxwvHT4btGYnVrI2feI+
-         j6vEv1N9ra+A8F1qj/pLOuUxtyuplYYtjizKahIjOG4rUJbFydtZwcdkD/a+ROtujZTy
-         6VCdEg/dvxLThX5gDjfpkFZRwL7BVKNmAeDZ2u595V7epqE1lna/8F3v3w7SmvtSw02L
-         NN+17UKK0AUH05Sh1kdK2hv5zJln3JVbGiGqBXrGaaBtTG9Gjs0RMbGM2+muJ7aRkJ3h
-         hTMSMHFP18D468mcIuOiSIteoF5RV9zCYQKmmXwlK7C/HcTUupjRD+nw+2dL7AMfD1eL
-         b3Qw==
-X-Gm-Message-State: AOJu0Yy5PE6sIiLyczTzHjSOieYCYD8QyerlPd3vN9NDh0QHmMmOkGyT
-	fsArSk/eXAmGg4L8Ao65iKE85kXmwldNcQbvzMlswCBO5sEHNnQNRIJG+Q==
-X-Gm-Gg: ASbGnctjtqpit5dVW0e6a7KFKcrqwOILGOBjS7nvFkagd99kamfkfWd6DfzkcJvtYqK
-	zphWZqQfnVlgeIh8MZ6mwAVnD5/Y4iyLrN1xUQXfwyfcd2MFjRE5nEEkqfLJN331g8byFiF3zhc
-	snHM8WwkD4g8VbKQWyCP5YOx9O6FcOI96vERHX2tnxo2qYoLuX14hQN2dnoSX6xT3IFDuBA+uBE
-	T+tT9A93Wyb9tJkQ7osMA7+g/tfWBC46/VWg6NV/iFR6IA/dkTVzDJUjpTafLTdGXRv4d6mnoih
-	qa12rKQoc4mEWE3cjMvjw2ezaexxLeUv+2T/7miVpO3YDu32LtYU5jfYOqAn1ygiqWRZjeNMP4G
-	Er+rdOVawdrUN5Mbkv3PQanZIYYFOpXXZq4dyA0WenBPNYur1IiKj577sZhOC+w==
-X-Google-Smtp-Source: AGHT+IH72wRPdZVLKjzO6y2fQlkskMvjKBM/ZQwKo5S1fbTTkA8DPwlZXEhDzxb/UvmeicSgJ+Dw0g==
-X-Received: by 2002:a05:600c:34ce:b0:43c:e7ae:4bcf with SMTP id 5b1f17b1804b1-43dabe235b5mr54780915e9.0.1743329984926;
-        Sun, 30 Mar 2025 03:19:44 -0700 (PDT)
-Received: from localhost.localdomain (ptr-fij45qxtdobqrxrcewr.18120a2.ip6.access.telenet.be. [2a02:1812:512:2c00:6021:e9a4:5aa0:257b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d82efeacasm130752845e9.23.2025.03.30.03.19.44
+        d=1e100.net; s=20230601; t=1743332996; x=1743937796;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XiOlvVTsJpc+d0o18+B1ABv4PWzGFwYxeFDbV9BRfQk=;
+        b=Me51+7ux+hoDzCQFojlyU/Zm6coTlP27lpj5712aX3rxnboA8mhKcJej1iOtLP7O3M
+         FFD/pRm68Xq+7PFr69xbaPVyoUUS0na4uB9zO/M3jAbYDP9GDAGWFCCJQ99FlbeZ/hfY
+         S/ojybIMqHEyL97XkMUv8fgKZGG3giRX4kcGJbLwu+Rb8sZIR1qLtkt1gf9DAY2dFy0B
+         fkO5nw1RugMhx6TcfWaH+0aCwej0TneEJ+9AHJjT23T8A9QWSzfPkXUxuvxLNDn+B7Ja
+         +nIMSis5AGZwRYt61bSJni1xqjLArTWSR1epHuNsW5G78evuOHPCPjY9gIYDIWNL0PAs
+         V9aQ==
+X-Gm-Message-State: AOJu0YzPB70/rrK7PlJGvy+DGDEyuAcpHn7bBFkwn+UQk1gF+2jvgRF5
+	Uo5g3jnQOJ+vJ1Sn7LxrIvIwSxs7ZAiKHebQcp+Al653jAUzbaikuJ9JV5+acPf+V7cY23/ne+a
+	3
+X-Gm-Gg: ASbGnctbHk3uKBKh7/OqEVytVncMe2k4DyOR2eiVAOihlaZPZ+qtZewP3K7ikoOgTsf
+	fRW6oMGPm3AY7pFmzEI9sYTrdw0/20gT7O9I6JS7JNkf6Evk61Oo0Yuj+DIGX7Fn/evDvJYT6p0
+	TptgHNAy+z6SOvQT6x8Ssy3Ako41tPcmzumUtO+0G8+5Jsy+/oXhYCjkWGEzq0TZ24Evkfu7JuR
+	H8IK1dgfnsFSjGmhQocUgUAlI71LL3MfVG3NvgzP0jP8TF2/qZJYOZT0acHRnjG0w3x3l53Oejr
+	d5xEi9BjaU7J329ByAsLZH+2UZQSt/0pYqZmr4mW4AsJmgSeSuwc0yOVfWi1
+X-Google-Smtp-Source: AGHT+IE+zkWgdsp9JQwX1EGeb5Uhlb/We1fqdMRICmfdw7oTz4QESRjT1uyregyoPD2DkikPDV8miQ==
+X-Received: by 2002:a17:902:f54a:b0:220:d79f:60f1 with SMTP id d9443c01a7336-2292f9f2bdcmr77555855ad.42.1743332996198;
+        Sun, 30 Mar 2025 04:09:56 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739710acd6esm5137410b3a.145.2025.03.30.04.09.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Mar 2025 03:19:44 -0700 (PDT)
-From: Jan Vermaete <jan.vermaete@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jan Vermaete <jan.vermaete@gmail.com>
-Subject: [PATCH] python3-breathe: new recipe version 4.36.0
-Date: Sun, 30 Mar 2025 12:19:38 +0200
-Message-Id: <20250330101938.2634400-1-jan.vermaete@gmail.com>
-X-Mailer: git-send-email 2.39.5
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 30 Mar 2025 04:09:55 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 52FF31003A4; Sun, 30 Mar 2025 01:09:55 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 30 Mar 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 30 Mar 2025 01:09:55 -1000
+Message-Id: <20250330110955.52FF31003A4@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Mar 2025 10:19:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213915
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Mar 2025 11:10:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213916
 
-Breathe is a Sphinx plugin providing beautifully integrated Doxygen output in your user-facing documentation
+Branch: master
 
-Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../python/python3-breathe/run-ptest          |  3 +++
- .../python/python3-breathe_4.36.0.bb          | 22 +++++++++++++++++++
- 3 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-breathe/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-breathe_4.36.0.bb
+New this week: 2 CVEs
+CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
+CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index f3fdededf6..880178488f 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -57,6 +57,7 @@ PTESTS_FAST = "\
-     python3-atomicwrites \
-     python3-attrs \
-     python3-bcrypt \
-+    python3-breathe \
-     python3-calver \
-     python3-hypothesis \
-     python3-idna \
-diff --git a/meta/recipes-devtools/python/python3-breathe/run-ptest b/meta/recipes-devtools/python/python3-breathe/run-ptest
-new file mode 100644
-index 0000000000..8d2017d39c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-breathe/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-breathe_4.36.0.bb b/meta/recipes-devtools/python/python3-breathe_4.36.0.bb
-new file mode 100644
-index 0000000000..dc14f1ce1c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-breathe_4.36.0.bb
-@@ -0,0 +1,22 @@
-+SUMMARY = "Sphinx Doxygen renderer"
-+DESCRIPTION = "Breathe is a Sphinx plugin providing beautifully integrated Doxygen output in your user-facing documentation."
-+HOMEPAGE = "https://www.breathe-doc.org/"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=9e49eecf36fc015de7c61a0247df75d6"
-+
-+SRC_URI[sha256sum] = "14860b73118ac140b7a3f55446890c777d1b67149cb024279fe3710dad7f535c"
-+
-+inherit pypi python_flit_core ptest
-+
-+SRC_URI:append = " file://run-ptest"
-+
-+RDEPENDS:${PN} = "python3-sphinx"
-+
-+PYPI_PACKAGE = "breathe"
-+
-+do_install_ptest() {
-+        install -d ${D}${PTEST_PATH}/tests
-+        cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+}
-+
-+BBCLASSEXTEND =+ "native"
--- 
-2.39.5
+Removed this week: 0 CVEs
 
+Full list:  Found 22 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-1386 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3079 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3079 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-52904 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52904 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-38381 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-38381 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
+CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
+CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
+CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
+
+Summary of CVE counts by recipe:
+  linux-yocto: 19
+  qemu:qemu-native:qemu-system-native: 2
+  libsndfile1: 1
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
