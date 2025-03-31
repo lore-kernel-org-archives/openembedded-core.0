@@ -1,189 +1,243 @@
-Return-Path: <guocai.he.cn@windriver.com>
+Return-Path: <michael.opdenacker@rootcommit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BA3C3600C
-	for <webhook@archiver.kernel.org>; Mon, 31 Mar 2025 09:11:30 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.47538.1743412283854006136
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 071F6C36011
+	for <webhook@archiver.kernel.org>; Mon, 31 Mar 2025 09:13:01 +0000 (UTC)
+Received: from cichlid.ash.relay.mailchannels.net (cichlid.ash.relay.mailchannels.net [23.83.222.36])
+ by mx.groups.io with SMTP id smtpd.web10.47798.1743412375686100032
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Mar 2025 02:11:24 -0700
+ Mon, 31 Mar 2025 02:12:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=61853fae95=guocai.he.cn@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52V5QER8030616
-	for <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 09:11:23 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2040.outbound.protection.outlook.com [104.47.57.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45p7u8sv6q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 09:11:22 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hJu2F7//fa2iqX5ziZ42xFCFixu6C+9gDTfowbxndxabeTQXYOmToLKC5YhpKlvCKafmC9nShigwcpvmuwnSjSYelV1qRKvRGCePieMimLhejBmexbc3B3YHi/mERV9K7/z52bkLh0hAFlLYyJm5muuRsqRGMXRIDxvlfmf9HOTdmapxSMNyDZ3VZTGEfVKMy4d8FQ8xvkSsfe1M/V8KGu5YZqqZ22qPUVM9T3txP6D8PDILnLLkkwL8mO5LJhq0Y+7jf9MwORRX5W7Tjt9t4PVcppgOKFj+5sV0JHbGHZfnHkblaKEoCtfCA7vYtOZ4q8t7UvQw9tdOa8V+lM34IQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=myzw52M1TUOPBbICasYosCqTKyKejY8bfRevmM9SgqE=;
- b=wbV5d/rdJt9RTw4wZHwplmFOQSqWWJdfz7kQQJxkj94Q9vEle5SHd5vPymhK0QuwuIi6Vt05LTgUqEZ1OZMaqRdvZesEs9kg2/5LJV/ltDZw9JH+HFQW53TPkCxySv8PYRc/Sbq30NaUT+wb+V4Y8s8xJ3Rb/JZvhaye0ytkB6EULqm3eVuzCwMBNso9qoP6gjRvqXeSWHCOwux0Qb3N3y/chR+THwJPE1veqgMGNR9GqO6qGHivZB50b5lbdH4btg920+KwMqgl/yGeL69yQbAyoQYNJxkvhkcmPRk3FShbS/qQRIBHINUPQLx7DdGiF6v3SQ2rxe/f3Dt+1Ob6YQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SN6PR11MB2671.namprd11.prod.outlook.com (2603:10b6:805:60::18)
- by MN0PR11MB6012.namprd11.prod.outlook.com (2603:10b6:208:373::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Mon, 31 Mar
- 2025 09:11:19 +0000
-Received: from SN6PR11MB2671.namprd11.prod.outlook.com
- ([fe80::3e06:cc6f:58bb:3326]) by SN6PR11MB2671.namprd11.prod.outlook.com
- ([fe80::3e06:cc6f:58bb:3326%3]) with mapi id 15.20.8534.043; Mon, 31 Mar 2025
- 09:11:13 +0000
-From: guocai.he.cn@windriver.com
+ dkim=fail reason="dkim: body hash did not verify" header.i=@rootcommit.com header.s=hostingermail-a header.b=X1aakIsD;
+ spf=pass (domain: rootcommit.com, ip: 23.83.222.36, mailfrom: michael.opdenacker@rootcommit.com)
+X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 983137829BC;
+	Mon, 31 Mar 2025 09:12:54 +0000 (UTC)
+Received: from uk-fast-smtpout8.hostinger.io (100-125-201-89.trex-nlb.outbound.svc.cluster.local [100.125.201.89])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 873F87829FA;
+	Mon, 31 Mar 2025 09:12:53 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1743412374; a=rsa-sha256;
+	cv=none;
+	b=phtXyBRlq1hHKUrlXslvOQbGAarqoEgz57ydGxCPQougGh80ePb8JcwVQz9/TmtG1/wBXU
+	7SIffANxvAdh0UByXWDCC7QBZCj36tdm7VLaHSyMwPC1SlNV0u3p8sDQechEG8y9lpyYTd
+	M70J3+wSXxtUI/LUr1lQ/0GBpd7qBG3549p5JKTCFnsXYrhAjN2vFZgWYp4mjIPIxEaeuC
+	fMMiKq6737dJ18gGLP0SD7AVWNWYQUBWWH5glG7s2aP0bhCYj+ztxgigzBnlIeKCXTuQ9V
+	4ZMwwsJ97A0PIfyPd/CU7TYEUJQU1EKdHA1zsFV/JLKkywJOjKx0hibQNng2wQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1743412374;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=W2eDq2Hl82RLOOm+ttBvsM4xFwacdLAH4u+dnOmUtOo=;
+	b=4GeRlx2AoxrvGisRiU8EndM2vYNPvBDLvJ/mwn0t2ipCMBr8WKmWFLPXKWwoSRFy5hQVvp
+	VR5N5nUvGrPbNT5bVwJwcZmhu3aveV53/yTHcup+puTYxRh6IDJoLiKrwjays3JGm3UlsP
+	C3HuZkjGgxkhEmq8FaMQtLc+VMbNLt+AjAW9Hos08f3HUzx1AJFtSEqButcKrTRq5OR5vp
+	Np85hyfu6f6DQi21yXunHCZ+mIKkBctd6QnQ6MtbyHAtYtG/j1TC3kPb5mNu5NJLWlGAFT
+	Kku2SrrORZP2n4wSk7zdndPQM9sZY5DkwlZ/y9nSbxxbRPf3Dtr5lI3ZQAQXrg==
+ARC-Authentication-Results: i=1;
+	rspamd-7668cf9b8d-dmm98;
+	auth=pass smtp.auth=hostingeremail
+ smtp.mailfrom=michael.opdenacker@rootcommit.com
+X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: 
+ hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Tasty-Callous: 7a9a9936759a2ebd_1743412374498_703423184
+X-MC-Loop-Signature: 1743412374497:1661378262
+X-MC-Ingress-Time: 1743412374497
+Received: from uk-fast-smtpout8.hostinger.io (uk-fast-smtpout8.hostinger.io
+ [31.220.23.88])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.125.201.89 (trex/7.0.2);
+	Mon, 31 Mar 2025 09:12:54 +0000
+Received: from a8.lan (unknown [IPv6:2001:861:4448:6b00:7a4f:12e0:633c:2779])
+	(Authenticated sender: michael.opdenacker@rootcommit.com)
+	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4ZR54z0wRzzPJWR;
+	Mon, 31 Mar 2025 09:12:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
+	s=hostingermail-a; t=1743412371;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=W2eDq2Hl82RLOOm+ttBvsM4xFwacdLAH4u+dnOmUtOo=;
+	b=X1aakIsDBxBHy87VBTnipEtNGjmNkcl/dYPXqtYakiVquXKIwh/euWV0QXdmQXeJ66QpnP
+	D2qm6ZR1wjWW9jbSpdMW8vmjdgwKnsVuSZECrscIUa71xMNFBkfWQlLopq0u91meqITLSd
+	fiyszUlhRHVA7NQqHc8QT3NkqCPox2LVUyZM1Q90jah1S3Txo4z+KpWRJyOirwPXt404yn
+	fECSBcq6/sYlMpghgMs0BcnGpif7QMDWDNA+FroHRyzKOqMtK+Kp2XFSYcw01qkkEYek4K
+	6PJ3MUH6g+F6Q4KJg8988xCdMBdIvJCOKPLkbPEqsAXxx8Y31SfElxPoSG9Agw==
+From: michael.opdenacker@rootcommit.com
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH 1/1][kirkstone] mesa: Update SRC_URI
-Date: Mon, 31 Mar 2025 17:10:49 +0800
-Message-Id: <20250331091049.2899672-1-guocai.he.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0289.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c8::14) To SN6PR11MB2671.namprd11.prod.outlook.com
- (2603:10b6:805:60::18)
+Cc: Michael Opdenacker <michael.opdenacker@rootcommit.com>,
+	Peter Marko <peter.marko@siemens.com>,
+	Ross Burton <Ross.Burton@arm.com>,
+	Quentin Schulz <quentin.schulz@cherry.de>
+Subject: [PATCH v2] flac: upgrade 1.4.3 -> 1.5.0
+Message-ID: <20250331091245.500498-1-michael.opdenacker@rootcommit.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR11MB2671:EE_|MN0PR11MB6012:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5314675-7864-4027-1fab-08dd7033fc27
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?2in8rht0JzF7XzwDbkE5loCCKw2dnZw9wlF4jY5/J/XI9ILxOiA+yhQPd4hF?=
- =?us-ascii?Q?WvahLx1/afFEOvd2kc42jfyVhzlG9/eb64l3qa1ixZ9M8OLaetmqVMdp2DYt?=
- =?us-ascii?Q?e1Rt9pCzf1xxy/kZIh/Ke6fCclXss6DKVZpldu+1YVb1KxEFlzQ/y7PsMYaU?=
- =?us-ascii?Q?/81xdF2bWp+oANSDNAdd5meyFjb5xwyoQaMdPrgu1OdVFF6QWHR8fTLDv94H?=
- =?us-ascii?Q?EU1Tk+KPW7OP76pivLY6dKZEO4Pwmj6wjbVSD8+fEZbg9NMPzcmx3tYXzqxP?=
- =?us-ascii?Q?lNhQOMfkvaXAEFZhtJbWf4khphIih0uTQPI+p6gYrt9FakSm5OpnF94yd+uj?=
- =?us-ascii?Q?wnc/CtbpH1JknGCrhFcrsrXBJkPoUknqrLDUf61V0CjE6/NPPPZW5aaIMm2k?=
- =?us-ascii?Q?hFb50OGXZtkHLaj59HI2/zYD8RGlIF9SK06Rz259iWBg0nNfLGz+0qbJ7NyB?=
- =?us-ascii?Q?lXInJjVcK+sD1C2eDbyldMNSyBDObspfAEOVQywva0k6SPFO/eTIiX4VJllB?=
- =?us-ascii?Q?5eUxebNntnA2G5aTOBYkVVpMLusxJUscBefxe5uSD1H0Mem7puCUYY/T3LPu?=
- =?us-ascii?Q?UZUOiUePpYD0m8GjB4dZd0UG/JlsjBcmKY5ZAbOj8bDywqJsDsrtEBETNwqS?=
- =?us-ascii?Q?J/pzFn2VYuq5420/VsLyXy5sh/+byZq3lFd6DMqSV60BOMWLZvUUAR2CraYY?=
- =?us-ascii?Q?5Wj+L0VIVLmbR5YBbKKHAfi7LdXNs3DxEkDKdp6Fdgdw+TutFHkS1W0qHPWY?=
- =?us-ascii?Q?oKqZjm/c/DEmsJPKw6WOY7XLO4qLvhIIpGjP7GBTO/rDR7ozJgs2bqphHAf5?=
- =?us-ascii?Q?rJOT+YS+nGjlJk5PNdgAHxFmOwTrA7uCuYQjkK4CwdEaJRd/47SYva1rht9e?=
- =?us-ascii?Q?TJsUYAJtkFjplqj2PoEewXwLmO/RGAbO8VNPFbLh/pd4BD2e8kyxMvi60USZ?=
- =?us-ascii?Q?SiMCePooM53lWzyJLkcgTy3pQnew9gvLuLD+oX4V3tllOr1RktJowbF/G6vr?=
- =?us-ascii?Q?JdMo72G7VimStps3Jm1DC1BR1ScvdOAhQD4tFvhIEjTk362TjUiCIcKvRUxd?=
- =?us-ascii?Q?LfpFre3vuYxNzodyliV8pUAom7NnL/34Xy9TBFDVV8VhTYNqmQLBuEcli9nb?=
- =?us-ascii?Q?4jrmqvzCx99zcUFGBgL4SHj9L36nnKp2L3dwxbYGbJTOdQk1UMHAtCGEe2rb?=
- =?us-ascii?Q?NmAmz0TU5QLzDxmu5k4TLFZkL35HR8w5jo1nMzYRoKCwSHWjBBJPjXUdZFGj?=
- =?us-ascii?Q?95JlsjBl4CdEri7PJQhCY6TmnZZbZUqWfPdFsq71R8a6EpDeVJE00JpTLiFB?=
- =?us-ascii?Q?tD0UrI5r+BfOn7g3znX5QI9aBGcC8AKyfj47GXqQvFp71h3lmBBPp/EdNS5/?=
- =?us-ascii?Q?xPUZthjKy52vgqpPqOpId9fEGSe3?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2671.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?xSzYOn/bKWlSwX2VOLlszToiJjEFjEiVAk18q+j3fsTvRRev3irBJVH9NyHt?=
- =?us-ascii?Q?jSGJHr1eWP3G56QBGwjd/MpWwZk611Yl0MSKc8bk8KqsvtpHIjGp1FFepSHD?=
- =?us-ascii?Q?1lxL2XUhAVV5mTcxrmH+PzhjCv8zvYRqQE9pJNS9uCqRthUFaNPfAysIVxtL?=
- =?us-ascii?Q?pdJOEyN+lwuFdw/V1MW8reGdMz5SeY718f34tOrGyA6kiCIgb181GYtm0dF8?=
- =?us-ascii?Q?93keJmc0SYmWZUiRtxdfRkqbvuIr/4fqfBSyIX4cnYYNOGNv94DzYDB/oWFO?=
- =?us-ascii?Q?0rwhCOGpsLNoGQAYYnaRWzJ9XV4a11UGYkvvzFBhfqp1OD8wzrSJWypwbZw9?=
- =?us-ascii?Q?H5DE8trdBtkOvTHBxAYVcR12vLYDdkrBc/18IDKsEUxPhZXhQHiakgm0Ta16?=
- =?us-ascii?Q?OStXoYdS4Q+dWsZQ/AEdppJT0n0Dwik+fqPaO/ztIrFHCpQ40k0gk9ipuq8t?=
- =?us-ascii?Q?moJyVOo74Lc8+5pxqdIq3FhT5skRvcqL+XrN9NLWxtrENVuZNlzxEQwl/Cm2?=
- =?us-ascii?Q?5OOWaWZV1BN7V1hvXtjXgUKs7J2H7Zn/Di4Q+StY5GHljfbeqD9BpGE9gyoc?=
- =?us-ascii?Q?LmOX/Sx3Wd8yZWqQF36ZxPbfCe7+5veocf+fOHBzY/3uP1lU0uDXllUiHqZm?=
- =?us-ascii?Q?+s/pZFfzrG5pbx8bqhCQ3XUoMPsCRfcODp/5/9WOhbLGMaS5aFIQEWu7LUKY?=
- =?us-ascii?Q?q+if9CHUW2lcgkt+ClB0UuShAzyOYQ8IW5q1RMgzzR1ZGapuKyY9OkkddA+X?=
- =?us-ascii?Q?WCXTSq2iNHfs3BUCVC5W5trGs0UlN89ioZPn8xZEERLumbN8A91RpSd332Y7?=
- =?us-ascii?Q?REvl3ZGnufN0XEI/vXr4c+uEGNIJ9CiQyiywB/4T/iAFi4ddx/lHM0d/viLX?=
- =?us-ascii?Q?R5ETDOz+N4ByOvLrpJ5jufyIvqo62B9iAQbUup1dPve7AUBXns46esuzmRne?=
- =?us-ascii?Q?vX8ngUiYb3L3hYp/IISjfbEyqR7mCaDSWJr68XSCIbHNq1TX/2m3FDO5qp3V?=
- =?us-ascii?Q?9+3IWmCdd3RHYSIjTxS8SBqRDlB3FmCKOIoweA8lHXWAccYUX7nFC51IdheY?=
- =?us-ascii?Q?GMrdKHRN0dHKoksuhPBe+pG5pTuYef+mhlzpL2No1pO2IjfoaV2PoiFlxLlL?=
- =?us-ascii?Q?MmuVMJvt/73pka/GbhVVmSQwKEyOYpfd3x5Zw0rHtO9YB5SuoZv+pessT8mH?=
- =?us-ascii?Q?VGOLVuk9VpLL9+giUvCySzAEQAPSIN4C9og2dLPYep2YOpwoT3T9bv4o8Hxy?=
- =?us-ascii?Q?J528oS94ID502rAMLe01V/a/lrH4G3Z2LrrK7ioxlhGB84lUUEr+9rpGHOOr?=
- =?us-ascii?Q?z7GCe8HLDUuf0k4gOIFCXkgbcuXkLzgYP2ZVIP1P8i4a3PWL6kA10KuCqjpv?=
- =?us-ascii?Q?jTDBBTGNqJJkGpF4rQYZFYGNrMZFNutQLW5+8RyXZuXeC5VvMTD2RD6gB6ak?=
- =?us-ascii?Q?3zS/CNI1BSD4bXAV//TzWTzJOGswsWO5uovLmDMfHoO00GdUbcApgyGxWHxM?=
- =?us-ascii?Q?iREHsDwb0wxAHC/UHseFrVl9O4ctYlJEYp4UPTMXDbYjKh0Iitw2Gn9tVJod?=
- =?us-ascii?Q?E3SsIyxnZg6xqkHMB7k9JZdrjZgtYkPl3gjKTzQGtN51mW+rs+doqJzI+nQQ?=
- =?us-ascii?Q?sQ=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5314675-7864-4027-1fab-08dd7033fc27
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2671.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2025 09:11:13.4295
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W5U70yG5tuTi06kV2yXdEOlaojdkepD3tgeOSN5Pr310dH1Q3zszBw/K2JghTNpuGaCbHxJlXJ7k6rtM5BXDGFNQlaK9jUg0D7L4UySJIeM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6012
-X-Proofpoint-GUID: kgw96iGoSFs9dYIQRg2gDO8Uv0RVq3nD
-X-Proofpoint-ORIG-GUID: kgw96iGoSFs9dYIQRg2gDO8Uv0RVq3nD
-X-Authority-Analysis: v=2.4 cv=RNizH5i+ c=1 sm=1 tr=0 ts=67ea5c3b cx=c_pps a=6DIaztarb0XTwjBPIWoXxQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
- a=H5OGdu5hBBwA:10 a=e5mUnYsNAAAA:8 a=ZpVaWaFtAAAA:8 a=t7CeM3EgAAAA:8 a=ztjdAAGsjJ5P99afZ2YA:9 a=Vxmtnl_E_bksehYqCbjh:22 a=5tn4MO8azEBWFjlAA-rn:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-31_04,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
- spamscore=0 phishscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2503310065
+Date: Mon, 31 Mar 2025 09:12:51 +0000 (UTC)
+X-CM-Analysis: v=2.4 cv=IrhMc6/g c=1 sm=1 tr=0 ts=67ea5c93 a=db7wCwZ3UdhLoi5XMkDLFg==:617 a=xqWC_Br6kY4A:10 a=NEAV23lmAAAA:8 a=L2IpWlmwAAAA:8 a=d70CFdQeAAAA:8 a=a_U1oVfrAAAA:8 a=7CQSdrXTAAAA:8 a=IepifISrUMpaiu9HCbQA:9 a=-4oddg63ZTIA:10 a=yxSZtuE-OvTTNxukw10G:22 a=NcxpMcIZDGm-g932nG_k:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-CM-Envelope: MS4xfNs80oKX4KqHFk5/kG/M59a07xgO54MSC0Q5OXxJqF7wa6CUAq2YF/JNAFukSRw9+cyWQ/FfgTFhroDjzEiA8BoW7GzW3GZGYxhQmInVaP+mROX7iIuM uzQ4Rni+4qYF29gOOtYeInu546nCDcDLNLKCRFRRhbO6muKrHIL4d8TmP7p30SIJ+nuvaw23RUham4vflRoLzuB9D9LpyGlIphDJ/+yHppLoeRvCah1LsVdn DbZAfFblKFJ3uNF1gTfVBUNJGxpBJ2ZuT01HlKK8oxVD8xyC19IIKrE8wLweICYnf/J2sfsLF0CMhsSP82OsNmnh5xmzkEJPvXHsP3a2/sqW1eNQHz7cyZJt kCT+XcjoXaWtKzoW1GG8THo/RLG+dDmZ5TNXDJViw1Iqso2pAbfm+2dFHf4n3vYzUFaAI+N47CHK/DdpjTcila/OnXu6pA==
+X-AuthUser: michael.opdenacker@rootcommit.com
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 09:11:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213955
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 09:13:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213956
 
-From: Guocai He <guocai.he.cn@windriver.com>
+From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
 
-Update SRC_URI for mesa.
-The the tarball of mesa has been changed
-from:
-https://mesa.freedesktop.org/archive/ 
-to:
-https://archive.mesa3d.org/
+License-Update: GFDL 1.2 -> 1.3, copyright years update
 
-Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
+Add patch that fixes a new documentation generation issue in 1.5.0
+https://github.com/xiph/flac/pull/824
+
+Remove the check for NASM, no longer used in 1.5.0
+
+Signed-off-by: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+CC: Peter Marko <peter.marko@siemens.com>
+CC: Ross Burton <Ross.Burton@arm.com>
+CC: Quentin Schulz <quentin.schulz@cherry.de>
+
 ---
- meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb | 2 +-
- meta/recipes-graphics/mesa/mesa.inc            | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb
-index 01e5b35d0e..11ecb9a9eb 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb
-@@ -9,7 +9,7 @@ LICENSE = "MIT & PD"
- LIC_FILES_CHKSUM = "file://src/xdemos/glxgears.c;beginline=1;endline=20;md5=914225785450eff644a86c871d3ae00e \
-                     file://src/xdemos/glxdemo.c;beginline=1;endline=8;md5=b01d5ab1aee94d35b7efaa2ef48e1a06"
- 
--SRC_URI = "https://mesa.freedesktop.org/archive/demos/${BPN}-${PV}.tar.bz2 \
-+SRC_URI = "https://archive.mesa3d.org/demos/${BPN}-${PV}.tar.bz2 \
-            file://0001-mesa-demos-Add-missing-data-files.patch \
-            file://0003-configure-Allow-to-disable-demos-which-require-GLEW-.patch \
-            file://0004-Use-DEMOS_DATA_DIR-to-locate-data-files.patch \
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index afac8014fe..1dd7f695c0 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://docs/license.rst;md5=9a383ee9f65a4e939d6630e9b067ff58
- 
- PE = "2"
- 
--SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-+SRC_URI = "https://archive.mesa3d.org/older-versions/22.x/mesa-${PV}.tar.xz \
-            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
-            file://0002-meson.build-make-TLS-ELF-optional.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
--- 
-2.34.1
+Changes in V2:
+- Add https://github.com/xiph/flac/pull/824
+  to the Upstream-Status line of the included patch.
+  Suggested by Quentin Schulz <quentin.schulz@cherry.de>
+---
+ ...n-replace-modules.html-by-topics.htm.patch | 45 +++++++++++++++++++
+ .../flac/{flac_1.4.3.bb =3D> flac_1.5.0.bb}     | 20 +++++----
+ 2 files changed, 56 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-multimedia/flac/flac/0001-API-documentat=
+ion-replace-modules.html-by-topics.htm.patch
+ rename meta/recipes-multimedia/flac/{flac_1.4.3.bb =3D> flac_1.5.0.bb} (=
+70%)
 
+diff --git a/meta/recipes-multimedia/flac/flac/0001-API-documentation-rep=
+lace-modules.html-by-topics.htm.patch b/meta/recipes-multimedia/flac/flac=
+/0001-API-documentation-replace-modules.html-by-topics.htm.patch
+new file mode 100644
+index 0000000000..0e6be8c8d2
+--- /dev/null
++++ b/meta/recipes-multimedia/flac/flac/0001-API-documentation-replace-mo=
+dules.html-by-topics.htm.patch
+@@ -0,0 +1,45 @@
++From 6ad5b6a9ce81383ef75e6f7b88f54d3c29294e63 Mon Sep 17 00:00:00 2001
++From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
++Date: Sat, 15 Mar 2025 11:50:08 +0100
++Subject: [PATCH] API documentation: replace modules.html by topics.html
++
++This fixes the issue reported on
++https://lists.xiph.org/pipermail/flac-dev/2025-February/006696.html
++
++Newer Doxygen versions call what was previously api/modules.html
++api/topics.html instead.
++
++Signed-off-by: Michael Opdenacker <michael.opdenacker@rootcommit.com>
++Suggested-by: Christian Weisgerber <naddy@mips.inka.de>
++Upstream-Status: Submitted [https://github.com/xiph/flac/pull/824]
++---
++ configure.ac       | 2 +-
++ include/FLAC/all.h | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 8eb82320..74295eec 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -296,7 +296,7 @@ if test "x$enable_doxygen_docs" !=3D xfalse ; then
++ fi
++ AM_CONDITIONAL(FLaC__HAS_DOXYGEN, test -n "$DOXYGEN")
++=20
++-if test ! -n "$DOXYGEN" && test -f "$srcdir/doc/FLAC.tag" && test -f "$=
+srcdir/doc/api/modules.html" ; then
+++if test ! -n "$DOXYGEN" && test -f "$srcdir/doc/FLAC.tag" && test -f "$=
+srcdir/doc/api/topics.html" ; then
++ 	HAS_PREBUILT_DOXYGEN=3Dyes
++ fi
++ AM_CONDITIONAL(FLaC__HAS_PREBUILT_DOXYGEN, test "x$HAS_PREBUILT_DOXYGEN=
+" =3D xyes)
++diff --git a/include/FLAC/all.h b/include/FLAC/all.h
++index f29aa010..0be26fd7 100644
++--- a/include/FLAC/all.h
+++++ b/include/FLAC/all.h
++@@ -102,7 +102,7 @@
++  * \section getting_started Getting Started
++  *
++  * A good starting point for learning the API is to browse through
++- * the <A HREF=3D"modules.html">modules</A>.  Modules are logical
+++ * the <A HREF=3D"topics.html">modules</A>.  Modules are logical
++  * groupings of related functions or classes, which correspond roughly
++  * to header files or sections of header files.  Each module includes a
++  * detailed description of the general usage of its functions or
+diff --git a/meta/recipes-multimedia/flac/flac_1.4.3.bb b/meta/recipes-mu=
+ltimedia/flac/flac_1.5.0.bb
+similarity index 70%
+rename from meta/recipes-multimedia/flac/flac_1.4.3.bb
+rename to meta/recipes-multimedia/flac/flac_1.5.0.bb
+index 87b67bee1f..d6df801aec 100644
+--- a/meta/recipes-multimedia/flac/flac_1.4.3.bb
++++ b/meta/recipes-multimedia/flac/flac_1.5.0.bb
+@@ -3,17 +3,20 @@ DESCRIPTION =3D "FLAC stands for Free Lossless Audio Co=
+dec, a lossless audio compr
+ HOMEPAGE =3D "https://xiph.org/flac/"
+ BUGTRACKER =3D "https://github.com/xiph/flac/issues"
+ SECTION =3D "libs"
+-LICENSE =3D "GFDL-1.2 & GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Cla=
+use"
+-LIC_FILES_CHKSUM =3D "file://COPYING.FDL;md5=3Dad1419ecc56e060eccf8184a8=
+7c4285f \
+-                    file://src/Makefile.am;beginline=3D1;endline=3D17;md=
+5=3Db1dab2704be7f01bfbd9b7f6d5f000a9 \
++LICENSE =3D "GFDL-1.3 & GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Cla=
+use"
++LIC_FILES_CHKSUM =3D "file://COPYING.FDL;md5=3D802e79e394e372d01e863e3f4=
+058cf40 \
++                    file://src/Makefile.am;beginline=3D1;endline=3D17;md=
+5=3D9c882153132df8f3a1cb1a8ca1f2350f \
+                     file://COPYING.GPL;md5=3Db234ee4d69f5fce4486a80fdaf4=
+a4263 \
+-                    file://src/flac/main.c;beginline=3D1;endline=3D18;md=
+5=3D23099119c034d894bd1bf7ef5bd22101 \
++                    file://src/flac/main.c;beginline=3D1;endline=3D18;md=
+5=3D1e826b5083ba1e028852fe7ceec6a8ad \
+                     file://COPYING.LGPL;md5=3Dfbc093901857fcd118f065f900=
+982c24 \
+-                    file://COPYING.Xiph;md5=3D0c90e41ab2fa7e69ca9391330d=
+870221 \
+-                    file://include/FLAC/all.h;beginline=3D65;endline=3D7=
+0;md5=3D39aaf5e03c7364363884c8b8ddda8eea"
++                    file://COPYING.Xiph;md5=3D78a131b2ea50675d245d280ccc=
+34f8b6 \
++                    file://include/FLAC/all.h;beginline=3D65;endline=3D7=
+0;md5=3D39aaf5e03c7364363884c8b8ddda8eea \
++                    "
+=20
+-SRC_URI =3D "http://downloads.xiph.org/releases/flac/${BP}.tar.xz"
+-SRC_URI[sha256sum] =3D "6c58e69cd22348f441b861092b825e591d0b822e106de6eb=
+0ee4d05d27205b70"
++SRC_URI =3D "http://downloads.xiph.org/releases/flac/${BP}.tar.xz \
++           file://0001-API-documentation-replace-modules.html-by-topics.=
+htm.patch"
++
++SRC_URI[sha256sum] =3D "f2c1c76592a82ffff8413ba3c4a1299b6c7ab06c734dee03=
+fd88630485c2b920"
+=20
+ CVE_PRODUCT =3D "libflac flac"
+=20
+@@ -21,7 +24,6 @@ inherit autotools gettext
+=20
+ EXTRA_OECONF =3D "--disable-oggtest \
+                 --without-libiconv-prefix \
+-                ac_cv_prog_NASM=3D"" \
+                 "
+=20
+ PACKAGECONFIG ??=3D " \
 
