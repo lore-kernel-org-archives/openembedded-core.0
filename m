@@ -1,159 +1,127 @@
-Return-Path: <jan.vermaete@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B34A6C3600B
-	for <webhook@archiver.kernel.org>; Mon, 31 Mar 2025 19:24:46 +0000 (UTC)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
- by mx.groups.io with SMTP id smtpd.web10.1328.1743449080045527199
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B09E2C3600B
+	for <webhook@archiver.kernel.org>; Mon, 31 Mar 2025 19:26:46 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web11.1399.1743449205459717849
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Mar 2025 12:24:40 -0700
+ Mon, 31 Mar 2025 12:26:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CA3tlsa3;
- spf=pass (domain: gmail.com, ip: 209.85.219.172, mailfrom: jan.vermaete@gmail.com)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e6cea43bb31so412491276.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 12:24:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=M1G/YCNn;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-307c13298eeso54899711fa.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 12:26:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743449079; x=1744053879; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1743449204; x=1744054004; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aQW+j0n44aaYy3bNzGiaEKy4PIAtVD/Lsd+6Z4hOkDg=;
-        b=CA3tlsa3TgNGFAylkV6zWUZW1CcolWKkLu/E3H+wFvPNx2JF1OPQ2QdT+qKIuDJnez
-         C929nYahZo4RIcJGHneA4KKitavrhzV2B03dtKynP1u4FvMyYhfW9WgxoVEV2P5X4G46
-         sz2P4PyfgauL1fzZ9UiUU3i5OagTdPHuR4yVKA+vaM9WQO6dlNMl1DtUerAhBsFrawMY
-         baao4qPbhdyWrLOQ9rRphZwuneF1H86EpN+R1d5+ztPZLkhy4PlHZ9RPaGhRu8UwxdOH
-         OuDXcLW2YOlDuztlGV0XJCmUUi2EqU01+k/fjY+7qA3X3IY0NAA/seuo28G0O8x2JZf9
-         +SiQ==
+        bh=z3UiW5+bXu/S6PrHjjep4hyoyOqpP6Zfy25aIrIGJ3c=;
+        b=M1G/YCNnFdg+pEWa60RFnNWRruQHIHpcLy8wCG94pqx+AKHqCQNMVW+x8ay5rXLmO8
+         BTHU7F1L0l3/xFwqXKFllICIl2kh55KLFqcjgcBhgbU/q4tZX6Gru9tFAKapRz3xoZpw
+         KhbfTLrHp0Vl5D6ZQO7bwPNReIlWLxC8+cpa6G3Em0d6pEXZneRCdmPlxvyToO5kdXUn
+         yTD+/2r1+u8j642oqzMDpzb+QGnjQ6PYC0MkC8bSKRztD2b+1JKCzka54fRVH8vcTZFf
+         n4mNVnA+qyUs0KF6MpEbgwJvaZ1BaIL5+jsdJYrc7L1DtrI2onHGWVK0fyGhtA3NeKKR
+         kbYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743449079; x=1744053879;
+        d=1e100.net; s=20230601; t=1743449204; x=1744054004;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aQW+j0n44aaYy3bNzGiaEKy4PIAtVD/Lsd+6Z4hOkDg=;
-        b=h/TUyjFMrpEtLSlgC/DLRvL3ECRZt0InfcBRLFt5sW+fufPh8kr8OarkDOqdc8hGiO
-         /hVbDpif0ZkfinAdOtD13iYsvew8x3Lq/ztSzFmN/F0w8YnKK4ACwOF8tQkKoJoZO+UF
-         RA4WkKKa8y34W7NxbzRsyMfh5baOyR8isuh2QTHeDRtYM2Zh66ct/LkQ7fORZNDVq6Th
-         Nhx8lA/TbDQG0Z3iQk4C3puXXKFyud7hzfMhFUvnM/KHODgPL+cqROuySvmpe6AHjOjm
-         UrfSGeXA4Dc7SNNtZhTadAZrfLMTzRZsbM4MxeUHy3Px8aa5kE1BoCHv1KnspHy9IK2e
-         duGA==
-X-Gm-Message-State: AOJu0YyMpQr1AWFYoijYBLgXSWQMotSTqf7L+ZLasIXelmZiXueSxQ+5
-	yalvStXoPU5x/mHKECj5cK2YMydbqWmtFaKhcF2eAIALO6BJuhR8aeS75axJyZchbU6Jl/B4mC7
-	uF4/d2SXqi5Utegp3ybKNj9yMRfVtlETQ
-X-Gm-Gg: ASbGncsB30zetORD5OntQXKt8hGZDeiWRNL3+/jgQKx3d31rgGasve5DuIRhhpwsFi7
-	36Ms5iYnw1Od9JVYX8QnnGZnOeysLyXtmjRHfkKCSuAroXMMVI0aroKmYgI7OIxh48zBEI4ntWk
-	DTLfY+RnjwVpLqKyJImUzg1e/GIWYcYpMVXRe5pogmvTvc7P3nVsRim3zoE38=
-X-Google-Smtp-Source: AGHT+IE1k5z4bzSor2wI5HXbX0MH5QGnXtagZ3ZWshFAmowXzz0Wr4aF7LJKZPz5eVYuFICKXfuJM34HXFBR7dz7s4I=
-X-Received: by 2002:a05:6902:2788:b0:e69:1d81:1a97 with SMTP id
- 3f1490d57ef6-e6b83a9629cmr11415745276.44.1743449079105; Mon, 31 Mar 2025
- 12:24:39 -0700 (PDT)
+        bh=z3UiW5+bXu/S6PrHjjep4hyoyOqpP6Zfy25aIrIGJ3c=;
+        b=VFDXrXsYvIxFWUJUZ+QV1ff644VdhPsI8vno7CouKZctGbkPWFJtGz9pDjHaC6O6Py
+         Pu23G28rnWQm8U1DEg11XMRFpUL/rhQuDMHMXpuhkaBMBWadOAKf2jALInM1I49dNMha
+         OMrhhvFWHO8lYD6jeW7MAa3FnruN92irrOCoo//BA/H25G5bUnB0sHIBjPC2A1TMTCPD
+         YXLobotQExPcXu40zFqBlVE0isI2Ox78pa+l5doJNfYb98owpqPQecgwu4I0HQh/geYC
+         LZMNtkOzWW9HHS3RXDfuKADzFjAC2JiEexXdBkbU5sHqpbl2d4XkbzIIGaX3TZP6/qQD
+         suGw==
+X-Forwarded-Encrypted: i=1; AJvYcCXteSvbVTUobZRsF7a48qmiDBIjWKVnO7pNU/q0tp8oEKAxa5hhJ1X3jC38f0P44mmTUiP+YDO0n4aWf1nR6Nhvzw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwTd8DsbO/2KCERljgg7k9tVzLm90xJZMS/9st5SA9QLZbC1sE9
+	LdwYqS8tUnPrA5HAQ4sg19Wpwz20Ofv2qy/O0pKegprquWI03Tlgd6cEFwIns1NVJEKz8ZnWcoh
+	KYdTN7oFJ9TN7n3YtMvlFmlrEcYL0+A==
+X-Gm-Gg: ASbGncu0KUxBuu0ZCGRiOWVmvESTVr8l68Me2gSRwpliet0DUyUIjGYri24QiTfjtVg
+	T2yTL1KRs26eIlZP1k/+7odd/uMn9NiK5z3Zy0av6i6DU8Sm1efzDA4TlaPHHOPJiOcab4UsfWZ
+	0TIS9ouI6OlmetIm3x7FfIFoH4JuKPPKzV/2zdpfzl
+X-Google-Smtp-Source: AGHT+IFYPbpsU/70zOU4aflMv6XkJubMj7lI1JlN1VE3mkYgiZn81jtEimnTLNQ5MBu8t2IPAwxhUUpX5/+g+h3dfdE=
+X-Received: by 2002:a2e:9a0a:0:b0:309:22dc:6917 with SMTP id
+ 38308e7fff4ca-30ddfa07710mr35313751fa.19.1743449203367; Mon, 31 Mar 2025
+ 12:26:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250329204049.1463241-1-jan.vermaete@gmail.com> <D8UCM95EEMA2.N4I5RG575VNY@bootlin.com>
-In-Reply-To: <D8UCM95EEMA2.N4I5RG575VNY@bootlin.com>
-From: jan vermaete <jan.vermaete@gmail.com>
-Date: Mon, 31 Mar 2025 21:24:28 +0200
-X-Gm-Features: AQ5f1JoiWHVi07Yu5UeTvv4kvy4RMPdq4qUkCO39Rm8XGiuaisbPpPJ7IHH40xI
-Message-ID: <CABF_=yjUM6GsACAcEOrxYY+cNBY7thh0FnNC9du1JbdMfaZgzw@mail.gmail.com>
-Subject: Re: [OE-core] [v2] python3-sphinx: version bump 8.2.1 -> 8.2.3
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
+References: <20250331111128.317469-1-peter.marko@siemens.com>
+ <CAJdd5GZQZSb3NC3DRuW8rXGN610hKmHc9sOSQigc-qkm6RXjew@mail.gmail.com>
+ <259308841ccfd6cbcdcef5de8c6157276af32386.camel@linuxfoundation.org> <CAJdd5GakXJW6wEu8u_x9ioN6sVZqQVCVq5zV5nTxkgv_oZcF2g@mail.gmail.com>
+In-Reply-To: <CAJdd5GakXJW6wEu8u_x9ioN6sVZqQVCVq5zV5nTxkgv_oZcF2g@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 31 Mar 2025 13:26:31 -0600
+X-Gm-Features: AQ5f1Jryp-xp_uuvOn2NJ7__YiiHhPX0qp35KZoq9JOhAUrBVxoZRr1VmxJsopo
+Message-ID: <CAJdd5GZVv0cbp86ba1UvPcHFP-v7Y9Oh_r=dMmE2WauHWkEXrg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 1/2] create-spdx-3.0: make create_spdx depend on CVE_STATUS
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Peter Marko <peter.marko@siemens.com>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 19:24:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213994
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 19:26:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213995
 
-Hi,
-
-Strange.  Classic story I think: "I didn't have this error yesterday,
-but now I do".
-
-The same error comes when jumping from 8.2.1 (currently at master) to 8.2.2=
-.
-8.2.3 and 8.3.0 do have the same issue.  Note that 8.3.0 release is
-yanked on pypi.org
-
-It does not seem to be related to the changes in the tar.gz file from pypi.
-
-I could not find why it fails.  I'm looking forward to the correct answer.
-
-Sorry for the inconvenience.
-
-On Mon, Mar 31, 2025 at 11:36=E2=80=AFAM Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
+On Mon, Mar 31, 2025 at 8:15=E2=80=AFAM Joshua Watt <jpewhacker@gmail.com> =
+wrote:
 >
-> On Sat Mar 29, 2025 at 9:40 PM CET, Jan Vermaete via lists.openembedded.o=
-rg wrote:
-> > Release 8.2.3 (released Mar 02, 2025)
-> >   Bugs fixed
+> On Mon, Mar 31, 2025 at 8:13=E2=80=AFAM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
 > >
-> >       #13403: Define _StrPath.__radd__(). Patch by Adam Turner.
-> >       #13399: Fix _CurrentDocument membership testing with =E2=80=98{c,=
-cpp}:parent_symbol=E2=80=99. Patch by Adam Turner.
+> > On Mon, 2025-03-31 at 08:11 -0600, Joshua Watt wrote:
+> > > On Mon, Mar 31, 2025 at 5:12=E2=80=AFAM Peter Marko <peter.marko@siem=
+ens.com>
+> > > wrote:
+> > > >
+> > > > From: Peter Marko <peter.marko@siemens.com>
+> > > >
+> > > > SPDX3 classes now add CVE_STATUS information to spdx.
+> > > > So the task needs to be rebuilt when CVE_STATUS changes.
+> > > >
+> > > > This is true since commit 1ff496546279d8a97df5ec475007cfb095c2a0bc
+> > > >
+> > > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > > > cc: Joshua Watt <JPEWhacker@gmail.com>
+> > > > ---
+> > > >  meta/classes/create-spdx-3.0.bbclass | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/meta/classes/create-spdx-3.0.bbclass
+> > > > b/meta/classes/create-spdx-3.0.bbclass
+> > > > index 044517d9f7..235bd804bd 100644
+> > > > --- a/meta/classes/create-spdx-3.0.bbclass
+> > > > +++ b/meta/classes/create-spdx-3.0.bbclass
+> > > > @@ -138,6 +138,7 @@ python do_create_spdx() {
+> > > >      oe.spdx30_tasks.create_spdx(d)
+> > > >  }
+> > > >  do_create_spdx[vardeps] +=3D "\
+> > > > +    CVE_STATUS \
+> > >
+> > > Seems fine to me, unless RP thinks we should add cve_check to
+> > > BBIMPORTS instead?
 > >
-> >   Release 8.2.2 (released Mar 02, 2025)
-> >   Bugs fixed
-> >
-> >       #13392: Fix argument type for jieba.load_userdict().
-> >       Add workaround for nbsphinx implicit imports. Patch by Adam Turne=
-r.
-> >       #13402: Ensure inline <script/> tags are written exactly once. Pa=
-tch by Dmitry Shachnev and Adam Turner.
-> >       #13391: apidoc: Fix TOC file not having a title. Patch by Dave Ho=
-ese and Adam Turner.
-> >
-> >   https://www.sphinx-doc.org/en/master/changes/
-> >
-> > Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
-> > ---
+> > That would potentially see off other problems in the future. Is there a
+> > reason we wouldn't want to do that?
 >
-> Hi Jan,
->
-> Thanks for your patch.
->
-> It appears the build fails on the autobuilder:
->
-> ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/musl-qem=
-ux86/build/build/tmp/work/core2-32-poky-linux-musl/python3-sphinx/8.2.3/tem=
-p/log.do_compile.1693254
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | * Getting build dependencies for wheel...
-> |
-> | ERROR Missing dependencies:
-> |       sphinxcontrib-serializinghtml>=3D1.1.9
-> |       Jinja2>=3D3.1
-> |       sphinxcontrib-devhelp>=3D1.0.6
-> |       sphinxcontrib-qthelp>=3D1.0.6
-> |       snowballstemmer>=3D2.2
-> |       Pygments>=3D2.17
-> |       alabaster>=3D0.7.14
-> |       sphinxcontrib-htmlhelp>=3D2.0.6
-> |       docutils<0.22,>=3D0.20
-> |       roman-numerals-py>=3D1.0.0
-> |       imagesize>=3D1.3
-> |       sphinxcontrib-jsmath>=3D1.0.1
-> |       sphinxcontrib-applehelp>=3D1.0.7
-> |       babel>=3D2.13
-> |       requests>=3D2.30.0
-> | WARNING: exit code 1 from a shell command.
-> NOTE: recipe python3-sphinx-8.2.3-r0: task do_compile: Failed
-> ERROR: Task (/srv/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-=
-devtools/python/python3-sphinx_8.2.3.bb:do_compile) failed with exit code '=
-1'
->
-> Can you have a look at this error please?
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
+> I can't think of one, as long as it actually works :). I'm testing it
+> now and I'll send the patch if works
 
+Just to follow up on this; I think we can fix this more systemically
+in bitbake and/or make improvements to make it easier to specify these
+types of dependencies in the actual code that references them (see
+jpew/var-flag-deps on poky-contrib for some prototypes), so I think it
+would be better to take that approach than this one (at least on
+master, this is likely better for backport fixes)
 
---=20
-Jan Vermaete
-=E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel
+>
+> >
+> > Cheers,
+> >
+> > Richard
 
