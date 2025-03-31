@@ -2,28 +2,28 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D933DC36017
-	for <webhook@archiver.kernel.org>; Mon, 31 Mar 2025 05:54:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFDB0C36017
+	for <webhook@archiver.kernel.org>; Mon, 31 Mar 2025 05:54:58 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.45626.1743400487601828612
+ by mx.groups.io with SMTP id smtpd.web11.45455.1743400497590819149
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Mar 2025 22:54:47 -0700
+ Sun, 30 Mar 2025 22:54:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=61856e1cce=yash.shinde@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52V5m2G3019767
-	for <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 05:54:47 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45p6311ska-1
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52V5Nucf027315
+	for <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 05:54:57 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45p7u8sqf2-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 05:54:46 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 05:54:56 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rc/OZXiQ/0cokYU/FtSye7vIJpvETSa1k+b4ej3HwBshNgt/3N/kTKuycIwQVjbwyJ/iSwyRkoFnsi+GKpgmDfFRo1EOQnYsAfO2PQ5o6E5ivsoPjtX+x6mztlL/BAIhLV+gdLUKF10keN9YREdd1dwfVdadY41sBDgeZsqdsJ3ja7VZBqDgRVsWymihCOxzX/FLKWQB6OugtJurw4RyLWwLY3JGX2H4dLrc30v6FmWjECyQ3mpID5S+iV1yzGZt1Me3aNb9hsYmKSvIYcl+hQdA2iDOC2c2K5KMk15rP081B5pbGQ57JgoYP2ZOciRuI83Jf0FxAx/jwbxLytzb9Q==
+ b=azfysKivUjigvJOx8818RXbTkw/9k/x6Fy+sOuW6Lg70D4HS1bgSKkYxCySskCxdm4sqNnjSXUS9EWU4eKhlT0zVylVrjcssha9InbQrQJRcHie7yFj0i2RBsmZL6pVef1wFEgeb2tLf+aqmQzMYHcAzomcnozBwPhp5h17PRmxtMTWfVvA7ipqvbUaDFZsH2kYezMWcwQBDB9uUdCk84wwEXhunYTav614xWUQW46DlPq3m8ZdxQlm3M+jf/PYA05pG6avS7/6mQp0B1pbPYd0vDnyfJZ20m2HoXS5tyPnLg3X/nfRg0MKw91Rq3+yG3NABpTlMufxang1sCPBeKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S4pZTRA00wCA6iHPUPbNqdfGiiuoQi00E8KWjax1lgM=;
- b=aK7jDiWRECTcqreW9hLSlENuHQLq21G1BfiqQ4HmeFwvEUTVrfNSXF9kwf1FcgBU8Ps8LvB4i3Narox2IxKrMwj/IaGRSYKXzn8BoXxJ5HErreCoyHeB99JsQMPkReaivQVFQnoSR8Cvb7eCszeJAKFRHdmLwUxoIHG+mPmldczdB2EOs3OoWc4VtRw6wd3mNeeVdh3XZpP7XflcxafZWkCaobVe3/8TyBsZ2IgELx1ch+GefzcPd0NINCsPwpEh5UxtaYKLKss+9dNKVMy1rEjgvqV+ZEbQKOqp/HAVIBzMenVLkhoZJgaQZW96OGiz64Ssp4WNYOvRT9MDJANbdg==
+ bh=Wzcvj+U6B4FLA+HtDOMjHUwer6gMbycmTtcQiA7wmS8=;
+ b=pDD0ZKI+0E4O/nsC/hv+28Siw8us6BhxTbqcajZxT1NnOjB/C06YnIZ261s5rtZWGMeLxQr94bbiQ0FAfaV+E0wUjjNKsAgxBTwJh0MJd3aEh/3168TPEOjQRSria4HENzq3uCnJM1SfO4Uy3jUH0QioZUnlpwF8TAgp6sZgmTAUJpML8p1nPEGRa+TWhEz3cek09IxKWtR45Qj/QFRVuVvZEmTRNE0kpF8pc2b+dp0kpmo8KkyTcYWmrHTWzxxE4b5TDKwN9tb8xdpzHE5TY4KCpPSZs2izTcU1/MakodeWCCCPHwY3aCaXVHJZq+3gq26hRvUjNKS8eVXwKqWPzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,19 +31,21 @@ Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
  by PH7PR11MB8036.namprd11.prod.outlook.com (2603:10b6:510:248::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Mon, 31 Mar
- 2025 05:54:44 +0000
+ 2025 05:54:53 +0000
 Received: from PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc%3]) with mapi id 15.20.8534.043; Mon, 31 Mar 2025
- 05:54:44 +0000
+ 05:54:53 +0000
 From: Yash.Shinde@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
         Yash.Shinde@windriver.com
-Subject: [PATCH v2 1/3] rust: Update "do_update_snapshot" task for rust-snapshot.inc
-Date: Sun, 30 Mar 2025 22:54:20 -0700
-Message-ID: <20250331055424.1978243-1-Yash.Shinde@windriver.com>
+Subject: [PATCH v2 3/3] rust: Upgrade 1.85.0->1.85.1
+Date: Sun, 30 Mar 2025 22:54:22 -0700
+Message-ID: <20250331055424.1978243-3-Yash.Shinde@windriver.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250331055424.1978243-1-Yash.Shinde@windriver.com>
+References: <20250331055424.1978243-1-Yash.Shinde@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: CYZPR05CA0038.namprd05.prod.outlook.com
@@ -52,194 +54,220 @@ X-ClientProxiedBy: CYZPR05CA0038.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|PH7PR11MB8036:EE_
-X-MS-Office365-Filtering-Correlation-Id: b06e083d-03fa-4cf4-9444-08dd70188929
+X-MS-Office365-Filtering-Correlation-Id: c4d73574-c343-4265-314b-08dd70188e90
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|52116014|366016|1800799024|376014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?227OhxFygG4hx23M7i6I+lLoYvw96VQa2WkP4zVk0MF+w7rkEUf0TxpQ71/P?=
- =?us-ascii?Q?d7oWGfvmIbJ9F+gvM3ETCYBr72OXRpuEbrIoO8GtUco0d7z0Xq4bMGyboIZj?=
- =?us-ascii?Q?QJuChIKvGqO8TzsuIxgjxFqE4IgueDKk3YYmlRLfp0L2jHSbB2mDM3FcFL2k?=
- =?us-ascii?Q?VicIXTY8j1p7vjKHG3cgAXsY+oWc9D96qVmDdbcgVyuNoJ1vq1WpyrYlKcqM?=
- =?us-ascii?Q?TAJtdaFgPNwC/zQ03y1rs+0Sjnxgo0qBvvb8zvLJFs6XHg+/TGVSczirb+Jp?=
- =?us-ascii?Q?6kictcxJN12NCBxae1M+dGD+nCw2uTm+Z4BbJXUOp6YuzofTjBhQ2mHRrHy+?=
- =?us-ascii?Q?Y0CV7oBsw4l3x1ZRbKS5B8h1k16PJGCWCxKpZa2Y1arO8ha47VuAc2Ehj3Bf?=
- =?us-ascii?Q?bY5kcc1GziiDiQB0kSZYxXdCingPI7IofC0hYQl4+Wn/ggB9GNHNao4GX0bL?=
- =?us-ascii?Q?7ozhhheGkYvUGGHpO+O+Ac6rv4+IzotFp7Eu0ArkhiNLvc5XyaCe5wh0cy3X?=
- =?us-ascii?Q?ldI89jon6GTBTb/6a7xivdmC7Bm4/VX4TaFxdKJ4CuDe30xPezUdC/9X2x9Z?=
- =?us-ascii?Q?9rkVmtOwxEmeRZtNFePtKtBN4iImUzV1H1s1R6KVuWwiHCYE70LuGLGzso88?=
- =?us-ascii?Q?Z7DILjYCvfeEG10Sk4xEU4yyUWWpA6N7shHjCO53FZbwn0XQE7ubGwscX1CS?=
- =?us-ascii?Q?3qTlWjvPWkxMWGYFKfVFM1YwpkVEq1mqna5OhoMyPLniz4w85EINPxa+Doyk?=
- =?us-ascii?Q?G6QxKfScbllrrkyF8Mllc2dpTmVGQnnG574TdkG8yxQb/WhAgAe9z7htsBA/?=
- =?us-ascii?Q?ybR5udqMR5de9S4YoRI3ELCkzrpGpjVL3Ld67SmsrYlhNjT5612C+9Pw9DDe?=
- =?us-ascii?Q?IrS/CJ9Il2LuSjnLQMs08E2wqpqy/ipUsIc1LhvSUZaZm2cI78qvz53lupbR?=
- =?us-ascii?Q?KyLBUb1BWRqOpyZKNUwuRuNywGR5h1zCch3d//wLiKdl1zJB5dGLglHXBJRj?=
- =?us-ascii?Q?AObp7OOXkamia/5VTGcuQpyasyTSDINPsgnc2XCJ3bx7b+LmDWWm3q71uAT7?=
- =?us-ascii?Q?PiP2/fuH+nYoGSQgIc0+qd4An3fqSFY0VvMNUfH882nPRCKBWV7rpauA6Dx2?=
- =?us-ascii?Q?SZk31AAFLtRB4fI6XzOSESQTlKKKbVOqhgZJCDEI+4OAFxitcM+hksAyN/3W?=
- =?us-ascii?Q?aw5bPOhQYGgMST0CtxPCujq9AyuHZ/1JL2GIR4ubSsqnkXcqbgE0yb5/IkVE?=
- =?us-ascii?Q?M9svVrN0WAqGM7jxC2hRb5eMc3kWnp62nrijr2DmtN9+QozFxc93/XktBrIU?=
- =?us-ascii?Q?jTogvpyUbFnpuAcMhrW7vGZodTngNQchxAtxYlEMo8yQGXx+5PfYm/d6yeC5?=
- =?us-ascii?Q?PhLVdrZjON4pzoD/01t1eeM3734/cLXrT8S7vEBZXcLtHyAr+7eN8LVN5rsJ?=
- =?us-ascii?Q?/wizghio4MFA5bEVAmK+UoIjpl08ohrk6qcyQSAoImEp/Gq/U4wMPDzQ4fjE?=
- =?us-ascii?Q?O52uHb2mRNrd21Y=3D?=
+	=?us-ascii?Q?rF/jqtwiE5b0Bf0S5Jv1w3bBJK/rTaStZSlTT4eRG2FBmst4l0hDBXNMsK40?=
+ =?us-ascii?Q?YwDhJ7W3XNC7l1W5WUnCKHQ3VuuQYW1yL31SHww4STA7GvlCF1JX4RjY7Jm3?=
+ =?us-ascii?Q?bTbrO61kZx/gAlwqhrbPJWOPMpaHWk8ztL9mAeDbtAlDiNtFu7V6HjOtIC2K?=
+ =?us-ascii?Q?lzbw8cyxw0p6mF6FssDmMEoMh1V2swJdGTWQwyBOz23zaCEx7lVGTRVdX6Pr?=
+ =?us-ascii?Q?LMHWfwTkuUyHOVV7DVwOYPGXKaN/BK+QaasTPbEvjGAnIfTwi5ix3m1IWxXb?=
+ =?us-ascii?Q?K7d0EIeWxoJVS9dgMYt1PBBva2VOEJXc3qzZIVpvTCfAYmnaTr/ktG22pJ7g?=
+ =?us-ascii?Q?Lng5BhJc9iWCV7uxZaeIWJUfhGmY17UQWei5bquUjZZ/PN535p7WPwSRx5ut?=
+ =?us-ascii?Q?Y/qxoV6/9DHxn3dxROHlASdF9v+XbfiX5M0S9Wdhisp6BRzDc6iwapbilPyn?=
+ =?us-ascii?Q?8LaYheiklKT1KxvLSeChlA2cjryhlAQrDK126/5AyfoThqOuDfohEZezMcq2?=
+ =?us-ascii?Q?4RcBf7YAqCfuANj1LzssUXdW+WlBsKWkwfBz31Jo9RxK/9CGTffrUlRmhJ+6?=
+ =?us-ascii?Q?cc2P2HSqF27fkSVtPNXJW+Lvhz7HpJ93D1zJgCWd3J0vfEzgcdUNKtxcBMxc?=
+ =?us-ascii?Q?CeSqJkU/j+Ci5qya6xY7lHai9sniWLwGw+ZNlXdZ3oIZJqYmBBLwwuGj9RSV?=
+ =?us-ascii?Q?CFoGy3kKIQT/MazxlUN9ExsVH44FuBukV4WujIAIPWHAkHjvnR6rSq8mvpzl?=
+ =?us-ascii?Q?7FkJazXd2TTCKTve12VjIjqFTjC8kfH62SQzJWx3HZPzs5p/07gp50iDVFQU?=
+ =?us-ascii?Q?4PodDHfhCVtaLooIF9IxNmIFMRWmYzRSHevpj9hJUCzn9FRYUS+PMytW6JaL?=
+ =?us-ascii?Q?OLZ9nz/GWbb4+qEar4M90dC93yTB8q2bF8wP1nyxpMbyBRZD/hrT2oN0oEI0?=
+ =?us-ascii?Q?HUqaxYEiAQeIU4bF0KMIcBJ+pPQcL8QkVZdZHq31L5Za1Sj7Qwt6yiiLeScm?=
+ =?us-ascii?Q?1dMxjI4YU/E1CthAvMFucQvGzbl50JnS+6BMEkKNbGowncYJJ0Ov8kZFzN3v?=
+ =?us-ascii?Q?sBMMA6sCELs/z2o9bbvFcILY4n7DsD5ZxG9wrb+5oOaywQZywLmcxvsu4En2?=
+ =?us-ascii?Q?5RncnEFn91Wd2BlYsXnsHDeJBpVZ11c+ZvdJelROk5jpH353aCmQcIXzH6qC?=
+ =?us-ascii?Q?toxNsQJPBLczAFcMJrBFG0z5yse7r34danxwdLhmXlmeFDNmmeL7nQDR8gVi?=
+ =?us-ascii?Q?OYBsIinTG7ffUKa+eI0nAfIyPzKc996FfavMYqNUf6X1qqufy5kFfN4Gfv/L?=
+ =?us-ascii?Q?1KUznp0Ik7GHSkDazqviZIBjWZH+jPsTROSui+y43W+l586SblO6dZgBhCWD?=
+ =?us-ascii?Q?I29w1QynFc867SfjiBxO2mmrN+loCfuQk3OqSe/ECNYrMwiEWUcRbor/YVle?=
+ =?us-ascii?Q?E2wCqRoA0iXGJUxjLoSgj7omAN95yhOW?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(1800799024)(376014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?nws8HgoP/Bkmo6fUuSX/hM63/bDRwQPGN/T7y4XwGC3R2fkb+ojVb5ULDTtq?=
- =?us-ascii?Q?jfrCvHExpFoprF5mastxV8wug5EQPX+JzUXOjE9k6GD7dYqwOdgYTCnUH2fq?=
- =?us-ascii?Q?d4DDXUDHw6BWZYLLWXrhA4QppZDh7+339QmUaDDqOfZyVdmpgVrIq5sxezFi?=
- =?us-ascii?Q?8lUh44Tis2HKSrKWF+VzYiKFqbi3BlnbFD74QwFy8EX3Z45iRNLJnVQl5ERM?=
- =?us-ascii?Q?9JnYonAl6WpRVGIKlDhYdBrB1TXhUekJ24b54vOCdlY7BpnmnBVQTumW7EFl?=
- =?us-ascii?Q?C0CY17sTmq3kboOw3RoFqgQJev/pwL9V41g9LyiJUk0daF9Z/XBYGs+TweHc?=
- =?us-ascii?Q?pzrdWHZiuY3F4UYAS+EqBDUQ7xQE18lFefZ1js0Fl6/9mwwMi/2LjelZH2WY?=
- =?us-ascii?Q?zgaQUL/y8RWImoSX4KcJRxTj7XOT1auMDTvl+CwEFsBjosePAkU27y6htRKh?=
- =?us-ascii?Q?2XzEmDYq4NMdPvmsgTSuKm99i4lmRD2rKoiqJ1bcK79T/m127eUvijU4MD3V?=
- =?us-ascii?Q?YLwChnoi4nggDpcTiP1K01dimACt6zz5S8ZFKUZdGnvbr44a8yIk3u7ZZq2k?=
- =?us-ascii?Q?EcsiXcHALD0L4MH8RIOrvkJYp4GxW+EZP6Oip5JZSc4GzVh76aWlrvwjWCXa?=
- =?us-ascii?Q?YthoEBcE9D2mDNVvTRnQnvvxvSiyvXV6M59XTVADPD0S5Q7SdzyaHjOa9Quw?=
- =?us-ascii?Q?b50Ttb2DdcV8jjvKQqnXlBvhbkbMxTD9QiAwz805P2STuqxdA5EmNSYwzauf?=
- =?us-ascii?Q?Bv7Q2rBin4Bso0okSf0y3Q0DQkKDhE/jP4ueqbuGdGTwtTLeR6IRO7FmWokM?=
- =?us-ascii?Q?jOTWoAib8Gv5h3j9qpNptI81oqoLYfRCBYhGr1zUx7fWVCDwfSMvd4QJSlwq?=
- =?us-ascii?Q?J1zrnGKBX1LtozoKsLct1yct7brJg6CwnKjHMu6tB29PyrJ/Y2Cv+O/FGOVL?=
- =?us-ascii?Q?yyzlGQxnPvB/FvQqnzuuMlQF1KtIF/rvgmx7F48MzSQ80P/6BfQdoGCe1q4C?=
- =?us-ascii?Q?muLPGr2SZjgKhnqwfshtZFaKao3n9uI3qNAv6gPMau8jKlQunv10tkJgC9ih?=
- =?us-ascii?Q?6mITmzbKstJeRerPgYBLci8f/bcSCzB8LHMTZNDVCz7tXgXkZ6NWQeVHR2UB?=
- =?us-ascii?Q?O3DMlqLALIpNt4sYHPCx4vAJahockRRD5VX8uY77N/e8mGgrPfmQ731qhGNt?=
- =?us-ascii?Q?qEfyWv+62kynP8lzdP0BxclVSTW5gFXZKndUCuMntRawaZI1kDSFIDwJhjGI?=
- =?us-ascii?Q?jzyp+cdwYyYlDEmgWwRzspq5qdS2Oi8rGnmd8qSO2pWcm4Qq8HuNXZJJAJdL?=
- =?us-ascii?Q?ggTNQpB3m+S4hv1n05RYQ4IwHXeLudSP8SXquIgoQcBENjP/dIbA04/N4WTi?=
- =?us-ascii?Q?L6lQGmaCUb6KYo9evtWrks5hXN5zRdfj7PfUtWFO70DGr7iveyaRqChatD44?=
- =?us-ascii?Q?RG2OlAmG7CDmJOMHIWe436xB2HRJw8BN+Q0agWXH6TJ+nCJPf7Ly76VKH7/5?=
- =?us-ascii?Q?crlnL4hC/shiScSBFh9Epjf7sSLf4226JrQzJOXWj25GMM9rPKdVth4caqYl?=
- =?us-ascii?Q?+/Qb8HpElHcCthh03qWWikPfXvVG6a6wEx3ul1VlwXsA0/Ep7wt+3l6mRwXU?=
- =?us-ascii?Q?IQ=3D=3D?=
+	=?us-ascii?Q?Rd+VJlmULS+vN4V27an1ptpSLla9rX58HB9Az5fzy50P7SA888iLD+sNy3cO?=
+ =?us-ascii?Q?aYrR3oTU7zVOmkQG/fgxMmpRrbfeIjV4QK/i94tCUEh4nDUxAnXKFEMYQu0P?=
+ =?us-ascii?Q?rnQVm1r7X5TVq7CD7b70zpjjAmadU0M9oD28Rbu+/dsVkjKynb1lr5cqh5zX?=
+ =?us-ascii?Q?JLgWfHysz/NjdYfmRLhMs4THcMXhbXyLIwqxMZ+Vl1FjD0zZMfLCRRfrzHVe?=
+ =?us-ascii?Q?i3aLl9MSEOlkzGfD2TNEVS0QOdIAc7NUw5UL2U3JdcQZbFllz6ChrVLNTzcR?=
+ =?us-ascii?Q?k9u1rO+OCO8f9KWPCwyclbaC78g3b55Ie4hzu8DWWMbir3TGe/511KcWbq2f?=
+ =?us-ascii?Q?idcHs140qfQYXj1fdpty/8KlsWBUNeIU6pl9IDiSdgr7oFm8aFShDMYuF28P?=
+ =?us-ascii?Q?8o1hhB85gn5qe96waxMyb4AGE8SNAdYA7trsg4QcnnW/p6ir86THhTkfL4O/?=
+ =?us-ascii?Q?58ye1eT0bB8AdRfypdn3MW0QU1WzhzL8NwwfK3Ti+lhuJxo0YEsaOGHZUKAv?=
+ =?us-ascii?Q?rUddLzUE1vlgfJHx7KCTiTAdfQAgR4tP4KqUaoUgoNbnv7S4DrZHVQd9z+rs?=
+ =?us-ascii?Q?C84oz+sAEjNCUSQ2tVFsXZ09Gfmn/U9VfjyKzpEnLNCgcxZbPM0TdFOl+Yb/?=
+ =?us-ascii?Q?i+Io/R6lE4mglgEj9RmpqgSh2/K5dpL5OLkdSxpkKTzCy32tazSahXCrZGF0?=
+ =?us-ascii?Q?Hgs0YDSJggcyL0jy5e3obxBXamrQLXkdoRwtZbq40jWy3ehTKzHUf2hEZRBf?=
+ =?us-ascii?Q?EVElvqdeskAETM64qqvZsDH9FnHNOj1jEO/hD2QkZ3PovQyhnm288n0cmPyQ?=
+ =?us-ascii?Q?BJvJLugyzgQrn/A81LZWAkgzv1ZjsVRyvFdqYLAuIF08NV4PIvuWmTa2KVuo?=
+ =?us-ascii?Q?pGKmcnilpL+jyU4J9D/rf9MMpNce22rdklDOOAv1GVq5lIKj1pPE9c0ecDXW?=
+ =?us-ascii?Q?/rkpp9O7Q6mePr9VRIldUrcmdhR+KGvW+5lQpGL4c6fq664Df1Xhp+V8rvV3?=
+ =?us-ascii?Q?8/7hfwHa/+sscyj9ZyF35WxwomyWP1NheCcu0foU+IDFXD2dnYFpTxnOTSDR?=
+ =?us-ascii?Q?qAn2Iwsx8qDOSyTq6DyO46jR59wpK/6niIS1DO9apiPLr/rQ/3NIr/WjFkwq?=
+ =?us-ascii?Q?yAkRL1K4eU0MpQgaCqqxbEdK35MsjVclSrUyY5vuGGqlR8VlUATvSxro6+qP?=
+ =?us-ascii?Q?KcpRFfCPL7lme5bP0/CkonekpetJZhkCfM3djmd5A/NzsBPUCcHB2qADt92J?=
+ =?us-ascii?Q?QKeEB6iKeGGeL4i/66llBaqAMC5xxGpilRaT84sTvJKHLgflTQOaYIF0dZKy?=
+ =?us-ascii?Q?RWLcK5CcwycGakIu2VF3g5a0djTeNUMddBXTa5rcvyz7ZXvGaHeHVRcVDXtr?=
+ =?us-ascii?Q?kL2CQAmTdcn6nwsj7Q8EWA9qXXUncVo3hzgb+vdEKmrok28WTp8Ajz6XLkQL?=
+ =?us-ascii?Q?zlTUjjYkQfTPBOhfnI7ARKb8b1H8DmnWy1Dj6/Dl2TmFHB4XPkCwqtYCiOtY?=
+ =?us-ascii?Q?JMSvAt7aQ3Yqy6FvdsqsqPieWnyV9eZSRBGH5wKUc420pcV8lEvw+uidWODX?=
+ =?us-ascii?Q?4uhqk7xSIINtd5XALD6318Hj3gqTptLH/EVAv/4JLNjaSa9LxKYRXIndfMSC?=
+ =?us-ascii?Q?pg=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b06e083d-03fa-4cf4-9444-08dd70188929
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4d73574-c343-4265-314b-08dd70188e90
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2025 05:54:44.0389
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2025 05:54:53.0947
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bTOV8NJZYBb8WbuJaB/38xTGpB7k2NyKu9lqqi7Dthxt5qlSfCBrhlmYrvR7M4D1YRf6oAPZ8vFD5gN8NZgFoYdOulF6lLQBaJgm7h0Ic/I=
+X-MS-Exchange-CrossTenant-UserPrincipalName: qc7fo70MYilOf4qHfW03P+6sfwggG4LOWEKDfA88p7FXrVinr68TMpyXlUIDRHHfznA0sCI5GO/kIkgH0XjYPGeFRt4Du0n9DCIveAohkT8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8036
-X-Authority-Analysis: v=2.4 cv=C+npyRP+ c=1 sm=1 tr=0 ts=67ea2e26 cx=c_pps a=clyc6YhGvfCRRXf4btgSWw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
- a=H5OGdu5hBBwA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=35MxA5Dq-6QydqeM2aUA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: -MKjrmIrz4hBgCRHejgxIM1b7xkjRTZf
-X-Proofpoint-GUID: -MKjrmIrz4hBgCRHejgxIM1b7xkjRTZf
+X-Proofpoint-GUID: ENtxXt0Xn8J3u9wxVXBejro0QmauILEf
+X-Proofpoint-ORIG-GUID: ENtxXt0Xn8J3u9wxVXBejro0QmauILEf
+X-Authority-Analysis: v=2.4 cv=RNizH5i+ c=1 sm=1 tr=0 ts=67ea2e30 cx=c_pps a=p6j+uggflNHdUAyuNTtjyw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
+ a=H5OGdu5hBBwA:10 a=ei4SEBeUAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=2ekUlhpUPfvdi_zIjIEA:9 a=5jj6Z5E1gPFHsPOh:21 a=42jQ_h8IXvAA:10 a=8zIOOLb7Ym0NljyPXbuS:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-31_02,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- clxscore=1015 priorityscore=1501 bulkscore=0 adultscore=0
- lowpriorityscore=0 malwarescore=0 mlxlogscore=980 mlxscore=0 phishscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ impostorscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ spamscore=0 phishscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999
+ adultscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
  definitions=main-2503310040
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 05:54:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213934
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 05:54:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213936
 
 From: Yash Shinde <Yash.Shinde@windriver.com>
 
-The 'do_update_snapshot' task is failed with below error:
-Exception: FileNotFoundError: [Errno 2] No such file or directory: '.../rustc-1.83.0-src/src/stage0.json'
+Rust stable version updated to 1.85.1
+https://blog.rust-lang.org/2025/03/18/Rust-1.85.1.html
 
-There are changes in use of key-value format in stage0 file in
-rust sources and the rust recipe should be apdated for that.
-
-Changes in rust:
-https://github.com/rust-lang/rust/commit/1adfffd07f8704ca722f3897719ace079944b0c5
+Dropped patches:
+downgrade-bootstrap-cc.patch since it's merged with v1.85.1.
 
 Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 ---
- meta/recipes-devtools/rust/rust_1.84.1.bb | 47 +++++++++++++++--------
- 1 file changed, 30 insertions(+), 17 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc   |  2 +-
+ .../rust/{cargo_1.85.0.bb => cargo_1.85.1.bb} |  0
+ .../rust/files/downgrade-bootstrap-cc.patch   | 41 -------------------
+ ...ibstd-rs_1.85.0.bb => libstd-rs_1.85.1.bb} |  0
+ ....85.0.bb => rust-cross-canadian_1.85.1.bb} |  0
+ ...ust-llvm_1.85.0.bb => rust-llvm_1.85.1.bb} |  0
+ meta/recipes-devtools/rust/rust-source.inc    |  3 +-
+ .../rust/{rust_1.85.0.bb => rust_1.85.1.bb}   |  0
+ 8 files changed, 2 insertions(+), 44 deletions(-)
+ rename meta/recipes-devtools/rust/{cargo_1.85.0.bb => cargo_1.85.1.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/rust/files/downgrade-bootstrap-cc.patch
+ rename meta/recipes-devtools/rust/{libstd-rs_1.85.0.bb => libstd-rs_1.85.1.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust-cross-canadian_1.85.0.bb => rust-cross-canadian_1.85.1.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust-llvm_1.85.0.bb => rust-llvm_1.85.1.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust_1.85.0.bb => rust_1.85.1.bb} (100%)
 
-diff --git a/meta/recipes-devtools/rust/rust_1.84.1.bb b/meta/recipes-devtools/rust/rust_1.84.1.bb
-index ee8c782ce3..5a181b059c 100644
---- a/meta/recipes-devtools/rust/rust_1.84.1.bb
-+++ b/meta/recipes-devtools/rust/rust_1.84.1.bb
-@@ -327,24 +327,37 @@ python do_update_snapshot() {
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 6d6c146284..a3b3df2afa 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -12,7 +12,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+ GCCVERSION ?= "14.%"
+ SDKGCCVERSION ?= "${GCCVERSION}"
+ GLIBCVERSION ?= "2.41%"
+-RUSTVERSION ?= "1.85.0%"
++RUSTVERSION ?= "1.85.1%"
  
-     from collections import defaultdict
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
+diff --git a/meta/recipes-devtools/rust/cargo_1.85.0.bb b/meta/recipes-devtools/rust/cargo_1.85.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/cargo_1.85.0.bb
+rename to meta/recipes-devtools/rust/cargo_1.85.1.bb
+diff --git a/meta/recipes-devtools/rust/files/downgrade-bootstrap-cc.patch b/meta/recipes-devtools/rust/files/downgrade-bootstrap-cc.patch
+deleted file mode 100644
+index 3ae68720f9..0000000000
+--- a/meta/recipes-devtools/rust/files/downgrade-bootstrap-cc.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-Downgrade bootstrap cc version
+-
+-In rust v1.85.0, the upgraded cc version causes bootstrap
+-to fail on custom targets. Downgrading the cc version fixes
+-the error. This commit is merged with v1.85.1 and the patch
+-can be dropped when upgraded to it.
+-
+-Upstream-Status: Backport [https://github.com/rust-lang/rust/pull/137460/commits/e4ca11f87ffca8c63aa56d45b46e62b6acc58bd7]
+-
+-Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+-diff --git a/src/bootstrap/Cargo.lock b/src/bootstrap/Cargo.lock
+-index a47f3af60cb..890e64e2bab 100644
+---- a/src/bootstrap/Cargo.lock
+-+++ b/src/bootstrap/Cargo.lock
+-@@ -88,9 +88,9 @@ dependencies = [
+-
+- [[package]]
+- name = "cc"
+--version = "1.2.0"
+-+version = "1.1.22"
+- source = "registry+https://github.com/rust-lang/crates.io-index"
+--checksum = "1aeb932158bd710538c73702db6945cb68a8fb08c519e6e12706b94263b36db8"
+-+checksum = "9540e661f81799159abee814118cc139a2004b3a3aa3ea37724a1b66530b90e0"
+- dependencies = [
+-  "shlex",
+- ]
+-diff --git a/src/bootstrap/Cargo.toml b/src/bootstrap/Cargo.toml
+-index ed51862390d..2c1d85b01e6 100644
+---- a/src/bootstrap/Cargo.toml
+-+++ b/src/bootstrap/Cargo.toml
+-@@ -37,7 +37,9 @@ test = false
+- # Most of the time updating these dependencies requires modifications to the
+- # bootstrap codebase(e.g., https://github.com/rust-lang/rust/issues/124565);
+- # otherwise, some targets will fail. That's why these dependencies are explicitly pinned.
+--cc = "=1.2.0"
+-+#
+-+# Do not upgrade this crate unless https://github.com/rust-lang/cc-rs/issues/1317 is fixed.
+-+cc = "=1.1.22"
+- cmake = "=0.1.48"
+-
+- build_helper = { path = "../build_helper" }
+diff --git a/meta/recipes-devtools/rust/libstd-rs_1.85.0.bb b/meta/recipes-devtools/rust/libstd-rs_1.85.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/libstd-rs_1.85.0.bb
+rename to meta/recipes-devtools/rust/libstd-rs_1.85.1.bb
+diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.85.0.bb b/meta/recipes-devtools/rust/rust-cross-canadian_1.85.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust-cross-canadian_1.85.0.bb
+rename to meta/recipes-devtools/rust/rust-cross-canadian_1.85.1.bb
+diff --git a/meta/recipes-devtools/rust/rust-llvm_1.85.0.bb b/meta/recipes-devtools/rust/rust-llvm_1.85.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust-llvm_1.85.0.bb
+rename to meta/recipes-devtools/rust/rust-llvm_1.85.1.bb
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index e07055882c..8400a4875d 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -8,9 +8,8 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch;patchdir=${RUSTSRC} \
+             file://revert-link-std-statically-in-rustc_driver-feature.patch;patchdir=${RUSTSRC} \
+             file://Zdual-proc-macros-additional-check.patch;patchdir=${RUSTSRC} \
+-            file://downgrade-bootstrap-cc.patch;patchdir=${RUSTSRC} \
+ "
+-SRC_URI[rust.sha256sum] = "d542c397217b5ba5bac7eb274f5ca62d031f61842c3ba4cc5328c709c38ea1e7"
++SRC_URI[rust.sha256sum] = "b1fbf809efe9f036939401e142631c201a53bcf43ec1696bd9f5290ba236a266"
  
--    with open(os.path.join(d.getVar("S"), "src", "stage0.json")) as f:
--        j = json.load(f)
--
--    config_dist_server = j['config']['dist_server']
--    compiler_date = j['compiler']['date']
--    compiler_version = j['compiler']['version']
-+    key_value_pairs = {}
-+    with open(os.path.join(d.getVar("S"), "src", "stage0")) as f:
-+        for line in f:
-+            # Skip empty lines or comments
-+            if not line.strip() or line.startswith("#"):
-+                continue
-+            # Split the line into key and value using '=' as separator
-+            match = re.match(r'(\S+)\s*=\s*(\S+)', line.strip())
-+            if match:
-+                key = match.group(1)
-+                value = match.group(2)
-+                key_value_pairs[key] = value
-+    # Extract the required values from key_value_pairs
-+    config_dist_server = key_value_pairs.get('dist_server', '')
-+    compiler_date = key_value_pairs.get('compiler_date', '')
-+    compiler_version = key_value_pairs.get('compiler_version', '')
+ RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
  
-     src_uri = defaultdict(list)
--    for k, v in j['checksums_sha256'].items():
--        m = re.search(f"dist/{compiler_date}/(?P<component>.*)-{compiler_version}-(?P<arch>.*)-unknown-linux-gnu\\.tar\\.xz", k)
--        if m:
--            component = m.group('component')
--            arch = m.group('arch')
--            src_uri[arch].append(f"SRC_URI[{component}-snapshot-{arch}.sha256sum] = \"{v}\"")
--
-+    # Assuming checksums_sha256 is now a key-value pair like: checksum_key = checksum_value
-+    for k, v in key_value_pairs.items():
-+        # Match the pattern for checksums
-+        if "dist" in k and "tar.xz" in k:
-+            m = re.search(f"dist/{compiler_date}/(?P<component>.*)-{compiler_version}-(?P<arch>.*)-unknown-linux-gnu\\.tar\\.xz", k)
-+            if m:
-+                component = m.group('component')
-+                arch = m.group('arch')
-+                src_uri[arch].append(f"SRC_URI[{component}-snapshot-{arch}.sha256sum] = \"{v}\"")
-+    # Create the snapshot string with the extracted values
-     snapshot = """\
- ## This is information on the rust-snapshot (binary) used to build our current release.
--## snapshot info is taken from rust/src/stage0.json
-+## snapshot info is taken from rust/src/stage0
- ## Rust is self-hosting and bootstraps itself with a pre-built previous version of itself.
- ## The exact (previous) version that has been used is specified in the source tarball.
- ## The version is replicated here.
-@@ -352,10 +365,10 @@ python do_update_snapshot() {
- SNAPSHOT_VERSION = "%s"
- 
- """ % compiler_version
--
-+    # Add the checksum components to the snapshot
-     for arch, components in src_uri.items():
-         snapshot += "\n".join(components) + "\n\n"
--
-+    # Add the additional snapshot URIs
-     snapshot += """\
- SRC_URI += " \\
-     ${RUST_DIST_SERVER}/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \\
-@@ -369,7 +382,7 @@ RUST_STD_SNAPSHOT = "rust-std-${SNAPSHOT_VERSION}-${RUST_BUILD_ARCH}-unknown-lin
- RUSTC_SNAPSHOT = "rustc-${SNAPSHOT_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
- CARGO_SNAPSHOT = "cargo-${SNAPSHOT_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
- """ % config_dist_server
--
-+    # Write the updated snapshot information to the rust-snapshot.inc file
-     with open(os.path.join(d.getVar("THISDIR"), "rust-snapshot.inc"), "w") as f:
-         f.write(snapshot)
- }
+diff --git a/meta/recipes-devtools/rust/rust_1.85.0.bb b/meta/recipes-devtools/rust/rust_1.85.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust_1.85.0.bb
+rename to meta/recipes-devtools/rust/rust_1.85.1.bb
 -- 
 2.43.0
 
