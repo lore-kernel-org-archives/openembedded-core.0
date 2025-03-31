@@ -2,53 +2,54 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1533BC36014
-	for <webhook@archiver.kernel.org>; Mon, 31 Mar 2025 20:44:37 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.3349.1743453875391166495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D16B1C36014
+	for <webhook@archiver.kernel.org>; Mon, 31 Mar 2025 21:49:37 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.4934.1743457774046362482
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Mar 2025 13:44:36 -0700
+ Mon, 31 Mar 2025 14:49:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OU82UfPO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4394a823036so45931835e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 13:44:35 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MHXnxyV2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so48535685e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 14:49:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743453874; x=1744058674; darn=lists.openembedded.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ndy4oFs2XN3FpIPp8FMq9DS9SJUp5kTKvCIChRcLTNQ=;
-        b=OU82UfPOcafe8oTanuAdANsdgLN/Zn2zkuG/1Aw4hq1eXh9AxlUFV8KLHvqHmVopGC
-         IumC+SULZvrC8F0ktEC5QVui83it8yGvXL7Ul6P64Pr/z7/JoeUutZaUG5tHbpJuxz+k
-         X3cOD36/7dVqnrTLmIkrWeCtkBdJ395iKXWFs=
+        d=linuxfoundation.org; s=google; t=1743457772; x=1744062572; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hhn0rBv+oDYCcj9+U7LdzZingUtwXZwsq2aSqLWJ5+4=;
+        b=MHXnxyV2i8TZGrI4S5A42yGqvn6HcsZ0amwm+inhnj1oFsbbFz6cp/rZv3iO19DcR9
+         qfBjugZyB666VGSxnX9ZrDVqAnLni5/ceat67xA+uW/AD+1yHcaeyAqXytk0EcCHxRP5
+         vVs9miKnj3jkXrHsTDMqRcq5vYJnY3od15o4c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743453874; x=1744058674;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ndy4oFs2XN3FpIPp8FMq9DS9SJUp5kTKvCIChRcLTNQ=;
-        b=SMYEAwfjym1l/xCgLmco86soG9PVCe9txrn03JTFvCzSpm/SwXW5Ysj+8Ljtq/UnCB
-         97X0e0eHkk87ISKXSnL6+za7+QvJoTtqQgXEuAL3QLHBspXL4mNzhtfTNROZ1WPa6eva
-         AJ1j7X4fV143oTj17k1DTwEZwf70rdiOpnvcmPccxQ8KBvkwwBAISp7sBsBPhlU7n3Py
-         i67UQQwRaAMvs73NNigDgIIIKIwECv8nGfRYc+y1ytGTCRyuhtY5jdDQ8H6T47KqQP8R
-         nKPgjm2P9L0ptfjgEcHuAJ13EZ1W19bJ+DigNlDaEd1O8mMuEpeGQ+H94GJvkAd+F+MS
-         0/TA==
-X-Gm-Message-State: AOJu0Yyyt9e9H2UKrC3K8r35hMcOmgWrTX1BGvo44myHC6lrTv9/8Hbv
-	q/fIbYX4CaFUh/qPKnPFBzAGDB0IBTf1O78qcJUdisy+spdV0sd42BSMY4eEAo8=
-X-Gm-Gg: ASbGncueCWcSMikjp+U6uN27nBfob7xGh78TOGSR2aues10ICAMcyfyp6UbsojBXhfb
-	WjQf5YFa+y0VYv4fq7XEhqECnyTqrs7zeL1aXlru9Y+Eq5//scrO49UjIe7UNDLCympb71ILNJt
-	w0z8neUer92nRIh5J9OHJBpGTmRBCqOIkNlGrrTAruIQ8eCX3HdnBM0jFkfd0PR2BpNONfcOO+l
-	ZeNIiegmMiJbb8Ms6rchqy2RMsFFDLqRwKxpw3d/VDLNTkfjXlHDiW9C6mHM0hzZpaL5fjDhK7u
-	MfCwyjYIOJo4MwOdekUc4UngiAW93UjK9yClhQQY+0hBtbERG+CnRzg3ZXKnN4zn9ENPTVXt//r
-	BNnGm0VAYzBiOfnAMLLDed1QRa6nfVhwYUfboAwox1NIH
-X-Google-Smtp-Source: AGHT+IE+Ys3wO2lB79+62B5f3bA0sHGPj7O2n+YTstDY/hLfdobLRbLlfx0J4mOgVX/tW9W0oyW/fQ==
-X-Received: by 2002:a05:600c:34d0:b0:43c:ec0a:ddfd with SMTP id 5b1f17b1804b1-43db61e0308mr85448205e9.6.1743453873630;
-        Mon, 31 Mar 2025 13:44:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743457772; x=1744062572;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hhn0rBv+oDYCcj9+U7LdzZingUtwXZwsq2aSqLWJ5+4=;
+        b=V6eYuLcHYGdy9sH+glNESxCG6dB2ZAZ4vV+Uj4ibFWnLZsE/3/cj8oMsAMq1xi3ZOf
+         7THF49fR7FRziyEIu25uzhhYpCSsXfdSEj6qcpv06HS+nNsI7va/SJyWZiQQZyZ97zxa
+         PzoRus7IyTdmU2jemOHBghvaZ2R5QTya5GsNsE2nR93kCTkntKeWkEJDUszcLc9m8D9y
+         oyK+YDJPCwHhChXO6taL3qquk6IYOC7fu1912ZBY21j55ZUZg3bIArhEUCLeBgSnCtks
+         hi2KbVYRiFIuF+KbGTl8DiN4LG82R4RyccYATdN5GHLeG4mfXMAoZ4TlNSPkkNxlYt+C
+         tQNw==
+X-Gm-Message-State: AOJu0YxPFjCt1Ruy2c6XhyqJXjSGjgu2fz6ANc2CwbmcI3nBOqUOUoA/
+	isqHFJIcJos1PzVQFj2m9nNVzUWghHDrJc7ZcEVPNAZuDK+AqnIdNsAAM7nMjj4=
+X-Gm-Gg: ASbGncu+zTEheKqXZkSKdsx1vz4u8L+dmc+FB4eK0vg454RQmzGQqPXxPaSu6pLqFWr
+	5cG7eh42wHDJhNDAzwLN0eWliCnwjuOYgiOVLEHHbnhTkFnSwt9+KAvoNBh+0jALXVOWcK770wQ
+	QPMQK8/Rnjkng5jKwdT7sF2N+DQml/inSxZ3HwlbNm29dhBXPd2ec0K1WMktBOY6Y+LQCUVie+z
+	LpdOcUUTzC9FvBXVRqb3w2UsKjWIV0BOwyq/OF2tuKZlWURn/kXckNrs6QqXrSQPm1tu8FfcSvW
+	c54CpfvK7adLb4SUnY9a4GrKiE3Yb2j28DMq+BK9hvlNkVsQTDxHEAgE+KfXAVy5QS65iMxANXX
+	1gCrM3GYd2to1QcPH7nXlvSf5p0BDoUSFdg==
+X-Google-Smtp-Source: AGHT+IGxvRa27vmN0K6SniVIsWjams+ZwSJfjlakU5hsZfevMoCRKeIp7MWYX8BU3UBVZFJ3uDmTEA==
+X-Received: by 2002:a05:600c:1c9e:b0:43d:3df:42d8 with SMTP id 5b1f17b1804b1-43db61e0723mr88645155e9.6.1743457772476;
+        Mon, 31 Mar 2025 14:49:32 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:6d6e:8a56:fa3e:c2d4? ([2001:8b0:aba:5f3c:6d6e:8a56:fa3e:c2d4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d82dede21sm175458845e9.4.2025.03.31.13.44.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b7a4351sm12543533f8f.98.2025.03.31.14.49.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Mar 2025 13:44:32 -0700 (PDT)
-Message-ID: <0ea0d9782099022b7a663c94a46cc346ded45e28.camel@linuxfoundation.org>
+        Mon, 31 Mar 2025 14:49:31 -0700 (PDT)
+Message-ID: <dea1caad9a219f5c93a168680911f6ab984b1f5c.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] rust-llvm: Compile llvm to use dynamic
  libraries
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
@@ -57,133 +58,77 @@ To: Randy MacLeod <randy.macleod@windriver.com>, raj.khem@gmail.com,
  <yash.shinde@windriver.com>, Deepesh Varatharajan	
  <Deepesh.Varatharajan@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Mar 2025 21:44:29 +0100
-In-Reply-To: <9fe3cc25-c6fc-410a-b819-58e1e1db818e@windriver.com>
+Date: Mon, 31 Mar 2025 22:49:30 +0100
+In-Reply-To: <1831FE10390FE3BE.19875@lists.openembedded.org>
 References: <20250331133044.1944108-1-richard.purdie@linuxfoundation.org>
-	 <CAMKF1sr8AqkmjQca6fYe90oOU3h=++A2=7RpaWkRFEuS38oyHg@mail.gmail.com>
-	 <9fe3cc25-c6fc-410a-b819-58e1e1db818e@windriver.com>
-Content-Type: multipart/alternative; boundary="=-3EIGGJ9Yg5IOAG71Ez1L"
+		 <CAMKF1sr8AqkmjQca6fYe90oOU3h=++A2=7RpaWkRFEuS38oyHg@mail.gmail.com>
+		 <9fe3cc25-c6fc-410a-b819-58e1e1db818e@windriver.com>
+	 <1831FE10390FE3BE.19875@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 20:44:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213996
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Mar 2025 21:49:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/213997
 
---=-3EIGGJ9Yg5IOAG71Ez1L
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 2025-03-31 at 15:08 -0400, Randy MacLeod wrote:
-> =20
-> On 2025-03-31 12:13 p.m., Khem Raj via lists.openembedded.org wrote:
-> > On Mon, Mar 31, 2025 at 6:30=E2=80=AFAM Richard Purdie via
-> > lists.openembedded.org
-> > <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> > > Our main llvm recipe uses dynamic linking already but rust-llvm
-> > > does not.
-> > > Enabling this significanly reduces the size of llvm-rust to about
-> > > a third
-> > > of what it was, which is a bettter configuration for us leading
-> > > to smaller
-> > > TMPDIR and sstate objects
+On Mon, 2025-03-31 at 21:44 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> On Mon, 2025-03-31 at 15:08 -0400, Randy MacLeod wrote:
+> > =C2=A0
+> > On 2025-03-31 12:13 p.m., Khem Raj via lists.openembedded.org
+> > wrote:
+> > =C2=A0
+> > > On Mon, Mar 31, 2025 at 6:30=E2=80=AFAM Richard Purdie via
+> > > lists.openembedded.org
+> > > <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org>
+> > > wrote:
+> > > > Our main llvm recipe uses dynamic linking already but rust-llvm
+> > > > does not.
+> > > > =C2=A0Enabling this significanly reduces the size of llvm-rust to
+> > > > about a third
+> > > > =C2=A0of what it was, which is a bettter configuration for us
+> > > > leading to smaller
+> > > > =C2=A0TMPDIR and sstate objects
+> > > >=20
+> > > =C2=A0
 > > >=20
-> > =20
-> >=20
-> > =20
-> > =20
-> > It will slow down the compiler execution and sometimes its could be
-> > significant as well we have seen this with clang so it would be
-> > good to have some idea around that least we provide a slow compiler
-> > compared to other distro infrastructures=20
-> > =20
-> > =20
-> > =20
-> =20
-> We'll get some performance info from the YP AB perf builds.
+> > > =C2=A0
+> > > =C2=A0
+> > > It will slow down the compiler execution and sometimes its could
+> > > be significant as well we have seen this with clang so it would
+> > > be good to have some idea around that least we provide a slow
+> > > compiler compared to other distro infrastructures=20
+> > > =C2=A0
+> > > =C2=A0
+> > > =C2=A0
+> > > =C2=A0
+> > =C2=A0
+> > We'll get some performance info from the YP AB perf builds.
+>=20
+> https://valkyrie.yocto.io/pub/non-release/20250331-105/testresults/buildp=
+erf-debian11/perf-debian12-vk_master-next_20250331181527_9ba5b4f4e4.html
+> https://valkyrie.yocto.io/pub/non-release/20250331-104/testresults/buildp=
+erf-alma8/perf-alma8-vk_master-next_20250331181513_9ba5b4f4e4.html
+>=20
+> The build time is fractionally faster (1%?) but hard to say within
+> noise.
+>=20
+> The diskspace drop is convincing, 2.3GB less TMPDIR size (2.3%).
+>=20
+> The rm_work TMPDIR size also drops by 1GB (6%) which is particularly
+> significant and nice to have.
+>=20
+> In builds with rust-llvm as well as rust-llvm-native, this will
+> double up for a double win.
 
-https://valkyrie.yocto.io/pub/non-release/20250331-105/testresults/buildper=
-f-debian11/perf-debian12-vk_master-next_20250331181527_9ba5b4f4e4.html
-https://valkyrie.yocto.io/pub/non-release/20250331-104/testresults/buildper=
-f-alma8/perf-alma8-vk_master-next_20250331181513_9ba5b4f4e4.html
-
-The build time is fractionally faster (1%?) but hard to say within
-noise.
-
-The diskspace drop is convincing, 2.3GB less TMPDIR size (2.3%).
-
-The rm_work TMPDIR size also drops by 1GB (6%) which is particularly
-significant and nice to have.
-
-In builds with rust-llvm as well as rust-llvm-native, this will double
-up for a double win.
+The analysis is a bit flawed as it is contrasting master with master-
+next which has 1.85 as well as other changes. We need to remove that
+from the equation.
 
 Cheers,
 
 Richard
-
---=-3EIGGJ9Yg5IOAG71Ez1L
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head>
-
-  <style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head>
-  <body><div>On Mon, 2025-03-31 at 15:08 -0400, Randy MacLeod wrote:</div><=
-blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fc=
-f solid;padding-left:1ex"><div> </div><div class=3D"moz-cite-prefix">On 202=
-5-03-31 12:13 p.m., Khem Raj via lists.openembedded.org wrote:<br> </div><b=
-lockquote type=3D"cite" cite=3D"mid:CAMKF1sr8AqkmjQca6fYe90oOU3h=3D++A2=3D7=
-RpaWkRFEuS38oyHg@mail.gmail.com" style=3D"margin:0 0 0 .8ex; border-left:2p=
-x #729fcf solid;padding-left:1ex"><div>On Mon, Mar 31, 2025 at 6:30=E2=80=
-=AFAM Richard Purdie via <a href=3D"http://lists.openembedded.org" moz-do-n=
-ot-send=3D"true">lists.openembedded.org</a> &lt;richard.purdie=3D<a href=3D=
-"mailto:linuxfoundation.org@lists.openembedded.org" moz-do-not-send=3D"true=
-" class=3D"moz-txt-link-freetext">linuxfoundation.org@lists.openembedded.or=
-g</a>&gt; wrote:</div><div><div class=3D"gmail_quote gmail_quote_container"=
-><blockquote dir=3D"auto" type=3D"cite" style=3D"margin:0 0 0 .8ex; border-=
-left:2px #729fcf solid;padding-left:1ex"><div>Our main llvm recipe uses dyn=
-amic linking already but rust-llvm does not.<br> Enabling this significanly=
- reduces the size of llvm-rust to about a third<br> of what it was, which i=
-s a bettter configuration for us leading to smaller<br> TMPDIR and sstate o=
-bjects</div><br></blockquote> <div dir=3D"auto"><br> </div> <div dir=3D"aut=
-o">It will slow down the compiler execution and sometimes its could be sign=
-ificant as well we have seen this with clang so it would be good to have so=
-me idea around that least we provide a slow compiler compared to other dist=
-ro infrastructures <br> </div> </div> </div><div> </div></blockquote><div> =
-</div><p>We'll get some performance info from the YP AB perf builds.</p></b=
-lockquote><div><br></div><div><a href=3D"https://valkyrie.yocto.io/pub/non-=
-release/20250331-105/testresults/buildperf-debian11/perf-debian12-vk_master=
--next_20250331181527_9ba5b4f4e4.html">https://valkyrie.yocto.io/pub/non-rel=
-ease/20250331-105/testresults/buildperf-debian11/perf-debian12-vk_master-ne=
-xt_20250331181527_9ba5b4f4e4.html</a></div><div><a href=3D"https://valkyrie=
-.yocto.io/pub/non-release/20250331-104/testresults/buildperf-alma8/perf-alm=
-a8-vk_master-next_20250331181513_9ba5b4f4e4.html">https://valkyrie.yocto.io=
-/pub/non-release/20250331-104/testresults/buildperf-alma8/perf-alma8-vk_mas=
-ter-next_20250331181513_9ba5b4f4e4.html</a></div><div><br></div><div>The bu=
-ild time is fractionally faster (1%?) but hard to say within noise.</div><d=
-iv><br></div><div>The diskspace drop is convincing, 2.3GB less TMPDIR size =
-(2.3%).</div><div><br></div><div>The rm_work TMPDIR size also drops by 1GB =
-(6%) which is particularly significant and nice to have.</div><div><br></di=
-v><div>In builds with rust-llvm as well as rust-llvm-native, this will doub=
-le up for a double win.</div><div><br></div><div>Cheers,</div><div><br></di=
-v><div>Richard</div><div><span></span></div></body></html>
-
---=-3EIGGJ9Yg5IOAG71Ez1L--
 
