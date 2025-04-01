@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF79C369B8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F77FC3DA4A
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:24 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.18044.1743511392254306889
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.18036.1743511384775981397
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Apr 2025 05:43:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Fpe+DKcv;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DoEDvM7/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010195f1608bc6-4b644151-e78c-44a1-90d2-eb536e692178-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fzUa6rlm;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=gghqKr8h;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010195f1608a6a-31eee655-87ff-44d2-ae66-49386cd108da-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1743511391;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Zpm6LXdJAIBYskzgwL4OWohsNTVK2hdVyv2ciMkdUXY=;
-	b=Fpe+DKcvZ+qfhVo594OKA37L2o6urL9TEFMmzK0BfQUKgkFxql7WyRLZEXAV5JyN
-	MP3YD0GmnRsCYilxXfKtsTwHAh5mQHJzO+YtK0T1D76UEMlu7tIx9lY45yv3sZnPo9x
-	qBU691qJovw9YHlcfcFJN7WSb+V7HpCIWbN9f2U8=
+	bh=K3l+W0InSsIvOAkDKlMZmyE8++trtT+axBI4xIRECts=;
+	b=fzUa6rlm3UN4enhMriOs99KZOhimq6Hwjgq2JH541h1fd2uZ++EW47eIIS57lr38
+	Pjz9VLr3S2t7g5PfXB83a+NyZ2BzY7uoQhnglftiH6qmlufQHLftiq5pJcNOk4vVIrR
+	Gooy15c2ZwM9QIaKbkTQHLyKETc66dWYN+YrY8NA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511391;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Zpm6LXdJAIBYskzgwL4OWohsNTVK2hdVyv2ciMkdUXY=;
-	b=DoEDvM7/u6LfDzeRJAnOS/Q43DuSaTWYLwt+FiQ8c8twbp/ywFJvRU8gqjxHJOaU
-	9PU54HAZRJKkNkMIfWRybZTmvwZLwyv35ItIF+tCRclKQYV+nIVOcaXMp6qjMwzNO9s
-	RHkPrXRvRvnedZXLztcyA531FhyIlNn6lJosRhg0=
-Content-Type: multipart/mixed; boundary="===============0602442358380790367=="
+	bh=K3l+W0InSsIvOAkDKlMZmyE8++trtT+axBI4xIRECts=;
+	b=gghqKr8hkSs4aDhHxuagmiLUKlxSkK008FMdBHsSm0SSDdcCPlBFc/dl3KA+a+Wf
+	jgG1jzKesO8w4aupXzguZhxptg2WBmOYf3xkLve0AdMMv7+Tfmp+gH4RB2r4H8zprtq
+	crvbcZM4wvobi0vaz3zFkj+A5fDtR8vtKsQOgTNA=
+Content-Type: multipart/mixed; boundary="===============5576019974402402873=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] iproute2: upgrading to 6.14.0 SUCCEEDED
-Message-ID: <01010195f1608bc6-4b644151-e78c-44a1-90d2-eb536e692178-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:11 +0000
+Subject: [AUH] base-passwd: upgrading to 3.6.7 SUCCEEDED
+Message-ID: <01010195f1608a6a-31eee655-87ff-44d2-ae66-49386cd108da-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:10 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.192
+X-SES-Outgoing: 2025.04.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214042
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214041
 
---===============0602442358380790367==
+--===============5576019974402402873==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *iproute2* to *6.14.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *base-passwd* to *3.6.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-iproute2-upgrade-6.13.0-6.14.0.patch
+    - apply the patch: git am 0001-base-passwd-upgrade-3.6.6-3.6.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,48 +72,114 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f53b5fe6dd1884737928a902d1b3686c83a2063a Mon Sep 17 00:00:00 2001
+From 3a51618a5005f9a928b6e15f84183deb0e839dda Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Apr 2025 07:03:27 +0000
-Subject: [PATCH] iproute2: upgrade 6.13.0 -> 6.14.0
+Date: Tue, 1 Apr 2025 07:22:16 +0000
+Subject: [PATCH] base-passwd: upgrade 3.6.6 -> 3.6.7
 
 ---
- ...1-include-libnetlink.h-add-missing-include-for-htobe64.patch | 2 +-
- .../iproute2/{iproute2_6.13.0.bb => iproute2_6.14.0.bb}         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_6.13.0.bb => iproute2_6.14.0.bb} (97%)
+ .../base-passwd/base-passwd/0001-Add-a-shutdown-group.patch     | 2 +-
+ .../base-passwd/0001-base-passwd-Add-the-sgx-group.patch        | 2 +-
+ .../0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch | 2 +-
+ ...003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch | 2 +-
+ .../0004-Add-an-input-group-for-the-dev-input-devices.patch     | 2 +-
+ .../base-passwd/base-passwd/0005-Add-kvm-group.patch            | 2 +-
+ .../base-passwd/base-passwd/0007-Add-wheel-group.patch          | 2 +-
+ .../base-passwd/{base-passwd_3.6.6.bb => base-passwd_3.6.7.bb}  | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-core/base-passwd/{base-passwd_3.6.6.bb => base-passwd_3.6.7.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
-index f1746c5096..c4dea39676 100644
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
-+++ b/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
+index 1cdf993f53..4bb0634a00 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
 @@ -1,4 +1,4 @@
--From 5b3a2008631c7ab09252335fad42c2d347b7691d Mon Sep 17 00:00:00 2001
-+From 9e427aa1c647f741b08a1f0c44483ea974c7fc61 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Sat, 24 Aug 2024 15:32:25 +0200
- Subject: [PATCH] include/libnetlink.h: add missing include for htobe64
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.13.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.14.0.bb
-similarity index 97%
-rename from meta/recipes-connectivity/iproute2/iproute2_6.13.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_6.14.0.bb
-index 0f37eaa7b3..a32ac34245 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_6.13.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_6.14.0.bb
-@@ -15,7 +15,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch \
+-From 6bbd3d01d123b042167aa6dea30b5e8d9d4de4dc Mon Sep 17 00:00:00 2001
++From caf4344849c67e939689bc7d57a6f5dc24884937 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Fri, 29 Apr 2022 13:32:27 +0000
+ Subject: [PATCH] Add a shutdown group
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
+index 54b96c877b..714c5b40fc 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
+@@ -1,4 +1,4 @@
+-From dbd66c0ab1fd134ecba2eb1c040445e20d92f79a Mon Sep 17 00:00:00 2001
++From 2ac953ddd31dae19568cc7925d9d56444e3232a7 Mon Sep 17 00:00:00 2001
+ From: Alex Kiernan <alexk@zuma.ai>
+ Date: Fri, 28 Jul 2023 10:28:57 +0100
+ Subject: [PATCH] base-passwd: Add the sgx group
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
+index 47712c4f0f..6cac38eada 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
+@@ -1,4 +1,4 @@
+-From e2e6880587d4ada13e815bf132f21b42a979a607 Mon Sep 17 00:00:00 2001
++From dffeea1a44064c11d9035be008db8c628b93c7ab Mon Sep 17 00:00:00 2001
+ From: Scott Garman <scott.a.garman@intel.com>
+ Date: Fri, 29 Apr 2022 13:32:27 +0000
+ Subject: [PATCH] Use /bin/sh instead of /bin/bash for the root user
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
+index 9396d13460..7c3642fcc9 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
+@@ -1,4 +1,4 @@
+-From 022cf6956c647cc193fce2b0ccdf1308d3e208cd Mon Sep 17 00:00:00 2001
++From 8a79e64654eb4ee38a7971cf99ad37df7f5dee63 Mon Sep 17 00:00:00 2001
+ From: Scott Garman <scott.a.garman@intel.com>
+ Date: Fri, 29 Apr 2022 13:32:28 +0000
+ Subject: [PATCH] Remove "*" for root since we do not have an /etc/shadow
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch b/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
+index 85f40a9829..4fdbc47b6e 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
+@@ -1,4 +1,4 @@
+-From ef6d3257ca8308feeff40272a18e87ca7e2dc81b Mon Sep 17 00:00:00 2001
++From 2d02a1e4e3202691e2ddc11f80565d5fa53d532f Mon Sep 17 00:00:00 2001
+ From: Darren Hart <dvhart@linux.intel.com>
+ Date: Fri, 29 Apr 2022 13:32:28 +0000
+ Subject: [PATCH] Add an input group for the /dev/input/* devices
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch b/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
+index 7264c29c82..742d696a24 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
+@@ -1,4 +1,4 @@
+-From 6c81c51ee49427175cc8bcb09b236677be4c0815 Mon Sep 17 00:00:00 2001
++From 3f25f39802657de55f41fa4d5773f1d1c2bdbd93 Mon Sep 17 00:00:00 2001
+ From: Jacob Kroon <jacob.kroon@gmail.com>
+ Date: Wed, 30 Jan 2019 04:53:48 +0000
+ Subject: [PATCH] Add kvm group
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
+index d3b1b12246..00eff1b724 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
+@@ -1,4 +1,4 @@
+-From 00b7725977043c628129560dd8ca798c0ecb8791 Mon Sep 17 00:00:00 2001
++From 4980807167a5b7c4d9c91e2af6de61efff548868 Mon Sep 17 00:00:00 2001
+ From: Louis Rannou <lrannou@baylibre.com>
+ Date: Thu, 15 Jun 2023 13:43:55 +0200
+ Subject: [PATCH] base-passwd: add the wheel group
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
+similarity index 98%
+rename from meta/recipes-core/base-passwd/base-passwd_3.6.6.bb
+rename to meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
+index cc5c905503..3d5247ee87 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
+@@ -15,7 +15,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+            file://0001-base-passwd-Add-the-sgx-group.patch \
             "
  
--SRC_URI[sha256sum] = "a43aa43338d882b44d01e549f3f105a92ae9feea32a82fae45a88e7a49302819"
-+SRC_URI[sha256sum] = "a6d23588150096591c3d00fc27a324a82ee71d7a1a9eea78df5df17ad9b8461f"
+-SRC_URI[sha256sum] = "cfcb17a5cfb5d7ce53f062b2a30c74ac7f9425af81010d3591aeffc60f269263"
++SRC_URI[sha256sum] = "cf869870fed7862b57bfa9e99cd5cd6f365e2349705a1b65af7fc182629bd1ab"
  
- inherit update-alternatives bash-completion pkgconfig
- 
+ # the package is taken from launchpad; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
 -- 
 2.47.1
 
 
---===============0602442358380790367==
+--===============5576019974402402873==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1946,107 +2012,32 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============0602442358380790367==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-iproute2-upgrade-6.13.0-6.14.0.patch"
-
-RnJvbSBmNTNiNWZlNmRkMTg4NDczNzkyOGE5MDJkMWIzNjg2YzgzYTIwNjNhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwNzowMzoyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlw
-cm91dGUyOiB1cGdyYWRlIDYuMTMuMCAtPiA2LjE0LjAKCi0tLQogLi4uMS1pbmNsdWRlLWxpYm5l
-dGxpbmsuaC1hZGQtbWlzc2luZy1pbmNsdWRlLWZvci1odG9iZTY0LnBhdGNoIHwgMiArLQogLi4u
-L2lwcm91dGUyL3tpcHJvdXRlMl82LjEzLjAuYmIgPT4gaXByb3V0ZTJfNi4xNC4wLmJifSAgICAg
-ICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
-KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi97aXByb3V0ZTJf
-Ni4xMy4wLmJiID0+IGlwcm91dGUyXzYuMTQuMC5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDEtaW5jbHVkZS1saWJu
-ZXRsaW5rLmgtYWRkLW1pc3NpbmctaW5jbHVkZS1mb3ItaHRvYmU2NC5wYXRjaCBiL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTIvMDAwMS1pbmNsdWRlLWxpYm5ldGxp
-bmsuaC1hZGQtbWlzc2luZy1pbmNsdWRlLWZvci1odG9iZTY0LnBhdGNoCmluZGV4IGYxNzQ2YzUw
-OTYuLmM0ZGVhMzk2NzYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXBy
-b3V0ZTIvaXByb3V0ZTIvMDAwMS1pbmNsdWRlLWxpYm5ldGxpbmsuaC1hZGQtbWlzc2luZy1pbmNs
-dWRlLWZvci1odG9iZTY0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXBy
-b3V0ZTIvaXByb3V0ZTIvMDAwMS1pbmNsdWRlLWxpYm5ldGxpbmsuaC1hZGQtbWlzc2luZy1pbmNs
-dWRlLWZvci1odG9iZTY0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1YjNhMjAwODYzMWM3
-YWIwOTI1MjMzNWZhZDQyYzJkMzQ3Yjc2OTFkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSA5ZTQyN2FhMWM2NDdmNzQxYjA4YTFmMGM0NDQ4M2VhOTc0YzdmYzYxIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4K
-IERhdGU6IFNhdCwgMjQgQXVnIDIwMjQgMTU6MzI6MjUgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0g
-aW5jbHVkZS9saWJuZXRsaW5rLmg6IGFkZCBtaXNzaW5nIGluY2x1ZGUgZm9yIGh0b2JlNjQKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNi4x
-My4wLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl82LjE0
-LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl82LjEzLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNi4xNC4wLmJiCmluZGV4IDBmMzdlYWE3
-YjMuLmEzMmFjMzQyNDUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXBy
-b3V0ZTIvaXByb3V0ZTJfNi4xMy4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-aXByb3V0ZTIvaXByb3V0ZTJfNi4xNC4wLmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAi
-JHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC91dGlscy9uZXQvJHtCUE59LyR7QlB9LnRhci54eiBc
-CiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWluY2x1ZGUtbGlibmV0bGluay5oLWFkZC1taXNzaW5n
-LWluY2x1ZGUtZm9yLWh0b2JlNjQucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICJhNDNhYTQzMzM4ZDg4MmI0NGQwMWU1NDlmM2YxMDVhOTJhZTlmZWVhMzJhODJm
-YWU0NWE4OGU3YTQ5MzAyODE5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImE2ZDIzNTg4MTUwMDk2
-NTkxYzNkMDBmYzI3YTMyNGE4MmVlNzFkN2ExYTllZWE3OGRmNWRmMTdhZDliODQ2MWYiCiAKIGlu
-aGVyaXQgdXBkYXRlLWFsdGVybmF0aXZlcyBiYXNoLWNvbXBsZXRpb24gcGtnY29uZmlnCiAKLS0g
-CjIuNDcuMQoK
-
---===============0602442358380790367==
+--===============5576019974402402873==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/iproute2/iproute2-bash-completion: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-bash-completion: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-bridge: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-bridge: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-dbg: PKGSIZE changed from 9012552 to 9029104 (+0%)
-packages/core2-64-poky-linux/iproute2/iproute2-dbg: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-dbg: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-dev: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-dev: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-devlink: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-devlink: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-doc: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-doc: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-genl: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-genl: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-ifstat: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-ifstat: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-ip: PKGSIZE changed from 718844 to 722940 (+1%)
-packages/core2-64-poky-linux/iproute2/iproute2-ip: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-ip: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-lnstat: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-lnstat: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-locale: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-locale: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-nstat: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-nstat: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-rdma: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-rdma: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-routel: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-routel: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-rtacct: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-rtacct: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-src: PKGSIZE changed from 3699770 to 3710501 (+0%)
-packages/core2-64-poky-linux/iproute2/iproute2-src: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-src: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-ss: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-ss: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-staticdev: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-staticdev: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-tc: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-tc: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2-tipc: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2-tipc: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2/iproute2: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2/iproute2: PV changed from "6.13.0" to "6.14.0"
-packages/core2-64-poky-linux/iproute2: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.13.0.tar.xz file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch" to "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.14.0.tar.xz file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch"
-packages/core2-64-poky-linux/iproute2: PKGV changed from 6.13.0 [default] to 6.14.0 [default]
-packages/core2-64-poky-linux/iproute2: PV changed from "6.13.0" to "6.14.0"
+packages/core2-64-poky-linux/base-passwd/base-passwd-dbg: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-dbg: PV changed from "3.6.6" to "3.6.7"
+packages/core2-64-poky-linux/base-passwd/base-passwd-dev: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-dev: PV changed from "3.6.6" to "3.6.7"
+packages/core2-64-poky-linux/base-passwd/base-passwd-doc: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-doc: PV changed from "3.6.6" to "3.6.7"
+packages/core2-64-poky-linux/base-passwd/base-passwd-doc: PKGSIZE changed from 19982 to 20054 (+0%)
+packages/core2-64-poky-linux/base-passwd/base-passwd-locale: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-locale: PV changed from "3.6.6" to "3.6.7"
+packages/core2-64-poky-linux/base-passwd/base-passwd-src: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-src: PV changed from "3.6.6" to "3.6.7"
+packages/core2-64-poky-linux/base-passwd/base-passwd-staticdev: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-staticdev: PV changed from "3.6.6" to "3.6.7"
+packages/core2-64-poky-linux/base-passwd/base-passwd-update: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-update: PV changed from "3.6.6" to "3.6.7"
+packages/core2-64-poky-linux/base-passwd/base-passwd: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd: PV changed from "3.6.6" to "3.6.7"
+packages/core2-64-poky-linux/base-passwd: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
+packages/core2-64-poky-linux/base-passwd: PV changed from "3.6.6" to "3.6.7"
+packages/core2-64-poky-linux/base-passwd: SRC_URI changed from "https://launchpad.net/debian/+archive/primary/+files/base-passwd_3.6.6.tar.xz file://0001-Add-a-shutdown-group.patch file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch file://0004-Add-an-input-group-for-the-dev-input-devices.patch file://0005-Add-kvm-group.patch file://0007-Add-wheel-group.patch file://0001-base-passwd-Add-the-sgx-group.patch" to "https://launchpad.net/debian/+archive/primary/+files/base-passwd_3.6.7.tar.xz file://0001-Add-a-shutdown-group.patch file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch file://0004-Add-an-input-group-for-the-dev-input-devices.patch file://0005-Add-kvm-group.patch file://0007-Add-wheel-group.patch file://0001-base-passwd-Add-the-sgx-group.patch"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3874,5 +3865,132 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============0602442358380790367==--
+--===============5576019974402402873==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-base-passwd-upgrade-3.6.6-3.6.7.patch"
+
+RnJvbSAzYTUxNjE4YTUwMDVmOWE5MjhiNmUxNWY4NDE4M2RlYjBlODM5ZGRhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwNzoyMjoxNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJh
+c2UtcGFzc3dkOiB1cGdyYWRlIDMuNi42IC0+IDMuNi43CgotLS0KIC4uLi9iYXNlLXBhc3N3ZC9i
+YXNlLXBhc3N3ZC8wMDAxLUFkZC1hLXNodXRkb3duLWdyb3VwLnBhdGNoICAgICB8IDIgKy0KIC4u
+Li9iYXNlLXBhc3N3ZC8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUtc2d4LWdyb3VwLnBhdGNoICAg
+ICAgICB8IDIgKy0KIC4uLi8wMDAyLVVzZS1iaW4tc2gtaW5zdGVhZC1vZi1iaW4tYmFzaC1mb3It
+dGhlLXJvb3QtdXNlci5wYXRjaCB8IDIgKy0KIC4uLjAwMy1SZW1vdmUtZm9yLXJvb3Qtc2luY2Ut
+d2UtZG8tbm90LWhhdmUtYW4tZXRjLXNoYWRvdy5wYXRjaCB8IDIgKy0KIC4uLi8wMDA0LUFkZC1h
+bi1pbnB1dC1ncm91cC1mb3ItdGhlLWRldi1pbnB1dC1kZXZpY2VzLnBhdGNoICAgICB8IDIgKy0K
+IC4uLi9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA1LUFkZC1rdm0tZ3JvdXAucGF0Y2ggICAg
+ICAgICAgICB8IDIgKy0KIC4uLi9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA3LUFkZC13aGVl
+bC1ncm91cC5wYXRjaCAgICAgICAgICB8IDIgKy0KIC4uLi9iYXNlLXBhc3N3ZC97YmFzZS1wYXNz
+d2RfMy42LjYuYmIgPT4gYmFzZS1wYXNzd2RfMy42LjcuYmJ9ICB8IDIgKy0KIDggZmlsZXMgY2hh
+bmdlZCwgOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBl
+cy1jb3JlL2Jhc2UtcGFzc3dkL3tiYXNlLXBhc3N3ZF8zLjYuNi5iYiA9PiBiYXNlLXBhc3N3ZF8z
+LjYuNy5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3
+ZC9iYXNlLXBhc3N3ZC8wMDAxLUFkZC1hLXNodXRkb3duLWdyb3VwLnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwMS1BZGQtYS1zaHV0ZG93bi1ncm91
+cC5wYXRjaAppbmRleCAxY2RmOTkzZjUzLi40YmIwNjM0YTAwIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAxLUFkZC1hLXNodXRkb3duLWdy
+b3VwLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dk
+LzAwMDEtQWRkLWEtc2h1dGRvd24tZ3JvdXAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDZi
+YmQzZDAxZDEyM2IwNDIxNjdhYTZkZWEzMGI1ZThkOWQ0ZGU0ZGMgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCitGcm9tIGNhZjQzNDQ4NDljNjdlOTM5Njg5YmM3ZDU3YTZmNWRjMjQ4ODQ5MzcgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBTYXVsIFdvbGQgPHNnd0BsaW51eC5pbnRlbC5j
+b20+CiBEYXRlOiBGcmksIDI5IEFwciAyMDIyIDEzOjMyOjI3ICswMDAwCiBTdWJqZWN0OiBbUEFU
+Q0hdIEFkZCBhIHNodXRkb3duIGdyb3VwCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9i
+YXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUtc2d4LWdyb3Vw
+LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwMS1i
+YXNlLXBhc3N3ZC1BZGQtdGhlLXNneC1ncm91cC5wYXRjaAppbmRleCA1NGI5NmM4NzdiLi43MTRj
+NWI0MGZjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBh
+c3N3ZC8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUtc2d4LWdyb3VwLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDEtYmFzZS1wYXNzd2QtQWRk
+LXRoZS1zZ3gtZ3JvdXAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGRiZDY2YzBhYjFmZDEz
+NGVjYmEyZWIxYzA0MDQ0NWUyMGQ5MmY3OWEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDJhYzk1M2RkZDMxZGFlMTk1NjhjYzc5MjVkOWQ1NjQ0NGUzMjMyYTcgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBBbGV4IEtpZXJuYW4gPGFsZXhrQHp1bWEuYWk+CiBEYXRlOiBGcmks
+IDI4IEp1bCAyMDIzIDEwOjI4OjU3ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIGJhc2UtcGFzc3dk
+OiBBZGQgdGhlIHNneCBncm91cApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1w
+YXNzd2QvYmFzZS1wYXNzd2QvMDAwMi1Vc2UtYmluLXNoLWluc3RlYWQtb2YtYmluLWJhc2gtZm9y
+LXRoZS1yb290LXVzZXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNl
+LXBhc3N3ZC8wMDAyLVVzZS1iaW4tc2gtaW5zdGVhZC1vZi1iaW4tYmFzaC1mb3ItdGhlLXJvb3Qt
+dXNlci5wYXRjaAppbmRleCA0NzcxMmM0ZjBmLi42Y2FjMzhlYWRhIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAyLVVzZS1iaW4tc2gtaW5z
+dGVhZC1vZi1iaW4tYmFzaC1mb3ItdGhlLXJvb3QtdXNlci5wYXRjaAorKysgYi9tZXRhL3JlY2lw
+ZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAyLVVzZS1iaW4tc2gtaW5zdGVhZC1v
+Zi1iaW4tYmFzaC1mb3ItdGhlLXJvb3QtdXNlci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
+ZTJlNjg4MDU4N2Q0YWRhMTNlODE1YmYxMzJmMjFiNDJhOTc5YTYwNyBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKK0Zyb20gZGZmZWVhMWE0NDA2NGMxMWQ5MDM1YmUwMDhkYjhjNjI4YjkzYzdhYiBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFNjb3R0IEdhcm1hbiA8c2NvdHQuYS5nYXJt
+YW5AaW50ZWwuY29tPgogRGF0ZTogRnJpLCAyOSBBcHIgMjAyMiAxMzozMjoyNyArMDAwMAogU3Vi
+amVjdDogW1BBVENIXSBVc2UgL2Jpbi9zaCBpbnN0ZWFkIG9mIC9iaW4vYmFzaCBmb3IgdGhlIHJv
+b3QgdXNlcgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1w
+YXNzd2QvMDAwMy1SZW1vdmUtZm9yLXJvb3Qtc2luY2Utd2UtZG8tbm90LWhhdmUtYW4tZXRjLXNo
+YWRvdy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAw
+MDMtUmVtb3ZlLWZvci1yb290LXNpbmNlLXdlLWRvLW5vdC1oYXZlLWFuLWV0Yy1zaGFkb3cucGF0
+Y2gKaW5kZXggOTM5NmQxMzQ2MC4uN2MzNjQyZmNjOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwMy1SZW1vdmUtZm9yLXJvb3Qtc2luY2Ut
+d2UtZG8tbm90LWhhdmUtYW4tZXRjLXNoYWRvdy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29y
+ZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAzLVJlbW92ZS1mb3Itcm9vdC1zaW5jZS13ZS1k
+by1ub3QtaGF2ZS1hbi1ldGMtc2hhZG93LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMjJj
+ZjY5NTZjNjQ3Y2MxOTNmY2UyYjBjY2RmMTMwOGQzZTIwOGNkIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQorRnJvbSA4YTc5ZTY0NjU0ZWI0ZWUzOGE3OTcxY2Y5OWFkMzdkZjdmNWRlZTYzIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogU2NvdHQgR2FybWFuIDxzY290dC5hLmdhcm1hbkBp
+bnRlbC5jb20+CiBEYXRlOiBGcmksIDI5IEFwciAyMDIyIDEzOjMyOjI4ICswMDAwCiBTdWJqZWN0
+OiBbUEFUQ0hdIFJlbW92ZSAiKiIgZm9yIHJvb3Qgc2luY2Ugd2UgZG8gbm90IGhhdmUgYW4gL2V0
+Yy9zaGFkb3cKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2Ut
+cGFzc3dkLzAwMDQtQWRkLWFuLWlucHV0LWdyb3VwLWZvci10aGUtZGV2LWlucHV0LWRldmljZXMu
+cGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA0LUFk
+ZC1hbi1pbnB1dC1ncm91cC1mb3ItdGhlLWRldi1pbnB1dC1kZXZpY2VzLnBhdGNoCmluZGV4IDg1
+ZjQwYTk4MjkuLjRmZGJjNDdiNmUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
+cGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDQtQWRkLWFuLWlucHV0LWdyb3VwLWZvci10aGUtZGV2LWlu
+cHV0LWRldmljZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFz
+ZS1wYXNzd2QvMDAwNC1BZGQtYW4taW5wdXQtZ3JvdXAtZm9yLXRoZS1kZXYtaW5wdXQtZGV2aWNl
+cy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZWY2ZDMyNTdjYTgzMDhmZWVmZjQwMjcyYTE4
+ZTg3Y2E3ZTJkYzgxYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMmQwMmExZTRlMzIw
+MjY5MWUyZGRjMTFmODA1NjVkNWZhNTNkNTMyZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IERhcnJlbiBIYXJ0IDxkdmhhcnRAbGludXguaW50ZWwuY29tPgogRGF0ZTogRnJpLCAyOSBB
+cHIgMjAyMiAxMzozMjoyOCArMDAwMAogU3ViamVjdDogW1BBVENIXSBBZGQgYW4gaW5wdXQgZ3Jv
+dXAgZm9yIHRoZSAvZGV2L2lucHV0LyogZGV2aWNlcwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwNS1BZGQta3ZtLWdyb3VwLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwNS1BZGQta3ZtLWdy
+b3VwLnBhdGNoCmluZGV4IDcyNjRjMjljODIuLjc0MmQ2OTZhMjQgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDUtQWRkLWt2bS1ncm91cC5w
+YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA1
+LUFkZC1rdm0tZ3JvdXAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDZjODFjNTFlZTQ5NDI3
+MTc1Y2M4YmNiMDliMjM2Njc3YmU0YzA4MTUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDNmMjVmMzk4MDI2NTdkZTU1ZjQxZmE0ZDU3NzNmMWQxYzJiZGJkOTMgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBKYWNvYiBLcm9vbiA8amFjb2Iua3Jvb25AZ21haWwuY29tPgogRGF0
+ZTogV2VkLCAzMCBKYW4gMjAxOSAwNDo1Mzo0OCArMDAwMAogU3ViamVjdDogW1BBVENIXSBBZGQg
+a3ZtIGdyb3VwCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNl
+LXBhc3N3ZC8wMDA3LUFkZC13aGVlbC1ncm91cC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2Jh
+c2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDctQWRkLXdoZWVsLWdyb3VwLnBhdGNoCmluZGV4IGQz
+YjFiMTIyNDYuLjAwZWZmMWI3MjQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
+cGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDctQWRkLXdoZWVsLWdyb3VwLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDctQWRkLXdoZWVsLWdyb3Vw
+LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMGI3NzI1OTc3MDQzYzYyODEyOTU2MGRkOGNh
+Nzk4YzBlY2I4NzkxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA0OTgwODA3MTY3YTVi
+N2M0ZDljOTFlMmFmNmRlNjFlZmZmNTQ4ODY4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogTG91aXMgUmFubm91IDxscmFubm91QGJheWxpYnJlLmNvbT4KIERhdGU6IFRodSwgMTUgSnVu
+IDIwMjMgMTM6NDM6NTUgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gYmFzZS1wYXNzd2Q6IGFkZCB0
+aGUgd2hlZWwgZ3JvdXAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dk
+L2Jhc2UtcGFzc3dkXzMuNi42LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFz
+ZS1wYXNzd2RfMy42LjcuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9y
+ZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2RfMy42LjYuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkXzMuNi43LmJiCmluZGV4IGNj
+NWM5MDU1MDMuLjNkNTI0N2VlODcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
+cGFzc3dkL2Jhc2UtcGFzc3dkXzMuNi42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
+cGFzc3dkL2Jhc2UtcGFzc3dkXzMuNi43LmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAi
+aHR0cHM6Ly9sYXVuY2hwYWQubmV0L2RlYmlhbi8rYXJjaGl2ZS9wcmltYXJ5LytmaWxlcy8ke0JQ
+Tn1fJHtQVn0udGFyCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUt
+c2d4LWdyb3VwLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+Y2ZjYjE3YTVjZmI1ZDdjZTUzZjA2MmIyYTMwYzc0YWM3Zjk0MjVhZjgxMDEwZDM1OTFhZWZmYzYw
+ZjI2OTI2MyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJjZjg2OTg3MGZlZDc4NjJiNTdiZmE5ZTk5
+Y2Q1Y2Q2ZjM2NWUyMzQ5NzA1YTFiNjVhZjdmYzE4MjYyOWJkMWFiIgogCiAjIHRoZSBwYWNrYWdl
+IGlzIHRha2VuIGZyb20gbGF1bmNocGFkOyB0aGF0IHNvdXJjZSBpcyBzdGF0aWMgYW5kIGdvZXMg
+c3RhbGUKICMgc28gd2UgY2hlY2sgdGhlIGxhdGVzdCB1cHN0cmVhbSBmcm9tIGEgZGlyZWN0b3J5
+IHRoYXQgZG9lcyBnZXQgdXBkYXRlZAotLSAKMi40Ny4xCgo=
+
+--===============5576019974402402873==--
 
