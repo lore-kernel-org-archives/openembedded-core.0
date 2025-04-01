@@ -2,165 +2,188 @@ Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FB3C3601F
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 14:05:17 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.113])
- by mx.groups.io with SMTP id smtpd.web11.20054.1743516309641251854
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F66AC36010
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 14:09:27 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.66.128])
+ by mx.groups.io with SMTP id smtpd.web10.20092.1743516561395734912
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 07:05:10 -0700
+ Tue, 01 Apr 2025 07:09:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=bQ8lgxjf;
- spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 52.101.70.113, mailfrom: niko.mauno@vaisala.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=DWiYmSEo;
+ spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 52.101.66.128, mailfrom: niko.mauno@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rJeZgOO6ytkDdtyaZHMf81IxBQU0eGT4UWrXz1csNHgKfzgaqI09IuJkBRLbka6L7K5GviPdF8EWBdlvpnHrqHwJr1jnfb0ev2sk2B6uPGV8Fh2oG7Rwk0a9/GNVzIkQXIwhKRvvMf2Zg+zoAKzG4xz+kkVwDPrdH0XFxZz+JvIyI9/s+ubVbU2JaYMXOP5xiQBS5UEJjxZoPjppCcVXd7SO7ntslPGaqZj09fVKdYgKNa7IfVXI4w/rnIKKziVYFx8ysPDWKfsXAtiBHSGa3nWZavD712Ry3r8Kr6edYgwkbs9SAUzI33ccpkDDVK+PhaHfoBCMkYJoHMujeEp1gA==
+ b=LGovpM0ONRtCMCVF4epuO2wjc205Y53xl92ertu3aMU+KLNrk7U9XZsvzYHnMdSjiDoIVp4Uas05EFn6I50VkUusO/JAuqV/4nVYxgfZlYNPvmMPKgY9p6yNhuADiRq3Ik4gve4G7GnV3n1YetcqjNoRKHwyAtvh4YWMoRWk/BQJXxHWHnSRkZzTam0VyIr9BAvtGZrKCnae9aA/qVKIDk3u3CfA4RKerxFr8IxzKnPf4jcSwVLunhKsBaKoYeVTh84XDbhHqm5KtamcIr1FBSzk6BygOQ9JzSQseYi5sbjjYCuJUfG/O/wRNXW+FWOmDnHgd3j+vFnUcSK/qzCTng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RfUvcjfosgdjfHJVgW103R9yH/SwnGBV6HKP4YzEDpc=;
- b=IqB+12wLuDOtnpBQnWBbRf7OnHwykdvq+K1RsFg9F/jR4Avy3fXTXCcyiTNrm58jgEwtJPBNOXc1V02/Az3qebnEfdhufBt7DogwpkZMS3x0QlF0oqNoUlaBFtqB94txYNx3n6YRD2zDzztjWVBJsc9R6MFAc02+W5oDObX3vUxAtTGGmgpNBEm8UR6x+XOG3SCrp58iFvxvM1tzGz5nQQx3rjPjfaCUzppQUZgVwA/mqn+4tClh0W+PAqsHgq9lM0xMxWRxVsNM/+DqoBrIqfACEt479piOcqdzpY2zbbpguCzi8ZbyXKTZIabnpNM1EzVjWAeBmClHjN/ed5EMUQ==
+ bh=bqb48+mokLVm9bAA+ND9jWxhM0SZlPobu+lRmBjYGmM=;
+ b=Bp2gdGhkVg1vtkD31WGjNg+YAe1RfrlM2kzQdpun8DfO7yZ8yhUHAioRgQD5gdwLQWTzKAW0aQgfWVlMtMdfxhoNqCRwDBOADHBwVgVvnZQscmhpcIjneUjQicr/4rwO728jEg9wneyTcBOZin+oq/gFB4/QuzN0X03KdJucqPRJ2zJ1SZu38HWVggbigsuIQxSiO0aq/YL0vPi2bSiSEeMleDeuMiTxzKSO5T+LZ/LhLc4u1PyZETcNtjzFLnNfWQomhAIPvFlp3g+qTmdxswe4OZO4nAmQy4vQszAcAClrds4q75dMFZwzaRMGztuxPxZZHDiMp3ocEHI4214prQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
  dkim=pass header.d=vaisala.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RfUvcjfosgdjfHJVgW103R9yH/SwnGBV6HKP4YzEDpc=;
- b=bQ8lgxjftPIfnGVAY1Bm0VnOOJUSWVx1XPSxuYa03FMlzmmdwM46JSea7/FtK/kCF24fgXyt+rStmjpKGNvGAQU9Gti1smdrmmCQjUYRvLMkkTEU0SPtJnfh04O1KxyFEGB4UP9sazaEiEPDLUzMgc0Jt5Q7zIlfAgUXBTPiJhDcFCmBehv7NkU0bwK5DPDzA7ylKxVlTzl3AWkNfd5XCnDNIRONkp2Su32ySYCqoU8CFTNCW+kIVi9d8LaRng7sB04Gv7OYV5HrPdKT2ngcYG8qN6i6mQNha3tnenxb2tit/PHZ+zdHA1S6hl82JQEPu4A3Wc8AJtgTj3Klw1cy+g==
+ bh=bqb48+mokLVm9bAA+ND9jWxhM0SZlPobu+lRmBjYGmM=;
+ b=DWiYmSEoTWT+OTK46FZIvANEB3Tgv81MpD5ct4oqcNSLmqKSnRQHA/sDy9cWJbtDiv/wTWSPc5ilpzoyFGu5uG5BuVIBgLPT2ULOEU8mQxrneV6dbWkcOReJ0bWyUKZcWSg78jTZUZMZexw53ApBWNJ4acpHOxEh8vCSH7QoINAIWwdp1G5d/mVlGO5NphdGXXJR/cBHFZnhwPLh6QqDIxSgKYkcxMwAXUTjFIrzR/xWp4dG6R8Q0VCWbQf747aBvMs4y8sCC6uj7V4Q1cTjJaCUlicQkSgRv+XGkjMxYUyhiwR3WSHdSjMUK2pFzN6bKT/ZidJm3dTc3mMNN9BmQg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=vaisala.com;
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
- by VE1PR06MB7088.eurprd06.prod.outlook.com (2603:10a6:800:1a8::15) with
+ by GV1PR06MB9764.eurprd06.prod.outlook.com (2603:10a6:150:1cf::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.52; Tue, 1 Apr
- 2025 14:05:06 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Tue, 1 Apr
+ 2025 14:09:15 +0000
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
  ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
  ([fe80::af93:b150:b886:b2bc%3]) with mapi id 15.20.8534.048; Tue, 1 Apr 2025
- 14:05:06 +0000
+ 14:09:15 +0000
+Message-ID: <d5f4b8cb-6671-4ebf-b427-2a5d882c2ee7@vaisala.com>
+Date: Tue, 1 Apr 2025 17:09:14 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v3 3/6] dbus-glib: Support using alternative
+ runtime D-Bus
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+CC: ross.burton@arm.com
+References: <20250401113129.3531757-1-niko.mauno@vaisala.com>
+ <20250401113129.3531757-3-niko.mauno@vaisala.com>
+ <26c4befa690a5d824489710d5ed8c5e66ac4d2df.camel@linuxfoundation.org>
+Content-Language: en-US
 From: Niko Mauno <niko.mauno@vaisala.com>
-To: openembedded-core@lists.openembedded.org
-CC: richard.purdie@linuxfoundation.org,
-	ross.burton@arm.com,
-	Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH v4 2/6] dbus: Allow using dbus-lib with alternative D-Bus
-Date: Tue,  1 Apr 2025 14:04:26 +0000
-Message-ID: <20250401140430.13837-2-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250401140430.13837-1-niko.mauno@vaisala.com>
-References: <20250401140430.13837-1-niko.mauno@vaisala.com>
+In-Reply-To: <26c4befa690a5d824489710d5ed8c5e66ac4d2df.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: GV2PEPF00003849.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:144:1:0:9:0:7) To AS4PR06MB8447.eurprd06.prod.outlook.com
+X-ClientProxiedBy: AS4P192CA0047.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:658::19) To AS4PR06MB8447.eurprd06.prod.outlook.com
  (2603:10a6:20b:4e2::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|VE1PR06MB7088:EE_
-X-MS-Office365-Filtering-Correlation-Id: 40e4d725-afad-40ba-3e69-08dd712634cb
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|GV1PR06MB9764:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd14894c-ae26-4dc9-06df-08dd7126c8d4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|1800799024|376014|366016|38350700014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?m+5ZWnc8oXpdrbGteA8KMZqkZNquzhhrmjAvXkya2d3XusGM6WIEmlVuwx91?=
- =?us-ascii?Q?7aHFnz8lBq51uKc9DAZQjZKj1wsxHPmx/mYtnaMRbL/UqIChsfHw8o2w+Qu8?=
- =?us-ascii?Q?RxEqsFpKs7LrCN8OQNfCp3xRo/tMCqX3rOvCvfxjMsZbicwq1l6fDH7VN1ab?=
- =?us-ascii?Q?IFGhSseKnOB6Ib7z50vCn1mAbsH+lhfYiV4zD7gRQc9UHZelt74rxKbeVsEG?=
- =?us-ascii?Q?kLoA9Q9jozcuLZFF1EZXwoH0oIvIKhAftaC5YDl6D/eOh8jtwzohM5GJnc/R?=
- =?us-ascii?Q?TU0XOnJVoIbNZ7srsaPp6R171l0cSKNBdotJp3MS6034tZgzzs6d78BcGA6m?=
- =?us-ascii?Q?tWgy4gfjgstX0PuXeFZexcaCGo5R2MJVX8lqbHRCeq7TaeXd8sR87oPsFLyg?=
- =?us-ascii?Q?M+HLE9gJfnPFhx8kfUzTOe326gNhoh7BhBfVKhqF/bKQz4byv5lQuUcPFGS1?=
- =?us-ascii?Q?lWaoR/Ucqjz0JQTi+P7D8HyJnifMVLCozrya3Sldx+kwCqTu6oULTxHaRrl5?=
- =?us-ascii?Q?LZod9YG88viJJd8cwdLeDGRED7tPf+Ant4sKVyEFjEByDjLDFjfvYKMZMIQe?=
- =?us-ascii?Q?0zOkn7j6mZNSij/hICcpJze9OfUHCr6m1Bkr5BbYiwgysqAP+eBYiu2lpeld?=
- =?us-ascii?Q?2B2s95ujfsXyUAZiN+vvH6vgO3Ca99JXQIXue4mJbojija+BtpUsKTZOQL/G?=
- =?us-ascii?Q?YQXtPXn9oX4C1Qgo6iFIPOeYVCai+NRCtoMUnSFGK88y5yYo9l3mH0PBkEVP?=
- =?us-ascii?Q?CVRtOobeOqjTS9I/FYBSlLrxjpAjjZbml1fzntTLZhEQcFQH5WdwyDTC8RRK?=
- =?us-ascii?Q?3A244jPsqtoXd7KXs6QDykJe32E2ZUo9uys8gkl2uNE0zaGrhB8pbVpHuUzF?=
- =?us-ascii?Q?6SQadiRYr3I+pMN7pOPEzXlZ5mNm5lQNshPCCMvplQ25KWU5AxxZcdciRr2n?=
- =?us-ascii?Q?jGO+/RZ0f1+TAhO9UngMsNhrAOkM4ejOqtnJ5BzJHK+xQhtlYl+eQku+fCfW?=
- =?us-ascii?Q?3hcN36jxvUAmak7xpkUjeuPd4ZQFeLYnj0GN7ZywNgyG2qed6Byskiw/XiSX?=
- =?us-ascii?Q?7r2JMOHCcI6+bKKFn6X7/0Ozg2hmszHkFFEWJmCIJLXNUx0zITxeM990xNsD?=
- =?us-ascii?Q?umFRdkQlj/iIX4tJI8OIkN3+hncYF1nD4D+ovvC+cTpMdG9KAmb/ht1hoqAC?=
- =?us-ascii?Q?2jQ4fdQKsBdS15Ljawk3RxDKAShmHJo3fi44Vyc+I+T8a1hGBNw3Zvwfk8Cw?=
- =?us-ascii?Q?UDr9bvlyJKg3R4Am+6fiF3vQX5TYrz52cMOw+2XmQZbfYtmtxgEK9wvAN2Ke?=
- =?us-ascii?Q?RM24Cs8qqLlwOSBeWnWPs+sKwrWMUkvibnQmuP8E5VU2cmK1poWisoFfRao7?=
- =?us-ascii?Q?6+/ObJYqo5YRfeAniIevY947BwiWuc/cPwp0JxkUcuEM2Snw0jD+SfEFyaI/?=
- =?us-ascii?Q?Nhe0VsluHaYgm4RzAXrAUg5ERKcVN+KH?=
+	=?us-ascii?Q?/+kjCMv5X945AsPLy6Zpe6b3NGIj4iPfmjRXLaNnopbWzAI/r1sVbCZiAYyY?=
+ =?us-ascii?Q?oFN1tlYmwv5WIq1CilPOJgArzBaGCZgxprSSvABlq5m+SubJsRAVtGiLQy9W?=
+ =?us-ascii?Q?UUuCHDDrOkbYYVku+3+Uv44PiNfAg4GsUU60v5EYDLRdQMAvWvSNC8uTc8MS?=
+ =?us-ascii?Q?vIMxA0VE9bQ8I8Sm8Q0R7bfiJCBKqeGG4Bl5qVAeKXKqB9OcBaiZmegHQCoR?=
+ =?us-ascii?Q?NCdxPnvV5eVR4qsxFkazhZ+jtdyIR9aurIhi4IsBqD/inGHN/JbMjOEMNQen?=
+ =?us-ascii?Q?DRbZEJ5L3JRvXUdNTEB0+RCEDbG0gqa1CvnLr9kCMx+RuSQ4Nnpiw1u0V3/o?=
+ =?us-ascii?Q?o+PGlgo0+hE6m2oAOYvQ6UYPBhyWiRba5XogZeDXu0gAy0TGXa1tcZQp+G1Q?=
+ =?us-ascii?Q?Qeg8DkNTqIL0iY0dEHLz0BPdEbq9gXcXuSNoG+MV2WBe1zfWKu/ewcUIOFjg?=
+ =?us-ascii?Q?UpXjQq4MIqe3QiDVFIsPFl2pUwfA9AzBDGVMzUvHwW87bNknRz7QcNOCa2Nh?=
+ =?us-ascii?Q?Tizwq5XqsLP8xcTG0fF3mu/e4jLYIwqiRuntZm6zAzTaU5k7hTUGbVy5uWdN?=
+ =?us-ascii?Q?51UomfaYoGH7o5BdFPHhJWcfua3kg9dQfrE3oFTiDQlTe1cejvUCClTZGhK3?=
+ =?us-ascii?Q?voKJ5I8ubkJ6mxNlJMIKuj3qKp8yWvEeIgQ9z1/gto9/HBEgAZx1Q9vnVrpn?=
+ =?us-ascii?Q?ep40T2siHhdAm730i1r+CwtIKTT4oLNRg8DAUPrL1KmXZYhaUmfi+BtNYb5E?=
+ =?us-ascii?Q?yDqayIb13bnQwztMslWM2q6fUwDpTQwoSPBQb44iqUKsqUd2xcRzsgioYulF?=
+ =?us-ascii?Q?hSOygaFhWRcWi7jKL/E3tD94mzJja6+BwPDAh8xMQ7oEwfPSM6/T3jsF0h1P?=
+ =?us-ascii?Q?V1sFrg77kvxCHOlwMe0sbYH+7qZDi4HWqDTZiohaHe1kkA6h7Lxw1lPSqdj4?=
+ =?us-ascii?Q?v5bCs2jFTlWj1mkZEeJ6PnF37lyQ783a4YG0cKhuow/UambDWTzBm650PVeN?=
+ =?us-ascii?Q?imEuxmeqn5qsuMQbKo/GBppnjh9QdjEb8sOFl9YfWyMqn72QS6jY+v5lyJBf?=
+ =?us-ascii?Q?ZEHopNJ5pEJlwHLMiIcP4LevsLBRrfZsmnBzkAKmkhf5TtU2KoK5U68CpeQY?=
+ =?us-ascii?Q?kmBJe5heK5FHvVkmrI/mb8Yw8AcQ7J2RtBXq3SPo4Z/XTNR1164h8qRBRdCG?=
+ =?us-ascii?Q?wkTcsQ9Wsem6Qe1A1u1i/jk7akoxuY+esQxetjEDfCU0YC6bQHZSCDgFs3oS?=
+ =?us-ascii?Q?2F33QKyVgPCipqqXpPHKWirH0YDTNj/vBkvt25cCvZMmkFrPeHzuxp2Vs8Z7?=
+ =?us-ascii?Q?OexvxdNA2AWSaPVxSqPYNWoN3mGMg/LPyu2wiVMmrO0BwHt4/0clHNKBoOAv?=
+ =?us-ascii?Q?Jrp+I9wYh7HE51LYiadLkPs4GB15?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(376014)(366016)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?+BaSfSYAx74Xh90yDiglzAob2qQVIt16tBcI7UkTV6Jhazk5Adj4nOJBNMWM?=
- =?us-ascii?Q?4VpXDmL5Xe3yTnDekZqqAbUgGxNtKK3ZyUnWLaRGfJbyzyQOWsfwrfqpr5Pc?=
- =?us-ascii?Q?oVy5ZTU9WXvVb1v3sQncF0BwH/NbcPCHSMw8kM/8kcjEsgH6kL47/l5JUtD8?=
- =?us-ascii?Q?a3qxYTS3YW4mKQYBXo7d01jQ2ph0PV405Dfbhl2a/Uj+k8Mp6itYaRKX/Ggt?=
- =?us-ascii?Q?gBsKDWjN94fbPV3XmJwx44kJbRRxijawaEzAmoD34BbiN9Jy6pFlFuRboJKF?=
- =?us-ascii?Q?fPreQUu5dxZLe8HqB1B0u7HOtKnCU9w4UaJCukQJC1vetfAmXyXdf6KFQgOr?=
- =?us-ascii?Q?YBtHDila0gkqNkoyoU77tsJtNXN6ZiIVrNsGq9ZAVaoF9ErLbDiSTSv+y/eN?=
- =?us-ascii?Q?5M4wOSCSv9EmmBz+thB/Rs9aU9BN31DOXwzHDs12XbZtBZ3xjeYyMyStzAEo?=
- =?us-ascii?Q?/KJy4qxuwgEhxkpXkQiut+R1WIo3WT9MiG8TzqN0Ect67GKszWcl+6eEBd+9?=
- =?us-ascii?Q?4n8nUfiUJ+naqO9ZR/2XbDu+QDlGZU3QBl68r5iZ4ej597Wtpktzfs+M0N2q?=
- =?us-ascii?Q?+NtUne5D2RBHUwq30jRmoQC3jy6qhoqRXcKTyJRigqFaVzP96yfEu2DrjC23?=
- =?us-ascii?Q?vI35VywBMnHxq9cntFgKG3FpPNov5ObJqVRg9ux6apb8MkeLpHbup7RkIp6x?=
- =?us-ascii?Q?zOdC57C872zklUH3nmhz6mIyoaXipycXmHzGC1I+7zuyVwYjfIwopO2M7+bu?=
- =?us-ascii?Q?sNas0JJZzvqPqBMY1B71hxPWyCMX+CRf9TBU+vaDD0xsyN2yQ0QHPMHlEVUj?=
- =?us-ascii?Q?Y/idji5s/pgLXh72omnJ4XAzIltbsSCPva18O58SFL3Gz3sQpBS8HIK1yek9?=
- =?us-ascii?Q?u0UkSb1HU0Tj7z4MMsbPnAtwk26vfasKQpE749dVICxk3RuXXuPPgKqUc/xc?=
- =?us-ascii?Q?rn//18kQqwZFPwEDrHGZCNigFFRvgOaSW3J7rp68mkQYUC0BKT75UBAEcowF?=
- =?us-ascii?Q?Qa+wM9f35tUDBFhsc6qD1w73TKmbFbQOPePLkZcT7D0uE2SKoo1elKptJPzP?=
- =?us-ascii?Q?URrE0tVaJQ4xMa75XfMwN8EEsSLeKwdV2JFn81YHXvMft9caAvPDUqtjanma?=
- =?us-ascii?Q?bShOydCtwpt6lTV16htZz6bg3lfDcezlWdciB58IQa0rwM2ORgbhBE67brK8?=
- =?us-ascii?Q?h7A0P+k2Tn8ybafT6JQ32z3JYr0Cqx/GKW+J5dv28kZ29DRrto1q1BMp08wY?=
- =?us-ascii?Q?xAdvlYQtRBABz+LRZtd6hK9h4MfkePDXTFSfKC9LWQKt4knedfX8rEW59Bui?=
- =?us-ascii?Q?trx6L0ldgZeMnquBfIu7PxN83Bsb4ZnYztmxmrmjr69L412WQJoZtPOpth65?=
- =?us-ascii?Q?ayeXz5cFQG80hASCkkIhw1Njyrl6IcXGcWa0+v7N3EC3xO3XrPgD0JDcDTxn?=
- =?us-ascii?Q?BOi3D1ilDsNWXYYSTsxMIkxY/ZOzd31HHHqPthMbGy+i1RPTaAfh/UZEUoVB?=
- =?us-ascii?Q?7K2ytJPsqb7yjNYbplsey1BnGFVT3AMQ+B8lzXshvsq3wYSGc+3O0V5KcfUN?=
- =?us-ascii?Q?p8rGybvmrcwCm+Ge5Y1lXHCiJoYixaxMsQf4MKppbKU8PBjl8I/6fAfS3huN?=
- =?us-ascii?Q?Xw=3D=3D?=
+	=?us-ascii?Q?6wgUSu+RZ7SM6+eR4ILbf6uT4MYLjTNrJGccMMCYFviWjmj/i3da7cS78Eqs?=
+ =?us-ascii?Q?OCesoXZlIEbGf9YWe4tX+fxSZy8VeqzL5LHPbUQcaZ4YYZBJTmhWhZ0h49NI?=
+ =?us-ascii?Q?adqi8TAXmR7YpzTV0pfvCcQL3fzNY6vI3KpcjXihpDD+ORixHcLTppixlCcr?=
+ =?us-ascii?Q?NiQO7Q5JikbQ+/jfZq+FnETmG1MGltCLv2Kd+2V5D2s5s9Um3fLGuwqqJFMu?=
+ =?us-ascii?Q?RkB6/pWQYYRJJ1G04Pzb+FIOk4R7Ecg60yOMxlnkrp6r4Rw5Fw0MxnBXZYvQ?=
+ =?us-ascii?Q?i6ziw9JVrkEzknMET1wzTr9IlcxdSYT63chA1aiLEqWVxAW3uMHQa5I61IvF?=
+ =?us-ascii?Q?QGnAtz3nOsHBNYJLnHshAcXNhg6ZkXKFMRNxNNUouEbQWZ2MDhOQ6f/HfFoP?=
+ =?us-ascii?Q?CIrLU4jH3j8R8nxrJnIz4I0wgpwEusj1r7Pb6OzJiLGAEbXEFr61srV1FLSs?=
+ =?us-ascii?Q?3kS6wtmo0qAoREX+5G6Gs/+cdZJf482WGMBBZftu77zK9FYclCaunVsEHTNo?=
+ =?us-ascii?Q?uUTuAFvjJaTYYMsORbu7SqZrp3ttg6tZKSF6Au9EckTjwOdap5efi1FIrTjL?=
+ =?us-ascii?Q?Q7iSC0XR1IAqTIqRN/FCjprrysjndZ/JNRYrMrWEKFV3BA7Ml6jLgmxqPkFd?=
+ =?us-ascii?Q?ad+92MVuztarg9Y+4Qh2e8H9AUbARDzorudXQZ7EoEiVEtBrP1Bb7UL3r9DP?=
+ =?us-ascii?Q?lS4QKFI+NBupBUywcHhs1DcpZQpOCEw2Gp4akV90G3eLdAhNtWOfWVKv0Hr4?=
+ =?us-ascii?Q?SVKMBVWv95aCJ5gN1KP4fcBQqU+EOu4fCsKGAPpGJPZoLpni08fc4pUXAA3n?=
+ =?us-ascii?Q?Za08zaExXSMxioqSzWrlud9W7n0GONWLmw5YqcgEgk2sqTu8BtRi7PZKwsII?=
+ =?us-ascii?Q?DZ1j0dYqRG3m0S8zcbZG6cRxfP0WY/UgPH5Qlpl7x23HAPKijA9aGpnD3DSW?=
+ =?us-ascii?Q?cbsGj1ze8AwB3reNFqYoaqMAz6xugjKTmbW+2/fAG5iVjUf4nRNQHlQSpzZO?=
+ =?us-ascii?Q?yYOrFt4dySA2faFj6svY3ZyqcFBrGaz5BUUt42LmWifZgmOCz2InSQQUprIP?=
+ =?us-ascii?Q?T7uPENUkYEY3AqmwTXYL523MGoQ/k78C3PKbiXucwTCLcYRbF5+7NsC3Tg+z?=
+ =?us-ascii?Q?BDRFIK//romyf1DJQO/nCnOIbCdaN/1cNKYI9iel4IK6Q4eIrxddVIJUYMvS?=
+ =?us-ascii?Q?pzHfpnj12TF4CZEjrzLZ7HoN3mrO1hQPGv2nkquAjR4xTHH98/CevBzMQ0MU?=
+ =?us-ascii?Q?HP+Aem/dPPL+S7C7NTSKqaIDIpQ+Nww/77550xUnZKWCi3k+3MtLUZuL5sBH?=
+ =?us-ascii?Q?YkmdK7Il4BvbXbs8S4V53+zi9MXI31P8g1HvEVZTuG8C4UlJaB3HXdTlZbWz?=
+ =?us-ascii?Q?29BAMfbnfjdFI75iEBPYioXz+qWCQVhzaXhJa75s3ICFBunHp0e5DPk1pBry?=
+ =?us-ascii?Q?PyF8tM7DHe1zkeLKWOcRxnJ2Q3fcxTOSvYXNZUmhcJI+ZySWTAmABw3aoWVt?=
+ =?us-ascii?Q?HPPRAnymdpFGDeTHVirCcjy+JuT5o/rLZgsjXNv+EYKdFoBaodUu4qSboMYL?=
+ =?us-ascii?Q?0Nl/EdMIPcMhdYa9YmoBnJ+cMYSz1P3AG8F3MylZOF9Ag1+BSSW/KatqJvVW?=
+ =?us-ascii?Q?Bg=3D=3D?=
 X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40e4d725-afad-40ba-3e69-08dd712634cb
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd14894c-ae26-4dc9-06df-08dd7126c8d4
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2025 14:05:06.6547
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2025 14:09:14.9956
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LvZc+hWsEXgWXIOienR/1D283eJb3m1rnEt+ywejCJI4kpMG7s8dZpsbKE+rObUcS0I0wocNqlYucjNrB4Ft6g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR06MB7088
+X-MS-Exchange-CrossTenant-UserPrincipalName: eW0hl4woNyCA4y30SUvBTuc/x2Qtb+XH4hy9yved7Vhoy9zZ8ZHKDFDUEWeJ1hwWGlnhS+iuZmh3U9a8jGAwCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR06MB9764
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 14:05:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214130
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 14:09:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214135
 
-In order to facilitate oe-core users who wish to use e.g. dbus-broker
-as their runtime D-Bus implementation, declare the target specific
-dbus-lib runtime recommendation so that it will honor the new
-VIRTUAL-RUNTIME_dbus variable.
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
----
- meta/recipes-core/dbus/dbus_1.16.2.bb | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/dbus/dbus_1.16.2.bb b/meta/recipes-core/dbus=
-/dbus_1.16.2.bb
-index 9475e55b57..eeeecde946 100644
---- a/meta/recipes-core/dbus/dbus_1.16.2.bb
-+++ b/meta/recipes-core/dbus/dbus_1.16.2.bb
-@@ -105,6 +105,7 @@ FILES:${PN}-tools =3D "${bindir}/dbus-uuidgen \
- "
- FILES:${PN}-lib =3D "${libdir}/lib*.so.*"
- RRECOMMENDS:${PN}-lib =3D "${PN}"
-+RRECOMMENDS:${PN}-lib:class-target =3D "${VIRTUAL-RUNTIME_dbus}"
- FILES:${PN}-dev +=3D "${libdir}/dbus-1.0/include ${bindir}/dbus-test-tool =
-${datadir}/xml/dbus-1"
-=20
- RDEPENDS:${PN}-ptest +=3D "bash make dbus"
---=20
-2.39.5
+On 1.4.2025 15.29, Richard Purdie wrote:
+> On Tue, 2025-04-01 at 11:31 +0000, Niko Mauno via
+> lists.openembedded.org wrote:
+>> In order to facilitate oe-core users who wish to use e.g. dbus-broker
+>> as their runtime D-Bus implementation, decouple the target specific
+>> dbus-glib runtime recommendation to honor the new VIRTUAL-
+>> RUNTIME_dbus
+>> variable.
+>>
+>> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+>> ---
+>>  =C2=A0meta/recipes-core/dbus/dbus-glib_0.114.bb | 4 +++-
+>>  =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/dbus/dbus-glib_0.114.bb
+>> b/meta/recipes-core/dbus/dbus-glib_0.114.bb
+>> index ff7c2d6613..7908a02747 100644
+>> --- a/meta/recipes-core/dbus/dbus-glib_0.114.bb
+>> +++ b/meta/recipes-core/dbus/dbus-glib_0.114.bb
+>> @@ -38,7 +38,9 @@ LICENSE:${PN}-bash-completion =3D "GPL-2.0-or-later"
+>>  =C2=A0FILES:${PN}-dev +=3D "${libdir}/dbus-1.0/include ${bindir}/dbus-g=
+lib-
+>> tool"
+>>  =C2=A0FILES:${PN}-dev +=3D "${bindir}/dbus-binding-tool"
+>>  =20
+>> -RDEPENDS:${PN}-tests +=3D "dbus"
+>> +RDEPENDS:${PN}-tests:class-target +=3D "${VIRTUAL-RUNTIME_dbus}"
+>> +RDEPENDS:${PN}-tests:class-native +=3D "dbus"
+>> +RDEPENDS:${PN}-tests:class-nativesdk +=3D "dbus"
+>>  =20
+>=20
+> This looks convoluted and probably incorrect and unnecessary.
+>=20
+> I'd suggest changing this to:
+>=20
+> RDEPENDS:${PN}-tests =3D "${PN}"
+>=20
+> and then relying on the main library having the right dependencies
+> (which it has). The tests need the library to run anyway.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 
+Thank you Richard, submitted v4 which includes the suggested change.
+-Niko
 
