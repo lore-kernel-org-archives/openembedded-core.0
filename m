@@ -1,105 +1,99 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65044C3601B
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 22:36:40 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.77.1743546992924462852
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93E7BC36017
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 22:54:50 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.472.1743548088443729780
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 15:36:32 -0700
+ Tue, 01 Apr 2025 15:54:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=a37xWnJA;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22401f4d35aso120182935ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 15:36:32 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iJLo/KNu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-39c1ee0fd43so1596555f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 15:54:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743546992; x=1744151792; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wX0uupXd89EWWiA4ifnfMUkiyM5f1EYReZBVpDWeOlQ=;
-        b=a37xWnJAprq4ePg8B/8CQA05aH+s0xC9eVLdNjbsio8tyjPOPOoLNKCW2VBqBu5pD5
-         zetL/7Gr/I61OwHzNMTVPRIqrCtV++x687/oyMk24ro6j6cJ8JCRfoqHL6jsyDRHrx1f
-         eRLjmIsuLL6gvTUphydgaPkow+K/9Q9VAnqZfm1BArTGYiow/3qPvZfpN+6m5nj/zjPc
-         2iZl4BX1brQxM1nICHjahvixyjSvEzEqxwRzfX6a179IJFKxRIUsvjsP4+wEU34LgMSk
-         NdKeK2mhgMuKSlsMtbHwDUH9cEmxGCYZ8gBJ6qAEp4UjpMuumxwICF60Md7sI3C1CxTi
-         5bsw==
+        d=linuxfoundation.org; s=google; t=1743548087; x=1744152887; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VanSzhAGNUC4sCsvFMsf36UCZ4HxuF6I2+PwhYG5SE0=;
+        b=iJLo/KNuy5F8UINsJHwea5OsReAWk7OuWIgPBhgvgbY+/f7pWHrAsWvW4zHro11VM5
+         4dd4cEHmSFf967mJ1ebjW2iy9xCrtO1DR4cC+A7BRJhr4h6dGnnbC6uAsy5f8z2I54gc
+         2lQeEerFu0bywjHr9/9lhhSz9EG331KPe14Sw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743546992; x=1744151792;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wX0uupXd89EWWiA4ifnfMUkiyM5f1EYReZBVpDWeOlQ=;
-        b=tFhpJbwNP7+WxMWSxLCfW4+yBO9/MFgdxexb/87LAdiodnFFFRQNAeCn5bnkYp8KAT
-         t9U6MhDVzwuahQjvaiM07COpoR0jNMa0rCWnzGHjFE9UnAWndg2uuMNYUrjG8DR8ehpn
-         Rfuj3Bay+qrnh7aUi9iol3I2XFD/SVcHq4pyOQLsGTQJaG0H83lQs+SyHMoA/3lazi+B
-         p5qPb559p8P4Hv3thj8A9KnI5ScV2dXZy1W1/5fRfnGQrDQqfTLkaNRAZORwRcTj157d
-         5kzo//ItCiu+ma+iPSyr7ATMhgPiCgiyKbpGq4HM743xeeMLSJgV3QWnKS/P0jz6a67i
-         eK0g==
-X-Gm-Message-State: AOJu0YyL4LWmZRAHrCVT3gx0AlGZ9AkhZIb2uNzPEcVcgzKkxVYehnN1
-	tIMdQ5QDOd7TjrwdLGLHxSAxdsrWXh6bXsG6+l7f+tUYJztA+G30TmVgObtJf6EAwN9CULKKASC
-	0
-X-Gm-Gg: ASbGncusKKGyUdT+HWGzHXBqF4Ra5qwboKEkCTMmVrbx+4t1EYT7ZhghRqzpwd7jMIN
-	7VoGeZYnR7nmK0DhTZbtiz11Fy27cnt8OXA9IGssCmIq1bNFJp2ll5Cnx3ekC67Lp7u/kbdvNWk
-	nCVMgsuZW8Hj3fLC2OToEee/f6ne+98ZBVXL22LOJlYc+VOO4FiURzieNJZNEb7SZZ9uB5+qTq2
-	h/mKmoPjZI2dnUbosceGD5awmTxT/UYt5FpE69T1i7haps1qMGPLzsmN+ebXE03I5v1mBUXicVV
-	GIcbDGbFBz3SmaCFm/tYvOToRGhy3/Et7djHI1tLYut9hO4=
-X-Google-Smtp-Source: AGHT+IHnRxcUFoQMg6SZ5auCs08e3T5ACXKGyloBNdxBjVPYPk8GVWZex9bOxRMNav6sVvt00W1aQA==
-X-Received: by 2002:a17:903:230d:b0:227:e82b:b585 with SMTP id d9443c01a7336-2296c6620c7mr2360355ad.20.1743546992191;
-        Tue, 01 Apr 2025 15:36:32 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:6021:5333:bc00:e45b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73970e226a7sm9534241b3a.48.2025.04.01.15.36.31
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1743548087; x=1744152887;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=VanSzhAGNUC4sCsvFMsf36UCZ4HxuF6I2+PwhYG5SE0=;
+        b=w4/ydbQBjLW1+riPGH3DuoWMzlRBeqbXHWpKmTJtpr7dBrntJAlNphz4lokXqRSE58
+         NHkr4vLhzKY8adrOxd8QmGBdFsdO8YA31OANrVmbryRBKi424wWXg1J3A+uzELK4QIwV
+         0wqovCbabH648iK0uolzIyeVEIm2uCIcA3pbRNC9JAR0FYULC9ls++kIRriD0NKVqXlz
+         zCX4mLZOaE270D09XA68ofCqfyG+jq0DMt3+tFD7IbN8/1YtyZviDCxSTC9YEX3b16xf
+         0VbzLIR+w8qH4CZvGVsyqdz+R3upDyVtUg5F5RBHKuf2iXnL6tfbbGB0ceOVcYZSAVEB
+         p93g==
+X-Forwarded-Encrypted: i=1; AJvYcCVZ/Wnthvlto3bTbswmhSeN1AhQTcgEShNQN1wp5KNzVhw5Yc4KHmgUcNl0L7/gnSvQ8WxSYKtHPHhK0m+DmzVhFQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz3P0UuU2r9elYaNyetURvKa4L8YazzIbkIgXs34WprYyPEcp8h
+	L0FhlgntjL5qXwzAnCe/fUmrwKpP1fO+UkR0MrGwuBZKh+YJDe0TZJZyO5epUFHz2zUMH9ztI8g
+	f
+X-Gm-Gg: ASbGncvju2VC6QMtGZ87hhkobLnAJsiAYiT5hYWKAPzfC2lappf6ex3QUHKjwjihNAy
+	9c1+LQ0/0Z5M6AWuSYcKerRHFhP/KXBTBAnqYmCXV/CQqSxfiQpqc0B/QYuPbtJuWpL/ti44bMv
+	VEH0p7xfYS7fSSIsjNsHgy75EiFMK/AuIcnnD4lM/HP2L5sMSUGnH5aPWoHPaLE/v3E3VkkS8yq
+	ECWSlB5gIcOC98RKSXgxcozdVV//pNSYWwsJThh8NiX3keHPuJvbY54lU6uemm1rgeia5stWF9m
+	wf8kDSL/lS6O6iuX2yZbvRaZrjnLBUzxKalbcl3ROrLB+iG/JuraRzzu+rAdZIaw/8pDNMlrRAE
+	CnFhJOrLC7CtRYQUJeGqEq02LmMYkLzQ=
+X-Google-Smtp-Source: AGHT+IGhJq8S2zzVg14Y1hSqOMJC7QR5O+/5zL7EHQmGZEEzubqdM5oAadnr96nlLqifyMc/nFLSJg==
+X-Received: by 2002:a05:6000:1786:b0:39a:c9b3:e1d7 with SMTP id ffacd0b85a97d-39c120e3b71mr9450664f8f.29.1743548086716;
+        Tue, 01 Apr 2025 15:54:46 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:581:377b:c52a:dfb7? ([2001:8b0:aba:5f3c:581:377b:c52a:dfb7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b66ab6dsm14953629f8f.48.2025.04.01.15.54.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 15:36:31 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 6/8] yocto-uninative: Update to 4.7 for glibc 2.41
-Date: Tue,  1 Apr 2025 15:36:13 -0700
-Message-ID: <eb89509bfb976cfb62369b05f55534615afaf886.1743546795.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1743546795.git.steve@sakoman.com>
+        Tue, 01 Apr 2025 15:54:44 -0700 (PDT)
+Message-ID: <972bb15e0607b86d5532172c5885d7e11e544b25.camel@linuxfoundation.org>
+Subject: Re: [OE-core][kirkstone 8/8] glibc: Add single-threaded fast path
+ to rand()
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: steve@sakoman.com, openembedded-core@lists.openembedded.org
+Date: Tue, 01 Apr 2025 23:54:42 +0100
+In-Reply-To: <0c99e9e0d1c848d10abe0527e5aa98f2a0750b2a.1743546795.git.steve@sakoman.com>
 References: <cover.1743546795.git.steve@sakoman.com>
+	 <0c99e9e0d1c848d10abe0527e5aa98f2a0750b2a.1743546795.git.steve@sakoman.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 22:36:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214158
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 22:54:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214161
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+On Tue, 2025-04-01 at 15:36 -0700, Steve Sakoman via lists.openembedded.org=
+ wrote:
+> From: Haixiao Yan <haixiao.yan.cn@windriver.com>
+>=20
+> Backport a patch [1] to improve performance of rand() and __random()[2]
+> by adding a single-threaded fast path.
+>=20
+> [1] https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Dbe0cfd848d9a=
+d7378800d6302bc11467cf2b514f
+> [2] https://sourceware.org/bugzilla/show_bug.cgi?id=3D32777
+> Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+> =C2=A0...dd-single-threaded-fast-path-to-rand.patch | 47 ++++++++++++++++=
++++
+> =C2=A0meta/recipes-core/glibc/glibc_2.35.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
+> =C2=A02 files changed, 48 insertions(+)
+> =C2=A0create mode 100644 meta/recipes-core/glibc/glibc/0001-stdlib-Add-si=
+ngle-threaded-fast-path-to-rand.patch
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Not sure this has made master yet!
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index a6f7107dfe..3d0f1fdccd 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,10 +6,10 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_MAXGLIBCVERSION = "2.40"
--UNINATIVE_VERSION = "4.6"
-+UNINATIVE_MAXGLIBCVERSION = "2.41"
-+UNINATIVE_VERSION = "4.7"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "c2d36338272eba101580f648dd8dff5352cdb4c1809db7dedf8fc4d7e7df716c"
--UNINATIVE_CHECKSUM[i686] ?= "0041584678109c18deca48fb59eaf14cf725cf024a170ab537b354b63240c504"
--UNINATIVE_CHECKSUM[x86_64] ?= "6bf00154c5a7bc48adbf63fd17684bb87eb07f4814fbb482a3fbd817c1ccf4c5"
-+UNINATIVE_CHECKSUM[aarch64] ?= "ac440e4fc80665c79f9718c665c6e28d771e51609c088c3c97ba3ad5cfed197a"
-+UNINATIVE_CHECKSUM[i686] ?= "c5efa31450f3bbd63ea961d4e7c747ae41317937d429f65e1d5cf2050338e27a"
-+UNINATIVE_CHECKSUM[x86_64] ?= "5800d4e9a129d1be09cf548918d25f74e91a7c1193ae5239d5b0c9246c486d2c"
--- 
-2.43.0
+Cheers,
 
+Richard
 
