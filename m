@@ -1,103 +1,102 @@
-Return-Path: <thakur.virendra1810@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00D8EC36018
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 08:32:11 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.14222.1743496320908661716
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1086FC36014
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 08:41:51 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web11.14306.1743496901142289336
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 01:32:00 -0700
+ Tue, 01 Apr 2025 01:41:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mHzg8cJA;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: thakur.virendra1810@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22435603572so98529715ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 01:32:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Uf5fU8DI;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6e8f4c50a8fso47303966d6.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 01:41:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743496319; x=1744101119; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Ih26rfmceJUUXGW/vrXkNooUKFXqYfHI0SGD7hCRyU=;
-        b=mHzg8cJArVb3DO8QX6fFRDuXK8t1mMkjAAkHMOIcbJxFUEBCV4KkbSK+8gJwvglsIk
-         kOnJuMMwRTAf/bDCo40D2nsj29vp4lGtQVUvkWCUlB7ot0N4ekxzwC612D8GSzfyoq+b
-         cdtGmHuFzNQvFJB/hrEjGGhVmHIXr/K7mZ3Eund+QBFde8A3teImdCE6yOrwggF8CiXG
-         r7fzYzzB9j9UAtczDqsYiAuI/jwmpMcpzE7/kq0bkYtxMfkJ+oU9GC9bkuHZ8fQI3amR
-         uaym97sv6CBPcZ78jM2k4vCCE4Cm26YBcmdOp52YupAkM0wA1xVp7rFQXxDcwI0I5ktx
-         YhYg==
+        d=gmail.com; s=20230601; t=1743496900; x=1744101700; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=xYeu4VRniynZydn8LxW7FjZ98j9umWAgEWSVK4ELhCM=;
+        b=Uf5fU8DItGdznepcRJZV4+uAzTA4satf87f3uj4PQR9SrqWwtY8qEGVwXanp2P0T+G
+         ijvTGsH62tlWc71e0jwcRNTGgf9RfsSB6NKKEd4hGBXxbqpktq3hhWLmM2UrE/Z2JEip
+         jmpDxiCgVS+Mo8MZwVP6HjPNaQCw16lOWE5ljGElpfMJRfyXd7QMvFOQlZCNLXeY79Yr
+         AbyfKoMy+5KkT42Y3R8XvSQN37HAQNIdNAx06dWtudeqP1mPIFBwe/BP4E46Y4PZM9hG
+         8DBo6wxMDL1peVdEL4hM5FIqBXjo4+w14h/62UFjKwCicKWki23DVqC0vTdkO0QLEBrP
+         pvcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743496319; x=1744101119;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1743496900; x=1744101700;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3Ih26rfmceJUUXGW/vrXkNooUKFXqYfHI0SGD7hCRyU=;
-        b=DDpFeg7vi82oXVA1fWtxmTG7fY5LhmWimInOwB3dGOfAVYAVCX1k82wlMLnCEs6ddD
-         T36KZ7v46y6aPUKn4AYu2qWMGVdTc7fd4DCnz/RgE6ecZMrv45gO4reV5wLahxuFyTJg
-         0vP8IweQhHDUW3GBoj8rzQUjkXhFQks8l2NJjOHNvphAHx7KWEK1FDRoXjALCMu/veAr
-         zdj/iGWJ9AJbhOy7jbP/ooKHZmpLRx+6HiwQ6YcQSSuCbPwPHG00PEXOINOJMlHs9VOG
-         djhCTs/OsGdQ+4Rf+UtJigwaSYaJJJGR2IlB1cEMs6dd0sIZsZ3/GmDSyh5Z9lX9RgA+
-         oEHA==
-X-Gm-Message-State: AOJu0YxPPVPtYF0qigrQIpM+IdphMbWwywTZQnF5eHe6IgRQo9kK0sBV
-	idakugRChpN094J+w0D440i1hsnd3o23MfRioQs84jUvi91UUgqnXUNPMg==
-X-Gm-Gg: ASbGnct7TpWEEVczd6bkmLqgO68Sq965EzunE7E8F51tbBdqGCur1suPGV2qonFoUU/
-	thX3UTu1upgkb/Vq+FqHsMtteHtvjdFedTVoy5GKtMk06QEvMvcnmB6UHxFIffLbPYuWpW4fn18
-	e5/MLJDio+2CN53d/PmSf7ZIbcGpxzX5BEhos+TvoBYTdPwR6y8EeWNSFe5BKHFaPTszAOuiAEW
-	+/zwBYA0xlnmxIV1V1SJuzTiXhS753NI3mDpF/rtMpy4QAvg1EWt8Tbbvh3xKg0j6Y7pSA3lA0W
-	TwV1abxGmd/jZi3i7J8acsUg73LytQs15i9mEhDS7zE7mpfv+/HyUo0SM2H7GVicRa6x
-X-Google-Smtp-Source: AGHT+IFv8FDT4Cj4FtfmhaDHbi3a7/afS+Ie/oxzbZJNhzcpIUHly1eLctU7B10PghDV4fopAtRcAA==
-X-Received: by 2002:a17:903:903:b0:223:5c33:56a2 with SMTP id d9443c01a7336-2292f97a2aemr204738765ad.28.1743496319389;
-        Tue, 01 Apr 2025 01:31:59 -0700 (PDT)
-Received: from LL-3020L.kpit.com ([2401:4900:1c43:caf7:dec3:bad4:dae8:439e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-305175cae63sm8715761a91.44.2025.04.01.01.31.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 01:31:58 -0700 (PDT)
-From: Virendra Thakur <thakur.virendra1810@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Randy.MacLeod@windriver.com
-Cc: Virendra Thakur <virendra.thakur@kpit.com>
-Subject: [scarthgap][PATCH] rust-cross-canadian: Set CVE_STATUS ignore for CVE-2024-43402
-Date: Tue,  1 Apr 2025 13:57:45 +0530
-Message-Id: <20250401082745.532405-1-thakur.virendra1810@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=xYeu4VRniynZydn8LxW7FjZ98j9umWAgEWSVK4ELhCM=;
+        b=gs6Sl9ius9NpFtRRknDSgOUPHG/cIXmZ8J1z0tl9wc4hEgR9q0FoBxQCRV+W0N0WJB
+         dM1HZjBkQjQGv8V5mUuDT3CU7wFlI4GCuA9vkDpqZ4/DluggCcXg7LM6yOsOnF6NLZ/9
+         UFEpxX51UUGay3mRQ/mU7/CQvK+tyGo6EGoSwo/O0aLBkLiq80ebZ5rkPVw+x1YpMXC2
+         2xBKCKNVEENZNvUKcKWmf8+OpyRzkdIXLNcbsRkZ5/6yV3J8mF86b1XK4J98A6wEzzIR
+         tWoJZT9zAgK78gY7UKA7ngtCLDEZqVqRMgjQLJLvC/oc5Dlhr8k8MZHd8C0+1vHA0dmF
+         EbbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW01Gt/nen1ZNQEmJfpCb3nAthPeUgviV/3cXr3nFOiaV5O69I2Vf8Cl5JOe1yD2q5+16nnKK0WohbNprHrH/hKAg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwJnSd5T0NNFBxVNNCmnA6OvEl2k/WtHpVxDSFmJvjW8F1zsGA+
+	dUfWRPnmfmJP/cFaVpiJ/ImJjVWI525g91XmtXy/VuNxi5AQbj1Q+fsKSQo4a1dx6Mv267v1kVS
+	anPA6DtvFQfB41ma3oQJxXbjCjIo=
+X-Gm-Gg: ASbGncvmssLaWC9cbGUprjF7d2N2JPrGAWzjXDUwHh5+XoLgXBsi+dxbjJqr6UJnj3O
+	JuEJpdWSdvq6a5bsKc7VNMbbESA9F4ccd45s8sH8sGUOjN7XRJEfihgMAbIjcZDPIdILEvM0Alq
+	dyhQmLY02hDL48GdBNTki042i1zXFwZsihsSaibivHYMGJgQH3e+IHO6ZiE2aeF4+1ICvQBVI=
+X-Google-Smtp-Source: AGHT+IEdpurE5tOcaza1+KNQoBQu4jZoH2loSKZgyvsEI+P/N/VVLXAYGXo4ljNGu+7CvkkMjHGuUS8NY+jz/kjqZI4=
+X-Received: by 2002:a05:6214:1c0e:b0:6d8:a39e:32a4 with SMTP id
+ 6a1803df08f44-6eed61d1a5fmr215844706d6.25.1743496900125; Tue, 01 Apr 2025
+ 01:41:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250331-mesa-25-v4-0-e62fc54a6efc@oss.qualcomm.com>
+ <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com> <D8V5ROOK16KM.1VZ0YWBBB0JMW@bootlin.com>
+In-Reply-To: <D8V5ROOK16KM.1VZ0YWBBB0JMW@bootlin.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 1 Apr 2025 10:41:29 +0200
+X-Gm-Features: AQ5f1JrzfKPymPtJ1hfSwxYmaI4-OAOTvcICNUbXhil09rnFdeTsqeo5rQTfllQ
+Message-ID: <CANNYZj_NrSXtEKaBroVUTKjyeo5Zp=ukU9nffYasVmUK5Dt+4g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4 0/9] mesa: upgrade to 25.0.2
+To: mathieu.dubois-briand@bootlin.com
+Cc: dmitry.baryshkov@oss.qualcomm.com, 
+	openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>, 
+	=?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 08:32:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214009
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 08:41:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214010
 
-From: Virendra Thakur <virendra.thakur@kpit.com>
+On Tue, 1 Apr 2025 at 10:27, Mathieu Dubois-Briand via
+lists.openembedded.org
+<mathieu.dubois-briand=bootlin.com@lists.openembedded.org> wrote:
+> Also, I suspect this series is linked with this Xorg segfault in
+> parselogs.ParseLogsTest.test_parselogs:
+>
+> Central error: Fatal server error:
+> ***********************
+> [     1.468]    compiled for 1.21.1.16, module version = 1.0.1
+> [     1.468]    ABI class: X.Org ANSI C Emulation, version 0.4
+> [     1.512] (EE)
+> [     1.512] (EE) Backtrace:
+> [     1.512] (EE) 0: /usr/bin/Xorg (xorg_backtrace+0x52) [0x566b2522]
+> [     1.512] (EE) 1: /usr/bin/Xorg (0x56583000+0x1332b5) [0x566b62b5]
+> [     1.512] (EE) 2: /lib/libc.so.6 (0xf75e8000+0x34060) [0xf761c060]
+> [     1.512] (EE) 3: /usr/lib/libgallium-25.0.2.so (0xf5140000+0x512634) [0xf5652634]
+> [     1.512] (EE)
+> [     1.512] (EE) Segmentation fault at address 0x0
+> [     1.512] (EE)
+> Fatal server error:
+> [     1.512] (EE) Caught signal 11 (Segmentation fault). Server aborting
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/1274
 
-This CVE was created because fix for CVE-2024-24576 was incomplete.
-Ignore the new CVE in the same way as the old one.
+This one is specific to x86-x32. We've had to do this previously,
+maybe it's not enough, or there's some other issue:
+https://web.git.yoctoproject.org/poky/commit/?id=f32128bda2a035b01d2dbf7bc73738a310eb955c
 
-See https://nvd.nist.gov/vuln/detail/CVE-2024-43402
+I'd say we drop testing anything graphical from that platform, as the
+only way to get it started is with fbdev. No one's using it.
 
-As per NVD, this CVE only affects to Windows platform
-
-Reference: https://git.yoctoproject.org/meta-lts-mixins/commit/?h=scarthgap/rust&id=13f045acf6388d1e320fd4c0f3ca19ca7a75ef44
-
-Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
----
- meta/recipes-devtools/rust/rust-cross-canadian.inc | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index dbf997560b..ac5f6bd57c 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -15,6 +15,10 @@ SRC_URI += "file://target-rust-ccld.c"
- LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=af4e0e29f81a34cffe05aa07c89e93e9;endline=7"
- S = "${WORKDIR}"
- 
-+# As per NVD, this CVE only affects to Windows platform
-+# Link: https://nvd.nist.gov/vuln/detail/CVE-2024-43402
-+CVE_STATUS[CVE-2024-43402] = "not-applicable-platform: Issue only applies on Windows"
-+
- # Need to use our SDK's sh here, see #14878
- create_sdk_wrapper () {
-         file="$1"
--- 
-2.34.1
-
+Alex
 
