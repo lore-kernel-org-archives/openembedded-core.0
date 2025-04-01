@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DE72C369BB
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:24 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.18072.1743511394822083804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B66ECC369B1
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:23 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.18056.1743511397743106468
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 05:43:14 -0700
+ Tue, 01 Apr 2025 05:43:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Aw2cdg/f;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jubInYS4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010195f1609683-40262279-ad3e-4e90-a4cd-fd05ef3d3720-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OhjwWLkH;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=IUbNjBif;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010195f160a36e-75381c59-8e95-4f7b-a6c9-e45eec7660d4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743511394;
+	t=1743511397;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=KCgV5n5+S6xwRLyxrFkcnPtbmHtwAF7KpsSFPhEqoWM=;
-	b=Aw2cdg/fnguRhwNy65zoRZzxlVitzFnmWZj6N6oWp9pFkHJ7T/Iy23iquUDJc6HZ
-	YomEw6vECEIT/Zri7G6UswwS7+vaF2FJSMbpL0LVtA3Ig0pixosvLIl95klbIUEBvGl
-	UFibRAjpCzAov5R0wjPAX81MrUcYGZJl8eDGURSY=
+	bh=lDWRQ9NrCHmsxhSkveJAXYiFDsXDt5ezAHla1C0rgso=;
+	b=OhjwWLkH2KB5crHk2UMBILTyGEr9Y8B5GSKu32Xq5J/4AYceBKX13sgPDAF7z56/
+	TxHjLXG2F2K3RD44jKR64LbyYiuQIH6zXwvW3Xp1sg9VNod7oSZW9D2/2VBOEx1xcQb
+	LIr473F1SI9uhgnFlropOkjzl/8jKz7GX1ooNwBA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511394;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511397;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=KCgV5n5+S6xwRLyxrFkcnPtbmHtwAF7KpsSFPhEqoWM=;
-	b=jubInYS4Dt1uGiVRIhreEolJMpEMqvxw/12jyEGTbO95e80LOc751iI/rKUd9uov
-	Da9djVrKuFeV35VRwLBeemQiXVJMpjSAVKPSBL8CtWN/EQ5/4hBbcV0P5ZZwK+J6/Z3
-	GhYOZxXHquedcTDGwHOifjCBaYRgVo2gc3QytzMg=
-Content-Type: multipart/mixed; boundary="===============0648170439656524086=="
+	bh=lDWRQ9NrCHmsxhSkveJAXYiFDsXDt5ezAHla1C0rgso=;
+	b=IUbNjBifE8NJvzZGbju48MtJsM7HU8GwzCpmAEF5fgfW9PiPXy6A4XOkjRVPAucC
+	my7tXlN/7Qb4uscwpMchKSHig+VJjwe04tSpnzLIf5H5EZCWk34j2PQEfVyVJ5IRVF5
+	01bThfCoda5a3kpeu0CqFBHJ0lMwnbG/YkpPQZUo=
+Content-Type: multipart/mixed; boundary="===============4059277147052457316=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] patch: upgrading to 2.8 FAILED
-Message-ID: <01010195f1609683-40262279-ad3e-4e90-a4cd-fd05ef3d3720-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:13 +0000
+Subject: [AUH] python3-pyparsing: upgrading to 3.2.3 SUCCEEDED
+Message-ID: <01010195f160a36e-75381c59-8e95-4f7b-a6c9-e45eec7660d4-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.45
+X-SES-Outgoing: 2025.04.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214053
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214064
 
---===============0648170439656524086==
+--===============4059277147052457316==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,58 +51,137 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *patch* to *2.8* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-pyparsing* to *3.2.3* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-pyparsing-upgrade-3.2.1-3.2.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade patch -V 2.8
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1886 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:aeecf715ebc43dca0ef8a4934b3107c06b8f2565"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 9 Mirrors 0 Missed 2 Current 18 (81% match, 93% complete)
-done.
-NOTE: Executing Tasks
-WARNING: patch: the directory ${WORKDIR}/patch-${PV} (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/patch/2.7.6/devtooltmp-7c_142iu/workdir/patch-2.7.6) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-WARNING: No source unpacked to S - either the patch recipe doesn't use any source or the correct source directory could not be determined
-Log data follows:
-| rm: cannot remove '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/patch/2.7.6/devtooltmp-7c_142iu/workdir/sources-unpack': Directory not empty
-NOTE: Tasks Summary: Attempted 95 tasks of which 90 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250401084114.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250401084114.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-INFO: Extracting current version source...
-ERROR: Command '['rm', '-rf', '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/patch/2.7.6/devtooltmp-7c_142iu/workdir/sources-unpack']' returned non-zero exit status 1.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/patch/2.7.6/devtooltmp-7c_142iu/temp/log.do_unpack.3499256
-ERROR: Extracting source for patch failed
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0648170439656524086==--
+
+-- >8 --
+From 21fb274635bd8d735e7534b4ee5a4b4da8fc0a64 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 1 Apr 2025 09:11:21 +0000
+Subject: [PATCH] python3-pyparsing: upgrade 3.2.1 -> 3.2.3
+
+---
+ .../{python3-pyparsing_3.2.1.bb => python3-pyparsing_3.2.3.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pyparsing_3.2.1.bb => python3-pyparsing_3.2.3.bb} (90%)
+
+diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.2.1.bb b/meta/recipes-devtools/python/python3-pyparsing_3.2.3.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-pyparsing_3.2.1.bb
+rename to meta/recipes-devtools/python/python3-pyparsing_3.2.3.bb
+index ab4eba129a..459b01fd94 100644
+--- a/meta/recipes-devtools/python/python3-pyparsing_3.2.1.bb
++++ b/meta/recipes-devtools/python/python3-pyparsing_3.2.3.bb
+@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=657a566233888513e1f07ba13e2f47f1"
+ 
+-SRC_URI[sha256sum] = "61980854fd66de3a90028d679a954d5f2623e83144b5afe5ee86f43d762e5f0a"
++SRC_URI[sha256sum] = "b9c13f1ab8b3b542f72e28f634bad4de758ab3ce4546e4301970ad6fa77c38be"
+ 
+ inherit pypi python_flit_core
+ 
+-- 
+2.47.1
+
+
+--===============4059277147052457316==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pyparsing-3.2.1.dist-info/licenses -> /usr/lib/python3.13/site-packages/pyparsing-3.2.3.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/pyparsing-3.2.1.dist-info -> /usr/lib/python3.13/site-packages/pyparsing-3.2.3.dist-info, added "/usr/lib/python3.13/site-packages/pyparsing/tools/__init__.py /usr/lib/python3.13/site-packages/pyparsing/tools/cvt_pyparsing_pep8_names.py /usr/lib/python3.13/site-packages/pyparsing/tools/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pyparsing/tools/__pycache__/cvt_pyparsing_pep8_names.cpython-313.pyc"
+Changes to packages/core2-64-poky-linux/python3-pyparsing (sysroot):
+  /usr/lib/python3.13/site-packages/pyparsing-3.2.1.dist-info moved to /usr/lib/python3.13/site-packages/pyparsing-3.2.3.dist-info
+  /usr/lib/python3.13/site-packages/pyparsing/tools was added
+  /usr/lib/python3.13/site-packages/pyparsing/tools/cvt_pyparsing_pep8_names.py was added
+  /usr/lib/python3.13/site-packages/pyparsing/tools/__init__.py was added
+  /usr/lib/python3.13/site-packages/pyparsing/tools/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pyparsing/tools/__pycache__/cvt_pyparsing_pep8_names.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pyparsing/tools/__pycache__/__init__.cpython-313.pyc was added
+
+--===============4059277147052457316==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-pyparsing: PV changed from "3.2.1" to "3.2.3"
+packages/core2-64-poky-linux/python3-pyparsing: PKGV changed from 3.2.1 [default] to 3.2.3 [default]
+packages/core2-64-poky-linux/python3-pyparsing: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.2.1.tar.gz;downloadfilename=pyparsing-3.2.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.2.3.tar.gz;downloadfilename=pyparsing-3.2.3.tar.gz"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PV changed from "3.2.1" to "3.2.3"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PKGV changed from 3.2.1 [default] to 3.2.3 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dev: PV changed from "3.2.1" to "3.2.3"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dev: PKGV changed from 3.2.1 [default] to 3.2.3 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-doc: PV changed from "3.2.1" to "3.2.3"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-doc: PKGV changed from 3.2.1 [default] to 3.2.3 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-locale: PV changed from "3.2.1" to "3.2.3"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-locale: PKGV changed from 3.2.1 [default] to 3.2.3 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-src: PV changed from "3.2.1" to "3.2.3"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-src: PKGV changed from 3.2.1 [default] to 3.2.3 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PV changed from "3.2.1" to "3.2.3"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PKGV changed from 3.2.1 [default] to 3.2.3 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PV changed from "3.2.1" to "3.2.3"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PKGV changed from 3.2.1 [default] to 3.2.3 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PKGSIZE changed from 879886 to 903032 (+3%)
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pyparsing-3.2.1.dist-info -> /usr/lib/python3.13/site-packages/pyparsing-3.2.3.dist-info, directory renamed /usr/lib/python3.13/site-packages/pyparsing-3.2.1.dist-info/licenses -> /usr/lib/python3.13/site-packages/pyparsing-3.2.3.dist-info/licenses, added "/usr/lib/python3.13/site-packages/pyparsing/tools/__pycache__/cvt_pyparsing_pep8_names.cpython-313.pyc /usr/lib/python3.13/site-packages/pyparsing/tools/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pyparsing/tools/cvt_pyparsing_pep8_names.py /usr/lib/python3.13/site-packages/pyparsing/tools/__init__.py"
+Changes to packages/core2-64-poky-linux/python3-pyparsing (sysroot):
+  /usr/lib/python3.13/site-packages/pyparsing-3.2.1.dist-info moved to /usr/lib/python3.13/site-packages/pyparsing-3.2.3.dist-info
+  /usr/lib/python3.13/site-packages/pyparsing/tools was added
+  /usr/lib/python3.13/site-packages/pyparsing/tools/cvt_pyparsing_pep8_names.py was added
+  /usr/lib/python3.13/site-packages/pyparsing/tools/__init__.py was added
+  /usr/lib/python3.13/site-packages/pyparsing/tools/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pyparsing/tools/__pycache__/cvt_pyparsing_pep8_names.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pyparsing/tools/__pycache__/__init__.cpython-313.pyc was added
+
+--===============4059277147052457316==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pyparsing-upgrade-3.2.1-3.2.3.patch"
+
+RnJvbSAyMWZiMjc0NjM1YmQ4ZDczNWU3NTM0YjRlZTVhNGI0ZGE4ZmMwYTY0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwOToxMToyMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHlwYXJzaW5nOiB1cGdyYWRlIDMuMi4xIC0+IDMuMi4zCgotLS0KIC4uLi97cHl0aG9u
+My1weXBhcnNpbmdfMy4yLjEuYmIgPT4gcHl0aG9uMy1weXBhcnNpbmdfMy4yLjMuYmJ9ICB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHlwYXJzaW5nXzMuMi4xLmJi
+ID0+IHB5dGhvbjMtcHlwYXJzaW5nXzMuMi4zLmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXBhcnNpbmdfMy4yLjEuYmIgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMi4zLmJiCnNpbWls
+YXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1weXBhcnNpbmdfMy4yLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1weXBhcnNpbmdfMy4yLjMuYmIKaW5kZXggYWI0ZWJhMTI5YS4uNDU5
+YjAxZmQ5NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXB5cGFyc2luZ18zLjIuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtcHlwYXJzaW5nXzMuMi4zLmJiCkBAIC0xMCw3ICsxMCw3IEBAIEJVR1RSQUNLRVIgPSAi
+aHR0cHM6Ly9naXRodWIuY29tL3B5cGFyc2luZy9weXBhcnNpbmcvaXNzdWVzIgogTElDRU5TRSA9
+ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT02NTdhNTY2MjMz
+ODg4NTEzZTFmMDdiYTEzZTJmNDdmMSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjYxOTgwODU0
+ZmQ2NmRlM2E5MDAyOGQ2NzlhOTU0ZDVmMjYyM2U4MzE0NGI1YWZlNWVlODZmNDNkNzYyZTVmMGEi
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjljMTNmMWFiOGIzYjU0MmY3MmUyOGY2MzRiYWQ0ZGU3
+NThhYjNjZTQ1NDZlNDMwMTk3MGFkNmZhNzdjMzhiZSIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9m
+bGl0X2NvcmUKIAotLSAKMi40Ny4xCgo=
+
+--===============4059277147052457316==--
 
