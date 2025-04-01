@@ -1,198 +1,103 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <thakur.virendra1810@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F41D4C36018
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 08:27:40 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.14139.1743496053872093485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00D8EC36018
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 08:32:11 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.14222.1743496320908661716
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 01:27:34 -0700
+ Tue, 01 Apr 2025 01:32:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=irZ0KLkh;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 94B8F4316C;
-	Tue,  1 Apr 2025 08:27:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1743496052;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L+TNAF0sX5vOWCB8CbEHYSggK9sFxQwOCC9dCt4Ad1o=;
-	b=irZ0KLkh3AaLB3B/N5wlRty2uBipQslt+ro0rvaFXSMlJRccSFH/GaxqSJ80DuTeFiJe9s
-	Y0Y28QUAEsrfzFr931hCvgyV3SjmvAqNRVFcHjk4AYVssn/Zy6/PtE+Zw1jqgyo63KsGGx
-	Zmee3y5q3pYt5R1tpfO7jKvpDqpKjKdXHFtu9FNNrIOJjZJ7XbKXohs9KzE5kagj7i/bh/
-	8cRe/hht9xHb1y+KS83qv+kTz1xeGc8+v4u+235tzsB/GAiemop0KU1W6E8DX/GosUGv2y
-	kZ8wWnbii2Gdqgr/2mEKSGjgD8JIVL/NqYsieQ8f0BYkDXFbCrlYS6SoOo3IiQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 01 Apr 2025 10:27:31 +0200
-Message-Id: <D8V5ROOK16KM.1VZ0YWBBB0JMW@bootlin.com>
-Subject: Re: [OE-core] [PATCH v4 0/9] mesa: upgrade to 25.0.2
-Cc: "Khem Raj" <raj.khem@gmail.com>,
- =?utf-8?q?Zolt=C3=A1n_B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>,
- <dmitry.baryshkov@oss.qualcomm.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250331-mesa-25-v4-0-e62fc54a6efc@oss.qualcomm.com>
- <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com>
-In-Reply-To: <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukedvfedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkufevhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeduheeggfetgeehgeejhefhhfegleekhefgleefueektedvkeeitddtveegfeduueenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepmhgrthhhihgvuhdrughusghoi
- hhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovhesohhsshdrqhhurghltghomhhmrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheprhgrjhdrkhhhvghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepiigsohhsiihorhesghhmrghilhdrtghomh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mHzg8cJA;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: thakur.virendra1810@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22435603572so98529715ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 01:32:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743496319; x=1744101119; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Ih26rfmceJUUXGW/vrXkNooUKFXqYfHI0SGD7hCRyU=;
+        b=mHzg8cJArVb3DO8QX6fFRDuXK8t1mMkjAAkHMOIcbJxFUEBCV4KkbSK+8gJwvglsIk
+         kOnJuMMwRTAf/bDCo40D2nsj29vp4lGtQVUvkWCUlB7ot0N4ekxzwC612D8GSzfyoq+b
+         cdtGmHuFzNQvFJB/hrEjGGhVmHIXr/K7mZ3Eund+QBFde8A3teImdCE6yOrwggF8CiXG
+         r7fzYzzB9j9UAtczDqsYiAuI/jwmpMcpzE7/kq0bkYtxMfkJ+oU9GC9bkuHZ8fQI3amR
+         uaym97sv6CBPcZ78jM2k4vCCE4Cm26YBcmdOp52YupAkM0wA1xVp7rFQXxDcwI0I5ktx
+         YhYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743496319; x=1744101119;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3Ih26rfmceJUUXGW/vrXkNooUKFXqYfHI0SGD7hCRyU=;
+        b=DDpFeg7vi82oXVA1fWtxmTG7fY5LhmWimInOwB3dGOfAVYAVCX1k82wlMLnCEs6ddD
+         T36KZ7v46y6aPUKn4AYu2qWMGVdTc7fd4DCnz/RgE6ecZMrv45gO4reV5wLahxuFyTJg
+         0vP8IweQhHDUW3GBoj8rzQUjkXhFQks8l2NJjOHNvphAHx7KWEK1FDRoXjALCMu/veAr
+         zdj/iGWJ9AJbhOy7jbP/ooKHZmpLRx+6HiwQ6YcQSSuCbPwPHG00PEXOINOJMlHs9VOG
+         djhCTs/OsGdQ+4Rf+UtJigwaSYaJJJGR2IlB1cEMs6dd0sIZsZ3/GmDSyh5Z9lX9RgA+
+         oEHA==
+X-Gm-Message-State: AOJu0YxPPVPtYF0qigrQIpM+IdphMbWwywTZQnF5eHe6IgRQo9kK0sBV
+	idakugRChpN094J+w0D440i1hsnd3o23MfRioQs84jUvi91UUgqnXUNPMg==
+X-Gm-Gg: ASbGnct7TpWEEVczd6bkmLqgO68Sq965EzunE7E8F51tbBdqGCur1suPGV2qonFoUU/
+	thX3UTu1upgkb/Vq+FqHsMtteHtvjdFedTVoy5GKtMk06QEvMvcnmB6UHxFIffLbPYuWpW4fn18
+	e5/MLJDio+2CN53d/PmSf7ZIbcGpxzX5BEhos+TvoBYTdPwR6y8EeWNSFe5BKHFaPTszAOuiAEW
+	+/zwBYA0xlnmxIV1V1SJuzTiXhS753NI3mDpF/rtMpy4QAvg1EWt8Tbbvh3xKg0j6Y7pSA3lA0W
+	TwV1abxGmd/jZi3i7J8acsUg73LytQs15i9mEhDS7zE7mpfv+/HyUo0SM2H7GVicRa6x
+X-Google-Smtp-Source: AGHT+IFv8FDT4Cj4FtfmhaDHbi3a7/afS+Ie/oxzbZJNhzcpIUHly1eLctU7B10PghDV4fopAtRcAA==
+X-Received: by 2002:a17:903:903:b0:223:5c33:56a2 with SMTP id d9443c01a7336-2292f97a2aemr204738765ad.28.1743496319389;
+        Tue, 01 Apr 2025 01:31:59 -0700 (PDT)
+Received: from LL-3020L.kpit.com ([2401:4900:1c43:caf7:dec3:bad4:dae8:439e])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-305175cae63sm8715761a91.44.2025.04.01.01.31.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 01:31:58 -0700 (PDT)
+From: Virendra Thakur <thakur.virendra1810@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Randy.MacLeod@windriver.com
+Cc: Virendra Thakur <virendra.thakur@kpit.com>
+Subject: [scarthgap][PATCH] rust-cross-canadian: Set CVE_STATUS ignore for CVE-2024-43402
+Date: Tue,  1 Apr 2025 13:57:45 +0530
+Message-Id: <20250401082745.532405-1-thakur.virendra1810@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 08:27:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214008
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 08:32:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214009
 
-On Tue Apr 1, 2025 at 9:40 AM CEST, Mathieu Dubois-Briand wrote:
-> On Mon Mar 31, 2025 at 2:21 PM CEST, Dmitry Baryshkov via lists.openembed=
-ded.org wrote:
-> > libclc is required in order to build Intel drivers in Mesa 24.1 and
-> > later. Thus OE-Core is currently locked to the 24.0.x branch, which is
-> > no longer maintained, having last release in June 2024.
-> >
-> > A clean solution is to package Clang, then use it to build libclc and
-> > SPIRV-LLVM-Translator (required for Mesa OpenCL support). However
-> > creating proper recipes for Clang is a long process (ongoing by Khem
-> > Raj).
-> >
-> > This patchset attempts to solve the issue in a simpler way: by building
-> > libclc and SPIRV-LLVM-Translator together with the LLVM. This way we
-> > don't have to create target Clang recipes, there is no extra toolchain
-> > to support, etc. Clang binaries are creted as a part of the build
-> > process (in order to support building target packages), however it only
-> > hits the LLVM sysroot-native and is only used by the LLVM target build.
-> >
-> > Future work by Khem (once Clang is properly supported in OE-Core) shoul=
-d
-> > allow us to create proper recipes for libclc and spirv-llvm-translator
-> > and drop them from the llvm / clang recipe.
-> >
-> > I think this approach provides a good balance between OE-Core being
-> > stuck with the outdated Mesa release and being able to upgrade it,
-> > bringing support for new hardware.
-> >
-> > Last two patches of the series bring in RustiCL support, a new OpenCL
-> > implementation within Mesa. They are optional for the sake of the
-> > upgrade and can be dropped if there is any issue with those. RustiCL
-> > support is mostly compile-tested at this point.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
->
-> Hi Dmitry,
->
-> Thanks for the new version.
->
-> It looks like we still have issues on the autobuilder, now during
-> oe-selftests. I truncated a bit the logs below.
->
-> ERROR: mesa-native-2_25.0.2-r0 do_compile: Execution of '/srv/pokybuild/y=
-octo-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux/m=
-esa-native/25.0.2/temp/run.do_compile.506477' failed with exit code 1
-> ...
-> | FAILED: src/intel/shaders/intel_gfx80_shaders.spv
-> | /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp=
-/work/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc/mesa_clc ../me=
-sa-25.0.2/src/intel/shaders/libintel_shaders.h ../mesa-25.0.2/src/intel/sha=
-ders/generate.cl ../mesa-25.0.2/src/intel/shaders/generate_draws.cl ../mesa=
--25.0.2/src/intel/shaders/generate_draws_iris.cl ../mesa-25.0.2/src/intel/s=
-haders/query_copy.cl ../mesa-25.0.2/src/intel/shaders/util.cl -o src/intel/=
-shaders/intel_gfx80_shaders.spv -- -DNDEBUG=3D1 -DGFX_VERx10=3D80 -I/srv/po=
-kybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_6=
-4-linux/mesa-native/25.0.2/mesa-25.0.2/src/intel/shaders/. -I/srv/pokybuild=
-/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux=
-/mesa-native/25.0.2/mesa-25.0.2/src/compiler/libcl -I/srv/pokybuild/yocto-w=
-orker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux/mesa-na=
-tive/25.0.2/mesa-25.0.2/src -I/srv/pokybuild/yocto-worker/oe-selftest-debia=
-n/build/build-st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/mesa-25.0.2=
-/src/intel -I/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-=
-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/intel -I/srv/pokyb=
-uild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-l=
-inux/mesa-native/25.0.2/mesa-25.0.2/src/intel/genxml
-> | /bin/sh: 1: /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-=
-st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc/me=
-sa_clc: not found
->
-> But also a lot of issues with sstate tests:
->
-> 2025-03-31 19:31:36,349 - oe-selftest - INFO - 6: 46/49 214/622 (88.62s) =
-(0 failed) (sstatetests.SStateHashSameSigs.test_sstate_32_64_same_hash)
-> 2025-03-31 19:31:36,349 - oe-selftest - INFO - testtools.testresult.real.=
-_StringException: Traceback (most recent call last):
->   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeq=
-a/selftest/cases/sstatetests.py", line 418, in test_sstate_32_64_same_hash
->     self.sstate_hashtest("i686")
->   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeq=
-a/selftest/cases/sstatetests.py", line 409, in sstate_hashtest
->     self.assertCountEqual(files1, files2)
->   File "/usr/lib/python3.11/unittest/case.py", line 1233, in assertCountE=
-qual
->     self.fail(msg)
->   File "/usr/lib/python3.11/unittest/case.py", line 703, in fail
->     raise self.failureException(msg)
-> AssertionError: Element counts were not equal:
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debi=
-an/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/=
-25.0.2.do_install.sigdata.f1121eb56f1f6b8335722e32d0e21eb777e95ab4af83b7779=
-71f3666d1265bed'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debi=
-an/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/=
-25.0.2.do_create_spdx.sigdata.4c53505a0e3a5bba214d854ae8eea7c551f794d6b8539=
-2564d7c3923180e5d7f'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debi=
-an/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/=
-25.0.2.do_create_package_spdx.sigdata.cefe11ad38c3c40968e4757314ad08b91f958=
-4c9845cbcf08cc8635e1216912e'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debi=
-an/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/=
-25.0.2.do_populate_sysroot.sigdata.2e3e3b9c17855a8a865dd9e99c002016e697024f=
-c93cdfed690b7d54bb05e34e'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debi=
-an/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/=
-25.0.2.do_prepare_recipe_sysroot.sigdata.73d0df5170ce762727a517856505f3505b=
-2c47f479affdddb242ddcad34d5e29'
-> ...
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1264
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/1350
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1214
->
-> Can you have a look a these please?
+From: Virendra Thakur <virendra.thakur@kpit.com>
 
-Also, I suspect this series is linked with this Xorg segfault in
-parselogs.ParseLogsTest.test_parselogs:
+This CVE was created because fix for CVE-2024-24576 was incomplete.
+Ignore the new CVE in the same way as the old one.
 
-Central error: Fatal server error:
-***********************
-[     1.468] 	compiled for 1.21.1.16, module version =3D 1.0.1
-[     1.468] 	ABI class: X.Org ANSI C Emulation, version 0.4
-[     1.512] (EE)
-[     1.512] (EE) Backtrace:
-[     1.512] (EE) 0: /usr/bin/Xorg (xorg_backtrace+0x52) [0x566b2522]
-[     1.512] (EE) 1: /usr/bin/Xorg (0x56583000+0x1332b5) [0x566b62b5]
-[     1.512] (EE) 2: /lib/libc.so.6 (0xf75e8000+0x34060) [0xf761c060]
-[     1.512] (EE) 3: /usr/lib/libgallium-25.0.2.so (0xf5140000+0x512634) [0=
-xf5652634]
-[     1.512] (EE)
-[     1.512] (EE) Segmentation fault at address 0x0
-[     1.512] (EE)
-Fatal server error:
-[     1.512] (EE) Caught signal 11 (Segmentation fault). Server aborting
+See https://nvd.nist.gov/vuln/detail/CVE-2024-43402
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/1274
+As per NVD, this CVE only affects to Windows platform
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Reference: https://git.yoctoproject.org/meta-lts-mixins/commit/?h=scarthgap/rust&id=13f045acf6388d1e320fd4c0f3ca19ca7a75ef44
+
+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
+---
+ meta/recipes-devtools/rust/rust-cross-canadian.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+index dbf997560b..ac5f6bd57c 100644
+--- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
++++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+@@ -15,6 +15,10 @@ SRC_URI += "file://target-rust-ccld.c"
+ LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=af4e0e29f81a34cffe05aa07c89e93e9;endline=7"
+ S = "${WORKDIR}"
+ 
++# As per NVD, this CVE only affects to Windows platform
++# Link: https://nvd.nist.gov/vuln/detail/CVE-2024-43402
++CVE_STATUS[CVE-2024-43402] = "not-applicable-platform: Issue only applies on Windows"
++
+ # Need to use our SDK's sh here, see #14878
+ create_sdk_wrapper () {
+         file="$1"
+-- 
+2.34.1
 
 
