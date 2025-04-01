@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 454E2C369BD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45510C369BF
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:24 +0000 (UTC)
 Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.18048.1743511394239408831
+ by mx.groups.io with SMTP id smtpd.web11.18073.1743511395133513718
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 05:43:14 -0700
+ Tue, 01 Apr 2025 05:43:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=N/Gh8V3J;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=myBNyUWa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010195f1609507-e98ac444-25ad-41de-b42d-091f7c69b4c7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=L6LzJ/YW;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=e9s3vyJN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010195f1609855-2bb59cfe-f8c7-43b3-b7fc-9f1274c08d24-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743511393;
+	t=1743511394;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gp58PKzf+EeKPU7s/AAT/JOJDV3JKXgacpjUlPbHjng=;
-	b=N/Gh8V3JzUHtg3JYSYPbZnUC2ZtaVs6K/vtFXEG53GLilFWWrf5PmBC7FY2G0mzH
-	yWZ2IzkoEIFoAkrlSJF4mTZFsgOMiboXuKaNfHXumpvIX+OEGlNY1ZH5IXaHKTWGrS2
-	+gMO/2U2AwVW4vvKL0ZeIA3dDtVV5Baqdo0GqOL0=
+	bh=7tJm7gE/Nt4WI43hc323lFMQRcaqaIGXkBdjWmohS1A=;
+	b=L6LzJ/YWY7cEEnG4PrIMzQ6vJDtlffyni0Nk/kcfLbMJ/VbcyDY8ZdptP7xXsyDV
+	aIblVEUuraU8EDVGhkb7ai+PdW31Z1WUoMn5n3V8grCEFMgV+3NUD+PA5UQgJ0FcH+9
+	iWqYoYmwDvSJFHSshdIbmBrdD1vTocFLLxgYzVDw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511393;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511394;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gp58PKzf+EeKPU7s/AAT/JOJDV3JKXgacpjUlPbHjng=;
-	b=myBNyUWakeiJKERVSuZ4+4WPbBGcsznZi9uPxtVem0KDrbfSqsVSm51voveUi4ZO
-	2kHN03qOarcBmfGjVv/gY/S/Tu+vv7JqZZgw+Dr1ctwrOveKhShrePDF7hQckef6HDx
-	yCCcS93Y7F3VvWzWid/N/zMjStzorpU4XDkZKsfk=
-Content-Type: multipart/mixed; boundary="===============4160726979350891442=="
+	bh=7tJm7gE/Nt4WI43hc323lFMQRcaqaIGXkBdjWmohS1A=;
+	b=e9s3vyJNTIG3t5aH8AwZ7xWWK8yIIzUnab3iWTNNIbhvwRBgYhP2MFZLyTUu3kuQ
+	reaNni5nw+OJdKBKSDW0vbjEJJpXVF1xyOOxIcSRibjzV6rqMDgKNt87iVu4VGAoMwp
+	8KhTVTS5XrZc8GnfC2V5++B620aPTj3/EMuvhyeA=
+Content-Type: multipart/mixed; boundary="===============1640894369079237595=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Marta Rybczynska <marta.rybczynska@ygreky.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] btrfs-tools: upgrading to 6.14 SUCCEEDED
-Message-ID: <01010195f1609507-e98ac444-25ad-41de-b42d-091f7c69b4c7-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:13 +0000
+Subject: [AUH] python3-beartype: upgrading to 0.20.2 SUCCEEDED
+Message-ID: <01010195f1609855-2bb59cfe-f8c7-43b3-b7fc-9f1274c08d24-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.04.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214049
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214056
 
---===============4160726979350891442==
+--===============1640894369079237595==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *btrfs-tools* to *6.14* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-beartype* to *0.20.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-btrfs-tools-upgrade-6.13-6.14.patch
+    - apply the patch: git am 0001-python3-beartype-upgrade-0.20.0-0.20.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,235 +72,194 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8a02289fdca3a76bd6adcacd694ec158e496bbf0 Mon Sep 17 00:00:00 2001
+From 9d2ecf1ed9cb981d5a3b9917b5a79b30278bacae Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Apr 2025 07:39:56 +0000
-Subject: [PATCH] btrfs-tools: upgrade 6.13 -> 6.14
+Date: Tue, 1 Apr 2025 08:46:51 +0000
+Subject: [PATCH] python3-beartype: upgrade 0.20.0 -> 0.20.2
 
 ---
- ...y-to-specify-where-python-modules-ar.patch |  6 +--
- ...dd-break-to-case-BTRFS_COMPRESS_NONE.patch | 40 -------------------
- ...trfs-tools_6.13.bb => btrfs-tools_6.14.bb} |  3 +-
- 3 files changed, 4 insertions(+), 45 deletions(-)
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.13.bb => btrfs-tools_6.14.bb} (95%)
+ .../{python3-beartype_0.20.0.bb => python3-beartype_0.20.2.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-beartype_0.20.0.bb => python3-beartype_0.20.2.bb} (78%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
-index 59ea5a66da..2cd66d2722 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
-@@ -1,4 +1,4 @@
--From 76e635a56c5973671da3a8a2fd4fc32e823bf8c9 Mon Sep 17 00:00:00 2001
-+From 030ec81c0dac1e067faf49924d5631bb22ccc90d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 23 May 2018 21:20:35 +0300
- Subject: [PATCH] Add a possibility to specify where python modules are
-@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/python/python3-beartype_0.20.0.bb b/meta/recipes-devtools/python/python3-beartype_0.20.2.bb
+similarity index 78%
+rename from meta/recipes-devtools/python/python3-beartype_0.20.0.bb
+rename to meta/recipes-devtools/python/python3-beartype_0.20.2.bb
+index c047ed2026..9941b28fd8 100644
+--- a/meta/recipes-devtools/python/python3-beartype_0.20.0.bb
++++ b/meta/recipes-devtools/python/python3-beartype_0.20.2.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://beartype.readthedocs.io"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3a5bc05a109d235912da97a053cd7a58"
  
- diff --git a/Makefile b/Makefile
--index 2f8d2fa0..c760e5ae 100644
-+index 7e36aa42..edff7d5b 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -985,7 +985,7 @@ endif
-+@@ -996,7 +996,7 @@ endif
-  ifeq ($(PYTHON_BINDINGS),1)
-  install_python: libbtrfsutil_python
-  	$(Q)cd libbtrfsutil/python; \
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch
-deleted file mode 100644
-index 750ba83074..0000000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From ae0743dea3498429fce144e75c8b5b6eeed6f490 Mon Sep 17 00:00:00 2001
--From: Wang Mingyu <wangmy@fujitsu.com>
--Date: Tue, 11 Mar 2025 05:24:54 +0000
--Subject: [PATCH] mkfs: add break to case BTRFS_COMPRESS_NONE
--
--when compression null, always through error "lzo support not compiled in"
--
--This bug was imported by following commit:
------------------------------------------------------
--commit c6d24a363daed6501d13d9125c560387e2d755ca
--Author: Mark Harmstone <maharmstone@fb.com>
--Date:   Thu Dec 12 20:36:55 2024 +0000
--
--     btrfs-progs: mkfs: add lzo to --compress option
--
--     Allow --compress to work with lzo.
------------------------------------------------------
--
--Upstream-Status: Submitted [https://github.com/kdave/btrfs-progs/pull/967]
--
--Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-----
-- mkfs/rootdir.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/mkfs/rootdir.c b/mkfs/rootdir.c
--index 1927394..5f4cfb9 100644
----- a/mkfs/rootdir.c
--+++ b/mkfs/rootdir.c
--@@ -1654,6 +1654,7 @@ int btrfs_mkfs_fill_dir(struct btrfs_trans_handle *trans, const char *source_dir
-- 
-- 	switch (compression) {
-- 	case BTRFS_COMPRESS_NONE:
--+                break;
-- 	case BTRFS_COMPRESS_LZO:
-- #if !COMPRESSION_LZO
-- 		error("lzo support not compiled in");
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.14.bb
-similarity index 95%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.14.bb
-index d73d86ba8a..f3de28910c 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.14.bb
-@@ -17,9 +17,8 @@ DEPENDS = "util-linux zlib"
+-SRC_URI[sha256sum] = "599ecc86b88549bcb6d1af626f44d85ffbb9151ace5d7f9f3b493dce2ffee529"
++SRC_URI[sha256sum] = "38c60c065ad99364a8c767e8a0e71ba8263d467b91414ed5dcffb7758a2e8079"
  
- SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
--           file://0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch \
-            "
--SRCREV = "26e4d9174c70aac0e53c3b5de55cf159f8d9397f"
-+SRCREV = "5ad147c9ec00e657393c85b195c9bcc0f4c35a54"
- S = "${WORKDIR}/git"
+ inherit pypi python_hatchling
  
- PACKAGECONFIG ??= " \
 -- 
 2.47.1
 
 
---===============4160726979350891442==
+--===============1640894369079237595==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
-  /usr/lib/python3.13/site-packages/btrfsutil-6.13-py3.13.egg-info moved to /usr/lib/python3.13/site-packages/btrfsutil-6.14-py3.13.egg-info
+packages/core2-64-poky-linux/python3-beartype/python3-beartype: FILELIST: directory renamed /usr/lib/python3.13/site-packages/beartype-0.20.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/beartype-0.20.2.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/beartype-0.20.0.dist-info -> /usr/lib/python3.13/site-packages/beartype-0.20.2.dist-info, removed "/usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/utilpep3119.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_check/forward/__pycache__/fwdmain.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_decor/_decornontype.py /usr/lib/python3.13/site-packages/beartype/_util/hint/pep/proposal/__pycache__/pep673.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_check/forward/fwdmain.py /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/utilpep3119.py /usr/lib/python3.13/site-packages/beartype/_util/hint/pep/proposal/pep673.py /usr/lib/python3.13/site-packages/b
+ eartype/_util/cls/pep/__pycache__/utilpep557.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_decor/__pycache__/_decornontype.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/utilpep557.py", added "/usr/lib/python3.13/site-packages/beartype/_check/forward/__pycache__/fwdresolve.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/clspep557.py /usr/lib/python3.13/site-packages/beartype/_data/decor/__pycache__/datadecornontype.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_data/decor/__init__.py /usr/lib/python3.13/site-packages/beartype/_check/forward/fwdresolve.py /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/redpep673.py /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/redpep557.py /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/clspep3119.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/api/external/__pycache__/utiltensordict.cpyth
+ on-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/clspep557.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__init__.py /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/decornontype.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/_decordescriptor.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/clspep3119.py /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/decornontype.py /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/api/external/utiltensordict.py /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__init__.py /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__pycache__/_decorpep557.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_data/decor/__pycache__/__init__.cpython-313.pyc /usr/lib/python3
+ .13/site-packages/beartype/_decor/_nontype/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/_decorpep557.py /usr/lib/python3.13/site-packages/beartype/_data/decor/datadecornontype.py /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/__pycache__/redpep557.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/__pycache__/redpep673.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_decordescriptor.py"
+Changes to packages/core2-64-poky-linux/python3-beartype (sysroot):
+  /usr/lib/python3.13/site-packages/beartype-0.20.0.dist-info moved to /usr/lib/python3.13/site-packages/beartype-0.20.2.dist-info
+  /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/__pycache__/redpep557.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/__pycache__/redpep673.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/redpep557.py was added
+  /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/redpep673.py was added
+  /usr/lib/python3.13/site-packages/beartype/_check/forward/fwdresolve.py was added
+  /usr/lib/python3.13/site-packages/beartype/_check/forward/__pycache__/fwdresolve.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor/datadecornontype.py was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor/__init__.py was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor/__pycache__ was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor/__pycache__/datadecornontype.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_decordescriptor.py was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/decornontype.py was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__init__.py was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/_decorpep557.py was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__init__.py was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__pycache__ was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__pycache__/_decorpep557.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__ was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/_decordescriptor.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/decornontype.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_util/api/external/__pycache__/utiltensordict.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_util/api/external/utiltensordict.py was added
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/clspep3119.py was added
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/clspep557.py was added
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/clspep3119.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/clspep557.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_check/forward/fwdmain.py was removed
+  /usr/lib/python3.13/site-packages/beartype/_check/forward/__pycache__/fwdmain.cpython-313.pyc was removed
+  /usr/lib/python3.13/site-packages/beartype/_decor/_decornontype.py was removed
+  /usr/lib/python3.13/site-packages/beartype/_decor/__pycache__/_decornontype.cpython-313.pyc was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/utilpep3119.cpython-313.pyc was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/utilpep557.cpython-313.pyc was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/utilpep3119.py was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/utilpep557.py was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/hint/pep/proposal/pep673.py was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/hint/pep/proposal/__pycache__/pep673.cpython-313.pyc was removed
 
---===============4160726979350891442==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-btrfs-tools-upgrade-6.13-6.14.patch"
-
-RnJvbSA4YTAyMjg5ZmRjYTNhNzZiZDZhZGNhY2Q2OTRlYzE1OGU0OTZiYmYwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwNzozOTo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJ0
-cmZzLXRvb2xzOiB1cGdyYWRlIDYuMTMgLT4gNi4xNAoKLS0tCiAuLi55LXRvLXNwZWNpZnktd2hl
-cmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggfCAgNiArLS0KIC4uLmRkLWJyZWFrLXRvLWNhc2Ut
-QlRSRlNfQ09NUFJFU1NfTk9ORS5wYXRjaCB8IDQwIC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLnRy
-ZnMtdG9vbHNfNi4xMy5iYiA9PiBidHJmcy10b29sc182LjE0LmJifSB8ICAzICstCiAzIGZpbGVz
-IGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNDUgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAx
-MDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEt
-bWtmcy1hZGQtYnJlYWstdG8tY2FzZS1CVFJGU19DT01QUkVTU19OT05FLnBhdGNoCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL3tidHJmcy10b29sc182LjEzLmJiID0+
-IGJ0cmZzLXRvb2xzXzYuMTQuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2liaWxpdHktdG8t
-c3BlY2lmeS13aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNw
-ZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2gKaW5kZXggNTllYTVhNjZkYS4uMmNk
-NjZkMjcyMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0
-cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2liaWxpdHktdG8tc3BlY2lmeS13aGVyZS1weXRob24t
-bW9kdWxlcy1hci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMv
-YnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJpbGl0eS10by1zcGVjaWZ5LXdoZXJlLXB5dGhv
-bi1tb2R1bGVzLWFyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3NmU2MzVhNTZjNTk3MzY3
-MWRhM2E4YTJmZDRmYzMyZTgyM2JmOGM5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAw
-MzBlYzgxYzBkYWMxZTA2N2ZhZjQ5OTI0ZDU2MzFiYjIyY2NjOTBkIE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+
-CiBEYXRlOiBXZWQsIDIzIE1heSAyMDE4IDIxOjIwOjM1ICswMzAwCiBTdWJqZWN0OiBbUEFUQ0hd
-IEFkZCBhIHBvc3NpYmlsaXR5IHRvIHNwZWNpZnkgd2hlcmUgcHl0aG9uIG1vZHVsZXMgYXJlCkBA
-IC0xMSwxMCArMTEsMTAgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgu
-a2FuYXZpbkBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZSBiL01ha2VmaWxlCi1pbmRleCAyZjhk
-MmZhMC4uYzc2MGU1YWUgMTAwNjQ0CitpbmRleCA3ZTM2YWE0Mi4uZWRmZjdkNWIgMTAwNjQ0CiAt
-LS0gYS9NYWtlZmlsZQogKysrIGIvTWFrZWZpbGUKLUBAIC05ODUsNyArOTg1LDcgQEAgZW5kaWYK
-K0BAIC05OTYsNyArOTk2LDcgQEAgZW5kaWYKICBpZmVxICgkKFBZVEhPTl9CSU5ESU5HUyksMSkK
-ICBpbnN0YWxsX3B5dGhvbjogbGliYnRyZnN1dGlsX3B5dGhvbgogIAkkKFEpY2QgbGliYnRyZnN1
-dGlsL3B5dGhvbjsgXApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRv
-b2xzL2J0cmZzLXRvb2xzLzAwMDEtbWtmcy1hZGQtYnJlYWstdG8tY2FzZS1CVFJGU19DT01QUkVT
-U19OT05FLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRv
-b2xzLzAwMDEtbWtmcy1hZGQtYnJlYWstdG8tY2FzZS1CVFJGU19DT01QUkVTU19OT05FLnBhdGNo
-CmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA3NTBiYTgzMDc0Li4wMDAwMDAwMDAwCi0t
-LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLW1r
-ZnMtYWRkLWJyZWFrLXRvLWNhc2UtQlRSRlNfQ09NUFJFU1NfTk9ORS5wYXRjaAorKysgL2Rldi9u
-dWxsCkBAIC0xLDQwICswLDAgQEAKLUZyb20gYWUwNzQzZGVhMzQ5ODQyOWZjZTE0NGU3NWM4YjVi
-NmVlZWQ2ZjQ5MCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IFdhbmcgTWluZ3l1IDx3
-YW5nbXlAZnVqaXRzdS5jb20+Ci1EYXRlOiBUdWUsIDExIE1hciAyMDI1IDA1OjI0OjU0ICswMDAw
-Ci1TdWJqZWN0OiBbUEFUQ0hdIG1rZnM6IGFkZCBicmVhayB0byBjYXNlIEJUUkZTX0NPTVBSRVNT
-X05PTkUKLQotd2hlbiBjb21wcmVzc2lvbiBudWxsLCBhbHdheXMgdGhyb3VnaCBlcnJvciAibHpv
-IHN1cHBvcnQgbm90IGNvbXBpbGVkIGluIgotCi1UaGlzIGJ1ZyB3YXMgaW1wb3J0ZWQgYnkgZm9s
-bG93aW5nIGNvbW1pdDoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0KLWNvbW1pdCBjNmQyNGEzNjNkYWVkNjUwMWQxM2Q5MTI1YzU2MDM4N2UyZDc1
-NWNhCi1BdXRob3I6IE1hcmsgSGFybXN0b25lIDxtYWhhcm1zdG9uZUBmYi5jb20+Ci1EYXRlOiAg
-IFRodSBEZWMgMTIgMjA6MzY6NTUgMjAyNCArMDAwMAotCi0gICAgIGJ0cmZzLXByb2dzOiBta2Zz
-OiBhZGQgbHpvIHRvIC0tY29tcHJlc3Mgb3B0aW9uCi0KLSAgICAgQWxsb3cgLS1jb21wcmVzcyB0
-byB3b3JrIHdpdGggbHpvLgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQotCi1VcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9naXRo
-dWIuY29tL2tkYXZlL2J0cmZzLXByb2dzL3B1bGwvOTY3XQotCi1TaWduZWQtb2ZmLWJ5OiBXYW5n
-IE1pbmd5dSA8d2FuZ215QGZ1aml0c3UuY29tPgotLS0tCi0gbWtmcy9yb290ZGlyLmMgfCAxICsK
-LSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKLQotZGlmZiAtLWdpdCBhL21rZnMvcm9v
-dGRpci5jIGIvbWtmcy9yb290ZGlyLmMKLWluZGV4IDE5MjczOTQuLjVmNGNmYjkgMTAwNjQ0Ci0t
-LS0gYS9ta2ZzL3Jvb3RkaXIuYwotKysrIGIvbWtmcy9yb290ZGlyLmMKLUBAIC0xNjU0LDYgKzE2
-NTQsNyBAQCBpbnQgYnRyZnNfbWtmc19maWxsX2RpcihzdHJ1Y3QgYnRyZnNfdHJhbnNfaGFuZGxl
-ICp0cmFucywgY29uc3QgY2hhciAqc291cmNlX2RpcgotIAotIAlzd2l0Y2ggKGNvbXByZXNzaW9u
-KSB7Ci0gCWNhc2UgQlRSRlNfQ09NUFJFU1NfTk9ORToKLSsgICAgICAgICAgICAgICAgYnJlYWs7
-Ci0gCWNhc2UgQlRSRlNfQ09NUFJFU1NfTFpPOgotICNpZiAhQ09NUFJFU1NJT05fTFpPCi0gCQll
-cnJvcigibHpvIHN1cHBvcnQgbm90IGNvbXBpbGVkIGluIik7Ci0tLSAKLTIuNDMuMAotCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4x
-My5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc182LjE0
-LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9idHJmcy10b29scy9idHJmcy10b29sc182LjEzLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4xNC5iYgppbmRleCBkNzNkODZiYThh
-Li5mM2RlMjg5MTBjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9v
-bHMvYnRyZnMtdG9vbHNfNi4xMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMt
-dG9vbHMvYnRyZnMtdG9vbHNfNi4xNC5iYgpAQCAtMTcsOSArMTcsOCBAQCBERVBFTkRTID0gInV0
-aWwtbGludXggemxpYiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2tkYXZlL2J0cmZz
-LXByb2dzLmdpdDticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzIFwKICAgICAgICAgICAgZmls
-ZTovLzAwMDEtQWRkLWEtcG9zc2liaWxpdHktdG8tc3BlY2lmeS13aGVyZS1weXRob24tbW9kdWxl
-cy1hci5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAxLW1rZnMtYWRkLWJyZWFrLXRvLWNh
-c2UtQlRSRlNfQ09NUFJFU1NfTk9ORS5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ1JFViA9ICIy
-NmU0ZDkxNzRjNzBhYWMwZTUzYzNiNWRlNTVjZjE1OWY4ZDkzOTdmIgorU1JDUkVWID0gIjVhZDE0
-N2M5ZWMwMGU2NTczOTNjODViMTk1YzliY2MwZjRjMzVhNTQiCiBTID0gIiR7V09SS0RJUn0vZ2l0
-IgogCiBQQUNLQUdFQ09ORklHID8/PSAiIFwKLS0gCjIuNDcuMQoK
-
---===============4160726979350891442==
+--===============1640894369079237595==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.13" to "6.14"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 26978584 to 27003976 (+0%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.13 [default] to 6.14 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.13" to "6.14"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGSIZE changed from 166883 to 166886 (+0%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.13 [default] to 6.14 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.13" to "6.14"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.13 [default] to 6.14 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.13" to "6.14"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.13 [default] to 6.14 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.13" to "6.14"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 4215079 to 4229319 (+0%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.13 [default] to 6.14 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.13" to "6.14"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.13 [default] to 6.14 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.13" to "6.14"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 5860772 to 5869039 (+0%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.13 [default] to 6.14 [default]
-packages/core2-64-poky-linux/btrfs-tools: SRC_URI changed from "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch file://0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch" to "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch"
-packages/core2-64-poky-linux/btrfs-tools: PV changed from "6.13" to "6.14"
-packages/core2-64-poky-linux/btrfs-tools: PKGV changed from 6.13 [default] to 6.14 [default]
-Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
-  /usr/lib/python3.13/site-packages/btrfsutil-6.13-py3.13.egg-info moved to /usr/lib/python3.13/site-packages/btrfsutil-6.14-py3.13.egg-info
+packages/core2-64-poky-linux/python3-beartype: PKGV changed from 0.20.0 [default] to 0.20.2 [default]
+packages/core2-64-poky-linux/python3-beartype: PV changed from "0.20.0" to "0.20.2"
+packages/core2-64-poky-linux/python3-beartype: SRC_URI changed from "https://files.pythonhosted.org/packages/source/b/beartype/beartype-0.20.0.tar.gz;downloadfilename=beartype-0.20.0.tar.gz" to "https://files.pythonhosted.org/packages/source/b/beartype/beartype-0.20.2.tar.gz;downloadfilename=beartype-0.20.2.tar.gz"
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-dbg: PKGV changed from 0.20.0 [default] to 0.20.2 [default]
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-dbg: PV changed from "0.20.0" to "0.20.2"
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-dev: PKGV changed from 0.20.0 [default] to 0.20.2 [default]
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-dev: PV changed from "0.20.0" to "0.20.2"
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-doc: PKGV changed from 0.20.0 [default] to 0.20.2 [default]
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-doc: PV changed from "0.20.0" to "0.20.2"
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-locale: PKGV changed from 0.20.0 [default] to 0.20.2 [default]
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-locale: PV changed from "0.20.0" to "0.20.2"
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-src: PKGV changed from 0.20.0 [default] to 0.20.2 [default]
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-src: PV changed from "0.20.0" to "0.20.2"
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-staticdev: PKGV changed from 0.20.0 [default] to 0.20.2 [default]
+packages/core2-64-poky-linux/python3-beartype/python3-beartype-staticdev: PV changed from "0.20.0" to "0.20.2"
+packages/core2-64-poky-linux/python3-beartype/python3-beartype: PKGV changed from 0.20.0 [default] to 0.20.2 [default]
+packages/core2-64-poky-linux/python3-beartype/python3-beartype: FILELIST: directory renamed /usr/lib/python3.13/site-packages/beartype-0.20.0.dist-info -> /usr/lib/python3.13/site-packages/beartype-0.20.2.dist-info, directory renamed /usr/lib/python3.13/site-packages/beartype-0.20.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/beartype-0.20.2.dist-info/licenses, removed "/usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/utilpep557.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_check/forward/__pycache__/fwdmain.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_check/forward/fwdmain.py /usr/lib/python3.13/site-packages/beartype/_util/hint/pep/proposal/pep673.py /usr/lib/python3.13/site-packages/beartype/_util/hint/pep/proposal/__pycache__/pep673.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/utilpep3119.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/utilpep557.py /usr/li
+ b/python3.13/site-packages/beartype/_decor/__pycache__/_decornontype.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/utilpep3119.py /usr/lib/python3.13/site-packages/beartype/_decor/_decornontype.py", added "/usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/clspep3119.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/clspep557.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_data/decor/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/_decordescriptor.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/api/external/__pycache__/utiltensordict.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_decordescriptor.py /usr/lib/python3.13/site-packages/beartype/_data/decor/__pycache__/datadecornontype.cpython-313.p
+ yc /usr/lib/python3.13/site-packages/beartype/_check/forward/__pycache__/fwdresolve.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/api/external/utiltensordict.py /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/decornontype.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/clspep3119.py /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/_decorpep557.py /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/decornontype.py /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__init__.py /usr/lib/python3.13/site-packages/beartype/_data/decor/__init__.py /usr/lib/python3.13/site-packages/beartype/_data/decor/datadecornontype.py /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/redpep557.py /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/redpep673.py /usr
+ /lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__pycache__/_decorpep557.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_check/forward/fwdresolve.py /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__init__.py /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/__pycache__/redpep673.cpython-313.pyc /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/clspep557.py /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/__pycache__/redpep557.cpython-313.pyc"
+packages/core2-64-poky-linux/python3-beartype/python3-beartype: PKGSIZE changed from 5874545 to 5961433 (+1%)
+packages/core2-64-poky-linux/python3-beartype/python3-beartype: PV changed from "0.20.0" to "0.20.2"
+Changes to packages/core2-64-poky-linux/python3-beartype (sysroot):
+  /usr/lib/python3.13/site-packages/beartype-0.20.0.dist-info moved to /usr/lib/python3.13/site-packages/beartype-0.20.2.dist-info
+  /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/__pycache__/redpep557.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/__pycache__/redpep673.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/redpep557.py was added
+  /usr/lib/python3.13/site-packages/beartype/_check/convert/_reduce/_pep/redpep673.py was added
+  /usr/lib/python3.13/site-packages/beartype/_check/forward/fwdresolve.py was added
+  /usr/lib/python3.13/site-packages/beartype/_check/forward/__pycache__/fwdresolve.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor/datadecornontype.py was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor/__init__.py was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor/__pycache__ was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor/__pycache__/datadecornontype.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_data/decor/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_decordescriptor.py was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/decornontype.py was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__init__.py was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/_decorpep557.py was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__init__.py was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__pycache__ was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__pycache__/_decorpep557.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/_pep/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__ was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/_decordescriptor.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/decornontype.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_decor/_nontype/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_util/api/external/__pycache__/utiltensordict.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_util/api/external/utiltensordict.py was added
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/clspep3119.py was added
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/clspep557.py was added
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/clspep3119.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/clspep557.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/beartype/_check/forward/fwdmain.py was removed
+  /usr/lib/python3.13/site-packages/beartype/_check/forward/__pycache__/fwdmain.cpython-313.pyc was removed
+  /usr/lib/python3.13/site-packages/beartype/_decor/_decornontype.py was removed
+  /usr/lib/python3.13/site-packages/beartype/_decor/__pycache__/_decornontype.cpython-313.pyc was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/utilpep3119.cpython-313.pyc was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/__pycache__/utilpep557.cpython-313.pyc was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/utilpep3119.py was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/cls/pep/utilpep557.py was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/hint/pep/proposal/pep673.py was removed
+  /usr/lib/python3.13/site-packages/beartype/_util/hint/pep/proposal/__pycache__/pep673.cpython-313.pyc was removed
 
---===============4160726979350891442==--
+--===============1640894369079237595==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-beartype-upgrade-0.20.0-0.20.2.patch"
+
+RnJvbSA5ZDJlY2YxZWQ5Y2I5ODFkNWEzYjk5MTdiNWE3OWIzMDI3OGJhY2FlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwODo0Njo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtYmVhcnR5cGU6IHVwZ3JhZGUgMC4yMC4wIC0+IDAuMjAuMgoKLS0tCiAuLi4ve3B5dGhv
+bjMtYmVhcnR5cGVfMC4yMC4wLmJiID0+IHB5dGhvbjMtYmVhcnR5cGVfMC4yMC4yLmJifSAgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWJlYXJ0eXBlXzAuMjAuMC5i
+YiA9PiBweXRob24zLWJlYXJ0eXBlXzAuMjAuMi5iYn0gKDc4JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtYmVhcnR5cGVfMC4yMC4wLmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWJlYXJ0eXBlXzAuMjAuMi5iYgpzaW1p
+bGFyaXR5IGluZGV4IDc4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtYmVhcnR5cGVfMC4yMC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtYmVhcnR5cGVfMC4yMC4yLmJiCmluZGV4IGMwNDdlZDIwMjYuLjk5
+NDFiMjhmZDggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1iZWFydHlwZV8wLjIwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLWJlYXJ0eXBlXzAuMjAuMi5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAiaHR0
+cHM6Ly9iZWFydHlwZS5yZWFkdGhlZG9jcy5pbyIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVT
+X0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9M2E1YmMwNWExMDlkMjM1OTEyZGE5N2EwNTNj
+ZDdhNTgiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1OTllY2M4NmI4ODU0OWJjYjZkMWFmNjI2
+ZjQ0ZDg1ZmZiYjkxNTFhY2U1ZDdmOWYzYjQ5M2RjZTJmZmVlNTI5IgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjM4YzYwYzA2NWFkOTkzNjRhOGM3NjdlOGEwZTcxYmE4MjYzZDQ2N2I5MTQxNGVkNWRj
+ZmZiNzc1OGEyZTgwNzkiCiAKIGluaGVyaXQgcHlwaSBweXRob25faGF0Y2hsaW5nCiAKLS0gCjIu
+NDcuMQoK
+
+--===============1640894369079237595==--
 
