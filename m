@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6308EC3ABA2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FAF1C3ABA5
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:36 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.18075.1743511396844481230
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.18037.1743511387671847570
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Apr 2025 05:43:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZieEgkDB;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ihL4VEfS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010195f160c14a-5eeb0c51-49bd-49f3-83ab-6ee89cea7340-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=S4iIZxqP;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=MLblFLey;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010195f160c23b-1922ca95-5ef9-4e67-9faf-5a79bdabf7d6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743511404;
+	t=1743511405;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xREWevBRMTiMK8qL7mdNXY4N21NslyaxEMjdyjYMpe8=;
-	b=ZieEgkDBSnqWRfrfsenevzNHjcKpoXKe+8z9CzOgxMraKKP6bLygKmkMh/S2dYoJ
-	fbBk16wvrUf+epPRDniRtaoL3x00L4OEjrNXIcT71YZH1FCgQC9p9aYbcu84F5GRYcU
-	nEBwInc0Fa0vxcL9pH4ypASPoEJeDbHQpaJB0wGU=
+	bh=R50saAwWxokM96C5j4irvUuZRGcg710zydoKh3Puakc=;
+	b=S4iIZxqP8uSGUoXNaCJ7kcyZb+u3sHUuBbCRpazw18MEQRrHcP6eFtas3Iz8gy57
+	X41Wftg3IfzNSlOHDnqHYu6cdWjyyJ/OVQpe6Kr2VL9tdOhfhJfn+FQyZEosgMafkZK
+	rMkqGsKQHDtKpl/u3Q1KwdPni08VwniVXh8Hju+Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511404;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511405;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xREWevBRMTiMK8qL7mdNXY4N21NslyaxEMjdyjYMpe8=;
-	b=ihL4VEfSHy2dOdepEOy+Ev716p9dACPUK91BZb18277kThFbzxf+h0kcytDB/GKv
-	e+g11B6e3Lft4j6CubekfoCMoa/3pAbmhDDNLq12EE7Y026BOxpZ5op+Ch2l10oUnif
-	xotVJYTCzZ4fNavUIsHXwchIH9g57wPO0GgYjxG8=
-Content-Type: multipart/mixed; boundary="===============4006820960524596924=="
+	bh=R50saAwWxokM96C5j4irvUuZRGcg710zydoKh3Puakc=;
+	b=MLblFLeyVOy7PQvNeCNZbUaFS3yu+E+W0Us2lBm8nRlL9ydLUfk6WTIe3ommYYMH
+	b1sJwTDbZjCAwRNV12aSKu0W7yOF8sKuwzZYru+epMxR0XHOnUniHWshPpjXtXqSXHk
+	y5fEoxtFJNHYel7fmUhgxUllarXcy5OCoPvJDk2c=
+Content-Type: multipart/mixed; boundary="===============6761826573933014964=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] which: upgrading to 2.23 FAILED
-Message-ID: <01010195f160c14a-5eeb0c51-49bd-49f3-83ab-6ee89cea7340-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:24 +0000
+Subject: [AUH] libnotify: upgrading to 0.8.6 SUCCEEDED
+Message-ID: <01010195f160c23b-1922ca95-5ef9-4e67-9faf-5a79bdabf7d6-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:25 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.31
+X-SES-Outgoing: 2025.04.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214088
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214090
 
---===============4006820960524596924==
+--===============6761826573933014964==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,89 +51,113 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *which* to *2.23* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *libnotify* to *0.8.6* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libnotify-upgrade-0.8.4-0.8.6.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe which failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1886 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:bde12cdb0488a11ca12e34831c5bb566bfc59835"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 925 .bb files complete (0 cached, 925 parsed). 1887 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:bde12cdb0488a11ca12e34831c5bb566bfc59835"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-ncqbxp39: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-4jalpy8_/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-4jalpy8_/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://ftp.gnu.org/gnu/which/which-2.23.tar.gz...
-INFO: Rebasing devtool onto f0c617b7c4e405668149958e4cb2d15452077f70
-WARNING: Command 'git rebase f0c617b7c4e405668149958e4cb2d15452077f70' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/which
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/which/which_2.23.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4006820960524596924==--
+
+-- >8 --
+From 4ac564ea8f31f837a4b903002497f449292dfbf4 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 1 Apr 2025 10:50:26 +0000
+Subject: [PATCH] libnotify: upgrade 0.8.4 -> 0.8.6
+
+---
+ .../libnotify/{libnotify_0.8.4.bb => libnotify_0.8.6.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/libnotify/{libnotify_0.8.4.bb => libnotify_0.8.6.bb} (93%)
+
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.8.4.bb b/meta/recipes-gnome/libnotify/libnotify_0.8.6.bb
+similarity index 93%
+rename from meta/recipes-gnome/libnotify/libnotify_0.8.4.bb
+rename to meta/recipes-gnome/libnotify/libnotify_0.8.6.bb
+index 040df2ad5e..6ff7ee4be1 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.8.4.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.8.6.bb
+@@ -20,7 +20,7 @@ inherit gnomebase gi-docgen features_check gobject-introspection
+ # depends on gtk+3 if tests are enabled
+ ANY_OF_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'tests', '${GTK3DISTROFEATURES}', '', d)}"
+ 
+-SRC_URI[archive.sha256sum] = "8fa04d4ebdc155b0a239df88bd9f09e8f2739d5707a1390b427ab4985f83d25a"
++SRC_URI[archive.sha256sum] = "c5540aaefb60e1d63b1c587c05f2284ebe72ece7d0c0e5e4a778cfd5844b6b58"
+ 
+ EXTRA_OEMESON = "-Dman=false"
+ 
+-- 
+2.47.1
+
+
+--===============6761826573933014964==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libnotify-upgrade-0.8.4-0.8.6.patch"
+
+RnJvbSA0YWM1NjRlYThmMzFmODM3YTRiOTAzMDAyNDk3ZjQ0OTI5MmRmYmY0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAxMDo1MDoyNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+Ym5vdGlmeTogdXBncmFkZSAwLjguNCAtPiAwLjguNgoKLS0tCiAuLi4vbGlibm90aWZ5L3tsaWJu
+b3RpZnlfMC44LjQuYmIgPT4gbGlibm90aWZ5XzAuOC42LmJifSAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZ25vbWUvbGlibm90aWZ5L3tsaWJub3RpZnlfMC44LjQuYmIgPT4gbGlibm90aWZ5XzAu
+OC42LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9saWJub3RpZnkv
+bGlibm90aWZ5XzAuOC40LmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYm5vdGlmeS9saWJub3Rp
+ZnlfMC44LjYuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWdub21lL2xpYm5vdGlmeS9saWJub3RpZnlfMC44LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1nbm9tZS9saWJub3RpZnkvbGlibm90aWZ5XzAuOC42LmJiCmluZGV4IDA0MGRmMmFkNWUuLjZm
+ZjdlZTRiZTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9saWJub3RpZnkvbGlibm90
+aWZ5XzAuOC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJub3RpZnkvbGlibm90aWZ5
+XzAuOC42LmJiCkBAIC0yMCw3ICsyMCw3IEBAIGluaGVyaXQgZ25vbWViYXNlIGdpLWRvY2dlbiBm
+ZWF0dXJlc19jaGVjayBnb2JqZWN0LWludHJvc3BlY3Rpb24KICMgZGVwZW5kcyBvbiBndGsrMyBp
+ZiB0ZXN0cyBhcmUgZW5hYmxlZAogQU5ZX09GX0RJU1RST19GRUFUVVJFUyA9ICIke0BiYi51dGls
+cy5jb250YWlucygnUEFDS0FHRUNPTkZJRycsICd0ZXN0cycsICcke0dUSzNESVNUUk9GRUFUVVJF
+U30nLCAnJywgZCl9IgogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICI4ZmEwNGQ0ZWJk
+YzE1NWIwYTIzOWRmODhiZDlmMDllOGYyNzM5ZDU3MDdhMTM5MGI0MjdhYjQ5ODVmODNkMjVhIgor
+U1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYzU1NDBhYWVmYjYwZTFkNjNiMWM1ODdjMDVm
+MjI4NGViZTcyZWNlN2QwYzBlNWU0YTc3OGNmZDU4NDRiNmI1OCIKIAogRVhUUkFfT0VNRVNPTiA9
+ICItRG1hbj1mYWxzZSIKIAotLSAKMi40Ny4xCgo=
+
+--===============6761826573933014964==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/libnotify: SRC_URI changed from "https://download.gnome.org/sources//libnotify/0.8/libnotify-0.8.4.tar.xz;name=archive" to "https://download.gnome.org/sources//libnotify/0.8/libnotify-0.8.6.tar.xz;name=archive"
+packages/core2-64-poky-linux/libnotify: PKGV changed from 0.8.4 [default] to 0.8.6 [default]
+packages/core2-64-poky-linux/libnotify: PV changed from "0.8.4" to "0.8.6"
+packages/core2-64-poky-linux/libnotify/libnotify-dbg: PKGV changed from 0.8.4 [default] to 0.8.6 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-dbg: PKGSIZE changed from 159520 to 158976 (-0%)
+packages/core2-64-poky-linux/libnotify/libnotify-dbg: PV changed from "0.8.4" to "0.8.6"
+packages/core2-64-poky-linux/libnotify/libnotify-dev: PKGV changed from 0.8.4 [default] to 0.8.6 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-dev: PV changed from "0.8.4" to "0.8.6"
+packages/core2-64-poky-linux/libnotify/libnotify-doc: PKGV changed from 0.8.4 [default] to 0.8.6 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-doc: PV changed from "0.8.4" to "0.8.6"
+packages/core2-64-poky-linux/libnotify/libnotify-locale: PKGV changed from 0.8.4 [default] to 0.8.6 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-locale: PV changed from "0.8.4" to "0.8.6"
+packages/core2-64-poky-linux/libnotify/libnotify-src: PKGV changed from 0.8.4 [default] to 0.8.6 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-src: PKGSIZE changed from 130214 to 130106 (-0%)
+packages/core2-64-poky-linux/libnotify/libnotify-src: PV changed from "0.8.4" to "0.8.6"
+packages/core2-64-poky-linux/libnotify/libnotify-staticdev: PKGV changed from 0.8.4 [default] to 0.8.6 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-staticdev: PV changed from "0.8.4" to "0.8.6"
+packages/core2-64-poky-linux/libnotify/libnotify: PKGV changed from 0.8.4 [default] to 0.8.6 [default]
+packages/core2-64-poky-linux/libnotify/libnotify: PV changed from "0.8.4" to "0.8.6"
+
+--===============6761826573933014964==--
 
