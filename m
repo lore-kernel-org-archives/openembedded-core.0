@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24347C369DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31C28C3ABA0
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:36 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.18044.1743511392254306889
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.18071.1743511394485505631
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 05:43:27 -0700
+ Tue, 01 Apr 2025 05:43:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=KRfNiP/D;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ttvpnr8q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010195f160c977-00667e39-0ca1-4caa-b66d-363b2ce1b0f0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LqROCkhr;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DOqKRnWu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010195f160c5c0-162dd3eb-73fe-437b-9bb0-90b358658218-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743511407;
+	t=1743511406;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=decT7hKPEJcHNQhQ7DApVULVhjBIjt3iurmGV1aPf6U=;
-	b=KRfNiP/DPkRm6cKCeXlJuKSwBTph73IXNuagnaBxDJY65bA3GEQ+u/xSZ9cBGcCr
-	Qe0rRIe+1EnZ+35TwmnSbW7W7b/hnfQPWsIaPxDKLnL3tT3TWT6Rxzrh8tl2MmkfvMT
-	+FWr6L11kKBmZLoImHDXqhkB01yY77TkCIBpnqnE=
+	bh=vGZWBco0RRPFQKHKWf6joCCVUwvYwOgTmhy2mZX9Whk=;
+	b=LqROCkhrNIjLJBW4lrfAUkbVechBaaQ8q2u53mK16nzEbcbPtbBbdbWddXqGVSIh
+	LwyvFXETIoZdkou7Ruus+UxjOgqXTHQRZPSPsI2eJf0etOHoRP9QIa9LPY+/knvn6ZA
+	lxxuL6LT+m5NlU6rBWuJ8EN7l2JstR6UYKY+KOA4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511407;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511406;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=decT7hKPEJcHNQhQ7DApVULVhjBIjt3iurmGV1aPf6U=;
-	b=ttvpnr8qR1QJlgx3JKgM4bLDm3MUffFROlt92DpY4jTkfUdSgZ05uoIslniqBgkv
-	p1afW0WttfDkK8Gip+P3rsZYAlOL2hMmCBT4jb4su9yburXj8IrmSu/epkvEOf4x4+b
-	0MU0gPhI7PuFUW/gYXs3lsdMy3jLOm1OaixvSTh0=
-Content-Type: multipart/mixed; boundary="===============0256102495146361643=="
+	bh=vGZWBco0RRPFQKHKWf6joCCVUwvYwOgTmhy2mZX9Whk=;
+	b=DOqKRnWu5Li8bcVIEv1uhfTgN5iLCyJVFf0VlBNpmWUj88UjzyPpQ6q/5emAblZq
+	AeOSKXZkDYqSgjE7UHSf1gAv6iIX1gqz6ntvANWUfzxU6gjr/H1rD3DL1P98z+f9ytc
+	Flc73G67vyvzFIc4oCZ8/BqpeRgqlWvcg+CkV7p8=
+Content-Type: multipart/mixed; boundary="===============8967948688548217695=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] igt-gpu-tools: upgrading to 2.0 FAILED
-Message-ID: <01010195f160c977-00667e39-0ca1-4caa-b66d-363b2ce1b0f0-000000@us-west-2.amazonses.com>
+Subject: [AUH] fontconfig: upgrading to 2.16.0 FAILED
+Message-ID: <01010195f160c5c0-162dd3eb-73fe-437b-9bb0-90b358658218-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Apr 2025 12:43:26 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.192
+X-SES-Outgoing: 2025.04.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214098
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214096
 
---===============0256102495146361643==
+--===============8967948688548217695==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,14 +51,15 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *igt-gpu-tools* to *2.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *fontconfig* to *2.16.0* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe igt-gpu-tools failed.
+The following devtool command failed:  upgrade fontconfig -V 2.16.0
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1886 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -74,7 +75,7 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:185618e6c465812b7451750e9c56a0b9c5346c51"
+workspace            = "tmp-auh-upgrades:f699003678ffcb7ba170dda494651afd29421930"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
@@ -83,17 +84,48 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 925 .bb files complete (0 cached, 925 parsed). 1887 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:f699003678ffcb7ba170dda494651afd29421930"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL http://fontconfig.org/release/fontconfig-2.16.0.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250401105440.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250401105440.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto e582faa38f9466303b4634a60053c3201dae9539
-WARNING: Command 'git rebase e582faa38f9466303b4634a60053c3201dae9539' failed:
-Auto-merging lib/igt_aux.c
-CONFLICT (content): Merge conflict in lib/igt_aux.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/igt-gpu-tools
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/igt-gpu-tools/igt-gpu-tools_2.0.bb
-
+INFO: Fetching http://fontconfig.org/release/fontconfig-2.16.0.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-r11nogzn/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-r11nogzn/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-r11nogzn/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-r11nogzn/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
+ cipetool-r11nogzn/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-r11nogzn/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget --tries=2 --timeout=100 --output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/fontconfig-2.16.0.tar.gz.tmp --continue --directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads 'http://fontconfig.org/release/fontconfig-2.16.0.tar.gz' --progress=dot --verbose failed with exit code 8, see logfile for output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://fontconfig.org/release/fontconfig-2.16.0.tar.gz')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-r11nogzn/work/temp/log.do_fetch.1962598
+ERROR: Failed to fetch URL http://fontconfig.org/release/fontconfig-2.16.0.tar.gz
 
 
 Please review the attached files for further information and build/update failures.
@@ -101,5 +133,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0256102495146361643==--
+--===============8967948688548217695==--
 
