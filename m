@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70523C369A7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9005C369AE
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:23 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.18038.1743511387886438903
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.18042.1743511391543488936
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 05:43:17 -0700
+ Tue, 01 Apr 2025 05:43:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=f2oUzUOv;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=PgYbqUj1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010195f160a06f-c9dbd940-2508-40f6-bd30-7456dbde288c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=WTeQg+ZE;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=cuOm9nxI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010195f160883a-5d005751-e0bb-4079-9e6a-ea34be356095-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743511397;
+	t=1743511390;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=cBTEWRQY+AmEemZo8I6Fmu8saSRgDrF7npjGsIzHk00=;
-	b=f2oUzUOvpNKSuIv9u+Fbv3QST8DRhJpLHJxE5Oe8wnWJuPHhG19X1qNPGQg1VdXW
-	8jRm9YL+AzSLCof4hOdBZ+3x5a/Lc73d2JEGgaRxZlJ3ofQSI0cqHmey/TWIbKd0xqN
-	1hFoBoWieS5g52seAPuehWTWhn607Bi9D9F7eSGM=
+	bh=x5fJQOjOFl00zMI9QXSku1M/muwgqjL7FqCPShryb/E=;
+	b=WTeQg+ZEPC5zkc4QtDmB6tfUltMOZ4VhyjsOMBfEJ58Hr3hg7ulaY0ydQworT70t
+	+Bga6Pr51LjvxZFtbcR9PF9aufHScQOBkFPsanC0QQU0UgccMF19beqtOMb6smVF+cL
+	xB8jwpU4I1RHmlgoUwMCPBqGBILv2jhnHHhPlI3o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511397;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511390;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=cBTEWRQY+AmEemZo8I6Fmu8saSRgDrF7npjGsIzHk00=;
-	b=PgYbqUj1UAcitFBjH3ryQ76tw+6CU6dOW1rETwjZOBvMPUboK/Xzycl+yJpDNfMi
-	LcLwnleygdlYskvd2Mccs971DVyovuGz/6di9WawN+YtJ5sR0XOtrmsUDnz5VemfUpg
-	tOw54xadNsf331H7ocTaVml14iZ5gYxZsHJgS7pg=
-Content-Type: multipart/mixed; boundary="===============0146430023199023422=="
+	bh=x5fJQOjOFl00zMI9QXSku1M/muwgqjL7FqCPShryb/E=;
+	b=cuOm9nxI7E5QQ69/Td0ewBml8cyQ+dd9VIbSUgAS/RvmRTfbKZ0UTzy/S5O/N1mi
+	s9rMGwTNB65HzP2YJyZfnTwigeuEemtTx5UKkcbRPqRjrKSqXKBPEEWVjJdTko/JejT
+	vwSPOY46dWpw++Q1r9X5JJid0Wv2MXmL0YtnDb5o=
+Content-Type: multipart/mixed; boundary="===============6973601046215947477=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-iniconfig: upgrading to 2.1.0 SUCCEEDED
-Message-ID: <01010195f160a06f-c9dbd940-2508-40f6-bd30-7456dbde288c-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:16 +0000
+Subject: [AUH] ofono: upgrading to 2.16 SUCCEEDED
+Message-ID: <01010195f160883a-5d005751-e0bb-4079-9e6a-ea34be356095-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:10 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.30
+X-SES-Outgoing: 2025.04.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214062
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214040
 
---===============0146430023199023422==
+--===============6973601046215947477==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-iniconfig* to *2.1.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ofono* to *2.16* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-iniconfig-upgrade-2.0.0-2.1.0.patch
+    - apply the patch: git am 0001-ofono-upgrade-2.15-2.16.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,237 +72,98 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f106adf94eb6e53976b57d4af6be39af2311b185 Mon Sep 17 00:00:00 2001
+From 04dc92b0468f0188aa1f283c5cbeb51cc7575293 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Apr 2025 08:55:11 +0000
-Subject: [PATCH] python3-iniconfig: upgrade 2.0.0 -> 2.1.0
+Date: Tue, 1 Apr 2025 07:20:02 +0000
+Subject: [PATCH] ofono: upgrade 2.15 -> 2.16
 
 ---
- .../python/python3-iniconfig_2.0.0.bb         | 13 ----
- .../python/python3-iniconfig_2.1.0.bb         | 65 +++++++++++++++++++
- 2 files changed, 65 insertions(+), 13 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-iniconfig_2.1.0.bb
+ .../recipes-connectivity/ofono/{ofono_2.15.bb => ofono_2.16.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/ofono/{ofono_2.15.bb => ofono_2.16.bb} (95%)
 
-diff --git a/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb b/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb
-deleted file mode 100644
-index 2abeec62f4..0000000000
---- a/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb
-+++ /dev/null
-@@ -1,13 +0,0 @@
--SUMMARY = "A small and simple INI-file parser module"
--HOMEPAGE = "https://pypi.org/project/iniconfig/"
--
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=a6bb0320b04a0a503f12f69fea479de9"
--
--SRC_URI[sha256sum] = "2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"
--
--DEPENDS += "python3-hatch-vcs-native"
--
--inherit pypi python_hatchling
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-iniconfig_2.1.0.bb b/meta/recipes-devtools/python/python3-iniconfig_2.1.0.bb
-new file mode 100644
-index 0000000000..dc22340e0c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-iniconfig_2.1.0.bb
-@@ -0,0 +1,65 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -1,19 +1,21 @@
-+# +The MIT License (MIT)
-+#  
-+# -  Permission is hereby granted, free of charge, to any person obtaining a copy
-+# -  of this software and associated documentation files (the "Software"), to deal
-+# -  in the Software without restriction, including without limitation the rights
-+# -  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+# -  copies of the Software, and to permit persons to whom the Software is
-+# -  furnished to do so, subject to the following conditions:
-+# -     
-+# -  The above copyright notice and this permission notice shall be included in all
-+# -  copies or substantial portions of the Software.
-+# - 
-+# -  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+# -  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+# -  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-+# -  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+# -  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+# -  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-+# -  SOFTWARE.
-+# +Copyright (c) 2010 - 2023 Holger Krekel and others
-+#  
-+# +Permission is hereby granted, free of charge, to any person obtaining a copy of
-+# +this software and associated documentation files (the "Software"), to deal in
-+# +the Software without restriction, including without limitation the rights to
-+# +use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-+# +of the Software, and to permit persons to whom the Software is furnished to do
-+# +so, subject to the following conditions:
-+# +
-+# +The above copyright notice and this permission notice shall be included in all
-+# +copies or substantial portions of the Software.
-+# +
-+# +THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+# +IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+# +FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-+# +AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+# +LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+# +OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-+# +SOFTWARE.
-+# 
-+#
-+
-+SUMMARY = "A small and simple INI-file parser module"
-+HOMEPAGE = "https://pypi.org/project/iniconfig/"
-+
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=4a73af4b5f1f3a8731e5def70e8c1254"
-+
-+SRC_URI[sha256sum] = "3abbd2e30b36733fee78f9c7f7308f2d0050e88f0087fd25c2645f63c773e1c7"
-+
-+DEPENDS += "python3-hatch-vcs-native"
-+
-+inherit pypi python_hatchling
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-connectivity/ofono/ofono_2.15.bb b/meta/recipes-connectivity/ofono/ofono_2.16.bb
+similarity index 95%
+rename from meta/recipes-connectivity/ofono/ofono_2.15.bb
+rename to meta/recipes-connectivity/ofono/ofono_2.16.bb
+index 40eeb3a086..64635775dc 100644
+--- a/meta/recipes-connectivity/ofono/ofono_2.15.bb
++++ b/meta/recipes-connectivity/ofono/ofono_2.16.bb
+@@ -10,7 +10,7 @@ DEPENDS = "dbus glib-2.0 udev mobile-broadband-provider-info ell"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+            file://ofono \
+            "
+-SRC_URI[sha256sum] = "1af93ab72a70502452fe3d0297a6eaea13750cacae1fff3b643dd2245a6408ca"
++SRC_URI[sha256sum] = "6fa2e168e74e1d1879008806537eff2f0b3c86eb5412fbc093f4236e2a15c9ef"
+ 
+ inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
+ 
 -- 
 2.47.1
 
 
---===============0146430023199023422==
-Content-Type: text/plain; charset="us-ascii"
+--===============6973601046215947477==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-ofono-upgrade-2.15-2.16.patch"
 
-Changes to packages/core2-64-poky-linux/python3-iniconfig (sysroot):
-  /usr/lib/python3.13/site-packages/iniconfig-2.0.0.dist-info moved to /usr/lib/python3.13/site-packages/iniconfig-2.1.0.dist-info
+RnJvbSAwNGRjOTJiMDQ2OGYwMTg4YWExZjI4M2M1Y2JlYjUxY2M3NTc1MjkzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwNzoyMDowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9m
+b25vOiB1cGdyYWRlIDIuMTUgLT4gMi4xNgoKLS0tCiAuLi4vcmVjaXBlcy1jb25uZWN0aXZpdHkv
+b2Zvbm8ve29mb25vXzIuMTUuYmIgPT4gb2Zvbm9fMi4xNi5iYn0gfCAyICstCiAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L29mb25vL3tvZm9ub18yLjE1LmJiID0+IG9mb25vXzIuMTYuYmJ9ICg5NSUp
+CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9ub18yLjE1
+LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9ub18yLjE2LmJiCnNpbWls
+YXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zv
+bm8vb2Zvbm9fMi4xNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9u
+by9vZm9ub18yLjE2LmJiCmluZGV4IDQwZWViM2EwODYuLjY0NjM1Nzc1ZGMgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMi4xNS5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vXzIuMTYuYmIKQEAgLTEwLDcgKzEwLDcg
+QEAgREVQRU5EUyA9ICJkYnVzIGdsaWItMi4wIHVkZXYgbW9iaWxlLWJyb2FkYmFuZC1wcm92aWRl
+ci1pbmZvIGVsbCIKIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC9uZXR3b3Jr
+LyR7QlBOfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vb2Zvbm8gXAogICAgICAg
+ICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWFmOTNhYjcyYTcwNTAyNDUyZmUzZDAyOTdh
+NmVhZWExMzc1MGNhY2FlMWZmZjNiNjQzZGQyMjQ1YTY0MDhjYSIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICI2ZmEyZTE2OGU3NGUxZDE4NzkwMDg4MDY1MzdlZmYyZjBiM2M4NmViNTQxMmZiYzA5M2Y0
+MjM2ZTJhMTVjOWVmIgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcgdXBkYXRlLXJjLmQg
+c3lzdGVtZCBnb2JqZWN0LWludHJvc3BlY3Rpb24tZGF0YQogCi0tIAoyLjQ3LjEKCg==
 
---===============0146430023199023422==
+--===============6973601046215947477==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-iniconfig: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/iniconfig/iniconfig-2.0.0.tar.gz;downloadfilename=iniconfig-2.0.0.tar.gz" to "https://files.pythonhosted.org/packages/source/i/iniconfig/iniconfig-2.1.0.tar.gz;downloadfilename=iniconfig-2.1.0.tar.gz"
-packages/core2-64-poky-linux/python3-iniconfig: PKGV changed from 2.0.0 [default] to 2.1.0 [default]
-packages/core2-64-poky-linux/python3-iniconfig: PV changed from "2.0.0" to "2.1.0"
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-dbg: PKGV changed from 2.0.0 [default] to 2.1.0 [default]
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-dbg: PV changed from "2.0.0" to "2.1.0"
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-dev: PKGV changed from 2.0.0 [default] to 2.1.0 [default]
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-dev: PV changed from "2.0.0" to "2.1.0"
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-doc: PKGV changed from 2.0.0 [default] to 2.1.0 [default]
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-doc: PV changed from "2.0.0" to "2.1.0"
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-locale: PKGV changed from 2.0.0 [default] to 2.1.0 [default]
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-locale: PV changed from "2.0.0" to "2.1.0"
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-src: PKGV changed from 2.0.0 [default] to 2.1.0 [default]
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-src: PV changed from "2.0.0" to "2.1.0"
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-staticdev: PKGV changed from 2.0.0 [default] to 2.1.0 [default]
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig-staticdev: PV changed from "2.0.0" to "2.1.0"
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig: PKGSIZE changed from 26884 to 26913 (+0%)
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig: PKGV changed from 2.0.0 [default] to 2.1.0 [default]
-packages/core2-64-poky-linux/python3-iniconfig/python3-iniconfig: PV changed from "2.0.0" to "2.1.0"
-Changes to packages/core2-64-poky-linux/python3-iniconfig (sysroot):
-  /usr/lib/python3.13/site-packages/iniconfig-2.0.0.dist-info moved to /usr/lib/python3.13/site-packages/iniconfig-2.1.0.dist-info
+packages/core2-64-poky-linux/ofono: SRC_URI changed from "https://cdn.kernel.org/pub/linux/network/ofono/ofono-2.15.tar.xz file://ofono" to "https://cdn.kernel.org/pub/linux/network/ofono/ofono-2.16.tar.xz file://ofono"
+packages/core2-64-poky-linux/ofono: PV changed from "2.15" to "2.16"
+packages/core2-64-poky-linux/ofono: PKGV changed from 2.15 [default] to 2.16 [default]
+packages/core2-64-poky-linux/ofono/ofono-dbg: PV changed from "2.15" to "2.16"
+packages/core2-64-poky-linux/ofono/ofono-dbg: PKGV changed from 2.15 [default] to 2.16 [default]
+packages/core2-64-poky-linux/ofono/ofono-dbg: PKGSIZE changed from 7329312 to 7331160 (+0%)
+packages/core2-64-poky-linux/ofono/ofono-dev: PV changed from "2.15" to "2.16"
+packages/core2-64-poky-linux/ofono/ofono-dev: PKGV changed from 2.15 [default] to 2.16 [default]
+packages/core2-64-poky-linux/ofono/ofono-doc: PV changed from "2.15" to "2.16"
+packages/core2-64-poky-linux/ofono/ofono-doc: PKGV changed from 2.15 [default] to 2.16 [default]
+packages/core2-64-poky-linux/ofono/ofono-locale: PV changed from "2.15" to "2.16"
+packages/core2-64-poky-linux/ofono/ofono-locale: PKGV changed from 2.15 [default] to 2.16 [default]
+packages/core2-64-poky-linux/ofono/ofono-src: FILELIST: directory renamed /usr/src/debug/ofono/2.15/gisi -> /usr/src/debug/ofono/2.16/gisi, directory renamed /usr/src/debug/ofono/2.15/drivers/swmodem -> /usr/src/debug/ofono/2.16/drivers/swmodem, directory renamed /usr/src/debug/ofono/2.15/src -> /usr/src/debug/ofono/2.16/src, directory renamed /usr/src/debug/ofono/2.15/linux -> /usr/src/debug/ofono/2.16/linux, directory renamed /usr/src/debug/ofono/2.15/gril -> /usr/src/debug/ofono/2.16/gril, directory renamed /usr/src/debug/ofono/2.15/drivers/speedupmodem -> /usr/src/debug/ofono/2.16/drivers/speedupmodem, directory renamed /usr/src/debug/ofono/2.15/drivers/hsomodem -> /usr/src/debug/ofono/2.16/drivers/hsomodem, directory renamed /usr/src/debug/ofono/2.15/drivers/ifxmodem -> /usr/src/debug/ofono/2.16/drivers/ifxmodem, directory renamed /usr/src/debug/ofono/2.15/gatchat -> /usr/src/debug/ofono/2.16/gatchat, directory renamed /usr/src/debug/ofono/2.15/drivers/mbimmodem -> /usr/src/debu
+ g/ofono/2.16/drivers/mbimmodem, directory renamed /usr/src/debug/ofono/2.15/drivers/xmm7modem -> /usr/src/debug/ofono/2.16/drivers/xmm7modem, directory renamed /usr/src/debug/ofono/2.15/drivers/isimodem -> /usr/src/debug/ofono/2.16/drivers/isimodem, directory renamed /usr/src/debug/ofono/2.15/plugins -> /usr/src/debug/ofono/2.16/plugins, directory renamed /usr/src/debug/ofono/2.15/include -> /usr/src/debug/ofono/2.16/include, directory renamed /usr/src/debug/ofono/2.15/drivers/iceramodem -> /usr/src/debug/ofono/2.16/drivers/iceramodem, directory renamed /usr/src/debug/ofono/2.15/drivers/quectelmodem -> /usr/src/debug/ofono/2.16/drivers/quectelmodem, directory renamed /usr/src/debug/ofono/2.15/drivers/gemaltomodem -> /usr/src/debug/ofono/2.16/drivers/gemaltomodem, directory renamed /usr/src/debug/ofono/2.15/drivers/calypsomodem -> /usr/src/debug/ofono/2.16/drivers/calypsomodem, directory renamed /usr/src/debug/ofono/2.15/drivers/mbmmodem -> /usr/src/debug/ofono/2.16/drivers/mbmmodem,
+  directory renamed /usr/src/debug/ofono/2.15/drivers/stemodem -> /usr/src/debug/ofono/2.16/drivers/stemodem, directory renamed /usr/src/debug/ofono/2.15/gdbus -> /usr/src/debug/ofono/2.16/gdbus, directory renamed /usr/src/debug/ofono/2.15/drivers/ztemodem -> /usr/src/debug/ofono/2.16/drivers/nwmodem, directory renamed /usr/src/debug/ofono/2.15/drivers/telitmodem -> /usr/src/debug/ofono/2.16/drivers/telitmodem, directory renamed /usr/src/debug/ofono/2.15/drivers/ubloxmodem -> /usr/src/debug/ofono/2.16/drivers/ubloxmodem, directory renamed /usr/src/debug/ofono/2.15/drivers/qmimodem -> /usr/src/debug/ofono/2.16/drivers/qmimodem, directory renamed /usr/src/debug/ofono/2.15/drivers/rilmodem -> /usr/src/debug/ofono/2.16/drivers/rilmodem, directory renamed /usr/src/debug/ofono/2.15/drivers/dunmodem -> /usr/src/debug/ofono/2.16/drivers/dunmodem, directory renamed /usr/src/debug/ofono/2.15/drivers/hfpmodem -> /usr/src/debug/ofono/2.16/drivers/hfpmodem, directory renamed /usr/src/debug/ofono/
+ 2.15/drivers/atmodem -> /usr/src/debug/ofono/2.16/drivers/atmodem, directory renamed /usr/src/debug/ofono/2.15/drivers/huaweimodem -> /usr/src/debug/ofono/2.16/drivers/huaweimodem, directory renamed /usr/src/debug/ofono/2.15/drivers/nwmodem -> /usr/src/debug/ofono/2.16/drivers/simcommodem, directory renamed /usr/src/debug/ofono/2.15/drivers/simcommodem -> /usr/src/debug/ofono/2.16/drivers/ztemodem, removed "/usr/src/debug/ofono/2.15/ell/queue.h /usr/src/debug/ofono/2.15/ell/string.h /usr/src/debug/ofono/2.15/ell/file.h /usr/src/debug/ofono/2.15/ell/idle.h /usr/src/debug/ofono/2.15/ell/timeout.h /usr/src/debug/ofono/2.15/ell/hashmap.h /usr/src/debug/ofono/2.15/ell/settings.h /usr/src/debug/ofono/2.15/ell/strv.h /usr/src/debug/ofono/2.15/ell/utf8.h /usr/src/debug/ofono/2.15/ell/uuid.h /usr/src/debug/ofono/2.15/ell/main.h /usr/src/debug/ofono/2.15/ell/gpio.h /usr/src/debug/ofono/2.15/ell/util.h /usr/src/debug/ofono/2.15/ell/netlink.h /usr/src/debug/ofono/2.15/ell/path.h /usr/src/debug/
+ ofono/2.15/ell/sysctl.h /usr/src/debug/ofono/2.15/ell/log.h /usr/src/debug/ofono/2.15/ell/io.h /usr/src/debug/ofono/2.15/ell/uintset.h /usr/src/debug/ofono/2.15/ell/rtnl.h", added "/usr/src/debug/ofono/2.16/ell/utf8.h /usr/src/debug/ofono/2.16/ell/io.h /usr/src/debug/ofono/2.16/ell/strv.h /usr/src/debug/ofono/2.16/ell/string.h /usr/src/debug/ofono/2.16/ell/util.h /usr/src/debug/ofono/2.16/ell/netlink.h /usr/src/debug/ofono/2.16/ell/uintset.h /usr/src/debug/ofono/2.16/ell/time.h /usr/src/debug/ofono/2.16/ell/sysctl.h /usr/src/debug/ofono/2.16/ell/settings.h /usr/src/debug/ofono/2.16/ell/main.h /usr/src/debug/ofono/2.16/ell/hashmap.h /usr/src/debug/ofono/2.16/ell/timeout.h /usr/src/debug/ofono/2.16/ell/log.h /usr/src/debug/ofono/2.16/ell/path.h /usr/src/debug/ofono/2.16/ell/rtnl.h /usr/src/debug/ofono/2.16/ell/gpio.h /usr/src/debug/ofono/2.16/ell/uuid.h /usr/src/debug/ofono/2.16/ell/queue.h /usr/src/debug/ofono/2.16/ell/idle.h /usr/src/debug/ofono/2.16/ell/file.h"
+packages/core2-64-poky-linux/ofono/ofono-src: PV changed from "2.15" to "2.16"
+packages/core2-64-poky-linux/ofono/ofono-src: PKGV changed from 2.15 [default] to 2.16 [default]
+packages/core2-64-poky-linux/ofono/ofono-src: PKGSIZE changed from 4715074 to 4720002 (+0%)
+packages/core2-64-poky-linux/ofono/ofono-staticdev: PV changed from "2.15" to "2.16"
+packages/core2-64-poky-linux/ofono/ofono-staticdev: PKGV changed from 2.15 [default] to 2.16 [default]
+packages/core2-64-poky-linux/ofono/ofono-tests: PV changed from "2.15" to "2.16"
+packages/core2-64-poky-linux/ofono/ofono-tests: PKGV changed from 2.15 [default] to 2.16 [default]
+packages/core2-64-poky-linux/ofono/ofono: PV changed from "2.15" to "2.16"
+packages/core2-64-poky-linux/ofono/ofono: PKGV changed from 2.15 [default] to 2.16 [default]
+packages/core2-64-poky-linux/ofono/ofono: PKGSIZE changed from 2279718 to 2280199 (+0%)
 
---===============0146430023199023422==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-iniconfig-upgrade-2.0.0-2.1.0.patch"
-
-RnJvbSBmMTA2YWRmOTRlYjZlNTM5NzZiNTdkNGFmNmJlMzlhZjIzMTFiMTg1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwODo1NToxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtaW5pY29uZmlnOiB1cGdyYWRlIDIuMC4wIC0+IDIuMS4wCgotLS0KIC4uLi9weXRob24v
-cHl0aG9uMy1pbmljb25maWdfMi4wLjAuYmIgICAgICAgICB8IDEzIC0tLS0KIC4uLi9weXRob24v
-cHl0aG9uMy1pbmljb25maWdfMi4xLjAuYmIgICAgICAgICB8IDY1ICsrKysrKysrKysrKysrKysr
-KysKIDIgZmlsZXMgY2hhbmdlZCwgNjUgaW5zZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25zKC0pCiBk
-ZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWlu
-aWNvbmZpZ18yLjAuMC5iYgogY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1pbmljb25maWdfMi4xLjAuYmIKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW5pY29uZmlnXzIuMC4wLmJiIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWluaWNvbmZpZ18yLjAuMC5iYgpkZWxldGVk
-IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMmFiZWVjNjJmNC4uMDAwMDAwMDAwMAotLS0gYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW5pY29uZmlnXzIuMC4wLmJiCisrKyAv
-ZGV2L251bGwKQEAgLTEsMTMgKzAsMCBAQAotU1VNTUFSWSA9ICJBIHNtYWxsIGFuZCBzaW1wbGUg
-SU5JLWZpbGUgcGFyc2VyIG1vZHVsZSIKLUhPTUVQQUdFID0gImh0dHBzOi8vcHlwaS5vcmcvcHJv
-amVjdC9pbmljb25maWcvIgotCi1MSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL0xJQ0VOU0U7bWQ1PWE2YmIwMzIwYjA0YTBhNTAzZjEyZjY5ZmVhNDc5ZGU5IgotCi1T
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiMmQ5MWUxMzViZjcyZDMxYTQxMGIxN2MxNmRhNjEwYTgyY2I1
-NWY2YjA0NzdkMWE5MDIxMzRiMjRhNDU1YjhiMyIKLQotREVQRU5EUyArPSAicHl0aG9uMy1oYXRj
-aC12Y3MtbmF0aXZlIgotCi1pbmhlcml0IHB5cGkgcHl0aG9uX2hhdGNobGluZwotCi1CQkNMQVNT
-RVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW5pY29uZmlnXzIuMS4wLmJiIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLWluaWNvbmZpZ18yLjEuMC5iYgpuZXcgZmlsZSBtb2RlIDEw
-MDY0NAppbmRleCAwMDAwMDAwMDAwLi5kYzIyMzQwZTBjCi0tLSAvZGV2L251bGwKKysrIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWluaWNvbmZpZ18yLjEuMC5iYgpAQCAt
-MCwwICsxLDY1IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBi
-ZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhl
-IGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMg
-UGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUg
-dGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6
-JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRh
-dGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRQorIyArKysgTElDRU5T
-RQorIyBAQCAtMSwxOSArMSwyMSBAQAorIyArVGhlIE1JVCBMaWNlbnNlIChNSVQpCisjICAKKyMg
-LSAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBw
-ZXJzb24gb2J0YWluaW5nIGEgY29weQorIyAtICBvZiB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lh
-dGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdhcmUiKSwgdG8gZGVhbAorIyAtICBp
-biB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGlt
-aXRhdGlvbiB0aGUgcmlnaHRzCisjIC0gIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVi
-bGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwgYW5kL29yIHNlbGwKKyMgLSAgY29waWVzIG9m
-IHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCBwZXJzb25zIHRvIHdob20gdGhlIFNvZnR3YXJl
-IGlzCisjIC0gIGZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNv
-bmRpdGlvbnM6CisjIC0gICAgIAorIyAtICBUaGUgYWJvdmUgY29weXJpZ2h0IG5vdGljZSBhbmQg
-dGhpcyBwZXJtaXNzaW9uIG5vdGljZSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwKKyMgLSAgY29w
-aWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZSBTb2Z0d2FyZS4KKyMgLSAKKyMgLSAg
-VEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5Z
-IEtJTkQsIEVYUFJFU1MgT1IKKyMgLSAgSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRF
-RCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCisjIC0gIEZJVE5FU1MgRk9S
-IEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuIElOIE5PIEVWRU5UIFNI
-QUxMIFRIRQorIyAtICBBVVRIT1JTIE9SIENPUFlSSUdIVCBIT0xERVJTIEJFIExJQUJMRSBGT1Ig
-QU5ZIENMQUlNLCBEQU1BR0VTIE9SIE9USEVSCisjIC0gIExJQUJJTElUWSwgV0hFVEhFUiBJTiBB
-TiBBQ1RJT04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sCisj
-IC0gIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0Ug
-T1IgT1RIRVIgREVBTElOR1MgSU4gVEhFCisjIC0gIFNPRlRXQVJFLgorIyArQ29weXJpZ2h0IChj
-KSAyMDEwIC0gMjAyMyBIb2xnZXIgS3Jla2VsIGFuZCBvdGhlcnMKKyMgIAorIyArUGVybWlzc2lv
-biBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWlu
-aW5nIGEgY29weSBvZgorIyArdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0
-aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksIHRvIGRlYWwgaW4KKyMgK3RoZSBTb2Z0d2FyZSB3
-aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZSByaWdo
-dHMgdG8KKyMgK3VzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwg
-c3VibGljZW5zZSwgYW5kL29yIHNlbGwgY29waWVzCisjICtvZiB0aGUgU29mdHdhcmUsIGFuZCB0
-byBwZXJtaXQgcGVyc29ucyB0byB3aG9tIHRoZSBTb2Z0d2FyZSBpcyBmdXJuaXNoZWQgdG8gZG8K
-KyMgK3NvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoKKyMgKworIyArVGhl
-IGFib3ZlIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2Ugc2hhbGwg
-YmUgaW5jbHVkZWQgaW4gYWxsCisjICtjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2Yg
-dGhlIFNvZnR3YXJlLgorIyArCisjICtUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwg
-V0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUgorIyArSU1QTElFRCwgSU5D
-TFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJ
-VFksCisjICtGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklOR0VN
-RU5ULiBJTiBOTyBFVkVOVCBTSEFMTCBUSEUKKyMgK0FVVEhPUlMgT1IgQ09QWVJJR0hUIEhPTERF
-UlMgQkUgTElBQkxFIEZPUiBBTlkgQ0xBSU0sIERBTUFHRVMgT1IgT1RIRVIKKyMgK0xJQUJJTElU
-WSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBB
-UklTSU5HIEZST00sCisjICtPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FS
-RSBPUiBUSEUgVVNFIE9SIE9USEVSIERFQUxJTkdTIElOIFRIRQorIyArU09GVFdBUkUuCisjIAor
-IworCitTVU1NQVJZID0gIkEgc21hbGwgYW5kIHNpbXBsZSBJTkktZmlsZSBwYXJzZXIgbW9kdWxl
-IgorSE9NRVBBR0UgPSAiaHR0cHM6Ly9weXBpLm9yZy9wcm9qZWN0L2luaWNvbmZpZy8iCisKK0xJ
-Q0VOU0UgPSAiTUlUIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NGE3
-M2FmNGI1ZjFmM2E4NzMxZTVkZWY3MGU4YzEyNTQiCisKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIz
-YWJiZDJlMzBiMzY3MzNmZWU3OGY5YzdmNzMwOGYyZDAwNTBlODhmMDA4N2ZkMjVjMjY0NWY2M2M3
-NzNlMWM3IgorCitERVBFTkRTICs9ICJweXRob24zLWhhdGNoLXZjcy1uYXRpdmUiCisKK2luaGVy
-aXQgcHlwaSBweXRob25faGF0Y2hsaW5nCisKK0JCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2
-ZXNkayIKLS0gCjIuNDcuMQoK
-
---===============0146430023199023422==--
+--===============6973601046215947477==--
 
