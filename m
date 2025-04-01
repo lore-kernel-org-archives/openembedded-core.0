@@ -1,116 +1,78 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7363EC36014
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 10:07:31 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.15330.1743502048877498439
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8320FC36014
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 10:20:51 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web11.15521.1743502845164383921
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 03:07:29 -0700
+ Tue, 01 Apr 2025 03:20:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gC5jJI4S;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5499bd3084aso5111187e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 03:07:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fENPNLOc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7be49f6b331so544850385a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 03:20:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743502047; x=1744106847; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kxky5X/l+rZbYkBz+8j1MUgveULEnYJMFYPn8L2o0NA=;
-        b=gC5jJI4SqQjAxkFtzWoW+MCQkMJ/gNkihgWesoyWCjlmjtjWsmEZVEJozGvDjZhpk9
-         Fg6+/e0Z6zBuXqBOv30pLFs9IYhFQnNPz/Hi531msPaxbDiKeY6EehG94cORqvWJ90wj
-         EH8RjIQjRP30kDIySxoPB9nK1XYOuc8EXTXxVwi2In/p7UfGe1D33wq8gx9VGFWVBWoA
-         RuEvaOg0Uk7rcgaQJ83y50/j5EwEJ93Y00Gk2bFpPMnCZ4btx9K4bMvs6sfdemfo6DLK
-         czaBDnqjHxa1YNHN8+D+gwLnxfQyzsyLBnRjNCfQOYvN8Ve/gB4dKvfPVraBcAvM0coH
-         06BQ==
+        d=gmail.com; s=20230601; t=1743502844; x=1744107644; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mQIc73m+UYy6teEIEgidV4k2iGyo7fFwpltVMg35tko=;
+        b=fENPNLOcElTYcWS+szx9obyQg7rtgc2WASwkhGXmMBc2fAbl6A3+xpLuvGrLmMnp9p
+         4KrQAgaRB6/otJXJzdU4y5Gxho2Kag04B/p3a893M1PoXbdVjRjNg76p6walGnfW5/Ux
+         h2W06SzDuOOptVG22DBlF2Pi5LuOrGdbXyO1q05+irzC94VigYbhmoXe+As6+xAVEpdA
+         KdqTUbX2xLBLpsIFPENw0xjqAJQQSiN1boTX5CaIU7uD+S3/b5bRDjSw+vjRX5sOAuOa
+         LOGuAz6fljLwwlyr5DP5dYC959CcDjYd7zVDukprm9orRVupVhXFnp12wxPHXPcmy43r
+         ctAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743502047; x=1744106847;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kxky5X/l+rZbYkBz+8j1MUgveULEnYJMFYPn8L2o0NA=;
-        b=OIVaz9k1bAhRoJnuPSbxYZ0/FbIOfaF1XtLIbFZMj8S/0gOKJ/vzIFjS06DLK28hlk
-         Qps+KC5FrKx9chOVpdRPlmRbxKi51MpRNvKFdOiSG08VdjWiiFSvNKGURGLYrsY84vcA
-         NFluzg/Vp99FygQ6LA6Nf7AFInOJrQa99yJbKP45NuPwiHQmhykj6SjU1GN1JZet1TAs
-         +Ze0dnQ5k9m7WYyH1/fk6TDuz4es4eZkhdH7O4VMeZ6aHSmE3aToe0ucbXm1cDoM2lQt
-         mmU/TLjAhgnGm8HUJy2QeJgwoir+IQlZOLC+AyKAZjaXMTCOh5rQy72VommSFlUKs6kL
-         S09w==
-X-Gm-Message-State: AOJu0YyyHeNU7JJRuVK/Jd75Pnk7QRyCf+WdivO/VM3+nXjlHkY5D9ZS
-	I69piofzhJsg0qz/b7jeuEGsqBym7eAqvEJGVNcOatTTLnsaoYMJWxe79jsAhkdCC9ZPPNN+NeH
-	eEIbEZMFNfi7YZBHaH5LBA4rG4IR6IFAvQZc=
-X-Gm-Gg: ASbGncutk4lJmIJ+Ac6JnMv5uZJNezHDCFKqEFLzv+yCPSGdFLXmwfPiJ+a/pyemSCs
-	Mt7bjo3Ot1kAiDABPNHs0GXb1WWaiXAtVyhXxZraKzs0ri63NQvuCzsmNLqbmiAKltCEbxdjVTP
-	evRblIbrcK9TdqoqROA4AZ32xDRONxiS8Rv7/0iFM=
-X-Google-Smtp-Source: AGHT+IHIO7AK0AE60hg/+5MROitJpLS7xTUfSkZIz8QbPNOghzu+qzn6ySZDSCiXxXYtQ1n6/BF1axqclkBifFvSQ3w=
-X-Received: by 2002:a05:6512:130c:b0:54b:117c:8ef3 with SMTP id
- 2adb3069b0e04-54b117c8f2cmr3103384e87.54.1743502046775; Tue, 01 Apr 2025
- 03:07:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743502844; x=1744107644;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mQIc73m+UYy6teEIEgidV4k2iGyo7fFwpltVMg35tko=;
+        b=PBhABzMJmiBg231q2+jsGGA4J4n8K5xvBpQDcsUycYkcSJReOJRdJ2938I0WS/DAVd
+         u9rV2z8QSA3tqIaYWGyAVnoUkmQlyNqEV9b0JZ8/sOfEftftZW8u839vnShupgQ9NgAx
+         XMTeT6qjoFl0SsJBjVMUgCZn34U5q3NyA+8D4JXKXwM8fK7S0ZT+dZcc01K6wCfsNnuN
+         ziO51eruh510yk1mvH6LnZrPhF0ZM7CsmaNfBq73pPaf+mhiIsibG/V9P9Tu6kL/cVVb
+         UQtOelwKhQtIKQfRrt8A8UC4UG7l5u84l0GZQg45oPqC/A+sCmmyLEOa2HWqzUicyF0i
+         N6lg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRfy2JzAPtHp2BGWfWrJduJOM6SMitnLELtdOQ2f1xP/r30DUaPHFWbdkxAwnFQH/4oACWlA3W87Fq3iw0uXHjMw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzrH1x2a28uZLsEXPW4vTGzgbwQG8QDxogq8Vlrq8/C0HHuFtQ3
+	H4kFlf0QNSf2TBhgxjtp+ae++XpstuaELzk/WVmckxOzDQIlPbIaWt86L/d7OcjewP2YtVOLB5M
+	Bold71HFfyD1xgjTVlke2HEt7nG0=
+X-Gm-Gg: ASbGncv85VzMzPgAHfp/0kMcTBB5kxo1C4q/GxPmtniML3DfFoit7fCEdGeNT8O4Ues
+	jSC/JJmK/HRnYQiiIJjysylqNA9MMqqF/rNFX13Xl4iSHMfFLxhvDee0Oj8xwVjE/WGXWl84ofs
+	WzFIEkVTBOQ8J8wzFNVr9+Hq4kjYgu6R/CL0mCxp0lji0z0GsxHEocstxmaFfb
+X-Google-Smtp-Source: AGHT+IGiB0AITApzEAIhIEQ2SAIicIKwHtrziJ+MaimpOXe+s71aHIQwRLrSxDrIOu1299W9kc6uJR0DkT6aDDsi9OA=
+X-Received: by 2002:a05:6214:20c7:b0:6e6:6506:af59 with SMTP id
+ 6a1803df08f44-6eed5fdc1dbmr183773076d6.15.1743502844153; Tue, 01 Apr 2025
+ 03:20:44 -0700 (PDT)
 MIME-Version: 1.0
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 1 Apr 2025 12:07:14 +0200
-X-Gm-Features: AQ5f1Jrtf5p39hR5xUc1wFa6LP59XZA17kVVb6aeuwYAdAQ10pt-b7C_4L-4fR0
-Message-ID: <CA+chaQcpXOTbbePCjusXgrcR-Y9fk02JOnecFsR2e5B+==x7Eg@mail.gmail.com>
-Subject: meta-qt6 on layerindex
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Samuli Piippo <samuli.piippo@qt.io>, Tim Orling <ticotimo@gmail.com>, 
-	Ross Burton <ross.burton@arm.com>
+References: <20250401094825.1938-1-leimaohui@fujitsu.com>
+In-Reply-To: <20250401094825.1938-1-leimaohui@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 1 Apr 2025 12:20:33 +0200
+X-Gm-Features: AQ5f1JoZ2plGBNPskSDwDFvhmD960P8hpBE-OFI3JsK-OjiDMH5stlFX7rBn9ek
+Message-ID: <CANNYZj_FRbT3XV+hurpjE+JYz75UiU3dy1kNkjLpkaPYvMiTBg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-webcolors: upgrade 24.8.0 -> 24.11.1
+To: leimaohui@fujitsu.com
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 10:07:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214012
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 10:20:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214013
 
-Hi,
+On Tue, 1 Apr 2025 at 11:48, leimaohui via lists.openembedded.org
+<leimaohui=fujitsu.com@lists.openembedded.org> wrote:
+> +DEPENDS += " \
+> +    python3-pdm-native \
+> +    python3-pdm-backend-native \
+> +"
 
-some layers on layerindex cannot be correctly parsed because they
-depend on meta-qt6 (qt6-layer) and there is no record of scarthgap or
-styhead compatible release of meta-qt6 on layerindex.
+How was this update tested? python3-pdm recipes are not in oe-core, so
+this is going to fail immediately.
 
-There are:
-https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/
-- actual branch 6.5
-https://layers.openembedded.org/layerindex/branch/master/layer/meta-qt6/
-- actual branch dev
-
-but no
-https://layers.openembedded.org/layerindex/branch/styhead/layer/meta-qt6/
-https://layers.openembedded.org/layerindex/branch/scarthgap/layer/meta-qt6/
-
-which causes e.g.:
-
-ERROR: Issues found on branch styhead:
-    meta-luneos: Failed to add since LAYERDEPENDS [meta-luneui ...] is
-not satisfied
-    meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer ...] is
-not satisfied
-ERROR: Issues found on branch scarthgap:
-    meta-luneos: Failed to add since LAYERDEPENDS [meta-luneui ...] is
-not satisfied
-    meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer ...] is
-not satisfied
-
-and there will be more once meta-webosose parsing is fixed.
-
-Is Tim the only person who can help with some admin changes on
-layerindex? RP suggested to ask Ross as well.
-
-I have admin rights to publish new layers (and edit all existing
-layers), but cannot delete wrongly created ones (or their mapping) and
-I'm not sure how to add a new mapping (e.g. add scarthgap and styhead
-release for meta-qt6 by using actual branch 'dev' or '6.8').
-
-meta-qt6 dev, 6.9 and 6.8 branches have:
-LAYERSERIES_COMPAT_qt6-layer = "kirkstone langdale mickledore nanbield
-scarthgap styhead walnascar"
-6.7 doesn't have walnascar
-6.6 and 6.5 (currently used for kirkstone) have:
-LAYERSERIES_COMPAT_qt6-layer = "dunfell gatesgarth hardknott honister
-kirkstone langdale mickledore nanbield scarthgap"
-
-maybe even https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/
-which is currently using actual branch 6.5 should be bumped to 6.8 as
-well.
-
-Cheers,
+Alex
 
