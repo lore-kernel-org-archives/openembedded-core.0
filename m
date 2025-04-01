@@ -1,221 +1,115 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B62C36010
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 16:19:43 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.306.1743524373854452854
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8042AC36010
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 16:28:53 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.555.1743524924110660109
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 09:19:33 -0700
+ Tue, 01 Apr 2025 09:28:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Dadxj+Ob;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 531ETVeu024546
-	for <openembedded-core@lists.openembedded.org>; Tue, 1 Apr 2025 16:19:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	oC97th3sXfSMPckIUn9SOnNQZpWX3ZhrmpuF7dnIW+I=; b=Dadxj+Ob67S7uOKh
-	oLhF/t0ddqS5QyOOhodS15xe8g6JNH2Iblf8N8lCnfjqXe0lVaZwQFmmuAPB6JtN
-	z1fOZdTN2V73NUyA1wigi9OEvGkf3cllEcfKBhwc9U7shrutdZALScsPhzq+NaX0
-	kHFrtV4WNuM+kybsMyZVbp90+WAiMfaStRupzXCAiOtuPkAyk5N0a7tDyxjVW+G/
-	Jua80SJ7DRZQ/wAsGfFJqSQ7EyT6MwaDc/bLs/0lbfpp/kFmmbVj5u/1YOU+1vDw
-	a0bKAOoHmjdjDdKQYTC3uWxAEMqcneQ8khYt20k3lpb5CkfhJgDig52zN2NC5Gak
-	VBS68A==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45rbpysp25-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 16:19:33 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c54a6b0c70so538190085a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 09:19:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QDQseRkz;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6e8f6970326so52614766d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 09:28:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743524923; x=1744129723; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eMKbDylLRX00t1zBwkV0jUFGN7qgwQB9ES2XuD6ppQw=;
+        b=QDQseRkz8p8EbFS/wZENOKyAxIXt3qWcyMgpyxFKmqP9sA+0yDBRSvovxpZ8Ig+VT0
+         F7hNZq/jqNJZJ85IjqHZZgih48uYValEVh9M5L1SMFRAt1ON0FwH4VJdu4itV8nGvAPS
+         8HSjYNCqQyIzKeVUkXmLDGp5pzJZTv257AFXd1GNG/5GD/rGhTE1AeULPoG2OZcqfY53
+         gcyVYJUTkt+SQWIJe8LaiJPx9HyPZ2MhEWdczTbkqfn4wsrHZGUvTE9Xrg+zcuGzkx5H
+         sjq7ou6SvS/YPMoffJp3QiJLKuVPoNgGk89sF8dpdsts1NAKHXEP/xXFV5JK11RHNx+4
+         8LJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743524372; x=1744129172;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oC97th3sXfSMPckIUn9SOnNQZpWX3ZhrmpuF7dnIW+I=;
-        b=reA2E/lSFRyj/TlIOEwi8JaPaPYfK2u7QGvuoPuBep2y4k+1/3Xr9UuKq4p+jefF13
-         KXBhbCgF0qeWRUI6AUnWb74bs+pmjPO1XoZt4CQOkmOkXNBRK45i1IeAKDjUX7we9tfE
-         UUoMmS+mZ0Pl/xF+yfOK2gfw/3SnGHiYXGwltt+DrAmOquA0R0WSUBJ+ZIz5rmEQp9iw
-         Ch71gvM//4bVNqK5s02Iu0hFIS0iOdLjJ1Yw4cOw+DUbl9O35AwxLcI1fioMlWIoRznM
-         UmoM3MW97Aux4L1qsIR35uwsX7OsJLBeMJjeu8av+ZMFZS0I5lgvCqD9Kd27AWm5Wv73
-         7dWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUCCGtM0JtaLU3HZxIHt5i1ks55kiiM9Y48A2uZWDT0NwDWJJnHMkdXw7kPxZpM7y5ZhBN2c29I/03VOjjxi+4HlQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwdSk3mhVR7/oft8QtoktUR8E+y7vzyEIUo56vrYSXuAEm0o//j
-	U4MZXtclnExDDAkFXyn6DYXVCuWl3PXfWo2GVqdO/H7/3lpPTudF3FTMUjW7N58J03VrzYracB8
-	nIUoeU9KMrLBB4aRptz8gaD3I6C37RHkYOTtNFFsmNb21QBpHEgLxNQkItbV9EcCiNAA7tRdPs5
-	UcmiQ=
-X-Gm-Gg: ASbGncvPdxyylK0EN/EBwrtwrWkJ/zk80Qvz+JBQOMvNnh9NJwKmBkn7QRmYLs4YEbN
-	D5GiRMEtvPUiY4TBsFlTk2R8zM11itLyOOd8qhDHogpWgOYjg34jF51z8p2WZlX2uRFlQRNJFZa
-	7aehF/ZkIXf1GHgwkT3aGWpZAgccQ8zVNXdvfFoYmQFp4BXvZVxaSo/q9fpRN/Z+2eQU+/1U/Dn
-	9gFcgQwvYQiarc9F3Awl2ep0PELsKAG6aYB2hicfeDtv5QMxfSgLBx9dSolSW8kGzBOKZdn8Nk9
-	MZZ0bzgs1NraZ1jc3SWT6v1WkiQbc+1YASGMJtzgnmVMSi9/nS+JsNxrRyl+rzeDo3c1LAlwMOv
-	OhzWE9LOuOjVvg6OrJ3D3xKRpUIkjGOYv6USLVakiD5t7HuaImKLTv9CF8ZVJQTGUJyhZRrI7
-X-Received: by 2002:a05:620a:801c:b0:7c5:49ee:86aa with SMTP id af79cd13be357-7c6862ebea5mr2152232385a.4.1743524371888;
-        Tue, 01 Apr 2025 09:19:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEULikbGEYWtWAmfptxtUOf8FGYOd0AoHKQZlp8AJohwGZv51QGBtS5W8mVQShD2q03iq8IRA==
-X-Received: by 2002:a05:620a:801c:b0:7c5:49ee:86aa with SMTP id af79cd13be357-7c6862ebea5mr2152227685a.4.1743524371390;
-        Tue, 01 Apr 2025 09:19:31 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:67d:d210:b936:41cc:e00b:dbe0? (2001-14bb-67d-d210-b936-41cc-e00b-dbe0.rev.dnainternet.fi. [2001:14bb:67d:d210:b936:41cc:e00b:dbe0])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30dd2ab8786sm17372041fa.32.2025.04.01.09.19.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Apr 2025 09:19:30 -0700 (PDT)
-Message-ID: <8d4b0884-985f-4e81-a3d3-03a1abb91e73@oss.qualcomm.com>
-Date: Tue, 1 Apr 2025 19:19:29 +0300
+        d=1e100.net; s=20230601; t=1743524923; x=1744129723;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eMKbDylLRX00t1zBwkV0jUFGN7qgwQB9ES2XuD6ppQw=;
+        b=M9t3N9rcmxScNj/o99QBasZI1ItWRXACqXiKIVQof/IovdPqGu5ALkuL0E7vF1ZOXg
+         k/zepmPQf9aKpZP7o4y6YAdoVLY4qmVz70fKr5V5nTCJVsUimHWDm0Yv1LGbKtdM0ZLb
+         yXNpTnt9A+r2mc1s6fdpN14N43KKynA341JJQce7gEfuX4HHKUbDkLjKNVJLMEvvR2Mw
+         6cEFxAf47++Tnl/ZfLAu32iRYg3R9aL+7pxN0W+rhoIVueORtencPIaf759emSpb4wMq
+         ZhaSnxoOLQeuxeN3IkZw+O+4Xc3xATyZ7UGZET9LNcidzlj0TT9JgHljpGtXGKaDZcYc
+         SPEg==
+X-Forwarded-Encrypted: i=1; AJvYcCW+Ybo1O76sNwhzlAYe4b5eGMWCOhQLfOOehFNgBb+EkvRvThUkr6a9VUx9v4b9T4viJMOjVXQucHY3D7Yb7dLu1g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwDdEyDl7NyqXH8lLDH4E6/gVL/fEkckipQPEYXgKRgLC30qFmP
+	0digJsCOuanUtfR40dQzEiylVOyapVuglRAfB9XBz4VPvMjAqnA6xl4IDB+UsUN74KhSN9pTKl3
+	v/Y5eisQjYbgHwhiOkONMTrfnvQ8=
+X-Gm-Gg: ASbGncuSY8u+xSsibufr8Drd7WCYRbojYZo6hrtd9CQwsWltFQInPzZT+XVVdy7q9zx
+	1pGEOVSbP1Bm/BJ8VbPtBLzLJzzTQxTzaA7n6Pt89yMSHKJDyW40aepocdRSMt5Qnh8vrIVcR9y
+	2bZ/+wu986QChYXs21xMyqxRcdYbiaqpy4brk5zYKQr6hGUeup2ryA4xMJbfF9FHeC/MaJdPE=
+X-Google-Smtp-Source: AGHT+IHdh5iNgywuBdna2HBUOYoPa6tnPJsYPwjiUby94jknYYWY/5A3xzkNKWSVIjo3ZNfUdtiZLJMkdcyN9C9dJzo=
+X-Received: by 2002:a05:6214:5188:b0:6d8:9ead:c665 with SMTP id
+ 6a1803df08f44-6eed61dd6e9mr174773576d6.27.1743524923154; Tue, 01 Apr 2025
+ 09:28:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v4 0/9] mesa: upgrade to 25.0.2
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-        =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55?=
- =?UTF-8?Q?i?= <zboszor@gmail.com>
 References: <20250331-mesa-25-v4-0-e62fc54a6efc@oss.qualcomm.com>
- <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-Proofpoint-GUID: QXoiO0nlQqU4c1cveuyN1_JhxdSeNRDj
-X-Proofpoint-ORIG-GUID: QXoiO0nlQqU4c1cveuyN1_JhxdSeNRDj
-X-Authority-Analysis: v=2.4 cv=ZNLXmW7b c=1 sm=1 tr=0 ts=67ec1215 cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8 a=yVdV7p-y0R1Gluj9ucsA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-01_06,2025-04-01_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- lowpriorityscore=0 clxscore=1015 mlxscore=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 bulkscore=0 suspectscore=0 malwarescore=0 phishscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504010100
+ <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com> <8d4b0884-985f-4e81-a3d3-03a1abb91e73@oss.qualcomm.com>
+In-Reply-To: <8d4b0884-985f-4e81-a3d3-03a1abb91e73@oss.qualcomm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 1 Apr 2025 18:28:31 +0200
+X-Gm-Features: AQ5f1JpVKARMas4WjwT_8FptN4hUcNg0ixXHMfKNElnQJGch-tApOllDX6miREU
+Message-ID: <CANNYZj_aEritSc0Te9hWR+OZVQ1DDFY0b4A0Q0H148L5YjEKcw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4 0/9] mesa: upgrade to 25.0.2
+To: dmitry.baryshkov@oss.qualcomm.com
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>, 
+	=?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 16:19:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214140
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 16:28:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214141
 
-SGVsbG8gTWF0aGlldSwNCg0KT24gMDEvMDQvMjAyNSAxMDo0MCwgTWF0aGlldSBEdWJvaXMt
-QnJpYW5kIHdyb3RlOg0KPiBPbiBNb24gTWFyIDMxLCAyMDI1IGF0IDI6MjEgUE0gQ0VTVCwg
-RG1pdHJ5IEJhcnlzaGtvdiB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToNCj4+
-IGxpYmNsYyBpcyByZXF1aXJlZCBpbiBvcmRlciB0byBidWlsZCBJbnRlbCBkcml2ZXJzIGlu
-IE1lc2EgMjQuMSBhbmQNCj4+IGxhdGVyLiBUaHVzIE9FLUNvcmUgaXMgY3VycmVudGx5IGxv
-Y2tlZCB0byB0aGUgMjQuMC54IGJyYW5jaCwgd2hpY2ggaXMNCj4+IG5vIGxvbmdlciBtYWlu
-dGFpbmVkLCBoYXZpbmcgbGFzdCByZWxlYXNlIGluIEp1bmUgMjAyNC4NCj4+DQo+PiBBIGNs
-ZWFuIHNvbHV0aW9uIGlzIHRvIHBhY2thZ2UgQ2xhbmcsIHRoZW4gdXNlIGl0IHRvIGJ1aWxk
-IGxpYmNsYyBhbmQNCj4+IFNQSVJWLUxMVk0tVHJhbnNsYXRvciAocmVxdWlyZWQgZm9yIE1l
-c2EgT3BlbkNMIHN1cHBvcnQpLiBIb3dldmVyDQo+PiBjcmVhdGluZyBwcm9wZXIgcmVjaXBl
-cyBmb3IgQ2xhbmcgaXMgYSBsb25nIHByb2Nlc3MgKG9uZ29pbmcgYnkgS2hlbQ0KPj4gUmFq
-KS4NCj4+DQo+PiBUaGlzIHBhdGNoc2V0IGF0dGVtcHRzIHRvIHNvbHZlIHRoZSBpc3N1ZSBp
-biBhIHNpbXBsZXIgd2F5OiBieSBidWlsZGluZw0KPj4gbGliY2xjIGFuZCBTUElSVi1MTFZN
-LVRyYW5zbGF0b3IgdG9nZXRoZXIgd2l0aCB0aGUgTExWTS4gVGhpcyB3YXkgd2UNCj4+IGRv
-bid0IGhhdmUgdG8gY3JlYXRlIHRhcmdldCBDbGFuZyByZWNpcGVzLCB0aGVyZSBpcyBubyBl
-eHRyYSB0b29sY2hhaW4NCj4+IHRvIHN1cHBvcnQsIGV0Yy4gQ2xhbmcgYmluYXJpZXMgYXJl
-IGNyZXRlZCBhcyBhIHBhcnQgb2YgdGhlIGJ1aWxkDQo+PiBwcm9jZXNzIChpbiBvcmRlciB0
-byBzdXBwb3J0IGJ1aWxkaW5nIHRhcmdldCBwYWNrYWdlcyksIGhvd2V2ZXIgaXQgb25seQ0K
-Pj4gaGl0cyB0aGUgTExWTSBzeXNyb290LW5hdGl2ZSBhbmQgaXMgb25seSB1c2VkIGJ5IHRo
-ZSBMTFZNIHRhcmdldCBidWlsZC4NCj4+DQo+PiBGdXR1cmUgd29yayBieSBLaGVtIChvbmNl
-IENsYW5nIGlzIHByb3Blcmx5IHN1cHBvcnRlZCBpbiBPRS1Db3JlKSBzaG91bGQNCj4+IGFs
-bG93IHVzIHRvIGNyZWF0ZSBwcm9wZXIgcmVjaXBlcyBmb3IgbGliY2xjIGFuZCBzcGlydi1s
-bHZtLXRyYW5zbGF0b3INCj4+IGFuZCBkcm9wIHRoZW0gZnJvbSB0aGUgbGx2bSAvIGNsYW5n
-IHJlY2lwZS4NCj4+DQo+PiBJIHRoaW5rIHRoaXMgYXBwcm9hY2ggcHJvdmlkZXMgYSBnb29k
-IGJhbGFuY2UgYmV0d2VlbiBPRS1Db3JlIGJlaW5nDQo+PiBzdHVjayB3aXRoIHRoZSBvdXRk
-YXRlZCBNZXNhIHJlbGVhc2UgYW5kIGJlaW5nIGFibGUgdG8gdXBncmFkZSBpdCwNCj4+IGJy
-aW5naW5nIHN1cHBvcnQgZm9yIG5ldyBoYXJkd2FyZS4NCj4+DQo+PiBMYXN0IHR3byBwYXRj
-aGVzIG9mIHRoZSBzZXJpZXMgYnJpbmcgaW4gUnVzdGlDTCBzdXBwb3J0LCBhIG5ldyBPcGVu
-Q0wNCj4+IGltcGxlbWVudGF0aW9uIHdpdGhpbiBNZXNhLiBUaGV5IGFyZSBvcHRpb25hbCBm
-b3IgdGhlIHNha2Ugb2YgdGhlDQo+PiB1cGdyYWRlIGFuZCBjYW4gYmUgZHJvcHBlZCBpZiB0
-aGVyZSBpcyBhbnkgaXNzdWUgd2l0aCB0aG9zZS4gUnVzdGlDTA0KPj4gc3VwcG9ydCBpcyBt
-b3N0bHkgY29tcGlsZS10ZXN0ZWQgYXQgdGhpcyBwb2ludC4NCj4+DQo+PiBTaWduZWQtb2Zm
-LWJ5OiBEbWl0cnkgQmFyeXNoa292IDxkbWl0cnkuYmFyeXNoa292QG9zcy5xdWFsY29tbS5j
-b20+DQo+PiAtLS0NCj4gDQo+IEhpIERtaXRyeSwNCj4gDQo+IFRoYW5rcyBmb3IgdGhlIG5l
-dyB2ZXJzaW9uLg0KPiANCj4gSXQgbG9va3MgbGlrZSB3ZSBzdGlsbCBoYXZlIGlzc3VlcyBv
-biB0aGUgYXV0b2J1aWxkZXIsIG5vdyBkdXJpbmcNCj4gb2Utc2VsZnRlc3RzLiBJIHRydW5j
-YXRlZCBhIGJpdCB0aGUgbG9ncyBiZWxvdy4NCj4gDQo+IEVSUk9SOiBtZXNhLW5hdGl2ZS0y
-XzI1LjAuMi1yMCBkb19jb21waWxlOiBFeGVjdXRpb24gb2YgJy9zcnYvcG9reWJ1aWxkL3lv
-Y3RvLXdvcmtlci9vZS1zZWxmdGVzdC1kZWJpYW4vYnVpbGQvYnVpbGQtc3QtNTM4NDIvdG1w
-L3dvcmsveDg2XzY0LWxpbnV4L21lc2EtbmF0aXZlLzI1LjAuMi90ZW1wL3J1bi5kb19jb21w
-aWxlLjUwNjQ3NycgZmFpbGVkIHdpdGggZXhpdCBjb2RlIDENCj4gLi4uDQo+IHwgRkFJTEVE
-OiBzcmMvaW50ZWwvc2hhZGVycy9pbnRlbF9nZng4MF9zaGFkZXJzLnNwdg0KPiB8IC9zcnYv
-cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1kZWJpYW4vYnVpbGQvYnVpbGQt
-c3QtNTM4NDIvdG1wL3dvcmsveDg2XzY0LWxpbnV4L21lc2EtbmF0aXZlLzI1LjAuMi9idWls
-ZC9zcmMvY29tcGlsZXIvY2xjL21lc2FfY2xjIC4uL21lc2EtMjUuMC4yL3NyYy9pbnRlbC9z
-aGFkZXJzL2xpYmludGVsX3NoYWRlcnMuaCAuLi9tZXNhLTI1LjAuMi9zcmMvaW50ZWwvc2hh
-ZGVycy9nZW5lcmF0ZS5jbCAuLi9tZXNhLTI1LjAuMi9zcmMvaW50ZWwvc2hhZGVycy9nZW5l
-cmF0ZV9kcmF3cy5jbCAuLi9tZXNhLTI1LjAuMi9zcmMvaW50ZWwvc2hhZGVycy9nZW5lcmF0
-ZV9kcmF3c19pcmlzLmNsIC4uL21lc2EtMjUuMC4yL3NyYy9pbnRlbC9zaGFkZXJzL3F1ZXJ5
-X2NvcHkuY2wgLi4vbWVzYS0yNS4wLjIvc3JjL2ludGVsL3NoYWRlcnMvdXRpbC5jbCAtbyBz
-cmMvaW50ZWwvc2hhZGVycy9pbnRlbF9nZng4MF9zaGFkZXJzLnNwdiAtLSAtRE5ERUJVRz0x
-IC1ER0ZYX1ZFUngxMD04MCAtSS9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxm
-dGVzdC1kZWJpYW4vYnVpbGQvYnVpbGQtc3QtNTM4NDIvdG1wL3dvcmsveDg2XzY0LWxpbnV4
-L21lc2EtbmF0aXZlLzI1LjAuMi9tZXNhLTI1LjAuMi9zcmMvaW50ZWwvc2hhZGVycy8uIC1J
-L3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL29lLXNlbGZ0ZXN0LWRlYmlhbi9idWlsZC9i
-dWlsZC1zdC01Mzg0Mi90bXAvd29yay94ODZfNjQtbGludXgvbWVzYS1uYXRpdmUvMjUuMC4y
-L21lc2EtMjUuMC4yL3NyYy9jb21waWxlci9saWJjbCAtSS9zcnYvcG9reWJ1aWxkL3lvY3Rv
-LXdvcmtlci9vZS1zZWxmdGVzdC1kZWJpYW4vYnVpbGQvYnVpbGQtc3QtNTM4NDIvdG1wL3dv
-cmsveDg2XzY0LWxpbnV4L21lc2EtbmF0aXZlLzI1LjAuMi9tZXNhLTI1LjAuMi9zcmMgLUkv
-c3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtZGViaWFuL2J1aWxkL2J1
-aWxkLXN0LTUzODQyL3RtcC93b3JrL3g4Nl82NC1saW51eC9tZXNhLW5hdGl2ZS8yNS4wLjIv
-bWVzYS0yNS4wLjIvc3JjL2ludGVsIC1JL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL29l
-LXNlbGZ0ZXN0LWRlYmlhbi9idWlsZC9idWlsZC1zdC01Mzg0Mi90bXAvd29yay94ODZfNjQt
-bGludXgvbWVzYS1uYXRpdmUvMjUuMC4yL2J1aWxkL3NyYy9pbnRlbCAtSS9zcnYvcG9reWJ1
-aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1kZWJpYW4vYnVpbGQvYnVpbGQtc3QtNTM4
-NDIvdG1wL3dvcmsveDg2XzY0LWxpbnV4L21lc2EtbmF0aXZlLzI1LjAuMi9tZXNhLTI1LjAu
-Mi9zcmMvaW50ZWwvZ2VueG1sDQo+IHwgL2Jpbi9zaDogMTogL3Nydi9wb2t5YnVpbGQveW9j
-dG8td29ya2VyL29lLXNlbGZ0ZXN0LWRlYmlhbi9idWlsZC9idWlsZC1zdC01Mzg0Mi90bXAv
-d29yay94ODZfNjQtbGludXgvbWVzYS1uYXRpdmUvMjUuMC4yL2J1aWxkL3NyYy9jb21waWxl
-ci9jbGMvbWVzYV9jbGM6IG5vdCBmb3VuZA0KDQoNCkkndmUgZml4ZWQgYWxsIG90aGVyIGlz
-c3VlcywgZXhjZXB0IHRoZSB4MzIgKHdvcmtpbmcgb24gcmVwcm9kdWNpbmcgaXQgDQpub3cp
-IGFuZCB0aGlzIG9uZS4gV291bGQgeW91IGhhdmUgYSBwb2ludGVyIHRvIHRoZSBidWlsZCBq
-b2I/DQoNCg0KPiANCj4gQnV0IGFsc28gYSBsb3Qgb2YgaXNzdWVzIHdpdGggc3N0YXRlIHRl
-c3RzOg0KPiANCj4gMjAyNS0wMy0zMSAxOTozMTozNiwzNDkgLSBvZS1zZWxmdGVzdCAtIElO
-Rk8gLSA2OiA0Ni80OSAyMTQvNjIyICg4OC42MnMpICgwIGZhaWxlZCkgKHNzdGF0ZXRlc3Rz
-LlNTdGF0ZUhhc2hTYW1lU2lncy50ZXN0X3NzdGF0ZV8zMl82NF9zYW1lX2hhc2gpDQo+IDIw
-MjUtMDMtMzEgMTk6MzE6MzYsMzQ5IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gdGVzdHRvb2xz
-LnRlc3RyZXN1bHQucmVhbC5fU3RyaW5nRXhjZXB0aW9uOiBUcmFjZWJhY2sgKG1vc3QgcmVj
-ZW50IGNhbGwgbGFzdCk6DQo+ICAgIEZpbGUgIi9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtl
-ci9vZS1zZWxmdGVzdC1kZWJpYW4vYnVpbGQvbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNl
-cy9zc3RhdGV0ZXN0cy5weSIsIGxpbmUgNDE4LCBpbiB0ZXN0X3NzdGF0ZV8zMl82NF9zYW1l
-X2hhc2gNCj4gICAgICBzZWxmLnNzdGF0ZV9oYXNodGVzdCgiaTY4NiIpDQo+ICAgIEZpbGUg
-Ii9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1kZWJpYW4vYnVpbGQv
-bWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9zc3RhdGV0ZXN0cy5weSIsIGxpbmUgNDA5
-LCBpbiBzc3RhdGVfaGFzaHRlc3QNCj4gICAgICBzZWxmLmFzc2VydENvdW50RXF1YWwoZmls
-ZXMxLCBmaWxlczIpDQo+ICAgIEZpbGUgIi91c3IvbGliL3B5dGhvbjMuMTEvdW5pdHRlc3Qv
-Y2FzZS5weSIsIGxpbmUgMTIzMywgaW4gYXNzZXJ0Q291bnRFcXVhbA0KPiAgICAgIHNlbGYu
-ZmFpbChtc2cpDQo+ICAgIEZpbGUgIi91c3IvbGliL3B5dGhvbjMuMTEvdW5pdHRlc3QvY2Fz
-ZS5weSIsIGxpbmUgNzAzLCBpbiBmYWlsDQo+ICAgICAgcmFpc2Ugc2VsZi5mYWlsdXJlRXhj
-ZXB0aW9uKG1zZykNCj4gQXNzZXJ0aW9uRXJyb3I6IEVsZW1lbnQgY291bnRzIHdlcmUgbm90
-IGVxdWFsOg0KPiBGaXJzdCBoYXMgMSwgU2Vjb25kIGhhcyAwOiAgJy9zcnYvcG9reWJ1aWxk
-L3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1kZWJpYW4vYnVpbGQvYnVpbGQtc3QtNTM3OTUv
-dG1wLXNzdGF0ZXNhbWVoYXNoL3N0YW1wcy9jb3JlMi0zMi1wb2t5LWxpbnV4L21lc2EvMjUu
-MC4yLmRvX2luc3RhbGwuc2lnZGF0YS5mMTEyMWViNTZmMWY2YjgzMzU3MjJlMzJkMGUyMWVi
-Nzc3ZTk1YWI0YWY4M2I3Nzc5NzFmMzY2NmQxMjY1YmVkJw0KPiBGaXJzdCBoYXMgMSwgU2Vj
-b25kIGhhcyAwOiAgJy9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1k
-ZWJpYW4vYnVpbGQvYnVpbGQtc3QtNTM3OTUvdG1wLXNzdGF0ZXNhbWVoYXNoL3N0YW1wcy9j
-b3JlMi0zMi1wb2t5LWxpbnV4L21lc2EvMjUuMC4yLmRvX2NyZWF0ZV9zcGR4LnNpZ2RhdGEu
-NGM1MzUwNWEwZTNhNWJiYTIxNGQ4NTRhZThlZWE3YzU1MWY3OTRkNmI4NTM5MjU2NGQ3YzM5
-MjMxODBlNWQ3ZicNCj4gRmlyc3QgaGFzIDEsIFNlY29uZCBoYXMgMDogICcvc3J2L3Bva3li
-dWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtZGViaWFuL2J1aWxkL2J1aWxkLXN0LTUz
-Nzk1L3RtcC1zc3RhdGVzYW1laGFzaC9zdGFtcHMvY29yZTItMzItcG9reS1saW51eC9tZXNh
-LzI1LjAuMi5kb19jcmVhdGVfcGFja2FnZV9zcGR4LnNpZ2RhdGEuY2VmZTExYWQzOGMzYzQw
-OTY4ZTQ3NTczMTRhZDA4YjkxZjk1ODRjOTg0NWNiY2YwOGNjODYzNWUxMjE2OTEyZScNCj4g
-Rmlyc3QgaGFzIDEsIFNlY29uZCBoYXMgMDogICcvc3J2L3Bva3lidWlsZC95b2N0by13b3Jr
-ZXIvb2Utc2VsZnRlc3QtZGViaWFuL2J1aWxkL2J1aWxkLXN0LTUzNzk1L3RtcC1zc3RhdGVz
-YW1laGFzaC9zdGFtcHMvY29yZTItMzItcG9reS1saW51eC9tZXNhLzI1LjAuMi5kb19wb3B1
-bGF0ZV9zeXNyb290LnNpZ2RhdGEuMmUzZTNiOWMxNzg1NWE4YTg2NWRkOWU5OWMwMDIwMTZl
-Njk3MDI0ZmM5M2NkZmVkNjkwYjdkNTRiYjA1ZTM0ZScNCj4gRmlyc3QgaGFzIDEsIFNlY29u
-ZCBoYXMgMDogICcvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtZGVi
-aWFuL2J1aWxkL2J1aWxkLXN0LTUzNzk1L3RtcC1zc3RhdGVzYW1laGFzaC9zdGFtcHMvY29y
-ZTItMzItcG9reS1saW51eC9tZXNhLzI1LjAuMi5kb19wcmVwYXJlX3JlY2lwZV9zeXNyb290
-LnNpZ2RhdGEuNzNkMGRmNTE3MGNlNzYyNzI3YTUxNzg1NjUwNWYzNTA1YjJjNDdmNDc5YWZm
-ZGRkYjI0MmRkY2FkMzRkNWUyOScNCj4gLi4uDQo+IA0KPiBodHRwczovL2F1dG9idWlsZGVy
-LnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWlsZGVycy8zNS9idWlsZHMvMTI2NA0K
-PiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWls
-ZGVycy8yMy9idWlsZHMvMTM1MA0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVj
-dC5vcmcvdmFsa3lyaWUvIy9idWlsZGVycy80OC9idWlsZHMvMTIxNA0KPiANCj4gQ2FuIHlv
-dSBoYXZlIGEgbG9vayBhIHRoZXNlIHBsZWFzZT8NCj4gDQoNCg0KLS0gDQpXaXRoIGJlc3Qg
-d2lzaGVzDQpEbWl0cnkNCg==
+On Tue, 1 Apr 2025 at 18:19, Dmitry Baryshkov via
+lists.openembedded.org
+<dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
+> > ERROR: mesa-native-2_25.0.2-r0 do_compile: Execution of '/srv/pokybuild=
+/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux=
+/mesa-native/25.0.2/temp/run.do_compile.506477' failed with exit code 1
+> > ...
+> > | FAILED: src/intel/shaders/intel_gfx80_shaders.spv
+> > | /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/t=
+mp/work/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc/mesa_clc ../=
+mesa-25.0.2/src/intel/shaders/libintel_shaders.h ../mesa-25.0.2/src/intel/s=
+haders/generate.cl ../mesa-25.0.2/src/intel/shaders/generate_draws.cl ../me=
+sa-25.0.2/src/intel/shaders/generate_draws_iris.cl ../mesa-25.0.2/src/intel=
+/shaders/query_copy.cl ../mesa-25.0.2/src/intel/shaders/util.cl -o src/inte=
+l/shaders/intel_gfx80_shaders.spv -- -DNDEBUG=3D1 -DGFX_VERx10=3D80 -I/srv/=
+pokybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86=
+_64-linux/mesa-native/25.0.2/mesa-25.0.2/src/intel/shaders/. -I/srv/pokybui=
+ld/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-lin=
+ux/mesa-native/25.0.2/mesa-25.0.2/src/compiler/libcl -I/srv/pokybuild/yocto=
+-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux/mesa-=
+native/25.0.2/mesa-25.0.2/src -I/srv/pokybuild/yocto-worker/oe-selftest-deb=
+ian/build/build-st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/mesa-25.0=
+.2/src/intel -I/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-s=
+t-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/intel -I/srv/pok=
+ybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64=
+-linux/mesa-native/25.0.2/mesa-25.0.2/src/intel/genxml
+> > | /bin/sh: 1: /srv/pokybuild/yocto-worker/oe-selftest-debian/build/buil=
+d-st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc/=
+mesa_clc: not found
+>
+>
+> I've fixed all other issues, except the x32 (working on reproducing it
+> now) and this one. Would you have a pointer to the build job?
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1264/ste=
+ps/14/logs/stdio
+
+This is in context of oe-selftest, but it is simply building
+qemu-system-native on debian 12 - I suspect the mesa-native fail is
+specific to that host distro. I can try to reproduce if you need help
+with it.
+
+Alex
 
