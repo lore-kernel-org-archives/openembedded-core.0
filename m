@@ -1,154 +1,172 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED58C36008
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 07:35:10 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.13628.1743492903010923928
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B38B3C36008
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 07:40:40 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web11.13660.1743493237275013165
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 00:35:03 -0700
+ Tue, 01 Apr 2025 00:40:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S9D9AnQL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-38a25d4b9d4so2700681f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 00:35:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743492901; x=1744097701; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UDuqhNhmAZnfIZXmO24Ra4dCuxeVCIIfnBP77g1zfU8=;
-        b=S9D9AnQLLYPsUVVfDGYLdmulACa1Vj929gBH8LQgIC8w6f4TEv5H6okfe84r+MVf1Z
-         dGD8iq3oXEkBn2td8CLFlIVXsqnvOaPci3zHd9LpU+WfnG1vlyG+CwQMxeL+TF6AHx/p
-         0SiYcfMPmFgGIbOdifYpxcSPjzeue99bxIJuo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743492901; x=1744097701;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UDuqhNhmAZnfIZXmO24Ra4dCuxeVCIIfnBP77g1zfU8=;
-        b=q3713SRih3TDojyJz1QNWQeoMUI8uhQ5KkVTkpL2rQXrWvjugJldui7vV0lroj37mb
-         TZSl/Q511NLORcrzMF0AA+kXRujZj5NdQYBjaR99kTQK8Buxmo4dbqYYr5a8WernMify
-         laKlH4or4EdHzyxSb7sXEJQ/tGY2Xe/Ts38cZjGLBJ+foS274GFbd5DhTkJGvezMtRUN
-         39W8l3RlX7l/sM0lLwfoKHGUrfdFS8MgkRPgtZ6z+3eWuq02ofCBcktl0NCEb5uNCneT
-         6+d3AaFl47zfUWQppon6d5YMajQ8b5oI+RMcEXrjymvG4J2M4HlXr1+ggHSsfB6L0FLe
-         q/Hg==
-X-Gm-Message-State: AOJu0Yx/yVeCZ6ItPsAhpyjH5IGIQBOO5YI8prf75DizqcW9orXVlAj6
-	Wk+rEZP2NiAmqkzRNC7XOinZHcwCO1a/y5CurTL06CNojPJbm5F0zWGU870s64k=
-X-Gm-Gg: ASbGnctiGpxdjBG1JqF3D1f2S2o0bsY3ebWk33VmuWIGU1Z348yutc98dLD4XXsOECk
-	tUefmLJ1RHmzGnIJooF7H+al/nzFxceLcNzTQhSreZ7eLg9zEpk97TDZg7yQ2Fzjpu4xWQCppaz
-	33nz27ScLYG/dDEnAg2BWNEOTRP3V0h8JMPOtHC7EyZt/IbyewU7XFImCVAom7h8cSOcMJ/ty/Y
-	O+HVnrV4qlK+t0aJMWFm5N/YNJPlzVn2/zG3b/FcEDKb9dxl2/sbOClbpxr4G/RmB1uBIrNCPpb
-	lDnDXQwy5OTa9oqqjAcVbmofmP70W6/yMz8KHazNmXaDW6eabvOUA2CK2DF84H1UDNgD3OyAt0W
-	HNpdCTCxaXWFqvbEHd9wcxRMIHZ7NdZDyyA==
-X-Google-Smtp-Source: AGHT+IFMJZTRq8r+1DIQaaLAJNWNyfzcpTsueAS7XisxhI5YwSzvtAJ9wB6WgHRQo/vLlJN0BGEWGQ==
-X-Received: by 2002:a5d:47cd:0:b0:390:fc83:a070 with SMTP id ffacd0b85a97d-39c1208cf23mr8950097f8f.0.1743492901271;
-        Tue, 01 Apr 2025 00:35:01 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f463:b16e:827e:c6a2? ([2001:8b0:aba:5f3c:f463:b16e:827e:c6a2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ea8d2bc7fsm8043165e9.0.2025.04.01.00.34.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 00:35:00 -0700 (PDT)
-Message-ID: <0ffd9405cc6d36130436edcbffef826dc3f29b4b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] rust-llvm: Compile llvm to use dynamic
- libraries
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>, raj.khem@gmail.com, 
- "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, "Shinde, Yash"
- <yash.shinde@windriver.com>, Deepesh Varatharajan	
- <Deepesh.Varatharajan@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 01 Apr 2025 08:34:58 +0100
-In-Reply-To: <1832019BE8984F8C.2063@lists.openembedded.org>
-References: <20250331133044.1944108-1-richard.purdie@linuxfoundation.org>
-			 <CAMKF1sr8AqkmjQca6fYe90oOU3h=++A2=7RpaWkRFEuS38oyHg@mail.gmail.com>
-			 <9fe3cc25-c6fc-410a-b819-58e1e1db818e@windriver.com>
-		 <1831FE10390FE3BE.19875@lists.openembedded.org>
-	 <1832019BE8984F8C.2063@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MKkPF1Ph;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 05DA8442D9;
+	Tue,  1 Apr 2025 07:40:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1743493235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a+eo5scFOzguTqo09QHWHPlq0qeLGT8hEmCqeN6rsuo=;
+	b=MKkPF1PhjksLItgSZcl2tMlNbcTf9g8zOh5vZLJzQMeBRgVi0aBVGREBGTVNqPkOdzkMYH
+	K9oTxJH4I+NlzstVXQk2qDB5183oxHH1oBp3vAV9iJZadS0LvG4UW6+FmwPfajkgtouBKs
+	sjqun6mmMXgaBZOHxmXpCAh0MVDDPDwfTHY5IAXESeseORy4IlVLnfwNy+yeM/mzjfI1T/
+	OjQqN3zXPF4YFEg/L5L+OThemsxlYPerYphU1wSQKcSLbLMudMtjXLJdkygAng6ghqH2/d
+	cvV8HL+wPSOKf+CyFkevCG7PH1DoswVV7a309/fHvFeBAl9tH131yxL2/ih1ug==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 01 Apr 2025 09:40:34 +0200
+Message-Id: <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <dmitry.baryshkov@oss.qualcomm.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v4 0/9] mesa: upgrade to 25.0.2
+Cc: "Khem Raj" <raj.khem@gmail.com>,
+ =?utf-8?q?Zolt=C3=A1n_B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250331-mesa-25-v4-0-e62fc54a6efc@oss.qualcomm.com>
+In-Reply-To: <20250331-mesa-25-v4-0-e62fc54a6efc@oss.qualcomm.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukedvvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkhffvufevofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeefueelgfffteeludehvdehteeugeevudduvdejieelgeegkeegfeejvdevvedtleenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegpdhrtghpthhtohepughmihhtrhihrdgsrghrhihsh
+ hhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehrrghjrdhkhhgvmhesghhmrghilhdrtghomhdprhgtphhtthhopeiisghoshiiohhrsehgmhgrihhlrdgtohhm
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 07:35:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214004
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 07:40:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214005
 
-On Mon, 2025-03-31 at 22:49 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> On Mon, 2025-03-31 at 21:44 +0100, Richard Purdie via
-> lists.openembedded.org wrote:
-> > On Mon, 2025-03-31 at 15:08 -0400, Randy MacLeod wrote:
-> > > =C2=A0
-> > > On 2025-03-31 12:13 p.m., Khem Raj via lists.openembedded.org
-> > > wrote:
-> > > =C2=A0
-> > > > On Mon, Mar 31, 2025 at 6:30=E2=80=AFAM Richard Purdie via
-> > > > lists.openembedded.org
-> > > > <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org>
-> > > > wrote:
-> > > > > Our main llvm recipe uses dynamic linking already but rust-
-> > > > > llvm
-> > > > > does not.
-> > > > > =C2=A0Enabling this significanly reduces the size of llvm-rust to
-> > > > > about a third
-> > > > > =C2=A0of what it was, which is a bettter configuration for us
-> > > > > leading to smaller
-> > > > > =C2=A0TMPDIR and sstate objects
-> > > > >=20
-> > > > =C2=A0
-> > > >=20
-> > > > =C2=A0
-> > > > =C2=A0
-> > > > It will slow down the compiler execution and sometimes its
-> > > > could
-> > > > be significant as well we have seen this with clang so it would
-> > > > be good to have some idea around that least we provide a slow
-> > > > compiler compared to other distro infrastructures=20
-> > > > =C2=A0
-> > > > =C2=A0
-> > > > =C2=A0
-> > > > =C2=A0
-> > > =C2=A0
-> > > We'll get some performance info from the YP AB perf builds.
-> >=20
-> > https://valkyrie.yocto.io/pub/non-release/20250331-105/testresults/buil=
-dperf-debian11/perf-debian12-vk_master-next_20250331181527_9ba5b4f4e4.html
-> > https://valkyrie.yocto.io/pub/non-release/20250331-104/testresults/buil=
-dperf-alma8/perf-alma8-vk_master-next_20250331181513_9ba5b4f4e4.html
-> >=20
-> > The build time is fractionally faster (1%?) but hard to say within
-> > noise.
-> >=20
-> > The diskspace drop is convincing, 2.3GB less TMPDIR size (2.3%).
-> >=20
-> > The rm_work TMPDIR size also drops by 1GB (6%) which is
-> > particularly
-> > significant and nice to have.
-> >=20
-> > In builds with rust-llvm as well as rust-llvm-native, this will
-> > double up for a double win.
->=20
-> The analysis is a bit flawed as it is contrasting master with master-
-> next which has 1.85 as well as other changes. We need to remove that
-> from the equation.
+On Mon Mar 31, 2025 at 2:21 PM CEST, Dmitry Baryshkov via lists.openembedde=
+d.org wrote:
+> libclc is required in order to build Intel drivers in Mesa 24.1 and
+> later. Thus OE-Core is currently locked to the 24.0.x branch, which is
+> no longer maintained, having last release in June 2024.
+>
+> A clean solution is to package Clang, then use it to build libclc and
+> SPIRV-LLVM-Translator (required for Mesa OpenCL support). However
+> creating proper recipes for Clang is a long process (ongoing by Khem
+> Raj).
+>
+> This patchset attempts to solve the issue in a simpler way: by building
+> libclc and SPIRV-LLVM-Translator together with the LLVM. This way we
+> don't have to create target Clang recipes, there is no extra toolchain
+> to support, etc. Clang binaries are creted as a part of the build
+> process (in order to support building target packages), however it only
+> hits the LLVM sysroot-native and is only used by the LLVM target build.
+>
+> Future work by Khem (once Clang is properly supported in OE-Core) should
+> allow us to create proper recipes for libclc and spirv-llvm-translator
+> and drop them from the llvm / clang recipe.
+>
+> I think this approach provides a good balance between OE-Core being
+> stuck with the outdated Mesa release and being able to upgrade it,
+> bringing support for new hardware.
+>
+> Last two patches of the series bring in RustiCL support, a new OpenCL
+> implementation within Mesa. They are optional for the sake of the
+> upgrade and can be dropped if there is any issue with those. RustiCL
+> support is mostly compile-tested at this point.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
 
-There are a direct comparison with just the patch added:
+Hi Dmitry,
 
-https://valkyrie.yocto.io/pub/non-release/20250331-129/testresults/buildper=
-f-debian11/perf-debian12-vk_master-next_20250331220727_26fa862acd.html
-https://valkyrie.yocto.io/pub/non-release/20250331-128/testresults/buildper=
-f-alma8/perf-alma8-vk_master-next_20250331220715_26fa862acd.html
+Thanks for the new version.
 
-So the buildtime is around the same (or less with rm_work), it is hard
-to say from the daya. TMPDIR is 3.6GB less and 1GB less with rm_work so
-definitely improved.
+It looks like we still have issues on the autobuilder, now during
+oe-selftests. I truncated a bit the logs below.
 
-Enough of an improvement in space usage I think this is worthwhile. In
-general space usage does correlate with build speed.
+ERROR: mesa-native-2_25.0.2-r0 do_compile: Execution of '/srv/pokybuild/yoc=
+to-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux/mes=
+a-native/25.0.2/temp/run.do_compile.506477' failed with exit code 1
+...
+| FAILED: src/intel/shaders/intel_gfx80_shaders.spv
+| /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/w=
+ork/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc/mesa_clc ../mesa=
+-25.0.2/src/intel/shaders/libintel_shaders.h ../mesa-25.0.2/src/intel/shade=
+rs/generate.cl ../mesa-25.0.2/src/intel/shaders/generate_draws.cl ../mesa-2=
+5.0.2/src/intel/shaders/generate_draws_iris.cl ../mesa-25.0.2/src/intel/sha=
+ders/query_copy.cl ../mesa-25.0.2/src/intel/shaders/util.cl -o src/intel/sh=
+aders/intel_gfx80_shaders.spv -- -DNDEBUG=3D1 -DGFX_VERx10=3D80 -I/srv/poky=
+build/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-=
+linux/mesa-native/25.0.2/mesa-25.0.2/src/intel/shaders/. -I/srv/pokybuild/y=
+octo-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux/m=
+esa-native/25.0.2/mesa-25.0.2/src/compiler/libcl -I/srv/pokybuild/yocto-wor=
+ker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux/mesa-nati=
+ve/25.0.2/mesa-25.0.2/src -I/srv/pokybuild/yocto-worker/oe-selftest-debian/=
+build/build-st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/mesa-25.0.2/s=
+rc/intel -I/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-53=
+842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/intel -I/srv/pokybui=
+ld/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-lin=
+ux/mesa-native/25.0.2/mesa-25.0.2/src/intel/genxml
+| /bin/sh: 1: /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st=
+-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc/mesa=
+_clc: not found
 
-Cheers,
+But also a lot of issues with sstate tests:
 
-Richard
+2025-03-31 19:31:36,349 - oe-selftest - INFO - 6: 46/49 214/622 (88.62s) (0=
+ failed) (sstatetests.SStateHashSameSigs.test_sstate_32_64_same_hash)
+2025-03-31 19:31:36,349 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/=
+selftest/cases/sstatetests.py", line 418, in test_sstate_32_64_same_hash
+    self.sstate_hashtest("i686")
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/=
+selftest/cases/sstatetests.py", line 409, in sstate_hashtest
+    self.assertCountEqual(files1, files2)
+  File "/usr/lib/python3.11/unittest/case.py", line 1233, in assertCountEqu=
+al
+    self.fail(msg)
+  File "/usr/lib/python3.11/unittest/case.py", line 703, in fail
+    raise self.failureException(msg)
+AssertionError: Element counts were not equal:
+First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian=
+/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/25=
+.0.2.do_install.sigdata.f1121eb56f1f6b8335722e32d0e21eb777e95ab4af83b777971=
+f3666d1265bed'
+First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian=
+/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/25=
+.0.2.do_create_spdx.sigdata.4c53505a0e3a5bba214d854ae8eea7c551f794d6b853925=
+64d7c3923180e5d7f'
+First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian=
+/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/25=
+.0.2.do_create_package_spdx.sigdata.cefe11ad38c3c40968e4757314ad08b91f9584c=
+9845cbcf08cc8635e1216912e'
+First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian=
+/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/25=
+.0.2.do_populate_sysroot.sigdata.2e3e3b9c17855a8a865dd9e99c002016e697024fc9=
+3cdfed690b7d54bb05e34e'
+First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian=
+/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/25=
+.0.2.do_prepare_recipe_sysroot.sigdata.73d0df5170ce762727a517856505f3505b2c=
+47f479affdddb242ddcad34d5e29'
+...
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1264
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/1350
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1214
+
+Can you have a look a these please?
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
