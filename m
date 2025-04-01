@@ -1,116 +1,140 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60753C36010
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:29:42 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.17752.1743510580761722008
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EFD8C36014
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:12 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.18037.1743511387671847570
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 05:29:41 -0700
+ Tue, 01 Apr 2025 05:43:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OoAg8o3I;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so55001205e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 05:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743510579; x=1744115379; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PYJtsWyDLcU8A59WANcrDioslrAnCMYGZCH0lnR33rk=;
-        b=OoAg8o3I2uiNScxLp3Ely4nOPwtwJrXQtthByXaNN0sDFZnHURvW1/611A88JIvrIm
-         G50aD1AbcH5zGyx1jvYN1RkZmlMc3yyk9ceo/lB7mclZEq6+5A/fQHsd9MVBZJPCi+MF
-         t+12OtIDBTCuhbIVkYmt0LZSDCK0d675cQBDA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743510579; x=1744115379;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PYJtsWyDLcU8A59WANcrDioslrAnCMYGZCH0lnR33rk=;
-        b=AS2vXbwqZ5A6zqHYrrjPROeP3tif2K3wjo/WJgN/GaY07QU+HpmqmG8I/zuHJ2hKRN
-         JMMtA3x7IyrKa2sASgv6MLhhRVlvjFeLetL1U6PwVh87J66d57MzyG6e+OlbrPPpD86f
-         uy5v8nO0UerAvQGKgPmCzstIt5zHRaIWm+zPrY+cwKNtU+zyi4IGCg+0vBdX12rFQ2xB
-         MxaGTpvqLobrKsqzTP9OfAkotbI1ZMGtJiY2eMXaCMuSeYlb93oTsN7cAUgiutyVB0Id
-         4q6a46mpR7az87m52url23DUkGwAFoR0JqL/a7gSlhJt2x/qYjqtdi6l1wmZtKW5SS16
-         tq8w==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ8dZy+s6+5xnZRtuxu0uzejjb+HjxQDy5k5fk4fQubu3LBVymHngsbVN1TiC27ZdsnSBHOYz52l61Twv0R2GRpA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxn2Llek+bfzuQdlrB+EnzHKZzyboRGxuw2Z9Y3kqXGuv+XJB1q
-	sIP21b/6wrqOc33O1xImvs0cHahbU+Oo+fDHcY7Hczc+ANBmUrh/en0VQkLxYm8=
-X-Gm-Gg: ASbGncvFu5zRXeDGGVQwJf1srqm1PnbHb0YYp0qWDuYcL2DE1yvXT6RXADs9mg+OkQT
-	n3xYb+f6M6sm8EHwBvuyMUdbsEe7NZzgnTm7HQQUM1Zaoh3s00+jLpYEkhFFOu/oS6kleqQdT2j
-	VMvKegWRxqr+beoOTjs98rtPw66GfXxO6iMtjh4+8Dwf6jAZ9OBhYcQRByvgOLy8xzMpGRSG46M
-	OH2YSi+cbKwxeahibRWbQRI4Sb31Evlefm8QR0IsB9XT/UwHuEuHBmV+nKDF/I2MXh9QbAMFDnr
-	Ao652fCGlO7U+/LEAtKxxKVzjG0vGyh/GtuwWMFOsEN4gkF3NV9OxTFGRZ2enzXFeTTFW4t8kvg
-	hgQjQhNuVJI3GGeVeJ5m1i9E2vYJY2McXQA==
-X-Google-Smtp-Source: AGHT+IFUIS37c3DGGkvo0M9FwSgYT2/BQHvcCl8QcICUzhE5O8fMmgzkiIOXWvHEe9o3/0QxZqoCVg==
-X-Received: by 2002:a05:6000:1a8d:b0:390:de33:b0ef with SMTP id ffacd0b85a97d-39c120e3ca0mr8590146f8f.30.1743510579134;
-        Tue, 01 Apr 2025 05:29:39 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:60ad:c9df:333e:6173? ([2001:8b0:aba:5f3c:60ad:c9df:333e:6173])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b658b7bsm13821767f8f.20.2025.04.01.05.29.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 05:29:38 -0700 (PDT)
-Message-ID: <26c4befa690a5d824489710d5ed8c5e66ac4d2df.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 3/6] dbus-glib: Support using alternative
- runtime D-Bus
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: niko.mauno@vaisala.com, openembedded-core@lists.openembedded.org
-Cc: ross.burton@arm.com
-Date: Tue, 01 Apr 2025 13:29:35 +0100
-In-Reply-To: <20250401113129.3531757-3-niko.mauno@vaisala.com>
-References: <20250401113129.3531757-1-niko.mauno@vaisala.com>
-	 <20250401113129.3531757-3-niko.mauno@vaisala.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fmr143R4;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=kUQoHDK0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010195f16087fd-db083c77-434b-4bed-a1fb-c47604684d67-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1743511390;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=/0Vu87cmT2Ykr9bbaJHct3Uuh0+furNemuAiKj4h1gc=;
+	b=fmr143R4vz3lrmLYMJP1z0WcRpAPsqcFzIBvX3kgsmi6ZzaX5MQEhHkPYbNy9mp9
+	dBHGI5Ez54ItcMAXXyKJXjmCflttsdGYCk8oz8mA75KV0X+n74KR6p9SQ59Al03YeZP
+	Am3BShz81T1D/myXVkElyV10rtvE8LDwajv7BGP8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511390;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=/0Vu87cmT2Ykr9bbaJHct3Uuh0+furNemuAiKj4h1gc=;
+	b=kUQoHDK0MARLog4SkzflVqHDDjOgDLn0XxPgxXBMjfE9BqnZRLZcal5pn0badJhM
+	eb+zRHqwTcfnuJdcvet93jDiv+m2r6grsW6d+m7M9Q8saMphB9PZqcGxhGCnOG+Fnws
+	Zae7iKg+jyh4GcX+W9SBxbzycb8Yp0wTCsgvKWOQ=
+Content-Type: multipart/mixed; boundary="===============5220259170868525243=="
 MIME-Version: 1.0
+From: auh@yoctoproject.org
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] nfs-utils: upgrading to 2.8.3 FAILED
+Message-ID: <01010195f16087fd-db083c77-434b-4bed-a1fb-c47604684d67-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:10 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.04.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:29:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214023
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214039
 
-On Tue, 2025-04-01 at 11:31 +0000, Niko Mauno via
-lists.openembedded.org wrote:
-> In order to facilitate oe-core users who wish to use e.g. dbus-broker
-> as their runtime D-Bus implementation, decouple the target specific
-> dbus-glib runtime recommendation to honor the new VIRTUAL-
-> RUNTIME_dbus
-> variable.
->=20
-> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-> ---
-> =C2=A0meta/recipes-core/dbus/dbus-glib_0.114.bb | 4 +++-
-> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/dbus/dbus-glib_0.114.bb
-> b/meta/recipes-core/dbus/dbus-glib_0.114.bb
-> index ff7c2d6613..7908a02747 100644
-> --- a/meta/recipes-core/dbus/dbus-glib_0.114.bb
-> +++ b/meta/recipes-core/dbus/dbus-glib_0.114.bb
-> @@ -38,7 +38,9 @@ LICENSE:${PN}-bash-completion =3D "GPL-2.0-or-later"
-> =C2=A0FILES:${PN}-dev +=3D "${libdir}/dbus-1.0/include ${bindir}/dbus-gli=
-b-
-> tool"
-> =C2=A0FILES:${PN}-dev +=3D "${bindir}/dbus-binding-tool"
-> =C2=A0
-> -RDEPENDS:${PN}-tests +=3D "dbus"
-> +RDEPENDS:${PN}-tests:class-target +=3D "${VIRTUAL-RUNTIME_dbus}"
-> +RDEPENDS:${PN}-tests:class-native +=3D "dbus"
-> +RDEPENDS:${PN}-tests:class-nativesdk +=3D "dbus"
-> =C2=A0
+--===============5220259170868525243==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-This looks convoluted and probably incorrect and unnecessary.
+Hello,
 
-I'd suggest changing this to:
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *nfs-utils* to *2.8.3* has Failed (devtool error).
 
-RDEPENDS:${PN}-tests =3D "${PN}"
+Detailed error information:
 
-and then relying on the main library having the right dependencies
-(which it has). The tests need the library to run anyway.
+Running 'devtool upgrade' for recipe nfs-utils failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1886 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
 
-Cheers,
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:1e3e0c0c08590c5a219e81ca89f2841d8ce56ad8"
 
-Richard
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 925 .bb files complete (0 cached, 925 parsed). 1887 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:1e3e0c0c08590c5a219e81ca89f2841d8ce56ad8"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-g3oaobfy: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-8iqd8w7z/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-8iqd8w7z/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cdn.kernel.org/pub/linux/utils/nfs-utils/2.8.3/nfs-utils-2.8.3.tar.xz...
+INFO: Rebasing devtool onto 2cb7de035f23004250ac002996eda17c3e076b46
+WARNING: Command 'git rebase 2cb7de035f23004250ac002996eda17c3e076b46' failed:
+Auto-merging support/nfs/xcommon.c
+CONFLICT (content): Merge conflict in support/nfs/xcommon.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since recipe inherits autotools-brokensep
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/nfs-utils
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/nfs-utils/nfs-utils_2.8.3.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============5220259170868525243==--
 
