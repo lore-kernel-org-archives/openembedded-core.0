@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17DB1C3601C
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:23 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.18067.1743511391044015761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E93D4C3601B
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:22 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.18047.1743511393838442158
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 05:43:20 -0700
+ Tue, 01 Apr 2025 05:43:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=I/2MSUSU;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=O3uuo6Iu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010195f160ae8f-3fbd4d9c-4fbb-462b-95b3-3d795da3b903-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NcXOxnHy;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=XzpjdDZi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010195f160b5ca-bea6c116-887a-4be5-9056-ba59184e532d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743511400;
+	t=1743511402;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=o3IARB0V0F5GuOI8P4gsyA0UR2nwcoRJNgsOxS9ehj4=;
-	b=I/2MSUSUEq2tTnrzfEuEr2QxRqNov9Hqd4MaaC8AQayBmRJ6OhgSG1AOJF+vh5/F
-	e7JHxDxpKXwZKpsZE4fwQrHPQi8vVVxf0hcw2uNC6jw0Pi2QzsIoRYqR2xLtoFSx1U6
-	dBvIAMmHLG3lzn0IZKIktCxsdMQ3hBqdClC3ivQc=
+	bh=AZcTt36J622uQ17kCqppZpS4+eG5tAlcvPXUtJGhNKE=;
+	b=NcXOxnHyskDfpto3C9MJyU9fFUUpr9vLU76QgnIox+GKTxrG8VDkdGmnxyNQ0/7G
+	hOWKfYZgR2P6Ijq868c0oa9Emo5g3ytW6TElqi0DYb/zW6VgQzjH076RYy4LV/sjRnq
+	59MDkNRFdFpIoNJbNRWSrByTKu1Kl+mjipaCYctY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511400;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511402;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=o3IARB0V0F5GuOI8P4gsyA0UR2nwcoRJNgsOxS9ehj4=;
-	b=O3uuo6IubJN15SCkvV0lajWz5RRVEdpQa9vnOQckj8iuYTWOL6pBKZB3BpLVIfmF
-	Gt/Xq0oGNzp9zXxoPi/YUk16gZFRJx+oOQgK7s1pEX0NhYz/Z4MJTePSV2USjj9ta2E
-	/c+8Rxks1e5qspkFguQ8gDMeWoKb7PbHonrSc0wQ=
-Content-Type: multipart/mixed; boundary="===============1067987142756891487=="
+	bh=AZcTt36J622uQ17kCqppZpS4+eG5tAlcvPXUtJGhNKE=;
+	b=XzpjdDZio2+h+CaxVrrXDg3i9VJzSCF3dz1o0btlpMMDhmbwnQ9VMMSMMEDTGgE/
+	qvHIo+DUqb7a93+KX2kWIFmLcRLW1U0RwKFXfa5y2Iaw6CNXJh1Or1R6HWrKsEsy+zw
+	DXAF1FXUqXQuzSGM/nUOtaQmyFArHvgWQjCRW8/s=
+Content-Type: multipart/mixed; boundary="===============2228622726235410649=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-webcolors: upgrading to 24.11.1 FAILED
-Message-ID: <01010195f160ae8f-3fbd4d9c-4fbb-462b-95b3-3d795da3b903-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:20 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] repo: upgrading to 2.53 SUCCEEDED
+Message-ID: <01010195f160b5ca-bea6c116-887a-4be5-9056-ba59184e532d-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:21 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.31
+X-SES-Outgoing: 2025.04.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214073
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214077
 
---===============1067987142756891487==
+--===============2228622726235410649==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-webcolors* to *24.11.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *repo* to *2.53* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-webcolors-upgrade-24.8.0-24.11.1.patch
+    - apply the patch: git am 0001-repo-upgrade-2.52-2.53.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,168 +72,86 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 53d06c2f673dd582a34ccaa6983666215751db1c Mon Sep 17 00:00:00 2001
+From 99bd2560c9c4a8161d90fe52fabcf12aed45ed17 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Apr 2025 09:40:58 +0000
-Subject: [PATCH] python3-webcolors: upgrade 24.8.0 -> 24.11.1
+Date: Tue, 1 Apr 2025 09:45:53 +0000
+Subject: [PATCH] repo: upgrade 2.52 -> 2.53
 
 ---
- ...python3-webcolors_24.8.0.bb => python3-webcolors_24.11.1.bb} | 2 +-
+ meta/recipes-devtools/repo/{repo_2.52.bb => repo_2.53.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-webcolors_24.8.0.bb => python3-webcolors_24.11.1.bb} (81%)
+ rename meta/recipes-devtools/repo/{repo_2.52.bb => repo_2.53.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb b/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
-rename to meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-index c5ed4bd7d3..5b90eb109d 100644
---- a/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
-+++ b/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://pypi.org/project/webcolors/"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=cbaebec43b7d199c7fd8f5411b3b0448"
+diff --git a/meta/recipes-devtools/repo/repo_2.52.bb b/meta/recipes-devtools/repo/repo_2.53.bb
+similarity index 94%
+rename from meta/recipes-devtools/repo/repo_2.52.bb
+rename to meta/recipes-devtools/repo/repo_2.53.bb
+index 2e877c1847..05326eb3a0 100644
+--- a/meta/recipes-devtools/repo/repo_2.52.bb
++++ b/meta/recipes-devtools/repo/repo_2.53.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
--SRC_URI[sha256sum] = "08b07af286a01bcd30d583a7acadf629583d1f79bfef27dd2c2c5c263817277d"
-+SRC_URI[sha256sum] = "ecb3d768f32202af770477b8b65f318fa4f566c22948673a977b00d589dd80f6"
+ SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main \
+            "
+-SRCREV = "8d5f03261164f3cd65af0576dfa7d4edded96c67"
++SRCREV = "4b94e773efd36754f6c8649ad55b90d19a61107f"
  
- inherit pypi python_setuptools_build_meta ptest-python-pytest
+ MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
  
 -- 
 2.47.1
 
 
---===============1067987142756891487==
+--===============2228622726235410649==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1888 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 924 .bb files complete (923 cached, 1 parsed). 1886 targets, 39 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/repo: PV changed from "2.52" to "2.53"
+packages/core2-64-poky-linux/repo: PKGV changed from 2.52 [default] to 2.53 [default]
+packages/core2-64-poky-linux/repo/repo-dbg: PV changed from "2.52" to "2.53"
+packages/core2-64-poky-linux/repo/repo-dbg: PKGV changed from 2.52 [default] to 2.53 [default]
+packages/core2-64-poky-linux/repo/repo-dev: PV changed from "2.52" to "2.53"
+packages/core2-64-poky-linux/repo/repo-dev: PKGV changed from 2.52 [default] to 2.53 [default]
+packages/core2-64-poky-linux/repo/repo-doc: PV changed from "2.52" to "2.53"
+packages/core2-64-poky-linux/repo/repo-doc: PKGV changed from 2.52 [default] to 2.53 [default]
+packages/core2-64-poky-linux/repo/repo-locale: PV changed from "2.52" to "2.53"
+packages/core2-64-poky-linux/repo/repo-locale: PKGV changed from 2.52 [default] to 2.53 [default]
+packages/core2-64-poky-linux/repo/repo-src: PV changed from "2.52" to "2.53"
+packages/core2-64-poky-linux/repo/repo-src: PKGV changed from 2.52 [default] to 2.53 [default]
+packages/core2-64-poky-linux/repo/repo-staticdev: PV changed from "2.52" to "2.53"
+packages/core2-64-poky-linux/repo/repo-staticdev: PKGV changed from 2.52 [default] to 2.53 [default]
+packages/core2-64-poky-linux/repo/repo: PV changed from "2.52" to "2.53"
+packages/core2-64-poky-linux/repo/repo: PKGV changed from 2.52 [default] to 2.53 [default]
 
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:9a54ae1dc9565093ce8b2e32643ff684843eca78"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 339 Local 330 Mirrors 0 Missed 9 Current 409 (97% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 563 of 748 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 714 of 748 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_populate_lic_setscene: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 748 of 748 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1401 of 2114 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_fetch)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_fetch: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1580 of 2114 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_unpack)
-NOTE: Running task 1581 of 2114 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_unpack: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1734 of 2114 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_patch)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_patch: Started
-NOTE: Running task 2043 of 2114 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_collect_spdx_deps)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2099 of 2114 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_configure)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure: Succeeded
-NOTE: Running task 2100 of 2114 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_configure_ptest_base)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2101 of 2114 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_compile)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| * Getting build dependencies for wheel...
-| 
-| Traceback (most recent call last):
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/recipe-sysroot-native/usr/lib/python3.13/site-packages/pyproject_hooks/_impl.py", line 402, in _call_hook
-|     raise BackendUnavailable(
-|     ...<4 lines>...
-|     )
-| pyproject_hooks._impl.BackendUnavailable: Cannot import 'pdm.backend'
-| 
-| ERROR Backend 'pdm.backend' is not available.
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.4045364:158 exit 1 from 'nativepython3 -m build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/webcolors-24.11.1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.4045364, line 158
-| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.4045364, line 153
-| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.4045364, line 169
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2101 tasks of which 2093 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250401094044.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250401094044.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/log.do_compile.4045364
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-webcolors-24.11.1-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.4045364' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/log.do_compile.4045364
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_compile) failed with exit code '1'
-
---===============1067987142756891487==
+--===============2228622726235410649==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-webcolors-upgrade-24.8.0-24.11.1.patch"
+Content-Disposition: attachment; filename="0001-repo-upgrade-2.52-2.53.patch"
 
-RnJvbSA1M2QwNmMyZjY3M2RkNTgyYTM0Y2NhYTY5ODM2NjYyMTU3NTFkYjFjIE1vbiBTZXAgMTcg
+RnJvbSA5OWJkMjU2MGM5YzRhODE2MWQ5MGZlNTJmYWJjZjEyYWVkNDVlZDE3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwOTo0MDo1OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtd2ViY29sb3JzOiB1cGdyYWRlIDI0LjguMCAtPiAyNC4xMS4xCgotLS0KIC4uLnB5dGhv
-bjMtd2ViY29sb3JzXzI0LjguMC5iYiA9PiBweXRob24zLXdlYmNvbG9yc18yNC4xMS4xLmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtd2ViY29sb3JzXzI0Ljgu
-MC5iYiA9PiBweXRob24zLXdlYmNvbG9yc18yNC4xMS4xLmJifSAoODElKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy13ZWJjb2xvcnNfMjQuOC4wLmJi
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdlYmNvbG9yc18yNC4xMS4x
-LmJiCnNpbWlsYXJpdHkgaW5kZXggODElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy13ZWJjb2xvcnNfMjQuOC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2ViY29sb3JzXzI0LjExLjEuYmIKaW5kZXggYzVl
-ZDRiZDdkMy4uNWI5MGViMTA5ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXdlYmNvbG9yc18yNC44LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXdlYmNvbG9yc18yNC4xMS4xLmJiCkBAIC0zLDcgKzMsNyBAQCBI
-T01FUEFHRSA9ICJodHRwczovL3B5cGkub3JnL3Byb2plY3Qvd2ViY29sb3JzLyIKIExJQ0VOU0Ug
-PSAiQlNELTMtQ2xhdXNlIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9
-Y2JhZWJlYzQzYjdkMTk5YzdmZDhmNTQxMWIzYjA0NDgiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9
-ICIwOGIwN2FmMjg2YTAxYmNkMzBkNTgzYTdhY2FkZjYyOTU4M2QxZjc5YmZlZjI3ZGQyYzJjNWMy
-NjM4MTcyNzdkIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImVjYjNkNzY4ZjMyMjAyYWY3NzA0Nzdi
-OGI2NWYzMThmYTRmNTY2YzIyOTQ4NjczYTk3N2IwMGQ1ODlkZDgwZjYiCiAKIGluaGVyaXQgcHlw
-aSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIHB0ZXN0LXB5dGhvbi1weXRlc3QKIAotLSAK
-Mi40Ny4xCgo=
+CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwOTo0NTo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJl
+cG86IHVwZ3JhZGUgMi41MiAtPiAyLjUzCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBv
+L3tyZXBvXzIuNTIuYmIgPT4gcmVwb18yLjUzLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9yZXBvL3tyZXBvXzIuNTIuYmIgPT4gcmVwb18yLjUzLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi41Mi5iYiBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9yZXBvL3JlcG9fMi41My5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNTIuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi41My5iYgppbmRleCAyZTg3N2MxODQ3Li4wNTMy
+NmViM2EwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNTIu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjUzLmJiCkBAIC0xMSw3
+ICsxMSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2
+Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3IgogCiBTUkNfVVJJID0gImdpdDovL2dlcnJpdC5nb29n
+bGVzb3VyY2UuY29tL2dpdC1yZXBvLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiBcCiAg
+ICAgICAgICAgICIKLVNSQ1JFViA9ICI4ZDVmMDMyNjExNjRmM2NkNjVhZjA1NzZkZmE3ZDRlZGRl
+ZDk2YzY3IgorU1JDUkVWID0gIjRiOTRlNzczZWZkMzY3NTRmNmM4NjQ5YWQ1NWI5MGQxOWE2MTEw
+N2YiCiAKIE1JUlJPUlMgKz0gImdpdDovL2dlcnJpdC5nb29nbGVzb3VyY2UuY29tL2dpdC1yZXBv
+LmdpdCBnaXQ6Ly9naXRodWIuY29tL0dlcnJpdENvZGVSZXZpZXcvZ2l0LXJlcG8uZ2l0IgogCi0t
+IAoyLjQ3LjEKCg==
 
---===============1067987142756891487==--
+--===============2228622726235410649==--
 
