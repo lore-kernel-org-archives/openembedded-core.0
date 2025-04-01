@@ -1,114 +1,116 @@
-Return-Path: <leimaohui@fujitsu.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56D0AC36014
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 09:48:51 +0000 (UTC)
-Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
- by mx.groups.io with SMTP id smtpd.web11.15067.1743500922157805582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7363EC36014
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 10:07:31 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.15330.1743502048877498439
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 02:48:42 -0700
+ Tue, 01 Apr 2025 03:07:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=acAGN+fg;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: leimaohui@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1743500922; x=1775036922;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=JVo7B2yOi0RBrEYzBioS0vpEn8OAkrWcoTAtlCTfnN8=;
-  b=acAGN+fgiA2dhO7hcZMFFtO4mD4oKCziM2sE56iJ3tUP6V7OXBabKvh8
-   0p4r5lwxk+QvpZQHn+RGkQAe9QwRVU57p+fG6VPRpdtcSLe21eMBGShAr
-   sN1m2e/FnSA0J0By/JyKwPh/oqgv9pKjdtXdsadDFb/9/70BooBeQootb
-   vMZkJ4ptAXcXXysTnoGvU787EuCvqHsPh16S9V9peWwVQ5/X/2I9RtIbq
-   gYASfofzEZ2IBfyKRDUO9Fn6ymM2jAx+Y9SgdsTwbZ15emLhVpwkAPq/I
-   6qMwhTqP/dOUC5bDyVqzmeQMIOpQF3qziTLc3R0bN6fs+/Kc1bouRWx6p
-   g==;
-X-CSE-ConnectionGUID: akk4H0vORIKT8tjbQhwW4w==
-X-CSE-MsgGUID: 4FgUe7PzQWySnZOrj669vw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="195130978"
-X-IronPort-AV: E=Sophos;i="6.14,293,1736780400"; 
-   d="scan'208";a="195130978"
-Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
-  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 18:48:40 +0900
-Received: from oym-m3.gw.nic.fujitsu.com (oym-nat-oym-m3.gw.nic.fujitsu.com [192.168.87.60])
-	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id B3ACBD4C2B
-	for <openembedded-core@lists.openembedded.org>; Tue,  1 Apr 2025 18:48:37 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 70CF6D73D3
-	for <openembedded-core@lists.openembedded.org>; Tue,  1 Apr 2025 18:48:37 +0900 (JST)
-Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.167.135.33])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 9DD6C1A0078;
-	Tue,  1 Apr 2025 17:48:36 +0800 (CST)
-From: Lei Maohui <leimaohui@fujitsu.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Lei Maohui <leimaohui@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-webcolors: upgrade 24.8.0 -> 24.11.1
-Date: Tue,  1 Apr 2025 17:48:25 +0800
-Message-Id: <20250401094825.1938-1-leimaohui@fujitsu.com>
-X-Mailer: git-send-email 2.38.1.windows.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gC5jJI4S;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5499bd3084aso5111187e87.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 03:07:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743502047; x=1744106847; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kxky5X/l+rZbYkBz+8j1MUgveULEnYJMFYPn8L2o0NA=;
+        b=gC5jJI4SqQjAxkFtzWoW+MCQkMJ/gNkihgWesoyWCjlmjtjWsmEZVEJozGvDjZhpk9
+         Fg6+/e0Z6zBuXqBOv30pLFs9IYhFQnNPz/Hi531msPaxbDiKeY6EehG94cORqvWJ90wj
+         EH8RjIQjRP30kDIySxoPB9nK1XYOuc8EXTXxVwi2In/p7UfGe1D33wq8gx9VGFWVBWoA
+         RuEvaOg0Uk7rcgaQJ83y50/j5EwEJ93Y00Gk2bFpPMnCZ4btx9K4bMvs6sfdemfo6DLK
+         czaBDnqjHxa1YNHN8+D+gwLnxfQyzsyLBnRjNCfQOYvN8Ve/gB4dKvfPVraBcAvM0coH
+         06BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743502047; x=1744106847;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kxky5X/l+rZbYkBz+8j1MUgveULEnYJMFYPn8L2o0NA=;
+        b=OIVaz9k1bAhRoJnuPSbxYZ0/FbIOfaF1XtLIbFZMj8S/0gOKJ/vzIFjS06DLK28hlk
+         Qps+KC5FrKx9chOVpdRPlmRbxKi51MpRNvKFdOiSG08VdjWiiFSvNKGURGLYrsY84vcA
+         NFluzg/Vp99FygQ6LA6Nf7AFInOJrQa99yJbKP45NuPwiHQmhykj6SjU1GN1JZet1TAs
+         +Ze0dnQ5k9m7WYyH1/fk6TDuz4es4eZkhdH7O4VMeZ6aHSmE3aToe0ucbXm1cDoM2lQt
+         mmU/TLjAhgnGm8HUJy2QeJgwoir+IQlZOLC+AyKAZjaXMTCOh5rQy72VommSFlUKs6kL
+         S09w==
+X-Gm-Message-State: AOJu0YyyHeNU7JJRuVK/Jd75Pnk7QRyCf+WdivO/VM3+nXjlHkY5D9ZS
+	I69piofzhJsg0qz/b7jeuEGsqBym7eAqvEJGVNcOatTTLnsaoYMJWxe79jsAhkdCC9ZPPNN+NeH
+	eEIbEZMFNfi7YZBHaH5LBA4rG4IR6IFAvQZc=
+X-Gm-Gg: ASbGncutk4lJmIJ+Ac6JnMv5uZJNezHDCFKqEFLzv+yCPSGdFLXmwfPiJ+a/pyemSCs
+	Mt7bjo3Ot1kAiDABPNHs0GXb1WWaiXAtVyhXxZraKzs0ri63NQvuCzsmNLqbmiAKltCEbxdjVTP
+	evRblIbrcK9TdqoqROA4AZ32xDRONxiS8Rv7/0iFM=
+X-Google-Smtp-Source: AGHT+IHIO7AK0AE60hg/+5MROitJpLS7xTUfSkZIz8QbPNOghzu+qzn6ySZDSCiXxXYtQ1n6/BF1axqclkBifFvSQ3w=
+X-Received: by 2002:a05:6512:130c:b0:54b:117c:8ef3 with SMTP id
+ 2adb3069b0e04-54b117c8f2cmr3103384e87.54.1743502046775; Tue, 01 Apr 2025
+ 03:07:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 1 Apr 2025 12:07:14 +0200
+X-Gm-Features: AQ5f1Jrtf5p39hR5xUc1wFa6LP59XZA17kVVb6aeuwYAdAQ10pt-b7C_4L-4fR0
+Message-ID: <CA+chaQcpXOTbbePCjusXgrcR-Y9fk02JOnecFsR2e5B+==x7Eg@mail.gmail.com>
+Subject: meta-qt6 on layerindex
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Samuli Piippo <samuli.piippo@qt.io>, Tim Orling <ticotimo@gmail.com>, 
+	Ross Burton <ross.burton@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 09:48:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214011
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 10:07:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214012
 
-Fix the issue that:
- | Traceback (most recent call last):
- |   File "/mnt/test/build_auh/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/recipe-sysroot-native/usr/lib/pyth on3.13/site-packages/pyproject_hooks/_impl.py", line 402, in _call_hook
- |     raise BackendUnavailable(
- |     ...<4 lines>...
- |     )
- | pyproject_hooks._impl.BackendUnavailable: Cannot import 'pdm.backend'
+Hi,
 
-python3-webcolors has migrated to pdm-backend
- | diff --git a/pyproject.toml b/pyproject.toml
- | index 6fcec77..9f2dfa9 100644
- | --- a/pyproject.toml
- | +++ b/pyproject.toml
- | @@ -1,65 +1,110 @@
- |  [build-system]
- | -requires = ["setuptools>=61.0"]
- | -build-backend = "setuptools.build_meta"
- | +requires = [
- | +    "pdm-backend",
- | +]
- | +build-backend = "pdm.backend"
+some layers on layerindex cannot be correctly parsed because they
+depend on meta-qt6 (qt6-layer) and there is no record of scarthgap or
+styhead compatible release of meta-qt6 on layerindex.
 
-Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
----
- ...n3-webcolors_24.8.0.bb => python3-webcolors_24.11.1.bb} | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-webcolors_24.8.0.bb => python3-webcolors_24.11.1.bb} (70%)
+There are:
+https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/
+- actual branch 6.5
+https://layers.openembedded.org/layerindex/branch/master/layer/meta-qt6/
+- actual branch dev
 
-diff --git a/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb b/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-similarity index 70%
-rename from meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
-rename to meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-index c5ed4bd7d3..cda63d2a35 100644
---- a/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
-+++ b/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-@@ -3,10 +3,15 @@ HOMEPAGE = "https://pypi.org/project/webcolors/"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=cbaebec43b7d199c7fd8f5411b3b0448"
- 
--SRC_URI[sha256sum] = "08b07af286a01bcd30d583a7acadf629583d1f79bfef27dd2c2c5c263817277d"
-+SRC_URI[sha256sum] = "ecb3d768f32202af770477b8b65f318fa4f566c22948673a977b00d589dd80f6"
- 
- inherit pypi python_setuptools_build_meta ptest-python-pytest
- 
-+DEPENDS += " \
-+    python3-pdm-native \
-+    python3-pdm-backend-native \
-+"
-+
- RDEPENDS:${PN}:class-target = "\
-     python3-stringold \
- "
--- 
-2.43.0
+but no
+https://layers.openembedded.org/layerindex/branch/styhead/layer/meta-qt6/
+https://layers.openembedded.org/layerindex/branch/scarthgap/layer/meta-qt6/
 
+which causes e.g.:
+
+ERROR: Issues found on branch styhead:
+    meta-luneos: Failed to add since LAYERDEPENDS [meta-luneui ...] is
+not satisfied
+    meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer ...] is
+not satisfied
+ERROR: Issues found on branch scarthgap:
+    meta-luneos: Failed to add since LAYERDEPENDS [meta-luneui ...] is
+not satisfied
+    meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer ...] is
+not satisfied
+
+and there will be more once meta-webosose parsing is fixed.
+
+Is Tim the only person who can help with some admin changes on
+layerindex? RP suggested to ask Ross as well.
+
+I have admin rights to publish new layers (and edit all existing
+layers), but cannot delete wrongly created ones (or their mapping) and
+I'm not sure how to add a new mapping (e.g. add scarthgap and styhead
+release for meta-qt6 by using actual branch 'dev' or '6.8').
+
+meta-qt6 dev, 6.9 and 6.8 branches have:
+LAYERSERIES_COMPAT_qt6-layer = "kirkstone langdale mickledore nanbield
+scarthgap styhead walnascar"
+6.7 doesn't have walnascar
+6.6 and 6.5 (currently used for kirkstone) have:
+LAYERSERIES_COMPAT_qt6-layer = "dunfell gatesgarth hardknott honister
+kirkstone langdale mickledore nanbield scarthgap"
+
+maybe even https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/
+which is currently using actual branch 6.5 should be bumped to 6.8 as
+well.
+
+Cheers,
 
