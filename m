@@ -1,115 +1,102 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8042AC36010
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 16:28:53 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.555.1743524924110660109
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54807C36010
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 16:59:31 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.24.1743526762622276586
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 09:28:44 -0700
+ Tue, 01 Apr 2025 09:59:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QDQseRkz;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6e8f6970326so52614766d6.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 09:28:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JN/cHmbO;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43d0618746bso40753415e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 09:59:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743524923; x=1744129723; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eMKbDylLRX00t1zBwkV0jUFGN7qgwQB9ES2XuD6ppQw=;
-        b=QDQseRkz8p8EbFS/wZENOKyAxIXt3qWcyMgpyxFKmqP9sA+0yDBRSvovxpZ8Ig+VT0
-         F7hNZq/jqNJZJ85IjqHZZgih48uYValEVh9M5L1SMFRAt1ON0FwH4VJdu4itV8nGvAPS
-         8HSjYNCqQyIzKeVUkXmLDGp5pzJZTv257AFXd1GNG/5GD/rGhTE1AeULPoG2OZcqfY53
-         gcyVYJUTkt+SQWIJe8LaiJPx9HyPZ2MhEWdczTbkqfn4wsrHZGUvTE9Xrg+zcuGzkx5H
-         sjq7ou6SvS/YPMoffJp3QiJLKuVPoNgGk89sF8dpdsts1NAKHXEP/xXFV5JK11RHNx+4
-         8LJQ==
+        d=gmail.com; s=20230601; t=1743526761; x=1744131561; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=obxWJTKj5M93Gnj/oWobHU4mvMKrUq0FPHUPSKkqd84=;
+        b=JN/cHmbOSyvO5+kMU6+hGry77zz8qvHIwwrWHevi8TDUxamGkg5eU3lJJciVZMk0KV
+         UMM/p6/wRo61YAgxkZf/+TOBlwRFctj4vLrPBCFO6XU8GP9nR5qd9U6WYaSBcH0zeDcX
+         hGMe7rfsEuPX04G6n8hSYIEIqLhkNufrKDxA4zydwDn/po1u3Bla4EM2gHVJZh+NUsm+
+         ifK8edVq4A1km7IJpBNFZRfOb/R8Ib17+HB7ivi3H0z/V/64CcUWiskCoY1pJfTAblAy
+         s3VXi6RZz+ikAAxFuejjF4ndBIS6bEx2JMkFNa7Kq2XTa0LLRNlfDn3bB4kdqoa99X4X
+         kW6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743524923; x=1744129723;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eMKbDylLRX00t1zBwkV0jUFGN7qgwQB9ES2XuD6ppQw=;
-        b=M9t3N9rcmxScNj/o99QBasZI1ItWRXACqXiKIVQof/IovdPqGu5ALkuL0E7vF1ZOXg
-         k/zepmPQf9aKpZP7o4y6YAdoVLY4qmVz70fKr5V5nTCJVsUimHWDm0Yv1LGbKtdM0ZLb
-         yXNpTnt9A+r2mc1s6fdpN14N43KKynA341JJQce7gEfuX4HHKUbDkLjKNVJLMEvvR2Mw
-         6cEFxAf47++Tnl/ZfLAu32iRYg3R9aL+7pxN0W+rhoIVueORtencPIaf759emSpb4wMq
-         ZhaSnxoOLQeuxeN3IkZw+O+4Xc3xATyZ7UGZET9LNcidzlj0TT9JgHljpGtXGKaDZcYc
-         SPEg==
-X-Forwarded-Encrypted: i=1; AJvYcCW+Ybo1O76sNwhzlAYe4b5eGMWCOhQLfOOehFNgBb+EkvRvThUkr6a9VUx9v4b9T4viJMOjVXQucHY3D7Yb7dLu1g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwDdEyDl7NyqXH8lLDH4E6/gVL/fEkckipQPEYXgKRgLC30qFmP
-	0digJsCOuanUtfR40dQzEiylVOyapVuglRAfB9XBz4VPvMjAqnA6xl4IDB+UsUN74KhSN9pTKl3
-	v/Y5eisQjYbgHwhiOkONMTrfnvQ8=
-X-Gm-Gg: ASbGncuSY8u+xSsibufr8Drd7WCYRbojYZo6hrtd9CQwsWltFQInPzZT+XVVdy7q9zx
-	1pGEOVSbP1Bm/BJ8VbPtBLzLJzzTQxTzaA7n6Pt89yMSHKJDyW40aepocdRSMt5Qnh8vrIVcR9y
-	2bZ/+wu986QChYXs21xMyqxRcdYbiaqpy4brk5zYKQr6hGUeup2ryA4xMJbfF9FHeC/MaJdPE=
-X-Google-Smtp-Source: AGHT+IHdh5iNgywuBdna2HBUOYoPa6tnPJsYPwjiUby94jknYYWY/5A3xzkNKWSVIjo3ZNfUdtiZLJMkdcyN9C9dJzo=
-X-Received: by 2002:a05:6214:5188:b0:6d8:9ead:c665 with SMTP id
- 6a1803df08f44-6eed61dd6e9mr174773576d6.27.1743524923154; Tue, 01 Apr 2025
- 09:28:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743526761; x=1744131561;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=obxWJTKj5M93Gnj/oWobHU4mvMKrUq0FPHUPSKkqd84=;
+        b=rcAxkm28dfAd/24ybtcwJVCufENzExEqnt+iNpeUOJJU85C1XARGGuT63JUCd5l7kV
+         xbT9N0bNgQeGeP0SrR+fmx28RZiNhqfkAfsKaetsBDVZDDrNFMqgGJI3wnGQjPF/N93O
+         C3tuixK0Hn9LD42wB3D4UMux5jk2nhjF1TwqsuNbQhKwQ/NKZtRqQQSMFeUORUPlxxQc
+         yYt5Kr0vI+vap0WQSyen/ul7AZUcQWt1utrwt+JzMKlbopAlmHuMcvzFIz9DahGOyx6P
+         q1U7LHVUJMbZy+fwhJjv7VGXxvYbxeOAMHDfQtFxnDhGO3SImG2mc5s2OzxK7JD+BNuX
+         RsbQ==
+X-Gm-Message-State: AOJu0YzIx0ingne3ndxeAeMu39TLAqkyygLXd2Duw+V6FsgR/J50Udxe
+	Uwea22jVo/jHrWtUYHJ+PEQ4Q1Gsak0CIo70uKFHh/28Sir47LpVEemquIb/
+X-Gm-Gg: ASbGncvpDUE7iJa+2gvCvyM5DWCMQPr7gN7lhwceLYiJ4toXyhmuYGXo72bKyzUKBuC
+	EzMH36lSDGUGwMVWtSDs6VXN7rRANu3PA8EKFAqn5yZXTfnWKmOtjbzGXMDZKuu/kC4C0Abxwmd
+	++ar6FZrKe4Mwl6s28WWjYgHt1v52a9KRcWnKE4OVGJRMRB4XZPcIglLX0vHXMl5IcDuIK5YRl0
+	vKes07rNppafcMgRaDzLR2+HijC6WFHPIdn+1/B7bUq0NHwHAhgYqnKwjjqN0xFL2L7sX03wcSh
+	lpwffoUeJ4x6vyqe/KeCP6ZKmsKU0292BZ1vs35+Grs/TQQXsEdO
+X-Google-Smtp-Source: AGHT+IFIeFCux/Z+pSSOuGaknQgn60WkJsyEVIdAGCXDG1OLDrOwaP0qDqXIeziZbJ7rloZZU/uDCg==
+X-Received: by 2002:a05:600c:811b:b0:43d:ea:51d2 with SMTP id 5b1f17b1804b1-43e8f73a9bcmr115148415e9.14.1743526760582;
+        Tue, 01 Apr 2025 09:59:20 -0700 (PDT)
+Received: from toster.lan ([185.228.163.64])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d82efe389sm203188835e9.19.2025.04.01.09.59.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 09:59:20 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH] sstate-cache-management: add dry-run argument
+Date: Tue,  1 Apr 2025 17:59:12 +0100
+Message-ID: <20250401165912.1603-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250331-mesa-25-v4-0-e62fc54a6efc@oss.qualcomm.com>
- <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com> <8d4b0884-985f-4e81-a3d3-03a1abb91e73@oss.qualcomm.com>
-In-Reply-To: <8d4b0884-985f-4e81-a3d3-03a1abb91e73@oss.qualcomm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 1 Apr 2025 18:28:31 +0200
-X-Gm-Features: AQ5f1JpVKARMas4WjwT_8FptN4hUcNg0ixXHMfKNElnQJGch-tApOllDX6miREU
-Message-ID: <CANNYZj_aEritSc0Te9hWR+OZVQ1DDFY0b4A0Q0H148L5YjEKcw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 0/9] mesa: upgrade to 25.0.2
-To: dmitry.baryshkov@oss.qualcomm.com
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>, 
-	=?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 16:28:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214141
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 16:59:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214142
 
-On Tue, 1 Apr 2025 at 18:19, Dmitry Baryshkov via
-lists.openembedded.org
-<dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
-> > ERROR: mesa-native-2_25.0.2-r0 do_compile: Execution of '/srv/pokybuild=
-/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux=
-/mesa-native/25.0.2/temp/run.do_compile.506477' failed with exit code 1
-> > ...
-> > | FAILED: src/intel/shaders/intel_gfx80_shaders.spv
-> > | /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/t=
-mp/work/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc/mesa_clc ../=
-mesa-25.0.2/src/intel/shaders/libintel_shaders.h ../mesa-25.0.2/src/intel/s=
-haders/generate.cl ../mesa-25.0.2/src/intel/shaders/generate_draws.cl ../me=
-sa-25.0.2/src/intel/shaders/generate_draws_iris.cl ../mesa-25.0.2/src/intel=
-/shaders/query_copy.cl ../mesa-25.0.2/src/intel/shaders/util.cl -o src/inte=
-l/shaders/intel_gfx80_shaders.spv -- -DNDEBUG=3D1 -DGFX_VERx10=3D80 -I/srv/=
-pokybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86=
-_64-linux/mesa-native/25.0.2/mesa-25.0.2/src/intel/shaders/. -I/srv/pokybui=
-ld/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-lin=
-ux/mesa-native/25.0.2/mesa-25.0.2/src/compiler/libcl -I/srv/pokybuild/yocto=
--worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux/mesa-=
-native/25.0.2/mesa-25.0.2/src -I/srv/pokybuild/yocto-worker/oe-selftest-deb=
-ian/build/build-st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/mesa-25.0=
-.2/src/intel -I/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-s=
-t-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/intel -I/srv/pok=
-ybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64=
--linux/mesa-native/25.0.2/mesa-25.0.2/src/intel/genxml
-> > | /bin/sh: 1: /srv/pokybuild/yocto-worker/oe-selftest-debian/build/buil=
-d-st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc/=
-mesa_clc: not found
->
->
-> I've fixed all other issues, except the x32 (working on reproducing it
-> now) and this one. Would you have a pointer to the build job?
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ scripts/sstate-cache-management.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1264/ste=
-ps/14/logs/stdio
+diff --git a/scripts/sstate-cache-management.py b/scripts/sstate-cache-management.py
+index d3f600bd28..303b8f13a3 100755
+--- a/scripts/sstate-cache-management.py
++++ b/scripts/sstate-cache-management.py
+@@ -267,6 +267,10 @@ def parse_arguments():
+     #     help="Remove both the symbol link and the destination file, default: no.",
+     # )
+ 
++    parser.add_argument(
++        "-n", "--dry-run", action="store_true", help="Don't execute, just go through the motions."
++    )
++
+     parser.add_argument(
+         "-y",
+         "--yes",
+@@ -314,6 +318,9 @@ def main():
+     if args.debug >= 1:
+         print("\n".join([str(p.path) for p in remove]))
+     print(f"{len(remove)} out of {len(paths)} files will be removed!")
++    if args.dry_run:
++        return 0
++
+     if not args.yes:
+         print("Do you want to continue (y/n)?")
+         confirm = input() in ("y", "Y")
+-- 
+2.49.0
 
-This is in context of oe-selftest, but it is simply building
-qemu-system-native on debian 12 - I suspect the mesa-native fail is
-specific to that host distro. I can try to reproduce if you need help
-with it.
-
-Alex
 
