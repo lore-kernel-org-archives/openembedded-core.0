@@ -1,76 +1,97 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6B92C36014
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 08:07:10 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web10.13932.1743494827190145868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F41D4C36018
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 08:27:40 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web11.14139.1743496053872093485
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 01:07:07 -0700
+ Tue, 01 Apr 2025 01:27:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kQpsM5n5;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6e17d3e92d9so41149596d6.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 01:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743494826; x=1744099626; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=umRY7LmsKUFByrzneSxXc3Sjsvd2DpCiHa/x1+8B/7k=;
-        b=kQpsM5n5oibjQD5nvmHeRD0z8qmC5OQXeU8ylsbBn8VbwnjidTpsuLFOBueHqIq2jH
-         1ry8BOuiztCwHwGr5qQvagfRtEO5T4NGeprZpwMhep9bilvk5T2vyoY5tZVUr3qRs12i
-         VHLLQ7/4fNuf9n4ze9LQi2FruSUHn/xc3EJlKZ42vshk0xw/UnWxPGJWfy/KBLe5thfz
-         kB7Wgoy3hsgMjsrIHZUKkCyYx0jmHoeyBj/H+YTX8mzL7g/Q3afLelxX1YwCxq98DuYV
-         bQ1H58orVU4fP5Vpei+LnMnYjSGL7WYEERme2qnCpnuhptpJhHoOLzF7o2UB69yZiw89
-         Hjfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743494826; x=1744099626;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=umRY7LmsKUFByrzneSxXc3Sjsvd2DpCiHa/x1+8B/7k=;
-        b=ky/bJGVNKf8t1xqjaYIIOLWUjVWGza8CZjmEin3rSy9zT8dOece7HuiF3vkfr62HPF
-         Bhxym1ksZ1exShkZwObN3me8f2CQIlAGauj4IhlGlwGJGBLFs5fZ1KgRPD0bVf2r3ie8
-         b+LNHeM4qe/iRBfFVIDxfkuLfvUhLiEdDExDk0zZYDTUoXqVCluzrqDocXyuq0YtqM4l
-         NtFP7IUxd3AMa30wyXesaoM8fNIbg9jwGo13EDtjPAYFQwxlKYGhHZg54FZjF1egsiw7
-         fQpvbg5e+lXCCsEJx18+5NwiKhXcyYGSt5TvwXsoov4ghAqEL0j9gNDnl00sxRk0sU7U
-         2Asw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1XcRw3dXFL7bU5qQxi3ltGksNeDzs/xnkk9ATQUvcqG20meqPpKFgI0FxUHQ9ep7ZiaDsZ8NzEl9feCiR0ftBCA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwuC9vjvpjSfY/yKEEK2Nx3d6Aci32/Lj1LPObi0I+/LsytFHTA
-	4/I/4EioNx3s+eWOHVqRZKphx8t00sDS7HGmYszIOjFmhI9K0ovtxzWZUx2vL6MjG5TKrIHEch0
-	zZVoRE9r2TsX67jkDQqrHmzZe/90=
-X-Gm-Gg: ASbGncsULfUpdXnOcUl7j05D1Ahj5N5tsmxkkern+DWMT3LFZ4EVIU1ks+Je1SzJUCw
-	QRtDTSpXFnNYhE0YeDXqCFYUvkxDOfMygkoPipZP/47TfaJ6XDF3uOkZ6Q0nwm3NwLdN95ZDVWU
-	ciQlgorqrBcUgWFnu1itMLXSX2xa6OndaBCm9YrKUFVyKuSW/SZM2s1zuvFZUk
-X-Google-Smtp-Source: AGHT+IHvJFsROiXuFVJikklWHfldmT1QhJlhBWsHnWiCyov5NOlPha+bErCKFlW4MG15PLNcpqdZvxfqxl4QfLfz5sU=
-X-Received: by 2002:a05:6214:f6c:b0:6e8:8d15:2d3d with SMTP id
- 6a1803df08f44-6eef5f02499mr24955576d6.40.1743494826144; Tue, 01 Apr 2025
- 01:07:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250331-mesa-25-v4-0-e62fc54a6efc@oss.qualcomm.com> <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com>
-In-Reply-To: <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 1 Apr 2025 10:06:54 +0200
-X-Gm-Features: AQ5f1JoFHy0VGf7pdBA10YL0jazkcU0PpE3JOltJ_43b3LqtjWenYAR3rbWr4D4
-Message-ID: <CANNYZj_YY8mx+KBYZziPZFPUN_LzKSLdHzGqX35uZXuetqQ=ZA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 0/9] mesa: upgrade to 25.0.2
-To: mathieu.dubois-briand@bootlin.com
-Cc: dmitry.baryshkov@oss.qualcomm.com, 
-	openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>, 
-	=?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=irZ0KLkh;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 94B8F4316C;
+	Tue,  1 Apr 2025 08:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1743496052;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L+TNAF0sX5vOWCB8CbEHYSggK9sFxQwOCC9dCt4Ad1o=;
+	b=irZ0KLkh3AaLB3B/N5wlRty2uBipQslt+ro0rvaFXSMlJRccSFH/GaxqSJ80DuTeFiJe9s
+	Y0Y28QUAEsrfzFr931hCvgyV3SjmvAqNRVFcHjk4AYVssn/Zy6/PtE+Zw1jqgyo63KsGGx
+	Zmee3y5q3pYt5R1tpfO7jKvpDqpKjKdXHFtu9FNNrIOJjZJ7XbKXohs9KzE5kagj7i/bh/
+	8cRe/hht9xHb1y+KS83qv+kTz1xeGc8+v4u+235tzsB/GAiemop0KU1W6E8DX/GosUGv2y
+	kZ8wWnbii2Gdqgr/2mEKSGjgD8JIVL/NqYsieQ8f0BYkDXFbCrlYS6SoOo3IiQ==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 01 Apr 2025 10:27:31 +0200
+Message-Id: <D8V5ROOK16KM.1VZ0YWBBB0JMW@bootlin.com>
+Subject: Re: [OE-core] [PATCH v4 0/9] mesa: upgrade to 25.0.2
+Cc: "Khem Raj" <raj.khem@gmail.com>,
+ =?utf-8?q?Zolt=C3=A1n_B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>,
+ <dmitry.baryshkov@oss.qualcomm.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250331-mesa-25-v4-0-e62fc54a6efc@oss.qualcomm.com>
+ <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com>
+In-Reply-To: <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukedvfedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkufevhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeduheeggfetgeehgeejhefhhfegleekhefgleefueektedvkeeitddtveegfeduueenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepmhgrthhhihgvuhdrughusghoi
+ hhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovhesohhsshdrqhhurghltghomhhmrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheprhgrjhdrkhhhvghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepiigsohhsiihorhesghhmrghilhdrtghomh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 08:07:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214007
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 08:27:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214008
 
-On Tue, 1 Apr 2025 at 09:40, Mathieu Dubois-Briand via
-lists.openembedded.org
-<mathieu.dubois-briand=3Dbootlin.com@lists.openembedded.org> wrote:
+On Tue Apr 1, 2025 at 9:40 AM CEST, Mathieu Dubois-Briand wrote:
+> On Mon Mar 31, 2025 at 2:21 PM CEST, Dmitry Baryshkov via lists.openembed=
+ded.org wrote:
+> > libclc is required in order to build Intel drivers in Mesa 24.1 and
+> > later. Thus OE-Core is currently locked to the 24.0.x branch, which is
+> > no longer maintained, having last release in June 2024.
+> >
+> > A clean solution is to package Clang, then use it to build libclc and
+> > SPIRV-LLVM-Translator (required for Mesa OpenCL support). However
+> > creating proper recipes for Clang is a long process (ongoing by Khem
+> > Raj).
+> >
+> > This patchset attempts to solve the issue in a simpler way: by building
+> > libclc and SPIRV-LLVM-Translator together with the LLVM. This way we
+> > don't have to create target Clang recipes, there is no extra toolchain
+> > to support, etc. Clang binaries are creted as a part of the build
+> > process (in order to support building target packages), however it only
+> > hits the LLVM sysroot-native and is only used by the LLVM target build.
+> >
+> > Future work by Khem (once Clang is properly supported in OE-Core) shoul=
+d
+> > allow us to create proper recipes for libclc and spirv-llvm-translator
+> > and drop them from the llvm / clang recipe.
+> >
+> > I think this approach provides a good balance between OE-Core being
+> > stuck with the outdated Mesa release and being able to upgrade it,
+> > bringing support for new hardware.
+> >
+> > Last two patches of the series bring in RustiCL support, a new OpenCL
+> > implementation within Mesa. They are optional for the sake of the
+> > upgrade and can be dropped if there is any issue with those. RustiCL
+> > support is mostly compile-tested at this point.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > ---
+>
+> Hi Dmitry,
+>
+> Thanks for the new version.
+>
 > It looks like we still have issues on the autobuilder, now during
 > oe-selftests. I truncated a bit the logs below.
 >
@@ -100,28 +121,78 @@ inux/mesa-native/25.0.2/mesa-25.0.2/src/intel/genxml
 > | /bin/sh: 1: /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-=
 st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc/me=
 sa_clc: not found
+>
+> But also a lot of issues with sstate tests:
+>
+> 2025-03-31 19:31:36,349 - oe-selftest - INFO - 6: 46/49 214/622 (88.62s) =
+(0 failed) (sstatetests.SStateHashSameSigs.test_sstate_32_64_same_hash)
+> 2025-03-31 19:31:36,349 - oe-selftest - INFO - testtools.testresult.real.=
+_StringException: Traceback (most recent call last):
+>   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeq=
+a/selftest/cases/sstatetests.py", line 418, in test_sstate_32_64_same_hash
+>     self.sstate_hashtest("i686")
+>   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeq=
+a/selftest/cases/sstatetests.py", line 409, in sstate_hashtest
+>     self.assertCountEqual(files1, files2)
+>   File "/usr/lib/python3.11/unittest/case.py", line 1233, in assertCountE=
+qual
+>     self.fail(msg)
+>   File "/usr/lib/python3.11/unittest/case.py", line 703, in fail
+>     raise self.failureException(msg)
+> AssertionError: Element counts were not equal:
+> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debi=
+an/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/=
+25.0.2.do_install.sigdata.f1121eb56f1f6b8335722e32d0e21eb777e95ab4af83b7779=
+71f3666d1265bed'
+> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debi=
+an/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/=
+25.0.2.do_create_spdx.sigdata.4c53505a0e3a5bba214d854ae8eea7c551f794d6b8539=
+2564d7c3923180e5d7f'
+> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debi=
+an/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/=
+25.0.2.do_create_package_spdx.sigdata.cefe11ad38c3c40968e4757314ad08b91f958=
+4c9845cbcf08cc8635e1216912e'
+> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debi=
+an/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/=
+25.0.2.do_populate_sysroot.sigdata.2e3e3b9c17855a8a865dd9e99c002016e697024f=
+c93cdfed690b7d54bb05e34e'
+> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debi=
+an/build/build-st-53795/tmp-sstatesamehash/stamps/core2-32-poky-linux/mesa/=
+25.0.2.do_prepare_recipe_sysroot.sigdata.73d0df5170ce762727a517856505f3505b=
+2c47f479affdddb242ddcad34d5e29'
+> ...
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1264
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/1350
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1214
+>
+> Can you have a look a these please?
 
-The particular failing selftests are:
+Also, I suspect this series is linked with this Xorg segfault in
+parselogs.ParseLogsTest.test_parselogs:
 
-2025-03-31 21:57:27,426 - oe-selftest - INFO - RESULTS -
-runtime_test.TestImage.test_testimage_virgl_headless: FAILED (348.30s)
-2025-03-31 21:57:27,426 - oe-selftest - INFO - RESULTS -
-sstatetests.SStateHashSameSigs.test_sstate_32_64_same_hash: FAILED
-(88.63s)
-2025-03-31 21:57:27,426 - oe-selftest - INFO - RESULTS -
-sstatetests.SStateHashSameSigs.test_sstate_sdk_arch_same_hash: FAILED
-(102.40s)
+Central error: Fatal server error:
+***********************
+[     1.468] 	compiled for 1.21.1.16, module version =3D 1.0.1
+[     1.468] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[     1.512] (EE)
+[     1.512] (EE) Backtrace:
+[     1.512] (EE) 0: /usr/bin/Xorg (xorg_backtrace+0x52) [0x566b2522]
+[     1.512] (EE) 1: /usr/bin/Xorg (0x56583000+0x1332b5) [0x566b62b5]
+[     1.512] (EE) 2: /lib/libc.so.6 (0xf75e8000+0x34060) [0xf761c060]
+[     1.512] (EE) 3: /usr/lib/libgallium-25.0.2.so (0xf5140000+0x512634) [0=
+xf5652634]
+[     1.512] (EE)
+[     1.512] (EE) Segmentation fault at address 0x0
+[     1.512] (EE)
+Fatal server error:
+[     1.512] (EE) Caught signal 11 (Segmentation fault). Server aborting
 
-On Fedora mesa-native seems to build ok in the virgl_headless test,
-but then there's a different error:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/1274
 
-runqemu - ERROR - Failed to run qemu: MESA-LOADER: failed to open dri:
-/srv/pokybuild/yocto-worker/genericx86/build/build/tmp/work/x86_64-linux/me=
-sa-native/25.0.2/recipe-sysroot-native/usr/lib/gbm/dri_gbm.so:
-cannot open shared object file: No such file or directory (search
-paths /srv/pokybuild/yocto-worker/genericx86/build/build/tmp/work/x86_64-li=
-nux/mesa-native/25.0.2/recipe-sysroot-native/usr/lib/gbm,
-suffix _gbm)
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Alex
 
