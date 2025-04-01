@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65A42C3601A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71428C36017
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 19:59:35 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.3271.1743537573615311628
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.3272.1743537574892150262
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 12:59:33 -0700
+ Tue, 01 Apr 2025 12:59:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0KfxnJfn;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-227914acd20so2551725ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:59:33 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rgeLndsn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2240b4de12bso98196595ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:59:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743537573; x=1744142373; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743537574; x=1744142374; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=y+EKyB5XcguyGY5jYRPx2TO4YMoMaBJkl3KitioF4TQ=;
-        b=0KfxnJfnZVe3ZHqXfiH32jNpUpgOLtHtbLU6xt1AUeQH6xriNAN3MwJzixeV/1mw4X
-         krfhQLFtTXa+s1OtRaYMolw/W7YCeCX05AeNas1apsp4YCMyD2GTYhV1H76UHGF3KcHF
-         H4kspqnWgPxHLj68mga5BwV9VWdGFOyuS7ykJnp9UJHrGpfnrPdHdVvrzMYXGqK2diUn
-         ZUlVEtTyDrxMREgIjTau8wckM4DHzhv82t7zfTqDWZbI/W8dAArRX3l94fS0yiL2pt2H
-         TgScNXEBd1hI9lWsczL39jNTNI5e9m/5cqYLZz428ziOdb5ufuVV2MlpvwOvuNX6s6tB
-         YtAA==
+        bh=wX0uupXd89EWWiA4ifnfMUkiyM5f1EYReZBVpDWeOlQ=;
+        b=rgeLndsnZHsno38cEo0+EhkmFlhMKX9stgJ27Wh1BjXz8WyA2r2zCdmAqbyQpJ/XGR
+         nw4tXAcL9IfPfW5RTDSrPHMxcvrVOWRKmP0NqjT+23cvpDeHF6ksVD1S8zhZV3wl4ed1
+         i/MGJ80g0EsCXzxYYilws+BEWWEaVe/A4cVx+rK/ajm3B7aXfMGsi1m2nBAVvc5H0T1g
+         GuCy9VP/dDY7ZHtxacnIHgXandqePbPiaRhlg89l6p2XuIvtUIuKvw0PDpSqck65BmR3
+         tMs3Z4MaFQL/N8vhkzPw0syuVEzDxvdQkAENPp/WjPt9lv4HXoCLvQb+DdRUl1rUl9jL
+         6ABw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743537573; x=1744142373;
+        d=1e100.net; s=20230601; t=1743537574; x=1744142374;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=y+EKyB5XcguyGY5jYRPx2TO4YMoMaBJkl3KitioF4TQ=;
-        b=qhQg26RxhH4rokGp21DLK33YxqlPgzNDm8xjO1IJ+boWjwLqyzfngDK4Srljokct0E
-         z30yxBTXFwmnGEnkce3tZubBdIRuyqIofX5YtQ4srk2idB5bGQvYS0/jogLZ44rbbCMp
-         Nk8+vD5pgjJUrWhIOsCK6vn+bRczBvi3L4x7zhfkKMRpZ8Vcs634nklRDasxTzCdRcE/
-         qDcXevaFP5TrxMWdne+rhTIu9C/35E/LOSEpKQoq+60F9YdPYVI0CFLkQsdLi93uDrGY
-         +DyBN47s+FHICvpQjuQyoEasVHrm+9+leL8oQTv0mClVCGkPokPeZGyptft3YIwpez4t
-         J0qA==
-X-Gm-Message-State: AOJu0YwZPxmHM9Iu/5sdlKPwxW7OBuop6aZdepOZaWMrBcmF3tZnNqCZ
-	laLNiJ/Oq5fOsfFCCbsMMjmDZLS6f3A2pj6aj7ILiSydMXz6oPauZX94AMQ+uOie1v6ltra9q32
-	y
-X-Gm-Gg: ASbGncv7bSYet5x0uNakZvKYuc1ykezMyZ0Gqoo2wIJoYGYHBJR38TaOMPwmVZiOfXJ
-	MGG2aBNoZz/UzHxLVimsE4uMotzvtF9GPD8cZLgNPlvCUyN7OBvTYmSWRKsvOCipd3hXz819tW5
-	HEWUhY/7m8eTy+FI5fdhO2RhSUltcb1+ZLnxjH3EegCUullypwNViuLlFNUDDu2C5N8TEpLBQgw
-	l4OyDHoZ+50yDJZmB3A5j19WthLJIfzmQA3bloB2N5YUholbNOETlCtNFp5X8IgJKMMvX2/VPk5
-	fOlgooEbVNf06mLtvhgW8JeGxByXIQsZDVEC
-X-Google-Smtp-Source: AGHT+IGWxm8jSBeVZYc9NJfrJQra72+8xzIOHv8JKko3+/FE6UETQ4p+WVOX92/RCiTvnDzqN4+9SQ==
-X-Received: by 2002:a05:6a20:89a4:b0:1f3:31fe:c1da with SMTP id adf61e73a8af0-200dfa2736amr1281711637.11.1743537572818;
-        Tue, 01 Apr 2025 12:59:32 -0700 (PDT)
+        bh=wX0uupXd89EWWiA4ifnfMUkiyM5f1EYReZBVpDWeOlQ=;
+        b=TOLKrXR/z8Ug99mMfDqWSxHLM2CVYloRFeujz+hGVE3KwubN15H34ab5mfYCqOvv1q
+         ojgXiPxGw5Ge/SYO9+SXq0FAjLkwiS/hUkkE1MGobGU191Dc1FsNdjx5pjwygbB5vHP5
+         qpKw3vc8orMtrD5Zc1ZWqAOsJgxZPeEp38im8PN99IvgttZOP3p6WHuR9DRgkTfxzXnz
+         z4ziqUZfYbhs6PfrAibIpXhlSwQfWaZ3iyDU7mrVOAKhWJIfDZYWdWR7JoH4A3NRGU1g
+         k6ev6NVYxlIwjZW7gWFnuhb6GNHV53Q/e+JIXNcRpceae9g+Z7QIp/hePDts+k3OvM68
+         8wdQ==
+X-Gm-Message-State: AOJu0YzgRS1aVmAqGl2tqWVLiGbwDtDQ625JApCxfSNjeSNULHLpgYpU
+	UBRm+bp61vThEf9AtkS7UTPaQ9SOdD2Fyyyut2+xKMn885EYrt7YAssouTYfHYhNSz8eO91N66Y
+	C
+X-Gm-Gg: ASbGncu+9dO8nL7phkJ+KFZaVIOWa+AAZAFKbZYgNpeFdQDrrPg+2l3sOaHA/nWOUyE
+	9XUIUfdxAz++N9tUjkRUEmNmNc0r0ONChxDIYfTkBBkj2pJaDygn7UK93huea9LH6Zh3whGvTiB
+	xy5S14Skp5jgOQ8ZVc76NmToKF1G7oQeL23oSh1OOqk3TUzjAx9WGZBpDZrTxMzHON0HCO80kO3
+	7ALEr8QbAt4oZBhkgY82hByQl4ZVAxFiFqGGP4mawshfY1qLdtzcUSPELYcj9pJtz0vpYwmGivG
+	1xFacYhJiM1UUTzwDE62z0HFjBdaBJ3g9wAa
+X-Google-Smtp-Source: AGHT+IHmCWPvobGLGL21UbvsJzczelpTS8w0cZcTh/7/Dp3dc3VGmCJGgh8jEMF9nGmZBXubv/P8Cg==
+X-Received: by 2002:a05:6a20:8c92:b0:1f5:9ffc:274a with SMTP id adf61e73a8af0-2009f6489f2mr17461630637.23.1743537574122;
+        Tue, 01 Apr 2025 12:59:34 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:6021:5333:bc00:e45b])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af93b52ea6bsm7234369a12.0.2025.04.01.12.59.32
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af93b52ea6bsm7234369a12.0.2025.04.01.12.59.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 12:59:32 -0700 (PDT)
+        Tue, 01 Apr 2025 12:59:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 3/5] rust-cross-canadian: Set CVE_STATUS ignore for CVE-2024-43402
-Date: Tue,  1 Apr 2025 12:59:20 -0700
-Message-ID: <ef2ba1f04f6f21530dc4efe5c4f61cbb0c76c032.1743537463.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 4/5] yocto-uninative: Update to 4.7 for glibc 2.41
+Date: Tue,  1 Apr 2025 12:59:21 -0700
+Message-ID: <7626067432743657e9c536ca16a2dac513ba4929.1743537463.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1743537463.git.steve@sakoman.com>
 References: <cover.1743537463.git.steve@sakoman.com>
@@ -67,40 +67,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 19:59:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214148
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214149
 
-From: Virendra Thakur <virendra.thakur@kpit.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
-This CVE was created because fix for CVE-2024-24576 was incomplete.
-Ignore the new CVE in the same way as the old one.
-
-See https://nvd.nist.gov/vuln/detail/CVE-2024-43402
-
-As per NVD, this CVE only affects to Windows platform
-
-Reference: https://git.yoctoproject.org/meta-lts-mixins/commit/?h=scarthgap/rust&id=13f045acf6388d1e320fd4c0f3ca19ca7a75ef44
-
-Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/rust/rust-cross-canadian.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index dbf997560b..ac5f6bd57c 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -15,6 +15,10 @@ SRC_URI += "file://target-rust-ccld.c"
- LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=af4e0e29f81a34cffe05aa07c89e93e9;endline=7"
- S = "${WORKDIR}"
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index a6f7107dfe..3d0f1fdccd 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -6,10 +6,10 @@
+ # to the distro running on the build machine.
+ #
  
-+# As per NVD, this CVE only affects to Windows platform
-+# Link: https://nvd.nist.gov/vuln/detail/CVE-2024-43402
-+CVE_STATUS[CVE-2024-43402] = "not-applicable-platform: Issue only applies on Windows"
-+
- # Need to use our SDK's sh here, see #14878
- create_sdk_wrapper () {
-         file="$1"
+-UNINATIVE_MAXGLIBCVERSION = "2.40"
+-UNINATIVE_VERSION = "4.6"
++UNINATIVE_MAXGLIBCVERSION = "2.41"
++UNINATIVE_VERSION = "4.7"
+ 
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "c2d36338272eba101580f648dd8dff5352cdb4c1809db7dedf8fc4d7e7df716c"
+-UNINATIVE_CHECKSUM[i686] ?= "0041584678109c18deca48fb59eaf14cf725cf024a170ab537b354b63240c504"
+-UNINATIVE_CHECKSUM[x86_64] ?= "6bf00154c5a7bc48adbf63fd17684bb87eb07f4814fbb482a3fbd817c1ccf4c5"
++UNINATIVE_CHECKSUM[aarch64] ?= "ac440e4fc80665c79f9718c665c6e28d771e51609c088c3c97ba3ad5cfed197a"
++UNINATIVE_CHECKSUM[i686] ?= "c5efa31450f3bbd63ea961d4e7c747ae41317937d429f65e1d5cf2050338e27a"
++UNINATIVE_CHECKSUM[x86_64] ?= "5800d4e9a129d1be09cf548918d25f74e91a7c1193ae5239d5b0c9246c486d2c"
 -- 
 2.43.0
 
