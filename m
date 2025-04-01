@@ -2,275 +2,64 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B13C3601B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F23E7C36014
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:34 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.18040.1743511391276820323
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.18072.1743511413229149944
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Apr 2025 05:43:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=GD0t0XYe;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=qRB7tFzE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010195f160e120-99f169ba-0ec2-48af-8773-3a2c6b4d6354-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XFJv9Bzu;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=LxxXJyJe;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010195f160e00e-9a86155b-1355-4590-990a-1fd0d80f6dc5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743511413;
+	t=1743511412;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=su61+tNECxnc9TXiEyYYLISUsPILFY9cd7TeIRM7cHg=;
-	b=GD0t0XYeiBvnZ1hGTzvraLRz04DnxhnsPje2T9rIO0SVyxJ4//fjV10Xz3oBRe53
-	nGlM9Tnan+sdXlQKh0Pa7GEdzRzZmGDAG7qo7WYRREnb82tYQxDWVRMfAjX5IQtfyVZ
-	YswFxuPt8tNsLzMQGIQaljTAhp68q9JbVTXa0Z3w=
+	bh=aNHYzfNfyDTpqUpFluxm3tdrF5fkRKmC72ojSHQSRr8=;
+	b=XFJv9BzuugHKc7ZM2RmBrGRgNBBKCutSkb/yyE+i7q1OMJb9IlDLHrWp9WYycoTI
+	F6DqkUjNaOi8+32e31agGxMPMyXdVV9tmZi89ffn4X2h0Mghg+4OV1BkHt1aUKC8YGR
+	+1Ws8NXSpwfE+2WFyOqLP9FBWLNMSHq9ntqlylFE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511413;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511412;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=su61+tNECxnc9TXiEyYYLISUsPILFY9cd7TeIRM7cHg=;
-	b=qRB7tFzE2wsfN4PN+X5ZKN1B0vnFsmQKsX5116xpQ1SF+VyvDmOetmPjwbRd/l6Z
-	JssiU3g+IjKdm8NGkP0QRyhup9PcS+qUpaPOb2FaCcphJW9+OhhdPJCNywdOBv7ABp2
-	hC8Q4EO1w9/1ha+kgup4tHPjnQaq867PlMWkt2wo=
-Content-Type: multipart/mixed; boundary="===============5064328465336860168=="
+	bh=aNHYzfNfyDTpqUpFluxm3tdrF5fkRKmC72ojSHQSRr8=;
+	b=LxxXJyJeGOSw9qtrxhCezC2pOIDwwgZeCT8+upZQ90mbHFHiLjxPQgy2aBFa0Xe1
+	JBeLzYkNQngDQftM1CHIv0hKFDs4i03UrbHnSM5RdvFdIaQ140uxUwYyEmgseLbC77V
+	8RCDU4MJ3+Y/42voA+7KLZu7YquvFL70ZolVHxGY=
+Content-Type: multipart/mixed; boundary="===============0990717114331003343=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] icu: upgrading to 77-1 FAILED
-Message-ID: <01010195f160e120-99f169ba-0ec2-48af-8773-3a2c6b4d6354-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:33 +0000
+Subject: [AUH] gdbm: upgrading to 1.25 FAILED
+Message-ID: <01010195f160e00e-9a86155b-1355-4590-990a-1fd0d80f6dc5-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:32 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.193
+X-SES-Outgoing: 2025.04.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214120
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214119
 
---===============5064328465336860168==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICppY3UqIHRvICo3Ny0xKiBoYXMgRmFpbGVkKGRvX2NvbXBpbGUpLgoKRGV0YWlsZWQgZXJy
-b3IgaW5mb3JtYXRpb246Cgpkb19jb21waWxlIGZhaWxlZAoKCgpOZXh0IHN0ZXBzOgogICAgLSBh
-cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWljdS11cGdyYWRlLTc2LTEtNzctMS5wYXRjaAog
-ICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJpemUg
-dGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhhdCBj
-b250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRlc3Rz
-CiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMgLS1y
-ZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBtYWls
-aW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hvdWxk
-IG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9fVVBE
-QVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGljIHVw
-Z3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRoZSBh
-dHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRlIGZh
-aWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3ppbGxh
-LnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVwZGF0
-ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJvbSBm
-N2RjNmIxM2U4ZjBjZTkzZTU0NjI0MDk2YWZiYTliYTkyYmU2MGZiIE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRhdGU6
-IFR1ZSwgMSBBcHIgMjAyNSAxMjoxNzoxNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGljdTogdXBn
-cmFkZSA3Ni0xIC0+IDc3LTEKCi0tLQogLi4uLzAwMDEtRGlzYWJsZS1MREZMQUdTSUNVRFQtZm9y
-LUxpbnV4LnBhdGNoIHwgMTAgKysrLS0tLQogLi4uL2ljdS8wMDAxLWljdS1BZGRlZC1hcm1lYi1z
-dXBwb3J0LnBhdGNoICAgIHwgMTAgKysrLS0tLQogLi4uL2ljdS97aWN1Xzc2LTEuYmIgPT4gaWN1
-Xzc3LTEuYmJ9ICAgICAgICAgIHwgMjYgKysrKysrKysrKysrKysrKystLQogMyBmaWxlcyBjaGFu
-Z2VkLCAzNCBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9pY3Uve2ljdV83Ni0xLmJiID0+IGljdV83Ny0xLmJifSAoODclKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1EaXNhYmxlLUxERkxBR1NJ
-Q1VEVC1mb3ItTGludXgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEt
-RGlzYWJsZS1MREZMQUdTSUNVRFQtZm9yLUxpbnV4LnBhdGNoCmluZGV4IGMwZTllMjgwNmIuLmM2
-ZDgzODY0OGIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1E
-aXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvaWN1L2ljdS8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gMGY0ZTllZWU2NGJkNDIyMGFhNGZhZTFhYjRmN2JiZjEwYjg3
-Y2Q2OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYjI0NjY0M2QzYmMyZDBmNzZhMzMw
-ZjZkNDU1MGQzMzVhNGQ4N2I1YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0g
-UmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDE1IEZlYiAyMDE0IDIxOjA2OjQy
-ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgTERGTEFHU0lDVURUIGZvciBMaW51eApA
-QCAtNywxMyArNywxMyBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgWyBPRSBDb25m
-aWd1cmF0aW9uIF0KIAogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
-bT4KIC0tLQotIGNvbmZpZy9taC1saW51eCB8IDIgKy0KKyBzb3VyY2UvY29uZmlnL21oLWxpbnV4
-IHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-Ci1kaWZmIC0tZ2l0IGEvY29uZmlnL21oLWxpbnV4IGIvY29uZmlnL21oLWxpbnV4CitkaWZmIC0t
-Z2l0IGEvc291cmNlL2NvbmZpZy9taC1saW51eCBiL3NvdXJjZS9jb25maWcvbWgtbGludXgKIGlu
-ZGV4IDUzZDY3ODAuLmI2MjI1MTMgMTAwNjQ0Ci0tLS0gYS9jb25maWcvbWgtbGludXgKLSsrKyBi
-L2NvbmZpZy9taC1saW51eAorLS0tIGEvc291cmNlL2NvbmZpZy9taC1saW51eAorKysrIGIvc291
-cmNlL2NvbmZpZy9taC1saW51eAogQEAgLTIzLDcgKzIzLDcgQEAgTERfUlBBVEg9IC1XbCwtem9y
-aWdpbiwtcnBhdGgsJyQkJ09SSUdJTgogIExEX1JQQVRIX1BSRSA9IC1XbCwtcnBhdGgsCiAgCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtaWN1LUFkZGVkLWFy
-bWViLXN1cHBvcnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtaWN1
-LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2gKaW5kZXggYTI1Mjg1ZmI1NC4uNmM1Zjg1ZWY2MCAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLWljdS1BZGRlZC1h
-cm1lYi1zdXBwb3J0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAw
-MS1pY3UtQWRkZWQtYXJtZWItc3VwcG9ydC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gY2Y1
-NWMwNzdiNzdiN2EyMTk1MDIzNjRlYWFkZjEyYzA3NGFiMDA1ZSBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKK0Zyb20gZTFmYzZhZjg5ODA5NWY0ODI5N2Q5NmMzOWFmODI0OWY0NjE2YmQ0OSBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IExlaSBNYW9odWkgPGxlaW1hb2h1aUBjbi5mdWpp
-dHN1LmNvbT4KIERhdGU6IFdlZCwgOCBNYXkgMjAxOSAxNDo0MjozMCArMDkwMAogU3ViamVjdDog
-W1BBVENIXSBpY3U6IEFkZGVkIGFybWViIHN1cHBvcnQuCkBAIC05LDEzICs5LDEzIEBAIFVwc3Ry
-ZWFtLVN0YXR1czogUGVuZGluZwogCiBTaWduZWQtb2ZmLWJ5OiBMZWkgTWFvaHVpIDxsZWltYW9o
-dWlAY24uZnVqaXRzdS5jb20+CiAtLS0KLSBpMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgg
-fCAyICstCisgc291cmNlL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCB8IDIgKy0KICAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAotZGlmZiAtLWdp
-dCBhL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCBiL2kxOG4vZG91YmxlLWNvbnZlcnNp
-b24tdXRpbHMuaAorZGlmZiAtLWdpdCBhL3NvdXJjZS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0
-aWxzLmggYi9zb3VyY2UvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oCiBpbmRleCAzMDM2
-NjhmLi43ZDg1OWRjIDEwMDY0NAotLS0tIGEvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5o
-Ci0rKysgYi9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKy0tLSBhL3NvdXJjZS9pMThu
-L2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKysrKyBiL3NvdXJjZS9pMThuL2RvdWJsZS1jb252
-ZXJzaW9uLXV0aWxzLmgKIEBAIC0xNDYsNyArMTQ2LDcgQEAgaW50IG1haW4oaW50IGFyZ2MsIGNo
-YXIqKiBhcmd2KSB7CiAgLy8KICAvLyBJZiBpdCBwcmludHMgImNvcnJlY3QiIHRoZW4gdGhlIGFy
-Y2hpdGVjdHVyZSBzaG91bGQgYmUgaGVyZSwgaW4gdGhlICJjb3JyZWN0IiBzZWN0aW9uLgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ni0xLmJiIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCmluZGV4IGYwODkwZmM4OTAuLmM4YTNkOTA4
-NTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc3LTEuYmIKQEAgLTEsMyArMSwyNSBAQAor
-IyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5
-ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJl
-dHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUg
-dGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGlu
-CisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhh
-bXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBU
-aGUgY2hhbmdlczoKKyMKKyMgLS0tIC4uL0xJQ0VOU0UKKyMgKysrIC4uL0xJQ0VOU0UKKyMgQEAg
-LTIsNyArMiw3IEBACisjICAKKyMgIENPUFlSSUdIVCBBTkQgUEVSTUlTU0lPTiBOT1RJQ0UKKyMg
-IAorIyAtQ29weXJpZ2h0IMKpIDIwMTYtMjAyNCBVbmljb2RlLCBJbmMuCisjICtDb3B5cmlnaHQg
-wqkgMjAxNi0yMDI1IFVuaWNvZGUsIEluYy4KKyMgIAorIyAgTk9USUNFIFRPIFVTRVI6IENhcmVm
-dWxseSByZWFkIHRoZSBmb2xsb3dpbmcgbGVnYWwgYWdyZWVtZW50LiBCWQorIyAgRE9XTkxPQURJ
-TkcsIElOU1RBTExJTkcsIENPUFlJTkcgT1IgT1RIRVJXSVNFIFVTSU5HIERBVEEgRklMRVMsIEFO
-RC9PUgorIyAKKyMKKwogU1VNTUFSWSA9ICJJbnRlcm5hdGlvbmFsIENvbXBvbmVudCBmb3IgVW5p
-Y29kZSBsaWJyYXJpZXMiCiBERVNDUklQVElPTiA9ICJUaGUgSW50ZXJuYXRpb25hbCBDb21wb25l
-bnQgZm9yIFVuaWNvZGUgKElDVSkgaXMgYSBtYXR1cmUsIFwKIHBvcnRhYmxlIHNldCBvZiBDL0Mr
-KyBhbmQgSmF2YSBsaWJyYXJpZXMgZm9yIFVuaWNvZGUgc3VwcG9ydCwgc29mdHdhcmUgXApAQCAt
-OTIsNyArMTE0LDcgQEAgRklMRVM6bGliaWN1aW8gPSAiJHtsaWJkaXJ9L2xpYmljdWlvLnNvLioi
-CiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9N2MzNjRhMGRlYmVjZjE2ZDVhMTNkZTJiN2YxYWFh
-YmQiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly8uLi9MSUNFTlNFO21kNT1jZjU3ZDk0NTlh
-MmM1Zjg4ZWNkODNjNzUyMDdjYzVmZiIKIAogZGVmIGljdV9kb3dubG9hZF92ZXJzaW9uKGQpOgog
-ICAgIHB2c3BsaXQgPSBkLmdldFZhcignUFYnKS5zcGxpdCgnLScpCkBAIC0xMjQsNyArMTQ2LDcg
-QEAgU1JDX1VSSSA9ICIke0JBU0VfU1JDX1VSSX07bmFtZT1jb2RlIFwKIFNSQ19VUkk6YXBwZW5k
-OmNsYXNzLXRhcmdldCA9ICJcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURpc2FibGUtTERGTEFH
-U0lDVURULWZvci1MaW51eC5wYXRjaCBcCiAgICAgICAgICAgIgotU1JDX1VSSVtjb2RlLnNoYTI1
-NnN1bV0gPSAiZGZhY2I0NmJmZTQ3NDc0MTA0NzJjZTNlMTE0NGJmMjhhMTAyZmVlYWE0ZTM4NzVi
-YWM5YjRjNmNmMzBmNGYzZSIKK1NSQ19VUklbY29kZS5zaGEyNTZzdW1dID0gIjU4OGU0MzFmNzcz
-MjdjMzkwMzFmZmJiODg0M2MwZTNiYzEyMmMyMTEzNzQ0ODVmYTg3ZGM1ZjNmYWZmMjQwNjEiCiBT
-UkNfVVJJW2RhdGEuc2hhMjU2c3VtXSA9ICIxMzNhZTU4YTY3ZDY4YjQ2ZjcyOTY4MjI5MDRjZDNj
-MzAxMjZhMGI0YjJmNjVmMGY5MDVlN2Y0N2MwZWY5ZTQ3IgogCiBVUFNUUkVBTV9DSEVDS19SRUdF
-WCA9ICJyZWxlYXNlcy90YWcvcmVsZWFzZS0oP1A8cHZlcj4oPyEuK3JjKS4rKSIKLS0gCjIuNDcu
-MQoK
-
---===============5064328465336860168==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-icu-upgrade-76-1-77-1.patch"
-
-RnJvbSBmN2RjNmIxM2U4ZjBjZTkzZTU0NjI0MDk2YWZiYTliYTkyYmU2MGZiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAxMjoxNzoxNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlj
-dTogdXBncmFkZSA3Ni0xIC0+IDc3LTEKCi0tLQogLi4uLzAwMDEtRGlzYWJsZS1MREZMQUdTSUNV
-RFQtZm9yLUxpbnV4LnBhdGNoIHwgMTAgKysrLS0tLQogLi4uL2ljdS8wMDAxLWljdS1BZGRlZC1h
-cm1lYi1zdXBwb3J0LnBhdGNoICAgIHwgMTAgKysrLS0tLQogLi4uL2ljdS97aWN1Xzc2LTEuYmIg
-PT4gaWN1Xzc3LTEuYmJ9ICAgICAgICAgIHwgMjYgKysrKysrKysrKysrKysrKystLQogMyBmaWxl
-cyBjaGFuZ2VkLCAzNCBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtc3VwcG9ydC9pY3Uve2ljdV83Ni0xLmJiID0+IGljdV83Ny0xLmJifSAoODclKQoK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1EaXNhYmxlLUxE
-RkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1
-LzAwMDEtRGlzYWJsZS1MREZMQUdTSUNVRFQtZm9yLUxpbnV4LnBhdGNoCmluZGV4IGMwZTllMjgw
-NmIuLmM2ZDgzODY0OGIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3Uv
-MDAwMS1EaXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMGY0ZTllZWU2NGJkNDIyMGFhNGZhZTFhYjRmN2Ji
-ZjEwYjg3Y2Q2OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYjI0NjY0M2QzYmMyZDBm
-NzZhMzMwZjZkNDU1MGQzMzVhNGQ4N2I1YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDE1IEZlYiAyMDE0IDIx
-OjA2OjQyICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgTERGTEFHU0lDVURUIGZvciBM
-aW51eApAQCAtNywxMyArNywxMyBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgWyBP
-RSBDb25maWd1cmF0aW9uIF0KIAogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdt
-YWlsLmNvbT4KIC0tLQotIGNvbmZpZy9taC1saW51eCB8IDIgKy0KKyBzb3VyY2UvY29uZmlnL21o
-LWxpbnV4IHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogCi1kaWZmIC0tZ2l0IGEvY29uZmlnL21oLWxpbnV4IGIvY29uZmlnL21oLWxpbnV4Citk
-aWZmIC0tZ2l0IGEvc291cmNlL2NvbmZpZy9taC1saW51eCBiL3NvdXJjZS9jb25maWcvbWgtbGlu
-dXgKIGluZGV4IDUzZDY3ODAuLmI2MjI1MTMgMTAwNjQ0Ci0tLS0gYS9jb25maWcvbWgtbGludXgK
-LSsrKyBiL2NvbmZpZy9taC1saW51eAorLS0tIGEvc291cmNlL2NvbmZpZy9taC1saW51eAorKysr
-IGIvc291cmNlL2NvbmZpZy9taC1saW51eAogQEAgLTIzLDcgKzIzLDcgQEAgTERfUlBBVEg9IC1X
-bCwtem9yaWdpbiwtcnBhdGgsJyQkJ09SSUdJTgogIExEX1JQQVRIX1BSRSA9IC1XbCwtcnBhdGgs
-CiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtaWN1LUFk
-ZGVkLWFybWViLXN1cHBvcnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAw
-MDEtaWN1LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2gKaW5kZXggYTI1Mjg1ZmI1NC4uNmM1Zjg1
-ZWY2MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLWljdS1B
-ZGRlZC1hcm1lYi1zdXBwb3J0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9p
-Y3UvMDAwMS1pY3UtQWRkZWQtYXJtZWItc3VwcG9ydC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gY2Y1NWMwNzdiNzdiN2EyMTk1MDIzNjRlYWFkZjEyYzA3NGFiMDA1ZSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gZTFmYzZhZjg5ODA5NWY0ODI5N2Q5NmMzOWFmODI0OWY0NjE2YmQ0
-OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IExlaSBNYW9odWkgPGxlaW1hb2h1aUBj
-bi5mdWppdHN1LmNvbT4KIERhdGU6IFdlZCwgOCBNYXkgMjAxOSAxNDo0MjozMCArMDkwMAogU3Vi
-amVjdDogW1BBVENIXSBpY3U6IEFkZGVkIGFybWViIHN1cHBvcnQuCkBAIC05LDEzICs5LDEzIEBA
-IFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwogCiBTaWduZWQtb2ZmLWJ5OiBMZWkgTWFvaHVpIDxs
-ZWltYW9odWlAY24uZnVqaXRzdS5jb20+CiAtLS0KLSBpMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0
-aWxzLmggfCAyICstCisgc291cmNlL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCB8IDIg
-Ky0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAotZGlm
-ZiAtLWdpdCBhL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCBiL2kxOG4vZG91YmxlLWNv
-bnZlcnNpb24tdXRpbHMuaAorZGlmZiAtLWdpdCBhL3NvdXJjZS9pMThuL2RvdWJsZS1jb252ZXJz
-aW9uLXV0aWxzLmggYi9zb3VyY2UvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oCiBpbmRl
-eCAzMDM2NjhmLi43ZDg1OWRjIDEwMDY0NAotLS0tIGEvaTE4bi9kb3VibGUtY29udmVyc2lvbi11
-dGlscy5oCi0rKysgYi9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKy0tLSBhL3NvdXJj
-ZS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKysrKyBiL3NvdXJjZS9pMThuL2RvdWJs
-ZS1jb252ZXJzaW9uLXV0aWxzLmgKIEBAIC0xNDYsNyArMTQ2LDcgQEAgaW50IG1haW4oaW50IGFy
-Z2MsIGNoYXIqKiBhcmd2KSB7CiAgLy8KICAvLyBJZiBpdCBwcmludHMgImNvcnJlY3QiIHRoZW4g
-dGhlIGFyY2hpdGVjdHVyZSBzaG91bGQgYmUgaGVyZSwgaW4gdGhlICJjb3JyZWN0IiBzZWN0aW9u
-LgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ni0xLmJiIGIvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCmluZGV4IGYwODkwZmM4OTAuLmM4
-YTNkOTA4NTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc3LTEuYmIKQEAgLTEsMyArMSwy
-NSBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRh
-dGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJl
-bmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1
-cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFu
-Z2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgor
-IyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQor
-IworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIC4uL0xJQ0VOU0UKKyMgKysrIC4uL0xJQ0VOU0UK
-KyMgQEAgLTIsNyArMiw3IEBACisjICAKKyMgIENPUFlSSUdIVCBBTkQgUEVSTUlTU0lPTiBOT1RJ
-Q0UKKyMgIAorIyAtQ29weXJpZ2h0IMKpIDIwMTYtMjAyNCBVbmljb2RlLCBJbmMuCisjICtDb3B5
-cmlnaHQgwqkgMjAxNi0yMDI1IFVuaWNvZGUsIEluYy4KKyMgIAorIyAgTk9USUNFIFRPIFVTRVI6
-IENhcmVmdWxseSByZWFkIHRoZSBmb2xsb3dpbmcgbGVnYWwgYWdyZWVtZW50LiBCWQorIyAgRE9X
-TkxPQURJTkcsIElOU1RBTExJTkcsIENPUFlJTkcgT1IgT1RIRVJXSVNFIFVTSU5HIERBVEEgRklM
-RVMsIEFORC9PUgorIyAKKyMKKwogU1VNTUFSWSA9ICJJbnRlcm5hdGlvbmFsIENvbXBvbmVudCBm
-b3IgVW5pY29kZSBsaWJyYXJpZXMiCiBERVNDUklQVElPTiA9ICJUaGUgSW50ZXJuYXRpb25hbCBD
-b21wb25lbnQgZm9yIFVuaWNvZGUgKElDVSkgaXMgYSBtYXR1cmUsIFwKIHBvcnRhYmxlIHNldCBv
-ZiBDL0MrKyBhbmQgSmF2YSBsaWJyYXJpZXMgZm9yIFVuaWNvZGUgc3VwcG9ydCwgc29mdHdhcmUg
-XApAQCAtOTIsNyArMTE0LDcgQEAgRklMRVM6bGliaWN1aW8gPSAiJHtsaWJkaXJ9L2xpYmljdWlv
-LnNvLioiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotTElDX0ZJTEVT
-X0NIS1NVTSA9ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9N2MzNjRhMGRlYmVjZjE2ZDVhMTNkZTJi
-N2YxYWFhYmQiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly8uLi9MSUNFTlNFO21kNT1jZjU3
-ZDk0NTlhMmM1Zjg4ZWNkODNjNzUyMDdjYzVmZiIKIAogZGVmIGljdV9kb3dubG9hZF92ZXJzaW9u
-KGQpOgogICAgIHB2c3BsaXQgPSBkLmdldFZhcignUFYnKS5zcGxpdCgnLScpCkBAIC0xMjQsNyAr
-MTQ2LDcgQEAgU1JDX1VSSSA9ICIke0JBU0VfU1JDX1VSSX07bmFtZT1jb2RlIFwKIFNSQ19VUkk6
-YXBwZW5kOmNsYXNzLXRhcmdldCA9ICJcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURpc2FibGUt
-TERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaCBcCiAgICAgICAgICAgIgotU1JDX1VSSVtjb2Rl
-LnNoYTI1NnN1bV0gPSAiZGZhY2I0NmJmZTQ3NDc0MTA0NzJjZTNlMTE0NGJmMjhhMTAyZmVlYWE0
-ZTM4NzViYWM5YjRjNmNmMzBmNGYzZSIKK1NSQ19VUklbY29kZS5zaGEyNTZzdW1dID0gIjU4OGU0
-MzFmNzczMjdjMzkwMzFmZmJiODg0M2MwZTNiYzEyMmMyMTEzNzQ0ODVmYTg3ZGM1ZjNmYWZmMjQw
-NjEiCiBTUkNfVVJJW2RhdGEuc2hhMjU2c3VtXSA9ICIxMzNhZTU4YTY3ZDY4YjQ2ZjcyOTY4MjI5
-MDRjZDNjMzAxMjZhMGI0YjJmNjVmMGY5MDVlN2Y0N2MwZWY5ZTQ3IgogCiBVUFNUUkVBTV9DSEVD
-S19SRUdFWCA9ICJyZWxlYXNlcy90YWcvcmVsZWFzZS0oP1A8cHZlcj4oPyEuK3JjKS4rKSIKLS0g
-CjIuNDcuMQoK
-
---===============5064328465336860168==
+--===============0990717114331003343==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *gdbm* to *1.25* has Failed (devtool error).
+
+Detailed error information:
+
+Running 'devtool upgrade' for recipe gdbm failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1888 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 924 .bb files complete (923 cached, 1 parsed). 1886 targets, 39 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
+Loaded 1886 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -289,76 +78,66 @@ meta-yocto-bsp
 workspace            = "tmp-auh-upgrades:5d5fb6d9c7f4c4d27bb3afd99a2017701ae7df98"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 115 Local 101 Mirrors 0 Missed 14 Current 253 (87% match, 96% complete)
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 329 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 331 of 368 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf-archive/autoconf-archive_2024.10.16.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 337 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 338 of 368 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-77-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe autoconf-archive-native-2024.10.16-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-native-77-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 339 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 340 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe icu-77-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 797 of 1099 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch)
-NOTE: recipe autoconf-archive-native-2024.10.16-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 341 of 368 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf-archive/autoconf-archive_2024.10.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe icu-native-77-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 799 of 1099 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-77-1-r0: task do_fetch: Started
-NOTE: recipe autoconf-archive-native-2024.10.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-native-77-1-r0: task do_fetch: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 345 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 349 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe autoconf-archive-native-2024.10.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-WARNING: icu-77-1-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data - will attempt other sources if available
-WARNING: icu-native-77-1-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data - will attempt other sources if available
-NOTE: recipe icu-77-1-r0: task do_fetch: Failed
-NOTE: recipe icu-native-77-1-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 1068 tasks of which 1066 didn't need to be rerun and 2 failed.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 925 .bb files complete (0 cached, 925 parsed). 1887 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:5d5fb6d9c7f4c4d27bb3afd99a2017701ae7df98"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-zxbtdj90: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-0_37qdlk/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-0_37qdlk/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250401121700.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250401121700.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  42% |###############                     | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftp.gnu.org/gnu/gdbm/gdbm-1.25.tar.gz...
+INFO: Rebasing devtool onto f442e506c817110d9b74cdd50eed8fdff62f545f
+WARNING: Command 'git rebase f442e506c817110d9b74cdd50eed8fdff62f545f' failed:
+Auto-merging Makefile.am
+Auto-merging tests/Makefile.am
+CONFLICT (content): Merge conflict in tests/Makefile.am
 
-Summary: 2 tasks failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/77-1/temp/log.do_fetch.2598842
-  virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/77-1/temp/log.do_fetch.2598846
-Summary: There were 2 WARNING messages.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-ERROR: icu-77-1-r0 do_fetch: Fetcher failure for URL: 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data'. Checksum mismatch!
-File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip.tmp' has sha256 checksum '1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3' when '133ae58a67d68b46f7296822904cd3c30126a0b4b2f65f0f905e7f47c0ef9e47' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[data.sha256sum] = "1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: icu-77-1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data')
-ERROR: icu-native-77-1-r0 do_fetch: Fetcher failure for URL: 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data'. Checksum mismatch!
-File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip.tmp' has sha256 checksum '1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3' when '133ae58a67d68b46f7296822904cd3c30126a0b4b2f65f0f905e7f47c0ef9e47' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[data.sha256sum] = "1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: icu-native-77-1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/77-1/temp/log.do_fetch.2598842
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch) failed with exit code '1'
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/77-1/temp/log.do_fetch.2598846
-ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch) failed with exit code '1'
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/gdbm
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/gdbm/gdbm_1.25.bb
 
---===============5064328465336860168==--
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============0990717114331003343==--
 
