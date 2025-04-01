@@ -1,82 +1,115 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA3E0C36010
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 18:29:34 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.web10.1068.1743532165390735939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E78EC36010
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 19:59:35 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.3276.1743537569232468035
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 11:29:25 -0700
+ Tue, 01 Apr 2025 12:59:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UnOYHE77;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6eaf1b6ce9aso60676986d6.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 11:29:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=n7dVONxk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2260c91576aso95078585ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743532164; x=1744136964; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PrVH+uXJAp7dyiUz29G2OzMi/e23CsyYY08/BsZXWGA=;
-        b=UnOYHE774l2ut0SkbHdl93O0gmvXVObXQc5Jtvds8r43HFhaScvjWEX1/a699U7czK
-         IVeruj0iHuICPMIiLXWP+XvoZpeK9rCcQf5loyrQ4HchyzNyfxQx9Nn667EAXuUxEgjx
-         00LI2dIhK3VVo7QsoaZ8BtWKfk0YXpcpTx7FqNJV1TNiDhbP2QMYvF9dkr8Ld2CrB0bu
-         uKQa2ovjKUbnJeMvBL3KP/GejNboBiKMBsD5Ou76T6twNii70fiHE5Oj7FQ+9wv8OzY1
-         rD1u92HSYqI8YWlAGAJEpej+aYWxyQOEWs15tpbMnCtDOR5Eea8sqLSDLb7uojF6mkUT
-         KoFw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743537568; x=1744142368; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Srw18v1iwIXu4co07x2hX/CnHDTFjm3ifI9OomgCaho=;
+        b=n7dVONxkBW5JIeb/K9T85BhA/SEqPtLDFvJbHlnPrEKlSkFJYaydoDpBGKQOg7SO+9
+         OceMl2O3fywgRwlEcp8H8+Awf/vdJwqkDe1LdWJaCmRA+/kvh3fEGpQYaL0ZmvufRp37
+         Z23HsgYvjGw/9vw20skqlHT7Lu+fqcndbusNRWBPiIGcjYaDUWlJF7vz9hXA5DVCKVRr
+         fBhvk2yHnfz2Mol6FN8X+LvqXH2VwJndnMGp1c8VyvqI37qPJLk+CFPWxSiCDH3AAECZ
+         2tZTSa5cpxunG46YzJczPXxBPgL/jzmnfggRcvaGvgjBIByiYWsMPdm5CXmHFEYDlCrl
+         ZyfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743532164; x=1744136964;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PrVH+uXJAp7dyiUz29G2OzMi/e23CsyYY08/BsZXWGA=;
-        b=mBtRenxEB2wKc/773kptN1NVeSRKCPpS+wCv0U83veoLQNLOyMx2AzDc4L6CRgq7di
-         gaMElgdy5Q07D5liKe9uXdbuGaJiIYc7b6zarLlo9X/wTrBxFiHvE2dNjS9CVfQqqJ6f
-         2+QZb3RVNvSqjmoU5LtN29o/sFc+Yg7136ibq6QEVx26oSy90Se0IrF79DuNlbXzwrcr
-         Nv+Jg6J7pzkNrCQ3/XnQ4AbEHa8ODknHtX/plDr1dV2n8kMzmzIDRaOE8eYNEj9w+pu+
-         5/MD9Z0aVMdETjbQLX4+DgWerqc0eT8/GK+S97x9WzFu/ux5abQfF8FQ/FlDpzeBvCPc
-         AShw==
-X-Forwarded-Encrypted: i=1; AJvYcCUPt8kj2XnBBBuacji2x+pnX44G4DCJ0JQ1sOoFdkKlkgvxx8DUQ2wdgvIzsHt8qmEQY7q5ZfsiH/bvaJswBk+FLA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwapYreagrlCWn+b40o/0//J+8pjtsDaAg/tOTfljpFK4dsdqLZ
-	X+7WazfUBaxNe/rZ0rSHzac2NCqpdq9B0gAfmkeczF9UHJIDrYlKRy3FhASQtvwxO4+3SVebqWW
-	CQONke7VN7PxUUOT0T0tzUuHlbbs=
-X-Gm-Gg: ASbGnctJ7P7fWF5WgYWhlRLoYHS/97I2tcEsiBbSUpi0RPSyOXQT6woF16qmHCnnlg2
-	S2cdaT76IEl5U9GZV9HKdO9PT+zauO8Q078MnwIR2/8jwVIZRx1+ym3qOrLKMw11EsFODFuSgND
-	Cv8WJxeNEeOQdOJ4WVPFnSMLvn/yyR/ZOhZr9PSKVgrOAeuynegdH2SnhkAy/8
-X-Google-Smtp-Source: AGHT+IGIQCqt5Yah+ca3iVjyTSX1vaGLivsuZyEBsV07c6WMAFdTqPQaddWTjiUHtAHFjooE74w0rIoIo4zEBlqx390=
-X-Received: by 2002:a05:6214:5016:b0:6eb:2fd4:30a7 with SMTP id
- 6a1803df08f44-6eed61ff1f9mr168368776d6.33.1743532164465; Tue, 01 Apr 2025
- 11:29:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743537568; x=1744142368;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Srw18v1iwIXu4co07x2hX/CnHDTFjm3ifI9OomgCaho=;
+        b=C+7HaH8jeneAwfjm6v9bw+sUzh1EFR1FRbEMARz5F6igSfg9NCS8nXxmX5cq+jRlki
+         Hpnm05rYkC7Vgq/7oR/yPaFYsUM/HYxKTiVd6HEP8ny22ZpIOTciTpsU0MD/6kr7wGVu
+         VGPi8itxwE6Nd7Cz1STFrCpwKfr+qrs3HriA6uEXdrQv9UtvreDwYDqxwo+AEocidLIm
+         ID2jgbNw4cLM7NDm7wSmRxX+zHwQqrJGM8wSzIo37nuVb8YCtynfTGIfp/A3oFmys18t
+         FU6NL1e3DjQ/kcTg4zk7RnQXz+RSv+ztZ/NnVJolIim+F9cs5dVNZEhflqS1T04i/Eww
+         DyjQ==
+X-Gm-Message-State: AOJu0YznNRbYBpEreGnJjju13FugzAsSKAPQMLmgjfgUm+AOCnDI5iIo
+	IhGQUl1EwIRREZtnWFrRXBa+zEn3iI9a9iIP7qotcdVdxaSOV4XidcV3rBxzUlXl62p1MqRm21T
+	e
+X-Gm-Gg: ASbGnctydyA/gVPJb/QFIAux1CSgLXXySRxSSaTkiq/F/11GZViFtYS91zm6ss8fPD5
+	virrS9tB+y3FDk2wEe+X8j5d5OeG86iowSfGvUop+iaEdUFr18iMFTqb9JaZ7gI2i/BFw9+MDHR
+	o/Bu+Ey40DUi2p7GDccrzJzDV0yYlYeqK2o9apnM2qIO/fkXVdPAiWhzbg0Z14zMcOSrKv8+j7C
+	Kn45cgTToV50/WAnMKNAo7QUdu5YN/Ede9+KF4dg1oaZh1VqjiuGgCSqvMaUf8K/DRF+Ja6Tv9k
+	nLy8OQauPF8ISbai8V4eu5nA8QZoVq451mp2
+X-Google-Smtp-Source: AGHT+IEvvj0EganA5ZddNH8tyOOOduWOr5rNW12P/VjcXr7heu3VI3LSGCtd0N+cok9mDOUvb+2SVQ==
+X-Received: by 2002:a05:6a21:c8c:b0:1f5:a577:dd1b with SMTP id adf61e73a8af0-2009f5c4900mr24864832637.1.1743537568180;
+        Tue, 01 Apr 2025 12:59:28 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:6021:5333:bc00:e45b])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af93b52ea6bsm7234369a12.0.2025.04.01.12.59.27
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 12:59:27 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 0/5] Patch review
+Date: Tue,  1 Apr 2025 12:59:17 -0700
+Message-ID: <cover.1743537463.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250327141258.2690906-1-adriaan.schmidt@siemens.com>
- <607113C9-1438-4B7C-8B23-FA8911BEC331@arm.com> <AS4PR10MB53181EC3B1B610B1DA880120EDA12@AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM>
- <FCB285E1-1F26-45E0-B365-4463FC94DCE6@arm.com> <AS4PR10MB53185F705DF9DEE6D54304E9EDAC2@AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS4PR10MB53185F705DF9DEE6D54304E9EDAC2@AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 1 Apr 2025 20:29:13 +0200
-X-Gm-Features: AQ5f1JoxjKlucpYXmfOeQTDfryO7tbOiwnOMm75CMBKUBHQ09r6fPIcLIxpr4NI
-Message-ID: <CANNYZj9BbWkFminKmz3Fag7p_fD+mG07yHDVET5681q40hwrnw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] libunwind: update 1.6.2 -> 1.8.1
-To: adriaan.schmidt@siemens.com
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 18:29:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214144
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 19:59:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214145
 
-On Tue, 1 Apr 2025 at 20:26, Adriaan Schmidt via
-lists.openembedded.org
-<adriaan.schmidt=siemens.com@lists.openembedded.org> wrote:
-> This looks pretty up-to-date.
-> The mips-byte-order.patch (set to apply=0 in your branch) is still needed, and has not yet been merged upstream.
-> With that I was able to successfully "bitbake libunwind" for the x86, arm, mips, and ppc qemu machines, both 32 and 64bit, with and without TOOLCHAIN=clang, and with and without TCLIBC=musl.
->
-> Do you remember if you had any specific issues when you worked on this last year?
+Please review this set of changes for scarthgap and have comments back by
+end of day Thursday, April 3
 
-I guess we should put this on the autobuilder and see what comes up?
+Passed a-full on autobuilder:
 
-Alex
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1310
+
+The following changes since commit 2f242f2a269bb18aab703f685e27f9c3ba761db8:
+
+  cve-update-nvd2-native: handle missing vulnStatus (2025-03-31 08:26:56 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Martin Jansa (1):
+  mc: set ac_cv_path_ZIP to avoid buildpaths QA issues
+
+Michael Halstead (1):
+  yocto-uninative: Update to 4.7 for glibc 2.41
+
+Peter Marko (2):
+  expat: patch CVE-2024-8176
+  freetype: follow-up patch for CVE-2025-27363
+
+Virendra Thakur (1):
+  rust-cross-canadian: Set CVE_STATUS ignore for CVE-2024-43402
+
+ meta/conf/distro/include/yocto-uninative.inc  |   10 +-
+ ...ests-Cover-indirect-entity-recursion.patch |  103 ++
+ .../expat/expat/CVE-2024-8176-01.patch        | 1477 +++++++++++++++++
+ .../expat/expat/CVE-2024-8176-02.patch        |  248 +++
+ meta/recipes-core/expat/expat_2.6.4.bb        |    3 +
+ .../rust/rust-cross-canadian.inc              |    4 +
+ meta/recipes-extended/mc/mc_4.8.31.bb         |    1 +
+ .../freetype/freetype/CVE-2025-27363.patch    |   33 +
+ .../freetype/freetype_2.13.2.bb               |    4 +-
+ 9 files changed, 1877 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-core/expat/expat/0001-tests-Cover-indirect-entity-recursion.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176-02.patch
+ create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2025-27363.patch
+
+-- 
+2.43.0
+
 
