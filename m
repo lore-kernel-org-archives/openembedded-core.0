@@ -2,53 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCEECC369A3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C32ABC369A2
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:12 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.18039.1743511388019161033
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.18036.1743511384775981397
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 05:43:08 -0700
+ Tue, 01 Apr 2025 05:43:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Oc1dRsis;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=asBcq3Ep;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010195f1607c43-a0ac2f0c-edf8-4b09-868c-c022fff9f506-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=U/Erw8tZ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Tx5PcdsY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010195f1606ee4-c09074ec-89fe-4ca2-a68d-faebf6eded4c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743511387;
+	t=1743511383;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=sDoivw16pv0HckDGS05tK/ie6HCNSeinG1GIzmwXKzk=;
-	b=Oc1dRsis2lxp4O3TkeU6LDa+sEevo2Gh3TQPWR5ewtAWKNXpFwlRxPuUEOz28ZWA
-	DScrLMrOoF1nL4Alv8FKwr13tAIQoT6Q1kDIe3MCQUxy4wLRdHnx9wRzQ3iQpl26UGZ
-	rBEEB+iqOOM6PWlwBXfx+ZWZzdzsFSbW1uTSWlac=
+	bh=/nwIle0vvjPiGqyXkoGjuZdPuk4Uev1/HsDzhn8RHsg=;
+	b=U/Erw8tZZVi+hyNQcmAcXjYeUnTwRVlB0E5FRIzmI8tWUa1bm5G6XUnz8fNH8Pde
+	VZBswdJzW9vxtXH6vsWHCAKx+NVnpURhBxcNpnnQyOsLS65niPHRMaGxmfO6OXx7yZ8
+	9AHQwLFZ6Sw73nQ8NBQx0+Iqu5Eum2N4aoBrcyXI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511387;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511383;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=sDoivw16pv0HckDGS05tK/ie6HCNSeinG1GIzmwXKzk=;
-	b=asBcq3Ep6TKx/TXkFtIK+XHyAPhShWkYAFRuI7JYdTat0bgYdbVs6GDowhVajUIT
-	enjKSV9Gz9SZEddgRszPt8ncjEBOLT7byDLfOfa4eJuUuPvOUhGjGORLI6Uchzj60d7
-	RwpQ8RGZO1wGMnl3jLRcxm/0FKGhEjG6hCLE8xsc=
-Content-Type: multipart/mixed; boundary="===============1446742885184835125=="
+	bh=/nwIle0vvjPiGqyXkoGjuZdPuk4Uev1/HsDzhn8RHsg=;
+	b=Tx5PcdsY5Wp39ZDgXoiQuPy5Pi0vMh/YlDD4JquZvkDJDQ5W2iZc0aPVjVyqW61q
+	gaypPyYzCi/jwWEUVoBscL0rc9DimJb3bdz6jcHcca3vdsyciGIZOBb5x+BOldx2vG8
+	BDVIpeBxM2TmzsMeJZyvePop00IutnPBh0qJ4iSc=
+Content-Type: multipart/mixed; boundary="===============8674009336747699248=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>, Anuj Mittal <anuj.mittal@intel.com>, 
-	Anuj Mittal <anuj.mittal@intel.com>, 
-	Anuj Mittal <anuj.mittal@intel.com>, 
-	Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH]
- gstreamer1.0-rtsp-server,gstreamer1.0-plugins-base,gstreamer1.0-plugins-good,gstreamer1.0-plugins-ugly,gstreamer1.0-plugins-bad:
- upgrading to 1.26.0,1.26.0,1.26.0,1.26.0,1.26.0 FAILED
-Message-ID: <01010195f1607c43-a0ac2f0c-edf8-4b09-868c-c022fff9f506-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:07 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] cmake,cmake-native: upgrading to 4.0.0,4.0.0 FAILED
+Message-ID: <01010195f1606ee4-c09074ec-89fe-4ca2-a68d-faebf6eded4c-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.45
+X-SES-Outgoing: 2025.04.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214030
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214025
 
---===============1446742885184835125==
+--===============8674009336747699248==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,17 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-rtsp-server,gstreamer1.0-plugins-base,gstreamer1.0-plugins-good,gstreamer1.0-plugins-ugly,gstreamer1.0-plugins-bad* to *1.26.0,1.26.0,1.26.0,1.26.0,1.26.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *cmake,cmake-native* to *4.0.0,4.0.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade gstreamer1.0-plugins-bad -V 1.26.0
+Running 'devtool upgrade' for recipe cmake failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1886 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 928 .bb files complete (924 cached, 4 parsed). 1890 targets, 39 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -82,19 +74,19 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f8df60281b654061508d217a79714ce569e1c354"
+workspace            = "tmp-auh-upgrades:42cae3e33885c54edb883c7e93466316a1ab901e"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 929 .bb files complete (0 cached, 929 parsed). 1891 targets, 39 skipped, 0 masked, 0 errors.
+Parsing of 925 .bb files complete (0 cached, 925 parsed). 1887 targets, 39 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -110,28 +102,89 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f8df60281b654061508d217a79714ce569e1c354"
+workspace            = "tmp-auh-upgrades:42cae3e33885c54edb883c7e93466316a1ab901e"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
 done.
 NOTE: Executing Tasks
-WARNING: tmp-recipetool-f2ov0hjj: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-4eoltwq7/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-4eoltwq7/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+WARNING: tmp-recipetool-runehcce: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-y3ud2hsx/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-y3ud2hsx/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   8% |###                                 | ETA:  0:00:01
+Adding changed files:   1% |                                    | ETA:  0:00:07
+Adding changed files:   3% |#                                   | ETA:  0:00:05
+Adding changed files:   5% |##                                  | ETA:  0:00:04
+Adding changed files:   7% |##                                  | ETA:  0:00:04
+Adding changed files:   9% |###                                 | ETA:  0:00:04
+Adding changed files:  11% |####                                | ETA:  0:00:03
+Adding changed files:  13% |####                                | ETA:  0:00:03
+Adding changed files:  15% |#####                               | ETA:  0:00:03
+Adding changed files:  17% |######                              | ETA:  0:00:03
+Adding changed files:  19% |#######                             | ETA:  0:00:03
+Adding changed files:  21% |#######                             | ETA:  0:00:03
+Adding changed files:  23% |########                            | ETA:  0:00:03
+Adding changed files:  25% |#########                           | ETA:  0:00:03
+Adding changed files:  27% |#########                           | ETA:  0:00:03
+Adding changed files:  29% |##########                          | ETA:  0:00:02
+Adding changed files:  31% |###########                         | ETA:  0:00:02
+Adding changed files:  33% |###########                         | ETA:  0:00:02
+Adding changed files:  35% |############                        | ETA:  0:00:02
+Adding changed files:  36% |#############                       | ETA:  0:00:02
+Adding changed files:  38% |##############                      | ETA:  0:00:02
+Adding changed files:  40% |##############                      | ETA:  0:00:02
+Adding changed files:  42% |###############                     | ETA:  0:00:02
+Adding changed files:  44% |################                    | ETA:  0:00:02
+Adding changed files:  46% |################                    | ETA:  0:00:02
+Adding changed files:  48% |#################                   | ETA:  0:00:02
+Adding changed files:  50% |##################                  | ETA:  0:00:01
+Adding changed files:  52% |##################                  | ETA:  0:00:01
+Adding changed files:  54% |###################                 | ETA:  0:00:01
+Adding changed files:  56% |####################                | ETA:  0:00:01
+Adding changed files:  58% |#####################               | ETA:  0:00:01
+Adding changed files:  60% |#####################               | ETA:  0:00:01
+Adding changed files:  62% |######################              | ETA:  0:00:01
+Adding changed files:  64% |#######################             | ETA:  0:00:01
+Adding changed files:  66% |#######################             | ETA:  0:00:01
+Adding changed files:  68% |########################            | ETA:  0:00:01
+Adding changed files:  70% |#########################           | ETA:  0:00:01
+Adding changed files:  71% |#########################           | ETA:  0:00:01
+Adding changed files:  73% |##########################          | ETA:  0:00:01
+Adding changed files:  75% |###########################         | ETA:  0:00:00
+Adding changed files:  77% |############################        | ETA:  0:00:00
+Adding changed files:  79% |############################        | ETA:  0:00:00
+Adding changed files:  81% |#############################       | ETA:  0:00:00
+Adding changed files:  83% |##############################      | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  87% |###############################     | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  91% |################################    | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:04
 INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 INFO: Extracting upgraded version source...
-INFO: Fetching https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.0.tar.xz...
-ERROR: Execution of 'git add -f -A "sys/d3d12/gstd3d12window-win32.h" "sys/d3d12/gstd3d12yadif.cpp" "sys/d3d12/gstd3d12yadif.h" "sys/dwrite/gstdwriterender.cpp" "sys/dwrite/gstdwriterender.h" "sys/dwrite/gstdwriterender_bitmap.cpp" "sys/dwrite/gstdwriterender_bitmap.h" "sys/dwrite/gstdwriterender_d3d11.cpp" "sys/dwrite/gstdwriterender_d3d11.h" "sys/dwrite/gstdwriterender_d3d12.cpp" "sys/dwrite/gstdwriterender_d3d12.h" "sys/nvcodec/gstcudacompositor.cpp" "sys/nvcodec/gstcudacompositor.h" "sys/nvcodec/gstcudaconverter.cpp" "sys/nvcodec/gstcudainterop_d3d12.cpp" "sys/nvcodec/gstcudainterop_d3d12.h" "sys/nvcodec/gstnvav1encoder.cpp" "sys/nvcodec/gstnvav1encoder.h" "sys/nvcodec/gstnvcodecutils.cpp" "sys/nvcodec/kernel/collect_ptx_headers.py" "sys/nvcodec/kernel/gstcudaconverter-unpack.cu" "sys/nvcodec/kernel/gstcudaconverter.cu" "sys/nvcodec/kernel/gstnvjpegenc.cu" "sys/nvcodec/kernel/meson.build" "sys/v4l2codecs/linux/drm_fourcc.h" "sys/va/gstvacodecalphadecodebin.c" "sys/va/gstvacodecal
- phadecodebin.h" "sys/va/gstvah266dec.c" "sys/va/gstvah266dec.h" "sys/va/gstvajpegenc.c" "sys/va/gstvajpegenc.h" "sys/va/gstvavp8enc.c" "sys/va/gstvavp8enc.h" "sys/va/gstvavp9enc.c" "sys/va/gstvavp9enc.h" "sys/webview2/gstwebview2object.cpp" "sys/webview2/gstwebview2object.h" "sys/webview2/gstwebview2src.cpp" "sys/webview2/gstwebview2src.h" "sys/webview2/meson.build" "sys/webview2/plugin.cpp" "tests/check/elements/dashsink.c" "tests/check/elements/h266parse.c" "tests/check/libs/d3d12device.cpp" "tests/check/libs/h266parser.c" "tests/check/libs/jpegbitwriter.c" "tests/check/libs/vkcodecparams_h264.c" "tests/check/libs/vkcodecparams_h265.c" "tests/check/libs/vkvideoencodeh264.c" "tests/check/libs/vkvideoencodeh265.c" "tests/check/libs/vp9bitwriter.c" "tests/examples/codecparsers/parse-h264-drop-frames.c" "tests/examples/cuda/cuda-template.c" "tests/examples/cuda/cudamemory-sync.c" "tests/examples/cuda/cudamemorypool.c" "tests/examples/cuda/meson.build" "tests/examples/cuda/nvenc-extern
- -pool.c" "tests/examples/cuda/template-plugin/cuda-transform-ip-template.c" "tests/examples/cuda/template-plugin/cuda-transform-ip-template.h" "tests/examples/cuda/template-plugin/plugin.c" "tests/examples/d3d11/d3d11decoder-appsink2.cpp" "tests/examples/d3d12/d3d12swapchainsink-win32.cpp" "tests/examples/d3d12/d3d12swapchainsink-winrt.cpp" "tests/examples/d3d12/d3d12videosink-overlay.cpp" "tests/examples/d3d12/d3d12videosink-switch.cpp" "tests/files/audio-8s-then-reverse.ogg" "tests/interactive/pitch-playback-test.c" "tests/validate/autovideoconvert/renegotiate/flow-expectations/log-^convert-src$-expected" "tests/validate/pitch/change_pitch_properties.validatetest" "tests/validate/pitch/change_pitch_properties/flow-expectations/log-pitch-src-expected" "tests/validate/pitch/maintain_pitch_with_variable_playback_rates.validatetest" "tests/validate/pitch/maintain_pitch_with_variable_playback_rates/flow-expectations/log-pitch-src-expected" "tests/validate/pitch/pitch-test.meta" "tests/
- validate/pitch/reverse.change_pitch_properties.validatetest" "tests/validate/pitch/reverse.change_pitch_properties/flow-expectations/log-pitch-src-expected" "tests/validate/pitch/reverse.maintain_pitch_with_variable_playback_rates.validatetest" "tests/validate/pitch/reverse.maintain_pitch_with_variable_playback_rates/flow-expectations/log-pitch-src-expected" "ChangeLog" "NEWS" "README.md" "RELEASE" "docs/libs/cuda/index.md" "docs/meson.build" "docs/plugins/gst_plugins_cache.json" "ext/aes/meson.build" "ext/analyticsoverlay/gstobjectdetectionoverlay.c" "ext/analyticsoverlay/meson.build" "ext/aom/gstav1enc.c" "ext/aom/gstav1enc.h" "ext/aom/meson.build" "ext/assrender/meson.build" "ext/avtp/gstavtpsrc.c" "ext/avtp/gstavtpsrc.h" "ext/avtp/meson.build" "ext/bs2b/meson.build" "ext/bz2/meson.build" "ext/chromaprint/meson.build" "ext/closedcaption/ccutils.c" "ext/closedcaption/ccutils.h" "ext/closedcaption/gstcccombiner.c"' failed with exit code 128:
-fatal: pathspec 'tests/validate/autovideoconvert/renegotiate/flow-expectations/log-^convert-srchBcexpected' did not match any files
+INFO: Fetching https://cmake.org/files/v4.0/cmake-4.0.0.tar.gz...
+INFO: Rebasing devtool onto 1d53e6d98b978092f14158b724c7de95801a9464
+WARNING: Command 'git rebase 1d53e6d98b978092f14158b724c7de95801a9464' failed:
+Auto-merging Modules/CMakeDetermineCompilerABI.cmake
+CONFLICT (content): Merge conflict in Modules/CMakeDetermineCompilerABI.cmake
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-nativesdk onto 1d53e6d98b978092f14158b724c7de95801a9464
+WARNING: Command 'git rebase 1d53e6d98b978092f14158b724c7de95801a9464' failed:
+Auto-merging Modules/CMakeDetermineCompilerABI.cmake
+CONFLICT (content): Merge conflict in Modules/CMakeDetermineCompilerABI.cmake
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/cmake
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/cmake/cmake_4.0.0.bb
 
 
 
@@ -140,5 +193,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1446742885184835125==--
+--===============8674009336747699248==--
 
