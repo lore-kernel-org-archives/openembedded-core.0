@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA2E5C36014
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA017C36010
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:22 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.18066.1743511391043823306
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.18076.1743511397481772925
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 05:43:13 -0700
+ Tue, 01 Apr 2025 05:43:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SSjI6wVM;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=P+LwD/eq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010195f1609317-c0423d4b-14fe-4ad9-9508-fafaa304cc27-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=isVaTmfs;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FUUmuV+Y;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010195f160b713-5ec27402-d429-4180-83af-41f7ee2a428e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743511393;
+	t=1743511402;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+8ZyiCQ/hSvDoJF2fyOLlbOiKMMYCHjrzPP8SL8gGys=;
-	b=SSjI6wVMSseko63f49v1IKDrubhpeuF1c4Hcrbvez2MMZv5lFqHU/C67BwjW73Qj
-	rqRhCk7Xhw4L52yh79LWsNp/dE9ZNmfuGrHlsuK9hOqrffjNj9MhYCmoOAB60H48V+n
-	yHRZt1fOY1PE2GjfTGAWN/Dnx2B616Md7CnItjQ4=
+	bh=fBJS5GxJYAxRC9N09d3e7sfW5xUs7ic3qaqplbnslQ8=;
+	b=isVaTmfsy2EVV+JLSdpYOTApNH8/1JP34YxXwfRNT4w1FL/qilUVz6sWlbL/0KzU
+	1xf2ENCmzjG/WVKoE/Ztv5ShuufDeiCQA5zxPwAJ26TAYel6hItCmSeENo1kgxcdT1a
+	hoy5eJw8HfYKga8r+5W+j3VBmEiY9Pmdp5zjl0zs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511393;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511402;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+8ZyiCQ/hSvDoJF2fyOLlbOiKMMYCHjrzPP8SL8gGys=;
-	b=P+LwD/eqnPiVa1cnYzYEmr+BygImSiNVRWPlTmtxbJ/BgrqC48Ygz05ydYL3EqQn
-	WIkwSSbYK3U4QVr71PrfdforWhUI3+RQHCW3hEm+BiT8JaAEW/IIpBHfEKeQI0Z7tZr
-	wO3wVkF6IsKi3e4IhZ9NPsgL8P28S5/lRp00iCkE=
-Content-Type: multipart/mixed; boundary="===============3017465136258307818=="
+	bh=fBJS5GxJYAxRC9N09d3e7sfW5xUs7ic3qaqplbnslQ8=;
+	b=FUUmuV+YiXeRL8FDe/u7n7MjFZMJnORu5KF+T9GiUDqKX+dm7/Iw6F4gfRPVFI8w
+	1Dw5TxT/4dwcCINdvQO9oaNplz6KB98PUl1mIJ5vPzw/xK7xDZgSLzuq/NC1G0/KKv1
+	oYmOMOXsn0gvO7EWCp2cCrNq1J5/SEqfPx4JCjZc=
+Content-Type: multipart/mixed; boundary="===============7314852208939510526=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ccache: upgrading to 4.11.2 SUCCEEDED
-Message-ID: <01010195f1609317-c0423d4b-14fe-4ad9-9508-fafaa304cc27-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:13 +0000
+Subject: [AUH] strace: upgrading to 6.14 FAILED
+Message-ID: <01010195f160b713-5ec27402-d429-4180-83af-41f7ee2a428e-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.29
+X-SES-Outgoing: 2025.04.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214043
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214079
 
---===============3017465136258307818==
+--===============7314852208939510526==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,110 +51,94 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ccache* to *4.11.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *strace* to *6.14* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-ccache-upgrade-4.11-4.11.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe strace failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1886 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:f63b6fbfe1ba3df3eae9d012a208cd87547f577e"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 925 .bb files complete (0 cached, 925 parsed). 1887 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:f63b6fbfe1ba3df3eae9d012a208cd87547f577e"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-mylwxom6: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kf3hzq3j/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kf3hzq3j/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  19% |#######                             | ETA:  0:00:00
+Adding changed files:  39% |##############                      | ETA:  0:00:00
+Adding changed files:  59% |#####################               | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://github.com/strace/strace/releases//download/v6.14/strace-6.14.tar.xz...
+INFO: Rebasing devtool onto f3fef80b139c1db241ea6a7ea8ac3895ae23a013
+WARNING: Command 'git rebase f3fef80b139c1db241ea6a7ea8ac3895ae23a013' failed:
+Auto-merging tests/Makefile.am
+CONFLICT (content): Merge conflict in tests/Makefile.am
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/strace
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/strace/strace_6.14.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 239d40c087320459e24d2c4d48a905474e4c0101 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Apr 2025 07:43:49 +0000
-Subject: [PATCH] ccache: upgrade 4.11 -> 4.11.2
-
----
- .../ccache/{ccache_4.11.bb => ccache_4.11.2.bb}                 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/ccache/{ccache_4.11.bb => ccache_4.11.2.bb} (93%)
-
-diff --git a/meta/recipes-devtools/ccache/ccache_4.11.bb b/meta/recipes-devtools/ccache/ccache_4.11.2.bb
-similarity index 93%
-rename from meta/recipes-devtools/ccache/ccache_4.11.bb
-rename to meta/recipes-devtools/ccache/ccache_4.11.2.bb
-index 9a305c257f..3a41cb5736 100644
---- a/meta/recipes-devtools/ccache/ccache_4.11.bb
-+++ b/meta/recipes-devtools/ccache/ccache_4.11.2.bb
-@@ -17,7 +17,7 @@ DEPENDS = "zstd fmt xxhash"
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
- 
--SRC_URI[sha256sum] = "7dba208540dc61cedd5c93df8c960055a35f06e29a0a3cf766962251d4a5c766"
-+SRC_URI[sha256sum] = "d51b82bb8c3932649323fd4cb8e5a0a9f7fe7f672c71a6d6839bee13b4ded4c5"
- 
- inherit cmake github-releases
- 
--- 
-2.47.1
-
-
---===============3017465136258307818==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-ccache-upgrade-4.11-4.11.2.patch"
-
-RnJvbSAyMzlkNDBjMDg3MzIwNDU5ZTI0ZDJjNGQ0OGE5MDU0NzRlNGMwMTAxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwNzo0Mzo0OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNj
-YWNoZTogdXBncmFkZSA0LjExIC0+IDQuMTEuMgoKLS0tCiAuLi4vY2NhY2hlL3tjY2FjaGVfNC4x
-MS5iYiA9PiBjY2FjaGVfNC4xMS4yLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvY2NhY2hlL3tjY2FjaGVfNC4xMS5iYiA9PiBjY2FjaGVfNC4xMS4yLmJifSAo
-OTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQu
-MTEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjExLjIuYmIKc2lt
-aWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNo
-ZS9jY2FjaGVfNC4xMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9j
-Y2FjaGVfNC4xMS4yLmJiCmluZGV4IDlhMzA1YzI1N2YuLjNhNDFjYjU3MzYgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTEuYmIKKysrIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xMS4yLmJiCkBAIC0xNyw3ICsxNyw3IEBA
-IERFUEVORFMgPSAienN0ZCBmbXQgeHhoYXNoIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0Vf
-VVJJfS9kb3dubG9hZC92JHtQVn0vJHtCUH0udGFyLmd6IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiN2RiYTIwODU0MGRjNjFjZWRkNWM5M2RmOGM5NjAwNTVhMzVmMDZlMjlhMGEzY2Y3NjY5NjIy
-NTFkNGE1Yzc2NiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkNTFiODJiYjhjMzkzMjY0OTMyM2Zk
-NGNiOGU1YTBhOWY3ZmU3ZjY3MmM3MWE2ZDY4MzliZWUxM2I0ZGVkNGM1IgogCiBpbmhlcml0IGNt
-YWtlIGdpdGh1Yi1yZWxlYXNlcwogCi0tIAoyLjQ3LjEKCg==
-
---===============3017465136258307818==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 33720824 to 33770056 (+0%)
-packages/core2-64-poky-linux/ccache/ccache-dbg: PV changed from "4.11" to "4.11.2"
-packages/core2-64-poky-linux/ccache/ccache-dbg: PKGV changed from 4.11 [default] to 4.11.2 [default]
-packages/core2-64-poky-linux/ccache/ccache-dev: PV changed from "4.11" to "4.11.2"
-packages/core2-64-poky-linux/ccache/ccache-dev: PKGV changed from 4.11 [default] to 4.11.2 [default]
-packages/core2-64-poky-linux/ccache/ccache-doc: PV changed from "4.11" to "4.11.2"
-packages/core2-64-poky-linux/ccache/ccache-doc: PKGV changed from 4.11 [default] to 4.11.2 [default]
-packages/core2-64-poky-linux/ccache/ccache-locale: PV changed from "4.11" to "4.11.2"
-packages/core2-64-poky-linux/ccache/ccache-locale: PKGV changed from 4.11 [default] to 4.11.2 [default]
-packages/core2-64-poky-linux/ccache/ccache-src: PKGSIZE changed from 1774933 to 1775879 (+0%)
-packages/core2-64-poky-linux/ccache/ccache-src: PV changed from "4.11" to "4.11.2"
-packages/core2-64-poky-linux/ccache/ccache-src: PKGV changed from 4.11 [default] to 4.11.2 [default]
-packages/core2-64-poky-linux/ccache/ccache-staticdev: PV changed from "4.11" to "4.11.2"
-packages/core2-64-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.11 [default] to 4.11.2 [default]
-packages/core2-64-poky-linux/ccache/ccache: PV changed from "4.11" to "4.11.2"
-packages/core2-64-poky-linux/ccache/ccache: PKGV changed from 4.11 [default] to 4.11.2 [default]
-packages/core2-64-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.11/ccache-4.11.tar.gz" to "https://github.com/ccache/ccache/releases//download/v4.11.2/ccache-4.11.2.tar.gz"
-packages/core2-64-poky-linux/ccache: PV changed from "4.11" to "4.11.2"
-packages/core2-64-poky-linux/ccache: PKGV changed from 4.11 [default] to 4.11.2 [default]
-
---===============3017465136258307818==--
+--===============7314852208939510526==--
 
