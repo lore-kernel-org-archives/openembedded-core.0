@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD63C369D1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C72DDC369D6
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:35 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.18085.1743511405654944093
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.18067.1743511391044015761
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Apr 2025 05:43:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VsBVyojz;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=RBCajtBP;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010195f160d181-eaececa6-c825-4f03-a14c-4d583e0bd276-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XOz/ONFn;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VIks7f3b;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010195f160d135-a959a9b4-cbf7-4ce9-8a6f-aa48745fb75c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1743511409;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=w8LAPNog6hdYCoHdL2VWUIiq2vP91FyX9qXPnjUKSys=;
-	b=VsBVyojzaSBgwoIN7Wnl1X4pIuSucLh7Rw/8eD6xjAqe+pzfPMfNXsAzH3eQv72F
-	pcH12TmghshGvrVRt/o6yqcAYXW1X7IBy0Yw5rJiE8waQw1IO4JPkHAqISgEQhSv6K9
-	3RBEWGhpAXdg50KTp1kbyq0A0oO//UFA01f91skc=
+	bh=oC8sQtI+H3irR3H0SbYd9HksxqHvNX2+sgKX1BnGcKc=;
+	b=XOz/ONFn4lfRvyekx7ixeXiwMWSlNXBxJhPcb8INVVpxeIArD5UVsDsN4AE+pbuA
+	3nE+lByg9xO/Xgt/5h0TJ++WRN76C+Nc9WifSnbpKwMCuwYQYDH52tsTtpBCXV5/lQh
+	Psze83Rg0Y/TSQtkZiFQCUrAOdvSxtF79nLezxT0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511409;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=w8LAPNog6hdYCoHdL2VWUIiq2vP91FyX9qXPnjUKSys=;
-	b=RBCajtBPVXS4J1WIsueErCPOhxmIedSsYKgKu209FyZR+p6nQAhaKEym6fZeVjJG
-	WM1XT817xVqw7E5FMCElWkJIvOY6juyr4kGxDthhRo9MJJI+dp0BnURYTDDfpGNXbtN
-	anMO5zQZDdb0u10vncYotnumdjnKOPHQqNiFeJyQ=
-Content-Type: multipart/mixed; boundary="===============5342144985685299368=="
+	bh=oC8sQtI+H3irR3H0SbYd9HksxqHvNX2+sgKX1BnGcKc=;
+	b=VIks7f3bs/1k+85TcBCmatMnSMA9fi/CucrIuejfHXVF3pXy1fPr9y2WY0vycz9d
+	QPf4GccTlo8JYjESU4CnUFQdcdAyhBWRs2tNrgF130MgKcyT97MNeDnXREVYe/hs6Lv
+	08hC7YlLY9eZLlwmPiTLjdw7g9kRSADyiW/SDWIE=
+Content-Type: multipart/mixed; boundary="===============2080723461868210926=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libinput: upgrading to 1.28.1 SUCCEEDED
-Message-ID: <01010195f160d181-eaececa6-c825-4f03-a14c-4d583e0bd276-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:29 +0000
+Subject: [AUH] wayland-protocols: upgrading to 1.42 SUCCEEDED
+Message-ID: <01010195f160d135-a959a9b4-cbf7-4ce9-8a6f-aa48745fb75c-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:28 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.191
+X-SES-Outgoing: 2025.04.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214106
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214105
 
---===============5342144985685299368==
+--===============2080723461868210926==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libinput* to *1.28.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *wayland-protocols* to *1.42* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libinput-upgrade-1.27.1-1.28.1.patch
+    - apply the patch: git am 0001-wayland-protocols-upgrade-1.41-1.42.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,106 +72,97 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From cfe49c7e3e922367326d7ebb096dbf6dac292f49 Mon Sep 17 00:00:00 2001
+From 4f70ef4cf174aefaaec039f1877a18927a68d6f1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Apr 2025 11:43:59 +0000
-Subject: [PATCH] libinput: upgrade 1.27.1 -> 1.28.1
+Date: Tue, 1 Apr 2025 11:46:01 +0000
+Subject: [PATCH] wayland-protocols: upgrade 1.41 -> 1.42
 
 ---
- .../wayland/{libinput_1.27.1.bb => libinput_1.28.1.bb}          | 2 +-
+ .../{wayland-protocols_1.41.bb => wayland-protocols_1.42.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{libinput_1.27.1.bb => libinput_1.28.1.bb} (97%)
+ rename meta/recipes-graphics/wayland/{wayland-protocols_1.41.bb => wayland-protocols_1.42.bb} (91%)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.27.1.bb b/meta/recipes-graphics/wayland/libinput_1.28.1.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/libinput_1.27.1.bb
-rename to meta/recipes-graphics/wayland/libinput_1.28.1.bb
-index 04a03f0807..767a7675f2 100644
---- a/meta/recipes-graphics/wayland/libinput_1.27.1.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.28.1.bb
-@@ -15,7 +15,7 @@ DEPENDS = "libevdev udev mtdev"
- SRC_URI = "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;branch=main \
-            file://run-ptest \
-            "
--SRCREV = "3aa004b96488bf0b2446c11b97a7f8a75ff37c23"
-+SRCREV = "4f7b4ef0e4eb5d569df36be387579858eba349bb"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.41.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.42.bb
+similarity index 91%
+rename from meta/recipes-graphics/wayland/wayland-protocols_1.41.bb
+rename to meta/recipes-graphics/wayland/wayland-protocols_1.42.bb
+index e8ab9d84fc..7cbb650cda 100644
+--- a/meta/recipes-graphics/wayland/wayland-protocols_1.41.bb
++++ b/meta/recipes-graphics/wayland/wayland-protocols_1.42.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
+                     file://stable/presentation-time/presentation-time.xml;endline=26;md5=4646cd7d9edc9fa55db941f2d3a7dc53"
  
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/${PV}/downloads/wayland-protocols-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "2786b6b1b79965e313f2c289c12075b9ed700d41844810c51afda10ee329576b"
++SRC_URI[sha256sum] = "23ba80d410d1200a86fe29592c19766eae8f1c350b67289999e9e7ea12d9f7aa"
+ 
+ UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/tags"
+ UPSTREAM_CHECK_REGEX = "releases/(?P<pver>.+)"
 -- 
 2.47.1
 
 
---===============5342144985685299368==
+--===============2080723461868210926==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libinput-upgrade-1.27.1-1.28.1.patch"
+ filename="0001-wayland-protocols-upgrade-1.41-1.42.patch"
 
-RnJvbSBjZmU0OWM3ZTNlOTIyMzY3MzI2ZDdlYmIwOTZkYmY2ZGFjMjkyZjQ5IE1vbiBTZXAgMTcg
+RnJvbSA0ZjcwZWY0Y2YxNzRhZWZhYWVjMDM5ZjE4NzdhMTg5MjdhNjhkNmYxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAxMTo0Mzo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YmlucHV0OiB1cGdyYWRlIDEuMjcuMSAtPiAxLjI4LjEKCi0tLQogLi4uL3dheWxhbmQve2xpYmlu
-cHV0XzEuMjcuMS5iYiA9PiBsaWJpbnB1dF8xLjI4LjEuYmJ9ICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQve2xpYmlucHV0XzEuMjcuMS5iYiA9PiBsaWJpbnB1dF8x
-LjI4LjEuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxh
-bmQvbGliaW5wdXRfMS4yNy4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvbGli
-aW5wdXRfMS4yOC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy93YXlsYW5kL2xpYmlucHV0XzEuMjcuMS5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvbGliaW5wdXRfMS4yOC4xLmJiCmluZGV4IDA0YTAzZjA4
-MDcuLjc2N2E3Njc1ZjIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5k
-L2xpYmlucHV0XzEuMjcuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC9s
-aWJpbnB1dF8xLjI4LjEuYmIKQEAgLTE1LDcgKzE1LDcgQEAgREVQRU5EUyA9ICJsaWJldmRldiB1
-ZGV2IG10ZGV2IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2xpYmlu
-cHV0L2xpYmlucHV0LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiBcCiAgICAgICAgICAg
-IGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiM2FhMDA0Yjk2NDg4
-YmYwYjI0NDZjMTFiOTdhN2Y4YTc1ZmYzN2MyMyIKK1NSQ1JFViA9ICI0ZjdiNGVmMGU0ZWI1ZDU2
-OWRmMzZiZTM4NzU3OTg1OGViYTM0OWJiIgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogVVBTVFJF
-QU1fQ0hFQ0tfUkVHRVggPSAibGliaW5wdXQtKD9QPHB2ZXI+XGQrXC5cZCtcLig/ITlcZCspXGQr
-KSIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAxMTo0NjowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdh
+eWxhbmQtcHJvdG9jb2xzOiB1cGdyYWRlIDEuNDEgLT4gMS40MgoKLS0tCiAuLi4ve3dheWxhbmQt
+cHJvdG9jb2xzXzEuNDEuYmIgPT4gd2F5bGFuZC1wcm90b2NvbHNfMS40Mi5iYn0gICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC97d2F5bGFuZC1wcm90b2NvbHNfMS40MS5iYiA9
+PiB3YXlsYW5kLXByb3RvY29sc18xLjQyLmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmQtcHJvdG9jb2xzXzEuNDEuYmIgYi9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLXByb3RvY29sc18xLjQyLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dh
+eWxhbmQtcHJvdG9jb2xzXzEuNDEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy93
+YXlsYW5kL3dheWxhbmQtcHJvdG9jb2xzXzEuNDIuYmIKaW5kZXggZThhYjlkODRmYy4uN2NiYjY1
+MGNkYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZC1w
+cm90b2NvbHNfMS40MS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXls
+YW5kLXByb3RvY29sc18xLjQyLmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0NPUFlJTkc7bWQ1PWM3YjEyYjY3MDJkYTM4Y2EwMjhhY2U1NGFhZTNkNDg0IFwK
+ICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3N0YWJsZS9wcmVzZW50YXRpb24tdGltZS9wcmVz
+ZW50YXRpb24tdGltZS54bWw7ZW5kbGluZT0yNjttZDU9NDY0NmNkN2Q5ZWRjOWZhNTVkYjk0MWYy
+ZDNhN2RjNTMiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3dh
+eWxhbmQvd2F5bGFuZC1wcm90b2NvbHMvLS9yZWxlYXNlcy8ke1BWfS9kb3dubG9hZHMvd2F5bGFu
+ZC1wcm90b2NvbHMtJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjI3ODZiNmIx
+Yjc5OTY1ZTMxM2YyYzI4OWMxMjA3NWI5ZWQ3MDBkNDE4NDQ4MTBjNTFhZmRhMTBlZTMyOTU3NmIi
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjNiYTgwZDQxMGQxMjAwYTg2ZmUyOTU5MmMxOTc2NmVh
+ZThmMWMzNTBiNjcyODk5OTllOWU3ZWExMmQ5ZjdhYSIKIAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0g
+Imh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93YXlsYW5kL3dheWxhbmQtcHJvdG9jb2xz
+Ly0vdGFncyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInJlbGVhc2VzLyg/UDxwdmVyPi4rKSIK
+LS0gCjIuNDcuMQoK
 
---===============5342144985685299368==
+--===============2080723461868210926==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libinput: PV changed from "1.27.1" to "1.28.1"
-packages/core2-64-poky-linux/libinput: PKGV changed from 1.27.1 [default] to 1.28.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-bin: PV changed from "1.27.1" to "1.28.1"
-packages/core2-64-poky-linux/libinput/libinput-bin: PKGV changed from 1.27.1 [default] to 1.28.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-dbg: PV changed from "1.27.1" to "1.28.1"
-packages/core2-64-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 7286864 to 7719184 (+6%)
-packages/core2-64-poky-linux/libinput/libinput-dbg: PKGV changed from 1.27.1 [default] to 1.28.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-dev: PV changed from "1.27.1" to "1.28.1"
-packages/core2-64-poky-linux/libinput/libinput-dev: PKGSIZE changed from 225927 to 228925 (+1%)
-packages/core2-64-poky-linux/libinput/libinput-dev: PKGV changed from 1.27.1 [default] to 1.28.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-doc: PV changed from "1.27.1" to "1.28.1"
-packages/core2-64-poky-linux/libinput/libinput-doc: PKGSIZE changed from 46862 to 47709 (+2%)
-packages/core2-64-poky-linux/libinput/libinput-doc: PKGV changed from 1.27.1 [default] to 1.28.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-locale: PV changed from "1.27.1" to "1.28.1"
-packages/core2-64-poky-linux/libinput/libinput-locale: PKGV changed from 1.27.1 [default] to 1.28.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-ptest: PV changed from "1.27.1" to "1.28.1"
-packages/core2-64-poky-linux/libinput/libinput-ptest: PKGSIZE changed from 1098678 to 1151926 (+5%)
-packages/core2-64-poky-linux/libinput/libinput-ptest: PKGV changed from 1.27.1 [default] to 1.28.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-src: PV changed from "1.27.1" to "1.28.1"
-packages/core2-64-poky-linux/libinput/libinput-src: PKGSIZE changed from 3698279 to 3796919 (+3%)
-packages/core2-64-poky-linux/libinput/libinput-src: FILELIST: directory renamed /usr/src/debug/libinput/1.27.1/tools -> /usr/src/debug/libinput/1.28.1/tools, directory renamed /usr/src/debug/libinput/1.27.1/include/linux/linux -> /usr/src/debug/libinput/1.28.1/include/linux/linux, directory renamed /usr/src/debug/libinput/1.27.1/test -> /usr/src/debug/libinput/1.28.1/test, directory renamed /usr/src/debug/libinput/1.27.1/udev -> /usr/src/debug/libinput/1.28.1/udev, directory renamed /usr/src/debug/libinput/1.27.1/include/valgrind -> /usr/src/debug/libinput/1.28.1/include/valgrind, removed "/usr/src/debug/libinput/1.27.1/src/evdev-fallback.h /usr/src/debug/libinput/1.27.1/src/util-prop-parsers.c /usr/src/debug/libinput/1.27.1/src/libinput-private-config.h /usr/src/debug/libinput/1.27.1/src/evdev-debounce.c /usr/src/debug/libinput/1.27.1/src/util-prop-parsers.h /usr/src/debug/libinput/1.27.1/src/evdev-fallback.c /usr/src/debug/libinput/1.27.1/src/filter-trackpoint.c /usr/src/debug/libi
- nput/1.27.1/src/libinput-private-config.c /usr/src/debug/libinput/1.27.1/src/util-ratelimit.h /usr/src/debug/libinput/1.27.1/src/util-stringbuf.h /usr/src/debug/libinput/1.27.1/src/path-seat.c /usr/src/debug/libinput/1.27.1/src/udev-seat.c /usr/src/debug/libinput/1.27.1/src/util-time.h /usr/src/debug/libinput/1.27.1/src/evdev-mt-touchpad-tap.c /usr/src/debug/libinput/1.27.1/src/udev-seat.h /usr/src/debug/libinput/1.27.1/src/util-ratelimit.c /usr/src/debug/libinput/1.27.1/src/builddir.h /usr/src/debug/libinput/1.27.1/src/evdev-tablet-pad.c /usr/src/debug/libinput/1.27.1/src/util-list.c /usr/src/debug/libinput/1.27.1/src/evdev-tablet-pad.h /usr/src/debug/libinput/1.27.1/src/filter-trackpoint-flat.c /usr/src/debug/libinput/1.27.1/src/evdev-mt-touchpad-gestures.c /usr/src/debug/libinput/1.27.1/src/util-list.h /usr/src/debug/libinput/1.27.1/src/evdev.c /usr/src/debug/libinput/1.27.1/src/timer.c /usr/src/debug/libinput/1.27.1/src/evdev-mt-touchpad-edge-scroll.c /usr/src/debug/libinput/1.2
- 7.1/src/util-input-event.h /usr/src/debug/libinput/1.27.1/src/util-range.h /usr/src/debug/libinput/1.27.1/src/util-strings.c /usr/src/debug/libinput/1.27.1/src/evdev-mt-touchpad-buttons.c /usr/src/debug/libinput/1.27.1/src/util-strings.h /usr/src/debug/libinput/1.27.1/src/evdev-tablet-pad-leds.c /usr/src/debug/libinput/1.27.1/src/evdev-mt-touchpad-thumb.c /usr/src/debug/libinput/1.27.1/src/evdev.h /usr/src/debug/libinput/1.27.1/src/filter-touchpad-flat.c /usr/src/debug/libinput/1.27.1/src/filter-touchpad-x230.c /usr/src/debug/libinput/1.27.1/src/filter-custom.c /usr/src/debug/libinput/1.27.1/src/filter-tablet.c /usr/src/debug/libinput/1.27.1/src/libinput.h /usr/src/debug/libinput/1.27.1/src/timer.h /usr/src/debug/libinput/1.27.1/src/util-files.h /usr/src/debug/libinput/1.27.1/src/libinput.c /usr/src/debug/libinput/1.27.1/src/libinput-versionsort.h /usr/src/debug/libinput/1.27.1/src/quirks.c /usr/src/debug/libinput/1.27.1/src/filter.h /usr/src/debug/libinput/1.27.1/src/libinput-priva
- te.h /usr/src/debug/libinput/1.27.1/src/filter-low-dpi.c /usr/src/debug/libinput/1.27.1/src/quirks.h /usr/src/debug/libinput/1.27.1/src/filter.c /usr/src/debug/libinput/1.27.1/src/util-bits.h /usr/src/debug/libinput/1.27.1/src/evdev-mt-touchpad.c /usr/src/debug/libinput/1.27.1/src/evdev-totem.c /usr/src/debug/libinput/1.27.1/src/filter-flat.c /usr/src/debug/libinput/1.27.1/src/filter-private.h /usr/src/debug/libinput/1.27.1/src/evdev-tablet.c /usr/src/debug/libinput/1.27.1/src/evdev-mt-touchpad.h /usr/src/debug/libinput/1.27.1/src/evdev-wheel.c /usr/src/debug/libinput/1.27.1/src/evdev-tablet.h /usr/src/debug/libinput/1.27.1/src/evdev-middle-button.c /usr/src/debug/libinput/1.27.1/src/util-backtrace.h /usr/src/debug/libinput/1.27.1/src/filter-touchpad.c /usr/src/debug/libinput/1.27.1/src/util-matrix.h /usr/src/debug/libinput/1.27.1/src/filter-mouse.c", added "/usr/src/debug/libinput/1.28.1/src/evdev-fallback.h /usr/src/debug/libinput/1.28.1/src/util-prop-parsers.c /usr/src/debug/libi
- nput/1.28.1/src/libinput-private-config.h /usr/src/debug/libinput/1.28.1/src/evdev-debounce.c /usr/src/debug/libinput/1.28.1/src/util-multivalue.h /usr/src/debug/libinput/1.28.1/src/evdev-fallback.c /usr/src/debug/libinput/1.28.1/src/filter-trackpoint.c /usr/src/debug/libinput/1.28.1/src/util-prop-parsers.h /usr/src/debug/libinput/1.28.1/src/libinput-private-config.c /usr/src/debug/libinput/1.28.1/src/util-ratelimit.h /usr/src/debug/libinput/1.28.1/src/util-libinput.h /usr/src/debug/libinput/1.28.1/src/util-stringbuf.h /usr/src/debug/libinput/1.28.1/src/path-seat.c /usr/src/debug/libinput/1.28.1/src/udev-seat.c /usr/src/debug/libinput/1.28.1/src/util-time.h /usr/src/debug/libinput/1.28.1/src/evdev-mt-touchpad-tap.c /usr/src/debug/libinput/1.28.1/src/udev-seat.h /usr/src/debug/libinput/1.28.1/src/util-libinput.c /usr/src/debug/libinput/1.28.1/src/util-ratelimit.c /usr/src/debug/libinput/1.28.1/src/builddir.h /usr/src/debug/libinput/1.28.1/src/evdev-tablet-pad.c /usr/src/debug/libinpu
- t/1.28.1/src/util-list.c /usr/src/debug/libinput/1.28.1/src/evdev-tablet-pad.h /usr/src/debug/libinput/1.28.1/src/filter-trackpoint-flat.c /usr/src/debug/libinput/1.28.1/src/evdev-mt-touchpad-gestures.c /usr/src/debug/libinput/1.28.1/src/util-list.h /usr/src/debug/libinput/1.28.1/src/evdev.c /usr/src/debug/libinput/1.28.1/src/timer.c /usr/src/debug/libinput/1.28.1/src/evdev-mt-touchpad-edge-scroll.c /usr/src/debug/libinput/1.28.1/src/util-input-event.h /usr/src/debug/libinput/1.28.1/src/util-range.h /usr/src/debug/libinput/1.28.1/src/util-strings.c /usr/src/debug/libinput/1.28.1/src/evdev-mt-touchpad-buttons.c /usr/src/debug/libinput/1.28.1/src/util-strings.h /usr/src/debug/libinput/1.28.1/src/evdev-tablet-pad-leds.c /usr/src/debug/libinput/1.28.1/src/evdev-mt-touchpad-thumb.c /usr/src/debug/libinput/1.28.1/src/evdev.h /usr/src/debug/libinput/1.28.1/src/filter-touchpad-flat.c /usr/src/debug/libinput/1.28.1/src/filter-touchpad-x230.c /usr/src/debug/libinput/1.28.1/src/filter-custom.c
-  /usr/src/debug/libinput/1.28.1/src/filter-tablet.c /usr/src/debug/libinput/1.28.1/src/libinput.h /usr/src/debug/libinput/1.28.1/src/timer.h /usr/src/debug/libinput/1.28.1/src/util-files.h /usr/src/debug/libinput/1.28.1/src/libinput.c /usr/src/debug/libinput/1.28.1/src/libinput-versionsort.h /usr/src/debug/libinput/1.28.1/src/quirks.c /usr/src/debug/libinput/1.28.1/src/filter.h /usr/src/debug/libinput/1.28.1/src/libinput-private.h /usr/src/debug/libinput/1.28.1/src/filter-low-dpi.c /usr/src/debug/libinput/1.28.1/src/quirks.h /usr/src/debug/libinput/1.28.1/src/filter.c /usr/src/debug/libinput/1.28.1/src/util-bits.h /usr/src/debug/libinput/1.28.1/src/evdev-mt-touchpad.c /usr/src/debug/libinput/1.28.1/src/evdev-totem.c /usr/src/debug/libinput/1.28.1/src/filter-flat.c /usr/src/debug/libinput/1.28.1/src/filter-private.h /usr/src/debug/libinput/1.28.1/src/evdev-tablet.c /usr/src/debug/libinput/1.28.1/src/evdev-mt-touchpad.h /usr/src/debug/libinput/1.28.1/src/evdev-wheel.c /usr/src/debug/l
- ibinput/1.28.1/src/evdev-tablet.h /usr/src/debug/libinput/1.28.1/src/evdev-middle-button.c /usr/src/debug/libinput/1.28.1/src/util-backtrace.h /usr/src/debug/libinput/1.28.1/src/filter-touchpad.c /usr/src/debug/libinput/1.28.1/src/util-matrix.h /usr/src/debug/libinput/1.28.1/src/filter-mouse.c"
-packages/core2-64-poky-linux/libinput/libinput-src: PKGV changed from 1.27.1 [default] to 1.28.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-staticdev: PV changed from "1.27.1" to "1.28.1"
-packages/core2-64-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.27.1 [default] to 1.28.1 [default]
-packages/core2-64-poky-linux/libinput/libinput: PV changed from "1.27.1" to "1.28.1"
-packages/core2-64-poky-linux/libinput/libinput: PKGSIZE changed from 1363723 to 1441935 (+6%)
-packages/core2-64-poky-linux/libinput/libinput: PKGV changed from 1.27.1 [default] to 1.28.1 [default]
+packages/all-poky-linux/wayland-protocols: PV changed from "1.41" to "1.42"
+packages/all-poky-linux/wayland-protocols: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.41/downloads/wayland-protocols-1.41.tar.xz" to "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.42/downloads/wayland-protocols-1.42.tar.xz"
+packages/all-poky-linux/wayland-protocols: PKGV changed from 1.41 [default] to 1.42 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dbg: PV changed from "1.41" to "1.42"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dbg: PKGV changed from 1.41 [default] to 1.42 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PV changed from "1.41" to "1.42"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PKGSIZE changed from 109807 to 111330 (+1%)
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PKGV changed from 1.41 [default] to 1.42 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-doc: PV changed from "1.41" to "1.42"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-doc: PKGV changed from 1.41 [default] to 1.42 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-locale: PV changed from "1.41" to "1.42"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-locale: PKGV changed from 1.41 [default] to 1.42 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-src: PV changed from "1.41" to "1.42"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-src: PKGV changed from 1.41 [default] to 1.42 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: PV changed from "1.41" to "1.42"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: PKGV changed from 1.41 [default] to 1.42 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols: PV changed from "1.41" to "1.42"
+packages/all-poky-linux/wayland-protocols/wayland-protocols: PKGSIZE changed from 809860 to 815357 (+1%)
+packages/all-poky-linux/wayland-protocols/wayland-protocols: PKGV changed from 1.41 [default] to 1.42 [default]
 
---===============5342144985685299368==--
+--===============2080723461868210926==--
 
