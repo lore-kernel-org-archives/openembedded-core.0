@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F77FC3DA4A
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:24 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.18036.1743511384775981397
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E024BC369B5
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 12:43:23 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.18060.1743511400796891358
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 05:43:12 -0700
+ Tue, 01 Apr 2025 05:43:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fzUa6rlm;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=gghqKr8h;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010195f1608a6a-31eee655-87ff-44d2-ae66-49386cd108da-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Xl4l/akj;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ZYAkq9cq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010195f160aef4-2d750cfa-baad-4412-ac92-694286ab7e6a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1743511391;
+	t=1743511400;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=K3l+W0InSsIvOAkDKlMZmyE8++trtT+axBI4xIRECts=;
-	b=fzUa6rlm3UN4enhMriOs99KZOhimq6Hwjgq2JH541h1fd2uZ++EW47eIIS57lr38
-	Pjz9VLr3S2t7g5PfXB83a+NyZ2BzY7uoQhnglftiH6qmlufQHLftiq5pJcNOk4vVIrR
-	Gooy15c2ZwM9QIaKbkTQHLyKETc66dWYN+YrY8NA=
+	bh=W95F/rakxofaRkM45xmSm/Jttl+7uE2fHCnqkWUjhL4=;
+	b=Xl4l/akjIo/nvN8Cm4nBBrPXmowmli1ef4QhwEHk+dfNGEcxZR4xX7+ExKTnRT+X
+	pWz8kRAxM7Cy9aN7nF7tddZOkHHbqKbKzLs/z0Wuem6JjFX48Hbde8TZRYhXHehI5eJ
+	fRKI4RK4oYz3TTLSo8LEiDGQ2jJ8WKBeopzEBowI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511391;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1743511400;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=K3l+W0InSsIvOAkDKlMZmyE8++trtT+axBI4xIRECts=;
-	b=gghqKr8hkSs4aDhHxuagmiLUKlxSkK008FMdBHsSm0SSDdcCPlBFc/dl3KA+a+Wf
-	jgG1jzKesO8w4aupXzguZhxptg2WBmOYf3xkLve0AdMMv7+Tfmp+gH4RB2r4H8zprtq
-	crvbcZM4wvobi0vaz3zFkj+A5fDtR8vtKsQOgTNA=
-Content-Type: multipart/mixed; boundary="===============5576019974402402873=="
+	bh=W95F/rakxofaRkM45xmSm/Jttl+7uE2fHCnqkWUjhL4=;
+	b=ZYAkq9cqHDCgti8iecMbVz2c9xY/aUYcEYK1yChFUhuPghbPCPN/DGGoNP8/X/WJ
+	tmsgrO2lEXsF5JKiUYUEyUgTtZsDU8rQ3vJ0j8X5p5suV7IKFOlqpA50/D6/REs41/A
+	VuH0oK8Gl4NLQrjEemJjrZGye/CwFXIJ+/vd5vsM=
+Content-Type: multipart/mixed; boundary="===============7471848374259192183=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] base-passwd: upgrading to 3.6.7 SUCCEEDED
-Message-ID: <01010195f1608a6a-31eee655-87ff-44d2-ae66-49386cd108da-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Apr 2025 12:43:10 +0000
+Subject: [AUH] python3-setuptools: upgrading to 78.1.0 SUCCEEDED
+Message-ID: <01010195f160aef4-2d750cfa-baad-4412-ac92-694286ab7e6a-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Apr 2025 12:43:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.01-54.240.27.29
+X-SES-Outgoing: 2025.04.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214041
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:43:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214074
 
---===============5576019974402402873==
+--===============7471848374259192183==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *base-passwd* to *3.6.7* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-setuptools* to *78.1.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-base-passwd-upgrade-3.6.6-3.6.7.patch
+    - apply the patch: git am 0001-python3-setuptools-upgrade-76.0.0-78.1.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,119 +72,110 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3a51618a5005f9a928b6e15f84183deb0e839dda Mon Sep 17 00:00:00 2001
+From 34cb6f1dd7f09c15f0b30191b129e86b267cc885 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Apr 2025 07:22:16 +0000
-Subject: [PATCH] base-passwd: upgrade 3.6.6 -> 3.6.7
+Date: Tue, 1 Apr 2025 09:32:20 +0000
+Subject: [PATCH] python3-setuptools: upgrade 76.0.0 -> 78.1.0
 
 ---
- .../base-passwd/base-passwd/0001-Add-a-shutdown-group.patch     | 2 +-
- .../base-passwd/0001-base-passwd-Add-the-sgx-group.patch        | 2 +-
- .../0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch | 2 +-
- ...003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch | 2 +-
- .../0004-Add-an-input-group-for-the-dev-input-devices.patch     | 2 +-
- .../base-passwd/base-passwd/0005-Add-kvm-group.patch            | 2 +-
- .../base-passwd/base-passwd/0007-Add-wheel-group.patch          | 2 +-
- .../base-passwd/{base-passwd_3.6.6.bb => base-passwd_3.6.7.bb}  | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-core/base-passwd/{base-passwd_3.6.6.bb => base-passwd_3.6.7.bb} (98%)
+ ...ils-sysconfig.py-make-it-possible-to-substite.patch | 10 +++++-----
+ ...nditionally-do-not-fetch-code-by-easy_install.patch |  2 +-
+ ...tuptools_76.0.0.bb => python3-setuptools_78.1.0.bb} |  2 +-
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_76.0.0.bb => python3-setuptools_78.1.0.bb} (95%)
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
-index 1cdf993f53..4bb0634a00 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
+index e2fd53e039..8ccffeef1d 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
 @@ -1,4 +1,4 @@
--From 6bbd3d01d123b042167aa6dea30b5e8d9d4de4dc Mon Sep 17 00:00:00 2001
-+From caf4344849c67e939689bc7d57a6f5dc24884937 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Fri, 29 Apr 2022 13:32:27 +0000
- Subject: [PATCH] Add a shutdown group
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
-index 54b96c877b..714c5b40fc 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
-@@ -1,4 +1,4 @@
--From dbd66c0ab1fd134ecba2eb1c040445e20d92f79a Mon Sep 17 00:00:00 2001
-+From 2ac953ddd31dae19568cc7925d9d56444e3232a7 Mon Sep 17 00:00:00 2001
- From: Alex Kiernan <alexk@zuma.ai>
- Date: Fri, 28 Jul 2023 10:28:57 +0100
- Subject: [PATCH] base-passwd: Add the sgx group
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
-index 47712c4f0f..6cac38eada 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
-@@ -1,4 +1,4 @@
--From e2e6880587d4ada13e815bf132f21b42a979a607 Mon Sep 17 00:00:00 2001
-+From dffeea1a44064c11d9035be008db8c628b93c7ab Mon Sep 17 00:00:00 2001
- From: Scott Garman <scott.a.garman@intel.com>
- Date: Fri, 29 Apr 2022 13:32:27 +0000
- Subject: [PATCH] Use /bin/sh instead of /bin/bash for the root user
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
-index 9396d13460..7c3642fcc9 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
-@@ -1,4 +1,4 @@
--From 022cf6956c647cc193fce2b0ccdf1308d3e208cd Mon Sep 17 00:00:00 2001
-+From 8a79e64654eb4ee38a7971cf99ad37df7f5dee63 Mon Sep 17 00:00:00 2001
- From: Scott Garman <scott.a.garman@intel.com>
- Date: Fri, 29 Apr 2022 13:32:28 +0000
- Subject: [PATCH] Remove "*" for root since we do not have an /etc/shadow
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch b/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
-index 85f40a9829..4fdbc47b6e 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
-@@ -1,4 +1,4 @@
--From ef6d3257ca8308feeff40272a18e87ca7e2dc81b Mon Sep 17 00:00:00 2001
-+From 2d02a1e4e3202691e2ddc11f80565d5fa53d532f Mon Sep 17 00:00:00 2001
- From: Darren Hart <dvhart@linux.intel.com>
- Date: Fri, 29 Apr 2022 13:32:28 +0000
- Subject: [PATCH] Add an input group for the /dev/input/* devices
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch b/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
-index 7264c29c82..742d696a24 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
-@@ -1,4 +1,4 @@
--From 6c81c51ee49427175cc8bcb09b236677be4c0815 Mon Sep 17 00:00:00 2001
-+From 3f25f39802657de55f41fa4d5773f1d1c2bdbd93 Mon Sep 17 00:00:00 2001
- From: Jacob Kroon <jacob.kroon@gmail.com>
- Date: Wed, 30 Jan 2019 04:53:48 +0000
- Subject: [PATCH] Add kvm group
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
-index d3b1b12246..00eff1b724 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
-@@ -1,4 +1,4 @@
--From 00b7725977043c628129560dd8ca798c0ecb8791 Mon Sep 17 00:00:00 2001
-+From 4980807167a5b7c4d9c91e2af6de61efff548868 Mon Sep 17 00:00:00 2001
- From: Louis Rannou <lrannou@baylibre.com>
- Date: Thu, 15 Jun 2023 13:43:55 +0200
- Subject: [PATCH] base-passwd: add the wheel group
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
-similarity index 98%
-rename from meta/recipes-core/base-passwd/base-passwd_3.6.6.bb
-rename to meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
-index cc5c905503..3d5247ee87 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
-@@ -15,7 +15,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
-            file://0001-base-passwd-Add-the-sgx-group.patch \
-            "
+-From 801b64480490e99c5eb062401149d1f1a945e8f8 Mon Sep 17 00:00:00 2001
++From c3d2c40e10f24724ab2e3d5f236823f3076c7aec Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Wed, 11 May 2022 21:41:14 +0200
+ Subject: [PATCH] _distutils/sysconfig.py: make it possible to substite the
+@@ -20,10 +20,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 10 insertions(+), 2 deletions(-)
  
--SRC_URI[sha256sum] = "cfcb17a5cfb5d7ce53f062b2a30c74ac7f9425af81010d3591aeffc60f269263"
-+SRC_URI[sha256sum] = "cf869870fed7862b57bfa9e99cd5cd6f365e2349705a1b65af7fc182629bd1ab"
+ diff --git a/setuptools/_distutils/sysconfig.py b/setuptools/_distutils/sysconfig.py
+-index ef3def8..577d320 100644
++index e5facae..0932f6f 100644
+ --- a/setuptools/_distutils/sysconfig.py
+ +++ b/setuptools/_distutils/sysconfig.py
+-@@ -122,6 +122,8 @@ def get_python_inc(plat_specific=False, prefix=None):
++@@ -134,6 +134,8 @@ def get_python_inc(plat_specific: bool = False, prefix: str | None = None) -> st
+      sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
+      """
+      default_prefix = BASE_EXEC_PREFIX if plat_specific else BASE_PREFIX
+@@ -32,7 +32,7 @@ index ef3def8..577d320 100644
+      resolved_prefix = prefix if prefix is not None else default_prefix
+      # MinGW imitates posix like layout, but os.name != posix
+      os_name = "posix" if is_mingw() else os.name
+-@@ -242,7 +244,13 @@ def get_python_lib(plat_specific=False, standard_lib=False, prefix=None):
++@@ -256,7 +258,13 @@ def get_python_lib(
+  
+      early_prefix = prefix
+  
+@@ -47,7 +47,7 @@ index ef3def8..577d320 100644
+          if standard_lib:
+              prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
+          else:
+-@@ -257,7 +265,7 @@ def get_python_lib(plat_specific=False, standard_lib=False, prefix=None):
++@@ -271,7 +279,7 @@ def get_python_lib(
+              # Pure Python
+              libdir = "lib"
+          implementation = 'pypy' if IS_PYPY else 'python'
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 0e75d0f62c..785a2192c3 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From a8bffb1a3d0273d049b93df18982edee7b0cc4ec Mon Sep 17 00:00:00 2001
++From 92363514224b0aeba065f83b868a15a2a03601ab Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+diff --git a/meta/recipes-devtools/python/python3-setuptools_76.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_78.1.0.bb
+similarity index 95%
+rename from meta/recipes-devtools/python/python3-setuptools_76.0.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_78.1.0.bb
+index 71c8eb1a1f..7455ec41af 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_76.0.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_78.1.0.bb
+@@ -13,7 +13,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ SRC_URI += " \
+             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
  
- # the package is taken from launchpad; that source is static and goes stale
- # so we check the latest upstream from a directory that does get updated
+-SRC_URI[sha256sum] = "43b4ee60e10b0d0ee98ad11918e114c70701bc6051662a9a675a0496c1a158f4"
++SRC_URI[sha256sum] = "18fd474d4a82a5f83dac888df697af65afa82dec7323d09c3e37d1f14288da54"
+ 
+ DEPENDS += "python3"
+ 
 -- 
 2.47.1
 
 
---===============5576019974402402873==
+--===============7471848374259192183==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.43.0.dist-info -> /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info, removed "/usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/WHEEL /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/METADATA /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/top_level.txt /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/LICENSE", added "/usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE /usr/lib/python3.13/site-packages/setuptools/_distutils/compat/__pycache__/numpy.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/WHEEL /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/METADATA /usr/lib/python3.13/site-packages/s
+ etuptools/_vendor/wheel/vendored/packaging/LICENSE /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/__pycache__/_bdist_wheel.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/top_level.txt /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/licenses/LICENSE /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/_bdist_wheel.py /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/setuptools/_distutils/compat/numpy.py"
+Changes to packages/core2-64-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info moved to /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.43.0.dist-info moved to /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info
+  /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/setuptools/_distutils/compat/numpy.py was added
+  /usr/lib/python3.13/site-packages/setuptools/_distutils/compat/__pycache__/numpy.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/_bdist_wheel.py was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/__pycache__/_bdist_wheel.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD was added
+  /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/LICENSE was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2011,33 +2002,183 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.0-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.0-gdb.py was removed
+Changes to packages/x86_64-linux/meson-native (sysroot):
+  /usr/lib/python3.13/site-packages/meson-1.7.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/meson-1.7.0.dist-info/licenses/COPYING was added
+  /usr/lib/python3.13/site-packages/meson-1.7.0.dist-info/COPYING was removed
+Changes to packages/x86_64-linux/python3-markupsafe-native (sysroot):
+  /usr/lib/python3.13/site-packages/markupsafe-3.0.2.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/markupsafe-3.0.2.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.13/site-packages/markupsafe-3.0.2.dist-info/LICENSE.txt was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info moved to /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.43.0.dist-info moved to /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info
+  /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/setuptools/_distutils/compat/numpy.py was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/_bdist_wheel.py was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD was added
+  /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/LICENSE was removed
 
---===============5576019974402402873==
+--===============7471848374259192183==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-upgrade-76.0.0-78.1.0.patch"
+
+RnJvbSAzNGNiNmYxZGQ3ZjA5YzE1ZjBiMzAxOTFiMTI5ZTg2YjI2N2NjODg1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwOTozMjoyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtc2V0dXB0b29sczogdXBncmFkZSA3Ni4wLjAgLT4gNzguMS4wCgotLS0KIC4uLmlscy1z
+eXNjb25maWcucHktbWFrZS1pdC1wb3NzaWJsZS10by1zdWJzdGl0ZS5wYXRjaCB8IDEwICsrKysr
+LS0tLS0KIC4uLm5kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5w
+YXRjaCB8ICAyICstCiAuLi50dXB0b29sc183Ni4wLjAuYmIgPT4gcHl0aG9uMy1zZXR1cHRvb2xz
+Xzc4LjEuMC5iYn0gfCAgMiArLQogMyBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDcg
+ZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9u
+My1zZXR1cHRvb2xzXzc2LjAuMC5iYiA9PiBweXRob24zLXNldHVwdG9vbHNfNzguMS4wLmJifSAo
+OTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1z
+ZXR1cHRvb2xzLzAwMDEtX2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1wb3NzaWJsZS10
+by1zdWJzdGl0ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1z
+ZXR1cHRvb2xzLzAwMDEtX2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1wb3NzaWJsZS10
+by1zdWJzdGl0ZS5wYXRjaAppbmRleCBlMmZkNTNlMDM5Li44Y2NmZmVlZjFkIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLV9k
+aXN0dXRpbHMtc3lzY29uZmlnLnB5LW1ha2UtaXQtcG9zc2libGUtdG8tc3Vic3RpdGUucGF0Y2gK
+KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMvMDAw
+MS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1YnN0aXRlLnBh
+dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4MDFiNjQ0ODA0OTBlOTljNWViMDYyNDAxMTQ5ZDFm
+MWE5NDVlOGY4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBjM2QyYzQwZTEwZjI0NzI0
+YWIyZTNkNWYyMzY4MjNmMzA3NmM3YWVjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
+QWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IFdlZCwgMTEgTWF5
+IDIwMjIgMjE6NDE6MTQgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gX2Rpc3R1dGlscy9zeXNjb25m
+aWcucHk6IG1ha2UgaXQgcG9zc2libGUgdG8gc3Vic3RpdGUgdGhlCkBAIC0yMCwxMCArMjAsMTAg
+QEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4K
+ICAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIAogZGlm
+ZiAtLWdpdCBhL3NldHVwdG9vbHMvX2Rpc3R1dGlscy9zeXNjb25maWcucHkgYi9zZXR1cHRvb2xz
+L19kaXN0dXRpbHMvc3lzY29uZmlnLnB5Ci1pbmRleCBlZjNkZWY4Li41NzdkMzIwIDEwMDY0NAor
+aW5kZXggZTVmYWNhZS4uMDkzMmY2ZiAxMDA2NDQKIC0tLSBhL3NldHVwdG9vbHMvX2Rpc3R1dGls
+cy9zeXNjb25maWcucHkKICsrKyBiL3NldHVwdG9vbHMvX2Rpc3R1dGlscy9zeXNjb25maWcucHkK
+LUBAIC0xMjIsNiArMTIyLDggQEAgZGVmIGdldF9weXRob25faW5jKHBsYXRfc3BlY2lmaWM9RmFs
+c2UsIHByZWZpeD1Ob25lKToKK0BAIC0xMzQsNiArMTM0LDggQEAgZGVmIGdldF9weXRob25faW5j
+KHBsYXRfc3BlY2lmaWM6IGJvb2wgPSBGYWxzZSwgcHJlZml4OiBzdHIgfCBOb25lID0gTm9uZSkg
+LT4gc3QKICAgICAgc3lzLmJhc2VfZXhlY19wcmVmaXggLS0gaS5lLiwgaWdub3JlICdwbGF0X3Nw
+ZWNpZmljJy4KICAgICAgIiIiCiAgICAgIGRlZmF1bHRfcHJlZml4ID0gQkFTRV9FWEVDX1BSRUZJ
+WCBpZiBwbGF0X3NwZWNpZmljIGVsc2UgQkFTRV9QUkVGSVgKQEAgLTMyLDcgKzMyLDcgQEAgaW5k
+ZXggZWYzZGVmOC4uNTc3ZDMyMCAxMDA2NDQKICAgICAgcmVzb2x2ZWRfcHJlZml4ID0gcHJlZml4
+IGlmIHByZWZpeCBpcyBub3QgTm9uZSBlbHNlIGRlZmF1bHRfcHJlZml4CiAgICAgICMgTWluR1cg
+aW1pdGF0ZXMgcG9zaXggbGlrZSBsYXlvdXQsIGJ1dCBvcy5uYW1lICE9IHBvc2l4CiAgICAgIG9z
+X25hbWUgPSAicG9zaXgiIGlmIGlzX21pbmd3KCkgZWxzZSBvcy5uYW1lCi1AQCAtMjQyLDcgKzI0
+NCwxMyBAQCBkZWYgZ2V0X3B5dGhvbl9saWIocGxhdF9zcGVjaWZpYz1GYWxzZSwgc3RhbmRhcmRf
+bGliPUZhbHNlLCBwcmVmaXg9Tm9uZSk6CitAQCAtMjU2LDcgKzI1OCwxMyBAQCBkZWYgZ2V0X3B5
+dGhvbl9saWIoCiAgCiAgICAgIGVhcmx5X3ByZWZpeCA9IHByZWZpeAogIApAQCAtNDcsNyArNDcs
+NyBAQCBpbmRleCBlZjNkZWY4Li41NzdkMzIwIDEwMDY0NAogICAgICAgICAgaWYgc3RhbmRhcmRf
+bGliOgogICAgICAgICAgICAgIHByZWZpeCA9IHBsYXRfc3BlY2lmaWMgYW5kIEJBU0VfRVhFQ19Q
+UkVGSVggb3IgQkFTRV9QUkVGSVgKICAgICAgICAgIGVsc2U6Ci1AQCAtMjU3LDcgKzI2NSw3IEBA
+IGRlZiBnZXRfcHl0aG9uX2xpYihwbGF0X3NwZWNpZmljPUZhbHNlLCBzdGFuZGFyZF9saWI9RmFs
+c2UsIHByZWZpeD1Ob25lKToKK0BAIC0yNzEsNyArMjc5LDcgQEAgZGVmIGdldF9weXRob25fbGli
+KAogICAgICAgICAgICAgICMgUHVyZSBQeXRob24KICAgICAgICAgICAgICBsaWJkaXIgPSAibGli
+IgogICAgICAgICAgaW1wbGVtZW50YXRpb24gPSAncHlweScgaWYgSVNfUFlQWSBlbHNlICdweXRo
+b24nCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0
+dXB0b29scy8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0
+YWxsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9v
+bHMvMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5w
+YXRjaAppbmRleCAwZTc1ZDBmNjJjLi43ODVhMjE5MmMzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFsbHkt
+ZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxseS1k
+by1ub3QtZmV0Y2gtY29kZS1ieS1lYXN5X2luc3RhbGwucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
+cm9tIGE4YmZmYjFhM2QwMjczZDA0OWI5M2RmMTg5ODJlZGVlN2IwY2M0ZWMgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCitGcm9tIDkyMzYzNTE0MjI0YjBhZWJhMDY1ZjgzYjg2OGExNWEyYTAzNjAx
+YWIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25neHUuamlh
+QHdpbmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDE3IEp1bCAyMDE4IDEwOjEzOjM4ICswODAwCiBT
+dWJqZWN0OiBbUEFUQ0hdIGNvbmRpdGlvbmFsbHkgZG8gbm90IGZldGNoIGNvZGUgYnkgZWFzeV9p
+bnN0YWxsCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+c2V0dXB0b29sc183Ni4wLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtc2V0dXB0b29sc183OC4xLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNzYuMC4wLmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29s
+c183OC4xLjAuYmIKaW5kZXggNzFjOGViMWExZi4uNzQ1NWVjNDFhZiAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNzYuMC4wLmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzc4LjEu
+MC5iYgpAQCAtMTMsNyArMTMsNyBAQCBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAiIGZp
+bGU6Ly8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZQogU1JDX1VSSSAr
+PSAiIFwKICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLV9kaXN0dXRpbHMtc3lzY29uZmlnLnB5LW1h
+a2UtaXQtcG9zc2libGUtdG8tc3Vic3RpdGUucGF0Y2giCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9
+ICI0M2I0ZWU2MGUxMGIwZDBlZTk4YWQxMTkxOGUxMTRjNzA3MDFiYzYwNTE2NjJhOWE2NzVhMDQ5
+NmMxYTE1OGY0IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE4ZmQ0NzRkNGE4MmE1ZjgzZGFjODg4
+ZGY2OTdhZjY1YWZhODJkZWM3MzIzZDA5YzNlMzdkMWYxNDI4OGRhNTQiCiAKIERFUEVORFMgKz0g
+InB5dGhvbjMiCiAKLS0gCjIuNDcuMQoK
+
+--===============7471848374259192183==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/base-passwd/base-passwd-dbg: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
-packages/core2-64-poky-linux/base-passwd/base-passwd-dbg: PV changed from "3.6.6" to "3.6.7"
-packages/core2-64-poky-linux/base-passwd/base-passwd-dev: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
-packages/core2-64-poky-linux/base-passwd/base-passwd-dev: PV changed from "3.6.6" to "3.6.7"
-packages/core2-64-poky-linux/base-passwd/base-passwd-doc: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
-packages/core2-64-poky-linux/base-passwd/base-passwd-doc: PV changed from "3.6.6" to "3.6.7"
-packages/core2-64-poky-linux/base-passwd/base-passwd-doc: PKGSIZE changed from 19982 to 20054 (+0%)
-packages/core2-64-poky-linux/base-passwd/base-passwd-locale: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
-packages/core2-64-poky-linux/base-passwd/base-passwd-locale: PV changed from "3.6.6" to "3.6.7"
-packages/core2-64-poky-linux/base-passwd/base-passwd-src: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
-packages/core2-64-poky-linux/base-passwd/base-passwd-src: PV changed from "3.6.6" to "3.6.7"
-packages/core2-64-poky-linux/base-passwd/base-passwd-staticdev: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
-packages/core2-64-poky-linux/base-passwd/base-passwd-staticdev: PV changed from "3.6.6" to "3.6.7"
-packages/core2-64-poky-linux/base-passwd/base-passwd-update: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
-packages/core2-64-poky-linux/base-passwd/base-passwd-update: PV changed from "3.6.6" to "3.6.7"
-packages/core2-64-poky-linux/base-passwd/base-passwd: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
-packages/core2-64-poky-linux/base-passwd/base-passwd: PV changed from "3.6.6" to "3.6.7"
-packages/core2-64-poky-linux/base-passwd: PKGV changed from 3.6.6 [default] to 3.6.7 [default]
-packages/core2-64-poky-linux/base-passwd: PV changed from "3.6.6" to "3.6.7"
-packages/core2-64-poky-linux/base-passwd: SRC_URI changed from "https://launchpad.net/debian/+archive/primary/+files/base-passwd_3.6.6.tar.xz file://0001-Add-a-shutdown-group.patch file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch file://0004-Add-an-input-group-for-the-dev-input-devices.patch file://0005-Add-kvm-group.patch file://0007-Add-wheel-group.patch file://0001-base-passwd-Add-the-sgx-group.patch" to "https://launchpad.net/debian/+archive/primary/+files/base-passwd_3.6.7.tar.xz file://0001-Add-a-shutdown-group.patch file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch file://0004-Add-an-input-group-for-the-dev-input-devices.patch file://0005-Add-kvm-group.patch file://0007-Add-wheel-group.patch file://0001-base-passwd-Add-the-sgx-group.patch"
+packages/core2-64-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-76.0.0.tar.gz;downloadfilename=setuptools-76.0.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-78.1.0.tar.gz;downloadfilename=setuptools-78.1.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+packages/core2-64-poky-linux/python3-setuptools: PKGV changed from 76.0.0 [default] to 78.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools: PV changed from "76.0.0" to "78.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 76.0.0 [default] to 78.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "76.0.0" to "78.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 76.0.0 [default] to 78.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "76.0.0" to "78.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 76.0.0 [default] to 78.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "76.0.0" to "78.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 76.0.0 [default] to 78.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "76.0.0" to "78.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 76.0.0 [default] to 78.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "76.0.0" to "78.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 76.0.0 [default] to 78.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "76.0.0" to "78.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 76.0.0 [default] to 78.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "76.0.0" to "78.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 8328623 to 8453232 (+1%)
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.43.0.dist-info -> /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info, removed "/usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/METADATA /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/LICENSE /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/top_level.txt /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/WHEEL", added "/usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/__pycache__/_bdist_wheel.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools/_distutils/compat/__pycache__/numpy.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/_bdist_wheel.py /u
+ sr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE /usr/lib/python3.13/site-packages/setuptools/_distutils/compat/numpy.py /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/licenses/LICENSE /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/top_level.txt /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/WHEEL /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/METADATA"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 76.0.0 [default] to 78.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PV changed from "76.0.0" to "78.1.0"
+Changes to packages/core2-64-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info moved to /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.43.0.dist-info moved to /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info
+  /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/setuptools/_distutils/compat/numpy.py was added
+  /usr/lib/python3.13/site-packages/setuptools/_distutils/compat/__pycache__/numpy.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/_bdist_wheel.py was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/__pycache__/_bdist_wheel.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD was added
+  /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/LICENSE was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3864,133 +4005,52 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.0-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.0-gdb.py was removed
+Changes to packages/x86_64-linux/meson-native (sysroot):
+  /usr/lib/python3.13/site-packages/meson-1.7.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/meson-1.7.0.dist-info/licenses/COPYING was added
+  /usr/lib/python3.13/site-packages/meson-1.7.0.dist-info/COPYING was removed
+Changes to packages/x86_64-linux/python3-markupsafe-native (sysroot):
+  /usr/lib/python3.13/site-packages/markupsafe-3.0.2.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/markupsafe-3.0.2.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.13/site-packages/markupsafe-3.0.2.dist-info/LICENSE.txt was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info moved to /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.43.0.dist-info moved to /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info
+  /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/setuptools-78.1.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/setuptools/_distutils/compat/numpy.py was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/_bdist_wheel.py was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE was added
+  /usr/lib/python3.13/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD was added
+  /usr/lib/python3.13/site-packages/setuptools-76.0.0.dist-info/LICENSE was removed
 
---===============5576019974402402873==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-base-passwd-upgrade-3.6.6-3.6.7.patch"
-
-RnJvbSAzYTUxNjE4YTUwMDVmOWE5MjhiNmUxNWY4NDE4M2RlYjBlODM5ZGRhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBBcHIgMjAyNSAwNzoyMjoxNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJh
-c2UtcGFzc3dkOiB1cGdyYWRlIDMuNi42IC0+IDMuNi43CgotLS0KIC4uLi9iYXNlLXBhc3N3ZC9i
-YXNlLXBhc3N3ZC8wMDAxLUFkZC1hLXNodXRkb3duLWdyb3VwLnBhdGNoICAgICB8IDIgKy0KIC4u
-Li9iYXNlLXBhc3N3ZC8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUtc2d4LWdyb3VwLnBhdGNoICAg
-ICAgICB8IDIgKy0KIC4uLi8wMDAyLVVzZS1iaW4tc2gtaW5zdGVhZC1vZi1iaW4tYmFzaC1mb3It
-dGhlLXJvb3QtdXNlci5wYXRjaCB8IDIgKy0KIC4uLjAwMy1SZW1vdmUtZm9yLXJvb3Qtc2luY2Ut
-d2UtZG8tbm90LWhhdmUtYW4tZXRjLXNoYWRvdy5wYXRjaCB8IDIgKy0KIC4uLi8wMDA0LUFkZC1h
-bi1pbnB1dC1ncm91cC1mb3ItdGhlLWRldi1pbnB1dC1kZXZpY2VzLnBhdGNoICAgICB8IDIgKy0K
-IC4uLi9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA1LUFkZC1rdm0tZ3JvdXAucGF0Y2ggICAg
-ICAgICAgICB8IDIgKy0KIC4uLi9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA3LUFkZC13aGVl
-bC1ncm91cC5wYXRjaCAgICAgICAgICB8IDIgKy0KIC4uLi9iYXNlLXBhc3N3ZC97YmFzZS1wYXNz
-d2RfMy42LjYuYmIgPT4gYmFzZS1wYXNzd2RfMy42LjcuYmJ9ICB8IDIgKy0KIDggZmlsZXMgY2hh
-bmdlZCwgOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBl
-cy1jb3JlL2Jhc2UtcGFzc3dkL3tiYXNlLXBhc3N3ZF8zLjYuNi5iYiA9PiBiYXNlLXBhc3N3ZF8z
-LjYuNy5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3
-ZC9iYXNlLXBhc3N3ZC8wMDAxLUFkZC1hLXNodXRkb3duLWdyb3VwLnBhdGNoIGIvbWV0YS9yZWNp
-cGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwMS1BZGQtYS1zaHV0ZG93bi1ncm91
-cC5wYXRjaAppbmRleCAxY2RmOTkzZjUzLi40YmIwNjM0YTAwIDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAxLUFkZC1hLXNodXRkb3duLWdy
-b3VwLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dk
-LzAwMDEtQWRkLWEtc2h1dGRvd24tZ3JvdXAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDZi
-YmQzZDAxZDEyM2IwNDIxNjdhYTZkZWEzMGI1ZThkOWQ0ZGU0ZGMgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCitGcm9tIGNhZjQzNDQ4NDljNjdlOTM5Njg5YmM3ZDU3YTZmNWRjMjQ4ODQ5MzcgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBTYXVsIFdvbGQgPHNnd0BsaW51eC5pbnRlbC5j
-b20+CiBEYXRlOiBGcmksIDI5IEFwciAyMDIyIDEzOjMyOjI3ICswMDAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIEFkZCBhIHNodXRkb3duIGdyb3VwCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9i
-YXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUtc2d4LWdyb3Vw
-LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwMS1i
-YXNlLXBhc3N3ZC1BZGQtdGhlLXNneC1ncm91cC5wYXRjaAppbmRleCA1NGI5NmM4NzdiLi43MTRj
-NWI0MGZjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBh
-c3N3ZC8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUtc2d4LWdyb3VwLnBhdGNoCisrKyBiL21ldGEv
-cmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDEtYmFzZS1wYXNzd2QtQWRk
-LXRoZS1zZ3gtZ3JvdXAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGRiZDY2YzBhYjFmZDEz
-NGVjYmEyZWIxYzA0MDQ0NWUyMGQ5MmY3OWEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IDJhYzk1M2RkZDMxZGFlMTk1NjhjYzc5MjVkOWQ1NjQ0NGUzMjMyYTcgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBBbGV4IEtpZXJuYW4gPGFsZXhrQHp1bWEuYWk+CiBEYXRlOiBGcmks
-IDI4IEp1bCAyMDIzIDEwOjI4OjU3ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIGJhc2UtcGFzc3dk
-OiBBZGQgdGhlIHNneCBncm91cApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1w
-YXNzd2QvYmFzZS1wYXNzd2QvMDAwMi1Vc2UtYmluLXNoLWluc3RlYWQtb2YtYmluLWJhc2gtZm9y
-LXRoZS1yb290LXVzZXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNl
-LXBhc3N3ZC8wMDAyLVVzZS1iaW4tc2gtaW5zdGVhZC1vZi1iaW4tYmFzaC1mb3ItdGhlLXJvb3Qt
-dXNlci5wYXRjaAppbmRleCA0NzcxMmM0ZjBmLi42Y2FjMzhlYWRhIDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAyLVVzZS1iaW4tc2gtaW5z
-dGVhZC1vZi1iaW4tYmFzaC1mb3ItdGhlLXJvb3QtdXNlci5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAyLVVzZS1iaW4tc2gtaW5zdGVhZC1v
-Zi1iaW4tYmFzaC1mb3ItdGhlLXJvb3QtdXNlci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-ZTJlNjg4MDU4N2Q0YWRhMTNlODE1YmYxMzJmMjFiNDJhOTc5YTYwNyBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gZGZmZWVhMWE0NDA2NGMxMWQ5MDM1YmUwMDhkYjhjNjI4YjkzYzdhYiBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFNjb3R0IEdhcm1hbiA8c2NvdHQuYS5nYXJt
-YW5AaW50ZWwuY29tPgogRGF0ZTogRnJpLCAyOSBBcHIgMjAyMiAxMzozMjoyNyArMDAwMAogU3Vi
-amVjdDogW1BBVENIXSBVc2UgL2Jpbi9zaCBpbnN0ZWFkIG9mIC9iaW4vYmFzaCBmb3IgdGhlIHJv
-b3QgdXNlcgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1w
-YXNzd2QvMDAwMy1SZW1vdmUtZm9yLXJvb3Qtc2luY2Utd2UtZG8tbm90LWhhdmUtYW4tZXRjLXNo
-YWRvdy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAw
-MDMtUmVtb3ZlLWZvci1yb290LXNpbmNlLXdlLWRvLW5vdC1oYXZlLWFuLWV0Yy1zaGFkb3cucGF0
-Y2gKaW5kZXggOTM5NmQxMzQ2MC4uN2MzNjQyZmNjOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwMy1SZW1vdmUtZm9yLXJvb3Qtc2luY2Ut
-d2UtZG8tbm90LWhhdmUtYW4tZXRjLXNoYWRvdy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29y
-ZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAzLVJlbW92ZS1mb3Itcm9vdC1zaW5jZS13ZS1k
-by1ub3QtaGF2ZS1hbi1ldGMtc2hhZG93LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMjJj
-ZjY5NTZjNjQ3Y2MxOTNmY2UyYjBjY2RmMTMwOGQzZTIwOGNkIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbSA4YTc5ZTY0NjU0ZWI0ZWUzOGE3OTcxY2Y5OWFkMzdkZjdmNWRlZTYzIE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogU2NvdHQgR2FybWFuIDxzY290dC5hLmdhcm1hbkBp
-bnRlbC5jb20+CiBEYXRlOiBGcmksIDI5IEFwciAyMDIyIDEzOjMyOjI4ICswMDAwCiBTdWJqZWN0
-OiBbUEFUQ0hdIFJlbW92ZSAiKiIgZm9yIHJvb3Qgc2luY2Ugd2UgZG8gbm90IGhhdmUgYW4gL2V0
-Yy9zaGFkb3cKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2Ut
-cGFzc3dkLzAwMDQtQWRkLWFuLWlucHV0LWdyb3VwLWZvci10aGUtZGV2LWlucHV0LWRldmljZXMu
-cGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA0LUFk
-ZC1hbi1pbnB1dC1ncm91cC1mb3ItdGhlLWRldi1pbnB1dC1kZXZpY2VzLnBhdGNoCmluZGV4IDg1
-ZjQwYTk4MjkuLjRmZGJjNDdiNmUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
-cGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDQtQWRkLWFuLWlucHV0LWdyb3VwLWZvci10aGUtZGV2LWlu
-cHV0LWRldmljZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFz
-ZS1wYXNzd2QvMDAwNC1BZGQtYW4taW5wdXQtZ3JvdXAtZm9yLXRoZS1kZXYtaW5wdXQtZGV2aWNl
-cy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZWY2ZDMyNTdjYTgzMDhmZWVmZjQwMjcyYTE4
-ZTg3Y2E3ZTJkYzgxYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMmQwMmExZTRlMzIw
-MjY5MWUyZGRjMTFmODA1NjVkNWZhNTNkNTMyZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
-b206IERhcnJlbiBIYXJ0IDxkdmhhcnRAbGludXguaW50ZWwuY29tPgogRGF0ZTogRnJpLCAyOSBB
-cHIgMjAyMiAxMzozMjoyOCArMDAwMAogU3ViamVjdDogW1BBVENIXSBBZGQgYW4gaW5wdXQgZ3Jv
-dXAgZm9yIHRoZSAvZGV2L2lucHV0LyogZGV2aWNlcwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwNS1BZGQta3ZtLWdyb3VwLnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwNS1BZGQta3ZtLWdy
-b3VwLnBhdGNoCmluZGV4IDcyNjRjMjljODIuLjc0MmQ2OTZhMjQgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDUtQWRkLWt2bS1ncm91cC5w
-YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA1
-LUFkZC1rdm0tZ3JvdXAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDZjODFjNTFlZTQ5NDI3
-MTc1Y2M4YmNiMDliMjM2Njc3YmU0YzA4MTUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IDNmMjVmMzk4MDI2NTdkZTU1ZjQxZmE0ZDU3NzNmMWQxYzJiZGJkOTMgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBKYWNvYiBLcm9vbiA8amFjb2Iua3Jvb25AZ21haWwuY29tPgogRGF0
-ZTogV2VkLCAzMCBKYW4gMjAxOSAwNDo1Mzo0OCArMDAwMAogU3ViamVjdDogW1BBVENIXSBBZGQg
-a3ZtIGdyb3VwCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNl
-LXBhc3N3ZC8wMDA3LUFkZC13aGVlbC1ncm91cC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2Jh
-c2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDctQWRkLXdoZWVsLWdyb3VwLnBhdGNoCmluZGV4IGQz
-YjFiMTIyNDYuLjAwZWZmMWI3MjQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
-cGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDctQWRkLXdoZWVsLWdyb3VwLnBhdGNoCisrKyBiL21ldGEv
-cmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDctQWRkLXdoZWVsLWdyb3Vw
-LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMGI3NzI1OTc3MDQzYzYyODEyOTU2MGRkOGNh
-Nzk4YzBlY2I4NzkxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA0OTgwODA3MTY3YTVi
-N2M0ZDljOTFlMmFmNmRlNjFlZmZmNTQ4ODY4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
-bTogTG91aXMgUmFubm91IDxscmFubm91QGJheWxpYnJlLmNvbT4KIERhdGU6IFRodSwgMTUgSnVu
-IDIwMjMgMTM6NDM6NTUgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gYmFzZS1wYXNzd2Q6IGFkZCB0
-aGUgd2hlZWwgZ3JvdXAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dk
-L2Jhc2UtcGFzc3dkXzMuNi42LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFz
-ZS1wYXNzd2RfMy42LjcuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2RfMy42LjYuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkXzMuNi43LmJiCmluZGV4IGNj
-NWM5MDU1MDMuLjNkNTI0N2VlODcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
-cGFzc3dkL2Jhc2UtcGFzc3dkXzMuNi42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
-cGFzc3dkL2Jhc2UtcGFzc3dkXzMuNi43LmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAi
-aHR0cHM6Ly9sYXVuY2hwYWQubmV0L2RlYmlhbi8rYXJjaGl2ZS9wcmltYXJ5LytmaWxlcy8ke0JQ
-Tn1fJHtQVn0udGFyCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUt
-c2d4LWdyb3VwLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-Y2ZjYjE3YTVjZmI1ZDdjZTUzZjA2MmIyYTMwYzc0YWM3Zjk0MjVhZjgxMDEwZDM1OTFhZWZmYzYw
-ZjI2OTI2MyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJjZjg2OTg3MGZlZDc4NjJiNTdiZmE5ZTk5
-Y2Q1Y2Q2ZjM2NWUyMzQ5NzA1YTFiNjVhZjdmYzE4MjYyOWJkMWFiIgogCiAjIHRoZSBwYWNrYWdl
-IGlzIHRha2VuIGZyb20gbGF1bmNocGFkOyB0aGF0IHNvdXJjZSBpcyBzdGF0aWMgYW5kIGdvZXMg
-c3RhbGUKICMgc28gd2UgY2hlY2sgdGhlIGxhdGVzdCB1cHN0cmVhbSBmcm9tIGEgZGlyZWN0b3J5
-IHRoYXQgZG9lcyBnZXQgdXBkYXRlZAotLSAKMi40Ny4xCgo=
-
---===============5576019974402402873==--
+--===============7471848374259192183==--
 
