@@ -1,241 +1,1268 @@
-Return-Path: <Haixiao.Yan.CN@windriver.com>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 607A3C36008
-	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 06:46:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A55BEC36008
+	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 07:14:40 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.13150.1743489998323721506
+ by mx.groups.io with SMTP id smtpd.web11.13436.1743491672522212623
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Mar 2025 23:46:38 -0700
+ Tue, 01 Apr 2025 00:14:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6186b31ba7=haixiao.yan.cn@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5313o2SZ025761
-	for <openembedded-core@lists.openembedded.org>; Tue, 1 Apr 2025 06:46:37 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04lp2047.outbound.protection.outlook.com [104.47.74.47])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45p7u8tx2k-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=61864ba94c=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5315t2kJ009664
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Apr 2025 07:14:31 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2049.outbound.protection.outlook.com [104.47.73.49])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45p63130tk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 06:46:37 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 07:14:31 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ASwEeIgSPwC1A0biQmW0TxYhlAqbV8z+QQ50lLaC2VD3WX+oGYYSHG3ovUj2hOgjdVPaTDl5dlfHKvS+nmw0mR6n5cvLHB7p1aL+PfJC9Nb3C0CAIun0gNljJAJErHXb6xswfD3784LWBm1vF8FNkyFef+xcCnZA8Msb0nfmBx3/vP2Uu0QJwkutz8GoR1/ZiV7SpM1v6wv24FG89hmr5DgrsL6eQRACK+JjzelKhw5Jb+TLczVdzOwpZNCUC1iAjIOSnn5hIYDeJPcFkLRgWCFqWxupal4QQM48GNAB4fJancKNgfjUX6by/kfwcy6ANoHLzJKzCFcsyxBzKyVnyQ==
+ b=UuqY7yyBIwN+KxVNM9N6DA1QueCNZyQAfIzFF1r3txVcjcQfsX61gPN5qJfaYNYVMdlJZh9WmwX0USVAvrNp44OO6Zd8WK4yTsyf02hhxzgtf3eeYXntjowN6Npm0HgMNVG8h1sk6zDt9SJGYKrBw36PAjZtlFpxYNgLdX2L+FbrU4Zf7rPH5icB6+62wltCIyYovb09jg94wcAmN9HZk6n0YwagBK7ULLJDVUF5gQRkGaAxAoHt8UaChfK97s+tPo4AKkiFQVEt1GBAzDrXkz75qwS4LjSmy8b/dwmesnFLn6fweWTfyu0viiQFZRxBU6KOHxP9rechTcm48+xRZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d7fTzTvhCR8Xx8/6AZKSQEgEpNEGrnW6TSGd7w6RLR8=;
- b=rOLj8tb8TIWUZ34ZhbVpg0ongq0/QPtyMaMUUEi0AhS0Zwx/Nbzwcu79+/R07rFgZx0ZswlgBMusB7t6pJ1h/G/kvU8aUFfVpEn7PJxCDgTw72qbIPR70ZxzaV+3K+zAc4VnYBqToEU6UT1jtUGyB1lpS3TCqRcehDJsCgVsYofajNmrqtPN7YooDqhd2ym0ZlVGynBXxm7kY0dhfEB1oPMUWHJdDldRdXBZkStk2PcIEePHtOgZPA4ffTei7Ni67lyKMbnTHXB+vUIve89MMlNa86HQW9p0joQpo8y1KekdG3dDCaVnFSw241qFNdrqcBGI2XHBNhKaFDpFWyhvJQ==
+ bh=z0M5HuZztj9QSHhO0ZziK3BrirQneuQMCkPh5NyrIto=;
+ b=av9R4B+cl2UrStWbOz31krQvE52sJvjKyMmmingjAECrJzc/niaQqsotLaz+kY8Uvh2YeBEh/jBciyfTt79EDlumh5kC2DeVV221Oe3ynjbyAgwLQUf6HkVdtGwJu9Uar6vcP4jNnHSPBGUUl39MxfhiK05iuyZoLJDQpYjt/TIocTvt61M2UuaTRiMmNsxcBUgW9hnpjyI/lEB/NzBITtX+BG6kwz50vrprLlbm15PFdk/wAAlAVi1zxWscEZ5f2DEltLckYll9WBGQpKMAhEEZnAe0ro0QbBx+Pxb0jthcxYZbmtT5v8535DU/+EddgTzs84OYnG1qnoGy80lkfw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from CH0PR11MB8189.namprd11.prod.outlook.com (2603:10b6:610:18d::13)
- by DS0PR11MB7529.namprd11.prod.outlook.com (2603:10b6:8:141::20) with
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
+ by SJ0PR11MB5165.namprd11.prod.outlook.com (2603:10b6:a03:2ad::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.49; Tue, 1 Apr
- 2025 06:46:35 +0000
-Received: from CH0PR11MB8189.namprd11.prod.outlook.com
- ([fe80::4025:23a:33d9:30a4]) by CH0PR11MB8189.namprd11.prod.outlook.com
- ([fe80::4025:23a:33d9:30a4%4]) with mapi id 15.20.8534.048; Tue, 1 Apr 2025
- 06:46:35 +0000
-From: haixiao.yan.cn@eng.windriver.com
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Tue, 1 Apr
+ 2025 07:14:25 +0000
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f%4]) with mapi id 15.20.8534.045; Tue, 1 Apr 2025
+ 07:14:25 +0000
+From: Deepesh.Varatharajan@windriver.com
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone][PATCH] glibc: Add single-threaded fast path to rand()
-Date: Tue,  1 Apr 2025 14:46:19 +0800
-Message-Id: <20250401064619.3285556-1-haixiao.yan.cn@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Type: text/plain; charset=y
-X-ClientProxiedBy: SG2PR01CA0159.apcprd01.prod.exchangelabs.com
- (2603:1096:4:28::15) To CH0PR11MB8189.namprd11.prod.outlook.com
- (2603:10b6:610:18d::13)
+Cc: Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com,
+        Deepesh.Varatharajan@windriver.com
+Subject: [kirkstone][PATCH] llvm : Fix CVE-2024-0151
+Date: Tue,  1 Apr 2025 00:14:00 -0700
+Message-ID: <20250401071400.612837-1-Deepesh.Varatharajan@windriver.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BN9PR03CA0048.namprd03.prod.outlook.com
+ (2603:10b6:408:fb::23) To SJ0PR11MB5648.namprd11.prod.outlook.com
+ (2603:10b6:a03:302::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB8189:EE_|DS0PR11MB7529:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8da35cf2-8da0-4de4-d991-08dd70e8f223
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|SJ0PR11MB5165:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1227bde-122c-484e-f4d2-08dd70ecd55f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|52116014|38350700014;
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?VTxm+Ju+cFUbXl61//8BqCZoye3mXDPqmfPVGZ6H7J5plrXIdRarItViZtHV?=
- =?us-ascii?Q?j4KdiKAaEznf806bDhP5ERQ3LilSHraf/MAmLIyOJxujnQLAQtZ4A+vEFyqz?=
- =?us-ascii?Q?F9MxtNt+VIeC1kLvUXzwhUlblEMfEqjD5vSDVak8DFHtFCLBZFu0jxJPtzwR?=
- =?us-ascii?Q?w5cl8DtL2oCozc2N60DzwFxKpUu5XNBUAFAEMym+SA6QEIWQEY1lObUyRL+Z?=
- =?us-ascii?Q?n4u0y3/4R0eiI9f+1Zv9R2IsWcLP3VHy5qiUAhGcR0E6vftpSj0bi+oYAQcP?=
- =?us-ascii?Q?MKMgtxv4vIXMgx/AHindwcXfpBhAFg6a+dq8UMEdeTxM+xYdx5UzQiC/vjlK?=
- =?us-ascii?Q?AWpwfKeaE0edb3JfDaonZlNGs62YnF7x0b4KqXYEpbHAaU3Wo5GBJ+tb3ZDQ?=
- =?us-ascii?Q?eVP4hCruEjEZTyBLBmMoBoPNaDTMH8zwbxxj4l6H30UtpQAYuJoDftv41Wg6?=
- =?us-ascii?Q?ha95e901XeGI4EzQvk2pGW6Sr9dzWRg4XeBz53cJb3PvwzQsPDGihiIIAUPA?=
- =?us-ascii?Q?dy/UK7BTp2GKyO3p4uVGD9I/TQLXOW0CqNyTDEiCQWADRqbVN9DoQimdz0DL?=
- =?us-ascii?Q?xJx/vBPcTx+LdrNxFSGDq77e+2p6P8lyLLP6qNCBQa9/UYryTxpw6xSmmPMx?=
- =?us-ascii?Q?75JmKD7TjGxFSyJvgOzzp41zPTLQ9nZPSAYFCs938SSkdqQv++38OrTGIPIM?=
- =?us-ascii?Q?0lxnVIMyGG6QWkc24m29X3gfI/HNpiYHpo8K4nzFzLkgpb+E7gRTHaAdAkvv?=
- =?us-ascii?Q?Lxr1PM4s96F1r268z6cAgTfv7ZI0U1LSA5RpfiUfJGs/aIInKdpJ28i4m0MI?=
- =?us-ascii?Q?ozjMzl0xzLAYSBt72CcBY1RkFFLQMC6Sf0NaqOMdoyh9pY7y1cHtxde6DU7E?=
- =?us-ascii?Q?a7Q93WS/KC+LtgGUZhu2LrKzHYHudTjtFCxyqK2BB4+UWdYolRsFgwAMEC0K?=
- =?us-ascii?Q?3mENawLZvRbN8Vyyruv3sYXbUdKBq1RzAIfRROZ2mFMmw4Xtwg4W07ROsPZt?=
- =?us-ascii?Q?eanrheECEl16gnpcIpQYl8QXNGmFCy5Z2Bc9aegF0Uwczyr1eln7OMDqAne/?=
- =?us-ascii?Q?VPAb5w+K/vfzTKL2k4gBf47vR2055KidkIsw1CXGl4aWwxXtfM5Bre/CsP2s?=
- =?us-ascii?Q?PzwHTMdB1aKBm+rwOzXEjELYEf1ZGReVealrT5DMXRbHuY2DKpbtELQTzT8v?=
- =?us-ascii?Q?FSvIRxBAwR+0anrMXgjKI5TZupv0mdPFzVF+czY/CIGJJr0X6Z7t4JFDRK75?=
- =?us-ascii?Q?3PxDzZoInMCYvE1af6O5QfJfUF3UmloVe68DS8FjtSyL67qGwiWMQCX9eBAQ?=
- =?us-ascii?Q?TZgyKUK8yXu2BpKoA3ZQn5pPMwp6MrWXx9jWKxbVHwju/hTzHgfBv6pUZVf1?=
- =?us-ascii?Q?A+f+K8imR1BIEE/5/pbUicFswenGNDQ9xFHcqjPvaFcbWGC/JFFnxhZlWtKm?=
- =?us-ascii?Q?FwtfRaFxPk9iU34hcHkyyKS5o0xvvlJR?=
+	=?us-ascii?Q?MQPt0nZ/WLtgZ8qAD1FpV6Lqw5k5NHKPe8q2VoHuc2Liu/7WghYzEUBBFnuk?=
+ =?us-ascii?Q?1+w5V5+BNP7OPq7uShP8HYT2EP0QlAfpKmndtP0rhSMd52gPZxEeC5eZTdpl?=
+ =?us-ascii?Q?lNxMmUvmB2/qzi4JzU9JfM+fYsJfte9biBiiLcIQT66HaNKyj4AMvo5vSn58?=
+ =?us-ascii?Q?RtS7H/z9T2MHB1rYJywR9hBZMkbeD27mjAjbrzXKap0TTp4XNveccuGeZGil?=
+ =?us-ascii?Q?A7MjpYjvauoZcMWoiFMYcVZ4G3Gapowz5SXeZxpN5IF2sctL9HK2GsKBZwMC?=
+ =?us-ascii?Q?YcCopgKAM4ljIYxZv31jtvgzgYSbGpI8Fbq3A8brR9O9q7nxpOBXpQeCykVC?=
+ =?us-ascii?Q?//fQCAdXYgSjt5IBYyNJUVD1g3bbllKOul76TcYHAaI3V2mF49NwtUGhbUMm?=
+ =?us-ascii?Q?vfjOmD733+ltnhNXBPGPeQq3+S2sMDcNBU8toK9ybeERzUJDfTBApLT9axlL?=
+ =?us-ascii?Q?2sT5AheyKqeztsrjRRW0ljJiC+vEIie9CaOnkmmwcGZAgMxPcU2BN8RjqSr8?=
+ =?us-ascii?Q?E7Wd0ET6Lv6UGmg3YUlgAImzS+4GdyTW6fEb9IUiYdPk0feMt0ZFIxStE+o2?=
+ =?us-ascii?Q?fFspvdphGD+RhPG7MnebpfRACvmKTCvTgCBIelPyDUFeAS9cbrQSDq0MGLy7?=
+ =?us-ascii?Q?CuiWHI6bE9oabBoRoyWfSoBrR3mQ1OWaukCp8SI2L/p8B1pYEm/x4cGcD+p9?=
+ =?us-ascii?Q?56+3UnO2dTacktfOudHwM51oY3m47svsfe4hqLVW01s0q1BvlUuQ4it7jHmT?=
+ =?us-ascii?Q?6EWNx6JlmMjsvW8zSI9+Q190EV4KqJJw0Jw3lnJkA+R2K56VTIW6lIRhtC8b?=
+ =?us-ascii?Q?wqQIlMSuJoEXeTlf/21kNoqq9zKdwhepJqbZbSYHMJ+f6C5stwk54FWUZjIK?=
+ =?us-ascii?Q?ZVn1NVe8sSwrfE+p1Uha4AQRU5cLRaMB0hDP0yTk1Cn7njRzUO4ANexs+pLy?=
+ =?us-ascii?Q?I0rpvyZKTZWFuH87i7jlE9NHmtUTERjAUJlbolAbjln3PNKTqb3FzyjLaM4U?=
+ =?us-ascii?Q?ZyoqMB7fIn6pmDQPLe9OFpMI8PTAzk8/qeNeZePoFOYMtcSsQjpOleBqXWaP?=
+ =?us-ascii?Q?UkABtZ8hq9JjfGcH52jJB/z1irwyRuZlZrfbC7llpRHi6AmxWf55KOsJFsnz?=
+ =?us-ascii?Q?ldTIg+9530K6uz11njNiFEJ4LfKLX6mdXJ+TCMtWPsahAKi9f44BFq0lraPS?=
+ =?us-ascii?Q?DMRsAkpqQ38Ogq3QTEgKEb6ezkCH3//CeO6X/hmdxiiHg6yAxtmHFutHEOIZ?=
+ =?us-ascii?Q?dYD7yOp67kN3it9ylGG5ooNe+SIj2y3K2uuzEOC/xa+4JA4vmwn+ecg1IzJz?=
+ =?us-ascii?Q?xuF8Vzi54AJjHXy9ATckX6NapAEGsiR1jb9DWoAVTGL58/J0JAGNftzkLVGm?=
+ =?us-ascii?Q?mACHiJ9mi34OJQfYvQrpRKbzwVwt06nMpSO6U4oqcKGPwN1kF6CNq6ckfl5T?=
+ =?us-ascii?Q?7BqIVhth54qxNAeJCJJQmBp6rUAXiLWA?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB8189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(52116014)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?1ROn7HcNcjQkcOw3zJaqFkvhyg/mXkwISWDBuKaH2TTEepRLVDlYtGiLQD4E?=
- =?us-ascii?Q?KWKBVIipBJm7vaGnHjocRv3A7fn3iALSVaXZ+9DtmOWsBK2djodj/17JsWES?=
- =?us-ascii?Q?sUDfJg4xtTTURNNBNz6/KPzhgGX1/pyNUnBl8NS6L8pdPDMWnp/uA2dQ3UZX?=
- =?us-ascii?Q?bYAfFMS8h/I2BAe2Zc+ZnD3qwJu5k1/ghyR+to66WVPR/eTXZRTPGwVVzDob?=
- =?us-ascii?Q?AgoDd4cJjQeo2i5ZU60gEmNg2a5MUh/Gji+bLvSLK+YEV0Vjox7cLiYAxjXO?=
- =?us-ascii?Q?hJqMNLAcsvR9yvmgO2jzpGrSjtPvKYVxPWjdEuL9/bCGK6OC4VXskkLysQHR?=
- =?us-ascii?Q?TpFiC0FzIpndgSJ+6tM87IveGbnfg254QScAnQdyLGKrzsZLy8kI4xr5Ikl3?=
- =?us-ascii?Q?aPMcxRhFVBtUJ46dZFYffZcaYVxbDzuiED5i56uA7WCPQCeh2jpnEp52x74h?=
- =?us-ascii?Q?AhHkr3Oqm9WgVLthQN8gW4hM4uTWC/gEDlzxowSX5YIpkagBE+mZr1jLgU8x?=
- =?us-ascii?Q?RmaIa6pExHhHz03FhBOlMcIctFPWTPRMqOHoKLGY2nVqZvcYtq0MTnjTVHjb?=
- =?us-ascii?Q?5T+IQBMPpWfd5HtbO/O+pd0OeFuuD/8HtBSjPpJzDUcJ4o7apDTFYj/KWGhd?=
- =?us-ascii?Q?YpxCVh48T+p4rxqhFgp6WUve2iLV+vse6gCElwgyG2ut64O95xcbSB+z6GOP?=
- =?us-ascii?Q?yjY8wez5MOCjRGNuzI/8rw10COex2aYeAuahX69v6evKQ73fVECpVJcnRKs0?=
- =?us-ascii?Q?eVVWbUZFir/Te7SkRj5a5dDdO7tCFaDK5+FBv1x8kVmkb6cihNq5MEUF0FNf?=
- =?us-ascii?Q?nO1JVZ9O+wrNB5F84sPSYpBJQTl1n8QkDMNB6BjKiLZpnikBgJxwSRhd8c64?=
- =?us-ascii?Q?L/PRpTFUeKIpmXEBq1jdE4fyFZNLYN7MlR3r7NblXKy3V3PSmAARGvFxtBiQ?=
- =?us-ascii?Q?KjS1H3SJdLofqrDEOhfJoOXSPeI/9+hqZjF7NGepcbAzVwM7PeIe0Kc98XYy?=
- =?us-ascii?Q?bBiDcu9HM/C59C11Os4Kp9WVr3zZHlbx23MEBLAYj8TA5V85kpP4pWn3eZk/?=
- =?us-ascii?Q?xdnfde+J6u1zO5ovzTV9OEwCOORe1hUFyxJcsVSN2PEN3rpXWXalOyXI5XLk?=
- =?us-ascii?Q?Z+xpKaIFKkg1EmcourgR9qLBRJtw/rUuA/Jv904zxeiuexShcAtsOuAm6ZXG?=
- =?us-ascii?Q?SC4tWVLgq80PX45ejKt+4DZA8kv0dcqsO+PEcOCfqNQlev0t7i8Yid3/WZMh?=
- =?us-ascii?Q?GRfO6HtFUvnPh58PwRTOQvAktDjK7/MgTMbUXL4B5T0Pv/Ql3S6ROgT3RJ0F?=
- =?us-ascii?Q?ohk40cQSorKKbQzkrCp9PsRklkDUxHZTir0Cnqcrgi1Ztr5ivPSUj5AmJtDP?=
- =?us-ascii?Q?Tl5cVAWV/eoy6LX8rdE+Vdu1bEbdrPHPoJt0KvMG/Al5/tlATBfZwH2HubeF?=
- =?us-ascii?Q?2DPMHUaydhsUO70rLuXPKoHFEBBdcRB63J1Zxu5tL9HgJeDf7SDWn2LNnK1Z?=
- =?us-ascii?Q?8m++xjwEw9uIUfPiE6n4LIqAeanKXv+EGf3SPawaiiAXIYU0aTbw8syFIMRp?=
- =?us-ascii?Q?7oGZhWG9Q57pgoMbqN/z/2U+kyaqA9fHFXOfhKRTJCKgOOhbeDEqnGerTdB2?=
- =?us-ascii?Q?Bg=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8da35cf2-8da0-4de4-d991-08dd70e8f223
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB8189.namprd11.prod.outlook.com
+	=?us-ascii?Q?3pOlauKGjClm6NlSi+lCGLWeA5YH1ZgPovxMKBoEJEZ0vFt4H3wv8rRAC8fd?=
+ =?us-ascii?Q?1n4PD/pCfSVrkXOL33/mc1ayoAPKU+EWxCpLzxiULTH4HcbB/g2SGUU7WN9J?=
+ =?us-ascii?Q?Ppp8auhzdOYJTd4vXurqnYdGiX7HPwfLmUJSfZ+Hlbfi2mtiykEcel4HHm+0?=
+ =?us-ascii?Q?boEb9FZ3ST09dnXoeGp1Fp9wS3VLgr5PhMZ/n/UAdx81jzM3ZoR//cAT2CeH?=
+ =?us-ascii?Q?lICnX0ZxiyYDuunqS1pFmCK6HU+UMmc5v7rPzPYITWTakqZvigu+dLs1L4kA?=
+ =?us-ascii?Q?MXLqDQuaWl+LanFIG8WgISwv8CNwl6i8yC2LerDEpMlSOOg5uNKDiid7eXFw?=
+ =?us-ascii?Q?tViKjz/5zVbIByNcP/ckEyTP3eKLjbei9LGIl0GJTO0sCmMfvrh27wfTV1os?=
+ =?us-ascii?Q?zuLTJ5hdHIj9hFqy6hi5Mdo4Wt2QhagutHWOwaz6+7tqBSriNth47zlVwwkp?=
+ =?us-ascii?Q?xuJAEcSW3E77Zsf/8xR3wm/B1R2KDgipg6UXvH3gPcMCF/j0R0LT5l+oIBeb?=
+ =?us-ascii?Q?T9be4SP5WTshQJGQe0++4v5aBJpeoK1dy8TPFFwKRaXBeRpcne9MzSxVQv0k?=
+ =?us-ascii?Q?ZBoZy0g29XXuyoSUpJlK71M6mOf1ezaJq/kaW6exCBP4xTX44B3L0FvCGwUi?=
+ =?us-ascii?Q?xHehh0v3th0ah+IgJpe3f34uSw9Txqc3wl7i+OhVIrPXSgDoDJoKf9iwMYlj?=
+ =?us-ascii?Q?/Zr0Ss08/S1qSF34NnPgI4J+3aAiuSkN4ey8Uex0zVCioVZonDMg8zdj9Lt+?=
+ =?us-ascii?Q?2pSl61NpOS7Qz4P72qHyB09bavGNm7YNc6qNqwSvYxoSsKAqugOWnYe/kTiH?=
+ =?us-ascii?Q?ueSwz1IgceJYKLYrO3I+FIxeUmpbzCYJ1+BU7LtuDRleHBOcdtTFtheLKchC?=
+ =?us-ascii?Q?bw8Jkx+LMOH7WRk4DvSSMXste0lghRJKOoTm/wb6Akxl6Wak+fyLuqgcOMXI?=
+ =?us-ascii?Q?Ay1XwCcjr1OmT9KIWZIseZqxvH4IASfhwLup7dgxNoDHAGKm/649o/Dj+egJ?=
+ =?us-ascii?Q?mueuGOmLRD67SviA8Ox7IkNLV0qU2JXx/MsffwDAmuHTjhNP7CeC20rwS8FF?=
+ =?us-ascii?Q?CyXLs0TCsofE1LPR2j3vtIFhCoAtSR8ZEBagRZvIdSM3q1n0kjukYSede3Oo?=
+ =?us-ascii?Q?eUYPSyb+aC9kbXc9WEgsTb2obYRnhCm6HhRtxOK4wsghWPjk3AFCHgO82vbc?=
+ =?us-ascii?Q?rBEE7t9E/xXVmoRLjkuFbSOwyxMzPrT2AEKZcYC5jiifCS8uUmgR9xCyUqxW?=
+ =?us-ascii?Q?XupjoynJ9h99agXdY8Y0OmwQAZSOyx6sPQ8f94fhNdKP2U9rsolI0ctwwjvm?=
+ =?us-ascii?Q?YJBfWCkIZqbZUVdngy9jbuLjXjcRoTgRSkhzTq8FL5EMiljVkbIjNc5XxJa7?=
+ =?us-ascii?Q?ecGCJoJu4meKVZxkgc+mnk4+0JX3M2kafeIu8TgqOqZP7rG7D/nvPkSBOb7E?=
+ =?us-ascii?Q?o7XsXtXyIIfh8vHmQekZJlbAZcpGwgzb6EJMaOXkqNThAyvEPolutIjzhPaT?=
+ =?us-ascii?Q?J+7v5byniz75LanKGJ8xy6QP7bBUZsb0fwzrEv4XTtioyh1XfPMHYKI8UR30?=
+ =?us-ascii?Q?hBLymWJXXvX5uJqJZEVxfp4OTY6QOOtAF31HsNO0Yx6aOti/nyCSHMZf7oEe?=
+ =?us-ascii?Q?R6tZbGatr5h9V3b1YoyFi8c=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1227bde-122c-484e-f4d2-08dd70ecd55f
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2025 06:46:35.5290
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2025 07:14:25.3734
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i2nsve1uydOP9kFhr82sMfQemBDA6Fa4Z9FxUMgRZDNANyIbFINFkYhuXlVcuCBEEkIQJF+RWxeQULa3sGPL8zkM1/PEFwdwZX1t+dLaEyI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7529
-X-Proofpoint-GUID: zXOT-j5gWehygKrIehSGP-kXJqy58nUp
-X-Proofpoint-ORIG-GUID: zXOT-j5gWehygKrIehSGP-kXJqy58nUp
-X-Authority-Analysis: v=2.4 cv=RNizH5i+ c=1 sm=1 tr=0 ts=67eb8bcd cx=c_pps a=tpf30LWoD3GURU9dwhXxZQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=qf4gfuq51q0A:10
- a=XR8D0OoHHMoA:10 a=H5OGdu5hBBwA:10 a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=7CQSdrXTAAAA:8 a=KKAkSRfTAAAA:8 a=RNnUd5T89QfoQ4j43GIA:9 a=3ZKOabzyN94A:10 a=k40Crp0UdiQA:10 a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22
- a=cvBusfyB2V15izCimMoJ:22 a=Omh45SbU8xzqK50xPoZQ:22
+X-MS-Exchange-CrossTenant-UserPrincipalName: RYuw2vkq1XI6Rc0oQzaHpaR/ws/O1B8oyyWbMQjrWEcUjJ02ULCxQ/WXZuqmWo27ybPISM9tpqzqbtFCwMPmh5Xxtk1xzLyIadxEoGk3VFAwglWQuJPMOGTqJgAk6Jj1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5165
+X-Authority-Analysis: v=2.4 cv=C+npyRP+ c=1 sm=1 tr=0 ts=67eb9257 cx=c_pps a=0XndbtkAAnsFgPxdSZG6GA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=H5OGdu5hBBwA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=7CQSdrXTAAAA:8 a=wQfKxpVCxC01tQNuVb0A:9 a=rZ9ZGtFgVrrETnTr:21 a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: sTp7zI27S7VQ_r3FzNE8v32rKv_Gkgtg
+X-Proofpoint-GUID: sTp7zI27S7VQ_r3FzNE8v32rKv_Gkgtg
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-01_02,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
- spamscore=0 phishscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ clxscore=1015 priorityscore=1501 bulkscore=0 adultscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 phishscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2504010045
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5313o2SZ025761
+ definitions=main-2504010048
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 06:46:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214002
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 07:14:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214003
 
-From: Haixiao Yan <haixiao.yan.cn@windriver.com>
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-Backport a patch [1] to improve performance of rand() and __random()[2]
-by adding a single-threaded fast path.
+Backport a patch from upstream to fix CVE-2024-0151
+Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/78ff617d3f573fb3a9b2fef180fa0fd43d5584ea]
 
-[1] https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Dbe0cfd848d9a=
-d7378800d6302bc11467cf2b514f
-[2] https://sourceware.org/bugzilla/show_bug.cgi?id=3D32777
-Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 ---
- ...dd-single-threaded-fast-path-to-rand.patch | 47 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.35.bb         |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-stdlib-Add-single-=
-threaded-fast-path-to-rand.patch
+ .../llvm/llvm/CVE-2024-0151.patch             | 1087 +++++++++++++++++
+ meta/recipes-devtools/llvm/llvm_git.bb        |    1 +
+ 2 files changed, 1088 insertions(+)
+ create mode 100644 meta/recipes-devtools/llvm/llvm/CVE-2024-0151.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0001-stdlib-Add-single-threade=
-d-fast-path-to-rand.patch b/meta/recipes-core/glibc/glibc/0001-stdlib-Add=
--single-threaded-fast-path-to-rand.patch
+diff --git a/meta/recipes-devtools/llvm/llvm/CVE-2024-0151.patch b/meta/recipes-devtools/llvm/llvm/CVE-2024-0151.patch
 new file mode 100644
-index 000000000000..736fc51f3874
+index 0000000000..cbe6f5bf3f
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-stdlib-Add-single-threaded-fast-=
-path-to-rand.patch
-@@ -0,0 +1,47 @@
-+From 4f54b0dfc16dbe0df86afccb90e447df5f7f571e Mon Sep 17 00:00:00 2001
-+From: Wilco Dijkstra <wilco.dijkstra@arm.com>
-+Date: Mon, 18 Mar 2024 15:18:20 +0000
-+Subject: [PATCH] stdlib: Add single-threaded fast path to rand()
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/llvm/llvm/CVE-2024-0151.patch
+@@ -0,0 +1,1087 @@
++commit 78ff617d3f573fb3a9b2fef180fa0fd43d5584ea
++Author: Lucas Duarte Prates <lucas.prates@arm.com>
++Date:   Thu Jun 20 10:22:01 2024 +0100
 +
-+Improve performance of rand() and __random() by adding a single-threaded
-+fast path.  Bench-random-lock shows about 5x speedup on Neoverse V1.
++    [ARM] CMSE security mitigation on function arguments and returned values (#89944)
 +
-+Upstream-Status: Backport [be0cfd848d9ad7378800d6302bc11467cf2b514f]
++    The ABI mandates two things related to function calls:
++     - Function arguments must be sign- or zero-extended to the register
++       size by the caller.
++     - Return values must be sign- or zero-extended to the register size by
++       the callee.
 +
-+Reviewed-by: Adhemerval Zanella=C2=A0 <adhemerval.zanella@linaro.org>
-+Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
++    As consequence, callees can assume that function arguments have been
++    extended and so can callers with regards to return values.
++
++    Here lies the problem: Nonsecure code might deliberately ignore this
++    mandate with the intent of attempting an exploit. It might try to pass
++    values that lie outside the expected type's value range in order to
++    trigger undefined behaviour, e.g. out of bounds access.
++
++    With the mitigation implemented, Secure code always performs extension
++    of values passed by Nonsecure code.
++
++    This addresses the vulnerability described in CVE-2024-0151.
++
++    Patches by Victor Campos.
++
++    ---------
++
++    Co-authored-by: Victor Campos <victor.campos@arm.com>
++
++Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/78ff617d3f573fb3a9b2fef180fa0fd43d5584ea]
++CVE: CVE-2024-0151
++Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 +---
-+ stdlib/random.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/stdlib/random.c b/stdlib/random.c
-+index 17cc61ba8f55..5d482a857065 100644
-+--- a/stdlib/random.c
-++++ b/stdlib/random.c
-+@@ -51,6 +51,7 @@
-+    SUCH DAMAGE.*/
-+=20
-+ #include <libc-lock.h>
-++#include <sys/single_threaded.h>
-+ #include <limits.h>
-+ #include <stddef.h>
-+ #include <stdlib.h>
-+@@ -288,6 +289,12 @@ __random (void)
-+ {
-+   int32_t retval;
-+=20
-++  if (SINGLE_THREAD_P)
-++    {
-++      (void) __random_r (&unsafe_state, &retval);
-++      return retval;
-++    }
++diff --git a/llvm/lib/Target/ARM/ARMISelLowering.cpp b/llvm/lib/Target/ARM/ARMISelLowering.cpp
++index 900113244e41..e12f8c183db2 100644
++--- a/llvm/lib/Target/ARM/ARMISelLowering.cpp
+++++ b/llvm/lib/Target/ARM/ARMISelLowering.cpp
++@@ -154,6 +154,17 @@ static const MCPhysReg GPRArgRegs[] = {
++   ARM::R0, ARM::R1, ARM::R2, ARM::R3
++ };
++ 
+++static SDValue handleCMSEValue(const SDValue &Value, const ISD::InputArg &Arg,
+++		               SelectionDAG &DAG, const SDLoc &DL) {
+++  assert(Arg.ArgVT.isScalarInteger());
+++  assert(Arg.ArgVT.bitsLT(MVT::i32));
+++  SDValue Trunc = DAG.getNode(ISD::TRUNCATE, DL, Arg.ArgVT, Value);
+++  SDValue Ext =
+++      DAG.getNode(Arg.Flags.isSExt() ? ISD::SIGN_EXTEND : ISD::ZERO_EXTEND, DL,
+++		  MVT::i32, Trunc);
+++  return Ext;
+++}
 ++
-+   __libc_lock_lock (lock);
-+=20
-+   (void) __random_r (&unsafe_state, &retval);
-+--=20
-+2.34.1
++ void ARMTargetLowering::addTypeForNEON(MVT VT, MVT PromotedLdStVT) {
++   if (VT != PromotedLdStVT) {
++     setOperationAction(ISD::LOAD, VT, Promote);
++@@ -2113,7 +2124,7 @@ SDValue ARMTargetLowering::LowerCallResult(
++     SDValue Chain, SDValue InFlag, CallingConv::ID CallConv, bool isVarArg,
++     const SmallVectorImpl<ISD::InputArg> &Ins, const SDLoc &dl,
++     SelectionDAG &DAG, SmallVectorImpl<SDValue> &InVals, bool isThisReturn,
++-    SDValue ThisVal) const {
+++    SDValue ThisVal, bool isCmseNSCall) const {
++   // Assign locations to each value returned by this call.
++   SmallVector<CCValAssign, 16> RVLocs;
++   CCState CCInfo(CallConv, isVarArg, DAG.getMachineFunction(), RVLocs,
++@@ -2191,6 +2202,15 @@ SDValue ARMTargetLowering::LowerCallResult(
++         (VA.getValVT() == MVT::f16 || VA.getValVT() == MVT::bf16))
++       Val = MoveToHPR(dl, DAG, VA.getLocVT(), VA.getValVT(), Val);
++ 
+++    // On CMSE Non-secure Calls, call results (returned values) whose bitwidth
+++    // is less than 32 bits must be sign- or zero-extended after the call for
+++    // security reasons. Although the ABI mandates an extension done by the
+++    // callee, the latter cannot be trusted to follow the rules of the ABI.
+++    const ISD::InputArg &Arg = Ins[VA.getValNo()];
+++    if (isCmseNSCall && Arg.ArgVT.isScalarInteger() &&
+++        VA.getLocVT().isScalarInteger() && Arg.ArgVT.bitsLT(MVT::i32))
+++      Val = handleCMSEValue(Val, Arg, DAG, dl);
+++
++     InVals.push_back(Val);
++   }
++ 
++@@ -2787,7 +2807,7 @@ ARMTargetLowering::LowerCall(TargetLowering::CallLoweringInfo &CLI,
++   // return.
++   return LowerCallResult(Chain, InFlag, CallConv, isVarArg, Ins, dl, DAG,
++                          InVals, isThisReturn,
++-                         isThisReturn ? OutVals[0] : SDValue());
+++                         isThisReturn ? OutVals[0] : SDValue(), isCmseNSCall);
++ }
++ 
++ /// HandleByVal - Every parameter *after* a byval parameter is passed
++@@ -4377,8 +4397,6 @@ SDValue ARMTargetLowering::LowerFormalArguments(
++                  *DAG.getContext());
++   CCInfo.AnalyzeFormalArguments(Ins, CCAssignFnForCall(CallConv, isVarArg));
++ 
++-  SmallVector<SDValue, 16> ArgValues;
++-  SDValue ArgValue;
++   Function::const_arg_iterator CurOrigArg = MF.getFunction().arg_begin();
++   unsigned CurArgIdx = 0;
++ 
++@@ -4432,7 +4450,7 @@ SDValue ARMTargetLowering::LowerFormalArguments(
++     }
++     // Arguments stored in registers.
++     if (VA.isRegLoc()) {
++-      EVT RegVT = VA.getLocVT();
+++      SDValue ArgValue;
++ 
++       if (VA.needsCustom() && VA.getLocVT() == MVT::v2f64) {
++         // f64 and vector types are split up into multiple registers or
++@@ -4496,16 +4514,6 @@ SDValue ARMTargetLowering::LowerFormalArguments(
++       case CCValAssign::BCvt:
++         ArgValue = DAG.getNode(ISD::BITCAST, dl, VA.getValVT(), ArgValue);
++         break;
++-      case CCValAssign::SExt:
++-        ArgValue = DAG.getNode(ISD::AssertSext, dl, RegVT, ArgValue,
++-                               DAG.getValueType(VA.getValVT()));
++-        ArgValue = DAG.getNode(ISD::TRUNCATE, dl, VA.getValVT(), ArgValue);
++-        break;
++-      case CCValAssign::ZExt:
++-        ArgValue = DAG.getNode(ISD::AssertZext, dl, RegVT, ArgValue,
++-                               DAG.getValueType(VA.getValVT()));
++-        ArgValue = DAG.getNode(ISD::TRUNCATE, dl, VA.getValVT(), ArgValue);
++-        break;
++       }
++ 
++       // f16 arguments have their size extended to 4 bytes and passed as if they
++@@ -4515,6 +4523,15 @@ SDValue ARMTargetLowering::LowerFormalArguments(
++           (VA.getValVT() == MVT::f16 || VA.getValVT() == MVT::bf16))
++         ArgValue = MoveToHPR(dl, DAG, VA.getLocVT(), VA.getValVT(), ArgValue);
++ 
+++      // On CMSE Entry Functions, formal integer arguments whose bitwidth is
+++      // less than 32 bits must be sign- or zero-extended in the callee for
+++      // security reasons. Although the ABI mandates an extension done by the
+++      // caller, the latter cannot be trusted to follow the rules of the ABI.
+++      const ISD::InputArg &Arg = Ins[VA.getValNo()];
+++      if (AFI->isCmseNSEntryFunction() && Arg.ArgVT.isScalarInteger() &&
+++	  RegVT.isScalarInteger() && Arg.ArgVT.bitsLT(MVT::i32))
+++	ArgValue = handleCMSEValue(ArgValue, Arg, DAG, dl);
+++
++       InVals.push_back(ArgValue);
++     } else { // VA.isRegLoc()
++       // sanity check
++diff --git a/llvm/lib/Target/ARM/ARMISelLowering.h b/llvm/lib/Target/ARM/ARMISelLowering.h
++index 844b7d4f1707..2168a4a73589 100644
++--- a/llvm/lib/Target/ARM/ARMISelLowering.h
+++++ b/llvm/lib/Target/ARM/ARMISelLowering.h
++@@ -865,7 +865,7 @@ class VectorType;
++                             const SmallVectorImpl<ISD::InputArg> &Ins,
++                             const SDLoc &dl, SelectionDAG &DAG,
++                             SmallVectorImpl<SDValue> &InVals, bool isThisReturn,
++-                            SDValue ThisVal) const;
+++                            SDValue ThisVal, bool isCmseNSCall) const;
 +
-diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/gl=
-ibc/glibc_2.35.bb
-index d9cae79ac2f3..9073e04537b5 100644
---- a/meta/recipes-core/glibc/glibc_2.35.bb
-+++ b/meta/recipes-core/glibc/glibc_2.35.bb
-@@ -65,6 +65,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};na=
-me=3Dglibc \
-            file://0001-Revert-Linux-Implement-a-useful-version-of-_start=
-up_.patch \
-            file://0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.p=
-atch \
-            file://0003-sunrpc-suppress-gcc-os-warning-on-user2netname.pa=
-tch \
-+           file://0001-stdlib-Add-single-threaded-fast-path-to-rand.patc=
-h \
++     bool supportSplitCSR(MachineFunction *MF) const override {
++       return MF->getFunction().getCallingConv() == CallingConv::CXX_FAST_TLS &&
++diff --git a/llvm/test/CodeGen/ARM/cmse-harden-call-returned-values.ll b/llvm/test/CodeGen/ARM/cmse-harden-call-returned-values.ll
++new file mode 100644
++index 0000000000..58eef443c2
++--- /dev/null
+++++ b/llvm/test/CodeGen/ARM/cmse-harden-call-returned-values.ll
++@@ -0,0 +1,552 @@
+++; RUN: llc %s -mtriple=thumbv8m.main     -o - | FileCheck %s --check-prefixes V8M-COMMON,V8M-LE
+++; RUN: llc %s -mtriple=thumbebv8m.main   -o - | FileCheck %s --check-prefixes V8M-COMMON,V8M-BE
+++; RUN: llc %s -mtriple=thumbv8.1m.main   -o - | FileCheck %s --check-prefixes V81M-COMMON,V81M-LE
+++; RUN: llc %s -mtriple=thumbebv8.1m.main -o - | FileCheck %s --check-prefixes V81M-COMMON,V81M-BE
+++
+++@get_idx = hidden local_unnamed_addr global ptr null, align 4
+++@arr = hidden local_unnamed_addr global [256 x i32] zeroinitializer, align 4
+++
+++define i32 @access_i16() {
+++; V8M-COMMON-LABEL: access_i16:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    push {r7, lr}
+++; V8M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V8M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V8M-COMMON-NEXT:    ldr r0, [r0]
+++; V8M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    bic r0, r0, #1
+++; V8M-COMMON-NEXT:    sub sp, #136
+++; V8M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    mov r1, r0
+++; V8M-COMMON-NEXT:    mov r2, r0
+++; V8M-COMMON-NEXT:    mov r3, r0
+++; V8M-COMMON-NEXT:    mov r4, r0
+++; V8M-COMMON-NEXT:    mov r5, r0
+++; V8M-COMMON-NEXT:    mov r6, r0
+++; V8M-COMMON-NEXT:    mov r7, r0
+++; V8M-COMMON-NEXT:    mov r8, r0
+++; V8M-COMMON-NEXT:    mov r9, r0
+++; V8M-COMMON-NEXT:    mov r10, r0
+++; V8M-COMMON-NEXT:    mov r11, r0
+++; V8M-COMMON-NEXT:    mov r12, r0
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, r0
+++; V8M-COMMON-NEXT:    blxns r0
+++; V8M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    add sp, #136
+++; V8M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    sxth r0, r0
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    pop {r7, pc}
+++;
+++; V81M-COMMON-LABEL: access_i16:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    push {r7, lr}
+++; V81M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V81M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V81M-COMMON-NEXT:    ldr r0, [r0]
+++; V81M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    bic r0, r0, #1
+++; V81M-COMMON-NEXT:    sub sp, #136
+++; V81M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, apsr}
+++; V81M-COMMON-NEXT:    blxns r0
+++; V81M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    add sp, #136
+++; V81M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    sxth r0, r0
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    pop {r7, pc}
+++entry:
+++  %0 = load ptr, ptr @get_idx, align 4
+++  %call = tail call signext i16 %0() "cmse_nonsecure_call"
+++  %idxprom = sext i16 %call to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %1 = load i32, ptr %arrayidx, align 4
+++  ret i32 %1
+++}
+++
+++define i32 @access_u16() {
+++; V8M-COMMON-LABEL: access_u16:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    push {r7, lr}
+++; V8M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V8M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V8M-COMMON-NEXT:    ldr r0, [r0]
+++; V8M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    bic r0, r0, #1
+++; V8M-COMMON-NEXT:    sub sp, #136
+++; V8M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    mov r1, r0
+++; V8M-COMMON-NEXT:    mov r2, r0
+++; V8M-COMMON-NEXT:    mov r3, r0
+++; V8M-COMMON-NEXT:    mov r4, r0
+++; V8M-COMMON-NEXT:    mov r5, r0
+++; V8M-COMMON-NEXT:    mov r6, r0
+++; V8M-COMMON-NEXT:    mov r7, r0
+++; V8M-COMMON-NEXT:    mov r8, r0
+++; V8M-COMMON-NEXT:    mov r9, r0
+++; V8M-COMMON-NEXT:    mov r10, r0
+++; V8M-COMMON-NEXT:    mov r11, r0
+++; V8M-COMMON-NEXT:    mov r12, r0
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, r0
+++; V8M-COMMON-NEXT:    blxns r0
+++; V8M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    add sp, #136
+++; V8M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    uxth r0, r0
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    pop {r7, pc}
+++;
+++; V81M-COMMON-LABEL: access_u16:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    push {r7, lr}
+++; V81M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V81M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V81M-COMMON-NEXT:    ldr r0, [r0]
+++; V81M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    bic r0, r0, #1
+++; V81M-COMMON-NEXT:    sub sp, #136
+++; V81M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, apsr}
+++; V81M-COMMON-NEXT:    blxns r0
+++; V81M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    add sp, #136
+++; V81M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    uxth r0, r0
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    pop {r7, pc}
+++entry:
+++  %0 = load ptr, ptr @get_idx, align 4
+++  %call = tail call zeroext i16 %0() "cmse_nonsecure_call"
+++  %idxprom = zext i16 %call to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %1 = load i32, ptr %arrayidx, align 4
+++  ret i32 %1
+++}
+++
+++define i32 @access_i8() {
+++; V8M-COMMON-LABEL: access_i8:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    push {r7, lr}
+++; V8M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V8M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V8M-COMMON-NEXT:    ldr r0, [r0]
+++; V8M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    bic r0, r0, #1
+++; V8M-COMMON-NEXT:    sub sp, #136
+++; V8M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    mov r1, r0
+++; V8M-COMMON-NEXT:    mov r2, r0
+++; V8M-COMMON-NEXT:    mov r3, r0
+++; V8M-COMMON-NEXT:    mov r4, r0
+++; V8M-COMMON-NEXT:    mov r5, r0
+++; V8M-COMMON-NEXT:    mov r6, r0
+++; V8M-COMMON-NEXT:    mov r7, r0
+++; V8M-COMMON-NEXT:    mov r8, r0
+++; V8M-COMMON-NEXT:    mov r9, r0
+++; V8M-COMMON-NEXT:    mov r10, r0
+++; V8M-COMMON-NEXT:    mov r11, r0
+++; V8M-COMMON-NEXT:    mov r12, r0
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, r0
+++; V8M-COMMON-NEXT:    blxns r0
+++; V8M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    add sp, #136
+++; V8M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    sxtb r0, r0
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    pop {r7, pc}
+++;
+++; V81M-COMMON-LABEL: access_i8:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    push {r7, lr}
+++; V81M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V81M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V81M-COMMON-NEXT:    ldr r0, [r0]
+++; V81M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    bic r0, r0, #1
+++; V81M-COMMON-NEXT:    sub sp, #136
+++; V81M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, apsr}
+++; V81M-COMMON-NEXT:    blxns r0
+++; V81M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    add sp, #136
+++; V81M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    sxtb r0, r0
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    pop {r7, pc}
+++entry:
+++  %0 = load ptr, ptr @get_idx, align 4
+++  %call = tail call signext i8 %0() "cmse_nonsecure_call"
+++  %idxprom = sext i8 %call to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %1 = load i32, ptr %arrayidx, align 4
+++  ret i32 %1
+++}
+++
+++define i32 @access_u8() {
+++; V8M-COMMON-LABEL: access_u8:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    push {r7, lr}
+++; V8M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V8M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V8M-COMMON-NEXT:    ldr r0, [r0]
+++; V8M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    bic r0, r0, #1
+++; V8M-COMMON-NEXT:    sub sp, #136
+++; V8M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    mov r1, r0
+++; V8M-COMMON-NEXT:    mov r2, r0
+++; V8M-COMMON-NEXT:    mov r3, r0
+++; V8M-COMMON-NEXT:    mov r4, r0
+++; V8M-COMMON-NEXT:    mov r5, r0
+++; V8M-COMMON-NEXT:    mov r6, r0
+++; V8M-COMMON-NEXT:    mov r7, r0
+++; V8M-COMMON-NEXT:    mov r8, r0
+++; V8M-COMMON-NEXT:    mov r9, r0
+++; V8M-COMMON-NEXT:    mov r10, r0
+++; V8M-COMMON-NEXT:    mov r11, r0
+++; V8M-COMMON-NEXT:    mov r12, r0
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, r0
+++; V8M-COMMON-NEXT:    blxns r0
+++; V8M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    add sp, #136
+++; V8M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    uxtb r0, r0
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    pop {r7, pc}
+++;
+++; V81M-COMMON-LABEL: access_u8:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    push {r7, lr}
+++; V81M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V81M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V81M-COMMON-NEXT:    ldr r0, [r0]
+++; V81M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    bic r0, r0, #1
+++; V81M-COMMON-NEXT:    sub sp, #136
+++; V81M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, apsr}
+++; V81M-COMMON-NEXT:    blxns r0
+++; V81M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    add sp, #136
+++; V81M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    uxtb r0, r0
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    pop {r7, pc}
+++entry:
+++  %0 = load ptr, ptr @get_idx, align 4
+++  %call = tail call zeroext i8 %0() "cmse_nonsecure_call"
+++  %idxprom = zext i8 %call to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %1 = load i32, ptr %arrayidx, align 4
+++  ret i32 %1
+++}
+++
+++define i32 @access_i1() {
+++; V8M-COMMON-LABEL: access_i1:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    push {r7, lr}
+++; V8M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V8M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V8M-COMMON-NEXT:    ldr r0, [r0]
+++; V8M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    bic r0, r0, #1
+++; V8M-COMMON-NEXT:    sub sp, #136
+++; V8M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    mov r1, r0
+++; V8M-COMMON-NEXT:    mov r2, r0
+++; V8M-COMMON-NEXT:    mov r3, r0
+++; V8M-COMMON-NEXT:    mov r4, r0
+++; V8M-COMMON-NEXT:    mov r5, r0
+++; V8M-COMMON-NEXT:    mov r6, r0
+++; V8M-COMMON-NEXT:    mov r7, r0
+++; V8M-COMMON-NEXT:    mov r8, r0
+++; V8M-COMMON-NEXT:    mov r9, r0
+++; V8M-COMMON-NEXT:    mov r10, r0
+++; V8M-COMMON-NEXT:    mov r11, r0
+++; V8M-COMMON-NEXT:    mov r12, r0
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, r0
+++; V8M-COMMON-NEXT:    blxns r0
+++; V8M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    add sp, #136
+++; V8M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    and r0, r0, #1
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    pop {r7, pc}
+++;
+++; V81M-COMMON-LABEL: access_i1:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    push {r7, lr}
+++; V81M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V81M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V81M-COMMON-NEXT:    ldr r0, [r0]
+++; V81M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    bic r0, r0, #1
+++; V81M-COMMON-NEXT:    sub sp, #136
+++; V81M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, apsr}
+++; V81M-COMMON-NEXT:    blxns r0
+++; V81M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    add sp, #136
+++; V81M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    and r0, r0, #1
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    pop {r7, pc}
+++entry:
+++  %0 = load ptr, ptr @get_idx, align 4
+++  %call = tail call zeroext i1 %0() "cmse_nonsecure_call"
+++  %idxprom = zext i1 %call to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %1 = load i32, ptr %arrayidx, align 4
+++  ret i32 %1
+++}
+++
+++define i32 @access_i5() {
+++; V8M-COMMON-LABEL: access_i5:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    push {r7, lr}
+++; V8M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V8M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V8M-COMMON-NEXT:    ldr r0, [r0]
+++; V8M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    bic r0, r0, #1
+++; V8M-COMMON-NEXT:    sub sp, #136
+++; V8M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    mov r1, r0
+++; V8M-COMMON-NEXT:    mov r2, r0
+++; V8M-COMMON-NEXT:    mov r3, r0
+++; V8M-COMMON-NEXT:    mov r4, r0
+++; V8M-COMMON-NEXT:    mov r5, r0
+++; V8M-COMMON-NEXT:    mov r6, r0
+++; V8M-COMMON-NEXT:    mov r7, r0
+++; V8M-COMMON-NEXT:    mov r8, r0
+++; V8M-COMMON-NEXT:    mov r9, r0
+++; V8M-COMMON-NEXT:    mov r10, r0
+++; V8M-COMMON-NEXT:    mov r11, r0
+++; V8M-COMMON-NEXT:    mov r12, r0
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, r0
+++; V8M-COMMON-NEXT:    blxns r0
+++; V8M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    add sp, #136
+++; V8M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    sbfx r0, r0, #0, #5
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    pop {r7, pc}
+++;
+++; V81M-COMMON-LABEL: access_i5:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    push {r7, lr}
+++; V81M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V81M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V81M-COMMON-NEXT:    ldr r0, [r0]
+++; V81M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    bic r0, r0, #1
+++; V81M-COMMON-NEXT:    sub sp, #136
+++; V81M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, apsr}
+++; V81M-COMMON-NEXT:    blxns r0
+++; V81M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    add sp, #136
+++; V81M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    sbfx r0, r0, #0, #5
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    pop {r7, pc}
+++entry:
+++  %0 = load ptr, ptr @get_idx, align 4
+++  %call = tail call signext i5 %0() "cmse_nonsecure_call"
+++  %idxprom = sext i5 %call to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %1 = load i32, ptr %arrayidx, align 4
+++  ret i32 %1
+++}
+++
+++define i32 @access_u5() {
+++; V8M-COMMON-LABEL: access_u5:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    push {r7, lr}
+++; V8M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V8M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V8M-COMMON-NEXT:    ldr r0, [r0]
+++; V8M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    bic r0, r0, #1
+++; V8M-COMMON-NEXT:    sub sp, #136
+++; V8M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    mov r1, r0
+++; V8M-COMMON-NEXT:    mov r2, r0
+++; V8M-COMMON-NEXT:    mov r3, r0
+++; V8M-COMMON-NEXT:    mov r4, r0
+++; V8M-COMMON-NEXT:    mov r5, r0
+++; V8M-COMMON-NEXT:    mov r6, r0
+++; V8M-COMMON-NEXT:    mov r7, r0
+++; V8M-COMMON-NEXT:    mov r8, r0
+++; V8M-COMMON-NEXT:    mov r9, r0
+++; V8M-COMMON-NEXT:    mov r10, r0
+++; V8M-COMMON-NEXT:    mov r11, r0
+++; V8M-COMMON-NEXT:    mov r12, r0
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, r0
+++; V8M-COMMON-NEXT:    blxns r0
+++; V8M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    add sp, #136
+++; V8M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    and r0, r0, #31
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    pop {r7, pc}
+++;
+++; V81M-COMMON-LABEL: access_u5:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    push {r7, lr}
+++; V81M-COMMON-NEXT:    movw r0, :lower16:get_idx
+++; V81M-COMMON-NEXT:    movt r0, :upper16:get_idx
+++; V81M-COMMON-NEXT:    ldr r0, [r0]
+++; V81M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    bic r0, r0, #1
+++; V81M-COMMON-NEXT:    sub sp, #136
+++; V81M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, apsr}
+++; V81M-COMMON-NEXT:    blxns r0
+++; V81M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    add sp, #136
+++; V81M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    and r0, r0, #31
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    pop {r7, pc}
+++entry:
+++  %0 = load ptr, ptr @get_idx, align 4
+++  %call = tail call zeroext i5 %0() "cmse_nonsecure_call"
+++  %idxprom = zext i5 %call to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %1 = load i32, ptr %arrayidx, align 4
+++  ret i32 %1
+++}
+++
+++define i32 @access_i33(ptr %f) {
+++; V8M-COMMON-LABEL: access_i33:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    push {r7, lr}
+++; V8M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    bic r0, r0, #1
+++; V8M-COMMON-NEXT:    sub sp, #136
+++; V8M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    mov r1, r0
+++; V8M-COMMON-NEXT:    mov r2, r0
+++; V8M-COMMON-NEXT:    mov r3, r0
+++; V8M-COMMON-NEXT:    mov r4, r0
+++; V8M-COMMON-NEXT:    mov r5, r0
+++; V8M-COMMON-NEXT:    mov r6, r0
+++; V8M-COMMON-NEXT:    mov r7, r0
+++; V8M-COMMON-NEXT:    mov r8, r0
+++; V8M-COMMON-NEXT:    mov r9, r0
+++; V8M-COMMON-NEXT:    mov r10, r0
+++; V8M-COMMON-NEXT:    mov r11, r0
+++; V8M-COMMON-NEXT:    mov r12, r0
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, r0
+++; V8M-COMMON-NEXT:    blxns r0
+++; V8M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    add sp, #136
+++; V8M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-LE-NEXT:        and r0, r1, #1
+++; V8M-BE-NEXT:        and r0, r0, #1
+++; V8M-COMMON-NEXT:    rsb.w r0, r0, #0
+++; V8M-COMMON-NEXT:    pop {r7, pc}
+++;
+++; V81M-COMMON-LABEL: access_i33:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    push {r7, lr}
+++; V81M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    bic r0, r0, #1
+++; V81M-COMMON-NEXT:    sub sp, #136
+++; V81M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, apsr}
+++; V81M-COMMON-NEXT:    blxns r0
+++; V81M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    add sp, #136
+++; V81M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-LE-NEXT:        and r0, r1, #1
+++; V81M-BE-NEXT:        and r0, r0, #1
+++; V81M-COMMON-NEXT:    rsb.w r0, r0, #0
+++; V81M-COMMON-NEXT:    pop {r7, pc}
+++entry:
+++  %call = tail call i33 %f() "cmse_nonsecure_call"
+++  %shr = ashr i33 %call, 32
+++  %conv = trunc nsw i33 %shr to i32
+++  ret i32 %conv
+++}
+++
+++define i32 @access_u33(ptr %f) {
+++; V8M-COMMON-LABEL: access_u33:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    push {r7, lr}
+++; V8M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-COMMON-NEXT:    bic r0, r0, #1
+++; V8M-COMMON-NEXT:    sub sp, #136
+++; V8M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    mov r1, r0
+++; V8M-COMMON-NEXT:    mov r2, r0
+++; V8M-COMMON-NEXT:    mov r3, r0
+++; V8M-COMMON-NEXT:    mov r4, r0
+++; V8M-COMMON-NEXT:    mov r5, r0
+++; V8M-COMMON-NEXT:    mov r6, r0
+++; V8M-COMMON-NEXT:    mov r7, r0
+++; V8M-COMMON-NEXT:    mov r8, r0
+++; V8M-COMMON-NEXT:    mov r9, r0
+++; V8M-COMMON-NEXT:    mov r10, r0
+++; V8M-COMMON-NEXT:    mov r11, r0
+++; V8M-COMMON-NEXT:    mov r12, r0
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, r0
+++; V8M-COMMON-NEXT:    blxns r0
+++; V8M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V8M-COMMON-NEXT:    add sp, #136
+++; V8M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V8M-LE-NEXT:        and r0, r1, #1
+++; V8M-BE-NEXT:        and r0, r0, #1
+++; V8M-COMMON-NEXT:    pop {r7, pc}
+++;
+++; V81M-COMMON-LABEL: access_u33:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    push {r7, lr}
+++; V81M-COMMON-NEXT:    push.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-COMMON-NEXT:    bic r0, r0, #1
+++; V81M-COMMON-NEXT:    sub sp, #136
+++; V81M-COMMON-NEXT:    vlstm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, apsr}
+++; V81M-COMMON-NEXT:    blxns r0
+++; V81M-COMMON-NEXT:    vlldm sp, {d0 - d15}
+++; V81M-COMMON-NEXT:    add sp, #136
+++; V81M-COMMON-NEXT:    pop.w {r4, r5, r6, r7, r8, r9, r10, r11}
+++; V81M-LE-NEXT:        and r0, r1, #1
+++; V81M-BE-NEXT:        and r0, r0, #1
+++; V81M-COMMON-NEXT:    pop {r7, pc}
+++entry:
+++  %call = tail call i33 %f() "cmse_nonsecure_call"
+++  %shr = lshr i33 %call, 32
+++  %conv = trunc nuw nsw i33 %shr to i32
+++  ret i32 %conv
+++}
++diff --git a/llvm/test/CodeGen/ARM/cmse-harden-entry-arguments.ll b/llvm/test/CodeGen/ARM/cmse-harden-entry-arguments.ll
++new file mode 100644
++index 0000000000..c66ab00566
++--- /dev/null
+++++ b/llvm/test/CodeGen/ARM/cmse-harden-entry-arguments.ll
++@@ -0,0 +1,368 @@
+++; RUN: llc %s -mtriple=thumbv8m.main     -o - | FileCheck %s --check-prefixes V8M-COMMON,V8M-LE
+++; RUN: llc %s -mtriple=thumbebv8m.main   -o - | FileCheck %s --check-prefixes V8M-COMMON,V8M-BE
+++; RUN: llc %s -mtriple=thumbv8.1m.main   -o - | FileCheck %s --check-prefixes V81M-COMMON,V81M-LE
+++; RUN: llc %s -mtriple=thumbebv8.1m.main -o - | FileCheck %s --check-prefixes V81M-COMMON,V81M-BE
+++
+++@arr = hidden local_unnamed_addr global [256 x i32] zeroinitializer, align 4
+++
+++define i32 @access_i16(i16 signext %idx) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_i16:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    sxth r0, r0
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_i16:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    sxth r0, r0
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %idxprom = sext i16 %idx to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %0 = load i32, ptr %arrayidx, align 4
+++  ret i32 %0
+++}
+++
+++define i32 @access_u16(i16 zeroext %idx) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_u16:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    uxth r0, r0
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_u16:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    uxth r0, r0
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %idxprom = zext i16 %idx to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %0 = load i32, ptr %arrayidx, align 4
+++  ret i32 %0
+++}
+++
+++define i32 @access_i8(i8 signext %idx) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_i8:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    sxtb r0, r0
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_i8:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    sxtb r0, r0
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %idxprom = sext i8 %idx to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %0 = load i32, ptr %arrayidx, align 4
+++  ret i32 %0
+++}
+++
+++define i32 @access_u8(i8 zeroext %idx) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_u8:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    uxtb r0, r0
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_u8:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    uxtb r0, r0
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %idxprom = zext i8 %idx to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %0 = load i32, ptr %arrayidx, align 4
+++  ret i32 %0
+++}
+++
+++define i32 @access_i1(i1 signext %idx) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_i1:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    and r0, r0, #1
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    rsbs r0, r0, #0
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    and r0, r0, #1
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_i1:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-COMMON-NEXT:    and r0, r0, #1
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    rsbs r0, r0, #0
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    and r0, r0, #1
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %idxprom = zext i1 %idx to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %0 = load i32, ptr %arrayidx, align 4
+++  ret i32 %0
+++}
+++
+++define i32 @access_i5(i5 signext %idx) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_i5:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    sbfx r0, r0, #0, #5
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_i5:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    sbfx r0, r0, #0, #5
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %idxprom = sext i5 %idx to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %0 = load i32, ptr %arrayidx, align 4
+++  ret i32 %0
+++}
+++
+++define i32 @access_u5(i5 zeroext %idx) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_u5:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V8M-COMMON-NEXT:    and r0, r0, #31
+++; V8M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_u5:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-COMMON-NEXT:    movw r1, :lower16:arr
+++; V81M-COMMON-NEXT:    and r0, r0, #31
+++; V81M-COMMON-NEXT:    movt r1, :upper16:arr
+++; V81M-COMMON-NEXT:    ldr.w r0, [r1, r0, lsl #2]
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %idxprom = zext i5 %idx to i32
+++  %arrayidx = getelementptr inbounds [256 x i32], ptr @arr, i32 0, i32 %idxprom
+++  %0 = load i32, ptr %arrayidx, align 4
+++  ret i32 %0
+++}
+++
+++define i32 @access_i33(i33 %arg) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_i33:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-LE-NEXT:        and r0, r1, #1
+++; V8M-BE-NEXT:        and r0, r0, #1
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    rsbs r0, r0, #0
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_i33:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-LE-NEXT:        and r0, r1, #1
+++; V81M-BE-NEXT:        and r0, r0, #1
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    rsbs r0, r0, #0
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %shr = ashr i33 %arg, 32
+++  %conv = trunc nsw i33 %shr to i32
+++  ret i32 %conv
+++}
+++
+++define i32 @access_u33(i33 %arg) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_u33:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-LE-NEXT:        and r0, r1, #1
+++; V8M-BE-NEXT:        and r0, r0, #1
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_u33:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-LE-NEXT:        and r0, r1, #1
+++; V81M-BE-NEXT:        and r0, r0, #1
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %shr = lshr i33 %arg, 32
+++  %conv = trunc nuw nsw i33 %shr to i32
+++  ret i32 %conv
+++}
+++
+++define i32 @access_i65(ptr byval(i65) %0) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_i65:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    sub sp, #16
+++; V8M-COMMON-NEXT:    stm.w sp, {r0, r1, r2, r3}
+++; V8M-LE-NEXT:        ldrb.w r0, [sp, #8]
+++; V8M-LE-NEXT:        and r0, r0, #1
+++; V8M-LE-NEXT:        rsbs r0, r0, #0
+++; V8M-BE-NEXT:        movs r1, #0
+++; V8M-BE-NEXT:        sub.w r0, r1, r0, lsr #24
+++; V8M-COMMON-NEXT:    add sp, #16
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_i65:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-COMMON-NEXT:    sub sp, #16
+++; V81M-COMMON-NEXT:    add sp, #4
+++; V81M-COMMON-NEXT:    stm.w sp, {r0, r1, r2, r3}
+++; V81M-LE-NEXT:        ldrb.w r0, [sp, #8]
+++; V81M-LE-NEXT:        and r0, r0, #1
+++; V81M-LE-NEXT:        rsbs r0, r0, #0
+++; V81M-BE-NEXT:        movs r1, #0
+++; V81M-BE-NEXT:        sub.w r0, r1, r0, lsr #24
+++; V81M-COMMON-NEXT:    sub sp, #4
+++; V81M-COMMON-NEXT:    add sp, #16
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %arg = load i65, ptr %0, align 8
+++  %shr = ashr i65 %arg, 64
+++  %conv = trunc nsw i65 %shr to i32
+++  ret i32 %conv
+++}
+++
+++define i32 @access_u65(ptr byval(i65) %0) "cmse_nonsecure_entry" {
+++; V8M-COMMON-LABEL: access_u65:
+++; V8M-COMMON:       @ %bb.0: @ %entry
+++; V8M-COMMON-NEXT:    sub sp, #16
+++; V8M-COMMON-NEXT:    stm.w sp, {r0, r1, r2, r3}
+++; V8M-LE-NEXT:        ldrb.w r0, [sp, #8]
+++; V8M-BE-NEXT:        lsrs r0, r0, #24
+++; V8M-COMMON-NEXT:    add sp, #16
+++; V8M-COMMON-NEXT:    mov r1, lr
+++; V8M-COMMON-NEXT:    mov r2, lr
+++; V8M-COMMON-NEXT:    mov r3, lr
+++; V8M-COMMON-NEXT:    mov r12, lr
+++; V8M-COMMON-NEXT:    msr apsr_nzcvq, lr
+++; V8M-COMMON-NEXT:    bxns lr
+++;
+++; V81M-COMMON-LABEL: access_u65:
+++; V81M-COMMON:       @ %bb.0: @ %entry
+++; V81M-COMMON-NEXT:    vstr fpcxtns, [sp, #-4]!
+++; V81M-COMMON-NEXT:    sub sp, #16
+++; V81M-COMMON-NEXT:    add sp, #4
+++; V81M-COMMON-NEXT:    stm.w sp, {r0, r1, r2, r3}
+++; V81M-LE-NEXT:        ldrb.w r0, [sp, #8]
+++; V81M-BE-NEXT:        lsrs r0, r0, #24
+++; V81M-COMMON-NEXT:    sub sp, #4
+++; V81M-COMMON-NEXT:    add sp, #16
+++; V81M-COMMON-NEXT:    vscclrm {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, vpr}
+++; V81M-COMMON-NEXT:    vldr fpcxtns, [sp], #4
+++; V81M-COMMON-NEXT:    clrm {r1, r2, r3, r12, apsr}
+++; V81M-COMMON-NEXT:    bxns lr
+++entry:
+++  %arg = load i65, ptr %0, align 8
+++  %shr = lshr i65 %arg, 64
+++  %conv = trunc nuw nsw i65 %shr to i32
+++  ret i32 %conv
+++}
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 8dcd124c71..1531e12fff 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -36,6 +36,7 @@ SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=http
+            file://CVE-2023-46049.patch;striplevel=2 \
+            file://CVE-2024-31852-1.patch;striplevel=2 \
+            file://CVE-2024-31852-2.patch;striplevel=2 \
++	   file://CVE-2024-0151.patch;striplevel=2 \
             "
- S =3D "${WORKDIR}/git"
- B =3D "${WORKDIR}/build-${TARGET_SYS}"
---=20
-2.34.1
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
+-- 
+2.43.0
 
 
