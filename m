@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71428C36017
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C313C3601B
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 19:59:35 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.3272.1743537574892150262
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.3270.1743537572339922364
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 12:59:34 -0700
+ Tue, 01 Apr 2025 12:59:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rgeLndsn;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2240b4de12bso98196595ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:59:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uSdJrpHm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-227d6b530d8so109515455ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 12:59:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743537574; x=1744142374; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743537571; x=1744142371; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wX0uupXd89EWWiA4ifnfMUkiyM5f1EYReZBVpDWeOlQ=;
-        b=rgeLndsnZHsno38cEo0+EhkmFlhMKX9stgJ27Wh1BjXz8WyA2r2zCdmAqbyQpJ/XGR
-         nw4tXAcL9IfPfW5RTDSrPHMxcvrVOWRKmP0NqjT+23cvpDeHF6ksVD1S8zhZV3wl4ed1
-         i/MGJ80g0EsCXzxYYilws+BEWWEaVe/A4cVx+rK/ajm3B7aXfMGsi1m2nBAVvc5H0T1g
-         GuCy9VP/dDY7ZHtxacnIHgXandqePbPiaRhlg89l6p2XuIvtUIuKvw0PDpSqck65BmR3
-         tMs3Z4MaFQL/N8vhkzPw0syuVEzDxvdQkAENPp/WjPt9lv4HXoCLvQb+DdRUl1rUl9jL
-         6ABw==
+        bh=NOR6O2PETuwaRvAAsFwwlVya0nS6q0LKyJxiyMYG4Ik=;
+        b=uSdJrpHm3e2b+W9cbmptjP+pqOrO0oUwrGhWQfpa8k9RitRTmEeasparW/DdYOOhzQ
+         td3G76vCMNfB7o6EGiElI2o/dxz4T/HuAo1F0Pca+z+oQg9QtVII4tTpfi/M3eqtKW1M
+         NyOw5Xuqu1nKSWqPvhNStx5X7sho3i+msAIuIrMphNUh55Zt3ZYZZ9Ju44G+YwpTNIRM
+         +ZLkAWyfi51f716InABukvMZAf8BtymOr67pmQK+nkjWbyq7moRabf9t3vm+eaenUm5b
+         8z6Qd8fopFP4F54AMH25qNq9dYSW/PnVbAgq1wO87wCk9WbhbxTKaaxaQT6+ZhepuQUN
+         rg4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743537574; x=1744142374;
+        d=1e100.net; s=20230601; t=1743537571; x=1744142371;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wX0uupXd89EWWiA4ifnfMUkiyM5f1EYReZBVpDWeOlQ=;
-        b=TOLKrXR/z8Ug99mMfDqWSxHLM2CVYloRFeujz+hGVE3KwubN15H34ab5mfYCqOvv1q
-         ojgXiPxGw5Ge/SYO9+SXq0FAjLkwiS/hUkkE1MGobGU191Dc1FsNdjx5pjwygbB5vHP5
-         qpKw3vc8orMtrD5Zc1ZWqAOsJgxZPeEp38im8PN99IvgttZOP3p6WHuR9DRgkTfxzXnz
-         z4ziqUZfYbhs6PfrAibIpXhlSwQfWaZ3iyDU7mrVOAKhWJIfDZYWdWR7JoH4A3NRGU1g
-         k6ev6NVYxlIwjZW7gWFnuhb6GNHV53Q/e+JIXNcRpceae9g+Z7QIp/hePDts+k3OvM68
-         8wdQ==
-X-Gm-Message-State: AOJu0YzgRS1aVmAqGl2tqWVLiGbwDtDQ625JApCxfSNjeSNULHLpgYpU
-	UBRm+bp61vThEf9AtkS7UTPaQ9SOdD2Fyyyut2+xKMn885EYrt7YAssouTYfHYhNSz8eO91N66Y
-	C
-X-Gm-Gg: ASbGncu+9dO8nL7phkJ+KFZaVIOWa+AAZAFKbZYgNpeFdQDrrPg+2l3sOaHA/nWOUyE
-	9XUIUfdxAz++N9tUjkRUEmNmNc0r0ONChxDIYfTkBBkj2pJaDygn7UK93huea9LH6Zh3whGvTiB
-	xy5S14Skp5jgOQ8ZVc76NmToKF1G7oQeL23oSh1OOqk3TUzjAx9WGZBpDZrTxMzHON0HCO80kO3
-	7ALEr8QbAt4oZBhkgY82hByQl4ZVAxFiFqGGP4mawshfY1qLdtzcUSPELYcj9pJtz0vpYwmGivG
-	1xFacYhJiM1UUTzwDE62z0HFjBdaBJ3g9wAa
-X-Google-Smtp-Source: AGHT+IHmCWPvobGLGL21UbvsJzczelpTS8w0cZcTh/7/Dp3dc3VGmCJGgh8jEMF9nGmZBXubv/P8Cg==
-X-Received: by 2002:a05:6a20:8c92:b0:1f5:9ffc:274a with SMTP id adf61e73a8af0-2009f6489f2mr17461630637.23.1743537574122;
-        Tue, 01 Apr 2025 12:59:34 -0700 (PDT)
+        bh=NOR6O2PETuwaRvAAsFwwlVya0nS6q0LKyJxiyMYG4Ik=;
+        b=OTnjqIQeWSCjIqE5hm822KWBQp0E90M+2fNZ+dNouBCSY5vS1v4X7LNPyQh52Abf6z
+         CX2Hah82Ie58tvz0AJQ8g/mmZYjfbw9ELJXfcJug+OcmcjEWwlqsV4LOTOV1PCn6lPg7
+         45rIwYDL+xgvAp8FQJZLW3shIHmtXoPEsoEKsdw7Fs1kC0OEpPj90yzmT5U9Ogr6Qpw1
+         YBeT+77u/q84vf55L8tBZH4t7mQ0CUm4ZfXiPQRab1HtFrmrRLVvlObevCZKS9xwEzUZ
+         TYxeWfoiS5KmGfXSvHwCgs9Nh1+nVL6t3YBpJoKh6VbnH9Jq1wdIqfSBl3qQTfQUgmGV
+         LHEQ==
+X-Gm-Message-State: AOJu0YzaVIRBbE8oo61OwxufVyXdS7vKlXqKLCrD5wQiBEcwFOFZ/t5L
+	YGS09RkQtUziINs4Nd8rhGRzXeNXHs3Mm2G5VEA3TSLQ5P/x31hBVbOebouIZMtcH4mRT8x3dPE
+	R
+X-Gm-Gg: ASbGncuy1lwMDFo8YILXzqmVTrXICP0t5nZNOTF9sYMuFdYWw7oKwEZaDD3mYIS3D3o
+	e3yXkuZLAljbzX1LAE9Xn5+l+sZ1IbC2LwgsvyR/meq5RWlGyeVupAgz5TcG/IyAboCHh503pFq
+	m6/FYePDIZPKpXNg0EDmxD1U0dhULCSr2/e/qwgymgZuJtqurto0ym7U8HzZ+emIJ7BLXU0x5zy
+	ygINcSKQ8/Cmo/NaDG4lU4IHBk/QblL7DPZ2q2Kq5APVZ7nEQ8bDV9SWjyRP4K89XnVBVNNgyy3
+	m6XaXWEcCJ/VKUrynBjffV4k33K1Evix6IYZ
+X-Google-Smtp-Source: AGHT+IHs/sE1jCmhiohqYjXjCgg95k2j6mCcWgA0l5YVYQcw+q9yM7UiTWplq9YloTwRaWg9nsbaHg==
+X-Received: by 2002:a05:6a20:9f8e:b0:1f5:6a1a:329b with SMTP id adf61e73a8af0-200d155f306mr9093154637.32.1743537571555;
+        Tue, 01 Apr 2025 12:59:31 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:6021:5333:bc00:e45b])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af93b52ea6bsm7234369a12.0.2025.04.01.12.59.33
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af93b52ea6bsm7234369a12.0.2025.04.01.12.59.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 12:59:33 -0700 (PDT)
+        Tue, 01 Apr 2025 12:59:31 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 4/5] yocto-uninative: Update to 4.7 for glibc 2.41
-Date: Tue,  1 Apr 2025 12:59:21 -0700
-Message-ID: <7626067432743657e9c536ca16a2dac513ba4929.1743537463.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 2/5] freetype: follow-up patch for CVE-2025-27363
+Date: Tue,  1 Apr 2025 12:59:19 -0700
+Message-ID: <41f855ea5a2018d08e0e9457d710032e96fe669b.1743537463.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1743537463.git.steve@sakoman.com>
 References: <cover.1743537463.git.steve@sakoman.com>
@@ -67,38 +67,80 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 19:59:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214149
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214147
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Peter Marko <peter.marko@siemens.com>
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Per [1] there are two patches needed - [2] which is already included in
+3.13.1 and [3] which is only in 2.13.3.
+Backport the second patch.
+
+[1] https://gitlab.freedesktop.org/freetype/freetype/-/issues/1322
+[2] https://gitlab.freedesktop.org/freetype/freetype/-/commit/ef636696524b081f1b8819eb0c6a0b932d35757d
+[3] https://gitlab.freedesktop.org/freetype/freetype/-/commit/73720c7c9958e87b3d134a7574d1720ad2d24442
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../freetype/freetype/CVE-2025-27363.patch    | 33 +++++++++++++++++++
+ .../freetype/freetype_2.13.2.bb               |  4 ++-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2025-27363.patch
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index a6f7107dfe..3d0f1fdccd 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,10 +6,10 @@
- # to the distro running on the build machine.
- #
+diff --git a/meta/recipes-graphics/freetype/freetype/CVE-2025-27363.patch b/meta/recipes-graphics/freetype/freetype/CVE-2025-27363.patch
+new file mode 100644
+index 0000000000..0882b01498
+--- /dev/null
++++ b/meta/recipes-graphics/freetype/freetype/CVE-2025-27363.patch
+@@ -0,0 +1,33 @@
++From 73720c7c9958e87b3d134a7574d1720ad2d24442 Mon Sep 17 00:00:00 2001
++From: Alexei Podtelezhnikov <apodtele@gmail.com>
++Date: Sun, 23 Jun 2024 10:58:00 -0400
++Subject: [PATCH] * src/truetype/ttgload.c (load_truetype_glyph): Unsigned fix.
++
++CVE: CVE-2025-27363
++Upstream-Status: Backport [https://gitlab.freedesktop.org/freetype/freetype/-/commit/73720c7c9958e87b3d134a7574d1720ad2d24442]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/truetype/ttgload.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/truetype/ttgload.c b/src/truetype/ttgload.c
++index 8cddc394c..b656ccf04 100644
++--- a/src/truetype/ttgload.c
+++++ b/src/truetype/ttgload.c
++@@ -1741,14 +1741,14 @@
++       if ( FT_IS_NAMED_INSTANCE( FT_FACE( face ) ) ||
++            FT_IS_VARIATION( FT_FACE( face ) )      )
++       {
++-        short        i, limit;
+++        FT_UShort    i, limit;
++         FT_SubGlyph  subglyph;
++ 
++         FT_Outline  outline = { 0, 0, NULL, NULL, NULL, 0 };
++         FT_Vector*  unrounded = NULL;
++ 
++ 
++-        limit = (short)gloader->current.num_subglyphs;
+++        limit = (FT_UShort)gloader->current.num_subglyphs;
++ 
++         /* construct an outline structure for              */
++         /* communication with `TT_Vary_Apply_Glyph_Deltas' */
+diff --git a/meta/recipes-graphics/freetype/freetype_2.13.2.bb b/meta/recipes-graphics/freetype/freetype_2.13.2.bb
+index 4e7a0ad160..ce7a615a3c 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.13.2.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.13.2.bb
+@@ -13,7 +13,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=843b6efc16f6b1652ec97f89d5a516c0 \
+                     file://docs/GPLv2.TXT;md5=8ef380476f642c20ebf40fecb0add2ec \
+                     "
  
--UNINATIVE_MAXGLIBCVERSION = "2.40"
--UNINATIVE_VERSION = "4.6"
-+UNINATIVE_MAXGLIBCVERSION = "2.41"
-+UNINATIVE_VERSION = "4.7"
+-SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz"
++SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz \
++           file://CVE-2025-27363.patch \
++"
+ SRC_URI[sha256sum] = "12991c4e55c506dd7f9b765933e62fd2be2e06d421505d7950a132e4f1bb484d"
  
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "c2d36338272eba101580f648dd8dff5352cdb4c1809db7dedf8fc4d7e7df716c"
--UNINATIVE_CHECKSUM[i686] ?= "0041584678109c18deca48fb59eaf14cf725cf024a170ab537b354b63240c504"
--UNINATIVE_CHECKSUM[x86_64] ?= "6bf00154c5a7bc48adbf63fd17684bb87eb07f4814fbb482a3fbd817c1ccf4c5"
-+UNINATIVE_CHECKSUM[aarch64] ?= "ac440e4fc80665c79f9718c665c6e28d771e51609c088c3c97ba3ad5cfed197a"
-+UNINATIVE_CHECKSUM[i686] ?= "c5efa31450f3bbd63ea961d4e7c747ae41317937d429f65e1d5cf2050338e27a"
-+UNINATIVE_CHECKSUM[x86_64] ?= "5800d4e9a129d1be09cf548918d25f74e91a7c1193ae5239d5b0c9246c486d2c"
+ UPSTREAM_CHECK_REGEX = "freetype-(?P<pver>\d+(\.\d+)+)"
 -- 
 2.43.0
 
