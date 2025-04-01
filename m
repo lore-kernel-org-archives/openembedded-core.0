@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DDABC36017
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52E33C3601A
 	for <webhook@archiver.kernel.org>; Tue,  1 Apr 2025 22:36:30 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web10.72.1743546988704809713
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.58.1743546987551611570
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 15:36:28 -0700
+ Tue, 01 Apr 2025 15:36:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bp8lyWQd;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-223fb0f619dso115337625ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 15:36:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LOl8f+xf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22403cbb47fso127287545ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 15:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743546988; x=1744151788; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1743546987; x=1744151787; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lpS2iWpDZh+OS/y589bDG5hb+GxQH4aJmcAk7FM0IAo=;
-        b=bp8lyWQdOsrhuZhrj9GBj6AzVZBNcCuF0KllvAhwFRhIx1p0fd/SnGnADfitGpsA6h
-         9QYDhiBxXd+XMxtpo2qTO+Tqp5if77loPir/chNdp4R3nZVmLkiztnm4/kGRUO3IYu8O
-         rOZ5WxRDV0cX7JOhOyG/QiMOPmkTR/z1hfFnFcL4JKL97KkSX2NaWmC1I6OOrJlXzDmG
-         IkViE6a/OXYmprxPQYRcLYgf9qyBjXHCby8OiIjZ0UhLmod7Icwwiul7oiszbd1QbHiW
-         lBVmQCgA6y5+9eleBI/a5JZAVMGyRxQG5CElSYUCsF9E2GK42GuXYHq1OQ0Um5TYRbu3
-         9gPA==
+        bh=CPeWXsuU3W8JyJl80urGKgfSiJvTipJrbZ/7wDFG7Vk=;
+        b=LOl8f+xfjY9gHiMlE3Mb1xZydfyk7CtAWshlVhl0m9OaDBSMKUkDkR0N88pnSRIwQp
+         ZNgcIO4eZR7BT3WHwxTp4BTBD/bp2VfH7z2pBU8lbp1BzVklI+h6xm4QJC1qx2OXgwOz
+         +CYgC00565Ma1J2x3T7snrQXtacNRnZz8FK/2ia+tje32HHNTPaLjC0oojL+h+71JrYT
+         /VgSChEMiv1PUwp486PwW+5dUZNfnhAbgBCMhczDjTYKKrjvxoRqt9DcjPzSsszUPFxC
+         ztNpp2aQw3hLM8XvbePaKCbYUmeX9XmYuJWIbZYTYjwkLvRc4mS1EiRyobuxTzRvCqvh
+         ZiLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743546988; x=1744151788;
+        d=1e100.net; s=20230601; t=1743546987; x=1744151787;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lpS2iWpDZh+OS/y589bDG5hb+GxQH4aJmcAk7FM0IAo=;
-        b=uObTkYNEd0nt07CQLx2ECMS//GFNN80Q+ew6I29LxLNBuBQeLkwYULRymUQuHCKZMk
-         ihot+Jngl69JdsP639ERAPfkze4YWHfkXTD5NRXx8uBU46JHZFaMm+L6jffOXaRXJtEF
-         QJz49mYY1l6JeLWxCOS2mYKO/cb4Mn6Kyb1A5eozwEFYUn4vE6Daky7u1FPLyLUvTD+H
-         xd4fe9apu5kpDQUEFl13CUxueR6dPkWo4QSx59FP1kCh/BJChjdS40F71yMMjLmdJ+gh
-         d9lty7AGyjMOeuwPnx6NEbRav3kxWZVXnTaUX0aLSxciRVyLSQ3Forb1eJ4VHYkMhPVU
-         LAKA==
-X-Gm-Message-State: AOJu0YxLunfHluz4g2yvygyQHQpBTJuhdxBGCiHyxdZILNL7/Qene4TY
-	4V3tWdE9ifUZDY+xG6lCo4OZKPITnMPDDu5EQVus1sGX5N4BgO+L4VaNcVFxJKmO/Xg26nJIcDs
-	C
-X-Gm-Gg: ASbGncs/lq/UrOa5J/PYrhWGNH7LGLF0L6UJx080aZSmoLecaQxaD8514iOrJJ2bKAJ
-	BoNllH4EBlEKofW5XKykkhtyDuausz6sZzBGC/G7TBp/OIvZy0kGy4jOgVbtOkvDwvIi3lSjnly
-	dRf5JEhW8Zw+VSPeXpHCmi0t8mY0Th2sF4fJqadHzhbZQn2bTGzGlolGjL3au+yeDVdlDecK/FH
-	7nmeqdCQmqRrLAlAL9RIO5PhNLBNO/p9zhmO+4DOXjFj1lWvxjAXTsNvT5FLh314yTNAgm1L4sp
-	56Tnt+5flo9Zar7gGO725ydUP7Fh1v2wZN2B
-X-Google-Smtp-Source: AGHT+IFQuZtKXDU7PGjdUMxEQYWzC+AkxrNrXKgsjOmPcl+iLVnKzxFWhqom45rMV+rin21Lsep2hw==
-X-Received: by 2002:a05:6a21:8dca:b0:1f5:8a03:ea22 with SMTP id adf61e73a8af0-200d1560735mr6650585637.33.1743546987938;
-        Tue, 01 Apr 2025 15:36:27 -0700 (PDT)
+        bh=CPeWXsuU3W8JyJl80urGKgfSiJvTipJrbZ/7wDFG7Vk=;
+        b=uUUWPl+MaPhYALu4bDmZMtSpRccBdXySCL4n+jBjzQZv5FqcVheSlFdDfzBgSNnQ3F
+         XXlH974FPpqaZqkPLhykJV0Zsu49GfzQ2CJtw/UUKRW5jNsk5BpwTkxLYW3bAtpxIBbj
+         T2hqyUHi0vnRhc1Mujm3Z7PqXz5+S+tMcFETq0H233dh+umRrrkLCQtT2dwdOsGkU/s6
+         VR7K/jpUg94muAlpjOX1heaZF7M2SL9KLFMu9eFqI4cWIIZ9cerONF0EvlJHlCic1C0M
+         bJ8qU308763d/GaAGno0IcaBg3oPg4rzg7+802UahLJoJ3am6TD+ZFdMSqhJJ3fGSveu
+         5K4w==
+X-Gm-Message-State: AOJu0YxQZ7jIVfM/apcBIPu8nxNV4xERSbv01HOcMfBR86JrbCrhodiq
+	eL52H1jSRyGckwz6f2wyyeE+lH+Rfx9BtDl0trZIflHpyzBua3jr8qEjKHhLA/LphVD6n6mO+LB
+	P
+X-Gm-Gg: ASbGncsgfTEtwKigryKeQgK3spePZwpylchqbCJB006AywGftolx4cWOHWzEFOS0C5E
+	6K6omuyaOflMDcFydA32iiE0/cNjquFwCGCFGp0LQ3XMKFnuq4FCrYUaPJ+xykKBKP0j60an3Lb
+	lP72WfD08XBDiOxrJ8WWFwVVrfmkfEh1KgEil4cZK5/P6CoAwFyXujGTZQgs/XwGtXx+2wd3GNp
+	eXeYxzzd3HoY4y+x2/EuoQE6vhHlYk/1B8hNwBjAiyVzPz6ZGROJbC/E5wh6gzPWMGgmEecxMwY
+	uS8Gs0qVOM6RzgYe4HPRN0k3rs0GJ3PKwzLX
+X-Google-Smtp-Source: AGHT+IFpYjeq/FN5z6zrVjOGYj/BJjDJNYkeisp1k63qsSw5OgD9UQ76xshbcHQYCSjhOmHcCKYe+Q==
+X-Received: by 2002:a05:6a00:2d8b:b0:736:41ec:aaad with SMTP id d2e1a72fcca58-739803c0d09mr19477459b3a.14.1743546986630;
+        Tue, 01 Apr 2025 15:36:26 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:6021:5333:bc00:e45b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73970e226a7sm9534241b3a.48.2025.04.01.15.36.27
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73970e226a7sm9534241b3a.48.2025.04.01.15.36.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 15:36:27 -0700 (PDT)
+        Tue, 01 Apr 2025 15:36:26 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/8] perl: ignore CVE-2023-47038
-Date: Tue,  1 Apr 2025 15:36:10 -0700
-Message-ID: <46fd9acd6b0e418009f4cec747ae82af60acbc6b.1743546795.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/8] libarchive: ignore CVE-2025-1632
+Date: Tue,  1 Apr 2025 15:36:09 -0700
+Message-ID: <bf7654877ba99f0b18a1cf6f83032af5ecabd01f.1743546795.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1743546795.git.steve@sakoman.com>
 References: <cover.1743546795.git.steve@sakoman.com>
@@ -67,35 +67,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Apr 2025 22:36:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214155
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214154
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Fix for this CVE was backported to 5.34.2 in
-https://github.com/Perl/perl5/commit/12c313ce49b36160a7ca2e9b07ad5bd92ee4a010
+As already mentioned in [1] when backporting commit including fix for
+this CVE, this vulnerability applies only from libarchive 3.7.0 commit
+[2] which introduced bsdunzip which contains this vulnerability.
 
-This commit is listed in
-https://security-tracker.debian.org/tracker/CVE-2023-47038
+[1] https://git.openembedded.org/openembedded-core/commit/?h=kirkstone&id=ec837d3b21b4f8b98abac53e2833f1490ba6bf1e
+[2] https://github.com/libarchive/libarchive/commit/c157e4ce8eb170a92945cc2d292fd7106bdfcce1
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/perl/perl_5.34.3.bb | 2 ++
+ meta/recipes-extended/libarchive/libarchive_3.6.2.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.34.3.bb b/meta/recipes-devtools/perl/perl_5.34.3.bb
-index 215990c8fa..ed3518b62d 100644
---- a/meta/recipes-devtools/perl/perl_5.34.3.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.3.bb
-@@ -50,6 +50,8 @@ export ENC2XS_NO_COMMENTS = "1"
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+index 4ceb0df2c0..f7e576b688 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+@@ -44,6 +44,8 @@ SRC_URI[sha256sum] = "ba6d02f15ba04aba9c23fd5f236bb234eab9d5209e95d1c4df85c44d5f
+ CVE_CHECK_IGNORE += "CVE-2023-30571"
+ # cpe-incorrect: this vulnerability was not in any release; introduced in v3.7.3-14-g91f27004; fixed in b6a97948
+ CVE_CHECK_IGNORE += "CVE-2024-37407"
++# cpe-incorrect: bsdtar was introduced in v3.7.0, so 3.6.2 is not affected yet
++CVE_CHECK_IGNORE += "CVE-2025-1632"
  
- # Duplicate of CVE-2023-47038, which has already been patched as of perl_5.34.3
- CVE_CHECK_IGNORE:append = " CVE-2023-47100"
-+# This is fixed in 5.34.2 via https://github.com/Perl/perl5/commit/12c313ce49b36160a7ca2e9b07ad5bd92ee4a010
-+CVE_CHECK_IGNORE:append = " CVE-2023-47038"
+ inherit autotools update-alternatives pkgconfig
  
- do_configure:prepend() {
-     cp -rfp ${STAGING_DATADIR_NATIVE}/perl-cross/* ${S}
 -- 
 2.43.0
 
