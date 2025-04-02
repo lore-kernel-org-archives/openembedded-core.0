@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1542C36014
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D83F4C3601B
 	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 07:10:37 +0000 (UTC)
 Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.2225.1743577830064979398
+ by mx.groups.io with SMTP id smtpd.web11.2124.1743577833712999607
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Apr 2025 00:10:30 -0700
+ Wed, 02 Apr 2025 00:10:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AQNgk1JV;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BivZWUkI;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3996af42857so327666f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 00:10:29 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39c266c2dd5so925608f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 00:10:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743577828; x=1744182628; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1743577831; x=1744182631; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8drXWQmWGna5UHo1mhsLRiwQgn4H0WKDsMRR4NFwTBc=;
-        b=AQNgk1JVhXCNtHO2WtR8DN/bCD4AjNYfhuc+HCcZQjAiUGCDi3/eMUOt6ROPnP/hrU
-         RLNP2Hs6BrMvVRb7DoSxzeg8xOKPGyVLlcXnIQy+XDMSvMoYbIQhtSFdMA6o1A2TKsY2
-         kEhVfg9BnMXL3pRXufZWeyx3a0vyeuhMZwI+w=
+        bh=QNXzztFjL/FTa+Mwq1MOQMLrkapRWFPDSt4yCDMckaU=;
+        b=BivZWUkIGKhhVElRnWetyI/+Fg/yU1FNQO8x5PDLDz1w3FEKqhX6dqScYmCLtYBMVf
+         A5troLG9YPGPhwXNYWXDoinC1yzMeAjQCNDhhJuhGtZbPGVDP2Sb6dlzLgDGbX3fHgLV
+         3pTAN9AjKPHih2BJ6BqFHFjlb5qgsBXTiSRkQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743577828; x=1744182628;
+        d=1e100.net; s=20230601; t=1743577831; x=1744182631;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8drXWQmWGna5UHo1mhsLRiwQgn4H0WKDsMRR4NFwTBc=;
-        b=iwp3Re0OVyo4VqwHmM8AltJHkiRvI8DGog0ztOnM3YbIxUTvLMoG2M6vjYVnjWI/6w
-         a021Pv534CMDv6vYmV/2/9ePLfRY12klf5gkdeWc3VM6fGeuJHC6z0TQzuv4Orwktuu2
-         AGyPZEOvQ+VoJ3xoS3IflfkSR4KP99UTeV43ItAxsi5zdVbagUem0i296azEaCBin0MN
-         ZwZklFhjxGRMMDsZA/iUX3m1U8s0qnx/rPGuBbRsVga+1IriK8JgVU/7DNEBJxdp7QnC
-         4JLTx1dkXEDWdFh1sN3QZ61W1lxd+ndxuWuhaDs6+/Cvfovk7eOm9EfswpWyYFFQolio
-         B8ZA==
-X-Gm-Message-State: AOJu0YzrZCxhObhkw4gFoZ6i5asJkWV9dDhnryoqKIJ+nfXlwL9wj634
-	GNZcgqDTRgldaJnfC6Nh+5kUMnqVpwVaTzsok4ygXQjyLTwGg9v6jit6anF5tqSsXPWBBvVV64I
-	v
-X-Gm-Gg: ASbGncvHplBtHnJ07VYjaHcrb+3Yq9x7y+8pItNOm1EQ5TeFzU/g+tzJi2QmoGWiV4x
-	5wZ65lZjTHtZ0ODMBEBc6vMsDZUGDFrbDKiSAmtfKjpRHutJfwc0Mh3Gs9vB5Kx1A0iFs08mFZW
-	A2QnNq3OHvx1J8NPGZnHANbFwgEtcpGy7bFcZm2d+MBHt3dAygJtWx4p3UezI5lwKnClvIZbFsa
-	gti5MaK8hyyr20KWQKyKL0GMIfA4I/MP+4c5iQvxstf3Y582z8SoQ7dPPAEr5dYxitgtp4ym82F
-	JVCdj0Xzyp3qlyavkmpPH9A88gEY1q7HNmX0CKnNoANbXRGxABnqPypEo5yOtSMHrxXY/agaEQ=
+        bh=QNXzztFjL/FTa+Mwq1MOQMLrkapRWFPDSt4yCDMckaU=;
+        b=M/K1UtcxxiDbG8i8MqWaBMuH99S3UmbHrg/W4GshUj9bhK5FdFvTmctj/hRsoenHjD
+         3aY0MsgFZAuo6zK2TZ5C1r6U3U8SCqt9GwHqPbfs68YTSisIt3NzD5Y7phTmxVRHQmYR
+         aSheyRaFG4VUOiurbL8qXfciOrOTkE3pWLpe4HWNvyOASSq6j2Hj7FRjoywVeMreqQg5
+         a1BG2+WO3KkG6aNfRrGPOkGLFvL1nsCHlEVUPKQAKYZekJV4+5f3B7kAc1kzJCTAMPfU
+         bAHWsWxPckazU5ElTYw0r73sKE3OYWbobcTeB8cXF3wwqlrCovkzAyPD91gRbIeQnBNr
+         EzsQ==
+X-Gm-Message-State: AOJu0Yx9Es97iNu/OzAq8DXSkwJl6JxkCemx/w//ayU2edBB2zS1bKVn
+	5yQibErZHDGZHG6Tvm5tDndMi4kn10XK30rVcBpb26DHh44/Jp+X2s+HO3tuUl1gBArkpviKdai
+	R
+X-Gm-Gg: ASbGncvcXHCXqIhiT4YXjvnvD67V2iXalpNNFNqqJV0enfFk5D50nXVJFRzVrbuBbOI
+	LKn/Bqd6Du+u7ut7CXOvlZ1BLC2h6AWhCauW7AeOQk+p7iJPIa2ZlQtcJ0mIvcGHOPMOcjEkYbN
+	Cil93JWMNnSVqGAklNd/tVoeV4XSBjUeHfPaPLk5FvuX6Qs969CYIPCikh1he6J7owP4SX4YE9Q
+	FDXg9O/3DWMjagBbPaE0CcAh3yq+FWIiFP5bakxhJ1Q5emymkzji2/VcGlcsCNUFQMusXSeMSdb
+	Q6d/R6VqY6ftXBaaGfMpz1HZ59TDlvBgTFl7mtti4xK32E73qRu/cIIRm4S1ixUhKjIDAvwzCw=
 	=
-X-Google-Smtp-Source: AGHT+IGlXnMfkq8bqeSPmu8lMQpnwBhLthAzUbWdJp62SttZ4UYn0sxMcTE/MswVoCoLFEptRXiyQQ==
-X-Received: by 2002:a05:6000:430b:b0:391:3207:2e68 with SMTP id ffacd0b85a97d-39c2a34ce11mr712957f8f.9.1743577827920;
-        Wed, 02 Apr 2025 00:10:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE5XWnG1mEDV8oeLm3OGs0pQpwThEqnzKyj+a7BR0gJFwxhs9+2jogfsidnb3O3KIaIw9JZBQ==
+X-Received: by 2002:a05:6000:1882:b0:390:e311:a8c7 with SMTP id ffacd0b85a97d-39c120c8ddfmr13942183f8f.5.1743577831424;
+        Wed, 02 Apr 2025 00:10:31 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:24b8:b374:749c:8558])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb6103a07sm11344385e9.29.2025.04.02.00.10.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb6103a07sm11344385e9.29.2025.04.02.00.10.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 00:10:25 -0700 (PDT)
+        Wed, 02 Apr 2025 00:10:29 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 04/48] bind: upgrade 9.20.6 -> 9.20.7
-Date: Wed,  2 Apr 2025 08:09:33 +0100
-Message-ID: <20250402071017.2157620-4-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 05/48] btrfs-tools: upgrade 6.13 -> 6.14
+Date: Wed,  2 Apr 2025 08:09:34 +0100
+Message-ID: <20250402071017.2157620-5-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250402071017.2157620-1-richard.purdie@linuxfoundation.org>
 References: <20250402071017.2157620-1-richard.purdie@linuxfoundation.org>
@@ -65,112 +65,109 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 07:10:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214177
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214178
+
+Add tag to SRC_URI to verify SRCREV.
+
+Drop patch merged upstream.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../bind/bind/0001-avoid-start-failure-with-bind-user.patch   | 2 +-
- ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 4 ++--
- ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 4 ++--
- meta/recipes-connectivity/bind/bind/conf.patch                | 2 +-
- .../bind/bind/init.d-add-support-for-read-only-rootfs.patch   | 2 +-
- .../bind/bind/make-etc-initd-bind-stop-work.patch             | 2 +-
- .../bind/{bind_9.20.6.bb => bind_9.20.7.bb}                   | 2 +-
- 7 files changed, 9 insertions(+), 9 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.20.6.bb => bind_9.20.7.bb} (97%)
+ ...y-to-specify-where-python-modules-ar.patch |  6 +--
+ ...dd-break-to-case-BTRFS_COMPRESS_NONE.patch | 40 -------------------
+ ...trfs-tools_6.13.bb => btrfs-tools_6.14.bb} |  5 +--
+ 3 files changed, 5 insertions(+), 46 deletions(-)
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.13.bb => btrfs-tools_6.14.bb} (95%)
 
-diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-index 0d670edda60..78ab6b87fc2 100644
---- a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index 59ea5a66dac..2cd66d2722a 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
 @@ -1,4 +1,4 @@
--From 0a45935f9d1207535f83df62ed52f358ed546bbe Mon Sep 17 00:00:00 2001
-+From c70f74164bea8a8c54c03becffb2f21103dd1f31 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 15 Oct 2018 16:55:09 +0800
- Subject: [PATCH] avoid start failure with bind user
-diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-index 10b8caafbba..53e439721fc 100644
---- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-@@ -1,4 +1,4 @@
--From dd484b0bd58832fc241afdc8ea05693228348353 Mon Sep 17 00:00:00 2001
-+From 0dd67d85705cbcfa9a2759c46f3cdf3d0d6375de Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Mon, 27 Aug 2018 21:24:20 +0800
- Subject: [PATCH] `named/lwresd -V' and start log hide build options
-@@ -20,7 +20,7 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
+-From 76e635a56c5973671da3a8a2fd4fc32e823bf8c9 Mon Sep 17 00:00:00 2001
++From 030ec81c0dac1e067faf49924d5631bb22ccc90d Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/configure.ac b/configure.ac
--index 13f9d7f..6516d0d 100644
-+index f9cf4a4..0ce3d26 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -35,7 +35,7 @@ AC_DEFINE([PACKAGE_VERSION_EXTRA], ["][bind_VERSION_EXTRA]["], [BIND 9 Extra par
-diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-index 49b0a5eea1e..38d208fc1c0 100644
---- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-+++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-@@ -1,4 +1,4 @@
--From 9a06dbf831f012c6019237527d2bf1aa7a3a543a Mon Sep 17 00:00:00 2001
-+From 8c9c817933eef20328f10237bbd964580db0a3ad Mon Sep 17 00:00:00 2001
- From: Paul Gortmaker <paul.gortmaker@windriver.com>
- Date: Tue, 9 Jun 2015 11:22:00 -0400
- Subject: [PATCH] bind: ensure searching for json headers searches sysroot
-@@ -32,7 +32,7 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ diff --git a/Makefile b/Makefile
+-index 2f8d2fa0..c760e5ae 100644
++index 7e36aa42..edff7d5b 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -985,7 +985,7 @@ endif
++@@ -996,7 +996,7 @@ endif
+  ifeq ($(PYTHON_BINDINGS),1)
+  install_python: libbtrfsutil_python
+  	$(Q)cd libbtrfsutil/python; \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch
+deleted file mode 100644
+index 750ba830740..00000000000
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From ae0743dea3498429fce144e75c8b5b6eeed6f490 Mon Sep 17 00:00:00 2001
+-From: Wang Mingyu <wangmy@fujitsu.com>
+-Date: Tue, 11 Mar 2025 05:24:54 +0000
+-Subject: [PATCH] mkfs: add break to case BTRFS_COMPRESS_NONE
+-
+-when compression null, always through error "lzo support not compiled in"
+-
+-This bug was imported by following commit:
+-----------------------------------------------------
+-commit c6d24a363daed6501d13d9125c560387e2d755ca
+-Author: Mark Harmstone <maharmstone@fb.com>
+-Date:   Thu Dec 12 20:36:55 2024 +0000
+-
+-     btrfs-progs: mkfs: add lzo to --compress option
+-
+-     Allow --compress to work with lzo.
+-----------------------------------------------------
+-
+-Upstream-Status: Submitted [https://github.com/kdave/btrfs-progs/pull/967]
+-
+-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+----
+- mkfs/rootdir.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/mkfs/rootdir.c b/mkfs/rootdir.c
+-index 1927394..5f4cfb9 100644
+---- a/mkfs/rootdir.c
+-+++ b/mkfs/rootdir.c
+-@@ -1654,6 +1654,7 @@ int btrfs_mkfs_fill_dir(struct btrfs_trans_handle *trans, const char *source_dir
+- 
+- 	switch (compression) {
+- 	case BTRFS_COMPRESS_NONE:
+-+                break;
+- 	case BTRFS_COMPRESS_LZO:
+- #if !COMPRESSION_LZO
+- 		error("lzo support not compiled in");
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.14.bb
+similarity index 95%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.14.bb
+index d73d86ba8ae..cee1fdfd556 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.14.bb
+@@ -15,11 +15,10 @@ LIC_FILES_CHKSUM = " \
+ SECTION = "base"
+ DEPENDS = "util-linux zlib"
  
- diff --git a/configure.ac b/configure.ac
--index 168a77a..13f9d7f 100644
-+index 334b551..f9cf4a4 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -863,7 +863,7 @@ AS_CASE([$with_lmdb],
-diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
-index 16ac510cfab..102fe46ffec 100644
---- a/meta/recipes-connectivity/bind/bind/conf.patch
-+++ b/meta/recipes-connectivity/bind/bind/conf.patch
-@@ -1,4 +1,4 @@
--From 27d1113a4c378583e0fcff91d70256bdcd78de0b Mon Sep 17 00:00:00 2001
-+From 83a892af19bf1455ce7132350332ed6d7f1e2b94 Mon Sep 17 00:00:00 2001
- From: Qing He <qing.he@intel.com>
- Date: Tue, 30 Nov 2010 13:35:42 +0800
- Subject: [PATCH] bind: add new recipe
-diff --git a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-index baeeafe33e3..984d401c708 100644
---- a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-+++ b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-@@ -1,4 +1,4 @@
--From 1fa4d0eb9631771bd751f04ce898433580996e5e Mon Sep 17 00:00:00 2001
-+From 1393cbf6b0084128fdfc9b5afb3bcc307265d094 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 27 Mar 2014 02:34:41 +0000
- Subject: [PATCH] init.d: add support for read-only rootfs
-diff --git a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-index 93aa3041264..74f2ef83a05 100644
---- a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-+++ b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-@@ -1,4 +1,4 @@
--From 2ea2e4e502e5840d52e76461e071882cc65f1766 Mon Sep 17 00:00:00 2001
-+From ce06506bb3fe661e03161af3a603bd228590a254 Mon Sep 17 00:00:00 2001
- From: Roy Li <rongqing.li@windriver.com>
- Date: Thu, 15 Nov 2012 02:27:54 +0000
- Subject: [PATCH] bind: make "/etc/init.d/bind stop" work
-diff --git a/meta/recipes-connectivity/bind/bind_9.20.6.bb b/meta/recipes-connectivity/bind/bind_9.20.7.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.20.6.bb
-rename to meta/recipes-connectivity/bind/bind_9.20.7.bb
-index 7a03f8598d5..b4202f1a59a 100644
---- a/meta/recipes-connectivity/bind/bind_9.20.6.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.20.7.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+-SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https \
++SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tar=v${PV} \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+-           file://0001-mkfs-add-break-to-case-BTRFS_COMPRESS_NONE.patch \
             "
+-SRCREV = "26e4d9174c70aac0e53c3b5de55cf159f8d9397f"
++SRCREV = "5ad147c9ec00e657393c85b195c9bcc0f4c35a54"
+ S = "${WORKDIR}/git"
  
--SRC_URI[sha256sum] = "ed7f54b44f84a7201a2fa7a949f3021ea568529bfad90fca664fd55c05104134"
-+SRC_URI[sha256sum] = "43323c8d22d2144282c37b4060ec11e98c24835e225688876fad08ba7b95dca6"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ PACKAGECONFIG ??= " \
 
