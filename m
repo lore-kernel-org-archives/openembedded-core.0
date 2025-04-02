@@ -1,151 +1,134 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBD7DC28B20
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 17:02:44 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.108.1743613361712083705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D92C3601E
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 19:33:55 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.3968.1743622432267376715
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Apr 2025 10:02:41 -0700
+ Wed, 02 Apr 2025 12:33:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D02A1FC4
-	for <openembedded-core@lists.openembedded.org>; Wed,  2 Apr 2025 10:02:44 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DB3473F694
-	for <openembedded-core@lists.openembedded.org>; Wed,  2 Apr 2025 10:02:40 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] meson: upgrade to 1.7.1
-Date: Wed,  2 Apr 2025 18:02:35 +0100
-Message-ID: <20250402170235.2868624-3-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250402170235.2868624-1-ross.burton@arm.com>
-References: <20250402170235.2868624-1-ross.burton@arm.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cp4gw9Mv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43d04dc73b7so915715e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 12:33:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1743622431; x=1744227231; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g3lsKW0kM5sHJ4u5JSNnqHvD1MiCmkWeOHHZYKmLwao=;
+        b=cp4gw9Mv4T1oI2086E5Kfd7mmCBUl39VZXtLwY4OvY2WbKQ+nMt2WPeKVk1hFyO7AV
+         2Tv9aUf6lzAzdEyRZSJrprPia/DqZ7gFQ5yMavNdLe/t+LhBydchZsCqgdc92rT/0x6+
+         hAcfjgmNsYCY/MEmo258i6eJeCPeNE4F8cs1E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743622431; x=1744227231;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=g3lsKW0kM5sHJ4u5JSNnqHvD1MiCmkWeOHHZYKmLwao=;
+        b=HGl481cGsNa1hX+SfCD75aKjTMjyNJ38wNind/XOuXPPGBAMm0uJ5gnS7IYrq3dvbi
+         X6EVfKCZX6Hiwsh1LXhxu/yf9FA9Kr+T35FpD/QD2Oz3F3KTJUBXCQLaT/HcjXT9oh6q
+         nVAcEQdciMWyu+juBS4DuNQGtf5BYaIF2ItfVYTKFGSV4VwIWDiAsZpMZ64/k0MnizKd
+         Ll2gpY9JfzXp5ZbmpjDndp2Ps/qzVWR4cu+VdxXT1gGXJG+HSu7LqPamMloDH3ORk33O
+         oddswoFQjIUo5UuVHQC1m5qv/as1B5d7NuAWSsserPA9TC1lqHHZMXyEE7fyZl62g5O0
+         GxHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVXmWpWQNmiM4EoosdVL9iDXxvIZfJ71uTzy9HUfPi13LtHluEK7YYz0AGRzue2fvnilUM5CE0O5FxZUoV0OuFhbQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzG1FksIlrzsjzbni3NDZU2qV7V0DtrWbXz7h6pfOy54ksWVLBC
+	Yzx0+0eY+X0T5TuXy1iXPR593RPudL6lgIIDcz2q56cr+yXSi6sZy8lI/N2sQcw=
+X-Gm-Gg: ASbGncu/XlaBEmjJhkDVvBnDh6p+WW678NfL4OLAgqDBMSDn3fKe8q8A0QH2/1l8Unm
+	9rD7LSMjNNQPuyRrSKF544zwJ1aCFGtLZgQCwYAOHRMG9bKQ4ltmDkANTwgWMt4CRkSownAIa+i
+	RbkAEtfTgceTVx0kz7X0xlkS/RdKeCM3jK9ol1zcEG/cAC1mPjHwroK3RClfMmjZ9dAVvZPLTeC
+	MxL8fXjH6FUb1pYGK4OmzdJn5Kt7C2OjSTmi1caL1+dEsAqiVUXe5/NCq/u3gAfeaspRENYjroC
+	F2bD7oBw+XGcyM6xyu8OIRioIVb5J65VXS7AB5kQCZWgVqKTHI2IusPAT4nt7JW7RGNSDL9xOkY
+	SvYctbtfGM8sYUgCv+rrTWAnCkQhwFg4F16Jk9cN2Er9h
+X-Google-Smtp-Source: AGHT+IExtdmTvbPPb063cR1WQZOR+r+KfgqrJDpllPcSHyaBnMKwdTloyYpGnfhFyIxD7z2nWnp1Mg==
+X-Received: by 2002:a05:600c:34d0:b0:43c:fcb1:528a with SMTP id 5b1f17b1804b1-43db61d8dcbmr160018165e9.6.1743622430596;
+        Wed, 02 Apr 2025 12:33:50 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:24b8:b374:749c:8558? ([2001:8b0:aba:5f3c:24b8:b374:749c:8558])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb5fd0a46sm30449135e9.9.2025.04.02.12.33.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Apr 2025 12:33:49 -0700 (PDT)
+Message-ID: <633bbc8576502d873a8e2a3938a6ae64bc508eb2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH OE-Core 0/5] connman: Update for all
+ PACKAGECONFIG options, clean up legacy
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alex.kiernan@gmail.com, openembedded-core@lists.openembedded.org
+Date: Wed, 02 Apr 2025 20:33:48 +0100
+In-Reply-To: <20250402-connman-v1-0-2e4fbbb7caf9@gmail.com>
+References: <20250402-connman-v1-0-2e4fbbb7caf9@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 17:02:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214288
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 19:33:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214289
 
-Drop 0001-dependencies-dev-prepend-sysroot-when-searching-for-.patch as
-this is now upstreamed.
+On Wed, 2025-04-02 at 16:02 +0000, Alex Kiernan via lists.openembedded.org =
+wrote:
+> connman has a legacy style, this patch set adds in all the PACKAGECONFIG
+> options which the upstream pacakge supports, removes patches which are no
+> longer required, explicitly supports operation alongside systemd-resolved=
+ and
+> reworks the packaging so that PACKAGECONFIG and explicit package selectio=
+n for
+> every VPN is no longer required.
+>=20
+> Everything up to the final patch should be backward compatible cleanup of=
+ the
+> existing recipe, with only the final patch reworking the packaging.
+>=20
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> ---
+> Alex Kiernan (5):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connman: Merge .inc into .bb
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connman: Delete patches for gold and MIPS =
+binutils fix
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connman: Move ppp from DEPENDS to PACKAGEC=
+ONFIG
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connman: Add all build options as PACKAGEC=
+ONFIG
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connman: Rework to avoid splitting into ma=
+ny single binary packages
+>=20
+> =C2=A0meta/recipes-connectivity/connman/connman.inc=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 221 ---------------------
+> =C2=A0...vice-stop-systemd-resolved-when-we-use-co.patch |=C2=A0 26 ---
+> =C2=A0...ange-visibility-to-default-for-debug-symb.patch |=C2=A0 31 ---
+> =C2=A0.../connman/connman/no-version-scripts.patch=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 47 -----
+> =C2=A0meta/recipes-connectivity/connman/connman_1.44.bb=C2=A0 | 154 +++++=
+++++++++-
+> =C2=A05 files changed, 147 insertions(+), 332 deletions(-)
 
-Remove the deletion of a .pyc because it uses frozenset(), this bug in
-Python has been fixed since 3.11[1]
+This failed in testing on the first try. I've added:
 
-[1] https://github.com/python/cpython/commit/51999c960e7fc45feebd629421de=
-c6524a5fc803
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...-prepend-sysroot-when-searching-for-.patch | 33 -------------------
- .../meson/{meson_1.7.0.bb =3D> meson_1.7.1.bb}  | 13 +-------
- 2 files changed, 1 insertion(+), 45 deletions(-)
- delete mode 100644 meta/recipes-devtools/meson/meson/0001-dependencies-d=
-ev-prepend-sysroot-when-searching-for-.patch
- rename meta/recipes-devtools/meson/{meson_1.7.0.bb =3D> meson_1.7.1.bb} =
-(88%)
-
-diff --git a/meta/recipes-devtools/meson/meson/0001-dependencies-dev-prep=
-end-sysroot-when-searching-for-.patch b/meta/recipes-devtools/meson/meson=
-/0001-dependencies-dev-prepend-sysroot-when-searching-for-.patch
-deleted file mode 100644
-index b6579c824ef..00000000000
---- a/meta/recipes-devtools/meson/meson/0001-dependencies-dev-prepend-sys=
-root-when-searching-for-.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 17117c2732c33ebec39e3fec2ecd5a3515dc7d71 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Wed, 20 Nov 2024 13:09:38 +0000
--Subject: [PATCH] dependencies/dev: prepend sysroot when searching for GT=
-est
-- sources
--
--Don't hardcode paths in /usr when looking for the GTest sources, as in
--cross-compile or other builds with a sysroot this will find the host
--sources, not ones that we want to use in the sysroot.
--
--Closes #12690.
--
--Upstream-Status: Backport [17117c2732c33ebec39e3fec2ecd5a3515dc7d71]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- mesonbuild/dependencies/dev.py | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
--
--diff --git a/mesonbuild/dependencies/dev.py b/mesonbuild/dependencies/de=
-v.py
--index 2725a7bb4e88..0c8886b81a04 100644
----- a/mesonbuild/dependencies/dev.py
--+++ b/mesonbuild/dependencies/dev.py
--@@ -56,7 +56,9 @@ class GTestDependencySystem(SystemDependency):
--     def __init__(self, name: str, environment: 'Environment', kwargs: T=
-.Dict[str, T.Any]) -> None:
--         super().__init__(name, environment, kwargs, language=3D'cpp')
--         self.main =3D kwargs.get('main', False)
---        self.src_dirs =3D ['/usr/src/gtest/src', '/usr/src/googletest/g=
-oogletest/src']
--+
--+        sysroot =3D environment.properties[self.for_machine].get_sys_ro=
-ot() or ''
--+        self.src_dirs =3D [sysroot + '/usr/src/gtest/src', sysroot + '/=
-usr/src/googletest/googletest/src']
--         if not self._add_sub_dependency(threads_factory(environment, se=
-lf.for_machine, {})):
--             self.is_found =3D False
--             return
-diff --git a/meta/recipes-devtools/meson/meson_1.7.0.bb b/meta/recipes-de=
-vtools/meson/meson_1.7.1.bb
-similarity index 88%
-rename from meta/recipes-devtools/meson/meson_1.7.0.bb
-rename to meta/recipes-devtools/meson/meson_1.7.1.bb
-index 44872a5f7ba..d83a5efbf5d 100644
---- a/meta/recipes-devtools/meson/meson_1.7.0.bb
-+++ b/meta/recipes-devtools/meson/meson_1.7.1.bb
-@@ -14,9 +14,8 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/meson-${=
-PV}.tar.gz \
-            file://0001-python-module-do-not-manipulate-the-environment-w=
-hen.patch \
-            file://0001-Make-CPU-family-warnings-fatal.patch \
-            file://0002-Support-building-allarch-recipes-again.patch \
--           file://0001-dependencies-dev-prepend-sysroot-when-searching-f=
-or-.patch \
-            "
--SRC_URI[sha256sum] =3D "08efbe84803eed07f863b05092d653a9d348f7038761d900=
-412fddf56deb0284"
-+SRC_URI[sha256sum] =3D "155780a5be87f6dd7f427ad8bcbf0f2b2c5f62ee5fdacca7=
-caa9de8439a24b89"
- UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+(\.\d+)+)$"
+diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/met=
+a/recipes-core/images/build-appliance-image_15.0.0.bb
+index 03f02d14ae8..c5ddea79005 100644
+--- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+@@ -6,7 +6,7 @@ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb7=
+88c80a0384361b4de20420"
 =20
- inherit python_setuptools_build_meta github-releases
-@@ -25,16 +24,6 @@ RDEPENDS:${PN} =3D "ninja python3-modules python3-pkg-=
-resources"
+ IMAGE_INSTALL =3D "packagegroup-core-boot packagegroup-core-ssh-openssh pa=
+ckagegroup-self-hosted \
+-                 kernel-dev kernel-devsrc connman connman-plugin-ethernet =
+dhcpcd \
++                 kernel-dev kernel-devsrc connman dhcpcd \
+                  tzdata python3-pip perl-misc"
 =20
- FILES:${PN} +=3D "${datadir}/polkit-1"
-=20
--do_install:append () {
--	# As per the same issue in the python recipe itself:
--	# Unfortunately the following pyc files are non-deterministc due to 'fr=
-ozenset'
--	# being written without strict ordering, even with PYTHONHASHSEED =3D 0
--	# Upstream is discussing ways to solve the issue properly, until then l=
-et's
--	# just not install the problematic files.
--	# More info: http://benno.id.au/blog/2013/01/15/python-determinism
--	rm -f ${D}${libdir}/python*/site-packages/mesonbuild/dependencies/__pyc=
-ache__/mpi.cpython*
--}
--
- BBCLASSEXTEND =3D "native nativesdk"
-=20
- inherit meson-routines
---=20
-2.43.0
+ IMAGE_FEATURES +=3D "x11-base package-management splash"
 
+
+and will see what take 2 looks like.
+
+Cheers,
+
+Richard
 
