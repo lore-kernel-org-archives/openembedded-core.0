@@ -1,97 +1,107 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A72F0C28B20
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 08:50:48 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.3360.1743583842549609767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA930C3601A
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 09:08:08 +0000 (UTC)
+Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
+ by mx.groups.io with SMTP id smtpd.web10.3864.1743584884200706211
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Apr 2025 01:50:42 -0700
+ Wed, 02 Apr 2025 02:08:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=G/WXIRK0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3914aba1ce4so5443995f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 01:50:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743583840; x=1744188640; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1T4Fsm9MjJ954leCYusWd34FDV4OxxVdWuvuS5iisjc=;
-        b=G/WXIRK06t60nDB7iWj27r09x545hzalo8P1INZC+qz044NTb/B3VTp4zTQaKOQLuw
-         u8prBmTpTmTCO3P/XmaVY0DVCcWf/V/23AGok/LZlGF9u+n8WFPG9fBxdLcVMKzD208J
-         cJV9lj3IwmgEm91IhZJB+vbqpZaZovBQqJN94=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743583840; x=1744188640;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1T4Fsm9MjJ954leCYusWd34FDV4OxxVdWuvuS5iisjc=;
-        b=AtleAoWI3JSPYFtsrodD7fV302u22cSeaaJ7JyS78FXhIKxi58IgLYnOY05FaQDK0Y
-         VVi/NxBWuA5wH+BKpRgro+aAy0lh/8dAzxeg/6QX8YzE1IfsNmW8UqAAE3dhk8E79SMR
-         2MBKcEUwKeYIPqJs0xP1zMvz7nVo7I98lva7Bqu7GckYsIK0s926w02vqB1I2XtgMkQ8
-         qF58gPMbxWMSaUgZHTMLY6pjYcTzzi5UJq3lPhfC4ocyezrrAX8/YUrr4Cr4GXUnTqtH
-         2GelZyjfLegMi7ULJwLv8RSvfvrpwQH6BWogWhSQJ8+Oj28wCAWuS/GgV1HJEEMKE76i
-         ZY+w==
-X-Gm-Message-State: AOJu0YzV/PfMYiclf2RzIMyYqPtOVJ3zbDExGBeMES/vxVPOSjlUtIB4
-	bg6PZlZhCY5AYzhl9U1WYjkeUHzlFfKJ75sO1goOPt29LnKpHQUYTEeLZKiEe7S+XrofMGGvl+B
-	z
-X-Gm-Gg: ASbGncsYCMMjYl/BcRXjjvLYrjsG3NW7NvryyYMtmHeIryMU/IbGhAV2T73pkF0mcCe
-	u7c1PmzQxVtcBqc6TRZCfOJ/TCEBf2l3Oc2qV9D8SdgdrZlph4ScEK2MHI5X5is8AOT8bF/c8Ku
-	7HXAfipl2rs7jIE8XGsVoE5uFgxsXc+RLWVf2vqrP9ngtl2AUV1swBtl9xV2sXdJ2hfkEH2DHop
-	rHI+mbGZI/ze7fNf+uVFLtRXsjeZ3LETGQFllUdH6ahZo/jPNV4GdVHSx98nWDF3xY+Cfs3ojUv
-	T287jLz3uO/FKLWAGzpk1NqJiQ3zuvp0ZzQ9Inmk/nOQB1O9KIbpnrSsGn6UCqmOPZGLxJDDow=
-	=
-X-Google-Smtp-Source: AGHT+IHdTJTCvKT0Leh14IqIu1f6w79/wIQF7fOjOvPGDiTv5kzNl/uciZ94D98gtvZIVkUaXFNceQ==
-X-Received: by 2002:a5d:584f:0:b0:38f:4acd:975c with SMTP id ffacd0b85a97d-39c120e0a93mr12083196f8f.27.1743583840592;
-        Wed, 02 Apr 2025 01:50:40 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:24b8:b374:749c:8558])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b79e393sm16558448f8f.72.2025.04.02.01.50.39
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 01:50:39 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 2/2] stress-ng: upgrade 0.18.11 -> 0.18.12
-Date: Wed,  2 Apr 2025 09:50:37 +0100
-Message-ID: <20250402085037.2340549-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250402085037.2340549-1-richard.purdie@linuxfoundation.org>
-References: <20250402085037.2340549-1-richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=fquvCD4L;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.137, mailfrom: leimaohui@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1743584884; x=1775120884;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Z7aH6ugM13dHtbYSflMe/MlFoCcQ8oNkyGFuQ286DCo=;
+  b=fquvCD4LbNO13E9Ei9mf0UQ/1941VPf+fGsXAuo9SNFNtopme/tsqKJw
+   /PKmpaEzztPHVPIGVEhe62oLaw1OhVLYIQZPAPoiubB50y0dRPNk2ZjxF
+   FEDMGuRDLM3hk5uJWJi2RK3sXYkH43mQLq1omT0tEmPwoesWsNcgJf5Hy
+   UQMDQiiHV8EtvbMWOLaLecLGEnIyWrjtLV7SfH8CRJzLA6HIFuou7upf7
+   iofHSkYJF4KlMkSPdFyYhjQkWAZn697eGo3sH1oZ8usv+MxSkst1vMAGE
+   L4fQX9zZvogxUPuciIG5Y5+L6T6aqtxAgfFFKz1q4qTRiU4vSaxK9THug
+   g==;
+X-CSE-ConnectionGUID: QDeOCqriQvCFtoeu+G/H5w==
+X-CSE-MsgGUID: t30+qjo4QQOIkDCtQwZFxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="174667439"
+X-IronPort-AV: E=Sophos;i="6.14,295,1736780400"; 
+   d="scan'208";a="174667439"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 18:08:02 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id C2CF8D501A
+	for <openembedded-core@lists.openembedded.org>; Wed,  2 Apr 2025 18:07:59 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 7C086D5110
+	for <openembedded-core@lists.openembedded.org>; Wed,  2 Apr 2025 18:07:59 +0900 (JST)
+Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.167.135.33])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 8875C1A0078;
+	Wed,  2 Apr 2025 17:07:58 +0800 (CST)
+From: Lei Maohui <leimaohui@fujitsu.com>
+To: Alexander Kanavin <alex@linutronix.de>
+Cc: Jose Quaresma <quaresma.jose@gmail.com>,
+	Anuj Mittal <anuj.mittal@intel.com>,
+	openembedded-core@lists.openembedded.org,
+	Lei Maohui <leimaohui@fujitsu.com>
+Subject: [OE-core] [PATCH v4 01/10] gst-devtools: upgrade 1.24.12 -> 1.26.0
+Date: Wed,  2 Apr 2025 17:07:39 +0800
+Message-Id: <20250402090749.2119-1-leimaohui@fujitsu.com>
+X-Mailer: git-send-email 2.38.1.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 08:50:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214232
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 09:08:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214233
 
-Add tag to SRC_URI to verify SRCREV.
+Disable new meson option dots_viewer
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
 ---
- .../stress-ng/{stress-ng_0.18.11.bb => stress-ng_0.18.12.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.18.11.bb => stress-ng_0.18.12.bb} (91%)
+ .../0001-connect-has-a-different-signature-on-musl.patch       | 2 +-
+ .../{gst-devtools_1.24.12.bb => gst-devtools_1.26.0.bb}        | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.24.12.bb => gst-devtools_1.26.0.bb} (93%)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.18.11.bb b/meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb
-similarity index 91%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.18.11.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb
-index 2b1e306b17f..b1cfdc371fb 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.18.11.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb
-@@ -5,9 +5,9 @@ HOMEPAGE = "https://github.com/ColinIanKing/stress-ng#readme"
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master \
-+SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V${PV} \
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+index b596f2ef9c..d7a3e2057a 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+@@ -1,4 +1,4 @@
+-From 67809420230cd4fcc63069f78efdc90c7b4c4ee1 Mon Sep 17 00:00:00 2001
++From 9ed608c901955b0906aac102d5d7ab06accee60e Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sun, 9 Sep 2018 17:38:10 -0700
+ Subject: [PATCH] connect has a different signature on musl
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.12.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.26.0.bb
+similarity index 93%
+rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.24.12.bb
+rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.26.0.bb
+index 157cdc6bbb..dc54a7ab4b 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.12.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.26.0.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
+            file://0001-connect-has-a-different-signature-on-musl.patch \
             "
--SRCREV = "44162bc4e00d06d366436857093a276ea692711e"
-+SRCREV = "d4eef982dc98fe915aa82303c0a24070d0a51b00"
- S = "${WORKDIR}/git"
  
- DEPENDS = "coreutils-native libbsd"
+-SRC_URI[sha256sum] = "4ef3dd12e5827068d6db7ad01876d1216a80717116c24a0d5b3b57fd7e3c3478"
++SRC_URI[sha256sum] = "eff33d7dc292bb074a2788ea887b6283398ffdefafa49fb7d08efe6658a65648"
+ 
+ DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+ RRECOMMENDS:${PN} = "git"
+@@ -37,6 +37,7 @@ EXTRA_OEMESON += " \
+     -Ddoc=disabled \
+     -Ddebug_viewer=disabled \
+     -Dtests=disabled \
++    -Ddots_viewer=disabled \
+     -Dvalidate=enabled \
+     ${@gettext_oemeson(d)} \
+ "
+-- 
+2.43.0
+
 
