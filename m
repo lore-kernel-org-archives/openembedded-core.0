@@ -1,122 +1,88 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8EC4C28B20
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 06:56:07 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web11.1931.1743576958157863468
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F11B4C36014
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 07:10:27 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.2122.1743577825725860398
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Apr 2025 23:55:58 -0700
+ Wed, 02 Apr 2025 00:10:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=edrrw3R3;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 96CCF4440D;
-	Wed,  2 Apr 2025 06:55:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1743576956;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6+N/xyNL066HztjBHmhdLhavbn2VQPZIrTTQIgawwKQ=;
-	b=edrrw3R3Nl0+W+5WAP6a5ejXoGViwvWzuRqTFLJ0+AejG0U2YuzWB+vY6ZCw6ABbfmxWcg
-	M1rTOUIOggzHmrCUuyvUs/N17R4Dgqf8zhtj059TrkxhCGmREEfHS/ZsxlmeLGP+BkyEM9
-	hGlVSXrCffSAfffnhC4nI4zVHDdj52WEz3tToB+F0sy+7u1c7pY77OwbEcWpL8QX4EoEZH
-	ekvYRhRSXorXrdHr+VUEKnqAXBjAcavCG3sXoJxriY9aKZXu9wx14WBKU4PQstwtAzJ6kY
-	qskDsC1SfMAe9n46Zboy7drR/7YbSrSem3kmVpJQh6WFUhjJMZkAhlSZEZ5G6g==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 02 Apr 2025 08:55:55 +0200
-Message-Id: <D8VYG3D9S5MK.1G3JUTQ3QIFF2@bootlin.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Alexander
- Kanavin" <alex.kanavin@gmail.com>
-Subject: Re: [OE-core] [PATCH v4 0/9] mesa: upgrade to 25.0.2
-Cc: <openembedded-core@lists.openembedded.org>, "Khem Raj"
- <raj.khem@gmail.com>, =?utf-8?q?Zolt=C3=A1n_B=C3=B6sz=C3=B6rm=C3=A9nyi?=
- <zboszor@gmail.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250331-mesa-25-v4-0-e62fc54a6efc@oss.qualcomm.com>
- <D8V4RQR2X3EF.46ET3A2PKUAL@bootlin.com>
- <8d4b0884-985f-4e81-a3d3-03a1abb91e73@oss.qualcomm.com>
- <CANNYZj_aEritSc0Te9hWR+OZVQ1DDFY0b4A0Q0H148L5YjEKcw@mail.gmail.com>
- <0926082a-b09e-4d8d-8199-671823db87bd@oss.qualcomm.com>
-In-Reply-To: <0926082a-b09e-4d8d-8199-671823db87bd@oss.qualcomm.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukeehtdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvffuvefhofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgueeltefhudegffekvdevtdfgveffjeegjeduhfduvefgveeuhfeiteejgffftdenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepughmihhtrhihrdgsrghrhihsh
- hhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopegrlhgvgidrkhgrnhgrvhhinhesghhmrghilhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehrrghjrdhkhhgvmhesghhmrghilhdrtghomhdprhgtphhtthhopeiisghoshiiohhrsehgmhgrihhlrdgtohhm
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d4pV0xJ+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-39149bccb69so5564037f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 00:10:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1743577823; x=1744182623; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W/WnwehB27M2i7I90qTWCpdxoCUvVZAobJCM/B6SjWw=;
+        b=d4pV0xJ+9TTI4tPMpDnSNykQk/uVC6w4BXi30nDE1sB3Lz+Ga8eq0gdPl7xOATBOGa
+         5fpBy3+RumIBroGSSckCGFsSBbG/x+hadzzqTog7uw6AIs6p9HP7DKb4BvsNCzBFuwPm
+         T2qwL21vhUoqMf1PKcKbxrqUuOGDq1EmKENwM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743577823; x=1744182623;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W/WnwehB27M2i7I90qTWCpdxoCUvVZAobJCM/B6SjWw=;
+        b=Ym4VB/p7D3pk+hLkxEQg7czJdwWNx9pF6FtI5ESVDHWZ8iugMj2FphxunP301IM7a4
+         mpg9z5grH374UzVhlIy7iiUB2Jjzie12Fc263Q43uKc1oQws9Zt6mrSAUCMBgMChnj0e
+         trwR0+vEHHGUkKqhkR+89E34tHmp4LHk8znkSjfrehnHaolnkji9kUOZHBvo1g2AyzBW
+         PgAGykrF1ubRCFfX8A9DjX4H5FiZ/pbQUxq0kJTqALY19xQy9r1TC06WC2glJtijxyqf
+         0gGt9g0xp4zr9/YF95En6Zy4oySPFM2apa0jShjiE7TKiTxsafz0B479RuJaSWm6nu26
+         tPKA==
+X-Gm-Message-State: AOJu0YxplUYwOFbkRcobiqjie779CymgMV7kLT+m4cRNQA9B6XbB5sfe
+	+zeEfJKNch2dfRDPP0G0Bqxio3RNKXBEXFD87S8Y4HkzqFAZAy9oqv7YfKtdaEfnFyQzCjgQ5Pn
+	D
+X-Gm-Gg: ASbGncu6i/FvfJN5uWxO0O3G1mVMVfVtHHDEL8yF4kpUSLLh9/r6mresBXQygdNxcoj
+	Q0FIxQermiMgB9+ikq3sOBYgMwm5s8basPYWxcnEn4Dmo9ga96B2YWt19jM0gXwwE6qcwNOE4vK
+	V+wuwwcuhYd0bsGj/wzVlSp96g21KtlwKdtGoMfaMXncK96C78BOnIGPn5A+lyIRvt3zpkoQ5Nw
+	lfPuZ94SOw++hkRv5jR+IemMLf2Y7+LjUtn5GvtnZgYfVgPcLnX+N9FdFvuYype1CB7v5MuLO+L
+	yUj/ybwI29uf6I3YUrgQq1eaubF0hZVEO/F6GsMQZ9a8kIR7sfJqYe1xJPMhJN/SzG7fuctWOQ=
+	=
+X-Google-Smtp-Source: AGHT+IFDYdWKBf33rN2nluAkbKPSx6r6N2BPUC/4cvCi25PdW+gWpaLpLWQl4+/6MAY5/8rOi/uboA==
+X-Received: by 2002:a05:6000:401f:b0:390:ff25:79c8 with SMTP id ffacd0b85a97d-39c297534camr883128f8f.20.1743577823153;
+        Wed, 02 Apr 2025 00:10:23 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:24b8:b374:749c:8558])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb6103a07sm11344385e9.29.2025.04.02.00.10.20
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Apr 2025 00:10:20 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 02/48] barebox-tools: upgrade 2025.02.0 -> 2025.03.0
+Date: Wed,  2 Apr 2025 08:09:31 +0100
+Message-ID: <20250402071017.2157620-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250402071017.2157620-1-richard.purdie@linuxfoundation.org>
+References: <20250402071017.2157620-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 06:56:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214173
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 07:10:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214175
 
-On Wed Apr 2, 2025 at 3:45 AM CEST, Dmitry Baryshkov wrote:
-> On 01/04/2025 19:28, Alexander Kanavin wrote:
->> On Tue, 1 Apr 2025 at 18:19, Dmitry Baryshkov via
->> lists.openembedded.org
->> <dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
->>>> ERROR: mesa-native-2_25.0.2-r0 do_compile: Execution of '/srv/pokybuil=
-d/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linu=
-x/mesa-native/25.0.2/temp/run.do_compile.506477' failed with exit code 1
->>>> ...
->>>> | FAILED: src/intel/shaders/intel_gfx80_shaders.spv
->>>> | /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/=
-tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc/mesa_clc ..=
-/mesa-25.0.2/src/intel/shaders/libintel_shaders.h ../mesa-25.0.2/src/intel/=
-shaders/generate.cl ../mesa-25.0.2/src/intel/shaders/generate_draws.cl ../m=
-esa-25.0.2/src/intel/shaders/generate_draws_iris.cl ../mesa-25.0.2/src/inte=
-l/shaders/query_copy.cl ../mesa-25.0.2/src/intel/shaders/util.cl -o src/int=
-el/shaders/intel_gfx80_shaders.spv -- -DNDEBUG=3D1 -DGFX_VERx10=3D80 -I/srv=
-/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x8=
-6_64-linux/mesa-native/25.0.2/mesa-25.0.2/src/intel/shaders/. -I/srv/pokybu=
-ild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-li=
-nux/mesa-native/25.0.2/mesa-25.0.2/src/compiler/libcl -I/srv/pokybuild/yoct=
-o-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_64-linux/mesa=
--native/25.0.2/mesa-25.0.2/src -I/srv/pokybuild/yocto-worker/oe-selftest-de=
-bian/build/build-st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/mesa-25.=
-0.2/src/intel -I/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-=
-st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/intel -I/srv/po=
-kybuild/yocto-worker/oe-selftest-debian/build/build-st-53842/tmp/work/x86_6=
-4-linux/mesa-native/25.0.2/mesa-25.0.2/src/intel/genxml
->>>> | /bin/sh: 1: /srv/pokybuild/yocto-worker/oe-selftest-debian/build/bui=
-ld-st-53842/tmp/work/x86_64-linux/mesa-native/25.0.2/build/src/compiler/clc=
-/mesa_clc: not found
->>>
->>>
->>> I've fixed all other issues, except the x32 (working on reproducing it
->>> now) and this one. Would you have a pointer to the build job?
->>=20
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1264/=
-steps/14/logs/stdio
->>=20
->> This is in context of oe-selftest, but it is simply building
->> qemu-system-native on debian 12 - I suspect the mesa-native fail is
->> specific to that host distro. I can try to reproduce if you need help
->> with it.
->
-> It's really strange as my build host is Debian 12. And it's even more=20
-> strange as mesa-clc was built few lines above (16406).
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ok, I will try to play a bit with it today, let's see if I can reproduce
-easily.
-
-I launched a rebuild of the previous job there:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1274
-I will try to reproduce it locally a bit later today.
-
-Also, maybe this is linked with other fails. So if you have a new
-version of your series fixing them, feel free to send it, I will be
-happy to test it.
-
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
+index 42989667147..7fd7a88d717 100644
+--- a/meta/recipes-bsp/barebox/barebox-common.inc
++++ b/meta/recipes-bsp/barebox/barebox-common.inc
+@@ -3,6 +3,6 @@ SECTION = "bootloaders"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
+ 
+-PV = "2025.02.0"
++PV = "2025.03.0"
+ SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
+-SRC_URI[sha256sum] = "6da5f9e98a8c93f6eead3badefe133ed5fd865395b1a3c0192fdbdd9eb4f7311"
++SRC_URI[sha256sum] = "0bf7118004e445bdd57feeef89ee9064982acc221e8a046c4a7994d3da6da2ec"
 
