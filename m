@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE10DC28B20
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1542C36014
 	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 07:10:37 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.2227.1743577836355912116
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.2225.1743577830064979398
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Apr 2025 00:10:36 -0700
+ Wed, 02 Apr 2025 00:10:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ui3jQ6Sh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4394a823036so59102235e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 00:10:36 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AQNgk1JV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3996af42857so327666f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 00:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743577834; x=1744182634; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1743577828; x=1744182628; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SSf2wfg5tDhZNl856XMRTWgX14yS3/99Po4AqcZJqYw=;
-        b=Ui3jQ6ShrNE4QUGO0iTMCxaONq9eGGwKPZ6uzvD00cMP+0jD9IUbruFRQMC+kl+Asl
-         LYfUHRcmA0WJyA/FgtB7rlylNyWAnB7BcYlMWg9JLBiq7p7q0EZvfjqGcEq9cF71M89M
-         PjjUqiMY2V0JT00PoucHNw7hVezOJL5TUCkXg=
+        bh=8drXWQmWGna5UHo1mhsLRiwQgn4H0WKDsMRR4NFwTBc=;
+        b=AQNgk1JVhXCNtHO2WtR8DN/bCD4AjNYfhuc+HCcZQjAiUGCDi3/eMUOt6ROPnP/hrU
+         RLNP2Hs6BrMvVRb7DoSxzeg8xOKPGyVLlcXnIQy+XDMSvMoYbIQhtSFdMA6o1A2TKsY2
+         kEhVfg9BnMXL3pRXufZWeyx3a0vyeuhMZwI+w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743577834; x=1744182634;
+        d=1e100.net; s=20230601; t=1743577828; x=1744182628;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SSf2wfg5tDhZNl856XMRTWgX14yS3/99Po4AqcZJqYw=;
-        b=rPHI5IQWGZz9OTZdF5jmA/vJ8xenYbmgLCtxVyYKzL2888SQe4exjjezSXO3eFzgP5
-         8LM2ZzmyN9CPnnqMo//sirGVjwCbXzJut3Geg/8n+iJIRJ2itVm5io0rDWTfYrkvhnQo
-         WdCtUbB+lXlhpKC7z+wRTW5nPvJqTxME0oBMOJcu2rJg/ofHCqxIHU69+Mce8uJwpMU3
-         QsL1idRSDSTXZuQT4K7pF234pvG81/HkImjNNIPscdJILNLX/y1WH8+KzpxgrWf2wQGx
-         wBc5A6DQ1sHOyJfD67q21pQifbkUkWxtYAMiZ2+y6U476wl4Ze/oWVh4COqN+DiBfATW
-         owQQ==
-X-Gm-Message-State: AOJu0Yy3g4ZtafLlJ2YWJ33lKrBE7h6T/xX8JmnVLFWHayLHqpRCV+h/
-	1hpylS/1hJ+wUpbi1QMdXUsrRrbFrY4vAxkh/4b8XRzFA5CwhuoVZhEJUoa2f6aqryRTMUXAzih
-	k
-X-Gm-Gg: ASbGncsG+TCciP7ohOdao/pMc02sVJO7tLCUyY3hYbPhXY7zegUCNR6mNUT+Yy3AFFq
-	MXU2hSNKRq09GetSXoFbRMisoW4ZrtkNKpfY8LHm/H4rfnBCor90su5/wQ0HC4mUmIgSu8+0qy7
-	HQWOBhwQ59UEOCSm802aX9ceukpkykcBcj32+/1OAPVi8q65sdnAyWJLUWRPtdhm0yznVOhoI15
-	ysSb62y3zhsTNg72BHatZK/JlBfXOh7NklsDxJYXh6gROOYWYrZF804YclVjHF3iEQ2w5Dcfdqr
-	H8js38gPL/I/d7j+giVg+cHPnYa3xR0NrEnjIJzn34yzO4qYeJEAOO34rNMAZq5vPqAi8eNMUA=
+        bh=8drXWQmWGna5UHo1mhsLRiwQgn4H0WKDsMRR4NFwTBc=;
+        b=iwp3Re0OVyo4VqwHmM8AltJHkiRvI8DGog0ztOnM3YbIxUTvLMoG2M6vjYVnjWI/6w
+         a021Pv534CMDv6vYmV/2/9ePLfRY12klf5gkdeWc3VM6fGeuJHC6z0TQzuv4Orwktuu2
+         AGyPZEOvQ+VoJ3xoS3IflfkSR4KP99UTeV43ItAxsi5zdVbagUem0i296azEaCBin0MN
+         ZwZklFhjxGRMMDsZA/iUX3m1U8s0qnx/rPGuBbRsVga+1IriK8JgVU/7DNEBJxdp7QnC
+         4JLTx1dkXEDWdFh1sN3QZ61W1lxd+ndxuWuhaDs6+/Cvfovk7eOm9EfswpWyYFFQolio
+         B8ZA==
+X-Gm-Message-State: AOJu0YzrZCxhObhkw4gFoZ6i5asJkWV9dDhnryoqKIJ+nfXlwL9wj634
+	GNZcgqDTRgldaJnfC6Nh+5kUMnqVpwVaTzsok4ygXQjyLTwGg9v6jit6anF5tqSsXPWBBvVV64I
+	v
+X-Gm-Gg: ASbGncvHplBtHnJ07VYjaHcrb+3Yq9x7y+8pItNOm1EQ5TeFzU/g+tzJi2QmoGWiV4x
+	5wZ65lZjTHtZ0ODMBEBc6vMsDZUGDFrbDKiSAmtfKjpRHutJfwc0Mh3Gs9vB5Kx1A0iFs08mFZW
+	A2QnNq3OHvx1J8NPGZnHANbFwgEtcpGy7bFcZm2d+MBHt3dAygJtWx4p3UezI5lwKnClvIZbFsa
+	gti5MaK8hyyr20KWQKyKL0GMIfA4I/MP+4c5iQvxstf3Y582z8SoQ7dPPAEr5dYxitgtp4ym82F
+	JVCdj0Xzyp3qlyavkmpPH9A88gEY1q7HNmX0CKnNoANbXRGxABnqPypEo5yOtSMHrxXY/agaEQ=
 	=
-X-Google-Smtp-Source: AGHT+IE1/30wyfdt41/dssxasYpR2unr1Izo00hUojCk3N8cNWijGLcByBi7ASoVmGEKNfA1ne9RbA==
-X-Received: by 2002:a05:600c:b9b:b0:43d:300f:fa1d with SMTP id 5b1f17b1804b1-43eb5cd30d8mr14266415e9.31.1743577834075;
-        Wed, 02 Apr 2025 00:10:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGlXnMfkq8bqeSPmu8lMQpnwBhLthAzUbWdJp62SttZ4UYn0sxMcTE/MswVoCoLFEptRXiyQQ==
+X-Received: by 2002:a05:6000:430b:b0:391:3207:2e68 with SMTP id ffacd0b85a97d-39c2a34ce11mr712957f8f.9.1743577827920;
+        Wed, 02 Apr 2025 00:10:27 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:24b8:b374:749c:8558])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb6103a07sm11344385e9.29.2025.04.02.00.10.31
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb6103a07sm11344385e9.29.2025.04.02.00.10.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 00:10:33 -0700 (PDT)
+        Wed, 02 Apr 2025 00:10:25 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 06/48] ccache: upgrade 4.11 -> 4.11.2
-Date: Wed,  2 Apr 2025 08:09:35 +0100
-Message-ID: <20250402071017.2157620-6-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 04/48] bind: upgrade 9.20.6 -> 9.20.7
+Date: Wed,  2 Apr 2025 08:09:33 +0100
+Message-ID: <20250402071017.2157620-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250402071017.2157620-1-richard.purdie@linuxfoundation.org>
 References: <20250402071017.2157620-1-richard.purdie@linuxfoundation.org>
@@ -65,28 +65,112 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 07:10:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214179
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214177
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../ccache/{ccache_4.11.bb => ccache_4.11.2.bb}                 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/ccache/{ccache_4.11.bb => ccache_4.11.2.bb} (93%)
+ .../bind/bind/0001-avoid-start-failure-with-bind-user.patch   | 2 +-
+ ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 4 ++--
+ ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 4 ++--
+ meta/recipes-connectivity/bind/bind/conf.patch                | 2 +-
+ .../bind/bind/init.d-add-support-for-read-only-rootfs.patch   | 2 +-
+ .../bind/bind/make-etc-initd-bind-stop-work.patch             | 2 +-
+ .../bind/{bind_9.20.6.bb => bind_9.20.7.bb}                   | 2 +-
+ 7 files changed, 9 insertions(+), 9 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.20.6.bb => bind_9.20.7.bb} (97%)
 
-diff --git a/meta/recipes-devtools/ccache/ccache_4.11.bb b/meta/recipes-devtools/ccache/ccache_4.11.2.bb
-similarity index 93%
-rename from meta/recipes-devtools/ccache/ccache_4.11.bb
-rename to meta/recipes-devtools/ccache/ccache_4.11.2.bb
-index 9a305c257f7..3a41cb5736c 100644
---- a/meta/recipes-devtools/ccache/ccache_4.11.bb
-+++ b/meta/recipes-devtools/ccache/ccache_4.11.2.bb
-@@ -17,7 +17,7 @@ DEPENDS = "zstd fmt xxhash"
+diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
+index 0d670edda60..78ab6b87fc2 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
+@@ -1,4 +1,4 @@
+-From 0a45935f9d1207535f83df62ed52f358ed546bbe Mon Sep 17 00:00:00 2001
++From c70f74164bea8a8c54c03becffb2f21103dd1f31 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 15 Oct 2018 16:55:09 +0800
+ Subject: [PATCH] avoid start failure with bind user
+diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+index 10b8caafbba..53e439721fc 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+@@ -1,4 +1,4 @@
+-From dd484b0bd58832fc241afdc8ea05693228348353 Mon Sep 17 00:00:00 2001
++From 0dd67d85705cbcfa9a2759c46f3cdf3d0d6375de Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Mon, 27 Aug 2018 21:24:20 +0800
+ Subject: [PATCH] `named/lwresd -V' and start log hide build options
+@@ -20,7 +20,7 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
+ diff --git a/configure.ac b/configure.ac
+-index 13f9d7f..6516d0d 100644
++index f9cf4a4..0ce3d26 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -35,7 +35,7 @@ AC_DEFINE([PACKAGE_VERSION_EXTRA], ["][bind_VERSION_EXTRA]["], [BIND 9 Extra par
+diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+index 49b0a5eea1e..38d208fc1c0 100644
+--- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
++++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+@@ -1,4 +1,4 @@
+-From 9a06dbf831f012c6019237527d2bf1aa7a3a543a Mon Sep 17 00:00:00 2001
++From 8c9c817933eef20328f10237bbd964580db0a3ad Mon Sep 17 00:00:00 2001
+ From: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Date: Tue, 9 Jun 2015 11:22:00 -0400
+ Subject: [PATCH] bind: ensure searching for json headers searches sysroot
+@@ -32,7 +32,7 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[sha256sum] = "7dba208540dc61cedd5c93df8c960055a35f06e29a0a3cf766962251d4a5c766"
-+SRC_URI[sha256sum] = "d51b82bb8c3932649323fd4cb8e5a0a9f7fe7f672c71a6d6839bee13b4ded4c5"
+ diff --git a/configure.ac b/configure.ac
+-index 168a77a..13f9d7f 100644
++index 334b551..f9cf4a4 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -863,7 +863,7 @@ AS_CASE([$with_lmdb],
+diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
+index 16ac510cfab..102fe46ffec 100644
+--- a/meta/recipes-connectivity/bind/bind/conf.patch
++++ b/meta/recipes-connectivity/bind/bind/conf.patch
+@@ -1,4 +1,4 @@
+-From 27d1113a4c378583e0fcff91d70256bdcd78de0b Mon Sep 17 00:00:00 2001
++From 83a892af19bf1455ce7132350332ed6d7f1e2b94 Mon Sep 17 00:00:00 2001
+ From: Qing He <qing.he@intel.com>
+ Date: Tue, 30 Nov 2010 13:35:42 +0800
+ Subject: [PATCH] bind: add new recipe
+diff --git a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
+index baeeafe33e3..984d401c708 100644
+--- a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
++++ b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
+@@ -1,4 +1,4 @@
+-From 1fa4d0eb9631771bd751f04ce898433580996e5e Mon Sep 17 00:00:00 2001
++From 1393cbf6b0084128fdfc9b5afb3bcc307265d094 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Thu, 27 Mar 2014 02:34:41 +0000
+ Subject: [PATCH] init.d: add support for read-only rootfs
+diff --git a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+index 93aa3041264..74f2ef83a05 100644
+--- a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
++++ b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+@@ -1,4 +1,4 @@
+-From 2ea2e4e502e5840d52e76461e071882cc65f1766 Mon Sep 17 00:00:00 2001
++From ce06506bb3fe661e03161af3a603bd228590a254 Mon Sep 17 00:00:00 2001
+ From: Roy Li <rongqing.li@windriver.com>
+ Date: Thu, 15 Nov 2012 02:27:54 +0000
+ Subject: [PATCH] bind: make "/etc/init.d/bind stop" work
+diff --git a/meta/recipes-connectivity/bind/bind_9.20.6.bb b/meta/recipes-connectivity/bind/bind_9.20.7.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.20.6.bb
+rename to meta/recipes-connectivity/bind/bind_9.20.7.bb
+index 7a03f8598d5..b4202f1a59a 100644
+--- a/meta/recipes-connectivity/bind/bind_9.20.6.bb
++++ b/meta/recipes-connectivity/bind/bind_9.20.7.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
  
- inherit cmake github-releases
+-SRC_URI[sha256sum] = "ed7f54b44f84a7201a2fa7a949f3021ea568529bfad90fca664fd55c05104134"
++SRC_URI[sha256sum] = "43323c8d22d2144282c37b4060ec11e98c24835e225688876fad08ba7b95dca6"
  
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 
