@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E586C36014
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 07:11:58 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.2164.1743577915030204932
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04E0CC28B20
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 07:12:08 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.2172.1743577919547019997
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Apr 2025 00:11:55 -0700
+ Wed, 02 Apr 2025 00:11:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UwRoOonr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cef035a3bso46100615e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 00:11:54 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ayn2iiJu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf680d351so2622345e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 00:11:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743577913; x=1744182713; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1743577917; x=1744182717; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8VTD+cpNcsPfYOeU7sQ2vNdxfy0B+AneybrJItCBxhg=;
-        b=UwRoOonrFRlfatedm3RHxr3Jd7is+govoFVXRNIiS91VrI0/1Vf4NL4qhu/cn74nDJ
-         1273/nxpvfiSPavNu4EYIwit8RPHQrgCppLbRNdbb/SNwolhECDAThD6Iyviiy9KKTcH
-         n4MSowcGqNvcK0sVeGcW/az4+9nvhcdCvxVE4=
+        bh=gGyM5m3VrAgjfQhGblVAKWvGBDDqD59aM9a1vozj9xc=;
+        b=ayn2iiJuZGX6f2k3ditlYA5YVBojinlAryKj+CLbcdL0pSlpX2E32dzJnMEg6hBVqh
+         yZpJ1pIRPsjzsgCqMK/xQOtxm5m4CsRoa8urv5BEz2FaCg4XoX0RJShokUAgmdkGHgkM
+         P4Rs/F9gUPrTc2CV5bxuQLqv3hlYUCzOVnIb8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743577913; x=1744182713;
+        d=1e100.net; s=20230601; t=1743577917; x=1744182717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8VTD+cpNcsPfYOeU7sQ2vNdxfy0B+AneybrJItCBxhg=;
-        b=ftfca8MJqEZvo6luTrPB+CG5zchrU1rqtJ1oKJbrB/OQhJy19rH+90MKe2KIe0yS/0
-         MjDfKCPPiKDbDNyAKN08z1Z7XtV23mvY2KdR/VuYAruPZ5ZOT2xDh23SDYHOwy64GnTP
-         W0ZivPUWFLCNsZz2CEnOBvZsjHlBphHNH39U0rX4HPrnNuxjm32j2xLii32lUUNHcLSF
-         sZ6CEJKx0HZNWuUl6Kny1Go1xVz5n8ImIebcB7Ve9TXMjSDq4JnAar/TPOw7mQfb+SyX
-         AxxUbd80XJorLFEedw8ttpTkIB2NAR9E6/YxXHFss0YvQ1/MXDka2Vmn0cPEAJgGpAvu
-         Kggw==
-X-Gm-Message-State: AOJu0Yyz8Ds+bfCbUb7aRdDi0ux+Hh2KkSjdWi2uYcAH8jqO1fcS0+bg
-	XGYCzbEWaK1KCOlJ9i0jjtuQSVr00NLSxDrP4VSTflB2ZpkwuVyI8vuYXdML5VIyR8GdPqJATrL
-	W
-X-Gm-Gg: ASbGncvZOnqWtDWGg07DZFirI3b+lMixn1G2vcM4nYGYZNG+agjf/rJjfDkRNhkT0ls
-	p/giLlFvqBawXYoolrfaxWMeNlCeujh2HQU9z4yyEcVxOQxXfkJidPiKFkwRNCOl7CgAXYnhZ7p
-	095pbpGmoHP9+DnVIz9IQ1K0MxUcAOLz3QJhg8Qf3ztkwYOud21St5bd0p7TR6hzFNTMcMzo9KF
-	fm+pPYJlY0NNWJegKzfW31sl/PMaXzoFB56t5J7jj5Y4BqkZXbCic03SOo4EBJPh2zPCNIa49Qk
-	3lm60tNSsFtR2GRQDQF4xwTF8PlavxAnDGaoKLopmQq35JxiF4j/wurw4dShWk1FzRXGj+9BCA=
+        bh=gGyM5m3VrAgjfQhGblVAKWvGBDDqD59aM9a1vozj9xc=;
+        b=ou13S/Ycmmp2lkgpw9SuVOWDeNUCf0bJ2Gs7LwjYuilwtzBdxaxSKRsHqW95tCyKkt
+         SoM2Up5+lKrqMpFHylDnF861EvPyw+pC4fCfmxzaAiXT6aqJBIO3Tcbfun9R3BI5HkaF
+         8lUvG3boT91AZwkWjaoRQNp6iRJSZDw7FfSbmP1mbL9pCqx7TzGM0w05sGeyA4ISoT2r
+         HGqlktsl1D0R6EGz+cRzpIWdZZfyzHNAL6cfKsXiN/Yg37Ek/EQYTtUtrg2PwkBmFr/h
+         FEi4uU+uz2R99bTPw+Y5AcCCiggTj/httI0s94Gv5TXXwDsf0omFt/vDJCRsyRqxbXzi
+         hVdA==
+X-Gm-Message-State: AOJu0YwCZqZghnfc2Gx3snOSSu06v6Zr8HLvysCt0tVb/zSHh7DLF2I8
+	QnlKH59puFNxnc4WvVY3oCWdY8jkXsgsmxxlLOdCwreIlq0ZswVxl09dOXHVMTMOwIMAlCiFQ5h
+	z
+X-Gm-Gg: ASbGncss4kOVzCj7zEhXtmMHa4/XmSyyf8PRrDw2rjQ4/LmxYK6JS/r3NFacu4hQPrC
+	P5WN9PM4g9StttULkQF1B2aIkgWL/uWnRCpxhPR8soP7d2ylUZsdL+eiegAPMNczoiJR3VUw6WQ
+	NgA+IMPlSeY9Mb1uMhuOygRA5oI8SxGI6DGWgVy4h9znwLpEj5o33bA0dPaohtIxUsc02MyxWRY
+	Oj2YjDCnmyfbCepwW63wMP8gueaqly+DOQXjZ9nIjQM/948Ss/dMkTDCCqg7vL/3s2YwbjT3OWM
+	aQN58KFfKDlCShlqiQmHLVgukwwRby73PM6c3Aoxt+tcr2tnecqkA39e4p/KKURNg9OPENDiVA=
 	=
-X-Google-Smtp-Source: AGHT+IEh146o+sxDtCxPP6EmMf2PsklCkBgOvlbF5twShgWbtyFNCWLcbJhS60SstC/WY4Ae9oNzWQ==
-X-Received: by 2002:a05:600c:45c8:b0:43d:94:cfe6 with SMTP id 5b1f17b1804b1-43db6247ca6mr163496025e9.16.1743577912750;
-        Wed, 02 Apr 2025 00:11:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGcVjBZCBxcxI6IEqU9LBs/JDvSnp60qKH6b0qNlMPRt0qEhG7mpowGhv9sJSqvCjz174zv2w==
+X-Received: by 2002:a05:600c:4f01:b0:439:8878:5029 with SMTP id 5b1f17b1804b1-43eb71557f7mr7192665e9.2.1743577917487;
+        Wed, 02 Apr 2025 00:11:57 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:24b8:b374:749c:8558])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb6103a07sm11344385e9.29.2025.04.02.00.11.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb6103a07sm11344385e9.29.2025.04.02.00.11.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 00:11:52 -0700 (PDT)
+        Wed, 02 Apr 2025 00:11:56 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 36/48] python3-rpds-py: upgrade 0.22.3 -> 0.24.0
-Date: Wed,  2 Apr 2025 08:10:05 +0100
-Message-ID: <20250402071017.2157620-36-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 38/48] python3-setuptools-scm: upgrade 8.2.0 -> 8.2.1
+Date: Wed,  2 Apr 2025 08:10:07 +0100
+Message-ID: <20250402071017.2157620-38-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250402071017.2157620-1-richard.purdie@linuxfoundation.org>
 References: <20250402071017.2157620-1-richard.purdie@linuxfoundation.org>
@@ -64,82 +64,29 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 07:11:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214209
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 07:12:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214211
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../python/python3-rpds-py-crates.inc         | 28 +++++++++----------
- ...py_0.22.3.bb => python3-rpds-py_0.24.0.bb} |  2 +-
- 2 files changed, 15 insertions(+), 15 deletions(-)
- rename meta/recipes-devtools/python/{python3-rpds-py_0.22.3.bb => python3-rpds-py_0.24.0.bb} (85%)
+ ...-setuptools-scm_8.2.0.bb => python3-setuptools-scm_8.2.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-setuptools-scm_8.2.0.bb => python3-setuptools-scm_8.2.1.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-rpds-py-crates.inc b/meta/recipes-devtools/python/python3-rpds-py-crates.inc
-index 7022cbdcc88..df58e20862d 100644
---- a/meta/recipes-devtools/python/python3-rpds-py-crates.inc
-+++ b/meta/recipes-devtools/python/python3-rpds-py-crates.inc
-@@ -13,16 +13,16 @@ SRC_URI += " \
-     crate://crates.io/once_cell/1.19.0 \
-     crate://crates.io/portable-atomic/1.6.0 \
-     crate://crates.io/proc-macro2/1.0.86 \
--    crate://crates.io/pyo3/0.23.3 \
--    crate://crates.io/pyo3-build-config/0.23.3 \
--    crate://crates.io/pyo3-ffi/0.23.3 \
--    crate://crates.io/pyo3-macros/0.23.3 \
--    crate://crates.io/pyo3-macros-backend/0.23.3 \
--    crate://crates.io/python3-dll-a/0.2.11 \
-+    crate://crates.io/pyo3/0.24.0 \
-+    crate://crates.io/pyo3-build-config/0.24.0 \
-+    crate://crates.io/pyo3-ffi/0.24.0 \
-+    crate://crates.io/pyo3-macros/0.24.0 \
-+    crate://crates.io/pyo3-macros-backend/0.24.0 \
-+    crate://crates.io/python3-dll-a/0.2.12 \
-     crate://crates.io/quote/1.0.36 \
-     crate://crates.io/rpds/1.1.0 \
-     crate://crates.io/syn/2.0.69 \
--    crate://crates.io/target-lexicon/0.12.14 \
-+    crate://crates.io/target-lexicon/0.13.2 \
-     crate://crates.io/triomphe/0.1.13 \
-     crate://crates.io/unicode-ident/1.0.12 \
-     crate://crates.io/unindent/0.2.3 \
-@@ -39,16 +39,16 @@ SRC_URI[memoffset-0.9.1.sha256sum] = "488016bfae457b036d996092f6cb448677611ce444
- SRC_URI[once_cell-1.19.0.sha256sum] = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
- SRC_URI[portable-atomic-1.6.0.sha256sum] = "7170ef9988bc169ba16dd36a7fa041e5c4cbeb6a35b76d4c03daded371eae7c0"
- SRC_URI[proc-macro2-1.0.86.sha256sum] = "5e719e8df665df0d1c8fbfd238015744736151d4445ec0836b8e628aae103b77"
--SRC_URI[pyo3-0.23.3.sha256sum] = "e484fd2c8b4cb67ab05a318f1fd6fa8f199fcc30819f08f07d200809dba26c15"
--SRC_URI[pyo3-build-config-0.23.3.sha256sum] = "dc0e0469a84f208e20044b98965e1561028180219e35352a2afaf2b942beff3b"
--SRC_URI[pyo3-ffi-0.23.3.sha256sum] = "eb1547a7f9966f6f1a0f0227564a9945fe36b90da5a93b3933fc3dc03fae372d"
--SRC_URI[pyo3-macros-0.23.3.sha256sum] = "fdb6da8ec6fa5cedd1626c886fc8749bdcbb09424a86461eb8cdf096b7c33257"
--SRC_URI[pyo3-macros-backend-0.23.3.sha256sum] = "38a385202ff5a92791168b1136afae5059d3ac118457bb7bc304c197c2d33e7d"
--SRC_URI[python3-dll-a-0.2.11.sha256sum] = "9b9e268ee1be609e93a13eb06839f68f67e5fe0fb4049834d261c2d5091c1b6d"
-+SRC_URI[pyo3-0.24.0.sha256sum] = "7f1c6c3591120564d64db2261bec5f910ae454f01def849b9c22835a84695e86"
-+SRC_URI[pyo3-build-config-0.24.0.sha256sum] = "e9b6c2b34cf71427ea37c7001aefbaeb85886a074795e35f161f5aecc7620a7a"
-+SRC_URI[pyo3-ffi-0.24.0.sha256sum] = "5507651906a46432cdda02cd02dd0319f6064f1374c9147c45b978621d2c3a9c"
-+SRC_URI[pyo3-macros-0.24.0.sha256sum] = "b0d394b5b4fd8d97d48336bb0dd2aebabad39f1d294edd6bcd2cccf2eefe6f42"
-+SRC_URI[pyo3-macros-backend-0.24.0.sha256sum] = "fd72da09cfa943b1080f621f024d2ef7e2773df7badd51aa30a2be1f8caa7c8e"
-+SRC_URI[python3-dll-a-0.2.12.sha256sum] = "9b66f9171950e674e64bad3456e11bb3cca108e5c34844383cfe277f45c8a7a8"
- SRC_URI[quote-1.0.36.sha256sum] = "0fa76aaf39101c457836aec0ce2316dbdc3ab723cdda1c6bd4e6ad4208acaca7"
- SRC_URI[rpds-1.1.0.sha256sum] = "a0e15515d3ce3313324d842629ea4905c25a13f81953eadb88f85516f59290a4"
- SRC_URI[syn-2.0.69.sha256sum] = "201fcda3845c23e8212cd466bfebf0bd20694490fc0356ae8e428e0824a915a6"
--SRC_URI[target-lexicon-0.12.14.sha256sum] = "e1fc403891a21bcfb7c37834ba66a547a8f402146eba7265b5a6d88059c9ff2f"
-+SRC_URI[target-lexicon-0.13.2.sha256sum] = "e502f78cdbb8ba4718f566c418c52bc729126ffd16baee5baa718cf25dd5a69a"
- SRC_URI[triomphe-0.1.13.sha256sum] = "e6631e42e10b40c0690bf92f404ebcfe6e1fdb480391d15f17cc8e96eeed5369"
- SRC_URI[unicode-ident-1.0.12.sha256sum] = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
- SRC_URI[unindent-0.2.3.sha256sum] = "c7de7d73e1754487cb58364ee906a499937a0dfabd86bcb980fa99ec8c8fa2ce"
-diff --git a/meta/recipes-devtools/python/python3-rpds-py_0.22.3.bb b/meta/recipes-devtools/python/python3-rpds-py_0.24.0.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-rpds-py_0.22.3.bb
-rename to meta/recipes-devtools/python/python3-rpds-py_0.24.0.bb
-index 8eeb954c899..730688876a4 100644
---- a/meta/recipes-devtools/python/python3-rpds-py_0.22.3.bb
-+++ b/meta/recipes-devtools/python/python3-rpds-py_0.24.0.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/rpds-py/"
+diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_8.2.0.bb b/meta/recipes-devtools/python/python3-setuptools-scm_8.2.1.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-setuptools-scm_8.2.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools-scm_8.2.1.bb
+index ecb79afe47b..e35ef7c25e4 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-scm_8.2.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-scm_8.2.1.bb
+@@ -6,7 +6,7 @@ argument or in a SCM managed file."
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=7767fa537c4596c54141f32882c4a984"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=838c366f69b72c5df05c96dff79b35f2"
  
--SRC_URI[sha256sum] = "e32fee8ab45d3c2db6da19a5323bc3362237c8b653c70194414b892fd06a080d"
-+SRC_URI[sha256sum] = "772cc1b2cd963e7e17e6cc55fe0371fb9c704d63e44cacec7b9b7f523b78919e"
+-SRC_URI[sha256sum] = "a18396a1bc0219c974d1a74612b11f9dce0d5bd8b1dc55c65f6ac7fd609e8c28"
++SRC_URI[sha256sum] = "51cfdd1deefc9b8c08d1a61e940a59c4dec39eb6c285d33fa2f1b4be26c7874d"
  
- require ${BPN}-crates.inc
- 
+ PYPI_PACKAGE = "setuptools_scm"
+ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
 
