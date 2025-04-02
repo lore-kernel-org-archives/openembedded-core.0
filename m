@@ -2,64 +2,64 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E81D3C28B20
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 16:02:31 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.12863.1743609747385590314
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08AB3C36017
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 16:02:32 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.12823.1743609745938740141
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Apr 2025 09:02:27 -0700
+ Wed, 02 Apr 2025 09:02:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eJi9gmCM;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39727fe912cso2694584f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 09:02:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bj4QM0sv;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cf680d351so6107955e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 09:02:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743609745; x=1744214545; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1743609744; x=1744214544; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vq0EPlPpZuHlRzrxuFpZuR/gR2YJwok5E2yWc17Aos0=;
-        b=eJi9gmCMjKCpSlh1ne2M5i6Ghfw2SowGY2+nYTMYyj32wckjAkUyADDpCc0g6QeTXi
-         XQgUU/H98q3jVHLgGT6HdBDC0n2xE+8gplh1rxa4ma51kzxLMOYnktJ8sOIs1gU7kqOL
-         ZMjjHyb0qX1MGL6hRe/96HAqzVUSXy7H0MCvRFOVFKOvNMrynGHTznj/H57WPBbpiod/
-         FL1LgHEijFodLhUvwx2FTVHHh946sHBAGgMo+JYC/Sfc89fnANVFHEFeUUkDZ340ZiiY
-         nLt0iDwFB3BFBXM5ITgt+AXCxUcXLcn0M3FrB8ASDwei+EeM9MnCqLsryNtzNyKYAl9A
-         8M/w==
+        bh=BeWdzIfO2DW+yUfvaZaspXmNGunE2+lJN2R+b207DXE=;
+        b=bj4QM0svjWVBauifp3j2lOHyip338k398zdkriT42GyrIFXNeyCsMsgOcpSXEqzq0c
+         no0Rdq3arxkLXo9ohjEiet591saDQKTpxdYKUpNlQJ7R7NaAWtdzGd5oeocFS49usSpD
+         3b/NVrlkidRpxDb0tsSp/UeVXmhBGXWL5SWc74Y+QwJTMGhVEXA0L2hLDSKQh4A/lXEH
+         87M0joPIsFyy7iCIuHQO5OWiKFF1a+0fonB4Z3Xm9+L2RN1xcXBC5azhqUBJKclyaeO4
+         MUUM95imljKrYguNf6O7Al4u9n8E5O5sH2srLNcBmosdLmFc3pCVN70ptTfgvwnuTLvX
+         5mAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743609745; x=1744214545;
+        d=1e100.net; s=20230601; t=1743609744; x=1744214544;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vq0EPlPpZuHlRzrxuFpZuR/gR2YJwok5E2yWc17Aos0=;
-        b=KTk2Q/Wk9Ild+vhPpI3wxVFsXeKuAU8W0c2p/Wynyok9C9FnwZOFmcICYfqaKr8gdd
-         h1vkp++c8Qrcaj4WUXw/kCzqbgbzD97Cgn/PmtoNGrcye/XebXHT/LMTl68T3Sd353ef
-         JQRCBHHxOTu6wI9vUZcnubbbLwCfNPHyjygWcFvaobaEWq0/B2zizt2QBltKPWpuQFHA
-         zLK9GAAZ58ae8C1kELLtnVvEIQ0QdpFkg5eYnAmy+GIX/umDdBf12SdovEaj3Erzh/R4
-         3QuOQoZnUpSHX/cjQvABOtXE4jXDvxwbpDo/a9feunuIovV0Gex4CwZdBGOBsyugTIJf
-         APnA==
-X-Gm-Message-State: AOJu0YxvZmfsQJQVQvywEdvCEh+/MHrlm3Ejgbgu0xqo81rpBHcslq8q
-	KAYgUQjeIxxiK4kVbqb8Ww0cdBuSPB6JMRTipeSQGZx6J3BkgSSB7R/G3A==
-X-Gm-Gg: ASbGncs6/cRMBJ6FV8qEOGqhk6IzW0fFPEySouZLnjEXzEMfTdbj5qrkAHBV71qMuXi
-	A/XhL9a0d4Q77jgWbmhZnfG1AF1lEtA69w0CBLxK2PZDpIykH3xk1rsJ9WzMYeSYX3vT693Cqqo
-	PnBGAOKKendTa1Xcd7sUR4Vp7hZEvwecFfXMMNgwe9AzyPungTfspSIolQZAuSO5U3JGdTP8g8h
-	NdKPiqBgGaQVJiY4lv3nOR5N6OcEvn6WRuNAwbOzFoL3T8ycIyAa7Nmae4WbpjwKnxHD8rJXRR+
-	ILTj3mD5osqJCjsJDHyHGUgFly/bpcFoVm8FSJm1kuXfRynv1/Z+h+nql8UQpDg40UTeFXGlZpp
-	1fobviyDaPKI=
-X-Google-Smtp-Source: AGHT+IE+CmWnnx/yhZIbrcvsWDr9irFG3w6eha7TZq0TX2pfZsvV+YOKygOokoo+zIyN8h9Iwqm7Sw==
-X-Received: by 2002:a5d:47ac:0:b0:399:7916:a164 with SMTP id ffacd0b85a97d-39c29767a19mr3076681f8f.31.1743609744965;
-        Wed, 02 Apr 2025 09:02:24 -0700 (PDT)
+        bh=BeWdzIfO2DW+yUfvaZaspXmNGunE2+lJN2R+b207DXE=;
+        b=mnkxCIbNu70Mny5JGJJb583OsKyKYC2VDN6Y6JOP5m/qXKouotHzYJAsVQ8yk4KLaW
+         419HrNRUNX208kYGtW19WZ7g23D0cDBDxHvvkECv4eWrOPFOsZgexV8uke1n24si+I/V
+         Ee1RVf6fxsUi3NUT+2l4ErbIFfV5AqrESOI0dduPxly4MECt26S6ybYfjYN8n2p52T+p
+         txyI0Dmp9FZTFZOb/ULbkOOTNxoO7kUSbR83cSwDyPzgOAt2poQ2b+YzkXFpvYfxeLHi
+         TnzRIhFxhWAfCahlZivKM+U+Im4YVNYMCI7K+iQmrLTFBxT41VKsW+cwAfGRHt0qb2xl
+         sx0g==
+X-Gm-Message-State: AOJu0YwVuYCFU6TjQwHx3XSykjn/DBLjoSk8usTR2RFx9fm47XcQ1AVF
+	eF01aOukstusox6zRZQfE0ALbTOrvRGsfsTmCgHOCEX8Rv6cQoXMuKVffA==
+X-Gm-Gg: ASbGncsDCE3YwMZXkr29DIVKe7WQhG6OejT9ZpXa223yKU+vaysjIApvLjIdBp3bSi9
+	DC0qOneLqX+weCDp7rrwE21hCh1dc1yNpE0Gc553iP8X1r+4UKIE50dI2hBt3qNItMKJbtq9WPE
+	Wtfg4aeJ48tDZd7lkb9B9em24ws8MA8PedVLm7aPx9wDtwlFteXgArgxRwKB5fhaoyJ8HqE5j0h
+	Zyyuih826Jtxl+m+DlXY9vrbt8Lul1kf+mdysOEFcRF+JWSLFPUZqNUXHK/GCJ0zzdsBgQ/kCJj
+	NvQIl9vWrLao6ecumIRaRSA9BnQlvOjqPhjQZoyngPNFGLLfm/OlU48x95csSD6HMJcVPobw5dP
+	U3z3TNP31LTw=
+X-Google-Smtp-Source: AGHT+IEmxR5iaMctEpodHF/gumsteH1g7r1Pai7AWwIjzOcK/KGpS+9fR6wZNugSpxj8DMSybpbg4g==
+X-Received: by 2002:a05:6000:1a89:b0:390:dec3:2780 with SMTP id ffacd0b85a97d-39c2e634ea7mr72334f8f.24.1743609743566;
+        Wed, 02 Apr 2025 09:02:23 -0700 (PDT)
 Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b79e0a3sm17543565f8f.71.2025.04.02.09.02.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b79e0a3sm17543565f8f.71.2025.04.02.09.02.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 09:02:24 -0700 (PDT)
+        Wed, 02 Apr 2025 09:02:22 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 02 Apr 2025 16:02:16 +0000
-Subject: [PATCH OE-Core 4/5] connman: Add all build options as
- PACKAGECONFIG
+Date: Wed, 02 Apr 2025 16:02:14 +0000
+Subject: [PATCH OE-Core 2/5] connman: Delete patches for gold and MIPS
+ binutils fix
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250402-connman-v1-4-2e4fbbb7caf9@gmail.com>
+Message-Id: <20250402-connman-v1-2-2e4fbbb7caf9@gmail.com>
 References: <20250402-connman-v1-0-2e4fbbb7caf9@gmail.com>
 In-Reply-To: <20250402-connman-v1-0-2e4fbbb7caf9@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -68,181 +68,152 @@ X-Mailer: b4 0.14.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 16:02:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214284
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 16:02:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214282
 
-Add all missing build options as PACKAGECONFIG items. Add CONNMAN_FIREWALL to
-select iptables or nftables (one is required).
+gold is no longer built/supported. The workaround for binutils on MIPS no
+longer appears to be required.
 
-Set dns-backend automatically based on systemd-resolved in DISTRO_FEATURES,
-then drop "connman.service: stop systemd-resolved when we use connman" as we
-now use connman's systemd-resolved support.
+Also fix up tabs/whitespace in shell functions, correct HOMEPAGE, drop broken
+BUGTRACKER link.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- ...vice-stop-systemd-resolved-when-we-use-co.patch | 26 -------
- meta/recipes-connectivity/connman/connman_1.44.bb  | 85 +++++++++++++---------
- 2 files changed, 50 insertions(+), 61 deletions(-)
+ ...ange-visibility-to-default-for-debug-symb.patch | 31 --------------
+ .../connman/connman/no-version-scripts.patch       | 47 ----------------------
+ meta/recipes-connectivity/connman/connman_1.44.bb  | 13 +++---
+ 3 files changed, 5 insertions(+), 86 deletions(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman/0001-connman.service-stop-systemd-resolved-when-we-use-co.patch b/meta/recipes-connectivity/connman/connman/0001-connman.service-stop-systemd-resolved-when-we-use-co.patch
+diff --git a/meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch b/meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch
 deleted file mode 100644
-index 4597fe68fcdf6f301247747c52b1d4636ebec631..0000000000000000000000000000000000000000
---- a/meta/recipes-connectivity/connman/connman/0001-connman.service-stop-systemd-resolved-when-we-use-co.patch
+index a68707b2fa62a6e1ac37e05b8706908c456cec02..0000000000000000000000000000000000000000
+--- a/meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch
 +++ /dev/null
-@@ -1,26 +0,0 @@
--From 19aff57e4da920d9ca972903582305b4efe81ef3 Mon Sep 17 00:00:00 2001
--From: "Maxin B. John" <maxin.john@intel.com>
--Date: Mon, 12 Jun 2017 16:52:39 +0300
--Subject: [PATCH] connman.service: stop systemd-resolved when we use connman
+@@ -1,31 +0,0 @@
+-From c254226d4ebbd846c1f8169d70413a0d32d7ae77 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 7 Apr 2012 18:52:12 -0700
+-Subject: [PATCH] plugin.h: Change visibility to default for debug symbols
 -
--Stop systemd-resolved service when we use connman as network manager.
+-gold refuses to link in undefined weak symbols which
+-have hidden visibility
 -
--Upstream-Status: Inappropriate [configuration]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
+-Upstream-Status: Pending
 ----
-- src/connman.service.in | 1 +
-- 1 file changed, 1 insertion(+)
+- include/plugin.h | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
 -
--diff --git a/src/connman.service.in b/src/connman.service.in
--index 7376346..79e75d6 100644
----- a/src/connman.service.in
--+++ b/src/connman.service.in
--@@ -6,6 +6,7 @@ RequiresMountsFor=@localstatedir@/lib/connman
-- After=dbus.service network-pre.target systemd-sysusers.service
-- Before=network.target multi-user.target shutdown.target
-- Wants=network.target
--+Conflicts=systemd-resolved.service
+-diff --git a/include/plugin.h b/include/plugin.h
+-index 8d2bb08..a12a6be 100644
+---- a/include/plugin.h
+-+++ b/include/plugin.h
+-@@ -89,9 +89,9 @@ struct connman_plugin_desc {
+- #else
+- #define CONNMAN_PLUGIN_DEFINE(name, description, version, priority, init, exit) \
+- 		extern struct connman_debug_desc __start___debug[] \
+--				__attribute__ ((weak, visibility("hidden"))); \
+-+				__attribute__ ((weak, visibility("default"))); \
+- 		extern struct connman_debug_desc __stop___debug[] \
+--				__attribute__ ((weak, visibility("hidden"))); \
+-+				__attribute__ ((weak, visibility("default"))); \
+- 		extern struct connman_plugin_desc connman_plugin_desc \
+- 				__attribute__ ((visibility("default"))); \
+- 		struct connman_plugin_desc connman_plugin_desc = { \
+diff --git a/meta/recipes-connectivity/connman/connman/no-version-scripts.patch b/meta/recipes-connectivity/connman/connman/no-version-scripts.patch
+deleted file mode 100644
+index 3667a166f69346c3ca3592d179cc1baaa16cb1b4..0000000000000000000000000000000000000000
+--- a/meta/recipes-connectivity/connman/connman/no-version-scripts.patch
++++ /dev/null
+@@ -1,47 +0,0 @@
+-From 67f37aafcc8ef5d2eb006387e7bec21f74518727 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Tue, 9 Aug 2016 12:12:02 +0100
+-Subject: [PATCH] connman: disable version-scripts to fix crashes at startup
+-
+-With binutils 2.27 on at least MIPS, connmand will crash on startup.  This
+-appears to be due to the symbol visibilty scripts hiding symbols that stdio
+-looks up at runtime, resulting in it segfaulting.
+-
+-This certainly appears to be a bug in binutils 2.27 although the problem has
+-been known about for some time:
+-
+-https://sourceware.org/bugzilla/show_bug.cgi?id=17908
+-
+-As the version scripts are only used to hide symbols from plugins we can safely
+-remove the scripts to work around the problem until binutils is fixed.
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+----
+- Makefile.am | 6 ++----
+- 1 file changed, 2 insertions(+), 4 deletions(-)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index 3dc3bb5..3be5ccb 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -143,8 +143,7 @@ src_connmand_LDADD = gdbus/libgdbus-internal.la $(builtin_libadd) \
+- 			@GIO_LIBS@ @GLIB_LIBS@ @DBUS_LIBS@ @GNUTLS_LIBS@ \
+- 			-lresolv -ldl -lrt
 - 
-- [Service]
-- Type=dbus
+--src_connmand_LDFLAGS = -Wl,--export-dynamic \
+--				-Wl,--version-script=$(srcdir)/src/connman.ver
+-+src_connmand_LDFLAGS = -Wl,--export-dynamic
+- 
+- src_connmand_wait_online_SOURCES = src/connmand-wait-online.c
+- 
+-@@ -187,8 +186,7 @@ vpn_connman_vpnd_LDADD = gdbus/libgdbus-internal.la $(builtin_vpn_libadd) \
+- 				@GIO_LIBS@ @GLIB_LIBS@ @DBUS_LIBS@ @GNUTLS_LIBS@ \
+- 				-lresolv -ldl
+- 
+--vpn_connman_vpnd_LDFLAGS = -Wl,--export-dynamic \
+--				-Wl,--version-script=$(srcdir)/vpn/vpn.ver
+-+vpn_connman_vpnd_LDFLAGS = -Wl,--export-dynamic
+- endif
+- 
+- BUILT_SOURCES = $(local_headers) src/builtin.h $(service_files) \
 diff --git a/meta/recipes-connectivity/connman/connman_1.44.bb b/meta/recipes-connectivity/connman/connman_1.44.bb
-index aa9da070dec1b4aac02019ae9c3158256b534c61..2622a8ebfed0ceec7ac39fcf3ffad76291de5797 100644
+index 1cd97d342f894bcffa6a7ed80ac8dc23e6a0565d..553a377684c67190bbf274a28759bc1825b21d75 100644
 --- a/meta/recipes-connectivity/connman/connman_1.44.bb
 +++ b/meta/recipes-connectivity/connman/connman_1.44.bb
-@@ -12,65 +12,79 @@ LICENSE  = "GPL-2.0-only"
+@@ -7,8 +7,7 @@ It is a fully modular system that can be extended, through plug-ins, \
+ to support all kinds of wired or wireless technologies. Also, \
+ configuration methods, like DHCP and domain name resolving, are \
+ implemented using plug-ins."
+-HOMEPAGE = "http://connman.net/"
+-BUGTRACKER = "https://01.org/jira/browse/CM"
++HOMEPAGE = "https://web.git.kernel.org/pub/scm/network/connman/connman.git/about/"
+ LICENSE  = "GPL-2.0-only"
  LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
                      file://src/main.c;beginline=1;endline=20;md5=486a279a6ab0c8d152bcda3a5b5edc36"
- 
--inherit autotools pkgconfig systemd update-rc.d update-alternatives
--
- CVE_PRODUCT = "connman connection_manager"
- 
- DEPENDS  = "dbus glib-2.0"
+@@ -20,10 +19,8 @@ CVE_PRODUCT = "connman connection_manager"
+ DEPENDS  = "dbus glib-2.0 ppp"
  
  SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
--           file://0001-connman.service-stop-systemd-resolved-when-we-use-co.patch \
+-           file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+            file://0001-connman.service-stop-systemd-resolved-when-we-use-co.patch \
             file://connman \
+-           file://no-version-scripts.patch \
             file://0002-resolve-musl-does-not-implement-res_ninit.patch \
--           "
-+"
+            "
  
- SRC_URI[sha256sum] = "2be2b00321632b775f9eff713acd04ef21e31fbf388f6ebf45512ff4289574ff"
+@@ -116,10 +113,10 @@ do_install:append() {
+ 	# plugins directory to be present for ownership
+ 	mkdir -p ${D}${libdir}/connman/plugins
  
-+inherit autotools pkgconfig systemd update-rc.d update-alternatives
-+
-+RDEPENDS:${PN} = "${@bb.utils.contains('PACKAGECONFIG', 'wifi', '${WIRELESS_DAEMON}', '', d)}"
- RRECOMMENDS:${PN} = "connman-conf"
--RCONFLICTS:${PN} = "networkmanager"
- 
- EXTRA_OECONF += "\
--    ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
--    ac_cv_path_PPPD=${sbindir}/pppd \
--    --enable-debug \
--    --enable-loopback \
--    --enable-ethernet \
-+    --enable-datafiles \
-     --enable-tools \
--    --disable-polkit \
--    --runstatedir=/run \
-+    --runstatedir='${runtimedir}' \
-+    --with-dns-backend='${@bb.utils.contains("DISTRO_FEATURES", "systemd-resolved", "systemd-resolved", "internal", d)}' \
-+    ac_cv_path_IP6TABLES_SAVE=${sbindir}/ip6tables-save \
-+    ac_cv_path_IPTABLES_SAVE=${sbindir}/iptables-save \
-+    ac_cv_path_PPPD=${sbindir}/pppd \
-+    ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
- "
-+
- # For smooth operation it would be best to start only one wireless daemon at a time.
- # If wpa-supplicant is running, connman will use it preferentially.
- # Select either wpa-supplicant or iwd
- WIRELESS_DAEMON ??= "wpa-supplicant"
- 
--PACKAGECONFIG ??= "wispr iptables client\
--                   ${@bb.utils.filter('DISTRO_FEATURES', '3g systemd', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'wifi ${WIRELESS_DAEMON}', '', d)} \
-+# Choose "iptables" or "nftables"
-+CONNMAN_FIREWALL ??= "iptables"
-+
-+# Default is 16kB
-+CONNMAN_STATS_MAX_FILE_SIZE = "16384"
-+
-+PACKAGECONFIG ??= "client ethernet loopback wispr ${CONNMAN_FIREWALL} \
-+                   ${@bb.utils.filter('DISTRO_FEATURES', '3g bluetooth nfc polkit selinux systemd usbgadget wifi', d)} \
-+                   ${@bb.utils.filter('WIRELESS_DAEMON', 'iwd', d)} \
- "
- 
--# If you want ConnMan to support VPN, add following statement into
--# local.conf or distro config
--# PACKAGECONFIG:append:pn-connman = " openvpn vpnc l2tp pptp"
--
--PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_system_unitdir}/ --with-tmpfilesdir=${sysconfdir}/tmpfiles.d/,--with-systemdunitdir='' --with-tmpfilesdir=''"
--PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi"
--PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, bluez5, bluez5"
--PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono, ofono"
--PACKAGECONFIG[wpa-supplicant] = ",,wpa-supplicant,wpa-supplicant"
--PACKAGECONFIG[iwd] = "--enable-iwd,--disable-iwd,,iwd"
--PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
--PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
--PACKAGECONFIG[vpnc] = "--enable-vpnc --with-vpnc=${sbindir}/vpnc,--disable-vpnc,,vpnc"
-+PACKAGECONFIG[3g] = "--enable-ofono,--disable-ofono,ofono"
-+PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez5,bluez5"
-+PACKAGECONFIG[client] = "--enable-client,--disable-client,readline"
-+PACKAGECONFIG[dundee] = "--enable-dundee,--disable-dundee"
-+PACKAGECONFIG[ethernet] = "--enable-ethernet,--disable-ethernet"
-+PACKAGECONFIG[hh2serial-gps] = "--enable-hh2serial-gps,--disable-hh2serial-gps"
-+PACKAGECONFIG[iospm] = "--enable-iospm,--disable-iospm"
-+PACKAGECONFIG[iptables] = ",,iptables,iptables,nftables"
-+PACKAGECONFIG[iwd] = "--enable-iwd,--disable-iwd"
-+PACKAGECONFIG[loopback] = "--enable-loopback,--disable-loopback"
-+PACKAGECONFIG[nfc] = "--enable-neard,--disable-neard,neard"
-+PACKAGECONFIG[nftables] = ",,libmnl libnftnl,,kernel-module-nf-tables kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-masq-ipv4 kernel-module-nft-nat,iptables"
-+PACKAGECONFIG[nmcompat] = "--enable-nmcompat,--disable-nmcompat"
-+PACKAGECONFIG[pacrunner] = "--enable-pacrunner,--disable-pacrunner"
-+PACKAGECONFIG[polkit] = "--enable-polkit,--disable-polkit,polkit"
-+PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
-+PACKAGECONFIG[session-policy-local] = "--enable-session-policy-local,--disable-session-policy-local"
-+PACKAGECONFIG[stats] = "--enable-stats --with-stats-max-file-size=${CONNMAN_STATS_MAX_FILE_SIZE},--disable-stats"
-+PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_system_unitdir}/ --with-tmpfilesdir=${nonarch_libdir}/tmpfiles.d/,--with-systemdunitdir='' --with-tmpfilesdir=''"
-+PACKAGECONFIG[test] = "--enable-test,--disable-test"
-+PACKAGECONFIG[tist] = "--enable-tist,--disable-tist"
-+PACKAGECONFIG[usbgadget] = "--enable-gadget,--disable-gadget"
-+PACKAGECONFIG[wifi] = "--enable-wifi,--disable-wifi"
-+PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls"
-+
- PACKAGECONFIG[l2tp] = "--enable-l2tp --with-l2tp=${sbindir}/xl2tpd,--disable-l2tp,ppp,xl2tpd"
-+PACKAGECONFIG[openconnect] = "--enable-openconnect --with-openconnect=${sbindir}/openconnect,--disable-openconnect,openconnect,openconnect"
-+PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
- PACKAGECONFIG[pptp] = "--enable-pptp --with-pptp=${sbindir}/pptp,--disable-pptp,ppp,pptp-linux"
--# WISPr support for logging into hotspots, requires TLS
--PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
--PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,,kernel-module-nf-tables kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-masq-ipv4 kernel-module-nft-nat"
--PACKAGECONFIG[iptables] = "--with-firewall=iptables ,,iptables,iptables"
--PACKAGECONFIG[nfc] = "--enable-neard, --disable-neard, neard, neard"
--PACKAGECONFIG[client] = "--enable-client,--disable-client,readline"
-+PACKAGECONFIG[vpnc] = "--enable-vpnc --with-vpnc=${sbindir}/vpnc,--disable-vpnc,,vpnc"
- PACKAGECONFIG[wireguard] = "--enable-wireguard,--disable-wireguard,libmnl"
- 
- INITSCRIPT_NAME = "connman"
-@@ -115,6 +129,7 @@ do_install:append() {
- 
- 	# For read-only filesystem, do not create links during bootup
- 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+		install -d ${D}${sysconfdir}
- 		ln -sf ../run/connman/resolv.conf ${D}${sysconfdir}/resolv-conf.connman
- 	fi
+-    # For read-only filesystem, do not create links during bootup
+-    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+-        ln -sf ../run/connman/resolv.conf ${D}${sysconfdir}/resolv-conf.connman
+-    fi
++	# For read-only filesystem, do not create links during bootup
++	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++		ln -sf ../run/connman/resolv.conf ${D}${sysconfdir}/resolv-conf.connman
++	fi
  }
+ 
+ # These used to be plugins, but now they are core
 
 -- 
 2.25.1
