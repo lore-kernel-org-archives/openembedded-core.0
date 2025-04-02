@@ -1,86 +1,87 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA70C28B20
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 08:20:58 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.3019.1743582057927273854
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91049C3601E
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 08:32:48 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.3043.1743582764163047665
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Apr 2025 01:20:57 -0700
+ Wed, 02 Apr 2025 01:32:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=61878b757d=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53268T8V022315
-	for <openembedded-core@lists.openembedded.org>; Wed, 2 Apr 2025 01:20:57 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45rtf2ggdp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 01:20:57 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 2 Apr 2025 01:20:55 -0700
-From: yurade <yogita.urade@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] curl: ignore CVE-2025-0725
-Date: Wed, 2 Apr 2025 08:20:01 +0000
-Message-ID: <20250402082001.3926187-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.31.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FYQPKoWI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-391342fc0b5so4641928f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 01:32:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1743582762; x=1744187562; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ukSGMgWURucYkyw33NdEFgW9ZiQVhq87JPBlMQf9PM4=;
+        b=FYQPKoWI5QEg9l5acCTvLo/l06gLNKJw5zuX+w/o9FOxluwsESNcjohsSiUwEcb6KP
+         rNwxOHzEDXd0mLEihBTbQW7gwJ2EynSB/YKVATTFPH62L2n0RY7w5wFCQTBt4BCJKSO1
+         rzvE7AyrW8XGjuSMBjlqTFXipCihlK25KqcWA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743582762; x=1744187562;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ukSGMgWURucYkyw33NdEFgW9ZiQVhq87JPBlMQf9PM4=;
+        b=qi6wI3mYmOCEki4mbr8hjcBiuAuvmfHfjgMfhxDQvzOGHqX7eCN53Irq2IMIIFv66y
+         rkEcyI2qtD6PnJ93J83kGmsy3JGa9/gYc6yq2Z+EShLVEc2afZsZdQm701fqAvL+xgr6
+         buCgSz165sPRAMrdlgiLLdN6NmlKWNuZNBFANCa0PUqxL2wdqByhlEKHXTjJctoz/LEj
+         iRO66EcXXYZdf7VCZgYWvA1I7MDY5rJc+CL1YiuE438IPojkMBki80KtuWjIPdUGzbAf
+         34HyvvLSA0jPflOYZAzw2PTSj8XK/h2w2oWPlTAzCUUVYbRBcjV+XjGEBS9Dtuu2fXKB
+         dR7g==
+X-Gm-Message-State: AOJu0YyMEFzD/uqoNAu5fexkCQ0yiy9wry2A6ySnoZez3Ir/3DffDDxi
+	WV5G/ruVft7AT0Uvswikn72UAKTFvD44rAOQLZ0x6BehoXwR4DOGBoGTDqUI8KM=
+X-Gm-Gg: ASbGncv8hLTXxddjSLOsT5+YwLcc4h5Xgn5ho8HN3RnZ27afsTPq5HBPcQocumAG2Yn
+	8MierHE2KSXUz6+dYQGeyEHibxQ7FCNBClroJTP9HHzl6NHzRvyy8pVc9KGq3wjc/Hd09wGMtLq
+	aOq3m3+jND3keqTM56toSvfDMYFvGdit26UZSgdMe7oIhgVUYyxeb9q+C0UjVLNOcxraTeadufY
+	U7vlUDc4cRhAEsv8ovwh8f9LkBrU3mCgkZugJBTMA6zC882H3BF9eydW3ZnKeoBjntv5Q2TDXFl
+	vwBTh6nyond+bXsyPbpagrooc4vxgfrIFVfKoRQmi7Ysxgj2vCN7LFHNhJg+yb0zq+QwWq3+S+8
+	VPZa6e1qQqDMcH+orDMOORvZUXlQcOia2Tw==
+X-Google-Smtp-Source: AGHT+IGAvkvQlpdPreZQXX41pSkTCXHekNqpPGZzkJixarIONwxEKoRf4VGl7TzPrvtkTROiIuG16A==
+X-Received: by 2002:a05:6000:22c7:b0:390:fc5a:91c8 with SMTP id ffacd0b85a97d-39c1211df1bmr11847440f8f.53.1743582762431;
+        Wed, 02 Apr 2025 01:32:42 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:24b8:b374:749c:8558? ([2001:8b0:aba:5f3c:24b8:b374:749c:8558])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb613ae24sm13277445e9.40.2025.04.02.01.32.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Apr 2025 01:32:41 -0700 (PDT)
+Message-ID: <1af4162fab2f465870ee58b9a2ffa8f1c4c710f4.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 05/48] btrfs-tools: upgrade 6.13 -> 6.14
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 02 Apr 2025 09:32:40 +0100
+In-Reply-To: <CANNYZj-+wZBvKBKWU-Yr4an=eXxhFZ2kceX1VfmLUaZat4x2GA@mail.gmail.com>
+References: <20250402071017.2157620-1-richard.purdie@linuxfoundation.org>
+	 <20250402071017.2157620-5-richard.purdie@linuxfoundation.org>
+	 <CANNYZj-+wZBvKBKWU-Yr4an=eXxhFZ2kceX1VfmLUaZat4x2GA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: lJEGxw49t-xJJiikubvJBp5oDVWRMnnl
-X-Proofpoint-GUID: lJEGxw49t-xJJiikubvJBp5oDVWRMnnl
-X-Authority-Analysis: v=2.4 cv=fM453Yae c=1 sm=1 tr=0 ts=67ecf369 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=XR8D0OoHHMoA:10 a=ugkhXdxtAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=H2dG1GdoG4qykc44DYYA:9
- a=-pyJRK1rBMoA:10 a=VinBSYM5t5AA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-02_03,2025-04-01_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
- adultscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 mlxscore=0 clxscore=1011 malwarescore=0 suspectscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2504020052
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 08:20:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214229
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 08:32:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214230
 
-From: Yogita Urade <yogita.urade@windriver.com>
+On Wed, 2025-04-02 at 09:17 +0200, Alexander Kanavin wrote:
+> On Wed, 2 Apr 2025 at 09:10, Richard Purdie via
+> lists.openembedded.org
+> <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+>=20
+> > +SRC_URI =3D "git://github.com/kdave/btrfs-
+> > progs.git;branch=3Dmaster;protocol=3Dhttps;tar=3Dv${PV} \
+>=20
+> 'tag'. Not 'tar'.
 
-CVE-2025-0725 can only trigger for curl when using a runtime
-zlib version 1.2.0.3 or older and kirkstone supports
-zlib 1.2.11 version, hence ignore cve for kirkstone.
+Thanks, well spotted. Fixed on the branch.
 
-Reference:
-https://curl.se/docs/CVE-2025-0725.html
-https://git.openembedded.org/openembedded-core/commit/?h=scarthgap&id=8c3b4a604b40260e7ca9575715dd8017e17d35c0
+Cheers,
 
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
----
- meta/recipes-support/curl/curl_7.82.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index cda42da4d3..748afc1235 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -73,6 +73,8 @@ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl dan
- CVE_CHECK_IGNORE += "CVE-2023-42915"
- # ignored: CURLOPT_SSL_VERIFYPEER was disabled on google cloud services causing a potential man in the middle attack
- CVE_CHECK_IGNORE += "CVE-2024-32928"
-+# ignored: gzip decompression of content-encoded HTTP responses with the `CURLOPT_ACCEPT_ENCODING` option, using zlib 1.2.0.3 or older
-+CVE_CHECK_IGNORE += "CVE-2025-0725"
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
--- 
-2.40.0
-
+Richard
 
