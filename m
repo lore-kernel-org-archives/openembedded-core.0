@@ -1,114 +1,273 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <samuli.piippo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B5A4C28B20
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 07:23:48 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.2418.1743578622915277124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9BEC3601A
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 07:37:38 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.2446.1743579453739021785
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Apr 2025 00:23:42 -0700
+ Wed, 02 Apr 2025 00:37:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Okf3fw79;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22928d629faso85878655ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 00:23:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QQd/jHwx;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: samuli.piippo@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ac2902f7c2aso1093267066b.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 00:37:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743578622; x=1744183422; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=E69m6QS7qyXHuzypuiGVZsM7L7mw/Yv/wHWFtNjq/u8=;
-        b=Okf3fw79XTTAb8dHq04o4DfACYLAnCBZbpvzwhDnAGbk9Mbjo7dKHKGLljj5pLHGit
-         OuHDmkdRfza1Fx7rHGc5EFWlM5ycNGKJN7c1keh4XCB1UM2TMNjzqec7VJ7OcM43fId4
-         j9v9uGbdiHHw49g+XGCddHOKtygDYFCBC6RFVVl61l2TuwS640NKYxBauJrvbDW6Rpg+
-         MngodJbX4/J+Fiduo62yAITA6mlUBnSRGjqviSxF4G3tEfuqdAkUzMqmsgEGZoKIwuO1
-         u6IOM4QPkJXKuOwjubXHYY86EeTdU8oheDjRkcUMarhF7NPIB5oH8WvJ4ig2B95//eLa
-         ynGw==
+        d=gmail.com; s=20230601; t=1743579452; x=1744184252; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JZR5ajMYmxpJX3W2I00b8bZjieHwofEy6Sihz6B67ZU=;
+        b=QQd/jHwxgQrhsjBjg1YaHPtogwnmIb7Idb4nHClcC2Dy+1fOAZAh7OQYUhG0rvxAhx
+         oOvYTqeGA0l63UjaAqtSABBwlKyFY6iZq0iyzj0yheWHqG9ZGO/BN2CtDUTFnqv1TMbm
+         2OgY37W/AL2ht2okA9SZiykuswkquyihUqL/ESaOofqqaDEXzfrlOqMwTJKExnm7rkK+
+         2TECjEckqLI0YKG7fo/snu+gjA8rdP9fLp6hy0Uue24OQgUjVdRD8KVpI/SP6CCVrNNE
+         eycWs8e1R4CjEIp/I77kCL4zFyBi/aqPQJtZA2jhi49BQXl9rp5/ZhyB4iRGxX/SPRm+
+         Qnbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743578622; x=1744183422;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1743579452; x=1744184252;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=E69m6QS7qyXHuzypuiGVZsM7L7mw/Yv/wHWFtNjq/u8=;
-        b=pVTgsC64XBxQrYXgc7HC4zLwIUlI8tWYHPxuPc2dBnAAFxkeozSVco4/2c26BN0oPY
-         1pl5sw+OKqfvkR2wvLybFEk6syAZcAMOJDEHpUlQkIJAnNkdk9o/zJXIC2kD21JsX8eG
-         KESSaDho94YNTbwnRMjMAx4dKUyNuqE7Nd/FsleubWHAWuWVpcAbDY83fxUpN606DjWn
-         uoh/i0z0jBLcxtHD1p7ECxQxIuZAEJVFfW6HusZZO7dWgvp8oFZd2sn0NWxH4yYv4e9g
-         A7YoQn7M9wcVPjF5/+NKbovjxcpWiExB6thMKqk/7n3zYrk0vu/TYct216LriSbO+Bb/
-         W42g==
-X-Gm-Message-State: AOJu0YxEPI4wTLrDlYgTGCHbWSI/HXN+p35eqItCKIYd/cHkA9EFCX3l
-	W6r/jwzxnq3oiTIbU6+Q8Qdo+of8mGREXo8Tj6gua6hoSRFkXhmqF5a28Sqt
-X-Gm-Gg: ASbGncs0JAFXS1sKXxacbL3OsMDRaxT4l2fhh+MpHVTKeG7DltLiLNaDTJb9QHoOrHK
-	/qaXIntXQuRQL2IaIFOvB6fUJ50/jvINrQ93TDJz4gPXZCPaqjve0l5v5JK5pCXjhPNG93HHBx8
-	WsEdNEZ5SkIrVr6THZxzjsyc3P4QE6DxDrlnlIu/+ukH6rhVU6sdRxg5orduX24P/JCVFSkxyIx
-	BdiwZDIMKbIxi+dn9UnfFG17xXurqlXFaxM5pfCQA0K/zbZfNXWK7GgD8UvrJZeoRJ+bg88qhw1
-	tG8ykwmBY6a5vdAP+c3mk2McLRM1V80xXLOs
-X-Google-Smtp-Source: AGHT+IF4xtUCVI1zGREQ50R+NzSU+2JVIRMY1pntSZZcfqb+/OFrQuappvu1kKVYms1jxNTLMjiFjw==
-X-Received: by 2002:a05:6a00:228e:b0:736:3954:d78c with SMTP id d2e1a72fcca58-7398034f597mr20706228b3a.6.1743578621943;
-        Wed, 02 Apr 2025 00:23:41 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::a85b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73970e2a0e2sm10545520b3a.67.2025.04.02.00.23.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 00:23:41 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] llvm: upgrade 20.1.0 -> 20.1.1
-Date: Wed,  2 Apr 2025 00:23:39 -0700
-Message-ID: <20250402072339.1977120-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        bh=JZR5ajMYmxpJX3W2I00b8bZjieHwofEy6Sihz6B67ZU=;
+        b=FXGtzGaR7g/iNc/uq8T8S5q7iyQTy0XAFawxXLJRzlDYX8/5+UgoQSTBQ/casV02DN
+         9a9P21pAIW2ROS77ALf825dA7oRIlJMhl4DWWRNzbvinWVOZcsmMbV7x3g118vr4Rrqo
+         xqJAg0xVjNleFsxMcbfTFMadOcYubEWKJX0qNgzd8OJ7OZFGLflZNFq/7JOsCs/e37XZ
+         Wf2WSNkkGIwNmggOBxdd0fhUH91aS7ooNEMeYZELNhocKASaoXGSQuS2ihGHEi/TPhtF
+         4FAwp97DCn4LvIAVAigoCOAye2tJDs6hASjtrLq5RxOLDUcqS146syO6ABPdP5q+NtMD
+         M+lg==
+X-Gm-Message-State: AOJu0Yy7OtQNQy7TDrVgJYMtgwr4B5eaLkYnigJcRfKsO2l7mBH7L70b
+	bD0497R5JrNi/wJueFCRZ3ro5z4rYjePPcqILekBvFVjYec0O8NhAvGi3eq9/CIeujEaOQcL9BJ
+	/HCItcNYRnBB8Vpz98hz5uhdljjw=
+X-Gm-Gg: ASbGncvyRECzJmKfYq+RrXW91dyWSbBHCLLHMUeIksYpuIWuLPyYMKofvLXptI+lu99
+	WVj01oydwURaCu7LeDbOk76W41SkJC7S+avhIiXByDQJTi0SnzXJMGvCvUxjts5W7izsQi8x0Ha
+	LHmpedpgkkJtwLaY6yneQlPZ3xKQ==
+X-Google-Smtp-Source: AGHT+IHcorQRRRS6xDJHCmsE4gbrJYibf+D+m+dqf5T0ii8EEkWd6fLotQbhHa7lmjjFck1yqdVmjkUd0O0BviUrslg=
+X-Received: by 2002:a17:907:9693:b0:ac4:491:1548 with SMTP id
+ a640c23a62f3a-ac73898d6abmr1577097266b.11.1743579451725; Wed, 02 Apr 2025
+ 00:37:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CA+chaQcpXOTbbePCjusXgrcR-Y9fk02JOnecFsR2e5B+==x7Eg@mail.gmail.com>
+In-Reply-To: <CA+chaQcpXOTbbePCjusXgrcR-Y9fk02JOnecFsR2e5B+==x7Eg@mail.gmail.com>
+From: Samuli Piippo <samuli.piippo@gmail.com>
+Date: Wed, 2 Apr 2025 10:37:19 +0300
+X-Gm-Features: AQ5f1JrVY5zEVCXVwgTZU4RMCcvE0Xq8qTVmMh_ZvdVET8icAB3fG6cZoow3BJ4
+Message-ID: <CABXoSoVs_O7At3c+=nM6w=fwgULniKACzu_8AwhZR9iat59UYQ@mail.gmail.com>
+Subject: Re: [OE-core] meta-qt6 on layerindex
+To: martin.jansa@gmail.com
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Samuli Piippo <samuli.piippo@qt.io>, Tim Orling <ticotimo@gmail.com>, 
+	Ross Burton <ross.burton@arm.com>
+Content-Type: multipart/alternative; boundary="000000000000dba3140631c6b9c0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 07:23:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214226
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 07:37:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214227
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Drop PV from recipe
+--000000000000dba3140631c6b9c0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
- ...1-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch | 2 +-
- .../llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch    | 2 +-
- meta/recipes-devtools/llvm/{llvm_20.1.0.bb => llvm_20.1.1.bb}   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/llvm/{llvm_20.1.0.bb => llvm_20.1.1.bb} (98%)
+It would be great if I were able to, as the layer maintainer, add the
+needed branch mappings to the layerindex.
+So far, Tim has been the one to update those.
 
-diff --git a/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch b/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
-index ae2c3baa8ce..f71c5d4bd47 100644
---- a/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
-+++ b/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
-@@ -1,4 +1,4 @@
--From 9824c2ab5e7d37a5a18a409a512511f5f5cd408d Mon Sep 17 00:00:00 2001
-+From 001d56983078842c5aa2a1786b84dc429bd46abd Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 27 Nov 2020 10:11:08 +0000
- Subject: [PATCH] AsmMatcherEmitter: sort ClassInfo lists by name as well
-diff --git a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-index 29266013ecb..f1ab0054640 100644
---- a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-+++ b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-@@ -1,4 +1,4 @@
--From 00e5ac68dad872b8490297fa6f0b67e6a3e48661 Mon Sep 17 00:00:00 2001
-+From 3eb1eefed6fc654d19ab97bbc748454c22a29009 Mon Sep 17 00:00:00 2001
- From: Martin Kelly <mkelly@xevo.com>
- Date: Fri, 19 May 2017 00:22:57 -0700
- Subject: [PATCH] llvm: allow env override of exe and libdir path
-diff --git a/meta/recipes-devtools/llvm/llvm_20.1.0.bb b/meta/recipes-devtools/llvm/llvm_20.1.1.bb
-similarity index 98%
-rename from meta/recipes-devtools/llvm/llvm_20.1.0.bb
-rename to meta/recipes-devtools/llvm/llvm_20.1.1.bb
-index 7ffc6ec1cb8..5c6c5a2ffd1 100644
---- a/meta/recipes-devtools/llvm/llvm_20.1.0.bb
-+++ b/meta/recipes-devtools/llvm/llvm_20.1.1.bb
-@@ -27,7 +27,7 @@ SRC_URI = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
-            file://llvm-config \
-            "
--SRC_URI[sha256sum] = "4579051e3c255fb4bb795d54324f5a7f3ef79bd9181e44293d7ee9a7f62aad9a"
-+SRC_URI[sha256sum] = "4d5ebbd40ce1e984a650818a4bb5ae86fc70644dec2e6d54e78b4176db3332e0"
- UPSTREAM_CHECK_URI = "https://github.com/llvm/llvm-project"
- UPSTREAM_CHECK_REGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
- 
+scarthgap -> 6.8
+styhead -> 6.9
+
+If Tim or other admin could add these branch mappings, that would be great.
+The mapping can be added from admin view: Layer branches =E2=80=BA Add laye=
+r branch
+AFAIK, only Branch and Actual Branch values need to be set up.
+Once there is a layer branch set up, it appears, I also have access rights
+to modify it.
+
+-samuli
+
+
+
+On Tue, 1 Apr 2025 at 13:07, Martin Jansa via lists.openembedded.org
+<martin.jansa=3Dgmail.com@lists.openembedded.org> wrote:
+
+> Hi,
+>
+> some layers on layerindex cannot be correctly parsed because they
+> depend on meta-qt6 (qt6-layer) and there is no record of scarthgap or
+> styhead compatible release of meta-qt6 on layerindex.
+>
+> There are:
+> https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt=
+6/
+> - actual branch 6.5
+> https://layers.openembedded.org/layerindex/branch/master/layer/meta-qt6/
+> - actual branch dev
+>
+> but no
+> https://layers.openembedded.org/layerindex/branch/styhead/layer/meta-qt6/
+> https://layers.openembedded.org/layerindex/branch/scarthgap/layer/meta-qt=
+6/
+>
+> which causes e.g.:
+>
+> ERROR: Issues found on branch styhead:
+>     meta-luneos: Failed to add since LAYERDEPENDS [meta-luneui ...] is
+> not satisfied
+>     meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer ...] is
+> not satisfied
+> ERROR: Issues found on branch scarthgap:
+>     meta-luneos: Failed to add since LAYERDEPENDS [meta-luneui ...] is
+> not satisfied
+>     meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer ...] is
+> not satisfied
+>
+> and there will be more once meta-webosose parsing is fixed.
+>
+> Is Tim the only person who can help with some admin changes on
+> layerindex? RP suggested to ask Ross as well.
+>
+> I have admin rights to publish new layers (and edit all existing
+> layers), but cannot delete wrongly created ones (or their mapping) and
+> I'm not sure how to add a new mapping (e.g. add scarthgap and styhead
+> release for meta-qt6 by using actual branch 'dev' or '6.8').
+>
+> meta-qt6 dev, 6.9 and 6.8 branches have:
+> LAYERSERIES_COMPAT_qt6-layer =3D "kirkstone langdale mickledore nanbield
+> scarthgap styhead walnascar"
+> 6.7 doesn't have walnascar
+> 6.6 and 6.5 (currently used for kirkstone) have:
+> LAYERSERIES_COMPAT_qt6-layer =3D "dunfell gatesgarth hardknott honister
+> kirkstone langdale mickledore nanbield scarthgap"
+>
+> maybe even
+> https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt=
+6/
+> which is currently using actual branch 6.5 should be bumped to 6.8 as
+> well.
+>
+> Cheers,
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#214012):
+> https://lists.openembedded.org/g/openembedded-core/message/214012
+> Mute This Topic: https://lists.openembedded.org/mt/112022134/3617605
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> samuli.piippo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000dba3140631c6b9c0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>It would be great if I were able to,=
+ as the layer maintainer, add the needed  branch mappings to the layerindex=
+.</div><div>So far, Tim has been the one to update those.</div><div><br></d=
+iv><div>scarthgap -&gt; 6.8</div><div>styhead -&gt; 6.9</div><div><br></div=
+><div>If Tim or other admin could add these branch mappings, that would be =
+great.</div><div>The mapping can be added from admin view: Layer branches =
+=E2=80=BA Add layer branch</div><div>AFAIK, only Branch and Actual Branch v=
+alues need to be set up.</div><div></div><div>Once there is a layer branch =
+set up, it appears, I also have access rights to modify it.</div><div><br><=
+/div><div>-samuli</div><div><br></div><div><br></div></div><br><div class=
+=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Tue, 1 Apr 2025 at 13:07, Martin Jansa via <a href=3D"http://lists.ope=
+nembedded.org">lists.openembedded.org</a> &lt;martin.jansa=3D<a href=3D"mai=
+lto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<b=
+r>
+<br>
+some layers on layerindex cannot be correctly parsed because they<br>
+depend on meta-qt6 (qt6-layer) and there is no record of scarthgap or<br>
+styhead compatible release of meta-qt6 on layerindex.<br>
+<br>
+There are:<br>
+<a href=3D"https://layers.openembedded.org/layerindex/branch/kirkstone/laye=
+r/meta-qt6/" rel=3D"noreferrer" target=3D"_blank">https://layers.openembedd=
+ed.org/layerindex/branch/kirkstone/layer/meta-qt6/</a><br>
+- actual branch 6.5<br>
+<a href=3D"https://layers.openembedded.org/layerindex/branch/master/layer/m=
+eta-qt6/" rel=3D"noreferrer" target=3D"_blank">https://layers.openembedded.=
+org/layerindex/branch/master/layer/meta-qt6/</a><br>
+- actual branch dev<br>
+<br>
+but no<br>
+<a href=3D"https://layers.openembedded.org/layerindex/branch/styhead/layer/=
+meta-qt6/" rel=3D"noreferrer" target=3D"_blank">https://layers.openembedded=
+.org/layerindex/branch/styhead/layer/meta-qt6/</a><br>
+<a href=3D"https://layers.openembedded.org/layerindex/branch/scarthgap/laye=
+r/meta-qt6/" rel=3D"noreferrer" target=3D"_blank">https://layers.openembedd=
+ed.org/layerindex/branch/scarthgap/layer/meta-qt6/</a><br>
+<br>
+which causes e.g.:<br>
+<br>
+ERROR: Issues found on branch styhead:<br>
+=C2=A0 =C2=A0 meta-luneos: Failed to add since LAYERDEPENDS [meta-luneui ..=
+.] is<br>
+not satisfied<br>
+=C2=A0 =C2=A0 meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer ...]=
+ is<br>
+not satisfied<br>
+ERROR: Issues found on branch scarthgap:<br>
+=C2=A0 =C2=A0 meta-luneos: Failed to add since LAYERDEPENDS [meta-luneui ..=
+.] is<br>
+not satisfied<br>
+=C2=A0 =C2=A0 meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer ...]=
+ is<br>
+not satisfied<br>
+<br>
+and there will be more once meta-webosose parsing is fixed.<br>
+<br>
+Is Tim the only person who can help with some admin changes on<br>
+layerindex? RP suggested to ask Ross as well.<br>
+<br>
+I have admin rights to publish new layers (and edit all existing<br>
+layers), but cannot delete wrongly created ones (or their mapping) and<br>
+I&#39;m not sure how to add a new mapping (e.g. add scarthgap and styhead<b=
+r>
+release for meta-qt6 by using actual branch &#39;dev&#39; or &#39;6.8&#39;)=
+.<br>
+<br>
+meta-qt6 dev, 6.9 and 6.8 branches have:<br>
+LAYERSERIES_COMPAT_qt6-layer =3D &quot;kirkstone langdale mickledore nanbie=
+ld<br>
+scarthgap styhead walnascar&quot;<br>
+6.7 doesn&#39;t have walnascar<br>
+6.6 and 6.5 (currently used for kirkstone) have:<br>
+LAYERSERIES_COMPAT_qt6-layer =3D &quot;dunfell gatesgarth hardknott honiste=
+r<br>
+kirkstone langdale mickledore nanbield scarthgap&quot;<br>
+<br>
+maybe even <a href=3D"https://layers.openembedded.org/layerindex/branch/kir=
+kstone/layer/meta-qt6/" rel=3D"noreferrer" target=3D"_blank">https://layers=
+.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/</a><br>
+which is currently using actual branch 6.5 should be bumped to 6.8 as<br>
+well.<br>
+<br>
+Cheers,<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#214012): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/214012" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/214012</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/112022134/361=
+7605" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/112022134/3617605</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:samuli.piippo@gmail.com" t=
+arget=3D"_blank">samuli.piippo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000dba3140631c6b9c0--
 
