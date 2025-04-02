@@ -1,809 +1,107 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98856C3601E
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 15:18:51 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.11418.1743607126122103754
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC254C3601B
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 16:02:31 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.12821.1743609744636455686
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Apr 2025 08:18:46 -0700
+ Wed, 02 Apr 2025 09:02:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=QAxinpNj;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 532CGRKj015653
-	for <openembedded-core@lists.openembedded.org>; Wed, 2 Apr 2025 15:18:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ZO4BF2VrOX3BHk+hnTgszZKPZk4UAF9t8GMp/i+DLdI=; b=QAxinpNjWbpV16Jf
-	PpVSy1cNaNbrmxNOXwHYnWbJpi3CcRUFaNjMp61BpFH409IGmZFwgFioLDhsgmaw
-	fcvXaUm393rIuOas5M9a4ejlgim4AIrTlhkH3s9cv8Jm8mvVg8H+cWcmkjujfB8P
-	QHlSP3gx37sVMo10IBGpK8OB7nWs+nb6/75PhYQNvp9pjFkeqyZeUJfycqRAfKWh
-	1ipzhhwayrosPvGK7Ho59ZIPPa/HKBafJXijUbF/SUE+bXNZW8WXiCuD0Ht776W5
-	qABETmnp39MPuurwE/w4zJbfNvGI1I5KICrv8hRxj8stqEcG7EDPuCAXvOH7YZF0
-	b4VUvw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p7tvkvt2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 15:18:45 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5f7210995so172003785a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 08:18:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DGlDTwNs;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43d2d952eb1so48791235e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 09:02:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743609742; x=1744214542; darn=lists.openembedded.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WTBlA0rujo2d1/JWX4r2nEps4Tqww4Tb5Fu8TlJGrKE=;
+        b=DGlDTwNsIJ6h/KO9BKybOk1Jq5jGQq5cX9dEk0SEGsgsftDXWtRi5gqQorrFTrc4aZ
+         owbz2VySvwiqgGRVVh869DcqyJ7xsijtNSW8opDVoS7jcPg0/t8EBjzPg13Z5OOu2m5h
+         rc45VnV/2ABOeQDY+318oLqg21QzZpoTun1cZlq4EMvAlvPw9FALajz/oV07/DyTUIg9
+         CPYgmRC9qd1aJabepWigZDxioxMey9RMyKi/md+9yDqfLow4aaZymx1gyL/ru+W404Vy
+         Gui+Cy7x9p3CDx0XDU8Fdw74UKd4WU9yLN7Y7ANwtcm+YhDDyYVvFa4e5UxTJjJjjpVz
+         8rjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743607123; x=1744211923;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZO4BF2VrOX3BHk+hnTgszZKPZk4UAF9t8GMp/i+DLdI=;
-        b=c52gKM0e2wR58X/ylfCUuJGkxEw2g4VCepdj8Kh7HLk6Pycogt/peOqxoxu6Iq9pRA
-         PXhGBrVDTSH+DENL/+h/BoeGZHBoPnRlUX6QRggemlW/9TknKSuEsQ48AxnHcm1pShm8
-         mPaLXkTR5FiexQ8UFaiKtwAeb+oscpD+Y0VJnabTK2K/InIeJA8Bs6qMbg4pWWqJR27S
-         msCqB+JMWmYRaayWvDdwgF4BjaN9GydVwr1FbetiW9pgpV1IcJmYxARvH5WSeZP1bBak
-         8h9Ko3Tht8DmkuaaYfhgMiDZ6LFIGxjLRB6hPM6t9X73uymFvowNE6lK32DYkZujuOpO
-         O3ng==
-X-Gm-Message-State: AOJu0YzszjFY7dLJbwga69xTjW53Qq/x8w1zPXab2KFoRHyC7qrNkKIY
-	GhZGqTTyez2N6TD/wviV5vTSWs9/yv9IVKc8Qks/F8N5be6ss/uuAEMBh3T8wYI7QawCmjFpgXq
-	Wq9WJDvGNQ8/9cYKGzb/QyuL1yVSOMgNl0konXw/r9YzSUd1iDEedKGYpyFMfSGS80SC5S3ebAC
-	K9cLtpgH7pkQ0=
-X-Gm-Gg: ASbGnctMVG0ea89I3SpLfGSK70qyEkxJNmfPfRQVmtSLTnFj1xO+XEaFM8AX3ICqhiH
-	KyVB7Nv8OQqh+vFdkWtAjUAfZj8OET9Lj9vl6XKA9fiBrkyO7HC2c6nRo94vHpWCjAEEqBYxwGU
-	zKfQ/9dDGO7lz0l58mRM0QL0VFYJW19OjzUXw7clVEsEwcQELr5daWhCR6b6b8HHORoYWijIB5J
-	JojcavV01IkJVi+QWAYIHr+WLK4vcaSwo+RfU8Mhx5P/qv8VlBkjPPd9ldIg7Ia9sgVaKWF7qAg
-	ykJisXqdY71qY1fs3ElL9YrCLcFofTsTpsfqMUEX5Xaj4FgPBQi/e3ad9OLH7Chaz/eiPOj4xVb
-	FiNom6ukwDYx8Qi40CqEQotSbsZJp
-X-Received: by 2002:a05:620a:3948:b0:7c2:f39d:d0e0 with SMTP id af79cd13be357-7c76820f36cmr338246185a.3.1743607123117;
-        Wed, 02 Apr 2025 08:18:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH08b0k+uNQcj71DwgHlq4xdFLhJBCfcIyTFvFhW4L4Z92DCClPm62cD/v+a+gilmdttB1Eew==
-X-Received: by 2002:a05:620a:3948:b0:7c2:f39d:d0e0 with SMTP id af79cd13be357-7c76820f36cmr338240685a.3.1743607122478;
-        Wed, 02 Apr 2025 08:18:42 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30dd35925d7sm19946371fa.91.2025.04.02.08.18.40
+        d=1e100.net; s=20230601; t=1743609742; x=1744214542;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WTBlA0rujo2d1/JWX4r2nEps4Tqww4Tb5Fu8TlJGrKE=;
+        b=XVkvMAmi+Unns9MYEFHKW1PuBVVuFVaaKLUFDpOy6wdYz9PdV/2E5Ope9wyLaN6UZz
+         fkZ+U8s9QPpVNhuLrld1ZrdJ/iRGyF+qrBdtwWhcepvYvWbBoiQHR/lM3MJLaAoaM9pb
+         CxOdZZceh/G5Efcyp2chxk6EhBJEY47FTZMKu4myhYR7mnAg5l+8yBlTZ58nYqsQMJ0b
+         Ovb1lMYjgXMpKuH11BLSgl7sfCFcxZNJIvCcZJBBsBL6E8/JZOoVrI0ENele1Rowy+Of
+         +Nokffenh8uM+DgxCX9MAnmNNFeyEIVpTwKIhZ7dogNmQg1vaFOhIExW+l9TDyN71tTO
+         rVwA==
+X-Gm-Message-State: AOJu0Yy5oSTrc79UNZW2rll8ZnpYtkcvC7M9Q4hcY+fIHyNIcsTGlyhz
+	wKtOOvL+4fiTq0M/GlQ7kKh2iey/mz5uxAojoJirQugrOEQ1tCK4b2AZNA==
+X-Gm-Gg: ASbGncuDA0cF4BSQ7dFZKV8FA5CM+jWZO6ExxIIM1YQOroz8qnVCx9y3Rfx5eNkR1gi
+	JPz2dBk38nQUh8WZyC2NzL3EZzJ/pvcVgaQkpnvh9iKNQdJH4WS4aJ5TNA+o8GwE77y3AVHRZSN
+	tvtEJYY6q0LMjwqhiUJAOYgrasGWowNxl3KjVU1b/DJhanWjFyEyRd4hk8XRfRV2feI4IQsjT/8
+	9LtQGZyq2WfxBOYhmFTAb72hsirCnDo20FAP+LOXi5PKFKolBvPYnjXxUQrGXb+Fyf+V+Q0B55A
+	emQ606XhW7hTna/RvKZp7mvwxPJfsV0QrxFOLf0YnKX60SY0azqdosrBLJ9mEMdwWhKzMPpqdov
+	QVG+pZjD8Rps=
+X-Google-Smtp-Source: AGHT+IFpi3XVNgsIINKhDOv1pJeLMbRfXIpGyaY3qE//TpXdGQkziIfgDsArIkCUa8Pownp9rcnAMw==
+X-Received: by 2002:a05:6000:4008:b0:39c:dcc:6451 with SMTP id ffacd0b85a97d-39c297e41dbmr2560376f8f.43.1743609741708;
+        Wed, 02 Apr 2025 09:02:21 -0700 (PDT)
+Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b79e0a3sm17543565f8f.71.2025.04.02.09.02.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 08:18:40 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Wed, 02 Apr 2025 18:18:31 +0300
-Subject: [PATCH v5 09/11] mesa: upgrade 24.0.7 -> 25.0.2
+        Wed, 02 Apr 2025 09:02:21 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [PATCH OE-Core 0/5] connman: Update for all PACKAGECONFIG options,
+ clean up legacy
+Date: Wed, 02 Apr 2025 16:02:12 +0000
+Message-Id: <20250402-connman-v1-0-2e4fbbb7caf9@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20250402-mesa-25-v5-9-ab35f021a83b@oss.qualcomm.com>
-References: <20250402-mesa-25-v5-0-ab35f021a83b@oss.qualcomm.com>
-In-Reply-To: <20250402-mesa-25-v5-0-ab35f021a83b@oss.qualcomm.com>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIVf7WcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDY2ND3eT8vLzcxDxdS/MUE2NjM1NLEyMTJaDqgqLUtMwKsEnRsbW1AIP
+ vfzpZAAAA
+X-Change-ID: 20250331-connman-97d433659424
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=26879;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=VU9dz+SNP06vwuFnrl8gAMkrNNdjyzw/E6+H/YpKQ0o=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBn7VVBnpbYTkypHZC9JPqL1m8Xtbg7JBmzzRF9O
- HbsRzNDgTSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ+1VQQAKCRCLPIo+Aiko
- 1QqLCACwiz/0wPOYQLs1y6ZLtErK55y5NYp3gaV1hPK23+e+AtiGHFKaEsnuJe7rhz6WT1Bc0jT
- vzs5tQ1aW3HIiScxS/r5qP4tsAIpixS8CS2C+H9iq6TfySwVnkdhxM8IbA5ztCqOJ5bSn/eI4Ut
- fRORSd/Y9wmLPE/WTPmJ1Vw6kzsNj/aC0IEhF0bCg2l2mW2mM9UQycO1ByO6goMpigDMLb+ccww
- 94EDNdSO0YOrbD8qM8BFTfv++REUtoJuAhju4PmWRHoRUzMbx5M2R2HfPxvUAIlvIX1mcbZd12k
- qHZhZ9BvDniCpDfIsAKflnwRkHNIwqxACeEjaszx+RMIfCjQ
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Authority-Analysis: v=2.4 cv=OIon3TaB c=1 sm=1 tr=0 ts=67ed5555 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=e5mUnYsNAAAA:8 a=ZpVaWaFtAAAA:8 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=aR16PxjQAAAA:8
- a=zUL-4DGhXe84LyRR3DIA:9 a=gJk4xi6hdQGAnkM4:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=Vxmtnl_E_bksehYqCbjh:22 a=5tn4MO8azEBWFjlAA-rn:22 a=zbFvvTOBjyH4ze5LlUjX:22
-X-Proofpoint-ORIG-GUID: NSAO1r5juuEL2gL9Vrpzdnhfp7036VX4
-X-Proofpoint-GUID: NSAO1r5juuEL2gL9Vrpzdnhfp7036VX4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-02_06,2025-04-02_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- mlxlogscore=999 lowpriorityscore=0 malwarescore=0 mlxscore=0 clxscore=1015
- adultscore=0 bulkscore=0 phishscore=0 suspectscore=0 impostorscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504020097
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 532CGRKj015653
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 15:18:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214277
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 16:02:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214280
 
-Upgrade the Mesa package, dropping applied and refreshing outstanding
-patches. The dri3 config option is now gone, dependencies are merged
-into X11 deps. The swrast gallium driver has been split into softpipe
-and llvmpipe drivers. Reworked OpenCL support to use mesa_clc compiler.
+connman has a legacy style, this patch set adds in all the PACKAGECONFIG
+options which the upstream pacakge supports, removes patches which are no
+longer required, explicitly supports operation alongside systemd-resolved and
+reworks the packaging so that PACKAGECONFIG and explicit package selection for
+every VPN is no longer required.
 
-License-Update: license text cleared and clarified.
+Everything up to the final patch should be backward compatible cleanup of the
+existing recipe, with only the final patch reworking the packaging.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- ...evert-meson-do-not-pull-in-clc-for-clover.patch | 53 -------------
- ...d-Include-missing-llvm-IR-header-Module.h.patch | 41 ----------
- .../files/0001-drisw-fix-build-without-dri3.patch  | 58 --------------
- ...eno-don-t-encode-build-path-into-binaries.patch | 46 +++++++++--
- ...able-SIMD-blake-optimisations-on-x32-host.patch | 28 +++++++
- ...ext-don-t-try-zink-if-not-enabled-in-mesa.patch | 42 ----------
- meta/recipes-graphics/mesa/mesa.inc                | 91 ++++++++++++----=
-------
- 7 files changed, 117 insertions(+), 242 deletions(-)
+Alex Kiernan (5):
+      connman: Merge .inc into .bb
+      connman: Delete patches for gold and MIPS binutils fix
+      connman: Move ppp from DEPENDS to PACKAGECONFIG
+      connman: Add all build options as PACKAGECONFIG
+      connman: Rework to avoid splitting into many single binary packages
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pu=
-ll-in-clc-for-clover.patch b/meta/recipes-graphics/mesa/files/0001-Revert=
--meson-do-not-pull-in-clc-for-clover.patch
-deleted file mode 100644
-index 1711e22585a72d1909473e4d9716c4734d4c5eee..0000000000000000000000000=
-000000000000000
---- a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-c=
-lc-for-clover.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--From 051f41beda540f0ae77b341db01a6de83c9e938a Mon Sep 17 00:00:00 2001
--From: Markus Volk <f_l_k@t-online.de>
--Date: Fri, 8 Mar 2024 15:53:11 +0100
--Subject: [PATCH] Revert "meson: do not pull in clc for clover"
--
--This reverts commit 815a6647eb1383e9dc704ffcc266d85f3b13338a.
--Upstream-Status: Inappropriate [https://gitlab.freedesktop.org/mesa/mesa=
-/-/merge_requests/27783/diffs?commit_id=3Da976f2c9f0c07f9e06cc9affd9124b4=
-5bc60c2bd]
--
--Once the merge request above was added, it will only be possible to prov=
-ide opencl spir-v with gallium-rusticl=3Dtrue. This is not yet supported =
-in the mesa recipe.
--For now reverting this commit allows to still use clover with opencl-spi=
-rv, which would otherwise be broken starting from mesa 24.0.2.
--
--After it was merged, this patch needs to be removed and rusticl support =
-will be required
--
--Signed-off-by: Markus Volk <f_l_k@t-online.de>
-----
-- meson.build              | 3 ++-
-- src/compiler/meson.build | 2 +-
-- 2 files changed, 3 insertions(+), 2 deletions(-)
--
--diff --git a/meson.build b/meson.build
--index 2db6185..741b5d1 100644
----- a/meson.build
--+++ b/meson.build
--@@ -813,6 +813,7 @@ if _opencl !=3D 'disabled'
--     error('The Clover OpenCL state tracker requires rtti')
--   endif
--=20
--+  with_clc =3D true
--   with_gallium_opencl =3D true
--   with_opencl_icd =3D _opencl =3D=3D 'icd'
-- else
--@@ -837,7 +838,7 @@ if with_gallium_rusticl
-- endif
--=20
-- dep_clc =3D null_dep
---if with_gallium_opencl or with_clc
--+if with_clc
--   dep_clc =3D dependency('libclc')
-- endif
--=20
--diff --git a/src/compiler/meson.build b/src/compiler/meson.build
--index 8d73544..1dae56d 100644
----- a/src/compiler/meson.build
--+++ b/src/compiler/meson.build
--@@ -79,7 +79,7 @@ subdir('nir')
--=20
-- subdir('spirv')
--=20
---if with_clc
--+if with_opencl_spirv
--   subdir('clc')
-- endif
-- if with_gallium
-diff --git a/meta/recipes-graphics/mesa/files/0001-amd-Include-missing-ll=
-vm-IR-header-Module.h.patch b/meta/recipes-graphics/mesa/files/0001-amd-I=
-nclude-missing-llvm-IR-header-Module.h.patch
-deleted file mode 100644
-index 82ad88a079c144153778120bf2a3c1d1c36a0c94..0000000000000000000000000=
-000000000000000
---- a/meta/recipes-graphics/mesa/files/0001-amd-Include-missing-llvm-IR-h=
-eader-Module.h.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 777d69cf15b80ab1f109a4936d6e4801c4b0e0f3 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 1 Jul 2024 23:09:29 -0700
--Subject: [PATCH] amd: Include missing llvm IR header Module.h
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
--
--With LLVM-19, Module.h header is not being pulled, which results in
--compile errors e.g.
--
--src/amd/llvm/ac_llvm_helper.cpp:102:10: error: no matching function for =
-call to =E2=80=98unwrap(LLVMOpaqueModule*&)=E2=80=99
--  102 |    unwrap(module)->setTargetTriple(TM->getTargetTriple().getTrip=
-le());
--      |    ~~~~~~^~~~~~~~
--In file included from /mnt/b/yoe/master/build/tmp/work/x86_64-linux/mesa=
--native/24.0.7/recipe-sysroot-native/usr/include/llvm/IR/Type.h:18,
--                 from /mnt/b/yoe/master/build/tmp/work/x86_64-linux/mesa=
--native/24.0.7/recipe-sysroot-native/usr/include/llvm/IR/DerivedTypes.h:2=
-3,
--                 from /mnt/b/yoe/master/build/tmp/work/x86_64-linux/mesa=
--native/24.0.7/recipe-sysroot-native/usr/include/llvm/IR/InstrTypes.h:26,
--                 from /mnt/b/yoe/master/build/tmp/work/x86_64-linux/mesa=
--native/24.0.7/recipe-sysroot-native/usr/include/llvm/Analysis/TargetLibr=
-aryInfo.h:14,
--                 from ../mesa-24.0.7/src/amd/llvm/ac_llvm_helper.cpp:8:
--
--Its getting the definition from llvm/IR/Type.h instead of Module.h and c=
-aused
--confusion to compiler
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/29993]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/amd/llvm/ac_llvm_helper.cpp | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/amd/llvm/ac_llvm_helper.cpp b/src/amd/llvm/ac_llvm_help=
-er.cpp
--index 5d065279ad1..af4a50f8409 100644
----- a/src/amd/llvm/ac_llvm_helper.cpp
--+++ b/src/amd/llvm/ac_llvm_helper.cpp
--@@ -8,6 +8,7 @@
-- #include <llvm/Analysis/TargetLibraryInfo.h>
-- #include <llvm/IR/IRBuilder.h>
-- #include <llvm/IR/LegacyPassManager.h>
--+#include <llvm/IR/Module.h>
-- #include <llvm/IR/Verifier.h>
-- #include <llvm/Target/TargetMachine.h>
-- #include <llvm/MC/MCSubtargetInfo.h>
-diff --git a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-withou=
-t-dri3.patch b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-with=
-out-dri3.patch
-deleted file mode 100644
-index ab1615209063fb0b7bee74f3b49843790801e40a..0000000000000000000000000=
-000000000000000
---- a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.=
-patch
-+++ /dev/null
-@@ -1,58 +0,0 @@
--From 4bd15a419e892da843489c374c58c5b29c40b5d6 Mon Sep 17 00:00:00 2001
--From: Romain Naour <romain.naour@smile.fr>
--Date: Tue, 6 Feb 2024 09:47:09 +0100
--Subject: [PATCH 1/2] drisw: fix build without dri3
--
--commit 1887368df41 ("glx/sw: check for modifier support in the kopper pa=
-th")
--added dri3_priv.h header and dri3_check_multibuffer() function in drisw =
-that
--can be build without dri3.
--
--  i686-buildroot-linux-gnu/bin/ld: src/glx/libglx.a.p/drisw_glx.c.o: in =
-function `driswCreateScreenDriver':
--  drisw_glx.c:(.text.driswCreateScreenDriver+0x3a0): undefined reference=
- to `dri3_check_multibuffer'
--  collect2: error: ld returned 1 exit status
--
--Add HAVE_DRI3 guard around dri3_priv.h header and the zink code using
--dri3_check_multibuffer().
--
--Fixes: 1887368df41 ("glx/sw: check for modifier support in the kopper pa=
-th")
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/27478]
--Signed-off-by: Romain Naour <romain.naour@smile.fr>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/glx/drisw_glx.c | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/src/glx/drisw_glx.c b/src/glx/drisw_glx.c
--index 3d3f752..4b19e2d 100644
----- a/src/glx/drisw_glx.c
--+++ b/src/glx/drisw_glx.c
--@@ -32,7 +32,9 @@
-- #include <dlfcn.h>
-- #include "dri_common.h"
-- #include "drisw_priv.h"
--+#ifdef HAVE_DRI3
-- #include "dri3_priv.h"
--+#endif
-- #include <X11/extensions/shmproto.h>
-- #include <assert.h>
-- #include <vulkan/vulkan_core.h>
--@@ -995,6 +997,7 @@ driswCreateScreenDriver(int screen, struct glx_displ=
-ay *priv,
--        goto handle_error;
--    }
--=20
--+#ifdef HAVE_DRI3
--    if (pdpyp->zink) {
--       bool err;
--       psc->has_multibuffer =3D dri3_check_multibuffer(priv->dpy, &err);
--@@ -1005,6 +1008,7 @@ driswCreateScreenDriver(int screen, struct glx_dis=
-play *priv,
--          goto handle_error;
--       }
--    }
--+#endif
--=20
--    glx_config_destroy_list(psc->base.configs);
--    psc->base.configs =3D configs;
----=20
--2.44.0
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode=
--build-path-into-binaries.patch b/meta/recipes-graphics/mesa/files/0001-f=
-reedreno-don-t-encode-build-path-into-binaries.patch
-index 5975ab4472ecebc34ef1504904523de73c9f5c51..953a724dc092667a5ac6f19f6=
-b41d4277fab4ba2 100644
---- a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-=
-path-into-binaries.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-=
-path-into-binaries.patch
-@@ -22,18 +22,29 @@ diff --git a/src/freedreno/afuc/meson.build b/src/fre=
-edreno/afuc/meson.build
- index bb7cebf5a748..351cc31ef2de 100644
- --- a/src/freedreno/afuc/meson.build
- +++ b/src/freedreno/afuc/meson.build
--@@ -56,6 +56,7 @@ if with_tests
-+@@ -56,10 +56,12 @@ if with_tests
-    asm_fw =3D custom_target('afuc_test.fw',
-      output: 'afuc_test.fw',
--     command: [asm, '-g', '6', files('../.gitlab-ci/traces/afuc_test.asm=
-'), '@OUTPUT@'],
-+     command: [asm, files('../.gitlab-ci/traces/afuc_test.asm'), '@OUTPU=
-T@'],
-++    env: {'RNN_PATH': rnn_src_path},
-+   )
-+   asm_fw_a7xx =3D custom_target('afuc_test_a7xx.fw',
-+     output: 'afuc_test_a7xx.fw',
-+     command: [asm, files('../.gitlab-ci/traces/afuc_test_a7xx.asm'), '@=
-OUTPUT@'],
- +    env: {'RNN_PATH': rnn_src_path},
-    )
-    test('afuc-asm',
-      diff,
--@@ -120,6 +122,7 @@ if cc.sizeof('size_t') > 4
-+@@ -120,11 +122,13 @@ if cc.sizeof('size_t') > 4
-      disasm_fw =3D custom_target('afuc_test.asm',
-        output: 'afuc_test.asm',
--       command: [disasm, '-u', files('../.gitlab-ci/reference/afuc_test.=
-fw'), '-g', '630'],
-+       command: [disasm, '-u', files('../.gitlab-ci/reference/afuc_test.=
-fw')],
-++      env: {'RNN_PATH': rnn_src_path},
-+       capture: true
-+     )
-+     disasm_fw_a7xx =3D custom_target('afuc_test_a7xx.asm',
-+       output: 'afuc_test_a7xx.asm',
-+       command: [disasm, '-u', files('../.gitlab-ci/reference/afuc_test_=
-a7xx.fw')],
- +      env: {'RNN_PATH': rnn_src_path},
-        capture: true
-      )
-@@ -71,8 +82,29 @@ index 98e49b8fcf0e..145e72597eb9 100644
- -rnn_path =3D rnn_src_path + ':' + get_option('prefix') + '/' + rnn_inst=
-all_path
- +rnn_path =3D get_option('prefix') + '/' + rnn_install_path
- =20
-- dep_lua =3D dependency('lua54', 'lua53', 'lua52', 'lua', required: fals=
-e,
--                      allow_fallback: true, version: '>=3D5.2')
----=20
-+ dep_libarchive =3D dependency('libarchive', allow_fallback: true, requi=
-red: false)
-+ dep_libxml2 =3D dependency('libxml-2.0', allow_fallback: true, required=
-: false)
-+diff --git a/src/freedreno/registers/gen_header.py b/src/freedreno/regis=
-ters/gen_header.py
-+--- a/src/freedreno/registers/gen_header.py
-++++ b/src/freedreno/registers/gen_header.py
-+@@ -885,13 +885,14 @@ The rules-ng-ng source files this header
-+ """)
-+ 	maxlen =3D 0
-+ 	for filepath in p.xml_files:
-+-		maxlen =3D max(maxlen, len(filepath))
-++		maxlen =3D max(maxlen, len(os.path.basename(filepath)))
-+ 	for filepath in p.xml_files:
-+-		pad =3D " " * (maxlen - len(filepath))
-++		filename =3D os.path.basename(filepath)
-++		pad =3D " " * (maxlen - len(filename))
-+ 		filesize =3D str(os.path.getsize(filepath))
-+ 		filesize =3D " " * (7 - len(filesize)) + filesize
-+ 		filetime =3D time.ctime(os.path.getmtime(filepath))
-+-		print("- " + filepath + pad + " (" + filesize + " bytes, from " + fil=
-etime + ")")
-++		print("- " + filename + pad + " (" + filesize + " bytes, from " + fil=
-etime + ")")
-+ 	if p.copyright_year:
-+ 		current_year =3D str(datetime.date.today().year)
-+ 		print()
-+---
- 2.39.2
-=20
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-disable-SIMD-bla=
-ke-optimisations-on-x32-host.patch b/meta/recipes-graphics/mesa/files/000=
-1-meson-disable-SIMD-blake-optimisations-on-x32-host.patch
-new file mode 100644
-index 0000000000000000000000000000000000000000..bebe30037abffab676bdd3711=
-16c1b9cbd9f9cef
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-disable-SIMD-blake-opti=
-misations-on-x32-host.patch
-@@ -0,0 +1,28 @@
-+From f3c34b8da2662643089b33be8b93e56a4da8703d Mon Sep 17 00:00:00 2001
-+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Date: Wed, 2 Apr 2025 15:30:20 +0300
-+Subject: [PATCH] meson: disable SIMD blake optimisations on x32 host
-+
-+On X.org startup libgallium crashes on x32 hosts inside
-+blake3_hash_many_sse41(), most likely because of the different pointer
-+size. Disable SIMD blake implementation if x32 is detected.
-+
-+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Upstream-Status: Pending [will be submitted upstream after internal clea=
-rance]
-+---
-+ src/util/blake3/meson.build | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/src/util/blake3/meson.build b/src/util/blake3/meson.build
-+index 6b53daab6b32..ce6dd85ac1ea 100644
-+--- a/src/util/blake3/meson.build
-++++ b/src/util/blake3/meson.build
-+@@ -24,6 +24,8 @@ if cpu_family =3D=3D 'x86_64'
-+     else
-+       files_blake3 +=3D ['blake3_sse2_x86-64_windows_gnu.S', 'blake3_ss=
-e41_x86-64_windows_gnu.S', 'blake3_avx2_x86-64_windows_gnu.S', 'blake3_av=
-x512_x86-64_windows_gnu.S']
-+     endif
-++  elif meson.get_compiler('c').sizeof('void *') =3D=3D 4
-++    blake3_defs +=3D blake3_x86_no_simd_defs
-+   else
-+     files_blake3 +=3D ['blake3_sse2_x86-64_unix.S', 'blake3_sse41_x86-6=
-4_unix.S', 'blake3_avx2_x86-64_unix.S', 'blake3_avx512_x86-64_unix.S']
-+   endif
-diff --git a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-=
-if-not-enabled-in-mesa.patch b/meta/recipes-graphics/mesa/files/0002-glxe=
-xt-don-t-try-zink-if-not-enabled-in-mesa.patch
-deleted file mode 100644
-index 036a0b494539243e7850ba3ea24669e0749e2dd2..0000000000000000000000000=
-000000000000000
---- a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-=
-enabled-in-mesa.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From 62495ebb977866c52d5bed8499a547c49f0d9bc1 Mon Sep 17 00:00:00 2001
--From: Romain Naour <romain.naour@smile.fr>
--Date: Tue, 6 Feb 2024 09:47:10 +0100
--Subject: [PATCH 2/2] glxext: don't try zink if not enabled in mesa
--
--Commit 7d9ea77b459 ("glx: add automatic zink fallback loading between hw=
- and sw drivers")
--added an automatic zink fallback even when the zink gallium is not
--enabled at build time.
--
--It leads to unexpected error log while loading drisw driver and
--zink is not installed on the rootfs:
--
--  MESA-LOADER: failed to open zink: /usr/lib/dri/zink_dri.so
--
--Fixes: 7d9ea77b459 ("glx: add automatic zink fallback loading between hw=
- and sw drivers")
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/27478]
--Signed-off-by: Romain Naour <romain.naour@smile.fr>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/glx/glxext.c | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/src/glx/glxext.c b/src/glx/glxext.c
--index 05c825a..7a06aa9 100644
----- a/src/glx/glxext.c
--+++ b/src/glx/glxext.c
--@@ -908,9 +908,11 @@ __glXInitialize(Display * dpy)
-- #endif /* HAVE_DRI3 */
--       if (!debug_get_bool_option("LIBGL_DRI2_DISABLE", false))
--          dpyPriv->dri2Display =3D dri2CreateDisplay(dpy);
--+#if defined(HAVE_ZINK)
--       if (!dpyPriv->dri3Display && !dpyPriv->dri2Display)
--          try_zink =3D !debug_get_bool_option("LIBGL_KOPPER_DISABLE", fa=
-lse) &&
--                     !getenv("GALLIUM_DRIVER");
--+#endif /* HAVE_ZINK */
--    }
-- #endif /* GLX_USE_DRM */
--    if (glx_direct)
----=20
--2.44.0
--
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index f6a91a7002f8aebc8845eda7f339912e086839b5..9edce6b2281c2e33e6fe20819=
-f0f4998cceba60b 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -10,21 +10,18 @@ HOMEPAGE =3D "http://mesa3d.org"
- BUGTRACKER =3D "https://bugs.freedesktop.org"
- SECTION =3D "x11"
- LICENSE =3D "MIT"
--LIC_FILES_CHKSUM =3D "file://docs/license.rst;md5=3D63779ec98d78d823a9dc=
-533a0735ef10"
-+LIC_FILES_CHKSUM =3D "file://docs/license.rst;md5=3Dffe678546d4337b732cf=
-d12262e6af11"
-=20
- PE =3D "2"
-=20
- SRC_URI =3D "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
--           file://0001-drisw-fix-build-without-dri3.patch \
--           file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patc=
-h \
--           file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch =
-\
--           file://0001-amd-Include-missing-llvm-IR-header-Module.h.patch=
- \
-+           file://0001-meson-disable-SIMD-blake-optimisations-on-x32-hos=
-t.patch \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.p=
-atch\
- "
-=20
--SRC_URI[sha256sum] =3D "7454425f1ed4a6f1b5b107e1672b30c88b22ea0efea000ae=
-2c7d96db93f6c26a"
--PV =3D "24.0.7"
-+SRC_URI[sha256sum] =3D "adf904d083b308df95898600ffed435f4b5c600d95fb6ec6=
-d4c45638627fdc97"
-+PV =3D "25.0.2"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
-=20
-@@ -38,8 +35,7 @@ do_install:append() {
-   fi
- }
-=20
--DEPENDS =3D "expat makedepend-native flex-native bison-native libxml2-na=
-tive zlib chrpath-replacement-native python3-mako-native gettext-native"
--DEPENDS:append:class-target =3D " ${@bb.utils.contains('PACKAGECONFIG', =
-'opencl', 'mesa-native', '', d)}"
-+DEPENDS =3D "expat makedepend-native flex-native bison-native libxml2-na=
-tive zlib chrpath-replacement-native python3-mako-native gettext-native p=
-ython3-pyyaml-native"
- EXTRANATIVEPATH +=3D "chrpath-native"
- PROVIDES =3D " \
-     ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '',=
- d)} \
-@@ -77,44 +73,47 @@ EXTRA_OEMESON =3D " \
-     -Dplatforms=3D'${@",".join("${PLATFORMS}".split())}' \
- "
-=20
--EXTRA_OEMESON:append:class-target =3D " ${@bb.utils.contains('PACKAGECON=
-FIG', 'opencl', '-Dintel-clc=3Dsystem', '', d)}"
--EXTRA_OEMESON:append:class-native =3D " ${@bb.utils.contains('PACKAGECON=
-FIG', 'opencl', '-Dintel-clc=3Denabled', '', d)}"
--
- def strip_comma(s):
-     return s.strip(',')
-=20
-+
- PACKAGECONFIG =3D " \
- 	gallium \
- 	video-codecs \
- 	${@bb.utils.filter('DISTRO_FEATURES', 'x11 vulkan wayland', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm =
-virgl', '', d)} \
--	${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'dri3', '', d)} \
--	${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'zink', '', d)} \
- "
-=20
--PACKAGECONFIG:append:class-native =3D " gallium-llvm r600"
-+PACKAGECONFIG:append:x86 =3D " libclc gallium-llvm"
-+PACKAGECONFIG:append:x86-64 =3D " libclc gallium-llvm"
-+PACKAGECONFIG:append:i686 =3D " libclc gallium-llvm"
-+PACKAGECONFIG:append:class-native =3D " libclc gallium-llvm r600"
-=20
- # "gbm" requires "opengl"
- PACKAGECONFIG[gbm] =3D "-Dgbm=3Denabled,-Dgbm=3Ddisabled"
-=20
--X11_DEPS =3D "xorgproto virtual/libx11 libxext libxxf86vm libxdamage lib=
-xfixes xrandr"
-+X11_DEPS =3D "xorgproto virtual/libx11 libxext libxxf86vm libxdamage lib=
-xfixes xrandr xorgproto libxshmfence"
- # "x11" requires "opengl"
- PACKAGECONFIG[x11] =3D ",-Dglx=3Ddisabled,${X11_DEPS}"
- PACKAGECONFIG[wayland] =3D ",,wayland-native wayland libdrm wayland-prot=
-ocols"
-=20
--PACKAGECONFIG[dri3] =3D "-Ddri3=3Denabled, -Ddri3=3Ddisabled, xorgproto =
-libxshmfence"
-+VULKAN_DRIVERS_AMD =3D ""
-+VULKAN_DRIVERS_AMD:x86 =3D ",amd"
-+VULKAN_DRIVERS_AMD:x86-64 =3D ",amd"
-+# i686 is a 32 bit override for mesa-native
-+VULKAN_DRIVERS_AMD:i686 =3D ",amd"
-+
-+VULKAN_DRIVERS_INTEL =3D "${@bb.utils.contains('PACKAGECONFIG', 'libclc'=
-, ',intel', '', d)}"
-+VULKAN_DRIVERS_SWRAST =3D ",swrast"
-+# Crashes on x32
-+VULKAN_DRIVERS_SWRAST:x86-x32 =3D ""
-+VULKAN_DRIVERS_LLVM =3D "${VULKAN_DRIVERS_SWRAST}${VULKAN_DRIVERS_AMD}${=
-VULKAN_DRIVERS_INTEL}"
-=20
--# Vulkan drivers need dri3 enabled
--# amd could be enabled as well but requires gallium-llvm with llvm >=3D =
-3.9
- VULKAN_DRIVERS =3D ""
--VULKAN_DRIVERS:append:x86 =3D ",intel,amd"
--VULKAN_DRIVERS:append:x86-64 =3D ",intel,amd"
--# i686 is a 32 bit override for mesa-native
--VULKAN_DRIVERS:append:i686 =3D ",intel,amd"
- VULKAN_DRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedr=
-eno', ',freedreno', '', d)}"
- VULKAN_DRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'broadc=
-om', ',broadcom', '', d)}"
--VULKAN_DRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'galliu=
-m-llvm', ',swrast', '', d)}"
-+VULKAN_DRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'galliu=
-m-llvm', '${VULKAN_DRIVERS_LLVM}', '', d)}"
- VULKAN_DRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'imagin=
-ation', ',imagination-experimental', '', d)}"
- PACKAGECONFIG[vulkan] =3D "-Dvulkan-drivers=3D${@strip_comma('${VULKAN_D=
-RIVERS}')}, -Dvulkan-drivers=3D'',glslang-native vulkan-loader vulkan-hea=
-ders"
-=20
-@@ -137,7 +136,7 @@ PACKAGECONFIG[freedreno-fdperf] =3D ",,libconfig"
- PACKAGECONFIG[tools] =3D "-Dtools=3D${@strip_comma('${TOOLS}')}, -Dtools=
-=3D'', ${TOOLS_DEPS}"
-=20
- PACKAGECONFIG[opengl] =3D "-Dopengl=3Dtrue, -Dopengl=3Dfalse"
--PACKAGECONFIG[glvnd] =3D "-Dglvnd=3Dtrue, -Dglvnd=3Dfalse, libglvnd"
-+PACKAGECONFIG[glvnd] =3D "-Dglvnd=3Denabled, -Dglvnd=3Ddisabled, libglvn=
-d"
-=20
- # "gles" requires "opengl"
- PACKAGECONFIG[gles] =3D "-Dgles1=3Denabled -Dgles2=3Denabled, -Dgles1=3D=
-disabled -Dgles2=3Ddisabled"
-@@ -145,9 +144,9 @@ PACKAGECONFIG[gles] =3D "-Dgles1=3Denabled -Dgles2=3D=
-enabled, -Dgles1=3Ddisabled -Dgles2
- # "egl" requires "opengl"
- PACKAGECONFIG[egl] =3D "-Degl=3Denabled, -Degl=3Ddisabled"
-=20
--# "opencl" requires libclc from meta-clang and spirv-tools from OE-Core
--OPENCL_NATIVE =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', '-=
-Dopencl-native=3Dtrue', '', d)}"
--PACKAGECONFIG[opencl] =3D "-Dgallium-opencl=3Dicd -Dopencl-spirv=3Dtrue =
-${OPENCL_NATIVE},-Dgallium-opencl=3Ddisabled -Dopencl-spirv=3Dfalse,libcl=
-c spirv-tools python3-ply-native"
-+# "opencl" also requires libclc and gallium-llvm to be present in PKGCON=
-FIG!
-+# Be sure to enable them both for the target and for the native build.
-+PACKAGECONFIG[opencl] =3D "-Dgallium-opencl=3Dicd,-Dgallium-opencl=3Ddis=
-abled,"
-=20
- PACKAGECONFIG[broadcom] =3D ""
- PACKAGECONFIG[etnaviv] =3D ",,python3-pycparser-native"
-@@ -157,13 +156,13 @@ PACKAGECONFIG[vc4] =3D ""
- PACKAGECONFIG[v3d] =3D ""
- PACKAGECONFIG[zink] =3D ""
-=20
--GALLIUMDRIVERS =3D "swrast"
-+GALLIUMDRIVERS =3D "softpipe"
- # gallium swrast was found to crash Xorg on startup in x32 qemu
- GALLIUMDRIVERS:x86-x32 =3D ""
--GALLIUMDRIVERS:append:x86 =3D ",i915,iris,crocus"
--GALLIUMDRIVERS:append:x86-64 =3D ",i915,iris,crocus"
-+GALLIUMDRIVERS:append:x86 =3D ",i915,crocus"
-+GALLIUMDRIVERS:append:x86-64 =3D ",i915,crocus"
- # i686 is a 32 bit override for mesa-native
--GALLIUMDRIVERS:append:i686 =3D ",i915,iris,crocus"
-+GALLIUMDRIVERS:append:i686 =3D ",i915,crocus"
-=20
- GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'etnavi=
-v', ',etnaviv', '', d)}"
- GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedr=
-eno', ',freedreno', '', d)}"
-@@ -173,8 +172,12 @@ GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PAC=
-KAGECONFIG', 'v3d', ',v3d', ''
- GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'zink',=
- ',zink', '', d)}"
-=20
- # radeonsi requires LLVM
-+GALLIUMDRIVERS_IRIS =3D "${@bb.utils.contains('PACKAGECONFIG', 'libclc',=
- ',iris', '', d)}"
- GALLIUMDRIVERS_RADEONSI =3D "${@bb.utils.contains('PACKAGECONFIG', 'r600=
-', ',radeonsi', '', d)}"
--GALLIUMDRIVERS_LLVM =3D ",r300,nouveau${GALLIUMDRIVERS_RADEONSI}"
-+GALLIUMDRIVERS_LLVMPIPE =3D ",llvmpipe"
-+# llvmpipe crashes on x32
-+GALLIUMDRIVERS_LLVMPIPE:x86-x32 =3D ""
-+GALLIUMDRIVERS_LLVM =3D ",r300,nouveau${GALLIUMDRIVERS_LLVMPIPE}${GALLIU=
-MDRIVERS_IRIS}${GALLIUMDRIVERS_RADEONSI}"
- GALLIUMDRIVERS_LLVM:append:x86 =3D ",svga"
- GALLIUMDRIVERS_LLVM:append:x86-64 =3D ",svga"
- # i686 is a 32 bit override for mesa-native
-@@ -187,8 +190,16 @@ GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PAC=
-KAGECONFIG', 'gallium-llvm', '
- GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'r600',=
- ',r600', '', d)}"
- GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'virgl'=
-, ',virgl', '', d)}"
-=20
-+MESA_CLC =3D "system"
-+MESA_CLC:class-native =3D "enabled"
-+INSTALL_MESA_CLC =3D "false"
-+INSTALL_MESA_CLC:class-native =3D "true"
-+MESA_NATIVE =3D "mesa-native"
-+MESA_NATIVE:class-native =3D ""
-+
- PACKAGECONFIG[gallium] =3D "-Dgallium-drivers=3D${@strip_comma('${GALLIU=
-MDRIVERS}')}, -Dgallium-drivers=3D'', libdrm"
- PACKAGECONFIG[gallium-llvm] =3D "-Dllvm=3Denabled -Dshared-llvm=3Denable=
-d, -Dllvm=3Ddisabled, llvm llvm-native elfutils"
-+PACKAGECONFIG[libclc] =3D "-Dmesa-clc=3D${MESA_CLC} -Dinstall-mesa-clc=3D=
-${INSTALL_MESA_CLC},,libclc spirv-tools spirv-llvm-translator ${MESA_NATI=
-VE}"
- PACKAGECONFIG[xa]  =3D "-Dgallium-xa=3Denabled, -Dgallium-xa=3Ddisabled"
- PACKAGECONFIG[va] =3D "-Dgallium-va=3Denabled,-Dgallium-va=3Ddisabled,li=
-bva-initial"
- PACKAGECONFIG[vdpau] =3D "-Dgallium-vdpau=3Denabled,-Dgallium-vdpau=3Ddi=
-sabled,libvdpau"
-@@ -242,6 +253,7 @@ RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('P=
-ACKAGECONFIG', 'opencl', 'lib
-=20
- PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
-              libosmesa libosmesa-dev \
-+             libgallium \
-              libgl-mesa libgl-mesa-dev \
-              libglx-mesa libglx-mesa-dev \
-              libglapi libglapi-dev \
-@@ -267,13 +279,6 @@ do_install:append () {
-     rm -f ${D}${libdir}/pkgconfig/wayland-egl.pc
- }
-=20
--do_install:append:class-native () {
--    if ${@bb.utils.contains('PACKAGECONFIG', 'opencl', 'true', 'false', =
-d)}; then
--        install -d ${D}${bindir}
--        install -m0755 ${B}/src/intel/compiler/intel_clc ${D}${bindir}
--    fi
--}
--
- # For the packages that make up the OpenGL interfaces, inject variables =
-so that
- # they don't get Debian-renamed (which would remove the -mesa suffix), a=
-nd
- # RPROVIDEs/RCONFLICTs on the generic libgl name.
-@@ -344,7 +349,8 @@ FILES:mesa-megadriver =3D "${libdir}/dri/* ${datadir}=
-/drirc.d"
- FILES:mesa-vulkan-drivers =3D "${libdir}/libvulkan_*.so ${libdir}/libpow=
-ervr_rogue.so ${datadir}/vulkan"
- FILES:${PN}-vdpau-drivers =3D "${libdir}/vdpau/*.so.*"
- FILES:libegl-mesa =3D "${libdir}/libEGL*.so.* ${datadir}/glvnd/egl_vendo=
-r.d"
--FILES:libgbm =3D "${libdir}/libgbm.so.*"
-+FILES:libgbm =3D "${libdir}/libgbm.so.* ${libdir}/gbm/*_gbm.so"
-+FILES:libgallium =3D "${libdir}/libgallium-*.so"
- FILES:libgles1-mesa =3D "${libdir}/libGLESv1*.so.*"
- FILES:libgles2-mesa =3D "${libdir}/libGLESv2.so.*"
- FILES:libgl-mesa =3D "${libdir}/libGL.so.*"
-@@ -372,6 +378,9 @@ FILES:libxatracker-dev =3D "${libdir}/libxatracker.so=
- ${libdir}/libxatracker.la \
- FILES:${PN}-tools =3D "${bindir} ${datadir}"
- ALLOW_EMPTY:${PN}-tools =3D "1"
-=20
-+# All DRI drivers are symlinks to libdril_dri.so
-+INSANE_SKIP:${PN}-megadriver +=3D "dev-so"
-+
- # Fix upgrade path from mesa to mesa-megadriver
- RREPLACES:mesa-megadriver =3D "mesa"
- RCONFLICTS:mesa-megadriver =3D "mesa"
+ meta/recipes-connectivity/connman/connman.inc      | 221 ---------------------
+ ...vice-stop-systemd-resolved-when-we-use-co.patch |  26 ---
+ ...ange-visibility-to-default-for-debug-symb.patch |  31 ---
+ .../connman/connman/no-version-scripts.patch       |  47 -----
+ meta/recipes-connectivity/connman/connman_1.44.bb  | 154 +++++++++++++-
+ 5 files changed, 147 insertions(+), 332 deletions(-)
+---
+base-commit: 17a75e55017cbf213cf1b63568b4e757240192ff
+change-id: 20250331-connman-97d433659424
 
---=20
-2.39.5
+Best regards,
+-- 
+Alex Kiernan <alex.kiernan@gmail.com>
 
 
