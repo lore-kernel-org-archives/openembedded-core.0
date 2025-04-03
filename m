@@ -1,886 +1,241 @@
-Return-Path: <philip@balister.org>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9276BC3601E
-	for <webhook@archiver.kernel.org>; Thu,  3 Apr 2025 12:57:51 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.8257.1743668387033386256
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07B63C3601A
+	for <webhook@archiver.kernel.org>; Thu,  3 Apr 2025 14:28:22 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.14716.1743690500582315266
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Apr 2025 01:19:47 -0700
+ Thu, 03 Apr 2025 07:28:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adriaan.schmidt@siemens.com header.s=fm2 header.b=GHhx7A1T;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-526363-20250403081944fb256e36e59231320f-ol1o5k@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250403081944fb256e36e59231320f
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 03 Apr 2025 10:19:45 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=adriaan.schmidt@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=jEglDYLmKO/z9BgvbrpkuHOh3UcX3pq3jhc8OQGfIng=;
- b=GHhx7A1TgbyGyqZfUXC1BUpbZci5VeXBCUJ7szUEBS1PJ5hBKYfS1mHwZo5d8qBxErrJcu
- TUchaUYflhmrcHwzNh79409CKSaUfkQWEzm3eo0YEnA856j3ZBZqqiBJQCVNk5sTh/tbTRep
- LbgvxGcz8SUmB8c/XzzqpoRI+dL9fHShz2j+VSiZUxyY0y3xjoYf/RxUFDa2PavfpFTOrRDJ
- M6qddqN86+xDPeFT1pGb91wNFM+jnj4WXKBKqLk1ZF0tMWkvBxWGhhTkSScEl/VxUYrz81CT
- MFgv4dKHKzNcjxqv/xSFy3+J4RPrdPDKxUOHw1fHpgDcTLGpcNdJHDLw==;
-From: "Adriaan Schmidt" <adriaan.schmidt@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	ross.burton@arm.com
-Subject: [PATCH v2 1/1] libunwind: 1.8.1
-Date: Thu,  3 Apr 2025 10:19:07 +0200
-Message-Id: <20250403081907.3422293-2-adriaan.schmidt@siemens.com>
-In-Reply-To: <20250403081907.3422293-1-adriaan.schmidt@siemens.com>
-References: <20250403081907.3422293-1-adriaan.schmidt@siemens.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=618824bfd2=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5335oPvI015009
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Apr 2025 07:28:20 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45sg0r8vdp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 07:28:19 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 533ERxOJ024033
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Apr 2025 07:28:19 -0700
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2172.outbound.protection.outlook.com [104.47.59.172])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45sg0r8vdn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 03 Apr 2025 07:28:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZGXQkYZllx0M3Q7XEo5dyKnom8WRY2zh6XP5AuN40T92HXeYyaObHWzbYVLhl/UMO08XiCGLtuazzRdXT1nweMsvycBtnQoswQxqe/M1QHpl+5Yv4+rBhMM2A+dVmE1Qn5dba8H0fa8o4gPsjIl7DcDnm4EE4y0eLwMZAhAQWWMhBtFGmcQ9pWRoHtIdpk7VpTaG7wvBYvZV41AlAMWJOo2YcM8dUpq7j7iec7+OeJ7tmTpR4iCGkc8Z8XUjtUSGApzcxS0ViyP/FddODW3SVqNn1RSWknKZQnVsRZGE6htU0EEglD+ZGHfQX7RC/+OKXycbvyBFuzPblWSfy9KYhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oI3l8TZJDtgwYrwMHfhGE8IIg7F95Ab8kwMJg/wOErM=;
+ b=yCOGxvA8lH3X/EzT6CEUWoSj8NZWMdOwn6J2UB9JhK5Oqx4FczjKUT/CpZuw060BpTljUVSIoHuq+8S5HPRLr/ixHqvJDZhlrVyC3rHSX9of4TBjhWIRFRyLPY1adKwhZpuvCkCEyTleMvBl3KW8q+4Y2WTf4UZ0uRI2yPxqCMzs3Pemy4OwtX67dYRyIvVY0iINBAYOYfjRmPr5X2xZb2r/c41QpIpWnYLBKDOno6RQWKQcVHpmcJF5lUh6xrl3MHOSOVxQT9NOBc6g0QZ3GYwKhgYunmN9SgaH+MZFXGxqSQL1Wcmswuk6oOYTgCoRNYvLCe1qXjYHxXrN9arVMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by DM4PR11MB8177.namprd11.prod.outlook.com (2603:10b6:8:17e::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8583.42; Thu, 3 Apr
+ 2025 14:28:14 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::f440:269f:9645:29c0]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::f440:269f:9645:29c0%5]) with mapi id 15.20.8583.041; Thu, 3 Apr 2025
+ 14:28:14 +0000
+Message-ID: <84ef7239-6879-4f35-a92d-ab7656fe4df3@windriver.com>
+Date: Thu, 3 Apr 2025 19:57:58 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 2/3] rust: remove redundant cargo config file
+To: Sean Nyekjaer <sean@geanix.com>
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com,
+        Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com
+References: <lh7mwjjeffawkhmarar4gl3egmaalp3gnhhg3d2lf5t244zszq@f2wyi6qm2hjt>
+Content-Language: en-US
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
+In-Reply-To: <lh7mwjjeffawkhmarar4gl3egmaalp3gnhhg3d2lf5t244zszq@f2wyi6qm2hjt>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT3PR01CA0078.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:84::9) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
 MIME-Version: 1.0
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-526363:519-21489:flowmailer
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|DM4PR11MB8177:EE_
+X-MS-Office365-Filtering-Correlation-Id: 351b51f8-2956-45a2-3a7a-08dd72bbc49b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?M1dVL0J1bHdBcmMrNzRwS29GRVJLKysyYXNybDREZHpyMUQ2cjBuM0ZBYVRJ?=
+ =?utf-8?B?dDQ3K3VvMGQwUlRFNk1Yam5SakM1clFmTUgyYWdScVZzS2pjb1k3N2ZEQ1p2?=
+ =?utf-8?B?SmpPNU5qN0tiZkt6RSsydU1tM2VTVldOc0VWY2JGVHBnMDBhNmxNQW5MbUYz?=
+ =?utf-8?B?WmdtZmRLRUtJa3o3N2F2RnVndDh1UittYVNNbkI5K3JDZkNaQWMxclRaWHJo?=
+ =?utf-8?B?T1kyMGJUclVxRmlPVThZRVE5Y1FKVjRsTEVWT0VNMkhuVFo3YlpmSnJtalQz?=
+ =?utf-8?B?MWdoeHVYM3pxUGgrOWdCZ2dlVnJCbU9zUTlZODNMT2VzNWpiRGh5TDBqYUN4?=
+ =?utf-8?B?VHN6cWhzRytOb0FiWktQR3FPUERxMEFiMWNvOHhmTEN6cjRiUDB0U3JzTm92?=
+ =?utf-8?B?aDJucjB5MTlZby9VRFlUVHI1WDh2WHk4c0MrQVJSeXVnbjhIUFlkSmhsaVhK?=
+ =?utf-8?B?UlJ5Ri9qQVVHaGsydGlnQmZXQWtYcEkvSk4zb2VMMnJtaVZNaE01WG9qcjEx?=
+ =?utf-8?B?WEpBd2s5eGlrNFNxSFk5d2lNZlNhcFdhZGFOVnlmdmZIK2hYbDBEVVJDTXpH?=
+ =?utf-8?B?cmZ2Lzk0SzV2ekhLa3FRWGgwVHVTZWZTYWEzcVlhVjJSeHJPOUhSaSsxQ29P?=
+ =?utf-8?B?ZFd6UEtlOVV6RFNRQytKWUNrTXNRQUZIb1RGTWFISnZkWGtGQlE4NEtkM1lY?=
+ =?utf-8?B?SFM2cG9VSlRuZEhpZUlSTVpCWG9vWmRhR3pWNG03RmQrSWV0a2dBRnBSakh4?=
+ =?utf-8?B?SzBTcmYybVNibFRpQXc5bFBhK2ljcGR4VU5Yc0xLSVpVcWY1MFJ6a3pNUWRK?=
+ =?utf-8?B?SEpiWHhHK3JTS2Q1dDlBL3lrK04yNDFxQWtMb3ZkK1lmTU9ZU01yMmhoYVRM?=
+ =?utf-8?B?VWRWVjd0Ryt0YkZKVnlIWFlnbjZTbmFlWWI5c0k1ZGhxZW4weVVKYkNpeVZ1?=
+ =?utf-8?B?Y3J0cVlBdjdMbWdIS3M4QVVrMUFQWC9YQlRWVmNyRTMwb0VSUzZXUHluNE0v?=
+ =?utf-8?B?SE5IT0U2Z21JTis3U3BkbWtTczB0YWZLQXBCSHNTTFRLRFdQOXMwS0FmNWcy?=
+ =?utf-8?B?ZFY1NjdoK3ZGdW8vSWxncEZ0OHZtU2QvWlVzL2dZYWVKZEEwZ3Q4d0Z2Tzly?=
+ =?utf-8?B?aXdwWjBqbkFqVmpnZk1HTlFFWUt4ZXBabkNuWEpEVkE4d29KdlVKekYxWFNJ?=
+ =?utf-8?B?SzUwenJJSGdoakZHZmQ3ZWNMeEo3T3F2NXUyNFY3SW0yVFUxck9jZVFJWlNn?=
+ =?utf-8?B?bnVvWHo3aTZtRzdnSzQvaGU0NnFoUytTTVdzeW1PT2tCbzF1eFRmV0tIY2R2?=
+ =?utf-8?B?aGNCWjA2dnVYbk9KZFN6MXowNmVIUkl2UFZ1ZnNhalJaTlhhWDRNYVRhTmtp?=
+ =?utf-8?B?RkJIcTFEZXZmZnJueks0T2dhbFJqa3JERVhkQnZRRTI1SVFkdnJNcEJ5R0xX?=
+ =?utf-8?B?MldlbSs3MHpiNTZ4cDBvZkN4VWE1R3JoaUd0aG1OelArZldrZ1VOenZxblFq?=
+ =?utf-8?B?TjFab2pKQnZQeTNCRm9BRDcrMnpWZFdPdGo5U3VROUJNVU8vSjFFTGZyV1ZR?=
+ =?utf-8?B?S0xCZEdhdFpZSFFKUTFDQmg4eUdEdTVZank1dzczL3JhOUdlV0RRQkxOUFhY?=
+ =?utf-8?B?RC9zdS95ZUc4dy8rMkxOQld0Z1Z6TkxXVHRFMEs4bkhnMHdpano3Nm5ULzBB?=
+ =?utf-8?B?SkJqbHpheE4xMXpvSjNXQWxyeWk4aHBwM1kyV1diUW1LQkZ2MmcvN080WUxk?=
+ =?utf-8?B?YzhKY0pxOHVQVGpDZUhKOWt0ajg1UUl6U1FNZnZGZXFMczhKUjhYRlQ5NHV3?=
+ =?utf-8?B?ZVFid1F2dVNUcDZ0WkEvOFhFWWdLZzhnQ3Vqam0yd1dTMDg4dmFjNWNxaERS?=
+ =?utf-8?B?U29mS0E1aW45T2ZSQzc2RS9YMDVMczV3ZVZhTkNuaDVaZVBYQk9YMjkyc3Mx?=
+ =?utf-8?Q?FqBPRKnvi3num20x/8HzOINU6YKT4Fe+?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?eEhSM2RWaFdGV2VxVitkOGFuZmd4WlZXRXhjREpBeWRwWGZ3RVcyZEVYbEhU?=
+ =?utf-8?B?WHM2Rngxd0N2ZTVkbXdnd1BxeU5aRTdEeWZQSWdnMDBRZFplMm1zV2R2NVRU?=
+ =?utf-8?B?S1NiV01tdGxlQjhVTnZtOUI5NXl6b2NIWm9nc3EzYVdTWmtDZGFSa013REFy?=
+ =?utf-8?B?bng4dGRXd3Z2aXRnNzFycjhMU0tyejJYMHV0QmFMeExSeURxM2FLRWlFU0tp?=
+ =?utf-8?B?MWhybE9RYit2eTVhQ1BxNExCbjVqNmtkVUlCeGZsM3U3QlBReWNqVnl6c3Fh?=
+ =?utf-8?B?QitkaFlQcUtXNk5UeFYrZFNXeDFjZVI3a1U2aFY3dGVVQnNHUHcvS2JJazdq?=
+ =?utf-8?B?NitSSEJEQzJtdFZkRG0yRGlhWTZqZFpybm1KNWNyaFFBUC8rNi9QbUx3aGR2?=
+ =?utf-8?B?RUtuOWMya0lnczZOdXorK1NzTnl3Uzg5U2tkNzNJY2t5UW9iWWcwYjk4OHh5?=
+ =?utf-8?B?bStvUUx4cjdHTDZDbUxwSUtvcUQ2anBjSFJUaFNBckxxeDNBUjRHcXgzbjZS?=
+ =?utf-8?B?Zk16NXZCd3BQcENXcStpc3Z6NTNsT1I5ekxBSXE1QU45SVdNVnRpenpqMHJN?=
+ =?utf-8?B?Z3liaVM3SGdsQzdUdmN5ZVZkR1k5NXFQdm1pZWFCL1hNUXJLYUE3ckFSVFdX?=
+ =?utf-8?B?b0ExQmgyRVEvdzVuU0FYTkpOZ1dLY2Q5SFkrT0c1QUkzclA2VkRSL1EyV0xF?=
+ =?utf-8?B?V1V6cllFUkxlQW5Ock8waHczOFBPU3JuZ3Z6RFVTNmovNDlwK0VkZWJRcncz?=
+ =?utf-8?B?VEwwS1A2SExONVhLRmM4WWI3Uk13cVp0b2c5QUlVMURDYS9HbXg0cXNWb3NE?=
+ =?utf-8?B?R0lWQXV6eGRyUlViZ3hjbG1PSG1HNUVHanVldWk1Y25XS1IzeWJuN0R1SUha?=
+ =?utf-8?B?N1pkSkp0ZGRCaWlid3RUYVdUQkFnYmFDYzFJaFVtUzlQSXN3bi9CcDFxR0FH?=
+ =?utf-8?B?V3RUb2JYd3UwTnhIU2ZpNDBOYnBTNTYwNjV5ZzJrRnQ5OWgwZHFnL3VuSnha?=
+ =?utf-8?B?ME45cXJVTnhrNVA3UVJJYUF3d1Y2V0RUYUlHYlpMeVBOSW02dFlzTi9TTXBR?=
+ =?utf-8?B?eDl3WTY2clhpRWhVdEpXUzc1OEpsM3NXVUhUSjNIUzRkaHJ2RXdtU3lVOWRS?=
+ =?utf-8?B?bm4wNmN1S21NOWFiejFiY2tLWkozWkRxRlpqUTR5ZkdMeHpQNjE4QlpoTVdP?=
+ =?utf-8?B?SFJGOUMxQU5uaTBBMzFUYWY2RjkzWXNHTGsxRnhCNUFlUkRsRVN4VVZvd04r?=
+ =?utf-8?B?VjRVUzRhak5wOEpFdzhOQzhyV3hXMHNPdkNCSUtVL1dya3liZzlabElDSGFz?=
+ =?utf-8?B?U1NhZDUxeFFoekJrTzQ5QjJIR1hRNHMrRi91dFlKNVlhajFqdHFySm1ueXFC?=
+ =?utf-8?B?aE4wdUdmL09YclEwbGx4VWJLcSs4VXZ1YmhRSDJ6N1MvSnBRemJBWDVESThZ?=
+ =?utf-8?B?andaL2o2VXNJYThNQmVOTllGcXNHVHZub21iTDRTb3VkS0pNNk03c0xFSmFa?=
+ =?utf-8?B?WnpObEdHZW0vaEtPaCtkZjV1UGJ6R21KWDZvNXZTQmZTOXZPY2hXb1dtQkdY?=
+ =?utf-8?B?M2d4cUhZcXQxcjluRHVTMGZuQnJ1YWNCSnp6OWNmOHl3cVlIRWJ2bExTbDBs?=
+ =?utf-8?B?Sy9VbklheDNMUVBGNTgyNG53S0ZDZGFsTXJpVjB5RmZWanREMlFWeGczQkRH?=
+ =?utf-8?B?clN1bDI3WU1OeE9kTVdWdzl1bDNreVFWdmw0TDVjbE5LR1prMzd0ZnN3M3Jq?=
+ =?utf-8?B?a1BHNUI4ZlpHdkI0ckFzN25ZczRVbFhTbnk1M0JNV2o5cHQ2OWYrcSsrdFVN?=
+ =?utf-8?B?R2MycmNtdHR0Znhzc3lVZWhrUWVOYWt0OWVHeVIzSHUwTnYyUlVYbjUzUnhB?=
+ =?utf-8?B?WHMzU2ZwT2tOOHliVlBlaHJFcU9vSGJMb0NsM1pnTlI4MnlqVGRNMHk5eVlj?=
+ =?utf-8?B?VVJuTmZPNVVVTkRXQldjeURkaGpVeWZrazBOVVZNVXUrTEliUVVtdzhabDJV?=
+ =?utf-8?B?b1F5dTFOd1BvYXlBTTNPVkxHWFJ3RmZMOXYrVnN2Zi9uSTBEcVgwV2tnNVFy?=
+ =?utf-8?B?RGQ3QzZJYVpVdWRlbWsrSGk5YSt0RlZsd3lMbTVBTVhRdENxckZndHpMQ3lJ?=
+ =?utf-8?B?OWhYUDhBd0dSMlhVcnlnUU15ZUhacDJpYzcwSm9Bc0RrMmMvZGNNaXRzQlBs?=
+ =?utf-8?Q?AvOxwKqhbZxZKN4QgBdbmgA=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 351b51f8-2956-45a2-3a7a-08dd72bbc49b
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2025 14:28:14.5374
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U/0DfQdUDihLHZLAlHkSX3mFgjrfGnmfNZJjUe0H2R3wfkYeI3A5rA0vznNh9albprFwF1yLcvbsn4xC6wIF3O+4qk/6V8Klcin9INTryN8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB8177
+X-Authority-Analysis: v=2.4 cv=HoF2G1TS c=1 sm=1 tr=0 ts=67ee9b03 cx=c_pps a=GDxOUaUasxmcDRSC7gC2IA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=XR8D0OoHHMoA:10 a=t7CeM3EgAAAA:8 a=2bnCgyltrCbaZ1JmAWgA:9 a=QEXdDO2ut3YA:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: qsjATyJQSIhCt8R7F-s6eC2G8mOc1_MM
+X-Proofpoint-GUID: 1w_rPzD4o-gHZmNouDSC3EeIBNAUW1U5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-03_06,2025-04-02_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501
+ impostorscore=0 malwarescore=0 adultscore=0 spamscore=0 bulkscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504030067
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 12:57:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214325
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 14:28:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214327
 
-From: Ross Burton <ross.burton@arm.com>
 
----
- ...-Gtrace-remove-unguarded-print-calls.patch |  52 ----
- ...t-sve-signal-check-that-SVE-is-prese.patch |  73 ++++++
- ...c-or-musl-register-names-as-appropr.patch} |  23 +-
- ...compilation-of-unw_getcontext-on-ARM.patch |  27 ++
- ...ork-inline-aarch64-as-for-setcontext.patch | 163 ++++++++++++
- .../libunwind/0005-Handle-musl-on-PPC32.patch |  88 +++++++
- ...context-mismatches-between-glibc-and.patch | 247 ------------------
- .../libunwind/libunwind/mips-byte-order.patch |   2 +-
- ...{libunwind_1.6.2.bb => libunwind_1.8.1.bb} |  25 +-
- 9 files changed, 377 insertions(+), 323 deletions(-)
- delete mode 100644 meta/recipes-support/libunwind/libunwind/0001-src-Gtrace-remove-unguarded-print-calls.patch
- create mode 100644 meta/recipes-support/libunwind/libunwind/0001-tests-Garm64-test-sve-signal-check-that-SVE-is-prese.patch
- rename meta/recipes-support/libunwind/libunwind/{mips-coredump-register.patch => 0002-coredump-use-glibc-or-musl-register-names-as-appropr.patch} (86%)
- create mode 100644 meta/recipes-support/libunwind/libunwind/0003-Fixed-miscompilation-of-unw_getcontext-on-ARM.patch
- create mode 100644 meta/recipes-support/libunwind/libunwind/0004-Rework-inline-aarch64-as-for-setcontext.patch
- create mode 100644 meta/recipes-support/libunwind/libunwind/0005-Handle-musl-on-PPC32.patch
- delete mode 100644 meta/recipes-support/libunwind/libunwind/0005-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch
- rename meta/recipes-support/libunwind/{libunwind_1.6.2.bb => libunwind_1.8.1.bb} (57%)
+On 4/3/2025 6:13 PM, Sean Nyekjaer wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+>
+> On Thu, Jan 23, 2025 at 07:47:54AM +0100, Harish.Sadineni@windriver.com wrote:
+>> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>>
+>> YOCTO [#15061]
+>> The rust target and linker are getting setting from the sdk environment and
+>> so the config file is not needed. The redundant config file geneartion is removed.
+>>
+>> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> Hi Harish,
+>
+> Before this patch we installed the sdk, and could run "cargo build"
+> and we got a binary for target.
+> After this patch we getting a binary for the host (or nativesdk).
+>
+> We could run "cargo build --target armv7-oe-linux-gnueabihf" but I'm
+> getting a linker error because of missing CARGO_TARGET_<triple>_LINKER.
+> If I run "export CARGO_TARGET_ARMV7_OE_LINUX_GNUEABIHF_LINKER=target-rust-ccld"
+> it all works as it should.
+>
+> IMHO it was nice to be able to run "cargo build" with target as default.
+Ok, i will look into it.
 
-diff --git a/meta/recipes-support/libunwind/libunwind/0001-src-Gtrace-remove-unguarded-print-calls.patch b/meta/recipes-support/libunwind/libunwind/0001-src-Gtrace-remove-unguarded-print-calls.patch
-deleted file mode 100644
-index 5840c2b4f62..00000000000
---- a/meta/recipes-support/libunwind/libunwind/0001-src-Gtrace-remove-unguarded-print-calls.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From 9b27fa9bcd5cadd4c841c42710f41a090377e531 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Fri, 24 Mar 2023 16:18:44 +0000
--Subject: [PATCH] src/Gtrace: remove unguarded print() calls
--
--There is a use of printf() without #include stdio.h in src/arm/Gtrace.c,
--which results in a compiler error if clang 16 is used:
--
--src/arm/Gtrace.c:529:7: error: call to undeclared library function
--'printf' with type 'int (const char *, ...)'; ISO C99 and later do not
--support implicit function declarations [-Wimplicit-function-declaration]
--
--Replace the printf("XXX") with a Dprintf, so it doesn't pull stdio in
--unless in a debug build, and reword the message to be clearer.
--
--Also there is another printf("XXX") inside a FreeBSD-specific block in
--the UNW_ARM_FRAME_SIGRETURN case, replace this with a #error as the code
--needs to be implemented.
--
--Fixes #482.
--
--Upstream-Status: Backport [9b27fa9bcd5cadd4c841c42710f41a090377e531]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- src/arm/Gtrace.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/src/arm/Gtrace.c b/src/arm/Gtrace.c
--index 51fc281d..9e0f25af 100644
----- a/src/arm/Gtrace.c
--+++ b/src/arm/Gtrace.c
--@@ -514,7 +514,7 @@ tdep_trace (unw_cursor_t *cursor, void **buffer, int *size)
--       if (likely(ret >= 0))
--         ACCESS_MEM_FAST(ret, c->validate, d, cfa + LINUX_SC_LR_OFF, lr);
-- #elif defined(__FreeBSD__)
---      printf("XXX\n");
--+      #error implement UNW_ARM_FRAME_SIGRETURN on FreeBSD
-- #endif
-- 
--       /* Resume stack at signal restoration point. The stack is not
--@@ -526,7 +526,7 @@ tdep_trace (unw_cursor_t *cursor, void **buffer, int *size)
--       break;
-- 
--     case UNW_ARM_FRAME_SYSCALL:
---      printf("XXX1\n");
--+      Dprintf ("%s: implement me\n", __FUNCTION__);
--       break;
-- 
--     default:
---- 
--2.34.1
--
-diff --git a/meta/recipes-support/libunwind/libunwind/0001-tests-Garm64-test-sve-signal-check-that-SVE-is-prese.patch b/meta/recipes-support/libunwind/libunwind/0001-tests-Garm64-test-sve-signal-check-that-SVE-is-prese.patch
-new file mode 100644
-index 00000000000..f7af9a3fce0
---- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind/0001-tests-Garm64-test-sve-signal-check-that-SVE-is-prese.patch
-@@ -0,0 +1,73 @@
-+From 2f03399911abdd549237fa2db64a4a8311fe67dc Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Mon, 15 Jan 2024 16:59:14 +0000
-+Subject: [PATCH 1/4] tests/Garm64-test-sve-signal: check that SVE is present
-+ before running tests
-+
-+If the compiler supports -march=armv8-a+sve then those options are used
-+to build this test, but all that needs is a sufficiently new compiler.
-+
-+This then results in the __ARM_FEATURE_SVE check always passing, because
-+SVE is explicitly enabled.
-+
-+However it's perfectly possible for the compiler to support +sve but the
-+machine running the code to not, which results with the test crashing
-+with "Illegal instruction".
-+
-+Handle this case by checking HWCAP for SVE support, and skipping the
-+test unless we know it is available.  This check is Linux-specific at
-+present, but the logic is easily extended.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ tests/Garm64-test-sve-signal.c | 19 +++++++++++++++++++
-+ 1 file changed, 19 insertions(+)
-+
-+diff --git a/tests/Garm64-test-sve-signal.c b/tests/Garm64-test-sve-signal.c
-+index 52cb9ac6..cf66b3f1 100644
-+--- a/tests/Garm64-test-sve-signal.c
-++++ b/tests/Garm64-test-sve-signal.c
-+@@ -9,11 +9,16 @@
-+ #include <libunwind.h>
-+ #include <signal.h>
-+ #include <stdio.h>
-++#include <stdbool.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+ #include <time.h>
-+ #include <unistd.h>
-+ 
-++#if defined(__linux__)
-++#include <sys/auxv.h>
-++#endif
-++
-+ int64_t z[100];
-+ 
-+ void signal_handler(int signum)
-+@@ -96,8 +101,22 @@ int64_t square(svint64_t z0)
-+   return res;
-+ }
-+ 
-++bool has_sve(void) {
-++#if defined(__linux__)
-++  return (getauxval(AT_HWCAP) & HWCAP_SVE) ? true : false;
-++#else
-++  printf("Cannot determine if SVE is present, assuming it is not\n");
-++  return false;
-++#endif
-++}
-++
-+ int main()
-+ {
-++  if (!has_sve()) {
-++    printf("SVE not available, skipping\n");
-++    return 77;
-++  }
-++
-+   signal(SIGUSR1, signal_handler);
-+   for (unsigned int i = 0; i < sizeof(z) / sizeof(z[0]); ++i)
-+     z[i] = rand();
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libunwind/libunwind/mips-coredump-register.patch b/meta/recipes-support/libunwind/libunwind/0002-coredump-use-glibc-or-musl-register-names-as-appropr.patch
-similarity index 86%
-rename from meta/recipes-support/libunwind/libunwind/mips-coredump-register.patch
-rename to meta/recipes-support/libunwind/libunwind/0002-coredump-use-glibc-or-musl-register-names-as-appropr.patch
-index 68adcd1d712..f458bc3c6f9 100644
---- a/meta/recipes-support/libunwind/libunwind/mips-coredump-register.patch
-+++ b/meta/recipes-support/libunwind/libunwind/0002-coredump-use-glibc-or-musl-register-names-as-appropr.patch
-@@ -1,24 +1,27 @@
--From 7750e2a29b084ee033acc82abab410035e220d3f Mon Sep 17 00:00:00 2001
-+From 2a5473a31c6b02e9c49d688691e848d6281ffd2e Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Tue, 16 Jan 2024 18:21:26 +0000
--Subject: [PATCH 1/2] coredump-mips-register
-+Subject: [PATCH 2/4] coredump: use glibc or musl register names as appropriate
-+ on MIPS
- 
--glibc and musl have different names for the registers, add a
--macro that generates the names appropriately.
-+glibc has register macros of the form EF_REGx, but musl uses EF_Rx.
- 
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-+Handle this by using a macro to use the correct names.
-+
-+Closes #708.
- 
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-  src/coredump/_UCD_access_reg_linux.c | 69 ++++++++++++++++------------
-  1 file changed, 39 insertions(+), 30 deletions(-)
- 
- diff --git a/src/coredump/_UCD_access_reg_linux.c b/src/coredump/_UCD_access_reg_linux.c
--index 27eef123..beefdb47 100644
-+index 302f7bdf..05100ed6 100644
- --- a/src/coredump/_UCD_access_reg_linux.c
- +++ b/src/coredump/_UCD_access_reg_linux.c
--@@ -67,38 +67,47 @@ _UCD_access_reg (unw_addr_space_t as,
--     goto badreg;
-+@@ -100,38 +100,47 @@ _UCD_access_reg (unw_addr_space_t  as UNUSED,
-+     };
-  #else
-  #if defined(UNW_TARGET_MIPS)
- +
-@@ -94,7 +97,7 @@ index 27eef123..beefdb47 100644
- +      [UNW_MIPS_R31] = EF_REG(31),
-        [UNW_MIPS_PC]  = EF_CP0_EPC,
-      };
-- #elif defined(UNW_TARGET_X86)
-+ #elif defined(UNW_TARGET_S390X)
- -- 
- 2.34.1
- 
-diff --git a/meta/recipes-support/libunwind/libunwind/0003-Fixed-miscompilation-of-unw_getcontext-on-ARM.patch b/meta/recipes-support/libunwind/libunwind/0003-Fixed-miscompilation-of-unw_getcontext-on-ARM.patch
-new file mode 100644
-index 00000000000..19bdd858f70
---- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind/0003-Fixed-miscompilation-of-unw_getcontext-on-ARM.patch
-@@ -0,0 +1,27 @@
-+From e5216c3fb1fa8d60a18c68e4749a3ff902f6678b Mon Sep 17 00:00:00 2001
-+From: Ian Zborovsky <ian@veego.io>
-+Date: Mon, 6 May 2024 02:01:19 +0300
-+Subject: [PATCH 3/4] Fixed miscompilation of unw_getcontext() on ARM
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ include/libunwind-arm.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/include/libunwind-arm.h b/include/libunwind-arm.h
-+index 6cfa577d..6643a185 100644
-+--- a/include/libunwind-arm.h
-++++ b/include/libunwind-arm.h
-+@@ -288,7 +288,7 @@ unw_tdep_context_t;
-+     "mov r0, #0\n\t"                                                                            \
-+     "stmia %[base]!, {r0-r15}\n\t"                                                              \
-+     VSTMIA                                                                                      \
-+-    : [r0] "=r" (r0) : [base] "r" (unw_base) : "memory");                                       \
-++    : [r0] "=r" (r0), [base] "+r" (unw_base) : : "memory");                                     \
-+   (int)r0; })
-+ #else /* __thumb__ */
-+ #define unw_tdep_getcontext(uc) ({                                        \
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libunwind/libunwind/0004-Rework-inline-aarch64-as-for-setcontext.patch b/meta/recipes-support/libunwind/libunwind/0004-Rework-inline-aarch64-as-for-setcontext.patch
-new file mode 100644
-index 00000000000..005a0770285
---- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind/0004-Rework-inline-aarch64-as-for-setcontext.patch
-@@ -0,0 +1,163 @@
-+From a832070f3665d29a8a06652c15f94d144c24ac69 Mon Sep 17 00:00:00 2001
-+From: Stephen Webb <swebb@blackberry.com>
-+Date: Mon, 22 Apr 2024 15:56:54 -0400
-+Subject: [PATCH 4/5] Rework inline aarch64 as for setcontext
-+
-+Modern GC and clang were barfing on the inline asm constraints for the
-+aarch64-linux setcontext() replacement. Reformulated the asm code to
-+reduce the required constraints.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ src/aarch64/Gos-linux.c | 115 +++++++++++++++++++++-------------------
-+ 1 file changed, 61 insertions(+), 54 deletions(-)
-+
-+diff --git a/src/aarch64/Gos-linux.c b/src/aarch64/Gos-linux.c
-+index 7cd8c879..1e494962 100644
-+--- a/src/aarch64/Gos-linux.c
-++++ b/src/aarch64/Gos-linux.c
-+@@ -2,6 +2,7 @@
-+    Copyright (C) 2008 CodeSourcery
-+    Copyright (C) 2011-2013 Linaro Limited
-+    Copyright (C) 2012 Tommi Rantala <tt.rantala@gmail.com>
-++   Copyright 2024 Stephen M. Webb  <swebb@blackberry.com>
-+ 
-+ This file is part of libunwind.
-+ 
-+@@ -28,6 +29,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
-+ 
-+ #ifndef UNW_REMOTE_ONLY
-+ 
-++/* Magic constants generated from gen-offsets.c */
-++#define SC_R0_OFF   "8"
-++#define SC_R2_OFF   "24"
-++#define SC_R18_OFF  "152"
-++#define SC_R20_OFF  "168"
-++#define SC_R22_OFF  "184"
-++#define SC_R24_OFF  "200"
-++#define SC_R26_OFF  "216"
-++#define SC_R28_OFF  "232"
-++#define SC_R30_OFF  "248"
-++
-++#define FP_R08_OFF "80"
-++#define FP_R09_OFF "88"
-++#define FP_R10_OFF "96"
-++#define FP_R11_OFF "104"
-++#define FP_R12_OFF "112"
-++#define FP_R13_OFF "120"
-++#define FP_R14_OFF "128"
-++#define FP_R15_OFF "136"
-++
-++#define SC_SP_OFF   "0x100"
-++
-+ HIDDEN int
-+ aarch64_local_resume (unw_addr_space_t as, unw_cursor_t *cursor, void *arg)
-+ {
-+@@ -36,65 +59,49 @@ aarch64_local_resume (unw_addr_space_t as, unw_cursor_t *cursor, void *arg)
-+ 
-+   if (c->sigcontext_format == AARCH64_SCF_NONE)
-+     {
-++
-++      /*
-++       * This is effectively the old POSIX setcontext().
-++       *
-++       * This inline asm is broken up to use local scratch registers for the
-++       * uc_mcontext.regs and FPCTX base addresses because newer versions of GCC
-++       * and clang barf on too many constraints (gh-702) when the C array
-++       * elements are used directly.
-++       *
-++       * Clobbers aren't required for the inline asm because they just convince
-++       * the compiler to save those registers and they never get restored
-++       * becauise the asm ends with a plain ol' ret.
-++       */
-++      register void* uc_mcontext __asm__ ("x5") = (void*) &uc->uc_mcontext;
-++      register void* fpctx __asm__ ("x4") = (void*) GET_FPCTX(uc);
-++
-+       /* Since there are no signals involved here we restore EH and non scratch
-+          registers only.  */
-+       __asm__ __volatile__ (
-+-        "ldr x0,  %[x0]\n\t"
-+-        "ldr x1,  %[x1]\n\t"
-+-        "ldr x2,  %[x2]\n\t"
-+-        "ldr x3,  %[x3]\n\t"
-+-        "ldr x19, %[x19]\n\t"
-+-        "ldr x20, %[x20]\n\t"
-+-        "ldr x21, %[x21]\n\t"
-+-        "ldr x22, %[x22]\n\t"
-+-        "ldr x23, %[x23]\n\t"
-+-        "ldr x24, %[x24]\n\t"
-+-        "ldr x25, %[x25]\n\t"
-+-        "ldr x26, %[x26]\n\t"
-+-        "ldr x27, %[x27]\n\t"
-+-        "ldr x28, %[x28]\n\t"
-+-        "ldr x29, %[x29]\n\t"
-+-        "ldr x30, %[x30]\n\t"
-+-        "ldr d8,  %[d8]\n\t"
-+-        "ldr d9,  %[d9]\n\t"
-+-        "ldr d10, %[d10]\n\t"
-+-        "ldr d11, %[d11]\n\t"
-+-        "ldr d12, %[d12]\n\t"
-+-        "ldr d13, %[d13]\n\t"
-+-        "ldr d14, %[d14]\n\t"
-+-        "ldr d15, %[d15]\n\t"
-+-        "ldr x5,  %[sp]\n\t"
-++        "ldp x0,  x1,  [x5, " SC_R0_OFF  "]\n\t"
-++        "ldp x2,  x3,  [x5, " SC_R2_OFF  "]\n\t"
-++        "ldp x18, x19, [x5, " SC_R18_OFF "]\n\t"
-++        "ldp x20, x21, [x5, " SC_R20_OFF "]\n\t"
-++        "ldp x22, x23, [x5, " SC_R22_OFF "]\n\t"
-++        "ldp x24, x25, [x5, " SC_R24_OFF "]\n\t"
-++        "ldp x26, x27, [x5, " SC_R26_OFF "]\n\t"
-++        "ldp x28, x29, [x5, " SC_R28_OFF "]\n\t"
-++        "ldr x30, [x5, " SC_R30_OFF "]\n\t"
-++        "ldr d8,  [x4, " FP_R08_OFF "]\n\t"
-++        "ldr d9,  [x4, " FP_R09_OFF "]\n\t"
-++        "ldr d10, [x4, " FP_R10_OFF "]\n\t"
-++        "ldr d11, [x4, " FP_R11_OFF "]\n\t"
-++        "ldr d12, [x4, " FP_R12_OFF "]\n\t"
-++        "ldr d13, [x4, " FP_R13_OFF "]\n\t"
-++        "ldr d14, [x4, " FP_R14_OFF "]\n\t"
-++        "ldr d15, [x4, " FP_R15_OFF "]\n\t"
-++        "ldr x5,  [x5, " SC_SP_OFF "]\n\t"
-+         "mov sp, x5\n\t"
-+         "ret\n"
-+-        :
-+-        : [x0]  "m"(uc->uc_mcontext.regs[0]),
-+-		  [x1]  "m"(uc->uc_mcontext.regs[1]),
-+-		  [x2]  "m"(uc->uc_mcontext.regs[2]),
-+-		  [x3]  "m"(uc->uc_mcontext.regs[3]),
-+-		  [x19] "m"(uc->uc_mcontext.regs[19]),
-+-		  [x20] "m"(uc->uc_mcontext.regs[20]),
-+-		  [x21] "m"(uc->uc_mcontext.regs[21]),
-+-		  [x22] "m"(uc->uc_mcontext.regs[22]),
-+-		  [x23] "m"(uc->uc_mcontext.regs[23]),
-+-		  [x24] "m"(uc->uc_mcontext.regs[24]),
-+-		  [x25] "m"(uc->uc_mcontext.regs[25]),
-+-		  [x26] "m"(uc->uc_mcontext.regs[26]),
-+-		  [x27] "m"(uc->uc_mcontext.regs[27]),
-+-		  [x28] "m"(uc->uc_mcontext.regs[28]),
-+-		  [x29] "m"(uc->uc_mcontext.regs[29]), /* FP */
-+-		  [x30] "m"(uc->uc_mcontext.regs[30]), /* LR */
-+-		  [d8]  "m"(GET_FPCTX(uc)->vregs[8]),
-+-		  [d9]  "m"(GET_FPCTX(uc)->vregs[9]),
-+-		  [d10] "m"(GET_FPCTX(uc)->vregs[10]),
-+-		  [d11] "m"(GET_FPCTX(uc)->vregs[11]),
-+-		  [d12] "m"(GET_FPCTX(uc)->vregs[12]),
-+-		  [d13] "m"(GET_FPCTX(uc)->vregs[13]),
-+-		  [d14] "m"(GET_FPCTX(uc)->vregs[14]),
-+-		  [d15] "m"(GET_FPCTX(uc)->vregs[15]),
-+-          [sp]  "m"(uc->uc_mcontext.sp)
-+-		: "x0",   "x1",  "x2",  "x3", "x19", "x20", "x21", "x22", "x23", "x24",
-+-		  "x25", "x26", "x27", "x28", "x29", "x30"
-+-	  );
-++        : 
-++        : [uc_mcontext] "r"(uc_mcontext),
-++          [fpctx] "r"(fpctx)
-++      );
-+     }
-+   else
-+     {
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libunwind/libunwind/0005-Handle-musl-on-PPC32.patch b/meta/recipes-support/libunwind/libunwind/0005-Handle-musl-on-PPC32.patch
-new file mode 100644
-index 00000000000..7cad7a5b756
---- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind/0005-Handle-musl-on-PPC32.patch
-@@ -0,0 +1,88 @@
-+From 7bd4fbdea43310e52feb57fb5afab6bec798cc99 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Wed, 17 Jan 2024 16:28:39 +0000
-+Subject: [PATCH 5/5] Handle musl on PPC32
-+
-+On Linux, glibc and musl disagree over the layout of the ucontext_t
-+structure.  For more details, see the musl mailing list:
-+
-+https://www.openwall.com/lists/musl/2018/02/22/1
-+
-+Add conditionals to handle both the glibc and musl layout of the
-+structures.
-+
-+Closes #709.
-+
-+Upstream-Status: Submitted [https://github.com/libunwind/libunwind/pull/710]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ src/ppc32/Ginit.c      | 13 ++++++++++---
-+ src/ppc32/ucontext_i.h |  5 +++++
-+ 2 files changed, 15 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/ppc32/Ginit.c b/src/ppc32/Ginit.c
-+index 9444cbb8..5e94ed8a 100644
-+--- a/src/ppc32/Ginit.c
-++++ b/src/ppc32/Ginit.c
-+@@ -42,6 +42,13 @@ static struct unw_addr_space local_addr_space;
-+ 
-+ unw_addr_space_t unw_local_addr_space = &local_addr_space;
-+ 
-++/* glibc and musl disagree over the layout of this struct */
-++#ifdef __GLIBC__
-++#define _UC_MCONTEXT_REGS(x) x->uc_mcontext.uc_regs
-++#else
-++#define _UC_MCONTEXT_REGS(x) x->uc_regs
-++#endif
-++
-+ static void *
-+ uc_addr (ucontext_t *uc, int reg)
-+ {
-+@@ -49,7 +56,7 @@ uc_addr (ucontext_t *uc, int reg)
-+ 
-+   if ((unsigned) (reg - UNW_PPC32_R0) < 32)
-+ #if defined(__linux__)
-+-    addr = &uc->uc_mcontext.uc_regs->gregs[reg - UNW_PPC32_R0];
-++    addr = _UC_MCONTEXT_REGS(&uc)->gregs[reg - UNW_PPC32_R0];
-+ #elif defined(__FreeBSD__)
-+     addr = &uc->uc_mcontext.mc_gpr[reg - UNW_PPC32_R0];
-+ #endif
-+@@ -58,7 +65,7 @@ uc_addr (ucontext_t *uc, int reg)
-+   if ( ((unsigned) (reg - UNW_PPC32_F0) < 32) &&
-+        ((unsigned) (reg - UNW_PPC32_F0) >= 0) )
-+ #if defined(__linux__)
-+-    addr = &uc->uc_mcontext.uc_regs->fpregs.fpregs[reg - UNW_PPC32_F0];
-++    addr = _UC_MCONTEXT_REGS(&uc)->fpregs.fpregs[reg - UNW_PPC32_F0];
-+  #elif defined(__FreeBSD__)
-+     addr = &uc->uc_mcontext.mc_fpreg[reg - UNW_PPC32_F0];
-+ #endif
-+@@ -85,7 +92,7 @@ uc_addr (ucontext_t *uc, int reg)
-+           return NULL;
-+         }
-+ #if defined(__linux__)
-+-      addr = &uc->uc_mcontext.uc_regs->gregs[gregs_idx];
-++      addr = _UC_MCONTEXT_REGS(&uc)->gregs[gregs_idx];
-+ #elif defined(__FreeBSD__)
-+       addr = &uc->uc_mcontext.mc_gpr[gregs_idx];
-+ #endif
-+diff --git a/src/ppc32/ucontext_i.h b/src/ppc32/ucontext_i.h
-+index ee93c697..cfd8fe0e 100644
-+--- a/src/ppc32/ucontext_i.h
-++++ b/src/ppc32/ucontext_i.h
-+@@ -44,8 +44,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
-+ //#define MQ_IDX                36
-+ #define LINK_IDX        36
-+ 
-++#ifdef __GLIBC__
-+ #define _UC_MCONTEXT_GPR(x) ( ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[x] - (void *)&dmy_ctxt) )
-+ #define _UC_MCONTEXT_FPR(x) ( ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[x] - (void *)&dmy_ctxt) )
-++#else
-++#define _UC_MCONTEXT_GPR(x) ( ((void *)&dmy_ctxt.uc_regs->gregs[x] - (void *)&dmy_ctxt) )
-++#define _UC_MCONTEXT_FPR(x) ( ((void *)&dmy_ctxt.uc_regs->fpregs.fpregs[x] - (void *)&dmy_ctxt) )
-++#endif
-+ 
-+ /* These are dummy structures used only for obtaining the offsets of the
-+    various structure members. */
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libunwind/libunwind/0005-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch b/meta/recipes-support/libunwind/libunwind/0005-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch
-deleted file mode 100644
-index e58a71b741b..00000000000
---- a/meta/recipes-support/libunwind/libunwind/0005-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch
-+++ /dev/null
-@@ -1,247 +0,0 @@
--From 24c751f9d21e892a9833e1b70a696b07872b0f7f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 9 Jul 2016 01:07:53 +0000
--Subject: [PATCH] ppc32: Consider ucontext mismatches between glibc and
--
-- musl
--
--This helps in porting libunwind onto musl based systems
--ptrace.h change is required again an error that surfaces
--with musl
--
--/mnt/oe/openembedded-core/build/tmp-musl/sysroots/qemuppc/usr/include/asm/ptrace.h:31:8: error: redefinition of 'struct pt_regs'
-- struct pt_regs {
--        ^~~~~~~
--In file included from /mnt/oe/openembedded-core/build/tmp-musl/sysroots/qemuppc/usr/include/sys/user.h:11:0,
--                 from /mnt/oe/openembedded-core/build/tmp-musl/sysroots/qemuppc/usr/include/sys/procfs.h:9,
--                 from ../../git/src/ptrace/_UPT_internal.h:40,
--                 from ../../git/src/ptrace/_UPT_reg_offset.c:27:
--/mnt/oe/openembedded-core/build/tmp-musl/sysroots/qemuppc/usr/include/bits/user.h:1:8: note: originally defined here
-- struct pt_regs {
--        ^~~~~~~
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- src/ppc32/Ginit.c            |   6 +-
-- src/ppc32/ucontext_i.h       | 158 ++++++++++++++++++-----------------
-- src/ptrace/_UPT_reg_offset.c |   7 ++
-- 3 files changed, 92 insertions(+), 79 deletions(-)
--
--diff --git a/src/ppc32/Ginit.c b/src/ppc32/Ginit.c
--index 7b45455..f8d6886 100644
----- a/src/ppc32/Ginit.c
--+++ b/src/ppc32/Ginit.c
--@@ -48,12 +48,12 @@ uc_addr (ucontext_t *uc, int reg)
--   void *addr;
-- 
--   if ((unsigned) (reg - UNW_PPC32_R0) < 32)
---    addr = &uc->uc_mcontext.uc_regs->gregs[reg - UNW_PPC32_R0];
--+    addr = &uc->GET_UC_REGS->gregs[reg - UNW_PPC32_R0];
-- 
--   else
--   if ( ((unsigned) (reg - UNW_PPC32_F0) < 32) &&
--        ((unsigned) (reg - UNW_PPC32_F0) >= 0) )
---    addr = &uc->uc_mcontext.uc_regs->fpregs.fpregs[reg - UNW_PPC32_F0];
--+    addr = &uc->GET_UC_REGS->fpregs.fpregs[reg - UNW_PPC32_F0];
-- 
--   else
--     {
--@@ -76,7 +76,7 @@ uc_addr (ucontext_t *uc, int reg)
--         default:
--           return NULL;
--         }
---      addr = &uc->uc_mcontext.uc_regs->gregs[gregs_idx];
--+      addr = &uc->GET_UC_REGS->gregs[gregs_idx];
--     }
--   return addr;
-- }
--diff --git a/src/ppc32/ucontext_i.h b/src/ppc32/ucontext_i.h
--index c6ba806..b79f15c 100644
----- a/src/ppc32/ucontext_i.h
--+++ b/src/ppc32/ucontext_i.h
--@@ -46,83 +46,89 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
--    various structure members. */
-- static ucontext_t dmy_ctxt UNUSED;
-- 
---#define UC_MCONTEXT_GREGS_R0 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[0] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R1 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[1] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R2 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[2] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R3 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[3] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R4 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[4] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R5 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[5] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R6 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[6] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R7 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[7] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R8 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[8] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R9 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[9] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R10 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[10] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R11 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[11] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R12 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[12] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R13 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[13] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R14 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[14] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R15 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[15] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R16 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[16] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R17 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[17] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R18 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[18] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R19 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[19] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R20 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[20] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R21 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[21] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R22 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[22] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R23 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[23] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R24 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[24] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R25 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[25] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R26 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[26] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R27 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[27] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R28 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[28] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R29 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[29] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R30 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[30] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_R31 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[31] - (void *)&dmy_ctxt)
--+#ifdef __GLIBC__
--+#define GET_UC_REGS uc_mcontext.uc_regs
--+#else
--+#define GET_UC_REGS uc_regs
--+#endif
--+
--+#define UC_MCONTEXT_GREGS_R0 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[0] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R1 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[1] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R2 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[2] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R3 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[3] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R4 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[4] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R5 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[5] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R6 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[6] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R7 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[7] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R8 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[8] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R9 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[9] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R10 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[10] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R11 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[11] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R12 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[12] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R13 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[13] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R14 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[14] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R15 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[15] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R16 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[16] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R17 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[17] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R18 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[18] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R19 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[19] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R20 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[20] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R21 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[21] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R22 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[22] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R23 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[23] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R24 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[24] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R25 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[25] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R26 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[26] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R27 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[27] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R28 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[28] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R29 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[29] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R30 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[30] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_R31 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[31] - (void *)&dmy_ctxt)
-- 
---#define UC_MCONTEXT_GREGS_MSR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[MSR_IDX] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_ORIG_GPR3 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[ORIG_GPR3_IDX] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_CTR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[CTR_IDX] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_LINK ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[LINK_IDX] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_XER ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[XER_IDX] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_CCR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[CCR_IDX] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_SOFTE ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[SOFTE_IDX] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_TRAP ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[TRAP_IDX] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_DAR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[DAR_IDX] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_DSISR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[DSISR_IDX] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_GREGS_RESULT ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[RESULT_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_MSR ((void *)&dmy_ctxt.GET_UC_REGS->gregs[MSR_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_ORIG_GPR3 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[ORIG_GPR3_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_CTR ((void *)&dmy_ctxt.GET_UC_REGS->gregs[CTR_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_LINK ((void *)&dmy_ctxt.GET_UC_REGS->gregs[LINK_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_XER ((void *)&dmy_ctxt.GET_UC_REGS->gregs[XER_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_CCR ((void *)&dmy_ctxt.GET_UC_REGS->gregs[CCR_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_SOFTE ((void *)&dmy_ctxt.GET_UC_REGS->gregs[SOFTE_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_TRAP ((void *)&dmy_ctxt.GET_UC_REGS->gregs[TRAP_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_DAR ((void *)&dmy_ctxt.GET_UC_REGS->gregs[DAR_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_DSISR ((void *)&dmy_ctxt.GET_UC_REGS->gregs[DSISR_IDX] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_GREGS_RESULT ((void *)&dmy_ctxt.GET_UC_REGS->gregs[RESULT_IDX] - (void *)&dmy_ctxt)
-- 
---#define UC_MCONTEXT_FREGS_R0 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[0] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R1 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[1] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R2 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[2] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R3 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[3] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R4 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[4] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R5 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[5] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R6 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[6] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R7 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[7] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R8 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[8] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R9 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[9] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R10 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[10] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R11 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[11] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R12 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[12] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R13 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[13] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R14 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[14] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R15 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[15] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R16 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[16] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R17 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[17] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R18 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[18] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R19 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[19] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R20 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[20] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R21 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[21] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R22 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[22] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R23 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[23] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R24 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[24] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R25 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[25] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R26 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[26] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R27 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[27] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R28 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[28] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R29 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[29] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R30 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[30] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_R31 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[31] - (void *)&dmy_ctxt)
---#define UC_MCONTEXT_FREGS_FPSCR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[32] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R0 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[0] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R1 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[1] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R2 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[2] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R3 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[3] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R4 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[4] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R5 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[5] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R6 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[6] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R7 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[7] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R8 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[8] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R9 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[9] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R10 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[10] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R11 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[11] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R12 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[12] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R13 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[13] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R14 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[14] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R15 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[15] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R16 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[16] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R17 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[17] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R18 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[18] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R19 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[19] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R20 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[20] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R21 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[21] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R22 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[22] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R23 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[23] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R24 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[24] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R25 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[25] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R26 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[26] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R27 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[27] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R28 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[28] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R29 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[29] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R30 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[30] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_R31 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[31] - (void *)&dmy_ctxt)
--+#define UC_MCONTEXT_FREGS_FPSCR ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[32] - (void *)&dmy_ctxt)
-- 
-- #endif
--diff --git a/src/ptrace/_UPT_reg_offset.c b/src/ptrace/_UPT_reg_offset.c
--index b7dd3b7..bfaf756 100644
----- a/src/ptrace/_UPT_reg_offset.c
--+++ b/src/ptrace/_UPT_reg_offset.c
--@@ -27,6 +27,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
-- #include "_UPT_internal.h"
-- 
-- #include <stddef.h>
--+#if !defined(__GLIBC__)
--+# define pt_regs uapi_pt_regs
--+#endif
--+#include <asm/ptrace.h>
--+#if !defined(__GLIBC__)
--+# undef pt_regs
--+#endif
-- 
-- #ifdef HAVE_ASM_PTRACE_H
-- # include <asm/ptrace.h>
-diff --git a/meta/recipes-support/libunwind/libunwind/mips-byte-order.patch b/meta/recipes-support/libunwind/libunwind/mips-byte-order.patch
-index 8848780fd1b..3336b790553 100644
---- a/meta/recipes-support/libunwind/libunwind/mips-byte-order.patch
-+++ b/meta/recipes-support/libunwind/libunwind/mips-byte-order.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH 2/2] byte order
- endian.h on musl/mips can't be included in __ASSEMBLER__ mode,
- so use the __BYTE_ORDER__ symbol instead.
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/libunwind/libunwind/pull/816]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-  src/mips/getcontext.S | 3 +--
-diff --git a/meta/recipes-support/libunwind/libunwind_1.6.2.bb b/meta/recipes-support/libunwind/libunwind_1.8.1.bb
-similarity index 57%
-rename from meta/recipes-support/libunwind/libunwind_1.6.2.bb
-rename to meta/recipes-support/libunwind/libunwind_1.8.1.bb
-index b2e7ec77190..8d1443cd8e5 100644
---- a/meta/recipes-support/libunwind/libunwind_1.6.2.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.8.1.bb
-@@ -3,28 +3,30 @@ DESCRIPTION = "a portable and efficient C programming interface (API) to determi
- HOMEPAGE = "http://www.nongnu.org/libunwind"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2d80c8ed4062b8339b715f90fa68cc9f"
--DEPENDS += "libatomic-ops"
-+#DEPENDS += "libatomic-ops"
- DEPENDS:append:libc-musl = " libucontext"
- 
--SRC_URI = "http://download.savannah.nongnu.org/releases/libunwind/libunwind-${PV}.tar.gz \
-+SRC_URI = "https://github.com/libunwind/libunwind/releases/download/v${PV}/${BP}.tar.gz \
-            file://mips-byte-order.patch \
--           file://mips-coredump-register.patch \
--           file://0005-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch \
--           file://0001-src-Gtrace-remove-unguarded-print-calls.patch \
-+           file://0001-tests-Garm64-test-sve-signal-check-that-SVE-is-prese.patch \
-+           file://0002-coredump-use-glibc-or-musl-register-names-as-appropr.patch \
-+           file://0003-Fixed-miscompilation-of-unw_getcontext-on-ARM.patch \
-+           file://0004-Rework-inline-aarch64-as-for-setcontext.patch \
-+           file://0005-Handle-musl-on-PPC32.patch \
-            "
- 
--SRC_URI[sha256sum] = "4a6aec666991fb45d0889c44aede8ad6eb108071c3554fcdff671f9c94794976"
-+SRC_URI[sha256sum] = "ddf0e32dd5fafe5283198d37e4bf9decf7ba1770b6e7e006c33e6df79e6a6157"
- 
- inherit autotools multilib_header
- 
--COMPATIBLE_HOST:riscv32 = "null"
-+COMPATIBLE_HOST:ppc:libc-musl = "null"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[lzma] = "--enable-minidebuginfo,--disable-minidebuginfo,xz"
- PACKAGECONFIG[zlib] = "--enable-zlibdebuginfo,--disable-zlibdebuginfo,zlib"
- PACKAGECONFIG[latexdocs] = "--enable-documentation, --disable-documentation, latex2man-native"
- 
--EXTRA_OECONF = "--enable-static"
-+EXTRA_OECONF = "--enable-static --disable-tests"
- 
- # http://errors.yoctoproject.org/Errors/Details/20487/
- ARM_INSTRUCTION_SET:armv4 = "arm"
-@@ -36,15 +38,12 @@ SECURITY_LDFLAGS:append:libc-musl = " -lssp_nonshared"
- CACHED_CONFIGUREVARS:append:libc-musl = " LDFLAGS='${LDFLAGS} -lucontext'"
- 
- do_install:append () {
--	oe_multilib_header libunwind.h
-+	oe_multilib_header libunwind.h    
- }
- 
- BBCLASSEXTEND = "native"
- 
--# http://errors.yoctoproject.org/Errors/Build/183144/
- # libunwind-1.6.2/include/tdep-aarch64/libunwind_i.h:123:47: error: passing argument 1 of '_ULaarch64_uc_addr' from incompatible pointer type [-Wincompatible-pointer-types]
- # libunwind-1.6.2/src/aarch64/Ginit.c:348:28: error: initialization of 'unw_tdep_context_t *' from incompatible pointer type 'ucontext_t *' [-Wincompatible-pointer-types]
--# libunwind-1.6.2/src/aarch64/Ginit.c:377:28: error: initialization of 'unw_tdep_context_t *' from incompatible pointer type 'ucontext_t *' [-Wincompatible-pointer-types]
--# libunwind-1.6.2/src/aarch64/Ginit_local.c:51:9: error: assignment to 'ucontext_t *' from incompatible pointer type 'unw_context_t *' {aka 'unw_tdep_context_t *'} [-Wincompatible-pointer-types]
--# libunwind-1.6.2/src/aarch64/Gresume.c:37:28: error: initialization of 'unw_tdep_context_t *' from incompatible pointer type 'ucontext_t *' [-Wincompatible-pointer-types]
-+# and others
- CFLAGS += "-Wno-error=incompatible-pointer-types"
--- 
-2.39.2
-
+Thanks,
+Harish
+>
+> Br,
+> /Sean
+>
+>> ---
+>>   meta/recipes-devtools/rust/rust-cross-canadian.inc | 14 --------------
+>>   1 file changed, 14 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+>> index 846dde4dc6..09e1b911a2 100644
+>> --- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
+>> +++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+>> @@ -65,20 +65,6 @@ do_install () {
+>>
+>>       chown -R root.root ${D}
+>>
+>> -    CARGO_ENV_SETUP_SH="${ENV_SETUP_DIR}/cargo.sh"
+>> -    cat <<- EOF > "${CARGO_ENV_SETUP_SH}"
+>> -     export CARGO_HOME="\$OECORE_TARGET_SYSROOT/home/cargo"
+>> -     mkdir -p "\$CARGO_HOME"
+>> -        # Init the default target once, it might be otherwise user modified.
+>> -     if [ ! -f "\$CARGO_HOME/config" ]; then
+>> -             touch "\$CARGO_HOME/config"
+>> -             echo "[build]" >> "\$CARGO_HOME/config"
+>> -             echo 'target = "'${RUST_TARGET_SYS}'"' >> "\$CARGO_HOME/config"
+>> -             echo '# TARGET_SYS' >> "\$CARGO_HOME/config"
+>> -             echo '[target.'${RUST_TARGET_SYS}']' >> "\$CARGO_HOME/config"
+>> -             echo 'linker = "target-rust-ccld"' >> "\$CARGO_HOME/config"
+>> -    fi
+>> -     EOF
+>>   }
+>>
+>>   FILES:${PN} += "${base_prefix}/environment-setup.d"
+>> --
+>> 2.43.0
+>>
+>>
 
