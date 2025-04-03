@@ -2,64 +2,64 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB396C369A3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C81C369A2
 	for <webhook@archiver.kernel.org>; Thu,  3 Apr 2025 10:53:20 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.10512.1743677597745516118
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.10570.1743677595466333171
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Apr 2025 03:53:18 -0700
+ Thu, 03 Apr 2025 03:53:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ieIAHh+4;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3995ff6b066so406117f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 03:53:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OvMTJN4/;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43cf628cb14so13185135e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 03:53:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743677595; x=1744282395; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1743677593; x=1744282393; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/wL+JCTFwfUlAvTGjEUi/1fzrvwyxMqJwGBM6Qiyr2g=;
-        b=ieIAHh+4z/x6ohoOfo/9vv9B/kMlD0v2EAom69NHu64jNjI24s8ZQI49z/gBiJ+f8W
-         YVNcqhYn5aUgZhiF2YkUWtfhGslf4ckLIrFaxKgQKq/WUtWiW47UyJEBzjH8/TT0Q1g7
-         qLgMK7g1HHIrsU7YuWbTDcIJLoSGekOaHK/NMHaTgPgJnH4vOA64JeI4O/g5JAJ0edQL
-         JfqteiZu26XCjO/G+vmlhuG16toY8Uu70A7cH5Cb+i8EkpLZ3d2lJqGpZlbEIuvnDcLp
-         KXVfB2UGbLx7MVW/CPG1GTt1Eb155ioDCkk3OSkTuN1xhRwvcgxcHCXMDlqhQKtLjLrS
-         jCfA==
+        bh=dKgHRp+KCryu1tfaIr4ltsx6sA1HvJeCrPE078aMM0U=;
+        b=OvMTJN4/mcOaWTW3GRxeeb6f4AnamLoRgc3fSjh+qtNxsgi5RrAgQA2Wbof18lL9Q2
+         zCA3MZiL2kl4NURdXOZtNsios1CB6xwikxhlTgalfAahkowTAqKFoP5bgPzDG+qMaJ3g
+         iYv5Qminw9Agm9YSpqYEPSwPmUNn/iN9uraaHDlC1j/TpSXohTJqw/qh+FH6IosHi/xd
+         IuFCWT7Fmty8WZbZgROxQC+eaiBOiqBIiDDrNV/Xv4mEUvpauNorg7J2QLZqNZrbObi7
+         +r3iFGkgj+069cDNacD5N/5MFniB1+9w3JOlan1lfSUqqCzEH58Vds+OsIJL+mCMGs3o
+         x/BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743677595; x=1744282395;
+        d=1e100.net; s=20230601; t=1743677593; x=1744282393;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/wL+JCTFwfUlAvTGjEUi/1fzrvwyxMqJwGBM6Qiyr2g=;
-        b=OK7vgpS4QUQViPtMhsKHZqjDQv7OKm88Yas5rjDAW+xcSc5WtcS06tL4bQoaygYKfK
-         B/o6T5pQ+rTmEO43b8A7sTjzle+WGRckucwApWF/1ZpiTIiIDPRAgXa/+J9Y3fqE5vKv
-         IfJLL0zIn/QWXb1VJHIWOEHuUNgIif0Q1KmVgJQdj5dRPT4ojymztO4n4KRhhdwO3vvN
-         sk4IiA8OU7/pf4rQRBWkW7AQh6ECrw+tuIMmPfTnK2mUzQPWPuKimXZE3NUQgCOKks2n
-         cS13XYdgzwT/Yt+ILrkxY9abPB2tTu3jGWh8QHlThUKT9pm7N5PvKQTJxgT7gALEXUI/
-         ypGQ==
-X-Gm-Message-State: AOJu0YyBgGs4A0HmfDaF7bDGE9bu61iuVQ3xI8YgL5ZzFlBhYsz7xSdi
-	PK8oqe39hfWnszjlqgPefzRN1M/zy1ckpnGvNE0lqoJH9fgs88pJLCUkZoWw
-X-Gm-Gg: ASbGncvOSnXRPbbgA0/2Dpv2GvwWkk3vOeyqq4FGlkvMt1OC2flwGe2Sdc6iL8punPK
-	YZp5Hn+kJPACbkvVzNtb9WbuPvfj2yuic9q9lo/7cU/s3sX5xyJ6EF1iDBX0D2Eg5ZFepO9ZYtD
-	UYPZvnsBj3guOl8jXjW6DGWLzuAKdkbU0ri2CvysUHGWwLyLPy99dzl6KblnXCVPoZ00Hyfb4Ua
-	8xRMqt+xSN1noo6py8rK+vQqLxF7IMofxTnLJPpZ95m/LI6wg0TYsfxByrnHoJuEMb6a84G2peg
-	OMw3N/IOCzYjmjTbCTo6BBehlWc4W5PIBO2mJxLjS4nsimDeuYySmWo5VlWGS0FpuA2OLdiRN2W
-	GyOpsF2oQ7bYVQaTmUO3xBg==
-X-Google-Smtp-Source: AGHT+IEcoi4l3p7e5WOozSS1AntvXfIiSzZQhvNeRw7LLsov9lPBOV3c9Gw4PzAHYPTLSQX7ITKopg==
-X-Received: by 2002:adf:e952:0:b0:391:3028:c779 with SMTP id ffacd0b85a97d-39c2f9444ecmr1548864f8f.45.1743677595164;
-        Thu, 03 Apr 2025 03:53:15 -0700 (PDT)
+        bh=dKgHRp+KCryu1tfaIr4ltsx6sA1HvJeCrPE078aMM0U=;
+        b=OgDXhxIy+clRRBhsvO3t4EJtlNRDjwJhuE4Pu/USqyeUGbN5Rvc+1BQsfnmJ9UB5h6
+         xJKuWfJ8RomTRrfJWJDj0UxMdDBYlUCoABwHKtlM7641YNTidMsq8MIh4hhNZhWU14UV
+         KJ5t5VJZQn4IHRe0MdijH5Qid3hQ1lMF4LM6+LYejs0vMfmBquE5hLVL9ARDp/cnKxXr
+         L/iPpbhM06xNpiEISrtjY7Pk2jCq6imrGhOHkhxOpCoBVc1axtizaldc5NU3LBCDKvCU
+         BXR5qt2gxJY6gtmRmk/paBsx80s4ET4bGEzG5YQmEhd/rqyu8yVwIWTe8TZOkddOcAGT
+         LI5Q==
+X-Gm-Message-State: AOJu0Yw4A0lv4RvWS57/K2yN4+T+mX5A4soLVyslTL50zyZlDJpM8pwF
+	eZwhQrw/53GUda7uuBt0WzCyofJHCacl4pwCkNQ3zs0bULyMBWzROGHbCjsw
+X-Gm-Gg: ASbGncsMJA0Y/RH/oGsgmp6qfIrZjQzrV9zUiXjMY2l/A6S2+7od5mYY3muJaeModr4
+	VeUodokBWZeiJ85cBLPW+HI19lk5rkRne0QycBHMi9cVdrjnHGc5PMJ4iYZsfTRvQiYtJ7ezlzp
+	wkSsIWWEzoO0St0KjMNTJoWw95brGUJC8HK96vPMokzfWAx8Ot6gWSoRtK9GcVKjto6jTT3x0DA
+	FNK91EKher2JWj10FvzxSlKPAWOEVQP1l1G0HqXFhJCh21G3ghkyX1PsG0OeAXeUiE1+2jbHiOl
+	/x1DLNAGDtmRXIk9PXppu5iDM9GAvopIlPzuISgZNjd5SiczykfLZMzY0uUeFEd88ziQD6y5p3O
+	m+q8vVIH7og0=
+X-Google-Smtp-Source: AGHT+IF3ucxeWHSWRNlgn8sI/iZVaw+O+JBPDFb2CWKB7NRc6sLbDrH8y73sFw2cGHzBU6w308GaCg==
+X-Received: by 2002:a05:6000:240a:b0:391:bc8:564a with SMTP id ffacd0b85a97d-39c2e6510f0mr2814808f8f.22.1743677592795;
+        Thu, 03 Apr 2025 03:53:12 -0700 (PDT)
 Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec1630ddesm18346865e9.5.2025.04.03.03.53.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec1630ddesm18346865e9.5.2025.04.03.03.53.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 03:53:14 -0700 (PDT)
+        Thu, 03 Apr 2025 03:53:12 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 03 Apr 2025 10:52:59 +0000
-Subject: [PATCH OE-Core v2 6/6] connman: Rework to avoid splitting into
- many single binary packages
+Date: Thu, 03 Apr 2025 10:52:57 +0000
+Subject: [PATCH OE-Core v2 4/6] connman: Add all build options as
+ PACKAGECONFIG
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250403-connman-v2-6-8bb637312ba8@gmail.com>
+Message-Id: <20250403-connman-v2-4-8bb637312ba8@gmail.com>
 References: <20250403-connman-v2-0-8bb637312ba8@gmail.com>
 In-Reply-To: <20250403-connman-v2-0-8bb637312ba8@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -69,215 +69,180 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 10:53:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214317
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214315
 
-This recipe predates PACKAGECONFIG (or maybe widespread usage?) and so to use
-the VPN options they had to be both enabled at the PACKAGECONFIG level and then
-included as a separate package. In addition the list of VPN packages has
-drifted so (for example) wireguard was not delivered this way.
+Add all missing build options as PACKAGECONFIG items. Add CONNMAN_FIREWALL to
+select iptables or nftables (one is required).
 
-Remove most of the subordinate packages and just populate the main connman
-package based on PACKAGECONFIG. Keep connman-client separate as `connmanctl`
-has a dependency on readline (which is GPLv3 licensed) and separate out
-connman-tools for `stats-tool` and connman-tests for all the test binaries
-(which possibly in the future could be used as the basis of a ptest package).
+Set dns-backend automatically based on systemd-resolved in DISTRO_FEATURES,
+then drop "connman.service: stop systemd-resolved when we use connman" as we
+now use connman's systemd-resolved support.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-connectivity/connman/connman_1.44.bb | 161 +++++-----------------
- 1 file changed, 36 insertions(+), 125 deletions(-)
+ ...vice-stop-systemd-resolved-when-we-use-co.patch | 26 -------
+ meta/recipes-connectivity/connman/connman_1.44.bb  | 85 +++++++++++++---------
+ 2 files changed, 50 insertions(+), 61 deletions(-)
 
+diff --git a/meta/recipes-connectivity/connman/connman/0001-connman.service-stop-systemd-resolved-when-we-use-co.patch b/meta/recipes-connectivity/connman/connman/0001-connman.service-stop-systemd-resolved-when-we-use-co.patch
+deleted file mode 100644
+index 4597fe68fcdf6f301247747c52b1d4636ebec631..0000000000000000000000000000000000000000
+--- a/meta/recipes-connectivity/connman/connman/0001-connman.service-stop-systemd-resolved-when-we-use-co.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From 19aff57e4da920d9ca972903582305b4efe81ef3 Mon Sep 17 00:00:00 2001
+-From: "Maxin B. John" <maxin.john@intel.com>
+-Date: Mon, 12 Jun 2017 16:52:39 +0300
+-Subject: [PATCH] connman.service: stop systemd-resolved when we use connman
+-
+-Stop systemd-resolved service when we use connman as network manager.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+----
+- src/connman.service.in | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/src/connman.service.in b/src/connman.service.in
+-index 7376346..79e75d6 100644
+---- a/src/connman.service.in
+-+++ b/src/connman.service.in
+-@@ -6,6 +6,7 @@ RequiresMountsFor=@localstatedir@/lib/connman
+- After=dbus.service network-pre.target systemd-sysusers.service
+- Before=network.target multi-user.target shutdown.target
+- Wants=network.target
+-+Conflicts=systemd-resolved.service
+- 
+- [Service]
+- Type=dbus
 diff --git a/meta/recipes-connectivity/connman/connman_1.44.bb b/meta/recipes-connectivity/connman/connman_1.44.bb
-index f9c3291b5c4d234f08d17dcb06d93e69aeaf85f5..92641d36792fd3aedafc1a52f2e376fdcb9f40db 100644
+index aa9da070dec1b4aac02019ae9c3158256b534c61..f9c3291b5c4d234f08d17dcb06d93e69aeaf85f5 100644
 --- a/meta/recipes-connectivity/connman/connman_1.44.bb
 +++ b/meta/recipes-connectivity/connman/connman_1.44.bb
-@@ -90,17 +90,11 @@ PACKAGECONFIG[wireguard] = "--enable-wireguard,--disable-wireguard,libmnl"
- INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+@@ -12,65 +12,79 @@ LICENSE  = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://src/main.c;beginline=1;endline=20;md5=486a279a6ab0c8d152bcda3a5b5edc36"
  
--python __anonymous () {
--    systemd_packages = "${PN} ${PN}-wait-online"
--    pkgconfig = d.getVar('PACKAGECONFIG')
--    if ('openvpn' or 'vpnc' or 'l2tp' or 'pptp') in pkgconfig.split():
--        systemd_packages += " ${PN}-vpn"
--    d.setVar('SYSTEMD_PACKAGES', systemd_packages)
--}
+-inherit autotools pkgconfig systemd update-rc.d update-alternatives
 -
--SYSTEMD_SERVICE:${PN} = "connman.service"
--SYSTEMD_SERVICE:${PN}-vpn = "connman-vpn.service"
--SYSTEMD_SERVICE:${PN}-wait-online = "connman-wait-online.service"
-+SYSTEMD_SERVICE:${PN} = "\
-+    connman.service \
-+    connman-wait-online.service \
-+    ${@bb.utils.contains_any('PACKAGECONFIG', ['openconnect', 'openvpn', 'vpnc', 'l2tp', 'pptp', 'wireguard'], 'connman-vpn.service', '', d)} \
+ CVE_PRODUCT = "connman connection_manager"
+ 
+ DEPENDS  = "dbus glib-2.0"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+-           file://0001-connman.service-stop-systemd-resolved-when-we-use-co.patch \
+            file://connman \
+            file://0002-resolve-musl-does-not-implement-res_ninit.patch \
+-           "
 +"
  
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE:${PN} = "${@bb.utils.contains('DISTRO_FEATURES','systemd','resolv-conf','',d)}"
-@@ -114,18 +108,15 @@ do_install:append() {
- 		sed -i s%@DATADIR@%${datadir}% ${D}${sysconfdir}/init.d/connman
- 	fi
+ SRC_URI[sha256sum] = "2be2b00321632b775f9eff713acd04ef21e31fbf388f6ebf45512ff4289574ff"
  
--	install -d ${D}${bindir}
--	install -m 0755 ${B}/tools/*-test ${D}${bindir}
--	if [ -e ${B}/tools/wispr ]; then
--		install -m 0755 ${B}/tools/wispr ${D}${bindir}
--	fi
-+	for noinst_program in ${NOINST_TESTS} ${NOINST_TOOLS}; do
-+		if [ -r "${B}/$noinst_program" ]; then
-+			install -d ${D}${bindir}
-+			install -m 0755 "${B}/$noinst_program" ${D}${bindir}
-+		fi
-+	done
++inherit autotools pkgconfig systemd update-rc.d update-alternatives
++
++RDEPENDS:${PN} = "${@bb.utils.contains('PACKAGECONFIG', 'wifi', '${WIRELESS_DAEMON}', '', d)}"
+ RRECOMMENDS:${PN} = "connman-conf"
+-RCONFLICTS:${PN} = "networkmanager"
  
- 	# We don't need to package an empty directory
--	rmdir --ignore-fail-on-non-empty ${D}${libdir}/connman/scripts
+ EXTRA_OECONF += "\
+-    ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
+-    ac_cv_path_PPPD=${sbindir}/pppd \
+-    --enable-debug \
+-    --enable-loopback \
+-    --enable-ethernet \
++    --enable-datafiles \
+     --enable-tools \
+-    --disable-polkit \
+-    --runstatedir=/run \
++    --runstatedir='${runtimedir}' \
++    --with-dns-backend='${@bb.utils.contains("DISTRO_FEATURES", "systemd-resolved", "systemd-resolved", "internal", d)}' \
++    ac_cv_path_IP6TABLES_SAVE=${sbindir}/ip6tables-save \
++    ac_cv_path_IPTABLES_SAVE=${sbindir}/iptables-save \
++    ac_cv_path_PPPD=${sbindir}/pppd \
++    ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
+ "
++
+ # For smooth operation it would be best to start only one wireless daemon at a time.
+ # If wpa-supplicant is running, connman will use it preferentially.
+ # Select either wpa-supplicant or iwd
+ WIRELESS_DAEMON ??= "wpa-supplicant"
+ 
+-PACKAGECONFIG ??= "wispr iptables client\
+-                   ${@bb.utils.filter('DISTRO_FEATURES', '3g systemd', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'wifi ${WIRELESS_DAEMON}', '', d)} \
++# Choose "iptables" or "nftables"
++CONNMAN_FIREWALL ??= "iptables"
++
++# Default is 16kB
++CONNMAN_STATS_MAX_FILE_SIZE ??= "16384"
++
++PACKAGECONFIG ??= "client ethernet loopback wispr ${CONNMAN_FIREWALL} \
++                   ${@bb.utils.filter('DISTRO_FEATURES', '3g bluetooth nfc polkit selinux systemd usbgadget wifi', d)} \
++                   ${@bb.utils.filter('WIRELESS_DAEMON', 'iwd', d)} \
+ "
+ 
+-# If you want ConnMan to support VPN, add following statement into
+-# local.conf or distro config
+-# PACKAGECONFIG:append:pn-connman = " openvpn vpnc l2tp pptp"
 -
--	# Automake 1.12 won't install empty directories, but we need the
--	# plugins directory to be present for ownership
--	mkdir -p ${D}${libdir}/connman/plugins
-+	rmdir --ignore-fail-on-non-empty ${D}${libdir}/connman/scripts ${D}${libdir}/connman
+-PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_system_unitdir}/ --with-tmpfilesdir=${sysconfdir}/tmpfiles.d/,--with-systemdunitdir='' --with-tmpfilesdir=''"
+-PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi"
+-PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, bluez5, bluez5"
+-PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono, ofono"
+-PACKAGECONFIG[wpa-supplicant] = ",,wpa-supplicant,wpa-supplicant"
+-PACKAGECONFIG[iwd] = "--enable-iwd,--disable-iwd,,iwd"
+-PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
+-PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
+-PACKAGECONFIG[vpnc] = "--enable-vpnc --with-vpnc=${sbindir}/vpnc,--disable-vpnc,,vpnc"
++PACKAGECONFIG[3g] = "--enable-ofono,--disable-ofono,ofono"
++PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez5,bluez5"
++PACKAGECONFIG[client] = "--enable-client,--disable-client,readline"
++PACKAGECONFIG[dundee] = "--enable-dundee,--disable-dundee"
++PACKAGECONFIG[ethernet] = "--enable-ethernet,--disable-ethernet"
++PACKAGECONFIG[hh2serial-gps] = "--enable-hh2serial-gps,--disable-hh2serial-gps"
++PACKAGECONFIG[iospm] = "--enable-iospm,--disable-iospm"
++PACKAGECONFIG[iptables] = "--with-firewall=iptables,,iptables,,,nftables"
++PACKAGECONFIG[iwd] = "--enable-iwd,--disable-iwd"
++PACKAGECONFIG[loopback] = "--enable-loopback,--disable-loopback"
++PACKAGECONFIG[nfc] = "--enable-neard,--disable-neard,neard"
++PACKAGECONFIG[nftables] = "--with-firewall=nftables,,libmnl libnftnl,,kernel-module-nf-tables kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-masq-ipv4 kernel-module-nft-nat,iptables"
++PACKAGECONFIG[nmcompat] = "--enable-nmcompat,--disable-nmcompat"
++PACKAGECONFIG[pacrunner] = "--enable-pacrunner,--disable-pacrunner"
++PACKAGECONFIG[polkit] = "--enable-polkit,--disable-polkit,polkit"
++PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
++PACKAGECONFIG[session-policy-local] = "--enable-session-policy-local,--disable-session-policy-local"
++PACKAGECONFIG[stats] = "--enable-stats --with-stats-max-file-size=${CONNMAN_STATS_MAX_FILE_SIZE},--disable-stats"
++PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_system_unitdir}/ --with-tmpfilesdir=${nonarch_libdir}/tmpfiles.d/,--with-systemdunitdir='' --with-tmpfilesdir=''"
++PACKAGECONFIG[test] = "--enable-test,--disable-test"
++PACKAGECONFIG[tist] = "--enable-tist,--disable-tist"
++PACKAGECONFIG[usbgadget] = "--enable-gadget,--disable-gadget"
++PACKAGECONFIG[wifi] = "--enable-wifi,--disable-wifi"
++PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls"
++
+ PACKAGECONFIG[l2tp] = "--enable-l2tp --with-l2tp=${sbindir}/xl2tpd,--disable-l2tp,ppp,xl2tpd"
++PACKAGECONFIG[openconnect] = "--enable-openconnect --with-openconnect=${sbindir}/openconnect,--disable-openconnect,openconnect,openconnect"
++PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
+ PACKAGECONFIG[pptp] = "--enable-pptp --with-pptp=${sbindir}/pptp,--disable-pptp,ppp,pptp-linux"
+-# WISPr support for logging into hotspots, requires TLS
+-PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
+-PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,,kernel-module-nf-tables kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-masq-ipv4 kernel-module-nft-nat"
+-PACKAGECONFIG[iptables] = "--with-firewall=iptables ,,iptables,iptables"
+-PACKAGECONFIG[nfc] = "--enable-neard, --disable-neard, neard, neard"
+-PACKAGECONFIG[client] = "--enable-client,--disable-client,readline"
++PACKAGECONFIG[vpnc] = "--enable-vpnc --with-vpnc=${sbindir}/vpnc,--disable-vpnc,,vpnc"
+ PACKAGECONFIG[wireguard] = "--enable-wireguard,--disable-wireguard,libmnl"
+ 
+ INITSCRIPT_NAME = "connman"
+@@ -115,6 +129,7 @@ do_install:append() {
  
  	# For read-only filesystem, do not create links during bootup
  	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-@@ -134,113 +125,33 @@ do_install:append() {
++		install -d ${D}${sysconfdir}
+ 		ln -sf ../run/connman/resolv.conf ${D}${sysconfdir}/resolv-conf.connman
  	fi
  }
- 
--# These used to be plugins, but now they are core
--RPROVIDES:${PN} = "\
--	connman-plugin-loopback \
--	connman-plugin-ethernet \
--	${@bb.utils.contains('PACKAGECONFIG', 'bluetooth','connman-plugin-bluetooth', '', d)} \
--	${@bb.utils.contains('PACKAGECONFIG', 'wifi','connman-plugin-wifi', '', d)} \
--	${@bb.utils.contains('PACKAGECONFIG', '3g','connman-plugin-ofono', '', d)} \
--	"
--
--PACKAGES_DYNAMIC += "^${PN}-plugin-.*"
--
--def add_rdepends(bb, d, file, pkg, depmap, multilib_prefix, add_insane_skip):
--    plugintype = pkg.split( '-' )[-1]
--    if plugintype in depmap:
--        rdepends = map(lambda x: multilib_prefix + x, \
--                       depmap[plugintype].split())
--        d.setVar("RDEPENDS:%s" % pkg, " ".join(rdepends))
--    if add_insane_skip:
--        d.appendVar("INSANE_SKIP:%s" % pkg, "dev-so")
--
--python populate_packages:prepend() {
--    depmap = dict(pppd="ppp")
--    multilib_prefix = (d.getVar("MLPREFIX") or "")
--
--    hook = lambda file,pkg,x,y,z: \
--        add_rdepends(bb, d, file, pkg, depmap, multilib_prefix, False)
--    plugin_dir = d.expand('${libdir}/connman/plugins/')
--    plugin_name = d.expand('${PN}-plugin-%s')
--    do_split_packages(d, plugin_dir, r'^(.*).so$', plugin_name, \
--        '${PN} plugin for %s', extra_depends='', hook=hook, prepend=True )
--
--    hook = lambda file,pkg,x,y,z: \
--        add_rdepends(bb, d, file, pkg, depmap, multilib_prefix, True)
--    plugin_dir = d.expand('${libdir}/connman/plugins-vpn/')
--    plugin_name = d.expand('${PN}-plugin-vpn-%s')
--    do_split_packages(d, plugin_dir, r'^(.*).so$', plugin_name, \
--        '${PN} VPN plugin for %s', extra_depends='', hook=hook, prepend=True )
--}
--
--PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-client"
-+NOINST_TESTS = "tools/supplicant-test tools/dhcp-test tools/dhcp-server-test \
-+		tools/addr-test tools/web-test tools/resolv-test tools/dbus-test \
-+		tools/polkit-test tools/wpad-test tools/private-network-test \
-+		tools/session-test tools/dnsproxy-test tools/iptables-test tools/ip6tables-test \
-+		tools/iptables-unit tools/dnsproxy-standalone \
-+		unit/test-ippool unit/test-iptables \
-+"
-+NOINST_TOOLS = "tools/stats-tool tools/wispr"
- 
--FILES:${PN}-tools = "${bindir}/wispr"
--RDEPENDS:${PN}-tools = "${PN}"
-+PACKAGE_BEFORE_PN = "${PN}-client ${PN}-tests ${PN}-tools"
- 
--FILES:${PN}-tests = "${bindir}/*-test"
-+FILES:${PN} += " \
-+    ${datadir}/dbus-1/system-services \
-+    ${datadir}/dbus-1/system.d \
-+    ${datadir}/polkit-1 \
-+    ${nonarch_libdir}/tmpfiles.d/*.conf \
-+"
- 
- FILES:${PN}-client = "${bindir}/connmanctl"
- RDEPENDS:${PN}-client = "${PN}"
- 
--FILES:${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
--            ${libdir}/connman/plugins \
--            ${sysconfdir} ${sharedstatedir} ${localstatedir} ${datadir} \
--            ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${datadir}/${PN} \
--            ${datadir}/dbus-1/system-services/* \
--            ${sysconfdir}/tmpfiles.d/connman_resolvconf.conf"
--
--FILES:${PN}-dev += "${libdir}/connman/*/*.la"
--
--PACKAGES =+ "${PN}-vpn ${PN}-wait-online"
--
--SUMMARY:${PN}-vpn = "A daemon for managing VPN connections within embedded devices"
--DESCRIPTION:${PN}-vpn = "The ConnMan VPN provides a daemon for \
--managing VPN connections within embedded devices running the Linux \
--operating system.  The connman-vpnd handles all the VPN connections \
--and starts/stops VPN client processes when necessary. The connman-vpnd \
--provides a DBus API for managing VPN connections. All the different \
--VPN technogies are implemented using plug-ins."
--FILES:${PN}-vpn += "${sbindir}/connman-vpnd \
--                    ${sysconfdir}/dbus-1/system.d/connman-vpn-dbus.conf \
--                    ${datadir}/dbus-1/system-services/net.connman.vpn.service \
--                    ${systemd_system_unitdir}/connman-vpn.service"
--
--SUMMARY:${PN}-wait-online = "A program that will return once ConnMan has connected to a network"
--DESCRIPTION:${PN}-wait-online = "A service that can be enabled so that \
--the system waits until a network connection is established."
--FILES:${PN}-wait-online += "${sbindir}/connmand-wait-online \
--                            ${systemd_system_unitdir}/connman-wait-online.service"
--
--SUMMARY:${PN}-plugin-vpn-openvpn = "An OpenVPN plugin for ConnMan VPN"
--DESCRIPTION:${PN}-plugin-vpn-openvpn = "The ConnMan OpenVPN plugin uses openvpn client \
--to create a VPN connection to OpenVPN server."
--FILES:${PN}-plugin-vpn-openvpn += "${libdir}/connman/scripts/openvpn-script \
--                                   ${libdir}/connman/plugins-vpn/openvpn.so"
--RDEPENDS:${PN}-plugin-vpn-openvpn += "${PN}-vpn"
--RRECOMMENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG','openvpn','${PN}-plugin-vpn-openvpn', '', d)}"
--
--SUMMARY:${PN}-plugin-vpn-vpnc = "A vpnc plugin for ConnMan VPN"
--DESCRIPTION:${PN}-plugin-vpn-vpnc = "The ConnMan vpnc plugin uses vpnc client \
--to create a VPN connection to Cisco3000 VPN Concentrator."
--FILES:${PN}-plugin-vpn-vpnc += "${libdir}/connman/scripts/openconnect-script \
--                                ${libdir}/connman/plugins-vpn/vpnc.so \
--                                ${libdir}/connman/scripts/vpn-script"
--RDEPENDS:${PN}-plugin-vpn-vpnc += "${PN}-vpn"
--RRECOMMENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG','vpnc','${PN}-plugin-vpn-vpnc', '', d)}"
--
--SUMMARY:${PN}-plugin-vpn-l2tp = "A L2TP plugin for ConnMan VPN"
--DESCRIPTION:${PN}-plugin-vpn-l2tp = "The ConnMan L2TP plugin uses xl2tpd daemon \
--to create a VPN connection to L2TP server."
--FILES:${PN}-plugin-vpn-l2tp += "${libdir}/connman/scripts/libppp-plugin.so* \
--                                ${libdir}/connman/plugins-vpn/l2tp.so"
--RDEPENDS:${PN}-plugin-vpn-l2tp += "${PN}-vpn"
--RRECOMMENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG','l2tp','${PN}-plugin-vpn-l2tp', '', d)}"
--
--SUMMARY:${PN}-plugin-vpn-pptp = "A PPTP plugin for ConnMan VPN"
--DESCRIPTION:${PN}-plugin-vpn-pptp = "The ConnMan PPTP plugin uses pptp-linux client \
--to create a VPN connection to PPTP server."
--FILES:${PN}-plugin-vpn-pptp += "${libdir}/connman/scripts/libppp-plugin.so* \
--                                ${libdir}/connman/plugins-vpn/pptp.so"
--RDEPENDS:${PN}-plugin-vpn-pptp += "${PN}-vpn"
--RRECOMMENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG','pptp','${PN}-plugin-vpn-pptp', '', d)}"
-+FILES:${PN}-tests = "${@ ' '.join([os.path.join('${bindir}', os.path.basename(noinst_program)) for noinst_program in NOINST_TESTS.split()]) }"
-+RDEPENDS:${PN}-tests = "${PN} \
-+			${@bb.utils.contains('PACKAGECONFIG', 'iptables', 'iptables', '', d)} \
-+"
-+ALLOW_EMPTY:${PN}-tests = "1"
-+
-+FILES:${PN}-tools = "${@ ' '.join([os.path.join('${bindir}', os.path.basename(noinst_program)) for noinst_program in NOINST_TOOLS.split()]) }"
-+RDEPENDS:${PN}-tools = "${PN}"
-+ALLOW_EMPTY:${PN}-tools = "1"
 
 -- 
 2.46.1
