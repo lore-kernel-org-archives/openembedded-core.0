@@ -1,98 +1,132 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC60C369A0
-	for <webhook@archiver.kernel.org>; Thu,  3 Apr 2025 11:19:51 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.10908.1743679181595480591
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C3DDC3600C
+	for <webhook@archiver.kernel.org>; Thu,  3 Apr 2025 11:31:31 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web10.11126.1743679888348569192
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Apr 2025 04:19:42 -0700
+ Thu, 03 Apr 2025 04:31:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Iaq+hEdF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cfecdd8b2so5519915e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 04:19:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743679180; x=1744283980; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QfT3oASeRLTjlSgU+jYEgZ/qnwka1OaIPCN8pXxzwZ4=;
-        b=Iaq+hEdFgCljsODy45KD8Ykb8m3L3tQlfSpLBHziip41gKys1/d6obgoYwAfMerHAk
-         y7ae/HhY9I61naHKsXSbWDou0gBpIUpF5Ic0e3Te3DUBz+qUaBCycAA0BaeV1lLEHYv0
-         04pE4vbUFAnB1xYdwVvuZT9nqNNixMR9tu0FU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743679180; x=1744283980;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QfT3oASeRLTjlSgU+jYEgZ/qnwka1OaIPCN8pXxzwZ4=;
-        b=fbTgWmmAaYfA6jGhpKIjO0gSIMDIBJVCe1zP3q5msCYvL6qStHWfWlDzr5wmssJflP
-         Q7/0wpdfaddrDklyn+StnumDce1EjndQCMnycxNfCePugNPSwGmKdsbYTGPaVsk4iVWG
-         aJBSYMED/iP4TGcwyV/Zh8KPz1BT7KSwJyxL2VH9GRhQZYj1MSGmokU8FNO2Hh0u14eo
-         hB4KIARcpYm9CF/8wc/KeFQ7/Z+zYH9NBHN5JFAljXVAAgHRUmZVsBqCl6DZX7MiB8Pg
-         BvUJZp0eKnybbCqgwjAga/JUTtjf0yM7DxkA2+bntRqsNN2hsu9S+0vrhZkU7e68L7uY
-         1oqw==
-X-Forwarded-Encrypted: i=1; AJvYcCXlqROANUqcDNZrTiKHujKZQDhiqxyOsdvS8F46MkoGBtXynXpnsFrPBwfTra5OorBbLn09aKI5MNGGLzxYFolW/g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzTLz1UeqFO4ztXrfuCG0Hp9WUVnw1P6Wfm6O7Et44/FQh9+MyW
-	AKkEO7O/idqm1eC/NbXl/dvw4/LzmV0pZZRUvhK0uCnfMw7/grynAkmJTm9/9lo=
-X-Gm-Gg: ASbGncuSFxUI2Zwcz6NhfVaeszeYHGNls6yPMqjEMx4fbTiQm6vtfW8fzYAet60sT1J
-	MD/uJD5Olwp+aSuK3XlF6pQDSKBowmfUFFqQgi2ogFxQcuh8ZNxG6awNY78/Kd0eCH4HLfCjACv
-	e8oIB0OvXL+FOO35VY9fEHO4zRkumU6LX3e0JdT8C3oXSJfre5MaN+Hf+g9aeA/7RAUpJtwm5Nr
-	OxJlLbqJyXSiGMv0TGszql4vK9cUqUzSIq+7EyXhqfbgGS1LuwUeLlqLLfqKVVVH9oHJSqk7xa9
-	nEs4oOnwO5ucrRBlYdbIiko1EJadVyMu23ujREv6TxpI4HgeAR+fovjVFCTEtheGcvtGfLTA0dT
-	16aYpqnKRAavCAFtKdDN3wD2eNQZNoL0ALA==
-X-Google-Smtp-Source: AGHT+IHDfUSz1d13X8IOmwlHIUeT1Z7IWVsSDCY/17B2tgLmfHC8s6F5ephsIQ0UH/LIwSRoar0EgA==
-X-Received: by 2002:a05:6000:270d:b0:39c:1257:cd40 with SMTP id ffacd0b85a97d-39c1257d4e5mr11886229f8f.58.1743679179914;
-        Thu, 03 Apr 2025 04:19:39 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4b5f:9de5:8de7:7270? ([2001:8b0:aba:5f3c:4b5f:9de5:8de7:7270])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301b69c4sm1519779f8f.43.2025.04.03.04.19.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 04:19:39 -0700 (PDT)
-Message-ID: <a299f47c16bcac1624099c99d29e84bc13e01d69.camel@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=SRCw0wog;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: joaomarcos.costa@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5736A43225;
+	Thu,  3 Apr 2025 11:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1743679886;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CPiYRU4tpiqdq1Jvd16pS1km5B6sfEAb7JOogxCoWjs=;
+	b=SRCw0wogr/3eOQwU/rkDzZAtHZLlszkw0mBnrk8tN+FF+VpQO+80IhC45yPvZTtg92h0nC
+	3+fHx5G/J4/lfovBH921ZHE5qsQhiUmLNS+68pBL9Js9JxJJuqolO3mcNaG1AYqNjAzQ4P
+	7iTimkNIo8UOnjTg665kNhQXYlzaRhB3LzqOmJLIqXluEwzGOQW8zfts7ZkPgTHHQp0Ulx
+	7RHODlkoS1n6LEiRP8t8lvvNotLuLImOgdz8A57ASZWBUfEC8HuLJyB9SghxXxMibEnokt
+	N7ut2/emyhsR+N40Jjv4oFQGypJiEXvan+VZPpn+U2evRvyxiGZIgP2MNNB2aw==
+Message-ID: <a4816fa9-091a-4fd8-962e-3cb803699395@bootlin.com>
+Date: Thu, 3 Apr 2025 13:31:26 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [scarthgap] multilib_header class: issue with custom
  multilib setup
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joao Marcos Costa <joaomarcos.costa@bootlin.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Thomas Perrot <thomas.perrot@bootlin.com>, Khem Raj
- <raj.khem@gmail.com>,  Alexandre Belloni <alexandre.belloni@bootlin.com>
-Date: Thu, 03 Apr 2025 12:19:36 +0100
-In-Reply-To: <21e0daef-2b05-4c33-afb8-3a45ebd97fbf@bootlin.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Thomas Perrot <thomas.perrot@bootlin.com>, Khem Raj <raj.khem@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>
 References: <5746f47c-7e5d-46f5-b089-c613b7275d2b@bootlin.com>
-	 <6c36d9830745cb739f1dcb968d74a43395117fa1.camel@linuxfoundation.org>
-	 <21e0daef-2b05-4c33-afb8-3a45ebd97fbf@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
-MIME-Version: 1.0
+ <6c36d9830745cb739f1dcb968d74a43395117fa1.camel@linuxfoundation.org>
+ <21e0daef-2b05-4c33-afb8-3a45ebd97fbf@bootlin.com>
+ <a299f47c16bcac1624099c99d29e84bc13e01d69.camel@linuxfoundation.org>
+Content-Language: en-US, fr
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <a299f47c16bcac1624099c99d29e84bc13e01d69.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukeekgeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhohgjtgfgsehtkeertddtvdejnecuhfhrohhmpeflohgrohcuofgrrhgtohhsucevohhsthgruceojhhorghomhgrrhgtohhsrdgtohhsthgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetkeegfeevtdetkeevjedtffffheekveffleeuueehledvfeffgffhvedvgfeifeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemtggstgejmeguugdtfeemsgefieelmehflegtvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemtggstgejmeguugdtfeemsgefieelmehflegtvgdphhgvlhhopeglkffrggeimedvrgdtudemtggsudegmeehheeimeejrgdttdemtggstgejmeguugdtfeemsgefieelmehflegtvggnpdhmrghilhhfrhhomhepjhhorghomhgrrhgtohhsrdgtohhsthgrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtoheprhhitghhrghrugdrphhurhguihgvsehlihhnuhigf
+ hhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghrrhhothessghoohhtlhhinhdrtghomhdprhgtphhtthhopehrrghjrdhkhhgvmhesghhmrghilhdrtghomhdprhgtphhtthhopegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhm
+X-GND-Sasl: joaomarcos.costa@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 11:19:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214319
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 11:31:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214320
 
-On Thu, 2025-04-03 at 13:06 +0200, Joao Marcos Costa wrote:
->=20
-> Thanks for your reply.
->=20
-> Even with the cfi suffix set correctly, the actual file raising the=20
-> conflict is the generated template, no the header with the suffix:
->=20
-> file /usr/include/gnu/lib-names-lp64d.h conflicts between attempted=20
-> installs of libcfi-libc6-dev-2.37-r0.riscv64cfi and=20
-> libc6-dev-2.37-r0.riscv64
->=20
-> In my previous mail, I should have pasted this one instead. My bad.
 
-I tried to explain how it should work but I can't do much beyond that.
-The two generated template files should be identical.
 
-Can you share the contents of the two header files so we can see what
-the conflict is?
+On 4/3/25 13:19, Richard Purdie via lists.openembedded.org wrote:
+> On Thu, 2025-04-03 at 13:06 +0200, Joao Marcos Costa wrote:
+>>
+>> Thanks for your reply.
+>>
+>> Even with the cfi suffix set correctly, the actual file raising the
+>> conflict is the generated template, no the header with the suffix:
+>>
+>> file /usr/include/gnu/lib-names-lp64d.h conflicts between attempted
+>> installs of libcfi-libc6-dev-2.37-r0.riscv64cfi and
+>> libc6-dev-2.37-r0.riscv64
+>>
+>> In my previous mail, I should have pasted this one instead. My bad.
+> 
+> I tried to explain how it should work but I can't do much beyond that.
+> The two generated template files should be identical.
+> 
+> Can you share the contents of the two header files so we can see what
+> the conflict is?
+> 
+> Cheers,
+> 
+> Richard
 
-Cheers,
+Most certainly. Here's the standard (i.e., non-cfi) version of it:
 
-Richard
+/* This file is automatically generated.  */
+#ifndef __GNU_LIB_NAMES_H
+# error "Never use <gnu/lib-names-lp64d.h> directly; include 
+<gnu/lib-names.h> instead."
+#endif
+
+#define LD_LINUX_RISCV64_LP64D_SO       "ld-linux-riscv64-lp64d.so.1"
+#define LD_SO                           "ld-linux-riscv64-lp64d.so.1"
+#define LIBANL_SO                       "libanl.so.1"
+#define LIBBROKENLOCALE_SO              "libBrokenLocale.so.1"
+#define LIBCRYPT_SO                     "libcrypt.so.1"
+#define LIBC_MALLOC_DEBUG_SO            "libc_malloc_debug.so.0"
+#define LIBC_SO                         "libc.so.6"
+#define LIBDL_SO                        "libdl.so.2"
+#define LIBGCC_S_SO                     "libgcc_s.so.1"
+#define LIBMVEC_SO                      "libmvec.so.1"
+#define LIBM_SO                         "libm.so.6"
+#define LIBNSL_SO                       "libnsl.so.1"
+#define LIBNSS_COMPAT_SO                "libnss_compat.so.2"
+#define LIBNSS_DB_SO                    "libnss_db.so.2"
+#define LIBNSS_DNS_SO                   "libnss_dns.so.2"
+#define LIBNSS_FILES_SO                 "libnss_files.so.2"
+#define LIBNSS_HESIOD_SO                "libnss_hesiod.so.2"
+#define LIBNSS_LDAP_SO                  "libnss_ldap.so.2"
+#define LIBPTHREAD_SO                   "libpthread.so.0"
+#define LIBRESOLV_SO                    "libresolv.so.2"
+#define LIBRT_SO                        "librt.so.1"
+#define LIBTHREAD_DB_SO                 "libthread_db.so.1"
+#define LIBUTIL_SO                      "libutil.so.1"
+
+And the diff between this header and the CFI one is:
+
+$ diff (...)image/usr/include/gnu/lib-names-lp64d.h 
+(...)libcfi-glibc/2.37/image/usr/include/gnu/lib-names-lp64d.h
+6,7c6,7
+< #define LD_LINUX_RISCV64_LP64D_SO       "ld-linux-riscv64-lp64d.so.1"
+< #define LD_SO                           "ld-linux-riscv64-lp64d.so.1"
+---
+ > #define LD_LINUX_RISCV64_LP64D_CFI_SO   "ld-linux-riscv64-lp64d-cfi.so.1"
+ > #define LD_SO                           "ld-linux-riscv64-lp64d-cfi.so.1"
+
+
+-- 
+Best regards,
+João Marcos Costa
 
