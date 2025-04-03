@@ -1,250 +1,361 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0490C36018
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 20:09:15 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.4850.1743624550502998486
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0FE4C36014
+	for <webhook@archiver.kernel.org>; Thu,  3 Apr 2025 00:37:56 +0000 (UTC)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+ by mx.groups.io with SMTP id smtpd.web10.2394.1743640667866792204
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Apr 2025 13:09:10 -0700
+ Wed, 02 Apr 2025 17:37:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=R0EkE5CC;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5498d2a8b89so217447e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 13:09:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JQYu7IMd;
+ spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-72c03d237a7so154972a34.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 17:37:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743624549; x=1744229349; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1743640667; x=1744245467; darn=lists.openembedded.org;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C8qrQ1aDXHoSuKDbLUaA4mn/uPLKSXDIIgz3aF3HKug=;
-        b=R0EkE5CCj3pSMznociadSdHXutvuVBfZx3bIFo9Lv49fmk0B4EyPCUMKHcINdwHwm2
-         PW9fFzELFtgWQHeDp64Vv+r6m0/tia7TdbtYxfwvs3C0K9jX5LlU5MNgslyz/WBWf9qg
-         H6fzo6b8VbjYX63SB+Uxu8YpcVaR22fXzqwAk40aQJ8uqbd566IS6yrcGM/HTavx3lpi
-         BjcUp+RMY5Ocx6UU4TrnefEPOKmoDEuGpyYiZaPbOaGrtYO4TE7i/taDkBdguODXPUeK
-         kSRyqXho8IXL7hrllzegtugJVYmADfUS+iTE6DhpmQfnvDbMHujGJXwlRqJc23sJ1CSz
-         vrYA==
+        bh=KuSKhtCwhURwdMMUl6Vj42CaGQTtk2SvKYkC4T5hi0U=;
+        b=JQYu7IMdQVBPX38I3dVBsjtsTSsKkIVW9NVg3rYDKiALFtCrQrFmLcadqH6554k71Z
+         OmeyBO5VafMPaqMMT8p1NM4qCSbD8KwDlX9qHXRST1Fg0Wa4P1F9dcRRcmEcW4234MfG
+         Jmy19pD58lRNi3VN50iWBRS+dHm4U4q660L9RWYpcGTldyyI9QzITD3tKCvTTrS/lpU6
+         M76X3qUZffe2PX+ayBSFJDUOkAsf+VIREhKw/xHA7Ux6IduuBnzX4Mnq/9ViPeniCbwk
+         Sq+2uR51e/j9JLcLG0sULuf0csJACrvwflUeJeR19j0A2IlFqFSGP7yORsahUSUMdTNP
+         Xaxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743624549; x=1744229349;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C8qrQ1aDXHoSuKDbLUaA4mn/uPLKSXDIIgz3aF3HKug=;
-        b=PI6WExhm+PPDGbFgI5V89F+VVqAehgzp4cL34NMbYf6to9iDn0zoyb+RlqmcyT3xOm
-         H2ZuvMohqzB6/giwf19KrHmSW8xzJXU21bQ+4oxb6VhPkieKz1hRgTrXcETyu9gDtzlQ
-         coz5AyBhPWVVfr+o0Z8GqQlKBEO3bIkd2C6Gb/eK+Nu7rqUI+Ji/7zP+eMd7E05pGLp1
-         0FxNvSrWcWJ8lga9MmHe/6qPOdbIZy/K8JxTo6oi7SG3rWJat3JoyVhThfDeniYaeVtT
-         /Flif4JQgEldUIKEGSpZAo1B8RLhThpf5p/lgKlf7D9q3/i/GapSiMUnRsrgr+dwx0d/
-         s/lw==
-X-Gm-Message-State: AOJu0YzjtZqLZ5/9PoWsQETBO9hxKK2I3wmbXu87SCPxrZdC6/Qv18Ut
-	E2k0BWn6I7xuTv/jyYJX1C4hXX3xxkyLBJRYsqHVpB4rwMjK1idMCFZl49toSyX/TDMOnSJamWR
-	JvFONsr1OAnt275RI4lknldFe4+8=
-X-Gm-Gg: ASbGncuKCM94i09/l60Iz5lvU9krQZMlFLeFfA/O1EyNUhdw0pTV+5AWOUpDLpx3TtI
-	0bKaQKTyNy35oYGKehxDa4Ghb0BQ/puVn24LhxhDKH7UfrFT/KpeUTZFAxWw+JIxyclBzE/6ljx
-	mCCjHmSLYoRjS4f3Au4qxDJTzW63BLKa1mKSwq9/HlFtMYI+soUSKD1YA=
-X-Google-Smtp-Source: AGHT+IFwn9aJBCZJMp4Cp+ExICM3ubSNfVZAcvB84WTgc24Z0vbYPmVutMxKu4c18xBPNN3+R1q4AqoxKJZiRoQya9Y=
-X-Received: by 2002:a05:6512:2204:b0:54a:f757:f8b3 with SMTP id
- 2adb3069b0e04-54c1d7ff7f0mr22999e87.0.1743624548181; Wed, 02 Apr 2025
- 13:09:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743640667; x=1744245467;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KuSKhtCwhURwdMMUl6Vj42CaGQTtk2SvKYkC4T5hi0U=;
+        b=gDMQAwGXWdQCqbsmpkC2XgXjUSYwsBRYlwLin2+Ss06NRfBBQ2wkXVgX6Wn7UrVlsz
+         9WpZ3PnC+o0/nPWx5GQ2+vyFa0iE3HocMMP67X3Mb3ztycVXw6tjTRiKuQwH3tsYO6Is
+         3BzN6dMdocBfFp1lXO2U7lkWI9Wd8K0kUlGe022mlYGY9CATezM/LKWgd+WMZsQ+Tr0I
+         gulu+amn+GTYdNOZOMVc+yVgtewZSZwoxQw9q8qU7S3jGEUgdOsboZG2cmKDMqFhyCr5
+         A13ej8Jh9fKmkfZe+jOhfuVj6m/uUE9HkL6xn5B7tz9vheTkBc0Pl8LtKJxIo2QtdHJG
+         lfXg==
+X-Gm-Message-State: AOJu0YwVxjzS1GyiVctIeJVegjrnZ50Qjk2e1Xj/0CnbV1ogCJi8dYjR
+	Bq0bvUBIC/JgDRP+lCnbSw9qAHdbTFvzrDG48sp//3D+Zv3aYguY
+X-Gm-Gg: ASbGncvHM4FJrVQu9GGiwCGAtzJRwZaGrKYZCtBLn1IrC7Pzw9hVLNQgLRZkYqRoPRs
+	p52EvcaaNCZpsuN0GhtNW9cwRVXTMeuV3X/UhhmVF8VWzn0aar+Pc3vTQ2LXdvpsLPl4pPe+76p
+	RlP0tLjriD/n33+ektu/uFFFUdRG0RfTADmZo9fh5toJ/LjzPYTH5yjWoFl/+HOPfInUIqOkjxF
+	hHzuIoAqzNvrg+FjI0MnRzX2nxSvQx2+Ck2gLRA/8yTQqYAY3nUPMHAzPrn2TdcYM4skOG8ag8O
+	aFNZUJbyv/t1TLvrLUUd/72j/36bS0s8eB8qnlW4HDV4vVRRfKSZvWNHAaBb9JAt776xHIQtmuk
+	3jx6KQ5xbFosuIiSIYLaoPloQpAMev8TxWe8Euw==
+X-Google-Smtp-Source: AGHT+IGREjyReOg0gTDjfU7ZiOStlQ23H6XtqftsUciF9et5HdnqZaDYu3RTIx2QJUowh5EwQPxyCQ==
+X-Received: by 2002:a05:6830:378a:b0:72b:a465:d955 with SMTP id 46e09a7af769-72c637a5971mr12895208a34.12.1743640666842;
+        Wed, 02 Apr 2025 17:37:46 -0700 (PDT)
+Received: from ?IPV6:2601:646:8201:fd20:259d:91dc:bf30:aea7? ([2601:646:8201:fd20:259d:91dc:bf30:aea7])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72e30529cc5sm38100a34.33.2025.04.02.17.37.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Apr 2025 17:37:46 -0700 (PDT)
+Content-Type: multipart/alternative;
+ boundary="------------LftNGfCXYhAhvu2864Gk0uqI"
+Message-ID: <78779584-17f7-484f-b4d5-b41cb37c777d@gmail.com>
+Date: Wed, 2 Apr 2025 17:37:44 -0700
 MIME-Version: 1.0
-References: <20250402-connman-v1-0-2e4fbbb7caf9@gmail.com> <20250402-connman-v1-4-2e4fbbb7caf9@gmail.com>
- <ebfc8f615d694ab3f0c060ed8d3b5c63b88cb7c8.camel@linuxfoundation.org>
-In-Reply-To: <ebfc8f615d694ab3f0c060ed8d3b5c63b88cb7c8.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 2 Apr 2025 21:08:57 +0100
-X-Gm-Features: AQ5f1JreSizXo4ma5rEdc5XVmxE26Zo-HHMkH03wQHLEuEDg7i1javRdg43kBOc
-Message-ID: <CAO5Uq5T3xN9s5J4EqcQ5+SxmGf-pFWY-w9xrcmufbCNWxuM=1Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH OE-Core 4/5] connman: Add all build options as PACKAGECONFIG
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] meta-qt6 on layerindex
+To: samuli.piippo@gmail.com, martin.jansa@gmail.com
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ Samuli Piippo <samuli.piippo@qt.io>, Tim Orling <ticotimo@gmail.com>,
+ Ross Burton <ross.burton@arm.com>
+References: <CA+chaQcpXOTbbePCjusXgrcR-Y9fk02JOnecFsR2e5B+==x7Eg@mail.gmail.com>
+ <CABXoSoVs_O7At3c+=nM6w=fwgULniKACzu_8AwhZR9iat59UYQ@mail.gmail.com>
+Content-Language: en-US
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CABXoSoVs_O7At3c+=nM6w=fwgULniKACzu_8AwhZR9iat59UYQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Apr 2025 20:09:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214291
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 00:37:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214292
 
-On Wed, Apr 2, 2025 at 8:41=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2025-04-02 at 16:02 +0000, Alex Kiernan via lists.openembedded.or=
-g wrote:
-> > Add all missing build options as PACKAGECONFIG items. Add CONNMAN_FIREW=
-ALL to
-> > select iptables or nftables (one is required).
-> >
-> > Set dns-backend automatically based on systemd-resolved in DISTRO_FEATU=
-RES,
-> > then drop "connman.service: stop systemd-resolved when we use connman" =
-as we
-> > now use connman's systemd-resolved support.
-> >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
-> >  ...vice-stop-systemd-resolved-when-we-use-co.patch | 26 -------
-> >  meta/recipes-connectivity/connman/connman_1.44.bb  | 85 +++++++++++++-=
---------
-> >  2 files changed, 50 insertions(+), 61 deletions(-)
-> >
-> > diff --git a/meta/recipes-connectivity/connman/connman/0001-connman.ser=
-vice-stop-systemd-resolved-when-we-use-co.patch b/meta/recipes-connectivity=
-/connman/connman/0001-connman.service-stop-systemd-resolved-when-we-use-co.=
-patch
-> > deleted file mode 100644
-> > index 4597fe68fcdf6f301247747c52b1d4636ebec631..00000000000000000000000=
-00000000000000000
-> > --- a/meta/recipes-connectivity/connman/connman/0001-connman.service-st=
-op-systemd-resolved-when-we-use-co.patch
-> > +++ /dev/null
-> > @@ -1,26 +0,0 @@
-> > -From 19aff57e4da920d9ca972903582305b4efe81ef3 Mon Sep 17 00:00:00 2001
-> > -From: "Maxin B. John" <maxin.john@intel.com>
-> > -Date: Mon, 12 Jun 2017 16:52:39 +0300
-> > -Subject: [PATCH] connman.service: stop systemd-resolved when we use co=
-nnman
-> > -
-> > -Stop systemd-resolved service when we use connman as network manager.
-> > -
-> > -Upstream-Status: Inappropriate [configuration]
-> > -
-> > -Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > ----
-> > - src/connman.service.in | 1 +
-> > - 1 file changed, 1 insertion(+)
-> > -
-> > -diff --git a/src/connman.service.in b/src/connman.service.in
-> > -index 7376346..79e75d6 100644
-> > ---- a/src/connman.service.in
-> > -+++ b/src/connman.service.in
-> > -@@ -6,6 +6,7 @@ RequiresMountsFor=3D@localstatedir@/lib/connman
-> > - After=3Ddbus.service network-pre.target systemd-sysusers.service
-> > - Before=3Dnetwork.target multi-user.target shutdown.target
-> > - Wants=3Dnetwork.target
-> > -+Conflicts=3Dsystemd-resolved.service
-> > -
-> > - [Service]
-> > - Type=3Ddbus
-> > diff --git a/meta/recipes-connectivity/connman/connman_1.44.bb b/meta/r=
-ecipes-connectivity/connman/connman_1.44.bb
-> > index aa9da070dec1b4aac02019ae9c3158256b534c61..2622a8ebfed0ceec7ac39fc=
-f3ffad76291de5797 100644
-> > --- a/meta/recipes-connectivity/connman/connman_1.44.bb
-> > +++ b/meta/recipes-connectivity/connman/connman_1.44.bb
-> > @@ -12,65 +12,79 @@ LICENSE  =3D "GPL-2.0-only"
-> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1ff87c09e5b7ccc2c=
-4ca7e \
-> >                      file://src/main.c;beginline=3D1;endline=3D20;md5=
-=3D486a279a6ab0c8d152bcda3a5b5edc36"
-> >
-> > -inherit autotools pkgconfig systemd update-rc.d update-alternatives
-> > -
-> >  CVE_PRODUCT =3D "connman connection_manager"
-> >
-> >  DEPENDS  =3D "dbus glib-2.0"
-> >
-> >  SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-> > -           file://0001-connman.service-stop-systemd-resolved-when-we-u=
-se-co.patch \
-> >             file://connman \
-> >             file://0002-resolve-musl-does-not-implement-res_ninit.patch=
- \
-> > -           "
-> > +"
-> >
-> >  SRC_URI[sha256sum] =3D "2be2b00321632b775f9eff713acd04ef21e31fbf388f6e=
-bf45512ff4289574ff"
-> >
-> > +inherit autotools pkgconfig systemd update-rc.d update-alternatives
-> > +
-> > +RDEPENDS:${PN} =3D "${@bb.utils.contains('PACKAGECONFIG', 'wifi', '${W=
-IRELESS_DAEMON}', '', d)}"
-> >  RRECOMMENDS:${PN} =3D "connman-conf"
-> > -RCONFLICTS:${PN} =3D "networkmanager"
-> >
-> >  EXTRA_OECONF +=3D "\
-> > -    ac_cv_path_WPASUPPLICANT=3D${sbindir}/wpa_supplicant \
-> > -    ac_cv_path_PPPD=3D${sbindir}/pppd \
-> > -    --enable-debug \
-> > -    --enable-loopback \
-> > -    --enable-ethernet \
-> > +    --enable-datafiles \
-> >      --enable-tools \
-> > -    --disable-polkit \
-> > -    --runstatedir=3D/run \
-> > +    --runstatedir=3D'${runtimedir}' \
-> > +    --with-dns-backend=3D'${@bb.utils.contains("DISTRO_FEATURES", "sys=
-temd-resolved", "systemd-resolved", "internal", d)}' \
-> > +    ac_cv_path_IP6TABLES_SAVE=3D${sbindir}/ip6tables-save \
-> > +    ac_cv_path_IPTABLES_SAVE=3D${sbindir}/iptables-save \
-> > +    ac_cv_path_PPPD=3D${sbindir}/pppd \
-> > +    ac_cv_path_WPASUPPLICANT=3D${sbindir}/wpa_supplicant \
-> >  "
-> > +
-> >  # For smooth operation it would be best to start only one wireless dae=
-mon at a time.
-> >  # If wpa-supplicant is running, connman will use it preferentially.
-> >  # Select either wpa-supplicant or iwd
-> >  WIRELESS_DAEMON ??=3D "wpa-supplicant"
-> >
-> > -PACKAGECONFIG ??=3D "wispr iptables client\
-> > -                   ${@bb.utils.filter('DISTRO_FEATURES', '3g systemd',=
- d)} \
-> > -                   ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth'=
-, 'bluez', '', d)} \
-> > -                   ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'wi=
-fi ${WIRELESS_DAEMON}', '', d)} \
-> > +# Choose "iptables" or "nftables"
-> > +CONNMAN_FIREWALL ??=3D "iptables"
-> > +
-> > +# Default is 16kB
-> > +CONNMAN_STATS_MAX_FILE_SIZE =3D "16384"
-> > +
-> > +PACKAGECONFIG ??=3D "client ethernet loopback wispr ${CONNMAN_FIREWALL=
-} \
-> > +                   ${@bb.utils.filter('DISTRO_FEATURES', '3g bluetooth=
- nfc polkit selinux systemd usbgadget wifi', d)} \
-> > +                   ${@bb.utils.filter('WIRELESS_DAEMON', 'iwd', d)} \
-> >  "
-> >
-> > -# If you want ConnMan to support VPN, add following statement into
-> > -# local.conf or distro config
-> > -# PACKAGECONFIG:append:pn-connman =3D " openvpn vpnc l2tp pptp"
-> > -
-> > -PACKAGECONFIG[systemd] =3D "--with-systemdunitdir=3D${systemd_system_u=
-nitdir}/ --with-tmpfilesdir=3D${sysconfdir}/tmpfiles.d/,--with-systemdunitd=
-ir=3D'' --with-tmpfilesdir=3D''"
-> > -PACKAGECONFIG[wifi] =3D "--enable-wifi, --disable-wifi"
-> > -PACKAGECONFIG[bluez] =3D "--enable-bluetooth, --disable-bluetooth, blu=
-ez5, bluez5"
-> > -PACKAGECONFIG[3g] =3D "--enable-ofono, --disable-ofono, ofono, ofono"
-> > -PACKAGECONFIG[wpa-supplicant] =3D ",,wpa-supplicant,wpa-supplicant"
-> > -PACKAGECONFIG[iwd] =3D "--enable-iwd,--disable-iwd,,iwd"
-> > -PACKAGECONFIG[tist] =3D "--enable-tist,--disable-tist,"
-> > -PACKAGECONFIG[openvpn] =3D "--enable-openvpn --with-openvpn=3D${sbindi=
-r}/openvpn,--disable-openvpn,,openvpn"
-> > -PACKAGECONFIG[vpnc] =3D "--enable-vpnc --with-vpnc=3D${sbindir}/vpnc,-=
--disable-vpnc,,vpnc"
-> > +PACKAGECONFIG[3g] =3D "--enable-ofono,--disable-ofono,ofono"
-> > +PACKAGECONFIG[bluetooth] =3D "--enable-bluetooth,--disable-bluetooth,b=
-luez5,bluez5"
-> > +PACKAGECONFIG[client] =3D "--enable-client,--disable-client,readline"
-> > +PACKAGECONFIG[dundee] =3D "--enable-dundee,--disable-dundee"
-> > +PACKAGECONFIG[ethernet] =3D "--enable-ethernet,--disable-ethernet"
-> > +PACKAGECONFIG[hh2serial-gps] =3D "--enable-hh2serial-gps,--disable-hh2=
-serial-gps"
-> > +PACKAGECONFIG[iospm] =3D "--enable-iospm,--disable-iospm"
-> > +PACKAGECONFIG[iptables] =3D ",,iptables,iptables,nftables"
->
-> Typo above which adds nftables to the build and breaks it since
-> nftables isn't in core.
->
+This is a multi-part message in MIME format.
+--------------LftNGfCXYhAhvu2864Gk0uqI
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Argh... thank you. Of course I generated almost the entire list from
-sed/awk across the configure.ac (and then walked through the deps),
-but not iptables/nftables :| Will get an update out in the morning.
 
---=20
-Alex Kiernan
+On 4/2/25 12:37 AM, Samuli Piippo via lists.openembedded.org wrote:
+> It would be great if I were able to, as the layer maintainer, add the 
+> needed branch mappings to the layerindex.
+> So far, Tim has been the one to update those.
+>
+> scarthgap -> 6.8
+> styhead -> 6.9
+>
+> If Tim or other admin could add these branch mappings, that would be 
+> great.
+> The mapping can be added from admin view: Layer branches › Add layer 
+> branch
+> AFAIK, only Branch and Actual Branch values need to be set up.
+> Once there is a layer branch set up, it appears, I also have access 
+> rights to modify it.
+
+What do the mappings look like, in any release there are multiple QT 
+releases that are supported. LTS releases might make less combinations 
+to map, how do these maps look when these branches become old but yocto 
+release branch it is pointing to is LTS. There are many permutations and 
+combinations.
+
+
+>
+> -samuli
+>
+>
+>
+> On Tue, 1 Apr 2025 at 13:07, Martin Jansa via lists.openembedded.org 
+> <http://lists.openembedded.org> 
+> <martin.jansa=gmail.com@lists.openembedded.org> wrote:
+>
+>     Hi,
+>
+>     some layers on layerindex cannot be correctly parsed because they
+>     depend on meta-qt6 (qt6-layer) and there is no record of scarthgap or
+>     styhead compatible release of meta-qt6 on layerindex.
+>
+>     There are:
+>     https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/
+>     - actual branch 6.5
+>     https://layers.openembedded.org/layerindex/branch/master/layer/meta-qt6/
+>     - actual branch dev
+>
+>     but no
+>     https://layers.openembedded.org/layerindex/branch/styhead/layer/meta-qt6/
+>     https://layers.openembedded.org/layerindex/branch/scarthgap/layer/meta-qt6/
+>
+>     which causes e.g.:
+>
+>     ERROR: Issues found on branch styhead:
+>         meta-luneos: Failed to add since LAYERDEPENDS [meta-luneui ...] is
+>     not satisfied
+>         meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer ...] is
+>     not satisfied
+>     ERROR: Issues found on branch scarthgap:
+>         meta-luneos: Failed to add since LAYERDEPENDS [meta-luneui ...] is
+>     not satisfied
+>         meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer ...] is
+>     not satisfied
+>
+>     and there will be more once meta-webosose parsing is fixed.
+>
+>     Is Tim the only person who can help with some admin changes on
+>     layerindex? RP suggested to ask Ross as well.
+>
+>     I have admin rights to publish new layers (and edit all existing
+>     layers), but cannot delete wrongly created ones (or their mapping) and
+>     I'm not sure how to add a new mapping (e.g. add scarthgap and styhead
+>     release for meta-qt6 by using actual branch 'dev' or '6.8').
+>
+>     meta-qt6 dev, 6.9 and 6.8 branches have:
+>     LAYERSERIES_COMPAT_qt6-layer = "kirkstone langdale mickledore nanbield
+>     scarthgap styhead walnascar"
+>     6.7 doesn't have walnascar
+>     6.6 and 6.5 (currently used for kirkstone) have:
+>     LAYERSERIES_COMPAT_qt6-layer = "dunfell gatesgarth hardknott honister
+>     kirkstone langdale mickledore nanbield scarthgap"
+>
+>     maybe even
+>     https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/
+>     which is currently using actual branch 6.5 should be bumped to 6.8 as
+>     well.
+>
+>     Cheers,
+>
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#214227):https://lists.openembedded.org/g/openembedded-core/message/214227
+> Mute This Topic:https://lists.openembedded.org/mt/112022134/1997914
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+-- 
+-Khem
+
+--------------LftNGfCXYhAhvu2864Gk0uqI
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 4/2/25 12:37 AM, Samuli Piippo via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CABXoSoVs_O7At3c+=nM6w=fwgULniKACzu_8AwhZR9iat59UYQ@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr">
+          <div>It would be great if I were able to, as the layer
+            maintainer, add the needed branch mappings to the
+            layerindex.</div>
+          <div>So far, Tim has been the one to update those.</div>
+          <div><br>
+          </div>
+          <div>scarthgap -&gt; 6.8</div>
+          <div>styhead -&gt; 6.9</div>
+          <div><br>
+          </div>
+          <div>If Tim or other admin could add these branch mappings,
+            that would be great.</div>
+          <div>The mapping can be added from admin view: Layer branches
+            › Add layer branch</div>
+          <div>AFAIK, only Branch and Actual Branch values need to be
+            set up.</div>
+          <div>Once there is a layer branch set up, it appears, I also
+            have access rights to modify it.</div>
+        </div>
+      </div>
+    </blockquote>
+    <p>What do the mappings look like, in any release there are multiple
+      QT releases that are supported. LTS releases might make less
+      combinations to map, how do these maps look when these branches
+      become old but yocto release branch it is pointing to is LTS.
+      There are many permutations and combinations.<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CABXoSoVs_O7At3c+=nM6w=fwgULniKACzu_8AwhZR9iat59UYQ@mail.gmail.com">
+      <div dir="ltr">
+        <div dir="ltr">
+          <div><br>
+          </div>
+          <div>-samuli</div>
+          <div><br>
+          </div>
+          <div><br>
+          </div>
+        </div>
+        <br>
+        <div class="gmail_quote gmail_quote_container">
+          <div dir="ltr" class="gmail_attr">On Tue, 1 Apr 2025 at 13:07,
+            Martin Jansa via <a href="http://lists.openembedded.org"
+              moz-do-not-send="true">lists.openembedded.org</a>
+            &lt;martin.jansa=<a
+              href="mailto:gmail.com@lists.openembedded.org"
+              moz-do-not-send="true" class="moz-txt-link-freetext">gmail.com@lists.openembedded.org</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class="gmail_quote"
+style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br>
+            <br>
+            some layers on layerindex cannot be correctly parsed because
+            they<br>
+            depend on meta-qt6 (qt6-layer) and there is no record of
+            scarthgap or<br>
+            styhead compatible release of meta-qt6 on layerindex.<br>
+            <br>
+            There are:<br>
+            <a
+href="https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/"
+              rel="noreferrer" target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/</a><br>
+            - actual branch 6.5<br>
+            <a
+href="https://layers.openembedded.org/layerindex/branch/master/layer/meta-qt6/"
+              rel="noreferrer" target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">https://layers.openembedded.org/layerindex/branch/master/layer/meta-qt6/</a><br>
+            - actual branch dev<br>
+            <br>
+            but no<br>
+            <a
+href="https://layers.openembedded.org/layerindex/branch/styhead/layer/meta-qt6/"
+              rel="noreferrer" target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">https://layers.openembedded.org/layerindex/branch/styhead/layer/meta-qt6/</a><br>
+            <a
+href="https://layers.openembedded.org/layerindex/branch/scarthgap/layer/meta-qt6/"
+              rel="noreferrer" target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">https://layers.openembedded.org/layerindex/branch/scarthgap/layer/meta-qt6/</a><br>
+            <br>
+            which causes e.g.:<br>
+            <br>
+            ERROR: Issues found on branch styhead:<br>
+                meta-luneos: Failed to add since LAYERDEPENDS
+            [meta-luneui ...] is<br>
+            not satisfied<br>
+                meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer
+            ...] is<br>
+            not satisfied<br>
+            ERROR: Issues found on branch scarthgap:<br>
+                meta-luneos: Failed to add since LAYERDEPENDS
+            [meta-luneui ...] is<br>
+            not satisfied<br>
+                meta-luneui: Failed to add since LAYERDEPENDS [qt6-layer
+            ...] is<br>
+            not satisfied<br>
+            <br>
+            and there will be more once meta-webosose parsing is fixed.<br>
+            <br>
+            Is Tim the only person who can help with some admin changes
+            on<br>
+            layerindex? RP suggested to ask Ross as well.<br>
+            <br>
+            I have admin rights to publish new layers (and edit all
+            existing<br>
+            layers), but cannot delete wrongly created ones (or their
+            mapping) and<br>
+            I'm not sure how to add a new mapping (e.g. add scarthgap
+            and styhead<br>
+            release for meta-qt6 by using actual branch 'dev' or '6.8').<br>
+            <br>
+            meta-qt6 dev, 6.9 and 6.8 branches have:<br>
+            LAYERSERIES_COMPAT_qt6-layer = "kirkstone langdale
+            mickledore nanbield<br>
+            scarthgap styhead walnascar"<br>
+            6.7 doesn't have walnascar<br>
+            6.6 and 6.5 (currently used for kirkstone) have:<br>
+            LAYERSERIES_COMPAT_qt6-layer = "dunfell gatesgarth hardknott
+            honister<br>
+            kirkstone langdale mickledore nanbield scarthgap"<br>
+            <br>
+            maybe even <a
+href="https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/"
+              rel="noreferrer" target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">https://layers.openembedded.org/layerindex/branch/kirkstone/layer/meta-qt6/</a><br>
+            which is currently using actual branch 6.5 should be bumped
+            to 6.8 as<br>
+            well.<br>
+            <br>
+            Cheers,<br>
+            <br>
+            <br>
+            <br>
+          </blockquote>
+        </div>
+      </div>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre wrap="" class="moz-quote-pre">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#214227): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/214227">https://lists.openembedded.org/g/openembedded-core/message/214227</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/112022134/1997914">https://lists.openembedded.org/mt/112022134/1997914</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+    <pre class="moz-signature" cols="72">-- 
+-Khem</pre>
+  </body>
+</html>
+
+--------------LftNGfCXYhAhvu2864Gk0uqI--
 
