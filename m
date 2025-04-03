@@ -1,183 +1,148 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51A73C3600C
-	for <webhook@archiver.kernel.org>; Thu,  3 Apr 2025 16:52:54 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.553.1743699167999417990
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 171E4C3600C
+	for <webhook@archiver.kernel.org>; Thu,  3 Apr 2025 22:21:26 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.8126.1743718877210933308
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Apr 2025 09:52:48 -0700
+ Thu, 03 Apr 2025 15:21:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RDeRCxzo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf3192f3bso11439985e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 09:52:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FXDVT/AB;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: gudni.m.g@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so13704675e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 15:21:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743699166; x=1744303966; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=2uIluiL5ME+32ZVHH1AQxRcXV28XLiJ/Eu63G5T4M2Y=;
-        b=RDeRCxzoo3YBKAsjQGnB2K7JeYHLaBo8wJd4DSitlgm7s7rKvXcjaFpSr1LkQusvAA
-         w7EJKSsYF+eK/Cc4LzXD/X3IOsgFBbmrZr6+104JQmLjzDCZWag5kDe9uojyOme6nL77
-         8NNU+3bYr7Rdj9Yd/r47HW0QcgHxj8RSDNME0=
+        d=gmail.com; s=20230601; t=1743718875; x=1744323675; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9T4N5+KbHUaAi+x6bvXDFumXWx2/Lvcv7VlVSy+oT7A=;
+        b=FXDVT/AB5BEcMz58KRT7+0VcuxXyqx5eQvoKW4dZcj7yZhevUocKRrCkup9fT4vLBC
+         cZ/xs/EIeSNTJTuTd0/09+/Yqdxh67QFNXmgexMkY7/VuvbbQ4H008xd/Ec7oqVwSVlh
+         YJ1iMrnTwYNjyDul4KTAP5opwzZ4aFlSWdg9W4gE6l6x3g3XzUsMMUnJC0Y+Z11xGNQw
+         BSOU2M8EE6hAzxl9ALPSkXLIYValtvNde3D1Q/4VLJ74Dg+ZF/1hqzy4TZIBAfMMuSI5
+         Np++JqpR1im4jv4Z9bjpwGoUCa5zOBTwGuOzG2ypM8l0QQvMHDJjo7Cfqq4lzxc1UwaK
+         Bqhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743699166; x=1744303966;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2uIluiL5ME+32ZVHH1AQxRcXV28XLiJ/Eu63G5T4M2Y=;
-        b=ldg6JLW5BLqsaGNB5nE5Uhqb7Nl8q6/4gW4v6kb6fItDJUX2iuZOM7Mtyo4ZIUpDG6
-         NYKSTkkrud6ZgJryOJKbbpRI34oA3dl/O06+qhMpToZov0Q1XzPtRLj1/QkihwEcKimt
-         2Me/3QJeP6nQzYYkmEofkthcxN/nPTSSsjMom2wDYhi0J5TN1lOXJpbIitGmzbR6swAS
-         +ekmy53rTsa2bMAsIuUjfonMbsZlPPfhf2qgMSnWuwYv7sZevWOCF97fTuIOXDidEo8z
-         bM0n4eour8Pa8AknOea/+efPWeKsalu+pf7cuSG56NY7i9Tw/h2FRpI7zDcsAFUYYbhf
-         cmxA==
-X-Forwarded-Encrypted: i=1; AJvYcCVzW6dVt23HNE8Y+sBMBnFZkLpDQhajX3ct3hVCBqvE5axntakp+rtSMCKMq2H+WiGpqGjHtIGOkI2BVWSQsKApLg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx5cjaj295Tj1gWaa/dlvGRqEu2ibyDfuGX6xkhhU6W8hS03u/p
-	oocSS8owyCKlJaKX99Dx6hijW5c/iKHgfeEu5nh0waLMgBCvhru4nu3ACwVG4iE=
-X-Gm-Gg: ASbGncs3XKdsaMRHmVv6nVuiB2xXoScf6Ejb+h7F20/fe/NY2plhJvx4a1A4ugVHuUR
-	pLcev1fiS/8znp86XYxlGpx9oqC1X2MPlHRVWS/IK32P37xRfESCnvnm90SaH6aNbM/MZI8JLKV
-	hMhOk0kB6P4vD3lK5A7uPOZyxPrN7RrPlR6WH2CVQtzbOUxRT1MWE7jK0c9F+iw7vEXwIwLGx9c
-	IFlvGIyQXZkHDMLtNgtJ7sLjSpfKXMGaF6ea9VRW7uceq8BrqLbM10akyoN2eL+KAWaF5a5F00l
-	CyjSd6SOS8bGL9/+9bEOjTkcHBIXg+QWAFslhXbf2C1oVJGgHuiPrXfmTGbRwPUKoOsObakQsz8
-	4dhMNqerqUNTBT7pREZB1wyAPRh+gedyHew==
-X-Google-Smtp-Source: AGHT+IGGB3JYPCf6rjZDzZ8sVEsMuqVL+JShb3RbTdF/axQIQ7lFWNstC0FHvFw+s8dC/69d9VokpQ==
-X-Received: by 2002:a05:600c:198f:b0:43c:fdbe:4398 with SMTP id 5b1f17b1804b1-43db61dc6f4mr184931985e9.6.1743699166153;
-        Thu, 03 Apr 2025 09:52:46 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4b5f:9de5:8de7:7270? ([2001:8b0:aba:5f3c:4b5f:9de5:8de7:7270])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec366a699sm22877965e9.38.2025.04.03.09.52.45
+        d=1e100.net; s=20230601; t=1743718875; x=1744323675;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9T4N5+KbHUaAi+x6bvXDFumXWx2/Lvcv7VlVSy+oT7A=;
+        b=CGmEP7binwWmF6Ldjs8KEWUJdSBjfzpUEm8E7Uo+eCtb0FcWVB+F0zPuigxdcZYagh
+         eqjnp8QAiFwB3MlYLOr7JbXsI1SnSflalEe1kqyA07Ya2OiloRcL7vRyNwWv+hNFNcDn
+         qeG8gy7R4hJqMd9lwYd9S9eIRwsj6r+2jGa6ut1IE5VH0WtFvapfx311N2wD+koL2MPW
+         M1FoVZdWncUXL3cg1uFCzHftjG1vvszx4kqrjmxwgoQDkMeHoEyatJ2/jBq7Ke5GO75d
+         K9bFZ6ykpIRqQJdaJ2mj1hq0h6siNS8oo+snC4JTDJs9c+pG+4ng6K60gYQyIvPYkhqF
+         b53A==
+X-Gm-Message-State: AOJu0Yw68APCnqWx22y1xHFzHrt5NT7lXweISLrzhhbtpmTf2ncMJUjU
+	tJN4qAWDd9peg7sfh+P6KcROvm1xODQZRExSmgm1VMI2z0QqV/b4j2cjiA==
+X-Gm-Gg: ASbGnctUBfV/paBBztSmLwkOQvICGqjlwU4IQD0xn4TXujp2Qy0qJdodoZpKHKmH/h+
+	6F7s6UycCk/aIUD4DNLn1Lwi7uGByeqh5WacMqyFamJRZfrxwH1YOsimpa6yXlD1ZVfs41FOD0r
+	OP6vohjgqqH20+kAcrNHLTodYaeqgSe6bh9OQTSCWWEAPrZxuzhj/is4YY4Gl+6I8LUh9p+k4Gj
+	R1he+242FU7ja3321q6ZnXTEjL79dnqc5mqaBbM7d6KM9hJuri4nb840/+uOz0qj4lo4DBmoZbx
+	YPvzvL5DBiUMVTpFhdmVsqjKLwq9dkg+w4jq8YsWi3klYEZ87WmLnnMKcw4vJeX9I8WR9w==
+X-Google-Smtp-Source: AGHT+IFOomR/anHRV6NE3hFevN7YdZsYKuwx8gSnxnEP98ZG5KZ9Vb3ERN2nYai54O6llfB6PSIPXQ==
+X-Received: by 2002:a5d:5986:0:b0:391:466f:314e with SMTP id ffacd0b85a97d-39d0de17029mr389767f8f.16.1743718875003;
+        Thu, 03 Apr 2025 15:21:15 -0700 (PDT)
+Received: from localhost.localdomain ([81.15.100.92])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec17b46bbsm32436505e9.36.2025.04.03.15.21.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 09:52:45 -0700 (PDT)
-Message-ID: <352101e120074ee9e08455be1c162f2bc36c4ce7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH OE-Core 0/5] connman: Update for all
- PACKAGECONFIG options, clean up legacy
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Scott Murray <scott.murray@konsulko.com>
-Cc: Alex Kiernan <alex.kiernan@gmail.com>, Jan-Simon
- =?ISO-8859-1?Q?M=F6ller?= <jsmoeller@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org, Ross Burton <ross.burton@arm.com>
-Date: Thu, 03 Apr 2025 17:52:44 +0100
-In-Reply-To: <e5fe985a-9022-00d6-cd92-dd64061fa6d6@konsulko.com>
-References: <20250402-connman-v1-0-2e4fbbb7caf9@gmail.com>
-	 <633bbc8576502d873a8e2a3938a6ae64bc508eb2.camel@linuxfoundation.org>
-	 <CAO5Uq5TWH00ALXtatz8y8Vf9fy4DLpC949ut_UeZhSx3BJKeSA@mail.gmail.com>
-	 <cdcd72e3c0d2490030eb1b00bef5a11b49ebbfcb.camel@linuxfoundation.org>
-	 <e5fe985a-9022-00d6-cd92-dd64061fa6d6@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Thu, 03 Apr 2025 15:21:14 -0700 (PDT)
+From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+Subject: [PATCH] bluez5: upgrade 5.80 -> 5.82
+Date: Thu,  3 Apr 2025 22:21:00 +0000
+Message-ID: <20250403222100.3761090-1-gudni.m.g@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 16:52:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214329
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Apr 2025 22:21:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214330
 
-On Thu, 2025-04-03 at 12:46 -0400, Scott Murray wrote:
-> On Thu, 3 Apr 2025, Richard Purdie wrote:
->=20
-> > On Thu, 2025-04-03 at 07:42 +0100, Alex Kiernan wrote:
-> > > On Wed, Apr 2, 2025 at 8:33=E2=80=AFPM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >=20
-> > > > On Wed, 2025-04-02 at 16:02 +0000, Alex Kiernan via lists.openembed=
-ded.org wrote:
-> > > > > connman has a legacy style, this patch set adds in all the PACKAG=
-ECONFIG
-> > > > > options which the upstream pacakge supports, removes patches whic=
-h are no
-> > > > > longer required, explicitly supports operation alongside systemd-=
-resolved and
-> > > > > reworks the packaging so that PACKAGECONFIG and explicit package =
-selection for
-> > > > > every VPN is no longer required.
-> > > > >=20
-> > > > > Everything up to the final patch should be backward compatible cl=
-eanup of the
-> > > > > existing recipe, with only the final patch reworking the packagin=
-g.
-> > > > >=20
-> > > > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > > > > ---
-> > > > > Alex Kiernan (5):
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connman: Merge .inc into .bb
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connman: Delete patches for gold a=
-nd MIPS binutils fix
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connman: Move ppp from DEPENDS to =
-PACKAGECONFIG
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connman: Add all build options as =
-PACKAGECONFIG
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connman: Rework to avoid splitting=
- into many single binary packages
-> > > > >=20
-> > > > > =C2=A0meta/recipes-connectivity/connman/connman.inc=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 221 ---------------------
-> > > > > =C2=A0...vice-stop-systemd-resolved-when-we-use-co.patch |=C2=A0 =
-26 ---
-> > > > > =C2=A0...ange-visibility-to-default-for-debug-symb.patch |=C2=A0 =
-31 ---
-> > > > > =C2=A0.../connman/connman/no-version-scripts.patch=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 47 -----
-> > > > > =C2=A0meta/recipes-connectivity/connman/connman_1.44.bb=C2=A0 | 1=
-54 +++++++++++++-
-> > > > > =C2=A05 files changed, 147 insertions(+), 332 deletions(-)
-> > > >=20
-> > > > This failed in testing on the first try. I've added:
-> > > >=20
-> > > > diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.=
-bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> > > > index 03f02d14ae8..c5ddea79005 100644
-> > > > --- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> > > > +++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> > > > @@ -6,7 +6,7 @@ LICENSE =3D "MIT"
-> > > > =C2=A0LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=
-=3D3da9cfbcb788c80a0384361b4de20420"
-> > > >=20
-> > > > =C2=A0IMAGE_INSTALL =3D "packagegroup-core-boot packagegroup-core-s=
-sh-openssh packagegroup-self-hosted \
-> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kernel-dev kernel-devsrc connman connman-plu=
-gin-ethernet dhcpcd \
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kernel-dev kernel-devsrc connman dhcpcd \
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tzdata python3-pip perl-misc"
-> > > >=20
-> > > > =C2=A0IMAGE_FEATURES +=3D "x11-base package-management splash"
-> > >=20
-> > > Is keeping all those RPROVIDES (plus doubtless more at this point)
-> > > actually useful? I can see it in the traditional distribution world,
-> > > but for OE-Core it feels mostly redundant to me.
-> >=20
-> > Short term, it will help fix people's builds and give some level of
-> > runtime compatibility. Long term, it would be deadweight we carry. I'm
-> > therefore torn.
-> >=20
-> > I did note that meta-agl ran into a similar issue:
-> >=20
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/55/builds/1250
-> >=20
-> > With the above tweak and the tweaked nftables, the rest of the build
-> > was ok through.
->=20
-> If you're leaning towards taking it, we can adapt in AGL, though I can't
-> guarantee there won't be a brief instance of AB breakage before I push
-> a change.=C2=A0 Overall, I'm a bit ambivalent about removing the split ou=
-t
-> packages.=C2=A0 I understand the desire for simplifying it, but I also se=
-e
-> some benefits to still mirroring what most other distributions do with
-> networkmanager packaging since there still seems to be some interest in
-> attempting to do binary packagefeeds...
+Changelog:
 
-To be honest, I'm torn, I could be persuaded either way.=C2=A0
+    Fix issue with handling BAP state transitions.
+    Fix issue with handling D-Bus interface removal.
+    Fix issue with handling MAP and supported features.
+    Fix issue with handling SDP record for Phonebook Access Client.
+    Fix issue with handling AVRCP PDU parameters length mismatch.
+    Fix issue with handling AVRCP PDU for SetAbsoluteVolume.
+    Fix issue with handling AVDTP bad media transport format.
+    Fix issue with handling support for LL Privacy setting.
 
-I copied more people to collect viewpoionts as well as make them aware
-of the potential breakage.
+Full Changelog: https://github.com/bluez/bluez/compare/5.80...5.82
 
-Cheers,
+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+---
+ .../bluez5/bluez5/0001-bluez5-disable-aics-tests.patch        | 2 +-
+ .../bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch         | 2 +-
+ ...tests-add-a-target-for-building-tests-without-runnin.patch | 4 ++--
+ .../bluez5/{bluez5_5.80.bb => bluez5_5.82.bb}                 | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.80.bb => bluez5_5.82.bb} (95%)
 
-Richard
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
+index e5ece59cec..4e8bd040e9 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
+@@ -1,4 +1,4 @@
+-From 9958e88edf74509faf759099896b37477625913f Mon Sep 17 00:00:00 2001
++From 2140aa879c24dcc9dad7e733c77c1bb212fe1ddf Mon Sep 17 00:00:00 2001
+ From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+ Date: Sun, 30 Mar 2025 02:20:24 +0000
+ Subject: [PATCH] bluez5: disable aics tests
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
+index 90c5ebdcc6..c421d84206 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
+@@ -1,4 +1,4 @@
+-From 0787e67bebbf8492b6c5f03ed816cf881edbea64 Mon Sep 17 00:00:00 2001
++From 8667217e9e7abf6ae50a1bd09dc9f7142a861211 Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <Mingli.Yu@windriver.com>
+ Date: Fri, 24 Aug 2018 12:04:03 +0800
+ Subject: [PATCH] test-gatt: Fix hung issue
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+index ad04a46a36..5492509577 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+@@ -1,4 +1,4 @@
+-From b6438d9e6cd5bdbca05b444ff6d955e5b70dbb2e Mon Sep 17 00:00:00 2001
++From 9d5141cecea46fb3d6f918b11705cf0b6c673bca Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 1 Apr 2016 17:07:34 +0300
+ Subject: [PATCH] tests: add a target for building tests without running them
+@@ -10,7 +10,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 3 insertions(+)
+ 
+ diff --git a/Makefile.am b/Makefile.am
+-index 0821530..e7cefb5 100644
++index dc9a27e..949d7da 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+ @@ -723,6 +723,9 @@ endif
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.80.bb b/meta/recipes-connectivity/bluez5/bluez5_5.82.bb
+similarity index 95%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.80.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.82.bb
+index b7bca4f12d..f8d73444e3 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.80.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.82.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
+ 
+-SRC_URI[sha256sum] = "a4d0bca3299691f06d5bd9773b854638204a51a5026c42b0ad7f1c6cf16b459a"
++SRC_URI[sha256sum] = "0739fa608a837967ee6d5572b43fb89946a938d1c6c26127158aaefd743a790b"
+ 
+ CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
+ 
+-- 
+2.43.0
+
 
