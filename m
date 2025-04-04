@@ -1,130 +1,115 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47C3DC36010
-	for <webhook@archiver.kernel.org>; Fri,  4 Apr 2025 17:04:45 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.2323.1743786274923547842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B917DC36010
+	for <webhook@archiver.kernel.org>; Fri,  4 Apr 2025 18:47:05 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web10.4773.1743792415609924677
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Apr 2025 10:04:35 -0700
+ Fri, 04 Apr 2025 11:46:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D6lCZc8u;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfb6e9031so20450315e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 10:04:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=O10myV8f;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6ecfc7ed0c1so20454316d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 11:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743786273; x=1744391073; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=uMS5hLbAlykAmUbhIRVAEcyAFBrPSK+nqUSTSj+dXkQ=;
-        b=D6lCZc8uWWDA7Iiu26jgRM5X6g8Uz7XzH3doaxra2YiYs1+Oyk/JelljI+CKLh54xe
-         FOE02wsK0NdyLxAAQTVOMc7ivkF0B8RcWIPPzoONh8yR6w4Ufb6COtivbkUpnWe/Ldep
-         CF+rCcJBB5eNSFdZIZWGAKKEO6jKH0FPTmNuo=
+        d=gmail.com; s=20230601; t=1743792414; x=1744397214; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yEJaM1TMikUvF+8P/A629RUfe/AIr0k5GCo8Tx1nMwo=;
+        b=O10myV8foEiJvcQ6/DNj9s6GY9x3VG3G7uEogVtEHZhp3P+RWq/gsAqMgqFEYUUThd
+         P0+qlf/FLI6H5TxKuLE+vGFBuqMLXypEeBXNLz4l8Z/MSXjbxra1ALsYzUTEa6YpDG+6
+         oJ5+LcLXiPZO3t9lNQcNR3WSaJ2vCzKRepVNMPFA9kGeDRUZReL5oGYOnANjL4jK9meC
+         3AFHd8OROrY0i+lazL4vHA2sVW1cXWtUNIOKc8WU4Bmn8Fb8vIZh59tuhRtN7RMjBWcW
+         PoDl9ZaXN+9aZmrjcLXAd/2fbc2pachnfodbi59Sd1ioOyJJCOQrLggTlDAUEjtbhMaq
+         aizw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743786273; x=1744391073;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uMS5hLbAlykAmUbhIRVAEcyAFBrPSK+nqUSTSj+dXkQ=;
-        b=Hj2wsegq3cC46iPQEJgLncudCAjB7+fkwCzseRELcju/FyF7TEguKrVLUFyx/UR9xW
-         m0t9MjNXkcl2royE/pGF04eegw2c4GjQZFZ7HLj90/K+bYPJuDA3CaXkwwwWUyRPaRAM
-         ZPTmyJyK7sYzpc0US9VjmM30+pBCdLvWnbbwvvXnGHSoydNVwS9JECjA7Iz1gyYyZyuc
-         r8ipa+mr2/woJCSMHxMrh07QIHR3SQq0tvtWVL8de/ij9aRpneLUsWFzFmypT1I9AoeA
-         U0GMaRS9WLbg9GzYuAdNKa/9Fbimps5rITiPoDxjUvlfEhEMfPWL3Tp07FyuZF1SebvO
-         VHtg==
-X-Gm-Message-State: AOJu0YzvV1/F4DxhnGl2VS4xtJnl9YZhiQ9QbnvoeoyC3nyjfGVOZx1x
-	TK9PeVSTm4JcFr6KsauwujMe8VSowwwtTpkxBT8iGZBr9hOC9nlq4ZcUzOxAB8r5QypiVZjjVDO
-	1
-X-Gm-Gg: ASbGncuigi8k+v68lEcIhdxS8PE3uuRY1Qwzb+0uIeQu9dJDy8UoTT31YcZ/294Nqri
-	Oaj+4sEUW5cd11y0G+JhqrRT47qGftX5E5U4vCmStcavjF9g5OwQFJGPZ0/ZXQSvjnmfPjG6WrM
-	p3VAMuHjLxGIp6TaSLspdN4LNvaiI0ZmppVX5m+zSeFmZ7jk3uwAoJcQoTdQBK52370IQ8y+naK
-	u/bxU3C/6KCpZ+azJFpSNc8n7VT4YLlrxQLrPJzpkbQCap0wDtQkHTWK2hciR0ELs/uekKOnCIy
-	P8U7/aIykX3cIfQGg4LRbTXrl8Tvk1Z3PFKaRzT+tnbQXlPcbIKcQvCFqg8lnk8ZS8AR5rSyTkc
-	bOZmenAChy8CEKrOi+vUAyya4DrB/+W59efYC++3R1SMf
-X-Google-Smtp-Source: AGHT+IH4rNkx7T4W7AqhWWDy93Zi2cSJ94N0vHhM7b4+hwck9h+dOutqb10j1HRNR5e1Wc+DStPquA==
-X-Received: by 2002:a05:600c:32a9:b0:43c:fd72:f039 with SMTP id 5b1f17b1804b1-43ee0aa35bbmr861755e9.11.1743786272846;
-        Fri, 04 Apr 2025 10:04:32 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ea58:417f:acd4:166c? ([2001:8b0:aba:5f3c:ea58:417f:acd4:166c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec34a75fcsm50184775e9.11.2025.04.04.10.04.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 10:04:31 -0700 (PDT)
-Message-ID: <fb040e65a8a26b619c9215f61fb90d6651df66c2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] breakpseudo: Add demo of breaking pseudo with
- symlink creation
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mark Hatle <mark.hatle@kernel.crashing.org>
-Date: Fri, 04 Apr 2025 18:04:30 +0100
-In-Reply-To: <182E37A83C59199F.9767@lists.openembedded.org>
-References: <182E37A83C59199F.9767@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1743792414; x=1744397214;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yEJaM1TMikUvF+8P/A629RUfe/AIr0k5GCo8Tx1nMwo=;
+        b=PB+qjRgVtaKi6sHceU7Iu8XhN/fzyZL1Oa9H2HS7nwLCIdPyo0tg4wVn1bBiFbh8M/
+         OtA/GdZMLJKya3RPdKAr5FGMnlht5OjQE3XobmUCXaL6Gt48P3kYpI6dwEksmyAaFSvF
+         2TbPk1cC2sLkR/+mX2WUDQhWAG/e7TcbIJ5HZvoBJwRn7QfNZ8i8yLqzDOohNVbtofxw
+         TrwdR2yxB+WESpKmGHfh5jKHdiR2ZWcCcHxEkaeof594khV+Vfn8IkV2mpeW3u/o287j
+         F99OnpMaFw/kHHBEBCNkvC8CWP7D0wzOtFJlG9vWTiYplLgwmZEMPxOCfkrpO3fWMpTx
+         MCFQ==
+X-Gm-Message-State: AOJu0YxianG8sxpbzlLkeBu9RcdG6Ei452IpTCeaMGx6Dl2Uc62hcVUm
+	p+4ubbOykPvRJQsxSeMYjdBGOynYcdL2dHERbPwPIqqm/OEcQNZecEojlBimOfruZzxiQ7icVbF
+	EMp7ok/znwjgIgVpo9lE3QYaMwcg=
+X-Gm-Gg: ASbGncs30N4QTCm1ghdnNWLXQu8wLnk1qkis53IyBeCc3rf4qb4DTFGU9ZcYzZPyzX6
+	hJ8f+T+uI3xCAK9j8R8ePBd2Uw/gp1miq0xepwpBCqyhReNdFd6D/6W8eW/T4XV5Xz6kitdtb0D
+	/952NzksZpuj6GMP4FXMQWr29zXT6gtLABSo5y7v1z1ngZsvGxbOKtKyNa2Hfj
+X-Google-Smtp-Source: AGHT+IHaG/wtgmbnkW7gvPC6Ss3INZXTcJ2BgG6kpPVNCut5GlwMLrNcssTD3PFmbyfnLfR1hBU8jyiP9WaIznRJEQo=
+X-Received: by 2002:a05:6214:2463:b0:6e8:8b11:b6cd with SMTP id
+ 6a1803df08f44-6f0b751b18bmr6018576d6.35.1743792414630; Fri, 04 Apr 2025
+ 11:46:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250327060855.428041-1-rajendra.desai@emerson.com>
+ <CANNYZj8ko8LF8m32CoM2fWTCryTWW_Nwya62K_dpBZqdU_WZZg@mail.gmail.com>
+ <DS0PR10MB79549ADC3C849A2D68F00BDB89A12@DS0PR10MB7954.namprd10.prod.outlook.com>
+ <1830A652FEC6E4D0.25981@lists.openembedded.org> <CANNYZj_xbcvc1VgXe96zYhRj7AvOpou6x4oEHUE+M_Kvhu+8SQ@mail.gmail.com>
+ <DS0PR10MB795478EB553410AF51CB778D89A92@DS0PR10MB7954.namprd10.prod.outlook.com>
+In-Reply-To: <DS0PR10MB795478EB553410AF51CB778D89A92@DS0PR10MB7954.namprd10.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 4 Apr 2025 20:46:43 +0200
+X-Gm-Features: ATxdqUGrKegrgePvTPzICdbU6Duxq7hTQHWJQ2sMkJYEaLB1dRaol_vC7IBXCMo
+Message-ID: <CANNYZj_N5sLT7SMGQdqRnp_kzfGseeJC9vncE8UyVjCuLbi3tA@mail.gmail.com>
+Subject: Re: [EXTERNAL] Re: [OE-core] [PATCH] perl-ptest: copy xconfig data
+ from perl source directory
+To: "Desai, Rajendra" <rajendra.desai@emerson.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 17:04:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214364
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 18:47:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214365
 
-I think I can conceptually see why pseudo is struggling with
-link/renames.
+On Fri, 4 Apr 2025 at 15:15, Desai, Rajendra <rajendra.desai@emerson.com> w=
+rote:
+> I am curious to know why is it important to only use core-image-ptest-per=
+l and not any other images?
+> I tried with core-image-ptest-perl and saw similar compiler issues that y=
+ou mentioned.
+> Also, I am not completely sure how core-image-ptest-perl image is differe=
+nt from core-image-full-cmdline in terms
+> of building perl/perl-ptest recipe and why are we observing different iss=
+ues between the two mentioned images.
+>
+> From what I see, the image core-image-ptest-perl does not include x86_64-=
+poky-linux-gcc
+> compiler unlike the full image that has the compiler installed. Maybe tha=
+t=E2=80=99s the reason we are seeing
+> Can't exec "x86_64-poky-linux-gcc": No such file or directory issues whil=
+e running those tests
+> (as they are XS based tests that require a compiler)?
 
-The reproducer for the problems involves overwriting a given target
-multiple times in parallel, i.e. ln or mv commands in parallel on the
-same target file. At the end there will be one "winner" but while in
-progress, you can't predict which file will eventually win.
+Hello Rajendra,
 
-Thankfully such scenarios are rare in our builds. They imply build
-races and therefore tend to get fixed. That said, we do really want
-pseudo to be robust against such scenarios.
+the reason to use core-image-ptest-perl is that this is the image that
+gets tested by Yocto CI, and that maintainers are using to evaluate
+the patches against ptests. When that image doesn't fail and doesn't
+need fixing, then any patches to address a failure that happens only
+on your side will require investigation from you, ideally even before
+you send the patches: are you configuring perl differently? Are you
+using a different image that has a different set of installed
+packages? I have started this investigation for you, and it took me a
+significant amount of time, so doing the rest of it is on you.
 
-To understand what is going on you have to understand a bit about
-pseudo's internal state. When the system calls "mv A B", we have to
-contact pseudo and:
+Specifically, you first need to get core-image-ptest-perl to fail in
+the same way that this other image fails for you, without this patch.
+Quite likely this means adding gcc or some other dependencies to
+RDEPENDS of the perl-ptest package in the perl recipe. Once you have
+that fail happening, you can apply the patch you sent previously, and
+see if it goes away. Basically the fail is obscured by a missing
+optional gcc dependency, and that is a different problem that should
+be addressed first before we can take the fix.
 
-a) mark both A and B as "might be deleted" in the database.
-b) call the real system mv/rename function call
-c) see what happened, did it succeed?
-d) if so, tell pseudo B was deleted and A is no longer pending deletion
-   and rename it in the database
-e) if not, mark A and B as no longer pending deletion
-
-We need to know about both pending states since something might try and
-access A or B during these steps and whilst that will give us a hint of
-what is happening, we don't know until the process performing the op
-reports back.
-
-We need to have these pending flags as we have to preserve the extra
-info against a given path/inode and ultimately we need to know which
-permissions/ownership to give the final file.
-
-The challenge is this "pending deletion" flag in pseudo. If the
-operation above completes, it clears the flags against B, even if
-multiple processes have a pending deletion against a path. I think this
-is where the current code breaks down, only one client has a pending
-flag and in reality, multiple processes can.
-
-The second issue is that new files clear any pending deletions against
-a path. We have no guarantee that the new file hasn't actually already
-been overwritten.
-
-I can see two ways to resolve this. The first would be to separate
-deletion out to a separate table, so multiple clients can have
-"deletion" pending against a given path. Deletion is keyed to the
-clients already (by client ID).
-
-The second might be to make some ops block on the server side waiting
-for a second operation to follow up from the same client which would
-allow the situation to resolve before anything else continues.
-
-I'm writing this down so we at least have some record of what I think
-is happening, while I sort of understand it, or at least think I do.
-
-Cheers,
-
-Richard
-
+Hope this helps,
+Alex
 
