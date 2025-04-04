@@ -1,92 +1,104 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C19EC36010
-	for <webhook@archiver.kernel.org>; Fri,  4 Apr 2025 10:53:53 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web11.8069.1743764031267026147
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5940BC36010
+	for <webhook@archiver.kernel.org>; Fri,  4 Apr 2025 11:07:43 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web11.8556.1743764853548907073
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Apr 2025 03:53:51 -0700
+ Fri, 04 Apr 2025 04:07:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=DUYn9cyA;
- spf=pass (domain: linaro.org, ip: 209.85.167.51, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5498d2a8b89so2095842e87.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 03:53:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UVm/H0Gy;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6e8fce04655so18699556d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 04:07:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743764029; x=1744368829; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qOJNxVFiFa7Q0FP+8+MNTYlipvEgfoyxS3QA3OOA8HQ=;
-        b=DUYn9cyAY1b3XxV0axEHwYYuQuDaQcBFznB7UDC0xhRGj8sUkHSASKj3judtVRl2vB
-         a5zlrak00Io2sQc9XXkoE9WtF3YbzjLgLA5ciXwj5+fCTQaJ9tHmc98tEE218+uwjGhd
-         TiCRtJU/hpXD9kK3TJzz6E6jbvFVXKNYE+mwFeSp+9OTnugEh95xCh8EuCDHiYyyd3fj
-         BpL+zHu54WqjzO97brKwjlxElDT2ifBXcsxj7kyjaZHpAb54L5kdvu5Ru20hWy8yf1pO
-         NEcYQgG8+1L+Kk9uFlK1DeTvMVYVyf9SIN9MHEnR6sE1whPSiVOv193+xgbJsG3+rtDP
-         JZnw==
+        d=gmail.com; s=20230601; t=1743764852; x=1744369652; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YSFk5toldnmITzw84v1NSb19NfgQzPeeG+odWAseTYY=;
+        b=UVm/H0GyLFqxQnFAaEhgqY+94JMWz1KOY3vEsIAC8LpBgaOMtTqyXL/g+UGKmrbZnt
+         qsraSaWkd5JUF7ag31wbEEBNWOZnJmFe5/L2I3T3gVczt9PvCADZyNvgwQgsGeDvd9jo
+         /9br3ic15vkL3dS87/P7JabrHW9jv27uXpttTQR1dUNYPuRuywR+z/+md6Y18K7t7vZ/
+         czRyZ5mTQqLk97IeEB7VJDy6c4p2hnzdvZk4J7ITGkBPUI5xEesymCY+TjnDNN/AX2Yu
+         jJYRvHsv8tAbRc4HdmA0CZKc5+F4xi8CFhFwNW2Q5ufmJMF+i19nuoh7vjgDf8fHNGb0
+         PApA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743764029; x=1744368829;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qOJNxVFiFa7Q0FP+8+MNTYlipvEgfoyxS3QA3OOA8HQ=;
-        b=RyeJ9zVICUiAj2b7usGxitORAhz/QVsVeXocaK0jWxYXrLruL3BlzlcssZgGELIt+M
-         CXcD8UaL2W9Tw66UbQkL9QE8icQbUKy3U49hpJWLAcZlw6KL9TrFEdcLDBEbj5W0bdPr
-         udrwPBAgbvo1AEWGHeRpEmcwiNa25Jae5cN/Uofx7NuPNTwnYUrNMtu8HQQ2XwjyXILK
-         93SU1cbyyd6NEI6IdPgkiek132SriTsRBKUZJqWxaF5CRDzWKmytJoRx4s6KJ+RHFUnk
-         wAyQl2goBDk9XJw79g4czTySKByavsE74rLFmeloCj9TkIJ3ash+CHTiBSVz9aBcmzRB
-         d6yw==
-X-Gm-Message-State: AOJu0YxzJkIKcBhkn1dOHmmdYiDwvvg9P4uSELOW9r0n3jt3X7Si65c0
-	68jDTa0RJlOvXeY8H2Z+w2A14Uh8zUdJhSqPkfrG5hepTq+5+ysX6EKIrYcij+/SUYzLhZXdbSm
-	TC2A=
-X-Gm-Gg: ASbGncuybiFi5vDIVvS8MqoVw3sJunY1ylDjlp5EQUJYY7YvLHRZTBWpbSp+BwwR24h
-	uq1h1o2I2WW69IrQ7N8yOrCJgMxtBN0JRLmIYtP1ahH/yS2OXXuBlyssZplNa8JjwdnFT1QazsM
-	GIFB8GNVjQ1cjY4oCVmzgQKi1Vj2sLppFTAKWRgZq7UuPfAdOrbMhp5ahP8aDDhBN9WcmqicsOQ
-	NlSAMknHF8PPyIg1pgbqAGCAIj1HUn1FmHdVv2/s/bK2xhDWLmftFBSAPTnqKqLwqy6/nU/5VbN
-	dc1KnNh4ReUe3J7yDLcOwutOYIZON7oAhWdIrwKtADRQTGEohwaib6CxrfZpDyLTX2Y9fZldVcB
-	w/zLlP+m12ed5
-X-Google-Smtp-Source: AGHT+IHIxqDwTwG/MDLCcyuNNhB1kc1wyxpGhG0F/4w3CPXo+9gJQ0/nxh7eiPiOKnTCdO1NUiREuA==
-X-Received: by 2002:a05:6512:e92:b0:549:8d07:ff13 with SMTP id 2adb3069b0e04-54c227ff7f6mr907825e87.51.1743764029210;
-        Fri, 04 Apr 2025 03:53:49 -0700 (PDT)
-Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e635b29sm409356e87.135.2025.04.04.03.53.48
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 03:53:48 -0700 (PDT)
-Date: Fri, 4 Apr 2025 13:53:47 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: AUTOREV with SRCREV_module? (Re: [OE-core] [PATCH] u-boot: set git
- repo branch with SRCBRANCH)
-Message-ID: <Z--6O076mTdeC9JX@nuoska>
-References: <18330E36E620F155.22125@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1743764852; x=1744369652;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YSFk5toldnmITzw84v1NSb19NfgQzPeeG+odWAseTYY=;
+        b=nSOzX5OFS7I9vYuyWNEcgWidvP2sUesPF3BCTD4EiOHJQpnHMbfKwU4Jo00v6SFUfi
+         4MOvoE7HStpMXXlWwrOrTjsMcmCwLoC7K8+Dt/Tp3Z3mSb0MPZNUUvjlSClz8k1xzYwP
+         Mzy0XoQAMMti5dn7YsmvWm3X6XxS57jbqzDYYXUPGhpz1VUmTLu1QtoUlmDeJ+yaXzi6
+         TDX5xCIJ0D/6b0Pb4JenTcG4lLrThijrMGdACxmv68LSnA2xEiURbb0tImDqxTCs2c3V
+         qPRDe9YlTpgI+zev7Cthuh2fLUVBgwTwjEjwvVFviUfVtKY6fTM82XOpYXpqcuaEn3ZM
+         9V/Q==
+X-Gm-Message-State: AOJu0Yxno4ImjcuUefi2jKDz+sGBQppbqDcUtpb8REDEOGdbqnZG1Qxv
+	hgA2EV9EZcZvtaWdwhzfqfA3ZHQH1pAA18gBUeSvYdz4ENfVEqxpDLk11VkYVFPbCIHVvCuBKzb
+	ZgTYl1Ru/l97gQpYASWis9xja1yY=
+X-Gm-Gg: ASbGncuhWeh47RMlHuKB4gZzwXZ1jo0GmGNnyfOcoViIOZQj5a9TtcbkUuTOykji2Qn
+	3Ri6p99DuATN/3uycztvFOPUpXMfp/adM+5Yh5eu0g0ppfmWPp8Ez0Fmg45o0X3LF/sx4lAezXq
+	RsXpIJIpKrDlmOXJgSJI9ak0QzJUqOQ83QrWmzxOUAumnz5KduwQxL8gukAw9I
+X-Google-Smtp-Source: AGHT+IGM2twNynKd321f65J9+ovSF9/Nrvftig1pxoiAC7+btzUNM3C/kAYPqG1bQAisQhrrWX2Sdj1RBvKag6e7vRY=
+X-Received: by 2002:a05:6214:20c2:b0:6d8:9ead:c665 with SMTP id
+ 6a1803df08f44-6f00df52da9mr43701926d6.27.1743764852578; Fri, 04 Apr 2025
+ 04:07:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <18330E36E620F155.22125@lists.openembedded.org>
+References: <18330E36E620F155.22125@lists.openembedded.org> <Z--6O076mTdeC9JX@nuoska>
+In-Reply-To: <Z--6O076mTdeC9JX@nuoska>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 4 Apr 2025 13:07:21 +0200
+X-Gm-Features: ATxdqUFECrSaNkJJMbZzsrGJz6WmHE4-l6rbviHzXLu68yCm0TuVh5OoZulFt0w
+Message-ID: <CANNYZj_rH+zUJ1gVGPQ-MvkAnX6941bWUSKKpYLtOnDboJqgoQ@mail.gmail.com>
+Subject: Re: AUTOREV with SRCREV_module? (Re: [OE-core] [PATCH] u-boot: set
+ git repo branch with SRCBRANCH)
+To: mikko.rapeli@linaro.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 10:53:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214340
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 11:07:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214341
 
-Hi,
+I have to note that poky-bleeding is not tested in any way, so you
+probably first want to stop using it, or otherwise propose a test
+plan.
 
-poky-bleeding.bbclass only changes main SRCREV to AUTOREV
-but not SRCREV_module etc variables.
+Alex
 
-How could support for setting all SRCREV_module variables
-be implemented?
-
-I tried to grep for some clues how to get all SRCREV_*
-variables and change them, but didn't find any.
-I think this should be rather simple.
-
-Code only needs to find all SRCREV_* variables
-and change them to AUTOREV. I'm missing something to
-find examples of this...
-
-Cheers,
-
--Mikko
+On Fri, 4 Apr 2025 at 12:53, Mikko Rapeli via lists.openembedded.org
+<mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
+>
+> Hi,
+>
+> poky-bleeding.bbclass only changes main SRCREV to AUTOREV
+> but not SRCREV_module etc variables.
+>
+> How could support for setting all SRCREV_module variables
+> be implemented?
+>
+> I tried to grep for some clues how to get all SRCREV_*
+> variables and change them, but didn't find any.
+> I think this should be rather simple.
+>
+> Code only needs to find all SRCREV_* variables
+> and change them to AUTOREV. I'm missing something to
+> find examples of this...
+>
+> Cheers,
+>
+> -Mikko
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#214340): https://lists.openembedded.org/g/openembedded-core/message/214340
+> Mute This Topic: https://lists.openembedded.org/mt/112082024/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
