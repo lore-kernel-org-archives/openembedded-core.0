@@ -1,82 +1,130 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C29AC3601A
-	for <webhook@archiver.kernel.org>; Fri,  4 Apr 2025 16:55:55 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.2098.1743785748286956970
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47C3DC36010
+	for <webhook@archiver.kernel.org>; Fri,  4 Apr 2025 17:04:45 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.2323.1743786274923547842
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Apr 2025 09:55:48 -0700
+ Fri, 04 Apr 2025 10:04:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YSLcU3hg;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1CB63442FF;
-	Fri,  4 Apr 2025 16:55:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1743785746;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8987IfBtqhQyXXHTKknFzXAiq8NOdheGtEhLSwVlZFo=;
-	b=YSLcU3hgFd7JdXuNCO9PsQ8K3BJq0iSGy2G9cFkztNVQC0yX32X0kFpGkab7Zk1COxiD34
-	28xq/BQhZlKlD0zHvh1KBJY+tDIn2Un+0tkzKTUJfg4oKBow3OLzB+jG5vrBc1nQeo2tu8
-	jL23qUbO7212Lx5QE/ihq04aZGqTo+wf7p8C7IkOtzk0R7C8uHA1ypeUyMEmMsItJhzp5c
-	bZWT5Np/mLVMtWEA1OE1hUt7HGwRlLTGqdq6Q9rpNmMoGUQj7UZqL1KUyKetJEZtw8nOnP
-	2udKSSgd0pfzLXngs0RixoJck1k/SjGz8irTKt9TylaolM/4B1dF3P165IzP1Q==
-Mime-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D6lCZc8u;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfb6e9031so20450315e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 10:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1743786273; x=1744391073; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=uMS5hLbAlykAmUbhIRVAEcyAFBrPSK+nqUSTSj+dXkQ=;
+        b=D6lCZc8uWWDA7Iiu26jgRM5X6g8Uz7XzH3doaxra2YiYs1+Oyk/JelljI+CKLh54xe
+         FOE02wsK0NdyLxAAQTVOMc7ivkF0B8RcWIPPzoONh8yR6w4Ufb6COtivbkUpnWe/Ldep
+         CF+rCcJBB5eNSFdZIZWGAKKEO6jKH0FPTmNuo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743786273; x=1744391073;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uMS5hLbAlykAmUbhIRVAEcyAFBrPSK+nqUSTSj+dXkQ=;
+        b=Hj2wsegq3cC46iPQEJgLncudCAjB7+fkwCzseRELcju/FyF7TEguKrVLUFyx/UR9xW
+         m0t9MjNXkcl2royE/pGF04eegw2c4GjQZFZ7HLj90/K+bYPJuDA3CaXkwwwWUyRPaRAM
+         ZPTmyJyK7sYzpc0US9VjmM30+pBCdLvWnbbwvvXnGHSoydNVwS9JECjA7Iz1gyYyZyuc
+         r8ipa+mr2/woJCSMHxMrh07QIHR3SQq0tvtWVL8de/ij9aRpneLUsWFzFmypT1I9AoeA
+         U0GMaRS9WLbg9GzYuAdNKa/9Fbimps5rITiPoDxjUvlfEhEMfPWL3Tp07FyuZF1SebvO
+         VHtg==
+X-Gm-Message-State: AOJu0YzvV1/F4DxhnGl2VS4xtJnl9YZhiQ9QbnvoeoyC3nyjfGVOZx1x
+	TK9PeVSTm4JcFr6KsauwujMe8VSowwwtTpkxBT8iGZBr9hOC9nlq4ZcUzOxAB8r5QypiVZjjVDO
+	1
+X-Gm-Gg: ASbGncuigi8k+v68lEcIhdxS8PE3uuRY1Qwzb+0uIeQu9dJDy8UoTT31YcZ/294Nqri
+	Oaj+4sEUW5cd11y0G+JhqrRT47qGftX5E5U4vCmStcavjF9g5OwQFJGPZ0/ZXQSvjnmfPjG6WrM
+	p3VAMuHjLxGIp6TaSLspdN4LNvaiI0ZmppVX5m+zSeFmZ7jk3uwAoJcQoTdQBK52370IQ8y+naK
+	u/bxU3C/6KCpZ+azJFpSNc8n7VT4YLlrxQLrPJzpkbQCap0wDtQkHTWK2hciR0ELs/uekKOnCIy
+	P8U7/aIykX3cIfQGg4LRbTXrl8Tvk1Z3PFKaRzT+tnbQXlPcbIKcQvCFqg8lnk8ZS8AR5rSyTkc
+	bOZmenAChy8CEKrOi+vUAyya4DrB/+W59efYC++3R1SMf
+X-Google-Smtp-Source: AGHT+IH4rNkx7T4W7AqhWWDy93Zi2cSJ94N0vHhM7b4+hwck9h+dOutqb10j1HRNR5e1Wc+DStPquA==
+X-Received: by 2002:a05:600c:32a9:b0:43c:fd72:f039 with SMTP id 5b1f17b1804b1-43ee0aa35bbmr861755e9.11.1743786272846;
+        Fri, 04 Apr 2025 10:04:32 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ea58:417f:acd4:166c? ([2001:8b0:aba:5f3c:ea58:417f:acd4:166c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec34a75fcsm50184775e9.11.2025.04.04.10.04.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 10:04:31 -0700 (PDT)
+Message-ID: <fb040e65a8a26b619c9215f61fb90d6651df66c2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] breakpseudo: Add demo of breaking pseudo with
+ symlink creation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mark Hatle <mark.hatle@kernel.crashing.org>
+Date: Fri, 04 Apr 2025 18:04:30 +0100
+In-Reply-To: <182E37A83C59199F.9767@lists.openembedded.org>
+References: <182E37A83C59199F.9767@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 04 Apr 2025 18:55:45 +0200
-Message-Id: <D8Y0GGHA95CW.28774KM48J5N3@bootlin.com>
-Subject: Re: [OE-core] [PATCH] packagegroup-base.bb: Enable hostapd for WiFi
- SAP configuration
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <quic_bpothuno@quicinc.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250404103901.3644174-1-quic_bpothuno@quicinc.com>
-In-Reply-To: <20250404103901.3644174-1-quic_bpothuno@quicinc.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduleduleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehffellefgveekfeegheejiedutedukeffkeduvdevvddtgefgffffveefgfdvudenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehquhhitggpsghpohhthhhunhhosehquhhitghinhgtrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrv
- geslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 16:55:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214363
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 17:04:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214364
 
-On Fri Apr 4, 2025 at 12:39 PM CEST, Balaji Pothunoori via lists.openembedd=
-ed.org wrote:
-> This change is to enable hostapd for WiFi SAP configurations.
->
-> Signed-off-by: Balaji Pothunoori <quic_bpothuno@quicinc.com>
-> ---
->  meta/recipes-core/packagegroups/packagegroup-base.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/=
-recipes-core/packagegroups/packagegroup-base.bb
-> index cb9d1f07af51..e0a021fc6091 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> @@ -262,6 +262,7 @@ RDEPENDS:packagegroup-base-wifi =3D "\
->      iw \
->      wireless-regdb-static \
->      ${WIRELESS_DAEMON} \
-> +    hostapd \
+I think I can conceptually see why pseudo is struggling with
+link/renames.
 
-Hi,
+The reproducer for the problems involves overwriting a given target
+multiple times in parallel, i.e. ln or mv commands in parallel on the
+same target file. At the end there will be one "winner" but while in
+progress, you can't predict which file will eventually win.
 
-I believe this is not possible, as the hostapd package is not part of
-openembedded-core but meta-openembedded. This change, if it has to be
-made, should be made in meta-openembedded.
+Thankfully such scenarios are rare in our builds. They imply build
+races and therefore tend to get fixed. That said, we do really want
+pseudo to be robust against such scenarios.
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+To understand what is going on you have to understand a bit about
+pseudo's internal state. When the system calls "mv A B", we have to
+contact pseudo and:
+
+a) mark both A and B as "might be deleted" in the database.
+b) call the real system mv/rename function call
+c) see what happened, did it succeed?
+d) if so, tell pseudo B was deleted and A is no longer pending deletion
+   and rename it in the database
+e) if not, mark A and B as no longer pending deletion
+
+We need to know about both pending states since something might try and
+access A or B during these steps and whilst that will give us a hint of
+what is happening, we don't know until the process performing the op
+reports back.
+
+We need to have these pending flags as we have to preserve the extra
+info against a given path/inode and ultimately we need to know which
+permissions/ownership to give the final file.
+
+The challenge is this "pending deletion" flag in pseudo. If the
+operation above completes, it clears the flags against B, even if
+multiple processes have a pending deletion against a path. I think this
+is where the current code breaks down, only one client has a pending
+flag and in reality, multiple processes can.
+
+The second issue is that new files clear any pending deletions against
+a path. We have no guarantee that the new file hasn't actually already
+been overwritten.
+
+I can see two ways to resolve this. The first would be to separate
+deletion out to a separate table, so multiple clients can have
+"deletion" pending against a given path. Deletion is keyed to the
+clients already (by client ID).
+
+The second might be to make some ops block on the server side waiting
+for a second operation to follow up from the same client which would
+allow the situation to resolve before anything else continues.
+
+I'm writing this down so we at least have some record of what I think
+is happening, while I sort of understand it, or at least think I do.
+
+Cheers,
+
+Richard
 
 
