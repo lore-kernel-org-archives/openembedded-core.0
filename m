@@ -1,266 +1,131 @@
-Return-Path: <sam@liddicott.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F0E5C36010
-	for <webhook@archiver.kernel.org>; Fri,  4 Apr 2025 21:00:56 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web11.7821.1743800445602511419
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F02C36010
+	for <webhook@archiver.kernel.org>; Fri,  4 Apr 2025 21:41:16 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.8603.1743802870794286656
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Apr 2025 14:00:46 -0700
+ Fri, 04 Apr 2025 14:41:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@liddicott-com.20230601.gappssmtp.com header.s=20230601 header.b=NMBz6BjF;
- spf=none, err=SPF record not found (domain: liddicott.com, ip: 209.85.208.50, mailfrom: sam@liddicott.com)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5ed1ac116e3so4223748a12.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 14:00:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=liddicott-com.20230601.gappssmtp.com; s=20230601; t=1743800444; x=1744405244; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FDG3Fan3BcUkhlCRcJ/P3tl7JtzvcgoRN8E6F6AZqIk=;
-        b=NMBz6BjFyrLNEhOVgQKN03CSfAZeCYLBt7bDhoaKPkyYPjUrbMvfVjr03Ht75ayZw7
-         4oR6So1T+MphxZs6hMZ0DvK76DC5KmJeB+bwsbTFX03ZoGlwNrd+FadcW14OGHe84M62
-         8ztS3STxrHAC+LFu4hHlNWpS/7wh0+ytAL9yhZJENyscLrmlEu/xtvIiWfd2GjS1Fe4W
-         CDVdeVR8AJyRM3Y9Tz8NFR2lgHqMtfbPyA65UlcwxAtNXqKofbqWxOpYZ2f/SIi9yc9m
-         opH+RWPiiGm/uegGVyHwi56xO2bi9I10uLZcI5oVvTngSThLdLnn7XrYAPRv92ydqpmm
-         W2wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743800444; x=1744405244;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FDG3Fan3BcUkhlCRcJ/P3tl7JtzvcgoRN8E6F6AZqIk=;
-        b=gLiCv8z7fn1BR4JgEsbz1vYQR9PevgevxdZ7a4Gc5I//XNWfvx51m+VnbLFPoitcEE
-         XjMjfQ412QTdB/uvBGRutwMDc45LECeXaPC+S6DSOZpf6Cea99i+doUxgPulIYkYwDX8
-         79QQK3VUDkeN4iFNVneN8LJB2dDChdIRvctjWEkn9U4d/NlEorgn/ZCwtvQzWM6sU5LR
-         /RMua2/xbtPMLQNLR9+JaqEVEDypLMjlDFakH3sbJs/DE5/D0YafCAN3Zpvp9ohXxKTk
-         P1lowtwyiCtZoOIq6Kx3UGf/XyOx3q6/ni4kRdJ8xYcnRkoItud+1LOU2mOsCm3Xm71R
-         4AMA==
-X-Gm-Message-State: AOJu0YzNyRWiLWZ+Dbp5eH1vVUlJEchiBdbA6rrZZcIBC1C0YU76R5rJ
-	H8MYf4DKa2DjyQKzr8nEENg5BnIgzF2RZHopOl6EUPrlWamW+QMn2rR14YLhFbjqgwqoV3nwGgw
-	mwrFDHWJY570tL/hL8DbBVc/LdjZYPoUB0uaz
-X-Gm-Gg: ASbGncuapZsIYO36EdBkoXF6x4ILk622ILDrXh31dScvd0WOvm0l8DRnsIx+E/+2yTs
-	nRih8p1sMZanbbcQQtb73LJ7533LbBy9j6nSuw852kt4IWGRP5RxEolDlF6se0ogHmtr8oJYtIV
-	BeyyTD5ZzIHezOCdyIqo3ZWCKDvOnwhFKUYLJz0P+yqJrsFRdjatwo+Yz5FHW1wG9H4cXvfA==
-X-Google-Smtp-Source: AGHT+IHbIh9ctdSOUZiq+yjI4qI8DiVoU+r+NFZkWVpTD6vE2RmJysd/XZT9PTBCODzjJoy4kwefZhIo9Cpsm6yr9CU=
-X-Received: by 2002:a05:6402:510e:b0:5e6:17d7:9a32 with SMTP id
- 4fb4d7f45d1cf-5f0b3bc912bmr3070546a12.18.1743800443323; Fri, 04 Apr 2025
- 14:00:43 -0700 (PDT)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=MlBgO9OY;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202504042141079d76ddf6feacc268e6-lhzpqb@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202504042141079d76ddf6feacc268e6
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 04 Apr 2025 23:41:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=NgL3wukCxp8/6ObDP26vOHD4gAiQU0zRlUoYdmjFH2s=;
+ b=MlBgO9OYRJ20ZJj7cSWY0IWFuGYGKM5YaHAu3nrhyujsMfiUHWRdbt3rRN5zPm61oCu0VJ
+ sWflwa1jNCCykEqI1f3QsG8DAjOSFYZECNswQIefSVBtYsGZvaYMX/VRQeGL/DCniaTWJuMw
+ C1jt4S54VOXsGokIPbc0pOXYWx3wkMP9nn+XtQvwwHLfhcGp2f2b2ASQTqFYBO1+CINORf06
+ mc7pzz4/Sp4K8nk7xTf6FY9zbmOp3UJ583dEf25/cEC8pp09rztyjOwf5ksb1Xzr/yi+xfk6
+ hgWCJJnQXl3UJK0MwgusM6kscOvHn5JdU/qU8VQ5T1SHs1NvQPSTbP8A==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] ofono: patch CVE-2024-7537
+Date: Fri,  4 Apr 2025 23:40:15 +0200
+Message-Id: <20250404214015.2829921-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <182E37A83C59199F.9767@lists.openembedded.org> <fb040e65a8a26b619c9215f61fb90d6651df66c2.camel@linuxfoundation.org>
-In-Reply-To: <fb040e65a8a26b619c9215f61fb90d6651df66c2.camel@linuxfoundation.org>
-From: Sam Liddicott <sam@liddicott.com>
-Date: Fri, 4 Apr 2025 22:00:31 +0100
-X-Gm-Features: ATxdqUF1usOs3qI5rxtmeGQaQJzZgjrTvb11ZFqEvZgyR1XFbala52CCvhh_cig
-Message-ID: <CAOj-5WAJ3ViEfhOAW4xYdDKn0-9LHpfAWGegA-K9xk=Yf72Udg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] breakpseudo: Add demo of breaking pseudo with
- symlink creation
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Mark Hatle <mark.hatle@kernel.crashing.org>
-Content-Type: multipart/alternative; boundary="000000000000fbe7130631fa2d43"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 21:00:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214367
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 21:41:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214368
 
---000000000000fbe7130631fa2d43
-Content-Type: text/plain; charset="UTF-8"
+From: Peter Marko <peter.marko@siemens.com>
 
-Thank-you so much for taking the time to explain that.
+Pick commit
+https://web.git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=e6d8d526d5077c0b6ab459efeb6b882c28e0fdeb
 
-I had no concept of how complicated it was, truly I am a beginner.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../ofono/ofono/CVE-2024-7537.patch           | 59 +++++++++++++++++++
+ meta/recipes-connectivity/ofono/ofono_2.4.bb  |  1 +
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch
 
-It reminds me of this aphorism: oh what a tangled web we weave, when first
-we set out to deceive.
-
-My mind is blown! I will ponder on it.
-
-Maybe unprivileged namespaces with bind mounts and user ID mapping is the
-future, but I think it won't be ready for a few years.
-
-Sam
-
-On Fri, 4 Apr 2025, 18:04 Richard Purdie via lists.openembedded.org,
-<richard.purdie=linuxfoundation.org@lists.openembedded.org> wrote:
-
-> I think I can conceptually see why pseudo is struggling with
-> link/renames.
->
-> The reproducer for the problems involves overwriting a given target
-> multiple times in parallel, i.e. ln or mv commands in parallel on the
-> same target file. At the end there will be one "winner" but while in
-> progress, you can't predict which file will eventually win.
->
-> Thankfully such scenarios are rare in our builds. They imply build
-> races and therefore tend to get fixed. That said, we do really want
-> pseudo to be robust against such scenarios.
->
-> To understand what is going on you have to understand a bit about
-> pseudo's internal state. When the system calls "mv A B", we have to
-> contact pseudo and:
->
-> a) mark both A and B as "might be deleted" in the database.
-> b) call the real system mv/rename function call
-> c) see what happened, did it succeed?
-> d) if so, tell pseudo B was deleted and A is no longer pending deletion
->    and rename it in the database
-> e) if not, mark A and B as no longer pending deletion
->
-> We need to know about both pending states since something might try and
-> access A or B during these steps and whilst that will give us a hint of
-> what is happening, we don't know until the process performing the op
-> reports back.
->
-> We need to have these pending flags as we have to preserve the extra
-> info against a given path/inode and ultimately we need to know which
-> permissions/ownership to give the final file.
->
-> The challenge is this "pending deletion" flag in pseudo. If the
-> operation above completes, it clears the flags against B, even if
-> multiple processes have a pending deletion against a path. I think this
-> is where the current code breaks down, only one client has a pending
-> flag and in reality, multiple processes can.
->
-> The second issue is that new files clear any pending deletions against
-> a path. We have no guarantee that the new file hasn't actually already
-> been overwritten.
->
-> I can see two ways to resolve this. The first would be to separate
-> deletion out to a separate table, so multiple clients can have
-> "deletion" pending against a given path. Deletion is keyed to the
-> clients already (by client ID).
->
-> The second might be to make some ops block on the server side waiting
-> for a second operation to follow up from the same client which would
-> allow the situation to resolve before anything else continues.
->
-> I'm writing this down so we at least have some record of what I think
-> is happening, while I sort of understand it, or at least think I do.
->
-> Cheers,
->
-> Richard
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#214364):
-> https://lists.openembedded.org/g/openembedded-core/message/214364
-> Mute This Topic: https://lists.openembedded.org/mt/111788756/7497305
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> sam@liddicott.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000fbe7130631fa2d43
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Thank-you so much for taking the time to explain that.<di=
-v dir=3D"auto"><br></div><div dir=3D"auto">I had no concept of how complica=
-ted it was, truly I am a beginner.</div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">It reminds me of this aphorism: oh what a tangled web we weave, =
-when first we set out to deceive.=C2=A0</div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">My mind is blown! I will ponder on it.</div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">Maybe unprivileged namespaces with bind moun=
-ts and user ID mapping is the future, but I think it won&#39;t be ready for=
- a few years.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Sam</div><=
-/div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, 4 Apr 2025, 18:04 Richard Purdie via <a href=
-=3D"http://lists.openembedded.org">lists.openembedded.org</a>, &lt;richard.=
-purdie=3D<a href=3D"mailto:linuxfoundation.org@lists.openembedded.org">linu=
-xfoundation.org@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">I think I can conceptually see why pseudo is struggling =
-with<br>
-link/renames.<br>
-<br>
-The reproducer for the problems involves overwriting a given target<br>
-multiple times in parallel, i.e. ln or mv commands in parallel on the<br>
-same target file. At the end there will be one &quot;winner&quot; but while=
- in<br>
-progress, you can&#39;t predict which file will eventually win.<br>
-<br>
-Thankfully such scenarios are rare in our builds. They imply build<br>
-races and therefore tend to get fixed. That said, we do really want<br>
-pseudo to be robust against such scenarios.<br>
-<br>
-To understand what is going on you have to understand a bit about<br>
-pseudo&#39;s internal state. When the system calls &quot;mv A B&quot;, we h=
-ave to<br>
-contact pseudo and:<br>
-<br>
-a) mark both A and B as &quot;might be deleted&quot; in the database.<br>
-b) call the real system mv/rename function call<br>
-c) see what happened, did it succeed?<br>
-d) if so, tell pseudo B was deleted and A is no longer pending deletion<br>
-=C2=A0 =C2=A0and rename it in the database<br>
-e) if not, mark A and B as no longer pending deletion<br>
-<br>
-We need to know about both pending states since something might try and<br>
-access A or B during these steps and whilst that will give us a hint of<br>
-what is happening, we don&#39;t know until the process performing the op<br=
->
-reports back.<br>
-<br>
-We need to have these pending flags as we have to preserve the extra<br>
-info against a given path/inode and ultimately we need to know which<br>
-permissions/ownership to give the final file.<br>
-<br>
-The challenge is this &quot;pending deletion&quot; flag in pseudo. If the<b=
-r>
-operation above completes, it clears the flags against B, even if<br>
-multiple processes have a pending deletion against a path. I think this<br>
-is where the current code breaks down, only one client has a pending<br>
-flag and in reality, multiple processes can.<br>
-<br>
-The second issue is that new files clear any pending deletions against<br>
-a path. We have no guarantee that the new file hasn&#39;t actually already<=
-br>
-been overwritten.<br>
-<br>
-I can see two ways to resolve this. The first would be to separate<br>
-deletion out to a separate table, so multiple clients can have<br>
-&quot;deletion&quot; pending against a given path. Deletion is keyed to the=
-<br>
-clients already (by client ID).<br>
-<br>
-The second might be to make some ops block on the server side waiting<br>
-for a second operation to follow up from the same client which would<br>
-allow the situation to resolve before anything else continues.<br>
-<br>
-I&#39;m writing this down so we at least have some record of what I think<b=
-r>
-is happening, while I sort of understand it, or at least think I do.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#214364): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/214364" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/214364</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/111788756/749=
-7305" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/mt/111788756/7497305</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:sam@liddicott.c=
-om" target=3D"_blank" rel=3D"noreferrer">sam@liddicott.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000fbe7130631fa2d43--
+diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch
+new file mode 100644
+index 0000000000..6e131121f2
+--- /dev/null
++++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch
+@@ -0,0 +1,59 @@
++From e6d8d526d5077c0b6ab459efeb6b882c28e0fdeb Mon Sep 17 00:00:00 2001
++From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
++Date: Sun, 16 Mar 2025 12:26:42 +0200
++Subject: [PATCH] qmi: sms: Fix possible out-of-bounds read
++
++Fixes: CVE-2024-7537
++
++CVE: CVE-2024-7537
++Upstream-Status: Backport [https://web.git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=e6d8d526d5077c0b6ab459efeb6b882c28e0fdeb]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ drivers/qmimodem/sms.c | 13 ++++++++++---
++ 1 file changed, 10 insertions(+), 3 deletions(-)
++
++diff --git a/drivers/qmimodem/sms.c b/drivers/qmimodem/sms.c
++index 3e2bef6e..75863480 100644
++--- a/drivers/qmimodem/sms.c
+++++ b/drivers/qmimodem/sms.c
++@@ -467,6 +467,8 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
++ 	const struct qmi_wms_result_msg_list *list;
++ 	uint32_t cnt = 0;
++ 	uint16_t tmp;
+++	uint16_t length;
+++	size_t msg_size;
++ 
++ 	DBG("");
++ 
++@@ -476,7 +478,7 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
++ 		goto done;
++ 	}
++ 
++-	list = qmi_result_get(result, QMI_WMS_RESULT_MSG_LIST, NULL);
+++	list = qmi_result_get(result, QMI_WMS_RESULT_MSG_LIST, &length);
++ 	if (list == NULL) {
++ 		DBG("Err: get msg list empty");
++ 		goto done;
++@@ -485,6 +487,13 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
++ 	cnt = GUINT32_FROM_LE(list->cnt);
++ 	DBG("msgs found %d", cnt);
++ 
+++	msg_size = cnt * sizeof(list->msg[0]);
+++
+++	if (length != sizeof(list->cnt) + msg_size) {
+++		DBG("Err: invalid msg list count");
+++		goto done;
+++	}
+++
++ 	for (tmp = 0; tmp < cnt; tmp++) {
++ 		DBG("unread type %d ndx %d", list->msg[tmp].type,
++ 			GUINT32_FROM_LE(list->msg[tmp].ndx));
++@@ -498,8 +507,6 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
++ 
++ 	/* save list and get 1st msg */
++ 	if (cnt) {
++-		int msg_size = cnt * sizeof(list->msg[0]);
++-
++ 		data->msg_list = g_try_malloc0(sizeof(list->cnt) + msg_size);
++ 		if (data->msg_list == NULL)
++ 			goto done;
+diff --git a/meta/recipes-connectivity/ofono/ofono_2.4.bb b/meta/recipes-connectivity/ofono/ofono_2.4.bb
+index 5ae63e6ef6..2cf6438117 100644
+--- a/meta/recipes-connectivity/ofono/ofono_2.4.bb
++++ b/meta/recipes-connectivity/ofono/ofono_2.4.bb
+@@ -25,6 +25,7 @@ SRC_URI = "\
+     file://CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch \
+     file://CVE-2023-4232.patch \
+     file://CVE-2023-4235.patch \
++    file://CVE-2024-7537.patch \
+ "
+ SRC_URI[sha256sum] = "93580adc1afd1890dc516efb069de0c5cdfef014415256ddfb28ab172df2d11d"
+ 
 
