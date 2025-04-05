@@ -1,124 +1,140 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8F60C36010
-	for <webhook@archiver.kernel.org>; Sat,  5 Apr 2025 04:56:11 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.1037.1743828968633043811
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 727C3C36010
+	for <webhook@archiver.kernel.org>; Sat,  5 Apr 2025 14:00:44 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.6548.1743861636031197982
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Apr 2025 21:56:08 -0700
+ Sat, 05 Apr 2025 07:00:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EJU8BVeP;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-22435603572so26219285ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Apr 2025 21:56:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Uh+1FvkE;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: gudni.m.g@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43d07ca6a80so15177015e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Apr 2025 07:00:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743828968; x=1744433768; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6UZIgFXC0blEY0LAWCopHJlkHGlAxPvm5j4Hvo+r71Y=;
-        b=EJU8BVePwLgs49mEwaeicUqvVjq/B+vQ8T3uUX/5wZUSVAo9fh6XrPMYo8fIXwb3kj
-         x1lle6wDqo2j+kQB0knQIA+aXJAlS0p5gACP3sc2ZdO1wM5O3WHcqKqEIlDCi4T9n0Fr
-         BjHf+VV+9ez1cQ865YM/hpUhGWMRtDP/5yj6ZJgFIzIVGA2Yc/X3/y16svRRLANDyazq
-         VRjGeCpesGPg+1aN5U/7T9QSa0/zxRfKfyWBI61e2cWMKltUMVcTaUeHz+9qt4iej7EM
-         9fholi9zzGqLBl3Pivb0W5/ElUMUUum1H8Li3xYAxSv+DhdxJXlc+7RJeJynfinoPim0
-         4iKw==
+        d=gmail.com; s=20230601; t=1743861634; x=1744466434; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m1lqLpkgJ02ZqBaHsI63JJYjNyBed6BJDHZvieDD3LA=;
+        b=Uh+1FvkE6MKUTYt/9nrG6nWWORuNhM/fMfQdqWIPeaqXUyEI3TJ4gygbCHMmtaaLGN
+         31w2x/G11Q24uVQxg7mqwSsWt4BVo0YAiaJRN+uEOrtAS5divxXS40sbXIyCo0hlB61J
+         hv5wyzxIpYLiId4+1vvjeee6n6SzJgtZOYPDBNuYhtebizHh5FJi6y0dIOcHUQ9P7UZf
+         Vz/1cQsbXaYxvrdcJHyvW2OQEE0u4anRZa5VCv77uT+QoixOaPYKKOtrX9lP+mgNO3ko
+         kEATMXAtid8HL5T2/QHv2zZl9+V5n15Fen/do/nxIaqzjXxoK+ThqenceBHRBgWnuLMc
+         A1CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743828968; x=1744433768;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6UZIgFXC0blEY0LAWCopHJlkHGlAxPvm5j4Hvo+r71Y=;
-        b=wJCwpRFkJwaUOSeS2iQAXD84nnge/aqlXsXYnxj+97r6dnvvf7xHtufyengJutRo88
-         PRuOdBZUMvHdGYVlA1ImY4bhpmYNKiYSAum16c4pHO6KtptwtinbAWZUNnIGhzHWkAGV
-         TGIPabSO01PqffFsRDfGRmyn4lX0UVvIwA9wnj8T6PTYwfm/sLlroQqs2HidbVPW4ZPL
-         04tpssSpexYm27tZDzUaO/wiBgOGbrZoDcanEgJeAZnqCXR4Og9adGIdR4yLHHFLFESo
-         RNV5FcgeG+wd683Ux+axKYo4g54dKQGoyLsJicJVpQ47nl+02N/vyFFxRhn2BEyyDeWQ
-         /Yvg==
-X-Forwarded-Encrypted: i=1; AJvYcCXyQ5+e2SDknhNglYwXnzDC1vFfvw5Qs3rWtOP4Wl/44g8KoK1c56TDO473iUsiIau6wlkOjJkpESlAas79g4IM2A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxKUGXI5cT5UYFehvER1FTHctjBgI3DW/YpTGlzZTb4RrGDdFiE
-	DVyUcW6KNdF6tDVi91/3FtysXNapz1ir3efS9jG96brU6zjqr1Pi
-X-Gm-Gg: ASbGncs5UWPVjF83b77cg3xHk/1b01APVr6989pc3VibizOn6mvbZk7esriPQwJku31
-	Xeb295GvtSMQLKZYD3aetqUXWdZh73j8p3DfwWZqcS1q1ar5/u+/Ewtpjalt46Tw/Fd5VzEtN8g
-	I1hldpDtf5GrnJ925Ia83uEY5Uz5EHfQF0X7hkmFALLFZZ0fXnQT/NzKrACOpuXo6Om9sD7YoKE
-	hynv633bWwVKbuixGGPLlunqd6DHVT76GwsZGIX5vH/tQ5wb90mXrUeAoCXimYq9xnQ0ZyEj7WB
-	D5PvTfjkVBLRkjdVge3eY4DwZWsYXMrm2E2enMPFcCKkgcM0E25vLRn3zHuD0o7K80/TyvPD/g6
-	B3Yr9TooYOp8jzdbtszrCOwrRns3tIddx
-X-Google-Smtp-Source: AGHT+IHQELulE5r7laVngNFRNirOA+jg0TCR9fmAaCfDrAV9ANXzLk8g0+kU5el/A7S778xURE5UmA==
-X-Received: by 2002:a17:903:1c2:b0:21a:8300:b9d5 with SMTP id d9443c01a7336-22a8a8721damr60563795ad.23.1743828967834;
-        Fri, 04 Apr 2025 21:56:07 -0700 (PDT)
-Received: from ?IPV6:2601:646:8201:fd20:ec3d:c567:e156:a268? ([2601:646:8201:fd20:ec3d:c567:e156:a268])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229787776f8sm41367555ad.256.2025.04.04.21.56.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Apr 2025 21:56:07 -0700 (PDT)
-Message-ID: <4890d1ff-3bdf-40e3-80d0-834339b2b8b0@gmail.com>
-Date: Fri, 4 Apr 2025 21:56:06 -0700
+        d=1e100.net; s=20230601; t=1743861634; x=1744466434;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m1lqLpkgJ02ZqBaHsI63JJYjNyBed6BJDHZvieDD3LA=;
+        b=AwqrWCmQxrqoQJVAm3FVw1edsKQqwNV+laKa2mm+XU22l42d1XUXqvSS57WZfqsuFH
+         EHxdd7zp38T+479MFQXN0/yH8btQtpng6B1xQzSXcRB2Q+TatsDcdclrlYLeP5obS8Lo
+         +1iiiaq258n99Qpy9Yoqizn59hiJvAnNPEh1YCKHCS6RLzKSASTggLecDPkkpY7LHYlg
+         B4Z3g2kUbErOqEM5Ffn1qP12UyUr9gpBPger8wQQAXgeF+PUSXSrOY6E+dihM3fm4K7g
+         BZ39NEKMtD0ctG6mV4uPUmnS73ZjMVyxV/XSfl6zzRSrL+WYCduvYbPhoy1dDl8HwCVy
+         pMzA==
+X-Gm-Message-State: AOJu0YynTPTucZAC9vPPDerbL4C2WWQDSY6eYEOn6OWdn18VbVSFi+xC
+	zFTwPLlPDL73ED+86s+HfG6uQ5ZB7cbTjnMFVQB0heHzxBxtO8L2yG5yxQ==
+X-Gm-Gg: ASbGncuyXWf/9YxX9sCfS5MWvCZT87k2hbKicbZFRvghtwvXgjyyn0KukYbfcQ56ZdS
+	MuiLY7kuQwBQJ5Xx8XgTFmnIA7OZb+kfiDh3EovXIxhIH619vm/DRDb9lCKbndhlOzSamxs/6xg
+	VFzLe0e5IiFHvoIEx2Yxfvl9CpWmeYTArARHKT0JtvJdJZJy9xdlRGPFO1RrOPWCSTdcl1kdBvH
+	m7lsxURGs0c1oXWMCMcFqjzuGC7XgN4hB9j/q7tRPO0bgfgTTWV/owFoHI9L+Ex/py5QA867NeL
+	HGqpxDJCdTPhZaUxe8UJ7gU6+212ydlvYnsqR7+dvitiixDgFuIpXwg8JrTVAlABiz3Gzg==
+X-Google-Smtp-Source: AGHT+IHEjaBKMl3FxixGeHZ/FTVI2aDo8GlCOMUvD1WzIGzT+P4aY7VV5Ze2BV15FXKhsfb/qzo8/w==
+X-Received: by 2002:a05:600c:1e13:b0:43d:abd:ad0e with SMTP id 5b1f17b1804b1-43ecf8e72d6mr67854175e9.18.1743861633717;
+        Sat, 05 Apr 2025 07:00:33 -0700 (PDT)
+Received: from localhost.localdomain ([81.15.100.92])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec16ba978sm77447335e9.23.2025.04.05.07.00.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Apr 2025 07:00:33 -0700 (PDT)
+From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+Subject: [PATCH] bluez5: remove obsolete patch for test-gatt
+Date: Sat,  5 Apr 2025 14:00:22 +0000
+Message-ID: <20250405140022.34070-1-gudni.m.g@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [poky] systemd-systemctl-native broken after update to walnascar
- #poky #yocto
-To: jan.kircher@leica-microsystems.com, poky@lists.yoctoproject.org,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <1HoH.1743770357950104311.rsrM@lists.yoctoproject.org>
-Content-Language: en-US
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1HoH.1743770357950104311.rsrM@lists.yoctoproject.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Apr 2025 04:56:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214372
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Apr 2025 14:00:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214373
 
-On 4/4/25 5:39 AM, Jan Kircher via lists.yoctoproject.org wrote:
-> Hi,
-> 
-> when we upgrade poky to walnascar, our builds fail due to systemd-systemctl-native (please find the log attached).
-> 
-> As a workaround we disabled Werror-nonnull with a simple .bbappend:
-> BUILD_CFLAGS += "-Wno-error=nonnull"
-> 
-> We managed to narrow down the issue to our use of DEBUG_BUILD=1 in local.conf. Images can be built again when we remove it. However, we struggle to solve this issue on our own. Is it possible for anyone to reproduce this issue? Adding DEBUG_BUILD=1 to local.conf should be enough, then bitbake systemd-systemctl-native should fail.
-> 
+The issue is no longer present. Tested BlueZ 5.80 and 5.82
+The issue has likely been gone for quite a while.
 
-I think you have uncovered a systemd bug, I have sent a possible fix 
-upstream, please test it in your scenario and see if it work.
+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 -
+ .../0001-test-gatt-Fix-hung-issue.patch       | 40 -------------------
+ 2 files changed, 41 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
 
-https://github.com/systemd/systemd/pull/37017
-
-I observed few things while looking at your build logs. The failing file 
-is compiled with -O0 by default but when we do a DEBUG_BUILD = "1" it 
-appends -Og -g to compiler flags, -Og != O0 so we are kind of overriding 
-upstream's behavior and thusly it may find problems like this, bigger 
-issue is it is untested path.
-
-Secondly, you observed this problem when compiling a native package, I 
-wonder if there is value in extending DEBUG_BUILD to non-target packages 
-at all unless we want to debug native/nativesdk/cross packages which 
-often is not the case. So maybe we should limit the scope of DEBUG_BUILD 
-to just target packages.
-
-> Greetings,
-> Jan
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#13587): https://lists.yoctoproject.org/g/poky/message/13587
-> Mute This Topic: https://lists.yoctoproject.org/mt/112083239/1997914
-> Mute #poky:https://lists.yoctoproject.org/g/poky/mutehashtag/poky
-> Mute #yocto:https://lists.yoctoproject.org/g/poky/mutehashtag/yocto
-> Group Owner: poky+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/poky/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index bc913cb7cf..7bae968094 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -67,7 +67,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://init \
+            file://run-ptest \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+-           file://0001-test-gatt-Fix-hung-issue.patch \
+            file://0001-bluez5-disable-aics-tests.patch \
+            "
+ S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
+deleted file mode 100644
+index 90c5ebdcc6..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 0787e67bebbf8492b6c5f03ed816cf881edbea64 Mon Sep 17 00:00:00 2001
+-From: Mingli Yu <Mingli.Yu@windriver.com>
+-Date: Fri, 24 Aug 2018 12:04:03 +0800
+-Subject: [PATCH] test-gatt: Fix hung issue
+-
+-The below test hangs infinitely
+-$ unit/test-gatt -p  /robustness/unkown-request -d
+-/robustness/unkown-request - init
+-/robustness/unkown-request - setup
+-/robustness/unkown-request - setup complete
+-/robustness/unkown-request - run
+-  GATT: < 02 17 00                                         ...
+-  bt_gatt_server:MTU exchange complete, with MTU: 23
+-  GATT: > 03 00 02                                         ...
+-  PDU: = 03 00 02                                         ...
+-  GATT: < bf 00
+-
+-Actually, the /robustness/unkown-request test does
+-no action.
+-
+-Upstream-Status: Submitted [https://marc.info/?l=linux-bluetooth&m=153508881804635&w=2]
+-
+-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+----
+- unit/test-gatt.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/unit/test-gatt.c b/unit/test-gatt.c
+-index 1613fbc..25dd614 100644
+---- a/unit/test-gatt.c
+-+++ b/unit/test-gatt.c
+-@@ -4547,7 +4547,7 @@ int main(int argc, char *argv[])
+- 			test_server, service_db_1, NULL,
+- 			raw_pdu(0x03, 0x00, 0x02),
+- 			raw_pdu(0xbf, 0x00),
+--			raw_pdu(0x01, 0xbf, 0x00, 0x00, 0x06));
+-+			raw_pdu());
+- 
+- 	define_test_server("/robustness/unkown-command",
+- 			test_server, service_db_1, NULL,
 -- 
--Khem
+2.43.0
+
 
