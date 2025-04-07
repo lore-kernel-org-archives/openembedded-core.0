@@ -1,128 +1,69 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <sean@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A41E1C36010
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 07:53:57 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.41123.1744012428022684878
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A544BC36010
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 08:00:57 +0000 (UTC)
+Received: from mail-24421.protonmail.ch (mail-24421.protonmail.ch [109.224.244.21])
+ by mx.groups.io with SMTP id smtpd.web11.41191.1744012847772226099
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 00:53:48 -0700
+ Mon, 07 Apr 2025 01:00:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=g/AnRADx;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D8D8344376;
-	Mon,  7 Apr 2025 07:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744012426;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tqm73uAVEf4CYDX6qHz8LuTCLStDAo5Zw5eEQ3QXpVw=;
-	b=g/AnRADxLFfSR+D/pzJOLVRRiD+rXJGbXrv8v2DnPlf+dAqvhwjjpse3gvhSx+Ps99fR0U
-	+7yVWOPiMPOaHUXctR3VEp4V2n0Pi90XrxU7izBAfbmmqiWDDXVovVF4eujXy+wQUzsO8B
-	2tnVAUsVmd9pZxe86LNRgDFOY+c5f9hBmRjo3cVRNLAToPRsDqR1eAFdd9mzgu3ksmfmPW
-	eO3yiPbHw9QmG8CQ7z3W/fL0mNJKQ5Reu7JRzCYr/0QvMCeJKJ1Nie8Zd3vGD1WpJenN8t
-	iuP5l3ocVeXcnYmsvgzmWou8Fddbc2b5BmGCwb2MsfYfNxMEKX5e+ouOIvx8qw==
-Mime-Version: 1.0
+ dkim=pass header.i=@geanix.com header.s=protonmail header.b=WA/nXxc2;
+ spf=pass (domain: geanix.com, ip: 109.224.244.21, mailfrom: sean@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=geanix.com;
+	s=protonmail; t=1744012845; x=1744272045;
+	bh=tLKYCXYNbINLrrV1lbFX6PqI8pIv+S52cSIShO7YjAs=;
+	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
+	 List-Unsubscribe:List-Unsubscribe-Post;
+	b=WA/nXxc2iqwjXGO4Q4g4jA+Sx9wQSEayLAlMx/Cc38WGwnu7V0Wd47RDdps3AeM2p
+	 rJ1sI4rVx+vzuKmmqjHFC9BAAWiowOyCSG5U/mTDIVA11AHslvUloIHgO6cyRqXLss
+	 mJqbMutrTK6kUf8o5TryPhaxSGxXAK7MuVegVDjMH1Mt2hz53TusbtytAs/oIGsOVq
+	 79XSaRrY43TESGXBS0m8S8A6VeSaGWVfEDX6R1uHuthgPUe6VijpdsVdFB+TJjwdFi
+	 HHZ1vP+arokaFdwqWUTDhIgIA0hJCzOQigIl8PXwQCuss6W9/MbpO5wnotsvFhmpfY
+	 eP2J14rZmqRmA==
+Date: Mon, 07 Apr 2025 08:00:39 +0000
+To: openembedded-core@lists.openembedded.org
+From: Sean Nyekjaer <sean@geanix.com>
+Subject: rm_work and populate_sdk
+Message-ID: <geg2j2asa3pqdjo5ah5lpwhh4elgn7djjcdsjm3gfl3olhqtnp@kvdobzw2dmwu>
+Feedback-ID: 134068486:user:proton
+X-Pm-Message-ID: 39a60dd55b826654f9f1069c72d224626080acc2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 07 Apr 2025 09:53:45 +0200
-Message-Id: <D908T3Q0WX31.XYGZX5NGTRL7@bootlin.com>
-Subject: Re: [OE-core] [PATCH v3 00/11] systemd based initrd and modular
- kernel support
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <mikko.rapeli@linaro.org>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
-In-Reply-To: <20250404162932.447699-1-mikko.rapeli@linaro.org>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduleelieefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevvddvhfehgeetgfehteejuedvieevfeehhfeikeehfedvjeelleetjeeigfetieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepmhhikhhkohdrrhgrphgvlhhisehlihhnrghrohdrohhrghdprhgtphhtthhopehop
- hgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 07:53:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214400
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 08:00:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214401
 
-On Fri Apr 4, 2025 at 6:29 PM CEST, Mikko Rapeli via lists.openembedded.org=
- wrote:
-> systemd based initrd supports more security, encryption etc features
-> than custom shell script ones but oe-core lacks support for it.
-> Convert core-image-initramfs-boot to create systemd based initrd
-> if "systemd-initramfs" is set in DISTRO_FEATURES. Includes a test
-> for this initrd to mount rootfs via Unified Kernel Image uki.py.
->
-> Sadly the boot time is really slow, e.g. over 30 seconds with
-> systemd based initrd. One of the major reasons is the large
-> amount of kernel modules built into the linux-yocto kernel and
-> processing of their udev events in userspace. Thus add
-> kernel-initrd-modules meta package to easily install
-> subset of all kernel modules to initrd. The subset
-> supports "mount rootfs from any block device" but
-> doesn't include graphics, UBS etc support. Without this
-> generated meta package, initrd recipe needs to manually define
-> which exact kernel modules to include which breaks if
-> those modules are built into the kernel. Thus the initrd
-> becomes machine and kernel config specific and hard to maintain.
-> With this meta package a generic initrd can be created.
->
-> Separate changes to linux-yocto compile a lot more drivers
-> as modules but they depend on these initrd changes.
->
+Hi all,
 
-Hi Mikko,
+I have enabled rm_work and when building an image it works as I would
+expect.
+But when running populate_sdk for that image, it doesn't look like it's
+running the rm_work task and the disk usage increases.
 
-Thanks for your patch.
+I have tried adding [0] to my image recipe, and it makes a significant
+difference in disk usage.
 
-I believe one of these wic related patches is responsible of some
-oe-selftest failures we can see on the autobuilder:
+Some numbers for reference::
+With sstate and without [0]:
+26G     build/
+With sstate and with [0]:
+18G     build/
+Without sstate and without [0]:
+120G    build/
+Without sstate and with [0]:
+29G     build/
 
-2025-04-06 15:51:49,317 - oe-selftest - INFO - wic.Wic.test_permissions (su=
-bunit.RemotedTestCase)
-2025-04-06 15:51:49,318 - oe-selftest - INFO -  ... FAIL
+Br,
+/Sean
 
-...
-
-ERROR: When reparsing /tmp/selftest-fetchsrayuxoq/test.bb:do_checkuri, the =
-basehash value changed from 84b9e23a83a764e7a5d8a96ee523199e2b1c604f4280a45=
-030e248de0ff52962 to 4123da244f465feffecb2b4fd2b132b64851981ec2fb70bf9445df=
-8b0ea6a69e. The metadata is not deterministic and this needs to be fixed.
-ERROR: The following commands may help:
-ERROR: $ bitbake test -cdo_checkuri -Snone
-ERROR: Then:
-ERROR: $ bitbake test -cdo_checkuri -Sprintdiff
-
-ERROR: When reparsing /tmp/selftest-fetchsrayuxoq/test.bb:do_fetch, the bas=
-ehash value changed from 6d55d6743729b615749dc016857d7e5f9c884a8b92f0d57f68=
-e743f4910333d3 to fa7d6ea0563b60362418d2a6c5e41a6684183d01ec578b65abd0c64a9=
-cfba7cf. The metadata is not deterministic and this needs to be fixed.
-ERROR: The following commands may help:
-ERROR: $ bitbake test -cdo_fetch -Snone
-ERROR: Then:
-ERROR: $ bitbake test -cdo_fetch -Sprintdiff
-
-ERROR: When reparsing /tmp/selftest-fetchsrayuxoq/test.bb:do_unpack, the ba=
-sehash value changed from ae9d94aafc721d891f8754df82ed90da8191357178f3db642=
-21a49d5c1de3bcd to 1ac8f87a71db151b8eb2ae8d13f9a6ea1a0c884ef98555d61d2c2fe0=
-7a476a8a. The metadata is not deterministic and this needs to be fixed.
-ERROR: The following commands may help:
-ERROR: $ bitbake test -cdo_unpack -Snone
-ERROR: Then:
-ERROR: $ bitbake test -cdo_unpack -Sprintdiff
-
-...
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/1391
-
-Can you have a look at this please?
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+[0]:
+addtask do_populate_sdk_and_rmwork after do_populate_sdk
+do_populate_sdk_and_rmwork[recrdeptask] =3D "do_rm_work"
 
 
