@@ -1,49 +1,125 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <fbberton@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E20E8C369A2
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 15:11:51 +0000 (UTC)
-Subject: Re: [PATCH] barebox-tools: fix host contamination on libyaml
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C9CC36010
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 16:02:12 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.51205.1744041731408996495
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 07 Apr 2025 09:02:11 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mF7xYNB9;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: fbberton@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso42476085e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:02:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744041729; x=1744646529; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GqTWFdJ8Gd1irJQ9fbZEyYGuvizJa5b9lnBvgYp+iSU=;
+        b=mF7xYNB9dBBT8VlZm7WiiDNuEE/nqvLies9WjwpH2qZ/p69XpqqeAknm66Kjr9AvON
+         UKPiF0lbuwUBJ1RXPyw2/MZr6MW8/s2UMSE5C2M6BisQNV1aiV5dfLUTQM1k7tfIEAM7
+         DTBj3W/83p/Jsp62GUUjrUqXB9HIAYbqQOZIhLNRlwyGbIzk0IUoilHHRg3VeFs9xbvG
+         lgeowCgoVSBNspW1z8X2of8Zg+EKkVplY5KdO0AFP2MW0/WODvItKUbmUUsLK29EEPKU
+         ePtLx6Hk0Sss2cWshklWOfbbfo+8Fp++iarOmZqw/n1kOKXhAjGBc5EW+gWcKQETvB9T
+         X4FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744041729; x=1744646529;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GqTWFdJ8Gd1irJQ9fbZEyYGuvizJa5b9lnBvgYp+iSU=;
+        b=IE5ymZUUuirpnznDw2ZLVObs1VlpWhsW0GbHJuRnYjjK2IE3IALcltjXEGoa+wwMGv
+         HcVzAyDX6794kqMPJVxl+NSdPQ2Qhblws+MUZoLT6bCpaeB9FRBUqbc/fSLVrrL7cXdV
+         2R/QnNE5WGSaHdOmU2ZUV6aFD9mreME0i/kbClU4biehXA1C3ZH5C98kjoB37mRdd3Sx
+         vbmj7SDMaxWLthYCgShJC/XVNVciFUojf8ZOIp0+wzAUMFacE+AdbZDAuNVjvnMFnN6V
+         bdQ36rXoH9+YPztq+/AADizokPLbGmTyO8ChD/r9eSChw+Rn7rIp1V8YdMzc0g8Hi0mN
+         zH6A==
+X-Gm-Message-State: AOJu0YzlKB0XPRdwnH50srQAt3je1WaupHz2GEfyGUFfCO4hzKkwkd7m
+	JKX2IzByzCVAzf3eiA3SIjM4k3lKCLTJw/WktSm4NMFt/NDIjAGE7XxhmA==
+X-Gm-Gg: ASbGncvQJ2LrJ9Do1bvzmNPfXzVZ1l8DeM29uUKJp2Fn7uYnUWwgHo1fdPQIKi384Lo
+	pXl9Hbe2b9Blit5PXkR/Yjmryna2xBPfIVdNZ9CSivJFWXCI0Dmbdag/9lmNdb2l60dlfx85zer
+	Q6+T39gA/ISsRFLLhDzW3ohVqaayOpb1g/w8LadFDiz7reA1k+dONaAMDW5Il24/apdh7L9+txr
+	VWmpH0hDLCorb9Ikfibfa9XwCu6dPZBo6shQylmlBzoRXytWyxzm5dkXgGQSDjrM1I8rkLt9lOS
+	gnCwcRTISMKGwenFrX0B7YK4BZpZfQTDdyJkPlDOTg==
+X-Google-Smtp-Source: AGHT+IE+IQYk++SrlAcgz0Rfm+AuQG89ofKSyWgdXxNlM+o6vzDbfm3WMltUv9irb3QRPjLx/+nsog==
+X-Received: by 2002:a05:600c:1c07:b0:43d:45a:8fc1 with SMTP id 5b1f17b1804b1-43ecf84287dmr127352115e9.4.1744041729087;
+        Mon, 07 Apr 2025 09:02:09 -0700 (PDT)
+Received: from CTW01359.. ([213.205.68.220])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec34be2ffsm133504015e9.22.2025.04.07.09.02.07
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 09:02:07 -0700 (PDT)
+From: Fabio Berton <fbberton@gmail.com>
 To: openembedded-core@lists.openembedded.org
-From: "hongxu" <hongxu.jia@eng.windriver.com>
-X-Originating-Location: US (147.11.105.171)
-X-Originating-Platform: Linux Firefox 136
-User-Agent: GROUPS.IO Web Poster
+Subject: [PATCH] classes-recipe/image: Add variable to create rootfs with a exact size
+Date: Mon,  7 Apr 2025 17:02:06 +0100
+Message-ID: <20250407160206.2449867-1-fbberton@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Date: Mon, 07 Apr 2025 08:11:47 -0700
-References: <edabd61185beb000ab3f851c47a69b9525254daa.camel@pengutronix.de>
-In-Reply-To: <edabd61185beb000ab3f851c47a69b9525254daa.camel@pengutronix.de>
-Message-ID: <6565.1744038707483095403@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="Afwv1EP0JTcjoUE85lyA"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 15:11:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214458
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 16:02:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214459
 
---Afwv1EP0JTcjoUE85lyA
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Fabio Berton <fabio.berton@criticaltechworks.com>
 
-Sure, refer https://github.com/torvalds/linux/commit/ef8795f3f1ce to clean =
-up yamltree from dtc
+Add the IMAGE_ROOTFS_EXACT_SIZE variable to allow the creation of a root
+filesystem with an exact size as specified by the user. This bypasses
+the default size calculation done by the get_rootfs_size function.
 
-V2 incoming
+This feature is useful for creating a small ext4 filesystem with a block
+size of 1k. The get_rootfs_size function uses a block size of 4k to
+determine the size of IMAGE_ROOTFS, which may be larger than the value
+set in IMAGE_ROOTFS_SIZE. If an ext4 rootfs with a block size of 1K is
+nearly full, the .ext4 file generated by Yocto will be larger than
+expected due to the way get_rootfs_size calculates the size.
 
-//Hongxu
+By using IMAGE_ROOTFS_EXACT_SIZE, users can specify the exact size
+required. Users should ensure that the size is set correctly according
+to the filesystem requirements. It is not easy to predict the block size
+that is used by a filesystem because it can be set by a parameter or it
+can be added automatically by the tool that creates the file system.
 
---Afwv1EP0JTcjoUE85lyA
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Fabio Berton <fabio.berton@criticaltechworks.com>
+---
+ meta/classes-recipe/image.bbclass | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-<div>Sure, refer <a href=3D"https://github.com/torvalds/linux/commit/ef8795=
-f3f1ce" target=3D"_blank" rel=3D"noopener">https://github.com/torvalds/linu=
-x/commit/ef8795f3f1ce</a> to clean up yamltree from dtc</div>
-<div>&nbsp;</div>
-<div>V2 incoming</div>
-<div>&nbsp;</div>
-<div>//Hongxu</div>
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index 378d3bd0d4..419bb6cc14 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -132,7 +132,7 @@ python () {
+ 
+ def rootfs_variables(d):
+     from oe.rootfs import variable_depends
+-    variables = ['IMAGE_DEVICE_TABLE','IMAGE_DEVICE_TABLES','BUILD_IMAGES_FROM_FEEDS','IMAGE_TYPES_MASKED','IMAGE_ROOTFS_ALIGNMENT','IMAGE_OVERHEAD_FACTOR','IMAGE_ROOTFS_SIZE','IMAGE_ROOTFS_EXTRA_SPACE',
++    variables = ['IMAGE_DEVICE_TABLE','IMAGE_DEVICE_TABLES','BUILD_IMAGES_FROM_FEEDS','IMAGE_TYPES_MASKED','IMAGE_ROOTFS_ALIGNMENT','IMAGE_OVERHEAD_FACTOR','IMAGE_ROOTFS_SIZE', 'IMAGE_ROOTFS_EXACT_SIZE', 'IMAGE_ROOTFS_EXTRA_SPACE',
+                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS', 'IMAGE_LINGUAS_COMPLEMENTARY', 'IMAGE_LOCALES_ARCHIVE',
+                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
+                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
+@@ -596,9 +596,14 @@ def get_rootfs_size(d):
+     return base_size
+ 
+ python set_image_size () {
+-        rootfs_size = get_rootfs_size(d)
+-        d.setVar('ROOTFS_SIZE', str(rootfs_size))
+-        d.setVarFlag('ROOTFS_SIZE', 'export', '1')
++    rootfs_size = d.getVar('IMAGE_ROOTFS_EXACT_SIZE')
++    # If IMAGE_ROOTFS_EXACT_SIZE variable is not set, use the result of
++    # get_rootfs_size as ROOTFS_SIZE.
++    if not rootfs_size:
++        rootfs_size = str(get_rootfs_size(d))
++
++    d.setVar('ROOTFS_SIZE', rootfs_size)
++    d.setVarFlag('ROOTFS_SIZE', 'export', '1')
+ }
+ 
+ #
+-- 
+2.49.0
 
---Afwv1EP0JTcjoUE85lyA--
 
