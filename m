@@ -1,121 +1,123 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87189C36010
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 16:49:42 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.52514.1744044580908619094
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C682C36010
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 17:01:12 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web10.53281.1744045271911303523
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 09:49:41 -0700
+ Mon, 07 Apr 2025 10:01:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EHN9G6PD;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3914bc3e01aso2786120f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:49:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cX14uay/;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-6044db3b45bso130313eaf.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 10:01:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744044579; x=1744649379; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=mM6FwrNWx0BVQJdjP/O7YdhUBQPwZAwZj/OyyTIZSAo=;
-        b=EHN9G6PDA4vIWpSBNuFIwO7qfxHgqr3h2tTHDpQYdNB8owj2Hb5DhX2D943wndMFmo
-         t71k4x+HhMEUjlisSTRR5jk1wbSE8nkMcLvVBx4njeGQ8xxAwXr/L7qLt0rN806cRs0r
-         fuB6baNUJn7SgAakArFWUR6sUkEno7s3AL2ziMphaW6NtGE16JeXtstnydsO8Op8oJ3B
-         Mfnpn66zjtY79kfeXUUS3YBgwToSo81sCIX9WFTDeVK5PM3czKj6wCWsrgwvrYj3DsMT
-         bqIaZLePYUicDkDEkCShSKMDCT+qrMacKrnxNv67SXJyHDZOzrJRS/UWsdl4ycUXenRg
-         1dNQ==
+        d=gmail.com; s=20230601; t=1744045271; x=1744650071; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8uZxr7XeCpKIRo7LrHUF84my6MMYng1HsG4J4uTLQ0Q=;
+        b=cX14uay/7XYpgi6AzNKISxgf7K2DLgw27n3X2ZgLZjQvAmTiLpDOteFlbitV4VnkAX
+         l+rO/qhMTMnEwTukmXLIccykwPtevc4h2SA0xPJQOr7eiuzNeMBNdsaVY8a/j8XMk/VJ
+         UtUoBDoUy0A3EWBS10XrsvbGIYNqtn7VO5lktyRgiLsSnAfMskCBJ2O+HLVB6XQwP0oN
+         z0lupCNEb1i/RlkVZoKklD5sckR906pLQGqCDo9xyaWrcLxBsVQPzQSTG7fk/Mdmdp7m
+         mWC1iZimkCzmlcT3Kn5YLgc75yjxUP+rwWTXokZu9oDKBPZAMorQcPZclu27RBpcC0O6
+         vT+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744044579; x=1744649379;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mM6FwrNWx0BVQJdjP/O7YdhUBQPwZAwZj/OyyTIZSAo=;
-        b=s952FalrRQ6zxgKogLb1XNJqcD0Ye1q00QB6if3n+h60T+YvNIv+mj+yppjoEXWeVW
-         zmqMb+mzxz0YOU4GQrZwKouMaDx1ZzthE63dERhKyp5nMb0nAWeV1d9xEne4ufBy8x0C
-         dCyBr8i+lo7DW+ixc02FIzHXN6qGuzA0P5PnNqEeYUv2TVuzQdBjbC0SxabW013dTSLC
-         EbUp8Zq6lauKqkFa9287MauuQjrY9PUDuBKq3wc14b27bqrZyizm7wbb1wsR9jpqbSd3
-         RCvALkLwQ//Ac3eGeXbrlPgzRRqO8H0DJI+OAIu8oLZkASzRL/bpAXw2CxxLr7pINex6
-         iSKw==
-X-Gm-Message-State: AOJu0YziX1gC7im7keM17W/2HDIyxKsFc9jB+72zDM29gr9vD1Dzm5kM
-	2tLq9z3wJ9lL48dCa/TYV4RFqO8P40nm2DQf50qwtNE9AKNqFNrVGFiP6A==
-X-Gm-Gg: ASbGnct1bwks6oe5hv/n+ghxRF+j4aLw3tXvXcVSd3ohMHUmozFj9eKEmuOZhxs9POg
-	T9ixuS6JFyHk+eJYD3hZ9gHJ4ryHEMRaPtnpT8eFJrR4TGONB+kLGZsFwiUB5D1gTCnf47gfBsj
-	bhiE5dIOvL99ZVh+F5CwCqy8j0+vfNnblfQXx4/3CKfFpNf6o1i2a8EzWCtFLLo7sHYW/k+NcLl
-	3mKD/JkX5ILoA6YnQc3IbqKfZlmgMyiEHEeL5GDXfa5teh9MMF5PDXnnLRAY6K/rGATQYGgTuio
-	L2d/4V8dKx95XxMjGy+zpNrozGJuXjwVmTYlnRGRqppfmTlRFdZxWJeqYB9/nYP6aogvf8PbtxA
-	cdcoFVHm04d34+bwQrw==
-X-Google-Smtp-Source: AGHT+IEE8EB5m9SgC/r/G5CHm0r1998/E4XMjPOGXqp5jEPAw7bPDu1GViTBWmS2WwFh5dOddu+RbQ==
-X-Received: by 2002:a05:6000:220d:b0:39c:1159:fe1f with SMTP id ffacd0b85a97d-39d0de3b27amr10677193f8f.32.1744044578816;
-        Mon, 07 Apr 2025 09:49:38 -0700 (PDT)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a7064sm12887414f8f.34.2025.04.07.09.49.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 09:49:38 -0700 (PDT)
-Message-ID: <e054398a9d4d20162f0fe178d4f318a9e9b77801.camel@gmail.com>
-Subject: Re: [OE-core][PATCH V2] qemu.bbclass: move to classes/ directory so
- that INHERIT can use it
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: Qi.Chen@windriver.com
+        d=1e100.net; s=20230601; t=1744045271; x=1744650071;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8uZxr7XeCpKIRo7LrHUF84my6MMYng1HsG4J4uTLQ0Q=;
+        b=koX+VDvkW24+6d1+gQv+UEtbRpU1dezqcD2VFTcmeQhMXPDz0CK249ApMF13CWys9U
+         9oHoDDNipvxV2rkE7v8IBAKhYzmFtXRXxa8zs+43OxiUPmFLhH0sfl68kLPi1z4Rt8lM
+         tAEyyGAIwSMeN/M7bQ5ShdBHUE+1dmbTLr+XZuHdR9yVRd/+86EzIkvkFnt1tykqkFf3
+         QpeG7PHqsnXJQxXSY77L9uYFUacK4LI2RwIBvwDC1ONSE37K7WoDXJWiRIFsXxusaYxK
+         y1Be7K1eNjK7rj/DOWJppjzTWXHtjBKhZOC4cNiWJiOfCacOAcpAigaPEn/HMv3f5+p5
+         wY6w==
+X-Gm-Message-State: AOJu0YwVZVIIwFv7dK1zfdRMYLWuU+uY8Zz2qmiIrcHqNHRxS0ZZ8KJH
+	61/GcidxIP0/rhKvQPAXeHb5XE9ynKZFuH7htGp8ZeTJyQhPgQTNcWytvi66WDFo8D9spbYlCkx
+	ZCmyJ57hmvmG+epsl+nSRaFMjqLQ=
+X-Gm-Gg: ASbGnctdTvAWZ3gYUhr2hYk60HxaBqPZY8wzY3TPyQw/AOZuI3U17OU/nrYYg0tItSF
+	oUdsTJXxF62r+SXfrtifInbGikR50s6n43xX2/6qx/Ec8yRkZnX1Uxusksbqpn4VHJltGfqmWMg
+	u+1xmL6oMpDbGl1Ap9Wu8HZalE
+X-Google-Smtp-Source: AGHT+IH92I9RKzfoNw6tvtT9YvvJrj+HLdt1T4OM4JhcOww31QFi295cfmBbQDYB6LmYphnxw6Tg9TxYBlcRfvtM0w0=
+X-Received: by 2002:a05:6820:1c8e:b0:603:f526:5e76 with SMTP id
+ 006d021491bc7-604156f3c2fmr6776090eaf.6.1744045270939; Mon, 07 Apr 2025
+ 10:01:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250404084324.3024896-1-samuli.piippo@qt.io>
+In-Reply-To: <20250404084324.3024896-1-samuli.piippo@qt.io>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 7 Apr 2025 10:00:44 -0700
+X-Gm-Features: ATxdqUE67bD-7ZQkr5ohOL3GaKyxPwj89yWGHfoS5LDy4SnaEGPUlzS-dN5MpbA
+Message-ID: <CAMKF1spFa9aPEbJmdXJu9aAwHKr6AwxLiiWFZX1SUMUaWhzb7g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libjpeg-turbo: don't use chrpath on mingw32 builds
+To: samuli.piippo@gmail.com
 Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 07 Apr 2025 18:49:37 +0200
-In-Reply-To: <20250407070827.423672-1-Qi.Chen@windriver.com>
-References: <20250407070827.423672-1-Qi.Chen@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41app1) 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 16:49:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214465
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 17:01:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214466
 
-On Mon, 2025-04-07 at 00:08 -0700, Chen Qi via lists.openembedded.org
-wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->=20
-> The functions in this bbclass make running binaries via qemu user
-> mode
-> easier. These functions are generally useful, regardless of how this
-> bbclass is inherited (via "inherit" or "INHERIT"). So move it to
-> classes/
-> directory so that these functions could be used by both individual
-> recipes
-> and other bbclass that are intended to be used via INHERIT.
-
-It depends on the build system used whether Qemu is available or not.
-For Meson, for example, it is always available. For CMake there is a
-bbclass cmake-qemu.bbclass that allows to make Qemu available for
-certain recipes. It could be that such an approach could also make
-sense for other build systems.
-
-Regards,
-Adrian
-
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+On Fri, Apr 4, 2025 at 1:43=E2=80=AFAM Samuli Piippo via
+lists.openembedded.org
+<samuli.piippo=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> chrpath doesn't work on mingw32 binaries:
+>
+> | `/build/tmp/work/x86_64-nativesdk-mingw32-w64-mingw32/nativesdk-libjpeg=
+-turbo/3.0.1/image//usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-w6=
+4-mingw32/usr/bin/cjpeg.exe' probably isn't an ELF file.
+> | elf_open: Exec format error
+>
+> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
 > ---
-> =C2=A0meta/{classes-recipe =3D> classes}/qemu.bbclass | 0
-> =C2=A01 file changed, 0 insertions(+), 0 deletions(-)
-> =C2=A0rename meta/{classes-recipe =3D> classes}/qemu.bbclass (100%)
->=20
-> diff --git a/meta/classes-recipe/qemu.bbclass
-> b/meta/classes/qemu.bbclass
-> similarity index 100%
-> rename from meta/classes-recipe/qemu.bbclass
-> rename to meta/classes/qemu.bbclass
->=20
+>  meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb b/meta/rec=
+ipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
+> index 4ff4cec721..a91adf5f72 100644
+> --- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
+> +++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
+> @@ -55,9 +55,11 @@ FILES:jpeg-tools =3D "${bindir}/*"
+>  DESCRIPTION:libturbojpeg =3D "A SIMD-accelerated JPEG codec which provid=
+es only TurboJPEG APIs"
+>  FILES:libturbojpeg =3D "${libdir}/libturbojpeg.so.*"
+>
+> +CHRPATHS =3D "${D}/${bindir}/* ${D}${libdir}/*${SOLIBS}"
+> +CHRPATHS:mingw32 =3D ""
+
+Can we try using
+-DCMAKE_SKIP_INSTALL_RPATH=3DON
+
+and avoid the need to tweak the rpath in elf headers.
+
+>  do_install:append() {
+>      # The binaries have RUNPATH=3D$libdir, which is redundant
+> -    chrpath -d ${D}/${bindir}/* ${D}${libdir}/*${SOLIBS}
+> +    chrpath -d ${CHRPATHS}
+>  }
+>
+>  BBCLASSEXTEND =3D "native nativesdk"
+> --
+> 2.43.0
+>
+>
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#214399):
-> https://lists.openembedded.org/g/openembedded-core/message/214399
-> Mute This Topic: https://lists.openembedded.org/mt/112128298/4454582
+> View/Reply Online (#214337): https://lists.openembedded.org/g/openembedde=
+d-core/message/214337
+> Mute This Topic: https://lists.openembedded.org/mt/112080987/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> adrian.freihofer@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
+>
 
