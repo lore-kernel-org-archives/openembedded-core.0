@@ -1,84 +1,121 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7091FC36010
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 17:01:42 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web10.53290.1744045291273554657
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D21C36010
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 17:05:02 +0000 (UTC)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+ by mx.groups.io with SMTP id smtpd.web10.53403.1744045493188682189
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 10:01:33 -0700
+ Mon, 07 Apr 2025 10:04:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NnrvRYAI;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6e8f06e13a4so54689376d6.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 10:01:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YlN69j12;
+ spf=pass (domain: gmail.com, ip: 209.85.210.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-72c40235c34so1070434a34.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 10:04:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744045290; x=1744650090; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zflOB6X3sxIEuELvJAU9cGkHx5ZxVi8fm+1Rgnvnotk=;
-        b=NnrvRYAIHND52ajum+Ix7iTA+gpszvnLqK/zt2nDcPVOTUHE8P2ON+MFsr0uzSQ28Q
-         JlZSPgvv3MSyxFkmxW1V48jQ2I7FHTArS1IRxeNnjrQYVsTX3YXNjp13OYOVzk8qflCX
-         lHv4p/er2eOCyDw4FifBoCOG/0efWtMt7K697R2kT/wv8qoHGYyLFZHHcpZ5LsOuCiYQ
-         wAe+X+hUbIrik1XA0J4SIcI24JR2jTv1aTWXWqzKsvjIRqQHaepujgX+TLRq6fLA6fyG
-         smyQtK05VdvPRkRp0YpcbMCKBdNW8j6KHTK/D07YQ9rpredIbhCWsqPt0k/w0GaYqCDQ
-         l51A==
+        d=gmail.com; s=20230601; t=1744045492; x=1744650292; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l+Ea9hK51M5nHK38NL+/dBrDfKT0YY7fKpsE/82hsPE=;
+        b=YlN69j12ANjwqtMTCraYSIPGC7jA+7FS4WpZG60b5bSC3hBGnv0JFIcJmquRTunc0t
+         Y8eIOLMr2IE9Q3LoZBX2uF6tCD5apQT0UdP/gVPsk+8SjY30DY0iptuAhZ54ujmsLKO9
+         zeLUG167PYyC7ODtSgHktoV63TmmJLkxVXP7BgiiHEdXqQENx5KB8maoy2sLd4YXD92/
+         LuS6gRq5/tnlwOZDDDVKaoAGOEZvMnLN6iN1IVYA3kk//C3QbJ14ucRX6VtebiwM32l0
+         P48ikw1WadjNybV6gVGd3voMPO+N1T/Za4VCFEl+mstT2o0DekQDNCWf0gHDBbzGiYx8
+         CXUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744045290; x=1744650090;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zflOB6X3sxIEuELvJAU9cGkHx5ZxVi8fm+1Rgnvnotk=;
-        b=kdgp0x+tLMpWWLCO3Zf0UYkOBLQqnrQSi0hnTK9SIcv9z9K80gQ6Ha0mEQ/gQszuBD
-         qSgFnKs/JVSXZ9B1Dqz3/5VDbhS1b7H84l7m23hjYd982gWRDOZmOapfypqjhQXSlwXS
-         h9DCka9s+46zo1huwb00Z/8P5sGPfdRO8DgJQFutoSRntx3IC+mtICKeqCsRKiA7TglM
-         Pf316zWHGsL6giY+VzJmdJ+qjg4vOEaKJ8ruaRRSwTB76EhRTpI9hgyZ9c2zZCncYW7k
-         SvaxSU8WMdUH1cYjCbwX7YjAspiFGkX6h8WBIms6NkA2/QC9YCYQAmx2VJCgVH/xgUHB
-         U6AQ==
-X-Gm-Message-State: AOJu0Yxp05NszQPr8k8+wJA2QDPUs2dk/OYyoI7YbonsCJHoYxVFlCgP
-	zUHo0lfzFnK2GMbpkzX1JYDrS/11AVYJ2ZpkwrctWNIYW4fe9GNJiJTCoBOb/PZELq1VGrmteC+
-	3PDUlZGQC2vLncQ3YxBhMERuQAmXblA==
-X-Gm-Gg: ASbGncvBdjTtJ6a4TXkFBbFL+r24Aj6nlUmZaVRsajBDb9Kai22j9jN2DFVT/j8nw1Q
-	9y+38wbJCiNye4CcwN3yMsWAb7EMKlhej22qxEpmqGKSpaaOrmRzvpBa89rFvRpGBdPu0iWusNu
-	0YJ7+LD+iVW3hpQXXEKxriWU9u9kOgFa5fYW6pnYA9+vFQOD1RE71JK43Fv2bZ
-X-Google-Smtp-Source: AGHT+IG+WOxgyhQ5Z1Uh3pqh3xOKblMgIPyulA1KdEasx5VH30M8Kyzu9dMtFrHR8WUTNJ78mY5wQigvFx4EL57Pw04=
-X-Received: by 2002:a05:6214:d6e:b0:6e8:f120:80ce with SMTP id
- 6a1803df08f44-6f0d256b491mr3293346d6.22.1744045290236; Mon, 07 Apr 2025
- 10:01:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744045492; x=1744650292;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l+Ea9hK51M5nHK38NL+/dBrDfKT0YY7fKpsE/82hsPE=;
+        b=xSCl5B8OD6GpdxreaAokVzeeuKFeEZV1IusIllPWtjl9TNHj0vet1KH3tXqq3hOsJk
+         Vgsr7NYuKSXd545y1yyZH/w754s1UXx/O0rfjkIVNbGq7wHMyDpZF+5cvaQPExCBIhsP
+         lhcuP5ODJhib4MZIr7UrZWgrUyORvssUwF1ikZcopWidN9ythwPAyC78gRCM4KgQZXTF
+         fvawnP2DwASzp4906iuhgDIaMnxq9zP4ImvuSoiUZu+YlD9sfnyUlyYa+msREXG026SC
+         1axxNjghXxgfPwiWL2uNRpPgQF1Lvu/PM9WHF5qeKCcD8gL86KlUU/6Wg4Ub1tI0tLib
+         izFQ==
+X-Gm-Message-State: AOJu0YwOQarjE/578VmGZKGUNAwAEUYmMUuvNdJjDQ58li+vH3fNcG32
+	uOFm8dyQZzdNBG6jGelzv8CLP2Y5U3COfWy1Tl0g65sxDS/h/i3hBfCZkc/urdYOJUCV40EuGPo
+	RdkBA5nyKiApUezizdxvhpOqeikY=
+X-Gm-Gg: ASbGncteRdJs7mUOMga5QgN0qia15uBziVFNWBJg7ElfR9RxWItEH1XJdW/l+JSQ8g7
+	nXV24Vp7sHUvLrL2JTIW3kiKp1pyFCea9k/UD3Yhe2vztqqoG6U7Hv5woTgPU+lRAnR+3h8YZn9
+	cOVpIvXy/68aBzTWPtKcEgn7Ns
+X-Google-Smtp-Source: AGHT+IFvBITyJaRCi7pcX8TUjkNtZTFjVqVY3bxB612gLQy8OYdBZcfKfwu8aHqJEMV6skkdBAk0V2CPC9aDX6S+Rwc=
+X-Received: by 2002:a05:6808:1385:b0:3f6:7cd2:8187 with SMTP id
+ 5614622812f47-400455c4d59mr8047241b6e.20.1744045492341; Mon, 07 Apr 2025
+ 10:04:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250404084324.3024896-1-samuli.piippo@qt.io>
-In-Reply-To: <20250404084324.3024896-1-samuli.piippo@qt.io>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 7 Apr 2025 19:01:18 +0200
-X-Gm-Features: ATxdqUEls6OX7-0KJF-7Pe_2d06SFCNK27lxVxS66RDiyzYFw6Hqfa3QY24DYIY
-Message-ID: <CANNYZj_vroEwnqmrect-uL0QDRjAFStkmdijZ2codxz1XUVxLQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libjpeg-turbo: don't use chrpath on mingw32 builds
-To: samuli.piippo@gmail.com
-Cc: openembedded-core@lists.openembedded.org
+References: <20250407164456.4845-1-gavrosc.ref@yahoo.com> <20250407164456.4845-1-gavrosc@yahoo.com>
+In-Reply-To: <20250407164456.4845-1-gavrosc@yahoo.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 7 Apr 2025 10:04:26 -0700
+X-Gm-Features: ATxdqUEaDecN-Q9ETO3XQmRcdnTpCMDiBHRr53GLEnB5ROiqDitCMKSgzcnkX2E
+Message-ID: <CAMKF1sqHSmryz3LSpsJiL1AMGdaoSGZK0vWgYfw3xymBAiEz0w@mail.gmail.com>
+Subject: Re: [PATCH v2] initramfs-framework: remove hard dependency with busybox
+To: Christos Gavros <gavrosc@yahoo.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Yoann Congal <yoann.congal@smile.fr>, Randy MacLeod <randy.macleod@windriver.com>, 
+	jbk <jbk@mm-software.com>, Adrian Freihofer <adrian.freihofer@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 17:01:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214467
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 17:05:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214468
 
-On Fri, 4 Apr 2025 at 10:43, Samuli Piippo via lists.openembedded.org
-<samuli.piippo=gmail.com@lists.openembedded.org> wrote:
-> +CHRPATHS = "${D}/${bindir}/* ${D}${libdir}/*${SOLIBS}"
-> +CHRPATHS:mingw32 = ""
->  do_install:append() {
->      # The binaries have RUNPATH=$libdir, which is redundant
-> -    chrpath -d ${D}/${bindir}/* ${D}${libdir}/*${SOLIBS}
-> +    chrpath -d ${CHRPATHS}
->  }
+On Mon, Apr 7, 2025 at 9:45=E2=80=AFAM Christos Gavros <gavrosc@yahoo.com> =
+wrote:
+>
+> In 'finish'script the Switch_root command with option -c is busybox speci=
+fic.
+> When package-core-base-utils is selected the boot is breaking with messag=
+e
+> "Switch_root: invalid option =E2=80=94 =E2=80=98c=E2=80=99.It was reprodu=
+ced using qemu.
+> Remove -c option to make it compatible with both providers.
+> It is tested using qemu with busybox and package-core-base-utils. In both=
+ cases
+> qemu boots successfully and filesystem is accessible.
+> Fixes [YOCTO #15716]
+>
 
-This chrpath snippet is a workaround for an issue in how upstream
-builds binaries. The commit adds a second level workaround to it.
 
-Rather, it would be better to go to the upstream source, and check:
-- whether the workaround is still needed
-- can we fix the problem at the source, rather than after fact?
+Looks good
 
-Alex
+> CC: Yoann Congal <yoann.congal@smile.fr>
+> CC: Randy MacLeod <randy.macleod@windriver.com>
+> CC: jbk <jbk@mm-software.com>
+> CC: Raj Khem <raj.khem@gmail.com>
+> CC: Adrian Freihofer <adrian.freihofer@gmail.com>
+> Signed-off-by: Christos Gavros <gavrosc@yahoo.com>
+> ---
+> v1->v2
+> * the commit message is extended with more info
+> ---
+>  meta/recipes-core/initrdscripts/initramfs-framework/finish | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b=
+/meta/recipes-core/initrdscripts/initramfs-framework/finish
+> index ac0de9f996..716c2f44af 100755
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+> @@ -41,7 +41,7 @@ finish_run() {
+>                 mount --move /sys $ROOTFS_DIR/sys
+>
+>                 cd $ROOTFS_DIR
+> -               exec switch_root -c /dev/console $ROOTFS_DIR ${bootparam_=
+init:-/sbin/init}
+> +               exec switch_root $ROOTFS_DIR ${bootparam_init:-/sbin/init=
+}
+>         else
+>                 debug "No rootfs has been set"
+>         fi
+> --
+> 2.34.1
+>
 
