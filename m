@@ -1,512 +1,233 @@
-Return-Path: <yi.zhao@eng.windriver.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC181C36002
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 02:31:25 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.37660.1743993084512163074
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DD2BC3601E
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 03:29:56 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.38860.1743996594236559781
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Apr 2025 19:31:24 -0700
+ Sun, 06 Apr 2025 20:29:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6192b69a25=yi.zhao@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5371HA0k012505
-	for <openembedded-core@lists.openembedded.org>; Sun, 6 Apr 2025 19:31:24 -0700
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2177.outbound.protection.outlook.com [104.47.59.177])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45u41m1bnw-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6192bc662b=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 537361vB021265
+	for <openembedded-core@lists.openembedded.org>; Mon, 7 Apr 2025 03:29:53 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04lp2042.outbound.protection.outlook.com [104.47.74.42])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45tug8ht3c-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 06 Apr 2025 19:31:23 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 03:29:52 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ad5GyFV4jQowRqM9GiZjVXPze4InNq0oYIw83SaZ5QBRfQJ3ZvuCW5GFV2B9lN9oZtDQ9xkxBBSZ0tK/nFWHe+1JJHZ95Cz3INxRyDB1TSWFqy1q2dvyzZxBG6w449jZnOXh0EvBgB6WMgimesHT9D7sE5XpDPqgSo4cm+EehD91jEs3lRgeGUH2j9cq4ZEC1U03O2Iwe8K95NeHshG62o/394Qs1yKCUreQ75JG00DuKzQIwoeWJbVtf5i24ZJ1EZTPGq6KI5Lqn8eetOG6oxJXCQLEitvMHroABgBUny++c8T3BFqFhczK0TU2Tmpvgr1fflBjYQ96/IMp+nyI1w==
+ b=Lix6bdOhIRO7YTP7ZMI26L6uGidjyWEQDMLBF1PQvA6uThJ0812I7H/VQRRDszItP6T4CWqGgC3MIN2UVBsV92tIsGI/+mK3R/5+a/dYygZ+Fwpbpt/34eMmfrZx8jbIEdESkFdfvw5Ql+NRybe7Hx2Wzeej4uzmbL1BO9dH5T3bYG85KMquIXh1SPHiE8SO7lfUuZJDJJoNO+1Xxm2Qy14QlWkMRldPG66+KD2E3uj0UAkKpR4D1bLAKYn7/AMaAuvxeS7B6c42XLhDN0WZ477jj8cepq9WKyiSFRCmMmTr8tgx1CO6YIwR/MxtaQIHxRoILk0IwJp1f6PxTeppsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X+r83IzCpsHgkWUIi7HG40OkAwHpKjGnoTdSsXpAiV0=;
- b=HjXaOCaFkII5WRVHur2vDQB/cTx7WwKDkjK49rioETljSm/ys3GLVPCRi712v6gPmehPwiX3I2eQHUbEUwDK0H/gs7hk/XFLuG2HUT7PHGNJZRVcaLI0lhYW0e+2oZ03sr30ObVzcRcu9s7HmVDPIhUDZaaBp/kj/rJARQ7+/QOF7bn9GecYRvb/vFeUh/Cqac6B519gyaopZBLMkY0g/N4oRQhGCaf8cjWRZLhtdByhD7NJEl2/uIarc93GvlWfsB5da4igKYgaEHVevR+6YbMfAobJ1yFM6ySMSpgrdR/NoGseD5XLZvay0AsNFo7wcDCqk+4YPKEuQNJ2xzKEqg==
+ bh=Ray4vWoL1B1c/zxhFlLwozvQRVS+0tvsIFF0Fiypn8s=;
+ b=E7cZb1/LShDHjyyqDmK/u6TA2BfDRKkVaxIQtFl9InF3PUzhfav8MDLBdJ3nf8bDUzw5PPlSh30Jx8OS91wmd7+yr3TgV4Q/Hn6xiABwxzfvNmAM4Xcs2ctaVQvnopH9rYvOuUIwMxZ0tJNBShZkLaSt+H5Kbq8848SeUs2uVCREPlVZ8ip4/MDa0Dxt3C3IsAV6tJNfEeEUgjN67+O9ms4YggLI8w1YN1yhkbSmFBISGi19k0OoeBMONXzuTj2bLywDkTywCXtSPRqdIv5QbLwX6LNlGWbhCCE7q+Eo9nqo/QPZitGIrXmpRx+5rK/gRWit5PAwDNThLel8FAiIJA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
- CH2PR11MB8866.namprd11.prod.outlook.com (2603:10b6:610:281::21) with
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
+ by IA1PR11MB8200.namprd11.prod.outlook.com (2603:10b6:208:454::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.31; Mon, 7 Apr
- 2025 02:31:16 +0000
-Received: from DS0PR11MB6399.namprd11.prod.outlook.com
- ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
- ([fe80::2b44:787c:e7ee:bfad%4]) with mapi id 15.20.8606.029; Mon, 7 Apr 2025
- 02:31:16 +0000
-From: Yi Zhao <yi.zhao@windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Mon, 7 Apr
+ 2025 03:29:49 +0000
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::ef64:bc9f:eb8c:e6e]) by PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::ef64:bc9f:eb8c:e6e%6]) with mapi id 15.20.8606.029; Mon, 7 Apr 2025
+ 03:29:49 +0000
+Message-ID: <be126d8f-975f-4bad-8ce3-edee74dde507@windriver.com>
+Date: Mon, 7 Apr 2025 11:29:42 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/2] live-vm-common.bbclass: conditionally to
+ add kernel and initrd to efi.img of ISO live
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] xinetd: use monotonic time
-Date: Mon,  7 Apr 2025 10:31:06 +0800
-Message-Id: <20250407023106.60325-1-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0017.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:263::7) To DS0PR11MB6399.namprd11.prod.outlook.com
- (2603:10b6:8:c8::5)
+References: <1830F91FBCDA61F8.4736@lists.openembedded.org>
+Content-Language: en-US
+From: Hongxu Jia <hongxu.jia@windriver.com>
+In-Reply-To: <1830F91FBCDA61F8.4736@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR02CA0128.apcprd02.prod.outlook.com
+ (2603:1096:4:188::20) To PH7PR11MB7608.namprd11.prod.outlook.com
+ (2603:10b6:510:269::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|CH2PR11MB8866:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c193349-a4c4-4f55-ca4b-08dd757c458a
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|IA1PR11MB8200:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5bbef209-99c3-454d-4c25-08dd75847345
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|4022899009|376014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?JlmsjuAMicMmUXyjRuwM0TjPF7glHbrUBTCmvkQI92OasZJ/C9vEKRpeO6Dr?=
- =?us-ascii?Q?CAnhUbtoORS/OUn0DYtcZi0q2EHKJ82vyHnYmVbmBNml8SyIM+BMvmqtVgBK?=
- =?us-ascii?Q?eV2SXHYlet9A7F+wNEBxO2y4lKCuvZ85bqro5/698Vlsnzeuqp+L89dKhLgA?=
- =?us-ascii?Q?5EJIHnNV2MDUMZtuvYe1dFpP5cV0ZevCK6Pn5U/JO/QTZTLLweZBF2AKZt43?=
- =?us-ascii?Q?/+93qBkzPahWwOWsTR9MU8pvP7/fb2ZcDkpKYOJUoWdYv0K8A/g8PJJYkCLS?=
- =?us-ascii?Q?fCR6n5FhMnXs88oFsazITUAnxax+5fuU5qtWxYPTI87Rw5On759q8hD2+Ly4?=
- =?us-ascii?Q?X7F+FyZuYqgQr5pL7rUbdNrxJ1f19cfsnfuvRh0W1ixAcKs4sEwW2+t++lzH?=
- =?us-ascii?Q?YenTFnVfuan9I1kXUx9k+KlUSV3yB+lvdp+s0WtytCxbIZmcZVl2h0I3rH9a?=
- =?us-ascii?Q?vK+yLZzIARm4ubet1CMAHH4QxvVCHqEKeHKLvz1jRmSy3CsJUFHYaGLTwJQk?=
- =?us-ascii?Q?lsdx/5GfazmdM/5gqC7zwhAY2lV0RffJneqCp87VGQ9eYTasgngLOTaAylss?=
- =?us-ascii?Q?Bn0Kf/SNiWe61ZT6imL+gD0NN0RXrDrAlom7yQJDp3MN5hBJpCMIKe4VhjtE?=
- =?us-ascii?Q?dtr26NMjppssYgy9+/Ox0Qqu0gx82dc2ZO6CeV0PRqBw4Eo2rcM17i+7Ncbb?=
- =?us-ascii?Q?5L68pfwMQnuer80M6NnYNfSbmQghJzPPi87KHSROA0WKjxVgCCnQJZzDL0nG?=
- =?us-ascii?Q?+FD4SK27P1WSzzrOjLI53VxKThll62cNhu7vw4/Mex6aoQIionwQlzxP3qxY?=
- =?us-ascii?Q?kWHrrSQ3h/2omxCJe84SRS4x4bC1Xiw135qcKgmJKmupcaZKodk9DSFL1W2T?=
- =?us-ascii?Q?7wzoC/U+PvY8erF48i/8PlNViDWiLiCKebLV/NKY5WyNdbu0eG2oEZ65wGhA?=
- =?us-ascii?Q?Z+hkxnScEmFRnQYXxrMd+7xOJlBA+ttL2YhPGiZ7HXUm+jGkPEzvyuoUm0oS?=
- =?us-ascii?Q?rqMg4F56DoV4ttAWZBnT365RPVuYD+GR0wf9ELYBfWqYHZhRp9yOlup6m/Ou?=
- =?us-ascii?Q?dFnA8/ACNDfQIdHYEMdldNitvDUwnWkaRn+1GvKp8Hsxy58Q/B/sB5AWhNYk?=
- =?us-ascii?Q?35ScRgECEo+6W4TTwbAe4rmq9V84idI/kraOkkofdtHHedOQpcuvl1eRqloS?=
- =?us-ascii?Q?ajj2ExxaKsOGYdrV9xyJHNVGYRxfs5Im14uSa2YEbOl12DJfYCWGtqvA5OJN?=
- =?us-ascii?Q?TxNE1S43jO7cV7MMH3XmL6fIX/dgrXA08vBjc7/LE8YtooiW5BMf8Yw7Pc4X?=
- =?us-ascii?Q?mLQpSRLJemy1MX826OL1mwnr4eu1hrw7zw3JeiJw/yZfUrE/y9dJgym9JNrn?=
- =?us-ascii?Q?xKTC3jYFDbKnsoNWJZA7sRksPJ/QYY25qRB8mpQZsf9nKWkgJN6+6+APeloY?=
- =?us-ascii?Q?C70eAQZ87eRugutXVZVTj2sLRScP2LJp?=
+	=?utf-8?B?RklmeStRbmdadWtwakdiSEI2WXh3WmxCaElYUzNlK2loZTZCbk50blBmMWIy?=
+ =?utf-8?B?d0pnMDAzREcwQlhoOGFXbjVBT1BkYmZuTFhmTVJlZXorYlFPRkg0RVRzZ0NP?=
+ =?utf-8?B?ZUVEeEllblZPeXNpTW9oUEFXeDdlOFJmcFlrclF0alZXc0YwUHpZME9hcGhy?=
+ =?utf-8?B?SXJ6T0FTTzkzbzVpbnhRYnJrb0MxK3hhaXdZNE52MXkycGFDOUZ0Yk1hZGJp?=
+ =?utf-8?B?aERYbmFaTkI2bm5aRG53cW95QlNkbkZKMDZ3emFlZ3MwK0o3bW1jWER3SHJJ?=
+ =?utf-8?B?cHlWZ0htOEg5YktQeXJDdWRvSW13ZGV1MlpMTjV6STFHQVZQTjZkU0ZYdzZx?=
+ =?utf-8?B?N1NHYnQzNUNteWdGZnlWZWpLWDIzSWJyaDlRbkpiem9oWmZiY1NyZnNadVky?=
+ =?utf-8?B?M2R3SEk1aThPM2JuQnQ4c1JBQVVqSE0xK05KdUlEblVUL29qMVZOWE1IN0du?=
+ =?utf-8?B?dDZ5RVM4dE9VcFVidlJsL2FIS0V6Qk1sc1NER3BuZUNRY2pWOXhSdkk2YWYy?=
+ =?utf-8?B?THJseDF0ZWtMZVJ4OGZrSXZva29oc3ZxZExhKzYyMFBaYUxYSC8vdHJzaEdl?=
+ =?utf-8?B?YUtvSmZXc2RQREZacE9xZXl1SDVtYW9XTStWR2xVd25RWk9uWGw4amZPY3FP?=
+ =?utf-8?B?UGNPT01jRjloRU9QUDAxRkU2azFJdkVZYzM0c1AxRnJQUE5ka3JNSzA3dzZz?=
+ =?utf-8?B?ZUZRamV5bGMyWmY5YVdWQTI2clVIRnMybkZGOE14N1g2Q3BFMVFLTDI0d2ZP?=
+ =?utf-8?B?NmlrUER5WnJvbzdJUFlWWWE0cnJTblhQZ1Y4UlVBaGhyWWZWaG03d0lNT1hl?=
+ =?utf-8?B?RTBTUFpUOGtURjZwd2FENi9oUGpkSW94RzZwTy9SMHovbjFJdWRhQmlZanZW?=
+ =?utf-8?B?TFhhanc5VzJ5YWcyUG8zbEpVMGNPNUlJU0xneG45L3hoMFhubm5lc21FWG9E?=
+ =?utf-8?B?c21NRDAzOThWRG9PR0o4TGlwdVVvRitleWtjdnR5bFhWZEprcVFlUFFMUUhP?=
+ =?utf-8?B?VlJSSUtDZXhBVTNmMHYvNnh6K3haY3RyUTBjUFVOaE5pWjd2bzRvVDA0Rmc3?=
+ =?utf-8?B?T0daMFFJNit0MERJdkJCLzR2VnhGNWNLcHVRWTd3dzkrS3o0V1NLNUp6NVhO?=
+ =?utf-8?B?akNXbE94MmJXdVFRR3N4UXZ5aUR6bDRURmVvTzFhd0poZFdxUTBlM1BNdFZm?=
+ =?utf-8?B?SGI3MnJncXhBdlZqOWFnWjVobk1ZY2dBa3BaV2VsdEV1Ym50d1JvS0lCOEpl?=
+ =?utf-8?B?MGRtZ0x3WFVFTXBWcHlFLzZMdW9tbnVFMWJUbFNTYW1jS0NJdlBiaFlsVGVX?=
+ =?utf-8?B?Qk51YndxaXZDdGtSTTV0WE0xeHZYWThKcjZndUVObkJZVlVQMXpUTDJUZkMx?=
+ =?utf-8?B?OTRnSXhTOUhCZnNIQ0h6Qll0ZHJLZ1pBQks4NEtoUlhtaXJkdlF5VHVUazZ2?=
+ =?utf-8?B?M2VJbVpWN1lDU3pNeTRLUm5DbUJ4YmRyOCtwcTI0NHl3MGdPUW9LK1VLWThM?=
+ =?utf-8?B?UmN2WGQ1ZFFvMTF2T2FrUERoOEpFZjhDQ0ZZL2s1VklEUTh0UUJxenN6TXIv?=
+ =?utf-8?B?Sy9lbTdyN3NjemJndXZFVDJXeGJvN3Z6RmFUdUV1WFJEM3NodE1jME9SYWJL?=
+ =?utf-8?B?T3I3OVJmamFmWHZJRGRGR3JBSkI2aUVGbXV2YmlFajFlZXJHMHZBWWo1UUo4?=
+ =?utf-8?B?K3VPVTNNUFVNc3N2SEpXbGNpQytnOFRQc1VLbEhBZjlzM2xCRHlyNk05Rk5m?=
+ =?utf-8?B?MnpBR212UlV3S3UydnFuTnRwZkNZQlhta2NhSS9UbVBwMHU0cGhyZ0RYcE5u?=
+ =?utf-8?B?SGpvd1V4SGdLcDhoWU1vTmNuUzZlbUQva0FSMWpDam54eDNGOFU1ZXhPbzB6?=
+ =?utf-8?Q?xEsWEl0traVX6?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?X56+SkCxThAlGZuqKqe3kF+AkowihAex/c8sXweWOmtHVIwwr595DXyhVymT?=
- =?us-ascii?Q?DzHeWY1fzSaeLtyQaieY+Yji/K5W9sJsSOXbSwTffQDI6sov9YwVDXa2qb/h?=
- =?us-ascii?Q?t3Q+80WIIwxPDJUuPwdjWm62IwNVNzNq2VB05jkBHBebK0Sd1brzrVBDp6Zj?=
- =?us-ascii?Q?snZPwMCmZjgtVqrtyQ/uav481G6j0rHmh35Vnn6TYNB+kKYkUxCEFHPBOnAW?=
- =?us-ascii?Q?pZdNfXZ5w/8hGPCV8SVGEsXDwASH+obFN0K8U+JlUmfkXFIdl4GLEOBetmKe?=
- =?us-ascii?Q?cmGLR2ivrwXMEVA9v/i8pUG5w31vUa0GoJpbPeIYLWJkXob+wy9hIJ8/rn5s?=
- =?us-ascii?Q?zg56HTdxgrvZJDym3l4iWVUx02RGSJxh4HM7PxfKcBt076Xp+0LeGqdsQc4u?=
- =?us-ascii?Q?7bH2Zx2DVKU9jA4W6BTGF5XeGUUqcg6b8y8e+y7/Go3ejwHRbyiLcoMbcYm2?=
- =?us-ascii?Q?dJb/qfyZxd9q+4doOoRYC5ELQI2iKeyV/wOb0aFI/uSDHdBeE1Vx9fBkDIyK?=
- =?us-ascii?Q?VzJXIjjjo+N9NVkC/0YaYuP1myR3LDkW+QdYbp6J9KRW9iSViVeWOb7Qda33?=
- =?us-ascii?Q?yxnvPul3vOid9F+tXAz+rZ8DbIkdyafLcoLqesIG7C1rQtzm7ntpXYKpK3RP?=
- =?us-ascii?Q?FAYd/maVnHWa+wMSvg7UGXDedE0WUJFEJE/u+zVQtOFSaHHAV6qJkc3Uw8GD?=
- =?us-ascii?Q?NrebUOwe7GEUzXNhvaOpHMIlQgIyainpPTcbKV1BFgI3x3B6whGGIK5THNtc?=
- =?us-ascii?Q?FDVT/rJxVJtZdWcNgyluesEZ2+r2z9ew/gnGd+1k1a/dsCMfUJUc1L6Gkghc?=
- =?us-ascii?Q?1ywwjenjrUqmA5xUt2HzLn0EIqNBR5kK69T51aKRJvyDfu2wJxURFxckDFzz?=
- =?us-ascii?Q?cmww9p0ZkQ5Pr7HhBmiqQwnXq0WakLX87U7//bHzySY1VM7I5ksUtNEh8BW0?=
- =?us-ascii?Q?ZUoibztYd04ObprTxS4exVlD2iQVd5qEdA5ax5lBj6oP6sCKKZjKIlEa0WoS?=
- =?us-ascii?Q?dkWzMfXBx3criizkskX/uQwC1vOaYTjiDIFbwZNRZ3M76/M396tPUxDSNRsn?=
- =?us-ascii?Q?3wzWJkXx9MiVouVebXCd8Xzf/Q/rDVAe0QZT+xpC6mUR/elH+X2XlDI1wBA9?=
- =?us-ascii?Q?z2ql93+Gb4TEtKxYClrD5+9O4FdzFnCKbTO8NcN33uUuXFUrWvVAcS8HOINN?=
- =?us-ascii?Q?YEpz00GY20XUTp1sKSdIHsdHTjUirmR0Le6puPqRp5ZdkStubRtTZmqFN86s?=
- =?us-ascii?Q?VnipvcaRc4VlmZQ4eXT28xF8wOmedCina3bREBZqDEjHcFK3MqvzbTsm9G+t?=
- =?us-ascii?Q?c9ALHb0TH7xsinAxH2NokyEzvi1btDZR+Nl5a+N0pfla5G+Fm2mWnzR3FaaM?=
- =?us-ascii?Q?ymTxOvpEBiQzQ6jM/1I77l9mhxd9Gcf/RSN2dewNwEdyApC/e2Rj5Q/M7g7g?=
- =?us-ascii?Q?gpBUDo42GjL7p9HMA5sG1Osa1ziknljWr2AqHb9H5Sn52rHSh5KCPp6zzyaW?=
- =?us-ascii?Q?TKjNBmcZjw10RW3PZM9aodMAHHjDyN/hhmqC1iuucDR5JMcI6vI+eoUxHxjm?=
- =?us-ascii?Q?boF0RBON3ILQ8nKtygwM5pb0lr4BajkXJzhwSzAW?=
+	=?utf-8?B?aEtDZTdHQjdmTVFVUEdYb0RYd1RxNEpKK0ErRWZwQXgyL3JBb1MySGh6MEYz?=
+ =?utf-8?B?MC9yaStwaXBxRnhWZzUwMWVXK3dhNS9DZmIzUlFRTmNySUt2Z1dseXd1dnkw?=
+ =?utf-8?B?enJ1TzFhTHl3WlhuQmtpSjc2M2VUNDRTRUh3dXk5M2gxM3dGV3VMaklMRkZW?=
+ =?utf-8?B?aDRpQXlrK0hpNG5rYkdwa1phMS8rZWpEU2V0RnRQenZqTE1kL0xGZHk0YWNZ?=
+ =?utf-8?B?blhwOXB4M1FQU3R0ci9jQkhsTWxKbU82QW0ya29wK2gxQzNJUjhJSFdwbEVU?=
+ =?utf-8?B?eEhob1F3RE5wcTdFVDNtd2tnYjRXSjNWTFhTSmVUVEZkUVhIS3pRR1BXTm5E?=
+ =?utf-8?B?eFNwOXh5cWMrUWF4aUIyblV3OVhNRkRucTN6RlZxYWN0MURQWkV2bVY4eTNk?=
+ =?utf-8?B?em5zeFNkUzRGckdhM0hxN0trTVM4aGNSMWYxSEZyUWxjSlhSdVpmSXc3WVlw?=
+ =?utf-8?B?c216MGdzQ0hUeDVGMVNXWXExejBXTzVZbS96V2NQajVyNzJvV2JneWhuck93?=
+ =?utf-8?B?MWVqa3BwUDExenZGVXVGRi9LenBlOGNVMjc2Vm5YbDZRWmhOMWxhMlBSaVdT?=
+ =?utf-8?B?RHVXUGZWTVRJMW5kaURYaUdwQm50MURTSGp3V3RQcjR4ZDZNVk1LdlNSbmpP?=
+ =?utf-8?B?Y1ZJbjJqTEtjNmxDUjlOZTFyQ2lwQzRDeTU1WlRFTkVwaGpDdjlHazU0dEl3?=
+ =?utf-8?B?Y0dka2thQ1Z6WXRBRVBQZno4NFRTTTdqSUQwK2xjWHlCamNPSXg1REFBZ2VP?=
+ =?utf-8?B?UVFCK3ZzeU5vZnRzVmNURlhaczhkR0xrekhla2ZUZjBtQ1dES0lRNXNBbkxY?=
+ =?utf-8?B?UmFZM1hzQTRZVS92UWhUUnY5a0hTb1QxN1hDMVYwbmdrRW5lRVJsUGRmQjcw?=
+ =?utf-8?B?UEd1d3QrQkFTTWhlc0xxMTQ1Rk96T00xOGljU0xXUEUvMVluLzU0Vm9ZcTR0?=
+ =?utf-8?B?dnR5aWkxYXJ4RzkxaEVzbGZzcCtlZzI2Z2owV3dXSWRTTHAyNHNXckhzanI3?=
+ =?utf-8?B?TDU0LzNEb2ZZUVhXOEcxYVFvQkVHU095TmFndGs3cU4rQW9pM2pPRVBhYm4y?=
+ =?utf-8?B?Y01XT1VWY25jQzUxQkVoK3dIa1V0WmV4cGtUQ0RUTUd5aU0rT2tVazYzZFdR?=
+ =?utf-8?B?c3NGNXRidlYwTTR2MXBGRXp0RTdJYVZDeExuVkdlT2tUengvWVBxZThaRTV5?=
+ =?utf-8?B?K1FWVDRaMTBDYlViSVhqQ2VQNEZKa3N5VzcwQXNycEN1Q0FjMy95TDNFMDdp?=
+ =?utf-8?B?SVF1VnhFUDVOZnJucVVWejZJd1UraXl1QytZa1R4MlVwblJrajRRVTN4b1FZ?=
+ =?utf-8?B?bVphWXd6NE5kaHQ5and6cnJ1aitnYm9xOUJyNWVWSEdQSEFhUUIyZzlCbEVS?=
+ =?utf-8?B?Z0t1S1AwaGZYcW1GQUp5V2ZoNnJKejFtK1d1ZlUxT2VCWVB0SGYxTlQxekpi?=
+ =?utf-8?B?bnV6RW52cU1EVUw0c1ZxQ0RMYURvYkgyeHNnZmxkM01ML2RmVGdZbXJCTCt5?=
+ =?utf-8?B?Y1NDSjMrWXRGbXdFT3pQZ0toTTFEUGNjbVpER2dFNmhISEsvRkVnK3N3Rmc4?=
+ =?utf-8?B?VENSZUV4UUVNWHpSYWdpWVZKbEF2MTlCUmMrYVFOZmdseGVBa0tzaVpjcjBa?=
+ =?utf-8?B?MlZCYW40RGdwUE1ERnQvMUF4QWcxVGYrRUQ2ak82TEFKN1ZMN3I1d1pFbUNz?=
+ =?utf-8?B?NFZ0NWFOQ0RvNjJZa2FsN2VlZis4aVBDTnRHa2ZCTXl5TnVBcEt2QWgzVGxa?=
+ =?utf-8?B?clB4VFYvNkRwdzNRTVN0SG1zZitKSTJjSUpsUVhmYkNGM2tyVm9kbGtkM3p2?=
+ =?utf-8?B?NGJNT25rWGVNTGRUSHlHZGFwNlJGTkdKVHZrczZZV0tRdmMrZUpWK1pmNytG?=
+ =?utf-8?B?clV0V1NjdWZpSXFPNno1NGZhQ08vTmhTd1oxcFB4YytrdUR1SVd0WFgvYVhV?=
+ =?utf-8?B?OGRQT3pldVluYzJkTHZmbjVpU2tONS9SN2xwY21TUmhGbWwyRGNRWGhKSVhR?=
+ =?utf-8?B?bGJ3RWRzTW1nVmU1aVkxYzBWM04wanEzOUpJWE95Ymk2SjMySGJJQnByTlNU?=
+ =?utf-8?B?Y2FiRUJaZ0FGMTdvcm5IN0VqYkRuRjBLcVBTZTNJU0VXOTJwelVzTFFSOVRQ?=
+ =?utf-8?B?cnpHL0M2YU51OVB3Z2VtVUZmYzdYVk1CcWZ2aHBpT1FIQWNxOEt4eGxiby92?=
+ =?utf-8?B?OEE9PQ==?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c193349-a4c4-4f55-ca4b-08dd757c458a
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bbef209-99c3-454d-4c25-08dd75847345
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2025 02:31:16.2561
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2025 03:29:48.9566
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s9x/c0RZ6glfnBmYvSdxURL9BCsWHfQmzXvxOlzfLYz1nxn2ZdM+deN4cU08BJfDy9A6buHBmxxb51vYR+cELQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB8866
-X-Proofpoint-GUID: JCVul66swnJa2KidzdkM0jVcS64gNXs7
-X-Proofpoint-ORIG-GUID: JCVul66swnJa2KidzdkM0jVcS64gNXs7
-X-Authority-Analysis: v=2.4 cv=QOZoRhLL c=1 sm=1 tr=0 ts=67f338fb cx=c_pps a=19NZlzvm9lyiwlsJLkNFGw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
- a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=2UhZ01NCCHTBb4c9ifcA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-MS-Exchange-CrossTenant-UserPrincipalName: DQYeDQ9UzOxDVU1pvFPh4YFiZuXRvixAhTujVP+Ooj/e8cG8p8Lf5us33Bc7zDzNm0BE5o+CGWPURK21BQUrkbZ3Iox7yx596AIYDJD633k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8200
+X-Proofpoint-GUID: O_-9opeLJ8DU_oQ2lqBrs0uvuO5QGGT2
+X-Authority-Analysis: v=2.4 cv=YJefyQGx c=1 sm=1 tr=0 ts=67f346b0 cx=c_pps a=CZyBIZNk7+VlD+/eRBofeA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=XR8D0OoHHMoA:10 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=fBPbGx2vQGdftNXC2MUA:9 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: O_-9opeLJ8DU_oQ2lqBrs0uvuO5QGGT2
 X-Sensitive_Customer_Information: Yes
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-07_01,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=999 bulkscore=0 phishscore=0 impostorscore=0
- priorityscore=1501 clxscore=1015 lowpriorityscore=0 spamscore=0 mlxscore=0
- malwarescore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 bulkscore=0 mlxlogscore=999 adultscore=0 lowpriorityscore=0
+ mlxscore=0 clxscore=1015 impostorscore=0 phishscore=0 spamscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2504070018
+ definitions=main-2504070023
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:31:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214392
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 03:29:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214393
 
-From: Li Wang <li.wang@windriver.com>
+Ping
 
-When using xinet.d to limit rsync connections, it can't handle changes
-in system time. When time is set back, the connection limit is reached
-very quickly and rsync gets deactivated, if time is changed again, rsync
-is never reactivated.
+//Hongxu
 
-The current timer of xinet.d is based on the time() and is affected by
-the system time. Use clock_gettime() with CLOCK_MONOTONIC as the new
-timer because CLOCK_MONOTONIC clock is not affected by discontinuous
-jumps in the system time.
-
-Signed-off-by: Li Wang <li.wang@windriver.com>
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- .../xinetd/0001-Use-monotonic-time.patch      | 325 ++++++++++++++++++
- .../xinetd/xinetd_2.3.15.4.bb                 |   1 +
- 2 files changed, 326 insertions(+)
- create mode 100644 meta/recipes-extended/xinetd/xinetd/0001-Use-monotonic-time.patch
-
-diff --git a/meta/recipes-extended/xinetd/xinetd/0001-Use-monotonic-time.patch b/meta/recipes-extended/xinetd/xinetd/0001-Use-monotonic-time.patch
-new file mode 100644
-index 0000000000..ee997fd28f
---- /dev/null
-+++ b/meta/recipes-extended/xinetd/xinetd/0001-Use-monotonic-time.patch
-@@ -0,0 +1,325 @@
-+From 753aa53e817d29e979c2a2fca7da40a3d115f93c Mon Sep 17 00:00:00 2001
-+From: Li Wang <li.wang@windriver.com>
-+Date: Tue, 3 Sep 2024 15:21:52 +0800
-+Subject: [PATCH] Use monotonic time
-+
-+When using xinet.d to limit rsync connections, it can't handle changes
-+in system time. When time is set back, the connection limit is reached
-+very quickly and rsync gets deactivated, if time is changed again, rsync
-+is never reactivated.
-+
-+The current timer of xinet.d is based on the time() and is affected by
-+the system time. Use clock_gettime() with CLOCK_MONOTONIC as the new
-+timer because CLOCK_MONOTONIC clock is not affected by discontinuous
-+jumps in the system time.
-+
-+Upstream-Status: Submitted [https://github.com/openSUSE/xinetd/pull/48]
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ src/access.c       |  6 +++---
-+ src/builtins.c     |  5 +++--
-+ src/internals.c    |  2 +-
-+ src/log.c          |  3 ++-
-+ src/sensor.c       |  6 +++---
-+ src/server.c       |  3 ++-
-+ src/service.c      |  5 +++--
-+ src/signals.c      |  2 +-
-+ src/time.c         |  3 ++-
-+ src/xlog/filelog.c |  3 ++-
-+ src/xtimer.c       | 15 ++++++++++++---
-+ src/xtimer.h       |  1 +
-+ 12 files changed, 35 insertions(+), 19 deletions(-)
-+
-+diff --git a/src/access.c b/src/access.c
-+index e942db7..eb9da6e 100644
-+--- a/src/access.c
-++++ b/src/access.c
-+@@ -70,7 +70,7 @@ static void cps_service_restart(void)
-+    time_t nowtime;
-+    const char *func = "cps_service_restart";
-+ 
-+-   nowtime = time(NULL);
-++   nowtime = _time(NULL);
-+    for( i=0; i < pset_count( SERVICES(ps) ); i++ ) {
-+       struct service *sp;
-+       struct service_config *scp;
-+@@ -104,7 +104,7 @@ void cps_service_stop(struct service *sp, const char *reason)
-+    msg(LOG_ERR, "service_stop", 
-+ 	"Deactivating service %s due to %s.  Restarting in %d seconds.", 
-+ 	SC_NAME(scp), reason, (int)SC_TIME_WAIT(scp));
-+-   nowtime = time(NULL);
-++   nowtime = _time(NULL);
-+    SC_TIME_REENABLE(scp) = nowtime + SC_TIME_WAIT(scp);
-+    xtimer_add(cps_service_restart, SC_TIME_WAIT(scp));
-+ }
-+@@ -284,7 +284,7 @@ access_e parent_access_control( struct service *sp, const connection_s *cp )
-+    /* CPS handler */
-+    if( SC_TIME_CONN_MAX(scp) != 0 ) {
-+       int time_diff;
-+-      nowtime = time(NULL);
-++      nowtime = _time(NULL);
-+       time_diff = nowtime - SC_TIME_LIMIT(scp) ;
-+ 
-+       if( SC_TIME_CONN(scp) == 0 ) {
-+diff --git a/src/builtins.c b/src/builtins.c
-+index 042e5dc..c285a02 100644
-+--- a/src/builtins.c
-++++ b/src/builtins.c
-+@@ -36,6 +36,7 @@
-+ #include "nvlists.h"
-+ #include "child.h"
-+ #include "access.h"
-++#include "xtimer.h"
-+ 
-+ #define BUFFER_SIZE               1024
-+ 
-+@@ -237,7 +238,7 @@ static void daytime_protocol( char *buf, unsigned int *buflen )
-+    int         size = *buflen ;
-+    int      cc ;
-+ 
-+-   (void) time( &now ) ;
-++   (void) _time( &now ) ;
-+    tmp = localtime( &now ) ;
-+    cc = strx_nprint( buf, size,
-+       "%02d %s %d %02d:%02d:%02d",
-+@@ -308,7 +309,7 @@ static void time_protocol( unsigned char *timep )
-+    time_t now ;
-+    unsigned long base1900;
-+ 
-+-   (void) time( &now ) ;
-++   (void) _time( &now ) ;
-+    base1900 = (unsigned long)now + TIME_OFFSET ;
-+    timep[0] = base1900 >> 24;
-+    timep[1] = base1900 >> 16;
-+diff --git a/src/internals.c b/src/internals.c
-+index c5ed4f8..6a19207 100644
-+--- a/src/internals.c
-++++ b/src/internals.c
-+@@ -85,7 +85,7 @@ void dump_internal_state(void)
-+     * Print the program name, version, and timestamp.
-+     * Note that the program_version variable contains the program name.
-+     */
-+-   (void) time( &current_time ) ;
-++   (void) _time( &current_time ) ;
-+    Sprint( dump_fd, "INTERNAL STATE DUMP: %s\n", program_version ) ;
-+    Sprint( dump_fd, "Current time: %s\n", ctime( &current_time ) ) ;
-+ 
-+diff --git a/src/log.c b/src/log.c
-+index b66ab24..7aba30d 100644
-+--- a/src/log.c
-++++ b/src/log.c
-+@@ -21,6 +21,7 @@
-+ #include "sconf.h"
-+ #include "sconst.h"
-+ #include "msg.h"
-++#include "xtimer.h"
-+ 
-+ 
-+ #define LOGBUF_SIZE                  1024
-+@@ -202,7 +203,7 @@ void svc_log_exit( struct service *sp, const struct server *serp )
-+    {
-+       time_t current_time ;
-+ 
-+-      (void) time( &current_time ) ;
-++      (void) _time( &current_time ) ;
-+       cc = strx_nprint( &buf[ len ], bufsize, " duration=%ld(sec)",
-+          (long)(current_time - SERVER_STARTTIME( serp )) ) ;
-+       len += cc ;
-+diff --git a/src/sensor.c b/src/sensor.c
-+index cd85806..24bd816 100644
-+--- a/src/sensor.c
-++++ b/src/sensor.c
-+@@ -68,7 +68,7 @@ void process_sensor( const struct service *sp, const union xsockaddr *addr)
-+                time_t nowtime;
-+                char time_buf[40], *tmp;
-+ 
-+-	       nowtime = time(NULL);
-++	       nowtime = _time(NULL);
-+ 	       msg(LOG_CRIT, func,
-+ 	           "Adding %s to the global_no_access list for %d minutes",
-+ 	            dup_addr, SC_DENY_TIME(SVC_CONF(sp)));
-+@@ -113,7 +113,7 @@ void process_sensor( const struct service *sp, const union xsockaddr *addr)
-+                {
-+                   time_t nowtime, new_time;
-+ 
-+-                  nowtime = time(NULL);
-++                  nowtime = _time(NULL);
-+                   new_time = (time_t)nowtime+(60*SC_DENY_TIME(SVC_CONF(sp)));                     if (difftime(new_time, (time_t)stored_time) > 0.0)
-+ 	          {   /* new_time is longer save it   */
-+ 		     char time_buf[40], *new_exp_time;
-+@@ -163,7 +163,7 @@ static void scrub_global_access_list( void )
-+    {
-+       int found_one = 0;
-+       unsigned u;
-+-      time_t nowtime = time(NULL);
-++      time_t nowtime = _time(NULL);
-+ 
-+       for (u=0; u < count; u++)
-+       {
-+diff --git a/src/server.c b/src/server.c
-+index 4c4a2b8..e201a57 100644
-+--- a/src/server.c
-++++ b/src/server.c
-+@@ -30,6 +30,7 @@
-+ #include "retry.h"
-+ #include "child.h"
-+ #include "signals.h"
-++#include "xtimer.h"
-+ 
-+ 
-+ #define NEW_SERVER()                NEW( struct server )
-+@@ -228,7 +229,7 @@ status_e server_start( struct server *serp )
-+          return( FAILED ) ;
-+ 
-+       default:
-+-         (void) time( &SERVER_STARTTIME(serp) ) ;
-++         (void) _time( &SERVER_STARTTIME(serp) ) ;
-+          SVC_INC_RUNNING_SERVERS( sp ) ;
-+ 
-+          /*
-+diff --git a/src/service.c b/src/service.c
-+index 93c2162..04422c3 100644
-+--- a/src/service.c
-++++ b/src/service.c
-+@@ -43,6 +43,7 @@
-+ #include "logctl.h"
-+ #include "xconfig.h"
-+ #include "special.h"
-++#include "xtimer.h"
-+ 
-+ 
-+ #define NEW_SVC()              NEW( struct service )
-+@@ -840,7 +841,7 @@ static status_e failed_service(struct service *sp,
-+ 	       SVC_LAST_DGRAM_ADDR(sp) = (union xsockaddr *)last;
-+             }
-+ 
-+-            (void) time( &current_time ) ;
-++            (void) _time( &current_time ) ;
-+             if ( sinp->sin_addr.s_addr == last->sin_addr.s_addr &&
-+                                           sinp->sin_port == last->sin_port )
-+             {
-+@@ -867,7 +868,7 @@ static status_e failed_service(struct service *sp,
-+ 	       SVC_LAST_DGRAM_ADDR( sp ) = (union xsockaddr *)last;
-+             }
-+ 
-+-            (void) time( &current_time ) ;
-++            (void) _time( &current_time ) ;
-+             if ( IN6_ARE_ADDR_EQUAL(&(sinp->sin6_addr), &(last->sin6_addr)) && 
-+                  sinp->sin6_port == last->sin6_port )
-+             {
-+diff --git a/src/signals.c b/src/signals.c
-+index 3c42db3..4160e6d 100644
-+--- a/src/signals.c
-++++ b/src/signals.c
-+@@ -301,7 +301,7 @@ static void bad_signal(void)
-+    else if ( total_signal_count > MAX_SIGNAL_COUNT )
-+       _exit( 1 ) ;      /* in case of a problem in exit(3) */
-+    
-+-   (void) time( &current_time ) ;
-++   (void) _time( &current_time ) ;
-+ 
-+    if ( interval_signal_count > 0 &&
-+             current_time - interval_start <= SIGNAL_INTERVAL )
-+diff --git a/src/time.c b/src/time.c
-+index a4d63fb..68142b0 100644
-+--- a/src/time.c
-++++ b/src/time.c
-+@@ -16,6 +16,7 @@
-+ #include "timex.h"
-+ #include "msg.h"
-+ #include "util.h"
-++#include "xtimer.h"
-+ 
-+ 
-+ #define IN_RANGE( val, low, high )     ( (low) <= (val) && (val) <= (high) )
-+@@ -41,7 +42,7 @@ bool_int ti_current_time_check( const pset_h intervals )
-+    int16_t     min_current ;
-+    struct tm   *tmp ;
-+ 
-+-   (void) time( &current_time ) ;
-++   (void) _time( &current_time ) ;
-+    tmp = localtime( &current_time ) ;
-+    min_current = tmp->tm_hour * 60 + tmp->tm_min ;
-+ 
-+diff --git a/src/xlog/filelog.c b/src/xlog/filelog.c
-+index ee688e5..46cf1e2 100644
-+--- a/src/xlog/filelog.c
-++++ b/src/xlog/filelog.c
-+@@ -25,6 +25,7 @@
-+ #include "str.h"
-+ #include "xlog.h"
-+ #include "filelog.h"
-++#include "xtimer.h"
-+ 
-+ static int filelog_init(xlog_s *, va_list) ;
-+ static void filelog_fini(xlog_s *) ;
-+@@ -190,7 +191,7 @@ static int filelog_write( xlog_s *xp, const char buf[], int len, int flags,
-+ 	if ( flp->fl_state != FL_OPEN )
-+ 		return( flp->fl_error ) ;
-+ 
-+-	(void) time( &current_time ) ;
-++	(void) _time( &current_time ) ;
-+ 	tmp = localtime( &current_time ) ;
-+ 	cc = Sprint( flp->fl_fd, "%02d/%d/%d@%02d:%02d:%02d",
-+ 		tmp->tm_year%100, tmp->tm_mon+1, tmp->tm_mday,
-+diff --git a/src/xtimer.c b/src/xtimer.c
-+index 2053ef4..7a125d8 100644
-+--- a/src/xtimer.c
-++++ b/src/xtimer.c
-+@@ -11,6 +11,15 @@
-+ #include "pset.h"
-+ #include "msg.h"
-+ 
-++time_t _time(time_t *t)
-++{
-++	struct timespec ts;
-++	clock_gettime(CLOCK_MONOTONIC, &ts);
-++	if(t)
-++		*t = ts.tv_sec;
-++	return ts.tv_sec;
-++}
-++
-+ /* A note on the usage of timers in these functions:
-+  * The timers are composed of 3 elements, a pointer to a callback function,
-+  * the expire time of the timer, and a unique (pseudo-monotomically increasing)
-+@@ -68,7 +77,7 @@ int xtimer_add( void (*func)(void), time_t secs )
-+ 		return -1;
-+ 	}
-+ 
-+-	tmptime = time(NULL);
-++	tmptime = _time(NULL);
-+ 	if( tmptime == -1 ) {
-+ 		free( new_xtimer );
-+ 		return -1;
-+@@ -107,7 +116,7 @@ int xtimer_poll(void)
-+ 
-+ 	for( i = 0; i < pset_count( xtimer_list ); i++ ) {
-+ 		xtime_h *cur_timer = pset_pointer( xtimer_list, i );
-+-		time_t cur_time    = time(NULL);
-++		time_t cur_time    = _time(NULL);
-+ 
-+ 		/* The list is sorted, low to high.  If there's no
-+ 		 * timers left, return.
-+@@ -163,7 +172,7 @@ time_t xtimer_nexttime(void)
-+ 	if( pset_count(xtimer_list) == 0 )
-+ 		return -1;
-+ 
-+-	ret = ((xtime_h *)pset_pointer(xtimer_list, 0))->when - time(NULL) ;
-++	ret = ((xtime_h *)pset_pointer(xtimer_list, 0))->when - _time(NULL) ;
-+ 	if( ret < 0 )
-+ 		ret = 0;
-+ 	return( ret );
-+diff --git a/src/xtimer.h b/src/xtimer.h
-+index b0f8451..3ba0d0a 100644
-+--- a/src/xtimer.h
-++++ b/src/xtimer.h
-+@@ -22,4 +22,5 @@ int xtimer_poll(void);
-+ int xtimer_remove(int);
-+ time_t xtimer_nexttime(void);
-+ 
-++time_t _time(time_t *t);
-+ #endif /* _X_TIMER_H */
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-index d30f08dd72..111c50bdfe 100644
---- a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-+++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=55c5fdf02cfcca3fc9621b6f2ceae10f"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
- 
- SRC_URI = "git://github.com/openSUSE/xinetd.git;protocol=https;branch=master \
-+           file://0001-Use-monotonic-time.patch \
-            file://xinetd.init \
-            file://xinetd.default \
-            file://xinetd.service \
--- 
-2.34.1
+On 3/28/25 21:02, hongxu via lists.openembedded.org wrote:
+> Add var-EFI_ISO_KERNEL, if ${EFI_ISO_KERNEL} != "1", do not add kernel and
+> initrd to efi.img of ISO live.
+>
+> For grub-efi's ISO live, the kernel and initrd is not necessary in efi.img,
+> because grub-efi's bootx64.efi sets `search.file ($cmdpath)/EFI/BOOT/grub.cfg root'
+> to locate kernel and initrd in ISO live image.
+>
+> It helps while the size of initrd is big to break the limit of efi.img in which
+> the filesystem type is FAT
+>
+> Also clean up ${EFIIMGDIR} before populating
+>
+> Set EFI_ISO_KERNEL ??= "1" by default which adds kernel and initrd to efi.img
+> as usual
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/classes-recipe/live-vm-common.bbclass | 11 +++++++++--
+>   1 file changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes-recipe/live-vm-common.bbclass b/meta/classes-recipe/live-vm-common.bbclass
+> index d90cc67ebc..f087d9e236 100644
+> --- a/meta/classes-recipe/live-vm-common.bbclass
+> +++ b/meta/classes-recipe/live-vm-common.bbclass
+> @@ -48,18 +48,25 @@ efi_populate_common() {
+>           printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${DEST}/startup.nsh
+>   }
+>   
+> +# Kernel(with initrd) image in efi.img of ISO live
+> +EFI_ISO_KERNEL ??= "1"
+> +
+>   efi_iso_populate() {
+>           iso_dir=$1
+>           efi_populate $iso_dir
+> +
+> +        rm -rf ${EFIIMGDIR}
+>           # Build a EFI directory to create efi.img
+>           mkdir -p ${EFIIMGDIR}/${EFIDIR}
+>           cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
+> -        cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
+> +        if [ "${EFI_ISO_KERNEL}" = "1" ]; then
+> +                cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
+> +        fi
+>   
+>           EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+>           printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${EFIIMGDIR}/startup.nsh
+>   
+> -        if [ -f "$iso_dir/initrd" ] ; then
+> +        if [ -f "$iso_dir/initrd" -a "${EFI_ISO_KERNEL}" = "1" ] ; then
+>                   cp $iso_dir/initrd ${EFIIMGDIR}
+>           fi
+>   }
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#213836): https://lists.openembedded.org/g/openembedded-core/message/213836
+> Mute This Topic: https://lists.openembedded.org/mt/111953457/3617049
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [hongxu.jia@eng.windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
