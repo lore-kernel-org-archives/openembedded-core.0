@@ -1,121 +1,91 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D21C36010
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 17:05:02 +0000 (UTC)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web10.53403.1744045493188682189
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98084C36018
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 17:06:12 +0000 (UTC)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.web10.53431.1744045567233374706
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 10:04:53 -0700
+ Mon, 07 Apr 2025 10:06:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YlN69j12;
- spf=pass (domain: gmail.com, ip: 209.85.210.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-72c40235c34so1070434a34.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 10:04:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mMrnD8K+;
+ spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6ecfc7fb2aaso42607846d6.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 10:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744045492; x=1744650292; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l+Ea9hK51M5nHK38NL+/dBrDfKT0YY7fKpsE/82hsPE=;
-        b=YlN69j12ANjwqtMTCraYSIPGC7jA+7FS4WpZG60b5bSC3hBGnv0JFIcJmquRTunc0t
-         Y8eIOLMr2IE9Q3LoZBX2uF6tCD5apQT0UdP/gVPsk+8SjY30DY0iptuAhZ54ujmsLKO9
-         zeLUG167PYyC7ODtSgHktoV63TmmJLkxVXP7BgiiHEdXqQENx5KB8maoy2sLd4YXD92/
-         LuS6gRq5/tnlwOZDDDVKaoAGOEZvMnLN6iN1IVYA3kk//C3QbJ14ucRX6VtebiwM32l0
-         P48ikw1WadjNybV6gVGd3voMPO+N1T/Za4VCFEl+mstT2o0DekQDNCWf0gHDBbzGiYx8
-         CXUw==
+        d=gmail.com; s=20230601; t=1744045566; x=1744650366; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0R0+1tJ6KsX+wb9TTcF/awxys3H8XKJV3UMbHFOgCuI=;
+        b=mMrnD8K+vvKJ86I5NTizek21tIrsXnJ/m57+blTcVIGI69fJBE3Xdo+dQ94QkYfouZ
+         BqetXFA8Mn5fHI4S1+hQtpY8xnekhZ4Yjz8LHMuyTU2EGuAoRWu/nR025sbha4w+lgLv
+         TE761Z2Qmt7UjzIz6gcWYw6ksdKdAdaYzHIf6WsqDLxKcl8Q/SM3Ot/8iR1/LgBoe92K
+         mA+STOtIoWbLjSfDuSevdxPrjRyNa0DAeKswKC2npL08X4SIMw0gUNKivzq0rSCqamcO
+         JoHXzH39sx/o675LlmmweVMWPkSJ2bNOOh7cjrDwmKxd9ObxLI1hLU41oKbj+6/FqbCF
+         v3Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744045492; x=1744650292;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l+Ea9hK51M5nHK38NL+/dBrDfKT0YY7fKpsE/82hsPE=;
-        b=xSCl5B8OD6GpdxreaAokVzeeuKFeEZV1IusIllPWtjl9TNHj0vet1KH3tXqq3hOsJk
-         Vgsr7NYuKSXd545y1yyZH/w754s1UXx/O0rfjkIVNbGq7wHMyDpZF+5cvaQPExCBIhsP
-         lhcuP5ODJhib4MZIr7UrZWgrUyORvssUwF1ikZcopWidN9ythwPAyC78gRCM4KgQZXTF
-         fvawnP2DwASzp4906iuhgDIaMnxq9zP4ImvuSoiUZu+YlD9sfnyUlyYa+msREXG026SC
-         1axxNjghXxgfPwiWL2uNRpPgQF1Lvu/PM9WHF5qeKCcD8gL86KlUU/6Wg4Ub1tI0tLib
-         izFQ==
-X-Gm-Message-State: AOJu0YwOQarjE/578VmGZKGUNAwAEUYmMUuvNdJjDQ58li+vH3fNcG32
-	uOFm8dyQZzdNBG6jGelzv8CLP2Y5U3COfWy1Tl0g65sxDS/h/i3hBfCZkc/urdYOJUCV40EuGPo
-	RdkBA5nyKiApUezizdxvhpOqeikY=
-X-Gm-Gg: ASbGncteRdJs7mUOMga5QgN0qia15uBziVFNWBJg7ElfR9RxWItEH1XJdW/l+JSQ8g7
-	nXV24Vp7sHUvLrL2JTIW3kiKp1pyFCea9k/UD3Yhe2vztqqoG6U7Hv5woTgPU+lRAnR+3h8YZn9
-	cOVpIvXy/68aBzTWPtKcEgn7Ns
-X-Google-Smtp-Source: AGHT+IFvBITyJaRCi7pcX8TUjkNtZTFjVqVY3bxB612gLQy8OYdBZcfKfwu8aHqJEMV6skkdBAk0V2CPC9aDX6S+Rwc=
-X-Received: by 2002:a05:6808:1385:b0:3f6:7cd2:8187 with SMTP id
- 5614622812f47-400455c4d59mr8047241b6e.20.1744045492341; Mon, 07 Apr 2025
- 10:04:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744045566; x=1744650366;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0R0+1tJ6KsX+wb9TTcF/awxys3H8XKJV3UMbHFOgCuI=;
+        b=eOPppNXurTi6imQV+XvGH8VzO0TriemsEcQQj3yYbv9kfZm1YbHGEZ4d4gkHKyiFCw
+         v7i4onEYzpilOgLYYjtyt2XPf5PnVVNVx3D+8VoSaXDFPKm7UJmW+Qz6+tB7+Se7TKu8
+         BvB1ATSqDjvDQZgp4teWgLVgMNPDY7Y34nYdo2SBC3xFBXiQNDi/qNJIQP0Rr2TKjrQ4
+         P6+Lr31URd46O3LClj8PhIWuaVV1dGnnhCAXH/UMROrqsF0e+p/BZbxyfMGjuqNn7Xg1
+         mqIJDRCfEUtWva/orP+WmXb1JpnLIOsnTlsKTXdWqUIkMgte3OkCpnEW7RLSav2kiezP
+         2EqA==
+X-Gm-Message-State: AOJu0YzztLmjhlFh1qhCIfQDytr42Qx9rBVUUB6Oqa2c4W2GLHAEylvz
+	rPKx5O6t2KOXYuxoSzMlUwgHeU3j3SkXZjynQsWpsc6YTfX1t6y/+Pgokz6aZ3YSah2mYt4318l
+	xjXxGzyViqz6Z/lnVjJRv/rN/E3seXWiU
+X-Gm-Gg: ASbGnct6I3n6vhyks/NxVk6zjr27zLAFtHYVo/cjv7oNieSL65RDNX17Bp7dbgPUoBd
+	wUfGKILeNowhkBFQT5uHL3nBVm3s2OTFoC/5Gg/oQighZUdHIGTdfDVm6sOJQW1d+M28FKx0XxC
+	Hv9EnVSdxregkSze3Eko0xVJT23Yl293OU2psfri24ht5Czqp/s0sZy0MZmbBp
+X-Google-Smtp-Source: AGHT+IF1HqmvR/suiHRCjjm42Og9/SfYjNssMVxLsFV4no6LPkBj1KciW68nrpngX8fX6IfuI1+YUa/AQfXrTjikYNw=
+X-Received: by 2002:a05:6214:1d0d:b0:6eb:2f7a:45c2 with SMTP id
+ 6a1803df08f44-6f064b68414mr198668626d6.43.1744045566272; Mon, 07 Apr 2025
+ 10:06:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250407164456.4845-1-gavrosc.ref@yahoo.com> <20250407164456.4845-1-gavrosc@yahoo.com>
-In-Reply-To: <20250407164456.4845-1-gavrosc@yahoo.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 7 Apr 2025 10:04:26 -0700
-X-Gm-Features: ATxdqUEaDecN-Q9ETO3XQmRcdnTpCMDiBHRr53GLEnB5ROiqDitCMKSgzcnkX2E
-Message-ID: <CAMKF1sqHSmryz3LSpsJiL1AMGdaoSGZK0vWgYfw3xymBAiEz0w@mail.gmail.com>
-Subject: Re: [PATCH v2] initramfs-framework: remove hard dependency with busybox
-To: Christos Gavros <gavrosc@yahoo.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Yoann Congal <yoann.congal@smile.fr>, Randy MacLeod <randy.macleod@windriver.com>, 
-	jbk <jbk@mm-software.com>, Adrian Freihofer <adrian.freihofer@gmail.com>
+References: <20250404075136.385270-1-mikko.rapeli@linaro.org>
+In-Reply-To: <20250404075136.385270-1-mikko.rapeli@linaro.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 7 Apr 2025 19:05:54 +0200
+X-Gm-Features: ATxdqUGBnweN8BGlB3wJkk-yDMDU00fJ_Fdo_CZDd2eZCsfYN4plETGNTLq2rSw
+Message-ID: <CANNYZj8jN5yBoHpYsAPbdMw+vM0CR9Fh9t-6Ddcqr8npDw7_dA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] u-boot: set git repo branch with SRCBRANCH
+To: mikko.rapeli@linaro.org
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 17:05:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214468
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 17:06:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214469
 
-On Mon, Apr 7, 2025 at 9:45=E2=80=AFAM Christos Gavros <gavrosc@yahoo.com> =
-wrote:
+On Fri, 4 Apr 2025 at 09:51, Mikko Rapeli via lists.openembedded.org
+<mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
 >
-> In 'finish'script the Switch_root command with option -c is busybox speci=
-fic.
-> When package-core-base-utils is selected the boot is breaking with messag=
-e
-> "Switch_root: invalid option =E2=80=94 =E2=80=98c=E2=80=99.It was reprodu=
-ced using qemu.
-> Remove -c option to make it compatible with both providers.
-> It is tested using qemu with busybox and package-core-base-utils. In both=
- cases
-> qemu boots successfully and filesystem is accessible.
-> Fixes [YOCTO #15716]
+> Enables changing branch from "master" to "next"
+> when building bleeding edge upstream versions for
+> testing purposes. Now local.conf setup to
+> build latest "next" version becomes:
 >
+> INHERIT += "poky-bleeding"
+> POKY_AUTOREV_RECIPES += "u-boot"
+> SRCBRANCH:pn-u-boot = "next"
 
+But 'next' is not a bleeding edge branch. It's a fluid, and probably
+forced-pushed-to testing branch which is not even on top of master,
+but rather master has commits that next does not:
 
-Looks good
+https://source.denx.de/u-boot/u-boot/-/branches
 
-> CC: Yoann Congal <yoann.congal@smile.fr>
-> CC: Randy MacLeod <randy.macleod@windriver.com>
-> CC: jbk <jbk@mm-software.com>
-> CC: Raj Khem <raj.khem@gmail.com>
-> CC: Adrian Freihofer <adrian.freihofer@gmail.com>
-> Signed-off-by: Christos Gavros <gavrosc@yahoo.com>
-> ---
-> v1->v2
-> * the commit message is extended with more info
-> ---
->  meta/recipes-core/initrdscripts/initramfs-framework/finish | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b=
-/meta/recipes-core/initrdscripts/initramfs-framework/finish
-> index ac0de9f996..716c2f44af 100755
-> --- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
-> @@ -41,7 +41,7 @@ finish_run() {
->                 mount --move /sys $ROOTFS_DIR/sys
->
->                 cd $ROOTFS_DIR
-> -               exec switch_root -c /dev/console $ROOTFS_DIR ${bootparam_=
-init:-/sbin/init}
-> +               exec switch_root $ROOTFS_DIR ${bootparam_init:-/sbin/init=
-}
->         else
->                 debug "No rootfs has been set"
->         fi
-> --
-> 2.34.1
->
+Is there a use case for using it in yocto builds?
+
+Another problem is that this sets a precedent we'd rather not set. If
+you want to tweak bits of SRC_URI, it's better to just reset the whole
+thing.
+
+Alex
 
