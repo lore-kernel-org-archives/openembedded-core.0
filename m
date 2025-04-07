@@ -1,115 +1,123 @@
-Return-Path: <quic_bpothuno@quicinc.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A16AC36010
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 09:05:57 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.42315.1744016750237396408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F3DFC36010
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 09:08:08 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.42931.1744016886013799923
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 02:05:50 -0700
+ Mon, 07 Apr 2025 02:08:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=Rj7gmHeC;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.180.131, mailfrom: quic_bpothuno@quicinc.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5378e5ew002368;
-	Mon, 7 Apr 2025 09:05:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hN+QIo0kImhZxCq2ooy4xeleo/8oXQ+dMswLh+Trt7s=; b=Rj7gmHeCJgjwrNwk
-	6qUvXvcuHKMEhXenI5VtHx02a2p9j0l8zaI6+BZqQ5uvr3423d7dYrUzwz1UdXLJ
-	68BtN3GGHRmRaIStyAWYOtzAFBd+rGOPQAWZms3Tfx97YOelTO1ldRMNqnJAhqJs
-	vXVJQMIxHd1qKp8meHbeRkFll5gU86wzRsQ687GqV2I+fyU9Jye0h7hjtboDobnp
-	dNaNL7BlzXt2d4n8WN2HC/y+1agOK9a/4apUP9zgM3xXF3p2WG7mV4KhaqwXKfE2
-	n6+nxPIJDcQ4RVxxFbtJMSaZnnAmVyec0hTGgtAd9hTY3Ai1Q2Dj3LGhvjdVmILG
-	Bo3Uuw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twfkbmdb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 07 Apr 2025 09:05:46 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53795N5J014094
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 7 Apr 2025 09:05:23 GMT
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 7 Apr 2025 02:05:23 -0700
-Received: from nalasex01a.na.qualcomm.com ([::1]) by
- nalasex01a.na.qualcomm.com ([fe80::df8a:bb4c:1e34:4344%4]) with mapi id
- 15.02.1544.009; Mon, 7 Apr 2025 02:05:23 -0700
-From: "Balaji Pothunoori (QUIC)" <quic_bpothuno@quicinc.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] packagegroup-base.bb: Enable hostapd for WiFi
- SAP configuration
-Thread-Topic: [OE-core] [PATCH] packagegroup-base.bb: Enable hostapd for WiFi
- SAP configuration
-Thread-Index: AQHbpU3W6rDfPVj3tEaF4XmNbGtga7OUL42AgAO9TJA=
-Date: Mon, 7 Apr 2025 09:05:23 +0000
-Message-ID: <e1f115687c834e62aeb02259da322fd1@quicinc.com>
-References: <20250404103901.3644174-1-quic_bpothuno@quicinc.com>
- <D8Y0GGHA95CW.28774KM48J5N3@bootlin.com>
-In-Reply-To: <D8Y0GGHA95CW.28774KM48J5N3@bootlin.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.218.11.177]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@linaro.org header.s=google header.b=OXnCgfk4;
+ spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54963160818so5135751e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744016884; x=1744621684; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AVnXr7TG73CkF/DuRm/QXTF7FxNL0p87cGwK12GR6YM=;
+        b=OXnCgfk4bP7+jO59/apaglgzp802CDU0tGGRq86wUBJPhvoowkL4LMiwv5bpSb4QT6
+         uCJMfWaAkICfrzp2Zi+1gtA9qEmmueCDnd8t6iaM0Pk+vmAdiKqqtmPrw/fs6mf7Y0aX
+         4i91h9uKda5vnXfrxECRzXi+YYGWe7wf9l8S4TXn0wxfijZ/E+DL/4C0RjEaPaX4VPzO
+         4yxfhkOu1fuVSWDuUNpfXLw3wfrNG0T89Dh3hI+qCMgNEaTTbkhFlgdxcmNGuLHK7JJV
+         T8sW93YMZjZ9UP6VoVd7wo/8mbom5rffo5mff2DYfedHIqNPI0XWCcDojIcq7aqOJ/Xm
+         n/wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744016884; x=1744621684;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AVnXr7TG73CkF/DuRm/QXTF7FxNL0p87cGwK12GR6YM=;
+        b=oYZRXndPvKDyPsT3R2Ryjx8OrphkqgV3benkUqF+YVkwTckll9aV2/6tLLe6V9mVqW
+         zVyhae5edQySqhhtkHsdqDVJFCdk/P17hFDY6A+6UgORUNK43VIoUqrobhX30M9S2K0d
+         sBn4PmVJY6s6HHjfmLS8Bnza7N+lL3NIRUr0PCXd57YR9+rBv571MUOxolklZC1qmWe9
+         fxEzLirZ90fO/sdaV70O29KEVF3cZ30pMp+V+S0skK/o4hL+kwjkvoGCDf6KrDnhK5RZ
+         ZWe3+0jRFVZrKplawseoomjQCHDXBzf4wZmCtgOzQJjd9wKSoUHv3iFwD/pXXagvzvti
+         Ux1g==
+X-Gm-Message-State: AOJu0YyCwq7BomV6JRy4YTL/Z4ZfzDLtqcPdNPFARfq38WVxw4MoXzyr
+	AvyneldQHWRWDqH4/o0YPj1sZL48xuxcj26+1/88q9cctmKoqrAwL8SVCZUBzk0=
+X-Gm-Gg: ASbGncsS/Q4OcQCqkfvpgu7e7ej9WIUw5ZhF4KrRC6vbPw6ckNchYC1bectloqnHanf
+	AJ/2zaq79vKFTiAaaM2IAiO2ZAUHeX4WFQRs3QlLjWomOzVJXHXRtrjLIKLmcQRPYQEQKPAUMFX
+	0oKWhFYzqetF8H1Y+6Ej9lnWWB4bZCiKPPybbhcsKqkAMCFWZaXeR3LwUlF5xhwEX6oWVMWWFQt
+	9+otMiEA8O91CMDuvupTaWZdqHsWMjcgaMTQO/scWqsRMVjPcWf75KqYqhLPrgLLkWYxNv7hFrJ
+	5Sr1767ytKxVG1Ykd7Ac29yiVz3zEX2zSMXGv+vWDuLwJOr/4VUxAuV3o0tS9JbhYVX69inJICL
+	jiQ==
+X-Google-Smtp-Source: AGHT+IGX4sIrbX/Cm9o0ZVPTI/ZQtZFmdpk4IIL/v4r8MX2Nve+FxQiLuDti18JOpVErRWnSpeROCQ==
+X-Received: by 2002:a05:6512:230e:b0:54b:ed9:2cf8 with SMTP id 2adb3069b0e04-54c232bf2b4mr2633983e87.10.1744016883822;
+        Mon, 07 Apr 2025 02:08:03 -0700 (PDT)
+Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e672356sm1191945e87.230.2025.04.07.02.08.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 02:08:03 -0700 (PDT)
+Date: Mon, 7 Apr 2025 12:08:02 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Koen Kooi <koen.kooi@oss.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v3 04/11] core-image-initramfs-boot: add option
+ to build systemd based initrd
+Message-ID: <Z_OV8sGhAC-vqAll@nuoska>
+References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
+ <20250404162932.447699-5-mikko.rapeli@linaro.org>
+ <0C447E0A-971B-4C9D-A8B4-9293962BF92F@oss.qualcomm.com>
+ <Z_Nsx9Qntl9ghZwK@nuoska>
+ <F2BE3AD0-A0B2-4760-B4EB-E4D18D4CD2DB@oss.qualcomm.com>
 MIME-Version: 1.0
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: TnsBMFfuAo1hoRCW_wGqegG-1Ac29BT6
-X-Proofpoint-ORIG-GUID: TnsBMFfuAo1hoRCW_wGqegG-1Ac29BT6
-X-Authority-Analysis: v=2.4 cv=b7Oy4sGx c=1 sm=1 tr=0 ts=67f3956a cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=xqWC_Br6kY4A:10 a=s79Y4jWm60cA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=P-IC7800AAAA:8 a=COk6AnOGAAAA:8
- a=Q4-j1AaZAAAA:8 a=mzjhrXI5L8IxHFg0_3oA:9 a=QEXdDO2ut3YA:10 a=d3PnA9EDa4IxuAV0gXij:22 a=TjNXssC_j7lpFel5tvFf:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-07_02,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
- priorityscore=1501 suspectscore=0 mlxscore=0 impostorscore=0 phishscore=0
- clxscore=1011 spamscore=0 mlxlogscore=999 bulkscore=0 lowpriorityscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504070065
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <F2BE3AD0-A0B2-4760-B4EB-E4D18D4CD2DB@oss.qualcomm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:05:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214406
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:08:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214407
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXRoaWV1IER1Ym9pcy1Ccmlh
-bmQgPG1hdGhpZXUuZHVib2lzLWJyaWFuZEBib290bGluLmNvbT4NCj4gU2VudDogRnJpZGF5LCBB
-cHJpbCA0LCAyMDI1IDEwOjI2IFBNDQo+IFRvOiBCYWxhamkgUG90aHVub29yaSAoUVVJQykgPHF1
-aWNfYnBvdGh1bm9AcXVpY2luYy5jb20+Ow0KPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBwYWNrYWdlZ3Jv
-dXAtYmFzZS5iYjogRW5hYmxlIGhvc3RhcGQgZm9yDQo+IFdpRmkgU0FQIGNvbmZpZ3VyYXRpb24N
-Cj4gDQo+IE9uIEZyaSBBcHIgNCwgMjAyNSBhdCAxMjozOSBQTSBDRVNULCBCYWxhamkgUG90aHVu
-b29yaSB2aWENCj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToNCj4gPiBUaGlzIGNoYW5n
-ZSBpcyB0byBlbmFibGUgaG9zdGFwZCBmb3IgV2lGaSBTQVAgY29uZmlndXJhdGlvbnMuDQo+ID4N
-Cj4gPiBTaWduZWQtb2ZmLWJ5OiBCYWxhamkgUG90aHVub29yaSA8cXVpY19icG90aHVub0BxdWlj
-aW5jLmNvbT4NCj4gPiAtLS0NCj4gPiAgbWV0YS9yZWNpcGVzLWNvcmUvcGFja2FnZWdyb3Vwcy9w
-YWNrYWdlZ3JvdXAtYmFzZS5iYiB8IDEgKw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9wYWNrYWdlZ3Jv
-dXBzL3BhY2thZ2Vncm91cC1iYXNlLmJiDQo+ID4gYi9tZXRhL3JlY2lwZXMtY29yZS9wYWNrYWdl
-Z3JvdXBzL3BhY2thZ2Vncm91cC1iYXNlLmJiDQo+ID4gaW5kZXggY2I5ZDFmMDdhZjUxLi5lMGEw
-MjFmYzYwOTEgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvcGFja2FnZWdyb3Vw
-cy9wYWNrYWdlZ3JvdXAtYmFzZS5iYg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3BhY2th
-Z2Vncm91cHMvcGFja2FnZWdyb3VwLWJhc2UuYmINCj4gPiBAQCAtMjYyLDYgKzI2Miw3IEBAIFJE
-RVBFTkRTOnBhY2thZ2Vncm91cC1iYXNlLXdpZmkgPSAiXA0KPiA+ICAgICAgaXcgXA0KPiA+ICAg
-ICAgd2lyZWxlc3MtcmVnZGItc3RhdGljIFwNCj4gPiAgICAgICR7V0lSRUxFU1NfREFFTU9OfSBc
-DQo+ID4gKyAgICBob3N0YXBkIFwNCj4gDQo+IEhpLA0KPiANCj4gSSBiZWxpZXZlIHRoaXMgaXMg
-bm90IHBvc3NpYmxlLCBhcyB0aGUgaG9zdGFwZCBwYWNrYWdlIGlzIG5vdCBwYXJ0IG9mDQo+IG9w
-ZW5lbWJlZGRlZC1jb3JlIGJ1dCBtZXRhLW9wZW5lbWJlZGRlZC4gVGhpcyBjaGFuZ2UsIGlmIGl0
-IGhhcyB0byBiZQ0KPiBtYWRlLCBzaG91bGQgYmUgbWFkZSBpbiBtZXRhLW9wZW5lbWJlZGRlZC4N
-Cj4gDQpBcG9sb2dpZXMgZm9yIHRoZSBjb25mdXNpb24uIEJvdGggdGhlIG1ldGEtb3BlbmVtYmVk
-ZGVkIGFuZCBvcGVuZW1iZWRkZWQtY29yZSBmb2xkZXJzIGFyZSBwcmVzZW50IGluIG15IHdvcmtz
-cGFjZSwNCnNvLCBJIGRpZG4ndCBlbmNvdW50ZXIgYW55IGNvbXBpbGF0aW9uIGlzc3Vlcy4gS2lu
-ZGx5IGlnbm9yZSB0aGlzIGNoYW5nZS4NCg0KIj4gLS0NCj4gTWF0aGlldSBEdWJvaXMtQnJpYW5k
-LCBCb290bGluDQo+IEVtYmVkZGVkIExpbnV4IGFuZCBLZXJuZWwgZW5naW5lZXJpbmcNCj4gaHR0
-cHM6Ly9ib290bGluLmNvbQ0KDQo=
+Hi,
+
+On Mon, Apr 07, 2025 at 10:58:12AM +0200, Koen Kooi wrote:
+> 
+> 
+> > Op 7 apr 2025, om 08:12 heeft Mikko Rapeli <mikko.rapeli@linaro.org> het volgende geschreven:
+> > 
+> > Hi,
+> > 
+> > On Mon, Apr 07, 2025 at 08:01:41AM +0200, Koen Kooi wrote:
+> >> Op 4 apr 2025, om 18:29 heeft Mikko Rapeli via lists.openembedded.org <mikko.rapeli=linaro.org@lists.openembedded.org> het volgende geschreven:
+> >>> 
+> >>> If "systemd-initramfs" is in DISTRO_FEATURES then convert
+> >>> core-image-initramfs-boot from shell scripts to systemd.
+> >>> The resulting initramfs is much bigger than shell script one but
+> >>> supports much more features like disk encryption and TPM devices.
+> >>> Also includes udev which can load any drivers needed to mount
+> >>> rootfs.
+> >> 
+> >> Are packaged based kernel updates finally working with this?
+> > 
+> > Sorry, I don't get this question. What is package based kernel updates?
+> 
+> Using package management to update a kernel, e.g, 'opkg update ; opkg upgrade'.
+
+Yocto project in general does not test binary package update paths. These
+patches are still tied to the yocto build environment and don't generate
+initrd on the running systemd based on files in the rootfs. That support
+is currently not available in yocto, AFAIK.
+
+These changes only enable building systemd based initrd image from the yocto
+build environment.
+
+One of the usecases which I'm testing is UEFI secure boot where
+kernel and initrd are signed with keys which are not availeble
+in the rootfs. The keys are only available on the yocto build
+machine. The UEFI firmware (u-boot based,
+https://gitlab.com/Linaro/trustedsubstrate/meta-ts ) checks
+that kernel and initrd in the UKI binary are signed with
+expected keys before allowing boot to continue. systemd
+based initrd is then able to use TPM in more advance ways
+that shell script based yocto initrd framework to e.g.
+encrypt rootfs.
+
+Cheers,
+
+-Mikko
 
