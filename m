@@ -1,120 +1,96 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6DEEC36010
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 11:03:10 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web11.43821.1744023784948790466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBF9BC36010
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 11:10:10 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.43925.1744024200684493203
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 04:03:05 -0700
+ Mon, 07 Apr 2025 04:10:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=It2KRSm2;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6e8fca43972so50280096d6.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 04:03:04 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=kaUTAoJi;
+ spf=pass (domain: linaro.org, ip: 209.85.208.171, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30bfed67e08so42230081fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 04:10:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744023784; x=1744628584; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zhvLoZENAFIQga9EudT4gVSZQz7cKUWSVX/PCJ01Viw=;
-        b=It2KRSm2fAoFsej/QZEiHwGljCF0zX+zon/ubCxhXACNVtP0wQYeBNQFRVepJoR8BJ
-         rXYjFq6oNzR25Q77B4HfSV3F2SZ3UGtQ8crzLMlU2kdHHfwqJxjM5eYP2H1bth8Y6fdh
-         PYJwriRSBANRy0wWZFCGsg42DjeDKpA0yEbivk28/8wNrae6TjyLa0Mx/BRifxKiRlS6
-         FCDuh5vY307sh40AVhzV1zrodVnk1qgEU0iQ7WnhvZV4Jt8qdwSK474MtIuBTOOwBhAv
-         sOClmcIi/ryemaMA6EvUs+X1uey8AFx3cL2OIXdH/jsG75AaCipSpIwbdhS+BBp+zCHt
-         QiRw==
+        d=linaro.org; s=google; t=1744024199; x=1744628999; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wbqnlumWq8VWnol22agokQgXdJbyTcLK8hyAV++BgQA=;
+        b=kaUTAoJi+IOzWCJ5MrYkZq9/RPDH2lAJTbML1z3q3AkU5VXBtd5J3pT2y5JmxgwuZW
+         ZRxDZeg5nBImKradVtrZPXckGQJuBRsEIm5z55M2fO36i4KOffU+Vl5IgvzVJ7jE6+Xg
+         LXszRL4R52g9iXkTpyNlmHCy+AmEhSiHZyz4p+qPQXn4Lq6ouVVdr1smzycL42sNLzIy
+         jFDELRtfxkxc24jddWRv1/RyVhzpa2WuDvg5fCXLTRWzWd+IxAL0Mxgxq3TDA79movWk
+         aL3/dwWYXyAr+vcERIZJgk/X7BBgm5GQSm1IHvB93sJnZdpshGdF5mPVHnJdnACLSlO5
+         O4Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744023784; x=1744628584;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1744024199; x=1744628999;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zhvLoZENAFIQga9EudT4gVSZQz7cKUWSVX/PCJ01Viw=;
-        b=n4G4IIo7yTZs85gXmqRd93lTwy4YdoF3JmhPXwfD9S28FaYVBXm0VQwDmfTIE4Rcod
-         KdN4zF9qcSPkzaFygoNB+y9x45+51zB78Wzc01SV+KfAgCMraTyl+fIK+9caH2AREeXZ
-         1xFbJOLLZHB5/KOAsZVlPeq/0zJMBfIJuXbGPpuSodfT0AyfkzztnGk+BW/i619XIjfc
-         izxqkT8gJUgtdkSJ3yg04D1VdMU99YTfAqrwpB//6E3HiTmGMxkIV8HN/q7VOBbz+Pr6
-         Ijkke9qa08DtcZkFUbx1w2rnqPGs+GJwsWNubI5RbEusA7Y2U1sb0PV6M/8e7jQhoGf1
-         qRow==
-X-Forwarded-Encrypted: i=1; AJvYcCUcpHrLpptZ+khgYdsiHqh1mNRJExfLkPzeTxPI16n0GWwoFPe5zm/meuRVSp/8KHkSuiUk9FTokW0NdH24D3tX4Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw4jyBcFw/Bsze+xUVJgup+E0xiYts/WgKwShHWbTIQfs2qs5Ge
-	c7dW7Ycq5gk3Y9tHxC/6YaFLDq2acD2qpiF4n0bXC/fEptFcHIdo+HzYevg1kyRncfKqb4+k5C+
-	Zkj8qafjlXwnh4OZcQwajg5+ws0k=
-X-Gm-Gg: ASbGncuVz/m5UiXJ/SjSqvEtzMNLjlYdCL3J9nEz/B6+CKlLOMed4yoef1Y18B0QOmN
-	FuiMmscyqGDl+rbarNZZSbvK6Pbz8RFJfZMIK6gVSSO1zqxUW5Mfd/e0sBxdfRgUBMHoErlxecR
-	xcrqeK5kvf7u7PPCqEa7fZqpQyGYfow8+rXBhXbo++esUCZMpLPiNSQB2/VE5n
-X-Google-Smtp-Source: AGHT+IGjQIqU50Fa4BsKT0DjEdBQjmZqwgARYTvyE0VDR94nKe1HNN0QDuly91HnujNFUumjaqjWwA2N/Vnc+43f/6w=
-X-Received: by 2002:ad4:5c69:0:b0:6e4:2e12:3a0c with SMTP id
- 6a1803df08f44-6f01e7bbe1bmr201251256d6.39.1744023783574; Mon, 07 Apr 2025
- 04:03:03 -0700 (PDT)
+        bh=wbqnlumWq8VWnol22agokQgXdJbyTcLK8hyAV++BgQA=;
+        b=GXsy5r1f0vDDWT5jHhhIFZhvOAqjzR9Q7yhUHgamzZsKhtY+2k+To1tKYz5pWD5XkV
+         dO3GJ9fx3AmnaDq42ulRjrnrPqdfEEAkpxD2H+v1EzHEOI7GMv8EI7dyvscSsOb9G8x3
+         DEnFsWalDeoUnKh60p3oDWI58i2W4wIKWm1iPwn5+V0TH04iakjE83RIlsPz/GDWwWLB
+         qcEbLmxKHBx+do8bIFwO6S+rPOlpymepS1uVckudZb387OKO1Wil8f3QNhlVbVMfRNvq
+         fGb2nK/zFinSvkjcGQuJwfdIcVyoMuiljTg/v4qVxtyMxcT1QuvOZwPe+9QOh7reVmj0
+         TfFg==
+X-Gm-Message-State: AOJu0YwQvnnZMjjJuxER05xdZZMzbEZF71+Ub0sa0iSYmg9l8DHBFsll
+	/B4S+v09vDAPZKg7IzkyY+wWwwAyoUPzFmoBpuJeY7Jgd2j01DEo3kE7zowcuyd6IK5SB+TQGV7
+	fD6k=
+X-Gm-Gg: ASbGnct0GqUl8ppbMrSYjoUxKZuh98P/005EE2oPK+6QkvhQ7Cc3cS2ASjR4eLMKFdZ
+	npQhBYEMxiMe7+YNOhBb0jfxXLQ9epBDpcS5xi+zETUzzxdgS74ByY0/msQvPmNpU8a2OT7GKjL
+	AFUc5ATgFiwyTBLthN5qoWL5ORL0pbo1n1DEvfFcMpXLVi1eEpT062q5nsXdtdv5fPMnqXkSktc
+	2ztj1Kk37QgIVr/WyplhyleJUCywQPwydv+cqNr6sKN/UrUtOBZGQSeWvX79gRsaeSiZaiGgqGo
+	863p0qX+Pqc0ft4nd62i9lQ8L9dQBirdbc5PAEPmzvIylqsGzY89EtHioEGMF9iSnGwU9EzK+b5
+	u/esu542y8fNXajvQVtTG8w==
+X-Google-Smtp-Source: AGHT+IFHPi4smRdcfjbIzs9N0VVJQQOiIUX8ataw6crtMlkqG+dvLwDmBEgQsIfOGUm867YsUJeOGg==
+X-Received: by 2002:a05:651c:30c4:b0:30b:c96a:74c with SMTP id 38308e7fff4ca-30f0a0ec4f7mr39858511fa.1.1744024198895;
+        Mon, 07 Apr 2025 04:09:58 -0700 (PDT)
+Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f031ce83fsm15352581fa.108.2025.04.07.04.09.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 04:09:58 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH] oeqa wic.py: clean image build dir before rebuild in test_permissions()
+Date: Mon,  7 Apr 2025 14:09:45 +0300
+Message-ID: <20250407110946.47038-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250321151245.21227-1-mario.schuknecht@iris-sensing.com>
- <D8NTZA6A6JBD.5NEFFO2SQS5Q@bootlin.com> <FR3P281MB19170866636FFF96C26464B8B6A42@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
- <CANNYZj8s=w0CY3VFOCRtzn9z=LeH7H+z_TXS2QcvcRJyeUbAXA@mail.gmail.com>
- <5cdce6f6145ff07615ebf8496b21cdca9c75641d.camel@linuxfoundation.org>
- <FR3P281MB1917204FF59FC089654B5FCFB6A72@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
- <18300D8D696CD25C.32743@lists.openembedded.org> <CANNYZj8tqi5tnomg7t5k9iGHj_xCszmC6nCYfKmgh=yToiM9aQ@mail.gmail.com>
- <FR3P281MB1917CC7FE52D22DAF61020FAB6A62@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
- <CANNYZj_E+01hDV3hF=9AjPnEZTfmLCAwav203=XS7Y8sZquRuQ@mail.gmail.com>
- <FR3P281MB1917B56C58FEF4BC1FCEC291B6A92@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
- <CANNYZj8hp_OCYz3ZYSHg2GdO8QiE6LAxLVmz6k_U=ZdY8UAkrw@mail.gmail.com> <FR3P281MB1917DF6032653CF52115E214B6A82@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
-In-Reply-To: <FR3P281MB1917DF6032653CF52115E214B6A82@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 7 Apr 2025 13:02:52 +0200
-X-Gm-Features: ATxdqUFCN61t4okWlSx6FISp-bD7AC19yqrbfXqn_3yQOGF-4ANfUO3unTw5g0A
-Message-ID: <CANNYZj8P7qJ0WnsWR=fVKfF8XtuqXV9GYHMEwmKSNLwC=vbMWA@mail.gmail.com>
-Subject: Re: [OE-core] [meta-core][PATCH v2] libgpg-error: inherit lib_package
-To: Mario Schuknecht <Mario.Schuknecht@iris-sensing.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 11:03:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214448
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 11:10:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214449
 
-On Sat, 5 Apr 2025 at 17:34, Mario Schuknecht
-<Mario.Schuknecht@iris-sensing.com> wrote:
+The test builds images using wic and then with bitbake
+and compares results. This fails at least on aarch64
+build machine and multiple target machines due to
+pseudo errors. Fix by cleaning the build recipe
+build directory before rebuild.
 
-> As I understand it, the problem is not with apt but with not repackaging gnupg.
-> 'gnupg:do_package_write_deb' is missing the dependency to 'libgpg-error:do_packagedata'.
->
->
-> To stay on the right track, should the code that maps these shared library dependencies
-> to packages that contain them also add this missing task dependency?
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/lib/oeqa/selftest/cases/wic.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-I do not think so, I believe apt and metadata in .deb files should be
-investigated first. I went and looked into libgpg-error0 .deb control
-file, and it does contain the needed Provides, but crucially, the
-Provides line itself lacks version info:
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 4f5d43b5ee..55c655cd6d 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -674,6 +674,7 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+ 
+                 config = 'IMAGE_FSTYPES += "wic"\nWKS_FILE = "%s"\n' % wks_file
+                 self.append_config(config)
++                bitbake('-c clean core-image-minimal')
+                 bitbake('core-image-minimal')
+                 tmpdir = os.path.join(get_bb_var('WORKDIR', 'core-image-minimal'),'build-wic')
+ 
+-- 
+2.43.0
 
-Package: libgpg-error0
-Version: 1.51-r0
-...
-Provides: libgpg-error
-
-If you built .rpm, then the Provides does include the version info:
-
-%package -n libgpg-error0
-...
-Provides: libgpg-error = 1.51
-
-So I suspect apt gets confused somehow: either it doesn't pick up this
-Provides at all, or it rejects it because the version isn't known, and
-gnupg has version constraints:
-
-Depends: gnupg-gpg, libassuan9 (>= 3.0.2), libbz2-1 (>= 1.0.8), libc6
-(>= 2.41+git0+0a7c7a3e28), libgcrypt (>= 1.11.0), libgnutls30 (>=
-3.8.9), libgpg-error (>= 1.51), libksba8 (>= 1.6.7), libnpth0 (>=
-1.8), libreadline8 (>= 8.2.13), libz1 (>= 1.3.1)
-
-I'm out of time to look further into this today, but maybe you can
-check if we're missing something in .deb generation (compared to rpm),
-particularly having version info in Provides as explained here:
-
-https://www.debian.org/doc/debian-policy/ch-relationships.html#virtual-packages-provides
-
-Alex
 
