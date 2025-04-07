@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 639F6C369A8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EBA3C369A6
 	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 09:40:59 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.42758.1744018853876049688
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.43303.1744018854613365154
  for <openembedded-core@lists.openembedded.org>;
  Mon, 07 Apr 2025 02:40:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hqlX2eiW;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43d0618746bso28837955e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:40:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MVXPodIv;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so36171455e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:40:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744018852; x=1744623652; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1744018853; x=1744623653; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EQ1drc8RcjXbMxjFNfXs46qZ9G3eZWXRGPLPyTH+HlA=;
-        b=hqlX2eiWKO2gqDyELSPpBFvr8l0NDocYjjNvqjvBRfTfohWVjkQHt59MCuVg3H8h/F
-         N4qYvkumXYokiDK7V848u9Wc2GnpuafG5OhXmlrbnVaA6PTl62k3qa7ZQGGx96uN2eB4
-         jut0qwvQxEc2fs687d0LuaGzwiW0/hImgRqbjATKKsrtfg4U0y4qZ2ho2tXmEavZhlc9
-         VySeeEYv6rSYehXj4QIMzVaQ6Oj2zR0y2PFMkDQvnNQBPOSNzObRFgm6VyygBOERNAQ/
-         4Jj6UmU0zVf2icrZ5d76kfLn5g7R64ce+PEB2xD+uwCcx5GxMUzMC0aVANhjqb38i7d3
-         UUTw==
+        bh=Nq95dafiEmKQL+SMY5vIntmrMnwC25G7FEZiwrAaMmA=;
+        b=MVXPodIvM1RH0z0WYvBbIZUQTSVtQyyfcFd9rSKMOmGdNvX6kHMa0OLk4JhmkgXQQd
+         UgXuSxg1+w0h2w759+3qxSAhRtKeYuXu/bGn3+QIG4p4GcU+B4H9kd/yD21vhagywp8x
+         WN1RpHGIgvO3yxE9WrJWNmb58V6WaIv9xv29fbAu2nkWb71xW9HZNvGI3qVQk4SX0b2t
+         X0tCdvgJtjzzJz6TfjGQGN6+B5r27/bV2ksLaK8blVe7dGesFrrVdspPsU0AFUOwSMDN
+         z2irHDNHkWXFkGtVEpq2nSGNmdTPLlY0XijghIJNCT3ySPQ09DUNc1YPiUPqsNdB75xs
+         gD9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744018852; x=1744623652;
+        d=1e100.net; s=20230601; t=1744018853; x=1744623653;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EQ1drc8RcjXbMxjFNfXs46qZ9G3eZWXRGPLPyTH+HlA=;
-        b=Vg3fu2OoYKTwtDTzLPEBYvOhzRFSI/6Rlo/Ebe3UA+KrYeoPif317PqEDDz/Q+aBXs
-         53cz302ue4KlcZvCg3wdJjuLnKMqnxZ24fhU8/b1Se7xR2UlNGU+d+0Ib0+U2MAAIVRD
-         O9XL5zQQvw9xDtyHFL/mjARO50+uLaUw31PjGOpDAWaeOv++tkW7VmLtiREh3vdain5m
-         kri/DJYjRIOZ7uNVsKPmt3cEAoEHD5un77dCEoVqjZYQlUyC+yzB7tc0CH+MqtBzeoa8
-         SwRKgGqOP0m3qi5VelKMkbnlg51D1Gbqatovh3h/gxnJWhgZcoE/wZ7OARY2IpXZM7oi
-         oHNQ==
-X-Gm-Message-State: AOJu0YzyH2y9mIqr8LNxCN8WNb0eUMwy6K0yAfbpBvTK5lsvdgbqKlhU
-	Um6kP3gVkK+BPFLwmTa8agEPnDb+JrDQV+Gv6gS7uqKc/Y+CMsR9VJeJNA==
-X-Gm-Gg: ASbGnctVRxSYksvIQ8tExfhjqKHVQ7WOdzXh31dfomSOlUGgtPQBX98QSbrvV0+oJpI
-	NY8/O3t7p6MX3b+9JRsDx1/U7hgi6RAN8yzY4Qzz3KZWMIDGykKwxynF/pJoqtvx/Zx2iaHhhlV
-	mz81YJ8wZ0YPv84ZtkcEgXsdb/EwmhBoar/0C5+OFvkUbyLDkYvVWVOHiXWh9oc51ssJA+tgMoN
-	6+SByWFKoeqpdy36AHkOGbxZAbPjONnTBbR958By3SWStIar2C47SIQ9prhUy9G7vFmphjeTlBR
-	duQqTCBIyIfFlLPRRVs2gL9nK/YCr10vxh2C3ty+Cc+8Z+RpjfkwLdSPP50lTZd9M3fcv1gNr0K
-	glSrd7w==
-X-Google-Smtp-Source: AGHT+IHUjAA94lhFwAEvSdp8aX0HgJK3k1o1/t2+4ipRG2Y6MxIx9cqSOcHK2jvyoEEYEj7ZZylMHw==
-X-Received: by 2002:a05:600c:46d1:b0:43c:f513:958a with SMTP id 5b1f17b1804b1-43ecf85f223mr99140705e9.13.1744018851812;
-        Mon, 07 Apr 2025 02:40:51 -0700 (PDT)
+        bh=Nq95dafiEmKQL+SMY5vIntmrMnwC25G7FEZiwrAaMmA=;
+        b=IBVTt5q4MOvBV8V66tbZ+38nl3wdaLTWwT6ye4xvgR0hJduT9vgG8poo9kaIL1MwZ/
+         6N5wi3tDgepXH1RhhXrVDKW33BbAkVNGAMpi9t9Kl3R1a3iqWr/uNTAxnCDpX82vCng2
+         O4luJ+AiROHJmkT9KU9WfC9GpgC5J1fuLgEiWaoeEFD1foPyMIOlv7GUYFA82zXGRE7O
+         qKnTBGy6KcSJofFh0LKgaxSSavB3zm5ITWD2lnWL3fd+oXXqX/7MeQiZQ8ZTQ0FQDOGW
+         EHmh/k5slKUpL+Nrj/Eiq77gVvDd6tbwS4cvtgA/+7S4DymiuW/DYeVuqJI8So/iEd2a
+         If4A==
+X-Gm-Message-State: AOJu0YwTWNQLzg4nXv873D4M/8OUX78Y9ww7Tq72xkyBl7968N4f7Zph
+	9WWKQkbEmmMWwiiaxqtVnzHWFEAmU749i9ebRA7ui/n+mNvdL3AZ75LfRQ==
+X-Gm-Gg: ASbGncsdFDLqWuz17WP7s6Zg9QfxGgLWpKoCik119cZBxePYYPKiah4ebXteY39/xQV
+	smh4Ulmk2f86MeBcwGeHG5h96r8TJTnedb87YTAAMQ1ZQ9fCJrPetho4sV7JcmcjltTCJAEl/cU
+	NJUWiiTuNhd8tyK9MrEF9N4s4WDIZPlmXltYeWPUUiUQn7J5X4eJIsPOYOZqJXAAq5XoDBBxzNt
+	lRNxzQA10CIJvCg7pWZiS6iH/dpX1jXijhi9WvIhqfeNC2RaisiaJtBJSRE5P6REmEU380VPF8d
+	PjBm3vX4pLDPvW1VOvnvV3+CInfzXqXF2k7sfvc0NUfQCBBSVT2dycxjahyC6B6uq2GjgCP6G9e
+	EqOr74w==
+X-Google-Smtp-Source: AGHT+IGdZFJfsEyibxfDYySgGNqk1lbUZzysLiZnOePzVJLymNv2/cPLjNDVcpTh2diHIWks3lIsvQ==
+X-Received: by 2002:a05:600c:1e8f:b0:43c:f78d:82eb with SMTP id 5b1f17b1804b1-43ee0698c8cmr87274125e9.15.1744018852458;
+        Mon, 07 Apr 2025 02:40:52 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a76cesm11562459f8f.37.2025.04.07.02.40.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 02:40:51 -0700 (PDT)
+        Mon, 07 Apr 2025 02:40:52 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 04/18] elfutils: remove 0001-libasm-may-link-with-libbz2-if-found.patch
-Date: Mon,  7 Apr 2025 11:40:31 +0200
-Message-Id: <20250407094045.753021-4-alex.kanavin@gmail.com>
+Subject: [PATCH 05/18] elfutils: remove 0001-dso-link-change.patch
+Date: Mon,  7 Apr 2025 11:40:32 +0200
+Message-Id: <20250407094045.753021-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250407094045.753021-1-alex.kanavin@gmail.com>
 References: <20250407094045.753021-1-alex.kanavin@gmail.com>
@@ -67,7 +67,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:40:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214413
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214414
 
 From: Alexander Kanavin <alex@linutronix.de>
 
@@ -76,67 +76,77 @@ The original linking issues seem to be long gone.
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
  .../elfutils/elfutils_0.192.bb                |  1 -
- ...libasm-may-link-with-libbz2-if-found.patch | 39 -------------------
- 2 files changed, 40 deletions(-)
- delete mode 100644 meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
+ .../elfutils/files/0001-dso-link-change.patch | 49 -------------------
+ 2 files changed, 50 deletions(-)
+ delete mode 100644 meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
 
 diff --git a/meta/recipes-devtools/elfutils/elfutils_0.192.bb b/meta/recipes-devtools/elfutils/elfutils_0.192.bb
-index 7bf9865555d..4fbfa4b1357 100644
+index 4fbfa4b1357..f96e7c8ef05 100644
 --- a/meta/recipes-devtools/elfutils/elfutils_0.192.bb
 +++ b/meta/recipes-devtools/elfutils/elfutils_0.192.bb
-@@ -15,7 +15,6 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0001-dso-link-change.patch \
+@@ -12,7 +12,6 @@ DEPENDS:append:libc-musl = " argp-standalone fts musl-legacy-error musl-obstack"
+ # http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.176-1.debian.tar.xz
+ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://run-ptest \
+-           file://0001-dso-link-change.patch \
             file://0002-Fix-elf_cvt_gunhash-if-dest-and-src-are-same.patch \
             file://0003-fixheadercheck.patch \
--           file://0001-libasm-may-link-with-libbz2-if-found.patch \
             file://0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch \
-            file://0001-skip-the-test-when-gcc-not-deployed.patch \
-            file://ptest.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch b/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
+diff --git a/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch b/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
 deleted file mode 100644
-index 6031b721fcb..00000000000
---- a/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
+index 0eb532f3dd5..00000000000
+--- a/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
 +++ /dev/null
-@@ -1,39 +0,0 @@
--From 7bcee92c2006b7adad463be28cf4c3af21489cd2 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 4 Oct 2017 22:30:46 -0700
--Subject: [PATCH] libasm may link with libbz2 if found
--
--This can fail to link binaries like objdump
--where indirect libraries may be not found by linker
--
--| /mnt/a/oe/build/tmp/work/riscv64-bec-linux/elfutils/0.170-r0/recipe-sysroot/usr/lib/libbz2.so.1: error adding symbols: DSO missing from command line
--| collect2: error: ld returned 1 exit status
+@@ -1,49 +0,0 @@
+-From 7b0f78c86bf2e658649327fb3dd1b862f282c42e Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Tue, 15 Aug 2017 17:10:57 +0800
+-Subject: [PATCH] dso link change
 -
 -Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-This patch makes the link to the dependencies of libdw explicit, as
+-recent ld no longer implicitly links them. See
+-http://lists.fedoraproject.org/pipermail/devel/2010-March/133601.html
+-as a similar example of the error message you can encounter without this
+-patch, and https://fedoraproject.org/wiki/UnderstandingDSOLinkChange and
+-https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking for
+-more details.
+-
+-Rebase to 0.170
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ----
-- src/Makefile.am | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
+- src/Makefile.am   | 2 +-
+- tests/Makefile.am | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
 -
 -diff --git a/src/Makefile.am b/src/Makefile.am
--index 3bcee3c..18eed9a 100644
+-index 6bdf2df..3bcee3c 100644
 ---- a/src/Makefile.am
 -+++ b/src/Makefile.am
--@@ -46,7 +46,7 @@ EXTRA_DIST += make-debug-archive.in
-- CLEANFILES += make-debug-archive
-- 
-- if BUILD_STATIC
---libasm = ../libasm/libasm.a
--+libasm = ../libasm/libasm.a $(zip_LIBS)
-- libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) -ldl -lpthread
-- libelf = ../libelf/libelf.a -lz $(zstd_LIBS)
-- if LIBDEBUGINFOD
--@@ -55,7 +55,7 @@ else
-- libdebuginfod =
+-@@ -56,7 +56,7 @@ libdebuginfod =
 - endif
 - else
---libasm = ../libasm/libasm.so
--+libasm = ../libasm/libasm.so $(zip_LIBS)
-- libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
+- libasm = ../libasm/libasm.so
+--libdw = ../libdw/libdw.so
+-+libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
 - libelf = ../libelf/libelf.so
 - if LIBDEBUGINFOD
+- libdebuginfod = ../debuginfod/libdebuginfod.so
+-diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index 76f1682..865a604 100644
+---- a/tests/Makefile.am
+-+++ b/tests/Makefile.am
+-@@ -733,7 +733,7 @@ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) $(libebl) -ldl -lpthread
+- libelf = ../libelf/libelf.a -lz $(zstd_LIBS) $(libeu)
+- libasm = ../libasm/libasm.a
+- else
+--libdw = ../libdw/libdw.so
+-+libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
+- libelf = ../libelf/libelf.so
+- libasm = ../libasm/libasm.so
+- endif
 -- 
 2.39.5
 
