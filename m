@@ -1,91 +1,79 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98084C36018
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 17:06:12 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web10.53431.1744045567233374706
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D638C36010
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 17:09:12 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.53515.1744045751458927793
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 10:06:07 -0700
+ Mon, 07 Apr 2025 10:09:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mMrnD8K+;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6ecfc7fb2aaso42607846d6.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 10:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744045566; x=1744650366; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0R0+1tJ6KsX+wb9TTcF/awxys3H8XKJV3UMbHFOgCuI=;
-        b=mMrnD8K+vvKJ86I5NTizek21tIrsXnJ/m57+blTcVIGI69fJBE3Xdo+dQ94QkYfouZ
-         BqetXFA8Mn5fHI4S1+hQtpY8xnekhZ4Yjz8LHMuyTU2EGuAoRWu/nR025sbha4w+lgLv
-         TE761Z2Qmt7UjzIz6gcWYw6ksdKdAdaYzHIf6WsqDLxKcl8Q/SM3Ot/8iR1/LgBoe92K
-         mA+STOtIoWbLjSfDuSevdxPrjRyNa0DAeKswKC2npL08X4SIMw0gUNKivzq0rSCqamcO
-         JoHXzH39sx/o675LlmmweVMWPkSJ2bNOOh7cjrDwmKxd9ObxLI1hLU41oKbj+6/FqbCF
-         v3Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744045566; x=1744650366;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0R0+1tJ6KsX+wb9TTcF/awxys3H8XKJV3UMbHFOgCuI=;
-        b=eOPppNXurTi6imQV+XvGH8VzO0TriemsEcQQj3yYbv9kfZm1YbHGEZ4d4gkHKyiFCw
-         v7i4onEYzpilOgLYYjtyt2XPf5PnVVNVx3D+8VoSaXDFPKm7UJmW+Qz6+tB7+Se7TKu8
-         BvB1ATSqDjvDQZgp4teWgLVgMNPDY7Y34nYdo2SBC3xFBXiQNDi/qNJIQP0Rr2TKjrQ4
-         P6+Lr31URd46O3LClj8PhIWuaVV1dGnnhCAXH/UMROrqsF0e+p/BZbxyfMGjuqNn7Xg1
-         mqIJDRCfEUtWva/orP+WmXb1JpnLIOsnTlsKTXdWqUIkMgte3OkCpnEW7RLSav2kiezP
-         2EqA==
-X-Gm-Message-State: AOJu0YzztLmjhlFh1qhCIfQDytr42Qx9rBVUUB6Oqa2c4W2GLHAEylvz
-	rPKx5O6t2KOXYuxoSzMlUwgHeU3j3SkXZjynQsWpsc6YTfX1t6y/+Pgokz6aZ3YSah2mYt4318l
-	xjXxGzyViqz6Z/lnVjJRv/rN/E3seXWiU
-X-Gm-Gg: ASbGnct6I3n6vhyks/NxVk6zjr27zLAFtHYVo/cjv7oNieSL65RDNX17Bp7dbgPUoBd
-	wUfGKILeNowhkBFQT5uHL3nBVm3s2OTFoC/5Gg/oQighZUdHIGTdfDVm6sOJQW1d+M28FKx0XxC
-	Hv9EnVSdxregkSze3Eko0xVJT23Yl293OU2psfri24ht5Czqp/s0sZy0MZmbBp
-X-Google-Smtp-Source: AGHT+IF1HqmvR/suiHRCjjm42Og9/SfYjNssMVxLsFV4no6LPkBj1KciW68nrpngX8fX6IfuI1+YUa/AQfXrTjikYNw=
-X-Received: by 2002:a05:6214:1d0d:b0:6eb:2f7a:45c2 with SMTP id
- 6a1803df08f44-6f064b68414mr198668626d6.43.1744045566272; Mon, 07 Apr 2025
- 10:06:06 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7D55106F
+	for <openembedded-core@lists.openembedded.org>; Mon,  7 Apr 2025 10:09:11 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 75E4A3F59E
+	for <openembedded-core@lists.openembedded.org>; Mon,  7 Apr 2025 10:09:10 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] cmake: fix upstream release checking
+Date: Mon,  7 Apr 2025 18:09:06 +0100
+Message-ID: <20250407170906.3514273-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250404075136.385270-1-mikko.rapeli@linaro.org>
-In-Reply-To: <20250404075136.385270-1-mikko.rapeli@linaro.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 7 Apr 2025 19:05:54 +0200
-X-Gm-Features: ATxdqUGBnweN8BGlB3wJkk-yDMDU00fJ_Fdo_CZDd2eZCsfYN4plETGNTLq2rSw
-Message-ID: <CANNYZj8jN5yBoHpYsAPbdMw+vM0CR9Fh9t-6Ddcqr8npDw7_dA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] u-boot: set git repo branch with SRCBRANCH
-To: mikko.rapeli@linaro.org
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 17:06:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214469
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 17:09:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214470
 
-On Fri, 4 Apr 2025 at 09:51, Mikko Rapeli via lists.openembedded.org
-<mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
->
-> Enables changing branch from "master" to "next"
-> when building bleeding edge upstream versions for
-> testing purposes. Now local.conf setup to
-> build latest "next" version becomes:
->
-> INHERIT += "poky-bleeding"
-> POKY_AUTOREV_RECIPES += "u-boot"
-> SRCBRANCH:pn-u-boot = "next"
+New releases are no longer made to SourceForge and the GitHub releases
+are considered official according to https://libjpeg-turbo.org, so
+inherit github-releases and update the SRC_URI.
 
-But 'next' is not a bleeding edge branch. It's a fluid, and probably
-forced-pushed-to testing branch which is not even on top of master,
-but rather master has commits that next does not:
+This now reports that we need to upgrade to 3.1.0.
 
-https://source.denx.de/u-boot/u-boot/-/branches
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Is there a use case for using it in yocto builds?
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb b/meta/rec=
+ipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
+index 4ff4cec721b..56bab4dacad 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
+@@ -8,11 +8,8 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.md;md5=3D2a8e0d8226=
+a102f07ab63ed7fd6ce155"
+ DEPENDS:append:x86-64:class-target =3D " nasm-native"
+ DEPENDS:append:x86:class-target =3D " nasm-native"
+=20
+-SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+-
++SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz"
+ SRC_URI[sha256sum] =3D "22429507714ae147b3acacd299e82099fce5d9f456882fc2=
+8e252e4579ba2a75"
+-UPSTREAM_CHECK_URI =3D "http://sourceforge.net/projects/libjpeg-turbo/fi=
+les/"
+-UPSTREAM_CHECK_REGEX =3D "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/=
+"
+=20
+ PE =3D "1"
+=20
+@@ -22,7 +19,7 @@ RPROVIDES:${PN} +=3D "jpeg"
+ RREPLACES:${PN} +=3D "jpeg"
+ RCONFLICTS:${PN} +=3D "jpeg"
+=20
+-inherit cmake pkgconfig
++inherit cmake pkgconfig github-releases
+=20
+ export NASMENV =3D "--reproducible --debug-prefix-map=3D${WORKDIR}=3D${T=
+ARGET_DBGSRC_DIR}"
+=20
+--=20
+2.43.0
 
-Another problem is that this sets a precedent we'd rather not set. If
-you want to tweak bits of SRC_URI, it's better to just reset the whole
-thing.
-
-Alex
 
