@@ -2,212 +2,341 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47D2AC369A5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 476E5C369A3
 	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 09:40:59 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.42759.1744018855843273647
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.43304.1744018854926141893
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 02:40:56 -0700
+ Mon, 07 Apr 2025 02:40:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LJ7LMy3G;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cf680d351so29767235e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:40:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=I6WE/4L5;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39149bccb69so3801100f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:40:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744018854; x=1744623654; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1744018853; x=1744623653; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8RcI2qUZLvVkiX7/IDMl76SwCTKAAxO9M/qURvhyRaM=;
-        b=LJ7LMy3GCP/Lrh3SYs+JnH1+7hPT1ZuuvPbExyc5ZHiaoU6MtEE8iqhuUFSs8TNTmO
-         FwIGTZ9q2d6PhgEhTbWThF2m2mkWMFKEsMcwi+gEQ2OWjx/w5JdGffaaQXejq8NHm/M5
-         P2fYqXhSAIb2cm3/m0yRwOEMkF7lp/mfloLzMNL89DXfHo1qcPzWRz9Tui0BNz7a/vW5
-         ZI9itDuhYLI8NeT37pCvomL0GG7n12akb8tnh53bG4JvVdVS0/nOeZuqGTNIy4dMKhLT
-         +Ty7aTEef38MtOMQik7Vl79soGqXdFPB0AN0yKMf0qFogVbCxvZ0wWxwNC1UzYefKBqr
-         HUnA==
+        bh=R7qiBCaCsYrdM8Bzikp2EeKyslZ9K4+7MxnHuQM0Big=;
+        b=I6WE/4L5VcfgL4Ba80L4Resy+VLQSiivS0DpdiSwBeYH3mqhVfH/62XQRL/jOmzfvU
+         zmapr6ftbTfsv7so8KKlhL8wkRyBUabmLH0FYGA2PMgzGDdszEJPfV03G2IDan8ClJWd
+         XykixAM/3cJ8Z2Fi7LMUqaDmHe99fA9G8HCHltIAXcN/pw42Stan9Z22UUTx3CTHmuam
+         3fqLk7Tob9TH8TqbHfIcmVJYnluEd7B7OMf1sv9XtTXroWP92hDccosfbBqpp3+WWTc7
+         NXJpVxvwN57p6A+EuyQqFlJFSaTcy8hr3lXePKloki0dGaJqnK3p1te+voMEdaYewTx+
+         nS1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744018854; x=1744623654;
+        d=1e100.net; s=20230601; t=1744018853; x=1744623653;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8RcI2qUZLvVkiX7/IDMl76SwCTKAAxO9M/qURvhyRaM=;
-        b=A61FN3FZQKwB0VAwZfoAC9TQP7IuA1DxXP1CllumCrqt6EsjgrqmXifpLy/8Bys9vW
-         fLZYTYzxnsLgpydkrdm6aI2AzRP/xrYMmQGezBty81waARXW8UX6BWtH8O71KfoTcpth
-         gqAaksKfCLfl7zksMh/A2BBDzBJS5QN2z0K0SfmfspEs4MancY4C507+1dFyTqOlSELg
-         qeCCVNM8nZge5QM3BLgZt07nsiCjgp33eeWiPM/Q1Wwj8aQEuZy04noIL1QFfBMpgvvp
-         iq/r4iAS9JKERInx1d5kOsn73Np7SY524yUgrmf/hTcYfs8Mn9KhCPghsBe5qVse9T/z
-         5ntQ==
-X-Gm-Message-State: AOJu0YyCoOvuudiW6/AnmAHmoGHmv9EYHQWFolV/rAVC1Yqp91Tkgyk4
-	0B8z0MpXR966A4QQZrK7VZzgM2hWzqQIkqGEnkXmZyRYef3aw1cpxa+I+A==
-X-Gm-Gg: ASbGncvyH3ht1wvEC2S2Wlf6acjRmMsuYw25lktbBgPcf0wQbNWZfoeMV5XEbLJK4Or
-	svofMy0SEgGf0f4qRweAFpQ5Rh7qNkCvL725sAOCMGs8I+umpVdzDXfP4RYtgpJdmOVvvz8Evyu
-	4Df06+35hob0sFS6lXObnOj4V7ANgUgcKsxOrXirzwCEj7hB0s/8MXaDlYMeNaIZkZRe8caotGL
-	zYgj6PS8QeXM4ETwGS+fiEYGN7KV4ix+Ba42DiUwO9FUEOMhRLxcrTq4QcoDv8PHez8HyR2EqF0
-	Q2LSnDwxY9KxopH+D8z/yO69gHpqeScIVTZSbZkdwhog0zY5SV9q21AVcSI248iR6parwlzJfMk
-	UgHUMsQ==
-X-Google-Smtp-Source: AGHT+IFBdHYjCqREbz4AGOE88Hhhtbv3P2Sz3kPu6iv7rXZ0YpeT6qeyu/pWuDT1X2qEJieEmdcYxA==
-X-Received: by 2002:a05:600c:19ce:b0:43b:ca8c:fca3 with SMTP id 5b1f17b1804b1-43eceec3b21mr101890795e9.11.1744018853824;
+        bh=R7qiBCaCsYrdM8Bzikp2EeKyslZ9K4+7MxnHuQM0Big=;
+        b=KT6v11RuHDg/rwVivpdrRpld+PmpTJgCgTPEQGu9CuSMnBPgvqgDyGAS4LN7KBpntc
+         YhitZXWtCgI8YRS0kUyIq4Dgw0Jkb9HegdNFtenE73OsDCMTN7yB0GYupd5riOGgydJC
+         GaXpJTRWqIcUhSKfIkIILA60keh81l/k/4xDzFg2MqWxSGqj3vwa78KexQXxsul3rLv8
+         S07NJHbSOj8dIup4toSX2LfiCOGYwqbmv7mYH8YV2ZB0bpz/QvIzEse54g7ALKZCly+c
+         mcnlOajlwFisqGm6a4y8WyJ9CkVBzZ9ZUO63TxBUQjlbEwYA8jTTarKgFq6LpHY1TtZo
+         wrYg==
+X-Gm-Message-State: AOJu0Yy7x/+FZ9oeONhcDt4mYMYWVOd2kwcf3igl4LcIpCKlXdVe+2rm
+	2CNuNu1GcYRRDA4l1Nx3rrfup7QrPSKpjnDkAv3BJu8EF45WkKTUXcyBYA==
+X-Gm-Gg: ASbGnctMo9BXsFN9MF1g7ypEz98C1VmKFFhpKZLRpzzenQgn0O7jvxB1N+22VlyYTn6
+	23v9oEq/vboRxpfKjqhqscDOfZEfDb5A7F5sqdn5aFhZ8LzJVPWndyF23HUe8eSpDhRA9Uqj+pA
+	Gg0b0MG4D6tASmDRs8ywQg+SMXiJWdYLRkHFi6KzWIlor+urMPAOOvDN/cEJ546vJEyMebdwl03
+	UBMs4TM9+77EYUy9d4Ddo/9REmo9axZIzbL/MlfjiRXIEmPfCZla5HL6UC+Ab0l8p9NFwvnYk+S
+	XF0+gqcLsDUorl5YIvOmIHaHf+9GUrATBKfUj1/JpGIsrxZ3FXNXIcaOtYDi8rNI2nB9DqVPIfc
+	VJwpsWg==
+X-Google-Smtp-Source: AGHT+IFy9fmSxYtEeZU6WWZsfbbRW57FHVe86W2UYUHIF7iu+UFLO8RTnOPEGoutjqdvgXzifgzqUA==
+X-Received: by 2002:a5d:648c:0:b0:38d:d0ca:fbad with SMTP id ffacd0b85a97d-39d6fc48d22mr6130170f8f.14.1744018853144;
         Mon, 07 Apr 2025 02:40:53 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a76cesm11562459f8f.37.2025.04.07.02.40.53
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a76cesm11562459f8f.37.2025.04.07.02.40.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 02:40:53 -0700 (PDT)
+        Mon, 07 Apr 2025 02:40:52 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 07/18] vulkan-samples: rewrite and submit reproducubility patch upstream
-Date: Mon,  7 Apr 2025 11:40:34 +0200
-Message-Id: <20250407094045.753021-7-alex.kanavin@gmail.com>
+Subject: [PATCH 06/18] ca-certificates: submit sysroot patch upstream, drop default-sysroot.patch
+Date: Mon,  7 Apr 2025 11:40:33 +0200
+Message-Id: <20250407094045.753021-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250407094045.753021-1-alex.kanavin@gmail.com>
 References: <20250407094045.753021-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:40:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214416
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214415
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-At some point the problematic define ceased to be used anywhere,
-and so we can simply patch it out (and remove the associated
-option setting from the recipe).
+ca-certificates/0002-update-ca-certificates-use-SYSROOT.patch
+was using a non-standard environment variable, and was replaced
+with a patch that adds a command line option (and then this
+was submitted upstream). ca-certificates recipe was tweaked accordingly,
+and nothing else in core or meta-oe is using update-ca-certificates.
+
+Drop default-sysroot.patch as the use case is unclear: sysroot
+is explicitly specified in all known invocations of update-ca-certificate,
+and if there's a place where it isn't, then update-ca-certificates
+will error out trying to write to /etc, and should be fixed to
+explicitly specify the sysroot.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../0001-framework-Include-stdint.h.patch     |  2 +-
- ...an-samples-Fix-reproducibility-issue.patch | 43 -------------------
- ...bal_options.cmake-removed-unused-ROO.patch | 30 +++++++++++++
- .../vulkan/vulkan-samples_git.bb              |  8 +---
- 4 files changed, 32 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0003-bldsys-cmake-global_options.cmake-removed-unused-ROO.patch
+ ...ca-certificates-add-a-sysroot-option.patch | 36 ++++++++++++
+ ...2-update-ca-certificates-use-SYSROOT.patch | 46 ---------------
+ ...icates-use-relative-symlinks-from-ET.patch | 18 +++---
+ .../ca-certificates/default-sysroot.patch     | 58 -------------------
+ .../ca-certificates_20241223.bb               |  9 ++-
+ 5 files changed, 49 insertions(+), 118 deletions(-)
+ create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0002-sbin-update-ca-certificates-add-a-sysroot-option.patch
+ delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0002-update-ca-certificates-use-SYSROOT.patch
+ delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/default-sysroot.patch
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch
-index 8d323f2cef8..b30b0e0017f 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch
-@@ -1,4 +1,4 @@
--From 445fcfd7b9245881d769880a5942ce9faa893045 Mon Sep 17 00:00:00 2001
-+From 9a187d2f54d3683636b951a10c165d949b3a1d18 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 23 Mar 2025 20:09:35 -0700
- Subject: [PATCH] framework: Include stdint.h
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch
-deleted file mode 100644
-index c16e05112f9..00000000000
---- a/meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From d998c753254649c7cf7c64e3fed78e41c11ad7ed Mon Sep 17 00:00:00 2001
--From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Date: Wed, 23 Aug 2023 09:38:37 +0200
--Subject: [PATCH] vulkan-samples: Fix reproducibility issue
--
--There is code to remove the prefix CMAKE_SOURCE_DIR from __FILENAME__ paths
--used for logging with LOGE() in the code. We need to make this match the value we use
--in the debug source remapping from CFLAGS
--
--We export the right path to use in the recipe with:
--
--EXTRA_OECMAKE = "-DCMAKE_DEBUG_SRCDIR=${TARGET_DBGSRC_DIR}/"
--
--and we then patch this into the code instead of the broken use
--of CMAKE_SOURCE_DIR since __FILENAME__ will match our path prefix
--changes.
--
--This also breaks reproducibility since the path length of the build directory
--will currently change the output!
--
--Upstream-Status: Pending [needs to be discussed upstream]
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-----
-- bldsys/cmake/global_options.cmake | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/bldsys/cmake/global_options.cmake b/bldsys/cmake/global_options.cmake
--index b15c2da..d8952e5 100644
----- a/bldsys/cmake/global_options.cmake
--+++ b/bldsys/cmake/global_options.cmake
--@@ -62,7 +62,7 @@ set(CMAKE_CXX_STANDARD 14)
-- set(CMAKE_DISABLE_SOURCE_CHANGES ON)
-- set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
-- 
---string(LENGTH "${CMAKE_SOURCE_DIR}/" ROOT_PATH_SIZE)
--+string(LENGTH "${CMAKE_DEBUG_SRCDIR}/" ROOT_PATH_SIZE)
-- add_definitions(-DROOT_PATH_SIZE=${ROOT_PATH_SIZE})
-- 
-- set(CMAKE_C_FLAGS_DEBUG   "-DDEBUG=0 ${CMAKE_C_FLAGS_DEBUG}")
----
--2.41.0
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0003-bldsys-cmake-global_options.cmake-removed-unused-ROO.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0003-bldsys-cmake-global_options.cmake-removed-unused-ROO.patch
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0002-sbin-update-ca-certificates-add-a-sysroot-option.patch b/meta/recipes-support/ca-certificates/ca-certificates/0002-sbin-update-ca-certificates-add-a-sysroot-option.patch
 new file mode 100644
-index 00000000000..ffac2d78ce6
+index 00000000000..ba5bb69657e
 --- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples/0003-bldsys-cmake-global_options.cmake-removed-unused-ROO.patch
-@@ -0,0 +1,30 @@
-+From da4ef211810bc3b0c51ea89f02c031a170fe0cb8 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/ca-certificates/ca-certificates/0002-sbin-update-ca-certificates-add-a-sysroot-option.patch
+@@ -0,0 +1,36 @@
++From d6bb773745c2e95fd1a414e916fbed64e0d8df66 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 1 Apr 2025 18:53:34 +0200
-+Subject: [PATCH] bldsys/cmake/global_options.cmake: removed unused
-+ ROOT_PATH_SIZE define
++Date: Mon, 31 Mar 2025 17:42:25 +0200
++Subject: [PATCH] sbin/update-ca-certificates: add a --sysroot option
 +
-+After various refactorings it is no longer used anywhere (and
-+is problematic for build reproducibility, as build path sizes can
-+differ between build hosts).
++This allows using the script in cross-compilation environments
++where the script needs to prefix the sysroot to every other
++directory it operates on. There are individual options
++to set those directories, but using a common prefix option
++instead is a lot less clutter and more robust.
 +
-+Upstream-Status: Submitted [https://github.com/KhronosGroup/Vulkan-Samples/pull/1325]
++Upstream-Status: Submitted [https://salsa.debian.org/debian/ca-certificates/-/merge_requests/13]
 +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 +---
-+ bldsys/cmake/global_options.cmake | 3 ---
-+ 1 file changed, 3 deletions(-)
++ sbin/update-ca-certificates | 8 ++++++++
++ 1 file changed, 8 insertions(+)
 +
-+diff --git a/bldsys/cmake/global_options.cmake b/bldsys/cmake/global_options.cmake
-+index 96c7add..67a6c5e 100644
-+--- a/bldsys/cmake/global_options.cmake
-++++ b/bldsys/cmake/global_options.cmake
-+@@ -126,9 +126,6 @@ set(CMAKE_CXX_STANDARD 17)
-+ set(CMAKE_DISABLE_SOURCE_CHANGES ON)
-+ set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
-+ 
-+-string(LENGTH "${CMAKE_SOURCE_DIR}/" ROOT_PATH_SIZE)
-+-add_definitions(-DROOT_PATH_SIZE=${ROOT_PATH_SIZE})
-+-
-+ set(CMAKE_C_FLAGS_DEBUG   "-DDEBUG=0 ${CMAKE_C_FLAGS_DEBUG}")
-+ set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG=0 ${CMAKE_CXX_FLAGS_DEBUG}")
-+ 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 75174f6a91f..554e6eb2902 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -6,9 +6,9 @@ LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
++diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
++index 4bb77a0..1e737b9 100755
++--- a/sbin/update-ca-certificates
+++++ b/sbin/update-ca-certificates
++@@ -59,6 +59,14 @@ do
++     --hooksdir)
++       shift
++       HOOKSDIR="$1";;
+++    --sysroot)
+++      shift
+++      SYSROOT="$1"
+++      CERTSCONF="$1/${CERTSCONF}"
+++      CERTSDIR="$1/${CERTSDIR}"
+++      LOCALCERTSDIR="$1/${LOCALCERTSDIR}"
+++      ETCCERTSDIR="$1/${ETCCERTSDIR}"
+++      HOOKSDIR="$1/${HOOKSDIR}";;
++     --help|-h|*)
++       echo "$0: [--verbose] [--fresh]"
++       exit;;
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0002-update-ca-certificates-use-SYSROOT.patch b/meta/recipes-support/ca-certificates/ca-certificates/0002-update-ca-certificates-use-SYSROOT.patch
+deleted file mode 100644
+index 48c69f0cbc0..00000000000
+--- a/meta/recipes-support/ca-certificates/ca-certificates/0002-update-ca-certificates-use-SYSROOT.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From cdb53438bae194c1281c31374a901ad7ee460408 Mon Sep 17 00:00:00 2001
+-From: Andreas Oberritter <obi@opendreambox.org>
+-Date: Tue, 19 Mar 2013 17:14:33 +0100
+-Subject: [PATCH] update-ca-certificates: use $SYSROOT
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+----
+- sbin/update-ca-certificates | 14 +++++++-------
+- 1 file changed, 7 insertions(+), 7 deletions(-)
+-
+-diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
+-index 5a0a1da..36cdd9a 100755
+---- a/sbin/update-ca-certificates
+-+++ b/sbin/update-ca-certificates
+-@@ -24,12 +24,12 @@
+- verbose=0
+- fresh=0
+- default=0
+--CERTSCONF=/etc/ca-certificates.conf
+--CERTSDIR=/usr/share/ca-certificates
+--LOCALCERTSDIR=/usr/local/share/ca-certificates
+-+CERTSCONF=$SYSROOT/etc/ca-certificates.conf
+-+CERTSDIR=$SYSROOT/usr/share/ca-certificates
+-+LOCALCERTSDIR=$SYSROOT/usr/local/share/ca-certificates
+- CERTBUNDLE=ca-certificates.crt
+--ETCCERTSDIR=/etc/ssl/certs
+--HOOKSDIR=/etc/ca-certificates/update.d
+-+ETCCERTSDIR=$SYSROOT/etc/ssl/certs
+-+HOOKSDIR=$SYSROOT/etc/ca-certificates/update.d
+- 
+- while [ $# -gt 0 ];
+- do
+-@@ -92,9 +92,9 @@ add() {
+-   PEM="$ETCCERTSDIR/$(basename "$CERT" .crt | sed -e 's/ /_/g' \
+-                                                   -e 's/[()]/=/g' \
+-                                                   -e 's/,/_/g').pem"
+--  if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "$CERT" ]
+-+  if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "${CERT##$SYSROOT}" ]
+-   then
+--    ln -sf "$CERT" "$PEM"
+-+    ln -sf "${CERT##$SYSROOT}" "$PEM"
+-     echo "+$PEM" >> "$ADDED"
+-   fi
+-   # Add trailing newline to certificate, if it is missing (#635570)
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
+index 214f88909a9..929945b56f9 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
++++ b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
+@@ -1,4 +1,4 @@
+-From 38d47c53749c6f16d5d7993410b256116e0ee0b8 Mon Sep 17 00:00:00 2001
++From a69933f96a8675369de702bdb55e57dc21f65e7f Mon Sep 17 00:00:00 2001
+ From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@jci.com>
+ Date: Wed, 28 Mar 2018 16:45:05 +0100
+ Subject: [PATCH] update-ca-certificates: use relative symlinks from
+@@ -45,26 +45,26 @@ Signed-off-by: André Draszik <andre.draszik@jci.com>
+  1 file changed, 4 insertions(+), 2 deletions(-)
  
- SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protocol=https;lfs=0 \
--           file://0001-vulkan-samples-Fix-reproducibility-issue.patch \
-            file://0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch;patchdir=third_party/glslang \
-            file://0001-framework-Include-stdint.h.patch \
-+           file://0003-bldsys-cmake-global_options.cmake-removed-unused-ROO.patch \
+ diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
+-index f7d0dbf..97a589c 100755
++index 1e737b9..8510082 100755
+ --- a/sbin/update-ca-certificates
+ +++ b/sbin/update-ca-certificates
+-@@ -29,6 +29,7 @@ CERTSDIR=$SYSROOT/usr/share/ca-certificates
+- LOCALCERTSDIR=$SYSROOT/usr/local/share/ca-certificates
++@@ -30,6 +30,7 @@ LOCALCERTSDIR=/usr/local/share/ca-certificates
+  CERTBUNDLE=ca-certificates.crt
+- ETCCERTSDIR=$SYSROOT/etc/ssl/certs
++ ETCCERTSDIR=/etc/ssl/certs
++ HOOKSDIR=/etc/ca-certificates/update.d
+ +FSROOT=../../../ # to get from $ETCCERTSDIR to the root of the file system
+- HOOKSDIR=$SYSROOT/etc/ca-certificates/update.d
+  
+  while [ $# -gt 0 ];
+-@@ -125,9 +126,10 @@ add() {
++ do
++@@ -100,9 +101,10 @@ add() {
+    PEM="$ETCCERTSDIR/$(basename "$CERT" .crt | sed -e 's/ /_/g' \
+                                                    -e 's/[()]/=/g' \
+                                                    -e 's/,/_/g').pem"
+--  if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "${CERT##$SYSROOT}" ]
++-  if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "$CERT" ]
+ +  DST="$(echo ${CERT} | sed -e "s|^$SYSROOT||" -e "s|^/|$FSROOT|" )"
+ +  if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "${DST}" ]
+    then
+--    ln -sf "${CERT##$SYSROOT}" "$PEM"
++-    ln -sf "$CERT" "$PEM"
+ +    ln -sf "${DST}" "$PEM"
+      echo "+$PEM" >> "$ADDED"
+    fi
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates/default-sysroot.patch b/meta/recipes-support/ca-certificates/ca-certificates/default-sysroot.patch
+deleted file mode 100644
+index c2a54c00961..00000000000
+--- a/meta/recipes-support/ca-certificates/ca-certificates/default-sysroot.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From 50aadd3eb1c4be43d3decdeb60cede2de5a687be Mon Sep 17 00:00:00 2001
+-From: Christopher Larson <chris_larson@mentor.com>
+-Date: Fri, 23 Aug 2013 12:26:14 -0700
+-Subject: [PATCH] ca-certificates: add recipe (version 20130610)
+-
+-Upstream-Status: Pending
+-
+-update-ca-certificates: find SYSROOT relative to its own location
+-
+-This makes the script relocatable.
+----
+- sbin/update-ca-certificates | 33 +++++++++++++++++++++++++++++++++
+- 1 file changed, 33 insertions(+)
+-
+-diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
+-index 2d3e1fe..f7d0dbf 100755
+---- a/sbin/update-ca-certificates
+-+++ b/sbin/update-ca-certificates
+-@@ -66,6 +66,39 @@ do
+-   shift
+- done
+- 
+-+if [ -z "$SYSROOT" ]; then
+-+  local_which () {
+-+    if [ $# -lt 1 ]; then
+-+      return 1
+-+    fi
+-+
+-+    (
+-+      IFS=:
+-+      for entry in $PATH; do
+-+        if [ -x "$entry/$1" ]; then
+-+          echo "$entry/$1"
+-+          exit 0
+-+        fi
+-+      done
+-+      exit 1
+-+    )
+-+  }
+-+
+-+  case "$0" in
+-+    */*)
+-+      sbindir=$(cd ${0%/*} && pwd)
+-+      ;;
+-+    *)
+-+      sbindir=$(cd $(dirname $(local_which $0)) && pwd)
+-+      ;;
+-+  esac
+-+  prefix=${sbindir%/*}
+-+  SYSROOT=${prefix%/*}
+-+  if [ ! -d "$SYSROOT/usr/share/ca-certificates" ]; then
+-+    SYSROOT=
+-+  fi
+-+fi
+-+
+- if [ ! -s "$CERTSCONF" ]
+- then
+-   fresh=1
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb b/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb
+index bbdc7dd68d3..676e9e0c78a 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb
+@@ -16,9 +16,8 @@ PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
+ 
+ SRC_URI[sha256sum] = "dd8286d0a9dd35c756fea5f1df3fed1510fb891f376903891b003cd9b1ad7e03"
+ SRC_URI = "${DEBIAN_MIRROR}/main/c/ca-certificates/${BPN}_${PV}.tar.xz \
+-           file://0002-update-ca-certificates-use-SYSROOT.patch \
+            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
+-           file://default-sysroot.patch \
++           file://0002-sbin-update-ca-certificates-add-a-sysroot-option.patch \
+            file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
+            file://0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch \
             "
+@@ -62,7 +61,7 @@ do_install:append:class-target () {
+ }
  
- UPSTREAM_CHECK_COMMITS = "1"
-@@ -25,12 +25,6 @@ inherit cmake features_check
+ pkg_postinst:${PN}:class-target () {
+-    SYSROOT="$D" $D${sbindir}/update-ca-certificates
++    $D${sbindir}/update-ca-certificates --sysroot $D
+ }
  
- FILES:${PN} += "${datadir}"
+ CONFFILES:${PN} += "${sysconfdir}/ca-certificates.conf"
+@@ -71,11 +70,11 @@ CONFFILES:${PN} += "${sysconfdir}/ca-certificates.conf"
+ # we just run update-ca-certificate from do_install() for nativesdk.
+ CONFFILES:${PN}:append:class-nativesdk = " ${sysconfdir}/ssl/certs/ca-certificates.crt"
+ do_install:append:class-nativesdk () {
+-    SYSROOT="${D}${SDKPATHNATIVE}" ${D}${sbindir}/update-ca-certificates
++    ${D}${sbindir}/update-ca-certificates --sysroot ${D}${SDKPATHNATIVE}
+ }
  
--#
--# There is code to remove the prefix CMAKE_SOURCE_DIR from __FILENAME__ paths
--# used for logging with LOGE in the code. We need to make this match the value we use
--# in the debug source remapping from CFLAGS
--#
--EXTRA_OECMAKE += "-DCMAKE_DEBUG_SRCDIR=${TARGET_DBGSRC_DIR}/"
- # Binaries built with PCH enabled don't appear reproducible, differing results were seen
- # from some builds depending on the point the PCH was compiled. Disable it to be
- # deterministic
+ do_install:append:class-native () {
+-    SYSROOT="${D}${base_prefix}" ${D}${sbindir}/update-ca-certificates
++    ${D}${sbindir}/update-ca-certificates --sysroot ${D}${base_prefix}
+ }
+ 
+ RDEPENDS:${PN}:append:class-target = " openssl-bin openssl"
 -- 
 2.39.5
 
