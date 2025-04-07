@@ -2,161 +2,349 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F23FEC369A1
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 09:48:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10574C369A1
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 09:48:40 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.43388.1744019304481931018
+ by mx.groups.io with SMTP id smtpd.web11.42856.1744019313474789791
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 02:48:24 -0700
+ Mon, 07 Apr 2025 02:48:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=MRQQMrnv;
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=nPLcaJvk;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5378dn4g003209
-	for <openembedded-core@lists.openembedded.org>; Mon, 7 Apr 2025 09:48:24 GMT
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5378e0SE016402
+	for <openembedded-core@lists.openembedded.org>; Mon, 7 Apr 2025 09:48:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	wXA9MOQ5JJrnt3ym7vy+gGNtTfZlDLEeNmw9+KkYJAk=; b=MRQQMrnvJ9KyptDN
-	O99T9AZQPhT2It8jLIkl5GfsVt2pkfk3s+51xPcEPF0o74S9XzKoa6LDcVg4C0Je
-	VDpkbRcoUULscwEwxFqSJHf+0ReqP3aWlfAwpKCstZggrWMwOaA441Monn0lElcC
-	kUx/aIA/s0RBVN2f1pJAqIHAVOPkPNO5G3T9CoWG7Mt06zHiFvJ4+wj8m9vgHcBa
-	SwaBBr/AhwL45FUTe4JvXVW6G2vyLdHke7zbM7FzkwSUC17BpIoPSFXZWUQcwv+r
-	OI3RFU4y72fqwJVLJUuFS4vYoTzqQT8jSr2RuM0R01veMNYm4c2EdSiyfR4UZJZZ
-	4lvFyw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twftbrsp-1
+	rk4wwrwQ0aif+eL6Lh2gg3Wq6h8qgsyu/4DC1HHUkWY=; b=nPLcaJvkOOmJ6ZMH
+	d4OGTyj/RzQiedjufOhdWHpBdgjxGKYn2F+7N9rQkELr/h6XU6gz0kn917dlxYjp
+	2AvwG1DnSncMh9d38usmFneOoK+u8noRyqUnkZ/Tkh9pMMfg4Mf+07LmHAxqisgE
+	5MOGsznMZkeTI8oK2n4aIGdvNZQClpETxBQwlCLvYXicwqbsQ6A991pqp5UWlik8
+	n41+S8wBF09lCIX4DMnoixHQoQGgWq0r10z27m/BfLYofMyTaGVs3dqq6fzkVzwW
+	W+q9KYkDYX2KnRywCTYagxwHKFaszP2hAsnqdw490exusjwDwgBWGaY3f88MBQj/
+	+5Ie9A==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twbe3u23-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:48:23 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7c5f7210995so742793585a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:48:23 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:48:32 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5f7210995so742802285a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:48:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744019302; x=1744624102;
+        d=1e100.net; s=20230601; t=1744019311; x=1744624111;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wXA9MOQ5JJrnt3ym7vy+gGNtTfZlDLEeNmw9+KkYJAk=;
-        b=bDxnvg9ayAgFyishCbdm0zFrP0cKNlElfutZEs6J3I9xBfrwD6ZzFcha8AhO8AtsNG
-         /GZlsBeU81P01N+uYFAmdvLt4SezDwD/NB9D+pDDgdPX7o+XgPg+X8faf0X/GxpDEjBK
-         hmQja6v/4hFDw1mM+6/vvtDYTLPyBv1CJ2NgiZGKOIyCB1a1ET9fPIxkYA3Rvb4clhFO
-         YUWKOZ2H8lbXn9lSaBTLgCdcZ2KrGrdXmx+yE48m6h7qHdZ7U65ady8jWvHAKnjPgRT8
-         D5qISpieCZ0r+BP1NqMPLInQ9c18mmembn5xh6DPTOKSTP8nHKZ1BrBs/JT9REn2bTp0
-         glUA==
-X-Gm-Message-State: AOJu0Yy5sZVNq6TPX+lS6nr0EqO+o9SBDFpXrOGSZRI9X0TR3yujDlOc
-	d55MDM0X5yIK/mazvCEr+RkJYiaWcCBESwYA/7ALJg06blA0dV39rIN9XApMHVxkbxjIN1nb1IC
-	HzfCYIFp+tcaIwp3VfJ/ID5M7M0uCgtazp5HQMa/9RCUNfIRZmiJ7zg28cHVKaEcTkHI2itrfo/
-	BK5dO5FjdF22E=
-X-Gm-Gg: ASbGnctf42ufricewbJ+DZIV+Fv6CIn6tn+7Yf8CSpisErNeFFAkGwuMmhKdIMthNVN
-	h02tjLaTVpOmk/SQOwl8McnhtcM56B2TzAnc/waK9u5RMOdfEXuc6NntnFjYLA5lninQ1mXxak7
-	X2s18XJIOOGeevDOfEWIWWcAsRSPf5Xi/5XkrVaw6O4dJQ1MDFX9FugCFMu+8Ji0bkwA91QZQuy
-	B/b8UpYdtGhs0wGCFKG0rdRyaIQCRUDnOygVtgmi0kHi1z0UHyIvwK0pHPYQtOftNmx/ICJQY98
-	5AFFgNsEEG6JKTf5otgbWDfcb1jYVImQVaj2gYoFZyli4nflDrqwgjbZ82k0qMrpSMngowFicgB
-	XlPVI9Piv1cbCXqdjrENMEsS6pIn5
-X-Received: by 2002:a05:620a:44c5:b0:7ac:bc66:5efb with SMTP id af79cd13be357-7c76c9d7073mr2383380385a.27.1744019302238;
-        Mon, 07 Apr 2025 02:48:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEN7yUjBxkDgbIPp+otE+iFtX8dexPo/wO9tfk+PrGlzknXXGxwloGUKPE5GXjNdHNYP6s6Vw==
-X-Received: by 2002:a05:620a:44c5:b0:7ac:bc66:5efb with SMTP id af79cd13be357-7c76c9d7073mr2383378785a.27.1744019301922;
-        Mon, 07 Apr 2025 02:48:21 -0700 (PDT)
+        bh=rk4wwrwQ0aif+eL6Lh2gg3Wq6h8qgsyu/4DC1HHUkWY=;
+        b=LZtq1O7AbSRA3oLsKK1MWHO+jMq+SBh1i+V4QpWzK+qScVCYy3caMfhltgLcyKig2L
+         GkUVxaNGtMX0CkadfxHzx2HpwQk6/2Gk5T+ZSXmvLbwxE49reE51uM+LNAX8+8IBHWKa
+         bcyq9VPsRB7aAmEZcaV8NsJ+DKtVG+y3lWPqGf3/j/0lnSdAo5v7Ov4FK0FRUBNBy5TB
+         m5FS++IBRGwOBiuKOrGj8sgTCp52HLlbl6wcNcKbrGRkFAH7Ryh/IYEeusRSoACX2NaE
+         kBeUGGZfamR422LoDDFRXrHdws/S4WL0AHCOL0Iw5GytOGp9Iqp4TOqCNAN+eYmpFJhi
+         YZiQ==
+X-Gm-Message-State: AOJu0YyRCyoG48KbsLrb8KeZcJ7PpeEEyOhRPlAxvdsdU9lKf1xxpwlV
+	mkUIArjjtdSiH3VW/SNaJKec6Se6Hq7zHaPaxDjV5PB0/1HdT8VK6il7y6EaEfmT1wramSQD0T7
+	J1QAmWJ6kX4HQTBpLGuVJW5H2mMi30b3jkgYeQ/dJrR/Gf5j6RPEDQBzUBN1K2ONsIc9ymJ/caT
+	CN8GCf4mhVk0g=
+X-Gm-Gg: ASbGncsgMZUK0hPeJ717rslvRg4hRgtUkcZXJPfTcE2CeRqFdFAmHGJGIBxOh6WBjFo
+	TpFOo6IHBU1BJPdN8b/eaFmTr+PbifpKrQXx3j1P2qd7nnPoiz5SP0idfeoYW1kwb1QBILuqk0L
+	+BcUT6msoK55mxgMzogggtFevPOt3GkNf45d3lMRJmOeQ5CuG6YMmutfypk7dHJ18b0vX12MDTt
+	Gn0+iaD2y5rtbdSIEWJBiOc2z4NmbNgEWzdEMwM0xktSQukLsnYGK74Z7dP74JAejqDm781Fxde
+	fwlS2U7jQM4ZV9iljLQ0CSl3RSvjRY5d4cXq7dNEo5a2tz41Xj0f9wc8/j2gJmTGEjw5YoXk8ZJ
+	0zXrTJTkilR+4uKLigR24aVshqOsx
+X-Received: by 2002:a05:620a:258d:b0:7c0:b384:77bb with SMTP id af79cd13be357-7c76c98f772mr2480337885a.14.1744019310540;
+        Mon, 07 Apr 2025 02:48:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHz6ON4KiqCl5FUT34RJu7wtzQVpoY+5qlKLXMKVDXSJw5u2YBhCkpmvAJDzWzpRo3oQInF2w==
+X-Received: by 2002:a05:620a:258d:b0:7c0:b384:77bb with SMTP id af79cd13be357-7c76c98f772mr2480335785a.14.1744019310085;
+        Mon, 07 Apr 2025 02:48:30 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e5ab53fsm1216985e87.52.2025.04.07.02.48.20
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e5ab53fsm1216985e87.52.2025.04.07.02.48.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 02:48:20 -0700 (PDT)
+        Mon, 07 Apr 2025 02:48:29 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 07 Apr 2025 12:48:12 +0300
-Subject: [PATCH v6 07/13] llvm: forcibly disable __isoc23_strtol usage
+Date: Mon, 07 Apr 2025 12:48:17 +0300
+Subject: [PATCH v6 12/13] bindgen-cli: a tool to generate Rust bindings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-mesa-25-v6-7-29bf4cae8d28@oss.qualcomm.com>
+Message-Id: <20250407-mesa-25-v6-12-29bf4cae8d28@oss.qualcomm.com>
 References: <20250407-mesa-25-v6-0-29bf4cae8d28@oss.qualcomm.com>
 In-Reply-To: <20250407-mesa-25-v6-0-29bf4cae8d28@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2330;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=16753;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=1RoeDgrXWbl0DWU+ZsZnz55B4wR12rhBupFa3dHD2qU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBn859XP4zyvyTM11IhaTAzJYbxIC2OmoBHeazVK
- 4lX48cVC6SJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ/OfVwAKCRCLPIo+Aiko
- 1V9KB/9bDazRoKilKRQzKMr/2XJ9c4sSJb8MiJ1SLk7i1hBcMDY2KjmGtgfnjrBfipxopCCPTGS
- P7UnY2QZsuPX/NAuXabKbq6rieHdPE0VZGAEFha1oUAVpgcPq9LCfaxrAYQjiSvDfx57ozIPkSx
- ZJfPHJtXnbtbkOE/TVGjZoxGsg9hgIMHQHgDGXJCRfzcc1R+/4x4xyW//QU89fUla00muPxIpzT
- 3vFoDidrcGVFOz2fx7JSr1UECNKOwdHuW1eTeLyCo69eiO1YgjSvm5+rXJO0KuRFLrHCfwYqCxX
- Oujg8nImkKUEqU49s3481tHBocby5o+tOaeDEyykT8ZKWXfk
+ bh=YBZYBfYJ3JbKP7K0Jlp7EFib9eFhm7DpT046ALwrANQ=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBn859Ye6aI3tDC3iOkDbGX3TKjW/KIRejbIOeg6
+ +gViQCLWoKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ/OfWAAKCRCLPIo+Aiko
+ 1f5EB/9E9wDtXgIovqrymmORh8PQRZxykEg5RThMI4drAwvgbupRfHbjVa0vDiv7NPTQtZ7EX5s
+ X4bDJhjjqgGKQqcyPR59zWpG7+yqBo0xqtjPz1CSLgJhEErpVWADFfPR/mq9XjziX5vCoT6QULI
+ 2tjmTmdly8avfcMSwc1J7A0F68xeBbiojX2rejLlTEOl6YQcN8RAcrpPoel1UyoxwlV6A2JxA76
+ DMfFy+vCbGBeTqorTcql46wtA0dS+dXjZlQKPX3pVWre16UHMGzbTRDkPw+RUB6TnPjAp+/c03v
+ LHU8W6LjFOtt0gz7F240+ABdS1D8w9LcBcsu8DEWttMqX+YJ
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Authority-Analysis: v=2.4 cv=B5+50PtM c=1 sm=1 tr=0 ts=67f39f67 cx=c_pps a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=veAX93dYt0YcDQAWncMA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: Qiz2l_711ltAvJjld9dZD8Q62EQSD6q6
-X-Proofpoint-ORIG-GUID: Qiz2l_711ltAvJjld9dZD8Q62EQSD6q6
+X-Proofpoint-GUID: PQ1WUsZrFi9pWadU730kLdLi4yxrhce2
+X-Authority-Analysis: v=2.4 cv=T7OMT+KQ c=1 sm=1 tr=0 ts=67f39f70 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=R22tBeTbAAAA:8 a=EUspDBNiAAAA:8 a=t7CeM3EgAAAA:8 a=iGHA9ds3AAAA:8 a=QyXUC8HyAAAA:8
+ a=pGLkceISAAAA:8 a=NEAV23lmAAAA:8 a=yg5Tb1XzTRPOZogEtRIA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=71pCXManv-pOE82v44e3:22 a=FdTzh2GWekK77mhwV6Dw:22 a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-ORIG-GUID: PQ1WUsZrFi9pWadU730kLdLi4yxrhce2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-07_03,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=569
- suspectscore=0 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
- priorityscore=1501 adultscore=0 impostorscore=0 lowpriorityscore=0
- mlxscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 adultscore=0 phishscore=0 bulkscore=0
+ mlxscore=0 malwarescore=0 suspectscore=0 priorityscore=1501 spamscore=0
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504070069
+ definitions=main-2504070070
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:48:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214436
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:48:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214441
 
-In the multiconfig builds the llvm-native build can get reused from the
-sstate cache with uninative being bypassed. This can result in the
-undefined __isoc23_strtol symbols (which are supported by the uninative,
-but not by the host library).
-
-In order to prevent such link issues, forcibly disable usage of C23
-strtol functions inside the native LLVM build.
+Import bindgen-cli from the meta-clang layer, as it is required to
+generate bindings for Mesa / RustiCL. Specify Khem as maintainer as he
+is maintaining the meta-clang layer, which included this recipe too.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/recipes-devtools/llvm/llvm/isoc23.h  | 11 +++++++++++
- meta/recipes-devtools/llvm/llvm_20.1.1.bb |  4 ++++
- 2 files changed, 15 insertions(+)
+ meta/conf/distro/include/maintainers.inc           |   1 +
+ .../bindgen-cli/bindgen-cli-crates.inc             | 186 +++++++++++++++++++++
+ .../bindgen-cli/bindgen-cli_0.71.1.bb              |  19 +++
+ 3 files changed, 206 insertions(+)
 
-diff --git a/meta/recipes-devtools/llvm/llvm/isoc23.h b/meta/recipes-devtools/llvm/llvm/isoc23.h
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 2b47d3103c03b1b8a11f40566fdd5334d906860d..953abed2a9433bf1842b92ca7fc0b99f4df8bcd9 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -64,6 +64,7 @@ RECIPE_MAINTAINER:pn-bash = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-bash-completion = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-bc = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-bind = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-bindgen-cli = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-binutils = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-binutils-cross-${TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
+diff --git a/meta/recipes-devtools/bindgen-cli/bindgen-cli-crates.inc b/meta/recipes-devtools/bindgen-cli/bindgen-cli-crates.inc
 new file mode 100644
-index 0000000000000000000000000000000000000000..b6738b6aaeb4e140aebad37ba0efb48a29cfac9b
+index 0000000000000000000000000000000000000000..a758440c9d324a2f17e6b2fef296d0d0dbd5e450
 --- /dev/null
-+++ b/meta/recipes-devtools/llvm/llvm/isoc23.h
-@@ -0,0 +1,11 @@
-+/*
-+ * Copyright (c) 2024 Qualcomm Technologies, Inc.
-+ * SPDX-License-Identifier: Apache-2.0-with-LLVM-exception
-+ */
-+#include <features.h>
++++ b/meta/recipes-devtools/bindgen-cli/bindgen-cli-crates.inc
+@@ -0,0 +1,186 @@
++# Autogenerated with 'bitbake -c update_crates bindgen-cli'
 +
-+#undef __GLIBC_USE_C23_STRTOL
-+#define __GLIBC_USE_C23_STRTOL 0
++# from Cargo.lock
++SRC_URI += " \
++    crate://crates.io/aho-corasick/1.1.3 \
++    crate://crates.io/annotate-snippets/0.11.4 \
++    crate://crates.io/anstyle/1.0.10 \
++    crate://crates.io/autocfg/1.4.0 \
++    crate://crates.io/bitflags/1.3.2 \
++    crate://crates.io/bitflags/2.2.1 \
++    crate://crates.io/block/0.1.6 \
++    crate://crates.io/cc/1.2.2 \
++    crate://crates.io/cexpr/0.6.0 \
++    crate://crates.io/cfg-if/1.0.0 \
++    crate://crates.io/clang-sys/1.8.1 \
++    crate://crates.io/clap/4.1.4 \
++    crate://crates.io/clap_complete/4.2.0 \
++    crate://crates.io/clap_derive/4.1.0 \
++    crate://crates.io/clap_lex/0.3.1 \
++    crate://crates.io/either/1.13.0 \
++    crate://crates.io/env_logger/0.10.0 \
++    crate://crates.io/env_logger/0.8.4 \
++    crate://crates.io/errno/0.3.10 \
++    crate://crates.io/fastrand/1.9.0 \
++    crate://crates.io/getrandom/0.2.15 \
++    crate://crates.io/glob/0.3.1 \
++    crate://crates.io/heck/0.4.1 \
++    crate://crates.io/hermit-abi/0.3.9 \
++    crate://crates.io/hermit-abi/0.4.0 \
++    crate://crates.io/humantime/2.1.0 \
++    crate://crates.io/instant/0.1.12 \
++    crate://crates.io/io-lifetimes/1.0.11 \
++    crate://crates.io/is-terminal/0.4.13 \
++    crate://crates.io/itertools/0.13.0 \
++    crate://crates.io/libc/0.2.167 \
++    crate://crates.io/libloading/0.8.6 \
++    crate://crates.io/linux-raw-sys/0.3.8 \
++    crate://crates.io/log/0.4.22 \
++    crate://crates.io/malloc_buf/0.0.6 \
++    crate://crates.io/memchr/2.7.4 \
++    crate://crates.io/minimal-lexical/0.2.1 \
++    crate://crates.io/nom/7.1.3 \
++    crate://crates.io/objc/0.2.7 \
++    crate://crates.io/once_cell/1.20.2 \
++    crate://crates.io/os_str_bytes/6.4.1 \
++    crate://crates.io/owo-colors/4.1.0 \
++    crate://crates.io/prettyplease/0.2.25 \
++    crate://crates.io/proc-macro-error-attr/1.0.4 \
++    crate://crates.io/proc-macro-error/1.0.4 \
++    crate://crates.io/proc-macro2/1.0.92 \
++    crate://crates.io/quickcheck/1.0.3 \
++    crate://crates.io/quote/1.0.37 \
++    crate://crates.io/rand/0.8.5 \
++    crate://crates.io/rand_core/0.6.4 \
++    crate://crates.io/redox_syscall/0.3.5 \
++    crate://crates.io/regex-automata/0.4.9 \
++    crate://crates.io/regex-syntax/0.8.5 \
++    crate://crates.io/regex/1.11.1 \
++    crate://crates.io/rustc-hash/2.1.0 \
++    crate://crates.io/rustix/0.37.27 \
++    crate://crates.io/shlex/1.3.0 \
++    crate://crates.io/similar/2.6.0 \
++    crate://crates.io/strsim/0.10.0 \
++    crate://crates.io/syn/1.0.109 \
++    crate://crates.io/syn/2.0.90 \
++    crate://crates.io/tempfile/3.6.0 \
++    crate://crates.io/termcolor/1.2.0 \
++    crate://crates.io/unicode-ident/1.0.14 \
++    crate://crates.io/unicode-width/0.1.14 \
++    crate://crates.io/version_check/0.9.4 \
++    crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
++    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi-util/0.1.5 \
++    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi/0.3.9 \
++    crate://crates.io/windows-sys/0.48.0 \
++    crate://crates.io/windows-sys/0.52.0 \
++    crate://crates.io/windows-targets/0.48.5 \
++    crate://crates.io/windows-targets/0.52.6 \
++    crate://crates.io/windows_aarch64_gnullvm/0.48.5 \
++    crate://crates.io/windows_aarch64_gnullvm/0.52.6 \
++    crate://crates.io/windows_aarch64_msvc/0.48.5 \
++    crate://crates.io/windows_aarch64_msvc/0.52.6 \
++    crate://crates.io/windows_i686_gnu/0.48.5 \
++    crate://crates.io/windows_i686_gnu/0.52.6 \
++    crate://crates.io/windows_i686_gnullvm/0.52.6 \
++    crate://crates.io/windows_i686_msvc/0.48.5 \
++    crate://crates.io/windows_i686_msvc/0.52.6 \
++    crate://crates.io/windows_x86_64_gnu/0.48.5 \
++    crate://crates.io/windows_x86_64_gnu/0.52.6 \
++    crate://crates.io/windows_x86_64_gnullvm/0.48.5 \
++    crate://crates.io/windows_x86_64_gnullvm/0.52.6 \
++    crate://crates.io/windows_x86_64_msvc/0.48.5 \
++    crate://crates.io/windows_x86_64_msvc/0.52.6 \
++"
 +
-+#undef __GLIBC_USE_C2X_STRTOL
-+#define __GLIBC_USE_C2X_STRTOL 0
-diff --git a/meta/recipes-devtools/llvm/llvm_20.1.1.bb b/meta/recipes-devtools/llvm/llvm_20.1.1.bb
-index b95473c88b64961cb6ae2f4ace14aac4600cf98e..69f19aee59388f92c254c1f049622845713f4e94 100644
---- a/meta/recipes-devtools/llvm/llvm_20.1.1.bb
-+++ b/meta/recipes-devtools/llvm/llvm_20.1.1.bb
-@@ -27,6 +27,7 @@ SRC_URI = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/
-            file://0007-llvm-allow-env-override-of-exe-path.patch \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch \
-            file://llvm-config \
-+           file://isoc23.h \
-            "
- SRC_URI[sha256sum] = "4d5ebbd40ce1e984a650818a4bb5ae86fc70644dec2e6d54e78b4176db3332e0"
- UPSTREAM_CHECK_URI = "https://github.com/llvm/llvm-project"
-@@ -71,6 +72,9 @@ LLVM_TARGETS ?= "AMDGPU;${@get_llvm_host_arch(bb, d)}"
- ARM_INSTRUCTION_SET:armv5 = "arm"
- ARM_INSTRUCTION_SET:armv4t = "arm"
- 
++SRC_URI[aho-corasick-1.1.3.sha256sum] = "8e60d3430d3a69478ad0993f19238d2df97c507009a52b3c10addcd7f6bcb916"
++SRC_URI[annotate-snippets-0.11.4.sha256sum] = "24e35ed54e5ea7997c14ed4c70ba043478db1112e98263b3b035907aa197d991"
++SRC_URI[anstyle-1.0.10.sha256sum] = "55cc3b69f167a1ef2e161439aa98aed94e6028e5f9a59be9a6ffb47aef1651f9"
++SRC_URI[autocfg-1.4.0.sha256sum] = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
++SRC_URI[bitflags-1.3.2.sha256sum] = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
++SRC_URI[bitflags-2.2.1.sha256sum] = "24a6904aef64d73cf10ab17ebace7befb918b82164785cb89907993be7f83813"
++SRC_URI[block-0.1.6.sha256sum] = "0d8c1fef690941d3e7788d328517591fecc684c084084702d6ff1641e993699a"
++SRC_URI[cc-1.2.2.sha256sum] = "f34d93e62b03caf570cccc334cbc6c2fceca82f39211051345108adcba3eebdc"
++SRC_URI[cexpr-0.6.0.sha256sum] = "6fac387a98bb7c37292057cffc56d62ecb629900026402633ae9160df93a8766"
++SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
++SRC_URI[clang-sys-1.8.1.sha256sum] = "0b023947811758c97c59bf9d1c188fd619ad4718dcaa767947df1cadb14f39f4"
++SRC_URI[clap-4.1.4.sha256sum] = "f13b9c79b5d1dd500d20ef541215a6423c75829ef43117e1b4d17fd8af0b5d76"
++SRC_URI[clap_complete-4.2.0.sha256sum] = "01c22dcfb410883764b29953103d9ef7bb8fe21b3fa1158bc99986c2067294bd"
++SRC_URI[clap_derive-4.1.0.sha256sum] = "684a277d672e91966334af371f1a7b5833f9aa00b07c84e92fbce95e00208ce8"
++SRC_URI[clap_lex-0.3.1.sha256sum] = "783fe232adfca04f90f56201b26d79682d4cd2625e0bc7290b95123afe558ade"
++SRC_URI[either-1.13.0.sha256sum] = "60b1af1c220855b6ceac025d3f6ecdd2b7c4894bfe9cd9bda4fbb4bc7c0d4cf0"
++SRC_URI[env_logger-0.10.0.sha256sum] = "85cdab6a89accf66733ad5a1693a4dcced6aeff64602b634530dd73c1f3ee9f0"
++SRC_URI[env_logger-0.8.4.sha256sum] = "a19187fea3ac7e84da7dacf48de0c45d63c6a76f9490dae389aead16c243fce3"
++SRC_URI[errno-0.3.10.sha256sum] = "33d852cb9b869c2a9b3df2f71a3074817f01e1844f839a144f5fcef059a4eb5d"
++SRC_URI[fastrand-1.9.0.sha256sum] = "e51093e27b0797c359783294ca4f0a911c270184cb10f85783b118614a1501be"
++SRC_URI[getrandom-0.2.15.sha256sum] = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
++SRC_URI[glob-0.3.1.sha256sum] = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
++SRC_URI[heck-0.4.1.sha256sum] = "95505c38b4572b2d910cecb0281560f54b440a19336cbbcb27bf6ce6adc6f5a8"
++SRC_URI[hermit-abi-0.3.9.sha256sum] = "d231dfb89cfffdbc30e7fc41579ed6066ad03abda9e567ccafae602b97ec5024"
++SRC_URI[hermit-abi-0.4.0.sha256sum] = "fbf6a919d6cf397374f7dfeeea91d974c7c0a7221d0d0f4f20d859d329e53fcc"
++SRC_URI[humantime-2.1.0.sha256sum] = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
++SRC_URI[instant-0.1.12.sha256sum] = "7a5bbe824c507c5da5956355e86a746d82e0e1464f65d862cc5e71da70e94b2c"
++SRC_URI[io-lifetimes-1.0.11.sha256sum] = "eae7b9aee968036d54dce06cebaefd919e4472e753296daccd6d344e3e2df0c2"
++SRC_URI[is-terminal-0.4.13.sha256sum] = "261f68e344040fbd0edea105bef17c66edf46f984ddb1115b775ce31be948f4b"
++SRC_URI[itertools-0.13.0.sha256sum] = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
++SRC_URI[libc-0.2.167.sha256sum] = "09d6582e104315a817dff97f75133544b2e094ee22447d2acf4a74e189ba06fc"
++SRC_URI[libloading-0.8.6.sha256sum] = "fc2f4eb4bc735547cfed7c0a4922cbd04a4655978c09b54f1f7b228750664c34"
++SRC_URI[linux-raw-sys-0.3.8.sha256sum] = "ef53942eb7bf7ff43a617b3e2c1c4a5ecf5944a7c1bc12d7ee39bbb15e5c1519"
++SRC_URI[log-0.4.22.sha256sum] = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
++SRC_URI[malloc_buf-0.0.6.sha256sum] = "62bb907fe88d54d8d9ce32a3cceab4218ed2f6b7d35617cafe9adf84e43919cb"
++SRC_URI[memchr-2.7.4.sha256sum] = "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3"
++SRC_URI[minimal-lexical-0.2.1.sha256sum] = "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
++SRC_URI[nom-7.1.3.sha256sum] = "d273983c5a657a70a3e8f2a01329822f3b8c8172b73826411a55751e404a0a4a"
++SRC_URI[objc-0.2.7.sha256sum] = "915b1b472bc21c53464d6c8461c9d3af805ba1ef837e1cac254428f4a77177b1"
++SRC_URI[once_cell-1.20.2.sha256sum] = "1261fe7e33c73b354eab43b1273a57c8f967d0391e80353e51f764ac02cf6775"
++SRC_URI[os_str_bytes-6.4.1.sha256sum] = "9b7820b9daea5457c9f21c69448905d723fbd21136ccf521748f23fd49e723ee"
++SRC_URI[owo-colors-4.1.0.sha256sum] = "fb37767f6569cd834a413442455e0f066d0d522de8630436e2a1761d9726ba56"
++SRC_URI[prettyplease-0.2.25.sha256sum] = "64d1ec885c64d0457d564db4ec299b2dae3f9c02808b8ad9c3a089c591b18033"
++SRC_URI[proc-macro-error-attr-1.0.4.sha256sum] = "a1be40180e52ecc98ad80b184934baf3d0d29f979574e439af5a55274b35f869"
++SRC_URI[proc-macro-error-1.0.4.sha256sum] = "da25490ff9892aab3fcf7c36f08cfb902dd3e71ca0f9f9517bea02a73a5ce38c"
++SRC_URI[proc-macro2-1.0.92.sha256sum] = "37d3544b3f2748c54e147655edb5025752e2303145b5aefb3c3ea2c78b973bb0"
++SRC_URI[quickcheck-1.0.3.sha256sum] = "588f6378e4dd99458b60ec275b4477add41ce4fa9f64dcba6f15adccb19b50d6"
++SRC_URI[quote-1.0.37.sha256sum] = "b5b9d34b8991d19d98081b46eacdd8eb58c6f2b201139f7c5f643cc155a633af"
++SRC_URI[rand-0.8.5.sha256sum] = "34af8d1a0e25924bc5b7c43c079c942339d8f0a8b57c39049bef581b46327404"
++SRC_URI[rand_core-0.6.4.sha256sum] = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
++SRC_URI[redox_syscall-0.3.5.sha256sum] = "567664f262709473930a4bf9e51bf2ebf3348f2e748ccc50dea20646858f8f29"
++SRC_URI[regex-automata-0.4.9.sha256sum] = "809e8dc61f6de73b46c85f4c96486310fe304c434cfa43669d7b40f711150908"
++SRC_URI[regex-syntax-0.8.5.sha256sum] = "2b15c43186be67a4fd63bee50d0303afffcef381492ebe2c5d87f324e1b8815c"
++SRC_URI[regex-1.11.1.sha256sum] = "b544ef1b4eac5dc2db33ea63606ae9ffcfac26c1416a2806ae0bf5f56b201191"
++SRC_URI[rustc-hash-2.1.0.sha256sum] = "c7fb8039b3032c191086b10f11f319a6e99e1e82889c5cc6046f515c9db1d497"
++SRC_URI[rustix-0.37.27.sha256sum] = "fea8ca367a3a01fe35e6943c400addf443c0f57670e6ec51196f71a4b8762dd2"
++SRC_URI[shlex-1.3.0.sha256sum] = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
++SRC_URI[similar-2.6.0.sha256sum] = "1de1d4f81173b03af4c0cbed3c898f6bff5b870e4a7f5d6f4057d62a7a4b686e"
++SRC_URI[strsim-0.10.0.sha256sum] = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
++SRC_URI[syn-1.0.109.sha256sum] = "72b64191b275b66ffe2469e8af2c1cfe3bafa67b529ead792a6d0160888b4237"
++SRC_URI[syn-2.0.90.sha256sum] = "919d3b74a5dd0ccd15aeb8f93e7006bd9e14c295087c9896a110f490752bcf31"
++SRC_URI[tempfile-3.6.0.sha256sum] = "31c0432476357e58790aaa47a8efb0c5138f137343f3b5f23bd36a27e3b0a6d6"
++SRC_URI[termcolor-1.2.0.sha256sum] = "be55cf8942feac5c765c2c993422806843c9a9a45d4d5c407ad6dd2ea95eb9b6"
++SRC_URI[unicode-ident-1.0.14.sha256sum] = "adb9e6ca4f869e1180728b7950e35922a7fc6397f7b641499e8f3ef06e50dc83"
++SRC_URI[unicode-width-0.1.14.sha256sum] = "7dd6e30e90baa6f72411720665d41d89b9a3d039dc45b8faea1ddd07f617f6af"
++SRC_URI[version_check-0.9.4.sha256sum] = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
++SRC_URI[wasi-0.11.0+wasi-snapshot-preview1.sha256sum] = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
++SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
++SRC_URI[winapi-util-0.1.5.sha256sum] = "70ec6ce85bb158151cae5e5c87f95a8e97d2c0c4b001223f33a334e3ce5de178"
++SRC_URI[winapi-x86_64-pc-windows-gnu-0.4.0.sha256sum] = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
++SRC_URI[winapi-0.3.9.sha256sum] = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
++SRC_URI[windows-sys-0.48.0.sha256sum] = "677d2418bec65e3338edb076e806bc1ec15693c5d0104683f2efe857f61056a9"
++SRC_URI[windows-sys-0.52.0.sha256sum] = "282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d"
++SRC_URI[windows-targets-0.48.5.sha256sum] = "9a2fa6e2155d7247be68c096456083145c183cbbbc2764150dda45a87197940c"
++SRC_URI[windows-targets-0.52.6.sha256sum] = "9b724f72796e036ab90c1021d4780d4d3d648aca59e491e6b98e725b84e99973"
++SRC_URI[windows_aarch64_gnullvm-0.48.5.sha256sum] = "2b38e32f0abccf9987a4e3079dfb67dcd799fb61361e53e2882c3cbaf0d905d8"
++SRC_URI[windows_aarch64_gnullvm-0.52.6.sha256sum] = "32a4622180e7a0ec044bb555404c800bc9fd9ec262ec147edd5989ccd0c02cd3"
++SRC_URI[windows_aarch64_msvc-0.48.5.sha256sum] = "dc35310971f3b2dbbf3f0690a219f40e2d9afcf64f9ab7cc1be722937c26b4bc"
++SRC_URI[windows_aarch64_msvc-0.52.6.sha256sum] = "09ec2a7bb152e2252b53fa7803150007879548bc709c039df7627cabbd05d469"
++SRC_URI[windows_i686_gnu-0.48.5.sha256sum] = "a75915e7def60c94dcef72200b9a8e58e5091744960da64ec734a6c6e9b3743e"
++SRC_URI[windows_i686_gnu-0.52.6.sha256sum] = "8e9b5ad5ab802e97eb8e295ac6720e509ee4c243f69d781394014ebfe8bbfa0b"
++SRC_URI[windows_i686_gnullvm-0.52.6.sha256sum] = "0eee52d38c090b3caa76c563b86c3a4bd71ef1a819287c19d586d7334ae8ed66"
++SRC_URI[windows_i686_msvc-0.48.5.sha256sum] = "8f55c233f70c4b27f66c523580f78f1004e8b5a8b659e05a4eb49d4166cca406"
++SRC_URI[windows_i686_msvc-0.52.6.sha256sum] = "240948bc05c5e7c6dabba28bf89d89ffce3e303022809e73deaefe4f6ec56c66"
++SRC_URI[windows_x86_64_gnu-0.48.5.sha256sum] = "53d40abd2583d23e4718fddf1ebec84dbff8381c07cae67ff7768bbf19c6718e"
++SRC_URI[windows_x86_64_gnu-0.52.6.sha256sum] = "147a5c80aabfbf0c7d901cb5895d1de30ef2907eb21fbbab29ca94c5b08b1a78"
++SRC_URI[windows_x86_64_gnullvm-0.48.5.sha256sum] = "0b7b52767868a23d5bab768e390dc5f5c55825b6d30b86c844ff2dc7414044cc"
++SRC_URI[windows_x86_64_gnullvm-0.52.6.sha256sum] = "24d5b23dc417412679681396f2b49f3de8c1473deb516bd34410872eff51ed0d"
++SRC_URI[windows_x86_64_msvc-0.48.5.sha256sum] = "ed94fce61571a4006852b7389a063ab983c02eb1bb37b47f8272ce92d06d9538"
++SRC_URI[windows_x86_64_msvc-0.52.6.sha256sum] = "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
+\ No newline at end of file
+diff --git a/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.71.1.bb b/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.71.1.bb
+new file mode 100644
+index 0000000000000000000000000000000000000000..5578fb3d18bf9cb622859ab3ff64ea23ea642e96
+--- /dev/null
++++ b/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.71.1.bb
+@@ -0,0 +1,19 @@
++SUMMARY = "Automatically generates Rust FFI bindings to C and C++ libraries."
++HOMEPAGE = "https://rust-lang.github.io/rust-bindgen/"
++LICENSE = "BSD-3-Clause"
 +
-+BUILD_CPPFLAGS += "-include ${UNPACKDIR}/isoc23.h"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=0b9a98cb3dcdefcceb145324693fda9b"
 +
- EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
-                   -DLLVM_ENABLE_EXPENSIVE_CHECKS=OFF \
-                   -DLLVM_ENABLE_PIC=ON \
++inherit rust cargo cargo-update-recipe-crates
++
++SRC_URI += "git://github.com/rust-lang/rust-bindgen.git;protocol=https;branch=main"
++SRCREV = "af7fd38d5e80514406fb6a8bba2d407d252c30b9"
++S = "${WORKDIR}/git"
++
++require ${BPN}-crates.inc
++
++do_install:append:class-native() {
++	create_wrapper ${D}/${bindir}/bindgen LIBCLANG_PATH="${STAGING_LIBDIR_NATIVE}"
++}
++
++BBCLASSEXTEND = "native"
 
 -- 
 2.39.5
