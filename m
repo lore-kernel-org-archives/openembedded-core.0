@@ -2,152 +2,268 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ADD4C369A1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 288F7C36010
 	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 09:40:59 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.42760.1744018857757984534
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.42755.1744018851909555396
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 02:40:58 -0700
+ Mon, 07 Apr 2025 02:40:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=f+rXXy3O;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3912d2c89ecso3644869f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:40:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IZwJeIMX;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39c31e4c3e5so2504860f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:40:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744018856; x=1744623656; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FnEKViEOAmn6ycOZnfNlf3LYEpXidTFhrtm91dWuziE=;
-        b=f+rXXy3OM4Ob/cv7Q/YtPLRcpUAiuUwmDW5ltTs1KZgUhBrR0F8aEtvcGZf/vlAaad
-         SixjUerdsTlrhBZOB4+XtxY4PcylLpLXpzEqwD7r0qgA0ODXjaLGViiZABnMecVKDu7y
-         YGsQU5QYFmxqKBWIxjw6b64OnZtqWDhOrYzrElG/9V55cF51G+lPBRwwSFkf8+yCodnE
-         NA5Z01KVure5sxJpDJUVizpuLlO0g4qLiLpXaM10eMzqSDHY83qY8shECdzeeJ+7Dldb
-         y6lG4jYMsGjOYXUfBXDu11MTdWaT6ePlW1g6XVM3d1U9q6NZaLrsAlRXvt7FJ9o5ePb/
-         NE6Q==
+        d=gmail.com; s=20230601; t=1744018850; x=1744623650; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iPrpgJo5foRgvBpiqptnXaxrdNknhyCP2UwPgiUcChE=;
+        b=IZwJeIMX0qFm//ML0GWRV2u2H4U25GfcFG4c7j2rWSIOUZKzNZ5TuZZb8GdWQh5Ut/
+         k07sdD6Zbfu5CJAHdgNAnXQN8LwZyfwI6SRFFoHaITQwXV2CwyP23ttDMkTFPsZBSDVk
+         KcnHiJgXEy5LSHVuU6P8N5aVga/UR6e88UTsmtuPxWeorjcHFfelIHSdaiBpYMrTwiQx
+         EyYeV3SxVEhTqKtYMJnZpfnK9P2SZjBaB/9Vdfwk3GUV2VS3vYYaiNKG2FRI678VVpdD
+         5LIeDB/mxP5K66ySXQPOshZ/7vX7btlqKbNGLWDSH3tzFklExgPk/5cciu3Zo7XGLPey
+         a9jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744018856; x=1744623656;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FnEKViEOAmn6ycOZnfNlf3LYEpXidTFhrtm91dWuziE=;
-        b=u4U4IFaMAs8OFq+eCaaQiMqRK/qyziU6g0EDP3hYgozq+hsUS7hXnIXUgo0teMzFI/
-         hOd4k1rgJfVyz/191NlGbb71uw/iWj0JOra87UH4NvQRH8kLjdnvIZPamRdcxYzjbVnp
-         j2GWoXmyLDNLKsICeQaiapcvcSgKWMUCCVKcJXA9A7MZKhumS4jgz31JfTT7Eqf+5eYn
-         YxCtHt1TVV2fWdaJJAzBE/+Ac7UfcMOm6SJkFsEvz/dFEbKv4VjAKK/njcnbE1hjUu/K
-         u9g1Wq2wDWTq0dC05mo8yv5D+oyINLxUiQBVo3e3T+akpHQhDMQusHwBMVdqUddAp2uM
-         s/sg==
-X-Gm-Message-State: AOJu0YwqJXpnnh4EWySrj8aNNcbCQ3aCp68HVvBqo+3H/NAbpOSxmcXq
-	foHG5I0WnSYMGtA4xYztV44MxFKClFwNiRHp6/C8eJiO2lyMVw6cq1M1PQ==
-X-Gm-Gg: ASbGncuS+Z7z4bSsySdI51G96DjUVvD5SxIr5zUWxpVHe2QTxI/n55c7Dxn0S7o0WNe
-	fUGQKh/EKhPK1wSsKwKzy1WrMQQrUtkzfu6yYHVw1IF9VQuPE7HonUEdZ3xC9ewt5whxvaK05HP
-	YXo8wKOQeWHxVbEBO49MnG5ZSB0Go5boEgxzmCHYVHQlBKlfvkRCVtQrdvplou8SIMXV9aOYnAt
-	uO9MpqCt0s+j6JMuFUTCt4mWOEGAH9frRcIAnuA/577rIFh6OfZ78XiAVd2kU5c4mgNU3eO5dYD
-	ka424gM/+seO962Hf38vvZ0wb/XMUC9J77LzkzOqecoM/oHvtZaon8glwZSYP0Ky7sSBoBglExY
-	+OAP5yA==
-X-Google-Smtp-Source: AGHT+IFnnN9KE2ID4eLToByw1MO9GiWcx5PziYRHAjz/Jhoom+t1Y6TKtxlRZOnv+fwDBiBWLKKT7Q==
-X-Received: by 2002:a05:6000:1844:b0:391:12a5:3c95 with SMTP id ffacd0b85a97d-39d0de255d4mr9638810f8f.22.1744018855854;
-        Mon, 07 Apr 2025 02:40:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744018850; x=1744623650;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iPrpgJo5foRgvBpiqptnXaxrdNknhyCP2UwPgiUcChE=;
+        b=oJ/kNZcIMCtkS5AZ75DpgwJW8ys2VF/HdNOlvBCwpAeTPj6acTh/7vZMrXK7ZApln3
+         vcsFqI0v9BDgf7oUDv02m+uHX0i+bM47D4rJi9Ppzm/Z0I6BIFd8XyYMiPHzPu6TegHa
+         8sIxOr98svSoV+2ZXWaE/UTYwAt0Yhobjy912vmCp6cyJzsX0DFvIHr5ro9V+U8C3NFq
+         bVzzyf7ssbb7IpSVg2vzp/79+nyduJYlinGKoYbSKtSY0Uag0Ka8zwkiB0WQCrpxqiBL
+         YE4A3Gc/FCGrdarhZadnFNz9EUwDPbYLKlD5xbNjQi1hn9+WNlInLCrX4/sRpusXaDVM
+         fHYA==
+X-Gm-Message-State: AOJu0YyISg0YFDFnVbmmSb7AmbaxSnHI59knJt/9R4dbjLBI3EENz+XR
+	UGKdcl32+LOf7jrVwRhY2+/IOjoY8HjLyk1yQtBQ+vPyG9S6/dW3KKkfbQ==
+X-Gm-Gg: ASbGncuv+3TlSTpMYC8wo5u1i9k7qmbjTG3TL7iwDSPXgp28gLVxBTQQd2A330NET70
+	DuJHGI/Yd42hm1JE0IRua/tx+Se82fOb7CcnH3usPb0J08fFAHcQ+U8ug+rU1gks2Z/U8sgjcjA
+	yBUlNraKBLUfu1V3FPQx8FT7TIZsfbPR3RnzzojcAZ2IPdtmzlpVXlp3gatW+qyd2aVqUYQaGYx
+	AolJYQR/gmZUAjwDq1jeO38qSL5N6QQbDHpg7bzzodwIYlgBzRtnoi/cJq9cp28diMRSvWLXpGt
+	lrSU22HSXfpnzrsqt0bP81obmxDHy9ji/jNrUnLcukTovVrgKYVfa1A7E+0Ix5zAGHm17EQ13Ri
+	YPnjP4sjcy16+B++F
+X-Google-Smtp-Source: AGHT+IHYLXmi1olQFdV/cSS1eJrBS6yy2myHv7JWbtK//XNuSlJkxw2M7TpICBvAZ+9mwwHBuZ7DGg==
+X-Received: by 2002:a5d:648a:0:b0:39a:cd84:a77a with SMTP id ffacd0b85a97d-39cba9332b0mr9330200f8f.37.1744018849808;
+        Mon, 07 Apr 2025 02:40:49 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a76cesm11562459f8f.37.2025.04.07.02.40.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a76cesm11562459f8f.37.2025.04.07.02.40.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 02:40:55 -0700 (PDT)
+        Mon, 07 Apr 2025 02:40:49 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 10/18] apt: remove 0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch
-Date: Mon,  7 Apr 2025 11:40:37 +0200
-Message-Id: <20250407094045.753021-10-alex.kanavin@gmail.com>
+Subject: [PATCH 01/18] nfs-utils: replace problematic pending patch with upstream submission
+Date: Mon,  7 Apr 2025 11:40:28 +0200
+Message-Id: <20250407094045.753021-1-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250407094045.753021-1-alex.kanavin@gmail.com>
-References: <20250407094045.753021-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:40:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214419
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214410
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-The recipe unconditionally disables seccomp, so the code isn't
-even compiled. If this needs to come back in the future please
-submit upstream first.
+The now-removed patch was added for clang compatibility, but over time
+started fixing problems that do not exist, and got its description
+to mismatch the content.
+
+The new patch is fixing the only problem with clang that still
+occurs. I verified that all files that were patched before still
+build without errors.
+
+If you find other issues (this would be with non-default
+options probably), please fix them similarly.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...atat64-and-prlimit64-defines-on-musl.patch | 48 -------------------
- meta/recipes-devtools/apt/apt_2.6.1.bb        |  1 -
- 2 files changed, 49 deletions(-)
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch
+ ...ect-warning-options-during-configure.patch | 109 ------------------
+ ...mon.c-fix-a-formatting-error-with-cl.patch |  40 +++++++
+ .../nfs-utils/nfs-utils_2.8.2.bb              |   2 +-
+ 3 files changed, 41 insertions(+), 110 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Detect-warning-options-during-configure.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0003-support-nfs-xcommon.c-fix-a-formatting-error-with-cl.patch
 
-diff --git a/meta/recipes-devtools/apt/apt/0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch b/meta/recipes-devtools/apt/apt/0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Detect-warning-options-during-configure.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Detect-warning-options-during-configure.patch
 deleted file mode 100644
-index f1816836b59..00000000000
---- a/meta/recipes-devtools/apt/apt/0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch
+index 69236e8278c..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Detect-warning-options-during-configure.patch
 +++ /dev/null
-@@ -1,48 +0,0 @@
--From e849b161ce1d87ab369b921438abcf5b3a03e186 Mon Sep 17 00:00:00 2001
+@@ -1,109 +0,0 @@
+-From 1ab0c326405c6daa06f1a7eb4b0b60bf4e0584c2 Mon Sep 17 00:00:00 2001
 -From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 25 Apr 2021 08:57:03 -0700
--Subject: [PATCH] Hide fstatat64 and prlimit64 defines on musl
+-Date: Tue, 31 Dec 2019 08:15:34 -0800
+-Subject: [PATCH] Detect warning options during configure
 -
--musl defines fstatat64 and prlimit64 as macros which confuses the
--seccomp sysall rewiring since there are syscalls with same names
+-Certain options maybe compiler specific therefore its better
+-to detect them before use.
+-
+-nfs_error copies the format string and appends newline to it
+-but compiler can forget that it was format string since its not
+-same fmt string that was passed. Ignore the warning
+-
+-Wdiscarded-qualifiers is gcc specific and this is no longer needed
 -
 -Upstream-Status: Pending
 -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
 ----
-- methods/aptmethod.h | 12 ++++++++++--
-- 1 file changed, 10 insertions(+), 2 deletions(-)
+- support/nfs/xcommon.c          | 6 ++++++
+- support/nfs/xlog.c             | 6 ++++++
+- support/nfsidmap/libnfsidmap.c | 3 +++
+- utils/exportfs/exportfs.c      | 3 +++
+- 4 files changed, 18 insertions(+)
 -
--diff --git a/methods/aptmethod.h b/methods/aptmethod.h
--index bd50e80..3085aed 100644
----- a/methods/aptmethod.h
--+++ b/methods/aptmethod.h
--@@ -121,6 +121,12 @@ protected:
--       if (ctx == NULL)
-- 	 return _error->FatalE("HttpMethod::Configuration", "Cannot init seccomp");
+-diff --git a/support/nfs/xcommon.c b/support/nfs/xcommon.c
+-index 3989f0bc..ff438c18 100644
+---- a/support/nfs/xcommon.c
+-+++ b/support/nfs/xcommon.c
+-@@ -98,7 +98,10 @@ nfs_error (const char *fmt, ...) {
 - 
--+#ifndef __GLIBC__
--+#pragma push_macro("fstatat64")
--+#pragma push_macro("prlimit64")
--+#undef fstatat64
--+#undef prlimit64
--+#endif
-- #define ALLOW(what)                                                     \
--    if ((rc = seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(what), 0))) \
--       return _error->FatalE("HttpMethod::Configuration", "Cannot allow %s: %s", #what, strerror(-rc));
--@@ -320,9 +326,11 @@ protected:
-- 	 if ((rc = seccomp_rule_add(ctx, SCMP_ACT_ALLOW, seccomp_syscall_resolve_name(custom.c_str()), 0)))
-- 	    return _error->FatalE("aptMethod::Configuration", "Cannot allow %s: %s", custom.c_str(), strerror(-rc));
--       }
---
-- #undef ALLOW
---
--+#ifndef __GLIBC__
--+#pragma pop_macro("fstatat64")
--+#pragma pop_macro("prlimit64")
--+#endif
--       rc = seccomp_load(ctx);
--       if (rc == -EINVAL)
--       {
---- 
--2.31.1
--
-diff --git a/meta/recipes-devtools/apt/apt_2.6.1.bb b/meta/recipes-devtools/apt/apt_2.6.1.bb
-index 62a674d62bb..d605d950dd3 100644
---- a/meta/recipes-devtools/apt/apt_2.6.1.bb
-+++ b/meta/recipes-devtools/apt/apt_2.6.1.bb
-@@ -11,7 +11,6 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
-            file://0001-Fix-musl-build.patch \
-            file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch \
-            file://0001-cmake-Do-not-build-po-files.patch \
--           file://0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch \
-            file://0001-aptwebserver.cc-Include-array.patch \
-            file://0001-Remove-using-std-binary_function.patch \
-            file://0001-strutl-Add-missing-include-cstdint-gcc-15.patch \
+-      fmt2 = xstrconcat2 (fmt, "\n");
+-      va_start (args, fmt);
+-+#pragma GCC diagnostic push
+-+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+-      vfprintf (stderr, fmt2, args);
+-+#pragma GCC diagnostic pop
+-      va_end (args);
+-      free (fmt2);
+- }
+-@@ -132,7 +135,10 @@ die(int err, const char *fmt, ...) {
+- 	va_list args;
+- 
+- 	va_start(args, fmt);
+-+#pragma GCC diagnostic push
+-+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+- 	vfprintf(stderr, fmt, args);
+-+#pragma GCC diagnostic pop
+- 	fprintf(stderr, "\n");
+- 	va_end(args);
+- 
+-diff --git a/support/nfs/xlog.c b/support/nfs/xlog.c
+-index fa125cef..dc4c9ea1 100644
+---- a/support/nfs/xlog.c
+-+++ b/support/nfs/xlog.c
+-@@ -178,11 +178,16 @@ xlog_backend(int kind, const char *fmt, va_list args)
+- 		fprintf(stderr, "%s: ", log_name);
+- #endif
+- 		va_copy(args2, args);
+-+#pragma GCC diagnostic push
+-+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+- 		vfprintf(stderr, fmt, args2);
+-+#pragma GCC diagnostic pop
+- 		fprintf(stderr, "\n");
+- 		va_end(args2);
+- 	}
+- 
+-+#pragma GCC diagnostic push
+-+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+- 	if (log_syslog) {
+- 		switch (kind) {
+- 		case L_FATAL:
+-@@ -203,6 +208,7 @@ xlog_backend(int kind, const char *fmt, va_list args)
+- 			break;
+- 		}
+- 	}
+-+#pragma GCC diagnostic pop
+- 
+- 	if (kind == L_FATAL)
+- 		exit(1);
+-diff --git a/support/nfsidmap/libnfsidmap.c b/support/nfsidmap/libnfsidmap.c
+-index f8c36480..1a28be0a 100644
+---- a/support/nfsidmap/libnfsidmap.c
+-+++ b/support/nfsidmap/libnfsidmap.c
+-@@ -99,7 +99,10 @@ static void default_logger(const char *fmt, ...)
+- 	va_list vp;
+- 
+- 	va_start(vp, fmt);
+-+#pragma GCC diagnostic push
+-+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+- 	vsyslog(LOG_WARNING, fmt, vp);
+-+#pragma GCC diagnostic pop
+- 	va_end(vp);
+- }
+- 
+-diff --git a/utils/exportfs/exportfs.c b/utils/exportfs/exportfs.c
+-index b03a047b..eac1ff2a 100644
+---- a/utils/exportfs/exportfs.c
+-+++ b/utils/exportfs/exportfs.c
+-@@ -646,7 +646,10 @@ dumpopt(char c, char *fmt, ...)
+- 
+- 	va_start(ap, fmt);
+- 	printf("%c", c);
+-+#pragma GCC diagnostic push
+-+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+- 	vprintf(fmt, ap);
+-+#pragma GCC diagnostic pop
+- 	va_end(ap);
+- 	return ',';
+- }
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-support-nfs-xcommon.c-fix-a-formatting-error-with-cl.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-support-nfs-xcommon.c-fix-a-formatting-error-with-cl.patch
+new file mode 100644
+index 00000000000..a99ba284e02
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-support-nfs-xcommon.c-fix-a-formatting-error-with-cl.patch
+@@ -0,0 +1,40 @@
++From cc59a7fe15b6ca2ee43cba0dc1d699323b36ffcc Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Fri, 21 Mar 2025 10:42:56 +0100
++Subject: [PATCH] support/nfs/xcommon.c: fix a formatting error with clang
++
++Specifically, this happens:
++
++| xcommon.c:101:24: error: format string is not a string literal [-Werror,-Wformat-nonliteral]
++|   101 |      vfprintf (stderr, fmt2, args);
++|       |                        ^~~~
++
++A similar approach (print \n seprately) is already used elsewhere in
++the same file.
++
++Upstream-Status: Submitted [via email to steved@redhat.com,linux-nfs@vger.kernel.org]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ support/nfs/xcommon.c | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
++
++diff --git a/support/nfs/xcommon.c b/support/nfs/xcommon.c
++index 3989f0b..1d04dd1 100644
++--- a/support/nfs/xcommon.c
+++++ b/support/nfs/xcommon.c
++@@ -94,13 +94,11 @@ xstrconcat4 (const char *s, const char *t, const char *u, const char *v) {
++ void
++ nfs_error (const char *fmt, ...) {
++      va_list args;
++-     char *fmt2;
++ 
++-     fmt2 = xstrconcat2 (fmt, "\n");
++      va_start (args, fmt);
++-     vfprintf (stderr, fmt2, args);
+++     vfprintf (stderr, fmt, args);
+++     fprintf (stderr, "\n");
++      va_end (args);
++-     free (fmt2);
++ }
++ 
++ /* Make a canonical pathname from PATH.  Returns a freshly malloced string.
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
+index abbdec7808d..1f3afa05600 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
+@@ -23,9 +23,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://nfscommon \
+            file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch \
+            file://0001-Fix-typecast-warning-with-clang.patch \
+-           file://0001-Detect-warning-options-during-configure.patch \
+            file://0004-Use-nogroup-for-nobody-group.patch \
+            file://0005-find-OE-provided-Kerberos.patch \
++           file://0003-support-nfs-xcommon.c-fix-a-formatting-error-with-cl.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "a39bbea76ac0ab9e6e8699caf3c308b6b310c20d458e8fa8606196d358e7fb15"
 -- 
 2.39.5
 
