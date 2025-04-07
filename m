@@ -1,95 +1,78 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D48B8C36010
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 11:21:50 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.44165.1744024905601761433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B56C2C36010
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 11:22:50 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web11.44189.1744024963363356552
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 04:21:46 -0700
+ Mon, 07 Apr 2025 04:22:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1u1kXv-0002Nk-EZ; Mon, 07 Apr 2025 13:21:43 +0200
-Message-ID: <edabd61185beb000ab3f851c47a69b9525254daa.camel@pengutronix.de>
-Subject: Re: [OE-core] [PATCH] barebox-tools: fix host contamination on
- libyaml
-From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
-To: hongxu.jia@eng.windriver.com
-Cc: openembedded-core@lists.openembedded.org, Ahmad Fatoum
- <afa@pengutronix.de>,  Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 07 Apr 2025 13:21:42 +0200
-In-Reply-To: <CANNYZj_6nTK+y23kjjyDgzXgfxwim8ppSoRNC5mPPnRPg9+myg@mail.gmail.com>
-References: <20250407080931.3926302-1-hongxu.jia@windriver.com>
-	 <CANNYZj_6nTK+y23kjjyDgzXgfxwim8ppSoRNC5mPPnRPg9+myg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZC1gWerW;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c56a3def84so404029085a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 04:22:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744024962; x=1744629762; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DnRfcfx5CKFwRnl7aKJGf5Kcmr1FfhgAY/q5/6ZyTqE=;
+        b=ZC1gWerWMuKn3bB4WSm1TpobP2k930N5AFfMLfUUZmMPcICMv7VR8N3dg0wD/whkfe
+         3TGW6TE4j64/WpHDHgOGfAMYBPG9fVBXMpKT3WsuGSjderyKV1LG7qplUeTq6Ghdz0Xr
+         fSsKulSvD5WLneiF9JnjuNLOB4qkF3o3xaJe3kgOMFRUYqN5R6rul4S1951QIFZTJJmg
+         GCnZ7t8OC/UVEhPqdG3cq2xzP5agmx8gcEyEYkxP/Khw/xqq9kNiSYcmpLWNrao5Gw7P
+         09SkJFH5B3F3i5j8PH4iC0SEEaXvxQwdzLdmRlxFkMdh6rmoIMHRSftkaocD4Hlx8uAd
+         dqVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744024962; x=1744629762;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DnRfcfx5CKFwRnl7aKJGf5Kcmr1FfhgAY/q5/6ZyTqE=;
+        b=SaqGAptV2JgjBFJ71u8E9jqPc+Se3uQRyb+6d09YzPODd4CV9dExkqAt6nGspjhA9W
+         kl+R7wO79DPfUGmVAmmK4iMDAPXMweS5CxAo9JCwy0aaDaOXw/cPEOo40pFm2Io32wrE
+         8R1nPOCN36mghy3gSnftzDj9632fYh0ihRUWRpWGFZ+Q6J2/GZdLOSy33CByk90/e/qv
+         yK3ejbGfml3fbKt1NACCgR1fwkvnYoSFzAeDfH8cxZWJNek4/zkjo/Vzl2ABgdxU3tGC
+         rPw75ZtwPxOnyco1yQx2X4OfORtRdlnVaGiJEPkaV3aqvDQbZwVSBgT9WQF4aW11ir3Y
+         r2Pg==
+X-Gm-Message-State: AOJu0YyK5k5dsDqkPQVHZS4yEji8Zcfiikz5nO8C+JWvE7/1F4k/YhJy
+	gIfnDbhU4tn6ae6RD9eK6GjgOd8aQvkWmLcLfY4i6P6d5Flawq3NgbIregRCwp79BXIZxpXZ3eO
+	Dc5pMdeJMyYH8Hw+niHKKgIWIFlg=
+X-Gm-Gg: ASbGnct89aUMluiq/gORMKqxKmGiDoqZ9QKA54hnsw/IfFhq/fgL0C8GYqw2/LjYCMq
+	5A95S4sAcPyQzI7ATEevlwd7sErN66aXwW8gS8TsTpnwhp+HaHO2xw+ZN1h/Zn8NTuo+D8JQokV
+	MbgVZf2aziES1h3j4XMPoWuS7Fwsr8lOqGh2gU9+i2ly4usuKFnMVllK7XO6eNuo90bfM470k=
+X-Google-Smtp-Source: AGHT+IE4ZYBq0q3oC2ypZoRBsmeBhfQV+cFihQckbH2QvB8D9euYBRZ46D5rMvcAnGhbs5/6tjXHlMDKw7GGlwyxOJA=
+X-Received: by 2002:a05:6214:cc4:b0:6e4:f090:3634 with SMTP id
+ 6a1803df08f44-6f0b74f6875mr138382326d6.33.1744024962389; Mon, 07 Apr 2025
+ 04:22:42 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+References: <20250407-mesa-25-v6-0-29bf4cae8d28@oss.qualcomm.com> <20250407-mesa-25-v6-7-29bf4cae8d28@oss.qualcomm.com>
+In-Reply-To: <20250407-mesa-25-v6-7-29bf4cae8d28@oss.qualcomm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 7 Apr 2025 13:22:31 +0200
+X-Gm-Features: ATxdqUHoxUi5evHHl9HZQooTPsGQKySeM5yFf2hgL20vdA1CUO9qnto3Ixf7sQY
+Message-ID: <CANNYZj-wiJA=7DE=S8R5FF+APWNRxCn0WtP2hoaWOkAuwHu8Qw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v6 07/13] llvm: forcibly disable __isoc23_strtol usage
+To: dmitry.baryshkov@oss.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 11:21:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214451
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 11:22:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214452
 
-Am Montag, dem 07.04.2025 um 12:27 +0200 schrieb Alexander Kanavin:
-> On Mon, 7 Apr 2025 at 10:09, hongxu via lists.openembedded.org
-> <hongxu.jia=3Deng.windriver.com@lists.openembedded.org> wrote:
-> > +Subject: [PATCH] fix host contamination on libyaml
-> > +
-> > +The barebox-tools uses host gcc to build dtc tools, and test the exist=
-ence
-> > +of /usr/include/yaml.h to build with/without libyaml
-> > +
-> > +It caused host contamination if /usr/include/yaml.h existed on host.
-> > +| tmp/work/core2-64-wrs-linux/barebox-tools/2025.02.0/barebox-2025.02.=
-0/scripts/
-> > +dtc/yamltree.c:9:10: fatal error: yaml.h: No such file or directory
-> > +|=C2=A0=C2=A0=C2=A0=C2=A0 9 | #include <yaml.h>
-> > +
-> > +Explicitly define NO_YAML =3D 1 to disable libyaml for host dtc
-> > +
-> > +Upstream-Status: Inappropriate [Yocto specific]
+On Mon, 7 Apr 2025 at 11:48, Dmitry Baryshkov via
+lists.openembedded.org
+<dmitry.baryshkov=oss.qualcomm.com@lists.openembedded.org> wrote:
+>
+> In the multiconfig builds the llvm-native build can get reused from the
+> sstate cache with uninative being bypassed. This can result in the
+> undefined __isoc23_strtol symbols (which are supported by the uninative,
+> but not by the host library).
 
-I had a quick chat with the maintainers. Since barebox actually doesn't do =
-any dtb binding checks at
-the moment, it would be fine to just hard-code the -DNO_YAML (and omit the =
-check).
+I don't understand. How and where is uninative being bypassed?
 
-(If that should be needed later one can use .dtb files directly without the=
- dts->yaml conversion,
-just like the kernel does: https://github.com/torvalds/linux/commit/ef8795f=
-3f1ce )
-
-> Please report this to upstream, rather than just make a new patch and
-> mark it Inappropriate without engaging. We have barebox maintainer
-> present and active right here, actually.
-
-Thank you Alex for CC'ing me!
-
-Regards, Enrico
-
-> Alex
->=20
-
---=20
-Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
-Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| https://www.pengutronix.de/ |
-Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
-31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
-=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
+Alex
 
