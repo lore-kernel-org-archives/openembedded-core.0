@@ -1,78 +1,123 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CFBCC36018
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 17:12:22 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.53594.1744045941204123385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2884C36010
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 18:02:22 +0000 (UTC)
+Received: from outbound2.mail.transip.nl (outbound2.mail.transip.nl [149.210.149.73])
+ by mx.groups.io with SMTP id smtpd.web11.53616.1744047008289991699
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 10:12:21 -0700
+ Mon, 07 Apr 2025 10:30:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1E20106F
-	for <openembedded-core@lists.openembedded.org>; Mon,  7 Apr 2025 10:12:21 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 81D6A3F59E
-	for <openembedded-core@lists.openembedded.org>; Mon,  7 Apr 2025 10:12:20 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@myspectrum.nl header.s=transip-a header.b=svs6M+Mt;
+ spf=pass (domain: myspectrum.nl, ip: 149.210.149.73, mailfrom: jeroen@myspectrum.nl)
+Received: from submission8.mail.transip.nl (unknown [10.103.8.159])
+	by outbound2.mail.transip.nl (Postfix) with ESMTP id 4ZWbnT6cNFzYfDm;
+	Mon,  7 Apr 2025 19:30:05 +0200 (CEST)
+Received: from yellow.myspectrum.nl (unknown [IPv6:2a01:7c8:bb0c:45:5054:ff:fe01:854])
+	by submission8.mail.transip.nl (Postfix) with ESMTPSA id 4ZWbnT1qPhz2npc8w;
+	Mon,  7 Apr 2025 19:30:05 +0200 (CEST)
+Received: from yellow.myspectrum.nl (84-27-20-154.cable.dynamic.v4.ziggo.nl [84.27.20.154])
+	(Authenticated sender: sendmail@myspectrum.nl)
+	by yellow.myspectrum.nl (Postfix) with ESMTPSA id E174D20079;
+	Mon,  7 Apr 2025 17:30:03 +0000 (UTC)
+Authentication-Results: yellow.myspectrum.nl;
+	auth=pass smtp.auth=sendmail@myspectrum.nl smtp.mailfrom=jeroen@myspectrum.nl
+Received: by yellow.myspectrum.nl (sSMTP sendmail emulation); Mon, 07 Apr 2025 19:30:03 +0200
+From: Jeroen Hofstee <jeroen@myspectrum.nl>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libjpeg-turbo: fix upstream release checking
-Date: Mon,  7 Apr 2025 18:12:17 +0100
-Message-ID: <20250407171217.3662030-1-ross.burton@arm.com>
+Cc: Jeroen Hofstee <jeroen@myspectrum.nl>,
+	Jeroen Hofstee <jhofstee@victronenergy.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: [meta-oe][PATCH] udev-extraconf: fix ifupdown for non hotplug devices
+Date: Mon,  7 Apr 2025 19:29:26 +0200
+Message-ID: <20250407172925.1190126-2-jeroen@myspectrum.nl>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+X-Scanned-By: ClueGetter at submission8.mail.transip.nl
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=transip-a; d=myspectrum.nl; t=1744047005; h=from:subject:to:cc:date:
+ mime-version; bh=c9kZCMp0o4o4BVkMuUM/w4f/iFJuwS/0PpA21DFPBog=;
+ b=svs6M+MtJfWzFhSc94Yx4XkFVSMhU1KugvDLmEnlm/i11lsHlqF+BlyVVCWfGZCp/XxPES
+ sC5d6dFgIPtY/EU9ePsvH7rtSmco4h2yQ7Nxax/mn58b77syquEfpDP/tYB/WE8p6sR2L/
+ gXVy7n1s0voX2Gb6a69o+/em3qlp6lXnEOODncldojvK7kabEtxOIIS9COnX7TS+M/PNhq
+ 5Zck1QvudafFhp1McZzF2h2TafyB1NXNQ62yyROFbavNT/yqCCE9AZLQ1ehsEtxITnRFCk
+ 1WeAufPzO9PcyCogv3qbYDP98BEGoa7wzCNJRInJdSs+lfK7htirVYY/GTCl7g==
+X-Report-Abuse-To: abuse@transip.nl
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 17:12:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214472
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 18:02:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214473
 
-New releases are no longer made to SourceForge and the GitHub releases
-are considered official according to https://libjpeg-turbo.org, so
-inherit github-releases and update the SRC_URI.
+Commit 160f713917 (udev-extraconf: fix network.sh script did not
+configure hotplugged interfaces, 2024-10-18) fixed ifupdown for
+hotplug devices, but also calls it for non hotplug devices. That
+can cause issue, since they might not expect the ifupdown from
+udev, since it wasn't called before mentioned patch got merged.
 
-This now reports that we need to upgrade to 3.1.0.
+For util-linux this can simply be fixed by adding --allow=3Dhotplug.
+Unfortunately busybox doesn't have that option, so a function is
+added to check if the device is marked as allow-hotplug.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Since wilcards are supported adding 'allow-hotplug *' allows to
+restore behaviour of mentioned patch, while this restores the
+original behaviour.
+
+Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 ---
- meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ .../udev/udev-extraconf/network.sh            | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb b/meta/rec=
-ipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
-index 4ff4cec721b..56bab4dacad 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
-@@ -8,11 +8,8 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.md;md5=3D2a8e0d8226=
-a102f07ab63ed7fd6ce155"
- DEPENDS:append:x86-64:class-target =3D " nasm-native"
- DEPENDS:append:x86:class-target =3D " nasm-native"
+diff --git a/meta/recipes-core/udev/udev-extraconf/network.sh b/meta/reci=
+pes-core/udev/udev-extraconf/network.sh
+index 500e60ae61..da79f00d5a 100644
+--- a/meta/recipes-core/udev/udev-extraconf/network.sh
++++ b/meta/recipes-core/udev/udev-extraconf/network.sh
+@@ -6,6 +6,34 @@ echo "$INTERFACE" | grep -q wifi && exit 0
+ # udevd does clearenv(). Export shell PATH to children.
+ export PATH
 =20
--SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
--
-+SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz"
- SRC_URI[sha256sum] =3D "22429507714ae147b3acacd299e82099fce5d9f456882fc2=
-8e252e4579ba2a75"
--UPSTREAM_CHECK_URI =3D "http://sourceforge.net/projects/libjpeg-turbo/fi=
-les/"
--UPSTREAM_CHECK_REGEX =3D "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/=
++# udev should only trigger ifupdown for interfaces marked as allow-hotpl=
+ug
++# and with util-linux that is as simple as adding --allow=3Dhotplug.
++# Busybox unfortunately doesn't have this option.
++# allow-hotplug is a pattern like eth0 /eth* /eth*/1 /eth*=3Deth.
++# This function checks if INTERFACE matches an allow-hotplug pattern.
++
++allow_hotplug() {
++    allow_hotplug=3D"$(sed -n -e 's/^allow-hotplug \+\([^=3D ]*\).*/\1/p=
+' /etc/network/interfaces)"
++    for pattern in $allow_hotplug; do
++        options=3D"$(echo $pattern | sed -n -e 's,^/\?[^ /]\+/\(.*\),\1,=
+p')"
++        value=3D"$(echo $pattern | sed -n -e 's,^/\?\([^ /]\+\).*,\1,p')=
 "
-=20
- PE =3D "1"
-=20
-@@ -22,7 +19,7 @@ RPROVIDES:${PN} +=3D "jpeg"
- RREPLACES:${PN} +=3D "jpeg"
- RCONFLICTS:${PN} +=3D "jpeg"
-=20
--inherit cmake pkgconfig
-+inherit cmake pkgconfig github-releases
-=20
- export NASMENV =3D "--reproducible --debug-prefix-map=3D${WORKDIR}=3D${T=
-ARGET_DBGSRC_DIR}"
-=20
++        interfaces=3D"$(ls -d /sys/class/net/$value 2>/dev/null | xargs =
+-r -n 1 basename)"
++        if [ "$options" !=3D "" ]; then
++            interfaces=3D"$(echo $interfaces | awk -v n=3D$options '{pri=
+nt $n }')"
++        fi
++        echo "$interfaces" | grep -w -q "$INTERFACE"
++        if [ $? -eq 0 ]; then
++            return 0
++        fi
++    done
++
++    return 1
++}
++
++if ! allow_hotplug; then
++    exit 0
++fi
++
+ # if this interface has an entry in /etc/network/interfaces, let ifupdow=
+n
+ # handle it
+ if grep -q "iface \+$INTERFACE" /etc/network/interfaces; then
 --=20
 2.43.0
 
