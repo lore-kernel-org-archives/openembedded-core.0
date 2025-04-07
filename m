@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B18C369A7
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 09:40:59 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.42757.1744018853122265236
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77DB3C3601E
+	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 09:41:09 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.42768.1744018862474334463
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 02:40:53 -0700
+ Mon, 07 Apr 2025 02:41:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QO/0B+EU;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-39c2688619bso2434142f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:40:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NwTYLhxV;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39129fc51f8so3277672f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 02:41:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744018851; x=1744623651; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1744018861; x=1744623661; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XjgKBohST2Ilt7P1cjKR8HEMcK+CscuRGjhftvpnbqc=;
-        b=QO/0B+EUR0br5r1apOQB7bxi3tFZOGD3jYmVIpFyRW0FpiVvXLTsygD0psz3sJsM58
-         7PfAgzf1aiZ6OpmmwY0az1CV/jYKcPoevE289mB+p3qeOH3EtnbAxnOUd/9xiGgU5Sb2
-         OtcRm+tjNwr2MjlTK3tyhrHWmEwjGgL89kh0AFfMbLZfFNHhXw4K4dBoqQJaJHRbakrE
-         E+13sMJXHFOd8ciE5PXb1W5wSk5wLZGTb2kYnK/9/9hhFoAbHiAZih3Xvo26/xXsAYdm
-         MNccotoqcvtN+nexWdQL+aXUJC5gipx0nDwCZA3XWPShqTN77AGP6d29NXLr0REhqABs
-         f/vQ==
+        bh=hL/MufrReW153H65/MLeDdxoEm5B9TwrzH1x9gVOOi4=;
+        b=NwTYLhxV/wWFDk0yli0WnLPx5Bawt5VUWT5AR7A31gYLbghsfP1OxwsI2o1fiFJlA9
+         QcOVSrYX3tymBDm+7Df1B3UrKSGjsOy9bShZ4WatWLzyVoJZ20lTjEYI7Wy7DGnhCXkc
+         jAsOODMaQ0xsyJQFpv34hBphC2v3BonECZ0XZht0CBXyBtl1wNS/Ym8swFh25YB1C+il
+         mbtfgE/dVT+PvCvdBjvbjz8XGmF9MI/nxwDsJUpuhD5IZoSMDC5SPM1vmvTJkDJhZ/Bh
+         MTPl0zGPOrPVVdC5YnI7jwvH86lKeky/SWZuFan+EL5rZLScdrJJ79vgAG1ieFmOYABj
+         L5GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744018851; x=1744623651;
+        d=1e100.net; s=20230601; t=1744018861; x=1744623661;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XjgKBohST2Ilt7P1cjKR8HEMcK+CscuRGjhftvpnbqc=;
-        b=kBcDMcRpM1nZTaQKpphNNUaidP7Up55vYxllwvAiIA8Oce6MnvHCIgEaMISv+col/L
-         WEHJAbJN6F//GN3C5DXYBavdPplmIAfNmhDg20iACZhJI+kQfOCQtAGw4W7lJ5j11YhM
-         XGne5QfZuNSc9RmjG+zzqzvZAseCVGRknjpgp+olg7AuBtZJvEy+D5+MDEckmI0TKMaS
-         4SwVo+XvDU20P/wyk7QC0sp+/0/RiRyM4/Gw9y8RVE1L7OHzvhWtImXCC4qLDmN6Igyb
-         c0T31LXQbw4bMR+5l7V7pFMYjk2ze2spcuwzrYxe3tnLWo8vA64s7skjAzYlxsdFXfsB
-         NWBA==
-X-Gm-Message-State: AOJu0YzUwfbKQ9QIxfYMgxbjT3PSw9E6jdSNQRGfktlnY8mJAa7XMRcM
-	xGcXAa6W5Y7dh//9jtx9OQOtSo3GWeVBnh0TKrP4fntZNbLnrVf4PzuB7Q==
-X-Gm-Gg: ASbGncua0tstRczKc8IhUXUJYcaBlujjBKF+0n3m2o4T1Z+KyEs08zdDIYsr1xBPPIt
-	b46HgGyVOl7SqvvR2Oy9njOAdFj2rr6Vd5rG3+e05UOQi43b/7jq/EKkCYqKftFBaPxy6MQsm/f
-	EbnVX6mNv2EXw5nAgJZqyOdfXV8henBef5+fMOxEysQrqYeDQgoAMaUbUyJpsbAIKq6qtxnKTIy
-	FzA2fH7mX3y+K3SwUsBtc8237DVQJOefaQ+bb0jdxsUUJqep1gwhXfMr43akwp23s5C0ezaZvCV
-	XPrHNDdCGf/fvariMy/Xv7Ox70bLMg30T1xBt5ijIecsSIw1sXqR5Km11RiqzCSPRYFM6TuvRPq
-	AJJprPjkwEodKo1K0
-X-Google-Smtp-Source: AGHT+IHkZ4la4onTlr6z67fWipSEI3LGd39HV8kJNivM0oiACm68cIOFvvRXDBmESi+F+8Lf/60fng==
-X-Received: by 2002:a5d:6dac:0:b0:38f:2b77:a9f3 with SMTP id ffacd0b85a97d-39cba975b4dmr9708504f8f.43.1744018851165;
-        Mon, 07 Apr 2025 02:40:51 -0700 (PDT)
+        bh=hL/MufrReW153H65/MLeDdxoEm5B9TwrzH1x9gVOOi4=;
+        b=Zk0qAEO+Y7WtAyFoVTJY2JVd8aRcwN+BpLk/CVxWV8q6aXW+v7jx1blyMN64HF01wE
+         tgXGaN/mkoo7tyCRUSUN6bKJp/gTqM3sTXcP+lgEhbZt0+qRy7SQZhBkGubPTqeozRq+
+         cXVnPgh1g0hPZGKitvKJ0RwBSFyZe5SMlioRXZhFSdBQ2+1hLj7NBigYG0j/WbaIe6ns
+         aWNG3XFt/PRQ0iCk8ZJ1lJgb1lC7mrGKTtIDh0czoFKZIjsBX3Vt2VsrjowhIQy+JzQw
+         O1LMu1+PzOpZuDVI93rgd5zXhyMHY07X15cbyVomNWyQwSVpmUrDZ4GXn7lQco04hro/
+         noKg==
+X-Gm-Message-State: AOJu0YyTAiwPjwEw0CEtrgO/mGpRZQqzAJQRkmfFnP+iGV+ouh9yuT+8
+	i7Gkugsj+C0/8IkTMgs3EFSqlqs5T82rIsi5oRHmgDSNr5PN6ep/0LTD7A==
+X-Gm-Gg: ASbGnctQsyfj6SyrDQvAGkJUFWbjjLjObubGE+3VR2+JhowfyASmSYdrDohI9o1vsJ1
+	LHUpwas7b1bnNX7KweKl8elYrtxdMCQKEp/YTHIy5H7SoucYQtgbvPEayc8azo7P8KC3TWvt+cR
+	/KkvWeuJ+FKyfrERa3ox1PUY8j2JpYfH9W3x94+zAF4Gifm83/N3tbETPjC/MqMwb0zrjmfsZDj
+	YRws0e7hn4BdYZdYw08l5/DvkGfuCWOd1vcwXc4RtrN6ncOX3K2Z9vKVgkB/b+TgtkTY0hvwjgZ
+	gHbrypb+qTSIGbpfCxKlzViqPAcj/nXMxC5gq3zQuPYA0OArJTESnOscLkc1HumsyB4YoAUmzjm
+	k7Mxh9w==
+X-Google-Smtp-Source: AGHT+IFjv809J/692v7XuR2Z2Zvcp9gIMg7KNBZENNUqhKYhzAuG5cs98YRlRXw0oA/cdDBU+RFDIQ==
+X-Received: by 2002:a05:6000:1acc:b0:391:41c9:7a8d with SMTP id ffacd0b85a97d-39d1475e1f7mr10436612f8f.54.1744018860485;
+        Mon, 07 Apr 2025 02:41:00 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a76cesm11562459f8f.37.2025.04.07.02.40.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a76cesm11562459f8f.37.2025.04.07.02.40.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 02:40:50 -0700 (PDT)
+        Mon, 07 Apr 2025 02:41:00 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 03/18] tcl8: mark pending patches as inappropriate
-Date: Mon,  7 Apr 2025 11:40:30 +0200
-Message-Id: <20250407094045.753021-3-alex.kanavin@gmail.com>
+Subject: [PATCH 17/18] apr: drop libtoolize_check.patch
+Date: Mon,  7 Apr 2025 11:40:44 +0200
+Message-Id: <20250407094045.753021-17-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250407094045.753021-1-alex.kanavin@gmail.com>
 References: <20250407094045.753021-1-alex.kanavin@gmail.com>
@@ -66,59 +66,77 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:40:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214412
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 09:41:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214426
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Upstream submission should be done for tcl 9.x patches.
+It's not clear what the intent was: libtool executable is present
+in the native sysroot and can be used to obtain versions
+during build time.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/tcltk8/tcl8/interp.patch                  | 2 +-
- meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch          | 2 +-
- .../tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch         | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../apr/apr/libtoolize_check.patch            | 37 -------------------
+ meta/recipes-support/apr/apr_1.7.5.bb         |  1 -
+ 2 files changed, 38 deletions(-)
+ delete mode 100644 meta/recipes-support/apr/apr/libtoolize_check.patch
 
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/interp.patch b/meta/recipes-devtools/tcltk8/tcl8/interp.patch
-index a4fb0c5a9d4..aeebb038e3e 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/interp.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/interp.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] tcl: fix race in interp.test
- The interp-36.7 patch has race conditions and is missing cleanup.  This patch by
- a Tcl maintainer should improve matters.
- 
--Upstream-Status: Pending
-+Upstream-Status: Inappropriate [tcl 8.x is obsolete; upstream submission should be for 9.x patches]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-  tests/interp.test | 7 ++++---
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-index 88faf8ac730..898e8241fc4 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-@@ -3,7 +3,7 @@ From: Richard Purdie <rpurdie@linux.intel.com>
- Date: Wed, 9 Dec 2009 23:59:44 +0000
- Subject: [PATCH] tcl: Add tcltk from OE.dev but with legacy staging function
- 
--Upstream-Status: Pending
-+Upstream-Status: Inappropriate [tcl 8.x is obsolete; upstream submission should be for 9.x patches]
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
- ---
-  unix/Makefile.in | 5 ++++-
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-index 0a0c1173a22..f2a37add7d9 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-@@ -7,7 +7,7 @@ Remove hardcoded library install path. Change $(prefix)/lib/ to ${libdir}.
- 
- [YOCTO #2876]
- 
--Upstream-Status: Pending
-+Upstream-Status: Inappropriate [tcl 8.x is obsolete; upstream submission should be for 9.x patches]
- 
- Signed-off-by: Song.Li <Song.Li@windriver.com>
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
+diff --git a/meta/recipes-support/apr/apr/libtoolize_check.patch b/meta/recipes-support/apr/apr/libtoolize_check.patch
+deleted file mode 100644
+index 80ce43caa40..00000000000
+--- a/meta/recipes-support/apr/apr/libtoolize_check.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 17835709bc55657b7af1f7c99b3f572b819cf97e Mon Sep 17 00:00:00 2001
+-From: Helmut Grohne <helmut@subdivi.de>
+-Date: Tue, 7 Feb 2023 07:04:00 +0000
+-Subject: [PATCH] check for libtoolize rather than libtool
+-
+-libtool is now in package libtool-bin, but apr only needs libtoolize.
+-
+-Upstream-Status: Pending [ from debian: https://sources.debian.org/data/main/a/apr/1.6.5-1/debian/patches/libtoolize_check.patch ]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-
+----
+- build/buildcheck.sh | 10 ++++------
+- 1 file changed, 4 insertions(+), 6 deletions(-)
+-
+-diff --git a/build/buildcheck.sh b/build/buildcheck.sh
+-index 44921b5..08bc8a8 100755
+---- a/build/buildcheck.sh
+-+++ b/build/buildcheck.sh
+-@@ -39,13 +39,11 @@ fi
+- # ltmain.sh (GNU libtool 1.1361 2004/01/02 23:10:52) 1.5a
+- # output is multiline from 1.5 onwards
+- 
+--# Require libtool 1.4 or newer
+--if test -z "$libtool"; then
+--  libtool=`build/PrintPath glibtool1 glibtool libtool libtool15 libtool14`
+--fi
+--lt_pversion=`$libtool --version 2>/dev/null|sed -e 's/([^)]*)//g;s/^[^0-9]*//;s/[- ].*//g;q'`
+-+# Require libtoolize 1.4 or newer
+-+libtoolize=`build/PrintPath glibtoolize1 glibtoolize libtoolize libtoolize15 libtoolize14`
+-+lt_pversion=`$libtoolize --version 2>/dev/null|sed -e 's/([^)]*)//g;s/^[^0-9]*//;s/[- ].*//g;q'`
+- if test -z "$lt_pversion"; then
+--  echo "buildconf: libtool not found."
+-+  echo "buildconf: libtoolize not found."
+-   echo "           You need libtool version 1.4 or newer installed"
+-   echo "           to build APR from SVN."
+-   res=1
+diff --git a/meta/recipes-support/apr/apr_1.7.5.bb b/meta/recipes-support/apr/apr_1.7.5.bb
+index 215ac4b4b8b..83d84bfdb64 100644
+--- a/meta/recipes-support/apr/apr_1.7.5.bb
++++ b/meta/recipes-support/apr/apr_1.7.5.bb
+@@ -18,7 +18,6 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://0002-apr-Remove-workdir-path-references-from-installed-ap.patch \
+            file://0004-Fix-packet-discards-HTTP-redirect.patch \
+            file://0005-configure.in-fix-LTFLAGS-to-make-it-work-with-ccache.patch \
+-           file://libtoolize_check.patch \
+            file://0001-Add-option-to-disable-timed-dependant-tests.patch \
+            file://0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch \
+            file://autoconf-2.73.patch \
 -- 
 2.39.5
 
