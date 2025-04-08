@@ -1,410 +1,441 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A076C3601E
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 01:10:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D859C36010
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 01:21:16 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.64067.1744074628533502894
+ by mx.groups.io with SMTP id smtpd.web10.64825.1744075275290313484
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 18:10:28 -0700
+ Mon, 07 Apr 2025 18:21:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6193ad70c2=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53802clu030626
-	for <openembedded-core@lists.openembedded.org>; Tue, 8 Apr 2025 00:19:58 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45tug8k2xf-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=61937040f4=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 537N94Cl020202
+	for <openembedded-core@lists.openembedded.org>; Tue, 8 Apr 2025 01:21:11 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45tsr1k7be-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 00:19:57 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 5380Jvmp021716;
-	Tue, 8 Apr 2025 00:19:57 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2048.outbound.protection.outlook.com [104.47.55.48])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45tug8k2xe-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Apr 2025 00:19:56 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 01:21:10 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=actY2NPv175odrzzAmKKW/ris+7OkZQN0MuPduJ2rnte7/5kBLL7sw/au2/202abdO3+fhD0LIU2vz5b+ZUEKw8KMjq1gmWgPtq7uyF+3QcgQCu/D5rObimW0ForHOJsghhvfcQbO0sVxMZ3JhQOL0X6a9AWApqh5x+ud9yK1ydss1dAtMA2yIBXmtt/f4ioVTuh4vYV2ygiAlFYXU0drFS/hMRxoOj7epyNeecP1p3jMRC05lk7sz7uTjDmiSt3fYxGGQrBD3iiRahfIqLmDKgsBmzHcGXMiCsVdrXs68iWYDJxiSVRa8Dy+UTx+jN+sjdZOe8H7bzpdlm0ZMxotg==
+ b=AsUll60vQoCpUCJzoNzaVssErONBTxofM9J/pb+CBS0VMhxpJkuS067tf27hg3WfpD6dQPsLRu9xGklqfXpDJpbNFBYSMLYePi8HJM+zs+0VWaJqNem2S0L0mdlN5WfiIH36CJiANMYhq4t4M0Ya2+1tqvgZ3QwkQ/wV5LrNyxaHHEHEssNzhkveaPL5vWLuiNH+BKSu8J546FDY96DX8z8NduAuDCK8OMrUPbqCW2XfJNVt86vw80EFYVnmMW/YMqvefWTsrF+4Wm50F/qf1x2fuIdbC/Kr30Rav3vlxfJs+bm4PHHPlj/t2Zy1H2AMp1Ousb7qDIm2q+gbtCMqhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k600t8PpWNnA3rOpTcTfKU7OZ3t0sDNmqc0S2+5crJw=;
- b=C+Sigxvhs/M84/3AB9us7DURH2iS0uKmZ0fxbAAPtH4O5gdYvDAeUbcStJUP72sapcdo2tnB1joJH+J0oEaQbdvZhnQ2Mdz6l8ctGv/w0lUfoGtpxh69zIo2e6f7KQuzy3IIGN4Kmnshn9Po6dcaSx2uLyh3j1z8a2lG74TgS8sa3cklx/cNBKeusEUMQixGQCGLTNmiOiCdqO3k/qOkKXWr/XuBEzApyq0kyxv70xID0vvcejsUXRcSJgUMaKu35hTHJZia28FMCBAMxleUFqKYbQVbFrTJwYFE+VPlfWeelfTYu0LcZ4wlkWT+LXxvFcDg6UPzW1J5/n8QqIEtFg==
+ bh=v2mslz7w9lqRMfbxcEkQDX4Z/b93vvN9kPIt6KYDx1E=;
+ b=EuZgZuLyXlGCWg66BzPh9RUNhWzSCob2ZspgVJ6Jin6Pk8++Fi3Ex+7pkaZNu44L3Kq1J9mqOxJFD8K6UJCVfkiqht2+A+wmz3MfnNyLk7Y+lrj53mnjjzpd0BWhMTP4OCdhRuD7MxlUlWfEglogiD/uz2X5pPSHen6ie0QLiYkt8FEwsU36CcfH7UklMIvw7M92fCXH/vYy5gCwEnyNEUDXzRnojtvFBjaW9uZPTeRwSaWr/LAX+5zeCqi/A0mfn5dUMDd7yN0uGKg3w1bSfK0KGAQ0UfsQNXgd3Oh+fczTEUfcd1loLwSsuZOOFc9KtrYEWvJKxGVgJ/TgSXpNxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by MN2PR11MB4742.namprd11.prod.outlook.com (2603:10b6:208:26b::10) with
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
+ by MN0PR11MB6254.namprd11.prod.outlook.com (2603:10b6:208:3c5::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Tue, 8 Apr
- 2025 00:19:53 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552%7]) with mapi id 15.20.8606.029; Tue, 8 Apr 2025
- 00:19:52 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.32; Tue, 8 Apr
+ 2025 01:20:59 +0000
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::8436:b2d3:31a9:1c8c]) by DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::8436:b2d3:31a9:1c8c%3]) with mapi id 15.20.8606.033; Tue, 8 Apr 2025
+ 01:20:59 +0000
 Content-Type: multipart/alternative;
- boundary="------------Ps60NnFQjUP3OCFGeCZRhZl4"
-Message-ID: <9fbf35dd-e562-408b-be87-daeca7c86d3b@windriver.com>
-Date: Mon, 7 Apr 2025 20:19:50 -0400
+ boundary="------------y0U42RLo80NyDEhR1NHfN7Nb"
+Message-ID: <c12f67c8-8151-4c00-8d49-dd0c8af9bf43@windriver.com>
+Date: Tue, 8 Apr 2025 09:20:52 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] initramfs-framework: remove hard dependency with
- busybox
-To: Khem Raj <raj.khem@gmail.com>, Christos Gavros <gavrosc@yahoo.com>,
-        "Hao, Kexin" <Kexin.Hao@windriver.com>
-Cc: openembedded-core@lists.openembedded.org,
-        Yoann Congal <yoann.congal@smile.fr>, jbk <jbk@mm-software.com>,
-        Adrian Freihofer <adrian.freihofer@gmail.com>
-References: <20250407164456.4845-1-gavrosc.ref@yahoo.com>
- <20250407164456.4845-1-gavrosc@yahoo.com>
- <CAMKF1sqHSmryz3LSpsJiL1AMGdaoSGZK0vWgYfw3xymBAiEz0w@mail.gmail.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <CAMKF1sqHSmryz3LSpsJiL1AMGdaoSGZK0vWgYfw3xymBAiEz0w@mail.gmail.com>
-X-ClientProxiedBy: CY5PR19CA0096.namprd19.prod.outlook.com
- (2603:10b6:930:83::24) To CH3PR11MB8496.namprd11.prod.outlook.com
- (2603:10b6:610:1ba::22)
+Subject: Re: [OE-core] [PATCH] initscripts: add function
+ log_success_msg/log_failure_msg/log_warning_msg
+To: Randy MacLeod <randy.macleod@windriver.com>,
+        openembedded-core@lists.openembedded.org
+References: <20250403085305.3667237-1-changqing.li@windriver.com>
+ <70560a18-cf98-40e8-a71a-6d3f90905d44@windriver.com>
+Content-Language: en-US
+From: Changqing Li <changqing.li@windriver.com>
+In-Reply-To: <70560a18-cf98-40e8-a71a-6d3f90905d44@windriver.com>
+X-ClientProxiedBy: SG2PR06CA0243.apcprd06.prod.outlook.com
+ (2603:1096:4:ac::27) To DS0PR11MB7312.namprd11.prod.outlook.com
+ (2603:10b6:8:11f::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|MN2PR11MB4742:EE_
-X-MS-Office365-Filtering-Correlation-Id: f7c98a9f-e463-45d9-af52-08dd76331506
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|MN0PR11MB6254:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e2393f9-e7e2-45ab-a713-08dd763b9e4b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|13003099007|7053199007|8096899003;
+	BCL:0;ARA:13230040|1800799024|376014|366016|4022899009|13003099007|8096899003;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?YUVpZEtmWUd6eGtqYXRtZDlDdjBzZ2JhZFJqbDlxWllXZnNNeUtvNWFlL1BW?=
- =?utf-8?B?MUt5RzhvNURtQ0NBUEMyM1BHMWlvNHVKL0FBYlpIVjJMc3RXSGRBV21yQTh4?=
- =?utf-8?B?NUNZUm90aXVkMzJOL1ZwVlVza3AxWkduYXV3Uzd6L2phdytYazRLdmF6cEdh?=
- =?utf-8?B?M1NjUkplNTZtWnV6bEFzVStISkNwT2ZHK0RVQU1MK1FxSHZiMUowTEIrWisv?=
- =?utf-8?B?TWgzU2Fab3FwcG5pRFVEaFdEYlgxRS9ZVE9hQ0ZNY0tZaWc0eVR2QzErdzVI?=
- =?utf-8?B?N1RwcUtnYThsSWFZSFhBWmFSUGZvdzNtdFpTVytHMVRzL0ZCemNkTXk2VkNE?=
- =?utf-8?B?RlpjRHlVOGM5Z05ZWW8rc1hXc01pRThoTEhaV01kMlNWb2lpeUNyMExDalRV?=
- =?utf-8?B?dS9KUTNWc3o2Y1A5ejNZaDJuQysveDFBS3kwV3lucnU0SmxjQ1RRRlBwSjFY?=
- =?utf-8?B?QmE2NjhUVjlnVUxBUlQ2R3U0UVJZM3kxdjl6ZmplSGRqdUsraDBla0Nvb2lw?=
- =?utf-8?B?dWlFSDhYUUdnRHI4MU8vcDR3UTBCT2xtSEJYUFplZXBaQ05FNWh4V3E5S1Jw?=
- =?utf-8?B?U3JEd3ZlWnpWK3QxK3VIMStZV1hIeDVOcDNyWXc0ZWE5SWhlMDlJbDY2enh3?=
- =?utf-8?B?ZDRjSDhiVndxQUIxd2VFMlk2aTMvOWttTkNWUmFZMUFzVnRleTJGSUdQKzRR?=
- =?utf-8?B?QklIaXV2d0s0TGFLY1pGV1c1dEE4T0VncFFxR1haODZxOVRqQlVRdFhqUmNs?=
- =?utf-8?B?K3oxQVU3cGFVZjhDZTY5Y2FqY1BHM05vU0tsV01rOGxPWm9NWHZxbDcxR1cx?=
- =?utf-8?B?OHU1Z3RreEN6b1NnNHFGVTlzalp3aWlDRVYvU2l2YmxLd3R1NjNic3hPNzJa?=
- =?utf-8?B?R3FPQWxoVWFaTlI2bEEwdVB5T285by9qc0MzWDZKT1NselZaZ2doZGYxZVlo?=
- =?utf-8?B?LzVlMmxKMUtWYUtDS3JLTC93SzQrU3lKaDFWV0lwcjc0dHNoY3Z1WWV1WXB6?=
- =?utf-8?B?d05ZYXlwMjNMVjBlaFJXTHN4U3g2d1M0NC9adEQ3akFnd2xPZjVuWWpxZjQ2?=
- =?utf-8?B?SDRRenZ3NytrcGZ1TDFlZnV1RkRsMkd3a05wY25ENG92SlhOcURIT0J4U0FQ?=
- =?utf-8?B?eUloejhJdURhc0pXaHlLSmh3N2ZGekQ0L1NybzAvdXVjaCt6MWdvUldpUzE0?=
- =?utf-8?B?TnRqL2pVV1U2eThxOGdVYVo1cnlPZ241QXJoVk9mb2xFRkU0M01BeVA0WUZp?=
- =?utf-8?B?N2hjQ1lpbE8rZlUzQmVMRC9ZbTVyMlFLaGJMeXJDMjZXeUY4OHcvQ3QzN3pk?=
- =?utf-8?B?Smgyb1puQzM4NGYxUnlIdTFzWHkwR0hWSDdIa3dzdmtiUjBGWWlVUHo4Y0F1?=
- =?utf-8?B?aldJVDFSVVpnUmFvQkdLWjFKZTd6U3p3MSs3ODlZdHJOMVFqYTUyVnFiQXNC?=
- =?utf-8?B?dW1vSEQxVUtwYlRxS2ZlM2FQaEp6ZnJtem1oV0k0S3dLTW9sN0dVTkRCdDlC?=
- =?utf-8?B?MnVrb3BMSGpDamRkT0xZckZmUStrOURZNHJUSlNRT1VCODE4cjBEVDVCbWs3?=
- =?utf-8?B?dWhTZFNkN1M5cWJnVkpZMWZMQXJYNUExK1ZHWE5qNjFPWkdRc3IvbG8zcVNo?=
- =?utf-8?B?bTlXUlFwby9qZVhmY1Z2NC85Sm1rekZyeFZ4UGx6V05JTFNEWjFvaFRacC9Z?=
- =?utf-8?B?dE9vVGx4enByczJzMUVVVy9vQkhVUTBINnJSeFB0anlJSFJ5NEM0Wk1UcXdk?=
- =?utf-8?B?cnFEVnJFeVRxWHhodit4MEZrTVN0bzRycnNmN1ZQbldyS2d2NG5jKzJyVWxP?=
- =?utf-8?B?Z1VVb2dnN2JEMWp1V1J4VHFUUnJyT24rTlNMNzVUVUlzKzNpaFBvOXl1ZjAw?=
- =?utf-8?B?ci9SbURkaEFDZWVwVkU5N2s2V2F6Q05MTi9SeUU5ZDN0cU9xdFFVKzdPS01M?=
- =?utf-8?Q?Me7ScOVdv68=3D?=
+	=?utf-8?B?b0hkdVBoTHA4RWpGWmpxUnBSTlRYUy9Hb08wcTdhSStrTzJKQXgxcDdlc0ts?=
+ =?utf-8?B?QzgxYXRVQlNhdjBOMWUzWnN5blNDQUxaQkhZaEVXTlJ2bTRBOHNvQWMzL3NF?=
+ =?utf-8?B?RmxNUHNLcVU1TWpjdzc0QWQyYjV3RTB6MFUrd2I4SEF0YUt6a0pCZE5LMXNO?=
+ =?utf-8?B?WnQwNEFkWkRSS2tGOGN1RVZiUjNraDF0RXhRbHlqOGhHYndva3NIMVl6TUZW?=
+ =?utf-8?B?RVMwazRFWVZNN09obEdkSTdsZ3Q5VnI4dDJ6RVkyS21hNXNsRWNNS0FneitX?=
+ =?utf-8?B?TzQxRFdES2Y3RE1PbFlTMi96akNiUmtuZ3Rkd0pPQmNGNGd1dktCbnF6WkdH?=
+ =?utf-8?B?YzlXUW03N2lFVm8vUTJybGdQZksvUVFJaFBhMndQZUQwNHEvWDlaSkY2OUNQ?=
+ =?utf-8?B?bWp4WUMvUmlnOEdKTE5XS0x1eExxbE0zc0hRUTF4Ui9ieU8zcE5OYkRYWGd6?=
+ =?utf-8?B?TDdQZ09JaUVTb2czZ2dMNWJxcWtXbExUYW8yR2x6Y1hRSUJBUDEvQlZaVllB?=
+ =?utf-8?B?VVpsYXpIVmE0aEYwVVZQeEUvNjFVNUxHRlhsd1N2Qk8wRnZyL2E2YWdzRGJD?=
+ =?utf-8?B?ZjhDLzNkdDVnaDVwOUtITVptbDloYzh5eUE0aXo4TllzN3FwUHBaZWJlUm56?=
+ =?utf-8?B?ZXpUeU9FY3p0aEV5M3V4U0ZZNkFWNFNOeUp5WVRGVzZ3WUxTZlNJd2ZueWdo?=
+ =?utf-8?B?V0dxUytZUmdySHd3bThVb3BMUGEvbWYvQmJIaW1jdWlMZ0lKQU0yWHhjQ0Js?=
+ =?utf-8?B?d2JXZ0hrTUhnQlhxMzh0VW5HdHdoTHBIcjZtdERUaVZHZVhxMHZNRTFXMkUw?=
+ =?utf-8?B?aEtkYkFNa0tCaGxSOVJsQllnOVNGdURNM1FVNE44WVBKRzhJUTJUZTVoa0tu?=
+ =?utf-8?B?d0hsUlk3ajFlNGdZWTVWbFRNdFJrOTJ4c21sV0J2bjdNSFlWSjI0ejIybTgy?=
+ =?utf-8?B?T0ZLbExwamlENE83c2t6aXVIazhZcTR1TDQ4K1VURVBtZDQzWGRjMVM4QnMr?=
+ =?utf-8?B?STFCZDlEeHIydS9RTlBXZWZXUkV3UkJObWJpU3BjTjBKNkJOYTdxTmhIald3?=
+ =?utf-8?B?L2pTSnZybFk2TmdJS2NxRUZsT3N3TVM3eGgyQ0tNN3o2VDhYaEZ0T0ZRUHh4?=
+ =?utf-8?B?U1g3Z0RUVUZXQlBzT1NGWm5UOGpkbEdBbzdBQzk1Q1BscVhkZ2ZrU1E1UHFt?=
+ =?utf-8?B?NHlTZ3ZnUEYxeEZQWFNERFlWb2liSEd0a2F3MjZSZ3BPaHRJS2M5V0xibnF3?=
+ =?utf-8?B?OWZJQ3ZKUjUxWUYxOXZiWENJNUJMbENpa2pueG03RnpyKzdGbXVNWEY1TkNI?=
+ =?utf-8?B?V3AxYU5raG9BcTZONkNSUVE5N3hJWWFtM3pUREZpMVJDOGN6ZnQ0dWJxY25m?=
+ =?utf-8?B?WGtHNHZGWkRHT3NUQlBRTTR1RU9xRE10c1IvTXJqNkFoRk5SYldYeUZkMnIr?=
+ =?utf-8?B?NldjREZ5K2Y3NzBjcXZCYStyK0l2THdQc3pWdUlhUEZqRnplVGJHeElaL2lM?=
+ =?utf-8?B?UkVsa0VFeE5sa3Y3K1k2akU5S1B0ampVRGR5T3NMVGxkSzU2YllhQzI1YnBu?=
+ =?utf-8?B?di9Hcjh6cXNyZGl3QjZoN09RbkE4dHJvakE0TVlHSWNzcmFSc1VmUmJkUEJj?=
+ =?utf-8?B?YzNXWG5UYkowVHVJblJQVlBCcnY5OXIyeUt3OU9mK3o2WFNPZDNTNXhFbXlk?=
+ =?utf-8?B?d0lrbzRnRzlTMGVwR0hQZzE0TUlWa05aQklWU09qRWd1b1JienVoZjh6SFJ6?=
+ =?utf-8?B?UTB2TGwvVW1IdGNIMkxUbE14Nk5CL1EvWGhHaWc2N3UrTWdqZkhYZnhDM091?=
+ =?utf-8?B?RlRtYkszTEVxS3ltWi85QT09?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(13003099007)(7053199007)(8096899003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(4022899009)(13003099007)(8096899003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?d2xjZHJLTmsrYmRvekIzTk9YMkZxeHVwRHZmNHBDTWU3T3VJL1VYU0dIOHZL?=
- =?utf-8?B?THQ5UnJwSU1ZbDBpT3BrU3lINGJ4UXVQS3A1ei95S1Z4a2RsU3J5V0doVTlV?=
- =?utf-8?B?RUNrak11QVFLSWkvZWgxc2ZrWXhWVjZZcS9Za1lOTFU0elFNa0J6ekg1bDRD?=
- =?utf-8?B?TW5JcjJOUjFQTmh6U3VuZzA4L2ZXdGhNTEJmR3ZGdEV1NGFDTnArSUhkWDJX?=
- =?utf-8?B?S3VwcTJjT3Zkd0tjME5iMDVWa25KdWhka0hkUC9VSm9wZzZuRUFhOUk5cGlF?=
- =?utf-8?B?T2RzMnFvWXFIQ0d4K2puTmdhcHRjOFFmcE1aVkMvRmJBL2FOclZwRlUycFB0?=
- =?utf-8?B?MWJDNXo3Q1dBM2IrZFl4WEVQdkRKM1Jwc1NXKzBSaldmRVFzRUYwRVoxMWhE?=
- =?utf-8?B?SjFTc3Fuc1U1aGErQ0tOcDBVSUJpa0ttQjFrMWdhRGttZUR0c01xTkZ3TlpI?=
- =?utf-8?B?SzZiTFVwTmRDQlNPb0xoVytwZjFtcWhKN0pFSVhhOU53U2UwWHZsUllwNllR?=
- =?utf-8?B?SG1FWUtPS0g5cFN6Z3R1VXlRYXZTbGZJS2xaazR4RDlCZC9GbWdTVE9lR1Bn?=
- =?utf-8?B?MjhoTEx3UGpmV00rYm1kQ29RRm5iV1ZzeXcyOVoyNlBzS1RZdnk4SmhtZmF3?=
- =?utf-8?B?bTB4OGN1eWhpNHRZSklpUGVHUnIxZEdVcm84cE9lUlFwMWdZVklVS3JaVVQ2?=
- =?utf-8?B?TWF1VEo0OGwzNTgvNmZDd0RrYmdNaVEwSGpaelM3Vm5jOHJPeTRqMjc2WENC?=
- =?utf-8?B?VURXOHlxaXY4VUhSeVVlMVhQelhkTnpBckdwdXBmVm5WZms2WnFzQmx5Rjlt?=
- =?utf-8?B?TnVaSnhwck9lWkVPYUdUUkdkclV4cUZRYlBjQVNDV3Q2V2ExR1N6a0E4L3Rs?=
- =?utf-8?B?SVdJeFkxM20yd0NSS2IwVG1aUWpJeXpSRERkMnRGMEp6TEZObWZ1QmNqSWVy?=
- =?utf-8?B?V1hZTnNIbUJkTHRwdTZQbHo5ZFhuUUxWOFg4OHFMU3kvb1B2bkg3c01GMHFF?=
- =?utf-8?B?bUhsamN6T2JxcFRzV21sTGdYV25yS2ZMeFI4S2VOa2hrYU91cFFyN0NsSFJK?=
- =?utf-8?B?L3RrTEdlc0lvLzQyTHBCd1FaZU92YnAxYlVzaXJOaTNSNXBwWlgvNXAxMUg4?=
- =?utf-8?B?dEI4ZW5mekdiVlZpZXFYMDZ5MXhUK3lSa3d3UFBldzAvZ0xteWFxQzVsTHBi?=
- =?utf-8?B?UklOcFovRWMzUHNjQ2J4am9oNi8wWit4cFNRemNGZ0JacWh4VDE5MjVrUWNZ?=
- =?utf-8?B?YUkxd202cmU2SGh3OWJObHltNVhFeWl6S0tqdGxJbUxER0FDU1A5K2I5S3Nm?=
- =?utf-8?B?NzZaUDZIOEVUOXRaMGZncmJ1WlMwYndFMVoxNDFoYXorSDhGaTlnZlFHRERi?=
- =?utf-8?B?bDEzZkNGRmo3ZUNsL0NCTTF1MXdaOTdnNklDd0JRUFdZTDNlckd5VVp1ZEtV?=
- =?utf-8?B?dHBpaHBkQkFRNS9yZlptNHFMSThGd3AycVdWZ2JkUHhucEJmMmNyMExodG5q?=
- =?utf-8?B?VldZb2NDdlpibGczU3diOUhCR3I4VHZWUGk0UjFjY2lDL1czcUdRdGhLc1pv?=
- =?utf-8?B?SFpEYVhNOTFheUh0SnZzdjd1V3YwM2dsQy9LZzVHMVU5RWx2Tk94ajVRVmZU?=
- =?utf-8?B?bmFCaEo0TUhLcmdSc1VKa3lGUkcyRjJ1N0NwUXhNTnROK2RrSkZBNHFQekxl?=
- =?utf-8?B?ZHRoN1E1VnZrdWZBTnl2WVMzNFc0bFVER0xLS0xtWWkwNmN5aTBKeTVFRTY4?=
- =?utf-8?B?QWhvUjVEbXZ1NThkamJTaFdpemwxK0lkMU1INnZxME00K3Fxa1BpeHUra3NX?=
- =?utf-8?B?U09NWmMwa08ydVkwdVM5V2Zud1FqVVhwaUFPVkhURUxaWit0RFQraGdNRjFi?=
- =?utf-8?B?eXVWaWdzRXdQb1FlYXdpa1lKelhRQk9NaGxlakZTTFNqTmJDWEtwVWlVQ1Ja?=
- =?utf-8?B?Q0JMVGdCYWMyN1dkdGFUTVNUSjZPL1lqVUNtaDU5TXBvK0hDNUM0L3V5clV4?=
- =?utf-8?B?ZmlHVHRXZnJkeVpGQm5KTDk3U0YwRVNoaGVGWXUrYVRLLzd1bG85Z3ZsMzl5?=
- =?utf-8?B?YWFBSWF5emJpV0R4TEc5VjUzMGVUVVpkWW5rYkhwbkV1TzFiQWFLMTlZSzJz?=
- =?utf-8?B?ZjRqbVhYMENJRlUzdWQxQ1NiZG0rNmVYL1U1TVBVZ2pRc1oxSXppUDNMS2Fs?=
- =?utf-8?B?MGc9PQ==?=
+	=?utf-8?B?Unk3SkNBb2Q0bE1YSUlyTnlFbmROSjVQUklDOXRvNksxWmZpODEzZHBHTHFS?=
+ =?utf-8?B?aDZpNW91TmlPdWt4alI5eXVMYi9zc01jbFVKc1N1V2VuVldQeXJlTUs2cThx?=
+ =?utf-8?B?ZFJVejZsZUhXTlZhQkxFQUVIV0xEazlJeGVUQW4reEtTeVFjWERkL0tUMkw5?=
+ =?utf-8?B?akpYdDl3VVUzbjc4d3k2enc3eHY1UE5GUXdUZXpzbXJPRVRKdFR4MU4rMnd1?=
+ =?utf-8?B?MXlCb0FnZmtYUUNTMzAwUjJYQkVUU05NSVlVbXJSdnpjQXNKMUJjUnR5WURM?=
+ =?utf-8?B?RmJxK3JBOVRhTEIvL2FqMnhyM1NDWlQ3SzhjVnZ0bzM5cjBZeHpUMHpCN2Z5?=
+ =?utf-8?B?SUp5RC9hVkdWeW1XaDhSb3pHM0Q1ZVUrTU52V25ydTBueDdLbkovWm8vVVd6?=
+ =?utf-8?B?Yk9wUzA3d3YvUm8rYkNLdkFnYzdHZjBHdlc3WDVoMXRpZTVrNkJ1VmlaU3Jy?=
+ =?utf-8?B?YlhpOHJGTkQwc2VUcG1BaEcydVBFeGx4dy9IeCtNNUg3MkFJcE90UHg0WlMv?=
+ =?utf-8?B?OVUxZEI1K09KbjlQeGpDcXFUd1Z0QWhTaVBpU2ZUcFd2L3lqMlh5bHk5elRM?=
+ =?utf-8?B?L3BjYm9EWTZ5TFR3MHZaRUdWL2hBTGZOb1FSRlQyV01UUURoNUdDOVdUS0x3?=
+ =?utf-8?B?VG5pNkU4VTBJR09ablhaUFFRRTgxL0VSRFJQUEtPRmtrL2s1Sm5zMnd6VWZv?=
+ =?utf-8?B?UmVkMFNxdExQMnZhUU1CaVM1cFlONkVoZ2YxNThGajkrSk9PekxKSG5vei9N?=
+ =?utf-8?B?akQrdmNQbkp4UUN5eEJ0Z2ppWnlsdjRFVGlrWUtLYTdweisrajE4R1UxYnNl?=
+ =?utf-8?B?SnBweGozTlhuSVcyaFhQbFpPU2dCblNEODhoaUg5Y2hmNU1BTmNPemFGcy9a?=
+ =?utf-8?B?U2xRMnhTbUQvVWJodWJ6OUxNSnZNaUlQR1NXb09sd2x3aElGdWYzUHhCZEp0?=
+ =?utf-8?B?cjhCSnpYZE52UldWVmpYU3AzUCtpVVE0QWFNSnJaWHEyZEZ1cC9iaDgrS1Qz?=
+ =?utf-8?B?RDVhbXRvMjY1d3FuOElEL1U2MndaZUZqVGpuaDF3VXNMbHd2aVF3TFdSQlFt?=
+ =?utf-8?B?RVFYV2N3MlAyQmdPemwxWWdTMFdqL3hnbEhMbGwzVmJNZE0xNVU0SzV2WGV5?=
+ =?utf-8?B?dEFLL2lhc2RLc3dCV3hiSEtkU3ZRZ2Z0aGljcjZHN3Bxb1RHZmVzUTNSeXkw?=
+ =?utf-8?B?WkJINmQ4cGJiWkhIQTVaTnc1MFlFQlVPTmlmSEJwM2JZVzgyT3lkYWJKcmEx?=
+ =?utf-8?B?ZnZhOTRNTzhUNEM0eno1S3ptUFVQR0tNcG0xVzErZWpIV0VNcG1VM1VrNVcr?=
+ =?utf-8?B?UFdGNnNHd2dIZGtMVVlhU3VQdnl1NGhYZ21GR1pDT0xlUnk5d0VnL3NZL0RR?=
+ =?utf-8?B?TkpPWElHS01OQmNpVXJKd04wN0Vkd3Zya3puaUtxdzdiL2wrOUJ5c0lUZ2xD?=
+ =?utf-8?B?Y0ZqK2FpOFpBbG94VU1VVCtWbVBqZUZ2VDhrM3dBbFRsRUhWUmFOMENJdlVl?=
+ =?utf-8?B?TnJHcytRcTlWSldCTUFOdms4d1RpLzBUQ0NuQ3dSY3J4dzhLVVlhbGNrZXI5?=
+ =?utf-8?B?N05PYkZ3Z0xLR2tZRTlSL0QxTGJ3c1VuczNnVUtDWk15TmNuY3I2MlFNalEr?=
+ =?utf-8?B?SVQ3TnB5T3dhVnMxM2N2akpoWWRlY3VIK3BHTmlsY0VxcDNVSXV1OXR2SGF5?=
+ =?utf-8?B?RVQ0TWttQWpxQkV3aS9pNDhYeEtKMk1UZFFGSWZCa2dHR0U2QnJRQklvVXNO?=
+ =?utf-8?B?bjhiR29PU1MwcjJTdERSczduT2pNbGNjbnBveHpObVZjVmdRbkI2VFJtTzNo?=
+ =?utf-8?B?cVNPcWV3SkxseGh2WlhOOStoV3Era2JmNitiQTIrd0Qwb3JaSjcxemI5RUVR?=
+ =?utf-8?B?SzZraTBpMU9oUTZ1a0swUmcvblp2WU9HblBtL0E5OXFoeWpIVXdXQ0Y2Tjdp?=
+ =?utf-8?B?RTlpTC9Oemw5K29MMW9JSE1RQ3VrckQwS2VqaTl6ZU5KT2IrU1JKWE1vVTMv?=
+ =?utf-8?B?b216RkNXUHlTMXNEOG5ncW9Xb2IvZzZsS0FURi9RekZPWkx4dytURlhnTUNY?=
+ =?utf-8?B?TUNONWJwalFaQkVKdmJuZGkvUFJXNVFKQ21OTVJ3MFFXaUNsYUVvZVV1MTdv?=
+ =?utf-8?B?MExsQ3hKQmdZczdqd2Y3aUNsN1grRzRVMDJPa2JZYjcrRUU2b2JCSjRZcGl6?=
+ =?utf-8?B?WGc9PQ==?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7c98a9f-e463-45d9-af52-08dd76331506
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e2393f9-e7e2-45ab-a713-08dd763b9e4b
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 00:19:52.6854
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 01:20:59.0638
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f6RGaXPqBcpCHwB1IjFfbhbdtiajiGcTDNsT0c2f+ANXOq5oVpUqDlRq7g7IZV0UFUql+ror54icgVxdpDpLfpPhImgC09Zh3xXMsbv7/pk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4742
-X-Proofpoint-GUID: KiuV0jMIeDrUKo4fx6MZM81xKwcI8api
-X-Authority-Analysis: v=2.4 cv=YJefyQGx c=1 sm=1 tr=0 ts=67f46bad cx=c_pps a=+hq7TYb7Jqj0EztKBnUMzg==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
- a=NEAV23lmAAAA:8 a=CjxXgO3LAAAA:8 a=t7CeM3EgAAAA:8 a=irw2G16eAAAA:8 a=pGLkceISAAAA:8 a=zF8OtAtjQrIYS3SDxbUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=VlzzDNXSX2W-1kkgHGQA:9 a=2of4nO-NaFsluVjO:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=FdTzh2GWekK77mhwV6Dw:22
- a=RvFFu2bzxk4ABdbp7JBg:22
-X-Proofpoint-ORIG-GUID: juhNwVDG_7Zx6EYtllAe2V5VEHsxHy8i
+X-MS-Exchange-CrossTenant-UserPrincipalName: wSwpPpd8fmsD9HD5+2qQCmdFwWty9zGxlElM+xiqCyOsjaSYZqKITiQbMdxhZdvvc9xFuGBLnd59cmDmUYaAS2SVKbsDDk8OQv7eVh/SHaA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6254
+X-Authority-Analysis: v=2.4 cv=Td6WtQQh c=1 sm=1 tr=0 ts=67f47a06 cx=c_pps a=CSNy8/ODUcREoDexjutt+g==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=IHY4GhH-AAAA:8 a=t7CeM3EgAAAA:8 a=erf4Il86T06Lm8AcbvEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=5V7z7r4ZuTEA:10 a=YLSQhJjyMgTEWjMK2jEA:9 a=nQUN_6b3kSw1VxEy:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=D2-2_G0xO5IXdrd33UjC:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: VMWBzowI-qkz0u8oD5Mt8uYkmnCyNEiv
+X-Proofpoint-GUID: VMWBzowI-qkz0u8oD5Mt8uYkmnCyNEiv
 X-Sensitive_Customer_Information: Yes
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-07_07,2025-04-07_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 bulkscore=0 mlxlogscore=999 adultscore=0 lowpriorityscore=0
- mlxscore=0 clxscore=1015 impostorscore=0 phishscore=0 spamscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2504080000
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
+ mlxlogscore=999 clxscore=1015 lowpriorityscore=0 adultscore=0 bulkscore=0
+ impostorscore=0 phishscore=0 spamscore=0 suspectscore=0 priorityscore=1501
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504080008
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 01:10:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214499
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 01:21:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214500
 
---------------Ps60NnFQjUP3OCFGeCZRhZl4
+--------------y0U42RLo80NyDEhR1NHfN7Nb
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 53802clu030626
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 537N94Cl020202
 
-On 2025-04-07 1:04 p.m., Khem Raj wrote:
-> On Mon, Apr 7, 2025 at 9:45=E2=80=AFAM Christos Gavros<gavrosc@yahoo.co=
-m> wrote:
->> In 'finish'script the Switch_root command with option -c is busybox sp=
-ecific.
->> When package-core-base-utils is selected the boot is breaking with mes=
-sage
->> "Switch_root: invalid option =E2=80=94 =E2=80=98c=E2=80=99.It was repr=
-oduced using qemu.
->> Remove -c option to make it compatible with both providers.
->> It is tested using qemu with busybox and package-core-base-utils. In b=
-oth cases
->> qemu boots successfully and filesystem is accessible.
->> Fixes [YOCTO #15716]
+
+On 4/8/25 03:21, Randy MacLeod wrote:
+> On 2025-04-03 4:53 a.m., Changqing Li via lists.openembedded.org wrote:
+>> From: Changqing Li<changqing.li@windriver.com>
 >>
-> Looks good
-
-Probably, and it's a small change, but :
-
-1.=C2=A0 Usually the busybox version has fewer features but
-here util-linux doesn't have the option, which is a bit odd.
-
-I also checked the git repo/master branch and it hasn't been added.
-Note that toybox, a BSD-Zero licensed, re-implementation of busybox=20
-*does* have the -c option.
-
-I wonder if anyone has asked util-linux if they'd like that feature for=20
-embedded boards...
-
-No sign of that as PR or issue:
-
-https://github.com/util-linux/util-linux/pulls?q=3Dis%3Apr++switch_root
-https://github.com/util-linux/util-linux/issues?q=3Dis%3Aissue%20switch_r=
-oot
-
-and
-
-2. More importantly, embedded folks are often emotionally attached to=20
-there serial lines/ console
-for doing BSP development and low-level debug work.
-
-CCing Kexin who will hopefully comment on whether=C2=A0 he and the WR tea=
-m=20
-would care if we drop the console specification.
-
-
-If not, then I have no objection since one can easily enable the -c optio=
-n
-when debugging and then ship without it.
-
-
-../Randy
-
-
+>> * add function log_success_msg/log_failure_msg/log_warning_msg, some
+>> packages still use these functions, like mariadb, refer [1], without
+>> these function, with sysV init manager, mariadb will report error:
+>>
+>> root@qemux86-64:~# /etc/init.d/mysqld status
+>> /etc/init.d/mysqld: line 383: log_success_msg: command not found
+>>
+>> * remove RCONFLICTS with lsbinitscripts, LSB support already remove in
+>>    [2]
+>>
+>> [1]https://github.com/MariaDB/server/blob/main/support-files/mysql.ser=
+ver.sh#L104
+>> [2]https://git.openembedded.org/openembedded-core/commit/?id=3Dfb06435=
+6af615d67d85b65942103bf943d84d290
+>> [3]https://refspecs.linuxbase.org/LSB_4.0.0/LSB-Core-generic/LSB-Core-=
+generic/iniscrptfunc.html
+>>
+>> Signed-off-by: Changqing Li<changqing.li@windriver.com>
+>> ---
+>>   .../initscripts/initscripts-1.0/functions     | 21 +++++++++++++++++=
+++
+>>   .../initscripts/initscripts_1.0.bb            |  1 -
+>>   2 files changed, 21 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/functions b=
+/meta/recipes-core/initscripts/initscripts-1.0/functions
+>> index 35aebd4a55..7fc19c808b 100755
+>> --- a/meta/recipes-core/initscripts/initscripts-1.0/functions
+>> +++ b/meta/recipes-core/initscripts/initscripts-1.0/functions
+>> @@ -92,3 +92,24 @@ passed() {
+>>       echo -n -e "${BRACKET}[${SUCCESS} PASS ${BRACKET}]${NORMAL}"
+>>       return $rc
+>>   }
+>> +
+>> +log_success_msg()
+>> +{
+>> +    echo -n $@
+>> +    success
+>> +    echo
+>> +}
+>> +
+>> +log_failure_msg()
+>> +{
+>> +    echo -n $@
+>> +    failure
+>> +    echo
+>> +}
+>> +
+>> +log_warning_msg()
+>> +{
+>> +    echo -n $@
+>> +    warning
+>> +    echo
+>> +}
+>> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/r=
+ecipes-core/initscripts/initscripts_1.0.bb
+>> index 98693fa66e..0bc078c5eb 100644
+>> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+>> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+>> @@ -54,7 +54,6 @@ RDEPENDS:${PN} =3D "initd-functions \
+>>   # Recommend pn-functions so that it will be a preferred default prov=
+ider for initd-functions
+>>   RRECOMMENDS:${PN} =3D "${PN}-functions"
+>>   RPROVIDES:${PN}-functions =3D "initd-functions"
+>> -RCONFLICTS:${PN}-functions =3D "lsbinitscripts"
 >
->> CC: Yoann Congal<yoann.congal@smile.fr>
->> CC: Randy MacLeod<randy.macleod@windriver.com>
->> CC: jbk<jbk@mm-software.com>
->> CC: Raj Khem<raj.khem@gmail.com>
->> CC: Adrian Freihofer<adrian.freihofer@gmail.com>
->> Signed-off-by: Christos Gavros<gavrosc@yahoo.com>
->> ---
->> v1->v2
->> * the commit message is extended with more info
->> ---
->>   meta/recipes-core/initrdscripts/initramfs-framework/finish | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finis=
-h b/meta/recipes-core/initrdscripts/initramfs-framework/finish
->> index ac0de9f996..716c2f44af 100755
->> --- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
->> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
->> @@ -41,7 +41,7 @@ finish_run() {
->>                  mount --move /sys $ROOTFS_DIR/sys
->>
->>                  cd $ROOTFS_DIR
->> -               exec switch_root -c /dev/console $ROOTFS_DIR ${bootpar=
-am_init:-/sbin/init}
->> +               exec switch_root $ROOTFS_DIR ${bootparam_init:-/sbin/i=
-nit}
->>          else
->>                  debug "No rootfs has been set"
->>          fi
->> --
->> 2.34.1
->>
+>
+> Patch discussed in patch review and while this will likely get merged,
+> since if your distro has these functions scripts, then your distro=20
+> should have the log_* functions
+> or you get an error as Changqing described above.
+>
+> By adding these simple initscript functions we'll have to carry them=20
+> indefinitely
+> since it'll never be clear if someone who doesn't have a recipe in the=20
+> layer index
+> is making use of them.
+>
+> In the last 3 or 4 years people have added conditional code to handle=20
+> the non-redhat case:
+>
+> https://github.com/MariaDB/server/blame/main/support-files/mysql.server=
+.sh#L93
+>
+>
+> Changqing,
+>
+> Are there other recipes that need these log functions that you know of?
+>
+> Are there other functions missing?
+>
+Sorry,=C2=A0 I don't know if there are other recipes and function missing.
 
---=20
-# Randy MacLeod
-# Wind River Linux
+//Changqing
 
---------------Ps60NnFQjUP3OCFGeCZRhZl4
+> ../Randy
+>
+>
+>
+>>   FILES:${PN}-functions =3D "${sysconfdir}/init.d/functions*"
+>>   FILES:${PN}-sushell =3D "${base_sbindir}/sushell"
+>>  =20
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#214308):https://lists.openembedded.org/g/openembed=
+ded-core/message/214308
+>> Mute This Topic:https://lists.openembedded.org/mt/112062232/3616765
+>> Group Owner:openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  =
+[randy.macleod@windriver.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>
+> --=20
+> # Randy MacLeod
+> # Wind River Linux
+--------------y0U42RLo80NyDEhR1NHfN7Nb
 Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 53802clu030626
+Content-Transfer-Encoding: 8bit
 
 <!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   </head>
-  <body>
-    <div class=3D"moz-cite-prefix">On 2025-04-07 1:04 p.m., Khem Raj
-      wrote:<br>
+  <body text="#000000" bgcolor="#cceed0">
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 4/8/25 03:21, Randy MacLeod wrote:<br>
     </div>
-    <blockquote type=3D"cite" cite=3D"mid:CAMKF1sqHSmryz3LSpsJiL1AMGdaoSG=
-ZK0vWgYfw3xymBAiEz0w@mail.gmail.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">On Mon, Apr 7, 2025 at 9:45=E2=
-=80=AFAM Christos Gavros <a class=3D"moz-txt-link-rfc2396E" href=3D"mailt=
-o:gavrosc@yahoo.com">&lt;gavrosc@yahoo.com&gt;</a> wrote:
+    <blockquote type="cite" cite="mid:70560a18-cf98-40e8-a71a-6d3f90905d44@windriver.com">
+      
+      <div class="moz-cite-prefix">On 2025-04-03 4:53 a.m., Changqing Li
+        via lists.openembedded.org wrote:<br>
+      </div>
+      <blockquote type="cite" cite="mid:20250403085305.3667237-1-changqing.li@windriver.com">
+        <pre class="moz-quote-pre" wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com" moz-do-not-send="true">&lt;changqing.li@windriver.com&gt;</a>
+
+* add function log_success_msg/log_failure_msg/log_warning_msg, some
+packages still use these functions, like mariadb, refer [1], without
+these function, with sysV init manager, mariadb will report error:
+
+root@qemux86-64:~# /etc/init.d/mysqld status
+/etc/init.d/mysqld: line 383: log_success_msg: command not found
+
+* remove RCONFLICTS with lsbinitscripts, LSB support already remove in
+  [2]
+
+[1] <a class="moz-txt-link-freetext" href="https://github.com/MariaDB/server/blob/main/support-files/mysql.server.sh#L104" moz-do-not-send="true">https://github.com/MariaDB/server/blob/main/support-files/mysql.server.sh#L104</a>
+[2] <a class="moz-txt-link-freetext" href="https://git.openembedded.org/openembedded-core/commit/?id=fb064356af615d67d85b65942103bf943d84d290" moz-do-not-send="true">https://git.openembedded.org/openembedded-core/commit/?id=fb064356af615d67d85b65942103bf943d84d290</a>
+[3] <a class="moz-txt-link-freetext" href="https://refspecs.linuxbase.org/LSB_4.0.0/LSB-Core-generic/LSB-Core-generic/iniscrptfunc.html" moz-do-not-send="true">https://refspecs.linuxbase.org/LSB_4.0.0/LSB-Core-generic/LSB-Core-generic/iniscrptfunc.html</a>
+
+Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com" moz-do-not-send="true">&lt;changqing.li@windriver.com&gt;</a>
+---
+ .../initscripts/initscripts-1.0/functions     | 21 +++++++++++++++++++
+ .../initscripts/initscripts_1.0.bb            |  1 -
+ 2 files changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/functions b/meta/recipes-core/initscripts/initscripts-1.0/functions
+index 35aebd4a55..7fc19c808b 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/functions
++++ b/meta/recipes-core/initscripts/initscripts-1.0/functions
+@@ -92,3 +92,24 @@ passed() {
+     echo -n -e &quot;${BRACKET}[${SUCCESS} PASS ${BRACKET}]${NORMAL}&quot;
+     return $rc
+ }
++
++log_success_msg()
++{
++    echo -n $@
++    success
++    echo
++}
++
++log_failure_msg()
++{
++    echo -n $@
++    failure
++    echo
++}
++
++log_warning_msg()
++{
++    echo -n $@
++    warning
++    echo
++}
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 98693fa66e..0bc078c5eb 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -54,7 +54,6 @@ RDEPENDS:${PN} = &quot;initd-functions \
+ # Recommend pn-functions so that it will be a preferred default provider for initd-functions
+ RRECOMMENDS:${PN} = &quot;${PN}-functions&quot;
+ RPROVIDES:${PN}-functions = &quot;initd-functions&quot;
+-RCONFLICTS:${PN}-functions = &quot;lsbinitscripts&quot;</pre>
+      </blockquote>
+      <p><br>
+      </p>
+      <p>Patch discussed in patch review and while this will likely get
+        merged,<br>
+        since if your distro has these functions scripts, then your
+        distro should have the log_* functions<br>
+        or you get an error as Changqing described above.<br>
+      </p>
+      <p>By adding these simple initscript functions we'll have to carry
+        them indefinitely<br>
+        since it'll never be clear if someone who doesn't have a recipe
+        in the layer index<br>
+        is making use of them.<br>
+      </p>
+      <p>In the last 3 or 4 years people have added conditional code to
+        handle the non-redhat case:<br>
+      </p>
+      <p>&nbsp;
+        <a class="moz-txt-link-freetext" href="https://github.com/MariaDB/server/blame/main/support-files/mysql.server.sh#L93" moz-do-not-send="true">https://github.com/MariaDB/server/blame/main/support-files/mysql.server.sh#L93</a></p>
+      <p><span class="ws-pre-wrap f5 wb-break-word text-mono prc-Text-Text-0ima0"><br>
+        </span></p>
+      <p>Changqing, <br>
+      </p>
+      <p>Are there other recipes that need these log functions that you
+        know of?<br>
+      </p>
+      <p>Are there other functions missing?</p>
+    </blockquote>
+    <p>Sorry,&nbsp; I don't know if there are other recipes and function
+      missing.<br>
+    </p>
+    <p>//Changqing<br>
+    </p>
+    <blockquote type="cite" cite="mid:70560a18-cf98-40e8-a71a-6d3f90905d44@windriver.com">
+      <p>../Randy</p>
+      <p><br>
+      </p>
+      <p><br>
+      </p>
+      <blockquote type="cite" cite="mid:20250403085305.3667237-1-changqing.li@windriver.com">
+        <pre class="moz-quote-pre" wrap=""> FILES:${PN}-functions = &quot;${sysconfdir}/init.d/functions*&quot;
+ FILES:${PN}-sushell = &quot;${base_sbindir}/sushell&quot;
+ 
 </pre>
-      <blockquote type=3D"cite">
-        <pre wrap=3D"" class=3D"moz-quote-pre">In 'finish'script the Swit=
-ch_root command with option -c is busybox specific.
-When package-core-base-utils is selected the boot is breaking with messag=
-e
-&quot;Switch_root: invalid option =E2=80=94 =E2=80=98c=E2=80=99.It was re=
-produced using qemu.
-Remove -c option to make it compatible with both providers.
-It is tested using qemu with busybox and package-core-base-utils. In both=
- cases
-qemu boots successfully and filesystem is accessible.
-Fixes [YOCTO #15716]
+        <br>
+        <fieldset class="moz-mime-attachment-header"></fieldset>
+        <pre class="moz-quote-pre" wrap="">-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#214308): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/214308" moz-do-not-send="true">https://lists.openembedded.org/g/openembedded-core/message/214308</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/112062232/3616765" moz-do-not-send="true">https://lists.openembedded.org/mt/112062232/3616765</a>
+Group Owner: <a class="moz-txt-link-abbreviated moz-txt-link-freetext" href="mailto:openembedded-core+owner@lists.openembedded.org" moz-do-not-send="true">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub" moz-do-not-send="true">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated moz-txt-link-freetext" href="mailto:randy.macleod@windriver.com" moz-do-not-send="true">randy.macleod@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
 
 </pre>
       </blockquote>
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-Looks good</pre>
-    </blockquote>
-    <p>Probably, and it's a small change, but :</p>
-    <p>1.&nbsp; Usually the busybox version has fewer features but <br>
-      here util-linux doesn't have the option, which is a bit odd.</p>
-    <p>I also checked the git repo/master branch and it hasn't been
-      added.<br>
-      Note that toybox, a BSD-Zero licensed, re-implementation of
-      busybox *does* have the -c option.</p>
-    <p>I wonder if anyone has asked util-linux if they'd like that
-      feature for embedded boards...<br>
-    </p>
-    <p>No sign of that as PR or issue:<br>
-      <br>
-<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/util-linux/=
-util-linux/pulls?q=3Dis%3Apr++switch_root">https://github.com/util-linux/=
-util-linux/pulls?q=3Dis%3Apr++switch_root</a><br>
-<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/util-linux/=
-util-linux/issues?q=3Dis%3Aissue%20switch_root">https://github.com/util-l=
-inux/util-linux/issues?q=3Dis%3Aissue%20switch_root</a><br>
-    </p>
-    <p>and <br>
-      <br>
-      2. More importantly, embedded folks are often emotionally attached
-      to there serial lines/ console<br>
-      for doing BSP development and low-level debug work. <br>
-      <br>
-      CCing Kexin who will hopefully comment on whether&nbsp; he and the =
-WR
-      team would care if we drop the console specification.</p>
-    <p><br>
-    </p>
-    <p>If not, then I have no objection since one can easily enable the
-      -c option <br>
-      when debugging and then ship without it.</p>
-    <p><br>
-    </p>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <blockquote type=3D"cite" cite=3D"mid:CAMKF1sqHSmryz3LSpsJiL1AMGdaoSG=
-ZK0vWgYfw3xymBAiEz0w@mail.gmail.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-
-</pre>
-      <blockquote type=3D"cite">
-        <pre wrap=3D"" class=3D"moz-quote-pre">CC: Yoann Congal <a class=3D=
-"moz-txt-link-rfc2396E" href=3D"mailto:yoann.congal@smile.fr">&lt;yoann.c=
-ongal@smile.fr&gt;</a>
-CC: Randy MacLeod <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:randy=
-.macleod@windriver.com">&lt;randy.macleod@windriver.com&gt;</a>
-CC: jbk <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:jbk@mm-software=
-.com">&lt;jbk@mm-software.com&gt;</a>
-CC: Raj Khem <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:raj.khem@g=
-mail.com">&lt;raj.khem@gmail.com&gt;</a>
-CC: Adrian Freihofer <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:ad=
-rian.freihofer@gmail.com">&lt;adrian.freihofer@gmail.com&gt;</a>
-Signed-off-by: Christos Gavros <a class=3D"moz-txt-link-rfc2396E" href=3D=
-"mailto:gavrosc@yahoo.com">&lt;gavrosc@yahoo.com&gt;</a>
----
-v1-&gt;v2
-* the commit message is extended with more info
----
- meta/recipes-core/initrdscripts/initramfs-framework/finish | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b=
-/meta/recipes-core/initrdscripts/initramfs-framework/finish
-index ac0de9f996..716c2f44af 100755
---- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
-@@ -41,7 +41,7 @@ finish_run() {
-                mount --move /sys $ROOTFS_DIR/sys
-
-                cd $ROOTFS_DIR
--               exec switch_root -c /dev/console $ROOTFS_DIR ${bootparam_=
-init:-/sbin/init}
-+               exec switch_root $ROOTFS_DIR ${bootparam_init:-/sbin/init=
-}
-        else
-                debug &quot;No rootfs has been set&quot;
-        fi
---
-2.34.1
-
-</pre>
-      </blockquote>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class=3D"moz-signature" cols=3D"72">--=20
+      <p><br>
+      </p>
+      <pre class="moz-signature" cols="72">-- 
 # Randy MacLeod
 # Wind River Linux</pre>
+    </blockquote>
   </body>
 </html>
 
---------------Ps60NnFQjUP3OCFGeCZRhZl4--
+--------------y0U42RLo80NyDEhR1NHfN7Nb--
 
