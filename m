@@ -2,106 +2,133 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F90BC3600C
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 13:34:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 756E3C3600C
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 13:37:20 +0000 (UTC)
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.74849.1744119274821005531
+ by mx.groups.io with SMTP id smtpd.web11.74933.1744119437121444348
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 06:34:35 -0700
+ Tue, 08 Apr 2025 06:37:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=NkPN76RT;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YXcI7D+c;
  spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 318A82057C;
-	Tue,  8 Apr 2025 13:34:32 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 77DAC2057D;
+	Tue,  8 Apr 2025 13:37:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744119272;
+	t=1744119435;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mYNzb+5LrWMDensaJFmIEv1UeUqeqLVSnKZFP3C6IhM=;
-	b=NkPN76RTunVr8ePutgDl14+pPa3Wr+ZoCXstD4J5up1IDVdU72t8LKOGVfqgxXUV83ueBK
-	IRw0miLedORww9hWNaDp2C1m/RPdIXla/K0ZxacgBulwdksFA5vvjxmoo3hx861PNQw2P3
-	CiTthxyWk9E7WVE0kFYD3wjYG26ZFQP6A0FNjVCM4lTG4A0duoz6VEaVNcbJNGCA6PeP4E
-	HfZj0Aoe+yEZQSQM68PkubF6OPm4jE7BsMjs55mvdd9/bofNHANEpDgP6Te6R+UTSYhIZZ
-	dV+odXv/pc3zB4R0advZAY7rPyPQvNQSf+rE9eIMo7BO37bQIDrDIZvOJfaJtQ==
+	bh=ArWFfg9ZJWsKR1CpwtPrRgDhylrtKw7bFc01NQzbKoE=;
+	b=YXcI7D+cevTow/OWBaS7YPJeD8PIqqF1lPg+ec8ESHiKk+Wi97WnMu4dtiFdLsLF3IxXu2
+	HSDKs4Ao0HeI5KXVzhu248eb2pUPXgWHl49hPATmXC0JYmQ3nakGXdcCbGJAScHtt9kkjQ
+	posA/u+CrEMF+A85LQjBmK6Tg69kgl5GAJQHfjBsOO4mMHOMbRY1ueloxskjzfUV77tXie
+	Ba7fGuisD8QwQR2kme8Vq6E/hUYwPf1/v9gU6lGDezyW0EmOmXnbfHw/HSobMCindv4mgn
+	ofZrbYANeaS1ujphxHdgin+XmDdX5PD4tT0fjXnRY6sBIQSuek0Xaiw7V8zd3A==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 08 Apr 2025 15:34:31 +0200
-Message-Id: <D91AOK9S03Q6.2FUYPG6HID1V@bootlin.com>
-Subject: Re: [OE-core] [PATCH v6 00/13] mesa: upgrade to 25.0.2
-Cc: "Khem Raj" <raj.khem@gmail.com>,
- =?utf-8?q?Zolt=C3=A1n_B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Date: Tue, 08 Apr 2025 15:37:15 +0200
+Message-Id: <D91AQNC6UKX5.394WLWGGFWT4O@bootlin.com>
+To: <tom.hochstein@oss.nxp.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v5 4/5] oeqa/sdk/meson: improve test to
+ validate host/build target assignments
+Cc: "Ross Burton" <ross.burton@arm.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <dmitry.baryshkov@oss.qualcomm.com>,
- <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250407-mesa-25-v6-0-29bf4cae8d28@oss.qualcomm.com>
-In-Reply-To: <20250407-mesa-25-v6-0-29bf4cae8d28@oss.qualcomm.com>
+References: <20250407211806.1782316-1-tom.hochstein@oss.nxp.com>
+ <20250407211806.1782316-4-tom.hochstein@oss.nxp.com>
+In-Reply-To: <20250407211806.1782316-4-tom.hochstein@oss.nxp.com>
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdefvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkufevhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeffkeekgeejheevkeeluddtvdejieejgedtffdtffekieeuvedvtdegkeeuudeuvdenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhgihhthhhusgdrtghomhdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemsggvjedumeekfedtugemfhekvggvmeefgeguudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemsggvjedumeekfedtugemfhekvggvmeefgeguuddphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedprhgtphhtthhopegum
- hhithhrhidrsggrrhihshhhkhhovhesohhsshdrqhhurghltghomhhmrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheprhgrjhdrkhhhvghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepiigsohhsiihorhesghhmrghilhdrtghomh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdefvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvffuvefhofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgueeltefhudegffekvdevtdfgveffjeegjeduhfduvefgveeuhfeiteejgffftdenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmegsvgejudemkeeftdgumehfkegvvgemfeegugdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmegsvgejudemkeeftdgumehfkegvvgemfeegugdupdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefpdhrtghpthhtohepthhomhdrhhhotghhshhtvghin
+ hesohhsshdrnhigphdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehrohhsshdrsghurhhtohhnsegrrhhmrdgtohhm
 X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 13:34:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214537
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 13:37:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214538
 
-On Mon Apr 7, 2025 at 11:48 AM CEST, Dmitry Baryshkov via lists.openembedde=
-d.org wrote:
-> libclc is required in order to build Intel drivers in Mesa 24.1 and
-> later. Thus OE-Core is currently locked to the 24.0.x branch, which is
-> no longer maintained, having last release in June 2024.
+On Mon Apr 7, 2025 at 11:18 PM CEST, Tom Hochstein via lists.openembedded.o=
+rg wrote:
+> From: Ross Burton <ross.burton@arm.com>
 >
-> A clean solution is to package Clang, then use it to build libclc and
-> SPIRV-LLVM-Translator (required for Mesa OpenCL support). However
-> creating proper recipes for Clang is a long process (ongoing by Khem
-> Raj).
+> Use 'meson introspect' to dump JSON describing the build configuration
+> and validate that the build and host architectures are correctly set in
+> the meson.cross file.
 >
-> This patchset attempts to solve the issue in a simpler way: by building
-> libclc and SPIRV-LLVM-Translator together with the LLVM. This way we
-> don't have to create target Clang recipes, there is no extra toolchain
-> to support, etc. Clang binaries are creted as a part of the build
-> process (in order to support building target packages), however it only
-> hits the LLVM sysroot-native and is only used by the LLVM target build.
+> Also instead of calling ninja directly, call the relevant meson commands.
 >
-> Future work by Khem (once Clang is properly supported in OE-Core) should
-> allow us to create proper recipes for libclc and spirv-llvm-translator
-> and drop them from the llvm / clang recipe.
->
-> I think this approach provides a good balance between OE-Core being
-> stuck with the outdated Mesa release and being able to upgrade it,
-> bringing support for new hardware.
->
-> Last two patches of the series bring in RustiCL support, a new OpenCL
-> implementation within Mesa. They are optional for the sake of the
-> upgrade and can be dropped if there is any issue with those. RustiCL
-> support is mostly compile-tested at this point.
->
-> NOTE: This depends on the https://github.com/kraj/meta-clang/pull/1075
-> for interoperability with meta-clang
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Fixes: [YOCTO #15485]
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
 > ---
+>  meta/lib/oeqa/sdk/cases/meson.py | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/sdk/cases/meson.py b/meta/lib/oeqa/sdk/cases/m=
+eson.py
+> index 1edf78720a..407b94d242 100644
+> --- a/meta/lib/oeqa/sdk/cases/meson.py
+> +++ b/meta/lib/oeqa/sdk/cases/meson.py
+> @@ -4,6 +4,7 @@
+>  # SPDX-License-Identifier: MIT
+>  #
+> =20
+> +import json
+>  import os
+>  import subprocess
+>  import tempfile
+> @@ -39,10 +40,17 @@ class MesonTest(OESDKTestCase):
+>              self.assertTrue(os.path.isdir(dirs["source"]))
+>              os.makedirs(dirs["build"])
+> =20
+> -            log =3D self._run("meson --warnlevel 1 -Degl=3Dno -Dglx=3Dno=
+ -Dx11=3Dfalse {build} {source}".format(**dirs))
+> -            # Check that Meson thinks we're doing a cross build and not =
+a native
+> -            self.assertIn("Build type: cross build", log)
+> -            self._run("ninja -C {build} -v".format(**dirs))
+> -            self._run("DESTDIR=3D{install} ninja -C {build} -v install".=
+format(**dirs))
+> +            log =3D self._run("meson setup --warnlevel 1 -Degl=3Dno -Dgl=
+x=3Dno -Dx11=3Dfalse {build} {source}".format(**dirs))
+> +
+> +            # Check that the host (gcc) and build (cross-gcc) compilers =
+are different
+> +            data =3D json.loads(self._run("meson introspect --compilers =
+{build}".format(**dirs)))
+> +            self.assertNotEqual(data["build"]["c"]["exelist"], data["hos=
+t"]["c"]["exelist"])
+> +            # Check that the system architectures were set correctly
+> +            data =3D json.loads(self._run("meson introspect --machines {=
+build}".format(**dirs)))
+> +            self.assertEqual(data["build"]["cpu"], self.td["SDK_ARCH"])
+> +            self.assertEqual(data["host"]["cpu"], self.td["HOST_ARCH"])
+> +
+> +            self._run("meson compile -C {build} -v".format(**dirs))
+> +            self._run("meson install -C {build} --destdir {install}".for=
+mat(**dirs))
+> =20
+>              self.check_elf(os.path.join(dirs["install"], "usr", "local",=
+ "lib", "libepoxy.so"))
 
-Hi Dmitry,
+Hi,
 
-Thanks for the new version, but it looks like we still have some issues:
+Thanks for the new version, but we have a new error now:
 
-| Mangler.cpp:(.text._ZN4SPIR13MangleVisitor18recordSubstitutionERKNSt7__cx=
-x1112basic_stringIcSt11char_traitsIcESaIcEEE[_ZN4SPIR13MangleVisitor18recor=
-dSubstitutionERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE]+0x23f=
-): undefined reference to `std::__throw_bad_array_new_length()'
-| collect2: error: ld returned 1 exit status
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/sdk/cases/m=
+eson.py", line 47, in test_epoxy
+    self.assertNotEqual(data["build"]["c"]["exelist"], data["host"]["c"]["e=
+xelist"])
+                        ~~~~~~~~~~~~~^^^^^
+KeyError: 'c'
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/1356
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/1331
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/1330
 
 Can you have a look at this please?
-
 
 --=20
 Mathieu Dubois-Briand, Bootlin
