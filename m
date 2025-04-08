@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6FB9C369A6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4DB6C36010
 	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 20:51:26 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.6772.1744145478110135924
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.6951.1744145479660462414
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 13:51:18 -0700
+ Tue, 08 Apr 2025 13:51:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dB0tE7yN;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2255003f4c6so55003185ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 13:51:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vBPT0zjs;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-227b650504fso55349655ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 13:51:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744145477; x=1744750277; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744145479; x=1744750279; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TQDh0L/wU+L68MH8e6E8aWLUthc1ANzltKPevKFVZUc=;
-        b=dB0tE7yNCIcL90bhnnNeanat/s1QSQI4tXP5zzz8fero7FeczEj9U7PsM5bBC+ntkN
-         /8o7PukYHjU1bS25M+88aNd4j336D73YMrgSZrLacc2pLFlcLnW6g1O/NV3TzW0jbb7Q
-         mrf+RG8d2SRynW92lZOkl2m5CAaYyOPVNwDWL3kUL7SvdFMmFSIQ1aoyn9xq2L8tcdiQ
-         DhDajGyVlJYmGGogkC79LeZ79CUYNrXUGEeHPyrtMMzHbNkaCYAINoSVPlOfscdVKa73
-         JTEYX89pHz0dUzITh3rp/f2yZoAwtQZ9NUX3vD/xz4DBsI8vLuZgk6TVOuWuogKOR06s
-         CE1w==
+        bh=AfLtqcM8vaZKmosu0fp2wSEgynW2d7qyKJuZ1hJJycc=;
+        b=vBPT0zjsCqISaj2Qj+zn264Um3mf4h9Kvh6cYjwbac0tfMK7UHRKjIfmFLi1IBJ971
+         XRCmduQEephpESPYj5L99DovbKry151RVsvTmecyY2xgV6hKWh1TPXEbDM4XC93058CZ
+         iBTa/mc3Ydt2MezxUbYXro35QEAqlyyYMzggmiFSvVEcYv1VNMCtk5Z86la2PexV16Y7
+         nrpEuUeg7TQJJtU+oV845lyg8e8g6CSW5tGGlGGzt+zHLKCsbk99qg0+Ma0ZMHJCM4R6
+         dVzaUXJxYEQ4LwCopuCwUBudnU4Z6dFNkybSTpanmtesST+WFbEcLlYNcEBBT2De09D/
+         Y3Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744145477; x=1744750277;
+        d=1e100.net; s=20230601; t=1744145479; x=1744750279;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TQDh0L/wU+L68MH8e6E8aWLUthc1ANzltKPevKFVZUc=;
-        b=BvQj/XUnclE0s4p2pvu+icW+VfE8UcenxfPJ3h6nVsEBTO2Ss+cc4qwC/4TLT7jf1A
-         +RqODrgvcXkY/qGwSskT977YTryDG9yLT6xbJF6keVmoIoV6WggK2WQOVMmGq7060fXp
-         mJojtZ3ghfUfc2DOARHAix/CFhPritzwX4UYqgN1ErS/31JuIl0qOZ9qUYKR4dCE5EqP
-         u3SFTWfe09qRajj/d4NgFPkCcmlr5KoRLGvF6sNF5pgaOV1Ubu9t9yq2kCxmqOaBW3Ur
-         SQeASGe+3/w2iPOtNd6UdNe4zScEiXefuFteV4VEMe4giVwrDN+Szv9x7CyXbqP7uQNH
-         Fa+g==
-X-Gm-Message-State: AOJu0YzBxU1UoZrHtIhKMAWfIh5x4W3imObyQcJYuSu9xBc57ZFGJ/Gi
-	L4ET9AxPZtwnv0jvzu+/Hi5+vvPgnvogY2Ml0BK7/XzgOtrh6JtnAI2U2a6Pm6By+Ov5NkgFgmr
-	W
-X-Gm-Gg: ASbGncs5CBeRHnecwW1HK1nfmxab/mlKyE95AfSBu9HW/1rAD7dqXP26jlOEzFsjkHA
-	/d0KSuGzjMwBVAmhSnJP9Q/gn8R3kjQg7iJdzv/ALiFlO1GHqz0E/FctWNYIzoJ8JlCqHrFcHVm
-	Sr0M6y+vYCTsBOWBqcyTLpcZ0dgBrg3NWa3xB4viFwJRQbmJDm4qn2BsRkAQthcVPUKmWT+fWiY
-	e0F1l2J3+v7rzlq1ngrfZiGYX+C1cF7iFlgpOsr90xKJgVcaxoh3S6b3O/SbwPaapntONpbVNMi
-	DboYnYgEPtqHYEyke+iQmgR2UQazOVUJBgFW
-X-Google-Smtp-Source: AGHT+IGWJbnJA6S0MYIeN7N9vj7vRcWbu72ri2uB8iqtDfHDZbSUgbrcWiZhI8SbBv5x3Yji1oY6Rw==
-X-Received: by 2002:a17:902:db0d:b0:224:c47:cbd with SMTP id d9443c01a7336-22ac285a533mr9391025ad.0.1744145477302;
-        Tue, 08 Apr 2025 13:51:17 -0700 (PDT)
+        bh=AfLtqcM8vaZKmosu0fp2wSEgynW2d7qyKJuZ1hJJycc=;
+        b=qYW/SWNHyJnpcCYC7GUgT3NtwIxpYC3HTqNO8IOB7BPbMIUtRkncXfg6FfYfpCFmyv
+         8ZUO6GEJXfvFeCBpPa1VsqU1nAtG+1PWqjFO4OUnpnfi3x8tBrxShMyMQUMZ3nsjvnfR
+         MmzVUVrLkN7ZjmikTLpHUz9Qb/dMZRr52w7ztCLVhACJpMgB3euvNVVXWzPuTD41dT5N
+         2kuTGn0xt7rwXlbvk1Yf/+I8mZ7pKCc30sD0OV4pDo1IcCVIKj8/dblpUsGqOj/k1X5W
+         QDRnZeHgdg6vf7jgur4B14Q4sKr31p1xjiVAdSpJM67wYwlpFNkeFFx0CoWPqN6VxBcx
+         7sHQ==
+X-Gm-Message-State: AOJu0Ywc5a9r7IWP8z2tNeW2jjlChG/xb0bYU5rz+29x1P0krlXi67X2
+	HVJnHN8dD4vkI1iZAokh9r2PiTh9gDV4cyasEZzAIRtZWoH6JppoO7+5qX14qOmrem6EEKrNias
+	t
+X-Gm-Gg: ASbGncu8EofTIn99yHS0hi424x1OLsw7lwylGjXqCBZAZdxf05qsInRuudl6SRB8Ori
+	eZbeyVQdYIlN0faP3+6tJ/XTRR5wh5pT0aL1uZIp8NprV8yhVCdUIdqXwaOeU3rdZz7bVNAy/bA
+	zvSSC4gKQ1JQ943pckF3X65SuZpnwMBdFgbnm63X31WelIyDzJfj5xqegvLbCsQcM3cxxWpMA2Q
+	uTh62i9m9Dxcerd5OkpYi81LPl6Ui3pgBJ3W1OFiKlMVlp3z/9Plyp4x/NhrEpx2+yPpZhCuSjS
+	iqVuQGVQZ2jCTl4hK34Kxn6lPA3mJlUU0CPa
+X-Google-Smtp-Source: AGHT+IHhaoduymjcoSrFFxPoTdBRV+eCPiF0mg9zZxQTH43YJLIHhNDAKyRp12i9yBS5SH6ua2Zxjw==
+X-Received: by 2002:a17:902:f68a:b0:224:6ee:ad with SMTP id d9443c01a7336-22ac400e421mr1723535ad.44.1744145478743;
+        Tue, 08 Apr 2025 13:51:18 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:70d0:2b27:66e1:8cba])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297866e242sm105497755ad.164.2025.04.08.13.51.16
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297866e242sm105497755ad.164.2025.04.08.13.51.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 13:51:16 -0700 (PDT)
+        Tue, 08 Apr 2025 13:51:18 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/10] ofono: patch CVE-2024-7537
-Date: Tue,  8 Apr 2025 13:50:58 -0700
-Message-ID: <7f3a567b8e1446863e6c5c4336b4cb174592f799.1744145328.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/10] ghostscript: Fix CVE-2025-27830
+Date: Tue,  8 Apr 2025 13:50:59 -0700
+Message-ID: <bc74ad209b243b131ea5467b871339f1773ba64b.1744145328.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1744145328.git.steve@sakoman.com>
 References: <cover.1744145328.git.steve@sakoman.com>
@@ -67,98 +67,118 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 20:51:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214557
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214558
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Pick commit
-https://web.git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=e6d8d526d5077c0b6ab459efeb6b882c28e0fdeb
+Upstream-Status: Backport
+[https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=8474e1d6b896e35741d3c608ea5c21deeec1078f]
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ofono/ofono/CVE-2024-7537.patch           | 59 +++++++++++++++++++
- meta/recipes-connectivity/ofono/ofono_1.34.bb |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch
+ .../ghostscript/CVE-2025-27830.patch          | 79 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.55.0.bb         |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27830.patch
 
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27830.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27830.patch
 new file mode 100644
-index 0000000000..518b042d5b
+index 0000000000..a516b8ad41
 --- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch
-@@ -0,0 +1,59 @@
-+From e6d8d526d5077c0b6ab459efeb6b882c28e0fdeb Mon Sep 17 00:00:00 2001
-+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-+Date: Sun, 16 Mar 2025 12:26:42 +0200
-+Subject: [PATCH] qmi: sms: Fix possible out-of-bounds read
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27830.patch
+@@ -0,0 +1,79 @@
++From 8474e1d6b896e35741d3c608ea5c21deeec1078f Mon Sep 17 00:00:00 2001
++From: Zdenek Hutyra <zhutyra@centrum.cz>
++Date: Mon, 13 Jan 2025 09:15:01 +0000
++Subject: [PATCH] Bug 708241: Fix potential Buffer overflow with DollarBlend
 +
-+Fixes: CVE-2024-7537
++During serializing a multiple master font for passing to Freetype.
 +
-+CVE: CVE-2024-7537
-+Upstream-Status: Backport [https://web.git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=e6d8d526d5077c0b6ab459efeb6b882c28e0fdeb]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++Use CVE-2025-27830
++
++Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=8474e1d6b896e35741d3c608ea5c21deeec1078f]
++CVE: CVE-2025-27830
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ drivers/qmimodem/sms.c | 13 ++++++++++---
-+ 1 file changed, 10 insertions(+), 3 deletions(-)
++ base/write_t1.c | 7 ++++---
++ psi/zfapi.c     | 9 +++++++--
++ 2 files changed, 11 insertions(+), 5 deletions(-)
 +
-+diff --git a/drivers/qmimodem/sms.c b/drivers/qmimodem/sms.c
-+index 3e2bef6e..75863480 100644
-+--- a/drivers/qmimodem/sms.c
-++++ b/drivers/qmimodem/sms.c
-+@@ -485,6 +485,8 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
-+ 	const struct qmi_wms_result_msg_list *list;
-+ 	uint32_t cnt = 0;
-+ 	uint16_t tmp;
-++	uint16_t length;
-++	size_t msg_size;
++diff --git a/base/write_t1.c b/base/write_t1.c
++index 52902be..d6b2454 100644
++--- a/base/write_t1.c
+++++ b/base/write_t1.c
++@@ -628,6 +628,7 @@ write_main_dictionary(gs_fapi_font * a_fapi_font, WRF_output * a_output, int Wri
++     WRF_wbyte(a_fapi_font->memory, a_output, '\n');
++     if (is_MM_font(a_fapi_font)) {
++         short x, x2;
+++        unsigned short ux;
++         float x1;
++         uint i, j, entries;
++         char Buffer[255];
++@@ -759,16 +760,16 @@ write_main_dictionary(gs_fapi_font * a_fapi_font, WRF_output * a_output, int Wri
++          */
++         code = a_fapi_font->get_word(a_fapi_font,
++                                    gs_fapi_font_feature_DollarBlend_length,
++-                                   0, (unsigned short *)&x);
+++                                   0, &ux);
++         if (code < 0)
++             return code;
 + 
-+ 	DBG("");
++-        if (x > 0) {
+++        if (ux > 0) {
++             int len;
++             WRF_wstring(a_fapi_font->memory, a_output, "/$Blend {");
 + 
-+@@ -494,7 +496,7 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
-+ 		goto done;
-+ 	}
-+ 
-+-	list = qmi_result_get(result, QMI_WMS_RESULT_MSG_LIST, NULL);
-++	list = qmi_result_get(result, QMI_WMS_RESULT_MSG_LIST, &length);
-+ 	if (list == NULL) {
-+ 		DBG("Err: get msg list empty");
-+ 		goto done;
-+@@ -503,6 +505,13 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
-+ 	cnt = GUINT32_FROM_LE(list->cnt);
-+ 	DBG("msgs found %d", cnt);
-+ 
-++	msg_size = cnt * sizeof(list->msg[0]);
++             if (a_output->m_count)
++-                a_output->m_count += x;
+++                a_output->m_count += ux;
++             len = a_fapi_font->get_proc(a_fapi_font,
++                                       gs_fapi_font_feature_DollarBlend, 0,
++                                       (char *)a_output->m_pos);
++diff --git a/psi/zfapi.c b/psi/zfapi.c
++index 0b3ab1c..1ffef47 100644
++--- a/psi/zfapi.c
+++++ b/psi/zfapi.c
++@@ -682,7 +682,7 @@ FAPI_FF_get_word(gs_fapi_font *ff, gs_fapi_font_feature var_id, int index, unsig
++                 }
++                 for (i = 0; i < r_size(DBlend); i++) {
++                     if (array_get(ff->memory, DBlend, i, &Element) < 0) {
++-                        *ret = 0;
+++                        length = 0;
++                         break;
++                     }
++                     switch (r_btype(&Element)) {
++@@ -709,7 +709,12 @@ FAPI_FF_get_word(gs_fapi_font *ff, gs_fapi_font_feature var_id, int index, unsig
++                         default:
++                             break;
++                     }
++-                }
 ++
-++	if (length != sizeof(list->cnt) + msg_size) {
-++		DBG("Err: invalid msg list count");
-++		goto done;
-++	}
-++
-+ 	for (tmp = 0; tmp < cnt; tmp++) {
-+ 		DBG("unread type %d ndx %d", list->msg[tmp].type,
-+ 			GUINT32_FROM_LE(list->msg[tmp].ndx));
-+@@ -516,8 +525,6 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
-+ 
-+ 	/* save list and get 1st msg */
-+ 	if (cnt) {
-+-		int msg_size = cnt * sizeof(list->msg[0]);
-+-
-+ 		data->msg_list = g_try_malloc0(sizeof(list->cnt) + msg_size);
-+ 		if (data->msg_list == NULL)
-+ 			goto done;
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.34.bb b/meta/recipes-connectivity/ofono/ofono_1.34.bb
-index 1083b91d56..9f11af9236 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.34.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.34.bb
-@@ -25,6 +25,7 @@ SRC_URI = "\
-     file://CVE-2024-7546.patch \
-     file://CVE-2024-7547.patch \
-     file://CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch \
-+    file://CVE-2024-7537.patch \
+++		    if (length > max_ushort) {
+++			length = 0;
+++			break;
+++                    }
+++		}
++                 *ret = length;
++                 break;
++             }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+index 6d425710b5..dae8dff813 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+@@ -62,6 +62,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://CVE-2024-46953.patch \
+                 file://CVE-2024-46955.patch \
+                 file://CVE-2024-46956.patch \
++                file://CVE-2025-27830.patch \
  "
- SRC_URI[sha256sum] = "c0b96d3013447ec2bcb74579bef90e4e59c68dbfa4b9c6fbce5d12401a43aac7"
  
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
 2.43.0
 
