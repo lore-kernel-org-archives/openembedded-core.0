@@ -2,130 +2,163 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9932C36010
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 20:51:16 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.6946.1744145475150405291
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6FB9C369A6
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 20:51:26 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.6772.1744145478110135924
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 13:51:15 -0700
+ Tue, 08 Apr 2025 13:51:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Zw4lF1Ei;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-227b828de00so60401895ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 13:51:15 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dB0tE7yN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2255003f4c6so55003185ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 13:51:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744145474; x=1744750274; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LLBYiL5q6Sn0d7e23DnfXZqMcdHQkIDUJLuLI3r9iew=;
-        b=Zw4lF1Ei9e+pjMWBO45r8IequMq6Un2vCV9WEvRBmLpdvQpsaz1PQG0qvHvdBziVhW
-         /zo65ItWjfMlTGdcuUYkqCdISXj14xYGh7Z0GQ6sLEkxk/T7Bebg+1OxKyPh3q4vvaVb
-         yE1KUka/+OHJzGcQeG27JuWuKyODYehqfsZAHAkZRR4EIxf3rTJLoZbmOSa/m2m7dwwE
-         /94mHsh+Tq2aHV61Udb4pEn/eo1oPwvTMxNxtGfTdiB6beS2yV9P8DR7PAZlRY7XKT+P
-         yjJapaNhhaUZe2y18vZUBd025V8ZisIS5bLfIlJaNBWTlO54vBsgRlOwWbgn+5vcGFhP
-         k2dA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744145477; x=1744750277; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TQDh0L/wU+L68MH8e6E8aWLUthc1ANzltKPevKFVZUc=;
+        b=dB0tE7yNCIcL90bhnnNeanat/s1QSQI4tXP5zzz8fero7FeczEj9U7PsM5bBC+ntkN
+         /8o7PukYHjU1bS25M+88aNd4j336D73YMrgSZrLacc2pLFlcLnW6g1O/NV3TzW0jbb7Q
+         mrf+RG8d2SRynW92lZOkl2m5CAaYyOPVNwDWL3kUL7SvdFMmFSIQ1aoyn9xq2L8tcdiQ
+         DhDajGyVlJYmGGogkC79LeZ79CUYNrXUGEeHPyrtMMzHbNkaCYAINoSVPlOfscdVKa73
+         JTEYX89pHz0dUzITh3rp/f2yZoAwtQZ9NUX3vD/xz4DBsI8vLuZgk6TVOuWuogKOR06s
+         CE1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744145474; x=1744750274;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LLBYiL5q6Sn0d7e23DnfXZqMcdHQkIDUJLuLI3r9iew=;
-        b=DJ1t0XmZOa8rpxtICNNuMf73asIYQArwN2klesgs8tfb7+TtiO0kt9hpvx6knEyvIM
-         pXidmgDWfyeeI9yLSQlsveJc6JfnSEXcQ9Q+M6MkuCXRg/3+Fpg8y2PsGGv7ZqSD91Bl
-         MF5PrFxeIQpE4wLQI+NLcVd9Ce4n21voafojJD06tz4qtMW/Txae+JEv1Lf7VVs6qo6k
-         wqxnpdv/oJAIsWOY392mLVa4U5X679yVDn8c+p8VjJHSzDWXeoymIV51rNr6R8vLgnWv
-         oDXY396ijL5QCC4R5auLopgooRb4GfAIYhLJgNB5vdpl/wtpcj1rixeopcPWaWvRpLx1
-         ArGA==
-X-Gm-Message-State: AOJu0Yz/HqxtUK3m6Hk4seYZGXhXonsHFIrGyMXMSGmh+TDikQ7o7QNY
-	qbojTM+6ti5G3TuoXrVDd2fi0DeM2JxamSA1LsiRufEjRLyyLfIjB4hkrLDT60VGZDLWZPuVWdl
-	C
-X-Gm-Gg: ASbGnct6E1D+UF5+taSfiX9VRViLAXKUXUskymRqU4t8uD61WHAY7za6a3XbGZ8fjWB
-	E02Q5PA/rbNvdElld0+T1hYSfZNNYeRlO4kpkR08Gl7y1icgyzR1hDxHgy50p73Xjr0hnuNl6EK
-	JbcwY4O+Z7xOXvnu2tBdFQyz0rWVS7cntDSVzkz4+N7PjmbJr2k5qcN04dTJNDcX4u6S3KzSPQ1
-	Q9ib/0j00wkpJzsmnO1Yo1hsffzBwaMPemhv2YRDRGjoMhsiNF75Bh+Ll/5Ddvgqq+1ugHGsij5
-	9gJvCD5zsiK2eSrhVKsWpLzXqBmvXmQ0lOKNzQfecnX8NTc=
-X-Google-Smtp-Source: AGHT+IHCcRYXPjxgrYnHWiAJbnUu5RZIjBFokkEW/VvR65f3ZASscM5soFHKoSut1+gPTumFJuYdVA==
-X-Received: by 2002:a17:902:f644:b0:224:c46:d167 with SMTP id d9443c01a7336-22ac29a7d25mr9601625ad.16.1744145474092;
-        Tue, 08 Apr 2025 13:51:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744145477; x=1744750277;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TQDh0L/wU+L68MH8e6E8aWLUthc1ANzltKPevKFVZUc=;
+        b=BvQj/XUnclE0s4p2pvu+icW+VfE8UcenxfPJ3h6nVsEBTO2Ss+cc4qwC/4TLT7jf1A
+         +RqODrgvcXkY/qGwSskT977YTryDG9yLT6xbJF6keVmoIoV6WggK2WQOVMmGq7060fXp
+         mJojtZ3ghfUfc2DOARHAix/CFhPritzwX4UYqgN1ErS/31JuIl0qOZ9qUYKR4dCE5EqP
+         u3SFTWfe09qRajj/d4NgFPkCcmlr5KoRLGvF6sNF5pgaOV1Ubu9t9yq2kCxmqOaBW3Ur
+         SQeASGe+3/w2iPOtNd6UdNe4zScEiXefuFteV4VEMe4giVwrDN+Szv9x7CyXbqP7uQNH
+         Fa+g==
+X-Gm-Message-State: AOJu0YzBxU1UoZrHtIhKMAWfIh5x4W3imObyQcJYuSu9xBc57ZFGJ/Gi
+	L4ET9AxPZtwnv0jvzu+/Hi5+vvPgnvogY2Ml0BK7/XzgOtrh6JtnAI2U2a6Pm6By+Ov5NkgFgmr
+	W
+X-Gm-Gg: ASbGncs5CBeRHnecwW1HK1nfmxab/mlKyE95AfSBu9HW/1rAD7dqXP26jlOEzFsjkHA
+	/d0KSuGzjMwBVAmhSnJP9Q/gn8R3kjQg7iJdzv/ALiFlO1GHqz0E/FctWNYIzoJ8JlCqHrFcHVm
+	Sr0M6y+vYCTsBOWBqcyTLpcZ0dgBrg3NWa3xB4viFwJRQbmJDm4qn2BsRkAQthcVPUKmWT+fWiY
+	e0F1l2J3+v7rzlq1ngrfZiGYX+C1cF7iFlgpOsr90xKJgVcaxoh3S6b3O/SbwPaapntONpbVNMi
+	DboYnYgEPtqHYEyke+iQmgR2UQazOVUJBgFW
+X-Google-Smtp-Source: AGHT+IGWJbnJA6S0MYIeN7N9vj7vRcWbu72ri2uB8iqtDfHDZbSUgbrcWiZhI8SbBv5x3Yji1oY6Rw==
+X-Received: by 2002:a17:902:db0d:b0:224:c47:cbd with SMTP id d9443c01a7336-22ac285a533mr9391025ad.0.1744145477302;
+        Tue, 08 Apr 2025 13:51:17 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:70d0:2b27:66e1:8cba])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297866e242sm105497755ad.164.2025.04.08.13.51.13
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297866e242sm105497755ad.164.2025.04.08.13.51.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 13:51:13 -0700 (PDT)
+        Tue, 08 Apr 2025 13:51:16 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/10] Patch review
-Date: Tue,  8 Apr 2025 13:50:56 -0700
-Message-ID: <cover.1744145328.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/10] ofono: patch CVE-2024-7537
+Date: Tue,  8 Apr 2025 13:50:58 -0700
+Message-ID: <7f3a567b8e1446863e6c5c4336b4cb174592f799.1744145328.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1744145328.git.steve@sakoman.com>
+References: <cover.1744145328.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 20:51:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214555
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 20:51:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214557
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Thursday, April 10
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+Pick commit
+https://web.git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=e6d8d526d5077c0b6ab459efeb6b882c28e0fdeb
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1367
-
-The following changes since commit 1efbe1004bc82e7c14c1e8bd4ce644f5015c3346:
-
-  build-appliance-image: Update to kirkstone head revision (2025-04-04 08:43:24 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Haixiao Yan (1):
-  glibc: Add single-threaded fast path to rand()
-
-Peter Marko (2):
-  ofono: patch CVE-2024-7537
-  qemu: ignore CVE-2023-1386
-
-Vijay Anusuri (6):
-  ghostscript: Fix CVE-2025-27830
-  ghostscript: Fix CVE-2025-27831
-  ghostscript: Fix CVE-2025-27832
-  ghostscript: Fix CVE-2025-27834
-  ghostscript: Fix CVE-2025-27835
-  ghostscript: Fix CVE-2025-27836
-
-Yogita Urade (1):
-  curl: ignore CVE-2025-0725
-
- .../ofono/ofono/CVE-2024-7537.patch           | 59 +++++++++++++
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../ofono/ofono/CVE-2024-7537.patch           | 59 +++++++++++++++++++
  meta/recipes-connectivity/ofono/ofono_1.34.bb |  1 +
- ...dd-single-threaded-fast-path-to-rand.patch | 47 +++++++++++
- meta/recipes-core/glibc/glibc_2.35.bb         |  1 +
- meta/recipes-devtools/qemu/qemu.inc           |  3 +
- .../ghostscript/CVE-2025-27830.patch          | 79 +++++++++++++++++
- .../ghostscript/CVE-2025-27831-pre1.patch     | 50 +++++++++++
- .../ghostscript/CVE-2025-27831.patch          | 84 +++++++++++++++++++
- .../ghostscript/CVE-2025-27832.patch          | 45 ++++++++++
- .../ghostscript/CVE-2025-27834.patch          | 57 +++++++++++++
- .../ghostscript/CVE-2025-27835.patch          | 34 ++++++++
- .../ghostscript/CVE-2025-27836-1.patch        | 64 ++++++++++++++
- .../ghostscript/CVE-2025-27836-2.patch        | 46 ++++++++++
- .../ghostscript/ghostscript_9.55.0.bb         |  8 ++
- meta/recipes-support/curl/curl_7.82.0.bb      |  2 +
- 15 files changed, 580 insertions(+)
+ 2 files changed, 60 insertions(+)
  create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0001-stdlib-Add-single-threaded-fast-path-to-rand.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27830.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27831-pre1.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27831.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27832.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27834.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27835.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-1.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-2.patch
 
+diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch
+new file mode 100644
+index 0000000000..518b042d5b
+--- /dev/null
++++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch
+@@ -0,0 +1,59 @@
++From e6d8d526d5077c0b6ab459efeb6b882c28e0fdeb Mon Sep 17 00:00:00 2001
++From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
++Date: Sun, 16 Mar 2025 12:26:42 +0200
++Subject: [PATCH] qmi: sms: Fix possible out-of-bounds read
++
++Fixes: CVE-2024-7537
++
++CVE: CVE-2024-7537
++Upstream-Status: Backport [https://web.git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=e6d8d526d5077c0b6ab459efeb6b882c28e0fdeb]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ drivers/qmimodem/sms.c | 13 ++++++++++---
++ 1 file changed, 10 insertions(+), 3 deletions(-)
++
++diff --git a/drivers/qmimodem/sms.c b/drivers/qmimodem/sms.c
++index 3e2bef6e..75863480 100644
++--- a/drivers/qmimodem/sms.c
+++++ b/drivers/qmimodem/sms.c
++@@ -485,6 +485,8 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
++ 	const struct qmi_wms_result_msg_list *list;
++ 	uint32_t cnt = 0;
++ 	uint16_t tmp;
+++	uint16_t length;
+++	size_t msg_size;
++ 
++ 	DBG("");
++ 
++@@ -494,7 +496,7 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
++ 		goto done;
++ 	}
++ 
++-	list = qmi_result_get(result, QMI_WMS_RESULT_MSG_LIST, NULL);
+++	list = qmi_result_get(result, QMI_WMS_RESULT_MSG_LIST, &length);
++ 	if (list == NULL) {
++ 		DBG("Err: get msg list empty");
++ 		goto done;
++@@ -503,6 +505,13 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
++ 	cnt = GUINT32_FROM_LE(list->cnt);
++ 	DBG("msgs found %d", cnt);
++ 
+++	msg_size = cnt * sizeof(list->msg[0]);
+++
+++	if (length != sizeof(list->cnt) + msg_size) {
+++		DBG("Err: invalid msg list count");
+++		goto done;
+++	}
+++
++ 	for (tmp = 0; tmp < cnt; tmp++) {
++ 		DBG("unread type %d ndx %d", list->msg[tmp].type,
++ 			GUINT32_FROM_LE(list->msg[tmp].ndx));
++@@ -516,8 +525,6 @@ static void get_msg_list_cb(struct qmi_result *result, void *user_data)
++ 
++ 	/* save list and get 1st msg */
++ 	if (cnt) {
++-		int msg_size = cnt * sizeof(list->msg[0]);
++-
++ 		data->msg_list = g_try_malloc0(sizeof(list->cnt) + msg_size);
++ 		if (data->msg_list == NULL)
++ 			goto done;
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.34.bb b/meta/recipes-connectivity/ofono/ofono_1.34.bb
+index 1083b91d56..9f11af9236 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.34.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.34.bb
+@@ -25,6 +25,7 @@ SRC_URI = "\
+     file://CVE-2024-7546.patch \
+     file://CVE-2024-7547.patch \
+     file://CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch \
++    file://CVE-2024-7537.patch \
+ "
+ SRC_URI[sha256sum] = "c0b96d3013447ec2bcb74579bef90e4e59c68dbfa4b9c6fbce5d12401a43aac7"
+ 
 -- 
 2.43.0
 
