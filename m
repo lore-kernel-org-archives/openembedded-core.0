@@ -1,105 +1,109 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EA63C36010
-	for <webhook@archiver.kernel.org>; Mon,  7 Apr 2025 23:15:15 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web11.61844.1744067710628185754
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12577C369A1
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 00:52:06 +0000 (UTC)
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+ by mx.groups.io with SMTP id smtpd.web10.64296.1744073524785885673
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Apr 2025 16:15:10 -0700
+ Mon, 07 Apr 2025 17:52:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IysTgoH8;
- spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: festevam@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-afc857702d1so2420394a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 16:15:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744067709; x=1744672509; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=at9eWAR41Q2FnOd28ALk78oJ6v/e3vddQN2gCTwcR7I=;
-        b=IysTgoH82Okksh2zO+K8eMdoxbs/IS3Bpc99BRY7LrknW3vVd4CDqRE+MBy8HxYw7f
-         i2f201V321RRmidILj64gCnrze7rixdqnBhbkHZl5GVnMHr0uyRGpxgCQUIK5b7ET77u
-         thNfJscQnpd52/V10AIRcrE1r3V5hL+fiiRLaBC8NCrlHM8oM+cOqY+xWt9RVlx4ZVxJ
-         0lHtSNFhe5muXov6aydI/s34bwK3k7a/XYXH0ZTM9x/oR/+T+4UhCu8Izaoj2sPPNH6g
-         l3PbuZMavCxUa4oxks7IkwX+w7l90xO52NhgTPuyLlyhxZhWLOQemLBJq9VU5nW/rOT5
-         VHjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744067709; x=1744672509;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=at9eWAR41Q2FnOd28ALk78oJ6v/e3vddQN2gCTwcR7I=;
-        b=PKVbfKcLoLHpmJqJwHe5x5ueas/xkY+exb6e3VowQEvEBDhnuGIN+JcKJ+rRaprywz
-         qZMj2eUSAW1SeFGACb07CdpSsIutjH3qCVGkB8ASuVslqehKu7PgBFZuV1u4wI+ByRK5
-         Va01DVO2tUw2YCUT4gjG7kJgPl4qDzh5gu+/5HOk7GYS7LNdYGUKdCYOLy+eADB2Lpiv
-         UVAtl41PitX7589fPVbD/jktMRRfpWWGs3yI1S475Dn8a+TgmbENdRqqesbgtXPp8egt
-         d95s98rSSId1s3EUH4st+amm8tQBzufkk0Cs1K+NBMj7StYqGiN2B4AEPjEACTdjgWcn
-         AGGg==
-X-Gm-Message-State: AOJu0Yz5Ch62R19SpKRYhBZMu4lSAM092VlHh2V/a86+jrmzkkOZ9xoA
-	ljCGU/8yfsZ+PmZcwBcCFKsng5jWYpEHLNs/ZP0ybn8Fp/sjct+ZHCvC7A==
-X-Gm-Gg: ASbGnctDbrj5Q5/Cn7T//y428grJDxV6IbeBjlR5mZ9PtrPABhTxXWD9Ervmzzeec9k
-	oIkYM+bL2m30bi5FpKfqe+gaT0p3lT93rFJPT0s4N8JYDtSoBpgZcsZB9fwDPDpXZLveWWrKc1g
-	zhZVb2yjrVKyh4XrIlfVr9VOThlZMFsAwaj5TaimdWtTqj19e5psABYZ2xINCAvLqNTfNSIuc57
-	yVkoKKyuJzPJGYBZMHKYbX6xv/BkqtmhNzIoeqfMzNtkpyV4KvhisW5UFNgOHFlr7bDpfQ7jmr0
-	bYUHlaFxD/VE/C5c2yEswbroV9vEM/jGtmmQ86ixEaBnLbanW0xEeen//8w=
-X-Google-Smtp-Source: AGHT+IFzY96PmSzHLkPtAamzXg/MvfGhAr7eFTBfHKHBLC1btTfMnA5NXB7S1LNeWCbNmbzJ/cdKmw==
-X-Received: by 2002:a17:90b:5445:b0:2ff:6ac2:c5a5 with SMTP id 98e67ed59e1d1-306af7b8030mr12778977a91.26.1744067709023;
-        Mon, 07 Apr 2025 16:15:09 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:ff7d:ec84:1a1e:fd81])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3057cb5e75asm9743344a91.37.2025.04.07.16.15.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 16:15:08 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Z3CvYnM+;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1744073525; x=1775609525;
+  h=from:to:cc:subject:date:message-id;
+  bh=QNmXzYOn9Agb1XJ51bR6pHhySLONLJxWNYUDy4ZSsJ8=;
+  b=Z3CvYnM+uuSACY+X28F+jq3w7t7I1rJXtKwillCGTAVrkFdMVsjyBqEr
+   w1+O+5dzboM2zkcE3xH1zQS8foRZyZglOTUTMO7o9E/hnN4Vw/z+FRnpc
+   l/8nGtkrpbP7WldXzFz62dE/ZW5j6p0ntP9sEy5EdzLSc/Xg4+t5zinaW
+   w6ol/kJhghFGIXa1z6pmWevuwaZoKgAUEBZ590veTgBYexd7r2GskBhYH
+   9mxhoFgke4paOv/Qtm5r89w9sY4DNu9CVKQLEC5mo8EDDyd2pMX0vhede
+   77cm+iSXS7+tMUFpfnRVVpP1uYteizOgUcA8VibAFtu2531/716mOfioy
+   Q==;
+X-CSE-ConnectionGUID: pHd/Tdy3QRed/S9oyrkiKA==
+X-CSE-MsgGUID: Re6WDTqkQSyFPnlPu/YKWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="195727211"
+X-IronPort-AV: E=Sophos;i="6.15,196,1739804400"; 
+   d="scan'208";a="195727211"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 09:52:00 +0900
+Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 46A7DD480A
+	for <openembedded-core@lists.openembedded.org>; Tue,  8 Apr 2025 09:51:58 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 0AE75D8ACD
+	for <openembedded-core@lists.openembedded.org>; Tue,  8 Apr 2025 09:51:58 +0900 (JST)
+Received: from localhost.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 292DE1A009A;
+	Tue,  8 Apr 2025 08:51:55 +0800 (CST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] u-boot: upgrade 2025.01 -> 2025.04
-Date: Mon,  7 Apr 2025 20:15:00 -0300
-Message-Id: <20250407231500.421051-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 01/15] curl: upgrade 8.12.1 -> 8.13.0
+Date: Tue,  8 Apr 2025 08:51:28 +0800
+Message-Id: <1744073502-27695-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Apr 2025 23:15:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214483
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 00:52:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214484
 
-From: Fabio Estevam <festevam@denx.de>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Upgrade to U-Boot 2025.04.
+no-test-timeout.patch
+refreshed for 8.13.0
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2 +-
- .../u-boot/{u-boot-tools_2025.01.bb => u-boot-tools_2025.04.bb} | 0
- .../recipes-bsp/u-boot/{u-boot_2025.01.bb => u-boot_2025.04.bb} | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-bsp/u-boot/{u-boot-tools_2025.01.bb => u-boot-tools_2025.04.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot_2025.01.bb => u-boot_2025.04.bb} (100%)
+ meta/recipes-support/curl/curl/no-test-timeout.patch        | 6 +++---
+ .../recipes-support/curl/{curl_8.12.1.bb => curl_8.13.0.bb} | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/curl/{curl_8.12.1.bb => curl_8.13.0.bb} (98%)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index fc860248ed..b0ea01362a 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -12,7 +12,7 @@ PE = "1"
+diff --git a/meta/recipes-support/curl/curl/no-test-timeout.patch b/meta/recipes-support/curl/curl/no-test-timeout.patch
+index 677d177302..8f58277bc6 100644
+--- a/meta/recipes-support/curl/curl/no-test-timeout.patch
++++ b/meta/recipes-support/curl/curl/no-test-timeout.patch
+@@ -1,4 +1,4 @@
+-From 42cddb52e821cfc2f09f1974742714e5f2f1856e Mon Sep 17 00:00:00 2001
++From 239c2f04d0ccb16f9ede473efa58c601e5379f3c Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Fri, 15 Mar 2024 14:37:37 +0000
+ Subject: [PATCH] Set the max-time timeout to 600 so the timeout is 10 minutes
+@@ -11,10 +11,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "6d41f0a39d6423c8e57e92ebbe9f8c0333a63f72"
-+SRCREV = "34820924edbc4ec7803eb89d9852f4b870fa760a"
+ diff --git a/tests/servers.pm b/tests/servers.pm
+-index d4472d5..9999938 100644
++index a3e5edb..f75df79 100644
+ --- a/tests/servers.pm
+ +++ b/tests/servers.pm
+-@@ -123,7 +123,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
++@@ -124,7 +124,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
+  my $sshderror;   # for socks server, ssh daemon version error
+  my %doesntrun;    # servers that don't work, identified by pidfile
+  my %PORT = (nolisten => 47); # port we use for a local non-listening service
+diff --git a/meta/recipes-support/curl/curl_8.12.1.bb b/meta/recipes-support/curl/curl_8.13.0.bb
+similarity index 98%
+rename from meta/recipes-support/curl/curl_8.12.1.bb
+rename to meta/recipes-support/curl/curl_8.13.0.bb
+index dd1c89979a..cb2c42baa9 100644
+--- a/meta/recipes-support/curl/curl_8.12.1.bb
++++ b/meta/recipes-support/curl/curl_8.13.0.bb
+@@ -15,7 +15,7 @@ SRC_URI = " \
+     file://disable-tests \
+     file://no-test-timeout.patch \
+ "
+-SRC_URI[sha256sum] = "0341f1ed97a26c811abaebd37d62b833956792b7607ea3f15d001613c76de202"
++SRC_URI[sha256sum] = "4a093979a3c2d02de2fbc00549a32771007f2e78032c6faa5ecd2f7a9e152025"
  
- SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2025.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2025.04.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-tools_2025.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot-tools_2025.04.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2025.01.bb b/meta/recipes-bsp/u-boot/u-boot_2025.04.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2025.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2025.04.bb
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
 -- 
-2.40.1
+2.43.0
 
 
