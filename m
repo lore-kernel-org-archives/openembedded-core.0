@@ -1,103 +1,173 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8B4EC369A2
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 15:17:10 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web11.78041.1744125428380081190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 318C9C369A2
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 15:55:21 +0000 (UTC)
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.web11.79108.1744127718071789202
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 08:17:08 -0700
+ Tue, 08 Apr 2025 08:55:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kwa+0+zP;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6f0c30a1cb6so14944846d6.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 08:17:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744125427; x=1744730227; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hWrQOpaUL1SqTcukch5YtTp1IlVIjzNDh0L2061+d6U=;
-        b=Kwa+0+zPdUKkQEGLM/M6GPstj4SNlpkCWYuyOmsboneNbi6NagG7Cqz2wytlFwV7Hd
-         H8OPX3HNDsNBrTbQuIyC+Lu6MglzVxVlOSMJJnyevaDUWEOdaddURFG8FZeaPQgY26nj
-         9+ZsodGUQUXBcwPYdgRcyREY3hsWEvuQmGN1T6ZtD8SSTnLk1bB67tKnVdta72Ju7mMe
-         Nx2ShzOTgZEKc0bMbtPSGLyZkB2iT44j9wCUpPQmhY21dsJg4rbpyZNKGI+qMyqP73rG
-         Z32Ov4CWN3eUJrYBel8FOEBJ9lI7ynV9lMAD46h1jHNm3dcPzIjk2VpSl7gupGb1lr1S
-         OXnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744125427; x=1744730227;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hWrQOpaUL1SqTcukch5YtTp1IlVIjzNDh0L2061+d6U=;
-        b=vgy++qD2sMIz7YR5DV14RjQ/ZOrbiu7/3+IrQSPKl4t14UGgacBRLq/wEnPNmkg7RT
-         4HZbC0vmFrV0AhRdZW0T9zZPr1GH9k6RlbrGOeLxiteVcn9YqBnBDZCqr/6uPMUF2K4b
-         I2VXL0zr9FkSj6lvG53+kHyyA0DDE/8aL27tGMDceqJSRy1MEW1VGXqE8qlb0zT6Pf+m
-         OVDItzWX+j0TFyk42MDFxglTB1PS2+viha9X8aJryqFDYWafFiLdNXXY9y1V01Qw3fY3
-         0dGJQBsCnanGx+7pGeVb/XBdmx4G4FG/1JUoic2io3wA781A6HPZMOk/3tQEkb0DAzUk
-         Ajow==
-X-Forwarded-Encrypted: i=1; AJvYcCVerdX5j7ItoVxK6E2SEkbGS3bhzBkZR4XiwTm9VCglX8cARTuJNHZiro03Cuq3lHvjO4k8afUUGA5uFqfsHMNrCw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzLWmO/zT9m8+0DSIF7EgTfur8WiQas9Qb0RyNKKM1Rj9sK8gXf
-	r3pEqII547FLi3v1pYD52MB24f3mougTR98zoQ+UhPjUvtYxP5IGIkLW55L4AA158a4SCDNGwf9
-	bTGCeT8XgJ8Jyi1pNUxIWZC10nTs=
-X-Gm-Gg: ASbGncs7j+XSPBET4acLf2j8CnE3Tb8CiS+tIRxqnPg4s6o0Y3LCt1cDuMRQBBQHsDM
-	vFpfN9NCwCNB2Qk5aXAYcx3uvS5kzl+wIqaBc7ZBceP5cGpAX6VVZVGHT9EBNZoOHxcOMFVIUkK
-	jT/RcsaBi7OrwUF/v03W6VD3tLfNrnPD2T67ctLZ1bLkdoI7Wj6tUIT7UzGfxV
-X-Google-Smtp-Source: AGHT+IEVMLlL1YtR2gCueaiyRJAsnVerOWlFve1RnBNQdaIG8xWHVCjaKYq5qhd57r0I/UywpY3tz0zRF9vDmrjalFg=
-X-Received: by 2002:a05:6214:e86:b0:6e8:fa72:be51 with SMTP id
- 6a1803df08f44-6f05850ca4bmr277573966d6.19.1744125427383; Tue, 08 Apr 2025
- 08:17:07 -0700 (PDT)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=PrfWTtBL;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202504081555131252f84cb0a9a06924-ffubvf@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202504081555131252f84cb0a9a06924
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 08 Apr 2025 17:55:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=NND348x66DqPIeEI+Z179bRpziL/Tj0IOICPdFupDpI=;
+ b=PrfWTtBLdx8emZPHiu2KCzBLVL8o5otdWZfhScjQObE5rqNC2a5+q4cHm/oqonO7Ci8DiW
+ zfNhLRLMhCRL8n5rFKEQ2hhyAHzWkPFKX7k/NGXRmwaH/rnW51W9K4gMsqmWm/CumqJ3tDS8
+ pYpdmjm0jnryJLh/881cyTduyxgniHEZEDSbhOR4AnR5FaHO+zzhaFUn7Mdllqol1rnInK6I
+ rJQRDMcicUUwigNFsf/Y8bfz+i8YXA/irKRlswxEA+zNIh8h89b6jCtbU4MsZOi2+EwtYQ5O
+ fDB8MccZKGa/8bMwLq0zfk5Z8vA3mFbfNjEv3gzJmaNXtB5T1gpHWcIg==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] openssl: upgrade 3.4.1 -> 3.5.0
+Date: Tue,  8 Apr 2025 17:54:25 +0200
+Message-Id: <20250408155425.51986-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20250321151245.21227-1-mario.schuknecht@iris-sensing.com>
- <D8NTZA6A6JBD.5NEFFO2SQS5Q@bootlin.com> <FR3P281MB19170866636FFF96C26464B8B6A42@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
- <CANNYZj8s=w0CY3VFOCRtzn9z=LeH7H+z_TXS2QcvcRJyeUbAXA@mail.gmail.com>
- <5cdce6f6145ff07615ebf8496b21cdca9c75641d.camel@linuxfoundation.org>
- <FR3P281MB1917204FF59FC089654B5FCFB6A72@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
- <18300D8D696CD25C.32743@lists.openembedded.org> <CANNYZj8tqi5tnomg7t5k9iGHj_xCszmC6nCYfKmgh=yToiM9aQ@mail.gmail.com>
- <FR3P281MB1917CC7FE52D22DAF61020FAB6A62@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
- <CANNYZj_E+01hDV3hF=9AjPnEZTfmLCAwav203=XS7Y8sZquRuQ@mail.gmail.com>
- <FR3P281MB1917B56C58FEF4BC1FCEC291B6A92@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
- <CANNYZj8hp_OCYz3ZYSHg2GdO8QiE6LAxLVmz6k_U=ZdY8UAkrw@mail.gmail.com>
- <FR3P281MB1917DF6032653CF52115E214B6A82@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
- <CANNYZj8P7qJ0WnsWR=fVKfF8XtuqXV9GYHMEwmKSNLwC=vbMWA@mail.gmail.com> <FR3P281MB1917DE5D2A5D3323691E4470B6B52@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
-In-Reply-To: <FR3P281MB1917DE5D2A5D3323691E4470B6B52@FR3P281MB1917.DEUP281.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 8 Apr 2025 17:16:56 +0200
-X-Gm-Features: ATxdqUHf77_71JVaD0kvsiPnN84dQcizpDlOmmk53p9u-JRi5Ml9roaOV6govRk
-Message-ID: <CANNYZj_S=U9hgez6izNSoN1+PfXmgg6TpogSdYsbVvwqwUKLdw@mail.gmail.com>
-Subject: Re: [OE-core] [meta-core][PATCH v2] libgpg-error: inherit lib_package
-To: Mario Schuknecht <Mario.Schuknecht@iris-sensing.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 15:17:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214544
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 15:55:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214545
 
-On Tue, 8 Apr 2025 at 17:12, Mario Schuknecht
-<Mario.Schuknecht@iris-sensing.com> wrote:
+From: Peter Marko <peter.marko@siemens.com>
 
-> So far I understand the problem now, the "Provides:" version information
-> inside the .deb package is missing.
->
-> I have checked the rpm and deb class and it seems that the deb class
-> does not support the "Provides:" version on purpose.
->
-> There is the following code comment:
->  "drop version information here, not wanted/supported by deb"
-> http://web.git.yoctoproject.org/poky/tree/meta/classes-global/package_deb.bbclass#n223
->
-> That comes with this commit:
-> https://web.git.yoctoproject.org/poky/commit/?h=00765258a2fd0627e0b8b15ed917e1caeda30b38
->
-> Should the deb class be extended by the "Provides:" version or is the problem somewhere else?
+This is new openssl LTS release.
 
-Note that the commit is ten years old, and it's well possible versions
-in Provides were not supported back then, but are both supported and
-enforced now. Maybe you can run local experiments to confirm that?
+Release information:
+* https://openssl-library.org/post/2025-02-20-openssl-3.5-lts/
+* https://openssl-library.org/post/2025-04-08-openssl-35-final-release/
+* https://github.com/openssl/openssl/releases/tag/openssl-3.5.0
+* https://github.com/openssl/openssl/blob/openssl-3.5.0/NEWS.md#openssl-35
 
-Alex
+packages-split directory does not show any changes relevant for
+packaging change.
+
+There are new config options but they don't seem to be significant
+enough to need explicit packageconfig options.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ ...handshake-history-reporting-when-test-fails.patch | 12 ++++++------
+ .../0001-Configure-do-not-tweak-mips-cflags.patch    |  2 +-
+ ...-strip-sysroot-and-debug-prefix-map-from-co.patch |  8 ++++----
+ .../openssl/{openssl_3.4.1.bb => openssl_3.5.0.bb}   |  2 +-
+ 4 files changed, 12 insertions(+), 12 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.4.1.bb => openssl_3.5.0.bb} (99%)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+index 31bbbd8679..5b7365a353 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+@@ -16,7 +16,7 @@ diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
+ index f611b3a..5703b48 100644
+ --- a/test/helpers/handshake.c
+ +++ b/test/helpers/handshake.c
+-@@ -24,6 +24,102 @@
++@@ -25,6 +25,102 @@
+  #include <netinet/sctp.h>
+  #endif
+  
+@@ -119,7 +119,7 @@ index f611b3a..5703b48 100644
+  HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void)
+  {
+      HANDSHAKE_RESULT *ret;
+-@@ -725,15 +821,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
++@@ -726,15 +822,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
+          SSL_set_post_handshake_auth(client, 1);
+  }
+  
+@@ -135,7 +135,7 @@ index f611b3a..5703b48 100644
+  /* An SSL object and associated read-write buffers. */
+  typedef struct peer_st {
+      SSL *ssl;
+-@@ -1080,17 +1167,6 @@ static void do_shutdown_step(PEER *peer)
++@@ -1081,17 +1168,6 @@ static void do_shutdown_step(PEER *peer)
+      }
+  }
+  
+@@ -153,7 +153,7 @@ index f611b3a..5703b48 100644
+  static int renegotiate_op(const SSL_TEST_CTX *test_ctx)
+  {
+      switch (test_ctx->handshake_mode) {
+-@@ -1168,19 +1244,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
++@@ -1169,19 +1245,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
+      }
+  }
+  
+@@ -173,7 +173,7 @@ index f611b3a..5703b48 100644
+  /*
+   * Determine the handshake outcome.
+   * last_status: the status of the peer to have acted last.
+-@@ -1545,6 +1608,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
++@@ -1546,6 +1609,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+  
+      start = time(NULL);
+  
+@@ -184,7 +184,7 @@ index f611b3a..5703b48 100644
+      /*
+       * Half-duplex handshake loop.
+       * Client and server speak to each other synchronously in the same process.
+-@@ -1566,6 +1633,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
++@@ -1567,6 +1634,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+                                        0 /* server went last */);
+          }
+  
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+index c7e9c9d96e..7043188973 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+@@ -20,7 +20,7 @@ diff --git a/Configure b/Configure
+ index fff97bd..5ee54c1 100755
+ --- a/Configure
+ +++ b/Configure
+-@@ -1529,16 +1529,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
++@@ -1551,16 +1551,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
+          push @{$config{shared_ldflag}}, "-mno-cygwin";
+          }
+  
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+index 91a95d8929..687d682976 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+@@ -67,10 +67,10 @@ index 09303c4..011bda1 100644
+  PERLASM_SCHEME= {- $target{perlasm_scheme} -}
+  
+  # For x86 assembler: Set PROCESSOR to 386 if you want to support
+-Index: openssl-3.0.4/crypto/build.info
+-===================================================================
+---- openssl-3.0.4.orig/crypto/build.info
+-+++ openssl-3.0.4/crypto/build.info
++diff --git a/crypto/build.info b/crypto/build.info
++index aee5c46..95c9577 100644
++--- a/crypto/build.info
+++++ b/crypto/build.info
+ @@ -115,7 +115,7 @@ DEFINE[../libcrypto]=$UPLINKDEF
+  
+  DEPEND[info.o]=buildinf.h
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.4.1.bb b/meta/recipes-connectivity/openssl/openssl_3.5.0.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.4.1.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.5.0.bb
+index 8da64aea6a..865e04deb2 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.4.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.5.0.bb
+@@ -18,7 +18,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "002a2d6b30b58bf4bea46c43bdd96365aaf8daa6c428782aa4feee06da197df3"
++SRC_URI[sha256sum] = "344d0a79f1a9b08029b0744e2cc401a43f9c90acd1044d09a530b4885a8e9fc0"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative manpages
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 
