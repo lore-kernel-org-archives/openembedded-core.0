@@ -2,37 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C75C369A2
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 16:48:35 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web11.523.1744130912293814391
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91D68C369A2
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 16:51:35 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.594.1744131087411957723
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 09:48:32 -0700
+ Tue, 08 Apr 2025 09:51:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=a5FMnxpQ;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202504081648297fa094bf821ea6a285-zcvrkg@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202504081648297fa094bf821ea6a285
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=WFTsxJwe;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250408165125e80bda60dddaf62d44-e5nyox@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250408165125e80bda60dddaf62d44
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 08 Apr 2025 18:48:29 +0200
+        Tue, 08 Apr 2025 18:51:25 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=IcqbXsn1Eb8gLH97aNTHrk6cq09zQDnlFAkyv2tuvRQ=;
- b=a5FMnxpQXL7f+l9rqql4T2+VsY/LdP1gRI7edSGXTegmW+4ZQDV8pwrQCdAkjbe0N3Tk/a
- h9ruOBQTtCCQ2vuP08whUZ+pdJsEyuyAEapljiHDxeylFxCi1SUpiXsmPR+sV4wgQzTlSMNX
- PJfnUGUpZI9kX9BzYYJj02K8SivPhuw7gAK0u5MS3L7lZNBxzkb7qWcHg+Zk4A1FqMQuB9Z8
- 9bgkYdDYpYEpJMA2vE6mKXfJb3pcbG/ycqNhA3oEHn4l566S7xc7dWW6YxioiYJAwSY9drkl
- rI0ZG6gsvIOnw2UrWtc4ZOPAycUGJtzVUM00cINa27RuHg9pDpCUbxIg==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=iqs2Rk1OHwDiflklQzjW/MmpiYGd+a+2seM/Z1B6Ke0=;
+ b=WFTsxJwe0k7vLYmAb5cSwqnGSm+pxtxA121gBO9fDC+f2cHqR1Yd2nlUxl08D0G4MrFlMO
+ byN5/J7yxzt86RJFKAd0bI5BwiNaRg86Y7AdXMJ0yP+Bdyj23lOCDLJL6j9mqf7YUMQe3x4t
+ MwumSSRHpg2s+aw8UrJlahdGPU6REoRKLWmW+6vDb3iuxs6vher4TvgMOuc6w60/4E5QP6DM
+ EjPz/p4HVbx3qdFLYQbHTejEf+5hm/1SPQ+1mOLEJ99wel2nZ1g+NHTyvmygoDoe+6VEU37l
+ 870CzRB9tYcLX4flsWmxmuMJ5XcxMZ1jrpkSQrs++JIxe02piGhlGHLQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>,
-	Madhu Marri <madmarri@cisco.com>,
-	Steve Sakoman <steve@sakoman.com>
-Subject: [OE-core][kirkstone][PATCH v2] qemu: ignore CVE-2023-1386
-Date: Tue,  8 Apr 2025 18:47:42 +0200
-Message-Id: <20250408164742.57205-1-peter.marko@siemens.com>
-In-Reply-To: <20250408164030.56024-1-peter.marko@siemens.com>
-References: <20250408164030.56024-1-peter.marko@siemens.com>
+Cc: Madhu Marri <madmarri@cisco.com>,
+	Steve Sakoman <steve@sakoman.com>,
+	Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] qemu: ignore CVE-2023-1386
+Date: Tue,  8 Apr 2025 18:50:33 +0200
+Message-Id: <20250408165033.57908-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -40,10 +38,10 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 16:48:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214549
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 16:51:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214550
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Madhu Marri <madmarri@cisco.com>
 
 Upstream Repository: https://gitlab.com/qemu-project/qemu.git
 
@@ -62,26 +60,20 @@ Reference:
 
 Signed-off-by: Madhu Marri <madmarri@cisco.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
-
-(Converted to old CVE_CHECK_IGNORE syntax)
-
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-v2: removed scarthgap qemu version from commit message
-
- meta/recipes-devtools/qemu/qemu.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/qemu/qemu.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index bee30cd56f..cae33459e6 100644
+index b38cac7481..1fb387e9b5 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -161,6 +161,9 @@ CVE_CHECK_IGNORE += "CVE-2023-2680"
- #       due to the rocker device not falling within the virtualization use case.
- CVE_CHECK_IGNORE += "CVE-2022-36648"
+@@ -51,6 +51,8 @@ CVE_STATUS[CVE-2023-2680] = "not-applicable-platform: RHEL specific issue."
+ # NVD DB has this CVE as version-less (with "-")
+ CVE_STATUS[CVE-2024-6505] = "fixed-version: this CVE is fixed since 9.1.0"
  
-+# disputed: not an issue as per https://bugzilla.redhat.com/show_bug.cgi?id=2223985
-+CVE_CHECK_IGNORE += "CVE-2023-1386"
++CVE_STATUS[CVE-2023-1386] = "disputed: not an issue as per https://bugzilla.redhat.com/show_bug.cgi?id=2223985"
 +
  COMPATIBLE_HOST:mipsarchn32 = "null"
  COMPATIBLE_HOST:mipsarchn64 = "null"
