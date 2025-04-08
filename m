@@ -1,102 +1,99 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A77FAC369A2
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 16:58:55 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web11.833.1744131525842563818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 144F9C369A2
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 18:21:16 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.3106.1744136472605231509
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 09:58:46 -0700
+ Tue, 08 Apr 2025 11:21:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Dv5swn6V;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac345bd8e13so983992366b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 09:58:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744131524; x=1744736324; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cStArh2iEQtWuvOwSPdNFykEkx9Z1Apuf1Uu8Ajf9Ao=;
-        b=Dv5swn6VxTWD7JUwoglz0Pr17dmrSEvoCmMNJ2dRV8jpg1by71ZIm9A4GSza5EhHaR
-         yRUKUk2zqZEH/MevshB3hCWvshG+DtHYo8AVloqHWGt9FsX0m/9RQdlSR8DZmVbh8pZw
-         op0yAcXz6FYaNjmuY2U2KD4VJMCGt+zJlUAOkFJ9Zea8nZoXuml72QyRJmTrF6d9cUjh
-         tMiL6rPnMTbyxJIRQci2xzJobA6Xd48EXSJy/3bHmDRxCl7tfG6j4jVyWdVlzwIGESyu
-         8qFkBry1hqcGowxXXxQdMStay1TAWRFi32TndPGZAdE9jo02GSU1YrVBA3ITm1gXOtUk
-         l4tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744131524; x=1744736324;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cStArh2iEQtWuvOwSPdNFykEkx9Z1Apuf1Uu8Ajf9Ao=;
-        b=EkysKPxKZ0XcXPbGChojNvro6G+x9YR+ufLc0Qi+ZqcfborT0jkvusH4lub/bNA3Bn
-         ubSJYMGQkYJ5XR2r49ag7gXapDxwt1WLq0grzJYmNLNBG/D3SuR+Go9JQpWeO5usVuYc
-         EpMISS0lZttZc2U6/xnp5YX7yTttCITukrV8Q+MTkzEHZB7gEQ5nPQaAu9Rntev8CD9D
-         cOXXu+Cw/6qeVWrBX213tzA5Yz2G9a5Ed4kfIyPkVJZ97OPFM4dsZoxZH+o6tVXopvTF
-         NXOo048cMR5Rv2jR9wQGakNIf2hbT8xRz23FLAjAmrPE/yvQ51SkVa3FFxqYycZK4HJY
-         w+6g==
-X-Gm-Message-State: AOJu0YxVvF1bUtZm//y23E5twByNtuqV/c0o0fiuR9X+wMNHcAP6FMws
-	3q8DCSeek5DxMZVP2x1gKZeoUjILEgV+dlxmFBEnuyoF55uK/EgjMWsoz9Vf
-X-Gm-Gg: ASbGnctA7csygxtghxWnAyM0Vj2njHrnqAB4RKqXLfPvv7iuv7PESTwdGTViCfYShbT
-	o8964kguZ0A3Yc/nrdNlF85WxIRad7jgUVG6wcSNEge9k2wa3ImQF9uCidJCNpwA6+BzvsIcuhA
-	sbn4ywApJjs/bDt84v2hOQG2Q03sUXO4hrDdTxPC1Y4aPgY2P0f8hTR/BCDxxWj/39mjfYUmhFT
-	aV1DFtYlFwpYD9QbVR8LHoDw3pGOIZF8JDDDnweeU6NNOJQqQR8frFO0m5LhGxKj+QMdQcjItwR
-	nDiHUrhqmeQHzcQOSHTCNoC/M7QlcGsXZtslqsa0P7rH3A9ffae7Eut9qdr9
-X-Google-Smtp-Source: AGHT+IF/QRwSj7wMAsA9SJjt7sMRyj4QTKaQQMrqpVQwog2fRpTwUtq2JxZ9Qt+KMN3eKRUiHPYYpw==
-X-Received: by 2002:a17:906:f5a3:b0:abf:7af6:ea64 with SMTP id a640c23a62f3a-ac7e7651b43mr1222032166b.45.1744131523659;
-        Tue, 08 Apr 2025 09:58:43 -0700 (PDT)
-Received: from localhost.localdomain ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7c013f29csm939691766b.113.2025.04.08.09.58.43
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 09:58:43 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 8828740C61;
+	Tue,  8 Apr 2025 18:21:11 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lD_Evvz1j8ji; Tue,  8 Apr 2025 18:21:11 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 6E20340800;
+	Tue,  8 Apr 2025 18:21:10 +0000 (UTC)
+Received: from thorin.denix (thorin.denix [192.168.30.9])
+	by mail.denix.org (Postfix) with ESMTP id C3039165959;
+	Tue,  8 Apr 2025 14:21:09 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] yocto-check-layer: expect success for test_patches_upstream_status
-Date: Tue,  8 Apr 2025 18:58:42 +0200
-Message-ID: <20250408165842.2014509-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.49.0
+Cc: Denys Dmytriyenko <denys@konsulko.com>
+Subject: [PATCH] nativesdk-buildtools-perl-dummy: add more missing packages
+Date: Tue,  8 Apr 2025 14:21:05 -0400
+Message-Id: <20250408182105.2717340-1-denis@denix.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 16:58:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214551
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 18:21:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214552
 
-When the Upstream-Status tag for patches became mandatory,
-the test verifying the presence of this tag was made to not
-fail the layer compatibility tests, in order to allow time for
-the maintainers to adapt to this change.
+From: Denys Dmytriyenko <denys@konsulko.com>
 
-This was two years before this commit.
+There could be several more nativesdk perl packages generated
+based on flags and dependencies that should not be installed
+into the SDK when "dummy-sdk-package" facility is used. Add
+them to the exclusion list here.
 
-Since then the layer compatibility script shows a cryptic
-"unexpected success" result for this test, which of course
-becomes clear once one checks the code and commit history,
-but it is a nuisance still, which shouldn't be needed to
-understand the result.
+[YOCTO #15552]
 
-This commit removes the the related annotation so the
-compatibility check will pass or fail with a clear message - in
-hope that 2 years was enough for active maintainers to
-adjust their patches.
-
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
 ---
- scripts/lib/checklayer/cases/common.py | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
-index 51233de767..ddead69a7b 100644
---- a/scripts/lib/checklayer/cases/common.py
-+++ b/scripts/lib/checklayer/cases/common.py
-@@ -104,7 +104,6 @@ class CommonCheckLayer(OECheckLayerTestCase):
-                 self.tc.layer['name'])
-             self.fail('\n'.join(msg))
- 
--    @unittest.expectedFailure
-     def test_patches_upstream_status(self):
-         import sys
-         sys.path.append(os.path.join(sys.path[0], '../../../../meta/lib/'))
+diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/=
+meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+index bb4e746237..2813fbc397 100644
+--- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
++++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+@@ -2,6 +2,7 @@ DUMMYARCH =3D "buildtools-dummy-${SDKPKGSUFFIX}"
+=20
+ DUMMYPROVIDES_PACKAGES =3D "\
+     nativesdk-perl \
++    nativesdk-perl-dev \
+     nativesdk-libxml-parser-perl \
+     nativesdk-perl-module-bytes \
+     nativesdk-perl-module-carp \
+@@ -9,6 +10,7 @@ DUMMYPROVIDES_PACKAGES =3D "\
+     nativesdk-perl-module-data-dumper \
+     nativesdk-perl-module-errno \
+     nativesdk-perl-module-exporter \
++    nativesdk-perl-module-feature \
+     nativesdk-perl-module-file-basename \
+     nativesdk-perl-module-file-compare \
+     nativesdk-perl-module-file-copy \
+@@ -16,15 +18,18 @@ DUMMYPROVIDES_PACKAGES =3D "\
+     nativesdk-perl-module-file-glob \
+     nativesdk-perl-module-file-path \
+     nativesdk-perl-module-file-spec \
++    nativesdk-perl-module-file-spec-unix \
+     nativesdk-perl-module-file-stat \
+     nativesdk-perl-module-file-temp \
+     nativesdk-perl-module-getopt-long \
++    nativesdk-perl-module-integer \
+     nativesdk-perl-module-io-file \
+     nativesdk-perl-module-list-util \
+     nativesdk-perl-module-overloading \
+     nativesdk-perl-module-posix \
+     nativesdk-perl-module-scalar-util \
+     nativesdk-perl-module-strict \
++    nativesdk-perl-module-symbol \
+     nativesdk-perl-module-text-parsewords \
+     nativesdk-perl-module-thread-queue \
+     nativesdk-perl-module-threads \
+--=20
+2.25.1
+
 
