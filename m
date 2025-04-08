@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD1A4C369A5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7C74C36010
 	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 20:51:36 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.6783.1744145489338380410
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.6782.1744145487638089536
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 13:51:29 -0700
+ Tue, 08 Apr 2025 13:51:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=z/Xh0Jdc;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-227aaa82fafso52568535ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 13:51:29 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=iffsyEq9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-224191d92e4so57641445ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 13:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744145488; x=1744750288; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744145487; x=1744750287; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tn96zjXxT3J8VL78iwtCoYl0nrQyScFHpB950HXyfSc=;
-        b=z/Xh0JdcTeEvgolvkaiX4lIPf8E+JhX84iFpKCKTqPbV9HEdflVe0qkrnfo/+LUG3K
-         hccGQs30WnSShrpzsv+g9X5nEwwfbJD79IeEy4PJqgKCWye+p0ZztiP1pHduc5jI+Bo3
-         mNdmk429fXO/OIWNeQ92kCBqBrWAQWOEy64G83JMZqDVOVe7apy5AjlubBHFTHWvPlSC
-         DwATFtxAzv/cufZF6GgOm+qUxZOZx0p4SDVckBbo1dWxVa1z33d5R7mPGZvm5z8JpRAZ
-         B+E87eQmIuP3yyxb7fTCWWAuWNpRgBBVsDYUkfS84aPSuG15BV9Z5agJ1dRZKgnqdX5Y
-         bpRw==
+        bh=2tSVoUWwj8yZjrKHa1gy9/Ql4BN9AaKBR0PUj0FZYEY=;
+        b=iffsyEq9g/bb6en1hI8vuYB/C/HqPObqJHUh/ROCz5Er8znSskZb6p2d3JouU+I5oK
+         09bpKQgP0tGUzOYJnu2YQQ25OGsJ4WZzPm9B+sGJqYQTPuzCUfBbHWPF8I7QwB9B8rl9
+         S/8ZEmXR2MybSGO40L1mxF1XRUmGlodMT2ABlnB7BcAJo2y1vXLkjCb62kzN361XN998
+         CAWiDbBimLXowDed94n+H4yOaMVc8CnumlQHOldxIHPDN/hBUtGpv7xwbYWaRUtYWBqs
+         ZoARK4y6krklXev3ipQ7pZznCDTRJzw3ZCZHq5+atHLhUR/wPtdutyfdjvNjBNJ4tz0K
+         txCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744145488; x=1744750288;
+        d=1e100.net; s=20230601; t=1744145487; x=1744750287;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tn96zjXxT3J8VL78iwtCoYl0nrQyScFHpB950HXyfSc=;
-        b=ixabxJ67+ewl/+ulUVRLFPmHPCndsmtVwOiFwOn0r8PBUGUBELavME9NGnwOg1PP6F
-         kGf9tAONaCAQHr2zx6YUcGM9eBm8id8bmnR+KHm/DifX3fPcKDSHKmBpCDkkKLBtrZk5
-         wSzd7e7Dejx72srCU4/GEMDW7gcWAHMxqZTN1mGq5myLXBPcr+wiJOMs1suxDLjTnTnb
-         SbAs+JgZ18vYv0sh/ORvsOhzhqIlRgre3GdonxRbYdwYWWth2I96KjqshT5SpzD8bNLu
-         5EyQnVJby0MlM4S7hbiyLIbubBL2Op0UMYr5wa55kICoUxJzF0+uSTcJW5qWDjs/ofU2
-         hyvw==
-X-Gm-Message-State: AOJu0YyYSNqgtvUzPkDQYS9r3kV+941Rk8pUB9Bw5krEwiwWBlw8OWkK
-	TE7sC+EhZ+Y+98QYS9TwxJJkqHcBzUdiWiHKqJDKV+T4G8NDn0jtrhwAwCRShbi718sHl/xDC58
-	m
-X-Gm-Gg: ASbGncup+gU0dTWmNFwjTVorhCT872J8ZpMHBJS4IYE+6mTS67z9HqxxSKf9ot2OAR/
-	ZNDL7MwnVmSHkqE6kc0Gdx1ien+69fM7oGqSqyJOH7ZxZyTM+z5fc01basWKE/WTRjMVOn3P+LM
-	waTRTDu+818NGlBAWr7Qh2Be02C+kkT53ITOGysFaQcYDLYKQ1G+rSzIZP2/c5SCmoVbUATiAVC
-	MwtvBE/OmdYsA97SJhYVIIbdDEmx3+kVIep7GPmTBuWlHiQDSyclNI/4NdJVbrmXedI2r9/3egH
-	c2NPpbaVImZ06ewgj1dvfADbk62IL6aNji1/
-X-Google-Smtp-Source: AGHT+IErnz6rLmleStWJMfjjLVR1Jm3jY+ciEnLoePwbCOX8jvFxx9lXvX4cOjSLLg6WqrJgqgOYSA==
-X-Received: by 2002:a17:902:dacc:b0:224:2717:7992 with SMTP id d9443c01a7336-22ac3fee4e7mr1525185ad.33.1744145488499;
-        Tue, 08 Apr 2025 13:51:28 -0700 (PDT)
+        bh=2tSVoUWwj8yZjrKHa1gy9/Ql4BN9AaKBR0PUj0FZYEY=;
+        b=PJLs67GkCRy85t5lUSBAalV8l/urYcX4I2wSzNLb1adRNm1TjFmuS59zZjPnOzZOao
+         x2xmLRSlzqXoiBw3Xc84mFz3JJqXzvzAFTq9VmhgGGB6obeskPvcUbA33GVgkndwqOwa
+         gQseEGWdH9nmtbylQERX3T9EihsB816t7aXZaBs2nup0/E+EkkFYzJWEQNJ3atwbDf4s
+         j2dqACSmTwDpZygGuh2zbC0G7J0T3B0EplQO1OjDRK9YRWnkXqGlp/8a3XmerXmtFYFv
+         uKfblo7sa/FRMUaxO4bMBkLwvB09bP450DRJqHR72578rjsi5n/8HF7uTK6UE6d45chJ
+         e1Pw==
+X-Gm-Message-State: AOJu0YxYOSEkmnldQDhn8pv3Jj/KJgqW2USPl2pWZjOo9WLBsXTwar93
+	vOXLsC4n3NKxbNEJogjTdg+TLt8XbXT8yIFMQ9MCrcmi1C7E2FH7/vX+xgZVT3uW8bbSLBC4IgF
+	j
+X-Gm-Gg: ASbGncv3xAqG43sIGGdW3TBU3KzVzVofaFpWeT79/KcHXjDDqLjQD5WWCRx/qG2oEdr
+	LIKh7+sMta5VwFG+iGV0IP+lEJV426ThlHecNEFfQg0Iu3LghG6hwwyFbP9y4U70b1FZNRk7rCP
+	cD9ubGRkJiqzup1nskUNCkE1TuUQaiakG5wke1MuZjQraGcWE1/SXkSy/jhEOgKW076pDOU2Y8y
+	YTeihzTfCkH4PJEKHOBvARYQ2ic2nwVLIHbk6qozJip5z5pWgxyYM1KFcCVoY1phff/vT599PCR
+	cCDKaD5DoCH6UKlVOCQ4bec+AQYyh6SYroTr
+X-Google-Smtp-Source: AGHT+IGpXEkOl4WFBXNtvjvUMjnvNm+wt2ALIeH2K/afCTJal/yPmSoKGaP6a+OEHiBqRwhyNRA8vA==
+X-Received: by 2002:a17:902:f60e:b0:223:faf5:c82 with SMTP id d9443c01a7336-22ac3f3222amr1991425ad.8.1744145486791;
+        Tue, 08 Apr 2025 13:51:26 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:70d0:2b27:66e1:8cba])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297866e242sm105497755ad.164.2025.04.08.13.51.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297866e242sm105497755ad.164.2025.04.08.13.51.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 13:51:28 -0700 (PDT)
+        Tue, 08 Apr 2025 13:51:26 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/10] qemu: ignore CVE-2023-1386
-Date: Tue,  8 Apr 2025 13:51:05 -0700
-Message-ID: <b6b026e8e1965f8902780b519aa60bb818f920a5.1744145328.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/10] ghostscript: Fix CVE-2025-27836
+Date: Tue,  8 Apr 2025 13:51:04 -0700
+Message-ID: <7399cf17590204f8289f356cce4575592d6e3536.1744145328.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1744145328.git.steve@sakoman.com>
 References: <cover.1744145328.git.steve@sakoman.com>
@@ -67,50 +67,160 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 20:51:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214564
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214563
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream Repository: https://gitlab.com/qemu-project/qemu.git
+Upstream-Status: Backport
+[https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=8b6d19b2b4079da6863ef25f2370f25d4b054919
+&
+https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=d84efb73723384a8b7fb3989c824cfa218060085]
 
-Bug Details:  https://nvd.nist.gov/vuln/detail/CVE-2023-1386
-Type: Security Advisory
-CVE: CVE-2023-1386
-Score: 3.3
-
-Analysis:
-- According to redhat[1] this CVE has closed as not a bug.
-
-Reference:
-[1] https://bugzilla.redhat.com/show_bug.cgi?id=2223985
-
-(From OE-Core rev: 6a5d9e3821246c39ec57fa483802e1bb74fca724)
-
-Signed-off-by: Madhu Marri <madmarri@cisco.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-
-(Converted to old CVE_CHECK_IGNORE syntax)
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ .../ghostscript/CVE-2025-27836-1.patch        | 64 +++++++++++++++++++
+ .../ghostscript/CVE-2025-27836-2.patch        | 46 +++++++++++++
+ .../ghostscript/ghostscript_9.55.0.bb         |  2 +
+ 3 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-1.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-2.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index bee30cd56f..cae33459e6 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -161,6 +161,9 @@ CVE_CHECK_IGNORE += "CVE-2023-2680"
- #       due to the rocker device not falling within the virtualization use case.
- CVE_CHECK_IGNORE += "CVE-2022-36648"
- 
-+# disputed: not an issue as per https://bugzilla.redhat.com/show_bug.cgi?id=2223985
-+CVE_CHECK_IGNORE += "CVE-2023-1386"
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-1.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-1.patch
+new file mode 100644
+index 0000000000..bd32456b99
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-1.patch
+@@ -0,0 +1,64 @@
++From 8b6d19b2b4079da6863ef25f2370f25d4b054919 Mon Sep 17 00:00:00 2001
++From: Zdenek Hutyra <zhutyra@centrum.cz>
++Date: Mon, 13 Jan 2025 09:07:57 +0000
++Subject: Bug 708192: Fix potential print buffer overflow
 +
- COMPATIBLE_HOST:mipsarchn32 = "null"
- COMPATIBLE_HOST:mipsarchn64 = "null"
- COMPATIBLE_HOST:riscv32 = "null"
++CVE-2025-27836
++
++Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=8b6d19b2b4079da6863ef25f2370f25d4b054919]
++CVE: CVE-2025-27836
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ contrib/japanese/gdev10v.c | 22 ++++++++++++++++------
++ 1 file changed, 16 insertions(+), 6 deletions(-)
++
++diff --git a/contrib/japanese/gdev10v.c b/contrib/japanese/gdev10v.c
++index 0bd3cec02..9d27573dc 100644
++--- a/contrib/japanese/gdev10v.c
+++++ b/contrib/japanese/gdev10v.c
++@@ -199,17 +199,25 @@ bj10v_print_page(gx_device_printer *pdev, gp_file *prn_stream)
++         int bytes_per_column = bits_per_column / 8;
++         int x_skip_unit = bytes_per_column * (xres / 180);
++         int y_skip_unit = (yres / 180);
++-        byte *in = (byte *)gs_malloc(pdev->memory->non_gc_memory, 8, line_size, "bj10v_print_page(in)");
++-        /* We need one extra byte in <out> for our sentinel. */
++-        byte *out = (byte *)gs_malloc(pdev->memory->non_gc_memory, bits_per_column * line_size + 1, 1, "bj10v_print_page(out)");
+++        byte *in, *out;
++         int lnum = 0;
++         int y_skip = 0;
++         int code = 0;
++         int blank_lines = 0;
++         int bytes_per_data = ((xres == 360) && (yres == 360)) ? 1 : 3;
++ 
++-        if ( in == 0 || out == 0 )
++-                return -1;
+++        if (bits_per_column == 0 || line_size > (max_int - 1) / bits_per_column) {
+++            code = gs_note_error(gs_error_rangecheck);
+++            goto error;
+++        }
+++
+++        in = (byte *)gs_malloc(pdev->memory->non_gc_memory, 8, line_size, "bj10v_print_page(in)");
+++        /* We need one extra byte in <out> for our sentinel. */
+++        out = (byte *)gs_malloc(pdev->memory->non_gc_memory, bits_per_column * line_size + 1, 1, "bj10v_print_page(out)");
+++        if ( in == NULL || out == NULL ) {
+++            code = gs_note_error(gs_error_VMerror);
+++            goto error;
+++        }
++ 
++         /* Initialize the printer. */
++         prn_puts(pdev, "\033@");
++@@ -320,8 +328,10 @@ notz:
++            }
++ 
++         /* Eject the page */
++-xit:	prn_putc(pdev, 014);	/* form feed */
+++xit:
+++        prn_putc(pdev, 014); /* form feed */
++         prn_flush(pdev);
+++error:
++         gs_free(pdev->memory->non_gc_memory, (char *)out, bits_per_column, line_size, "bj10v_print_page(out)");
++         gs_free(pdev->memory->non_gc_memory, (char *)in, 8, line_size, "bj10v_print_page(in)");
++         return code;
++-- 
++cgit v1.2.3
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-2.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-2.patch
+new file mode 100644
+index 0000000000..2e3817bdae
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-2.patch
+@@ -0,0 +1,46 @@
++From d84efb73723384a8b7fb3989c824cfa218060085 Mon Sep 17 00:00:00 2001
++From: Ken Sharp <Ken.Sharp@artifex.com>
++Date: Thu, 13 Mar 2025 11:01:16 +0000
++Subject: Fix Coverity IDs 457699 and 457700
++
++Not sure if Coverity has been updated, this is ancient contrib code
++which has not changed for a long time.
++
++However, fix the warning by initialising the pointers to NULL, and then
++avoid trying to free them if they are NULL.
++
++Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=d84efb73723384a8b7fb3989c824cfa218060085]
++CVE: CVE-2025-27836
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ contrib/japanese/gdev10v.c | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
++
++diff --git a/contrib/japanese/gdev10v.c b/contrib/japanese/gdev10v.c
++index 9d27573dc..4d47200e5 100644
++--- a/contrib/japanese/gdev10v.c
+++++ b/contrib/japanese/gdev10v.c
++@@ -199,7 +199,7 @@ bj10v_print_page(gx_device_printer *pdev, gp_file *prn_stream)
++         int bytes_per_column = bits_per_column / 8;
++         int x_skip_unit = bytes_per_column * (xres / 180);
++         int y_skip_unit = (yres / 180);
++-        byte *in, *out;
+++        byte *in = NULL, *out = NULL;
++         int lnum = 0;
++         int y_skip = 0;
++         int code = 0;
++@@ -332,7 +332,9 @@ xit:
++         prn_putc(pdev, 014); /* form feed */
++         prn_flush(pdev);
++ error:
++-        gs_free(pdev->memory->non_gc_memory, (char *)out, bits_per_column, line_size, "bj10v_print_page(out)");
++-        gs_free(pdev->memory->non_gc_memory, (char *)in, 8, line_size, "bj10v_print_page(in)");
+++        if (out != NULL)
+++            gs_free(pdev->memory->non_gc_memory, (char *)out, bits_per_column, line_size, "bj10v_print_page(out)");
+++        if (in != NULL)
+++            gs_free(pdev->memory->non_gc_memory, (char *)in, 8, line_size, "bj10v_print_page(in)");
++         return code;
++ }
++-- 
++cgit v1.2.3
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+index abc0238ddc..8499bb3676 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+@@ -68,6 +68,8 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://CVE-2025-27832.patch \
+                 file://CVE-2025-27834.patch \
+                 file://CVE-2025-27835.patch \
++                file://CVE-2025-27836-1.patch \
++                file://CVE-2025-27836-2.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
 2.43.0
 
