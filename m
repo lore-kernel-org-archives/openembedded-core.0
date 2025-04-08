@@ -1,81 +1,102 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91D68C369A2
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 16:51:35 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.594.1744131087411957723
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A77FAC369A2
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 16:58:55 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web11.833.1744131525842563818
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 09:51:27 -0700
+ Tue, 08 Apr 2025 09:58:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=WFTsxJwe;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250408165125e80bda60dddaf62d44-e5nyox@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250408165125e80bda60dddaf62d44
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 08 Apr 2025 18:51:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=iqs2Rk1OHwDiflklQzjW/MmpiYGd+a+2seM/Z1B6Ke0=;
- b=WFTsxJwe0k7vLYmAb5cSwqnGSm+pxtxA121gBO9fDC+f2cHqR1Yd2nlUxl08D0G4MrFlMO
- byN5/J7yxzt86RJFKAd0bI5BwiNaRg86Y7AdXMJ0yP+Bdyj23lOCDLJL6j9mqf7YUMQe3x4t
- MwumSSRHpg2s+aw8UrJlahdGPU6REoRKLWmW+6vDb3iuxs6vher4TvgMOuc6w60/4E5QP6DM
- EjPz/p4HVbx3qdFLYQbHTejEf+5hm/1SPQ+1mOLEJ99wel2nZ1g+NHTyvmygoDoe+6VEU37l
- 870CzRB9tYcLX4flsWmxmuMJ5XcxMZ1jrpkSQrs++JIxe02piGhlGHLQ==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Dv5swn6V;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac345bd8e13so983992366b.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 09:58:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744131524; x=1744736324; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cStArh2iEQtWuvOwSPdNFykEkx9Z1Apuf1Uu8Ajf9Ao=;
+        b=Dv5swn6VxTWD7JUwoglz0Pr17dmrSEvoCmMNJ2dRV8jpg1by71ZIm9A4GSza5EhHaR
+         yRUKUk2zqZEH/MevshB3hCWvshG+DtHYo8AVloqHWGt9FsX0m/9RQdlSR8DZmVbh8pZw
+         op0yAcXz6FYaNjmuY2U2KD4VJMCGt+zJlUAOkFJ9Zea8nZoXuml72QyRJmTrF6d9cUjh
+         tMiL6rPnMTbyxJIRQci2xzJobA6Xd48EXSJy/3bHmDRxCl7tfG6j4jVyWdVlzwIGESyu
+         8qFkBry1hqcGowxXXxQdMStay1TAWRFi32TndPGZAdE9jo02GSU1YrVBA3ITm1gXOtUk
+         l4tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744131524; x=1744736324;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cStArh2iEQtWuvOwSPdNFykEkx9Z1Apuf1Uu8Ajf9Ao=;
+        b=EkysKPxKZ0XcXPbGChojNvro6G+x9YR+ufLc0Qi+ZqcfborT0jkvusH4lub/bNA3Bn
+         ubSJYMGQkYJ5XR2r49ag7gXapDxwt1WLq0grzJYmNLNBG/D3SuR+Go9JQpWeO5usVuYc
+         EpMISS0lZttZc2U6/xnp5YX7yTttCITukrV8Q+MTkzEHZB7gEQ5nPQaAu9Rntev8CD9D
+         cOXXu+Cw/6qeVWrBX213tzA5Yz2G9a5Ed4kfIyPkVJZ97OPFM4dsZoxZH+o6tVXopvTF
+         NXOo048cMR5Rv2jR9wQGakNIf2hbT8xRz23FLAjAmrPE/yvQ51SkVa3FFxqYycZK4HJY
+         w+6g==
+X-Gm-Message-State: AOJu0YxVvF1bUtZm//y23E5twByNtuqV/c0o0fiuR9X+wMNHcAP6FMws
+	3q8DCSeek5DxMZVP2x1gKZeoUjILEgV+dlxmFBEnuyoF55uK/EgjMWsoz9Vf
+X-Gm-Gg: ASbGnctA7csygxtghxWnAyM0Vj2njHrnqAB4RKqXLfPvv7iuv7PESTwdGTViCfYShbT
+	o8964kguZ0A3Yc/nrdNlF85WxIRad7jgUVG6wcSNEge9k2wa3ImQF9uCidJCNpwA6+BzvsIcuhA
+	sbn4ywApJjs/bDt84v2hOQG2Q03sUXO4hrDdTxPC1Y4aPgY2P0f8hTR/BCDxxWj/39mjfYUmhFT
+	aV1DFtYlFwpYD9QbVR8LHoDw3pGOIZF8JDDDnweeU6NNOJQqQR8frFO0m5LhGxKj+QMdQcjItwR
+	nDiHUrhqmeQHzcQOSHTCNoC/M7QlcGsXZtslqsa0P7rH3A9ffae7Eut9qdr9
+X-Google-Smtp-Source: AGHT+IF/QRwSj7wMAsA9SJjt7sMRyj4QTKaQQMrqpVQwog2fRpTwUtq2JxZ9Qt+KMN3eKRUiHPYYpw==
+X-Received: by 2002:a17:906:f5a3:b0:abf:7af6:ea64 with SMTP id a640c23a62f3a-ac7e7651b43mr1222032166b.45.1744131523659;
+        Tue, 08 Apr 2025 09:58:43 -0700 (PDT)
+Received: from localhost.localdomain ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7c013f29csm939691766b.113.2025.04.08.09.58.43
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Apr 2025 09:58:43 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Madhu Marri <madmarri@cisco.com>,
-	Steve Sakoman <steve@sakoman.com>,
-	Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] qemu: ignore CVE-2023-1386
-Date: Tue,  8 Apr 2025 18:50:33 +0200
-Message-Id: <20250408165033.57908-1-peter.marko@siemens.com>
+Subject: [PATCH] yocto-check-layer: expect success for test_patches_upstream_status
+Date: Tue,  8 Apr 2025 18:58:42 +0200
+Message-ID: <20250408165842.2014509-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 16:51:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214550
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 16:58:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214551
 
-From: Madhu Marri <madmarri@cisco.com>
+When the Upstream-Status tag for patches became mandatory,
+the test verifying the presence of this tag was made to not
+fail the layer compatibility tests, in order to allow time for
+the maintainers to adapt to this change.
 
-Upstream Repository: https://gitlab.com/qemu-project/qemu.git
+This was two years before this commit.
 
-Bug Details:  https://nvd.nist.gov/vuln/detail/CVE-2023-1386
-Type: Security Advisory
-CVE: CVE-2023-1386
-Score: 3.3
+Since then the layer compatibility script shows a cryptic
+"unexpected success" result for this test, which of course
+becomes clear once one checks the code and commit history,
+but it is a nuisance still, which shouldn't be needed to
+understand the result.
 
-Analysis:
-- According to redhat[1] this CVE has closed as not a bug.
+This commit removes the the related annotation so the
+compatibility check will pass or fail with a clear message - in
+hope that 2 years was enough for active maintainers to
+adjust their patches.
 
-Reference:
-[1] https://bugzilla.redhat.com/show_bug.cgi?id=2223985
-
-(From OE-Core rev: 6a5d9e3821246c39ec57fa483802e1bb74fca724)
-
-Signed-off-by: Madhu Marri <madmarri@cisco.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/lib/checklayer/cases/common.py | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index b38cac7481..1fb387e9b5 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -51,6 +51,8 @@ CVE_STATUS[CVE-2023-2680] = "not-applicable-platform: RHEL specific issue."
- # NVD DB has this CVE as version-less (with "-")
- CVE_STATUS[CVE-2024-6505] = "fixed-version: this CVE is fixed since 9.1.0"
+diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
+index 51233de767..ddead69a7b 100644
+--- a/scripts/lib/checklayer/cases/common.py
++++ b/scripts/lib/checklayer/cases/common.py
+@@ -104,7 +104,6 @@ class CommonCheckLayer(OECheckLayerTestCase):
+                 self.tc.layer['name'])
+             self.fail('\n'.join(msg))
  
-+CVE_STATUS[CVE-2023-1386] = "disputed: not an issue as per https://bugzilla.redhat.com/show_bug.cgi?id=2223985"
-+
- COMPATIBLE_HOST:mipsarchn32 = "null"
- COMPATIBLE_HOST:mipsarchn64 = "null"
- COMPATIBLE_HOST:riscv32 = "null"
+-    @unittest.expectedFailure
+     def test_patches_upstream_status(self):
+         import sys
+         sys.path.append(os.path.join(sys.path[0], '../../../../meta/lib/'))
 
