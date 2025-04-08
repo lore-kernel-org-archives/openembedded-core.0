@@ -1,114 +1,116 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B69E9C369A1
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 11:03:49 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.72472.1744110225222886285
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C553EC3600C
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 11:17:29 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.72710.1744111042912144271
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 04:03:45 -0700
+ Tue, 08 Apr 2025 04:17:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=avO1Y4TA;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: festevam@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-22548a28d0cso75118335ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 04:03:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744110224; x=1744715024; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=La9jor1RLy/xb4GlGyrdVQIaDzBzqouQGSJjlk3ugVE=;
-        b=avO1Y4TA6wWglWKai/T/RUYIz+ZptUAO6pJNx9AcWHqV+eesUNhPWwu+Ws+R9Cy7y5
-         7LSvcXVD7OwrjlXlogpsZJPfVwwRLZ1kcU0OcMfb+cMQeUliuILjIcqoo0x6WJDf/ZcP
-         3dmOmoCY9AkSBOh6r54FhU4VoaKZTXIT1UtYaC6ZMwMZdGCUz4TZ0lQKPlzqAmlg+YSs
-         JS/6KfDmyYLQTS+Io1DTOinC+T2UFYezw+7JLDs7IJep7FUwB9WEM5CZZmTcG6EKm+2/
-         QrJhgMYBEDbeZnaNHK3RDdsCP7fyPBQE2QOPOPDy93wNJFhOOrXUFgQBRnWD7jcnU7UU
-         AZNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744110224; x=1744715024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=La9jor1RLy/xb4GlGyrdVQIaDzBzqouQGSJjlk3ugVE=;
-        b=PiZWzRxpBp9+mA54yqLuSp/6UlZ713PjooL1A0dwVRN3MFRg8XmkG1Z0GSHmcHhQ8N
-         Nai7ddfcvGJyDf61DoiZbYCminBAJsenzVLJoJtKnWlj/WkyPf0ZJkrwiUUk3nSORxyF
-         8smwsvifLJM1u7Cx7I/DxwUlBYm+kSu6OFAKOjRuqhWD4GtYCdTZiZgW4cUFPPR5la/I
-         k9uEe6qWOe3tyiPnvdaQKzGZhZ4xZ7bzkcJmocullP8/U1mqa4c2iewv8SUPDNnozrXm
-         dIuNpXp3ZhmnIHMr4lVF/I27VFEVYz6ZpbnTznru3G6eq03xo3yxqSe7i5E2yECvHZXG
-         s2xw==
-X-Gm-Message-State: AOJu0Yzxdk2a2qdrGl8ncE440MY/EycBtyzhPgex1240y9ilVFvUNhiO
-	ZczzvuOm9rv6/vUdQ3dxS2beeXod87BrgGHCOB91+Gs+7pfaS1w7JTqGMQ==
-X-Gm-Gg: ASbGncuN7QNQUPW2FW7Z999eYmJ1i3BlGdj0jQ59aw6+bF+JAiYP5Z1EmL27DAba4Yr
-	dbhoo6RahFONimpHH0XVG6SXY/dxl3toqbAfp35J+OJj1SfTj/FPI8bVFkcQu/u9OvUfGrct+Cz
-	JNxTWsPSFI7pIZ2eS2nOL+A2A0mtBF/W8aW8VP2At2fC1jVjOj6blAD0tUhVwo/+JAkull+XlGn
-	UQH2vvWqG2EFf1lhDiqkJW40nYaIdVV2847xZa4nfDYyTwhw9ZFwXxwILGsjnbKqif2S5ndt6QF
-	wsnJHtdJA3tV8/tX2mE2Z+mFVa5IYUZrOGJHezuBXgvb+Laccsz2zlnmERs=
-X-Google-Smtp-Source: AGHT+IEUw32tHwtNGikUs89pBzyHZFkMY5GdfB4gIxWjLvrIWo2XSckt6+BVwTOfxaw4JUpk2/dZFg==
-X-Received: by 2002:a17:902:e552:b0:220:c813:dfcc with SMTP id d9443c01a7336-22a8a8b80a3mr225615035ad.40.1744110223654;
-        Tue, 08 Apr 2025 04:03:43 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:628c:22a5:477c:7dec])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229787728cfsm97369255ad.228.2025.04.08.04.03.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 04:03:43 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com,
-	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v2] u-boot: upgrade 2025.01 -> 2025.04
-Date: Tue,  8 Apr 2025 08:03:33 -0300
-Message-Id: <20250408110333.648158-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=e3+6KnCl;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5912943160;
+	Tue,  8 Apr 2025 11:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1744111040;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=POgtR27c0yKJ4C532b7rY0wQGNDdZ0JpB26FgZtdzTQ=;
+	b=e3+6KnClJrink57nJQezA42SfVHc2J1n1BDi2pyW3Lkl0sEXeGlgh5cFi3ZoNlcRTizZO8
+	+uZmBMoFWPFN/3a5P6KDAhXcoTH4wQdBEEgagpGVr2FoW2stG6Z8aLoyra7GhlH7wJZEi4
+	hlT8zCNS+crKwq9/xG9iDQvEkIQUoxGt/EgNJqduF4/QaPnQYuB1vd62iThWZuqFXEhgOH
+	v2lHoBC/Rf2l4ZlcEiDWdj6dyG5P25rno30jxlm0Ze9zZ0TEhDljoUf6SNhrVkan8+yWsY
+	e8fzkYO+Dyhfl2DxELNPCJMWgtNaKCPWV+fP8Rc/C7D2oy3FrARxJ7AYDCZBiw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 08 Apr 2025 13:17:19 +0200
+Message-Id: <D917RIL4YVYB.2M2GS34YXOHO4@bootlin.com>
+Subject: Re: [OE-core] [PATCH 01/15] curl: upgrade 8.12.1 -> 8.13.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <wangmy@fujitsu.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <1744073502-27695-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1744073502-27695-1-git-send-email-wangmy@fujitsu.com>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddvleegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehffellefgveekfeegheejiedutedukeffkeduvdevvddtgefgffffveefgfdvudenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopeifrghnghhmhiesfhhujhhithhsuhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsr
+ dhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 11:03:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214532
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 11:17:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214533
 
-From: Fabio Estevam <festevam@denx.de>
+On Tue Apr 8, 2025 at 2:51 AM CEST, wangmy via lists.openembedded.org wrote=
+:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> no-test-timeout.patch
+> refreshed for 8.13.0
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
 
-Upgrade to U-Boot 2025.04.
+Hi Wang,
 
-While at it, pass the tag parameter in SRC_URI.
+Thanks for your patch.
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Changes since v1:
-- Pass tag parameter. (Alexander)
+I believe the curl update is breaking nativesdk-cmake on the
+autobuilder:
 
- meta/recipes-bsp/u-boot/u-boot-common.inc                     | 4 ++--
- .../{u-boot-tools_2025.01.bb => u-boot-tools_2025.04.bb}      | 0
- .../u-boot/{u-boot_2025.01.bb => u-boot_2025.04.bb}           | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-bsp/u-boot/{u-boot-tools_2025.01.bb => u-boot-tools_2025.04.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot_2025.01.bb => u-boot_2025.04.bb} (100%)
+ERROR: nativesdk-cmake-3.31.6-r0 do_compile: Execution of '/srv/pokybuild/y=
+octo-worker/qemuarmv5/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/n=
+ativesdk-cmake/3.31.6/temp/run.do_compile.1695358' failed with exit code 1
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index fc860248ed..4444471fa5 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -12,9 +12,9 @@ PE = "1"
- 
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "6d41f0a39d6423c8e57e92ebbe9f8c0333a63f72"
-+SRCREV = "34820924edbc4ec7803eb89d9852f4b870fa760a"
- 
--SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
-+SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master;tag=v${PV}"
- 
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2025.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2025.04.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-tools_2025.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot-tools_2025.04.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2025.01.bb b/meta/recipes-bsp/u-boot/u-boot_2025.04.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2025.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2025.04.bb
--- 
-2.40.1
+| In file included from /srv/pokybuild/yocto-worker/qemuarmv5/build/build/t=
+mp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-cmake/3.31.6/cmake-3.31.6/=
+Utilities/cm3p/curl/curl.h:8,
+|                  from /srv/pokybuild/yocto-worker/qemuarmv5/build/build/t=
+mp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-cmake/3.31.6/cmake-3.31.6/=
+Source/cmCurl.h:12,
+|                  from /srv/pokybuild/yocto-worker/qemuarmv5/build/build/t=
+mp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-cmake/3.31.6/cmake-3.31.6/=
+Source/cmCurl.cxx:3:
+| /srv/pokybuild/yocto-worker/qemuarmv5/build/build/tmp/work/x86_64-natives=
+dk-pokysdk-linux/nativesdk-cmake/3.31.6/cmake-3.31.6/Source/cmCurl.cxx: In =
+function 'std::string cmCurlSetNETRCOption(CURL*, const std::string&, const=
+ std::string&)':
+| /srv/pokybuild/yocto-worker/qemuarmv5/build/build/tmp/work/x86_64-natives=
+dk-pokysdk-linux/nativesdk-cmake/3.31.6/cmake-3.31.6/Source/cmCurl.cxx:178:=
+26: error: invalid conversion from 'long int' to 'CURL_NETRC_OPTION' [-fper=
+missive]
+|   178 |       curl_netrc_level =3D CURL_NETRC_OPTIONAL;
+|       |                          ^~~~~~~~~~~~~~~~~~~
+|       |                          |
+|       |                          long int
+| /srv/pokybuild/yocto-worker/qemuarmv5/build/build/tmp/work/x86_64-natives=
+dk-pokysdk-linux/nativesdk-cmake/3.31.6/cmake-3.31.6/Source/cmCurl.cxx:180:=
+26: error: invalid conversion from 'long int' to 'CURL_NETRC_OPTION' [-fper=
+missive]
+|   180 |       curl_netrc_level =3D CURL_NETRC_REQUIRED;
+|       |                          ^~~~~~~~~~~~~~~~~~~
+|       |                          |
+|       |                          long int
+| /srv/pokybuild/yocto-worker/qemuarmv5/build/build/tmp/work/x86_64-natives=
+dk-pokysdk-linux/nativesdk-cmake/3.31.6/cmake-3.31.6/Source/cmCurl.cxx:182:=
+26: error: invalid conversion from 'long int' to 'CURL_NETRC_OPTION' [-fper=
+missive]
+|   182 |       curl_netrc_level =3D CURL_NETRC_IGNORED;
+|       |                          ^~~~~~~~~~~~~~~~~~
+|       |                          |
+|       |                          long int
+
+Can you have a look at this please?
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
