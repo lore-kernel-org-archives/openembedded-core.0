@@ -1,145 +1,132 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F3AC36010
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 19:16:16 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web10.4495.1744139767642346950
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9932C36010
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 20:51:16 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.6946.1744145475150405291
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 12:16:08 -0700
+ Tue, 08 Apr 2025 13:51:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=P7HTmDVz;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20250408191604a991f7a65d825a12fe-g2lbtq@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250408191604a991f7a65d825a12fe
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 08 Apr 2025 21:16:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=La0t6rbiUxyC/zbb+ky8rABrxfGi4RsfeQW6cfQYJ9o=;
- b=P7HTmDVzxgJ4wOmVDFZ9MdzOTRZEAXTWVlnsW5F1sQv4xnEz2kJuGx37VjvsFLNUa7Ds4m
- ru9zrzzqySVwACc744Qd7pNWFJ6mQ8Kp1usNsfyjzLyy6Mj2yYG1E6zgLPF+7FBQG6E+7YJw
- yBI77kbcZVbMe7KnJNH52wZKH92LjNz+gmJkUlHpXEa8x9OO2Sp5ESFHWFhWRcUl8D2GGFkn
- GDFfnsq2tU+42ZxS0t6dBHOwCFgqDqiRTvsSqYNbCTs5TTCq8OTaObSI4ZL6drYxQ4bmjajS
- mgTqgOXYVF1doKSjUC0rhZC+moS8uxUI/ZK4gsAeC6AOiJTg9Osmy49Q==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Zw4lF1Ei;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-227b828de00so60401895ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 13:51:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744145474; x=1744750274; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LLBYiL5q6Sn0d7e23DnfXZqMcdHQkIDUJLuLI3r9iew=;
+        b=Zw4lF1Ei9e+pjMWBO45r8IequMq6Un2vCV9WEvRBmLpdvQpsaz1PQG0qvHvdBziVhW
+         /zo65ItWjfMlTGdcuUYkqCdISXj14xYGh7Z0GQ6sLEkxk/T7Bebg+1OxKyPh3q4vvaVb
+         yE1KUka/+OHJzGcQeG27JuWuKyODYehqfsZAHAkZRR4EIxf3rTJLoZbmOSa/m2m7dwwE
+         /94mHsh+Tq2aHV61Udb4pEn/eo1oPwvTMxNxtGfTdiB6beS2yV9P8DR7PAZlRY7XKT+P
+         yjJapaNhhaUZe2y18vZUBd025V8ZisIS5bLfIlJaNBWTlO54vBsgRlOwWbgn+5vcGFhP
+         k2dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744145474; x=1744750274;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LLBYiL5q6Sn0d7e23DnfXZqMcdHQkIDUJLuLI3r9iew=;
+        b=DJ1t0XmZOa8rpxtICNNuMf73asIYQArwN2klesgs8tfb7+TtiO0kt9hpvx6knEyvIM
+         pXidmgDWfyeeI9yLSQlsveJc6JfnSEXcQ9Q+M6MkuCXRg/3+Fpg8y2PsGGv7ZqSD91Bl
+         MF5PrFxeIQpE4wLQI+NLcVd9Ce4n21voafojJD06tz4qtMW/Txae+JEv1Lf7VVs6qo6k
+         wqxnpdv/oJAIsWOY392mLVa4U5X679yVDn8c+p8VjJHSzDWXeoymIV51rNr6R8vLgnWv
+         oDXY396ijL5QCC4R5auLopgooRb4GfAIYhLJgNB5vdpl/wtpcj1rixeopcPWaWvRpLx1
+         ArGA==
+X-Gm-Message-State: AOJu0Yz/HqxtUK3m6Hk4seYZGXhXonsHFIrGyMXMSGmh+TDikQ7o7QNY
+	qbojTM+6ti5G3TuoXrVDd2fi0DeM2JxamSA1LsiRufEjRLyyLfIjB4hkrLDT60VGZDLWZPuVWdl
+	C
+X-Gm-Gg: ASbGnct6E1D+UF5+taSfiX9VRViLAXKUXUskymRqU4t8uD61WHAY7za6a3XbGZ8fjWB
+	E02Q5PA/rbNvdElld0+T1hYSfZNNYeRlO4kpkR08Gl7y1icgyzR1hDxHgy50p73Xjr0hnuNl6EK
+	JbcwY4O+Z7xOXvnu2tBdFQyz0rWVS7cntDSVzkz4+N7PjmbJr2k5qcN04dTJNDcX4u6S3KzSPQ1
+	Q9ib/0j00wkpJzsmnO1Yo1hsffzBwaMPemhv2YRDRGjoMhsiNF75Bh+Ll/5Ddvgqq+1ugHGsij5
+	9gJvCD5zsiK2eSrhVKsWpLzXqBmvXmQ0lOKNzQfecnX8NTc=
+X-Google-Smtp-Source: AGHT+IHCcRYXPjxgrYnHWiAJbnUu5RZIjBFokkEW/VvR65f3ZASscM5soFHKoSut1+gPTumFJuYdVA==
+X-Received: by 2002:a17:902:f644:b0:224:c46:d167 with SMTP id d9443c01a7336-22ac29a7d25mr9601625ad.16.1744145474092;
+        Tue, 08 Apr 2025 13:51:14 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:70d0:2b27:66e1:8cba])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297866e242sm105497755ad.164.2025.04.08.13.51.13
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Apr 2025 13:51:13 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] go: upgrade 1.24.1 -> 1.24.2
-Date: Tue,  8 Apr 2025 21:15:08 +0200
-Message-Id: <20250408191508.2545797-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone 00/10] Patch review
+Date: Tue,  8 Apr 2025 13:50:56 -0700
+Message-ID: <cover.1744145328.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 19:16:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214554
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 20:51:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214555
 
-From: Peter Marko <peter.marko@siemens.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Thursday, April 10
 
-Upgrade to latest 1.24.x release [1]:
+Passed a-full on autobuilder:
 
-$ git --no-pager log --oneline go1.24.0..go1.24.1
-339c903a75 (tag: go1.24.1) [release-branch.go1.24] go1.24.1
-334de7982f [release-branch.go1.24] all: updated vendored x/net with security fix
-5d6920842b [release-branch.go1.24] runtime/cgo: avoid errors from -Wdeclaration-after-statement
-949eae84df [release-branch.go1.24] cmd/compile: don't pull constant offsets out of pointer arithmetic
-0bfde51e0d [release-branch.go1.24] runtime: document that cleanups can run concurrently with each other
-45a52718e3 [release-branch.go1.24] runtime/cgo: avoid errors from -Wdeclaration-after-statement
-7f375e2c22 [release-branch.go1.24] reflect: let Value.Seq return the iteration value correct type
-4070531920 [release-branch.go1.24] syscall: disable O_DIRECTORY on Windows for js/wasm
-5ffdb9c88b [release-branch.go1.24] reflect: correctly handle method values in Seq
-becc17ebcd [release-branch.go1.24] runtime: use WCLONE when waiting on pidfd test child
-d418e224ae [release-branch.go1.24] syscall: don't send child signal when testing pidfd
-456eaf5c29 [release-branch.go1.24] cmd/compile: don't report newLimit discovered when unsat happens multiple times
-e4ef83383e [release-branch.go1.24] debug/buildinfo: base64-encode test binaries
-4e6d3468cc [release-branch.go1.24] cmd/compile: ensure we don't reuse temporary register
-f5c388313f [release-branch.go1.24] internal/godebugs: add fips140 as an opaque godebug setting
-af236716b2 [release-branch.go1.24] cmd/compile, runtime: use deferreturn as target PC for recover from deferrangefunc
-0f7b7600fb [release-branch.go1.24] doc/godebug: mention GODEBUG=fips140
-eb58df7dbf [release-branch.go1.24] cmd/compile: avoid infinite recursion when inlining closures
-30f4d9e117 [release-branch.go1.24] syscall: don't truncate newly created files on Windows
-bb0e5c2045 [release-branch.go1.24] runtime: fix usleep on s390x/linux
-cd0e528d3d [release-branch.go1.24] runtime: add some linknames back for `github.com/bytedance/sonic`
-80e2e474b8 [release-branch.go1.24] cmd/go: initialize req.Header when loading git credential
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1367
 
-Fixes CVE-2025-22871
+The following changes since commit 1efbe1004bc82e7c14c1e8bd4ce644f5015c3346:
 
-[1] https://github.com/golang/go/compare/go1.24.1...go1.24.2
+  build-appliance-image: Update to kirkstone head revision (2025-04-04 08:43:24 -0700)
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-devtools/go/{go-1.24.1.inc => go-1.24.2.inc}   | 2 +-
- ...o-binary-native_1.24.1.bb => go-binary-native_1.24.2.bb} | 6 +++---
- ...cross-canadian_1.24.1.bb => go-cross-canadian_1.24.2.bb} | 0
- .../go/{go-cross_1.24.1.bb => go-cross_1.24.2.bb}           | 0
- .../go/{go-crosssdk_1.24.1.bb => go-crosssdk_1.24.2.bb}     | 0
- .../go/{go-runtime_1.24.1.bb => go-runtime_1.24.2.bb}       | 0
- meta/recipes-devtools/go/{go_1.24.1.bb => go_1.24.2.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.24.1.inc => go-1.24.2.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.24.1.bb => go-binary-native_1.24.2.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.24.1.bb => go-cross-canadian_1.24.2.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.24.1.bb => go-cross_1.24.2.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.24.1.bb => go-crosssdk_1.24.2.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.24.1.bb => go-runtime_1.24.2.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.24.1.bb => go_1.24.2.bb} (100%)
+are available in the Git repository at:
 
-diff --git a/meta/recipes-devtools/go/go-1.24.1.inc b/meta/recipes-devtools/go/go-1.24.2.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.24.1.inc
-rename to meta/recipes-devtools/go/go-1.24.2.inc
-index 4cf66e705a..cb4ae9ef80 100644
---- a/meta/recipes-devtools/go/go-1.24.1.inc
-+++ b/meta/recipes-devtools/go/go-1.24.2.inc
-@@ -17,4 +17,4 @@ SRC_URI += "\
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
-     file://6d265b008e3d106b2706645e5a88cd8e2fb98953.patch \
- "
--SRC_URI[main.sha256sum] = "8244ebf46c65607db10222b5806aeb31c1fcf8979c1b6b12f60c677e9a3c0656"
-+SRC_URI[main.sha256sum] = "9dc77ffadc16d837a1bf32d99c624cb4df0647cee7b119edd9e7b1bcc05f2e00"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.24.1.bb b/meta/recipes-devtools/go/go-binary-native_1.24.2.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.24.1.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.24.2.bb
-index ffe3d50b7b..690b8546cb 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.24.1.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.24.2.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "cb2396bae64183cdccf81a9a6df0aea3bce9511fc21469fb89a0c00470088073"
--SRC_URI[go_linux_arm64.sha256sum] = "8df5750ffc0281017fb6070fba450f5d22b600a02081dceef47966ffaf36a3af"
--SRC_URI[go_linux_ppc64le.sha256sum] = "0fb522efcefabae6e37e69bdc444094e75bfe824ea6d4cc3cbc70c7ae1b16858"
-+SRC_URI[go_linux_amd64.sha256sum] = "68097bd680839cbc9d464a0edce4f7c333975e27a90246890e9f1078c7e702ad"
-+SRC_URI[go_linux_arm64.sha256sum] = "756274ea4b68fa5535eb9fe2559889287d725a8da63c6aae4d5f23778c229f4b"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "5fff857791d541c71d8ea0171c73f6f99770d15ff7e2ad979104856d01f36563"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.24.1.bb b/meta/recipes-devtools/go/go-cross-canadian_1.24.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.24.1.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.24.2.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.24.1.bb b/meta/recipes-devtools/go/go-cross_1.24.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.24.1.bb
-rename to meta/recipes-devtools/go/go-cross_1.24.2.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.24.1.bb b/meta/recipes-devtools/go/go-crosssdk_1.24.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.24.1.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.24.2.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.24.1.bb b/meta/recipes-devtools/go/go-runtime_1.24.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.24.1.bb
-rename to meta/recipes-devtools/go/go-runtime_1.24.2.bb
-diff --git a/meta/recipes-devtools/go/go_1.24.1.bb b/meta/recipes-devtools/go/go_1.24.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.24.1.bb
-rename to meta/recipes-devtools/go/go_1.24.2.bb
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Haixiao Yan (1):
+  glibc: Add single-threaded fast path to rand()
+
+Peter Marko (2):
+  ofono: patch CVE-2024-7537
+  qemu: ignore CVE-2023-1386
+
+Vijay Anusuri (6):
+  ghostscript: Fix CVE-2025-27830
+  ghostscript: Fix CVE-2025-27831
+  ghostscript: Fix CVE-2025-27832
+  ghostscript: Fix CVE-2025-27834
+  ghostscript: Fix CVE-2025-27835
+  ghostscript: Fix CVE-2025-27836
+
+Yogita Urade (1):
+  curl: ignore CVE-2025-0725
+
+ .../ofono/ofono/CVE-2024-7537.patch           | 59 +++++++++++++
+ meta/recipes-connectivity/ofono/ofono_1.34.bb |  1 +
+ ...dd-single-threaded-fast-path-to-rand.patch | 47 +++++++++++
+ meta/recipes-core/glibc/glibc_2.35.bb         |  1 +
+ meta/recipes-devtools/qemu/qemu.inc           |  3 +
+ .../ghostscript/CVE-2025-27830.patch          | 79 +++++++++++++++++
+ .../ghostscript/CVE-2025-27831-pre1.patch     | 50 +++++++++++
+ .../ghostscript/CVE-2025-27831.patch          | 84 +++++++++++++++++++
+ .../ghostscript/CVE-2025-27832.patch          | 45 ++++++++++
+ .../ghostscript/CVE-2025-27834.patch          | 57 +++++++++++++
+ .../ghostscript/CVE-2025-27835.patch          | 34 ++++++++
+ .../ghostscript/CVE-2025-27836-1.patch        | 64 ++++++++++++++
+ .../ghostscript/CVE-2025-27836-2.patch        | 46 ++++++++++
+ .../ghostscript/ghostscript_9.55.0.bb         |  8 ++
+ meta/recipes-support/curl/curl_7.82.0.bb      |  2 +
+ 15 files changed, 580 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7537.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-stdlib-Add-single-threaded-fast-path-to-rand.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27830.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27831-pre1.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27831.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27832.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27834.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27835.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-1.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27836-2.patch
+
+-- 
+2.43.0
+
 
