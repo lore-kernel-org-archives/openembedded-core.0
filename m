@@ -1,134 +1,178 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C936C3600C
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 10:40:29 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web10.72087.1744108820857313836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F89FC3600C
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 10:57:49 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.71916.1744109863786331177
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 03:40:21 -0700
+ Tue, 08 Apr 2025 03:57:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=HT6adQt9;
- spf=pass (domain: linaro.org, ip: 209.85.167.45, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54b0d638e86so6525740e87.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 03:40:20 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Dvd5t8+K;
+ spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2241053582dso67764885ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 03:57:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744108819; x=1744713619; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=h0HSHtWzLkDkqbHjDoqpGDqpMGMce9t0XrTHUZyelWY=;
-        b=HT6adQt9MQlPFE527X54dJVKfkrUm848xW23KAV9wmeNnGSwond87SdXkaUJE/TcRH
-         c5Fs9JKvKQFFWofXB1LKaJ0/2q2Q8JQDVxNVeyyhv6jcByuoVIvvdj+Cq8+gClnaOHHa
-         TChVaQhAHlIIhnwQDEnWZ9rOIf7nWMDvYmwcOZQZIlI/iC7XOqeCjQuXlwDDCst3M85n
-         IUfRYQi3XjJCOeD2F5hWbPoyuJT8EWUBOU73hPv8ST6Wk09LzAnL9WE1QWr6Rrii07CQ
-         p5S+LUN6d7tPX+ZXL4l0wENxn4FpLMiBRKhhOlJtUBX+Ov1w6VAZq1hVhmZVCDCQNxFw
-         9UKQ==
+        d=mvista.com; s=google; t=1744109862; x=1744714662; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dLSzQQl6g4HSKKUdNQmzh4MRed6GGXRVb5jr1zcj+vA=;
+        b=Dvd5t8+KQOF+ErvOHSMTUcDwdyti0tobE22FRpf5A/dnqS9dgt3ape7V07NT2An24q
+         wfAiEDYOSBUhuQM3M+bKHmLPpujEPVViJ6KKLaKuyep0hxOt/PK1hK5BedenWgmzt3r8
+         SxCWZXObrR56ONIUK/pLx6/z09hc61hN1y6zw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744108819; x=1744713619;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h0HSHtWzLkDkqbHjDoqpGDqpMGMce9t0XrTHUZyelWY=;
-        b=FRG17PhVpzHzDIex45vUtZ2but79rffiFt9A6xjzAaccjHxc4l4O27RMYECbiH+GO3
-         Mvm06CKk7ZF6Ylty6f739Q4guu3R26q8OL6YQ2yGUDrRRA4nRBXSPOjoz7LbRes8tFTR
-         X6E07HMXGKGPphbyUjZsxhRjM5bKlaoJaCfRxCqNAb0yrcEuT2veZW0PYnrfbooNzvWh
-         Ls1/PEyTfxEznK7t7Ym5OX9smj9MVZ9sX63BkkFCSBoYWf74rHpkxo1cXQomb2TT60Zc
-         vETo4dDHDKrSxxUH/SxFPpJgkSgLzrKuBXGsqHGq5BiJLRd+/K3yq6HdeJKz2Emek6Hi
-         h78g==
-X-Gm-Message-State: AOJu0YyUnWiUE7C2frS7yEhTKRtAmRTzqzJ00pJMV+gM4s7KEPpQ4hMM
-	F3+xoriDyUK5iSEmlr+pXWR6tHg6Af1vCUMGN1exC4r/DJ8jAEIWEHI71JrfQbc=
-X-Gm-Gg: ASbGnctKvUFlFqz8BF0jpAtpdNmATskANsYw6fMlDz9fEfDp8akyseL0jN+dyoI+Qyi
-	ugVn4/T7InCT4/fkiOch+ce6drg2ELvf8xk+3i2JoKNTVzTnBpVizZSkmLsKPM0YWQEtaWonQBG
-	mwe0aaf6wk2D9rVk8vQO9BC53hlSP+TllGvjVh1hNUzrcd20zXeJSiK3fIZVQxoYbYt7cff4dM9
-	SMB++DEKw/wuElFVn+uMYH4zpjz01ZsBbndiw9BY9BLvmFlfFr4UfCd88Pi6Z6ZdzYTUYo0CAZF
-	3BTobMtC8K7TRSRk707uUdQj5PSJE9SZG/YBbbvfXu+thR+EO+2K0w2AiOt0CDwlIeIYxXjw43H
-	ja6VVfFJWAPfL
-X-Google-Smtp-Source: AGHT+IGJUTINSH+KcvRXnjnPWax8TvdiPgmQwcwTIj93ypef12NyADtMy7Z21x1cZalyrb77bx5Q+w==
-X-Received: by 2002:a05:6512:3ca0:b0:549:8809:ee32 with SMTP id 2adb3069b0e04-54c22778719mr4440536e87.22.1744108818873;
-        Tue, 08 Apr 2025 03:40:18 -0700 (PDT)
-Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e63e8c3sm1500537e87.158.2025.04.08.03.40.18
+        d=1e100.net; s=20230601; t=1744109862; x=1744714662;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dLSzQQl6g4HSKKUdNQmzh4MRed6GGXRVb5jr1zcj+vA=;
+        b=KZfR15B5TjWwHWRggteEMjS0NJiOJRZ79SS1ox3q6GBfqJCARWPKSEM8p6U9iOGOLp
+         GcZTJJflttAcfn+fYxUSA1HVVumctuXgZzQop+1mAkk3B6c73RM1EqldKPyi2x7e4NUR
+         zZpDFvmW56bZL64ecnsdkko/NI6mrqVM/WlnlTQuUgLhe+sNgzRJ5KJ12TrmYKhOXw8C
+         s2OzuNCKz3/74fSSUWUd/U2rPQmW9Thm9nOmvodsRfuwj591c9OdQNup9KhGoWfA1ApL
+         HPCt7UL4BqIn4YfrwSUWR+AQijsk/FzWd+PopSOUKVSLrKRMy1ueYWiFMJOhSy70R2jl
+         Wj7A==
+X-Gm-Message-State: AOJu0YxIhvzSVpSvN9oaUaULkMDlqulDr+PDtpdQ+gTahitzRd//UGnB
+	Fkqcvgji3S1E4sfipflkaqcmBibwlRzMqM9eGgMQ9li3N+Y6E1txy+2W3rEIVXHv4ySSfHUos+f
+	eQdk=
+X-Gm-Gg: ASbGncuhn0zHYRFk6Nx4pdBOWwUxQtPVhxoj+7jt0T7KTVeRyu4yWcKtpFKhjTyi9Uj
+	68N2I8RALrodd5MDooQOz3Qi7VwIxHJtA3tNypCWBbeOAvq9qZ+UHovOMTNbkxgQws35dbi8hy1
+	OeHg9OrK55QY7APHnGg+OtBq00j0RainrdzhXICzM3F56T7xJ70dKYktFu3LdyALzC345l9Na4d
+	fW2dZ0uKOuRTBYKOnUnMgVIY3fNkk1/n5Fl/39SFJrCDc+iA/OyfuylPZ9rS3vO9AmZ2oP2qtJB
+	A7/WC7rqsWyGgTl8UTZg5xTPvRXfAgaAaboDZyLSu+gjAWIVfTx6eNiM
+X-Google-Smtp-Source: AGHT+IGOZ53xuwLz01Hs2OSOVJSOiRR4BhhQhgUbdVUl4iqKjK7YnRzZIVwuYyRCX0L63P96UMw95Q==
+X-Received: by 2002:a17:902:f683:b0:220:be86:a421 with SMTP id d9443c01a7336-22a8a0a37b5mr252776035ad.38.1744109862592;
+        Tue, 08 Apr 2025 03:57:42 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.207.204.161])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785bfe34sm97696255ad.67.2025.04.08.03.57.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 03:40:18 -0700 (PDT)
-Date: Tue, 8 Apr 2025 13:40:17 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] u-boot: set git repo branch with SRCBRANCH
-Message-ID: <Z_T9EYnAgrjI_rR5@nuoska>
-References: <20250404075136.385270-1-mikko.rapeli@linaro.org>
- <e20b2f4791b7481a018ce2c5d3cee9ede1a88fe9.camel@linuxfoundation.org>
+        Tue, 08 Apr 2025 03:57:41 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH 1/6] ghostscript: Fix CVE-2025-27830
+Date: Tue,  8 Apr 2025 16:27:16 +0530
+Message-Id: <20250408105721.1798123-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e20b2f4791b7481a018ce2c5d3cee9ede1a88fe9.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 10:40:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214525
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 10:57:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214526
 
-Hi,
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-On Tue, Apr 08, 2025 at 10:00:05AM +0100, Richard Purdie wrote:
-> On Fri, 2025-04-04 at 10:51 +0300, Mikko Rapeli via lists.openembedded.org wrote:
-> > Enables changing branch from "master" to "next"
-> > when building bleeding edge upstream versions for
-> > testing purposes. Now local.conf setup to
-> > build latest "next" version becomes:
-> > 
-> > INHERIT += "poky-bleeding"
-> > POKY_AUTOREV_RECIPES += "u-boot"
-> > SRCBRANCH:pn-u-boot = "next"
-> > 
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > ---
-> > �meta/recipes-bsp/u-boot/u-boot-common.inc | 4 ++--
-> > �1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-> > index fc860248ed..9e96c46b74 100644
-> > --- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-> > +++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-> > @@ -13,8 +13,8 @@ PE = "1"
-> > �# We use the revision in order to avoid having to fetch it from the
-> > �# repo during parse
-> > �SRCREV = "6d41f0a39d6423c8e57e92ebbe9f8c0333a63f72"
-> > -
-> > -SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
-> > +SRCBRANCH ?= "master"
-> > +SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=${SRCBRANCH}"
-> > �
-> > �S = "${WORKDIR}/git"
-> > �B = "${WORKDIR}/build"
-> 
-> I do want to be able to do this kind of thing,�so to be clear, I do
-> strongly support the idea.
-> 
-> I am however worried about the implication of how this will scale (or
-> not). If I merge this, I'm likely to get this change for many other
-> recipes. I also suspect people will want to parameterise the
-> "source.denx.de/u-boot/u-boot.git" url part too so they can use their
-> own local repo.
-> 
-> I can't help wonder if we need some other mechanism for this. I've
-> talked with Joshua about variable "filter" mecahnisms before which
-> would be one idea. It would also be possible to filter the variable
-> with some inline python magic, in much the same way that the code
-> already tweaks SRCREV to add AUTOREV.
-> 
-> I did also wonder whether our mirror rewriting code could be used
-> somehow...
+Upstream-Status: Backport
+[https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=8474e1d6b896e35741d3c608ea5c21deeec1078f]
 
-So a variable for pokybleeding_version_handler() to rewrite
-"branch" variable in SRC_URI?
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../ghostscript/CVE-2025-27830.patch          | 79 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.55.0.bb         |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27830.patch
 
-That could work but at the moment outside of fetcher code.
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27830.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27830.patch
+new file mode 100644
+index 0000000000..a516b8ad41
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-27830.patch
+@@ -0,0 +1,79 @@
++From 8474e1d6b896e35741d3c608ea5c21deeec1078f Mon Sep 17 00:00:00 2001
++From: Zdenek Hutyra <zhutyra@centrum.cz>
++Date: Mon, 13 Jan 2025 09:15:01 +0000
++Subject: [PATCH] Bug 708241: Fix potential Buffer overflow with DollarBlend
++
++During serializing a multiple master font for passing to Freetype.
++
++Use CVE-2025-27830
++
++Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=8474e1d6b896e35741d3c608ea5c21deeec1078f]
++CVE: CVE-2025-27830
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ base/write_t1.c | 7 ++++---
++ psi/zfapi.c     | 9 +++++++--
++ 2 files changed, 11 insertions(+), 5 deletions(-)
++
++diff --git a/base/write_t1.c b/base/write_t1.c
++index 52902be..d6b2454 100644
++--- a/base/write_t1.c
+++++ b/base/write_t1.c
++@@ -628,6 +628,7 @@ write_main_dictionary(gs_fapi_font * a_fapi_font, WRF_output * a_output, int Wri
++     WRF_wbyte(a_fapi_font->memory, a_output, '\n');
++     if (is_MM_font(a_fapi_font)) {
++         short x, x2;
+++        unsigned short ux;
++         float x1;
++         uint i, j, entries;
++         char Buffer[255];
++@@ -759,16 +760,16 @@ write_main_dictionary(gs_fapi_font * a_fapi_font, WRF_output * a_output, int Wri
++          */
++         code = a_fapi_font->get_word(a_fapi_font,
++                                    gs_fapi_font_feature_DollarBlend_length,
++-                                   0, (unsigned short *)&x);
+++                                   0, &ux);
++         if (code < 0)
++             return code;
++ 
++-        if (x > 0) {
+++        if (ux > 0) {
++             int len;
++             WRF_wstring(a_fapi_font->memory, a_output, "/$Blend {");
++ 
++             if (a_output->m_count)
++-                a_output->m_count += x;
+++                a_output->m_count += ux;
++             len = a_fapi_font->get_proc(a_fapi_font,
++                                       gs_fapi_font_feature_DollarBlend, 0,
++                                       (char *)a_output->m_pos);
++diff --git a/psi/zfapi.c b/psi/zfapi.c
++index 0b3ab1c..1ffef47 100644
++--- a/psi/zfapi.c
+++++ b/psi/zfapi.c
++@@ -682,7 +682,7 @@ FAPI_FF_get_word(gs_fapi_font *ff, gs_fapi_font_feature var_id, int index, unsig
++                 }
++                 for (i = 0; i < r_size(DBlend); i++) {
++                     if (array_get(ff->memory, DBlend, i, &Element) < 0) {
++-                        *ret = 0;
+++                        length = 0;
++                         break;
++                     }
++                     switch (r_btype(&Element)) {
++@@ -709,7 +709,12 @@ FAPI_FF_get_word(gs_fapi_font *ff, gs_fapi_font_feature var_id, int index, unsig
++                         default:
++                             break;
++                     }
++-                }
+++
+++		    if (length > max_ushort) {
+++			length = 0;
+++			break;
+++                    }
+++		}
++                 *ret = length;
++                 break;
++             }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+index 6d425710b5..dae8dff813 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+@@ -62,6 +62,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://CVE-2024-46953.patch \
+                 file://CVE-2024-46955.patch \
+                 file://CVE-2024-46956.patch \
++                file://CVE-2025-27830.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
+-- 
+2.25.1
 
-Cheers,
-
--Mikko
 
