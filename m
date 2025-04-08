@@ -1,89 +1,87 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BFAFC369A4
-	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 13:41:30 +0000 (UTC)
-Received: from smarthost01a.sbp.mail.zen.net.uk (smarthost01a.sbp.mail.zen.net.uk [212.23.1.1])
- by mx.groups.io with SMTP id smtpd.web10.75509.1744119688511538756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A397DC369A2
+	for <webhook@archiver.kernel.org>; Tue,  8 Apr 2025 14:09:00 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web10.76495.1744121338360433510
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 06:41:29 -0700
+ Tue, 08 Apr 2025 07:08:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=B5NQSrjz;
- spf=pass (domain: mcrowe.com, ip: 212.23.1.1, mailfrom: mac@mcrowe.com)
-Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
-	by smarthost01a.sbp.mail.zen.net.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <mac@mcrowe.com>)
-	id 1u29Cc-0041PZ-6J
-	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Apr 2025 13:41:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	In-Reply-To:References; bh=uezvgwcxhbKlGkaZ1MSK9SRqi/QjngQcB7syMOt8vcw=; b=B5
-	NQSrjziiM8CqjQEV0SWq09SU9j+GJGsMmKez9lYb/1AR9orfHXg//mvRbzwincCaqmMK8OxH05c9s
-	NcCP5325FF2yNgx6xQJNsOR0KkWKtj4oxxjngnVgwG3Iw94siWkQ9aPQbQCa+/Cb3Xs6ok8x/CfhF
-	TULHvTMAWHTIQsSlO93txRTo6TB9b0hKMY/brV80OfdeTmuY/fEpZ6/gpP1rOX46ZHo+HLH8hK6L/
-	k0sDR80AuT/Lms6sLNHNIjI2Z8BK+9xq17oV1pI7OUzEaMqDg9mojG2VkJdt+KSeguYepOWPFnO5W
-	telhR+6gY09OTfMOGjeGRtH0SG1l4vcQ==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
-	(envelope-from <mac@mcrowe.com>)
-	id 1u29Ce-00EepB-33;
-	Tue, 08 Apr 2025 14:41:24 +0100
-From: mac@mcrowe.com
-To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] classes-recipe: npm: Complain immediately if npm-shrinkwrap.json is too old
-Date: Tue,  8 Apr 2025 14:41:18 +0100
-Message-Id: <20250408134118.1978358-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RQlN/nQ6;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6ecfbf8fa76so66050416d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 07:08:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744121337; x=1744726137; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9SCNBn1Bitsu3iEgWMGyqXcZ5ndjM1CtMn2V9KhhYrU=;
+        b=RQlN/nQ6ymBFSMOIGPHGrPSjU8HYMsfwljds8T/LRx2Di5Y0ng0Run1CdLUtv7mf/2
+         TmnTuFZ5KW76crCFWlFL6sGEscm7gdJBWLIolv3toR7i3JFeApu4YJWucjrZuchAZFEI
+         ieLqdxsIg5qs6mpSrHL4zlibA1xT1hmMU2kY3bZ6DNAAkR932+mfOrpQCvLmIeF1lkbx
+         TyjmKTG7GfTUplqnM6BF/8/ZqfIXlERaskNqXEZC7VIDSumLMvI7eZtsvJtjOH3t7MHn
+         CkmATLDc7svaHgWrtk698/fIf+wcJMdDNsrhVaiberzZTl/ritJqdNJGbHdQrr0foX2c
+         dx6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744121337; x=1744726137;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9SCNBn1Bitsu3iEgWMGyqXcZ5ndjM1CtMn2V9KhhYrU=;
+        b=n6XnN17nZ+0SI4WAsAISeleQVsz8GQk0CkwovnQW7brTfLcqxExRFhWYyMb68AYKmC
+         tK9+GYjIriRFwgIYuYfvSvZ1uDh3v74mcwnn4+G7ny1z+6TpIWyxIDHTJG68Gt4BG7SF
+         cUP7VK82TAFO9ux6Ant5wJ0w233Md78VX6z+orIxSUYAyVp2/IpD+Ze8MJGsShgsrCdP
+         zq5XidAn7cHBe1mh37WO0KVXyunZ4Y1mYYdK8DgoFAzR9slWoMTfkTYBQBDsYNAVavj3
+         CWmNm+LkAdmRFn44TatAMjY5MZIoFG2CkxemVuohoe7AYqgkAabGcHtAFJMrScWsbu1E
+         B0wA==
+X-Gm-Message-State: AOJu0Yyovya/k8FzYarQB9vvCGL0kmtpN2cKFejS+I46jsjwTrP7vOvH
+	jkHstjyF/hqqbj6pEyVEpfnMQ2Jh7OwhFR5K7RL1QcKPw3DW/WZEmvtk1zOJ5rw8nLlO6giHfa3
+	ngsviYM97xt0ci0T4tpne5YGEO/zFAQ==
+X-Gm-Gg: ASbGncumoeGrePuTIekO8Lvo+sWoUEvYdpi7vDhcz+frwabjoVRrQZEp8R6YtUqi3BC
+	bgyv9Azn5yxSISwPlDaluV6nzw5kLmEGBInfuz3AMJKBEMSMTvFipEvRFVNCXH+uSqeMdz8Lkvu
+	jE8wFn3ng9dgrgUnocC4yKJefhmErCZVHpgzZO9iL5XyQLJa31d7nUsTSZIyAN
+X-Google-Smtp-Source: AGHT+IF3e+zNF16ekx+0afmUrAAVCCuCVq4z7ZswTr5LGidhmylqtgL/3AGHieOExYi2Pyoqh/skBZtmrK26CLVoYQk=
+X-Received: by 2002:ad4:5cc7:0:b0:6e8:f3af:ed56 with SMTP id
+ 6a1803df08f44-6f00deed748mr279505866d6.13.1744121337337; Tue, 08 Apr 2025
+ 07:08:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Originating-smarthost01a-IP: [88.97.37.36]
-Feedback-ID: 88.97.37.36
+References: <20250408100945.111801-1-jaeyoon.jung@lge.com> <CANNYZj-0eA7Qwei1HRD-oVzZ7qU2BgNj4jqhAyzBryaCWMjqdw@mail.gmail.com>
+ <PU4P216MB1517AF25C34C8D73421370D89AB52@PU4P216MB1517.KORP216.PROD.OUTLOOK.COM>
+In-Reply-To: <PU4P216MB1517AF25C34C8D73421370D89AB52@PU4P216MB1517.KORP216.PROD.OUTLOOK.COM>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 8 Apr 2025 16:08:44 +0200
+X-Gm-Features: ATxdqUEMLrNZfXY2CP-Znr4ukoSeie0e4_hDuwx3vSlEhcdc5FtQ7a0RupR32AA
+Message-ID: <CANNYZj_qmg0pksx+cuV_i7q_3eq8o4SWqDm-PQCmOirna=ow7A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] send-error-report: Allow to set server using an
+ environment variable
+To: =?UTF-8?B?7KCV7J6s7JykL1Rhc2sgTGVhZGVyL1NXIFBsYXRmb3JtKOyXsCnshKDtlolQbGF0Zm9ybeqwnA==?=
+	=?UTF-8?B?67Cc7IukIOyLnOyKpO2FnFNXIFRhc2s=?= <jaeyoon.jung@lge.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 13:41:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214539
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Apr 2025 14:09:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214540
 
-From: Mike Crowe <mac@mcrowe.com>
+On Tue, 8 Apr 2025 at 13:24, =EC=A0=95=EC=9E=AC=EC=9C=A4/Task Leader/SW
+Platform(=EC=97=B0)=EC=84=A0=ED=96=89Platform=EA=B0=9C=EB=B0=9C=EC=8B=A4 =
+=EC=8B=9C=EC=8A=A4=ED=85=9CSW Task <jaeyoon.jung@lge.com> wrote:
+> I agree that command line options are more explicit. I didn't mean that t=
+hey aren't suitable.
+> But there's a case where adding a command line option isn't easy to the e=
+xisting infra code and using an environment variable is considered as an al=
+ternative.
 
-Rather than emitting:
+Hello,
 
- Exception: KeyError: 'packages'
+I'd like to understand this a bit better. What in particular makes
+adding a command line option complicated, compared to adding an
+environment variable setting?
 
-and a stack trace, let's fail immediately if lockfileVersion implies
-that the npm-shrinkwrap.json file isn't compatible.
-
-The documentation[1] doesn't make it clear which lockfileVersions are
-guaranteed to contain "packages". I have lockfileVersion 1 files
-without. Running npm 7.5.2 generates npm-shrinkwrap.json files with
-lockfileVersion 2 and "packages", so I've set the minimum to be 2.
-
-[1] https://docs.npmjs.com/cli/v7/configuring-npm/package-lock-json
-
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes-recipe/npm.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/classes-recipe/npm.bbclass b/meta/classes-recipe/npm.bbclass
-index a73ff29be8..344e8b4bec 100644
---- a/meta/classes-recipe/npm.bbclass
-+++ b/meta/classes-recipe/npm.bbclass
-@@ -154,6 +154,9 @@ python npm_do_configure() {
-         has_shrinkwrap_file = False
- 
-     if has_shrinkwrap_file:
-+       if int(orig_shrinkwrap.get("lockfileVersion", 0)) < 2:
-+           bb.fatal("%s: lockfileVersion version 2 or later is required" % orig_shrinkwrap_file)
-+
-        cached_shrinkwrap = copy.deepcopy(orig_shrinkwrap)
-        for package in orig_shrinkwrap["packages"]:
-             if package != "":
--- 
-2.39.5
-
+Alex
 
