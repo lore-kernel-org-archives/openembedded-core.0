@@ -1,116 +1,98 @@
-Return-Path: <eichest@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A01EC36002
-	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 10:16:02 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web10.4975.1744193755858771361
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A192C369A1
+	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 10:32:22 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.5179.1744194732901054371
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Apr 2025 03:15:56 -0700
+ Wed, 09 Apr 2025 03:32:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VzGxNlw8;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: eichest@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ac34257295dso1319774566b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 03:15:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744193753; x=1744798553; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UPZ1aV3pA+cHnMr/YTmb7m7ZaQW59/ks2qduwTm/zl0=;
-        b=VzGxNlw81LM32Lr+ghtH+QsMg8ctRPESaAYJ8I0NJ/b7weLCP3yckPJVe+5qObckBl
-         CF2qJSX/whLdxKAFORPEgbwpdxu6GoSmJsOJyOOzINFr8U54ukSNrsUI/gG9ydVYk0br
-         phJbY3hnCmQ1YZY52zgI/xI5zbaYsp80kWSGG8i2BMUXT+3BBVuT+PItZLxFC8neKsAQ
-         MVLEFh+XlDlhphTpxR5y2vsRn06Mwtketl4UT4hIoy6aWvvzwb1mJvCSUaMKFfBAju2G
-         Ja2VFA+bShm85FgaA3cYOjAe1j/vO8I7DzbEv1RpgU+SwjNfJDnECAnuIP721jhYvnbB
-         vZTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744193753; x=1744798553;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UPZ1aV3pA+cHnMr/YTmb7m7ZaQW59/ks2qduwTm/zl0=;
-        b=FYJM2HJ9502fU9k/IEfN1PwGtEOpxGu9FQBlyF7NW1LrYfBRInVjvKD2yqTEh3pn9f
-         GAVnJdDrE5u4t0DZ2Q6o6P2TEcNhh37N94roGSKtuDaDslYPGDXj3i3FEzldxbrPvDd/
-         ThMmCfAuM7KJ0YXtyoQdCjN3Nu/PEP5SS78q6AQ17/Y9oKw1Z6nLY79F7MlyeEaXWIbG
-         0p58ClVHiFg3+v15ZNk2x6ULVt25N86b3zDkQ/b9m+L+5J1M+4g6LwzjgcNuyVtV67eZ
-         oV5mmuLkRkdpDAVzznqwmhpgqmidv++cATjhjcL3IonL/wotnHPFPXsMoGdI7ySXpBCq
-         N9ew==
-X-Gm-Message-State: AOJu0YzrXmeSMWFQddAlZUxcMa46ZgfYL9ShgL01O4rH1er7WnoWDle8
-	5gNbVAM+1CO4UbibzniupNEasYJocr7+vrV19DWMGrNJ/dwlwTJcLvIOAQ==
-X-Gm-Gg: ASbGncstfufWscZJNeIyj+rXCdFim/Qtx5XHX86g/jEzF/0vFDS//59StgVOS7idjGv
-	hl+F4U8rkSYWD60ezOPUf1Z8KEnkJ5NDywJtWoHjQfOhv5UqvzVLEMOc62FkNk68j89raKBaY4h
-	X85bX/RJ1AO4f8K0dWJGkDqP122OP4ICWfwArU3bQIHMXw67m6ACmvb/a59Jy/m6v0/LA21mt27
-	BLxnr8ecTepCaBcE25GkoF529stA2SaO2kO2C2KOALLDsXWMM1TsqhSkWKzOliWHDM87c9f2I0U
-	7dtjOE1mBZozTMaFiwfmnl32Q0x222lLxNoymTwbPQCPjy3xCGB6WGt3RPTdzWfPtpvho/CfdXJ
-	aT8gD3hszPhJc9OY=
-X-Google-Smtp-Source: AGHT+IHjk5N0ft3XcLUFAe8BBWfRcYqFgJ8OCDIUmvtzcKEBTuHWXA05ETdrwxQJsKuY1CNDbw3B/A==
-X-Received: by 2002:a17:907:6e87:b0:ac8:16fb:7c8a with SMTP id a640c23a62f3a-aca9afdfd93mr306214566b.0.1744193753196;
-        Wed, 09 Apr 2025 03:15:53 -0700 (PDT)
-Received: from eichest-laptop.corp.toradex.com (31-10-206-125.static.upc.ch. [31.10.206.125])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1ccc157sm71413566b.142.2025.04.09.03.15.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 03:15:52 -0700 (PDT)
-From: Stefan Eichenberger <eichest@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: [PATCH] systemd: Allow overriding PNI name policies
-Date: Wed,  9 Apr 2025 12:15:10 +0200
-Message-ID: <20250409101545.5936-1-eichest@gmail.com>
-X-Mailer: git-send-email 2.45.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Eoo937L2;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E8A3242EF5;
+	Wed,  9 Apr 2025 10:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1744194731;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a4x/E3+1jSdrMJxrRWVdfKHiL+YKYTNY7ZFR79DUxmo=;
+	b=Eoo937L2B/A8jV9NPuk8VoI6/DrKdaKek/XjbF0dlSiQMrLnhr9HKvFa+Rp0m7HV15LlYJ
+	04mAqnKYJ8kO7HaS7x5d3PZ8ZhKvscqzRQ9Xlr1HfJs1AzNcvyJ0yHS2T3moKAQ/x0plvx
+	Dsuuqkujvvw0eIzyuXfgtJX4rTKTsl+Ruh/R7bmeoij5sZY5Jj4SPddT4vN952HMkp6jTA
+	kHAXP6ye60XMiKc2BP07VRFWJN1z541uU7VqL62NJyDySW7qE5ASzCDGD3T55nMukZd/I1
+	OEN7wRDhI8dCzyhECptGaqyuDPLH0J6Li1TggEYsbCSpCML/mdTHodvWxt3VoQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 09 Apr 2025 12:32:10 +0200
+Message-Id: <D921FHIPO4L5.17657PHNL4NID@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2] sbc: upgrade 2.0 -> 2.1
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <wangmy@fujitsu.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <1744166786-4539-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1744166786-4539-1-git-send-email-wangmy@fujitsu.com>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdehjeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevvddvhfehgeetgfehteejuedvieevfeehhfeikeehfedvjeelleetjeeigfetieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepfigrnhhgmhihsehfuhhjihhtshhurdgtohhmpdhrtghpthhtohepohhpvghnvghms
+ ggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 10:16:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214582
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 10:32:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214583
 
-From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+On Wed Apr 9, 2025 at 4:46 AM CEST, wangmy via lists.openembedded.org wrote=
+:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> License-Update: Using SPDX-License-Identifier: LGPL-2.1-or-later to repla=
+ce the description of license
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
 
-Add two new variables, PNI_NAME_POLICY and PNI_ALTNAMES_POLICY, to allow
-overriding the default Predictable Network Interface (PNI) name and
-alternative name policies respectively.
+Hi Wang,
 
-This allows setting different name policies via a .bbappend file if the
-defaults are not suitable for a specific use case.
+Thanks for your patch.
 
-Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
----
- meta/recipes-core/systemd/systemd_257.4.bb | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+It looks like the license file changed, can you fix LIC_FILES_CHKSUM
+please?
 
-diff --git a/meta/recipes-core/systemd/systemd_257.4.bb b/meta/recipes-core/systemd/systemd_257.4.bb
-index 24aad11c0a..00edd702fb 100644
---- a/meta/recipes-core/systemd/systemd_257.4.bb
-+++ b/meta/recipes-core/systemd/systemd_257.4.bb
-@@ -273,6 +273,10 @@ WATCHDOG_TIMEOUT ??= "60"
- # and the watchdog is enabled. (defaults is no hardware watchdog use)
- WATCHDOG_RUNTIME_SEC ??= ""
- 
-+# Predictable network interface name policies
-+PNI_NAME_POLICY ??= "keep kernel database onboard slot path mac"
-+PNI_ALTERNATIVE_NAMES_POLICY ??= "database onboard slot path mac"
-+
- do_install() {
- 	meson_do_install
- 
-@@ -398,12 +402,8 @@ do_install() {
- 	fi
- 
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'false', d)}; then
--		if ! grep -q '^NamePolicy=.*mac' ${D}${nonarch_libdir}/systemd/network/99-default.link; then
--			sed -i '/^NamePolicy=/s/$/ mac/' ${D}${nonarch_libdir}/systemd/network/99-default.link
--		fi
--		if ! grep -q 'AlternativeNamesPolicy=.*mac' ${D}${nonarch_libdir}/systemd/network/99-default.link; then
--			sed -i '/AlternativeNamesPolicy=/s/$/ mac/' ${D}${nonarch_libdir}/systemd/network/99-default.link
--		fi
-+		sed -i 's/^NamePolicy=.*/NamePolicy=${PNI_NAME_POLICY}/' ${D}${nonarch_libdir}/systemd/network/99-default.link
-+		sed -i 's/^AlternativeNamesPolicy=.*/AlternativeNamesPolicy=${PNI_ALTERNATIVE_NAMES_POLICY}/' ${D}${nonarch_libdir}/systemd/network/99-default.link
- 	else
- 		# Actively disable Predictable Network Interface Names
- 		sed -i 's/^NamePolicy=.*/NamePolicy=/;s/^AlternativeNamesPolicy=.*/AlternativeNamesPolicy=/' ${D}${nonarch_libdir}/systemd/network/99-default.link
--- 
-2.45.2
+ERROR: sbc-2.1-r0 do_populate_lic: QA Issue: sbc: The LIC_FILES_CHKSUM does=
+ not match for file://src/sbcenc.c;beginline=3D1;endline=3D8;md5=3D1db4f385=
+0f47b59e79aeedb2668f4b3e
+sbc: The new md5 checksum is cfac6012e2dea914de8b3b7693591622
+sbc: Here is the selected license text:
+vvvvvvvvvvvvvvvvvvvvvvvvvvvv beginline=3D1 vvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+/*
+ * Bluetooth low-complexity, subband codec (SBC) encoder
+ * Copyright (C) 2004-2010  Marcel Holtmann <marcel@holtmann.org>
+ * Copyright (C) 2008-2010  Nokia Corporation
+ * Copyright (C) 2012-2013  Intel Corporation
+ *
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ endline=3D8 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sbc: Check if the license information has changed in /srv/pokybuild/yocto-w=
+orker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/sb=
+c/2.1/sbc-2.1/src/sbcenc.c (lines 1 through to 8) to verify that the LICENS=
+E value "GPL-2.0-or-later & LGPL-2.1-or-later" remains valid [license-check=
+sum]
+ERROR: sbc-2.1-r0 do_populate_lic: QA Issue: sbc: The LIC_FILES_CHKSUM does=
+ not match for file://sbc/sbc.h;beginline=3D1;endline=3D10;md5=3Dc5a50a7fc3=
+3c148ee362e2b46574a87f
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/1363
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
