@@ -1,141 +1,82 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90D64C369A1
-	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 16:47:54 +0000 (UTC)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web11.13784.1744217272699784200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90B26C36002
+	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 20:22:35 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.18773.1744230154147243770
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Apr 2025 09:47:52 -0700
+ Wed, 09 Apr 2025 13:22:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LqN26sCH;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7c56321b22cso97070485a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 09:47:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744217272; x=1744822072; darn=lists.openembedded.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OfeP1RdyELK7kp7fAJIR0wlMZoxnEt+L9KR1VYOxiDc=;
-        b=LqN26sCHxAKLltVSPlqJw75m3Xh4DPzIezzXx9waAZI408lFRXid5GMoJjJZAjqxP2
-         hz56utd+0GWIKvXXhdTHGkklPplYNXTYOZnkyFtdmpTcgrMVH722X8kJnif+qNraSE7j
-         QxgXcGhnhODsSANWUoMuWWS6jzGhsuVkHCouIQeS7/f8r+BAJDZuHZoBlxpv6CzY45fR
-         sRaMO3ifYl1brq61pXPBdC9E7XQlexKoYoMCkR315Sl+aF6fkhr8ZzPcicn6joFASrjN
-         2QKEEeiSN23UJmAWahBvu/E98XQTCNBuydxn867Vr6kwgOneh/dW5lAW0NcpiUDW3CLz
-         oJEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744217272; x=1744822072;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OfeP1RdyELK7kp7fAJIR0wlMZoxnEt+L9KR1VYOxiDc=;
-        b=rXWqsBmt1orzapsuBClTSeErOuyN7/eCaKJ7D3SAKQdofyJmZ8Ae1ajTlPavvd1Etv
-         Q/9soSnE+J/KwLJkHI4Sv+WfJQjCheEWbXBh3BH4EUk86QsldyTEyDAhljlaFFSSR5tu
-         aM5qMeWBBQXithP4ukbVo0x5W5CRfDfN8b7oY4cSHBwksO2otxs+P24e5lWrHGLYEIJb
-         T+I+st6i26CL7xH/zFk2B8vVInrQnA3sKznyswK9EQEHOEHeY//aF0DvuuLSRB0vT+WC
-         Tg3T55bCJk3jbPFIn58MDGX0tGFIBdKJYhFlJ1CTjxlZniOEnPnoONuoQHHt40ES0P0W
-         n4kA==
-X-Gm-Message-State: AOJu0YxhAyHeT2BWqjoBNOaTWejW5jG9ptT43qBaStYcqEowpebe3FJD
-	YiEACHujgcwR/q/0uJ3/kuMyL+lDWpLoP9eKpRTyJWNCRynEdku8
-X-Gm-Gg: ASbGncvt9gI+r/DPudSbHuDWjyTdKoqRGV28KUOG2HTh7v9uKaf6eVwv9sL8QDMINXg
-	G6fdpmZDEu6mhgseKu+9lMlsww+xO7k6U474kZDE6DO80ShBGg/IdmasDxlJAYH3CnXZJBWKNU4
-	RX646XLhiec50jrIZaaaRM3bwXTmIHDN3odxMPkhNuVb4FMRa1CgKMhNSAoROGYZQiX2I3Weout
-	NVQvvJwU/fMcr/Z7E4xPJA2Sy0pnWcevBDkFqHKRuNBC7vrWU1u66uP+XCVfqK1Vmtjc/YgZwyq
-	O/EGxd6cCFEwjhYgAclGZ9CwqiBapboMeO794b1b9ltB/Z2+2bcl7sqtWTLMZ9vD5A1q
-X-Google-Smtp-Source: AGHT+IG8DSU0buWb8um7plO9IvSEx7UIoFQ9QINGkqHYh1jKc1my7VaZ0Cw4o0zJFY5NF0VUd0AUvA==
-X-Received: by 2002:a05:620a:280e:b0:7c5:6b46:e1f6 with SMTP id af79cd13be357-7c7a65ab734mr41256585a.1.1744217271629;
-        Wed, 09 Apr 2025 09:47:51 -0700 (PDT)
-Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f0dea08084sm9284916d6.91.2025.04.09.09.47.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 09:47:50 -0700 (PDT)
-Date: Wed, 9 Apr 2025 12:47:49 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] wic: do not ignore ROOTFS_SIZE if the rootfs
- is modified
-Message-ID: <20250409164748.GA24240@localhost>
-References: <20250408205709.7013-1-twoerner@gmail.com>
- <D926HJUGOVD7.WS65R1LTLOYT@bootlin.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=ST70h8yQ;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2025040920223010c99c277137a650a7-_pjz9x@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2025040920223010c99c277137a650a7
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 09 Apr 2025 22:22:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=ewb5+x7pdJ2yi8gzkxQ2B+w1llMmXDT1xf/J/RfdfGE=;
+ b=ST70h8yQZkj9jFbmCkDBFOtKEddadqsV4h3okFLA8x+P31b8UH93zAjgoK3OPh0QJMxbv8
+ yINuF3/pKtGA+Gb03VuojN0WEiH31bwYWZtzuLoeaWSFJWdxjkk/OYZRxIc3eKPAuS44yJJY
+ GjDuMa15gdy+DJ31DGRE1TS+S1ATZFP/1Q/My+EuMFtOLpCCbusNfWYePy9TMO6jNG2pHnKq
+ RZcuUCeWBforLyAmq1Bb15iWt+edEctsv8ti2e26onxZ+Rr8aENcVW2dySUg6KhuErmEk5f/
+ /D7WxZJO548aW0YYLY/72gsUVf46V+4OImBKjU6eKEeqNZdtxQbSV9qQ==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] xz: upgrade 5.6.4 -> 5.8.1
+Date: Wed,  9 Apr 2025 22:21:41 +0200
+Message-Id: <20250409202141.2025613-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <D926HJUGOVD7.WS65R1LTLOYT@bootlin.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 16:47:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214596
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 20:22:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214597
 
-Hi Mathieu,
+From: Peter Marko <peter.marko@siemens.com>
 
-Thanks for looking at my patch!
+Handle CVE-2025-31115
 
-On Wed 2025-04-09 @ 04:29:57 PM, Mathieu Dubois-Briand wrote:
-> On Tue Apr 8, 2025 at 10:57 PM CEST, Trevor Woerner via lists.openembedded.org wrote:
-> I do have some build issue on the autobuilder:
-> 
-> 2025-04-09 11:14:21,897 - oe-selftest - INFO - wic.Wic.test_exclude_path_with_extra_space (subunit.RemotedTestCase)
-> 2025-04-09 11:14:21,898 - oe-selftest - INFO -  ... FAIL
-> ...
-> [Wed Apr  9 11:01:08 2025] (1309377/1309395): 192.168.7.4:53040 UA:elfutils/0.192,Linux/x86_64,/ XFF: GET /buildid/da3aea1c8160034e1b0961a7f2b5ce5c5a95553b/debuginfo 200 237848 0+9ms
-> ERROR: When reparsing /tmp/selftest-fetchw3a6djws/test.bb:do_checkuri, the basehash value changed from 84b9e23a83a764e7a5d8a96ee523199e2b1c604f4280a45030e248de0ff52962 to 4123da244f465feffecb2b4fd2b132b64851981ec2fb70bf9445df8b0ea6a69e. The metadata is not deterministic and this needs to be fixed.
-> ERROR: The following commands may help:
-> ERROR: $ bitbake test -cdo_checkuri -Snone
-> ERROR: Then:
-> ERROR: $ bitbake test -cdo_checkuri -Sprintdiff
-> 
-> ERROR: When reparsing /tmp/selftest-fetchw3a6djws/test.bb:do_fetch, the basehash value changed from 6d55d6743729b615749dc016857d7e5f9c884a8b92f0d57f68e743f4910333d3 to fa7d6ea0563b60362418d2a6c5e41a6684183d01ec578b65abd0c64a9cfba7cf. The metadata is not deterministic and this needs to be fixed.
-> ERROR: The following commands may help:
-> ERROR: $ bitbake test -cdo_fetch -Snone
-> ERROR: Then:
-> ERROR: $ bitbake test -cdo_fetch -Sprintdiff
-> 
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1329
+License-Update: add help note [1] and remove note for old releases [2]
 
-Strange. This *sounds* like what happens when I update my layers while a build
-is running. I wouldn't expect the AB to do something like that in the middle
-of a build?
+[1] https://github.com/tukaani-project/xz/commit/6bbec3bda02bf87d24fa095074456e723589921f
+[2] https://github.com/tukaani-project/xz/commit/70f1f203789433b5d7b8b22e1655abc465d659f7
 
-> I tried to reproduce this locally, and reproduced a fail with
-> "oe-selftest -r wic.Wic.test_exclude_path_with_extra_space", but with a
-> different error:
-> 
-> | INFO: Creating image(s)...
-> |
-> | DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-contrib/scripts/lib/wic/plugins/imager/direct.py
-> | DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-contrib/scripts/lib/wic/plugins/source/bootimg-biosplusefi.py
-> | DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-contrib/scripts/lib/wic/plugins/source/empty.py
-> | DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-contrib/scripts/lib/wic/plugins/source/bootimg-efi.py
-> | DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-contrib/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-> | DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-contrib/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> | DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-contrib/scripts/lib/wic/plugins/source/bootimg-partition.py
-> | DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-contrib/scripts/lib/wic/plugins/source/rootfs.py
-> | DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-contrib/scripts/lib/wic/plugins/source/rawcopy.py
-> | DEBUG: _exec_cmd: install -d /home/mdubois-briand/swat/oe-sefltest/poky-contrib/build-st/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/tmp-wic/boot.1
-> | DEBUG: ['install', '-d', '/home/mdubois-briand/swat/oe-sefltest/poky-contrib/build-st/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/tmp-wic/boot.1']
-> | DEBUG: _exec_cmd: output for install -d /home/mdubois-briand/swat/oe-sefltest/poky-contrib/build-st/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/tmp-wic/boot.1 (rc = 0):
-> | ERROR: No boot files defined, IMAGE_BOOT_FILES unset for entry #1
-> 
-> So maybe I'm missing something here.
-> 
-> The exact branch I used for this build should be available in
-> https://web.git.yoctoproject.org/poky-ci-archive/tag/?h=autobuilder.yoctoproject.org/valkyrie/a-full-1372,
-> but the mirror seems out of sync. I hope it will be there a bit later
-> today.
-> 
-> Can you have a look at this, please?
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-extended/xz/{xz_5.6.4.bb => xz_5.8.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/xz/{xz_5.6.4.bb => xz_5.8.1.bb} (94%)
 
-This is my first oe-selftest, so I'm not entirely surprised. It succeeded for
-me, I thought I had it figured out, but I've probably done something wrong in
-my testing.
-
-Thanks, I'll take another look at this with your branch.
-
-Best regards,
-	Trevor
+diff --git a/meta/recipes-extended/xz/xz_5.6.4.bb b/meta/recipes-extended/xz/xz_5.8.1.bb
+similarity index 94%
+rename from meta/recipes-extended/xz/xz_5.6.4.bb
+rename to meta/recipes-extended/xz/xz_5.8.1.bb
+index e48f4dbd7f..406ecbbec4 100644
+--- a/meta/recipes-extended/xz/xz_5.6.4.bb
++++ b/meta/recipes-extended/xz/xz_5.8.1.bb
+@@ -17,7 +17,7 @@ LICENSE:${PN}-dbg = "GPL-2.0-or-later"
+ LICENSE:${PN}-locale = "GPL-2.0-or-later"
+ LICENSE:liblzma = "0BSD"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=c02de712b028a5cc7e22472e8f2b3db1 \
++LIC_FILES_CHKSUM = "file://COPYING;md5=d38d562f6112174de93a9677682231b2 \
+                     file://COPYING.0BSD;md5=0672c210ce80c83444339b9aa31fee2f \
+                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.GPLv3;md5=1ebbd3e34237af26da5dc08a4e440464 \
+@@ -28,7 +28,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c02de712b028a5cc7e22472e8f2b3db1 \
+ SRC_URI = "https://github.com/tukaani-project/xz/releases/download/v${PV}/xz-${PV}.tar.gz \
+            file://run-ptest \
+           "
+-SRC_URI[sha256sum] = "269e3f2e512cbd3314849982014dc199a7b2148cf5c91cedc6db629acdf5e09b"
++SRC_URI[sha256sum] = "507825b599356c10dca1cd720c9d0d0c9d5400b9de300af00e4d1ea150795543"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v(?P<pver>\d+(\.\d+)+)"
+ UPSTREAM_CHECK_URI = "https://github.com/tukaani-project/xz/releases/"
+ 
 
