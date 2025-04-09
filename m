@@ -1,228 +1,168 @@
-Return-Path: <quic_vudupa@quicinc.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BFE4C369A5
-	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 06:17:51 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.2175.1744179470196729518
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A3E8C36002
+	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 08:37:52 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.3619.1744187866363810008
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Apr 2025 23:17:50 -0700
+ Wed, 09 Apr 2025 01:37:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=aVVrTELx;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: vudupa@qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538JYmv7004647;
-	Wed, 9 Apr 2025 06:17:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=wefalQz4+BRm+O70Mj2BTKrgkXFSeWhX0Um
-	wK1KZSX0=; b=aVVrTELxOXA0pC+kZVHQA2fjTz6ek2HwzjBWx6gPcXy4dv34iX8
-	VjKJCJM/As8f18mgSw8lqAYsYEToJFGNNbOGqN2CPHK8fMSQ4KXYmERxyFuWGjWx
-	KR4kQ3X0bCK3Qd8/HImRm9pWR6RtTqSsXZ/+RJaoKCLDbZEU/qDqHP3Wfp08WKa5
-	yHdUcOUhpkrpPloEhbkux6kVOO+GqkVP7kaJxpn2J1H8vwcGpJN7V94LJDwP0U9t
-	dQlKp/ysV1I7FztfBJPyNjnAkZoJ8TK53tZzcx2n/775NOCxhn101zo25dzZK501
-	Zoc3kXAVft3b0YiGuM10l9YkvD+kI8W/VCg==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twtb2cab-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Apr 2025 06:17:44 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5396HfrT014152;
-	Wed, 9 Apr 2025 06:17:41 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 45ue7fvrm9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Apr 2025 06:17:41 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5396He2j014147;
-	Wed, 9 Apr 2025 06:17:40 GMT
-Received: from hyd-e160-a01-2-03.qualcomm.com (hyd-e160-a01-2-03.qualcomm.com [10.147.154.239])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 5396HeIV014144
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Apr 2025 06:17:40 +0000
-Received: by hyd-e160-a01-2-03.qualcomm.com (Postfix, from userid 3978420)
-	id CFDDC2E24; Wed,  9 Apr 2025 11:47:39 +0530 (IST)
-From: Vishwas Udupa <quic_vudupa@quicinc.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vishwas Udupa <quic_vudupa@quicinc.com>, Ross Burton <ross.burton@arm.com>,
-        Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [oe-core][scarthgap][PATCH] openssl: rewrite ptest installation
-Date: Wed,  9 Apr 2025 11:47:36 +0530
-Message-Id: <20250409061736.220872-1-quic_vudupa@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FaVuBGj/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso69270915e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 01:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1744187864; x=1744792664; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=l6FLUKkNsMWbmgc5qVjWVY4bPjyN800+JnRT+P1cII4=;
+        b=FaVuBGj/ywDo30sj4MKMKHsVqNO1brwUPUHM+kLND8Tid1OmImRrp5wdoWw82dcRlY
+         RFY0vBPXsr1k8jReapv+TRysLrTsWLNTX4HdPq+i3iFibKAp/kalwtivLqzzImziu+14
+         5yglL7VUTKxHQacdcPJWwI+kaM8EBqsBmBCvk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744187864; x=1744792664;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l6FLUKkNsMWbmgc5qVjWVY4bPjyN800+JnRT+P1cII4=;
+        b=uFdFrzj6nz823nP15FJc3pg5Kak/SYwcDb9AHJrdvoU5zPyfkowOG0JSALsFEfW+xl
+         plKuyCpkIJ1u3mDoB1GInwm6UOpibGY9y+NkgnjR8pfXghBSfnv5LyJjWU9EYZ3RlPpT
+         o3bHvahuqP8pnOcIN/9OAJF1P4QGJDKGxwkOeAXhq9e7EJJC++Vm1YbXe1XqVJJJ+cOG
+         Vyprf1zVT90QwCVBU+C2EBLoTqJVuJ970fgPn/UKudMxRbcDOblLg4PMVpQFc1JbpkRk
+         WabDoAvy9yJsUIaje/XtuBCPxqVgDtxahq5yrAtgKgcNpBzdUs8kKJHhF1VSaEsfTkbb
+         ZQ6w==
+X-Forwarded-Encrypted: i=1; AJvYcCXPIAE67RAC0XrVmwi5IXo6rEsbTIcVYpb2mJ66bSsuARYT6W/V9baKa44UvIIVD84K/+4bhNtRMfX4001fQ3vpEg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yynb6HyCEqbrKB355MS0XiKNeh9etGiyabflmabaws2dGIIiORy
+	aY9I5XHAjc8RiB6AI9B9IsvQVAVzA2HNAfFpmA7G+B/eDFoQlzhfi9/wBCPN3nk=
+X-Gm-Gg: ASbGncv4nInPHEzTzcK+fim7+lih0aLzOhBqg8Y3MweY3X/ebTNu9FEw32o2+ivP8T4
+	dNcyCImV5476gpH5HvRXI9ca1lIGf7SSTqCJHyYietsttzI8p7iv04TKShG1gYaVZlwA3GhJlev
+	gQnsFs5t8AEkSsfAsSJyhELhQDlYLmulhBrUeawXoGj0he9glPdkjimEc9Z4X9vzRiwOkP+R5yt
+	5/DJnRCkanYMjHz9YkZxE4j2yUeGA7bphW0goA1yeDAverAq4cOPBn609Ydh3EzDHOfa7ftXEbi
+	MPZwjDFzlho7cM8v+suySkHTHlEn9e1PSqGtIs8+2E+or+Lcgtj2lwk5EL5pM4A0DK/5t2Vtyz5
+	PaMdwBPVLlbh1hgRBVQGjAXHrVCEUzA==
+X-Google-Smtp-Source: AGHT+IGi7JhBQ5VcB7CNo6nHpMlcxYYhbc56lmiKRz72k6z0PrBCIbtQPx5NsbYqQf51BxFTmKGMig==
+X-Received: by 2002:a05:600c:19cf:b0:43b:ce3c:19d0 with SMTP id 5b1f17b1804b1-43f1ed70e01mr15825075e9.29.1744187864575;
+        Wed, 09 Apr 2025 01:37:44 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9990:6e96:e5dc:1b19? ([2001:8b0:aba:5f3c:9990:6e96:e5dc:1b19])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f207aeaccsm12272065e9.33.2025.04.09.01.37.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 01:37:43 -0700 (PDT)
+Message-ID: <a0573ce7a2fe28ee7ec138194177c09dbc53283a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] udev-extraconf: fix ifupdown for non hotplug
+ devices
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: jeroen@myspectrum.nl, openembedded-core@lists.openembedded.org
+Cc: Jeroen Hofstee <jhofstee@victronenergy.com>
+Date: Wed, 09 Apr 2025 09:37:42 +0100
+In-Reply-To: <20250407174904.1191173-1-jeroen@myspectrum.nl>
+References: <20250407174904.1191173-1-jeroen@myspectrum.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: UQURJQWzzvcqCIZRwfGuvu-O_LbQz38v
-X-Authority-Analysis: v=2.4 cv=LLlmQIW9 c=1 sm=1 tr=0 ts=67f61109 cx=c_pps a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17 a=XR8D0OoHHMoA:10 a=iGHA9ds3AAAA:8 a=7CQSdrXTAAAA:8 a=ag1SF4gXAAAA:8 a=COk6AnOGAAAA:8 a=YDXD-FgvT3f8J3329vgA:9
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: UQURJQWzzvcqCIZRwfGuvu-O_LbQz38v
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-09_02,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- clxscore=1015 mlxlogscore=999 malwarescore=0 phishscore=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504090023
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 06:17:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214576
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 08:37:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214577
+
+On Mon, 2025-04-07 at 19:49 +0200, Jeroen Hofstee via lists.openembedded.or=
+g wrote:
+> From: Jeroen Hofstee <jhofstee@victronenergy.com>
+>=20
+> Commit 160f713917 (udev-extraconf: fix network.sh script did not
+> configure hotplugged interfaces, 2024-10-18) fixed ifupdown for
+> hotplug devices, but also calls it for non hotplug devices. That
+> can cause issue, since they might not expect the ifupdown from
+> udev, since it wasn't called before mentioned patch got merged.
+>=20
+> For util-linux this can simply be fixed by adding --allow=3Dhotplug.
+> Unfortunately busybox doesn't have that option, so a function is
+> added to check if the device is marked as allow-hotplug.
+>=20
+> Since wilcards are supported adding 'allow-hotplug *' allows to
+> restore behaviour of mentioned patch, while this restores the
+> original behaviour.
+>=20
+> Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
+> ---
+> =C2=A0.../udev/udev-extraconf/network.sh=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 28 +++++++++++++++++++
+> =C2=A01 file changed, 28 insertions(+)
+>=20
+> diff --git a/meta/recipes-core/udev/udev-extraconf/network.sh b/meta/reci=
+pes-core/udev/udev-extraconf/network.sh
+> index 500e60ae61..da79f00d5a 100644
+> --- a/meta/recipes-core/udev/udev-extraconf/network.sh
+> +++ b/meta/recipes-core/udev/udev-extraconf/network.sh
+> @@ -6,6 +6,34 @@ echo "$INTERFACE" | grep -q wifi && exit 0
+> =C2=A0# udevd does clearenv(). Export shell PATH to children.
+> =C2=A0export PATH
+> =C2=A0
+> +# udev should only trigger ifupdown for interfaces marked as allow-hotpl=
+ug
+> +# and with util-linux that is as simple as adding --allow=3Dhotplug.
+> +# Busybox unfortunately doesn't have this option.
+> +# allow-hotplug is a pattern like eth0 /eth* /eth*/1 /eth*=3Deth.
+> +# This function checks if INTERFACE matches an allow-hotplug pattern.
+> +
+> +allow_hotplug() {
+> +=C2=A0=C2=A0=C2=A0 allow_hotplug=3D"$(sed -n -e 's/^allow-hotplug \+\([^=
+=3D ]*\).*/\1/p' /etc/network/interfaces)"
+> +=C2=A0=C2=A0=C2=A0 for pattern in $allow_hotplug; do
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 options=3D"$(echo $pattern | =
+sed -n -e 's,^/\?[^ /]\+/\(.*\),\1,p')"
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 value=3D"$(echo $pattern | se=
+d -n -e 's,^/\?\([^ /]\+\).*,\1,p')"
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 interfaces=3D"$(ls -d /sys/cl=
+ass/net/$value 2>/dev/null | xargs -r -n 1 basename)"
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ "$options" !=3D "" ]; th=
+en
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inter=
+faces=3D"$(echo $interfaces | awk -v n=3D$options '{print $n }')"
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo "$interfaces" | grep -w =
+-q "$INTERFACE"
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ $? -eq 0 ]; then
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
+n 0
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
+> +=C2=A0=C2=A0=C2=A0 done
+> +
+> +=C2=A0=C2=A0=C2=A0 return 1
+> +}
+> +
+> +if ! allow_hotplug; then
+> +=C2=A0=C2=A0=C2=A0 exit 0
+> +fi
+> +
+> =C2=A0# if this interface has an entry in /etc/network/interfaces, let if=
+updown
+> =C2=A0# handle it
+> =C2=A0if grep -q "iface \+$INTERFACE" /etc/network/interfaces; then
+>=20
+
+Firstly thanks for the patch, we should try and fix issues like this. I
+feel I should mention our code comes from a backdrop of resource
+constrained devices and the above code makes me cringe a bit due to the
+execution overhead of it.
+
+We've purposefully kept the code called from udev and in our
+initscripts relatively minimal/simple as the overhead of executing
+multiple programs does build up over time. Taking the above, we have
+loops, then pipelines, each of which runs more commands. Each command
+has a fork/exec overhead.
+
+Is there some way we can simplify this rather than all the shell
+pipelines and loops?
+
+Cheers,
+
+Richard
 
 
-Rewrite (again) the openssl test suite installation.
-
-Depend on and reuse already installed libraries and modules instead of
-installing them twice.
-
-Be more selective when installing from the build tree so we don't install
-intermediate .c .d .o files.
-
-This further reduces the size of openssl-dbg from ~120MB to ~18MB.
-
-(From OE-Core rev: 8baa0ce7eae65026cb3a784adaf3a4fc724ce9c9)
-
-Upstream-Status: Backport[https://git.yoctoproject.org/poky/commit/?id=76212866402edb947f745f837e3c3b98b3056e58]
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 76212866402edb947f745f837e3c3b98b3056e58)
-Signed-off-by: Vishwas Udupa <quic_vudupa@quicinc.com>
-
-Change-Id: Ifc0e3a019c2abe5142d0f1e359ae5aa33dae1608
----
- .../openssl/openssl/run-ptest                 | 19 ++++--
- .../openssl/openssl_3.2.4.bb                  | 67 +++++++++----------
- 2 files changed, 46 insertions(+), 40 deletions(-)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl/run-ptest b/meta/recipes-connectivity/openssl/openssl/run-ptest
-index c89ec5afa1..cd29bb1446 100644
---- a/meta/recipes-connectivity/openssl/openssl/run-ptest
-+++ b/meta/recipes-connectivity/openssl/openssl/run-ptest
-@@ -1,12 +1,19 @@
- #!/bin/sh
- 
--set -e
-+set -eu
- 
--# Optional arguments are 'list' to lists all tests, or the test name (base name
--# ie test_evp, not 03_test_evp.t).
-+# Optional arguments are 'list' to lists the tests, or the test name (base name
-+# ie test_evp, not 03_test_evp.t). Without any arguments we run all tests.
-+
-+if test $# -gt 0; then
-+    TESTS=$*
-+else
-+    # Skip test_symbol_presence as this is for developers
-+    TESTS="alltests -test_symbol_presence"
-+fi
- 
- export TOP=.
--# OPENSSL_ENGINES is relative from the test binaries
--export OPENSSL_ENGINES=../engines
-+# Run four jobs in parallel
-+export HARNESS_JOBS=4
- 
--{ HARNESS_JOBS=4 perl ./test/run_tests.pl $* || echo "FAIL: openssl" ; } | sed -u -r -e '/(.*) \.*.ok/ s/^/PASS: /g' -r -e '/Dubious(.*)/ s/^/FAIL: /g' -e '/(.*) \.*.skipped: (.*)/ s/^/SKIP: /g'
-+{ perl ./test/run_tests.pl $TESTS || echo "FAIL: openssl" ; } | sed -u -r -e '/(.*) \.*.ok/ s/^/PASS: /g' -r -e '/Dubious(.*)/ s/^/FAIL: /g' -e '/(.*) \.*.skipped: (.*)/ s/^/SKIP: /g'
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.4.bb b/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
-index bada192fe9..c4ad80e734 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
-@@ -186,44 +186,43 @@ do_install:append:class-nativesdk () {
- 
- PTEST_BUILD_HOST_FILES += "configdata.pm"
- PTEST_BUILD_HOST_PATTERN = "perl_version ="
--do_install_ptest () {
--	install -d ${D}${PTEST_PATH}/test
--	install -m755 ${B}/test/p_test.so ${D}${PTEST_PATH}/test
--	install -m755 ${B}/test/p_minimal.so ${D}${PTEST_PATH}/test
--	install -m755 ${B}/test/provider_internal_test.cnf ${D}${PTEST_PATH}/test
--
--	# Prune the build tree
--	rm -f ${B}/fuzz/*.* ${B}/test/*.*
--
--	cp ${S}/Configure ${B}/configdata.pm ${D}${PTEST_PATH}
--	sed 's|${S}|${PTEST_PATH}|g' -i ${D}${PTEST_PATH}/configdata.pm
--	cp -r ${S}/external ${B}/test ${S}/test ${B}/fuzz ${S}/util ${B}/util ${D}${PTEST_PATH}
--
--	# For test_shlibload
--	ln -s ${libdir}/libcrypto.so.1.1 ${D}${PTEST_PATH}/
--	ln -s ${libdir}/libssl.so.1.1 ${D}${PTEST_PATH}/
-+do_install_ptest() {
-+	install -m644 ${S}/Configure ${B}/configdata.pm ${D}${PTEST_PATH}
-+	cp -rf ${S}/Configurations ${S}/external ${D}${PTEST_PATH}/
- 
- 	install -d ${D}${PTEST_PATH}/apps
- 	ln -s ${bindir}/openssl ${D}${PTEST_PATH}/apps
--	install -m644 ${S}/apps/*.pem ${S}/apps/*.srl ${S}/apps/openssl.cnf ${D}${PTEST_PATH}/apps
--	install -m755 ${B}/apps/CA.pl ${D}${PTEST_PATH}/apps
--
--	install -d ${D}${PTEST_PATH}/engines
--	install -m755 ${B}/engines/dasync.so ${D}${PTEST_PATH}/engines
--	install -m755 ${B}/engines/loader_attic.so ${D}${PTEST_PATH}/engines
--	install -m755 ${B}/engines/ossltest.so ${D}${PTEST_PATH}/engines
--
--	install -d ${D}${PTEST_PATH}/providers
--	install -m755 ${B}/providers/legacy.so ${D}${PTEST_PATH}/providers
- 
--	install -d ${D}${PTEST_PATH}/Configurations
--	cp -rf ${S}/Configurations/* ${D}${PTEST_PATH}/Configurations/
-+	cd ${S}
-+	find test/certs test/ct test/d2i-tests test/recipes test/ocsp-tests test/ssl-tests test/smime-certs -type f -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
-+	find apps test -name \*.cnf -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
-+	find apps test -name \*.der -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
-+	find apps test -name \*.pem -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
-+	find util -name \*.p[lm] -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
-+
-+	cd ${B}
-+	# Everything but .? (.o and .d)
-+	find test -type f -name \*[^.]? -exec install -m755 -D {} ${D}${PTEST_PATH}/{} \;
-+	find apps test -name \*.cnf -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
-+	find apps test -name \*.pem -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
-+	find apps test -name \*.srl -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
-+	install -m755 ${B}/util/*wrap.* ${D}${PTEST_PATH}/util/
-+
-+	install -m755 ${B}/apps/CA.pl ${D}${PTEST_PATH}/apps/
-+	install -m755 ${S}/test/*.pl ${D}${PTEST_PATH}/test/
-+	install -m755 ${S}/test/shibboleth.pfx ${D}${PTEST_PATH}/test/
-+	install -m755 ${S}/test/*.bin ${D}${PTEST_PATH}/test/
-+	install -m755 ${S}/test/dane*.in ${D}${PTEST_PATH}/test/
-+	install -m755 ${S}/test/smcont*.txt ${D}${PTEST_PATH}/test/
-+	install -m755 ${S}/test/ssl_test.tmpl ${D}${PTEST_PATH}/test/
-+
-+	sed 's|${S}|${PTEST_PATH}|g' -i ${D}${PTEST_PATH}/configdata.pm ${D}${PTEST_PATH}/util/wrap.pl
- 
--	# seems to be needed with perl 5.32.1
--	install -d ${D}${PTEST_PATH}/util/perl/recipes
--	cp ${D}${PTEST_PATH}/test/recipes/tconversion.pl ${D}${PTEST_PATH}/util/perl/recipes/
--
--	sed 's|${S}|${PTEST_PATH}|g' -i ${D}${PTEST_PATH}/util/wrap.pl
-+	install -d ${D}${PTEST_PATH}/engines
-+	install -m755 ${B}/engines/dasync.so ${D}${PTEST_PATH}/engines/
-+	install -m755 ${B}/engines/ossltest.so ${D}${PTEST_PATH}/engines/
-+	ln -s ${libdir}/engines-3/loader_attic.so ${D}${PTEST_PATH}/engines/
-+	ln -s ${libdir}/ossl-modules/ ${D}${PTEST_PATH}/providers
- }
- 
- # Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
-@@ -250,7 +249,7 @@ CONFFILES:openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
- 
- RRECOMMENDS:libcrypto += "openssl-conf ${PN}-ossl-module-legacy"
- RDEPENDS:${PN}-misc = "perl"
--RDEPENDS:${PN}-ptest += "openssl-bin perl perl-modules bash sed"
-+RDEPENDS:${PN}-ptest += "openssl-bin perl perl-modules bash sed openssl-engines openssl-ossl-module-legacy"
- 
- RDEPENDS:${PN}-bin += "openssl-conf"
- 
--- 
-2.25.1
 
 
