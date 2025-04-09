@@ -1,312 +1,188 @@
-Return-Path: <philip@balister.org>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF206C36002
-	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 10:59:12 +0000 (UTC)
-Received: from outbound10.mail.transip.nl (outbound10.mail.transip.nl [136.144.136.17])
- by mx.groups.io with SMTP id smtpd.web10.4052.1744189714204551742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F32A0C369A2
+	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 11:06:12 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.5721.1744196769587394120
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Apr 2025 02:08:35 -0700
+ Wed, 09 Apr 2025 04:06:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@myspectrum.nl header.s=transip-a header.b=NH7PK6ux;
- spf=pass (domain: myspectrum.nl, ip: 136.144.136.17, mailfrom: jeroen@myspectrum.nl)
-Received: from submission11.mail.transip.nl (unknown [10.103.8.162])
-	by outbound10.mail.transip.nl (Postfix) with ESMTP id 4ZXcYq3vLDzTPXQL;
-	Wed,  9 Apr 2025 11:08:31 +0200 (CEST)
-Received: from yellow.myspectrum.nl (unknown [IPv6:2a01:7c8:bb0c:45:5054:ff:fe01:854])
-	by submission11.mail.transip.nl (Postfix) with ESMTPSA id 4ZXcYp2w9Cz2pRDyC;
-	Wed,  9 Apr 2025 11:08:30 +0200 (CEST)
-Received: from [192.168.178.63] (84-27-20-154.cable.dynamic.v4.ziggo.nl [84.27.20.154])
-	(Authenticated sender: jeroen@myspectrum.nl)
-	by yellow.myspectrum.nl (Postfix) with ESMTPSA id 0152C20079;
-	Wed,  9 Apr 2025 09:08:28 +0000 (UTC)
-Authentication-Results: yellow.myspectrum.nl;
-	auth=pass smtp.auth=jeroen@myspectrum.nl smtp.mailfrom=jeroen@myspectrum.nl
-Message-ID: <ecc77fe1-4e85-407c-aa6e-e4b8dcb6e96b@myspectrum.nl>
-Date: Wed, 9 Apr 2025 11:08:28 +0200
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=61940db935=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5395U3Bt015764
+	for <openembedded-core@lists.openembedded.org>; Wed, 9 Apr 2025 11:06:08 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45tug8naqb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 11:06:08 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 9 Apr 2025 04:05:50 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][master][scarthgap][PATCH 1/1] xserver-xorg: fix CVE-2022-49737
+Date: Wed, 9 Apr 2025 11:05:24 +0000
+Message-ID: <20250409110524.1428878-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] udev-extraconf: fix ifupdown for non hotplug devices
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Cc: Jeroen Hofstee <jhofstee@victronenergy.com>
-References: <20250407174904.1191173-1-jeroen@myspectrum.nl>
- <a0573ce7a2fe28ee7ec138194177c09dbc53283a.camel@linuxfoundation.org>
-From: Jeroen Hofstee <jeroen@myspectrum.nl>
-In-Reply-To: <a0573ce7a2fe28ee7ec138194177c09dbc53283a.camel@linuxfoundation.org>
-X-Scanned-By: ClueGetter at submission11.mail.transip.nl
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=transip-a; d=myspectrum.nl; t=1744189710; h=from:subject:to:cc:
- references:in-reply-to:date:mime-version:content-type;
- bh=KQ00LmifM+zhFYf1nZ1qXoBhf/iU5N0a+0nWPLHX8HY=;
- b=NH7PK6uxM1DCL4xlpYzIAUoOyMtHSXhasZwEM1JqeA2j2LwJNrnIN17TzQQVI9T9iLxd5Z
- 6Ogf17Vg4hLgwhZnzQwEuoT3etRsjTmJ7Km+mFK5YdrgyP6Zyb3eIT1X98kXzZMJrf0fkN
- pwzZ3lwZUrYwUHdKTSnPr/GH/nQ5bP2Q3OAx0S4lMtdaJKvKPIGTITBn9LXDA0KiHtDtos
- Y9DQY8+I15W+C6O9Z8T4b8C8u3Z736FiJB5uRdXyrpcVRkDHEXJGWI3Qwesdxwa6NYPh0t
- WzL29bsW0B3YwldkaCrCukIKsD08bEwZOtt3o/Auh+MLQq27r6z+GJTqd2pjfQ==
-X-Report-Abuse-To: abuse@transip.nl
-Content-Type: multipart/alternative;
- boundary="------------3MWrqKWSh2mCjAEf7nM1Dybz"
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: p9eGcNTj_ehCUjoRVGJVadG6T4Lmq_9j
+X-Authority-Analysis: v=2.4 cv=YJefyQGx c=1 sm=1 tr=0 ts=67f654a0 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=mESMM_0JuHYA:10 a=HCiNrPZc1L8A:10 a=XR8D0OoHHMoA:10 a=PYnjg3YJAAAA:8 a=e5mUnYsNAAAA:8 a=t7CeM3EgAAAA:8
+ a=aR16PxjQAAAA:8 a=pGLkceISAAAA:8 a=isKO8siKdrtMZkWASFIA:9 a=Vxmtnl_E_bksehYqCbjh:22 a=FdTzh2GWekK77mhwV6Dw:22 a=zbFvvTOBjyH4ze5LlUjX:22
+X-Proofpoint-ORIG-GUID: p9eGcNTj_ehCUjoRVGJVadG6T4Lmq_9j
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-09_04,2025-04-08_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 bulkscore=0 mlxlogscore=999 adultscore=0 lowpriorityscore=0
+ mlxscore=0 clxscore=1015 impostorscore=0 phishscore=0 spamscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504090064
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 10:59:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214586
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 11:06:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214587
 
---------------3MWrqKWSh2mCjAEf7nM1Dybz
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+From: Yogita Urade <yogita.urade@windriver.com>
 
-Hello Richard,
+In X.Org X server 20.11 through 21.1.16, when a client application
+uses easystroke for mouse gestures, the main thread modifies various
+data structures used by the input thread without acquiring a lock,
+aka a race condition. In particular, AttachDevice in dix/devices.c
+does not acquire an input lock.
 
-On 4/9/25 10:37, Richard Purdie wrote:
-> On Mon, 2025-04-07 at 19:49 +0200, Jeroen Hofstee via lists.openembedde=
-d.org wrote:
->> From: Jeroen Hofstee<jhofstee@victronenergy.com>
->>
->> Commit 160f713917 (udev-extraconf: fix network.sh script did not
->> configure hotplugged interfaces, 2024-10-18) fixed ifupdown for
->> hotplug devices, but also calls it for non hotplug devices. That
->> can cause issue, since they might not expect the ifupdown from
->> udev, since it wasn't called before mentioned patch got merged.
->>
->> For util-linux this can simply be fixed by adding --allow=3Dhotplug.
->> Unfortunately busybox doesn't have that option, so a function is
->> added to check if the device is marked as allow-hotplug.
->>
->> Since wilcards are supported adding 'allow-hotplug *' allows to
->> restore behaviour of mentioned patch, while this restores the
->> original behaviour.
->>
->> Signed-off-by: Jeroen Hofstee<jhofstee@victronenergy.com>
->> ---
->>  =C2=A0.../udev/udev-extraconf/network.sh=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 28 +++++++++++++++++++
->>  =C2=A01 file changed, 28 insertions(+)
->>
->> diff --git a/meta/recipes-core/udev/udev-extraconf/network.sh b/meta/r=
-ecipes-core/udev/udev-extraconf/network.sh
->> index 500e60ae61..da79f00d5a 100644
->> --- a/meta/recipes-core/udev/udev-extraconf/network.sh
->> +++ b/meta/recipes-core/udev/udev-extraconf/network.sh
->> @@ -6,6 +6,34 @@ echo "$INTERFACE" | grep -q wifi && exit 0
->>  =C2=A0# udevd does clearenv(). Export shell PATH to children.
->>  =C2=A0export PATH
->>  =20
->> +# udev should only trigger ifupdown for interfaces marked as allow-ho=
-tplug
->> +# and with util-linux that is as simple as adding --allow=3Dhotplug.
->> +# Busybox unfortunately doesn't have this option.
->> +# allow-hotplug is a pattern like eth0 /eth* /eth*/1 /eth*=3Deth.
->> +# This function checks if INTERFACE matches an allow-hotplug pattern.
->> +
->> +allow_hotplug() {
->> +=C2=A0=C2=A0=C2=A0 allow_hotplug=3D"$(sed -n -e 's/^allow-hotplug \+\=
-([^=3D ]*\).*/\1/p' /etc/network/interfaces)"
->> +=C2=A0=C2=A0=C2=A0 for pattern in $allow_hotplug; do
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 options=3D"$(echo $pattern=
- | sed -n -e 's,^/\?[^ /]\+/\(.*\),\1,p')"
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 value=3D"$(echo $pattern |=
- sed -n -e 's,^/\?\([^ /]\+\).*,\1,p')"
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 interfaces=3D"$(ls -d /sys=
-/class/net/$value 2>/dev/null | xargs -r -n 1 basename)"
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ "$options" !=3D "" ];=
- then
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 in=
-terfaces=3D"$(echo $interfaces | awk -v n=3D$options '{print $n }')"
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo "$interfaces" | grep =
--w -q "$INTERFACE"
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ $? -eq 0 ]; then
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
-turn 0
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
->> +=C2=A0=C2=A0=C2=A0 done
->> +
->> +=C2=A0=C2=A0=C2=A0 return 1
->> +}
->> +
->> +if ! allow_hotplug; then
->> +=C2=A0=C2=A0=C2=A0 exit 0
->> +fi
->> +
->>  =C2=A0# if this interface has an entry in /etc/network/interfaces, le=
-t ifupdown
->>  =C2=A0# handle it
->>  =C2=A0if grep -q "iface \+$INTERFACE" /etc/network/interfaces; then
->>
-> Firstly thanks for the patch, we should try and fix issues like this. I
-> feel I should mention our code comes from a backdrop of resource
-> constrained devices and the above code makes me cringe a bit due to the
-> execution overhead of it.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2022-49737
 
-We are still supporting omap3 / 600MHz, so I understand that. Typically
-there isn't an allow-hotplug entry in /etc/network/interfaces, so it is=20
-just running a sed over /etc/network/interfaces which is commonly rather=20
-small. The loop is only executed if you have allow-hotplug entries.
-> We've purposefully kept the code called from udev and in our
-> initscripts relatively minimal/simple as the overhead of executing
-> multiple programs does build up over time. Taking the above, we have
-> loops, then pipelines, each of which runs more commands. Each command
-> has a fork/exec overhead.
->
-> Is there some way we can simplify this rather than all the shell
-> pipelines and loops?
+Upstream patch:
+https://gitlab.freedesktop.org/xorg/xserver/-/commit/dc7cb45482cea6ccec22d117ca0b489500b4d0a0
 
-The simplest solution is to patch busybox to respect --allow=3Dhotplug I=20
-guess. With kind regards, Jeroen
-
-
---------------3MWrqKWSh2mCjAEf7nM1Dybz
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p>Hello Richard,<br>
-    </p>
-    <div class=3D"moz-cite-prefix">On 4/9/25 10:37, Richard Purdie wrote:=
-<br>
-    </div>
-    <blockquote type=3D"cite"
-cite=3D"mid:a0573ce7a2fe28ee7ec138194177c09dbc53283a.camel@linuxfoundatio=
-n.org">
-      <pre wrap=3D"" class=3D"moz-quote-pre">On Mon, 2025-04-07 at 19:49 =
-+0200, Jeroen Hofstee via lists.openembedded.org wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre wrap=3D"" class=3D"moz-quote-pre">From: Jeroen Hofstee <a cl=
-ass=3D"moz-txt-link-rfc2396E" href=3D"mailto:jhofstee@victronenergy.com">=
-&lt;jhofstee@victronenergy.com&gt;</a>
-
-Commit 160f713917 (udev-extraconf: fix network.sh script did not
-configure hotplugged interfaces, 2024-10-18) fixed ifupdown for
-hotplug devices, but also calls it for non hotplug devices. That
-can cause issue, since they might not expect the ifupdown from
-udev, since it wasn't called before mentioned patch got merged.
-
-For util-linux this can simply be fixed by adding --allow=3Dhotplug.
-Unfortunately busybox doesn't have that option, so a function is
-added to check if the device is marked as allow-hotplug.
-
-Since wilcards are supported adding 'allow-hotplug *' allows to
-restore behaviour of mentioned patch, while this restores the
-original behaviour.
-
-Signed-off-by: Jeroen Hofstee <a class=3D"moz-txt-link-rfc2396E" href=3D"=
-mailto:jhofstee@victronenergy.com">&lt;jhofstee@victronenergy.com&gt;</a>
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 ---
-=C2=A0.../udev/udev-extraconf/network.sh=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 28 +++++++++++++++++++
-=C2=A01 file changed, 28 insertions(+)
+ .../xserver-xorg/CVE-2022-49737.patch         | 90 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.16.bb      |  1 +
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch
 
-diff --git a/meta/recipes-core/udev/udev-extraconf/network.sh b/meta/reci=
-pes-core/udev/udev-extraconf/network.sh
-index 500e60ae61..da79f00d5a 100644
---- a/meta/recipes-core/udev/udev-extraconf/network.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/network.sh
-@@ -6,6 +6,34 @@ echo "$INTERFACE" | grep -q wifi &amp;&amp; exit 0
-=C2=A0# udevd does clearenv(). Export shell PATH to children.
-=C2=A0export PATH
-=C2=A0
-+# udev should only trigger ifupdown for interfaces marked as allow-hotpl=
-ug
-+# and with util-linux that is as simple as adding --allow=3Dhotplug.
-+# Busybox unfortunately doesn't have this option.
-+# allow-hotplug is a pattern like eth0 /eth* /eth*/1 /eth*=3Deth.
-+# This function checks if INTERFACE matches an allow-hotplug pattern.
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch
+new file mode 100644
+index 0000000000..765625d333
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-49737.patch
+@@ -0,0 +1,90 @@
++From dc7cb45482cea6ccec22d117ca0b489500b4d0a0 Mon Sep 17 00:00:00 2001
++From: tholin <thomas.lindroth@gmail.com>
++Date: Tue, 4 Jan 2022 12:08:11 +0000
++Subject: [PATCH] dix: Hold input lock for AttachDevice()
 +
-+allow_hotplug() {
-+=C2=A0=C2=A0=C2=A0 allow_hotplug=3D"$(sed -n -e 's/^allow-hotplug \+\([^=
-=3D ]*\).*/\1/p' /etc/network/interfaces)"
-+=C2=A0=C2=A0=C2=A0 for pattern in $allow_hotplug; do
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 options=3D"$(echo $pattern | =
-sed -n -e 's,^/\?[^ /]\+/\(.*\),\1,p')"
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 value=3D"$(echo $pattern | se=
-d -n -e 's,^/\?\([^ /]\+\).*,\1,p')"
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 interfaces=3D"$(ls -d /sys/cl=
-ass/net/$value 2&gt;/dev/null | xargs -r -n 1 basename)"
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ "$options" !=3D "" ]; th=
-en
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inter=
-faces=3D"$(echo $interfaces | awk -v n=3D$options '{print $n }')"
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo "$interfaces" | grep -w =
--q "$INTERFACE"
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ $? -eq 0 ]; then
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
-n 0
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
-+=C2=A0=C2=A0=C2=A0 done
++Fix the following race:
 +
-+=C2=A0=C2=A0=C2=A0 return 1
-+}
++Possible data race during read of size 8 at 0xA112510 by thread #6
++Locks held: 1, at address 0x366B40
++   at 0x14C8B9: GetMaster (devices.c:2691)
++   by 0x15CFC5: IsFloating (events.c:346)
++   by 0x2B9554: miPointerGetScreen (mipointer.c:527)
++   by 0x1A5136: xf86PostButtonEventM (xf86Xinput.c:1379)
++   by 0x1A52BD: xf86PostButtonEvent (xf86Xinput.c:1345)
++   by 0x485F45B: EvdevProcessEvent (in /usr/lib64/xorg/modules/input/evdev_drv.so)
++   by 0x485FDAC: EvdevReadInput (in /usr/lib64/xorg/modules/input/evdev_drv.so)
++   by 0x195427: xf86ReadInput (xf86Events.c:247)
++   by 0x2CC113: InputReady (inputthread.c:180)
++   by 0x2CE4EA: ospoll_wait (ospoll.c:657)
++   by 0x2CC077: InputThreadDoWork (inputthread.c:369)
++   by 0x484A336: mythread_wrapper (hg_intercepts.c:406)
 +
-+if ! allow_hotplug; then
-+=C2=A0=C2=A0=C2=A0 exit 0
-+fi
++This conflicts with a previous write of size 8 by thread #1
++Locks held: none
++   at 0x14D2C6: AttachDevice (devices.c:2609)
++   by 0x15CF85: ReattachToOldMaster (events.c:1457)
++   by 0x1647DD: DeactivateKeyboardGrab (events.c:1700)
++   by 0x25D7F1: ProcXIUngrabDevice (xigrabdev.c:169)
++   by 0x2552AD: ProcIDispatch (extinit.c:398)
++   by 0x155291: Dispatch (dispatch.c:479)
++   by 0x158CBA: dix_main (main.c:276)
++   by 0x143A3D: main (stubmain.c:34)
++ Address 0xa112510 is 336 bytes inside a block of size 904 alloc'd
++   at 0x4846571: calloc (vg_replace_malloc.c:1328)
++   by 0x14A0B3: AddInputDevice (devices.c:260)
++   by 0x1A31A0: xf86ActivateDevice (xf86Xinput.c:365)
++   by 0x1A4549: xf86NewInputDevice (xf86Xinput.c:948)
++   by 0x1A4B44: NewInputDeviceRequest (xf86Xinput.c:1090)
++   by 0x1B81FE: device_added (udev.c:282)
++   by 0x1B8516: config_udev_init (udev.c:439)
++   by 0x1B7091: config_init (config.c:50)
++   by 0x197970: InitInput (xf86Init.c:814)
++   by 0x158C6B: dix_main (main.c:250)
++   by 0x143A3D: main (stubmain.c:34)
++ Block was alloc'd by thread #1
 +
-=C2=A0# if this interface has an entry in /etc/network/interfaces, let if=
-updown
-=C2=A0# handle it
-=C2=A0if grep -q "iface \+$INTERFACE" /etc/network/interfaces; then
++The steps to trigger the race are:
++1. Main thread does cleanup at mipointer.c:360 setting the slave device's
++   miPointerPtr to null.
++2. Input thread use MIPOINTER in mipointer.c and get the slave's
++   miPointerPtr = null.
++3. Main thread updates dev->master at devices.c:2609.
++4. MIPOINTER would now return the master's miPointerPtr but the input
++   thread already got the slave's miPointerPtr in step 2 and segfaults by
++   null ptr deref.
++
++Closes: #1260
++Signed-off-by: Thomas Lindroth <thomas.lindroth@gmail.com>
++
++CVE: CVE-2022-49737
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/dc7cb45482cea6ccec22d117ca0b489500b4d0a0]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ dix/devices.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/dix/devices.c b/dix/devices.c
++index 77bac49..5f6d32e 100644
++--- a/dix/devices.c
+++++ b/dix/devices.c
++@@ -2672,6 +2672,8 @@ AttachDevice(ClientPtr client, DeviceIntPtr dev, DeviceIntPtr master)
++     if (IsFloating(dev) && !master && dev->enabled)
++         return Success;
++
+++    input_lock();
+++
++     /* free the existing sprite. */
++     if (IsFloating(dev) && dev->spriteInfo->paired == dev) {
++         screen = miPointerGetScreen(dev);
++@@ -2715,6 +2717,7 @@ AttachDevice(ClientPtr client, DeviceIntPtr dev, DeviceIntPtr master)
++         RecalculateMasterButtons(master);
++     }
++
+++    input_unlock();
++     /* XXX: in theory, the MD should change back to its old, original
++      * classes when the last SD is detached. Thanks to the XTEST devices,
++      * we'll always have an SD attached until the MD is removed.
++--
++2.40.0
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
+index 38c81f2372..d7ed16c8ec 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
+@@ -2,6 +2,7 @@ require xserver-xorg.inc
+ 
+ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
++           file://CVE-2022-49737.patch \
+            "
+ SRC_URI[sha256sum] = "b14a116d2d805debc5b5b2aac505a279e69b217dae2fae2dfcb62400471a9970"
+ 
+-- 
+2.40.0
 
-</pre>
-      </blockquote>
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-Firstly thanks for the patch, we should try and fix issues like this. I
-feel I should mention our code comes from a backdrop of resource
-constrained devices and the above code makes me cringe a bit due to the
-execution overhead of it.
-</pre>
-    </blockquote>
-    <br>
-    We are still supporting omap3 / 600MHz, so I understand that.
-    Typically<br>
-    there isn't an <span style=3D"white-space: pre-wrap">allow-hotplug en=
-try in </span><span
-    style=3D"white-space: pre-wrap">/etc/network/interfaces, so it is jus=
-t
-running a sed over </span><span style=3D"white-space: pre-wrap">/etc/netw=
-ork/interfaces which is commonly rather
-small.
-
-The loop is only executed if you have </span><span
-    style=3D"white-space: pre-wrap">allow-hotplug entries.</span><span
-    style=3D"white-space: pre-wrap">
-
-
-</span>
-    <blockquote type=3D"cite"
-cite=3D"mid:a0573ce7a2fe28ee7ec138194177c09dbc53283a.camel@linuxfoundatio=
-n.org">
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-We've purposefully kept the code called from udev and in our
-initscripts relatively minimal/simple as the overhead of executing
-multiple programs does build up over time. Taking the above, we have
-loops, then pipelines, each of which runs more commands. Each command
-has a fork/exec overhead.
-
-Is there some way we can simplify this rather than all the shell
-pipelines and loops?
-</pre>
-    </blockquote>
-    <p>The simplest solution is to patch busybox to respect=C2=A0 <span
-      style=3D"white-space: pre-wrap">--allow=3Dhotplug I guess.
-
-With kind regards,
-Jeroen
-</span></p>
-    <br>
-  </body>
-</html>
-
---------------3MWrqKWSh2mCjAEf7nM1Dybz--
 
