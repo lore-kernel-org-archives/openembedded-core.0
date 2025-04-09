@@ -1,260 +1,126 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F9AC36002
-	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 14:30:03 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web11.10054.1744209000266787556
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0720EC36002
+	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 14:46:14 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.10400.1744209966783810411
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Apr 2025 07:30:00 -0700
+ Wed, 09 Apr 2025 07:46:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=geSBStUO;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 325BD44380;
-	Wed,  9 Apr 2025 14:29:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744208998;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oABtnEzuDCYNOM10ARvDIJn8169RaXy5+/EE4dgm7Ks=;
-	b=geSBStUO8U/f2tm6uFjZJEz6Mlutqh8Qr8spwcFjebTihUZWq7GuagomEPAkybbOYw5wg0
-	vflJZMucaMZC0AFet3UI9o2t53xHA1hyOmw9gTDFENbYyl/bgo6SgI2iZkklI9PwHwRk08
-	3sqEvKzq+mQuNvV2hrcoO0y4iItYKmIF8yZlMvfZVPoidedge2a3Mlz7u8lv9POWx1sHfU
-	myTynFeFqFJrcuMwyzi+yxzKRdkYazAfZ8FoR6xFqKFc0IEPsHUL2559Xx7J/87A3KD8Cc
-	YMNU0D+uGL4PLtjLUheIgtr6UXXEhrYbILq9ZclUOHxGwWJpwxf8/c454hCTUA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 09 Apr 2025 16:29:57 +0200
-Message-Id: <D926HJUGOVD7.WS65R1LTLOYT@bootlin.com>
-Subject: Re: [OE-core] [PATCH] wic: do not ignore ROOTFS_SIZE if the rootfs
- is modified
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <twoerner@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250408205709.7013-1-twoerner@gmail.com>
-In-Reply-To: <20250408205709.7013-1-twoerner@gmail.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdeivdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevvddvhfehgeetgfehteejuedvieevfeehhfeikeehfedvjeelleetjeeigfetieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepthifohgvrhhnvghrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepohhpvghnvghms
- ggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=@linaro.org header.s=google header.b=cjouv9AN;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54b10956398so1016709e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 07:46:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744209965; x=1744814765; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=B7JVlFMc7FvOhU+hstLkqJQ3rNNHVw5es5KX2nXj6mU=;
+        b=cjouv9ANULu8vRweabXuaYWBWFdqOo9PDdh+z22WNv62VusfHzN+mtYQJ5jliOEPiL
+         0xThVpzP7a4fJENnNSIRX1OZih1Gz7xl6BZMv2gKOwaraEyY7rUuAbBbQiNypt5pka9V
+         atYXpzAu+gsjl2ZtkHO+5JDF0c1B9AtR2x9tbsySS9gIuEhNYsQTLakzY3g7wtAOQu6N
+         Z8U3DRGDTQdOZHznmlEu3FAqRUGDec4jDIAJlmF7K7lqccRWcsp6URbgHav1Z+c/gK+B
+         5TPdJLXixqRifvEFjz8pd1C2+S7bAJWAzNPjceH/4rDye+I08t7E78q0Zl6AHWU7ZTfs
+         qwSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744209965; x=1744814765;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=B7JVlFMc7FvOhU+hstLkqJQ3rNNHVw5es5KX2nXj6mU=;
+        b=jX2m3gdPbrE9oZCAqsi7SdecplP0BJNAfSVyVebniFMQfrURDtgYNp2BENDHMndnsY
+         kkSAgR3Nno+/cn0zCM0wl6Cn6Tavuya+b02JWJ0pJeAHlrILgNLNuRVuwDPiDO5kdh6q
+         HR/Mb1Z1BwEbKtahkVbk2HQgKQIzgfplOpsZwITBeTeCFLyAHkYo0YY2a1SEZk9UJn0I
+         PTBEntZ6b6Bz2m29WrKHEJo2LwLWFH+awVDRWCUZLDhrTUT4lmwMbg0OnXoeXkI5KwyM
+         z2YjOjzRHU7GcRksyyQGm3bdQh9NXW/nhxcYYfiSMwxMdecoaFvLoPsRvL6yvi3tDnUG
+         oGwg==
+X-Gm-Message-State: AOJu0YyEBqnE8fzghfrIJkm0k5D2nsW8/9WOuv2Q0EcJB9SgH/uz3HLj
+	/ErxyBtODLZKcMHUQJXG5pbWk2fSIU8y2TvYttp0glKsz+C6esu0moyY59wkIGWxpOwvhOtaYsH
+	NB48=
+X-Gm-Gg: ASbGnctoRyQUFfVClRRyoEF19MzYeosC07k86/OF7qMJSphKY678XOJZOlIW+LUPAit
+	iPwMiLqX4qJBO2GqpgY+9Md4eaRNDmEHwnC+hHOb+91Vz0oyM1tkbjDUsHsaBJN283AGBCcXvh6
+	T73oCN70Sgx/R1hllHJqMSCnUafqi6BtO9qQqM59V/ZVBmfprEADNCL8yLGQ2CAWoHDJAsI9OHx
+	/0m0lP6qyMeLxiMnFsTp+oS+KFm9FOS0i/N2XsFJki7m1j8/SKG1nYS2Enm+zm2MTPJiVgaJVKD
+	/yNFxrfOMbwNrX2xaxg4OjQbWoKKqcfGnfmwftbpXhhYTISIbC1sOHDATbYzzZR9GfoJnRQBJdi
+	eiapxjPULeT5dqQLadw==
+X-Google-Smtp-Source: AGHT+IFqdd/KvwhwXU6Qoh63QeXkulVwnOQ87P+ufViKp0BsdoVzZ9L4ep0cgfy6Z4BhpRFiKQjUCA==
+X-Received: by 2002:ac2:5e39:0:b0:549:8b4d:bd47 with SMTP id 2adb3069b0e04-54c3bb90a41mr2305844e87.9.1744209964869;
+        Wed, 09 Apr 2025 07:46:04 -0700 (PDT)
+Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f464cd9c9sm1940971fa.42.2025.04.09.07.46.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 07:46:04 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Bill Mills <bill.mills@linaro.org>,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v4] uki.bbclass: drop serial console from kernel command line
+Date: Wed,  9 Apr 2025 17:45:46 +0300
+Message-ID: <20250409144546.249367-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 14:30:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214592
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 14:46:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214593
 
-On Tue Apr 8, 2025 at 10:57 PM CEST, Trevor Woerner via lists.openembedded.=
-org wrote:
-> If the *.wks file contains a "--source rootfs" then
-> lib/wic/plugins/source/rootfs.py will be invoked to generate (what is ass=
-umed
-> to be) the rootfs partition. If the rootfs partition needs to be tweaked =
-or
-> modified, the "rootfs.py" plugin will make a copy of the filesystem and t=
-hen
-> perform the changes on that copy. In other words, if the "--source rootfs=
-"
-> line of the *.wks file also contains any of:
->
-> 	--exclude-path
-> 	--include-path
-> 	--change-directory
-> 	--use-label (i.e. modify etc/fstab)
->
-> then the rootfs will be copied first, then the copy is modified.
->
-> If, for example, the unmodified IMAGE_ROOTFS is:
->
-> 	.../tmp/work/qemuarm64_secureboot-oe-linux/core-image-base/1.0/rootfs
->
-> then the copy would be made at:
->
-> 	.../tmp/work/qemuarm64_secureboot-oe-linux/core-image-base/1.0/tmp-wic/r=
-ootfs${LINENO}
->
-> where ${LINENO} is the line number where this "--source rootfs" line appe=
-ars
-> in the *wks file.
->
-> When it comes time to make an actual partition of a specific filesystem t=
-ype,
-> lib/wic/partition.py::prepare_rootfs() is called. It is in this function =
-that
-> wic figures out if any extra size needs to be added. The bitbake variable=
- used
-> to specify the ultimate rootfs size is ROOTFS_SIZE, and since this variab=
-le is
-> only valid for the rootfs (and not any other partitions), the code also
-> verifies that the partition being created is ${IMAGE_ROOTFS}:
->
-> 	rsize_bb =3D get_bitbake_var('ROOTFS_SIZE')
-> 	rdir =3D get_bitbake_var('IMAGE_ROOTFS')
-> 	if rsize_bb and rdir =3D=3D rootfs_dir:
-> 		<use rsize_bb>
-> 	else:
-> 		<calculate the partition size using "du -ks $p">
->
-> As noted above, if lib/wic/plugins/source/rootfs.py has made a copy, then=
- the
-> "rdir =3D=3D rootfs_dir" clause will fail and the code will assume this p=
-artition
-> is not a rootfs since the strings do not compare equal.
->
-> Therefore, in order to determine if this is a rootfs, retain the existing
-> "rdir =3D=3D rootfs_dir" comparison, but also add another one to check wh=
-ether or
-> not this is a wic-generated copy of the rootfs.
->
-> STEPS TO REPRODUCE:
-> 	- start with the following *wks file:
-> 		bootloader --ptable gpt
-> 		part /boot --ondisk=3Dvda --align 64 --size=3D100M --active --source bo=
-otimg-partition --fstype=3Dext4 --label boot --sourceparams=3D"loader=3Du-b=
-oot"
-> 		part /     --ondisk=3Dvda                                 --source root=
-fs            --fstype=3Dext4 --label root
-> 	- and the following extra variable in conf/local.conf:
-> 		IMAGE_ROOTFS_EXTRA_SPACE =3D "500000"
-> 	- build an image
-> 	- run it in qemu
-> 		$ runqemu slirp nographic serial
-> 	- verify the root partition has extra space:
-> 		root@qemuarm64-secureboot:~# df -h
-> 		Filesystem                Size      Used Available Use% Mounted on
-> 		/dev/root               721.5M     67.4M    600.6M  10% /
-> 		devtmpfs                477.7M         0    477.7M   0% /dev
-> 		tmpfs                    40.0K         0     40.0K   0% /mnt
-> 		tmpfs                   489.3M     92.0K    489.2M   0% /run
-> 		tmpfs                   489.3M     68.0K    489.2M   0% /var/volatile
-> 		/dev/vda1               120.4M     19.9M     91.4M  18% /boot
-> 	- modify the "/" line of the *wks file to be:
-> 		part /     --ondisk=3Dvda --exclude-path boot/            --source root=
-fs            --fstype=3Dext4 --label root
-> 	- build image
->
-> 	when it fails:
-> 		root@qemuarm64-secureboot:~# df -h
-> 		Filesystem                Size      Used Available Use% Mounted on
-> 		/dev/root                73.4M     41.9M     25.8M  62% /
-> 		devtmpfs                477.7M         0    477.7M   0% /dev
-> 		tmpfs                    40.0K         0     40.0K   0% /mnt
-> 		tmpfs                   489.3M     92.0K    489.2M   0% /run
-> 		tmpfs                   489.3M     68.0K    489.2M   0% /var/volatile
-> 		/dev/vda1               120.4M     19.9M     91.4M  18% /boot
->
-> 	after this fix:
-> 		root@qemuarm64-secureboot:~# df -h
-> 		Filesystem                Size      Used Available Use% Mounted on
-> 		/dev/root               721.5M     47.4M    620.6M   7% /
-> 		devtmpfs                477.7M         0    477.7M   0% /dev
-> 		tmpfs                    40.0K         0     40.0K   0% /mnt
-> 		tmpfs                   489.3M     92.0K    489.2M   0% /run
-> 		tmpfs                   489.3M     68.0K    489.2M   0% /var/volatile
-> 		/dev/vda1               120.4M     19.9M     91.4M  18% /boot
->
-> Doing the math we see that the /boot partition is ~20MB and in the first =
-image
-> the / partition contains this ~20MB in addition to the rest of the rootfs=
-.
-> This ~20MB is completely wasted since it is used in the / partition, but =
-then
-> the /boot partition is mounted on top of it, making the /boot directory o=
-f /
-> inaccessible. After the fix the / partition has an additional ~20MB since=
- the
-> /boot portion is excluded.
->
-> Fixes [YOCTO #15555]
->
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> ---
+The kernel will continue using console from firmware which is
+much better on HW when we may not know at build time which
+console HW and drivers are available, e.g. like on
+genericarm64 machine.
 
-Hi Trevor,
+On AMD KV260, genericarm64 uki boot is currently not working.
+Target shows only the EFI stub messages but both kernel
+boot messages and agetty prompt are missing:
 
-Thanks for your patch.
+EFI stub: Booting Linux Kernel...
+EFI stub: Loaded initrd from LINUX_EFI_INITRD_MEDIA_GUID device path
+EFI stub: Measured initrd data into PCR 9
+EFI stub: WARNING: Failed to obtain seed from EFI_RNG_PROTOCOL or EFI variable
+EFI stub: Using DTB from configuration table
+EFI stub: Exiting boot services...
 
-I do have some build issue on the autobuilder:
+With this patch applied, both kernel and agetty start
+and serial console login is possible.
 
-2025-04-09 11:14:21,897 - oe-selftest - INFO - wic.Wic.test_exclude_path_wi=
-th_extra_space (subunit.RemotedTestCase)
-2025-04-09 11:14:21,898 - oe-selftest - INFO -  ... FAIL
-...
-[Wed Apr  9 11:01:08 2025] (1309377/1309395): 192.168.7.4:53040 UA:elfutils=
-/0.192,Linux/x86_64,/ XFF: GET /buildid/da3aea1c8160034e1b0961a7f2b5ce5c5a9=
-5553b/debuginfo 200 237848 0+9ms
-ERROR: When reparsing /tmp/selftest-fetchw3a6djws/test.bb:do_checkuri, the =
-basehash value changed from 84b9e23a83a764e7a5d8a96ee523199e2b1c604f4280a45=
-030e248de0ff52962 to 4123da244f465feffecb2b4fd2b132b64851981ec2fb70bf9445df=
-8b0ea6a69e. The metadata is not deterministic and this needs to be fixed.
-ERROR: The following commands may help:
-ERROR: $ bitbake test -cdo_checkuri -Snone
-ERROR: Then:
-ERROR: $ bitbake test -cdo_checkuri -Sprintdiff
+This change has no impact to qemu machine boot wich
+shows kernel boot messages and starts agetty correctly.
 
-ERROR: When reparsing /tmp/selftest-fetchw3a6djws/test.bb:do_fetch, the bas=
-ehash value changed from 6d55d6743729b615749dc016857d7e5f9c884a8b92f0d57f68=
-e743f4910333d3 to fa7d6ea0563b60362418d2a6c5e41a6684183d01ec578b65abd0c64a9=
-cfba7cf. The metadata is not deterministic and this needs to be fixed.
-ERROR: The following commands may help:
-ERROR: $ bitbake test -cdo_fetch -Snone
-ERROR: Then:
-ERROR: $ bitbake test -cdo_fetch -Sprintdiff
+This change is also needed on walnascar branch.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1329
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/classes-recipe/uki.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I tried to reproduce this locally, and reproduced a fail with
-"oe-selftest -r wic.Wic.test_exclude_path_with_extra_space", but with a
-different error:
+v4: improved commit message, no changes to v1
 
-| INFO: Creating image(s)...
-|
-| DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-c=
-ontrib/scripts/lib/wic/plugins/imager/direct.py
-| DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-c=
-ontrib/scripts/lib/wic/plugins/source/bootimg-biosplusefi.py
-| DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-c=
-ontrib/scripts/lib/wic/plugins/source/empty.py
-| DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-c=
-ontrib/scripts/lib/wic/plugins/source/bootimg-efi.py
-| DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-c=
-ontrib/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-| DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-c=
-ontrib/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-| DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-c=
-ontrib/scripts/lib/wic/plugins/source/bootimg-partition.py
-| DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-c=
-ontrib/scripts/lib/wic/plugins/source/rootfs.py
-| DEBUG: loading plugin module /home/mdubois-briand/swat/oe-sefltest/poky-c=
-ontrib/scripts/lib/wic/plugins/source/rawcopy.py
-| DEBUG: _exec_cmd: install -d /home/mdubois-briand/swat/oe-sefltest/poky-c=
-ontrib/build-st/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/tmp-w=
-ic/boot.1
-| DEBUG: ['install', '-d', '/home/mdubois-briand/swat/oe-sefltest/poky-cont=
-rib/build-st/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/tmp-wic/=
-boot.1']
-| DEBUG: _exec_cmd: output for install -d /home/mdubois-briand/swat/oe-sefl=
-test/poky-contrib/build-st/tmp/work/qemux86_64-poky-linux/core-image-minima=
-l/1.0/tmp-wic/boot.1 (rc =3D 0):
-| ERROR: No boot files defined, IMAGE_BOOT_FILES unset for entry #1
+v3: https://lists.openembedded.org/g/openembedded-core/message/214353
+    no changes to v1
 
-So maybe I'm missing something here.
+v2: https://lists.openembedded.org/g/openembedded-core/message/213458
+    no changes to v1
 
-The exact branch I used for this build should be available in
-https://web.git.yoctoproject.org/poky-ci-archive/tag/?h=3Dautobuilder.yocto=
-project.org/valkyrie/a-full-1372,
-but the mirror seems out of sync. I hope it will be there a bit later
-today.
+v1: https://lists.openembedded.org/g/openembedded-core/message/212834
 
-Can you have a look at this, please?
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
+index d9a7fb0e6f..fedff222c6 100644
+--- a/meta/classes-recipe/uki.bbclass
++++ b/meta/classes-recipe/uki.bbclass
+@@ -81,7 +81,7 @@ UKIFY_CMD ?= "ukify build"
+ UKI_CONFIG_FILE ?= "${UNPACKDIR}/uki.conf"
+ UKI_FILENAME ?= "uki.efi"
+ UKI_KERNEL_FILENAME ?= "${KERNEL_IMAGETYPE}"
+-UKI_CMDLINE ?= "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
++UKI_CMDLINE ?= "rootwait root=LABEL=root"
+ # secure boot keys and cert, needs sbsign-tools-native (meta-secure-core)
+ #UKI_SB_KEY ?= ""
+ #UKI_SB_CERT ?= ""
+-- 
+2.43.0
 
 
