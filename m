@@ -1,126 +1,169 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0720EC36002
-	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 14:46:14 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web10.10400.1744209966783810411
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 876E6C36002
+	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 16:38:34 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web11.13545.1744216707052463021
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Apr 2025 07:46:07 -0700
+ Wed, 09 Apr 2025 09:38:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=cjouv9AN;
- spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54b10956398so1016709e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 07:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744209965; x=1744814765; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=B7JVlFMc7FvOhU+hstLkqJQ3rNNHVw5es5KX2nXj6mU=;
-        b=cjouv9ANULu8vRweabXuaYWBWFdqOo9PDdh+z22WNv62VusfHzN+mtYQJ5jliOEPiL
-         0xThVpzP7a4fJENnNSIRX1OZih1Gz7xl6BZMv2gKOwaraEyY7rUuAbBbQiNypt5pka9V
-         atYXpzAu+gsjl2ZtkHO+5JDF0c1B9AtR2x9tbsySS9gIuEhNYsQTLakzY3g7wtAOQu6N
-         Z8U3DRGDTQdOZHznmlEu3FAqRUGDec4jDIAJlmF7K7lqccRWcsp6URbgHav1Z+c/gK+B
-         5TPdJLXixqRifvEFjz8pd1C2+S7bAJWAzNPjceH/4rDye+I08t7E78q0Zl6AHWU7ZTfs
-         qwSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744209965; x=1744814765;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B7JVlFMc7FvOhU+hstLkqJQ3rNNHVw5es5KX2nXj6mU=;
-        b=jX2m3gdPbrE9oZCAqsi7SdecplP0BJNAfSVyVebniFMQfrURDtgYNp2BENDHMndnsY
-         kkSAgR3Nno+/cn0zCM0wl6Cn6Tavuya+b02JWJ0pJeAHlrILgNLNuRVuwDPiDO5kdh6q
-         HR/Mb1Z1BwEbKtahkVbk2HQgKQIzgfplOpsZwITBeTeCFLyAHkYo0YY2a1SEZk9UJn0I
-         PTBEntZ6b6Bz2m29WrKHEJo2LwLWFH+awVDRWCUZLDhrTUT4lmwMbg0OnXoeXkI5KwyM
-         z2YjOjzRHU7GcRksyyQGm3bdQh9NXW/nhxcYYfiSMwxMdecoaFvLoPsRvL6yvi3tDnUG
-         oGwg==
-X-Gm-Message-State: AOJu0YyEBqnE8fzghfrIJkm0k5D2nsW8/9WOuv2Q0EcJB9SgH/uz3HLj
-	/ErxyBtODLZKcMHUQJXG5pbWk2fSIU8y2TvYttp0glKsz+C6esu0moyY59wkIGWxpOwvhOtaYsH
-	NB48=
-X-Gm-Gg: ASbGnctoRyQUFfVClRRyoEF19MzYeosC07k86/OF7qMJSphKY678XOJZOlIW+LUPAit
-	iPwMiLqX4qJBO2GqpgY+9Md4eaRNDmEHwnC+hHOb+91Vz0oyM1tkbjDUsHsaBJN283AGBCcXvh6
-	T73oCN70Sgx/R1hllHJqMSCnUafqi6BtO9qQqM59V/ZVBmfprEADNCL8yLGQ2CAWoHDJAsI9OHx
-	/0m0lP6qyMeLxiMnFsTp+oS+KFm9FOS0i/N2XsFJki7m1j8/SKG1nYS2Enm+zm2MTPJiVgaJVKD
-	/yNFxrfOMbwNrX2xaxg4OjQbWoKKqcfGnfmwftbpXhhYTISIbC1sOHDATbYzzZR9GfoJnRQBJdi
-	eiapxjPULeT5dqQLadw==
-X-Google-Smtp-Source: AGHT+IFqdd/KvwhwXU6Qoh63QeXkulVwnOQ87P+ufViKp0BsdoVzZ9L4ep0cgfy6Z4BhpRFiKQjUCA==
-X-Received: by 2002:ac2:5e39:0:b0:549:8b4d:bd47 with SMTP id 2adb3069b0e04-54c3bb90a41mr2305844e87.9.1744209964869;
-        Wed, 09 Apr 2025 07:46:04 -0700 (PDT)
-Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f464cd9c9sm1940971fa.42.2025.04.09.07.46.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 07:46:04 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Bill Mills <bill.mills@linaro.org>,
-	Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v4] uki.bbclass: drop serial console from kernel command line
-Date: Wed,  9 Apr 2025 17:45:46 +0300
-Message-ID: <20250409144546.249367-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.49.0
+ dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 539GWIjl019225;
+	Wed, 9 Apr 2025 11:32:19 -0500
+Received: from [192.168.2.185] ([192.168.2.185])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 539GWGlB010528;
+	Wed, 9 Apr 2025 11:32:16 -0500
+Message-ID: <e0b73eab-4ae3-4873-92b6-8ecb55836c62@kernel.crashing.org>
+Date: Wed, 9 Apr 2025 11:32:15 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH] cve-update-nvd2-native: add workaround for json5
+ style list
+Content-Language: en-US
+To: peter.marko@siemens.com,
+        "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+        Marta Rybczynska <rybczynska@gmail.com>,
+        Steve Sakoman <steve@sakoman.com>, Ross Burton <ross.burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20250407093557.50424-1-peter.marko@siemens.com>
+ <AS1PR10MB5697B414A3E675C3F69476A5FDAA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <AS1PR10MB5697B414A3E675C3F69476A5FDAA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 14:46:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214593
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 16:38:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214594
 
-The kernel will continue using console from firmware which is
-much better on HW when we may not know at build time which
-console HW and drivers are available, e.g. like on
-genericarm64 machine.
+We're definitely seeing the same failures now.  So we would like some sort of a 
+solution back to scarthgap at least.
 
-On AMD KV260, genericarm64 uki boot is currently not working.
-Target shows only the EFI stub messages but both kernel
-boot messages and agetty prompt are missing:
+This hack can work, or a backport of the newer code.  For now I'm going to have 
+to go with the hack for my own products (thanks for that), but I'd that we get a 
+longer term solution for the LTS releases.
 
-EFI stub: Booting Linux Kernel...
-EFI stub: Loaded initrd from LINUX_EFI_INITRD_MEDIA_GUID device path
-EFI stub: Measured initrd data into PCR 9
-EFI stub: WARNING: Failed to obtain seed from EFI_RNG_PROTOCOL or EFI variable
-EFI stub: Using DTB from configuration table
-EFI stub: Exiting boot services...
+--Mark
 
-With this patch applied, both kernel and agetty start
-and serial console login is possible.
-
-This change has no impact to qemu machine boot wich
-shows kernel boot messages and starts agetty correctly.
-
-This change is also needed on walnascar branch.
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/classes-recipe/uki.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-v4: improved commit message, no changes to v1
-
-v3: https://lists.openembedded.org/g/openembedded-core/message/214353
-    no changes to v1
-
-v2: https://lists.openembedded.org/g/openembedded-core/message/213458
-    no changes to v1
-
-v1: https://lists.openembedded.org/g/openembedded-core/message/212834
-
-diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
-index d9a7fb0e6f..fedff222c6 100644
---- a/meta/classes-recipe/uki.bbclass
-+++ b/meta/classes-recipe/uki.bbclass
-@@ -81,7 +81,7 @@ UKIFY_CMD ?= "ukify build"
- UKI_CONFIG_FILE ?= "${UNPACKDIR}/uki.conf"
- UKI_FILENAME ?= "uki.efi"
- UKI_KERNEL_FILENAME ?= "${KERNEL_IMAGETYPE}"
--UKI_CMDLINE ?= "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
-+UKI_CMDLINE ?= "rootwait root=LABEL=root"
- # secure boot keys and cert, needs sbsign-tools-native (meta-secure-core)
- #UKI_SB_KEY ?= ""
- #UKI_SB_CERT ?= ""
--- 
-2.43.0
-
+On 4/7/25 4:45 AM, Peter Marko via lists.openembedded.org wrote:
+> Dear community,
+> 
+> It looks like NVD introduces new bug in their API 2.0 responses every week.
+> (e.g. last week https://git.openembedded.org/openembedded-core/commit/?id=8ce06538c9cde0f09909a5a2e61ec10b0d35df49)
+> 
+> I know that this is an ugly patch, but I propose it anyway.
+> We probably don't want to invest large effort in redesigning to json5 without official statement from NVD.
+> 
+> For master this is a minor issue as it has already switched to FKIE as the default source.
+> But scarthgap/kirkstone this is currently the only source for cve-check feature.
+> Shall we consider backporting the FKIE to LTS branches?
+> And meanwhile backport this patch so that cve-check works again?
+> 
+> Peter
+> 
+>> -----Original Message-----
+>> From: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+>> Sent: Monday, April 7, 2025 11:36
+>> To: openembedded-core@lists.openembedded.org
+>> Cc: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+>> Subject: [OE-core][PATCH] cve-update-nvd2-native: add workaround for json5
+>> style list
+>>
+>> From: Peter Marko <peter.marko@siemens.com>
+>>
+>> NVD responses changed to an invalid json between:
+>> * April 5, 2025 at 3:03:44 AM GMT+2
+>> * April 5, 2025 at 4:19:48 AM GMT+2
+>>
+>> The last response is since then in format
+>> {
+>>    "resultsPerPage": 625,
+>>    "startIndex": 288000,
+>>    "totalResults": 288625,
+>>    "format": "NVD_CVE",
+>>    "version": "2.0",
+>>    "timestamp": "2025-04-07T07:17:17.534",
+>>    "vulnerabilities": [
+>>      {...},
+>>      ...
+>>      {...},
+>>    ]
+>> }
+>>
+>> Json does not allow trailing , in responses, that is json5 format.
+>> So cve-update-nvd2-native do_Fetch task fails with log backtrace ending:
+>>
+>> ...
+>> File: '/builds/ccp/meta-siemens/projects/ccp/../../poky/meta/recipes-core/meta/cve-
+>> update-nvd2-native.bb', lineno: 234, function: update_db_file
+>>       0230:            if raw_data is None:
+>>       0231:                # We haven't managed to download data
+>>       0232:                return False
+>>       0233:
+>>   *** 0234:            data = json.loads(raw_data)
+>>       0235:
+>>       0236:            index = data["startIndex"]
+>>       0237:            total = data["totalResults"]
+>>       0238:            per_page = data["resultsPerPage"]
+>> ...
+>> File: '/usr/lib/python3.11/json/decoder.py', lineno: 355, function: raw_decode
+>>       0351:        """
+>>       0352:        try:
+>>       0353:            obj, end = self.scan_once(s, idx)
+>>       0354:        except StopIteration as err:
+>>   *** 0355:            raise JSONDecodeError("Expecting value", s, err.value) from
+>> None
+>>       0356:        return obj, end
+>> Exception: json.decoder.JSONDecodeError: Expecting value: line 1 column
+>> 1442633 (char 1442632)
+>> ...
+>>
+>> There was no announcement about json format of API v2.0 by nvd.
+>> Also this happens only if whole database is queried (database update is
+>> fine, even when multiple pages as queried).
+>> And lastly it's only the cve list, all other lists inside are fine.
+>> So this looks like a bug in NVD 2.0 introduced with some update.
+>>
+>> Patch this with simple character deletion for now and let's monitor the
+>> situation and possibly switch to json5 in the future.
+>> Note that there is no native json5 support in python, we'd have to use
+>> one of external libraries for it.
+>>
+>> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+>> ---
+>>   meta/recipes-core/meta/cve-update-nvd2-native.bb | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-
+>> core/meta/cve-update-nvd2-native.bb
+>> index b9c18bf6b6..32a14a932b 100644
+>> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+>> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+>> @@ -229,6 +229,11 @@ def update_db_file(db_tmp_file, d, database_time):
+>>                   # We haven't managed to download data
+>>                   return False
+>>
+>> +            # hack for json5 style responses
+>> +            if raw_data[-3:] == ',]}':
+>> +                bb.note("Removing trailing ',' from nvd response")
+>> +                raw_data = raw_data[:-3] + ']}'
+>> +
+>>               data = json.loads(raw_data)
+>>
+>>               index = data["startIndex"]
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#214428): https://lists.openembedded.org/g/openembedded-core/message/214428
+>> Mute This Topic: https://lists.openembedded.org/mt/112129465/3616948
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
