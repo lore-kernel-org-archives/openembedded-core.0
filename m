@@ -1,98 +1,95 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <oe@myspectrum.nl>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A192C369A1
-	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 10:32:22 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.5179.1744194732901054371
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8BE3C36002
+	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 10:40:32 +0000 (UTC)
+Received: from outbound4.mail.transip.nl (outbound4.mail.transip.nl [136.144.136.2])
+ by mx.groups.io with SMTP id smtpd.web11.5278.1744195217408820084
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Apr 2025 03:32:13 -0700
+ Wed, 09 Apr 2025 03:40:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Eoo937L2;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E8A3242EF5;
-	Wed,  9 Apr 2025 10:32:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744194731;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a4x/E3+1jSdrMJxrRWVdfKHiL+YKYTNY7ZFR79DUxmo=;
-	b=Eoo937L2B/A8jV9NPuk8VoI6/DrKdaKek/XjbF0dlSiQMrLnhr9HKvFa+Rp0m7HV15LlYJ
-	04mAqnKYJ8kO7HaS7x5d3PZ8ZhKvscqzRQ9Xlr1HfJs1AzNcvyJ0yHS2T3moKAQ/x0plvx
-	Dsuuqkujvvw0eIzyuXfgtJX4rTKTsl+Ruh/R7bmeoij5sZY5Jj4SPddT4vN952HMkp6jTA
-	kHAXP6ye60XMiKc2BP07VRFWJN1z541uU7VqL62NJyDySW7qE5ASzCDGD3T55nMukZd/I1
-	OEN7wRDhI8dCzyhECptGaqyuDPLH0J6Li1TggEYsbCSpCML/mdTHodvWxt3VoQ==
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@myspectrum.nl header.s=transip-a header.b=D/Sav0FC;
+ spf=pass (domain: myspectrum.nl, ip: 136.144.136.2, mailfrom: oe@myspectrum.nl)
+Received: from submission5.mail.transip.nl (unknown [10.103.8.156])
+	by outbound4.mail.transip.nl (Postfix) with ESMTP id 4ZXfbg08jHzCtQG;
+	Wed,  9 Apr 2025 12:40:15 +0200 (CEST)
+Received: from yellow.myspectrum.nl (unknown [IPv6:2a01:7c8:bb0c:45:5054:ff:fe01:854])
+	by submission5.mail.transip.nl (Postfix) with ESMTPSA id 4ZXfbf2Hm7z34SDnX;
+	Wed,  9 Apr 2025 12:40:14 +0200 (CEST)
+Received: from [192.168.178.63] (84-27-20-154.cable.dynamic.v4.ziggo.nl [84.27.20.154])
+	(Authenticated sender: oe@myspectrum.nl)
+	by yellow.myspectrum.nl (Postfix) with ESMTPSA id D4C4520079;
+	Wed,  9 Apr 2025 10:40:13 +0000 (UTC)
+Authentication-Results: yellow.myspectrum.nl;
+	auth=pass smtp.auth=oe@myspectrum.nl smtp.mailfrom=oe@myspectrum.nl
+Message-ID: <7eb23b12-1fd1-48a5-83cd-eab2edb8777b@myspectrum.nl>
+Date: Wed, 9 Apr 2025 12:40:13 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] udev-extraconf: fix ifupdown for non hotplug
+ devices
+To: richard.purdie@linuxfoundation.org, Jeroen Hofstee
+ <jeroen@myspectrum.nl>, openembedded-core@lists.openembedded.org
+Cc: Jeroen Hofstee <jhofstee@victronenergy.com>
+References: <20250407174904.1191173-1-jeroen@myspectrum.nl>
+ <a0573ce7a2fe28ee7ec138194177c09dbc53283a.camel@linuxfoundation.org>
+ <ecc77fe1-4e85-407c-aa6e-e4b8dcb6e96b@myspectrum.nl>
+ <687a5c15fb54930b999cf16a59baaff8f9897a94.camel@linuxfoundation.org>
+Content-Language: en-US
+From: Jeroen Hofstee <oe@myspectrum.nl>
+In-Reply-To: <687a5c15fb54930b999cf16a59baaff8f9897a94.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: ClueGetter at submission5.mail.transip.nl
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=transip-a; d=myspectrum.nl; t=1744195214; h=from:subject:to:cc:
+ references:in-reply-to:date:mime-version:content-type;
+ bh=tFTzw4huACL1pr/pVrtZUk/KZsjqAuFlMEE5e/enhuk=;
+ b=D/Sav0FCLIAUrc5rHSvpBrhnrMVM4wl6cRiMk9v52glHs58aMihv0XRGW2dh99GPgfGqp9
+ 9Tjpr/Un99rsdUYDojuXU9tIpSOt4uK6bqZJtnlP/dWUAsEkkqy9mdbswk1FrxVrdex/Hf
+ 9JLrdz8kTpVygGoaEucb9USJHr8rkIgVOMv0SIAvX1ZvKrYkoKO7WKk2fdib6EYfwQEDN6
+ NQnFlbxhqaGtU2WGFCgxCAcfltTG6oeaQoGcLqgyT1TdCrzGULFObU6fE+uCqVM/E2Ilwn
+ 8GgTqfVgDEJDUOrx7IKtrUUWyCEo2/yOtufPOI3Q8QUz/VA7BbT4A1aDPuSBqw==
+X-Report-Abuse-To: abuse@transip.nl
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 09 Apr 2025 12:32:10 +0200
-Message-Id: <D921FHIPO4L5.17657PHNL4NID@bootlin.com>
-Subject: Re: [OE-core] [PATCH v2] sbc: upgrade 2.0 -> 2.1
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <wangmy@fujitsu.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <1744166786-4539-1-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1744166786-4539-1-git-send-email-wangmy@fujitsu.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdehjeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevvddvhfehgeetgfehteejuedvieevfeehhfeikeehfedvjeelleetjeeigfetieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepfigrnhhgmhihsehfuhhjihhtshhurdgtohhmpdhrtghpthhtohepohhpvghnvghms
- ggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 10:32:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214583
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 10:40:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214584
 
-On Wed Apr 9, 2025 at 4:46 AM CEST, wangmy via lists.openembedded.org wrote=
-:
-> From: Wang Mingyu <wangmy@fujitsu.com>
+Hello Richard,
+
+On 4/9/25 11:27, Richard Purdie via lists.openembedded.org wrote:
+>>> We've purposefully kept the code called from udev and in our
+>>> initscripts relatively minimal/simple as the overhead of executing
+>>> multiple programs does build up over time. Taking the above, we have
+>>> loops, then pipelines, each of which runs more commands. Each command
+>>> has a fork/exec overhead.
+>>>
+>>> Is there some way we can simplify this rather than all the shell
+>>> pipelines and loops?
+>> The simplest solution is to patch busybox to respect=C2=A0 --allow=3Dh=
+otplug I guess.
+> Yes, I as wondering about that. I see patches from a long time ago but
+> I guess they were never merged. It probably is easier for busybox to
+> handle this rather than shell code but I don't know what chance they'd
+> have of being merged upstream.
 >
-> License-Update: Using SPDX-License-Identifier: LGPL-2.1-or-later to repla=
-ce the description of license
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
+> I would probably perfer to fix busybox to support this but I don't know
+> how well that is going to work out...
 
-Hi Wang,
+Unless they changed their mind, upstream busybox won't accept it, so it
+has to be a patch in OE. But feel free to try to upstream it.
 
-Thanks for your patch.
+For completeness, this is not some theoretical issue, always calling if u=
+p
+directly after a network device is discovered does cause issues and is
+against spec as well.
 
-It looks like the license file changed, can you fix LIC_FILES_CHKSUM
-please?
+The sed stuff isn't that complicated, is it?
 
-ERROR: sbc-2.1-r0 do_populate_lic: QA Issue: sbc: The LIC_FILES_CHKSUM does=
- not match for file://src/sbcenc.c;beginline=3D1;endline=3D8;md5=3D1db4f385=
-0f47b59e79aeedb2668f4b3e
-sbc: The new md5 checksum is cfac6012e2dea914de8b3b7693591622
-sbc: Here is the selected license text:
-vvvvvvvvvvvvvvvvvvvvvvvvvvvv beginline=3D1 vvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-/*
- * Bluetooth low-complexity, subband codec (SBC) encoder
- * Copyright (C) 2004-2010  Marcel Holtmann <marcel@holtmann.org>
- * Copyright (C) 2008-2010  Nokia Corporation
- * Copyright (C) 2012-2013  Intel Corporation
- *
- * SPDX-License-Identifier: GPL-2.0-or-later
- */
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ endline=3D8 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-sbc: Check if the license information has changed in /srv/pokybuild/yocto-w=
-orker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/sb=
-c/2.1/sbc-2.1/src/sbcenc.c (lines 1 through to 8) to verify that the LICENS=
-E value "GPL-2.0-or-later & LGPL-2.1-or-later" remains valid [license-check=
-sum]
-ERROR: sbc-2.1-r0 do_populate_lic: QA Issue: sbc: The LIC_FILES_CHKSUM does=
- not match for file://sbc/sbc.h;beginline=3D1;endline=3D10;md5=3Dc5a50a7fc3=
-3c148ee362e2b46574a87f
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/1363
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Regards,
+Jeroen
 
 
