@@ -1,82 +1,136 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90B26C36002
-	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 20:22:35 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.18773.1744230154147243770
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E54EC36002
+	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 22:19:06 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web11.21217.1744237136428067102
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Apr 2025 13:22:34 -0700
+ Wed, 09 Apr 2025 15:18:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=ST70h8yQ;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2025040920223010c99c277137a650a7-_pjz9x@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2025040920223010c99c277137a650a7
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 09 Apr 2025 22:22:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=ewb5+x7pdJ2yi8gzkxQ2B+w1llMmXDT1xf/J/RfdfGE=;
- b=ST70h8yQZkj9jFbmCkDBFOtKEddadqsV4h3okFLA8x+P31b8UH93zAjgoK3OPh0QJMxbv8
- yINuF3/pKtGA+Gb03VuojN0WEiH31bwYWZtzuLoeaWSFJWdxjkk/OYZRxIc3eKPAuS44yJJY
- GjDuMa15gdy+DJ31DGRE1TS+S1ATZFP/1Q/My+EuMFtOLpCCbusNfWYePy9TMO6jNG2pHnKq
- RZcuUCeWBforLyAmq1Bb15iWt+edEctsv8ti2e26onxZ+Rr8aENcVW2dySUg6KhuErmEk5f/
- /D7WxZJO548aW0YYLY/72gsUVf46V+4OImBKjU6eKEeqNZdtxQbSV9qQ==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=mO4sDPvV;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 539HGJbi010463
+	for <openembedded-core@lists.openembedded.org>; Wed, 9 Apr 2025 22:18:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=vuo2NE2vmocpiGkBamErtuiRIRf7kxygWIx
+	iSx8SEik=; b=mO4sDPvVZx71rt3W7Jevg+ZMdJKMrC8x0uHrqO/RNfXz3Ywx46g
+	AlwOPOPTrUVV+vrc+wpw/F5W9+y9b1E5OwzMtz6Yym4CL+9KbkFzeq9Z9mL95arZ
+	CGHw1Dx4WF4Qfrn4eoZU5W6kkS3rD88Z0IroENQN0Wnk74xXdqbHlld4wNMj0wPC
+	/AcW2r7sWHq4SmZ+7AXQxcPTd1JWyrvU8xDkAIe2k3lgkUTymFGyRaIruaeRXDHk
+	7+bxoh+rc8M2iW7qFVHREk+nYoRH06SIkKYQPxUdMub871mDFWg2Ty05Tmn3/yBI
+	O5GhLUSzTfUBLu0BobZdK71BZeKWcCZ/9Tg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twftmqv2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 22:18:55 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c54767e507so29836585a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 15:18:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744237134; x=1744841934;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vuo2NE2vmocpiGkBamErtuiRIRf7kxygWIxiSx8SEik=;
+        b=loejfn75EGcwFMXmXZrsekr0BRXMwCKeLWfqXPWrw7b5zqhsw/RI/YpPbnWOEPqUrP
+         dtkVjXcrrf+iP04Oe/VTlHTEaysq55aebG4vyV5KOEV04GQS+vSokCdpq6KknKwGeOMF
+         +kpAe923QXnOpwwZO0e1oOlZjHSVjo5XvZRDO13c5vgNFwsal8oEVzu6ckKIdLU1rbfg
+         MAenITf5rrCcoRXwTYmr21cqAPp4dp95wZ5k26BBAkZXKciHFvG6FKrnbX3MFW6X7TYE
+         q9SX6JW8keYoKZ8EgkvEKB2MrSjO/l2yD6O6/9976tMQYU9uQlJ8IjLQ0RfsY9HiW3M4
+         G2qQ==
+X-Gm-Message-State: AOJu0YyrwESBTpz9tU7b9cb8libZw0svIKJtDvxkDrn6sLPNYoBLj0Lg
+	UqETt/0VT4uSB8L/BNRl0bZQ2lOBtdTo8Jqqad005V5qmDfT4sP/T6jpmrcAmxFcC0+qhTH/gt/
+	WHzUwMPRJ4Y954NSF4MwGlfPeuKe5emZuqrvDyRqO5C4XZMnEqTX5n8XwFo3ZFeb22AHeip5Ow3
+	jay2q63QK4ls0=
+X-Gm-Gg: ASbGncvmVQIiyFxAq9zbQ+MpPkGUO5eB6JU4FN8TIpW7lkMZymCRQhy3V+amcala6Zn
+	RzQatxPiPKeUaq1tJGdO/WkGfzlcT0p0NVyw7fwpaHeTy80ALVQ+t5jJ8a9o7EmIAGX/ecF6mBZ
+	rQF/ZIYukb6gCIJDyIg29PcmBEvhqTsyBce0ZE1h8e0FVKUtun6EZI92pKnSZzQzDzTyU4oSTtl
+	vSgwHSdfBKxX8hDZpD6fCbZb8XRK0ySVujBy8QD2UDn0VeM3cX9LrzC2Dx1rgWNeko7kEj4vMj/
+	7PZV9OxF3l13uGrRRXvtmSJTMB+iC7wDinL6GA/iNW3JFNwHVCp2F+e7tc9qd/Aru0Q=
+X-Received: by 2002:a05:620a:2983:b0:7c5:b0b4:2cea with SMTP id af79cd13be357-7c7a81b1531mr12127385a.38.1744237133912;
+        Wed, 09 Apr 2025 15:18:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEwLCYcxMzZYZ/g3O026ENHs1RI6qKlpIPviDf4qbT0ma45kA7uH2zmqx501hlwAhXlhCeU4Q==
+X-Received: by 2002:a05:620a:2983:b0:7c5:b0b4:2cea with SMTP id af79cd13be357-7c7a81b1531mr12124785a.38.1744237133555;
+        Wed, 09 Apr 2025 15:18:53 -0700 (PDT)
+Received: from lothlorien.lan (2001-14ba-a0c3-3a00--782.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::782])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c4566e86fsm227023e87.203.2025.04.09.15.18.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 15:18:52 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] xz: upgrade 5.6.4 -> 5.8.1
-Date: Wed,  9 Apr 2025 22:21:41 +0200
-Message-Id: <20250409202141.2025613-1-peter.marko@siemens.com>
+Cc: Koen Kooi <koen.kooi@oss.qualcomm.com>
+Subject: [PATCH] u-boot: add hook to prepare binaries before copying
+Date: Thu, 10 Apr 2025 01:18:51 +0300
+Message-ID: <20250409221851.1005988-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+X-Authority-Analysis: v=2.4 cv=B5+50PtM c=1 sm=1 tr=0 ts=67f6f24f cx=c_pps a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=DtX1zp5rpnlyH9CIAMwA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: cywFWyDD4lRukFxcYajgyoAl-rp2qlGk
+X-Proofpoint-ORIG-GUID: cywFWyDD4lRukFxcYajgyoAl-rp2qlGk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-09_06,2025-04-08_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=947
+ suspectscore=0 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 lowpriorityscore=0
+ mlxscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504090153
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 20:22:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214597
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 22:19:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214598
 
-From: Peter Marko <peter.marko@siemens.com>
+BSP layers might need to perform additional steps on the U-Boot binary,
+which are not a part of the oe_runmake invocation. For example, the
+binary might need to be signed or converted to the Android boot image.
 
-Handle CVE-2025-31115
+In order to let BSP recipes to perform such tasks without duplicating
+u-boot.inc functions, add a special hook to be called before
+uboot_compile_config_copy_binary().
 
-License-Update: add help note [1] and remove note for old releases [2]
+Note: it is of course possible to push necessary steps into
+uboot_compile_config_copy_binary() itself, but it doesn't look as clean
+as just adding a hook.
 
-[1] https://github.com/tukaani-project/xz/commit/6bbec3bda02bf87d24fa095074456e723589921f
-[2] https://github.com/tukaani-project/xz/commit/70f1f203789433b5d7b8b22e1655abc465d659f7
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Cc: Koen Kooi <koen.kooi@oss.qualcomm.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/recipes-extended/xz/{xz_5.6.4.bb => xz_5.8.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/xz/{xz_5.6.4.bb => xz_5.8.1.bb} (94%)
+ meta/recipes-bsp/u-boot/u-boot.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-extended/xz/xz_5.6.4.bb b/meta/recipes-extended/xz/xz_5.8.1.bb
-similarity index 94%
-rename from meta/recipes-extended/xz/xz_5.6.4.bb
-rename to meta/recipes-extended/xz/xz_5.8.1.bb
-index e48f4dbd7f..406ecbbec4 100644
---- a/meta/recipes-extended/xz/xz_5.6.4.bb
-+++ b/meta/recipes-extended/xz/xz_5.8.1.bb
-@@ -17,7 +17,7 @@ LICENSE:${PN}-dbg = "GPL-2.0-or-later"
- LICENSE:${PN}-locale = "GPL-2.0-or-later"
- LICENSE:liblzma = "0BSD"
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 9464736b8418..fe86ba0ad011 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -81,6 +81,7 @@ uboot_compile_config () {
+     for binary in ${UBOOT_BINARIES}; do
+         k=$(expr $k + 1);
+         if [ $k -eq $i ]; then
++            uboot_compile_config_prepare_binary $config $type $binary
+             uboot_compile_config_copy_binary $config $type $binary
+         fi
+     done
+@@ -93,6 +94,13 @@ uboot_compile_config () {
+     fi
+ }
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=c02de712b028a5cc7e22472e8f2b3db1 \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d38d562f6112174de93a9677682231b2 \
-                     file://COPYING.0BSD;md5=0672c210ce80c83444339b9aa31fee2f \
-                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.GPLv3;md5=1ebbd3e34237af26da5dc08a4e440464 \
-@@ -28,7 +28,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c02de712b028a5cc7e22472e8f2b3db1 \
- SRC_URI = "https://github.com/tukaani-project/xz/releases/download/v${PV}/xz-${PV}.tar.gz \
-            file://run-ptest \
-           "
--SRC_URI[sha256sum] = "269e3f2e512cbd3314849982014dc199a7b2148cf5c91cedc6db629acdf5e09b"
-+SRC_URI[sha256sum] = "507825b599356c10dca1cd720c9d0d0c9d5400b9de300af00e4d1ea150795543"
- UPSTREAM_CHECK_REGEX = "releases/tag/v(?P<pver>\d+(\.\d+)+)"
- UPSTREAM_CHECK_URI = "https://github.com/tukaani-project/xz/releases/"
- 
++# Do nothing by default, this is a hook to be extended by BSP recipes
++uboot_compile_config_prepare_binary () {
++    config=$1
++    type=$2
++    binary=$3
++}
++
+ uboot_compile_config_copy_binary () {
+     config=$1
+     type=$2
+-- 
+2.47.2
+
 
