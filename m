@@ -2,81 +2,90 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94416C369A6
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 12:13:00 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web10.32659.1744287170513914843
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6C4C3601E
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 12:13:40 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web11.33019.1744287215891891103
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Apr 2025 05:12:50 -0700
+ Thu, 10 Apr 2025 05:13:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YtUFQRqj;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7c5ba363f1aso106437585a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 05:12:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GJpdqeBr;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6e8fd49b85eso10984896d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 05:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744287169; x=1744891969; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1744287215; x=1744892015; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=64nUNZX5lrrve8/USnN/6to9IkfvTm7EkrafgAWhwWY=;
-        b=YtUFQRqjuTmIuRkMCFPSgTwPTG/2YwwbsCu9a+9qh3BVgdZA3zneptJ0NngluuX51+
-         /Gn7akXmMlkbBfSmWi9cBEyQcNyW1tBhRxrxnqTG6bxzHw8Gu/7o3Pd5ZyMAt58oGLKv
-         eGI7QBl6SD1xMNl9mJF4s6FiepR4BGYcDmOomGjcDojt3v/6o80ttgSTHTD7+CBW1hGn
-         32qMKQQrHAYf06XRv24oZzESGEb2rxyd6Q5s26C6mVM2iFjCb6u/XvCYazOlZaIRZ/ZR
-         vooJrPLSaZCr22MjHRa6EM+0/yPJZWOwrj2begihAa7rU+WpXyIUAbnGUpTB8tw9ZiN/
-         aEnA==
+        bh=pjyv6jgl97qt+ZegCtL127shxiZvcO4+6ngY2BBf4cU=;
+        b=GJpdqeBr7UHb/1ANs8fz/ID4NxYNaBA+GL/VWKLdwGzxCVMEfaW4oMLY3YJLQ/BTb/
+         rsnySkW0oQr74tUfvuv4i2oYr4ZR6/IXS5wwoE+dO8u1ltPB3+4wkgzu5j5DFhiPQHBd
+         dvW5paAGlc5IfnOVAzFSo0XECc9pYSDKTK/0Qw9B1nrfa+mh48PqabyRjJzye0AgyVDZ
+         24dSI9hTqiWl+D+XimPdVtqZoWVWX9w7uwnTT98+LtV98Bj8q2h3D8NbHd0SRafw+BoD
+         JUOdwlVcBbCaJI/B8lr/Vs2fpGH2OFM36eY+K2SCcg8lI+G3uvos6/vVkAmMdW6eGr/A
+         Ii5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744287169; x=1744891969;
+        d=1e100.net; s=20230601; t=1744287215; x=1744892015;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=64nUNZX5lrrve8/USnN/6to9IkfvTm7EkrafgAWhwWY=;
-        b=cOHm+SaZ3OVSnSCDAPsiyTXwYxfmGoYFmyInlJMRCRW8+hc3nZ9X0C26BzhQVw1/4X
-         xQ/yYCM89X3vs/RB1TWdvPoGoj7pnsOaZB0IEKdzjA9Z+QPY0J8lSOywLcCr/TeMk/6t
-         94+5wedAeqm/12VQ2LHIwqHN5NwuWQxHEK323zZY1Dv8Y5zrF6aige8RGxrwE5GAUE03
-         yn7RQuXhYgPf/r1pP5HMlTp+Imz2E5PbP6XVKT+St/UfKmDsuvefNsC0ncrRuZHlFgUA
-         IdFrGxua7qgZvjMrf2iXcY1Lsvl3vqLKbpEi6v0f5zlB2LHDXSB26A/2JZfZYew95Cjo
-         nZ8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXNn8Lcke55/TAqATEKflgBKNDk/wjwP/QqhW7AORRO+uzk0PTti5m+jFE79Fqtv55p9REhK/iWhvH4K4GBvMtWpQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyCb7JLPcGZYLOMwhwZHew6t6guGAOYExgu3GmnLMvufBqV/Fd+
-	fkGR+aSBWNkGP9AiodtChAs+mzA48iex8BANHZPI4AJxvIyWDHUq1dzvDEUfwmw33pmrdyLYLZ9
-	T0UKJI5YQYVZ11tR101Z/wazP+Oc=
-X-Gm-Gg: ASbGnctUcAX7F/2z3o1yZX64FpqP7xVVAespzCEWXpC631CNbEuRqNOeScXTybmfNuC
-	HzFHlteEoQDBIAQmj2ihIugLWzZkSf/GuaCqC/4FsPp78pBC7d5J8yjU/kra3jFZxiDOXJo29AB
-	5n4suWy+0xLhAwff0J1eZL
-X-Google-Smtp-Source: AGHT+IG/W2EYgaSfy2/u9+It2wJA1WO40T0FhW9eg8wkxIt9aLQTQ4pDG5Z6LzxYYVNyZtEiKQw2Gsg2iquejh8AIG4=
-X-Received: by 2002:a05:620a:f0b:b0:7c5:61b2:b84 with SMTP id
- af79cd13be357-7c7a766e493mr318339185a.19.1744287169539; Thu, 10 Apr 2025
- 05:12:49 -0700 (PDT)
+        bh=pjyv6jgl97qt+ZegCtL127shxiZvcO4+6ngY2BBf4cU=;
+        b=o2F+Pq+U2Rtnt9N2aeErqZQaA8dvNdj17RqIBwbHgYnLjTqk4MawuV1VYFfAJ9BzXV
+         OmZZDOA3e2kPyu49pbpVuYovNDX+X7T/B4Iz3HoTRW9oUjKZZg8fZdDc+HVsLOEr4agw
+         HNGO+784noJMMPq+/K0nwqRGrCI/ycsVLrqOz4UDa650MsMayGKjVNtQnhjJU2mlKmvd
+         dcPbbKWZzrhKcjCXRi3QGiIW03cx9eNX+JTW2W2Xe3+9WVBZJyBM3ytgKIskdWA7IyNC
+         AfE+zsWnAUeYW3itLQAI6D0ZAxgNiRVKoDR+S8GuYZK7oN7XfL+uiKkVLcSLisrauAKX
+         SS2g==
+X-Forwarded-Encrypted: i=1; AJvYcCX0q3BeWkuJYAjACsfkDJI6w737qzFjbKPtnsqK+A0HQtIao2XmhGtrRTuBvtWztBi1idqgFWbso7MJWuxEjee9Sw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw1JuhtDnmshkOAlzKDefQh7ReRc7vNGGuVBLKRrkgQTynw6kY9
+	eJCYi/E5F5DemZXj8AWBk19dd+RmANysdwsWBjucDsii5Tum+ZHlVlt3CZJI4kNtxqQRV1jMeXX
+	SD/gF8frgpl/GnZADZxYvjwjxfs0=
+X-Gm-Gg: ASbGncugFzoGEYU6ecmLG0uVZw0f5wySgsbX4Hr9GgMfuHxUcn2RuLNiqsS1pBrIBXD
+	3ElyPrnCEN3sk5j4oE7DRk3e8i+PZWhd8boeBxHoMn8jXA0GZHBUv1fNWXALxTnhk2O22xG5S7D
+	tKYEC+DDFUHu2MycXKhbiA
+X-Google-Smtp-Source: AGHT+IHSCb22pr4YhXNHoXEjJGvge4iAWYVg8NPsjOOvjhFr+bKVHQpT700Xbh2xhJNpcuQxkkHTB7BX8dNJ+fAFZDo=
+X-Received: by 2002:a05:6214:4109:b0:6e5:bc9:95f8 with SMTP id
+ 6a1803df08f44-6f0e5a4c527mr28296116d6.17.1744287214903; Thu, 10 Apr 2025
+ 05:13:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250406180920.262141-1-quic_vkraleti@quicinc.com>
- <CANNYZj-JtbiNz37guCB_mJbOb19GJSDTpmAyY0_ZtDHr7yM7Sg@mail.gmail.com>
- <5xm5ehw5pf5olcfqvlh2t6jqn5bq2uged36gjvoovjj7ihg7r2@fbsiin2cu6wr>
- <CANNYZj_7xdpUO9fAtvgqEi07n5CqEHaqeKaAnUjufmS57oTf6g@mail.gmail.com> <3mmfhxscjnsdpimcrsw72sjvumxh5cnjrntro3ko7etgtjmqzc@slvytxctp6lv>
-In-Reply-To: <3mmfhxscjnsdpimcrsw72sjvumxh5cnjrntro3ko7etgtjmqzc@slvytxctp6lv>
+References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
+ <20250404162932.447699-2-mikko.rapeli@linaro.org> <f84af1a6585338787539ee5be5826adbe434e8a9.camel@gmail.com>
+ <CAC_iWjKTmSEOe6HUcPFUZLaBuA2+6ZwOYaYiqK0_R8KGNPU1Ug@mail.gmail.com>
+In-Reply-To: <CAC_iWjKTmSEOe6HUcPFUZLaBuA2+6ZwOYaYiqK0_R8KGNPU1Ug@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 10 Apr 2025 14:12:36 +0200
-X-Gm-Features: ATxdqUEyPIwmNIrfiYWMfDGgVJGmFQu2UqwgEQlFPBS-uoIvLW1OKw_AN46Mi5M
-Message-ID: <CANNYZj_6bKTFQburZyBOq7sO_7coVsh_ZTiu+r2byWYdo4DYxQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libinput: split udev rules into a separate package
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: quic_vkraleti@quicinc.com, openembedded-core@lists.openembedded.org
+Date: Thu, 10 Apr 2025 14:13:23 +0200
+X-Gm-Features: ATxdqUH1AbJjJzA97g72rZA3O8B73fGq7vGP35yftsADd5I_LvL50P3p0_pNvBs
+Message-ID: <CANNYZj_eA4k+pRLG=8-V4WEmsthkh_o75fZKOcoTf+00QW2x2A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 01/11] systemd: enable efi support by default
+To: ilias.apalodimas@linaro.org
+Cc: Adrian Freihofer <mikko.rapeli@linaro.org>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 12:13:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214657
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 12:13:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214658
 
-On Thu, 10 Apr 2025 at 13:29, Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
-> The commit message definitely needs to be improved. Anyway, here is an
-> error that we've faced:
+On Thu, 10 Apr 2025 at 13:50, Ilias Apalodimas via
+lists.openembedded.org
+<ilias.apalodimas=linaro.org@lists.openembedded.org> wrote:
+> >  I would therefore like to see the EFI implementation remain
+> > opt-in until it covers at least the most important use cases for robust
+> > embedded systems. What I primarily miss with EFI is a reference
+> > implementation for an A/B update system without having to rely on a FAT
+> > partition without journaling. Please correct me if I'm missing
+> > something!
 >
-> ERROR: packagegroup-qcom-1.0-r0 do_package_write_ipk: An allarch
-> packagegroup shouldn't depend on packages which are dynamically renamed
-> (libinput to libinput10)
+> Where does the FAT partition requirement come from?
 
-Can you provide a way to reproduce this with just oe-core/poky?
+https://uefi.org/sites/default/files/resources/UEFI%202_5.pdf#page=585
+
+This is what one has to use to store that critical bit of info ('A' or
+'B'?) and the bootloader code that picks one or the other, reads the
+kernel from it, and hands over the boot process. I'd say these are
+extremely critical things, and yet FAT design as hopefully everyone's
+aware is a 1980s MS DOS relic that is notorious for lack of metadata
+robustness and its frequent corruption.
 
 Alex
 
