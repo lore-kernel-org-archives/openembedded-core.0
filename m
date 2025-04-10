@@ -1,126 +1,101 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B166BC369A2
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 16:47:04 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web10.3333.1744303619589340627
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDDDAC369AA
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 16:51:24 +0000 (UTC)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+ by mx.groups.io with SMTP id smtpd.web11.945.1744298253998756433
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Apr 2025 09:46:59 -0700
+ Thu, 10 Apr 2025 08:17:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=UFrV3m1n;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-2025041016465725d6757fc0837522d6-89gmlo@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2025041016465725d6757fc0837522d6
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 10 Apr 2025 18:46:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=byDEK0LlVEKbPMq+iEHK9ouw4coVANesQYupFiFTiQU=;
- b=UFrV3m1n9KlBmqS6RB7yVqXDVsRqyp7ILyfK3EwSoOfB+na+w/nquTMtn2rjumudiQel4S
- NhjM8D1/xdEhRojPu7QS7kHXTVNiLGeyE2BYq547oYggv2XhPv4KVw48u1RQYLPyZcpDg6Y/
- +Ll2pizENIz812ZwdlNd6T7VkBwfEP5CMp/mq3o4v1L4v90uKAT2kwwQ8UvhKn2KvyluuMgF
- me9/xD40iQG3O+Lws7L2ZY9LF0TlvR2yshMrqTi+4YeHaoYT5E+EMIVjqJS1+0icIGrPaf1k
- +xxmq631fn1VGOOGKY764j2trr7vha3fSz4Ki64ZvIuiPTCiqlGi1dHA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][kirkstone][PATCH] cve-update-nvd2-native: add workaround for json5 style list
-Date: Thu, 10 Apr 2025 18:46:07 +0200
-Message-Id: <20250410164607.9085-1-peter.marko@siemens.com>
+ dkim=pass header.i=@linaro.org header.s=google header.b=cLir4qdG;
+ spf=pass (domain: linaro.org, ip: 209.85.128.180, mailfrom: ilias.apalodimas@linaro.org)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6feab7c5f96so9525207b3.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 08:17:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744298253; x=1744903053; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WWIMyihSyIipIO/OY3aHPqT6C3YGFq06H4dy4dSQ0as=;
+        b=cLir4qdGlvwa8EbBJpjaYbtoWA1RuFMeqOTRRhTv1LS95GaRSLEcAWPmzKQ1S0tKwj
+         had2hQMqaM3i/SOOuHmXdY+HuAbYqLc1+ta82xfoSzlLolQMTe4FxUZyqjutPbPpnDOp
+         KFmcal87WJcgh5QgkTfAusoiilw/X2FsJ4YlLO9Z7/nk9AVHalBBEFoA0VjOxJ2ruRyQ
+         p5TFGq3LiPAEoAYgGBzVjjileHCxgVOXwGFMXhH5COyx9UVJkMrcKWyA99vaMUSEYnPh
+         wo/O0GR5Q9OdqLQA6c3J76+rl22yK/cMkOFxWsM29p3cTwaj+yRF2P9ppDpIbLDkgGCB
+         FxSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744298253; x=1744903053;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WWIMyihSyIipIO/OY3aHPqT6C3YGFq06H4dy4dSQ0as=;
+        b=oq5ppmNIDcl5UBRHegEfvS7CJ7gFiP0iCGMPQCxoM7oQX2ggzAI2i3HKGm2s1+gUQA
+         uJ5IlIsb4M5JKitiIj8s0jyndB5j6gmVua2PRyyUQgqty9GtrZ3NhZor8YSBXMCFpldY
+         E4qpZc3MUiXEMyoaECtL29BghfQuLWuvWb2De2x9s7fX4fqyyzcIh72fm7oJIlWwcJKa
+         JD2Ep4gtmGrGGaVLVCXzGUoaeT2rZNJPOx3vIBuuEeFd2KfiuH/dCoZ+CZ8axybNE38I
+         MiCQoNoL3lF6cRH0+yPQv/KZHCh/i3WInxVWVT8hw6qDRsmldWU0knDnsPthl9p1H6or
+         mMQA==
+X-Forwarded-Encrypted: i=1; AJvYcCXp0qjqVWY+dNhrMzsqHSVHZAnioMzZz/XEvl3NQAuEr0n9baWor9X34xcMR+WgYFyMH6Ef+Qjf/LJe81O6iylgsw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw0lFDvKBPh033voHDfoTzTSUYaA+8AT/cKYiFEsJh7CnQZpN+z
+	QdDDZZ7PWO/UlKb4cT1QTw+5KiVU88NRQNp35GsFolDtmTAAchu5VmgCzHe7GFfB5qyruRwoWZo
+	I7qWthQkmhfEqp5E1+avm/ei5q7m67Vyt31JrjQ==
+X-Gm-Gg: ASbGncsItoOGSjYfz6CIAlRgWv8gSHNhoyfrfHszbPvdCB/8VgMb3fey4wuDocJ0nE2
+	ei2NjJdcoNa1Mp0ClobPOdcKtVPTcoHekH9Fj4MAs23zY01QDpwsfkxXCSwXf/CLUS2US//ZrZb
+	i11Ppwn7Z8IneUNI2Qmdjrnk0=
+X-Google-Smtp-Source: AGHT+IFtCSeUdzumO4qvcEZXOigMlUNA+Njw93eVk0qk/DhL1jtqMde7hWva3csTupuM9PrtAkeWVTdrfOzF83J22S4=
+X-Received: by 2002:a05:6902:a91:b0:e6d:ee8e:876c with SMTP id
+ 3f1490d57ef6-e703e200053mr4868639276.43.1744298253091; Thu, 10 Apr 2025
+ 08:17:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
+ <20250404162932.447699-2-mikko.rapeli@linaro.org> <f84af1a6585338787539ee5be5826adbe434e8a9.camel@gmail.com>
+ <CAC_iWjKTmSEOe6HUcPFUZLaBuA2+6ZwOYaYiqK0_R8KGNPU1Ug@mail.gmail.com>
+ <CANNYZj_eA4k+pRLG=8-V4WEmsthkh_o75fZKOcoTf+00QW2x2A@mail.gmail.com>
+ <CAC_iWj+80LnSOJ=ZeMos4psFwQ4zqt8fo-e13+8sPuBtsmp5Dw@mail.gmail.com>
+ <CANNYZj8rsSWX7GL_mqQz3h==31wKsA_myVAHbGXdUDv+O7YsXA@mail.gmail.com>
+ <CAC_iWj+vw=wUJYb4MDWJ3KoPrECwzr4wNbrJNpDvC=o=QWFJqg@mail.gmail.com> <CANNYZj9dJyOavS3ag-jbfyTd8q252RFU3smmFtFpKa_yEkKsqw@mail.gmail.com>
+In-Reply-To: <CANNYZj9dJyOavS3ag-jbfyTd8q252RFU3smmFtFpKa_yEkKsqw@mail.gmail.com>
+From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Date: Thu, 10 Apr 2025 18:16:56 +0300
+X-Gm-Features: ATxdqUGImY3B7z22y1txCmq9MMBiFF_iBWR_AFgAYKjJsojoZxJueg_ztNywYRw
+Message-ID: <CAC_iWjK1FYo93kJXhuo4EY5y+DTKT6urA1mMf2FrPX4joB71xg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 01/11] systemd: enable efi support by default
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Adrian Freihofer <mikko.rapeli@linaro.org>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 16:47:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214683
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 16:51:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214687
 
-From: Peter Marko <peter.marko@siemens.com>
+On Thu, 10 Apr 2025 at 17:52, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> On Thu, 10 Apr 2025 at 16:39, Ilias Apalodimas
+> <ilias.apalodimas@linaro.org> wrote:
+> > I am going to assume that by 'boards' we mostly target embedded ones right?
+> > The majority of those work with U-Boot which has a pretty capable EFI
+> > implementation nowadays and supports a variety of filesystems.
+> >
+> > P.S: I am pretty sure that EDK2 and servers support more filesystems
+> > than just FAT, but I can double check.
+>
+> We're talking about UEFI firmware, right? The thing that reads the
+> bootloader from ESP/ on storage and runs it.
 
-NVD responses changed to an invalid json between:
-* April 5, 2025 at 3:03:44 AM GMT+2
-* April 5, 2025 at 4:19:48 AM GMT+2
+UEFI is a spec. There are various implementations of the spec. EDKII
+is one, U-Boot is another one.
 
-The last response is since then in format
-{
-  "resultsPerPage": 625,
-  "startIndex": 288000,
-  "totalResults": 288625,
-  "format": "NVD_CVE",
-  "version": "2.0",
-  "timestamp": "2025-04-07T07:17:17.534",
-  "vulnerabilities": [
-    {...},
-    ...
-    {...},
-  ]
-}
+>  Is u-boot or ovmf used to implement that? It's that firmware that I have scepticism about, not
+> the bootloaders.
 
-Json does not allow trailing , in responses, that is json5 format.
-So cve-update-nvd2-native do_Fetch task fails with log backtrace ending:
+We are conflating things here. OVMF is an EFI implementation for
+virtual machines coming from EDKII. U-Boot also implements EFI, you
+can boot a kernel directly, or grub or any EFI application you want
+with any of these.
 
-...
-File: '/builds/ccp/meta-siemens/projects/ccp/../../poky/meta/recipes-core/meta/cve-update-nvd2-native.bb', lineno: 234, function: update_db_file
-     0230:            if raw_data is None:
-     0231:                # We haven't managed to download data
-     0232:                return False
-     0233:
- *** 0234:            data = json.loads(raw_data)
-     0235:
-     0236:            index = data["startIndex"]
-     0237:            total = data["totalResults"]
-     0238:            per_page = data["resultsPerPage"]
-...
-File: '/usr/lib/python3.11/json/decoder.py', lineno: 355, function: raw_decode
-     0351:        """
-     0352:        try:
-     0353:            obj, end = self.scan_once(s, idx)
-     0354:        except StopIteration as err:
- *** 0355:            raise JSONDecodeError("Expecting value", s, err.value) from None
-     0356:        return obj, end
-Exception: json.decoder.JSONDecodeError: Expecting value: line 1 column 1442633 (char 1442632)
-...
-
-There was no announcement about json format of API v2.0 by nvd.
-Also this happens only if whole database is queried (database update is
-fine, even when multiple pages as queried).
-And lastly it's only the cve list, all other lists inside are fine.
-So this looks like a bug in NVD 2.0 introduced with some update.
-
-Patch this with simple character deletion for now and let's monitor the
-situation and possibly switch to json5 in the future.
-Note that there is no native json5 support in python, we'd have to use
-one of external libraries for it.
-
-(From OE-Core rev: 6e526327f5c9e739ac7981e4a43a4ce53a908945)
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index b8faee68d6..9808120cab 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -226,6 +226,11 @@ def update_db_file(db_tmp_file, d, database_time):
-                 # We haven't managed to download data
-                 return False
- 
-+            # hack for json5 style responses
-+            if raw_data[-3:] == ',]}':
-+                bb.note("Removing trailing ',' from nvd response")
-+                raw_data = raw_data[:-3] + ']}'
-+
-             data = json.loads(raw_data)
- 
-             index = data["startIndex"]
+/Ilias
+>
+> Alex
 
