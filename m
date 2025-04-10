@@ -2,182 +2,158 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EFC4C369A8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70803C369A9
 	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 11:50:00 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.57])
- by mx.groups.io with SMTP id smtpd.web11.30465.1744278232902827505
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+ by mx.groups.io with SMTP id smtpd.web11.32534.1744285542715443979
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Apr 2025 02:43:53 -0700
+ Thu, 10 Apr 2025 04:45:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=VyNFjAoO;
- spf=pass (domain: siemens.com, ip: 40.107.20.57, mailfrom: adriaan.schmidt@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZLDyx3KO/2Ip1Y9WzCUZ5CXvHELSopPp7CNTmISan9KR2zhdGIvfeg6aoVWOYb4ughvHUO4jY+M5bDxTj5pVbBMziJ870Tw1hHajg0ahcUqWI6AFYfvnYhFzObjTBpLeDJ3srJzZ9hwuJfBvxUIlUEt3dL7+HeuOLMdvdvB/O21SBjoXMAEsEqnHpdv7U603FhjXGDEGvJ2ntbL9+e+QF3OBptsWH8PMJ1QROv5rZwdRtNWdUTrsIFrfMbzLlXoPfy0MXBC1LQfp5vGXPy5HQrxZg5oteY6QItl1N/oLPITqIw93g9P8wui+5eLqJvP7UotBY9qwHImzAYrhoxQCYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=In8Ry4v+IBNVoJhUyYdKxuCYF5VTTQKskaE2KiwxDcc=;
- b=HUmTxjZsJdE1nqj5BdMwwKkVYrygLs3CzTrpLt88A72Ju0wA+QL8vy6vDEvZPu/3XSVrB63CGWT+CuOWt9Kw3wTurYc6PIadlauj+yhdLTNX9Ap0eNLSQDCn8mrEgK8ZlkTi69jFFMinRhb/VWbM7ZOQtX2HKvNNNIOEKklhlSkt30B2H47IXFLVYNAreXQ7TGg5eqOESu61QHeYFJ5sEsZjz3GA4LiinuyNYwEK1EbczbQBE0wstKBCMHVCkoU7CLtenz4eq+eXWlABfJahYwrgL8YT58cyEX3y0qb+SVvxZylnEvgmjiKe4+G3DcT5LmVixprCwRREUlUN6Mhq7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=In8Ry4v+IBNVoJhUyYdKxuCYF5VTTQKskaE2KiwxDcc=;
- b=VyNFjAoO052mP0XU8PEndXUOftn2AxjZ635EI/lDWj1uuuI5TGN4QH8tlGVeBfKWsU6oP8YTrUYYhYQI/06TVpEOxuUBGtq8m80lIZSyi8CmavbQ7Bc/hra/1aQbxFHbSYTXie+LDxIEp6dKM8JaKD039LKbqGwxs7yrypLp4GROnkKp+33NChnJcduIJ99GETBDJ/11AnN+eMVf+gWXqS/C8qCW7gm8F5P+fPIUEgOdYnUR85HFZRH5f4QisgdWanwYfEcEfnZv0RhVSH00dTWcqqq8n5mx1+Sgzvio8nNnWGVWtPanuCtopQrJnbrmipcACag5ZIfonPDO0RRQzQ==
-Received: from AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4b8::15)
- by AS8PR10MB6200.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:54e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.35; Thu, 10 Apr
- 2025 09:43:49 +0000
-Received: from AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::2089:5290:a418:94a7]) by AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::2089:5290:a418:94a7%5]) with mapi id 15.20.8606.029; Thu, 10 Apr 2025
- 09:43:49 +0000
-From: "Adriaan Schmidt" <adriaan.schmidt@siemens.com>
-To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"ross.burton@arm.com" <ross.burton@arm.com>
-Subject: Re: [OE-core] [PATCH v2 1/1] libunwind: 1.8.1
-Thread-Topic: [OE-core] [PATCH v2 1/1] libunwind: 1.8.1
-Thread-Index: AQHbpP1dWVA4zTFLFky2Nc1PShFYJrOcrSRA
-Date: Thu, 10 Apr 2025 09:43:49 +0000
-Message-ID: 
- <AS4PR10MB5318838632DD23699735E538EDB72@AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250403081907.3422293-1-adriaan.schmidt@siemens.com>
- <20250403081907.3422293-2-adriaan.schmidt@siemens.com>
- <58ea2252-aa7a-4fbb-bada-68153dd30e7a@gmail.com>
-In-Reply-To: <58ea2252-aa7a-4fbb-bada-68153dd30e7a@gmail.com>
-Accept-Language: de-DE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=ce2fefee-95f1-4046-a362-f0a5056fc661;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-04-10T09:33:05Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS4PR10MB5318:EE_|AS8PR10MB6200:EE_
-x-ms-office365-filtering-correlation-id: 5a7a09a0-0885-4e3d-9aee-08dd7814324f
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?aC9JUjhkWDhvK1I1Y3hlQWFKRTVBUEEwZGhCaXowWjR0NFE0U1VPOXF1V0xl?=
- =?utf-8?B?TUdOK0lObzZzS0pTcUFSWEFLMUhLcUFEWTAveVEzNTFia24yOVVuQUlXRDdI?=
- =?utf-8?B?VlhUQUxwUjFDelhmRDBNTHhpYnJmalhOMzc2T0JMa0NhdkQxVVMzdUgvcXB4?=
- =?utf-8?B?YU9YdzJ0T2xGLzRZUUF0WTNleW1VT2xXaHpMcEFHblFpSC9vbmdrWjFOOTlL?=
- =?utf-8?B?bmViUEY2aWcwV3RQZ0JrNWVlWXNnbG9zbldubWxkVkNVQkdDMUtMUHVtb3Jh?=
- =?utf-8?B?cDhsY1MvYUx1bVZSQnRRZDllMXhiUmlScjdwelhHZDdLQlpPNWxQMkM3YXNO?=
- =?utf-8?B?RGdJSThMejB5aVRTcUpDc1hKNE15MUhVa3FPSkFVWWE1WUx5MFA3L3hOUm9X?=
- =?utf-8?B?SjBJTzF5ejhzVFY4dDFlUGNPaHZLbVAyM0Z0ZzlGYm1xbnFoUGxNVTgwaVBU?=
- =?utf-8?B?UTYrVGNSS1Focnd0Z3lRdVJiMCs5NFFxQ1dqTmVkWDYyZWJWcDhTbk1yejhz?=
- =?utf-8?B?WTR6Mk0rcnJoVXhzVlFZMUhoMWYxR2JvTFZPdG9uMFhsZDQ2L0NRRnZ5NjRi?=
- =?utf-8?B?TGtkUWhZUTJMOUR2ajJueW1paGg4cThmSXd5SHpmMGVsVVpsTCtWcHpQZDBk?=
- =?utf-8?B?cWFZZ1F2Vk9CV3dob1dGcW1hMHR0alA1cEtOaUVFY1NqQTlOS2paV0ZUUXBv?=
- =?utf-8?B?ZzlTY2thZi9xSVNCTW9ZSng3WVFGN2ZSUlIrdVJ1TFlJNWFaYUwydzE3bDMv?=
- =?utf-8?B?cGZRS2hBenU2aWY4UWIwOXJVZUkyOEwrdzV4U21TL2pMUnJEdW9xSjdGUUdF?=
- =?utf-8?B?M2Ird3FxSUY3RXI1aUM4Zmx5REJ5R000U3NjcjE5RnVOaEJmTEdiMXVQZHl0?=
- =?utf-8?B?aC9MK3N2OFdEb1dBd0tUdGdOeElpNlFXckNSWk5PNjVId0UzMUVuMmJHZ2JL?=
- =?utf-8?B?UW41Sm8zSWY2T0hsMzhocURiWm5GMDUrMzJEQzYrVHRNZWxidlhOLzQyK3l3?=
- =?utf-8?B?dGNsellqMHEwS05yNDdUTlIwUm05cEVxcGtpajJSekdLZlkrS0RydjVpcGRw?=
- =?utf-8?B?Q3VOUHl0QjlRQ0lNQVNIeEZqam1MQUo5MWY3cnFEdVJTSVhJSE53SE9uTHZW?=
- =?utf-8?B?cTV4V0hRaTk4NzgzaWJKcXJWZUZONzJUd3VXNTB0VXh0MHdxVCs1blN4UVYr?=
- =?utf-8?B?bWNSVlMvbWlsbUo0TUUybm1ZMlc4MmsyVElnV1RiT0QvNDVET1lTeTZMRUd6?=
- =?utf-8?B?SzRKUGFVUlZtSkVJS3QyUElYdTRSNEczaEN2ZDIvdVFacmduR0RybEZ3VFBK?=
- =?utf-8?B?eWRFY0JzOU5VSXk2M2ptSjh3NlN1T1h1K0hudDc5S2Zsbk5vNXk5d3RuVGEv?=
- =?utf-8?B?Q1hkTnpXRFdoZ0FQcGFFM1R6U0pvaVdWNnRZRmpKbmJYcUo5K0JNV1gwR0lx?=
- =?utf-8?B?ODhhR2FGVmxaZnFGUXZOeTUwTFpXMVVpSmM3U0xPNHhJbm8zRnZwQXhPWVF0?=
- =?utf-8?B?UGphVzUwN0Jqa2RmbXFBY1lFU3FKZUVBN0NZSll1RWdydDJCdUZPT0cvRElm?=
- =?utf-8?B?T0RCYmFWeUdHbmljeWRwU0ZsekkxK2wzRnBMMFpKNWlLUXloOG5FRzV3V3pJ?=
- =?utf-8?B?dGMxbmlGbFgzMENON2U2YjJpVDUzTkdFb0FscWU5SE5JSTlFRjViQ2FzK1pl?=
- =?utf-8?B?L29FbUFid2F0N3pIV3RCN21VMGJON1NtRXg0c2dJMkdGZ2x3Tkg5dTl1N1Vl?=
- =?utf-8?B?aDFjREpVbHZ3SlRsMTZZVXB4WXlIMG5mVWtzUDVrUXFiL09EN0tGUlJ2bFY5?=
- =?utf-8?B?TS85WUY3OVF5VGpPU2NOaGQzbXpSdE9nT3JLbGNyeWRqdEpJYlQ2WmV0alBJ?=
- =?utf-8?B?VEdIa1hHU3Z6ZHp5anBSaTRWM3o0T2tQSnNvemRwc2plREFnSWVjSGdDYUov?=
- =?utf-8?B?b3FNU1VGRFpTL3gwRnYvT3NuU3ZhRFdXMkNlcTZtQVpudFdTUTlTNzBaT2Y1?=
- =?utf-8?B?aDlzTEpOVzZRPT0=?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?Vk1QdE9xYTViSjRjL3VSMlVEU0xiK1E1bUlobXZ5cVZtWFRsRTZ2WWlmY21U?=
- =?utf-8?B?amxRTDBDT0w4YTVzdTRUeDU3VzBLUVRGVi9rcjFhdWpXQlNZU08va3dpUy9w?=
- =?utf-8?B?YmFna3FQWUxJSUFSNll3UEF0MjNuaGRNaVFRSTFRZG0ydkRPakozVDlSVFp4?=
- =?utf-8?B?UldoQlE1bTQ4MkRYWVRJOGdLQjVYUEJyWUpKSms1eFlpY0FqUUt1QzkxWXAv?=
- =?utf-8?B?V0dESEtCaWFtQ2RDcDVGRzNLQ2thTnlRUUUycFRkQmlKb0RvVnpNQU50S1R0?=
- =?utf-8?B?eVZ2N2svaXNUeVZGK0hoY2QwYjJMTEJYc01pTkVwdXpVZm93MERmbG1wdEZk?=
- =?utf-8?B?KzVnL2JXeENERGpQZ05HbXpsV20rTnk1TUV5ZHJpQm5ZNXRTTFRFcWIvTFh1?=
- =?utf-8?B?bUdNSkZCS0I0S3Q2b3JvU0k0WlNaYW5pVjJGYmdHTytoQkNJZXpqSm5KdGZJ?=
- =?utf-8?B?TnpyVEhDTjZXcWsraVBpaVBzV3B5cGRpTHROQ0FxRVNxL3FQVE9RQ1czZXdE?=
- =?utf-8?B?YzA4NStadjQ5d2FkOXJqTUU4ZnY3ZHlyaFJvMU14cUFoU0JBUjdDVGNQLysv?=
- =?utf-8?B?bzR2WG9uc2RrS3Z3SkFRVnhxdS9VSFFaRXkvOUhBcE84ZEM2S1Rsa2NjKzJx?=
- =?utf-8?B?M3FyNElweUpnTTQybW5BVzdIMkp6Skhqb3dQTE5KQUUxNWZNTW85MU4zVVRD?=
- =?utf-8?B?K1haUk5YVE40ZGhueDB3eW5xNDZISGhnV1N4Tk5HUFk4TGpiOG1SSFIrSWxX?=
- =?utf-8?B?OUtOd25nQldNYksvQnJXZVNMN0hmclBRbkIwU0k1dnRKK0NQc3F5SkRsY1VS?=
- =?utf-8?B?UE5sZTVmczFzRnU0dWFpRWswSDlwMTFzdmpPbXJDQ2xoVTQ5YU5qNkdXVlVz?=
- =?utf-8?B?N2JZNkl4VFpSV3BhL3hueUVQdFMzenB4blFMK3ZaKzg0MHJpNWJBaDZFSUl2?=
- =?utf-8?B?MzFVVVc2REJMT1NMdzV6aEtwWmRsV2J6Vk1FRjhkc0JJaERoYUxtUm9oenhB?=
- =?utf-8?B?OHhUT08wQkJoRlQ2V1R2TytURzBneWRWNXdsRXFGUjNnNHZwZ1ZpWmJCMFBD?=
- =?utf-8?B?clo4dVp6dys3U1pzWEFvVlhJUHNuWEE3V2ZVdlBGVzQrYXJScHgzdDhQWW5V?=
- =?utf-8?B?NEVvVmVjQlkxYlVHT3g2b2J2M2tHSUJVNVJGTUxiNXFweTdkWG1KLzJ0c25J?=
- =?utf-8?B?NVozdEFBNHBJc0ZBenBjeXdoOTlWcnVLK3lJL1hBb0NZRTZsWUpsUVYyRU5W?=
- =?utf-8?B?STJEa0VORUs3SkRBNk5RV01hdEhwNXdOVHFDRys1TjIwa2hCRTNLSkduYW1Q?=
- =?utf-8?B?cFdQMmRqY3p6UFoyRURWWVN3cXpJTDNkN1kvSmZ2VzZuY3N4aDJDSlhpWEc5?=
- =?utf-8?B?Q1VVd1k1Yml0K3RXci9YN1lVWHdoY3JHdTZOeHNkWm9SOGExd0ptalI3NjMx?=
- =?utf-8?B?TTB4eENhUUk1bzNHQ0ZKYWdjYVdYTmtOeUtla3p2emxSeU00ZnBMUUE3eVND?=
- =?utf-8?B?RE5vRzM5Tk1zUHcrMDl4emhLMXZXVkovS2czOFVlRStaRU1ibGV3TVUwWXdG?=
- =?utf-8?B?ODhKVGdUZmRFRzNrbS9NelhiRkJIKzU0bjJYZE9WQ2ZnbHE5VDdVY0l0cEY2?=
- =?utf-8?B?aWlIU0Z4bnI4WlhHajRUL0JjUHJlQm1PcEgyN1lsQXpBS0lGV3kxd0tvMTl1?=
- =?utf-8?B?emx0K0RXR1J5QXRvQTdXU0NoNkNlc1Z0dXVCWkNCWGFpVWNUeWZyWDhkTHFi?=
- =?utf-8?B?TWl2aGFtdnFGUGVqUW9Fd3BqWVhlTWVLNGpHRnJTVGZDNHFpV0xPTmVtL1lQ?=
- =?utf-8?B?VWdjeGdPVHhRa0E2R3BRcEhELzFLUjAvRURMSEd4bW5xU1RZNXp6Zkx3TUx5?=
- =?utf-8?B?R0F0dVk2UTFRK2ZvcXFsdHFrRWFmZlZuYzZEMTNYNDRrQlFNWnpIenBxb01D?=
- =?utf-8?B?QWZmeWlCbHJDM1p2em9wajBMQ1hFOVNwYkpiTll5NXNZNU9MYzhjZWNoNWtF?=
- =?utf-8?B?WFJOZXNwbVlCNDN2MUU5RlFWeGhsU2hlL1NXU2FKamNIOTQvYlJHbFI5Rjdv?=
- =?utf-8?B?WWdtcmpub3p1NytIeFRqQVJtY2YxcFlwZmlsR1RBYTd4OWdORStiVEUyU2Jr?=
- =?utf-8?B?QkJYeUZ2eHNJNFZEWTNGaUYrSlgzampGcXV0TE5VaWw2YnQ2bzdXOTR5TExi?=
- =?utf-8?B?WkE9PQ==?=
+ dkim=pass header.i=@linaro.org header.s=google header.b=J35Zhmy5;
+ spf=pass (domain: linaro.org, ip: 209.85.219.177, mailfrom: ilias.apalodimas@linaro.org)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e455bf1f4d3so514071276.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 04:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744285542; x=1744890342; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ylj/Yrf5eDZfgsdVygftBpvzHNTOZDZGZT8u1ho190c=;
+        b=J35Zhmy5JmC5apKrcjutRy+eKNFhKS/QwN4YcR1lrQgdcUyLoahbNqd293XdGdvWNx
+         OcyUQtJd2c8ID2kj5ZCvfJ1arRbUbRN0qu05wkY7scgEJxmxxdyGi9LT/4KJ0J76SxCf
+         6PewNQ7ao5L25lcDV+MhgwQO1vf9897G8RYt1MAJ/18WMPSYeZPZTidN3G1Xcu3KB3z6
+         TuP5ICSzvi0eklbcvqlJpTmRRYEU6BiUI/8PHMfhnx/PD4FZd3D355rSEA5lss7FNfvA
+         2IPq4ht+/aCOLjbFj2RqMGohwPpCm4Z8aAfPQcN9FjF6RIwDbp4XL0DSbZ8mBd51UZsG
+         D+Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744285542; x=1744890342;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ylj/Yrf5eDZfgsdVygftBpvzHNTOZDZGZT8u1ho190c=;
+        b=wtcfeYzyxypBLTEaR4V2Y0WkcVtRZ5JwGDYPGrD8HgCDGxzoDmoDS6xt60YqaYCPIO
+         1fnAg9lbGazG7zTUp4UKKM2FCf1k45tivnzrIkp3wSC2jDTBK5sQOnVuVbEEZPIuwo50
+         Hef24eGNFrxeE/Cwe989Pfq51CR1F3BE/ZURLpFBbFygEWYRn1iwnIDSAAKP7ADFP9wb
+         4eRMAACiJDzM5CTrsvs2bFI9KMLHBjtX64ux5sxz3lrUopURmLeExopDyHE7sfHM1Blq
+         JP5uPpC7Ow1ldjns00ndIiQ7qvPLKT0lWp1LkcwUo0qgrGxWUmX6zUdYAxNiAERpa8mp
+         1rNw==
+X-Gm-Message-State: AOJu0YwNr4XaAbKJsXFzMG7iv43FMnBD8uGmtHYMPzVJgfiO9sMK84G5
+	BvYck6WjOzNQeFHPCuXC9fgtfBW6YLRt6Mk7n3Z2Q3ulUaXLtsowqewV0atw2YWWsleXYLuqJiF
+	j+kAFqMAM4nR/xZxK4Da+W7H+7tvrazwjb36D0Q==
+X-Gm-Gg: ASbGncs1TZ/GqI+9dSP1MIcw0nCJhbP0iH+txxJJY4l5HjKyKpsIzaURjjtzKLlsMOg
+	Wz3Atgp4w5M/23zZTv3XQTa+S8/oGPONWVDX6bet8abKfgvJuHiijK06HG/ihp57QOnt9L+HJPA
+	l3Vwz2tJQiTsAyAixCXcdOgoE=
+X-Google-Smtp-Source: AGHT+IE9FuveNujsHdftfQT2076Host3LeygKw+87e76ManJCjW+0JRc3oDo+R9WgKtTrwfguJ4aU3bVgTglDAoRulk=
+X-Received: by 2002:a05:6902:490c:b0:e61:18f0:8505 with SMTP id
+ 3f1490d57ef6-e703fb4980cmr3298175276.7.1744285541883; Thu, 10 Apr 2025
+ 04:45:41 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a7a09a0-0885-4e3d-9aee-08dd7814324f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2025 09:43:49.4694
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +3YAv1EFl3vS8hp0BGYom7fUvR3kH9ICf4BrRHNSQOJaQKvas0DL/ZR2BmqBbjhU5eU7g9bbf86PLaRPzlHi72nzLcgE6/6p1gvci4/DPhw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB6200
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
+ <20250404162932.447699-2-mikko.rapeli@linaro.org> <f84af1a6585338787539ee5be5826adbe434e8a9.camel@gmail.com>
+In-Reply-To: <f84af1a6585338787539ee5be5826adbe434e8a9.camel@gmail.com>
+From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Date: Thu, 10 Apr 2025 14:45:06 +0300
+X-Gm-Features: ATxdqUF-8EzDhMqc-ZV29z5pqYJCyw0cw9qQzgJ-bj7r-LsJlyNoFKcpzHUL8T4
+Message-ID: <CAC_iWjKTmSEOe6HUcPFUZLaBuA2+6ZwOYaYiqK0_R8KGNPU1Ug@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 01/11] systemd: enable efi support by default
+To: Adrian Freihofer <mikko.rapeli@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 11:50:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214653
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214654
 
-S2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4sRnJlaXRhZywgNC4gQXByaWwgMjAyNSAwMzow
-MzoNCj4gT24gNC8zLzI1IDE6MTkgQU0sIEFkcmlhYW4gU2NobWlkdCB2aWEgbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZyB3cm90ZToNCj4gPg0KPiA+IC1DT01QQVRJQkxFX0hPU1Q6cmlzY3YzMiA9ICJu
-dWxsIg0KPiA+ICtDT01QQVRJQkxFX0hPU1Q6cHBjOmxpYmMtbXVzbCA9ICJudWxsIg0KPiANCj4g
-V2h5IGRvIHdlIG5lZWQgdGhpcyB0byBkbyB0aGlzID8gSSBzZWUgdGhhdCBhIHBhdGNoIGlzIGFk
-ZGVkIGFuZCBvbmUgaXMNCj4gcmVtb3ZlZCB0byBzdXBwb3J0IHBwYzMyL211c2wgc3VwcG9ydC4N
-Cg0KQWZ0ZXIgc29tZSBtb3JlIGludmVzdGlnYXRpb246IFRoZXJlIGFyZSBpc3N1ZXMgb24gcHBj
-MzIvbXVzbCB3aGVuIGJ1aWxkaW5nIHdpdGhvdXQgIi0tZGlzYWJsZS10ZXN0cyIuDQoNCldpbGwg
-cG9zdCBhIHYzIHRvOg0KLSBkcm9wIHRoaXMgbGluZQ0KLSBkcm9wIHRoZSAiLS1kaXNhYmxlLXRl
-c3RzIg0KLSBhZGQgIi1sYXRvbWljIiB0byBwcGMzMi9tdXNsIExERkxBR1MgdG8gZml4IHRoZSBi
-dWlsZA0KDQpBZHJpYWFuDQoNCj4gPg0KPiA+ICAgUEFDS0FHRUNPTkZJRyA/Pz0gIiINCj4gPiAg
-IFBBQ0tBR0VDT05GSUdbbHptYV0gPSAiLS1lbmFibGUtbWluaWRlYnVnaW5mbywtLWRpc2FibGUt
-bWluaWRlYnVnaW5mbyx4eiINCj4gPiAgIFBBQ0tBR0VDT05GSUdbemxpYl0gPSAiLS1lbmFibGUt
-emxpYmRlYnVnaW5mbywtLWRpc2FibGUtemxpYmRlYnVnaW5mbyx6bGliIg0KPiA+ICAgUEFDS0FH
-RUNPTkZJR1tsYXRleGRvY3NdID0gIi0tZW5hYmxlLWRvY3VtZW50YXRpb24sIC0tZGlzYWJsZS0N
-Cj4gZG9jdW1lbnRhdGlvbiwgbGF0ZXgybWFuLW5hdGl2ZSINCj4gPg0KPiA+IC1FWFRSQV9PRUNP
-TkYgPSAiLS1lbmFibGUtc3RhdGljIg0KPiA+ICtFWFRSQV9PRUNPTkYgPSAiLS1lbmFibGUtc3Rh
-dGljIC0tZGlzYWJsZS10ZXN0cyINCg==
+Hi Adrian
+
+On Thu, 10 Apr 2025 at 14:21, Adrian Freihofer <mikko.rapeli@linaro.org> wrote:
+>
+> Hi Mikko
+>
+> On Fri, 2025-04-04 at 19:29 +0300, Mikko Rapeli via
+> lists.openembedded.org wrote:
+> > For example genericarm64 enables "efi" in MACHINE_FEATURES
+> > and in u-boot. Boot without "efi" in systemd works with
+> > EFI protocols but for example efivars is not mounted at
+> > all so various checks fail in userspace. Fix these by
+> > enabling "efi" support by default to avoid making
+> > it machine specific. Fixes efivars mount to
+> > /sys/firmware/efi/efivars etc.
+>
+> My point is that many OE/Yocto-based embedded products rely on a fully
+> redundant and power fail-safe firmware update and boot implementation.
+> So far I have not understood how this could be implemented in a
+> similarly robust way based on EFI as we have now without EFI-based
+> boot-up.
+
+As far as the firmware updates are concerned there's [0], which is
+also implemented in U-Boot.
+But even in that case, I am not sure I understand your concerns. What
+prevents you from having the existing mechanisms for firmware updates
+on a system that boots with EFI?
+
+>  I would therefore like to see the EFI implementation remain
+> opt-in until it covers at least the most important use cases for robust
+> embedded systems. What I primarily miss with EFI is a reference
+> implementation for an A/B update system without having to rely on a FAT
+> partition without journaling. Please correct me if I'm missing
+> something!
+
+Where does the FAT partition requirement come from?
+
+>
+> Would it make sense to declare poky as an EFI ready reference
+> distribution by enabling the efi DISTRO_FEATURE there, rather than
+> starting with making recipes enabling efi unconditionally?
+>
+> Could something like this in poky.conf work?
+> DISTRO_FEATURES:append:aarch64 = " efi"
+> DISTRO_FEATURES:append:riscv64 = " efi"
+> DISTRO_FEATURES:append:x86-64 = " efi"
+
+[0] https://github.com/ARM-software/edge-iot-arch-guide/blob/main/source/FWU/MBFW/chapter1-introduction.md
+
+Thanks
+/Ilias
+>
+> Thank you and regards,
+> Adrian
+>
+> >
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > ---
+> >  meta/recipes-core/systemd/systemd_257.4.bb | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/systemd/systemd_257.4.bb
+> > b/meta/recipes-core/systemd/systemd_257.4.bb
+> > index 64fb8fe69a..06e5621398 100644
+> > --- a/meta/recipes-core/systemd/systemd_257.4.bb
+> > +++ b/meta/recipes-core/systemd/systemd_257.4.bb
+> > @@ -68,13 +68,14 @@ PAM_PLUGINS = " \
+> >  "
+> >
+> >  PACKAGECONFIG ??= " \
+> > -    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit apparmor efi
+> > ldconfig pam pni-names selinux smack polkit seccomp', d)} \
+> > +    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit apparmor
+> > ldconfig pam pni-names selinux smack polkit seccomp', d)} \
+> >      ${@bb.utils.contains('DISTRO_FEATURES', 'minidebuginfo',
+> > 'coredump elfutils', '', d)} \
+> >      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '',
+> > d)} \
+> >      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '',
+> > d)} \
+> >      ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit',
+> > 'link-udev-shared', d)} \
+> >      backlight \
+> >      binfmt \
+> > +    efi \
+> >      gshadow \
+> >      hibernate \
+> >      hostnamed \
+> >
+> > 
+> >
+>
 
