@@ -2,84 +2,81 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89329C3601E
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 12:11:30 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.32635.1744287084815726794
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94416C369A6
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 12:13:00 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web10.32659.1744287170513914843
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Apr 2025 05:11:24 -0700
+ Thu, 10 Apr 2025 05:12:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=e3EaW3kn;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6e8f06e13a4so17847216d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 05:11:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YtUFQRqj;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7c5ba363f1aso106437585a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 05:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744287084; x=1744891884; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1744287169; x=1744891969; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZZMx5EN4c42T99S9+lSvgijgbxrzCYqqy9jnOJHPTE8=;
-        b=e3EaW3knCerLtN+QPa5rPOpeG4ID3QUAHJznIOFpe4EqH9bDUcYrE/pYpAEsFHtWUE
-         fmSV6pluR7W5e1/cFiJ8IglCyyFAQLo4EaRbwi/NqgdP4FaKz3sABXquaXTQVh+r9XO4
-         RLHMyF4B28ThDrsAlR8ZnUF0pGFKRM4gObjCANmmUNIe9fQHeV7X10+YmgE+sK/Nk6Me
-         3Ud9vIZuQvW8SDRx3x2CmHkJGubtefnewyrvwLAVUg3QN53AiPZEnDXVRo4/I13n4LSP
-         /qtu3tnPX8PA6ESgJWOkdoTXYS0Xt7gn6SlxUlCtqgJQSpcLXpUPwpQYSykvRRUbbAtN
-         yf5A==
+        bh=64nUNZX5lrrve8/USnN/6to9IkfvTm7EkrafgAWhwWY=;
+        b=YtUFQRqjuTmIuRkMCFPSgTwPTG/2YwwbsCu9a+9qh3BVgdZA3zneptJ0NngluuX51+
+         /Gn7akXmMlkbBfSmWi9cBEyQcNyW1tBhRxrxnqTG6bxzHw8Gu/7o3Pd5ZyMAt58oGLKv
+         eGI7QBl6SD1xMNl9mJF4s6FiepR4BGYcDmOomGjcDojt3v/6o80ttgSTHTD7+CBW1hGn
+         32qMKQQrHAYf06XRv24oZzESGEb2rxyd6Q5s26C6mVM2iFjCb6u/XvCYazOlZaIRZ/ZR
+         vooJrPLSaZCr22MjHRa6EM+0/yPJZWOwrj2begihAa7rU+WpXyIUAbnGUpTB8tw9ZiN/
+         aEnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744287084; x=1744891884;
+        d=1e100.net; s=20230601; t=1744287169; x=1744891969;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZZMx5EN4c42T99S9+lSvgijgbxrzCYqqy9jnOJHPTE8=;
-        b=QhpmDFSYcrNvJ7BbcxXaoG0HbsMcm3sJOLLpuv3hshkBVmKT1ST1Exw3KG3Jnjt/XK
-         HSwQNqd3aiS1rLu79js2XSPYwz/dlRURs+sgKe3Sd9ZEvumI/IPYcjgy7/as8idc9yCz
-         mFQ4hsCzyOcRtKeNQqz6zDQ7WbzjLZgmH4pc5Dd92xvQtEDOZf0igSIJpL8uI89scxhr
-         ju4AjtqzjYo0WsShCnHjXFpAWf5v8UoM4VQkWVZ0BLHDM6FGte6qGhi1GVsbvp9sSH6Y
-         5tv3YmyV+CmBM4I3IS6YMaspTEekZ8IDGG8uGGvnJ/MzooGDsHyjgF+aSxsxwnffVKPv
-         gJwA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEi67KXtz7YSynlCwDJjvRqVs/31MlKXKjJXfscRUI3RqqWQKgcvjWg4J4dONT9q0F8nAzwUoK73JMWNirs2ykVQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz+CcJChxrhYnWzeg8QR8ilwozQHFCEok4ifpDWx1DHSWrniPRM
-	jCC7vnD8AWAozX4C0sz92v+AxlazbIZrGXmcu5xhdyVV5Z13VO+hQXJcwOMLnxUm6NvGL2v5FrB
-	RznPGQCwil/jrjpGFaTuIz33yzAY=
-X-Gm-Gg: ASbGnct8BDX5hHvLrpyjTXOqSRF+/3XtgzQkcXL2XH2RAxBrVfZbTMJhCowXur7zUyj
-	y9yCAYNU639iYWb21Jte7TT9Mv9vhOqLmzXZz/eldtMt7TF9/sfO2GjBks/zLhypZOQIoAnowFg
-	iog0k4Z1tyS9NGY8RVvNYX
-X-Google-Smtp-Source: AGHT+IFsRrR+yeT7pDTrKXsc19BpYRzJnWypO9y7p2n7yXJ1ZiGp7m/9Zt1nRKR9iM1Md/f37TORoGEDQpqiyLg005Y=
-X-Received: by 2002:ad4:5dc1:0:b0:6e6:5f22:bb58 with SMTP id
- 6a1803df08f44-6f0e6477e70mr33458396d6.20.1744287083820; Thu, 10 Apr 2025
- 05:11:23 -0700 (PDT)
+        bh=64nUNZX5lrrve8/USnN/6to9IkfvTm7EkrafgAWhwWY=;
+        b=cOHm+SaZ3OVSnSCDAPsiyTXwYxfmGoYFmyInlJMRCRW8+hc3nZ9X0C26BzhQVw1/4X
+         xQ/yYCM89X3vs/RB1TWdvPoGoj7pnsOaZB0IEKdzjA9Z+QPY0J8lSOywLcCr/TeMk/6t
+         94+5wedAeqm/12VQ2LHIwqHN5NwuWQxHEK323zZY1Dv8Y5zrF6aige8RGxrwE5GAUE03
+         yn7RQuXhYgPf/r1pP5HMlTp+Imz2E5PbP6XVKT+St/UfKmDsuvefNsC0ncrRuZHlFgUA
+         IdFrGxua7qgZvjMrf2iXcY1Lsvl3vqLKbpEi6v0f5zlB2LHDXSB26A/2JZfZYew95Cjo
+         nZ8A==
+X-Forwarded-Encrypted: i=1; AJvYcCXNn8Lcke55/TAqATEKflgBKNDk/wjwP/QqhW7AORRO+uzk0PTti5m+jFE79Fqtv55p9REhK/iWhvH4K4GBvMtWpQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyCb7JLPcGZYLOMwhwZHew6t6guGAOYExgu3GmnLMvufBqV/Fd+
+	fkGR+aSBWNkGP9AiodtChAs+mzA48iex8BANHZPI4AJxvIyWDHUq1dzvDEUfwmw33pmrdyLYLZ9
+	T0UKJI5YQYVZ11tR101Z/wazP+Oc=
+X-Gm-Gg: ASbGnctUcAX7F/2z3o1yZX64FpqP7xVVAespzCEWXpC631CNbEuRqNOeScXTybmfNuC
+	HzFHlteEoQDBIAQmj2ihIugLWzZkSf/GuaCqC/4FsPp78pBC7d5J8yjU/kra3jFZxiDOXJo29AB
+	5n4suWy+0xLhAwff0J1eZL
+X-Google-Smtp-Source: AGHT+IG/W2EYgaSfy2/u9+It2wJA1WO40T0FhW9eg8wkxIt9aLQTQ4pDG5Z6LzxYYVNyZtEiKQw2Gsg2iquejh8AIG4=
+X-Received: by 2002:a05:620a:f0b:b0:7c5:61b2:b84 with SMTP id
+ af79cd13be357-7c7a766e493mr318339185a.19.1744287169539; Thu, 10 Apr 2025
+ 05:12:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <CANNYZj9qgX5=4Jym0Uq2u5VJcZ89c-MRSU9oiTkUbBvNvfSFtQ@mail.gmail.com>
- <13400.1744285010599994886@lists.openembedded.org> <ff2d65f3242dec409f8ed3bce874622d396ed88c.camel@linuxfoundation.org>
-In-Reply-To: <ff2d65f3242dec409f8ed3bce874622d396ed88c.camel@linuxfoundation.org>
+References: <20250406180920.262141-1-quic_vkraleti@quicinc.com>
+ <CANNYZj-JtbiNz37guCB_mJbOb19GJSDTpmAyY0_ZtDHr7yM7Sg@mail.gmail.com>
+ <5xm5ehw5pf5olcfqvlh2t6jqn5bq2uged36gjvoovjj7ihg7r2@fbsiin2cu6wr>
+ <CANNYZj_7xdpUO9fAtvgqEi07n5CqEHaqeKaAnUjufmS57oTf6g@mail.gmail.com> <3mmfhxscjnsdpimcrsw72sjvumxh5cnjrntro3ko7etgtjmqzc@slvytxctp6lv>
+In-Reply-To: <3mmfhxscjnsdpimcrsw72sjvumxh5cnjrntro3ko7etgtjmqzc@slvytxctp6lv>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 10 Apr 2025 14:11:12 +0200
-X-Gm-Features: ATxdqUGByZfjKP8QThyxxxsuSODaAf7azFYgWbtBtAGJ1d_vkg_DLTMGavNhCF8
-Message-ID: <CANNYZj9r9D7PzkGm-5tPQVTyU_MkyQngS+RbZii6+4YToGNLVg@mail.gmail.com>
-Subject: Re: [OE-core] python3: Allow to specify which pyc files to keep
-To: richard.purdie@linuxfoundation.org
-Cc: lw@hqv.ch, openembedded-core@lists.openembedded.org
+Date: Thu, 10 Apr 2025 14:12:36 +0200
+X-Gm-Features: ATxdqUEyPIwmNIrfiYWMfDGgVJGmFQu2UqwgEQlFPBS-uoIvLW1OKw_AN46Mi5M
+Message-ID: <CANNYZj_6bKTFQburZyBOq7sO_7coVsh_ZTiu+r2byWYdo4DYxQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libinput: split udev rules into a separate package
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: quic_vkraleti@quicinc.com, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 12:11:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214656
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 12:13:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214657
 
-On Thu, 10 Apr 2025 at 13:58, Richard Purdie via
-lists.openembedded.org
-<richard.purdie=linuxfoundation.org@lists.openembedded.org> wrote:
+On Thu, 10 Apr 2025 at 13:29, Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+> The commit message definitely needs to be improved. Anyway, here is an
+> error that we've faced:
+>
+> ERROR: packagegroup-qcom-1.0-r0 do_package_write_ipk: An allarch
+> packagegroup shouldn't depend on packages which are dynamically renamed
+> (libinput to libinput10)
 
-> The key question is whether this level of configuration is generally
-> useful enough to be worth us maintaining it in OE-Core. I don't know if
-> this is something you needed for a one off investigation or that people
-> need it in general.
-
-I think it would be good to step back and look at what these
-optimization levels actually do. Upstream clearly treats them as
-optional opt-in via python interpreter command line switch or
-environment variable, which means they don't think picking a higher
-default level is something python users should be doing. So why would
-we be going against this approach?
+Can you provide a way to reproduce this with just oe-core/poky?
 
 Alex
 
