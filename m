@@ -2,83 +2,91 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E796C3601E
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 14:20:51 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web11.35815.1744294844862675849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58D88C3601E
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 14:31:31 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web10.35702.1744295488718350578
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Apr 2025 07:20:45 -0700
+ Thu, 10 Apr 2025 07:31:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CgbI9KFJ;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6f0c30a1cf8so9121176d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 07:20:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XXiUTknk;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6e8f4c50a8fso7771926d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 07:31:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744294844; x=1744899644; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1744295488; x=1744900288; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fts3gAhD9PjzJ46tmZ1T8LF/MhGU44s5dRVni4gxCR4=;
-        b=CgbI9KFJWmhK6wseL9OBh0fo0dGUHDlclWew66ONegxSMzKdZYNzX4PaeTT7CCD+Pc
-         XWkr96MTjZgAczvMR6P26ZXmIJc2DfQEoxLR8QbTnXjmMsZc4wu10lOasj8E/1gwJP8r
-         PogDtBoDb43tVDMhbNtssJ+72NtEg9o9gfjz5cxC+iWp/l9z/ppvpqCa3nOSIg+ppE/T
-         GH4yKH65PG/cRNT08jHjG/qoVB7kT0BYT4GMIAuciPE5Qseye9/MZmDJ8m19Y5COG/a6
-         Y7RAmFHa2VkvsJnmT3IWgnyKXERK1gki6CqvA9r0lDGTy4hOQisQiMbBHmxbCg/Y07ro
-         S9FA==
+        bh=mLAiylM1fWiYJ8HdwP6e7TugVLpU0gUS3AAPaWxvAZw=;
+        b=XXiUTknkMWQBclGKnqA9q+RVKxDMz2FBlZ8EdH7FtoQ9G+SKK4Koym6uVpSPlmAX+8
+         HuXsC6wilTrsJAVJjuuF5GbnC4qXpz2gNxz3ConIfiwRqyv8T/b8w93OLBUaJbYDpB3T
+         jSUWClgqOevYQXMnv1t0VISNodvrI16bn0O4a3D6UleIe74nXKb+HOwL9SRV5vXf/2cQ
+         /Cf8d9DOwqq77LspgWvAr/TMZn2P3pHtNIHjHeJ1eRQul1389/bKnpyYtpHO9nUmK/XY
+         ChN4b9SqiGl9M6YjIBSrzMUT700ccaj7NG3nUv2SsiW+2GYszvDzE+GpiqgRlOPKrLi+
+         mocw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744294844; x=1744899644;
+        d=1e100.net; s=20230601; t=1744295488; x=1744900288;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fts3gAhD9PjzJ46tmZ1T8LF/MhGU44s5dRVni4gxCR4=;
-        b=P/fw1u6pMTzA0jV5kAAa20wjnkxTKG5kJgPsckSfbW9TieFz2/TgDy6NVP9Hwft1p1
-         pMrkee4pQEZ9P84jygnnZTnYLLXsq+ClhnvZ135IUODSb6C14sKvWKSAjKuSR7T2aaWT
-         1kyzVIIXglUSRfQvUitS9LFm4kPGoPYA4LYJyqOQlRXAsEYqt+2SAOZELetxL9X7mqC+
-         9uwPR+d6KvZZ4VxjboHow5/x8of+Y2/ikVdeuQ80NYFGIJHTBzr+UFp9lbbdiue6RWPo
-         +uuvsKuKiy6mulwUbf5dqU2flhI+6COgfPWobSbKLZbuDT1rsxGO/EGQtH+VkbUWPK1d
-         9nOg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzHDqCI/RK3LHjniIjSvfyqy5HNh8WYwoSS/IWAzwn7s9PsHjpI3Sc9KurOaDneRT8CEzTxSr/ipBda5P6Crjk9A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzY1UPxjvylUUpyU0FNtOaxXLOmzySydLgSCpeJjJI/9+PJlyCI
-	n0RFhXQYmCKnZSROkaFkNHz3BFdoUTztJcJvUvJGP3liXRjqfie4zi68Kt7X321RtOIkaYdnEPf
-	EFGZJyH8ImN22QdjVdtFbHj71r+c=
-X-Gm-Gg: ASbGncv+O82OFm3r66Fh8RedCfeWSAojFJUeXMcIS9seBWNYopfYO3QvWJNopNBQVKS
-	1owjgkkX/t5Z5ye9WqC1c5tAYm/1CjnKHcH79Um4708mqPNZpNomwaAUs2wWZRgJPFCN4UpGz5u
-	eKHefqn/IzT/pPvNmxUxShOaGQpj4TeiDcD2Xx4D2alLxSN6nhBjntUAFU
-X-Google-Smtp-Source: AGHT+IEbU1lLVUF5Bqtnmdub94enFR3+XTvZmg28M1CqVi+hY9LBYG0n+wjbBr3zPCQN7KPwoJ4bL1a0RX0JxTMSayA=
-X-Received: by 2002:a05:6214:5191:b0:6ea:d6be:215b with SMTP id
- 6a1803df08f44-6f0e77c435cmr37028926d6.36.1744294843555; Thu, 10 Apr 2025
- 07:20:43 -0700 (PDT)
+        bh=mLAiylM1fWiYJ8HdwP6e7TugVLpU0gUS3AAPaWxvAZw=;
+        b=bvyffjVzF7DVPMR4TC7BtWVPCIu2H9GeGgoZi4R1Gzc2lqEOt4WpSD5rtyEYz7dSiE
+         WhZnkFE4WNhM84cd84W/xACNr5+7LTG1/ryu7ieSSFBMv/TBHs+A3go+5xoTUxTe8NlJ
+         sBghp6jz1SB2TAtxRQzghBtQW/VrW9wFUgmyQ82YtzLlFi6M2tD9BMtf+auOhFsMQNcX
+         Jy2V/oc1A557CPEqKGeTK5VBvht3nx9+foP9t0qTCZliZ6+oB6Xlrhq10SN+UvdEO4Cz
+         AQFSZzBcjSa/HRAfQugGqDYtKMGPGFfzUmAoEoILSnW+Wws+GxfpSNhlH7oa9kIHQfQ8
+         X1kg==
+X-Gm-Message-State: AOJu0Yyo50GkkAYY7RpGqZYHMatcTmrQbzXI0GR4BuPTBAQWjG/APZ9X
+	82QvOLdu7RlidJ2yjmUMpjZNpUuAvw1Rev1MYDzbvIGrtxagt0pMQ+93qRTb6Bb+O2Omjg7svL7
+	t0D1MIKO0rLlf6s4By5qh66GG+v1/vw==
+X-Gm-Gg: ASbGncv7gF4rDgp8RfALv6uBJ4OL1gaM8SnaBbhLMiC5HRroJnJtGpTYfLEo5mkRuA/
+	rBhwjFaM+0TkxrKbuZQ2PNy7RO6e4aSowalGVE/wODMEdweykW2fQexm1GRu6JfQcBX83B1L9W5
+	cyN6FpuvhgP4QGH0wkqrRse24f2gJcudlSLt0yErjiCw+leKeIp9O6xWR0
+X-Google-Smtp-Source: AGHT+IGgRyW3MmLFHfISjR02W/3EdQ2qFtWhsJkJI3Wx3cBe+G2Dt3XQN2bSXNYT0mwYFsQ9gFp7aBYq1nAm2h76oDk=
+X-Received: by 2002:ad4:4ea1:0:b0:6eb:2f7a:45b0 with SMTP id
+ 6a1803df08f44-6f0e77de3f7mr30056576d6.38.1744295487666; Thu, 10 Apr 2025
+ 07:31:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
- <20250404162932.447699-2-mikko.rapeli@linaro.org> <f84af1a6585338787539ee5be5826adbe434e8a9.camel@gmail.com>
- <CAC_iWjKTmSEOe6HUcPFUZLaBuA2+6ZwOYaYiqK0_R8KGNPU1Ug@mail.gmail.com>
- <CANNYZj_eA4k+pRLG=8-V4WEmsthkh_o75fZKOcoTf+00QW2x2A@mail.gmail.com> <CAC_iWj+80LnSOJ=ZeMos4psFwQ4zqt8fo-e13+8sPuBtsmp5Dw@mail.gmail.com>
-In-Reply-To: <CAC_iWj+80LnSOJ=ZeMos4psFwQ4zqt8fo-e13+8sPuBtsmp5Dw@mail.gmail.com>
+References: <CANNYZj9r9D7PzkGm-5tPQVTyU_MkyQngS+RbZii6+4YToGNLVg@mail.gmail.com>
+ <31851.1744290321098835072@lists.openembedded.org>
+In-Reply-To: <31851.1744290321098835072@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 10 Apr 2025 16:20:31 +0200
-X-Gm-Features: ATxdqUFK9sWchJB9JdmOAOyeIwC434qOcbCzD20CXimhDL8X1zXeOs2GBok0bKg
-Message-ID: <CANNYZj8rsSWX7GL_mqQz3h==31wKsA_myVAHbGXdUDv+O7YsXA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 01/11] systemd: enable efi support by default
-To: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Cc: Adrian Freihofer <mikko.rapeli@linaro.org>, openembedded-core@lists.openembedded.org
+Date: Thu, 10 Apr 2025 16:31:16 +0200
+X-Gm-Features: ATxdqUFdpTvDIbL6K6X33dBUbisMUFaWsWqhrqAGn4UbnXywcEJD9s5DBj4Y_0M
+Message-ID: <CANNYZj8JQf8tzC2g7k__TM0B967-szdV=4gt_-tBcNjXL65mXw@mail.gmail.com>
+Subject: Re: [OE-core] python3: Allow to specify which pyc files to keep
+To: lw@hqv.ch
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 14:20:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214676
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 14:31:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214677
 
-On Thu, 10 Apr 2025 at 14:55, Ilias Apalodimas
-<ilias.apalodimas@linaro.org> wrote:
-> I think you are misinterpreting that. That paragraph says "The file
-> system supported by the Extensible Firmware Interface is based on FAT"
->  -- IOW your *firmware* must support FAT.
-> It never dictates that the ESP has to be FAT as well. You are free to
-> format your ESP to whatever FS your board supports. For example, x86
-> macs use HFS IIRC.
+On Thu, 10 Apr 2025 at 15:05, Lukas Woodtli via lists.openembedded.org
+<lw=hqv.ch@lists.openembedded.org> wrote:
+> The reason to use these features of the Python interpreter is that we develop for
+> resource restricted devices. The target device should not need to compile the Python
+> files to byte-code at runtime (which happens regardless of the optimization level).
+> We can do this work at build time. Moreover, Embedded devices usually
+> have restricted storage size. So using the optimization level 2 for pyc files is sensible.
+> Most embedded devices don't need the docstrings in the Python files (simmilar to
+> not needing the man pages). So we can get rid of them (that is what optimization
+> level 2 does, apart from disabling asserts).
 
-But are there any actual UEFI boards that support anything other than
-FAT? Or is everyone taking the path of least resistance and cheapest
-R&D costs, implementing only what the spec requires?
+Most embedded devices also need to be robust. Lest you forget, python
+and its extensions are written in C, and asserts prevent what is
+over-generously termed 'undefined behavior', with a loud crash. Which
+is a feature some people find useful. Can you demonstrate speedups?
+
+Docstrings argument as well needs to be substantiated with numbers.
+How much space is actually being saved?
+
+Is there anything else to these optimizations? Is it documented
+anywhere? How can we know if it changes over time, with new python
+releases? I feel like this needs to be considered far more carefully
+than you have so far.
 
 Alex
 
