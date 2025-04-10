@@ -1,120 +1,125 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CF90C3601E
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 11:29:30 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.32277.1744284568455317659
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62E1BC3601E
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 11:32:30 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.32310.1744284746596402150
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Apr 2025 04:29:28 -0700
+ Thu, 10 Apr 2025 04:32:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=DeX9mRyi;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53A75IIu028831
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 11:29:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=VSFCWYHqZ2e4LjYWLbZZVxZh
-	i9tgfYrWj4xiQFKICEE=; b=DeX9mRyiCdzY86iIY1vYOBj9xKrJtsBrG9Rjo2Nv
-	jFviXlqHj80Ha8zyvmbJ6ywBiUYuX1JRmhGUn9Fy3ulDUt9AZSimdWVv0Vdk4vQy
-	ph4UT4WFluDr2ZdhMGMFUqU9C4Bqjh0/DTjGoIE19lzsKbdj7y2cUyzvsG2SUXY2
-	31HjslVK5QdbxT5ncffoYLDBoh8vrpP2SDPR9SczPJZUkpcXC8BX0qhA2n1wQdtJ
-	RqFZ3DtohvcvoFiiBiiR7Unhd7YgB1p89YML1il4Cys2egAtBR0TRRNGHmcxHjnQ
-	3HRgwd4ZmMUPPPk1338mNeP6ojamktupGCSf5DgNtL5WRg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twbupra6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 11:29:27 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7c791987cf6so157178485a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 04:29:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744284566; x=1744889366;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CUX2reY/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso7836455e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 04:32:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1744284745; x=1744889545; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VSFCWYHqZ2e4LjYWLbZZVxZhi9tgfYrWj4xiQFKICEE=;
-        b=aq/ihXGjPLvjUFLn0arZD3dt/m8z0/pVShqh4SV3wIn6pEzyEWVwwAikSNALpmcrAV
-         Hq2pAsMA/nleMgr0Q9kCGKcCnZwkZ8Y60rWSoySta9UYOuTQ1LL82WoE1UbWiPgV1POH
-         8h1aDxKB2WIP2nok9AximdqdBoqZK0qj4y0PcXYCZONJdviKpWiQjv4eICL4B+19MtL7
-         YRafjpmr56qdGK+KyamRm2braks5joBtK4DQAQFkhkmXdCdesQpAxgrRWQl1koDYV/pW
-         IwMImaq5jKierfx2LY5Xzgbzhkq9nxG7eguOXpFBet0qq8vcRPiiMpRHfWuSTFohAfQ4
-         QM0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWcAvsdcZ+z47bzkln7VIhMjqC7AIHc+WHjkaGSlYdiK6tHHFWM20Nx1sC0/o6F0Q3qNoMFpvTiWsJJCxqotwbZ1g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyiy7Au3YRR9dD9Gye8MLspjgbKy9CleEenzbh8G4pVdf7uep+f
-	l3sApjnMZE2mHvg0hzf/tZys7Wqn3L/qtX0VwhRe5hOBFn52sIPg/mMEkhFIechFUS+DusJLRID
-	DqPjydDLpN0vFRvolUeoWZOt0u4/PI+8Bbvr6q3Wvuq3KeKL2ET//G11+txF8oF77Ir4DeyBO+n
-	j0INk=
-X-Gm-Gg: ASbGncsZ86uK6Qye0E5kOf6ocRPIsIwOZ5OIzp2GkUfR35SNSUdJ/zQuMlQxZuhFd7S
-	hwwO6EmwjAdM0dM8aouH/ThcBY1z690blNv++XWdaVW48zYvhfCBx5FGGombT1P/4tRcYFKkObt
-	cKI1HNfPYHar8ztDsepOhWIhnpAJnOxwNR8e+mhoMln7X/qdqqowFqw95IUJm+dTY2KEEa8I7oh
-	O009acd/KGVOKWBBVN/7dsU+5liNCo0Mv4vHfX0YK0MHZXMdpyiPCvx9hd2cTvtgNP0GuRhXjCT
-	4/0VZH239QtFrLQxeZ1gFMULJ2ZmvkTep0UuPcU+BAJyFlFZpx3qBx3mjavglGY0TpQw3vqyNWo
-	=
-X-Received: by 2002:a05:620a:2893:b0:7c5:5909:18e5 with SMTP id af79cd13be357-7c7a814d9abmr239023485a.3.1744284566703;
-        Thu, 10 Apr 2025 04:29:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGGNaWgyUhkCeh3UfZ2PfKG6kDuLA15QfVTiQXwDA+iesTrJEushw1ar+2xCTxIUpJYVB3EHg==
-X-Received: by 2002:a05:620a:2893:b0:7c5:5909:18e5 with SMTP id af79cd13be357-7c7a814d9abmr239021585a.3.1744284566430;
-        Thu, 10 Apr 2025 04:29:26 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d3d5200aasm122497e87.235.2025.04.10.04.29.25
+        bh=ZAiDD00JtXVzNz1Ck3dYyzPIPeYY0ZbC6UHbUJm/99M=;
+        b=CUX2reY/KmRIYajoPfkvGR5JH3Z6bWD95riH5soJ4XrCbCxlUHoJn3t9a0sYWaZbnC
+         yc9LYSC17plZ1o0fF6sQ45D2/4zvh5lTpzOaQC/kujQur0M3OtkFNPwHeyWxDOZMNQSd
+         nQZhPk6MGRFuue4ABU1aIG9evRbUiu/pCKodA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744284745; x=1744889545;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZAiDD00JtXVzNz1Ck3dYyzPIPeYY0ZbC6UHbUJm/99M=;
+        b=LoPWIVMI6lwSNtMyzSJIYpOb+1y/5Pm2LiRvkPreyEwlC2sRnUFsnMmcZl0I7tz1FX
+         +1KGm8a+dEg0xG+ZpHfWwjpD7SfjaFc8QoinQ3sWogw+MAAFAviONI9uKGOTGWaSxDMf
+         WyOoqy/68yX2+qPtkvWoh+4C3bvy2b2O3hfS/sE3QgFyMQujgqTBUbHyOb9Ia73ZZvty
+         oC5mk68ewVWh78WWB5z3+qoQk6L73df9WG0C/6s8fP8DF+JVIE2DRKEG52FVFA6fcVfr
+         WORqC4xFIem/4TVKHx76LZd1AVgH1rvw4XSBl5XBTsvZOa7Fmew6Icb2IhH5Pa0tHA7f
+         xfXw==
+X-Forwarded-Encrypted: i=1; AJvYcCWF+DGf9yTaDyi1ET/ZTpEGl759PCpzpt6dcLsnczNeY4mlRUpOA06LsScstX6taHqK8PlwDTw9j7XtwF1EVb4XWw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzaWix3v4rcJnmYL2T9udPfHWdO1yEY2sL4DQUuNLN1AB0QyY9u
+	NdfnQj1RHtPPZwj572cHtfqtIPsXsoZW+wkLfSXRW0ZrUHib+5n+JsxHubil7jo=
+X-Gm-Gg: ASbGncuzKQvDOotemsGmvhAcBh/ukFYRK+Q9rv+37MXCo08SWRbYeYXDj6p6QDr98Kv
+	SmgkjJQyXiok+N5cNIwYLxD2XC8cx1PCvJf2NzITRoUF9BbzqukJi1MHpRu/9Uf1d336epN7ZkJ
+	rustwUeNEasf3+xBFhIs2jmLx8+ua8YukomoTAsdZVqufBZsM8ZLV7TE+oBxC46An7QUiuZ57f6
+	NpbFqltNGeLFbdz1otyr8pAyL1DmmDY9jd+ihTazowtCoZ2hVpy9S197fqhPzN+gsjYcLI4aFll
+	dSMvGQy+D9EYg77sg/Sbc0VLGiIH1fAR7jslzSxYofy8uWuL7jWGQTr+1Eokag0A6tKMLCxH/2c
+	jIZwUw9bM3cduLeh5KppetMMZy3cG0sDfFvrb3KOf
+X-Google-Smtp-Source: AGHT+IHR5WadWqTU7U2k73RRKbgueWfaB/ORUbxSm1hF9UhYpq7azb8wrLGcHNH2qHqBihaNy4H55A==
+X-Received: by 2002:a5d:588b:0:b0:39c:3108:3746 with SMTP id ffacd0b85a97d-39d8fda7527mr1637812f8f.52.1744284744688;
+        Thu, 10 Apr 2025 04:32:24 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ddb2:da8c:e063:58d6? ([2001:8b0:aba:5f3c:ddb2:da8c:e063:58d6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39d893f0b35sm4477898f8f.70.2025.04.10.04.32.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Apr 2025 04:29:25 -0700 (PDT)
-Date: Thu, 10 Apr 2025 14:29:23 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: quic_vkraleti@quicinc.com, openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] libinput: split udev rules into a separate
- package
-Message-ID: <3mmfhxscjnsdpimcrsw72sjvumxh5cnjrntro3ko7etgtjmqzc@slvytxctp6lv>
-References: <20250406180920.262141-1-quic_vkraleti@quicinc.com>
- <CANNYZj-JtbiNz37guCB_mJbOb19GJSDTpmAyY0_ZtDHr7yM7Sg@mail.gmail.com>
- <5xm5ehw5pf5olcfqvlh2t6jqn5bq2uged36gjvoovjj7ihg7r2@fbsiin2cu6wr>
- <CANNYZj_7xdpUO9fAtvgqEi07n5CqEHaqeKaAnUjufmS57oTf6g@mail.gmail.com>
+        Thu, 10 Apr 2025 04:32:23 -0700 (PDT)
+Message-ID: <1ac4901e31b26e3b3c0952cb35ed18c298a87a42.camel@linuxfoundation.org>
+Subject: Re: [OE-core][kirkstone 09/10] qemu: ignore CVE-2023-1386
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: steve@sakoman.com, openembedded-core@lists.openembedded.org
+Date: Thu, 10 Apr 2025 12:32:22 +0100
+In-Reply-To: <b6b026e8e1965f8902780b519aa60bb818f920a5.1744145328.git.steve@sakoman.com>
+References: <cover.1744145328.git.steve@sakoman.com>
+	 <b6b026e8e1965f8902780b519aa60bb818f920a5.1744145328.git.steve@sakoman.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj_7xdpUO9fAtvgqEi07n5CqEHaqeKaAnUjufmS57oTf6g@mail.gmail.com>
-X-Proofpoint-GUID: _JrT2UsU6XrJNybo_qTeo12o1e-rF4Hc
-X-Proofpoint-ORIG-GUID: _JrT2UsU6XrJNybo_qTeo12o1e-rF4Hc
-X-Authority-Analysis: v=2.4 cv=dbeA3WXe c=1 sm=1 tr=0 ts=67f7ab97 cx=c_pps a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=ISKeXBN4RVodPBka2XYA:9 a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-10_02,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 mlxlogscore=844 phishscore=0 mlxscore=0 spamscore=0
- malwarescore=0 clxscore=1015 adultscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2504100086
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 11:29:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214647
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 11:32:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214648
 
-On Thu, Apr 10, 2025 at 01:25:48PM +0200, Alexander Kanavin wrote:
-> On Thu, 10 Apr 2025 at 13:21, Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > Basically, we wanted to have a packagegroup selecting libinput, but we
-> > can not select libinput from archall package since the libinput package
-> > gets renamed. It would be logical to make packagegroups / distro
-> > packages to depend on the libinput-udev and then let libinput-udev pull
-> > in libinput10 as a dependency.
-> 
-> This sounds like a workaround for a different issue, so it helps if
-> you come forward with the issue and show how to reproduce it, rather
-> than hide behind vague terms like 'other packages'.
+On Tue, 2025-04-08 at 13:51 -0700, Steve Sakoman via
+lists.openembedded.org wrote:
+> From: Peter Marko <peter.marko@siemens.com>
+>=20
+> Upstream Repository: https://gitlab.com/qemu-project/qemu.git
+>=20
+> Bug Details:=C2=A0 https://nvd.nist.gov/vuln/detail/CVE-2023-1386
+> Type: Security Advisory
+> CVE: CVE-2023-1386
+> Score: 3.3
+>=20
+> Analysis:
+> - According to redhat[1] this CVE has closed as not a bug.
+>=20
+> Reference:
+> [1] https://bugzilla.redhat.com/show_bug.cgi?id=3D2223985
+>=20
+> (From OE-Core rev: 6a5d9e3821246c39ec57fa483802e1bb74fca724)
+>=20
+> Signed-off-by: Madhu Marri <madmarri@cisco.com>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+>=20
+> (Converted to old CVE_CHECK_IGNORE syntax)
+>=20
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+> =C2=A0meta/recipes-devtools/qemu/qemu.inc | 3 +++
+> =C2=A01 file changed, 3 insertions(+)
+>=20
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-
+> devtools/qemu/qemu.inc
+> index bee30cd56f..cae33459e6 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -161,6 +161,9 @@ CVE_CHECK_IGNORE +=3D "CVE-2023-2680"
+> =C2=A0#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 due to the rocker device not =
+falling within the
+> virtualization use case.
+> =C2=A0CVE_CHECK_IGNORE +=3D "CVE-2022-36648"
+> =C2=A0
+> +# disputed: not an issue as per
+> https://bugzilla.redhat.com/show_bug.cgi?id=3D2223985
+> +CVE_CHECK_IGNORE +=3D "CVE-2023-1386"
+> +
+> =C2=A0COMPATIBLE_HOST:mipsarchn32 =3D "null"
+> =C2=A0COMPATIBLE_HOST:mipsarchn64 =3D "null"
+> =C2=A0COMPATIBLE_HOST:riscv32 =3D "null"
 
-The commit message definitely needs to be improved. Anyway, here is an
-error that we've faced:
+This merged to master today. It isn't in walnascar though.
 
-ERROR: packagegroup-qcom-1.0-r0 do_package_write_ipk: An allarch
-packagegroup shouldn't depend on packages which are dynamically renamed
-(libinput to libinput10)
+Cheers,
 
--- 
-With best wishes
-Dmitry
+Richard
 
