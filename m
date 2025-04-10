@@ -2,198 +2,153 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CFCC3601E
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 07:57:39 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web11.29266.1744271853165694124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F7FEC3601E
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 08:02:59 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web10.29096.1744272174510911213
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Apr 2025 00:57:33 -0700
+ Thu, 10 Apr 2025 01:02:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RkEXwsYG;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6e8f06e13a4so16079926d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 00:57:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PTzxhiGL;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6f0cfbe2042so5961246d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 01:02:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744271852; x=1744876652; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1744272173; x=1744876973; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=adwfvRNeGuNaEbAZ6Q/7N5YG4xBfHEC3wwVOA3gZUY4=;
-        b=RkEXwsYGfnr53XqZKb7jnd8jnFaQ39RdoX56/2Ny5dWTQB+6/Ov+mBlPYLUQBWtF2p
-         /CwPppsrypaPUkPYwopCTMfgmi1ct1MkJkDlgAMTLaCTcBeBZXqkCaXpe6BNbLpWWm0b
-         Rn/E6aQUIzKCgK31v8lxS/KGaf3RjuWa+WNcdMTCnOY2GgYECR7GkV2wZOhOpIxCHP5T
-         8hEprKrXchNcmmZgVl/jqHcOQM4Zbgsqy1fp7id5XBH84/+O4OhEXtIentAOrNgdrqMJ
-         qbNCnLtoWHaP/T5sjZPrpqqFLAZb9N/47pMw4AAe5+svNUgU0Tj0FQoyzRjt2k9xztNn
-         PZ8w==
+        bh=HmlYVZOBom79oDfB4yH56SSfJWaUuKHaUM+VlprQg9Y=;
+        b=PTzxhiGL0VI5sK1XvGx/+YmAHoT+m62TXKY8YhglbI+egTnCpWNgkmnqdb0GAW69rM
+         tKaBYhXlbNximwpk4SzzomC6I1mNcHEcdcO3k75mhREqChOxs/Is/kRawHIqO5BAWzKf
+         VrCeU4kKKMc6kJNOMwkhJTXGr9iVhKQ0hhCzw3+aCMtOR8UZCqsy74zV6ZFHosaJHVj1
+         Ut/b09C+RZA/Au69LbfTqFMhwOgCPM5qrtEs8c5shg/IlbcR3m2PxG7O8xDW5tBjRkzE
+         1IhYTvnDaSN/ctgTCvFiZ4d1xP0GUo44AAY6qevbH8RnLXhkeuGvReSNmvvWJ753ZOH7
+         3YAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744271852; x=1744876652;
+        d=1e100.net; s=20230601; t=1744272173; x=1744876973;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=adwfvRNeGuNaEbAZ6Q/7N5YG4xBfHEC3wwVOA3gZUY4=;
-        b=hnmJq3H7i+n0Em3RzBa6UZbabBJmHbyZ4j7O+Om0DNqPW1wTeLgJes2Bw5XXTbhALh
-         a2jv06oqXPZBVQpVtO93oV9Hc5+Rh5s2UkAH18LFltOyAFbgXyBO2j8eubwnRNq8JjhU
-         nkYyGwUxj456GDKNK3fNCphqr4rZ//Kz/WkDNufRiAObKtiQBGD5OcpSa7X/pXOrKarR
-         vjrrHs6vby3kDikIYYY0Rd1QKQvoNThaG9jmvYbCK+Kbbr8+x07KSkx+gdsED4zYsYiz
-         hNA3UBUJDsqJbuhRt31R8LacJuotIMckmEUAxIkCYOgsn90vhbT3/BVDAufjKG1P7aVW
-         bpAg==
-X-Gm-Message-State: AOJu0YytyZW6iZLmzc6TeKUU3tvbduuSW00jTF/3o7qb/TgUaZ+bTCxi
-	GC5XlmKoVo9Igul+2qFD8OqqGA2fTjY6neipkzAMlybfBfqRpfeIzkSIXJs+1zAl5J/c5IHdoau
-	VC8J8xhmQO2n1mm7JJrmeIj3T0M6dW/Ha
-X-Gm-Gg: ASbGncuGj8+DDqeqLciYXDnKUhRzMDkMmcw861A4lARkwUUOTtWwh+AjJZpXcX7fPM3
-	Dxao2eFbeFOxbPXmInblhwC7SQc/MKb7yRc1JMg2Ho0VjB0y9cnTEinc32NlkZg8M9WuYKCx8Yk
-	kBgY0Me3XcZ/AZFY0R36edsJqnv4riTII4VJu9XiGO+vpFEcFNB2Ioqpig
-X-Google-Smtp-Source: AGHT+IFt0I/t3INf0GZq7zNyw5gBZB6NIHOj2H1IOOFBUEv+e9Fh6QN+n5uuCiXQH442LlJ/bCsh7mneMnBjfqkVOQ8=
-X-Received: by 2002:a05:6214:2aa7:b0:6eb:1c23:63c3 with SMTP id
- 6a1803df08f44-6f0e5f5c5fdmr22032666d6.0.1744271852114; Thu, 10 Apr 2025
- 00:57:32 -0700 (PDT)
+        bh=HmlYVZOBom79oDfB4yH56SSfJWaUuKHaUM+VlprQg9Y=;
+        b=f28rJ4FMdyh4+saq5PCQf+Sig0J0iqGuMfgycQ5FD5kdHvPY4zNOsQ/jUswPdw+hIk
+         rKNRGRDVyPB5tcrhDghVlsBnLNN2xVUqskLpSHP2F3hHMt7gQ/1m8Xz+vGtyYRTH2tk9
+         HQYLXB8yASFA4cffJ4okLrS1Y6DeHLKy9gUYXIVEEcnorrp3POOXZPYi2kjZt6a8xYd0
+         RchDCwNgsL5VvNCZ4xDCabSYVlpExwba1RvtftVUDnlOWP/h8t1pgv69bANkyrox0IdG
+         mKPbDGmwBtJb2VKz1fExDtfBotYxz9ZKBTUySs+PQMVwj+TLfB3o9x7n222j6/u7VefP
+         Q5RA==
+X-Gm-Message-State: AOJu0YyQiCWV0Bv/3BJMtQK+aPLwRhYm7SHjRxc4s2SoGB2iEe8gmrLx
+	6kgNmpL398zDsFCWD2zYmXrY8HwnQ/wjTYBISWHsKzQ8VHEhA8G5sMswCdL4quFI5W3BHdUIcI3
+	KtfSykQBkmVuLflf+YiELuvrg3o4=
+X-Gm-Gg: ASbGncvX+g1eB+nrWagNEAo6PHl0URx7v+B4GYA95KJ8rfRcgD4pkJwuyS8QDK8cEct
+	kApZrBGm6UguUp9y15zdroRfWYx30ZcsvbiKxgGvGeO1+Wjtu98BZIt2drFge+sQbhpOeb/nHMx
+	vFCo3FknBDmUIAfszSKX3Qcod/UU8a/7wfti3vyJX8+ZGW1+aQfdMJGvJZ
+X-Google-Smtp-Source: AGHT+IGBEpS+thbKD+sEvwG7AAdD4sFSqjcBiGIzzH3zJGbCEVINSd6S1jeCKla/mTO+2r4RW0k0uG154BLlNJ4y43A=
+X-Received: by 2002:a05:6214:b2d:b0:6e4:3478:8ea7 with SMTP id
+ 6a1803df08f44-6f0e63bea0fmr18871616d6.4.1744272173582; Thu, 10 Apr 2025
+ 01:02:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <14bccfd5-f8fb-4120-a779-7219fa18983e@hqv.ch>
-In-Reply-To: <14bccfd5-f8fb-4120-a779-7219fa18983e@hqv.ch>
+References: <2c0885e1-8821-4470-8e54-dcad6a241834@hqv.ch>
+In-Reply-To: <2c0885e1-8821-4470-8e54-dcad6a241834@hqv.ch>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 10 Apr 2025 09:57:21 +0200
-X-Gm-Features: ATxdqUHJyS4mNTdeqDZeZ4ScR6cOS9mqoIiuAujZDleNeV8X6oNSbNkaRmU7BqA
-Message-ID: <CANNYZj839xLM-4SrgibZqof_BtBep9=GCJ0s1e7J0PNH2TtTHA@mail.gmail.com>
-Subject: Re: [OE-core] Option to change default optimization level of Python
+Date: Thu, 10 Apr 2025 10:02:42 +0200
+X-Gm-Features: ATxdqUEHC7pb7mTxL5-UFqJnMlVHfhsbU6jUoN1SIz57tPEgsuIMDLsjj-qi5AU
+Message-ID: <CANNYZj9qgX5=4Jym0Uq2u5VJcZ89c-MRSU9oiTkUbBvNvfSFtQ@mail.gmail.com>
+Subject: Re: [OE-core] python3: Allow to specify which pyc files to keep
 To: lw@hqv.ch
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 07:57:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214629
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 08:02:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214630
 
-This needs to be proposed to python upstream first. And definitely
-first reworked as an option to configure script, rather than
-conditional patches that hardcode the level.
-
-You can also install a runtime wrapper for python executable that adds
-the command line option, or sets the environment variable.
-
-As it is, it's unsuitable.
+Should we rather just package the higher level .pyc into their own packages?
 
 Alex
 
-On Thu, 10 Apr 2025 at 08:23, Lukas Woodtli via lists.openembedded.org
+
+On Thu, 10 Apr 2025 at 08:37, Lukas Woodtli via lists.openembedded.org
 <lw=hqv.ch@lists.openembedded.org> wrote:
 >
->  From 1614b1bb21b164d11aa88ff428c6bae9439b82d6 Mon Sep 17 00:00:00 2001
+>  From d7159cd842fd2a10ba5aeff62877be2ebb2eab87 Mon Sep 17 00:00:00 2001
 > From: Lukas Woodtli <lukas.woodtli@husqvarnagroup.com>
-> Date: Mon, 7 Apr 2025 13:18:41 +0200
-> Subject: [PATCH] python3: Allow to set the default optimization level
+> Date: Mon, 7 Apr 2025 11:55:33 +0200
+> Subject: [PATCH] python3: Allow to specify which pyc files to keep
 >
-> It's possible to compile the Python interpreter for the target, that it
-> uses a given optimization level by default. This is as providing the
-> `-O` option to the interpreter (possibly one or two times) or setting
-> the environment variable `PYTHONOPTIMIZE`.
+> The pyc files for a specific optimization level can be kept and are
+> installed in the final image.
 >
 > Signed-off-by: Lukas Woodtli <lukas.woodtli@husqvarnagroup.com>
 > ---
->   ...zation-level-1-as-default-for-Python.patch | 25 ++++++++++++++++++
->   ...zation-level-2-as-default-for-Python.patch | 26 +++++++++++++++++++
->   .../recipes-devtools/python/python3_3.13.2.bb |  9 +++++++
->   3 files changed, 60 insertions(+)
->   create mode 100644
-> meta/recipes-devtools/python/python3/0001-Use-optimization-level-1-as-default-for-Python.patch
->   create mode 100644
-> meta/recipes-devtools/python/python3/0001-Use-optimization-level-2-as-default-for-Python.patch
+>   .../recipes-devtools/python/python3_3.13.2.bb | 32 +++++++++++++++----
+>   1 file changed, 25 insertions(+), 7 deletions(-)
 >
-> diff --git
-> a/meta/recipes-devtools/python/python3/0001-Use-optimization-level-1-as-default-for-Python.patch
-> b/meta/recipes-devtools/python/python3/0001-Use-optimization-level-1-as-default-for-Python.patch
-> new file mode 100644
-> index 0000000000..98e4355b1d
-> --- /dev/null
-> +++
-> b/meta/recipes-devtools/python/python3/0001-Use-optimization-level-1-as-default-for-Python.patch
-> @@ -0,0 +1,25 @@
-> +From ef51db9528916493d23a7e7a63cfc3b12b4ce3d9 Mon Sep 17 00:00:00 2001
-> +From: Lukas Woodtli <lukas.woodtli@husqvarnagroup.com>
-> +Date: Tue, 8 Apr 2025 08:26:35 +0200
-> +Subject: [PATCH] Use optimization level 1 as default for Python
-> +
-> +This is as if the command line option `-O` is set implicitly.
-> +
-> +Upstream-Status: Inappropriate [this is an optional enhancement just
-> useful for a custom build for an embedded system]
-> +---
-> + Python/initconfig.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/Python/initconfig.c b/Python/initconfig.c
-> +index 192089b..c451b15 100644
-> +--- a/Python/initconfig.c
-> ++++ b/Python/initconfig.c
-> +@@ -788,7 +788,7 @@ config_init_defaults(PyConfig *config)
-> +     config->bytes_warning = 0;
-> +     config->inspect = 0;
-> +     config->interactive = 0;
-> +-    config->optimization_level = 0;
-> ++    config->optimization_level = 1;
-> +     config->parser_debug= 0;
-> +     config->write_bytecode = 1;
-> +     config->verbose = 0;
-> diff --git
-> a/meta/recipes-devtools/python/python3/0001-Use-optimization-level-2-as-default-for-Python.patch
-> b/meta/recipes-devtools/python/python3/0001-Use-optimization-level-2-as-default-for-Python.patch
-> new file mode 100644
-> index 0000000000..ca196970a6
-> --- /dev/null
-> +++
-> b/meta/recipes-devtools/python/python3/0001-Use-optimization-level-2-as-default-for-Python.patch
-> @@ -0,0 +1,26 @@
-> +From 31d904e770437cf47b7b56161687a0d90b1bc982 Mon Sep 17 00:00:00 2001
-> +From: Lukas Woodtli <lukas.woodtli@husqvarnagroup.com>
-> +Date: Mon, 7 Apr 2025 13:11:02 +0200
-> +Subject: [PATCH] Use optimization level 2 as default for Python
-> +
-> +This is as if the command line option `-OO` is set implicitly.
-> +
-> +Upstream-Status: Inappropriate [this is an optional enhancement just
-> useful for a custom build for an embedded system]
-> +
-> +---
-> + Python/initconfig.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/Python/initconfig.c b/Python/initconfig.c
-> +index 192089b..3f91fac 100644
-> +--- a/Python/initconfig.c
-> ++++ b/Python/initconfig.c
-> +@@ -788,7 +788,7 @@ config_init_defaults(PyConfig *config)
-> +     config->bytes_warning = 0;
-> +     config->inspect = 0;
-> +     config->interactive = 0;
-> +-    config->optimization_level = 0;
-> ++    config->optimization_level = 2;
-> +     config->parser_debug= 0;
-> +     config->write_bytecode = 1;
-> +     config->verbose = 0;
 > diff --git a/meta/recipes-devtools/python/python3_3.13.2.bb
 > b/meta/recipes-devtools/python/python3_3.13.2.bb
-> index 7c36fd92ed..f86c150534 100644
+> index 7c36fd92ed..ac74432a2a 100644
 > --- a/meta/recipes-devtools/python/python3_3.13.2.bb
 > +++ b/meta/recipes-devtools/python/python3_3.13.2.bb
-> @@ -36,6 +36,15 @@ SRC_URI:append:class-native = " \
-> file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
->              "
+> @@ -217,6 +217,12 @@ do_install:append:class-native() {
+>           mv ${D}/${bindir}/${PN}/python*config ${D}/${bindir}/
+>   }
 >
+> +# We want bytecode precompiled .py files (.pyc's) by default
+> +# but the user may set it on their own conf
+> +INCLUDE_PYCS ?= "1"
 > +
-> +# Default optimization level when running the Python interpreter (`-O`
-> flag)
-> +PYTHON_DEFAULT_OPT_LEVEL ?= "0"
+> +PYCS_OPT_LEVEL ?= "0"
 > +
-> +SRC_URI:append:class-target = " \
-> + ${@'file://0001-Use-optimization-level-1-as-default-for-Python.patch'
-> if d.getVar('PYTHON_DEFAULT_OPT_LEVEL') == '1' else ''} \
-> + ${@'file://0001-Use-optimization-level-2-as-default-for-Python.patch'
-> if d.getVar('PYTHON_DEFAULT_OPT_LEVEL') == '2' else ''} \
-> +"
-> +
->   SRC_URI[sha256sum] =
-> "d984bcc57cd67caab26f7def42e523b1c015bbc5dc07836cf4f0b63fa159eb56"
+>   do_install:append() {
+>           for c in
+> ${D}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py; do
+>               python3 ${UNPACKDIR}/reformat_sysconfig.py $c
+> @@ -249,10 +255,25 @@ do_install:append() {
+>           # so remove it too
+>           rm -f
+> ${D}${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.cpython*
 >
->   # exclude pre-releases for both python 2.x and 3.x
+> -        # Remove the opt-1.pyc and opt-2.pyc files. They effectively
+> waste space on embedded
+> -        # style targets as they're only used when python is called with
+> the -O or -OO options
+> -        # which is rare.
+> -        find ${D} -name *opt-*.pyc -delete
+> +        if [ "${INCLUDE_PYCS}" -eq "1" ]; then
+> +             # Remove only the .pyc files of unused optimization level.
+> +            if [ "${PYCS_OPT_LEVEL}" -eq "0" ]; then
+> +                # keep only unoptimized .pyc files
+> +                find ${D} -name *.opt-1.pyc -exec rm -f {} \;
+> +                find ${D} -name *.opt-2.pyc -exec rm -f {} \;
+> +            elif [ "${PYCS_OPT_LEVEL}" -eq "1" ]; then
+> +                # keep only .pyc files with optimization level 1
+> +                find ${D} -name *.pyc -and -not -name *.opt-1.pyc -exec
+> rm -f {} \;
+> +            elif [ "${PYCS_OPT_LEVEL}" -eq "2" ]; then
+> +                # keep only .pyc files with optimization level 2
+> +                find ${D} -name *.pyc -and -not -name *.opt-2.pyc -exec
+> rm -f {} \;
+> +            else
+> +                bberror "Python optimization level ${PYCS_OPT_LEVEL} is
+> not supported"
+> +            fi
+> +        else
+> +            # remove all .pyc files
+> +            find ${D} -name *.pyc -delete
+> +        fi
+>   }
+>
+>   do_install:append:class-nativesdk () {
+> @@ -326,9 +347,6 @@ py_package_preprocess () {
+>           rm -rf ${PKGD}/${libdir}/python-sysconfigdata
+>   }
+>
+> -# We want bytecode precompiled .py files (.pyc's) by default
+> -# but the user may set it on their own conf
+> -INCLUDE_PYCS ?= "1"
+>
+>   python(){
+>       import collections, json
 > --
 > 2.43.0
 >
@@ -201,8 +156,8 @@ On Thu, 10 Apr 2025 at 08:23, Lukas Woodtli via lists.openembedded.org
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#214619): https://lists.openembedded.org/g/openembedded-core/message/214619
-> Mute This Topic: https://lists.openembedded.org/mt/112186757/1686489
+> View/Reply Online (#214621): https://lists.openembedded.org/g/openembedded-core/message/214621
+> Mute This Topic: https://lists.openembedded.org/mt/112186823/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
