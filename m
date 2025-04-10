@@ -1,94 +1,137 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6919FC3601E
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 05:41:18 +0000 (UTC)
-Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
- by mx.groups.io with SMTP id smtpd.web10.27469.1744263676948720453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F864C3601E
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 06:15:28 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.28160.1744265725059115276
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Apr 2025 22:41:17 -0700
+ Wed, 09 Apr 2025 23:15:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Ur3YoFd7;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1744263677; x=1775799677;
-  h=from:to:cc:subject:date:message-id;
-  bh=JIrplY4WtHeDc/Ud1Qoi4WXSUypKbDhqYyNbCgZ5e8w=;
-  b=Ur3YoFd7Ltci5sDaCQiFrOZia+qGBI9HdUbRCqxlnpolc+C0O26T5S+r
-   Tw0CZQbCXakF50oI0CkCtsU+gfiSV+6LGraj7nSUodNOITenBAKaRkPOb
-   QU8HB+pTEGFKsjCLSeZnRqpq6mpMC4MucqpCdZv4m5i4NlVRoJpqNrVhw
-   z+C8GA4oR4YD0XSSx3861iZu4kxOmELuF26CpblLG/Nvni/WlibL7n967
-   2i3tQE5nVviNjcwaiDZEAcbnSdue7WsZZtJub6+LdBwshOpZbKrJsZvF+
-   0u9ZbQCScm0KZfgefbcJtaxP+//O8zb05lb8WsiuaZg0/J/Bnj60lX2ti
-   g==;
-X-CSE-ConnectionGUID: EcXFWr78RRK4Ec5je5MHtg==
-X-CSE-MsgGUID: 4syJnbuKSQy8tI72t5cOtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="196043182"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739804400"; 
-   d="scan'208";a="196043182"
-Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
-  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 14:41:15 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id AD94DD4807
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 14:41:12 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 6BEEAD52B9
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 14:41:12 +0900 (JST)
-Received: from localhost.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id C1E2F1A0078;
-	Thu, 10 Apr 2025 13:41:11 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v3] sbc: upgrade 2.0 -> 2.1
-Date: Thu, 10 Apr 2025 13:41:05 +0800
-Message-Id: <1744263665-14167-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UjHclW2Q;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43d07ca6a80so1731165e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 23:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1744265723; x=1744870523; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZDuNA/b7DvLF6ZqSDBn4eCCOWtHspUOA2iQ+oHRRMo4=;
+        b=UjHclW2QvWqb12Mj4mNzqNmnc/ZAMBO65qkc7FPdn8bCAWqqwEf4ABXy81+/n9wEf2
+         Dmf46JjQjVYWpzPWccLpHHf3WepcSunxqZ86fT+DiGLp/Oa1zVg6lzLSkXtZv6cmRbMZ
+         QSwfDIz8H28js1mh6IW48sOxvt2u+hUP7LZN4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744265723; x=1744870523;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZDuNA/b7DvLF6ZqSDBn4eCCOWtHspUOA2iQ+oHRRMo4=;
+        b=dcLFkdWnFClzF3IYSieBNotLuMd2AAq9eZPhkaaLdReidxDQ1e7mBTOiz3xwo0a+WU
+         /X35BnTIMxnTp0yXYoxfsgw7PsSCbe6Xl/syMafGZ9zGiqyWhXG41NgN7P6gAMn8cWEJ
+         ekMOaMgezmEckLmAMoj48f/h4eTcbFPqJ4UFLVqPnSqHu9lzz3Gghtk1V6GDGT74xarD
+         86wi1kfMuDPILQHhneKhCyMngL2Ah/jdjkDzV+OovHguyN5U/Owxx34Z9crlFswubUfQ
+         Vi7bpQLUFPngOYa3P5nbiJjAgIBsLk7F/AX/048Uo8ww7zXOPfNNHsrMqv8PNOGfhW7K
+         SVkg==
+X-Forwarded-Encrypted: i=1; AJvYcCXz5XHQ9SXFFQNAE3DJZCT/4wv1Y+v7yGWuJQPw+rmMQ0dvCoRY/Vp3jGibGs26I8rpv72isqdIb6ztf4GKF/MDwg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxB2C2cnW4jdGovKvqtEn3gDsBseygs4F6pI7AfMtSM0qt+/GcG
+	2aZbPRsEzCR855EvwsLBdooq1OgRyGsR6SjpcqGqs9R9tO+/QM14aK0aFQpEBVY=
+X-Gm-Gg: ASbGnct4aVrDf537VfJIRG+FWZgO7jOkCtruG211PA0In7AP9IFUs+A5I2BFLckRvxW
+	v+M+Z8tuQgQJJLWfHkDqasar6Bypo5BzKy1/DFKmTldGPqINYdm6ZRRO68aRQu4Hq4nIxUFO/Km
+	WK+7TIuvXtOWn/6mEiZ57h2Vk5g3eFUq8FM1En514uc1WmruigeUKKlDDO7oBhK7DmUnD/29zCg
+	BqQhEIeaiqw/SXGTXER1nKmpC1WYSelN8qW6AIWjnEroVmK7MR59lMcTtfxstFvWpvaY16/gMCF
+	Obz8KVr6nePDOni/uP1KegOAzff88D6x0jzJRWv2P8iMNs4MGDEuKFiGCAE7TTvNiaWwQkyicAk
+	BAXLG3O2gLJxE/mes2EqD68wGvrcNpA==
+X-Google-Smtp-Source: AGHT+IGeY3KQcmwO6MY5GQXUhs/umUbEt8mhJ1JemQCVecClCsAK1L3ZaGNV0oFbIx+EoOA7bESdww==
+X-Received: by 2002:a05:600c:3591:b0:43c:f332:703a with SMTP id 5b1f17b1804b1-43f2d98b857mr17132155e9.31.1744265723116;
+        Wed, 09 Apr 2025 23:15:23 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:48b8:26f1:fe26:d411? ([2001:8b0:aba:5f3c:48b8:26f1:fe26:d411])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f23572c4esm40207445e9.26.2025.04.09.23.15.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 23:15:22 -0700 (PDT)
+Message-ID: <35ee8bfe577addc9e6ae978588b5a071be82b478.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH 1/2] classes/recipes: remove unnecessary qemu
+ inherit and qemu-native dependency
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
+Date: Thu, 10 Apr 2025 07:15:20 +0100
+In-Reply-To: <20250410040825.1283228-1-Qi.Chen@windriver.com>
+References: <20250410040825.1283228-1-Qi.Chen@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 05:41:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214617
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 06:15:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214618
 
-From: Wang Mingyu <wangmy@fujitsu.com>
-
-License-Update: Using SPDX-License-Identifier: LGPL-2.1-or-later to replace the description of license
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+On Wed, 2025-04-09 at 21:08 -0700, Chen Qi via lists.openembedded.org wrote=
+:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>=20
+> Some classes/recipes inherit qemu.bbclass but does not actually use anyth=
+ing
+> from it. Besides, putting qemu-native in PACKAGE_WRITE_DEPS is not needed=
+ because
+> the process of generating package does not need qemu-native.
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+> =C2=A0meta/classes-recipe/fontcache.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 ---
+> =C2=A0meta/classes-recipe/gio-module-cache.bbclass=C2=A0=C2=A0=C2=A0 | 3 =
 ---
- meta/recipes-multimedia/sbc/{sbc_2.0.bb => sbc_2.1.bb} | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-multimedia/sbc/{sbc_2.0.bb => sbc_2.1.bb} (66%)
+> =C2=A0meta/classes-recipe/gtk-immodules-cache.bbclass | 4 ----
+> =C2=A0meta/classes-recipe/manpages.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 --
+> =C2=A0meta/classes-recipe/pixbufcache.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 5 +----
+> =C2=A0meta/recipes-core/systemd/systemd_257.4.bb=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 3 +--
+> =C2=A0meta/recipes-core/udev/eudev_3.2.14.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
+> =C2=A07 files changed, 3 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/meta/classes-recipe/fontcache.bbclass b/meta/classes-recipe/=
+fontcache.bbclass
+> index 6f4978369d..6082af08f3 100644
+> --- a/meta/classes-recipe/fontcache.bbclass
+> +++ b/meta/classes-recipe/fontcache.bbclass
+> @@ -9,9 +9,6 @@
+> =C2=A0# packages.
+> =C2=A0#
+> =C2=A0
+> -PACKAGE_WRITE_DEPS +=3D "qemu-native"
+> -inherit qemu
+> -
+> =C2=A0FONT_PACKAGES ??=3D "${PN}"
+> =C2=A0FONT_PACKAGES:class-native =3D ""
+> =C2=A0FONT_EXTRA_RDEPENDS ?=3D "${MLPREFIX}fontconfig-utils"
 
-diff --git a/meta/recipes-multimedia/sbc/sbc_2.0.bb b/meta/recipes-multimedia/sbc/sbc_2.1.bb
-similarity index 66%
-rename from meta/recipes-multimedia/sbc/sbc_2.0.bb
-rename to meta/recipes-multimedia/sbc/sbc_2.1.bb
-index d25be9e80c..5aaa52313f 100644
---- a/meta/recipes-multimedia/sbc/sbc_2.0.bb
-+++ b/meta/recipes-multimedia/sbc/sbc_2.1.bb
-@@ -7,14 +7,15 @@ LICENSE:${PN} = "LGPL-2.1-or-later"
- LICENSE:${PN}-examples = "GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
--                    file://src/sbcenc.c;beginline=1;endline=24;md5=08e7a70b127f4100ff2cd7d629147d8d \
--                    file://sbc/sbc.h;beginline=1;endline=26;md5=0f57d0df22b0d40746bdd29805a4361b"
-+                    file://src/sbcenc.c;beginline=1;endline=8;md5=cfac6012e2dea914de8b3b7693591622 \
-+                    file://sbc/sbc.h;beginline=1;endline=10;md5=bbf642bd99160e4f2a5bbd5d174a8320 \
-+                    "
- 
- DEPENDS = "libsndfile1"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/${BP}.tar.xz"
- 
--SRC_URI[sha256sum] = "8f12368e1dbbf55e14536520473cfb338c84b392939cc9b64298360fd4a07992"
-+SRC_URI[sha256sum] = "426633cabd7c798236443516dfa8335b47e004b0ef37ff107e0c7ead3299fcc2"
- 
- inherit autotools pkgconfig
- 
--- 
-2.43.0
+I picked one of these to validate this as I didn't quite believe we didn't =
+use qemu there.
+fontconfig.bbclass has:
+
+fontcache_common() {
+if [ -n "$D" ] ; then
+	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=3D${ML=
+PREFIX} binprefix=3D${MLPREFIX} \
+
+in it's postinstall script. Then in scripts/postinst-
+intercepts/update_font_cache we have:
+
+PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D -E ${fontconfigcacheenv} $D=
+${libexecdir}/${binprefix}fc-cache --sysroot=3D$D --system-only ${fontconfi=
+gcacheparams}
+
+so I'm afraid it does use qemu and you can't simply drop the class
+inherit or dependency as it is used.
+
+Cheers,
+
+Richard
 
 
