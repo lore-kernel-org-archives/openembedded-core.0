@@ -1,104 +1,84 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2620CC3601E
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 13:50:11 +0000 (UTC)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
- by mx.groups.io with SMTP id smtpd.web10.34633.1744293002515477125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E796C3601E
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 14:20:51 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web11.35815.1744294844862675849
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Apr 2025 06:50:02 -0700
+ Thu, 10 Apr 2025 07:20:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SEFvI4Fv;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.175, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e6dee579f38so635715276.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 06:50:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CgbI9KFJ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6f0c30a1cf8so9121176d6.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 07:20:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744293001; x=1744897801; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oW7q5UvTCphm7YSri1o1r5W75KUnuTuoLjRnPaRyeqo=;
-        b=SEFvI4Fv33zvQaItaFKEHunwd7n79o7FBCjqI6j29A3bZKapFnUbzLM8xjnfqZjaLf
-         r5HpEhQ7qf3Am+A5YlDldFxK4ONhuM5pLokeZjpJijO7qEECyo1JVwE6tzIil7MSbEHd
-         j/BpKdAsb89JYo9h51u6v0pCThnVniSR/AmexhjTxYUcAvEiUgvwzoqBDBzlNrZSYQs+
-         PYfRERi9KWhKoOyFJV9ic6BzWWhxvTUjwAJDFzCOKmSNObhQKMjlwBSjx5XkjE8l6VDF
-         m6BHhj+JJyPUKm7wsGYgiSiI85RkxUxPnAjQEBCNZ25faMCnDvhOwpNKSB44uVymFnYh
-         B7Rw==
+        d=gmail.com; s=20230601; t=1744294844; x=1744899644; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fts3gAhD9PjzJ46tmZ1T8LF/MhGU44s5dRVni4gxCR4=;
+        b=CgbI9KFJWmhK6wseL9OBh0fo0dGUHDlclWew66ONegxSMzKdZYNzX4PaeTT7CCD+Pc
+         XWkr96MTjZgAczvMR6P26ZXmIJc2DfQEoxLR8QbTnXjmMsZc4wu10lOasj8E/1gwJP8r
+         PogDtBoDb43tVDMhbNtssJ+72NtEg9o9gfjz5cxC+iWp/l9z/ppvpqCa3nOSIg+ppE/T
+         GH4yKH65PG/cRNT08jHjG/qoVB7kT0BYT4GMIAuciPE5Qseye9/MZmDJ8m19Y5COG/a6
+         Y7RAmFHa2VkvsJnmT3IWgnyKXERK1gki6CqvA9r0lDGTy4hOQisQiMbBHmxbCg/Y07ro
+         S9FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744293001; x=1744897801;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oW7q5UvTCphm7YSri1o1r5W75KUnuTuoLjRnPaRyeqo=;
-        b=t66YOcgJu6AYOD5mZXl4GWJX0QtqU5TngjPZG4iCDGo5k05e6mE6eJ7fnrqpVwSQzt
-         S7PdPczhrtPtk81qTESbHHaXWAAGPjRblcFnVpA/YfwjNxvHWiDtu3JXUt4B6bqETls5
-         DgxKiiF6yJkSBTmq/g/l/29vUXIDxjp+oAJEPVTgcauAs7urYF8s2sUMh/lJiex0HKfQ
-         NZNIRDFeZBiuTx5Yyo/GkTi943lKz7W+LCuX21aK81LWHkRgIxQQPlieABY9uBUJtmLA
-         Si/zL5RajP1DfXgH/NZMxdheB7jMBjKpS/m6p9CRTmFsYYgDQ29rZmUsiF66UAV9wmpE
-         mkhw==
-X-Gm-Message-State: AOJu0Yxns7pS3BpzSprNPjcgV2HDcTLSiA4nfAbxL1V12Oq+txNcUvLC
-	WvMzVCeKQEe0oK9VtJX1cL6HBIU5FCEV/zcqCjdFpenhN9BMHc03dtHyeXFsDB/fk5LBrIF8r6G
-	zv5m31M9k3gnbTSJqJxGA1E88HW5ExIP6b0n2/A==
-X-Gm-Gg: ASbGncttKStm8wo006Q6hwKsTw0YYOTDxjDS6C3XkkxHCbYMC/5BovjHfsjbM4+NTCy
-	QpohqREExXBzQyv0ZnDtIGhTxdxkJMMl84lQm1+NGafCD/dGTnrKuYv21R4h2odZq81cfR5azoY
-	DI8K/+gcAPzJHG5qcqa5ILxVK8deVtTKE0nbl0Eh4KPyTDGtiWvny1
-X-Google-Smtp-Source: AGHT+IGTilsSSpMkpL4nI2MuMMG4U/ejUH884lXcQ1fI8En8SNzacnmZNZrHGWfknQooyMEpSTbX0OC7mqUEFImSBoA=
-X-Received: by 2002:a05:6902:2e11:b0:e60:9dd3:38c9 with SMTP id
- 3f1490d57ef6-e703e0df5ddmr4528142276.7.1744293001598; Thu, 10 Apr 2025
- 06:50:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744294844; x=1744899644;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fts3gAhD9PjzJ46tmZ1T8LF/MhGU44s5dRVni4gxCR4=;
+        b=P/fw1u6pMTzA0jV5kAAa20wjnkxTKG5kJgPsckSfbW9TieFz2/TgDy6NVP9Hwft1p1
+         pMrkee4pQEZ9P84jygnnZTnYLLXsq+ClhnvZ135IUODSb6C14sKvWKSAjKuSR7T2aaWT
+         1kyzVIIXglUSRfQvUitS9LFm4kPGoPYA4LYJyqOQlRXAsEYqt+2SAOZELetxL9X7mqC+
+         9uwPR+d6KvZZ4VxjboHow5/x8of+Y2/ikVdeuQ80NYFGIJHTBzr+UFp9lbbdiue6RWPo
+         +uuvsKuKiy6mulwUbf5dqU2flhI+6COgfPWobSbKLZbuDT1rsxGO/EGQtH+VkbUWPK1d
+         9nOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVzHDqCI/RK3LHjniIjSvfyqy5HNh8WYwoSS/IWAzwn7s9PsHjpI3Sc9KurOaDneRT8CEzTxSr/ipBda5P6Crjk9A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzY1UPxjvylUUpyU0FNtOaxXLOmzySydLgSCpeJjJI/9+PJlyCI
+	n0RFhXQYmCKnZSROkaFkNHz3BFdoUTztJcJvUvJGP3liXRjqfie4zi68Kt7X321RtOIkaYdnEPf
+	EFGZJyH8ImN22QdjVdtFbHj71r+c=
+X-Gm-Gg: ASbGncv+O82OFm3r66Fh8RedCfeWSAojFJUeXMcIS9seBWNYopfYO3QvWJNopNBQVKS
+	1owjgkkX/t5Z5ye9WqC1c5tAYm/1CjnKHcH79Um4708mqPNZpNomwaAUs2wWZRgJPFCN4UpGz5u
+	eKHefqn/IzT/pPvNmxUxShOaGQpj4TeiDcD2Xx4D2alLxSN6nhBjntUAFU
+X-Google-Smtp-Source: AGHT+IEbU1lLVUF5Bqtnmdub94enFR3+XTvZmg28M1CqVi+hY9LBYG0n+wjbBr3zPCQN7KPwoJ4bL1a0RX0JxTMSayA=
+X-Received: by 2002:a05:6214:5191:b0:6ea:d6be:215b with SMTP id
+ 6a1803df08f44-6f0e77c435cmr37028926d6.36.1744294843555; Thu, 10 Apr 2025
+ 07:20:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1744145328.git.steve@sakoman.com> <19fcc012160c6b8782be0e6fc54797c88bf084ba.1744145328.git.steve@sakoman.com>
- <3a3917e7e0b9c3f444ee895f24ca401b36e6c694.camel@linuxfoundation.org>
-In-Reply-To: <3a3917e7e0b9c3f444ee895f24ca401b36e6c694.camel@linuxfoundation.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 10 Apr 2025 06:49:49 -0700
-X-Gm-Features: ATxdqUHt55mgSIroSQB0_UpbjpDrxvWY3gEtJY2Nrzuybr_znZCQtjgMpYgiZF4
-Message-ID: <CAOSpxdbDTvGJb3tVH323=+BEDEM6JwHRveMhaZ+oRFA0i5QrFQ@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 10/10] glibc: Add single-threaded fast path
- to rand()
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
+References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
+ <20250404162932.447699-2-mikko.rapeli@linaro.org> <f84af1a6585338787539ee5be5826adbe434e8a9.camel@gmail.com>
+ <CAC_iWjKTmSEOe6HUcPFUZLaBuA2+6ZwOYaYiqK0_R8KGNPU1Ug@mail.gmail.com>
+ <CANNYZj_eA4k+pRLG=8-V4WEmsthkh_o75fZKOcoTf+00QW2x2A@mail.gmail.com> <CAC_iWj+80LnSOJ=ZeMos4psFwQ4zqt8fo-e13+8sPuBtsmp5Dw@mail.gmail.com>
+In-Reply-To: <CAC_iWj+80LnSOJ=ZeMos4psFwQ4zqt8fo-e13+8sPuBtsmp5Dw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 10 Apr 2025 16:20:31 +0200
+X-Gm-Features: ATxdqUFK9sWchJB9JdmOAOyeIwC434qOcbCzD20CXimhDL8X1zXeOs2GBok0bKg
+Message-ID: <CANNYZj8rsSWX7GL_mqQz3h==31wKsA_myVAHbGXdUDv+O7YsXA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 01/11] systemd: enable efi support by default
+To: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Cc: Adrian Freihofer <mikko.rapeli@linaro.org>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 13:50:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214675
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 14:20:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214676
 
-On Thu, Apr 10, 2025 at 4:33=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2025-04-08 at 13:51 -0700, Steve Sakoman via
-> lists.openembedded.org wrote:
-> > From: Haixiao Yan <haixiao.yan.cn@windriver.com>
-> >
-> > Backport a patch [1] to improve performance of rand() and
-> > __random()[2]
-> > by adding a single-threaded fast path.
-> >
-> > [1]
-> > https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Dbe0cfd848d9ad7=
-378800d6302bc11467cf2b514f
-> > [2] https://sourceware.org/bugzilla/show_bug.cgi?id=3D32777
-> > Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  ...dd-single-threaded-fast-path-to-rand.patch | 47
-> > +++++++++++++++++++
-> >  meta/recipes-core/glibc/glibc_2.35.bb         |  1 +
-> >  2 files changed, 48 insertions(+)
-> >  create mode 100644 meta/recipes-core/glibc/glibc/0001-stdlib-Add-
-> > single-threaded-fast-path-to-rand.patch
->
-> This isn't in walnascar yet.
+On Thu, 10 Apr 2025 at 14:55, Ilias Apalodimas
+<ilias.apalodimas@linaro.org> wrote:
+> I think you are misinterpreting that. That paragraph says "The file
+> system supported by the Extensible Firmware Interface is based on FAT"
+>  -- IOW your *firmware* must support FAT.
+> It never dictates that the ESP has to be FAT as well. You are free to
+> format your ESP to whatever FS your board supports. For example, x86
+> macs use HFS IIRC.
 
-I've got it and "qemu 8.2.7: ignore CVE-2023-1386" in my local
-walnascar branch. I will hold off merging to all stable branches till
-after walnascar release.
+But are there any actual UEFI boards that support anything other than
+FAT? Or is everyone taking the path of least resistance and cheapest
+R&D costs, implementing only what the spec requires?
 
-Thanks for catching this!
-
-Steve
+Alex
 
