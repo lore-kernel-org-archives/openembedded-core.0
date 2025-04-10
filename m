@@ -1,283 +1,195 @@
-Return-Path: <tom.hochstein@oss.nxp.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E636FC3601E
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 13:29:00 +0000 (UTC)
-Received: from EUR03-VI1-obe.outbound.protection.outlook.com (EUR03-VI1-obe.outbound.protection.outlook.com [40.107.103.89])
- by mx.groups.io with SMTP id smtpd.web10.34138.1744291731374843639
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 134C0C369A6
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 13:40:41 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.34432.1744292433601957016
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Apr 2025 06:28:51 -0700
+ Thu, 10 Apr 2025 06:40:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=FKAf0sH1;
- spf=pass (domain: oss.nxp.com, ip: 40.107.103.89, mailfrom: tom.hochstein@oss.nxp.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=61957cd107=qi.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53A1BJf5021255
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 13:40:32 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45tsr1q18p-3
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 13:40:32 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MmLVbTeKnymsX4ZW4+EIcCPvgpFN5b/SrBcFEHlZVMEz0YIT7vPp/QUQuu/L87rXF4BheutOx61ON8xdmsEy492NcCZoN8XhLHOa0+6WJ2/C9OgTaACok8NmbiK9h01+4UvubEF+ZFwNrU8Q15K5P/jRj+SgiJH2XE+iTD9Mcqwt+n1tecBjwFI1AfphdjHTuskkanJeQyd7mZLtHbv3Y7ZgWYHbrnS+blfgqmo9w7NktqiObTw+V7nJaUJ1LZsGpdkM+ExM0T4vozjznwZs+X9oASJj08bdJQkB9vlW5PoLUhHYCU/RuvywjXgGYMpqsBaESZ9yEpoBwcFb4WAE4w==
+ b=lm7VWoB244dqil827JzsniLbRYYz/81nDuWTWJs/nE9uWnhRF1RmowxqZbFtuyczLb+1bF/BPNyNMwhVjcpFIRCEpyJHE0XI2n0tOaNo/Dn86EsCrT/g5Zz7aricX+r0DfbSWLNiodwpcD0Nf3iac436VLw1ZYgoiegRIyA3vd5GzsGM+Ti5QhqWx5w6taRE8YgX5keEtJUGXIsui/OvgeCv6W5oIpQwmliK7Sm+eJP+za6mL3rZtj4y/l6XakI3bvgCFnoNkzDIooGX7QL5QfLu64T1U/WLTFsnaiAYTpWbVudjhIQ3ZJh7rrCvT7RX8t9P2ePBjiPqStlepOx8Mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=272uf5VT7pdOwPdJEomWmFBetOrGzQ3qKsgCdYgt/BU=;
- b=IDgwyNueHZDYGzhbu7ns+usYg54N6IHcdjXbcZN9OvZFS2eoK9t1Yyr7VBGqwUxsOgZUug8t8r8i9U3XVkj7hRAwe5+qir/7XZXSm8S/QiJ1Zc47VrhT3lJpWOkjfKZslQX3cdihvvng+Qnbg3I4PtnS8EdtnAo4/C5USQbSRJC0L4t4qaSRRmN5OmTvBmlDPeFCdJ5gGDV6jmfgx47hKwHttz9f8Oqlr1ZJs3atNsGFXu1JMeqwnFX5s4PGS3IVDhpfVVn+nvqBQJQpWVk9u1zEhVP1/Hn6tIexm4qq/QiuVWTWhbLCKe3JXmvlZzU67YL9o9IxcLDTe4+iAD4JJQ==
+ bh=uGdYfzPUKsc8jzEn3J/UMDA+8Y8oif3arGkXt/Hh9G4=;
+ b=GkMQe+dELWDnKGTpw6QcpmSZ0Nsx75SvRa5md7DOaJPG+94FVUqnsHqqduPf9unjyujJx6zAm2RCqEwCiemXENVJ///6KI4h7wh5x2dyge0yeTl/ZRTSF/CcGlh0Wbs0eStVgkdIU0V3euNRCFSm6ovmTOF2PMAzUb09nlkhjRMMIEkb2+6BrQKcXAd40j3w38swXiGIwtatIzZgOeHCGu8tCN5QfVtR4Lj+Rqb3I1jTtrEwmJYV2/a/eB5rsgnIaEiQJ38KiiS2+ZhhJOvFw6GhZBL4kSVYzf+5PqzZpoS+5tKOavPIk/bqnO6tQNWDzbTmlopzEp+cX8jQSwV8QQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=272uf5VT7pdOwPdJEomWmFBetOrGzQ3qKsgCdYgt/BU=;
- b=FKAf0sH1yfCBWDNXAJkvx2lih8YSWaduulGV+OUBTpx9tgPC2loSQiogHejSopYO5PPFRPlXDylyrfUgkaxtTWhNxNBh/p9XmXjiUN7vJQDl98ChTnIOWX918AeLurphbO9hrg/7RkVw1yZNMrQEBgcpg/9ETd9rTKUEdyu2oND//JOB5MfHo4wfeF7/lez2Wt5JkytR6A+bWtuFTiGKAMNrVqHGQ284cRO+7mS7p0QNBQjHgM9YLuJXOFn9YqhOM1L4l2392iB++wtpfkbEsZIPiyUIV9vvMyic9AeAwCp6X6EAHprkc46BQ7KIa1KRfBF651erVW90qQ3BsSks0A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
- by AS8PR04MB8561.eurprd04.prod.outlook.com (2603:10a6:20b:420::18) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by MW4PR11MB6812.namprd11.prod.outlook.com (2603:10b6:303:1ee::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.35; Thu, 10 Apr
- 2025 13:28:45 +0000
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc%4]) with mapi id 15.20.8606.033; Thu, 10 Apr 2025
- 13:28:45 +0000
-Message-ID: <3070510f-a5d7-473c-9c45-101bc4d70a60@oss.nxp.com>
-Date: Thu, 10 Apr 2025 08:28:39 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v5 4/5] oeqa/sdk/meson: improve test to validate
- host/build target assignments
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.33; Thu, 10 Apr
+ 2025 13:40:29 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.8606.029; Thu, 10 Apr 2025
+ 13:40:29 +0000
+From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
-References: <20250407211806.1782316-1-tom.hochstein@oss.nxp.com>
- <20250407211806.1782316-4-tom.hochstein@oss.nxp.com>
- <D91AQNC6UKX5.394WLWGGFWT4O@bootlin.com>
- <183460753CA35884.31078@lists.openembedded.org>
-Content-Language: en-US
-From: Tom Hochstein <tom.hochstein@oss.nxp.com>
-In-Reply-To: <183460753CA35884.31078@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BY5PR17CA0066.namprd17.prod.outlook.com
- (2603:10b6:a03:167::43) To PAXPR04MB9448.eurprd04.prod.outlook.com
- (2603:10a6:102:2b1::21)
+Subject: [OE-core][PATCH V2 3/4] image/populate_sdk.bbclass: drop qemuwrapper-cross from DEPENDS
+Date: Thu, 10 Apr 2025 06:40:20 -0700
+Message-ID: <20250410134021.1299595-3-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250410134021.1299595-1-Qi.Chen@windriver.com>
+References: <20250410134021.1299595-1-Qi.Chen@windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0065.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::10) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|AS8PR04MB8561:EE_
-X-MS-Office365-Filtering-Correlation-Id: 492ae413-1137-4d9b-dfa3-08dd78339e54
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|MW4PR11MB6812:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2bc02672-d4ae-4100-4053-08dd783541f1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|4022899009;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?2OtgTywQ6F5rlCZMIjKBxvM5pThgQglkwQG+surd8jxzsewzoZh289tu3N6e?=
- =?us-ascii?Q?+04sKv7h8u8Ts8F8jeDX35muXo22b0JEJb/eCeX+reEuVdevOt2ir2vqCrHO?=
- =?us-ascii?Q?VlYOl6fsaXnAauohra4AMjAap9FMoe7S5SsmhZ2yGjkbc7On9KpldeGUvVyn?=
- =?us-ascii?Q?a7js7URGkjYiHHZhUG3RRhN7wdh72usU0u5BuYwW9j3lx9/dD3zYok3t35uP?=
- =?us-ascii?Q?ZK0PARkmN/rT3Pf5TrgmmLeUHsZuEGeChgYjkEhxEHMx6yegveVKI/HpsXUK?=
- =?us-ascii?Q?ZGs9ondrwDC7gmyvXrN890cnbMMHflj3IM61HaH5fvi7blzCcsUvVrjKatEc?=
- =?us-ascii?Q?hElerc6x94he0cUWXkOpj2p4MycqXPJHCugmQuFICZ3n1jE/vAUbOM5JCehT?=
- =?us-ascii?Q?tgvOT+0Z9f7iBXAuRvQtOL8I33u9gCSdZxeO2B1OPlGDL+7OAZutXC4z6eZv?=
- =?us-ascii?Q?YnBOZ0ySDwyQZ+Jhbklnc0EcM6Dh4H3fsxwqgZ+IOJzllzA1deZlTJ9AO8bd?=
- =?us-ascii?Q?MKjshua0C/m8eRPm4ULSeJ/CqbaEi/tZY9O/IfQHnUNmDGBTOMxy2gtsRclG?=
- =?us-ascii?Q?FuRmQPruUGwE0RYH4rlA8SvgAzwbz1Zz+1I7upJ4HorQcHV95wdy81qBoJJa?=
- =?us-ascii?Q?8gdS24BH/jxBymQ7Zmi6GPYtK5FcPVhR0lW7GxA6sVtABI8UGUmq15ihwn6s?=
- =?us-ascii?Q?fp6p3JhPJUcaUpBdohnByxg48tNOksrba2qbgnxCOpiwd9LhTsjkfW/pgrSd?=
- =?us-ascii?Q?PcU1LGlc28JUN6Imq6uqLui1RcgFJ6dQBER/Zft7JCRksaOvIljrbZzWrXgR?=
- =?us-ascii?Q?DtzU36q9J/MogkWuVci+3jhioDXH+ekjAtA31q9Mm/kZpjA27jcLJJYRxXEf?=
- =?us-ascii?Q?b0X8fvFO1WPwtrIRYb5fGtpWGCOG3yCZx2oYFShpXotnTUYLwLWZIocAyJT5?=
- =?us-ascii?Q?gjaAL/kSDRyiz/tx8nOfL1TXes+KZY4vfUpxlV/nHtNF+IxVp0grmiVWCHrA?=
- =?us-ascii?Q?Sb7X2VgROUhOYqAoXOsyv7AMf8oKi+SbYgQKEIwwP02UFTi3oW7tq/UqBuRo?=
- =?us-ascii?Q?P+NaPwNwdS/c0qzPmrO7ghY9IMEGuBS4KYV+NYuQivKDWV4R7Y06tjNvdkhL?=
- =?us-ascii?Q?9KCRZg11atL84qmbuUw5KYwfmhf41E7LCSH0Yy4+iHAGh/qoU9L1bmU22fq/?=
- =?us-ascii?Q?0RtlwKVzzlrLubSKxWXyz7PJ4iMhAhSWxNQiELE5bURFWFIn5YB1CBASwg9h?=
- =?us-ascii?Q?Bu5dGiyPdWU24q3atuEgA/vqMjFxLcfF6OaOSBTlpOXvYSSe/7ZZTDfojbrO?=
- =?us-ascii?Q?96esuYwGmUPrPSnxjjQatVeS?=
+	=?us-ascii?Q?D3Ezl0qPK+uOQEYhmUbush1IJkVrA3Ow9ybbZ+KVMvUfzGPVigNbKYZgzWor?=
+ =?us-ascii?Q?5QIVVP8DweRtSdaE3JsSgNOmqXYbwUS2VoxD2yVmDnCZInteA9qtk/k649WT?=
+ =?us-ascii?Q?QYak5MZAJnW56981fBTNYxJ/Cx9AH1E8wCbIE7+FM9akKYosYhtWzNU0TXEw?=
+ =?us-ascii?Q?q+RzOMAkngpCDwF0TR1iR/uTC3TFgch8+eKOXTZCHU95salJn+KBJ1/Ls6r6?=
+ =?us-ascii?Q?DA+eu8cc1IM0ZRvL2M7n1OXDo8PkDpfvyqXi/WSBItzAMzvqDINcQSc7zf62?=
+ =?us-ascii?Q?pqn3qWIBZoLl8wkfHdt8tk538c/PyTRXZCWabiv4Q2YBG5vmlb0nUh9YjcCs?=
+ =?us-ascii?Q?OnThYG/5F72Mw/KQ1gFnW7SvxiLAuE9GrigZK9/nHSyrnyKXvCj0Ax3ZI59O?=
+ =?us-ascii?Q?vedsm5hMH9N0bMj+CfTNNY9XXAA5uHXSiNTYaYHYhBsd8ZOHoo9ytTZ9/oIT?=
+ =?us-ascii?Q?5tAMtNUaxmrLZ/9AUuCh2LD0a4kj3wqtmpGLTgiM9LT8psf3Wzk88sADs7Wy?=
+ =?us-ascii?Q?k6z2U6MZDZmnVTD2zTnWm2ZXwlx8TrSnxYaI/enM4H28Rb1qdzhs8YZe801m?=
+ =?us-ascii?Q?FmZARkgbAqti6jscTmIzFp5+CRXUju9iq0DqtnR8Jnj4O+E4GuCFCn7yFVyh?=
+ =?us-ascii?Q?btxW35OiNdVKmHIPmNCYT2rDRoJrphA2WkpGwzdY1eWeFnOZJP6Or2ZYMaXe?=
+ =?us-ascii?Q?O6zQdnx9i7dyOXh66QjuMIYBVtYz0t1rty0ctPDUbZ315VMg4qCkz9FPw40y?=
+ =?us-ascii?Q?d2JWl0oyOY80/bUXfER8NuWwcRT+1DOwxxGxXuA5F2qIeDEdedfWJ/gomGkt?=
+ =?us-ascii?Q?saBzYYhQm7QGecPTZPcHlQNDlKwDIbZxqEd8Hgrmd4zsAeLEk8x5ZpR7yGkf?=
+ =?us-ascii?Q?ksZg8ERc4VJFL2neNiYyr7KXnjKA+86zjTQ27/A9QpgYzzrPvcdoHEf2gjDw?=
+ =?us-ascii?Q?XdWW7C0+6xaJ+mF63LjlHJZTBJwlE7EXhjSKYXbo2AzGbH3BYhOppTduGnGB?=
+ =?us-ascii?Q?bAfVN7dnopZc0kF6jxv47H2jxADhqPbpbBJ52gZ2k0Y6F0EfufBKT+LBxEch?=
+ =?us-ascii?Q?nj8N7rPUoUs8NeWEML97/68Xu7V4AtvNNF6+w1K49jM0t8F6t5SINnEU8QRQ?=
+ =?us-ascii?Q?Xo1MGCYpOMQBJ7pDBumXS7cG8WRbHpYt1OF01RHH/skxrMgavaCY6krgPm+s?=
+ =?us-ascii?Q?Rb4fxC4+RrDgBxoQI2mJZGwi8g7IXCYFVcdt3YknQnJa8iZNTDztb0dtpunJ?=
+ =?us-ascii?Q?QOWVO+/am1zb+xSs6T2qUzaVi8A2OdiBlzkcAdnUlVBc+iptWNrDXrDuQeXI?=
+ =?us-ascii?Q?Rf7aqJ1whZiSDTLZBujzBVl5kUlMi3MZJ93EOtjEEzBDm463OjbYePYGp2bw?=
+ =?us-ascii?Q?kqmXXgCyCpbL8k63ZqJqCUkSDA8pwgThQLuUqREtML2tGUMYzd55qTY0uZgh?=
+ =?us-ascii?Q?37jCKayUTe6QDHrzp0g9OC1Ug+IPTqjqA4Vy7KJWKbITF94KkbAq0A=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(4022899009);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?5MnFrrOHgtJtUM3/iF3oYr7ZBoFcbheV8XlZnP44WTTGbmeLZvRaOEuYO8P5?=
- =?us-ascii?Q?fFIggabSqVNkr3qjn8EUxHvBHlIDnnqV78I95HN83OXdz5kksXaoeV7Lulma?=
- =?us-ascii?Q?KCLdv5fH9eMS0k1e4Fjs86ews/J23NBqhBW0btL0faLzuTlOKT30CiC01IhD?=
- =?us-ascii?Q?xidb7pEBBX8vPORo37t9gbG02XITgyypMsvVuDjuEETgIN6lH4gLlqUoPq3q?=
- =?us-ascii?Q?4gyFxAKC87FKpGpJRiTGr0JV8dNJ7YQMKjpmUESDfXO0vLIMQhGOqaxdUIBc?=
- =?us-ascii?Q?GxIiqUMOhTtwRGgoV7RsaWPL7JZSEdKtQx+MBjs9hpbat9V2Zqu6qUBnCOFB?=
- =?us-ascii?Q?LNg/fXVC6WPWNsWWQqYV2uBgPvPB7J0hwFkzlAoPTyj4BaiJkSKfLZstVv2d?=
- =?us-ascii?Q?oIaal6XVLnYmu3QyCMHhCroZbYQgaTE1GgQXufOG1ZDFV7ShkKxKyPOVzCoi?=
- =?us-ascii?Q?jJKzBOaVUE6z9CiRcf3zAFpw3m32aZaEWpUCmI6LX17adIPu/bi9uXm4vsOM?=
- =?us-ascii?Q?NMrySW3gBhXQ8oGpVgigDws5hMCRp5v7jkW9ZtAwt61vd7jX4dtMvFM4E7Vl?=
- =?us-ascii?Q?owSH00y3o1eNfLWqGhKtaLmL9H7blM7EQz3byuMZwbRBeGaeCx00xyJ27wyZ?=
- =?us-ascii?Q?iqBvM+xIhfGL4V78x3361z7JfhmFiK8WhI7a/UVxh86TA6WOR9b6gx+uvl/8?=
- =?us-ascii?Q?xQzIZlB2tYM2ju4nom64/LQgKGGyroFb1/9jnebAwoRJmyuVQKguCeFrM+dN?=
- =?us-ascii?Q?V1gXwxGDY6ZfKjjpmvTvDLc2aA7prJxXObFU7yUR0j8/jzmbqc1Po3slCHZ/?=
- =?us-ascii?Q?Sh4L8V30PcxsqrMYOcn5eLGNr8mbXeyPHGoi3gl0GcDDFLWWUv3Z2N/+o2BH?=
- =?us-ascii?Q?DeVu/g9vvBRvAzxBt7wT66QUdppxnSSo2402hKZmoWfYLmJLr/IKAe3Jucmw?=
- =?us-ascii?Q?dp2LAYNWh/RjiF0qGdtvMeFO9eFK3ws0Adkd9vtozpFg8W0ek9rTVI1M67Fh?=
- =?us-ascii?Q?LnW9sDXt+TRadpB9KSa+hUAR5C7ZgQXB924BJO9ksdJJ6hhE8yllT4KcYV36?=
- =?us-ascii?Q?5MUgxOnbLJ2xbL40IIl8Z7FAbngmoNyQqqnerl9x24LLW0vnn9mlb6/rvhQF?=
- =?us-ascii?Q?g5oRnuE5kX5B2EGuhhao+wF2U/e2TppbKtMefvViQEzZdrKE3sr6pZr9A4y0?=
- =?us-ascii?Q?LWY9mppFnKVXpHy6aj3xXejrTnu95R58Z+ie4Li1UIAs6hILpTK4o8ZnYZAG?=
- =?us-ascii?Q?S8KuX/wC+GQqOm6IzElnQB/dZvI7rxbMdx3uJ28ceqHlhnKJKC3zLKkUFw+Z?=
- =?us-ascii?Q?P6gX1WeUIFSW7lBiCctDeKSCThvmBpo0iYiwRjzYbxo/ajdcesBo1211+j14?=
- =?us-ascii?Q?hE34JvesC7uVZHeJMkElvbMO8NORbOLmLizp5UT6j4OMvxFgqYVrP2igs283?=
- =?us-ascii?Q?WwRvv6u7+Q7Mr7D3lzddO+nFkVxp8jxyMdDwjbWTOKYyyFsn+lw7XYJIOpzj?=
- =?us-ascii?Q?W/EJU6DK3sL2eJDzp8MXtihym0zhvT0pAUNl16xuYU5MQWD2F5nf4Gbj77Wj?=
- =?us-ascii?Q?b/hs8i1TCDRFeWWQp7cUB9R/y3LglPpQhPyfSX07wUEPZb70Uet36oS9xwQ+?=
- =?us-ascii?Q?+g=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 492ae413-1137-4d9b-dfa3-08dd78339e54
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
+	=?us-ascii?Q?8H9OBz0rQNj2kyj/Nteo5cAYROvWqu2Ld5Wk/h0WWto+jqaLZepoYoRa1Kt1?=
+ =?us-ascii?Q?eOvm9aCkZ98uScOh/r03lLUOWsPux75jxQPVLaTtHRmefd22ULb6XGZMsVZO?=
+ =?us-ascii?Q?/QFhkMzqkrN/XtLtcmAER30/SlHGElGYOImNVL5a/lYt3tw8rltv+e8jpmkj?=
+ =?us-ascii?Q?H1GVB8NK/c2olY+qVNv55CUxCrN8DtSc86WehsI1CjyiOVGM1NENwYJSJ8F3?=
+ =?us-ascii?Q?FiLo/UjKgKiBukV8nUZX7xBfHhf1sZRvXbK4sCJO028LeBjdwAIppFgBxbAg?=
+ =?us-ascii?Q?TnCX+21RODVKSzt9ejBrRuY1HNrcyjrDLEnuZyyy2DM7omZzefuYmEuTY2Gt?=
+ =?us-ascii?Q?gZCPlO95yb0Ghv3djAXragBv3eQfsDXCHXn4DLSk7xroJXBYnzcxYSOY1H85?=
+ =?us-ascii?Q?i9Mz977Tzrte5ql1Xa0S2USEwOvGfgoXdkS8h7BEy2cn89TQogjHZem7JNat?=
+ =?us-ascii?Q?t4M1o77JKkKSt5mPUVHpDqOStoZDjPrCEXJAQD2HHWDLWamirlptqp5ETBrO?=
+ =?us-ascii?Q?1gvqJRRVOWcXW4bNU0Zp5QuSaj07cY3skmvIuDqYFkpRwIqHs+ESRHQlGO/V?=
+ =?us-ascii?Q?gvUj9ZFjaks8dSW5d+WLJNSTvwHyIGinDDMkor9Ngqwh8ytPgq/5kBAXK6fV?=
+ =?us-ascii?Q?UvDvMlRa+tH+uGnFCLoJi/zRbfUpdlHvnTggznK0y4RW8hLHqEDhAutwKDrl?=
+ =?us-ascii?Q?tL54ecnpcbHBLH4rPP8vlt9ONCATvifqeZKDiKvzG1EEHAiNk1RjFM4nMrbH?=
+ =?us-ascii?Q?7n6TXKYJRZQoEmwHcTBOlzF+pDY0iOx8gj7tK6s+CptycwUXeQeuYisZBETU?=
+ =?us-ascii?Q?rrZJS3yS0fsQ5M6JMoZ9WT4WhC2E3117FOZ5cZfXtBuPcqCW1XWoZJhOKXbF?=
+ =?us-ascii?Q?hYnE1hSu9EFib8+9YloOfKhNwHX+RmuvjGTzcctcYyh20c79v2mZWg76Mogg?=
+ =?us-ascii?Q?6e7Y68BTOQuKEDSRu8EaIeEPfzvFDPjsvz+aXa3V73sRLnF8sHHpLs6QqUyj?=
+ =?us-ascii?Q?RvHk+J3IIq77pyAADH0HdnfcnaslQ6M1dPmFmJ4GP+CzB+2X7kNFwFz159v+?=
+ =?us-ascii?Q?7AJjRXn1T8GVUIO3juuXeIckdKaBGAzhvOZdch1hGiLDUujjuGg4hUuDI+gR?=
+ =?us-ascii?Q?4cJ2OXhy5b8Dg4pvcbhcUzh3AZ8ih9dygnsVebFfLzoXXLCDeRiNQda2vEoq?=
+ =?us-ascii?Q?CT/X+uOMYqoqPMbf9pYl6KkMAEFGp1hcuHBdANGTtgxyYxzU6Bza8AWS0z0i?=
+ =?us-ascii?Q?JKpj6qNFHs5RVNTrt3H0LN3flYT6RWgBGrtcB+w/bdOUEMPN+2e3/X9c0wR/?=
+ =?us-ascii?Q?jeLQ6o2qk5lIKJ5FV4yBljwZ2Fz5w0IGoDg/PrCqEKKpGp8CQDEfRywa7QWm?=
+ =?us-ascii?Q?oc13UnA8YJAinYteJXswmx7pEBkfpNxVoNRclWT+qu8erPGg5x7WNA8Ow6tq?=
+ =?us-ascii?Q?NulaeWCseflASqXcO1a36JEIcDIn/Z02S+5g7w3dUDkixRuoAbU6gooino1m?=
+ =?us-ascii?Q?S/OsIyRiOcJ/FZwSArp6QndsbMpSS0U6fTiChVpScbOejRI3Hx0FHhc4DmZ9?=
+ =?us-ascii?Q?LYFNMRtUSnsRP6Pp5G9DkHIgNEUk1teQbsJR54+OcrLnYNp6MEh8kYQSP0a+?=
+ =?us-ascii?Q?yg=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2bc02672-d4ae-4100-4053-08dd783541f1
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 13:28:45.5456
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 13:40:29.2644
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NXQWXlnoQ0snl1/5n+dRkdlnSHOv7vWo/sux+630FvQpp0AmWl0ElZPJ35IcwoX2N0oRPMll/fB+yl2Heer9dA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8561
+X-MS-Exchange-CrossTenant-UserPrincipalName: mKzbLSZiXEC/hNTSgHHtts2iFf3yscRsK/XyLyT99ODnsMGy9BLBDHh83ylbqyGlRSnspycWNki0dJ6EeUigEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6812
+X-Authority-Analysis: v=2.4 cv=Td6WtQQh c=1 sm=1 tr=0 ts=67f7ca50 cx=c_pps a=DnJuoDeutjy/DnsrngHDCQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=t7CeM3EgAAAA:8 a=20Y_Kt9r-2Gad0TaIGMA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 4DpGHnS4jaQR189pfQJ7TowBy3TgEIMb
+X-Proofpoint-GUID: 4DpGHnS4jaQR189pfQJ7TowBy3TgEIMb
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-10_03,2025-04-08_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
+ mlxlogscore=993 clxscore=1015 lowpriorityscore=0 adultscore=0 bulkscore=0
+ impostorscore=0 phishscore=0 spamscore=0 suspectscore=0 priorityscore=1501
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504100099
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 13:29:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214669
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 13:40:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214672
 
-On 4/8/2025 10:10 AM, Tom Hochstein via lists.openembedded.org wrote:
-> On 4/8/2025 8:37 AM, Mathieu Dubois-Briand wrote:
->> [You don't often get email from mathieu.dubois-briand@bootlin.com.=20
->> Learn why this is important at=20
->> https://aka.ms/LearnAboutSenderIdentification ]
->>
->> On Mon Apr 7, 2025 at 11:18 PM CEST, Tom Hochstein via=20
->> lists.openembedded.org wrote:
->>> From: Ross Burton <ross.burton@arm.com>
->>>
->>> Use 'meson introspect' to dump JSON describing the build configuration
->>> and validate that the build and host architectures are correctly set in
->>> the meson.cross file.
->>>
->>> Also instead of calling ninja directly, call the relevant meson=20
->>> commands.
->>>
->>> Fixes: [YOCTO #15485]
->>> Signed-off-by: Ross Burton <ross.burton@arm.com>
->>> Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
->>> ---
->>> =C2=A0 meta/lib/oeqa/sdk/cases/meson.py | 18 +++++++++++++-----
->>> =C2=A0 1 file changed, 13 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/meta/lib/oeqa/sdk/cases/meson.py=20
->>> b/meta/lib/oeqa/sdk/cases/meson.py
->>> index 1edf78720a..407b94d242 100644
->>> --- a/meta/lib/oeqa/sdk/cases/meson.py
->>> +++ b/meta/lib/oeqa/sdk/cases/meson.py
->>> @@ -4,6 +4,7 @@
->>> =C2=A0 # SPDX-License-Identifier: MIT
->>> =C2=A0 #
->>>
->>> +import json
->>> =C2=A0 import os
->>> =C2=A0 import subprocess
->>> =C2=A0 import tempfile
->>> @@ -39,10 +40,17 @@ class MesonTest(OESDKTestCase):
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 self.assertTrue(os.path.isdir(dirs["source"]))
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 os.makedirs(dirs["build"])
->>>
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 log=
- =3D self._run("meson --warnlevel 1 -Degl=3Dno -Dglx=3Dno=20
->>> -Dx11=3Dfalse {build} {source}".format(**dirs))
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # C=
-heck that Meson thinks we're doing a cross build and=20
->>> not a native
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sel=
-f.assertIn("Build type: cross build", log)
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sel=
-f._run("ninja -C {build} -v".format(**dirs))
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sel=
-f._run("DESTDIR=3D{install} ninja -C {build} -v=20
->>> install".format(**dirs))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 log=
- =3D self._run("meson setup --warnlevel 1 -Degl=3Dno=20
->>> -Dglx=3Dno -Dx11=3Dfalse {build} {source}".format(**dirs))
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # C=
-heck that the host (gcc) and build (cross-gcc)=20
->>> compilers are different
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dat=
-a =3D json.loads(self._run("meson introspect=20
->>> --compilers {build}".format(**dirs)))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sel=
-f.assertNotEqual(data["build"]["c"]["exelist"],=20
->>> data["host"]["c"]["exelist"])
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # C=
-heck that the system architectures were set correctly
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dat=
-a =3D json.loads(self._run("meson introspect --machines=20
->>> {build}".format(**dirs)))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sel=
-f.assertEqual(data["build"]["cpu"], self.td["SDK_ARCH"])
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sel=
-f.assertEqual(data["host"]["cpu"], self.td["HOST_ARCH"])
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sel=
-f._run("meson compile -C {build} -v".format(**dirs))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sel=
-f._run("meson install -C {build} --destdir=20
->>> {install}".format(**dirs))
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 self.check_elf(os.path.join(dirs["install"], "usr",=20
->>> "local", "lib", "libepoxy.so"))
->>
->> Hi,
->>
->> Thanks for the new version, but we have a new error now:
->>
->> Traceback (most recent call last):
->> =C2=A0=C2=A0 File=20
->> "/srv/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/sdk/cases/meson=
-.py", line 47, in test_epoxy
->> =C2=A0=C2=A0=C2=A0=C2=A0 self.assertNotEqual(data["build"]["c"]["exelist=
-"],=20
->> data["host"]["c"]["exelist"])
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ~~=
-~~~~~~~~~~~^^^^^
->> KeyError: 'c'
->=20
-> Thanks, Mathieu.
->=20
-> Ross, can you have a look?
+From: Chen Qi <Qi.Chen@windriver.com>
 
-An update: I thought this was working for me, but I realize now that I=20
-may not be running the modified test. This is what I ended up running=20
-after looking around using oe-selftest list commands, as it was the only=20
-thing that looked close to an SDK meson test:
+For packages that need qemuwrapper-cross, they should have it
+in PAKAGE_WRITE_DEPS.
 
-`oe-selftest -r devtool.DevtoolIdeSdkTests.test_devtool_ide_sdk_code_meson`
+Now that we've used 'qemuwrapper-cross' to replace 'qemu-native'
+for recipes that need qemu-native for their postinsts, and we've
+now mapped PACKAGE_WRITE_DEPS for nativesdk recipes, these
+qemuwrapper-cross dependencies can be dropped from image.bbclass
+and populate_sdk.bbclass.
 
-How do I run the modified test?
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes-recipe/image.bbclass             | 2 +-
+ meta/classes-recipe/populate_sdk_base.bbclass | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
->=20
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/1330
->>
->> Can you have a look at this please?
->>
->> --=20
->> Mathieu Dubois-Briand, Bootlin
->> Embedded Linux and Kernel engineering
->> https://bootlin.com
->>
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#214542): https://lists.openembedded.org/g/openembedde=
-d-core/message/214542
-> Mute This Topic: https://lists.openembedded.org/mt/112142020/3617670
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [to=
-m.hochstein@oss.nxp.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index 378d3bd0d4..dc4ce5c0a9 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -30,7 +30,7 @@ POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_sysroot_relativelinks"
+ 
+ LICENSE ?= "MIT"
+ PACKAGES = ""
+-DEPENDS += "${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross depmodwrapper-cross cross-localedef-native"
++DEPENDS += "depmodwrapper-cross cross-localedef-native"
+ RDEPENDS += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL} ${IMAGE_INSTALL_DEBUGFS}"
+ RRECOMMENDS += "${PACKAGE_INSTALL_ATTEMPTONLY}"
+ PATH:prepend = "${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
+index f111466b4c..238cb1ee6e 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -109,7 +109,7 @@ python () {
+ }
+ 
+ SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+-SDK_DEPENDS = "virtual/fakeroot-native ${SDK_ARCHIVE_DEPENDS} cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
++SDK_DEPENDS = "virtual/fakeroot-native ${SDK_ARCHIVE_DEPENDS} cross-localedef-native"
+ PATH:prepend = "${WORKDIR}/recipe-sysroot/${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
+ SDK_DEPENDS += "nativesdk-glibc-locale"
+ 
+-- 
+2.49.0
 
 
