@@ -1,313 +1,275 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64810C369A1
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 02:55:37 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.25497.1744253728177778898
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC12FC3601E
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 04:08:47 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.26670.1744258118916286605
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Apr 2025 19:55:28 -0700
+ Wed, 09 Apr 2025 21:08:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=Gx+G1Lro;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 539HnpRN029898
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 02:55:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5KQIIe767gx02h7gn+eKAyNhGwqbUK7oPiNw70ce/ek=; b=Gx+G1LromXGG2Fnh
-	rvnAE1qWG7dzIhM/FRdtKuQM/1xlAGmO0NC6AUjTe9mI+UFB+M6qYboQMUVXK2Qu
-	UCMEB76UAqX++1I1gdetAh8pL95eRJj1w4+qzia/rwftXLR3/tgie3KSQu+0b3E7
-	97di/m5gOJ3B+kIBUcDDlW593J/EOacfxtZykRE74Oi8YK80Vtjh1oSzJIoDmn67
-	tyMMhMN6x6C8KfnbVICSzryeDIAR9cGvQcUVMTpmKWgqTaNghbPY9Rd/m2LXQG/V
-	Y5gHDV7YnQS9jC03cRfc41auTMrqkixUTuj4p43eAfVMetXQkiCZc6XI7f7YWaUA
-	U9KDPw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twpmdbfm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 02:55:27 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7c5e2872e57so68200785a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 19:55:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744253726; x=1744858526;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5KQIIe767gx02h7gn+eKAyNhGwqbUK7oPiNw70ce/ek=;
-        b=PjqA4j8IQkcznyOVx1Q9v3Use81LIbLlRwrSUfW4XAGon5NhOSoSxSeffsuRYzxpll
-         m1Spo6YvPZqCb3kjFLzYTxNXNuSBjjbL1WVhtQBqB1nIUfMyvIQ4bsDkCo6o3Kol9ikm
-         pCQQqgTLOR3A2Wc/lHx5ClOE/rY1XcOtbYzeK5tuCoG4JeJeax6y0wdOOvIGlXJM6gFE
-         n5iE5ZPC8mGaHltjLiaMsdhQ9gYDP2XKDCYUM0eJOEpLPwJZD0lu612B3M3xFmQP7WHp
-         /v7I7raGd2XKyIR/gtsGFhyPfyjB8W+10zJqZju/dl2JDNOs0r04wJkKazzRUibM/axo
-         ZeiA==
-X-Gm-Message-State: AOJu0Yxtdof5INGThpvsMaVx2sjTK+ofjab4ylIWoGYXhRDHFM2WOFnv
-	cV6KNP1DdSI+yIzalLM/uB8DeoRwudv9R8FGL06HWU5uj2Sa3J6Xl7rQHHnvKN4qNztCZA1zG+U
-	/wpm02kELeZn1Wo6wv3rHepgzZNRmOGNRostotkT+WTfdxOJ7coYpKAHXe+M3+79z+tPBJc1nlr
-	4eKTy9Axr+1Yw=
-X-Gm-Gg: ASbGncszFX3Q2rOd52rR+UaN/qivZ1nkrMGZe84+xH4GA0DsB2rzNikKLVtB4w81f5Z
-	YtyXvc3QIsJmuAPVrJX1LT5NX1qd9rz70za7Smuo5j+aNA9Zf0UlNa4YSX9bcHfA1YyhWnjdUQd
-	RznoAk03mKLYmWas2i7wIZVysluk/ZICiJaaeh6nh68fBGuFhdugx2uy1my0DXUQN7o3Yjv93mP
-	BlvRioULvOtE0enzTt8FNpHZ/TKTVxRyM0QF38jL5Fisled9OU75m1kHsnK4F5SxZoF2YKO6Q7Y
-	twxWs7j/R6/RATid1O6vbtjnxqv3KvT90lld9q/DkJKP4qQB8gd3b31uYNRghxb1LGVwdwujLDo
-	83Ey69IAqYliBcRXp9SNsUTzD
-X-Received: by 2002:a05:620a:1923:b0:7c5:cdb5:271b with SMTP id af79cd13be357-7c7a815ec32mr96473985a.15.1744253725612;
-        Wed, 09 Apr 2025 19:55:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFs0+1etDLvhM2zsbW+nINWVisODGmsX8lFft4zxefvvdntXWUO+F+i2xRRLY8jj7/qaF3RtQ==
-X-Received: by 2002:a05:620a:1923:b0:7c5:cdb5:271b with SMTP id af79cd13be357-7c7a815ec32mr96472885a.15.1744253725211;
-        Wed, 09 Apr 2025 19:55:25 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d3d123197sm24032e87.44.2025.04.09.19.55.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 19:55:23 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Thu, 10 Apr 2025 05:54:51 +0300
-Subject: [PATCH v7 12/12] mesa: add support for RustiCL under PACKAGECONFIG
- "opencl"
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20250410-mesa-25-v7-12-59d715c66e19@oss.qualcomm.com>
-References: <20250410-mesa-25-v7-0-59d715c66e19@oss.qualcomm.com>
-In-Reply-To: <20250410-mesa-25-v7-0-59d715c66e19@oss.qualcomm.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=61957cd107=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53A3mq72030775
+	for <openembedded-core@lists.openembedded.org>; Wed, 9 Apr 2025 21:08:38 -0700
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2045.outbound.protection.outlook.com [104.47.56.45])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45u41m5w52-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 21:08:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a5n+wkkpBF0Hcj8SAMnEL5O9+tE2bBGOLEFzY4CQGFqRg3VGkSO9S3hjG4NeOTdT58uYgRgXrdXqveaDEd5IItYrJBA1bFVbYUZMaIZG6dQE2YU22z9L9sduOuW5KEtPCXZejtp0du4FYqX+xdwiAn6zGXmyOcFXcC4aUPxTFAnb/qPcF/SFwEqIu6RAXfZLqONZCVihboBmG2ElceQz38E7R2GEt2qGL5DY/37e8h/3cb4qzsBgrNcU2ef5QFXmQ3p23NXc1czqJpfbpsI6ZR5kRRGa3RKz8wrIgfb0IoatmO7/d24a+1BiWF91QVP49rSpouAoCy+G/PcL2vBRuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GmJHWC1wi2eFq+NEIKbGpiMpAESG5OHxAuVxEGXul4s=;
+ b=NpVSgADpNvSqtsEb730vvVTeVyNzLX+ffWBJvnXwXDnMSbKeVVUsVwkvoeOKXLv4bVQ9HMbo3rAk2SqxNZHJPxNrSSiSC3G86WdzqntMIb7ZGQxSJywrHdrpEellqoPM3EZ7Zpgj+4Dqd+lkZiLgBp3FQC0HhVKAcRUKUUOuWoRtpfwpMm1TQVq5YPQxvHG9OLyXexRiZWWCddgvG2eDRysAbR78TP4IomNcHT+L2tdKaty86rCbUC0lbtl/zDrRKGusw/10mevtsGyQTJzaJRwqyG2goEja6nowclzlZ4PZ/paQbzosn5m+qRb1cHvz80R/D4usGyReCn55Y9MhYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by CH3PR11MB8185.namprd11.prod.outlook.com (2603:10b6:610:159::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.22; Thu, 10 Apr
+ 2025 04:08:33 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.8606.029; Thu, 10 Apr 2025
+ 04:08:33 +0000
+From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-        =?utf-8?q?Zolt=C3=A1n_B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7772;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=fZAgKJI7SWq8PzgWSpG663vL/fDTTwBSP4YJ4EAiFUU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBn9zLyJM7IRKHpvybLH6JfnQut1CT/GiPitaUik
- oUcy6djBAmJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ/cy8gAKCRCLPIo+Aiko
- 1T2CB/sHAfe34OLIHiJ6Wl6gOk3+EqsyJPqorW2mAY2nMyIYCV/9Y8aCNTouzSnEkHA03OGdy0L
- pG/LEkqrGWQAtD4wLoJxq9FVZeqAwMNnZ/dsrZEL8oa/WMWqfG8pE/A/obLPZl76Pg2EWHrwq6n
- DQ3FyGPDBltx6rk7YLX5YVkF1uUDT40aV0VFzgWzonezXjhcwTUiK2eb3Rma6t0m3tzeDfekfwC
- xx5fnH7c8pBz3h31H80dUp8SH6KRfjjbfjmTkm544zB1NG8xLMot5fMVvx17yD2Fpux9Q+hwc8d
- ygG1krPMS3bJY9eglQ0ZqJKMOUAC/xeoNK0Ua1ZkibVZrc7G
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: 0s73IMFJvLyn3xTkQ_HXGCGzYLw6wiwR
-X-Proofpoint-ORIG-GUID: 0s73IMFJvLyn3xTkQ_HXGCGzYLw6wiwR
-X-Authority-Analysis: v=2.4 cv=MpRS63ae c=1 sm=1 tr=0 ts=67f7331f cx=c_pps a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=NEAV23lmAAAA:8 a=ZpVaWaFtAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=NIk5LsUNV1RiDaC6tVwA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=5tn4MO8azEBWFjlAA-rn:22
+Subject: [OE-core][PATCH 1/2] classes/recipes: remove unnecessary qemu inherit and qemu-native dependency
+Date: Wed,  9 Apr 2025 21:08:24 -0700
+Message-ID: <20250410040825.1283228-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CH2PR16CA0005.namprd16.prod.outlook.com
+ (2603:10b6:610:50::15) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|CH3PR11MB8185:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f4284f5-1ea2-4fda-12ff-08dd77e55bfa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?PdN9pQzQm4RMnkyq5W5AbpxAHGE/OP4CjF5w1efAu8wObuYnhM1aXUY0aKin?=
+ =?us-ascii?Q?xUQF0+jswWqBOyXhz/VNnQqX9EQ6KzysThjmBnWivcMiS1LNpD4tMXDKEo7J?=
+ =?us-ascii?Q?5MwZ7R6bJkCswSyWqLf5cFgcngPWuPLG/JIpF0Ngnvg2P7hqkL0SPrptX7WB?=
+ =?us-ascii?Q?VYLVFvrySP1uhX42XrrTWdHbDQK4TfnAGw+s0GMKrJyvBMPh7l/Zx4OxVcS5?=
+ =?us-ascii?Q?/AECrFttJwCsuqRglxtigKEio0DfrROJJp4OkrNOvEsi9SEtJQ61aKi7nx+s?=
+ =?us-ascii?Q?U6wbw1V+5E+ixXhnhb/iJ6INQRTWdWbCA0PksxfUNXW/rCfnXCBhtwjbWHmn?=
+ =?us-ascii?Q?Os8gF9VdqhbEpst3vXey13TCFRfhRxGBZmTXY9QOmqp+gAvBUECYRWWJYzwl?=
+ =?us-ascii?Q?hDadHhnasIuZYgqmtTSg/4isSVaTmodmIVxkuKKWFHky0CCjxUfMbPyhJu7G?=
+ =?us-ascii?Q?EeLoungnHKZ1KPPDvGT2Po0i/IP1e8z05REyEFSW0vJd8sOAVo00/Teqw/qm?=
+ =?us-ascii?Q?hxwHaSWsw84/dShbP/5TTSefKLJlF8TLxb5iVrf4veiKF+oKGmCP21/SVIFT?=
+ =?us-ascii?Q?NAelbV9zzptYsFFlrIjGqRx140nW68myppVboOFLOfmbgxnRQpW6FBcLllv4?=
+ =?us-ascii?Q?53NnAU7zw8/BBdKZI67/2o6ocOb8dmQkAhBInVWfFR4N9QnepjkaK/b1yx2z?=
+ =?us-ascii?Q?jfGhbn76vF2UHjHJr+HqRSXwfyVYOE7plgLjx6pZ4aBBJ1HYWYl8Fzzj01ye?=
+ =?us-ascii?Q?ymmuTwhpAZHRZ/wHJbWlKMWX7zmeUrgrRFCSDMyiDtrSAgco2FMe70CBh+76?=
+ =?us-ascii?Q?RlUMkoll56w0ES0gzo59maHKjLHbsLaUpGxRrkBYA2Lqk0XrTSv17mmsUZF0?=
+ =?us-ascii?Q?BSrSWgh+DrvUdQF9m/G5/AtqhsmLeXgnTqed06/ETsLf+sc//4IDjtpKHfaP?=
+ =?us-ascii?Q?pR/MIlt+ZoaaJZWWjMP3vKL9972LbjWBuUrT8yxzwYQdt2EjK0DF8eizuAuF?=
+ =?us-ascii?Q?xlOwrKL+14mR7ORer1zzbbQX9kHE2UbLsEJkundhY/WQFlIofvZ0n840+blp?=
+ =?us-ascii?Q?culhk/o67UgQ0jwwuvi+7b/xvVkOXerpM8tGuG7ly8sqxAEn/Ehha2LLKzDj?=
+ =?us-ascii?Q?cxOvJIL7x069IQQi8tZzyE9ndQFsX6G7vwZET+LDBW0CDJe5ymBZJXNYIrUA?=
+ =?us-ascii?Q?DK70JS3QZLHThcfI9rsHMpuyg4KJMPHWXFt8/FRq+lGpfXFxpG8cWvpKiFKW?=
+ =?us-ascii?Q?upc4PhPepsFpZDjE9oXj1kW6SH1X347E1fTP05gxLsMldmEN3rHMa5PBhDOJ?=
+ =?us-ascii?Q?j0fgJs+kH/hVKKEvavy+kS+w7iAlO7H5QzkfCrHsS2edcDhUkyX9X1gAlZH4?=
+ =?us-ascii?Q?ElZgV7yvUiKfFyrYBkaNIlNMhybsg4pkQW9AM9kpGHzOnTz+MHi3hNRJbtIU?=
+ =?us-ascii?Q?/GTGMKKmA4qy0FDxRArXtXAHvxxTPzd5?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?ezaBNokt9H1MAx4COnaQivsZToy9MMjw9v6QUKBbUY582G5VHfojuPf2tlqT?=
+ =?us-ascii?Q?CVyT3KPDnVyvi/ptvjhTnKG8NUCIYM7lBrwy1jSarR2vj07WRQLRgiaWfyG6?=
+ =?us-ascii?Q?UZsf2ej23Nsq7QsuB0Q4t8ZuXOfm+0+v405L20/8JuASEknLf7FkHeEZWYAQ?=
+ =?us-ascii?Q?zynzTe2LX2r2Bj1pNxuo3APvl2z+vc/g8ru+QaHY2d1U0U4pfhSgqdHjd1l2?=
+ =?us-ascii?Q?9rotd65tGY1ifw8C5brKJ93HWp8K0CtVoSj7MaWVG++qdFa2O5cUZmBLDCCB?=
+ =?us-ascii?Q?F3jLvXIh3OBYQ5urgybyALGdBoQdFPAiIkd4Y60PyTcrMHryhxKOPBN2lGBK?=
+ =?us-ascii?Q?Ht33CN6NMZTC3RD5XRiuaKAgHwWQedd411c9dFk3/gJmtM6wrndmCyVBEwuw?=
+ =?us-ascii?Q?tQgZV67Q2u8SZ/E7YHf6RrPQ8YaoGAPBVhkzb/rYBmTX3ZuXozewOEqrw7X+?=
+ =?us-ascii?Q?VR5hK2mG6mpfeGp6UdSIO/rAiq3/wz/4aGaVtih2jUI0eQBHuNDddjJix5uS?=
+ =?us-ascii?Q?tfr1nKkUlJ5ikdj2hxAOYiInuS2eaWwyTg9xBnCA4CAYCwqnXj5RTIF5nHSi?=
+ =?us-ascii?Q?6QCrxDoP5lpp2tL/uayv3V+QLVhIp5VVECNilro0URiq29gWQPSaAF06rE56?=
+ =?us-ascii?Q?js9wwxlm6g4nKR3AcXne4oN+eVaAcPHDnP0YbMiGxGOc8IhPZKUv5tbfDlwH?=
+ =?us-ascii?Q?Ygx3LXAUjr17V63D1CTDm+j3oKLvIfCM7JBFtrqNIs0/4xbHzS7dHj010xmq?=
+ =?us-ascii?Q?V6HvmwuqWcVOVP04SVIKRFhRbjuFrneUE9ONJPh2blyElY9SzzaEpD4QyJTv?=
+ =?us-ascii?Q?LEOPumHL8klhGym9KvUFi8+6p0RkfzGA8/gTxcDv63wk641Pw80TesvZBdtt?=
+ =?us-ascii?Q?vgdzjiT/4XbKWjuAVRN2qvrm7X2SPp+JfAtw8T3EDn3ybCfxOZ3lY8zdDDDX?=
+ =?us-ascii?Q?QBBR3DHG1dDuSvVfotBQ6IzwCT0Yhy0r7n4kmBKAM7XwVMM398lhWx9ZqQmK?=
+ =?us-ascii?Q?v3LsirCRgGH8BAAlB24XogkV0ELIPkFP9TbPCIY+ULllaKvxkaC5nlkOTjHO?=
+ =?us-ascii?Q?eWcSICKXPNIoixH1Wx7IWnCOx7HUxxRRiEfOUia8zMQkPGlaAOxthDKZZFZj?=
+ =?us-ascii?Q?2bvXQGGugt2KFejWfcxCwZO1XIbSN5aeH6WoRR/J00th3WU3/I1lNJWMZ46/?=
+ =?us-ascii?Q?MBwTffRAJ1cU9aKCbFAvmxvSu10/XgLrcfjX+ldH0hwkS2f+PUBFywh5OD3t?=
+ =?us-ascii?Q?i+tAAm8JOnRykdCzuYly7rP/LD+6rbbt3DMlqbTx89t5i8tWwaJ3VPDZKvXK?=
+ =?us-ascii?Q?VUtlUkjeQcZIF1sADEQfw0IBjaD/flqaIbyEP2AGdvkI268ksZFRTHXQeIaB?=
+ =?us-ascii?Q?KXEDP94cDG4RhEj4sGLTQLEfqaoLJNCieMdkQmlflSgWMETu15UetApnAyqd?=
+ =?us-ascii?Q?MK/aW+MBZDospw+l4ED7MRU3a6E9ugoTjTEcjgSe4nPyrSqXhu8pnYzkdoZQ?=
+ =?us-ascii?Q?IGrSdwc7dvvW5z6N1JN12KuQel5/S41eV0befJ+4xOZY1gftuK2ubm8Jttc0?=
+ =?us-ascii?Q?UJd3ziGK8l00l3g070atKtAsvLFqKk5o++GktyzUBCwtJ1jaA9XQcA0AHJXg?=
+ =?us-ascii?Q?OA=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f4284f5-1ea2-4fda-12ff-08dd77e55bfa
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 04:08:33.2165
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mBy4m5nWo8F8RyyJYxvreKKCUgqeeqiCyqENdyItWew3HMhLWD/k8PjXfMBR19xxldY3NlfDrICaLJ+tLMonrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8185
+X-Proofpoint-GUID: cvwhHcxStLGJ1xx_lbHlMCcbnOLqHjKT
+X-Proofpoint-ORIG-GUID: cvwhHcxStLGJ1xx_lbHlMCcbnOLqHjKT
+X-Authority-Analysis: v=2.4 cv=QOZoRhLL c=1 sm=1 tr=0 ts=67f74446 cx=c_pps a=fpyyTn7Kx2iM0+fj1eipXw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=C8kN1T1fmjDBIZZgf1sA:9 a=J6Dv6ctt5JGYP2we:21 a=FdTzh2GWekK77mhwV6Dw:22
+X-Sensitive_Customer_Information: Yes
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-09_06,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=999 clxscore=1015 priorityscore=1501 impostorscore=0
- spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0 adultscore=0
- phishscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504100021
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 539HnpRN029898
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=970 bulkscore=0 phishscore=0 impostorscore=0
+ priorityscore=1501 clxscore=1015 lowpriorityscore=0 spamscore=0 mlxscore=0
+ malwarescore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504100029
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 02:55:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214614
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 04:08:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214616
 
-From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Mesa now has two OpenCL implementations: Clover (older one) and RustiCL
-(newer one). Extend the "opencl" package config to include both
-implementations into the libopencl-mesa (-dev) packages. As the Clover
-implementation is in maintenance mode and is expected to be removed at
-Mesa 25.2, it doesn't make sense to split the packages or to provide
-two config options.
+Some classes/recipes inherit qemu.bbclass but does not actually use anything
+from it. Besides, putting qemu-native in PACKAGE_WRITE_DEPS is not needed because
+the process of generating package does not need qemu-native.
 
-Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-[DB: merged "rusticl" and "clover" back to "opencl", reworked rust inheri=
-tance]
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- ...vide-cross-compilation-arguments-to-LLVM-.patch | 67 ++++++++++++++++=
-++++++
- meta/recipes-graphics/mesa/mesa.inc                | 21 +++++--
- 2 files changed, 83 insertions(+), 5 deletions(-)
+ meta/classes-recipe/fontcache.bbclass           | 3 ---
+ meta/classes-recipe/gio-module-cache.bbclass    | 3 ---
+ meta/classes-recipe/gtk-immodules-cache.bbclass | 4 ----
+ meta/classes-recipe/manpages.bbclass            | 2 --
+ meta/classes-recipe/pixbufcache.bbclass         | 5 +----
+ meta/recipes-core/systemd/systemd_257.4.bb      | 3 +--
+ meta/recipes-core/udev/eudev_3.2.14.bb          | 2 +-
+ 7 files changed, 3 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-rusticl-provide-cross-=
-compilation-arguments-to-LLVM-.patch b/meta/recipes-graphics/mesa/files/0=
-001-rusticl-provide-cross-compilation-arguments-to-LLVM-.patch
-new file mode 100644
-index 0000000000000000000000000000000000000000..d527b3408734dfa0aa756053c=
-1b0f3ea3a59563b
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-rusticl-provide-cross-compila=
-tion-arguments-to-LLVM-.patch
-@@ -0,0 +1,67 @@
-+From b9cf34f39ca7e7546508ce2ab1f053edef5fc201 Mon Sep 17 00:00:00 2001
-+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Date: Wed, 26 Mar 2025 17:47:09 +0200
-+Subject: [PATCH] rusticl: provide cross-compilation arguments to LLVM bi=
-ndgen
-+ invocation
-+
-+Correctly generating LLVM bindings requires several croos-compilation
-+arguments. Provide them to rust.bindgen(). Karol Herbst on IRC suggested
-+that a proper fix should be to fix meson's rust.bindgen() to support
-+cross-compilation. Carry this patch until meson is fixed.
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+Link: https://github.com/mesonbuild/meson/issues/13591
-+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+---
-+ meson_options.txt                         | 14 ++++++++++++++
-+ src/gallium/frontends/rusticl/meson.build |  8 ++++++++
-+ 2 files changed, 22 insertions(+)
-+
-+diff --git a/meson_options.txt b/meson_options.txt
-+index 0147cafcb146..f73e83fded18 100644
-+--- a/meson_options.txt
-++++ b/meson_options.txt
-+@@ -796,3 +796,17 @@ option(
-+   value : false,
-+   description : 'Install the drivers internal shader compilers (if need=
-ed for cross builds).'
-+ )
-++
-++option(
-++  'bindgen-includedir',
-++  type : 'string',
-++  value : '',
-++  description : 'system-wide include directory for cross-generating LLV=
-M bindings'
-++  )
-++
-++option(
-++  'bindgen-target',
-++  type : 'string',
-++  value : '',
-++  description : 'Clang target for cross-generating LLVM bindings'
-++  )
-+diff --git a/src/gallium/frontends/rusticl/meson.build b/src/gallium/fro=
-ntends/rusticl/meson.build
-+index a5d1dcf3abb9..480c220b7f5f 100644
-+--- a/src/gallium/frontends/rusticl/meson.build
-++++ b/src/gallium/frontends/rusticl/meson.build
-+@@ -115,6 +115,11 @@ rusticl_bindgen_c_args =3D [
-+   '-fno-builtin-malloc',
-+ ]
-+=20
-++bindgen_target =3D get_option('bindgen-target')
-++if bindgen_target !=3D ''
-++  rusticl_bindgen_c_args +=3D [ '-target', bindgen_target ]
-++endif
-++
-+ cl_c_args =3D [
-+   '-DCL_USE_DEPRECATED_OPENCL_1_0_APIS',
-+   '-DCL_USE_DEPRECATED_OPENCL_1_1_APIS',
-+@@ -187,6 +192,9 @@ rusticl_llvm_bindings_rs =3D rust.bindgen(
-+     rusticl_bindgen_c_args,
-+     pre_args,
-+   ],
-++  include_directories : [
-++    get_option('bindgen-includedir'),
-++  ],
-+   dependencies : [
-+     dep_clang,
-+     dep_llvm,
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 9edce6b2281c2e33e6fe20819f0f4998cceba60b..aca34983e97ca684d662987d3=
-a1d0b61ba44029a 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -18,6 +18,7 @@ SRC_URI =3D "https://archive.mesa3d.org/mesa-${PV}.tar.=
-xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-            file://0001-meson-disable-SIMD-blake-optimisations-on-x32-hos=
-t.patch \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.p=
-atch\
-+           file://0001-rusticl-provide-cross-compilation-arguments-to-LL=
-VM-.patch \
- "
-=20
- SRC_URI[sha256sum] =3D "adf904d083b308df95898600ffed435f4b5c600d95fb6ec6=
-d4c45638627fdc97"
-@@ -46,7 +47,7 @@ PROVIDES =3D " \
-     virtual/mesa \
-     "
-=20
--inherit meson pkgconfig python3native gettext features_check
-+inherit meson pkgconfig python3native gettext features_check rust
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-=20
-@@ -85,6 +86,9 @@ PACKAGECONFIG =3D " \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'zink', '', d)} \
- "
-=20
-+# skip all Rust dependencies if we are not building OpenCL"
-+INHIBIT_DEFAULT_RUST_DEPS =3D "${@bb.utils.contains('PACKAGECONFIG', 'op=
-encl', '', '1', d)}"
-+
- PACKAGECONFIG:append:x86 =3D " libclc gallium-llvm"
- PACKAGECONFIG:append:x86-64 =3D " libclc gallium-llvm"
- PACKAGECONFIG:append:i686 =3D " libclc gallium-llvm"
-@@ -144,9 +148,16 @@ PACKAGECONFIG[gles] =3D "-Dgles1=3Denabled -Dgles2=3D=
-enabled, -Dgles1=3Ddisabled -Dgles2
- # "egl" requires "opengl"
- PACKAGECONFIG[egl] =3D "-Degl=3Denabled, -Degl=3Ddisabled"
-=20
-+BINDGEN_TARGET =3D "${TARGET_ARCH}-${TARGET_OS}${@['-gnu', ''][d.getVar(=
-'LIBCEXTENSION') !=3D '']}"
-+BINDGEN_TARGET:class-native =3D ""
-+
- # "opencl" also requires libclc and gallium-llvm to be present in PKGCON=
-FIG!
- # Be sure to enable them both for the target and for the native build.
--PACKAGECONFIG[opencl] =3D "-Dgallium-opencl=3Dicd,-Dgallium-opencl=3Ddis=
-abled,"
-+PACKAGECONFIG[opencl] =3D " \
-+    -Dgallium-opencl=3Dicd -Dgallium-rusticl=3Dtrue -Dbindgen-includedir=
-=3D${STAGING_INCDIR} -Dbindgen-target=3D${BINDGEN_TARGET},\
-+    -Dgallium-opencl=3Ddisabled -Dgallium-rusticl=3Dfalse, \
-+    bindgen-cli-native \
-+"
-=20
- PACKAGECONFIG[broadcom] =3D ""
- PACKAGECONFIG[etnaviv] =3D ",,python3-pycparser-native"
-@@ -249,7 +260,7 @@ RDEPENDS:libgles3-mesa-dev +=3D "libgles2-mesa-dev"
- RDEPENDS:libgles2-mesa +=3D "libgles3-mesa"
- ALLOW_EMPTY:libgles3-mesa =3D "1"
-=20
--RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
-ncl', 'libclc spirv-tools', '', d)}"
-+RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
-ncl', 'libclc spirv-tools spirv-llvm-translator', '', d)}"
-=20
- PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
-              libosmesa libosmesa-dev \
-@@ -355,7 +366,7 @@ FILES:libgles1-mesa =3D "${libdir}/libGLESv1*.so.*"
- FILES:libgles2-mesa =3D "${libdir}/libGLESv2.so.*"
- FILES:libgl-mesa =3D "${libdir}/libGL.so.*"
- FILES:libglx-mesa =3D "${libdir}/libGLX*.so.*"
--FILES:libopencl-mesa =3D "${libdir}/libMesaOpenCL.so.* ${libdir}/gallium=
--pipe/*.so ${sysconfdir}/OpenCL/vendors/mesa.icd"
-+FILES:libopencl-mesa =3D "${libdir}/lib*OpenCL.so.* ${libdir}/gallium-pi=
-pe/*.so ${sysconfdir}/OpenCL/vendors/*.icd"
- FILES:libglapi =3D "${libdir}/libglapi.so.*"
- FILES:libosmesa =3D "${libdir}/libOSMesa.so.*"
- FILES:libxatracker =3D "${libdir}/libxatracker.so.*"
-@@ -369,7 +380,7 @@ FILES:libglapi-dev =3D "${libdir}/libglapi.*"
- FILES:libgles1-mesa-dev =3D "${libdir}/libGLESv1*.* ${includedir}/GLES $=
-{libdir}/pkgconfig/glesv1*.pc"
- FILES:libgles2-mesa-dev =3D "${libdir}/libGLESv2.* ${includedir}/GLES2 $=
-{libdir}/pkgconfig/glesv2.pc"
- FILES:libgles3-mesa-dev =3D "${includedir}/GLES3"
--FILES:libopencl-mesa-dev =3D "${libdir}/libMesaOpenCL.so"
-+FILES:libopencl-mesa-dev =3D "${libdir}/lib*OpenCL.so"
- FILES:libosmesa-dev =3D "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h=
- ${libdir}/pkgconfig/osmesa.pc"
- FILES:libxatracker-dev =3D "${libdir}/libxatracker.so ${libdir}/libxatra=
-cker.la \
-                           ${includedir}/xa_tracker.h ${includedir}/xa_co=
-mposite.h ${includedir}/xa_context.h \
-
---=20
-2.39.5
+diff --git a/meta/classes-recipe/fontcache.bbclass b/meta/classes-recipe/fontcache.bbclass
+index 6f4978369d..6082af08f3 100644
+--- a/meta/classes-recipe/fontcache.bbclass
++++ b/meta/classes-recipe/fontcache.bbclass
+@@ -9,9 +9,6 @@
+ # packages.
+ #
+ 
+-PACKAGE_WRITE_DEPS += "qemu-native"
+-inherit qemu
+-
+ FONT_PACKAGES ??= "${PN}"
+ FONT_PACKAGES:class-native = ""
+ FONT_EXTRA_RDEPENDS ?= "${MLPREFIX}fontconfig-utils"
+diff --git a/meta/classes-recipe/gio-module-cache.bbclass b/meta/classes-recipe/gio-module-cache.bbclass
+index d12e03c4a0..4340715b01 100644
+--- a/meta/classes-recipe/gio-module-cache.bbclass
++++ b/meta/classes-recipe/gio-module-cache.bbclass
+@@ -4,9 +4,6 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
+-PACKAGE_WRITE_DEPS += "qemu-native"
+-inherit qemu
+-
+ GIO_MODULE_PACKAGES ??= "${PN}"
+ 
+ gio_module_cache_common() {
+diff --git a/meta/classes-recipe/gtk-immodules-cache.bbclass b/meta/classes-recipe/gtk-immodules-cache.bbclass
+index 8fbe1dd1fb..83deb2d48a 100644
+--- a/meta/classes-recipe/gtk-immodules-cache.bbclass
++++ b/meta/classes-recipe/gtk-immodules-cache.bbclass
+@@ -8,10 +8,6 @@
+ #
+ # Usage: Set GTKIMMODULES_PACKAGES to the packages that needs to update the inputmethod modules
+ 
+-PACKAGE_WRITE_DEPS += "qemu-native"
+-
+-inherit qemu
+-
+ GTKIMMODULES_PACKAGES ?= "${PN}"
+ 
+ gtk_immodule_cache_postinst() {
+diff --git a/meta/classes-recipe/manpages.bbclass b/meta/classes-recipe/manpages.bbclass
+index e9ca2f895b..bdd91b8564 100644
+--- a/meta/classes-recipe/manpages.bbclass
++++ b/meta/classes-recipe/manpages.bbclass
+@@ -10,8 +10,6 @@
+ # by default.
+ PACKAGECONFIG:append:class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'manpages', '', d)}"
+ 
+-inherit qemu
+-
+ # usually manual files are packaged to ${PN}-doc except man-pages
+ MAN_PKG ?= "${PN}-doc"
+ 
+diff --git a/meta/classes-recipe/pixbufcache.bbclass b/meta/classes-recipe/pixbufcache.bbclass
+index 107e38885e..66ac4ed23c 100644
+--- a/meta/classes-recipe/pixbufcache.bbclass
++++ b/meta/classes-recipe/pixbufcache.bbclass
+@@ -9,12 +9,9 @@
+ # packages.
+ #
+ 
+-DEPENDS:append:class-target = " qemu-native"
+-inherit qemu
+-
+ PIXBUF_PACKAGES ??= "${PN}"
+ 
+-PACKAGE_WRITE_DEPS += "qemu-native gdk-pixbuf-native"
++PACKAGE_WRITE_DEPS += "gdk-pixbuf-native"
+ 
+ pixbufcache_common() {
+ if [ "x$D" != "x" ]; then
+diff --git a/meta/recipes-core/systemd/systemd_257.4.bb b/meta/recipes-core/systemd/systemd_257.4.bb
+index 24aad11c0a..4066509f7d 100644
+--- a/meta/recipes-core/systemd/systemd_257.4.bb
++++ b/meta/recipes-core/systemd/systemd_257.4.bb
+@@ -8,7 +8,7 @@ DEPENDS = "gperf-native libcap util-linux python3-jinja2-native"
+ 
+ SECTION = "base/shell"
+ 
+-inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives qemu systemd gettext bash-completion manpages features_check mime
++inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives systemd gettext bash-completion manpages features_check mime
+ 
+ # unmerged-usr support is deprecated upstream, taints the system and will be
+ # removed in the near future. Fail the build if it is not enabled.
+@@ -932,7 +932,6 @@ pkg_prerm:${PN}:libc-glibc () {
+ 	fi
+ }
+ 
+-PACKAGE_WRITE_DEPS += "qemu-native"
+ pkg_postinst:udev-hwdb () {
+ 	if test -n "$D"; then
+ 		$INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX} \
+diff --git a/meta/recipes-core/udev/eudev_3.2.14.bb b/meta/recipes-core/udev/eudev_3.2.14.bb
+index b3e7d092c5..24551a3fc5 100644
+--- a/meta/recipes-core/udev/eudev_3.2.14.bb
++++ b/meta/recipes-core/udev/eudev_3.2.14.bb
+@@ -20,7 +20,7 @@ SRC_URI[sha256sum] = "8da4319102f24abbf7fff5ce9c416af848df163b29590e666d334cc192
+ 
+ GITHUB_BASE_URI = "https://github.com/eudev-project/eudev/releases"
+ 
+-inherit autotools update-rc.d qemu pkgconfig features_check manpages github-releases
++inherit autotools update-rc.d pkgconfig features_check manpages github-releases
+ 
+ CONFLICT_DISTRO_FEATURES = "systemd"
+ 
+-- 
+2.49.0
 
 
