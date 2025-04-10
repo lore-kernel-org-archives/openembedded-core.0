@@ -1,141 +1,125 @@
-Return-Path: <lw@hqv.ch>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DDA2C3601E
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 06:38:08 +0000 (UTC)
-Received: from amphora.sui-inter.net (amphora.sui-inter.net [80.74.147.33])
- by mx.groups.io with SMTP id smtpd.web11.28371.1744267076458108851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADBCFC3601E
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 06:42:18 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.28137.1744267330632566112
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Apr 2025 23:37:57 -0700
+ Wed, 09 Apr 2025 23:42:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=permanent DNS error (domain: hqv.ch, ip: 80.74.147.33, mailfrom: lw@hqv.ch)
-Received: from [192.168.1.129] (localhost [127.0.0.1]) by amphora.sui-inter.net (Postfix) with ESMTPSA id 31B559681351
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 08:37:54 +0200 (CEST)
-Authentication-Results: amphora.sui-inter.net;
-        spf=pass (sender IP is 185.132.16.78) smtp.mailfrom=lw@hqv.ch smtp.helo=[192.168.1.129]
-Received-SPF: pass (amphora.sui-inter.net: connection is authenticated)
-Message-ID: <2c0885e1-8821-4470-8e54-dcad6a241834@hqv.ch>
-Date: Thu, 10 Apr 2025 08:37:54 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-From: Lukas Woodtli <lw@hqv.ch>
-Subject: python3: Allow to specify which pyc files to keep
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=he5FKZFt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39ac9aea656so324035f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Apr 2025 23:42:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1744267329; x=1744872129; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wt6sUhTfAaQJSbfLeW+oAsoi4YsdNjW/C7fHOsfLvds=;
+        b=he5FKZFtaNgn6SE3TsiMkuzvDXype+BTmoOmTh//W/QRbmydby8HMuYabqewm16yxT
+         U5HyZcFsF7LlroMHMPoqRo4pMdi0g0qRHf0iFcHtzjOu+pcEToeOsSpn6PDdWdyrMT5Y
+         aXLyS2TbnB44qtMNPE7yToZvvoBQ5636WyK+0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744267329; x=1744872129;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wt6sUhTfAaQJSbfLeW+oAsoi4YsdNjW/C7fHOsfLvds=;
+        b=heGDsd9iYe/lPaj3NPObHyIEwGa6jGZh9wgOCEu0y6FrEcC/UJVAg66iLX4pqZAgfF
+         BS88ANug7mp3X2Srf+HED3ZhbWki+MaupGmXD0xLPifVcXCpXfdpsHBuJwvNvo1kUzpI
+         uO9LurOpwm0AApW98zK4m9vB1k47MLZnJmkA+AYhZh6/Xa5CjDxIKYXCJ9X7+yDIhgag
+         IkypHnoIOwPP4lH8oX6SMxiVDVwFiAO4ieidGUzxFb/c7ELL6SIj6/kcoC5RVshy0q6W
+         TXacERZKmYj3acvEarp70eP1/YsqTY7TUHOeHar/RCQLqzYAi1Ksi6PDal6Dk310pKx1
+         mbTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWwewIaN3NXbwVxy+3yBuZT/HSy6aGrWI1rNZRnb8d9KIQQOMuf5UPy25RmcYsK77+7eyMrXej9QBF9JUxp5ClLaA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx8Xenge2IEV6xFnrBWd58RrTnPWwBHb87vqMNp5WRFHnolBX7t
+	4oBEhq6dVsRfWAYRbFKPYCM+d09exERXPzuJi3cRvyoiuhsvRhuqZ8wx0S/pvJE=
+X-Gm-Gg: ASbGncsos+e7zbpHFXEpmQjRYqJWY6eWW157XrascdQq6Q/HeE3qLg7eBpXF/QI8I2N
+	esBD7cD0mdUpFdEVLa5UylDPv6LJfvoLZgLynXtLUf3nD3F/LbGq0/v3hlKOuhcAaViVFDeF8eP
+	D4/BXKEa6BRJVZvJCUaNp/+Se1L+/dvUbv6XKD+cokPmY/vZ387siy62Akm8Oiy9J52ScDYiSNo
+	Vwv7/hg+6JZfwJ5oKpO3HPpW+VsfAkTwUOC+1Mm3CfGuodRE24fIOeU7jc4i/V1mrlvjOLTMGuv
+	e8d9FWCejcAvve65ibJYeSp9CscZA8/5+JHFKFK7Q7wsmddra8mHMcRWJKLg5HOatE0WP3wkysM
+	sUdDUqalODoTnSi4acFeUAEyIHONqw72hKpe8t6/O
+X-Google-Smtp-Source: AGHT+IHhNU24ybtQdCAIW/LMsNTY6y6E8BdP0bilkqdYckOvGQLLrmDNgrhTqsbcnVQlMcQgLWhfLg==
+X-Received: by 2002:a5d:5847:0:b0:39c:223f:2770 with SMTP id ffacd0b85a97d-39d8fd46736mr873216f8f.15.1744267328840;
+        Wed, 09 Apr 2025 23:42:08 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:48b8:26f1:fe26:d411? ([2001:8b0:aba:5f3c:48b8:26f1:fe26:d411])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39d893f0d0asm3794064f8f.74.2025.04.09.23.42.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 23:42:08 -0700 (PDT)
+Message-ID: <5e07f80db60ee353f2acd1ed0d8d7bdb00544337.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH 1/2] classes/recipes: remove unnecessary qemu
+ inherit and qemu-native dependency
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Chen, Qi" <Qi.Chen@windriver.com>, 
+ "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Apr 2025 07:42:07 +0100
+In-Reply-To: <CO6PR11MB5602D636B4069B499A6EF4D1EDB72@CO6PR11MB5602.namprd11.prod.outlook.com>
+References: <20250410040825.1283228-1-Qi.Chen@windriver.com>
+	 <35ee8bfe577addc9e6ae978588b5a071be82b478.camel@linuxfoundation.org>
+	 <CO6PR11MB5602D636B4069B499A6EF4D1EDB72@CO6PR11MB5602.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 06:38:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214621
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 06:42:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214622
 
- From d7159cd842fd2a10ba5aeff62877be2ebb2eab87 Mon Sep 17 00:00:00 2001
-From: Lukas Woodtli <lukas.woodtli@husqvarnagroup.com>
-Date: Mon, 7 Apr 2025 11:55:33 +0200
-Subject: [PATCH] python3: Allow to specify which pyc files to keep
+On Thu, 2025-04-10 at 06:31 +0000, Chen, Qi wrote:
+> The postinst uses qemuwrapper which in turns uses qemu-native. But
+> the postinst runs at do_rootfs time. And this dependency is ensured
+> by the following line:
+> meta/classes-recipe/image.bbclass:DEPENDS +=3D "${@' '.join(["%s-
+> qemuwrapper-cross" % m for m in
+> d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross
+> depmodwrapper-cross cross-localedef-native"
+>=20
+> PACKAGE_WRITE_DEPS=C2=A0 is for do_package_write_rpm/deb/ipk. These tasks
+> do not run postinst and thus not using qemu-native. So 'qemu-native'
+> can be removed from PACKAGE_WRITE_DEPS safely.
+>=20
+> For the removal of qemu.bbclass inherit, these classes/recipes do not
+> really use any function from this qemu.bbclass. So we can safely
+> remove 'inherit qemu' for them.
+>=20
+> My test for this patch 1/2 is: qemux86-64 + systemd + bitbake core-
+> image-sato. There's no error.
 
-The pyc files for a specific optimization level can be kept and are
-installed in the final image.
+Something needs to trigger the system to have qemu-native available at
+do_rootfs time since these recipes write a postinstall which can use
+qemu. That is what PACKAGE_WRITE_DEPS is for. I suspect you're pulling
+in qemu through other dependencies but that doesn't mean this one is
+unneeded.
 
-Signed-off-by: Lukas Woodtli <lukas.woodtli@husqvarnagroup.com>
----
- =C2=A0.../recipes-devtools/python/python3_3.13.2.bb | 32 +++++++++++++++=
-----
- =C2=A01 file changed, 25 insertions(+), 7 deletions(-)
+package.bbclass has a comment about this:
 
-diff --git a/meta/recipes-devtools/python/python3_3.13.2.bb=20
-b/meta/recipes-devtools/python/python3_3.13.2.bb
-index 7c36fd92ed..ac74432a2a 100644
---- a/meta/recipes-devtools/python/python3_3.13.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.2.bb
-@@ -217,6 +217,12 @@ do_install:append:class-native() {
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mv ${D}/${bindir}/${PN}=
-/python*config ${D}/${bindir}/
- =C2=A0}
+# If your postinstall can execute at rootfs creation time rather than on
+# target but depends on a native/cross tool in order to execute, you need t=
+o
+# list that tool in PACKAGE_WRITE_DEPS. Target package dependencies belong
+# in the package dependencies as normal, this is just for native/cross supp=
+ort
+# tools at rootfs build time.
+PACKAGE_WRITE_DEPS ??=3D ""
 
-+# We want bytecode precompiled .py files (.pyc's) by default
-+# but the user may set it on their own conf
-+INCLUDE_PYCS ?=3D "1"
-+
-+PYCS_OPT_LEVEL ?=3D "0"
-+
- =C2=A0do_install:append() {
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for c in=20
-${D}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py; do
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- python3 ${UNPACKDIR}/reformat_sysconfig.py $c
-@@ -249,10 +255,25 @@ do_install:append() {
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # so remove it too
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rm -f=20
-${D}${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.cpython*
+As for the qemu class inherit, the code used to write the qemu binary
+call into the postinst but it uses qemuwrapper now which comes from
+qemuwrapper-cross. I suspect you're right that it means the qemu
+inherit is no longer needed however we should probably change the
+inherit qemu for a PACKAGE_WRITE_DEPS +=3D "qemuwrapper-cross"?
 
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Remove the opt-1.pyc and op=
-t-2.pyc files. They effectively=20
-waste space on embedded
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # style targets as they're on=
-ly used when python is called with=20
-the -O or -OO options
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # which is rare.
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 find ${D} -name *opt-*.pyc -d=
-elete
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ "${INCLUDE_PYCS}" -eq "1=
-" ]; then
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- # Remove only the .pyc files of unused optimization level.
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ =
-"${PYCS_OPT_LEVEL}" -eq "0" ]; then
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 # keep only unoptimized .pyc files
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 find ${D} -name *.opt-1.pyc -exec rm -f {} \;
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 find ${D} -name *.opt-2.pyc -exec rm -f {} \;
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 elif =
-[ "${PYCS_OPT_LEVEL}" -eq "1" ]; then
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 # keep only .pyc files with optimization level 1
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 find ${D} -name *.pyc -and -not -name *.opt-1.pyc -exe=
-c=20
-rm -f {} \;
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 elif =
-[ "${PYCS_OPT_LEVEL}" -eq "2" ]; then
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 # keep only .pyc files with optimization level 2
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 find ${D} -name *.pyc -and -not -name *.opt-2.pyc -exe=
-c=20
-rm -f {} \;
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 bberror "Python optimization level ${PYCS_OPT_LEVEL} i=
-s=20
-not supported"
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # rem=
-ove all .pyc files
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 find =
-${D} -name *.pyc -delete
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
- =C2=A0}
+(and see if we could remove the dependency in image.bbclass?)
 
- =C2=A0do_install:append:class-nativesdk () {
-@@ -326,9 +347,6 @@ py_package_preprocess () {
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rm -rf ${PKGD}/${libdir=
-}/python-sysconfigdata
- =C2=A0}
+Cheers,
 
--# We want bytecode precompiled .py files (.pyc's) by default
--# but the user may set it on their own conf
--INCLUDE_PYCS ?=3D "1"
-
- =C2=A0python(){
- =C2=A0=C2=A0=C2=A0=C2=A0 import collections, json
---=20
-2.43.0
+Richard
 
 
 
