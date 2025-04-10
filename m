@@ -1,231 +1,102 @@
-Return-Path: <lw@hqv.ch>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DF4BC369A6
-	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 11:37:00 +0000 (UTC)
-Subject: Re: python3: Allow to specify which pyc files to keep
-To: openembedded-core@lists.openembedded.org
-From: "Lukas Woodtli" <lw@hqv.ch>
-X-Originating-Location: Zurich, CH (185.132.16.78)
-X-Originating-Platform: Linux Firefox 136
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EBEC3601E
+	for <webhook@archiver.kernel.org>; Thu, 10 Apr 2025 11:46:40 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.32542.1744285599114619452
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 10 Apr 2025 04:46:39 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YpSxCcGn;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3913d129c1aso512932f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 04:46:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1744285597; x=1744890397; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=LMvzMbv5FtFD+spDFsEMXnlHOKTXIKHJV3O/WGzzUyw=;
+        b=YpSxCcGnNT2OHZFXtD/dEpGKwy5ZpFP10F5ZaBniES7AUm9xzE6v+YIqBCL/AvX8yg
+         cLb3z8z7lksJx6xLo57r+nrO764GeLNxjVSJFaHShh9phasFDphDm7VJa2ZTMRTsFWV/
+         nPy44R5nmWBfPwSqb/CS35ZXbbbuCoYR53csE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744285597; x=1744890397;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LMvzMbv5FtFD+spDFsEMXnlHOKTXIKHJV3O/WGzzUyw=;
+        b=g6i22S0c0g8Avy3t4Z40nVPfdIU6O4I25Q1zDMKf18xkM+kBdOtBvc3+B/wvpnw/Hr
+         JNeBj1eY/tQzArM1biT9iSL5Kf5bZ8lFvJb2oQPX+m9rnwR/E/JwaqVC97YS9tLzR0BI
+         7ftFbAHh6kGF5NVev5RNxCNBTOANeRQXX2iR80L7YjgH1h0oC+8SN1wWv2hlMyzEo6r1
+         qoWqgkTzxzgQNfeZIuTrjL9bwTx4qXLC4dywdetB2vg+8ogyEsek+eFgzNf1ELyF9Wz5
+         GecT2HhBzDjQkmP6R6m5+QFmrmhPnVtM1wlrL7PIyXro6T+gm708YFh4KuxdKq70AleL
+         HJ7w==
+X-Forwarded-Encrypted: i=1; AJvYcCW50iqIQzPvN+qAI6R8TCGjKX+m8SX44xZ1VQoFD9giSSJrz+Z+HYnMyYmEI+BPu38L+KdAnTS8AwIa7MqOPTXpqg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzo6oKD+aohxJBCDP9mTcVWP+2YwPhAGaa6EZ72pK5+mVUlo6+X
+	LTvZKR/HozdYUIV30Xl+oCD93XAMqD2BqWToRQTGpnDCu3d/nuXYf2DW1aesJUo=
+X-Gm-Gg: ASbGncuUmi0+LssMFQGLSFBCUfx1MuDE5p2O1BA5ZNfOMUbmYbszWniJFjBaoz+a3um
+	WPKvleeXScABfE6lg+LugZg2396cGSOlOwWJdC6m/YlVrb1sD2SFRS2gEpf4cFrTEBYyDhSOsiE
+	nsoOSBwcCg1gobrJ/h3WdW0gq7qnQGn2N+0at6/g4SIDQiAV4OVVNvyptHqu7AI/DvAgKpfyNEo
+	YlCzjfSnA9VU4uNS4FeM2aXq13aErNZm+BmOWR5rqqRkQAv+1tUPGPNoksY6eYnNOX5omdCfUAa
+	Q0x6D8daKtYBokEu5uvMEElepBN4KwhywMRbP9xB+D9NaW1CgaQrnK3iDnI285BDvm/YwFBK7eG
+	E9Zw6Xff/cDQTv6Az2R1INtnUe9h6Fw==
+X-Google-Smtp-Source: AGHT+IEwygSUgCOkJCcnym1z+X0y2/ZuKVirFnr2UFU9DHY+sBBuIgABfmZVj1P2m5mrfYUQ0GySqQ==
+X-Received: by 2002:a05:6000:2a8:b0:39c:e0e:b6d1 with SMTP id ffacd0b85a97d-39d8f2761fdmr2067554f8f.12.1744285597253;
+        Thu, 10 Apr 2025 04:46:37 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ddb2:da8c:e063:58d6? ([2001:8b0:aba:5f3c:ddb2:da8c:e063:58d6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f233a2c53sm48503645e9.14.2025.04.10.04.46.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Apr 2025 04:46:36 -0700 (PDT)
+Message-ID: <ca371ee8ce93c922cfa744c6ab7091979485cd68.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 1/1] libunwind: 1.8.1
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Schmidt, Adriaan" <adriaan.schmidt@siemens.com>, Khem Raj
+	 <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: "ross.burton@arm.com" <ross.burton@arm.com>
+Date: Thu, 10 Apr 2025 12:46:35 +0100
+In-Reply-To: <AS4PR10MB5318838632DD23699735E538EDB72@AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM>
+References: <20250403081907.3422293-1-adriaan.schmidt@siemens.com>
+	 <20250403081907.3422293-2-adriaan.schmidt@siemens.com>
+	 <58ea2252-aa7a-4fbb-bada-68153dd30e7a@gmail.com>
+	 <AS4PR10MB5318838632DD23699735E538EDB72@AS4PR10MB5318.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Date: Thu, 10 Apr 2025 04:36:50 -0700
-References: <CANNYZj9qgX5=4Jym0Uq2u5VJcZ89c-MRSU9oiTkUbBvNvfSFtQ@mail.gmail.com>
-In-Reply-To: <CANNYZj9qgX5=4Jym0Uq2u5VJcZ89c-MRSU9oiTkUbBvNvfSFtQ@mail.gmail.com>
-Message-ID: <13400.1744285010599994886@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="5qjtHgQtMZcQEAG7tt5l"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 11:37:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214651
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 11:46:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214652
 
---5qjtHgQtMZcQEAG7tt5l
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
+On Thu, 2025-04-10 at 09:43 +0000, Schmidt, Adriaan wrote:
+> Khem Raj <raj.khem@gmail.com>,Freitag, 4. April 2025 03:03:
+> > On 4/3/25 1:19 AM, Adriaan Schmidt via lists.openembedded.org
+> > wrote:
+> > >=20
+> > > -COMPATIBLE_HOST:riscv32 =3D "null"
+> > > +COMPATIBLE_HOST:ppc:libc-musl =3D "null"
+> >=20
+> > Why do we need this to do this ? I see that a patch is added and
+> > one is
+> > removed to support ppc32/musl support.
 >=20
-> Should we rather just package the higher level .pyc into their own
-> packages?
+> After some more investigation: There are issues on ppc32/musl when
+> building without "--disable-tests".
 >=20
+> Will post a v3 to:
+> - drop this line
+> - drop the "--disable-tests"
+> - add "-latomic" to ppc32/musl LDFLAGS to fix the build
 
-But this would include 3 additional packages. One for each optimization lev=
-el.
-Embedded devices might have limited storage resources.
-Therefore, it makes sense to just include the .pyc files with the necessary=
- optimization level to the image.
-And not all of them.
+Sounds good thanks. The commit also needs a proper commit message and
+signed off by line.
 
-Patch with (hopefully) proper formatting:
+Cheers,
 
-From d7159cd842fd2a10ba5aeff62877be2ebb2eab87 Mon Sep 17 00:00:00 2001
-From: Lukas Woodtli <lukas.woodtli@husqvarnagroup.com>
-Date: Mon, 7 Apr 2025 11:55:33 +0200
-Subject: [PATCH] python3: Allow to specify which pyc files to keep
-
-The pyc files for a specific optimization level can be kept and are
-installed in the final image.
-
-Signed-off-by: Lukas Woodtli <lukas.woodtli@husqvarnagroup.com>
----
-.../recipes-devtools/python/python3_3.13.2.bb | 32 +++++++++++++++----
-1 file changed, 25 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python3_3.13.2.bb b/meta/recipes-=
-devtools/python/python3_3.13.2.bb
-index 7c36fd92ed..ac74432a2a 100644
---- a/meta/recipes-devtools/python/python3_3.13.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.2.bb
-@@ -217,6 +217,12 @@ do_install:append:class-native() {
-mv ${D}/${bindir}/${PN}/python*config ${D}/${bindir}/
-}
-
-+# We want bytecode precompiled .py files (.pyc's) by default
-+# but the user may set it on their own conf
-+INCLUDE_PYCS ?=3D "1"
-+
-+PYCS_OPT_LEVEL ?=3D "0"
-+
-do_install:append() {
-for c in ${D}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py; do
-python3 ${UNPACKDIR}/reformat_sysconfig.py $c
-@@ -249,10 +255,25 @@ do_install:append() {
-# so remove it too
-rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.cpython*
-
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# Remove the opt-1.pyc and opt-=
-2.pyc files. They effectively waste space on embedded
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# style targets as they're only=
- used when python is called with the -O or -OO options
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# which is rare.
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0find ${D} -name *opt-*.pyc -del=
-ete
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if [ "${INCLUDE_PYCS}" -eq "1" =
-]; then
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0#=
- Remove only the .pyc files of unused optimization level.
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if [ "$=
-{PYCS_OPT_LEVEL}" -eq "0" ]; then
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0# keep only unoptimized .pyc files
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0find ${D} -name *.opt-1.pyc -exec rm -f {} \;
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0find ${D} -name *.opt-2.pyc -exec rm -f {} \;
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0elif [ =
-"${PYCS_OPT_LEVEL}" -eq "1" ]; then
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0# keep only .pyc files with optimization level 1
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0find ${D} -name *.pyc -and -not -name *.opt-1.pyc -exec r=
-m -f {} \;
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0elif [ =
-"${PYCS_OPT_LEVEL}" -eq "2" ]; then
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0# keep only .pyc files with optimization level 2
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0find ${D} -name *.pyc -and -not -name *.opt-2.pyc -exec r=
-m -f {} \;
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0else
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0bberror "Python optimization level ${PYCS_OPT_LEVEL} is n=
-ot supported"
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fi
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0else
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# remov=
-e all .pyc files
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0find ${=
-D} -name *.pyc -delete
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fi
-}
-
-do_install:append:class-nativesdk () {
-@@ -326,9 +347,6 @@ py_package_preprocess () {
-rm -rf ${PKGD}/${libdir}/python-sysconfigdata
-}
-
--# We want bytecode precompiled .py files (.pyc's) by default
--# but the user may set it on their own conf
--INCLUDE_PYCS ?=3D "1"
-
-python(){
-import collections, json
---
-2.43.0
-
---5qjtHgQtMZcQEAG7tt5l
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>&nbsp;</div>
-<blockquote>
-<div>Should we rather just package the higher level .pyc into their own pac=
-kages?</div>
-</blockquote>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>But this would include 3 additional packages. One for each optimizatio=
-n level.</div>
-<div>Embedded devices might have limited storage resources.</div>
-<div>Therefore, it makes sense to just include the .pyc files with the nece=
-ssary optimization level to the image.</div>
-<div>And not all of them.</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>Patch with (hopefully) proper formatting:</div>
-<div>&nbsp;</div>
-<div><span style=3D"font-family: monospace;"><span style=3D"color: #000000;=
- background-color: #ffffff;">From d7159cd842fd2a10ba5aeff62877be2ebb2eab87 =
-Mon Sep 17 00:00:00 2001 </span><br />From: Lukas Woodtli &lt;lukas.woodtli=
-@husqvarnagroup.com&gt; <br />Date: Mon, 7 Apr 2025 11:55:33 +0200 <br />Su=
-bject: [PATCH] python3: Allow to specify which pyc files to keep <br /><br =
-/>The pyc files for a specific optimization level can be kept and are <br /=
->installed in the final image. <br /><br />Signed-off-by: Lukas Woodtli &lt=
-;lukas.woodtli@husqvarnagroup.com&gt; <br />--- <br />.../recipes-devtools/=
-python/python3_3.13.2.bb | 32 +++++++++++++++---- <br />1 file changed, 25 =
-insertions(+), 7 deletions(-) <br /><br />diff --git a/meta/recipes-devtool=
-s/python/python3_3.13.2.bb b/meta/recipes-devtools/python/python3_3.13.2.bb=
- <br />index 7c36fd92ed..ac74432a2a 100644 <br />--- a/meta/recipes-devtool=
-s/python/python3_3.13.2.bb <br />+++ b/meta/recipes-devtools/python/python3=
-_3.13.2.bb <br />@@ -217,6 +217,12 @@ do_install:append:class-native() { <b=
-r />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mv ${D}/${bindir}/${PN}=
-/python*config ${D}/${bindir}/ <br />} <br />&nbsp;<br />+# We want bytecod=
-e precompiled .py files (.pyc's) by default <br />+# but the user may set i=
-t on their own conf <br />+INCLUDE_PYCS ?=3D "1" <br />+ <br />+PYCS_OPT_LE=
-VEL ?=3D "0" <br />+ <br />do_install:append() { <br />&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;for c in ${D}/${libdir}/python${PYTHON_MAJMIN}/=
-_sysconfigdata*.py; do <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;python3 ${UNPACKDIR}/reformat_sysconfig.py $c <br=
- />@@ -249,10 +255,25 @@ do_install:append() { <br />&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;# so remove it too <br />&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/__pycach=
-e__/traceback.cpython* <br />&nbsp;<br />- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;# Remove the opt-1.pyc and opt-2.pyc files. They effectively wast=
-e space on embedded <br />- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# sty=
-le targets as they're only used when python is called with the -O or -OO op=
-tions <br />- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# which is rare. <b=
-r />- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;find ${D} -name *opt-*.pyc =
--delete <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if [ "${INCLUDE_P=
-YCS}" -eq "1" ]; then <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;# Remove only the .pyc files of unused optimizat=
-ion level. <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;if [ "${PYCS_OPT_LEVEL}" -eq "0" ]; then <br />+ &nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#=
- keep only unoptimized .pyc files <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;find ${D} -name *.=
-opt-1.pyc -exec rm -f {} \; <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;find ${D} -name *.opt-2.=
-pyc -exec rm -f {} \; <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;elif [ "${PYCS_OPT_LEVEL}" -eq "1" ]; then <br />+ &nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;# keep only .pyc files with optimization level 1 <br />+ &nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;find ${D} -name *.pyc -and -not -name *.opt-1.pyc -exec rm -f {} \=
-; <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;elif [ "${PYCS_OPT_LEVEL}" -eq "2" ]; then <br />+ &nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# keep o=
-nly .pyc files with optimization level 2 <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;find ${D} -=
-name *.pyc -and -not -name *.opt-2.pyc -exec rm -f {} \; <br />+ &nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else <br />+ &nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;bberror "Python optimization level ${PYCS_OPT_LEVEL} is not suppor=
-ted" <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;fi <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else <br />+ &nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# remove all .=
-pyc files <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;find ${D} -name *.pyc -delete <br />+ &nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;fi <br />} <br />&nbsp;<br />do_install:append:class-nativesd=
-k () { <br />@@ -326,9 +347,6 @@ py_package_preprocess () { <br />&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rm -rf ${PKGD}/${libdir}/python-sysc=
-onfigdata <br />} <br />&nbsp;<br />-# We want bytecode precompiled .py fil=
-es (.pyc's) by default <br />-# but the user may set it on their own conf <=
-br />-INCLUDE_PYCS ?=3D "1" <br />&nbsp;<br />python(){ <br />&nbsp;&nbsp;&=
-nbsp;&nbsp;import collections, json <br />-- &nbsp;<br />2.43.0<br /><br />=
-</span></div>
-
---5qjtHgQtMZcQEAG7tt5l--
+Richard
 
