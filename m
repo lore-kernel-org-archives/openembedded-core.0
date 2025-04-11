@@ -1,281 +1,226 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A88E6C36010
-	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 11:57:50 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web10.24001.1744372668907932812
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC225C36010
+	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 12:49:00 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.25093.1744375733226670839
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Apr 2025 04:57:49 -0700
+ Fri, 11 Apr 2025 05:48:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=T/uQ5OxP;
- spf=pass (domain: mvista.com, ip: 209.85.218.53, mailfrom: vanusuri@mvista.com)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aaf0f1adef8so345884666b.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 04:57:48 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=uRGrGBsO;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54954fa61c9so2503010e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 05:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1744372667; x=1744977467; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DVoJ8miitHlSVeOGo8Oi7C6tH6doOKIKKvlIYWYN7nw=;
-        b=T/uQ5OxP12Wm6xpNz7FW1JChv96mH5v/s3+m7ejIfdO+I7dvnDYL0F5BQEXA60cSjK
-         ig840DauRzc54aO141xi9zp4cdGcVKfAvfWN4gsvD5MgRq9iqQ3SoJTXS7NDMqe7wmLs
-         KYua3c94nJ5b9DvH/QEAudtr1+BjZSRtWnaI4=
+        d=linaro.org; s=google; t=1744375731; x=1744980531; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+TbvSrs3dUDHRsGAnWj9LV1nR+tqAZxnMtuyRTrLy6I=;
+        b=uRGrGBsOwad8XlZ/t3ipaKvmhYjdAUQ0y2P/6CcE606EtOXDJZnnWPVxRY/VO8e2dv
+         U3KgTu8vRrOTiEHL4Ny09G19zOAaM8ElKDhtEE2ac+EPShNv8bt4g6+ke/vb9n6mj+K6
+         awU3G+BIMwMimvNvYvzvevc09ccGqurnQBj8WK/QDahapUVN4xvuLZPWQRc7IfDiFTvZ
+         TBNQH8hOz+kqIZk3PCLBJsMNbBTTEfw5F6eaNOhD+GT6Jt8zj8QXsdaV8ZgAVHp4dd46
+         JyEVC6ELwyfjba88rv9fRk6J0iR9S+aLEXYGoidb/YyukV3VRy9RL2bmCMj1cVWWAnaL
+         AOrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744372667; x=1744977467;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1744375731; x=1744980531;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DVoJ8miitHlSVeOGo8Oi7C6tH6doOKIKKvlIYWYN7nw=;
-        b=FVZlhsrVVBrJiYmBm1LJfXsa2kZgiOwXbX7uI2KI/ipsVRDrNG6c7vjv1WiYiKxDk1
-         ZomgRo9cAKxP2pRtlKUPr17FrQb9xdlEIiXdwGCJ0B2057R6rf5bS8iKt4PDdYu1Hd81
-         r1/6ZBUe7D9xNwTP/KsTO2uaYP23NWSzB5YATMcqKd5bYLgoe8w+WrCYjE3gb1iI1dNH
-         Qvl7bZAjtYNEFSjnx8TZNFwlfyt345SqA9hLFOGBVVbGOd2sCvdWhgQP70gJqZPtIP4L
-         nW+uYpt5+9FkT6RWf+DqJHsRHP7msxMKYm/X56JI8+k/BB6XeoO/jQzQvaFeLuRnhmX3
-         6Nlw==
-X-Gm-Message-State: AOJu0YxmE/FgXyQSV1l1AaubL1vUun9cj06pAw2Hc83+D1KUqUoTRMRG
-	8QHUVGSSvs+yP4wLAjMtALcUfXoFduZ9QwM0wj+VI6ifhmIzGEoA6neI+acn267MiaayxHycKyB
-	2SZXGrzcklHD7//FjGWSOq9CX3kFX3rTS/xk3PA==
-X-Gm-Gg: ASbGncsnzzj4PpZVU4K+BQV1RzG6htt26jSQW0o8JQjAgTtRhuBymAez3q/aD2aOubD
-	YLCpLsNkY0keg7UJovGbwGTWTSZcov/vTgEX8cQBf6HRn9IBADW3KhigzEsDcRZEGA2sq0mxR9s
-	wVW7s0mRJUmyTGEuiiK/uqs/Q=
-X-Google-Smtp-Source: AGHT+IGHTYdNCO9lytHk/HoE7DGPFbHtNkXIAf8ajSgz47+rFF8/8bYL3GKhFkGEuv2zyfw0tSXP3y0kdEHBm4ajl8s=
-X-Received: by 2002:a17:906:7154:b0:aca:dd0c:cfc8 with SMTP id
- a640c23a62f3a-acadd0cd3bamr12561266b.10.1744372666869; Fri, 11 Apr 2025
- 04:57:46 -0700 (PDT)
+        bh=+TbvSrs3dUDHRsGAnWj9LV1nR+tqAZxnMtuyRTrLy6I=;
+        b=djWL9cMwnbZJ8z+PnWsDQZk9i/ZN0yRjvogpODnu2JO8LvutkCH3/iHmmXfF+h8dv1
+         IAuUZQjwEQFjvh0V9fNtKZglopZTMamqCETE0R19u++dQEP/3AWYf7OEo8E4fkCvn0Wi
+         VHLlzCtL2dZXE4mdwUHvPisWiVx0gEUvqqTTYSwLCkeSXiBG2fgAAlgh9dbdXO3RgAWG
+         i1lWAWpQyXtobgxStAqQ0DAkKYKbgyT/uzjgn9DaTgu9yOFGqQRE2QhM0XxKJ0vY01Sf
+         r8mrjzD08TcMmXnM1DPLegz0aQIGw+C/YzBxG7h8b5Asz3vJffQDCyaewNB4xDIwuy21
+         nrQg==
+X-Gm-Message-State: AOJu0YzMO2QvoDa7ZSH6gVQiTVwp0wtq5+JQZWRRR1tack9q+7lYL/DF
+	MA7Z5DPr2LZB9rAeZED348x7JglwTdy/JYwBKsM6gU6pFi+OkFNXBkUw+5AQs0uxXoQMCrwGCn3
+	BafE=
+X-Gm-Gg: ASbGncvA4Dga8wSKFxr8CDHz2BTwM9Fp82Hd1wIedmTpKE69en1J0FE8673ehdxxKpB
+	sZPlUpSaemEnnMzMCDxkCoTxLM21sxP11e7HSFPuAw0ZwutSedZU9iCtUrMXaeXDWn3B/psSpCb
+	Y9WQlKdUPDwL3NVDZ4P4NEGTj1aOD43D3xhGfgGQdGag/h1V9FEk3bx1Xj7pLkPvp3PaFkZQqgv
+	BIuCrRHys+0EXaXx3PHxslhAMPeKfJx51gcPVwA3//GB61bTtzOslAJOkQjv83LZSebR7eFbZD6
+	tJZ0om+XEBO5xvA5akJhoubrKc60cAHNMGqYWdeVt8tXxEqLXmza/yMqs1rmZ4PGDPyWpibAouS
+	891YcKjOocZnBzSc0QQ==
+X-Google-Smtp-Source: AGHT+IGe7rMbruuXpb8dlaMX876a7XSJXNoP7E4uBKIwxA0t5tsg5L7UbFpkMYDn7FUBSpEXF2h4QA==
+X-Received: by 2002:a05:6512:3181:b0:54a:fa58:a6f7 with SMTP id 2adb3069b0e04-54d45294fe0mr792735e87.24.1744375730953;
+        Fri, 11 Apr 2025 05:48:50 -0700 (PDT)
+Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d3d234204sm421936e87.54.2025.04.11.05.48.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Apr 2025 05:48:50 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v4] kernel.bbclass: add kernel-initrd-modules meta package
+Date: Fri, 11 Apr 2025 15:48:13 +0300
+Message-ID: <20250411124814.436689-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250411093440.20727-1-vanusuri@mvista.com> <CAMSfU+5+s0T5PbTiftgd3EeVUjWJzDNoqnfM3T=k=8FaZMF8vg@mail.gmail.com>
-In-Reply-To: <CAMSfU+5+s0T5PbTiftgd3EeVUjWJzDNoqnfM3T=k=8FaZMF8vg@mail.gmail.com>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Fri, 11 Apr 2025 17:27:33 +0530
-X-Gm-Features: ATxdqUFMcqwCmBdOuyVT5p8GYMQOATaYIw-HAtjZNQjtPBhBF1nmhTh_3dved28
-Message-ID: <CANQUz19raZ5F6nDFaPYoR6zOwRPNCzK0WGOiSe2c1DHsP-v4aw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] openssh: upgrade 9.9p2 -> 10.0p1
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000002a616306327f6904"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 11:57:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214736
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 12:49:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214737
 
---0000000000002a616306327f6904
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+At the moment linux-yocto kernels for various architectures
+are not very modular and a lot of drivers are built into the kernel
+even when they are not needed at runtime. These make the main kernel
+binary big and slow to boot. This also impacts udev in userspace
+which takes a long time processing events from all these built in drivers,
+for example when udev runs in initrd.
 
-Thanks Yoann for letting me know.
+Then constructing the initrd is very device and kernel configuration specific.
+initrd image needs explicitly define which binary packages to install
+to avoid pulling in complex dependencies. A full set of kernel modules
+via kernel-modules meta package is too big for initrd and most of the
+drivers are not needed for use cases like "just load modules to mount
+main rootfs". Then the initrd configuration breaks if kernel driver
+is built into the kernel since the binary package doesn't exist.
 
-As per https://www.openwall.com/lists/oss-security/2025/04/09/6 , they  do
-not intend to make a new release to fix this mistake. They released tarball
-with the name openssh-10.0p1.tar.gz
-<https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.0p1.tar.gz=
->
-.
+Introduce kernel-initrd-modules meta package to solve these problems.
+The meta package adds dependencies to real kernel modules based on
+the kernel module file paths so that it will include several
+kernel subsystems and their drivers which are often needed to find
+main rootfs from some block device. This works when drivers are built
+as modules but does not break if drivers are built into the kernel.
 
-I will update about this in the commit message and send a v2 patch.
+The resulting initrd is also smaller since only a subset of drivers
+are needed for "mount the rootfs" usecase. Tested on genericarm64
+kernel and qemu and AMD KV260 HW.
 
-Thanks & Regards,
-Vijay
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ .../kernel-module-split.bbclass               | 48 +++++++++++++++++++
+ meta/classes-recipe/kernel.bbclass            |  5 +-
+ meta/classes-recipe/module.bbclass            |  3 ++
+ 3 files changed, 55 insertions(+), 1 deletion(-)
 
+v4: remove duplication of KERNEL_INITRD_MODULES_REGEX and
+    KERNEL_INITRD_MODULES_META_PACKAGE from modules.bbclass
+    since both modules.bbclass and kernel.bbclass include
+    kernel-module-split.bbclass. Sending v4 patch separately from
+    full series which is unchanged from v3 to avoid sending
+    too many messages to oe-core list.
 
+v3: full series https://lists.openembedded.org/g/openembedded-core/message/214351
 
-On Fri, Apr 11, 2025 at 3:21=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr=
-> wrote:
+v2: full series https://lists.openembedded.org/g/openembedded-core/message/213458
 
->
->
-> Le ven. 11 avr. 2025 =C3=A0 11:35, Vijay Anusuri via lists.openembedded.o=
-rg
-> <vanusuri=3Dmvista.com@lists.openembedded.org> a =C3=A9crit :
->
->> From: Vijay Anusuri <vanusuri@mvista.com>
->>
->> Includes fix for CVE-2025-32728
->>
->> Release Notes: https://www.openssh.com/txt/release-10.0
->
->
-> There was a mishap in the release process:
-> https://www.openwall.com/lists/oss-security/2025/04/09/6
->
-> This version will present itself as 10.0p2 (see version.h in sources)
->
-> I don't know if we need to handle this particularly in the recipe but can
-> you mention this is the commit message to avoid an eventual confusion?
->
-> Thanks!
->
->
->> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->> ---
->>  .../openssh/{openssh_9.9p2.bb =3D> openssh_10.0p1.bb}             | 2 +=
--
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>  rename meta/recipes-connectivity/openssh/{openssh_9.9p2.bb =3D>
->> openssh_10.0p1.bb} (99%)
->>
->> diff --git a/meta/recipes-connectivity/openssh/openssh_9.9p2.bb
->> b/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
->> similarity index 99%
->> rename from meta/recipes-connectivity/openssh/openssh_9.9p2.bb
->> rename to meta/recipes-connectivity/openssh/openssh_10.0p1.bb
->> index 5191725796..21e1e50759 100644
->> --- a/meta/recipes-connectivity/openssh/openssh_9.9p2.bb
->> +++ b/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
->> @@ -26,7 +26,7 @@ SRC_URI =3D "
->> https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
->>
->> file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
->>
->> file://0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch \
->>             "
->> -SRC_URI[sha256sum] =3D
->> "91aadb603e08cc285eddf965e1199d02585fa94d994d6cae5b41e1721e215673"
->> +SRC_URI[sha256sum] =3D
->> "021a2e709a0edf4250b1256bd5a9e500411a90dddabea830ed59cef90eb9d85c"
->>
->>  CVE_STATUS[CVE-2007-2768] =3D "not-applicable-config: This CVE is speci=
-fic
->> to OpenSSH with the pam opie which we don't build/use here."
->>
->> --
->> 2.25.1
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#214721):
->> https://lists.openembedded.org/g/openembedded-core/message/214721
->> Mute This Topic: https://lists.openembedded.org/mt/112207287/4316185
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> yoann.congal@smile.fr]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
->
-> --
-> Yoann Congal
-> Smile ECS
->
+v1: full series https://lists.openembedded.org/g/openembedded-core/message/212832
 
---0000000000002a616306327f6904
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
+index 9487365eb7..101c5cd959 100644
+--- a/meta/classes-recipe/kernel-module-split.bbclass
++++ b/meta/classes-recipe/kernel-module-split.bbclass
+@@ -42,6 +42,40 @@ KERNEL_MODULE_PACKAGE_PREFIX ?= ""
+ KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
+ KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
+ 
++# subset of kernel modules needed in initrd, to e.g. mount rootfs from block device
++KERNEL_INITRD_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-initrd-modules"
++
++# match regex to path or file name. E.g. include all drivers with files in path /drivers/ata/
++KERNEL_INITRD_MODULES_REGEX ?= "(.*)(\
++/drivers/acpi/|\
++/drivers/ata/|\
++/drivers/block/|\
++/drivers/cdrom/|\
++/drivers/char/hw_random/|\
++/drivers/char/tpm/|\
++/drivers/char/|\
++/drivers/crypto/|\
++/drivers/dax/|\
++/drivers/firmware/arm_scmi/|\
++/drivers/gpu/drm/|\
++/drivers/md/|\
++/drivers/mmc/|\
++/drivers/mtd/|\
++/drivers/nvdimm/|\
++/drivers/nvme/|\
++/drivers/pci/|\
++/drivers/scsi/|\
++/drivers/tee/|\
++/drivers/tty/serial/|\
++/drivers/virtio/|\
++/drivers/watchdog/|\
++/kernel/arch/|\
++/kernel/block/|\
++/kernel/crypto/|\
++/kernel/fs/|\
++/kernel/lib/\
++)(.*)"
++
+ python split_kernel_module_packages () {
+     import re
+ 
+@@ -183,6 +217,20 @@ python split_kernel_module_packages () {
+     modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name, kernel_version))
+     if modules:
+         d.appendVar('RDEPENDS:' + metapkg, ' '+' '.join(modules))
++
++    initrd_metapkg = d.getVar('KERNEL_INITRD_MODULES_META_PACKAGE') or ""
++    initrd_module_regex = d.getVar('KERNEL_INITRD_MODULES_REGEX') or ""
++    if (initrd_metapkg != "") and (initrd_module_regex != ""):
++        initrd_module_regex = re.compile(initrd_module_regex)
++        initrd_modules = []
++        for module in modules:
++            files = d.getVar('FILES:' + module)
++            m = re.match(initrd_module_regex, files)
++            if m:
++                initrd_modules.append(module)
++
++        if initrd_modules:
++            d.appendVar('RDEPENDS:' + initrd_metapkg, ' '+' '.join(initrd_modules))
+ }
+ 
+ do_package[vardeps] += '${@" ".join(map(lambda s: "module_conf_" + s, (d.getVar("KERNEL_MODULE_PROBECONF") or "").split()))}'
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index 36ce659762..3dcaebcaed 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -695,13 +695,14 @@ EXPORT_FUNCTIONS do_compile do_transform_kernel do_transform_bundled_initramfs d
+ 
+ # kernel-base becomes kernel-${KERNEL_VERSION}
+ # kernel-image becomes kernel-image-${KERNEL_VERSION}
+-PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules ${KERNEL_PACKAGE_NAME}-dbg"
++PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules ${KERNEL_PACKAGE_NAME}-initrd-modules ${KERNEL_PACKAGE_NAME}-dbg"
+ FILES:${PN} = ""
+ FILES:${KERNEL_PACKAGE_NAME}-base = "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"
+ FILES:${KERNEL_PACKAGE_NAME}-image = ""
+ FILES:${KERNEL_PACKAGE_NAME}-dev = "/${KERNEL_IMAGEDEST}/System.map* /${KERNEL_IMAGEDEST}/Module.symvers* /${KERNEL_IMAGEDEST}/config* ${KERNEL_SRC_PATH} ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+ FILES:${KERNEL_PACKAGE_NAME}-vmlinux = "/${KERNEL_IMAGEDEST}/vmlinux-${KERNEL_VERSION_NAME}"
+ FILES:${KERNEL_PACKAGE_NAME}-modules = ""
++FILES:${KERNEL_PACKAGE_NAME}-initrd-modules = ""
+ FILES:${KERNEL_PACKAGE_NAME}-dbg = "/usr/lib/debug /usr/src/debug"
+ RDEPENDS:${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base (= ${EXTENDPKGV})"
+ # Allow machines to override this dependency if kernel image files are
+@@ -716,7 +717,9 @@ ALLOW_EMPTY:${KERNEL_PACKAGE_NAME} = "1"
+ ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-base = "1"
+ ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-image = "1"
+ ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-modules = "1"
++ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-initrd-modules = "1"
+ DESCRIPTION:${KERNEL_PACKAGE_NAME}-modules = "Kernel modules meta package"
++DESCRIPTION:${KERNEL_PACKAGE_NAME}-initrd-modules = "Kernel initrd modules meta package"
+ 
+ pkg_postinst:${KERNEL_PACKAGE_NAME}-base () {
+ 	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+diff --git a/meta/classes-recipe/module.bbclass b/meta/classes-recipe/module.bbclass
+index f2f0b25a2d..4661501ded 100644
+--- a/meta/classes-recipe/module.bbclass
++++ b/meta/classes-recipe/module.bbclass
+@@ -86,3 +86,6 @@ EXPORT_FUNCTIONS do_compile do_install
+ KERNEL_MODULES_META_PACKAGE = "${PN}"
+ FILES:${PN} = ""
+ ALLOW_EMPTY:${PN} = "1"
++
++FILES:${PN}-initrd = ""
++ALLOW_EMPTY:${PN}-initrd = "1"
+-- 
+2.43.0
 
-<div dir=3D"ltr"><div><div><div>Thanks Yoann for letting me know.<br><br></=
-div>As per  <a href=3D"https://www.openwall.com/lists/oss-security/2025/04/=
-09/6" target=3D"_blank">https://www.openwall.com/lists/oss-security/2025/04=
-/09/6</a> , they=C2=A0 <span style=3D"font-family:arial,sans-serif;white-sp=
-ace:pre-wrap">do not intend to make a new release to fix this mistake.
-
-They released tarball with the name </span><span style=3D"font-family:arial=
-,sans-serif"><a href=3D"https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portabl=
-e/openssh-10.0p1.tar.gz">openssh-10.0p1.tar.gz</a>.<br><br></span></div><sp=
-an style=3D"font-family:arial,sans-serif">I will update about this in the c=
-ommit message and send a v2 patch.<br><br></span></div><div><span style=3D"=
-font-family:arial,sans-serif">Thanks &amp; Regards,</span></div><div><span =
-style=3D"font-family:arial,sans-serif">Vijay</span></div><div><br><br></div=
-></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Fri, Apr 11, 2025 at 3:21=E2=80=AFPM Yoann Congal=
- &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile.fr</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 11 avr. 2025 =C3=A0=C2=A011:35, =
-Vijay Anusuri via <a href=3D"http://lists.openembedded.org" target=3D"_blan=
-k">lists.openembedded.org</a> &lt;vanusuri=3D<a href=3D"mailto:mvista.com@l=
-ists.openembedded.org" target=3D"_blank">mvista.com@lists.openembedded.org<=
-/a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" =
-target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-<br>
-Includes fix for CVE-2025-32728<br>
-<br>
-Release Notes: <a href=3D"https://www.openssh.com/txt/release-10.0" rel=3D"=
-noreferrer" target=3D"_blank">https://www.openssh.com/txt/release-10.0</a><=
-/blockquote><div><br></div><div>There was a mishap in the release process: =
-<a href=3D"https://www.openwall.com/lists/oss-security/2025/04/09/6" target=
-=3D"_blank">https://www.openwall.com/lists/oss-security/2025/04/09/6</a></d=
-iv><div><br></div><div>This version will present itself as 10.0p2 (see vers=
-ion.h in sources)</div><div><br></div><div>I don&#39;t know if we need to h=
-andle this particularly in the recipe but can you mention this is the commi=
-t message to avoid an eventual confusion?</div><div><br></div><div>Thanks!<=
-/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" tar=
-get=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
----<br>
-=C2=A0.../openssh/{<a href=3D"http://openssh_9.9p2.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">openssh_9.9p2.bb</a> =3D&gt; <a href=3D"http://openssh_10.=
-0p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_10.0p1.bb</a>}=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-connectivity/openssh/{<a href=3D"http://openssh_9=
-.9p2.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9.9p2.bb</a> =3D&gt; =
-<a href=3D"http://openssh_10.0p1.bb" rel=3D"noreferrer" target=3D"_blank">o=
-penssh_10.0p1.bb</a>} (99%)<br>
-<br>
-diff --git a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_9.=
-9p2.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9.9p2.bb</a> b/meta/re=
-cipes-connectivity/openssh/<a href=3D"http://openssh_10.0p1.bb" rel=3D"nore=
-ferrer" target=3D"_blank">openssh_10.0p1.bb</a><br>
-similarity index 99%<br>
-rename from meta/recipes-connectivity/openssh/<a href=3D"http://openssh_9.9=
-p2.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9.9p2.bb</a><br>
-rename to meta/recipes-connectivity/openssh/<a href=3D"http://openssh_10.0p=
-1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_10.0p1.bb</a><br>
-index 5191725796..21e1e50759 100644<br>
---- a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_9.9p2.bb"=
- rel=3D"noreferrer" target=3D"_blank">openssh_9.9p2.bb</a><br>
-+++ b/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_10.0p1.bb=
-" rel=3D"noreferrer" target=3D"_blank">openssh_10.0p1.bb</a><br>
-@@ -26,7 +26,7 @@ SRC_URI =3D &quot;<a href=3D"https://ftp.openbsd.org/pub/=
-OpenBSD/OpenSSH/portable/openssh-$%7BPV%7D.ta" rel=3D"noreferrer" target=3D=
-"_blank">https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}=
-.ta</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-regress-banner.sh-log=
--input-and-output-files-on-erro.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-regress-test-exec-use=
--the-absolute-path-in-the-SSH-e.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
--SRC_URI[sha256sum] =3D &quot;91aadb603e08cc285eddf965e1199d02585fa94d994d6=
-cae5b41e1721e215673&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;021a2e709a0edf4250b1256bd5a9e500411a90dddabea=
-830ed59cef90eb9d85c&quot;<br>
-<br>
-=C2=A0CVE_STATUS[CVE-2007-2768] =3D &quot;not-applicable-config: This CVE i=
-s specific to OpenSSH with the pam opie which we don&#39;t build/use here.&=
-quot;<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#214721): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/214721" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/214721</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/112207287/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/112207287/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-</blockquote></div>
-
---0000000000002a616306327f6904--
 
