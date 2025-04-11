@@ -1,103 +1,220 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B645C369AF
-	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 13:46:01 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.26379.1744379156487601447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB142C369A2
+	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 15:31:31 +0000 (UTC)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+ by mx.groups.io with SMTP id smtpd.web11.29478.1744385489476628795
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Apr 2025 06:45:56 -0700
+ Fri, 11 Apr 2025 08:31:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CWzxt5Xg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-39727fe912cso944993f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 06:45:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=puXwC5fD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.177, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e60b75f87aaso1514638276.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 08:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1744379155; x=1744983955; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=RtEi7lD3NbnER5tmdAcY55MJgc7QWOprBZtIapBWfmY=;
-        b=CWzxt5Xgwc70KZx+ouoaKtHy/FKnwC5oqCfmIBBFSSAls16IDNBiXhWYhViwnCy4VP
-         fa3nFUtMsz+9erpQuyICJgGQ9Yx8XW8o+Ehl4jOhl8/qhkP0PrhGtNiYuW5fQj+2ao7Z
-         BJWMcHse1I7RAJgBgkmAkNv/hh2dtKyBJATug=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744385488; x=1744990288; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=paghxVfUO49dcfjsqNMtdAN79Sfzz6i6rf1FNK8NkAo=;
+        b=puXwC5fDYeFKDH6oxRfPHWpq2y2nH3YmYzVUCzfUpBa4q3UGwO/OhsvKkIHhTuHN7A
+         BtUmNt5UNK2i5XMDjeLBwLSul5Z8YRX9oWB9gsPtS0jtw46qgZnmyWyz8Z2WsjPwuajA
+         ZfpXa+D3ICB75x09sgCucKikf5Z23SWCtdiTOuYDOHK5Fww2P+YWFsUQ4KwlURi7oAtc
+         3GHjWYqHVOxys54zurtMogVREQLhwUEBNPSkkq/yWUVPhwNXREynK5BQ3m/FwShmbWwq
+         yAdlwbDty7r4N7fJwTNual+2i6TJYDvEbGF4cVY/axzY6LPdA7A9n8T58f+KfUKJzB6o
+         jwQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744379155; x=1744983955;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RtEi7lD3NbnER5tmdAcY55MJgc7QWOprBZtIapBWfmY=;
-        b=RIraOtkqImtSMpHPD806kkvdrFpt8omxVgSYPywEvcUG7FeIPpjjVRtdOTFzcCObf4
-         tvdhLwx/V3n9vdQCWjmbLUnr6ZKF7S5UNUD3yvlfQK+c61X2xDJbGOwu6lVWPm1REyJ5
-         FYkuUNKxVhACcqt6tHTfjQmad+oqA4CaoJElKmJSX1XhNuBKK3xBQwW67xGDP/NYRoxi
-         Nj9zx6KWX5oD0aqnzpdi+9qlIRd6SEYKGEL28riNlwiWx40oFg90xFw0k8oplbrG6a2G
-         eQ/P9FBKGOBPCv87P0b76Aj1RlLJQOtC/n/Eyc33v5t/UbKhyAUvIEIA4Z/pndNRvY4e
-         8B4w==
-X-Gm-Message-State: AOJu0YyORUjti1u9JMKSF3BYfSWHofxwW5u9G2ys6Ol3wU6mKH9lWNTL
-	aB/H1myukKQaQwnlAJ6FUHq95ZhQiSunw7a35x3r3NzYwiZ3rpUNiYhteuUunGg=
-X-Gm-Gg: ASbGnct9Nr7EfontZeHCxCbcD7IuRHo2/B1fUwKsFYw59FJcyRoqtFBTi5+vzeehLRf
-	ea2y/+Ul69i04Un5+URugBU5s+gokkHPtKjLqH6zB5b65B+4QC8H0AzrlM5nyReJZM5IaFQbhr+
-	BK93pQXUIMi7deH96RZbB5P5Vi1IsgXcBI5aotlu0LJBQAVJKBaXOGMMvD8aIz3zKeEdaBoA4hC
-	JJFXxfdI7UfddenTlzG3nQv4ieexQJOitIgpZnHyQKZWpUUH6ItX5Gv/d0NA0AqnIOV/nA4uIN4
-	A+ZkKXFJgAxA4/QGdAS272QVvdX2cU5+MP/pqhu7uXoJpk9QY3ap0HTLAiM8QSev4+9febh7pvc
-	dY3Y5I8s6G2cB0dDXXShZLhe1Im7F2A==
-X-Google-Smtp-Source: AGHT+IE69b5g/QISZBYsUMK54hya41z+rNhxfnyz+5QLUMTwbqKW5GYNaMhaC+v81EdasKjjAFU21w==
-X-Received: by 2002:a5d:6da8:0:b0:39a:ca04:3e4d with SMTP id ffacd0b85a97d-39ea51d3184mr2324093f8f.7.1744379154880;
-        Fri, 11 Apr 2025 06:45:54 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1556:e863:7570:d375? ([2001:8b0:aba:5f3c:1556:e863:7570:d375])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eaf445708sm2061859f8f.96.2025.04.11.06.45.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Apr 2025 06:45:53 -0700 (PDT)
-Message-ID: <9ee91ca81c09a5c98482d235ba88f2898f83b492.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 03/11] kernel.bbclass: add
- kernel-initrd-modules meta package
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Mikko Rapeli
-	 <mikko.rapeli@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Apr 2025 14:45:53 +0100
-In-Reply-To: <CADkTA4O9JXtr6XFO_rdzoAumtmp=5YUUkwgKMJyOtDBau7MEDQ@mail.gmail.com>
-References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
-	 <20250404162932.447699-4-mikko.rapeli@linaro.org>
-	 <1c55e7536de5f36fa37076ad04ff35588b6b5f1e.camel@linuxfoundation.org>
-	 <Z_fBAsbV-hY-x_SC@nuoska>
-	 <CADkTA4MamOxjfPE8uHhFDmZ12OhxpJ9dfhxbsxKGZxwQ4_cCkQ@mail.gmail.com>
-	 <Z_jJX05RuRTcFf4P@nuoska>
-	 <CADkTA4MWWtMXdRhvmdXhoS38SVpqXUz=p5G5H1i820QaV4CR0A@mail.gmail.com>
-	 <Z_kVI4bN7xWOyUi-@nuoska>
-	 <CADkTA4O9JXtr6XFO_rdzoAumtmp=5YUUkwgKMJyOtDBau7MEDQ@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1744385488; x=1744990288;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=paghxVfUO49dcfjsqNMtdAN79Sfzz6i6rf1FNK8NkAo=;
+        b=kUjMFKHn1BbAPmYpmgH8wqO5gZby1BqC5RdUHW5stoq6CJJNBYy0Tlf72OHvsQaHyF
+         3/YQei5UTlhpGmFFTtTCY0MNXy21tzR7ollVq4a7yAxAiB7l9LSLUl+5/OAmZvwJNI2t
+         GepBeNRmnmuYJ8rxPoA4OKt6TUaY4V9sggfQ6HfnIBQJChoCzzNYylaM0TDcWQVq0JdM
+         kA4oAq9ovV8/VzpmFRz8AINJgFnAP3/M9ceBn9cqOjlZ43IZYrltXqN1WWLU+zoLzJ1U
+         GYjhlFbOMemW1ALtx+aTMWfmd1zlSa0zrcizLWDH0jH0+OzOAEYLqFVkvKJM9nQ//ega
+         c7Qg==
+X-Gm-Message-State: AOJu0YzbCa4P9dvJlQIVwmdiU+SThgmYJDXXUoadQliHs+CjO8dh5D5O
+	vGN4l17Nr/F+DmRd8iBZTR8djzMNMzMD21CvMBqzS5MAd6vv5q13W112i+TQ3QvqRstSMmmMsCd
+	TqNy9gcRr+62gpc9bqU6a3XqbbC4QiL1vxVFEhw==
+X-Gm-Gg: ASbGnct8gsn8SHhj22fGhzkOwXPx3rzsVjqeNFcYjtgGvY2X3GCV4nrXspp8mUQ9o9L
+	TYMS59wqqcKu/amFph8QLXH8jLGDyn8MYA5PgviN7sAn9FycOrJslkjVLw8Gi9mYq3gaSKgCLc5
+	5RUn3GKZVeFf7WJthXkuJPlkLCbX0hQHMO59gO+ZJi8wTM6lgxGczE
+X-Google-Smtp-Source: AGHT+IHKMbIeRHzjVFcTaNYPm2THHfOWqJpPoP5fAV/7MUPwxqZUGM5sF6v3HzUx7IV6a+XyiP2PMXt4hKlXeuWizQs=
+X-Received: by 2002:a05:6902:1681:b0:e63:cf48:3b7c with SMTP id
+ 3f1490d57ef6-e704df5ff28mr5745411276.21.1744385488533; Fri, 11 Apr 2025
+ 08:31:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250410164455.9027-1-peter.marko@siemens.com>
+In-Reply-To: <20250410164455.9027-1-peter.marko@siemens.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 11 Apr 2025 08:31:17 -0700
+X-Gm-Features: ATxdqUEc2WGijj3gt02OFeB6WTfgdZwhayGh_LdL9xVzP-5-MS8j3Qsj80R-iwM
+Message-ID: <CAOSpxdawu9d=fQYKtJv2ir2bsmqWQshQx5UGoa6NKKpWDW57tw@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH] cve-update-nvd2-native: add
+ workaround for json5 style list
+To: peter.marko@siemens.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 13:46:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214743
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 15:31:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214744
 
-On Fri, 2025-04-11 at 09:39 -0400, Bruce Ashfield wrote:
-> Richard: If you are reading this and get this far, is there any way
-> to add some sort of RPROVIDES to a package that is almost a
-> wild card ?=C2=A0 I just haven't had time to think it through or
-> experiment.
-> Rather than the directory listings, if the new initrd kernel module
-> meta-package could be constructed (or just the image doing the
-> installs) from something like IMAGE_INSTALL=C2=A0+=3D "kernel-essential-
-> boot-*'
-> and that RPROVIDES was put into the packages when they were
-> created .. we'd have the top down control and explicit configuration
-> I'm looking for.
+I'm not sure if it is related to this patch, but I've gotten cve-check
+errors in my test builds with this patch:
 
-I think the package rprovides would have to be unique but you could do
-that with kernel-essential-boot-XXX. Installing globs of packages
-doesn't work well at the package manager level but we do have support
-for things like the dev/dbg/locale globbing (*-dev and friends) at the
-image construction level so that much is possible, albeit for a quite
-difference usecase atm.
+The stack trace of python calls that resulted in this exception/failure was=
+:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_cve_check(d)
+     0003:
+File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/classes/cv=
+e-check.bbclass',
+lineno: 192, function: do_cve_check
+     0188:            try:
+     0189:                patched_cves =3D get_patched_cves(d)
+     0190:            except FileNotFoundError:
+     0191:                bb.fatal("Failure in searching patches")
+ *** 0192:            ignored, patched, unpatched, status =3D
+check_cves(d, patched_cves)
+     0193:            if patched or unpatched or
+(d.getVar("CVE_CHECK_COVERAGE") =3D=3D "1" and status):
+     0194:                cve_data =3D get_cve_info(d, patched +
+unpatched + ignored)
+     0195:                cve_write_data(d, patched, unpatched,
+ignored, cve_data, status)
+     0196:        else:
+File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/classes/cv=
+e-check.bbclass',
+lineno: 346, function: check_cves
+     0342:        else:
+     0343:            vendor =3D "%"
+     0344:
+     0345:        # Find all relevant CVE IDs.
+ *** 0346:        cve_cursor =3D conn.execute("SELECT DISTINCT ID FROM
+PRODUCTS WHERE PRODUCT IS ? AND VENDOR LIKE ?", (product, vendor))
+     0347:        for cverow in cve_cursor:
+     0348:            cve =3D cverow[0]
+     0349:
+     0350:            if cve in cve_ignore:
+Exception: sqlite3.DatabaseError: database disk image is malformed
 
-Cheers,
+I've seen this twice now:
 
-Richard
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/23/builds/1421
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/1343
+
+Steve
+
+On Thu, Apr 10, 2025 at 9:46=E2=80=AFAM Peter Marko via lists.openembedded.=
+org
+<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+>
+> From: Peter Marko <peter.marko@siemens.com>
+>
+> NVD responses changed to an invalid json between:
+> * April 5, 2025 at 3:03:44 AM GMT+2
+> * April 5, 2025 at 4:19:48 AM GMT+2
+>
+> The last response is since then in format
+> {
+>   "resultsPerPage": 625,
+>   "startIndex": 288000,
+>   "totalResults": 288625,
+>   "format": "NVD_CVE",
+>   "version": "2.0",
+>   "timestamp": "2025-04-07T07:17:17.534",
+>   "vulnerabilities": [
+>     {...},
+>     ...
+>     {...},
+>   ]
+> }
+>
+> Json does not allow trailing , in responses, that is json5 format.
+> So cve-update-nvd2-native do_Fetch task fails with log backtrace ending:
+>
+> ...
+> File: '/builds/ccp/meta-siemens/projects/ccp/../../poky/meta/recipes-core=
+/meta/cve-update-nvd2-native.bb', lineno: 234, function: update_db_file
+>      0230:            if raw_data is None:
+>      0231:                # We haven't managed to download data
+>      0232:                return False
+>      0233:
+>  *** 0234:            data =3D json.loads(raw_data)
+>      0235:
+>      0236:            index =3D data["startIndex"]
+>      0237:            total =3D data["totalResults"]
+>      0238:            per_page =3D data["resultsPerPage"]
+> ...
+> File: '/usr/lib/python3.11/json/decoder.py', lineno: 355, function: raw_d=
+ecode
+>      0351:        """
+>      0352:        try:
+>      0353:            obj, end =3D self.scan_once(s, idx)
+>      0354:        except StopIteration as err:
+>  *** 0355:            raise JSONDecodeError("Expecting value", s, err.val=
+ue) from None
+>      0356:        return obj, end
+> Exception: json.decoder.JSONDecodeError: Expecting value: line 1 column 1=
+442633 (char 1442632)
+> ...
+>
+> There was no announcement about json format of API v2.0 by nvd.
+> Also this happens only if whole database is queried (database update is
+> fine, even when multiple pages as queried).
+> And lastly it's only the cve list, all other lists inside are fine.
+> So this looks like a bug in NVD 2.0 introduced with some update.
+>
+> Patch this with simple character deletion for now and let's monitor the
+> situation and possibly switch to json5 in the future.
+> Note that there is no native json5 support in python, we'd have to use
+> one of external libraries for it.
+>
+> (From OE-Core rev: 6e526327f5c9e739ac7981e4a43a4ce53a908945)
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-core/meta/cve-update-nvd2-native.bb | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/reci=
+pes-core/meta/cve-update-nvd2-native.bb
+> index 99acead18d..74c780493d 100644
+> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> @@ -231,6 +231,11 @@ def update_db_file(db_tmp_file, d, database_time):
+>                  # We haven't managed to download data
+>                  return False
+>
+> +            # hack for json5 style responses
+> +            if raw_data[-3:] =3D=3D ',]}':
+> +                bb.note("Removing trailing ',' from nvd response")
+> +                raw_data =3D raw_data[:-3] + ']}'
+> +
+>              data =3D json.loads(raw_data)
+>
+>              index =3D data["startIndex"]
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#214682): https://lists.openembedded.org/g/openembedde=
+d-core/message/214682
+> Mute This Topic: https://lists.openembedded.org/mt/112195016/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
