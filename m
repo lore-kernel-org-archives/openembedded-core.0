@@ -2,92 +2,93 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E93CC36010
-	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 05:41:18 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web10.18606.1744350072664549064
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1454C36010
+	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 06:16:38 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.19099.1744352192176489868
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Apr 2025 22:41:12 -0700
+ Thu, 10 Apr 2025 23:16:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=fjDtKkdL;
- spf=pass (domain: mvista.com, ip: 209.85.214.180, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2279915e06eso17077875ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 22:41:12 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=WQ7IvakJ;
+ spf=pass (domain: mvista.com, ip: 209.85.214.181, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2243803b776so23660265ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Apr 2025 23:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1744350072; x=1744954872; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1744352191; x=1744956991; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+pQ01cObB5qccLEp8lUcRlWBhekRWPmjMfhw6zZ2zYs=;
-        b=fjDtKkdL/2wuErZ5lEGVPEjlhM+JLEj3pwMFQmH1Lrn3SGffCcqQgr0NHbKiRIKzr9
-         QqHbyRmtnlzrlPoLGnSySQBEBWQi0FX65H231jjK9/sAwi+K6egiUp9fywf1g7LCJKPe
-         P5iOeGMxcVBFTNTl+TMhptR2eExRwQj1/guBE=
+        bh=8jlRGN4b46GRHc3yq1jjkw6WMYF6WkyX4TTvzfgG03E=;
+        b=WQ7IvakJ6XJ1qBXSvFiawSgiQIBOvySuH+8vcI7nzO25YnCA6seQhHddJ97ABs4b9i
+         B6/+0qjeuRGCIJ4VfomVsokIWDcenyZNh9U8SfUSbYt5OdM42qJQ86JQNcLoqzhI4aFR
+         RSbtrO3RszQ7g/EkOJcsjnAj2Fe4SHUFMXrZs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744350072; x=1744954872;
+        d=1e100.net; s=20230601; t=1744352191; x=1744956991;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+pQ01cObB5qccLEp8lUcRlWBhekRWPmjMfhw6zZ2zYs=;
-        b=oIRRdzkKpUBGEHMJPrJ+c8yfXBAdsYSNFyov+JGhvTdZb54oa+SeisZ+eq4TAeACKe
-         uziHr+K+0srasJBG6yp8JMcqIMLRCYmHzp/GJm70cIN6s9p1juEj9GpePXa/VoneN6Q4
-         T+MsksMfBwQQYIOdaiulf+amUh9AixPU7nYslfDmu2PUG6GtD2o4fgBpZfbMvm//zkEx
-         46YWTGMe2HXf+gi7p+GO4VkMaExfN/j00vC/zBZlJ1HEo/zb+UENSau98X7zRKW48Mne
-         DPT7ddWDp0BN+EoLh3tQ4g+4r1q/539fT/f2eGrYXL+aPOfmyU6tl3Tcol55jUS6BG4M
-         DCcg==
-X-Gm-Message-State: AOJu0YzHWyk75zRk0Cu5RV4doab1uJP3f0Z2qPhAy3BaUrPBsXBKtn9b
-	OFD4fy0U5vEESszS2vGqLhM/G09s1iqs+TWMPJo6PL9arRtnb8uyRHEgX1iBeRlKafyujBallh4
-	s
-X-Gm-Gg: ASbGncssVr8LdcAJ1sJc0b9paOMiWjs/FeZ4LP3TDHy7K2qmMv6FFAkLJbOXVHYe6XA
-	LtJmIjKCMp8T0TRDFoSmAdF3iAwOhYM/Fum9sEMwXINN2Ik5ypulWTK2mrUDuNYDeDb/oM7vpnW
-	R2zDo/jLtE+YN2NSCHRx0SlC5VZOnLlvATyqTs1cDIYktC2WMx2rxC734dt0KTgDCTk1EujBOME
-	vjTRnSD776FjCEi7nNqRK6kozXKDjcpdAgEjuoMbcRbWAR7ux1DSFaQspt96Kr/QRrvR458Eqs9
-	NDUJdBljyVcIkt7UdYSSLDfPJUbUVTtH5kHOVq4d8U6kaH8uElmZYw51csswy5TA
-X-Google-Smtp-Source: AGHT+IG1Wq1qpekwbs3BuZXJq623mHorR0EfGZyerJqr8qIniV3VnxcD+eYgIRcpilI0cmbEU/iMWA==
-X-Received: by 2002:a17:902:d550:b0:224:194c:694c with SMTP id d9443c01a7336-22bea4bf56cmr26206595ad.28.1744350071591;
-        Thu, 10 Apr 2025 22:41:11 -0700 (PDT)
+        bh=8jlRGN4b46GRHc3yq1jjkw6WMYF6WkyX4TTvzfgG03E=;
+        b=Ri+U6zJ05LJn+XOT5+UQHAXC67cM0XM5Mc4RXtX8QJ8u9lnp+642myvrL78zLgiwm+
+         GdWOzZwH7liwYu1ncoWAZQbzYTU+NZbmoJOZTS1sSbI4KhYyEdagfvgnF4baNGeEuM4D
+         vNLAGC3aTh0SFEGoD+2F8v6JqZd/e6HeLBetAJQUJ0G7WlSgENYTTpFwKnO+Hjuetu1W
+         87pnDPRrIeFcryiZ1YDIBnkdSJIQdiU34rWf9rKRc1uFEB0Y5ZiwrNcIa0bi6gqBWFUr
+         br4PCjeIBrQK2ho+uKwJyYDBhCwf1ha3/kRMQ+BAXXUfany04mIaroa5HU0Eq6Vt3TpO
+         5kWg==
+X-Gm-Message-State: AOJu0YyDc9xUq4K2VWPLedvLOXZ3cVzMqnbnNey358e0OWiuhhFgaieS
+	gDlzwDvrAI2X26O9jdpPpXUCLvxYWJONAfjo5+1QdIfhhBkgDDaKKV8ExumEgcOFlzjH/29uTM6
+	1
+X-Gm-Gg: ASbGncsVIepjfJqmEICe89p71GndGZxVzpqd198cJmEV/oNSmY95ddfedl4oqSZpZ96
+	aOEP6UlYcOJn71S36CSWwzbnoxmYGp7tm1tTceuR0Gn+ZaTtiY93igQzsyPqmdStgJm32Vb7qky
+	Nf+sc+bPnd2UTJDKFX476sqRmOIriVUmREcTb7+MhtrLjweCFqccAj00mzU4TDbWmMN8XKFgTST
+	UW8s8ipxb2uX2HLpqhOsnFZj9wkOjAElEJBwGOPBQG7DRTzppWvY/P/MV4Jw7QE0sRXoDvWocfe
+	sGpDuMGZv3PXkUU9bWK6PVZqzcKmZ901EActrWggbJfqm4Lyyu+DMg==
+X-Google-Smtp-Source: AGHT+IHbzXTVhT8yT40WpVf0OT8YFyPZcWq1ltMfhgl25bOackv8I12hgoQv5FYCysb7lGdQz49U2A==
+X-Received: by 2002:a17:903:1450:b0:223:6180:1bea with SMTP id d9443c01a7336-22bea4ef0b3mr24303065ad.37.1744352191308;
+        Thu, 10 Apr 2025 23:16:31 -0700 (PDT)
 Received: from MVIN00016.mvista.com ([27.121.101.124])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd23332a3sm585980b3a.161.2025.04.10.22.41.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7b8c6b3sm41384025ad.77.2025.04.10.23.16.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Apr 2025 22:41:11 -0700 (PDT)
+        Thu, 10 Apr 2025 23:16:30 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] go: fix CVE-2025-22871
-Date: Fri, 11 Apr 2025 11:10:49 +0530
-Message-Id: <20250411054049.68363-1-hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] go: fix CVE-2025-22871
+Date: Fri, 11 Apr 2025 11:46:18 +0530
+Message-Id: <20250411061618.118414-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 05:41:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214712
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 06:16:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214713
 
 Upstream-Status: Backport from https://github.com/golang/go/commit/15e01a2e43ecb8c7e15ff7e9d62fe3f10dcac931
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
- .../go/go/CVE-2025-22871.patch                | 172 ++++++++++++++++++
+ meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+ .../go/go-1.21/CVE-2025-22871.patch           | 172 ++++++++++++++++++
  2 files changed, 173 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-22871.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2025-22871.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index df77794506..b154aa3984 100644
---- a/meta/recipes-devtools/go/go-1.22.12.inc
-+++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -15,5 +15,6 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
-     file://CVE-2025-22870.patch \
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 34ad70572f..e54205d48c 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -62,6 +62,7 @@ SRC_URI += "\
+     file://CVE-2024-34156.patch \
+     file://CVE-2024-34158.patch \
+     file://CVE-2024-45336.patch \
 +    file://CVE-2025-22871.patch \
  "
- SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
-diff --git a/meta/recipes-devtools/go/go/CVE-2025-22871.patch b/meta/recipes-devtools/go/go/CVE-2025-22871.patch
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.21/CVE-2025-22871.patch b/meta/recipes-devtools/go/go-1.21/CVE-2025-22871.patch
 new file mode 100644
-index 0000000000..2750178a42
+index 0000000000..06e0fa77de
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2025-22871.patch
++++ b/meta/recipes-devtools/go/go-1.21/CVE-2025-22871.patch
 @@ -0,0 +1,172 @@
 +From 15e01a2e43ecb8c7e15ff7e9d62fe3f10dcac931 Mon Sep 17 00:00:00 2001
 +From: Damien Neil <dneil@google.com>
@@ -122,10 +123,10 @@ index 0000000000..2750178a42
 + 3 files changed, 92 insertions(+), 3 deletions(-)
 +
 +diff --git a/src/net/http/internal/chunked.go b/src/net/http/internal/chunked.go
-+index 196b5d8..0b08a97 100644
++index ddbaacb..dd79afc 100644
 +--- a/src/net/http/internal/chunked.go
 ++++ b/src/net/http/internal/chunked.go
-+@@ -164,6 +164,19 @@ func readChunkLine(b *bufio.Reader) ([]byte, error) {
++@@ -159,6 +159,19 @@ func readChunkLine(b *bufio.Reader) ([]byte, error) {
 + 		}
 + 		return nil, err
 + 	}
@@ -145,7 +146,7 @@ index 0000000000..2750178a42
 + 	if len(p) >= maxLineLength {
 + 		return nil, ErrLineTooLong
 + 	}
-+@@ -171,14 +184,14 @@ func readChunkLine(b *bufio.Reader) ([]byte, error) {
++@@ -166,14 +179,14 @@ func readChunkLine(b *bufio.Reader) ([]byte, error) {
 + }
 + 
 + func trimTrailingWhitespace(b []byte) []byte {
@@ -162,12 +163,12 @@ index 0000000000..2750178a42
 ++	return b == ' ' || b == '\t'
 + }
 + 
-+ var semi = []byte(";")
++ // removeChunkExtension removes any chunk-extension from p.
 +diff --git a/src/net/http/internal/chunked_test.go b/src/net/http/internal/chunked_test.go
-+index af79711..312f173 100644
++index 5fbeb08..51ecd62 100644
 +--- a/src/net/http/internal/chunked_test.go
 ++++ b/src/net/http/internal/chunked_test.go
-+@@ -280,6 +280,33 @@ func TestChunkReaderByteAtATime(t *testing.T) {
++@@ -251,6 +251,33 @@ func TestChunkReaderByteAtATime(t *testing.T) {
 + 	}
 + }
 + 
@@ -202,11 +203,11 @@ index 0000000000..2750178a42
 + 	f   func(iteration int) ([]byte, error)
 + 	i   int
 +diff --git a/src/net/http/serve_test.go b/src/net/http/serve_test.go
-+index 0c76f1b..0e8af02 100644
++index bfac783..944cd46 100644
 +--- a/src/net/http/serve_test.go
 ++++ b/src/net/http/serve_test.go
-+@@ -6980,3 +6980,52 @@ func testDisableContentLength(t *testing.T, mode testMode) {
-+ 		t.Fatal(err)
++@@ -6610,3 +6610,52 @@ func testQuerySemicolon(t *testing.T, query string, wantX string, allowSemicolon
++ 		}
 + 	}
 + }
 ++
