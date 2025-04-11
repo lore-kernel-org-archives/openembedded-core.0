@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 880FEC369B4
-	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 20:33:53 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.36732.1744403631889852750
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7701CC369A2
+	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 20:34:03 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.36735.1744403633978270762
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Apr 2025 13:33:51 -0700
+ Fri, 11 Apr 2025 13:33:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KXT1j/q7;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7369ce5d323so2150733b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 13:33:51 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zKUuhUxd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-224341bbc1dso24203635ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 13:33:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744403631; x=1745008431; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744403633; x=1745008433; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KdDjzkGwECAFAs5DMFiRPzMyGQClDhMXtipjV03Ew68=;
-        b=KXT1j/q7laN9aY4RwMekvtm+l7fKgEGBhnmQKuGqz1Z4JUQs49uvGS8XMOeXH1Xwhx
-         h0aOBT22tKsWIgERUcTxKDZ+mcULz2i0THrS5O/wH42y1Kt4l2RQ3wymmJ/b7xITLe2s
-         fUkdFmwIaBda/oc7mb3dj2PNy7gR4JBaQAVaLDkne94Bly1rSqin1J1Nb20j81P084GV
-         z6ofa60xwZdidyElqJ++1vAPUFD4CAWAxRZeffhKjKc4KBhu66W3jLx2/3AXDbgrmGzy
-         ue7n5b/zbbZWfk9MzdwOuOTPnkxYXgJlrH8l6PI+WYEnRQd/xJvrbE6Fo2ttjH9DbxXt
-         sHEQ==
+        bh=bB6fe66xb3MqVI1kfHQxW0rXQytbJiZ8vBF4MrLcMuc=;
+        b=zKUuhUxdsr6tF+1LNx9yN/4nwQeT7YghSIarAUvaKGcMKfAA4tnRcbxKFUS/5mXNBo
+         pMePxe9HYcSbjTzbDGs/PyyL4t0DcUdVDQAOCf1OWz9/+veDoSId7VVw3zKrXFgsCiup
+         Q2v75odVbte2z/kNc/62L4Vv+YQqJep2iHBnDdnE1inqZZgKDJh614u7ME6/n07rW+SW
+         dgSC/r08Ro/BjctrjBUnbfgWwYfZwDtSly5ZcHU9l8+gaYzaakRpdpRd1Zs/DjB8zPsO
+         Kvn4NNtu58WaF/j+Yd0rdaUDlMMrax3q6c4moFChYbYMMcL1tyleXsIE4WAn7P3/D/Rj
+         yR6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744403631; x=1745008431;
+        d=1e100.net; s=20230601; t=1744403633; x=1745008433;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KdDjzkGwECAFAs5DMFiRPzMyGQClDhMXtipjV03Ew68=;
-        b=IXqy0e4YMzBobtmKusdyY6HeMy36DWGgoLkFTCKTaIyB9yNvEvIAzXaXSPA5TBDGX3
-         oYxJ/PDOga0k35F24cHU1P/Vn2LZD/bTLR+TvodRPrBc1y1ksczQlSHU6vtm90ItitFJ
-         QCvSOo+EDM67wNh/A0L4yJQGVP+jsZ7qJQC4O0TPiLdvlJpyNhW/UhS39IiIX9pQJbxz
-         +sNIgb69CTEedtM3TH5gss3pRcA0/TY+IdN5aY4y2NnlYk2vyFNz3oKpPumuGAb7EgGP
-         pCsS3K9wyxnpZCRQuRBn+RPVNdcl9KKcnOXRXh3nOwMXTK5slm9sJQqU8JoqDHrJHBJO
-         tbHg==
-X-Gm-Message-State: AOJu0Yyw43NTlfCG3t7xUxKpG7JKHeBzU/3eHT4pe4uas8ClLrDnr1/Y
-	g5QXtbiCdsmZ6QJxzNAlegHtmRE+9sFjo8tQ5UfeRhJ47dpoJsZDf884tgIot/11LGDqOiqHmVb
-	J
-X-Gm-Gg: ASbGncspDZ7Blsa2HgMzlB0w3+ipX3I138cL9AGFTNRwUmwEXHVCX91tQv4YRsM2mGu
-	zaibyGI2GCwzsC2yFyUMATo/mbeq20MYYW5+kSsKoZDemIzreo0aDXpFnarXN70PlNUocJ9R56w
-	7owC2P4hf54PFvK4O6OoBnM0XJPnn+ukDmMJNOYkZIqPKSzZJGZnBs/3dWb1l8jq5/0N+atTl7r
-	En8oT54NXE2FvsXbkBwbtRSh6+HotQZYCGH5aqv4tJO+CRQq4EBHEEbE/341O2g2nTAIFnul1vN
-	wXRnqxVpllCtSPyOdaqt69GjudajxV6ipacodYh6tpQ=
-X-Google-Smtp-Source: AGHT+IGVUHEh5ZrjCY2bikbvk1yugBYdKfdoFsUTOiYyzS8kN+UM2MvN+EpLrbPLrvkYubZddhrqYw==
-X-Received: by 2002:a05:6a00:390a:b0:736:fff2:9ac with SMTP id d2e1a72fcca58-73bd12a82dbmr5435192b3a.23.1744403630871;
-        Fri, 11 Apr 2025 13:33:50 -0700 (PDT)
+        bh=bB6fe66xb3MqVI1kfHQxW0rXQytbJiZ8vBF4MrLcMuc=;
+        b=C9fGdbJnUySnlWZH9faiX/qEGEh6ZRAr66BNsQiUDyR4VBEPuCqcfm0Cgzr3Y09wrg
+         FACY4MClpQYmYEZvhLdQ+oOumxtDmwOXX6eIy5EYFyctBtldZIgoJ2BB0sUEd7qKDja0
+         U4+DZNjPjG76YgVI5iS8sPFiO5OnhZ/2rvAYCAasnPwxmTj20n6g2g4dVwtzI8VaY6u/
+         8X89jrV9ObDmlrqamMeGC91gMKxruYnhYok6g0EgqW4tTfqz+Ri7XRFF2nckq4dUSad+
+         vTRTZoR/DLi5lXSc0bYt7lvoyJGmYQpWakEAby7w8tBQJ7QIKiPOBHIcutDcONmVG9HG
+         Wa8w==
+X-Gm-Message-State: AOJu0YzKyZZ9E0y6Se4U2RZATrYPApdkhbpsQ5odV5PT7jlnk9kaC6Xo
+	Gp1tOpyoN6hoe9+pDNQuFARqFBnbDO4eYlY694kNW6KZXrvSDXwf7qUEsgHPT0eFfzcO6RvhHFQ
+	H
+X-Gm-Gg: ASbGncuj/e2EbmsKSE77AyeUOMXtIqhei8jhtjc5LjjLyQpbuU6BZJ6I4ypMhrJjQmE
+	ekYngf+pK66GJ7HSqBTi2i67QQouYiTbcihZPEd6d/Xqju0aII1PdLkbD17//rGmskgx1Fhyh3Q
+	4TnF7V4JE0TducMjSytnvxkyPXBRjt2zOZHX6yysT6My66rqcWX4VqeSxY8ZbjfmV0eyfwbSG48
+	KqCGVYIZfYlTw1pkOqxC70UEaoS9pHsm6Su0iaNZ4P/hpM+JExYMAxNeH1KRmrEMEhiyTWb1sdd
+	8kMTzzFffzKLJZpTXvSlddx8R1JzJ5LJ
+X-Google-Smtp-Source: AGHT+IHRVU0aZUg4d92Suw0TGquLXXRA2c9HFSAGmoMCqzSBu+JHP24QPwKqDb35smuDwmnhUuuchQ==
+X-Received: by 2002:a17:902:d4c5:b0:220:c63b:d93c with SMTP id d9443c01a7336-22bea4fee9amr56339315ad.44.1744403633129;
+        Fri, 11 Apr 2025 13:33:53 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:c93f:3642:a7d6:27ed])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd230d697sm2067498b3a.123.2025.04.11.13.33.50
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd230d697sm2067498b3a.123.2025.04.11.13.33.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Apr 2025 13:33:50 -0700 (PDT)
+        Fri, 11 Apr 2025 13:33:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 3/8] cve-update-nvd2-native: add workaround for json5 style list
-Date: Fri, 11 Apr 2025 13:33:29 -0700
-Message-ID: <4358fdfdd7a8908df98f7c4def2c8c1a6efb7256.1744403103.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 4/8] xz: upgrade 5.4.6 -> 5.4.7
+Date: Fri, 11 Apr 2025 13:33:30 -0700
+Message-ID: <e6565ca37da4821f8e3924fe6bc6a6f4eeedd9a9.1744403103.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1744403103.git.steve@sakoman.com>
 References: <cover.1744403103.git.steve@sakoman.com>
@@ -66,91 +66,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 20:33:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214756
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 20:34:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214757
 
 From: Peter Marko <peter.marko@siemens.com>
 
-NVD responses changed to an invalid json between:
-* April 5, 2025 at 3:03:44 AM GMT+2
-* April 5, 2025 at 4:19:48 AM GMT+2
+License-Update: homepage update in [1]
 
-The last response is since then in format
-{
-  "resultsPerPage": 625,
-  "startIndex": 288000,
-  "totalResults": 288625,
-  "format": "NVD_CVE",
-  "version": "2.0",
-  "timestamp": "2025-04-07T07:17:17.534",
-  "vulnerabilities": [
-    {...},
-    ...
-    {...},
-  ]
-}
-
-Json does not allow trailing , in responses, that is json5 format.
-So cve-update-nvd2-native do_Fetch task fails with log backtrace ending:
-
-...
-File: '/builds/ccp/meta-siemens/projects/ccp/../../poky/meta/recipes-core/meta/cve-update-nvd2-native.bb', lineno: 234, function: update_db_file
-     0230:            if raw_data is None:
-     0231:                # We haven't managed to download data
-     0232:                return False
-     0233:
- *** 0234:            data = json.loads(raw_data)
-     0235:
-     0236:            index = data["startIndex"]
-     0237:            total = data["totalResults"]
-     0238:            per_page = data["resultsPerPage"]
-...
-File: '/usr/lib/python3.11/json/decoder.py', lineno: 355, function: raw_decode
-     0351:        """
-     0352:        try:
-     0353:            obj, end = self.scan_once(s, idx)
-     0354:        except StopIteration as err:
- *** 0355:            raise JSONDecodeError("Expecting value", s, err.value) from None
-     0356:        return obj, end
-Exception: json.decoder.JSONDecodeError: Expecting value: line 1 column 1442633 (char 1442632)
-...
-
-There was no announcement about json format of API v2.0 by nvd.
-Also this happens only if whole database is queried (database update is
-fine, even when multiple pages as queried).
-And lastly it's only the cve list, all other lists inside are fine.
-So this looks like a bug in NVD 2.0 introduced with some update.
-
-Patch this with simple character deletion for now and let's monitor the
-situation and possibly switch to json5 in the future.
-Note that there is no native json5 support in python, we'd have to use
-one of external libraries for it.
+[1] https://github.com/tukaani-project/xz/commit/c5c091332c6953a0ce940cb355ea9e99491429fc
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6e526327f5c9e739ac7981e4a43a4ce53a908945)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-extended/xz/{xz_5.4.6.bb => xz_5.4.7.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/xz/{xz_5.4.6.bb => xz_5.4.7.bb} (94%)
 
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 99acead18d..74c780493d 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -231,6 +231,11 @@ def update_db_file(db_tmp_file, d, database_time):
-                 # We haven't managed to download data
-                 return False
+diff --git a/meta/recipes-extended/xz/xz_5.4.6.bb b/meta/recipes-extended/xz/xz_5.4.7.bb
+similarity index 94%
+rename from meta/recipes-extended/xz/xz_5.4.6.bb
+rename to meta/recipes-extended/xz/xz_5.4.7.bb
+index 3f82e476bf..53e5276951 100644
+--- a/meta/recipes-extended/xz/xz_5.4.6.bb
++++ b/meta/recipes-extended/xz/xz_5.4.7.bb
+@@ -17,7 +17,7 @@ LICENSE:${PN}-dbg = "GPL-2.0-or-later"
+ LICENSE:${PN}-locale = "GPL-2.0-or-later"
+ LICENSE:liblzma = "PD"
  
-+            # hack for json5 style responses
-+            if raw_data[-3:] == ',]}':
-+                bb.note("Removing trailing ',' from nvd response")
-+                raw_data = raw_data[:-3] + ']}'
-+
-             data = json.loads(raw_data)
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d4378ea9d5d1fc9ab0ae10d7948827d9 \
++LIC_FILES_CHKSUM = "file://COPYING;md5=c8ea84ebe7b93cce676b54355dc6b2c0 \
+                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.GPLv3;md5=1ebbd3e34237af26da5dc08a4e440464 \
+                     file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
+@@ -27,7 +27,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d4378ea9d5d1fc9ab0ae10d7948827d9 \
+ SRC_URI = "https://github.com/tukaani-project/xz/releases/download/v${PV}/xz-${PV}.tar.gz \
+            file://run-ptest \
+           "
+-SRC_URI[sha256sum] = "aeba3e03bf8140ddedf62a0a367158340520f6b384f75ca6045ccc6c0d43fd5c"
++SRC_URI[sha256sum] = "8db6664c48ca07908b92baedcfe7f3ba23f49ef2476864518ab5db6723836e71"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v(?P<pver>\d+(\.\d+)+)"
+ UPSTREAM_CHECK_URI = "https://github.com/tukaani-project/xz/releases/"
  
-             index = data["startIndex"]
 -- 
 2.43.0
 
