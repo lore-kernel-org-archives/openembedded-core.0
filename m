@@ -2,107 +2,266 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5B3C369A8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C284C36010
 	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 11:46:30 +0000 (UTC)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
- by mx.groups.io with SMTP id smtpd.web11.23063.1744369000333418573
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+ by mx.groups.io with SMTP id smtpd.web10.22717.1744367946980570195
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Apr 2025 03:56:40 -0700
+ Fri, 11 Apr 2025 03:39:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=LsqGilge;
- spf=pass (domain: linaro.org, ip: 209.85.219.170, mailfrom: ilias.apalodimas@linaro.org)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e6a8aa771e8so1513920276.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 03:56:40 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=zuwEuxmU;
+ spf=pass (domain: linaro.org, ip: 209.85.219.172, mailfrom: ilias.apalodimas@linaro.org)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e6dd991a0e6so1436803276.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 03:39:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744368999; x=1744973799; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1744367946; x=1744972746; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BukXVdZ/hjb5AHVGoOnY+zTxra1yAk2t9d6tWiKOLe0=;
-        b=LsqGilgesppVkTpOBTX9uvzJ9Gb5Dz5LsSd5VJ2eWlgk84hTkuKXFsoRDv28dW2IYi
-         NaGPiN9CLLXfW4VL+CMHYP8zJAlUk5n8qewbWk5q3iW7KDgRZTkdTlosz8tN7iZUtWTr
-         GgZkW8PujjEAvEea10h3GXxUHXeE6gvd6zXVmU46kVnnlfDbNCtW5rHY/eXt8snmT32N
-         TKNYZW30ANc1J3lyJXroLtRSjfHd9jksG0BDVL+uu9B7prkd2qkytADBZMiNaxdTViRx
-         ehaahMhGMgw/9O4sxJliDJMxT4iTJMS6I+dDtjwdzeGmeeMXDQlS4Jvd8ZoAksg607hu
-         tGZg==
+        bh=7nRRag6/bcMxmBNUIwyf4c702nqyFzCXc8bYlyHD+Pc=;
+        b=zuwEuxmUp07dBikCG1V/xIkXq+D8s1RqL9tbBqnCL6lZavUmuheSryDV9ijar0eqgk
+         JlfuIUBWQYQDAqZVRFgcNMTU3LQfmpSUU2LxE9KynRLr2sF86yO6kKoIvWW1llf2ULkz
+         o43o2fgszP+so/B8dVr7gwkOkHaCNxB7bMANgT37DCTxB2/eNwmY2J2/wP6yjUV1l+Eh
+         j+88GgtMFdtcmpEVBoDNXRddYyVx9G42+zWLPpL/2NLzh+0dTTew0pvDlPVMum4V1ejT
+         W5y0okQvZ0YUO5ic1w34fT83/mvv9SsU5H3K8DjdEvgxpAPhR0oC9eAb7yKGGxsD35s2
+         abyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744368999; x=1744973799;
+        d=1e100.net; s=20230601; t=1744367946; x=1744972746;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BukXVdZ/hjb5AHVGoOnY+zTxra1yAk2t9d6tWiKOLe0=;
-        b=wysnzVgkOfDTZo9kJtZFZ8cXQTZgBoGyWteMNhkKUxspmGDk9HT4LPcsz0/iMfcPGa
-         ok9UZBvHlNrgn7FpgOajfg30TTUo/yfGPedw4KClRO/bWrIuHA2BbNFRgZr2At8yiXXA
-         EcXgJyJelvLpybEdOnIF0rZ02zWah/suTFqTwbbd5VxRL8Of/giuFSMgeq4G5RBil1Mk
-         dhMRJfhxow8ztFNE4jEPEadwQpZqxDhq2MGscX8ga24/5gSdSCNYBIZ63bJjxUilMLLb
-         x/us551/OnaJXacz8fgAuD2P2r3R+o7c6bQuStU/Uiab+AHeMwMSF9QSvvR1lNc7s8A4
-         O68w==
-X-Forwarded-Encrypted: i=1; AJvYcCXhqOUV6FoJmC3kCNoU9EE8pNhfcQf669upmK2vzMM+2INcLo6pN9RT+D7HHmqZS5vr0PIy2T+kmna33usn6feTxA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzL6MeKZSZm6KnAfe/Ac3xb5DZgfNItTaAsPbcvrkASKkhZWqQn
-	IxFRwYNeWikl9WB5wskJKtty5iV4XrJEJlbH2dOqJStmCV2X04eCSPy0Mb/P9FSpilMPVRa2v6d
-	lWKVKGb45fK2fmcYxIqG3i5n8mQ9mSDhVPyGZ6Q==
-X-Gm-Gg: ASbGncsSPTgqt9C4asiXFlWFVnEC8CCPg+Ro42BfwOGZRFbqspM5sHLblcA1uk7IJ5V
-	aA4lH9YiGS7zlUn45s+O/pz9H+DjpIMaS/TfnFTHQpqLdOO+7mIHETBRULwCoLe2x2575x0+yQm
-	Uyj9NJUqloSVQOlLxmK1JjAfY6e+dyhTVFAQ==
-X-Google-Smtp-Source: AGHT+IHcb5sw+Yfu9aOG4KPAFZO8fGSUcmHI/suwZUieCroRMuALs2vy3YgEYPgxxX8EvFt0th9om55Z/P5hok/u4YA=
-X-Received: by 2002:a05:6902:4893:b0:e62:d12f:1526 with SMTP id
- 3f1490d57ef6-e704df6e577mr3758640276.48.1744368999519; Fri, 11 Apr 2025
- 03:56:39 -0700 (PDT)
+        bh=7nRRag6/bcMxmBNUIwyf4c702nqyFzCXc8bYlyHD+Pc=;
+        b=qXa/1R4P1HnTPheYlLEp11XNtsBm3BIApeXzsjdQDASW5Zla0GgBgUivgYjMCnYUKl
+         jdLy6IptVXugEJ0rWgx+rZiiqTsPzURAEBe1t+5/d3Wl+OnLo/zWBEwbEmBrd6HsZRu8
+         G87wgBw38EPsKngFH4SpvmBafL+ljeZoJ4wsN0vRoxin0dQi6dXylI7z9dug8gBPsT7V
+         YXgJKFVQfdgMFX9rXs3kt2Xa0rqm0zpvk2qqXMFN3oeVtJ1QXHlEapfnmEEQc0xawf5g
+         5hfnpMhNjDc2sj6SjKZ3FG986RDpwjr9J+CpjrA57px+2Ag5x+/ooaAI0EdKCPwLZ0uW
+         lu2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX7O5jkiz/mQC6/gFIlKMe8sU/zkO4pd6SbGVPsix5+scjCHWscQigIHI4wEImMxrntIKGOW13101QMFvIlUsyawQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxgoFEX956+Y5ztEDpjGRg5Yng1gxlyJsVycVP8eQ+Y11DuOFdW
+	YAUgktLddIHm+a+Oiyz2Ec7BG2I4ooVHWJ9K0DhAjmetlDgL6nu51Hwi7P9sHFBKziavT+SxKfR
+	OA3iFEZI4B3+IIF7majymwBYA6TSVYC0UXeIHQA==
+X-Gm-Gg: ASbGncuGv/P3v3Gf4JjFMNoovnXw5bLLGMvAK2+arOgT9Kvkocx0J27iFqKr/udvymR
+	1c8BEAk+Yw3M+dno8B3kCwm5Ct8bGOnwARK4a0d0x4y5ZF+4hk+J5ZT7W9LWHh59K+LTnpN9Bil
+	DXW7AsKd2sxfS8rWIv9PpNzog=
+X-Google-Smtp-Source: AGHT+IEs0nks+TTDrflgV1VAi7308GcUECS9Olqp0DAnLXqoAP0YtF+CQJHFo0CZBz2xUT9EMpsTfbLCFfCW2jIdrew=
+X-Received: by 2002:a05:6902:2513:b0:e6d:ee8e:876c with SMTP id
+ 3f1490d57ef6-e704df8f948mr4254493276.43.1744367945925; Fri, 11 Apr 2025
+ 03:39:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
  <20250404162932.447699-2-mikko.rapeli@linaro.org> <f84af1a6585338787539ee5be5826adbe434e8a9.camel@gmail.com>
  <CAC_iWjKTmSEOe6HUcPFUZLaBuA2+6ZwOYaYiqK0_R8KGNPU1Ug@mail.gmail.com>
- <CAC_iWjJTuV=TcNYhSeyybaU8hr-b9sauJiYt3Jo8+wxYC_7eUQ@mail.gmail.com>
- <CANNYZj-ORUDVcfGMBUczC-CQ1LwFZiS=6qToSCZUH2WCVqxGbA@mail.gmail.com>
- <CAC_iWjKWLoWc3UE0pyvsq9U70xMGaDeWL0NdUsoPm+jvByri4A@mail.gmail.com> <CANNYZj87jO6=GrJ+1WTYEZP-LB=2602Pe+oG2xd0+LQXnQR0TQ@mail.gmail.com>
-In-Reply-To: <CANNYZj87jO6=GrJ+1WTYEZP-LB=2602Pe+oG2xd0+LQXnQR0TQ@mail.gmail.com>
+ <CAC_iWjJTuV=TcNYhSeyybaU8hr-b9sauJiYt3Jo8+wxYC_7eUQ@mail.gmail.com> <c7b639077c36c0bc3bdd3eb43f314b348cd2e3f8.camel@gmail.com>
+In-Reply-To: <c7b639077c36c0bc3bdd3eb43f314b348cd2e3f8.camel@gmail.com>
 From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Fri, 11 Apr 2025 13:56:03 +0300
-X-Gm-Features: ATxdqUH0_M64F3znKKGMy_4_eDGSHjayk1hc0q3EVpJmvsgbMTxq_YQRdu_5GJQ
-Message-ID: <CAC_iWjLrhcj2WYwWoyG7dC4D-jWzG5=1_42MPfAyisOJJ3=-0Q@mail.gmail.com>
+Date: Fri, 11 Apr 2025 13:38:29 +0300
+X-Gm-Features: ATxdqUGLrrqiCa-FfzjGLMNSlt3Zcj0znSVD--w9wBqYlWTVRrDlEpfNY2zzFWc
+Message-ID: <CAC_iWj+SSsSDKHGKaLGUZEGKiWV0fxHXB+tN6-t9WJ9tZbQxKg@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v3 01/11] systemd: enable efi support by default
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: adrian.freihofer@gmail.com, Mikko Rapeli <mikko.rapeli@linaro.org>, 
-	openembedded-core@lists.openembedded.org
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>, openembedded-core@lists.openembedded.org, 
+	alex.kanavin@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 11:46:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214735
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214734
 
-On Thu, 10 Apr 2025 at 22:19, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> On Thu, 10 Apr 2025 at 19:48, Ilias Apalodimas
-> <ilias.apalodimas@linaro.org> wrote:
-> > > But none of the last few messages answer my question. Can I restate it?
-> > > Is there a physical board that can boot from ESP formatted to something else than FAT?
->
-> > Why? The answer basically says that every board with u-boot or EDKII can
->
-> What I'm trying to get to is this: there's no working example (in the
-> shape of yocto BSP layer for instance) or evidence of anyone having
-> actually done it, ever. If you look at wic's bootimg-efi plugin, it
-> hardcodes vfat as partition type with no option for anything else. And
-> this is then used throughout meta-intel and meta-arm wks files, and
-> likely copied and tweaked into countless other layers. So it is not
-> exactly reassuring to hear 'but look at the zoo of filesystems that
-> u-boot supports'.
+Hi Adrian
 
-All of what you mention here seem to be OE limitations which can be
-easily fixed. But that's still completely orthogonal to the current
-patchset. I don't see how enabling EFI automatically forces you to
-swap around your entire boot or firmware update strategy.
+On Thu, 10 Apr 2025 at 23:53, Adrian Freihofer
+<adrian.freihofer@gmail.com> wrote:
+>
+> On Thu, 2025-04-10 at 15:12 +0300, Ilias Apalodimas wrote:
+> > Apologies for the noise, I forgot to add Adrian in CC
+> >
+> > On Thu, 10 Apr 2025 at 14:45, Ilias Apalodimas
+> > <ilias.apalodimas@linaro.org> wrote:
+> > >
+> > > Hi Adrian
+> > >
+> > > On Thu, 10 Apr 2025 at 14:21, Adrian Freihofer
+> > > <mikko.rapeli@linaro.org> wrote:
+> > > >
+> > > > Hi Mikko
+> > > >
+> > > > On Fri, 2025-04-04 at 19:29 +0300, Mikko Rapeli via
+> > > > lists.openembedded.org wrote:
+> > > > > For example genericarm64 enables "efi" in MACHINE_FEATURES
+> > > > > and in u-boot. Boot without "efi" in systemd works with
+> > > > > EFI protocols but for example efivars is not mounted at
+> > > > > all so various checks fail in userspace. Fix these by
+> > > > > enabling "efi" support by default to avoid making
+> > > > > it machine specific. Fixes efivars mount to
+> > > > > /sys/firmware/efi/efivars etc.
+> > > >
+> > > > My point is that many OE/Yocto-based embedded products rely on a
+> > > > fully
+> > > > redundant and power fail-safe firmware update and boot
+> > > > implementation.
+> > > > So far I have not understood how this could be implemented in a
+> > > > similarly robust way based on EFI as we have now without EFI-
+> > > > based
+> > > > boot-up.
+> > >
+> > > As far as the firmware updates are concerned there's [0], which is
+> > > also implemented in U-Boot.
+> > > But even in that case, I am not sure I understand your concerns.
+> > > What
+> > > prevents you from having the existing mechanisms for firmware
+> > > updates
+> > > on a system that boots with EFI?
+>
+> Many thanks for the link.
+
+yw
+
+> Yes, that basically describes how it should
+> be. But is there such a thing in reality?
+
+Yes it actually works for some boards in U-Boot and people are
+shipping it. I am also discussing with the fwupd maintainers on how to
+make it seamless in the future.
+
+The Socionext Synquacer and some ST (stmp32mp1) are the ones I
+remember. We definitely want to add more boards.
+
+> The discussion here doesn't
+> really convince me that EFI is already the proven easy way to build
+> robust and maintainable embedded systems.
+
+Again, I'll limit the discussion in U-Boot -- if there are other EFI
+implementations you are worried about, feel free to add them.
+UEFI has a weird learning curve, I understand that but it standardizes
+a few things that people are struggling with and that's why distros
+use it.
+I don't know if that's useful for vertical distros -- but the ability
+to boot the same OS across many different devices is appealing to some
+vendors. It also tries to standardize security and most notably Secure
+Boot and measured boot which is  a usual headache.  There's still a
+vendor specific bit in there on how to setup your chain of trust, but
+once you reach BL33( the efi loader) everything looks identical.
+U-Boot nowadays is pretty complete. You can literally install a distro
+using its installer either via putting the installer on a disk or
+doing it over HTTP.
+There are some kernel module requirements for the latter, but AFAIK
+debian and the latest fedora42 already support the modules (notably
+OF_PMEM).
+
+> I understand why many people
+> are working towards EFI. But I still see great advantages in simpler
+> and available (in the sense of power-fail, robust) technologies for
+> many use cases today.
+
+Fair enough. However, what I am trying to say here is with or without
+EFI i am not aware of any limitations. In fact most of the arch
+kernels build with EFI support enabled by default.
+IOW, no one *forces* you to use capsule updates to update your
+firmware or use EFI to boot your system.
 
 >
-> If I have a board in front of me (for instance, this Thinkpad X13
-> laptop from 2021 that I'm typing on right now), can I find out what it
-> can boot from? How?
+> Anyway, my intention is not to start a controversial discussion about
+> EFI or SystemReady. My intention is to ensure that building systems
+> without disadvantages caused by the "EFI by default strategy" remains
+> possible and ideally also tested. As long as that is the case, I fully
+> agree with the patch.
 
-Without extra information on how that firmware was compiled or what it
-was compiled to support I can't answer that. The easiest thing to do
-is check if you can load something from a !FAT filesystem from the
-firmware.
+Understood and as I said, I don't think it will break anything -- and
+if it does, we should just fix it because in principle it shouldn't.
+
+>
+> > >
+> > > >  I would therefore like to see the EFI implementation remain
+> > > > opt-in until it covers at least the most important use cases for
+> > > > robust
+> > > > embedded systems. What I primarily miss with EFI is a reference
+> > > > implementation for an A/B update system without having to rely on
+> > > > a FAT
+> > > > partition without journaling. Please correct me if I'm missing
+> > > > something!
+> > >
+> > > Where does the FAT partition requirement come from?
+> > >
+> > > >
+> > > > Would it make sense to declare poky as an EFI ready reference
+> > > > distribution by enabling the efi DISTRO_FEATURE there, rather
+> > > > than
+> > > > starting with making recipes enabling efi unconditionally?
+> > > >
+> > > > Could something like this in poky.conf work?
+> > > > DISTRO_FEATURES:append:aarch64 = " efi"
+> > > > DISTRO_FEATURES:append:riscv64 = " efi"
+> > > > DISTRO_FEATURES:append:x86-64 = " efi"
+>
+> I was thinking about making this ARCH specific because:
+> - Defaulting to the most typical and use cases
+> - Keep a test matrix on the AB which builds systemd without efi
+> - ARCH specific is not an issue like MACHINE specific would be
+> - Having this policy in the distro seams more logical to me than in a
+> generic package.
+>
+> But as I said, if the disadvantages of building with efi are negligible
+> for users without EFI use cases, then even better.
+
+Agreed.
+
+Thanks
 /Ilias
 >
-> Alex
+> Thank you and regards,
+> Adrian
+>
+> > >
+> > > [0]
+> > > https://github.com/ARM-software/edge-iot-arch-guide/blob/main/source/FWU/MBFW/chapter1-introduction.md
+> > >
+> > > Thanks
+> > > /Ilias
+> > > >
+> > > > Thank you and regards,
+> > > > Adrian
+> > > >
+> > > > >
+> > > > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > > > > ---
+> > > > >  meta/recipes-core/systemd/systemd_257.4.bb | 3 ++-
+> > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/meta/recipes-core/systemd/systemd_257.4.bb
+> > > > > b/meta/recipes-core/systemd/systemd_257.4.bb
+> > > > > index 64fb8fe69a..06e5621398 100644
+> > > > > --- a/meta/recipes-core/systemd/systemd_257.4.bb
+> > > > > +++ b/meta/recipes-core/systemd/systemd_257.4.bb
+> > > > > @@ -68,13 +68,14 @@ PAM_PLUGINS = " \
+> > > > >  "
+> > > > >
+> > > > >  PACKAGECONFIG ??= " \
+> > > > > -    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit apparmor
+> > > > > efi
+> > > > > ldconfig pam pni-names selinux smack polkit seccomp', d)} \
+> > > > > +    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit apparmor
+> > > > > ldconfig pam pni-names selinux smack polkit seccomp', d)} \
+> > > > >      ${@bb.utils.contains('DISTRO_FEATURES', 'minidebuginfo',
+> > > > > 'coredump elfutils', '', d)} \
+> > > > >      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill',
+> > > > > '',
+> > > > > d)} \
+> > > > >      ${@bb.utils.contains('DISTRO_FEATURES', 'x11',
+> > > > > 'xkbcommon', '',
+> > > > > d)} \
+> > > > >      ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit',
+> > > > > 'sysvinit',
+> > > > > 'link-udev-shared', d)} \
+> > > > >      backlight \
+> > > > >      binfmt \
+> > > > > +    efi \
+> > > > >      gshadow \
+> > > > >      hibernate \
+> > > > >      hostnamed \
+> > > > >
+> > > > > 
+> > > > >
+> > > >
+>
 
