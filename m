@@ -1,220 +1,211 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <tom.hochstein@oss.nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB142C369A2
-	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 15:31:31 +0000 (UTC)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
- by mx.groups.io with SMTP id smtpd.web11.29478.1744385489476628795
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9932C36010
+	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 15:37:51 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.66])
+ by mx.groups.io with SMTP id smtpd.web11.29674.1744385862864866234
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Apr 2025 08:31:29 -0700
+ Fri, 11 Apr 2025 08:37:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=puXwC5fD;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.177, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e60b75f87aaso1514638276.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 08:31:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744385488; x=1744990288; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=paghxVfUO49dcfjsqNMtdAN79Sfzz6i6rf1FNK8NkAo=;
-        b=puXwC5fDYeFKDH6oxRfPHWpq2y2nH3YmYzVUCzfUpBa4q3UGwO/OhsvKkIHhTuHN7A
-         BtUmNt5UNK2i5XMDjeLBwLSul5Z8YRX9oWB9gsPtS0jtw46qgZnmyWyz8Z2WsjPwuajA
-         ZfpXa+D3ICB75x09sgCucKikf5Z23SWCtdiTOuYDOHK5Fww2P+YWFsUQ4KwlURi7oAtc
-         3GHjWYqHVOxys54zurtMogVREQLhwUEBNPSkkq/yWUVPhwNXREynK5BQ3m/FwShmbWwq
-         yAdlwbDty7r4N7fJwTNual+2i6TJYDvEbGF4cVY/axzY6LPdA7A9n8T58f+KfUKJzB6o
-         jwQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744385488; x=1744990288;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=paghxVfUO49dcfjsqNMtdAN79Sfzz6i6rf1FNK8NkAo=;
-        b=kUjMFKHn1BbAPmYpmgH8wqO5gZby1BqC5RdUHW5stoq6CJJNBYy0Tlf72OHvsQaHyF
-         3/YQei5UTlhpGmFFTtTCY0MNXy21tzR7ollVq4a7yAxAiB7l9LSLUl+5/OAmZvwJNI2t
-         GepBeNRmnmuYJ8rxPoA4OKt6TUaY4V9sggfQ6HfnIBQJChoCzzNYylaM0TDcWQVq0JdM
-         kA4oAq9ovV8/VzpmFRz8AINJgFnAP3/M9ceBn9cqOjlZ43IZYrltXqN1WWLU+zoLzJ1U
-         GYjhlFbOMemW1ALtx+aTMWfmd1zlSa0zrcizLWDH0jH0+OzOAEYLqFVkvKJM9nQ//ega
-         c7Qg==
-X-Gm-Message-State: AOJu0YzbCa4P9dvJlQIVwmdiU+SThgmYJDXXUoadQliHs+CjO8dh5D5O
-	vGN4l17Nr/F+DmRd8iBZTR8djzMNMzMD21CvMBqzS5MAd6vv5q13W112i+TQ3QvqRstSMmmMsCd
-	TqNy9gcRr+62gpc9bqU6a3XqbbC4QiL1vxVFEhw==
-X-Gm-Gg: ASbGnct8gsn8SHhj22fGhzkOwXPx3rzsVjqeNFcYjtgGvY2X3GCV4nrXspp8mUQ9o9L
-	TYMS59wqqcKu/amFph8QLXH8jLGDyn8MYA5PgviN7sAn9FycOrJslkjVLw8Gi9mYq3gaSKgCLc5
-	5RUn3GKZVeFf7WJthXkuJPlkLCbX0hQHMO59gO+ZJi8wTM6lgxGczE
-X-Google-Smtp-Source: AGHT+IHKMbIeRHzjVFcTaNYPm2THHfOWqJpPoP5fAV/7MUPwxqZUGM5sF6v3HzUx7IV6a+XyiP2PMXt4hKlXeuWizQs=
-X-Received: by 2002:a05:6902:1681:b0:e63:cf48:3b7c with SMTP id
- 3f1490d57ef6-e704df5ff28mr5745411276.21.1744385488533; Fri, 11 Apr 2025
- 08:31:28 -0700 (PDT)
+ dkim=pass header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=BTJlYSqb;
+ spf=pass (domain: oss.nxp.com, ip: 40.107.249.66, mailfrom: tom.hochstein@oss.nxp.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qNEwa2MpuU/Czc9VSwRah8dFIUWhqBwd71zMGqV7OkFNIh79gDZ7kyipZWS5iRMtdazwFaY+u+7uk3EmDT6wKkXKHe2S04PizKzv1gQbKiczrclh6m/RXBX1MpWKCmKbJ+cORT73/Y4xyrcJQJzsQd24BrnVt4yUVu6gfO6W6IZMzlaj2qwpvVvkQiXz0L4LcYRZVKhU37/IuwEcu1hW/RnHmrUWy5fBtl1MQDXbBnelKrcMbZ/BsJyg3fvj6+16uXW/+EXrop4CRXJ7YwQCP1eGYBqS6MxTQbeiSRj5+akZe8CHQeF0hcyMzaNvjx8IBQh8dSj+ZGcuXBdZVJm7Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YgpWu/nj49tjOqmfvpErN5pbJ2J5TfM4yPwSnxkAJ7M=;
+ b=ykvumLAvFyMkI6Tn+ybAqsB5B1GYUq22MVWyWJinvbGKohPl35qvjlS6bVdQ9tofxK9vskfoBIv1WhYUjcUsgtzIxqUnF6BYXxQkWjlbjna8brIlzxhtGCcwHTkKEskWo6LTu+TVZKOtxSidEuY2hQCrrnND6ghCjvyrXn4lxiMYByQ8YrOz8UkIGgmdqtF3LQ/ctSsWl0fh5CtHAQk/ne01AT1cYrU/sztCNVUwp6a31tPHGICradYE7ktl/YaGgRAdY3VCTGult0lbAQmjt26XD/jt2prTSGcXgq7XjHfjKXhCkHlbpdS7L1b4KSn3hCT/ude2JgArYf26hfehGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YgpWu/nj49tjOqmfvpErN5pbJ2J5TfM4yPwSnxkAJ7M=;
+ b=BTJlYSqboFEGF0kQAi77GbNFaxzX8ILXFcir8I8V7Ui8HjbCQ1e2KpRhEf6dN6djA3Wl/vOwfMhxOFVoNijOAYibPbEjNOBS5PQhMaZClSnkfXAllN0Ibt6mxex59aC/224jXeGJ9Z7W2ce64A4U60BXclSc1yoRxJcg5JhBcvPLHiM46YX7DF7SL+YK6UvViPwHMcPXH58aaeTtwTZS2U2sLsZxRIpEW8ZkrQcdX1enZL8/j6pQ71PPevTBOd9mZv8UEjgrPS5kVX4ynKzFrXA839GZDgk4lIEEngQmJ7JVAJ8bAgsDxy5DPD9DOqEWB8J8AhNedsjQFmqS4kngxw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+ by DU6PR04MB11160.eurprd04.prod.outlook.com (2603:10a6:10:5c3::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.27; Fri, 11 Apr
+ 2025 15:37:38 +0000
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc%4]) with mapi id 15.20.8606.033; Fri, 11 Apr 2025
+ 15:37:38 +0000
+Message-ID: <9de83915-c1d7-4b18-b76f-86cc5778c9be@oss.nxp.com>
+Date: Fri, 11 Apr 2025 10:37:32 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v5 4/5] oeqa/sdk/meson: improve test to validate
+ host/build target assignments
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+References: <20250407211806.1782316-1-tom.hochstein@oss.nxp.com>
+ <20250407211806.1782316-4-tom.hochstein@oss.nxp.com>
+ <D91AQNC6UKX5.394WLWGGFWT4O@bootlin.com>
+ <183460753CA35884.31078@lists.openembedded.org>
+ <1834F816ACB44615.7383@lists.openembedded.org>
+ <1834FEA34534143E.27206@lists.openembedded.org>
+ <cdae0d74-ade9-4b2b-a0ab-45788cd8044f@oss.nxp.com>
+ <18353B5DF2EF4BC1.27206@lists.openembedded.org>
+ <D93QAMBHTAR4.1CIOF4WMRTVEQ@bootlin.com>
+Content-Language: en-US
+From: Tom Hochstein <tom.hochstein@oss.nxp.com>
+In-Reply-To: <D93QAMBHTAR4.1CIOF4WMRTVEQ@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0134.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::19) To PAXPR04MB9448.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b1::21)
 MIME-Version: 1.0
-References: <20250410164455.9027-1-peter.marko@siemens.com>
-In-Reply-To: <20250410164455.9027-1-peter.marko@siemens.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 11 Apr 2025 08:31:17 -0700
-X-Gm-Features: ATxdqUEc2WGijj3gt02OFeB6WTfgdZwhayGh_LdL9xVzP-5-MS8j3Qsj80R-iwM
-Message-ID: <CAOSpxdawu9d=fQYKtJv2ir2bsmqWQshQx5UGoa6NKKpWDW57tw@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH] cve-update-nvd2-native: add
- workaround for json5 style list
-To: peter.marko@siemens.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|DU6PR04MB11160:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b351804-fe4a-47ee-4023-08dd790ec9e5
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?L0NlYXJLR2c1dW9UMm1PMnE2RGllNytHZklva1ptbXJic1FsS0lrb21UY1Vk?=
+ =?utf-8?B?NGcyaWhvNndzVld2SDZHUm0zYjE5Z2IxVm5GNk10KzRJTklSTFRyMlNqVEN3?=
+ =?utf-8?B?SHNGTlFLcHUyWWV3N1F0VkRHMmxBb3pzS0xsNTdWcmNkazdJTFNFS2NSaUx3?=
+ =?utf-8?B?NTlnNjFmeXg4UGpzeWh3aUt2NzJ6OWNrTXRVSUVROHdHTEJrMXpxQkhIRS9a?=
+ =?utf-8?B?bnlYZnNEYUYzMFNMWmc4N1VvdUVxS2VPdzIxeEh5YUczMVR0V0dMbVVicWtO?=
+ =?utf-8?B?THhFR0w4NHZjWWVscUNVcS9rcEVqazJncyt0WGxsNklsaHVKRnBCc2t6ZVVY?=
+ =?utf-8?B?VXdUVXpsOU5Mem1wekVSVjM0MHAwSGI2SUErdTgxSFlGcU5ySjFUSEZrU1pC?=
+ =?utf-8?B?cjZmK3VZM21WVVAxTlZzN1ZsMUdBdU8rbkZYMUZPWDJiN2VBMXc3OXpqRkhp?=
+ =?utf-8?B?REFIQVFwWUdoaDMwUWozU2p1UEI2c1FwR2poZmkxQUM1N1FrbUdlZm9IRExB?=
+ =?utf-8?B?QWdvT2RDNmJsS011b2lOK3B1VE1ieStEZFdZT2FCYXp3RGpEcDF4N3FDMVZv?=
+ =?utf-8?B?YTkrd3hhamVUamg0blU3bmJmbmZxZ2dTRzE0b1JOMExmNzdpVldibUlMK3Vk?=
+ =?utf-8?B?TDg5S0lqNE9xeXlBKzJuRVBRNjI1Ui9xbnVLNWxyTWVLT09NZnNsODZxdGI2?=
+ =?utf-8?B?bXRWbzI5ZHlTcnNuT3JUWk1NRmQwYWtRbFZzckRJSVFsdGYxa0hzQ3NiTmRt?=
+ =?utf-8?B?OGpVZGhPOHBRd0Y3VXAzR3lLejM0ZnE4MUgvbHJwcytlcmM2cWxRWk5ZRHRj?=
+ =?utf-8?B?THk2UWczaEZIdlF2RWsrSlFmdzBjc1N1SXY4eGtZcjNla09RbGY5VnkrMUdz?=
+ =?utf-8?B?WEJ0bmZFcld5ZDIrRm9lb3oycHgwY0YwZVZkOTByY3VJcnF1M0lXRGpmb1E4?=
+ =?utf-8?B?bmtlQWZaZmVwOWFqVFg0LzA3T3ZQb0V0K2lFVTNLUCtqVWdhMERxRFgwOEd5?=
+ =?utf-8?B?cHNhU01jWmo2czVvYzlDeHE2RG5nK2x6bm5pSERvTU8ybHA1cWRnRmZlODJp?=
+ =?utf-8?B?RUwveXQ4UE1tVXBUWmQ4Wmd3UVE0NDQ1WjRpcTJFTk04QVlTZzhGK1NvSzkx?=
+ =?utf-8?B?cGtwMktGR1FvN3hFWXE5U2oyTjNPcEE2SlNMcUZjTCt6a1R4QWdZTUQ5aHNr?=
+ =?utf-8?B?NWhqeGJ6N2JITG5EN2VUbUd0N1I0UU9tL1Bwd2JZM1FBNWhQM3hPZVVoanZJ?=
+ =?utf-8?B?OU1YQW5GVnRpa0JtbFlFZGR4NUxKZzVKVnZBN3pNQ1BhcmZpdDM2Zjhhd0F6?=
+ =?utf-8?B?WjhYblc2ai95UzM4bnQ5ZjJvVXRSQmR2dWFPUWpHS0huMEs2QWlwSUZ5RkNK?=
+ =?utf-8?B?cFZkTzZlTmswYWgzQVluQmxVc1ZoQ1Y1bkxvRHNGOGJHRExSSHQvQUVlVDdV?=
+ =?utf-8?B?NUEwTmJydzByOEZSaUJSQmpMVDl6RHpZTlU4REl2aitZVlNoeTZpVjEyRmJp?=
+ =?utf-8?B?ZmNiSUtJcjIwVm12RlVXYjBZTGV5SjVBcDJOV1BrZlNta0ZvSnBEMEFoL056?=
+ =?utf-8?B?blJkeGd3TEkwd2pMOGVWNGRhcUp6R05Gb0gxa1RGdmRKbWNnMFhFa3UrZ3cw?=
+ =?utf-8?B?RXc0Um1tWEUvdEZHU3lTNFpwaXk1aEVnT0JRdU1TSVNGVzVRNmg5cW5XR3J6?=
+ =?utf-8?B?VE5wL1ZabkFjZXhZTlcxWVlvaU1EM1dpZlRWZGpOOFBndDdtdHl6MUoxdnNr?=
+ =?utf-8?B?L1Z3eHEyNUhWNzhnaFhxOVBPZi9SczBnMndUTlBvUVJYTTFlQ1AxTyt6c3ZB?=
+ =?utf-8?Q?UC15am8UpCrzwLHm8m2zedguI9qma2sk8o2mc=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?enNqaTVwWml1MGRDUlBKdFB6Y2d4MThOYWl4eTJ4MVlkOFp3OEpVZTVPanU0?=
+ =?utf-8?B?R2trRUZZejY5Y1NGYktFOGxXSjRHS1ZiRmNFTS9KMXBvSFhITXo0elNtYUY3?=
+ =?utf-8?B?Z2VBNUVHdkJSN3c0UE9EenpLZ3JTdmZnbEFRT245SE0zMWRFN2pSK3FZc1Rz?=
+ =?utf-8?B?cXZIQ2xhdWIwUXpPUFYrblM3LzRUSGNiUGJ2cEVKWnEzM1lCeXpBNXY3ZlZz?=
+ =?utf-8?B?TWo4SDgxZzNiSHRZQmFyZjBhenpHbWk4K0hXUmVRa3RibytkSVBidUlrc2xj?=
+ =?utf-8?B?RjM5WWR1T3Yvd2lMV1IvMUFHOUxUd0Vtb0Y0L01QMUl0dytoVW4zN05xbFZ4?=
+ =?utf-8?B?SU9ZS1JSaTFKMm5KcHZxdURoQTRUZ2YyVkw0WTlWMDlvam1kUHdoZXl2b3R6?=
+ =?utf-8?B?ckpBYWQ4UUJRdzd0M3pxRnNQdHVxZUxTYkVua0UrQlo4cmhUTUNEd2pOSmJV?=
+ =?utf-8?B?ZzNXOXQ1b2JBcmhUanlVNW1HMlh0L2tZVTJETVNsR3VZdVRmdXZ0Z1RaSVpT?=
+ =?utf-8?B?S2k3MDhFYm5JcUVtd0RXZmtxQ0Z4SlpBL2JVK29sUzkrUWF5L3lpVXNtL0Nr?=
+ =?utf-8?B?Zm8yRE1qeWZ6SW4zUHp4cDR4aXgvR1VwRU1VSk1PZ3FSUmtjOHFuS1NHb0lM?=
+ =?utf-8?B?ZGhBR1czZ05WZWlXSG5GeWFJSkQ1cjFmUytWWiszQzI3cFl5bUlreGN3WEcx?=
+ =?utf-8?B?Z0hPS2JBTEdoekFEc1V6NE40ZndMN0FGZ1hCMUVkODBUVG85enQ4WUFCY2xq?=
+ =?utf-8?B?c2x2dVBiMHN2VFVScVU3aEVzdXVjNnJBMStNQU5acnZoZ21XSDMwVHBxN3hy?=
+ =?utf-8?B?a1VOVTNqT2IraFFVUGJIMEVvNlExRXRjanp5UC9hRFc0aTJXdTBxWG5ZcGtL?=
+ =?utf-8?B?Ynp1bUsrSkZNbk5MODRjd045enpoMUQzYWZmWWFLcmJIRWZjQ3YrdzVUeXlV?=
+ =?utf-8?B?K29hcE5oSjRoSUVHN21MaGRCMDB4dllxRS9FZmo3NmpwbUdPOGJjRXBhUW9D?=
+ =?utf-8?B?aytvYUp3amdobkdOb3ljU0NDWjlQdE5oZWRIcktrUjhnUVRteEtiUnJmUEpj?=
+ =?utf-8?B?ejcrZ2xGYWdtMk0yL3NZMk9zUWczNVFEYnYvUGMxeXFnSml2YXd5MkM3THp4?=
+ =?utf-8?B?TWNLMVRMNi8xUVhYblJnLzlCTjdCd2dOSkd5SnJoVXVOSkhRZUtjYkhsa0hD?=
+ =?utf-8?B?YmExaHRxMUtudGR4NWNwemZITmZ3ckpmTTB1Umo3c2krOFlXdklDb1hxWmgz?=
+ =?utf-8?B?RUc1Y01yUEhNRjArcXNWai9ZYmkzTjRyNmpzSklFUk5CeThrYzFycm5KYjAr?=
+ =?utf-8?B?Uzd6c0haYURWM1FKRTRKdVkxUnJVYnFseWFNYVRRRDRQQUl6NkxUeUlVTldi?=
+ =?utf-8?B?UWJjSFdnU250MVo5Q2lUNTVlanhXZWtpUWxmb2sralVVd1ZsUlA2L2FPRFFQ?=
+ =?utf-8?B?dnhVVUJNT3lTcGtUVktWcWh0OWJ5K2pkODFtY29PZ3YwUlZDUUcybkNIYm5w?=
+ =?utf-8?B?WkdtWm5TMnBBd0llM1NGamF4ZEt4d3pOWlk0YVBQaE81aHorUEt1S3NHY3Yz?=
+ =?utf-8?B?Y3Vzck5zaDFZMVQrbW9qK2g4UnhnUUtHblM2OTlKV3ZTK3B1cm16WW1UV05l?=
+ =?utf-8?B?MEdEdGoybFJVSEJqRy9kWmgwVE5OelJtN0g0RGk2anE4WkpEOFllR2kwMjdV?=
+ =?utf-8?B?TjAxRVIrQ1kyQjY4VVlWQW9qcVVSaGZSeW9vcDQzeHhZc1dwdGNpQy94ZEE3?=
+ =?utf-8?B?UmlONElJSEtLbFFHOW5FMi81ekFLWlBvSVhpQjFTMEFiUDhjT2JWYkVRc3J6?=
+ =?utf-8?B?dnBabVRWdU9PYUROSHdDeUdzelJtcTBtZUpqTXdZWnB0cWRIVkk1NU03NGtD?=
+ =?utf-8?B?TGY1Umw0a0sybWY2M1JhMTMzeGpSeHFzdmtLU2tGREVhMlB6clFuakZVUjBr?=
+ =?utf-8?B?a2Zkdi9ucjN2Y0htNWNJZWs3RSs1V21GTmpabksvOXhxQnRVcmFUVjJNK3BX?=
+ =?utf-8?B?c1N5L0FPeFJWVVdDNHlFL3RSbEszaUlQdGRFZzZOQ0p1ZGx1QitLY0FnUzhS?=
+ =?utf-8?B?L0JzMWZDSnp6b3poM3BaRWV3RTZuMFdlODFQYmxadXNHd2FKdEY5aG9KM1ZW?=
+ =?utf-8?B?NWF0bUdCcjZwa2N1L0gzajRXZjYzQUc4UmdleDNOTlJvODRwSFR2WUZubWtD?=
+ =?utf-8?B?Rmc9PQ==?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b351804-fe4a-47ee-4023-08dd790ec9e5
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2025 15:37:38.4289
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XhKZq24KsTMlzDMYzQLMzoqAsCRrp6MJS6l2l0ChrsER/UNAdvVQDu4jXxIkYdeAawW4MCitS0xIxD2uLG6Rlw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU6PR04MB11160
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 15:31:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214744
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 15:37:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214745
 
-I'm not sure if it is related to this patch, but I've gotten cve-check
-errors in my test builds with this patch:
+On 4/11/2025 5:13 AM, Mathieu Dubois-Briand wrote:
+> On Fri Apr 11, 2025 at 12:01 PM CEST, Mathieu Dubois-Briand via lists.openembedded.org wrote:
+>> Hi,
+>>
+>> Ok, I managed to reproduce the error withe the following process:
+>>
+>> git clone git://web.git.yoctoproject.org/poky-ci-archive -b autobuilder.yoctoproject.org/valkyrie/a-full-1363
+>> cd poky-ci-archive
+>> . oe-init-build-env
+>>
+>> Adding following in my local.conf:
+>> IMAGE_CLASSES += "testimage"
+>> MACHINE = "qemux86"
+>> DISTRO = "poky"
+>> SDKMACHINE = "i686"
+>> PACKAGE_CLASSES = "package_rpm package_deb package_ipk"
+>> INHERIT += 'image-buildinfo'
+>>
+>> bitbake core-image-sato -c populate_sdk
+>> bitbake core-image-sato -c testsdk
+>>
+>> And I got this error:
+>>
+>> Traceback (most recent call last):
+>>    File "/home/mdubois-briand/swat/oe-sefltest/poky-contrib/meta/lib/oeqa/sdk/cases/meson.py", line 47, in test_epoxy
+>>      self.assertNotEqual(data["build"]["c"]["exelist"], data["host"]["c"]["exelist"])
+>>                          ~~~~~~~~~~~~~^^^^^
+>> KeyError: 'c'
+>>
+>> Best regards,
+>> Mathieu
+> 
+> Also reproduced with core-image-minimal, if you don't want to loose time
+> building core-image-sato.
+> 
+> 
 
-The stack trace of python calls that resulted in this exception/failure was=
-:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_cve_check(d)
-     0003:
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/classes/cv=
-e-check.bbclass',
-lineno: 192, function: do_cve_check
-     0188:            try:
-     0189:                patched_cves =3D get_patched_cves(d)
-     0190:            except FileNotFoundError:
-     0191:                bb.fatal("Failure in searching patches")
- *** 0192:            ignored, patched, unpatched, status =3D
-check_cves(d, patched_cves)
-     0193:            if patched or unpatched or
-(d.getVar("CVE_CHECK_COVERAGE") =3D=3D "1" and status):
-     0194:                cve_data =3D get_cve_info(d, patched +
-unpatched + ignored)
-     0195:                cve_write_data(d, patched, unpatched,
-ignored, cve_data, status)
-     0196:        else:
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/classes/cv=
-e-check.bbclass',
-lineno: 346, function: check_cves
-     0342:        else:
-     0343:            vendor =3D "%"
-     0344:
-     0345:        # Find all relevant CVE IDs.
- *** 0346:        cve_cursor =3D conn.execute("SELECT DISTINCT ID FROM
-PRODUCTS WHERE PRODUCT IS ? AND VENDOR LIKE ?", (product, vendor))
-     0347:        for cverow in cve_cursor:
-     0348:            cve =3D cverow[0]
-     0349:
-     0350:            if cve in cve_ignore:
-Exception: sqlite3.DatabaseError: database disk image is malformed
+Thanks, Mathieu! I can reproduce it now.
 
-I've seen this twice now:
+The key in your steps to reproduce is setting SDKMACHINE = "i686". So
+the SDK is built for i686, but the build machine is x86_64, so the test
+is not valid.
 
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/23/builds/1421
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/1343
+How should it be fixed? Testing for the mismatch and raising SkipTest in
+MesonTest.setUp?
 
-Steve
+Tom
 
-On Thu, Apr 10, 2025 at 9:46=E2=80=AFAM Peter Marko via lists.openembedded.=
-org
-<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
->
-> From: Peter Marko <peter.marko@siemens.com>
->
-> NVD responses changed to an invalid json between:
-> * April 5, 2025 at 3:03:44 AM GMT+2
-> * April 5, 2025 at 4:19:48 AM GMT+2
->
-> The last response is since then in format
-> {
->   "resultsPerPage": 625,
->   "startIndex": 288000,
->   "totalResults": 288625,
->   "format": "NVD_CVE",
->   "version": "2.0",
->   "timestamp": "2025-04-07T07:17:17.534",
->   "vulnerabilities": [
->     {...},
->     ...
->     {...},
->   ]
-> }
->
-> Json does not allow trailing , in responses, that is json5 format.
-> So cve-update-nvd2-native do_Fetch task fails with log backtrace ending:
->
-> ...
-> File: '/builds/ccp/meta-siemens/projects/ccp/../../poky/meta/recipes-core=
-/meta/cve-update-nvd2-native.bb', lineno: 234, function: update_db_file
->      0230:            if raw_data is None:
->      0231:                # We haven't managed to download data
->      0232:                return False
->      0233:
->  *** 0234:            data =3D json.loads(raw_data)
->      0235:
->      0236:            index =3D data["startIndex"]
->      0237:            total =3D data["totalResults"]
->      0238:            per_page =3D data["resultsPerPage"]
-> ...
-> File: '/usr/lib/python3.11/json/decoder.py', lineno: 355, function: raw_d=
-ecode
->      0351:        """
->      0352:        try:
->      0353:            obj, end =3D self.scan_once(s, idx)
->      0354:        except StopIteration as err:
->  *** 0355:            raise JSONDecodeError("Expecting value", s, err.val=
-ue) from None
->      0356:        return obj, end
-> Exception: json.decoder.JSONDecodeError: Expecting value: line 1 column 1=
-442633 (char 1442632)
-> ...
->
-> There was no announcement about json format of API v2.0 by nvd.
-> Also this happens only if whole database is queried (database update is
-> fine, even when multiple pages as queried).
-> And lastly it's only the cve list, all other lists inside are fine.
-> So this looks like a bug in NVD 2.0 introduced with some update.
->
-> Patch this with simple character deletion for now and let's monitor the
-> situation and possibly switch to json5 in the future.
-> Note that there is no native json5 support in python, we'd have to use
-> one of external libraries for it.
->
-> (From OE-Core rev: 6e526327f5c9e739ac7981e4a43a4ce53a908945)
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-core/meta/cve-update-nvd2-native.bb | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/reci=
-pes-core/meta/cve-update-nvd2-native.bb
-> index 99acead18d..74c780493d 100644
-> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-> @@ -231,6 +231,11 @@ def update_db_file(db_tmp_file, d, database_time):
->                  # We haven't managed to download data
->                  return False
->
-> +            # hack for json5 style responses
-> +            if raw_data[-3:] =3D=3D ',]}':
-> +                bb.note("Removing trailing ',' from nvd response")
-> +                raw_data =3D raw_data[:-3] + ']}'
-> +
->              data =3D json.loads(raw_data)
->
->              index =3D data["startIndex"]
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#214682): https://lists.openembedded.org/g/openembedde=
-d-core/message/214682
-> Mute This Topic: https://lists.openembedded.org/mt/112195016/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
