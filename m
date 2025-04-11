@@ -1,267 +1,281 @@
-Return-Path: <philip@balister.org>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C284C36010
-	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 11:46:30 +0000 (UTC)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
- by mx.groups.io with SMTP id smtpd.web10.22717.1744367946980570195
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A88E6C36010
+	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 11:57:50 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.24001.1744372668907932812
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Apr 2025 03:39:07 -0700
+ Fri, 11 Apr 2025 04:57:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=zuwEuxmU;
- spf=pass (domain: linaro.org, ip: 209.85.219.172, mailfrom: ilias.apalodimas@linaro.org)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e6dd991a0e6so1436803276.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 03:39:06 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=T/uQ5OxP;
+ spf=pass (domain: mvista.com, ip: 209.85.218.53, mailfrom: vanusuri@mvista.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aaf0f1adef8so345884666b.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 04:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744367946; x=1744972746; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1744372667; x=1744977467; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7nRRag6/bcMxmBNUIwyf4c702nqyFzCXc8bYlyHD+Pc=;
-        b=zuwEuxmUp07dBikCG1V/xIkXq+D8s1RqL9tbBqnCL6lZavUmuheSryDV9ijar0eqgk
-         JlfuIUBWQYQDAqZVRFgcNMTU3LQfmpSUU2LxE9KynRLr2sF86yO6kKoIvWW1llf2ULkz
-         o43o2fgszP+so/B8dVr7gwkOkHaCNxB7bMANgT37DCTxB2/eNwmY2J2/wP6yjUV1l+Eh
-         j+88GgtMFdtcmpEVBoDNXRddYyVx9G42+zWLPpL/2NLzh+0dTTew0pvDlPVMum4V1ejT
-         W5y0okQvZ0YUO5ic1w34fT83/mvv9SsU5H3K8DjdEvgxpAPhR0oC9eAb7yKGGxsD35s2
-         abyw==
+        bh=DVoJ8miitHlSVeOGo8Oi7C6tH6doOKIKKvlIYWYN7nw=;
+        b=T/uQ5OxP12Wm6xpNz7FW1JChv96mH5v/s3+m7ejIfdO+I7dvnDYL0F5BQEXA60cSjK
+         ig840DauRzc54aO141xi9zp4cdGcVKfAvfWN4gsvD5MgRq9iqQ3SoJTXS7NDMqe7wmLs
+         KYua3c94nJ5b9DvH/QEAudtr1+BjZSRtWnaI4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744367946; x=1744972746;
+        d=1e100.net; s=20230601; t=1744372667; x=1744977467;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7nRRag6/bcMxmBNUIwyf4c702nqyFzCXc8bYlyHD+Pc=;
-        b=qXa/1R4P1HnTPheYlLEp11XNtsBm3BIApeXzsjdQDASW5Zla0GgBgUivgYjMCnYUKl
-         jdLy6IptVXugEJ0rWgx+rZiiqTsPzURAEBe1t+5/d3Wl+OnLo/zWBEwbEmBrd6HsZRu8
-         G87wgBw38EPsKngFH4SpvmBafL+ljeZoJ4wsN0vRoxin0dQi6dXylI7z9dug8gBPsT7V
-         YXgJKFVQfdgMFX9rXs3kt2Xa0rqm0zpvk2qqXMFN3oeVtJ1QXHlEapfnmEEQc0xawf5g
-         5hfnpMhNjDc2sj6SjKZ3FG986RDpwjr9J+CpjrA57px+2Ag5x+/ooaAI0EdKCPwLZ0uW
-         lu2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX7O5jkiz/mQC6/gFIlKMe8sU/zkO4pd6SbGVPsix5+scjCHWscQigIHI4wEImMxrntIKGOW13101QMFvIlUsyawQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxgoFEX956+Y5ztEDpjGRg5Yng1gxlyJsVycVP8eQ+Y11DuOFdW
-	YAUgktLddIHm+a+Oiyz2Ec7BG2I4ooVHWJ9K0DhAjmetlDgL6nu51Hwi7P9sHFBKziavT+SxKfR
-	OA3iFEZI4B3+IIF7majymwBYA6TSVYC0UXeIHQA==
-X-Gm-Gg: ASbGncuGv/P3v3Gf4JjFMNoovnXw5bLLGMvAK2+arOgT9Kvkocx0J27iFqKr/udvymR
-	1c8BEAk+Yw3M+dno8B3kCwm5Ct8bGOnwARK4a0d0x4y5ZF+4hk+J5ZT7W9LWHh59K+LTnpN9Bil
-	DXW7AsKd2sxfS8rWIv9PpNzog=
-X-Google-Smtp-Source: AGHT+IEs0nks+TTDrflgV1VAi7308GcUECS9Olqp0DAnLXqoAP0YtF+CQJHFo0CZBz2xUT9EMpsTfbLCFfCW2jIdrew=
-X-Received: by 2002:a05:6902:2513:b0:e6d:ee8e:876c with SMTP id
- 3f1490d57ef6-e704df8f948mr4254493276.43.1744367945925; Fri, 11 Apr 2025
- 03:39:05 -0700 (PDT)
+        bh=DVoJ8miitHlSVeOGo8Oi7C6tH6doOKIKKvlIYWYN7nw=;
+        b=FVZlhsrVVBrJiYmBm1LJfXsa2kZgiOwXbX7uI2KI/ipsVRDrNG6c7vjv1WiYiKxDk1
+         ZomgRo9cAKxP2pRtlKUPr17FrQb9xdlEIiXdwGCJ0B2057R6rf5bS8iKt4PDdYu1Hd81
+         r1/6ZBUe7D9xNwTP/KsTO2uaYP23NWSzB5YATMcqKd5bYLgoe8w+WrCYjE3gb1iI1dNH
+         Qvl7bZAjtYNEFSjnx8TZNFwlfyt345SqA9hLFOGBVVbGOd2sCvdWhgQP70gJqZPtIP4L
+         nW+uYpt5+9FkT6RWf+DqJHsRHP7msxMKYm/X56JI8+k/BB6XeoO/jQzQvaFeLuRnhmX3
+         6Nlw==
+X-Gm-Message-State: AOJu0YxmE/FgXyQSV1l1AaubL1vUun9cj06pAw2Hc83+D1KUqUoTRMRG
+	8QHUVGSSvs+yP4wLAjMtALcUfXoFduZ9QwM0wj+VI6ifhmIzGEoA6neI+acn267MiaayxHycKyB
+	2SZXGrzcklHD7//FjGWSOq9CX3kFX3rTS/xk3PA==
+X-Gm-Gg: ASbGncsnzzj4PpZVU4K+BQV1RzG6htt26jSQW0o8JQjAgTtRhuBymAez3q/aD2aOubD
+	YLCpLsNkY0keg7UJovGbwGTWTSZcov/vTgEX8cQBf6HRn9IBADW3KhigzEsDcRZEGA2sq0mxR9s
+	wVW7s0mRJUmyTGEuiiK/uqs/Q=
+X-Google-Smtp-Source: AGHT+IGHTYdNCO9lytHk/HoE7DGPFbHtNkXIAf8ajSgz47+rFF8/8bYL3GKhFkGEuv2zyfw0tSXP3y0kdEHBm4ajl8s=
+X-Received: by 2002:a17:906:7154:b0:aca:dd0c:cfc8 with SMTP id
+ a640c23a62f3a-acadd0cd3bamr12561266b.10.1744372666869; Fri, 11 Apr 2025
+ 04:57:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
- <20250404162932.447699-2-mikko.rapeli@linaro.org> <f84af1a6585338787539ee5be5826adbe434e8a9.camel@gmail.com>
- <CAC_iWjKTmSEOe6HUcPFUZLaBuA2+6ZwOYaYiqK0_R8KGNPU1Ug@mail.gmail.com>
- <CAC_iWjJTuV=TcNYhSeyybaU8hr-b9sauJiYt3Jo8+wxYC_7eUQ@mail.gmail.com> <c7b639077c36c0bc3bdd3eb43f314b348cd2e3f8.camel@gmail.com>
-In-Reply-To: <c7b639077c36c0bc3bdd3eb43f314b348cd2e3f8.camel@gmail.com>
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Fri, 11 Apr 2025 13:38:29 +0300
-X-Gm-Features: ATxdqUGLrrqiCa-FfzjGLMNSlt3Zcj0znSVD--w9wBqYlWTVRrDlEpfNY2zzFWc
-Message-ID: <CAC_iWj+SSsSDKHGKaLGUZEGKiWV0fxHXB+tN6-t9WJ9tZbQxKg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 01/11] systemd: enable efi support by default
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>, openembedded-core@lists.openembedded.org, 
-	alex.kanavin@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+References: <20250411093440.20727-1-vanusuri@mvista.com> <CAMSfU+5+s0T5PbTiftgd3EeVUjWJzDNoqnfM3T=k=8FaZMF8vg@mail.gmail.com>
+In-Reply-To: <CAMSfU+5+s0T5PbTiftgd3EeVUjWJzDNoqnfM3T=k=8FaZMF8vg@mail.gmail.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Fri, 11 Apr 2025 17:27:33 +0530
+X-Gm-Features: ATxdqUFMcqwCmBdOuyVT5p8GYMQOATaYIw-HAtjZNQjtPBhBF1nmhTh_3dved28
+Message-ID: <CANQUz19raZ5F6nDFaPYoR6zOwRPNCzK0WGOiSe2c1DHsP-v4aw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] openssh: upgrade 9.9p2 -> 10.0p1
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000002a616306327f6904"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 11:46:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214734
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 11:57:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214736
 
-Hi Adrian
+--0000000000002a616306327f6904
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 10 Apr 2025 at 23:53, Adrian Freihofer
-<adrian.freihofer@gmail.com> wrote:
+Thanks Yoann for letting me know.
+
+As per https://www.openwall.com/lists/oss-security/2025/04/09/6 , they  do
+not intend to make a new release to fix this mistake. They released tarball
+with the name openssh-10.0p1.tar.gz
+<https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.0p1.tar.gz=
 >
-> On Thu, 2025-04-10 at 15:12 +0300, Ilias Apalodimas wrote:
-> > Apologies for the noise, I forgot to add Adrian in CC
-> >
-> > On Thu, 10 Apr 2025 at 14:45, Ilias Apalodimas
-> > <ilias.apalodimas@linaro.org> wrote:
-> > >
-> > > Hi Adrian
-> > >
-> > > On Thu, 10 Apr 2025 at 14:21, Adrian Freihofer
-> > > <mikko.rapeli@linaro.org> wrote:
-> > > >
-> > > > Hi Mikko
-> > > >
-> > > > On Fri, 2025-04-04 at 19:29 +0300, Mikko Rapeli via
-> > > > lists.openembedded.org wrote:
-> > > > > For example genericarm64 enables "efi" in MACHINE_FEATURES
-> > > > > and in u-boot. Boot without "efi" in systemd works with
-> > > > > EFI protocols but for example efivars is not mounted at
-> > > > > all so various checks fail in userspace. Fix these by
-> > > > > enabling "efi" support by default to avoid making
-> > > > > it machine specific. Fixes efivars mount to
-> > > > > /sys/firmware/efi/efivars etc.
-> > > >
-> > > > My point is that many OE/Yocto-based embedded products rely on a
-> > > > fully
-> > > > redundant and power fail-safe firmware update and boot
-> > > > implementation.
-> > > > So far I have not understood how this could be implemented in a
-> > > > similarly robust way based on EFI as we have now without EFI-
-> > > > based
-> > > > boot-up.
-> > >
-> > > As far as the firmware updates are concerned there's [0], which is
-> > > also implemented in U-Boot.
-> > > But even in that case, I am not sure I understand your concerns.
-> > > What
-> > > prevents you from having the existing mechanisms for firmware
-> > > updates
-> > > on a system that boots with EFI?
->
-> Many thanks for the link.
+.
 
-yw
+I will update about this in the commit message and send a v2 patch.
 
-> Yes, that basically describes how it should
-> be. But is there such a thing in reality?
+Thanks & Regards,
+Vijay
 
-Yes it actually works for some boards in U-Boot and people are
-shipping it. I am also discussing with the fwupd maintainers on how to
-make it seamless in the future.
 
-The Socionext Synquacer and some ST (stmp32mp1) are the ones I
-remember. We definitely want to add more boards.
 
-> The discussion here doesn't
-> really convince me that EFI is already the proven easy way to build
-> robust and maintainable embedded systems.
-
-Again, I'll limit the discussion in U-Boot -- if there are other EFI
-implementations you are worried about, feel free to add them.
-UEFI has a weird learning curve, I understand that but it standardizes
-a few things that people are struggling with and that's why distros
-use it.
-I don't know if that's useful for vertical distros -- but the ability
-to boot the same OS across many different devices is appealing to some
-vendors. It also tries to standardize security and most notably Secure
-Boot and measured boot which is  a usual headache.  There's still a
-vendor specific bit in there on how to setup your chain of trust, but
-once you reach BL33( the efi loader) everything looks identical.
-U-Boot nowadays is pretty complete. You can literally install a distro
-using its installer either via putting the installer on a disk or
-doing it over HTTP.
-There are some kernel module requirements for the latter, but AFAIK
-debian and the latest fedora42 already support the modules (notably
-OF_PMEM).
-
-> I understand why many people
-> are working towards EFI. But I still see great advantages in simpler
-> and available (in the sense of power-fail, robust) technologies for
-> many use cases today.
-
-Fair enough. However, what I am trying to say here is with or without
-EFI i am not aware of any limitations. In fact most of the arch
-kernels build with EFI support enabled by default.
-IOW, no one *forces* you to use capsule updates to update your
-firmware or use EFI to boot your system.
+On Fri, Apr 11, 2025 at 3:21=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr=
+> wrote:
 
 >
-> Anyway, my intention is not to start a controversial discussion about
-> EFI or SystemReady. My intention is to ensure that building systems
-> without disadvantages caused by the "EFI by default strategy" remains
-> possible and ideally also tested. As long as that is the case, I fully
-> agree with the patch.
+>
+> Le ven. 11 avr. 2025 =C3=A0 11:35, Vijay Anusuri via lists.openembedded.o=
+rg
+> <vanusuri=3Dmvista.com@lists.openembedded.org> a =C3=A9crit :
+>
+>> From: Vijay Anusuri <vanusuri@mvista.com>
+>>
+>> Includes fix for CVE-2025-32728
+>>
+>> Release Notes: https://www.openssh.com/txt/release-10.0
+>
+>
+> There was a mishap in the release process:
+> https://www.openwall.com/lists/oss-security/2025/04/09/6
+>
+> This version will present itself as 10.0p2 (see version.h in sources)
+>
+> I don't know if we need to handle this particularly in the recipe but can
+> you mention this is the commit message to avoid an eventual confusion?
+>
+> Thanks!
+>
+>
+>> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+>> ---
+>>  .../openssh/{openssh_9.9p2.bb =3D> openssh_10.0p1.bb}             | 2 +=
+-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>  rename meta/recipes-connectivity/openssh/{openssh_9.9p2.bb =3D>
+>> openssh_10.0p1.bb} (99%)
+>>
+>> diff --git a/meta/recipes-connectivity/openssh/openssh_9.9p2.bb
+>> b/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
+>> similarity index 99%
+>> rename from meta/recipes-connectivity/openssh/openssh_9.9p2.bb
+>> rename to meta/recipes-connectivity/openssh/openssh_10.0p1.bb
+>> index 5191725796..21e1e50759 100644
+>> --- a/meta/recipes-connectivity/openssh/openssh_9.9p2.bb
+>> +++ b/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
+>> @@ -26,7 +26,7 @@ SRC_URI =3D "
+>> https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
+>>
+>> file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+>>
+>> file://0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch \
+>>             "
+>> -SRC_URI[sha256sum] =3D
+>> "91aadb603e08cc285eddf965e1199d02585fa94d994d6cae5b41e1721e215673"
+>> +SRC_URI[sha256sum] =3D
+>> "021a2e709a0edf4250b1256bd5a9e500411a90dddabea830ed59cef90eb9d85c"
+>>
+>>  CVE_STATUS[CVE-2007-2768] =3D "not-applicable-config: This CVE is speci=
+fic
+>> to OpenSSH with the pam opie which we don't build/use here."
+>>
+>> --
+>> 2.25.1
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#214721):
+>> https://lists.openembedded.org/g/openembedded-core/message/214721
+>> Mute This Topic: https://lists.openembedded.org/mt/112207287/4316185
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+>> yoann.congal@smile.fr]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>>
+>
+> --
+> Yoann Congal
+> Smile ECS
+>
 
-Understood and as I said, I don't think it will break anything -- and
-if it does, we should just fix it because in principle it shouldn't.
+--0000000000002a616306327f6904
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->
-> > >
-> > > >  I would therefore like to see the EFI implementation remain
-> > > > opt-in until it covers at least the most important use cases for
-> > > > robust
-> > > > embedded systems. What I primarily miss with EFI is a reference
-> > > > implementation for an A/B update system without having to rely on
-> > > > a FAT
-> > > > partition without journaling. Please correct me if I'm missing
-> > > > something!
-> > >
-> > > Where does the FAT partition requirement come from?
-> > >
-> > > >
-> > > > Would it make sense to declare poky as an EFI ready reference
-> > > > distribution by enabling the efi DISTRO_FEATURE there, rather
-> > > > than
-> > > > starting with making recipes enabling efi unconditionally?
-> > > >
-> > > > Could something like this in poky.conf work?
-> > > > DISTRO_FEATURES:append:aarch64 = " efi"
-> > > > DISTRO_FEATURES:append:riscv64 = " efi"
-> > > > DISTRO_FEATURES:append:x86-64 = " efi"
->
-> I was thinking about making this ARCH specific because:
-> - Defaulting to the most typical and use cases
-> - Keep a test matrix on the AB which builds systemd without efi
-> - ARCH specific is not an issue like MACHINE specific would be
-> - Having this policy in the distro seams more logical to me than in a
-> generic package.
->
-> But as I said, if the disadvantages of building with efi are negligible
-> for users without EFI use cases, then even better.
+<div dir=3D"ltr"><div><div><div>Thanks Yoann for letting me know.<br><br></=
+div>As per  <a href=3D"https://www.openwall.com/lists/oss-security/2025/04/=
+09/6" target=3D"_blank">https://www.openwall.com/lists/oss-security/2025/04=
+/09/6</a> , they=C2=A0 <span style=3D"font-family:arial,sans-serif;white-sp=
+ace:pre-wrap">do not intend to make a new release to fix this mistake.
 
-Agreed.
+They released tarball with the name </span><span style=3D"font-family:arial=
+,sans-serif"><a href=3D"https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portabl=
+e/openssh-10.0p1.tar.gz">openssh-10.0p1.tar.gz</a>.<br><br></span></div><sp=
+an style=3D"font-family:arial,sans-serif">I will update about this in the c=
+ommit message and send a v2 patch.<br><br></span></div><div><span style=3D"=
+font-family:arial,sans-serif">Thanks &amp; Regards,</span></div><div><span =
+style=3D"font-family:arial,sans-serif">Vijay</span></div><div><br><br></div=
+></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr=
+" class=3D"gmail_attr">On Fri, Apr 11, 2025 at 3:21=E2=80=AFPM Yoann Congal=
+ &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile.fr</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 11 avr. 2025 =C3=A0=C2=A011:35, =
+Vijay Anusuri via <a href=3D"http://lists.openembedded.org" target=3D"_blan=
+k">lists.openembedded.org</a> &lt;vanusuri=3D<a href=3D"mailto:mvista.com@l=
+ists.openembedded.org" target=3D"_blank">mvista.com@lists.openembedded.org<=
+/a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" =
+target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+<br>
+Includes fix for CVE-2025-32728<br>
+<br>
+Release Notes: <a href=3D"https://www.openssh.com/txt/release-10.0" rel=3D"=
+noreferrer" target=3D"_blank">https://www.openssh.com/txt/release-10.0</a><=
+/blockquote><div><br></div><div>There was a mishap in the release process: =
+<a href=3D"https://www.openwall.com/lists/oss-security/2025/04/09/6" target=
+=3D"_blank">https://www.openwall.com/lists/oss-security/2025/04/09/6</a></d=
+iv><div><br></div><div>This version will present itself as 10.0p2 (see vers=
+ion.h in sources)</div><div><br></div><div>I don&#39;t know if we need to h=
+andle this particularly in the recipe but can you mention this is the commi=
+t message to avoid an eventual confusion?</div><div><br></div><div>Thanks!<=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" tar=
+get=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+---<br>
+=C2=A0.../openssh/{<a href=3D"http://openssh_9.9p2.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">openssh_9.9p2.bb</a> =3D&gt; <a href=3D"http://openssh_10.=
+0p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_10.0p1.bb</a>}=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0rename meta/recipes-connectivity/openssh/{<a href=3D"http://openssh_9=
+.9p2.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9.9p2.bb</a> =3D&gt; =
+<a href=3D"http://openssh_10.0p1.bb" rel=3D"noreferrer" target=3D"_blank">o=
+penssh_10.0p1.bb</a>} (99%)<br>
+<br>
+diff --git a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_9.=
+9p2.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9.9p2.bb</a> b/meta/re=
+cipes-connectivity/openssh/<a href=3D"http://openssh_10.0p1.bb" rel=3D"nore=
+ferrer" target=3D"_blank">openssh_10.0p1.bb</a><br>
+similarity index 99%<br>
+rename from meta/recipes-connectivity/openssh/<a href=3D"http://openssh_9.9=
+p2.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9.9p2.bb</a><br>
+rename to meta/recipes-connectivity/openssh/<a href=3D"http://openssh_10.0p=
+1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_10.0p1.bb</a><br>
+index 5191725796..21e1e50759 100644<br>
+--- a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_9.9p2.bb"=
+ rel=3D"noreferrer" target=3D"_blank">openssh_9.9p2.bb</a><br>
++++ b/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_10.0p1.bb=
+" rel=3D"noreferrer" target=3D"_blank">openssh_10.0p1.bb</a><br>
+@@ -26,7 +26,7 @@ SRC_URI =3D &quot;<a href=3D"https://ftp.openbsd.org/pub/=
+OpenBSD/OpenSSH/portable/openssh-$%7BPV%7D.ta" rel=3D"noreferrer" target=3D=
+"_blank">https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}=
+.ta</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-regress-banner.sh-log=
+-input-and-output-files-on-erro.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-regress-test-exec-use=
+-the-absolute-path-in-the-SSH-e.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+-SRC_URI[sha256sum] =3D &quot;91aadb603e08cc285eddf965e1199d02585fa94d994d6=
+cae5b41e1721e215673&quot;<br>
++SRC_URI[sha256sum] =3D &quot;021a2e709a0edf4250b1256bd5a9e500411a90dddabea=
+830ed59cef90eb9d85c&quot;<br>
+<br>
+=C2=A0CVE_STATUS[CVE-2007-2768] =3D &quot;not-applicable-config: This CVE i=
+s specific to OpenSSH with the pam opie which we don&#39;t build/use here.&=
+quot;<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#214721): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/214721" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/214721</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/112207287/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/112207287/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+</blockquote></div>
 
-Thanks
-/Ilias
->
-> Thank you and regards,
-> Adrian
->
-> > >
-> > > [0]
-> > > https://github.com/ARM-software/edge-iot-arch-guide/blob/main/source/FWU/MBFW/chapter1-introduction.md
-> > >
-> > > Thanks
-> > > /Ilias
-> > > >
-> > > > Thank you and regards,
-> > > > Adrian
-> > > >
-> > > > >
-> > > > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > > > > ---
-> > > > >  meta/recipes-core/systemd/systemd_257.4.bb | 3 ++-
-> > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/meta/recipes-core/systemd/systemd_257.4.bb
-> > > > > b/meta/recipes-core/systemd/systemd_257.4.bb
-> > > > > index 64fb8fe69a..06e5621398 100644
-> > > > > --- a/meta/recipes-core/systemd/systemd_257.4.bb
-> > > > > +++ b/meta/recipes-core/systemd/systemd_257.4.bb
-> > > > > @@ -68,13 +68,14 @@ PAM_PLUGINS = " \
-> > > > >  "
-> > > > >
-> > > > >  PACKAGECONFIG ??= " \
-> > > > > -    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit apparmor
-> > > > > efi
-> > > > > ldconfig pam pni-names selinux smack polkit seccomp', d)} \
-> > > > > +    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit apparmor
-> > > > > ldconfig pam pni-names selinux smack polkit seccomp', d)} \
-> > > > >      ${@bb.utils.contains('DISTRO_FEATURES', 'minidebuginfo',
-> > > > > 'coredump elfutils', '', d)} \
-> > > > >      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill',
-> > > > > '',
-> > > > > d)} \
-> > > > >      ${@bb.utils.contains('DISTRO_FEATURES', 'x11',
-> > > > > 'xkbcommon', '',
-> > > > > d)} \
-> > > > >      ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit',
-> > > > > 'sysvinit',
-> > > > > 'link-udev-shared', d)} \
-> > > > >      backlight \
-> > > > >      binfmt \
-> > > > > +    efi \
-> > > > >      gshadow \
-> > > > >      hibernate \
-> > > > >      hostnamed \
-> > > > >
-> > > > > 
-> > > > >
-> > > >
->
+--0000000000002a616306327f6904--
 
