@@ -2,67 +2,67 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A90C369AA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41218C369A9
 	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 10:28:00 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.22588.1744367270207030735
+ by mx.groups.io with SMTP id smtpd.web10.22563.1744367277312373286
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Apr 2025 03:27:50 -0700
+ Fri, 11 Apr 2025 03:27:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=kaBm8Kch;
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=LmcgrgHn;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53B5pIv4032000
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 10:27:49 GMT
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53B6G1G1030687
+	for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 10:27:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Rwy8FGgXkNeR2VsO2FocrAJiaNCN9EIn6gU6KYvgHGU=; b=kaBm8KchmmrlQS3R
-	GNLNdM3HA8oAiIMRTY/0rUAVm6n27j7COG7dxO6k6m+E4z9JhEfdi2ICoyFddXSF
-	MODqPDUJue+hwkuzzOkK7qW3z1cGocdHSMSa34wmo40fXMLhJt9v9mZHYE5fGs/c
-	rjroHHe78lIJejyilgE71/e1+z8/82/EFcVtPqPdENUa1JelRKqYbRPEMeUTG7An
-	FrL+10AGBOjdM1zJEPAMHAa82NPGGZy9sarG4h7VjAujPYn2yt4J6TUMmEcOLEzm
-	h+umB6ynrTTSuLEeEd2fcfWyDzfPyMAwUaLZDf6j75kB2y2jHVEyM+db7mddFh0e
-	wptMdg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twpmj0cp-1
+	QAhNTF7KbwJAhHMWCKe8jR+I81SB1v24cvn2izkbemw=; b=LmcgrgHncn56ZSFf
+	WIK88oiX9UZgQxhomRwU8SWm00Tei45co6RTcuBldL8fB/ML9ii+RmgV36apvxQ7
+	XakEs1r9hzI2oykYwCPcLvznf4kTtPxtNmlJLMLjouLEDNCBI5nP1g8vYXz+3aLd
+	+BknSGJmVBK8MBf53221jRZezOM80kQDmSfei7W+h1DuPv83AyNxZMCjrlAP9QT7
+	FF5t4+uE3inNCwu2wWUeB2rJRjq4e11hd4A2q21mc3Ll75i4cfH9QvidG7Si5UeK
+	N6cqqj06bUg6DK4An9Ka1WZVgy3P30KiJjS58XgzocXf8fnPXNKQEh6TGTTkczBe
+	jxgsAw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twftsuuu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 10:27:49 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c5e28d0cc0so332921585a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 03:27:49 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 10:27:56 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7c544d2c34fso265860385a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 03:27:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744367268; x=1744972068;
+        d=1e100.net; s=20230601; t=1744367275; x=1744972075;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rwy8FGgXkNeR2VsO2FocrAJiaNCN9EIn6gU6KYvgHGU=;
-        b=U3oFDxP6XEt972X5Andbwz3Rcr9MFiN62CYCt0m+Otj+no2VzPzcGpDKNhFSVtrPET
-         chfiQPvPaxNekT3XHsBJEh3BQdbMYerMZpjz+BaG8u+/1PjQS+fq/CelTBSkQZjKTV/3
-         Mhq5Bf3ev0UYCBb4GEr2J0lA0SSUOUvAOKnQr3siBOoIZa6P/TfbMvQMz8NApIs4artA
-         IiTotCamQpm0awJi+9+KG3j1214FbAIbZYHiXUJhxu6zfE2IKBasvmDxzFE2z4u9V39F
-         BF1C8qz8/NS+8tiEa4xfmF3cjtWoD30fxQoGKRgfV4qkVNNnNoCBnq4v0FdGDmqxmgO3
-         JO+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUoGp23vZyuSRUA97nqnrxW06b7m/ANqv/u4qQmEeDte+EEuB9uBlgFQOIIxdbp7dC1MAUhGqhXM0RaJHhKKfPWtA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyjsi1jKSXGG9SonKLFI9Stl09KFTyMgaNuipL/VD4vV5FsOUbt
-	EZIvGXnWX3xAhYXe9l7+Y4twKWlNEa5ve8nWLMH2z90IVaNQ3iLrNhJLwa5ed+BOI4GF1EXf3v2
-	AVrYD2tMCBh1fo4/j1pyClM2pic3btfq9jE3+VzUUHdWmZbtQCbv67Bngz9CZ9ZpxEJ1CNoZPQ9
-	Ap0FQ=
-X-Gm-Gg: ASbGnct4lhVTmQJwEnY8/hoKJAC5wNFwgWSF5aiF1bJNRFdoXr5lxxH5J/QeY7CD/Yh
-	LqGHbSIV6MrueflV1xc6ctcBNKuRUgmtazCEBASNfNjoQAYkpt/FLTiUZZh7YZwIf4LiNd0NFch
-	yJtNb4divHqOerzqVtnhvi4K+kFpfd6f/dwyVQ++EeMcg1P2znk4ZSg400xcb98iLwam3HzlmXn
-	paYno5qZNg1OCZ9707z+HJsrhxq1DSg0GCCRZ+A9Lj86froCOXLYqfIb+LdR+APWzx9DT4miSOX
-	jnUqMQlWpXHt6DQa1TFp9QKyx4JSEtbIq4aYspwaeEOvYXZExP18mBGLy7U3in2h5gQ=
-X-Received: by 2002:ad4:5cee:0:b0:6e2:481b:7cd9 with SMTP id 6a1803df08f44-6f23f1346eemr35144046d6.25.1744367268036;
-        Fri, 11 Apr 2025 03:27:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEuu9q6S1nZFvy6PNSJ2fUnzk6q0s/Woy/Q9v2qbqfEC9UglD6HuK7sHnnkGgMOCP+QRPILEw==
-X-Received: by 2002:ad4:5cee:0:b0:6e2:481b:7cd9 with SMTP id 6a1803df08f44-6f23f1346eemr35143756d6.25.1744367267702;
-        Fri, 11 Apr 2025 03:27:47 -0700 (PDT)
+        bh=QAhNTF7KbwJAhHMWCKe8jR+I81SB1v24cvn2izkbemw=;
+        b=KQlPnx+3GG4zPh+6tGj2uw4kYGrLwCST9FxE0BQg6W2eujW89NvZKHs21C0R/UDEKl
+         HsHEXrJNXZrbt0OJmj739NRjeegtK+VCw1Ic0hHrAU6XcUcIjuQiMlg4FCuPHUFyeScE
+         IjcSWYlkeR6ewI3vqeZZuKRTkja6+h0GZeytbLfKs7TA458mO+ZDb2d/4JY+jbXp4MRR
+         SxJItHBaMyQFyBzq+SG5D746/YFSUNxsxsc/YNlO1TlKfN3gvtiuo/MobzAkHHm1PEIC
+         y0wzkkze5dL+t5GyCTtwlG1pSd4i9ivPcmihyiZtlXgYop4HS2yiLYByvldZLydWRJWy
+         WlnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW2t9wvfh4pEOmaVJPOQx6N7BZlbhqqZD29imxA8qa4O8rsIlCoSsIBsUBjvp4dFwZ3ss4mqJmMjzFtkSrU8YVbbA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwzlXylIc/FlpkQF45t4BVJlx6c+AQT/rPX8HlGNcgAw52XYshX
+	QirmTRW4atU6lWEzx/aiO8aUWIlO/SBt5jXP7UoAr0jJCLUQXYJvW7T7hbD/CgVfPWBYNOJFSHq
+	auqs1HccNS7Xpl3FQakAGHB5st3wyRlifdvFQ6OMNahFGEfeac7WydXmfbFkO1APmzvzeA5JbmO
+	wmWzM=
+X-Gm-Gg: ASbGncuMSPRJQGDWw9rkabodBhoQHeGaKc0hV4KFB497DH+CNNKmEDPjElFwehi1+7h
+	WBkHvqiTIj9YnSq3zIvBsslWPL+QMLAsa28gqBF6Wcc0hp6qUrSYFuPCTZDwZW4mmZ5sYgzwTmh
+	5GaIAc6UT4U5ocyELzCj3Y7YCyKX2aFpup48cYNfnFRsdz7phWlBUm/1QYejXNvKCkuIkv3mFDA
+	xnGZBDxv8BYIbP0rt/m/9Hq229FO3x7ats/AvMqnvbZPKJMRjRroVBFPo7bYBmNsSm6i318F8lQ
+	USn5rBHoIo3RDAO+yMQKGaFfZog65k9r4t7gyVUTqbOv3qm/hUrWed5siQ2xWUqImo4=
+X-Received: by 2002:a05:620a:25cb:b0:7c5:5d4b:e63c with SMTP id af79cd13be357-7c7af20b1b1mr337915985a.47.1744367275412;
+        Fri, 11 Apr 2025 03:27:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHvApppr/j+aFuD1rK0REJ/IQo0FMQv3oXTQBgdC29/TEg2SY090MTuVhVpIutY/qhhTcWpGg==
+X-Received: by 2002:a05:620a:25cb:b0:7c5:5d4b:e63c with SMTP id af79cd13be357-7c7af20b1b1mr337913485a.47.1744367275083;
+        Fri, 11 Apr 2025 03:27:55 -0700 (PDT)
 Received: from [10.187.209.180] (37-33-188-210.bb.dnainternet.fi. [37.33.188.210])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f4649d61csm7556431fa.7.2025.04.11.03.27.46
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d3d5170a3sm402646e87.210.2025.04.11.03.27.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Apr 2025 03:27:46 -0700 (PDT)
-Message-ID: <f3a9d261-906c-414a-9c2e-322aad5c3d72@oss.qualcomm.com>
-Date: Fri, 11 Apr 2025 13:27:45 +0300
+        Fri, 11 Apr 2025 03:27:53 -0700 (PDT)
+Message-ID: <70709363-e364-4a7c-8fa6-0cdbe772a01a@oss.qualcomm.com>
+Date: Fri, 11 Apr 2025 13:27:51 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [PATCH] libinput: split udev rules into a separate
@@ -82,24 +82,24 @@ From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 In-Reply-To: <CANNYZj8yxBZZ9_j6OLKhp4q-1jwudHsikv+sN7EYnk9rG_Ohqw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: ixpn1ZpwHmtOqFuaQR6O1-KQlzoN1TIt
-X-Proofpoint-ORIG-GUID: ixpn1ZpwHmtOqFuaQR6O1-KQlzoN1TIt
-X-Authority-Analysis: v=2.4 cv=MpRS63ae c=1 sm=1 tr=0 ts=67f8eea5 cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=gh1egkeLKbPt9jDVRuYeUQ==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=OohN55oUiUWgp0WuyTAA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
+X-Authority-Analysis: v=2.4 cv=B5+50PtM c=1 sm=1 tr=0 ts=67f8eeac cx=c_pps a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=gh1egkeLKbPt9jDVRuYeUQ==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=OohN55oUiUWgp0WuyTAA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: jcqp-1yHfz1t9U4MXWg79D3UAbpDMx1Q
+X-Proofpoint-ORIG-GUID: jcqp-1yHfz1t9U4MXWg79D3UAbpDMx1Q
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-11_04,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=999 clxscore=1015 priorityscore=1501 impostorscore=0
- spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0 adultscore=0
- phishscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ suspectscore=0 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 lowpriorityscore=0
+ mlxscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2504110065
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 10:28:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214728
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214729
 
 On 11/04/2025 13:12, Alexander Kanavin wrote:
 > On Thu, 10 Apr 2025 at 20:36, Dmitry Baryshkov
@@ -124,7 +124,7 @@ libinput-bin (rules & quirks) is being pulled by libinput10 (which in
 turn is being pulled by xserver-xorg-input-libinput, libmutter-16-0, 
 etc). We will verify that in our distro libinput gets pulled in by the 
 actual packages that depend on input even processing rather than pulling 
-in the lib itself.
+in the lib on its own.
 
 -- 
 With best wishes
