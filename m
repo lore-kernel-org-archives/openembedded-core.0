@@ -1,117 +1,111 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FD84C369A2
-	for <webhook@archiver.kernel.org>; Fri, 11 Apr 2025 22:54:04 +0000 (UTC)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web10.39555.1744412029406662315
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28BDFC369A1
+	for <webhook@archiver.kernel.org>; Sat, 12 Apr 2025 03:48:15 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web11.3973.1744429694489679080
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Apr 2025 15:53:49 -0700
+ Fri, 11 Apr 2025 20:48:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=B/czzcAb;
- spf=pass (domain: gmail.com, ip: 209.85.167.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3f8ae3ed8adso1400005b6e.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 15:53:49 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=jhLX3cnl;
+ spf=pass (domain: mvista.com, ip: 209.85.215.171, mailfrom: vanusuri@mvista.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b03bc416962so1906090a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 20:48:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744412028; x=1745016828; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=osNpJGWKcxRs+wJ8l/qnDD6L8s1z349E7Bn3BoS/3z8=;
-        b=B/czzcAbJAa2xZRXBwCPYjKyC5LgVFR4wPE6YogcmR9z5XrMAcEw+8KKWfKunSsHEU
-         pSt32M3u7mq2XcbJPCx1VEF0IQhzXcfjKq6zNlpdu7UNtM4nm19YubPV+C8JBdc+vUyk
-         B8ZSfb7o/iAljx6kCrnZChO3YunhQL03YCLXUQ70hQCpgF8ByM+3IM5wmLrNFBG7k2Rz
-         i3y8U/D5kR8HpaTc61VUMSE//wbCndXCk8mp6E65CrwaKxnCfTmvp3FZvyF/dbGFR3pH
-         VyhjBjJv+RoMxM33wL9ADcq07mI1yuqKYrZmPUTFqe+NuGXTGPk+5Ev56EPDqnz8M2wj
-         Tpxw==
+        d=mvista.com; s=google; t=1744429693; x=1745034493; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cq8ShYKWYRBcERsx0XX/6KGwC0ag+oy5bSO63oKEl7o=;
+        b=jhLX3cnlu23wDhJNxtCYZCS5P9Ijku6GD7N7UoYuL858K6ZpwacWp+tPxtR4KlJOdi
+         IJ3cQbus/c1doSDEn9YLhb6DP6yjtsuUH05ljNv2FjWZJtk1fkGpOG29HGbwY4DWhzPN
+         weShofiGxj8xiADLT2VPZii4YZZWsqiVN1ooM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744412028; x=1745016828;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=osNpJGWKcxRs+wJ8l/qnDD6L8s1z349E7Bn3BoS/3z8=;
-        b=ARACne869CXiLAbnipYW0J0srN7wlXnC9EQgkVzxyoxM2WyzJBxv/ClDoQOEn5w9wK
-         1atUv2xZEvQTnyWh+yNve1KUbBDI4Sl2mntXojvs2nlNGlVcsXYprhggV3IX/9sPc424
-         FiIb0Fnyq3PLhjD4n3WVI1lohbNNj3uEdPBU5HoPS+sPbihiV1ttZ+yVicHqgfEJ4hUN
-         rP6RnG/FyKw+o/R7SjmGiwkWkNv9ToyoGefR0h0w33n71Fc3TmMDaxiUaRrgvgRMPL5h
-         5/vagMeLa3FS6lIk3leAZB4xDsbA0SF+k7A1lbMvCAwf172ekTwNOq0gpSUMSRTn4jrD
-         UwdQ==
-X-Gm-Message-State: AOJu0YwXsu/EE3CR9UlrcTWubkVwGiKylwPWPPOOt4vDJQVs99DFxngc
-	KXEUhc5ACb2uSihOvTzw4TDxdygwN62UHtBG2pTc1rT+ob+hDonSiS9x4qQ61ZJYeeR1NvCdCmp
-	ESek1tZ7oji7AmuXSYNaq8pOFF9nwgxURZoM=
-X-Gm-Gg: ASbGncu7ClR2coWrMqkQHr2RCeAk5kG6WOiveocTlYbWyu+o702LFx9ENebyUsX+wdb
-	/3Rbvu/IvbqFqUvtruBnoVa5ZmoNSEyqQwtsxbd+0jUF9MOv+0CP2cWEzRWpVIzbn+ozlvG9UmK
-	NCMQICLrmNap+AsiugOkmj
-X-Google-Smtp-Source: AGHT+IHT4Np9lYILTqX7eaZIQGqYlrJmrQKEXngRanWcC/DZiGj6N6kAYXhjj768ISTIptWlG1t9RUGiFv1qlY2m7l4=
-X-Received: by 2002:a05:6808:308d:b0:3f6:7e4e:96fb with SMTP id
- 5614622812f47-4008508609emr3074060b6e.17.1744412028511; Fri, 11 Apr 2025
- 15:53:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744429693; x=1745034493;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Cq8ShYKWYRBcERsx0XX/6KGwC0ag+oy5bSO63oKEl7o=;
+        b=FJOyO6N2rxAQO7UpV5qbJhroELNsZugZJZm9ZI0w4sfiesWfCcwiTTFae8dwI8MMaF
+         +KNvedxuGLZO3uMJB7RVECLwk7zPPlADvS4IBlJNLoDNQ5Px4uRHvZBH9HJj/A8tRkDy
+         gkhxaVat8bJFMW1Sndk2haeSkdre3t5HJwvVEgfPjQkLBI2gSaqY3OFDLdd1IYZ5QuYA
+         0TSbBmY2oUrUBtKpqXMzr4EN53Npntv9BXVhfT2ANNaFG/xnhUyU6TWeO/YydXv+SZfb
+         ZeD0u+T8l9ju7dWT2lh91pLnutRsqd0relw68tcfbKXBoWM+GLaVUTThhp2AjIHSeySm
+         haiQ==
+X-Gm-Message-State: AOJu0YwEQ6c351sHTzRfqMxIr/U4StbVUhoAsEakl44qZ/794ZyoJPnU
+	mWK21j6yWx0Nc2yJuLq/vBq0wXefXdZdj8aJ6pNunitZW3SyC1JT9jGxgur8LFB59dedjRqe/nE
+	qhHM=
+X-Gm-Gg: ASbGncvF0q80Rp3Onw7tVr5erdqS7cvJeBSnYeQbl63gnEq+FgfsCfw2lCqmHZ4U8Gr
+	708YAzq4r9cyNxFYNJ/rovKczZ4wWenvOOlBEt7KlQiB/N/6QnRWgHvaw7gVJDAEP0LHLfAVFnF
+	4WjmkB5pDzbnRbjGPjfDSGsJ1sT76l0VM5nAdXM1yf+jk6g+2zKmPadG+mO0RVTle4mAPrB9+Wb
+	Rle+9P3XkbFQtiZAB9VHXR4e84Fqiieki83U1LUxTRrptfnDOIDaTkmmoeLBEnp9OxbI4+Hv05y
+	kd7DLV8IRGwkdxT+nAHtwlIOrJB5GCtqh6CZkEHWcKyLKInWPiY=
+X-Google-Smtp-Source: AGHT+IHd6yDR0n/1GK2UjRjaRk+8Mprv+z3Ta3q/GaFjH9H90JDeNFgUpEBxat1gaD9qz0NTQjVxvA==
+X-Received: by 2002:a17:90b:17ce:b0:2fe:a336:fe63 with SMTP id 98e67ed59e1d1-308237a833emr8398535a91.24.1744429692934;
+        Fri, 11 Apr 2025 20:48:12 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.207.233.55])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-306df401ab2sm7288167a91.48.2025.04.11.20.48.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Apr 2025 20:48:12 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][PATCH v2] openssh: upgrade 9.9p2 -> 10.0p1
+Date: Sat, 12 Apr 2025 09:17:56 +0530
+Message-Id: <20250412034756.24846-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20250412-mesa-25-fixes-v1-0-791840391271@oss.qualcomm.com> <20250412-mesa-25-fixes-v1-2-791840391271@oss.qualcomm.com>
-In-Reply-To: <20250412-mesa-25-fixes-v1-2-791840391271@oss.qualcomm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 11 Apr 2025 15:53:22 -0700
-X-Gm-Features: ATxdqUGL9LPUPfzYzHsOtPpTI2BmF03BlIQc_rePzwZsYF-I1RTI7XH2qKLpDxo
-Message-ID: <CAMKF1sqFzfsPgr0LJbGY3djKGGBa9hJD6rYNVC+oT9eP9Cjpsw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/7] meson: pass -target and -I to bindgen calls
-To: dmitry.baryshkov@oss.qualcomm.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Apr 2025 22:54:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214770
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Apr 2025 03:48:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214771
 
-On Fri, Apr 11, 2025 at 3:09=E2=80=AFPM Dmitry Baryshkov via
-lists.openembedded.org
-<dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
->
-> In order to properly generate Rust bindings for the target systems, we
-> need to pass '-taget foo-linux-gnueabi' flags and a correct include
-> target include path (${STAGING_INCDIR}) to the bindgen. Add those
-> flags to the generated meson target file.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  meta/classes-recipe/meson.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meso=
-n.bbclass
-> index cbfc45b94bbd076735847134a0976b6b30784d50..ef45a034a767e979a45553ba0=
-8e46dc90e34f33f 100644
-> --- a/meta/classes-recipe/meson.bbclass
-> +++ b/meta/classes-recipe/meson.bbclass
-> @@ -93,6 +93,7 @@ cpp_link_args =3D ${@meson_array('LDFLAGS', d)}
->  [properties]
->  needs_exe_wrapper =3D true
->  sys_root =3D '${STAGING_DIR_HOST}'
-> +bindgen_clang_arguments =3D ['-target', '${@d.getVar('RUST_HOST_SYS')}',=
- '-I${STAGING_INCDIR}']
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-I think its better to use ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}
---target=3D${TARGET_SYS}
-here
+Includes fix for CVE-2025-32728
 
->
->  [host_machine]
->  system =3D '${@meson_operating_system('HOST_OS', d)}'
->
-> --
-> 2.39.5
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#214764): https://lists.openembedded.org/g/openembedde=
-d-core/message/214764
-> Mute This Topic: https://lists.openembedded.org/mt/112219030/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Release Notes: https://www.openssh.com/txt/release-10.0
+
+LINK: https://www.openwall.com/lists/oss-security/2025/04/09/6
+
+Regarding the Portable OpenSSH 10.0 release:
+
+Due to an error in the release process, the recent Portable OpenSSH
+release identifies itself as 10.0p2 rather than the intended 10.0p1.
+
+We do not intend to make a new release to fix this mistake. This
+portable OpenSSH release will henceforth be knows as 10.0p2 and no
+release numbered 10.0p1 will be made.
+
+Sorry for the confusion,
+Damien Miller
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../openssh/{openssh_9.9p2.bb => openssh_10.0p1.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssh/{openssh_9.9p2.bb => openssh_10.0p1.bb} (99%)
+
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.9p2.bb b/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssh/openssh_9.9p2.bb
+rename to meta/recipes-connectivity/openssh/openssh_10.0p1.bb
+index 5191725796..21e1e50759 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.9p2.bb
++++ b/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
+@@ -26,7 +26,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+            file://0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch \
+            "
+-SRC_URI[sha256sum] = "91aadb603e08cc285eddf965e1199d02585fa94d994d6cae5b41e1721e215673"
++SRC_URI[sha256sum] = "021a2e709a0edf4250b1256bd5a9e500411a90dddabea830ed59cef90eb9d85c"
+ 
+ CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
+ 
+-- 
+2.25.1
+
 
