@@ -1,245 +1,569 @@
-Return-Path: <Haixiao.Yan.CN@windriver.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA34C3601E
-	for <webhook@archiver.kernel.org>; Mon, 14 Apr 2025 07:19:01 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.44322.1744615134530477007
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D1F7C369AE
+	for <webhook@archiver.kernel.org>; Mon, 14 Apr 2025 07:32:21 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.44430.1744615931732348082
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Apr 2025 00:18:54 -0700
+ Mon, 14 Apr 2025 00:32:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=61992b229a=haixiao.yan.cn@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53E4UQNN014070
-	for <openembedded-core@lists.openembedded.org>; Mon, 14 Apr 2025 00:18:54 -0700
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2041.outbound.protection.outlook.com [104.47.51.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45yqpkhdh2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 14 Apr 2025 00:18:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X8yZ3ePVq2Rb0jSBqkyGazJWJF4CfGRLLHSMediOqUCTR+wRZWGVngZ1o6qqogL38/1/zaA315/kOhtxMUO8NUznfsQLsaK1DU578UP915AkiI44X3U6jey671hXlAM04aaNAd8SPVKQQ7EgbwQnONlDGB9QC35xX25swATxO4Ik+RjChSYS+88bgFS6Y1Kno4sQL1P0vzU5yMFOnaVW9noho25Xpt3gC16igEfXOqkEgWOnO0H4jcLU5pOwkYVolkWhJBYiHjiONtnCQeMiZqGs2qgiPTkYIvcVVrJSDtsBO9prhu/SZYqmEI1YwCdb33FTu2/8ddcg91ZPMHSe7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C5IxGK3E1UUSRIaD6VLB1s7hf45iDVvRrY4bxjC9Xts=;
- b=D1/kXSixPt8iHeEPedSqUnT/Ujws6LcI2ZYPeRYwoat5KeTdSanQaLlldwagq/HznMH+y1A3hGZ9Xv78HHayrdDLjsehb4m8rs6gWygFx5OF3YXWOYD4gwsjjniSWKa36JP5MvQ67iNYq4yWkIhGZuMedUZ23ub5owFQDX1OcOBNoItAhkg8dNdPFjNpjTGFtSiTdr4g3/cWDlMkUk5P2LdJgE+jtFbG/gxkpwKaClo0wrjnKzea2kYMWr0s0GyFnp4gwnS0WQQUCKHXsZ/ze7B8sEbS7fZfbpI2Q7LjB8zQi42yzlk1OH73eM3OIinfscxjgaQPPT6qlkWQ/oMg9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from CH0PR11MB8189.namprd11.prod.outlook.com (2603:10b6:610:18d::13)
- by BL1PR11MB5221.namprd11.prod.outlook.com (2603:10b6:208:310::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.33; Mon, 14 Apr
- 2025 07:18:50 +0000
-Received: from CH0PR11MB8189.namprd11.prod.outlook.com
- ([fe80::4025:23a:33d9:30a4]) by CH0PR11MB8189.namprd11.prod.outlook.com
- ([fe80::4025:23a:33d9:30a4%4]) with mapi id 15.20.8632.030; Mon, 14 Apr 2025
- 07:18:49 +0000
-From: haixiao.yan.cn@eng.windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][scarthgap][PATCH] glibc: Add single-threaded fast path to rand()
-Date: Mon, 14 Apr 2025 15:18:33 +0800
-Message-Id: <20250414071833.63063-1-haixiao.yan.cn@eng.windriver.com>
-X-Mailer: git-send-email 2.35.5
-Content-Type: text/plain; charset=y
-X-ClientProxiedBy: TYCP286CA0164.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:383::16) To CH0PR11MB8189.namprd11.prod.outlook.com
- (2603:10b6:610:18d::13)
+ dkim=pass header.i=@snap.com header.s=google header.b=UheA1xmu;
+ spf=pass (domain: snapchat.com, ip: 209.85.218.45, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aaee2c5ee6eso627242566b.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Apr 2025 00:32:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snap.com; s=google; t=1744615930; x=1745220730; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hutJ8OZLXrv1FpTLYh9ZRvGTgXY0uWkVGx5do7s5cz8=;
+        b=UheA1xmuGC+I5TZAWfhxSCFQjiI0TmctCNvtRHwOOb6flCaW5XnJdjfMmofA2GbiFO
+         mRZftKtqlT6a0odOpYMoRUjAlzf8AjWaXO9DnLEQHf5R9BWVV2df84RSUKM28SPd+Ph7
+         P/7sJ5oxgUhGP4O9WC3YqblrvbWH2NV9StP3s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744615930; x=1745220730;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hutJ8OZLXrv1FpTLYh9ZRvGTgXY0uWkVGx5do7s5cz8=;
+        b=mwSK1vJTNaiQcrCbBYpV9WEG8Sel+R0/AHIiJN+DAXbUtIzHyvJCWWD3qGQ7vI5zsX
+         r940a1u7fv7mEC+9FYYl1Qybn3x/EBI7H+Nb2OEs/v7W0NFad3X277VjH/pTf8+pqs8/
+         fQTUXWceHvv4YU5CfD5kh0bw0QfavE/OWKBul5KLWS9bago3hvqK8x1CgxBXSqpXbjRJ
+         NipbNbb2dvSOzoWUlmWy+yEgDX3Szhxq5ayYstYooX+OatrVmCL8jMA/Z0aAMjpJL5jo
+         n9n5y3ac1m6VePUEHMRg5p/V4pTFC6GVLB/5dVXOqea2S2SrRtJRe0KijknanKVp1IZV
+         XJ3w==
+X-Forwarded-Encrypted: i=1; AJvYcCXEIqwt3Fpa1Czvr+cqbN+WnJEn3Xnl9WcnYaWcIB2PTRvQiTxRwX29EACZ7tnkVPBO2hcZROR1cN41lGclgfOn/Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw8z0EPCWM8fkVogt953Aw2QzQ13VdFISX46bUG/Tyb4KBxgBJ7
+	0fXHU+5+QR6OgUWevHsIeIJc9gfoz7VtUHtSSP4MSTAG1/IkMM7z/eep0WTAfURYMmic6u34SSO
+	MR6Gn3dqxw9klPMUXu+MExehbLjiXTGpKRgZFiw==
+X-Gm-Gg: ASbGncvSgu9dlKFAcuDWjyf9vvQKb8DmfvXMHo5FAyzp//4TZ6A9XKZQBX+pEkVXVuf
+	jzUDtCmddUEmgMMnwM7DYfxSebr9ZSCGHfJ7gea8htTOtNRW7CmXOUTc09+KVlqj2o/+WdW9RDO
+	1I7mFIwDrF2e88TR65U4xrmg==
+X-Google-Smtp-Source: AGHT+IH8fCYy54LWoPE6rQ9Guef0T8uQ24k4E3MhZuldawfHdISTYl4gSaMg2y3gEtj8lEd0t8mODV/a5y0wUGePfT4=
+X-Received: by 2002:a17:907:c23:b0:aca:cef4:c2c6 with SMTP id
+ a640c23a62f3a-acad36a0d8bmr968537766b.48.1744615929874; Mon, 14 Apr 2025
+ 00:32:09 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB8189:EE_|BL1PR11MB5221:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49f57b9c-faec-4b12-54af-08dd7b249a1b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?G48Q58qHzQRTLa5aes8/lI9nedeyuBkvuJ2UFs+D2bLRzkmThH2wEoRvvtch?=
- =?us-ascii?Q?2j9tNG6ZSkp0042ecWgsiQs5Uommmr+YWvMPah6j9Jf15ibxvrv//D8u1GBE?=
- =?us-ascii?Q?Q/6EsuDltF3tmAEivBwhcA7hs/qnYuNPFScXNjkKf3Nt21thAdYMSugqsLEm?=
- =?us-ascii?Q?Hd0pZBC2FwDTIG5FckYcrZ+CNuwoyUz7y2goQzJbL4h0EN3Cziu8z+E1BP6n?=
- =?us-ascii?Q?cCKaIBzD28+K8B8ituIcWhrsCWEUlxqKtcDpHr8PC/KzUF/VaNb4NWk3MK9j?=
- =?us-ascii?Q?+LXt10eAJK1gkWUV/oFxo+g/FFBcflmnw3sNcRJeX2lyaYVLGUpYRQFqCdFS?=
- =?us-ascii?Q?inb8QtvIq7DS+GmO9eS344rQybMVawbNSsfzArsH5qtooNQlAXuGZWpB9WXS?=
- =?us-ascii?Q?c65PtgQOgLvuKX3SRWBsvfXC+2ln2q8V3sT/h4/DoPBxXAtlpIu/jrdpYzzB?=
- =?us-ascii?Q?QodoH1OxlMvfJ7r6Gsg2WO4XUY4J3PKkNVsZ/BI4zj6AiZc/XLwAWikghYDd?=
- =?us-ascii?Q?KAI3LLsGhdjwBStwjeauVQKJpEGW9IaOzU3VTpWKRNuqtSNwxMlbf/qR+g89?=
- =?us-ascii?Q?JfwvpJZBCcXuedss48qvE8YCTjK2P8EUGix0A+U/YF/ocQZPIN+TB6bYGsFA?=
- =?us-ascii?Q?TgSPd4YhvMtFKrbSjs3apXC+6Wa4S96y+pyGKNo4I2LuehRXL+hw6wGg2SfI?=
- =?us-ascii?Q?WdWLAJ3ljaKrkrQSRrtSG6x4N6rbGDK1UHuzHrcuOkfq/vDIQEtMViZSIdpC?=
- =?us-ascii?Q?YkAmZdTBKVzGdDIyNeEGFss9l7r4hC4Xvaxwunu+n+q98PuKZDsxMTVYOr/H?=
- =?us-ascii?Q?l0/SdviBKiH9IFMJ6056TzY1p52MxKxM7/K6yWQMc+PGNrKuj0xXCrWUlJdM?=
- =?us-ascii?Q?dxQMGMHQFh9zEON8DzJjKC5Cooo+MgbyrRDGzP2O0fNLNIVaQK42tD0vWJdG?=
- =?us-ascii?Q?kjrOdhRnjj2gk/f3uyqdwd17LjyAI8iR0/Ia/IlnPbUwlLFa90FVWePyX4FZ?=
- =?us-ascii?Q?VD5wadSwZtqmphEtYzVZWQHgY8/hZM7LtRZNjL3jlhlATrRFXOKcIOnnEdow?=
- =?us-ascii?Q?2TpURuXUr5ttAL2ctFMLAATdmFwqwNYZ6CVtN+1raoGQtUZDdZwCY2C59nZ2?=
- =?us-ascii?Q?SkgNCExQdIjCC6fPJ7ChUZvlgg5kyB/GSiebStk4IdcnAK7xthFhIwd/mLXj?=
- =?us-ascii?Q?HgEvC2o4MJfcYSdL44id4MmlwPDcm8TgcPiM6y2WD5esOmprvtquWudKF2D1?=
- =?us-ascii?Q?55VFw1R2tmSl9UwxtLWfP5GG7XYdxyaEZZDBZRi9lxJnLivF4c9KI8XvwYsY?=
- =?us-ascii?Q?CL64gy4AhAvA80snqli2QSCFyr+f6PfxMcXcDuQ5n3jWDSgobMY2sXoIUPXz?=
- =?us-ascii?Q?yA+dfcHuPR2FB2T1PaSJE87Qdyu9kc5Dys2jJYlSeT7fIaOQh58rl5piqQ5t?=
- =?us-ascii?Q?o9qDFTCs1XWZbjyplUzkmaAfi09W8wWg?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB8189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?RQw90XHFFj4gza7knr0iaN/ItxOatzxPs/2g5Ay9l0Wxz4sDSC89Ou4m2bPW?=
- =?us-ascii?Q?p4obN30x9obUSJR091y/pTIcyxJqSyEXISnVDqz4t51TtDbTnR6sAe7iN/HW?=
- =?us-ascii?Q?wTnGDb3PLs5pf4rKgBkiUm/Md+ils6CR1UJ8BsGaO9C0BkDYolVw8hdnr1Hh?=
- =?us-ascii?Q?tdS+Kt0oAQW2m1AKK/fqICQu/mNJWp13QYMqSqMI2+AoOQOb253AILUo7LUw?=
- =?us-ascii?Q?yIZBTXcMhD1w56BEBq39c4d72zNyRYubPtWIjBeOjc+EMdKVdKCt+UpmtEvS?=
- =?us-ascii?Q?kyFaoNUWWSVdM29C1bL6jAPr4iwtRYq5Ef8WknQY8HV2dJ+ErRFqCk+VdtkM?=
- =?us-ascii?Q?W1lQUbWjBrU8JGUfvZLgKM2KSv108MiuNgohFKYxLnY4fHl4ep93mnD5QqbI?=
- =?us-ascii?Q?D2aiQV96FVK4J4wzwryBCquZVwnt9izDHnPYQbciKmTxHgy0lHkpvJ/2xMib?=
- =?us-ascii?Q?VjwlmDh3oRXSjtCeqkhHi19bmoClix8dR5IuxcyV+qDeekbjvOqIGJ0uTMSo?=
- =?us-ascii?Q?8JzEoFb2GKPBLA+8z+OVzkAQjz35iSr4dgSjrXEm87pkPIk6D+vbtHjyjWdK?=
- =?us-ascii?Q?rYoYJZKxHlqeCgVZuk+oYQsws50e7Wm1wKb5ES2PSLpaAhbDwi7oRJ3jdApt?=
- =?us-ascii?Q?VKlM/2VcuFe9zyOdJ7OxJi3zAsSHkD1DI8HAgCKEkSlqoqAWcZHYCiRnnMCZ?=
- =?us-ascii?Q?hoR/3ysSwKjWFWPxl9ZZ+eHbHlI+y8eFMfi0CnyrTo+SGP8UG8bYrvOjwfoE?=
- =?us-ascii?Q?n4N9kbNIJYNGAKUMb921V4Xb1FmIkDhQQJpbLE0UMzTs/OqQUH1L1Begvb+F?=
- =?us-ascii?Q?oTX9iTnZepbVAx7p3xuMRKhQm9R5o/QTPDaUokPjzlCL1p7S2vspRQ5iDarP?=
- =?us-ascii?Q?CXFl4I5xAgM7BqqYmggQ1UydKex0nRTQ+gKlduUPWRmLPq9ieHz2KxslkW7H?=
- =?us-ascii?Q?8+7LgLPMbGTNJ10rVxuxmUZI48sbP09XbK9UGntjVZ+v3hHChmIBvvhttPRn?=
- =?us-ascii?Q?FCV/GvCadHqCIRHXRWsLn6B1Nv557OSCjpGppWoCxDrcH1RGajT4NQZ+mFto?=
- =?us-ascii?Q?bqX3Vj/lNSD30jKUDBH0cqB4uWkEZHnE4etH0rxLGwvgjYbS/dgab/FX3yRo?=
- =?us-ascii?Q?tAwLxt8Mq64m/NsQcs0jJ8BLUfYRdbW+CdorKmKCFlKn+jK8mpkjAJhmAkMh?=
- =?us-ascii?Q?gLgMORDs9Yph/6ArCwd3ZEi5E9jFEulrzxXKdapIF9PSATuoYaZyVWV2ubGI?=
- =?us-ascii?Q?26kpDeMQNAz+78MjKCe7I7y/SW3G2wb2NhY4oAZLv4MkgxdKrHsEvy+cTZ2f?=
- =?us-ascii?Q?j/5LrEIGVrOIsSPojtpe/KOQOCP5aS77tLRcvuLm4b1tcGJBnC25mNmkxPHm?=
- =?us-ascii?Q?NL8oKNYuM3Xk3QSIFtbPU0tsmCC3v9Xsq8jqNqcvhQMb7724nULSuL/OvGAU?=
- =?us-ascii?Q?hs6EWvyA2t5ovpGz/eEYVKUWfFWgtDBS3J6wA3Q+oPy1LcKonw1nzv5qtl9i?=
- =?us-ascii?Q?5bSCcDQCveP4xKoeDz5vi7/G/aJsX2jTGJfA/72Ep57YIlthTOhchu12rswo?=
- =?us-ascii?Q?qU8sIctvccYddyP9UBQnGmro+2K4ydXEEzFsRxlxT8q6g+UIj1jLDkCeyAj9?=
- =?us-ascii?Q?7A=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49f57b9c-faec-4b12-54af-08dd7b249a1b
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB8189.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2025 07:18:49.3097
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +7vaOEzD5zTOdVgkRGImvpJucsKQwr/BIxOg2ivp1t+z1fw9MN40Jk21pLySLpq2Om5h9N+pKhzNV9XogsPjnXsRpjXbOAhH+EYurnAKBgQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5221
-X-Proofpoint-ORIG-GUID: -wjI-7FrtGwZA-gDQWu1ei5vsb4DDPLL
-X-Proofpoint-GUID: -wjI-7FrtGwZA-gDQWu1ei5vsb4DDPLL
-X-Authority-Analysis: v=2.4 cv=UZBRSLSN c=1 sm=1 tr=0 ts=67fcb6dd cx=c_pps a=6H1ifQWhBrriiShMtbI+RA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=qf4gfuq51q0A:10
- a=XR8D0OoHHMoA:10 a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=ag1SF4gXAAAA:8 a=7CQSdrXTAAAA:8 a=KKAkSRfTAAAA:8 a=RNnUd5T89QfoQ4j43GIA:9 a=3ZKOabzyN94A:10 a=k40Crp0UdiQA:10 a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22 a=Yupwre4RP9_Eg_Bd0iYG:22
- a=a-qgeE7W1pNrGK8U0ZQC:22 a=cvBusfyB2V15izCimMoJ:22 a=Omh45SbU8xzqK50xPoZQ:22
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-14_01,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1015
- priorityscore=1501 mlxscore=0 impostorscore=0 phishscore=0 malwarescore=0
- spamscore=0 adultscore=0 mlxlogscore=659 lowpriorityscore=0 bulkscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2504140051
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 53E4UQNN014070
+References: <20250410192632.2818966-1-ecordonnier@snap.com>
+ <20250410192632.2818966-2-ecordonnier@snap.com> <CANNYZj--gFysZHiNLijg-kNCvr-xFtkjUBMVByP8aROYMz=-1Q@mail.gmail.com>
+ <CAHUKmYZkZ0FqSR00-RL+Tbp5v5B2u6ouK3WG+dvdAj3K0FHRAQ@mail.gmail.com>
+ <CANNYZj9_mVZKE2tncTMrHPc69jOhBNJ4xa2h+9HQb=MYdLkaxQ@mail.gmail.com> <183535A78DAC85C5.27206@lists.openembedded.org>
+In-Reply-To: <183535A78DAC85C5.27206@lists.openembedded.org>
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Mon, 14 Apr 2025 09:31:58 +0200
+X-Gm-Features: ATxdqUEqKT4kbodhmJDXuiPTOtImi-8_FYFG_eWkTLzpEEPrmscIeRmdQVMC8Ho
+Message-ID: <CAHUKmYbbLZOso+Mk5raVt9yEki5Xd7FMAkuCkyuo_Zu3XK0Kxg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] source-highlight: re-add recipe
+To: ecordonnier@snap.com
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000c53dcd0632b80c10"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Apr 2025 07:19:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214798
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Apr 2025 07:32:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214799
 
-From: Haixiao Yan <haixiao.yan.cn@windriver.com>
+--000000000000c53dcd0632b80c10
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Backport a patch [1] to improve performance of rand() and __random()[2]
-by adding a single-threaded fast path.
+The recipe has been merged in meta-oe, thus this patch 2/2
+"source-highlight: re-add recipe" should not be merged in oe-core. I would
+still like to merge the patch 1/2 "gdb: add source-highlight PACKAGECONFIG
+option" into oe-core however.
 
-[1] https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Dbe0cfd848d9a=
-d7378800d6302bc11467cf2b514f
-[2] https://sourceware.org/bugzilla/show_bug.cgi?id=3D32777
+=C3=89tienne
 
-(master rev: b0ded4df5f2d3bb3319978d1a549c72f5daf238e)
+On Fri, Apr 11, 2025 at 10:17=E2=80=AFAM Etienne Cordonnier via
+lists.openembedded.org <ecordonnier=3Dsnap.com@lists.openembedded.org> wrot=
+e:
 
-Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...dd-single-threaded-fast-path-to-rand.patch | 47 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.39.bb         |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-stdlib-Add-single-=
-threaded-fast-path-to-rand.patch
+> OK, in that case except if I receive other opinions, I would propose to
+> merge the patch adding the PACKAGECONFIG option to gdb, and I'll send
+> another PR adding source-highlight to meta-oe.
+>
+> =C3=89tienne
+>
+> On Thu, Apr 10, 2025 at 9:35=E2=80=AFPM Alexander Kanavin <alex.kanavin@g=
+mail.com>
+> wrote:
+>
+>> I don;t think source highlighting in gdb quite qualifies as a core
+>> embedded functionality? I'd say meta-oe is better.
+>>
+>> Alex
+>>
+>> On Thu, 10 Apr 2025 at 21:32, Etienne Cordonnier <ecordonnier@snap.com>
+>> wrote:
+>> >
+>> > That's fair enough. My thinking was to try to upstream first to core,
+>> since it used to be there before it was removed, and to also get feedbac=
+k
+>> on whether you would want to enable this per default gdb. I can also mov=
+e
+>> it to meta-oe if you think it is better.
+>> >
+>> > =C3=89tienne
+>> >
+>> > On Thu, Apr 10, 2025 at 9:28=E2=80=AFPM Alexander Kanavin <
+>> alex.kanavin@gmail.com> wrote:
+>> >>
+>> >> Unless you want to enable it by default in gdb (and the other patch
+>> >> shows that is not the case), source-highlight does not have to be in
+>> >> core. We have plenty of recipes in core with options that require
+>> >> items from meta-oe or other layers.
+>> >>
+>> >> Alex
+>> >>
+>> >> On Thu, 10 Apr 2025 at 21:26, Etienne Cordonnier via
+>> >> lists.openembedded.org
+>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__lists.openembedde=
+d.org&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNo=
+nVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcUQJXyR=
+CS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&s=3Dt2HL6XaHbnfyOul6lHPhmnc0jRotjdxDqaD0W3q=
+UQ2k&e=3D>
+>> <ecordonnier=3Dsnap.com@lists.openembedded.org>
+>> >> wrote:
+>> >> >
+>> >> > From: Etienne Cordonnier <ecordonnier@snap.com>
+>> >> >
+>> >> > source-highlight version 3.1.8 was removed in
+>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__web.git.yoctoproj=
+ect.org_poky_commit_-3Fid-3D6560db9ddfd39a2715ede96430228306b00f53dd&d=3DDw=
+IBaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Q=
+j9TsRih1DULJTKUkSGa66m67E&m=3DjBI-VlyTB1xFAWS9hMggBpmdK5DJQqcmgvLfhQ68ddzZf=
+4_yp3Vldzt83qQW4zvi&s=3DGDekE4em2Y0dcrW5i9p81jWBM-rLGDqNCZJM66b8ZzI&e=3D
+>> in June 2019 because the was no user left,
+>> >> > however there is now a gdb PACKAGECONFIG option which uses it. Sinc=
+e
+>> the last release was in 2019, let's rather use the latest git version.
+>> >> >
+>> >> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+>> >> > ---
+>> >> >  meta/conf/distro/include/maintainers.inc      |  1 +
+>> >> >  .../source-highlight/source-highlight_git.bb
+>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__source-2Dhighligh=
+t-5Fgit.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DA=
+hkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcU=
+QJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&s=3DN4_1lMw_iULEa5kI0yuDTOxIdU2snOyXID=
+qnmJzcglk&e=3D>
+>> | 36 +++++++++++++++++++
+>> >> >  2 files changed, 37 insertions(+)
+>> >> >  create mode 100644 meta/recipes-support/source-highlight/
+>> source-highlight_git.bb
+>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__source-2Dhighligh=
+t-5Fgit.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DA=
+hkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcU=
+QJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&s=3DN4_1lMw_iULEa5kI0yuDTOxIdU2snOyXID=
+qnmJzcglk&e=3D>
+>> >> >
+>> >> > diff --git a/meta/conf/distro/include/maintainers.inc
+>> b/meta/conf/distro/include/maintainers.inc
+>> >> > index 2b47d3103c0..831494312b6 100644
+>> >> > --- a/meta/conf/distro/include/maintainers.inc
+>> >> > +++ b/meta/conf/distro/include/maintainers.inc
+>> >> > @@ -777,6 +777,7 @@ RECIPE_MAINTAINER:pn-shutdown-desktop =3D
+>> "Unassigned <unassigned@yoctoproject.org
+>> >> >  RECIPE_MAINTAINER:pn-signing-keys =3D "Richard Purdie <
+>> richard.purdie@linuxfoundation.org>"
+>> >> >  RECIPE_MAINTAINER:pn-slang =3D "Yi Zhao <yi.zhao@windriver.com>"
+>> >> >  RECIPE_MAINTAINER:pn-socat =3D "Hongxu Jia <hongxu.jia@windriver.c=
+om
+>> >"
+>> >> > +RECIPE_MAINTAINER:pn-source-highlight =3D "Etienne Cordonnier <
+>> ecordonnier@snap.com>"
+>> >> >  RECIPE_MAINTAINER:pn-speex =3D "Michael Opdenacker <
+>> michael@opdenacker.org>"
+>> >> >  RECIPE_MAINTAINER:pn-speexdsp =3D "Michael Opdenacker <
+>> michael@opdenacker.org>"
+>> >> >  RECIPE_MAINTAINER:pn-spirv-headers =3D "Jose Quaresma <
+>> quaresma.jose@gmail.com>"
+>> >> > diff --git a/meta/recipes-support/source-highlight/
+>> source-highlight_git.bb
+>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__source-2Dhighligh=
+t-5Fgit.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DA=
+hkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcU=
+QJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&s=3DN4_1lMw_iULEa5kI0yuDTOxIdU2snOyXID=
+qnmJzcglk&e=3D>
+>> b/meta/recipes-support/source-highlight/source-highlight_git.bb
+>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__source-2Dhighligh=
+t-5Fgit.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DA=
+hkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcU=
+QJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&s=3DN4_1lMw_iULEa5kI0yuDTOxIdU2snOyXID=
+qnmJzcglk&e=3D>
+>> >> > new file mode 100644
+>> >> > index 00000000000..ad5085250cb
+>> >> > --- /dev/null
+>> >> > +++ b/meta/recipes-support/source-highlight/source-highlight_git.bb
+>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__source-2Dhighligh=
+t-5Fgit.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DA=
+hkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcU=
+QJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&s=3DN4_1lMw_iULEa5kI0yuDTOxIdU2snOyXID=
+qnmJzcglk&e=3D>
+>> >> > @@ -0,0 +1,36 @@
+>> >> > +SUMMARY =3D "Syntax highlight utility"
+>> >> > +DESCRIPTION =3D "Source-highlight converts source code to formatte=
+d
+>> text with syntax highlighting."
+>> >> > +HOMEPAGE =3D "
+>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__www.gnu.org_softw=
+are_src-2Dhighlite_&d=3DDwIBaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckf=
+diw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DjBI-VlyTB1xFAWS9hMg=
+gBpmdK5DJQqcmgvLfhQ68ddzZf4_yp3Vldzt83qQW4zvi&s=3DlwbvDkI4fDkloLf3cs3QeCgqO=
+BF_LRpfobo2v-EYtEc&e=3D
+>> "
+>> >> > +LICENSE =3D "GPL-3.0-only"
+>> >> > +SECTION =3D "libs"
+>> >> > +LIC_FILES_CHKSUM =3D
+>> "file://COPYING;;md5=3Dff95bfe019feaf92f524b73dd79e76eb"
+>> >> > +
+>> >> > +SRCREV =3D "894cacd0799ca60afa359a63782729dec76cbb79"
+>> >> > +PV =3D "3.1.9+git"
+>> >> > +SRC_URI =3D "git://
+>> git.savannah.gnu.org/git/src-highlite.git;protocol=3Dhttps;branch=3Dmast=
+er
+>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__git.savannah.gnu.=
+org_git_src-2Dhighlite.git-3Bprotocol-3Dhttps-3Bbranch-3Dmaster&d=3DDwMFaQ&=
+c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsR=
+ih1DULJTKUkSGa66m67E&m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llq=
+ej2MWMKkIVrLzf&s=3Dbr3YXbaxuyHAty0PKTXl9dyDgQdvPpIiJloBrrqTsOg&e=3D>
+>> "
+>> >> > +S =3D "${WORKDIR}/git"
+>> >> > +
+>> >> > +inherit autotools pkgconfig
+>> >> > +
+>> >> > +DEPENDS:append =3D " bison-native boost"
+>> >> > +
+>> >> > +DEPENDS:append:class-target =3D " ${PN}-native"
+>> >> > +
+>> >> > +EXTRA_OECONF=3D"--with-boost-regex=3Dboost_regex"
+>> >> > +
+>> >> > +BBCLASSEXTEND =3D "native nativesdk"
+>> >> > +
+>> >> > +PACKAGES +=3D "${PN}-tools ${PN}-data"
+>> >> > +
+>> >> > +RDEPENDS:${PN} =3D "boost-regex ${PN}-data"
+>> >> > +RDEPENDS:${PN}-tools =3D "${PN} ${PN}-data bash"
+>> >> > +
+>> >> > +FILES:${PN}       =3D "${libdir}/*${SOLIBS}"
+>> >> > +FILES:${PN}-data  =3D "${datadir}/source-highlight"
+>> >> > +FILES:${PN}-tools =3D "${bindir} ${sysconfdir}/bash_completion.d"
+>> >> > +
+>> >> > +# source-highlight is using its own binary from the build tree to
+>> make documentation
+>> >> > +# let's substitute the native binary instead
+>> >> > +do_configure:prepend:class-target () {
+>> >> > +     sed -i -e 's,^SRCHILITEEXE =3D $(top_builddir).*,SRCHILITEEXE=
+ =3D
+>> source-highlight,' ${S}/doc/Makefile.am
+>> >> > +}
+>> >> > --
+>> >> > 2.43.0
+>> >> >
+>> >> >
+>> >> >
+>> >> >
+>>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#214718):
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_g_openembedded-2Dcore_message_214718&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0h=
+pF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=
+=3DImlpzOYPYvdpW2UCTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&s=3Ddjq=
+36a_AhIUqATKwgJZ04sTfLa3fDmS3XP5zNHUf5gc&e=3D
+> Mute This Topic:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_mt_112197845_7048771&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC=
+2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DImlpzOYPYvdpW=
+2UCTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&s=3DzDx6WY1qU45V-oTmBya=
+iPVl1Jwya48XRdV0JNKgCpa4&e=3D
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_g_openembedded-2Dcore_unsub&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHva=
+bgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DImlpzO=
+YPYvdpW2UCTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&s=3DUbC2G3fAWcrz=
+u-oU-WelpYgh4gurV0G68EJtqUvlFBU&e=3D
+> [ecordonnier@snap.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-diff --git a/meta/recipes-core/glibc/glibc/0001-stdlib-Add-single-threade=
-d-fast-path-to-rand.patch b/meta/recipes-core/glibc/glibc/0001-stdlib-Add=
--single-threaded-fast-path-to-rand.patch
-new file mode 100644
-index 000000000000..736fc51f3874
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-stdlib-Add-single-threaded-fast-=
-path-to-rand.patch
-@@ -0,0 +1,47 @@
-+From 4f54b0dfc16dbe0df86afccb90e447df5f7f571e Mon Sep 17 00:00:00 2001
-+From: Wilco Dijkstra <wilco.dijkstra@arm.com>
-+Date: Mon, 18 Mar 2024 15:18:20 +0000
-+Subject: [PATCH] stdlib: Add single-threaded fast path to rand()
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Improve performance of rand() and __random() by adding a single-threaded
-+fast path.  Bench-random-lock shows about 5x speedup on Neoverse V1.
-+
-+Upstream-Status: Backport [be0cfd848d9ad7378800d6302bc11467cf2b514f]
-+
-+Reviewed-by: Adhemerval Zanella=C2=A0 <adhemerval.zanella@linaro.org>
-+Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
-+---
-+ stdlib/random.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/stdlib/random.c b/stdlib/random.c
-+index 17cc61ba8f55..5d482a857065 100644
-+--- a/stdlib/random.c
-++++ b/stdlib/random.c
-+@@ -51,6 +51,7 @@
-+    SUCH DAMAGE.*/
-+=20
-+ #include <libc-lock.h>
-++#include <sys/single_threaded.h>
-+ #include <limits.h>
-+ #include <stddef.h>
-+ #include <stdlib.h>
-+@@ -288,6 +289,12 @@ __random (void)
-+ {
-+   int32_t retval;
-+=20
-++  if (SINGLE_THREAD_P)
-++    {
-++      (void) __random_r (&unsafe_state, &retval);
-++      return retval;
-++    }
-++
-+   __libc_lock_lock (lock);
-+=20
-+   (void) __random_r (&unsafe_state, &retval);
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/gl=
-ibc/glibc_2.39.bb
-index 8373db2c4f41..e4e2a766d70d 100644
---- a/meta/recipes-core/glibc/glibc_2.39.bb
-+++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -53,6 +53,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};na=
-me=3Dglibc \
-            file://0021-fix-create-thread-failed-in-unprivileged-process-=
-BZ-.patch \
-            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-bi=
-nar.patch \
-            file://0023-qemu-stale-process.patch \
-+           file://0001-stdlib-Add-single-threaded-fast-path-to-rand.patc=
-h \
- "
- S =3D "${WORKDIR}/git"
- B =3D "${WORKDIR}/build-${TARGET_SYS}"
---=20
-2.35.5
+--000000000000c53dcd0632b80c10
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">The recipe has been merged in meta-oe, thus this patch 2/2=
+ &quot;source-highlight: re-add recipe&quot; should not be merged in oe-cor=
+e. I would still like to merge the patch 1/2 &quot;gdb: add source-highligh=
+t PACKAGECONFIG option&quot; into oe-core however.<br><br>=C3=89tienne</div=
+><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">On Fri, Apr 11, 2025 at 10:17=E2=80=AFAM Etienne Cordonnie=
+r via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> =
+&lt;ecordonnier=3D<a href=3D"mailto:snap.com@lists.openembedded.org">snap.c=
+om@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex"><div dir=3D"ltr">OK, in that case except if I rece=
+ive other opinions, I would propose to merge the patch adding the PACKAGECO=
+NFIG option to gdb, and I&#39;ll send another PR adding source-highlight to=
+ meta-oe.<br><br>=C3=89tienne</div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Thu, Apr 10, 2025 at 9:35=E2=80=AFPM Alexa=
+nder Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank=
+">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">I don;t think source highlighting in gdb quite qual=
+ifies as a core<br>
+embedded functionality? I&#39;d say meta-oe is better.<br>
+<br>
+Alex<br>
+<br>
+On Thu, 10 Apr 2025 at 21:32, Etienne Cordonnier &lt;<a href=3D"mailto:ecor=
+donnier@snap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; That&#39;s fair enough. My thinking was to try to upstream first to co=
+re, since it used to be there before it was removed, and to also get feedba=
+ck on whether you would want to enable this per default gdb. I can also mov=
+e it to meta-oe if you think it is better.<br>
+&gt;<br>
+&gt; =C3=89tienne<br>
+&gt;<br>
+&gt; On Thu, Apr 10, 2025 at 9:28=E2=80=AFPM Alexander Kanavin &lt;<a href=
+=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com=
+</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Unless you want to enable it by default in gdb (and the other patc=
+h<br>
+&gt;&gt; shows that is not the case), source-highlight does not have to be =
+in<br>
+&gt;&gt; core. We have plenty of recipes in core with options that require<=
+br>
+&gt;&gt; items from meta-oe or other layers.<br>
+&gt;&gt;<br>
+&gt;&gt; Alex<br>
+&gt;&gt;<br>
+&gt;&gt; On Thu, 10 Apr 2025 at 21:26, Etienne Cordonnier via<br>
+&gt;&gt; <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__l=
+ists.openembedded.org&amp;d=3DDwMFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgG=
+kICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DI=
+mlpzOYPYvdpW2UCTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&amp;s=3Dt2H=
+L6XaHbnfyOul6lHPhmnc0jRotjdxDqaD0W3qUQ2k&amp;e=3D" rel=3D"noreferrer" targe=
+t=3D"_blank">lists.openembedded.org</a> &lt;ecordonnier=3D<a href=3D"mailto=
+:snap.com@lists.openembedded.org" target=3D"_blank">snap.com@lists.openembe=
+dded.org</a>&gt;<br>
+&gt;&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; From: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@sn=
+ap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; source-highlight version 3.1.8 was removed in <a href=3D"http=
+s://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__web.git.yoctoproject.org=
+_poky_commit_-3Fid-3D6560db9ddfd39a2715ede96430228306b00f53dd&amp;d=3DDwIBa=
+Q&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGR=
+fPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DjBI-VlyTB1xFAWS9hMggBpmdK5DJQqcmgvLf=
+hQ68ddzZf4_yp3Vldzt83qQW4zvi&amp;s=3DGDekE4em2Y0dcrW5i9p81jWBM-rLGDqNCZJM66=
+b8ZzI&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.pro=
+ofpoint.com/v2/url?u=3Dhttps-3A__web.git.yoctoproject.org_poky_commit_-3Fid=
+-3D6560db9ddfd39a2715ede96430228306b00f53dd&amp;d=3DDwIBaQ&amp;c=3DncDTmphk=
+JTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJT=
+KUkSGa66m67E&amp;m=3DjBI-VlyTB1xFAWS9hMggBpmdK5DJQqcmgvLfhQ68ddzZf4_yp3Vldz=
+t83qQW4zvi&amp;s=3DGDekE4em2Y0dcrW5i9p81jWBM-rLGDqNCZJM66b8ZzI&amp;e=3D</a>=
+=C2=A0 in June 2019 because the was no user left,<br>
+&gt;&gt; &gt; however there is now a gdb PACKAGECONFIG option which uses it=
+. Since the last release was in 2019, let&#39;s rather use the latest git v=
+ersion.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecord=
+onnier@snap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
+&gt;&gt; &gt; ---<br>
+&gt;&gt; &gt;=C2=A0 meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 1 +<br>
+&gt;&gt; &gt;=C2=A0 .../source-highlight/<a href=3D"https://urldefense.proo=
+fpoint.com/v2/url?u=3Dhttp-3A__source-2Dhighlight-5Fgit.bb&amp;d=3DDwMFaQ&a=
+mp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx=
+_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcUQJXyRCS-oYV=
+lmmSXFs_Llqej2MWMKkIVrLzf&amp;s=3DN4_1lMw_iULEa5kI0yuDTOxIdU2snOyXIDqnmJzcg=
+lk&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">source-highlight_git.bb</=
+a>=C2=A0 | 36 +++++++++++++++++++<br>
+&gt;&gt; &gt;=C2=A0 2 files changed, 37 insertions(+)<br>
+&gt;&gt; &gt;=C2=A0 create mode 100644 meta/recipes-support/source-highligh=
+t/<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__source-2=
+Dhighlight-5Fgit.bb&amp;d=3DDwMFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkI=
+CC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DIml=
+pzOYPYvdpW2UCTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&amp;s=3DN4_1l=
+Mw_iULEa5kI0yuDTOxIdU2snOyXIDqnmJzcglk&amp;e=3D" rel=3D"noreferrer" target=
+=3D"_blank">source-highlight_git.bb</a><br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; diff --git a/meta/conf/distro/include/maintainers.inc b/meta/=
+conf/distro/include/maintainers.inc<br>
+&gt;&gt; &gt; index 2b47d3103c0..831494312b6 100644<br>
+&gt;&gt; &gt; --- a/meta/conf/distro/include/maintainers.inc<br>
+&gt;&gt; &gt; +++ b/meta/conf/distro/include/maintainers.inc<br>
+&gt;&gt; &gt; @@ -777,6 +777,7 @@ RECIPE_MAINTAINER:pn-shutdown-desktop =3D=
+ &quot;Unassigned &lt;<a href=3D"mailto:unassigned@yoctoproject.org" target=
+=3D"_blank">unassigned@yoctoproject.org</a><br>
+&gt;&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-signing-keys =3D &quot;Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_bl=
+ank">richard.purdie@linuxfoundation.org</a>&gt;&quot;<br>
+&gt;&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-slang =3D &quot;Yi Zhao &lt;<a hre=
+f=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com<=
+/a>&gt;&quot;<br>
+&gt;&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-socat =3D &quot;Hongxu Jia &lt;<a =
+href=3D"mailto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windr=
+iver.com</a>&gt;&quot;<br>
+&gt;&gt; &gt; +RECIPE_MAINTAINER:pn-source-highlight =3D &quot;Etienne Cord=
+onnier &lt;<a href=3D"mailto:ecordonnier@snap.com" target=3D"_blank">ecordo=
+nnier@snap.com</a>&gt;&quot;<br>
+&gt;&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-speex =3D &quot;Michael Opdenacker=
+ &lt;<a href=3D"mailto:michael@opdenacker.org" target=3D"_blank">michael@op=
+denacker.org</a>&gt;&quot;<br>
+&gt;&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-speexdsp =3D &quot;Michael Opdenac=
+ker &lt;<a href=3D"mailto:michael@opdenacker.org" target=3D"_blank">michael=
+@opdenacker.org</a>&gt;&quot;<br>
+&gt;&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-spirv-headers =3D &quot;Jose Quare=
+sma &lt;<a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quares=
+ma.jose@gmail.com</a>&gt;&quot;<br>
+&gt;&gt; &gt; diff --git a/meta/recipes-support/source-highlight/<a href=3D=
+"https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__source-2Dhighlight-5=
+Fgit.bb&amp;d=3DDwMFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&=
+amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DImlpzOYPYvdpW2U=
+CTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&amp;s=3DN4_1lMw_iULEa5kI0=
+yuDTOxIdU2snOyXIDqnmJzcglk&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">s=
+ource-highlight_git.bb</a> b/meta/recipes-support/source-highlight/<a href=
+=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__source-2Dhighligh=
+t-5Fgit.bb&amp;d=3DDwMFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfd=
+iw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DImlpzOYPYvdp=
+W2UCTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&amp;s=3DN4_1lMw_iULEa5=
+kI0yuDTOxIdU2snOyXIDqnmJzcglk&amp;e=3D" rel=3D"noreferrer" target=3D"_blank=
+">source-highlight_git.bb</a><br>
+&gt;&gt; &gt; new file mode 100644<br>
+&gt;&gt; &gt; index 00000000000..ad5085250cb<br>
+&gt;&gt; &gt; --- /dev/null<br>
+&gt;&gt; &gt; +++ b/meta/recipes-support/source-highlight/<a href=3D"https:=
+//urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__source-2Dhighlight-5Fgit.bb=
+&amp;d=3DDwMFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
+=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DImlpzOYPYvdpW2UCTlhB=
+GFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&amp;s=3DN4_1lMw_iULEa5kI0yuDTO=
+xIdU2snOyXIDqnmJzcglk&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">source=
+-highlight_git.bb</a><br>
+&gt;&gt; &gt; @@ -0,0 +1,36 @@<br>
+&gt;&gt; &gt; +SUMMARY =3D &quot;Syntax highlight utility&quot;<br>
+&gt;&gt; &gt; +DESCRIPTION =3D &quot;Source-highlight converts source code =
+to formatted text with syntax highlighting.&quot;<br>
+&gt;&gt; &gt; +HOMEPAGE =3D &quot;<a href=3D"https://urldefense.proofpoint.=
+com/v2/url?u=3Dhttps-3A__www.gnu.org_software_src-2Dhighlite_&amp;d=3DDwIBa=
+Q&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGR=
+fPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DjBI-VlyTB1xFAWS9hMggBpmdK5DJQqcmgvLf=
+hQ68ddzZf4_yp3Vldzt83qQW4zvi&amp;s=3DlwbvDkI4fDkloLf3cs3QeCgqOBF_LRpfobo2v-=
+EYtEc&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.pro=
+ofpoint.com/v2/url?u=3Dhttps-3A__www.gnu.org_software_src-2Dhighlite_&amp;d=
+=3DDwIBaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbN=
+onVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DjBI-VlyTB1xFAWS9hMggBpmdK5DJ=
+QqcmgvLfhQ68ddzZf4_yp3Vldzt83qQW4zvi&amp;s=3DlwbvDkI4fDkloLf3cs3QeCgqOBF_LR=
+pfobo2v-EYtEc&amp;e=3D</a> &quot;<br>
+&gt;&gt; &gt; +LICENSE =3D &quot;GPL-3.0-only&quot;<br>
+&gt;&gt; &gt; +SECTION =3D &quot;libs&quot;<br>
+&gt;&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://COPYING;;md5=3Dff95bfe019f=
+eaf92f524b73dd79e76eb&quot;<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +SRCREV =3D &quot;894cacd0799ca60afa359a63782729dec76cbb79&qu=
+ot;<br>
+&gt;&gt; &gt; +PV =3D &quot;3.1.9+git&quot;<br>
+&gt;&gt; &gt; +SRC_URI =3D &quot;git://<a href=3D"https://urldefense.proofp=
+oint.com/v2/url?u=3Dhttp-3A__git.savannah.gnu.org_git_src-2Dhighlite.git-3B=
+protocol-3Dhttps-3Bbranch-3Dmaster&amp;d=3DDwMFaQ&amp;c=3DncDTmphkJTvjIDPh0=
+hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m=
+67E&amp;m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLz=
+f&amp;s=3Dbr3YXbaxuyHAty0PKTXl9dyDgQdvPpIiJloBrrqTsOg&amp;e=3D" rel=3D"nore=
+ferrer" target=3D"_blank">git.savannah.gnu.org/git/src-highlite.git;protoco=
+l=3Dhttps;branch=3Dmaster</a>&quot;<br>
+&gt;&gt; &gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +inherit autotools pkgconfig<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +DEPENDS:append =3D &quot; bison-native boost&quot;<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +DEPENDS:append:class-target =3D &quot; ${PN}-native&quot;<br=
+>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +EXTRA_OECONF=3D&quot;--with-boost-regex=3Dboost_regex&quot;<=
+br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +PACKAGES +=3D &quot;${PN}-tools ${PN}-data&quot;<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +RDEPENDS:${PN} =3D &quot;boost-regex ${PN}-data&quot;<br>
+&gt;&gt; &gt; +RDEPENDS:${PN}-tools =3D &quot;${PN} ${PN}-data bash&quot;<b=
+r>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +FILES:${PN}=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;${libdir}/*$=
+{SOLIBS}&quot;<br>
+&gt;&gt; &gt; +FILES:${PN}-data=C2=A0 =3D &quot;${datadir}/source-highlight=
+&quot;<br>
+&gt;&gt; &gt; +FILES:${PN}-tools =3D &quot;${bindir} ${sysconfdir}/bash_com=
+pletion.d&quot;<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; +# source-highlight is using its own binary from the build tr=
+ee to make documentation<br>
+&gt;&gt; &gt; +# let&#39;s substitute the native binary instead<br>
+&gt;&gt; &gt; +do_configure:prepend:class-target () {<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0sed -i -e &#39;s,^SRCHILITEEXE =3D $(top=
+_builddir).*,SRCHILITEEXE =3D source-highlight,&#39; ${S}/doc/Makefile.am<b=
+r>
+&gt;&gt; &gt; +}<br>
+&gt;&gt; &gt; --<br>
+&gt;&gt; &gt; 2.43.0<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; <br>
+&gt;&gt; &gt;<br>
+</blockquote></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#214718): <a href=3D"https://urldefense.proofpoint.com/v=
+2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_message_21=
+4718&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp=
+;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DImlpzOYPYvdpW2UCTl=
+hBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&amp;s=3Ddjq36a_AhIUqATKwgJZ0=
+4sTfLa3fDmS3XP5zNHUf5gc&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">http=
+s://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g=
+_openembedded-2Dcore_message_214718&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh=
+0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66=
+m67E&amp;m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrL=
+zf&amp;s=3Ddjq36a_AhIUqATKwgJZ04sTfLa3fDmS3XP5zNHUf5gc&amp;e=3D</a> <br>
+Mute This Topic: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dht=
+tps-3A__lists.openembedded.org_mt_112197845_7048771&amp;d=3DDwIFaQ&amp;c=3D=
+ncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsR=
+ih1DULJTKUkSGa66m67E&amp;m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcUQJXyRCS-oYVlmmSXFs=
+_Llqej2MWMKkIVrLzf&amp;s=3DzDx6WY1qU45V-oTmByaiPVl1Jwya48XRdV0JNKgCpa4&amp;=
+e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint.co=
+m/v2/url?u=3Dhttps-3A__lists.openembedded.org_mt_112197845_7048771&amp;d=3D=
+DwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcUQJX=
+yRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&amp;s=3DzDx6WY1qU45V-oTmByaiPVl1Jwya48XRd=
+V0JNKgCpa4&amp;e=3D</a> <br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-=
+3A__lists.openembedded.org_g_openembedded-2Dcore_unsub&amp;d=3DDwIFaQ&amp;c=
+=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9=
+TsRih1DULJTKUkSGa66m67E&amp;m=3DImlpzOYPYvdpW2UCTlhBGFCg4PcUQJXyRCS-oYVlmmS=
+XFs_Llqej2MWMKkIVrLzf&amp;s=3DUbC2G3fAWcrzu-oU-WelpYgh4gurV0G68EJtqUvlFBU&a=
+mp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint=
+.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_unsu=
+b&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
+=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DImlpzOYPYvdpW2UCTlhB=
+GFCg4PcUQJXyRCS-oYVlmmSXFs_Llqej2MWMKkIVrLzf&amp;s=3DUbC2G3fAWcrzu-oU-WelpY=
+gh4gurV0G68EJtqUvlFBU&amp;e=3D</a>=C2=A0 [<a href=3D"mailto:ecordonnier@sna=
+p.com" target=3D"_blank">ecordonnier@snap.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000c53dcd0632b80c10--
 
