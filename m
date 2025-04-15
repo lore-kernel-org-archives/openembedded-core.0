@@ -1,140 +1,222 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <koen.kooi@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92B83C369AB
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 05:20:11 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.13340.1744694402808025479
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 187C1C369B8
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 06:56:42 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web11.14213.1744700201641116586
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Apr 2025 22:20:03 -0700
+ Mon, 14 Apr 2025 23:56:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=dF12FQ9w;
- spf=pass (domain: linaro.org, ip: 209.85.167.47, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54ac9b3ddf6so4767357e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Apr 2025 22:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744694401; x=1745299201; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7pwGUzk0n/Sy0Q6pTycv0PpwO3EfhG4F1PPjVh9lPWA=;
-        b=dF12FQ9wGzjEWN0JUq4nRfMrPwCmmeHsHLoLUjUmKBZBmkleAHuP1Vl+hWAXZoVRQc
-         WsdfBi6vrUQTDehWEMXPafpfOQINGLFjtuBFbAEXHgo9SDGT3pzBHwXoU+QvL67BVPHP
-         CO1FJ82hFPQCpnA4BJbC0OBDdBmGA0frA1LGnrZ1z6M+R2ZUGGPOzWXWBlFrAPi3P2aQ
-         43FfJwQWLsmtYTKoNmpS6fHAAtbyIQaVBKiWtIy2SJPE9ELKaVjhFjbYnZY1hhEu20d5
-         hYeIE+croL+SY2S2/aFSU/4GVF0+Yn2c/+YO3HSM267F6NFISaUoxqzGdF3IZh7isDSC
-         x3hA==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=X9/lKrfc;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: koen.kooi@oss.qualcomm.com)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F16jQP000652
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 06:56:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	wA4pNymBu0ChDlgtPlT74yBBC51FLJdtcNpZLR5suwY=; b=X9/lKrfcGIkaThgU
+	EAReOl0eoBAn5ZyjBKCY1Eg9NUt6pGI5loq0ToJ5l6ATYiXcBDgN7uKgPaclxjUv
+	20AirxhBk1KRufaAZT/2nO5ukvgDWzYwdp1M2MYTGE61FHeSA+Z+29aPfM1b6uKB
+	0HUgl+2JLMdTNTgcKtnunQDy8fUNEw7QjZHncN42zlvy6PfDGsEFMlLJTlNlckbm
+	DoZ9FDINLRFUCNFf0Go78Jr9anVD6MY+FaAl1MqHFp7j6cJsnB5i9bsgnoDLbLph
+	3bg05WkWTfUZgymLfuh0aCq9gS2iN3YwhtwBy64HB6UlumZjlGUSjfP0UQXFoPwi
+	ZmY0Kw==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygxjxucb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 06:56:40 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5b9333642so594409685a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Apr 2025 23:56:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744694401; x=1745299201;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7pwGUzk0n/Sy0Q6pTycv0PpwO3EfhG4F1PPjVh9lPWA=;
-        b=RkLsZu7MUw/tLgXGQMgZPDuN2vvMVW7AdWVLWimOtgyGfYQ3QAVmMVz78SBhLkV9fh
-         veSfdKl+yCVNOvuNF3J1blaVtslpUYzZ8kIg5A5GArxAkxy9ubcEx1u+Sr9vpXQ/M05m
-         7oZKa4cS/nTgML/BbWcQBBlBNYzPpS2DD4sRf20lJP1eXMUi9GtbdORjpGpJpKqr+BV7
-         E3VNd8jiOlxeTm9di5rdFVk+c7zRoTn7YX2M3UxWWfKiFDWs2ml9kpk2YPZsV6lrwBeJ
-         opU2fJ0/bag9LKLzdBO4FRu7alXzj4L7uh+9bFjzRODD8igXFHVQDxec7T8M6Dpd6dwq
-         ETaA==
-X-Gm-Message-State: AOJu0YylIR4qx7GomxFRn3K0gAoMnMlvXTlZeSDBXbzCHcVF1zvQf9Dx
-	Nq7Yl7rvuWH9Lc773KI5pelHobqIckOwUTT/qCUXGNhNPW2fPi+GBRaG8Hj5C00=
-X-Gm-Gg: ASbGncsDQGecBqrR906Uzdjx7G5H+0MxF/r5wF6xLnvxb1PPCUfKnxmI22OgmgTy2fc
-	ulHiiFGCnA6B1ztVjx0hlMrHy6jJe/wCqJTyHpyMoKmTZ8sMc+yVxHmrsK9tGaq2Ku//30ukWzB
-	YfLxnPDQDDWe6p8WSCxVJ6vzttN1rOA2DAzl8k4yeocVpRGYAKa0dvSj/7V2DyCujHC/cPNUxDT
-	tvCErt+Q3Ah+n4p0mTl1nc2wmoMLsc9Uu9SNDThXq6hkiuXFrb4qi8EGODvudjQ4H5SXBo34vVa
-	Gq6UGq5xsyVg7hNzoyPA2F+HZBYTElPASa2/emQubAesVbk7ApgvlwMoZzVDB7DJNBQve2roeg=
-	=
-X-Google-Smtp-Source: AGHT+IErRYOY6IUW74IFgVLOtYXJwNroO+7IZT4dJzwrhk1e5UP2VrkOcJi9SDueb1RqN1uVFLGMNA==
-X-Received: by 2002:a05:6512:1256:b0:54b:1039:fe72 with SMTP id 2adb3069b0e04-54d45295860mr4534421e87.14.1744694400872;
-        Mon, 14 Apr 2025 22:20:00 -0700 (PDT)
-Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d3d5170a3sm1339214e87.210.2025.04.14.22.20.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Apr 2025 22:20:00 -0700 (PDT)
-Date: Tue, 15 Apr 2025 08:19:59 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v3 09/11] image_types_wic.bbclass: capture
- verbose wic output by default
-Message-ID: <Z_3sf3l8VmiXjfi_@nuoska>
-References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
- <20250404162932.447699-10-mikko.rapeli@linaro.org>
- <20250414204357.GA9290@localhost>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250414204357.GA9290@localhost>
+        d=1e100.net; s=20230601; t=1744700199; x=1745304999;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wA4pNymBu0ChDlgtPlT74yBBC51FLJdtcNpZLR5suwY=;
+        b=eYErB04ng6vjEaCawAtPJerLAVlsMpIYwI7KhOQ2zN7YwLTxFzr0x11ceBHtXQPuRu
+         aQ73inkWdawk7axiy6HEkoipMUINLtZhMCn31/IUBIa+6o/R3qu3FYE8VehE/L3J8Ljg
+         JfdgphHwhcv8n9tIwPH4C69PAdus5qA5/EpJ1xmfdLvUjFQkSMmD2pyccQ00ejXz+/c8
+         EnqlexOIMGeK1LE/BsGSJOZnKybjlRhxiDShL0dzkEEckzdS63BFwjhp+XRnGZ7ocmAT
+         SZgCRq8M36KKXAUouxgUjfBwxW6WANBGiTBN7gkf5zdTeqRhealTu9qmJyrAbQOh/TK3
+         AL0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUNmma/YCtRvPGj69S+CYCLH385LCIiG9n7+ln2mN6xM/1v0ff17zHXkMNaceanfH7i5DF/rfz2U2ZXy276BUj75w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwTF+QvUYhVOSm2nxxyo5YEJLQAs9Xg6L7NqwvSSpArHX9FAqYI
+	ukWLIsY4h8GVuczVdz3g/A4+pZmXFQye6LyWUddvvuamXJIGlbLljSZlX/BPSHl1Eihppyy7Otu
+	O9jAaKk8azQGj5UF0LVq8sq7nzbImw0K+8rDWRvDEEE7HIErcT0LN7tDfTmbNPkwFwa2UG0Or/J
+	KR13Q=
+X-Gm-Gg: ASbGnctNB7PZa3aMubJzRk0N7taZXV5CcixKHwTkfNaV9/VtdE2x40HPF2Ic0l+ybn0
+	yhLOr5EFF2ESaSfefMuW85BRyo9xK+tXJH+R7P0U1bc5J5CT7ASu58rwYSv8l9wE7s9NtjJT/AU
+	WiR6RmuSRJ1HJm829gN991g5Z0UK7IXkjaHewEYH+vCG4UYs3HBiLfkCcToOrKqAqGn2XKRae2/
+	cgYgXcuy9ruCUdtcNbpygbr47TvkNdgVnXRr5jGjTXKat75oa8bK2OKfije3jHgXW0bxXB9rn9j
+	3e8Ivir1dL1gl2hoUedEKnUH76Bw3sN+bRgTnS6sm2dMZOENhognlLp4zQp0
+X-Received: by 2002:a05:620a:4146:b0:7c5:9b93:8f64 with SMTP id af79cd13be357-7c7af112747mr2377055085a.37.1744700199505;
+        Mon, 14 Apr 2025 23:56:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEfYK9iR99sBLd/foZDWV11FTw6IkV7BYdZJI+vS5JU57eKSWte5MsMUeNPaV5D7aecmlSt8Q==
+X-Received: by 2002:a05:620a:4146:b0:7c5:9b93:8f64 with SMTP id af79cd13be357-7c7af112747mr2377053485a.37.1744700199105;
+        Mon, 14 Apr 2025 23:56:39 -0700 (PDT)
+Received: from smtpclient.apple (082-163-040-105.jonaz.nl. [82.163.40.105])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1bb2dccsm1040661666b.18.2025.04.14.23.56.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 14 Apr 2025 23:56:38 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.500.181.1.5\))
+Subject: Re: [OE-core] [PATCH] systemd: Allow overriding PNI name policies
+From: Koen Kooi <koen.kooi@oss.qualcomm.com>
+In-Reply-To: <CAJdd5Ga7-Swcb8Zej8dpuLP5AzuBHiTmFVSatL33Biwjhym+rA@mail.gmail.com>
+Date: Tue, 15 Apr 2025 08:56:26 +0200
+Cc: eichest@gmail.com, openembedded-core@lists.openembedded.org,
+        Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A1955164-126F-4B34-B796-B2CD3E530AF7@oss.qualcomm.com>
+References: <20250409101545.5936-1-eichest@gmail.com>
+ <CAJdd5Ga7-Swcb8Zej8dpuLP5AzuBHiTmFVSatL33Biwjhym+rA@mail.gmail.com>
+To: JPEWhacker@gmail.com
+X-Mailer: Apple Mail (2.3826.500.181.1.5)
+X-Authority-Analysis: v=2.4 cv=WecMa1hX c=1 sm=1 tr=0 ts=67fe0328 cx=c_pps a=HLyN3IcIa5EE8TELMZ618Q==:117 a=IQEsc5u+BqvcbVO/417rXg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=m8ToADvmAAAA:8 a=EUspDBNiAAAA:8
+ a=MhbwO3Pb4JV4Bhfdb6EA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=kCrBFHLFDAq2jDEeoMj9:22
+X-Proofpoint-GUID: Q3-vkvS_ofrfjPyoN1xBrPBVKxUSJYGu
+X-Proofpoint-ORIG-GUID: Q3-vkvS_ofrfjPyoN1xBrPBVKxUSJYGu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-15_03,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
+ adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 mlxscore=0
+ impostorscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504150046
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 05:20:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214822
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 06:56:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214823
 
-Hi,
 
-On Mon, Apr 14, 2025 at 04:43:58PM -0400, Trevor Woerner wrote:
-> On Fri 2025-04-04 @ 07:29:30 PM, Mikko Rapeli via lists.openembedded.org wrote:
-> > Call wic with --debug to capture logs from wic internals
-> > so that it's clear which partitions get created and which
-> > files get copied where. wic plugins contain for example
-> > race conditions which don't install files at all and thus
-> > images fail to boot and it's not possible to debug these without
-> > something in wic task logs.
-> > 
-> > For example core-image-initramfs-boot do_image_wic
-> > log is now 576 lines which is not excessive but very
-> > important when debugging problems, especially race
-> > conditions which are only hit in some builds in CI.
-> > 
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > ---
-> >  meta/classes-recipe/image_types_wic.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
-> > index 1b422b6280..10888bc12b 100644
-> > --- a/meta/classes-recipe/image_types_wic.bbclass
-> > +++ b/meta/classes-recipe/image_types_wic.bbclass
-> > @@ -72,7 +72,7 @@ IMAGE_CMD:wic () {
-> >  	if [ -z "$wks" ]; then
-> >  		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
-> >  	fi
-> > -	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
-> > +	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create --debug "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
-> >  
-> >  	# look to see if the user specifies a custom imager
-> >  	IMAGER=direct
-> 
-> When I need to debug a wic issue, I add "--debug" to WIC_CREATE_EXTRA_ARGS in
-> my conf/local.conf, debug the issue, then submit the patch which modifies the
-> layer without any debugging remnants left behind. I can then either leave wic
-> debugging turned on, or turn it off for my builds as I see fit. Turning on
-> debugging by default for everyone using wic is not what we should be doing.
-> It will slow down builds, and will inflate log files... by miniscule amounts,
-> sure, but not the direction we should be taking.
 
-I just disagree. Default logging should not be excessive but logs should
-show at high level what the task and tools executed there are doing.
-wic logs without --debug are completely useless in understanding what
-happened when image was created. wic logs with --debug are not excessive
-but show which partitions got created and which files copied where.
-Full rootfs content is not shown so logging is not excessive.
+> Op 14 apr 2025, om 19:03 heeft Joshua Watt via lists.openembedded.org =
+<JPEWhacker=3Dgmail.com@lists.openembedded.org> het volgende geschreven:
+>=20
+> On Wed, Apr 9, 2025 at 4:15=E2=80=AFAM Stefan Eichenberger via
+> lists.openembedded.org <eichest=3Dgmail.com@lists.openembedded.org>
+> wrote:
+>>=20
+>> From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+>>=20
+>> Add two new variables, PNI_NAME_POLICY and PNI_ALTNAMES_POLICY, to =
+allow
+>> overriding the default Predictable Network Interface (PNI) name and
+>> alternative name policies respectively.
+>>=20
+>> This allows setting different name policies via a .bbappend file if =
+the
+>> defaults are not suitable for a specific use case.
+>=20
+> It's very difficult to configured systemd in a way that is acceptable
+> to everyone, and I'm not sure adding variable "knobs" for every
+> possible configuration option is feasible for systemd.
 
-> If you feel there are messages that should be logged on every wic invocation
-> (on which I doubt there will be consensus) then they should be moved out from
-> behind a --debug flag. The whole point of a debug flag is to identify messages
-> that do not need to be logged on every build, but only under special
-> circumstances. Lots of software projects have debug flags; I can't think of any
-> that turn their debug flags on by default.
+For me, the issue is that OE-core adds the MAC naming feature that =
+upstream has disabled by default, which gives me unpredictable names for =
+various on-SoC network interfaces[1]. Having a way, supported by =
+OE-core, to disable the addition that results in predictable names not =
+being predictable would be great. It would make PNI function as intended =
+:)
 
-I want to see which files wic copies and where, e.g. ESP boot partition, and
-which partitions it created. Without --debug wic does not log these.
+> You could do the exact same thing by putting your sed command in a
+> do_install:append() function (since you want to set them from a
+> bbappend anyway), and in that case it's irrelevant if pni-names is set
+> in PACKAGECONFIG or not.
 
-Some people want all logs to be empty by default, I want them to be usable
-when things go wrong in builds which I did not start or even fully control.
+I know and I hate it:
 
-Cheers,
+=
+https://github.com/qualcomm-linux/meta-qcom-distro/commit/1820fefb6c675067=
+26277f7f789fd5a4538ea33f
 
--Mikko
+It's fragile and noone on the oe-core side will realize that changing =
+do_install() might break DISTROs that use such bbappend. A proper =
+variable like Stefan proposes would be more obvious and less fragile.
+
+Or we could just drop the bit that adds 'mac' and have DISTROs that want =
+that write a bbappend!
+
+regards,
+
+Koen
+
+[1] The interfaces lacking a MAC in hardware is a separate, but equally =
+frustrating issue.
+
+>=20
+>>=20
+>> Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+>> ---
+>> meta/recipes-core/systemd/systemd_257.4.bb | 12 ++++++------
+>> 1 file changed, 6 insertions(+), 6 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-core/systemd/systemd_257.4.bb =
+b/meta/recipes-core/systemd/systemd_257.4.bb
+>> index 24aad11c0a..00edd702fb 100644
+>> --- a/meta/recipes-core/systemd/systemd_257.4.bb
+>> +++ b/meta/recipes-core/systemd/systemd_257.4.bb
+>> @@ -273,6 +273,10 @@ WATCHDOG_TIMEOUT ??=3D "60"
+>> # and the watchdog is enabled. (defaults is no hardware watchdog use)
+>> WATCHDOG_RUNTIME_SEC ??=3D ""
+>>=20
+>> +# Predictable network interface name policies
+>> +PNI_NAME_POLICY ??=3D "keep kernel database onboard slot path mac"
+>> +PNI_ALTERNATIVE_NAMES_POLICY ??=3D "database onboard slot path mac"
+>> +
+>> do_install() {
+>>        meson_do_install
+>>=20
+>> @@ -398,12 +402,8 @@ do_install() {
+>>        fi
+>>=20
+>>        if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', =
+'false', d)}; then
+>> -               if ! grep -q '^NamePolicy=3D.*mac' =
+${D}${nonarch_libdir}/systemd/network/99-default.link; then
+>> -                       sed -i '/^NamePolicy=3D/s/$/ mac/' =
+${D}${nonarch_libdir}/systemd/network/99-default.link
+>> -               fi
+>> -               if ! grep -q 'AlternativeNamesPolicy=3D.*mac' =
+${D}${nonarch_libdir}/systemd/network/99-default.link; then
+>> -                       sed -i '/AlternativeNamesPolicy=3D/s/$/ mac/' =
+${D}${nonarch_libdir}/systemd/network/99-default.link
+>> -               fi
+>> +               sed -i =
+'s/^NamePolicy=3D.*/NamePolicy=3D${PNI_NAME_POLICY}/' =
+${D}${nonarch_libdir}/systemd/network/99-default.link
+>> +               sed -i =
+'s/^AlternativeNamesPolicy=3D.*/AlternativeNamesPolicy=3D${PNI_ALTERNATIVE=
+_NAMES_POLICY}/' ${D}${nonarch_libdir}/systemd/network/99-default.link
+>>        else
+>>                # Actively disable Predictable Network Interface Names
+>>                sed -i =
+'s/^NamePolicy=3D.*/NamePolicy=3D/;s/^AlternativeNamesPolicy=3D.*/Alternat=
+iveNamesPolicy=3D/' =
+${D}${nonarch_libdir}/systemd/network/99-default.link
+>> --
+>> 2.45.2
+>>=20
+>>=20
+>>=20
+>>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#214806): =
+https://lists.openembedded.org/g/openembedded-core/message/214806
+> Mute This Topic: https://lists.openembedded.org/mt/112169516/9418801
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[koen.kooi@oss.qualcomm.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+
 
