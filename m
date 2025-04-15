@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EC6BC369BD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF1AC369C1
 	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:17 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.20185.1744723986880512234
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.20169.1744723986590637766
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 06:33:06 -0700
+ Tue, 15 Apr 2025 06:33:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=IpytHEBF;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Gha5p2Zk;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019639a74704-9ec6d4c7-4ad8-4dfd-97ae-1c0bfee29d91-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VwrsRWjt;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=F0+M4Wnn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019639a76740-d1a2192e-ff2e-4198-a1ef-9e7abc3bb975-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1744723986;
+	t=1744723994;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Bu/Td7GmJF80BJTSfHgvSpxVzqzIyfK98hK8RNxb9r8=;
-	b=IpytHEBFu34EXY0Ax5QvV22lo+B5WdeOkiPnVs7gJfFqSJ1qLE4HuE5H3kRwOQg/
-	H3ruv43fzwd+xBxg+hqet5flvBaNMr2dpSv4/Gf/tFDe/v8vV5sRIEuJVAMe3d8Mj4c
-	dxIHfLui35R0io/iwORrrw0O7NyGc9JW+lbESpZI=
+	bh=DeZnLDwAeMrx3uLja0MVq2mD+f8kvNSogpsilbHf+4Y=;
+	b=VwrsRWjtjP3r+vMPbPvrDnjqoNP+DgFOEqR8wXAGx9IGHO6zCsx6d9d8+yIODktw
+	PbuVmC3FjEEx8jp+TpxkCN3i1xvnLkCPPQxQVAL92GalrAFX0v38JzCRNeRqR/ly5E/
+	6HBT/un8JB7G/JIVBZjxdghZ3ic+Jm5cA7htMxBw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723986;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723994;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Bu/Td7GmJF80BJTSfHgvSpxVzqzIyfK98hK8RNxb9r8=;
-	b=Gha5p2ZkSfChlxaaNyxbZfbmYTPvew3GnXO1dbAWsc2eN1Rd05M4d44DSTHkynsf
-	kvb7bg8gTNkFbrkXUtFDDZuzfcA91KjEXf5/Z7E88LefBYmfddmuVBUKyQdcw13ybsZ
-	1uGtWyYzPJbbFKi5NClx3RVRTSpWFcu2pYDdx+VU=
-Content-Type: multipart/mixed; boundary="===============4395104533000236087=="
+	bh=DeZnLDwAeMrx3uLja0MVq2mD+f8kvNSogpsilbHf+4Y=;
+	b=F0+M4Wnnr9XexioNokJ2OJbqbb9yB/B8LzH8AZvvC1jqkVPtZ/m4spUuBFJ4GPZa
+	WoFzp682kHIMDH9FBTkDE/2AZ54eCoxFlE01Rkr6IzlrRtqY3CSbHZ4VUbdYfxc/YNe
+	/f7/BXWrES3/fJRfdcJfuEhn0Yxo2kaSJz7HAjPI=
+Content-Type: multipart/mixed; boundary="===============2833466261458250646=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] fontconfig: upgrading to 2.16.0 FAILED
-Message-ID: <0101019639a74704-9ec6d4c7-4ad8-4dfd-97ae-1c0bfee29d91-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Apr 2025 13:33:06 +0000
+Subject: [AUH] vte: upgrading to 0.80.1 FAILED
+Message-ID: <0101019639a76740-d1a2192e-ff2e-4198-a1ef-9e7abc3bb975-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Apr 2025 13:33:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.15-54.240.27.33
+X-SES-Outgoing: 2025.04.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214913
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214940
 
---===============4395104533000236087==
+--===============2833466261458250646==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,15 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *fontconfig* to *2.16.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *vte* to *0.80.1* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade fontconfig -V 2.16.0
+Running 'devtool upgrade' for recipe vte failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1897 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -75,13 +74,13 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:b48ba27beb259a52873b767be2e27cb05dd45667"
+workspace            = "tmp-auh-upgrades:9ddf261cda661b8ee4272aa30da3c748022864f1"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 Loading cache...done.
@@ -103,29 +102,32 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:b48ba27beb259a52873b767be2e27cb05dd45667"
+workspace            = "tmp-auh-upgrades:9ddf261cda661b8ee4272aa30da3c748022864f1"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
 done.
 NOTE: Executing Tasks
-WARNING: Failed to fetch URL http://fontconfig.org/release/fontconfig-2.16.0.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+WARNING: tmp-recipetool-ggamnpti: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-gezh5tl5/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-gezh5tl5/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250415093140.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250415093140.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching http://fontconfig.org/release/fontconfig-2.16.0.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kxuexygs/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kxuexygs/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kxuexygs/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kxuexygs/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
- cipetool-kxuexygs/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kxuexygs/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget --tries=2 --timeout=100 --output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/fontconfig-2.16.0.tar.gz.tmp --continue --directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads 'http://fontconfig.org/release/fontconfig-2.16.0.tar.gz' --progress=dot --verbose failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://fontconfig.org/release/fontconfig-2.16.0.tar.gz')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kxuexygs/work/temp/log.do_fetch.1601688
-ERROR: Failed to fetch URL http://fontconfig.org/release/fontconfig-2.16.0.tar.gz
+INFO: Fetching https://download.gnome.org/sources//vte/0.80/vte-0.80.1.tar.xz;name=archive...
+INFO: Rebasing devtool onto c13645716c3ff4243d7632ee536a701f0ca77cc3
+WARNING: Command 'git rebase c13645716c3ff4243d7632ee536a701f0ca77cc3' failed:
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/vte
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/vte/vte_0.80.1.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -133,5 +135,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4395104533000236087==--
+--===============2833466261458250646==--
 
