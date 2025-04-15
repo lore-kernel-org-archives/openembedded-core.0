@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E61F0C3ABB3
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:17 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.20153.1744723974175266570
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EDDAC3ABB7
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:18 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.20157.1744723967710172816
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 06:33:15 -0700
+ Tue, 15 Apr 2025 06:33:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=K85YH5y7;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OQUV/gaN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019639a7675e-a3ac1a86-dfd7-451d-9f21-c072006d9ebf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=j/A+TF8M;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=oL5dcADJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019639a7546d-1bef2805-ee97-4e87-a15b-b1aaeebfcf69-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1744723994;
+	t=1744723989;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=KphaE7C/ZWIKQ9vlGu0FAIIMWiGZGjB46Cvp/StHKsQ=;
-	b=K85YH5y7Ijj1M952QanAHTY5xuwKQjnqtF2+JbMm4YTZKkO/7EHwHFtRwhsLkc38
-	fCYUxInc23YVGWOleYHkPE16Z1UEjt0UatUjLjRdRb1v18be39pwaZXHBqGQ78LDy75
-	2+UvRnZiihY2d02HIgJvt6bU02K5A0KISxRtw0oY=
+	bh=Oa78LWCjRC6Xg6XAbJlAbjhe23IWzvl4UPhowCaLkws=;
+	b=j/A+TF8MAArLNt919QByihPVdA2iulmxT4HaIjsWJivrthzkiTCgc0ICnwT/1vf8
+	1stkyE+f6ianglUcGt+RG4xwiEsiOyi9nXDkkytq13Xo01RoKQzHerf8sPSLl66ih9C
+	lRUpoibTaUmaMTSEhlysYqRVFduoQVj5FsdwtPWw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723994;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723989;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=KphaE7C/ZWIKQ9vlGu0FAIIMWiGZGjB46Cvp/StHKsQ=;
-	b=OQUV/gaNCM/XKJNWkkDoKK3JS7vVPkFKfMFVTQF3tuZyyY4KZmkCDPFzpy/afFD4
-	LhD/m2P4TWqD0HznkPBXxXC8bbw8H0NuJGYRWPJpCsGN3iGmwEfy1t6icabIkyMgv2/
-	qWQ/GtG43PTG0/KfB626NsQRGo/hx9e4mXksW0tU=
-Content-Type: multipart/mixed; boundary="===============2187591268168133552=="
+	bh=Oa78LWCjRC6Xg6XAbJlAbjhe23IWzvl4UPhowCaLkws=;
+	b=oL5dcADJekNpoDFYj70l+8lMMc33sWPkCy0RVq9qITijsTAUhsF1rnJmTW1//LAU
+	KE+lE6sISxh3PFVlNUzdsDC7Xg4L06uHUeFsN0jxdSaRTS/wbn2tuz8MVRY87CMoh0W
+	EM+XwW5xo6FI5SiL5676lhJsRNzFgAt5c459/kVU=
+Content-Type: multipart/mixed; boundary="===============5211321963083284141=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Michael Opdenacker <michael@opdenacker.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] liburcu: upgrading to 0.15.2 SUCCEEDED
-Message-ID: <0101019639a7675e-a3ac1a86-dfd7-451d-9f21-c072006d9ebf-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Apr 2025 13:33:14 +0000
+Subject: [AUH] alsa-lib: upgrading to 1.2.14 SUCCEEDED
+Message-ID: <0101019639a7546d-1bef2805-ee97-4e87-a15b-b1aaeebfcf69-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Apr 2025 13:33:09 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.15-54.240.27.45
+X-SES-Outgoing: 2025.04.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214943
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214924
 
---===============2187591268168133552==
+--===============5211321963083284141==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *liburcu* to *0.15.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *alsa-lib* to *1.2.14* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-liburcu-upgrade-0.15.1-0.15.2.patch
+    - apply the patch: git am 0001-alsa-lib-upgrade-1.2.13-1.2.14.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,96 +72,69 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1f9931ee09e76cae177b2f1674b66ce98da56d93 Mon Sep 17 00:00:00 2001
+From f9239d2a80d89874407fe1f3efb0e5492d96c842 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Apr 2025 13:28:52 +0000
-Subject: [PATCH] liburcu: upgrade 0.15.1 -> 0.15.2
+Date: Tue, 15 Apr 2025 10:34:02 +0000
+Subject: [PATCH] alsa-lib: upgrade 1.2.13 -> 1.2.14
 
 ---
- .../liburcu/{liburcu_0.15.1.bb => liburcu_0.15.2.bb}            | 2 +-
+ .../alsa/{alsa-lib_1.2.13.bb => alsa-lib_1.2.14.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/liburcu/{liburcu_0.15.1.bb => liburcu_0.15.2.bb} (91%)
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.2.13.bb => alsa-lib_1.2.14.bb} (94%)
 
-diff --git a/meta/recipes-support/liburcu/liburcu_0.15.1.bb b/meta/recipes-support/liburcu/liburcu_0.15.2.bb
-similarity index 91%
-rename from meta/recipes-support/liburcu/liburcu_0.15.1.bb
-rename to meta/recipes-support/liburcu/liburcu_0.15.2.bb
-index 811e59f853..93d6a6551f 100644
---- a/meta/recipes-support/liburcu/liburcu_0.15.1.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.15.2.bb
-@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=c2a92498b6e88e276f986877995425b8 \
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.13.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb
+similarity index 94%
+rename from meta/recipes-multimedia/alsa/alsa-lib_1.2.13.bb
+rename to meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb
+index 4572eff97f..41a42f9ecc 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.13.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+                     "
  
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
+ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "8c4ff37553cbe89618e187e4c779f71a9bb2a8b27b91f87ed40987cc9233d8f6"
++SRC_URI[sha256sum] = "be9c88a0b3604367dd74167a2b754a35e142f670292ae47a2fdef27a2ee97a32"
  
--SRC_URI[sha256sum] = "98d66cc12f2c5881879b976f0c55d10d311401513be254e3bd28cf3811fb50c8"
-+SRC_URI[sha256sum] = "59f36f2b8bda1b7620a7eced2634f26c549444818a8313025a3bb09c0766a61d"
+ inherit autotools pkgconfig
  
- S = "${WORKDIR}/userspace-rcu-${PV}"
- inherit autotools multilib_header
 -- 
 2.47.1
 
 
---===============2187591268168133552==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-liburcu-upgrade-0.15.1-0.15.2.patch"
-
-RnJvbSAxZjk5MzFlZTA5ZTc2Y2FlMTc3YjJmMTY3NGI2NmNlOThkYTU2ZDkzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgQXByIDIwMjUgMTM6Mjg6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ1cmN1OiB1cGdyYWRlIDAuMTUuMSAtPiAwLjE1LjIKCi0tLQogLi4uL2xpYnVyY3Uve2xpYnVy
-Y3VfMC4xNS4xLmJiID0+IGxpYnVyY3VfMC4xNS4yLmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvbGlidXJjdS97bGlidXJjdV8wLjE1LjEuYmIgPT4gbGlidXJjdV8wLjE1
-LjIuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXJjdS9s
-aWJ1cmN1XzAuMTUuMS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVyY3UvbGlidXJjdV8w
-LjE1LjIuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvbGlidXJjdS9saWJ1cmN1XzAuMTUuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvbGlidXJjdS9saWJ1cmN1XzAuMTUuMi5iYgppbmRleCA4MTFlNTlmODUzLi45M2Q2YTY1
-NTFmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ1cmN1L2xpYnVyY3VfMC4x
-NS4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVyY3UvbGlidXJjdV8wLjE1LjIu
-YmIKQEAgLTE0LDcgKzE0LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5t
-ZDttZDU9YzJhOTI0OThiNmU4OGUyNzZmOTg2ODc3OTk1NDI1YjggXAogCiBTUkNfVVJJID0gImh0
-dHA6Ly9sdHRuZy5vcmcvZmlsZXMvdXJjdS91c2Vyc3BhY2UtcmN1LSR7UFZ9LnRhci5iejIiCiAK
-LVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5OGQ2NmNjMTJmMmM1ODgxODc5Yjk3NmYwYzU1ZDEwZDMx
-MTQwMTUxM2JlMjU0ZTNiZDI4Y2YzODExZmI1MGM4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU5
-ZjM2ZjJiOGJkYTFiNzYyMGE3ZWNlZDI2MzRmMjZjNTQ5NDQ0ODE4YTgzMTMwMjVhM2JiMDljMDc2
-NmE2MWQiCiAKIFMgPSAiJHtXT1JLRElSfS91c2Vyc3BhY2UtcmN1LSR7UFZ9IgogaW5oZXJpdCBh
-dXRvdG9vbHMgbXVsdGlsaWJfaGVhZGVyCi0tIAoyLjQ3LjEKCg==
-
---===============2187591268168133552==
+--===============5211321963083284141==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/liburcu: PV changed from "0.15.1" to "0.15.2"
-packages/core2-64-poky-linux/liburcu: SRC_URI changed from "http://lttng.org/files/urcu/userspace-rcu-0.15.1.tar.bz2" to "http://lttng.org/files/urcu/userspace-rcu-0.15.2.tar.bz2"
-packages/core2-64-poky-linux/liburcu: PKGV changed from 0.15.1 [default] to 0.15.2 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-dbg: PKGSIZE changed from 889248 to 897040 (+1%)
-packages/core2-64-poky-linux/liburcu/liburcu-dbg: PV changed from "0.15.1" to "0.15.2"
-packages/core2-64-poky-linux/liburcu/liburcu-dbg: PKGV changed from 0.15.1 [default] to 0.15.2 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-dev: PKGSIZE changed from 355555 to 361909 (+2%)
-packages/core2-64-poky-linux/liburcu/liburcu-dev: PV changed from "0.15.1" to "0.15.2"
-packages/core2-64-poky-linux/liburcu/liburcu-dev: PKGV changed from 0.15.1 [default] to 0.15.2 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-dev: FILELIST: added "/usr/include/urcu/uatomic/uassert.h"
-packages/core2-64-poky-linux/liburcu/liburcu-doc: PKGSIZE changed from 130371 to 130406 (+0%)
-packages/core2-64-poky-linux/liburcu/liburcu-doc: PV changed from "0.15.1" to "0.15.2"
-packages/core2-64-poky-linux/liburcu/liburcu-doc: PKGV changed from 0.15.1 [default] to 0.15.2 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-locale: PV changed from "0.15.1" to "0.15.2"
-packages/core2-64-poky-linux/liburcu/liburcu-locale: PKGV changed from 0.15.1 [default] to 0.15.2 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-src: PKGSIZE changed from 428324 to 427791 (-0%)
-packages/core2-64-poky-linux/liburcu/liburcu-src: PV changed from "0.15.1" to "0.15.2"
-packages/core2-64-poky-linux/liburcu/liburcu-src: PKGV changed from 0.15.1 [default] to 0.15.2 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-staticdev: PV changed from "0.15.1" to "0.15.2"
-packages/core2-64-poky-linux/liburcu/liburcu-staticdev: PKGV changed from 0.15.1 [default] to 0.15.2 [default]
-packages/core2-64-poky-linux/liburcu/liburcu: PV changed from "0.15.1" to "0.15.2"
-packages/core2-64-poky-linux/liburcu/liburcu: PKGV changed from 0.15.1 [default] to 0.15.2 [default]
-Changes to packages/core2-64-poky-linux/liburcu (sysroot):
-  /usr/include/urcu/uatomic/uassert.h was added
+packages/core2-64-poky-linux/alsa-lib/alsa-conf: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib/alsa-conf: PV changed from "1.2.13" to "1.2.14"
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-dbg: PKGSIZE changed from 3991120 to 4016840 (+1%)
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-dbg: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-dbg: PV changed from "1.2.13" to "1.2.14"
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-dev: PKGSIZE changed from 494386 to 500283 (+1%)
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-dev: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-dev: PV changed from "1.2.13" to "1.2.14"
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-doc: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-doc: PV changed from "1.2.13" to "1.2.14"
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-locale: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-locale: PV changed from "1.2.13" to "1.2.14"
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-src: PKGSIZE changed from 3523101 to 3549264 (+1%)
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-src: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-src: PV changed from "1.2.13" to "1.2.14"
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-staticdev: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib/alsa-lib-staticdev: PV changed from "1.2.13" to "1.2.14"
+packages/core2-64-poky-linux/alsa-lib/alsa-lib: PKGSIZE changed from 1141402 to 1153690 (+1%)
+packages/core2-64-poky-linux/alsa-lib/alsa-lib: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib/alsa-lib: PV changed from "1.2.13" to "1.2.14"
+packages/core2-64-poky-linux/alsa-lib/alsa-server: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib/alsa-server: PV changed from "1.2.13" to "1.2.14"
+packages/core2-64-poky-linux/alsa-lib: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib: PV changed from "1.2.13" to "1.2.14"
+packages/core2-64-poky-linux/alsa-lib: SRC_URI changed from "https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.13.tar.bz2" to "https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.14.tar.bz2"
+packages/core2-64-poky-linux/alsa-lib/libatopology: PKGV changed from 1.2.13 [default] to 1.2.14 [default]
+packages/core2-64-poky-linux/alsa-lib/libatopology: PV changed from "1.2.13" to "1.2.14"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -1989,15 +1962,12 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============2187591268168133552==
+--===============5211321963083284141==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/liburcu/liburcu-dev: FILELIST: added "/usr/include/urcu/uatomic/uassert.h"
-Changes to packages/core2-64-poky-linux/liburcu (sysroot):
-  /usr/include/urcu/uatomic/uassert.h was added
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3825,5 +3795,35 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============2187591268168133552==--
+--===============5211321963083284141==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-alsa-lib-upgrade-1.2.13-1.2.14.patch"
+
+RnJvbSBmOTIzOWQyYTgwZDg5ODc0NDA3ZmUxZjNlZmIwZTU0OTJkOTZjODQyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgQXByIDIwMjUgMTA6MzQ6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+bHNhLWxpYjogdXBncmFkZSAxLjIuMTMgLT4gMS4yLjE0CgotLS0KIC4uLi9hbHNhL3thbHNhLWxp
+Yl8xLjIuMTMuYmIgPT4gYWxzYS1saWJfMS4yLjE0LmJifSAgICAgICAgICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1tdWx0aW1lZGlhL2Fsc2Eve2Fsc2EtbGliXzEuMi4xMy5iYiA9PiBhbHNhLWxpYl8x
+LjIuMTQuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxz
+YS9hbHNhLWxpYl8xLjIuMTMuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9hbHNhL2Fsc2Et
+bGliXzEuMi4xNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtbXVsdGltZWRpYS9hbHNhL2Fsc2EtbGliXzEuMi4xMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLW11bHRpbWVkaWEvYWxzYS9hbHNhLWxpYl8xLjIuMTQuYmIKaW5kZXggNDU3MmVmZjk3Zi4u
+NDFhNDJmOWVjYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS9hbHNh
+LWxpYl8xLjIuMTMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS9hbHNhLWxp
+Yl8xLjIuMTQuYmIKQEAgLTEwLDcgKzEwLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
+Q09QWUlORzttZDU9YTkxNjQ2N2I5MTA3NmU2MzFkZDhlZGI3NDI0NzY5YzcgXAogICAgICAgICAg
+ICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cuYWxzYS1wcm9qZWN0Lm9yZy9m
+aWxlcy9wdWIvbGliLyR7QlB9LnRhci5iejIiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGM0ZmYz
+NzU1M2NiZTg5NjE4ZTE4N2U0Yzc3OWY3MWE5YmIyYThiMjdiOTFmODdlZDQwOTg3Y2M5MjMzZDhm
+NiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiZTljODhhMGIzNjA0MzY3ZGQ3NDE2N2EyYjc1NGEz
+NWUxNDJmNjcwMjkyYWU0N2EyZmRlZjI3YTJlZTk3YTMyIgogCiBpbmhlcml0IGF1dG90b29scyBw
+a2djb25maWcKIAotLSAKMi40Ny4xCgo=
+
+--===============5211321963083284141==--
 
