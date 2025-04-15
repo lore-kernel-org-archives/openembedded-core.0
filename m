@@ -1,124 +1,154 @@
-Return-Path: <eichest@gmail.com>
+Return-Path: <dse@thaumatec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30E0CC369AB
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 07:21:32 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.14462.1744701684771600859
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C6FC369B8
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 07:43:02 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.14694.1744702978664385936
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 00:21:25 -0700
+ Tue, 15 Apr 2025 00:42:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=H2+Wrd5x;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: eichest@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43690d4605dso40560995e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 00:21:24 -0700 (PDT)
+ dkim=pass header.i=@thaumatec-com.20230601.gappssmtp.com header.s=20230601 header.b=UQ1fg+n0;
+ spf=pass (domain: thaumatec.com, ip: 209.85.218.51, mailfrom: dse@thaumatec.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-acae7e7587dso410627266b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 00:42:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744701683; x=1745306483; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=FMGjnguFu4fmTyCN+czuVIDiVNlxDiedoBOYHPvxXMk=;
-        b=H2+Wrd5xL7mbsrHtQi+ktG/qHCEv/JNbJOFXGGAMZDPI6TVuCADTHO2MQah0JADUr1
-         hzDJljjN75ulURTmrEYy3YJMZITu/qU66FXPcYtVW3s3SUdbhDEz4YBvnnnIwXeHqMZS
-         +mXzAimPK+/+DJK68yhRZ3ThH5+kYfB6sPm1z3zjhVxceyd+Dqajdp4i2kxdzNBezyWB
-         aB04K+NuN+uVAgwB8dGm3p/dXVDVIJ7oszbHqoIx4hpgTlsujPbnFTzysGc7cNTEf9l4
-         xt17mIuq+sqDGA2OxLIosmwuz5TLmqyMnFM0zDXQ+YVyRbDWTobAehIzgR5gzI9e0rjX
-         n5HA==
+        d=thaumatec-com.20230601.gappssmtp.com; s=20230601; t=1744702977; x=1745307777; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ud0zK3OEduNrSmU+HEgAB9h0RiG6i8XehWLyrluPWls=;
+        b=UQ1fg+n0+kG3d9JAAgw6ZUa7T5HHh6Gg1r4t8+LTkkCbdjtl2NHe7k/gaxqZQhwQBW
+         mbyLUbIz2LoIXCnI0dpjijmmuhj1YCzxx+z3a4ceatYWPBBrrWvOF0j/e8Au2Yttpv7i
+         5nLOlBMtqKOEmsZtk4NtpONI/hwyRnTd/RdDxM9hDvYjvGV8HEv6fB/dZHJhgrISyhBO
+         8nozNGDbEqaMqLFG6IoxEA8E1rsCgscHRclp3W/t7xKEu6FH2tsUqp+cm+bK/PbdIlqC
+         bKunj2kjlsGslEmqRTVzoTruHH2tHMSU0z4OkFZIQyFQb1NyXS3yKzD85YfbDEHbVRYS
+         cRag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744701683; x=1745306483;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FMGjnguFu4fmTyCN+czuVIDiVNlxDiedoBOYHPvxXMk=;
-        b=V5KI3Y4PleTEnj0YWMwV5QDbJNRVR52ECYu6GwgBOun9nm13ThWSB9ATumqS76Ei+P
-         GD88qvt5Uv65eN+ycd0E7NigNH+b9MkDQYT09Bs+o/d+7audTdh+Q85fbyh3e8s3/+SW
-         LFAqSyOcjYfhRBEA5MNPN5MGtRabVSgIXuy3fnTf34phgY9sEgUTRiC4v4hEleR9LfE4
-         rrD2bKWJOjNYO9Q6DOd+Mpe7nNPAjZpguCvzZUCLsU0gMGNEtem2oZ1K3L4WOi71sW7q
-         ge4/kEuvQz8/yVi1I0cSki5P0kgD1w7iifze2bXByQoUTmuMzHvspFZuAKj1375JivOZ
-         tlWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUW6uu0v0CTC8JGtDJSnl74G6zFDHaQeuaMkBBhipJ2J3SCHEENSXy2l2q7gUTbd0RPfJlsuFus4+zyBGgratg42w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxFBLWrb9Blmp/rSRN9nqZRrSYtgdCwNtjVkxoYehlrEng0Sd8x
-	EhPprXA3+yl0Re93GDDgTyl7Yg4PjhJp3OnCURGA4uNHqgYO7goZ
-X-Gm-Gg: ASbGncsvvLlRG2TA5mjs9NITJrn0ywvHrefp0FQ3stFxaH2pk76gNoeGPu3dXB0bqbO
-	0j/dG6qrdQqr92vqPPcp57GS73wTDxQBvBMU+KPIReZYLrex7SJXLGUFvyL8SgSwr6hJvLp2rIh
-	M7em4d7VmLdJJopxbYqY9FzNZox40QTXn0KCryWtBNAA/JteFRU+31d/yYZThFl/Dce2LRryWYz
-	w6wKjperY0akszXgjpdP0rKPllLwdasRRipGq5N+7sOmWrOkwJnqrSROExtkrdQFlKKmkEVjghv
-	E0iF8PWk/DP2p46fya5arZvBJV8oHXjUeIFL2Xuy
-X-Google-Smtp-Source: AGHT+IG7XdGIKfX6cSqAY/h2YYuSdNN3jAU8ubKgCW3xOfLur5dVKb4Sc3OhdybW4wzO0N6W7OgUVA==
-X-Received: by 2002:a05:600c:5107:b0:43c:fe15:41dd with SMTP id 5b1f17b1804b1-43f3a926606mr118739785e9.6.1744701682533;
-        Tue, 15 Apr 2025 00:21:22 -0700 (PDT)
-Received: from eichest-laptop ([2a02:168:af72:0:84e4:c917:4bcc:b2c3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae979684sm13406059f8f.55.2025.04.15.00.21.21
+        d=1e100.net; s=20230601; t=1744702977; x=1745307777;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ud0zK3OEduNrSmU+HEgAB9h0RiG6i8XehWLyrluPWls=;
+        b=ED1f+y8m3LGw4NEh9kYhMbId9U+nKJnnpBIflsEAMcOoezCKf8Bbiw6Hl8dgzA7SWF
+         HAHn669+ZaEbI//dtHcsucQelbcW2pnBRM+nrISMuBhZHd1B07XQWYqjgi8g34op2qnW
+         PGN6TMvMM3tg4+mUYbXNUeKEUl+MVgwtY+02dMN8fWMJ1ep9cK19Bgi5TWPPkA8ToDkO
+         h3+vyleGnW+dYIdUegQK5L/LVBUyiQCViQRqYufgnycQv2+wQfFppf3cb6D+cCrj1WA3
+         rEiBsl2UA4xGmmg3BWo3y8sm541/bSNqN9eGQGSkuH9PwTWPxKA8gT49+tr4ST4qSKIE
+         To+w==
+X-Gm-Message-State: AOJu0Yz/UeI9RjcZb6Epvk6HoEuCAbSdeir5J/IGUxtAP1GP/tUXMqZ0
+	e406ioXhluAfrKD1BJp74mc5tU9bRhUUHCPR3d/GwABY96i8x+QbtXND3yXj0aJOF7hQW8IjLsU
+	5
+X-Gm-Gg: ASbGncsuJZ8jeaxyX7iwpH5CW2baXtAn2W/uX9+UsooDaT+P/QsMkbbZDc++0y5K9xk
+	Cl3FTRxA2ZyU95AWHvl+f6Mc/ZsBgSuUBZvSKPPNK5IJPqNYwtK+BECMlYcqRgkQjht5VVf2Wtw
+	TLV1wRJUz54ofS1Wax6AKTEUZ8LDnvvySoQVwNmikAAzo9m0ITOnmkMlyBeJ1M4O2f8QXlm64h8
+	7P0/U1MOQ+1Yd+ez5mJA4xIbBWtFZ5wRvIA68sIOB3GliGqQ0GVl5rJxRCq+heV0ZP39ZCLy48S
+	DlOc1Iuq+6rpzKQZTYLEwmlC+YNZ4llfWTpAzWZLBQ==
+X-Google-Smtp-Source: AGHT+IHdGP88gHtCMqEsheuSf9N0+oRgHbcQkUNwaMnMrlDCQmMp7lyDPjt/AFX5SsBXa4ul2SiMUA==
+X-Received: by 2002:a17:907:3d87:b0:ac1:ea29:4e63 with SMTP id a640c23a62f3a-acad34c4447mr1321033866b.26.1744702976974;
+        Tue, 15 Apr 2025 00:42:56 -0700 (PDT)
+Received: from fedora.. ([91.90.172.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1ce72f5sm1058794966b.173.2025.04.15.00.42.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 00:21:22 -0700 (PDT)
-Date: Tue, 15 Apr 2025 09:21:20 +0200
-From: Stefan Eichenberger <eichest@gmail.com>
-To: Koen Kooi <koen.kooi@oss.qualcomm.com>
-Cc: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org,
-	Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: Re: [OE-core] [PATCH] systemd: Allow overriding PNI name policies
-Message-ID: <Z_4I8K3RT-3aNpyT@eichest-laptop>
-References: <20250409101545.5936-1-eichest@gmail.com>
- <CAJdd5Ga7-Swcb8Zej8dpuLP5AzuBHiTmFVSatL33Biwjhym+rA@mail.gmail.com>
- <A1955164-126F-4B34-B796-B2CD3E530AF7@oss.qualcomm.com>
+        Tue, 15 Apr 2025 00:42:56 -0700 (PDT)
+From: Daniel Semkowicz <dse@thaumatec.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Daniel Semkowicz <dse@thaumatec.com>
+Subject: [PATCH v1] udev/udev-extraconf: Fix race in automount cache
+Date: Tue, 15 Apr 2025 09:42:11 +0200
+Message-ID: <20250415074212.2559315-1-dse@thaumatec.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <A1955164-126F-4B34-B796-B2CD3E530AF7@oss.qualcomm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 07:21:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214825
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 07:43:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214826
 
-Hi Joshua and Koen,
+Cache files with names of automounted devices were saved in /tmp
+directory, but base directories for mount points are created by default
+in the /run/media directory.
 
-On Tue, Apr 15, 2025 at 08:56:26AM +0200, Koen Kooi wrote:
-> 
-> 
-> > Op 14 apr 2025, om 19:03 heeft Joshua Watt via lists.openembedded.org <JPEWhacker=gmail.com@lists.openembedded.org> het volgende geschreven:
-> > 
-> > On Wed, Apr 9, 2025 at 4:15 AM Stefan Eichenberger via
-> > lists.openembedded.org <eichest=gmail.com@lists.openembedded.org>
-> > wrote:
-> >> 
-> >> From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
-> >> 
-> >> Add two new variables, PNI_NAME_POLICY and PNI_ALTNAMES_POLICY, to allow
-> >> overriding the default Predictable Network Interface (PNI) name and
-> >> alternative name policies respectively.
-> >> 
-> >> This allows setting different name policies via a .bbappend file if the
-> >> defaults are not suitable for a specific use case.
-> > 
-> > It's very difficult to configured systemd in a way that is acceptable
-> > to everyone, and I'm not sure adding variable "knobs" for every
-> > possible configuration option is feasible for systemd.
-> 
-> For me, the issue is that OE-core adds the MAC naming feature that upstream has disabled by default, which gives me unpredictable names for various on-SoC network interfaces[1]. Having a way, supported by OE-core, to disable the addition that results in predictable names not being predictable would be great. It would make PNI function as intended :)
+With systemd init manager, /tmp is mounted by the systemd service.
+Udev has no dependency on /tmp and this creates a race condition.
+It is possible that the block device is already present in the device
+and the udev rules for automount are triggered during boot
+before /tmp is mounted. In such a case, mount cache files are created
+on the base file system. If the base file system is read-write,
+the cached file persists after the reboot and prevents automount
+on the next boot.
 
-This is the exact same issue we have.
+Use the mount base directory for storing cache files. Both mount points
+and cache will be created in the same place, so there will be no race.
 
-> > You could do the exact same thing by putting your sed command in a
-> > do_install:append() function (since you want to set them from a
-> > bbappend anyway), and in that case it's irrelevant if pni-names is set
-> > in PACKAGECONFIG or not.
-> 
-> I know and I hate it:
-> 
-> https://github.com/qualcomm-linux/meta-qcom-distro/commit/1820fefb6c67506726277f7f789fd5a4538ea33f
-> 
-> It's fragile and noone on the oe-core side will realize that changing do_install() might break DISTROs that use such bbappend. A proper variable like Stefan proposes would be more obvious and less fragile.
-> 
-> Or we could just drop the bit that adds 'mac' and have DISTROs that want that write a bbappend!
+Signed-off-by: Daniel Semkowicz <dse@thaumatec.com>
+---
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-I also don't like the sed approach because exactly of what Koen says. I
-agree that one of the base problem is that we already modify the policy
-and not just use systemds default. If we just remove the "mac" part that
-would be good for us as well.
-
-Regards,
-Stefan
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index 0cbae48729..467703daa4 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -7,6 +7,7 @@
+ BASE_INIT="`readlink -f "@base_sbindir@/init"`"
+ INIT_SYSTEMD="@systemd_unitdir@/systemd"
+ MOUNT_BASE="@MOUNT_BASE@"
++AUTOMOUNT_CACHE_DIR="${MOUNT_BASE}/.automount"
+ 
+ if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
+     # systemd as init uses systemd-mount to mount block devices
+@@ -60,7 +61,7 @@ automount_systemd() {
+ 
+     # Only go for auto-mounting when the device has been cleaned up in remove
+     # or has not been identified yet
+-    if [ -e "/tmp/.automount-$name" ]; then
++    if [ -e "${AUTOMOUNT_CACHE_DIR}/$name" ]; then
+             logger "mount.sh/automount" "[$MOUNT_BASE/$name] is already cached"
+             return
+     fi
+@@ -104,7 +105,8 @@ automount_systemd() {
+         rm_dir "$MOUNT_BASE/$name"
+     else
+         logger "mount.sh/automount" "Auto-mount of [$MOUNT_BASE/$name] successful"
+-        echo "$name" > "/tmp/.automount-$name"
++        [ -d "${AUTOMOUNT_CACHE_DIR}" ] || mkdir "${AUTOMOUNT_CACHE_DIR}"
++        echo "$name" > "${AUTOMOUNT_CACHE_DIR}/$name"
+     fi
+ }
+ 
+@@ -126,7 +128,7 @@ automount() {
+ 
+         # Only go for auto-mounting when the device has been cleaned up in remove
+         # or has not been identified yet
+-        if [ -e "/tmp/.automount-$name" ]; then
++        if [ -e "${AUTOMOUNT_CACHE_DIR}/$name" ]; then
+                 logger "mount.sh/automount" "[$MOUNT_BASE/$name] is already cached"
+                 return
+         fi
+@@ -162,10 +164,11 @@ automount() {
+ 		# The actual device might not be present in the remove event so blkid cannot
+ 		# be used to calculate what name was generated here. Simply save the mount
+ 		# name in our tmp file.
+-		echo "$name" > "/tmp/.automount-$name"
++		[ -d "${AUTOMOUNT_CACHE_DIR}" ] || mkdir "${AUTOMOUNT_CACHE_DIR}"
++        echo "$name" > "${AUTOMOUNT_CACHE_DIR}/$name"
+ 	fi
+ }
+-	
++
+ rm_dir() {
+ 	# We do not want to rm -r populated directories
+ 	if test "`find "$1" | wc -l | tr -d " "`" -lt 2 -a -d "$1"
+@@ -206,7 +209,7 @@ fi
+ 
+ if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
+     name="`basename "$DEVNAME"`"
+-    tmpfile=`find /tmp | grep "\.automount-.*${name}$"`
++    tmpfile=`find "${AUTOMOUNT_CACHE_DIR}" -name "*${name}"`
+     if [ ! -e "/sys/$DEVPATH" -a -e "$tmpfile" ]; then
+         logger "mount.sh/remove" "cleaning up $DEVNAME, was mounted by the auto-mounter"
+         for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
 
