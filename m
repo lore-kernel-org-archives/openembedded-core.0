@@ -1,188 +1,222 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <asharma@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D27EC369B5
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 08:58:22 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.15485.1744707498727722684
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83897C369AB
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 08:58:52 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web10.15520.1744707527922892414
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 01:58:18 -0700
+ Tue, 15 Apr 2025 01:58:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=UddN697w;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F8tDAw019556
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 08:58:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	c7R7Zo+IVhX8sZgBo77vEdbhuk5d55Ht3IzFjTXwqfM=; b=UddN697wLSlI+i9d
-	XXoJJ1SMRzqaBuu1YvA532SM/OM/01wTjuBqkmd0y4EZ8D6CdcmO8vfffC7i2Tfx
-	xe3tuNG14g6sD62jV7GRY+wbydn4WV3fZf/GA1bVJjMIVavvQsY+aU0+oiLOT8IK
-	yrBWQDpkX0DJPHbvqzr4O7Rt3YPNmH+EaB7BkU9TRAJZg9YoHfKM84djIwOMsPPE
-	3zKam4j1XS1e3/7zh3BJm0oqamZ6abT9ztNPcYqprItlzz9ZXq9Y6rSY4+CaMvEA
-	D0rYnaSGD2CvsUCTAOIktCSDAxEqzcCrMR0sS0fC3fs+pLH8NK9yHxkHpA0etCex
-	Q+YlSg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yhfcy9ve-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 08:58:17 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5f3b94827so873828685a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 01:58:17 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=jQ0gvgUf;
+ spf=pass (domain: mvista.com, ip: 209.85.215.175, mailfrom: asharma@mvista.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-af579e46b5dso3824312a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 01:58:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1744707527; x=1745312327; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gLzs1SfHd2g44vdid21jGRn2cSIS0hPk9ZgKcaFVTk0=;
+        b=jQ0gvgUfbkPz6OXCwih+zWyqEHgF7qUwIdeLI9nwD6pFKZimptRlzi3fiOCPO1Vk/E
+         rWgdBYJGlreNFPVgnfTsgOJ6w3z7fomd+M0rC9ELV1RXbCLHPAhby4+rWWtxKvGDMUgC
+         VVLVZE4yTHpy1uw4K5YPcUYWxd/aqlCZe3NbA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744707496; x=1745312296;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c7R7Zo+IVhX8sZgBo77vEdbhuk5d55Ht3IzFjTXwqfM=;
-        b=p1IoREglFW5SafPiCm4VE6btORWCXXA2Et486wmX+aSheEORmRh8Eie4kGpeKyhHrp
-         5/Cw2aJmnvOG2OdQuvjiT54qxWEmEBRvT7N69L7Zgzl5044s/iqVJavnyRjwFMfj7zoy
-         WGq3tx7cimvxBYc1G3dDZDeGZY5TUDZodxty5cjT9m6h4/Nsuo971kFr7+r3ujncTRe3
-         MgzUNUryY9QNqti0Qa0lJJmU5PgcJkKKz3C9LwIqh/LlK30pg4CosvzcWv9rORZTYlHu
-         lmte0XFAq5O4f8eldPNqlmp+8tEIc9zmloA0r+NEqBSo9EBDXJE+gLE2zWVIvxFcpWKQ
-         MJaw==
-X-Gm-Message-State: AOJu0Ywd6ZelqaJKgzt4ydZTQzQGPHxjg2PpKzFOgPOY+CkU6jYCaSvl
-	VXce0TLYvmfCOyUxGeyGNXyrbKbsbI4SQWeepKWXzlurNOaYhDUE3e99hSjjfc8L/nb/Hvw428v
-	RdXLX/iNPk/wDtG57RETt8E0HYGKd8qWbXwqJci8PPFw965Rz79LM9H5VQTZITCQ1YqifLiT/55
-	K3l/A=
-X-Gm-Gg: ASbGncsAD8ujDE1BsE3fqakkXZVEX+9BQRM6dW3BTKolbwZf/olRYhOBsWfOrjqRuj4
-	SO7Jc3gP7JkZVWB2jGvCo1zDgNtjzXpbOivQt11VaVAB+5GQVblOQW8MnBW2heMnQ1nG9gagfTu
-	aXZx8mBk8bZaqwu96tGoflyx4rF5IctEJxUiSWD9fluTrOtYATdsouM1/R7QwcB04beB71nIJA7
-	p5sVjt7EvD0Klj/TuOaEj5YmOCjivnnrKPTlGoWL/F5SUQKkM0xUybKWdc7nUPBClfaNMyU3DP5
-	+RgwuMTK9QdMxlFLgHW/rM6uHUFtXyuYErLqilOPRqLzCzFfDoFMveyQIO2HHd5QnbUpndp4WH2
-	KI76uV6NG7RR+4MPYxa57hFH4ZNkcus91qZMsuSdX1uQVJjS1t/tWSIA6cc5R
-X-Received: by 2002:a05:620a:4485:b0:7c5:94b2:99da with SMTP id af79cd13be357-7c7af0e0f76mr1860290585a.28.1744707496664;
-        Tue, 15 Apr 2025 01:58:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE4QrYx3qpGzA9SUjsqrPRlcxcrdZTneAlzHq4zn8FqJPWehjyaF5aymTT2iw8Q6D7NmZZObA==
-X-Received: by 2002:a05:620a:4485:b0:7c5:94b2:99da with SMTP id af79cd13be357-7c7af0e0f76mr1860289285a.28.1744707496294;
-        Tue, 15 Apr 2025 01:58:16 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:aa:77bc:64e0:30e4:f6ff:5bd? (2001-14bb-aa-77bc-64e0-30e4-f6ff-5bd.rev.dnainternet.fi. [2001:14bb:aa:77bc:64e0:30e4:f6ff:5bd])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d3d50fb8dsm1344698e87.164.2025.04.15.01.58.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Apr 2025 01:58:15 -0700 (PDT)
-Message-ID: <a87cd617-78c7-47a2-ad64-747432a1e59a@oss.qualcomm.com>
-Date: Tue, 15 Apr 2025 11:58:14 +0300
+        d=1e100.net; s=20230601; t=1744707527; x=1745312327;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gLzs1SfHd2g44vdid21jGRn2cSIS0hPk9ZgKcaFVTk0=;
+        b=w6eBuMl73tw5GIycaXXrMYoNvXMy8HbqqtzyNCSBZD+EBUW2mAGQDvIqfMPPfmr8JK
+         Bwd8ivlG7BGapSAPArUYx2sNuknmNKeXmnfQAO1kjdI0DDdbxy0XqHZmP1sCJLDa4fOY
+         E5Sa/YH7jg5onj5nRXEyt0r8qrVGXTc0bzqTOcf0pEByJIj9CicxqGSEOHitWcASUE0i
+         fRpDCl0II8fL3aAxirNnzk9Hpu8rDAUo40/JOO+SJwaXNJLZOlJxU7qzgub4d7SiInKa
+         7idv0ecSBDroPEG07glGvAuGY1PaZ9l+JvxfAq5hxzcsuc1rTf8KZ6iSv/NN3qafkjFv
+         3hdw==
+X-Gm-Message-State: AOJu0YyJEbOz0e/G+ndZNQZDqwyXHN6sxqpDqez7boHCXNji5zOyuPrI
+	odsOhYT6T7sRNO0afEgUJxt+bXkkq9dQ7In73bF+25R40Gaoa59HZ50Q/+TEsP9WHVmrIyM0/59
+	x/pQ=
+X-Gm-Gg: ASbGncvPHyp1w5hiFFmq6/HQs1mrHi+ne6jydb6NTuh77YMwvj1DPejDu7saE+ekJ34
+	I5dWjMCgfMETXAbOm1/SlLMsH4/eZUEGtFcE7dpRwJ3uVm9YcFqZLXLKmR6huO3J+edtyuy1/0X
+	9ObyKYRhPGMlTH/2+0Lbtq/yFzTuUKIJk7q+qBTkbBjBGKuHVUHPVa5/X3R9ZEKC1Z/1RVpQk1d
+	SJ9MoDqUmmuZyjwAQZT0wlyfuP9ls2FfiX7s1ueE3F5DeqzcS9QOKPRquR/8r1BLYKEBWrG2JM4
+	5gz1RMovhvVpqparwINiiwZJTgYA6iCZvDQKMg==
+X-Google-Smtp-Source: AGHT+IHUAmp5jsGt86TBXPK0OVKv9MNrcjQTYOQ2Lj/uuYmKvVDHOt4LSAg8VaC5sHBMYGa1lD6jTA==
+X-Received: by 2002:a05:6a21:32a2:b0:1f5:7007:9eb7 with SMTP id adf61e73a8af0-20179983274mr24532852637.37.1744707526603;
+        Tue, 15 Apr 2025 01:58:46 -0700 (PDT)
+Received: from MVIN00043 ([2401:4900:1c31:8d4d:603b:3076:e232:176])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b02a321edf6sm10495077a12.65.2025.04.15.01.58.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 01:58:46 -0700 (PDT)
+Received: by MVIN00043 (sSMTP sendmail emulation); Tue, 15 Apr 2025 14:28:41 +0530
+From: Ashish Sharma <asharma@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ashish Sharma <asharma@mvista.com>
+Subject: [OE-core][scarthgap][PATCH] binutils: patch CVE-2025-1178 & CVE-2024-57360
+Date: Tue, 15 Apr 2025 14:28:39 +0530
+Message-Id: <20250415085839.1200820-1-asharma@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] u-boot: add hook to prepare binaries before
- copying
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-        Koen Kooi <koen.kooi@oss.qualcomm.com>
-References: <20250409221851.1005988-1-dmitry.baryshkov@oss.qualcomm.com>
- <CAJdd5Ga=iKtV7KE0mYTTdWW5XsXgaa3ct+tBg=80azzYV7uNNQ@mail.gmail.com>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <CAJdd5Ga=iKtV7KE0mYTTdWW5XsXgaa3ct+tBg=80azzYV7uNNQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Authority-Analysis: v=2.4 cv=CfUI5Krl c=1 sm=1 tr=0 ts=67fe1faa cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=GZ1xCM7SaMq-4SCVwDwA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-GUID: cR40wjMvVtgvLSy4l4GubE7IHBt00COI
-X-Proofpoint-ORIG-GUID: cR40wjMvVtgvLSy4l4GubE7IHBt00COI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-15_04,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 malwarescore=0 impostorscore=0 spamscore=0 phishscore=0
- lowpriorityscore=0 suspectscore=0 mlxlogscore=970 mlxscore=0 clxscore=1015
- adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504150061
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 53F8tDAw019556
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 08:58:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214830
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 08:58:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214831
 
-On 14/04/2025 20:00, Joshua Watt wrote:
-> On Wed, Apr 9, 2025 at 4:18=E2=80=AFPM Dmitry Baryshkov via
-> lists.openembedded.org
-> <dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
->>
->> BSP layers might need to perform additional steps on the U-Boot binary=
-,
->> which are not a part of the oe_runmake invocation. For example, the
->> binary might need to be signed or converted to the Android boot image.
->>
->> In order to let BSP recipes to perform such tasks without duplicating
->> u-boot.inc functions, add a special hook to be called before
->> uboot_compile_config_copy_binary().
->>
->> Note: it is of course possible to push necessary steps into
->> uboot_compile_config_copy_binary() itself, but it doesn't look as clea=
-n
->> as just adding a hook.
->=20
-> It's unclear why a _prepare is necessary, when it passes the exact
-> same argument to _copy, and _copy is only one line (so you could do
-> the same thing by making your _copy contain what you want in _prepare
-> and the one `cp` line from _copy)
->=20
-> Is there some distinct advantage to _prepare, beyond allowing keeping
-> the one line default _copy?
+Backport Fixes for:
 
-Well. It makes a distinction logical: first you build something, then=20
-you copy it. Also, if we prepend the copy hook, we also need to parse=20
-the arguments, which then get parsed again, so the code looks untidy.
+*CVE-2025-1178 - Upstream-Status: Backport from [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=75086e9de1707281172cc77f178e7949a4414ed0]
 
- From my POV it's just a matter of preference and I'd be happy to follow=20
-any maintainer's decision on this topic.
+*CVE-2024-57360 - Upstream-Status: Backport from  [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=5f8987d3999edb26e757115fe87be55787d510b9]
 
->=20
->>
->> Cc: Koen Kooi <koen.kooi@oss.qualcomm.com>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->> ---
->>   meta/recipes-bsp/u-boot/u-boot.inc | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-b=
-oot/u-boot.inc
->> index 9464736b8418..fe86ba0ad011 100644
->> --- a/meta/recipes-bsp/u-boot/u-boot.inc
->> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
->> @@ -81,6 +81,7 @@ uboot_compile_config () {
->>       for binary in ${UBOOT_BINARIES}; do
->>           k=3D$(expr $k + 1);
->>           if [ $k -eq $i ]; then
->> +            uboot_compile_config_prepare_binary $config $type $binary
->>               uboot_compile_config_copy_binary $config $type $binary
->>           fi
->>       done
->> @@ -93,6 +94,13 @@ uboot_compile_config () {
->>       fi
->>   }
->>
->> +# Do nothing by default, this is a hook to be extended by BSP recipes
->> +uboot_compile_config_prepare_binary () {
->> +    config=3D$1
->> +    type=3D$2
->> +    binary=3D$3
->> +}
->> +
->>   uboot_compile_config_copy_binary () {
->>       config=3D$1
->>       type=3D$2
->> --
->> 2.47.2
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#214598): https://lists.openembedded.org/g/openembe=
-dded-core/message/214598
->> Mute This Topic: https://lists.openembedded.org/mt/112181580/3616693
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[JPEWhacker@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
+---
+ .../binutils/binutils-2.42.inc                |  2 +
+ .../binutils/binutils/CVE-2024-57360.patch    | 75 +++++++++++++++++++
+ .../binutils/binutils/CVE-2025-1178.patch     | 38 ++++++++++
+ 3 files changed, 115 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2024-57360.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1178.patch
 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index 0ca00552ce..d366350556 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -40,5 +40,7 @@ SRC_URI = "\
+      file://0017-dlltool-file-name-too-long.patch \
+      file://0018-CVE-2025-0840.patch \
+      file://CVE-2025-1176.patch \
++     file://CVE-2025-1178.patch \
++     file://CVE-2024-57360.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2024-57360.patch b/meta/recipes-devtools/binutils/binutils/CVE-2024-57360.patch
+new file mode 100644
+index 0000000000..6d9720414b
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2024-57360.patch
+@@ -0,0 +1,75 @@
++From 5f8987d3999edb26e757115fe87be55787d510b9 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Tue, 17 Dec 2024 09:18:57 +0000
++Subject: [PATCH] nm: Avoid potential segmentation fault when displaying
++ symbols without version info.
++
++PR 32467
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=75086e9de1707281172cc77f178e7949a4414ed0]
++CVE: CVE-2024-57360
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ binutils/nm.c | 24 ++++++++++++++++--------
++ 1 file changed, 16 insertions(+), 8 deletions(-)
++
++diff --git a/binutils/nm.c b/binutils/nm.c
++index faf27c59b4d..0ba7604d34f 100644
++--- a/binutils/nm.c
+++++ b/binutils/nm.c
++@@ -682,7 +682,7 @@ print_symname (const char *form, struct extended_symbol_info *info,
++ 	       const char *name, bfd *abfd)
++ {
++   char *alloc = NULL;
++-  char *atver = NULL;
+++  char *atname = NULL;
++ 
++   if (name == NULL)
++     name = info->sinfo->name;
++@@ -690,9 +690,19 @@ print_symname (const char *form, struct extended_symbol_info *info,
++   if (!with_symbol_versions
++       && bfd_get_flavour (abfd) == bfd_target_elf_flavour)
++     {
++-      atver = strchr (name, '@');
+++      char *atver = strchr (name, '@');
+++
++       if (atver)
++-	*atver = 0;
+++	{
+++	  /* PR 32467 - Corrupt binaries might include an @ character in a
+++	     symbol name.  Since non-versioned symbol names can be in
+++	     read-only memory (via memory mapping of a file's contents) we
+++	     cannot just replace the @ character with a NUL.  Instead we
+++	     create a truncated copy of the name.  */
+++	  atname = xstrdup (name);
+++	  atname [atver - name] = 0;
+++	  name = atname;
+++	}
++     }
++ 
++   if (do_demangle && *name)
++@@ -703,9 +713,7 @@ print_symname (const char *form, struct extended_symbol_info *info,
++     }
++ 
++   if (unicode_display != unicode_default)
++-    {
++-      name = convert_utf8 (name);
++-    }
+++    name = convert_utf8 (name);
++ 
++   if (info != NULL && info->elfinfo && with_symbol_versions)
++     {
++@@ -726,8 +734,8 @@ print_symname (const char *form, struct extended_symbol_info *info,
++ 	}
++     }
++   printf (form, name);
++-  if (atver)
++-    *atver = '@';
+++
+++  free (atname);
++   free (alloc);
++ }
++ 
++-- 
++2.43.5
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-1178.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-1178.patch
+new file mode 100644
+index 0000000000..a68a5e1c3c
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-1178.patch
+@@ -0,0 +1,38 @@
++From 75086e9de1707281172cc77f178e7949a4414ed0 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Wed, 5 Feb 2025 13:26:51 +0000
++Subject: [PATCH] Prevent an abort in the bfd linker when attempting to
++ generate dynamic relocs for a corrupt input file.
++
++PR 32638
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=75086e9de1707281172cc77f178e7949a4414ed0]
++CVE: CVE-2025-1178
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ bfd/elf64-x86-64.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/bfd/elf64-x86-64.c b/bfd/elf64-x86-64.c
++index 61334c3ab04..32db254ba6c 100644
++--- a/bfd/elf64-x86-64.c
+++++ b/bfd/elf64-x86-64.c
++@@ -5303,6 +5303,15 @@ elf_x86_64_finish_dynamic_symbol (bfd *output_bfd,
++ 
++       if (generate_dynamic_reloc)
++ 	{
+++	  /* If the relgot section has not been created, then
+++	     generate an error instead of a reloc.  cf PR 32638.  */
+++	  if (relgot == NULL || relgot->size == 0)
+++	    {
+++	      info->callbacks->einfo (_("%F%pB: Unable to generate dynamic relocs because a suitable section does not exist\n"),
+++					output_bfd);
+++	      return false;
+++	    }
+++	  
++ 	  if (relative_reloc_name != NULL
++ 	      && htab->params->report_relative_reloc)
++ 	    _bfd_x86_elf_link_report_relative_reloc
++-- 
++2.43.5
++
+-- 
+2.34.1
 
---=20
-With best wishes
-Dmitry
 
