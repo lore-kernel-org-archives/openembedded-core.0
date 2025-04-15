@@ -1,180 +1,113 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1F40C369AB
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 09:51:52 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web11.16095.1744710709444422240
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A61EC369AB
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 10:25:23 +0000 (UTC)
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.web10.16539.1744712720911581793
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 02:51:49 -0700
+ Tue, 15 Apr 2025 03:25:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=wVLbEwnc;
- spf=pass (domain: linaro.org, ip: 209.85.167.50, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54b1095625dso5779654e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 02:51:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744710707; x=1745315507; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xG5IvUzCUnIUJSWUu0CdQnrjTVBtAg8qqQP3xF90m8U=;
-        b=wVLbEwncnMPEkgg4w5ropThFnqsRgHXYNQXWQJ09VFOhwYbjaxm8IqFpsHnGtN1Y3L
-         uPkXqtE8HWBgLQ33MS37U3NwHftRiG/+AFRNuu6Gzf/YdU//5bAXxgvLgjpP4qEAUYFV
-         2849T7YHJswRVhu9ne1jhlycen6BJyh248bJHTGhgodwIa0snRJgigR3thJR2AJannwQ
-         4IZOpM1ckwmuOny3zYGaxEyoBwz4xo9wkghNj8hAUaA8v9bK2F8KW7uCtcuEC0cAEX1u
-         CWEBbKQvNWSWEW7lLSluOZg8RaoCj4blb2erorra07cGNqzzqSJI+CKF5FlUXeL2P1fG
-         5y4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744710707; x=1745315507;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xG5IvUzCUnIUJSWUu0CdQnrjTVBtAg8qqQP3xF90m8U=;
-        b=YWIro/FBGjUgQ8geL39Qfvovhz3DxKqfmESvBkK5A5agl9zLMFdZB55JTbWLXMq5cw
-         QSrle+Uzu7NU/F0uoUuP9Mx8zsxFy4hgrbtZk9HBx5uYOHeVCXShcV6Fr1VniG5Xm3PZ
-         5VxuKfFx78Om5j3P+ZxOD9rZf5D1ICcH1DUkEE6OJHzmbDblqcSqCu76UBfi+reqm+VT
-         ukRQ7zY8sdpXr/H5f7sUsBmXfTntQqwZNoDAaPOWITswLTI3EXhqQ2COQgWKON2tMjJ0
-         7HCOmk1FS6OVAB6X6Mua98c//YRpd649LbragBhBSGTXrIzl39T2Px5CFlohELc192vI
-         AqDg==
-X-Gm-Message-State: AOJu0YzeRJ5G/vYusSXJHaQnuS2J5jT4yEaGbwoaT6wrdMy84ucnw8KS
-	SdqnfnwAcL+IElBwFqMFahPQ5WUpVuG930oxRJcTIgwKKEdhClYsNnTUzEHkjoM=
-X-Gm-Gg: ASbGncu3H47ComnVcGwq9q92Wq/JR6VdhfgC7X+r7pYQ+IySY6YuPdmrkMxXITqpQUz
-	JPs2KqAM8wg1xfseaHPPUSl+L9lg645NqpIos8v8BVsLWoW2MfkK6u3rN4RbpyW4t8Coe7leLXb
-	DoMVoc9iABzd+Il4Yds3fNNZHyzy3LGSHfUBvbhcWNyGdRUQrEL1iDGmoEG8ZVvyNN0IsFCCZke
-	7mkCI7pgj2zLZtDFii9hudLLI9VSQ6q4XEeI6L9fPuxpWJ6Sq0uM+QP8YX//dw6RFJYdEkYUBxU
-	vo49vGKob6/g2egoJAkEW8R64XuhGml/FMoO4Cvgctxleq3E1V2UfYfeROGZ6kR5Uj18NvniSA=
-	=
-X-Google-Smtp-Source: AGHT+IHNFzwrhZwDUJgKUaYN5Ai2ZbaDB3AX34UnnOZcPbofHLLseiPC/tm+JPen+NuSvF3+2S2rig==
-X-Received: by 2002:a05:6512:3981:b0:549:5b54:2c68 with SMTP id 2adb3069b0e04-54d45291f18mr4865947e87.22.1744710707468;
-        Tue, 15 Apr 2025 02:51:47 -0700 (PDT)
-Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d3d5026d5sm1375424e87.155.2025.04.15.02.51.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 02:51:47 -0700 (PDT)
-Date: Tue, 15 Apr 2025 12:51:45 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, mike.looijmans@topic.nl
-Subject: Re: [OE-core] [PATCH v3 01/11] systemd: enable efi support by default
-Message-ID: <Z_4sMeEiHjZ8ydfs@nuoska>
-References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
- <20250404162932.447699-2-mikko.rapeli@linaro.org>
- <8ae24df9-f1ae-44a9-a4f3-7d8aa273a335@topic.nl>
- <Z_jy0-3v8qVSyll8@nuoska>
- <960572ae-f816-4d55-b935-8e11e2dad89f@topic.nl>
- <CAB3asfhjnUAm-sB=Q4mk9whXUMdgaBZk0kwiwYKKyPJ0ydnU2w@mail.gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=VEDPPRpn;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: leimaohui@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1744712721; x=1776248721;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=85SVmsxk5MsroPtz+p074O/Ff9Kkss9vjVwKD9RWNRs=;
+  b=VEDPPRpn3+HDVSacNNG0v94kwXlKQAWX+UKMum3QG6ff7BTWEaTDuhBm
+   XVvulQnR+bJIGLkvMG1SSKYVRwDeF3/E3VvICqwuM+N2UTmI/px62e2Z6
+   rnP2JeU12nwbRQDbI1OwPJjGsO5t8odr93Y1hkwdf8BLqR05GZIIhv0CY
+   249dwIKXO9kh0bJ6ElvaOGn285ZqEPdRGpGR1awQtZO8fBWuo2YG9OZUj
+   6v1dZ2bQgSxXyLFjAub5Xobwo3+LiUm8x7Vc2tDMB+P9TLZ2RWc+xV7R5
+   fTaLokcCR9UlWhYQtc1+H7hYn/eZJu8nwWdWsY/9L/kTXlLeCrSSEytpT
+   g==;
+X-CSE-ConnectionGUID: YkhsehABTX2yuYJ1q/iR2w==
+X-CSE-MsgGUID: BGOVJAEPRc6jDoH3tpekIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="184897024"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739804400"; 
+   d="scan'208";a="184897024"
+Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 19:25:18 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 616DAD6EA1
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 19:25:16 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 1B730D50BA
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 19:25:16 +0900 (JST)
+Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.167.135.33])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 4A8601A0078;
+	Tue, 15 Apr 2025 18:25:15 +0800 (CST)
+From: Lei Maohui <leimaohui@fujitsu.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Lei Maohui <leimaohui@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-hypothesis: upgrade 6.129.2 -> 6.131.0
+Date: Tue, 15 Apr 2025 18:25:12 +0800
+Message-Id: <20250415102512.696-1-leimaohui@fujitsu.com>
+X-Mailer: git-send-email 2.38.1.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAB3asfhjnUAm-sB=Q4mk9whXUMdgaBZk0kwiwYKKyPJ0ydnU2w@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 09:51:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214835
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 10:25:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214836
 
-Hi,
+This package change to be built using python_setuptools_build_meta build class now
 
-On Mon, Apr 14, 2025 at 06:28:13PM +0200, Adrian Freihofer wrote:
-> Hi Mikko
-> 
-> Would it be possible to provide some numbers on the impact on the size of
-> the binaries and the additional dependencies that could be added to the
-> image with or without efi enabled?
-> I think the patch would be a very good compromise if the impact is
-> negligible, but otherwise the question is probably still valid.
+Changelog:
+https://github.com/HypothesisWorks/hypothesis/blob/master/hypothesis-python/docs/changelog.rst
 
-The impact is small:
+ptest result:
+|Testsuite summary
+|# TOTAL: 5
+|# PASS: 5
+|# SKIP: 0
+|# XFAIL: 0
+|# FAIL: 0
+|# XPASS: 0
+|# ERROR: 0
+|DURATION: 23
+|END: /usr/lib/python3-hypothesis/ptest
+|2025-04-15T10:17
+|STOP: ptest-runner
+|TOTAL: 1 FAIL: 0
 
- * python3-pyelftools-native is added to build dependencies
+Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+---
+ ...n3-hypothesis_6.129.2.bb => python3-hypothesis_6.131.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.129.2.bb => python3-hypothesis_6.131.0.bb} (87%)
 
- * At runtime the efivars partition is now automatically mounted read-only by
-   systemd to /sys/firmware/efi/efivars and can be used to query various firmware
-   and EFI bootloader (grub, systemd-boot) details
-
- * Since "efi" is now default, other layers can stop enabling it:
-
-   https://git.yoctoproject.org/meta-arm/tree/meta-arm/recipes-core/systemd/systemd-efi.inc
-   https://git.yoctoproject.org/meta-security/tree/meta-tpm/recipes-core/systemd/systemd_%25.bbappend#n5
-   https://github.com/Wind-River/meta-secure-core/blob/master/meta-efi-secure-boot/recipes-core/systemd/systemd-efi-secure-boot.inc
-
- * /usr/lib/systemd/libsystemd-shared-257.so size increases 32 bytes from
-   4012152 to 4012184 bytes, 0.0008%
-
- * systemd package size increase from 9857529 to 10226508, 3.7%, with
-   added files:
-
-+drwxr-xr-x root       root             4096 ./usr/lib/systemd/boot
-+drwxr-xr-x root       root             4096 ./usr/lib/systemd/boot/efi
-+-rw-r--r-- root       root             6144 ./usr/lib/systemd/boot/efi/addonaa64.efi.stub
-+-rw-r--r-- root       root           101376 ./usr/lib/systemd/boot/efi/linuxaa64.efi.stub
-+-rw-r--r-- root       root           120832 ./usr/lib/systemd/boot/efi/systemd-bootaa64.efi
-+-rwxr-xr-x -          -               67656 ./usr/lib/systemd/systemd-bless-boot
-+-rwxr-xr-x -          -               67456 ./usr/lib/systemd/system-generators/systemd-bless-boot-generator
-+lrwxrwxrwx -          -                  25 ./usr/lib/systemd/system/sockets.target.wants/systemd-bootctl.socket -> ../systemd-bootctl.socket
-+lrwxrwxrwx -          -                  35 ./usr/lib/systemd/system/sysinit.target.wants/systemd-boot-random-seed.service -> ../systemd-boot-random-seed.service
-+lrwxrwxrwx -          -                  34 ./usr/lib/systemd/system/sysinit.target.wants/systemd-hibernate-clear.service -> ../systemd-hibernate-clear.service
-+-rw-r--r-- -          -                 690 ./usr/lib/systemd/system/systemd-bless-boot.service
-+-rw-r--r-- -          -                 532 ./usr/lib/systemd/system/systemd-bootctl@.service
-+-rw-r--r-- -          -                 596 ./usr/lib/systemd/system/systemd-bootctl.socket
-+-rw-r--r-- -          -                1029 ./usr/lib/systemd/system/systemd-boot-random-seed.service
-+-rw-r--r-- -          -                 733 ./usr/lib/systemd/system/systemd-boot-update.service
-+-rw-r--r-- -          -                 782 ./usr/lib/systemd/system/systemd-hibernate-clear.service
-+-rw-r--r-- -          -                 779 ./usr/lib/tmpfiles.d/20-systemd-stub.conf
-
-  This shows a bug in the config between systemd and systemd-boot, the EFI binaries are
-  provided by both. Sadly systemd-boot doesn't work so well and doesn't install all
-  the services etc which systemd does with "efi" and bootloader enabled. Not sure
-  if the overlap should be fixed or ignored. Using meson to install systemd-boot
-  binaries does fix deployment of the EFI binaries but does not install the
-  random-seed etc services. With this workaround to avoid the EFI file duplication
-  in systemd recipe:
-
---- a/meta/recipes-core/systemd/systemd_257.5.bb
-+++ b/meta/recipes-core/systemd/systemd_257.5.bb
-@@ -149,7 +149,7 @@ PACKAGECONFIG[default-compression-lz4] = "-Dlz4=true -Ddefault-compression=lz4,,
- PACKAGECONFIG[default-compression-xz] = "-Dxz=true -Ddefault-compression=xz,,xz"
- PACKAGECONFIG[default-compression-zstd] = "-Dzstd=true -Ddefault-compression=zstd,,zstd"
- PACKAGECONFIG[dbus] = "-Ddbus=enabled,-Ddbus=disabled,dbus"
--PACKAGECONFIG[efi] = "-Defi=true -Dbootloader=enabled,-Defi=false -Dbootloader=disabled,python3-pyelftools-native"
-+PACKAGECONFIG[efi] = "-Defi=true -Dbootloader=disabled,-Defi=false -Dbootloader=disabled,python3-pyelftools-native systemd-boot"
-
-  size without "efi" is 9857529 bytes and with "efi" 9859196, or size increase
-  of 0.016% which is tiny. To stay closer to systemd upstream, I don't think
-  removing the duplication is worth the effort for now. systemd-boot
-  recipe could maybe be replaced by systemd recipe and a systemd-boot binary
-  package. Otherwise the configurations don't match. FWIW, it tried following
-  changes to systemd-boot:
-
---- a/meta/recipes-core/systemd/systemd-boot_257.5.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_257.5.bb
-@@ -24,6 +24,7 @@ EOF
- MESON_CROSS_FILE:append = " --cross-file ${WORKDIR}/meson-${PN}.cross"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.129.2.bb b/meta/recipes-devtools/python/python3-hypothesis_6.131.0.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.129.2.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.131.0.bb
+index df9bd6b7c7..0542a9d188 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.129.2.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.131.0.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4ee62c16ebd0f4f99d906f36b7de8c3c"
  
- MESON_TARGET = "systemd-boot"
-+MESON_INSTALL_TAGS = "systemd-boot"
-
- EXTRA_OEMESON += "-Defi=true \
-                   -Dbootloader=true \
-@@ -43,7 +44,7 @@ python __anonymous () {
-     d.setVar("SYSTEMD_BOOT_IMAGE_PREFIX", prefix)
- }
+ PYPI_PACKAGE = "hypothesis"
  
--FILES:${PN} = "${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}"
-+FILES:${PN} = "${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE} ${libdir}"
-
- RDEPENDS:${PN} += "virtual-systemd-bootconf"
+-inherit pypi setuptools3 ptest
++inherit pypi python_setuptools_build_meta ptest
  
-@@ -53,6 +54,7 @@ COMPATIBLE_HOST = "(aarch64.*|arm.*|x86_64.*|i.86.*|riscv.*)-linux"
- COMPATIBLE_HOST:x86-x32 = "null"
+ SRC_URI += " \
+     file://run-ptest \
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
+ 
+-SRC_URI[sha256sum] = "23f180782dbbbcb6e59051794295d75783ad59241e6629a5bf700936c28a995b"
++SRC_URI[sha256sum] = "4b807daeeee47852edfd9818ba0e33df14902f1b78a5524f1a3fb71f80c7cec3"
+ 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
+-- 
+2.43.0
 
- do_install() {
-+       meson_do_install
-        install -d ${D}${EFI_FILES_PATH}
-        install ${B}/src/boot/systemd-boot*.efi ${D}${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}
- }
-
-Cheers,
-
--Mikko
 
