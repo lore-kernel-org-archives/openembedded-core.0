@@ -1,225 +1,97 @@
-Return-Path: <philip@balister.org>
+Return-Path: <schonm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7112C369AB
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 18:37:47 +0000 (UTC)
-Received: from forward101b.mail.yandex.net (forward101b.mail.yandex.net [178.154.239.148])
- by mx.groups.io with SMTP id smtpd.web10.24844.1744734936361792124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7E0CC369AB
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 19:18:57 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.web11.2630.1744744730328169284
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 09:35:36 -0700
+ Tue, 15 Apr 2025 12:18:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@yandex.ru header.s=mail header.b=Cu6cD4ch;
- spf=pass (domain: yandex.ru, ip: 178.154.239.148, mailfrom: denisova.olga.k@yandex.ru)
-Received: from mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net [IPv6:2a02:6b8:c1e:3990:0:640:808c:0])
-	by forward101b.mail.yandex.net (Yandex) with ESMTPS id C5EBF60E4D
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 19:35:32 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id VZKEOQ3LgCg0-StWR4cPL;
-	Tue, 15 Apr 2025 19:35:32 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1744734932; bh=grqd8qvDXQMc7j73Zgyxh803KLvxJTQAYK6xJYzcj14=;
-	h=Message-Id:Date:Cc:Subject:To:From;
-	b=Cu6cD4chBmdXPFjyIizlEp8cKaXaFclhUJm/Y8DDhiytBHLtYc7OlfMfDAFe+5nfV
-	 Bs2Np6O8kb0l99Phz74YpUNNVZSnPSMUppMtPmZTFjehxlXIwk2ERsp+ZWpD5qn9CH
-	 KiOj80EXs5PdeyTjrdsHPKbvJ73JqRTz5LNn0YXY=
-Authentication-Results: mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-From: denisova.olga.k@yandex.ru
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=F2azkNGX;
+ spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: schonm@gmail.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6feab7c5f96so56738467b3.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 12:18:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744744729; x=1745349529; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tN3F2pydjSaR1rGDt0zPyaUtbI3+r8gbubeEXQPU5OM=;
+        b=F2azkNGXhCb3MsG1+YVTufcmulHAZuO33E8IxbhyzckAasXDA8JWZMOMHASqvfdQex
+         Y0HXOU4sIdR9nfstnQO06Z8OcSI7bXXKswPRqc9BT+IT3cw9Fam6mBWRYuVFj4VfvSzT
+         nXwiIUMoCl9Viq8K8n5HYt8Js9yMI/4wMfMJnItOOzXNqxswOrUxyRlMWMumOjkD9aDE
+         ++Le/tSMx2104PI1fu8TaENFmAlEpL6PNdkzmGExvRtWh4s6Jh+Vezas5/lZ6tM1IWbG
+         L/HXtl7aT0LTAH3qJSV40IU6eKtF3pyENIKR1dQaDtrPyCzeZIZFSAeI64vfSbjfxAl2
+         BdqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744744729; x=1745349529;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tN3F2pydjSaR1rGDt0zPyaUtbI3+r8gbubeEXQPU5OM=;
+        b=O/zY040tSTAzcQwAo68ycO8TQ3qhKGSx1wSNXLXsn8nhMCMu4MBs+LZdvHw6AwGbTn
+         pCDRr3AJ0X9kzHnoBY1ZHejfMB/JUiifsxgKDZAS6d+GeL8IttcoT4GgF6hijl512pAr
+         +xoQeqXCMxwovW0UtrB4I10EdwvXDvrav/8y1d9t+JdXQu/LvRorZGxqknMS9+yx5xu8
+         tL6m2WzQRfWky3SEZVfL1ZcZDxMfhXSnQiKHvotFqo+4ikSqJD6Bks5vIuzRoX+WuGRC
+         fsAvYkgj1UQdQSoT1KPxILoVm59k2WYEjzMpWm9F1ocIqAY2sjzPnNFu776P79PrYI1M
+         ks/Q==
+X-Gm-Message-State: AOJu0YxGEJPjBhNHjv2BbJ1z3eqVUbw+SZwOOcV1U5+95cCOopKFkJnC
+	wrgvUQfWnPfbZMWdohWlr8hmcoDY9nd6Nam+bxiSODwLoTuHgRKKBCqKa/Az
+X-Gm-Gg: ASbGncv0U/ndffmbV/tBT1f5gLqo1qEXMcay8OjqmUx3MMzAD19aif7tcoRMGrVav+2
+	xpC/MR5AqMVk9124EWqpljpB6kC+b6gC9A8l4elyZ59FC/gqyVsi8w1mXquhwSzyet1REX+I+xL
+	DpEcjH5PR7sfhIrasAZuVR0z6e0zWDttvoPS6vrfwzX5zPI4qIIzFH+8nKj1eLImzx8pOQ+UtHV
+	ATKMmgtajG5vp+Ln6VmhPf1CFHDCYKQ1uLlEDQaFLMnDADUf7A2H+L1hLh3pbhwVKIRXYQX30J/
+	2JXMNyooIhMxFYCyfABT8y/r0IBcMK2WJsw0cE7bz2xq1w==
+X-Google-Smtp-Source: AGHT+IHZT6/jaYeNNU7x5ejWVWUx/BAVgfJ424NedvEWw1Vbt9TtBjwurOoNmqeAcbccnwaReIQLRw==
+X-Received: by 2002:a05:690c:4907:b0:6d4:4a0c:fcf0 with SMTP id 00721157ae682-706acede1aemr8113517b3.20.1744744728943;
+        Tue, 15 Apr 2025 12:18:48 -0700 (PDT)
+Received: from localhost.localdomain ([71.215.9.36])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7053e39d38csm37909077b3.116.2025.04.15.12.18.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 12:18:48 -0700 (PDT)
+From: Jason Schonberg <schonm@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Olga Denisova <denisova.olga.k@yandex.ru>
-Subject: [PATCH] pybootchartgui: visualize /proc/net/dev network stats in graphs
-Date: Tue, 15 Apr 2025 19:35:27 +0300
-Message-Id: <20250415163527.15924-1-denisova.olga.k@yandex.ru>
-X-Mailer: git-send-email 2.34.1
+Cc: Jason Schonberg <schonm@gmail.com>
+Subject: [PATCH 1/2] perlcross: 1.6.1 -> 1.6.2
+Date: Tue, 15 Apr 2025 15:18:08 -0400
+Message-ID: <20250415191809.1332553-1-schonm@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 18:37:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214962
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 19:18:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214963
 
-From: Olga Denisova <denisova.olga.k@yandex.ru>
+https://github.com/arsv/perl-cross/releases/tag/1.6.2
 
-This patch adds support for parsing and visualizing network interface sta=
-tistics from /proc/net/dev in pybootchartgui. It introduces a new NetSamp=
-le class to hold per-interface metrics, including received/transmitted by=
-tes and their deltas over time.
+Provide support for Perl 5.40.2
 
-The data is drawn using line and box charts in draw.py and helps to monit=
-or
-network usage during the boot process for each interface individually.
-
-Signed-off-by: denisova-ok <denisova.olga.k@yandex.ru>
+Signed-off-by: Jason Schonberg <schonm@gmail.com>
 ---
- pybootchartgui/pybootchartgui/draw.py    | 48 ++++++++++++++++++++++++
- pybootchartgui/pybootchartgui/parsing.py | 18 +++++++++
- pybootchartgui/pybootchartgui/samples.py | 10 +++++
- 3 files changed, 76 insertions(+)
+ .../perl-cross/{perlcross_1.6.1.bb => perlcross_1.6.2.bb}       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/perl-cross/{perlcross_1.6.1.bb => perlcross_1.6.2.bb} (92%)
 
-diff --git a/pybootchartgui/pybootchartgui/draw.py b/pybootchartgui/pyboo=
-tchartgui/draw.py
-index c6e67833ab..16739a0fa1 100644
---- a/pybootchartgui/pybootchartgui/draw.py
-+++ b/pybootchartgui/pybootchartgui/draw.py
-@@ -69,6 +69,11 @@ CPU_COLOR =3D (0.40, 0.55, 0.70, 1.0)
- IO_COLOR =3D (0.76, 0.48, 0.48, 0.5)
- # Disk throughput color.
- DISK_TPUT_COLOR =3D (0.20, 0.71, 0.20, 1.0)
-+
-+BYTES_RECEIVED_COLOR =3D (0.0, 0.0, 1.0, 1.0)
-+BYTES_TRANSMITTED_COLOR =3D (1.0, 0.0, 0.0, 1.0)
-+BYTES_RECEIVE_DIFF_COLOR =3D (0.0, 0.0, 1.0, 0.3)
-+BYTES_TRANSMIT_DIFF_COLOR =3D (1.0, 0.0, 0.0, 0.3)
- # CPU load chart color.
- FILE_OPEN_COLOR =3D (0.20, 0.71, 0.71, 1.0)
- # Mem cached color
-@@ -437,6 +442,49 @@ def render_charts(ctx, options, clip, trace, curr_y,=
- w, h, sec_w):
-=20
-         curr_y =3D curr_y + 30 + bar_h
-=20
-+    if trace.net_stats:
-+        for iface, samples in trace.net_stats.items():
-+            max_received_sample =3D max(samples, key=3Dlambda s: s.recei=
-ved_bytes)
-+            max_transmitted_sample =3D max(samples, key=3Dlambda s: s.tr=
-ansmitted_bytes)
-+            max_receive_diff_sample =3D max(samples, key=3Dlambda s: s.r=
-eceive_diff)
-+            max_transmit_diff_sample =3D max(samples, key=3Dlambda s: s.=
-transmit_diff)
-+
-+            draw_text(ctx, "Iface: %s" % (iface), TEXT_COLOR, off_x, cur=
-r_y+20)
-+            draw_legend_line(ctx, "Bytes received (max %d)" % (max_recei=
-ved_sample.received_bytes),
-+                             BYTES_RECEIVED_COLOR, off_x+150, curr_y+20,=
- leg_s)
-+            draw_legend_line(ctx, "Bytes transmitted (max %d)" % (max_tr=
-ansmitted_sample.transmitted_bytes),
-+                             BYTES_TRANSMITTED_COLOR, off_x+400, curr_y+=
-20, leg_s)
-+            draw_legend_box(ctx, "Bytes receive diff (max %d)" % (max_re=
-ceive_diff_sample.receive_diff),
-+                             BYTES_RECEIVE_DIFF_COLOR, off_x+650, curr_y=
-+20, leg_s)
-+            draw_legend_box(ctx, "Bytes transmit diff (max %d)" % (max_t=
-ransmit_diff_sample.transmit_diff),
-+                             BYTES_TRANSMIT_DIFF_COLOR, off_x+900, curr_=
-y+20, leg_s)
-+
-+
-+            chart_rect =3D (off_x, curr_y + 30, w, bar_h)
-+            if clip_visible(clip, chart_rect):
-+                draw_box_ticks(ctx, chart_rect, sec_w)
-+                draw_annotations(ctx, proc_tree, trace.times, chart_rect=
-)
-+
-+            if clip_visible (clip, chart_rect):
-+                draw_chart (ctx, BYTES_RECEIVED_COLOR, False, chart_rect=
-, \
-+                        [(sample.time, sample.received_bytes) for sample=
- in samples], \
-+                        proc_tree, None)
-+
-+                draw_chart (ctx, BYTES_TRANSMITTED_COLOR, False, chart_r=
-ect, \
-+                        [(sample.time, sample.transmitted_bytes) for sam=
-ple in samples], \
-+                        proc_tree, None)
-+
-+            if clip_visible (clip, chart_rect):
-+                draw_chart (ctx, BYTES_RECEIVE_DIFF_COLOR, True, chart_r=
-ect, \
-+                        [(sample.time, sample.receive_diff) for sample i=
-n samples], \
-+                        proc_tree, None)
-+
-+                draw_chart (ctx, BYTES_TRANSMIT_DIFF_COLOR, True, chart_=
-rect, \
-+                        [(sample.time, sample.transmit_diff) for sample =
-in samples], \
-+                        proc_tree, None)
-+
-+            curr_y =3D curr_y + 30 + bar_h
-+
-     # render CPU pressure chart
-     if trace.cpu_pressure:
-         max_sample_avg =3D max (trace.cpu_pressure, key =3D lambda s: s.=
-avg10)
-diff --git a/pybootchartgui/pybootchartgui/parsing.py b/pybootchartgui/py=
-bootchartgui/parsing.py
-index 144a16c723..72a54c6ba5 100644
---- a/pybootchartgui/pybootchartgui/parsing.py
-+++ b/pybootchartgui/pybootchartgui/parsing.py
-@@ -48,6 +48,7 @@ class Trace:
-         self.filename =3D None
-         self.parent_map =3D None
-         self.mem_stats =3D []
-+        self.net_stats =3D []
-         self.monitor_disk =3D None
-         self.cpu_pressure =3D []
-         self.io_pressure =3D []
-@@ -557,6 +558,21 @@ def _parse_monitor_disk_log(file):
-=20
-     return disk_stats
-=20
-+
-+def _parse_reduced_net_log(file):
-+    net_stats =3D {}
-+    for time, lines in _parse_timed_blocks(file):
-+
-+        for line in lines:
-+            parts =3D line.split()
-+            iface =3D parts[0][:-1]
-+            if iface not in net_stats:
-+                net_stats[iface] =3D [NetSample(time, iface, int(parts[1=
-]), int(parts[2]), int(parts[3]), int(parts[4]))]
-+            else:
-+                net_stats[iface].append(NetSample(time, iface, int(parts=
-[1]), int(parts[2]), int(parts[3]), int(parts[4])))
-+    return net_stats
-+
-+
- def _parse_pressure_logs(file, filename):
-     """
-     Parse file for "some" pressure with 'avg10', 'avg60' 'avg300' and de=
-lta total values
-@@ -767,6 +783,8 @@ def _do_parse(writer, state, filename, file):
-         state.cmdline =3D _parse_cmdline_log(writer, file)
-     elif name =3D=3D "monitor_disk.log":
-         state.monitor_disk =3D _parse_monitor_disk_log(file)
-+    elif name =3D=3D "reduced_proc_net.log":
-+        state.net_stats =3D _parse_reduced_net_log(file)
-     #pressure logs are in a subdirectory
-     elif name =3D=3D "cpu.log":
-         state.cpu_pressure =3D _parse_pressure_logs(file, name)
-diff --git a/pybootchartgui/pybootchartgui/samples.py b/pybootchartgui/py=
-bootchartgui/samples.py
-index a70d8a5a28..7c92d2ce6a 100644
---- a/pybootchartgui/pybootchartgui/samples.py
-+++ b/pybootchartgui/pybootchartgui/samples.py
-@@ -37,6 +37,16 @@ class CPUSample:
-         return str(self.time) + "\t" + str(self.user) + "\t" + \
-                str(self.sys) + "\t" + str(self.io) + "\t" + str (self.sw=
-ap)
-=20
-+
-+class NetSample:
-+    def __init__(self, time, iface, received_bytes, transmitted_bytes, r=
-eceive_diff, transmit_diff):
-+        self.time =3D time
-+        self.iface =3D iface
-+        self.received_bytes =3D received_bytes
-+        self.transmitted_bytes =3D transmitted_bytes
-+        self.receive_diff =3D receive_diff
-+        self.transmit_diff =3D transmit_diff
-+
- class CPUPressureSample:
-     def __init__(self, time, avg10, avg60, avg300, deltaTotal):
-         self.time =3D time
---=20
-2.34.1
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.6.1.bb b/meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
+similarity index 92%
+rename from meta/recipes-devtools/perl-cross/perlcross_1.6.1.bb
+rename to meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
+index 21964a7336..42ba15a572 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.6.1.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
+@@ -18,7 +18,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/perl-cross-${PV}.tar.gz;name=perl-c
+            "
+ GITHUB_BASE_URI = "https://github.com/arsv/perl-cross/releases/"
+ 
+-SRC_URI[perl-cross.sha256sum] = "b5f4b4457bbd7be37adac8ee423beedbcdba8963a85f79770f5e701dabc5550f"
++SRC_URI[perl-cross.sha256sum] = "131f7496152ee32067dbac2bc9b44b2f582fc778140e545701b3b2faee782f1d"
+ 
+ S = "${WORKDIR}/perl-cross-${PV}"
+ 
+-- 
+2.43.0
 
 
