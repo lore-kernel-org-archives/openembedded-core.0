@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBAFDC369BC
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:04 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.20180.1744723981544850522
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61614C369CF
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:05 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.20181.1744723983075023318
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 06:33:04 -0700
+ Tue, 15 Apr 2025 06:33:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Sy3TIncR;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=pAKwHOun;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019639a73ccc-daaa335c-7e94-416e-ab09-d1b73b5b62ab-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HPXTGF03;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=i9ng3C+v;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019639a738bd-f69a3ac9-44b2-4504-9c36-ab690f11c300-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1744723983;
+	t=1744723982;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=fQgIe4D+h9U0vYDJ2eI4+T2vs56e1BMsNR29zU1buw8=;
-	b=Sy3TIncRy+5OyvsmVqBD6Y/V9RT7X61YSAHGBO/q3lMywzl65mIVAEG4wxggfz+Q
-	9XoOa5TID8NMr1rthmsmfE6qakYomVZ0SajVsmUq1vinAN3WxZHMbeekOwfjBAUW1Ze
-	6U1zkHOuMxy6d5sXnCq6o+qz+CTn0OMS0fRG74wc=
+	bh=GwkC2GPCJyEEnFgVnAPaLLirz0WNtpt1wRFqgigb6Ig=;
+	b=HPXTGF03Zbw1phxifY2VdoL9ZMFluisNY+qdh9xlNP65N0GexEtTomL53psmi7JE
+	xFyoVtukit3e/sLJz7vz1kHnNX961kZ0AMVRVJc4C4gGg7yOhUNqgjFQRt7CyKPR1x2
+	5ireyuhm5lOIuJYLVeJdunGWIh3CcHpz8pyTPQNg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723983;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723982;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=fQgIe4D+h9U0vYDJ2eI4+T2vs56e1BMsNR29zU1buw8=;
-	b=pAKwHOun4FY4/rGwVPZ+hEksTqqpyM7nA32nrApc76Uzkon/8OUhn9iM/H7xQ2c7
-	VuwoGUQh9vQykPHR1Ef+clZs3zciSy99r7WkAlEhHciP67Zqp1oTNFUNxHQRRUDT9qv
-	s6bGjVSOzSh3iHDufwQs/BODivdjqzWM9ZUIydqE=
-Content-Type: multipart/mixed; boundary="===============5250551890631285385=="
+	bh=GwkC2GPCJyEEnFgVnAPaLLirz0WNtpt1wRFqgigb6Ig=;
+	b=i9ng3C+vs5j6th2//wW39mgnVsyqg5E/r1LdlPfcY8kfLlhZLVcfPzAkfGlf+yWa
+	axWAjOEjr3pdzGi+3xzeSX8I0qwQfnwuNKUg32xsPuPk+VSkKcxErduBEaRI0Hh0+E1
+	nuPrUtHkZvxv+FfMIOw/WK8+cR2HNddL1r20r5eY=
+Content-Type: multipart/mixed; boundary="===============1400109137979041878=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] grep: upgrading to 3.12 SUCCEEDED
-Message-ID: <0101019639a73ccc-daaa335c-7e94-416e-ab09-d1b73b5b62ab-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Apr 2025 13:33:03 +0000
+Subject: [AUH] cups: upgrading to 2.4.12 SUCCEEDED
+Message-ID: <0101019639a738bd-f69a3ac9-44b2-4504-9c36-ab690f11c300-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Apr 2025 13:33:02 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.15-54.240.27.29
+X-SES-Outgoing: 2025.04.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214903
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214900
 
---===============5250551890631285385==
+--===============1400109137979041878==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *grep* to *3.12* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *cups* to *2.4.12* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-grep-upgrade-3.11-3.12.patch
+    - apply the patch: git am 0001-cups-upgrade-2.4.11-2.4.12.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,234 +72,228 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6a8909e3ad7fbe6ab9ca62887a8a79d0c47cbdb3 Mon Sep 17 00:00:00 2001
+From f0ca6d0c1e85fbd2da6b3ffc3f2577906faa6e79 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Apr 2025 08:54:40 +0000
-Subject: [PATCH] grep: upgrade 3.11 -> 3.12
+Date: Tue, 15 Apr 2025 08:44:08 +0000
+Subject: [PATCH] cups: upgrade 2.4.11 -> 2.4.12
 
 ---
- meta/recipes-extended/grep/{grep_3.11.bb => grep_3.12.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/grep/{grep_3.11.bb => grep_3.12.bb} (93%)
+ .../recipes-extended/cups/cups/0001-use-echo-only-in-init.patch | 2 +-
+ .../cups/cups/0002-don-t-try-to-run-generated-binaries.patch    | 2 +-
+ .../cups/0004-cups-fix-multilib-install-file-conflicts.patch    | 2 +-
+ meta/recipes-extended/cups/cups/libexecdir.patch                | 2 +-
+ meta/recipes-extended/cups/{cups_2.4.11.bb => cups_2.4.12.bb}   | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-extended/cups/{cups_2.4.11.bb => cups_2.4.12.bb} (51%)
 
-diff --git a/meta/recipes-extended/grep/grep_3.11.bb b/meta/recipes-extended/grep/grep_3.12.bb
-similarity index 93%
-rename from meta/recipes-extended/grep/grep_3.11.bb
-rename to meta/recipes-extended/grep/grep_3.12.bb
-index 0d36eba3b2..2678d2d41e 100644
---- a/meta/recipes-extended/grep/grep_3.11.bb
-+++ b/meta/recipes-extended/grep/grep_3.12.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
+diff --git a/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch b/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
+index c0cb7df581..e5fddd8cce 100644
+--- a/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
++++ b/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
+@@ -1,4 +1,4 @@
+-From c5f943b1ac6e1c86ae64686e29e178fedf933e96 Mon Sep 17 00:00:00 2001
++From d6d1a65927efa6b8d9faf382fc73ef806d9185c0 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Thu, 13 Dec 2012 19:03:52 -0800
+ Subject: [PATCH] use echo only in init
+diff --git a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+index cf2f1a6747..104cd67816 100644
+--- a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
++++ b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+@@ -1,4 +1,4 @@
+-From da9a313ae5a2d1da683dd58572df0d7a660eb922 Mon Sep 17 00:00:00 2001
++From eed4a0fb29b7c2372b7558eac1951292f3ed1682 Mon Sep 17 00:00:00 2001
+ From: Koen Kooi <koen@dominion.thruhere.net>
+ Date: Sun, 30 Jan 2011 16:37:27 +0100
+ Subject: [PATCH] don't try to run generated binaries
+diff --git a/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+index 31338822e6..b6b7525df1 100644
+--- a/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
++++ b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+@@ -1,4 +1,4 @@
+-From 880bad2c6b08afd2e2e303bc3ceea559edbe76d2 Mon Sep 17 00:00:00 2001
++From 26b1a3d9a965536c677a6b07cb858c1e966bb938 Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Wed, 3 Oct 2018 00:27:11 +0800
+ Subject: [PATCH] cups: fix multilib install file conflicts
+diff --git a/meta/recipes-extended/cups/cups/libexecdir.patch b/meta/recipes-extended/cups/cups/libexecdir.patch
+index 493c7970ea..7aa0769096 100644
+--- a/meta/recipes-extended/cups/cups/libexecdir.patch
++++ b/meta/recipes-extended/cups/cups/libexecdir.patch
+@@ -1,4 +1,4 @@
+-From 4ae7ad87aa022f5128be222dffbf0c50ec6e846e Mon Sep 17 00:00:00 2001
++From 92e2417a5b037a6bde676ffed6259affb2eb0f96 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Tue, 13 Jul 2021 12:56:30 +0100
+ Subject: [PATCH] Use $libexecdir instead of hardcoding $prefix/lib as this
+diff --git a/meta/recipes-extended/cups/cups_2.4.11.bb b/meta/recipes-extended/cups/cups_2.4.12.bb
+similarity index 51%
+rename from meta/recipes-extended/cups/cups_2.4.11.bb
+rename to meta/recipes-extended/cups/cups_2.4.12.bb
+index 71568295cb..ac73c2780f 100644
+--- a/meta/recipes-extended/cups/cups_2.4.11.bb
++++ b/meta/recipes-extended/cups/cups_2.4.12.bb
+@@ -2,4 +2,4 @@ require cups.inc
  
- SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
--SRC_URI[sha256sum] = "1db2aedde89d0dea42b16d9528f894c8d15dae4e190b59aecc78f5a951276eab"
-+SRC_URI[sha256sum] = "2649b27c0e90e632eadcd757be06c6e9a4f48d941de51e7c0f83ff76408a07b9"
- 
- inherit autotools gettext texinfo pkgconfig
- 
+-SRC_URI[sha256sum] = "9a88fe1da3a29a917c3fc67ce6eb3178399d68e1a548c6d86c70d9b13651fd71"
++SRC_URI[sha256sum] = "b1dde191a4ae2760c47220c82ca6155a28c382701e6c1a0159d1054990231d59"
 -- 
 2.47.1
 
 
---===============5250551890631285385==
+--===============1400109137979041878==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/grep/grep-dbg: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-dbg: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-dbg: PKGSIZE changed from 974808 to 979528 (+0%)
-packages/core2-64-poky-linux/grep/grep-dev: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-dev: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-doc: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-doc: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-doc: PKGSIZE changed from 169725 to 171876 (+1%)
-packages/core2-64-poky-linux/grep/grep-locale-af: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-af: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-af: PKGSIZE changed from 1171 to 1168 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-be: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-be: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-be: PKGSIZE changed from 23291 to 22149 (-5%)
-packages/core2-64-poky-linux/grep/grep-locale-bg: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-bg: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-bg: PKGSIZE changed from 23915 to 23687 (-1%)
-packages/core2-64-poky-linux/grep/grep-locale-ca: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ca: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-cs: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-cs: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-cs: PKGSIZE changed from 18845 to 18813 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-da: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-da: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-da: PKGSIZE changed from 15797 to 15153 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-de: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-de: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-de: PKGSIZE changed from 19248 to 18447 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-el: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-el: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-eo: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-eo: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-eo: PKGSIZE changed from 17359 to 16608 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-es: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-es: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-es: PKGSIZE changed from 17100 to 16406 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-et: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-et: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-et: PKGSIZE changed from 16997 to 16987 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-eu: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-eu: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-fi: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-fi: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-fi: PKGSIZE changed from 17773 to 18146 (+2%)
-packages/core2-64-poky-linux/grep/grep-locale-fr: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-fr: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-fr: PKGSIZE changed from 18057 to 17269 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-ga: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ga: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-gl: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-gl: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-gl: PKGSIZE changed from 15677 to 15060 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-he: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-he: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-he: PKGSIZE changed from 1138 to 1319 (+16%)
-packages/core2-64-poky-linux/grep/grep-locale-hr: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-hr: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-hr: PKGSIZE changed from 18223 to 18212 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-hu: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-hu: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-hu: PKGSIZE changed from 18874 to 18012 (-5%)
-packages/core2-64-poky-linux/grep/grep-locale-id: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-id: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-id: PKGSIZE changed from 17660 to 17658 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-it: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-it: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-it: PKGSIZE changed from 16614 to 15903 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-ja: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ja: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ka: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ka: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ka: PKGSIZE changed from 27898 to 26558 (-5%)
-packages/core2-64-poky-linux/grep/grep-locale-ko: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ko: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ko: PKGSIZE changed from 19452 to 19364 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-ky: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ky: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-lt: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-lt: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-nb: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-nb: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-nb: PKGSIZE changed from 17727 to 16958 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-nl: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-nl: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-nl: PKGSIZE changed from 18595 to 18628 (+0%)
-packages/core2-64-poky-linux/grep/grep-locale-pa: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-pa: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-pl: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-pl: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-pl: PKGSIZE changed from 18580 to 18532 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-pt-br: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-pt-br: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-pt-br: PKGSIZE changed from 18629 to 17882 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-pt: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-pt: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-pt: PKGSIZE changed from 16154 to 17612 (+9%)
-packages/core2-64-poky-linux/grep/grep-locale-ro: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ro: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ro: PKGSIZE changed from 18888 to 18850 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-ru: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ru: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ru: PKGSIZE changed from 23405 to 22248 (-5%)
-packages/core2-64-poky-linux/grep/grep-locale-sk: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-sk: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-sk: PKGSIZE changed from 18143 to 18124 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-sl: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-sl: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-sl: PKGSIZE changed from 9965 to 17215 (+73%)
-packages/core2-64-poky-linux/grep/grep-locale-sr: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-sr: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-sr: PKGSIZE changed from 21895 to 21467 (-2%)
-packages/core2-64-poky-linux/grep/grep-locale-sv: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-sv: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-sv: PKGSIZE changed from 17578 to 17567 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-ta: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ta: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ta: PKGSIZE changed from 27372 to 26043 (-5%)
-packages/core2-64-poky-linux/grep/grep-locale-th: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-th: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-th: PKGSIZE changed from 16494 to 23904 (+45%)
-packages/core2-64-poky-linux/grep/grep-locale-tr: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-tr: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-tr: PKGSIZE changed from 17815 to 17094 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-uk: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-uk: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-uk: PKGSIZE changed from 23948 to 23870 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-vi: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-vi: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-vi: PKGSIZE changed from 20096 to 19261 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-zh-cn: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-zh-cn: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-zh-cn: PKGSIZE changed from 17367 to 17328 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-zh-tw: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-zh-tw: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-zh-tw: PKGSIZE changed from 17053 to 17019 (-0%)
-packages/core2-64-poky-linux/grep/grep-src: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-src: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-src: FILELIST: directory renamed /usr/src/debug/grep/3.11/lib/malloc -> /usr/src/debug/grep/3.12/lib/malloc, directory renamed /usr/src/debug/grep/3.11/src -> /usr/src/debug/grep/3.12/src, removed "/usr/src/debug/grep/3.11/lib/xstrtol.h /usr/src/debug/grep/3.11/lib/xalloc-die.c /usr/src/debug/grep/3.11/lib/xstrtol.c /usr/src/debug/grep/3.11/lib/xmalloc.c /usr/src/debug/grep/3.11/lib/mbsrtowcs.c /usr/src/debug/grep/3.11/lib/dirent.h /usr/src/debug/grep/3.11/lib/safe-read.c /usr/src/debug/grep/3.11/lib/hash.h /usr/src/debug/grep/3.11/lib/ialloc.h /usr/src/debug/grep/3.11/lib/xalloc.h /usr/src/debug/grep/3.11/lib/fts_.h /usr/src/debug/grep/3.11/lib/safe-read.h /usr/src/debug/grep/3.11/lib/str-two-way.h /usr/src/debug/grep/3.11/lib/hash.c /usr/src/debug/grep/3.11/lib/strnlen1.h /usr/src/debug/grep/3.11/lib/dfa.h /usr/src/debug/grep/3.11/lib/idx.h /usr/src/debug/grep/3.11/lib/close-stream.c /usr/src/debug/grep/3.11/lib/close-stream.h /usr/src/debug/g
- rep/3.11/lib/dfa.c /usr/src/debug/grep/3.11/lib/fts.c /usr/src/debug/grep/3.11/lib/dirname.h /usr/src/debug/grep/3.11/lib/strnlen1.c /usr/src/debug/grep/3.11/lib/fcntl.c /usr/src/debug/grep/3.11/lib/memchr.c /usr/src/debug/grep/3.11/lib/binary-io.h /usr/src/debug/grep/3.11/lib/wchar.h /usr/src/debug/grep/3.11/lib/fcntl.h /usr/src/debug/grep/3.11/lib/memchr2.c /usr/src/debug/grep/3.11/lib/fnmatch_loop.c /usr/src/debug/grep/3.11/lib/memchr2.h /usr/src/debug/grep/3.11/lib/stackvma.c /usr/src/debug/grep/3.11/lib/stackvma.h /usr/src/debug/grep/3.11/lib/colorize-posix.c /usr/src/debug/grep/3.11/lib/sys-limits.h /usr/src/debug/grep/3.11/lib/unistd-safer.h /usr/src/debug/grep/3.11/lib/getopt-core.h /usr/src/debug/grep/3.11/lib/quotearg.h /usr/src/debug/grep/3.11/lib/quotearg.c /usr/src/debug/grep/3.11/lib/regcomp.c /usr/src/debug/grep/3.11/lib/regex.h /usr/src/debug/grep/3.11/lib/c-strcaseeq.h /usr/src/debug/grep/3.11/lib/fcntl-safer.h /usr/src/debug/grep/3.11/lib/stdlib.h /usr/src/debug/gr
- ep/3.11/lib/mbrlen.c /usr/src/debug/grep/3.11/lib/c-strcasecmp.c /usr/src/debug/grep/3.11/lib/i-ring.h /usr/src/debug/grep/3.11/lib/string.h /usr/src/debug/grep/3.11/lib/i-ring.c /usr/src/debug/grep/3.11/lib/stripslash.c /usr/src/debug/grep/3.11/lib/setlocale_null.c /usr/src/debug/grep/3.11/lib/version-etc.h /usr/src/debug/grep/3.11/lib/dev-ino.h /usr/src/debug/grep/3.11/lib/localeinfo.h /usr/src/debug/grep/3.11/lib/regex_internal.c /usr/src/debug/grep/3.11/lib/version-etc.c /usr/src/debug/grep/3.11/lib/getopt1.c /usr/src/debug/grep/3.11/lib/setlocale_null.h /usr/src/debug/grep/3.11/lib/localeinfo.c /usr/src/debug/grep/3.11/lib/regex_internal.h /usr/src/debug/grep/3.11/lib/strstr.c /usr/src/debug/grep/3.11/lib/argmatch.c /usr/src/debug/grep/3.11/lib/exclude.c /usr/src/debug/grep/3.11/lib/mbsrtowcs-state.c /usr/src/debug/grep/3.11/lib/exclude.h /usr/src/debug/grep/3.11/lib/argmatch.h /usr/src/debug/grep/3.11/lib/hard-locale.c /usr/src/debug/grep/3.11/lib/fnmatch.c /usr/src/debug/grep
- /3.11/lib/hard-locale.h /usr/src/debug/grep/3.11/lib/fnmatch.h /usr/src/debug/grep/3.11/lib/c-ctype.h /usr/src/debug/grep/3.11/lib/colorize.h /usr/src/debug/grep/3.11/lib/mbchar.c /usr/src/debug/grep/3.11/lib/getopt-ext.h /usr/src/debug/grep/3.11/lib/getopt_int.h /usr/src/debug/grep/3.11/lib/mbchar.h /usr/src/debug/grep/3.11/lib/bitrotate.h /usr/src/debug/grep/3.11/lib/exitfail.h /usr/src/debug/grep/3.11/lib/basename-lgpl.h /usr/src/debug/grep/3.11/lib/mbrtowc.c /usr/src/debug/grep/3.11/lib/c-strcase.h /usr/src/debug/grep/3.11/lib/basename-lgpl.c /usr/src/debug/grep/3.11/lib/getprogname.c /usr/src/debug/grep/3.11/lib/exitfail.c /usr/src/debug/grep/3.11/lib/mbscasecmp.c /usr/src/debug/grep/3.11/lib/openat-safer.c /usr/src/debug/grep/3.11/lib/cycle-check.h /usr/src/debug/grep/3.11/lib/getopt.c /usr/src/debug/grep/3.11/lib/cycle-check.c /usr/src/debug/grep/3.11/lib/dup-safer.c /usr/src/debug/grep/3.11/lib/open-safer.c /usr/src/debug/grep/3.11/lib/dirfd.c /usr/src/debug/grep/3.11/lib/fo
- pen.c /usr/src/debug/grep/3.11/lib/mbsrtowcs-impl.h /usr/src/debug/grep/3.11/lib/stdio.h /usr/src/debug/grep/3.11/lib/quote.h /usr/src/debug/grep/3.11/lib/xbinary-io.h /usr/src/debug/grep/3.11/lib/fd-safer.c /usr/src/debug/grep/3.11/lib/version-etc-fsf.c /usr/src/debug/grep/3.11/lib/c-stack.h /usr/src/debug/grep/3.11/lib/obstack.h /usr/src/debug/grep/3.11/lib/localcharset.h /usr/src/debug/grep/3.11/lib/c-stack.c /usr/src/debug/grep/3.11/lib/obstack.c /usr/src/debug/grep/3.11/lib/localcharset.c /usr/src/debug/grep/3.11/lib/sigsegv.h /usr/src/debug/grep/3.11/lib/fts-cycle.c /usr/src/debug/grep/3.11/lib/sigsegv.c /usr/src/debug/grep/3.11/lib/btowc.c /usr/src/debug/grep/3.11/lib/closeout.c /usr/src/debug/grep/3.11/lib/opendirat.c /usr/src/debug/grep/3.11/lib/closeout.h /usr/src/debug/grep/3.11/lib/mbuiter.h /usr/src/debug/grep/3.11/lib/opendirat.h /usr/src/debug/grep/3.11/lib/regexec.c", added "/usr/src/debug/grep/3.12/lib/xstrtol.h /usr/src/debug/grep/3.12/lib/xalloc-die.c /usr/src/deb
- ug/grep/3.12/lib/xstrtol.c /usr/src/debug/grep/3.12/lib/xmalloc.c /usr/src/debug/grep/3.12/lib/mbsrtowcs.c /usr/src/debug/grep/3.12/lib/langinfo.h /usr/src/debug/grep/3.12/lib/dirent.h /usr/src/debug/grep/3.12/lib/safe-read.c /usr/src/debug/grep/3.12/lib/hash.h /usr/src/debug/grep/3.12/lib/ialloc.h /usr/src/debug/grep/3.12/lib/xalloc.h /usr/src/debug/grep/3.12/lib/fts_.h /usr/src/debug/grep/3.12/lib/safe-read.h /usr/src/debug/grep/3.12/lib/str-two-way.h /usr/src/debug/grep/3.12/lib/setlocale_null-unlocked.c /usr/src/debug/grep/3.12/lib/hash.c /usr/src/debug/grep/3.12/lib/strnlen1.h /usr/src/debug/grep/3.12/lib/dfa.h /usr/src/debug/grep/3.12/lib/idx.h /usr/src/debug/grep/3.12/lib/close-stream.c /usr/src/debug/grep/3.12/lib/close-stream.h /usr/src/debug/grep/3.12/lib/dfa.c /usr/src/debug/grep/3.12/lib/fts.c /usr/src/debug/grep/3.12/lib/dirname.h /usr/src/debug/grep/3.12/lib/strnlen1.c /usr/src/debug/grep/3.12/lib/fcntl.c /usr/src/debug/grep/3.12/lib/memchr.c /usr/src/debug/grep/3.12/l
- ib/binary-io.h /usr/src/debug/grep/3.12/lib/uchar.h /usr/src/debug/grep/3.12/lib/fcntl.h /usr/src/debug/grep/3.12/lib/wchar.h /usr/src/debug/grep/3.12/lib/memchr2.c /usr/src/debug/grep/3.12/lib/fnmatch_loop.c /usr/src/debug/grep/3.12/lib/memchr2.h /usr/src/debug/grep/3.12/lib/stackvma.c /usr/src/debug/grep/3.12/lib/mcel.h /usr/src/debug/grep/3.12/lib/stackvma.h /usr/src/debug/grep/3.12/lib/colorize-posix.c /usr/src/debug/grep/3.12/lib/mbrtoc32.c /usr/src/debug/grep/3.12/lib/sys-limits.h /usr/src/debug/grep/3.12/lib/unistd-safer.h /usr/src/debug/grep/3.12/lib/getopt-core.h /usr/src/debug/grep/3.12/lib/quotearg.h /usr/src/debug/grep/3.12/lib/quotearg.c /usr/src/debug/grep/3.12/lib/regcomp.c /usr/src/debug/grep/3.12/lib/regex.h /usr/src/debug/grep/3.12/lib/c-strcaseeq.h /usr/src/debug/grep/3.12/lib/fcntl-safer.h /usr/src/debug/grep/3.12/lib/stdlib.h /usr/src/debug/grep/3.12/lib/mbrlen.c /usr/src/debug/grep/3.12/lib/c-strcasecmp.c /usr/src/debug/grep/3.12/lib/i-ring.h /usr/src/debug/gre
- p/3.12/lib/string.h /usr/src/debug/grep/3.12/lib/i-ring.c /usr/src/debug/grep/3.12/lib/stripslash.c /usr/src/debug/grep/3.12/lib/setlocale_null.c /usr/src/debug/grep/3.12/lib/version-etc.h /usr/src/debug/grep/3.12/lib/dev-ino.h /usr/src/debug/grep/3.12/lib/localeinfo.h /usr/src/debug/grep/3.12/lib/regex_internal.c /usr/src/debug/grep/3.12/lib/version-etc.c /usr/src/debug/grep/3.12/lib/getopt1.c /usr/src/debug/grep/3.12/lib/setlocale_null.h /usr/src/debug/grep/3.12/lib/localeinfo.c /usr/src/debug/grep/3.12/lib/regex_internal.h /usr/src/debug/grep/3.12/lib/strstr.c /usr/src/debug/grep/3.12/lib/reallocarray.c /usr/src/debug/grep/3.12/lib/argmatch.c /usr/src/debug/grep/3.12/lib/exclude.c /usr/src/debug/grep/3.12/lib/mbsrtowcs-state.c /usr/src/debug/grep/3.12/lib/exclude.h /usr/src/debug/grep/3.12/lib/argmatch.h /usr/src/debug/grep/3.12/lib/hard-locale.c /usr/src/debug/grep/3.12/lib/fnmatch.c /usr/src/debug/grep/3.12/lib/hard-locale.h /usr/src/debug/grep/3.12/lib/fnmatch.h /usr/src/debug
- /grep/3.12/lib/c-ctype.h /usr/src/debug/grep/3.12/lib/colorize.h /usr/src/debug/grep/3.12/lib/getopt-ext.h /usr/src/debug/grep/3.12/lib/getopt_int.h /usr/src/debug/grep/3.12/lib/bitrotate.h /usr/src/debug/grep/3.12/lib/exitfail.h /usr/src/debug/grep/3.12/lib/basename-lgpl.h /usr/src/debug/grep/3.12/lib/mbrtowc.c /usr/src/debug/grep/3.12/lib/c-strcase.h /usr/src/debug/grep/3.12/lib/basename-lgpl.c /usr/src/debug/grep/3.12/lib/getprogname.c /usr/src/debug/grep/3.12/lib/exitfail.c /usr/src/debug/grep/3.12/lib/mbscasecmp.c /usr/src/debug/grep/3.12/lib/openat-safer.c /usr/src/debug/grep/3.12/lib/cycle-check.h /usr/src/debug/grep/3.12/lib/getopt.c /usr/src/debug/grep/3.12/lib/nl_langinfo.c /usr/src/debug/grep/3.12/lib/cycle-check.c /usr/src/debug/grep/3.12/lib/dup-safer.c /usr/src/debug/grep/3.12/lib/open-safer.c /usr/src/debug/grep/3.12/lib/fopen.c /usr/src/debug/grep/3.12/lib/mbsrtowcs-impl.h /usr/src/debug/grep/3.12/lib/stdio.h /usr/src/debug/grep/3.12/lib/quote.h /usr/src/debug/grep/3
- .12/lib/xbinary-io.h /usr/src/debug/grep/3.12/lib/fd-safer.c /usr/src/debug/grep/3.12/lib/version-etc-fsf.c /usr/src/debug/grep/3.12/lib/c-stack.h /usr/src/debug/grep/3.12/lib/obstack.h /usr/src/debug/grep/3.12/lib/localcharset.h /usr/src/debug/grep/3.12/lib/c-stack.c /usr/src/debug/grep/3.12/lib/obstack.c /usr/src/debug/grep/3.12/lib/localcharset.c /usr/src/debug/grep/3.12/lib/sigsegv.h /usr/src/debug/grep/3.12/lib/fts-cycle.c /usr/src/debug/grep/3.12/lib/sigsegv.c /usr/src/debug/grep/3.12/lib/btowc.c /usr/src/debug/grep/3.12/lib/closeout.c /usr/src/debug/grep/3.12/lib/opendirat.c /usr/src/debug/grep/3.12/lib/closeout.h /usr/src/debug/grep/3.12/lib/opendirat.h /usr/src/debug/grep/3.12/lib/regexec.c"
-packages/core2-64-poky-linux/grep/grep-src: PKGSIZE changed from 1916007 to 2080887 (+9%)
-packages/core2-64-poky-linux/grep/grep-staticdev: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-staticdev: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep: SRC_URI changed from "https://ftp.gnu.org/gnu/grep/grep-3.11.tar.xz" to "https://ftp.gnu.org/gnu/grep/grep-3.12.tar.xz"
+packages/core2-64-poky-linux/cups/cups-dbg: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-dbg: PKGSIZE changed from 8821224 to 8824496 (+0%)
+packages/core2-64-poky-linux/cups/cups-dbg: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-dev: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-dev: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-doc: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-doc: PKGSIZE changed from 226671 to 226805 (+0%)
+packages/core2-64-poky-linux/cups/cups-doc: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-lib: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-lib: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-libimage: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-libimage: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-ca: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-ca: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-cs: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-cs: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-da: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-da: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-de: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-de: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-en: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-en: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-es: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-es: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-fr: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-fr: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-it: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-it: PKGSIZE changed from 342316 to 382517 (+12%)
+packages/core2-64-poky-linux/cups/cups-locale-it: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-ja: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-ja: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-pt-br: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-pt-br: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-ru: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-ru: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-locale-zh-cn: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-locale-zh-cn: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-src: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-src: PKGSIZE changed from 5976475 to 5980501 (+0%)
+packages/core2-64-poky-linux/cups/cups-src: FILELIST: directory renamed /usr/src/debug/cups/2.4.11/scheduler -> /usr/src/debug/cups/2.4.12/scheduler, directory renamed /usr/src/debug/cups/2.4.11/notifier -> /usr/src/debug/cups/2.4.12/notifier, directory renamed /usr/src/debug/cups/2.4.11/tools -> /usr/src/debug/cups/2.4.12/tools, directory renamed /usr/src/debug/cups/2.4.11/filter -> /usr/src/debug/cups/2.4.12/filter, directory renamed /usr/src/debug/cups/2.4.11/backend -> /usr/src/debug/cups/2.4.12/backend, directory renamed /usr/src/debug/cups/2.4.11/ppdc -> /usr/src/debug/cups/2.4.12/ppdc, directory renamed /usr/src/debug/cups/2.4.11/systemv -> /usr/src/debug/cups/2.4.12/systemv, directory renamed /usr/src/debug/cups/2.4.11/cgi-bin -> /usr/src/debug/cups/2.4.12/cgi-bin, directory renamed /usr/src/debug/cups/2.4.11/berkeley -> /usr/src/debug/cups/2.4.12/berkeley, directory renamed /usr/src/debug/cups/2.4.11/monitor -> /usr/src/debug/cups/2.4.12/monitor, removed "/usr/src/debug/cups
+ /2.4.11/cups/ipp-private.h /usr/src/debug/cups/2.4.11/cups/ppd-attr.c /usr/src/debug/cups/2.4.11/cups/ppd-emit.c /usr/src/debug/cups/2.4.11/cups/ppd-mark.c /usr/src/debug/cups/2.4.11/cups/ppd-page.c /usr/src/debug/cups/2.4.11/cups/ppd-util.c /usr/src/debug/cups/2.4.11/cups/sidechannel.c /usr/src/debug/cups/2.4.11/cups/sidechannel.h /usr/src/debug/cups/2.4.11/cups/http-support.c /usr/src/debug/cups/2.4.11/cups/http.h /usr/src/debug/cups/2.4.11/cups/dest-localization.c /usr/src/debug/cups/2.4.11/cups/http.c /usr/src/debug/cups/2.4.11/cups/ipp.c /usr/src/debug/cups/2.4.11/cups/auth.c /usr/src/debug/cups/2.4.11/cups/snmp-private.h /usr/src/debug/cups/2.4.11/cups/dest.c /usr/src/debug/cups/2.4.11/cups/ipp.h /usr/src/debug/cups/2.4.11/cups/encode.c /usr/src/debug/cups/2.4.11/cups/raster-interpret.c /usr/src/debug/cups/2.4.11/cups/raster-interstub.c /usr/src/debug/cups/2.4.11/cups/transcode.c /usr/src/debug/cups/2.4.11/cups/dest-job.c /usr/src/debug/cups/2.4.11/cups/transcode.h /usr/src/de
+ bug/cups/2.4.11/cups/usersys.c /usr/src/debug/cups/2.4.11/cups/thread-private.h /usr/src/debug/cups/2.4.11/cups/pwg-private.h /usr/src/debug/cups/2.4.11/cups/md5passwd.c /usr/src/debug/cups/2.4.11/cups/ppd-conflicts.c /usr/src/debug/cups/2.4.11/cups/util.c /usr/src/debug/cups/2.4.11/cups/http-addr.c /usr/src/debug/cups/2.4.11/cups/dest-options.c /usr/src/debug/cups/2.4.11/cups/thread.c /usr/src/debug/cups/2.4.11/cups/ipp-file.c /usr/src/debug/cups/2.4.11/cups/array-private.h /usr/src/debug/cups/2.4.11/cups/ipp-vars.c /usr/src/debug/cups/2.4.11/cups/getdevices.c /usr/src/debug/cups/2.4.11/cups/string.c /usr/src/debug/cups/2.4.11/cups/adminutil.c /usr/src/debug/cups/2.4.11/cups/options.c /usr/src/debug/cups/2.4.11/cups/md5-internal.h /usr/src/debug/cups/2.4.11/cups/pwg.h /usr/src/debug/cups/2.4.11/cups/adminutil.h /usr/src/debug/cups/2.4.11/cups/tls-openssl.c /usr/src/debug/cups/2.4.11/cups/raster-stubs.c /usr/src/debug/cups/2.4.11/cups/ppd-cache.c /usr/src/debug/cups/2.4.11/cups/ppd.
+ c /usr/src/debug/cups/2.4.11/cups/langprintf.c /usr/src/debug/cups/2.4.11/cups/ppd.h /usr/src/debug/cups/2.4.11/cups/backchannel.c /usr/src/debug/cups/2.4.11/cups/globals.c /usr/src/debug/cups/2.4.11/cups/raster-stream.c /usr/src/debug/cups/2.4.11/cups/file-private.h /usr/src/debug/cups/2.4.11/cups/hash.c /usr/src/debug/cups/2.4.11/cups/ipp-support.c /usr/src/debug/cups/2.4.11/cups/raster.h /usr/src/debug/cups/2.4.11/cups/http-addrlist.c /usr/src/debug/cups/2.4.11/cups/cups.h /usr/src/debug/cups/2.4.11/cups/array.h /usr/src/debug/cups/2.4.11/cups/ppd-custom.c /usr/src/debug/cups/2.4.11/cups/tempfile.c /usr/src/debug/cups/2.4.11/cups/array.c /usr/src/debug/cups/2.4.11/cups/request.c /usr/src/debug/cups/2.4.11/cups/getputfile.c /usr/src/debug/cups/2.4.11/cups/backend.h /usr/src/debug/cups/2.4.11/cups/raster-private.h /usr/src/debug/cups/2.4.11/cups/backend.c /usr/src/debug/cups/2.4.11/cups/language.c /usr/src/debug/cups/2.4.11/cups/language.h /usr/src/debug/cups/2.4.11/cups/cups-priva
+ te.h /usr/src/debug/cups/2.4.11/cups/ppd-private.h /usr/src/debug/cups/2.4.11/cups/raster-error.c /usr/src/debug/cups/2.4.11/cups/file.h /usr/src/debug/cups/2.4.11/cups/notify.c /usr/src/debug/cups/2.4.11/cups/file.c /usr/src/debug/cups/2.4.11/cups/ppd-localize.c /usr/src/debug/cups/2.4.11/cups/http-private.h /usr/src/debug/cups/2.4.11/cups/language-private.h /usr/src/debug/cups/2.4.11/cups/md5.c /usr/src/debug/cups/2.4.11/cups/string-private.h /usr/src/debug/cups/2.4.11/cups/pwg-media.c /usr/src/debug/cups/2.4.11/cups/snmp.c /usr/src/debug/cups/2.4.11/cups/dir.h /usr/src/debug/cups/2.4.11/cups/debug.c /usr/src/debug/cups/2.4.11/cups/dir.c", added "/usr/src/debug/cups/2.4.12/cups/ppd.c /usr/src/debug/cups/2.4.12/cups/langprintf.c /usr/src/debug/cups/2.4.12/cups/ppd.h /usr/src/debug/cups/2.4.12/cups/backchannel.c /usr/src/debug/cups/2.4.12/cups/globals.c /usr/src/debug/cups/2.4.12/cups/raster-stream.c /usr/src/debug/cups/2.4.12/cups/file-private.h /usr/src/debug/cups/2.4.12/cups/hash
+ .c /usr/src/debug/cups/2.4.12/cups/ipp-support.c /usr/src/debug/cups/2.4.12/cups/raster.h /usr/src/debug/cups/2.4.12/cups/http-addrlist.c /usr/src/debug/cups/2.4.12/cups/cups.h /usr/src/debug/cups/2.4.12/cups/array.h /usr/src/debug/cups/2.4.12/cups/ppd-custom.c /usr/src/debug/cups/2.4.12/cups/tempfile.c /usr/src/debug/cups/2.4.12/cups/array.c /usr/src/debug/cups/2.4.12/cups/request.c /usr/src/debug/cups/2.4.12/cups/getputfile.c /usr/src/debug/cups/2.4.12/cups/backend.h /usr/src/debug/cups/2.4.12/cups/raster-private.h /usr/src/debug/cups/2.4.12/cups/backend.c /usr/src/debug/cups/2.4.12/cups/language.c /usr/src/debug/cups/2.4.12/cups/language.h /usr/src/debug/cups/2.4.12/cups/cups-private.h /usr/src/debug/cups/2.4.12/cups/ppd-private.h /usr/src/debug/cups/2.4.12/cups/raster-error.c /usr/src/debug/cups/2.4.12/cups/file.h /usr/src/debug/cups/2.4.12/cups/notify.c /usr/src/debug/cups/2.4.12/cups/file.c /usr/src/debug/cups/2.4.12/cups/ppd-localize.c /usr/src/debug/cups/2.4.12/cups/clock.c 
+ /usr/src/debug/cups/2.4.12/cups/http-private.h /usr/src/debug/cups/2.4.12/cups/language-private.h /usr/src/debug/cups/2.4.12/cups/md5.c /usr/src/debug/cups/2.4.12/cups/string-private.h /usr/src/debug/cups/2.4.12/cups/pwg-media.c /usr/src/debug/cups/2.4.12/cups/snmp.c /usr/src/debug/cups/2.4.12/cups/dir.h /usr/src/debug/cups/2.4.12/cups/debug.c /usr/src/debug/cups/2.4.12/cups/dir.c /usr/src/debug/cups/2.4.12/cups/ipp-private.h /usr/src/debug/cups/2.4.12/cups/ppd-attr.c /usr/src/debug/cups/2.4.12/cups/ppd-emit.c /usr/src/debug/cups/2.4.12/cups/ppd-mark.c /usr/src/debug/cups/2.4.12/cups/ppd-page.c /usr/src/debug/cups/2.4.12/cups/ppd-util.c /usr/src/debug/cups/2.4.12/cups/sidechannel.c /usr/src/debug/cups/2.4.12/cups/sidechannel.h /usr/src/debug/cups/2.4.12/cups/http-support.c /usr/src/debug/cups/2.4.12/cups/http.h /usr/src/debug/cups/2.4.12/cups/dest-localization.c /usr/src/debug/cups/2.4.12/cups/http.c /usr/src/debug/cups/2.4.12/cups/ipp.c /usr/src/debug/cups/2.4.12/cups/auth.c /usr/s
+ rc/debug/cups/2.4.12/cups/snmp-private.h /usr/src/debug/cups/2.4.12/cups/dest.c /usr/src/debug/cups/2.4.12/cups/ipp.h /usr/src/debug/cups/2.4.12/cups/encode.c /usr/src/debug/cups/2.4.12/cups/raster-interpret.c /usr/src/debug/cups/2.4.12/cups/raster-interstub.c /usr/src/debug/cups/2.4.12/cups/transcode.c /usr/src/debug/cups/2.4.12/cups/dest-job.c /usr/src/debug/cups/2.4.12/cups/transcode.h /usr/src/debug/cups/2.4.12/cups/usersys.c /usr/src/debug/cups/2.4.12/cups/thread-private.h /usr/src/debug/cups/2.4.12/cups/pwg-private.h /usr/src/debug/cups/2.4.12/cups/md5passwd.c /usr/src/debug/cups/2.4.12/cups/ppd-conflicts.c /usr/src/debug/cups/2.4.12/cups/util.c /usr/src/debug/cups/2.4.12/cups/http-addr.c /usr/src/debug/cups/2.4.12/cups/dest-options.c /usr/src/debug/cups/2.4.12/cups/thread.c /usr/src/debug/cups/2.4.12/cups/ipp-file.c /usr/src/debug/cups/2.4.12/cups/array-private.h /usr/src/debug/cups/2.4.12/cups/ipp-vars.c /usr/src/debug/cups/2.4.12/cups/getdevices.c /usr/src/debug/cups/2.4.12
+ /cups/string.c /usr/src/debug/cups/2.4.12/cups/adminutil.c /usr/src/debug/cups/2.4.12/cups/options.c /usr/src/debug/cups/2.4.12/cups/md5-internal.h /usr/src/debug/cups/2.4.12/cups/pwg.h /usr/src/debug/cups/2.4.12/cups/adminutil.h /usr/src/debug/cups/2.4.12/cups/tls-openssl.c /usr/src/debug/cups/2.4.12/cups/raster-stubs.c /usr/src/debug/cups/2.4.12/cups/ppd-cache.c"
+packages/core2-64-poky-linux/cups/cups-src: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-staticdev: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-staticdev: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups-webif: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups-webif: PKGSIZE changed from 1566880 to 1567018 (+0%)
+packages/core2-64-poky-linux/cups/cups-webif: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups/cups: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups/cups: PKGSIZE changed from 7336700 to 7336812 (+0%)
+packages/core2-64-poky-linux/cups/cups: PV changed from "2.4.11" to "2.4.12"
+packages/core2-64-poky-linux/cups: PKGV changed from 2.4.11 [default] to 2.4.12 [default]
+packages/core2-64-poky-linux/cups: SRC_URI changed from "https://github.com/OpenPrinting/cups/releases/download/v2.4.11/cups-2.4.11-source.tar.gz file://0001-use-echo-only-in-init.patch file://0002-don-t-try-to-run-generated-binaries.patch file://libexecdir.patch file://0004-cups-fix-multilib-install-file-conflicts.patch file://volatiles.99_cups file://cups-volatiles.conf" to "https://github.com/OpenPrinting/cups/releases/download/v2.4.12/cups-2.4.12-source.tar.gz file://0001-use-echo-only-in-init.patch file://0002-don-t-try-to-run-generated-binaries.patch file://libexecdir.patch file://0004-cups-fix-multilib-install-file-conflicts.patch file://volatiles.99_cups file://cups-volatiles.conf"
+packages/core2-64-poky-linux/cups: PV changed from "2.4.11" to "2.4.12"
 
---===============5250551890631285385==
+--===============1400109137979041878==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-cups-upgrade-2.4.11-2.4.12.patch"
+
+RnJvbSBmMGNhNmQwYzFlODVmYmQyZGE2YjNmZmMzZjI1Nzc5MDZmYWE2ZTc5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgQXByIDIwMjUgMDg6NDQ6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+dXBzOiB1cGdyYWRlIDIuNC4xMSAtPiAyLjQuMTIKCi0tLQogLi4uL3JlY2lwZXMtZXh0ZW5kZWQv
+Y3Vwcy9jdXBzLzAwMDEtdXNlLWVjaG8tb25seS1pbi1pbml0LnBhdGNoIHwgMiArLQogLi4uL2N1
+cHMvY3Vwcy8wMDAyLWRvbi10LXRyeS10by1ydW4tZ2VuZXJhdGVkLWJpbmFyaWVzLnBhdGNoICAg
+IHwgMiArLQogLi4uL2N1cHMvMDAwNC1jdXBzLWZpeC1tdWx0aWxpYi1pbnN0YWxsLWZpbGUtY29u
+ZmxpY3RzLnBhdGNoICAgIHwgMiArLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy9s
+aWJleGVjZGlyLnBhdGNoICAgICAgICAgICAgICAgIHwgMiArLQogbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL2N1cHMve2N1cHNfMi40LjExLmJiID0+IGN1cHNfMi40LjEyLmJifSAgIHwgMiArLQogNSBm
+aWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMve2N1cHNfMi40LjExLmJiID0+IGN1cHNfMi40LjEyLmJi
+fSAoNTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAw
+MS11c2UtZWNoby1vbmx5LWluLWluaXQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vw
+cy9jdXBzLzAwMDEtdXNlLWVjaG8tb25seS1pbi1pbml0LnBhdGNoCmluZGV4IGMwY2I3ZGY1ODEu
+LmU1ZmRkZDhjY2UgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMv
+MDAwMS11c2UtZWNoby1vbmx5LWluLWluaXQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL2N1cHMvY3Vwcy8wMDAxLXVzZS1lY2hvLW9ubHktaW4taW5pdC5wYXRjaApAQCAtMSw0ICsx
+LDQgQEAKLUZyb20gYzVmOTQzYjFhYzZlMWM4NmFlNjQ2ODZlMjllMTc4ZmVkZjkzM2U5NiBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZDZkMWE2NTkyN2VmYTZiOGQ5ZmFmMzgyZmM3M2Vm
+ODA2ZDkxODVjMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFNhdWwgV29sZCA8c2d3
+QGxpbnV4LmludGVsLmNvbT4KIERhdGU6IFRodSwgMTMgRGVjIDIwMTIgMTk6MDM6NTIgLTA4MDAK
+IFN1YmplY3Q6IFtQQVRDSF0gdXNlIGVjaG8gb25seSBpbiBpbml0CmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDItZG9uLXQtdHJ5LXRvLXJ1bi1nZW5lcmF0
+ZWQtYmluYXJpZXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDIt
+ZG9uLXQtdHJ5LXRvLXJ1bi1nZW5lcmF0ZWQtYmluYXJpZXMucGF0Y2gKaW5kZXggY2YyZjFhNjc0
+Ny4uMTA0Y2Q2NzgxNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vw
+cy8wMDAyLWRvbi10LXRyeS10by1ydW4tZ2VuZXJhdGVkLWJpbmFyaWVzLnBhdGNoCisrKyBiL21l
+dGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMi1kb24tdC10cnktdG8tcnVuLWdlbmVy
+YXRlZC1iaW5hcmllcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZGE5YTMxM2FlNWEyZDFk
+YTY4M2RkNTg1NzJkZjBkN2E2NjBlYjkyMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
+ZWVkNGEwZmIyOWI3YzIzNzJiNzU1OGVhYzE5NTEyOTJmM2VkMTY4MiBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKIEZyb206IEtvZW4gS29vaSA8a29lbkBkb21pbmlvbi50aHJ1aGVyZS5uZXQ+CiBE
+YXRlOiBTdW4sIDMwIEphbiAyMDExIDE2OjM3OjI3ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIGRv
+bid0IHRyeSB0byBydW4gZ2VuZXJhdGVkIGJpbmFyaWVzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDQtY3Vwcy1maXgtbXVsdGlsaWItaW5zdGFsbC1maWxl
+LWNvbmZsaWN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwNC1j
+dXBzLWZpeC1tdWx0aWxpYi1pbnN0YWxsLWZpbGUtY29uZmxpY3RzLnBhdGNoCmluZGV4IDMxMzM4
+ODIyZTYuLmI2Yjc1MjVkZjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBz
+L2N1cHMvMDAwNC1jdXBzLWZpeC1tdWx0aWxpYi1pbnN0YWxsLWZpbGUtY29uZmxpY3RzLnBhdGNo
+CisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwNC1jdXBzLWZpeC1tdWx0
+aWxpYi1pbnN0YWxsLWZpbGUtY29uZmxpY3RzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4
+ODBiYWQyYzZiMDhhZmQyZTJlMzAzYmMzY2VlYTU1OWVkYmU3NmQyIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSAyNmIxYTNkOWE5NjU1MzZjNjc3YTZiMDdjYjg1OGMxZTk2NmJiOTM4IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2FpIEthbmcgPGthaS5rYW5nQHdpbmRyaXZl
+ci5jb20+CiBEYXRlOiBXZWQsIDMgT2N0IDIwMTggMDA6Mjc6MTEgKzA4MDAKIFN1YmplY3Q6IFtQ
+QVRDSF0gY3VwczogZml4IG11bHRpbGliIGluc3RhbGwgZmlsZSBjb25mbGljdHMKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvbGliZXhlY2Rpci5wYXRjaCBiL21l
+dGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvbGliZXhlY2Rpci5wYXRjaAppbmRleCA0OTNj
+Nzk3MGVhLi43YWEwNzY5MDk2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vw
+cy9jdXBzL2xpYmV4ZWNkaXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMv
+Y3Vwcy9saWJleGVjZGlyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0YWU3YWQ4N2FhMDIy
+ZjUxMjhiZTIyMmRmZmJmMGM1MGVjNmU4NDZlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
+bSA5MmUyNDE3YTViMDM3YTZiZGU2NzZmZmVkNjI1OWFmZmIyZWIwZjk2IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQogRnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiBEYXRl
+OiBUdWUsIDEzIEp1bCAyMDIxIDEyOjU2OjMwICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIFVzZSAk
+bGliZXhlY2RpciBpbnN0ZWFkIG9mIGhhcmRjb2RpbmcgJHByZWZpeC9saWIgYXMgdGhpcwpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuMTEuYmIgYi9tZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzXzIuNC4xMi5iYgpzaW1pbGFyaXR5IGluZGV4IDUx
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzXzIuNC4xMS5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuMTIuYmIKaW5kZXgg
+NzE1NjgyOTVjYi4uYWM3M2MyNzgwZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L2N1cHMvY3Vwc18yLjQuMTEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vw
+c18yLjQuMTIuYmIKQEAgLTIsNCArMiw0IEBAIHJlcXVpcmUgY3Vwcy5pbmMKIAogTElDX0ZJTEVT
+X0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdmMTQ2NTVmYzg1NGRkYzNj
+NmJkNTciCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5YTg4ZmUxZGEzYTI5YTkxN2MzZmM2N2Nl
+NmViMzE3ODM5OWQ2OGUxYTU0OGM2ZDg2YzcwZDliMTM2NTFmZDcxIgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gImIxZGRlMTkxYTRhZTI3NjBjNDcyMjBjODJjYTYxNTVhMjhjMzgyNzAxZTZjMWEwMTU5
+ZDEwNTQ5OTAyMzFkNTkiCi0tIAoyLjQ3LjEKCg==
+
+--===============1400109137979041878==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/grep/grep-locale-he: PKGSIZE changed from 1138 to 1319 (+16%)
-packages/core2-64-poky-linux/grep/grep-locale-sl: PKGSIZE changed from 9965 to 17215 (+73%)
-packages/core2-64-poky-linux/grep/grep-locale-th: PKGSIZE changed from 16494 to 23904 (+45%)
+packages/core2-64-poky-linux/cups/cups-locale-it: PKGSIZE changed from 342316 to 382517 (+12%)
 
---===============5250551890631285385==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-grep-upgrade-3.11-3.12.patch"
-
-RnJvbSA2YTg5MDllM2FkN2ZiZTZhYjljYTYyODg3YThhNzlkMGM0N2NiZGIzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgQXByIDIwMjUgMDg6NTQ6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-cmVwOiB1cGdyYWRlIDMuMTEgLT4gMy4xMgoKLS0tCiBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ3Jl
-cC97Z3JlcF8zLjExLmJiID0+IGdyZXBfMy4xMi5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5k
-ZWQvZ3JlcC97Z3JlcF8zLjExLmJiID0+IGdyZXBfMy4xMi5iYn0gKDkzJSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ3JlcC9ncmVwXzMuMTEuYmIgYi9tZXRhL3JlY2lwZXMt
-ZXh0ZW5kZWQvZ3JlcC9ncmVwXzMuMTIuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dyZXAvZ3JlcF8zLjExLmJiCnJlbmFtZSB0byBtZXRh
-L3JlY2lwZXMtZXh0ZW5kZWQvZ3JlcC9ncmVwXzMuMTIuYmIKaW5kZXggMGQzNmViYTNiMi4uMjY3
-OGQyZDQxZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dyZXAvZ3JlcF8zLjEx
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ncmVwL2dyZXBfMy4xMi5iYgpAQCAtOCw3
-ICs4LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MWViYmQzZTM0
-MjM3YWYyNmRhNWRjMDhhNGU0NDA0NjQiCiAKIFNSQ19VUkkgPSAiJHtHTlVfTUlSUk9SfS9ncmVw
-L2dyZXAtJHtQVn0udGFyLnh6IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWRiMmFlZGRlODlk
-MGRlYTQyYjE2ZDk1MjhmODk0YzhkMTVkYWU0ZTE5MGI1OWFlY2M3OGY1YTk1MTI3NmVhYiIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICIyNjQ5YjI3YzBlOTBlNjMyZWFkY2Q3NTdiZTA2YzZlOWE0ZjQ4
-ZDk0MWRlNTFlN2MwZjgzZmY3NjQwOGEwN2I5IgogCiBpbmhlcml0IGF1dG90b29scyBnZXR0ZXh0
-IHRleGluZm8gcGtnY29uZmlnCiAKLS0gCjIuNDcuMQoK
-
---===============5250551890631285385==--
+--===============1400109137979041878==--
 
