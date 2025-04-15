@@ -1,129 +1,225 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A05AEC369AB
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 18:29:57 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.1605.1744741787658411207
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7112C369AB
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 18:37:47 +0000 (UTC)
+Received: from forward101b.mail.yandex.net (forward101b.mail.yandex.net [178.154.239.148])
+ by mx.groups.io with SMTP id smtpd.web10.24844.1744734936361792124
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 11:29:47 -0700
+ Tue, 15 Apr 2025 09:35:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Oo/2Fb7j;
- spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: festevam@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7376dd56f60so4032902b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 11:29:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744741786; x=1745346586; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6fKKyyzrUDQkrjihTtFSmQsG/RHoWUK/FAtm5mF6DdM=;
-        b=Oo/2Fb7j65N9dWBuVwiP8mc/Eja0qmj0zGm4lrOJExSTYdX1hKHIooqiZDuv7ZilHb
-         g0x8dodLvzO4t7ql80lfLBlXlSOuajy1j988OLgymlI9PuokSZcIVufqMg0A75su1fVH
-         qUHdp71aRBU5MBfRjZ3CW0LKA+8FMUhxgA5OR5ZnJ/c/cCTq6elKVRD09nzjsf7zkr1X
-         rLLrRuAGD0uf2mUK5/hB+rsgxt/aDrJbIjPXFHyIpymVnw8x9QiH4Zfo/JboIMPyzIv9
-         geQoK53cmFaL/hXJC8nKBzgSeeF5ce1FEyfe/i81lZetl/r9pTSpYwU5yhUw+iTqD/3T
-         b9sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744741786; x=1745346586;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6fKKyyzrUDQkrjihTtFSmQsG/RHoWUK/FAtm5mF6DdM=;
-        b=uHH95R8f01EnugJjVzVX70+3tkz0AG7PCAfUNmqgBQNIwglHylV8udfEGgoRsAVodB
-         LxlyiE5QQ2V3dyOD4OyAunc2VzzqE/mLwpCQS3wCRjQ6N3WjEM766VmS6FnApUMf9JWy
-         CImqDHzu/Rrl7rqUWHrtRfg2RNMjKDEk20+wNeZRw4KhY27IA54emhtITFsvw0/KW+0k
-         docaZui00Rrr4cJFHp81LHk0iGjPU/hEY6i4zvnCXDer+zNUXMaJb4jECPlWC5b6zL/V
-         G69FQtazCxc3CKB2zEkxnOujILUpaVcpEmMZd0050RVbKKXOkhBqgtVJG+FSQz0bfdqM
-         dwXQ==
-X-Gm-Message-State: AOJu0YzY9DF45ybpIh5NR1OGCMLGy+w8apc28lb0KVCudBU3pmCaZxtl
-	6vadjnExVjsb/zokeAFb/qV7gKQr5aa00/zi4WI6qD64Ih6RI66tNQpI7w==
-X-Gm-Gg: ASbGnct4M37Sm0CxicWbjzUcQdOC8omNoeVNpWsWmi5ffWNg1l+8ufyQ0vn35CIQQwc
-	q4wyPYlaS80lz/YRzvIzSV/byDHQKbLXS9f0Sl5jA2bW3pck6YHEFng3NCNRaWhgC2bBgOJ1Z3Y
-	ga3hlcAfZCtvCxZf4AVboYMPHl6OKxRWlc+oOTHzCczeKGiyiSb8OeFdGi7nAHbh6Zq21KT/GGM
-	BO+fSDbgT/zDcvucZuF5mqcLvo+aLrdJkj/AJN7bDFzej9fSFRBUTbHZD+kWlKU/KGT9Wd7rF4K
-	puUe6Jkl+mSwHCbxUcQba45iL5xYsbI1ldm2dNlHZ/WDu1Z6GqJNva0=
-X-Google-Smtp-Source: AGHT+IEpux5kTtnuAsacfrOMsSyn73aVPKXy5ic1z0QFQ2aHpcIT7JR9uF40CZyudlZqYfJ3dtJDGA==
-X-Received: by 2002:a05:6a00:b44:b0:739:4723:c4d7 with SMTP id d2e1a72fcca58-73c1fb5b584mr691426b3a.22.1744741786492;
-        Tue, 15 Apr 2025 11:29:46 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:bf07:f4ce:a52a:db16])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd230e31dsm9091761b3a.141.2025.04.15.11.29.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 11:29:45 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@yandex.ru header.s=mail header.b=Cu6cD4ch;
+ spf=pass (domain: yandex.ru, ip: 178.154.239.148, mailfrom: denisova.olga.k@yandex.ru)
+Received: from mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net [IPv6:2a02:6b8:c1e:3990:0:640:808c:0])
+	by forward101b.mail.yandex.net (Yandex) with ESMTPS id C5EBF60E4D
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 19:35:32 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id VZKEOQ3LgCg0-StWR4cPL;
+	Tue, 15 Apr 2025 19:35:32 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1744734932; bh=grqd8qvDXQMc7j73Zgyxh803KLvxJTQAYK6xJYzcj14=;
+	h=Message-Id:Date:Cc:Subject:To:From;
+	b=Cu6cD4chBmdXPFjyIizlEp8cKaXaFclhUJm/Y8DDhiytBHLtYc7OlfMfDAFe+5nfV
+	 Bs2Np6O8kb0l99Phz74YpUNNVZSnPSMUppMtPmZTFjehxlXIwk2ERsp+ZWpD5qn9CH
+	 KiOj80EXs5PdeyTjrdsHPKbvJ73JqRTz5LNn0YXY=
+Authentication-Results: mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: denisova.olga.k@yandex.ru
 To: openembedded-core@lists.openembedded.org
-Cc: marcel@ziswiler.com,
-	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v3] bmaptool: upgrade 3.8.0 -> 3.9.0
-Date: Tue, 15 Apr 2025 15:29:39 -0300
-Message-Id: <20250415182939.926382-1-festevam@gmail.com>
+Cc: Olga Denisova <denisova.olga.k@yandex.ru>
+Subject: [PATCH] pybootchartgui: visualize /proc/net/dev network stats in graphs
+Date: Tue, 15 Apr 2025 19:35:27 +0300
+Message-Id: <20250415163527.15924-1-denisova.olga.k@yandex.ru>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 18:29:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214961
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 18:37:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214962
 
-From: Fabio Estevam <festevam@denx.de>
+From: Olga Denisova <denisova.olga.k@yandex.ru>
 
-Update to the 3.9.0 version.
+This patch adds support for parsing and visualizing network interface sta=
+tistics from /proc/net/dev in pybootchartgui. It introduces a new NetSamp=
+le class to hold per-interface metrics, including received/transmitted by=
+tes and their deltas over time.
 
-This version has switched to use hatch as the build backend, so adjust it
-accordingly.
+The data is drawn using line and box charts in draw.py and helps to monit=
+or
+network usage during the boot process for each interface individually.
 
-The INSANE_SKIP can now be safely removed as explained by
-commit 824009560776 ("bmaptool: temporarily silence the pep517-backend warning").
-
-python3-six is no longer a runtime dependency since bmaptool
-commit a67976e80daf ("Remove six from production code"), so remove its
-RDEPENDS entry.
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
-Reviewed-by: Marcel Ziswiler <marcel@ziswiler.com>
+Signed-off-by: denisova-ok <denisova.olga.k@yandex.ru>
 ---
-Changes since v2:
-- Fixed typos in commit log. (Marcel)
-Changes since v1:
-- Remove python3-six from RDEPENDS.
+ pybootchartgui/pybootchartgui/draw.py    | 48 ++++++++++++++++++++++++
+ pybootchartgui/pybootchartgui/parsing.py | 18 +++++++++
+ pybootchartgui/pybootchartgui/samples.py | 10 +++++
+ 3 files changed, 76 insertions(+)
 
- meta/recipes-support/bmaptool/bmaptool_git.bb | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-support/bmaptool/bmaptool_git.bb b/meta/recipes-support/bmaptool/bmaptool_git.bb
-index c38f05e1a1..155dd0ac80 100644
---- a/meta/recipes-support/bmaptool/bmaptool_git.bb
-+++ b/meta/recipes-support/bmaptool/bmaptool_git.bb
-@@ -10,23 +10,20 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "git://github.com/yoctoproject/${BPN};branch=main;protocol=https"
--SRCREV = "2ff5750b8a3e0b36a9993c20e2ea10a07bc62085"
-+SRCREV = "618a7316102f6f81faa60537503012a419eafa06"
- S = "${WORKDIR}/git"
--BASEVER = "3.8.0"
-+BASEVER = "3.9.0"
- PV = "${BASEVER}+git"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
- 
- # Need df from coreutils
--RDEPENDS:${PN} = "python3-core python3-compression python3-misc python3-mmap python3-setuptools python3-fcntl python3-six coreutils"
-+RDEPENDS:${PN} = "python3-core python3-compression python3-misc python3-mmap python3-setuptools python3-fcntl coreutils"
- 
--inherit setuptools3
-+inherit python_hatchling
- 
- # For compatibility with layers before scarthgap
- RREPLACES:${PN} = "bmap-tools"
- RCONFLICTS:${PN} = "bmap-tools"
- 
--# Poetry backend appears incomplete, upstream has moved to hatch
--INSANE_SKIP = "pep517-backend"
--
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.40.1
+diff --git a/pybootchartgui/pybootchartgui/draw.py b/pybootchartgui/pyboo=
+tchartgui/draw.py
+index c6e67833ab..16739a0fa1 100644
+--- a/pybootchartgui/pybootchartgui/draw.py
++++ b/pybootchartgui/pybootchartgui/draw.py
+@@ -69,6 +69,11 @@ CPU_COLOR =3D (0.40, 0.55, 0.70, 1.0)
+ IO_COLOR =3D (0.76, 0.48, 0.48, 0.5)
+ # Disk throughput color.
+ DISK_TPUT_COLOR =3D (0.20, 0.71, 0.20, 1.0)
++
++BYTES_RECEIVED_COLOR =3D (0.0, 0.0, 1.0, 1.0)
++BYTES_TRANSMITTED_COLOR =3D (1.0, 0.0, 0.0, 1.0)
++BYTES_RECEIVE_DIFF_COLOR =3D (0.0, 0.0, 1.0, 0.3)
++BYTES_TRANSMIT_DIFF_COLOR =3D (1.0, 0.0, 0.0, 0.3)
+ # CPU load chart color.
+ FILE_OPEN_COLOR =3D (0.20, 0.71, 0.71, 1.0)
+ # Mem cached color
+@@ -437,6 +442,49 @@ def render_charts(ctx, options, clip, trace, curr_y,=
+ w, h, sec_w):
+=20
+         curr_y =3D curr_y + 30 + bar_h
+=20
++    if trace.net_stats:
++        for iface, samples in trace.net_stats.items():
++            max_received_sample =3D max(samples, key=3Dlambda s: s.recei=
+ved_bytes)
++            max_transmitted_sample =3D max(samples, key=3Dlambda s: s.tr=
+ansmitted_bytes)
++            max_receive_diff_sample =3D max(samples, key=3Dlambda s: s.r=
+eceive_diff)
++            max_transmit_diff_sample =3D max(samples, key=3Dlambda s: s.=
+transmit_diff)
++
++            draw_text(ctx, "Iface: %s" % (iface), TEXT_COLOR, off_x, cur=
+r_y+20)
++            draw_legend_line(ctx, "Bytes received (max %d)" % (max_recei=
+ved_sample.received_bytes),
++                             BYTES_RECEIVED_COLOR, off_x+150, curr_y+20,=
+ leg_s)
++            draw_legend_line(ctx, "Bytes transmitted (max %d)" % (max_tr=
+ansmitted_sample.transmitted_bytes),
++                             BYTES_TRANSMITTED_COLOR, off_x+400, curr_y+=
+20, leg_s)
++            draw_legend_box(ctx, "Bytes receive diff (max %d)" % (max_re=
+ceive_diff_sample.receive_diff),
++                             BYTES_RECEIVE_DIFF_COLOR, off_x+650, curr_y=
++20, leg_s)
++            draw_legend_box(ctx, "Bytes transmit diff (max %d)" % (max_t=
+ransmit_diff_sample.transmit_diff),
++                             BYTES_TRANSMIT_DIFF_COLOR, off_x+900, curr_=
+y+20, leg_s)
++
++
++            chart_rect =3D (off_x, curr_y + 30, w, bar_h)
++            if clip_visible(clip, chart_rect):
++                draw_box_ticks(ctx, chart_rect, sec_w)
++                draw_annotations(ctx, proc_tree, trace.times, chart_rect=
+)
++
++            if clip_visible (clip, chart_rect):
++                draw_chart (ctx, BYTES_RECEIVED_COLOR, False, chart_rect=
+, \
++                        [(sample.time, sample.received_bytes) for sample=
+ in samples], \
++                        proc_tree, None)
++
++                draw_chart (ctx, BYTES_TRANSMITTED_COLOR, False, chart_r=
+ect, \
++                        [(sample.time, sample.transmitted_bytes) for sam=
+ple in samples], \
++                        proc_tree, None)
++
++            if clip_visible (clip, chart_rect):
++                draw_chart (ctx, BYTES_RECEIVE_DIFF_COLOR, True, chart_r=
+ect, \
++                        [(sample.time, sample.receive_diff) for sample i=
+n samples], \
++                        proc_tree, None)
++
++                draw_chart (ctx, BYTES_TRANSMIT_DIFF_COLOR, True, chart_=
+rect, \
++                        [(sample.time, sample.transmit_diff) for sample =
+in samples], \
++                        proc_tree, None)
++
++            curr_y =3D curr_y + 30 + bar_h
++
+     # render CPU pressure chart
+     if trace.cpu_pressure:
+         max_sample_avg =3D max (trace.cpu_pressure, key =3D lambda s: s.=
+avg10)
+diff --git a/pybootchartgui/pybootchartgui/parsing.py b/pybootchartgui/py=
+bootchartgui/parsing.py
+index 144a16c723..72a54c6ba5 100644
+--- a/pybootchartgui/pybootchartgui/parsing.py
++++ b/pybootchartgui/pybootchartgui/parsing.py
+@@ -48,6 +48,7 @@ class Trace:
+         self.filename =3D None
+         self.parent_map =3D None
+         self.mem_stats =3D []
++        self.net_stats =3D []
+         self.monitor_disk =3D None
+         self.cpu_pressure =3D []
+         self.io_pressure =3D []
+@@ -557,6 +558,21 @@ def _parse_monitor_disk_log(file):
+=20
+     return disk_stats
+=20
++
++def _parse_reduced_net_log(file):
++    net_stats =3D {}
++    for time, lines in _parse_timed_blocks(file):
++
++        for line in lines:
++            parts =3D line.split()
++            iface =3D parts[0][:-1]
++            if iface not in net_stats:
++                net_stats[iface] =3D [NetSample(time, iface, int(parts[1=
+]), int(parts[2]), int(parts[3]), int(parts[4]))]
++            else:
++                net_stats[iface].append(NetSample(time, iface, int(parts=
+[1]), int(parts[2]), int(parts[3]), int(parts[4])))
++    return net_stats
++
++
+ def _parse_pressure_logs(file, filename):
+     """
+     Parse file for "some" pressure with 'avg10', 'avg60' 'avg300' and de=
+lta total values
+@@ -767,6 +783,8 @@ def _do_parse(writer, state, filename, file):
+         state.cmdline =3D _parse_cmdline_log(writer, file)
+     elif name =3D=3D "monitor_disk.log":
+         state.monitor_disk =3D _parse_monitor_disk_log(file)
++    elif name =3D=3D "reduced_proc_net.log":
++        state.net_stats =3D _parse_reduced_net_log(file)
+     #pressure logs are in a subdirectory
+     elif name =3D=3D "cpu.log":
+         state.cpu_pressure =3D _parse_pressure_logs(file, name)
+diff --git a/pybootchartgui/pybootchartgui/samples.py b/pybootchartgui/py=
+bootchartgui/samples.py
+index a70d8a5a28..7c92d2ce6a 100644
+--- a/pybootchartgui/pybootchartgui/samples.py
++++ b/pybootchartgui/pybootchartgui/samples.py
+@@ -37,6 +37,16 @@ class CPUSample:
+         return str(self.time) + "\t" + str(self.user) + "\t" + \
+                str(self.sys) + "\t" + str(self.io) + "\t" + str (self.sw=
+ap)
+=20
++
++class NetSample:
++    def __init__(self, time, iface, received_bytes, transmitted_bytes, r=
+eceive_diff, transmit_diff):
++        self.time =3D time
++        self.iface =3D iface
++        self.received_bytes =3D received_bytes
++        self.transmitted_bytes =3D transmitted_bytes
++        self.receive_diff =3D receive_diff
++        self.transmit_diff =3D transmit_diff
++
+ class CPUPressureSample:
+     def __init__(self, time, avg10, avg60, avg300, deltaTotal):
+         self.time =3D time
+--=20
+2.34.1
 
 
