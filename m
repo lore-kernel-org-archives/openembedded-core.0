@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF5AAC369D5
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EADFC369DC
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:06 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
  by mx.groups.io with SMTP id smtpd.web11.20165.1744723971465185019
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 06:32:59 -0700
+ Tue, 15 Apr 2025 06:33:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dH1AS5d1;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=F+Gj40rm;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019639a72b79-6876012f-1c6c-409a-bc25-6ca5f098f4c8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=a1A8ox03;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bvpkzz3M;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019639a7369c-746857e9-bae1-4add-bf77-49da4dfc9fc9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1744723979;
+	t=1744723982;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=NQyMSqnlEy0/RwXHn1mFNnfFF2nss7ZW+cXPanx2a0c=;
-	b=dH1AS5d1+GcRA4wN6BADuKy1JcKB8gYcFs+cJzQ+xXIbp5+eK+g8twCkGMoRT15M
-	JFJvInViz9aFVIlxKpUmU1m8B6ku8E6jEp+qLFtC8ITb1rPvvPTZQvDIbhwbg1ubmPd
-	Y/+AeocBDrqDtGvJ8csTASCREzn694c91qiJ5PDQ=
+	bh=DxusE47usRST4q7MS7u24uOOfU3e4jo6eI9Z91Dlu14=;
+	b=a1A8ox03RQj50IdBNBFmMoVJ2miahK3dtKRyn8K2KsE5SSATzubXns+bF36gl+us
+	v+7Zs7xjRhomC2FSb0iJpKuq6VpMwsTlvwZG1k16ChNPxGelsPueWtFiGMe2mG6DEin
+	rIgO6F/MwdgeWK2Qdb5XpA18nVblVU6QGYxM4qpE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723979;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723982;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=NQyMSqnlEy0/RwXHn1mFNnfFF2nss7ZW+cXPanx2a0c=;
-	b=F+Gj40rmIoG5ryHj2Ttb5FLJXFPhEvvt7K6OX5phEHZTeD9nI0LMd5JR8PCAMhDY
-	ayrLsATIbVWLm4A6CaxDOAbg+7NV3M6MLCmPkCixfCJDMMft2oAP4A42i59QVpZZclh
-	7D3ixY4CR4W/KN+PLk8+p/AueS+Fe+l7/gJYcI7U=
-Content-Type: multipart/mixed; boundary="===============1013764130109953215=="
+	bh=DxusE47usRST4q7MS7u24uOOfU3e4jo6eI9Z91Dlu14=;
+	b=bvpkzz3MeJOa3iyi6PFg+fuATsDk6YPPjNuw9hMK2whjRwH7mUjM2BbVxliiTb48
+	rlABqGgfuADYcIw71Ih1wH9us5CGx4ZsUwbyYdc6w1xvbjzIfUenEuoQIzMxPO+06W6
+	w5zm+PjjGjNI9+o3PjmngHrK7NoPHEBB9yeZ5Xm8=
+Content-Type: multipart/mixed; boundary="===============3406280643874672505=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-wheel: upgrading to 0.46.1 FAILED
-Message-ID: <0101019639a72b79-6876012f-1c6c-409a-bc25-6ca5f098f4c8-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Apr 2025 13:32:59 +0000
+Subject: [AUH] unfs3: upgrading to 0.11.0 FAILED
+Message-ID: <0101019639a7369c-746857e9-bae1-4add-bf77-49da4dfc9fc9-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Apr 2025 13:33:01 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.04.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214887
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214896
 
---===============1013764130109953215==
+--===============3406280643874672505==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,15 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-wheel* to *0.46.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *unfs3* to *0.11.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade python3-wheel -V 0.46.1
+Running 'devtool upgrade' for recipe unfs3 failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1897 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -75,7 +74,7 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:a162cd7ad02b08ddcbacacb8d53be486de5556f1"
+workspace            = "tmp-auh-upgrades:3978423aadd906d4e8d3bae5010508f1f6d3bd68"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
@@ -84,46 +83,16 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 929 .bb files complete (0 cached, 929 parsed). 1898 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:a162cd7ad02b08ddcbacacb8d53be486de5556f1"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-i5gw73yz: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-95z4k7j_/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-95z4k7j_/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/w/wheel/wheel-0.46.1.tar.gz;downloadfilename=wheel-0.46.1.tar.gz...
-ERROR: Execution of 'git add -f -A "src/wheel/_commands/__init__.py" "src/wheel/_commands/convert.py" "src/wheel/_commands/pack.py" "src/wheel/_commands/tags.py" "src/wheel/_commands/unpack.py" "src/wheel/_metadata.py" "tests/commands/__init__.py" "tests/commands/test_convert.py" "tests/commands/test_pack.py" "tests/commands/test_tags.py" "tests/commands/test_unpack.py" "tests/commands/util.py" "tests/testdata/eggnames.txt" "PKG-INFO" "docs/installing.rst" "docs/news.rst" "pyproject.toml" "setup.py" "src/wheel/__init__.py" "src/wheel/__main__.py" "src/wheel/_bdist_wheel.py" "src/wheel/_setuptools_logging.py" "src/wheel/bdist_wheel.py" "src/wheel/cli/__init__.py" "src/wheel/cli/convert.py" "src/wheel/cli/pack.py" "src/wheel/cli/tags.py" "src/wheel/cli/unpack.py" "src/wheel/macosx_libfile.py" "src/wheel/metadata.py" "src/wheel/util.py" "src/wheel/vendored/__init__.py" "src/wheel/vendored/packaging/LICENSE" "src/wheel/vendored/packaging/LICENSE.APACHE" "src/wheel/vendored/packaging/LICE
- NSE.BSD" "src/wheel/vendored/packaging/__init__.py" "src/wheel/vendored/packaging/_elffile.py" "src/wheel/vendored/packaging/_manylinux.py" "src/wheel/vendored/packaging/_musllinux.py" "src/wheel/vendored/packaging/_parser.py" "src/wheel/vendored/packaging/_structures.py" "src/wheel/vendored/packaging/_tokenizer.py" "src/wheel/vendored/packaging/markers.py" "src/wheel/vendored/packaging/requirements.py" "src/wheel/vendored/packaging/specifiers.py" "src/wheel/vendored/packaging/tags.py" "src/wheel/vendored/packaging/utils.py" "src/wheel/vendored/packaging/version.py" "src/wheel/vendored/vendor.txt" "src/wheel/wheelfile.py" "tests/cli/eggnames.txt" "tests/cli/test_convert.py" "tests/cli/test_pack.py" "tests/cli/test_tags.py" "tests/cli/test_unpack.py" "tests/conftest.py" "tests/test_bdist_wheel.py" "tests/test_macosx_libfile.py" "tests/test_metadata.py" "tests/test_sdist.py" "tests/test_tagopt.py" "tests/test_wheelfile.py" "tests/testdata/abi3extension.dist/extension.c" "tests/testdat
- a/abi3extension.dist/setup.cfg" "tests/testdata/abi3extension.dist/setup.py" "tests/testdata/commasinfilenames.dist/mypackage/__init__.py" "tests/testdata/commasinfilenames.dist/mypackage/data/1,2,3.txt" "tests/testdata/commasinfilenames.dist/mypackage/data/__init__.py" "tests/testdata/commasinfilenames.dist/setup.py" "tests/testdata/commasinfilenames.dist/testrepo-0.1.0/mypackage/__init__.py" "tests/testdata/complex-dist/complexdist/__init__.py" "tests/testdata/complex-dist/setup.py" "tests/testdata/extension.dist/extension.c" "tests/testdata/extension.dist/setup.py" "tests/testdata/headers.dist/header.h" "tests/testdata/headers.dist/headersdist.py" "tests/testdata/headers.dist/setup.cfg" "tests/testdata/headers.dist/setup.py" "tests/testdata/macosx_minimal_system_version/libb.dylib" "tests/testdata/macosx_minimal_system_version/test_lib.c" "tests/testdata/macosx_minimal_system_version/test_lib_10_10.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_10_10_10.dylib" "tes
- ts/testdata/macosx_minimal_system_version/test_lib_10_10_386.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_10_10_fat.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_10_14.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_10_14_386.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_10_14_fat.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_10_6.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_10_6_386.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_10_6_fat.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_10_9_universal2.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_11.dylib" "tests/testdata/macosx_minimal_system_version/test_lib_multiple_fat.dylib" "tests/testdata/simple.dist/setup.py" "tests/testdata/simple.dist/simpledist/__init__.py" "tests/testdata/unicode.dist/setup.py" "tests/testdata/unicode.dist/unicodedist/__init__.py" ""tests/testdata/unicode.dist/unico
- dedist/\303\245\303\244\303\266_\346\227\245\346\234\254\350\252\236.py""' failed with exit code 128:
-fatal: pathspec 'tests/testdata/unicode.dist/unicodedist/303245303244303266_346227245346234254350252236.py' did not match any files
+INFO: Rebasing devtool onto ec1660ba33c80d5c67131e163e68834c1a10e243
+WARNING: Command 'git rebase ec1660ba33c80d5c67131e163e68834c1a10e243' failed:
+Auto-merging daemon.c
+CONFLICT (content): Merge conflict in daemon.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/unfs3
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/unfs3/unfs3_git.bb
 
 
 
@@ -132,5 +101,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1013764130109953215==--
+--===============3406280643874672505==--
 
