@@ -1,243 +1,419 @@
-Return-Path: <Yash.Shinde@windriver.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD746C369BA
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 15:58:19 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.23915.1744732694215457518
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1CA8C369BA
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 16:12:09 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web11.24242.1744733518593558742
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 08:58:14 -0700
+ Tue, 15 Apr 2025 09:12:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6200f38ec5=yash.shinde@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F8gcpo007451
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 08:58:14 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45ykf3kg34-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 08:58:13 -0700 (PDT)
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 53FFwD8N015025;
-	Tue, 15 Apr 2025 08:58:13 -0700
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2048.outbound.protection.outlook.com [104.47.70.48])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45ykf3kg33-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Apr 2025 08:58:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KRIl25Y2IM0c9TE/I5B5yjx4IqekP4fj58BmzD3zyKKsOoMDTixs6BWY4pb2xc7zWLA9POAkKd2dCaC0XmzdrO7uThO4i8X35l1H8Vly2UZ+dEIma9tqQUohjouUOwMVEURfzKn8BEwQhd9yyUESRSrsMbKn3EM/apZPdGzHH/wjzfSYAmanqFRN+fL0+wApfjfotJgL6KWRwuXoFjNxSba7fUMajMW0dZMzHVSxYyv+1C+mAav6RAqBO8MKtzyYpClSLPFEkLslgtXdOsU5ORmeGZ8QdW5hkGh1GliM9bOE6EIdYiCVZv6x6fcQ69LEmsyc1CVmjqekVlvg/TbtYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k1EVKhTJEfRjpNEIM1j4m3mWH17IN0BxdinEAgRWG0k=;
- b=xoLrkeoVioFVjU2fnNmEaal7lXueHkn9yYjWH3YxIizJjYcWYcdTz+rlJAXv5Bvu8hrqLXQJRVjKmo6GN+tqBHW2FRjGrbCK25q9UALoz/I0FfxNNElWhJEnLxGB4SWg+YbldE4xOUGPhYFb2U8aO+yp3oPVQBa6we8NMvKEmreV3N+ZfGO7us8DIfv0NYmG3QFNqUtcwnJ0+UK/qCNKXnxaKwmocZKu0LPUpEbsR6Zm/e/bHzDdicnDvB/PQXNA7A0kUxPQBebF/EkHzQHqOd3qG+FEDRkGqa3WZxN7EPEyLCUmQeYMwtW5uad3CJWSqHwjqiqB4JQYP9R/FFuT3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
- by SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.36; Tue, 15 Apr
- 2025 15:58:08 +0000
-Received: from PH7PR11MB7593.namprd11.prod.outlook.com
- ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
- ([fe80::2688:e731:421b:5ebc%3]) with mapi id 15.20.8632.030; Tue, 15 Apr 2025
- 15:58:08 +0000
-Message-ID: <9b56919f-9c04-460c-8dde-363cadd1b25b@windriver.com>
-Date: Tue, 15 Apr 2025 21:28:03 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 2/3] rust: Upgrade 1.84.1->1.85.0
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: raj.khem@gmail.com, openembedded-core@lists.openembedded.org,
-        Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
-References: <20250331055424.1978243-1-Yash.Shinde@windriver.com>
- <20250331055424.1978243-2-Yash.Shinde@windriver.com>
- <CAMKF1sowYqhv29_Him+th4PkxvGG2FkEzeWmM3fgYzUeKpHqSQ@mail.gmail.com>
- <CA+chaQcn9EfvFMSEmBPnCu3duzwY=cNXzwXVGPBNSP7n-9SduQ@mail.gmail.com>
- <1d01500d-39e2-4578-9fc0-b8c7c231e6d9@windriver.com>
- <CA+chaQf_eWJgp9QVKQQ9iGviZU54Zc_1h-LyWW2yurWf06zCLA@mail.gmail.com>
- <16187529-d92e-4cac-b900-bafe8d603c73@windriver.com>
- <CA+chaQfvUii4KyMTgD4+RvHkQF9Tf0_jpym0UC8dkKupfhscjg@mail.gmail.com>
-Content-Language: en-US
-From: Yash Shinde <Yash.Shinde@windriver.com>
-In-Reply-To: <CA+chaQfvUii4KyMTgD4+RvHkQF9Tf0_jpym0UC8dkKupfhscjg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: SJ0P220CA0027.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::18) To PH7PR11MB7593.namprd11.prod.outlook.com
- (2603:10b6:510:27f::9)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=BZ2DKNhJ;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20250415161155e1931c136cca6ac11e-ipmzuu@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20250415161155e1931c136cca6ac11e
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 15 Apr 2025 18:11:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=Ph32QI3OBuz4BKNEw7Rr8AxC8lYbaRGEOXoEJ0IT6gk=;
+ b=BZ2DKNhJnIGlONpdLQXK6OvqtTQ+Y4NqZubDpSTXc5OKwb4AIscFqj5TlNc8vo42clx1Nr
+ xXYEsFC70r5SkWqBVyZ70b6YK1mpYEkka3XxFpGPtXWstybIsabiaoacV3mcV6pUCFsRYHMa
+ Vg2DoVBD7mPzI9LsnIWBLpbFihREqHeBrLjqwkBWgK46XNZf6FC7lvGwC/li2cj6wsiiLzHr
+ YZI4KTVkouLTR266MQPRnJD5FtW6Ljx126mDOgNWTQZycy99i78Z7i9axk47OSDz3g4lp1Jc
+ TZg50iqLThZawJIFWb9o1oaMdqYIpyRmWj03Nqwhn58Xc+VcvqTcufDQ==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] libarchive: upgrade 3.7.4 -> 3.7.9
+Date: Tue, 15 Apr 2025 18:10:45 +0200
+Message-Id: <20250415161045.1598385-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|SJ0PR11MB4845:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a768d6f-701a-4c47-76ee-08dd7c3650dd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?QytsSVR3L3Rrd3A3NEovU3NQRm5VZkt3QndLNGNyU1lLYXQveUYxdjZkUURq?=
- =?utf-8?B?Tm9XYnE0ODFjK3NScFE0M3p5TmtERlM3d1RPUUlYM1JZeDcxeVZERWJTZFlR?=
- =?utf-8?B?RTBKbXJXV25ydTd5eHBLek45cmx2amNXVGJYd3BYZVpTQ0V5YlhERGhwbWEr?=
- =?utf-8?B?ckErWm02ZERXSG5palV0aWwweTNqMi9ESkM1d1FKZkFWTE12a3NDbkp6R2xX?=
- =?utf-8?B?MzBXeGhPZkxWeUF1bDFDNjZpVTlQV3V0R2JNN1lQQWcyNWliYWdHUDN0dHJ0?=
- =?utf-8?B?WTZUcTJzSU43ZGExWW9nZzloc1hVZXhPTnNRd3YzNWZzcU1IaUpHV08wejU1?=
- =?utf-8?B?a2VWU1g0Vy8yTlp0MUFKdEhsNkpMbWQyc1JVaW81MlpkcXRaM1BISnhaZHg5?=
- =?utf-8?B?SUw3WU1aQzB4NW5GZzZvdFZKMkoyWXlTTlUzZVBpeFhhUFVFdVdDaTBTdEc1?=
- =?utf-8?B?YWpQSng1d3R6dUVqTlBQczFvTDJIbTBsOHMyeEE2R2wvVnU2bVlWKzdobEJL?=
- =?utf-8?B?R0pYRVNJZHJLdU41cDk4aWhqK2xNWHB1MjFTaXB0ZDZTUHJFTnd6Mk9NU1BU?=
- =?utf-8?B?WE9HSk5vRVJwRGdEeWMxQXlwYlZYYWxYcnkrTnFiaVZIUHdBWXhnVmtIRVZY?=
- =?utf-8?B?NXhBc1pHN0dzaW9YcDZISkNTamhlK0ZYdHEvNmZ3QWlpeGdacC9wU1hZZnR0?=
- =?utf-8?B?MVBOVlpCV1ZEK1drZXFoMGRhbmZPRjVWZDlZK09icEV2L05CK2w3a3VwMkho?=
- =?utf-8?B?UW1CcWI3VHdrblJ1c3hRWkdsUER4MXcwSWNXL0Z1Y041TWVuR1pIVno5NFZo?=
- =?utf-8?B?NHEwR09xTFZJWE5GU3FPemx5RXQ5Y0dML3hJMjRqSWxYT3d2Qmk3UXBCaHc1?=
- =?utf-8?B?Um51YU9rUXVVMHFCZEdvYVFVSUVSdm03Y0FWTUhoOXJrMW5uWEVwVENZN2Yw?=
- =?utf-8?B?Zm9LYU9aV1ZSaFJ0MDQrVXN5VFFNTlpGekZNa2RzWnJORk50emp5NnJXRUxS?=
- =?utf-8?B?cGhMaTB0bU8yNERlU1BiMk9LSHllQy9GMklLTXdiWDlhK1ZMcWRhek50a1Y4?=
- =?utf-8?B?OFd5ejROYkRuek9yY1ZUbXlsWmlYRkFmZEtXWGlsSGNkeXZmbklZdG1nUS90?=
- =?utf-8?B?N2w4cjRQZXZhQTMyTDE5U2NqNW5OTUtOckE5SzBsZTVFZlVraERxOXhQMWxO?=
- =?utf-8?B?YzNlVTZvMHIyczlsQXg3RWs1V2F6QVZiRDJsUHN6SDJZcm5UQXE0WGtWZTNr?=
- =?utf-8?B?OFFCNXAwZlJjVFkwS3FiMHp4a3NIYmp5YllnR0U2SG9OTGo3bm1NSk5xZis4?=
- =?utf-8?B?TkgzOTV4QXJRRzlndnYva0JZRDBFc0QxQndDQ0w0YiswVU41QWcvMnVncUhY?=
- =?utf-8?B?Ujd3dTVHV0wxVSsrQ1FmTXZBRTM2MVFHU0lHZXNDODlhbFQ5TTQrbWlRM1lO?=
- =?utf-8?B?eDJQcXlHajA4K1RLajEwSlFwS2h5R2ptMHlIQkhNZDFJYVZJNjhMdC9ZalpD?=
- =?utf-8?B?Tk9vRVR6aEJGNFlWeHBmUWROVHkzMll0bkExdDBWT2tLdjRORXBQOHNnQWlp?=
- =?utf-8?B?SFFrQzhscDFuT2x3emJkWE9odWIyQjROZmNCd3BnMDJ1WmJrTFd5Z3hyUnNY?=
- =?utf-8?B?dWE4d2s5SkFCcG5UWC93VjdpVjhjWWhVR1RoKzArU2cva1RyenhRSEgzZjF2?=
- =?utf-8?B?cnJUOVlHTzFOYzVPTXEwRHczWG9ZTjhqTmZmcTJTYkFpS3RuNnVHZVpOUkJX?=
- =?utf-8?B?WlcyWXpxaG1rTS9yZHc2cXJ2MXQvenZvNnNTRkxjQVdFc2duTnRCeG55eFc5?=
- =?utf-8?B?QUJBK05kQnBOdmd3TlFYWHJyQ0x2ZVJ4TGE3VW1wL3drVHdtREdPQlU1ZGdB?=
- =?utf-8?Q?BIlaIFezbtgG8?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MWM2Vi9GdHZCZ1crb3RtSWE4cU0rekJFS3IrQkFmYTR6bnl1cy9ubm5sNDhI?=
- =?utf-8?B?OExpR0ZzMDFhSS95c1gyeVpJeWlPU2FNbCtuUGZkRktRWlNUSFljT2JZUHZB?=
- =?utf-8?B?WVRudFlXbnNHaUhSaTJpeDdMMmpEa3VWMjFaTElNdjNqVnFzSWVGUHBHeW9T?=
- =?utf-8?B?TWRDRlVROFBEL0NYRURYdUs3dkZIaVhlbjFUay8vMUhuWVAzRTdQRWlFbG9V?=
- =?utf-8?B?a0NUcnpDQXI0eG5YcUxQYldidzVTK2NvWjFvTERCVUJxM21MVks3clVUQUhG?=
- =?utf-8?B?amdrcDJtaHRQUFdyQ2RoWE5qWGdHTXhTQzFrcjB2elBGQVY5ZXdQNEdqcFRy?=
- =?utf-8?B?ZTFWZzJtU21JL2lNL2xZNHRUdVo2MXcxeE9CbTdKWVU2eDNuRHZnM0w3RnVD?=
- =?utf-8?B?MUVaREFrcU9oYndEcnRxS1V3MG1ZZ2dpRGdUdmxSV0tSOXBKZmYrczBHMHVt?=
- =?utf-8?B?VERJSUxEWlVBRVN4cnRMSzR2TmV6ejVSdzByWUtsVmRuYnhaSysvTVR6WGFV?=
- =?utf-8?B?RUxpejJrdWZNcUFPVlBDLzQ2dzlRbmZEbjVYbjNHeVJDSCt0YXF1STB6TUJ0?=
- =?utf-8?B?b3hZMDJkRmFYcTQ3bE5MVzFSSnl2d2NCbmxrOEw2blQ5NUttb2tWWDBydnQ4?=
- =?utf-8?B?d2svemNyRTBscW5VdjZFYU52OG0rcnFzcXdHbFg3dFdzMVJVWlRVZW9tY01O?=
- =?utf-8?B?RnF2d3IrYUtVWXFtelU0OHJMQWhEODhhVE5wejEzZjcvUXRKZWFIeHgvTGhB?=
- =?utf-8?B?L21pQ3B5VWlPeklmL3FGS0tLeVQ0NGtaNzBvZ2tkMHJWdEhzV1M3RHFCVkQy?=
- =?utf-8?B?Y0ZHWUtDcE93TVhMU3NYOU1JdnMrL0c0cXl4TnJsM2V2bGxqd1ZtSUpuN0xW?=
- =?utf-8?B?WkZBTFdFUHlBT21LTE8rb25BRmpQRGFoYVNBUUxSNUNqOVZaZjRIdE0wd2hq?=
- =?utf-8?B?RmM2TEJuclViQnM0SDlXOGpzMHRTRUcwZmQ4YUwrVFNIWUkxc00vc3I0WE96?=
- =?utf-8?B?M2Z0L0FUK25BWkJlWWRtMVV4ZEFxcDFQRElMTXRPNitQTTRBQ25CalorQ2JK?=
- =?utf-8?B?WEZORFZHcUhCZnJ3K0htZGxXR1ZzaERMWlpMMm9yUUw1MER6YVBPMlRlWUtF?=
- =?utf-8?B?enNNcnJsWUF4NGd3a1hackovWU9ZTFZyNlZycTBvOHdJZGxMZjB6aENPY1pL?=
- =?utf-8?B?Q3ZhOTRzVGFqRTFSREtuM3FkTmczNVdzeC9QV0hJQ05mUTZkQlhKem9FdE9v?=
- =?utf-8?B?NVhLcVRjYWNuRVo4LzdLaFN1OXpmRzJOZzV2RWl4YmdjQUhtNmFjZ1pEa1Vy?=
- =?utf-8?B?WFcwblRoU0lsVzZDTjJKSUFxWDhBTGZzSGFUMCtNZ1FBMXpWMFNac0R4OXlU?=
- =?utf-8?B?V3Q0VHJJVlNybC83cU11eW1XZVFrOHZxZnR2Zm9QOEcwaTNucGFGbmJiZ0hN?=
- =?utf-8?B?Q3Q0NFZ6OGRocnJhNHNSZXl0b3p4TlM3YVc5Wk1mby83K29vQlppeFhNd0c1?=
- =?utf-8?B?S2lSK1NSejBrREpRTEQ1cC9icVJBblhkVmFjTVg3QnFKbEExYUhTbWM1UUJL?=
- =?utf-8?B?T092TXF3Y2RKYUphK3ZUMmZmdm5qUnBSVjBjWW95bUx6aHpxZ00vMEJmcjJJ?=
- =?utf-8?B?RkpoM0JETWs1NHA3Vy9jSEh6N1pQb3dtMFI2ZVVOVHRPK3BWc2NneUFXUXhV?=
- =?utf-8?B?REY3VlQ2SWxwa2IwQmxxRlBnUnBGR1R1V1VnU0p1cE5OMlNaTFMrZEpMdDlj?=
- =?utf-8?B?T0hlTEgrK041anl5MGttMmErUlZmYzZHUzdET0czdldtMGVFYitZamNLRHNO?=
- =?utf-8?B?YnlYU0Y4bjFIYXdia1B5eUo5eC9NRU1BNlZBakdNZ3NFV3dVUWc4ZzkyZmpJ?=
- =?utf-8?B?bkJ2Rk5RODIzaXQ5QU54eHVKd3M4bURSbW5GNEw1VHhtMUR4TC8zaDJMdzdu?=
- =?utf-8?B?VDFaOWtWSDAzRllrcytPeXc1b21RUFB1WkF0Y2l4aHlZYy94SkJYMFhIT3lO?=
- =?utf-8?B?OFpWTk02UFJYZTZVN0tueDJzV29kODZIOWcyWGMxeFBNenE1YURObDdUdGxj?=
- =?utf-8?B?V0d2SEZEMTZrZDkzdHV0RkVrR2RseEJQbmxka05rVUV5RWlDcTlRanZwanFt?=
- =?utf-8?B?NnlabDNCdHJqRkhKZUlaS0pxVEVOYWg4em4wUnh6YW1sWnhCSzFHbitWYXYv?=
- =?utf-8?B?aVE9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a768d6f-701a-4c47-76ee-08dd7c3650dd
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2025 15:58:08.4863
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: csUwcu+Eq5vPN6u/1cqQpzO7LJsnXya61uq4M7kS3GA3SqBMHatwM8DCtCDzwyF94l9gGNbDh1107NZtCFUFlmhk9a61dGM6eDeDB1wqCCo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4845
-X-Proofpoint-ORIG-GUID: Ymw7cx_iMOaOgl-qbI_QIl_c-FSJ28QD
-X-Authority-Analysis: v=2.4 cv=Wd0Ma1hX c=1 sm=1 tr=0 ts=67fe8215 cx=c_pps a=PK5aExQQjalka8oDlC/sVA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=XR8D0OoHHMoA:10 a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=U7mKfydvYStWgQciAvAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: AxPSxw0qhuy87CivbX7rPZgnwl5qMqTq
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-15_06,2025-04-15_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- lowpriorityscore=0 priorityscore=1501 spamscore=0 clxscore=1015
- impostorscore=0 suspectscore=0 malwarescore=0 adultscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2504150112
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 53F8gcpo007451
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 15:58:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214953
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 16:12:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214954
 
+From: Peter Marko <peter.marko@siemens.com>
 
-On 15-04-2025 21:22, Martin Jansa wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
->
-> On Tue, Apr 15, 2025 at 5:46=E2=80=AFPM Yash Shinde <Yash.Shinde@windri=
-ver.com> wrote:
->>
->> On 15-04-2025 17:08, Martin Jansa wrote:
->>
->> qemuarmv5 uses tune-arm926ejs which uses armv5te, I think you would
->> need to use armv5te-vfp to reproduce this, or use qemuarm with
->> tune-cortexa15 but switch from default cortexa15thf-neon to
->> cortexa15t-neon
->>
->> I was seeing it in multilib builds e.g. with
->> https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djan=
-sa/master&id=3D40e9c4744a7f1eb2d91af9539d69555d36dfba30
->> which uses DEFAULTTUNE:virtclass-multilib-lib32 =3D "armv7at-neon"
->>
->> unfortunately just treating softfp as soft ends with segfaults in rust
->> as shown nere:
->> https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djan=
-sa/master&id=3Dc65eda95e5dd3ad0be0565477236d7902d5d625c
->>
->> Regards,
->>
->> On Tue, Apr 15, 2025 at 11:05=E2=80=AFAM Yash Shinde <Yash.Shinde@wind=
-river.com> wrote:
->>
->> I checked for softfp tuning using (which gave TARGET_FPU =3D softfp):
->>
->> TUNE_FEATURES =3D "vfp armv5te"
->> DEFAULTTUNE =3D "armv5te-vfp"
->> TUNE_PKGARCH =3D "armv5te-vfp"
->>
->> But, it seems that softfp is not a valid value for llvm-floatabi in ru=
-st.
->> It gives error as follows:
->>
->> |   --- stderr
->> |   error: Error loading target specification: 'softfp' is not a valid=
- value for llvm-floatabi. Use 'soft' or 'hard'.. Run `rustc --print targe=
-t-list` for a list of built-in targets
->>
->> As you mentioned, using soft instead of softfp also doesn't work eithe=
-r.
->> It seems that unless upstream Rust provides support for this, we won't=
- be able to build Rust with softfp on ARM targets.
-> The last 2 paragraphs were rendered as white font on white background,
-> but I see it now.
->
-> It was building fine in this setup before the last rust upgrade.
+These is update with only bug and security releases.
+On top of previous CVE patches, also CVE-2024-48615 is handled.
+Also many security fixes without CVE assigment are included.
 
-Yes, that's because starting from Rust v1.85.0, a check for=20
-llvm-floatabi was added.
-https://github.com/rust-lang/rust/commit/a51fefcaab835b310e2e26005b50982d=
-0049d905
+Note that upgrade to 3.7.5 on master required fix of test in
+python3-libarchive-c, however that recipe does not yet have ptest in
+scarthgap and the fix was in test only, not in productive code, so it is
+not necessary in scarthgap.
 
+Also remove CVE_STATUS which was obsolete already before this upgrade.
 
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../libarchive/CVE-2024-20696.patch           | 115 ------------------
+ .../libarchive/CVE-2024-48957.patch           |  36 ------
+ .../libarchive/CVE-2024-48958.patch           |  40 ------
+ .../CVE-2025-1632_CVE-2025-25724.patch        |  83 -------------
+ .../libarchive/libarchive/configurehack.patch |   4 +-
+ ...ibarchive_3.7.4.bb => libarchive_3.7.9.bb} |  12 +-
+ 6 files changed, 5 insertions(+), 285 deletions(-)
+ delete mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-20696.patch
+ delete mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch
+ delete mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch
+ delete mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch
+ rename meta/recipes-extended/libarchive/{libarchive_3.7.4.bb => libarchive_3.7.9.bb} (84%)
+
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2024-20696.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2024-20696.patch
+deleted file mode 100644
+index e55d58d37b..0000000000
+--- a/meta/recipes-extended/libarchive/libarchive/CVE-2024-20696.patch
++++ /dev/null
+@@ -1,115 +0,0 @@
+-From eac15e252010c1189a5c0f461364dbe2cd2a68b1 Mon Sep 17 00:00:00 2001
+-From: "Dustin L. Howett" <dustin@howett.net>
+-Date: Thu, 9 May 2024 18:59:17 -0500
+-Subject: [PATCH] rar4 reader: protect copy_from_lzss_window_to_unp() (#2172)
+-
+-copy_from_lzss_window_to_unp unnecessarily took an `int` parameter where
+-both of its callers were holding a `size_t`.
+-
+-A lzss opcode chain could be constructed that resulted in a negative
+-copy length, which when passed into memcpy would result in a very, very
+-large positive number.
+-
+-Switching copy_from_lzss_window_to_unp to take a `size_t` allows it to
+-properly bounds-check length.
+-
+-In addition, this patch also ensures that `length` is not itself larger
+-than the destination buffer.
+-
+-CVE: CVE-2024-20696
+-Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/eac15e252010c1189a5c0f461364dbe2cd2a68b1]
+-
+-Signed-off-by: Nitin Wankhade <nitin.wankhade@kpit.com>
+----
+-
+---- a/libarchive/archive_read_support_format_rar.c	2024-04-26 14:52:59.000000000 +0530
+-+++ b/libarchive/archive_read_support_format_rar.c	2024-12-12 07:35:33.287412704 +0530
+-@@ -432,7 +432,7 @@ static int make_table_recurse(struct arc
+-                               struct huffman_table_entry *, int, int);
+- static int expand(struct archive_read *, int64_t *);
+- static int copy_from_lzss_window_to_unp(struct archive_read *, const void **,
+--                                        int64_t, int);
+-+                                        int64_t, size_t);
+- static const void *rar_read_ahead(struct archive_read *, size_t, ssize_t *);
+- static int parse_filter(struct archive_read *, const uint8_t *, uint16_t,
+-                         uint8_t);
+-@@ -2060,7 +2060,7 @@ read_data_compressed(struct archive_read
+-         bs = rar->unp_buffer_size - rar->unp_offset;
+-       else
+-         bs = (size_t)rar->bytes_uncopied;
+--      ret = copy_from_lzss_window_to_unp(a, buff, rar->offset, (int)bs);
+-+      ret = copy_from_lzss_window_to_unp(a, buff, rar->offset, bs);
+-       if (ret != ARCHIVE_OK)
+-         return (ret);
+-       rar->offset += bs;
+-@@ -2213,7 +2213,7 @@ read_data_compressed(struct archive_read
+-       bs = rar->unp_buffer_size - rar->unp_offset;
+-     else
+-       bs = (size_t)rar->bytes_uncopied;
+--    ret = copy_from_lzss_window_to_unp(a, buff, rar->offset, (int)bs);
+-+    ret = copy_from_lzss_window_to_unp(a, buff, rar->offset, bs);
+-     if (ret != ARCHIVE_OK)
+-       return (ret);
+-     rar->offset += bs;
+-@@ -3094,11 +3094,16 @@ copy_from_lzss_window(struct archive_rea
+- 
+- static int
+- copy_from_lzss_window_to_unp(struct archive_read *a, const void **buffer,
+--                             int64_t startpos, int length)
+-+                             int64_t startpos, size_t length)
+- {
+-   int windowoffs, firstpart;
+-   struct rar *rar = (struct rar *)(a->format->data);
+- 
+-+  if (length > rar->unp_buffer_size)
+-+  {
+-+    goto fatal;
+-+  }
+-+
+-   if (!rar->unp_buffer)
+-   {
+-     if ((rar->unp_buffer = malloc(rar->unp_buffer_size)) == NULL)
+-@@ -3110,17 +3115,17 @@ copy_from_lzss_window_to_unp(struct arch
+-   }
+- 
+-   windowoffs = lzss_offset_for_position(&rar->lzss, startpos);
+--  if(windowoffs + length <= lzss_size(&rar->lzss)) {
+-+  if(windowoffs + length <= (size_t)lzss_size(&rar->lzss)) {
+-     memcpy(&rar->unp_buffer[rar->unp_offset], &rar->lzss.window[windowoffs],
+-            length);
+--  } else if (length <= lzss_size(&rar->lzss)) {
+-+  } else if (length <= (size_t)lzss_size(&rar->lzss)) {
+-     firstpart = lzss_size(&rar->lzss) - windowoffs;
+-     if (firstpart < 0) {
+-       archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
+-                         "Bad RAR file data");
+-       return (ARCHIVE_FATAL);
+-     }
+--    if (firstpart < length) {
+-+    if ((size_t)firstpart < length) {
+-       memcpy(&rar->unp_buffer[rar->unp_offset],
+-              &rar->lzss.window[windowoffs], firstpart);
+-       memcpy(&rar->unp_buffer[rar->unp_offset + firstpart],
+-@@ -3130,9 +3135,7 @@ copy_from_lzss_window_to_unp(struct arch
+-              &rar->lzss.window[windowoffs], length);
+-     }
+-   } else {
+--      archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
+--                        "Bad RAR file data");
+--      return (ARCHIVE_FATAL);
+-+      goto fatal;
+-   }
+-   rar->unp_offset += length;
+-   if (rar->unp_offset >= rar->unp_buffer_size)
+-@@ -3140,6 +3143,11 @@ copy_from_lzss_window_to_unp(struct arch
+-   else
+-     *buffer = NULL;
+-   return (ARCHIVE_OK);
+-+
+-+fatal:
+-+  archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
+-+                    "Bad RAR file data");
+-+  return (ARCHIVE_FATAL);
+- }
+- 
+- static const void *
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch
+deleted file mode 100644
+index 98877cf72c..0000000000
+--- a/meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 3006bc5d02ad3ae3c4f9274f60c1f9d2d834734b Mon Sep 17 00:00:00 2001
+-From: Wei-Cheng Pan <legnaleurc@gmail.com>
+-Date: Mon, 29 Apr 2024 06:53:19 +0900
+-Subject: [PATCH] fix: OOB in rar audio filter (#2149)
+-
+-This patch ensures that `src` won't move ahead of `dst`, so `src` will
+-not OOB. Similar situation like in a1cb648.
+-
+-Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/3006bc5d02ad3ae3c4f9274f60c1f9d2d834734b]
+-CVE: CVE-2024-48957
+-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+----
+- libarchive/archive_read_support_format_rar.c | 7 +++++++
+- 1 file changed, 7 insertions(+)
+-
+-diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
+-index 79669a8..95a91dc 100644
+---- a/libarchive/archive_read_support_format_rar.c
+-+++ b/libarchive/archive_read_support_format_rar.c
+-@@ -3714,6 +3714,13 @@ execute_filter_audio(struct rar_filter *filter, struct rar_virtual_machine *vm)
+-     memset(&state, 0, sizeof(state));
+-     for (j = i; j < length; j += numchannels)
+-     {
+-+      /*
+-+       * The src block should not overlap with the dst block.
+-+       * If so it would be better to consider this archive is broken.
+-+       */
+-+      if (src >= dst)
+-+        return 0;
+-+
+-       int8_t delta = (int8_t)*src++;
+-       uint8_t predbyte, byte;
+-       int prederror;
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch
+deleted file mode 100644
+index de266e9d95..0000000000
+--- a/meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From a1cb648d52f5b6d3f31184d9b6a7cbca628459b7 Mon Sep 17 00:00:00 2001
+-From: Wei-Cheng Pan <legnaleurc@gmail.com>
+-Date: Mon, 29 Apr 2024 06:50:22 +0900
+-Subject: [PATCH] fix: OOB in rar delta filter (#2148)
+-
+-Ensure that `src` won't move ahead of `dst`, so `src` will not OOB.
+-Since `dst` won't move in this function, and we are only increasing `src`
+-position, this check should be enough. It should be safe to early return
+-because this function does not allocate resources.
+-
+-Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/a1cb648d52f5b6d3f31184d9b6a7cbca628459b7]
+-CVE: CVE-2024-48958
+-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+----
+- libarchive/archive_read_support_format_rar.c | 8 ++++++++
+- 1 file changed, 8 insertions(+)
+-
+-diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
+-index 95a91dc..4fc6626 100644
+---- a/libarchive/archive_read_support_format_rar.c
+-+++ b/libarchive/archive_read_support_format_rar.c
+-@@ -3612,7 +3612,15 @@ execute_filter_delta(struct rar_filter *filter, struct rar_virtual_machine *vm)
+-   {
+-     uint8_t lastbyte = 0;
+-     for (idx = i; idx < length; idx += numchannels)
+-+    {
+-+      /*
+-+       * The src block should not overlap with the dst block.
+-+       * If so it would be better to consider this archive is broken.
+-+       */
+-+      if (src >= dst)
+-+        return 0;
+-       lastbyte = dst[idx] = lastbyte - *src++;
+-+    }
+-   }
+- 
+-   filter->filteredblockaddress = length;
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch
+deleted file mode 100644
+index 459b664180..0000000000
+--- a/meta/recipes-extended/libarchive/libarchive/CVE-2025-1632_CVE-2025-25724.patch
++++ /dev/null
+@@ -1,83 +0,0 @@
+-From c9bc934e7e91d302e0feca6e713ccc38d6d01532 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Peter=20K=C3=A4stle?= <peter@piie.net>
+-Date: Mon, 10 Mar 2025 16:43:04 +0100
+-Subject: [PATCH] fix CVE-2025-1632 and CVE-2025-25724 (#2532)
+-
+-Hi,
+-
+-please find my approach to fix the CVE-2025-1632 and CVE-2025-25724
+-vulnerabilities in this pr.
+-As both error cases did trigger a NULL pointer deref (and triggered
+-hopefully everywhere a coredump), we can safely replace the actual
+-information by a predefined invalid string without breaking any
+-functionality.
+-
+-CVE: CVE-2025-1632
+-CVE: CVE-2025-25724
+-Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/c9bc934e7e91d302e0feca6e713ccc38d6d01532]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----------
+-
+-Signed-off-by: Peter Kaestle <peter@piie.net>
+----
+- tar/util.c       |  5 ++++-
+- unzip/bsdunzip.c | 10 +++++++---
+- 2 files changed, 11 insertions(+), 4 deletions(-)
+-
+-diff --git a/tar/util.c b/tar/util.c
+-index 3b099cb5..f3cbdf0b 100644
+---- a/tar/util.c
+-+++ b/tar/util.c
+-@@ -748,7 +748,10 @@ list_item_verbose(struct bsdtar *bsdtar, FILE *out, struct archive_entry *entry)
+- #else
+- 	ltime = localtime(&tim);
+- #endif
+--	strftime(tmp, sizeof(tmp), fmt, ltime);
+-+	if (ltime)
+-+		strftime(tmp, sizeof(tmp), fmt, ltime);
+-+	else
+-+		sprintf(tmp, "-- -- ----");
+- 	fprintf(out, " %s ", tmp);
+- 	safe_fprintf(out, "%s", archive_entry_pathname(entry));
+- 
+-diff --git a/unzip/bsdunzip.c b/unzip/bsdunzip.c
+-index 7c8cafc3..4a9028b7 100644
+---- a/unzip/bsdunzip.c
+-+++ b/unzip/bsdunzip.c
+-@@ -904,6 +904,7 @@ list(struct archive *a, struct archive_entry *e)
+- 	char buf[20];
+- 	time_t mtime;
+- 	struct tm *tm;
+-+	const char *pathname;
+- 
+- 	mtime = archive_entry_mtime(e);
+- 	tm = localtime(&mtime);
+-@@ -912,22 +913,25 @@ list(struct archive *a, struct archive_entry *e)
+- 	else
+- 		strftime(buf, sizeof(buf), "%m-%d-%g %R", tm);
+- 
+-+	pathname = archive_entry_pathname(e);
+-+	if (!pathname)
+-+		pathname = "";
+- 	if (!zipinfo_mode) {
+- 		if (v_opt == 1) {
+- 			printf(" %8ju  %s   %s\n",
+- 			    (uintmax_t)archive_entry_size(e),
+--			    buf, archive_entry_pathname(e));
+-+			    buf, pathname);
+- 		} else if (v_opt == 2) {
+- 			printf("%8ju  Stored  %7ju   0%%  %s  %08x  %s\n",
+- 			    (uintmax_t)archive_entry_size(e),
+- 			    (uintmax_t)archive_entry_size(e),
+- 			    buf,
+- 			    0U,
+--			    archive_entry_pathname(e));
+-+			    pathname);
+- 		}
+- 	} else {
+- 		if (Z1_opt)
+--			printf("%s\n",archive_entry_pathname(e));
+-+			printf("%s\n", pathname);
+- 	}
+- 	ac(archive_read_data_skip(a));
+- }
+diff --git a/meta/recipes-extended/libarchive/libarchive/configurehack.patch b/meta/recipes-extended/libarchive/libarchive/configurehack.patch
+index 44720fdd53..97e42591cb 100644
+--- a/meta/recipes-extended/libarchive/libarchive/configurehack.patch
++++ b/meta/recipes-extended/libarchive/libarchive/configurehack.patch
+@@ -10,7 +10,7 @@ diff --git a/configure.ac b/configure.ac
+ index 5668d41..7e65e49 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -414,6 +414,19 @@ if test "x$with_bz2lib" != "xno"; then
++@@ -435,6 +435,19 @@ if test "x$with_bz2lib" != "xno"; then
+    esac
+  fi
+  
+@@ -30,7 +30,7 @@ index 5668d41..7e65e49 100644
+  AC_ARG_WITH([libb2],
+    AS_HELP_STRING([--without-libb2], [Don't build support for BLAKE2 through libb2]))
+  
+-@@ -678,19 +691,6 @@ fi
++@@ -694,19 +707,6 @@ fi
+  
+  AC_SUBST(DEAD_CODE_REMOVAL)
+  
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+similarity index 84%
+rename from meta/recipes-extended/libarchive/libarchive_3.7.4.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+index 156a6bdaae..4dd6794bb1 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+@@ -29,18 +29,12 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
+ 
+ EXTRA_OECONF += "--enable-largefile --without-iconv"
+ 
+-SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+-SRC_URI += "file://configurehack.patch \
+-            file://CVE-2024-48957.patch \
+-            file://CVE-2024-48958.patch \
+-            file://CVE-2024-20696.patch \
+-            file://CVE-2025-1632_CVE-2025-25724.patch \
++SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
++           file://configurehack.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+-SRC_URI[sha256sum] = "7875d49596286055b52439ed42f044bd8ad426aa4cc5aabd96bfe7abb971d5e8"
+-
+-CVE_STATUS[CVE-2023-30571] = "upstream-wontfix: upstream has documented that reported function is not thread-safe"
++SRC_URI[sha256sum] = "aa90732c5a6bdda52fda2ad468ac98d75be981c15dde263d7b5cf6af66fd009f"
+ 
+ inherit autotools update-alternatives pkgconfig
+ 
 
