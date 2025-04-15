@@ -1,222 +1,130 @@
-Return-Path: <asharma@mvista.com>
+Return-Path: <Haitao.Mi@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83897C369AB
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 08:58:52 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web10.15520.1744707527922892414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 943FBC369B4
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 09:03:12 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.15562.1744707787350171580
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 01:58:48 -0700
+ Tue, 15 Apr 2025 02:03:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=jQ0gvgUf;
- spf=pass (domain: mvista.com, ip: 209.85.215.175, mailfrom: asharma@mvista.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-af579e46b5dso3824312a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 01:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1744707527; x=1745312327; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gLzs1SfHd2g44vdid21jGRn2cSIS0hPk9ZgKcaFVTk0=;
-        b=jQ0gvgUfbkPz6OXCwih+zWyqEHgF7qUwIdeLI9nwD6pFKZimptRlzi3fiOCPO1Vk/E
-         rWgdBYJGlreNFPVgnfTsgOJ6w3z7fomd+M0rC9ELV1RXbCLHPAhby4+rWWtxKvGDMUgC
-         VVLVZE4yTHpy1uw4K5YPcUYWxd/aqlCZe3NbA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744707527; x=1745312327;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gLzs1SfHd2g44vdid21jGRn2cSIS0hPk9ZgKcaFVTk0=;
-        b=w6eBuMl73tw5GIycaXXrMYoNvXMy8HbqqtzyNCSBZD+EBUW2mAGQDvIqfMPPfmr8JK
-         Bwd8ivlG7BGapSAPArUYx2sNuknmNKeXmnfQAO1kjdI0DDdbxy0XqHZmP1sCJLDa4fOY
-         E5Sa/YH7jg5onj5nRXEyt0r8qrVGXTc0bzqTOcf0pEByJIj9CicxqGSEOHitWcASUE0i
-         fRpDCl0II8fL3aAxirNnzk9Hpu8rDAUo40/JOO+SJwaXNJLZOlJxU7qzgub4d7SiInKa
-         7idv0ecSBDroPEG07glGvAuGY1PaZ9l+JvxfAq5hxzcsuc1rTf8KZ6iSv/NN3qafkjFv
-         3hdw==
-X-Gm-Message-State: AOJu0YyJEbOz0e/G+ndZNQZDqwyXHN6sxqpDqez7boHCXNji5zOyuPrI
-	odsOhYT6T7sRNO0afEgUJxt+bXkkq9dQ7In73bF+25R40Gaoa59HZ50Q/+TEsP9WHVmrIyM0/59
-	x/pQ=
-X-Gm-Gg: ASbGncvPHyp1w5hiFFmq6/HQs1mrHi+ne6jydb6NTuh77YMwvj1DPejDu7saE+ekJ34
-	I5dWjMCgfMETXAbOm1/SlLMsH4/eZUEGtFcE7dpRwJ3uVm9YcFqZLXLKmR6huO3J+edtyuy1/0X
-	9ObyKYRhPGMlTH/2+0Lbtq/yFzTuUKIJk7q+qBTkbBjBGKuHVUHPVa5/X3R9ZEKC1Z/1RVpQk1d
-	SJ9MoDqUmmuZyjwAQZT0wlyfuP9ls2FfiX7s1ueE3F5DeqzcS9QOKPRquR/8r1BLYKEBWrG2JM4
-	5gz1RMovhvVpqparwINiiwZJTgYA6iCZvDQKMg==
-X-Google-Smtp-Source: AGHT+IHUAmp5jsGt86TBXPK0OVKv9MNrcjQTYOQ2Lj/uuYmKvVDHOt4LSAg8VaC5sHBMYGa1lD6jTA==
-X-Received: by 2002:a05:6a21:32a2:b0:1f5:7007:9eb7 with SMTP id adf61e73a8af0-20179983274mr24532852637.37.1744707526603;
-        Tue, 15 Apr 2025 01:58:46 -0700 (PDT)
-Received: from MVIN00043 ([2401:4900:1c31:8d4d:603b:3076:e232:176])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b02a321edf6sm10495077a12.65.2025.04.15.01.58.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 01:58:46 -0700 (PDT)
-Received: by MVIN00043 (sSMTP sendmail emulation); Tue, 15 Apr 2025 14:28:41 +0530
-From: Ashish Sharma <asharma@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][scarthgap][PATCH] binutils: patch CVE-2025-1178 & CVE-2024-57360
-Date: Tue, 15 Apr 2025 14:28:39 +0530
-Message-Id: <20250415085839.1200820-1-asharma@mvista.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6200d9899d=haitao.mi@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F80Lsg009956
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 02:03:07 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45ykf3jws9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 02:03:06 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 15 Apr 2025 02:03:06 -0700
+Received: from pek-lpd-ccm6.wrs.com (147.11.1.11) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Tue, 15 Apr 2025 02:03:05 -0700
+From: <haitao.mi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] spdx30: Provide software_packageUrl field in SPDX 3.0 SBOM.
+Date: Tue, 15 Apr 2025 17:03:04 +0800
+Message-ID: <20250415090304.139447-1-haitao.mi@windriver.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: ktf9eyTi2BtGBvJI0nP3Q-wGbHo0LYGA
+X-Authority-Analysis: v=2.4 cv=Wd0Ma1hX c=1 sm=1 tr=0 ts=67fe20ca cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=XR8D0OoHHMoA:10 a=t7CeM3EgAAAA:8 a=8PLvU82cITkvvn23-DMA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: ktf9eyTi2BtGBvJI0nP3Q-wGbHo0LYGA
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-15_04,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 clxscore=1011
+ impostorscore=0 suspectscore=0 malwarescore=0 adultscore=0 phishscore=0
+ mlxlogscore=686 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504150062
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 08:58:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214831
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 09:03:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214832
 
-Backport Fixes for:
+From: Haitao Mi <haitao.mi@windriver.com>
 
-*CVE-2025-1178 - Upstream-Status: Backport from [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=75086e9de1707281172cc77f178e7949a4414ed0]
+A purl is composed with these fields:
+scheme:type/namespace/name@version?qualifiers#subpath
 
-*CVE-2024-57360 - Upstream-Status: Backport from  [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=5f8987d3999edb26e757115fe87be55787d510b9]
+Set 'namespace' field through SPDX_PURL_NAMESPACE variable, the default
+value is ${DISTRO}.
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+Insert private project info into 'qualifiers' field through
+PACKAGE_URL_QUALIFIERS_EXTEND variable, join the key=value format
+with '&' symbol.
+
+Set 'subpath' field through SPDX_PURL_SUBPATH variable, default is empty.
+
+Signed-off-by: Haitao Mi <haitao.mi@windriver.com>
 ---
- .../binutils/binutils-2.42.inc                |  2 +
- .../binutils/binutils/CVE-2024-57360.patch    | 75 +++++++++++++++++++
- .../binutils/binutils/CVE-2025-1178.patch     | 38 ++++++++++
- 3 files changed, 115 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2024-57360.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1178.patch
+ meta/classes/create-spdx-3.0.bbclass |  8 ++++++++
+ meta/lib/oe/spdx30_tasks.py          | 25 +++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
-index 0ca00552ce..d366350556 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -40,5 +40,7 @@ SRC_URI = "\
-      file://0017-dlltool-file-name-too-long.patch \
-      file://0018-CVE-2025-0840.patch \
-      file://CVE-2025-1176.patch \
-+     file://CVE-2025-1178.patch \
-+     file://CVE-2024-57360.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2024-57360.patch b/meta/recipes-devtools/binutils/binutils/CVE-2024-57360.patch
-new file mode 100644
-index 0000000000..6d9720414b
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2024-57360.patch
-@@ -0,0 +1,75 @@
-+From 5f8987d3999edb26e757115fe87be55787d510b9 Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Tue, 17 Dec 2024 09:18:57 +0000
-+Subject: [PATCH] nm: Avoid potential segmentation fault when displaying
-+ symbols without version info.
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index 044517d9f7..c2499dde59 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -117,6 +117,14 @@ SPDX_PACKAGE_VERSION ??= "${PV}"
+ SPDX_PACKAGE_VERSION[doc] = "The version of a package, software_packageVersion \
+     in software_Package"
+ 
++SPDX_PURL_NAMESPACE ??= "${DISTRO}"
++SPDX_PURL_NAMESPACE[doc] = "The value of the namespace field in software_packageUrl"
 +
-+PR 32467
++SPDX_PURL_QUALIFIERS_EXTEND[doc] = "The project private info in the qualifiers field \
++    of software_packageUrl"
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=75086e9de1707281172cc77f178e7949a4414ed0]
-+CVE: CVE-2024-57360
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
++SPDX_PURL_SUBPATH[doc] = "The value of the subpath field in software_packageUrl"
 +
-+ binutils/nm.c | 24 ++++++++++++++++--------
-+ 1 file changed, 16 insertions(+), 8 deletions(-)
+ IMAGE_CLASSES:append = " create-spdx-image-3.0"
+ SDK_CLASSES += "create-spdx-sdk-3.0"
+ 
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index ba965821f8..78593e917e 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -631,6 +631,31 @@ def create_spdx(d):
+             set_var_field("SUMMARY", spdx_package, "summary", package=package)
+             set_var_field("DESCRIPTION", spdx_package, "description", package=package)
+ 
++            purl_qualifiers = "distro=%s-%s&arch=%s" % (d.getVar("DISTRO"), \
++                                                        d.getVar("DISTRO_VERSION"), \
++                                                        d.getVar("MACHINE"), \
++                                                        )
++            purl_qualifiers_extend = d.getVar("SPDX_PURL_QUALIFIERS_EXTEND")
++            if purl_qualifiers_extend:
++                purl_qualifiers += "&%s" % purl_qualifiers_extend
 +
-+diff --git a/binutils/nm.c b/binutils/nm.c
-+index faf27c59b4d..0ba7604d34f 100644
-+--- a/binutils/nm.c
-++++ b/binutils/nm.c
-+@@ -682,7 +682,7 @@ print_symname (const char *form, struct extended_symbol_info *info,
-+ 	       const char *name, bfd *abfd)
-+ {
-+   char *alloc = NULL;
-+-  char *atver = NULL;
-++  char *atname = NULL;
-+ 
-+   if (name == NULL)
-+     name = info->sinfo->name;
-+@@ -690,9 +690,19 @@ print_symname (const char *form, struct extended_symbol_info *info,
-+   if (!with_symbol_versions
-+       && bfd_get_flavour (abfd) == bfd_target_elf_flavour)
-+     {
-+-      atver = strchr (name, '@');
-++      char *atver = strchr (name, '@');
-++
-+       if (atver)
-+-	*atver = 0;
-++	{
-++	  /* PR 32467 - Corrupt binaries might include an @ character in a
-++	     symbol name.  Since non-versioned symbol names can be in
-++	     read-only memory (via memory mapping of a file's contents) we
-++	     cannot just replace the @ character with a NUL.  Instead we
-++	     create a truncated copy of the name.  */
-++	  atname = xstrdup (name);
-++	  atname [atver - name] = 0;
-++	  name = atname;
-++	}
-+     }
-+ 
-+   if (do_demangle && *name)
-+@@ -703,9 +713,7 @@ print_symname (const char *form, struct extended_symbol_info *info,
-+     }
-+ 
-+   if (unicode_display != unicode_default)
-+-    {
-+-      name = convert_utf8 (name);
-+-    }
-++    name = convert_utf8 (name);
-+ 
-+   if (info != NULL && info->elfinfo && with_symbol_versions)
-+     {
-+@@ -726,8 +734,8 @@ print_symname (const char *form, struct extended_symbol_info *info,
-+ 	}
-+     }
-+   printf (form, name);
-+-  if (atver)
-+-    *atver = '@';
-++
-++  free (atname);
-+   free (alloc);
-+ }
-+ 
-+-- 
-+2.43.5
++            purl_type = d.getVar("IMAGE_PKGTYPE")
++            if purl_type == "ipk":
++                purl_type = "generic"
++                purl_qualifiers = "file_extension=ipk&" + purl_qualifiers
 +
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-1178.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-1178.patch
-new file mode 100644
-index 0000000000..a68a5e1c3c
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-1178.patch
-@@ -0,0 +1,38 @@
-+From 75086e9de1707281172cc77f178e7949a4414ed0 Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Wed, 5 Feb 2025 13:26:51 +0000
-+Subject: [PATCH] Prevent an abort in the bfd linker when attempting to
-+ generate dynamic relocs for a corrupt input file.
++            purl_subpath = d.getVar("SPDX_PURL_SUBPATH")
++            purl_subpath = "#" + purl_subpath if purl_subpath else ""
 +
-+PR 32638
++            purl = "pkg:%s/%s/%s@%s?%s%s" % (purl_type, \
++                                             d.getVar("SPDX_PURL_NAMESPACE"), \
++                                             pkg_name, \
++                                             d.getVar("EXTENDPKGV"), \
++                                             purl_qualifiers, \
++                                             purl_subpath \
++                                             )
++            setattr(spdx_package, "software_packageUrl", purl)
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=75086e9de1707281172cc77f178e7949a4414ed0]
-+CVE: CVE-2025-1178
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+
-+ bfd/elf64-x86-64.c | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
-+
-+diff --git a/bfd/elf64-x86-64.c b/bfd/elf64-x86-64.c
-+index 61334c3ab04..32db254ba6c 100644
-+--- a/bfd/elf64-x86-64.c
-++++ b/bfd/elf64-x86-64.c
-+@@ -5303,6 +5303,15 @@ elf_x86_64_finish_dynamic_symbol (bfd *output_bfd,
-+ 
-+       if (generate_dynamic_reloc)
-+ 	{
-++	  /* If the relgot section has not been created, then
-++	     generate an error instead of a reloc.  cf PR 32638.  */
-++	  if (relgot == NULL || relgot->size == 0)
-++	    {
-++	      info->callbacks->einfo (_("%F%pB: Unable to generate dynamic relocs because a suitable section does not exist\n"),
-++					output_bfd);
-++	      return false;
-++	    }
-++	  
-+ 	  if (relative_reloc_name != NULL
-+ 	      && htab->params->report_relative_reloc)
-+ 	    _bfd_x86_elf_link_report_relative_reloc
-+-- 
-+2.43.5
-+
--- 
-2.34.1
-
+             pkg_objset.new_scoped_relationship(
+                 [oe.sbom30.get_element_link_id(build)],
+                 oe.spdx30.RelationshipType.hasOutput,
 
