@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0254FC369BE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56274C369C1
 	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:05 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.20154.1744723976760592660
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.20162.1744723982644446389
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 06:32:56 -0700
+ Tue, 15 Apr 2025 06:33:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gY+Uu3FH;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=IX2yNWn6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019639a71f95-7484aa4f-984f-4909-aaba-3c8461b621c2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HFay9Jm0;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=TzSJWM6p;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019639a736ad-60b76b07-9b5a-4bed-af88-7d5b18336820-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1744723976;
+	t=1744723982;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=bxM/L27N3z3deNyOJDlgRb0SIoGnTDg025wgLNWD18M=;
-	b=gY+Uu3FHEeqqvuvygK2WZXBmilHUfElRSkaueA9QC9geg9+BG81QXEdOAvtvab+z
-	A4etfXQ/NO29JYQey2IQU56svsmS4Zm5X1MSh88e+g1KNoOFq33r9U36Cwzu2BBQpo8
-	7k7/GNl2isdfUiveEcSkApliE9QRmmcaQ/jDlFxw=
+	bh=F+JGzazMGB+uOjG9mrkeLJnkUVaPhbZPfuJ5WYifMwc=;
+	b=HFay9Jm0+VugxAz3HKIcZQzBXh3bns4pRO4mfQntA6rr7zE5Mf4wK6yLhkmvUidX
+	iaJ76GZm/n8YzStrlCPPkFT5PXoqh3NjNJqahC/NMbLQeBnWJjrS/r5zeCLjgOBjaeQ
+	SUenXHt9b+QhNX0UzcAEOl6tEnNLOk8pqYT3lX4Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723976;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723982;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=bxM/L27N3z3deNyOJDlgRb0SIoGnTDg025wgLNWD18M=;
-	b=IX2yNWn6Tpp6ZHwg810jkur6XQhxmhvRicOKdg6v57AeJuNqsdPVModu/XcgBAnR
-	RlX87gFoD8Tf/DYxzvxPi9H6Of2YQT4dvmCtC61UW/HuuSykvEl4DWmUhJ4FmuneOmT
-	wS73Dn2DR+CHy+iKDgeVws3qqoszPoRFwzRldODc=
-Content-Type: multipart/mixed; boundary="===============4722840263612999405=="
+	bh=F+JGzazMGB+uOjG9mrkeLJnkUVaPhbZPfuJ5WYifMwc=;
+	b=TzSJWM6ptt7fn55HKBo2rvgL4qbAGWlama7Yp5aa/zfYAwwRx00CrDf/8SIxiFEV
+	uZnyT0RdfqRrckmV9qvpqEbluJV2BIyv4wDOrwTlWee5VVA+IgPr9IUyQHJP0oeAVvu
+	ZwXglTeKqOg0YizrcBYN+Cir82yN4ACoLoN98xCE=
+Content-Type: multipart/mixed; boundary="===============0530001799426658579=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: "zhengrq.fnst" <zhengrq.fnst@fujitsu.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-booleanpy: upgrading to 5.0 FAILED
-Message-ID: <0101019639a71f95-7484aa4f-984f-4909-aaba-3c8461b621c2-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Apr 2025 13:32:56 +0000
+Subject: [AUH] strace: upgrading to 6.14 FAILED
+Message-ID: <0101019639a736ad-60b76b07-9b5a-4bed-af88-7d5b18336820-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Apr 2025 13:33:02 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.15-54.240.27.29
+X-SES-Outgoing: 2025.04.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214876
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214897
 
---===============4722840263612999405==
+--===============0530001799426658579==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-booleanpy* to *5.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *strace* to *6.14* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade python3-booleanpy -V 5.0
+Running 'devtool upgrade' for recipe strace failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1897 entries from dependency cache.
@@ -74,13 +74,13 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:ee9cb3cb1f140c1a842ce0a78ff6e919d3183349"
+workspace            = "tmp-auh-upgrades:3978423aadd906d4e8d3bae5010508f1f6d3bd68"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 Loading cache...done.
@@ -102,29 +102,37 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:ee9cb3cb1f140c1a842ce0a78ff6e919d3183349"
+workspace            = "tmp-auh-upgrades:3978423aadd906d4e8d3bae5010508f1f6d3bd68"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
 done.
 NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+WARNING: tmp-recipetool-n0375tfe: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-d6a88724/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-d6a88724/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250415072427.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250415072427.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  19% |#######                             | ETA:  0:00:00
+Adding changed files:  39% |##############                      | ETA:  0:00:00
+Adding changed files:  59% |#####################               | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-w4pu388q/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-w4pu388q/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-w4pu388q/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-w4pu388q/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
- cipetool-w4pu388q/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-w4pu388q/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget --tries=2 --timeout=100 --output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/boolean.py-5.0.tar.gz.tmp --continue --directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads 'https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz' --progress=dot --verbose failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-w4pu388q/work/temp/log.do_fetch.1884755
-ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz
+INFO: Fetching https://github.com/strace/strace/releases//download/v6.14/strace-6.14.tar.xz...
+INFO: Rebasing devtool onto 9f6493598a308e7ba530a970896538c3fbfc1fd5
+WARNING: Command 'git rebase 9f6493598a308e7ba530a970896538c3fbfc1fd5' failed:
+Auto-merging tests/Makefile.am
+CONFLICT (content): Merge conflict in tests/Makefile.am
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/strace
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/strace/strace_6.14.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -132,5 +140,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4722840263612999405==--
+--===============0530001799426658579==--
 
