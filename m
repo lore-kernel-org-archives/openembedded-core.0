@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFEE8C369D7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4757C369D9
 	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:05 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.20152.1744723974108996121
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.20155.1744723976793127524
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 06:33:03 -0700
+ Tue, 15 Apr 2025 06:32:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TmpMrKAC;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jLJi3Loj;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019639a73a70-acd79eb6-edc8-4838-be5f-56a9e83d0981-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=R436G2NM;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ON1JAuSV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019639a71f93-a30062d6-ac62-497c-9733-a8aa8e41d366-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1744723983;
+	t=1744723976;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VJ4kUujQ79jPTRLqcqKFV69lYUxuKGHEH1qncpz1LAQ=;
-	b=TmpMrKAC/73UWtFtNYTRGlbTUsQMGr0YpckVwO+4JiP3PXs+yHb3WqYaSA7XGorT
-	Q9rnzkif6LgNIVU8g2JVKS1qoDiV1OdRpIITcqnGhka1iJCtQn+0EHJ3VHGaE0VVw2v
-	73vGz+vXR/cQA/GdHJDjhrEqeo8sVDU71JLJ4wMY=
+	bh=L4bb69dGu2UnZ24q05Hh2P5FAH3TWwwg4xIiW8OTrG4=;
+	b=R436G2NMWlCac4j2DCIPpfuAJzM2qnFpZyhcAvEs4VellrE2xOaEwvMkMKOXaf4E
+	L5iMwLSV5jMLVn6n5HKWChfopvST7cwWuN0Qdjn3afpZT8jAkJtm/XGOBXOMmlRzdFb
+	0OD3Z4RDzD0QeE3Uv8tof+sBw0L+xHlgN3OyqvsI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723983;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723976;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VJ4kUujQ79jPTRLqcqKFV69lYUxuKGHEH1qncpz1LAQ=;
-	b=jLJi3LojZDOuOW02sAW9I8ofJI40AkCmdiQTAOD1brhQKHFdqP3lChxaS/YzOQf9
-	C/+Dr8NojIBJBTewB2E5J/S1arQnzq1fWPG4xfgbqDdkwyyi/jTofEcJ86DNLaPl1fr
-	Wc1fb2b79DEP3y+47rjS0mqTofuIhBI5saW9obEA=
-Content-Type: multipart/mixed; boundary="===============0008168343337324698=="
+	bh=L4bb69dGu2UnZ24q05Hh2P5FAH3TWwwg4xIiW8OTrG4=;
+	b=ON1JAuSVSS7sYOsySQCiotVTuO1zs1vrDOaLUxq0cWOEZkTQDi95gD89YjmZUJvw
+	PRkTKB4cG5KpzzgFG/JXfC9LEuaDoeqeOiQ+q6VNuPS6TpEsdCCBG43/N+hQsil06Jz
+	blLlYzjeO5N+SR+9ShGI3P6LMR41pQEz4pTOlsn8=
+Content-Type: multipart/mixed; boundary="===============7685165430264261499=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ethtool: upgrading to 6.14 FAILED
-Message-ID: <0101019639a73a70-acd79eb6-edc8-4838-be5f-56a9e83d0981-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Apr 2025 13:33:02 +0000
+Subject: [AUH] python3-mako: upgrading to 1.3.10 SUCCEEDED
+Message-ID: <0101019639a71f93-a30062d6-ac62-497c-9733-a8aa8e41d366-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Apr 2025 13:32:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.15-54.240.27.29
+X-SES-Outgoing: 2025.04.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214902
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214877
 
---===============0008168343337324698==
+--===============7685165430264261499==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ethtool* to *6.14* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-mako* to *1.3.10* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ethtool-upgrade-6.11-6.14.patch
+    - apply the patch: git am 0001-python3-mako-upgrade-1.3.9-1.3.10.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,213 +72,129 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 443e7ae00a61021332f2d025bdb042fd8b4d7fb0 Mon Sep 17 00:00:00 2001
+From 10e4e745b61262288261a91b6e2c54b08bbe6511 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Apr 2025 08:48:20 +0000
-Subject: [PATCH] ethtool: upgrade 6.11 -> 6.14
+Date: Tue, 15 Apr 2025 07:28:35 +0000
+Subject: [PATCH] python3-mako: upgrade 1.3.9 -> 1.3.10
 
 ---
- .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
- .../ethtool/{ethtool_6.11.bb => ethtool_6.14.bb}            | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_6.11.bb => ethtool_6.14.bb} (93%)
+ .../python/{python3-mako_1.3.9.bb => python3-mako_1.3.10.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-mako_1.3.9.bb => python3-mako_1.3.10.bb} (88%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index 0fe482545a..a723b9a050 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -1,4 +1,4 @@
--From 74902bef8123b596437587bb48ad9b720cb06f64 Mon Sep 17 00:00:00 2001
-+From 4225d062fddf737ec4b06044705b630218fa1f77 Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Wed, 28 May 2014 18:59:54 +0200
- Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
-@@ -14,10 +14,10 @@ Upstream-Status: Inappropriate
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/python/python3-mako_1.3.9.bb b/meta/recipes-devtools/python/python3-mako_1.3.10.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-mako_1.3.9.bb
+rename to meta/recipes-devtools/python/python3-mako_1.3.10.bb
+index 83b6149337..4facce9233 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.3.9.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.3.10.bb
+@@ -10,7 +10,7 @@ inherit pypi python_setuptools_build_meta ptest-python-pytest
  
- diff --git a/configure.ac b/configure.ac
--index f6fe260..65a0566 100644
-+index db71394..5e93135 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.10, netdev@vger.kernel.org)
-+@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.14, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_MACRO_DIR([m4])
-  AC_CONFIG_SRCDIR([ethtool.c])
-diff --git a/meta/recipes-extended/ethtool/ethtool_6.11.bb b/meta/recipes-extended/ethtool/ethtool_6.14.bb
-similarity index 93%
-rename from meta/recipes-extended/ethtool/ethtool_6.11.bb
-rename to meta/recipes-extended/ethtool/ethtool_6.14.bb
-index c4808c5856..9b7282d923 100644
---- a/meta/recipes-extended/ethtool/ethtool_6.11.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_6.14.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
-            "
  
--SRC_URI[sha256sum] = "a8bee475d991939cad182b7dbcf3a1f139aeed8cb0add73d72084cd71d43282b"
-+SRC_URI[sha256sum] = "3dbfc910513d1fef683f27ab12325cc88551abffae66d0ad3afe2a13317d2339"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+-SRC_URI[sha256sum] = "b5d65ff3462870feec922dbccf38f6efb44e5714d7b593a656be86663d8600ac"
++SRC_URI[sha256sum] = "99579a6f39583fa7e5630a28c3c1f440e4e97a414b80372649c0ce338da2ea28"
  
+ RDEPENDS:${PN} = "python3-html \
+                   python3-markupsafe \
 -- 
 2.47.1
 
 
---===============0008168343337324698==
+--===============7685165430264261499==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/m/mako/mako-1.3.9.tar.gz;downloadfilename=mako-1.3.9.tar.gz" to "https://files.pythonhosted.org/packages/source/m/mako/mako-1.3.10.tar.gz;downloadfilename=mako-1.3.10.tar.gz"
+packages/core2-64-poky-linux/python3-mako: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-ptest: PKGSIZE changed from 352058 to 352365 (+0%)
+packages/core2-64-poky-linux/python3-mako/python3-mako-ptest: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-ptest: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-src: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 639729 to 639941 (+0%)
+packages/core2-64-poky-linux/python3-mako/python3-mako: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako: PV changed from "1.3.9" to "1.3.10"
+Changes to packages/core2-64-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/WHEEL was removed
+
+--===============7685165430264261499==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ethtool-upgrade-6.11-6.14.patch"
+ filename="0001-python3-mako-upgrade-1.3.9-1.3.10.patch"
 
-RnJvbSA0NDNlN2FlMDBhNjEwMjEzMzJmMmQwMjViZGIwNDJmZDhiNGQ3ZmIwIE1vbiBTZXAgMTcg
+RnJvbSAxMGU0ZTc0NWI2MTI2MjI4ODI2MWE5MWI2ZTJjNTRiMDhiYmU2NTExIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgQXByIDIwMjUgMDg6NDg6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-dGh0b29sOiB1cGdyYWRlIDYuMTEgLT4gNi4xNAoKLS0tCiAuLi4vZXRodG9vbC9ldGh0b29sL2F2
-b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoICAgICAgICAgICAgICB8IDYgKysrLS0tCiAuLi4vZXRo
-dG9vbC97ZXRodG9vbF82LjExLmJiID0+IGV0aHRvb2xfNi4xNC5iYn0gICAgICAgICAgICB8IDIg
-Ky0KIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL3tldGh0b29sXzYuMTEuYmIgPT4gZXRo
-dG9vbF82LjE0LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9l
-dGh0b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-ZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCmluZGV4
-IDBmZTQ4MjU0NWEuLmE3MjNiOWEwNTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRl
-ZC9ldGh0b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNzQ5MDJiZWY4MTIzYjU5NjQzNzU4N2JiNDhhZDliNzIw
-Y2IwNmY2NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNDIyNWQwNjJmZGRmNzM3ZWM0
-YjA2MDQ0NzA1YjYzMDIxOGZhMWY3NyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFR1
-ZG9yIEZsb3JlYSA8dHVkb3IuZmxvcmVhQGVuZWEuY29tPgogRGF0ZTogV2VkLCAyOCBNYXkgMjAx
-NCAxODo1OTo1NCArMDIwMAogU3ViamVjdDogW1BBVENIXSBldGh0b29sOiB1c2Ugc2VyaWFsLXRl
-c3RzIGNvbmZpZyBuZWVkZWQgYnkgcHRlc3QuCkBAIC0xNCwxMCArMTQsMTAgQEAgVXBzdHJlYW0t
-U3RhdHVzOiBJbmFwcHJvcHJpYXRlCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
-IGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMK
-LWluZGV4IGY2ZmUyNjAuLjY1YTA1NjYgMTAwNjQ0CitpbmRleCBkYjcxMzk0Li41ZTkzMTM1IDEw
-MDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKLUBAIC0zLDcgKzMs
-NyBAQCBBQ19JTklUKGV0aHRvb2wsIDYuMTAsIG5ldGRldkB2Z2VyLmtlcm5lbC5vcmcpCitAQCAt
-Myw3ICszLDcgQEAgQUNfSU5JVChldGh0b29sLCA2LjE0LCBuZXRkZXZAdmdlci5rZXJuZWwub3Jn
-KQogIEFDX1BSRVJFUSgyLjUyKQogIEFDX0NPTkZJR19NQUNST19ESVIoW200XSkKICBBQ19DT05G
-SUdfU1JDRElSKFtldGh0b29sLmNdKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L2V0aHRvb2wvZXRodG9vbF82LjExLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wv
-ZXRodG9vbF82LjE0LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2xfNi4xMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbF82LjE0LmJiCmluZGV4IGM0ODA4YzU4NTYuLjli
-NzI4MmQ5MjMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRv
-b2xfNi4xMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYu
-MTQuYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L3Nv
-ZnR3YXJlL25ldHdvcmsvZXRodG9vbC9ldGh0b29sLSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAg
-IGZpbGU6Ly9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gImE4YmVlNDc1ZDk5MTkzOWNhZDE4MmI3ZGJjZjNhMWYxMzlhZWVk
-OGNiMGFkZDczZDcyMDg0Y2Q3MWQ0MzI4MmIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2RiZmM5
-MTA1MTNkMWZlZjY4M2YyN2FiMTIzMjVjYzg4NTUxYWJmZmFlNjZkMGFkM2FmZTJhMTMzMTdkMjMz
-OSIKIAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvcHViL3Nv
-ZnR3YXJlL25ldHdvcmsvZXRodG9vbC8iCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFR1ZSwgMTUgQXByIDIwMjUgMDc6Mjg6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLW1ha286IHVwZ3JhZGUgMS4zLjkgLT4gMS4zLjEwCgotLS0KIC4uLi9weXRob24ve3B5
+dGhvbjMtbWFrb18xLjMuOS5iYiA9PiBweXRob24zLW1ha29fMS4zLjEwLmJifSAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtbWFrb18xLjMuOS5iYiA9PiBweXRo
+b24zLW1ha29fMS4zLjEwLmJifSAoODglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMy45LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLW1ha29fMS4zLjEwLmJiCnNpbWlsYXJpdHkgaW5kZXggODglCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMy45LmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjMu
+MTAuYmIKaW5kZXggODNiNjE0OTMzNy4uNGZhY2NlOTIzMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1ha29fMS4zLjkuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1ha29fMS4zLjEwLmJiCkBAIC0xMCw3ICsxMCw3
+IEBAIGluaGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIHB0ZXN0LXB5dGhv
+bi1weXRlc3QKIAogCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiNWQ2NWZmMzQ2Mjg3MGZlZWM5
+MjJkYmNjZjM4ZjZlZmI0NGU1NzE0ZDdiNTkzYTY1NmJlODY2NjNkODYwMGFjIgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjk5NTc5YTZmMzk1ODNmYTdlNTYzMGEyOGMzYzFmNDQwZTRlOTdhNDE0Yjgw
+MzcyNjQ5YzBjZTMzOGRhMmVhMjgiCiAKIFJERVBFTkRTOiR7UE59ID0gInB5dGhvbjMtaHRtbCBc
+CiAgICAgICAgICAgICAgICAgICBweXRob24zLW1hcmt1cHNhZmUgXAotLSAKMi40Ny4xCgo=
 
---===============0008168343337324698==
+--===============7685165430264261499==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1897 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 928 .bb files complete (927 cached, 1 parsed). 1897 targets, 39 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+Changes to packages/core2-64-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/WHEEL was removed
 
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:d19d6d813c01cad836c0548504d7d707e5167161"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 213 Local 201 Mirrors 0 Missed 12 Current 337 (94% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1106 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_recipe_qa)
-NOTE: recipe ethtool-6.14-r0: task do_recipe_qa: Started
-NOTE: recipe ethtool-6.14-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1516 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_fetch)
-NOTE: recipe ethtool-6.14-r0: task do_fetch: Started
-NOTE: recipe ethtool-6.14-r0: task do_fetch: Succeeded
-NOTE: Running task 1541 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_unpack)
-NOTE: Running task 1542 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ethtool-6.14-r0: task do_unpack: Started
-NOTE: recipe ethtool-6.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ethtool-6.14-r0: task do_unpack: Succeeded
-NOTE: Running task 1543 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_patch)
-NOTE: Running task 1544 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_collect_spdx_deps)
-NOTE: recipe ethtool-6.14-r0: task do_patch: Started
-NOTE: recipe ethtool-6.14-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ethtool-6.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ethtool-6.14-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe ethtool-6.14-r0: task do_patch: Succeeded
-NOTE: Running task 1545 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1546 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_populate_lic)
-NOTE: recipe ethtool-6.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ethtool-6.14-r0: task do_populate_lic: Started
-NOTE: recipe ethtool-6.14-r0: task do_populate_lic: Succeeded
-NOTE: recipe ethtool-6.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1547 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_configure)
-NOTE: recipe ethtool-6.14-r0: task do_configure: Started
-NOTE: recipe ethtool-6.14-r0: task do_configure: Succeeded
-NOTE: Running task 1548 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_configure_ptest_base)
-NOTE: recipe ethtool-6.14-r0: task do_configure_ptest_base: Started
-NOTE: recipe ethtool-6.14-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1549 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_compile)
-NOTE: recipe ethtool-6.14-r0: task do_compile: Started
-NOTE: recipe ethtool-6.14-r0: task do_compile: Succeeded
-NOTE: Running task 1550 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_compile_ptest_base)
-NOTE: recipe ethtool-6.14-r0: task do_compile_ptest_base: Started
-NOTE: recipe ethtool-6.14-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1551 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_install)
-NOTE: recipe ethtool-6.14-r0: task do_install: Started
-NOTE: recipe ethtool-6.14-r0: task do_install: Succeeded
-NOTE: Running task 1552 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_install_ptest_base)
-NOTE: recipe ethtool-6.14-r0: task do_install_ptest_base: Started
-NOTE: recipe ethtool-6.14-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1553 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_package)
-NOTE: Running task 1554 of 1562 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_populate_sysroot)
-NOTE: recipe ethtool-6.14-r0: task do_populate_sysroot: Started
-NOTE: recipe ethtool-6.14-r0: task do_package: Started
-NOTE: recipe ethtool-6.14-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe ethtool-6.14-r0: task do_package: Failed
-NOTE: Tasks Summary: Attempted 1554 tasks of which 1538 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250415084758.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250415084758.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_package
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ethtool/6.14/temp/log.do_package.394763
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: ethtool-6.14-r0 do_package: QA Issue: ethtool: Files/directories were installed but not shipped in any package:
-  /usr/share/metainfo
-  /usr/share/metainfo/org.kernel.software.network.ethtool.metainfo.xml
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-ethtool: 2 installed and not shipped files. [installed-vs-shipped]
-ERROR: ethtool-6.14-r0 do_package: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ethtool/6.14/temp/log.do_package.394763
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.14.bb:do_package) failed with exit code '1'
-
---===============0008168343337324698==--
+--===============7685165430264261499==--
 
