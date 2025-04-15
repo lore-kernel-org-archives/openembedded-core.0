@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B066FC3ABC0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 987A5C3ABB9
 	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:18 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.20166.1744723971524445995
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.20160.1744723980087972619
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 06:33:09 -0700
+ Tue, 15 Apr 2025 06:33:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TIPXv/vI;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=CYshaI39;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019639a752ee-ff11b952-71e3-43e8-809b-96004c5883d7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PcqDt8py;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=sf42uGXF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019639a754c6-055a3b5e-1792-4475-b0a8-9e6c374766dc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1744723989;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=LJyuibYoJUZde/SWwfewKO0ARDRML4IhrPlSUmXChT8=;
-	b=TIPXv/vIyKT0lDWi7L5nkDmCqqNtTGKdwLi1zK5FQUYbh4h/A+njPFZjNrh3XOOS
-	AQLTsxiLYbtZcXsNWYqNB8m+MkMDO/CJGwft60B8pk+N0LtOlG0KelsvWxck8wzlH1E
-	onyBCK25Tc58ARC4d6v/DPQ79EX/qxZb/sM3KCCM=
+	bh=Sj//ysgkye7lLLSkyr5irMen0V5lzN3kpHHbGVQD4wY=;
+	b=PcqDt8pybJuuIbdiT2V4lNvpP+wBU+v/yVYltQv07s/QRxH9gfCATcitjR0l2toC
+	B4ofeyA5yVzLPxh3yHIr7r0miP398xovkFo8vVVUmEY9lEILgpgJZduk1gOQ7xE3/v4
+	LGlFz6fHUFVgLvYtBVnR89Feq4IA1SMCZGXCBbfk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723989;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=LJyuibYoJUZde/SWwfewKO0ARDRML4IhrPlSUmXChT8=;
-	b=CYshaI39zMJorvtITNzw9MswVMhV+sE7+t9TcFQQoU1gcpGx4U7CM4VuOtQF/em7
-	DEtI3W04wMknSLR/s0DQZFdE4ovNk6Tp/p3ro5oLX6FN8q2u+GKdslk5xIVs021LTZc
-	dvQQ/fsAOcVxALnNis+2RyBVHt6Cx0eba2y9E5QM=
-Content-Type: multipart/mixed; boundary="===============8858765235613220144=="
+	bh=Sj//ysgkye7lLLSkyr5irMen0V5lzN3kpHHbGVQD4wY=;
+	b=sf42uGXF23OthwpS/b5WcZsUl0Wz2Qx2XUsSCOkwjQ4k3khr1OAK3AL4FXaaac+t
+	tTuLPO5un2TYSrnkVbPoB9ovpOFRbMhcnHmxmV8K4nFcObcGQFbjU5tEI0sxU6SZHfJ
+	mrZK3m+utacRzmJtMvSNg/VMqfvGc48r+/lSSQVA=
+Content-Type: multipart/mixed; boundary="===============4471392081627547756=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] babeltrace2: upgrading to 2.1.1 SUCCEEDED
-Message-ID: <0101019639a752ee-ff11b952-71e3-43e8-809b-96004c5883d7-000000@us-west-2.amazonses.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] linux-firmware: upgrading to 20250410 SUCCEEDED
+Message-ID: <0101019639a754c6-055a3b5e-1792-4475-b0a8-9e6c374766dc-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Apr 2025 13:33:09 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.15-54.240.27.31
+X-SES-Outgoing: 2025.04.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214922
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214923
 
---===============8858765235613220144==
+--===============4471392081627547756==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *babeltrace2* to *2.1.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *linux-firmware* to *20250410* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-babeltrace2-upgrade-2.1.0-2.1.1.patch
+    - apply the patch: git am 0001-linux-firmware-upgrade-20250311-20250410.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,1009 +72,1572 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 48895c81b3d43710f78bc371f33dae54d52ce101 Mon Sep 17 00:00:00 2001
+From 72227c0cf44f6c5793672274dd7ffe9cab202922 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Apr 2025 10:31:19 +0000
-Subject: [PATCH] babeltrace2: upgrade 2.1.0 -> 2.1.1
+Date: Tue, 15 Apr 2025 10:26:01 +0000
+Subject: [PATCH] linux-firmware: upgrade 20250311 -> 20250410
 
 ---
- ...field_blob_get_length-return-size_t-instead-.patch |  2 +-
- .../0001-Make-manpages-multilib-identical.patch       |  6 ++----
- ...01-tests-fix-test-applications-in-cpp-common.patch |  5 +----
- .../0001-tests-set-the-correct-plugin-directory.patch | 11 ++++-------
- .../{babeltrace2_2.1.0.bb => babeltrace2_2.1.1.bb}    |  2 +-
- 5 files changed, 9 insertions(+), 17 deletions(-)
- rename meta/recipes-kernel/lttng/{babeltrace2_2.1.0.bb => babeltrace2_2.1.1.bb} (99%)
+ ...20250311.bb => linux-firmware_20250410.bb} | 413 +++++++++++++++++-
+ 1 file changed, 411 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250311.bb => linux-firmware_20250410.bb} (85%)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
-index d923437a2a..1d80f2aab5 100644
---- a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
-@@ -1,4 +1,4 @@
--From 1b514ab2e878216426acc493eeab96088576faf9 Mon Sep 17 00:00:00 2001
-+From b1a0fec4792147fcd5bbf869b592768de834293b Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 20 Mar 2025 18:10:08 -0700
- Subject: [PATCH] Make bt_field_blob_get_length return size_t instead of
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
-index c2b76b1ed5..16216811bc 100644
---- a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
-@@ -1,4 +1,4 @@
--From 56986190e4b0c10945ce6aaa7ca10d6bd8a26a39 Mon Sep 17 00:00:00 2001
-+From bcd7c805fb4fe17e66f207ff937b6b1e76adc0b4 Mon Sep 17 00:00:00 2001
- From: Jeremy Puhlman <jpuhlman@mvista.com>
- Date: Mon, 9 Mar 2020 21:10:35 +0000
- Subject: [PATCH] Make manpages multilib identical
-@@ -16,7 +16,7 @@ index 88fb13ce2..27858b720 100644
- --- a/doc/man/asciidoc-attrs.conf.in
- +++ b/doc/man/asciidoc-attrs.conf.in
- @@ -4,8 +4,8 @@
--
-+ 
-  [attributes]
-  # default values
- -system_plugin_path="@LIBDIR@/babeltrace2/plugins"
-@@ -26,5 +26,3 @@ index 88fb13ce2..27858b720 100644
-  babeltrace_version="@PACKAGE_VERSION@"
-  enable_debug_info="@ENABLE_DEBUG_INFO_VAL@"
-  defrdport=5344
---- 
--2.34.1
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
-index 87f94fb087..9123dfb9da 100644
---- a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
-@@ -1,4 +1,4 @@
--From 1dc81f272855d94e6a78f7d10ea952745d991aa9 Mon Sep 17 00:00:00 2001
-+From 38ae4e62a1868010e0bda9d984a7f73da0961aee Mon Sep 17 00:00:00 2001
- From: Bin Lan <bin.lan.cn@windriver.com>
- Date: Tue, 11 Mar 2025 17:19:11 +0800
- Subject: [PATCH] Tests: fix test applications in cpp-common are needed to
-@@ -124,6 +124,3 @@ index 000000000..8c65daa94
- +source "$UTILSSH"
- +
- +"${BT_TESTS_BUILDDIR}/cpp-common/test-uuid" "$BT_TESTS_BT2_BIN"
---- 
--2.34.1
--
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
-index 7ac7582ad7..687a1c126d 100644
---- a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
-@@ -1,11 +1,11 @@
--From 32494b1726a881883cb6d317ab76d1ec3f1fa740 Mon Sep 17 00:00:00 2001
-+From 11693388fe6caf985132a1e62821b59cf99dfec4 Mon Sep 17 00:00:00 2001
- From: Bin Lan <bin.lan.cn@windriver.com>
- Date: Wed, 5 Mar 2025 10:51:11 +0800
- Subject: [PATCH] tests: set the correct directory of plugin shared library
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
+similarity index 85%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
+index 675d378376..f4e757eb17 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250311.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
+@@ -1,3 +1,412 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- WHENCE
++# +++ WHENCE
++# @@ -1022,25 +1022,25 @@
++#  Version: 74.a5e9588b.0
++#  
++#  File: iwlwifi-cc-a0-77.ucode
++# -Version: 74.b405f9d4.0
++# +Version: 74.2753b721.0
++#  
++#  File: iwlwifi-Qu-b0-hr-b0-77.ucode
++# -Version: 74.b405f9d4.0
++# +Version: 74.2753b721.0
++#  
++#  File: iwlwifi-Qu-b0-jf-b0-77.ucode
++# -Version: 74.b405f9d4.0
++# +Version: 74.2753b721.0
++#  
++#  File: iwlwifi-Qu-c0-hr-b0-77.ucode
++# -Version: 74.b405f9d4.0
++# +Version: 74.2753b721.0
++#  
++#  File: iwlwifi-Qu-c0-jf-b0-77.ucode
++# -Version: 74.b405f9d4.0
++# +Version: 74.2753b721.0
++#  
++#  File: iwlwifi-QuZ-a0-hr-b0-77.ucode
++# -Version: 74.b405f9d4.0
++# +Version: 74.2753b721.0
++#  
++#  File: iwlwifi-QuZ-a0-jf-b0-77.ucode
++# -Version: 74.b405f9d4.0
++# +Version: 74.2753b721.0
++#  
++#  File: iwlwifi-ty-a0-gf-a0-77.ucode
++#  Version: 74.f92b5fed.0
++# @@ -1064,7 +1064,7 @@
++#  Version: 83.fb5c9aeb.0
++#  
++#  File: iwlwifi-ty-a0-gf-a0-89.ucode
++# -Version: 86.1a492d28.0
++# +Version: 86.4d42c933.0
++#  
++#  File: iwlwifi-so-a0-gf4-a0-77.ucode
++#  Version: 74.f92b5fed.0
++# @@ -1088,7 +1088,7 @@
++#  Version: 83.fb5c9aeb.0
++#  
++#  File: iwlwifi-so-a0-gf4-a0-89.ucode
++# -Version: 86.1a492d28.0
++# +Version: 86.4d42c933.0
++#  
++#  File: iwlwifi-so-a0-gf-a0-77.ucode
++#  Version: 74.f92b5fed.0
++# @@ -1112,7 +1112,7 @@
++#  Version: 83.fb5c9aeb.0
++#  
++#  File: iwlwifi-so-a0-gf-a0-89.ucode
++# -Version: 86.1a492d28.0
++# +Version: 86.4d42c933.0
++#  
++#  File: iwlwifi-so-a0-hr-b0-77.ucode
++#  Version: 74.f92b5fed.0
++# @@ -1133,7 +1133,7 @@
++#  Version: 83.fb5c9aeb.0
++#  
++#  File: iwlwifi-so-a0-hr-b0-89.ucode
++# -Version: 86.1a492d28.0
++# +Version: 86.4d42c933.0
++#  
++#  File: iwlwifi-so-a0-jf-b0-77.ucode
++#  Version: 74.f92b5fed.0
++# @@ -1149,6 +1149,9 @@
++#  File: iwlwifi-bz-b0-gf-a0-96.ucode
++#  Version: 93.44729d4e.0
++#  
++# +File: iwlwifi-bz-b0-gf-a0-97.ucode
++# +Version: 94.8049d69b.0
++# +
++#  File: iwlwifi-bz-b0-gf-a0.pnvm
++#  
++#  File: iwlwifi-gl-c0-fm-c0-83.ucode
++# @@ -1169,6 +1172,9 @@
++#  File: iwlwifi-gl-c0-fm-c0-96.ucode
++#  Version: 93.44729d4e.0
++#  
++# +File: iwlwifi-gl-c0-fm-c0-97.ucode
++# +Version: 94.8049d69b.0
++# +
++#  File: iwlwifi-gl-c0-fm-c0.pnvm
++#  
++#  File: iwlwifi-bz-b0-fm-c0-92.ucode
++# @@ -1183,6 +1189,9 @@
++#  File: iwlwifi-bz-b0-fm-c0-96.ucode
++#  Version: 93.44729d4e.0
++#  
++# +File: iwlwifi-bz-b0-fm-c0-97.ucode
++# +Version: 94.8049d69b.0
++# +
++#  File: iwlwifi-bz-b0-fm-c0.pnvm
++#  
++#  File: iwlwifi-ma-b0-gf-a0-83.ucode
++# @@ -1192,7 +1201,7 @@
++#  Version: 83.fb5c9aeb.0
++#  
++#  File: iwlwifi-ma-b0-gf-a0-89.ucode
++# -Version: 86.1a492d28.0
++# +Version: 86.4d42c933.0
++#  
++#  File: iwlwifi-ma-b0-gf-a0.pnvm
++#  
++# @@ -1203,7 +1212,7 @@
++#  Version: 83.fb5c9aeb.0
++#  
++#  File: iwlwifi-ma-b0-gf4-a0-89.ucode
++# -Version: 86.1a492d28.0
++# +Version: 86.4d42c933.0
++#  
++#  File: iwlwifi-ma-b0-gf4-a0.pnvm
++#  
++# @@ -1214,7 +1223,7 @@
++#  Version: 83.fb5c9aeb.0
++#  
++#  File: iwlwifi-ma-b0-hr-b0-89.ucode
++# -Version: 86.1a492d28.0
++# +Version: 86.4d42c933.0
++#  
++#  Licence: Redistributable. See LICENCE.iwlwifi_firmware for details
++#  
++# @@ -2075,6 +2084,14 @@
++#  File: radeon/si58_mc.bin
++#  
++#  Licence: Redistributable. See LICENSE.radeon for details.
++# +
++# +--------------------------------------------------------------------------
++# +
++# +Driver: as21xxx - Aeonsemi AS21x1x 1G/2.5G/5G/10G Ethernet Phy
++# +
++# +File: aeonsemi/as21x1x_fw.bin
++# +
++# +Licence: Redistributable. See LICENSE.aeonsemi for details.
++#  
++#  --------------------------------------------------------------------------
++#  
++# @@ -3394,6 +3411,7 @@
++#  File: rtw88/rtw8703b_fw.bin
++#  File: rtw88/rtw8703b_wow_fw.bin
++#  File: rtw88/rtw8812a_fw.bin
++# +File: rtw88/rtw8814a_fw.bin
++#  
++#  Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
++#  
++# @@ -4225,6 +4243,14 @@
++#  File: intel/ibt-0190-0041.sfi
++#  File: intel/ibt-0190-0041-iml.sfi
++#  File: intel/ibt-0190-0041.ddc
++# +File: intel/ibt-0190-0041-pci.ddc
++# +File: intel/ibt-0190-0041-pci.sfi
++# +File: intel/ibt-0190-0041-usb.ddc
++# +File: intel/ibt-0190-0041-usb.sfi
++# +File: intel/ibt-0190-0291-pci.ddc
++# +File: intel/ibt-0190-0291-pci.sfi
++# +File: intel/ibt-0190-0291-usb.ddc
++# +File: intel/ibt-0190-0291-usb.sfi
++#  Version: BT_BlazarI_S_REL82746_23.120.25071.82746
++#  
++#  Licence: Redistributable. See LICENCE.ibt_firmware for details
++# @@ -4763,9 +4789,17 @@
++#  Version: BTFW.HSP.2.1.0-00653-VER_PATCHZ-3
++#  File: qca/QCA2066/nvm_usb_00130201_030a.bin
++#  File: qca/QCA2066/nvm_usb_00130201_gf_030a.bin
++# -Version: BTFW.HAMILTON.2.0.0-00515-USB_PATCHZ-2
++# +Version: BTFW.HAMILTON.2.0.0-00790-USB_PATCHZ-3
++#  File: qca/nvm_usb_00190200.bin
++# +File: qca/nvm_usb_00190200_0104.bin
++# +File: qca/nvm_usb_00190200_0106.bin
++# +File: qca/nvm_usb_00190200_0108.bin
++# +File: qca/nvm_usb_00190200_0109.bin
++# +File: qca/nvm_usb_00190200_010a.bin
++# +File: qca/nvm_usb_00190200_010c.bin
++#  File: qca/nvm_usb_00190200_010e.bin
++# +File: qca/nvm_usb_00190200_0110.bin
++# +File: qca/nvm_usb_00190200_0111.bin
++#  File: qca/nvm_usb_00190200_0112.bin
++#  
++#  Licence: Redistributable. See LICENSE.QualcommAtheros_ath10k and qca/NOTICE.txt for details
++# @@ -5881,6 +5915,8 @@
++#  Version: v2.0.20536
++#  File: mediatek/mt8195/scp.img
++#  Version: v2.0.21961
++# +File: mediatek/mt8188/scp.img
++# +Version: v2.0.27748
++#  
++#  Licence: Redistributable. See LICENCE.mediatek for details.
++#  
++# @@ -6339,7 +6375,7 @@
++#  Link: qcom/vpu-1.0/venus.mbn -> ../vpu/vpu20_p4.mbn
++#  Link: qcom/vpu-1.0/venus.mdt -> ../vpu/vpu20_p4.mbn
++#  
++# -Version: VIDEO.VPU.1.0-00097-PROD-1
++# +Version: VIDEO.VPU.1.0-00119-PROD-1
++#  
++#  File: qcom/vpu/vpu20_p1.mbn
++#  Link: qcom/vpu-2.0/venus.mbn -> ../vpu/vpu20_p1.mbn
++# @@ -6527,6 +6563,8 @@
++#  Version: CDSP.HT.2.6-00698-MAKENA-1
++#  File: qcom/sc8280xp/LENOVO/21BX/qcslpi8280.mbn
++#  Version: SLPI.HY.4.1-00048-MAKENA-1
++# +File: qcom/x1e80100/LENOVO/21N1/qcvss8380.mbn
++# +Version: vfw-3.1:rel0085-070fa3311d9ef968015fee7fea07198d7eb208a1
++#  File: qcom/x1e80100/adsp.mbn
++#  File: qcom/x1e80100/adsp_dtb.mbn
++#  Version: ADSP.HT.5.9-00796-HAMOA-1
++# @@ -6546,6 +6584,21 @@
++#  RawFile: qcom/x1e80100/LENOVO/21N1/cdspr.jsn
++#  File: qcom/x1e80100/LENOVO/21N1/qcdxkmsuc8380.mbn
++#  RawFile: qcom/x1e80100/LENOVO/21N1/battmgr.jsn
++# +File: qcom/x1e80100/LENOVO/83ED/adsp_dtbs.elf
++# +RawFile: qcom/x1e80100/LENOVO/83ED/adspr.jsn
++# +RawFile: qcom/x1e80100/LENOVO/83ED/adsps.jsn
++# +RawFile: qcom/x1e80100/LENOVO/83ED/adspua.jsn
++# +RawFile: qcom/x1e80100/LENOVO/83ED/battmgr.jsn
++# +RawFile: qcom/x1e80100/LENOVO/83ED/cdspr.jsn
++# +File: qcom/x1e80100/LENOVO/83ED/qcadsp8380.mbn
++# +Version: ADSP.HT.5.9.c1-00059-HAMOA-1
++# +File: qcom/x1e80100/LENOVO/83ED/qcav1e8380.mbn
++# +Version: CDSP.HT.2.9.c2-00051-HAMOA-1
++# +File: qcom/x1e80100/LENOVO/83ED/qccdsp8380.mbn
++# +Version: CDSP.HT.2.9.c2-00051-HAMOA-1
++# +File: qcom/x1e80100/LENOVO/83ED/qcdxkmsuc8380.mbn
++# +File: qcom/x1e80100/LENOVO/83ED/qcvss8380.mbn
++# +Version: video-firmware.3.1-e5aea20c64cb6df9a1c9be99e206053b36424939
++#  
++#  Licence: Redistributable. See LICENSE.qcom and qcom/NOTICE.txt for details
++#  
++# @@ -6578,6 +6631,15 @@
++#  Version: DSP.AT.1.0.1-00079.2-LEMANS-1
++#  RawFile: qcom/sa8775p/gpdsp1r.jsn
++#  RawFile: qcom/sa8775p/gpdspr.jsn
++# +File: qcom/qcs8300/adsp.mbn
++# +Version: DSP.AT.1.0.1-00096-LEMANS-1
++# +RawFile: qcom/qcs8300/adspr.jsn
++# +RawFile: qcom/qcs8300/adspua.jsn
++# +File: qcom/qcs8300/cdsp0.mbn
++# +Version: DSP.AT.1.0.1-00096-LEMANS-1
++# +RawFile: qcom/qcs8300/cdspr.jsn
++# +File: qcom/qcs8300/gpdsp0.mbn
++# +Version: DSP.AT.1.0.1-00096-LEMANS-1
++#  
++#  Licence: Redistributable. See LICENSE.qcom-2 and qcom/NOTICE.txt for details
++#  
++# @@ -6671,6 +6733,10 @@
++#  File: mellanox/mlxsw_spectrum2-29.2012.1012.mfa2
++#  File: mellanox/mlxsw_spectrum3-30.2012.1012.mfa2
++#  File: mellanox/mlxsw_spectrum4-34.2012.1012.mfa2
++# +File: mellanox/mlxsw_spectrum-13.2014.4012.mfa2
++# +File: mellanox/mlxsw_spectrum2-29.2014.4012.mfa2
++# +File: mellanox/mlxsw_spectrum3-30.2014.4012.mfa2
++# +File: mellanox/mlxsw_spectrum4-34.2014.4012.mfa2
++#  
++#  Licence:
++#   Copyright (c) 2017-2020 Mellanox Technologies, Ltd. All rights reserved.
++# @@ -7662,6 +7728,57 @@
++#  Link: cirrus/cs35l41-dsp1-spk-prot-103c8b8f-l1.bin -> cs35l41-dsp1-spk-prot-103c8b8f-r1.bin
++#  File: cirrus/cs35l41-dsp1-spk-prot-103c8b92.bin
++#  Link: cirrus/cs35l41-dsp1-spk-prot-103c8c26.bin -> cs35l41-dsp1-spk-prot-103c8b45.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9f.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8da7.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e36.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8d9f-spkid0.bin
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8d9f-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8da7-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8d9f-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8da7-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8d9f-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e36-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8d9f-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e36-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8d9f-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8da0.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8da1.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e37.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8da8.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8da0-spkid0.bin
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8da0-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8da1-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8da0-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8da1-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8da0-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e37-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8da0-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e37-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8da0-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8da8-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8da0-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8da8-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8da0-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9b.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9c.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9d.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9e.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8d9b-spkid0.bin
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8d9b-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9c-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8d9b-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9c-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8d9b-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9d-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8d9b-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9d-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8d9b-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9e-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8d9b-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8d9e-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8d9b-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e11.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e12.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e13.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e60.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e61.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e62.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e12-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e12-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8e11-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e13-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e13-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8e11-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e60-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e60-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8e11-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e61-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e61-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8e11-spkid1.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e62-spkid0.bin -> cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8e62-spkid1.bin -> cs35l41-dsp1-spk-prot-103c8e11-spkid1.bin
++#  Link: cirrus/cs35l41-dsp1-spk-prot-10280cbd.wmfw -> cs35l41/v6.61.1/halo_cspl_RAM_revB2_29.63.1.wmfw
++#  Link: cirrus/cs35l41-dsp1-spk-prot-10280cbe.wmfw -> cs35l41/v6.61.1/halo_cspl_RAM_revB2_29.63.1.wmfw
++#  Link: cirrus/cs35l41-dsp1-spk-prot-10280cbf.wmfw -> cs35l41/v6.61.1/halo_cspl_RAM_revB2_29.63.1.wmfw
++# @@ -7882,12 +7999,12 @@
++#  Link: cirrus/cs35l54-b0-dsp1-misc-103c8e1a.wmfw -> cs35l56/CS35L56_Rev3.11.11.1.wmfw
++#  Link: cirrus/cs35l54-b0-dsp1-misc-103c8e1a-amp1.bin -> cs35l54-b0-dsp1-misc-103c8e15-amp1.bin
++#  Link: cirrus/cs35l54-b0-dsp1-misc-103c8e1a-amp2.bin -> cs35l54-b0-dsp1-misc-103c8e15-amp2.bin
++# -Link: cirrus/cs35l54-b0-dsp1-misc-103c8e1b.wmfw -> cs35l56/CS35L56_Rev3.11.11.1.wmfw
++# -File: cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp1.bin
++# -File: cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp2.bin
++# -Link: cirrus/cs35l54-b0-dsp1-misc-103c8e1c.wmfw -> cs35l56/CS35L56_Rev3.11.11.1.wmfw
++# -Link: cirrus/cs35l54-b0-dsp1-misc-103c8e1c-amp1.bin -> cs35l54-b0-dsp1-misc-103c8e1b-amp1.bin
++# -Link: cirrus/cs35l54-b0-dsp1-misc-103c8e1c-amp2.bin -> cs35l54-b0-dsp1-misc-103c8e1b-amp2.bin
++# +Link: cirrus/cs35l56-b0-dsp1-misc-103c8e1b.wmfw -> cs35l56/CS35L56_Rev3.11.11.1.wmfw
++# +File: cirrus/cs35l56-b0-dsp1-misc-103c8e1b-amp1.bin
++# +File: cirrus/cs35l56-b0-dsp1-misc-103c8e1b-amp2.bin
++# +Link: cirrus/cs35l56-b0-dsp1-misc-103c8e1c.wmfw -> cs35l56/CS35L56_Rev3.11.11.1.wmfw
++# +Link: cirrus/cs35l56-b0-dsp1-misc-103c8e1c-amp1.bin -> cs35l56-b0-dsp1-misc-103c8e1b-amp1.bin
++# +Link: cirrus/cs35l56-b0-dsp1-misc-103c8e1c-amp2.bin -> cs35l56-b0-dsp1-misc-103c8e1b-amp2.bin
++#  Link: cirrus/cs35l56-b0-dsp1-misc-103c8e2c.wmfw -> cs35l56/CS35L56_Rev3.11.11.1.wmfw
++#  Link: cirrus/cs35l56-b0-dsp1-misc-103c8e2c-amp1.bin -> cs35l56-b0-dsp1-misc-103c8d90-amp1.bin
++#  Link: cirrus/cs35l56-b0-dsp1-misc-103c8e2c-amp2.bin -> cs35l56-b0-dsp1-misc-103c8d90-amp2.bin
++# @@ -7906,6 +8023,8 @@
++#  Link: cirrus/cs35l56-b0-dsp1-misc-10431264.wmfw -> cs35l56/CS35L56_Rev3.11.16.wmfw
++#  Link: cirrus/cs35l56-b0-dsp1-misc-10431264-amp1.bin -> cs35l56-b0-dsp1-misc-10431df3-amp1.bin
++#  Link: cirrus/cs35l56-b0-dsp1-misc-10431264-amp2.bin -> cs35l56-b0-dsp1-misc-10431df3-amp2.bin
++# +Link: cirrus/cs35l56-b0-dsp1-misc-10431264-amp3.bin -> cs35l56-b0-dsp1-misc-10431df3-amp3.bin
++# +Link: cirrus/cs35l56-b0-dsp1-misc-10431264-amp4.bin -> cs35l56-b0-dsp1-misc-10431df3-amp4.bin
++#  Link: cirrus/cs35l56-b0-dsp1-misc-10431b13-spkid0.wmfw -> cs35l56/CS35L56_Rev3.11.16.wmfw
++#  File: cirrus/cs35l56-b0-dsp1-misc-10431b13-spkid0-amp1.bin
++#  File: cirrus/cs35l56-b0-dsp1-misc-10431b13-spkid0-amp2.bin
++# @@ -8039,6 +8158,14 @@
++#  File: mediatek/sof-tplg/sof-mt8195-mt6359-max98390-rt5682.tplg
++#  Version: v0.4.3
++#  
++# +File: mediatek/sof/sof-mt8188.ri
++# +File: mediatek/sof/sof-mt8188.ldc
++# +File: mediatek/sof-tplg/sof-mt8188.tplg
++# +Version: v2.8
++# +
++# +File: mediatek/sof-tplg/sof-mt8195.tplg
++# +Version: v2.8
++# +
++#  Licence: Redistributable. See LICENCE.mediatek for details.
++#  
++#  --------------------------------------------------------------------------
++# @@ -8128,6 +8255,21 @@
++#  
++#  --------------------------------------------------------------------------
++#  
++# +Driver: qcom-x1e80100 - Qualcomm ASoC tplg Firmware
++# +File: qcom/x1e80100/LENOVO/21N1/X1E80100-LENOVO-Thinkpad-T14s-tplg.bin
++# +Link: qcom/x1e80100/X1E80100-LENOVO-Thinkpad-T14s-tplg.bin -> LENOVO/21N1/X1E80100-LENOVO-Thinkpad-T14s-tplg.bin
++# +Version: v0.1.0
++# +Info: DATE=17.03.2025
++# +
++# +File: qcom/x1e80100/LENOVO/83ED/X1E80100-LENOVO-Yoga-Slim7x-tplg.bin
++# +Link: qcom/x1e80100/X1E80100-LENOVO-Yoga-Slim7x-tplg.bin -> LENOVO/83ED/X1E80100-LENOVO-Yoga-Slim7x-tplg.bin
++# +Version: v0.1.0
++# +Info: DATE=17.03.2025
++# +
++# +Licence: Redistributable. See LICENCE.linaro for details
++# +Originates from https://github.com/linux-msm/audioreach-topology.git
++# +
++# +--------------------------------------------------------------------------
++#  Driver: ti-tas2781 - tas2781 firmware
++#  File: ti/tas2781/TAS2XXX0C94.bin
++#  File: ti/tas2781/TAS2XXX0C95.bin
++# @@ -8343,11 +8485,11 @@
++#  Driver: intel_vpu -- Intel NPU driver
++#  
++#  File: intel/vpu/vpu_37xx_v1.bin
++# -Version: ci_tag_ud202504_vpu_rc_20250115_1905
++# +Version: ci_tag_ud202512_vpu_rc_20250306_1130
++#  Link: intel/vpu/vpu_37xx_v0.0.bin -> vpu_37xx_v1.bin
++#  
++#  File: intel/vpu/vpu_40xx_v1.bin
++# -Version: ci_tag_ud202504_vpu_rc_20250115_1905
++# +Version: ci_tag_ud202512_vpu_rc_20250306_1130
++#  Link: intel/vpu/vpu_40xx_v0.0.bin -> vpu_40xx_v1.bin
++#  
++#  License: Redistributable. See LICENSE.intel_vpu for details
++# 
++#
++
+ SUMMARY = "Firmware files for use with Linux kernel"
+ HOMEPAGE = "https://www.kernel.org/"
+ DESCRIPTION = "Linux firmware is a package distributed alongside the Linux kernel \
+@@ -156,7 +565,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+                     file://wfx/LICENCE.wf200;md5=4d1beff00d902c05c9c7e95a5d8eb52d \
+-                    file://WHENCE;md5=${WHENCE_CHKSUM} \
++                    file://WHENCE;md5=7ddfb44c16e34dcd8bbacc4839ab78dc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+@@ -250,7 +659,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
  
--The plugin shared libraries are put in test-plugins-plugins/.libs when 
--building in a host. test-plugins-plugins/.libs is not exist when cross 
--build. The plugin shared libraries are put in test-plugins-plugins 
-+The plugin shared libraries are put in test-plugins-plugins/.libs when
-+building in a host. test-plugins-plugins/.libs is not exist when cross
-+build. The plugin shared libraries are put in test-plugins-plugins
- directory when cross build.
+-SRC_URI[sha256sum] = "b1083a36f19aea46f661dcfd4cd462d13933dcb4e7f0dc809525552dd5c3541d"
++SRC_URI[sha256sum] = "2ae6aab2d8930fd54bf30ae15498f1625721bc3630b894644db5d21fad5a20f9"
  
- Upstream-Status: Inappropriate [oe specific]
-@@ -25,6 +25,3 @@ index f83e42baa..939236393 100755
-  
- -"${BT_TESTS_BUILDDIR}/lib/test-plugins" "${BT_TESTS_BUILDDIR}/lib/test-plugins-plugins/.libs"
- +"${BT_TESTS_BUILDDIR}/lib/test-plugins" "${BT_TESTS_BUILDDIR}/lib/test-plugins-plugins"
---- 
--2.34.1
--
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
-similarity index 99%
-rename from meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-rename to meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
-index a9a3a9961b..fecc639a9e 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.1.0.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
-@@ -14,7 +14,7 @@ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=http
-            file://0001-tests-set-the-correct-plugin-directory.patch \
-            file://0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch \
-            "
--SRCREV = "e61d41ff3c3ac6a123930d4e60cf710ff9ea18e0"
-+SRCREV = "7f2f8cd6dac497cbb466efb31219b531c62013f5"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+ inherit allarch
  
- S = "${WORKDIR}/git"
 -- 
 2.47.1
 
 
---===============8858765235613220144==
+--===============4471392081627547756==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-babeltrace2-upgrade-2.1.0-2.1.1.patch"
+ filename="0001-linux-firmware-upgrade-20250311-20250410.patch"
 
-RnJvbSA0ODg5NWM4MWIzZDQzNzEwZjc4YmMzNzFmMzNkYWU1NGQ1MmNlMTAxIE1vbiBTZXAgMTcg
+RnJvbSA3MjIyN2MwY2Y0NGY2YzU3OTM2NzIyNzRkZDdmZmU5Y2FiMjAyOTIyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgQXByIDIwMjUgMTA6MzE6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
-YWJlbHRyYWNlMjogdXBncmFkZSAyLjEuMCAtPiAyLjEuMQoKLS0tCiAuLi5maWVsZF9ibG9iX2dl
-dF9sZW5ndGgtcmV0dXJuLXNpemVfdC1pbnN0ZWFkLS5wYXRjaCB8ICAyICstCiAuLi4vMDAwMS1N
-YWtlLW1hbnBhZ2VzLW11bHRpbGliLWlkZW50aWNhbC5wYXRjaCAgICAgICB8ICA2ICsrLS0tLQog
-Li4uMDEtdGVzdHMtZml4LXRlc3QtYXBwbGljYXRpb25zLWluLWNwcC1jb21tb24ucGF0Y2ggfCAg
-NSArLS0tLQogLi4uLzAwMDEtdGVzdHMtc2V0LXRoZS1jb3JyZWN0LXBsdWdpbi1kaXJlY3Rvcnku
-cGF0Y2ggfCAxMSArKysrLS0tLS0tLQogLi4uL3tiYWJlbHRyYWNlMl8yLjEuMC5iYiA9PiBiYWJl
-bHRyYWNlMl8yLjEuMS5iYn0gICAgfCAgMiArLQogNSBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlv
-bnMoKyksIDE3IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcv
-e2JhYmVsdHJhY2UyXzIuMS4wLmJiID0+IGJhYmVsdHJhY2UyXzIuMS4xLmJifSAoOTklKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTIvMDAwMS1NYWtl
-LWJ0X2ZpZWxkX2Jsb2JfZ2V0X2xlbmd0aC1yZXR1cm4tc2l6ZV90LWluc3RlYWQtLnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLU1ha2UtYnRfZmllbGRf
-YmxvYl9nZXRfbGVuZ3RoLXJldHVybi1zaXplX3QtaW5zdGVhZC0ucGF0Y2gKaW5kZXggZDkyMzQz
-N2EyYS4uMWQ4MGYyYWFiNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9i
-YWJlbHRyYWNlMi8wMDAxLU1ha2UtYnRfZmllbGRfYmxvYl9nZXRfbGVuZ3RoLXJldHVybi1zaXpl
-X3QtaW5zdGVhZC0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRy
-YWNlMi8wMDAxLU1ha2UtYnRfZmllbGRfYmxvYl9nZXRfbGVuZ3RoLXJldHVybi1zaXplX3QtaW5z
-dGVhZC0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDFiNTE0YWIyZTg3ODIxNjQyNmFjYzQ5
-M2VlYWI5NjA4ODU3NmZhZjkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGIxYTBmZWM0
-NzkyMTQ3ZmNkNWJiZjg2OWI1OTI3NjhkZTgzNDI5M2IgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogVGh1LCAyMCBNYXIg
-MjAyNSAxODoxMDowOCAtMDcwMAogU3ViamVjdDogW1BBVENIXSBNYWtlIGJ0X2ZpZWxkX2Jsb2Jf
-Z2V0X2xlbmd0aCByZXR1cm4gc2l6ZV90IGluc3RlYWQgb2YKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTIvMDAwMS1NYWtlLW1hbnBhZ2VzLW11bHRpbGli
-LWlkZW50aWNhbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTIv
-MDAwMS1NYWtlLW1hbnBhZ2VzLW11bHRpbGliLWlkZW50aWNhbC5wYXRjaAppbmRleCBjMmI3NmIx
-ZWQ1Li4xNjIxNjgxMWJjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2Jh
-YmVsdHJhY2UyLzAwMDEtTWFrZS1tYW5wYWdlcy1tdWx0aWxpYi1pZGVudGljYWwucGF0Y2gKKysr
-IGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLU1ha2UtbWFucGFn
-ZXMtbXVsdGlsaWItaWRlbnRpY2FsLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1Njk4NjE5
-MGU0YjBjMTA5NDVjZTZhYWE3Y2ExMGQ2YmQ4YTI2YTM5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSBiY2Q3YzgwNWZiNGZlMTdlNjZmMjA3ZmY5MzdiNmIxZTc2YWRjMGI0IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSmVyZW15IFB1aGxtYW4gPGpwdWhsbWFuQG12aXN0YS5j
-b20+CiBEYXRlOiBNb24sIDkgTWFyIDIwMjAgMjE6MTA6MzUgKzAwMDAKIFN1YmplY3Q6IFtQQVRD
-SF0gTWFrZSBtYW5wYWdlcyBtdWx0aWxpYiBpZGVudGljYWwKQEAgLTE2LDcgKzE2LDcgQEAgaW5k
-ZXggODhmYjEzY2UyLi4yNzg1OGI3MjAgMTAwNjQ0CiAtLS0gYS9kb2MvbWFuL2FzY2lpZG9jLWF0
-dHJzLmNvbmYuaW4KICsrKyBiL2RvYy9tYW4vYXNjaWlkb2MtYXR0cnMuY29uZi5pbgogQEAgLTQs
-OCArNCw4IEBACi0KKyAKICBbYXR0cmlidXRlc10KICAjIGRlZmF1bHQgdmFsdWVzCiAtc3lzdGVt
-X3BsdWdpbl9wYXRoPSJATElCRElSQC9iYWJlbHRyYWNlMi9wbHVnaW5zIgpAQCAtMjYsNSArMjYs
-MyBAQCBpbmRleCA4OGZiMTNjZTIuLjI3ODU4YjcyMCAxMDA2NDQKICBiYWJlbHRyYWNlX3ZlcnNp
-b249IkBQQUNLQUdFX1ZFUlNJT05AIgogIGVuYWJsZV9kZWJ1Z19pbmZvPSJARU5BQkxFX0RFQlVH
-X0lORk9fVkFMQCIKICBkZWZyZHBvcnQ9NTM0NAotLS0gCi0yLjM0LjEKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTIvMDAwMS10ZXN0cy1maXgtdGVzdC1h
-cHBsaWNhdGlvbnMtaW4tY3BwLWNvbW1vbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0
-bmcvYmFiZWx0cmFjZTIvMDAwMS10ZXN0cy1maXgtdGVzdC1hcHBsaWNhdGlvbnMtaW4tY3BwLWNv
-bW1vbi5wYXRjaAppbmRleCA4N2Y5NGZiMDg3Li45MTIzZGZiOWRhIDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEtdGVzdHMtZml4LXRlc3QtYXBw
-bGljYXRpb25zLWluLWNwcC1jb21tb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9s
-dHRuZy9iYWJlbHRyYWNlMi8wMDAxLXRlc3RzLWZpeC10ZXN0LWFwcGxpY2F0aW9ucy1pbi1jcHAt
-Y29tbW9uLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAxZGM4MWYyNzI4NTVkOTRlNmE3OGY3
-ZDEwZWE5NTI3NDVkOTkxYWE5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzOGFlNGU2
-MmExODY4MDEwZTBiZGE5ZDk4NGE3ZjczZGEwOTYxYWVlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogQmluIExhbiA8YmluLmxhbi5jbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogVHVlLCAx
-MSBNYXIgMjAyNSAxNzoxOToxMSArMDgwMAogU3ViamVjdDogW1BBVENIXSBUZXN0czogZml4IHRl
-c3QgYXBwbGljYXRpb25zIGluIGNwcC1jb21tb24gYXJlIG5lZWRlZCB0bwpAQCAtMTI0LDYgKzEy
-NCwzIEBAIGluZGV4IDAwMDAwMDAwMC4uOGM2NWRhYTk0CiArc291cmNlICIkVVRJTFNTSCIKICsK
-ICsiJHtCVF9URVNUU19CVUlMRERJUn0vY3BwLWNvbW1vbi90ZXN0LXV1aWQiICIkQlRfVEVTVFNf
-QlQyX0JJTiIKLS0tIAotMi4zNC4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwv
-bHR0bmcvYmFiZWx0cmFjZTIvMDAwMS10ZXN0cy1zZXQtdGhlLWNvcnJlY3QtcGx1Z2luLWRpcmVj
-dG9yeS5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTIvMDAwMS10
-ZXN0cy1zZXQtdGhlLWNvcnJlY3QtcGx1Z2luLWRpcmVjdG9yeS5wYXRjaAppbmRleCA3YWM3NTgy
-YWQ3Li42ODdhMWMxMjZkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2Jh
-YmVsdHJhY2UyLzAwMDEtdGVzdHMtc2V0LXRoZS1jb3JyZWN0LXBsdWdpbi1kaXJlY3RvcnkucGF0
-Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLXRlc3Rz
-LXNldC10aGUtY29ycmVjdC1wbHVnaW4tZGlyZWN0b3J5LnBhdGNoCkBAIC0xLDExICsxLDExIEBA
-Ci1Gcm9tIDMyNDk0YjE3MjZhODgxODgzY2I2ZDMxN2FiNzZkMWVjM2YxZmE3NDAgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCitGcm9tIDExNjkzMzg4ZmU2Y2FmOTg1MTMyYTFlNjI4MjFiNTljZjk5
-ZGZlYzQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBCaW4gTGFuIDxiaW4ubGFuLmNu
-QHdpbmRyaXZlci5jb20+CiBEYXRlOiBXZWQsIDUgTWFyIDIwMjUgMTA6NTE6MTEgKzA4MDAKIFN1
-YmplY3Q6IFtQQVRDSF0gdGVzdHM6IHNldCB0aGUgY29ycmVjdCBkaXJlY3Rvcnkgb2YgcGx1Z2lu
-IHNoYXJlZCBsaWJyYXJ5CiAKLVRoZSBwbHVnaW4gc2hhcmVkIGxpYnJhcmllcyBhcmUgcHV0IGlu
-IHRlc3QtcGx1Z2lucy1wbHVnaW5zLy5saWJzIHdoZW4gCi1idWlsZGluZyBpbiBhIGhvc3QuIHRl
-c3QtcGx1Z2lucy1wbHVnaW5zLy5saWJzIGlzIG5vdCBleGlzdCB3aGVuIGNyb3NzIAotYnVpbGQu
-IFRoZSBwbHVnaW4gc2hhcmVkIGxpYnJhcmllcyBhcmUgcHV0IGluIHRlc3QtcGx1Z2lucy1wbHVn
-aW5zIAorVGhlIHBsdWdpbiBzaGFyZWQgbGlicmFyaWVzIGFyZSBwdXQgaW4gdGVzdC1wbHVnaW5z
-LXBsdWdpbnMvLmxpYnMgd2hlbgorYnVpbGRpbmcgaW4gYSBob3N0LiB0ZXN0LXBsdWdpbnMtcGx1
-Z2lucy8ubGlicyBpcyBub3QgZXhpc3Qgd2hlbiBjcm9zcworYnVpbGQuIFRoZSBwbHVnaW4gc2hh
-cmVkIGxpYnJhcmllcyBhcmUgcHV0IGluIHRlc3QtcGx1Z2lucy1wbHVnaW5zCiBkaXJlY3Rvcnkg
-d2hlbiBjcm9zcyBidWlsZC4KIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtvZSBz
-cGVjaWZpY10KQEAgLTI1LDYgKzI1LDMgQEAgaW5kZXggZjgzZTQyYmFhLi45MzkyMzYzOTMgMTAw
-NzU1CiAgCiAtIiR7QlRfVEVTVFNfQlVJTERESVJ9L2xpYi90ZXN0LXBsdWdpbnMiICIke0JUX1RF
-U1RTX0JVSUxERElSfS9saWIvdGVzdC1wbHVnaW5zLXBsdWdpbnMvLmxpYnMiCiArIiR7QlRfVEVT
-VFNfQlVJTERESVJ9L2xpYi90ZXN0LXBsdWdpbnMiICIke0JUX1RFU1RTX0JVSUxERElSfS9saWIv
-dGVzdC1wbHVnaW5zLXBsdWdpbnMiCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyXzIuMS4wLmJiIGIvbWV0YS9yZWNpcGVzLWtl
-cm5lbC9sdHRuZy9iYWJlbHRyYWNlMl8yLjEuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk5JQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyXzIuMS4wLmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyXzIuMS4xLmJiCmlu
-ZGV4IGE5YTNhOTk2MWIuLmZlY2M2MzlhOWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJu
-ZWwvbHR0bmcvYmFiZWx0cmFjZTJfMi4xLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9s
-dHRuZy9iYWJlbHRyYWNlMl8yLjEuMS5iYgpAQCAtMTQsNyArMTQsNyBAQCBTUkNfVVJJID0gImdp
-dDovL2dpdC5lZmZpY2lvcy5jb20vYmFiZWx0cmFjZS5naXQ7YnJhbmNoPXN0YWJsZS0yLjE7cHJv
-dG9jb2w9aHR0cAogICAgICAgICAgICBmaWxlOi8vMDAwMS10ZXN0cy1zZXQtdGhlLWNvcnJlY3Qt
-cGx1Z2luLWRpcmVjdG9yeS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLU1ha2UtYnRf
-ZmllbGRfYmxvYl9nZXRfbGVuZ3RoLXJldHVybi1zaXplX3QtaW5zdGVhZC0ucGF0Y2ggXAogICAg
-ICAgICAgICAiCi1TUkNSRVYgPSAiZTYxZDQxZmYzYzNhYzZhMTIzOTMwZDRlNjBjZjcxMGZmOWVh
-MThlMCIKK1NSQ1JFViA9ICI3ZjJmOGNkNmRhYzQ5N2NiYjQ2NmVmYjMxMjE5YjUzMWM2MjAxM2Y1
-IgogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAidig/UDxwdmVyPjIoXC5cZCspKykkIgog
-CiBTID0gIiR7V09SS0RJUn0vZ2l0IgotLSAKMi40Ny4xCgo=
+CkRhdGU6IFR1ZSwgMTUgQXByIDIwMjUgMTA6MjY6MDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aW51eC1maXJtd2FyZTogdXBncmFkZSAyMDI1MDMxMSAtPiAyMDI1MDQxMAoKLS0tCiAuLi4yMDI1
+MDMxMS5iYiA9PiBsaW51eC1maXJtd2FyZV8yMDI1MDQxMC5iYn0gfCA0MTMgKysrKysrKysrKysr
+KysrKystCiAxIGZpbGUgY2hhbmdlZCwgNDExIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC1maXJtd2FyZS97bGludXgtZmlybXdh
+cmVfMjAyNTAzMTEuYmIgPT4gbGludXgtZmlybXdhcmVfMjAyNTA0MTAuYmJ9ICg4NSUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC1maXJtd2FyZS9saW51eC1maXJtd2Fy
+ZV8yMDI1MDMxMS5iYiBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgtZmlybXdhcmUvbGludXgt
+ZmlybXdhcmVfMjAyNTA0MTAuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLWtlcm5lbC9saW51eC1maXJtd2FyZS9saW51eC1maXJtd2FyZV8yMDI1MDMxMS5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC1maXJtd2FyZS9saW51eC1maXJt
+d2FyZV8yMDI1MDQxMC5iYgppbmRleCA2NzVkMzc4Mzc2Li5mNGU3NTdlYjE3IDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4LWZpcm13YXJlL2xpbnV4LWZpcm13YXJlXzIwMjUw
+MzExLmJiCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgtZmlybXdhcmUvbGludXgtZmly
+bXdhcmVfMjAyNTA0MTAuYmIKQEAgLTEsMyArMSw0MTIgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklM
+RVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4K
+KyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRo
+ZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlm
+IG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3Nh
+Z2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0
+ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0t
+LSBXSEVOQ0UKKyMgKysrIFdIRU5DRQorIyBAQCAtMTAyMiwyNSArMTAyMiwyNSBAQAorIyAgVmVy
+c2lvbjogNzQuYTVlOTU4OGIuMAorIyAgCisjICBGaWxlOiBpd2x3aWZpLWNjLWEwLTc3LnVjb2Rl
+CisjIC1WZXJzaW9uOiA3NC5iNDA1ZjlkNC4wCisjICtWZXJzaW9uOiA3NC4yNzUzYjcyMS4wCisj
+ICAKKyMgIEZpbGU6IGl3bHdpZmktUXUtYjAtaHItYjAtNzcudWNvZGUKKyMgLVZlcnNpb246IDc0
+LmI0MDVmOWQ0LjAKKyMgK1ZlcnNpb246IDc0LjI3NTNiNzIxLjAKKyMgIAorIyAgRmlsZTogaXds
+d2lmaS1RdS1iMC1qZi1iMC03Ny51Y29kZQorIyAtVmVyc2lvbjogNzQuYjQwNWY5ZDQuMAorIyAr
+VmVyc2lvbjogNzQuMjc1M2I3MjEuMAorIyAgCisjICBGaWxlOiBpd2x3aWZpLVF1LWMwLWhyLWIw
+LTc3LnVjb2RlCisjIC1WZXJzaW9uOiA3NC5iNDA1ZjlkNC4wCisjICtWZXJzaW9uOiA3NC4yNzUz
+YjcyMS4wCisjICAKKyMgIEZpbGU6IGl3bHdpZmktUXUtYzAtamYtYjAtNzcudWNvZGUKKyMgLVZl
+cnNpb246IDc0LmI0MDVmOWQ0LjAKKyMgK1ZlcnNpb246IDc0LjI3NTNiNzIxLjAKKyMgIAorIyAg
+RmlsZTogaXdsd2lmaS1RdVotYTAtaHItYjAtNzcudWNvZGUKKyMgLVZlcnNpb246IDc0LmI0MDVm
+OWQ0LjAKKyMgK1ZlcnNpb246IDc0LjI3NTNiNzIxLjAKKyMgIAorIyAgRmlsZTogaXdsd2lmaS1R
+dVotYTAtamYtYjAtNzcudWNvZGUKKyMgLVZlcnNpb246IDc0LmI0MDVmOWQ0LjAKKyMgK1ZlcnNp
+b246IDc0LjI3NTNiNzIxLjAKKyMgIAorIyAgRmlsZTogaXdsd2lmaS10eS1hMC1nZi1hMC03Ny51
+Y29kZQorIyAgVmVyc2lvbjogNzQuZjkyYjVmZWQuMAorIyBAQCAtMTA2NCw3ICsxMDY0LDcgQEAK
+KyMgIFZlcnNpb246IDgzLmZiNWM5YWViLjAKKyMgIAorIyAgRmlsZTogaXdsd2lmaS10eS1hMC1n
+Zi1hMC04OS51Y29kZQorIyAtVmVyc2lvbjogODYuMWE0OTJkMjguMAorIyArVmVyc2lvbjogODYu
+NGQ0MmM5MzMuMAorIyAgCisjICBGaWxlOiBpd2x3aWZpLXNvLWEwLWdmNC1hMC03Ny51Y29kZQor
+IyAgVmVyc2lvbjogNzQuZjkyYjVmZWQuMAorIyBAQCAtMTA4OCw3ICsxMDg4LDcgQEAKKyMgIFZl
+cnNpb246IDgzLmZiNWM5YWViLjAKKyMgIAorIyAgRmlsZTogaXdsd2lmaS1zby1hMC1nZjQtYTAt
+ODkudWNvZGUKKyMgLVZlcnNpb246IDg2LjFhNDkyZDI4LjAKKyMgK1ZlcnNpb246IDg2LjRkNDJj
+OTMzLjAKKyMgIAorIyAgRmlsZTogaXdsd2lmaS1zby1hMC1nZi1hMC03Ny51Y29kZQorIyAgVmVy
+c2lvbjogNzQuZjkyYjVmZWQuMAorIyBAQCAtMTExMiw3ICsxMTEyLDcgQEAKKyMgIFZlcnNpb246
+IDgzLmZiNWM5YWViLjAKKyMgIAorIyAgRmlsZTogaXdsd2lmaS1zby1hMC1nZi1hMC04OS51Y29k
+ZQorIyAtVmVyc2lvbjogODYuMWE0OTJkMjguMAorIyArVmVyc2lvbjogODYuNGQ0MmM5MzMuMAor
+IyAgCisjICBGaWxlOiBpd2x3aWZpLXNvLWEwLWhyLWIwLTc3LnVjb2RlCisjICBWZXJzaW9uOiA3
+NC5mOTJiNWZlZC4wCisjIEBAIC0xMTMzLDcgKzExMzMsNyBAQAorIyAgVmVyc2lvbjogODMuZmI1
+YzlhZWIuMAorIyAgCisjICBGaWxlOiBpd2x3aWZpLXNvLWEwLWhyLWIwLTg5LnVjb2RlCisjIC1W
+ZXJzaW9uOiA4Ni4xYTQ5MmQyOC4wCisjICtWZXJzaW9uOiA4Ni40ZDQyYzkzMy4wCisjICAKKyMg
+IEZpbGU6IGl3bHdpZmktc28tYTAtamYtYjAtNzcudWNvZGUKKyMgIFZlcnNpb246IDc0LmY5MmI1
+ZmVkLjAKKyMgQEAgLTExNDksNiArMTE0OSw5IEBACisjICBGaWxlOiBpd2x3aWZpLWJ6LWIwLWdm
+LWEwLTk2LnVjb2RlCisjICBWZXJzaW9uOiA5My40NDcyOWQ0ZS4wCisjICAKKyMgK0ZpbGU6IGl3
+bHdpZmktYnotYjAtZ2YtYTAtOTcudWNvZGUKKyMgK1ZlcnNpb246IDk0LjgwNDlkNjliLjAKKyMg
+KworIyAgRmlsZTogaXdsd2lmaS1iei1iMC1nZi1hMC5wbnZtCisjICAKKyMgIEZpbGU6IGl3bHdp
+ZmktZ2wtYzAtZm0tYzAtODMudWNvZGUKKyMgQEAgLTExNjksNiArMTE3Miw5IEBACisjICBGaWxl
+OiBpd2x3aWZpLWdsLWMwLWZtLWMwLTk2LnVjb2RlCisjICBWZXJzaW9uOiA5My40NDcyOWQ0ZS4w
+CisjICAKKyMgK0ZpbGU6IGl3bHdpZmktZ2wtYzAtZm0tYzAtOTcudWNvZGUKKyMgK1ZlcnNpb246
+IDk0LjgwNDlkNjliLjAKKyMgKworIyAgRmlsZTogaXdsd2lmaS1nbC1jMC1mbS1jMC5wbnZtCisj
+ICAKKyMgIEZpbGU6IGl3bHdpZmktYnotYjAtZm0tYzAtOTIudWNvZGUKKyMgQEAgLTExODMsNiAr
+MTE4OSw5IEBACisjICBGaWxlOiBpd2x3aWZpLWJ6LWIwLWZtLWMwLTk2LnVjb2RlCisjICBWZXJz
+aW9uOiA5My40NDcyOWQ0ZS4wCisjICAKKyMgK0ZpbGU6IGl3bHdpZmktYnotYjAtZm0tYzAtOTcu
+dWNvZGUKKyMgK1ZlcnNpb246IDk0LjgwNDlkNjliLjAKKyMgKworIyAgRmlsZTogaXdsd2lmaS1i
+ei1iMC1mbS1jMC5wbnZtCisjICAKKyMgIEZpbGU6IGl3bHdpZmktbWEtYjAtZ2YtYTAtODMudWNv
+ZGUKKyMgQEAgLTExOTIsNyArMTIwMSw3IEBACisjICBWZXJzaW9uOiA4My5mYjVjOWFlYi4wCisj
+ICAKKyMgIEZpbGU6IGl3bHdpZmktbWEtYjAtZ2YtYTAtODkudWNvZGUKKyMgLVZlcnNpb246IDg2
+LjFhNDkyZDI4LjAKKyMgK1ZlcnNpb246IDg2LjRkNDJjOTMzLjAKKyMgIAorIyAgRmlsZTogaXds
+d2lmaS1tYS1iMC1nZi1hMC5wbnZtCisjICAKKyMgQEAgLTEyMDMsNyArMTIxMiw3IEBACisjICBW
+ZXJzaW9uOiA4My5mYjVjOWFlYi4wCisjICAKKyMgIEZpbGU6IGl3bHdpZmktbWEtYjAtZ2Y0LWEw
+LTg5LnVjb2RlCisjIC1WZXJzaW9uOiA4Ni4xYTQ5MmQyOC4wCisjICtWZXJzaW9uOiA4Ni40ZDQy
+YzkzMy4wCisjICAKKyMgIEZpbGU6IGl3bHdpZmktbWEtYjAtZ2Y0LWEwLnBudm0KKyMgIAorIyBA
+QCAtMTIxNCw3ICsxMjIzLDcgQEAKKyMgIFZlcnNpb246IDgzLmZiNWM5YWViLjAKKyMgIAorIyAg
+RmlsZTogaXdsd2lmaS1tYS1iMC1oci1iMC04OS51Y29kZQorIyAtVmVyc2lvbjogODYuMWE0OTJk
+MjguMAorIyArVmVyc2lvbjogODYuNGQ0MmM5MzMuMAorIyAgCisjICBMaWNlbmNlOiBSZWRpc3Ry
+aWJ1dGFibGUuIFNlZSBMSUNFTkNFLml3bHdpZmlfZmlybXdhcmUgZm9yIGRldGFpbHMKKyMgIAor
+IyBAQCAtMjA3NSw2ICsyMDg0LDE0IEBACisjICBGaWxlOiByYWRlb24vc2k1OF9tYy5iaW4KKyMg
+IAorIyAgTGljZW5jZTogUmVkaXN0cmlidXRhYmxlLiBTZWUgTElDRU5TRS5yYWRlb24gZm9yIGRl
+dGFpbHMuCisjICsKKyMgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjICsKKyMgK0RyaXZlcjogYXMyMXh4
+eCAtIEFlb25zZW1pIEFTMjF4MXggMUcvMi41Ry81Ry8xMEcgRXRoZXJuZXQgUGh5CisjICsKKyMg
+K0ZpbGU6IGFlb25zZW1pL2FzMjF4MXhfZncuYmluCisjICsKKyMgK0xpY2VuY2U6IFJlZGlzdHJp
+YnV0YWJsZS4gU2VlIExJQ0VOU0UuYWVvbnNlbWkgZm9yIGRldGFpbHMuCisjICAKKyMgIC0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tCisjICAKKyMgQEAgLTMzOTQsNiArMzQxMSw3IEBACisjICBGaWxlOiBydHc4
+OC9ydHc4NzAzYl9mdy5iaW4KKyMgIEZpbGU6IHJ0dzg4L3J0dzg3MDNiX3dvd19mdy5iaW4KKyMg
+IEZpbGU6IHJ0dzg4L3J0dzg4MTJhX2Z3LmJpbgorIyArRmlsZTogcnR3ODgvcnR3ODgxNGFfZncu
+YmluCisjICAKKyMgIExpY2VuY2U6IFJlZGlzdHJpYnV0YWJsZS4gU2VlIExJQ0VOQ0UucnRsd2lm
+aV9maXJtd2FyZS50eHQgZm9yIGRldGFpbHMuCisjICAKKyMgQEAgLTQyMjUsNiArNDI0MywxNCBA
+QAorIyAgRmlsZTogaW50ZWwvaWJ0LTAxOTAtMDA0MS5zZmkKKyMgIEZpbGU6IGludGVsL2lidC0w
+MTkwLTAwNDEtaW1sLnNmaQorIyAgRmlsZTogaW50ZWwvaWJ0LTAxOTAtMDA0MS5kZGMKKyMgK0Zp
+bGU6IGludGVsL2lidC0wMTkwLTAwNDEtcGNpLmRkYworIyArRmlsZTogaW50ZWwvaWJ0LTAxOTAt
+MDA0MS1wY2kuc2ZpCisjICtGaWxlOiBpbnRlbC9pYnQtMDE5MC0wMDQxLXVzYi5kZGMKKyMgK0Zp
+bGU6IGludGVsL2lidC0wMTkwLTAwNDEtdXNiLnNmaQorIyArRmlsZTogaW50ZWwvaWJ0LTAxOTAt
+MDI5MS1wY2kuZGRjCisjICtGaWxlOiBpbnRlbC9pYnQtMDE5MC0wMjkxLXBjaS5zZmkKKyMgK0Zp
+bGU6IGludGVsL2lidC0wMTkwLTAyOTEtdXNiLmRkYworIyArRmlsZTogaW50ZWwvaWJ0LTAxOTAt
+MDI5MS11c2Iuc2ZpCisjICBWZXJzaW9uOiBCVF9CbGF6YXJJX1NfUkVMODI3NDZfMjMuMTIwLjI1
+MDcxLjgyNzQ2CisjICAKKyMgIExpY2VuY2U6IFJlZGlzdHJpYnV0YWJsZS4gU2VlIExJQ0VOQ0Uu
+aWJ0X2Zpcm13YXJlIGZvciBkZXRhaWxzCisjIEBAIC00NzYzLDkgKzQ3ODksMTcgQEAKKyMgIFZl
+cnNpb246IEJURlcuSFNQLjIuMS4wLTAwNjUzLVZFUl9QQVRDSFotMworIyAgRmlsZTogcWNhL1FD
+QTIwNjYvbnZtX3VzYl8wMDEzMDIwMV8wMzBhLmJpbgorIyAgRmlsZTogcWNhL1FDQTIwNjYvbnZt
+X3VzYl8wMDEzMDIwMV9nZl8wMzBhLmJpbgorIyAtVmVyc2lvbjogQlRGVy5IQU1JTFRPTi4yLjAu
+MC0wMDUxNS1VU0JfUEFUQ0haLTIKKyMgK1ZlcnNpb246IEJURlcuSEFNSUxUT04uMi4wLjAtMDA3
+OTAtVVNCX1BBVENIWi0zCisjICBGaWxlOiBxY2EvbnZtX3VzYl8wMDE5MDIwMC5iaW4KKyMgK0Zp
+bGU6IHFjYS9udm1fdXNiXzAwMTkwMjAwXzAxMDQuYmluCisjICtGaWxlOiBxY2EvbnZtX3VzYl8w
+MDE5MDIwMF8wMTA2LmJpbgorIyArRmlsZTogcWNhL252bV91c2JfMDAxOTAyMDBfMDEwOC5iaW4K
+KyMgK0ZpbGU6IHFjYS9udm1fdXNiXzAwMTkwMjAwXzAxMDkuYmluCisjICtGaWxlOiBxY2EvbnZt
+X3VzYl8wMDE5MDIwMF8wMTBhLmJpbgorIyArRmlsZTogcWNhL252bV91c2JfMDAxOTAyMDBfMDEw
+Yy5iaW4KKyMgIEZpbGU6IHFjYS9udm1fdXNiXzAwMTkwMjAwXzAxMGUuYmluCisjICtGaWxlOiBx
+Y2EvbnZtX3VzYl8wMDE5MDIwMF8wMTEwLmJpbgorIyArRmlsZTogcWNhL252bV91c2JfMDAxOTAy
+MDBfMDExMS5iaW4KKyMgIEZpbGU6IHFjYS9udm1fdXNiXzAwMTkwMjAwXzAxMTIuYmluCisjICAK
+KyMgIExpY2VuY2U6IFJlZGlzdHJpYnV0YWJsZS4gU2VlIExJQ0VOU0UuUXVhbGNvbW1BdGhlcm9z
+X2F0aDEwayBhbmQgcWNhL05PVElDRS50eHQgZm9yIGRldGFpbHMKKyMgQEAgLTU4ODEsNiArNTkx
+NSw4IEBACisjICBWZXJzaW9uOiB2Mi4wLjIwNTM2CisjICBGaWxlOiBtZWRpYXRlay9tdDgxOTUv
+c2NwLmltZworIyAgVmVyc2lvbjogdjIuMC4yMTk2MQorIyArRmlsZTogbWVkaWF0ZWsvbXQ4MTg4
+L3NjcC5pbWcKKyMgK1ZlcnNpb246IHYyLjAuMjc3NDgKKyMgIAorIyAgTGljZW5jZTogUmVkaXN0
+cmlidXRhYmxlLiBTZWUgTElDRU5DRS5tZWRpYXRlayBmb3IgZGV0YWlscy4KKyMgIAorIyBAQCAt
+NjMzOSw3ICs2Mzc1LDcgQEAKKyMgIExpbms6IHFjb20vdnB1LTEuMC92ZW51cy5tYm4gLT4gLi4v
+dnB1L3ZwdTIwX3A0Lm1ibgorIyAgTGluazogcWNvbS92cHUtMS4wL3ZlbnVzLm1kdCAtPiAuLi92
+cHUvdnB1MjBfcDQubWJuCisjICAKKyMgLVZlcnNpb246IFZJREVPLlZQVS4xLjAtMDAwOTctUFJP
+RC0xCisjICtWZXJzaW9uOiBWSURFTy5WUFUuMS4wLTAwMTE5LVBST0QtMQorIyAgCisjICBGaWxl
+OiBxY29tL3ZwdS92cHUyMF9wMS5tYm4KKyMgIExpbms6IHFjb20vdnB1LTIuMC92ZW51cy5tYm4g
+LT4gLi4vdnB1L3ZwdTIwX3AxLm1ibgorIyBAQCAtNjUyNyw2ICs2NTYzLDggQEAKKyMgIFZlcnNp
+b246IENEU1AuSFQuMi42LTAwNjk4LU1BS0VOQS0xCisjICBGaWxlOiBxY29tL3NjODI4MHhwL0xF
+Tk9WTy8yMUJYL3Fjc2xwaTgyODAubWJuCisjICBWZXJzaW9uOiBTTFBJLkhZLjQuMS0wMDA0OC1N
+QUtFTkEtMQorIyArRmlsZTogcWNvbS94MWU4MDEwMC9MRU5PVk8vMjFOMS9xY3ZzczgzODAubWJu
+CisjICtWZXJzaW9uOiB2ZnctMy4xOnJlbDAwODUtMDcwZmEzMzExZDllZjk2ODAxNWZlZTdmZWEw
+NzE5OGQ3ZWIyMDhhMQorIyAgRmlsZTogcWNvbS94MWU4MDEwMC9hZHNwLm1ibgorIyAgRmlsZTog
+cWNvbS94MWU4MDEwMC9hZHNwX2R0Yi5tYm4KKyMgIFZlcnNpb246IEFEU1AuSFQuNS45LTAwNzk2
+LUhBTU9BLTEKKyMgQEAgLTY1NDYsNiArNjU4NCwyMSBAQAorIyAgUmF3RmlsZTogcWNvbS94MWU4
+MDEwMC9MRU5PVk8vMjFOMS9jZHNwci5qc24KKyMgIEZpbGU6IHFjb20veDFlODAxMDAvTEVOT1ZP
+LzIxTjEvcWNkeGttc3VjODM4MC5tYm4KKyMgIFJhd0ZpbGU6IHFjb20veDFlODAxMDAvTEVOT1ZP
+LzIxTjEvYmF0dG1nci5qc24KKyMgK0ZpbGU6IHFjb20veDFlODAxMDAvTEVOT1ZPLzgzRUQvYWRz
+cF9kdGJzLmVsZgorIyArUmF3RmlsZTogcWNvbS94MWU4MDEwMC9MRU5PVk8vODNFRC9hZHNwci5q
+c24KKyMgK1Jhd0ZpbGU6IHFjb20veDFlODAxMDAvTEVOT1ZPLzgzRUQvYWRzcHMuanNuCisjICtS
+YXdGaWxlOiBxY29tL3gxZTgwMTAwL0xFTk9WTy84M0VEL2Fkc3B1YS5qc24KKyMgK1Jhd0ZpbGU6
+IHFjb20veDFlODAxMDAvTEVOT1ZPLzgzRUQvYmF0dG1nci5qc24KKyMgK1Jhd0ZpbGU6IHFjb20v
+eDFlODAxMDAvTEVOT1ZPLzgzRUQvY2RzcHIuanNuCisjICtGaWxlOiBxY29tL3gxZTgwMTAwL0xF
+Tk9WTy84M0VEL3FjYWRzcDgzODAubWJuCisjICtWZXJzaW9uOiBBRFNQLkhULjUuOS5jMS0wMDA1
+OS1IQU1PQS0xCisjICtGaWxlOiBxY29tL3gxZTgwMTAwL0xFTk9WTy84M0VEL3FjYXYxZTgzODAu
+bWJuCisjICtWZXJzaW9uOiBDRFNQLkhULjIuOS5jMi0wMDA1MS1IQU1PQS0xCisjICtGaWxlOiBx
+Y29tL3gxZTgwMTAwL0xFTk9WTy84M0VEL3FjY2RzcDgzODAubWJuCisjICtWZXJzaW9uOiBDRFNQ
+LkhULjIuOS5jMi0wMDA1MS1IQU1PQS0xCisjICtGaWxlOiBxY29tL3gxZTgwMTAwL0xFTk9WTy84
+M0VEL3FjZHhrbXN1YzgzODAubWJuCisjICtGaWxlOiBxY29tL3gxZTgwMTAwL0xFTk9WTy84M0VE
+L3FjdnNzODM4MC5tYm4KKyMgK1ZlcnNpb246IHZpZGVvLWZpcm13YXJlLjMuMS1lNWFlYTIwYzY0
+Y2I2ZGY5YTFjOWJlOTllMjA2MDUzYjM2NDI0OTM5CisjICAKKyMgIExpY2VuY2U6IFJlZGlzdHJp
+YnV0YWJsZS4gU2VlIExJQ0VOU0UucWNvbSBhbmQgcWNvbS9OT1RJQ0UudHh0IGZvciBkZXRhaWxz
+CisjICAKKyMgQEAgLTY1NzgsNiArNjYzMSwxNSBAQAorIyAgVmVyc2lvbjogRFNQLkFULjEuMC4x
+LTAwMDc5LjItTEVNQU5TLTEKKyMgIFJhd0ZpbGU6IHFjb20vc2E4Nzc1cC9ncGRzcDFyLmpzbgor
+IyAgUmF3RmlsZTogcWNvbS9zYTg3NzVwL2dwZHNwci5qc24KKyMgK0ZpbGU6IHFjb20vcWNzODMw
+MC9hZHNwLm1ibgorIyArVmVyc2lvbjogRFNQLkFULjEuMC4xLTAwMDk2LUxFTUFOUy0xCisjICtS
+YXdGaWxlOiBxY29tL3FjczgzMDAvYWRzcHIuanNuCisjICtSYXdGaWxlOiBxY29tL3FjczgzMDAv
+YWRzcHVhLmpzbgorIyArRmlsZTogcWNvbS9xY3M4MzAwL2Nkc3AwLm1ibgorIyArVmVyc2lvbjog
+RFNQLkFULjEuMC4xLTAwMDk2LUxFTUFOUy0xCisjICtSYXdGaWxlOiBxY29tL3FjczgzMDAvY2Rz
+cHIuanNuCisjICtGaWxlOiBxY29tL3FjczgzMDAvZ3Bkc3AwLm1ibgorIyArVmVyc2lvbjogRFNQ
+LkFULjEuMC4xLTAwMDk2LUxFTUFOUy0xCisjICAKKyMgIExpY2VuY2U6IFJlZGlzdHJpYnV0YWJs
+ZS4gU2VlIExJQ0VOU0UucWNvbS0yIGFuZCBxY29tL05PVElDRS50eHQgZm9yIGRldGFpbHMKKyMg
+IAorIyBAQCAtNjY3MSw2ICs2NzMzLDEwIEBACisjICBGaWxlOiBtZWxsYW5veC9tbHhzd19zcGVj
+dHJ1bTItMjkuMjAxMi4xMDEyLm1mYTIKKyMgIEZpbGU6IG1lbGxhbm94L21seHN3X3NwZWN0cnVt
+My0zMC4yMDEyLjEwMTIubWZhMgorIyAgRmlsZTogbWVsbGFub3gvbWx4c3dfc3BlY3RydW00LTM0
+LjIwMTIuMTAxMi5tZmEyCisjICtGaWxlOiBtZWxsYW5veC9tbHhzd19zcGVjdHJ1bS0xMy4yMDE0
+LjQwMTIubWZhMgorIyArRmlsZTogbWVsbGFub3gvbWx4c3dfc3BlY3RydW0yLTI5LjIwMTQuNDAx
+Mi5tZmEyCisjICtGaWxlOiBtZWxsYW5veC9tbHhzd19zcGVjdHJ1bTMtMzAuMjAxNC40MDEyLm1m
+YTIKKyMgK0ZpbGU6IG1lbGxhbm94L21seHN3X3NwZWN0cnVtNC0zNC4yMDE0LjQwMTIubWZhMgor
+IyAgCisjICBMaWNlbmNlOgorIyAgIENvcHlyaWdodCAoYykgMjAxNy0yMDIwIE1lbGxhbm94IFRl
+Y2hub2xvZ2llcywgTHRkLiBBbGwgcmlnaHRzIHJlc2VydmVkLgorIyBAQCAtNzY2Miw2ICs3NzI4
+LDU3IEBACisjICBMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4YjhmLWwx
+LmJpbiAtPiBjczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhiOGYtcjEuYmluCisjICBGaWxlOiBj
+aXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4YjkyLmJpbgorIyAgTGluazogY2lycnVz
+L2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGMyNi5iaW4gLT4gY3MzNWw0MS1kc3AxLXNway1w
+cm90LTEwM2M4YjQ1LmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0x
+MDNjOGQ5Zi53bWZ3IC0+IGNzMzVsNDEvdjYuODMuMC9oYWxvX2NzcGxfUkFNX3JldkIyXzI5Ljg1
+LjAud21mdworIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGRhNy53
+bWZ3IC0+IGNzMzVsNDEvdjYuODMuMC9oYWxvX2NzcGxfUkFNX3JldkIyXzI5Ljg1LjAud21mdwor
+IyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGUzNi53bWZ3IC0+IGNz
+MzVsNDEvdjYuODMuMC9oYWxvX2NzcGxfUkFNX3JldkIyXzI5Ljg1LjAud21mdworIyArRmlsZTog
+Y2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGQ5Zi1zcGtpZDAuYmluCisjICtGaWxl
+OiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZDlmLXNwa2lkMS5iaW4KKyMgK0xp
+bms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhkYTctc3BraWQwLmJpbiAtPiBj
+czM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhkOWYtc3BraWQwLmJpbgorIyArTGluazogY2lycnVz
+L2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGRhNy1zcGtpZDEuYmluIC0+IGNzMzVsNDEtZHNw
+MS1zcGstcHJvdC0xMDNjOGQ5Zi1zcGtpZDEuYmluCisjICtMaW5rOiBjaXJydXMvY3MzNWw0MS1k
+c3AxLXNway1wcm90LTEwM2M4ZTM2LXNwa2lkMC5iaW4gLT4gY3MzNWw0MS1kc3AxLXNway1wcm90
+LTEwM2M4ZDlmLXNwa2lkMC5iaW4KKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXBy
+b3QtMTAzYzhlMzYtc3BraWQxLmJpbiAtPiBjczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhkOWYt
+c3BraWQxLmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGRh
+MC53bWZ3IC0+IGNzMzVsNDEvdjYuODMuMC9oYWxvX2NzcGxfUkFNX3JldkIyXzI5Ljg1LjAud21m
+dworIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGRhMS53bWZ3IC0+
+IGNzMzVsNDEvdjYuODMuMC9oYWxvX2NzcGxfUkFNX3JldkIyXzI5Ljg1LjAud21mdworIyArTGlu
+azogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGUzNy53bWZ3IC0+IGNzMzVsNDEv
+djYuODMuMC9oYWxvX2NzcGxfUkFNX3JldkIyXzI5Ljg1LjAud21mdworIyArTGluazogY2lycnVz
+L2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGRhOC53bWZ3IC0+IGNzMzVsNDEvdjYuODMuMC9o
+YWxvX2NzcGxfUkFNX3JldkIyXzI5Ljg1LjAud21mdworIyArRmlsZTogY2lycnVzL2NzMzVsNDEt
+ZHNwMS1zcGstcHJvdC0xMDNjOGRhMC1zcGtpZDAuYmluCisjICtGaWxlOiBjaXJydXMvY3MzNWw0
+MS1kc3AxLXNway1wcm90LTEwM2M4ZGEwLXNwa2lkMS5iaW4KKyMgK0xpbms6IGNpcnJ1cy9jczM1
+bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhkYTEtc3BraWQwLmJpbiAtPiBjczM1bDQxLWRzcDEtc3Br
+LXByb3QtMTAzYzhkYTAtc3BraWQwLmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1z
+cGstcHJvdC0xMDNjOGRhMS1zcGtpZDEuYmluIC0+IGNzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNj
+OGRhMC1zcGtpZDEuYmluCisjICtMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEw
+M2M4ZTM3LXNwa2lkMC5iaW4gLT4gY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZGEwLXNwa2lk
+MC5iaW4KKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhlMzctc3Br
+aWQxLmJpbiAtPiBjczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhkYTAtc3BraWQxLmJpbgorIyAr
+TGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGRhOC1zcGtpZDAuYmluIC0+
+IGNzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGRhMC1zcGtpZDAuYmluCisjICtMaW5rOiBjaXJy
+dXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZGE4LXNwa2lkMS5iaW4gLT4gY3MzNWw0MS1k
+c3AxLXNway1wcm90LTEwM2M4ZGEwLXNwa2lkMS5iaW4KKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQx
+LWRzcDEtc3BrLXByb3QtMTAzYzhkOWIud21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3Bs
+X1JBTV9yZXZCMl8yOS44NS4wLndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3Br
+LXByb3QtMTAzYzhkOWMud21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZC
+Ml8yOS44NS4wLndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAz
+YzhkOWQud21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4w
+LndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhkOWUud21m
+dyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4wLndtZncKKyMg
+K0ZpbGU6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhkOWItc3BraWQwLmJpbgor
+IyArRmlsZTogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGQ5Yi1zcGtpZDEuYmlu
+CisjICtMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZDljLXNwa2lkMC5i
+aW4gLT4gY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZDliLXNwa2lkMC5iaW4KKyMgK0xpbms6
+IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhkOWMtc3BraWQxLmJpbiAtPiBjczM1
+bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhkOWItc3BraWQxLmJpbgorIyArTGluazogY2lycnVzL2Nz
+MzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGQ5ZC1zcGtpZDAuYmluIC0+IGNzMzVsNDEtZHNwMS1z
+cGstcHJvdC0xMDNjOGQ5Yi1zcGtpZDAuYmluCisjICtMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3Ax
+LXNway1wcm90LTEwM2M4ZDlkLXNwa2lkMS5iaW4gLT4gY3MzNWw0MS1kc3AxLXNway1wcm90LTEw
+M2M4ZDliLXNwa2lkMS5iaW4KKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3Qt
+MTAzYzhkOWUtc3BraWQwLmJpbiAtPiBjczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhkOWItc3Br
+aWQwLmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGQ5ZS1z
+cGtpZDEuYmluIC0+IGNzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGQ5Yi1zcGtpZDEuYmluCisj
+ICtMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZTExLndtZncgLT4gY3Mz
+NWw0MS92Ni44My4wL2hhbG9fY3NwbF9SQU1fcmV2QjJfMjkuODUuMC53bWZ3CisjICtMaW5rOiBj
+aXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZTEyLndtZncgLT4gY3MzNWw0MS92Ni44
+My4wL2hhbG9fY3NwbF9SQU1fcmV2QjJfMjkuODUuMC53bWZ3CisjICtMaW5rOiBjaXJydXMvY3Mz
+NWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZTEzLndtZncgLT4gY3MzNWw0MS92Ni44My4wL2hhbG9f
+Y3NwbF9SQU1fcmV2QjJfMjkuODUuMC53bWZ3CisjICtMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3Ax
+LXNway1wcm90LTEwM2M4ZTYwLndtZncgLT4gY3MzNWw0MS92Ni44My4wL2hhbG9fY3NwbF9SQU1f
+cmV2QjJfMjkuODUuMC53bWZ3CisjICtMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90
+LTEwM2M4ZTYxLndtZncgLT4gY3MzNWw0MS92Ni44My4wL2hhbG9fY3NwbF9SQU1fcmV2QjJfMjku
+ODUuMC53bWZ3CisjICtMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZTYy
+LndtZncgLT4gY3MzNWw0MS92Ni44My4wL2hhbG9fY3NwbF9SQU1fcmV2QjJfMjkuODUuMC53bWZ3
+CisjICtGaWxlOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZTExLXNwa2lkMC5i
+aW4KKyMgK0ZpbGU6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhlMTEtc3BraWQx
+LmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGUxMi1zcGtp
+ZDAuYmluIC0+IGNzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGUxMS1zcGtpZDAuYmluCisjICtM
+aW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZTEyLXNwa2lkMS5iaW4gLT4g
+Y3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZTExLXNwa2lkMS5iaW4KKyMgK0xpbms6IGNpcnJ1
+cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhlMTMtc3BraWQwLmJpbiAtPiBjczM1bDQxLWRz
+cDEtc3BrLXByb3QtMTAzYzhlMTEtc3BraWQwLmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEt
+ZHNwMS1zcGstcHJvdC0xMDNjOGUxMy1zcGtpZDEuYmluIC0+IGNzMzVsNDEtZHNwMS1zcGstcHJv
+dC0xMDNjOGUxMS1zcGtpZDEuYmluCisjICtMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1w
+cm90LTEwM2M4ZTYwLXNwa2lkMC5iaW4gLT4gY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZTEx
+LXNwa2lkMC5iaW4KKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhl
+NjAtc3BraWQxLmJpbiAtPiBjczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhlMTEtc3BraWQxLmJp
+bgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGU2MS1zcGtpZDAu
+YmluIC0+IGNzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGUxMS1zcGtpZDAuYmluCisjICtMaW5r
+OiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZTYxLXNwa2lkMS5iaW4gLT4gY3Mz
+NWw0MS1kc3AxLXNway1wcm90LTEwM2M4ZTExLXNwa2lkMS5iaW4KKyMgK0xpbms6IGNpcnJ1cy9j
+czM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhlNjItc3BraWQwLmJpbiAtPiBjczM1bDQxLWRzcDEt
+c3BrLXByb3QtMTAzYzhlMTEtc3BraWQwLmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNw
+MS1zcGstcHJvdC0xMDNjOGU2Mi1zcGtpZDEuYmluIC0+IGNzMzVsNDEtZHNwMS1zcGstcHJvdC0x
+MDNjOGUxMS1zcGtpZDEuYmluCisjICBMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90
+LTEwMjgwY2JkLndtZncgLT4gY3MzNWw0MS92Ni42MS4xL2hhbG9fY3NwbF9SQU1fcmV2QjJfMjku
+NjMuMS53bWZ3CisjICBMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwMjgwY2Jl
+LndtZncgLT4gY3MzNWw0MS92Ni42MS4xL2hhbG9fY3NwbF9SQU1fcmV2QjJfMjkuNjMuMS53bWZ3
+CisjICBMaW5rOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1wcm90LTEwMjgwY2JmLndtZncgLT4g
+Y3MzNWw0MS92Ni42MS4xL2hhbG9fY3NwbF9SQU1fcmV2QjJfMjkuNjMuMS53bWZ3CisjIEBAIC03
+ODgyLDEyICs3OTk5LDEyIEBACisjICBMaW5rOiBjaXJydXMvY3MzNWw1NC1iMC1kc3AxLW1pc2Mt
+MTAzYzhlMWEud21mdyAtPiBjczM1bDU2L0NTMzVMNTZfUmV2My4xMS4xMS4xLndtZncKKyMgIExp
+bms6IGNpcnJ1cy9jczM1bDU0LWIwLWRzcDEtbWlzYy0xMDNjOGUxYS1hbXAxLmJpbiAtPiBjczM1
+bDU0LWIwLWRzcDEtbWlzYy0xMDNjOGUxNS1hbXAxLmJpbgorIyAgTGluazogY2lycnVzL2NzMzVs
+NTQtYjAtZHNwMS1taXNjLTEwM2M4ZTFhLWFtcDIuYmluIC0+IGNzMzVsNTQtYjAtZHNwMS1taXNj
+LTEwM2M4ZTE1LWFtcDIuYmluCisjIC1MaW5rOiBjaXJydXMvY3MzNWw1NC1iMC1kc3AxLW1pc2Mt
+MTAzYzhlMWIud21mdyAtPiBjczM1bDU2L0NTMzVMNTZfUmV2My4xMS4xMS4xLndtZncKKyMgLUZp
+bGU6IGNpcnJ1cy9jczM1bDU0LWIwLWRzcDEtbWlzYy0xMDNjOGUxYi1hbXAxLmJpbgorIyAtRmls
+ZTogY2lycnVzL2NzMzVsNTQtYjAtZHNwMS1taXNjLTEwM2M4ZTFiLWFtcDIuYmluCisjIC1MaW5r
+OiBjaXJydXMvY3MzNWw1NC1iMC1kc3AxLW1pc2MtMTAzYzhlMWMud21mdyAtPiBjczM1bDU2L0NT
+MzVMNTZfUmV2My4xMS4xMS4xLndtZncKKyMgLUxpbms6IGNpcnJ1cy9jczM1bDU0LWIwLWRzcDEt
+bWlzYy0xMDNjOGUxYy1hbXAxLmJpbiAtPiBjczM1bDU0LWIwLWRzcDEtbWlzYy0xMDNjOGUxYi1h
+bXAxLmJpbgorIyAtTGluazogY2lycnVzL2NzMzVsNTQtYjAtZHNwMS1taXNjLTEwM2M4ZTFjLWFt
+cDIuYmluIC0+IGNzMzVsNTQtYjAtZHNwMS1taXNjLTEwM2M4ZTFiLWFtcDIuYmluCisjICtMaW5r
+OiBjaXJydXMvY3MzNWw1Ni1iMC1kc3AxLW1pc2MtMTAzYzhlMWIud21mdyAtPiBjczM1bDU2L0NT
+MzVMNTZfUmV2My4xMS4xMS4xLndtZncKKyMgK0ZpbGU6IGNpcnJ1cy9jczM1bDU2LWIwLWRzcDEt
+bWlzYy0xMDNjOGUxYi1hbXAxLmJpbgorIyArRmlsZTogY2lycnVzL2NzMzVsNTYtYjAtZHNwMS1t
+aXNjLTEwM2M4ZTFiLWFtcDIuYmluCisjICtMaW5rOiBjaXJydXMvY3MzNWw1Ni1iMC1kc3AxLW1p
+c2MtMTAzYzhlMWMud21mdyAtPiBjczM1bDU2L0NTMzVMNTZfUmV2My4xMS4xMS4xLndtZncKKyMg
+K0xpbms6IGNpcnJ1cy9jczM1bDU2LWIwLWRzcDEtbWlzYy0xMDNjOGUxYy1hbXAxLmJpbiAtPiBj
+czM1bDU2LWIwLWRzcDEtbWlzYy0xMDNjOGUxYi1hbXAxLmJpbgorIyArTGluazogY2lycnVzL2Nz
+MzVsNTYtYjAtZHNwMS1taXNjLTEwM2M4ZTFjLWFtcDIuYmluIC0+IGNzMzVsNTYtYjAtZHNwMS1t
+aXNjLTEwM2M4ZTFiLWFtcDIuYmluCisjICBMaW5rOiBjaXJydXMvY3MzNWw1Ni1iMC1kc3AxLW1p
+c2MtMTAzYzhlMmMud21mdyAtPiBjczM1bDU2L0NTMzVMNTZfUmV2My4xMS4xMS4xLndtZncKKyMg
+IExpbms6IGNpcnJ1cy9jczM1bDU2LWIwLWRzcDEtbWlzYy0xMDNjOGUyYy1hbXAxLmJpbiAtPiBj
+czM1bDU2LWIwLWRzcDEtbWlzYy0xMDNjOGQ5MC1hbXAxLmJpbgorIyAgTGluazogY2lycnVzL2Nz
+MzVsNTYtYjAtZHNwMS1taXNjLTEwM2M4ZTJjLWFtcDIuYmluIC0+IGNzMzVsNTYtYjAtZHNwMS1t
+aXNjLTEwM2M4ZDkwLWFtcDIuYmluCisjIEBAIC03OTA2LDYgKzgwMjMsOCBAQAorIyAgTGluazog
+Y2lycnVzL2NzMzVsNTYtYjAtZHNwMS1taXNjLTEwNDMxMjY0LndtZncgLT4gY3MzNWw1Ni9DUzM1
+TDU2X1JldjMuMTEuMTYud21mdworIyAgTGluazogY2lycnVzL2NzMzVsNTYtYjAtZHNwMS1taXNj
+LTEwNDMxMjY0LWFtcDEuYmluIC0+IGNzMzVsNTYtYjAtZHNwMS1taXNjLTEwNDMxZGYzLWFtcDEu
+YmluCisjICBMaW5rOiBjaXJydXMvY3MzNWw1Ni1iMC1kc3AxLW1pc2MtMTA0MzEyNjQtYW1wMi5i
+aW4gLT4gY3MzNWw1Ni1iMC1kc3AxLW1pc2MtMTA0MzFkZjMtYW1wMi5iaW4KKyMgK0xpbms6IGNp
+cnJ1cy9jczM1bDU2LWIwLWRzcDEtbWlzYy0xMDQzMTI2NC1hbXAzLmJpbiAtPiBjczM1bDU2LWIw
+LWRzcDEtbWlzYy0xMDQzMWRmMy1hbXAzLmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNTYtYjAt
+ZHNwMS1taXNjLTEwNDMxMjY0LWFtcDQuYmluIC0+IGNzMzVsNTYtYjAtZHNwMS1taXNjLTEwNDMx
+ZGYzLWFtcDQuYmluCisjICBMaW5rOiBjaXJydXMvY3MzNWw1Ni1iMC1kc3AxLW1pc2MtMTA0MzFi
+MTMtc3BraWQwLndtZncgLT4gY3MzNWw1Ni9DUzM1TDU2X1JldjMuMTEuMTYud21mdworIyAgRmls
+ZTogY2lycnVzL2NzMzVsNTYtYjAtZHNwMS1taXNjLTEwNDMxYjEzLXNwa2lkMC1hbXAxLmJpbgor
+IyAgRmlsZTogY2lycnVzL2NzMzVsNTYtYjAtZHNwMS1taXNjLTEwNDMxYjEzLXNwa2lkMC1hbXAy
+LmJpbgorIyBAQCAtODAzOSw2ICs4MTU4LDE0IEBACisjICBGaWxlOiBtZWRpYXRlay9zb2YtdHBs
+Zy9zb2YtbXQ4MTk1LW10NjM1OS1tYXg5ODM5MC1ydDU2ODIudHBsZworIyAgVmVyc2lvbjogdjAu
+NC4zCisjICAKKyMgK0ZpbGU6IG1lZGlhdGVrL3NvZi9zb2YtbXQ4MTg4LnJpCisjICtGaWxlOiBt
+ZWRpYXRlay9zb2Yvc29mLW10ODE4OC5sZGMKKyMgK0ZpbGU6IG1lZGlhdGVrL3NvZi10cGxnL3Nv
+Zi1tdDgxODgudHBsZworIyArVmVyc2lvbjogdjIuOAorIyArCisjICtGaWxlOiBtZWRpYXRlay9z
+b2YtdHBsZy9zb2YtbXQ4MTk1LnRwbGcKKyMgK1ZlcnNpb246IHYyLjgKKyMgKworIyAgTGljZW5j
+ZTogUmVkaXN0cmlidXRhYmxlLiBTZWUgTElDRU5DRS5tZWRpYXRlayBmb3IgZGV0YWlscy4KKyMg
+IAorIyAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgQEAgLTgxMjgsNiArODI1NSwyMSBAQAorIyAgCisj
+ICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQorIyAgCisjICtEcml2ZXI6IHFjb20teDFlODAxMDAgLSBRdWFs
+Y29tbSBBU29DIHRwbGcgRmlybXdhcmUKKyMgK0ZpbGU6IHFjb20veDFlODAxMDAvTEVOT1ZPLzIx
+TjEvWDFFODAxMDAtTEVOT1ZPLVRoaW5rcGFkLVQxNHMtdHBsZy5iaW4KKyMgK0xpbms6IHFjb20v
+eDFlODAxMDAvWDFFODAxMDAtTEVOT1ZPLVRoaW5rcGFkLVQxNHMtdHBsZy5iaW4gLT4gTEVOT1ZP
+LzIxTjEvWDFFODAxMDAtTEVOT1ZPLVRoaW5rcGFkLVQxNHMtdHBsZy5iaW4KKyMgK1ZlcnNpb246
+IHYwLjEuMAorIyArSW5mbzogREFURT0xNy4wMy4yMDI1CisjICsKKyMgK0ZpbGU6IHFjb20veDFl
+ODAxMDAvTEVOT1ZPLzgzRUQvWDFFODAxMDAtTEVOT1ZPLVlvZ2EtU2xpbTd4LXRwbGcuYmluCisj
+ICtMaW5rOiBxY29tL3gxZTgwMTAwL1gxRTgwMTAwLUxFTk9WTy1Zb2dhLVNsaW03eC10cGxnLmJp
+biAtPiBMRU5PVk8vODNFRC9YMUU4MDEwMC1MRU5PVk8tWW9nYS1TbGltN3gtdHBsZy5iaW4KKyMg
+K1ZlcnNpb246IHYwLjEuMAorIyArSW5mbzogREFURT0xNy4wMy4yMDI1CisjICsKKyMgK0xpY2Vu
+Y2U6IFJlZGlzdHJpYnV0YWJsZS4gU2VlIExJQ0VOQ0UubGluYXJvIGZvciBkZXRhaWxzCisjICtP
+cmlnaW5hdGVzIGZyb20gaHR0cHM6Ly9naXRodWIuY29tL2xpbnV4LW1zbS9hdWRpb3JlYWNoLXRv
+cG9sb2d5LmdpdAorIyArCisjICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyAgRHJpdmVyOiB0aS10YXMy
+NzgxIC0gdGFzMjc4MSBmaXJtd2FyZQorIyAgRmlsZTogdGkvdGFzMjc4MS9UQVMyWFhYMEM5NC5i
+aW4KKyMgIEZpbGU6IHRpL3RhczI3ODEvVEFTMlhYWDBDOTUuYmluCisjIEBAIC04MzQzLDExICs4
+NDg1LDExIEBACisjICBEcml2ZXI6IGludGVsX3ZwdSAtLSBJbnRlbCBOUFUgZHJpdmVyCisjICAK
+KyMgIEZpbGU6IGludGVsL3ZwdS92cHVfMzd4eF92MS5iaW4KKyMgLVZlcnNpb246IGNpX3RhZ191
+ZDIwMjUwNF92cHVfcmNfMjAyNTAxMTVfMTkwNQorIyArVmVyc2lvbjogY2lfdGFnX3VkMjAyNTEy
+X3ZwdV9yY18yMDI1MDMwNl8xMTMwCisjICBMaW5rOiBpbnRlbC92cHUvdnB1XzM3eHhfdjAuMC5i
+aW4gLT4gdnB1XzM3eHhfdjEuYmluCisjICAKKyMgIEZpbGU6IGludGVsL3ZwdS92cHVfNDB4eF92
+MS5iaW4KKyMgLVZlcnNpb246IGNpX3RhZ191ZDIwMjUwNF92cHVfcmNfMjAyNTAxMTVfMTkwNQor
+IyArVmVyc2lvbjogY2lfdGFnX3VkMjAyNTEyX3ZwdV9yY18yMDI1MDMwNl8xMTMwCisjICBMaW5r
+OiBpbnRlbC92cHUvdnB1XzQweHhfdjAuMC5iaW4gLT4gdnB1XzQweHhfdjEuYmluCisjICAKKyMg
+IExpY2Vuc2U6IFJlZGlzdHJpYnV0YWJsZS4gU2VlIExJQ0VOU0UuaW50ZWxfdnB1IGZvciBkZXRh
+aWxzCisjIAorIworCiBTVU1NQVJZID0gIkZpcm13YXJlIGZpbGVzIGZvciB1c2Ugd2l0aCBMaW51
+eCBrZXJuZWwiCiBIT01FUEFHRSA9ICJodHRwczovL3d3dy5rZXJuZWwub3JnLyIKIERFU0NSSVBU
+SU9OID0gIkxpbnV4IGZpcm13YXJlIGlzIGEgcGFja2FnZSBkaXN0cmlidXRlZCBhbG9uZ3NpZGUg
+dGhlIExpbnV4IGtlcm5lbCBcCkBAIC0xNTYsNyArNTY1LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9
+ICJmaWxlOi8vTElDRU5DRS5BYmlsaXM7bWQ1PWI1ZWUzZjQxMDc4MGU1NjcxMWFkNDhlYWRjMjJi
+OGJjIFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL0xJQ0VOQ0UueGM1MDAwO21kNT0xZTE3
+MGMxMzE3NTMyM2MzMmM3ZjRkMDk5OGQ1M2Y2NiBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6
+Ly9MSUNFTkNFLnhjNTAwMGM7bWQ1PTEyYjAyZWZhMzA0OWRiNjVkNTI0YWViNDE4ZGQ4N2NhIFwK
+ICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3dmeC9MSUNFTkNFLndmMjAwO21kNT00ZDFiZWZm
+MDBkOTAyYzA1YzljN2U5NWE1ZDhlYjUyZCBcCi0gICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9X
+SEVOQ0U7bWQ1PSR7V0hFTkNFX0NIS1NVTX0gXAorICAgICAgICAgICAgICAgICAgICBmaWxlOi8v
+V0hFTkNFO21kNT03ZGRmYjQ0YzE2ZTM0ZGNkOGJiYWNjNDgzOWFiNzhkYyBcCiAgICAgICAgICAg
+ICAgICAgICAgICIKICMgV0hFTkNFIGNoZWNrc3VtIGlzIGRlZmluZWQgc2VwYXJhdGVseSB0byBl
+YXNlIG92ZXJyaWRpbmcgaXQgaWYKICMgY2xhc3MtZGV2dXBzdHJlYW0gaXMgc2VsZWN0ZWQuCkBA
+IC0yNTAsNyArNjU5LDcgQEAgU1JDX1VSSTpjbGFzcy1kZXZ1cHN0cmVhbSA9ICJnaXQ6Ly9naXQu
+a2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvZmlybXcKICMgUGluIHRoaXMgdG8g
+dGhlIDIwMjIwNTA5IHJlbGVhc2UsIG92ZXJyaWRlIHRoaXMgaW4gbG9jYWwuY29uZgogU1JDUkVW
+OmNsYXNzLWRldnVwc3RyZWFtID89ICJiMTljYmRjYTc4YWIyYWRmZDIxMGM5MWJlMTVhMjI1Njhl
+OGI4Y2FlIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjEwODNhMzZmMTlhZWE0NmY2NjFkY2Zk
+NGNkNDYyZDEzOTMzZGNiNGU3ZjBkYzgwOTUyNTU1MmRkNWMzNTQxZCIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICIyYWU2YWFiMmQ4OTMwZmQ1NGJmMzBhZTE1NDk4ZjE2MjU3MjFiYzM2MzBiODk0NjQ0
+ZGI1ZDIxZmFkNWEyMGY5IgogCiBpbmhlcml0IGFsbGFyY2gKIAotLSAKMi40Ny4xCgo=
 
---===============8858765235613220144==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 928 .bb files complete (0 cached, 928 parsed). 1898 targets, 50 skipped, 0 masked, 0 errors.
-Removing 39 recipes from the core2-64 sysroot...done.
-Removing 70 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:07a040351c5ee4db1182feadeaf7d59ccb22aac7"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 558 Local 547 Mirrors 0 Missed 11 Current 273 (98% match, 98% complete)
-Removing 2 stale sstate objects for arch qemux86_64...done.
-Removing 3 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 276 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.37.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 282 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_qa_setscene)
-NOTE: Running setscene task 287 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.6.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 289 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 291 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.37.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 292 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.6.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 293 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.37.bb:do_package_qa_setscene)
-NOTE: Running setscene task 294 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_qa_setscene)
-NOTE: Running setscene task 299 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 309 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 310 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 312 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 313 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 314 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 316 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 320 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/findutils/findutils_4.10.0.bb:do_package_write_deb_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_qa_setscene: Started
-NOTE: recipe bash-5.2.37-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_package_qa_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe bash-5.2.37-r0: task do_create_spdx_setscene: Started
-NOTE: recipe coreutils-9.6-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_populate_lic_setscene: Started
-NOTE: recipe coreutils-9.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-5.2.37-r0: task do_package_qa_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe coreutils-9.6-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe gawk-5.3.2-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe coreutils-9.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gawk-5.3.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe findutils-4.10.0-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_qa_setscene: Succeeded
-NOTE: Running setscene task 323 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.11.bb:do_package_write_deb_setscene)
-NOTE: recipe make-4.4.1-r0: task do_package_qa_setscene: Succeeded
-NOTE: Running setscene task 324 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/findutils/findutils_4.10.0.bb:do_package_write_rpm_setscene)
-NOTE: recipe bash-5.2.37-r0: task do_package_qa_setscene: Succeeded
-NOTE: Running setscene task 327 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_deb_setscene)
-NOTE: recipe make-4.4.1-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe bash-5.2.37-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 329 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 330 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/findutils/findutils_4.10.0.bb:do_package_qa_setscene)
-NOTE: Running setscene task 335 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.11.bb:do_package_write_rpm_setscene)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 336 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.11.bb:do_package_write_ipk_setscene)
-NOTE: recipe gawk-5.3.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe findutils-4.10.0-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe grep-3.11-r0: task do_package_write_deb_setscene: Started
-NOTE: Running setscene task 338 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_package_qa_setscene)
-NOTE: Running setscene task 341 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.37.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 344 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_package_write_rpm_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe findutils-4.10.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-5.2.37-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe coreutils-9.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gawk-5.3.2-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 351 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_ipk_setscene)
-NOTE: recipe coreutils-9.6-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 354 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 356 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.6.bb:do_package_qa_setscene)
-NOTE: Running setscene task 357 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_qa_setscene)
-NOTE: recipe findutils-4.10.0-r0: task do_package_qa_setscene: Started
-NOTE: recipe grep-3.11-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe grep-3.11-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe gawk-5.3.2-r0: task do_package_qa_setscene: Started
-NOTE: recipe gawk-5.3.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-5.2.37-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe coreutils-9.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 358 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.37.bb:do_package_write_ipk_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 361 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/findutils/findutils_4.10.0.bb:do_create_spdx_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_ipk_setscene: Started
-NOTE: Running setscene task 362 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_write_deb_setscene)
-NOTE: recipe findutils-4.10.0-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe grep-3.11-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 363 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_write_rpm_setscene)
-NOTE: recipe coreutils-9.6-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 364 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_package_write_ipk_setscene)
-NOTE: recipe findutils-4.10.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe coreutils-9.6-r0: task do_package_qa_setscene: Started
-NOTE: Running setscene task 371 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/findutils/findutils_4.10.0.bb:do_package_write_ipk_setscene)
-NOTE: recipe gawk-5.3.2-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe grep-3.11-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe grep-3.11-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 377 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/popt/popt_1.19.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 378 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.11.bb:do_package_qa_setscene)
-NOTE: Running setscene task 382 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 383 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.11.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_package_qa_setscene: Started
-NOTE: recipe gawk-5.3.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 385 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.84.0.bb:do_create_spdx_setscene)
-NOTE: recipe bash-5.2.37-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe findutils-4.10.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe coreutils-9.6-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe bash-5.2.37-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 388 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 400 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata_setscene)
-NOTE: recipe findutils-4.10.0-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe python3-3.13.2-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe popt-1.19-r0: task do_create_spdx_setscene: Started
-NOTE: recipe grep-3.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe grep-3.11-r0: task do_package_qa_setscene: Started
-NOTE: recipe gawk-5.3.2-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.84.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe findutils-4.10.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe grep-3.11-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe grep-3.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe findutils-4.10.0-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe bash-5.2.37-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 410 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/findutils/findutils_4.10.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 411 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 412 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.11.bb:do_packagedata_setscene)
-NOTE: recipe popt-1.19-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gawk-5.3.2-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 413 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/popt/popt_1.19.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 414 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/popt/popt_1.19.bb:do_packagedata_setscene)
-NOTE: Running setscene task 415 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_packagedata_setscene)
-NOTE: recipe make-4.4.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.84.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 417 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 420 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.84.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 422 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.84.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 423 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 425 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_create_spdx_setscene)
-NOTE: recipe grep-3.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe findutils-4.10.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.40.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe popt-1.19-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe popt-1.19-r0: task do_packagedata_setscene: Started
-NOTE: recipe gawk-5.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.40.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.84.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.84.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-3.13.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe popt-1.19-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-3.13.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe util-linux-2.40.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 445 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gawk-5.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 449 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 451 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 452 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
-NOTE: recipe findutils-4.10.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe popt-1.19-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 453 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 454 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb:do_packagedata_setscene)
-NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 455 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc_14.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 456 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 457 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
-NOTE: Running setscene task 459 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.37.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/grep/3.11/temp/log.do_packagedata_setscene.2143835
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.11.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 463 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 464 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils_2.44.bb:do_packagedata_setscene)
-NOTE: Running setscene task 465 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: recipe readline-8.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.84.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 466 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/findutils/findutils_4.10.0.bb:do_recipe_qa_setscene)
-NOTE: recipe ca-certificates-20241223-r0: task do_packagedata_setscene: Started
-NOTE: recipe gawk-5.3.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe tzdata-2025b-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 467 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe coreutils-9.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.2.37-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gawk-5.3.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 469 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.11.bb:do_package_setscene)
-NOTE: recipe binutils-2.44-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe findutils-4.10.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ca-certificates-20241223-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe readline-8.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe tzdata-2025b-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe findutils-4.10.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.84.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe binutils-2.44-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-5.2.37-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe coreutils-9.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 472 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 473 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 475 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/popt/popt_1.19.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 476 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 497 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 498 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.192.bb:do_packagedata_setscene)
-NOTE: Running setscene task 499 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 501 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 502 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 503 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 504 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 507 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.17.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 509 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.84.0.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 515 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_recipe_qa_setscene)
-NOTE: recipe popt-1.19-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe elfutils-0.192-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.17.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.40.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.40.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.84.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 519 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.6.bb:do_recipe_qa_setscene)
-NOTE: recipe popt-1.19-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 520 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.37.bb:do_recipe_qa_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 526 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.84.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 528 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_packagedata_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bash-5.2.37-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.40.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 540 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_78.1.0.bb:do_packagedata_setscene)
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 542 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_78.1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 545 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_recipe_qa_setscene)
-NOTE: recipe coreutils-9.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe elfutils-0.192-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 550 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/json-c/json-c_0.18.bb:do_packagedata_setscene)
-NOTE: Running setscene task 551 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 553 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 554 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
-NOTE: Running setscene task 557 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_packagedata_setscene)
-NOTE: recipe bash-5.2.37-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 559 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
-NOTE: recipe grep-3.11-r0: task do_package_setscene: Started
-NOTE: recipe coreutils-9.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-setuptools-78.1.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 560 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-setuptools-78.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-4.17.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe libarchive-3.7.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-setuptools-78.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 579 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_packagedata_setscene)
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libarchive-3.7.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 600 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.12.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 601 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 602 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 605 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.46.bb:do_packagedata_setscene)
-NOTE: Running setscene task 606 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_packagedata_setscene)
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-setuptools-78.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-3.13.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 613 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 614 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_78.1.0.bb:do_recipe_qa_setscene)
-NOTE: recipe file-5.46-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe curl-8.12.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcrypt-1.11.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-setuptools-78.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe file-5.46-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 617 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/lzip/lzlib_1.15.bb:do_packagedata_setscene)
-NOTE: Running setscene task 618 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
-NOTE: recipe libgcrypt-1.11.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.13.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe curl-8.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-setuptools-78.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 627 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb:do_packagedata_setscene)
-NOTE: Running setscene task 628 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.75.bb:do_packagedata_setscene)
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 633 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
-NOTE: recipe lzlib-1.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.40.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 638 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 640 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 641 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 642 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 643 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe gnutls-3.8.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-2.75-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 645 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 646 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_packagedata_setscene)
-NOTE: recipe libgpg-error-1.51-r0: task do_packagedata_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe lzlib-1.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 649 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_packagedata_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.40.4-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 658 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.10.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 660 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.7.1.bb:do_packagedata_setscene)
-NOTE: recipe libcap-2.75-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 661 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.7.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-2.40.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtasn1-4.20.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 662 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_packagedata_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 665 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 666 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.4.bb:do_packagedata_setscene)
-NOTE: recipe nettle-3.10.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.7.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libgpg-error-1.51-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 667 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 668 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.5.0.bb:do_packagedata_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 669 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.48.0.bb:do_packagedata_setscene)
-NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 673 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 681 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 682 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 683 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.5.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 684 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe nettle-3.10.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.7.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 685 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 690 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 691 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.7.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 693 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 694 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 700 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.48.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 703 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.7.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 708 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_packagedata_setscene)
-NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 711 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 716 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 719 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.3.bb:do_packagedata_setscene)
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 721 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: recipe openssl-3.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 723 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe xz-5.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 728 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.7.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 729 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.7.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 731 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.4.bb:do_recipe_qa_setscene)
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 734 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Started
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 735 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 736 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.7.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 738 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.48.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.13.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 744 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe expat-2.7.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 752 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 753 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.5.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 754 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
-NOTE: recipe expat-2.7.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe grep-3.11-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 757 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 758 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.45.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 759 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.45.bb:do_packagedata_setscene)
-NOTE: Running setscene task 761 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.11.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpcre2-10.45-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.45-r0: task do_packagedata_setscene: Started
-NOTE: recipe grep-3.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe grep-3.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpcre2-10.45-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 763 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: recipe libpcre2-10.45-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 765 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 766 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.45.bb:do_recipe_qa_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.45-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1137 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_recipe_qa)
-NOTE: recipe libpcre2-10.45-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 769 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_recipe_qa: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe perl-5.40.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 773 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running setscene task 774 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 775 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
-NOTE: Running setscene task 776 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 777 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 778 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1428 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_fetch)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_fetch: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 782 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 784 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe babeltrace2-2.1.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1433 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_unpack)
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 786 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 788 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 789 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_unpack: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 791 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 792 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 794 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 796 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 798 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 799 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 800 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 801 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 803 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1454 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_patch)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_patch: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 807 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 809 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe babeltrace2-2.1.1-r0: task do_patch: Succeeded
-NOTE: Running task 1459 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 810 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 813 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 814 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 818 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 819 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 821 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 824 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 827 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 830 of 831 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1900 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2077 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.11.bb:do_packagedata)
-NOTE: Running task 2197 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_collect_spdx_deps)
-NOTE: recipe grep-3.11-r0: task do_packagedata: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe grep-3.11-r0: task do_packagedata: Succeeded
-NOTE: recipe babeltrace2-2.1.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe babeltrace2-2.1.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2264 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_configure)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_configure: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_configure: Succeeded
-NOTE: Running task 2265 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_configure_ptest_base)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2266 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_compile)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_compile: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_compile: Succeeded
-NOTE: Running task 2267 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_compile_ptest_base)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2268 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_install)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_install: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_install: Succeeded
-NOTE: Running task 2269 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_install_ptest_base)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_install_ptest_base: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2270 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_package)
-NOTE: Running task 2271 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_populate_sysroot)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_populate_sysroot: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_package: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe babeltrace2-2.1.1-r0: task do_package: Succeeded
-NOTE: Running task 2272 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_packagedata)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_packagedata: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2273 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_create_spdx)
-NOTE: Running task 2274 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_package_write_ipk)
-NOTE: Running task 2275 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_package_write_deb)
-NOTE: Running task 2276 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_package_write_rpm)
-NOTE: Running task 2277 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_package_qa)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_create_spdx: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_package_write_ipk: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_package_write_deb: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_package_write_rpm: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_package_qa: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2278 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_create_package_spdx)
-NOTE: recipe babeltrace2-2.1.1-r0: task do_create_package_spdx: Started
-NOTE: recipe babeltrace2-2.1.1-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe babeltrace2-2.1.1-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe babeltrace2-2.1.1-r0: task do_package_qa: Succeeded
-NOTE: recipe babeltrace2-2.1.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe babeltrace2-2.1.1-r0: task do_package_write_deb: Succeeded
-NOTE: Running noexec task 2279 of 2279 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb:do_build)
-NOTE: Tasks Summary: Attempted 2279 tasks of which 2255 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 52 ERROR messages, returning a non-zero exit code.
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-src went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-dbg went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-staticdev went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-dev went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-doc went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-af went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-be went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-bg went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-ca went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-cs went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-da went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-de went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-el went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-eo went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-es went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-et went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-eu went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-fi went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-fr went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-ga went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-gl went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-he went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-hr went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-hu went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-id went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-it went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-ja went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-ka went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-ko went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-ky went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-lt went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-nb went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-nl went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-pa went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-pl went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-pt went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-pt-br went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-ro went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-ru went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-sk went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-sl went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-sr went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-sv went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-ta went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-th went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-tr went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-uk went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-vi went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-zh-cn went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep-locale-zh-tw went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: QA Issue: Package version for package grep went backwards which would break package feeds (from 0:3.12-r0 to 0:3.11-r0) [version-going-backwards]
-ERROR: grep-3.11-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============8858765235613220144==
+--===============4471392081627547756==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-dbg: PV changed from "2.1.0" to "2.1.1"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-dbg: PKGSIZE changed from 75678832 to 75655264 (-0%)
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-dbg: PKGV changed from 2.1.0 [default] to 2.1.1 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-dev: PV changed from "2.1.0" to "2.1.1"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-dev: PKGV changed from 2.1.0 [default] to 2.1.1 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-doc: PV changed from "2.1.0" to "2.1.1"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-doc: PKGSIZE changed from 424265 to 424839 (+0%)
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-doc: PKGV changed from 2.1.0 [default] to 2.1.1 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-locale: PV changed from "2.1.0" to "2.1.1"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-locale: PKGV changed from 2.1.0 [default] to 2.1.1 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: PV changed from "2.1.0" to "2.1.1"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: PKGV changed from 2.1.0 [default] to 2.1.1 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-src: PV changed from "2.1.0" to "2.1.1"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-src: PKGSIZE changed from 8510067 to 8508348 (-0%)
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-src: PKGV changed from 2.1.0 [default] to 2.1.1 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-staticdev: PV changed from "2.1.0" to "2.1.1"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-staticdev: PKGV changed from 2.1.0 [default] to 2.1.1 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2: PV changed from "2.1.0" to "2.1.1"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2: PKGV changed from 2.1.0 [default] to 2.1.1 [default]
-packages/core2-64-poky-linux/babeltrace2: PV changed from "2.1.0" to "2.1.1"
-packages/core2-64-poky-linux/babeltrace2: PKGV changed from 2.1.0 [default] to 2.1.1 [default]
+packages/all-poky-linux/linux-firmware: SRC_URI changed from "https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20250311.tar.xz" to "https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20250410.tar.xz"
+packages/all-poky-linux/linux-firmware: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-aldebaran: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-aldebaran: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-carrizo: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-carrizo: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-cezanne: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-cezanne: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-fiji: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-fiji: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-hawaii: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-hawaii: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-misc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-misc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-misc: PKGSIZE changed from 57776452 to 57781828 (+0%)
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi10: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi10: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi14: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi14: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi21: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi21: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi22: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi22: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi23: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi23: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi24: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi24: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi31: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi31: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi32: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-navi32: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-oland: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-oland: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-polaris10: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-polaris10: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-polaris11: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-polaris11: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-polaris12: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-polaris12: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-raven: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-raven: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-rembrandt: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-rembrandt: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-renoir: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-renoir: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-stoney: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-stoney: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-tonga: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-tonga: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-topaz: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-topaz: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-vega10: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-vega10: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-vega12: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-vega12: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amphion-vpu-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amphion-vpu-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amphion-vpu: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-amphion-vpu: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar5523: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar5523: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar9170: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar9170: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-misc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-misc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca4019: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca4019: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca6174: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca6174: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca9377: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca9377: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca9887: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca9887: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca9888: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca9888: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca988x: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca988x: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca9984: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca9984: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca99x0: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-qca99x0: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-wcn3990: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-wcn3990: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-ipq5018: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-ipq5018: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-ipq6018: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-ipq6018: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-ipq8074: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-ipq8074: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-misc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-misc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-qca2066: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-qca2066: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-qca6390: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-qca6390: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-qca6698aq: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-qca6698aq: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-qcn9074: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-qcn9074: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-wcn6750: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-wcn6750: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-wcn6855: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k-wcn6855: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath12k-misc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath12k-misc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath12k-qcn9274: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath12k-qcn9274: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath12k-wcn7850: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath12k-wcn7850: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath12k: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath12k: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath3k: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath3k: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath6k: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath6k: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath9k: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath9k: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-atheros-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-atheros-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm-0bb4-0306: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm-0bb4-0306: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43143: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43143: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43236b: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43236b: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b0: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b0: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b4: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b4: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b5: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b5: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43242a: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43242a: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329-fullmac: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329-fullmac: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4330: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4330: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4334: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4334: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43340: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43340: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4335: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4335: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43362: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43362: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4339: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4339: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430a0: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430a0: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43455: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43455: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350c2: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350c2: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4354: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4354: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356-pcie: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356-pcie: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43569: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43569: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43570: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43570: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4358: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4358: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43602: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43602: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366b: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366b: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366c: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366c: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4371: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4371: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4373: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4373: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx-hdr: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx-hdr: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bnx2: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bnx2: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bnx2x: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-bnx2x: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-broadcom-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-broadcom-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-carl9170: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-carl9170: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cc33xx: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-cc33xx: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus: FILELIST: removed "/usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1c.wmfw /usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1b.wmfw /usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1c-amp2.bin /usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1c-amp1.bin /usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp1.bin /usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp2.bin", added "/usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1b.wmfw /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1c.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da8-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da8-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e12-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e12-spkid1.bin /usr/lib/f
+ irmware/cirrus/cs35l41-dsp1-spk-prot-103c8e13-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e13-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e36-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e36-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da1.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da7.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da8.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da7-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da7-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e37-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e37-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e60-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e60-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e61-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e61-spkid1.bin /usr/lib/firmware/ci
+ rrus/cs35l41-dsp1-spk-prot-103c8e62-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e62-spkid1.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1c-amp2.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9b-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9b-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9c-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9c-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9d-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9d-spkid1.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-10431264-amp4.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1b-amp1.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1c-amp1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9e-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9e-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9f-spkid0.bin /usr/lib/firmware/cirrus
+ /cs35l41-dsp1-spk-prot-103c8d9f-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da0-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da0-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da1-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da1-spkid1.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-10431264-amp3.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9b.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9c.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9d.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9e.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9f.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e11.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e12.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e13.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e36.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e37.wmfw /usr/lib/fir
+ mware/cirrus/cs35l41-dsp1-spk-prot-103c8e60.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e61.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e62.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da0.wmfw /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1b-amp2.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus: PKGSIZE changed from 3645351 to 3685161 (+1%)
+packages/all-poky-linux/linux-firmware/linux-firmware-cnm-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-cnm-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cnm: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-cnm: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cw1200-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-cw1200-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cw1200: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-cw1200: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cypress-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-cypress-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-dbg: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-dbg: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-dev: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-dev: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-doc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-doc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-i915-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-11-5: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-11-5: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-12-16: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-12-16: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-17: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-17: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-18: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-18: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-20: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-20: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-7: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-7: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-8: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-8: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: FILELIST: added "/usr/lib/firmware/intel/ibt-0190-0291-usb.sfi /usr/lib/firmware/intel/ibt-0190-0291-usb.ddc /usr/lib/firmware/intel/ibt-0190-0041-pci.sfi /usr/lib/firmware/intel/ibt-0190-0291-pci.sfi /usr/lib/firmware/intel/ibt-0190-0041-pci.ddc /usr/lib/firmware/intel/ibt-0190-0291-pci.ddc /usr/lib/firmware/intel/ibt-0190-0041-usb.ddc /usr/lib/firmware/intel/ibt-0190-0041-usb.sfi"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PKGSIZE changed from 25122558 to 28436590 (+13%)
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-enhanced-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-enhanced-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-enhanced: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-enhanced: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ice: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ice: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx6q: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx6q: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx7d: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx7d: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-135-6: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-135-6: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-10: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-10: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-12: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-12: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-13: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-13: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-16: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-16: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-17: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-17: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-7: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-7: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-8: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-8: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-9: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-9: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000-4: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000-4: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-5: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-5: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-6: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-6: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-5: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-5: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-6: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-6: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-4: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-4: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-5: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-5: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7260: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7260: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265d: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265d: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8000c: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8000c: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8265: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8265: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-9000: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-9000: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-9260: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-9260: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: FILELIST: added "/usr/lib/firmware/iwlwifi-bz-b0-fm-c0-97.ucode /usr/lib/firmware/iwlwifi-gl-c0-fm-c0-97.ucode /usr/lib/firmware/iwlwifi-bz-b0-gf-a0-97.ucode"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PKGSIZE changed from 185648544 to 191259744 (+3%)
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-license: FILELIST: added "/usr/lib/firmware/LICENSE.aeonsemi"
+packages/all-poky-linux/linux-firmware/linux-firmware-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-license: PKGSIZE changed from 118966 to 119586 (+1%)
+packages/all-poky-linux/linux-firmware/linux-firmware-linaro-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-linaro-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-liquidio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-liquidio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-locale: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-locale: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-lontium-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-lontium-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-lt9611uxc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-lt9611uxc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mali-csffw-arch108: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-mali-csffw-arch108: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mali-csffw-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-mali-csffw-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-marvell-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-marvell-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek: FILELIST: added "/usr/lib/firmware/mediatek/mt8188/scp.img /usr/lib/firmware/mediatek/sof/sof-mt8188.ri /usr/lib/firmware/mediatek/sof-tplg/sof-mt8188.tplg /usr/lib/firmware/mediatek/sof-tplg/sof-mt8195.tplg /usr/lib/firmware/mediatek/sof/sof-mt8188.ldc"
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek: PKGSIZE changed from 45542913 to 46378231 (+2%)
+packages/all-poky-linux/linux-firmware/linux-firmware-mellanox: FILELIST: added "/usr/lib/firmware/mellanox/mlxsw_spectrum3-30.2014.4012.mfa2 /usr/lib/firmware/mellanox/mlxsw_spectrum2-29.2014.4012.mfa2 /usr/lib/firmware/mellanox/mlxsw_spectrum-13.2014.4012.mfa2 /usr/lib/firmware/mellanox/mlxsw_spectrum4-34.2014.4012.mfa2"
+packages/all-poky-linux/linux-firmware/linux-firmware-mellanox: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-mellanox: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mellanox: PKGSIZE changed from 85484140 to 98640572 (+15%)
+packages/all-poky-linux/linux-firmware/linux-firmware-microchip-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-microchip-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-microchip: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-microchip: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-moxa-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-moxa-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-moxa: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-moxa: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7650: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7650: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt76x-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt76x-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt76x2: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt76x2: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra-k1: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra-k1: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-mc-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-mc-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-mc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-mc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8987-sdio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8987-sdio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-common: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-common: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-pcie: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-pcie: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-sdio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-sdio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-common: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-common: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-pcie: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-pcie: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-sdio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-sdio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxpiw416-sdio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxpiw416-sdio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxpiw612-sdio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxpiw612-sdio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-olpc-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-olpc-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-olpc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-olpc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8897: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8897: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8997: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8997: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-phanfw-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-phanfw-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-phanfw: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-phanfw: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-powervr-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-powervr-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-powervr: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-powervr: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-prestera: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-prestera: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qat-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qat-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qat: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qat: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-misc: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-misc: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca2066: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca2066: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca61x4-serial: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca61x4-serial: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca61x4-usb: FILELIST: added "/usr/lib/firmware/qca/nvm_usb_00190200_0108.bin /usr/lib/firmware/qca/nvm_usb_00190200_0109.bin /usr/lib/firmware/qca/nvm_usb_00190200_0111.bin /usr/lib/firmware/qca/nvm_usb_00190200_010c.bin /usr/lib/firmware/qca/nvm_usb_00190200_0104.bin /usr/lib/firmware/qca/nvm_usb_00190200_010a.bin /usr/lib/firmware/qca/nvm_usb_00190200_0106.bin /usr/lib/firmware/qca/nvm_usb_00190200_0110.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca61x4-usb: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca61x4-usb: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca61x4-usb: PKGSIZE changed from 1117172 to 1236203 (+11%)
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca6390: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca6390: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca6698: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca6698: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-wcn3950: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-wcn3950: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-wcn3988: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-wcn3988: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-wcn399x: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-wcn399x: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-wcn6750: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-wcn6750: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-wcn7850: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-wcn7850: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-2-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-2-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a2xx: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a2xx: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a3xx: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a3xx: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a4xx: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a4xx: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a530: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a530: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a623: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a623: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a630: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a630: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a650: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a650: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a660: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a660: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a663: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a663: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a702: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a702: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-g750: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-g750: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-aic100: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-aic100: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8016-modem: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8016-modem: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8016-wifi: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8016-wifi: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-audio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-audio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-modem: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-modem: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm2290-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm2290-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm2290-audio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm2290-audio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm2290-modem: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm2290-modem: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm2290-wifi: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm2290-wifi: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm6490-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm6490-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm6490-audio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm6490-audio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm6490-compute: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm6490-compute: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm6490-ipa: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm6490-ipa: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm6490-wifi: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcm6490-wifi: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcs615-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcs615-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcs8300-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qcs8300-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qdu100: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qdu100: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qrb4210-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qrb4210-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qrb4210-audio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qrb4210-audio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qrb4210-compute: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qrb4210-compute: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qrb4210-modem: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qrb4210-modem: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qrb4210-wifi: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-qrb4210-wifi: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sa8775p-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sa8775p-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sa8775p-audio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sa8775p-audio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sa8775p-compute: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sa8775p-compute: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sa8775p-generalpurpose: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sa8775p-generalpurpose: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-audio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-audio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compat: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compat: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compute: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compute: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-sensors: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-sensors: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-audio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-audio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-compute: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-compute: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-thundercomm-db845c-sensors: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-thundercomm-db845c-sensors: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-audio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-audio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-compute: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-compute: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-thundercomm-rb5-sensors: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-thundercomm-rb5-sensors: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8550-audio-tplg: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8550-audio-tplg: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8650-audio-tplg: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8650-audio-tplg: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-1.8: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-1.8: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-4.2: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-4.2: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.2: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.2: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.4: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.4: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-6.0: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-6.0: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu: PKGSIZE changed from 8608749 to 8619213 (+0%)
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-x1e80100-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-x1e80100-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-x1e80100-audio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-x1e80100-audio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-x1e80100-lenovo-t14s-g6-adreno: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-x1e80100-lenovo-t14s-g6-adreno: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-x1e80100-lenovo-t14s-g6-audio: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-x1e80100-lenovo-t14s-g6-audio: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-x1e80100-lenovo-t14s-g6-compute: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-x1e80100-lenovo-t14s-g6-compute: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-yamato-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-yamato-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qed: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qed: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qla2xxx-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qla2xxx-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qla2xxx: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-qla2xxx: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rockchip-dptx: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rockchip-dptx: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rockchip-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rockchip-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9113: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9113: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9116: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9116: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl-nic: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl-nic: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8168: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8168: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8188: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8188: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192ce: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192ce: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192cu: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192cu: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192su: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192su: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8723: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8723: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8761: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8761: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8821: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8821: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8822: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8822: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8686: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8686: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8688: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8688: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8787: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8787: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8797: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8797: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8801: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8801: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8887: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8887: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8897: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8897: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8997: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8997: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-src: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-src: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-staticdev: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-staticdev: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-connectivity-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-connectivity-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-keystone-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-keystone-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-keystone: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-keystone: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-usb8997: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-usb8997: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wfx-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-wfx-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wfx: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-wfx: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PKGSIZE changed from 323764 to 331923 (+3%)
+packages/all-poky-linux/linux-firmware/linux-firmware-wl1251-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-wl1251-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wl1251: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-wl1251: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wl12xx: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-wl12xx: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wl18xx: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-wl18xx: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wlcommon: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-wlcommon: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc4000-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc4000-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc4000: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc4000: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000c-license: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000c-license: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000c: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000c: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware: FILELIST: added "/usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/X1E80100-LENOVO-Thinkpad-T14s-tplg.bin /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/qcadsp8380.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/qccdsp8380.mbn /usr/lib/firmware/qcom/qcs8300/adspua.jsn /usr/lib/firmware/qcom/x1e80100/X1E80100-LENOVO-Thinkpad-T14s-tplg.bin /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/adsps.jsn /usr/lib/firmware/qcom/qcs8300/gpdsp0.mbn /usr/lib/firmware/qcom/qcs8300/cdsp0.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/X1E80100-LENOVO-Yoga-Slim7x-tplg.bin /usr/lib/firmware/qcom/qcs8300/adsp.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/adspr.jsn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/adsp_dtbs.elf /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/qcdxkmsuc8380.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/adspua.jsn /usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/qcvss8380.mbn /usr/lib/firmware/rtw88/rtw8814a_fw.bin /usr/lib/firmware/qcom/x1e8
+ 0100/LENOVO/83ED/qcvss8380.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/battmgr.jsn /usr/lib/firmware/qcom/x1e80100/X1E80100-LENOVO-Yoga-Slim7x-tplg.bin /usr/lib/firmware/aeonsemi/as21x1x_fw.bin /usr/lib/firmware/qcom/qcs8300/adspr.jsn /usr/lib/firmware/qcom/qcs8300/cdspr.jsn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/cdspr.jsn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/qcav1e8380.mbn"
+packages/all-poky-linux/linux-firmware/linux-firmware: PV changed from "20250311" to "20250410"
+packages/all-poky-linux/linux-firmware/linux-firmware: PKGV changed from 20250311 [default] to 20250410 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware: PKGSIZE changed from 103809981 to 153081209 (+47%)
 
---===============8858765235613220144==--
+--===============4471392081627547756==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus: FILELIST: removed "/usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1c.wmfw /usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1b.wmfw /usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1c-amp2.bin /usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp1.bin /usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1b-amp2.bin /usr/lib/firmware/cirrus/cs35l54-b0-dsp1-misc-103c8e1c-amp1.bin", added "/usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da0.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da1.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da7.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da8.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e11.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da8-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da8-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e11-spkid0.bin /usr/lib/firmware/cirrus/c
+ s35l41-dsp1-spk-prot-103c8e11-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e12-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e12-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e13-spkid0.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-10431264-amp4.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e13-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9f-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e12.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e13.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e36.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e37.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e60.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e61.wmfw /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1b-amp2.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1c-amp2.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9f-spkid1.
+ bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da0-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da0-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da7-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9e-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da1-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da1-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8da7-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9b.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9c.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9d.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9e.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9f.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e60-spkid0.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1c.wmfw /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1b.wmfw /usr/lib/firmware/cirrus/cs35l41
+ -dsp1-spk-prot-103c8e60-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e61-spkid0.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1b-amp1.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-103c8e1c-amp1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e62-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e62.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e61-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e62-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9b-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9b-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9c-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9c-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9d-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9d-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e36-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp
+ 1-spk-prot-103c8e36-spkid1.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e37-spkid0.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8e37-spkid1.bin /usr/lib/firmware/cirrus/cs35l56-b0-dsp1-misc-10431264-amp3.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8d9e-spkid1.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PKGSIZE changed from 25122558 to 28436590 (+13%)
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: FILELIST: added "/usr/lib/firmware/intel/ibt-0190-0041-pci.sfi /usr/lib/firmware/intel/ibt-0190-0041-usb.sfi /usr/lib/firmware/intel/ibt-0190-0291-usb.sfi /usr/lib/firmware/intel/ibt-0190-0291-pci.ddc /usr/lib/firmware/intel/ibt-0190-0291-usb.ddc /usr/lib/firmware/intel/ibt-0190-0041-usb.ddc /usr/lib/firmware/intel/ibt-0190-0041-pci.ddc /usr/lib/firmware/intel/ibt-0190-0291-pci.sfi"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: FILELIST: added "/usr/lib/firmware/iwlwifi-bz-b0-fm-c0-97.ucode /usr/lib/firmware/iwlwifi-bz-b0-gf-a0-97.ucode /usr/lib/firmware/iwlwifi-gl-c0-fm-c0-97.ucode"
+packages/all-poky-linux/linux-firmware/linux-firmware-license: FILELIST: added "/usr/lib/firmware/LICENSE.aeonsemi"
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek: FILELIST: added "/usr/lib/firmware/mediatek/sof/sof-mt8188.ldc /usr/lib/firmware/mediatek/sof-tplg/sof-mt8195.tplg /usr/lib/firmware/mediatek/sof-tplg/sof-mt8188.tplg /usr/lib/firmware/mediatek/mt8188/scp.img /usr/lib/firmware/mediatek/sof/sof-mt8188.ri"
+packages/all-poky-linux/linux-firmware/linux-firmware-mellanox: PKGSIZE changed from 85484140 to 98640572 (+15%)
+packages/all-poky-linux/linux-firmware/linux-firmware-mellanox: FILELIST: added "/usr/lib/firmware/mellanox/mlxsw_spectrum3-30.2014.4012.mfa2 /usr/lib/firmware/mellanox/mlxsw_spectrum-13.2014.4012.mfa2 /usr/lib/firmware/mellanox/mlxsw_spectrum4-34.2014.4012.mfa2 /usr/lib/firmware/mellanox/mlxsw_spectrum2-29.2014.4012.mfa2"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca61x4-usb: PKGSIZE changed from 1117172 to 1236203 (+11%)
+packages/all-poky-linux/linux-firmware/linux-firmware-qca-qca61x4-usb: FILELIST: added "/usr/lib/firmware/qca/nvm_usb_00190200_0106.bin /usr/lib/firmware/qca/nvm_usb_00190200_0110.bin /usr/lib/firmware/qca/nvm_usb_00190200_0109.bin /usr/lib/firmware/qca/nvm_usb_00190200_0108.bin /usr/lib/firmware/qca/nvm_usb_00190200_0104.bin /usr/lib/firmware/qca/nvm_usb_00190200_010a.bin /usr/lib/firmware/qca/nvm_usb_00190200_010c.bin /usr/lib/firmware/qca/nvm_usb_00190200_0111.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware: PKGSIZE changed from 103809981 to 153081209 (+47%)
+packages/all-poky-linux/linux-firmware/linux-firmware: FILELIST: added "/usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/qcdxkmsuc8380.mbn /usr/lib/firmware/rtw88/rtw8814a_fw.bin /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/battmgr.jsn /usr/lib/firmware/qcom/qcs8300/adspr.jsn /usr/lib/firmware/qcom/qcs8300/cdspr.jsn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/qcav1e8380.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/adspua.jsn /usr/lib/firmware/qcom/qcs8300/cdsp0.mbn /usr/lib/firmware/qcom/qcs8300/adspua.jsn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/adsp_dtbs.elf /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/adspr.jsn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/cdspr.jsn /usr/lib/firmware/qcom/x1e80100/X1E80100-LENOVO-Yoga-Slim7x-tplg.bin /usr/lib/firmware/aeonsemi/as21x1x_fw.bin /usr/lib/firmware/qcom/qcs8300/gpdsp0.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/X1E80100-LENOVO-Yoga-Slim7x-tplg.bin /usr/lib/firmware/qcom/x1e80100/X1E80100-LENOVO-Thinkpad-T14s-tplg.bin /usr/lib/firmware/
+ qcom/x1e80100/LENOVO/21N1/X1E80100-LENOVO-Thinkpad-T14s-tplg.bin /usr/lib/firmware/qcom/qcs8300/adsp.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/adsps.jsn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/qcadsp8380.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/qccdsp8380.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/qcvss8380.mbn /usr/lib/firmware/qcom/x1e80100/LENOVO/83ED/qcvss8380.mbn"
+
+--===============4471392081627547756==--
 
