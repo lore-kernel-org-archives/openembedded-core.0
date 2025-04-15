@@ -2,102 +2,78 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C7C9C369B8
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 08:23:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76700C369B5
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 08:29:42 +0000 (UTC)
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web10.15156.1744705425496850781
+ by mx.groups.io with SMTP id smtpd.web10.15234.1744705774103995816
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 01:23:46 -0700
+ Tue, 15 Apr 2025 01:29:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MlKaQxlg;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=KlU7Z8NB;
  spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8C35E43216;
-	Tue, 15 Apr 2025 08:23:43 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AF8FA4320D;
+	Tue, 15 Apr 2025 08:29:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744705423;
+	t=1744705772;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NB4qISk70tCVlniWHmBDz3rj0Qy0VCprfldF0SiIpU0=;
-	b=MlKaQxlgxFQdwqZqTm28ItupOYQGQbXvhbahdWmHlMBwTzuPgRp1LGzo/A2IciiiMIFTHN
-	fEyrbFZ0Q5rGnkrkf83wulB9S0anSgUqRSJzQXez7ZycysFnce7vZ2LlrYRooG+zvpEZfz
-	b7IV4k2Bn5HZSQN4HRE9yEybrFtD6yOJPmmgjQsA5/cS1XcWdz3ceEBBwJ7HhlzcVZRMeG
-	iTRsItGFKJyKVYUVkq8wtcJog2mT4SIm6FjPe2FWWVelrTMuNVd4vbfBY5/M42UOCMsk5+
-	r7bo5lvRZnsqNYOoAYA9oKBnaIXRbOek6HJGtXwLjGsTpDQUR2JK1Ohd1DZfWQ==
+	bh=5rjNryaX3iqHzxblDHP/xR1Vvcifl7FilbQVe4FcWUY=;
+	b=KlU7Z8NBwFEYKBazp86F8L4BU+pk/tlhiDfAzAE4o5Z1L/sbaHIVhj3cLWx86bYGv3Bg/R
+	M8ASxd8lVXSk+DYUhFQu33GG2gGdMyLzXNPtpuCLxL+UU2bSvG/C346oB3cDvENpmyjgML
+	BT4MYYcK50+hzApWJFZ6v0YpM/guDuRx/C5dKw9J6pZfRWHkWpfZyHSkxeYGfrFr+qkvwN
+	7deE4iKeGKR9hgCjiQCwhydENrmvWhfS0lhgzkNQ0UhFndJfNz+g/abAKHQQL6uW7ltHo8
+	ZEI3eRDan4EQOJ8BA6mE9btwBMpe6wqXClCb0vuhfVmaaYreJLkr8fLdmyA9GA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 15 Apr 2025 10:23:43 +0200
-Message-Id: <D972GEFFVR83.1EHQVCQIO3WY2@bootlin.com>
-Subject: Re: [OE-core][PATCH v2] openssh: upgrade 9.9p2 -> 10.0p1
+Date: Tue, 15 Apr 2025 10:29:32 +0200
+Message-Id: <D972KUZF4M3V.3B8DB0F842B44@bootlin.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
+To: "Tom Hochstein" <tom.hochstein@oss.nxp.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v5 4/5] oeqa/sdk/meson: improve test to
+ validate host/build target assignments
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250412034756.24846-1-vanusuri@mvista.com>
-In-Reply-To: <20250412034756.24846-1-vanusuri@mvista.com>
+References: <20250407211806.1782316-1-tom.hochstein@oss.nxp.com>
+ <20250407211806.1782316-4-tom.hochstein@oss.nxp.com>
+ <D91AQNC6UKX5.394WLWGGFWT4O@bootlin.com>
+ <183460753CA35884.31078@lists.openembedded.org>
+ <1834F816ACB44615.7383@lists.openembedded.org>
+ <1834FEA34534143E.27206@lists.openembedded.org>
+ <cdae0d74-ade9-4b2b-a0ab-45788cd8044f@oss.nxp.com>
+ <18353B5DF2EF4BC1.27206@lists.openembedded.org>
+ <D93QAMBHTAR4.1CIOF4WMRTVEQ@bootlin.com>
+ <9de83915-c1d7-4b18-b76f-86cc5778c9be@oss.nxp.com>
+In-Reply-To: <9de83915-c1d7-4b18-b76f-86cc5778c9be@oss.nxp.com>
 X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvddvleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedvvdejgeethfefheevfedvvedtffelgfefveektdffkeegveettddvheetjeehveenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhophgvnhhsshhhrdgtohhmpdhophgvnhifrghllhdrtghomhdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehvrghnuhhsuhhri
- hesmhhvihhsthgrrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdeftdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkhffvuffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkefhfffgiedtheegffefjeeuuedvudehtdevieehgfevleffleffudektdeugfefnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehtohhmrdhhohgthhhsthgvihhnsehoshhsrdhngihprdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgto
+ hhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
 X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 08:23:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214827
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 08:29:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214828
 
-On Sat Apr 12, 2025 at 5:47 AM CEST, Vijay Anusuri via lists.openembedded.o=
-rg wrote:
-> From: Vijay Anusuri <vanusuri@mvista.com>
+On Fri Apr 11, 2025 at 5:37 PM CEST, Tom Hochstein wrote:
 >
-> Includes fix for CVE-2025-32728
+> Thanks, Mathieu! I can reproduce it now.
 >
-> Release Notes: https://www.openssh.com/txt/release-10.0
+> The key in your steps to reproduce is setting SDKMACHINE =3D "i686". So
+> the SDK is built for i686, but the build machine is x86_64, so the test
+> is not valid.
 >
-> LINK: https://www.openwall.com/lists/oss-security/2025/04/09/6
+> How should it be fixed? Testing for the mismatch and raising SkipTest in
+> MesonTest.setUp?
 >
-> Regarding the Portable OpenSSH 10.0 release:
->
-> Due to an error in the release process, the recent Portable OpenSSH
-> release identifies itself as 10.0p2 rather than the intended 10.0p1.
->
-> We do not intend to make a new release to fix this mistake. This
-> portable OpenSSH release will henceforth be knows as 10.0p2 and no
-> release numbered 10.0p1 will be made.
->
-> Sorry for the confusion,
-> Damien Miller
->
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> ---
+> Tom
 
-Hi Vijay,
+I'm not really familiar with these tests to be honest, so I cannot
+really help you on that. Sorry.
 
-Thanks for your patch.
-
-It looks like this is causing some issues on the autobuilder:
-
-Test case logrotate.LogrotateTest.test_logrotate_newlog depends on logrotat=
-e.LogrotateTest.test_logrotate_wtmp but it didn't pass/run.
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/no-x11/build/meta/lib/oeqa/core/decorat=
-or/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/no-x11/build/meta/lib/oeqa/core/decorat=
-or/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/no-x11/build/meta/lib/oeqa/runtime/case=
-s/ssh.py", line 38, in test_ssh
-    self.fail("ssh failed with \"%s\" (exit code %s)" % (output, status))
-    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: ssh failed with "ssh: connect to host 192.168.7.4 port 22: =
-Connection refused" (exit code 255)
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/1381
-
-Yet I believe I saw it working at some point. I will drop it from my
-branch and try to investigate this a bit later.
 
 --=20
 Mathieu Dubois-Briand, Bootlin
