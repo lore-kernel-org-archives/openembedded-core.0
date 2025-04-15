@@ -1,262 +1,224 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDF1C369B4
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 11:38:23 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.17750.1744717100478686214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F1AC369B4
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 12:42:13 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.20])
+ by mx.groups.io with SMTP id smtpd.web10.19052.1744720931799006899
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 04:38:20 -0700
+ Tue, 15 Apr 2025 05:42:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=a/13IbG8;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-30bfe0d2b6dso55649601fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 04:38:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744717099; x=1745321899; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s5NY+pLg43Uhi33IwBdn5543TH+8dxZglbQeljX0IGc=;
-        b=a/13IbG8Sqt/xvsznjsrFapTKJk3CGMnyIxvWxT7c11jwZeLnazvvwOdJWmj05rHV9
-         lrJwQlFDKWgzFexa0rg+MblSGj0hlXhJcTHV+Qw/sOjqWd6YFDJuXtAAwCgkhKeOZ7FW
-         iE5zbjEtEAGpkwaDyiBMxLfVss83IFrTSXo3CYf7w86SHqcX0aBD5vEwZgoDqaIbjfVL
-         nnBO4LNVilng+MUfDOZPoN60hLscNtptfc7NVIqFZCEDn9SpMJAXitxTStJ3/2J8aBBL
-         3SUSbwg+jmTDvb+6ZjehWyDwS6eCRnxlpJJBCg/IA6MunEkx6LZqoHhboHzoS1/jbpvn
-         wPAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744717099; x=1745321899;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s5NY+pLg43Uhi33IwBdn5543TH+8dxZglbQeljX0IGc=;
-        b=dlIlbwyrR4ZmrMk00waIEXoObBxzxY3eLCgOlJzIWZlJKrRRM7Y6DXOvIgf4Q0cjcx
-         GLO7MLGJFDbOFSKnYEmNUqUtX1n8oe+FhkpAwETJ84/4hFoUcABAcAac8MEa7dHcZAYc
-         xG583VZMuH3Q6bdQIg3SXtNjxVF5ZIiLaLWe8Yz6G5nYhjv4X+z0UiXxYYA3SYtVgXI5
-         2ecvsYUROPy6sYCm+N+Z406is39TuAB4dnnmtuVIu8sBf+/ZBQnKnSg1pFEF9NH788oa
-         DDXk185Zz2sz1Qv+C7r5wKFBNlJ5E9KRNCgg0M0skzQk92t0cyBjheKTJ/V87Fawy0xd
-         Od9g==
-X-Forwarded-Encrypted: i=1; AJvYcCWJeeTVjMTbUCaIR7Ffdukjzk43ficXXEcuUwgYd+aHIXvDvXt9a3Oqd1R3ipekzNELG2ms762+tcyOafpP6lVFgg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzrTFyyRSh6qViZw0PZcxSRO1QMI6TT+imr2P+lAS5nuvnqAw4p
-	TFRjMQsEnkkTAWdC5BQLCmBczOtCxE9U37fUuorRYD4rhzeQrGr8XhJ5xW+LjDTCWLKz+zLD180
-	jEhXi5lJXRZzLX5TqoeU+YJaENys=
-X-Gm-Gg: ASbGncvW0aStwAKIuRTJq/Md8KuRUzIQgZK4QHBNMbSWv5bZMIpPJlWaX9tp1VwhFNx
-	qxtt0z4ChaqkkK99F+/na+FUxomsj/RnWD3fhmJzgoXehGSBPgEkzeCndLvSwyiO5kQd/meoC1w
-	zVujgyXXVHSS9ScSPZPDYuH2YO
-X-Google-Smtp-Source: AGHT+IGjnEdQ7UBezWJLKM9z3c5cMzEP6aeAzy/sd15fqQ7T91sld6iRa0B+NT32tD7orXTOlInCf7mKop39/PT3tXw=
-X-Received: by 2002:a2e:9fc9:0:b0:30b:a20d:1c06 with SMTP id
- 38308e7fff4ca-3104951cefamr51159741fa.0.1744717098192; Tue, 15 Apr 2025
- 04:38:18 -0700 (PDT)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=F8hPLt7q;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=F8hPLt7q;
+ spf=pass (domain: arm.com, ip: 52.101.70.20, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=Edg88ObP1wHPSVYj2FZFjc/zDQWGHRybh0/rwkQbhPelmFDl+kGBAoU1S4Bm3k2Wgz4moRw7tVJkUzWLF9Fz/Rlz0lloJL9t27Ef7uErf+zgi6izHNC1XBWWc41pKL9ZVCksryWhl3smnSItRbm/QdeZwSAYuKFeyBYtUjpxUgFzmy577LXPzbrpjr1Ascror72T0DDQGVQHQDYM26J7yVvUyE/kYe6Hug7FZ6B70KIF2miUS9MWfq14GZV4aZAyNUIZyrmHDtMAdK8dsYA9l9y5UbuoNn4sRyhCv5VVVn/DZmrFCypxj6bUJONYB8kPFIZyPTwamju19yp2OTVLWg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zhsmrEHeOzm+YHOR/ysvXEua208ZFN8M0vl/0rKKACA=;
+ b=q3STDSylVqSMEZwX9ElDTxCBUYxS18vJEe89Oh7u4Mlk+YKeukLtqv+e1hd7cf5tXmgZazMrsk7qGZ6kbI8rs8eeiX/gLg93fTXGLA8IMvg+dMEaEX13MxaACARJjW0VUMU3NhJOL1QSHrdVSD4EYcGW04Fm4QlLFDR6nhmzkwA83ApdPwsEcs9+u5URjlEa/IeZqlp73pKMf585HhGOKYgC6U11ns80a2DPBABe8CplS8rR7dRD2Xuq6x7L2L7ne5Y2L92N6P6iyLHRGCyCNRlFcOw0xSP/0BQa3FbEaNmYIoWXKPE+0ocbGciElorvxbbSPWzTdklQEkFfq5YQEQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zhsmrEHeOzm+YHOR/ysvXEua208ZFN8M0vl/0rKKACA=;
+ b=F8hPLt7q1KMSbz9T0M81jIXZnQPtC5HI+ZwzM/4sl4dmPX8px6Nz23kznFvvk+E2xdK179Xbm4TJ1iGI9+dTPLURwylh7DydOlt+bB92VUgLTEYHsf4eOGljivwEe9oCxT0ldqR2Q6VcGZVjGhvOTeQI0NaUp1QnjycodhRaOU8=
+Received: from CWLP123CA0254.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:19e::22)
+ by DU0PR08MB7616.eurprd08.prod.outlook.com (2603:10a6:10:320::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.32; Tue, 15 Apr
+ 2025 12:42:07 +0000
+Received: from AM3PEPF0000A797.eurprd04.prod.outlook.com
+ (2603:10a6:400:19e:cafe::c6) by CWLP123CA0254.outlook.office365.com
+ (2603:10a6:400:19e::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8632.35 via Frontend Transport; Tue,
+ 15 Apr 2025 12:42:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM3PEPF0000A797.mail.protection.outlook.com (10.167.16.102) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.12
+ via Frontend Transport; Tue, 15 Apr 2025 12:42:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=chwCtzW1kDI6+BvguPaYvRozHpzRy9xVaOhgZMtwkVZ+klxmFliZXrNR035Dbad0lSl4MRIua0CY512JVJ7E59AKLRnqhSLXBEnzWg2WCkFvfkGn5KPe5F114ubcMj/pjaJH+RT0/T31tZbC5oM2gH7xLy6tyEW6wBMWncpjfF4V+0wkQdVzhhtDxzikSRAYYaTgAcO3VT2nxkZkWVE4HG7TsbeiA96D3WZd4IYiEV28UnSS/Cqin89peNK+m+tEPNMNPX6Yt6Z8g/pGrkczBCn2im204QoWETj6TcPdvoh+HWA913BLxn8VK/SiyLzbw15l0xPTQwVvhQ6imUMylA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zhsmrEHeOzm+YHOR/ysvXEua208ZFN8M0vl/0rKKACA=;
+ b=ES9ydlwq4sBgJGphJE3trJQYCkVLkjyQVnAOXDYXrpBAfsPM+Eh+SDdPKgfbKYvNemEnunWDVAwPdljI2WwAzXYW2KiIW4i8pENdL9JSaVEuuT43GV7kJRDebq89p9n63rkCBaDyUw9wAHpZUA1yCuMnV/UCI6ImFFYR9fKBxRcD/WMyP/+z9NwH11tLbyF5jtZF8Qc+kmB3CtxaB2BsSyxCoJVpfay5kKuxg7VzxMkGc1cMrh1bpau95hGoGp0yV9Etn4UpJrK878fhmTH0XfvKzxt+fHNhx/pw3JR8SJQ7iMbnnlB2CKuQKY+LHE0fzr9BOoIdYzaMfRiUatW8Ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zhsmrEHeOzm+YHOR/ysvXEua208ZFN8M0vl/0rKKACA=;
+ b=F8hPLt7q1KMSbz9T0M81jIXZnQPtC5HI+ZwzM/4sl4dmPX8px6Nz23kznFvvk+E2xdK179Xbm4TJ1iGI9+dTPLURwylh7DydOlt+bB92VUgLTEYHsf4eOGljivwEe9oCxT0ldqR2Q6VcGZVjGhvOTeQI0NaUp1QnjycodhRaOU8=
+Received: from AS4PR08MB7429.eurprd08.prod.outlook.com (2603:10a6:20b:4e1::9)
+ by PAXPR08MB6461.eurprd08.prod.outlook.com (2603:10a6:102:153::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.34; Tue, 15 Apr
+ 2025 12:41:34 +0000
+Received: from AS4PR08MB7429.eurprd08.prod.outlook.com
+ ([fe80::8db5:7772:a426:2afe]) by AS4PR08MB7429.eurprd08.prod.outlook.com
+ ([fe80::8db5:7772:a426:2afe%4]) with mapi id 15.20.8632.030; Tue, 15 Apr 2025
+ 12:41:34 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Samuli Piippo <samuli.piippo@gmail.com>
+CC: "martin.jansa@gmail.com" <martin.jansa@gmail.com>, Patches and discussions
+ about the oe-core layer <openembedded-core@lists.openembedded.org>, Samuli
+ Piippo <samuli.piippo@qt.io>, Tim Orling <ticotimo@gmail.com>
+Subject: Re: [OE-core] meta-qt6 on layerindex
+Thread-Topic: [OE-core] meta-qt6 on layerindex
+Thread-Index: AQHbou3hLaTaCbzsaEiljwyfeAaPBrOP/kSAgBTDQ4A=
+Date: Tue, 15 Apr 2025 12:41:34 +0000
+Message-ID: <70DCE40B-AEC3-4139-AD20-69C7C0AA8C0E@arm.com>
+References: 
+ <CA+chaQcpXOTbbePCjusXgrcR-Y9fk02JOnecFsR2e5B+==x7Eg@mail.gmail.com>
+ <CABXoSoVs_O7At3c+=nM6w=fwgULniKACzu_8AwhZR9iat59UYQ@mail.gmail.com>
+In-Reply-To: 
+ <CABXoSoVs_O7At3c+=nM6w=fwgULniKACzu_8AwhZR9iat59UYQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.400.131.1.6)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AS4PR08MB7429:EE_|PAXPR08MB6461:EE_|AM3PEPF0000A797:EE_|DU0PR08MB7616:EE_
+X-MS-Office365-Filtering-Correlation-Id: 642eab46-0ed0-4369-f570-08dd7c1aeea7
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?c0Nnd2JIWVhkalZ0YmtFRFZhL3hWdTZERzA0czNyc0ZRY1kwMnhBU3hqeURO?=
+ =?utf-8?B?Nk8yWHVBUDJwam1nRHdoRElIMzZzakYzZ1BBUmZ2SklWV0h0QXV4VXhuZVdJ?=
+ =?utf-8?B?cWhRZ3VidmlHMjQ2SVo2WlM4YXRkT3BjU0RXNG1FZFZjdmgySVcwUm1ObUtE?=
+ =?utf-8?B?c0piYWdIUmdvdTNhVXZkaURPdHVmK2tuNlB6aFlmN092bHNHSjEvbzdlcHhG?=
+ =?utf-8?B?K2NVa1M2R21UTTNnZmFGa1VycmhJTFM4Q25xQnYvOFBUOGw0Y2dVZG5OUnNV?=
+ =?utf-8?B?Tk8rdEpEdjRlc25DSlduTkszcUtrWXNka2RGcG1FUlVtUWc2NDdSK1BBRTdp?=
+ =?utf-8?B?NlNCOVdZaklKL2JUT0ExRk1leFdZYkZ0RE5ydWczVHdWanJmTktkUnBJSDM0?=
+ =?utf-8?B?Wkh6RDBWTVRkNUR2MS9zQ3RaMXNLUFpSMkFwVWtTb1Q1VGFidUpXWWNJQi93?=
+ =?utf-8?B?UjRSd1RLNnJUUWpFaFhwMERrTVFjK25lQkVoYnR1bkdzejYxMW5nV0dxa1hU?=
+ =?utf-8?B?c0RuUVd5bGZjNDBuK0puYWtnQ0xCK0I1M2NkRjY1bGpWMzRMVWE0RG9udndR?=
+ =?utf-8?B?SUNJaVhYZTF2WUVuRW4yMHZ2Qzl3WWR5NCsyTnY0c3B2Ym9LVTVad0p0WDVx?=
+ =?utf-8?B?T1ZYUHdRRGwySXRncC9GTVFQcWR2aHU2N0RsVGdkQ0xnWlgvaFFZbks1OU9q?=
+ =?utf-8?B?ZEtYcVUyWndKL2NRb0NIWHRhbE5CWEdLdmsrRmdTK0tUd2JmTlRaYU9YZ2dl?=
+ =?utf-8?B?bGMrTW5hNUNaODdnUTBjdi9ZZFFKeHdPYlRRc3Z6NDJMZlR4ZW9SWVUyY3RH?=
+ =?utf-8?B?c1VZVHBleCswRW1jK1dsNEFtZ2RYR0tqem9CVG5Wc3FpeWRlbGxZMFhFS2ov?=
+ =?utf-8?B?bkRtVTdPZ0lEdGxhNFRhT1dNNUdQWmlVbmIycjlJUG9lbTdZOVlVbHFuOTFk?=
+ =?utf-8?B?R2FMY2RUdnl1YXUyTkN2RVlMbjRWK29UOWQ2WTdheCtiZU9NaEllQWc0dFNn?=
+ =?utf-8?B?UVQ2WDFBK29QVGlGTHYySmpaR3NwRTV1WFlHa0tDekErd2NRNjJEbE03WEM4?=
+ =?utf-8?B?REFyd0pySndoemxTb2pqbk9iYzNJQkM1UnNxeUQwMXRzWjV3c2VQbDFGMys0?=
+ =?utf-8?B?R25WVzF4SFdTUm1RZXdOSS9sS2xhK3ZIb3cyVUl2SnZjSHpJcnVRK21iSjdO?=
+ =?utf-8?B?TjZSejNuMHc3b0NNY2VNbDlROU9mZkhETVN4TVNOczJZSDlsUEdBbm1HZlF1?=
+ =?utf-8?B?RDAzZlN3UXdoSHk1blNieFk0UzBhdDRuZjBrQ3dvL2p2TDFBd1ZYQ2JTdGds?=
+ =?utf-8?B?MCtnd0JUdktKaHFzby8vRkZuclVXYWdMSVdWU2pNMlAvRzY1Y3dhR1F5S2Vr?=
+ =?utf-8?B?OTVuOElWZzlLMlFKdHdGM1A5cXRPVlIxNHdRQVV1SlloeWRWeHFOSU56ZVhK?=
+ =?utf-8?B?djlxc3hScTZNRk5WTHp2N3R0UndzaW9CYXdjSExLUHJMMWN3M2FtYy9aWnJh?=
+ =?utf-8?B?M28xTHdtSUNiN0ZJVVlpek9nZWNjTE54aWRrRVhKQmJSMjROdThoZFAwaVVa?=
+ =?utf-8?B?RVpodU9jcVRDOS9od0k3VkpuTm9OSEhhRk1SV2Vkdk84NHo4Z0s1bHUzbFpN?=
+ =?utf-8?B?RENtMzNnNWVCd2RaNnJvRjd6eGEwZmdUcm43NitiY3JQTUlHYWZIdzlZUHVh?=
+ =?utf-8?B?QVpFd3JjWGFFT095QXhVajhvRFhzNzlNdVdEQnp3OGtYSk9Bb1NSQkhRdnEz?=
+ =?utf-8?B?OTN3UUd3OVRRYnpINDZRRkNRcVdBWm5QNUNhaFJ4K1ZkM283UkFxeXlxWkcy?=
+ =?utf-8?B?ZXZkT2lvUS9qQ2k3blhYVzVvNkhaNDZEWXpnYjFzcjFzQStJSmJPV0xDbklY?=
+ =?utf-8?B?NlA1dzQyZ0NyUmg3c3Q2azJXQ2s1M24yZ25vMGUxZHpDRUdMbDh6RHdiMElF?=
+ =?utf-8?B?NjFRMDJyMHU5ejdWbjRaOG5BemVYYlNRVjkraURVWUFXSW5tKzFNRTlSQ05N?=
+ =?utf-8?B?aDU3cFVoSnFnPT0=?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR08MB7429.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <67AD3750F0F6FC4BA5ADC41022368977@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20250331055424.1978243-1-Yash.Shinde@windriver.com>
- <20250331055424.1978243-2-Yash.Shinde@windriver.com> <CAMKF1sowYqhv29_Him+th4PkxvGG2FkEzeWmM3fgYzUeKpHqSQ@mail.gmail.com>
- <CA+chaQcn9EfvFMSEmBPnCu3duzwY=cNXzwXVGPBNSP7n-9SduQ@mail.gmail.com> <1d01500d-39e2-4578-9fc0-b8c7c231e6d9@windriver.com>
-In-Reply-To: <1d01500d-39e2-4578-9fc0-b8c7c231e6d9@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 15 Apr 2025 13:38:06 +0200
-X-Gm-Features: ATxdqUHDeFGnFZqPjVfKJusRkHHjt-xIFocAsULlSwZt7VnKg4NVnXRX0vHSb3k
-Message-ID: <CA+chaQf_eWJgp9QVKQQ9iGviZU54Zc_1h-LyWW2yurWf06zCLA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/3] rust: Upgrade 1.84.1->1.85.0
-To: Yash Shinde <Yash.Shinde@windriver.com>
-Cc: raj.khem@gmail.com, openembedded-core@lists.openembedded.org, 
-	Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6461
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM3PEPF0000A797.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	0db69c82-790c-4c0b-c07e-08dd7c1adaf7
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|14060799003|1800799024|376014|35042699022|82310400026|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?Z0RpRzVDL0JSUDA3L1IwWHFGOGJ2dUV5TkREWmZTRmJyWVJONHI4V3dYSWo2?=
+ =?utf-8?B?TFUrZDBZSmpGWC9EQnFOVG1hTFVyYU9SOHJmSEs5Tk1WUUkvc0NFTzJvcWpj?=
+ =?utf-8?B?bGVFUUZVU2lRR2k3bjhGbkdRUTZjTTgxU0E2cDV5Ti9FN3RQeGZ3Q3dCb0NH?=
+ =?utf-8?B?SlZ1dFh1NXBwWE5jL2p0MWxTeVdBL3J6bmlTYjRNZmlzUDFwNGlHN1pGTmw1?=
+ =?utf-8?B?MGFTTW56L0xENzlBNllCRkpYcW5HM0g1S0VwY3QrRFdDNklieURWNWlXNExr?=
+ =?utf-8?B?ZEVFOGZyRzNnMk8yTHhlOHpSMWQrS2hHUFQ1VndKMTlQVXhGT2hEYVMzQklJ?=
+ =?utf-8?B?SThLN08wdktlOG5EbmV2V2E2OERHbkJpRzhSQmd1bjVwam00MzJadlFWZVN0?=
+ =?utf-8?B?Y29heDVqZ3I5TGYxYi8xR0NxdW81ZXZEbmN1UnlkMVJvejVweGQvOERob25w?=
+ =?utf-8?B?M2pCNXR1TzNkUWl3YkRWZ0RkM3NkRjk1a1FGVDBKYW1LcUZmSFEwMHRHeVM2?=
+ =?utf-8?B?akFXSXJtS0xXMjd6TWlaQXZSZlV5Wk5HdzBzVjM3WWloR2p4d1VwVDlPZUNh?=
+ =?utf-8?B?bTMxeld1STR3ckRaanpKZkZRUUEySzd3S3E1M1ZjSEVnOUFReXBLRno0eFNs?=
+ =?utf-8?B?YWtrSkZrNml2amsyYW9ZUUlLS1puMFc1eE02anErZzZJdHFsYmVjZkQ3ekNX?=
+ =?utf-8?B?dFB1d3c4SGhyMVZwTlI4c2dsTWYzUlFSL2l6ckNDd0JEMFhqTkl3QmFEVkVB?=
+ =?utf-8?B?aHdwK1BQc0hSQUg4ZUVPclE0RWlEK2FRdzI2Sld1NFZYS2RIdVM0dG9YanRF?=
+ =?utf-8?B?WXRJV3NEc1JndjVsZWF0SHcyOHRGNUlGVjFJb29xQzZEb0twR1ZROWc4cDRW?=
+ =?utf-8?B?cXlHbmE4ZUcwVHE1dndwTS85NlJndDM4V2lmUXoxM09hSElpQWpNQjl0RWpP?=
+ =?utf-8?B?U1hlYXpTZytIYXQ5SFFNWWtqZnlLemswR3JockcxZ050NUk2VjRIZ1FwRk1J?=
+ =?utf-8?B?ck1XSmFtSXlrZlozb3hoWXpJeE51cWR2V2dHUHpJTkViS1hXL05UY3RVRUhR?=
+ =?utf-8?B?bHU2eGhxR2F1eFFEQVM0QStPRmpjTUg4bEtkTUw2Yyt1aTNHclg1S2c4Y2R3?=
+ =?utf-8?B?TDZHS1Rnd21yelBhNlAxcmJjeGpNN3Ftemt4YXZaTGVlcTFlQzdQL3R5SFh6?=
+ =?utf-8?B?ZHJZRU1EWlBLU1JPbU0wN3V2UklxSVQ2dTVwYXRsR2pnYURaMUpONlNDbEE2?=
+ =?utf-8?B?Wlhsd0h6cXlxS2xIQVZjQVNKYy8zM2xROUFGN2liTnowak9jY3QxZ1FnRjEz?=
+ =?utf-8?B?Q3QzeGowTHBHZkZFa2Z4NERUa3hwSDJyM2phaW1GN3BIRVl1OHBiRklqRE43?=
+ =?utf-8?B?SzRMWnl5YXZWb1dRVTFIK3NSMXNYVlRjWTQ2ekNnbHgvNVVVWnovOXQxMnVN?=
+ =?utf-8?B?azdlQWhHZnNTZDQvOG9IOGZwUU5xZW5hMDE5YXR1ZEhMbXdYV0ZSVi9RM05B?=
+ =?utf-8?B?WHYzU0FLanNjclgvU1VjV3JiYTU2dDJPL0pNMzZSdTVMRUFKZE8zSC9BcG16?=
+ =?utf-8?B?V1l5VkVzRU1pbUQwbjhoZmJOTldmVlZsRFBYV1kraEJpQXpjN2dPNzNRcTlB?=
+ =?utf-8?B?NUQ4OUdDczV2eVhidVBUeUVQM1doeFp4a0l3V1orQ1FrdEUwUWo1L1BuVDRH?=
+ =?utf-8?B?YkZEOGFrb21KV1gvazdFYmdoR0xoL1Evcko0RWFvWk82MTBHUWlxbWVlMFQ4?=
+ =?utf-8?B?MEdiTk9CbloxUXoydzZ4aVNtS2RXc0NBamIreVF1SnB1bzV5dE0wZ0Z5bURy?=
+ =?utf-8?B?dUVtdzl0aW0vSFBDOWxKYVhHaEE4L3Z1MVZnKzN1QlB5eGdZcENudmtNV21V?=
+ =?utf-8?B?T2d3Z0ZFTFVvV2NuNEdSbHJFNWxFekdub1hTQ1NzMG84SGxkNFNjendkOXZu?=
+ =?utf-8?B?TVpDMnd1SDQybGdMZWZnci9hQkZXcnQ4NmsxbDhjWGZUTGVTemltYlZEd0VO?=
+ =?utf-8?B?bEs5QzA5QXgzZmNuMHV0WWtzbjJkTkVBT213RmRrYmhjQVZLKzhmWGJmd04w?=
+ =?utf-8?Q?xTCc+l?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(14060799003)(1800799024)(376014)(35042699022)(82310400026)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2025 12:42:07.0675
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 642eab46-0ed0-4369-f570-08dd7c1aeea7
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM3PEPF0000A797.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB7616
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 11:38:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214843
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 12:42:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214845
 
-qemuarmv5 uses tune-arm926ejs which uses armv5te, I think you would
-need to use armv5te-vfp to reproduce this, or use qemuarm with
-tune-cortexa15 but switch from default cortexa15thf-neon to
-cortexa15t-neon
-
-I was seeing it in multilib builds e.g. with
-https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/ma=
-ster&id=3D40e9c4744a7f1eb2d91af9539d69555d36dfba30
-which uses DEFAULTTUNE:virtclass-multilib-lib32 =3D "armv7at-neon"
-
-unfortunately just treating softfp as soft ends with segfaults in rust
-as shown nere:
-https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/ma=
-ster&id=3Dc65eda95e5dd3ad0be0565477236d7902d5d625c
-
-Regards,
-
-On Tue, Apr 15, 2025 at 11:05=E2=80=AFAM Yash Shinde <Yash.Shinde@windriver=
-.com> wrote:
->
->
-> On 11-04-2025 13:08, Martin Jansa wrote:
->
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d know the content is safe.
->
-> On Mon, Mar 31, 2025 at 6:47=E2=80=AFPM Khem Raj via lists.openembedded.o=
-rg
-> <raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
->
-> On Sun, Mar 30, 2025 at 10:54=E2=80=AFPM Yash Shinde via
-> lists.openembedded.org
-> <Yash.Shinde=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Yash Shinde <Yash.Shinde@windriver.com>
->
-> Rust stable version updated to 1.85.0
-> https://blog.rust-lang.org/2025/02/20/Rust-1.85.0.html
->
-> Some of the major updates:
->
-> - Update LIC_FILES_CHKSUM in libstd-rs and rust recipes.
-> License-Update: Unicode license text is updated to Unicode-3.0 License.
-> https://github.com/rust-lang/rust/commit/6d2a3e9786ec43a0e0af20386e704632=
-8296ac86
->
-> - Pass '-Zforce-unstable-if-unmarked' to RUSTFLAGS in libstd-rs.bb
-> Fix: https://github.com/rust-lang/rust/issues/133857#issuecomment-2526341=
-227
->
-> - Downgrade bootstrap cc version causing bootstrap to fail on custom targ=
-ets. (Backported from v1.85.1)
-> Fix: https://github.com/rust-lang/rust/pull/137460/commits/e4ca11f87ffca8=
-c63aa56d45b46e62b6acc58bd7
->
-> - Explicitly set float ABI for all ARM 32 bits targets.
-> Fix: https://github.com/rust-lang/rust/commit/a51fefcaab835b310e2e26005b5=
-0982d0049d905
->
-> - Rust v1.85.0 tarball doesn't ship gcc tree.
-> Drop "remove_gcc_directory" postfunc which removed it and prevented the b=
-loat.
-> Fix: https://github.com/rust-lang/rust/commit/13c3f9b9498013837782b461200=
-85ea19ca75518
->
-> Adapted the patch changes with v1.85.0:
->   repro-issue-fix-with-cc-crate-hashmap.patch
->   revert-link-std-statically-in-rustc_driver-feature.patch
->   rust-oe-selftest.patch
->   rv32-cargo-rustix-0.38.40-fix.patch
->
-> Dropped patches:
->   fix-tidy-check-failure.patch since it's merged with v1.85.0.
->
-> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-> ---
->  .../classes-recipe/rust-target-config.bbclass |   5 +
->  meta/conf/distro/include/tcmode-default.inc   |   2 +-
->  .../rust/{cargo_1.84.1.bb =3D> cargo_1.85.0.bb} |   0
->  .../rust/files/downgrade-bootstrap-cc.patch   |  41 +++
->  .../rust/files/fix-tidy-check-failure.patch   |  19 --
->  ...epro-issue-fix-with-cc-crate-hashmap.patch |  60 ++++-
->  ...d-statically-in-rustc_driver-feature.patch |   4 +-
->  .../rust/files/rust-oe-selftest.patch         |  46 ++--
->  .../files/rv32-cargo-rustix-0.38.38-fix.patch | 236 ------------------
->  .../files/rv32-cargo-rustix-0.38.40-fix.patch | 236 ++++++++++++++++++
->  ...ibstd-rs_1.84.1.bb =3D> libstd-rs_1.85.0.bb} |   4 +-
->  ....84.1.bb =3D> rust-cross-canadian_1.85.0.bb} |   0
->  ...ust-llvm_1.84.1.bb =3D> rust-llvm_1.85.0.bb} |   0
->  meta/recipes-devtools/rust/rust-snapshot.inc  |  81 +++---
->  meta/recipes-devtools/rust/rust-source.inc    |  23 +-
->  .../rust/{rust_1.84.1.bb =3D> rust_1.85.0.bb}   |   2 +-
->  16 files changed, 417 insertions(+), 342 deletions(-)
->  rename meta/recipes-devtools/rust/{cargo_1.84.1.bb =3D> cargo_1.85.0.bb}=
- (100%)
->  create mode 100644 meta/recipes-devtools/rust/files/downgrade-bootstrap-=
-cc.patch
->  delete mode 100644 meta/recipes-devtools/rust/files/fix-tidy-check-failu=
-re.patch
->  delete mode 100644 meta/recipes-devtools/rust/files/rv32-cargo-rustix-0.=
-38.38-fix.patch
->  create mode 100644 meta/recipes-devtools/rust/files/rv32-cargo-rustix-0.=
-38.40-fix.patch
->  rename meta/recipes-devtools/rust/{libstd-rs_1.84.1.bb =3D> libstd-rs_1.=
-85.0.bb} (88%)
->  rename meta/recipes-devtools/rust/{rust-cross-canadian_1.84.1.bb =3D> ru=
-st-cross-canadian_1.85.0.bb} (100%)
->  rename meta/recipes-devtools/rust/{rust-llvm_1.84.1.bb =3D> rust-llvm_1.=
-85.0.bb} (100%)
->  rename meta/recipes-devtools/rust/{rust_1.84.1.bb =3D> rust_1.85.0.bb} (=
-99%)
->
-> diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classe=
-s-recipe/rust-target-config.bbclass
-> index 67aaa56bac..c04940ce54 100644
-> --- a/meta/classes-recipe/rust-target-config.bbclass
-> +++ b/meta/classes-recipe/rust-target-config.bbclass
-> @@ -391,6 +391,11 @@ def rust_gen_target(d, thing, wd, arch):
->      tspec['cpu'] =3D cpu
->      if features !=3D "":
->          tspec['features'] =3D features
-> +    fpu =3D d.getVar('TARGET_FPU')
-> +    if fpu =3D=3D "soft":
-> +        tspec['llvm-floatabi'] =3D "soft"
-> +    elif fpu =3D=3D "hard":
-> +        tspec['llvm-floatabi'] =3D "hard"
->
-> Thanks for this. I see there are three ABIs for arm w.r.t floats soft.
-> hard and softfp you can perhaps get this value
-> from TUNE_CCARGS_MFLOAT, maybe in a follow up please check the third
-> case as well and we might need to add
-> it as well
->
-> Yash:
->
-> any update about this comment from Khem?
->
-> libstd-rs is still failing to build when TARGET_FPU is set to softfp
->
-> I checked the value from TUNE_CCARGS_MFLOAT and it wasn't set to soft whe=
-n using qemuarmv5 as the MACHINE. Thus, we need to use TARGET_FPU.
-> For softfp, I didn't find any target supported/valid using oe-core config=
-.
-> Could you share the config for setting softfp for arm target?
->
-> I will add and check a condition for softfp setting as well with that.
->
-> Regards,
-> Yash
->
-> error: failed to run `rustc` to learn about target-specific information
->
-> Caused by:
->   process didn't exit successfully: `rustc - --crate-name ___
-> --print=3Dfile-names ... -Cembed-bitcode=3Dyes
-> -Zforce-unstable-if-unmarked  -C link-arg=3D-Wl,-soname,libstd.so
-> --target armv7-oemllib32-linux-gnueabi --crate-type bin --crate-type
-> rlib --crate-type dylib --crate-type cdylib --crate-type staticlib
-> --crate-type proc-macro --print=3Dsysroot --print=3Dsplit-debuginfo
-> --print=3Dcrate-name --print=3Dcfg` (exit status: 1)
->   --- stderr
->   error: Error loading target specification: ARM targets must specify
-> their float ABI. Run `rustc --print target-list` for a list of
-> built-in targets
->
-> it's set to softfp from TUNE_CCARGS_MFLOAT
->
-> # $TUNE_CCARGS_MFLOAT
-> #   set oe-core/meta/conf/machine/include/arm/feature-arm-vfp.inc:14
-> #     "${@ bb.utils.contains('TUNE_FEATURES', 'callconvention-hard',
-> 'hard', 'softfp', d) if (d.getVar('TUNE_CCARGS_MFPU') !=3D '' or
-> bb.utils.contains('TUNE_FEATURES', 'simd', True, False, d)) else '' }"
-> TUNE_CCARGS_MFLOAT=3D"softfp"
->
-> # $TARGET_FPU [3 operations]
-> #   set oe-core/meta/conf/machine/include/arm/arch-arm.inc:16
-> #     "${@d.getVar('TUNE_CCARGS_MFLOAT') or 'soft'}"
-> #   set oe-core/meta/conf/machine/include/arm/arch-arm64.inc:39
-> #     "${@bb.utils.contains('TUNE_FEATURES', 'aarch64',
-> '${TARGET_FPU_64}', '${TARGET_FPU_32}', d)}"
-> #   set oe-core/meta/conf/documentation.conf:417
-> #     [doc] "Specifies the method for handling FPU code. For FPU-less
-> targets, which include most ARM CPUs, the variable must be set to
-> 'soft'. If not, the kernel emulation gets used, which results in a
-> performance penalty."
-> # pre-expansion value:
-> #   "${@bb.utils.contains('TUNE_FEATURES', 'aarch64',
-> '${TARGET_FPU_64}', '${TARGET_FPU_32}', d)}"
-> TARGET_FPU=3D"softfp"
+T24gMiBBcHIgMjAyNSwgYXQgMDg6MzcsIFNhbXVsaSBQaWlwcG8gPHNhbXVsaS5waWlwcG9AZ21h
+aWwuY29tPiB3cm90ZToNCj4gDQo+IEl0IHdvdWxkIGJlIGdyZWF0IGlmIEkgd2VyZSBhYmxlIHRv
+LCBhcyB0aGUgbGF5ZXIgbWFpbnRhaW5lciwgYWRkIHRoZSBuZWVkZWQgYnJhbmNoIG1hcHBpbmdz
+IHRvIHRoZSBsYXllcmluZGV4Lg0KPiBTbyBmYXIsIFRpbSBoYXMgYmVlbiB0aGUgb25lIHRvIHVw
+ZGF0ZSB0aG9zZS4NCj4gDQo+IHNjYXJ0aGdhcCAtPiA2LjgNCj4gc3R5aGVhZCAtPiA2LjkNCj4g
+DQo+IElmIFRpbSBvciBvdGhlciBhZG1pbiBjb3VsZCBhZGQgdGhlc2UgYnJhbmNoIG1hcHBpbmdz
+LCB0aGF0IHdvdWxkIGJlIGdyZWF0Lg0KPiBUaGUgbWFwcGluZyBjYW4gYmUgYWRkZWQgZnJvbSBh
+ZG1pbiB2aWV3OiBMYXllciBicmFuY2hlcyDigLogQWRkIGxheWVyIGJyYW5jaA0KPiBBRkFJSywg
+b25seSBCcmFuY2ggYW5kIEFjdHVhbCBCcmFuY2ggdmFsdWVzIG5lZWQgdG8gYmUgc2V0IHVwLk9u
+Y2UgdGhlcmUgaXMgYSBsYXllciBicmFuY2ggc2V0IHVwLCBpdCBhcHBlYXJzLCBJIGFsc28gaGF2
+ZSBhY2Nlc3MgcmlnaHRzIHRvIG1vZGlmeSBpdC4NCg0KSeKAmXZlIGp1c3QgYWRkZWQgc2NhcnRo
+Z2FwIGFuZCBzdHloZWFkIGJyYW5jaGVzIGZvciBtZXRhLXF0Ni4gIFNvcnJ5IGZvciB0aGUgZGVs
+YXkgaW4gdGhpcyENCg0KUm9zcw==
 
