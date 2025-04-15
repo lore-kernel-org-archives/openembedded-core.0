@@ -2,111 +2,137 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 744BBC369AB
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 05:07:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92B83C369AB
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 05:20:11 +0000 (UTC)
 Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.13215.1744693643425059590
+ by mx.groups.io with SMTP id smtpd.web11.13340.1744694402808025479
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Apr 2025 22:07:23 -0700
+ Mon, 14 Apr 2025 22:20:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=jCcANRgW;
+ dkim=pass header.i=@linaro.org header.s=google header.b=dF12FQ9w;
  spf=pass (domain: linaro.org, ip: 209.85.167.47, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54c090fc7adso3724354e87.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Apr 2025 22:07:23 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54ac9b3ddf6so4767357e87.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Apr 2025 22:20:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744693641; x=1745298441; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1744694401; x=1745299201; darn=lists.openembedded.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jpxtuopfNV/eKkd1Z/F5J7GQVdBfVQj8JurADjXRQnU=;
-        b=jCcANRgW8UHa3OHJUfhR0cH6znxGrEnp25WEWrx9TesfcmDktECmM5RxSb5PbXTsmk
-         o7QJwdcDiosjcTv8ALt9K2GCmU7ywjWHOObW2J1fQRUbWueF8EwtTrn0C2SzJZCT8p7M
-         KNfYc1hbC1ojdRGBDQ4a6kAxy07yW2rWbTo1FCKTgfxbMdaOLbvVNDdhVawjQfeqNZTJ
-         mSc47/HclC9F8QLnaweV0mgCdkkRoquLMyAgb4R4oRi1fOY/620WHzZhVdOY+b8ubu3N
-         LzRjyDzw+PFhe3FJ8vGJYe5ntXBO8mwKrE8mM7t8otKbjiUBjnt553bxfMc5yNZH6Xme
-         U+6A==
+        bh=7pwGUzk0n/Sy0Q6pTycv0PpwO3EfhG4F1PPjVh9lPWA=;
+        b=dF12FQ9wGzjEWN0JUq4nRfMrPwCmmeHsHLoLUjUmKBZBmkleAHuP1Vl+hWAXZoVRQc
+         WsdfBi6vrUQTDehWEMXPafpfOQINGLFjtuBFbAEXHgo9SDGT3pzBHwXoU+QvL67BVPHP
+         CO1FJ82hFPQCpnA4BJbC0OBDdBmGA0frA1LGnrZ1z6M+R2ZUGGPOzWXWBlFrAPi3P2aQ
+         43FfJwQWLsmtYTKoNmpS6fHAAtbyIQaVBKiWtIy2SJPE9ELKaVjhFjbYnZY1hhEu20d5
+         hYeIE+croL+SY2S2/aFSU/4GVF0+Yn2c/+YO3HSM267F6NFISaUoxqzGdF3IZh7isDSC
+         x3hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744693641; x=1745298441;
+        d=1e100.net; s=20230601; t=1744694401; x=1745299201;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jpxtuopfNV/eKkd1Z/F5J7GQVdBfVQj8JurADjXRQnU=;
-        b=tx4WujpjqPdb0dhPiPpAOWCUVlq83uQC/tOFhF5fbkK5kxWos89caoiqgQwU4LYpxI
-         LA7MMW09OOK6RdKaqiyEU0rSiH4yZM1ERxSL650z+/Qpo0weqDrvIFqsyJoLDtJb1+dd
-         6hU1hPUwYKQDElUQUUtLPEuk0enrA4E4B9sMuppFU2AyufTkgcv8pnU4d40/oeQTv9tG
-         D5U+4rPDsM43AdZFiemmFExewho6p5ANRNQ8x/yvaDpARgcTjGTGYeVUIGQtSFaVLoOi
-         3bMQ9EU2wXj+vdtbMt+RyGDDKxHzCzHD2Eu+JCJ0shjQ9hmLiCPoO3tXm3YPpVPDb2VM
-         H3tg==
-X-Gm-Message-State: AOJu0Yzf1uHmsOTv/V/zi5mMIvYtM2bZrB7p2Tb4N+Nm7gdB/p6uG2OG
-	LisZuciqdW0AbsxEYJxdlCdEMt7118Kglpd5jx2w26t7B1ETCvdwPsYsMHsYjUY=
-X-Gm-Gg: ASbGnctIwF43gGbAc2OItotQ+wdfoKqpztz4tgkVaH+C5OeHE4NT8IftC+q0UmvG0NJ
-	Jak2EMkGBSY3Z0isx5c6AlhXblqNda3o9tXDMEG9iaI5sw76R3o8MfTnpAQ6nul/Cvgpq0kqMHP
-	i2cB/6C4lG+LidW3q53/XPAjBfqs1piU2r2pTk/O4siCJz8wppPDM3xb6HU9t/rsOLxzef8g1DE
-	ei/YYB7CuO9eKODi4YB8xe6f4V8VP/ULNi62XYtmgATNVNaIKfvRMGidiBPNiSCQhH/vzqPw/8R
-	JCkpT+bLogoWcSK7E8VJlcABmkFWKRYJqgh8sf32HH8QIOLrrEKYKE+uqXW+9g56rUajxUGZLA=
+        bh=7pwGUzk0n/Sy0Q6pTycv0PpwO3EfhG4F1PPjVh9lPWA=;
+        b=RkLsZu7MUw/tLgXGQMgZPDuN2vvMVW7AdWVLWimOtgyGfYQ3QAVmMVz78SBhLkV9fh
+         veSfdKl+yCVNOvuNF3J1blaVtslpUYzZ8kIg5A5GArxAkxy9ubcEx1u+Sr9vpXQ/M05m
+         7oZKa4cS/nTgML/BbWcQBBlBNYzPpS2DD4sRf20lJP1eXMUi9GtbdORjpGpJpKqr+BV7
+         E3VNd8jiOlxeTm9di5rdFVk+c7zRoTn7YX2M3UxWWfKiFDWs2ml9kpk2YPZsV6lrwBeJ
+         opU2fJ0/bag9LKLzdBO4FRu7alXzj4L7uh+9bFjzRODD8igXFHVQDxec7T8M6Dpd6dwq
+         ETaA==
+X-Gm-Message-State: AOJu0YylIR4qx7GomxFRn3K0gAoMnMlvXTlZeSDBXbzCHcVF1zvQf9Dx
+	Nq7Yl7rvuWH9Lc773KI5pelHobqIckOwUTT/qCUXGNhNPW2fPi+GBRaG8Hj5C00=
+X-Gm-Gg: ASbGncsDQGecBqrR906Uzdjx7G5H+0MxF/r5wF6xLnvxb1PPCUfKnxmI22OgmgTy2fc
+	ulHiiFGCnA6B1ztVjx0hlMrHy6jJe/wCqJTyHpyMoKmTZ8sMc+yVxHmrsK9tGaq2Ku//30ukWzB
+	YfLxnPDQDDWe6p8WSCxVJ6vzttN1rOA2DAzl8k4yeocVpRGYAKa0dvSj/7V2DyCujHC/cPNUxDT
+	tvCErt+Q3Ah+n4p0mTl1nc2wmoMLsc9Uu9SNDThXq6hkiuXFrb4qi8EGODvudjQ4H5SXBo34vVa
+	Gq6UGq5xsyVg7hNzoyPA2F+HZBYTElPASa2/emQubAesVbk7ApgvlwMoZzVDB7DJNBQve2roeg=
 	=
-X-Google-Smtp-Source: AGHT+IFwGJWvRCIAc36vhM3FNYQVlD0OntsA1MIvdLsruz+xPouNBrtmB+qaGOTSrQQxEGqBFpnzRw==
-X-Received: by 2002:a05:6512:239e:b0:549:7c8f:8792 with SMTP id 2adb3069b0e04-54d4529eaf2mr4037570e87.29.1744693641489;
-        Mon, 14 Apr 2025 22:07:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IErRYOY6IUW74IFgVLOtYXJwNroO+7IZT4dJzwrhk1e5UP2VrkOcJi9SDueb1RqN1uVFLGMNA==
+X-Received: by 2002:a05:6512:1256:b0:54b:1039:fe72 with SMTP id 2adb3069b0e04-54d45295860mr4534421e87.14.1744694400872;
+        Mon, 14 Apr 2025 22:20:00 -0700 (PDT)
 Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d3d123619sm1298263e87.42.2025.04.14.22.07.21
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d3d5170a3sm1339214e87.210.2025.04.14.22.20.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Apr 2025 22:07:21 -0700 (PDT)
-Date: Tue, 15 Apr 2025 08:07:19 +0300
+        Mon, 14 Apr 2025 22:20:00 -0700 (PDT)
+Date: Tue, 15 Apr 2025 08:19:59 +0300
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: Trevor Woerner <twoerner@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] oeqa wic.py: clean image build dir before
- rebuild in test_permissions()
-Message-ID: <Z_3phyMbfFT4937_@nuoska>
-References: <20250407110946.47038-1-mikko.rapeli@linaro.org>
- <20250414205613.GA8398@localhost>
+Subject: Re: [OE-core] [PATCH v3 09/11] image_types_wic.bbclass: capture
+ verbose wic output by default
+Message-ID: <Z_3sf3l8VmiXjfi_@nuoska>
+References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
+ <20250404162932.447699-10-mikko.rapeli@linaro.org>
+ <20250414204357.GA9290@localhost>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250414205613.GA8398@localhost>
+In-Reply-To: <20250414204357.GA9290@localhost>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 05:07:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214821
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 05:20:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214822
 
 Hi,
 
-On Mon, Apr 14, 2025 at 04:56:14PM -0400, Trevor Woerner wrote:
-> On Mon 2025-04-07 @ 02:09:45 PM, Mikko Rapeli via lists.openembedded.org wrote:
-> > The test builds images using wic and then with bitbake
-> > and compares results. This fails at least on aarch64
-> > build machine and multiple target machines due to
-> > pseudo errors. Fix by cleaning the build recipe
-> > build directory before rebuild.
+On Mon, Apr 14, 2025 at 04:43:58PM -0400, Trevor Woerner wrote:
+> On Fri 2025-04-04 @ 07:29:30 PM, Mikko Rapeli via lists.openembedded.org wrote:
+> > Call wic with --debug to capture logs from wic internals
+> > so that it's clear which partitions get created and which
+> > files get copied where. wic plugins contain for example
+> > race conditions which don't install files at all and thus
+> > images fail to boot and it's not possible to debug these without
+> > something in wic task logs.
+> > 
+> > For example core-image-initramfs-boot do_image_wic
+> > log is now 576 lines which is not excessive but very
+> > important when debugging problems, especially race
+> > conditions which are only hit in some builds in CI.
 > > 
 > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 > > ---
-> >  meta/lib/oeqa/selftest/cases/wic.py | 1 +
-> >  1 file changed, 1 insertion(+)
+> >  meta/classes-recipe/image_types_wic.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > > 
-> > diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-> > index 4f5d43b5ee..55c655cd6d 100644
-> > --- a/meta/lib/oeqa/selftest/cases/wic.py
-> > +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> > @@ -674,6 +674,7 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+> > diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+> > index 1b422b6280..10888bc12b 100644
+> > --- a/meta/classes-recipe/image_types_wic.bbclass
+> > +++ b/meta/classes-recipe/image_types_wic.bbclass
+> > @@ -72,7 +72,7 @@ IMAGE_CMD:wic () {
+> >  	if [ -z "$wks" ]; then
+> >  		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
+> >  	fi
+> > -	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
+> > +	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create --debug "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
 > >  
-> >                  config = 'IMAGE_FSTYPES += "wic"\nWKS_FILE = "%s"\n' % wks_file
-> >                  self.append_config(config)
-> > +                bitbake('-c clean core-image-minimal')
-> >                  bitbake('core-image-minimal')
-> >                  tmpdir = os.path.join(get_bb_var('WORKDIR', 'core-image-minimal'),'build-wic')
-> >  
+> >  	# look to see if the user specifies a custom imager
+> >  	IMAGER=direct
 > 
-> I have seen this issue too, but it is intermittent for me; is this an
-> intermittent issue with you as well? This feels a lot more like a hack rather
-> than a solution.
+> When I need to debug a wic issue, I add "--debug" to WIC_CREATE_EXTRA_ARGS in
+> my conf/local.conf, debug the issue, then submit the patch which modifies the
+> layer without any debugging remnants left behind. I can then either leave wic
+> debugging turned on, or turn it off for my builds as I see fit. Turning on
+> debugging by default for everyone using wic is not what we should be doing.
+> It will slow down builds, and will inflate log files... by miniscule amounts,
+> sure, but not the direction we should be taking.
 
-This is somewhat reproducible. I don't fully understand what is happening
-but it has something to do with pseudo fakeroot database and creating
-files with wic directly vs wic via bitbake build. Hack, possibly, but it
-fixes the issue. I don't expect pseudo to work correctly if tools are run
-in and outside of bitbake build environment.
+I just disagree. Default logging should not be excessive but logs should
+show at high level what the task and tools executed there are doing.
+wic logs without --debug are completely useless in understanding what
+happened when image was created. wic logs with --debug are not excessive
+but show which partitions got created and which files copied where.
+Full rootfs content is not shown so logging is not excessive.
+
+> If you feel there are messages that should be logged on every wic invocation
+> (on which I doubt there will be consensus) then they should be moved out from
+> behind a --debug flag. The whole point of a debug flag is to identify messages
+> that do not need to be logged on every build, but only under special
+> circumstances. Lots of software projects have debug flags; I can't think of any
+> that turn their debug flags on by default.
+
+I want to see which files wic copies and where, e.g. ESP boot partition, and
+which partitions it created. Without --debug wic does not log these.
+
+Some people want all logs to be empty by default, I want them to be usable
+when things go wrong in builds which I did not start or even fully control.
 
 Cheers,
 
