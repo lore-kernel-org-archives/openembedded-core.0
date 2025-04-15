@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 536DFC3ABB8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58C5AC3ABBB
 	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 13:33:18 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.20173.1744723988762740263
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.20184.1744723986457391404
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 06:33:09 -0700
+ Tue, 15 Apr 2025 06:33:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=eYIprfMP;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=s01mCoF7;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019639a74ef4-4f6096d9-a250-4e42-87e3-90de7d34ef3d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OsWnwOmZ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=gybm1Haf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019639a75dfa-0492f7ff-5598-45e5-a89c-626f449f2e03-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1744723988;
+	t=1744723992;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vnUSnlqqp+GPWk0hrMK2EdZSZZvhN/6hLizVsSQxyzU=;
-	b=eYIprfMPxksKN+cp2jqlvSJFBIQUutzVfHVkuh3uGQl8aQZreAFsR3I6cDzLuqcs
-	XviDy24MuLozrR9yIYyL0X0qNtpJa0K5DYC3L/lqUN9gDffeczn3SveHxaznUGt4Kix
-	JyW14zYmR8j+BXGwIMiCDMBcYPy2IrJdiMUSDLlU=
+	bh=MSzWU+Jt2hn59PmmY8W6yECV6j5o8eTpKvikv4QbZNw=;
+	b=OsWnwOmZkHtve+4JFZXgv6PyYIOYNIoiQn4atJK4PAyNbRNFN2wGGKhGUDHJ11dc
+	iBmP1P2MvTbpvXMQvNp/AhcynoyLABqfLuBrAAbBFgN7lcqkQjrI4j07ambOQOqBFKD
+	pqBCFT8BTeFu0in3g+UTPcE7+VFf1AVr2cJMSUbY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723988;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1744723992;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vnUSnlqqp+GPWk0hrMK2EdZSZZvhN/6hLizVsSQxyzU=;
-	b=s01mCoF7SGu1Vq3LsCARdW6JaTp7Uqjq/2B3UpvZwlEQRrD2FzxKuOwFLCP+Gu23
-	B2+oD0rYgrkrbN1xjJlFkPX8a36Fx7N9UDjp4D72e4c7PatKKC6PXRvtPA1EMov/CCx
-	iA0H4WNTXZCKP+7vFyPKfOtysoDQS0LRYxuT2gvY=
-Content-Type: multipart/mixed; boundary="===============9196301308754237972=="
+	bh=MSzWU+Jt2hn59PmmY8W6yECV6j5o8eTpKvikv4QbZNw=;
+	b=gybm1HafYdSqCOKDIKRsbMmJAl4ZTnlEdmATMSKm7uqIRVt/zOpnGvqf9wdSJ35I
+	j9WGuw3KDH0PDsoFEzAp132E+fZreUPP4Mr2GDuZZFvtVyg4lqD6wDXiCg8rtSfg6Rn
+	hkshwY9jzSwaAomQNDF9hY9jh8yQGV43epkeyYkQ=
+Content-Type: multipart/mixed; boundary="===============6824399798336878758=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Robert Joslyn <robert.joslyn@redrectangle.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 25.0.3 SUCCEEDED
-Message-ID: <0101019639a74ef4-4f6096d9-a250-4e42-87e3-90de7d34ef3d-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Apr 2025 13:33:08 +0000
+Subject: [AUH] curl: upgrading to 8.13.0 SUCCEEDED
+Message-ID: <0101019639a75dfa-0492f7ff-5598-45e5-a89c-626f449f2e03-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Apr 2025 13:33:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.04.15-54.240.27.33
+X-SES-Outgoing: 2025.04.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:33:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214920
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214933
 
---===============9196301308754237972==
+--===============6824399798336878758==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *mesa* to *25.0.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *curl* to *8.13.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mesa-upgrade-25.0.2-25.0.3.patch
+    - apply the patch: git am 0001-curl-upgrade-8.12.1-8.13.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,393 +72,465 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 39ede794e3f943a9ff2ca85355fda021c5381982 Mon Sep 17 00:00:00 2001
+From 49b387e2415a5ce720e5ed3b7d88611b566384d6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Apr 2025 09:45:34 +0000
-Subject: [PATCH] mesa: upgrade 25.0.2 -> 25.0.3
+Date: Tue, 15 Apr 2025 12:50:02 +0000
+Subject: [PATCH] curl: upgrade 8.12.1 -> 8.13.0
 
 ---
- ...on-t-encode-build-path-into-binaries.patch | 23 +++++++++----------
- ...SIMD-blake-optimisations-on-x32-host.patch |  4 ++--
- ...sdetects-64bit-atomics-on-mips-clang.patch |  2 +-
- ...cross-compilation-arguments-to-LLVM-.patch |  6 ++---
- meta/recipes-graphics/mesa/mesa.inc           |  4 ++--
- 5 files changed, 19 insertions(+), 20 deletions(-)
+ meta/recipes-support/curl/curl/no-test-timeout.patch        | 6 +++---
+ .../recipes-support/curl/{curl_8.12.1.bb => curl_8.13.0.bb} | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/curl/{curl_8.12.1.bb => curl_8.13.0.bb} (98%)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-index 953a724dc0..1ec5c69b0b 100644
---- a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
+diff --git a/meta/recipes-support/curl/curl/no-test-timeout.patch b/meta/recipes-support/curl/curl/no-test-timeout.patch
+index 677d177302..c6da9f2e15 100644
+--- a/meta/recipes-support/curl/curl/no-test-timeout.patch
++++ b/meta/recipes-support/curl/curl/no-test-timeout.patch
 @@ -1,4 +1,4 @@
--From 027ac36756cc75eea9ed4fee135a351af30b35fd Mon Sep 17 00:00:00 2001
-+From a42f2c0ba316ae3f19fc8fc9ccc7be48de1479a9 Mon Sep 17 00:00:00 2001
- From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
- Date: Tue, 16 Jul 2024 12:32:47 +0300
- Subject: [PATCH] freedreno: don't encode build path into binaries
-@@ -13,13 +13,14 @@ it manually when running the tests.
- Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30206]
- Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
- ---
-- src/freedreno/afuc/meson.build   | 4 ++++
-- src/freedreno/decode/meson.build | 4 +++-
-- src/freedreno/meson.build        | 2 +-
-- 3 files changed, 8 insertions(+), 2 deletions(-)
-+ src/freedreno/afuc/meson.build        | 4 ++++
-+ src/freedreno/decode/meson.build      | 4 +++-
-+ src/freedreno/meson.build             | 2 +-
-+ src/freedreno/registers/gen_header.py | 7 ++++---
-+ 4 files changed, 12 insertions(+), 5 deletions(-)
+-From 42cddb52e821cfc2f09f1974742714e5f2f1856e Mon Sep 17 00:00:00 2001
++From d7de96af23c17baaaf5e1b38c9a3f500cc22107c Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Fri, 15 Mar 2024 14:37:37 +0000
+ Subject: [PATCH] Set the max-time timeout to 600 so the timeout is 10 minutes
+@@ -11,10 +11,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/src/freedreno/afuc/meson.build b/src/freedreno/afuc/meson.build
--index bb7cebf5a748..351cc31ef2de 100644
-+index bb7cebf..351cc31 100644
- --- a/src/freedreno/afuc/meson.build
- +++ b/src/freedreno/afuc/meson.build
- @@ -56,10 +56,12 @@ if with_tests
-@@ -50,7 +51,7 @@ index bb7cebf5a748..351cc31ef2de 100644
-      )
-      test('afuc-disasm',
- diff --git a/src/freedreno/decode/meson.build b/src/freedreno/decode/meson.build
--index 469eeb4eb597..dfa1c12d0d9f 100644
-+index 469eeb4..915ba11 100644
- --- a/src/freedreno/decode/meson.build
- +++ b/src/freedreno/decode/meson.build
- @@ -194,6 +194,7 @@ if dep_lua.found() and dep_libarchive.found()
-@@ -72,7 +73,7 @@ index 469eeb4eb597..dfa1c12d0d9f 100644
-  
-      test('crashdec-' + name,
- diff --git a/src/freedreno/meson.build b/src/freedreno/meson.build
--index 98e49b8fcf0e..145e72597eb9 100644
-+index 29e1bc4..afb7426 100644
- --- a/src/freedreno/meson.build
- +++ b/src/freedreno/meson.build
- @@ -6,7 +6,7 @@ inc_freedreno_rnn = include_directories('rnn')
-@@ -85,9 +86,10 @@ index 98e49b8fcf0e..145e72597eb9 100644
-  dep_libarchive = dependency('libarchive', allow_fallback: true, required: false)
-  dep_libxml2 = dependency('libxml-2.0', allow_fallback: true, required: false)
- diff --git a/src/freedreno/registers/gen_header.py b/src/freedreno/registers/gen_header.py
-+index 7b1aa3e..5b58bc9 100644
- --- a/src/freedreno/registers/gen_header.py
- +++ b/src/freedreno/registers/gen_header.py
--@@ -885,13 +885,14 @@ The rules-ng-ng source files this header
-+@@ -885,13 +885,14 @@ The rules-ng-ng source files this header was generated from are:
-  """)
-  	maxlen = 0
-  	for filepath in p.xml_files:
-@@ -105,6 +107,3 @@ diff --git a/src/freedreno/registers/gen_header.py b/src/freedreno/registers/gen
-  	if p.copyright_year:
-  		current_year = str(datetime.date.today().year)
-  		print()
-----
--2.39.2
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-disable-SIMD-blake-optimisations-on-x32-host.patch b/meta/recipes-graphics/mesa/files/0001-meson-disable-SIMD-blake-optimisations-on-x32-host.patch
-index bebe30037a..e3ba4ff84c 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson-disable-SIMD-blake-optimisations-on-x32-host.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-disable-SIMD-blake-optimisations-on-x32-host.patch
-@@ -1,4 +1,4 @@
--From f3c34b8da2662643089b33be8b93e56a4da8703d Mon Sep 17 00:00:00 2001
-+From a7410ddbfee35d54ca71c034525927885aa9ae72 Mon Sep 17 00:00:00 2001
- From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
- Date: Wed, 2 Apr 2025 15:30:20 +0300
- Subject: [PATCH] meson: disable SIMD blake optimisations on x32 host
-@@ -14,7 +14,7 @@ Upstream-Status: Pending [will be submitted upstream after internal clearance]
-  1 file changed, 2 insertions(+)
- 
- diff --git a/src/util/blake3/meson.build b/src/util/blake3/meson.build
--index 6b53daab6b32..ce6dd85ac1ea 100644
-+index 6b53daa..ce6dd85 100644
- --- a/src/util/blake3/meson.build
- +++ b/src/util/blake3/meson.build
- @@ -24,6 +24,8 @@ if cpu_family == 'x86_64'
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-index baa98a0d46..60abc8660a 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-@@ -1,4 +1,4 @@
--From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
-+From b084fa8f4f09f51e3515c8a7783f1a3801b799ae Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 13 Jan 2020 15:23:47 -0800
- Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
-diff --git a/meta/recipes-graphics/mesa/files/0001-rusticl-provide-cross-compilation-arguments-to-LLVM-.patch b/meta/recipes-graphics/mesa/files/0001-rusticl-provide-cross-compilation-arguments-to-LLVM-.patch
-index d527b34087..d9899fa3bb 100644
---- a/meta/recipes-graphics/mesa/files/0001-rusticl-provide-cross-compilation-arguments-to-LLVM-.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-rusticl-provide-cross-compilation-arguments-to-LLVM-.patch
-@@ -1,4 +1,4 @@
--From b9cf34f39ca7e7546508ce2ab1f053edef5fc201 Mon Sep 17 00:00:00 2001
-+From 2c6c68c99f230c6c0535d308fab008f40db0e334 Mon Sep 17 00:00:00 2001
- From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
- Date: Wed, 26 Mar 2025 17:47:09 +0200
- Subject: [PATCH] rusticl: provide cross-compilation arguments to LLVM bindgen
-@@ -18,7 +18,7 @@ Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-  2 files changed, 22 insertions(+)
- 
- diff --git a/meson_options.txt b/meson_options.txt
--index 0147cafcb146..f73e83fded18 100644
-+index 0147caf..f73e83f 100644
- --- a/meson_options.txt
- +++ b/meson_options.txt
- @@ -796,3 +796,17 @@ option(
-@@ -40,7 +40,7 @@ index 0147cafcb146..f73e83fded18 100644
- +  description : 'Clang target for cross-generating LLVM bindings'
- +  )
- diff --git a/src/gallium/frontends/rusticl/meson.build b/src/gallium/frontends/rusticl/meson.build
--index a5d1dcf3abb9..480c220b7f5f 100644
-+index a5d1dcf..7dd0794 100644
- --- a/src/gallium/frontends/rusticl/meson.build
- +++ b/src/gallium/frontends/rusticl/meson.build
- @@ -115,6 +115,11 @@ rusticl_bindgen_c_args = [
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index aca34983e9..aa615af38e 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -21,8 +21,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-rusticl-provide-cross-compilation-arguments-to-LLVM-.patch \
+ diff --git a/tests/servers.pm b/tests/servers.pm
+-index d4472d5..9999938 100644
++index a3e5edb..f75df79 100644
+ --- a/tests/servers.pm
+ +++ b/tests/servers.pm
+-@@ -123,7 +123,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
++@@ -124,7 +124,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
+  my $sshderror;   # for socks server, ssh daemon version error
+  my %doesntrun;    # servers that don't work, identified by pidfile
+  my %PORT = (nolisten => 47); # port we use for a local non-listening service
+diff --git a/meta/recipes-support/curl/curl_8.12.1.bb b/meta/recipes-support/curl/curl_8.13.0.bb
+similarity index 98%
+rename from meta/recipes-support/curl/curl_8.12.1.bb
+rename to meta/recipes-support/curl/curl_8.13.0.bb
+index 4192693da8..b9b5ef1a15 100644
+--- a/meta/recipes-support/curl/curl_8.12.1.bb
++++ b/meta/recipes-support/curl/curl_8.13.0.bb
+@@ -20,7 +20,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-curl.sh \
  "
  
--SRC_URI[sha256sum] = "adf904d083b308df95898600ffed435f4b5c600d95fb6ec6d4c45638627fdc97"
--PV = "25.0.2"
-+SRC_URI[sha256sum] = "5ff426ed6ce0588fd96d18975bdff451ae2ab2fe98b5d1528842ee71ec66711b"
-+PV = "25.0.3"
+-SRC_URI[sha256sum] = "0341f1ed97a26c811abaebd37d62b833956792b7607ea3f15d001613c76de202"
++SRC_URI[sha256sum] = "4a093979a3c2d02de2fbc00549a32771007f2e78032c6faa5ecd2f7a9e152025"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
 -- 
 2.47.1
 
 
---===============9196301308754237972==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-mesa-upgrade-25.0.2-25.0.3.patch"
-
-RnJvbSAzOWVkZTc5NGUzZjk0M2E5ZmYyY2E4NTM1NWZkYTAyMWM1MzgxOTgyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgQXByIDIwMjUgMDk6NDU6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-ZXNhOiB1cGdyYWRlIDI1LjAuMiAtPiAyNS4wLjMKCi0tLQogLi4ub24tdC1lbmNvZGUtYnVpbGQt
-cGF0aC1pbnRvLWJpbmFyaWVzLnBhdGNoIHwgMjMgKysrKysrKysrLS0tLS0tLS0tLQogLi4uU0lN
-RC1ibGFrZS1vcHRpbWlzYXRpb25zLW9uLXgzMi1ob3N0LnBhdGNoIHwgIDQgKystLQogLi4uc2Rl
-dGVjdHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoIHwgIDIgKy0KIC4uLmNyb3Nz
-LWNvbXBpbGF0aW9uLWFyZ3VtZW50cy10by1MTFZNLS5wYXRjaCB8ICA2ICsrLS0tCiBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLmluYyAgICAgICAgICAgfCAgNCArKy0tCiA1IGZpbGVz
-IGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDIwIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZnJlZWRyZW5vLWRvbi10LWVu
-Y29kZS1idWlsZC1wYXRoLWludG8tYmluYXJpZXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvbWVzYS9maWxlcy8wMDAxLWZyZWVkcmVuby1kb24tdC1lbmNvZGUtYnVpbGQtcGF0aC1pbnRv
-LWJpbmFyaWVzLnBhdGNoCmluZGV4IDk1M2E3MjRkYzAuLjFlYzVjNjliMGIgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZnJlZWRyZW5vLWRvbi10LWVu
-Y29kZS1idWlsZC1wYXRoLWludG8tYmluYXJpZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL21lc2EvZmlsZXMvMDAwMS1mcmVlZHJlbm8tZG9uLXQtZW5jb2RlLWJ1aWxkLXBhdGgt
-aW50by1iaW5hcmllcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDI3YWMzNjc1NmNjNzVl
-ZWE5ZWQ0ZmVlMTM1YTM1MWFmMzBiMzVmZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
-YTQyZjJjMGJhMzE2YWUzZjE5ZmM4ZmM5Y2NjN2JlNDhkZTE0NzlhOSBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKIEZyb206IERtaXRyeSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJv
-Lm9yZz4KIERhdGU6IFR1ZSwgMTYgSnVsIDIwMjQgMTI6MzI6NDcgKzAzMDAKIFN1YmplY3Q6IFtQ
-QVRDSF0gZnJlZWRyZW5vOiBkb24ndCBlbmNvZGUgYnVpbGQgcGF0aCBpbnRvIGJpbmFyaWVzCkBA
-IC0xMywxMyArMTMsMTQgQEAgaXQgbWFudWFsbHkgd2hlbiBydW5uaW5nIHRoZSB0ZXN0cy4KIFVw
-c3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcv
-bWVzYS9tZXNhLy0vbWVyZ2VfcmVxdWVzdHMvMzAyMDZdCiBTaWduZWQtb2ZmLWJ5OiBEbWl0cnkg
-QmFyeXNoa292IDxkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmc+CiAtLS0KLSBzcmMvZnJlZWRy
-ZW5vL2FmdWMvbWVzb24uYnVpbGQgICB8IDQgKysrKwotIHNyYy9mcmVlZHJlbm8vZGVjb2RlL21l
-c29uLmJ1aWxkIHwgNCArKystCi0gc3JjL2ZyZWVkcmVuby9tZXNvbi5idWlsZCAgICAgICAgfCAy
-ICstCi0gMyBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCisg
-c3JjL2ZyZWVkcmVuby9hZnVjL21lc29uLmJ1aWxkICAgICAgICB8IDQgKysrKworIHNyYy9mcmVl
-ZHJlbm8vZGVjb2RlL21lc29uLmJ1aWxkICAgICAgfCA0ICsrKy0KKyBzcmMvZnJlZWRyZW5vL21l
-c29uLmJ1aWxkICAgICAgICAgICAgIHwgMiArLQorIHNyYy9mcmVlZHJlbm8vcmVnaXN0ZXJzL2dl
-bl9oZWFkZXIucHkgfCA3ICsrKystLS0KKyA0IGZpbGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMo
-KyksIDUgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9zcmMvZnJlZWRyZW5vL2FmdWMvbWVz
-b24uYnVpbGQgYi9zcmMvZnJlZWRyZW5vL2FmdWMvbWVzb24uYnVpbGQKLWluZGV4IGJiN2NlYmY1
-YTc0OC4uMzUxY2MzMWVmMmRlIDEwMDY0NAoraW5kZXggYmI3Y2ViZi4uMzUxY2MzMSAxMDA2NDQK
-IC0tLSBhL3NyYy9mcmVlZHJlbm8vYWZ1Yy9tZXNvbi5idWlsZAogKysrIGIvc3JjL2ZyZWVkcmVu
-by9hZnVjL21lc29uLmJ1aWxkCiBAQCAtNTYsMTAgKzU2LDEyIEBAIGlmIHdpdGhfdGVzdHMKQEAg
-LTUwLDcgKzUxLDcgQEAgaW5kZXggYmI3Y2ViZjVhNzQ4Li4zNTFjYzMxZWYyZGUgMTAwNjQ0CiAg
-ICAgICkKICAgICAgdGVzdCgnYWZ1Yy1kaXNhc20nLAogZGlmZiAtLWdpdCBhL3NyYy9mcmVlZHJl
-bm8vZGVjb2RlL21lc29uLmJ1aWxkIGIvc3JjL2ZyZWVkcmVuby9kZWNvZGUvbWVzb24uYnVpbGQK
-LWluZGV4IDQ2OWVlYjRlYjU5Ny4uZGZhMWMxMmQwZDlmIDEwMDY0NAoraW5kZXggNDY5ZWViNC4u
-OTE1YmExMSAxMDA2NDQKIC0tLSBhL3NyYy9mcmVlZHJlbm8vZGVjb2RlL21lc29uLmJ1aWxkCiAr
-KysgYi9zcmMvZnJlZWRyZW5vL2RlY29kZS9tZXNvbi5idWlsZAogQEAgLTE5NCw2ICsxOTQsNyBA
-QCBpZiBkZXBfbHVhLmZvdW5kKCkgYW5kIGRlcF9saWJhcmNoaXZlLmZvdW5kKCkKQEAgLTcyLDcg
-KzczLDcgQEAgaW5kZXggNDY5ZWViNGViNTk3Li5kZmExYzEyZDBkOWYgMTAwNjQ0CiAgCiAgICAg
-IHRlc3QoJ2NyYXNoZGVjLScgKyBuYW1lLAogZGlmZiAtLWdpdCBhL3NyYy9mcmVlZHJlbm8vbWVz
-b24uYnVpbGQgYi9zcmMvZnJlZWRyZW5vL21lc29uLmJ1aWxkCi1pbmRleCA5OGU0OWI4ZmNmMGUu
-LjE0NWU3MjU5N2ViOSAxMDA2NDQKK2luZGV4IDI5ZTFiYzQuLmFmYjc0MjYgMTAwNjQ0CiAtLS0g
-YS9zcmMvZnJlZWRyZW5vL21lc29uLmJ1aWxkCiArKysgYi9zcmMvZnJlZWRyZW5vL21lc29uLmJ1
-aWxkCiBAQCAtNiw3ICs2LDcgQEAgaW5jX2ZyZWVkcmVub19ybm4gPSBpbmNsdWRlX2RpcmVjdG9y
-aWVzKCdybm4nKQpAQCAtODUsOSArODYsMTAgQEAgaW5kZXggOThlNDliOGZjZjBlLi4xNDVlNzI1
-OTdlYjkgMTAwNjQ0CiAgZGVwX2xpYmFyY2hpdmUgPSBkZXBlbmRlbmN5KCdsaWJhcmNoaXZlJywg
-YWxsb3dfZmFsbGJhY2s6IHRydWUsIHJlcXVpcmVkOiBmYWxzZSkKICBkZXBfbGlieG1sMiA9IGRl
-cGVuZGVuY3koJ2xpYnhtbC0yLjAnLCBhbGxvd19mYWxsYmFjazogdHJ1ZSwgcmVxdWlyZWQ6IGZh
-bHNlKQogZGlmZiAtLWdpdCBhL3NyYy9mcmVlZHJlbm8vcmVnaXN0ZXJzL2dlbl9oZWFkZXIucHkg
-Yi9zcmMvZnJlZWRyZW5vL3JlZ2lzdGVycy9nZW5faGVhZGVyLnB5CitpbmRleCA3YjFhYTNlLi41
-YjU4YmM5IDEwMDY0NAogLS0tIGEvc3JjL2ZyZWVkcmVuby9yZWdpc3RlcnMvZ2VuX2hlYWRlci5w
-eQogKysrIGIvc3JjL2ZyZWVkcmVuby9yZWdpc3RlcnMvZ2VuX2hlYWRlci5weQotQEAgLTg4NSwx
-MyArODg1LDE0IEBAIFRoZSBydWxlcy1uZy1uZyBzb3VyY2UgZmlsZXMgdGhpcyBoZWFkZXIKK0BA
-IC04ODUsMTMgKzg4NSwxNCBAQCBUaGUgcnVsZXMtbmctbmcgc291cmNlIGZpbGVzIHRoaXMgaGVh
-ZGVyIHdhcyBnZW5lcmF0ZWQgZnJvbSBhcmU6CiAgIiIiKQogIAltYXhsZW4gPSAwCiAgCWZvciBm
-aWxlcGF0aCBpbiBwLnhtbF9maWxlczoKQEAgLTEwNSw2ICsxMDcsMyBAQCBkaWZmIC0tZ2l0IGEv
-c3JjL2ZyZWVkcmVuby9yZWdpc3RlcnMvZ2VuX2hlYWRlci5weSBiL3NyYy9mcmVlZHJlbm8vcmVn
-aXN0ZXJzL2dlbgogIAlpZiBwLmNvcHlyaWdodF95ZWFyOgogIAkJY3VycmVudF95ZWFyID0gc3Ry
-KGRhdGV0aW1lLmRhdGUudG9kYXkoKS55ZWFyKQogIAkJcHJpbnQoKQotLS0tCi0yLjM5LjIKLQpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1k
-aXNhYmxlLVNJTUQtYmxha2Utb3B0aW1pc2F0aW9ucy1vbi14MzItaG9zdC5wYXRjaCBiL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24tZGlzYWJsZS1TSU1ELWJsYWtl
-LW9wdGltaXNhdGlvbnMtb24teDMyLWhvc3QucGF0Y2gKaW5kZXggYmViZTMwMDM3YS4uZTNiYTRm
-Zjg0YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1t
-ZXNvbi1kaXNhYmxlLVNJTUQtYmxha2Utb3B0aW1pc2F0aW9ucy1vbi14MzItaG9zdC5wYXRjaAor
-KysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLWRpc2FibGUt
-U0lNRC1ibGFrZS1vcHRpbWlzYXRpb25zLW9uLXgzMi1ob3N0LnBhdGNoCkBAIC0xLDQgKzEsNCBA
-QAotRnJvbSBmM2MzNGI4ZGEyNjYyNjQzMDg5YjMzYmU4YjkzZTU2YTRkYTg3MDNkIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhNzQxMGRkYmZlZTM1ZDU0Y2E3MWMwMzQ1MjU5Mjc4ODVh
-YTlhZTcyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogRG1pdHJ5IEJhcnlzaGtvdiA8
-ZG1pdHJ5LmJhcnlzaGtvdkBvc3MucXVhbGNvbW0uY29tPgogRGF0ZTogV2VkLCAyIEFwciAyMDI1
-IDE1OjMwOjIwICswMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIG1lc29uOiBkaXNhYmxlIFNJTUQgYmxh
-a2Ugb3B0aW1pc2F0aW9ucyBvbiB4MzIgaG9zdApAQCAtMTQsNyArMTQsNyBAQCBVcHN0cmVhbS1T
-dGF0dXM6IFBlbmRpbmcgW3dpbGwgYmUgc3VibWl0dGVkIHVwc3RyZWFtIGFmdGVyIGludGVybmFs
-IGNsZWFyYW5jZV0KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1n
-aXQgYS9zcmMvdXRpbC9ibGFrZTMvbWVzb24uYnVpbGQgYi9zcmMvdXRpbC9ibGFrZTMvbWVzb24u
-YnVpbGQKLWluZGV4IDZiNTNkYWFiNmIzMi4uY2U2ZGQ4NWFjMWVhIDEwMDY0NAoraW5kZXggNmI1
-M2RhYS4uY2U2ZGQ4NSAxMDA2NDQKIC0tLSBhL3NyYy91dGlsL2JsYWtlMy9tZXNvbi5idWlsZAog
-KysrIGIvc3JjL3V0aWwvYmxha2UzL21lc29uLmJ1aWxkCiBAQCAtMjQsNiArMjQsOCBAQCBpZiBj
-cHVfZmFtaWx5ID09ICd4ODZfNjQnCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-bWVzYS9maWxlcy8wMDAxLW1lc29uLW1pc2RldGVjdHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNs
-YW5nLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1t
-aXNkZXRlY3RzLTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaAppbmRleCBiYWE5OGEw
-ZDQ2Li42MGFiYzg2NjBhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9m
-aWxlcy8wMDAxLW1lc29uLW1pc2RldGVjdHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBh
-dGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24tbWlz
-ZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gKQEAgLTEsNCArMSw0IEBA
-Ci1Gcm9tIDAyY2MyMTgwMGZlMjlmNTY2YWRkNTI1ZTYzZjYxOWMwNTM2ZDZlN2IgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCitGcm9tIGIwODRmYThmNGYwOWY1MWUzNTE1YzhhNzc4M2YxYTM4MDFi
-Nzk5YWUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPgogRGF0ZTogTW9uLCAxMyBKYW4gMjAyMCAxNToyMzo0NyAtMDgwMAogU3ViamVj
-dDogW1BBVENIXSBtZXNvbiBtaXNkZXRlY3RzIDY0Yml0IGF0b21pY3Mgb24gbWlwcy9jbGFuZwpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1ydXN0aWNs
-LXByb3ZpZGUtY3Jvc3MtY29tcGlsYXRpb24tYXJndW1lbnRzLXRvLUxMVk0tLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1ydXN0aWNsLXByb3ZpZGUtY3Jvc3Mt
-Y29tcGlsYXRpb24tYXJndW1lbnRzLXRvLUxMVk0tLnBhdGNoCmluZGV4IGQ1MjdiMzQwODcuLmQ5
-ODk5ZmEzYmIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAw
-MDEtcnVzdGljbC1wcm92aWRlLWNyb3NzLWNvbXBpbGF0aW9uLWFyZ3VtZW50cy10by1MTFZNLS5w
-YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLXJ1c3RpY2wt
-cHJvdmlkZS1jcm9zcy1jb21waWxhdGlvbi1hcmd1bWVudHMtdG8tTExWTS0ucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIGI5Y2YzNGYzOWNhN2U3NTQ2NTA4Y2UyYWIxZjA1M2VkZWY1ZmMyMDEg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDJjNmM2OGM5OWYyMzBjNmMwNTM1ZDMwOGZh
-YjAwOGY0MGRiMGUzMzQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBEbWl0cnkgQmFy
-eXNoa292IDxkbWl0cnkuYmFyeXNoa292QG9zcy5xdWFsY29tbS5jb20+CiBEYXRlOiBXZWQsIDI2
-IE1hciAyMDI1IDE3OjQ3OjA5ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIHJ1c3RpY2w6IHByb3Zp
-ZGUgY3Jvc3MtY29tcGlsYXRpb24gYXJndW1lbnRzIHRvIExMVk0gYmluZGdlbgpAQCAtMTgsNyAr
-MTgsNyBAQCBTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgQmFyeXNoa292IDxkbWl0cnkuYmFyeXNoa292
-QG9zcy5xdWFsY29tbS5jb20+CiAgMiBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspCiAK
-IGRpZmYgLS1naXQgYS9tZXNvbl9vcHRpb25zLnR4dCBiL21lc29uX29wdGlvbnMudHh0Ci1pbmRl
-eCAwMTQ3Y2FmY2IxNDYuLmY3M2U4M2ZkZWQxOCAxMDA2NDQKK2luZGV4IDAxNDdjYWYuLmY3M2U4
-M2YgMTAwNjQ0CiAtLS0gYS9tZXNvbl9vcHRpb25zLnR4dAogKysrIGIvbWVzb25fb3B0aW9ucy50
-eHQKIEBAIC03OTYsMyArNzk2LDE3IEBAIG9wdGlvbigKQEAgLTQwLDcgKzQwLDcgQEAgaW5kZXgg
-MDE0N2NhZmNiMTQ2Li5mNzNlODNmZGVkMTggMTAwNjQ0CiArICBkZXNjcmlwdGlvbiA6ICdDbGFu
-ZyB0YXJnZXQgZm9yIGNyb3NzLWdlbmVyYXRpbmcgTExWTSBiaW5kaW5ncycKICsgICkKIGRpZmYg
-LS1naXQgYS9zcmMvZ2FsbGl1bS9mcm9udGVuZHMvcnVzdGljbC9tZXNvbi5idWlsZCBiL3NyYy9n
-YWxsaXVtL2Zyb250ZW5kcy9ydXN0aWNsL21lc29uLmJ1aWxkCi1pbmRleCBhNWQxZGNmM2FiYjku
-LjQ4MGMyMjBiN2Y1ZiAxMDA2NDQKK2luZGV4IGE1ZDFkY2YuLjdkZDA3OTQgMTAwNjQ0CiAtLS0g
-YS9zcmMvZ2FsbGl1bS9mcm9udGVuZHMvcnVzdGljbC9tZXNvbi5idWlsZAogKysrIGIvc3JjL2dh
-bGxpdW0vZnJvbnRlbmRzL3J1c3RpY2wvbWVzb24uYnVpbGQKIEBAIC0xMTUsNiArMTE1LDExIEBA
-IHJ1c3RpY2xfYmluZGdlbl9jX2FyZ3MgPSBbCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3MvbWVzYS9tZXNhLmluYyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5j
-CmluZGV4IGFjYTM0OTgzZTkuLmFhNjE1YWYzOGUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy9tZXNhL21lc2EuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21l
-c2EuaW5jCkBAIC0yMSw4ICsyMSw4IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9hcmNoaXZlLm1lc2Ez
-ZC5vcmcvbWVzYS0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1ydXN0aWNs
-LXByb3ZpZGUtY3Jvc3MtY29tcGlsYXRpb24tYXJndW1lbnRzLXRvLUxMVk0tLnBhdGNoIFwKICIK
-IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImFkZjkwNGQwODNiMzA4ZGY5NTg5ODYwMGZmZWQ0MzVm
-NGI1YzYwMGQ5NWZiNmVjNmQ0YzQ1NjM4NjI3ZmRjOTciCi1QViA9ICIyNS4wLjIiCitTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiNWZmNDI2ZWQ2Y2UwNTg4ZmQ5NmQxODk3NWJkZmY0NTFhZTJhYjJmZTk4
-YjVkMTUyODg0MmVlNzFlYzY2NzExYiIKK1BWID0gIjI1LjAuMyIKIAogVVBTVFJFQU1fQ0hFQ0tf
-R0lUVEFHUkVHRVggPSAibWVzYS0oP1A8cHZlcj5cZCsoXC5cZCspKykiCiAKLS0gCjIuNDcuMQoK
-
---===============9196301308754237972==
+--===============6824399798336878758==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/mesa: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa: SRC_URI changed from "https://archive.mesa3d.org/mesa-25.0.2.tar.xz file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-meson-disable-SIMD-blake-optimisations-on-x32-host.patch file://0001-freedreno-don-t-encode-build-path-into-binaries.patch file://0001-rusticl-provide-cross-compilation-arguments-to-LLVM-.patch" to "https://archive.mesa3d.org/mesa-25.0.3.tar.xz file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-meson-disable-SIMD-blake-optimisations-on-x32-host.patch file://0001-freedreno-don-t-encode-build-path-into-binaries.patch file://0001-rusticl-provide-cross-compilation-arguments-to-LLVM-.patch"
-packages/core2-64-poky-linux/mesa: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libegl-mesa: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libegl-mesa: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgallium: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgallium: FILELIST: removed "/usr/lib/libgallium-25.0.2.so", added "/usr/lib/libgallium-25.0.3.so"
-packages/core2-64-poky-linux/mesa/libgallium: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgbm-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgbm-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgbm: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgbm: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgl-mesa: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgl-mesa: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libglapi-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libglapi-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libglapi: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libglapi: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgles1-mesa: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles1-mesa: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgles2-mesa: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles2-mesa: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libgles3-mesa: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles3-mesa: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libglx-mesa: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libglx-mesa: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libopencl-mesa: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libopencl-mesa: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libosmesa-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libosmesa-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libosmesa: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libosmesa: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libxatracker-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libxatracker-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/libxatracker: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/libxatracker: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 404703648 to 404764536 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-dbg: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-dbg: FILELIST: removed "/usr/lib/.debug/libgallium-25.0.2.so", added "/usr/lib/.debug/libgallium-25.0.3.so"
-packages/core2-64-poky-linux/mesa/mesa-dbg: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa-dev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-dev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa-doc: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-doc: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa-locale: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-locale: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 193075 to 193403 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa-src: PKGSIZE changed from 214120507 to 214130838 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-src: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-src: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa-staticdev: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-staticdev: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa-tools: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-tools: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "25.0.2" to "25.0.3"
-packages/core2-64-poky-linux/mesa/mesa: PKGV changed from 25.0.2 [default] to 25.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa: PV changed from "25.0.2" to "25.0.3"
-Changes to packages/core2-64-poky-linux/mesa (sysroot):
-  /usr/lib/libgallium-25.0.2.so moved to /usr/lib/libgallium-25.0.3.so
+packages/core2-64-poky-linux/curl/curl-dbg: PKGSIZE changed from 15840840 to 16345328 (+3%)
+packages/core2-64-poky-linux/curl/curl-dbg: FILELIST: removed "/usr/lib/curl/ptest/tests/server/.debug/getpart", added "/usr/lib/curl/ptest/tests/libtest/.debug/lib1578 /usr/lib/curl/ptest/tests/libtest/.debug/lib2311 /usr/lib/curl/ptest/tests/libtest/.debug/lib1571 /usr/lib/curl/ptest/tests/libtest/.debug/lib1978 /usr/lib/curl/ptest/tests/libtest/.debug/lib1576"
+packages/core2-64-poky-linux/curl/curl-dbg: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
+packages/core2-64-poky-linux/curl/curl-dbg: PV changed from "8.12.1" to "8.13.0"
+packages/core2-64-poky-linux/curl/curl-dev: PKGSIZE changed from 255759 to 257795 (+1%)
+packages/core2-64-poky-linux/curl/curl-dev: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
+packages/core2-64-poky-linux/curl/curl-dev: PV changed from "8.12.1" to "8.13.0"
+packages/core2-64-poky-linux/curl/curl-doc: PKGSIZE changed from 1604480 to 1627481 (+1%)
+packages/core2-64-poky-linux/curl/curl-doc: FILELIST: added "/usr/share/man/man3/CURLOPT_UPLOAD_FLAGS.3"
+packages/core2-64-poky-linux/curl/curl-doc: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
+packages/core2-64-poky-linux/curl/curl-doc: PV changed from "8.12.1" to "8.13.0"
+packages/core2-64-poky-linux/curl/curl-locale: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
+packages/core2-64-poky-linux/curl/curl-locale: PV changed from "8.12.1" to "8.13.0"
+packages/core2-64-poky-linux/curl/curl-ptest: PKGSIZE changed from 7233164 to 7396472 (+2%)
+packages/core2-64-poky-linux/curl/curl-ptest: FILELIST: removed "/usr/lib/curl/ptest/tests/server/getpart", added "/usr/lib/curl/ptest/tests/libtest/lib1978 /usr/lib/curl/ptest/tests/libtest/lib1578 /usr/lib/curl/ptest/tests/data/test487 /usr/lib/curl/ptest/tests/libtest/lib2311 /usr/lib/curl/ptest/tests/data/test489 /usr/lib/curl/ptest/tests/data/test488 /usr/lib/curl/ptest/tests/data/test3209 /usr/lib/curl/ptest/tests/libtest/lib1571 /usr/lib/curl/ptest/tests/libtest/lib1576 /usr/lib/curl/ptest/tests/data/test76 /usr/lib/curl/ptest/tests/data/test2101 /usr/lib/curl/ptest/tests/data/test3210 /usr/lib/curl/ptest/tests/data/test1978 /usr/lib/curl/ptest/tests/data/test1580 /usr/lib/curl/ptest/tests/data/test1581 /usr/lib/curl/ptest/tests/data/test2311 /usr/lib/curl/ptest/tests/data/test1577 /usr/lib/curl/ptest/tests/data/test1576 /usr/lib/curl/ptest/tests/data/test1575 /usr/lib/curl/ptest/tests/data/test1574 /usr/lib/curl/ptest/tests/data/test1573 /usr/lib/curl/ptest/tests/data/test157
+ 2 /usr/lib/curl/ptest/tests/data/test1571 /usr/lib/curl/ptest/tests/data/test698 /usr/lib/curl/ptest/tests/data/test1579 /usr/lib/curl/ptest/tests/data/test1578"
+packages/core2-64-poky-linux/curl/curl-ptest: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
+packages/core2-64-poky-linux/curl/curl-ptest: PV changed from "8.12.1" to "8.13.0"
+packages/core2-64-poky-linux/curl/curl-src: PKGSIZE changed from 5326306 to 5393472 (+1%)
+packages/core2-64-poky-linux/curl/curl-src: FILELIST: directory renamed /usr/src/debug/curl/8.12.1/include/curl -> /usr/src/debug/curl/8.13.0/include/curl, directory renamed /usr/src/debug/curl/8.12.1/lib/vssh -> /usr/src/debug/curl/8.13.0/lib/vssh, directory renamed /usr/src/debug/curl/8.12.1/lib/vtls -> /usr/src/debug/curl/8.13.0/lib/vtls, directory renamed /usr/src/debug/curl/8.12.1/lib/vquic -> /usr/src/debug/curl/8.13.0/lib/vquic, directory renamed /usr/src/debug/curl/8.12.1/lib/vauth -> /usr/src/debug/curl/8.13.0/lib/vauth, directory renamed /usr/src/debug/curl/8.12.1/src -> /usr/src/debug/curl/8.13.0/src, removed "/usr/src/debug/curl/8.12.1/lib/curl_endian.h /usr/src/debug/curl/8.12.1/lib/fopen.h /usr/src/debug/curl/8.12.1/lib/cf-haproxy.c /usr/src/debug/curl/8.12.1/lib/curl_endian.c /usr/src/debug/curl/8.12.1/lib/cf-haproxy.h /usr/src/debug/curl/8.12.1/lib/fopen.c /usr/src/debug/curl/8.12.1/lib/fileinfo.h /usr/src/debug/curl/8.12.1/lib/asyn-thread.c /usr/src/debug/curl/8.12.1
+ /lib/fileinfo.c /usr/src/debug/curl/8.12.1/lib/multihandle.h /usr/src/debug/curl/8.12.1/lib/rtsp.h /usr/src/debug/curl/8.12.1/tests/libtest/lib549.c /usr/src/debug/curl/8.12.1/lib/setopt.h /usr/src/debug/curl/8.12.1/lib/setopt.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1527.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1528.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1977.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1515.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1542.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1545.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1510.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1511.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1512.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1513.c /usr/src/debug/curl/8.12.1/lib/doh.h /usr/src/debug/curl/8.12.1/lib/doh.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1553.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1156.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1485.c /usr/src/debug/curl/8.12.1/test
+ s/libtest/lib1521.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1529.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1530.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1522.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1523.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1525.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1526.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1936.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1937.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1938.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1939.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1591.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1592.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1910.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1911.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1531.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1662.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1971.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1507.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1508.c /usr/src
+ /debug/curl/8.12.1/tests/libtest/lib3010.c /usr/src/debug/curl/8.12.1/tests/libtest/lib569.c /usr/src/debug/curl/8.12.1/lib/getenv.c /usr/src/debug/curl/8.12.1/lib/hash.h /usr/src/debug/curl/8.12.1/lib/hash.c /usr/src/debug/curl/8.12.1/lib/md4.c /usr/src/debug/curl/8.12.1/tests/libtest/lib516.c /usr/src/debug/curl/8.12.1/tests/libtest/lib517.c /usr/src/debug/curl/8.12.1/tests/libtest/lib599.c /usr/src/debug/curl/8.12.1/tests/libtest/lib518.c /usr/src/debug/curl/8.12.1/tests/libtest/lib519.c /usr/src/debug/curl/8.12.1/tests/libtest/lib520.c /usr/src/debug/curl/8.12.1/tests/libtest/lib521.c /usr/src/debug/curl/8.12.1/tests/libtest/lib523.c /usr/src/debug/curl/8.12.1/tests/libtest/lib524.c /usr/src/debug/curl/8.12.1/tests/libtest/lib525.c /usr/src/debug/curl/8.12.1/lib/cfilters.h /usr/src/debug/curl/8.12.1/lib/cfilters.c /usr/src/debug/curl/8.12.1/tests/server/util.c /usr/src/debug/curl/8.12.1/tests/server/util.h /usr/src/debug/curl/8.12.1/tests/libtest/lib3105.c /usr/src/debug/curl/8.
+ 12.1/tests/libtest/test.h /usr/src/debug/curl/8.12.1/tests/libtest/lib570.c /usr/src/debug/curl/8.12.1/tests/libtest/lib571.c /usr/src/debug/curl/8.12.1/tests/libtest/lib572.c /usr/src/debug/curl/8.12.1/tests/libtest/lib506.c /usr/src/debug/curl/8.12.1/tests/libtest/lib507.c /usr/src/debug/curl/8.12.1/tests/libtest/lib508.c /usr/src/debug/curl/8.12.1/tests/libtest/lib509.c /usr/src/debug/curl/8.12.1/tests/libtest/lib510.c /usr/src/debug/curl/8.12.1/tests/libtest/lib511.c /usr/src/debug/curl/8.12.1/tests/libtest/lib512.c /usr/src/debug/curl/8.12.1/tests/server/disabled.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1940.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1945.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1947.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1948.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3025.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3026.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3027.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3100.c /usr/src/deb
+ ug/curl/8.12.1/tests/libtest/lib3101.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3102.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3207.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3208.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3103.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3104.c /usr/src/debug/curl/8.12.1/lib/curl_threads.h /usr/src/debug/curl/8.12.1/lib/formdata.h /usr/src/debug/curl/8.12.1/lib/curl_threads.c /usr/src/debug/curl/8.12.1/lib/formdata.c /usr/src/debug/curl/8.12.1/lib/multiif.h /usr/src/debug/curl/8.12.1/lib/hostip.h /usr/src/debug/curl/8.12.1/tests/libtest/libauthretry.c /usr/src/debug/curl/8.12.1/tests/server/getpart.c /usr/src/debug/curl/8.12.1/lib/hostip.c /usr/src/debug/curl/8.12.1/tests/server/getpart.h /usr/src/debug/curl/8.12.1/lib/urlapi-int.h /usr/src/debug/curl/8.12.1/lib/base64.c /usr/src/debug/curl/8.12.1/lib/bufq.h /usr/src/debug/curl/8.12.1/lib/curl_sha256.h /usr/src/debug/curl/8.12.1/lib/bufq.c /usr/src/debug/curl/8.12.1/lib/getinfo.h /usr
+ /src/debug/curl/8.12.1/lib/llist.c /usr/src/debug/curl/8.12.1/lib/slist.c /usr/src/debug/curl/8.12.1/lib/llist.h /usr/src/debug/curl/8.12.1/lib/slist.h /usr/src/debug/curl/8.12.1/lib/getinfo.c /usr/src/debug/curl/8.12.1/lib/hmac.c /usr/src/debug/curl/8.12.1/lib/ws.c /usr/src/debug/curl/8.12.1/tests/libtest/lib547.c /usr/src/debug/curl/8.12.1/tests/server/sws.c /usr/src/debug/curl/8.12.1/lib/cookie.h /usr/src/debug/curl/8.12.1/lib/cookie.c /usr/src/debug/curl/8.12.1/lib/altsvc.c /usr/src/debug/curl/8.12.1/lib/curl_setup_once.h /usr/src/debug/curl/8.12.1/lib/altsvc.h /usr/src/debug/curl/8.12.1/lib/connect.h /usr/src/debug/curl/8.12.1/lib/connect.c /usr/src/debug/curl/8.12.1/lib/cf-https-connect.h /usr/src/debug/curl/8.12.1/tests/server/mqttd.c /usr/src/debug/curl/8.12.1/lib/cf-https-connect.c /usr/src/debug/curl/8.12.1/lib/sockaddr.h /usr/src/debug/curl/8.12.1/lib/hostasyn.c /usr/src/debug/curl/8.12.1/lib/easygetopt.c /usr/src/debug/curl/8.12.1/lib/strtoofft.c /usr/src/debug/curl/8.12
+ .1/lib/strtoofft.h /usr/src/debug/curl/8.12.1/lib/socketpair.h /usr/src/debug/curl/8.12.1/lib/pop3.h /usr/src/debug/curl/8.12.1/lib/socketpair.c /usr/src/debug/curl/8.12.1/lib/mqtt.h /usr/src/debug/curl/8.12.1/lib/cw-out.h /usr/src/debug/curl/8.12.1/lib/strdup.h /usr/src/debug/curl/8.12.1/lib/cw-out.c /usr/src/debug/curl/8.12.1/lib/strdup.c /usr/src/debug/curl/8.12.1/lib/share.h /usr/src/debug/curl/8.12.1/lib/share.c /usr/src/debug/curl/8.12.1/lib/rand.c /usr/src/debug/curl/8.12.1/lib/curl_md4.h /usr/src/debug/curl/8.12.1/lib/curl_md5.h /usr/src/debug/curl/8.12.1/lib/curl_trc.h /usr/src/debug/curl/8.12.1/lib/rand.h /usr/src/debug/curl/8.12.1/lib/sha256.c /usr/src/debug/curl/8.12.1/lib/curl_trc.c /usr/src/debug/curl/8.12.1/tests/libtest/testutil.c /usr/src/debug/curl/8.12.1/tests/libtest/lib530.c /usr/src/debug/curl/8.12.1/tests/libtest/lib533.c /usr/src/debug/curl/8.12.1/tests/libtest/lib536.c /usr/src/debug/curl/8.12.1/tests/libtest/testutil.h /usr/src/debug/curl/8.12.1/tests/libte
+ st/lib537.c /usr/src/debug/curl/8.12.1/tests/libtest/lib539.c /usr/src/debug/curl/8.12.1/tests/libtest/lib552.c /usr/src/debug/curl/8.12.1/tests/libtest/lib553.c /usr/src/debug/curl/8.12.1/tests/libtest/lib554.c /usr/src/debug/curl/8.12.1/tests/libtest/lib555.c /usr/src/debug/curl/8.12.1/lib/sigpipe.h /usr/src/debug/curl/8.12.1/lib/socks.c /usr/src/debug/curl/8.12.1/lib/socks.h /usr/src/debug/curl/8.12.1/tests/libtest/lib544.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1514.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1554.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1552.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1500.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1555.c /usr/src/debug/curl/8.12.1/lib/http2.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1556.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1557.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1558.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1559.c /usr/src/debug/curl/8.12.1/lib/conncache.c /usr/src/debug/curl/8.12.
+ 1/lib/http_aws_sigv4.c /usr/src/debug/curl/8.12.1/lib/http_aws_sigv4.h /usr/src/debug/curl/8.12.1/lib/conncache.h /usr/src/debug/curl/8.12.1/tests/server/resolve.c /usr/src/debug/curl/8.12.1/tests/server/server_sockaddr.h /usr/src/debug/curl/8.12.1/tests/server/tftpd.c /usr/src/debug/curl/8.12.1/lib/dynhds.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2405.c /usr/src/debug/curl/8.12.1/lib/dynhds.h /usr/src/debug/curl/8.12.1/lib/curl_range.h /usr/src/debug/curl/8.12.1/lib/curl_range.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1905.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1964.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1959.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1958.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1906.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1907.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1955.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1956.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1972.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1957.
+ c /usr/src/debug/curl/8.12.1/lib/easyoptions.c /usr/src/debug/curl/8.12.1/lib/curl_ntlm_core.h /usr/src/debug/curl/8.12.1/tests/server/tftp.h /usr/src/debug/curl/8.12.1/lib/easyoptions.h /usr/src/debug/curl/8.12.1/lib/curl_ntlm_core.c /usr/src/debug/curl/8.12.1/tests/libtest/lib556.c /usr/src/debug/curl/8.12.1/tests/libtest/lib557.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2304.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2305.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2306.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2308.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2301.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2402.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2404.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2309.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2310.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2302.c /usr/src/debug/curl/8.12.1/lib/file.c /usr/src/debug/curl/8.12.1/lib/file.h /usr/src/debug/curl/8.12.1/lib/warnless.c /usr/src/debug/curl/8.12.1/lib/hos
+ tip6.c /usr/src/debug/curl/8.12.1/lib/warnless.h /usr/src/debug/curl/8.12.1/lib/bufref.h /usr/src/debug/curl/8.12.1/lib/bufref.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1908.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1551.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1913.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1915.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1916.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1918.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1919.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1550.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1593.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1594.c /usr/src/debug/curl/8.12.1/lib/curl_memory.h /usr/src/debug/curl/8.12.1/tests/server/testpart.c /usr/src/debug/curl/8.12.1/lib/http_ntlm.c /usr/src/debug/curl/8.12.1/lib/http_ntlm.h /usr/src/debug/curl/8.12.1/lib/smtp.h /usr/src/debug/curl/8.12.1/lib/urldata.h /usr/src/debug/curl/8.12.1/tests/libtest/libprereq.c /usr/src/debug/curl/8.12.1/lib/if2ip.h /usr/
+ src/debug/curl/8.12.1/lib/if2ip.c /usr/src/debug/curl/8.12.1/lib/http_digest.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1597.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1598.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1560.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1564.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1565.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1960.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1912.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1509.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1970.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1567.c /usr/src/debug/curl/8.12.1/lib/speedcheck.h /usr/src/debug/curl/8.12.1/lib/http_digest.h /usr/src/debug/curl/8.12.1/lib/mprintf.c /usr/src/debug/curl/8.12.1/lib/speedcheck.c /usr/src/debug/curl/8.12.1/lib/content_encoding.h /usr/src/debug/curl/8.12.1/lib/content_encoding.c /usr/src/debug/curl/8.12.1/lib/timediff.h /usr/src/debug/curl/8.12.1/lib/timediff.c /usr/src/debug/curl/8.12.1/lib/ftp.h /usr/src/debu
+ g/curl/8.12.1/lib/ftp.c /usr/src/debug/curl/8.12.1/lib/strerror.h /usr/src/debug/curl/8.12.1/lib/strparse.h /usr/src/debug/curl/8.12.1/tests/libtest/lib674.c /usr/src/debug/curl/8.12.1/tests/libtest/lib676.c /usr/src/debug/curl/8.12.1/lib/strerror.c /usr/src/debug/curl/8.12.1/lib/strparse.c /usr/src/debug/curl/8.12.1/tests/libtest/lib677.c /usr/src/debug/curl/8.12.1/tests/libtest/lib678.c /usr/src/debug/curl/8.12.1/tests/libtest/lib694.c /usr/src/debug/curl/8.12.1/tests/libtest/lib695.c /usr/src/debug/curl/8.12.1/tests/libtest/lib505.c /usr/src/debug/curl/8.12.1/tests/libtest/lib515.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1900.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1901.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1903.c /usr/src/debug/curl/8.12.1/lib/md5.c /usr/src/debug/curl/8.12.1/lib/headers.c /usr/src/debug/curl/8.12.1/lib/headers.h /usr/src/debug/curl/8.12.1/lib/curl_addrinfo.c /usr/src/debug/curl/8.12.1/lib/curl_addrinfo.h /usr/src/debug/curl/8.12.1/tests/libtes
+ t/lib1301.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1501.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1502.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1506.c /usr/src/debug/curl/8.12.1/lib/nonblock.h /usr/src/debug/curl/8.12.1/lib/url.h /usr/src/debug/curl/8.12.1/lib/version.c /usr/src/debug/curl/8.12.1/tests/libtest/lib579.c /usr/src/debug/curl/8.12.1/tests/libtest/lib590.c /usr/src/debug/curl/8.12.1/lib/nonblock.c /usr/src/debug/curl/8.12.1/lib/url.c /usr/src/debug/curl/8.12.1/lib/curl_fnmatch.h /usr/src/debug/curl/8.12.1/tests/libtest/lib558.c /usr/src/debug/curl/8.12.1/lib/http_proxy.c /usr/src/debug/curl/8.12.1/tests/libtest/lib559.c /usr/src/debug/curl/8.12.1/tests/libtest/lib560.c /usr/src/debug/curl/8.12.1/tests/libtest/lib562.c /usr/src/debug/curl/8.12.1/lib/http_proxy.h /usr/src/debug/curl/8.12.1/lib/curl_fnmatch.c /usr/src/debug/curl/8.12.1/tests/server/rtspd.c /usr/src/debug/curl/8.12.1/lib/transfer.h /usr/src/debug/curl/8.12.1/tests/libtest/lib513.c /usr/src/debu
+ g/curl/8.12.1/tests/libtest/lib514.c /usr/src/debug/curl/8.12.1/tests/libtest/lib670.c /usr/src/debug/curl/8.12.1/tests/libtest/lib661.c /usr/src/debug/curl/8.12.1/tests/libtest/lib666.c /usr/src/debug/curl/8.12.1/tests/libtest/lib667.c /usr/src/debug/curl/8.12.1/tests/libtest/lib668.c /usr/src/debug/curl/8.12.1/tests/libtest/lib500.c /usr/src/debug/curl/8.12.1/tests/libtest/lib501.c /usr/src/debug/curl/8.12.1/tests/libtest/lib502.c /usr/src/debug/curl/8.12.1/lib/transfer.c /usr/src/debug/curl/8.12.1/tests/libtest/lib582.c /usr/src/debug/curl/8.12.1/tests/libtest/lib583.c /usr/src/debug/curl/8.12.1/tests/libtest/lib586.c /usr/src/debug/curl/8.12.1/lib/strcase.c /usr/src/debug/curl/8.12.1/lib/strcase.h /usr/src/debug/curl/8.12.1/lib/asyn.h /usr/src/debug/curl/8.12.1/tests/libtest/lib1568.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1569.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1540.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1541.c /usr/src/debug/curl/8.12.1/tests/libtest/lib
+ 1517.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1518.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1520.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1933.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1934.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1935.c /usr/src/debug/curl/8.12.1/lib/cf-h1-proxy.h /usr/src/debug/curl/8.12.1/lib/escape.h /usr/src/debug/curl/8.12.1/lib/escape.c /usr/src/debug/curl/8.12.1/lib/cf-h1-proxy.c /usr/src/debug/curl/8.12.1/lib/pingpong.h /usr/src/debug/curl/8.12.1/lib/easy_lock.h /usr/src/debug/curl/8.12.1/lib/curl_get_line.h /usr/src/debug/curl/8.12.1/lib/pingpong.c /usr/src/debug/curl/8.12.1/lib/curl_get_line.c /usr/src/debug/curl/8.12.1/tests/libtest/lib643.c /usr/src/debug/curl/8.12.1/tests/libtest/lib650.c /usr/src/debug/curl/8.12.1/tests/libtest/lib651.c /usr/src/debug/curl/8.12.1/lib/rename.c /usr/src/debug/curl/8.12.1/tests/libtest/lib652.c /usr/src/debug/curl/8.12.1/tests/libtest/lib653.c /usr/src/debug/curl/8.12.1/tests/libtest/lib654.c /usr
+ /src/debug/curl/8.12.1/tests/libtest/lib655.c /usr/src/debug/curl/8.12.1/tests/libtest/lib658.c /usr/src/debug/curl/8.12.1/tests/libtest/lib659.c /usr/src/debug/curl/8.12.1/lib/rename.h /usr/src/debug/curl/8.12.1/lib/urlapi.c /usr/src/debug/curl/8.12.1/tests/libtest/lib543.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1975.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1973.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1974.c /usr/src/debug/curl/8.12.1/lib/noproxy.c /usr/src/debug/curl/8.12.1/lib/noproxy.h /usr/src/debug/curl/8.12.1/tests/libtest/lib1532.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1533.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1534.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1535.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1536.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1537.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1538.c /usr/src/debug/curl/8.12.1/lib/http_chunks.c /usr/src/debug/curl/8.12.1/lib/http_chunks.h /usr/src/debug/curl/8.12.1/lib/curl_bas
+ e64.h /usr/src/debug/curl/8.12.1/lib/sendf.h /usr/src/debug/curl/8.12.1/lib/sendf.c /usr/src/debug/curl/8.12.1/lib/timeval.c /usr/src/debug/curl/8.12.1/lib/timeval.h /usr/src/debug/curl/8.12.1/lib/idn.h /usr/src/debug/curl/8.12.1/lib/ftplistparser.c /usr/src/debug/curl/8.12.1/lib/ftplistparser.h /usr/src/debug/curl/8.12.1/lib/idn.c /usr/src/debug/curl/8.12.1/lib/mime.h /usr/src/debug/curl/8.12.1/lib/curl_sha512_256.c /usr/src/debug/curl/8.12.1/tests/server/socksd.c /usr/src/debug/curl/8.12.1/lib/curl_sha512_256.h /usr/src/debug/curl/8.12.1/tests/server/sockfilt.c /usr/src/debug/curl/8.12.1/lib/mime.c /usr/src/debug/curl/8.12.1/tests/libtest/first.h /usr/src/debug/curl/8.12.1/tests/libtest/first.c /usr/src/debug/curl/8.12.1/lib/http1.c /usr/src/debug/curl/8.12.1/tests/libtest/testtrace.h /usr/src/debug/curl/8.12.1/lib/parsedate.h /usr/src/debug/curl/8.12.1/tests/libtest/lib564.c /usr/src/debug/curl/8.12.1/tests/libtest/lib526.c /usr/src/debug/curl/8.12.1/tests/libtest/lib540.c /usr/s
+ rc/debug/curl/8.12.1/tests/libtest/lib541.c /usr/src/debug/curl/8.12.1/tests/libtest/lib542.c /usr/src/debug/curl/8.12.1/tests/libtest/lib589.c /usr/src/debug/curl/8.12.1/tests/libtest/lib566.c /usr/src/debug/curl/8.12.1/lib/http1.h /usr/src/debug/curl/8.12.1/tests/libtest/lib567.c /usr/src/debug/curl/8.12.1/tests/libtest/lib568.c /usr/src/debug/curl/8.12.1/lib/parsedate.c /usr/src/debug/curl/8.12.1/lib/curl_hmac.h /usr/src/debug/curl/8.12.1/tests/libtest/testtrace.c /usr/src/debug/curl/8.12.1/lib/curl_gethostname.c /usr/src/debug/curl/8.12.1/lib/request.h /usr/src/debug/curl/8.12.1/lib/request.c /usr/src/debug/curl/8.12.1/lib/hsts.h /usr/src/debug/curl/8.12.1/lib/hsts.c /usr/src/debug/curl/8.12.1/lib/imap.h /usr/src/debug/curl/8.12.1/lib/select.c /usr/src/debug/curl/8.12.1/tests/libtest/libntlmconnect.c /usr/src/debug/curl/8.12.1/lib/select.h /usr/src/debug/curl/8.12.1/lib/cf-socket.c /usr/src/debug/curl/8.12.1/lib/dynbuf.h /usr/src/debug/curl/8.12.1/lib/cf-socket.h /usr/src/debug/
+ curl/8.12.1/lib/dynbuf.c /usr/src/debug/curl/8.12.1/tests/libtest/lib503.c /usr/src/debug/curl/8.12.1/tests/libtest/lib504.c /usr/src/debug/curl/8.12.1/tests/libtest/lib591.c /usr/src/debug/curl/8.12.1/tests/libtest/lib597.c /usr/src/debug/curl/8.12.1/tests/libtest/lib598.c /usr/src/debug/curl/8.12.1/tests/libtest/lib573.c /usr/src/debug/curl/8.12.1/tests/libtest/lib574.c /usr/src/debug/curl/8.12.1/tests/libtest/lib575.c /usr/src/debug/curl/8.12.1/tests/libtest/lib576.c /usr/src/debug/curl/8.12.1/tests/libtest/lib578.c /usr/src/debug/curl/8.12.1/lib/netrc.c /usr/src/debug/curl/8.12.1/lib/easy.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2502.c /usr/src/debug/curl/8.12.1/lib/netrc.h /usr/src/debug/curl/8.12.1/lib/http.h /usr/src/debug/curl/8.12.1/lib/progress.h /usr/src/debug/curl/8.12.1/lib/multi.c /usr/src/debug/curl/8.12.1/lib/http.c /usr/src/debug/curl/8.12.1/lib/progress.c /usr/src/debug/curl/8.12.1/lib/splay.c /usr/src/debug/curl/8.12.1/lib/splay.h", added "/usr/src/debug/curl
+ /8.13.0/lib/curl_trc.h /usr/src/debug/curl/8.13.0/lib/curl_md4.h /usr/src/debug/curl/8.13.0/lib/curl_md5.h /usr/src/debug/curl/8.13.0/lib/curl_trc.c /usr/src/debug/curl/8.13.0/tests/libtest/lib562.c /usr/src/debug/curl/8.13.0/tests/libtest/lib564.c /usr/src/debug/curl/8.13.0/tests/libtest/lib566.c /usr/src/debug/curl/8.13.0/tests/libtest/lib567.c /usr/src/debug/curl/8.13.0/tests/libtest/lib568.c /usr/src/debug/curl/8.13.0/tests/libtest/lib569.c /usr/src/debug/curl/8.13.0/lib/sigpipe.h /usr/src/debug/curl/8.13.0/lib/socks.c /usr/src/debug/curl/8.13.0/lib/socks.h /usr/src/debug/curl/8.13.0/lib/curl_gethostname.c /usr/src/debug/curl/8.13.0/tests/libtest/lib694.c /usr/src/debug/curl/8.13.0/tests/libtest/lib695.c /usr/src/debug/curl/8.13.0/tests/libtest/lib643.c /usr/src/debug/curl/8.13.0/tests/libtest/lib650.c /usr/src/debug/curl/8.13.0/tests/libtest/lib651.c /usr/src/debug/curl/8.13.0/tests/libtest/lib511.c /usr/src/debug/curl/8.13.0/tests/libtest/lib512.c /usr/src/debug/curl/8.13.0/te
+ sts/libtest/lib513.c /usr/src/debug/curl/8.13.0/tests/libtest/lib514.c /usr/src/debug/curl/8.13.0/tests/libtest/lib515.c /usr/src/debug/curl/8.13.0/lib/http2.c /usr/src/debug/curl/8.13.0/tests/libtest/lib519.c /usr/src/debug/curl/8.13.0/tests/libtest/lib520.c /usr/src/debug/curl/8.13.0/tests/libtest/lib521.c /usr/src/debug/curl/8.13.0/tests/libtest/lib523.c /usr/src/debug/curl/8.13.0/tests/libtest/lib524.c /usr/src/debug/curl/8.13.0/tests/libtest/lib525.c /usr/src/debug/curl/8.13.0/tests/libtest/lib526.c /usr/src/debug/curl/8.13.0/tests/libtest/lib676.c /usr/src/debug/curl/8.13.0/tests/libtest/lib677.c /usr/src/debug/curl/8.13.0/tests/libtest/lib678.c /usr/src/debug/curl/8.13.0/lib/http_aws_sigv4.c /usr/src/debug/curl/8.13.0/lib/http_aws_sigv4.h /usr/src/debug/curl/8.13.0/lib/curl_addrinfo.c /usr/src/debug/curl/8.13.0/lib/curl_addrinfo.h /usr/src/debug/curl/8.13.0/lib/cf-socket.c /usr/src/debug/curl/8.13.0/lib/cf-socket.h /usr/src/debug/curl/8.13.0/tests/libtest/lib3010.c /usr/src/d
+ ebug/curl/8.13.0/tests/libtest/lib3025.c /usr/src/debug/curl/8.13.0/tests/libtest/lib3026.c /usr/src/debug/curl/8.13.0/tests/libtest/lib3027.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1956.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1957.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1662.c /usr/src/debug/curl/8.13.0/tests/libtest/lib3208.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1916.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2502.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1934.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1945.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1947.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1948.c /usr/src/debug/curl/8.13.0/lib/curl_range.h /usr/src/debug/curl/8.13.0/lib/curl_range.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1560.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1564.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1565.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1567.c /usr/src/debug/curl/8.13.0/lib/asyn.h /usr/src/debug
+ /curl/8.13.0/lib/curl_ntlm_core.h /usr/src/debug/curl/8.13.0/lib/curl_ntlm_core.c /usr/src/debug/curl/8.13.0/lib/fopen.h /usr/src/debug/curl/8.13.0/lib/fopen.c /usr/src/debug/curl/8.13.0/lib/fileinfo.h /usr/src/debug/curl/8.13.0/lib/fileinfo.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1933.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1935.c /usr/src/debug/curl/8.13.0/lib/hmac.c /usr/src/debug/curl/8.13.0/lib/ws.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2404.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2405.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1156.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1545.c /usr/src/debug/curl/8.13.0/tests/libtest/lib3207.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1517.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1518.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1520.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1521.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1522.c /usr/src/debug/curl/8.13.0/lib/cookie.h /usr/src/debug/curl/8.13.0/
+ lib/cookie.c /usr/src/debug/curl/8.13.0/lib/altsvc.c /usr/src/debug/curl/8.13.0/lib/curl_setup_once.h /usr/src/debug/curl/8.13.0/lib/altsvc.h /usr/src/debug/curl/8.13.0/lib/doh.h /usr/src/debug/curl/8.13.0/lib/doh.c /usr/src/debug/curl/8.13.0/lib/cf-https-connect.h /usr/src/debug/curl/8.13.0/lib/cw-pause.c /usr/src/debug/curl/8.13.0/lib/cf-https-connect.c /usr/src/debug/curl/8.13.0/lib/cw-pause.h /usr/src/debug/curl/8.13.0/tests/libtest/lib1960.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1964.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1598.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1910.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1940.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1936.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1485.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1593.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1594.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1597.c /usr/src/debug/curl/8.13.0/lib/pop3.h /usr/src/debug/curl/8.13.0/tests/libtest/lib1571.
+ c /usr/src/debug/curl/8.13.0/tests/libtest/lib1576.c /usr/src/debug/curl/8.13.0/lib/mqtt.h /usr/src/debug/curl/8.13.0/lib/cw-out.h /usr/src/debug/curl/8.13.0/lib/strdup.h /usr/src/debug/curl/8.13.0/lib/md4.c /usr/src/debug/curl/8.13.0/lib/cw-out.c /usr/src/debug/curl/8.13.0/lib/strdup.c /usr/src/debug/curl/8.13.0/tests/server/util.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1568.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1569.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1554.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1555.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1550.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1551.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1552.c /usr/src/debug/curl/8.13.0/tests/server/util.h /usr/src/debug/curl/8.13.0/tests/libtest/lib1553.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1508.c /usr/src/debug/curl/8.13.0/lib/parsedate.h /usr/src/debug/curl/8.13.0/lib/dynhds.h /usr/src/debug/curl/8.13.0/lib/parsedate.c /usr/src/debug/curl/8.13.0/lib
+ /curl_hmac.h /usr/src/debug/curl/8.13.0/lib/ftp.h /usr/src/debug/curl/8.13.0/lib/ftp.c /usr/src/debug/curl/8.13.0/lib/strerror.h /usr/src/debug/curl/8.13.0/lib/strparse.h /usr/src/debug/curl/8.13.0/lib/strequal.c /usr/src/debug/curl/8.13.0/lib/strerror.c /usr/src/debug/curl/8.13.0/lib/strparse.c /usr/src/debug/curl/8.13.0/lib/hsts.h /usr/src/debug/curl/8.13.0/lib/hsts.c /usr/src/debug/curl/8.13.0/lib/md5.c /usr/src/debug/curl/8.13.0/lib/imap.h /usr/src/debug/curl/8.13.0/lib/headers.c /usr/src/debug/curl/8.13.0/lib/headers.h /usr/src/debug/curl/8.13.0/tests/server/server_sockaddr.h /usr/src/debug/curl/8.13.0/lib/select.c /usr/src/debug/curl/8.13.0/lib/select.h /usr/src/debug/curl/8.13.0/lib/dynbuf.h /usr/src/debug/curl/8.13.0/tests/server/tftpd.c /usr/src/debug/curl/8.13.0/lib/dynbuf.c /usr/src/debug/curl/8.13.0/lib/nonblock.h /usr/src/debug/curl/8.13.0/lib/url.h /usr/src/debug/curl/8.13.0/lib/version.c /usr/src/debug/curl/8.13.0/lib/nonblock.c /usr/src/debug/curl/8.13.0/lib/url.c /u
+ sr/src/debug/curl/8.13.0/lib/curl_fnmatch.h /usr/src/debug/curl/8.13.0/lib/http_proxy.c /usr/src/debug/curl/8.13.0/lib/http_proxy.h /usr/src/debug/curl/8.13.0/lib/easy.c /usr/src/debug/curl/8.13.0/lib/curl_fnmatch.c /usr/src/debug/curl/8.13.0/tests/libtest/lib557.c /usr/src/debug/curl/8.13.0/tests/libtest/lib558.c /usr/src/debug/curl/8.13.0/tests/libtest/lib559.c /usr/src/debug/curl/8.13.0/tests/libtest/lib590.c /usr/src/debug/curl/8.13.0/tests/libtest/lib591.c /usr/src/debug/curl/8.13.0/tests/libtest/lib597.c /usr/src/debug/curl/8.13.0/tests/libtest/lib598.c /usr/src/debug/curl/8.13.0/tests/libtest/lib599.c /usr/src/debug/curl/8.13.0/lib/http.h /usr/src/debug/curl/8.13.0/lib/http.c /usr/src/debug/curl/8.13.0/lib/strcase.c /usr/src/debug/curl/8.13.0/lib/strcase.h /usr/src/debug/curl/8.13.0/tests/libtest/lib516.c /usr/src/debug/curl/8.13.0/tests/libtest/lib517.c /usr/src/debug/curl/8.13.0/tests/libtest/lib500.c /usr/src/debug/curl/8.13.0/tests/libtest/lib501.c /usr/src/debug/curl/8.1
+ 3.0/tests/libtest/lib502.c /usr/src/debug/curl/8.13.0/tests/libtest/lib503.c /usr/src/debug/curl/8.13.0/tests/libtest/lib504.c /usr/src/debug/curl/8.13.0/tests/libtest/lib505.c /usr/src/debug/curl/8.13.0/tests/libtest/lib506.c /usr/src/debug/curl/8.13.0/tests/libtest/lib507.c /usr/src/debug/curl/8.13.0/lib/cf-h1-proxy.h /usr/src/debug/curl/8.13.0/lib/cf-haproxy.c /usr/src/debug/curl/8.13.0/lib/getinfo.h /usr/src/debug/curl/8.13.0/lib/llist.c /usr/src/debug/curl/8.13.0/lib/slist.c /usr/src/debug/curl/8.13.0/lib/llist.h /usr/src/debug/curl/8.13.0/lib/slist.h /usr/src/debug/curl/8.13.0/lib/cf-h1-proxy.c /usr/src/debug/curl/8.13.0/lib/cf-haproxy.h /usr/src/debug/curl/8.13.0/lib/getinfo.c /usr/src/debug/curl/8.13.0/lib/file.c /usr/src/debug/curl/8.13.0/lib/easy_lock.h /usr/src/debug/curl/8.13.0/lib/hash_offt.h /usr/src/debug/curl/8.13.0/lib/hash_offt.c /usr/src/debug/curl/8.13.0/lib/file.h /usr/src/debug/curl/8.13.0/lib/if2ip.h /usr/src/debug/curl/8.13.0/lib/bufref.h /usr/src/debug/curl/
+ 8.13.0/lib/bufref.c /usr/src/debug/curl/8.13.0/lib/curl_memory.h /usr/src/debug/curl/8.13.0/lib/connect.h /usr/src/debug/curl/8.13.0/lib/connect.c /usr/src/debug/curl/8.13.0/lib/http_ntlm.c /usr/src/debug/curl/8.13.0/lib/http_ntlm.h /usr/src/debug/curl/8.13.0/lib/smtp.h /usr/src/debug/curl/8.13.0/tests/libtest/lib1529.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1541.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1542.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1911.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1912.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1913.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1915.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1978.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1939.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1955.c /usr/src/debug/curl/8.13.0/tests/server/socksd.c /usr/src/debug/curl/8.13.0/lib/http_digest.c /usr/src/debug/curl/8.13.0/lib/share.h /usr/src/debug/curl/8.13.0/lib/cfilters.h /usr/src/debug/curl/8.13.0/lib/cfilters.c
+  /usr/src/debug/curl/8.13.0/lib/share.c /usr/src/debug/curl/8.13.0/lib/http_digest.h /usr/src/debug/curl/8.13.0/tests/libtest/lib508.c /usr/src/debug/curl/8.13.0/tests/libtest/lib509.c /usr/src/debug/curl/8.13.0/tests/libtest/lib510.c /usr/src/debug/curl/8.13.0/tests/libtest/lib536.c /usr/src/debug/curl/8.13.0/tests/libtest/lib537.c /usr/src/debug/curl/8.13.0/tests/libtest/lib539.c /usr/src/debug/curl/8.13.0/tests/libtest/lib540.c /usr/src/debug/curl/8.13.0/tests/libtest/lib541.c /usr/src/debug/curl/8.13.0/tests/libtest/lib570.c /usr/src/debug/curl/8.13.0/tests/libtest/lib571.c /usr/src/debug/curl/8.13.0/lib/http1.c /usr/src/debug/curl/8.13.0/lib/timediff.h /usr/src/debug/curl/8.13.0/tests/libtest/testtrace.h /usr/src/debug/curl/8.13.0/tests/libtest/lib1938.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1507.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1540.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1556.c /usr/src/debug/curl/8.13.0/lib/http1.h /usr/src/debug/curl/8.13.0/lib/time
+ diff.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1557.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1558.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1559.c /usr/src/debug/curl/8.13.0/tests/libtest/testtrace.c /usr/src/debug/curl/8.13.0/tests/libtest/lib652.c /usr/src/debug/curl/8.13.0/tests/libtest/lib653.c /usr/src/debug/curl/8.13.0/tests/libtest/lib654.c /usr/src/debug/curl/8.13.0/tests/libtest/lib655.c /usr/src/debug/curl/8.13.0/tests/libtest/lib658.c /usr/src/debug/curl/8.13.0/tests/libtest/lib659.c /usr/src/debug/curl/8.13.0/tests/libtest/lib661.c /usr/src/debug/curl/8.13.0/tests/libtest/lib670.c /usr/src/debug/curl/8.13.0/tests/libtest/lib674.c /usr/src/debug/curl/8.13.0/tests/libtest/lib666.c /usr/src/debug/curl/8.13.0/lib/request.h /usr/src/debug/curl/8.13.0/lib/request.c /usr/src/debug/curl/8.13.0/lib/netrc.c /usr/src/debug/curl/8.13.0/lib/netrc.h /usr/src/debug/curl/8.13.0/lib/hostip.h /usr/src/debug/curl/8.13.0/tests/libtest/libauthretry.c /usr/src/debug/curl/8.13.0/t
+ ests/server/rtspd.c /usr/src/debug/curl/8.13.0/tests/server/getpart.c /usr/src/debug/curl/8.13.0/lib/transfer.h /usr/src/debug/curl/8.13.0/lib/multi.c /usr/src/debug/curl/8.13.0/lib/hostip.c /usr/src/debug/curl/8.13.0/lib/transfer.c /usr/src/debug/curl/8.13.0/tests/server/getpart.h /usr/src/debug/curl/8.13.0/lib/easyoptions.c /usr/src/debug/curl/8.13.0/lib/splay.c /usr/src/debug/curl/8.13.0/tests/server/tftp.h /usr/src/debug/curl/8.13.0/lib/easyoptions.h /usr/src/debug/curl/8.13.0/lib/splay.h /usr/src/debug/curl/8.13.0/lib/base64.c /usr/src/debug/curl/8.13.0/lib/bufq.h /usr/src/debug/curl/8.13.0/lib/curl_sha256.h /usr/src/debug/curl/8.13.0/lib/bufq.c /usr/src/debug/curl/8.13.0/lib/escape.h /usr/src/debug/curl/8.13.0/lib/escape.c /usr/src/debug/curl/8.13.0/lib/curl_get_line.h /usr/src/debug/curl/8.13.0/lib/asyn-thread.c /usr/src/debug/curl/8.13.0/lib/curl_get_line.c /usr/src/debug/curl/8.13.0/lib/rename.c /usr/src/debug/curl/8.13.0/lib/rename.h /usr/src/debug/curl/8.13.0/lib/urlapi.c
+  /usr/src/debug/curl/8.13.0/lib/warnless.c /usr/src/debug/curl/8.13.0/lib/hostip6.c /usr/src/debug/curl/8.13.0/lib/warnless.h /usr/src/debug/curl/8.13.0/tests/server/sws.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1500.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1501.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1972.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1973.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1974.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1975.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1977.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1592.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1918.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1919.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1970.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1971.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1900.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1901.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1903.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1905.c /usr/src/
+ debug/curl/8.13.0/tests/libtest/lib1906.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1907.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1908.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1937.c /usr/src/debug/curl/8.13.0/tests/server/mqttd.c /usr/src/debug/curl/8.13.0/lib/sockaddr.h /usr/src/debug/curl/8.13.0/lib/hostasyn.c /usr/src/debug/curl/8.13.0/lib/easygetopt.c /usr/src/debug/curl/8.13.0/lib/http_chunks.c /usr/src/debug/curl/8.13.0/lib/http_chunks.h /usr/src/debug/curl/8.13.0/lib/curl_base64.h /usr/src/debug/curl/8.13.0/lib/socketpair.h /usr/src/debug/curl/8.13.0/lib/cshutdn.h /usr/src/debug/curl/8.13.0/lib/socketpair.c /usr/src/debug/curl/8.13.0/lib/cshutdn.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1536.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1537.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1538.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1530.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1531.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1532.c /usr/src/debug/
+ curl/8.13.0/tests/libtest/lib1533.c /usr/src/debug/curl/8.13.0/lib/urldata.h /usr/src/debug/curl/8.13.0/tests/libtest/libprereq.c /usr/src/debug/curl/8.13.0/tests/libtest/lib572.c /usr/src/debug/curl/8.13.0/tests/libtest/lib573.c /usr/src/debug/curl/8.13.0/tests/libtest/lib574.c /usr/src/debug/curl/8.13.0/tests/libtest/lib575.c /usr/src/debug/curl/8.13.0/tests/libtest/lib576.c /usr/src/debug/curl/8.13.0/tests/libtest/lib578.c /usr/src/debug/curl/8.13.0/tests/libtest/lib579.c /usr/src/debug/curl/8.13.0/tests/libtest/lib518.c /usr/src/debug/curl/8.13.0/tests/libtest/lib542.c /usr/src/debug/curl/8.13.0/tests/libtest/lib543.c /usr/src/debug/curl/8.13.0/lib/ftplistparser.c /usr/src/debug/curl/8.13.0/lib/if2ip.c /usr/src/debug/curl/8.13.0/lib/ftplistparser.h /usr/src/debug/curl/8.13.0/lib/mime.h /usr/src/debug/curl/8.13.0/lib/curl_sha512_256.c /usr/src/debug/curl/8.13.0/lib/curl_sha512_256.h /usr/src/debug/curl/8.13.0/lib/mime.c /usr/src/debug/curl/8.13.0/tests/libtest/first.h /usr/src/de
+ bug/curl/8.13.0/lib/mprintf.c /usr/src/debug/curl/8.13.0/tests/libtest/first.c /usr/src/debug/curl/8.13.0/lib/content_encoding.h /usr/src/debug/curl/8.13.0/lib/rand.c /usr/src/debug/curl/8.13.0/lib/multi_ev.h /usr/src/debug/curl/8.13.0/lib/rand.h /usr/src/debug/curl/8.13.0/lib/sha256.c /usr/src/debug/curl/8.13.0/lib/content_encoding.c /usr/src/debug/curl/8.13.0/lib/multi_ev.c /usr/src/debug/curl/8.13.0/tests/libtest/testutil.c /usr/src/debug/curl/8.13.0/tests/libtest/testutil.h /usr/src/debug/curl/8.13.0/tests/libtest/lib2301.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2302.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2304.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2305.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2306.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2308.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2309.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2310.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2311.c /usr/src/debug/curl/8.13.0/tests/libtest/lib2402.c /usr
+ /src/debug/curl/8.13.0/tests/libtest/test.h /usr/src/debug/curl/8.13.0/tests/server/disabled.c /usr/src/debug/curl/8.13.0/lib/conncache.c /usr/src/debug/curl/8.13.0/lib/conncache.h /usr/src/debug/curl/8.13.0/tests/server/resolve.c /usr/src/debug/curl/8.13.0/tests/libtest/libntlmconnect.c /usr/src/debug/curl/8.13.0/lib/curl_threads.h /usr/src/debug/curl/8.13.0/lib/formdata.h /usr/src/debug/curl/8.13.0/lib/curl_threads.c /usr/src/debug/curl/8.13.0/lib/formdata.c /usr/src/debug/curl/8.13.0/lib/dynhds.c /usr/src/debug/curl/8.13.0/lib/multiif.h /usr/src/debug/curl/8.13.0/tests/libtest/lib544.c /usr/src/debug/curl/8.13.0/tests/libtest/lib547.c /usr/src/debug/curl/8.13.0/tests/libtest/lib549.c /usr/src/debug/curl/8.13.0/tests/libtest/lib530.c /usr/src/debug/curl/8.13.0/tests/libtest/lib533.c /usr/src/debug/curl/8.13.0/tests/libtest/lib552.c /usr/src/debug/curl/8.13.0/tests/libtest/lib553.c /usr/src/debug/curl/8.13.0/tests/libtest/lib554.c /usr/src/debug/curl/8.13.0/tests/libtest/lib555.c /
+ usr/src/debug/curl/8.13.0/tests/libtest/lib556.c /usr/src/debug/curl/8.13.0/tests/libtest/lib560.c /usr/src/debug/curl/8.13.0/lib/progress.h /usr/src/debug/curl/8.13.0/lib/progress.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1509.c /usr/src/debug/curl/8.13.0/lib/urlapi-int.h /usr/src/debug/curl/8.13.0/lib/curl_endian.h /usr/src/debug/curl/8.13.0/lib/curl_endian.c /usr/src/debug/curl/8.13.0/lib/pingpong.h /usr/src/debug/curl/8.13.0/lib/pingpong.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1958.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1959.c /usr/src/debug/curl/8.13.0/lib/multihandle.h /usr/src/debug/curl/8.13.0/lib/rtsp.h /usr/src/debug/curl/8.13.0/lib/setopt.h /usr/src/debug/curl/8.13.0/lib/setopt.c /usr/src/debug/curl/8.13.0/tests/libtest/lib3100.c /usr/src/debug/curl/8.13.0/tests/libtest/lib3101.c /usr/src/debug/curl/8.13.0/tests/libtest/lib3102.c /usr/src/debug/curl/8.13.0/tests/libtest/lib3103.c /usr/src/debug/curl/8.13.0/tests/libtest/lib3104.c /usr/src/debug/curl/8.13.
+ 0/tests/libtest/lib3105.c /usr/src/debug/curl/8.13.0/tests/libtest/lib667.c /usr/src/debug/curl/8.13.0/tests/libtest/lib668.c /usr/src/debug/curl/8.13.0/lib/noproxy.c /usr/src/debug/curl/8.13.0/lib/noproxy.h /usr/src/debug/curl/8.13.0/tests/libtest/lib1523.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1525.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1526.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1534.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1535.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1502.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1506.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1301.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1527.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1528.c /usr/src/debug/curl/8.13.0/lib/sendf.h /usr/src/debug/curl/8.13.0/lib/sendf.c /usr/src/debug/curl/8.13.0/lib/getenv.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1510.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1511.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1512.c /usr/src
+ /debug/curl/8.13.0/tests/libtest/lib1513.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1514.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1515.c /usr/src/debug/curl/8.13.0/tests/libtest/lib1591.c /usr/src/debug/curl/8.13.0/lib/timeval.c /usr/src/debug/curl/8.13.0/lib/timeval.h /usr/src/debug/curl/8.13.0/tests/libtest/lib582.c /usr/src/debug/curl/8.13.0/tests/libtest/lib583.c /usr/src/debug/curl/8.13.0/tests/libtest/lib586.c /usr/src/debug/curl/8.13.0/lib/idn.h /usr/src/debug/curl/8.13.0/tests/libtest/lib589.c /usr/src/debug/curl/8.13.0/lib/hash.h /usr/src/debug/curl/8.13.0/lib/hash.c /usr/src/debug/curl/8.13.0/lib/idn.c /usr/src/debug/curl/8.13.0/tests/server/sockfilt.c /usr/src/debug/curl/8.13.0/lib/speedcheck.h /usr/src/debug/curl/8.13.0/lib/speedcheck.c"
+packages/core2-64-poky-linux/curl/curl-src: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
+packages/core2-64-poky-linux/curl/curl-src: PV changed from "8.12.1" to "8.13.0"
+packages/core2-64-poky-linux/curl/curl-staticdev: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
+packages/core2-64-poky-linux/curl/curl-staticdev: PV changed from "8.12.1" to "8.13.0"
+packages/core2-64-poky-linux/curl/curl: PKGSIZE changed from 215352 to 219448 (+2%)
+packages/core2-64-poky-linux/curl/curl: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
+packages/core2-64-poky-linux/curl/curl: PV changed from "8.12.1" to "8.13.0"
+packages/core2-64-poky-linux/curl: SRC_URI changed from "https://curl.se/download/curl-8.12.1.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch" to "https://curl.se/download/curl-8.13.0.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch"
+packages/core2-64-poky-linux/curl: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
+packages/core2-64-poky-linux/curl: PV changed from "8.12.1" to "8.13.0"
+packages/core2-64-poky-linux/curl/libcurl: PKGSIZE changed from 622208 to 646912 (+4%)
+packages/core2-64-poky-linux/curl/libcurl: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
+packages/core2-64-poky-linux/curl/libcurl: PV changed from "8.12.1" to "8.13.0"
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1960,18 +2032,341 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/mesa-native (sysroot):
-  /usr/lib/libgallium-25.0.2.so moved to /usr/lib/libgallium-25.0.3.so
 
---===============9196301308754237972==
+--===============6824399798336878758==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/mesa/libgallium: FILELIST: removed "/usr/lib/libgallium-25.0.2.so", added "/usr/lib/libgallium-25.0.3.so"
-Changes to packages/core2-64-poky-linux/mesa (sysroot):
-  /usr/lib/libgallium-25.0.2.so moved to /usr/lib/libgallium-25.0.3.so
+packages/core2-64-poky-linux/curl/curl-doc: FILELIST: added "/usr/share/man/man3/CURLOPT_UPLOAD_FLAGS.3"
+packages/core2-64-poky-linux/curl/curl-ptest: FILELIST: removed "/usr/lib/curl/ptest/tests/server/getpart", added "/usr/lib/curl/ptest/tests/data/test3210 /usr/lib/curl/ptest/tests/data/test1581 /usr/lib/curl/ptest/tests/data/test1580 /usr/lib/curl/ptest/tests/data/test2101 /usr/lib/curl/ptest/tests/data/test76 /usr/lib/curl/ptest/tests/libtest/lib1978 /usr/lib/curl/ptest/tests/data/test487 /usr/lib/curl/ptest/tests/data/test488 /usr/lib/curl/ptest/tests/data/test489 /usr/lib/curl/ptest/tests/data/test2311 /usr/lib/curl/ptest/tests/libtest/lib2311 /usr/lib/curl/ptest/tests/data/test1578 /usr/lib/curl/ptest/tests/data/test1579 /usr/lib/curl/ptest/tests/data/test1574 /usr/lib/curl/ptest/tests/data/test1575 /usr/lib/curl/ptest/tests/data/test1576 /usr/lib/curl/ptest/tests/data/test1577 /usr/lib/curl/ptest/tests/data/test1571 /usr/lib/curl/ptest/tests/data/test1572 /usr/lib/curl/ptest/tests/data/test1573 /usr/lib/curl/ptest/tests/data/test3209 /usr/lib/curl/ptest/tests/data/test1978 /usr
+ /lib/curl/ptest/tests/libtest/lib1578 /usr/lib/curl/ptest/tests/libtest/lib1576 /usr/lib/curl/ptest/tests/data/test698 /usr/lib/curl/ptest/tests/libtest/lib1571"
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3473,8 +3868,59 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/mesa-native (sysroot):
-  /usr/lib/libgallium-25.0.2.so moved to /usr/lib/libgallium-25.0.3.so
 
---===============9196301308754237972==--
+--===============6824399798336878758==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-curl-upgrade-8.12.1-8.13.0.patch"
+
+RnJvbSA0OWIzODdlMjQxNWE1Y2U3MjBlNWVkM2I3ZDg4NjExYjU2NjM4NGQ2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgQXByIDIwMjUgMTI6NTA6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+dXJsOiB1cGdyYWRlIDguMTIuMSAtPiA4LjEzLjAKCi0tLQogbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+Y3VybC9jdXJsL25vLXRlc3QtdGltZW91dC5wYXRjaCAgICAgICAgfCA2ICsrKy0tLQogLi4uL3Jl
+Y2lwZXMtc3VwcG9ydC9jdXJsL3tjdXJsXzguMTIuMS5iYiA9PiBjdXJsXzguMTMuMC5iYn0gfCAy
+ICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL3tjdXJsXzguMTIuMS5iYiA9PiBjdXJsXzgu
+MTMuMC5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1
+cmwvbm8tdGVzdC10aW1lb3V0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJs
+L25vLXRlc3QtdGltZW91dC5wYXRjaAppbmRleCA2NzdkMTc3MzAyLi5jNmRhOWYyZTE1IDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmwvbm8tdGVzdC10aW1lb3V0LnBh
+dGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybC9uby10ZXN0LXRpbWVvdXQu
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDQyY2RkYjUyZTgyMWNmYzJmMDlmMTk3NDc0Mjcx
+NGU1ZjJmMTg1NmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGQ3ZGU5NmFmMjNjMTdi
+YWFhZjVlMWIzOGM5YTNmNTAwY2MyMjEwN2MgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KIERhdGU6IEZyaSwgMTUgTWFyIDIw
+MjQgMTQ6Mzc6MzcgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gU2V0IHRoZSBtYXgtdGltZSB0aW1l
+b3V0IHRvIDYwMCBzbyB0aGUgdGltZW91dCBpcyAxMCBtaW51dGVzCkBAIC0xMSwxMCArMTEsMTAg
+QEAgU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQg
+YS90ZXN0cy9zZXJ2ZXJzLnBtIGIvdGVzdHMvc2VydmVycy5wbQotaW5kZXggZDQ0NzJkNS4uOTk5
+OTkzOCAxMDA2NDQKK2luZGV4IGEzZTVlZGIuLmY3NWRmNzkgMTAwNjQ0CiAtLS0gYS90ZXN0cy9z
+ZXJ2ZXJzLnBtCiArKysgYi90ZXN0cy9zZXJ2ZXJzLnBtCi1AQCAtMTIzLDcgKzEyMyw3IEBAIG15
+ICRzc2hkdmVyc3RyOyAgIyBmb3Igc29ja3Mgc2VydmVyLCBzc2ggZGFlbW9uIHZlcnNpb24gc3Ry
+aW5nCitAQCAtMTI0LDcgKzEyNCw3IEBAIG15ICRzc2hkdmVyc3RyOyAgIyBmb3Igc29ja3Mgc2Vy
+dmVyLCBzc2ggZGFlbW9uIHZlcnNpb24gc3RyaW5nCiAgbXkgJHNzaGRlcnJvcjsgICAjIGZvciBz
+b2NrcyBzZXJ2ZXIsIHNzaCBkYWVtb24gdmVyc2lvbiBlcnJvcgogIG15ICVkb2VzbnRydW47ICAg
+ICMgc2VydmVycyB0aGF0IGRvbid0IHdvcmssIGlkZW50aWZpZWQgYnkgcGlkZmlsZQogIG15ICVQ
+T1JUID0gKG5vbGlzdGVuID0+IDQ3KTsgIyBwb3J0IHdlIHVzZSBmb3IgYSBsb2NhbCBub24tbGlz
+dGVuaW5nIHNlcnZpY2UKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3Vy
+bF84LjEyLjEuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxfOC4xMy4wLmJiCnNp
+bWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwv
+Y3VybF84LjEyLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybF84
+LjEzLjAuYmIKaW5kZXggNDE5MjY5M2RhOC4uYjliNWVmMWExNSAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsXzguMTIuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9jdXJsL2N1cmxfOC4xMy4wLmJiCkBAIC0yMCw3ICsyMCw3IEBAIFNSQ19VUkk6YXBwZW5k
+OmNsYXNzLW5hdGl2ZXNkayA9ICIgXAogICAgICAgICAgICBmaWxlOi8vZW52aXJvbm1lbnQuZC1j
+dXJsLnNoIFwKICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAzNDFmMWVkOTdhMjZjODExYWJh
+ZWJkMzdkNjJiODMzOTU2NzkyYjc2MDdlYTNmMTVkMDAxNjEzYzc2ZGUyMDIiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiNGEwOTM5NzlhM2MyZDAyZGUyZmJjMDA1NDlhMzI3NzEwMDdmMmU3ODAzMmM2
+ZmFhNWVjZDJmN2E5ZTE1MjAyNSIKIAogIyBDdXJsIGhhcyB1c2VkIG1hbnkgbmFtZXMgb3ZlciB0
+aGUgeWVhcnMuLi4KIENWRV9QUk9EVUNUID0gImhheHg6Y3VybCBoYXh4OmxpYmN1cmwgY3VybDpj
+dXJsIGN1cmw6bGliY3VybCBsaWJjdXJsOmxpYmN1cmwgZGFuaWVsX3N0ZW5iZXJnOmN1cmwiCi0t
+IAoyLjQ3LjEKCg==
+
+--===============6824399798336878758==--
 
