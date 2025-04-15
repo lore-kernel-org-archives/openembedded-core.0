@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E088CC369C1
-	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 20:52:38 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.4855.1744750354777655443
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D19D6C369AB
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 20:52:48 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.4835.1744750359778839589
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 13:52:34 -0700
+ Tue, 15 Apr 2025 13:52:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bOUWjEGm;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-227b650504fso60105865ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:52:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sCKhbtgJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7376dd56f60so4113195b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 13:52:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744750354; x=1745355154; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744750359; x=1745355159; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PfbBE02/GYbGAop480tyacnnE52Ddmv7AQnbQ8fg4qg=;
-        b=bOUWjEGmlYxiGIkzMDllNQwtyb1yineS+wbkw+qOANZxjLtyNKO0EGCszI2T4S/5Ds
-         riA6NP4fRpwXLsdvXDuD4vR2R6yORqGnfagsRjJKJ5fp4pdo1grDSfuXw5gBRfVXt72N
-         38CTgL7iJT/NWfGWBxm8XufqCPVZKhcclGqLGM9S50IUaCxZ1tzoZM9w1bduq6FifFYw
-         X3V4kiXMXcyQrXVotiT5xVxBPqMXK8lIGhQuR2wJxBNKf6tMSuGkJ1fwFQrWHkG57y9n
-         3CmOyTA0B/zI2bKhsTnguEVo0hGMCiJLxQYyK8ntk/ObjVcQ/DWqfgsE2qXdNPHmRF0H
-         GocA==
+        bh=J1ixoJc/pEoZsZRNQ8WYMEES1DWOnnl+o7K7SfUzz9M=;
+        b=sCKhbtgJlC9UYpFWo8rD5dnnxesn68CQh32f6zi+zHsNy510mCOEzxyYAPENVsjK2S
+         2W+5oK0ZZGVv1qMSxY/xOe+p1puMqdoX2D551WBMiFRBaz6f+rlnPCnS0cUeRoWZtOvE
+         3ISv1R/vdTrLCTLUqv5Ud52eUNFrejt9DzUHw/DceQNvJppEodvO3NOLmtrpjq/PbJXh
+         bIO4QpSBHtKPGtQ+VnQuvw/glvd4XDOKNogJy0q1Rzp9HLOHltjAYYu2diarp6MZZ+9T
+         Xc3tNnyGdTGaSindOJekXr2ZHfzK2UjYiqXFkbPrOjn2OeuW7i1rpiCxT8n2vGGAXA/e
+         oX5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744750354; x=1745355154;
+        d=1e100.net; s=20230601; t=1744750359; x=1745355159;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PfbBE02/GYbGAop480tyacnnE52Ddmv7AQnbQ8fg4qg=;
-        b=ZsrqsMZg73oXlbvg7z5pjyzoET3DkkH8iN+PTWkmAl4yOgGzd78kMktSOZKXQKqSCJ
-         6ydn2wtaUzBtjgWGNa1fdUnjBlzPmWGDj254mhDw2WqTAgkl+7YXXpoGkg05fSc80srk
-         7lQdr/ilqdDLRkWVbSAcd02b7dZpJ1vQog4F0Vs4/5TQzlWNzEx2aJcAKqlC4Ff08dmX
-         A0AhXvYuY+ZBb7uJdozU77IYX5FiLB0LsfCQgOccTvlbGLhW67nXjIkJRzKtTbPfhl5G
-         ryAdncJzVBed2h7757PxvHFUm7k4/5C5IzNhh++xRnnEinOT30bKlbFZxEpaXF83bogH
-         DMmA==
-X-Gm-Message-State: AOJu0YzByFiHwgaGpy2ZspDXb6hqhbK3xfbQri7T2JFziGqmZqDdB2W5
-	ZtPgfSKBJKFw6yu5L7aKZqmy3RfBqyiwKv3E9pkmMeFhihGvXMzDp9/kPrdQVXeeZQ4RJA7BKQU
-	w
-X-Gm-Gg: ASbGncsmuXfnG0YCxJMVr5vqnLGjajYgV/Y95rMAQDDrWsJw1i3gAHu8sLBdpmVau7Q
-	IOL1NjWlDyYY0GTHHBazb1xPRW2lH1ELgXBNox5ZPWQU8d/Iip1vOaeIe5vEcR/MAqx+Gle8PRq
-	/Olel3CY0lhM2lNapdrL44dNnytEG3LshAyDE0Df6GeeIgiffh2ny51KnqFUjoJkS2eG4dYjVto
-	duw9q8Vr4Da+Z5YjDZItyXp4GtQh/+RC0p437rzQ0pE9LHT1PIJ4UHgwLA4PTYtp6sInurB9Lxe
-	4h9LfhvS2RDF7GGt+tHg56Elk2qjlzdq
-X-Google-Smtp-Source: AGHT+IEQLarWazTTN4D+ovpl9/sWvs+PbBfKUFEXda0ZmJVc2sUUCpVun3INbhxMZKdYinTjpXHAZg==
-X-Received: by 2002:a17:903:1c5:b0:220:ca08:8986 with SMTP id d9443c01a7336-22c31a33701mr9537095ad.22.1744750354058;
-        Tue, 15 Apr 2025 13:52:34 -0700 (PDT)
+        bh=J1ixoJc/pEoZsZRNQ8WYMEES1DWOnnl+o7K7SfUzz9M=;
+        b=NrVHn81N6MhPosCOmUYgFMKXcIoLC1qwtqlfqn7zXwDdmWPBY2HJcjI7pNYs9PP/+0
+         KUrEn/JtobE9OXl/23YSyyVZ/+gNRW8WRimABA1YzO7GrjcV3a1MbEC39njKuD0BlX1P
+         LR5by5BhaRg67w98hi+/1XhWJraDV2nr6SPO5cjb9+P5DNfukKJEKIPFau6iUFfA/Qq+
+         6bFWcLLrA85idHmBOW1hVLfjfldvE+S1E7J6NuoDzLa3N+7uYK+dqjxjO+X6eWd5dDPP
+         RbE+AbcLUfWE0MrbtR1JcWk9D50jLnNkpKzMQu18GrOdYujU9LQElwGn1f0SiKsKFIa/
+         7LEQ==
+X-Gm-Message-State: AOJu0YyQ/Xm+R9CeLyeux36RNGzitqwn9lqzf3kTeYehdoGZiYw7RQBe
+	35ox+O/Ic1QV50inXrOSFEs1A5ehS+5sVYQnpCyn2gzFvKON1guYud4AZb5kuNdhBjPAn9BH3OJ
+	A
+X-Gm-Gg: ASbGncu3trLMpNbi0ceK11UYkrotJSEuc3RVzhQooEMGbO+xXnWcMa1GdBj1mqkViEi
+	h0yV3+wQ2rPaJLkLzWyWcdV5qlzqhSAvmjOpXje/vn4TETtrhyIN/n2PRnNztMWBiR/XzuVGJFe
+	+r6/bZBpNmdSC/XGrT865Wr4dm/A5U7PSWp61AEfNFkTX4cnFe/pGLLfcDjfB2wqhNieakwtFk2
+	ePHjRWaA8Aa2bAFRrp0WRC+2zYZlM/9UnX3tUSRwPZssvfm2Rhg7srSwqnOW4hIepC6ey8sFPwX
+	dWD/wGw8H80Jrxf+AuIZ6gsKbb/ABJJ6
+X-Google-Smtp-Source: AGHT+IHMdTv+yRNFFyXsAma0Gehlhm4CFj7fiKZQT/4RKZtreDExdJjFtRPCxz3yX0BwLXCgvAmGHA==
+X-Received: by 2002:a05:6a00:140c:b0:736:a694:1a0c with SMTP id d2e1a72fcca58-73c1fb5af29mr1313903b3a.21.1744750358778;
+        Tue, 15 Apr 2025 13:52:38 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:6144:9704:3eb2:ee31])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd23332a3sm8978307b3a.161.2025.04.15.13.52.33
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd23332a3sm8978307b3a.161.2025.04.15.13.52.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 13:52:33 -0700 (PDT)
+        Tue, 15 Apr 2025 13:52:38 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 1/4] cve-update-nvd2-native: add workaround for json5 style list
-Date: Tue, 15 Apr 2025 13:52:22 -0700
-Message-ID: <cee817c0c3653cc96833815bfe2c87d2d85cc19e.1744750227.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/4] ruby: fix CVE-2024-43398
+Date: Tue, 15 Apr 2025 13:52:25 -0700
+Message-ID: <f23d1bfca0ea57150c397bc2e495191fb61423d0.1744750227.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1744750227.git.steve@sakoman.com>
 References: <cover.1744750227.git.steve@sakoman.com>
@@ -66,91 +66,132 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 20:52:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214968
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 20:52:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214971
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Divya Chellam <divya.chellam@windriver.com>
 
-NVD responses changed to an invalid json between:
-* April 5, 2025 at 3:03:44 AM GMT+2
-* April 5, 2025 at 4:19:48 AM GMT+2
+REXML is an XML toolkit for Ruby. The REXML gem before 3.3.6 has a DoS
+vulnerability when it parses an XML that has many deep elements that have
+same local name attributes. If you need to parse untrusted XMLs with tree
+parser API like REXML::Document.new, you may be impacted to this vulnerability.
+If you use other parser APIs such as stream parser API and SAX2 parser API,
+this vulnerability is not affected. The REXML gem 3.3.6 or later include the
+patch to fix the vulnerability.
 
-The last response is since then in format
-{
-  "resultsPerPage": 625,
-  "startIndex": 288000,
-  "totalResults": 288625,
-  "format": "NVD_CVE",
-  "version": "2.0",
-  "timestamp": "2025-04-07T07:17:17.534",
-  "vulnerabilities": [
-    {...},
-    ...
-    {...},
-  ]
-}
+Reference:
+https://security-tracker.debian.org/tracker/CVE-2024-43398
 
-Json does not allow trailing , in responses, that is json5 format.
-So cve-update-nvd2-native do_Fetch task fails with log backtrace ending:
+Upstream-patch:
+https://github.com/ruby/rexml/commit/7cb5eaeb221c322b9912f724183294d8ce96bae3
 
-...
-File: '/builds/ccp/meta-siemens/projects/ccp/../../poky/meta/recipes-core/meta/cve-update-nvd2-native.bb', lineno: 234, function: update_db_file
-     0230:            if raw_data is None:
-     0231:                # We haven't managed to download data
-     0232:                return False
-     0233:
- *** 0234:            data = json.loads(raw_data)
-     0235:
-     0236:            index = data["startIndex"]
-     0237:            total = data["totalResults"]
-     0238:            per_page = data["resultsPerPage"]
-...
-File: '/usr/lib/python3.11/json/decoder.py', lineno: 355, function: raw_decode
-     0351:        """
-     0352:        try:
-     0353:            obj, end = self.scan_once(s, idx)
-     0354:        except StopIteration as err:
- *** 0355:            raise JSONDecodeError("Expecting value", s, err.value) from None
-     0356:        return obj, end
-Exception: json.decoder.JSONDecodeError: Expecting value: line 1 column 1442633 (char 1442632)
-...
-
-There was no announcement about json format of API v2.0 by nvd.
-Also this happens only if whole database is queried (database update is
-fine, even when multiple pages as queried).
-And lastly it's only the cve list, all other lists inside are fine.
-So this looks like a bug in NVD 2.0 introduced with some update.
-
-Patch this with simple character deletion for now and let's monitor the
-situation and possibly switch to json5 in the future.
-Note that there is no native json5 support in python, we'd have to use
-one of external libraries for it.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6e526327f5c9e739ac7981e4a43a4ce53a908945)
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../ruby/ruby/CVE-2024-43398.patch            | 81 +++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.1.3.bb      |  1 +
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-43398.patch
 
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index b8faee68d6..9808120cab 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -226,6 +226,11 @@ def update_db_file(db_tmp_file, d, database_time):
-                 # We haven't managed to download data
-                 return False
- 
-+            # hack for json5 style responses
-+            if raw_data[-3:] == ',]}':
-+                bb.note("Removing trailing ',' from nvd response")
-+                raw_data = raw_data[:-3] + ']}'
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-43398.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-43398.patch
+new file mode 100644
+index 0000000000..02dc0a20be
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-43398.patch
+@@ -0,0 +1,81 @@
++From 7cb5eaeb221c322b9912f724183294d8ce96bae3 Mon Sep 17 00:00:00 2001
++From: Sutou Kouhei <kou@clear-code.com>
++Date: Sat, 17 Aug 2024 17:45:52 +0900
++Subject: [PATCH] parser tree: improve namespace conflicted attribute check 
++ performance
 +
-             data = json.loads(raw_data)
++It was slow for deep element.
++
++Reported by l33thaxor. Thanks!!!
++
++The changes to the test folder files are not included in this patch
++because the test folder was not generated during the devtool source build.
++
++CVE: CVE-2024-43398
++
++Upstream-Status: Backport [https://github.com/ruby/rexml/commit/7cb5eaeb221c322b9912f724183294d8ce96bae3]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ .bundle/gems/rexml-3.2.5/lib/rexml/element.rb     | 11 -----------
++ .../rexml-3.2.5/lib/rexml/parsers/baseparser.rb   | 15 +++++++++++++++
++ 2 files changed, 15 insertions(+), 11 deletions(-)
++
++diff --git a/.bundle/gems/rexml-3.2.5/lib/rexml/element.rb b/.bundle/gems/rexml-3.2.5/lib/rexml/element.rb
++index 4c21dbd..78e78c2 100644
++--- a/.bundle/gems/rexml-3.2.5/lib/rexml/element.rb
+++++ b/.bundle/gems/rexml-3.2.5/lib/rexml/element.rb
++@@ -2388,17 +2388,6 @@ module REXML
++       elsif old_attr.kind_of? Hash
++         old_attr[value.prefix] = value
++       elsif old_attr.prefix != value.prefix
++-        # Check for conflicting namespaces
++-        if value.prefix != "xmlns" and old_attr.prefix != "xmlns"
++-          old_namespace = old_attr.namespace
++-          new_namespace = value.namespace
++-          if old_namespace == new_namespace
++-            raise ParseException.new(
++-                    "Namespace conflict in adding attribute \"#{value.name}\": "+
++-                    "Prefix \"#{old_attr.prefix}\" = \"#{old_namespace}\" and "+
++-                    "prefix \"#{value.prefix}\" = \"#{new_namespace}\"")
++-          end
++-        end
++         store value.name, {old_attr.prefix => old_attr,
++                            value.prefix    => value}
++       else
++diff --git a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++index e32c7f4..154f2ac 100644
++--- a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+++++ b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++@@ -634,6 +634,7 @@ module REXML
++ 
++       def parse_attributes(prefixes, curr_ns)
++         attributes = {}
+++        expanded_names = {}
++         closed = false
++         match_data = @source.match(/^(.*?)(\/)?>/um, true)
++         if match_data.nil?
++@@ -641,6 +642,20 @@ module REXML
++           raise REXML::ParseException.new(message, @source)
++         end
++ 
+++            unless prefix == "xmlns"
+++              uri = @namespaces[prefix]
+++              expanded_name = [uri, local_part]
+++              existing_prefix = expanded_names[expanded_name]
+++              if existing_prefix
+++                message = "Namespace conflict in adding attribute " +
+++                          "\"#{local_part}\": " +
+++                          "Prefix \"#{existing_prefix}\" = \"#{uri}\" and " +
+++                          "prefix \"#{prefix}\" = \"#{uri}\""
+++                raise REXML::ParseException.new(message, @source, self)
+++              end
+++              expanded_names[expanded_name] = prefix
+++            end
+++
++         raw_attributes = match_data[1]
++         closed = !match_data[2].nil?
++         return attributes, closed if raw_attributes.nil?
++-- 
++2.40.0
++
+diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+index 76e5ac81ed..ca061e7f70 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+@@ -48,6 +48,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://CVE-2024-41946.patch \
+            file://CVE-2025-27220.patch \
+            file://CVE-2025-27219.patch \
++           file://CVE-2024-43398.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
  
-             index = data["startIndex"]
 -- 
 2.43.0
 
