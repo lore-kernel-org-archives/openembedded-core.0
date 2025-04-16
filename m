@@ -1,280 +1,298 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <tom.hochstein@oss.nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DAB1C369BA
-	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 16:05:55 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.23056.1744819555032089440
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4CF3C369BA
+	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 16:16:45 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.78])
+ by mx.groups.io with SMTP id smtpd.web10.23769.1744820200439553300
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Apr 2025 09:05:55 -0700
+ Wed, 16 Apr 2025 09:16:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=UaZutcAS;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G9mEwS024769
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 16:05:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	8x36pTNpTXEzlJHZwKEFjGPtF6/Mp9TdsptLiMjpJh0=; b=UaZutcASTr5S1F2R
-	VJ512T0sJrAVsyXJzb2NjRf8tFNEvgjwciEHqn2mXAqdH4KxS2Of2o0dNfP5oQz6
-	yXE2BEmI8CtlwwCUcHIt3x7IjW0ucDM4+qUGOdDAnDyQQ2JWFHABjk2eAZT9AF0K
-	uPxhyBEO+HK1BfO4JS7kAIMYemKG5r6oPZZhP6puYJdvj/7lCG5HtXKKHjr21TKe
-	mQy3wwz3ZHVvitMsOZOqg/LTbBoVcY7Sgh1/Z+/g5pWm09tZ5xtOk8Yy0PQjkarX
-	C2iGxVfRyh1+oNaTvIWedTp8TqWiWXjIYPGUJJCUBHsSGeg2xttn163QOVvyJTkV
-	uzaXvA==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ydvjc95g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 16:05:54 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-306b51e30ffso5984486a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 09:05:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744819552; x=1745424352;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8x36pTNpTXEzlJHZwKEFjGPtF6/Mp9TdsptLiMjpJh0=;
-        b=f/M7m7KsZUkbwoHO2Ap108LQkluWxTh0zwf/MWhst6s/kbwnowIJ5aO/119rx1nd72
-         +9D/P8K1Vfo3pJdXyMyyESrGfPnii95yRxcEx5NjANu8YdeGY3xkI7FbQk6n3+1ycAnM
-         Eva5+B96QxnRElsjqYiJEjPwbkuF2QPJlm13b4CgNO+Th5JoiVFBU40tlHuNqXeQ46NZ
-         xYQVVPP6MxGSszQH226qzqvP7R+FC1xw/nk/b3JEuVcSUaPjqjOD7OLoC8Y/fRwV6KC0
-         Z2wVa6Zkxf3/baA7rXs8yMRwvO5lDY6gzw0NQMX7xIpQSgoH1dciKtCD1NcUhhgnqwUB
-         pL/g==
-X-Gm-Message-State: AOJu0YyvZ2N80AanEqIrCBK7SMCTBqVuCT9JP2FHVuFLZBJu4iGaqJcD
-	itGn7jU0em5F1q3JhbeHSjdW5EtXvDyiKdCXd1GsEvoZVyj7RxxFqonr57frtWCSul3E84D1R/Y
-	sv3lCdq+QctncW2IJgLJcUBcZwmC+FQswsg40Lj488L4qE5hRd2+lb4yVxV7ALHQdCzIcFoca1G
-	djSEY9xk035jW3lJcacWHG7b4m5ple9r/0zJFZnCqPZ6w12pn43YHezb+ThyxMmQ==
-X-Gm-Gg: ASbGncuNLdp+Ef3sXvYU7Fu56yATYl6N+vt9i3tCQ3YQTY/0mWDH5u0bp1HMR/aUN72
-	FjzKFxEdpo9RyFJlj7AjeR494+XwlqIjX99BdPF1f2tfF5MW7I9/WFiyHJ+dIKQzV+RoHLsyYTF
-	TuhcyJzMqq0+ercoIlCOiTEzR5
-X-Received: by 2002:a17:90b:268e:b0:2fe:80cb:ac05 with SMTP id 98e67ed59e1d1-30863f18540mr3978618a91.9.1744819552442;
-        Wed, 16 Apr 2025 09:05:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHKzZDmoXqS00ucayPY3NfZFzbBm758INFEHcwz7QmaSQQoLUuyDIJW7Ixz0y2hh0mhuk2I2epVMYec4Twj1Q8=
-X-Received: by 2002:a17:90b:268e:b0:2fe:80cb:ac05 with SMTP id
- 98e67ed59e1d1-30863f18540mr3978566a91.9.1744819551997; Wed, 16 Apr 2025
- 09:05:51 -0700 (PDT)
+ dkim=pass header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=FP80KiNW;
+ spf=pass (domain: oss.nxp.com, ip: 40.107.249.78, mailfrom: tom.hochstein@oss.nxp.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yHotVDBt0cLcDUwMvLwyG5zj+m3v+9wg0qYf6U+nFf8Xzisl82LPSkWh5sRjWqRfQSsbBqbQOZXw714rHTc7WA215emVnAEp5pX9bLufjwytNBAff0+Nkn14OXkYh2hOO5EFrfen1/XnH/l2K5cTNZAHuFfXBUt2J1XEkMjDA8wnXVfYMD4KYvsMMHpn7h+ed630u/GGB11rdWYU+P66g1i80Xzntv5oc6Vuq1mVm/RHncrLHS6vH23r3jcgxiF62nRhQVB3EWMowHUIndVUfJQMi35A6FPIxbFhVVAypPPTdERR/22SCh3mllUbRtgs8+ck7uIJYn3zzSxM9f/TzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R/DYqGdSVPsg5/Bx77Figctcl7kjHisuw6/sk1nZ+K8=;
+ b=TNvn1d76s/w6kPZFccL+XXGO+NW2L8P2MHo79L8E6oAIa5y6Rk5Eo+PIUonLG9iR71oV1rCeslxQBcudvsrCcDBZlpcZwNqQ8pEK0+s6rHs13i/S9hsWWm6WafbDSksMxiikcPI48nDXRC+ZZqDvFUmmYnaAJu0KXPKOExnNLc3c69560ADFo7paqk10gves6swmDgEZO1ccQ/VcMSDggPzWwrA2OK4+ANsDV9n3MaEE37mGewz1wt9j19A2+KtQlL14vGbQQAvdl2FzF1xsHma27qhf9MN9jLpOpNfnPdav7cfY3MIVUqmjV8Z1F2g9+JPR4ovJY0Sm0a5q/QjT1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R/DYqGdSVPsg5/Bx77Figctcl7kjHisuw6/sk1nZ+K8=;
+ b=FP80KiNWq5kh1JOc1as9HjwbTZ17aOpP4pZtsyPRZBlykusp8x5NilfaW6u/JwsK9/a48tfjxl0Oe/yWSXdB1U2lNvxheTmHj2YNOa+T4OKOIaGmTxNmJXfTLjnUJ7UkBCK3mlUa+3ZrcopXDLs7dQ+VQ8yE84aSrE2Wdk+7E2JY/Vidlc1ez2aq81kTZsUCmbAx1LsW/i//AUddnUQOxjIysEp3Pc6cvgP0Y6E8mWetuzQX7wwEAKmkZA4P/HXv0F69Si4EOF8RyG8MUsgZwqFK511ZfkXmDobkQhYS84iLwLW0+Amu8xktBsY3I0bCa+j1o/dIrUwc2p5zUy24kQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+ by DB9PR04MB10010.eurprd04.prod.outlook.com (2603:10a6:10:4ee::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.35; Wed, 16 Apr
+ 2025 16:16:36 +0000
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc%4]) with mapi id 15.20.8632.030; Wed, 16 Apr 2025
+ 16:16:36 +0000
+Message-ID: <8dc80f96-3040-4cca-b534-dbfd7b801a26@oss.nxp.com>
+Date: Wed, 16 Apr 2025 11:16:03 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v6 6/6] oeqa/sdk/meson: Skip test when SDK arch
+ != build machine arch
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Ross Burton <ross.burton@arm.com>
+References: <20250411172803.3706607-1-tom.hochstein@oss.nxp.com>
+ <20250411172803.3706607-6-tom.hochstein@oss.nxp.com>
+ <d375570faca49f301b13213dabd508547a0664c4.camel@linuxfoundation.org>
+Content-Language: en-US
+From: Tom Hochstein <tom.hochstein@oss.nxp.com>
+In-Reply-To: <d375570faca49f301b13213dabd508547a0664c4.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0008.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::13) To PAXPR04MB9448.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b1::21)
 MIME-Version: 1.0
-References: <20250416155929.2630778-1-dmitry.baryshkov@oss.qualcomm.com> <CAMKF1srC8E62aV5Vg6C2rhysmEvPcx1C1gQvRekWr2Fnmsv60Q@mail.gmail.com>
-In-Reply-To: <CAMKF1srC8E62aV5Vg6C2rhysmEvPcx1C1gQvRekWr2Fnmsv60Q@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Wed, 16 Apr 2025 19:05:40 +0300
-X-Gm-Features: ATxdqUFKNkaMcQbvI7Jjk9NL_gBT_aTKOuLfahKkw8QT5Rz31oWh1ceZ2x8Cpas
-Message-ID: <CAO9ioeVbpSUtw4hZBJcc9F59XV_OkPFZx5qDWqc=dx-cRhBAew@mail.gmail.com>
-Subject: Re: [PATCH 1/3] llvm: import build fix from meta-clang
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=ZIrXmW7b c=1 sm=1 tr=0 ts=67ffd562 cx=c_pps a=vVfyC5vLCtgYJKYeQD43oA==:117 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=NEAV23lmAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=t7CeM3EgAAAA:8 a=SrIcC01xWQvUTe6s6YkA:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: ibSiXxx1JP7shPkHgl3LGLpLPoYzykqM
-X-Proofpoint-ORIG-GUID: ibSiXxx1JP7shPkHgl3LGLpLPoYzykqM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-16_06,2025-04-15_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0 mlxlogscore=999
- spamscore=0 impostorscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504160131
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|DB9PR04MB10010:EE_
+X-MS-Office365-Filtering-Correlation-Id: a40d40ec-b90d-4524-5031-08dd7d020f6c
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?NlJnaHlENVBNdjRlaTJWcW9lYkdxVHkyZVVoUFpLY3hvekllQ0NZNFNXNnNQ?=
+ =?utf-8?B?blRkWnRGWkNUeFJJNUUwUDRWa2lTY3JlTjVDSENFRG1wckd4RjI5UXVvVjd2?=
+ =?utf-8?B?MmdWOXIvNU1NMmhuQXQ4elBuMmdMN3cwS09LMVVqZmRzVWwxRlVicVBwVEJC?=
+ =?utf-8?B?MUlXSEY3N2VRTzQrQnVCb1lQR3JQb1FCUUEyY1VMLzlpeGhPNlJEdk9sUjIy?=
+ =?utf-8?B?dTJ0d1B0Qkc2UmNua2lKRHhNNCtjZlQ3Z0Rpd0VMalVQa0ZoZ1pESUw1S2ZI?=
+ =?utf-8?B?Zy82U2NaUWZMNG4zYlFmbjRQYlpadFU5ZE9uK3lOOFZKMlpEb0dEdnY0aWNn?=
+ =?utf-8?B?elR2dk02WTNZQWlLcnBjbzljMXhTMG1mRUlWT0c2RDZXOUE1ODMrdE5yRVNP?=
+ =?utf-8?B?bWdlVVd4WUdtb3lRUVBtWjh0dkxCOXo0eEZLNE5qMmlkOTRGZXgwalYzOE9D?=
+ =?utf-8?B?eWlkMHhUQ1BVMTAwMnc1SWxFLzFMbEZ0aURiMEtxOW5ISmdpN04zOFRnOUhV?=
+ =?utf-8?B?TXZLVk9UN09sVDJrNXFFdXZTcTV0cy9UQlBoYy9pczQ0ZThZd3JadVdTbUVz?=
+ =?utf-8?B?UUFaeWF2WlpYME5EVHR6dC8zczJMeWJEY0ZZUUhFM2VZbjExdUxDSVFVWmJJ?=
+ =?utf-8?B?TzZGUGQ4RmprblE2eDY2SDBURER2MUdKOEZpZGdZd0s1bVltWGJiWXhSbnkx?=
+ =?utf-8?B?RHRQdVF2YVByamdMeGFLbkhhbVhMbU5LTGJEUUt1U203Y2ZSZXN6TWZVZ1ZU?=
+ =?utf-8?B?U2tINk5SbzdNaGhPNjg5eHNFQkIzTkJpclFnT0ZtaEVZRXBIMlRKdXNvakto?=
+ =?utf-8?B?b2toNFZCMVN5TCtpekRDaE9zOFZ6WTZ5c2daaityVnQxQ1JiQ2xidHhEWFNi?=
+ =?utf-8?B?NXJWZEk5RjlaZ0h2WTl2c3pEeUJOT1NITDZBSFJpL3VGaWhhbHhxa0pZZFJG?=
+ =?utf-8?B?NTArNzI1UnBpam9RN21Zdi9HRFlMblNoaUNuM3ZhN0FaaFlmRUQrWjVQM3I3?=
+ =?utf-8?B?bXN0dllTSWphVVljRTgrUWJteW0xcjRJbmpJTWxPZ3VSV0FPUlREaXl6bmZX?=
+ =?utf-8?B?SUJuc3RqM0NMQjU3SENMY0FkQTZDbG5TQjlwL3lTQ0tCdDlLZkVaNG01WUU3?=
+ =?utf-8?B?Yk4zRFB1bUdWcDdpSHl3YVFFU2JSL1pXdDdLUDRwdGpLbWNlMWlVelo3QWdr?=
+ =?utf-8?B?d3pPQWVTOEhiekl2Yk94MkxKMzYxMzFQeWphajlsUjJzMzVmOVZEVGFNV0xw?=
+ =?utf-8?B?TngwV2dvVDJtRVVCWVplVkh3MTBhSW5WL3hrWS9lWklhbVBjYmdmaUUzVFky?=
+ =?utf-8?B?bGplc0syMGdnczY3b0VnS1MxMGJ0dEd5RzI3WHhEbVB4bjlMTGpXaHB1aGRK?=
+ =?utf-8?B?Mnh4K25hU0JuWHA2ZTZHSTYzc1N3MUxZU2duU2g3YXlncnRndGJac1lPQUU3?=
+ =?utf-8?B?T2t0dlEzMFd4aXhuLzAwL0NCVzRRQVlQQkQwaG5ObWROcCtYT1hiMWUzTzRU?=
+ =?utf-8?B?MEJya2UwVmtteTV6Q0hLSnBTcHRzV3NWdENISTFXUmFEMnRzT2p6ei92ZFda?=
+ =?utf-8?B?cmU5T1RYdURsNDNkM2ZEUFZrcU5OamZrNktjSlVlWkszUXVYYWx2TTcydFRE?=
+ =?utf-8?B?enFZSkVOdHZYMTJKZ2h4N3JwUkJpczJTdWsyektEMUZyZWxodnZ0Z3FOY3lC?=
+ =?utf-8?B?aEMwaVRzTGFhZzJJY0M4ZWNZcytkTEJ2aEVSRFBMZ0x0cU5RcGZlaXhBd1R2?=
+ =?utf-8?B?VXd3Z2drdTZxZGdKbHRlMUVPT0cvWlV5YkhFZFAvZzdzUWhLcFhUWmNyMXBw?=
+ =?utf-8?Q?GfDjRq6bbJKIlUoYLVZJmfw0IGNAfinNMZk9U=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?MXFuNGpqcXZRUVdXREJGdW9qZWp0aE9LS3dwNE5BWVV6K0pkRE5qUyszN2Vr?=
+ =?utf-8?B?eS85YThIRTFMTmNDNFQ4R0h6SnZqbGk4cmxnWjBNUXkrS2Ywb3NJS3ltKys3?=
+ =?utf-8?B?N0NYV2RWQUtZR1Y3OUsyNzRDejdHeHdJUmhsZkt1Mk9DbCtuU3BDR3Fjamp3?=
+ =?utf-8?B?SFd3cWJMZCtVRmNhM1FCejliZ0g5a1NqclU4dmYrTU45MXFaR21pUllobUJQ?=
+ =?utf-8?B?R0IvOXZmTjE0V3hFM0IvUk45S3FmQWNvY2lwUy9aQlRnajJCck9DSU5qdUtF?=
+ =?utf-8?B?VndTOCs2RzNBZHpwc0dDN1hUaFM4VERWSEF1UGtmZnNkNlZIQU11MTVyS0Va?=
+ =?utf-8?B?bUdVR01SQkZPUlVkUElrSERObldFVEhyaXhuYklTaTNaMWtybU03djc2djR4?=
+ =?utf-8?B?Uk95MXc2c2J3blRubWlVZ3V4UzJxRVFuWUNPRGowcGdYbDcvOE11OXNpSHF2?=
+ =?utf-8?B?M0JCd0JWQmhHdkZJZTI5Zk5MdUQ0bGdiRXNEdzltbUZJSGR6UGZxUzJ2bTM3?=
+ =?utf-8?B?enFDL08za0ZwRnVmZ0tIRHZ0eThTL0Nkc1hKSFE5aGFTY1g0UElheGZHUzYz?=
+ =?utf-8?B?bkdQaDBNVFFVNEsrdlA1Y2VuOUo0L25SNHlUY1VERkp6S1g5aVo5bWFsa1V3?=
+ =?utf-8?B?RDc4aVc0T3FUTUQ2eHVjVE1PeGRHMzlsMkZTN3laMUZNOHM2blREUEV2WGhB?=
+ =?utf-8?B?dndhUmpEVmZmbkNpeUV3VGoyem95SXJDaGtPQVAxc25aMmpxMjdQRkx4SVY5?=
+ =?utf-8?B?am1rRlM3T1NSMi8xNDVkWlhhL1QwaTkyNjdvUTdvY0V6Tk5GYWFzYy9XYmxV?=
+ =?utf-8?B?WmNPZkdUZUpsZ245aER3ZWYxT2lJb1dURW9NWnZleWtWeFVsZW9KWTRYbFhC?=
+ =?utf-8?B?UVF5SWNxblBDd2xpK01VWVAyNU1UcE9qQlI2ZEtzdDkxT2JlSWkvZUJNTU0v?=
+ =?utf-8?B?QzIzd1BtRVB0OGQwc3VId1FGRWJnc3dBL3ZUQzExdS83K3krRE91WFVHRFpS?=
+ =?utf-8?B?OHlpMDZseEdicDVkeWtWR1dpdmtSM0dZQTRmRTAzTkMrbHQrSStqSExrUDZz?=
+ =?utf-8?B?ci84MENFbC8wdDV3YXN5dERMRUhkZjYrZmNNZjRZaUxzSnhjV0kzbEpNcGNB?=
+ =?utf-8?B?aTBuUWdSUFNFRUgzeG9KVlV3TytoY3pVbzFvL09Td2FYMHp3dGwyWTZkaUJr?=
+ =?utf-8?B?YnRGZW1xQkJQSDNmQ0g0eWRZU01RNTdQTnhFMWxGMEpFT1BoMDd6RGVicG9G?=
+ =?utf-8?B?N0s3UnY5MkRLbnY1OUNnRlJJOWFoTGxRRFlKVFdRVUZ5NE9wakluenl1Qi9a?=
+ =?utf-8?B?bzNUdGh2eTJiSWJsUW5yU1NMb2IvOUhVb0ZlUUFKQjRHYmZHNytpM0hWbEVQ?=
+ =?utf-8?B?Y2U0c3h2c2V5WEJYaCtKMFZqM2QxSm4yQ1U3MEtxTzRCa0RuVmFOMjhuY0lw?=
+ =?utf-8?B?RnVRS2hSZkZaNHlCQmNCdjZLaUVEdXVYYWpKaTNYcWFKdlZ1U3FUWHptQjNi?=
+ =?utf-8?B?SGhROEtPakI1OHJZRkJRYjd0dkx1ZWJkWWtxT0Z6WVJJbHhCZ1UwWEQrWkJz?=
+ =?utf-8?B?azFUa2l5L091UW1LbHRMTk0xY2VCdFA1bFRyZGxqK0xZc0VGblk0TDBsT1I5?=
+ =?utf-8?B?dkFOdXhyck0vYlR6dDRrZDFWV3k5ekV3TFRENytEaEFLcnJtNS81Z3FqWW1F?=
+ =?utf-8?B?T3Y3SjZnOGVJSkVPa1l3U3YraUk0NTV4SEtUUlR6d1pXd0NGTitCc2gvRDQx?=
+ =?utf-8?B?dzBFSkh5YXRmckdYcUFrNllxSTJMVUVJOXM3dmx6MFFyQkhlc0psYkc2VFlI?=
+ =?utf-8?B?Y2xyLzRrMFpJTlBtNE90Wm5STTVNQ3M3MkI5WHZCWm12cGo0TkcyZ0xhaktP?=
+ =?utf-8?B?UFFVY2tYS3M5RnJHRTA1T0R1cVlkZ2lxcmZHOVZuWUN4OXRxanhWN0tKK2pJ?=
+ =?utf-8?B?Y2t6ckp0N3Z6NlZoR3NBWEZVOGFyRExhZU1vQlRSZUxMNlY4SmFBOXpib2pp?=
+ =?utf-8?B?TXJIc2NFdGYrNGdJNlFzWFMxaXJFSkVXL2dxUzM5RUUwa0xVYVVGZDRhRDlv?=
+ =?utf-8?B?SVZjekhxdERVMS94WWVHLy9oS0krbEdZU0liWTluM01GNzN6OTVLVmNEWEJt?=
+ =?utf-8?B?K3RWZHFTa0hoc0Rzb2FEbG9nMTBqM0hudU0rOVgxUzBKbWc5TkJlTmQyVHoz?=
+ =?utf-8?B?S1E9PQ==?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a40d40ec-b90d-4524-5031-08dd7d020f6c
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2025 16:16:36.3121
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xEbzFuOq/coIHCQjKM45lSYr6Dh6Zh1s2h+cIHtrOhbmFzYywxlIvw0WlF/+Xu2PhNSRHDj6kZmo9uTbh7cxbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB10010
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 16:05:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214999
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 16:16:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215000
 
-On Wed, 16 Apr 2025 at 19:04, Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Wed, Apr 16, 2025 at 8:59=E2=80=AFAM Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> >
-> > Import a fix from meta-clang, which allows packages using LLVM to find
-> > tools from the native sysroot.
-> >
->
-> I am working on getting the clang merge into core. Perhaps it will be
-> good to do this along with that.
-
-I think this is good to go before, it helps to fix building of OE-Core
-with the current meta-clang.
-
->
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> >  ...gure-for-packages-using-find_package.patch | 117 ++++++++++++++++++
-> >  meta/recipes-devtools/llvm/llvm_20.1.2.bb     |   1 +
-> >  2 files changed, 118 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/llvm/llvm/0014-cmake-Fix-conf=
-igure-for-packages-using-find_package.patch
-> >
-> > diff --git a/meta/recipes-devtools/llvm/llvm/0014-cmake-Fix-configure-f=
-or-packages-using-find_package.patch b/meta/recipes-devtools/llvm/llvm/0014=
--cmake-Fix-configure-for-packages-using-find_package.patch
-> > new file mode 100644
-> > index 000000000000..94c056ab8e0a
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/llvm/llvm/0014-cmake-Fix-configure-for-pack=
-ages-using-find_package.patch
-> > @@ -0,0 +1,117 @@
-> > +From 93141cee493022d9f39dbd1f5f0bb0a1110ac829 Mon Sep 17 00:00:00 2001
-> > +From: Ovidiu Panait <ovidiu.panait@windriver.com>
-> > +Date: Fri, 31 Jan 2020 10:56:11 +0200
-> > +Subject: [PATCH] cmake: Fix configure for packages using find_package(=
-)
-> > +
-> > +Currently, when a package (i.e. bcc [https://github.com/iovisor/bcc.gi=
-t])
-> > +that depends on LLVM/Clang tries to run cmake find_package() during
-> > +do_configure, it will fail with a similar error:
-> > +
-> > +|   The imported target "llvm-tblgen" references the file
-> > +|      ".../recipe-sysroot/usr/bin/llvm-tblgen"
-> > +|
-> > +|   but this file does not exist.  Possible reasons include:
-> > +|   * The file was deleted, renamed, or moved to another location.
-> > +|   * An install or uninstall procedure did not complete successfully.
-> > +|   * The installation package was faulty and contained
-> > +|      ".../recipe-sysroot/usr/lib/cmake/LLVMExports.cmake"
-> > +|   but not all the files it references.
-> > +
-> > +This is due to the fact that currently the cmake scripts look for targ=
-et
-> > +binaries in sysroot. Work around this by not exporting the target bina=
-ries in
-> > +Exports-* cmake files.
-> > +
-> > +Upstream-Status: Inappropriate [oe-specific]
-> > +
-> > +Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-> > +---
-> > + clang/cmake/modules/AddClang.cmake | 2 --
-> > + llvm/cmake/modules/AddLLVM.cmake   | 9 ++-------
-> > + llvm/cmake/modules/TableGen.cmake  | 6 ------
-> > + 3 files changed, 2 insertions(+), 15 deletions(-)
-> > +
-> > +diff --git a/clang/cmake/modules/AddClang.cmake b/clang/cmake/modules/=
-AddClang.cmake
-> > +index cdc8bd5cd503..5faa9117a30f 100644
-> > +--- a/clang/cmake/modules/AddClang.cmake
-> > ++++ b/clang/cmake/modules/AddClang.cmake
-> > +@@ -182,7 +182,6 @@ macro(add_clang_tool name)
-> > +     if (CLANG_BUILD_TOOLS)
-> > +       get_target_export_arg(${name} Clang export_to_clangtargets)
-> > +       install(TARGETS ${name}
-> > +-        ${export_to_clangtargets}
-> > +         RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-> > +         COMPONENT ${name})
-> > +
-> > +@@ -191,7 +190,6 @@ macro(add_clang_tool name)
-> > +                                  DEPENDS ${name}
-> > +                                  COMPONENT ${name})
-> > +       endif()
-> > +-      set_property(GLOBAL APPEND PROPERTY CLANG_EXPORTS ${name})
-> > +     endif()
-> > +   endif()
-> > +   set_target_properties(${name} PROPERTIES XCODE_GENERATE_SCHEME ON)
-> > +diff --git a/llvm/cmake/modules/AddLLVM.cmake b/llvm/cmake/modules/Add=
-LLVM.cmake
-> > +index d3e9377c8d2f..fe22d6f2b35a 100644
-> > +--- a/llvm/cmake/modules/AddLLVM.cmake
-> > ++++ b/llvm/cmake/modules/AddLLVM.cmake
-> > +@@ -1492,7 +1492,6 @@ macro(llvm_add_tool project name)
-> > +       if( LLVM_BUILD_TOOLS )
-> > +         get_target_export_arg(${name} ${project} export_to_llvmexport=
-s)
-> > +         install(TARGETS ${name}
-> > +-                ${export_to_llvmexports}
-> > +                 RUNTIME DESTINATION ${${project}_TOOLS_INSTALL_DIR}
-> > +                 COMPONENT ${name})
-> > +
-> > +@@ -1503,10 +1502,8 @@ macro(llvm_add_tool project name)
-> > +         endif()
-> > +       endif()
-> > +     endif()
-> > +-    if( LLVM_BUILD_TOOLS )
-> > +-      string(TOUPPER "${project}" project_upper)
-> > +-      set_property(GLOBAL APPEND PROPERTY ${project_upper}_EXPORTS ${=
-name})
-> > +-    endif()
-> > ++    string(TOUPPER "${project}" project_upper)
-> > ++    set_target_properties(${name} PROPERTIES FOLDER "Tools")
-> > +   endif()
-> > +   get_subproject_title(subproject_title)
-> > +   set_target_properties(${name} PROPERTIES FOLDER "${subproject_title=
-}/Tools")
-> > +@@ -1556,7 +1553,6 @@ macro(add_llvm_utility name)
-> > +     if (LLVM_INSTALL_UTILS AND LLVM_BUILD_UTILS)
-> > +       get_target_export_arg(${name} LLVM export_to_llvmexports)
-> > +       install(TARGETS ${name}
-> > +-              ${export_to_llvmexports}
-> > +               RUNTIME DESTINATION ${LLVM_UTILS_INSTALL_DIR}
-> > +               COMPONENT ${name})
-> > +
-> > +@@ -1565,7 +1561,6 @@ macro(add_llvm_utility name)
-> > +                                  DEPENDS ${name}
-> > +                                  COMPONENT ${name})
-> > +       endif()
-> > +-      set_property(GLOBAL APPEND PROPERTY LLVM_EXPORTS ${name})
-> > +     elseif(LLVM_BUILD_UTILS)
-> > +       set_property(GLOBAL APPEND PROPERTY LLVM_EXPORTS_BUILDTREE_ONLY=
- ${name})
-> > +     endif()
-> > +diff --git a/llvm/cmake/modules/TableGen.cmake b/llvm/cmake/modules/Ta=
-bleGen.cmake
-> > +index ffcc718b4777..a76f28e74b86 100644
-> > +--- a/llvm/cmake/modules/TableGen.cmake
-> > ++++ b/llvm/cmake/modules/TableGen.cmake
-> > +@@ -232,12 +232,7 @@ macro(add_tablegen target project)
-> > +
-> > +   if (ADD_TABLEGEN_DESTINATION AND NOT LLVM_INSTALL_TOOLCHAIN_ONLY AN=
-D
-> > +       (LLVM_BUILD_UTILS OR ${target} IN_LIST LLVM_DISTRIBUTION_COMPON=
-ENTS))
-> > +-    set(export_arg)
-> > +-    if(ADD_TABLEGEN_EXPORT)
-> > +-      get_target_export_arg(${target} ${ADD_TABLEGEN_EXPORT} export_a=
-rg)
-> > +-    endif()
-> > +     install(TARGETS ${target}
-> > +-            ${export_arg}
-> > +             COMPONENT ${target}
-> > +             RUNTIME DESTINATION "${ADD_TABLEGEN_DESTINATION}")
-> > +     if(NOT LLVM_ENABLE_IDE)
-> > +@@ -248,6 +243,5 @@ macro(add_tablegen target project)
-> > +   endif()
-> > +   if(ADD_TABLEGEN_EXPORT)
-> > +     string(TOUPPER ${ADD_TABLEGEN_EXPORT} export_upper)
-> > +-    set_property(GLOBAL APPEND PROPERTY ${export_upper}_EXPORTS ${tar=
-get})
-> > +   endif()
-> > + endmacro()
-> > diff --git a/meta/recipes-devtools/llvm/llvm_20.1.2.bb b/meta/recipes-d=
-evtools/llvm/llvm_20.1.2.bb
-> > index b51ab703a136..4b24d28364cd 100644
-> > --- a/meta/recipes-devtools/llvm/llvm_20.1.2.bb
-> > +++ b/meta/recipes-devtools/llvm/llvm_20.1.2.bb
-> > @@ -39,6 +39,7 @@ SRC_URI_SPIRV:append:class-native =3D " \
-> >  SRC_URI =3D "https://github.com/llvm/llvm-project/releases/download/ll=
-vmorg-${PV}/llvm-project-${PV}.src.tar.xz \
-> >             file://0007-llvm-allow-env-override-of-exe-path.patch \
-> >             file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-=
-as-we.patch \
-> > +           file://0014-cmake-Fix-configure-for-packages-using-find_pac=
-kage.patch \
-> >             ${@bb.utils.contains('PACKAGECONFIG', 'spirv-llvm-translato=
-r', '${SRC_URI_SPIRV}', '', d)} \
-> >             file://llvm-config \
-> >             "
-> > --
-> > 2.39.5
-> >
+On 4/15/2025 5:48 AM, Richard Purdie wrote:
+> [You don't often get email from richard.purdie@linuxfoundation.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> On Fri, 2025-04-11 at 12:28 -0500, Tom Hochstein via lists.openembedded.org wrote:
+>> The SDK Meson test fails when the SDK is not for the build machine:
+>> ```
+>> Traceback (most recent call last):
+>>     File "/srv/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/sdk/cases/meson.py", line 47, in test_epoxy
+>>       self.assertNotEqual(data["build"]["c"]["exelist"], data["host"]["c"]["exelist"])
+>>                           ~~~~~~~~~~~~~^^^^^
+>> KeyError: 'c'
+>> ```
+>>
+>> Skip the test in this case.
+>>
+>> Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
+>> ---
+>>   meta/lib/oeqa/sdk/cases/meson.py | 5 +++++
+>>   1 file changed, 5 insertions(+)
+> 
+> I think this may not be quite right as I saw:
+> 
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/1370
+> 
+> in my build with this series applied.
+> 
+> Cheers,
+> 
+> Richard
 
 
+Thanks, Richard. I'm able to reproduce this. It's specific to 
+meta-ide-support.
 
---=20
-With best wishes
-Dmitry
+The setup looks fine:
+
+$ meson setup --warnlevel 1 -Degl=no -Dglx=no -Dx11=false build
+meson-wrapper: Running meson with setup options: " 
+--cross-file=.../poky/build/tmp/sysroots/x86_64/usr/share/meson/arm-poky-linux-gnueabi-meson.cross 
+--native-file=.../poky/build/tmp/sysroots/x86_64/usr/share/meson/meson.native 
+"
+The Meson build system
+Version: 1.7.2
+...
+
+The KeyError appears because the build machine data is empty:
+
+$ meson introspect -i --compilers build
+{
+     "host": {
+         "c": {
+             "id": "gcc",
+             "exelist": [
+                 "arm-poky-linux-gnueabi-gcc",
+                 "-mthumb",
+                 "-mfpu=neon",
+                 "-mfloat-abi=hard",
+                 "-mcpu=cortex-a15",
+                 "-fstack-protector-strong",
+                 "-O2",
+                 "-D_FORTIFY_SOURCE=2",
+                 "-Wformat",
+                 "-Wformat-security",
+                 "-Werror=format-security",
+                 "-D_TIME_BITS=64",
+                 "-D_FILE_OFFSET_BITS=64",
+                 "--sysroot=.../poky/build/tmp/sysroots/qemuarm"
+             ],
+             "linker_exelist": [
+                 "arm-poky-linux-gnueabi-gcc",
+                 "-mthumb",
+                 "-mfpu=neon",
+                 "-mfloat-abi=hard",
+                 "-mcpu=cortex-a15",
+                 "-fstack-protector-strong",
+                 "-O2",
+                 "-D_FORTIFY_SOURCE=2",
+                 "-Wformat",
+                 "-Wformat-security",
+                 "-Werror=format-security",
+                 "-D_TIME_BITS=64",
+                 "-D_FILE_OFFSET_BITS=64",
+                 "--sysroot=.../poky/build/tmp/sysroots/qemuarm"
+             ],
+             "file_suffixes": [
+                 "c"
+             ],
+             "default_suffix": "c",
+             "version": "14.2.0",
+             "full_version": "arm-poky-linux-gnueabi-gcc (GCC) 14.2.0",
+             "linker_id": "ld.bfd"
+         }
+     },
+     "build": {}
+}
+
+I don't understand why. The meson.native file looks the same as for the 
+standalone SDK case, and the meson machine data seems fine.
+
+$ meson introspect -i --machines build/
+{
+     "host": {
+         "system": "linux",
+         "cpu_family": "arm",
+         "cpu": "arm",
+         "endian": "little",
+         "kernel": null,
+         "subsystem": null,
+         "is_64_bit": false,
+         "exe_suffix": "",
+         "object_suffix": "o"
+     },
+     "build": {
+         "system": "linux",
+         "cpu_family": "x86_64",
+         "cpu": "x86_64",
+         "endian": "little",
+         "kernel": "linux",
+         "subsystem": "linux",
+         "is_64_bit": true,
+         "exe_suffix": "",
+         "object_suffix": "o"
+     },
+     "target": {
+         "system": "linux",
+         "cpu_family": "arm",
+         "cpu": "arm",
+         "endian": "little",
+         "kernel": null,
+         "subsystem": null,
+         "is_64_bit": false,
+         "exe_suffix": "",
+         "object_suffix": "o"
+     }
+}
+
+I'm stuck.
+
+Tom
+
 
