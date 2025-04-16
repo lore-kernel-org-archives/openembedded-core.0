@@ -1,190 +1,243 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78608C369BA
-	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 15:59:45 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.23111.1744819177671500873
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC960C369C4
+	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 16:04:25 +0000 (UTC)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web10.23377.1744819461808774479
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Apr 2025 08:59:37 -0700
+ Wed, 16 Apr 2025 09:04:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=GzjTHjhQ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G9mDjd005948
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 15:59:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=Ajgp1K65Pa5
-	yc3L8eALzoHsS+G0L2p+/c+IiE64S2PY=; b=GzjTHjhQDrYBrMz21OS5n2yQ7pk
-	8lI1Ji6AV3uGcHWuoMzS05/TpFUoOPccTRFyhaR96Xsr7Vzp7ufjU3xFGy0X9xTq
-	r9B1P2yEWUR+88h82/dVn/6tITzY4mVaTOWocdegdDCZKyeNo8Aq9F3GO5e7Ztof
-	OiuJlDrtePjCXG65rWBCLwFVH/0Nps1l6ClXD4c7VRDv0hr3PdSp7GDpPMQYVauN
-	nfVNxAgnb7T/hsAFoZkM5PxEjMfLwoMTNw66x1CJ8qLNreoCeyINLvAx/StUhWne
-	1upvacL2edSJNjql+EPVjYJA59xbbH481+BvRFq9o2LTP1mmOTuxBT2fFGA==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ydhqc9c8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 15:59:36 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6e8f9450b19so18845736d6.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 08:59:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HoGALFUs;
+ spf=pass (domain: gmail.com, ip: 209.85.210.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-72bceb93f2fso498366a34.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 09:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744819461; x=1745424261; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lY5nwerggrIbnsArRtRRhrvUb1y3/uzC3CnLg0VaDFM=;
+        b=HoGALFUsCOGx5nLzis9KtDk+EeW03g4zwKlj7rLXm2lOLYAGWWwiQQoXF8etfJ/Y5O
+         zdaVVl06kGUSVLsfc2n5innQOGtmd2m+Q+BXm5EqY23yN+PA0LJbnr6Yzmv4KuvhTcaJ
+         ooH5NTDCPUBmUmMRMKfF+FglCOlsvdVeOxnArtXVh7b4WlobEVFP9EMQrjybIXDVswLP
+         yl35RNmQW4VwKY+9mGK7kZGaBgBqmgVI/Jrs6yw0nL2gUjn4VLX9l3VqnXnk1TI8QFkp
+         VIvCpBMHUTpaUv+ga0reI4QMpTvtg5zFGFSkGTpbwmleuiKqjDWHiQfutJshzpG4UyEG
+         Xa3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744819176; x=1745423976;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1744819461; x=1745424261;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ajgp1K65Pa5yc3L8eALzoHsS+G0L2p+/c+IiE64S2PY=;
-        b=oGL0vTgNzj0G2w5Ja5/c73EfBS3c7JO9CnUF0rc1QUixXxHB2XaVjSpe70wZxbBEsd
-         yJG+N22+H+gd0KRcYoIRNC6xwBsrZ5/pOul6G2bt1w0lfB9helmoPHHSrIHM5/eRC0gN
-         /1aKl6j96vXP4hmjjy5CARIFYDgmA/YvLjkNfHFUkKg9SrWOfvrsEKdKbyyvoe4vC2AU
-         42bPVTWHtAFaRcKySmRsddl+oxfe2lEFwJ+zSw/+cdk/QZUmh/hYFs5aWWrg0yPhRBu5
-         m3/aC+ABONkGFm4vHPvl+fE9qR3A0b3Ydbgu6PwNnvi3sOiK6d+Rbzb5fXjCrjZl3xgW
-         IuSA==
-X-Gm-Message-State: AOJu0YyEFnS3iNIIqn7vRuqIgx2Eosxv3nto65u9Oh57tQOFX1u7PnL6
-	fGE3sYHXu0v/X7s+lJ63hwTd62PzUofflojhTICA1MSOcjUOek9UVRQpQbEZK4FsEmwf/1ayUN2
-	1c2bUsP9LhUJEWBWNNYvSIo1SZ720ToO2mwye9ciy/fgeMmC3GRNrEbebwK/I6hpgk/J7m2VDwK
-	LxHC5wpzu32XI=
-X-Gm-Gg: ASbGncs3JCIekRd6VXy4mZoZ2vMQmlpOb/gsO400SZVfFFLzCQSAlCUfI0n3qdWA4Os
-	JbZ98aIHUnfOrMCqyPJsix9OLyAjR5fyN6KExLo8I9rBFA3vUax6ub1yf9W2OR8w7rpwNXAMdFr
-	vAaWBdkyyVU2VPCy8DPqKdDT4NEs7lclNs7zdv5b0aFbWBV9v3K3CAE+duv7MGU7wWmrK5HgOv6
-	uWSwztYVP57LYw8OYAB/xI+UEOtzIkmkJvH9cXUZ7nd/ikUa4MGsSKvrBUqV45xKsjfF+DTbmA+
-	EfiuN6iWUk6wfbuLtoBCKdO7wSnXSstzJ/ui5DNvFTcIHB7khCtplvqnRAUabCEdJaMWNNZBU2s
-	5He8tI4Fm4WoHDLa7ePPxE1f0
-X-Received: by 2002:a05:6214:1d0a:b0:6ea:eeb6:c82b with SMTP id 6a1803df08f44-6f2b9955501mr910876d6.2.1744819175834;
-        Wed, 16 Apr 2025 08:59:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHy5AxNrxZlaSq5MHep6hPwIujk/BQX449iVA8d+lkIRMU4PXpUiyRBIT2y/hlt9TaTkmycZw==
-X-Received: by 2002:a05:6214:1d0a:b0:6ea:eeb6:c82b with SMTP id 6a1803df08f44-6f2b9955501mr910446d6.2.1744819175378;
-        Wed, 16 Apr 2025 08:59:35 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d5857223csm676550e87.175.2025.04.16.08.59.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 08:59:34 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] mesa: bundle Clang OpenCL headers into meta-clc
-Date: Wed, 16 Apr 2025 18:59:29 +0300
-Message-Id: <20250416155929.2630778-3-dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250416155929.2630778-1-dmitry.baryshkov@oss.qualcomm.com>
-References: <20250416155929.2630778-1-dmitry.baryshkov@oss.qualcomm.com>
+        bh=lY5nwerggrIbnsArRtRRhrvUb1y3/uzC3CnLg0VaDFM=;
+        b=UfwWOPbqkre+BCc+SMtn94QyBgnVnWkStZnf41Mytz9uyA91si9RNiWRKkFJqkfvuv
+         kOVehoSYgMyYvTdTLMHg/I7bbgfpLarlDwHnQxk/lKjsAaAqDtQKwcOKLyn7ueGXPx4E
+         Rf8Bz/WLfCSq8T5urwpUeaNRH2ThGPo/wMn3eehJsLWtOHR2tW0NeLH5+TrZRudUjVmA
+         sfTg236VR8NWcmI0bT8KXhvh60k4Le+jBy/lspgK0px+RLD3rMoMNijaYCV5l0EOweid
+         07sP+/3b+j1ucH8hgcS2xqyBq7fx1vWA4X3bLm0AiTmPaFl9ex8Eps9KKSVeG5HgPkX5
+         lJmw==
+X-Gm-Message-State: AOJu0YyAh4kVyRsBvMednrT5K4Se/hL6+lKRwmF2iiASESuKXFi0gpW+
+	G0TMN2/Lng9YWGWhlDWhhJScHOyIDO4UIhrxBAmJwzeGdtsTZv34DJwqPx5bc33zOS7j0cvedI2
+	eSCXgjt/5M9vqnZ1vk8lXxaHYKlk=
+X-Gm-Gg: ASbGncvSvStH9BVFSNI7aAu+jfpiKb2EonQwBGUNLJhHtDnZ5KcUBvYtuc8slV+Vq8c
+	WepKTJSG3svZ6RPb9rqNwqBh4XpAwf8Hnmkd0WZczkRXmXKYU+2ho93KdsV/8iSV2hdtFGlwWlm
+	Ft6omdImJIiecjRHbTqGOL
+X-Google-Smtp-Source: AGHT+IHIIMivKDuLN1XJsw8YGBxt3woLnQmVfBIRfeAK9GAJls2NpigE/PPla5KzvN7yf43QnwuzabcuKjeuBvVXVVQ=
+X-Received: by 2002:a05:6808:11cf:b0:3f9:e54c:bd98 with SMTP id
+ 5614622812f47-400b7ec46d4mr56085b6e.4.1744819460721; Wed, 16 Apr 2025
+ 09:04:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: BWetrUyeLfwoylJweDGh49b-N9ezqbYk
-X-Authority-Analysis: v=2.4 cv=C7DpyRP+ c=1 sm=1 tr=0 ts=67ffd3e8 cx=c_pps a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10 a=e5mUnYsNAAAA:8 a=ZpVaWaFtAAAA:8 a=EUspDBNiAAAA:8 a=smLMKbEpzHjB7PiwKtkA:9 a=OIgjcC2v60KrkQgK7BGD:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=5tn4MO8azEBWFjlAA-rn:22
-X-Proofpoint-GUID: BWetrUyeLfwoylJweDGh49b-N9ezqbYk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-16_04,2025-04-15_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 suspectscore=0 clxscore=1015 spamscore=0 bulkscore=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504160130
+References: <20250416155929.2630778-1-dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250416155929.2630778-1-dmitry.baryshkov@oss.qualcomm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 16 Apr 2025 09:03:54 -0700
+X-Gm-Features: ATxdqUGZikA9L566tr7D6uROuLNjFPvEUYdr5zQtYbH3cwLASMpKyKr4sxeuY50
+Message-ID: <CAMKF1srC8E62aV5Vg6C2rhysmEvPcx1C1gQvRekWr2Fnmsv60Q@mail.gmail.com>
+Subject: Re: [PATCH 1/3] llvm: import build fix from meta-clang
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 15:59:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214997
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 16:04:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214998
 
-Add a patch bundling OpenCL headers into meta-clc. This removes extra
-runtime dependencies when runnign meta-clc compiler.
+On Wed, Apr 16, 2025 at 8:59=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> Import a fix from meta-clang, which allows packages using LLVM to find
+> tools from the native sysroot.
+>
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- ...option-to-force-inclusion-of-OpenCL-.patch | 57 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  3 +-
- 2 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch
+I am working on getting the clang merge into core. Perhaps it will be
+good to do this along with that.
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch b/meta/recipes-graphics/mesa/files/0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch
-new file mode 100644
-index 000000000000..567c1f7e1b44
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch
-@@ -0,0 +1,57 @@
-+From f9b6175e7c446a82c568ff1a214885d707c95f49 Mon Sep 17 00:00:00 2001
-+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Date: Wed, 16 Apr 2025 14:35:37 +0300
-+Subject: [PATCH] mesa-clc: add an option to force inclusion of OpenCL headers
-+
-+Currently mesa-clc bundles OpenCL headers from Clang only if the static
-+LLVM is used (which means Clang / LLVM are not present on the target
-+system). In some cases (e.g. when building in OpenEmbedded environemnt)
-+it is desirable to have shared LLVM library, but skip installing the
-+whole Clang runtime just to compile shaders. Add an option that forces
-+OpenCL headers to be bundled with the mesa-clc binary.
-+
-+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Upstream-Status: Inappropriate [OE-Specific https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34551]
-+---
-+ meson_options.txt                | 10 ++++++++++
-+ src/compiler/clc/meson.build |  3 ++-
-+ 2 files changed, 12 insertions(+), 1 deletion(-)
-+
-+diff --git a/meson_options.txt b/meson_options.txt
-+index 18da31eff507..addd274ecef7 100644
-+--- a/meson_options.txt
-++++ b/meson_options.txt
-+@@ -797,6 +797,16 @@ option(
-+   description : 'Install the mesa-clc compiler (if needed for cross builds).'
-+ )
-+ 
-++option(
-++  'mesa-clc-bundle-headers',
-++  type : 'combo',
-++  value : 'auto',
-++  choices : [
-++    'enabled', 'auto'
-++  ],
-++  description : 'Bundle the OpenCL headers into the mesa-clc binary (default to bundle if static LLVM is used)'
-++)
-++
-+ option(
-+   'precomp-compiler',
-+   type : 'combo',
-+diff --git a/src/compiler/clc/meson.build b/src/compiler/clc/meson.build
-+index 263eba527191..9ff61440f0da 100644
-+--- a/src/compiler/clc/meson.build
-++++ b/src/compiler/clc/meson.build
-+@@ -11,7 +11,8 @@ _libmesaclc_c_args = []
-+ _libmesaclc_cpp_args = ['-DLLVM_LIB_DIR="@0@"'.format(llvm_libdir)]
-+ _libmesaclc_sources = []
-+ 
-+-if not _shared_llvm
-++if not _shared_llvm or \
-++    get_option('mesa-clc-bundle-headers') == 'enabled'
-+   # LLVM 16 moved clang header path from using full version to only major version
-+   if dep_llvm.version().version_compare('< 16')
-+     # Prior to LLVM 16, this path used a full version
-+-- 
-+2.47.2
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index c191e68b5841..6660fb65374f 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -18,6 +18,7 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-meson-disable-SIMD-blake-optimisations-on-x32-host.patch \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch\
-+           file://0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch \
- "
- 
- SRC_URI[sha256sum] = "adf904d083b308df95898600ffed435f4b5c600d95fb6ec6d4c45638627fdc97"
-@@ -193,7 +194,7 @@ MESA_NATIVE:class-native = ""
- 
- PACKAGECONFIG[gallium] = "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}, -Dgallium-drivers='', libdrm"
- PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled, -Dllvm=disabled, llvm llvm-native elfutils"
--PACKAGECONFIG[libclc] = "-Dmesa-clc=${MESA_CLC} -Dinstall-mesa-clc=${INSTALL_MESA_CLC},,libclc spirv-tools spirv-llvm-translator ${MESA_NATIVE}"
-+PACKAGECONFIG[libclc] = "-Dmesa-clc=${MESA_CLC} -Dinstall-mesa-clc=${INSTALL_MESA_CLC} -Dmesa-clc-bundle-headers=enabled,,libclc spirv-tools spirv-llvm-translator ${MESA_NATIVE}"
- PACKAGECONFIG[xa]  = "-Dgallium-xa=enabled, -Dgallium-xa=disabled"
- PACKAGECONFIG[va] = "-Dgallium-va=enabled,-Dgallium-va=disabled,libva-initial"
- PACKAGECONFIG[vdpau] = "-Dgallium-vdpau=enabled,-Dgallium-vdpau=disabled,libvdpau"
--- 
-2.39.5
-
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  ...gure-for-packages-using-find_package.patch | 117 ++++++++++++++++++
+>  meta/recipes-devtools/llvm/llvm_20.1.2.bb     |   1 +
+>  2 files changed, 118 insertions(+)
+>  create mode 100644 meta/recipes-devtools/llvm/llvm/0014-cmake-Fix-config=
+ure-for-packages-using-find_package.patch
+>
+> diff --git a/meta/recipes-devtools/llvm/llvm/0014-cmake-Fix-configure-for=
+-packages-using-find_package.patch b/meta/recipes-devtools/llvm/llvm/0014-c=
+make-Fix-configure-for-packages-using-find_package.patch
+> new file mode 100644
+> index 000000000000..94c056ab8e0a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/llvm/llvm/0014-cmake-Fix-configure-for-packag=
+es-using-find_package.patch
+> @@ -0,0 +1,117 @@
+> +From 93141cee493022d9f39dbd1f5f0bb0a1110ac829 Mon Sep 17 00:00:00 2001
+> +From: Ovidiu Panait <ovidiu.panait@windriver.com>
+> +Date: Fri, 31 Jan 2020 10:56:11 +0200
+> +Subject: [PATCH] cmake: Fix configure for packages using find_package()
+> +
+> +Currently, when a package (i.e. bcc [https://github.com/iovisor/bcc.git]=
+)
+> +that depends on LLVM/Clang tries to run cmake find_package() during
+> +do_configure, it will fail with a similar error:
+> +
+> +|   The imported target "llvm-tblgen" references the file
+> +|      ".../recipe-sysroot/usr/bin/llvm-tblgen"
+> +|
+> +|   but this file does not exist.  Possible reasons include:
+> +|   * The file was deleted, renamed, or moved to another location.
+> +|   * An install or uninstall procedure did not complete successfully.
+> +|   * The installation package was faulty and contained
+> +|      ".../recipe-sysroot/usr/lib/cmake/LLVMExports.cmake"
+> +|   but not all the files it references.
+> +
+> +This is due to the fact that currently the cmake scripts look for target
+> +binaries in sysroot. Work around this by not exporting the target binari=
+es in
+> +Exports-* cmake files.
+> +
+> +Upstream-Status: Inappropriate [oe-specific]
+> +
+> +Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> +---
+> + clang/cmake/modules/AddClang.cmake | 2 --
+> + llvm/cmake/modules/AddLLVM.cmake   | 9 ++-------
+> + llvm/cmake/modules/TableGen.cmake  | 6 ------
+> + 3 files changed, 2 insertions(+), 15 deletions(-)
+> +
+> +diff --git a/clang/cmake/modules/AddClang.cmake b/clang/cmake/modules/Ad=
+dClang.cmake
+> +index cdc8bd5cd503..5faa9117a30f 100644
+> +--- a/clang/cmake/modules/AddClang.cmake
+> ++++ b/clang/cmake/modules/AddClang.cmake
+> +@@ -182,7 +182,6 @@ macro(add_clang_tool name)
+> +     if (CLANG_BUILD_TOOLS)
+> +       get_target_export_arg(${name} Clang export_to_clangtargets)
+> +       install(TARGETS ${name}
+> +-        ${export_to_clangtargets}
+> +         RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+> +         COMPONENT ${name})
+> +
+> +@@ -191,7 +190,6 @@ macro(add_clang_tool name)
+> +                                  DEPENDS ${name}
+> +                                  COMPONENT ${name})
+> +       endif()
+> +-      set_property(GLOBAL APPEND PROPERTY CLANG_EXPORTS ${name})
+> +     endif()
+> +   endif()
+> +   set_target_properties(${name} PROPERTIES XCODE_GENERATE_SCHEME ON)
+> +diff --git a/llvm/cmake/modules/AddLLVM.cmake b/llvm/cmake/modules/AddLL=
+VM.cmake
+> +index d3e9377c8d2f..fe22d6f2b35a 100644
+> +--- a/llvm/cmake/modules/AddLLVM.cmake
+> ++++ b/llvm/cmake/modules/AddLLVM.cmake
+> +@@ -1492,7 +1492,6 @@ macro(llvm_add_tool project name)
+> +       if( LLVM_BUILD_TOOLS )
+> +         get_target_export_arg(${name} ${project} export_to_llvmexports)
+> +         install(TARGETS ${name}
+> +-                ${export_to_llvmexports}
+> +                 RUNTIME DESTINATION ${${project}_TOOLS_INSTALL_DIR}
+> +                 COMPONENT ${name})
+> +
+> +@@ -1503,10 +1502,8 @@ macro(llvm_add_tool project name)
+> +         endif()
+> +       endif()
+> +     endif()
+> +-    if( LLVM_BUILD_TOOLS )
+> +-      string(TOUPPER "${project}" project_upper)
+> +-      set_property(GLOBAL APPEND PROPERTY ${project_upper}_EXPORTS ${na=
+me})
+> +-    endif()
+> ++    string(TOUPPER "${project}" project_upper)
+> ++    set_target_properties(${name} PROPERTIES FOLDER "Tools")
+> +   endif()
+> +   get_subproject_title(subproject_title)
+> +   set_target_properties(${name} PROPERTIES FOLDER "${subproject_title}/=
+Tools")
+> +@@ -1556,7 +1553,6 @@ macro(add_llvm_utility name)
+> +     if (LLVM_INSTALL_UTILS AND LLVM_BUILD_UTILS)
+> +       get_target_export_arg(${name} LLVM export_to_llvmexports)
+> +       install(TARGETS ${name}
+> +-              ${export_to_llvmexports}
+> +               RUNTIME DESTINATION ${LLVM_UTILS_INSTALL_DIR}
+> +               COMPONENT ${name})
+> +
+> +@@ -1565,7 +1561,6 @@ macro(add_llvm_utility name)
+> +                                  DEPENDS ${name}
+> +                                  COMPONENT ${name})
+> +       endif()
+> +-      set_property(GLOBAL APPEND PROPERTY LLVM_EXPORTS ${name})
+> +     elseif(LLVM_BUILD_UTILS)
+> +       set_property(GLOBAL APPEND PROPERTY LLVM_EXPORTS_BUILDTREE_ONLY $=
+{name})
+> +     endif()
+> +diff --git a/llvm/cmake/modules/TableGen.cmake b/llvm/cmake/modules/Tabl=
+eGen.cmake
+> +index ffcc718b4777..a76f28e74b86 100644
+> +--- a/llvm/cmake/modules/TableGen.cmake
+> ++++ b/llvm/cmake/modules/TableGen.cmake
+> +@@ -232,12 +232,7 @@ macro(add_tablegen target project)
+> +
+> +   if (ADD_TABLEGEN_DESTINATION AND NOT LLVM_INSTALL_TOOLCHAIN_ONLY AND
+> +       (LLVM_BUILD_UTILS OR ${target} IN_LIST LLVM_DISTRIBUTION_COMPONEN=
+TS))
+> +-    set(export_arg)
+> +-    if(ADD_TABLEGEN_EXPORT)
+> +-      get_target_export_arg(${target} ${ADD_TABLEGEN_EXPORT} export_arg=
+)
+> +-    endif()
+> +     install(TARGETS ${target}
+> +-            ${export_arg}
+> +             COMPONENT ${target}
+> +             RUNTIME DESTINATION "${ADD_TABLEGEN_DESTINATION}")
+> +     if(NOT LLVM_ENABLE_IDE)
+> +@@ -248,6 +243,5 @@ macro(add_tablegen target project)
+> +   endif()
+> +   if(ADD_TABLEGEN_EXPORT)
+> +     string(TOUPPER ${ADD_TABLEGEN_EXPORT} export_upper)
+> +-    set_property(GLOBAL APPEND PROPERTY ${export_upper}_EXPORTS ${targe=
+t})
+> +   endif()
+> + endmacro()
+> diff --git a/meta/recipes-devtools/llvm/llvm_20.1.2.bb b/meta/recipes-dev=
+tools/llvm/llvm_20.1.2.bb
+> index b51ab703a136..4b24d28364cd 100644
+> --- a/meta/recipes-devtools/llvm/llvm_20.1.2.bb
+> +++ b/meta/recipes-devtools/llvm/llvm_20.1.2.bb
+> @@ -39,6 +39,7 @@ SRC_URI_SPIRV:append:class-native =3D " \
+>  SRC_URI =3D "https://github.com/llvm/llvm-project/releases/download/llvm=
+org-${PV}/llvm-project-${PV}.src.tar.xz \
+>             file://0007-llvm-allow-env-override-of-exe-path.patch \
+>             file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as=
+-we.patch \
+> +           file://0014-cmake-Fix-configure-for-packages-using-find_packa=
+ge.patch \
+>             ${@bb.utils.contains('PACKAGECONFIG', 'spirv-llvm-translator'=
+, '${SRC_URI_SPIRV}', '', d)} \
+>             file://llvm-config \
+>             "
+> --
+> 2.39.5
+>
 
