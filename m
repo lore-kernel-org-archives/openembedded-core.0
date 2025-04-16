@@ -1,231 +1,271 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCEA2C369B1
-	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 06:09:01 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web11.12776.1744783736216401312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C02C369B1
+	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 07:06:12 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.13496.1744787170589009856
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 23:08:56 -0700
+ Wed, 16 Apr 2025 00:06:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=RCMLlRR1;
- spf=pass (domain: linaro.org, ip: 209.85.208.47, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5f4b7211badso245257a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 23:08:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744783734; x=1745388534; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=V0H4NHJZTqrvpGORGGfkc0JC57+vWYaAA9wE4sQdJYU=;
-        b=RCMLlRR1tkkhWQHqeLFvR7rXLOl5orV1BWlA99BpOPprveOD1Yr5ZeFZXRcoJhtjQs
-         /kdIn3dOGEOZDMaT2QyXe8EclBG0lC78XJjSFeuvZlg4Qjz4raohPrZHdShEpoqZ2rN7
-         h0iVzsMmh1Z0wLzEhANdETHQzFy2ye1+fQUYrIVych1wDo3Cwdbnvdt0zZN5HVa+2NsD
-         RiKIezV2qmFeFHl5xqCu9Fq+/bXdHMgIgptueHdqIN90Bzxb1bOSg0bd174a2KoT6qP9
-         Vr3ey/fpYc7D5bwChQlpQKCK4/SOaZvctmnT8DTFGhPcdA13RgwhAqawtQxPhYuEO1Ol
-         S+/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744783734; x=1745388534;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V0H4NHJZTqrvpGORGGfkc0JC57+vWYaAA9wE4sQdJYU=;
-        b=kXbsg95Ybrz2eesvmWLPdMbeCwOLYIDbAAhFlED9/AliPMCxCAjB/n4bNcyhPl5fBO
-         A3f5agruXBz9yTlk0RQeI3gwHlgeo1Xk/cFApoyKHLYAsOlV50q9ctWnAVwT9XQ0hwYQ
-         JfLbRgf/YMgHVZte0fN4shnhxgFz2BNDY8Gyv6YAHj94S35YVNC2Z89dksJWkrjN5h4p
-         ck+JK5aorZl6lue2bxPibtBuKix6bosQ6HjgcOexz/m1OV0nfG1XxjQylvXNDmkLFoD6
-         FAYXrYomdRoxjBKcelNiaa5VPfHW9Qz3So181GUbliUPHm5C2t5YZPcZxK3hRghjExWP
-         E+5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUqv+6cYVxMUEhE3RE3Fh8xsSC5mqt0KOX7l77r2TgaZXj9pVwHB+DHZ6w/v8Lk3NIchlSand2RKiDi7wCNtDXUjQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz0F7pEqOcQ7mEQIcDE/HqgwoYT7MVhUyOZgfXMZ1cPNVlIqdLf
-	CSyFXJB+1yfxOAhfw+hdowCleG8vkXGvsn8sThFEvxybbYecTdJXD2HuSRWo9EM=
-X-Gm-Gg: ASbGncvvhoINniPnoKkZQaubbL5mR5pJ9wKbBTeqp19xUVl7hJ/pVk3kDTrSYFMzXdj
-	lYo2TlPxU6M3ANQfUo9tgUyoim9xRK5u56+kikNiZFWqmfaNgjsq6TOBpQlUvy+sGoBHs0EFODT
-	PrlAE7RJhmNq0s50kTybaS8WelAJJvpXHk3W10j1d7QHV54FxXyqoYI8ntg6q5a9sAGoXHDNtL5
-	isIScCuQeH44lTZ/FFyFgnjbRw2isph8VqOctmpgej7OXvTZjl9WZd2uDubC1ytFdzcPzzinFpn
-	+3DMnbHE/wsp7YNq70gVODjZmSplb9UYYcK7seXQZp2XGJli+KBc5NblTNkanTkyyPY=
-X-Google-Smtp-Source: AGHT+IEff/UZHJVv2A+VUuSLniTH+RhiiWLj3blOG9KjJaGRPzHYH7PHOiem39zWcocIC1Gowg4huQ==
-X-Received: by 2002:a17:907:d1b:b0:ac3:47b1:d210 with SMTP id a640c23a62f3a-acb42ad5829mr37509466b.39.1744783734170;
-        Tue, 15 Apr 2025 23:08:54 -0700 (PDT)
-Received: from nuoska (i68970912.versanet.de. [104.151.9.18])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb3d1c8517sm61969366b.140.2025.04.15.23.08.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 23:08:53 -0700 (PDT)
-Date: Wed, 16 Apr 2025 09:08:49 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Adrian Freihofer <adrian.freihofer@gmail.com>,
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
-	"mike.looijmans@topic.nl" <mike.looijmans@topic.nl>
-Subject: Re: [OE-core] [PATCH v3 01/11] systemd: enable efi support by default
-Message-ID: <Z_9JcY4ANLN7SPvJ@nuoska>
-References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
- <20250404162932.447699-2-mikko.rapeli@linaro.org>
- <8ae24df9-f1ae-44a9-a4f3-7d8aa273a335@topic.nl>
- <Z_jy0-3v8qVSyll8@nuoska>
- <960572ae-f816-4d55-b935-8e11e2dad89f@topic.nl>
- <CAB3asfhjnUAm-sB=Q4mk9whXUMdgaBZk0kwiwYKKyPJ0ydnU2w@mail.gmail.com>
- <Z_4sMeEiHjZ8ydfs@nuoska>
- <DB5PR02MB102130E10617CF99E82F6A94FEFB22@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6201419d70=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G5eIWJ019186
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 07:06:09 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 461u2m8r34-6
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 07:06:09 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 16 Apr 2025 00:05:53 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH 1/1] webkitgtk: upgrade 2.48.0 -> 2.48.1
+Date: Wed, 16 Apr 2025 07:05:33 +0000
+Message-ID: <20250416070533.2504553-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB5PR02MB102130E10617CF99E82F6A94FEFB22@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: Hz0ZaoTya0NwHupC-f5O5BI9rgIDrVKT
+X-Proofpoint-GUID: Hz0ZaoTya0NwHupC-f5O5BI9rgIDrVKT
+X-Authority-Analysis: v=2.4 cv=BaLY0qt2 c=1 sm=1 tr=0 ts=67ff56e1 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=XR8D0OoHHMoA:10 a=Q1sTgoEvAAAA:8 a=NEAV23lmAAAA:8 a=LXCGm8LIAAAA:8 a=t7CeM3EgAAAA:8 a=V2sgnzSHAAAA:8
+ a=pGLkceISAAAA:8 a=z6gsHLkEAAAA:8 a=k564k9mrfE4Mj933L5AA:9 a=FkGh3qDytyf094M0uOEt:22 a=NxI9r9ql2kHpUT0AVVEO:22 a=FdTzh2GWekK77mhwV6Dw:22 a=Z31ocT7rh6aUJxSkT1EX:22
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-16_02,2025-04-15_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ mlxscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 spamscore=0 clxscore=1015 malwarescore=0 suspectscore=0
+ adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504160057
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 06:09:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214979
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 07:06:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214980
 
-Hi,
+From: Yogita Urade <yogita.urade@windriver.com>
 
-On Tue, Apr 15, 2025 at 04:20:50PM +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Mikko Rapeli via lists.openembedded.org
-> > Sent: den 15 april 2025 11:52
-> > To: Adrian Freihofer <adrian.freihofer@gmail.com>
-> > Cc: openembedded-core@lists.openembedded.org; mike.looijmans@topic.nl
-> > Subject: Re: [OE-core] [PATCH v3 01/11] systemd: enable efi support by default
-> > 
-> > Hi,
-> > 
-> > On Mon, Apr 14, 2025 at 06:28:13PM +0200, Adrian Freihofer wrote:
-> > > Hi Mikko
-> > >
-> > > Would it be possible to provide some numbers on the impact on the size of
-> > > the binaries and the additional dependencies that could be added to the
-> > > image with or without efi enabled?
-> > > I think the patch would be a very good compromise if the impact is
-> > > negligible, but otherwise the question is probably still valid.
-> 
-> I have probably missed something in this very long thread, but what is the 
-> reason to force EFI support on us rather than relying on the efi distro 
-> feature? We do not use EFI in any of our products and thus do not have it 
-> set in DISTRO_FEATURES. If it is suddenly expected that EFI support should 
-> be enabled all over the place it just means I will have to go hunting for 
-> it to turn it off rather than just relying on the existing distro feature.
+Includes fix for CVE-2024-54551, CVE-2025-24208,CVE-2025-24209,
+CVE-2025-24213, CVE-2025-24216, CVE-2025-24264 and CVE-2025-30427
 
-Is it ok for Richard to enable "efi" in poky/poky-altcfg DISTRO_FEATURES
-by default?
+Changelog:
+=========
+- Limit the data stored in session state.
+- Remove the empty area below the title bar in Web Inspector when not docked.
+- Fix the build with GST_DISABLE_GST_DEBUG.
+- Fix the build with GStreamer < 1.20.
+- Fix the build with video disabled.
+- Fix the build with clang 20.
 
-It is already enabled in MACHINE_FEATURES for oe-core machines I care about.
+Drop 0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
+and 0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
+which are part of upgrade.
 
-> > 
-> > The impact is small:
-> > 
-> >  * python3-pyelftools-native is added to build dependencies
-> > 
-> >  * At runtime the efivars partition is now automatically mounted read-only by
-> >    systemd to /sys/firmware/efi/efivars and can be used to query various firmware
-> >    and EFI bootloader (grub, systemd-boot) details
-> > 
-> >  * Since "efi" is now default, other layers can stop enabling it:
-> > 
-> >    https://git.yoctoproject.org/meta-arm/tree/meta-arm/recipes-core/systemd/systemd-efi.inc
-> >    https://git.yoctoproject.org/meta-security/tree/meta-tpm/recipes-core/systemd/systemd_%25.bbappend#n5
-> >    https://github.com/Wind-River/meta-secure-core/blob/master/meta-efi-secure-boot/recipes-core/systemd/systemd-efi-secure-boot.inc
-> 
-> But isn't the problem here rather that these layers want to force EFI 
-> support instead of using, e.g., REQUIRED_DISTRO_FEATURES = "efi"?
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ ...04-main-7ffc29624258-.-https-bugs.we.patch | 75 ------------------
+ ...or-no-matching-function-for-call-to-.patch | 77 -------------------
+ ...ebkitgtk_2.48.0.bb => webkitgtk_2.48.1.bb} |  4 +-
+ 3 files changed, 1 insertion(+), 155 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.48.0.bb => webkitgtk_2.48.1.bb} (96%)
 
-These layers want to enable EFI support but don't want to change the poky/poky-altcfg
-distro settings.
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
+deleted file mode 100644
+index 5cbb1035b2..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-From 83093455d02d73a327cea502d974aac82b59ad17 Mon Sep 17 00:00:00 2001
+-From: Adrian Perez de Castro <aperez@igalia.com>
+-Date: Tue, 18 Mar 2025 07:39:01 -0700
+-Subject: [PATCH] Cherry-pick 292304@main (7ffc29624258).
+- https://bugs.webkit.org/show_bug.cgi?id=289953
+-
+-    [GTK][WPE] Use _LIBCPP_HARDENING_MODE with newer libc++ versions
+-    https://bugs.webkit.org/show_bug.cgi?id=289953
+-
+-    Reviewed by Alicia Boya Garcia.
+-
+-    * Source/cmake/OptionsCommon.cmake: Add a new check for the libc++
+-      version, if it is 19 or newer, use the new _LIBCPP_HARDENING_MODE
+-      macro, otherwise for older versions keep _LIBCPP_ENABLE_ASSERTIONS.
+-
+-    Canonical link: https://commits.webkit.org/292304@main
+-
+-Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/2c105443d41e5ce3de3a4cac2ed8a07ebd134459]
+-
+-Canonical link: https://commits.webkit.org/290945.71@webkitglib/2.48
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- Source/cmake/OptionsCommon.cmake | 24 +++++++++++++++++++-----
+- 1 file changed, 19 insertions(+), 5 deletions(-)
+-
+-diff --git a/Source/cmake/OptionsCommon.cmake b/Source/cmake/OptionsCommon.cmake
+-index f6cf5ee..3178674 100644
+---- a/Source/cmake/OptionsCommon.cmake
+-+++ b/Source/cmake/OptionsCommon.cmake
+-@@ -229,8 +229,22 @@ set(CXX_STDLIB_TEST_SOURCE "
+- ")
+- check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS_LIBCPP)
+- if (CXX_STDLIB_IS_LIBCPP)
+--    set(CXX_STDLIB_VARIANT "LIBCPP")
+--    set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_ENABLE_ASSERTIONS)
+-+    set(CXX_STDLIB_TEST_SOURCE "
+-+        #include <utility>
+-+        #if _LIBCPP_VERSION >= 190000
+-+        int main() { }
+-+        #else
+-+        #error libc++ is older than 19.x
+-+        #endif
+-+    ")
+-+    check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS_LIBCPP_19_OR_NEWER)
+-+    if (CXX_STDLIB_IS_LIBCPP_19_OR_NEWER)
+-+        set(CXX_STDLIB_VARIANT "LIBCPP 19+")
+-+        set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE)
+-+    else ()
+-+        set(CXX_STDLIB_VARIANT "LIBCPP <19")
+-+        set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_ENABLE_ASSERTIONS=1)
+-+    endif ()
+- else ()
+-     set(CXX_STDLIB_TEST_SOURCE "
+-     #include <utility>
+-@@ -239,7 +253,7 @@ else ()
+-     check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS_GLIBCXX)
+-     if (CXX_STDLIB_IS_GLIBCXX)
+-         set(CXX_STDLIB_VARIANT "GLIBCXX")
+--        set(CXX_STDLIB_ASSERTIONS_MACRO _GLIBCXX_ASSERTIONS)
+-+        set(CXX_STDLIB_ASSERTIONS_MACRO _GLIBCXX_ASSERTIONS=1)
+-     endif ()
+- endif ()
+- message(STATUS "C++ standard library in use: ${CXX_STDLIB_VARIANT}")
+-@@ -255,8 +269,8 @@ option(USE_CXX_STDLIB_ASSERTIONS
+- 
+- if (USE_CXX_STDLIB_ASSERTIONS)
+-     if (CXX_STDLIB_ASSERTIONS_MACRO)
+--        message(STATUS "  Assertions enabled, ${CXX_STDLIB_ASSERTIONS_MACRO}=1")
+--        add_compile_definitions("${CXX_STDLIB_ASSERTIONS_MACRO}=1")
+-+        message(STATUS "  Assertions enabled, ${CXX_STDLIB_ASSERTIONS_MACRO}")
+-+        add_compile_definitions("${CXX_STDLIB_ASSERTIONS_MACRO}")
+-     else ()
+-         message(STATUS "  Assertions disabled, CXX_STDLIB_ASSERTIONS_MACRO undefined")
+-     endif ()
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch b/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
+deleted file mode 100644
+index 5b83d9e7eb..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
++++ /dev/null
+@@ -1,77 +0,0 @@
+-From 7d159a631ae55c10a0b7a92cf031200a11629736 Mon Sep 17 00:00:00 2001
+-From: Fujii Hironori <Hironori.Fujii@sony.com>
+-Date: Tue, 18 Mar 2025 10:25:47 +0900
+-Subject: [PATCH] EnumTraits.h: error: no matching function for call to
+- 'enumName' with Clang 20 https://bugs.webkit.org/show_bug.cgi?id=289669
+-
+-Reviewed by NOBODY (OOPS!).
+-
+-Clang 20 couldn't compile EnumTraits.h.
+-
+-> wtf/EnumTraits.h:212:33: note: candidate template ignored: invalid explicitly-specified argument for template parameter 'V'
+-
+-An invalid enum value can't be specifed to the template parameter `V`.
+-
+-> template<auto V> constexpr std::span<const char> enumName()
+-
+-The upstream Magic Enum C++ has a template variable `is_enum_constexpr_static_cast_valid<E, V>` to check a enum value is valid.
+-<https://github.com/Neargye/magic_enum/blob/a413fcc9c46a020a746907136a384c227f3cd095/include/magic_enum/magic_enum.hpp#L624-L634>
+-
+-Imported the template variable.
+-
+-* Source/WTF/wtf/EnumTraits.h:
+-(WTF::enumName):
+-(WTF::makeEnumNames):
+-
+-Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/42597]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- Source/WTF/wtf/EnumTraits.h | 21 ++++++++++++++++++++-
+- 1 file changed, 20 insertions(+), 1 deletion(-)
+-
+-diff --git a/Source/WTF/wtf/EnumTraits.h b/Source/WTF/wtf/EnumTraits.h
+-index 0d33e39a..95e6318b 100644
+---- a/Source/WTF/wtf/EnumTraits.h
+-+++ b/Source/WTF/wtf/EnumTraits.h
+-@@ -152,6 +152,16 @@ constexpr bool isZeroBasedContiguousEnum()
+- #pragma clang diagnostic ignored "-Wenum-constexpr-conversion"
+- #endif
+- 
+-+#if COMPILER(CLANG) && __clang_major__ >= 16
+-+template <typename E, auto V, typename = void>
+-+inline constexpr bool isEnumConstexprStaticCastValid = false;
+-+template <typename E, auto V>
+-+inline constexpr bool isEnumConstexprStaticCastValid<E, V, std::void_t<std::integral_constant<E, static_cast<E>(V)>>> = true;
+-+#else
+-+template <typename, auto>
+-+inline constexpr bool isEnumConstexprStaticCastValid = true;
+-+#endif
+-+
+- template<typename E>
+- constexpr std::span<const char> enumTypeNameImpl()
+- {
+-@@ -215,6 +225,15 @@ constexpr std::span<const char> enumName()
+-     return result;
+- }
+- 
+-+template<typename E, auto V>
+-+constexpr std::span<const char> enumName()
+-+{
+-+    if constexpr (isEnumConstexprStaticCastValid<E, V>)
+-+        return enumName<static_cast<E>(V)>();
+-+    else
+-+        return { };
+-+}
+-+
+- template<typename E>
+- constexpr std::underlying_type_t<E> enumNamesMin()
+- {
+-@@ -264,7 +283,7 @@ constexpr auto makeEnumNames(std::index_sequence<Is...>)
+- {
+-     constexpr auto min = enumNamesMin<E>();
+-     return std::array<std::span<const char>, sizeof...(Is)> {
+--        enumName<static_cast<E>(static_cast<std::underlying_type_t<E>>(Is) + min)>()...
+-+        enumName<E, static_cast<std::underlying_type_t<E>>(Is) + min>()...
+-     };
+- }
+- 
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+similarity index 96%
+rename from meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+index 6eb80da1de..41fe8209ce 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+@@ -16,11 +16,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://no-musttail-arm.patch \
+            file://t6-not-declared.patch \
+            file://sys_futex.patch \
+-           file://0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch \
+-           file://0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch \
+            file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch \
+            "
+-SRC_URI[sha256sum] = "94904a55cf12d44a4e36ceadafff02d46da73d76be9b4769f34cbfdf0eebf88e"
++SRC_URI[sha256sum] = "98efdf21c4cdca0fe0b73ab5a8cb52093b5aa52d9b1b016a93f71dbfa1eb258f"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
+ 
+-- 
+2.40.0
 
-In machine features "efi" is already enabled but it was rejeted here to use
-MACHINE_FEATURES in systemd.
-
-So full loop in the discussion...?
-
-Enabling systemd "efi" support by default is a tiny thing which would get lost
-all the other changes and IMO would not impact anyone significantly
-at runtime or at build time. Those who optimize systemd for e.g. non-EFI
-systems should be setting PACKAGECONFIG fully to their liking.
-
-Cheers,
-
--Mikko
-
-> > 
-> >  * /usr/lib/systemd/libsystemd-shared-257.so size increases 32 bytes from
-> >    4012152 to 4012184 bytes, 0.0008%
-> > 
-> >  * systemd package size increase from 9857529 to 10226508, 3.7%, with
-> >    added files:
-> > 
-> > +drwxr-xr-x root       root             4096 ./usr/lib/systemd/boot
-> > +drwxr-xr-x root       root             4096 ./usr/lib/systemd/boot/efi
-> > +-rw-r--r-- root       root             6144 ./usr/lib/systemd/boot/efi/addonaa64.efi.stub
-> > +-rw-r--r-- root       root           101376 ./usr/lib/systemd/boot/efi/linuxaa64.efi.stub
-> > +-rw-r--r-- root       root           120832 ./usr/lib/systemd/boot/efi/systemd-bootaa64.efi
-> > +-rwxr-xr-x -          -               67656 ./usr/lib/systemd/systemd-bless-boot
-> > +-rwxr-xr-x -          -               67456 ./usr/lib/systemd/system-generators/systemd-bless-boot-generator
-> > +lrwxrwxrwx -          -                  25 ./usr/lib/systemd/system/sockets.target.wants/systemd-bootctl.socket -> ../systemd-bootctl.socket
-> > +lrwxrwxrwx -          -                  35 ./usr/lib/systemd/system/sysinit.target.wants/systemd-boot-random-seed.service -> ../systemd-boot-random-seed.service
-> > +lrwxrwxrwx -          -                  34 ./usr/lib/systemd/system/sysinit.target.wants/systemd-hibernate-clear.service -> ../systemd-hibernate-clear.service
-> > +-rw-r--r-- -          -                 690 ./usr/lib/systemd/system/systemd-bless-boot.service
-> > +-rw-r--r-- -          -                 532 ./usr/lib/systemd/system/systemd-bootctl@.service
-> > +-rw-r--r-- -          -                 596 ./usr/lib/systemd/system/systemd-bootctl.socket
-> > +-rw-r--r-- -          -                1029 ./usr/lib/systemd/system/systemd-boot-random-seed.service
-> > +-rw-r--r-- -          -                 733 ./usr/lib/systemd/system/systemd-boot-update.service
-> > +-rw-r--r-- -          -                 782 ./usr/lib/systemd/system/systemd-hibernate-clear.service
-> > +-rw-r--r-- -          -                 779 ./usr/lib/tmpfiles.d/20-systemd-stub.conf
-> > 
-> >   This shows a bug in the config between systemd and systemd-boot, the EFI binaries are
-> >   provided by both. Sadly systemd-boot doesn't work so well and doesn't install all
-> >   the services etc which systemd does with "efi" and bootloader enabled. Not sure
-> >   if the overlap should be fixed or ignored. Using meson to install systemd-boot
-> >   binaries does fix deployment of the EFI binaries but does not install the
-> >   random-seed etc services. With this workaround to avoid the EFI file duplication
-> >   in systemd recipe:
-> > 
-> > --- a/meta/recipes-core/systemd/systemd_257.5.bb
-> > +++ b/meta/recipes-core/systemd/systemd_257.5.bb
-> > @@ -149,7 +149,7 @@ PACKAGECONFIG[default-compression-lz4] = "-Dlz4=true -Ddefault-compression=lz4,,
-> >  PACKAGECONFIG[default-compression-xz] = "-Dxz=true -Ddefault-compression=xz,,xz"
-> >  PACKAGECONFIG[default-compression-zstd] = "-Dzstd=true -Ddefault-compression=zstd,,zstd"
-> >  PACKAGECONFIG[dbus] = "-Ddbus=enabled,-Ddbus=disabled,dbus"
-> > -PACKAGECONFIG[efi] = "-Defi=true -Dbootloader=enabled,-Defi=false -Dbootloader=disabled,python3-pyelftools-native"
-> > +PACKAGECONFIG[efi] = "-Defi=true -Dbootloader=disabled,-Defi=false -Dbootloader=disabled,python3-pyelftools-native systemd-boot"
-> > 
-> >   size without "efi" is 9857529 bytes and with "efi" 9859196, or size increase
-> >   of 0.016% which is tiny. To stay closer to systemd upstream, I don't think
-> >   removing the duplication is worth the effort for now. systemd-boot
-> >   recipe could maybe be replaced by systemd recipe and a systemd-boot binary
-> >   package. Otherwise the configurations don't match. FWIW, it tried following
-> >   changes to systemd-boot:
-> > 
-> > --- a/meta/recipes-core/systemd/systemd-boot_257.5.bb
-> > +++ b/meta/recipes-core/systemd/systemd-boot_257.5.bb
-> > @@ -24,6 +24,7 @@ EOF
-> >  MESON_CROSS_FILE:append = " --cross-file ${WORKDIR}/meson-${PN}.cross"
-> > 
-> >  MESON_TARGET = "systemd-boot"
-> > +MESON_INSTALL_TAGS = "systemd-boot"
-> > 
-> >  EXTRA_OEMESON += "-Defi=true \
-> >                    -Dbootloader=true \
-> > @@ -43,7 +44,7 @@ python __anonymous () {
-> >      d.setVar("SYSTEMD_BOOT_IMAGE_PREFIX", prefix)
-> >  }
-> > 
-> > -FILES:${PN} = "${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}"
-> > +FILES:${PN} = "${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE} ${libdir}"
-> > 
-> >  RDEPENDS:${PN} += "virtual-systemd-bootconf"
-> > 
-> > @@ -53,6 +54,7 @@ COMPATIBLE_HOST = "(aarch64.*|arm.*|x86_64.*|i.86.*|riscv.*)-linux"
-> >  COMPATIBLE_HOST:x86-x32 = "null"
-> > 
-> >  do_install() {
-> > +       meson_do_install
-> >         install -d ${D}${EFI_FILES_PATH}
-> >         install ${B}/src/boot/systemd-boot*.efi ${D}${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}
-> >  }
-> > 
-> > Cheers,
-> > 
-> > -Mikko
-> 
-> //Peter
-> 
 
