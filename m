@@ -2,59 +2,59 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66AC1C369B1
-	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 05:13:51 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.12375.1744780422873412307
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69A76C369BA
+	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 05:14:01 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.12377.1744780427794896095
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 22:13:42 -0700
+ Tue, 15 Apr 2025 22:13:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=QoGOMIOS;
- spf=pass (domain: mvista.com, ip: 209.85.216.52, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-30828fc17adso4426897a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 22:13:42 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=VuCmCBSs;
+ spf=pass (domain: mvista.com, ip: 209.85.215.171, mailfrom: vanusuri@mvista.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-af52a624283so312740a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 22:13:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1744780422; x=1745385222; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1744780427; x=1745385227; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+L5xTOX4Mo2ip8szpLWEO1SlW5i5Q44kXcBM6qtjT+o=;
-        b=QoGOMIOSACcuKgXusIvMwkmcCcCgKHUGT15DfsALOwygufHNrNu+z5WiaSgrpFzx01
-         RH5WA/ylZyI2dYpPl6smRdU13zxRfcnIS65PEESeNSpuw5Yix45dPeYYZ7FL+FoUxaGu
-         vtdONOXWCudW7QbpzFTdX552WsiaMCLZyu7N8=
+        bh=9vvdWVtTls6CeqYtGZdXS8roXax57T0131oS0Ef897E=;
+        b=VuCmCBSsYiBpxCF4zsPCSU4NitoRyJsYrRq/xr5NzEgW575B2FRWEVn0JdYXZqzkEJ
+         ZtRjJQCHx5PV8kU2JCMojDmiqQ7EiIvK10PrnQW0M8HvLv7tZBtm7+lX7WZl/k10HHHV
+         6MuWhhDLxSKsOJK6pElzsTUfjt8vc/S0IUNhs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744780422; x=1745385222;
+        d=1e100.net; s=20230601; t=1744780427; x=1745385227;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+L5xTOX4Mo2ip8szpLWEO1SlW5i5Q44kXcBM6qtjT+o=;
-        b=JJ/kKVR2C28d72b4BXQKRg2D9PHRJ82cCGbtyxOPxD0kUceAA2SHJ44a33Q8J8aERI
-         CDXSCpx9bhJFQTiRunh2MlLquZYNFIuM4L9A8Mgl3e3PwO5fc6zpNQ/xCLn5upZlhAUb
-         sJ894wEj8+uXcN9E8+4wbNSht5qs13hN5PFVsO68/SAZQXb72OL2fgnVuhaTbGNpbE92
-         bZ+YXWqGwjJvGboKGajYAFGf7/2w8nLswNYnmMrZjd+2cZ9npF7GkrbQh+0UoX8K7jOt
-         cmYlArRTKrrDRig6k/WptXgJpN3YboMVqpdhR26j+XYRpJXkJAFpDoR05qtl/t8LHOE5
-         SphQ==
-X-Gm-Message-State: AOJu0YyjjytkTft3yWCZ+2y77zwK9onM+W2f/ZCB/5cPAOmPAeqDNPfH
-	03NYt1b9IsuEePLMWW49oDdRhE1mzn5ZrPtp79cesNHIRYDIJ4o9i2K2wYirOnRRtJrNrK1NXBU
-	S94M=
-X-Gm-Gg: ASbGncunbltUVGwmdEKddK7kdV+tIWWmetyGIdFVa74G/41BLkx1BuuGAiI7Mxx+0CX
-	AtxZSpmahGIsRf+sqP8HvJwT6MdIexRc0CIB/d8fciFTcwhEOBpCrf9iMB0I6m9z505d/B0hRdX
-	ol1ycO4sPzb8uStOqtvKpfzRZA06aMkqbfVIfb7Mrpkn4tuIxfQ6Ik0MmJtvhsptDpdXd9t6xoU
-	FBjkHskN0fO3eDdYMp1Tu9q0vYqmD4AJLevogVA6xl46JnOktg6OV0TCrTl4K8l12xDjVrjynTs
-	EucQIzGKCTeuwbBMLuUo7x3Xs+Y8iFMX6+8m/x9ChuJTEtV4pZs=
-X-Google-Smtp-Source: AGHT+IGgzKEJiCM5KKvgkdKSrD5KCO44Gvm5je5MA7LvjL4MmkqbP9mtaohGntezDbX5EwHXbspKcg==
-X-Received: by 2002:a17:90b:524a:b0:301:c5cb:7b13 with SMTP id 98e67ed59e1d1-30863d25d99mr694102a91.3.1744780421729;
-        Tue, 15 Apr 2025 22:13:41 -0700 (PDT)
+        bh=9vvdWVtTls6CeqYtGZdXS8roXax57T0131oS0Ef897E=;
+        b=oWKPIy16Zf/1ZF9XrgcIxcQ4/UspCU2Z//RP/p7+rO/D3Ny3w8+4fM4GNkFI30CXC4
+         9rUTQjxn9htXXkBPdFYMv9gY82Mu/dYWLnL6SjLtYvL54MhPTQyLS7Qh3hd1jxkX4+pz
+         WsL1ZgO1zrURE2P3JE4qsdOc2NRQ6dZv2H303ikTYWsMDn7o3zDjGChk2sObR1qufVgR
+         sW04uCTYFGqxUsscwlB3H6d4FdrNRS9ALky228iQuD1dvEQHizFjBbuhOZrrqdzPbnZl
+         DbiWnDgGjGsW1oObSWrEPB/jA3jTl4dZ/4yCDzrcPl7xHeERQTswnGXaGRJYx6m92t4e
+         PY+g==
+X-Gm-Message-State: AOJu0Yy+JDczjgOZeMwFUQkE3Na5vxkLsr+9bSaQbDGX1iL3skcyWWBg
+	Yi0lUDUwv83M4fOqUwywch/XeSPwrw5OnrQffGuYvF1jraeotL0K67svrbBojbVufYQPaU+/2jb
+	huJs=
+X-Gm-Gg: ASbGnctB1v+RVF5lchL9P+8rKpAFrdZzH4KXRfqEwkOM6u8oB8SFcDCn76wbnakJ3fI
+	/Bn/hP4zhyiKYLyWFQ/jXJdLiFjUOFg8E0wPv3YnNQr5qsr0ghoQPweOU6yIW7cLWQ8WqyoJJ4c
+	llrFCCheJS8pIxQqYTCCouhmXGjK/3guRb0a8dhXjEVzOmGMsvjItylzuRzVXeUjACXIS0gc6Ld
+	qWCeEcSKu8zU5Dtrhu/dip6kkya06TpPa46zey46aD5kaCLO+tfW1EE4YDdgO0V4BAppi94658d
+	GB/x9sOfDIaKJvQybHMSqZb/4yhWdD6UUvk2+ubv/BhZ6jJJkA4=
+X-Google-Smtp-Source: AGHT+IFQQwtr7D4hATmX+diUEfUb39T8NyRUDsQLHEXG+6pa3TIVplmiL6BgYqGb+IMTf0KCR7976A==
+X-Received: by 2002:a17:90b:5683:b0:2fa:4926:d18d with SMTP id 98e67ed59e1d1-308646c937cmr600382a91.13.1744780426644;
+        Tue, 15 Apr 2025 22:13:46 -0700 (PDT)
 Received: from MVIN00020.mvista.com ([49.207.229.43])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3086122a8absm582419a91.35.2025.04.15.22.13.39
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3086122a8absm582419a91.35.2025.04.15.22.13.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 22:13:41 -0700 (PDT)
+        Tue, 15 Apr 2025 22:13:45 -0700 (PDT)
 From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][PATCH 4/5] libsoup: Fix CVE-2025-32912
-Date: Wed, 16 Apr 2025 10:43:13 +0530
-Message-Id: <20250416051314.96105-4-vanusuri@mvista.com>
+Subject: [OE-core][scarthgap][PATCH 5/5] libsoup: Fix CVE-2025-32906
+Date: Wed, 16 Apr 2025 10:43:14 +0530
+Message-Id: <20250416051314.96105-5-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250416051314.96105-1-vanusuri@mvista.com>
 References: <20250416051314.96105-1-vanusuri@mvista.com>
@@ -63,386 +63,190 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 05:13:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214977
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 05:14:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214978
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
 Upstream-Status: Backport from
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/e40df6d48a1cbab56f5d15016cc861a503423cfe
-&
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/405a8a34597a44bd58c4759e7d5e23f02c3b556a
-&
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/cd077513f267e43ce4b659eb18a1734d8a369992
-& https://gitlab.gnome.org/GNOME/libsoup/-/commit/910ebdcd3dd82386717a201c13c834f3a63eed7f
+https://gitlab.gnome.org/GNOME/libsoup/-/commit/1f509f31b6f8420a3661c3f990424ab7b9164931
+& https://gitlab.gnome.org/GNOME/libsoup/-/commit/af5b9a4a3945c52b940d5ac181ef51bb12011f1f
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../libsoup-3.4.4/CVE-2025-32912-1.patch      |  98 ++++++++++++
- .../libsoup-3.4.4/CVE-2025-32912-2.patch      | 149 ++++++++++++++++++
- .../libsoup-3.4.4/CVE-2025-32912-3.patch      |  41 +++++
- .../libsoup-3.4.4/CVE-2025-32912-4.patch      |  30 ++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   4 +
- 5 files changed, 322 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-2.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-3.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-4.patch
+ .../libsoup-3.4.4/CVE-2025-32906-1.patch      | 61 ++++++++++++++
+ .../libsoup-3.4.4/CVE-2025-32906-2.patch      | 83 +++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |  2 +
+ 3 files changed, 146 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-2.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-1.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-1.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-1.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-1.patch
 new file mode 100644
-index 0000000000..311f3020b8
+index 0000000000..916a41a71f
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-1.patch
-@@ -0,0 +1,98 @@
-+From e40df6d48a1cbab56f5d15016cc861a503423cfe Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-1.patch
+@@ -0,0 +1,61 @@
++From 1f509f31b6f8420a3661c3f990424ab7b9164931 Mon Sep 17 00:00:00 2001
 +From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Sun, 8 Dec 2024 20:00:35 -0600
-+Subject: [PATCH] auth-digest: Handle missing realm in authenticate header
++Date: Tue, 11 Feb 2025 14:36:26 -0600
++Subject: [PATCH] headers: Handle parsing edge case
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/e40df6d48a1cbab56f5d15016cc861a503423cfe]
-+CVE: CVE-2025-32912 #Dependency Patch1
++This version number is specifically crafted to pass sanity checks allowing it to go one byte out of bounds.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/1f509f31b6f8420a3661c3f990424ab7b9164931]
++CVE: CVE-2025-32906 #Dependency Patch
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libsoup/auth/soup-auth-digest.c |  3 ++
-+ tests/auth-test.c               | 50 +++++++++++++++++++++++++++++++++
-+ 2 files changed, 53 insertions(+)
++ libsoup/soup-headers.c      |  2 +-
++ tests/header-parsing-test.c | 12 ++++++++++++
++ 2 files changed, 13 insertions(+), 1 deletion(-)
 +
-+diff --git a/libsoup/auth/soup-auth-digest.c b/libsoup/auth/soup-auth-digest.c
-+index 2e81849af..4f12e87a5 100644
-+--- a/libsoup/auth/soup-auth-digest.c
-++++ b/libsoup/auth/soup-auth-digest.c
-+@@ -148,6 +148,9 @@ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
-+ 	guint qop_options;
-+ 	gboolean ok = TRUE;
++diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
++index 85385cea..9d6d00a3 100644
++--- a/libsoup/soup-headers.c
+++++ b/libsoup/soup-headers.c
++@@ -225,7 +225,7 @@ soup_headers_parse_request (const char          *str,
++ 	    !g_ascii_isdigit (version[5]))
++ 		return SOUP_STATUS_BAD_REQUEST;
++ 	major_version = strtoul (version + 5, &p, 10);
++-	if (*p != '.' || !g_ascii_isdigit (p[1]))
+++	if (p + 1 >= str + len || *p != '.' || !g_ascii_isdigit (p[1]))
++ 		return SOUP_STATUS_BAD_REQUEST;
++ 	minor_version = strtoul (p + 1, &p, 10);
++ 	version_end = p;
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index 07ea2866..10ddb684 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -6,6 +6,10 @@ typedef struct {
++ 	const char *name, *value;
++ } Header;
 + 
-++        if (!soup_auth_get_realm (auth))
-++                return FALSE;
+++static char unterminated_http_version[] = {
+++        'G','E','T',' ','/',' ','H','T','T','P','/','1', '0', '0', '.'
+++};
 ++
-+ 	g_free (priv->domain);
-+ 	g_free (priv->nonce);
-+ 	g_free (priv->opaque);
-+diff --git a/tests/auth-test.c b/tests/auth-test.c
-+index 158fdac10..3066e904a 100644
-+--- a/tests/auth-test.c
-++++ b/tests/auth-test.c
-+@@ -1866,6 +1866,55 @@ do_multiple_digest_algorithms (void)
-+ 	soup_test_server_quit_unref (server);
-+ }
++ static struct RequestTest {
++ 	const char *description;
++ 	const char *bugref;
++@@ -383,6 +387,14 @@ static struct RequestTest {
++ 	  { { NULL } }
++ 	},
 + 
-++static void
-++on_request_read_for_missing_realm (SoupServer        *server,
-++                                   SoupServerMessage *msg,
-++                                   gpointer           user_data)
-++{
-++        SoupMessageHeaders *response_headers = soup_server_message_get_response_headers (msg);
-++        soup_message_headers_replace (response_headers, "WWW-Authenticate", "Digest qop=\"auth\"");
-++}
+++        /* This couldn't be a C string as going one byte over would have been safe. */
+++	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
+++	  unterminated_http_version, sizeof (unterminated_http_version),
+++	  SOUP_STATUS_BAD_REQUEST,
+++           NULL, NULL, -1,
+++	  { { NULL } }
+++	},
 ++
-++static void
-++do_missing_realm_test (void)
-++{
-++        SoupSession *session;
-++        SoupMessage *msg;
-++        SoupServer *server;
-++        SoupAuthDomain *digest_auth_domain;
-++        gint status;
-++        GUri *uri;
-++
-++        server = soup_test_server_new (SOUP_TEST_SERVER_IN_THREAD);
-++	soup_server_add_handler (server, NULL,
-++				 server_callback, NULL, NULL);
-++	uri = soup_test_server_get_uri (server, "http", NULL);
-++
-++	digest_auth_domain = soup_auth_domain_digest_new (
-++		"realm", "auth-test",
-++		"auth-callback", server_digest_auth_callback,
-++		NULL);
-++        soup_auth_domain_add_path (digest_auth_domain, "/");
-++	soup_server_add_auth_domain (server, digest_auth_domain);
-++        g_object_unref (digest_auth_domain);
-++
-++        g_signal_connect (server, "request-read",
-++                          G_CALLBACK (on_request_read_for_missing_realm),
-++                          NULL);
-++
-++        session = soup_test_session_new (NULL);
-++        msg = soup_message_new_from_uri ("GET", uri);
-++        g_signal_connect (msg, "authenticate",
-++                          G_CALLBACK (on_digest_authenticate),
-++                          NULL);
-++
-++        status = soup_test_session_send_message (session, msg);
-++
-++        g_assert_cmpint (status, ==, SOUP_STATUS_UNAUTHORIZED);
-++	g_uri_unref (uri);
-++	soup_test_server_quit_unref (server);
-++}
-++
-+ int
-+ main (int argc, char **argv)
-+ {
-+@@ -1899,6 +1948,7 @@ main (int argc, char **argv)
-+ 	g_test_add_func ("/auth/auth-uri", do_auth_uri_test);
-+         g_test_add_func ("/auth/cancel-request-on-authenticate", do_cancel_request_on_authenticate);
-+         g_test_add_func ("/auth/multiple-algorithms", do_multiple_digest_algorithms);
-++        g_test_add_func ("/auth/missing-realm", do_missing_realm_test);
-+ 
-+ 	ret = g_test_run ();
-+ 
++ 	{ "Non-HTTP request", NULL,
++ 	  "GET / SOUP/1.1\r\nHost: example.com\r\n", -1,
++ 	  SOUP_STATUS_BAD_REQUEST,
 +-- 
 +GitLab
 +
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-2.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-2.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-2.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-2.patch
 new file mode 100644
-index 0000000000..5809e178d1
+index 0000000000..5baad15648
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-2.patch
-@@ -0,0 +1,149 @@
-+From 405a8a34597a44bd58c4759e7d5e23f02c3b556a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-2.patch
+@@ -0,0 +1,83 @@
++From af5b9a4a3945c52b940d5ac181ef51bb12011f1f Mon Sep 17 00:00:00 2001
 +From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Thu, 26 Dec 2024 18:18:35 -0600
-+Subject: [PATCH] auth-digest: Handle missing nonce
++Date: Wed, 12 Feb 2025 11:30:02 -0600
++Subject: [PATCH] headers: Handle parsing only newlines
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/405a8a34597a44bd58c4759e7d5e23f02c3b556a]
-+CVE: CVE-2025-32912 #Dependency Patch2
++Closes #404
++Closes #407
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/af5b9a4a3945c52b940d5ac181ef51bb12011f1f]
++CVE: CVE-2025-32906
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libsoup/auth/soup-auth-digest.c | 45 +++++++++++++++++++++++++--------
-+ tests/auth-test.c               | 19 ++++++++------
-+ 2 files changed, 46 insertions(+), 18 deletions(-)
++ libsoup/soup-headers.c      |  4 ++--
++ tests/header-parsing-test.c | 13 ++++++++++++-
++ 2 files changed, 14 insertions(+), 3 deletions(-)
 +
-+diff --git a/libsoup/auth/soup-auth-digest.c b/libsoup/auth/soup-auth-digest.c
-+index 4f12e87a..350bfde6 100644
-+--- a/libsoup/auth/soup-auth-digest.c
-++++ b/libsoup/auth/soup-auth-digest.c
-+@@ -138,6 +138,19 @@ soup_auth_digest_get_qop (SoupAuthDigestQop qop)
-+ 	return g_string_free (out, FALSE);
-+ }
++diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
++index 9d6d00a3..52ef2ece 100644
++--- a/libsoup/soup-headers.c
+++++ b/libsoup/soup-headers.c
++@@ -186,7 +186,7 @@ soup_headers_parse_request (const char          *str,
++ 	/* RFC 2616 4.1 "servers SHOULD ignore any empty line(s)
++ 	 * received where a Request-Line is expected."
++ 	 */
++-	while ((*str == '\r' || *str == '\n') && len > 0) {
+++	while (len > 0 && (*str == '\r' || *str == '\n')) {
++ 		str++;
++ 		len--;
++ 	}
++@@ -371,7 +371,7 @@ soup_headers_parse_response (const char          *str,
++ 	 * after a response, which we then see prepended to the next
++ 	 * response on that connection.
++ 	 */
++-	while ((*str == '\r' || *str == '\n') && len > 0) {
+++	while (len > 0 && (*str == '\r' || *str == '\n')) {
++ 		str++;
++ 		len--;
++ 	}
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index 10ddb684..4faafbd6 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -6,10 +6,15 @@ typedef struct {
++ 	const char *name, *value;
++ } Header;
 + 
-++static gboolean
-++validate_params (SoupAuthDigest *auth_digest)
-++{
-++        SoupAuthDigestPrivate *priv = soup_auth_digest_get_instance_private (auth_digest);
+++/* These are not C strings to ensure going one byte over is not safe. */
++ static char unterminated_http_version[] = {
++         'G','E','T',' ','/',' ','H','T','T','P','/','1', '0', '0', '.'
++ };
++ 
+++static char only_newlines[] = {
+++        '\n', '\n', '\n', '\n'
+++};
 ++
-++        if (priv->qop || priv->algorithm == SOUP_AUTH_DIGEST_ALGORITHM_MD5_SESS) {
-++                if (!priv->nonce)
-++                        return FALSE;
-++        }
++ static struct RequestTest {
++ 	const char *description;
++ 	const char *bugref;
++@@ -387,7 +392,6 @@ static struct RequestTest {
++ 	  { { NULL } }
++ 	},
++ 
++-        /* This couldn't be a C string as going one byte over would have been safe. */
++ 	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
++ 	  unterminated_http_version, sizeof (unterminated_http_version),
++ 	  SOUP_STATUS_BAD_REQUEST,
++@@ -457,6 +461,13 @@ static struct RequestTest {
++ 	  SOUP_STATUS_BAD_REQUEST,
++            NULL, NULL, -1,
++ 	  { { NULL } }
+++	},
 ++
-++        return TRUE;
-++}
-++
-+ static gboolean
-+ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
-+ 			 GHashTable *auth_params)
-+@@ -175,16 +188,21 @@ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
-+ 	if (priv->algorithm == -1)
-+ 		ok = FALSE;
-+ 
-+-	stale = g_hash_table_lookup (auth_params, "stale");
-+-	if (stale && !g_ascii_strcasecmp (stale, "TRUE") && *priv->hex_urp)
-+-		recompute_hex_a1 (priv);
-+-	else {
-+-		g_free (priv->user);
-+-		priv->user = NULL;
-+-		g_free (priv->cnonce);
-+-		priv->cnonce = NULL;
-+-		memset (priv->hex_urp, 0, sizeof (priv->hex_urp));
-+-		memset (priv->hex_a1, 0, sizeof (priv->hex_a1));
-++        if (!validate_params (auth_digest))
-++                ok = FALSE;
-++
-++        if (ok) {
-++                stale = g_hash_table_lookup (auth_params, "stale");
-++                if (stale && !g_ascii_strcasecmp (stale, "TRUE") && *priv->hex_urp)
-++                        recompute_hex_a1 (priv);
-++                else {
-++                        g_free (priv->user);
-++                        priv->user = NULL;
-++                        g_free (priv->cnonce);
-++                        priv->cnonce = NULL;
-++                        memset (priv->hex_urp, 0, sizeof (priv->hex_urp));
-++                        memset (priv->hex_a1, 0, sizeof (priv->hex_a1));
-++                }
-+         }
-+ 
-+ 	return ok;
-+@@ -276,6 +294,8 @@ soup_auth_digest_compute_hex_a1 (const char              *hex_urp,
-+ 
-+ 		/* In MD5-sess, A1 is hex_urp:nonce:cnonce */
-+ 
-++                g_assert (nonce && cnonce);
-++
-+ 		checksum = g_checksum_new (G_CHECKSUM_MD5);
-+ 		g_checksum_update (checksum, (guchar *)hex_urp, strlen (hex_urp));
-+ 		g_checksum_update (checksum, (guchar *)":", 1);
-+@@ -366,6 +386,8 @@ soup_auth_digest_compute_response (const char        *method,
-+ 	if (qop) {
-+ 		char tmp[9];
-+ 
-++                g_assert (cnonce);
-++
-+ 		g_snprintf (tmp, 9, "%.8x", nc);
-+ 		g_checksum_update (checksum, (guchar *)tmp, strlen (tmp));
-+ 		g_checksum_update (checksum, (guchar *)":", 1);
-+@@ -429,6 +451,9 @@ soup_auth_digest_get_authorization (SoupAuth *auth, SoupMessage *msg)
-+ 	g_return_val_if_fail (uri != NULL, NULL);
-+ 	url = soup_uri_get_path_and_query (uri);
-+ 
-++        g_assert (priv->nonce);
-++        g_assert (!priv->qop || priv->cnonce);
-++
-+ 	soup_auth_digest_compute_response (soup_message_get_method (msg), url, priv->hex_a1,
-+ 					   priv->qop, priv->nonce,
-+ 					   priv->cnonce, priv->nc,
-+diff --git a/tests/auth-test.c b/tests/auth-test.c
-+index 3066e904..c651c7cd 100644
-+--- a/tests/auth-test.c
-++++ b/tests/auth-test.c
-+@@ -1867,16 +1867,17 @@ do_multiple_digest_algorithms (void)
-+ }
-+ 
-+ static void
-+-on_request_read_for_missing_realm (SoupServer        *server,
-+-                                   SoupServerMessage *msg,
-+-                                   gpointer           user_data)
-++on_request_read_for_missing_params (SoupServer        *server,
-++                                      SoupServerMessage *msg,
-++                                      gpointer           user_data)
-+ {
-++        const char *auth_header = user_data;
-+         SoupMessageHeaders *response_headers = soup_server_message_get_response_headers (msg);
-+-        soup_message_headers_replace (response_headers, "WWW-Authenticate", "Digest qop=\"auth\"");
-++        soup_message_headers_replace (response_headers, "WWW-Authenticate", auth_header);
-+ }
-+ 
-+ static void
-+-do_missing_realm_test (void)
-++do_missing_params_test (gconstpointer auth_header)
-+ {
-+         SoupSession *session;
-+         SoupMessage *msg;
-+@@ -1899,8 +1900,8 @@ do_missing_realm_test (void)
-+         g_object_unref (digest_auth_domain);
-+ 
-+         g_signal_connect (server, "request-read",
-+-                          G_CALLBACK (on_request_read_for_missing_realm),
-+-                          NULL);
-++                          G_CALLBACK (on_request_read_for_missing_params),
-++                          (gpointer)auth_header);
-+ 
-+         session = soup_test_session_new (NULL);
-+         msg = soup_message_new_from_uri ("GET", uri);
-+@@ -1948,7 +1949,9 @@ main (int argc, char **argv)
-+ 	g_test_add_func ("/auth/auth-uri", do_auth_uri_test);
-+         g_test_add_func ("/auth/cancel-request-on-authenticate", do_cancel_request_on_authenticate);
-+         g_test_add_func ("/auth/multiple-algorithms", do_multiple_digest_algorithms);
-+-        g_test_add_func ("/auth/missing-realm", do_missing_realm_test);
-++        g_test_add_data_func ("/auth/missing-params/realm", "Digest qop=\"auth\"", do_missing_params_test);
-++        g_test_add_data_func ("/auth/missing-params/nonce", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"", do_missing_params_test);
-++        g_test_add_data_func ("/auth/missing-params/nonce-md5-sess", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\" algorithm=\"MD5-sess\"", do_missing_params_test);
-+ 
-+ 	ret = g_test_run ();
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-3.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-3.patch
-new file mode 100644
-index 0000000000..c35c599502
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-3.patch
-@@ -0,0 +1,41 @@
-+From cd077513f267e43ce4b659eb18a1734d8a369992 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 5 Feb 2025 14:03:05 -0600
-+Subject: [PATCH] auth-digest: Handle missing nonce
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/cd077513f267e43ce4b659eb18a1734d8a369992]
-+CVE: CVE-2025-32912
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/auth/soup-auth-digest.c | 2 +-
-+ tests/auth-test.c               | 1 +
-+ 2 files changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/libsoup/auth/soup-auth-digest.c b/libsoup/auth/soup-auth-digest.c
-+index 9eb7fa0e..d69a4013 100644
-+--- a/libsoup/auth/soup-auth-digest.c
-++++ b/libsoup/auth/soup-auth-digest.c
-+@@ -162,7 +162,7 @@ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
-+ 	guint qop_options;
-+ 	gboolean ok = TRUE;
-+ 
-+-        if (!soup_auth_get_realm (auth))
-++        if (!soup_auth_get_realm (auth) || !g_hash_table_contains (auth_params, "nonce"))
-+                 return FALSE;
-+ 
-+ 	g_free (priv->domain);
-+diff --git a/tests/auth-test.c b/tests/auth-test.c
-+index c651c7cd..484097f1 100644
-+--- a/tests/auth-test.c
-++++ b/tests/auth-test.c
-+@@ -1952,6 +1952,7 @@ main (int argc, char **argv)
-+         g_test_add_data_func ("/auth/missing-params/realm", "Digest qop=\"auth\"", do_missing_params_test);
-+         g_test_add_data_func ("/auth/missing-params/nonce", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"", do_missing_params_test);
-+         g_test_add_data_func ("/auth/missing-params/nonce-md5-sess", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\" algorithm=\"MD5-sess\"", do_missing_params_test);
-++        g_test_add_data_func ("/auth/missing-params/nonce-and-qop", "Digest realm=\"auth-test\"", do_missing_params_test);
-+ 
-+ 	ret = g_test_run ();
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-4.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-4.patch
-new file mode 100644
-index 0000000000..ad6f3a8028
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-4.patch
-@@ -0,0 +1,30 @@
-+From 910ebdcd3dd82386717a201c13c834f3a63eed7f Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Sat, 8 Feb 2025 12:30:13 -0600
-+Subject: [PATCH] digest-auth: Handle NULL nonce
-+
-+`contains` only handles a missing nonce, `lookup` handles both missing and empty.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/910ebdcd3dd82386717a201c13c834f3a63eed7f]
-+CVE: CVE-2025-32912
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/auth/soup-auth-digest.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libsoup/auth/soup-auth-digest.c b/libsoup/auth/soup-auth-digest.c
-+index d69a4013..dc4dbfc5 100644
-+--- a/libsoup/auth/soup-auth-digest.c
-++++ b/libsoup/auth/soup-auth-digest.c
-+@@ -162,7 +162,7 @@ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
-+ 	guint qop_options;
-+ 	gboolean ok = TRUE;
-+ 
-+-        if (!soup_auth_get_realm (auth) || !g_hash_table_contains (auth_params, "nonce"))
-++        if (!soup_auth_get_realm (auth) || !g_hash_table_lookup (auth_params, "nonce"))
-+                 return FALSE;
-+ 
-+ 	g_free (priv->domain);
+++	{ "Only newlines", NULL,
+++	  only_newlines, sizeof (only_newlines),
+++	  SOUP_STATUS_BAD_REQUEST,
+++           NULL, NULL, -1,
+++	  { { NULL } }
++ 	}
++ };
++ static const int num_reqtests = G_N_ELEMENTS (reqtests);
 +-- 
 +GitLab
 +
 diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index 0b464d274b..bb1360bc49 100644
+index bb1360bc49..30b8320a64 100644
 --- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
 +++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -22,6 +22,10 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32909.patch \
-            file://CVE-2025-32913-1.patch \
-            file://CVE-2025-32913-2.patch \
-+           file://CVE-2025-32912-1.patch \
-+           file://CVE-2025-32912-2.patch \
-+           file://CVE-2025-32912-3.patch \
-+           file://CVE-2025-32912-4.patch \
+@@ -26,6 +26,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-32912-2.patch \
+            file://CVE-2025-32912-3.patch \
+            file://CVE-2025-32912-4.patch \
++           file://CVE-2025-32906-1.patch \
++           file://CVE-2025-32906-2.patch \
            "
  SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
  
