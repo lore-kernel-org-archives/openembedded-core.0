@@ -1,141 +1,132 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA4E7C369C4
-	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 17:23:25 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.25454.1744824200307126378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27C36C369BA
+	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 17:49:56 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.26219.1744825794336778282
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Apr 2025 10:23:20 -0700
+ Wed, 16 Apr 2025 10:49:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ej/dCb08;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ac2ab99e16eso1429416666b.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 10:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744824199; x=1745428999; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OYLZrUPfSKsuDMAOI8Srk2C5y8ku4cJno++JlX/+pCo=;
-        b=ej/dCb083QNtgRAdCgniRByfQY2Kcjs5olSHv8xeEjG0kijxRPqdc+8Mqatak6PUGE
-         atLkNMDou2yIwlFr/96qYKSM83gASi+XYf+QqWwRErWJmkwqVNptoT6nd03b4NM90a2A
-         JdTgZWfAXOjqgu++Bw+m7ShVOhEo19gzwtbs5FQoaHQptSINYk5BqpJuvuF+BYNREmGb
-         kBzoMHpFhsUgQNjfvvPH/CfNFsAVBLOCVFSWeewkbaq6mv2Jm64cdhfA35rW3zeMA9rA
-         S0S9cwzWOGNpKNWLz6xD+ynXSWZjU8OIeLkyapMbRAT++7+VK3VQSzD48HlIjZsqKoha
-         QDkA==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=ow0KXO6J;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G9mXSR021614
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 17:49:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=YKHfV3qmhmPcGf58Q6LzbKwS
+	iBXPn76AOrdjwNosCqw=; b=ow0KXO6JBR4wvC7AbFyWHJ8ezXwfBfC1Y6Bs+j/1
+	WEd/Vg8LAeXcSnrhkBtig60JiMj3HILNQjB2Fi2ZQQOcme2D90SmOMcXUMiK6rAc
+	9h2wn7T5hOomItWArrXqEc8YxZ7Lwka99tDuBWl/O6ajQOE6Fyio/VwysUiC2iBy
+	tHz7BLNmg337DJ8c46o++V33MlIFqOuqI1PVFlwLxHPVxzev+Gya6nRsN3mX8r9e
+	PgDEV8qsFkorIx4fax9/1koU9nfkZjSExVybn7HfRs92kipRCC+Pudu34oeLRy1C
+	54UMuqPJhxp7ucQImXbhkGJXM980SCYTgELDoBOi3BL0Qg==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yf69vc7w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 17:49:53 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6e9083404b7so132857746d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 10:49:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744824199; x=1745428999;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OYLZrUPfSKsuDMAOI8Srk2C5y8ku4cJno++JlX/+pCo=;
-        b=lv0WpwuFSw4r3MPur6xU8FDExDS2Ak0rJxS2DB6aNyNWyNveowbmzI3U48NxqpxcjZ
-         AxOoZAYzcp0VHcKRLeqI0zH9Lk1mExALaIoWnZ67vEem12hnxi++WXTrBmMlFNEmibdK
-         hdbQSKdEUqOnpMCkdyzihFJ5yi35JFNNfYYSkkdUAEFjAJVWFawVexO8N9VmvNZQyHLq
-         In5+S3DoRWMzrcE+HCUGggAjfilCBTLQGAzcoUtQzxdvpGAJmljz3/GOe03stF1Q21km
-         945CvSC4Zudvty4Ah/sn8f0IEowqcH8JDRwUOu/HfHYss+fD4Sbgfdoa34gZU0UkdhDU
-         SRng==
-X-Gm-Message-State: AOJu0YyT8OseuUCxeDCLeSKPD9qyOJ+VJKSGt9HfBPeRvRa5VPJ7X7XY
-	H2PgPFnWBh5oz4D02WuG98t+VGZX/pS0MmCppMGVkdNk0nxez5VbWJAiUw==
-X-Gm-Gg: ASbGncv3qve2O4YCG8fbX7qfRttVGtiq+ji+7bw0paQpHN149C8W1S5amEpm01ySlJj
-	V2ZtRGg6xEx0xu3OYJTheFELY4zC9y5nap9l7elM4dbE6GJFyaUrbSJwQpgmww7IAHhgV5CL5yi
-	dxsDgx2k8Sxt50NOG/Y3XMhDZLmtnOBLsrmYRE6MspN6RPhgCKpL/39WMkbLfilTvCrldLpVDqs
-	tz2pampPip2FF8IShxmtrMMqHp22OMOnXdLN1sQJr6DHshdaNQi32TlOtjV8ZFeElkUgVO0JiU5
-	4PmkRas4CnFoL0G0s0oVhVQsnsaiL+rxE/9VjKXNBHyLzcUS
-X-Google-Smtp-Source: AGHT+IFyb9N27ciVu1qfiykdeJQQoNLWYPnfswQJH3jBx2KWGPn7r53BUcdU5AOoKWZvT2dwnxnixA==
-X-Received: by 2002:a17:907:8693:b0:ac2:6910:a12f with SMTP id a640c23a62f3a-acb42b29a2dmr273743966b.46.1744824197921;
-        Wed, 16 Apr 2025 10:23:17 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb3d12893dsm162392166b.93.2025.04.16.10.23.17
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Apr 2025 10:23:17 -0700 (PDT)
-Message-ID: <69747a29-2c7d-471f-8c2e-acbda9c3146c@gmail.com>
-Date: Wed, 16 Apr 2025 19:23:16 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] oeqa/sdk/sdktest: Add test discovery across
- layers
+        d=1e100.net; s=20230601; t=1744825792; x=1745430592;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YKHfV3qmhmPcGf58Q6LzbKwSiBXPn76AOrdjwNosCqw=;
+        b=jX32jRc9bt3e9NLLH0CYQITJ3vt1oHbt3q/cAY7tDDhsdQE/1WoK/pBAzBSStDdPKs
+         ARlyoB4ye6KQYoXXKzRzIxEWHFAP6egTYX/4/bzD3p4sobuVv5765lWu1HYt1H8YiU9y
+         sZlGmE1VVRrfleslUHH3m0h638ee/ksRF79lMUlQBrRuXztRfqcAmEbrwfUTw7G5Xz2i
+         ntPryOdSAh458Lw40y2NKIklsZns4nbcPFJKPzQeveIYrBE0IvnJyzwrp0ChhmbDH5P3
+         YhJ9+LCpCbV5fvylQficqUF2Lb6bTG5MGeegTzC4rIw4eURA8HeL96F7zWsDTXzdHRLQ
+         RM3A==
+X-Gm-Message-State: AOJu0YwXc7shehI/FubcJ0gGUqU/4fmUnYjzQXypvvsgASD2RUOOCAsz
+	kQBwBHj5YwTsbIqAwXsS4i2tXc6WTKVEmA79gFKgXcb8YNLV9piMWZqg3Y+hti8X9gUjs74Ym43
+	KitKtU582s8JB190ZjuX5fKHb5R3toockDShUdabsqHEG/7MR8St8OPRlRcNPAtacbCBVFJ5nCn
+	vPE+C/ZK1fKGs=
+X-Gm-Gg: ASbGncv4ilOXrZUMzGHO9bw9bqaqe6NGGWhihvni8VtZ7zLlKeTTSIZWZAvorJNBWJB
+	j/8YC8BMEfp+yO0aA+vP4kqIGJdiL0uwSjBC8kcs0URuqil57t7uIA8wPU/z2EDRK1DHwpy3e5y
+	NfnMWteTjoAN/Cv3b9eETJy9ZQnqd3pX/F7LlFBGqJgtCSIFZq/b/K0ZbE7aHIt5+bVf0vOPzYP
+	sPhpOklBIB6bHo5PT93Cwv7LuwOciuT/leCZr53TmCg9chS55UrXlmbWep3mfhJ5xgL7M4WRL7i
+	5+hQ/+a9EBBLkIQPz+/M9Rs8TkcV2Gskq3gjJh9ocEToLOeXClv8WLfTuL5KpsfoXnXV2TBsxRo
+	=
+X-Received: by 2002:a05:6214:2389:b0:6ed:cea:f630 with SMTP id 6a1803df08f44-6f2b2f23d87mr46890846d6.7.1744825792031;
+        Wed, 16 Apr 2025 10:49:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IELb5IqNqHp2IQDSwUjQXCBOCA53l8ZAgxUc+XNu1HLPFvoTmRvpz48PamPlBmsu5DU5Gxmgw==
+X-Received: by 2002:a05:6214:2389:b0:6ed:cea:f630 with SMTP id 6a1803df08f44-6f2b2f23d87mr46890536d6.7.1744825791696;
+        Wed, 16 Apr 2025 10:49:51 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d3d239708sm1729607e87.85.2025.04.16.10.49.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Apr 2025 10:49:50 -0700 (PDT)
+Date: Wed, 16 Apr 2025 20:49:49 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-References: <20250416164134.399-1-thune.a.tran@boeing.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <20250416164134.399-1-thune.a.tran@boeing.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: Re: [PATCH 3/3] mesa: bundle Clang OpenCL headers into meta-clc
+Message-ID: <2y54w5uprgnqkwblkvfkkwrrvveqjon3sxfcyjictgbug2juf6@sigqhathg6gq>
+References: <20250416155929.2630778-1-dmitry.baryshkov@oss.qualcomm.com>
+ <20250416155929.2630778-3-dmitry.baryshkov@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250416155929.2630778-3-dmitry.baryshkov@oss.qualcomm.com>
+X-Proofpoint-GUID: aAf92ILkNRKN9H8CUD9j5VD6s-mtAtc9
+X-Authority-Analysis: v=2.4 cv=JNc7s9Kb c=1 sm=1 tr=0 ts=67ffedc1 cx=c_pps a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8 a=Lggpqd0rYo5_AZZxVZgA:9 a=CjuIK1q_8ugA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-ORIG-GUID: aAf92ILkNRKN9H8CUD9j5VD6s-mtAtc9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-16_06,2025-04-15_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=984 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 clxscore=1015 phishscore=0 adultscore=0 priorityscore=1501
+ spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504160145
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 17:23:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215005
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 17:49:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215006
 
-The same issue is also present for sdkext - since you are already on
-this, do you think you could make that work too?
-
-On 4/16/25 18:41, Thune Tran via lists.openembedded.org wrote:
-> The testsdk task only loads SDK tests from the openembedded-core
-> layer's meta/lib/oeqa/sdk/cases/.
->
-> This patch implements test discovery to include SDK tests from all
-> configured layers that mirror <LAYER_DIR>/lib/oeqa/sdk/cases/. The
-> implementation mirrors get_runtime_paths() in meta/classes-recipe/testimage.
->
-> Tested by:
->
-> 1. Adding SDK test cases to <LAYER_DIR>/lib/oeqa/sdk/cases/ and
->    verifying they are discovered and executed with no errors.
-> 2. Verifying existing SDK test cases in openembedded-core layer
->    are discovered and executed with no errors.
->
-> Signed-off-by: Thune Tran <thune.a.tran@boeing.com>
-> Signed-off-by: Chuck Wolber <chuck.wolber@boeing.com>
+On Wed, Apr 16, 2025 at 06:59:29PM +0300, Dmitry Baryshkov wrote:
+> Add a patch bundling OpenCL headers into meta-clc. This removes extra
+> runtime dependencies when runnign meta-clc compiler.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  meta/lib/oeqa/sdk/testsdk.py | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oeqa/sdk/testsdk.py b/meta/lib/oeqa/sdk/testsdk.py
-> index 518b09febb..505add8f8c 100644
-> --- a/meta/lib/oeqa/sdk/testsdk.py
-> +++ b/meta/lib/oeqa/sdk/testsdk.py
-> @@ -31,6 +31,20 @@ class TestSDK(TestSDKBase):
->      context_class = OESDKTestContext
->      test_type = 'sdk'
->  
-> +    def get_sdk_paths(self, d):
-> +        """
-> +        Returns a list of paths where SDK test must reside.
+>  ...option-to-force-inclusion-of-OpenCL-.patch | 57 +++++++++++++++++++
+>  meta/recipes-graphics/mesa/mesa.inc           |  3 +-
+>  2 files changed, 59 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-graphics/mesa/files/0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch
+> 
+> diff --git a/meta/recipes-graphics/mesa/files/0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch b/meta/recipes-graphics/mesa/files/0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch
+> new file mode 100644
+> index 000000000000..567c1f7e1b44
+> --- /dev/null
+> +++ b/meta/recipes-graphics/mesa/files/0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch
+> @@ -0,0 +1,57 @@
+> +From f9b6175e7c446a82c568ff1a214885d707c95f49 Mon Sep 17 00:00:00 2001
+> +From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> +Date: Wed, 16 Apr 2025 14:35:37 +0300
+> +Subject: [PATCH] mesa-clc: add an option to force inclusion of OpenCL headers
 > +
-> +        SDK tests are expected in <LAYER_DIR>/lib/oeqa/sdk/cases/
-> +        """
-> +        paths = []
+> +Currently mesa-clc bundles OpenCL headers from Clang only if the static
+> +LLVM is used (which means Clang / LLVM are not present on the target
+> +system). In some cases (e.g. when building in OpenEmbedded environemnt)
+> +it is desirable to have shared LLVM library, but skip installing the
+> +whole Clang runtime just to compile shaders. Add an option that forces
+> +OpenCL headers to be bundled with the mesa-clc binary.
 > +
-> +        for layer in d.getVar('BBLAYERS').split():
-> +            path = os.path.join(layer, 'lib/oeqa/sdk/cases')
-> +            if os.path.isdir(path):
-> +                paths.append(path)
-> +        return paths
-> +
->      def get_tcname(self, d):
->          """
->          Get the name of the SDK file
-> @@ -114,7 +128,7 @@ class TestSDK(TestSDKBase):
->                  host_pkg_manifest=host_pkg_manifest, **context_args)
->  
->              try:
-> -                tc.loadTests(self.context_executor_class.default_cases)
-> +                tc.loadTests(self.get_sdk_paths(d))
->              except Exception as e:
->                  import traceback
->                  bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#215001): https://lists.openembedded.org/g/openembedded-core/message/215001
-> Mute This Topic: https://lists.openembedded.org/mt/112298220/6084445
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> +Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> +Upstream-Status: Inappropriate [OE-Specific https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34551]
+
+And the patch status is slowly turning towards Backport, so maybe I'll
+post v2 just for the sake of updating it.
+
+-- 
+With best wishes
+Dmitry
 
