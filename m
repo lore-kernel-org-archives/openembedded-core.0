@@ -1,177 +1,125 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B996C369B1
-	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 04:51:11 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.11956.1744779068250549078
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A64BBC369B1
+	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 05:13:31 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web11.12224.1744780407121055621
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Apr 2025 21:51:08 -0700
+ Tue, 15 Apr 2025 22:13:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hbTcfEn1;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: rybczynska@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22c33e4fdb8so2934045ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 21:51:08 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=e5HdNB91;
+ spf=pass (domain: mvista.com, ip: 209.85.216.47, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-30155bbbed9so4902447a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Apr 2025 22:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744779068; x=1745383868; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pfxO4cO6eKxF/KCQOhby0Ivd61Q8oPAYoCTUlRHZqqs=;
-        b=hbTcfEn1CkwF2owN3JlzlUPcFAGcylXm/TFbQV2beRvY+k3b0bPbPa1k08zAz73v1r
-         RV5++nWoG3KhtIPeM2pRXeI+KMrzvLyfTNWxXrfFPjnA4HN/oL+j9agJs/I+0jGlE1jF
-         PAIzSJOLOnaB4pE9+UMv+jXiTTctafK2t82Qlk4/2b4jeMQaq3dQtB/saHv9iSFRBsSw
-         rhzKllGy+ovxqojr29f0xnUW4pIzhGfhL/8IH8125Rv7/k0nbpUmLcP6M648UMni4u0C
-         HSr05bBIsoEPnafE9skU+qSsJdF9YVuhwHWCSP8fCRHJoJgi/iWa0mJeB2zXV/VzuVP8
-         7naA==
+        d=mvista.com; s=google; t=1744780406; x=1745385206; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cWgWolLrjgbgwqRJanGY0atl5CDlXnWTmc3KRhpaIds=;
+        b=e5HdNB91l9MWpHSlHHymH00K2gWm+bJe2InF3y8hlW7aaJrrkh5TBW3rJjRT9LD22a
+         5ZvZ3xXv5zcJGx68gRE6qkG5VNzaAer5s8X6Nus8zbQfGsogz0BQmGB4++KTLf5l2vId
+         vnajHh8FXTe9yknQ0jv9VBmVr2zaD8CJ8ZQAI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744779068; x=1745383868;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1744780406; x=1745385206;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pfxO4cO6eKxF/KCQOhby0Ivd61Q8oPAYoCTUlRHZqqs=;
-        b=qDL80fo07sz+Wh31TqPPbEvc7rPeMAfPf8DjLLTEbjQSeVPSmoDgQY+4TjX+VZCSFh
-         rkRuy6772Xfj/wO6gZBnOUqsMSwv3TKHKy9sybpqtKIGjuFOdVudafK84IHZbgbax+wo
-         ztCGBFI7u+KpWdqcze2oRZgMJtkbpxKX61+Nx9giyRcCmdBnEpi97+pmMj74ZXxdEQCp
-         p3rpZ58pOJlQjd3mphe+PbV4KfetlFsMEQjpRT5jLgjX6a/3pZmdmeTYE/3bDKPCrF11
-         uvzb5StJf9a1rnKWwAVzZ0LSct89Vv9S1aizMs/Pih8T/nvLmEj/81xW5aZPB89tYXW8
-         fesA==
-X-Gm-Message-State: AOJu0YwwmV8WLT2saWvBf28tr4foKdSepe84c7QAcL2MFBjsTfsLlRAP
-	g7Lcz0YsBPRfgTV5RPXftv6sfysx8BahQ8nUeNm4bT+7/Unz97lY0aoHIO00IOkfDxNFJXx4haI
-	hbQN+6gsvWht1ln90GULYWWxTSuM=
-X-Gm-Gg: ASbGncuTmsTDSNNdT72SAs9wmNI7KE6oGTIdUJYZlNMojDHb+vnXx77Skpg8F43dvgt
-	7b+1ouapjnPXnGyVJfivr3LIH4pL1UZoTc2EDCZCogXcZnmjTJa3X/WWgj/7kk69IkSj0swDFAz
-	5Z3/vRU9pCWlafxpq74NdW0rGrfHpAbTei6zLipH0BuiXce+MLahLfJ7s=
-X-Google-Smtp-Source: AGHT+IHVMdv22yqkHdT6lQOw0qSoqA4LfAl8fs4DHsVJFWNz/TclzVUw/CTvDc/qPg9foffbKcOSjiukE9INLKNrRMM=
-X-Received: by 2002:a17:902:d48d:b0:224:10a2:cad9 with SMTP id
- d9443c01a7336-22c3596bf3emr6591335ad.41.1744779067503; Tue, 15 Apr 2025
- 21:51:07 -0700 (PDT)
+        bh=cWgWolLrjgbgwqRJanGY0atl5CDlXnWTmc3KRhpaIds=;
+        b=bjqVrnKqVFccLasc2M/dKfIbNvoFMgZ0ztl6KIfXw8AQ4fFGxTDUNYAj/XBw2SZwkZ
+         4a+IDC3GlfDPrIpv1gB/lpG8AxxPp1zSuwOrzi5hUyz72fNjuP6j6Q6kVk2HVf2LxZQE
+         5CmTfeDmVLLGgZP7IwIyQ22DPZFYZ6SkVkSUqjuT4yxslL3S8PAwORTfuVcGjWk1FZga
+         wRkcYYX3jGWCSUYB8r1x6s+RMyL+s8adCnJbGpefFw2tf7YJ0HOyE+XjykB7c0NeTnyA
+         CjXz3TtM1gPM3XTgpBmOQs9795mTCjKfjkmMvhZnGviPHWlxJRNyt9ChLv/6NS9NmkGz
+         Na8Q==
+X-Gm-Message-State: AOJu0YyiE0AY9sb9hJu5ihW0jS8bwbFGdxVWH7ykoXyG/nQD+SH/3nnT
+	0rQ3OR4mpYJvwr1onQPikkUfC/qbS8cqugOgM2epc3VN6R5VzxWQOqH/K9cG9/i+TQVw7nIcAaa
+	ZITQ=
+X-Gm-Gg: ASbGnculq2mxvLiL6WkP9lAnum+NoeXtCyxShqK7ZyRdpJRV9vyhskz9PWKjDUpPbbP
+	SzfTBXDt+D5oh34IT52cMA6/LvQOHiEwzW129dMzIKmsSD52GpXTTzUOH8jBPxkk2ghRnrO3kCq
+	Cw4OTyuaGT0sI7c7OR3gZrEKGiO4Xfpcy4TXQKrGsMXs3r2XjnukyoAdyfYqB4LQj12QV35q6nO
+	AY8vcYdsHwrpd3y7XImDmRxUkKBiyzJoVh4l926h0yLgwibBORYTOvOPBEC4iIXEosyvB3iyYIu
+	y0la1c4IbC4FEI9rNC6Y+JMzZhR8ou5cj99yPUkXZl77grJlQcE=
+X-Google-Smtp-Source: AGHT+IEWl1vb5SN+X0Yw4jdo8kPvFsTq8FtnvgbjhHeoVZdZ0/3ZHP3odNPjs0zWFrESktMRZEcCTA==
+X-Received: by 2002:a17:90b:2745:b0:2fe:9e6c:add9 with SMTP id 98e67ed59e1d1-30863f30492mr737436a91.18.1744780405964;
+        Tue, 15 Apr 2025 22:13:25 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.207.229.43])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3086122a8absm582419a91.35.2025.04.15.22.13.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 22:13:25 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][scarthgap][PATCH 1/5] libsoup: Fix CVE-2025-32910
+Date: Wed, 16 Apr 2025 10:43:10 +0530
+Message-Id: <20250416051314.96105-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <183683467BE332EC.10767@lists.openembedded.org>
-In-Reply-To: <183683467BE332EC.10767@lists.openembedded.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 16 Apr 2025 06:50:54 +0200
-X-Gm-Features: ATxdqUEHDgHT1tH9DCgD1iTgIFx5EVSXsO0OetHDUCW56LT3WU8veT4HNldNnNI
-Message-ID: <CAApg2=RZpHZFTu372tKwzsLH6Y7URR5AjW=v2XnT3=YFBuwDiA@mail.gmail.com>
-Subject: Re: [OE-core] VulnCon take-aways: NVD et al
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="00000000000087bf620632de08b1"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 04:51:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214973
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 05:13:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214974
 
---00000000000087bf620632de08b1
-Content-Type: text/plain; charset="UTF-8"
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Hello,
-And as a follow up, MITRE's funding (so the CVE program) is uncertain after
-April 16th :
-https://www.securityweek.com/mitre-signals-potential-cve-program-deterioration-as-us-gov-funding-expires/
+Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libsoup/-/commit/ea16eeacb052e423eb5c3b0b705e5eab34b13832
 
-Interesting times ahead.
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../libsoup-3.4.4/CVE-2025-32910.patch        | 27 +++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32910.patch
 
-Regards
-Marta
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32910.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32910.patch
+new file mode 100644
+index 0000000000..32e0c86e62
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32910.patch
+@@ -0,0 +1,27 @@
++From ea16eeacb052e423eb5c3b0b705e5eab34b13832 Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Fri, 27 Dec 2024 13:52:52 -0600
++Subject: [PATCH] auth-digest: Fix leak
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/ea16eeacb052e423eb5c3b0b705e5eab34b13832]
++CVE: CVE-2025-32910
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ libsoup/auth/soup-auth-digest.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/libsoup/auth/soup-auth-digest.c b/libsoup/auth/soup-auth-digest.c
++index 350bfde6..9eb7fa0e 100644
++--- a/libsoup/auth/soup-auth-digest.c
+++++ b/libsoup/auth/soup-auth-digest.c
++@@ -72,6 +72,7 @@ soup_auth_digest_finalize (GObject *object)
++ 	g_free (priv->nonce);
++ 	g_free (priv->domain);
++ 	g_free (priv->cnonce);
+++        g_free (priv->opaque);
++ 
++ 	memset (priv->hex_urp, 0, sizeof (priv->hex_urp));
++ 	memset (priv->hex_a1, 0, sizeof (priv->hex_a1));
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+index b2e32b892a..757e6432f7 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2024-52531-1.patch \
+            file://CVE-2024-52531-2.patch \
+            file://CVE-2024-52531-3.patch \
++           file://CVE-2025-32910.patch \
+           "
+ SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
+ 
+-- 
+2.25.1
 
-On Tue, 15 Apr 2025, 16:10 Marta Rybczynska via lists.openembedded.org,
-<rybczynska=gmail.com@lists.openembedded.org> wrote:
-
-> Hello,
-> VulnCon is a conference on vulnerability management and related subjects
-> and was held last week.
->
-> My take-aways:
-> - NVD situation is unlikely to change short-term
-> - CVE programme is adding new features to the specification, but they are
-> unlikely to make machine-readable identification mandatory (in general:
-> anything that puts more work on CNAs)
-> - there were discussion on standardizing end-of-life descriptions
-> - discussed purl identification and confirmed (in a panel question) that
-> it currently doesn't work for patched software or software with no package
-> manager. Some options are possible like the github schema, but not in all
-> cases.
-> - next time it would be better to have more important representation from
-> vulnerability data users, and present more real-world problems, especially
-> in the embedded space.
->
-> Videos from most talks will be available in around one month,
->
-> Cheers
-> Marta
->
-> PS My blog post https://ygreky.com/2025/04/vulncon-2025-impressions/
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#214946):
-> https://lists.openembedded.org/g/openembedded-core/message/214946
-> Mute This Topic: https://lists.openembedded.org/mt/112276783/5827677
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> rybczynska@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---00000000000087bf620632de08b1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hello,<div dir=3D"auto">And as a follow up, MITRE&#39;s f=
-unding (so the CVE program) is uncertain after April 16th :=C2=A0<a href=3D=
-"https://www.securityweek.com/mitre-signals-potential-cve-program-deteriora=
-tion-as-us-gov-funding-expires/">https://www.securityweek.com/mitre-signals=
--potential-cve-program-deterioration-as-us-gov-funding-expires/</a></div><d=
-iv dir=3D"auto"><br></div><div dir=3D"auto">Interesting times ahead.</div><=
-div dir=3D"auto"><br></div><div dir=3D"auto">Regards=C2=A0</div><div dir=3D=
-"auto">Marta</div></div><br><div class=3D"gmail_quote gmail_quote_container=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 15 Apr 2025, 16:10 Marta Ry=
-bczynska via <a href=3D"http://lists.openembedded.org">lists.openembedded.o=
-rg</a>, &lt;rybczynska=3D<a href=3D"mailto:gmail.com@lists.openembedded.org=
-">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><div dir=3D"ltr"><div>Hello,</div><div>VulnCon is a conferen=
-ce on vulnerability management and related subjects and was held last week.=
-</div><div><br></div><div>My take-aways:</div><div>- NVD situation is unlik=
-ely to change short-term<br></div><div>- CVE programme is adding new featur=
-es to the specification, but they are unlikely to make machine-readable ide=
-ntification mandatory (in general: anything that puts more work on CNAs)</d=
-iv><div>- there were discussion on standardizing end-of-life descriptions</=
-div><div>- discussed purl identification and confirmed (in a panel question=
-) that it currently doesn&#39;t work for patched software or software with =
-no package manager. Some options are possible like the github schema, but n=
-ot in all cases.<br></div><div>- next time it would be better to have more =
-important representation from vulnerability data users, and present more re=
-al-world problems, especially in the embedded space.</div><div><br></div><d=
-iv>Videos from most talks will be available in around one month,<br></div><=
-div><br></div><div>Cheers</div><div>Marta</div><div><br></div><div>PS My bl=
-og post <a href=3D"https://ygreky.com/2025/04/vulncon-2025-impressions/" ta=
-rget=3D"_blank" rel=3D"noreferrer">https://ygreky.com/2025/04/vulncon-2025-=
-impressions/</a></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#214946): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/214946" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/214946</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/112276783/582=
-7677" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/mt/112276783/5827677</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:rybczynska@gmai=
-l.com" target=3D"_blank" rel=3D"noreferrer">rybczynska@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---00000000000087bf620632de08b1--
 
