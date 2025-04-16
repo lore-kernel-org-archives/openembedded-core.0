@@ -1,183 +1,166 @@
-Return-Path: <L.Anderweit@phytec.de>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6080C369BD
-	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 13:37:34 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.108])
- by mx.groups.io with SMTP id smtpd.web10.19769.1744810643518283532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E29DC369BD
+	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 14:29:15 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.40])
+ by mx.groups.io with SMTP id smtpd.web10.21026.1744813751679006300
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Apr 2025 06:37:24 -0700
+ Wed, 16 Apr 2025 07:29:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@phytec.de header.s=selector2 header.b=sn+v1MWk;
- spf=pass (domain: phytec.de, ip: 40.107.22.108, mailfrom: l.anderweit@phytec.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=JT9VCBza;
+ spf=pass (domain: ericsson.com, ip: 40.107.20.40, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AJZeuJ5n+VF28ju59qUzhnRgF67c0la4iXSIzsx+6FKDkTOxq+LCY/KgS45HW1eWT+uQctyftcuM2GseB6Gv00g00iAzny6VgNfxYgEYsjy5OFSWN48+y1riCp8o895nEgcg5SnBEXqxXH9DC6Kf12ozabRvIe66KG/tgh4X+2ANYOC56BV/K0RWl1MphghfzP5JeGh+5wJF6w1wJ1cyqp34zREOzLPHntWQZGKCqvjTi3EmwExGpDMHAtKxeqq8OpxJuoDdeVwLUlAIFgVQgXQHroclxmxjO6EhCwSPyCWaz06lEwKxr9QqcW38F3pWY8mCvVr864x2uvhLOrvJgQ==
+ b=LWhlN02G72hhMO9GlzRC4SlJ8eti0YPlgj4ZuPC8t3Euhttm5XjW7AERc2Iqf4B5LVlOufVgzm4otsEFItq8WuHv2Bk/IamaS3Zmc95inOOMPuJKnrAwxpJSEYjPowZqhsWjCX9EZzmh+OG+qan4qDcqW7EZmhqxry3PAI6xTqU8pO1xHL1E1zaQFCb4JpCSrPWTbADjz8ppUcOhoLS0b/g1KBZ7gaNt1GcLLsYXN47txL7Ks3waitJahUTkTdYgWQmzcAWeGR8q/JT4/b+DL8R6J21I9Uz7rrJfS2gEQkU7VQz4zRIFFSx61e9CH5PEf/8llGcR4uhB5Mtp73X5lw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p2g2I2/ewocLW42a9cbc25sSRx8qd+FsNrf2FVprIyc=;
- b=GeyKOK/7N+pxmSpBpB8R6pAi5c0MT+D7u7xMHgEyTe8W4VfOP6gx/1v49y3iZsyUwnvdgGg9C+28FggVNT6IzHj2W1hTIIZuZvDlSaqMpzHFvf/DIzQ1Lx86KVMEQ9oTAUqaEL+rjVtma8UFDqrl/Assw3K5KP80EgL4ZwclIg3VjAAEO/UZX2TJRoh6iY/CLjOL9B2YutRbx6WfywqDAG/pOW3zxDDgLvGqr9lMyi7Cr7ky3H49O/ZfcHTHs7zS1tKRlKIfeHUMyFtFdke/86U4ZupAyKE1PfFOaS0u8j1qxSEsk/t7vXcJKhd/hRvKLZlSuBU3JladNkSayHOB0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 91.26.50.189) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=phytec.de; dmarc=fail (p=quarantine sp=quarantine pct=100)
- action=quarantine header.from=phytec.de; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de;
- s=selector2;
+ bh=jWneflbvSpE11vq/K6ZPkFPW92ZoYeAV3UNqlfIgpl0=;
+ b=fZCDIAt2hsPvPhbGOa43CN3UPzE0/l8Pn2+uOonLoyfnZgyfwlLpRb+pSfAIa4KlOKS3pb4z/WAi98gGaRlXxcZQmPcZddJi/uI3HfAtSi6aPVwpTW3pzQ0UEva8BOpxSL00Z28MFChxkX9C9OV4sYB+4FSaW4I5OAuP41M4Pi7A8IApT2si2XCRYiN8FeE108QRT6ldzl8ynUTAglB/4hC1IuNhU7MyvQpHQmRwqICM3ud0HqNj9thT42sTZfmIBCqoI17cNqNYDkuu4OzU4kImXX2nTMlH7J2kHV899Q8mGk+zCuDIvdd0/EV06kbIPzSyKpy19SqHSkAbEJXh/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=arm.com smtp.mailfrom=ericsson.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p2g2I2/ewocLW42a9cbc25sSRx8qd+FsNrf2FVprIyc=;
- b=sn+v1MWkBjGtOZs0tKvIRdT5ByUXS3bNkt6R4N+ot+DuuSBEKCOZc+4i+9mC0hPC75wzVm/z0Pldh7loQFsy9AWe2dIO6kDK0DUnpG7h4CPlFQdLJ6tEWG6h5GbCyK2G4IHpB/70cijKBMUFFO8IwHHMZQ4ejro6hh3081TuDQ+0vpShSt3DO08nkL5yU3bcKgBLmS4k+PahugJyYNmb4HyazJicGaS5bMQIR6nYcuMNFTu159aWdzvweGxLMv+jCqHHZO9NJtmMPVhWWEHgvH9LwN9sAxv2xTRvJJohx+/lfJmzAbk68PtQE/rFYRRuX6fLRtgM+tytmdiAMWse1Q==
-Received: from CWLP123CA0013.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:56::25)
- by DB8P195MB0535.EURP195.PROD.OUTLOOK.COM (2603:10a6:10:158::16) with
+ bh=jWneflbvSpE11vq/K6ZPkFPW92ZoYeAV3UNqlfIgpl0=;
+ b=JT9VCBzaqtYQVQqva1l8jjVj/30rxA58ExgIRGMq9Xa59IlFmJonSfiXpi+YKnNCAbYUTBgIov57OxhgsP3jxurXKngroWLWG3S7z3z6BlFjvLDQGS+PuN2+qdA7y9cBFt7pbJL26MLO1WWfmjmgLaoXkpsnZQ3jgDlDu1x2oCrh1cBOp+MkLJTqEjju7DgQbw+MPRbJygGPyfHf2L3Jhm9PRn9NIcbbyrehFa81BL1etkt7hwj5me+9hij4j6PQTjQnTKg2EbAHkbU4MZ2f4Ji2xVAX16n/VNPjC5W9chogMLgB9H/oogjCXgajSBL+suoHPh0lqEyqj2nxunNelw==
+Received: from AS4PR09CA0030.eurprd09.prod.outlook.com (2603:10a6:20b:5d4::20)
+ by DB9PR07MB8702.eurprd07.prod.outlook.com (2603:10a6:10:30d::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.22; Wed, 16 Apr
- 2025 13:37:17 +0000
-Received: from AM3PEPF0000A792.eurprd04.prod.outlook.com
- (2603:10a6:401:56:cafe::69) by CWLP123CA0013.outlook.office365.com
- (2603:10a6:401:56::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.32; Wed, 16 Apr
+ 2025 14:29:06 +0000
+Received: from AM3PEPF0000A799.eurprd04.prod.outlook.com
+ (2603:10a6:20b:5d4:cafe::75) by AS4PR09CA0030.outlook.office365.com
+ (2603:10a6:20b:5d4::20) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.18 via Frontend Transport; Wed,
- 16 Apr 2025 13:37:17 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
- smtp.mailfrom=phytec.de; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=phytec.de;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- phytec.de discourages use of 91.26.50.189 as permitted sender)
-Received: from Diagnostix.phytec.de (91.26.50.189) by
- AM3PEPF0000A792.mail.protection.outlook.com (10.167.16.121) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8655.12 via Frontend Transport; Wed, 16 Apr 2025 13:37:03 +0000
-Received: from Florix.phytec.de (172.25.0.13) by Diagnostix.phytec.de
- (172.25.0.14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Wed, 16 Apr
- 2025 15:37:00 +0200
-Received: from llp-anderweit.phytec.de (172.25.32.131) by Florix.phytec.de
- (172.25.0.13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Wed, 16 Apr
- 2025 15:37:00 +0200
-From: Leonard Anderweit <l.anderweit@phytec.de>
-Date: Wed, 16 Apr 2025 15:36:24 +0200
-Subject: [PATCH] meta: classes-recipe: uki: Make initramfs optional
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250416-master-v1-1-be5e7309c5a8@phytec.de>
-X-B4-Tracking: v=1; b=H4sIAFey/2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDE0Mz3dzE4pLUIl3TlETLVHOTJIu0ZCMloOKCotS0zAqwQdGxtbUA33y
- wHVgAAAA=
+ 16 Apr 2025 14:29:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ AM3PEPF0000A799.mail.protection.outlook.com (10.167.16.104) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8655.12 via Frontend Transport; Wed, 16 Apr 2025 14:29:06 +0000
+Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 16 Apr 2025 16:29:06 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id DAFA54020C02;
+	Wed, 16 Apr 2025 16:29:05 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id C25537000229; Wed, 16 Apr 2025 16:29:05 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <upstream@lists.phytec.de>
-X-Mailer: b4 0.13.0
-X-Originating-IP: [172.25.32.131]
-X-ClientProxiedBy: Diagnostix.phytec.de (172.25.0.14) To Florix.phytec.de
- (172.25.0.13)
+CC: <rybczynska@gmail.com>, <steve@sakoman.com>, <Peter.Marko@siemens.com>,
+	<richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>, Daniel Turull
+	<daniel.turull@ericsson.com>
+Subject: [PATCH 0/2] Check compiled files to filter kernel CVEs
+Date: Wed, 16 Apr 2025 16:28:57 +0200
+Message-ID: <20250416142859.909037-1-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF0000A792:EE_|DB8P195MB0535:EE_
-X-MS-Office365-Filtering-Correlation-Id: d6adc194-17a2-4225-42d6-08dd7cebc5e2
+X-MS-TrafficTypeDiagnostic: AM3PEPF0000A799:EE_|DB9PR07MB8702:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a260a44-cfe0-4be9-157c-08dd7cf30b7b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|376014|1800799024|82310400026;
+	BCL:0;ARA:13230040|36860700013|82310400026|376014|1800799024|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?dmVSTitkNTdKRXkwRk1EM1Q3Qm8yT2JLaTNIa2hQWktaTUc4SnN1V2IzY0pQ?=
- =?utf-8?B?b3ZKK09XSkVML0VNaWhZbDFsNnEzVUNER0JVZk5Rb256cUcvMnRuQlJoVHdt?=
- =?utf-8?B?VG1zV2N0bWxYVWxUMXdVaUF2SVlRM3JaSU5YaHdhcUkvV1RSZDFWNG9nV3hO?=
- =?utf-8?B?LzU2dUlSWHVMbStzZEhSRVpyc2N6ekhENnQ1Uko1TkdDUmdYdWFJNGl1aGJh?=
- =?utf-8?B?VnRWaG01c0RLWDMxcnBydHFGYnZMUTNtUXVvUWFsWEdBeHQ3SEs5ck9ybFgx?=
- =?utf-8?B?cTJrTVkzak84WXVEUmhpbS84TFordFJWRG9HaFBqcmVaRzBheXQ4czJvYU5J?=
- =?utf-8?B?RmFIUUNHWDdYbGVBdjhvMm1NUnA2UVBVcHNWSmtoWk0wcXBnekhiSC80Mndj?=
- =?utf-8?B?YnJxT0Q0VTN3VXRYdy9KOGttK1RWVXF1SmsyNkNZS2E0NGRQR2pqSmhZTGFj?=
- =?utf-8?B?a1F3ZndFS3NzZ0lDdk1pQjY4dm5VNkVuOVkrSjYrV0FPTjJSejZWWWU2d1FC?=
- =?utf-8?B?S0xZTTdwL0ZBdG5iZXQ4UmdKcThHK243ck9BUTVNN3JPelN0WDlhZlhtV3Fv?=
- =?utf-8?B?WFFwZllUQkZiQ1YvSVkxRkRlcXZrazhabVBsVEJyVWF4Q09mTnA4REZnN1Vv?=
- =?utf-8?B?NTVCZ1F5WmdWSXZkbGU2blQ2UTlaMHpYcnNOQXdHemVnQ3Y2aTZ1MFJkSTIy?=
- =?utf-8?B?eE5tbkdUUG5zbU5uYUM2Q1oxMWE3ekM3VzgzUE1IQUM1QzdmUkRCdWI2VWhU?=
- =?utf-8?B?dFp0aVd1alU3a1R0bmQzRmp0blByVTNFNk83R0piTHEwQXRwUGVUSCttdkVs?=
- =?utf-8?B?akNIbmt3S01QbjllZnE0THFzNE5sc21iQTV2cUR2NHRWejk2THRnWk5oTlA1?=
- =?utf-8?B?YWxXZUJrUU9rR1lPelFrZHNjTTBEZDRLWDVWSGZkNVhXT1BLelRIYU8vRDB4?=
- =?utf-8?B?N3ZMMmJWNzNRZkExYkt3REtxYndNb3VEZEZ6R1J3SmIyTCsyZkdaQnp2UE85?=
- =?utf-8?B?UlBEYVBzZHZKaDNmU2x5U3pxczVVOUVVREdTVHhHUTVQRnJ5alZ3VTdabGNs?=
- =?utf-8?B?Q1FOL1hWOSs4Y3c1WHVwN3RpQjNsdFBmVDNYSGtobDRnZkpmRU40cDZXdW0y?=
- =?utf-8?B?TW9sbmVuWE40TVFoZ3VEL1FzLyticmJ0M1ZLeFdnYVc4SHJ6aTFJcG0wYmUr?=
- =?utf-8?B?eFFZOTYvZElpZVpmR0llNGZMaG0zOGk2MFZSNkJ1aU82R2hweUVPMVFKRDZS?=
- =?utf-8?B?S3FobmZieVdhSHFyODFLa2pXcUdzYW9acU5XUGhZZ3J0czA2Ymx6cTRDdndZ?=
- =?utf-8?B?NlNlZ1V5OWVmd1FzTXdsamN2bGRWejdsSzc2bEQ4QUZ6OWk5K0FNQmVEMVAy?=
- =?utf-8?B?bWdIS1UvZjVTMHQveWZMNy8vSkh4S2xGd2IwTTZuTVpsaGdyOS9hdnVnakh1?=
- =?utf-8?B?aTFDNFlIVGtEWFplTzNad0ErdFRtU2sxR2w1VWhoL29wTWw0UHlHandKQm1L?=
- =?utf-8?B?QUE5Zk5zM1IyQXhSUi8vY01ZWGtydDdBUzBBektGYkFaekJRemswZzhIM2lJ?=
- =?utf-8?B?cVZuTGVESHZtRHcycElaL3c0clRxQStwSGlPaVBiMFQyNUpRN0FKbjhQUjhH?=
- =?utf-8?B?amJuWTdOZGM1Z2tCZEhGMlZUdzdySUFwWWlxQmlzc3FmUHNzM2ZxWDZ6N01w?=
- =?utf-8?B?M1R4NTNlTmZyWVR6ajBmaThaNWFBakpxMmxDQWZCTk4wVFF6dWgrRjN2S0pY?=
- =?utf-8?B?c1BCRWVuY3FJMjFiUVZ2Nll1Sjg1RXhzblRBTnloOXhncnYyK2FoK3RMelJu?=
- =?utf-8?B?d095WEN1UXROcjh5VFVDR1AxQU1WejJzWjNQZW45dUpySXhvT1BFVlhLR2lt?=
- =?utf-8?B?Z3dMVm45Q3lrVnRMcDNyU2xSOEJtWGplVm5HYXBCV2piZWt2ajNWeHQ1WTFG?=
- =?utf-8?B?WWcvNUErd1hQcFZTWjlHUnBETjZjSkZNQ3ZxQWduSXNMWkF1L3ppTlg5SXJU?=
- =?utf-8?B?SVZ2YUFFSEZRKytuSTdML0NIUG84b0lTSUhkakxSNnJqYkgzSXlJSzdMTHVD?=
- =?utf-8?Q?pbfb2C?=
+	=?us-ascii?Q?KRo7eentcdSO0VNG3Wors6DzlLGg9gfBaydu3vzcCEOCSs4Y6U3X0gqoL80e?=
+ =?us-ascii?Q?71cMinJGiaXY9h7XnQM8t6w3GQv6PoCx/4gq7t0UizonRw1tdPqFyvyv7Irq?=
+ =?us-ascii?Q?rU9JhfDnZGRhCtpstFN0Af5n/sUskz4BiLpdOhk90wp5dzyWep2D3dgML20h?=
+ =?us-ascii?Q?I5YR+edU4G9JY+s4bdZ3wZgkCx7j26baSQ6C5ec4n8Hk5x9NzESdSY1Pr6Yo?=
+ =?us-ascii?Q?6gRSp7tgwyxMDr8+aNbkKiACNAVMtS5+AAjjI3rHQmSusqCINW2O0Pk1pr08?=
+ =?us-ascii?Q?4/LIkZaZP+ZnXD9xpgwCqd4WBA5Id1MPExGRwygtkAc1GQEQ6P4+1XdNM4ij?=
+ =?us-ascii?Q?pJXI3ilOz4kUAqwjpTEW5n7+96SpGLdpVxLzryzMqlDYh3jehwzbzekP66nf?=
+ =?us-ascii?Q?WnMMljYaWzQSCi9xwFn+bldfALcK6HXBx46DSeRKDPgPWTvOSdc1XFZpO9Kw?=
+ =?us-ascii?Q?LMaFUmEOQPkqX+zfKE0GXgr3jlXP+2fm7pqkIrTw7nPtLhPSVFctJ0Bn16ew?=
+ =?us-ascii?Q?6SbS5AJYtm57NgN1R7euf24LHGZ5hX7qlatJIyoGjbkjwp7F3GJaGG+V+DrJ?=
+ =?us-ascii?Q?2ERsMre7x8Zp2abCt+gPZF6m6DGXeG3BFYT5pSCME2qnEPP2+2mTiZ16LMY8?=
+ =?us-ascii?Q?Phwj92nwGqsFl8npi6tbyKXzmw05ahLVWv+9iq6kyuCg2GMz5V4OKWv3uoKh?=
+ =?us-ascii?Q?XVcxYnl7KJYcsGFrjSIcAMODfUX7vjdPZRTtRrMguKaO5RO0RinrJIFvdbqh?=
+ =?us-ascii?Q?WAF4QcfQ1YH5hp8bjpWkpT8TDtBg6cHFU00ghJVYmp80g6bjgJjmm1jIPjhk?=
+ =?us-ascii?Q?WsoHmHtGkxjtukBabIozy5v/fl5yxP3rC2ZkjFGCncuqbYvev4tNv4GMlTNP?=
+ =?us-ascii?Q?41Xm2qBvWZi6slA4r/DYRS4YeR0+5avlp7WBU4F8R5NFb+DYsgkJSzw7rlni?=
+ =?us-ascii?Q?uIqUXHCYvjAxqVHjZSvFWwyTunH5fh8Hc9Cx8hcZ7A+P+C3fNz7MfkdrNOsy?=
+ =?us-ascii?Q?76Cw6JQ97mgF/3AQOXYv4Pu1/kuJr/CbqDOdsiAdi2umuPeUoHlYG/rmlywG?=
+ =?us-ascii?Q?G/Vd5EeRJMOMN0K9zf997vS78Ja4IG1etYmVORBaM0ZoAz+TUkOtjSNsCv1m?=
+ =?us-ascii?Q?nNigvYSWnQplr7JHHfm1lsf35ehejM3zL6O8tEaBGv87XI1aeEuTvY4OMW++?=
+ =?us-ascii?Q?wiqS79TErFhQDVh+6Lyp39MCsihXNCGXsFMmw2GLiTItadZCVuejhiJlsOzf?=
+ =?us-ascii?Q?fk5dMcdX8XX1Vy5FTwstfzx2uXV110XyIUQk2b29XsqtON4DEUO8+SZ265kq?=
+ =?us-ascii?Q?r/VMc+Uqq7yAv8nnVDS3PpPblkZORJU4gXDjB2ejWbe+NSOvV1SkG/LE21YF?=
+ =?us-ascii?Q?9SNfk6F2cB3ytAN7+aCL1ySL+HtY8QU0cHyf4w5dyIpkeb+nMWru/IX0Xnn4?=
+ =?us-ascii?Q?A6iOCatV2Y+JLiomYawEJ6yH5XezWy3jMJeWPmIY7wkydMMXVdRtD/f7X0HJ?=
+ =?us-ascii?Q?Qsi5fk1U31Bcyl7YflZccb92+TXvSOei/BXNCxcLvdOdHL9WDEchFH+MMw?=
+ =?us-ascii?Q?=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:91.26.50.189;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:Diagnostix.phytec.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026);DIR:OUT;SFP:1102;
-X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2025 13:37:03.4328
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2025 14:29:06.7522
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6adc194-17a2-4225-42d6-08dd7cebc5e2
-X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29;Ip=[91.26.50.189];Helo=[Diagnostix.phytec.de]
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a260a44-cfe0-4be9-157c-08dd7cf30b7b
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	AM3PEPF0000A792.eurprd04.prod.outlook.com
+	AM3PEPF0000A799.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P195MB0535
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB8702
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 13:37:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214990
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 14:29:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/214991
 
-Make it possible to build an uki without initramfs. The initramfs is now
-optional and will only be included if INITRAMFS_IMAGE is set.
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-Additionally, remove do_image_complete dependency on
-INITRAMFS_IMAGE:do_image_complete since do_uki already depends on that
-and is executed first.
+Since kernel.org became a CNA, more information is available in the publish=
+ed CVEs,
+including details about which files are affected by a given CVE.
 
-Signed-off-by: Leonard Anderweit <l.anderweit@phytec.de>
----
- meta/classes-recipe/uki.bbclass | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+This series adds functionality to fetch the database from kernel.org CNA in=
+formation:
+https://git.kernel.org/pub/scm/linux/security/vulns.git
 
-diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
-index d9a7fb0e6fe0..4db5f614b96f 100644
---- a/meta/classes-recipe/uki.bbclass
-+++ b/meta/classes-recipe/uki.bbclass
-@@ -75,8 +75,6 @@ INITRAMFS_IMAGE ?= "core-image-minimal-initramfs"
- 
- INITRD_ARCHIVE ?= "${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}"
- 
--do_image_complete[depends] += "${INITRAMFS_IMAGE}:do_image_complete"
--
- UKIFY_CMD ?= "ukify build"
- UKI_CONFIG_FILE ?= "${UNPACKDIR}/uki.conf"
- UKI_FILENAME ?= "uki.efi"
-@@ -127,8 +125,9 @@ python do_uki() {
-     ukify_cmd += " --stub %s" % (stub)
- 
-     # initrd
--    initramfs_image = "%s" % (d.getVar('INITRD_ARCHIVE'))
--    ukify_cmd += " --initrd=%s" % (os.path.join(deploy_dir_image, initramfs_image))
-+    if d.getVar('INITRAMFS_IMAGE'):
-+        initramfs_image = "%s" % (d.getVar('INITRD_ARCHIVE'))
-+        ukify_cmd += " --initrd=%s" % (os.path.join(deploy_dir_image, initramfs_image))
- 
-     # kernel
-     kernel_filename = d.getVar('UKI_KERNEL_FILENAME') or None
+To filter out CVEs that are not applicable, I developed a new bbclass that =
+uses files
+compiled with the build kernel configuration. This approach requires a comp=
+iled kernel,
+which is why it's implemented as a new class rather than an extension of th=
+e existing
+cve-check.
 
----
-base-commit: 183e043de423fd3f7833366ca524a6f7d17e6d14
-change-id: 20250416-master-5da9e74b8fc2
+In the future, an alternative approach could involve incorporating the affe=
+cted files
+into SPDX rather than saving them independently and run an external tool to=
+ filter the
+CVEs.
 
-Best regards,
--- 
-Leonard Anderweit <l.anderweit@phytec.de>
+Comments and suggestions are welcome.
+
+Daniel Turull
+
+Daniel Turull (2):
+  linux-vulns: fetch kernel.org CNA info
+  cve-check-kernel: verify kernel CVEs using programFile from kernel.org
+    CNA
+
+ meta/classes/cve-check-kernel.bbclass     | 132 ++++++++++++++++++++++
+ meta/conf/distro/include/maintainers.inc  |   1 +
+ meta/recipes-core/meta/linux-vulns_git.bb |  42 +++++++
+ 3 files changed, 175 insertions(+)
+ create mode 100644 meta/classes/cve-check-kernel.bbclass
+ create mode 100644 meta/recipes-core/meta/linux-vulns_git.bb
 
 
