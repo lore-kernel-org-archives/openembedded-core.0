@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5860C369C7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D545DC369C5
 	for <webhook@archiver.kernel.org>; Wed, 16 Apr 2025 20:14:26 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.29946.1744834464546961863
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.29950.1744834466092055578
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Apr 2025 13:14:24 -0700
+ Wed, 16 Apr 2025 13:14:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=s288ghc5;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-224171d6826so1127965ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 13:14:24 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qfYbKt0r;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7396f13b750so3327b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 13:14:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744834464; x=1745439264; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1744834465; x=1745439265; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NtycDUaxd4w9hWsqt9cB4yX1hv68UGuZFRYl+TlEs1E=;
-        b=s288ghc5fiku5hK1AQQ9aQ1zjCZ0VMAKz9GO53zYhWXMGZA62BqavA1e7cl4W8o84L
-         yGmlMs9oAq9pgpOPkSR0d5pHcngWmK711/Ey9gtZ045r6/nEu2xrfobzdQdwOFKpupUx
-         2vVsLbIMFeca+5Kgscip4vBIzmtdg17M5rOal+0QP8C92gnTs44qylNxYcBhLUD7P0OQ
-         0tZuq02MULXUFSBx80K6N13PRnvuIv424S0QevZbP9hMOYQ9m8N13qdP7udfkz9aIihs
-         0MczEZBIM5SghNxTvwT+IwMo/UjGEnlCz/8ciz8M8tMjYyQ3MIFLMUTYtgtpd3UfdiVt
-         in6g==
+        bh=Gu7SOM6eN2G0ZRRx+s3B0205DCLMLf5iwMoGremxa4s=;
+        b=qfYbKt0rrLcazZ595zO8pjk15MRJbrYM6zYnKLbM1sKos3r13FQ3NLWf35ORkEOU0C
+         K2EYkel6JPKaHnxfuH0AaOcjGjbZa0H8iTGcioQ8DnzOGe8wGYPQIq0h1YAxSaT/SLSd
+         ZW7n6XUHHm8J+LW4unu2aCyXu9FJslJWkepx1zJN4n5G/6BolccYDKQO2098YaiYKsIT
+         EOj5DkStyQPIPc8jjvwObKqXbw4HffBrG9Ux4hIPWOtbZozm+6TLlulM1/KU+92b73ii
+         xrV6uLcNeJto4UNdtOPUovMyBhJBMOZNnb5fkU5V7BxnR5SuFHkCi1nqY9BHZ7kuWQIO
+         uoyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744834464; x=1745439264;
+        d=1e100.net; s=20230601; t=1744834465; x=1745439265;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NtycDUaxd4w9hWsqt9cB4yX1hv68UGuZFRYl+TlEs1E=;
-        b=gc05k/Hl/rJUWjbS3jndbucPHDA3zctcrQjvNVsSks8Z5Z7nQss8bIJBYi8PthkEre
-         Jyjxu2cKH6RJzo09+TKX+o7dLc5YaZ8zcYoZWqL3bekLpvcIOL9Bb1K65sHadj4+D7FH
-         Cgz9i9uz9/HSOc1qH+ok17b07ahfFmxxLbKn7VSJnebZvHgH/Qwwl8dCF91ShIUbE8J5
-         5GDUQ9sjoOhp69UsjEXTqP1Faft4bV64LDMD9atqJ+tbF8WVmVZXQbuBRNAKFLO1Tl6g
-         6gcbJQJVQv5Z0FUOX+naP940uAUMtt0hfd0tnPViPIW7uMPwNyQZh0ReXoqCVcX3DaFQ
-         rM4g==
-X-Gm-Message-State: AOJu0Yz44F6MmC+cI9PI4hYbai7EUJhTy9GhCvqZH1WcKKjgh9SK+aNj
-	FyT+1I592Oox8hS/6e6whcTI6hj8BAe9UKksGI9LGstWowen+CxR6m2FAOg16vA79lLl/fq7KOy
-	9
-X-Gm-Gg: ASbGnctKlf3OY5hbrj4o0+trE3AXDbJFsxkuhHOnYB0hBwjsmAyoKrwDo5LFjCqGmdC
-	Gvs1V8nZEGClObvy2+BFf8QnwaW4UxRGVJzyuEEB24g2oEcT/bdWDdt5efPs9nBMXPAcYfF8eJ7
-	Yg/X/VDEMhP8cNx+mIPtfWX/0qaaBpjvZzs6J7GlW4dVFqZxRtHlOfPWbN5sLyOAa50JyM3jLGn
-	8GTSj4OOzNIu472f7Fj1DrDF2nuo0IbeWEQSZ4IcSXdCgidZFwqEcWYwMhDWRjMXzFnyhl8+g6x
-	JCrQIRLLHYrCjQM4bGGEqX+14Hjb6ut3
-X-Google-Smtp-Source: AGHT+IFTrDxdMBAA+4CYRYUYd/rJnCUF00EBQdBQO9YtS10WbSm5ATyiho43h62z+5A8s0LpRm9QSw==
-X-Received: by 2002:a17:903:948:b0:224:191d:8a79 with SMTP id d9443c01a7336-22c35916b53mr44963025ad.27.1744834463759;
-        Wed, 16 Apr 2025 13:14:23 -0700 (PDT)
+        bh=Gu7SOM6eN2G0ZRRx+s3B0205DCLMLf5iwMoGremxa4s=;
+        b=Abtw/ZP/tbyTyh6+2z2PSFw5XrveFQJBT5m/pH6aXTZFKNElH8zTrVSYLRb4xDvbRs
+         ES4k/qUe0ICQyweqssycuM5eI9/JPF+TyETvRjP/JRSpbBrwFrTy2fdXrNQe4b/drwdb
+         jQv8iDG30EY+krP9GBt8oBQn7AHTduWVzcPjhpHcv80kOMpQ9ZcvzpVt8LSD3jDm1AQP
+         xcosEcDOcucPUsSVn12u+U/sLCBzRMGiBpvQHWh/u0n1pyf0rVGGNBe8gK0MHb9qr3iO
+         94MQOYY8cxDE/x4n2NC6W1/DUqWogQl7Rm6lxvYK1nFcLahIwLyd/CLDL6Bsl43hOcLY
+         +RLg==
+X-Gm-Message-State: AOJu0YxzX6862H8tGkKVUB8bQrYKa7hEhGvpZDxvenOS4DB4f8BlgJuL
+	wS+yxLJyXLFkQhlGzvMWNemXDyPHlDfa8J8z8kz1oGOcddGPYQUuElUrUL7TgGC1hdIEi374zSm
+	8
+X-Gm-Gg: ASbGncvnytAPhmpMmcxqxwq2w+HjXT7j4YBiXDTHazIsqtMpBTshVMzNh18WYVMTO+O
+	BnvT9EBfD2JNx6ZE93mRqVoCfrDZ1qXN8jpp9s3WGo1cOZdt0+bPcuaH0YaBSQ2xV3+GicFxQiA
+	tWWp0QcCMSTCchAwBtFA2u37B6BlaJSFlsGR0p2Ww2QikeoDemoeK57p5oyutnq7453odT5SUQw
+	MZ+iCZv0ebwqicE5OauP5yfbDVxUEsD6Eo3xAQNaxgtUtuaeCAmqguCnF7WdKm5xW++I0oIB0rX
+	zLvSggpZ4LOehw7QzpdQYvJOK8b/c0xZ
+X-Google-Smtp-Source: AGHT+IGCxCRlcCria91gybMdycD/XgtlOtFOgyImguqNNPZ4a5YjA3sodOnbCVbddfww6g1WO2kK7w==
+X-Received: by 2002:a05:6a21:6d8c:b0:1ee:d687:c39b with SMTP id adf61e73a8af0-203b3e6affdmr4613313637.7.1744834465308;
+        Wed, 16 Apr 2025 13:14:25 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:aeb8:30c6:2c5c:85aa])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b0b222029ccsm1703880a12.62.2025.04.16.13.14.23
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b0b222029ccsm1703880a12.62.2025.04.16.13.14.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 13:14:23 -0700 (PDT)
+        Wed, 16 Apr 2025 13:14:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 1/6] openssh: Fix for CVE-2025-32728
-Date: Wed, 16 Apr 2025 13:14:10 -0700
-Message-ID: <59850fba21c60ac9731e293bd21f90c6ae0391f8.1744834364.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 2/6] binutils: Fix CVE-2025-1176
+Date: Wed, 16 Apr 2025 13:14:11 -0700
+Message-ID: <9273daf22d251221e5bcac1de21713e28149ad1d.1744834364.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1744834364.git.steve@sakoman.com>
 References: <cover.1744834364.git.steve@sakoman.com>
@@ -67,83 +67,194 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 20:14:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215008
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215009
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Ashish Sharma <asharma@mvista.com>
 
-Upstream-Status: Backport
-[https://github.com/openssh/openssh-portable/commit/fc86875e6acb36401dfc1dfb6b628a9d1460f367]
+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/binutils/plain/debian/patches/CVE-2025-1176.patch?h=applied/ubuntu/jammy-security
+Upstream commit https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=f9978defb6fab0bd8583942d97c112b0932ac814]
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssh/openssh/CVE-2025-32728.patch      | 44 +++++++++++++++++++
- .../openssh/openssh_9.6p1.bb                  |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-32728.patch
+ .../binutils/binutils-2.42.inc                |   1 +
+ .../binutils/binutils/CVE-2025-1176.patch     | 156 ++++++++++++++++++
+ 2 files changed, 157 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1176.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2025-32728.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2025-32728.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index 809c4207d4..0ca00552ce 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -39,5 +39,6 @@ SRC_URI = "\
+      file://0016-CVE-2024-53589.patch \
+      file://0017-dlltool-file-name-too-long.patch \
+      file://0018-CVE-2025-0840.patch \
++     file://CVE-2025-1176.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-1176.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-1176.patch
 new file mode 100644
-index 0000000000..72fc0073e8
+index 0000000000..1ecf09569d
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2025-32728.patch
-@@ -0,0 +1,44 @@
-+From fc86875e6acb36401dfc1dfb6b628a9d1460f367 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Wed, 9 Apr 2025 07:00:03 +0000
-+Subject: [PATCH] upstream: Fix logic error in DisableForwarding option. This
-+ option
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-1176.patch
+@@ -0,0 +1,156 @@
++From f9978defb6fab0bd8583942d97c112b0932ac814 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Wed, 5 Feb 2025 11:15:11 +0000
++Subject: [PATCH] Prevent illegal memory access when indexing into the
++ sym_hashes array of the elf bfd cookie structure.
 +
-+was documented as disabling X11 and agent forwarding but it failed to do so.
-+Spotted by Tim Rice.
++PR 32636
 +
-+OpenBSD-Commit-ID: fffc89195968f7eedd2fc57f0b1f1ef3193f5ed1
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/binutils/plain/debian/patches/CVE-2025-1176.patch?h=applied/ubuntu/jammy-security&id=62a5cc5a49f4be036cf98d2b8fc7d618620ba672
++Upstream commit https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=f9978defb6fab0bd8583942d97c112b0932ac814]
++CVE: CVE-2025-1176
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
 +
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/fc86875e6acb36401dfc1dfb6b628a9d1460f367]
-+CVE: CVE-2025-32728
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ session.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/session.c b/session.c
-+index aa342e8..eb932b8 100644
-+--- a/session.c
-++++ b/session.c
-+@@ -2191,7 +2191,8 @@ session_auth_agent_req(struct ssh *ssh, Session *s)
-+ 	if ((r = sshpkt_get_end(ssh)) != 0)
-+ 		sshpkt_fatal(ssh, r, "%s: parse packet", __func__);
-+ 	if (!auth_opts->permit_agent_forwarding_flag ||
-+-	    !options.allow_agent_forwarding) {
-++	    !options.allow_agent_forwarding ||
-++	    options.disable_forwarding) {
-+ 		debug_f("agent forwarding disabled");
-+ 		return 0;
++Index: binutils-2.38/bfd/elflink.c
++===================================================================
++--- binutils-2.38.orig/bfd/elflink.c
+++++ binutils-2.38/bfd/elflink.c
++@@ -62,15 +62,16 @@ struct elf_find_verdep_info
++ static bool _bfd_elf_fix_symbol_flags
++   (struct elf_link_hash_entry *, struct elf_info_failed *);
++ 
++-asection *
++-_bfd_elf_section_for_symbol (struct elf_reloc_cookie *cookie,
++-			     unsigned long r_symndx,
++-			     bool discard)
+++static struct elf_link_hash_entry *
+++get_ext_sym_hash (struct elf_reloc_cookie *cookie, unsigned long r_symndx)
++ {
++-  if (r_symndx >= cookie->locsymcount
++-      || ELF_ST_BIND (cookie->locsyms[r_symndx].st_info) != STB_LOCAL)
+++  struct elf_link_hash_entry *h = NULL;
+++
+++  if ((r_symndx >= cookie->locsymcount
+++       || ELF_ST_BIND (cookie->locsyms[r_symndx].st_info) != STB_LOCAL)
+++      /* Guard against corrupt input.  See PR 32636 for an example.  */
+++      && r_symndx >= cookie->extsymoff)
++     {
++-      struct elf_link_hash_entry *h;
++ 
++       h = cookie->sym_hashes[r_symndx - cookie->extsymoff];
++ 
++@@ -78,6 +79,22 @@ _bfd_elf_section_for_symbol (struct elf_
++ 	     || h->root.type == bfd_link_hash_warning)
++ 	h = (struct elf_link_hash_entry *) h->root.u.i.link;
++ 
+++    }
+++
+++  return h;
+++}
+++ 
+++asection *
+++_bfd_elf_section_for_symbol (struct elf_reloc_cookie *cookie,
+++			     unsigned long r_symndx,
+++			     bool discard)
+++{
+++  struct elf_link_hash_entry *h;
+++
+++  h = get_ext_sym_hash (cookie, r_symndx);
+++  
+++  if (h != NULL)
+++    {
++       if ((h->root.type == bfd_link_hash_defined
++ 	   || h->root.type == bfd_link_hash_defweak)
++ 	   && discarded_section (h->root.u.def.section))
++@@ -85,21 +102,20 @@ _bfd_elf_section_for_symbol (struct elf_
++       else
++ 	return NULL;
++     }
++-  else
++-    {
++-      /* It's not a relocation against a global symbol,
++-	 but it could be a relocation against a local
++-	 symbol for a discarded section.  */
++-      asection *isec;
++-      Elf_Internal_Sym *isym;
++ 
++-      /* Need to: get the symbol; get the section.  */
++-      isym = &cookie->locsyms[r_symndx];
++-      isec = bfd_section_from_elf_index (cookie->abfd, isym->st_shndx);
++-      if (isec != NULL
++-	  && discard ? discarded_section (isec) : 1)
++-	return isec;
++-     }
+++  /* It's not a relocation against a global symbol,
+++     but it could be a relocation against a local
+++     symbol for a discarded section.  */
+++  asection *isec;
+++  Elf_Internal_Sym *isym;
+++
+++  /* Need to: get the symbol; get the section.  */
+++  isym = &cookie->locsyms[r_symndx];
+++  isec = bfd_section_from_elf_index (cookie->abfd, isym->st_shndx);
+++  if (isec != NULL
+++      && discard ? discarded_section (isec) : 1)
+++    return isec;
+++
++   return NULL;
++ }
++ 
++@@ -13642,22 +13658,12 @@ _bfd_elf_gc_mark_rsec (struct bfd_link_i
++   if (r_symndx == STN_UNDEF)
++     return NULL;
++ 
++-  if (r_symndx >= cookie->locsymcount
++-      || ELF_ST_BIND (cookie->locsyms[r_symndx].st_info) != STB_LOCAL)
+++  h = get_ext_sym_hash (cookie, r_symndx);
+++  
+++  if (h != NULL)
++     {
++       bool was_marked;
++ 
++-      h = cookie->sym_hashes[r_symndx - cookie->extsymoff];
++-      if (h == NULL)
++-	{
++-	  info->callbacks->einfo (_("%F%P: corrupt input: %pB\n"),
++-				  sec->owner);
++-	  return NULL;
++-	}
++-      while (h->root.type == bfd_link_hash_indirect
++-	     || h->root.type == bfd_link_hash_warning)
++-	h = (struct elf_link_hash_entry *) h->root.u.i.link;
++-
++       was_marked = h->mark;
++       h->mark = 1;
++       /* Keep all aliases of the symbol too.  If an object symbol
++@@ -14703,17 +14709,12 @@ bfd_elf_reloc_symbol_deleted_p (bfd_vma
++       if (r_symndx == STN_UNDEF)
++ 	return true;
++ 
++-      if (r_symndx >= rcookie->locsymcount
++-	  || ELF_ST_BIND (rcookie->locsyms[r_symndx].st_info) != STB_LOCAL)
++-	{
++-	  struct elf_link_hash_entry *h;
++-
++-	  h = rcookie->sym_hashes[r_symndx - rcookie->extsymoff];
++-
++-	  while (h->root.type == bfd_link_hash_indirect
++-		 || h->root.type == bfd_link_hash_warning)
++-	    h = (struct elf_link_hash_entry *) h->root.u.i.link;
+++      struct elf_link_hash_entry *h;
++ 
+++      h = get_ext_sym_hash (rcookie, r_symndx);
+++      
+++      if (h != NULL)
+++	{
++ 	  if ((h->root.type == bfd_link_hash_defined
++ 	       || h->root.type == bfd_link_hash_defweak)
++ 	      && (h->root.u.def.section->owner != rcookie->abfd
++@@ -14737,6 +14738,7 @@ bfd_elf_reloc_symbol_deleted_p (bfd_vma
++ 		  || discarded_section (isec)))
++ 	    return true;
 + 	}
-+@@ -2586,7 +2587,7 @@ session_setup_x11fwd(struct ssh *ssh, Session *s)
-+ 		ssh_packet_send_debug(ssh, "X11 forwarding disabled by key options.");
-+ 		return 0;
-+ 	}
-+-	if (!options.x11_forwarding) {
-++	if (!options.x11_forwarding || options.disable_forwarding) {
-+ 		debug("X11 forwarding disabled in server configuration file.");
-+ 		return 0;
-+ 	}
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index 6ae4c81a42..afcd50c7e6 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -31,6 +31,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://0001-Fix-missing-header-for-systemd-notification.patch \
-            file://CVE-2025-26466.patch \
-            file://CVE-2025-26465.patch \
-+           file://CVE-2025-32728.patch \
-            "
- SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
- 
+++
++       return false;
++     }
++   return false;
 -- 
 2.43.0
 
