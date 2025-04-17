@@ -2,63 +2,64 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98142C369CA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5BB9C3DA4A
 	for <webhook@archiver.kernel.org>; Thu, 17 Apr 2025 03:29:44 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.598.1744860569757922464
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.601.1744860573798644976
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Apr 2025 20:29:30 -0700
+ Wed, 16 Apr 2025 20:29:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=B+pjMcHI;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39c31e4c3e5so199592f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 20:29:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gDDo9cRV;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf257158fso1822035e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 20:29:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744860568; x=1745465368; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1744860572; x=1745465372; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eJsH/Chk/jkMmDK7ik9BrciyjD2OZaV1tRYfmI4CXbQ=;
-        b=B+pjMcHI0xa33YcNgaZRX85p3krrC0TS94JQ/+zoXWCgr9sGBXmEBPNt8KyL2qH0Iy
-         BXwqjwUIdL1XZPDtTmDSM6WM7wE8IKSLs8U4A0QuJmenr55ywRcfGVxVllsH4RW3ZTvg
-         kuPHzBJEGhb/1+0nnYDO2KiTzaZ585nGhls9VJDpRvAVtjSJEW1O4wL0027XdwP1Vkp5
-         X6jiQgF+SZ2xOMQkzRxL9U3qDqCHDCy37exFf2lwF1CQvhjbQFhC3yysUk/Q1ebjNLUB
-         MsZ8IOyUqZaumJKo3EiItNltDIucQbuX/HjAhbHej8NAbKAezMGzsgtbFcws4OJ9m3BK
-         p/1A==
+        bh=o9LNJukVFoiwnCY5wBsDyvksRZd+/pIMA5iXx8ySR08=;
+        b=gDDo9cRVR4AzPQA0e/1zFutXcnphl9nQInLTuASG9aQwikbLhNU7tv9EtjSgBZHjdm
+         GZo/KkUXEfc948Vmr+8SIxV7+/KZuZer5JSpVRLbRCFN2t9rWzDvP3688rZrb2YXKaOZ
+         9iQ6pwF+phDtmwnnW6D2A8FbHRqdbQFc9QkTPwiV5CsMaOXS+spRHT7JpaPomhO4NApp
+         MJ5GaYLwfcjuk7dmmPKe6Ii6Tg/EVQxq89tfSC+m7lxmq83hZr4YT0fFQ6lSYE1g2ozx
+         ehWeeIxJ8giwaTwCla+fXBFe+IZh//AkD4UOA+yfHgt0sYPdvC0upZCVDld/6KUjIcyF
+         BkLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744860568; x=1745465368;
+        d=1e100.net; s=20230601; t=1744860572; x=1745465372;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eJsH/Chk/jkMmDK7ik9BrciyjD2OZaV1tRYfmI4CXbQ=;
-        b=OR9bhEYxwp+jGhpz6hnPzZrIFnk66dzcIAtHWF5yTGZVWpEQDJGpbKWgcGD69fWiv2
-         AEzAWf5zA2G9u/5TEYP+FttBT14ZUP/Wcsd7UXfJZrz6QWJ5HJ0cffRFp3JZnIUfqyPs
-         ieeQQAJAppoO0+sR+Ozsf//7lY3ZOt5/UmwrL8M+g2x0VNBD5zueJcjQNsnhm+mvXPl9
-         M0vBAxtCh58z4EnTpZ8YLxr5qbIcboT0IHca/RiwHwLVzBZGqW5ujGsohGn7xSODfsmr
-         d+LT86YeGWbldJk1+2g0NqXgRqxNMV48hiVIeounx6fWtqMDuHebcKjXsXSWShq2shaR
-         DrrQ==
-X-Gm-Message-State: AOJu0Yy6XTtSaXr1Ksio9r36/zPQCvOjMgsylTs28LGlm3YgJ1GvciGD
-	A58Bhdcn4X406IIJl9Z3VXr4koXZRecOS/XZXxpgP7H0Vn+ps9vkQvVjz4Hx
-X-Gm-Gg: ASbGncvs6BUMaoT7HS88sJ2UkMljeK5XjIoCKwU/fACjOQROWyN2Jg7aQA6gRYv+W4z
-	6dbe8+h3rkOBvDvyZgbNFzhbU0LEvPk7mijc4pTfzyTzXW/KjSi2nS2++zIgjkYQ69sl8nS+fXi
-	6CKLYNube9kGHUfDs+BZy4DppstcJymntCEbTaBpsx4Iz7v/yR96iRetdnJLgUh9PFiE6gyv++8
-	/ldNieTCnrgIIKVsV3kkKoE7NspkcZZa9a6ZudJ0z5NhqpvGTPRDgMP5QS7qCt7Tl7FxgYZVY34
-	F6n1vyjg0HouMaQ36C+u8oYHbb8oENumYM+IqZsU3JCX0KY6fvFxv6sIHN4klNEqxN8WhO6VNPh
-	wL2PTysP4
-X-Google-Smtp-Source: AGHT+IH1wp9zr6ajBEo2GbihiCQgpjJ+83A+yXM7Ly+JbMxR9zc9hGLwIyHOOuYnexoVRyyDl345wQ==
-X-Received: by 2002:a5d:598e:0:b0:391:1222:b444 with SMTP id ffacd0b85a97d-39ee5b17cdbmr3663498f8f.20.1744860568044;
-        Wed, 16 Apr 2025 20:29:28 -0700 (PDT)
+        bh=o9LNJukVFoiwnCY5wBsDyvksRZd+/pIMA5iXx8ySR08=;
+        b=Nmr1niTdg/oxdXrm1fNeTlhmOvVj9DEajl7lT77eIgv0gWjkftjpBYk0+wm3DayqGK
+         aV7SLtT81QARUiWi3qD1WsCD8DTJA/pa3JhaZkHLmZcZdCHPjTiaDyeQexYQIOCHpQwi
+         lnioW6slzILl3xDjUq1gCJCyHBEZr4Mk/ri34b04fykoCzlXVnKhxLrz98JO8LxSS1E6
+         N0xsGRB+icQIkh37TJ1MSyQq7e8SrZbcxIAxf7FzIkEMx0Kw+BlBc+RTsqd6YIScu5dN
+         iQ6CWw2vNqyfhAxG8n0OGeXPB+z07PASfe05pqi85oY3FpI2YjRJMHvWNVG8Cf6vJGTs
+         o07A==
+X-Gm-Message-State: AOJu0YzIE8NNHEFpTJjHt9oFc0+kmMK7A0SowJSHtKQ7QJc3dGqYSTzy
+	cg4Qf5yx44LzyHjVEzT7PomK/ek70MYVeUCM68SnrJWT+j4Aano9gj44hG/Q
+X-Gm-Gg: ASbGncv4kGILqhdZB82PgCHC4wFPGGhrIDaT9mNkhjFjPs1hWQrjyuvz6qnsPHYQ331
+	5bGZMYnreDnIOqWF0+iIaeYZaQXQyqLVkYUvSJzyZ1Ib1d7rIGlphiSfl7qldEru6iv1SWhBmIb
+	pt0qKyY3hA5XjFXoFchLOwLhabVd+mgpx+SdzsR6SVs/liEz3IvFg7psdgJvkKddj/ZeyogJrDN
+	A6IAHjWVHl39sbe4pT0Ll4pxUOziIl/rzkpI2lRBauC41zf/cMG4zh/APunhy3c0mLruv0jkt5U
+	qsThKzdPCAZR+qZ9qSrwJIcdlvnwuZKUB68D8gZEpwy8wKUy6QGje3F/VKpCxZL3oI9AJXk7JP+
+	iPA4t+hrL
+X-Google-Smtp-Source: AGHT+IEtPYn/he4VXMP4jageDyxW8WJpVI0mLGbDHpp1vJR9JHUzXStcbvdJ8hXTadhebz1wktK2Fg==
+X-Received: by 2002:a05:600c:8716:b0:43d:abd:ad0e with SMTP id 5b1f17b1804b1-4405d6366a9mr44410015e9.18.1744860571876;
+        Wed, 16 Apr 2025 20:29:31 -0700 (PDT)
 Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eaf43cb29sm18713620f8f.76.2025.04.16.20.29.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eaf43cb29sm18713620f8f.76.2025.04.16.20.29.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 20:29:27 -0700 (PDT)
+        Wed, 16 Apr 2025 20:29:30 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 17 Apr 2025 03:29:14 +0000
-Subject: [PATCH OE-Core 1/5] connman: Set --runstatedir to ${runtimedir}
+Date: Thu, 17 Apr 2025 03:29:17 +0000
+Subject: [PATCH OE-Core 4/5] connman: Mark iptables/nftables mutually
+ incompatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250417-connman-fixes-v1-1-160b2b811116@gmail.com>
+Message-Id: <20250417-connman-fixes-v1-4-160b2b811116@gmail.com>
 References: <20250417-connman-fixes-v1-0-160b2b811116@gmail.com>
 In-Reply-To: <20250417-connman-fixes-v1-0-160b2b811116@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -68,28 +69,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 03:29:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215033
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215036
 
-We have ${runtimedir} for /run, use it here.
+Only one of iptables or nftables can be specified, mark them mutually
+incompatible. Drop the RDEPENDS on iptables from PACKAGECONFIG as its
+libraries are automatically discovered on the main package, with only the
+scripts required as part of iptables/ip6tables-test.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-connectivity/connman/connman_1.44.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/connman/connman_1.44.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-connectivity/connman/connman_1.44.bb b/meta/recipes-connectivity/connman/connman_1.44.bb
-index aa9da070dec1b4aac02019ae9c3158256b534c61..33b1ca0680b076bb3fb2b0bf1261eca1f81bcd59 100644
+index 3ee2b12b7ed98004acb8af89056409344e3351dc..306d54794fefb2142dbcc374940365076c48079c 100644
 --- a/meta/recipes-connectivity/connman/connman_1.44.bb
 +++ b/meta/recipes-connectivity/connman/connman_1.44.bb
-@@ -37,7 +37,7 @@ EXTRA_OECONF += "\
-     --enable-ethernet \
-     --enable-tools \
-     --disable-polkit \
--    --runstatedir=/run \
-+    --runstatedir='${runtimedir}' \
- "
- # For smooth operation it would be best to start only one wireless daemon at a time.
- # If wpa-supplicant is running, connman will use it preferentially.
+@@ -69,8 +69,8 @@ PACKAGECONFIG[l2tp] = "--enable-l2tp --with-l2tp=${sbindir}/xl2tpd,--disable-l2t
+ PACKAGECONFIG[pptp] = "--enable-pptp --with-pptp=${sbindir}/pptp,--disable-pptp,ppp,pptp-linux"
+ # WISPr support for logging into hotspots, requires TLS
+ PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
+-PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,,kernel-module-nf-tables kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-masq-ipv4 kernel-module-nft-nat"
+-PACKAGECONFIG[iptables] = "--with-firewall=iptables ,,iptables,iptables"
++PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,,kernel-module-nf-tables kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-masq-ipv4 kernel-module-nft-nat,iptables"
++PACKAGECONFIG[iptables] = "--with-firewall=iptables,,iptables,,,nftables"
+ PACKAGECONFIG[nfc] = "--enable-neard, --disable-neard, neard, neard"
+ PACKAGECONFIG[client] = "--enable-client,--disable-client,readline"
+ PACKAGECONFIG[wireguard] = "--enable-wireguard,--disable-wireguard,libmnl"
+@@ -167,6 +167,7 @@ FILES:${PN}-tools = "${bindir}/wispr"
+ RDEPENDS:${PN}-tools = "${PN}"
+ 
+ FILES:${PN}-tests = "${bindir}/*-test"
++RDEPENDS:${PN}-tests = "${@bb.utils.contains('PACKAGECONFIG', 'iptables', 'iptables', '', d)}"
+ 
+ FILES:${PN}-client = "${bindir}/connmanctl"
+ RDEPENDS:${PN}-client = "${PN}"
 
 -- 
 2.46.1
