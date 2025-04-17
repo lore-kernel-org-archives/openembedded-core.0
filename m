@@ -1,256 +1,124 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <michalwsieron@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D97AC369B2
-	for <webhook@archiver.kernel.org>; Thu, 17 Apr 2025 14:05:08 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.9769.1744898703699496185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F20E0C369C2
+	for <webhook@archiver.kernel.org>; Thu, 17 Apr 2025 15:12:58 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web11.11463.1744902769614011817
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Apr 2025 07:05:03 -0700
+ Thu, 17 Apr 2025 08:12:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=WreawxpQ;
- spf=pass (domain: mvista.com, ip: 209.85.210.169, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-736b350a22cso654598b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 07:05:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Jj+dpI+G;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: michalwsieron@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-acb5ec407b1so139022666b.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 08:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1744898702; x=1745503502; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1744902768; x=1745507568; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=br/9rpESURtv5Q+J7+p05qD1ImTPaHtcmzW/qaIVCbM=;
-        b=WreawxpQ9F8cc2fn4u/4DLeVlN04ox1wQ3dGlubG4TduFtavzpkGo464xq6zuY69J3
-         t2+QEKefqMTRDn9g9JkqZ31FXwLNLuoo7Tuj3Ea61clowP3Zqe5eqerSFKb7KnnzCx4T
-         VlQ70Ddt918aytJha13Qi+ieNQehWbi6rrnOo=
+        bh=XkBXS5U2akpr53cTcCNhDdteG63Ai4oXjzXn74VBtKA=;
+        b=Jj+dpI+GFao6eWfNAICxphacEWjXU+WMkaqiQCNY0ZGhEEKZ8jLhldqmgDDmL4p0Hw
+         zfbgH4+HfitVEn5IJNMn5a31QSAEP21u/L/GgMRaOu52ohrqwAEUX5Kbeq5VH6OzJu0D
+         b7GjpV6R7hH+JuC+l8uCUwrpDSvF6SGVXsJH2qhpP9li/c8qTf9orrnvaUDtqWTf92B/
+         ztsrxNLv6PGsZCLuwx/mknPiS6H/5t5zdj7kbqsdxd1Av7KRIIl9jkilAJiqogDWwF3m
+         wuwrDJcfNmtx4Rky62D4R0pEkq8MTanrZkBm6rVLLPGkdFSX3ljA2HlLKzb4e83q02QB
+         fEDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744898702; x=1745503502;
+        d=1e100.net; s=20230601; t=1744902768; x=1745507568;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=br/9rpESURtv5Q+J7+p05qD1ImTPaHtcmzW/qaIVCbM=;
-        b=MOFm8jKYR+ALFs413iw/hs97WpTYS5u+jc7LpBKp0paghEAyiNsxbkXvX3v1vnh8DJ
-         eyiKnvY2KXe1vPOLyO4mirpiICfd5Dw+5M/b0h8zlzkYzLiJTGkya4s6K8zGOdlvNDq/
-         5bSZHxLVBiK1o/uWJYPkwKEZnNT1mDPYnyrrC8zq984t++i42asdMgVR8MYBSetqnV9Q
-         eQdv/iePRkXJzqL94hZbzRjJiWOwnM5lWztu0Od4F/V+bYD3BanRyqFgcdHt3WoifxyD
-         S3P0p7eX+epZ+MhKD+51pa8fzJbx2wp4SFQvCmKAjdTQfyLb4haKzMkYYWQU9H0kwEUn
-         HGxQ==
-X-Gm-Message-State: AOJu0Yy7Ain2Kcw36cdidYeXrnLkGkWhmCMtc0laNyA8dMvzEiCOOfXn
-	966n0rQ19qrxk/RbL0i15IFvg3GYOwCo+qHRFjwcSfwPWE+M5RKRE9ktJ02WWiHXD7UCLfeEdeo
-	ktjM=
-X-Gm-Gg: ASbGnctEhoQcng7h0ELPPNf9RwTFUswq3rZmDor1l6Fb54ozrzhVeMaKVdXycGLUbkS
-	xWc+8Ayc5aDXtVAhpU+gfpu0jstwibEmpTv6XfEPQUiuxGL3bgjNHPE5J03K0YT8lEUoatcj5iY
-	BT1B99vD+GY8sWuTo54ML3VqVGXTSn3Y3kIzMMQL3wy61knSVWcBW1IHhg+NbLBmz9JKWHlGush
-	B1zjlu39objkzX+M2isQjF3wdr7Xh3/NKILPU9cZE6FdyE1oAFS0dsUQuQskG8KPFejUsn80QFt
-	M0wuYHj13Zp/NNzMRQ/aTVAz4LT/WjtwGrYa1UbsbNrjaJqkUgPJ
-X-Google-Smtp-Source: AGHT+IEfB2sBOL9Q6dnJv/iBcKyqD7R7TNR3N1xOZrWTw0gau5Z6zPGLajT1efoAtBb8tjtOHiPnRQ==
-X-Received: by 2002:a05:6a00:aca:b0:736:5504:e8b4 with SMTP id d2e1a72fcca58-73c267d2f23mr8414036b3a.19.1744898702124;
-        Thu, 17 Apr 2025 07:05:02 -0700 (PDT)
-Received: from MVIN00020.mvista.com ([49.207.223.203])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73db4717bfasm1127812b3a.129.2025.04.17.07.04.59
+        bh=XkBXS5U2akpr53cTcCNhDdteG63Ai4oXjzXn74VBtKA=;
+        b=bc0L286knh4bsfveDFVMMiHgJsBj9FX8iwTRKLSRCsRB2Amj6YIr4k4L3kN0J/xAn9
+         ekXkV1bzSlwJ54XTQbn5fCWkxVVWEGtKBZANmdgWlbiKmtuZND09AycE9j85kGYJDIgQ
+         3ffXIM/FxhXPF7dYd9I5Mc2R98loIjy/2UwzJyQmbHIC/6bo8bwOLzK/PeS2MBwtD8TM
+         0GPFFoOrE5rLaT4zEbxrMmnDyP/Reh/M/nTnq9ZjPtNHm5jiQgR0iy+Lie92E8Vz9ObB
+         aeg1acS0PNtfZK+x0s0Yp+Sid+fOip6TmRlnQgQKNK/xMzfxYZuUmMypOl02pBQ41rnc
+         64wg==
+X-Forwarded-Encrypted: i=1; AJvYcCVUydGT0LeMY2D2ZnnSAYs+0yRsZIjmhjZca4vm29c7PLtTg/+rQnFfD3ym/g+feUJtAF4HwHZhDQe3w6GFZZ6hNg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw5pDH3qXLM0e0DehB4k4gnyX5fjHOE2FUaMLDi4OXmTeL38Uyb
+	/SYbwuorzUcnf8l/ZNU5CNhTWwpBheXKoi96aPDdt+om8q+QAPav
+X-Gm-Gg: ASbGnctOkMivTzGN4jDQh07z8apOa6mu8L0nyabCWt0dmC2YqfuyRadIUPBH219+oRN
+	Iv+5x/I3tGbxrU5uh4HKoDVBnOOoz/n7zt+4mPXX9cxLZ+YFei4Zdfzxm/10U/0bjv1y9NZzzSJ
+	ld7zwlYISEWi0MnYlQMfHsInSXlArcqIa0A2nPofpt79Tvyh2CIy/q7FcIfO/t5HD/WrnwBjxe1
+	M4bIP3JrfrlAv3V3kJ003mjlLRqGTgsAomJas/Kyt0v+JarVD5QI6MWOY0pxEjoL5dGdKiqmuuO
+	fiNBAfHmVN9NlOoxflQ9pXsbG8yYShc7UeJq1uu42k2tmYuBPd0vlXGv
+X-Google-Smtp-Source: AGHT+IG/Yus9i6LWxlm5S6VYZ2KeJIQA4AQR8gXbxRNNbAm9s+bfvQs1ptlPFG5bOQEYOVdwozf+cA==
+X-Received: by 2002:a17:906:c108:b0:ac7:e80a:c709 with SMTP id a640c23a62f3a-acb428752c9mr541110566b.6.1744902767787;
+        Thu, 17 Apr 2025 08:12:47 -0700 (PDT)
+Received: from localhost.localdomain ([93.159.28.82])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6ec0b302sm6919066b.3.2025.04.17.08.12.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Apr 2025 07:05:01 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][PATCH v3 5/5] libsoup: Fix CVE-2025-32906
-Date: Thu, 17 Apr 2025 19:34:29 +0530
-Message-Id: <20250417140429.136534-5-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250417140429.136534-1-vanusuri@mvista.com>
-References: <20250417140429.136534-1-vanusuri@mvista.com>
+        Thu, 17 Apr 2025 08:12:47 -0700 (PDT)
+From: Michal Sieron <michalwsieron@gmail.com>
+To: bruce.ashfield@gmail.com
+Cc: michalwsieron@gmail.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] kernel-module-split: Allow for external conf files
+Date: Thu, 17 Apr 2025 17:11:59 +0200
+Message-ID: <20250417151158.282362-2-michalwsieron@gmail.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <CADkTA4O_t=cggrERmZV8L64X9n3iEatdtqj5_NcGYxzcxAPDCw@mail.gmail.com>
+References: <CADkTA4O_t=cggrERmZV8L64X9n3iEatdtqj5_NcGYxzcxAPDCw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 14:05:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215083
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 15:12:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215098
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+> Whenever we add a different code path, we need to add a test to
+> the oe selftests, both for the existing case (if there isn't one already)
+> and the new one. Without those tests, we'll get a better understanding
+> of how this is supposed to work, that it doesn't break existing users
+> and we'll know when it breaks in the future (since this obviously won't
+> be a default path with our reference distros).
 
-Upstream-Status: Backport from
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/1f509f31b6f8420a3661c3f990424ab7b9164931
-& https://gitlab.gnome.org/GNOME/libsoup/-/commit/af5b9a4a3945c52b940d5ac181ef51bb12011f1f
+The problem with this is that there are no existing tests for
+kernel-module-split.bbclass. So I would need some heavy assistance with
+writing such test cases :(
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../libsoup-3.4.4/CVE-2025-32906-1.patch      | 61 ++++++++++++++
- .../libsoup-3.4.4/CVE-2025-32906-2.patch      | 83 +++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |  2 +
- 3 files changed, 146 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-2.patch
+But I do agree that tests are generally a good idea.
+The whole reason I sent the patch is because I noticed that behavior
+change between kirkstone and scarthgap caused by this change in
+oe-core:71460993f350bca3d5a22115fd5551696f955c9f.
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-1.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-1.patch
-new file mode 100644
-index 0000000000..916a41a71f
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-1.patch
-@@ -0,0 +1,61 @@
-+From 1f509f31b6f8420a3661c3f990424ab7b9164931 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Tue, 11 Feb 2025 14:36:26 -0600
-+Subject: [PATCH] headers: Handle parsing edge case
-+
-+This version number is specifically crafted to pass sanity checks allowing it to go one byte out of bounds.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/1f509f31b6f8420a3661c3f990424ab7b9164931]
-+CVE: CVE-2025-32906 #Dependency Patch
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-headers.c      |  2 +-
-+ tests/header-parsing-test.c | 12 ++++++++++++
-+ 2 files changed, 13 insertions(+), 1 deletion(-)
-+
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index 85385cea..9d6d00a3 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -225,7 +225,7 @@ soup_headers_parse_request (const char          *str,
-+ 	    !g_ascii_isdigit (version[5]))
-+ 		return SOUP_STATUS_BAD_REQUEST;
-+ 	major_version = strtoul (version + 5, &p, 10);
-+-	if (*p != '.' || !g_ascii_isdigit (p[1]))
-++	if (p + 1 >= str + len || *p != '.' || !g_ascii_isdigit (p[1]))
-+ 		return SOUP_STATUS_BAD_REQUEST;
-+ 	minor_version = strtoul (p + 1, &p, 10);
-+ 	version_end = p;
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index 07ea2866..10ddb684 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -6,6 +6,10 @@ typedef struct {
-+ 	const char *name, *value;
-+ } Header;
-+ 
-++static char unterminated_http_version[] = {
-++        'G','E','T',' ','/',' ','H','T','T','P','/','1', '0', '0', '.'
-++};
-++
-+ static struct RequestTest {
-+ 	const char *description;
-+ 	const char *bugref;
-+@@ -383,6 +387,14 @@ static struct RequestTest {
-+ 	  { { NULL } }
-+ 	},
-+ 
-++        /* This couldn't be a C string as going one byte over would have been safe. */
-++	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
-++	  unterminated_http_version, sizeof (unterminated_http_version),
-++	  SOUP_STATUS_BAD_REQUEST,
-++           NULL, NULL, -1,
-++	  { { NULL } }
-++	},
-++
-+ 	{ "Non-HTTP request", NULL,
-+ 	  "GET / SOUP/1.1\r\nHost: example.com\r\n", -1,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-2.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-2.patch
-new file mode 100644
-index 0000000000..5baad15648
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-2.patch
-@@ -0,0 +1,83 @@
-+From af5b9a4a3945c52b940d5ac181ef51bb12011f1f Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 12 Feb 2025 11:30:02 -0600
-+Subject: [PATCH] headers: Handle parsing only newlines
-+
-+Closes #404
-+Closes #407
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/af5b9a4a3945c52b940d5ac181ef51bb12011f1f]
-+CVE: CVE-2025-32906
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-headers.c      |  4 ++--
-+ tests/header-parsing-test.c | 13 ++++++++++++-
-+ 2 files changed, 14 insertions(+), 3 deletions(-)
-+
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index 9d6d00a3..52ef2ece 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -186,7 +186,7 @@ soup_headers_parse_request (const char          *str,
-+ 	/* RFC 2616 4.1 "servers SHOULD ignore any empty line(s)
-+ 	 * received where a Request-Line is expected."
-+ 	 */
-+-	while ((*str == '\r' || *str == '\n') && len > 0) {
-++	while (len > 0 && (*str == '\r' || *str == '\n')) {
-+ 		str++;
-+ 		len--;
-+ 	}
-+@@ -371,7 +371,7 @@ soup_headers_parse_response (const char          *str,
-+ 	 * after a response, which we then see prepended to the next
-+ 	 * response on that connection.
-+ 	 */
-+-	while ((*str == '\r' || *str == '\n') && len > 0) {
-++	while (len > 0 && (*str == '\r' || *str == '\n')) {
-+ 		str++;
-+ 		len--;
-+ 	}
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index 10ddb684..4faafbd6 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -6,10 +6,15 @@ typedef struct {
-+ 	const char *name, *value;
-+ } Header;
-+ 
-++/* These are not C strings to ensure going one byte over is not safe. */
-+ static char unterminated_http_version[] = {
-+         'G','E','T',' ','/',' ','H','T','T','P','/','1', '0', '0', '.'
-+ };
-+ 
-++static char only_newlines[] = {
-++        '\n', '\n', '\n', '\n'
-++};
-++
-+ static struct RequestTest {
-+ 	const char *description;
-+ 	const char *bugref;
-+@@ -387,7 +392,6 @@ static struct RequestTest {
-+ 	  { { NULL } }
-+ 	},
-+ 
-+-        /* This couldn't be a C string as going one byte over would have been safe. */
-+ 	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
-+ 	  unterminated_http_version, sizeof (unterminated_http_version),
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+@@ -457,6 +461,13 @@ static struct RequestTest {
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+            NULL, NULL, -1,
-+ 	  { { NULL } }
-++	},
-++
-++	{ "Only newlines", NULL,
-++	  only_newlines, sizeof (only_newlines),
-++	  SOUP_STATUS_BAD_REQUEST,
-++           NULL, NULL, -1,
-++	  { { NULL } }
-+ 	}
-+ };
-+ static const int num_reqtests = G_N_ELEMENTS (reqtests);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index f62c657213..cbb098908d 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -26,6 +26,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32911_CVE-2025-32913-2.patch \
-            file://CVE-2025-32912-1.patch \
-            file://CVE-2025-32912-2.patch \
-+           file://CVE-2025-32906-1.patch \
-+           file://CVE-2025-32906-2.patch \
-           "
- SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
- 
--- 
-2.25.1
+> A comment about how your high level description in the long log relates
+> to needing to move these variables outside of the conditional would be
+> helpful.
+...
+> A quick comment here would help as well. This is now outside the
+> conditional, so a comment indicating that the file at "name" can either
+> be generated above or placed there by a recipe will help with
+> maintenance.
 
+Will try to somehow explain it in v2 of the patch.
+
+> Also, what happens if the file at "name" is updated ? I don't
+> think the module splitting would be re-run, so would we have a
+> "stale" file ? Should that file be something in the kernel-module
+> recipe that triggers a rebuild if it is changed ? I don't see that
+> mentioned (maybe I'm imagining the problem) or a requirement
+> on the recipe.
+Wouldn't that alter do_install's checksum? Otherwise I don't think I
+have an answer.
+
+
+Anyway, while I was preparing this response I noticed some other things.
+
+1. pkg_postinst hook
+There is this `pkg_postinst` part for "autoload". I guess I should move
+that hook so it is also installed when .conf is vendored, is that right?
+Although that wasn't there before the regression commit I found.
+
+2. Duplicated entries in (CONF)FILES:*
+Even before my patch FILES:* and CONFFILES:* entries for kernel
+module packages are for some reason doubled. But that is probably for
+another patch.
+
+Best regards,
+Michal
 
