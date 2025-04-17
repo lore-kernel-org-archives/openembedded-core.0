@@ -2,28 +2,28 @@ Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 626E8C369CD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5062DC369CA
 	for <webhook@archiver.kernel.org>; Thu, 17 Apr 2025 02:55:54 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.199.1744858549812848753
+ by mx.groups.io with SMTP id smtpd.web10.194.1744858550919549642
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Apr 2025 19:55:49 -0700
+ Wed, 16 Apr 2025 19:55:50 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6202e9a415=yi.zhao@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53H1eWYV029573
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 19:55:49 -0700
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53H1eWYX029573
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 19:55:50 -0700
 Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2042.outbound.protection.outlook.com [104.47.70.42])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45ykf3njyj-3
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45ykf3njyj-5
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 19:55:49 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 19:55:50 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mpLvkd22NJVHZjeMGd+eJnv9L9EgDWWA7b39CQrWtBzS4IvtZbX3dI3LU5BOHLqzDCQrv/ZKz/KJR9JKqkh9Q+EwnUNwvMgXx7CsBI4I71jKDUDM3cFuY3W0RYrghQO3dRmbAnH5oOd0s1RjTwMiuton1poI1lLDZWMmAuqgaCNx/svgzljdD+byj2B5h0NGfiuxSy2NgZSmnyezi4UHu+CTkGIbHKf/nCBdHIvA/x2KPfuaY5GsFqEAKHRvOnbBxSQjKPAlmtnojBoPvNzI3Cp+eq24Z7CaxcZ8bX0TL4+BFZ1FpT4W7K4PvA0qhT1tu3gErf69OHQk17SPga8iAg==
+ b=gbi6GXPdMqK9UowAjLnehcDwgC218D1QoxLb6zfbA17HOkBHTmlAPp6bUPL6Nnr0m2ZWlrw2JcHPvhPEMuEGlANvMobisL4h9N26c9mD0Y2Fct9OtsxzAxM6PJtQWqnFfhSo+fpHaFk7rvm+wlKbc7cE16DzrU5BxxJ1eEnD+qgDr288OVU8O+7CEwoxJ0DcLCjg3qXJarsllOwWLgsisv9H+cAZEdF+1I97rdObP0rD5by6cN+io/9z7IlryjdSJG1qj2jk/pDHGo+PjTcXfOSkGzCMZrQs0vQy5iQ+Q6o5qXgrarKimMlkyIXBzrjZVD+qM5SOPy9ZmPD7iVQL3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2Zcfs/X4YSWy3D8ocoC6oKnaUpoSfZuv49x8Lh1NXvU=;
- b=AJx5yK6QcD9EtAiOPpbPlHF6611f0VZoH2oUl/YoKCKt8LVqHdeAneJEipcmzLq2JvA4X50q5YZXRsE/q16lck8I5wqCK0qldFIxJ2unAgqS6KPx99fZioTtEAewgV/KVtOOO7Ik7R4cRz9FaRR8WXN5rbMXcrHeICND6R++nG+LUs7Eyt+g8kEKiUyIFkcsjR7S1RaYIA5+HxNyabMRMy7pTewhcJ3qr9PWVOtSMbNnCxh2wirKXvnSZgqfBPKL1UIBXWMqgl+uPsKuswJ3nD3OKEwsimqzRY5TmWnN6hOpxIgkPjprmdOyHpugb0jeA4WhdL4sy1GjoFqEZGHeOQ==
+ bh=OKjd1/l+yatH/99j4yALitqYRUOMjC0QHXvg0XvyAdE=;
+ b=Ur7bjB8KsSEQv/CixYdyQSMYV7LPifNzHlOGpGlJXYgkY6FBu6WA+2Unl47TKe/U5jVF1B3zZpD9Ith5m22RgYkSz3Q1ocF6AG2iIQAOX0mZVKLO3hcK4b9VFYJWcbUlWx1pjmr6z/QbZo4UZ02q6zNixDt2+78S18mOVtrXIaZ6U2HoNpe2cqZgEiRE1Z6WQg5Xxl3+1PZfV0Si3W4gytyGM2T/6CFuAlCXNzFkAMY/srFWGJuqELR1DXak4kd2TmP85i7p/+SjnxogC3Fd0VjkKAQG8jFcAsuEa9VWLGp7CtPowNVMjQ0kVb0NBbZHuIa1tJE87CgXUsgU/RBadw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,16 +31,16 @@ Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
  IA0PR11MB7935.namprd11.prod.outlook.com (2603:10b6:208:40e::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.35; Thu, 17 Apr
- 2025 02:55:46 +0000
+ 2025 02:55:48 +0000
 Received: from DS0PR11MB6399.namprd11.prod.outlook.com
  ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
  ([fe80::2b44:787c:e7ee:bfad%4]) with mapi id 15.20.8632.035; Thu, 17 Apr 2025
- 02:55:46 +0000
+ 02:55:48 +0000
 From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/7] libgcrypt: drop -unknown suffix from version number
-Date: Thu, 17 Apr 2025 10:55:29 +0800
-Message-Id: <20250417025532.1363790-4-yi.zhao@windriver.com>
+Subject: [PATCH 6/7] libassuan: drop -unknown suffix from version number
+Date: Thu, 17 Apr 2025 10:55:31 +0800
+Message-Id: <20250417025532.1363790-6-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250417025532.1363790-1-yi.zhao@windriver.com>
 References: <20250417025532.1363790-1-yi.zhao@windriver.com>
@@ -52,83 +52,83 @@ X-ClientProxiedBy: TYCPR01CA0133.jpnprd01.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|IA0PR11MB7935:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75dc08bb-e3e6-41a9-5363-08dd7d5b59d8
+X-MS-Office365-Filtering-Correlation-Id: 2a1f9bb7-68ef-4eb3-0f57-08dd7d5b5b46
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?UPCv91ff61FrFQbfNlx6XSvFN1HMpc/LEA2Lpdm8h5rEXN0+Xln1J7wvy13M?=
- =?us-ascii?Q?nuvDt9eQkB/wUJJSfFuVw0nQpsaguK/uBASw+aaY8AVFLfZ9rLjYp1L3xRKt?=
- =?us-ascii?Q?tsr55ao2ABv0iTYe7Xe1UDwlf4gEHchkppXVg3NoySrCtgQffOtw0kkKh0j6?=
- =?us-ascii?Q?sViRBucQ2l9I01z2FHK2ycCqTTQWVpoMvdF8LxkGuc6/KaIkVVHu/Q3+PxFJ?=
- =?us-ascii?Q?rpfbFcdwAyeeTKZPAL65rhC9i74UHdxKrGRTJX6Nuj9HF9DZiq9yUE1nbb9G?=
- =?us-ascii?Q?clLtB3MZSFvPNQE1kqWtWxYUsWbWEUa6mHGK40XYNKgedxYAlipVNgKlmY4n?=
- =?us-ascii?Q?hem0pb63caguuDvd5OUQ9jDYSmBQmq4WYfnf5Eh08rkbmUEfz207Lj+2NAtP?=
- =?us-ascii?Q?1J+EZEzVo0FAdazimlFOd4K/Dfw4uAFBxFqFSR+lTGeEj+HnsYYsuigjBV0J?=
- =?us-ascii?Q?lk+xEidjl0dliSW9gK+KntFdJlgf/H1xbezPpQA8ReuGWTcKaZU6XqCXS62o?=
- =?us-ascii?Q?kUORC1NrU1QjoGh5CSKkRkiRYsiZ8OuQva+2nOt+5tdLJkMBs0OKdHR4xsoe?=
- =?us-ascii?Q?NctfTVjRUmoafskpDLta6o3NnJcDfe4B6wF3trxeCHS352sh7sQ0AIkWmmCL?=
- =?us-ascii?Q?OvC3M1VVUIQTskmeGCFwYyd7nnbQNlpRudX14+02+9mATASTFfwvYxqZyQzX?=
- =?us-ascii?Q?rSMAGC/laELodsDStfFPstMFko2GRDtn/gacqJD6+ZSSSf4jkayMbhRtCLKs?=
- =?us-ascii?Q?xrtXOxOkRSLReDucIcJHLjtXZ1Gkmqzp9ohZJ5UI8OZER8mDC6J2DeTgmSYw?=
- =?us-ascii?Q?BpcUdIx7pIu4U2OA+4uLtgqviutHiSPxDTdpLVDiGl0A6KMxYrk8IqyPMv/c?=
- =?us-ascii?Q?53SLCQe8o6y6TecQcMtl51QoVR1sdUnMwWMeeYKaGiwJ7DUy1WM/+E58wo2M?=
- =?us-ascii?Q?MR0uYJrgwLx8t3sMvJLqcsp4RkZw/tnN54rrYtaKq8WZD7zeCb2UkIavXFr6?=
- =?us-ascii?Q?6pzJVDSfWRBF5r7mquzD5FqT+I78ilukAqWLMS4yUkw56LStBSqwRknz+v+p?=
- =?us-ascii?Q?r9kZqLyqVYGFfUu3F40Ro3Cw8UXRyJA3R0Tio8mgko+/WeOw1qOYDmXX0dE3?=
- =?us-ascii?Q?J2O7Fwf1oUC0aFx05n4ZKa9UHGbHpAtWkECBhdSbApwOC/Mqvkrcx/dSqH+T?=
- =?us-ascii?Q?XYUS69HOwdqE5KxuGfIKHbA/0D8XP3qacAZ+lag9trJg4j1XpEGlANAV0FnO?=
- =?us-ascii?Q?E6HAd9+WVYXYL3x0Ci0NzQ+xR08u0dJGmdnqZRovJa8mNZlfIg41sAH4ihaW?=
- =?us-ascii?Q?Hh0agdLjK/lb7atcRz2AflaoI4279BMInTm4EH7/35M8lMDBunjBBTn3ZwXQ?=
- =?us-ascii?Q?TcZfufDmPsz2bpnkpZtsymejRs1nyow1vMfG1rilT5XUgXPBDrPnTDnAr2s8?=
- =?us-ascii?Q?hN7He7BLutnp7Vjxf67+Wx+FG6ytE85oklU/tXgybPIu7svAQ2D3Uw=3D=3D?=
+	=?us-ascii?Q?ZFvtUTRSH2huZHZw9ANww33Y+2sihwffnao9N2PJplLMmVO3kTJQgnhC7Q1t?=
+ =?us-ascii?Q?u/JX4rUXveiD1M6UoHl+aFYU+pGU8+9xwF3SUgbfP9DBGdNd6PHIuvpXatFy?=
+ =?us-ascii?Q?nZyGVxnfd5ulYqZRjM6fsBJgTuxAf7g4rGkFRmwFpOv026oRO1PIsZshi0rl?=
+ =?us-ascii?Q?M+M27HtDBpuUoSnYy3qjOVYNZ3f3ilczaMBtvbJKv2RiTatH/M6FBBG/TtAx?=
+ =?us-ascii?Q?Nexo5R2kD2K1a4S5U2i+UORF/1qMFFpynRgPhyb7WYLwcxNpJEUKLwz9d0mD?=
+ =?us-ascii?Q?fJNgYkbnNlpMVMcZcfBkeOAjR6i5Hg+ZR0q3kyTKp3stcLEdduoWVVn1XTsH?=
+ =?us-ascii?Q?dnntpOMaAc/DUW/X8G9dkLBOtKaAn1MC90NKe1Q0xJ3QMfsUQkGd/hDeiUAY?=
+ =?us-ascii?Q?pnjZCpyiSgfqrSYExcSpz/Wqil5zh/PsfWY1GLUnfYb+Stx/NSTm/zvgbC/e?=
+ =?us-ascii?Q?bFSsRoy8LQRAWgogD9elOSv0Zgt4GsvgF8p3FUQO2am8lDTFYgai9+JKMz2X?=
+ =?us-ascii?Q?R5XHSC2OvJfwULwd4PUvUsfOIqVLqNCC4pjOD45Rec3fSYOHjGBR5v9kDbt6?=
+ =?us-ascii?Q?Fom2+dOdK5x7IVfcgoQy5RxuMygOQdEa4WNggGRnOkxyY/za3lMShjUAMNzp?=
+ =?us-ascii?Q?edwp4T1DOX6lSANkqhuGB57XYpVoYd9n8XpYcXrgV5vWnRZVx6+MpN0qQhfL?=
+ =?us-ascii?Q?hgcMignWWD0VXRCN8gXvbz3VW+yjAbeZg5R37xPe4UY05vr4gsYteDVjueeh?=
+ =?us-ascii?Q?ujquVs4lZxXPT5iLMgaSAaDnAF3VfcgCmOvPBiMt0jPfmpvlQUNvy2/vyDRg?=
+ =?us-ascii?Q?6t6i47GSUAX4NcnpBeTv6gaDW36SuWbr50kbF4dxBTmahobaPSz1q+J1J4Do?=
+ =?us-ascii?Q?x0fjW+MCMNlRyDz4wj9+f2UQdWJbxjI7aPQCkwovIONwMYOXNAJnHc3RojwN?=
+ =?us-ascii?Q?ib4FquBTdbYOl9SQeCk2vk1knZpMqIPDDz6oZMG5nr5ar5XSO1s4I2baiCAq?=
+ =?us-ascii?Q?ItQmhu2p1UtLZ58xWTjVBbTr2m9SqRJFaEdE7+l8cgvTSovfINBFnha+EfaE?=
+ =?us-ascii?Q?ban51n0L5H3AvAgR1ZOI5WWP6MDhqQH9IyHrEu0zeiHvrBnvljeZpDYNGBRR?=
+ =?us-ascii?Q?Fng6efCEt6310I49yI1jly9Xq9O7BQ/ebyTwt5fppZhOuABDYKyVIC3J5WQR?=
+ =?us-ascii?Q?1vYvhmNgFX0EYvuxXkwEWSufyzoEDNRrlrd2enS2IXfgw9iUPaVyY5eE6sX1?=
+ =?us-ascii?Q?SxyYbo9U4+IeQYbYVgHEBb66ESzywrNGWc+i2vMA0TvCVOrDJKyDXKtc7IQm?=
+ =?us-ascii?Q?I+Mx86SVXZZv8hQkocaUk848OGJG4F3gy6HS5NZs5FYPkGbUrJhrp6bJafPj?=
+ =?us-ascii?Q?wg4tZhsVr/1a12aUHsXkblPC0rSdj5bg69OJ1Kjlh/LypjKaX2qYG/xFzswH?=
+ =?us-ascii?Q?r92HMYTCojQ=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?990gFLy7wnN6IRSGAtzS/aJNEu8ontU9i58XCUsVTb/5jXBIY+UsYAvwDPQ+?=
- =?us-ascii?Q?jR+ifUAeQOyiiruYjPFYJOWeAMmyAD+YBtODvANo78Nzwoxi32qh59oLd0Dl?=
- =?us-ascii?Q?1fpTPaRhWG6s3NmaduNy9khdCoVEhBVeyKoZjLpF0+wB7x5ZFcqwNQaZ8IG+?=
- =?us-ascii?Q?RzH7G2whXeIOnE0cqKx50qpK8A8L+7qCJgqi3No4NHwEoG6rRXzFgwNh5i5q?=
- =?us-ascii?Q?YHsuQpG6q8OWfWQr80A8i/dWspGMeiTe72C6RRFZyfoilSv7XBh0Bpo4wfZ2?=
- =?us-ascii?Q?cldcIO6LfzyCP8Yphjtjr9aPg9NivUJPwjCl4nimVLnoCESG5yMYsGn1BBlj?=
- =?us-ascii?Q?KtMzpnYoiAGTjM+NlhrsP/IiDiJz6fk5R4aUubuwszdJq5kXWxU6cgCEaFuU?=
- =?us-ascii?Q?Vl8iBnv+Tpdsm3gHFzliy+5uFjhjqbm+o/EY5MZvHRzp1VLBJgy8hjOaaG5w?=
- =?us-ascii?Q?MAN+iqFAgASmDsCj7jnh89NY30yMLLkeUJRoVjTv8e0mZzxCPzlY3wbsn4na?=
- =?us-ascii?Q?BGBAFo9+Y1Kguq/5RpSWHfy8aGog3P3WIGuzoKAzK9bxDY7xkgi5IXVEh65L?=
- =?us-ascii?Q?v1WTemff9dTeB864wTUDsWQUPpyBKONTCN9M9FAByLGI3mpDXZr1riw+FzVB?=
- =?us-ascii?Q?RYfPcA1vENFbwGpKu1qxX0gCI3cF6FX+HnJPsKCPzKTX4YDVwIqFPUdru7dY?=
- =?us-ascii?Q?lgo03XnBgy2ivAi7SB8YMTIFrG3aALCjBDA/bLt3jrH0OdDtwqBI4Xm/cVoF?=
- =?us-ascii?Q?B40gzYHfOHc26ST3m4mr9nGw81kM+WGO4vpmuHhIEb95je9GT7YrqQzxChNd?=
- =?us-ascii?Q?iet6DW1pypngs6PKMPnmePm2aE1rEZCrN7aMhOg1Z5WXkRfCLsdK+1la3uFv?=
- =?us-ascii?Q?OLC17bYOex9w/Z17ZJn5sME1WoJXe4nMdUDvFIClmYdzme+T2BkaJ22Lnivx?=
- =?us-ascii?Q?vdLAvoA8fhsdi6zMxa7ZmoJQU+hquI/xMJkzAtryJlLR4IkfST9FEXxwGs5p?=
- =?us-ascii?Q?GMUcfHP8h3IXmkrl0BWiPXWjif93c8497bDt7QUlvetV10IKOSHGVAn3SO6n?=
- =?us-ascii?Q?UxcPFTlnOatxpDPX8I6EGGPfWePexWKLFlUngsMI5K2mRcEt6M8M8keXeKXB?=
- =?us-ascii?Q?nCVmdNOUSCzE6iho8DZj8iHvIxU6lRyh+8/i8mHMuilZNGVRzOUvjrUkvmEO?=
- =?us-ascii?Q?iG93vHcRyy9edlPdsplAfM2dcjGW09Zej8EcFecbvWuvdy0L3AlVP3xCEyst?=
- =?us-ascii?Q?ar7kCPwzNhRfFBTk7bhiDPJP1geRRajbTwFpGj61gu2FgJlRkBFiCtr5GSML?=
- =?us-ascii?Q?jj5LUzi9ljbiwWox0DGBvBNNQJjBjEnMsi4cjiYE5RkGrb6plNnq44n5tMdN?=
- =?us-ascii?Q?swB5tFg+kRsT9rmpdK6sVvdZn9WEOnnKqwZ2tlaOQyRDbhDUV0xcxkdReC3W?=
- =?us-ascii?Q?KEPUJsdPY/HmTB5lhQn4TE6izFAtFweJR+MdCkSMa6UjQuwBhsLwdp3mSYMr?=
- =?us-ascii?Q?D6Zv730vH+tkJlm9bXufkT/sbBUmJy6iuLqi7iaHb+0cJFO+RRhQcwFglw8o?=
- =?us-ascii?Q?jNIRmEMYS8AQuK7Sf1UYDKkWbj7Cn9ggHxTsv4Ya?=
+	=?us-ascii?Q?XbnA7ApxdMPBH7CzjRM/u+Ad+V258t2ZSowE5ZJM2za4DWTjeJNxbMe+qQxY?=
+ =?us-ascii?Q?g8TPmEnuDt1jRAY1bhVhk2lL1YGUqqfXw15cDVp4j1/pxpPCILdPKIx3Bae3?=
+ =?us-ascii?Q?SvtEQP7d2SA8jQF1amJzPfB4wvGM4Lb+jDCqmfeeidW0qF4/+hBLBr2U+MZ6?=
+ =?us-ascii?Q?H0NouiaAnA6+MP0ka+tNjDOS2PvnmH3TOhqY5E6lBtRcD1VWJx5kPFo37bJv?=
+ =?us-ascii?Q?1PICN4XnNfVxUnUJVLhkZ2OVWXD5ejykj4A3+RG0bPIXARMDzEeOCOIMLhYc?=
+ =?us-ascii?Q?wST8hglMJ91RAS9F1vaBJ1h86mcXPOdyodhp6mEN7sMSsuQnvWGqpdPg1j0U?=
+ =?us-ascii?Q?sEZPZ0Qv2bX3na0QEReK3nHMxJTXgg2NhWjOZ6Cdy8i+VFDvHBeGzB78craI?=
+ =?us-ascii?Q?nKqzY4dMXLuDqrD7dhj1djTsHCV8oHWQorWIXvSzeP83535ed0i76xET/eyI?=
+ =?us-ascii?Q?mKQ9jQjn+FhRFG21lPs6B/RIfBjCow331A4TEj13ByWdIljM2eioCsySwIG3?=
+ =?us-ascii?Q?TXL0C9oI2rh2LrQOWLz/vjYe4l+Q0cVSBdw8CIDh6IwtSnCGTFZg9LRuBocB?=
+ =?us-ascii?Q?yYzUIldzOM+zAwEfhi+hL74wZDG4TmqlIzRp8T9MU072KwqrCM0mOM4jTdc6?=
+ =?us-ascii?Q?bh4naU7WKHrMec5oq3C2OjZqKsgMppIQZ6LMy9rGSWcmEgQLFHOrl1IYPpLg?=
+ =?us-ascii?Q?An3yJBsN+KocyMiEfGvqm85CAlBaGnGiWro8Yqpyw2qUSA2ED6P8UKlqMsIM?=
+ =?us-ascii?Q?BKjqpvPTS2wRKWO+uAI3+OMt7Oy+Pfm4B7nHGnGdUMrQwxE87rwyNRo1E7EB?=
+ =?us-ascii?Q?YNEc3WF9RE+dMj16GLRSARDr6k58KEY+Hzrt8qToFpIFdALUDCvSJQms24oD?=
+ =?us-ascii?Q?1BOp6YsPsXyiQgOwJ2WOYNCNwkxnoYIlr50GlCswvQXLSTICpI65yLaG8Dgt?=
+ =?us-ascii?Q?gX+2GDiI3u53aUCQHJvTPnQT0nRrlMtUm9ApMvROCjIMMLDXkH4v9NU8pUJi?=
+ =?us-ascii?Q?lU+qvDnnPktQ0e1dzJtoO/VzzICibCdesQNRFeSb0ydI411TNuQ/ZV2g33qL?=
+ =?us-ascii?Q?rCVxoBPFr1F86/2MD0zVQ4Ru11KYSkFCz4vdGJeCQn/CFVz31G+h6OS/oZ/Y?=
+ =?us-ascii?Q?/BexPMlus//JsSGyk6PBImWLUVcZ/xXqvnz+fsEsx15tv3a0d5IdF0fLNtm+?=
+ =?us-ascii?Q?+JPEmO9piiKKCKWYVjE2fzuk0bQuP/7mD0UdfveV0fntyrKaPOLxudegE1DQ?=
+ =?us-ascii?Q?2KdFRCjrTLfFee6kfc2RyDLnyCAVoxygKoWoTPHG18oWB1XjPzP8c2qrCReB?=
+ =?us-ascii?Q?xR8QkhH1vTLsZz4abuni6UASeMYb7CZPQ0eSEiP6PeUHwHg1oPva2XhJU16k?=
+ =?us-ascii?Q?+9LRMC9zKBYcouNzGsEPNNs52jEWoHvEN7gEUou5N5pOOP+p+wVJDJpnS3eU?=
+ =?us-ascii?Q?Psr3ZSYEbRDYE2cOM7ObLVp2h9yqWF9Et+CTifKosh3VvYOuNW9Xo9XQsOJY?=
+ =?us-ascii?Q?iaR6DrVKny6zrGrXopn/gi2lSeuROwpzzNc3Fguz/gbbhM1fB4S8ybfdRhiO?=
+ =?us-ascii?Q?iIt1mLtcyZWgoYIg/b6h3S5cKD2WEILL+nl3CYli?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75dc08bb-e3e6-41a9-5363-08dd7d5b59d8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a1f9bb7-68ef-4eb3-0f57-08dd7d5b5b46
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2025 02:55:46.1385
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2025 02:55:48.6024
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mFqBURAgVL5KxiSUHK40Qt2rtA8OgMC68I/J9l7akU+MYxqgUGoW9M5bMk2PzticiN2P5BW3keijJGeQhQ/yKQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: uvR8lmKE5V4FddLEprubrmVSMrNvNYis8Wfhsf9iI6h/LMsVvq5JF1lJ7jW6jk+lbtDH2/N8/hc6cwP6gckphg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7935
-X-Proofpoint-ORIG-GUID: 7cdpVwBgkNiVZVwYbuPwmWuRkwm7-M0y
-X-Authority-Analysis: v=2.4 cv=Wd0Ma1hX c=1 sm=1 tr=0 ts=68006db5 cx=c_pps a=Dwc0YCQp5x8Ajc78WMz93g==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
- a=t7CeM3EgAAAA:8 a=GKLAf4bjMrQHtVmP0GYA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: 7cdpVwBgkNiVZVwYbuPwmWuRkwm7-M0y
+X-Proofpoint-ORIG-GUID: zU0dvj8aHK4KzLTzppGGR74gi3Wdj8Et
+X-Authority-Analysis: v=2.4 cv=Wd0Ma1hX c=1 sm=1 tr=0 ts=68006db6 cx=c_pps a=Dwc0YCQp5x8Ajc78WMz93g==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=GwUem0DFAAAA:8 a=t7CeM3EgAAAA:8 a=99BbB_j3FNS7aohJxzYA:9 a=4f0m0rT7cLEA:10 a=r0dl5i_q2XGqDZkti5dn:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: zU0dvj8aHK4KzLTzppGGR74gi3Wdj8Et
 X-Sensitive_Customer_Information: Yes
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
@@ -143,42 +143,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 02:55:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215028
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215030
 
 If autogen.sh is run outside of a git repo, the find-version function
-always assumes that libgcrypt is a beta version and adds the suffix
+always assumes that libassuan is a beta version and adds the suffix
 '-unknown' to the version number.
 
 Befor the fix:
-$ mpicalc --version
-mpicalc 2.0
-libgcrypt 1.11.0-unknown
+$ cat /usr/lib/pkgconfig/libassuan.pc
+[snip]
+Name: libassuan
+Description: IPC library for the GnuPG components
+Requires.private: gpg-error
+Version: 3.0.2-unknown
+Cflags: -I${includedir}
+[snip]
 
 After the fix:
-$ mpicalc --version
-mpicalc 2.0
-libgcrypt 1.11.0
+$ cat /usr/lib/pkgconfig/libassuan.pc
+[snip]
+Name: libassuan
+Description: IPC library for the GnuPG components
+Requires.private: gpg-error
+Version: 3.0.2
+Cflags: -I${includedir}
+[snip]
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
  ...p-unknown-suffix-from-version-number.patch | 35 +++++++++++++++++++
- .../libgcrypt/libgcrypt_1.11.0.bb             |  1 +
+ .../libassuan/libassuan_3.0.2.bb              |  1 +
  2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-support/libgcrypt/files/0001-autogen.sh-drop-unknown-suffix-from-version-number.patch
+ create mode 100644 meta/recipes-support/libassuan/libassuan/0001-autogen.sh-drop-unknown-suffix-from-version-number.patch
 
-diff --git a/meta/recipes-support/libgcrypt/files/0001-autogen.sh-drop-unknown-suffix-from-version-number.patch b/meta/recipes-support/libgcrypt/files/0001-autogen.sh-drop-unknown-suffix-from-version-number.patch
+diff --git a/meta/recipes-support/libassuan/libassuan/0001-autogen.sh-drop-unknown-suffix-from-version-number.patch b/meta/recipes-support/libassuan/libassuan/0001-autogen.sh-drop-unknown-suffix-from-version-number.patch
 new file mode 100644
-index 0000000000..4870d4467b
+index 0000000000..5aff687e97
 --- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/0001-autogen.sh-drop-unknown-suffix-from-version-number.patch
++++ b/meta/recipes-support/libassuan/libassuan/0001-autogen.sh-drop-unknown-suffix-from-version-number.patch
 @@ -0,0 +1,35 @@
-+From 028305ba9ad7769d6f1747a4945949ced8761ba9 Mon Sep 17 00:00:00 2001
++From ecf05e7794edd56c6ff1cd7b14154e647dd0d787 Mon Sep 17 00:00:00 2001
 +From: Yi Zhao <yi.zhao@windriver.com>
 +Date: Tue, 15 Apr 2025 15:32:58 +0800
 +Subject: [PATCH] autogen.sh: drop '-unknown' suffix from version number
 +
 +If autogen.sh is run outside of a git repo, the find-version function
-+always assumes that libgcrypt is a beta version and adds the suffix
++always assumes that libassuan is a beta version and adds the suffix
 +'-unknown' to the version number. This should not work for users who use
 +tarball and re-run autoconf in build directory.
 +
@@ -190,10 +200,10 @@ index 0000000000..4870d4467b
 + 1 file changed, 2 insertions(+), 2 deletions(-)
 +
 +diff --git a/autogen.sh b/autogen.sh
-+index 9b36158..4b2e657 100755
++index 0b08e8b..0c5e425 100755
 +--- a/autogen.sh
 ++++ b/autogen.sh
-+@@ -265,8 +265,8 @@ if [ "$myhost" = "find-version" ]; then
++@@ -284,8 +284,8 @@ if [ "$myhost" = "find-version" ]; then
 +       rvd=$((0x$(echo ${rev} | dd bs=1 count=4 2>/dev/null)))
 +     else
 +       ingit=no
@@ -201,24 +211,24 @@ index 0000000000..4870d4467b
 +-      tmp="-unknown"
 ++      beta=no
 ++      tmp=""
++       cid="0000000"
 +       rev="0000000"
 +       rvd="0"
-+     fi
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb
-index ea1f34e8ce..712d2157f6 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb
-@@ -24,6 +24,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
-            file://no-native-gpg-error.patch \
-            file://no-bench-slope.patch \
+diff --git a/meta/recipes-support/libassuan/libassuan_3.0.2.bb b/meta/recipes-support/libassuan/libassuan_3.0.2.bb
+index f0b7746284..e4e903366f 100644
+--- a/meta/recipes-support/libassuan/libassuan_3.0.2.bb
++++ b/meta/recipes-support/libassuan/libassuan_3.0.2.bb
+@@ -18,6 +18,7 @@ DEPENDS = "libgpg-error"
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/libassuan/libassuan-${PV}.tar.bz2 \
+            file://libassuan-add-pkgconfig-support.patch \
 +           file://0001-autogen.sh-drop-unknown-suffix-from-version-number.patch \
-            file://run-ptest \
-            "
- SRC_URI[sha256sum] = "09120c9867ce7f2081d6aaa1775386b98c2f2f246135761aae47d81f58685b9c"
+           "
+ 
+ SRC_URI[sha256sum] = "d2931cdad266e633510f9970e1a2f346055e351bb19f9b78912475b8074c36f6"
 -- 
 2.34.1
 
