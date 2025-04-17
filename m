@@ -1,148 +1,144 @@
-Return-Path: <chuckwolber@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F28DC369C7
-	for <webhook@archiver.kernel.org>; Thu, 17 Apr 2025 04:39:25 +0000 (UTC)
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
- by mx.groups.io with SMTP id smtpd.web10.1490.1744864758873676390
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A64D5C369B2
+	for <webhook@archiver.kernel.org>; Thu, 17 Apr 2025 06:37:35 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.2692.1744871846484584957
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Apr 2025 21:39:19 -0700
+ Wed, 16 Apr 2025 23:37:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NICu8HeZ;
- spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: chuckwolber@gmail.com)
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3d5bb2ae4d3so1510915ab.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 21:39:18 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Mw0Qg0qB;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43cebe06e9eso2979525e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Apr 2025 23:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744864758; x=1745469558; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=O6wEljnZumLG3+kDqxYFumXDhxJfzVusBHBqIcnuYSY=;
-        b=NICu8HeZ6hAoofCtI8AsVmeZiSoqpPEtwNvW/Fx/Hy9UEf5jtlNeehM2evQnJMYPMY
-         OBcAh+XeW1ePifEQ6VMbmaarRHkEZvxSMwh9HXO+b1piAa/C7IYpqPx9Oask3JFEYNFf
-         5dkuUpuGFw9zySlNwToy7bBviwTKItTB3evFYDE3K5G5nPFfhbare+QdjVwZVoc0lNAE
-         rTgnRV3B+cPrCmc8HdhR6DwPElctY6Uoj/v4hbFWQIBySeVwoYK+kFLp2jO7fmtySxVf
-         azyoIJFFMmBlkawZaTBnZidurpiBVVAKzDlXB6pGvcXw5aKGzlNBCfx9W5DPmN8+SWtz
-         IWIA==
+        d=smile.fr; s=google; t=1744871845; x=1745476645; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=czXURcUtMdyS2/HHFxerKavRK57uxsNJZ8pxJuj2kKA=;
+        b=Mw0Qg0qBXzApayItbk6rNW+IIEHVb5dzhbITDrnBCwB8zQvLlob5xVhqoIcAvSOyW2
+         tcHhfqcNKKGGOsmi5pcc4CIhTBBwKr5j1BvA/s2gsxivLW91IQKSAATBxyx2EBe6FsXg
+         YZZkqIVPH3mHV+tN+515qfVCNQfV37VX6E+fE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744864758; x=1745469558;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O6wEljnZumLG3+kDqxYFumXDhxJfzVusBHBqIcnuYSY=;
-        b=Fwiva8DY3WlqMF+hZc4/s+zK+BrRXx1SZPcxm/iwScnunJuapw9tzdJJtRnIb6Nrct
-         DgIHsDR4qeCI3AaKAvFH9t643ujEPXL24k66JYrWdNXx/pZmrlSaNNt9P1di4KUtuTYz
-         JsPqS+L0tf6vxk7XBB8giHxbaY7LjF5AgAN9U7gwatvfVsCcWLp92YnU7FC5KLMFa4QA
-         +1etedd94srEJKYLoab63FgUG08LSyhOufkrTgU4ik7qikfg2NmTHVN9J0U/mcjnitJ7
-         hrZhSzwUjsFVUynnjaPHMp8+yyI76PfnpNHpZkoIkF5JUKxEMqedk5YFCJeyNl1yH6II
-         oEFA==
-X-Forwarded-Encrypted: i=1; AJvYcCXww4woEmPFmGgcVeNKifXB96X87wky/U2wPY9L9NGSaVeUNVLF2MIHTzrqcwQit/n7TmMyXE70+eRBeDVAT02rjQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwyU6WCxn/+Hpj8Pul2fZBb9rODtwuLauPR/h7SARIjjzTDqclO
-	TAZJxIRc5y8OoBzZmY8zwelRArqXcIkyMhmepjxB2qNfOw2Sa9OFddcPGw+Y1jt8SGIeB8MEWEP
-	W40LrBtUOpXiAPLn1cQCiIKQYNV8=
-X-Gm-Gg: ASbGnctAAgC8o/pNIsk8MDKOZaf7nAtFhuzoG9b2gKA4VfDSiTkkYwiPvZSn5dPvJEv
-	emV+5uksHF4wbh61phUN5/rlJSo4TEXo2r29JYQ1GUpKFNpxZMc/f96QiOYsjgzAJ6u18jVkX5R
-	zxmFpLkkHxfawiCpETEESf1n9iMVieOQfYscGWbkfdVJJEka+4q4wRmyE=
-X-Google-Smtp-Source: AGHT+IEx/je37EIYgC7Hd0WsMqwDr6iezqeE62dTXblYYiOk3QeVed7PwxW2D+zMBaFgbev9bR5POLrQEfmtOQoAAis=
-X-Received: by 2002:a05:6e02:1524:b0:3d0:47cf:869c with SMTP id
- e9e14a558f8ab-3d815b6a852mr50468595ab.19.1744864757917; Wed, 16 Apr 2025
- 21:39:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744871845; x=1745476645;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=czXURcUtMdyS2/HHFxerKavRK57uxsNJZ8pxJuj2kKA=;
+        b=lw1roaZ+knuzpyj3zDujCtnAFrrUCtfc75YLZVaqkNBMZtt4ADohCKvQZe159471M5
+         v21KVSSA0T7ISbgKeqKRHyKXrrGNM7xEt0SsXXQsyyI6KWOPJCY/B7RGAceSok1ib0pN
+         EjYVvwkTrMMVbn2TjdIVFiwPAs/s6cS/fVloyVAUd5FgmwQW56hMHi5xMGaWgfSjsQCc
+         Lso2HvbOOGLBxbQggZ365zvwyJV+jgHf8I4CtqevINtjTI6TtyU4NuylhPEXXFGwEuAS
+         eFSt8dJ3u+YDIWrlyoTJ71+9Yb75767+2CpH+nfjbMMlNDShaZSfha6BZhGBhLLohtxS
+         Apyw==
+X-Gm-Message-State: AOJu0YyBkNnZuwjFaDdWjGZVV8uDX8gGdLO3cRiSOe3Z0egeLXc/YVtg
+	CkiBx+7Up0ZuLTxXHHTXoLGoPqg/n7aCYdPPcH7m060DVdeCNEBdg4YkfIsfYJcBCYSN4Y7rsbe
+	dPBVIQD4d8blTZ5SvSf3K1YmngfklUgN1zuRqJQ==
+X-Gm-Gg: ASbGncuIxHPUalAyHVBlptQz5DqxViSiNvmHBSEWlgnyCTtNwga/tL7tom+MCcqckur
+	WXmh179PTWjKd8d90/eGF/1yTKB+qUcsnbMJQDkZ0XXKkZZ6JITFViheJl7oPu++M36Vxrt4ytc
+	Ltvcmvxbw8Bn2u3QABYqZdX5nahuxCmk1T5oBxpPODf/XXWR25XcSra5+R
+X-Google-Smtp-Source: AGHT+IFvwMAfV86z5C8H+JboCTAipyVk312ua7yLBEieYXIvYn/gVz2Mf/CL7s7FS5OWTyNebbBJGIIXy2ymjFYZ3I4=
+X-Received: by 2002:a05:600c:1c8e:b0:43d:26e3:f2f6 with SMTP id
+ 5b1f17b1804b1-4406113f310mr23750985e9.5.1744871844780; Wed, 16 Apr 2025
+ 23:37:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250416164134.399-1-thune.a.tran@boeing.com> <dd0877909b1240d999dae6979ce1efa269180173.camel@linuxfoundation.org>
-In-Reply-To: <dd0877909b1240d999dae6979ce1efa269180173.camel@linuxfoundation.org>
-From: Chuck Wolber <chuckwolber@gmail.com>
-Date: Wed, 16 Apr 2025 21:39:00 -0700
-X-Gm-Features: ATxdqUEetRzdUA-bm_fzI-xufD7V_P3c-CHRGmJmdkbVgi_RK-SXqeplB1Z_W0Q
-Message-ID: <CAB=6tBQsqNJBqFsocxDQM9sOwz5S3w5HqkOO2cLuvH8OmSQ4kA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oeqa/sdk/sdktest: Add test discovery across layers
-To: richard.purdie@linuxfoundation.org
-Cc: thune.a.tran@boeing.com, openembedded-core@lists.openembedded.org, 
-	Chuck Wolber <chuck.wolber@boeing.com>
-Content-Type: multipart/alternative; boundary="00000000000013b7d00632f1fc8e"
+References: <183683467BE332EC.10767@lists.openembedded.org> <CAApg2=RZpHZFTu372tKwzsLH6Y7URR5AjW=v2XnT3=YFBuwDiA@mail.gmail.com>
+In-Reply-To: <CAApg2=RZpHZFTu372tKwzsLH6Y7URR5AjW=v2XnT3=YFBuwDiA@mail.gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Thu, 17 Apr 2025 08:36:57 +0200
+X-Gm-Features: ATxdqUEkdO4UQEFlPGPiW5m79vx7iiS-pRraSQDyQ7Br4bDgsylmoXQ6lZm22Y0
+Message-ID: <CAMSfU+7=ka38pQo1j5DFSVqDBrMk=aL8241fg2_+LvV_j7YUgw@mail.gmail.com>
+Subject: Re: [yocto-security] [OE-core] VulnCon take-aways: NVD et al
+To: rybczynska@gmail.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	yocto-security@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 04:39:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215038
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 06:37:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215039
 
---00000000000013b7d00632f1fc8e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Wed, Apr 16, 2025 at 3:07=E2=80=AFPM Richard Purdie via lists.openembedd=
-ed.org
-<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-
-%< SNIP $<
-
+Le mer. 16 avr. 2025 =C3=A0 06:51, Marta Rybczynska via
+lists.yoctoproject.org <rybczynska=3Dgmail.com@lists.yoctoproject.org> a
+=C3=A9crit :
 >
-> I suspect this causes some regressions in our automated testing
-> unfortunately:
+> Hello,
+> And as a follow up, MITRE's funding (so the CVE program) is uncertain aft=
+er April 16th : https://www.securityweek.com/mitre-signals-potential-cve-pr=
+ogram-deterioration-as-us-gov-funding-expires/
+
+Following up on this, it looks like MITRE is safe (for now) :
+In last-minute reversal, US agency extends support for cyber
+vulnerability database | Reuters
+https://www.reuters.com/world/us/us-agency-extends-support-last-minute-cybe=
+r-vulnerability-database-2025-04-16/
+
+On a related note, in the follow-up discussions[0], I learned about
+https://euvd.enisa.europa.eu/ (a european NVD equivalent it seems,
+still in beta).
+It might be early for the Yocto project but maybe it can become a
+serious, long-term alternative?
+
+Regards,
+
+[0]: https://www.openwall.com/lists/oss-security/2025/04/16/6
 >
-> buildtools:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/43/builds/1396
+> Interesting times ahead.
 >
-> meta-mingw:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/7/builds/1430
-
-
-Would it make more sense to add self.context_executor_class.default_cases
-to the list of paths returned by get_sdk_paths?
-
-..Ch:W..
+> Regards
+> Marta
+>
+> On Tue, 15 Apr 2025, 16:10 Marta Rybczynska via lists.openembedded.org, <=
+rybczynska=3Dgmail.com@lists.openembedded.org> wrote:
+>>
+>> Hello,
+>> VulnCon is a conference on vulnerability management and related subjects=
+ and was held last week.
+>>
+>> My take-aways:
+>> - NVD situation is unlikely to change short-term
+>> - CVE programme is adding new features to the specification, but they ar=
+e unlikely to make machine-readable identification mandatory (in general: a=
+nything that puts more work on CNAs)
+>> - there were discussion on standardizing end-of-life descriptions
+>> - discussed purl identification and confirmed (in a panel question) that=
+ it currently doesn't work for patched software or software with no package=
+ manager. Some options are possible like the github schema, but not in all =
+cases.
+>> - next time it would be better to have more important representation fro=
+m vulnerability data users, and present more real-world problems, especiall=
+y in the embedded space.
+>>
+>> Videos from most talks will be available in around one month,
+>>
+>> Cheers
+>> Marta
+>>
+>> PS My blog post https://ygreky.com/2025/04/vulncon-2025-impressions/
+>>
+>>
+>>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#1384): https://lists.yoctoproject.org/g/yocto-securit=
+y/message/1384
+> Mute This Topic: https://lists.yoctoproject.org/mt/112290369/4316185
+> Group Owner: yocto-security+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/yocto-security/unsub [yoann=
+.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
 
 --=20
-
-
-
-*  Opinions expressed are my own. | --------------------------------|------
-"Perfection must be reached by degrees              she requires the slow
-hand of time."                                 |       -Voltaire*
-
---00000000000013b7d00632f1fc8e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:monospace">On Wed, Apr 16, 2025 at 3:07=E2=80=AFPM Richard Purdie =
-via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &l=
-t;richard.purdie=3D<a href=3D"mailto:linuxfoundation.org@lists.openembedded=
-.org">linuxfoundation.org@lists.openembedded.org</a>&gt; wrote:</div><div c=
-lass=3D"gmail_default" style=3D"font-family:monospace"><br></div><div class=
-=3D"gmail_default" style=3D"font-family:monospace">%&lt; SNIP $&lt; <br></d=
-iv></div><div class=3D"gmail_quote gmail_quote_container"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-I suspect this causes some regressions in our automated testing unfortunate=
-ly:<br>
-<br>
-buildtools:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/43/buil=
-ds/1396" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/43/builds/1396</a><br>
-<br>
-meta-mingw:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/7/build=
-s/1430" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/valkyrie/#/builders/7/builds/1430</a></blockquote><div><br></div><di=
-v><div style=3D"font-family:monospace" class=3D"gmail_default">Would it mak=
-e more sense to add self.context_executor_class.default_cases</div><div sty=
-le=3D"font-family:monospace" class=3D"gmail_default">to the list of paths r=
-eturned by get_sdk_paths?</div><div style=3D"font-family:monospace" class=
-=3D"gmail_default"><br></div><div style=3D"font-family:monospace" class=3D"=
-gmail_default">..Ch:W..</div><br></div><div>=C2=A0</div></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr"><div><b><span style=3D"font-family:monospace">=
-=C2=A0 Opinions expressed are my own. |<br>=C2=A0--------------------------=
-------|------ &quot;Perfection must be reached by degrees<br>=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 she requ=
-ires the slow hand of time.&quot;<br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -Voltaire</span></b></div></di=
-v></div></div>
-
---00000000000013b7d00632f1fc8e--
+Yoann Congal
+Smile ECS
 
