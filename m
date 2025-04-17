@@ -1,114 +1,144 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <lw@hqv.ch>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A921C369B2
-	for <webhook@archiver.kernel.org>; Thu, 17 Apr 2025 09:11:26 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.4535.1744881083016298052
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5495C369B2
+	for <webhook@archiver.kernel.org>; Thu, 17 Apr 2025 09:19:06 +0000 (UTC)
+Received: from amphora.sui-inter.net (amphora.sui-inter.net [80.74.147.33])
+ by mx.groups.io with SMTP id smtpd.web11.4628.1744881543715793545
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Apr 2025 02:11:23 -0700
+ Thu, 17 Apr 2025 02:19:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=m02cnUs1;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-39141ffa9fcso671249f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 02:11:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744881081; x=1745485881; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sYG3HjPKZZvVKZ3I1MCoZ7CB3C533uCyu9mCsN+tw2E=;
-        b=m02cnUs1ZnskKsYYSKg84RheqaSwaHappgw1yusDzxb3ovR64ZJ0fnQm0/j5QFNe+Z
-         hTZ6q1zbWe2mpoul6OCuyLJ0S7OADGftIrqe8q+GPI7MF+Lmq18XsB5Gp5KKjxSraVPH
-         yONWL4JFPwuHlYEu3Sux5/2rJnqmSKbB5ZGWKivZsGvd9tZAYHJJl39wwo15BLn+Z3YK
-         Pc0pXMms0uPaxjWw/zeJIoH0a0xZDkHOQ2HB3hV7t8OSXgkXOmR9DXQliuLJH4zuq9sC
-         Umbt2J0c7rH3gZQsuQnIJ5cNyOi3srbclOAFJBUfhPn2cdBDfuVTwqUigTwXRE0F6ytf
-         xK1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744881081; x=1745485881;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sYG3HjPKZZvVKZ3I1MCoZ7CB3C533uCyu9mCsN+tw2E=;
-        b=BWU97PoLfB4Ov6MwhsC+uhEee2a2+iOqHBx3wO166721FcZ6rPqQIEbM8lniwRjiLM
-         Rj7J1QcK1gplAdnUsO21ZFNNeH9hCNXQO+u6VStgYbxLtYtAXlgFy1H6w5uZSRSaD8I+
-         V3UgD6f5VU0JbxrGxR/SfB8nGJEirOSMHgYuwOwU2JLZfwSUtZrooBpAp1O8HDdw7ZfJ
-         tKf+bWWYeHCpkpkhkhajy64BxUG86EGuujKUjHxhKOyuMgi1NPJ4CE5KKQCMvmGT6/eL
-         Dtb+PWi55hdTBxSjVlWI2Jvf4Z5pZQz4wE3JNUjWmcP0sivcxVi1BDNizT0fw4oo8DuK
-         70WA==
-X-Gm-Message-State: AOJu0Yxjs+SHXoLYl9rdhBb8tbN9G7KgtaVXeJorkOBCI++2GV1NwA3a
-	Txkhql+k/nuVZfaLkxJN8Gz6l8SxVQiFVf5T02BHe+UsDtxjdve5vLILfrkv
-X-Gm-Gg: ASbGnctxGFCLGa6xCv7eIqTSzK/LyWMvE3X+qDtQ8q46t8qvVdOZDgBDt1XiP46okzv
-	IW40YsZb0Yys3kDxWhu0iw36J2RMI5xob+FtUCzN/bwo/XFD2nPcUYYD6Rp3bFk9ZkexNrMqMyS
-	MhSV/2KskBjNndUcIbo3oQoEqp8CbdRSsBzWO7EAWct6F9qrO/i+6rnyVay6ox0HwS+p7rZT5SI
-	u/A6tgyBbBtLJjJ8ekCYMprYVIQ+Cpu//VmQxk/BBQhhhBxMhWeywTWVOzNBFMADlb7gnoQls7Z
-	sElQZ1GTliL+rll2r6yv1aQOslWh8vgGcbvOp3cmaLewbW1D
-X-Google-Smtp-Source: AGHT+IH/lalv/6pcrIdd7ttWNFubMQEnarW/FDCtr4rGFGit6VQv+1MFZ3Gi4irzdJQ93rgqY3tNbg==
-X-Received: by 2002:a05:6000:1ace:b0:39c:13fa:3eb with SMTP id ffacd0b85a97d-39ee5b8935fmr4912000f8f.39.1744881080820;
-        Thu, 17 Apr 2025 02:11:20 -0700 (PDT)
-Received: from toster.lan ([185.228.163.64])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae96cfdbsm19255510f8f.40.2025.04.17.02.11.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Apr 2025 02:11:20 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Igor Opaniuk <igor.opaniuk@foundries.io>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][scarthgap][PATCH] wic: bootimg-efi: Support + symbol in filenames
-Date: Thu, 17 Apr 2025 10:11:00 +0100
-Message-ID: <20250417091059.1412-2-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.49.0
+ dkim=none (message not signed); spf=none, err=permanent DNS error (domain: hqv.ch, ip: 80.74.147.33, mailfrom: lw@hqv.ch)
+Received: from [10.20.1.252] (localhost [127.0.0.1]) by amphora.sui-inter.net (Postfix) with ESMTPSA id 5E914968226A
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 11:19:01 +0200 (CEST)
+Authentication-Results: amphora.sui-inter.net;
+        spf=pass (sender IP is 85.195.220.82) smtp.mailfrom=lw@hqv.ch smtp.helo=[10.20.1.252]
+Received-SPF: pass (amphora.sui-inter.net: connection is authenticated)
+Message-ID: <fca110ec-3292-4074-9b80-57ebb6e358b6@hqv.ch>
+Date: Thu, 17 Apr 2025 11:19:00 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] python3: Allow to specify which pyc files to keep
+To: openembedded-core@lists.openembedded.org
+References: <CANNYZj9r9D7PzkGm-5tPQVTyU_MkyQngS+RbZii6+4YToGNLVg@mail.gmail.com>
+ <31851.1744290321098835072@lists.openembedded.org>
+ <CANNYZj8JQf8tzC2g7k__TM0B967-szdV=4gt_-tBcNjXL65mXw@mail.gmail.com>
+ <73578c4c-6107-4fac-ab34-9f065db39d81@topic.nl>
+Content-Language: en-US
+From: Lukas Woodtli <lw@hqv.ch>
+In-Reply-To: <73578c4c-6107-4fac-ab34-9f065db39d81@topic.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 09:11:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215044
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 09:19:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215045
 
-From: Igor Opaniuk <igor.opaniuk@foundries.io>
+The hardware you describe closely resembles our latest Linux-based 
+product. Unfortunately, we need to work with such outdated and 
+constrained technology.
 
-Allow the '+' symbol as a valid character in filenames listed in the
-IMAGE_EFI_BOOT_FILES variable.
+Regarding the compilation and optimization of Python files:
 
-The '+' symbol might be used to support boot counting for boot entries,
-as described in the UAPI Boot Loader Specification [1]:
+We need the files to be pre-compiled at build-time. Otherwise, the 
+initial startup of the device takes too long due to the compilation 
+process and saving the compiled files to the flash. This slows the 
+system down to the point where our services are killed by the watchdog.
 
-The boot counting data is stored in the name of the boot loader entry.
-A boot loader entry file name may contain a plus (+) followed by a
-number. This may optionally be followed by a minus (-)
-followed by a second number. The dot (.) and file name suffix
-(conf or efi) must immediately follow.
-Boot counting is enabled for entries which match this pattern.
+Asserts should not be active in the production build. They are not a 
+replacement for proper error handling. Disabling asserts in release 
+builds is considered best practice, regardless of the programming 
+environment. In my experience, this approach works also well with Python 
+projects.
 
-Example:
-IMAGE_EFI_BOOT_FILES:append = " entry.conf;loader/entries/entry+3.conf"
+Removing docstrings is more critical. Some packages require docstrings 
+to be available at runtime in the native Python interpreter on the build 
+hose. However, we have not encountered any issues removing them on the 
+target device. This results in a small saving in storage space, but we 
+take every bit.
 
-[1] https://uapi-group.org/specifications/specs/boot_loader_specification/#boot-counting
-Signed-off-by: Igor Opaniuk <igor.opaniuk@foundries.io>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3f25822281eb9423ff86105eaebb0bed48663648)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- scripts/lib/wic/plugins/source/bootimg-efi.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We will also consider removing all .py files and relying solely on 
+optimized .pyc files.
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 7cc5131541..37d07093f5 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -245,7 +245,7 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-             # list of tuples (src_name, dst_name)
-             deploy_files = []
--            for src_entry in re.findall(r'[\w;\-\./\*]+', boot_files):
-+            for src_entry in re.findall(r'[\w;\-\.\+/\*]+', boot_files):
-                 if ';' in src_entry:
-                     dst_entry = tuple(src_entry.split(';'))
-                     if not dst_entry[0] or not dst_entry[1]:
--- 
-2.49.0
+I have implemented the necessary optimizations internally, as there does 
+not seem to be sufficient interest in supporting them upstream.
 
+One could argue that Python is not the ideal technology for such a 
+limited device, but that's another story...
+
+Regards,
+Lukas
+
+
+
+On 11.04.25 10:55, Mike Looijmans via lists.openembedded.org wrote:
+> On 10-04-2025 16:31, Alexander Kanavin via lists.openembedded.org wrote:
+>> On Thu, 10 Apr 2025 at 15:05, Lukas Woodtli via lists.openembedded.org
+>> <lw=hqv.ch@lists.openembedded.org> wrote:
+>>> The reason to use these features of the Python interpreter is that 
+>>> we develop for
+>>> resource restricted devices. The target device should not need to 
+>>> compile the Python
+>>> files to byte-code at runtime (which happens regardless of the 
+>>> optimization level).
+>>> We can do this work at build time. Moreover, Embedded devices usually
+>>> have restricted storage size. So using the optimization level 2 for 
+>>> pyc files is sensible.
+>>> Most embedded devices don't need the docstrings in the Python files 
+>>> (simmilar to
+>>> not needing the man pages). So we can get rid of them (that is what 
+>>> optimization
+>>> level 2 does, apart from disabling asserts).
+>> Most embedded devices also need to be robust. Lest you forget, python
+>> and its extensions are written in C, and asserts prevent what is
+>> over-generously termed 'undefined behavior', with a loud crash. Which
+>> is a feature some people find useful. Can you demonstrate speedups?
+>>
+>> Docstrings argument as well needs to be substantiated with numbers.
+>> How much space is actually being saved?
+>>
+>> Is there anything else to these optimizations? Is it documented
+>> anywhere? How can we know if it changes over time, with new python
+>> releases? I feel like this needs to be considered far more carefully
+>> than you have so far.
+>
+> Getting a deja-vu feel here... We've used a similar approach in the 
+> past for OpenPLi, as we had to cram the full DVB settop box GUI 
+> firmware into 32MB NAND flash for some boxes.
+>
+> The impact of the "optimization" on runtime performance was 
+> negligible, and we're talking about 200-400 MHz MIPS CPU systems in 
+> those days.
+>
+> Python's optimization level 2 is sure to break things. Quite a large 
+> software base uses asserts and docstrings for their internal purposes. 
+> One might argue that that is "broken", but that's not something that 
+> can be fixed from this side...
+>
+> We didn't experience any ill effects from optimization level 1, so the 
+> we just patched the Python stuff to just always use that, regardless 
+> of the file extension being pyc.
+>
+> As for space savings, the best thing was to omit the "py" files. That 
+> results in more than halving the space required. To accomplish that, 
+> we split the packages and put all "py" source files into a "-src" 
+> package. So on the end product, only the pyc files got installed and 
+> developers could optionally install some -src packages if they wanted 
+> to hack on the box itself (the major advantage of using Python).
+>
+> M.
+>
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#214720): https://lists.openembedded.org/g/openembedded-core/message/214720
+> Mute This Topic: https://lists.openembedded.org/mt/112186823/9160547
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [lw@hqv.ch]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
