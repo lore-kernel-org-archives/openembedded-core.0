@@ -1,239 +1,182 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3447C369AB
-	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 11:29:16 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.59])
- by mx.groups.io with SMTP id smtpd.web11.9940.1744975753258146655
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6527C369CB
+	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 11:39:56 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.10045.1744976394516385643
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Apr 2025 04:29:13 -0700
+ Fri, 18 Apr 2025 04:39:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=AfZBqPOB;
- spf=pass (domain: cherry.de, ip: 40.107.20.59, mailfrom: quentin.schulz@cherry.de)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6203b7563d=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53I8VlKV006508
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 11:39:53 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2040.outbound.protection.outlook.com [104.47.56.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45ydd1qke6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 11:39:53 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gGqwJO9otXrqwKbSeqUZ3XZcEYZGFQlaMnV2j0zKNNV95COKg66R9hehzGKzXGSGEpqRrDrNrKSdXeuREyN9yHdsOak5B8tygsdwwf6PM6GmDNR3l6sWa7Z0afpw6G4dcvnGB+hrHhbQiY+U7OUeVCGfoBJuRsyhC1STdOn+nt2vVnf5wnBW6l3zP7PHM04pYiVUJ9LhHkyKcCKfxJ6+Nc/AxTksUe+gVrx6O8Pf/GIfXRoZqGJvxXn4oAi4IkRnaZlffdfh2HCccP7/rktoEztaIE+uoTki0cUdxfj3b9HzPEKEOuN/BCdA+A8u22Ix/82tmlzhO1rylvlrlMHoHQ==
+ b=n8ssPCB6ZH7YHOzTqsToPXMZSUKoV1/ZuNTw+uY1JL0gHWdGOdmkkUY/0zM3TJAA8+BdCBvG/EFPnLmwjdTSgCg03DtP+3qhiw1Fk0vlt+7DWAuS35MSgxTu8Vt43quv0XBpNr1+w+y+d0JC1Kswg3VW/VJwZLHG+3atU1SfF/WFVsmaVJU6yqFavOI+K23ErT3Y6fqcaaN2fCo6EYF14Sf1BfdVE4g1X+8Yhq5I6r2VWpvUtRwo/xuoXV56loqmCJtyb0Socsu3Tn1quBRIMrThpBIpcwlTBwaZueUJkNl8tZ/9MB5A9pMFpgqoNHDAQQkoRAWD1iguvaJP3lqhRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QR+N3A1hluHMrYtqX+SdgVyJzS0nNZEb7gHT0zYbRIM=;
- b=VvT8W3gEee5Dw90l/DdQ0rJZ8jFT8EtN6uVd3uz+VJpjyQ6oEqlrQExoqdS/IszmzkEifQ2qIMY9kiVdPF0RHxuDM3rSR+gjJSgr9JQECSYVZJQkDrwzOxo6PpzzVrY1viapQbOCeE0oRb1rNhMmb2QOqDpRMISYhhoMJzyEuRlF9UxgtD1pcNzxC+N2MIqOaFj3d9Ttmt/n1Vy7h4MYCsVu7lOJJKJNBFkU3oCCo0Mg1gi/qxfGU8hc0tkXSHwk0hwVt9ZMsV/16Ha66XJenLLvap0mrlnw8bbkR7YAYc+fEbY1gdyOKvuEtNblWzrpCBAfsg1O3DI8UGAA6YIvzw==
+ bh=ANtLLH/UROohxLckZstMQFTOlh/RaT/MT6YrHAZCJTw=;
+ b=LnmvpwlOkBLsv9rd1RZ+4zNyk44QlxDBeGCTMfoSoWZaLoEXumLA/6e8MIpsQjUF1aWiF9anxn0lYg+JtEIXPPEhva2lFHKD35GPwvqpHCQ9uPZs3uygZNDN6donpneeSlLklG1jBjJmp7I2+6KbCfLC6/JtjUXOKja52DQ7QurtZEg2UgcFeVjmdQ+UcdbUN0IWtaTCqOinCAiLG+mLmP4U0AV+UK7s2WHS64sOMGsmvkGQLAgOa2/VwMwILa7yBidgEp4SIsdG/HCx9Dlbw0F5eONCpo7Fsy/hkQgCEVQcwkj336nMyRH+dEM6l1jtBxbk2as64JF/Fz7OGQA8iA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QR+N3A1hluHMrYtqX+SdgVyJzS0nNZEb7gHT0zYbRIM=;
- b=AfZBqPOBXi3+MhK3/zhO9RDrAW8tGQsLAMdn0DesBoOqAoVenhjNtPSUZx084aPFgxoTfrOdbcKcpBYodtai8VEHrKJ7+rYqmmoxVm3qS9IZDH8OdKbvka+0cgW0dEJdLoCqrQaDbmbhhvn/adjm+TJsaQNMo9mfMreIMvgdfPI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AM9PR04MB8906.eurprd04.prod.outlook.com (2603:10a6:20b:409::9)
- by VI0PR04MB10542.eurprd04.prod.outlook.com (2603:10a6:800:265::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.27; Fri, 18 Apr
- 2025 11:29:10 +0000
-Received: from AM9PR04MB8906.eurprd04.prod.outlook.com
- ([fe80::d379:5378:b1:cea]) by AM9PR04MB8906.eurprd04.prod.outlook.com
- ([fe80::d379:5378:b1:cea%6]) with mapi id 15.20.8632.030; Fri, 18 Apr 2025
- 11:29:10 +0000
-Message-ID: <9c12c8c3-201b-4953-827e-af47722feadd@cherry.de>
-Date: Fri, 18 Apr 2025 13:29:04 +0200
-User-Agent: Mozilla Thunderbird
-From: Quentin Schulz <quentin.schulz@cherry.de>
-Subject: Re: [OE-core] [PATCH 2/2] cve-check-kernel: verify kernel CVEs using
- programFile from kernel.org CNA
-To: daniel.turull@ericsson.com, openembedded-core@lists.openembedded.org
-Cc: rybczynska@gmail.com, steve@sakoman.com, Peter.Marko@siemens.com,
- richard.purdie@linuxfoundation.org, ross.burton@arm.com
-References: <20250416142859.909037-1-daniel.turull@ericsson.com>
- <20250416142859.909037-3-daniel.turull@ericsson.com>
-Content-Language: en-US
-In-Reply-To: <20250416142859.909037-3-daniel.turull@ericsson.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0123.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:97::9) To AM9PR04MB8906.eurprd04.prod.outlook.com
- (2603:10a6:20b:409::9)
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
+ DS0PR11MB7560.namprd11.prod.outlook.com (2603:10b6:8:14b::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8655.25; Fri, 18 Apr 2025 11:39:51 +0000
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad%4]) with mapi id 15.20.8655.025; Fri, 18 Apr 2025
+ 11:39:51 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] dpkg: drop suffix from version number
+Date: Fri, 18 Apr 2025 19:39:34 +0800
+Message-Id: <20250418113934.3332397-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0127.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b6::9) To IA1PR11MB6396.namprd11.prod.outlook.com
+ (2603:10b6:208:3ab::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8906:EE_|VI0PR04MB10542:EE_
-X-MS-Office365-Filtering-Correlation-Id: fed17b50-ad72-4f26-2d26-08dd7e6c3cda
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|DS0PR11MB7560:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a6f4b28-83ba-48a6-3938-08dd7e6dbaa4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|7053199007|13003099007;
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?Z1p5WDBDeFJTdjJTQ3lKTnF3V2VRc3B2dHJPWHkyRC8zbXFETk00MXBNem80?=
- =?utf-8?B?TThZMjB2ZUZTbUcyeCttRzJYZEN2bnlvV2x1THlqaXhIejVNT1hQY0ZKdnhx?=
- =?utf-8?B?OGplTjlZOFRaRXE2TUxvRFlhNVhpeGRFSGNTbFY1c3RPNFRDb2Z4TnZWKzRM?=
- =?utf-8?B?RktiQTd5Q1NJRFJaUGN3dnM4UEdtQmlPdUNhb3cybFNXUjlRTFBhS00xMTRw?=
- =?utf-8?B?UW1DdGZUU3MwN3VwUk9IcUs4WWV4ZldqbzZ5SjdRWDVTc3JFeElFWFMwaDNs?=
- =?utf-8?B?czR1T2NiMlVEb3JqMko5dU10Z3Q2WFRBY2xzdzVaOGoxcEtZRU82YVJob3kw?=
- =?utf-8?B?UVA5SjliVG11V0FwQnN2ZTY1TUMybE5RTmFBai94NzRmNjZQeEM4U0hxRVA4?=
- =?utf-8?B?VEtNVVAvZjMzQkszUTJOOGxxaTZWak5JeDZ3OWlpTHdMajRsTHZRQWdCdkYx?=
- =?utf-8?B?ZEM5SFM0UXZCN09HUkkvaStsZ25kOXhoRHRsNU9IaTFrK1NXempRaXR6Q1JB?=
- =?utf-8?B?TzZhQTJJY3RvenRBdUZaTU5SMEoybjQzaVVHcUJzWE15RlViME54bWk5clFr?=
- =?utf-8?B?TnlreFQ3SmU0YzFaSitqcVpsd0J3NHUyZ3pVTTlzTys2QXBGRFRGYlNnT3Rk?=
- =?utf-8?B?d0haRktNR1ZzQ01Cd2szYlAwMjM3dk9CbmNuYVprK0s2Z09SQ2N2eWhUTjBH?=
- =?utf-8?B?RGlwUzRVczVDZHlQU0RpRU5TOXZBNVRPams5RnpLRktkU3dYRS8xeWN6d2dj?=
- =?utf-8?B?dHNtTWpEejh0QTduTktRMFNnWHdJdEpJci9IY1lSb1AweXlWZTlsWHMzOTA2?=
- =?utf-8?B?Qi9vd3BMa0FCWW81eWlwdnJWY1RlcEcxSDd6cFcwWHZTb1NmaFVWTjYvU0NF?=
- =?utf-8?B?NVA3aDhZU0JJTWxsWVlrMnRWUWlHU05lTGZLV2hKWEp4Y09DcGF3MDJ6TGZE?=
- =?utf-8?B?RFk0QmpKVnR0c1N1MlZGQVRhVmhxUFVKeEJYUkVRTUVMK2J1b2lVd3hUeGxx?=
- =?utf-8?B?STRTY2U0OXpKOWY1czRDelpienVvWEhkMXZBWGRMNW1lelYwalZmL0pjUkxw?=
- =?utf-8?B?OTV6S21qbmMxOWRZME1MU21nblVyUzFnbUs0WnJlMG1kZmt6ZUgwM2tUa29S?=
- =?utf-8?B?a1psMW5KMmJDT2hOUWUyVzJCZlFOdldoMHh5NlNDSU8waVppSUNMcmZSSlNB?=
- =?utf-8?B?OVNHUU16aWxGTU0rQjVsQmZvYjZtc1E3d3B0dWpBVkM3UUN1ZXd4U0lrejFa?=
- =?utf-8?B?cGRsZjRvYkcrcDVmRlJ6cnF6RUxydVVjdXp5a3FlLzhoTFJZeDJtbk1YZ2ZK?=
- =?utf-8?B?cDlOdEZCa0VUK3o5YnlvM0thVnFxMlhuQm45NEZNVHd0czl2M3lGSjNhUXBw?=
- =?utf-8?B?UHd1aXk1WGNuSUZ6OGdmeWljamI3cklYVmpUdS9hUWR1bEwvdkJEZS84djRh?=
- =?utf-8?B?a3FDSmpZT2RUY3V1MnowSzczOXVrWnRDazllZ05VOHBZbWw2OExzRzNYQm5S?=
- =?utf-8?B?STU4anpTRW1zR3FtSGljWEVHUmF2UmV3VmRDWi9QMXA0ckRlQW1mQTFVVkVE?=
- =?utf-8?B?THY0Yzk1TWpIdTI3Ykc0aHBKRk5jeEFJSy9lNFRyTmhyRWhGUXVUU2lBQTR5?=
- =?utf-8?B?QmM1TjRTVFpVTGVYeUxKMmU1YzYrb1djMitEOU9MUEs4NTJ4R3dnQ1VtaWMr?=
- =?utf-8?B?L3dmelQvY3dFT3I2bjgyT1k3aGVZWVZHbmJtK0JxZktJakJlQ3QwNGVtVHZS?=
- =?utf-8?B?TTJFUTRtMU9IcHIvcFVnbW94dUtUZlAvUThCZFdRS0tYSzhQTTdOaHhIdjB3?=
- =?utf-8?B?ZjZWZmxHQm9oS0REU3FiMW9nZUhDWVVEdUZpekEyNjZPMU9pUXNYYlJrN3Vr?=
- =?utf-8?B?dElBYVk3SDBHTk4vYUJSM1dsSml6a2N6Ty9GY1BwNy81UGpxTXpLN2lpcjJL?=
- =?utf-8?Q?x/fKqlhIJRs=3D?=
+	=?us-ascii?Q?+osRP1qB2ejQANIgKQDVlkGADCOmeSwxz56v1wANpRQQFX2HNmI+EJdleNYf?=
+ =?us-ascii?Q?jqRizMOHiyqfQFCCMd+hR9sp0hOOkMQAPZCEAlCLy8FxZBAaZIYAVWnTlFSC?=
+ =?us-ascii?Q?A2Yda0+G/GPNoOdvsW0OCuRRF9U8rxVlbB+kJdaLQZ6ljFC1vaO+l6WavpuV?=
+ =?us-ascii?Q?PyVTwagQ0KWBmwNjToW1Q+j4ZSzahaSTVXbEMJTmwPq8Xzoa2tbzN4z0y7zg?=
+ =?us-ascii?Q?zfMFvqYblnpxVHtNpVShNMnyjkXQ0PWlBGYolYV3txF2oBMns0EbR1sMhUif?=
+ =?us-ascii?Q?/SlCt+5skfJl5qf5yr+pQNe3dGyqSn91Z/yPMuGsMIN5MdNDQ4rMmVNNIvx6?=
+ =?us-ascii?Q?B+QW7YkjFY7T4e9febEs1mmO5cMNGS1hfXq3WZhe56qfyL+dc9gXWjpLlFid?=
+ =?us-ascii?Q?7a0/gZeWm9D65cnT4I8Cr4b98W8pgiVS0glcFTR6qzSzTy//Bo5JjLlPMANY?=
+ =?us-ascii?Q?+mtHoXtCJsiRzm3iSPBnyacDwi5E68EFR9Tk/N2mC4ESdBmKGzYhDRoWg0dW?=
+ =?us-ascii?Q?+YK7kK3k2QY9jmoWvXJP94HIUqheN4dndlaDL3LNLyT8LXrKd8BIBPe8te3Y?=
+ =?us-ascii?Q?FXooFQKbbFXd7qTSSXi+o+3IPriQ1ZRMmhX9581lRzPN6gG2FQIubib2Ju5n?=
+ =?us-ascii?Q?nFFI2cIHwK5FMxSwrQslVKlR+x9RkmjIBCLp2H+WlTN1BEK0qMwgeLMxEyfQ?=
+ =?us-ascii?Q?qkS/DrT0DKD1fAwe0tLMBVv3azYA5KFczek8Qr/cASCN8YBXilyNnhWu4iyY?=
+ =?us-ascii?Q?3Y0468VZ1GXDi5kynFL8T2ahyAQaYRXCP8tMaMoDjCBBgCMiHpI76ai+N1m3?=
+ =?us-ascii?Q?dl60zjakZGhyrasixf0MJTD0HToF+p5MPkW0SaL4Fy//3XMBXLMav/myNumO?=
+ =?us-ascii?Q?qc2UKSGiuslWnfvgiFqJhMVPY/LiIZZo/jYzflpMyqrb/l8vqigyfim9YSX0?=
+ =?us-ascii?Q?r6xuTnd8bmX8K4j0jLRKP7Cu9HAE3MfuvsolIa3bLlmkuHuTh/3KHTaPy2Ve?=
+ =?us-ascii?Q?FbDu1jdxU5Zs2ty71lZRdarh7H7SbhvCFTDy1EdRmse0Yd2Z+oFHbL1j1rF0?=
+ =?us-ascii?Q?vax95yhiedOR23RJ08nYVPSa2JDunq+lkOEKdMQIkDJraFm9vIalUpCW+cOY?=
+ =?us-ascii?Q?rlHsL8dMVaxDNjchUfi5hnC9tGi756mB4+/ATAPxqNshhgpQB+TTcuyWETnb?=
+ =?us-ascii?Q?kIEhPSOGK5tj+2wcV6UiFy4KgoNRfDVmz0sFmugr3m48IbHcmu8nxNURwNSs?=
+ =?us-ascii?Q?bWt06j915wmhvLORX3r7IiBGp1T9O6q3kGBnhIKV48upm+kV3jVlQ+KV1E8F?=
+ =?us-ascii?Q?APWMfUstzgVs6/WGdQkwZsCHO/2Ivn+ywrKO+bRunU03fZzqAbkrk/rU1BvI?=
+ =?us-ascii?Q?oedGaXigpUBkYN52zdjEB+Nzvnv7V9sXTp4lCLPMg8nB74z1ZDouhx6ibnWu?=
+ =?us-ascii?Q?q11oLdnVpgmO8FfbzvenGKe9pgOEUkevY5TVnHqR/yYJyDUEFo3YwA=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8906.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?QzYyREZhTUl0bzJNWUYxNGtlcWlQKzJUbElhOVBFaGowVTBLS0JxeFBKZzBt?=
- =?utf-8?B?c1NFRUo1Y2U5Nk0xd3lSVGxuaEhaemZiSXY2VWtIOHlCbmRYMXlYVDd1aU02?=
- =?utf-8?B?Zktla0tWd0ZjMHppVjNqc1pjZmpjUXlSdXFBQ25yV3BMUXN0eW0rTlplTWtt?=
- =?utf-8?B?Wm9meTV4RDdpMXB3NE1pVjVRTFZicTFVeU5pWmJ5YjZMNGlWeVFCdk5Gc1Zr?=
- =?utf-8?B?WS9JQ0RiVGRkeUFDamM0cm9ueldwUjVMa29ET0xKNnduVmdYOXJjbVZxWkgy?=
- =?utf-8?B?TDdCMXlRdlgxK0kwVUErRXI5cSs3ejEvVXhVb2xldE5UNldreFQ2d2oxN1k4?=
- =?utf-8?B?UlhUV2oxNDlGYmJhMEdXZFdhYk44ZFlBdmUwU1FXTjZUc3ByQTEvZzBsWG40?=
- =?utf-8?B?OGdlSGtBQ28zSk1tTERkRjY5MmhLb3dEbDBCc2pzbHNnOERLS0VnS3IxazBj?=
- =?utf-8?B?VStMMm9SdnNpVXVjeFk5Wk5ha1dKTW9YRWpZYU9YMWpLUGxWNzliRWpWYmo0?=
- =?utf-8?B?WE13L3E4UlovOUM4MVFDb0d0c0YzNTNuUEVjbjMrck9ZSE1YbkdNaTduRklj?=
- =?utf-8?B?azBqQ2c2MDZVc0FsT2lJZzBpN1JnakFwSnlBTWhFUlc5TUNWaHBrS2xnNnRr?=
- =?utf-8?B?WUlGd2NGd2xYRjFWRVVVWVVTSE5NbXU2c1gyWlZqY2tNZUhIUHh4eTkvbzdQ?=
- =?utf-8?B?VTFkOUxwR1cxSkNOT3ZHbW9TSDRYVHR6dTFrK2JxQ3pEcnFNdWlkTzRlbnlE?=
- =?utf-8?B?RzRwWnczTGtWZytPMG5vWHNVdVNXU1p0SjhKYW81OFNIVkRxWCtqWmhWRHFw?=
- =?utf-8?B?SENnb2lrZ0p1TUh1RC9iSzNQZWpzbmJZYkV4QmJ1NkNxcEtsQlJMa1NFbW1r?=
- =?utf-8?B?dGEwbXhpUmhMNk42VXZTb1VmSWNzQ0FFYlo1OElKNGZIUitPU2QvS1ptL082?=
- =?utf-8?B?bkRlejZCUzBrSEU2OXJLWWhxRFM2TnUrR2pFemlPUHJXOCswVzRFOXcvbXRE?=
- =?utf-8?B?a2s1eStqcGE5ak5WUEZoRDExb1JuU0p3ZlprM1ZrcFNQK0NKK2FialI3TDF4?=
- =?utf-8?B?Ny9xc0ZKa295WDQvU1hXRDg1VHVhZDZIMVlIR0VPS0dNVUpjYTNkM3VEaHRZ?=
- =?utf-8?B?bkFFKzl1QzJlRTlzdVhweE1hS1hGcnltUW5EZjY2ekl5S3BjVzVLZW9jUVVM?=
- =?utf-8?B?UW8zaGFSTmdWYVV2ZlJheWx4Nlg2RU1HVEhraVh1S3NlVXZJVmdHQ1BmQjZB?=
- =?utf-8?B?dzNZNDZ4QWZtYjJ5dk96VEpFYWJ5ODlnblNiem4vVWI3QUwwV3dqeCtrdlFW?=
- =?utf-8?B?S0Y1c2xkT3J5akJzOTRsbFBQRXFSSSs1ZEREMCtmbHFPWjgvVmFUZU1DTmRN?=
- =?utf-8?B?S1B6b2Nwd3V4TXRoLzJPdWY2ejJub0ZuSFBYb3FHM2JWSnFSZVVpOTkyNFE0?=
- =?utf-8?B?b1F1L1ZqM24zWDlBdUkycU83bFZSMU9GeklYZ3ZQWitpL3ZIdXViVm1JS25P?=
- =?utf-8?B?VnRVZHNJNTVYQUFKQURiM0E0UTQwZkJSaVFacjFueGZyS1F1bEc5aFl6TDUx?=
- =?utf-8?B?Z3VhNjFmMGhKdjQwcmJwc0sxSkM5VExIVWpjeHdQQm5PQUpMdGErVUJOTi9R?=
- =?utf-8?B?bktLVWJsblE5SkZQSVZmMG01UTZzaTc3OEJnVHlFWHhOMUJoSGVvUUlLY2V5?=
- =?utf-8?B?RmR0MlVaUDVvb2xOOVluY3BQeGhQc0pLc21VNFJ6TDcrMGlnM0hXbVEvVFJh?=
- =?utf-8?B?R0k1YmFZU2NYSzVCV1dMUVdWTG5OK1FMTUF0dWNwMS9SZEFaOE5KK1ZWdDMy?=
- =?utf-8?B?RWVTSGlCbWhuSVdEUW9aeHlrWVBxNlRwVlZuVm9NZ1NxaTY4VnYrU3czQWth?=
- =?utf-8?B?S0ZodnRNdXlBWDhvRStrNy9DSjFsYmkxcmQzMmg2WFlzOHFBQ1FUT0NjN3Ba?=
- =?utf-8?B?WnNoTWpGSkNtMnpIRUUzSTZQUjVQbEdDdHUzb0ZodFVyTU5yTTUxVnBnT1NB?=
- =?utf-8?B?eUFzbmRJWUVZMUFHWFpZZGtweHpFUVNDRkh3YlpmaU82REl5WVo5M2ZHSjlX?=
- =?utf-8?B?ZnFpWU9HWjlyTVBZM3RPZTRseStpdEtkU2Z5RmlzMWZramQvYzIzRDNKUmNr?=
- =?utf-8?B?d0V3OVVxMEJIUjBVbTd2N2ErWU1VTmtqMzJWL1FhTVh5S1BqbFJKR0tkTnNG?=
- =?utf-8?B?L3c9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: fed17b50-ad72-4f26-2d26-08dd7e6c3cda
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8906.eurprd04.prod.outlook.com
+	=?us-ascii?Q?IdmDNt7yr0D+uIhh5cccuFnkIgTA+Q/hbPv4kuNboM9OfktNWBrXaf8Nuhei?=
+ =?us-ascii?Q?4XDXf3V+WDHPcFtpEl6wnFKKatWq39dV1AmN1mejrI7cjJpC+XOzBih2EXyD?=
+ =?us-ascii?Q?7Zvq30JB3SA1LlZnAAAE3NOXR9MUV0Ck6Uc+JdhGz6ooHrY37YOeG38zZ4/r?=
+ =?us-ascii?Q?KkO0+iSZJcwnvvMN97/OTHGatHLmmY/P9LOkW/kJJF71d5D8Kny6zQOGXBTA?=
+ =?us-ascii?Q?FLjAir42dh7BhC3bNj40C1SzU6Qxn9yVe7RVcQ6bOj/HM4b/wqGj5P4b2Xm/?=
+ =?us-ascii?Q?kDm65cL+3nDQ8IntaOtUhN5UxSkLlSqthaSL6sMj55UpSirtuvWp3PMvawFS?=
+ =?us-ascii?Q?PRULUHkFANQjjH5N/x+wpjhsJnAULd9J5e10IR5vs/FpQ9S7tFsN/wnBRlE9?=
+ =?us-ascii?Q?nyPfCC1koC6Ykz9dnC9/ZIwDj2qjV+2us0H0L2wSiJvlZa8IwZlqaC8ClEyk?=
+ =?us-ascii?Q?TRPN1MrKJpEokstb1YIi22ooLA/eI/vobmk0G8Aaf7jKX0vrZQFo4ZTtLbik?=
+ =?us-ascii?Q?EJRrHVIqNmxu4QcHP3+IXaQlaXnVolvMEd6aET9dg02rLHuh8AjvshQxL4kM?=
+ =?us-ascii?Q?A0O2szxL2bXPTLZ1lL3hSTNfXVogsxKfZLx4/tjmmYeB0PFt2QHf60Bf1hQw?=
+ =?us-ascii?Q?WVunr91R42hjbijpOk5rqlaETa8bbuFPbU3EAeMfvwLZ2hdaTfDNF3Pdutcj?=
+ =?us-ascii?Q?dPUMVkMKN8r+K+blsF89pb0gQDzShwookCqD5n4U2Jjrr4sdHZynTG924CNV?=
+ =?us-ascii?Q?kjkTHkXKmTsx6CZB9bhL1VxtK57gIat/Z7p/uaPVUhtdIe0LBgqOToNDfNK0?=
+ =?us-ascii?Q?vuMXWzO9CF/Jz/rmxN/K0Knr5NQ8ilT05IHejtP+oVrFEA6Dfn0ztVV2crCe?=
+ =?us-ascii?Q?wcRvHjJBO0ieg1awdqk4ezhrPU1LhRQ3RKtiqHjQDQIBlY2A0xcUrjREcZbY?=
+ =?us-ascii?Q?p+N30iE93MNcY5K1j6uppQqWDfCw+dK8R5JvLJ65DhyEmckfbd6Qt/U2FMB1?=
+ =?us-ascii?Q?yYMJdrmf7vh8Fe0+8GL7ayGp6v8Y8yvXmIoYyxK1W3+Qxdab88iaCpIzlWVn?=
+ =?us-ascii?Q?olMcL3biElYKgeSKXUzhbJW1S12jGEriLgb3eUyZXaHT7ilHG5gBvZpDZYdx?=
+ =?us-ascii?Q?DGD2EvKqREegsyKoK/X6vkiZImDRqmL/x/llSHSRhO/MBJYuVI+W2zb5EePe?=
+ =?us-ascii?Q?Jp7+m0ZxqUXU56HSjkOtpCsg2rWbUmr2pAGfAi6mCixVML6LOydY1H5JUXnt?=
+ =?us-ascii?Q?qSQOTEalGhnEmSBQLmh7B8QlHf7NA3eXmVltxsMAnUx94Q1O4baP4nlU8pXf?=
+ =?us-ascii?Q?/edoWKOXGVOK/YPNpiXa6Bm9aIquut9GFXHVwBKqaQILUHVpHVy36yI82i4f?=
+ =?us-ascii?Q?dY4+KBwG+RhzAvTT1wc8ex+gxHlEZOf3jpvOhuMmCy3IX8KoktDBryelgn7W?=
+ =?us-ascii?Q?yrBhmyarUHzZPQvZ9vaZgdDM1X9CLn6Mgc1Uu+X0jBsGgfytIumQNmASAiGw?=
+ =?us-ascii?Q?U4nfSd7j+3yujnPE8CgRgJXvOicyWwQOaXtSzyYzn+bOw63pxyM02eM4Bggl?=
+ =?us-ascii?Q?l9X+FuJFTPrt2IpPYb2G5dBsEMI+ePxUD1MgFqUQ?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a6f4b28-83ba-48a6-3938-08dd7e6dbaa4
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6396.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2025 11:29:10.1182
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2025 11:39:51.3757
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VLzKOxa+f6BWIU7H4rVcoLSI2jBxp3vSlUg29vARwcQoaE/jE+NDwcNKftqqYOLQX/wSVqa0xeUi6rVk3DiZpUYcQiJxagXS4USoN0hw2pw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10542
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6EG+xrUZ0jgiL2DmdftGBwKMNXwTpR8v1s05qEngdmSG64ST49bau7VDqcHLeRWj/RIprntQ7w8y2A9zmvwB+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7560
+X-Proofpoint-ORIG-GUID: kza46h9mo2sf7l--H5-s_2TPuLE6Xsy4
+X-Proofpoint-GUID: kza46h9mo2sf7l--H5-s_2TPuLE6Xsy4
+X-Authority-Analysis: v=2.4 cv=HecUTjE8 c=1 sm=1 tr=0 ts=68023a09 cx=c_pps a=TWVVkEr8Ytp/jGYVlMgQuQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=t7CeM3EgAAAA:8 a=t3WEfrcAyPBvRxX9QowA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-18_03,2025-04-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ phishscore=0 malwarescore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ adultscore=0 mlxlogscore=999 impostorscore=0 suspectscore=0 clxscore=1015
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504180086
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 11:29:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215128
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 11:39:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215129
 
-Hi Daniel,
+The current dpkg runtime version is generated by 'git describe' command
+in build-aux/get-version. But since we have made changes to git repo
+locally, it adds a -dirty suffix to the version number.
 
-On 4/16/25 4:28 PM, Daniel Turull via lists.openembedded.org wrote:
-> [You don't often get email from daniel.turull=ericsson.com@lists.openembedded.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> From: Daniel Turull <daniel.turull@ericsson.com>
-> 
-> This class is used to check the CVEs against a specific kernel configuration.
-> Depends on data from the kernel.org CNA
-> https://git.kernel.org/pub/scm/linux/security/vulns.git
-> The CVE data provided by kernel.org includes the files that are
-> affected by a given CVE and are provided as json files
-> 
-> It requires the kernel to be compiled to be able to extract which files are used.
-> It is created as optional check on top cve-check.
-> 
-> To enable add in your local.conf
-> INHERIT += cve-check
-> INHERIT += cve-check-kernel
-> 
-> To test it
-> bitbake virtual/kernel -c cve_check_kernel
-> 
-> Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-> ---
->   meta/classes/cve-check-kernel.bbclass | 132 ++++++++++++++++++++++++++
->   1 file changed, 132 insertions(+)
->   create mode 100644 meta/classes/cve-check-kernel.bbclass
-> 
-> diff --git a/meta/classes/cve-check-kernel.bbclass b/meta/classes/cve-check-kernel.bbclass
-> new file mode 100644
-> index 0000000000..c01f0efd1d
-> --- /dev/null
-> +++ b/meta/classes/cve-check-kernel.bbclass
-> @@ -0,0 +1,132 @@
-> +#
-> +# Copyright OpenEmbedded Contributors
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +# This class is used to check the CVEs against a specific kernel configuration.
-> +# Depends on data from the kernel.org CNA
-> +# https://git.kernel.org/pub/scm/linux/security/vulns.git
-> +# The CVE data provided by kernel.org includes the files that are
-> +# affected by a given CVE and are provided as json files
-> +#
-> +# It requires the kernel to be compiled to be able to extract which files are
-> +# used. It is created as optional check on top cve-check.
-> +#
-> +# To enable add in your local.conf
-> +# INHERIT += cve-check
-> +# INHERIT += cve-check-kernel
-> +#
-> +# Then execute
-> +# bitbake virtual/kernel -c cve_check_kernel
-> +#
-> +
-> +KERNEL_FILES_DIR ?= "${LOG_DIR}/cve/kernel_files"
-> +KERNEL_SRC_FILES ?= "${KERNEL_FILES_DIR}/compile_commands.json"
-> +KERNEL_CNA_REPO ?= "${DL_DIR}/CVE_CHECK/vulns"
-> +
-> +python () {
-> +    if not bb.data.inherits_class("cve-check", d):
-> +        raise bb.parse.SkipRecipe("Skip cve-check-kernel when cve-check class is not loaded.")
-> +
-> +    if d.getVar('PN', True) == d.getVar("PREFERRED_PROVIDER_virtual/kernel", True):
+Add a .dist-version file in the source directory. Then get-version can
+determine the version through .dist-version instead of "git describe"
+command, thus removing the -dirty suffix.
 
-I don't think this will work reliably?
+Before the fix:
+$ dpkg --version
+Debian 'dpkg' package management program version 1.22.11-dirty (amd64).
 
-I think you could have another virtual provider in 
-PREFERRED_PROVIDER_virtual/kernel and then this wouldn't match.
+After the fix:
+$ dpkg --version
+Debian 'dpkg' package management program version 1.22.11 (amd64).
 
-I have no clue how to handle that properly.
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ meta/recipes-devtools/dpkg/dpkg.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I'm not sure how to make sure we're always using the latest linux-vulns 
-database (and so not rely on the cache(s)) but at the same time allow 
-building without network access. I guess we could provide some hash or 
-tarball for linux-vulns by default, for building without network access?
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 4c1d42e0af..45b67bf168 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -43,6 +43,8 @@ do_configure:prepend () {
+         # update dselect/po and scripts/po
+         cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/dselect/po/
+         cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/scripts/po/
++
++        [ ! -e ${S}/.dist-version ] && echo ${PV} > ${S}/.dist-version
+ }
+ 
+ do_install:append () {
+-- 
+2.34.1
 
-Cheers,
-Quentin
 
