@@ -2,223 +2,237 @@ Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4AFFC369AB
-	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 11:27:46 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.81])
- by mx.groups.io with SMTP id smtpd.web10.9602.1744975659159701505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3447C369AB
+	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 11:29:16 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.59])
+ by mx.groups.io with SMTP id smtpd.web11.9940.1744975753258146655
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Apr 2025 04:27:39 -0700
+ Fri, 18 Apr 2025 04:29:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=TVtROZnc;
- spf=pass (domain: cherry.de, ip: 40.107.20.81, mailfrom: quentin.schulz@cherry.de)
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=AfZBqPOB;
+ spf=pass (domain: cherry.de, ip: 40.107.20.59, mailfrom: quentin.schulz@cherry.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yfo32vSXVyE4oEcq8kY2y42jcyQnn6//ANaat8v0lhgDZtWxp4zdZH8LS6y/LpMRnYhi8SiRaIkNlwSRqHAE/VqnJYi172rCoQ9MlFHTKp4cFP7lvDLDacX3HOHYoRBRLd+28uZ0xauZbAkBZnrZQ6pG/f0nupmtTPRgXmQHweVLQwaAeG2ez/J3Hz6WXo9q1aJC3Hm3DpquzCA5iCyYVm/zjqqU9cK4c2wabHAS3F95CCrObccPt9ZQJIKfcR66VJvbs8MObwBtDHOAEczGoGh1TKsk4yj8HOPs+vmpvaxGxzBvioUl5PvP0GqUC1dZ6+ZXz5oV5k0XQrp5ebAVLQ==
+ b=gGqwJO9otXrqwKbSeqUZ3XZcEYZGFQlaMnV2j0zKNNV95COKg66R9hehzGKzXGSGEpqRrDrNrKSdXeuREyN9yHdsOak5B8tygsdwwf6PM6GmDNR3l6sWa7Z0afpw6G4dcvnGB+hrHhbQiY+U7OUeVCGfoBJuRsyhC1STdOn+nt2vVnf5wnBW6l3zP7PHM04pYiVUJ9LhHkyKcCKfxJ6+Nc/AxTksUe+gVrx6O8Pf/GIfXRoZqGJvxXn4oAi4IkRnaZlffdfh2HCccP7/rktoEztaIE+uoTki0cUdxfj3b9HzPEKEOuN/BCdA+A8u22Ix/82tmlzhO1rylvlrlMHoHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NoFaZk6ECL4RLq8byu+vE3/71pkRVWtOWiysrl8CfKA=;
- b=R3adk5YJxXwtLgfBxMtRKMaoKMXAPCrvoJCDOesWNMu/2oML4uoYN/UjDvqjNrcNzyBBazkMRQa2/eofJIGI090a5YfoyXIxZNQK5zI4EXJsX/EW66KRfyqk7p+DZwZtkUEVcb4EUYZH6uKh4x/64jKcysJTlM36AfYhcCKNzXOZTzcRW9TKn49RFEJplNsF9RWRi4IoIN+wJ4MFNkG2GN9qvAE+dEXaAn4Y61QeQ3S2vrbSnWcbTVlsJQ/Mt7hSwtl6ARv/NTOFv3YX8ckxj3Ge5IDVIhSdyFs/WfriQqcqxwVmmXDX0tTc0hvs8Sxi9z/dhBBSjrdlVm5F1atbAg==
+ bh=QR+N3A1hluHMrYtqX+SdgVyJzS0nNZEb7gHT0zYbRIM=;
+ b=VvT8W3gEee5Dw90l/DdQ0rJZ8jFT8EtN6uVd3uz+VJpjyQ6oEqlrQExoqdS/IszmzkEifQ2qIMY9kiVdPF0RHxuDM3rSR+gjJSgr9JQECSYVZJQkDrwzOxo6PpzzVrY1viapQbOCeE0oRb1rNhMmb2QOqDpRMISYhhoMJzyEuRlF9UxgtD1pcNzxC+N2MIqOaFj3d9Ttmt/n1Vy7h4MYCsVu7lOJJKJNBFkU3oCCo0Mg1gi/qxfGU8hc0tkXSHwk0hwVt9ZMsV/16Ha66XJenLLvap0mrlnw8bbkR7YAYc+fEbY1gdyOKvuEtNblWzrpCBAfsg1O3DI8UGAA6YIvzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
  dkim=pass header.d=cherry.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NoFaZk6ECL4RLq8byu+vE3/71pkRVWtOWiysrl8CfKA=;
- b=TVtROZncc5uXJGv7KmpawpW43fuDXf5vMm/21NBTgbBV3DxE7+6fjkcSBdy8xJwvXJhdItfc2fPHvTXNKoZ1G+mNUitBMvcNamvHfXrvP/AAUILdMgmD6z+hbGyUjjFprKY5SSTA5r6IbOSU40/OueogH9GOiZNY17Gnmltun74=
+ bh=QR+N3A1hluHMrYtqX+SdgVyJzS0nNZEb7gHT0zYbRIM=;
+ b=AfZBqPOBXi3+MhK3/zhO9RDrAW8tGQsLAMdn0DesBoOqAoVenhjNtPSUZx084aPFgxoTfrOdbcKcpBYodtai8VEHrKJ7+rYqmmoxVm3qS9IZDH8OdKbvka+0cgW0dEJdLoCqrQaDbmbhhvn/adjm+TJsaQNMo9mfMreIMvgdfPI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=cherry.de;
 Received: from AM9PR04MB8906.eurprd04.prod.outlook.com (2603:10a6:20b:409::9)
  by VI0PR04MB10542.eurprd04.prod.outlook.com (2603:10a6:800:265::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.27; Fri, 18 Apr
- 2025 11:27:33 +0000
+ 2025 11:29:10 +0000
 Received: from AM9PR04MB8906.eurprd04.prod.outlook.com
  ([fe80::d379:5378:b1:cea]) by AM9PR04MB8906.eurprd04.prod.outlook.com
  ([fe80::d379:5378:b1:cea%6]) with mapi id 15.20.8632.030; Fri, 18 Apr 2025
- 11:27:33 +0000
-Message-ID: <3a3e69de-3714-4810-b9b6-326d44893431@cherry.de>
-Date: Fri, 18 Apr 2025 13:27:31 +0200
+ 11:29:10 +0000
+Message-ID: <9c12c8c3-201b-4953-827e-af47722feadd@cherry.de>
+Date: Fri, 18 Apr 2025 13:29:04 +0200
 User-Agent: Mozilla Thunderbird
 From: Quentin Schulz <quentin.schulz@cherry.de>
-Subject: Re: [OE-core][PATCH] send-error-report: improve debugging
-To: thomas.perrot@bootlin.com, openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com
-References: <20250416100149.274800-1-thomas.perrot@bootlin.com>
+Subject: Re: [OE-core] [PATCH 2/2] cve-check-kernel: verify kernel CVEs using
+ programFile from kernel.org CNA
+To: daniel.turull@ericsson.com, openembedded-core@lists.openembedded.org
+Cc: rybczynska@gmail.com, steve@sakoman.com, Peter.Marko@siemens.com,
+ richard.purdie@linuxfoundation.org, ross.burton@arm.com
+References: <20250416142859.909037-1-daniel.turull@ericsson.com>
+ <20250416142859.909037-3-daniel.turull@ericsson.com>
 Content-Language: en-US
-In-Reply-To: <20250416100149.274800-1-thomas.perrot@bootlin.com>
+In-Reply-To: <20250416142859.909037-3-daniel.turull@ericsson.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0145.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b8::18) To AM9PR04MB8906.eurprd04.prod.outlook.com
+X-ClientProxiedBy: FR0P281CA0123.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:97::9) To AM9PR04MB8906.eurprd04.prod.outlook.com
  (2603:10a6:20b:409::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM9PR04MB8906:EE_|VI0PR04MB10542:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d636fd8-4976-4e6a-fbf3-08dd7e6c0321
+X-MS-Office365-Filtering-Correlation-Id: fed17b50-ad72-4f26-2d26-08dd7e6c3cda
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|366016|7053199007|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?bDMyU1ZabFh6KytBYTlHRldZT1ppUDZGS2ZDMVdndDAzbndXTWtjM0Vwak9B?=
- =?utf-8?B?aDJkYlk1UEx2a0sxTTV5YkNUODFsM2laUXJMNmpiRy9CVFROVmJzZWtuOHZm?=
- =?utf-8?B?aFg1YTIxL0kyY0RtcnJmcGRqUjJTb3Q1RGY1UnAyaE1SR0lqVko1THJ4SGZ2?=
- =?utf-8?B?WDdSdWRpaUlya1pEeXluc1pFU2IrSkpwRjNScW12NHlTclNjWDZOUHR5VzRW?=
- =?utf-8?B?UE9mOWFwdTJCRFpVeks5bjhkMHNOVDN1MnNpWDN1aVVsSVVHelFzNTdrTDdu?=
- =?utf-8?B?MUdZekpQVk95NFY5TnlKTzVEMEVyMElPVkN5a2REVzg4aWg4SWRVT3VLNUQ3?=
- =?utf-8?B?NjFrUXBqZDJWbW9GeU91bEpzMXdJdlBxRVkzRW90THpQYTNxZk1wSDhUUkVx?=
- =?utf-8?B?WnB6ZXd3MnloOXRpQUlIdUNySTYwY0JPdEp4R3RrVlRoRE1qblhOak1CRGIw?=
- =?utf-8?B?SGp6dEVlNWJxUUVNeEc1V2JFbUxJNHE3SkFObWlOb1JJUTZBTjJFYnBmbVBB?=
- =?utf-8?B?djh3d0k0WENOdVpLT0pVdDBBczhOVlErdWJSUVdJM2FMdEFvMEpMaHRUS1Qr?=
- =?utf-8?B?YmxrZkk1QnF1NVpFMmJpNEUzc1Q1dXAwVU1CekZ1clNwQlIxWXpZcFIwYVNR?=
- =?utf-8?B?K3QyRnRRdTk0STAyZG5WWWl1ek9rUWY3NmxHVUVFelFSRDdacTlNNGVBVk13?=
- =?utf-8?B?T0dHNG9lOVp3RFBrUjU0eW5tMk9heEo5UHFRZzRlM3dMSlFIUzRzSWhmR1dN?=
- =?utf-8?B?RXdNRkRoamw2SllvTkRlQlp1aW1yZnlOS3U0ODVCWWJGdE5rREJXRXBaazdv?=
- =?utf-8?B?dmxEWjkxR2t4bEViVkJLMHpOUXhsOVlONTFWS0ZkVlhiUlhTd3VtY1JGUldr?=
- =?utf-8?B?VDRaNEp1WHFFc2dCd05hci9jeWt6Mmh3OXNvamdLaXBHcndaQmNFMk9ERlpN?=
- =?utf-8?B?dkFEUnNtUkthZit5b3VpZnJsdVFLNW5DSWlMWTJPWGY5V0ZteUZoNEJiUXhi?=
- =?utf-8?B?UEcrNVFpK0RZeGk5RFBtbDdqNHc1T0wwUk11dmwwdEU3ajE0YjdnMlZQK1N0?=
- =?utf-8?B?TS8vekhuaVpaOTRUazI5RnRyNlFWWjg5RGc4ZFowS0htWjZxZDd6akRnU2hG?=
- =?utf-8?B?NTBuZWpVSzBLYWgxMk9yT0hpeU9sQVpEVkdkRndscURQQTlTbkl6bmVQRUF6?=
- =?utf-8?B?ckRPRkJjODYxdmRjalF6cCtiL3VrVVpRQ09QelMwYzEzYkZ4dVVPU0xPN2pt?=
- =?utf-8?B?WVlmcmQ3dUl5c1QwUXhvRHBxTTc1SVZCeDZoZkpXOGFFOXUvdzlHY1AvZFkr?=
- =?utf-8?B?ekk4Q015S2VQQ0NlVGFCTUdxQUVoWkJaYXMxa24rUmYwQUJMN1R5NmNtUzRB?=
- =?utf-8?B?Q2FqTGxpc3Q0MjZ3dFMzaGV5ZmI3RVJaVzdSV0hVY01SZFcxU3NxL0UyT3Jz?=
- =?utf-8?B?QlBsaWM1UXNMblFZa2tQOVArSHluNjA1T2draVRzU1prUUQ2OE5ONzlkZFg1?=
- =?utf-8?B?TG9qVlJPSXJwbWtBSGpQTWV3VzdTTThnNXZqUzBoYi9MMFBDY2VsbTU5OS9k?=
- =?utf-8?B?K3ZoV09kTGZDK2tJaXJYOXZNS3ZFSWV2dzA2MVJwUjlRS2psQmdaOUhLWEV4?=
- =?utf-8?B?RXFETE5kcHZQcU9veDBucHcrQUpnRTM1dDNFQUtHQWVoWWZINDdDREpCRW5h?=
- =?utf-8?B?RjRNblZvbGRVR2hmTEllVzViK0xaeHpDWm5yS2p2UHBtMndqR1RJUUMyK1BJ?=
- =?utf-8?B?Z2VUOHAzUHYyMHlJeTZLN25OUmxsQk56ZW44Y0tpUkdjVHlMVVlWWFFLc3JG?=
- =?utf-8?B?NjNSNlkyVGpNUGRaOTZTYi9jbFFQTTlGK0txd0pFRzFBVEJucmhoMkwwak1x?=
- =?utf-8?B?Q3p2UUVMazRvZ3lpejBqM3NKeXNaTm9CNytXTzV2OUllKzNKUGtFL0R4QnE5?=
- =?utf-8?Q?vSmaE2lfpVg=3D?=
+	=?utf-8?B?Z1p5WDBDeFJTdjJTQ3lKTnF3V2VRc3B2dHJPWHkyRC8zbXFETk00MXBNem80?=
+ =?utf-8?B?TThZMjB2ZUZTbUcyeCttRzJYZEN2bnlvV2x1THlqaXhIejVNT1hQY0ZKdnhx?=
+ =?utf-8?B?OGplTjlZOFRaRXE2TUxvRFlhNVhpeGRFSGNTbFY1c3RPNFRDb2Z4TnZWKzRM?=
+ =?utf-8?B?RktiQTd5Q1NJRFJaUGN3dnM4UEdtQmlPdUNhb3cybFNXUjlRTFBhS00xMTRw?=
+ =?utf-8?B?UW1DdGZUU3MwN3VwUk9IcUs4WWV4ZldqbzZ5SjdRWDVTc3JFeElFWFMwaDNs?=
+ =?utf-8?B?czR1T2NiMlVEb3JqMko5dU10Z3Q2WFRBY2xzdzVaOGoxcEtZRU82YVJob3kw?=
+ =?utf-8?B?UVA5SjliVG11V0FwQnN2ZTY1TUMybE5RTmFBai94NzRmNjZQeEM4U0hxRVA4?=
+ =?utf-8?B?VEtNVVAvZjMzQkszUTJOOGxxaTZWak5JeDZ3OWlpTHdMajRsTHZRQWdCdkYx?=
+ =?utf-8?B?ZEM5SFM0UXZCN09HUkkvaStsZ25kOXhoRHRsNU9IaTFrK1NXempRaXR6Q1JB?=
+ =?utf-8?B?TzZhQTJJY3RvenRBdUZaTU5SMEoybjQzaVVHcUJzWE15RlViME54bWk5clFr?=
+ =?utf-8?B?TnlreFQ3SmU0YzFaSitqcVpsd0J3NHUyZ3pVTTlzTys2QXBGRFRGYlNnT3Rk?=
+ =?utf-8?B?d0haRktNR1ZzQ01Cd2szYlAwMjM3dk9CbmNuYVprK0s2Z09SQ2N2eWhUTjBH?=
+ =?utf-8?B?RGlwUzRVczVDZHlQU0RpRU5TOXZBNVRPams5RnpLRktkU3dYRS8xeWN6d2dj?=
+ =?utf-8?B?dHNtTWpEejh0QTduTktRMFNnWHdJdEpJci9IY1lSb1AweXlWZTlsWHMzOTA2?=
+ =?utf-8?B?Qi9vd3BMa0FCWW81eWlwdnJWY1RlcEcxSDd6cFcwWHZTb1NmaFVWTjYvU0NF?=
+ =?utf-8?B?NVA3aDhZU0JJTWxsWVlrMnRWUWlHU05lTGZLV2hKWEp4Y09DcGF3MDJ6TGZE?=
+ =?utf-8?B?RFk0QmpKVnR0c1N1MlZGQVRhVmhxUFVKeEJYUkVRTUVMK2J1b2lVd3hUeGxx?=
+ =?utf-8?B?STRTY2U0OXpKOWY1czRDelpienVvWEhkMXZBWGRMNW1lelYwalZmL0pjUkxw?=
+ =?utf-8?B?OTV6S21qbmMxOWRZME1MU21nblVyUzFnbUs0WnJlMG1kZmt6ZUgwM2tUa29S?=
+ =?utf-8?B?a1psMW5KMmJDT2hOUWUyVzJCZlFOdldoMHh5NlNDSU8waVppSUNMcmZSSlNB?=
+ =?utf-8?B?OVNHUU16aWxGTU0rQjVsQmZvYjZtc1E3d3B0dWpBVkM3UUN1ZXd4U0lrejFa?=
+ =?utf-8?B?cGRsZjRvYkcrcDVmRlJ6cnF6RUxydVVjdXp5a3FlLzhoTFJZeDJtbk1YZ2ZK?=
+ =?utf-8?B?cDlOdEZCa0VUK3o5YnlvM0thVnFxMlhuQm45NEZNVHd0czl2M3lGSjNhUXBw?=
+ =?utf-8?B?UHd1aXk1WGNuSUZ6OGdmeWljamI3cklYVmpUdS9hUWR1bEwvdkJEZS84djRh?=
+ =?utf-8?B?a3FDSmpZT2RUY3V1MnowSzczOXVrWnRDazllZ05VOHBZbWw2OExzRzNYQm5S?=
+ =?utf-8?B?STU4anpTRW1zR3FtSGljWEVHUmF2UmV3VmRDWi9QMXA0ckRlQW1mQTFVVkVE?=
+ =?utf-8?B?THY0Yzk1TWpIdTI3Ykc0aHBKRk5jeEFJSy9lNFRyTmhyRWhGUXVUU2lBQTR5?=
+ =?utf-8?B?QmM1TjRTVFpVTGVYeUxKMmU1YzYrb1djMitEOU9MUEs4NTJ4R3dnQ1VtaWMr?=
+ =?utf-8?B?L3dmelQvY3dFT3I2bjgyT1k3aGVZWVZHbmJtK0JxZktJakJlQ3QwNGVtVHZS?=
+ =?utf-8?B?TTJFUTRtMU9IcHIvcFVnbW94dUtUZlAvUThCZFdRS0tYSzhQTTdOaHhIdjB3?=
+ =?utf-8?B?ZjZWZmxHQm9oS0REU3FiMW9nZUhDWVVEdUZpekEyNjZPMU9pUXNYYlJrN3Vr?=
+ =?utf-8?B?dElBYVk3SDBHTk4vYUJSM1dsSml6a2N6Ty9GY1BwNy81UGpxTXpLN2lpcjJL?=
+ =?utf-8?Q?x/fKqlhIJRs=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8906.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8906.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?UTF1TEFVT1QrNVo3b2lTcVJTYi8zakx2Y2tMT0l5ZXptYmlIVEhiZ1VrN0s4?=
- =?utf-8?B?ZTY1VzBVTkNtL3VKWDk4RFdNSGplWkM0SmRkT0Z4ZXFDWXFMMk5qd3ZCVzEv?=
- =?utf-8?B?OHVIbUlFakIyVGlSWHlESmp3VzNVMmpaSDhOeWFsWTlBTVRnMnBZV2xDS2xu?=
- =?utf-8?B?UHBIOFZ2b2xiQ2QxQTVaK250bXk3UVhNYmY3Tktqc3lZRUh6M0R4OXB4MUZB?=
- =?utf-8?B?SDg2RDJFdUZ2NVhxTS9CZGgwcXNKWWZrQWdNMWh5TS9RcDVLV3V5QXI3NnpX?=
- =?utf-8?B?LzhJMVp5NG1lbHgxSytmRU5kVk9rMzBLN2dLcFFBSEg0OFBPZzloY2c4dXBV?=
- =?utf-8?B?eDBENzhZUllGM3l3aW00ckRLOHZnb0I0WlJVMThTM3Z1RUFmMS9nQXA2eXRi?=
- =?utf-8?B?alBMcDNqbTdXRHMrNitUc0VGYitwZ2ZNeTczbnlXQU94cXQ1ZytlUG02QkVJ?=
- =?utf-8?B?aVgrU1ArNi8xM1R6TVM2UlRFUktsVTY3K2Z0QmNORGFiWU13Q3F0R3dNUit5?=
- =?utf-8?B?aGkzelRPcVc5cjVXWUtXa01UTzdDcHdvUFh4QkZQZXdLRDVhbjROV2s1bEla?=
- =?utf-8?B?NEhNMHZKWkY1S3o2S2Z3N3pSVzQ5ZlEyYnRFU2FmR2pwaE5CMWtGdDk0VFdJ?=
- =?utf-8?B?alI3SytaSC96UkV0UTVkbEdYYlRJaUIzRW5SSUJWWGlpcWdUTUJCb0paRGph?=
- =?utf-8?B?MGJqMVA3RllNSERvV01VYkwxM1BUQS85WnNsOHJzYnhvZTA2K1pPRGx6ZUJD?=
- =?utf-8?B?d3ZGL3NoYWNxcG1LS0hVNGlFSmpFMnRVeHJiRnNoOWFUOWdURldJejdPZzhB?=
- =?utf-8?B?aWNwNFhOK3NsaCtNaTkwYXZHcCtOS3lPRzJoR3dCY2FMRXZrUkQ3aWtFU3V5?=
- =?utf-8?B?SUpCZjhyMW5qSFlYdml5VHFmN0JXbTdJK3cxWE5yK3dkUHFONGUyM1dMRkM0?=
- =?utf-8?B?eTBhV2d5SWJHaDBucTFwZTBQMG5xTUIvN3dCRHRQaW0rMlVtaHJKcm5sWEFa?=
- =?utf-8?B?ZUhTaDJNZ21lVk84a1IvWFpmZzUzZmlhOUh6S2J1aGMvOTJyRTQzekQ0RkFp?=
- =?utf-8?B?bEh6ZC9TREx0aWxGRFpUbUs3Y2lTTDMxcDhwRHgvWDI4ekUwQ3Brbmc1UTYr?=
- =?utf-8?B?WmZTQkpNYzNERklXU3M1NWV6SXJ6dnkyWGVDSmtpenFHR1Q2dGFrbkwweDdw?=
- =?utf-8?B?Y1JlM1l5S1lPK2cza0NGUzhJYzkwYXJFRTlESkhNN2d5WC8zVWxOVHNGZUk4?=
- =?utf-8?B?NWMyQU5PWTFwdlh2OWxoSmY1UC9TQU4vT0ZUK0g2dk9lQnQxSHBxeXNobHlU?=
- =?utf-8?B?bzhQdVBLT29UODk1K1JBYnQ2YUNSTXRyR2RZam5TUSs1djdaNkRzejd0SXBO?=
- =?utf-8?B?L0dsU0pQOW9laFlNbmcremlZVngrZk82M3dyazVuSWlVV3BIamRvcE9qaXZx?=
- =?utf-8?B?WGUyQ3dhZ25tOVllWEpEQzJNZ1NscEZkU09kd3AvYWhqSEtPNWJTOFRQSEhs?=
- =?utf-8?B?UW5rWU90Qkd2UXo3cXV3UFNFcStQMlhxQXlIcDNMQTFUL1Z0VEV0bGZSQUFH?=
- =?utf-8?B?Yno1UjhLeWVIRWlUVktRMDh3Wkt5aEo1Vi9LSUpzQWdDdnFtenFMSHhrR2I3?=
- =?utf-8?B?eWM1eTZKU0pDbmMzWkJjby9Memp1MUo0bncxMHJiWWVPTnJtaTBOQnFoajA0?=
- =?utf-8?B?NFBXRU42Q1lXY1ozcEdSSk1reDhXZDZPa1hBNkcwNzVUVThuU2xVRm1td3Ns?=
- =?utf-8?B?VTkxeFozMHhRU3hFZEx3THd5ZGZLNHYrbEpWd1lwWTRtcTJnTnl1QkhrTmY1?=
- =?utf-8?B?ZjRqbldhZ1pvRmp4MkloTGdieFJLSVorL05NN2xXK3JyV3hBTmJsOVpQWTRi?=
- =?utf-8?B?SXNoRFMwTTF1MDBnZG9aYWNrdFZ5ejRzYkpGWTRQS0NEQVZOZmFjcnRtOTVE?=
- =?utf-8?B?OGpoam9yM3IxdTUyNGJ5WmtPcisvQVNOZkdZZk1yRms5dVZ1a21HNUtVNnUy?=
- =?utf-8?B?bzV4amJWamZYUjVMTU1qOHpzRlZrYmFZTG1GQkpoY3lQdlBwaEZJbXBsVWQ2?=
- =?utf-8?B?RkJHOE5uK2FqS3IvRUVBNnNneGpPQzMwVzZSRVBHZWZLbC9yeDdGMUFzb1Zs?=
- =?utf-8?B?eDl6cVY2RW9zSnZ0bGY4bFJFM1VBSGVudFFIY0E4UGJCMWpYWG5vYm91ckFm?=
- =?utf-8?B?aWc9PQ==?=
+	=?utf-8?B?QzYyREZhTUl0bzJNWUYxNGtlcWlQKzJUbElhOVBFaGowVTBLS0JxeFBKZzBt?=
+ =?utf-8?B?c1NFRUo1Y2U5Nk0xd3lSVGxuaEhaemZiSXY2VWtIOHlCbmRYMXlYVDd1aU02?=
+ =?utf-8?B?Zktla0tWd0ZjMHppVjNqc1pjZmpjUXlSdXFBQ25yV3BMUXN0eW0rTlplTWtt?=
+ =?utf-8?B?Wm9meTV4RDdpMXB3NE1pVjVRTFZicTFVeU5pWmJ5YjZMNGlWeVFCdk5Gc1Zr?=
+ =?utf-8?B?WS9JQ0RiVGRkeUFDamM0cm9ueldwUjVMa29ET0xKNnduVmdYOXJjbVZxWkgy?=
+ =?utf-8?B?TDdCMXlRdlgxK0kwVUErRXI5cSs3ejEvVXhVb2xldE5UNldreFQ2d2oxN1k4?=
+ =?utf-8?B?UlhUV2oxNDlGYmJhMEdXZFdhYk44ZFlBdmUwU1FXTjZUc3ByQTEvZzBsWG40?=
+ =?utf-8?B?OGdlSGtBQ28zSk1tTERkRjY5MmhLb3dEbDBCc2pzbHNnOERLS0VnS3IxazBj?=
+ =?utf-8?B?VStMMm9SdnNpVXVjeFk5Wk5ha1dKTW9YRWpZYU9YMWpLUGxWNzliRWpWYmo0?=
+ =?utf-8?B?WE13L3E4UlovOUM4MVFDb0d0c0YzNTNuUEVjbjMrck9ZSE1YbkdNaTduRklj?=
+ =?utf-8?B?azBqQ2c2MDZVc0FsT2lJZzBpN1JnakFwSnlBTWhFUlc5TUNWaHBrS2xnNnRr?=
+ =?utf-8?B?WUlGd2NGd2xYRjFWRVVVWVVTSE5NbXU2c1gyWlZqY2tNZUhIUHh4eTkvbzdQ?=
+ =?utf-8?B?VTFkOUxwR1cxSkNOT3ZHbW9TSDRYVHR6dTFrK2JxQ3pEcnFNdWlkTzRlbnlE?=
+ =?utf-8?B?RzRwWnczTGtWZytPMG5vWHNVdVNXU1p0SjhKYW81OFNIVkRxWCtqWmhWRHFw?=
+ =?utf-8?B?SENnb2lrZ0p1TUh1RC9iSzNQZWpzbmJZYkV4QmJ1NkNxcEtsQlJMa1NFbW1r?=
+ =?utf-8?B?dGEwbXhpUmhMNk42VXZTb1VmSWNzQ0FFYlo1OElKNGZIUitPU2QvS1ptL082?=
+ =?utf-8?B?bkRlejZCUzBrSEU2OXJLWWhxRFM2TnUrR2pFemlPUHJXOCswVzRFOXcvbXRE?=
+ =?utf-8?B?a2s1eStqcGE5ak5WUEZoRDExb1JuU0p3ZlprM1ZrcFNQK0NKK2FialI3TDF4?=
+ =?utf-8?B?Ny9xc0ZKa295WDQvU1hXRDg1VHVhZDZIMVlIR0VPS0dNVUpjYTNkM3VEaHRZ?=
+ =?utf-8?B?bkFFKzl1QzJlRTlzdVhweE1hS1hGcnltUW5EZjY2ekl5S3BjVzVLZW9jUVVM?=
+ =?utf-8?B?UW8zaGFSTmdWYVV2ZlJheWx4Nlg2RU1HVEhraVh1S3NlVXZJVmdHQ1BmQjZB?=
+ =?utf-8?B?dzNZNDZ4QWZtYjJ5dk96VEpFYWJ5ODlnblNiem4vVWI3QUwwV3dqeCtrdlFW?=
+ =?utf-8?B?S0Y1c2xkT3J5akJzOTRsbFBQRXFSSSs1ZEREMCtmbHFPWjgvVmFUZU1DTmRN?=
+ =?utf-8?B?S1B6b2Nwd3V4TXRoLzJPdWY2ejJub0ZuSFBYb3FHM2JWSnFSZVVpOTkyNFE0?=
+ =?utf-8?B?b1F1L1ZqM24zWDlBdUkycU83bFZSMU9GeklYZ3ZQWitpL3ZIdXViVm1JS25P?=
+ =?utf-8?B?VnRVZHNJNTVYQUFKQURiM0E0UTQwZkJSaVFacjFueGZyS1F1bEc5aFl6TDUx?=
+ =?utf-8?B?Z3VhNjFmMGhKdjQwcmJwc0sxSkM5VExIVWpjeHdQQm5PQUpMdGErVUJOTi9R?=
+ =?utf-8?B?bktLVWJsblE5SkZQSVZmMG01UTZzaTc3OEJnVHlFWHhOMUJoSGVvUUlLY2V5?=
+ =?utf-8?B?RmR0MlVaUDVvb2xOOVluY3BQeGhQc0pLc21VNFJ6TDcrMGlnM0hXbVEvVFJh?=
+ =?utf-8?B?R0k1YmFZU2NYSzVCV1dMUVdWTG5OK1FMTUF0dWNwMS9SZEFaOE5KK1ZWdDMy?=
+ =?utf-8?B?RWVTSGlCbWhuSVdEUW9aeHlrWVBxNlRwVlZuVm9NZ1NxaTY4VnYrU3czQWth?=
+ =?utf-8?B?S0ZodnRNdXlBWDhvRStrNy9DSjFsYmkxcmQzMmg2WFlzOHFBQ1FUT0NjN3Ba?=
+ =?utf-8?B?WnNoTWpGSkNtMnpIRUUzSTZQUjVQbEdDdHUzb0ZodFVyTU5yTTUxVnBnT1NB?=
+ =?utf-8?B?eUFzbmRJWUVZMUFHWFpZZGtweHpFUVNDRkh3YlpmaU82REl5WVo5M2ZHSjlX?=
+ =?utf-8?B?ZnFpWU9HWjlyTVBZM3RPZTRseStpdEtkU2Z5RmlzMWZramQvYzIzRDNKUmNr?=
+ =?utf-8?B?d0V3OVVxMEJIUjBVbTd2N2ErWU1VTmtqMzJWL1FhTVh5S1BqbFJKR0tkTnNG?=
+ =?utf-8?B?L3c9PQ==?=
 X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d636fd8-4976-4e6a-fbf3-08dd7e6c0321
+X-MS-Exchange-CrossTenant-Network-Message-Id: fed17b50-ad72-4f26-2d26-08dd7e6c3cda
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8906.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2025 11:27:33.2518
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2025 11:29:10.1182
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HSgyEfF+qcQYJjVYAG8RXsw6kejxv9HOjqp+ey5sZvy+VrZHv30qD2/m4OvInLuxHO2isV34y18S4F58DHjKdfzPmR3FqvhMnzZqNvgOlc8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: VLzKOxa+f6BWIU7H4rVcoLSI2jBxp3vSlUg29vARwcQoaE/jE+NDwcNKftqqYOLQX/wSVqa0xeUi6rVk3DiZpUYcQiJxagXS4USoN0hw2pw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10542
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 11:27:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215127
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 11:29:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215128
 
-Hi Thomas,
+Hi Daniel,
 
-On 4/16/25 12:01 PM, Thomas Perrot via lists.openembedded.org wrote:
-> From: Thomas Perrot <thomas.perrot@bootlin.com>
+On 4/16/25 4:28 PM, Daniel Turull via lists.openembedded.org wrote:
+> [You don't often get email from daniel.turull=ericsson.com@lists.openembedded.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
 > 
-> - add a debug mode
-> - print the request and the response when an error occurs.
+> From: Daniel Turull <daniel.turull@ericsson.com>
 > 
-> Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+> This class is used to check the CVEs against a specific kernel configuration.
+> Depends on data from the kernel.org CNA
+> https://git.kernel.org/pub/scm/linux/security/vulns.git
+> The CVE data provided by kernel.org includes the files that are
+> affected by a given CVE and are provided as json files
+> 
+> It requires the kernel to be compiled to be able to extract which files are used.
+> It is created as optional check on top cve-check.
+> 
+> To enable add in your local.conf
+> INHERIT += cve-check
+> INHERIT += cve-check-kernel
+> 
+> To test it
+> bitbake virtual/kernel -c cve_check_kernel
+> 
+> Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 > ---
->   scripts/send-error-report | 28 ++++++++++++++++++++++++----
->   1 file changed, 24 insertions(+), 4 deletions(-)
+>   meta/classes/cve-check-kernel.bbclass | 132 ++++++++++++++++++++++++++
+>   1 file changed, 132 insertions(+)
+>   create mode 100644 meta/classes/cve-check-kernel.bbclass
 > 
-> diff --git a/scripts/send-error-report b/scripts/send-error-report
-> index cfbcaa52cbc3..cdc1dfc5613a 100755
-> --- a/scripts/send-error-report
-> +++ b/scripts/send-error-report
-> @@ -6,6 +6,7 @@
->   # Copyright (C) 2013 Intel Corporation
->   # Author: Andreea Proca <andreea.b.proca@intel.com>
->   # Author: Michael Wood <michael.g.wood@intel.com>
-> +# Author: Thomas Perrot <thomas.perrot@bootlin.com>
->   #
->   # SPDX-License-Identifier: GPL-2.0-only
->   #
-> @@ -22,7 +23,7 @@ scripts_lib_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'li
->   sys.path.insert(0, scripts_lib_path)
->   import argparse_oe
->   
-> -version = "0.3"
-> +version = "0.4"
->   
->   log = logging.getLogger("send-error-report")
->   logging.basicConfig(format='%(levelname)s: %(message)s')
-> @@ -140,13 +141,25 @@ def send_data(data, args):
->           url = args.protocol+args.server+"/ClientPost/"
->   
->       req = urllib.request.Request(url, data=data, headers=headers)
+> diff --git a/meta/classes/cve-check-kernel.bbclass b/meta/classes/cve-check-kernel.bbclass
+> new file mode 100644
+> index 0000000000..c01f0efd1d
+> --- /dev/null
+> +++ b/meta/classes/cve-check-kernel.bbclass
+> @@ -0,0 +1,132 @@
+> +#
+> +# Copyright OpenEmbedded Contributors
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +# This class is used to check the CVEs against a specific kernel configuration.
+> +# Depends on data from the kernel.org CNA
+> +# https://git.kernel.org/pub/scm/linux/security/vulns.git
+> +# The CVE data provided by kernel.org includes the files that are
+> +# affected by a given CVE and are provided as json files
+> +#
+> +# It requires the kernel to be compiled to be able to extract which files are
+> +# used. It is created as optional check on top cve-check.
+> +#
+> +# To enable add in your local.conf
+> +# INHERIT += cve-check
+> +# INHERIT += cve-check-kernel
+> +#
+> +# Then execute
+> +# bitbake virtual/kernel -c cve_check_kernel
+> +#
 > +
-> +    if args.debug:
-> +        log.debug(f"Request URL: {url}")
-> +        log.debug(f"Request Headers: {headers}")
-> +        log.debug(f"Request Data: {data.decode('utf-8')}")
+> +KERNEL_FILES_DIR ?= "${LOG_DIR}/cve/kernel_files"
+> +KERNEL_SRC_FILES ?= "${KERNEL_FILES_DIR}/compile_commands.json"
+> +KERNEL_CNA_REPO ?= "${DL_DIR}/CVE_CHECK/vulns"
 > +
+> +python () {
+> +    if not bb.data.inherits_class("cve-check", d):
+> +        raise bb.parse.SkipRecipe("Skip cve-check-kernel when cve-check class is not loaded.")
+> +
+> +    if d.getVar('PN', True) == d.getVar("PREFERRED_PROVIDER_virtual/kernel", True):
 
-Why only print log.debug if args.debug is set? Isn't that an unnecessary 
-additional check considering the log.setLevel(logging.DEBUG) in main?
+I don't think this will work reliably?
 
->       try:
->           response = urllib.request.urlopen(req)
->       except urllib.error.HTTPError as e:
-> -        logging.error(str(e))
-> +        log.error(f"HTTP Error {e.code}: {e.reason}")
-> +        log.debug(f"Response Content: {e.read().decode('utf-8')}")
->           sys.exit(1)
->   
-> -    print(response.read().decode('utf-8'))
-> +    if args.debug:
-> +        log.debug(f"Response Status: {response.status}")
-> +        log.debug(f"Response Headers: {response.getheaders()}")
-> +        log.debug(f"Response Content: {response.read().decode('utf-8')}")
-> +    else:
-> +        print(response.read().decode('utf-8'))
+I think you could have another virtual provider in 
+PREFERRED_PROVIDER_virtual/kernel and then this wouldn't match.
 
-Same remark here?
+I have no clue how to handle that properly.
 
-It's also a bit odd that the same info is going to be in different log 
-levels depending on whether debug was enabled or not.
+I'm not sure how to make sure we're always using the latest linux-vulns 
+database (and so not rely on the cache(s)) but at the same time allow 
+building without network access. I guess we could provide some hash or 
+tarball for linux-vulns by default, for building without network access?
 
 Cheers,
 Quentin
