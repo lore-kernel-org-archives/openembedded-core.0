@@ -2,152 +2,98 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ECC3C369AB
-	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 19:35:33 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web11.3857.1745004923643275773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A57FC369AB
+	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 19:54:53 +0000 (UTC)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web10.4271.1745006089792549294
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Apr 2025 12:35:23 -0700
+ Fri, 18 Apr 2025 12:54:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ubq0ABX2;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6f2b04a6169so21738696d6.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 12:35:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bbA1XAGZ;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-47698757053so24141111cf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 12:54:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745004923; x=1745609723; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O86mRbKos06Luj9eDwKUJ+VhAV64puPZyMdWwCiIXSQ=;
-        b=Ubq0ABX2fr/Uc3wRVSyf3KBYXUJQV7+6Wi+mbg27lXx5hbPWvml1yz5XYLGHcg6z6/
-         KG9+GNrmOjO0c2byxtSmIw9FSWrn3eeRm4az6aDKHOl6vRXVZWROcFlLR+Qj9zS0cfnB
-         4XiUL2Ak294gTSAuBMVM0lAhFQ5wTlgeTIvSMyafAk4ftI+/QAT96sBmvMY0AY1mImy+
-         Pf+ws5v96U3aGMwp8vTVMDOVbck0cw7Ee0bz5AG/8i9B+ee9peTLlNeKGobgqsD4hKrd
-         El8lJyOfXOQ0dbJZOCdbJN+rP9i39ASyosx3Nz6Cjvs3lyvpK45/XPcb00EGyssmtJ92
-         Wfjg==
+        d=gmail.com; s=20230601; t=1745006089; x=1745610889; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uzYb/LhhdENqkjBLctTNbDJNBrMLF6+qchbOyQ4ivdo=;
+        b=bbA1XAGZsKQ1AU5fIzp3DCVdUXbdpfzdkJaVL4DlwUT/bJ/LIBAd3c11f+biTdQZvF
+         5s4qscswNf01wcLKERBuxtSTDMqTrkRHPQrZf4bXNPSMBwBW9YjUauCkO6GjVnbloW8I
+         FV+Y8BXROoyHlvM2TQ8SjT9r2o6zr44xK9iFmthpI69LyscANVJqm8mswa+biuDSNQ97
+         dfCL/aNPPkDBqVRYp97xBnRqmwikvMQ85iFODJ1966D0O+6r8I07LLw+FgMdEMKSjjYe
+         ko1Dt5iOWtW2yrZHOfnpdJMK/THXWP5yB8OSY3Ge2EAopiwbOeicY/M8CJGodwDprVrh
+         q0MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745004923; x=1745609723;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O86mRbKos06Luj9eDwKUJ+VhAV64puPZyMdWwCiIXSQ=;
-        b=bxQ85OpNI3Sj8aGHcvqB7whxt31DnwKu0gsJ4z7mDtt+XTAY+8qkek6RCgcyqUVE5g
-         1vtSCnNGPN/jMFtwWY8WS/NelKdh0eTldLxDWsUxt5XnIXVyy79GuJGe5edZ2HfwC1gV
-         lpXPKurW/L4GMIwH7V5TzOjEBgzrb92crlKh0EcL26eU2/XZ2iAhue8itiX5KSvP2JWH
-         g2SwsVGXShKNc1ofhZMkSp+WxY2vg7Jm+huwE0861Yly9sJWsHzgR7g4+nfHd9MTxULg
-         WMG9L4lOm5wsLx3G8Jy5v6jA0rPk7jHEHqPJuAOHwSUgw0WMSWtL/T5mr+ugZjAn1khM
-         YTlQ==
-X-Gm-Message-State: AOJu0YyrMs9WINiobLBz0lBX8eTZpQhU20bL3YrbRhbq3DCSVOgYh7xp
-	mF5LyoDyEZi3Ma4MJjhTmvUvO56j0p685ooY9jGobCB3w+Bv1TbL40YZC7Gv
-X-Gm-Gg: ASbGncvXrgBPJL+30luGx8hVSy8fkOqlGc+zUEJ4FkhlUdirYvdyc0+8DuBSs+2qeyn
-	ZA9vAQgKVC1R6shhq6JIIa04GQ+phjivbi2Nc/Go9eV5ekxo8V2F8/WNiQb9Vd6naHcfvnNLqBi
-	SBuaU92T9uTHXJGLbqBzYF/JC8Fj/0LC41o4U+6w2vt4PRJIGBsGCk4N9XSr8L/4KPr4sUv1WZi
-	oG33Hlhl+BWAoyROE+H3fe7No8AhnxYlt3UZdjaAAPWn4hyJvGco39AmS5/+tRJLOYChBydRL/N
-	0lAYLeviWt1gwzz8SBCfvBetvFQg4zt27NJNyXJ2gXMjmkeeTswFIwt6WUnX4g5Sdttxkb3aQML
-	jNXidJgEIqAew28sLZao=
-X-Google-Smtp-Source: AGHT+IG2/q3Pnvl5x523Zx7nt+CrA9EYMBii7mb7qcPfTvhuUZ6kwjwW5FKZHMnO0UFSheoG0XujfQ==
-X-Received: by 2002:ad4:5d43:0:b0:6eb:2878:e1fa with SMTP id 6a1803df08f44-6f2c4688548mr67451246d6.45.1745004922615;
-        Fri, 18 Apr 2025 12:35:22 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2c21d3asm13696656d6.100.2025.04.18.12.35.21
+        d=1e100.net; s=20230601; t=1745006089; x=1745610889;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uzYb/LhhdENqkjBLctTNbDJNBrMLF6+qchbOyQ4ivdo=;
+        b=vIeBSL5wNTeJVMH0Dmx3amfDcAeSU2+6V+5ttSI0W8ryh/gQSe558l/6e99e5NTUB4
+         gskKpID5+pARLSbza4bxNQAmr+73pYL/RQJI3jwd+mZESbr5mIc5++I30/ELhbVPO27z
+         NPTOx8OuZ7jREwq6as0bs9JHYNJNA2WbzLMQwUyxl9z8ZB72Y7j7qy5qcUJnFQAYrO23
+         uFUQ2Mk0s0SD6KitCkPKBRhwwsOG5su91HdbpjMpt4tquOJO1Kom/wGD6H4us2Vo16Ih
+         cewL9iv48PU0JicJMqw4bgNKMHmZDhGoBMmoipVaVPckyy296LUpPp9UgcjSuq8i+bd9
+         jfGQ==
+X-Gm-Message-State: AOJu0YxddrffUYUl+3Kt1vbhA4fwHinffTzBxSePOuOlHrhtdGSdql8b
+	VwebQJ3nMcmeE2/gZTZoNS2tKk3CbHe05bICc7eOZ4NVCZLLkB8/
+X-Gm-Gg: ASbGncu1fGj/jXKtSwjZxb4TGQzTk3rtkfzTgyn75Sv2XLsTqDnQN+ai2NXAenm9Sfa
+	zCWGheBYCRt/4GNTrjnZ8OTuq3rpC2XWZamVvD32VtNL5/Sk6V0CXo4+GXgMsS4jKuOdtynzPmT
+	kXvpLfMY1vMK3efHi65paEGqmwmNAg2IS9tnQQvR/fA+AI0yLKiiivysco++ckYheS4Gcq7enVA
+	HJTO7h6R2qNSJSz0hcaMhXZkeva2h0TC6KJpbR8CpxNC9uN6sssNVWBnbtHGaFbF6q2fuUV08rK
+	BL5nK6gec0s4JMqLfUlu4AJOyuL3KdRhJ3HOQ8UK3mgNEsPboqrMAIHsZURsHvpyNzz4qtFhsRi
+	sWutRgTZ8PMHnXpwbSQO95IQ26cQO4dxuwz6lHCgiZQ==
+X-Google-Smtp-Source: AGHT+IEG30G51VCHlwkE0DxDOegGkGzYxLaRk3PLWLirP9/6yRFZ+++jS1x06mY9DkXq9fs4D/hVlQ==
+X-Received: by 2002:a05:622a:180c:b0:477:13b7:8336 with SMTP id d75a77b69052e-47aec394c93mr49109911cf.17.1745006088752;
+        Fri, 18 Apr 2025 12:54:48 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47ae9ce085asm13774061cf.51.2025.04.18.12.54.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 12:35:22 -0700 (PDT)
-Date: Fri, 18 Apr 2025 15:35:20 -0400
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Michal Sieron <michalwsieron@gmail.com>
+        Fri, 18 Apr 2025 12:54:48 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] kernel-module-split: Allow for external conf
- files
-Message-ID: <aAKpeGEgdlK3jOdy@gmail.com>
-References: <CADkTA4O_t=cggrERmZV8L64X9n3iEatdtqj5_NcGYxzcxAPDCw@mail.gmail.com>
- <20250417151158.282362-2-michalwsieron@gmail.com>
+Subject: [OE-core] 0/2] linux-yocto: -stable and config changes (for current release)
+Date: Fri, 18 Apr 2025 15:54:44 -0400
+Message-Id: <20250418195446.1914594-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250417151158.282362-2-michalwsieron@gmail.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 19:35:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215140
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 19:54:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215141
 
-In message: Re: [OE-core] [PATCH] kernel-module-split: Allow for external conf files
-on 17/04/2025 Michal Sieron wrote:
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-> > Whenever we add a different code path, we need to add a test to
-> > the oe selftests, both for the existing case (if there isn't one already)
-> > and the new one. Without those tests, we'll get a better understanding
-> > of how this is supposed to work, that it doesn't break existing users
-> > and we'll know when it breaks in the future (since this obviously won't
-> > be a default path with our reference distros).
-> 
-> The problem with this is that there are no existing tests for
-> kernel-module-split.bbclass. So I would need some heavy assistance with
-> writing such test cases :(
+Richard,
 
-We can definitely help with this, having specific questions will
-help of course, but this is worth the effort (and in fact may be
-the only way to get this merged).
+This is the iommu configuration change you were waiting for, but I had already
+updated to 6.12.23, so that -stable change is coming along with the meta/cfg
+update to pickup the configuration.
 
-I'm no expert in self-tests either, but can offer some of my
-time to sort through the issue.
+If there are any issues with the -stable update, I can attempt to jiggle the
+patches such that the cfg: iommu patch brings along the 6.12.23 kver bump, but
+not the actual -stable update itself. The -stable would then follow later without
+an associated meta data update.
 
-The code is simply to complex now to not be tested at all. We don't
-need something complex, just something that ensures a conf file is
-generated in both cases.
-
-> 
-> But I do agree that tests are generally a good idea.
-> The whole reason I sent the patch is because I noticed that behavior
-> change between kirkstone and scarthgap caused by this change in
-> oe-core:71460993f350bca3d5a22115fd5551696f955c9f.
-
-Agreed!
-
-> 
-> > A comment about how your high level description in the long log relates
-> > to needing to move these variables outside of the conditional would be
-> > helpful.
-> ...
-> > A quick comment here would help as well. This is now outside the
-> > conditional, so a comment indicating that the file at "name" can either
-> > be generated above or placed there by a recipe will help with
-> > maintenance.
-> 
-> Will try to somehow explain it in v2 of the patch.
-> 
-> > Also, what happens if the file at "name" is updated ? I don't
-> > think the module splitting would be re-run, so would we have a
-> > "stale" file ? Should that file be something in the kernel-module
-> > recipe that triggers a rebuild if it is changed ? I don't see that
-> > mentioned (maybe I'm imagining the problem) or a requirement
-> > on the recipe.
-> Wouldn't that alter do_install's checksum? Otherwise I don't think I
-> have an answer.
-> 
-> 
-> Anyway, while I was preparing this response I noticed some other things.
-> 
-> 1. pkg_postinst hook
-> There is this `pkg_postinst` part for "autoload". I guess I should move
-> that hook so it is also installed when .conf is vendored, is that right?
-> Although that wasn't there before the regression commit I found.
-
-At a glance .. yes, we'd want to keep that same behavior in both
-modes.
-
-> 
-> 2. Duplicated entries in (CONF)FILES:*
-> Even before my patch FILES:* and CONFFILES:* entries for kernel
-> module packages are for some reason doubled. But that is probably for
-> another patch.
-
-Yes, it would be best to do this patch, and a second separate one
-that sorts that out. If the logical changes are separate, they are
-easier to review and merge.
+But since that is a manual operation, I wanted to send the patches as-is and
+let's see how they do on the AB.
 
 Bruce
 
-> 
-> Best regards,
-> Michal
+Bruce Ashfield (2):
+  linux-yocto/6.12: update to v6.12.23
+  linux-yocto/6.12: cfg: Include iommu.scc for Arrowlake boot support
+
+ .../linux/linux-yocto-rt_6.12.bb              |  6 ++--
+ .../linux/linux-yocto-tiny_6.12.bb            |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb | 28 +++++++++----------
+ 3 files changed, 20 insertions(+), 20 deletions(-)
+
+-- 
+2.39.2
+
 
