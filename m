@@ -1,253 +1,153 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F15C369AB
-	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 19:34:43 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.3834.1745004878051761684
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ECC3C369AB
+	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 19:35:33 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web11.3857.1745004923643275773
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Apr 2025 12:34:39 -0700
+ Fri, 18 Apr 2025 12:35:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=YTcO7ofT;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202504181934343abe68903371d47cdf-v5ui4a@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202504181934343abe68903371d47cdf
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 18 Apr 2025 21:34:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=8SQ+Pp6WdG2o6RmE3RUhaebWsVFACzhe+AjhfUaNvMo=;
- b=YTcO7ofTJ4BSppeiZzmYrXpATI+pf5QIcXU81+7hEh2apxYO6q/ayzXZtJXhs/UvroKl9Q
- DvD9NiX0TS73UklIju+tQuHDF/KnODSaVJ0sCCavH2DvEOEPQ0T6f3s4sFo3hf2p8TjHhbnA
- nkOs27mCb3nP0kJU69PXN6rAw2BWHzdLpkS2rZ2b5el9gChtz0DjfkapDKs57hi54rkjt3rT
- 1ZBlsjIqS/oAdkHqi4RHKdo9xDObpHOaM4B5fben4iqUtTtYphYL2RE5J2SyPaTlseBb6Yg1
- GkLa/0PAEN8pYB+YrInct32bz5wHmTJS6ncdDC4Wx/YVVFamST5CFMVA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] sqlite3: patch CVE-2025-29088
-Date: Fri, 18 Apr 2025 21:33:48 +0200
-Message-Id: <20250418193348.2917477-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ubq0ABX2;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6f2b04a6169so21738696d6.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 12:35:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745004923; x=1745609723; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O86mRbKos06Luj9eDwKUJ+VhAV64puPZyMdWwCiIXSQ=;
+        b=Ubq0ABX2fr/Uc3wRVSyf3KBYXUJQV7+6Wi+mbg27lXx5hbPWvml1yz5XYLGHcg6z6/
+         KG9+GNrmOjO0c2byxtSmIw9FSWrn3eeRm4az6aDKHOl6vRXVZWROcFlLR+Qj9zS0cfnB
+         4XiUL2Ak294gTSAuBMVM0lAhFQ5wTlgeTIvSMyafAk4ftI+/QAT96sBmvMY0AY1mImy+
+         Pf+ws5v96U3aGMwp8vTVMDOVbck0cw7Ee0bz5AG/8i9B+ee9peTLlNeKGobgqsD4hKrd
+         El8lJyOfXOQ0dbJZOCdbJN+rP9i39ASyosx3Nz6Cjvs3lyvpK45/XPcb00EGyssmtJ92
+         Wfjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745004923; x=1745609723;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O86mRbKos06Luj9eDwKUJ+VhAV64puPZyMdWwCiIXSQ=;
+        b=bxQ85OpNI3Sj8aGHcvqB7whxt31DnwKu0gsJ4z7mDtt+XTAY+8qkek6RCgcyqUVE5g
+         1vtSCnNGPN/jMFtwWY8WS/NelKdh0eTldLxDWsUxt5XnIXVyy79GuJGe5edZ2HfwC1gV
+         lpXPKurW/L4GMIwH7V5TzOjEBgzrb92crlKh0EcL26eU2/XZ2iAhue8itiX5KSvP2JWH
+         g2SwsVGXShKNc1ofhZMkSp+WxY2vg7Jm+huwE0861Yly9sJWsHzgR7g4+nfHd9MTxULg
+         WMG9L4lOm5wsLx3G8Jy5v6jA0rPk7jHEHqPJuAOHwSUgw0WMSWtL/T5mr+ugZjAn1khM
+         YTlQ==
+X-Gm-Message-State: AOJu0YyrMs9WINiobLBz0lBX8eTZpQhU20bL3YrbRhbq3DCSVOgYh7xp
+	mF5LyoDyEZi3Ma4MJjhTmvUvO56j0p685ooY9jGobCB3w+Bv1TbL40YZC7Gv
+X-Gm-Gg: ASbGncvXrgBPJL+30luGx8hVSy8fkOqlGc+zUEJ4FkhlUdirYvdyc0+8DuBSs+2qeyn
+	ZA9vAQgKVC1R6shhq6JIIa04GQ+phjivbi2Nc/Go9eV5ekxo8V2F8/WNiQb9Vd6naHcfvnNLqBi
+	SBuaU92T9uTHXJGLbqBzYF/JC8Fj/0LC41o4U+6w2vt4PRJIGBsGCk4N9XSr8L/4KPr4sUv1WZi
+	oG33Hlhl+BWAoyROE+H3fe7No8AhnxYlt3UZdjaAAPWn4hyJvGco39AmS5/+tRJLOYChBydRL/N
+	0lAYLeviWt1gwzz8SBCfvBetvFQg4zt27NJNyXJ2gXMjmkeeTswFIwt6WUnX4g5Sdttxkb3aQML
+	jNXidJgEIqAew28sLZao=
+X-Google-Smtp-Source: AGHT+IG2/q3Pnvl5x523Zx7nt+CrA9EYMBii7mb7qcPfTvhuUZ6kwjwW5FKZHMnO0UFSheoG0XujfQ==
+X-Received: by 2002:ad4:5d43:0:b0:6eb:2878:e1fa with SMTP id 6a1803df08f44-6f2c4688548mr67451246d6.45.1745004922615;
+        Fri, 18 Apr 2025 12:35:22 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2c21d3asm13696656d6.100.2025.04.18.12.35.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Apr 2025 12:35:22 -0700 (PDT)
+Date: Fri, 18 Apr 2025 15:35:20 -0400
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Michal Sieron <michalwsieron@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] kernel-module-split: Allow for external conf
+ files
+Message-ID: <aAKpeGEgdlK3jOdy@gmail.com>
+References: <CADkTA4O_t=cggrERmZV8L64X9n3iEatdtqj5_NcGYxzcxAPDCw@mail.gmail.com>
+ <20250417151158.282362-2-michalwsieron@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250417151158.282362-2-michalwsieron@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 19:34:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215139
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 19:35:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215140
 
-From: Peter Marko <peter.marko@siemens.com>
+In message: Re: [OE-core] [PATCH] kernel-module-split: Allow for external conf files
+on 17/04/2025 Michal Sieron wrote:
 
-Pick commit [1] mentioned in [2].
+> > Whenever we add a different code path, we need to add a test to
+> > the oe selftests, both for the existing case (if there isn't one already)
+> > and the new one. Without those tests, we'll get a better understanding
+> > of how this is supposed to work, that it doesn't break existing users
+> > and we'll know when it breaks in the future (since this obviously won't
+> > be a default path with our reference distros).
+> 
+> The problem with this is that there are no existing tests for
+> kernel-module-split.bbclass. So I would need some heavy assistance with
+> writing such test cases :(
 
-[1] https://github.com/sqlite/sqlite/commit/56d2fd008b108109f489339f5fd55212bb50afd4
-[2] https://nvd.nist.gov/vuln/detail/CVE-2025-29088
+We can definitely help with this, having specific questions will
+help of course, but this is worth the effort (and in fact may be
+the only way to get this merged).
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../sqlite/sqlite3/CVE-2025-29088.patch       | 179 ++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.45.3.bb |   1 +
- 2 files changed, 180 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2025-29088.patch
+I'm no expert in self-tests either, but can offer some of my
+time to sort through the issue.
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2025-29088.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2025-29088.patch
-new file mode 100644
-index 0000000000..7a5769ed07
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2025-29088.patch
-@@ -0,0 +1,179 @@
-+From 57d1e61dda969659f59a0b7841c7d0287d724bc6 Mon Sep 17 00:00:00 2001
-+From: drh <>
-+Date: Mon, 17 Feb 2025 14:16:49 +0000
-+Subject: [PATCH] Harden the SQLITE_DBCONFIG_LOOKASIDE interface against
-+ misuse, such as described in [forum:/forumpost/48f365daec|forum post
-+ 48f365daec].  Enhancements to the SQLITE_DBCONFIG_LOOKASIDE documentation. 
-+ Test cases in TH3.
-+
-+FossilOrigin-Name: 1ec4c308c76c69fba031184254fc3340f07607cfbf8342b13713ab445563d377
-+
-+CVE: CVE-2025-29088
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/56d2fd008b108109f489339f5fd55212bb50afd4]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ sqlite3.c | 42 +++++++++++++++++++++++---------------
-+ sqlite3.h | 60 +++++++++++++++++++++++++++++++++++++------------------
-+ 2 files changed, 67 insertions(+), 35 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 24d0d954d9..2574a43f3e 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -179112,17 +179112,22 @@ SQLITE_API int sqlite3_config(int op, ...){
-+ ** If lookaside is already active, return SQLITE_BUSY.
-+ **
-+ ** The sz parameter is the number of bytes in each lookaside slot.
-+-** The cnt parameter is the number of slots.  If pStart is NULL the
-+-** space for the lookaside memory is obtained from sqlite3_malloc().
-+-** If pStart is not NULL then it is sz*cnt bytes of memory to use for
-+-** the lookaside memory.
-++** The cnt parameter is the number of slots.  If pBuf is NULL the
-++** space for the lookaside memory is obtained from sqlite3_malloc()
-++** or similar.  If pBuf is not NULL then it is sz*cnt bytes of memory
-++** to use for the lookaside memory.
-+ */
-+-static int setupLookaside(sqlite3 *db, void *pBuf, int sz, int cnt){
-++static int setupLookaside(
-++  sqlite3 *db,    /* Database connection being configured */
-++  void *pBuf,     /* Memory to use for lookaside.  May be NULL */
-++  int sz,         /* Desired size of each lookaside memory slot */
-++  int cnt         /* Number of slots to allocate */
-++){
-+ #ifndef SQLITE_OMIT_LOOKASIDE
-+-  void *pStart;
-+-  sqlite3_int64 szAlloc = sz*(sqlite3_int64)cnt;
-+-  int nBig;   /* Number of full-size slots */
-+-  int nSm;    /* Number smaller LOOKASIDE_SMALL-byte slots */
-++  void *pStart;          /* Start of the lookaside buffer */
-++  sqlite3_int64 szAlloc; /* Total space set aside for lookaside memory */
-++  int nBig;              /* Number of full-size slots */
-++  int nSm;               /* Number smaller LOOKASIDE_SMALL-byte slots */
-+ 
-+   if( sqlite3LookasideUsed(db,0)>0 ){
-+     return SQLITE_BUSY;
-+@@ -179135,17 +179140,22 @@ static int setupLookaside(sqlite3 *db, void *pBuf, int sz, int cnt){
-+     sqlite3_free(db->lookaside.pStart);
-+   }
-+   /* The size of a lookaside slot after ROUNDDOWN8 needs to be larger
-+-  ** than a pointer to be useful.
-++  ** than a pointer and small enough to fit in a u16.
-+   */
-+-  sz = ROUNDDOWN8(sz);  /* IMP: R-33038-09382 */
-++  sz = ROUNDDOWN8(sz);
-+   if( sz<=(int)sizeof(LookasideSlot*) ) sz = 0;
-+-  if( cnt<0 ) cnt = 0;
-+-  if( sz==0 || cnt==0 ){
-++  if( sz>65528 ) sz = 65528;
-++  /* Count must be at least 1 to be useful, but not so large as to use
-++  ** more than 0x7fff0000 total bytes for lookaside. */
-++  if( cnt<1 ) cnt = 0;
-++  if( sz>0 && cnt>(0x7fff0000/sz) ) cnt = 0x7fff0000/sz;
-++  szAlloc = (i64)sz*(i64)cnt;
-++  if( szAlloc==0 ){
-+     sz = 0;
-+     pStart = 0;
-+   }else if( pBuf==0 ){
-+     sqlite3BeginBenignMalloc();
-+-    pStart = sqlite3Malloc( szAlloc );  /* IMP: R-61949-35727 */
-++    pStart = sqlite3Malloc( szAlloc );
-+     sqlite3EndBenignMalloc();
-+     if( pStart ) szAlloc = sqlite3MallocSize(pStart);
-+   }else{
-+@@ -179154,10 +179164,10 @@ static int setupLookaside(sqlite3 *db, void *pBuf, int sz, int cnt){
-+ #ifndef SQLITE_OMIT_TWOSIZE_LOOKASIDE
-+   if( sz>=LOOKASIDE_SMALL*3 ){
-+     nBig = szAlloc/(3*LOOKASIDE_SMALL+sz);
-+-    nSm = (szAlloc - sz*nBig)/LOOKASIDE_SMALL;
-++    nSm = (szAlloc - (i64)sz*(i64)nBig)/LOOKASIDE_SMALL;
-+   }else if( sz>=LOOKASIDE_SMALL*2 ){
-+     nBig = szAlloc/(LOOKASIDE_SMALL+sz);
-+-    nSm = (szAlloc - sz*nBig)/LOOKASIDE_SMALL;
-++    nSm = (szAlloc - (i64)sz*(i64)nBig)/LOOKASIDE_SMALL;
-+   }else
-+ #endif /* SQLITE_OMIT_TWOSIZE_LOOKASIDE */
-+   if( sz>0 ){
-+diff --git a/sqlite3.h b/sqlite3.h
-+index 2618b37a7b..056511f577 100644
-+--- a/sqlite3.h
-++++ b/sqlite3.h
-+@@ -1974,13 +1974,16 @@ struct sqlite3_mem_methods {
-+ **
-+ ** [[SQLITE_CONFIG_LOOKASIDE]] <dt>SQLITE_CONFIG_LOOKASIDE</dt>
-+ ** <dd> ^(The SQLITE_CONFIG_LOOKASIDE option takes two arguments that determine
-+-** the default size of lookaside memory on each [database connection].
-++** the default size of [lookaside memory] on each [database connection].
-+ ** The first argument is the
-+-** size of each lookaside buffer slot and the second is the number of
-+-** slots allocated to each database connection.)^  ^(SQLITE_CONFIG_LOOKASIDE
-+-** sets the <i>default</i> lookaside size. The [SQLITE_DBCONFIG_LOOKASIDE]
-+-** option to [sqlite3_db_config()] can be used to change the lookaside
-+-** configuration on individual connections.)^ </dd>
-++** size of each lookaside buffer slot ("sz") and the second is the number of
-++** slots allocated to each database connection ("cnt").)^
-++** ^(SQLITE_CONFIG_LOOKASIDE sets the <i>default</i> lookaside size.
-++** The [SQLITE_DBCONFIG_LOOKASIDE] option to [sqlite3_db_config()] can
-++** be used to change the lookaside configuration on individual connections.)^
-++** The [-DSQLITE_DEFAULT_LOOKASIDE] option can be used to change the
-++** default lookaside configuration at compile-time.
-++** </dd>
-+ **
-+ ** [[SQLITE_CONFIG_PCACHE2]] <dt>SQLITE_CONFIG_PCACHE2</dt>
-+ ** <dd> ^(The SQLITE_CONFIG_PCACHE2 option takes a single argument which is
-+@@ -2210,24 +2213,43 @@ struct sqlite3_mem_methods {
-+ ** <dt>SQLITE_DBCONFIG_LOOKASIDE</dt>
-+ ** <dd> ^This option takes three additional arguments that determine the
-+ ** [lookaside memory allocator] configuration for the [database connection].
-+-** ^The first argument (the third parameter to [sqlite3_db_config()] is a
-++** <ol>
-++** <li><p>The first argument ("buf") is a
-+ ** pointer to a memory buffer to use for lookaside memory.
-+-** ^The first argument after the SQLITE_DBCONFIG_LOOKASIDE verb
-+-** may be NULL in which case SQLite will allocate the
-+-** lookaside buffer itself using [sqlite3_malloc()]. ^The second argument is the
-+-** size of each lookaside buffer slot.  ^The third argument is the number of
-+-** slots.  The size of the buffer in the first argument must be greater than
-+-** or equal to the product of the second and third arguments.  The buffer
-+-** must be aligned to an 8-byte boundary.  ^If the second argument to
-+-** SQLITE_DBCONFIG_LOOKASIDE is not a multiple of 8, it is internally
-+-** rounded down to the next smaller multiple of 8.  ^(The lookaside memory
-++** The first argument may be NULL in which case SQLite will allocate the
-++** lookaside buffer itself using [sqlite3_malloc()].
-++** <li><P>The second argument ("sz") is the
-++** size of each lookaside buffer slot.  Lookaside is disabled if "sz"
-++** is less than 8.  The "sz" argument should be a multiple of 8 less than
-++** 65536.  If "sz" does not meet this constraint, it is reduced in size until
-++** it does.
-++** <li><p>The third argument ("cnt") is the number of slots. Lookaside is disabled
-++** if "cnt"is less than 1.  The "cnt" value will be reduced, if necessary, so
-++** that the product of "sz" and "cnt" does not exceed 2,147,418,112.  The "cnt"
-++** parameter is usually chosen so that the product of "sz" and "cnt" is less
-++** than 1,000,000.
-++** </ol>
-++** <p>If the "buf" argument is not NULL, then it must
-++** point to a memory buffer with a size that is greater than
-++** or equal to the product of "sz" and "cnt".
-++** The buffer must be aligned to an 8-byte boundary.
-++** The lookaside memory
-+ ** configuration for a database connection can only be changed when that
-+ ** connection is not currently using lookaside memory, or in other words
-+-** when the "current value" returned by
-+-** [sqlite3_db_status](D,[SQLITE_DBSTATUS_LOOKASIDE_USED],...) is zero.
-++** when the value returned by [SQLITE_DBSTATUS_LOOKASIDE_USED] is zero.
-+ ** Any attempt to change the lookaside memory configuration when lookaside
-+ ** memory is in use leaves the configuration unchanged and returns
-+-** [SQLITE_BUSY].)^</dd>
-++** [SQLITE_BUSY].
-++** If the "buf" argument is NULL and an attempt
-++** to allocate memory based on "sz" and "cnt" fails, then
-++** lookaside is silently disabled.
-++** <p>
-++** The [SQLITE_CONFIG_LOOKASIDE] configuration option can be used to set the
-++** default lookaside configuration at initialization.  The
-++** [-DSQLITE_DEFAULT_LOOKASIDE] option can be used to set the default lookaside
-++** configuration at compile-time.  Typical values for lookaside are 1200 for
-++** "sz" and 40 to 100 for "cnt".
-++** </dd>
-+ **
-+ ** [[SQLITE_DBCONFIG_ENABLE_FKEY]]
-+ ** <dt>SQLITE_DBCONFIG_ENABLE_FKEY</dt>
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-index 0e91167eef..d39cb3805b 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
- 
- SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://CVE-2025-3277.patch \
-+           file://CVE-2025-29088.patch \
-           "
- SRC_URI[sha256sum] = "b2809ca53124c19c60f42bf627736eae011afdcc205bb48270a5ee9a38191531"
- 
+The code is simply to complex now to not be tested at all. We don't
+need something complex, just something that ensures a conf file is
+generated in both cases.
+
+> 
+> But I do agree that tests are generally a good idea.
+> The whole reason I sent the patch is because I noticed that behavior
+> change between kirkstone and scarthgap caused by this change in
+> oe-core:71460993f350bca3d5a22115fd5551696f955c9f.
+
+Agreed!
+
+> 
+> > A comment about how your high level description in the long log relates
+> > to needing to move these variables outside of the conditional would be
+> > helpful.
+> ...
+> > A quick comment here would help as well. This is now outside the
+> > conditional, so a comment indicating that the file at "name" can either
+> > be generated above or placed there by a recipe will help with
+> > maintenance.
+> 
+> Will try to somehow explain it in v2 of the patch.
+> 
+> > Also, what happens if the file at "name" is updated ? I don't
+> > think the module splitting would be re-run, so would we have a
+> > "stale" file ? Should that file be something in the kernel-module
+> > recipe that triggers a rebuild if it is changed ? I don't see that
+> > mentioned (maybe I'm imagining the problem) or a requirement
+> > on the recipe.
+> Wouldn't that alter do_install's checksum? Otherwise I don't think I
+> have an answer.
+> 
+> 
+> Anyway, while I was preparing this response I noticed some other things.
+> 
+> 1. pkg_postinst hook
+> There is this `pkg_postinst` part for "autoload". I guess I should move
+> that hook so it is also installed when .conf is vendored, is that right?
+> Although that wasn't there before the regression commit I found.
+
+At a glance .. yes, we'd want to keep that same behavior in both
+modes.
+
+> 
+> 2. Duplicated entries in (CONF)FILES:*
+> Even before my patch FILES:* and CONFFILES:* entries for kernel
+> module packages are for some reason doubled. But that is probably for
+> another patch.
+
+Yes, it would be best to do this patch, and a second separate one
+that sorts that out. If the logical changes are separate, they are
+easier to review and merge.
+
+Bruce
+
+> 
+> Best regards,
+> Michal
 
