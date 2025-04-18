@@ -1,119 +1,104 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6518C369AB
-	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 17:59:22 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.2027.1744999154378530204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C39C369AB
+	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 18:36:02 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.2764.1745001352411607611
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Apr 2025 10:59:14 -0700
+ Fri, 18 Apr 2025 11:35:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SsMgwfb0;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2279915e06eso24502145ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 10:59:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744999153; x=1745603953; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vCDYG9XiMtzlyAgGl9pd78OEwKvpIvULM1kMcfBfmKU=;
-        b=SsMgwfb0xA3gz634BbIn9zEjaXncZzLvFMSATFqe/VCPRNQdoDI/JonHDLJQ+lenAO
-         4LjDpBQaJHsIjSWivZ3jLO7wVHYWVsOEWMVjxnmqZFxDWubIm9iJR9ePG4i+05bJjPLV
-         bAMbfKtVE8K11GXgYGPFFAIRKIAgiIxA8EOr3v96zAeWWEsEQcyucUbfKkF6GAKSblPk
-         WE5/ugiruvJy7SKPtfT37A5BB5x6TVbGoz1DNWLnz7QhEGeBMKqtx7VmK2HnCwNTf3hJ
-         Wfrazb3dTwxQpK8Y29pGYSM+9LbYEZT0a45tM4RgtT0kofd34FOY82dZQxBgWLGe4Sqe
-         Gxdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744999153; x=1745603953;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vCDYG9XiMtzlyAgGl9pd78OEwKvpIvULM1kMcfBfmKU=;
-        b=lU7a5xkKaWNqqaJxCXkeSiYAqjvpJEv9ADi44FYotuad+axTTq7u6XuC4TANl9FRTJ
-         oL4ccb0YCeL2MqVQ2zr+DdWqX6bmou6OjB41v+Gs1R9kEm8a88vAtenoaB9sQhI15ELG
-         N7TNKxHbjV0x5gs2KTr0k98lFO6uC5mha1xzfC07D3iky6f5MNcPh/Usf5XyY2oHvhh5
-         WEIvilzouZXI+SjuaoZ3aDYC7KPYdV2JlNuZ9gGke6pRwv9qs6KUM37Pvt0pZ9uS62Jr
-         QPNRmztglmV+Wvh53c2FIjwA01fZSEXGcBh6HUfcMkT8UiuTY4/0p/aM0SAstwzlBTyq
-         aBCw==
-X-Gm-Message-State: AOJu0YwqA9bnoqEiuYzo9MJ3bURiGiW8WuoPuszHICppvKRA+AyH4Yjt
-	XZDTCG3/LDJg0jSBxCDo6Fly/u+xY+VGUOVhoNy0K4oP953F2wZILrCO8guA
-X-Gm-Gg: ASbGnctWjpdK17Guhz5uSnWpOIz3ziqu92STER38pM93uvJI8fSMDdiLxVwDlfTi0Qm
-	PoyKNMgCBlr8VlLyGZqNjegmEeW9L+AuXe/+mbsck0PPZ4rbMFV1dAumIR6ngcv1hI8bqRRLZTO
-	SYdRh8towqjuWxhf4o0D3dl3FQ5TSJbwMzZ3jFkcZCso8fmHMSrU4rB31cLTTrlZWlcpIoewOGc
-	5XWcZCgPuSa0ztisXkTgdjXv2R69nHjcYsdcRn9c5gVccJNoru8Bm9f3h4bO1wF0DOCzPrlXSbh
-	hcTV8PI+Pm1dD7z443MnRjgJtrFTh9xgqGjate2qB4I=
-X-Google-Smtp-Source: AGHT+IE50ECbUWaIOffxIZZKfVuiPNKyqJv8ZiQ6ridYluu+2jUk/XpZhcL3oe8JorcDs0ckw9HZIw==
-X-Received: by 2002:a17:902:f684:b0:224:194c:694c with SMTP id d9443c01a7336-22c535c03a1mr56225795ad.28.1744999153381;
-        Fri, 18 Apr 2025 10:59:13 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::c043])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50bde206sm19816105ad.14.2025.04.18.10.59.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 10:59:12 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=ackROnaI;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20250418183549e0df9107418ca8edff-vss7f0@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20250418183549e0df9107418ca8edff
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 18 Apr 2025 20:35:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=RLDEg1YWK/HBaWaI2qp1y2yafxZc+nvk5VCdg4fmCgA=;
+ b=ackROnaIIW3TVshqk5DzP80ZkREf4rPU227JyXH4307RU6TqJHDDENewGtNxGEcWE7+Ank
+ QiLIVGGoMvaBb8gNfhu122Gk9uQg5UJuRqbn3NqSWL4rsYKA5zadYvVccxy9oddILOR3XkYC
+ Kz/9mvNYLMNUqmvU+u2uArjMXljLWeisCE7o5FluStV2jeyR00ZHdZ55MDVsvGLwmc4LXusl
+ MIB4Pzyc51u9XVDQdEJzPjcj9rB0tByd8pIpvAZydFlcVeQAg3f3w9ACpxds32jvguscxf4C
+ GaGdX0WfyCMzHOIgpJooaCbDWZEWGBcNuU8ES0xbgXXSYth2v7fy2xsg==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 1/2] glibc: Forward -ffile-prefix-map option to assembler flags
-Date: Fri, 18 Apr 2025 10:59:10 -0700
-Message-ID: <20250418175911.4033750-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] sqlite3: patch CVE-2025-3277
+Date: Fri, 18 Apr 2025 20:35:01 +0200
+Message-Id: <20250418183501.2290568-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 17:59:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215136
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 18:36:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215138
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
+
+Pick commit [1] mentioned in [2].
+
+[1] https://sqlite.org/src/info/498e3f1cf57f164f
+[2] https://nvd.nist.gov/vuln/detail/CVE-2025-3277
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-v2: Rebased
+ .../sqlite/sqlite3/CVE-2025-3277.patch        | 28 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  4 ++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch
 
- ...le-prefix-map-from-CFLAGS-to-ASFLAGS.patch | 24 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.41.bb         |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
-
-diff --git a/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch b/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch
 new file mode 100644
-index 00000000000..862c7b9086e
+index 0000000000..4e2ed5f1e0
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
-@@ -0,0 +1,24 @@
-+From 603e50d6b8ccadb32d59b0497f76629665c1794b Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 16 Apr 2025 19:51:01 -0700
-+Subject: [PATCH] Propagate -ffile-prefix-map from CFLAGS to ASFLAGS.
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch
+@@ -0,0 +1,28 @@
++From d7f45414935e4ef6e3361f02a22876f1ee7a04aa Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Sun, 16 Feb 2025 10:57:25 +0000
++Subject: [PATCH] Add a typecast to avoid 32-bit integer overflow in the
++ concat_ws() function with an enormous separator values and many arguments.
 +
-+Upstream-Status: Submitted [https://sourceware.org/pipermail/libc-alpha/2025-April/165969.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++FossilOrigin-Name: 498e3f1cf57f164fbd8380e92bf91b9f26d6aa05d092fcd135d754abf1e5b1b5
++
++CVE: CVE-2025-3277
++Upstream-Status: Backport [https://sqlite.org/src/info/498e3f1cf57f164f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ Makeconfig | 2 +-
++ sqlite3.c | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/Makeconfig b/Makeconfig
-+index e35c5cfe4e..7a19c731c6 100644
-+--- a/Makeconfig
-++++ b/Makeconfig
-+@@ -1176,7 +1176,7 @@ endif
-+ 
-+ # The assembler can generate debug information too.
-+ ifndef ASFLAGS
-+-ASFLAGS := $(filter -g% -fdebug-prefix-map=%,$(CFLAGS))
-++ASFLAGS := $(filter -g% -fdebug-prefix-map=% -ffile-prefix-map=%,$(CFLAGS))
-+ endif
-+ override ASFLAGS += -Werror=undef $(ASFLAGS-config) $(asflags-cpu)
-+ 
-diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-core/glibc/glibc_2.41.bb
-index d707e1a6775..82dcf08fcd0 100644
---- a/meta/recipes-core/glibc/glibc_2.41.bb
-+++ b/meta/recipes-core/glibc/glibc_2.41.bb
-@@ -54,6 +54,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
-            file://0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
-            file://0001-stdlib-Add-single-threaded-fast-path-to-rand.patch \
-+           file://0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch \
- "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
++diff --git a/sqlite3.c b/sqlite3.c
++index 08c593e55c..24d0d954d9 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -129594,7 +129594,7 @@ static void concatFuncCore(
++   for(i=0; i<argc; i++){
++     n += sqlite3_value_bytes(argv[i]);
++   }
++-  n += (argc-1)*nSep;
+++  n += (argc-1)*(i64)nSep;
++   z = sqlite3_malloc64(n+1);
++   if( z==0 ){
++     sqlite3_result_error_nomem(context);
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
+index 03d70bbd38..0e91167eef 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
+@@ -3,6 +3,8 @@ require sqlite3.inc
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+ 
+-SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++           file://CVE-2025-3277.patch \
++          "
+ SRC_URI[sha256sum] = "b2809ca53124c19c60f42bf627736eae011afdcc205bb48270a5ee9a38191531"
+ 
 
