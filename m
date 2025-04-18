@@ -1,192 +1,132 @@
-Return-Path: <tom.hochstein@oss.nxp.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4716C369C9
-	for <webhook@archiver.kernel.org>; Thu, 17 Apr 2025 18:10:49 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.57])
- by mx.groups.io with SMTP id smtpd.web11.15750.1744913447237915834
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78220C369C2
+	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 00:57:23 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web11.3254.1744937838191795782
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Apr 2025 11:10:47 -0700
+ Thu, 17 Apr 2025 17:57:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=n5n9K113;
- spf=pass (domain: oss.nxp.com, ip: 52.101.69.57, mailfrom: tom.hochstein@oss.nxp.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CA1i6pTOlNElfp4ru+7R5041S0AvBhmrAJIr+cRf3OAlEobAgtL73Fj+ZLUIK6WHVsE3aMGjTBGg8HOESdFqGCsgCyPoO53uZVmc9+AB90wxLWjVVyS1qz5fmrkXu1ePWZPgWZsco/1NOFcnKqm1jolfw0febgV4ZFFrQQcx8o+UHTuWT1MTzazk2TfCPT0fpUwRnNI400DBw2oeFLM6unimhSdCJPcSX7xoytrFXBmXIoXaQCUyFkOjW5chpWTtyJuWgmiz8PqODjV2kkgRdZ7A/PNZcKoyaDCDIki24xFr3iUWzAugqLC7pPrA+Hi+qBeWpf+Z1vRJjzytZOudLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RlTv9Z+5+6uafom5gmXMNW1wWOJ2wQESc43LC5+PBgI=;
- b=irRjiEPaDaJAVVLNmtfsq1NHMDO67gNTETdQ6yVs4MQtpjRVJiTnOUu/jvga5Fumos0PkqL16P7vSQ37yOpOZYf+0mc3w14XuyAOOlSowkYvqaqctM4MzrY0Oshg04Rduas1esHYiQQZdczluqypQ3cGMTh6NjrRpsFtlniZa4f8cr+G0YiEfJ4WOguNl+UYTF7qjp1f73x0aA9p71H1bExeBURSTGFmZGgw20JOpXF7azfwBUM6fKCeZ1RZxJNNt8cuiArvaOwVyLmSlcPRDlHIIVNCjH03suRD6TFtaSY7WJeXamM3/zF9BJR+8DTc7UpA39knGNjfp/DlaNlOXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RlTv9Z+5+6uafom5gmXMNW1wWOJ2wQESc43LC5+PBgI=;
- b=n5n9K113OspN7JUwZWupfJQbzOx9G9JNfJES4YEMj9oeJeNhfXs+3gfWaLhR6M46C5eDmFKWvtEoWSGif1UhT86lhxutQXHv2XXmW7T5XvT0184+MsNAXdKAzdqXfJwWiec3fiUsx72ypYZb4q+q1cix7j28hM7bRM7856dxYmHq0b87uNnRRwvDwE8KLWFXz3kxxVia9po+Lw4oqyDRqTw08Jl6WmEob4Nk4qDt7uw0cB9lsp1TbcUyQCNoVBRizTXkXYI9OYrq8Vj6Le9984/yPEn5fTMQ3iI1DdyaLK9YIyrZ4eB8dYxx7m8DPSQfli4ubpBJgGIpBIhwNQyMqQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
- by DB9PR04MB9497.eurprd04.prod.outlook.com (2603:10a6:10:373::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.22; Thu, 17 Apr
- 2025 18:10:31 +0000
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc%4]) with mapi id 15.20.8632.030; Thu, 17 Apr 2025
- 18:10:31 +0000
-From: Tom Hochstein <tom.hochstein@oss.nxp.com>
-To: openembedded-core@lists.openembedded.org
-CC: Tom Hochstein <tom.hochstein@oss.nxp.com>
-Subject: [PATCH v7 4/7] meson: Fix host_machine setting for native cross-file
-Date: Thu, 17 Apr 2025 13:08:31 -0500
-Message-ID: <20250417180834.1722588-4-tom.hochstein@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250417180834.1722588-1-tom.hochstein@oss.nxp.com>
-References: <20250417180834.1722588-1-tom.hochstein@oss.nxp.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: PH7P220CA0147.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:327::21) To PAXPR04MB9448.eurprd04.prod.outlook.com
- (2603:10a6:102:2b1::21)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=OTahl0Qv;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53HCliE5008910
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 00:57:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	u6UG6ZM5UrXTCK3/sjn3Hg7Znll8PCBtcru2pFnUQlA=; b=OTahl0QviTAj0lwg
+	aP8eK25VoTv5RTMoPMnN3XXTixxt+sz4CuvNf4hKSBKpSKGt5OYbHH9uiw/7texR
+	dQtgtzzx8k6ghes3VQEbi70zroaisXTzixQ82lLCbA9VXIXKTveX2XUJHdMbsGry
+	R/lmNH5Z5KlgatgphrTxHHIn0m+OYPi7SMcrfBAt83BXKOBrewwrxA+3s1YovmJo
+	TMWZgy3/+AmGrOZzdPpsOTZy6kZQn5tzEJO594XjW329LM+MeWfE5tWcI0se6d7B
+	IQo5gUXOZhHO3DgEvGWytRkjecxBQ3Gq1Y6/k9BdDCLuqSb8wFj1ADG3l1c0LiI2
+	AXxBLg==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygxk8f1x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 00:57:17 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6ead629f6c6so22615316d6.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 17:57:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744937836; x=1745542636;
+        h=to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u6UG6ZM5UrXTCK3/sjn3Hg7Znll8PCBtcru2pFnUQlA=;
+        b=XbfZzw6tQ1ZHH4IQi/5PvU+OxagsMK8PmmROyZp8o13eHTW1ypD0PweR/sDddnne1B
+         /EJWVyUrPSjV4TF5SVXCegZkFSxtZlO9UwsGhGJsmwePGNebw8v+kr7tw3ZvJqlwN0Jz
+         FtsfdjShsIwJyJl5KcF2q6pvjgofedObHPjfwb8+5qvyAUoVeJouYKmnh+KhWwNroc/6
+         q3n5o0oO72b6OJe7jvSbKK22RIu8wDjENN6+AerB1ldlSDRGR69lyGYOoVYSNYGyN46r
+         xa4rvNv2Hr5SKy7Vnj8Jq9TveNUZQBPfBQi5E0oO8rilkyh+LqLUbKChjZWkFS60hyIW
+         eylQ==
+X-Gm-Message-State: AOJu0YxsNKBFHI2klPdap/Txyu5Lwy3Yb/6kbSKCV3gnFqPKHAT3iUqw
+	WFJNkICS0RcBODnX4VURZRGnSHFmq5OGQbZmT/+1YLs1sO7aDJCjLnOypXjbsoMM/1qeX6vgwbu
+	zBy7EeIqnInTG5c1VW9j4Ir5zJDQxjG+zVpbP6DAZPDUD4u4r6IrkvU/Nbe0xL7k37VXygiuh3M
+	1dK3HpDnkzWX4=
+X-Gm-Gg: ASbGncuPzpLgZQI0Hyl4bZZWNqYWTdse+lGsF3G6dhZH4GKyzbMgaQABIiDFPQrWKND
+	1MIJOy4gaCDjQ8Qj2TcLQjIDPdX0gIgp9I1fIAVjWd/Yhvfzlg0QZ15y1FrtUdeHuKp/O3nEPlo
+	zVfOBFnjYopHmQMpnkHxCGhQHI1CFAnXtuBf5RB0+cYvyylLN3JtS5EHatmnT4g6LOSrbIPTq57
+	eZ48zEhIMJZVWkDfsmU6kBFuRUjSNyhQFJ94rYU3c7RqQyLOZjQqMPj/yWvSJvD04uqKmZXKnap
+	OyEBsuaQl2lGoBS8/Y3pnZyWey6zzlBi9ubWnkvlvdnDIJciP7xDmzawBkE1z+PCFvpFeKdF9Tl
+	KZiDkeejmAjDOvO88DPhz+pOZ
+X-Received: by 2002:ad4:5ba2:0:b0:6e8:9a55:8259 with SMTP id 6a1803df08f44-6f2c4515171mr21031006d6.9.1744937836174;
+        Thu, 17 Apr 2025 17:57:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGmpEaz6jeKjau0oGX8etHQcMH/7ui7h4eqlN5nww0z0D08v2RIhl8kSzUm9Riz5OrzB8LZfg==
+X-Received: by 2002:ad4:5ba2:0:b0:6e8:9a55:8259 with SMTP id 6a1803df08f44-6f2c4515171mr21030766d6.9.1744937835796;
+        Thu, 17 Apr 2025 17:57:15 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-310907a77c1sm718951fa.57.2025.04.17.17.57.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Apr 2025 17:57:14 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Fri, 18 Apr 2025 03:57:12 +0300
+Subject: [PATCH v2 1/3] meson: pass -target and -I to bindgen calls
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|DB9PR04MB9497:EE_
-X-MS-Office365-Filtering-Correlation-Id: df27ffe8-365e-4285-5593-08dd7ddb23a5
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?K8Y13vUKhkldEH3D9A+oKqqqNbVRvguqOBbqTjWlfFr5E/fjn/rCE6W9Gf22?=
- =?us-ascii?Q?XLXbAqikhPigpb1wP/FkQDTR9JbOvvbEj5C3ZAkKh9JqQxxuFr8IWmwgSMvF?=
- =?us-ascii?Q?WH1SQPv+qSvIlfVyD3IzKG3t+Rh3077YAnjbhvxfdcyK9Q8JM6gCIZ1m30hy?=
- =?us-ascii?Q?2gG8TwhRP+pQtLpKuhnc8wJJOHJNMkd45QDgrfbeWZibnhaagF6nW6B0dh4C?=
- =?us-ascii?Q?AQ6pkOvCzt1smEjlHDkSv4hGYuzvrgn+XaeXxHOWk8KxdSekSqwkaJ1lvQD9?=
- =?us-ascii?Q?0ihVXt7Un7ryLmjtMMEFD+rzKlPOpPNIaMWmfMMYXp/mI6F5oE75Js3z7UrZ?=
- =?us-ascii?Q?GmTtOK080eDI9kRcjshc+wWZMjQaj9/+30b4RsaOYWSwTx7xQ0diyi0u8Jpj?=
- =?us-ascii?Q?b0lwBJmjOc73wVDXeiTsgNb5YUBsbZitFJUWUYq4wQRoC8gI+wz5j8ASmAAg?=
- =?us-ascii?Q?EB2in4IQQV/RMqP7AuVC3jXf29a9qLysVpy4NsDbxEtciEa3sfnXsMeV2NBo?=
- =?us-ascii?Q?ozZijbk/neKsdb2jZU0fbetzaT0G9z3Avd5D9RdFaIY6mNF2gnZe/VfwX9H7?=
- =?us-ascii?Q?+nCRgmSADUZVWrYUr7WmZkHzTYy9cbojM5WKrUPiCse0o9D551QrcLvod3n6?=
- =?us-ascii?Q?FU76wbnpb+z0/gDF2wxFrpz0/gG+7XMqm5ZJj+Aar8V5WMT8DIv1iKbhsrNA?=
- =?us-ascii?Q?1PdtC/ZeUwjWfD/Dj/K8jcjh8TK3OMdn/qiJnB5aYvDzfXNz89Qb5CWOJb/L?=
- =?us-ascii?Q?5ARQ3bnS5w8p6xCKqHLcV7LNza08fp8GvwzuAeQq3lmvq1JuPS7LLNDM58XO?=
- =?us-ascii?Q?JDMny4adBTPSMKdrEdvSE4sPqjUUZ7ieMXsPze7QtBvdpCoD21HbuMIzWB5C?=
- =?us-ascii?Q?GBWSw6ixr4ipOx4cLej252sEnLqfBVCDgvw5vvPtULLLieK26W1aTm9RhaNP?=
- =?us-ascii?Q?ahHX/6XE3ZZukL8FDWb4gPMV4hMDw7KMrzqszr0+7FQMRF60SZ5XDWD0GmH8?=
- =?us-ascii?Q?JlI8Y1PiPW7rPrrqO+bruvE23EpRnLU20TTF3Lj6jbgQHMDABiU5dCM/UAon?=
- =?us-ascii?Q?qdEsqy3eBm0eWmt87BCkgMwzb8ve5qwXMavUYl4hgYBnWOyJXarArKeFh4Fj?=
- =?us-ascii?Q?FK58tgY4/QANb3OiquA66WwbebyNp2js35ANHZ/O1SUztHbwVh+vpEJi6icv?=
- =?us-ascii?Q?JAGlrDDYvM3ggNaz072++ow18YWFsQAsmy5l8U7u01lojhXaJHmAtfGBq7O2?=
- =?us-ascii?Q?qJKGFf5Ene31GcsbSN2t9eCHWFTHWCRjUnhuVWG4pwiT12nR4PY3f+6LFceR?=
- =?us-ascii?Q?Jtxf/EG2mzRV2a/+7hQ1KUGq85Lu3TT0w7zQ80ZrORAk4YLbNolCXfAUBllj?=
- =?us-ascii?Q?qFb7e/0D7S/rCtlHTpTST5ehIojPQV1C0c5mzZe0MLsTBUk54/YHfAMU+KeS?=
- =?us-ascii?Q?vh5xoNdcKU0=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?WwCq/Yj2eLzfsGbxUZXhEK48TvaLy9ic6kARa2n/WeCwpGByQJCnpJMRg1Fm?=
- =?us-ascii?Q?kPnozN551bHFSl3tcMMrgx8qiT7cfUfMkQrG5PRt7b0Km8MTLGJbRnDh61ie?=
- =?us-ascii?Q?Hts+0NmfO98T+s2nbeZERDupx6+ykUDK0isHBz5Cozuz1XW3KvOp1gDBuEeR?=
- =?us-ascii?Q?m5+rb9gL+f9gbPKoSc1B5r0GuHmriEPkYB+Z0ByOdAghZNxNOyXLHFxSbkq+?=
- =?us-ascii?Q?dn0FEZ3ZMCt33JrXAjQPEO9yVxTCZrRyDJ2ZziKyLoLdtBitETa6ifjVsEOp?=
- =?us-ascii?Q?yXoquJLwGOawTR8ZDhxJdTe+WQDqpX6ehfg0DmOCXz/Of8YqZv+CepZ+E2tI?=
- =?us-ascii?Q?sAd6qirPK1mNv3M1gHO/PAaRzZaLO8nHDjZgsRc5lTl2SYRhoerWsfefm/u7?=
- =?us-ascii?Q?n0rlpUxnS82LLH3xzM0HhYapiFaVuOs1tiAOnza2NHXw5gKtnJ8oxmgZGtIS?=
- =?us-ascii?Q?BXHyGh1SVwiCDbbIQVkfL4eUfEs8YWzYECFGoMz9+jtsZCxdn5ZqAm11qDnm?=
- =?us-ascii?Q?GF6lz2lVzgBDNoacU14sjODCmZ7nO41rf7Jib03VKz7KsDC8uOWBOsX9r5Nd?=
- =?us-ascii?Q?1QGqXVYSMZz6A/sebUu9NpSx6dDxUeWMBTAog7rB9whQb5myojAN6/Hnqza0?=
- =?us-ascii?Q?708LAJ1QMkIAoDIfK5eGebrVIiJerKPi47R+P3wlmsCcx1zR3JCyQ1cAMr67?=
- =?us-ascii?Q?/hHaj5A9pKTUuwgG0Yn+UJbgWVEW9dqXIftCm9vQu+r3t/BIum4lLKOmXz6c?=
- =?us-ascii?Q?w+B92mb7J6pOenVO1UU+aLSyLZkkiX+uOzRQqAQgQ12zTcmdXK120r1SgSFo?=
- =?us-ascii?Q?sT5UOJSK+COJ9XJhHlVT3QDoB+n8tYZJCi1zPqsZ4sgLBUpGBU+sxJrlrVZS?=
- =?us-ascii?Q?SN/F8KKnU97JShR+huuKX0d1RvAq6FdCAHpxygzz5koPYalfmYupaQDMLjLu?=
- =?us-ascii?Q?p1qHDtDqPZ2cKq6Yhg6Us71V9KI4nB71lAblt6zQj64yXVEYmIdS+Ora8JcQ?=
- =?us-ascii?Q?9iyxyhrgzxo2NSOGx6dMU3TF6zRoQ76FZ9HW7zdX4ezMhGgjFz5CXD+11zoW?=
- =?us-ascii?Q?n5J9FwuOqvxxY6FklXqJCENwroK2gt46lz6FA+apiVEQhg3qyk4kdjrrjco0?=
- =?us-ascii?Q?geq/Qgzi+uDSQiMH5b2pVwpcgjVFXnWjnnPZlBXFY3etX7At46refw1TCyLR?=
- =?us-ascii?Q?AFTbSdACPN7a6q+qqoDdfgAvTBrGCIOjRQWxyf5aVJSwrpPwGw65OMvwrHpV?=
- =?us-ascii?Q?vJa+gKTal6OeHkAK6wrstM+P9cKl5y76/6AE8uC8T1HPDiau9j0C039HQTxx?=
- =?us-ascii?Q?t8PLb1VYyk0VblNwP8PJh0KggprUa+SJP4Hc95KFxAUCQf1BTLqcVpKDAxAU?=
- =?us-ascii?Q?L1Q28N4cPuKl1GvaCcuXWMictFYExjquSZD85tfCVk/fa5H3S0geS/YZr/Yg?=
- =?us-ascii?Q?8tDThV/RGEUXYyYC0d8gXVGpbSdCl1TT2RAP2XYoAy9cye3qOc1jnBSjc2H0?=
- =?us-ascii?Q?FGVlPm8O1XogCWbBkqMlTbPS/Qvk8Wwwd2a3qu9aB7ITW4DDb26YWr8vV8Wj?=
- =?us-ascii?Q?CEOAVTwVSrQp1ovxbdkWrxfi+pBU5wwo2Vd6NL5vB29TqpABkH9WoKb0rpzS?=
- =?us-ascii?Q?bA=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df27ffe8-365e-4285-5593-08dd7ddb23a5
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2025 18:10:31.0610
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cPzxR+zRiQ1g5SJ4Qn4b6a1sFisz/Mv18W5DqciW4vZMYnrUq6WVGG6BtSg4KPHIpMBq7Q+qToVOi4Xm6i+xSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9497
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250418-mesa-25-fixes-v2-1-e110ccfe291f@oss.qualcomm.com>
+References: <20250418-mesa-25-fixes-v2-0-e110ccfe291f@oss.qualcomm.com>
+In-Reply-To: <20250418-mesa-25-fixes-v2-0-e110ccfe291f@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=994;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=IHpEZaEk5c5V//eNaDaKFBkCrlcHIGS7GMwYlkAQQZU=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQwbj4ozbNxb8PPdH6bZPtIpJdsiTiz7B/pMndcdWfT3yp
+ 9bOy/1AJ6MxCwMjF4OsmCKLT0HL1JhNyWEfdkythxnEygQyhYGLUwAmYhfCwbD2ycYvv2cUaZjJ
+ xjzdc2xJLeOZhZnpXR+fT5rFtWzvvqb/Gc4f8iqOP5X5tqaR3/SQkG4d46m/R/8/7mtLa8pITco
+ IaMrbJPbdce6Uaeb/wuJvhqp7udfrzcuvzHj2isUpJNY+Xr6jwD1GS1nzTeY8oZ/lGWesPy+6o2
+ m/UF0pKfJkwQWvhm0mQYXtuaus++2/edrssi2yjV0ibnv3KsfvztgzT2VykzUjmXNkldQzlNTku
+ xoYn19ezV/VPvVM6SEH9Z1Gf5uSlnreq+9QlQmvWbS/MVc6+MGEOYXm/REWJdZarpckfyreaDm+
+ acbNHYvFuWUsdsdb9H+5x1531nLRoxeHA81+hc90OSIJAA==
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Authority-Analysis: v=2.4 cv=WecMa1hX c=1 sm=1 tr=0 ts=6801a36d cx=c_pps a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=E226iTZLpvBttkJnM84A:9 a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-GUID: _NgqKc8UGD4LL9s4QRnfkvqVfii9kyIn
+X-Proofpoint-ORIG-GUID: _NgqKc8UGD4LL9s4QRnfkvqVfii9kyIn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-17_07,2025-04-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
+ adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 mlxscore=0
+ impostorscore=0 mlxlogscore=675 spamscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504180005
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Apr 2025 18:10:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215114
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 00:57:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215116
 
-For native and nativesdk, the meson cross-file settings for
-`host_machine` are incorrectly set for the build machine, not the
-"machine on which the compiled binary will run". See
-https://mesonbuild.com/Cross-compilation.html.
+In order to properly generate Rust bindings for the target systems, we
+need to pass '-taget foo-linux-gnueabi' flags and a correct include
+target include path (${STAGING_INCDIR}) to the bindgen. Add those
+flags to the generated meson target file.
 
-Fixes: [YOCTO #15485]
-Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/recipes-devtools/meson/meson_1.7.2.bb | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ meta/classes-recipe/meson.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/meson/meson_1.7.2.bb b/meta/recipes-devt=
-ools/meson/meson_1.7.2.bb
-index 45a74612ce..7e9c661818 100644
---- a/meta/recipes-devtools/meson/meson_1.7.2.bb
-+++ b/meta/recipes-devtools/meson/meson_1.7.2.bb
-@@ -107,18 +107,14 @@ needs_exe_wrapper =3D true
- sys_root =3D @OECORE_TARGET_SYSROOT
-=20
+diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
+index cbfc45b94bbd076735847134a0976b6b30784d50..ef45a034a767e979a45553ba08e46dc90e34f33f 100644
+--- a/meta/classes-recipe/meson.bbclass
++++ b/meta/classes-recipe/meson.bbclass
+@@ -93,6 +93,7 @@ cpp_link_args = ${@meson_array('LDFLAGS', d)}
+ [properties]
+ needs_exe_wrapper = true
+ sys_root = '${STAGING_DIR_HOST}'
++bindgen_clang_arguments = ['-target', '${@d.getVar('RUST_HOST_SYS')}', '-I${STAGING_INCDIR}']
+ 
  [host_machine]
--system =3D '$host_system'
--cpu_family =3D '$host_cpu_family'
--cpu =3D '$host_cpu'
--endian =3D '$host_endian'
-+system =3D @OECORE_MESON_HOST_SYSTEM
-+cpu_family =3D @OECORE_MESON_HOST_CPU_FAMILY
-+cpu =3D @OECORE_MESON_HOST_CPU
-+endian =3D @OECORE_MESON_HOST_ENDIAN
- EOF
- }
-=20
- do_install:append:class-nativesdk() {
--    host_system=3D${SDK_OS}
--    host_cpu_family=3D${@meson_cpu_family("SDK_ARCH", d)}
--    host_cpu=3D${SDK_ARCH}
--    host_endian=3D${@meson_endian("SDK", d)}
-     install_templates
-=20
-     install -d ${D}${SDKPATHNATIVE}/post-relocate-setup.d
-@@ -132,10 +128,6 @@ do_install:append:class-nativesdk() {
- FILES:${PN}:append:class-nativesdk =3D "${datadir}/meson ${SDKPATHNATIVE}"
-=20
- do_install:append:class-native() {
--    host_system=3D${HOST_OS}
--    host_cpu_family=3D${@meson_cpu_family("HOST_ARCH", d)}
--    host_cpu=3D${HOST_ARCH}
--    host_endian=3D${@meson_endian("HOST", d)}
-     install_templates
-=20
-     install -d ${D}${datadir}/post-relocate-setup.d
---=20
-2.34.1
+ system = '${@meson_operating_system('HOST_OS', d)}'
+
+-- 
+2.39.5
 
 
