@@ -1,253 +1,179 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A753C369AB
-	for <webhook@archiver.kernel.org>; Fri, 18 Apr 2025 22:18:24 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web10.811.1745014700733450884
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70BB9C369C2
+	for <webhook@archiver.kernel.org>; Sun, 20 Apr 2025 04:05:58 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.2979.1745121950242878618
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Apr 2025 15:18:21 -0700
+ Sat, 19 Apr 2025 21:05:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=YcXgUl9m;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2025041822181751bc74dc9ce7fd0dc3-vn8_zu@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2025041822181751bc74dc9ce7fd0dc3
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 19 Apr 2025 00:18:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=wYTmZSqTh7sLwh86tq/s98XG+iBM/iFLW7O70S/wPQ4=;
- b=YcXgUl9mdxM+xy+lzA6M+9QMYe4pz1Hm8PEtD995TSlF4RZqOQuW3I2gihpzJ8lFh0+gvo
- ddH0OjpoioLLfMrJeLXg97MkS/xZPfj0AgR17S2lCclxZ49bYtFNCyZ2beq7hOhqvR8GDPPX
- vmbGs+ICFV5ExiGXXiFzqjYzNJsv5RkhDxN+dyFAFHOTFjZNPGCd7qUXAZpvm43zzyRJ04o4
- Qvg00Lj4GbAZUQBj8BBJBtRa5uy/vcpU0+YTtA6lqTfeWJdcQwF4YnNP70ND2nXLvAdbnkb/
- 4rEoPRoAX49ZBBNrWrHN0lLpOXPoSjdT6MHrK7Rll7AQXIR57s2ZXLFQ==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6205c0d41f=qi.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53K45cBb012818
+	for <openembedded-core@lists.openembedded.org>; Sun, 20 Apr 2025 04:05:49 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4642t8rqsk-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 20 Apr 2025 04:05:49 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tYP0WzhuDr4UWOMKf07ZlGPqyDa4pFjEple9IMPZfcPL6nhUOyUhsbqS9eW0/rmuP4TqZA5Tln3PGL/24LGns72b4gO+lrJ+c9UEl6IJEMkuPzbYskBsPlRqE67gk60Ej0+Bo1C1ZxhEA4oYfYRqhmm7YsfBgwwnlRkAJycZtAMcaq2WpUvz7BJtIxvR9mo/0I7X77RgfA8yWICMk+QECvxM3war6Iwv9BsjJfyBoJhAF7dAxzZOyItI/ovmNJzZwppVu/po4Hrxk4Wb1mfIEnK+w1TKnUfTlBs0tQm31eChR9SwdWK++Fej8thtsYbvIz/CC+1ePKbeyjk4pff9fQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oITGZO9cScOnEbi4kTPvfVQGQ0fOVmlXHdEeqbQ0CdI=;
+ b=Se/8ZAepIXnZYmCohmcwYM6y6IlE4BC4yhAUooy+cYr1uQqIgXAt7y6hz5AH3BLoZZcn4UhJ5utM25N2Nx4le5QlVTd0JaSPsQt9ytJKfKSx+eAvLLbGKbsRpA59GIn9o5WupOlRJU4OV3h6qXdNbAIrg+YhGUzeutIMVZMKxzxCzQwMYp6DiLsXtkXrn+MpX6gE7JQDY3Ja+22dGIEnlQ86A/BNmny1LkPIqnuoYG82P/MjbbyuVz8CIlVQLUHQrwx5qGO1sR8H8WE39OGO5pEjkxJK7Nto704p89CB0Aw84nBFUjbyORTbChyVU963iQvHH1xZvzPTUG4mjrwChg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by IA3PR11MB9424.namprd11.prod.outlook.com (2603:10b6:208:583::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Sun, 20 Apr
+ 2025 04:05:45 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%5]) with mapi id 15.20.8655.031; Sun, 20 Apr 2025
+ 04:05:45 +0000
+From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] sqlite3: patch CVE-2025-29088
-Date: Sat, 19 Apr 2025 00:17:30 +0200
-Message-Id: <20250418221730.2113302-1-peter.marko@siemens.com>
-MIME-Version: 1.0
+Subject: [OE-core][PATCH V4 2/5] cpio: fix ptest-runner dependency
+Date: Sun, 20 Apr 2025 12:05:25 +0800
+Message-Id: <20250420040528.4012613-2-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250420040528.4012613-1-Qi.Chen@windriver.com>
+References: <20250420040528.4012613-1-Qi.Chen@windriver.com>
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: text/plain
+X-ClientProxiedBy: TYCPR01CA0198.jpnprd01.prod.outlook.com
+ (2603:1096:405:7a::19) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|IA3PR11MB9424:EE_
+X-MS-Office365-Filtering-Correlation-Id: 184935be-2d9d-4e7b-8deb-08dd7fc0a007
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|1800799024|376014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?NkCo+Bbk8tjVDspXDl5o/B7cvjVLMToXpRiSc8OrpR29MdesmFS+LiPJU978?=
+ =?us-ascii?Q?nG78lhRqj3ezkFr3ORskN6rXrPrl0UhchDhKEnpCz9F2HogUgwnEQzwR/Qp4?=
+ =?us-ascii?Q?z0+SiggDwB+72HhPB9HIIq9dxfH1fuSAdLFrN+3He/IWv+w7aFmyxwirB+YC?=
+ =?us-ascii?Q?6XlgFx/HWMCd4wSRExpIGY8upQ+YzB3gsdsjQdJjO0F2wEW4j04pubq+f2Jn?=
+ =?us-ascii?Q?a6MSLhgerHa6evuSanwwNNCk1lJyqFR7Loj6oLoN2QeOESTgIwcRwUQHC819?=
+ =?us-ascii?Q?2T74Ksu1/yqdmkf1QO2ylMgFYB3jrUWnjxH4VPkgxwIqQeIHOcuX5cqIHYKa?=
+ =?us-ascii?Q?r4cLvCWcKkIkfjMzuy+umNbGamZIfo6e36YG01P7D5U9855zGaVGYC05irT+?=
+ =?us-ascii?Q?+m9JXkBTu+MtGspYyrfZo0M8OH9SlnmcnpfOt2C/EQ0lq/8zk6AwOoHS6EVD?=
+ =?us-ascii?Q?KL1hsSVCohxoy8sEvjOW6js42zuDiN6H3I5acx2s5RF54iiKT/uaU7I2QiLt?=
+ =?us-ascii?Q?MoIPu3IgW9ntroJvUH6UFmfdzkHJXvv0xyDNMOdGeUBzWoLtceSz01WAyYCe?=
+ =?us-ascii?Q?jfxRNsKHnJPsmo8Z31laf+WfM0CKkixtloFg636+I6wj4kb8DIudsh/fSfzg?=
+ =?us-ascii?Q?iwfwFsyCcALZkXIPBo6XnfTLog5xkVwMLzk8PRF2qC3bV/roqUZAkzl7vDxs?=
+ =?us-ascii?Q?kZunIsclIjRpkg6yKTAKhnsHIaIcWlAMjUodYzgQHfTorjXo9dv/Q+4A9gWm?=
+ =?us-ascii?Q?vBHLfb5uDF9YJD6RE4lFftLd7+cXVC+Oc7sQbWf7ilJa9j4Al7cgpcEbe7Ft?=
+ =?us-ascii?Q?ppkbDnzKLHvgF/WxK2Bd33PQiuo9yf9ok5K52UzL/PcA/upUUZquDWeOFtXk?=
+ =?us-ascii?Q?Xw6jcbQLmnHz2nrEDuPfDsmFS1N7ZjlKBQt2KOTvKylAa0WSZ8xBhNgXU0Mb?=
+ =?us-ascii?Q?0BX6VofEryjs5qBQXoIfcFu+AHrI2v0BJqfcefcS1t6yIhNCu4SDkP41MGnD?=
+ =?us-ascii?Q?N8zRvsDrWsqQ/lmQhcFNXpqxdNroMck0OVHsd2H6mB+T8OP/i7P97a5trrho?=
+ =?us-ascii?Q?6AsfYr7nfSh/GnXUxpuoc4X8AbBqBIQR1x8+KybeUUqXAcfKmOdsyuFhMQqN?=
+ =?us-ascii?Q?V3JVp+p93PkZssfeWzmvLfPBr8eGTqlIF3HX3Gq6MZDZ8XRfqNWNTYTJ1Ktr?=
+ =?us-ascii?Q?juyo4sd/jdG4w/w0Y6NzgsEA3r6JHYItSJGssB/UPmni0DQAZg4h9dW2crX8?=
+ =?us-ascii?Q?nfnsu7B4/F0V9OODUwSOohldRGLwPQ7vRM1JDvkg8fzMfrHxLJUk0O3lUdt2?=
+ =?us-ascii?Q?DPHhCdAUUmgGAksDi5QZL72aRjprBJ/MCtNPpvYaFGPP38jw3GVS6nIvBrW+?=
+ =?us-ascii?Q?HkCAvLKlTpLXNvJ0b4oNpTbwtXLnKDsDI7zrH5d5IUGImQ5Rofm1X7cJSI3S?=
+ =?us-ascii?Q?tNqhtFwQO2momTXzDHFJKrf76HObqD944ZvQtskofzpLaAOyB6olpw=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?vXQo59qhucaKzE5WbrYUSdcz1enuzSJdDXA3D/thXrtOS6bOJ0+zTCQ1KEN4?=
+ =?us-ascii?Q?1dEPXkdyRbcOoquaal/gGgaUWMnskA6K0KWHbtWlwbSfHfkU5TY/eVpn8BCC?=
+ =?us-ascii?Q?Kind9kf4/JmFuteikmJtQ1JNwiq+Vut7YUJamR3xwg4TOt9c4mihviSWhqCk?=
+ =?us-ascii?Q?hMh2uF8HxvamCY66vLEV5vIsSC+QGBVg7W+M0yw/y5cxM3xDlsuFG3rE/BQj?=
+ =?us-ascii?Q?z5V+EAYVq64fgbnwmhrEcUsf9IvU1Y0qunHePLrWHXeij2vsO/HQEiS41hy4?=
+ =?us-ascii?Q?12bCmI+gtY1T/yLR44dWjBrgxjXCOAkq449FhbvoONU7wBwnS+jdbz5T1VRB?=
+ =?us-ascii?Q?VEweAXdyMSik8lr492ZvH2qVIvKKbYmupbT6rI+zk5gbjTi/x7VLzqHTSOIx?=
+ =?us-ascii?Q?oeqrrEktU9+EDxPP2yMzHzOz+9yVRXoNALg8TozQrKHaw9Tcbcy5kR74bK43?=
+ =?us-ascii?Q?GoWwRGoccXG4pzrF6s88HZ5+hIL98c4Uxm0BUPPSlJUM9t3APshZesIxOJba?=
+ =?us-ascii?Q?ItiQvKKk4eg7S86RoPMC+nXirdqEFVDEWUx/kYE1rXvppn30maE8cA9pufe8?=
+ =?us-ascii?Q?aMGNkJlYKGLR9QJQaQRD3weDz8Lk31XmwCLVyU7j746C3Oc7W3T5+Ku3/Bl+?=
+ =?us-ascii?Q?lMDBU84ihemK4t2CikPOMSGNEM2NXgzeeoAml4IkQrEzJrkpxdZGFb2ELjqe?=
+ =?us-ascii?Q?4tbIqcNaEt51kpCxDbTAAL2TjutoduE+qHentvsxHEqI9ibQMYN4oixMnreL?=
+ =?us-ascii?Q?tH1bDEhlRJfpS9hLE+fUiLXwMaVKQE/h4uiq9WxbmMFP1bq/4KdGTe4RaDnI?=
+ =?us-ascii?Q?jNThwq5D7Kkm2oGshNyZeuCo/Js5yi9Qp9a8jUGkgc7eJAwOQsK87m3dU1/c?=
+ =?us-ascii?Q?FpHwLYBJhG26PYU5yF8J1hZ6LvO4KhBmKZRTz0LJoNiPAB0sbyFoXl+rkS+5?=
+ =?us-ascii?Q?Ea0QuI5+SB9Xa4mHe1xs4VPEY3PZbdVHpaQe/S4D3FmmZGBsQejVyaiFDC4R?=
+ =?us-ascii?Q?aXCQPtCmWK8lmP9miwhN3FalyndUXsSS2kN9u+L88nigErfOR0qH8gX6aGtT?=
+ =?us-ascii?Q?l5cO8oP6W2231aP713VzXzeHSuFwg83tjUffF0qCpRHWUj8xP1FoyHXh+FX+?=
+ =?us-ascii?Q?kgT5uM7JjR1sWjqJjGbs1GKFCNfa7dS8pvMmsUVJZJALZrs6c4T6sJ3WIYwf?=
+ =?us-ascii?Q?aPlTEe0ga7j+rx8EIQlrTAkb20KXBaj4s9RckNhkInR4gO+Ja7xX5jANZQdk?=
+ =?us-ascii?Q?rlAMIWroXyrGjWFqVL9Pk7T2U7TghBawxTkLWoJzLHfBsTXTPE2xTaTUmomu?=
+ =?us-ascii?Q?pkQ0sKzK4wVZG6CB8lXpqrAA68eqTSbc52Ll9aKEvgjjHWZOM8Uuhkwa5yP2?=
+ =?us-ascii?Q?zWG4neNInEyBZgM8KMifO6mRBgKQCBiang7HIoT/VeeFWO1nlhVgAyCZWJft?=
+ =?us-ascii?Q?xL/MfveSvKBHZHx25ULHLe3WXiTs0BhsrwnymOB7/dhRP1PyvnjAI/mN8jEI?=
+ =?us-ascii?Q?Cm/m12Bze3gtwFVPzor6Z60CORjcXMTJLga2sguZssgJjkcMiEFuilUAuKPU?=
+ =?us-ascii?Q?Nz7iYAO2hKCgmDzskvWdfx8Br0rIioz5Pq4uaksX?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 184935be-2d9d-4e7b-8deb-08dd7fc0a007
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2025 04:05:45.4661
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jOUtivjCz6wqPrDYw0xroT8vbSD5yXhM26II1JCAc3+kqkh+PskXsPtRO3AN1Bs3SmI6TF7F5GFzSfGqGA984w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9424
+X-Proofpoint-ORIG-GUID: QKxSXG2KU4CvZauE54I_igxtcdwFU0WL
+X-Proofpoint-GUID: QKxSXG2KU4CvZauE54I_igxtcdwFU0WL
+X-Authority-Analysis: v=2.4 cv=TJ9FS0la c=1 sm=1 tr=0 ts=6804729d cx=c_pps a=+kc2f53xTGsvuL7uaCOpcA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=t7CeM3EgAAAA:8 a=KwLHvCn-_DKJmQUzVCEA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-20_01,2025-04-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ priorityscore=1501 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ malwarescore=0 mlxscore=0 phishscore=0 impostorscore=0 mlxlogscore=718
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504200031
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Apr 2025 22:18:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215144
+ <openembedded-core@lists.openembedded.org>; Sun, 20 Apr 2025 04:05:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215146
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Pick commit [1] mentioned in [2].
+ptest is only meaningful for target. So we need to specify class-target
+override to ensure correct dependency.
 
-[1] https://github.com/sqlite/sqlite/commit/56d2fd008b108109f489339f5fd55212bb50afd4
-[2] https://nvd.nist.gov/vuln/detail/CVE-2025-29088
+Also, the above DEPENDS:append:class-targets lacks a leading whitespace,
+add it.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../sqlite/files/CVE-2025-29088.patch         | 179 ++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.38.5.bb |   1 +
- 2 files changed, 180 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-29088.patch
+ meta/recipes-extended/cpio/cpio_2.15.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/files/CVE-2025-29088.patch b/meta/recipes-support/sqlite/files/CVE-2025-29088.patch
-new file mode 100644
-index 0000000000..470ee9564c
---- /dev/null
-+++ b/meta/recipes-support/sqlite/files/CVE-2025-29088.patch
-@@ -0,0 +1,179 @@
-+From 40f668e88d70d47b17652ca629d5f36fafaae0e8 Mon Sep 17 00:00:00 2001
-+From: drh <>
-+Date: Mon, 17 Feb 2025 14:16:49 +0000
-+Subject: [PATCH] Harden the SQLITE_DBCONFIG_LOOKASIDE interface against
-+ misuse, such as described in [forum:/forumpost/48f365daec|forum post
-+ 48f365daec].  Enhancements to the SQLITE_DBCONFIG_LOOKASIDE documentation. 
-+ Test cases in TH3.
-+
-+FossilOrigin-Name: 1ec4c308c76c69fba031184254fc3340f07607cfbf8342b13713ab445563d377
-+
-+CVE: CVE-2025-29088
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/56d2fd008b108109f489339f5fd55212bb50afd4]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ sqlite3.c | 42 +++++++++++++++++++++++---------------
-+ sqlite3.h | 60 +++++++++++++++++++++++++++++++++++++------------------
-+ 2 files changed, 67 insertions(+), 35 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 0b979f7a7d..27bea6f2e0 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -169267,17 +169267,22 @@ SQLITE_API int sqlite3_config(int op, ...){
-+ ** If lookaside is already active, return SQLITE_BUSY.
-+ **
-+ ** The sz parameter is the number of bytes in each lookaside slot.
-+-** The cnt parameter is the number of slots.  If pStart is NULL the
-+-** space for the lookaside memory is obtained from sqlite3_malloc().
-+-** If pStart is not NULL then it is sz*cnt bytes of memory to use for
-+-** the lookaside memory.
-++** The cnt parameter is the number of slots.  If pBuf is NULL the
-++** space for the lookaside memory is obtained from sqlite3_malloc()
-++** or similar.  If pBuf is not NULL then it is sz*cnt bytes of memory
-++** to use for the lookaside memory.
-+ */
-+-static int setupLookaside(sqlite3 *db, void *pBuf, int sz, int cnt){
-++static int setupLookaside(
-++  sqlite3 *db,    /* Database connection being configured */
-++  void *pBuf,     /* Memory to use for lookaside.  May be NULL */
-++  int sz,         /* Desired size of each lookaside memory slot */
-++  int cnt         /* Number of slots to allocate */
-++){
-+ #ifndef SQLITE_OMIT_LOOKASIDE
-+-  void *pStart;
-+-  sqlite3_int64 szAlloc = sz*(sqlite3_int64)cnt;
-+-  int nBig;   /* Number of full-size slots */
-+-  int nSm;    /* Number smaller LOOKASIDE_SMALL-byte slots */
-++  void *pStart;          /* Start of the lookaside buffer */
-++  sqlite3_int64 szAlloc; /* Total space set aside for lookaside memory */
-++  int nBig;              /* Number of full-size slots */
-++  int nSm;               /* Number smaller LOOKASIDE_SMALL-byte slots */
-+ 
-+   if( sqlite3LookasideUsed(db,0)>0 ){
-+     return SQLITE_BUSY;
-+@@ -169290,17 +169295,22 @@ static int setupLookaside(sqlite3 *db, void *pBuf, int sz, int cnt){
-+     sqlite3_free(db->lookaside.pStart);
-+   }
-+   /* The size of a lookaside slot after ROUNDDOWN8 needs to be larger
-+-  ** than a pointer to be useful.
-++  ** than a pointer and small enough to fit in a u16.
-+   */
-+-  sz = ROUNDDOWN8(sz);  /* IMP: R-33038-09382 */
-++  sz = ROUNDDOWN8(sz);
-+   if( sz<=(int)sizeof(LookasideSlot*) ) sz = 0;
-+-  if( cnt<0 ) cnt = 0;
-+-  if( sz==0 || cnt==0 ){
-++  if( sz>65528 ) sz = 65528;
-++  /* Count must be at least 1 to be useful, but not so large as to use
-++  ** more than 0x7fff0000 total bytes for lookaside. */
-++  if( cnt<1 ) cnt = 0;
-++  if( sz>0 && cnt>(0x7fff0000/sz) ) cnt = 0x7fff0000/sz;
-++  szAlloc = (i64)sz*(i64)cnt;
-++  if( szAlloc==0 ){
-+     sz = 0;
-+     pStart = 0;
-+   }else if( pBuf==0 ){
-+     sqlite3BeginBenignMalloc();
-+-    pStart = sqlite3Malloc( szAlloc );  /* IMP: R-61949-35727 */
-++    pStart = sqlite3Malloc( szAlloc );
-+     sqlite3EndBenignMalloc();
-+     if( pStart ) szAlloc = sqlite3MallocSize(pStart);
-+   }else{
-+@@ -169309,10 +169319,10 @@ static int setupLookaside(sqlite3 *db, void *pBuf, int sz, int cnt){
-+ #ifndef SQLITE_OMIT_TWOSIZE_LOOKASIDE
-+   if( sz>=LOOKASIDE_SMALL*3 ){
-+     nBig = szAlloc/(3*LOOKASIDE_SMALL+sz);
-+-    nSm = (szAlloc - sz*nBig)/LOOKASIDE_SMALL;
-++    nSm = (szAlloc - (i64)sz*(i64)nBig)/LOOKASIDE_SMALL;
-+   }else if( sz>=LOOKASIDE_SMALL*2 ){
-+     nBig = szAlloc/(LOOKASIDE_SMALL+sz);
-+-    nSm = (szAlloc - sz*nBig)/LOOKASIDE_SMALL;
-++    nSm = (szAlloc - (i64)sz*(i64)nBig)/LOOKASIDE_SMALL;
-+   }else
-+ #endif /* SQLITE_OMIT_TWOSIZE_LOOKASIDE */
-+   if( sz>0 ){
-+diff --git a/sqlite3.h b/sqlite3.h
-+index de393da9dc..04e6b616d5 100644
-+--- a/sqlite3.h
-++++ b/sqlite3.h
-+@@ -1914,13 +1914,16 @@ struct sqlite3_mem_methods {
-+ **
-+ ** [[SQLITE_CONFIG_LOOKASIDE]] <dt>SQLITE_CONFIG_LOOKASIDE</dt>
-+ ** <dd> ^(The SQLITE_CONFIG_LOOKASIDE option takes two arguments that determine
-+-** the default size of lookaside memory on each [database connection].
-++** the default size of [lookaside memory] on each [database connection].
-+ ** The first argument is the
-+-** size of each lookaside buffer slot and the second is the number of
-+-** slots allocated to each database connection.)^  ^(SQLITE_CONFIG_LOOKASIDE
-+-** sets the <i>default</i> lookaside size. The [SQLITE_DBCONFIG_LOOKASIDE]
-+-** option to [sqlite3_db_config()] can be used to change the lookaside
-+-** configuration on individual connections.)^ </dd>
-++** size of each lookaside buffer slot ("sz") and the second is the number of
-++** slots allocated to each database connection ("cnt").)^
-++** ^(SQLITE_CONFIG_LOOKASIDE sets the <i>default</i> lookaside size.
-++** The [SQLITE_DBCONFIG_LOOKASIDE] option to [sqlite3_db_config()] can
-++** be used to change the lookaside configuration on individual connections.)^
-++** The [-DSQLITE_DEFAULT_LOOKASIDE] option can be used to change the
-++** default lookaside configuration at compile-time.
-++** </dd>
-+ **
-+ ** [[SQLITE_CONFIG_PCACHE2]] <dt>SQLITE_CONFIG_PCACHE2</dt>
-+ ** <dd> ^(The SQLITE_CONFIG_PCACHE2 option takes a single argument which is
-+@@ -2133,24 +2136,43 @@ struct sqlite3_mem_methods {
-+ ** <dt>SQLITE_DBCONFIG_LOOKASIDE</dt>
-+ ** <dd> ^This option takes three additional arguments that determine the
-+ ** [lookaside memory allocator] configuration for the [database connection].
-+-** ^The first argument (the third parameter to [sqlite3_db_config()] is a
-++** <ol>
-++** <li><p>The first argument ("buf") is a
-+ ** pointer to a memory buffer to use for lookaside memory.
-+-** ^The first argument after the SQLITE_DBCONFIG_LOOKASIDE verb
-+-** may be NULL in which case SQLite will allocate the
-+-** lookaside buffer itself using [sqlite3_malloc()]. ^The second argument is the
-+-** size of each lookaside buffer slot.  ^The third argument is the number of
-+-** slots.  The size of the buffer in the first argument must be greater than
-+-** or equal to the product of the second and third arguments.  The buffer
-+-** must be aligned to an 8-byte boundary.  ^If the second argument to
-+-** SQLITE_DBCONFIG_LOOKASIDE is not a multiple of 8, it is internally
-+-** rounded down to the next smaller multiple of 8.  ^(The lookaside memory
-++** The first argument may be NULL in which case SQLite will allocate the
-++** lookaside buffer itself using [sqlite3_malloc()].
-++** <li><P>The second argument ("sz") is the
-++** size of each lookaside buffer slot.  Lookaside is disabled if "sz"
-++** is less than 8.  The "sz" argument should be a multiple of 8 less than
-++** 65536.  If "sz" does not meet this constraint, it is reduced in size until
-++** it does.
-++** <li><p>The third argument ("cnt") is the number of slots. Lookaside is disabled
-++** if "cnt"is less than 1.  The "cnt" value will be reduced, if necessary, so
-++** that the product of "sz" and "cnt" does not exceed 2,147,418,112.  The "cnt"
-++** parameter is usually chosen so that the product of "sz" and "cnt" is less
-++** than 1,000,000.
-++** </ol>
-++** <p>If the "buf" argument is not NULL, then it must
-++** point to a memory buffer with a size that is greater than
-++** or equal to the product of "sz" and "cnt".
-++** The buffer must be aligned to an 8-byte boundary.
-++** The lookaside memory
-+ ** configuration for a database connection can only be changed when that
-+ ** connection is not currently using lookaside memory, or in other words
-+-** when the "current value" returned by
-+-** [sqlite3_db_status](D,[SQLITE_CONFIG_LOOKASIDE],...) is zero.
-++** when the value returned by [SQLITE_DBSTATUS_LOOKASIDE_USED] is zero.
-+ ** Any attempt to change the lookaside memory configuration when lookaside
-+ ** memory is in use leaves the configuration unchanged and returns
-+-** [SQLITE_BUSY].)^</dd>
-++** [SQLITE_BUSY].
-++** If the "buf" argument is NULL and an attempt
-++** to allocate memory based on "sz" and "cnt" fails, then
-++** lookaside is silently disabled.
-++** <p>
-++** The [SQLITE_CONFIG_LOOKASIDE] configuration option can be used to set the
-++** default lookaside configuration at initialization.  The
-++** [-DSQLITE_DEFAULT_LOOKASIDE] option can be used to set the default lookaside
-++** configuration at compile-time.  Typical values for lookaside are 1200 for
-++** "sz" and 40 to 100 for "cnt".
-++** </dd>
-+ **
-+ ** [[SQLITE_DBCONFIG_ENABLE_FKEY]]
-+ ** <dt>SQLITE_DBCONFIG_ENABLE_FKEY</dt>
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-index 0a7a136c53..f47a9871e2 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-@@ -8,6 +8,7 @@ SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://CVE-2022-46908.patch \
-            file://CVE-2023-36191.patch \
-            file://CVE-2023-7104.patch \
-+           file://CVE-2025-29088.patch \
-            "
- SRC_URI[sha256sum] = "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
+diff --git a/meta/recipes-extended/cpio/cpio_2.15.bb b/meta/recipes-extended/cpio/cpio_2.15.bb
+index b081bd53db..0b13ba103f 100644
+--- a/meta/recipes-extended/cpio/cpio_2.15.bb
++++ b/meta/recipes-extended/cpio/cpio_2.15.bb
+@@ -66,8 +66,8 @@ do_install_ptest_base:append() {
+ }
  
+ # The tests need to run as a non-root user, so pull in the ptest user
+-DEPENDS:append:class-target = "${@bb.utils.contains('PTEST_ENABLED', '1', ' ptest-runner', '', d)}"
+-PACKAGE_WRITE_DEPS += "ptest-runner"
++DEPENDS:append:class-target = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' ptest-runner', '', d)}"
++PACKAGE_WRITE_DEPS:append:class-target = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' ptest-runner', '', d)}"
+ 
+ RDEPENDS:${PN}-ptest += "ptest-runner"
+ 
+-- 
+2.34.1
+
 
