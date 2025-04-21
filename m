@@ -1,187 +1,455 @@
-Return-Path: <yi.zhao@eng.windriver.com>
+Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10464C369D5
-	for <webhook@archiver.kernel.org>; Mon, 21 Apr 2025 09:06:36 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.11557.1745226392551363357
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CD8DC369AB
+	for <webhook@archiver.kernel.org>; Mon, 21 Apr 2025 09:59:56 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.12039.1745229593704382756
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Apr 2025 02:06:32 -0700
+ Mon, 21 Apr 2025 02:59:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=620622d584=yi.zhao@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53L8krtS016382
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 09:06:31 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2044.outbound.protection.outlook.com [104.47.55.44])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4642t8smda-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 09:06:31 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z9Piy/tqqAegcyvdlT/Xm39yC5IK7qdEiEyU+32u7II9zdJkq5MDxXRdHpNU9v/mfAnjgES+knLdUxJrF3LzPXqk2aTJScFConKGD+hQZSvX7PzqBgvhnw81Xg/yxsga+ZkCGiNtEx839AGgF/J1mC4jEibw2cy5UV7YYLwEa1F8YyG6vqyzsfTN3c0krVe9lW2AwpMJ7ONoo0uy/Oxp9Fd0oGGiG6EMBIS+h+RjcIo5OvMd4DOl5IIHLMFeTWDVeOLR9UF8Fn+sVK6Qjkhx0YRQvuMDach5v5vj+k8IGhSR5+MbrN1pq9yQ0qKNF0cI9+nyP1YKTPwRLGD0YBIdHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PziLRa4Kykc8gunMYsue9IhxY/Ub1J8s8zmLKx+RJD0=;
- b=YR6d8RcBLqCVvM3LEM2iUUaHudx2LdL1dWnHQ2ywBOMmiCibcRn9wcDF9oZ7ClhNVn6725HwNLrbXTKyexjvwQLRAU5ktqI4EB0Zo1W5WTPSr5B1oiwxYBpiBG4WYhB0jVOIA9jl9p5WJR1y3sWnJg4MBwmFsyOBb1DHuwMAWbMErqEJ0/2FAr+uGoMw3IoipnifjqiotxSxu0oXOepIdr1E4DiOki/nT11JkvyRhj1a2/p99gVYxxLLfSjomi3bHe4yDqDn/VgwFA6EIk8YM+3gbUS2ao9Be4VyU2bryZCfabF2LyABz4GVqolIlGMyszISRIlk4LHY/s4E946sYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
- IA0PR11MB7881.namprd11.prod.outlook.com (2603:10b6:208:40b::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Mon, 21 Apr
- 2025 09:06:26 +0000
-Received: from DS0PR11MB6399.namprd11.prod.outlook.com
- ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
- ([fe80::2b44:787c:e7ee:bfad%4]) with mapi id 15.20.8655.033; Mon, 21 Apr 2025
- 09:06:26 +0000
-From: Yi Zhao <yi.zhao@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=A2w/pvA+;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: gudni.m.g@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-391342fc0b5so3165981f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 02:59:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745229592; x=1745834392; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OAjeyaFP2AElx5y/JC5egTQgb3CzA18zxtOdK7pLsGQ=;
+        b=A2w/pvA+6dq4A+41rYSL4KgsazDO83VJRO8u1mJ6w25gaU9LRbE801ma3ioWK8oQ/m
+         FKb9IPCidOXzd0N63//vtUg1g8fxHYKM3mlmtbblz1vZXIYa7UvvEM3V9o+pn76GOTfS
+         n3rQhSdi0WZfDTeC8y+t7Jqniy6wlofMXRuFx/p/4TXmqluk16fLej7gM5JAY8Z8BUUy
+         H/TPeoF1K1uiW4XmssOi/Na21WRr4gKcvnPVnoEJpubul8ea8svIc8inbG6lblozf2YA
+         x1j/TeGIT+unureVQa5FHhithEK0HRzIm8Hfo1907rebK51dhyhZ/F2aU2hyPJw79ER8
+         gpvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745229592; x=1745834392;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OAjeyaFP2AElx5y/JC5egTQgb3CzA18zxtOdK7pLsGQ=;
+        b=v1Nzk9zopcQzgm0bTKLl4nQjnwWI2BxoqLG99XXR/FSbUh86VF2U6CvELHDoqaDVC0
+         I/srwqf4JUoOzr3Lo6zxy50juhvlSTwZe+3ba/Oau+qGI2aXFhyaL7abADzzeub2SqXJ
+         g42GchZbeKFQT0BpruVHVnHaOr0wuZ9WvioHjn9eGeodlCU5OzfiKSlF5y0NcA0gkiZz
+         vQSzQWb3gepBRMiz73eJfr4nCHdyFLWqNC6sqGwlWB1VthTUWPSUilMNFVEsk8/87W20
+         mp6YvrcJ5falYmhHw05AzLG6q09tVd7Xm46SB0AvBuZ1d35+1U11YBMIxvkgqlq3RtlM
+         iOiA==
+X-Gm-Message-State: AOJu0YzN7ZCwbngP9JVMQL6Y31/osE1ml+9sSqZWOfofYwg5ZzaBK4DK
+	+Ws4rXrgP+daKwLLhTkr/2xJcI4u3ml37PFU9NOlCWJECh3LNLKG+ItI/Q==
+X-Gm-Gg: ASbGncujAy6jwQBRfxNPb4q2MYwfRZ1kuhhYPMDZuzhR6WrS+L8lip7PZxJOvzrbpHw
+	5XXPNNJ93CT6ZPcp2P8bT8FK1e2Jn+GTQSphjyv6uf9zZzBpYVJnY3v606rEQQBWzUdWghcpx5S
+	M96DC1ni9W6mpZ4rqBu/tpurPaEedHWz/h9KQbvb19HaXrUzxKVHiFQDMy8dxzwRytoz7fV09L/
+	GrFQRzGQSyHQfqJICZBqw8SBS9PYo8fhsMPIB2qDvmfC1QkrRwkm2c+OFivlaCr42tmL1xEL4wa
+	zUZhNC7ktteqNOdGBh1rUBbEGb0f37KQN2fHBG4uUoopv6FAhv1v5vreezzpn4kDP9v1UePJV7e
+	n
+X-Google-Smtp-Source: AGHT+IFMJUIMvsKntpZq79WKGph+B7uBfUtqpHg+6iFg+7X9Yb8/4oI2xw9iIE61je87icIiDyQvuw==
+X-Received: by 2002:a05:6000:18a8:b0:391:3915:cffb with SMTP id ffacd0b85a97d-39efbadf01fmr8373575f8f.43.1745229591392;
+        Mon, 21 Apr 2025 02:59:51 -0700 (PDT)
+Received: from localhost.localdomain ([81.15.100.92])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa43ce6bsm11443730f8f.55.2025.04.21.02.59.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Apr 2025 02:59:50 -0700 (PDT)
+From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] sassc: fix runtime version
-Date: Mon, 21 Apr 2025 17:06:11 +0800
-Message-Id: <20250421090611.3862686-2-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250421090611.3862686-1-yi.zhao@windriver.com>
-References: <20250421090611.3862686-1-yi.zhao@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYWP286CA0028.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:262::14) To DS0PR11MB6399.namprd11.prod.outlook.com
- (2603:10b6:8:c8::5)
+Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+Subject: [scarthgap][PATCH] systemd: upgrade 255.17 -> 255.18
+Date: Mon, 21 Apr 2025 09:59:41 +0000
+Message-ID: <20250421095941.3956056-1-gudni.m.g@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|IA0PR11MB7881:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f175dec-6405-4e13-fc21-08dd80b3cbdf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?tlUj14HVmbG865F/WW97VeYdV/W91JWMpCMeYPzQBtODapjbTMSpk0GcuYsD?=
- =?us-ascii?Q?/5Iq81jkD94Wvh9XYZZFWscky87I4q9qz0yOQs075Lg6S+4alAgG6I+1wJiZ?=
- =?us-ascii?Q?mwwi24Wf3X/bSYFaZo7H6YW+P7yY/4k7LtgfFy3NyvUeWGNouf70kVWxgnvX?=
- =?us-ascii?Q?gSx9Pa6Jg5COZ+auiEAAZLRW1qB0MRe5OY3Lj4tQI4QGnQQ4DB8oM7VQkUMl?=
- =?us-ascii?Q?5PPDwGd4RKn9Ai1Wy1vQEDp4j2WG5vfIPwN7UbwMr4126BWoanQyHmGkF643?=
- =?us-ascii?Q?2fqbMbqfrtoMgU7XLgRbL3/KYBhskUEP92gGHqpiGJ4V5X5aeCHwRLioQzsE?=
- =?us-ascii?Q?lRgxqLvhN5pDAnTalqtJ0kXwXEH9Qoq5EhF2SyUPsA8zl39REsSXLiFpQhJ8?=
- =?us-ascii?Q?NZimoP7Ql2IW84jWHXNzu80fX4xnepDJI6fv5JaEg/gddhxHoQKhWyf4vlLB?=
- =?us-ascii?Q?lJcjbYAakg24Gx+MeG63Wnu+19QVRRPkrkWeAuScuC4yRh4/MkO05sFWUe5n?=
- =?us-ascii?Q?5EE17+BwWLqqQhXqOXmby3//C0p+b5etmMxV8K25tI+JUeOH5heHXI5cJn5T?=
- =?us-ascii?Q?wpbGB+PN81PnCA9LUH+xLsnVoGCyWC1Oe1Mr/BDAxAaWVOw7MUntdi9DAerI?=
- =?us-ascii?Q?/XyzSsgFItSffM7wtIYFWurg0bOmJxEn9PDk676VuMJlnO1DCtuXaJyiz6tu?=
- =?us-ascii?Q?+1X1sbfpMZsaVy+wTjquibMfvbJCEidstDxL+ctvOSvOnIEw56xh4+lsDDOK?=
- =?us-ascii?Q?4ILWjmh9ev5o53y1kdVh0mxtTf+ybDigSnSDPLU4DajPQU3XGIVGunBGjddC?=
- =?us-ascii?Q?bQ9jnHsqkydG7G1RDJ3SCuM3xA+ytxVLm+GqjwAFKeGuCxhY7ZCzO1uYQER6?=
- =?us-ascii?Q?Lvv7+E4OEjPR5THQmEDVaY7AHskT3jXdHTutd3DKKp31bgX2UJGWeFfa8E7I?=
- =?us-ascii?Q?cR4uuIh2AvuH/xuvp6NDNJF9GHeaJqjYAQQUghbVLYbr8qoqRPSrhkpescJN?=
- =?us-ascii?Q?C2Zl6v+pgo1K93QANDBZh6nupbQwpqLOI5FJeQZ6ksPlC5vqiXOtWrUdZQm9?=
- =?us-ascii?Q?uMMxseq848CTDlYY4e1ka77UNaLkTq9SkreDSfVI5waylhBBmlVBadmQdXPC?=
- =?us-ascii?Q?V4w970kEzbN5XegCxe8iK+w1giTekF1fh5HpAQB0aUR8on3rYE7ncKD5mT/e?=
- =?us-ascii?Q?WMrpRpio/Z5ycN48wfagXx4PWu+3/KRck5s7PxT+TUTCAj193W55cIDt2jTv?=
- =?us-ascii?Q?HWUJ9ydIQ2gjr/1Yuxm7cQXBtjXIzlJyyOZz92tRB8ChapzD++K7ot/3+zC1?=
- =?us-ascii?Q?LgOEX/RcLIOQh9szEXCtZhF7uRQLneLBfYFWc1jY9VSqaXYBgmVDpkGyozdh?=
- =?us-ascii?Q?3XJ+MNdjWwTv8QEGnYyVQPBYgm/9hLVlzOQp7KgLZ3dhpeXMVZZskuHOVE6y?=
- =?us-ascii?Q?P0ZQJZcwyce7Gz6GdLCYLD5TgJydDGpJaiO1zZUlbbZgW6f+oq5Owg=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?XPMVhClG9CxZKGCKLKx7RbnQLUTVgjk065mJsqx3ilLutpwqVh9rtNBPVA6w?=
- =?us-ascii?Q?oMeHAIZlucWYDLv0XrVQpo+yucjnHBaLwfjl9YNpR91kkqOp9p2Eszz4OUIU?=
- =?us-ascii?Q?61W45toJIcZfw3ifnLtsb6o9mQMLX9pR9fXg5fpFlFbhOOMykWBHaNuXEAGx?=
- =?us-ascii?Q?1rJUebntZ0CBajvMihqym/DWtSwTEs9B0btZIJ8j87aef96ETP/YCrPweH4F?=
- =?us-ascii?Q?MtbZQK1ngrfJnUBYRlSF9IFlBgX1XokY4Zp3doZQ+FdS+5qflo35XOGNhnLS?=
- =?us-ascii?Q?vhpFSs98rIOBOkKUDnwzK/NxRNgh5Ijj+/jo/YouHDapkDMui/rQsJv121d4?=
- =?us-ascii?Q?fEBw+2qZpZkz7UGXlg39ds/C5c3Ll0I8CrzNKinMpgnGg9nT4SCHZ4oDiSCy?=
- =?us-ascii?Q?Efjz8tm8SxdML3RIeDvrFakjnSBN6qOS06OSrB7RDN2IkiAxtLkkd9AktLTm?=
- =?us-ascii?Q?nYypBX2pUn270peDFwyV4wO7smWVT/IJotgWUZgPOwenmlr48e982vaXi7XS?=
- =?us-ascii?Q?iKcAlETveayKygTL9s+rg1IhYVx3aZvBhuRGbWdcP/ac8jGm4iBXSCx6PmKa?=
- =?us-ascii?Q?hSyVKyi2cc1RS+9tRKZsFfo8KcPa4OAURlVxeP1VvZgFigzANUgjNjdLJTvZ?=
- =?us-ascii?Q?cge+d7U717NrF8L8dlzFybz9XtV66S/yfM6JEE2NEDLuQibxi4KiX4vxwNrC?=
- =?us-ascii?Q?/cDSuvHOrolUaVrtSFT2W2D6etuatBxO1HuUP+zlbdntoSQ2tJBt36Bmq0wN?=
- =?us-ascii?Q?qHII+B6gjzynoo5518deZKNn//ofl9TYwEU7+Q0hpPbqUG8gjB8E1O6XsDV0?=
- =?us-ascii?Q?BBTCUpBJSF1IpKmkAjHndYvBM0KY4uZB7Yekfmo6bekxIASO5W0SJKW1FkAP?=
- =?us-ascii?Q?4AgSEa7j375XwyVpqSTjnA6BX8FHgqwSCgRAQJim2C8ByCIF/8yl/JxDttOp?=
- =?us-ascii?Q?oNbVYHIX8BeE0TGgfLr8nQqjgQnjCk2W5OpSGaEDgANk4CkqscWp4vHscWEc?=
- =?us-ascii?Q?OHYuVMSw1NwRNDqUrKpEhpn177dulrZ/ZaAtmRJyxHIz9YcYds+dBG/20m9X?=
- =?us-ascii?Q?z/kKqHt6f94Ed6O55D4+Ry0kN0TChXjHY7WrHkCwOS+ApqQxRc1+lak55Wte?=
- =?us-ascii?Q?m5C2xvRLHKN6keqlM0rinUObV0m4SjkcNBY4CeJdz81F3Aq5vTlDkF91A3ug?=
- =?us-ascii?Q?HF9ikBHqrTwRufswdcq3ped2h6VJeVk4rF3N5L3oxzoz2V927lwr6IJvEh0B?=
- =?us-ascii?Q?lt0y200cVKsx04Htf4SssqayNCHPP1ybW7m20TXY/XsKtzUjGOxHzVFk9ukR?=
- =?us-ascii?Q?/VTe05HfZhEtIJLdJyfBu+YpioYiIqd0rOR9ETKMeBxzpgy6a+tAXlUx/uAY?=
- =?us-ascii?Q?nmRnz7ru16KdvZU02fefQwzfEsyUDKZcBxrw/wPNs7N4bo7uzPePhMzGQLrv?=
- =?us-ascii?Q?6BX7Z/XtLc0oL2uoPFZQzUjOm9gFSqDDV3wLd2nBCmhY0Cej7VwkpkmQlskv?=
- =?us-ascii?Q?8IBlZoGKxTGxCEz8N6s/A6GcZ4co/AxEALlgyphTuU1kl6BSdXtFihg01UQr?=
- =?us-ascii?Q?/3VYhtkxQWdQ8OeEIMRzrO50JpMjh1tp1ljyEw03?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f175dec-6405-4e13-fc21-08dd80b3cbdf
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2025 09:06:26.7248
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j02UpnFdEQte51SxHXNtug3Mv70mQIxin0TPCZ1JtZ+MaY3A+ZEgWUfnbRhuPfkSbJoQmvLujYBJF9l2nh4yMw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7881
-X-Proofpoint-ORIG-GUID: LYypGIQZcZceVucbGEB3BFMLJykzuAu9
-X-Proofpoint-GUID: LYypGIQZcZceVucbGEB3BFMLJykzuAu9
-X-Authority-Analysis: v=2.4 cv=TJ9FS0la c=1 sm=1 tr=0 ts=68060a97 cx=c_pps a=t4e0UQJdoJrPmzgCWb9hsw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
- a=t7CeM3EgAAAA:8 a=18LkB5mfDQdxrZmvM14A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-21_04,2025-04-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
- priorityscore=1501 clxscore=1015 suspectscore=0 lowpriorityscore=0
- malwarescore=0 mlxscore=0 phishscore=0 impostorscore=0 mlxlogscore=787
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2504210070
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 09:06:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215171
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 09:59:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215173
 
-Fix sassc runtime version shown in 'sassc --version'.
+The update includes 82 commits. Full list of changes can be found on Github [1]
 
-Before the fix:
-$ sassc --version
-sassc: [NA]
-libsass: [NA]
-sass2scss: 1.1.1
-sass: 3.5
+All patches were refreshed with devtool.
 
-After the fix:
-$ sassc  --version
-sassc: 3.6.2
-libsass: 3.6.6
-sass2scss: 1.1.1
-sass: 3.5
+[1] systemd/systemd-stable@v255.17...v255.18
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
 ---
- meta/recipes-support/sass/sassc_git.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ ...oot-native_255.17.bb => systemd-boot-native_255.18.bb} | 0
+ .../{systemd-boot_255.17.bb => systemd-boot_255.18.bb}    | 0
+ meta/recipes-core/systemd/systemd.inc                     | 2 +-
+ .../systemd/0001-missing_type.h-add-comparison_fn_t.patch | 2 +-
+ ...-add-fallback-parse_printf_format-implementation.patch | 4 ++--
+ ...mt-Don-t-install-dependency-links-at-install-tim.patch | 2 +-
+ ...3-src-basic-missing.h-check-for-missing-strndupa.patch | 6 +++---
+ ...t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch | 4 ++--
+ .../systemd/0005-add-missing-FTW_-macros-for-musl.patch   | 2 +-
+ .../systemd/0006-Use-uintmax_t-for-handling-rlim_t.patch  | 2 +-
+ ...don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch | 2 +-
+ ...ne-glibc-compatible-basename-for-non-glibc-syste.patch | 2 +-
+ .../0008-implment-systemd-sysv-install-for-OE.patch       | 2 +-
+ ...ot-disable-buffering-when-writing-to-oom_score_a.patch | 4 ++--
+ ...inguish-XSI-compliant-strerror_r-from-GNU-specif.patch | 2 +-
+ ...011-avoid-redefinition-of-prctl_mm_map-structure.patch | 2 +-
+ .../0012-do-not-disable-buffer-in-writing-files.patch     | 2 +-
+ .../systemd/systemd/0013-Handle-__cpu_mask-usage.patch    | 2 +-
+ .../systemd/systemd/0014-Handle-missing-gshadow.patch     | 8 ++++----
+ ...ssing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch | 2 +-
+ .../0016-pass-correct-parameters-to-getdents64.patch      | 4 ++--
+ .../systemd/systemd/0017-Adjust-for-musl-headers.patch    | 2 +-
+ ...-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch | 2 +-
+ .../0019-errno-util-Make-STRERROR-portable-for-musl.patch | 2 +-
+ ...0-sd-event-Make-malloc_trim-conditional-on-glibc.patch | 2 +-
+ .../0021-shared-Do-not-use-malloc_info-on-musl.patch      | 2 +-
+ .../systemd/0022-avoid-missing-LOCK_EX-declaration.patch  | 2 +-
+ .../systemd/{systemd_255.17.bb => systemd_255.18.bb}      | 0
+ 28 files changed, 34 insertions(+), 34 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot-native_255.17.bb => systemd-boot-native_255.18.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-boot_255.17.bb => systemd-boot_255.18.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_255.17.bb => systemd_255.18.bb} (100%)
 
-diff --git a/meta/recipes-support/sass/sassc_git.bb b/meta/recipes-support/sass/sassc_git.bb
-index b7f57ca244..dfc5ee5857 100644
---- a/meta/recipes-support/sass/sassc_git.bb
-+++ b/meta/recipes-support/sass/sassc_git.bb
-@@ -12,6 +12,10 @@ SRCREV = "66f0ef37e7f0ad3a65d2f481eff09d09408f42d0"
- S = "${WORKDIR}/git"
- PV = "3.6.2"
+diff --git a/meta/recipes-core/systemd/systemd-boot-native_255.17.bb b/meta/recipes-core/systemd/systemd-boot-native_255.18.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot-native_255.17.bb
+rename to meta/recipes-core/systemd/systemd-boot-native_255.18.bb
+diff --git a/meta/recipes-core/systemd/systemd-boot_255.17.bb b/meta/recipes-core/systemd/systemd-boot_255.18.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_255.17.bb
+rename to meta/recipes-core/systemd/systemd-boot_255.18.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index c359d77e9d..8e134d8c86 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
  
-+do_configure:append() {
-+    sed -i -e 's/\[NA\]/${PV}/g' ${S}/sassc_version.h
-+}
-+
- CVE_STATUS[CVE-2022-43357] = "cpe-incorrect: this is CVE for libsass, not sassc wrapper"
+-SRCREV = "fb92304041cd203d2ca84cc28721dea5e1355c4e"
++SRCREV = "20415d357fb0e253df7444019a47674fac4ed1d6"
+ SRCBRANCH = "v255-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH}"
  
- BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-core/systemd/systemd/0001-missing_type.h-add-comparison_fn_t.patch b/meta/recipes-core/systemd/systemd/0001-missing_type.h-add-comparison_fn_t.patch
+index 9e9ccf51c8..d2ffdd8de4 100644
+--- a/meta/recipes-core/systemd/systemd/0001-missing_type.h-add-comparison_fn_t.patch
++++ b/meta/recipes-core/systemd/systemd/0001-missing_type.h-add-comparison_fn_t.patch
+@@ -1,4 +1,4 @@
+-From abbda6d89c0b850c0adeebc3e210d9b255072a40 Mon Sep 17 00:00:00 2001
++From 7bbb54406dd77c358eab9df08b100ee85e176052 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 25 Feb 2019 13:55:12 +0800
+ Subject: [PATCH] missing_type.h: add comparison_fn_t
+diff --git a/meta/recipes-core/systemd/systemd/0002-add-fallback-parse_printf_format-implementation.patch b/meta/recipes-core/systemd/systemd/0002-add-fallback-parse_printf_format-implementation.patch
+index c91f24b026..df9e978e55 100644
+--- a/meta/recipes-core/systemd/systemd/0002-add-fallback-parse_printf_format-implementation.patch
++++ b/meta/recipes-core/systemd/systemd/0002-add-fallback-parse_printf_format-implementation.patch
+@@ -1,4 +1,4 @@
+-From adaa70c17daedd8d81525d080fda8a1e22efe3a4 Mon Sep 17 00:00:00 2001
++From d0b08484a6c3113b6209d8f8e1dc1186a6427b99 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Sat, 22 May 2021 20:26:24 +0200
+ Subject: [PATCH] add fallback parse_printf_format implementation
+@@ -22,7 +22,7 @@ Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+  create mode 100644 src/basic/parse-printf-format.h
+ 
+ diff --git a/meson.build b/meson.build
+-index d5109b0d00..ccde927cf3 100644
++index 8c16c1c5c0..408d2ab80a 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -732,6 +732,7 @@ endif
+diff --git a/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch b/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+index 11e9be6059..784f0898c0 100644
+--- a/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
++++ b/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+@@ -1,4 +1,4 @@
+-From 95bf78fe7d7b7d41ff43e761bb78adfb4fdb9303 Mon Sep 17 00:00:00 2001
++From 7e4fae68909ce4932e073dd060e22581edc39ad2 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Thu, 21 Feb 2019 16:23:24 +0800
+ Subject: [PATCH] binfmt: Don't install dependency links at install time for
+diff --git a/meta/recipes-core/systemd/systemd/0003-src-basic-missing.h-check-for-missing-strndupa.patch b/meta/recipes-core/systemd/systemd/0003-src-basic-missing.h-check-for-missing-strndupa.patch
+index 0b75896b00..e46b4386aa 100644
+--- a/meta/recipes-core/systemd/systemd/0003-src-basic-missing.h-check-for-missing-strndupa.patch
++++ b/meta/recipes-core/systemd/systemd/0003-src-basic-missing.h-check-for-missing-strndupa.patch
+@@ -1,4 +1,4 @@
+-From 76f4749e3a583ad3c924bdff4a6bde967c674ed7 Mon Sep 17 00:00:00 2001
++From ca0b48676132744b78d99ee3ec2d33f11bb73c28 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 25 Feb 2019 14:18:21 +0800
+ Subject: [PATCH] src/basic/missing.h: check for missing strndupa
+@@ -80,7 +80,7 @@ Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+  51 files changed, 62 insertions(+)
+ 
+ diff --git a/meson.build b/meson.build
+-index 216a8cbc91..d5109b0d00 100644
++index 408d2ab80a..2c00b7047f 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -572,6 +572,7 @@ foreach ident : ['secure_getenv', '__secure_getenv']
+@@ -328,7 +328,7 @@ index b8e3f7aadd..8ce8ca68d8 100644
+  #if HAVE_KMOD
+  #include "module-util.h"
+ diff --git a/src/core/service.c b/src/core/service.c
+-index d3ea8a9c3c..c3441f785c 100644
++index d0353ae461..7f98f5ee45 100644
+ --- a/src/core/service.c
+ +++ b/src/core/service.c
+ @@ -45,6 +45,7 @@
+diff --git a/meta/recipes-core/systemd/systemd/0004-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch b/meta/recipes-core/systemd/systemd/0004-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch
+index 96872ac150..43ba526792 100644
+--- a/meta/recipes-core/systemd/systemd/0004-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch
++++ b/meta/recipes-core/systemd/systemd/0004-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch
+@@ -1,4 +1,4 @@
+-From e9110b095a5728762b3bd3abdec2a99b4ce01b5e Mon Sep 17 00:00:00 2001
++From 3ea9cc03431c93c86cf0ca63ad04219af221a2d0 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 25 Feb 2019 14:56:21 +0800
+ Subject: [PATCH] don't fail if GLOB_BRACE and GLOB_ALTDIRFUNC is not defined
+@@ -114,7 +114,7 @@ index 9b3e73cce0..3790ba3be5 100644
+  
+          (void) rm_rf(template, REMOVE_ROOT|REMOVE_PHYSICAL);
+ diff --git a/src/tmpfiles/tmpfiles.c b/src/tmpfiles/tmpfiles.c
+-index f4c8ebc27f..e07ad66c65 100644
++index d22fa3b3c7..3471f98add 100644
+ --- a/src/tmpfiles/tmpfiles.c
+ +++ b/src/tmpfiles/tmpfiles.c
+ @@ -73,6 +73,12 @@
+diff --git a/meta/recipes-core/systemd/systemd/0005-add-missing-FTW_-macros-for-musl.patch b/meta/recipes-core/systemd/systemd/0005-add-missing-FTW_-macros-for-musl.patch
+index 936183f238..c25ccde9e2 100644
+--- a/meta/recipes-core/systemd/systemd/0005-add-missing-FTW_-macros-for-musl.patch
++++ b/meta/recipes-core/systemd/systemd/0005-add-missing-FTW_-macros-for-musl.patch
+@@ -1,4 +1,4 @@
+-From 1eeac3e8ce96ad5da381555e93a57330cb8a5d48 Mon Sep 17 00:00:00 2001
++From 885a6880ad1b687e3fbf1b9f35e218bee1fcc835 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 25 Feb 2019 15:00:06 +0800
+ Subject: [PATCH] add missing FTW_ macros for musl
+diff --git a/meta/recipes-core/systemd/systemd/0006-Use-uintmax_t-for-handling-rlim_t.patch b/meta/recipes-core/systemd/systemd/0006-Use-uintmax_t-for-handling-rlim_t.patch
+index 34d62c9e32..13c155745a 100644
+--- a/meta/recipes-core/systemd/systemd/0006-Use-uintmax_t-for-handling-rlim_t.patch
++++ b/meta/recipes-core/systemd/systemd/0006-Use-uintmax_t-for-handling-rlim_t.patch
+@@ -1,4 +1,4 @@
+-From fd2bb25921040fc5faed3a4aae0bd9e03f8f4742 Mon Sep 17 00:00:00 2001
++From 646c3ced29922065eed64ac9b23af8276e989608 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 25 Feb 2019 15:12:41 +0800
+ Subject: [PATCH] Use uintmax_t for handling rlim_t
+diff --git a/meta/recipes-core/systemd/systemd/0007-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch b/meta/recipes-core/systemd/systemd/0007-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch
+index 7cc8002a90..55405c5d0b 100644
+--- a/meta/recipes-core/systemd/systemd/0007-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch
++++ b/meta/recipes-core/systemd/systemd/0007-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch
+@@ -1,4 +1,4 @@
+-From fde97394bf1a2faffa420afb098af61676033640 Mon Sep 17 00:00:00 2001
++From f772369a2519b378c09bb89bd48c3743a62404e3 Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Tue, 10 Oct 2017 14:33:30 -0700
+ Subject: [PATCH] don't pass AT_SYMLINK_NOFOLLOW flag to faccessat()
+diff --git a/meta/recipes-core/systemd/systemd/0008-Define-glibc-compatible-basename-for-non-glibc-syste.patch b/meta/recipes-core/systemd/systemd/0008-Define-glibc-compatible-basename-for-non-glibc-syste.patch
+index 5579dc3dcc..6005b621ee 100644
+--- a/meta/recipes-core/systemd/systemd/0008-Define-glibc-compatible-basename-for-non-glibc-syste.patch
++++ b/meta/recipes-core/systemd/systemd/0008-Define-glibc-compatible-basename-for-non-glibc-syste.patch
+@@ -1,4 +1,4 @@
+-From e2e1fee9fd5635420408777524dd418ce10dddc8 Mon Sep 17 00:00:00 2001
++From 45b1226ddbd981798e0448da41ddc4901e246b45 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sun, 27 May 2018 08:36:44 -0700
+ Subject: [PATCH] Define glibc compatible basename() for non-glibc systems
+diff --git a/meta/recipes-core/systemd/systemd/0008-implment-systemd-sysv-install-for-OE.patch b/meta/recipes-core/systemd/systemd/0008-implment-systemd-sysv-install-for-OE.patch
+index 2151d51af2..d43eaeff7a 100644
+--- a/meta/recipes-core/systemd/systemd/0008-implment-systemd-sysv-install-for-OE.patch
++++ b/meta/recipes-core/systemd/systemd/0008-implment-systemd-sysv-install-for-OE.patch
+@@ -1,4 +1,4 @@
+-From 2b40558d201b73962077d0cedef820dfe95395c7 Mon Sep 17 00:00:00 2001
++From abca5814cb0b5b98a1e7af829cc166e76c524f1a Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 5 Sep 2015 06:31:47 +0000
+ Subject: [PATCH] implment systemd-sysv-install for OE
+diff --git a/meta/recipes-core/systemd/systemd/0009-Do-not-disable-buffering-when-writing-to-oom_score_a.patch b/meta/recipes-core/systemd/systemd/0009-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
+index 6586cbb72c..3e557b764f 100644
+--- a/meta/recipes-core/systemd/systemd/0009-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
++++ b/meta/recipes-core/systemd/systemd/0009-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
+@@ -1,4 +1,4 @@
+-From b783adf25c5619931189b4474d389a808e7845d6 Mon Sep 17 00:00:00 2001
++From 8d61cecff3ba0687ad2c10aacb7d2aee7cb3fa79 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Wed, 4 Jul 2018 15:00:44 +0800
+ Subject: [PATCH] Do not disable buffering when writing to oom_score_adj
+@@ -24,7 +24,7 @@ Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/src/basic/process-util.c b/src/basic/process-util.c
+-index 1447f65399..dcbc7ac973 100644
++index bbce0ea985..d2f7c27cea 100644
+ --- a/src/basic/process-util.c
+ +++ b/src/basic/process-util.c
+ @@ -1716,7 +1716,7 @@ int set_oom_score_adjust(int value) {
+diff --git a/meta/recipes-core/systemd/systemd/0010-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch b/meta/recipes-core/systemd/systemd/0010-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch
+index 79db096b34..d4b67d15f4 100644
+--- a/meta/recipes-core/systemd/systemd/0010-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch
++++ b/meta/recipes-core/systemd/systemd/0010-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch
+@@ -1,4 +1,4 @@
+-From ac820a745c905e0045ce5cc41da7eaa802078b1b Mon Sep 17 00:00:00 2001
++From 2180b639665bd314905ef058dee9a5e4a534333e Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Tue, 10 Jul 2018 15:40:17 +0800
+ Subject: [PATCH] distinguish XSI-compliant strerror_r from GNU-specifi
+diff --git a/meta/recipes-core/systemd/systemd/0011-avoid-redefinition-of-prctl_mm_map-structure.patch b/meta/recipes-core/systemd/systemd/0011-avoid-redefinition-of-prctl_mm_map-structure.patch
+index 67fd4921ba..ad8888895f 100644
+--- a/meta/recipes-core/systemd/systemd/0011-avoid-redefinition-of-prctl_mm_map-structure.patch
++++ b/meta/recipes-core/systemd/systemd/0011-avoid-redefinition-of-prctl_mm_map-structure.patch
+@@ -1,4 +1,4 @@
+-From 4a2472cae75720b3129260c8789a87af26ca443a Mon Sep 17 00:00:00 2001
++From 3b1639c7052d9d574dd05d268364e7919b6f2580 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 25 Feb 2019 15:44:54 +0800
+ Subject: [PATCH] avoid redefinition of prctl_mm_map structure
+diff --git a/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch b/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch
+index e735a00bb9..f0eafd6fea 100644
+--- a/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch
++++ b/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch
+@@ -1,4 +1,4 @@
+-From 8072fee9fcb0e9a8c73de56f38468e7287ac4961 Mon Sep 17 00:00:00 2001
++From c1a375d93edbfaf3f64bec88c75cfcf436d4ba05 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Fri, 1 Mar 2019 15:22:15 +0800
+ Subject: [PATCH] do not disable buffer in writing files
+diff --git a/meta/recipes-core/systemd/systemd/0013-Handle-__cpu_mask-usage.patch b/meta/recipes-core/systemd/systemd/0013-Handle-__cpu_mask-usage.patch
+index e995da81ff..5427671553 100644
+--- a/meta/recipes-core/systemd/systemd/0013-Handle-__cpu_mask-usage.patch
++++ b/meta/recipes-core/systemd/systemd/0013-Handle-__cpu_mask-usage.patch
+@@ -1,4 +1,4 @@
+-From 4b46cf08f269b69d5336bf3d8f617a288bd65ea8 Mon Sep 17 00:00:00 2001
++From b10a273f5e26536068a90f961c2a7a6c6528083b Mon Sep 17 00:00:00 2001
+ From: Scott Murray <scott.murray@konsulko.com>
+ Date: Fri, 13 Sep 2019 19:26:27 -0400
+ Subject: [PATCH] Handle __cpu_mask usage
+diff --git a/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch b/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch
+index 8cc9c1ba0c..679b42ff95 100644
+--- a/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch
++++ b/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch
+@@ -1,4 +1,4 @@
+-From 76a0eea205c943a0e1fd0db7336cabb98d5c6c8c Mon Sep 17 00:00:00 2001
++From c55dd0f9e1ea05749d0a54082daa69729ee946af Mon Sep 17 00:00:00 2001
+ From: Alex Kiernan <alex.kiernan@gmail.com>
+ Date: Tue, 10 Mar 2020 11:05:20 +0000
+ Subject: [PATCH] Handle missing gshadow
+@@ -138,10 +138,10 @@ index 22ab04d6ee..4e52e7a911 100644
+  #include <shadow.h>
+  
+ diff --git a/src/shared/userdb.c b/src/shared/userdb.c
+-index 98066bb81d..47dc4dd420 100644
++index 7469768233..556e6b84e6 100644
+ --- a/src/shared/userdb.c
+ +++ b/src/shared/userdb.c
+-@@ -1038,13 +1038,15 @@ int groupdb_iterator_get(UserDBIterator *iterator, GroupRecord **ret) {
++@@ -1039,13 +1039,15 @@ int groupdb_iterator_get(UserDBIterator *iterator, GroupRecord **ret) {
+                  if (gr) {
+                          _cleanup_free_ char *buffer = NULL;
+                          bool incomplete = false;
+@@ -158,7 +158,7 @@ index 98066bb81d..47dc4dd420 100644
+                          if (!FLAGS_SET(iterator->flags, USERDB_SUPPRESS_SHADOW)) {
+                                  r = nss_sgrp_for_group(gr, &sgrp, &buffer);
+                                  if (r < 0) {
+-@@ -1057,6 +1059,9 @@ int groupdb_iterator_get(UserDBIterator *iterator, GroupRecord **ret) {
++@@ -1058,6 +1060,9 @@ int groupdb_iterator_get(UserDBIterator *iterator, GroupRecord **ret) {
+                          }
+  
+                          r = nss_group_to_group_record(gr, r >= 0 ? &sgrp : NULL, ret);
+diff --git a/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch b/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
+index 915a7bb0be..2bd683785d 100644
+--- a/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
++++ b/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
+@@ -1,4 +1,4 @@
+-From bd309e23e3e5b7bff8cd4b6778396d921438295e Mon Sep 17 00:00:00 2001
++From 4733cb758285ec7f63e834894aa8f09d9bc77ad5 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 12 Apr 2021 23:44:53 -0700
+ Subject: [PATCH] missing_syscall.h: Define MIPS ABI defines for musl
+diff --git a/meta/recipes-core/systemd/systemd/0016-pass-correct-parameters-to-getdents64.patch b/meta/recipes-core/systemd/systemd/0016-pass-correct-parameters-to-getdents64.patch
+index a9961b515d..3e359d976a 100644
+--- a/meta/recipes-core/systemd/systemd/0016-pass-correct-parameters-to-getdents64.patch
++++ b/meta/recipes-core/systemd/systemd/0016-pass-correct-parameters-to-getdents64.patch
+@@ -1,4 +1,4 @@
+-From 81eb93545808124b3c1abbef2e5d71ad28a1a870 Mon Sep 17 00:00:00 2001
++From 1118d270cf2cd7c6cb99eb40ab42c3d07b20476c Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 21 Jan 2022 15:15:11 -0800
+ Subject: [PATCH] pass correct parameters to getdents64
+@@ -20,7 +20,7 @@ Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/src/basic/recurse-dir.c b/src/basic/recurse-dir.c
+-index 5e98b7a5d8..aef065047b 100644
++index d648862dbc..a1fea243e8 100644
+ --- a/src/basic/recurse-dir.c
+ +++ b/src/basic/recurse-dir.c
+ @@ -55,7 +55,7 @@ int readdir_all(int dir_fd,
+diff --git a/meta/recipes-core/systemd/systemd/0017-Adjust-for-musl-headers.patch b/meta/recipes-core/systemd/systemd/0017-Adjust-for-musl-headers.patch
+index d8557bd3f3..6ae6cdfe54 100644
+--- a/meta/recipes-core/systemd/systemd/0017-Adjust-for-musl-headers.patch
++++ b/meta/recipes-core/systemd/systemd/0017-Adjust-for-musl-headers.patch
+@@ -1,4 +1,4 @@
+-From d09615e61bc779228c996f024ec48c7e21eb64c9 Mon Sep 17 00:00:00 2001
++From ab78d7938e732125012f8276e357e8f6d4a51476 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 21 Jan 2022 22:19:37 -0800
+ Subject: [PATCH] Adjust for musl headers
+diff --git a/meta/recipes-core/systemd/systemd/0018-test-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch b/meta/recipes-core/systemd/systemd/0018-test-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch
+index 0fd55eb0ea..5d74d08201 100644
+--- a/meta/recipes-core/systemd/systemd/0018-test-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch
++++ b/meta/recipes-core/systemd/systemd/0018-test-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch
+@@ -1,4 +1,4 @@
+-From c0c90f4e2381091830203e1286115b0a30e059d3 Mon Sep 17 00:00:00 2001
++From 20cf3569dff21f5c4e46855c3956606fa0141710 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 8 Nov 2022 13:31:34 -0800
+ Subject: [PATCH] test-bus-error: strerror() is assumed to be GNU specific
+diff --git a/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch b/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch
+index e0228d6ad8..a20e21ee08 100644
+--- a/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch
++++ b/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch
+@@ -1,4 +1,4 @@
+-From 6ad0fb9dcd6940a9a24e515b61d4b6245c3b1e98 Mon Sep 17 00:00:00 2001
++From 5e3e71f93adf5bdbfd470bcd93320dab314dc3ef Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 23 Jan 2023 23:39:46 -0800
+ Subject: [PATCH] errno-util: Make STRERROR portable for musl
+diff --git a/meta/recipes-core/systemd/systemd/0020-sd-event-Make-malloc_trim-conditional-on-glibc.patch b/meta/recipes-core/systemd/systemd/0020-sd-event-Make-malloc_trim-conditional-on-glibc.patch
+index 45284e89e1..bdcff34f2c 100644
+--- a/meta/recipes-core/systemd/systemd/0020-sd-event-Make-malloc_trim-conditional-on-glibc.patch
++++ b/meta/recipes-core/systemd/systemd/0020-sd-event-Make-malloc_trim-conditional-on-glibc.patch
+@@ -1,4 +1,4 @@
+-From 70abcbd93b8854c4dd0ae88b82f394d325b2a365 Mon Sep 17 00:00:00 2001
++From 18201d3350b443c79cc85274f3944bf64de33da0 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 2 Aug 2023 12:06:27 -0700
+ Subject: [PATCH] sd-event: Make malloc_trim() conditional on glibc
+diff --git a/meta/recipes-core/systemd/systemd/0021-shared-Do-not-use-malloc_info-on-musl.patch b/meta/recipes-core/systemd/systemd/0021-shared-Do-not-use-malloc_info-on-musl.patch
+index 691bf89afd..451511be16 100644
+--- a/meta/recipes-core/systemd/systemd/0021-shared-Do-not-use-malloc_info-on-musl.patch
++++ b/meta/recipes-core/systemd/systemd/0021-shared-Do-not-use-malloc_info-on-musl.patch
+@@ -1,4 +1,4 @@
+-From c85009340b3a58686390ee70671334593e348a10 Mon Sep 17 00:00:00 2001
++From 96c3d0d3a2359dd248685c2ede876d66c3faa3f9 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 2 Aug 2023 12:20:40 -0700
+ Subject: [PATCH] shared: Do not use malloc_info on musl
+diff --git a/meta/recipes-core/systemd/systemd/0022-avoid-missing-LOCK_EX-declaration.patch b/meta/recipes-core/systemd/systemd/0022-avoid-missing-LOCK_EX-declaration.patch
+index 6b3aa607b4..cd22adf0e5 100644
+--- a/meta/recipes-core/systemd/systemd/0022-avoid-missing-LOCK_EX-declaration.patch
++++ b/meta/recipes-core/systemd/systemd/0022-avoid-missing-LOCK_EX-declaration.patch
+@@ -1,4 +1,4 @@
+-From 45478696b3a3eb1fbcd6c5cd4899bb426230c2e1 Mon Sep 17 00:00:00 2001
++From f3bc7816d9cca9963a2737857763ee76e300a232 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Tue, 2 Jan 2024 11:03:27 +0800
+ Subject: [PATCH] avoid missing LOCK_EX declaration
+diff --git a/meta/recipes-core/systemd/systemd_255.17.bb b/meta/recipes-core/systemd/systemd_255.18.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd_255.17.bb
+rename to meta/recipes-core/systemd/systemd_255.18.bb
 -- 
-2.34.1
+2.43.0
 
 
