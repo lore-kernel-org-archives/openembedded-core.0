@@ -1,172 +1,262 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 620AAC369AB
-	for <webhook@archiver.kernel.org>; Mon, 21 Apr 2025 19:32:29 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.23397.1745263948839950085
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D1DC369AB
+	for <webhook@archiver.kernel.org>; Mon, 21 Apr 2025 20:08:59 +0000 (UTC)
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.web11.24176.1745266138061771218
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Apr 2025 12:32:28 -0700
+ Mon, 21 Apr 2025 13:08:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=K6wOiFlo;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53LIgEp8000701
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 19:32:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hQKJwKJmtvz2LuJ3+4QnREqxqhmkZYmRooUZk2nhwsk=; b=K6wOiFlo/NXh1dKM
-	w8uE+uGh7dT84WeShsT+yc3JqfEydSYb477QFF7BjgpQAvAXbJ6UPDu3dNjDw7l+
-	6H8Y5qmLLVruasJ3IMgimPpQ2rmgyraXius5pGD7+pRqGAdjiQxGlI/n7jH49MAx
-	lVcJvz5ckUv5SKJxllBuzjMwM5E02qDsVWtCpqaBtWer9dMMuVUQuZn/ZO83d7QO
-	dnN7mUfFniWO2WWkmyGP0ACzDm5Ex4GhlEOnBCe4uX0qDVNTm5ntV8wuUkhcz3KS
-	kMTVzHbv1Uhihpn/UFNMcDQ2jMrdopGXHa7MnCtcF52Cb3bLuPxBJDRF6dEpnjSg
-	wbZIEg==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46450pcyqa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 19:32:28 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-b0dae76ad9cso2094022a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 12:32:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MLuoTQCm;
+ spf=pass (domain: gmail.com, ip: 209.85.161.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-603ff8e915aso778036eaf.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 13:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745266137; x=1745870937; darn=lists.openembedded.org;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FOBHsDeA0x0lCNtpveKGnvqF4OMQhVFz+dTP1/ng5eQ=;
+        b=MLuoTQCm0QMMDBUkUcIFCFiLxmtxgF9OKIrj/udTseGHwamg8T8f2YGKclP4t3DaL0
+         D9VA1UUJa+9yGobFx4G4CLQTe/N4sUJE+y1bOxYx+cgUSVn6eBdsTBjyxi84W3GbZ18d
+         Dsv7tGgARgCwORO3MGlFycxThXAMrN/3rOtTejYvwhdf7u93e7p7oJY8T+hn8D0qv882
+         HoPXmrwNlcB7kxkeF2Ps8Q5voekCghpFH0z+LY5l+J5e1lBlcIrOXRodWU5oGbOmnTBU
+         tFpa1y8ZaO27oi/uWvv3YnSwtJ+MctelzljZGORG3q7zoaPwAdY1GSupK2oObozUQBYp
+         HatA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745263947; x=1745868747;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hQKJwKJmtvz2LuJ3+4QnREqxqhmkZYmRooUZk2nhwsk=;
-        b=HIJExpQVRltNODBCxMBKStIbtBZIdCJEVpBNm/tNo9pKlajb7aa8pfWpXvJCbXY2Sx
-         tKbhNmbyxjTDpVj0BircsAlQuTw3R0hwE8mgL9x9t6kjvcuwTV7QLfJW8MNFZuzVKty+
-         07rGjCdbxxuHyM9B/E0cgi4uwaj0Vp3buPMZyVdOn7AnZe700lDmiX5+B137EY2HOO+E
-         UeI+AKdBVZRl4SHCkkPiNvhmNYP5f8irbWHepubBvAaW8+60TGiyzd3L+E5iPhyjudjF
-         En/u5EcQOUKciu5aFxRhKxWWIaEltPBO0Rzt4ul+vi6olr4EECNVO2tbEss39JeodBYA
-         7bjg==
-X-Gm-Message-State: AOJu0YwJEqHxWkuqZoSuze+8ZVHQMGfDyoZ2DfjSFjBx6nxNMZ/kEM/6
-	8pN8PwO+9vGUIrQsJxaf0ePtspY2uRZfvaCz5JzjcFiA4Rt25V3eAzsLvVVEwVHjMyHuLFGY7UY
-	PpRAd2qtbiQXCQ1seXsBkoTi8t9mt25U26D5pDCfB+X/ewegcTE4SHxlXEkrLQyZIp2GkEHeJ8N
-	Ow5mKbC9ksawZ9qRgA0d08WJlhJvVl22Vh8p3fBphyN3mANK26YoERLA==
-X-Gm-Gg: ASbGncvk+oeQwmd4OmT+AgCQoK9fTkSABONE//9ryMdtthZJFzLbGAkoR5FX2JxgPvI
-	ynergsH/5tMbYx29IYh8803Rgcr45m1I7AljjL7aJ+sjqoUWzxeKf8S+US4HpfHH3Jw==
-X-Received: by 2002:a17:90b:17c5:b0:2ff:5a9d:937f with SMTP id 98e67ed59e1d1-3087bbb1dbbmr19894215a91.24.1745263947174;
-        Mon, 21 Apr 2025 12:32:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH6dqQtiXPs5PzEAlOCMFxufyI4hylzaxcPkQBdRznBK2QCa5gtmkj/XpKLKGxg8wlO4wj4nsEVtiLPMEza1oE=
-X-Received: by 2002:a17:90b:17c5:b0:2ff:5a9d:937f with SMTP id
- 98e67ed59e1d1-3087bbb1dbbmr19894178a91.24.1745263946600; Mon, 21 Apr 2025
- 12:32:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745266137; x=1745870937;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FOBHsDeA0x0lCNtpveKGnvqF4OMQhVFz+dTP1/ng5eQ=;
+        b=K81f0IoweTbQGVyybO3OPzHpGNYC50WgmNLzVzM9a3bFkMTIKbqSU17eV9XTlpA4bM
+         yweYRVIqt8QHXsZM60t5Z4CRxUWCJum0h4lyIjHIYpMBqRNAp0lsAlNbuBRlaxaXCrsS
+         yh7IzH04oBHI28pVqTF4H8DCJxf8FS6Y8DY4LRJnrr8Rbx+1Y6NlJIoexrqVG+1E8MZJ
+         yp+vciOt9pg7ESE8C4p8isigfZpITg0YuY1uny5N4WCceOTLgjvIRKZXQdsoOLxo7RK8
+         Pcrl+1Dvz5KPrcl1CS30ZN8uYY/QJUBT9fmSLHOonXJ/iHmajL+q3f9zOpThkm6A1l/D
+         ODHw==
+X-Gm-Message-State: AOJu0Yy+zxcHE4GhYT7Io1I1oi0U9lDCrCNYgnJrR8Rq4AWAQUtgPowT
+	EsD7D8hoDOrwbDZPX+KfpWMAiJ/wilIW/XeFD9jXr48JmZZ8JIso
+X-Gm-Gg: ASbGncvDNi6FawnBgaZnLZHyxJto00cpVenGPPQKmipHLGTp7zlGAgK9gMO5nsKkypm
+	C0P3JHaX0w5j6/A3wFf5a/jC8qSAxLkgiQFXuau4D+58o0x41Pf2czjniLdWklYl/pyBku+HKJi
+	r3JWbgIWEAUOfumCELKiGQ0c2KxgSD01FjxpRrYt8qQ0X6X1IIWgf+q87ISDnEBoiPtaCW8K8su
+	XST78dvogBE1boiPhSc68lzwqdLVvS5a31WwLwcwErHHBjT47BlU5O+AEusTZblVVDscEmtENSs
+	9fzqsDk4HkBtlq4NhyE+oeEyWnJ2FThul5Xi+NIVw/089Wk1QlAhTcyJqWzneakR8ruOifz3FTM
+	QwM8PpCUcBIXfCI+BEkSF3LQ3zsDj
+X-Google-Smtp-Source: AGHT+IHeI5BkSDCggagKNPOlOTgT+Fw2oFfXhrcFzLPb8lg8BkyESdLm5p0hV4hHX+Z7QMTbI06FDw==
+X-Received: by 2002:a05:6820:2226:b0:603:f903:c85a with SMTP id 006d021491bc7-606005462acmr6816917eaf.4.1745266137061;
+        Mon, 21 Apr 2025 13:08:57 -0700 (PDT)
+Received: from ?IPV6:2601:646:8201:fd20:5165:5b01:68ad:eb5f? ([2601:646:8201:fd20:5165:5b01:68ad:eb5f])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-605ff5fcd49sm1736782eaf.24.2025.04.21.13.08.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Apr 2025 13:08:56 -0700 (PDT)
+Message-ID: <8fb27f46-31b1-4840-8889-92cf59bf22d9@gmail.com>
+Date: Mon, 21 Apr 2025 13:08:55 -0700
 MIME-Version: 1.0
-References: <20250418-mesa-25-fixes-v2-0-e110ccfe291f@oss.qualcomm.com> <CAMKF1sr5VLmBKmrr8Q05C7aaZi6OK7JHS9DKEZyKo4eihnusgg@mail.gmail.com>
-In-Reply-To: <CAMKF1sr5VLmBKmrr8Q05C7aaZi6OK7JHS9DKEZyKo4eihnusgg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 21 Apr 2025 22:32:14 +0300
-X-Gm-Features: ATxdqUEFRrDDSZyN2OVmUyG-UucovjIcc9hl5MptzRMZl1E1R-ksLYogRER_L3g
-Message-ID: <CAO9ioeU8zhRVX_BgB3Pp_psH49gJt+jeE92TcfrZZoaL-HjUiA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 0/3] mesa: small improvements after 25.0 merge
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=Hd0UTjE8 c=1 sm=1 tr=0 ts=68069d4c cx=c_pps a=rz3CxIlbcmazkYymdCej/Q==:117 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=iGHA9ds3AAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Q4-j1AaZAAAA:8 a=pGLkceISAAAA:8 a=7sJ9-i1n-r3UAIRViSMA:9
- a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-GUID: 0WpGzSgET1c4im0SCjUhcDsSabtCzJoL
-X-Proofpoint-ORIG-GUID: 0WpGzSgET1c4im0SCjUhcDsSabtCzJoL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-21_09,2025-04-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- adultscore=0 mlxlogscore=999 phishscore=0 clxscore=1015 spamscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504210152
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] autoconf: upgrade to final 2.72 release
+To: ross.burton@arm.com
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20250417151813.2295435-1-ross.burton@arm.com>
+ <AB3E4ECA-B3F8-4221-9988-7606C0FF1C3C@arm.com>
+Content-Language: en-US
+From: Khem Raj <raj.khem@gmail.com>
+Autocrypt: addr=raj.khem@gmail.com; keydata=
+ xsDiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnmDLpLSdfv
+ Zw2ZDXeaQbGU2thctxXTyYf6N1fY6P5Tww6mWKInuGU3yAv8Mg5p+Xd8itwOoVR41DOBkftV
+ miO2G7FtXsnqonB6F43a2yvc+h9OwPRVxAFss5mSmwCglSXPWndN1Ka4M/hzt7g+FmeyEssD
+ /1V/G8lLeAS9gQCNjS7jch+uHMFJuWgHzMXdw99e1ywlIkvXN77NPkW+FLVxKxNAHyWZZ3wO
+ 4BQ9/GVR2y0s/rrF1lQSIcfnUmzZrh/Bh0b1wVOSLhl0Vx4MI0/MbdL3xx17JAWy+s67evuK
+ ER4Y8ycTq3gbIGJtVrIJjWPCzWF8BACAA2u52uDmJ2pS8SIhEW0jMK/zYQ5Od9l9fM6BmS6Q
+ jnIlzzcuMvRdZn2IrnuE/YoC8yyzBK3mN+MVc2jWN9rfSg6ml7r14Zjem9Ee0O5Ca7Jg3ZvN
+ 6g3vSlrRJqKgsnq3vdatDF+5rd0NJ7ZKUy6x2i1Pavgtv3qaAgPGa1qQdM0dS2hlbSBSYWog
+ PHJhai5raGVtQGdtYWlsLmNvbT7CYAQTEQoAIAIbAwYLCQgHAwIEFQIIAwQWAgMBAh4BAheA
+ BQJTBC0aAAoJELsFM1WRnTMUul4An282FaN7oYXM2A8JzQt1ZWeUTlJZAJ0eOgup2Eqxx6gZ
+ FOQE7EkRmOb6iM7DTQRKl2iREBAAjjbVQ55RAouAe0l0nPsKkWdtMuUHwBdLBkpF3rGM/f0u
+ DlPaQzYGLjKT7xDoyRh8x2tFwWvOfiqrZFArxX8e4fsACmJdL0kahTbxC/8SmSWVHXi10JUX
+ 2fmZ5ufzlXAnl0ivXkWnrUfLX9DdNwL6DR4DeFK9qBFqtHmK5TQXMu87G+MJwgNJIwCKQX4i
+ I9YJILMuqInVwaxg5/ALdKfE3QPmtadnKb/cuUm4gICdaJeyQfI6qdYLcSuyBWCbAEMM1wmh
+ RAhw5RgzMRRIquZlxPt7lZkXXjals7M6juh87VGRoIJwYoQi97Q1ZHzPBo3AlMPe3haNihkd
+ 6D3lwvdB4pmjYG4I6bHCgtEhEss3hHvsBaqV9jV1dMUSs95ZxQtT9qtkOxydHgOlwRX3CG+r
+ 584J/s4vWm+iPQtLvDY1u4UFwOLjCOFe709BcLJdPR2GQiOPoyZF7lVY8nu/dtTrAEuiZFk4
+ HD7afUlcr/IKwPWID1V9kRLoDlzdbNuoUy/XfVErK8wcoiGowerEMed4ajNoKxCxBweIkjxq
+ KMt8CKgp30n9UxljglEcgf+/UumwSHxqZcCPVbWXtdhy/hwMk27shOdUvaiynep8OsVGqAzS
+ seL4qZIJ5XzCcyV4KJCmwmdQzt5+ZylcVmeq6R4ob+d8JIDU0ELqdwxwIDiTj0cAAwUP/inN
+ 3/r8IFDms4g5xafPrCw31o2jIYahkIfN0WVPWI5K/hFCo2PczPStzDcTsZx7mN2qwpGOe3Lz
+ 9/0krZeksrz1ZIHNi5LTasuzXyFJbO05Y+eiHgV1rV7VVEipOrpV1496w112Y/0SZ/FhOfEm
+ EA1TeDejy2sZiTOUW4gyzewbHMpE07d27F2qM2NfMMhKQCcvzr+N0VJmAOeATEivxPUHn+Dp
+ X/NniBWOcWv++wHlxv0Xr63gsRKSt62eFKGjgF50hHD5lM31ziqycc42sbgcqAZ+rYFlb9k0
+ 3JcKyq1XdVUSm+xcC2DMSstTI6iqFMGo6FnEO+gyE5VdceajbuZ1GOmJXJUCyYIdGuvCyIoK
+ jTE9lcIYSEEDZQej5xdiGk9eUz0MPmZEUwSR/nLmmwjHDJi0prVvs9xqe5bvS3ddPAqepvZ5
+ UrisgtWD+TDI8ktkt5VLh3XsG9FuXUVAaahOvFMGiZtsioDXTorL4AfMeuA9f+yLwrCVQO3x
+ mH/WA0Tgf/5gYB3t9KoHPjLBNruVOuQbAjubi0pvRAOUcMdBfmPofksK4uWS1zGtPWS7Uu1c
+ suq7Hnb7vszlFYdbzeqjY81LSyxA0kcpgJxdLv9o7UuCEnHDZLPbHdQ83PmyyBKSI31AKe7R
+ XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiwkkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
+ VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
+In-Reply-To: <AB3E4ECA-B3F8-4221-9988-7606C0FF1C3C@arm.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ov1AbnB7EhjCnfoQqMQ8crxu"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 19:32:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215183
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 20:08:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215184
 
-On Mon, 21 Apr 2025 at 18:22, Khem Raj <raj.khem@gmail.com> wrote:
->
-> Hi Dmitry
->
-> I have picked these patch into clang-merge-2 branch.
->
-> https://web.git.yoctoproject.org/poky-contrib/log/?h=3Dkraj/clang-merge-2
->
-> They help with some mesa-native build failures however, I am still
-> seeing a build failure build mesa-native
-> on musl targets. I am not sure why target should matter but it seems
-> to see the error
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ov1AbnB7EhjCnfoQqMQ8crxu
+Content-Type: multipart/mixed; boundary="------------SIy3DNUpCC8Nus5MGwuQSys1";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: ross.burton@arm.com
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Message-ID: <8fb27f46-31b1-4840-8889-92cf59bf22d9@gmail.com>
+Subject: Re: [OE-core] [PATCH] autoconf: upgrade to final 2.72 release
+References: <20250417151813.2295435-1-ross.burton@arm.com>
+ <AB3E4ECA-B3F8-4221-9988-7606C0FF1C3C@arm.com>
+In-Reply-To: <AB3E4ECA-B3F8-4221-9988-7606C0FF1C3C@arm.com>
 
-Note, the error is about 'required file', it usually means that the
-dynamic loader is not found.
-I'll try reproducing it locally.
+--------------SIy3DNUpCC8Nus5MGwuQSys1
+Content-Type: multipart/mixed; boundary="------------hPZqlnC0OFEYQcYedVI5OJjj"
 
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/111/builds/150
->
-> Error is that mesa_clc is not available before its use. Interestingly,
-> it never fails locally here but it always fails on AB. Is there some
-> sort of build race or something else going on?
+--------------hPZqlnC0OFEYQcYedVI5OJjj
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-And this is usually because there was a uninative-enabled build in
-sstate cache which is now being reused for the non-uninative.
-Let's see if I can reproduce it...
+T24gNC8xNy8yNSA4OjE5IEFNLCBSb3NzIEJ1cnRvbiB2aWEgbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZyB3cm90ZToNCj4gSeKAmWQgYWN0dWFsbHkgbGlrZSB0byBzZWUgdGhpcyBtZXJnZWQg
+aW50byB3YWxuYXNjYXI6IHRoZSBjaGFuZ2VzIGFyZSBtaW5pbWFsIGFuZCBzaGlwcGluZyBh
+IHJlbGVhc2UgYW5kIG5vdCBhIFJDIGlzIGEgZ29vZCB0aGluZy4NCj4gDQoNClllYWguIFRo
+ZSBjaGFuZ2VzIGFyZSBub3QgdG9vIGludHJ1c2l2ZSBhcyBpdCBzZWVtcy4NCg0KPiBSb3Nz
+DQo+IA0KPj4gT24gMTcgQXByIDIwMjUsIGF0IDE2OjE4LCBSb3NzIEJ1cnRvbiB2aWEgbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZyA8cm9zcy5idXJ0b249YXJtLmNvbUBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnPiB3cm90ZToNCj4+DQo+PiBhdXRvY29uZiAyLjcyZSB3YXMgdGhlIGZpZnRo
+IHJlbGVhc2UgY2FuZGlkYXRlIGJ1aWxkLCBhbmQgd2hpbHN0IHdlIGhhZA0KPj4gZ29vZCBy
+ZWFzb24gdG8gdXNlIFJDcyBkdXJpbmcgZGV2ZWxvcG1lbnQgd2UgZmFpbGVkIHRvIG5vdGlj
+ZSB0aGF0IHRoZQ0KPj4gZmluYWwgcmVsZWFzZSB3YXMgbWFkZSBiZWNhdXNlIGFscGhhLmdu
+dS5vcmcgX29ubHlfIGNvbnRhaW5zIHRoZSByZWxlYXNlDQo+PiBjYW5kaWRhdGVzLg0KPj4N
+Cj4+IFRoZXJlIGFyZSBtaW5pbWFsIGNoYW5nZXMgaW4gdGhlIGZpbmFsIHJlbGVhc2UgY29t
+cGFyZWQgdG8gMi43MmU6DQo+Pg0KPj4gNjE5OWNmZjIgKHRhZzogdjIuNzIpIEZpbmFsaXpl
+IE5FV1MgZm9yIHJlbGVhc2UgMi43Mi4NCj4+DQo+PiAgIFRoaXMgaXMgdGhlIGZpbmFsaXNh
+dGlvbiBvZiB0aGUgcmVsZWFzZSwgdXBkYXRpbmcgZG9jdW1lbnRhdGlvbiBhbmQNCj4+ICAg
+dmVyc2lvbiBudW1iZXJzLg0KPj4NCj4+IGU1NDRhMzIzIFNhdmUvcmVzdG9yZSBBQ19MQU5H
+IHNldHRpbmcgaW4gQUNfUFJPR19DQ19DX08uDQo+Pg0KPj4gICBUaGlzIGlzIGEgYnVnIGZp
+eCwgYWxpZ25pbmcgYmVoYXZpb3VyIG9mIEFDX1BST0dfQ0NfQ19PLg0KPj4NCj4+IDYzNGZi
+M2U3IFJlbW92ZSBiYXNoaXNtIGZyb20gdGVzdHMvbG9jYWwuYXQuDQo+PiA0ZmJlNjQzNiBS
+ZXZlcnQgZGVidWdnaW5nIGNoYW5nZSBjb21taXR0ZWQgYnkgbWlzdGFrZQ0KPj4gODc5NGNk
+MWMgQWRkcmVzcyDigJxhdXRvbTR0ZSBwcmVzZWxlY3Rpb25z4oCdIHRlc3RzdWl0ZSBmYWls
+dXJlDQo+PiBlNWQ5OGY0YyBBdm9pZCBhIHNwdXJpb3VzIHRlc3QgZmFpbHVyZSB3aXRoIHNo
+ZWxscyB0aGF0IGlnbm9yZSB3cml0ZSBlcnJvcnMuDQo+PiAzZmJmYjEzZSBBZGRyZXNzIOKA
+nGF1dG9jb25mOiBmb3JiaWRkZW4gdG9rZW5zLCBiYXNpY+KAnSB0ZXN0c3VpdGUgZmFpbHVy
+ZQ0KPj4gZmRiNThkZjYgdGVzdHN1aXRlOiBTa2lwIHRlc3RzIHRoYXQgdXNlIGFjbG9jYWwg
+b3IgYXV0b21ha2UgaWYgdGhleeKAmXJlIHRvbyBvbGQuDQo+Pg0KPj4gICBUaGVzZSBhcmUg
+Zml4ZXMgZm9yIHRoZSB0ZXN0IHN1aXRlLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFJvc3Mg
+QnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPg0KPj4gLS0tDQo+PiAuLi4vYXV0b2NvbmYv
+e2F1dG9jb25mXzIuNzJlLmJiID0+IGF1dG9jb25mXzIuNzIuYmJ9ICAgICAgICAgIHwgNCAr
+Ky0tDQo+PiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
+KQ0KPj4gcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9hdXRvY29uZi97YXV0b2NvbmZf
+Mi43MmUuYmIgPT4gYXV0b2NvbmZfMi43Mi5iYn0gKDk0JSkNCj4+DQo+PiBkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2F1dG9jb25mL2F1dG9jb25mXzIuNzJlLmJiIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2F1dG9jb25mL2F1dG9jb25mXzIuNzIuYmINCj4+IHNp
+bWlsYXJpdHkgaW5kZXggOTQlDQo+PiByZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvYXV0b2NvbmYvYXV0b2NvbmZfMi43MmUuYmINCj4+IHJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvYXV0b2NvbmYvYXV0b2NvbmZfMi43Mi5iYg0KPj4gaW5kZXggZGIzNzQz
+NzNjZmYuLmYyZDI3ODFmZWM5IDEwMDY0NA0KPj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2F1dG9jb25mL2F1dG9jb25mXzIuNzJlLmJiDQo+PiArKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvYXV0b2NvbmYvYXV0b2NvbmZfMi43Mi5iYg0KPj4gQEAgLTEyLDcgKzEyLDcg
+QEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9Y2MzZjNhNzU5NmNi
+NTU4YmJkOWViN2ZiYWEzZWYxNmMgXA0KPj4gICAgIGZpbGU6Ly9DT1BZSU5HdjM7bWQ1PTFl
+YmJkM2UzNDIzN2FmMjZkYTVkYzA4YTRlNDQwNDY0Ig0KPj4NCj4+IFNSQ19VUkkgPSAiIFwN
+Cj4+IC0gICAgICAgICAgIGh0dHBzOi8vYWxwaGEuZ251Lm9yZy9nbnUvYXV0b2NvbmYvJHtC
+UH0udGFyLmd6IFwNCj4+ICsgICAgICAgICAgICR7R05VX01JUlJPUn0vYXV0b2NvbmYvJHtC
+UH0udGFyLmd6IFwNCj4+ICAgICAgICAgICAgIGZpbGU6Ly9wcm9ncmFtX3ByZWZpeC5wYXRj
+aCBcDQo+PiAgICAgICAgICAgICBmaWxlOi8vYXV0b3JlY29uZi1leGNsdWRlLnBhdGNoIFwN
+Cj4+ICAgICAgICAgICAgIGZpbGU6Ly9yZW1vdmUtdXNyLWxvY2FsLWxpYi1mcm9tLW00LnBh
+dGNoIFwNCj4+IEBAIC0yMiw3ICsyMiw3IEBAIFNSQ19VUkkgPSAiIFwNCj4+ICINCj4+IFNS
+Q19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZmlsZTovL25vLW1hbi5wYXRjaCINCj4+
+DQo+PiAtU1JDX1VSSVtzaGEyNTZzdW1dID0gImYzNDc4ZDNiNTk3ZDUxZjVkNjE1OTZmYjJm
+NmY2YWJhNDljZGQ5NzRiNGIwNWZmMGJhYzU3ZjU2YjVjZmRiMzkiDQo+PiArU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImFmYjE4MWE3NmUxZWU3MjgzMmY2NTgxYzBlZGRmOGRmMDMyYjgzZTJl
+MDIzOWVmNzllYmVkYzQ0NjdkOTJkNmUiDQo+Pg0KPj4gUkRFUEVORFM6JHtQTn0gPSAibTQg
+Z251LWNvbmZpZyBcDQo+PiAgIHBlcmwgXA0KPj4gLS0gDQo+PiAyLjQzLjANCj4+DQo+Pg0K
+Pj4NCj4+DQo+IA0KPiANCj4gDQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+IExpbmtz
+OiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiBWaWV3
+L1JlcGx5IE9ubGluZSAoIzIxNTEwMCk6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMjE1MTAwDQo+IE11dGUgVGhpcyBUb3Bp
+YzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL210LzExMjMxNTE0Ni8xOTk3OTE0
+DQo+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnDQo+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiBbcmFqLmtoZW1AZ21haWwuY29tXQ0KPiAt
+PS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiANCg==
+--------------hPZqlnC0OFEYQcYedVI5OJjj
+Content-Type: application/pgp-keys; name="OpenPGP_0xBB053355919D3314.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xBB053355919D3314.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-> Would appreciate help.
->
-> On Thu, Apr 17, 2025 at 5:57=E2=80=AFPM Dmitry Baryshkov via
-> lists.openembedded.org
-> <dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
-> >
-> > Several bugfixes after Mesa 25.0 recipe was merged:
-> > - Replace the bindgen patches with meson-based fix (Dylan Baker)
-> > - Bundle OpenCL C headers
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> > Changes in v2:
-> > - Dropped applied patches
-> > - Add the bundle-opencl-headers patch
-> > - Link to v1: https://lore.kernel.org/r/20250412-mesa-25-fixes-v1-0-791=
-840391271@oss.qualcomm.com
-> >
-> > ---
-> > Dmitry Baryshkov (3):
-> >       meson: pass -target and -I to bindgen calls
-> >       mesa: drop the bindgen patch
-> >       mesa: bundle Clang OpenCL headers into meta-clc
-> >
-> >  meta/classes-recipe/meson.bbclass                  |  1 +
-> >  ...d-an-option-to-force-inclusion-of-OpenCL-.patch | 57 ++++++++++++++=
-++++
-> >  ...vide-cross-compilation-arguments-to-LLVM-.patch | 67 --------------=
---------
-> >  meta/recipes-graphics/mesa/mesa.inc                |  9 +--
-> >  4 files changed, 61 insertions(+), 73 deletions(-)
-> > ---
-> > base-commit: 53c772c941d5ce69ab89f35cd04724b740daf269
-> > change-id: 20250411-mesa-25-fixes-5a38fe55dd3c
-> >
-> > Best regards,
-> > --
-> > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#215115): https://lists.openembedded.org/g/openembed=
-ded-core/message/215115
-> > Mute This Topic: https://lists.openembedded.org/mt/112324544/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
+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
+//VuX4EDPW3CZmbPy6U=3D
+=3D+jUt
+-----END PGP PUBLIC KEY BLOCK-----
 
+--------------hPZqlnC0OFEYQcYedVI5OJjj--
 
---=20
-With best wishes
-Dmitry
+--------------SIy3DNUpCC8Nus5MGwuQSys1--
+
+--------------ov1AbnB7EhjCnfoQqMQ8crxu
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCaAal1wUDAAAAAAAKCRC7BTNVkZ0zFAjL
+AJ0bBBYL1GZBNk5eprHvj4sye12IMACePlfQKChzHXZd5ZdKwzyMPy0cvfU=
+=kB1e
+-----END PGP SIGNATURE-----
+
+--------------ov1AbnB7EhjCnfoQqMQ8crxu--
 
