@@ -1,165 +1,134 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4390EC369AB
-	for <webhook@archiver.kernel.org>; Mon, 21 Apr 2025 12:29:37 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.14156.1745238576234183687
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA67CC369AB
+	for <webhook@archiver.kernel.org>; Mon, 21 Apr 2025 15:22:27 +0000 (UTC)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+ by mx.groups.io with SMTP id smtpd.web11.17536.1745248938437172003
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Apr 2025 05:29:36 -0700
+ Mon, 21 Apr 2025 08:22:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P32qedKb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so29365115e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 05:29:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DixHALnk;
+ spf=pass (domain: gmail.com, ip: 209.85.210.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-72ec926e828so1163632a34.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 08:22:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1745238574; x=1745843374; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QdxzIBCxluRurPD1R1erV7426goI4M4uXhGBzFya+Uk=;
-        b=P32qedKbCVVskS8Y43C/n9DHI5HupRazOC9MRAYYFKt8cOcb5uH2LM7bC0I8gEYftS
-         O6Yp/TWisZVSQMsP8xsWzo42vDtBJCB9U63gavsXTqu6uzqZKS7YxMzDA14NveGVvtyc
-         VX3sMMTDyXVLkto3PyqU8PatiBiHMs2pajwUs=
+        d=gmail.com; s=20230601; t=1745248937; x=1745853737; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jMr9kAY4F36s7b45XdXtwzMkTJZgDuzQmUG6L1QZSLk=;
+        b=DixHALnkQjTKj/6Ie3mYozLQ3yrWMwOYlgnAXGUnVatM2nfeqHpG9xBybJuOGHUytG
+         wvvUg+7VMr65oPvcm4KkkK8l0AMo2V7Y3XwDiiSF0z+B8giioVdNh7HEr4CAKKwqu8Qm
+         M9GI7Ckdj2iSsvnRGlyTYO0NOFm6x4mQXsKzURPocp6zYSfu0abnKjkGnV9fq+pTn+jV
+         r6c7OAQAOYCW/poSlISw+2o+5vCMdzFj5W6o38c2GyaP/wcRP7zjjekPZNPj1QUiao0h
+         reU1qKAHX3r3JlO9zy/H7ZUIUFh+mygZQzadbP9IkSqLMFtE0AREompsqlNlg1wIcKxe
+         8IDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745238574; x=1745843374;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QdxzIBCxluRurPD1R1erV7426goI4M4uXhGBzFya+Uk=;
-        b=j2xcctWKcsXtqO3fiL6k1oa8zzMxA7nBb0dX5ApCkwYRIlZVfu7SVEwkeeZ5o8vBUS
-         o7GgzayUk7z5Ajp57BEYZFcExJXFkuVXN5CZVi3au+dpgkOIeMRAnimY9DDLlhVyK07W
-         xLYOSaZBocpo3eCowmlUSr16W9lYQHcrULEhv0HOByx1yaY/6RdYy6zMSdyrdW7T4p8q
-         2nHy/5TU4xF5COs4kZzI/jlECqaeMuEA3uycxRVjaNCw4X8V3fHcMU3rUvVBZFMua4tE
-         6oM1KEgwHGg2OPKqxHjcvjYZHsEfZ58IQ48KWsHK/xbPUPLNbuT6P0WHJy0z4SRkqK/Y
-         DnRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXYMIZYCKYVbNeudvUiWRZa2gxrezrmltJr/FP0/sIkiR7lY3yZ1f/NcUq2+D0zVOZRMWVkCk7xzUPfQCK5NvflAg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyeRpgO8krYYESsKiyZSzk9PbAcZRZa+orKUp+tMcWMJtkad6ZJ
-	+MlN1/i1iwH+fWZiyCZbui0gFSOjGq2c5r4F5L3bIleEZTyd1Cvd5QqaI5ABHAt7U5v0X+N1Lcb
-	1
-X-Gm-Gg: ASbGncv/o+uLx9/vdYoG9zfIT49fi0MxhU/RYqSjN84ES0mGBsT3T7nG4XQAp/H4mxF
-	TpwdVQBK2+K0zNDdvsg4giwouNxRVxFulhQ/iD2jQf1pZJCThDC52qkxDHxcR5+i2lFvTQZmPyW
-	kjjPGiwH8DRqk2FB1J3sELdGSn9a2OylPajfm1CFsfJFXtrZOSglSkw6ruDKR6A6LZKhgtXOMAQ
-	UEtHjPGdl48D21TqGRp8ZsEn9Cs2NccpUb+7xqCUMu5Bk2Nw4xslJn56otNHsqibbdgvf0zeU8J
-	Xp5CutALJKemirsoGVbyR968KIeQDysY61uI/5SiZNxx5IouUUrx/r5dfK46/BgAAPG3U7Ytf9a
-	HNPCAvBfaTMP9RIUCZyHqnc7X3COM9A==
-X-Google-Smtp-Source: AGHT+IFSvHOVX/aq+c7973EwoREJmIYfgbIpxCxoX6qzzLyJF2l10ur7Uzev/SUVZDnbefkvcpmCGA==
-X-Received: by 2002:a05:600c:1906:b0:43d:fa58:8378 with SMTP id 5b1f17b1804b1-4406ac11581mr88670365e9.33.1745238574411;
-        Mon, 21 Apr 2025 05:29:34 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1f12:50b3:e6fc:b6f8? ([2001:8b0:aba:5f3c:1f12:50b3:e6fc:b6f8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-44034fd8f37sm146496905e9.0.2025.04.21.05.29.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 05:29:33 -0700 (PDT)
-Message-ID: <d4b89d4a37faf4afe9bcc0c3a781f125426a0351.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] bitbake.conf: Switch prefix mapping to
- use -ffile-prefix-map
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Jacob Kroon <jacob.kroon@gmail.com>, Martin Jansa
- <Martin.Jansa@gmail.com>
-Date: Mon, 21 Apr 2025 13:29:32 +0100
-In-Reply-To: <20250418175911.4033750-2-raj.khem@gmail.com>
-References: <20250418175911.4033750-1-raj.khem@gmail.com>
-	 <20250418175911.4033750-2-raj.khem@gmail.com>
+        d=1e100.net; s=20230601; t=1745248937; x=1745853737;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jMr9kAY4F36s7b45XdXtwzMkTJZgDuzQmUG6L1QZSLk=;
+        b=hwrW3BqyCAeQL606eg9cdsnAxrsESpKuPw4pV1UTL8eEOgX2zg8SXDZW8HHVSnnkfT
+         wuhF7nnw6iIERTHI0b1cfjmF8s8hQtnNaJrTZD0vJhhQhcvC9Gwqfcwrpzpmpigx/lon
+         q059qiHyit0FfiUE78d7qa/VXM+/DW6ZTRWA4WPcI8rZMdOZ0UhkmUv1Ol+K/FJDuVNd
+         cHi9+3mwUk1cIJ/KUt7EP+EN16MLVQIgJt8nRBMogKhiJpVWZtL6zMYYUn/9XKzqu7nI
+         uhCtqFZBJ8WUKuXLfBvgdwqH+8qxBm5gsoM44DdVhPzmFFHY0MvpJFr9zRFpGkut29aW
+         9sSQ==
+X-Gm-Message-State: AOJu0YyUUDYGvwyZY2d9igy784hatgTKyfhDnV+Iu1evsoheRgbPsUB4
+	axSUFgrehLZz8sBRcT7xlG+zW2f1LcptI2N+uYfHMJuYS44Rhz9kbi9oNkFwZ13P5NMVLnZGlGd
+	rtdqXItkDCMBiUQGJ+TG6XLk2QRg=
+X-Gm-Gg: ASbGncvT1PdmJqCpmTVmV3IZKmnnpgSX1CjKVOB6xRzw18cJARSANwAX0tJoui5kX68
+	+aifYFu2FzJsR4kirL0vFvBneoBEWhgY0fIy+FCZKXbQx2MM4okSAZaJkxMQ0lNoFQkdReqMLp3
+	kRWgVZgWm8lGqDmLJgSRGLWN/cVwzER3Ge
+X-Google-Smtp-Source: AGHT+IFTelQkW9owxe1OxZgbvhlMYYX4FlY8jRgOhqGlcaikVwdoQPhhvsRGxCCgTz/kYtTukj8WQhZ8J03ncCTR6S4=
+X-Received: by 2002:a05:6808:8305:b0:401:bcae:68 with SMTP id
+ 5614622812f47-401c0a7bb43mr6491182b6e.19.1745248937361; Mon, 21 Apr 2025
+ 08:22:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250418-mesa-25-fixes-v2-0-e110ccfe291f@oss.qualcomm.com>
+In-Reply-To: <20250418-mesa-25-fixes-v2-0-e110ccfe291f@oss.qualcomm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 21 Apr 2025 08:21:50 -0700
+X-Gm-Features: ATxdqUEePuxfStneB7pbbv0A9Ii3lcsH9IfaH13yZbp1clZGSqYk7Lgctm6Ky_s
+Message-ID: <CAMKF1sr5VLmBKmrr8Q05C7aaZi6OK7JHS9DKEZyKo4eihnusgg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 0/3] mesa: small improvements after 25.0 merge
+To: dmitry.baryshkov@oss.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 12:29:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215176
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 15:22:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215177
 
-On Fri, 2025-04-18 at 10:59 -0700, Khem Raj via lists.openembedded.org wrot=
-e:
-> -ffile-prefix map is more comprehensive when it comes to reproducible
-> builds and its superset of all prefix-mapping options in compilers
->=20
-> This makes is cleaner and workable across gcc and clang, clang does not
-> support -fcanon-prefix-map and it has to be explicitly omitted when using
-> clang.
->=20
-> There are lambdas generated in templates by clang which still get the
-> absolute paths despite -fdebug-prefix-map, this helps with that as well.
->=20
-> nasm is an outlier and we have fixed it by adding -fdebug-prefix-map opti=
-on
-> luckily we do not pass DEBUG_PREFIX_MAP to nasm, in all recipes which use
-> nasm either pass -fdebug-prefix-map explicitly to nasm or they rewrite it
-> to use nasm flags syntax.
->=20
-> We have discussed this in past [1]
->=20
-> [1] https://patchwork.yoctoproject.org/project/oe-core/patch/202304280320=
-30.2047920-1-raj.khem@gmail.com/#10281
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Jacob Kroon <jacob.kroon@gmail.com>
-> Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Hi Dmitry
+
+I have picked these patch into clang-merge-2 branch.
+
+https://web.git.yoctoproject.org/poky-contrib/log/?h=3Dkraj/clang-merge-2
+
+They help with some mesa-native build failures however, I am still
+seeing a build failure build mesa-native
+on musl targets. I am not sure why target should matter but it seems
+to see the error
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/111/builds/150
+
+Error is that mesa_clc is not available before its use. Interestingly,
+it never fails locally here but it always fails on AB. Is there some
+sort of build race or something else going on?
+Would appreciate help.
+
+On Thu, Apr 17, 2025 at 5:57=E2=80=AFPM Dmitry Baryshkov via
+lists.openembedded.org
+<dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
+>
+> Several bugfixes after Mesa 25.0 recipe was merged:
+> - Replace the bindgen patches with meson-based fix (Dylan Baker)
+> - Bundle OpenCL C headers
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
-> v2: Drop using --ffile-prefix in go
->=20
-> =C2=A0meta/conf/bitbake.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- | 14 +++++---------
-> =C2=A0meta/recipes-devtools/rust/cargo_1.85.1.bb |=C2=A0 2 +-
-> =C2=A02 files changed, 6 insertions(+), 10 deletions(-)
->=20
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 8f90026f7c2..b4e1964f77d 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -652,15 +652,11 @@ EXTRA_OEMAKE:prepend:task-install =3D "${PARALLEL_M=
-AKEINST} "
-> =C2=A0##################################################################
-> =C2=A0TARGET_DBGSRC_DIR ?=3D "/usr/src/debug/${PN}/${PV}"
-> =C2=A0# Beware: applied last to first
-> -DEBUG_PREFIX_MAP ?=3D "-fcanon-prefix-map \
-> - -fmacro-prefix-map=3D${S}=3D${TARGET_DBGSRC_DIR} \
-> - -fdebug-prefix-map=3D${S}=3D${TARGET_DBGSRC_DIR} \
-> - -fmacro-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} \
-> - -fdebug-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} \
-> - -fdebug-prefix-map=3D${STAGING_DIR_HOST}=3D \
-> - -fmacro-prefix-map=3D${STAGING_DIR_HOST}=3D \
-> - -fdebug-prefix-map=3D${STAGING_DIR_NATIVE}=3D \
-> - -fmacro-prefix-map=3D${STAGING_DIR_NATIVE}=3D \
-> +DEBUG_PREFIX_MAP ?=3D "\
-> + -ffile-prefix-map=3D${S}=3D${TARGET_DBGSRC_DIR} \
-> + -ffile-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} \
-> + -ffile-prefix-map=3D${STAGING_DIR_HOST}=3D \
-> + -ffile-prefix-map=3D${STAGING_DIR_NATIVE}=3D \
-> =C2=A0"
-> =C2=A0DEBUG_LEVELFLAG ?=3D "-g"
-> =C2=A0
-> diff --git a/meta/recipes-devtools/rust/cargo_1.85.1.bb b/meta/recipes-de=
-vtools/rust/cargo_1.85.1.bb
-> index db18ecfda9a..150c2d2b801 100644
-> --- a/meta/recipes-devtools/rust/cargo_1.85.1.bb
-> +++ b/meta/recipes-devtools/rust/cargo_1.85.1.bb
-> @@ -19,7 +19,7 @@ CARGO_VENDORING_DIRECTORY =3D "${RUSTSRC}/vendor"
-> =C2=A0
-> =C2=A0inherit cargo pkgconfig
-> =C2=A0
-> -DEBUG_PREFIX_MAP +=3D "-fdebug-prefix-map=3D${RUSTSRC}/vendor=3D${TARGET=
-_DBGSRC_DIR}"
-> +DEBUG_PREFIX_MAP +=3D "-ffile-prefix-map=3D${RUSTSRC}/vendor=3D${TARGET_=
-DBGSRC_DIR}"
-> =C2=A0
-> =C2=A0do_cargo_setup_snapshot () {
-> =C2=A0	${UNPACKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh=
- --prefix=3D"${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
-
-I'm a supporter of cleaning this up and doing this but I think we have a se=
-lftest failure that needs invesitgation:
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/1469
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1386
-
-I'm thinking it comes from this patch, I'll need to confirm that though.
-
-Cheers,
-
-Richard
+> Changes in v2:
+> - Dropped applied patches
+> - Add the bundle-opencl-headers patch
+> - Link to v1: https://lore.kernel.org/r/20250412-mesa-25-fixes-v1-0-79184=
+0391271@oss.qualcomm.com
+>
+> ---
+> Dmitry Baryshkov (3):
+>       meson: pass -target and -I to bindgen calls
+>       mesa: drop the bindgen patch
+>       mesa: bundle Clang OpenCL headers into meta-clc
+>
+>  meta/classes-recipe/meson.bbclass                  |  1 +
+>  ...d-an-option-to-force-inclusion-of-OpenCL-.patch | 57 ++++++++++++++++=
+++
+>  ...vide-cross-compilation-arguments-to-LLVM-.patch | 67 ----------------=
+------
+>  meta/recipes-graphics/mesa/mesa.inc                |  9 +--
+>  4 files changed, 61 insertions(+), 73 deletions(-)
+> ---
+> base-commit: 53c772c941d5ce69ab89f35cd04724b740daf269
+> change-id: 20250411-mesa-25-fixes-5a38fe55dd3c
+>
+> Best regards,
+> --
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#215115): https://lists.openembedded.org/g/openembedde=
+d-core/message/215115
+> Mute This Topic: https://lists.openembedded.org/mt/112324544/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
