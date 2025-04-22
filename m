@@ -1,585 +1,215 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07125C369C2
-	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 10:18:15 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.36506.1745317085270539772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC028C369C2
+	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 10:31:54 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.62])
+ by mx.groups.io with SMTP id smtpd.web10.36682.1745317911710079815
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Apr 2025 03:18:05 -0700
+ Tue, 22 Apr 2025 03:31:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=rbioC+CJ;
- spf=pass (domain: linaro.org, ip: 209.85.167.47, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54afb5fcebaso6463505e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 03:18:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745317083; x=1745921883; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bQz6mV21JHELDGS9iebMDCbIIlmn4sHj6DhHQe3e33s=;
-        b=rbioC+CJhgYqsvjRwPTpeC2DXSrCWg9UsROSko+3aiQcuIjBk8cpkwhsymkvA4APpo
-         y6oCzrzKliN2BD93yPcwCYqQmpVYsMAy77XBtcXDLTnokonNopgqu3WhYAoYLY29EE6p
-         ueG914E5MSGrAvBi6g+8uc2t4fRbN6juCFaJqPt8cYFTfDVfFTfcDa36n8eVQQR2KfDa
-         stgCSuPb/o7Q2b13tyNIlGl3vFGEnmm9S2uk+MC8bISPR8ZurqYYS6AEosJiSL9fyL2F
-         ZCnuU5psgso+5Ym+2kR9dHaCrEhwVS5rhpgJ6BDNo9EZooOEcw/SEp8QjlHIH9bQPaB/
-         xnlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745317083; x=1745921883;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bQz6mV21JHELDGS9iebMDCbIIlmn4sHj6DhHQe3e33s=;
-        b=v4YqbtpwexE0bcYV7zO0wuW1ZMbrSttE7TOsBJgeGyWYpzoe0yl4POrXAuwWWtzRO4
-         R+x0ww2nBCwkNl7o0kuIf5/qYixIhFMAmiPCf0qtSb2hi7ovV3PTitG+RLTIq5/JWbep
-         5NWeQ934IVRZ1hXDrX3dxzwBbjPbqi925GEivz2Ch/61mzIOaHl80Ow/RKRkDISa7JAE
-         gaKGwOw51wGxWiy+mcMPzEc7wOTNGBPg7n0EOou/nDTyWhRksGtB60RQq5KN8hsd2Ikz
-         e1QsL6a2xvlN+A5I7k+h/rQQigfn92yx7crkwAET/PeyvMysghbUj8BKh54cdDbP7WdN
-         2szA==
-X-Gm-Message-State: AOJu0YxpAv6oPDGCMKx2LtsxCQ2d4YRxpPFQI8p841p2ZL+s0AVKfsWo
-	c711oPEF2W/RbCh/nUcSxkMdJuGvckG9iQFJ7fQqKltIk0diUhJ9KIvy/WvsDPs=
-X-Gm-Gg: ASbGncvW9qUIHIhXgTR5q5K5a+NV7ty/LPxjpyk7MARv15cHULJkHVEcAnrXkT7GBK+
-	D8kBYYYmwP+TDOxZ0Rjc/g/GqzELZY1ucusX9kGZYl4Edj1FR90P9PbcOSG8SjkX8Fjj8LYzDDl
-	GdVYFzNnqUh2SfPiIB4oONRW9AelahEae6LcXHf69R0Rq4nqivvpYDABKEtXuvzQIrPxY1sVUqE
-	xp5UBNPxMtDTTxm4RK9yxdJc3N+XNnwsUxcqTuDaZkHmVLoZnIZEd0OSlmLVzaSl3ycmOM7inHy
-	GFBHOcpMXBcmjFCZhMzozcMuiB2G3xB+ZxXvASGYITget5aC5ygh0zzAxs12mJ3foSpnvCGfvQ=
-	=
-X-Google-Smtp-Source: AGHT+IE0kkEmiuN3PLTNasc3tI0VMwuw45Pz6Le5HW+vGLsM5GuGYeXhNJgzB3oZMMM5g8fzm07ksQ==
-X-Received: by 2002:a05:6512:1088:b0:549:9044:94ac with SMTP id 2adb3069b0e04-54d6e62c6bdmr4381146e87.23.1745317082925;
-        Tue, 22 Apr 2025 03:18:02 -0700 (PDT)
-Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d6e5d0133sm1173779e87.122.2025.04.22.03.18.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 03:18:02 -0700 (PDT)
-Date: Tue, 22 Apr 2025 13:18:00 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v3 03/11] kernel.bbclass: add
- kernel-initrd-modules meta package
-Message-ID: <aAds2P16lTH1qPFB@nuoska>
-References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
- <20250404162932.447699-4-mikko.rapeli@linaro.org>
- <1c55e7536de5f36fa37076ad04ff35588b6b5f1e.camel@linuxfoundation.org>
- <Z_fBAsbV-hY-x_SC@nuoska>
- <CADkTA4MamOxjfPE8uHhFDmZ12OhxpJ9dfhxbsxKGZxwQ4_cCkQ@mail.gmail.com>
- <Z_jJX05RuRTcFf4P@nuoska>
- <CADkTA4MWWtMXdRhvmdXhoS38SVpqXUz=p5G5H1i820QaV4CR0A@mail.gmail.com>
- <Z_kVI4bN7xWOyUi-@nuoska>
- <CADkTA4O9JXtr6XFO_rdzoAumtmp=5YUUkwgKMJyOtDBau7MEDQ@mail.gmail.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=GK49q1LB;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=GK49q1LB;
+ spf=pass (domain: arm.com, ip: 40.107.162.62, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=vrcxScOyZNb3Yq93rN4ZUMRScLq2/Pzd2j2YPKUzetiUohshOE2hYKdNYr8AZ9hSjxB4+8vv1G87TX5X+UP/6Oo0t6CO8C5HaZzfVcX9iG14xNaRH4ehX+vDuJ/HMvRSoyPle7S3vhSPVbVmRhg0O7vLBi0EbvD8pkKu2jcNhe7Ik6I8l6429gJmPWvav1a0sRo72oQ40MP9ab1Yk2Dvtm5C2AmuulJIsloYz7gXAH0YMRc9PrveT5+z6BkbOqIv0uQCgCfSLmxW87zQJ2NP4oXhZdpMjIwcpseCRBDDOEVUi5CuT6ZtiZ9BSa9iHQGGIhKNMxpQycBuZErpaVmMpg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tUqbjdt5BA1Fu2+jUp/QHnVQbcQtRm99Gs2nzeFto0s=;
+ b=V/GD1T5CI5txbeQQcfxl2PxZWi3nPX8fUoGIjbF6z6JWBgL0M0Gr+joqipN5zF9JcbS4f8IeKcksbMqyFyx4iUqRL7dd2PfsObe0geqtrN6YcvxkP2UBIAkT93mA0llLgUYX/+L9AmGvOQAuDiCG7Pg8X6yrGDs5bSmhAkJxng1KQDMgntqHKdoxGQz5PaTnx6RbU2PBnCX8oo209o52l74Mxsk5tdG9HNkdi2yGJZ2YPh64Ec3aAfNhCM0dm1aedPE7RfwQkczUb+XKX++V0WSZk0FEasQGDomIBJVG84s9P62cbgrLze9eYlid+6nunyKCTqjyzrjsYO0c7JpcHA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=oss.qualcomm.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tUqbjdt5BA1Fu2+jUp/QHnVQbcQtRm99Gs2nzeFto0s=;
+ b=GK49q1LB3NmKTMIq5utfN0RgO4Dszz4yIZAWeveog8Nq5u3WDtM4VlW9knoBgNpt3qJ2jWGmhLWazW8qDPpYaBB7tvG6HCZDTYmM8xgyEJtanaKK0S/f2jiX8JnL42h7Vgj6oh+O0tK9jRke0y+HsEED/pfN7rZ+JE+diVXDl7U=
+Received: from AM0P190CA0009.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::19)
+ by DU2PR08MB10038.eurprd08.prod.outlook.com (2603:10a6:10:49c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.34; Tue, 22 Apr
+ 2025 10:31:45 +0000
+Received: from AMS0EPF00000191.eurprd05.prod.outlook.com
+ (2603:10a6:208:190:cafe::82) by AM0P190CA0009.outlook.office365.com
+ (2603:10a6:208:190::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.23 via Frontend Transport; Tue,
+ 22 Apr 2025 10:31:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF00000191.mail.protection.outlook.com (10.167.16.216) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.12
+ via Frontend Transport; Tue, 22 Apr 2025 10:31:45 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yDVqn0nptuSkiRDQzumHSZaxkOl8VVsZW3mFHVwO/tGmv8DE8KNLRfllJDkIuPpSVZ2uZDymJnLi7PcDBPn1jXsuxmuzHjvpPjRWiGfAfi6QzbwXhMR0MGY9rYCS5hABX2bfQ9u8UOjI+QhU9eP3j64zzV11uk/EzXel6i6qNWSXmutgvgTBOQbW1qk8lGKtSSbsbsIlXxv2fQbpxiVeeJYTCftiv4Kp79TFs/UlilWeBPXeGxtHL9+9083GIafyNHIMkUar7TXd2aewuy5DLXMOvue7Gnav0z6OKEnqEui9W0OyPNPnd9vXCeTHJBkHBHKxsiBhb2W8Twcbx/XyZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tUqbjdt5BA1Fu2+jUp/QHnVQbcQtRm99Gs2nzeFto0s=;
+ b=DtC4dsaX2qISozZYO3/62RD1mIbeGqEl0n/MHa7gqSnQQ8/fBoTHzZWotma8wfdyqMx2LXSefobBvbnP83nnx2wrifu+J887Z0gqeCCrFKTWd3F9FqeA8ZIbCu9yeaWJ2uTSwpfr37STvP+sX5xUrRIljFOgvs7tJdjRjYkaYf6hzlemiS5oM/M5CF6jORNS6/XTVOihVhUUovk5OCwsOvl7gfS6a1mnQTJwkFV6R/xYnpHCkLsFvCfqN9wontzg07JRf/zLuw6BLs5Lmy3xx7p96VzxGbVrcjuuBLoHf09SfQfRB8ytjAzTKaDU2+Unpp/olhaGhGVPySgMq7MLAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tUqbjdt5BA1Fu2+jUp/QHnVQbcQtRm99Gs2nzeFto0s=;
+ b=GK49q1LB3NmKTMIq5utfN0RgO4Dszz4yIZAWeveog8Nq5u3WDtM4VlW9knoBgNpt3qJ2jWGmhLWazW8qDPpYaBB7tvG6HCZDTYmM8xgyEJtanaKK0S/f2jiX8JnL42h7Vgj6oh+O0tK9jRke0y+HsEED/pfN7rZ+JE+diVXDl7U=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by PAWPR08MB9759.eurprd08.prod.outlook.com (2603:10a6:102:2ee::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Tue, 22 Apr
+ 2025 10:31:11 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%3]) with mapi id 15.20.8655.033; Tue, 22 Apr 2025
+ 10:31:11 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Koen Kooi <koen.kooi@oss.qualcomm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] autoconf: upgrade to final 2.72 release
+Thread-Topic: [OE-core] [PATCH] autoconf: upgrade to final 2.72 release
+Thread-Index: AQHbr6v9uoiKvnuafEKeLa5ew4Fon7On+PMAgAdoGICAACLmgA==
+Date: Tue, 22 Apr 2025 10:31:11 +0000
+Message-ID: <37F2177C-81ED-44A2-83BA-6CF2EF04FC6E@arm.com>
+References: <20250417151813.2295435-1-ross.burton@arm.com>
+ <AB3E4ECA-B3F8-4221-9988-7606C0FF1C3C@arm.com>
+ <F1487D3E-B2F6-46A6-AFA2-011D6F05FFCE@oss.qualcomm.com>
+In-Reply-To: <F1487D3E-B2F6-46A6-AFA2-011D6F05FFCE@oss.qualcomm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.500.181.1.5)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|PAWPR08MB9759:EE_|AMS0EPF00000191:EE_|DU2PR08MB10038:EE_
+X-MS-Office365-Filtering-Correlation-Id: f940dbbe-89b4-47a6-bfd4-08dd8188e140
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|10070799003|1800799024|376014|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?REtlZ3VBaDJ4ZnJzdXRraWRGaDlOYUZ2bTF0czZHVVdKc0loaDdpc1c5UjU3?=
+ =?utf-8?B?RlBoYmU4cExERVhKalJBMTQ3bmYwTUVzQ1NIM284QWhmR0VoWEVhcE10Qi9E?=
+ =?utf-8?B?dDV5U0lDV1Jkb3hBK3lrTzljUkUwS0crUCtDN2JrOWIvdHdKa0ZRMlRwZ0I2?=
+ =?utf-8?B?aFA3RXJPRHpycEVHK1NtNWNhOFVGNWNpbGEwWk1UUEVKb3lCWExrUkdIdnJ1?=
+ =?utf-8?B?ZG9QZW1UN3QzNldla3VqREo5K3lBN3VlZEF5WjBKOUZLeUJKS29iVXgzcThl?=
+ =?utf-8?B?OHNzU24zZ1BmSFpVSFFDcGowOHZ1WFNwODREMkdNZXVJVEFKQnlCbVVTL0x2?=
+ =?utf-8?B?VzNMU3I3Q0RjMHAveTNDZVpkemc3RDM0Skt1M1U0QkFhYm5rODkzZ1VKMU9B?=
+ =?utf-8?B?Yk5GbVZOMFJsQmNrYkZOVGtmZjU2Ykt5dEoxeXgrRWpRWDR0TERPcFN0OFZU?=
+ =?utf-8?B?VUlNbmlEM1ovOXROZXhTbzJjTEhOVXJDRmd2cGp0S3B5dXZJZVZEOUV0bjg1?=
+ =?utf-8?B?SUpDRjJQY1dRTVdJMG4zVU96N0x5VjgwbytRN1E3L0Z3c2JjTWdERldHSGRC?=
+ =?utf-8?B?a0hoUlJjQVl1cmp3RHg1UWpwM0YyeGJEbTdsMm5rVDVFKzdKekYvU3orZlR2?=
+ =?utf-8?B?SWc2MTAxcE95RTNrcU5IRmM1UE8zT3ljdzVQall4QkhObEZtbjRSS0c4T3JN?=
+ =?utf-8?B?ZWcxd0NPb2ZXdHRVSDlFaTlFek5Ielo2TWhBS20xVXBTR0ljcG43amQyWlhn?=
+ =?utf-8?B?cUpLdU5zdHNnQURUazBKWExLZEZNUi84aERIVGpvSWJOYlhVbUozQ3ZrSkxE?=
+ =?utf-8?B?KzBrbk9WSFQ5QkxvRkZwbzZPU0hNc2orYnp1R0JsN3NBK29LS0h0SHM2MHd1?=
+ =?utf-8?B?NTU1QUhMZm5MWUcrZkxqS1JTRkpNc00rbDg2aDhTTVpGcTF3eDdIdzQxOVRr?=
+ =?utf-8?B?ZnBYZWUzM1NyTjNKa1NSM1ZEMlIzRDdERi9ZWjl2ZlI3TGpMUlJUa2s4SzZ4?=
+ =?utf-8?B?R1NXVnJ3VVNWMkU4eVNDbkFOU0ZuVlhBbVZXOEJjMDQ1S2pTQy83YWFGUTRI?=
+ =?utf-8?B?M0ZOM2R4bjErL0xYUnA5NVFNdGl2SWkrem8zb0NSQ01LSlZzdmZIcHRrRWZ2?=
+ =?utf-8?B?WVFjMk9FSy8xU1dkTXZhcE5wQ0UrQXRQQStIVXdldTRONkZDSGFtK1gzL2Nk?=
+ =?utf-8?B?VExtbzlGWjI3WlllYW16MzRMWllmM1p1RDJaMTJvaDJMRnFUNFVnV1JxK3lT?=
+ =?utf-8?B?M0FQSklncWVHYmova0cvclZDNnVpNHQrU1FRUnZ4OStYR282cWlaSENVZ2F6?=
+ =?utf-8?B?cm50VXBMRGt3SEU2NSs0Ry82cENVKzNiNERidlRrSGErczFITkVxd3hCbmIw?=
+ =?utf-8?B?alZUYjFjeTlXNXlMZUE0Qkc0TzJOT2taL2RicmVxVVJPdjFIUlE4b3M4ckE1?=
+ =?utf-8?B?YnVEQ1dkM1plVjE5RXp3SW9GZGozaFdGb3hZZGZxOGswZ2tLeEFKOUtXVmpW?=
+ =?utf-8?B?SUI3aFRnWldrd3hNRjVYRlZ3dnZoc2F1cG10emI1MFpIQldTdEc0UDNMb0FJ?=
+ =?utf-8?B?TWF1TEQ4TGRMWG53Y3pDaFVuUUZEMjhxOWZ4SzBPbThmMG9wcXZsL1l1dEZO?=
+ =?utf-8?B?K3ZXc0hSQUNGLzlwd2ZHaEtXWk55TGFJOWgrSG4xdGJiR1hxNWtHOWY3R0FJ?=
+ =?utf-8?B?ZWFUYlZsZ0xCTWVIYkFOZEp6MWM2d2djMXFoZ3NhNjJEYWx4RERCZWJ4Q3hU?=
+ =?utf-8?B?YkNiaVFvdXVKOUNjaHBBOWJsb09nRVpRZXRsU0pnOU9YaUtOb20wSjg5SDlw?=
+ =?utf-8?B?MUJ5cWlsWHE4NUhEVFBPRkRsenZsTjFSb3IrRWIxeUtPM0M2NUszZTJZOWZ2?=
+ =?utf-8?B?a0hjZy8vcmU1ZkVKU0c2TGdnVkFiL1VSODRZTjFqeVlVUFZqQ29NaVJ1WDBK?=
+ =?utf-8?B?VnU0b1loV1VtaCtHRFREOVJGN2xwaVpNZUVZSEFIM2xzRm9tSEtKWkJ1VW1t?=
+ =?utf-8?B?RFFUOGZIQldnPT0=?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1C34BB4E50E0BB42AAF4171A43B20193@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADkTA4O9JXtr6XFO_rdzoAumtmp=5YUUkwgKMJyOtDBau7MEDQ@mail.gmail.com>
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB9759
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS0EPF00000191.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	fdd1587e-99c0-4009-d423-08dd8188cd5d
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|35042699022|36860700013|14060799003|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?cW5ma3dlcS96OG1lV2lNZ2h2OG1SNm43US9IUFA5Z20wbkYraGEyQ2ZDV01r?=
+ =?utf-8?B?VUdNNWxRTHhIdnk5aHRXY3ozakwxUGlYNVc5cE9kcWNSL3ZTa3lwT1o2N2l4?=
+ =?utf-8?B?elJkN2ZFZ1J3ejdhemszYTRraHVNVTY2RHQraGs3U0VJTmZXRGJONXl2VFZj?=
+ =?utf-8?B?UVFRMTdjRlhYSlZhbHBwYVM5Q3RtTmlHWmhCaThoS0w0cC9yRlNhN1dnQVUz?=
+ =?utf-8?B?Ync0RlJ6YW5KdUZZdFcwY213Q3VZSHRmWU4rV3Rjb1kvZDhZNHpCcmJ5Nnc0?=
+ =?utf-8?B?L01hRlJhZGxlTFBjQlpialhacUF6YUJIR0JUbFJMOSttZEgrMEprR3o2ZW5R?=
+ =?utf-8?B?RWh0TWp2SHRaTW1UUFA0dlpiaCsrQm5tMmp2UHhCNkZOcWFVUVU5WFA4aWF0?=
+ =?utf-8?B?UjBSazdpSCtLV3J5aGptSVdpd3NSSFdzblNKK1JoUlpia0FFZXBMeVBLVGs2?=
+ =?utf-8?B?YlQ0Z0J3a0lLTGtPQ2w3TElVMGV4WHlIcnp6aWhuTEg5N2JsZDAvVVYxY3dI?=
+ =?utf-8?B?TUhZOUdpZVhYd2hHZzBGYTY5aFlUU3hNS29OQWpLT3RzekhZQm56b3dET3Zp?=
+ =?utf-8?B?NnV5TVFYdWUwaUthSlIvZzB3RjVRZHI0alFrc0NYUGhLR25GZ2s4S3hDQkp4?=
+ =?utf-8?B?Z0JTamhML0hNNm1NY01abDJ3UkFnQ2VSalNDUTcvVENhdEFEUkloLy9GekNZ?=
+ =?utf-8?B?WjBsNzNBeXVpV2xQYVMyQmlTS2FUYnkxMGhDYUppakJzWHZXZ3FqdHRSQjh5?=
+ =?utf-8?B?Mk1LM0g4OE9aS2ZrN1JvVFBPckhQY1ZJK2dNRkk0NEhqWTk1cGZaY1FtMmtZ?=
+ =?utf-8?B?Qk1qV0w5eVY5OCt6eWZ3c29WcGFzc0prVCsvU1FseGw3VUR0d2dIK0ttZGF4?=
+ =?utf-8?B?OFNSU0RMTis2cmcra0ZIcDdrb1hUcUpHSTR2UFQ4eXY2NCtqQytkNGRNSldK?=
+ =?utf-8?B?TE1OQnhGcnpFR1dUTXk4cTB2RjEzVDloR2FpVXNaa21WTFRMMDV2TXV6M3gw?=
+ =?utf-8?B?T3hOUnFoQjY0bUxUUmduTks5RXdJTVFXSVdvODR6cUlkL0RNZFA0cEF2cXFS?=
+ =?utf-8?B?bFBCWVNoVUpLYy9aTkVqbVpOR05tdmFXbWplSUd5U05oKzBBZEY1WjFKSzdC?=
+ =?utf-8?B?c1U1MkxpNU8vYXJncjBZdkFVdE9rUDZhS2JqYVdFNGtSbTF1aEd5TStRdmdB?=
+ =?utf-8?B?QjBycVl1TUc1MXdZa2pUeE55dmdGVk5NZE5ncFYvS0QvNXBzWWFVQmNZRWZK?=
+ =?utf-8?B?YVRLb0RucnUyRFJ2dTcrQi95dlBKZjEwdDBFeXBId01YYjBCaU5LVXpPQ29u?=
+ =?utf-8?B?UFNmUHRIazBWRDh2b1pmbG5GZVdWL25wM0xpa20vNGxVVWdaWm9VZTJ1N0lQ?=
+ =?utf-8?B?T2lMTnUwUklOY281VXVWalRURTQrVXJ5Y1ZPY1pDcGFBdkptOFFrVk5YM1Nl?=
+ =?utf-8?B?WUt5VEVlaE9SREpkU1h2cTFzV3huV0w5Ymx2ZHA4L3l5aSszMkJxMDlRN0NK?=
+ =?utf-8?B?YklTYkFXM3VZZ25SNjI5czNIZnN0a1VCekkxRW1zQW9McEJkUWdxOFd0TEpI?=
+ =?utf-8?B?V0pndVZ1c1hVb29uWFJyejZqd3BLeDZBOEQrejlRRXArTnlxeDhiZUpSWFY0?=
+ =?utf-8?B?Vmsxb3dBT1U5WWlPTjFXSDg3Ump0Q2JHMVlvWmMvT1l2QitmcVo4L3hjOWx1?=
+ =?utf-8?B?Z3ZlT0dkaml3QU9nbzNHZWwvSGhmZEtHU1d4aGhkOUdHbU9EV1ZFZ0M4SHpv?=
+ =?utf-8?B?T285OFVEZDhNbTdaeFdFMHVNUW5TTVd0Um9aaG55VVNTb3RtY0dBUzFYa2pl?=
+ =?utf-8?B?ZXR0RXBMa0NqdTdVcEhjUXdJa25BRU1mOVB0YWNRMGFYSHFoeC9EQnk0Rnp6?=
+ =?utf-8?B?OGlvK2I1MFZmSllvNkJTYU1qREl6WnpVbGQ0Z3pQWXRDZDRpcFdTZDdvMFRm?=
+ =?utf-8?B?emVuRjl4dExrS0JERzRXZElDRFhyQ2RmMXU3dHBqOWY5bTJ1blo5SG5zWUJP?=
+ =?utf-8?B?L2JMZFI1S0lWY2xZaG1wTjlWNkZVc0xFeGlmYWFIcVNqWkdqcm9ZTHFTVjZW?=
+ =?utf-8?Q?Lhwd2O?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(35042699022)(36860700013)(14060799003)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 10:31:45.0037
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f940dbbe-89b4-47a6-bfd4-08dd8188e140
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF00000191.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR08MB10038
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 10:18:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215197
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 10:31:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215198
 
-Hi,
-
-On Fri, Apr 11, 2025 at 09:39:31AM -0400, Bruce Ashfield wrote:
-> On Fri, Apr 11, 2025 at 9:12 AM Mikko Rapeli <mikko.rapeli@linaro.org>
-> wrote:
-> > On Fri, Apr 11, 2025 at 08:52:24AM -0400, Bruce Ashfield wrote:
-> > > On Fri, Apr 11, 2025 at 3:48 AM Mikko Rapeli <mikko.rapeli@linaro.org>
-> > > wrote:
-> > > > On Thu, Apr 10, 2025 at 09:15:02AM -0400, Bruce Ashfield wrote:
-> > > > > On Thu, Apr 10, 2025 at 9:00 AM Mikko Rapeli via
-> > lists.openembedded.org
-> > > > > <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
-> > > > >
-> > > > > > On Thu, Apr 10, 2025 at 01:42:12PM +0100, Richard Purdie wrote:
-> > > > > > > On Fri, 2025-04-04 at 19:29 +0300, Mikko Rapeli via
-> > > > > > lists.openembedded.org wrote:
-> > > > > > > > At the moment linux-yocto kernels for various architectures
-> > > > > > > > are not very modular and a lot of drivers are built into the
-> > kernel
-> > > > > > > > even when they are not needed at runtime. These make the main
-> > > > kernel
-> > > > > > > > binary big and slow to boot. This also impacts udev in
-> > userspace
-> > > > > > > > which takes a long time processing events from all these built
-> > in
-> > > > > > drivers,
-> > > > > > > > for example when udev runs in initrd.
-> > > > > > > >
-> > > > > > > > Then constructing the initrd is very device and kernel
-> > > > configuration
-> > > > > > specific.
-> > > > > > > > initrd image needs explicitly define which binary packages to
-> > > > install
-> > > > > > > > to avoid pulling in complex dependencies. A full set of kernel
-> > > > modules
-> > > > > > > > via kernel-modules meta package is too big for initrd and most
-> > of
-> > > > the
-> > > > > > > > drivers are not needed for use cases like "just load modules to
-> > > > mount
-> > > > > > > > main rootfs". Then the initrd configuration breaks if kernel
-> > driver
-> > > > > > > > is built into the kernel since the binary package doesn't
-> > exist.
-> > > > > > > >
-> > > > > > > > Introduce kernel-initrd-modules meta package to solve these
-> > > > problems.
-> > > > > > > > The meta package adds dependencies to real kernel modules
-> > based on
-> > > > > > > > the kernel module file paths so that it will include several
-> > > > > > > > kernel subsystems and their drivers which are often needed to
-> > find
-> > > > > > > > main rootfs from some block device. This works when drivers are
-> > > > built
-> > > > > > > > as modules but does not break if drivers are built into the
-> > kernel.
-> > > > > > > >
-> > > > > > > > The resulting initrd is also smaller since only a subset of
-> > drivers
-> > > > > > > > are needed for "mount the rootfs" usecase. Tested on
-> > genericarm64
-> > > > > > > > kernel and qemu and AMD KV260 HW.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > > > > > > > ---
-> > > > > > > >  .../kernel-module-split.bbclass               | 48
-> > > > +++++++++++++++++++
-> > > > > > > >  meta/classes-recipe/kernel.bbclass            |  5 +-
-> > > > > > > >  meta/classes-recipe/module.bbclass            | 37
-> > ++++++++++++++
-> > > > > > > >  3 files changed, 89 insertions(+), 1 deletion(-)
-> > > > > > > >
-> > > > > > > > diff --git a/meta/classes-recipe/kernel-module-split.bbclass
-> > > > > > b/meta/classes-recipe/kernel-module-split.bbclass
-> > > > > > > > index 9487365eb7..101c5cd959 100644
-> > > > > > > > --- a/meta/classes-recipe/kernel-module-split.bbclass
-> > > > > > > > +++ b/meta/classes-recipe/kernel-module-split.bbclass
-> > > > > > > > @@ -42,6 +42,40 @@ KERNEL_MODULE_PACKAGE_PREFIX ?= ""
-> > > > > > > >  KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
-> > > > > > > >  KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
-> > > > > > > >
-> > > > > > > > +# subset of kernel modules needed in initrd, to e.g. mount
-> > rootfs
-> > > > > > from block device
-> > > > > > > > +KERNEL_INITRD_MODULES_META_PACKAGE ?= "${@
-> > > > > > d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-initrd-modules"
-> > > > > > > > +
-> > > > > > > > +# match regex to path or file name. E.g. include all drivers
-> > with
-> > > > > > files in path /drivers/ata/
-> > > > > > > > +KERNEL_INITRD_MODULES_REGEX ?= "(.*)(\
-> > > > > > > > +/drivers/acpi/|\
-> > > > > > > > +/drivers/ata/|\
-> > > > > > > > +/drivers/block/|\
-> > > > > > > > +/drivers/cdrom/|\
-> > > > > > > > +/drivers/char/hw_random/|\
-> > > > > > > > +/drivers/char/tpm/|\
-> > > > > > > > +/drivers/char/|\
-> > > > > > > > +/drivers/crypto/|\
-> > > > > > > > +/drivers/dax/|\
-> > > > > > > > +/drivers/firmware/arm_scmi/|\
-> > > > > > > > +/drivers/gpu/drm/|\
-> > > > > > > > +/drivers/md/|\
-> > > > > > > > +/drivers/mmc/|\
-> > > > > > > > +/drivers/mtd/|\
-> > > > > > > > +/drivers/nvdimm/|\
-> > > > > > > > +/drivers/nvme/|\
-> > > > > > > > +/drivers/pci/|\
-> > > > > > > > +/drivers/scsi/|\
-> > > > > > > > +/drivers/tee/|\
-> > > > > > > > +/drivers/tty/serial/|\
-> > > > > > > > +/drivers/virtio/|\
-> > > > > > > > +/drivers/watchdog/|\
-> > > > > > > > +/kernel/arch/|\
-> > > > > > > > +/kernel/block/|\
-> > > > > > > > +/kernel/crypto/|\
-> > > > > > > > +/kernel/fs/|\
-> > > > > > > > +/kernel/lib/\
-> > > > > > > > +)(.*)"
-> > > > > > > > +
-> > > > > > > >  python split_kernel_module_packages () {
-> > > > > > > >      import re
-> > > > > > > >
-> > > > > > > > @@ -183,6 +217,20 @@ python split_kernel_module_packages () {
-> > > > > > > >      modules = do_split_packages(d,
-> > > > > > root='${nonarch_base_libdir}/modules', file_regex=module_regex,
-> > > > > > output_pattern=module_pattern, description='%s kernel module',
-> > > > > > postinst=postinst, postrm=postrm, recursive=True,
-> > hook=frob_metadata,
-> > > > > > extra_depends='%s-%s' % (kernel_package_name, kernel_version))
-> > > > > > > >      if modules:
-> > > > > > > >          d.appendVar('RDEPENDS:' + metapkg, ' '+'
-> > '.join(modules))
-> > > > > > > > +
-> > > > > > > > +    initrd_metapkg =
-> > > > d.getVar('KERNEL_INITRD_MODULES_META_PACKAGE')
-> > > > > > or ""
-> > > > > > > > +    initrd_module_regex =
-> > d.getVar('KERNEL_INITRD_MODULES_REGEX')
-> > > > or
-> > > > > > ""
-> > > > > > > > +    if (initrd_metapkg != "") and (initrd_module_regex != ""):
-> > > > > > > > +        initrd_module_regex = re.compile(initrd_module_regex)
-> > > > > > > > +        initrd_modules = []
-> > > > > > > > +        for module in modules:
-> > > > > > > > +            files = d.getVar('FILES:' + module)
-> > > > > > > > +            m = re.match(initrd_module_regex, files)
-> > > > > > > > +            if m:
-> > > > > > > > +                initrd_modules.append(module)
-> > > > > > > > +
-> > > > > > > > +        if initrd_modules:
-> > > > > > > > +            d.appendVar('RDEPENDS:' + initrd_metapkg, ' '+'
-> > > > > > '.join(initrd_modules))
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > >  do_package[vardeps] += '${@" ".join(map(lambda s:
-> > "module_conf_"
-> > > > + s,
-> > > > > > (d.getVar("KERNEL_MODULE_PROBECONF") or "").split()))}'
-> > > > > > > > diff --git a/meta/classes-recipe/kernel.bbclass
-> > > > > > b/meta/classes-recipe/kernel.bbclass
-> > > > > > > > index 36ce659762..3dcaebcaed 100644
-> > > > > > > > --- a/meta/classes-recipe/kernel.bbclass
-> > > > > > > > +++ b/meta/classes-recipe/kernel.bbclass
-> > > > > > > > @@ -695,13 +695,14 @@ EXPORT_FUNCTIONS do_compile
-> > > > do_transform_kernel
-> > > > > > do_transform_bundled_initramfs d
-> > > > > > > >
-> > > > > > > >  # kernel-base becomes kernel-${KERNEL_VERSION}
-> > > > > > > >  # kernel-image becomes kernel-image-${KERNEL_VERSION}
-> > > > > > > > -PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base
-> > > > > > ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image
-> > > > > > ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules
-> > > > > > ${KERNEL_PACKAGE_NAME}-dbg"
-> > > > > > > > +PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base
-> > > > > > ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image
-> > > > > > ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules
-> > > > > > ${KERNEL_PACKAGE_NAME}-initrd-modules ${KERNEL_PACKAGE_NAME}-dbg"
-> > > > > > > >  FILES:${PN} = ""
-> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-base =
-> > > > > > "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order
-> > > > > > ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin
-> > > > > >
-> > > >
-> > ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"
-> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-image = ""
-> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-dev =
-> > > > "/${KERNEL_IMAGEDEST}/System.map*
-> > > > > > /${KERNEL_IMAGEDEST}/Module.symvers* /${KERNEL_IMAGEDEST}/config*
-> > > > > > ${KERNEL_SRC_PATH}
-> > > > ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
-> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-vmlinux =
-> > > > > > "/${KERNEL_IMAGEDEST}/vmlinux-${KERNEL_VERSION_NAME}"
-> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-modules = ""
-> > > > > > > > +FILES:${KERNEL_PACKAGE_NAME}-initrd-modules = ""
-> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-dbg = "/usr/lib/debug
-> > /usr/src/debug"
-> > > > > > > >  RDEPENDS:${KERNEL_PACKAGE_NAME} =
-> > "${KERNEL_PACKAGE_NAME}-base (=
-> > > > > > ${EXTENDPKGV})"
-> > > > > > > >  # Allow machines to override this dependency if kernel image
-> > > > files are
-> > > > > > > > @@ -716,7 +717,9 @@ ALLOW_EMPTY:${KERNEL_PACKAGE_NAME} = "1"
-> > > > > > > >  ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-base = "1"
-> > > > > > > >  ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-image = "1"
-> > > > > > > >  ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-modules = "1"
-> > > > > > > > +ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-initrd-modules = "1"
-> > > > > > > >  DESCRIPTION:${KERNEL_PACKAGE_NAME}-modules = "Kernel modules
-> > meta
-> > > > > > package"
-> > > > > > > > +DESCRIPTION:${KERNEL_PACKAGE_NAME}-initrd-modules = "Kernel
-> > initrd
-> > > > > > modules meta package"
-> > > > > > > >
-> > > > > > > >  pkg_postinst:${KERNEL_PACKAGE_NAME}-base () {
-> > > > > > > >     if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
-> > > > > > > > diff --git a/meta/classes-recipe/module.bbclass
-> > > > > > b/meta/classes-recipe/module.bbclass
-> > > > > > > > index f2f0b25a2d..51f864f1f9 100644
-> > > > > > > > --- a/meta/classes-recipe/module.bbclass
-> > > > > > > > +++ b/meta/classes-recipe/module.bbclass
-> > > > > > > > @@ -86,3 +86,40 @@ EXPORT_FUNCTIONS do_compile do_install
-> > > > > > > >  KERNEL_MODULES_META_PACKAGE = "${PN}"
-> > > > > > > >  FILES:${PN} = ""
-> > > > > > > >  ALLOW_EMPTY:${PN} = "1"
-> > > > > > > > +
-> > > > > > > > +# subset of kernel modules needed in initrd, to e.g. mount
-> > rootfs
-> > > > > > from block device
-> > > > > > > > +KERNEL_INITRD_MODULES_META_PACKAGE ?= "${@
-> > > > > > d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-initrd-modules"
-> > > > > > > > +
-> > > > > > > > +# match regex to path or file name. E.g. include all drivers
-> > with
-> > > > > > files in path /drivers/ata/
-> > > > > > > > +KERNEL_INITRD_MODULES_REGEX ?= "(.*)(\
-> > > > > > > > +/drivers/acpi/|\
-> > > > > > > > +/drivers/ata/|\
-> > > > > > > > +/drivers/block/|\
-> > > > > > > > +/drivers/cdrom/|\
-> > > > > > > > +/drivers/char/hw_random/|\
-> > > > > > > > +/drivers/char/tpm/|\
-> > > > > > > > +/drivers/char/|\
-> > > > > > > > +/drivers/crypto/|\
-> > > > > > > > +/drivers/dax/|\
-> > > > > > > > +/drivers/firmware/arm_scmi/|\
-> > > > > > > > +/drivers/gpu/drm/|\
-> > > > > > > > +/drivers/md/|\
-> > > > > > > > +/drivers/mmc/|\
-> > > > > > > > +/drivers/mtd/|\
-> > > > > > > > +/drivers/nvdimm/|\
-> > > > > > > > +/drivers/nvme/|\
-> > > > > > > > +/drivers/pci/|\
-> > > > > > > > +/drivers/scsi/|\
-> > > > > > > > +/drivers/tee/|\
-> > > > > > > > +/drivers/tty/serial/|\
-> > > > > > > > +/drivers/virtio/|\
-> > > > > > > > +/drivers/watchdog/|\
-> > > > > > > > +/kernel/arch/|\
-> > > > > > > > +/kernel/block/|\
-> > > > > > > > +/kernel/crypto/|\
-> > > > > > > > +/kernel/fs/|\
-> > > > > > > > +/kernel/lib/\
-> > > > > > > > +)(.*)"
-> > > > > > > > +
-> > > > > > > > +FILES:${PN}-initrd = ""
-> > > > > > > > +ALLOW_EMPTY:${PN}-initrd = "1"
-> > > > > > >
-> > > > > > > What is the difference between the variable defined in
-> > kernel-module-
-> > > > > > > split.bbclass and this one in module.bbclass? Do we need/want to
-> > > > > > > separate but seemingly similar definitions?
-> > > > > >
-> > > > > > One is for kernel compilation and in-tree drivers, the other is for
-> > > > > > out-of-tree modules.
-> > > > > >
-> > > > > > The "kernel-modules" meta package is handled this way too, with
-> > > > > > duplication in both.
-> > > > > >
-> > > > > > Bruce says this should be moved to linux-yocto kernel recipe,
-> > > > > > which IMO breaks the use of kernel-initrd-modules for vendor kernel
-> > > > recipes
-> > > > > > outside of oe-core. I'd rather support them too to e.g. more easily
-> > > > boot
-> > > > > > qemu or run oeqa selftests with qemu.
-> > > > > >
-> > > > >
-> > > > > That's not quite what I said (but it is close), I said it shouldn't
-> > be
-> > > > > defined
-> > > > > at the base with no requirement opt-in from a recipe (even if this
-> > way
-> > > > > of constructing an initrd with the modules is not the default). It
-> > is a (
-> > > > > weak)
-> > > > > binding to specific kernel versions and directory layouts, but it is
-> > a
-> > > > > binding
-> > > > > none the less. If it sits at the base in the classes no one will ever
-> > > > look
-> > > > > at
-> > > > > it or even know that it should be considered.
-> > > > >
-> > > > > My suggestion was not that it should only be in linux-yocto (but I'd
-> > > > > insist on overriding it or doing it slightly differently in
-> > linux-yocto),
-> > > > > I was saying that it I think  that the two definitions are far to
-> > similar
-> > > > > and even if there remain two definitions, they should be moved
-> > > > > into a .inc file.
-> > > >
-> > > > Actually the duplication is a bug. All duplication in module.bbclass
-> > can be
-> > > > removed since it includes kernel-module-split.bbclass. Both
-> > kernel.bbclass
-> > > > and
-> > > > module.bbclass include kernel-module-split.bbclass. Sorry about this.
-> > > > I must have stopped half way when moving things there.
-> > > >
-> > > > Sending v4 with this fixed soon.
-> > > >
-> > > > > Any kernel recipe that wants to build an initrd like this can opt-in
-> > by
-> > > > > including the .inc, and/or creating their own definition.
-> > > >
-> > > > This I don't get. I think the kernel.bbclass and module.bbclass should
-> > > > work out of the box with sane defaults. The kernel recipes can override
-> > > > and adjust these as they see fit. Yes there is a dependency to some
-> > kernel
-> > > > APIs (kernel module install paths) which can change, but those have
-> > been
-> > > > stable for, over 25 years (as long as I have been compiling kernels)?
-> > > >
-> > > > For full control, initrd recipe maintainers can define the exact set
-> > > > of kernel and other binary packages to install which makes the recipe
-> > > > kernel config and machine specific.
-> > > >
-> > > > I don't think moving the definitions to a linux-yocto side .inc file
-> > > > and then using that as basis in non-core kernel recipes is good. The
-> > > > kernel.bbclass and module.bbclass would not work independently anymore
-> > > > and require meta/recipes-kernel/linux/ side .inc file for working
-> > defaults.
-> > > > Or should the .inc file live in meta/conf/distro/include?
-> > > >
-> > >
-> > > Let me be clear. I am not saying "linux-yocto" here. I said a ".inc"
-> > file.
-> > >
-> > > Put that .inc file in a common directory and call it something like
-> > > initrd-kernel-<foo>.inc, recipes include that .inc file to opt into the
-> > > behaviour and get the base definition if they want it.
-> >
-> > Ok I will do this in v5.
-> >
-> > > This modular based initrd isn't going to be the default, so it has
-> > > to be opt-in anyway. So put the opt-in and the definitions in a .inc
-> > > file, a recipe including it, opts-in.
-> >
-> > I think this should be the default on most machines which use
-> > core-image-initramfs-boot in oe-core.
-> 
-> 
-> I'll disagree on that point, but in the end, it isn't a hill that
-> is worth climbing (for me). If that's the way the default policy
-> goes, I'll just roll with it.
-> 
-> > genericarm64, beagleplay etc machines already for install of
-> > "kernel-modules"
-> > to all images, including core-image-initramfs-boot:
-> >
-> > $ git grep MACHINE_EXTRA_RRECOMMENDS meta/conf/machine
-> > meta-yocto-bsp/conf/machine/ | grep kernel-modules
-> > meta-yocto-bsp/conf/machine/beaglebone-yocto.conf:MACHINE_EXTRA_RRECOMMENDS
-> > = "kernel-modules"
-> > meta-yocto-bsp/conf/machine/genericarm64.conf:MACHINE_EXTRA_RRECOMMENDS +=
-> > "kernel-modules"
-> > meta-yocto-bsp/conf/machine/include/genericx86-common.inc:MACHINE_EXTRA_RRECOMMENDS
-> > += "kernel-modules linux-firmware"
-> > meta/conf/machine/include/loongarch/qemuloongarch.inc:MACHINE_EXTRA_RRECOMMENDS
-> > += " kernel-modules"
-> > meta/conf/machine/include/riscv/qemuriscv.inc:MACHINE_EXTRA_RRECOMMENDS +=
-> > " kernel-modules"
-> > meta/conf/machine/qemuppc64.conf:MACHINE_EXTRA_RRECOMMENDS += "
-> > kernel-modules"
-> >
-> Right, and that was by design.
-> 
-> The philosophy has been that the kernel provider should understand
-> and control its configuration (since we are talking about embedded
-> devices here). Sure, those examples took the simplest path, and that
-> was their decision / tradeoff.
-> 
-> We package all the modules individually (I'm stating the obvious,
-> since we all know this) so that they can be individually installed
-> and required for something that really wants to control the configuration
-> tightly.
-> 
-> In any machine / BSP that I build, the configuration is on purpose
-> and if I want to install individual modules, I'll do that, otherwise,
-> I trust my configuration and take all the modules.
-> 
-> What you have is something in the middle, and why I still think it
-> needs to be opt-in. BSP creators need to understand their
-> configuration and tune it. Having something down at the packaging
-> level pick and choose which modules on their behalf means that
-> they are relying on something that needs to be discovered and
-> tweaked (versus the "all of it" or "you chose your own" as it was
-> before).
-
-By making the kernel-initrd-modules meta package optional and opt-in,
-we again make the initrd image recipe depend on the opt-in feature.
-
-I need to bind the initrd recipe to a distro level feature and
-then the same for kernel side changes because the "kernel-initrd-modules"
-meta package may not exist and thus it can break the build. Solution
-is another abstraction in distro features. I think producing the
-"kernel-initrd-modules" meta package should be default in the kernel
-bbclasses. It may not get used but the overhead is really small.
-
-This is similar to "kernel-modules" meta package. It is always there
-and can safely be in MACHINE_EXTRA_RRECOMMENDS without any additional
-guards like a machine or distro feature. Also BSP layer image recipes
-use this.
-
-This is the interface between kernel recipes providing kernel and module
-packages and the image recipe consuming them. I'd like the image recipe
-consumer to be simpler and less dependent kernel config and driver packaging
-details.
-
-> > Some qemu machines don't and that causes issues since
-> > initrd is not flexible to boot even slightly different configurations,
-> > like block device emulation moved from scsi to virtio.
-> > This causes issues with oeqa selftests when small kernel or qemuboot
-> > differences break tests.
-> >
-> 
-> And we'll continue to do that, as all the boot methods and kernels
-> need to be tested. But I agree, there are pros and cons to the
-> various methods.
-> 
-> > initrd itself is optional, but in core-image-initramfs-boot I made
-> > including "kernel-initrd-modules" the default. To me this makes sense.
-> >
-> > Kernels for different machines can enable drivers as modules or as built-in
-> > but the initrd config stays the same and will mostly just work. I think
-> > this is a good default.
-> >
-> >
-> It is just that behaviour which is why I'm saying it should be
-> explicit and opt-in. If they change their configuration it should
-> be with a direct line of sight to how the various components
-> consume it.
-> 
-> Preferably not "I have a custom driver, I need it to boot, I'm
-> now building it as a module" .. and then wondering why it isn't
-> picked up in the initrd. If they had to opt-in, they'll already be
-> aware of the mechanism that is selecting their modules over
-> and above what their kernel configuration dictates.
-
-If the custom and vendor specific driver installs to correct paths
-which fall into block etc driver regex then these already get picked up by the
-initrd regex then everything will just work by default. Compiling the driver
-built-in or as module will just work with the default core-image-initramfs-boot
-initrd and core-image-base etc images. Boot without initrd may fail but with it
-things just work.
-
-If this feature is opt-in or specific to linux-yocto recipe, it again makes the
-initrd's machine and kernel config specific. The opt-in setup needs to be made
-for kernel and for initrd.
-
-For real products all details need to be reviewed and customized but developers
-need "good enough and simple" starting points and that's where the
-"kernel-modules" and "kernel-initrd-modules" meta packages help.
-
-They can more easily boot the generic images, see what drivers got loaded at boot
-and remove all the rest. Then move that setup into kernel config etc. They can
-also test different block devices and file systems.
-
-The amount of optimisation done depends on what the priorities are. Gain vs effort.
-
-> > And then "kernel-initrd-modules" are much smaller than "kernel-modules".
-> > Still too big for real products but better than nothing. For
-> > genericarm64 this reduced initrd image size from 200 Mb to 54 Mb.
-> 
-> Definitely a valid point / improvement. I'm again back to saying it
-> just has to be explicit. The same way that many (most?) people
-> don't want or use linux-yocto as production, we have to design
-> our configurations as something to be opt-in and something that
-> is clear it needs to be tweaked for production.
-> 
-> We aren't far off in our view on this.  Most of this looks really
-> good to me, and is a good step forward. I think that our
-> different point of view is about the breadth of the types of
-> kernels, machines, boot methods, products, etc, that are built
-> on top and how to enable this mechanism.
-
-If this feature is opt-in and not the default in kernel.bbclass, then IMO
-the result is again machine/build/config specific initrd image recipes
-which I wanted to avoid.
-
-Cheers,
-
--Mikko
+T24gMjIgQXByIDIwMjUsIGF0IDA5OjI2LCBLb2VuIEtvb2kgPGtvZW4ua29vaUBvc3MucXVhbGNv
+bW0uY29tPiB3cm90ZToNCj4gDQo+IEVSUk9SOiBhdXRvY29uZi0yLjcyLXIwIGRvX3BhY2thZ2Vk
+YXRhOiBRQSBJc3N1ZTogUGFja2FnZSB2ZXJzaW9uIGZvciBwYWNrYWdlIGF1dG9jb25mLXNyYyB3
+ZW50IGJhY2t3YXJkcyB3aGljaCB3b3VsZCBicmVhayBwYWNrYWdlIGZlZWRzIChmcm9tIDA6Mi43
+MmUtcjAgdG8gMDoyLjcyLXIwKSBbdmVyc2lvbi1nb2luZy1iYWNrd2FyZHNdDQoNCkFyZ2gsIHll
+YWgsIHdlIG5lZWQgYW4gZXBvY2jigKYNCg0KUm9zcw==
 
