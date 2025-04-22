@@ -1,79 +1,91 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DCD0C369C2
-	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 15:24:57 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web11.42931.1745335494321643792
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66E46C369D3
+	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 15:36:27 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.43186.1745336179570856986
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Apr 2025 08:24:54 -0700
+ Tue, 22 Apr 2025 08:36:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=W+5NNHVj;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6ecf0e07954so76625716d6.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 08:24:54 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ji/ASsvz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43690d4605dso43773785e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 08:36:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745335493; x=1745940293; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yONGq2kdnMVuPlDr4fpuR2WIoj7FkKwWde0L4DViaCA=;
-        b=W+5NNHVjoHRbHZruy/W0lqH4yyy3RTVRTwUwpNAsFuB6hay55ary96T+wj1qtO44CL
-         sjBgQJpev/qfK/wT+dKl1NvSDLJImLPr6JhmlJ+QLS872gOQ/iWeS77M/f28Xz30siGj
-         scvKjRAXFThNYhM2zSDayObxdh5sr4h9ukxhdE+x33cXmiHoreJtFrV/FaOcyuiDGzpp
-         ttmC6jI2fW/8QB8Qon7g0fkQtRjnRqWtLPbQucXS9tyUypBEq76NV+9C9n6zj/xlCr6G
-         l5+9nI7j7NFTrIC+Fx/nXEeNoN6zq2P78clDy0vysxcj/pV2zc62gxxAWJRQCQevrqnM
-         nkww==
+        d=linuxfoundation.org; s=google; t=1745336178; x=1745940978; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Gl8dxqkv1K8KUuzrBKowUh5CVf6hqcbAYIUJMfUi+rs=;
+        b=Ji/ASsvzIew5px87GwfbGpo8V6i8lqWk2V0rbbTubT6gM9fzX0Zd7+S8tnGs1LE3j+
+         t6q0AWhrcRAxfTQupz+C/9z8ZXFWvj0JPQ8hg0MvSleCKalY1M/cPc8eX1xPHlxQpOo0
+         DX4qwPeJp0r1OpKL+sj742TSY+HcXIrmEzWFA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745335493; x=1745940293;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yONGq2kdnMVuPlDr4fpuR2WIoj7FkKwWde0L4DViaCA=;
-        b=bEPCs5AvQLWloGuHaVcFLXI0WKAuRyRosyNJBUJLZK8xkTfcOyHKk7+hT25uVYaBtW
-         TbhWgeWi6A+SZOnvxqVr0f4AqOJamI+JvMtrXw5XFDj1KP1hquM5uNbpVHW7XfRFi8i0
-         jM+T3Xm6iGJhfsW/45mcKx6Ss01AG75EHtstHyp21tJ5hehsaJgkTfxpCrvArkIRt5Gj
-         K/kzjXAnOn0eO5+2lflxmQw2Wrf4jIoVElthe2Cbi+BVu3HDXiNpBaObSNud1Uz7Nfto
-         R19mb26G+bwnbkIEZHp1N7a2OISy9tRWrMAceuU3H/bGC86fuy+b8feM+1xnfULvaLqp
-         ilNw==
-X-Forwarded-Encrypted: i=1; AJvYcCXEkh4q1DpU80y2pXQrBaG66Rpcd+paUvaF69t95c1tGusQ9ayUL7U4lWKYOUAf/eQmyyCBoNK9YjB15zbmXTqgTw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx7z40kBwDyyB3H4HVz4hKl7ITlxM2HWW7K+jpmJXi/iAxm6MUr
-	zZUIU7d/wTwJE+U/1afYszZSUy9Zx+eAWboM6NAKMToMKYPZ+UjsPgYb75kryJw4cv7+IB1+fRy
-	qDGpGHOunJNTLb+fYoTbEA1EcJhM=
-X-Gm-Gg: ASbGncsSFHcn4l5yA2n/2Iupk9mgj7WO8JU+c+13pQ7fgvijgdG8DoW2ulTujBLaI40
-	aXre4owIPYk9dCuZX/+A2JPb/DFcfIYQyfcc+3lVarPRgeCkKXIVDPDqAeo1bu2Ca6W8l0UjNik
-	RNO5coNhTzUzPubVwdb6oG+QHSmG7AMmUTq/dDgPyuiQ0zcwgbh3NwaNHS
-X-Google-Smtp-Source: AGHT+IF3OLOcppOXDnCuhjC4kMQtltyS+yWqg6K/Pha1mw32R2uAdpqXgNJjuG77vcTGO/0W0d5cyN7FUQCTePhoG5E=
-X-Received: by 2002:a05:6214:5185:b0:6d4:1ea3:981d with SMTP id
- 6a1803df08f44-6f2c4678a3amr244832476d6.43.1745335493378; Tue, 22 Apr 2025
- 08:24:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250417102130.800-1-leimaohui@fujitsu.com>
-In-Reply-To: <20250417102130.800-1-leimaohui@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 22 Apr 2025 17:24:42 +0200
-X-Gm-Features: ATxdqUFmllVT-PYniAPHXl56ZGin643KI9lQPcfXP-0LE_aTG_A67ZbQ-mL7Hg4
-Message-ID: <CANNYZj919ZzBoW6iDURx=aH2DRFyB0Yhy0V8TLwBv_5xH64cTg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1745336178; x=1745940978;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gl8dxqkv1K8KUuzrBKowUh5CVf6hqcbAYIUJMfUi+rs=;
+        b=bk9bfXyZKqpRNDOflU8HDlkTdwxSksDhdL72H5VT++mzl31TJU2EKt2a2+QbsEsWCh
+         UNwANigIbnDIU+wXErWBvdab/4SxRIJYBTyjAySYG7M7ModeZNOw6BYQfm4Th/UKah4x
+         5nFs+xDaP7NpuO7h57GqljNlhP1N5b7Zg4Ks6uaEQ04b1QlGvy/LlktR9PAliezQyvDa
+         5yWpKc3DU0b6UCf6arhPAiZAbmTUOB9eaFbQMk7ATzfnJFQIIvdTeF7tE5rUG6imwLZY
+         R7DeZ6/xq1mtXv8o17hH/AE8WZ5BewocMtxOr8hlLpkmyzXs+DyCib99857gC65BwBH3
+         T80w==
+X-Forwarded-Encrypted: i=1; AJvYcCVoTHHBwkC2AmmWyHu5W8hFX6ggJ31BcP/s3UriUnMyTkwvxw4xrJFWKv370g0QBus8yF+A4z9HceocHJ/u68o+ag==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwCb9ZeKwfZgPR7z9jCboUDX/IvWe07nIg3LcEB/pKbJadXgF+Q
+	ZQUjCoYYu6zlTeMKVj7NbnrJb6cKCFKvtD/6lDoDShUK/KGaA3Rt1oHOuIH1tmU=
+X-Gm-Gg: ASbGncsgi4HnNaUu6058TStK6dE0+3hu5+QADoA3kCBSuIiUDMMRwNl2NnHNlEPTyw8
+	W/Po699DF2e7hD0pJu3A8wagTSH5vUBRKyLmOAAmnMZNRwHZQMn832dfhAk4YBakqd6vAIZ1b3I
+	qtEKs/wh6s8lxVLlvoF3gUEtgYqm7uf4cAELHjMNREc2XRdhXz5TwJJm6T/m0eRkOpGRSUIz7UN
+	jIZ6PRXTvB/o3wRrsK1nU+ESpP38M+AV3QKW1hbp4WdAYT7BAQRSg4UWJlzXlsgI793srOkyfJg
+	BWV7yR48c1s8NhmFl19nI0SM7cPLgM9YSdym1h8Bio6OxXuihCmZBiLgoS1SWpMwWV6STb4zJo4
+	KASn8xKynjSGy5i+QYeVC7xrvklEK5w==
+X-Google-Smtp-Source: AGHT+IHKO6k9QPZO3yju795xXAVitoEYcW3EhuME/UDSnTQqIk7XLH8ndCN7xTV3GoMzVsWp22wZxQ==
+X-Received: by 2002:a05:600c:3b8b:b0:43d:fa5d:9314 with SMTP id 5b1f17b1804b1-4406ac272d1mr106220975e9.32.1745336177953;
+        Tue, 22 Apr 2025 08:36:17 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8382:2711:3bb8:b397? ([2001:8b0:aba:5f3c:8382:2711:3bb8:b397])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5d6f86sm175912825e9.35.2025.04.22.08.36.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Apr 2025 08:36:17 -0700 (PDT)
+Message-ID: <41b65472c37b399e2d4c770819bf7868cd145665.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] gzip: upgrade 1.13 -> 1.14
-To: leimaohui@fujitsu.com
-Cc: Denys Dmytriyenko <denis@denix.org>, openembedded-core@lists.openembedded.org
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alex.kanavin@gmail.com, leimaohui@fujitsu.com
+Cc: Denys Dmytriyenko <denis@denix.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 22 Apr 2025 16:36:15 +0100
+In-Reply-To: <CANNYZj919ZzBoW6iDURx=aH2DRFyB0Yhy0V8TLwBv_5xH64cTg@mail.gmail.com>
+References: <20250417102130.800-1-leimaohui@fujitsu.com>
+	 <CANNYZj919ZzBoW6iDURx=aH2DRFyB0Yhy0V8TLwBv_5xH64cTg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 15:24:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215232
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 15:36:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215233
 
-On Thu, 17 Apr 2025 at 12:21, leimaohui via lists.openembedded.org
-<leimaohui=fujitsu.com@lists.openembedded.org> wrote:
-> +Subject: [PATCH] tests/reference: fix invalid option of od issue
-> +
-> +ptest issue:
-> +| od: invalid option -- 'A'
-> +| BusyBox v1.37.0 () multi-call binary.
+On Tue, 2025-04-22 at 17:24 +0200, Alexander Kanavin via
+lists.openembedded.org wrote:
+> On Thu, 17 Apr 2025 at 12:21, leimaohui via lists.openembedded.org
+> <leimaohui=3Dfujitsu.com@lists.openembedded.org> wrote:
+> > +Subject: [PATCH] tests/reference: fix invalid option of od issue
+> > +
+> > +ptest issue:
+> > +| od: invalid option -- 'A'
+> > +| BusyBox v1.37.0 () multi-call binary.
+>=20
+> Instead of working around busybox od limitations with a patch, ptest
+> package should rdepend on coreutils to pull in the real original od.
 
-Instead of working around busybox od limitations with a patch, ptest
-package should rdepend on coreutils to pull in the real original od.
+Agreed, I've been meaning to reply to say exactly this!
 
-Alex
+Cheers,
+
+Richard
 
