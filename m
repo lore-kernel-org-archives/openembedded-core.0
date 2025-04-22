@@ -1,669 +1,266 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A58C369D3
-	for <webhook@archiver.kernel.org>; Mon, 21 Apr 2025 21:48:39 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.26249.1745272109258724343
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2990C369AB
+	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 00:20:10 +0000 (UTC)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web10.29057.1745281206529552765
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Apr 2025 14:48:29 -0700
+ Mon, 21 Apr 2025 17:20:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WqOAEwty;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfa7e7f54so30805575e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 14:48:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=P8Yt0U+c;
+ spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3feb3f54339so3980289b6e.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 17:20:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1745272107; x=1745876907; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SuK4B2zD1vbu0uOOkH6kUCbtSb6PstNr57lWX1NB/1U=;
-        b=WqOAEwtyvfwx3nXVq+tOh9GvTk005jq6QbI2VQU8M/y5TY33rkCmQZ0szvx9QwIBuj
-         5mU0ffS7MrE4FfE5TgBaEIC7Ng5TTWjhjKoT/gq5+irmduNa0w65Yhny/ZxnECn5+CXR
-         n3tVAnUTxlQryK63RpG6czZdet0XKVhb1JKBc=
+        d=gmail.com; s=20230601; t=1745281206; x=1745886006; darn=lists.openembedded.org;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XlwVLonJV2m8aQbCNyY8/Pg1O0DCOhAqXR3bcmRr8KY=;
+        b=P8Yt0U+cZeChldX8ntmVqU/V7ylMY9Rkx3dWpNaxHrP+odpkferNnDxSUhmE2AodUj
+         7lifSMGc9rZcJs0KwvSTUFUViAQaLBUEgM/fSNJ39IxyAcIzRHTSMU0JwzddN2MaF9yu
+         Y+v64y0/tIpQE2bLGj5S5wPvFPxMdj/msMpHGlUF1CHFt78zKTemSQZuMt68HDBzzHxu
+         kP/uCzXniT3BRRf86akdK4XOQlrPbM7UDwQTkYMVJSSRJ2FKWCNa1n0Sy1e+kFVyUsDr
+         rr5cyNQooFp+kAy04pH5C1+j+WTOljwIw0Tgu+NCq8B/CYRePlDHUrtBFEZDlxDDn438
+         T50A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745272107; x=1745876907;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SuK4B2zD1vbu0uOOkH6kUCbtSb6PstNr57lWX1NB/1U=;
-        b=gExMuWZcnVoyt109led3TVCbamYv9nVEq6wpeBDAtVoT2l0LlHhHOzm1sCJie7KXk/
-         JQojkFpEqZCKiyrIz5vywmi6S9+Ge1JYxmVbG3Go1StfrnXCesnE4at0898AIrsPgLzE
-         uC+K6Q37RtL7Uq7aPAyfgzpW1Zid9pglEWGTffdNAzYZnxpcv12qyZIn4FfJW/ztWIgJ
-         IJsf3gOhkNO1C8sRbUoGiwlY0jqDuso6WfPJ37vh6AfYYaKt9xfa8KvB1t4bJeEQIsxT
-         MhktqgzDVjfb9YmqpYSOvTU5uwdU/tuAIM9YZ7f0AYnMrvo7Mo/A/udSGC7/G/F2mhv3
-         ZovQ==
-X-Gm-Message-State: AOJu0Yx7IdZ1sLh3hgiu50ezVciho/TpARSqhMrDJ1MGrqJdmBQZ5UCL
-	9Wh4D/gohbdpUy6BFxB66Mpx4xGnwaMabMSKy9AXtxnidZP8RbYB7h+xAKinvvkkOPsw9K4F6T6
-	O
-X-Gm-Gg: ASbGncuSxAiNDKIYdoBa2l/MzvrVJ/ze53M6qe4jSV1KhkBEEt253gt2Vt0CBpivTmL
-	ufvwaAJD7fwf479qM+B5jQA1QvxOu7OcJm2YuJDabnqnRfMfts0NQv+myVV52flP8BwmEdDO+tn
-	CL9mrkX5Xzky+6KxGhf0WYxh1SGJFGiiTcsw+8Su+BZk3SAUUBBOjj2WkBSr2xd+CThq4VESAbO
-	mVLVaUPOi3EG90zYcuUCZ9MzsUAbsxvLSp+gvXY40eRpXwH4NPe9GxhZOwo1ZMTdVtWZ0nPJdto
-	6cRv+osHfG/IF2/mUoZrxuAlpf+H9FlWrxivZHmuV85zHwl2wcw2EPJ8UiD+RqvQAN9W6Q==
-X-Google-Smtp-Source: AGHT+IExN9hZWbEErOTmehFoN6yl2kHyEGfrgAMXpiAt+3mK+GlpJt/Pt3DphOuF6yK3XLUmo3DQ8g==
-X-Received: by 2002:a05:600c:350e:b0:439:8878:5029 with SMTP id 5b1f17b1804b1-4406b1f1c8cmr89945265e9.2.1745272106799;
-        Mon, 21 Apr 2025 14:48:26 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1f12:50b3:e6fc:b6f8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5cf2dfsm151261685e9.29.2025.04.21.14.48.25
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 14:48:25 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] lttng-tools: 2.13.14 -> 2.13.15
-Date: Mon, 21 Apr 2025 22:48:19 +0100
-Message-ID: <20250421214824.3335730-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+        d=1e100.net; s=20230601; t=1745281206; x=1745886006;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XlwVLonJV2m8aQbCNyY8/Pg1O0DCOhAqXR3bcmRr8KY=;
+        b=njqW1e7MzKcvfRSKWoQmIcij+Fm+DAY7TwGHKX24nc8qLoyVrMOTnRjmGznxss7EPR
+         G8ODK5dtIitl8lOVXk2iGDcvUB9IP8CYTlFJmlsUamHDOMddkDjRvA8ojQn2HUKScVGu
+         VfmzLNeAnG82jkeR5VBZIYoaI1ymINSsC5vXL21HyQmTN2h/YOdyqRBkvFrIP0k9h8fC
+         16ETljDTjc5y7bSWgX4s0kqzh8q5nRZHIl7NqXRIrqmz8ugeN8y1QUI/SNgj0l5iuDWR
+         Nk+MedWHJj6yCMpxx7F+DxC7wiSek4osE9EWBeVsYS9XmadlFyenQzQb3uyOA8Wd1vzA
+         7E7g==
+X-Gm-Message-State: AOJu0YyhcU+a5PkzTp5Ha1F6wO2+aJthXN9ZPPi9GhDImYLmG5mVWzl6
+	ay6WdpeEhp/isgufnn3Lc73wSwIi9dnuOjSx/uQEPP8D7f1M6GUcAc7pDO5S
+X-Gm-Gg: ASbGncvAYheaFbe8w2kAcyiDF8fDVzxAnG3ZsCHj0F7Trz6p3o3OUo6h2NVVEWX0cKG
+	W06HvpV4wwYt5KLjHdMs3AucRaNFjWi3/mmAPpQdEGNGfDeZ2BaagLFctTy1vwPG20f9ijduIZR
+	Rq1pOmhDRctrYNy4/XSQDoQJCCtj+3z55V3ULwKX7YT1NqajHydk20NonjQa5C8rHTxMCBu/OEl
+	ubrAn1vT7fQcxnXLBuXf50qgodgZzM+Tk9gXu4eOrc352LYpR2LSp18OGTZvfG3EuzLOB3wmNSc
+	6CT+7UxTiPQ59LpugxFO1w2f89ct7Qsm6oQz6LbqXsWD2wBoe34SjFzkFegh5pslY5O4ii40hUj
+	4rh+uVdqZxawhoZTmXykOB9Dlh17n2yKZAw==
+X-Google-Smtp-Source: AGHT+IFGPeM3WOVsvIPJugSS7BrnItjYCuNlGfW8DKzfkWOLoGHnvA4WKx3owyYv2bdwEyKoNAtEZQ==
+X-Received: by 2002:a05:6808:8713:b0:3fe:aebe:d60d with SMTP id 5614622812f47-401c0ab2040mr7152880b6e.21.1745281205646;
+        Mon, 21 Apr 2025 17:20:05 -0700 (PDT)
+Received: from ?IPV6:2601:646:8201:fd20:ad41:4c38:54f5:31e3? ([2601:646:8201:fd20:ad41:4c38:54f5:31e3])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-401bf09d00dsm1794216b6e.46.2025.04.21.17.20.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Apr 2025 17:20:05 -0700 (PDT)
+Message-ID: <c5d578d2-2fbf-4a47-bdee-d72ac623708b@gmail.com>
+Date: Mon, 21 Apr 2025 17:20:03 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2 0/3] mesa: small improvements after 25.0
+ merge
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20250418-mesa-25-fixes-v2-0-e110ccfe291f@oss.qualcomm.com>
+ <CAMKF1sr5VLmBKmrr8Q05C7aaZi6OK7JHS9DKEZyKo4eihnusgg@mail.gmail.com>
+ <CAO9ioeU8zhRVX_BgB3Pp_psH49gJt+jeE92TcfrZZoaL-HjUiA@mail.gmail.com>
+Content-Language: en-US
+From: Khem Raj <raj.khem@gmail.com>
+Autocrypt: addr=raj.khem@gmail.com; keydata=
+ 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
+In-Reply-To: <CAO9ioeU8zhRVX_BgB3Pp_psH49gJt+jeE92TcfrZZoaL-HjUiA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------G34wJcE8WKjRAFXJ8cHQ6h3f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Apr 2025 21:48:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215186
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 00:20:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215188
 
-Includes fixes for 64 bit time on 32 bit platforms.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------G34wJcE8WKjRAFXJ8cHQ6h3f
+Content-Type: multipart/mixed; boundary="------------Gd1bq6KGnHLgwbdLR0LaOlF5";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-ID: <c5d578d2-2fbf-4a47-bdee-d72ac623708b@gmail.com>
+Subject: Re: [OE-core] [PATCH v2 0/3] mesa: small improvements after 25.0
+ merge
+References: <20250418-mesa-25-fixes-v2-0-e110ccfe291f@oss.qualcomm.com>
+ <CAMKF1sr5VLmBKmrr8Q05C7aaZi6OK7JHS9DKEZyKo4eihnusgg@mail.gmail.com>
+ <CAO9ioeU8zhRVX_BgB3Pp_psH49gJt+jeE92TcfrZZoaL-HjUiA@mail.gmail.com>
+In-Reply-To: <CAO9ioeU8zhRVX_BgB3Pp_psH49gJt+jeE92TcfrZZoaL-HjUiA@mail.gmail.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...troy-flush-fix-session-daemon-abort-.patch |   7 +-
- ...pat-Define-off64_t-as-off_t-on-linux.patch |  17 ++-
- ...skip_kernel_test-to-check-root-user-.patch | 105 +++++++++---------
- ...-tests-do-not-strip-a-helper-library.patch |   2 +-
- .../lttng/lttng-tools/disable-tests.patch     |  16 ++-
- ...ools_2.13.14.bb => lttng-tools_2.13.15.bb} |   2 +-
- 6 files changed, 81 insertions(+), 68 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-tools_2.13.14.bb => lttng-tools_2.13.15.bb} (99%)
+--------------Gd1bq6KGnHLgwbdLR0LaOlF5
+Content-Type: multipart/mixed; boundary="------------XKUApsAkAt77CTRrJUe82xYo"
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-Fix-rotation-destroy-flush-fix-session-daemon-abort-.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-Fix-rotation-destroy-flush-fix-session-daemon-abort-.patch
-index 8ddc5883541..e5c96770738 100644
---- a/meta/recipes-kernel/lttng/lttng-tools/0001-Fix-rotation-destroy-flush-fix-session-daemon-abort-.patch
-+++ b/meta/recipes-kernel/lttng/lttng-tools/0001-Fix-rotation-destroy-flush-fix-session-daemon-abort-.patch
-@@ -1,4 +1,4 @@
--From 6b45c5f80d20e7bbf3d98c1fa17d2cf8716af3bb Mon Sep 17 00:00:00 2001
-+From ea47622987d0947af3e8f75d16d52e27ebd60166 Mon Sep 17 00:00:00 2001
- From: Xiangyu Chen <xiangyu.chen@windriver.com>
- Date: Mon, 25 Mar 2024 18:20:14 +0800
- Subject: [PATCH] Fix: rotation-destroy-flush: fix session daemon abort if no
-@@ -33,7 +33,7 @@ Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-  1 file changed, 3 insertions(+), 3 deletions(-)
- 
- diff --git a/tests/regression/ust/rotation-destroy-flush/test_rotation_destroy_flush b/tests/regression/ust/rotation-destroy-flush/test_rotation_destroy_flush
--index 669bcbc43..64161768f 100755
-+index 8ef4f0d..e506b53 100755
- --- a/tests/regression/ust/rotation-destroy-flush/test_rotation_destroy_flush
- +++ b/tests/regression/ust/rotation-destroy-flush/test_rotation_destroy_flush
- @@ -23,11 +23,11 @@ SIZE_LIMIT=$PAGE_SIZE
-@@ -51,6 +51,3 @@ index 669bcbc43..64161768f 100755
-  # MUST set TESTDIR before calling those functions
-  function run_app()
-  {
---- 
--2.25.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-compat-Define-off64_t-as-off_t-on-linux.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-compat-Define-off64_t-as-off_t-on-linux.patch
-index 25caccdef8f..e68feb27534 100644
---- a/meta/recipes-kernel/lttng/lttng-tools/0001-compat-Define-off64_t-as-off_t-on-linux.patch
-+++ b/meta/recipes-kernel/lttng/lttng-tools/0001-compat-Define-off64_t-as-off_t-on-linux.patch
-@@ -1,7 +1,11 @@
--From 74b3844737b03492756b4f896c938b504b069f14 Mon Sep 17 00:00:00 2001
--From: Jérémie Galarneau <jeremie.galarneau@efficios.com>
-+From e5b2615aaad44a1c0d52da1469b28f99cfb12b5f Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?J=C3=A9r=C3=A9mie=20Galarneau?=
-+ <jeremie.galarneau@efficios.com>
- Date: Tue, 17 Jan 2023 16:57:35 -0500
- Subject: [PATCH] compat: off64_t is not defined by musl
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
- 
- This helps compile with latest musl, where off64_t is not defined unless
- _LARGEFILE64_SOURCE is defined. On glibc, _LARGEFILE64_SOURCE is defined
-@@ -20,7 +24,12 @@ Reported-by: Khem Raj <raj.khem@gmail.com>
- Signed-off-by: Jérémie Galarneau <jeremie.galarneau@efficios.com>
- Change-Id: If2c6007a8c85bc3f3065002af8a7538b882fb4a8
- ---
-+ src/common/compat/compat-fcntl.c |  5 ++++-
-+ src/common/compat/fcntl.h        | 10 +++-------
-+ 2 files changed, 7 insertions(+), 8 deletions(-)
- 
-+diff --git a/src/common/compat/compat-fcntl.c b/src/common/compat/compat-fcntl.c
-+index 5c0bdc9..18bab0a 100644
- --- a/src/common/compat/compat-fcntl.c
- +++ b/src/common/compat/compat-fcntl.c
- @@ -8,14 +8,17 @@
-@@ -42,6 +51,8 @@ Change-Id: If2c6007a8c85bc3f3065002af8a7538b882fb4a8
-  #ifdef HAVE_SYNC_FILE_RANGE
-  	return sync_file_range(fd, offset, nbytes, flags);
-  #else
-+diff --git a/src/common/compat/fcntl.h b/src/common/compat/fcntl.h
-+index 5e566e5..93b22b7 100644
- --- a/src/common/compat/fcntl.h
- +++ b/src/common/compat/fcntl.h
- @@ -13,16 +13,12 @@
-@@ -62,7 +73,7 @@ Change-Id: If2c6007a8c85bc3f3065002af8a7538b882fb4a8
-  		unsigned int flags);
-  #define lttng_sync_file_range(fd, offset, nbytes, flags) \
-  	compat_sync_file_range(fd, offset, nbytes, flags)
--@@ -37,8 +33,8 @@ extern int compat_sync_file_range(int fd
-+@@ -37,8 +33,8 @@ extern int compat_sync_file_range(int fd, off64_t offset, off64_t nbytes,
-  #define SYNC_FILE_RANGE_WAIT_BEFORE   0
-  #define SYNC_FILE_RANGE_WRITE         0
-  
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-add-check_skip_kernel_test-to-check-root-user-.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-add-check_skip_kernel_test-to-check-root-user-.patch
-index 2671a1908e0..cb2c763b512 100644
---- a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-add-check_skip_kernel_test-to-check-root-user-.patch
-+++ b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-add-check_skip_kernel_test-to-check-root-user-.patch
-@@ -1,4 +1,4 @@
--From cf558f802b259a33605fe0ede4d74ae2ff6be699 Mon Sep 17 00:00:00 2001
-+From 76976da4e01ce90923f61ba734e066faefb76beb Mon Sep 17 00:00:00 2001
- From: Xiangyu Chen <xiangyu.chen@windriver.com>
- Date: Mon, 12 Feb 2024 09:23:54 -0500
- Subject: [PATCH] tests: add check_skip_kernel_test to check root user and
-@@ -83,7 +83,7 @@ Signed-off-by: Jérémie Galarneau <jeremie.galarneau@efficios.com>
-  47 files changed, 166 insertions(+), 363 deletions(-)
- 
- diff --git a/tests/destructive/metadata-regeneration b/tests/destructive/metadata-regeneration
--index b81e7af32..36b130d17 100755
-+index b81e7af..36b130d 100755
- --- a/tests/destructive/metadata-regeneration
- +++ b/tests/destructive/metadata-regeneration
- @@ -185,19 +185,13 @@ function test_ust_streaming ()
-@@ -108,7 +108,7 @@ index b81e7af32..36b130d17 100755
-  	start_lttng_relayd "-o $TRACE_PATH"
-  	start_lttng_sessiond
- diff --git a/tests/perf/test_perf_raw.in b/tests/perf/test_perf_raw.in
--index f293ccd71..d35529a87 100644
-+index f293ccd..d35529a 100644
- --- a/tests/perf/test_perf_raw.in
- +++ b/tests/perf/test_perf_raw.in
- @@ -137,12 +137,6 @@ function test_kernel_raw()
-@@ -134,7 +134,7 @@ index f293ccd71..d35529a87 100644
-  	modprobe lttng-test
-  	test_kernel_raw
- diff --git a/tests/regression/kernel/test_all_events b/tests/regression/kernel/test_all_events
--index 2e20888df..044f9b65f 100755
-+index 2e20888..044f9b6 100755
- --- a/tests/regression/kernel/test_all_events
- +++ b/tests/regression/kernel/test_all_events
- @@ -43,13 +43,7 @@ plan_tests $NUM_TESTS
-@@ -153,7 +153,7 @@ index 2e20888df..044f9b65f 100755
-  	validate_lttng_modules_present
-  	start_lttng_sessiond
- diff --git a/tests/regression/kernel/test_callstack b/tests/regression/kernel/test_callstack
--index a4477fd7c..d8d6b5e0f 100755
-+index a4477fd..d8d6b5e 100755
- --- a/tests/regression/kernel/test_callstack
- +++ b/tests/regression/kernel/test_callstack
- @@ -134,13 +134,7 @@ plan_tests $NUM_TESTS
-@@ -172,7 +172,7 @@ index a4477fd7c..d8d6b5e0f 100755
-  	validate_lttng_modules_present
-  	start_lttng_sessiond
- diff --git a/tests/regression/kernel/test_channel b/tests/regression/kernel/test_channel
--index 9cc74c4e8..4c377bd2a 100755
-+index 9cc74c4..4c377bd 100755
- --- a/tests/regression/kernel/test_channel
- +++ b/tests/regression/kernel/test_channel
- @@ -47,13 +47,7 @@ function test_channel_buffer_too_large()
-@@ -191,7 +191,7 @@ index 9cc74c4e8..4c377bd2a 100755
-  	start_lttng_sessiond
-  
- diff --git a/tests/regression/kernel/test_clock_override b/tests/regression/kernel/test_clock_override
--index 72892898b..48a3f926a 100755
-+index 7289289..48a3f92 100755
- --- a/tests/regression/kernel/test_clock_override
- +++ b/tests/regression/kernel/test_clock_override
- @@ -172,13 +172,7 @@ TESTS=(
-@@ -210,7 +210,7 @@ index 72892898b..48a3f926a 100755
-  	validate_lttng_modules_present
-  	trap signal_cleanup SIGTERM SIGINT
- diff --git a/tests/regression/kernel/test_event_basic b/tests/regression/kernel/test_event_basic
--index ac9ec0549..387e2f733 100755
-+index ac9ec05..387e2f7 100755
- --- a/tests/regression/kernel/test_event_basic
- +++ b/tests/regression/kernel/test_event_basic
- @@ -73,13 +73,7 @@ plan_tests $NUM_TESTS
-@@ -229,7 +229,7 @@ index ac9ec0549..387e2f733 100755
-  	validate_lttng_modules_present
-  	start_lttng_sessiond
- diff --git a/tests/regression/kernel/test_kernel_function b/tests/regression/kernel/test_kernel_function
--index b1d5491fc..ea16cdeef 100755
-+index b1d5491..ea16cde 100755
- --- a/tests/regression/kernel/test_kernel_function
- +++ b/tests/regression/kernel/test_kernel_function
- @@ -43,13 +43,7 @@ plan_tests $NUM_TESTS
-@@ -248,7 +248,7 @@ index b1d5491fc..ea16cdeef 100755
-  	start_lttng_sessiond_notap
-  	validate_lttng_modules_present
- diff --git a/tests/regression/kernel/test_lttng_logger b/tests/regression/kernel/test_lttng_logger
--index b8f7ded82..00eaae823 100755
-+index b8f7ded..00eaae8 100755
- --- a/tests/regression/kernel/test_lttng_logger
- +++ b/tests/regression/kernel/test_lttng_logger
- @@ -110,13 +110,7 @@ plan_tests $NUM_TESTS
-@@ -267,7 +267,7 @@ index b8f7ded82..00eaae823 100755
-  	validate_lttng_modules_present
-  	start_lttng_sessiond
- diff --git a/tests/regression/kernel/test_ns_contexts b/tests/regression/kernel/test_ns_contexts
--index 0c8718d78..59e2568f6 100755
-+index 7d447bc..1c71ea5 100755
- --- a/tests/regression/kernel/test_ns_contexts
- +++ b/tests/regression/kernel/test_ns_contexts
- @@ -108,13 +108,7 @@ plan_tests $NUM_TESTS
-@@ -286,7 +286,7 @@ index 0c8718d78..59e2568f6 100755
-  system_has_ns=0
-  if [ -d "/proc/$$/ns" ]; then
- diff --git a/tests/regression/kernel/test_ns_contexts_change b/tests/regression/kernel/test_ns_contexts_change
--index 42a61276b..3f5e4eeab 100755
-+index 42a6127..3f5e4ee 100755
- --- a/tests/regression/kernel/test_ns_contexts_change
- +++ b/tests/regression/kernel/test_ns_contexts_change
- @@ -162,14 +162,7 @@ plan_tests $NUM_TESTS
-@@ -306,7 +306,7 @@ index 42a61276b..3f5e4eeab 100755
-  system_has_ns=0
-  if [ -d "/proc/$$/ns" ]; then
- diff --git a/tests/regression/kernel/test_rotation_destroy_flush b/tests/regression/kernel/test_rotation_destroy_flush
--index cb773d7df..0af514b49 100755
-+index cb773d7..0af514b 100755
- --- a/tests/regression/kernel/test_rotation_destroy_flush
- +++ b/tests/regression/kernel/test_rotation_destroy_flush
- @@ -120,13 +120,7 @@ TESTS=(
-@@ -325,7 +325,7 @@ index cb773d7df..0af514b49 100755
-  	validate_lttng_modules_present
-  	trap signal_cleanup SIGTERM SIGINT
- diff --git a/tests/regression/kernel/test_select_poll_epoll b/tests/regression/kernel/test_select_poll_epoll
--index d8245a0e7..20f0ef0ae 100755
-+index d8245a0..20f0ef0 100755
- --- a/tests/regression/kernel/test_select_poll_epoll
- +++ b/tests/regression/kernel/test_select_poll_epoll
- @@ -374,13 +374,7 @@ if test $? != 0; then
-@@ -344,7 +344,7 @@ index d8245a0e7..20f0ef0ae 100755
-  	validate_lttng_modules_present
-  
- diff --git a/tests/regression/kernel/test_syscall b/tests/regression/kernel/test_syscall
--index 401a18a8d..219d94703 100755
-+index 401a18a..219d947 100755
- --- a/tests/regression/kernel/test_syscall
- +++ b/tests/regression/kernel/test_syscall
- @@ -664,13 +664,7 @@ plan_tests $NUM_TESTS
-@@ -363,7 +363,7 @@ index 401a18a8d..219d94703 100755
-  	validate_lttng_modules_present
-  	start_lttng_sessiond
- diff --git a/tests/regression/kernel/test_userspace_probe b/tests/regression/kernel/test_userspace_probe
--index 1091ee65e..5d984d666 100755
-+index 1091ee6..5d984d6 100755
- --- a/tests/regression/kernel/test_userspace_probe
- +++ b/tests/regression/kernel/test_userspace_probe
- @@ -815,13 +815,7 @@ fi
-@@ -382,7 +382,7 @@ index 1091ee65e..5d984d666 100755
-  	validate_lttng_modules_present
-  	start_lttng_sessiond
- diff --git a/tests/regression/tools/clear/test_kernel b/tests/regression/tools/clear/test_kernel
--index 06fb1c368..48250a742 100755
-+index 06fb1c3..48250a7 100755
- --- a/tests/regression/tools/clear/test_kernel
- +++ b/tests/regression/tools/clear/test_kernel
- @@ -536,12 +536,6 @@ plan_tests $NUM_TESTS
-@@ -408,7 +408,7 @@ index 06fb1c368..48250a742 100755
-  	trap signal_cleanup SIGTERM SIGINT
-  
- diff --git a/tests/regression/tools/filtering/test_invalid_filter b/tests/regression/tools/filtering/test_invalid_filter
--index 7d9e524d9..8435e5546 100755
-+index 7d9e524..8435e55 100755
- --- a/tests/regression/tools/filtering/test_invalid_filter
- +++ b/tests/regression/tools/filtering/test_invalid_filter
- @@ -168,13 +168,7 @@ done
-@@ -427,7 +427,7 @@ index 7d9e524d9..8435e5546 100755
-  	diag "Test kernel filters"
-  	i=0
- diff --git a/tests/regression/tools/filtering/test_unsupported_op b/tests/regression/tools/filtering/test_unsupported_op
--index 299247a3c..91eb86d21 100755
-+index 299247a..91eb86d 100755
- --- a/tests/regression/tools/filtering/test_unsupported_op
- +++ b/tests/regression/tools/filtering/test_unsupported_op
- @@ -103,13 +103,7 @@ while [ "$i" -lt "$OP_COUNT" ]; do
-@@ -446,7 +446,7 @@ index 299247a3c..91eb86d21 100755
-  	diag "Test kernel unsupported filter operations"
-  
- diff --git a/tests/regression/tools/filtering/test_valid_filter b/tests/regression/tools/filtering/test_valid_filter
--index e76ffa25f..1ba7c79bb 100755
-+index e76ffa2..1ba7c79 100755
- --- a/tests/regression/tools/filtering/test_valid_filter
- +++ b/tests/regression/tools/filtering/test_valid_filter
- @@ -1452,13 +1452,7 @@ KERNEL_FILTERS=(
-@@ -465,7 +465,7 @@ index e76ffa25f..1ba7c79bb 100755
-  	diag "Test kernel valid filters"
-  
- diff --git a/tests/regression/tools/health/test_health.sh b/tests/regression/tools/health/test_health.sh
--index b3d6419d2..68716e6b9 100644
-+index b3d6419..68716e6 100644
- --- a/tests/regression/tools/health/test_health.sh
- +++ b/tests/regression/tools/health/test_health.sh
- @@ -82,7 +82,7 @@ function test_health
-@@ -500,7 +500,7 @@ index b3d6419d2..68716e6b9 100644
-  i=0
-  while [ "$i" -lt "$THREAD_COUNT" ]; do
- diff --git a/tests/regression/tools/health/test_thread_ok b/tests/regression/tools/health/test_thread_ok
--index e84adb611..e5e23543f 100755
-+index e84adb6..e5e2354 100755
- --- a/tests/regression/tools/health/test_thread_ok
- +++ b/tests/regression/tools/health/test_thread_ok
- @@ -67,7 +67,7 @@ function test_thread_ok
-@@ -527,7 +527,7 @@ index e84adb611..e5e23543f 100755
-  
-  rm -rf ${HEALTH_PATH}
- diff --git a/tests/regression/tools/live/test_kernel b/tests/regression/tools/live/test_kernel
--index b622b5214..fdaa09f0d 100755
-+index b622b52..fdaa09f 100755
- --- a/tests/regression/tools/live/test_kernel
- +++ b/tests/regression/tools/live/test_kernel
- @@ -39,13 +39,11 @@ function clean_live_tracing()
-@@ -549,7 +549,7 @@ index b622b5214..fdaa09f0d 100755
-  modprobe lttng-test
-  
- diff --git a/tests/regression/tools/live/test_lttng_kernel b/tests/regression/tools/live/test_lttng_kernel
--index a23d9373a..1b933648f 100755
-+index a23d937..1b93364 100755
- --- a/tests/regression/tools/live/test_lttng_kernel
- +++ b/tests/regression/tools/live/test_lttng_kernel
- @@ -45,13 +45,7 @@ function clean_live_tracing()
-@@ -568,7 +568,7 @@ index a23d9373a..1b933648f 100755
-  	modprobe lttng-test
-  
- diff --git a/tests/regression/tools/metadata/test_kernel b/tests/regression/tools/metadata/test_kernel
--index 57cace6ea..26e95d93a 100755
-+index 57cace6..26e95d9 100755
- --- a/tests/regression/tools/metadata/test_kernel
- +++ b/tests/regression/tools/metadata/test_kernel
- @@ -91,13 +91,7 @@ plan_tests $NUM_TESTS
-@@ -587,7 +587,7 @@ index 57cace6ea..26e95d93a 100755
-  	validate_lttng_modules_present
-  	modprobe lttng-test
- diff --git a/tests/regression/tools/notification/test_notification_kernel_buffer_usage b/tests/regression/tools/notification/test_notification_kernel_buffer_usage
--index 76e69a77e..8fdaabb3e 100755
-+index 76e69a7..8fdaabb 100755
- --- a/tests/regression/tools/notification/test_notification_kernel_buffer_usage
- +++ b/tests/regression/tools/notification/test_notification_kernel_buffer_usage
- @@ -60,29 +60,27 @@ function test_buffer_usage_notification
-@@ -638,7 +638,7 @@ index 76e69a77e..8fdaabb3e 100755
- +rm -rf "${consumerd_pipe[@]}" 2> /dev/null
-  rm -rf "$TEST_TMPDIR"
- diff --git a/tests/regression/tools/notification/test_notification_kernel_capture b/tests/regression/tools/notification/test_notification_kernel_capture
--index 88f123d3d..0f8a2bc6f 100755
-+index 88f123d..0f8a2bc 100755
- --- a/tests/regression/tools/notification/test_notification_kernel_capture
- +++ b/tests/regression/tools/notification/test_notification_kernel_capture
- @@ -31,22 +31,21 @@ function test_basic_error_path
-@@ -676,7 +676,7 @@ index 88f123d3d..0f8a2bc6f 100755
-  
-  rm -f "$TESTAPP_STATE_PATH"
- diff --git a/tests/regression/tools/notification/test_notification_kernel_error b/tests/regression/tools/notification/test_notification_kernel_error
--index 80fe6e5b5..b757ec2b4 100755
-+index 80fe6e5..b757ec2 100755
- --- a/tests/regression/tools/notification/test_notification_kernel_error
- +++ b/tests/regression/tools/notification/test_notification_kernel_error
- @@ -30,23 +30,22 @@ function test_basic_error_path
-@@ -715,7 +715,7 @@ index 80fe6e5b5..b757ec2b4 100755
-  
-  rm -f "$TESTAPP_STATE_PATH"
- diff --git a/tests/regression/tools/notification/test_notification_kernel_instrumentation b/tests/regression/tools/notification/test_notification_kernel_instrumentation
--index 90545a541..705f7703d 100755
-+index 90545a5..705f770 100755
- --- a/tests/regression/tools/notification/test_notification_kernel_instrumentation
- +++ b/tests/regression/tools/notification/test_notification_kernel_instrumentation
- @@ -28,22 +28,21 @@ function test_kernel_instrumentation_notification
-@@ -753,7 +753,7 @@ index 90545a541..705f7703d 100755
-  
-  rm -f "$TESTAPP_STATE_PATH"
- diff --git a/tests/regression/tools/notification/test_notification_kernel_syscall b/tests/regression/tools/notification/test_notification_kernel_syscall
--index d273cb55d..7fa235388 100755
-+index d273cb5..7fa2353 100755
- --- a/tests/regression/tools/notification/test_notification_kernel_syscall
- +++ b/tests/regression/tools/notification/test_notification_kernel_syscall
- @@ -31,19 +31,18 @@ function test_kernel_syscall_notification
-@@ -786,7 +786,7 @@ index d273cb55d..7fa235388 100755
-  
-  rm -f "$TESTAPP_STATE_PATH"
- diff --git a/tests/regression/tools/notification/test_notification_kernel_userspace_probe b/tests/regression/tools/notification/test_notification_kernel_userspace_probe
--index 8ef8d708d..abddd9be7 100755
-+index 8ef8d70..abddd9b 100755
- --- a/tests/regression/tools/notification/test_notification_kernel_userspace_probe
- +++ b/tests/regression/tools/notification/test_notification_kernel_userspace_probe
- @@ -29,18 +29,18 @@ function test_kernel_userspace_probe_notification
-@@ -819,7 +819,7 @@ index 8ef8d708d..abddd9be7 100755
-  
-  rm -f "$TESTAPP_STATE_PATH"
- diff --git a/tests/regression/tools/notification/test_notification_multi_app b/tests/regression/tools/notification/test_notification_multi_app
--index d8b639225..61891b56f 100755
-+index d8b6392..61891b5 100755
- --- a/tests/regression/tools/notification/test_notification_multi_app
- +++ b/tests/regression/tools/notification/test_notification_multi_app
- @@ -411,22 +411,18 @@ function test_on_register_evaluation ()
-@@ -851,10 +851,10 @@ index d8b639225..61891b56f 100755
-  for fct_test in ${TESTS[@]};
-  do
- diff --git a/tests/regression/tools/notification/test_notification_notifier_discarded_count b/tests/regression/tools/notification/test_notification_notifier_discarded_count
--index c9235393e..a6c31a728 100755
-+index 9850b49..778d37d 100755
- --- a/tests/regression/tools/notification/test_notification_notifier_discarded_count
- +++ b/tests/regression/tools/notification/test_notification_notifier_discarded_count
--@@ -391,7 +391,8 @@ function test_ust_notifier_discarded_regardless_trigger_owner
-+@@ -376,7 +376,8 @@ function test_ust_notifier_discarded_regardless_trigger_owner
-  test_ust_notifier_discarded_count
-  test_ust_notifier_discarded_count_max_bucket
-  
-@@ -864,7 +864,7 @@ index c9235393e..a6c31a728 100755
-  
-  	validate_lttng_modules_present
-  
--@@ -413,9 +414,7 @@ if [ "$(id -u)" == "0" ]; then
-+@@ -398,9 +399,7 @@ if [ "$(id -u)" == "0" ]; then
-  	modprobe --remove lttng-test
-  
-  	rm -rf "${sessiond_pipe[@]}" 2> /dev/null
-@@ -877,7 +877,7 @@ index c9235393e..a6c31a728 100755
-  
-  rm -rf "$TEST_TMPDIR"
- diff --git a/tests/regression/tools/regen-metadata/test_kernel b/tests/regression/tools/regen-metadata/test_kernel
--index 49eea32a7..555a4e2ce 100755
-+index 49eea32..555a4e2 100755
- --- a/tests/regression/tools/regen-metadata/test_kernel
- +++ b/tests/regression/tools/regen-metadata/test_kernel
- @@ -99,13 +99,7 @@ plan_tests $NUM_TESTS
-@@ -896,7 +896,7 @@ index 49eea32a7..555a4e2ce 100755
-  	validate_lttng_modules_present
-  
- diff --git a/tests/regression/tools/regen-statedump/test_kernel b/tests/regression/tools/regen-statedump/test_kernel
--index 8a261355d..bbbac3942 100755
-+index 8a26135..bbbac39 100755
- --- a/tests/regression/tools/regen-statedump/test_kernel
- +++ b/tests/regression/tools/regen-statedump/test_kernel
- @@ -39,13 +39,7 @@ plan_tests $NUM_TESTS
-@@ -915,7 +915,7 @@ index 8a261355d..bbbac3942 100755
-  	validate_lttng_modules_present
-  	start_lttng_sessiond
- diff --git a/tests/regression/tools/rotation/test_kernel b/tests/regression/tools/rotation/test_kernel
--index f5f1f5553..efe3fd359 100755
-+index f5f1f55..efe3fd3 100755
- --- a/tests/regression/tools/rotation/test_kernel
- +++ b/tests/regression/tools/rotation/test_kernel
- @@ -82,13 +82,7 @@ plan_tests $NUM_TESTS
-@@ -934,7 +934,7 @@ index f5f1f5553..efe3fd359 100755
-  	validate_lttng_modules_present
-  
- diff --git a/tests/regression/tools/snapshots/test_kernel b/tests/regression/tools/snapshots/test_kernel
--index abb243563..d91876867 100755
-+index abb2435..d918768 100755
- --- a/tests/regression/tools/snapshots/test_kernel
- +++ b/tests/regression/tools/snapshots/test_kernel
- @@ -217,13 +217,7 @@ plan_tests $NUM_TESTS
-@@ -953,7 +953,7 @@ index abb243563..d91876867 100755
-  
-  	validate_lttng_modules_present
- diff --git a/tests/regression/tools/snapshots/test_kernel_streaming b/tests/regression/tools/snapshots/test_kernel_streaming
--index 0c92dc710..dd965afee 100755
-+index 0c92dc7..dd965af 100755
- --- a/tests/regression/tools/snapshots/test_kernel_streaming
- +++ b/tests/regression/tools/snapshots/test_kernel_streaming
- @@ -145,13 +145,7 @@ plan_tests $NUM_TESTS
-@@ -972,7 +972,7 @@ index 0c92dc710..dd965afee 100755
-  	validate_lttng_modules_present
-  
- diff --git a/tests/regression/tools/streaming/test_high_throughput_limits b/tests/regression/tools/streaming/test_high_throughput_limits
--index 2b9e3ad39..c55d51098 100755
-+index 2b9e3ad..c55d510 100755
- --- a/tests/regression/tools/streaming/test_high_throughput_limits
- +++ b/tests/regression/tools/streaming/test_high_throughput_limits
- @@ -170,13 +170,7 @@ plan_tests $NUM_TESTS
-@@ -991,7 +991,7 @@ index 2b9e3ad39..c55d51098 100755
-  
-  	# Catch sigint and try to cleanup limits
- diff --git a/tests/regression/tools/streaming/test_kernel b/tests/regression/tools/streaming/test_kernel
--index 33334229f..113eea7bf 100755
-+index 3333422..113eea7 100755
- --- a/tests/regression/tools/streaming/test_kernel
- +++ b/tests/regression/tools/streaming/test_kernel
- @@ -47,13 +47,7 @@ plan_tests $NUM_TESTS
-@@ -1010,7 +1010,7 @@ index 33334229f..113eea7bf 100755
-  	validate_lttng_modules_present
-  
- diff --git a/tests/regression/tools/tracker/test_event_tracker b/tests/regression/tools/tracker/test_event_tracker
--index cc0f698d2..de0c79d36 100755
-+index cc0f698..de0c79d 100755
- --- a/tests/regression/tools/tracker/test_event_tracker
- +++ b/tests/regression/tools/tracker/test_event_tracker
- @@ -466,13 +466,7 @@ test_event_track_untrack ust 0 "${EVENT_NAME}" "--pid --all"	# backward compat
-@@ -1029,7 +1029,7 @@ index cc0f698d2..de0c79d36 100755
-  	diag "Test kernel tracker"
-  
- diff --git a/tests/regression/tools/trigger/test_add_trigger_cli b/tests/regression/tools/trigger/test_add_trigger_cli
--index 98ecf6272..d1763aa2e 100755
-+index 98ecf62..d1763aa 100755
- --- a/tests/regression/tools/trigger/test_add_trigger_cli
- +++ b/tests/regression/tools/trigger/test_add_trigger_cli
- @@ -34,12 +34,6 @@ tmp_stdout=$(mktemp --tmpdir -t test_parse_cli_trigger_stdout.XXXXXX)
-@@ -1073,7 +1073,7 @@ index 98ecf6272..d1763aa2e 100755
-  		--name="syscall-trigger-0" \
-  		--condition event-rule-matches --type=syscall --name=open \
- diff --git a/tests/regression/tools/trigger/test_list_triggers_cli b/tests/regression/tools/trigger/test_list_triggers_cli
--index a04018013..02c3de3e9 100755
-+index 2574e15..652a08c 100755
- --- a/tests/regression/tools/trigger/test_list_triggers_cli
- +++ b/tests/regression/tools/trigger/test_list_triggers_cli
- @@ -36,22 +36,12 @@ uprobe_sdt_binary=$(realpath "${TESTDIR}/utils/testapp/userspace-probe-sdt-binar
-@@ -1120,7 +1120,7 @@ index a04018013..02c3de3e9 100755
-  test_buffer_usage_conditions
-  test_session_rotation_conditions
- diff --git a/tests/regression/tools/wildcard/test_event_wildcard b/tests/regression/tools/wildcard/test_event_wildcard
--index f69baffc4..14d9bb88a 100755
-+index f69baff..14d9bb8 100755
- --- a/tests/regression/tools/wildcard/test_event_wildcard
- +++ b/tests/regression/tools/wildcard/test_event_wildcard
- @@ -124,13 +124,7 @@ test_event_wildcard ust 1 'tp*tptest'
-@@ -1139,7 +1139,7 @@ index f69baffc4..14d9bb88a 100755
-  	diag "Test kernel wildcards"
-  
- diff --git a/tests/regression/tools/working-directory/test_relayd_working_directory b/tests/regression/tools/working-directory/test_relayd_working_directory
--index c7e784cca..6bd1e504a 100755
-+index c7e784c..6bd1e50 100755
- --- a/tests/regression/tools/working-directory/test_relayd_working_directory
- +++ b/tests/regression/tools/working-directory/test_relayd_working_directory
- @@ -145,9 +145,9 @@ function test_relayd_debug_permission()
-@@ -1155,7 +1155,7 @@ index c7e784cca..6bd1e504a 100755
-  
-  	skip $is_user "Skipping permission debug output test; operation can't fail as root" 6 ||
- diff --git a/tests/regression/ust/namespaces/test_ns_contexts_change b/tests/regression/ust/namespaces/test_ns_contexts_change
--index 8a4b62ce3..622241f7b 100755
-+index 8a4b62c..622241f 100755
- --- a/tests/regression/ust/namespaces/test_ns_contexts_change
- +++ b/tests/regression/ust/namespaces/test_ns_contexts_change
- @@ -101,12 +101,7 @@ plan_tests $NUM_TESTS
-@@ -1173,7 +1173,7 @@ index 8a4b62ce3..622241f7b 100755
-  system_has_ns=0
-  if [ -d "/proc/$$/ns" ]; then
- diff --git a/tests/regression/ust/test_event_perf b/tests/regression/ust/test_event_perf
--index 33aab2981..178959a19 100755
-+index 33aab29..178959a 100755
- --- a/tests/regression/ust/test_event_perf
- +++ b/tests/regression/ust/test_event_perf
- @@ -119,17 +119,11 @@ plan_tests $NUM_TESTS
-@@ -1196,10 +1196,10 @@ index 33aab2981..178959a19 100755
-  	test_event_basic
-  }
- diff --git a/tests/utils/utils.sh b/tests/utils/utils.sh
--index faa87e783..da0e0569d 100644
-+index 35633fa..b6783ef 100644
- --- a/tests/utils/utils.sh
- +++ b/tests/utils/utils.sh
--@@ -318,6 +318,41 @@ function conf_proc_count()
-+@@ -329,6 +329,41 @@ function conf_proc_count()
-  	echo
-  }
-  
-@@ -1241,6 +1241,3 @@ index faa87e783..da0e0569d 100644
-  # Check if base lttng-modules are present.
-  # Bail out on failure
-  function validate_lttng_modules_present ()
---- 
--2.25.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
-index 2f95889c4b1..84c02a02cf5 100644
---- a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
-+++ b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
-@@ -1,4 +1,4 @@
--From 2237748af00467ad8250a7ccd944200f811db69a Mon Sep 17 00:00:00 2001
-+From 3f1f1dc868accca37d2f276ed741884698b38538 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 12 Dec 2019 16:52:07 +0100
- Subject: [PATCH] tests: do not strip a helper library
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch b/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch
-index 3a77ea2e439..b8971a69de8 100644
---- a/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch
-+++ b/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch
-@@ -1,3 +1,8 @@
-+From 1fbd24512e8fce64b92efa846c301e45a7371ed2 Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Tue, 14 Dec 2021 12:34:04 +0000
-+Subject: [PATCH] lttng-tools: Disable problem tests
-+
- Upstream-Status: Inappropriate [need to root cause the test hangs]
- 
- We keep seeing hangs in the tools/notifications tests on x86 and arm for
-@@ -8,11 +13,14 @@ of them.
- https://bugzilla.yoctoproject.org/show_bug.cgi?id=14263
- 
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+---
-+ tests/regression/Makefile.am | 12 ------------
-+ 1 file changed, 12 deletions(-)
- 
--Index: lttng-tools-2.13.1/tests/regression/Makefile.am
--===================================================================
----- lttng-tools-2.13.1.orig/tests/regression/Makefile.am
--+++ lttng-tools-2.13.1/tests/regression/Makefile.am
-+diff --git a/tests/regression/Makefile.am b/tests/regression/Makefile.am
-+index e556223..756fb98 100644
-+--- a/tests/regression/Makefile.am
-++++ b/tests/regression/Makefile.am
- @@ -29,18 +29,6 @@ TESTS = tools/base-path/test_ust \
-  	tools/crash/test_crash \
-  	tools/regen-metadata/test_ust \
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.14.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.15.bb
-similarity index 99%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.13.14.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.13.15.bb
-index 98c2f9831b7..762d4e5c2fe 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.13.14.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.15.bb
-@@ -41,7 +41,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://0001-Fix-rotation-destroy-flush-fix-session-daemon-abort-.patch \
-            "
- 
--SRC_URI[sha256sum] = "53bdf7c4ad07dbfe660ee4d9affc63fe44ae59e9a73c6f7a96e0fca140e5adcb"
-+SRC_URI[sha256sum] = "96ea42351ee112c19dad9fdc7aae93b583d9f1722b2175664a381d2d337703c4"
- 
- inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
- 
+--------------XKUApsAkAt77CTRrJUe82xYo
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+T24gNC8yMS8yNSAxMjozMiBQTSwgRG1pdHJ5IEJhcnlzaGtvdiB3cm90ZToNCj4gT24gTW9u
+LCAyMSBBcHIgMjAyNSBhdCAxODoyMiwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4g
+d3JvdGU6DQo+Pg0KPj4gSGkgRG1pdHJ5DQo+Pg0KPj4gSSBoYXZlIHBpY2tlZCB0aGVzZSBw
+YXRjaCBpbnRvIGNsYW5nLW1lcmdlLTIgYnJhbmNoLg0KPj4NCj4+IGh0dHBzOi8vd2ViLmdp
+dC55b2N0b3Byb2plY3Qub3JnL3Bva3ktY29udHJpYi9sb2cvP2g9a3Jhai9jbGFuZy1tZXJn
+ZS0yDQo+Pg0KPj4gVGhleSBoZWxwIHdpdGggc29tZSBtZXNhLW5hdGl2ZSBidWlsZCBmYWls
+dXJlcyBob3dldmVyLCBJIGFtIHN0aWxsDQo+PiBzZWVpbmcgYSBidWlsZCBmYWlsdXJlIGJ1
+aWxkIG1lc2EtbmF0aXZlDQo+PiBvbiBtdXNsIHRhcmdldHMuIEkgYW0gbm90IHN1cmUgd2h5
+IHRhcmdldCBzaG91bGQgbWF0dGVyIGJ1dCBpdCBzZWVtcw0KPj4gdG8gc2VlIHRoZSBlcnJv
+cg0KPiANCj4gTm90ZSwgdGhlIGVycm9yIGlzIGFib3V0ICdyZXF1aXJlZCBmaWxlJywgaXQg
+dXN1YWxseSBtZWFucyB0aGF0IHRoZQ0KPiBkeW5hbWljIGxvYWRlciBpcyBub3QgZm91bmQu
+DQo+IEknbGwgdHJ5IHJlcHJvZHVjaW5nIGl0IGxvY2FsbHkuDQo+IA0KPj4NCj4+IGh0dHBz
+Oi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy92YWxreXJpZS8jL2J1aWxkZXJzLzEx
+MS9idWlsZHMvMTUwDQo+Pg0KPj4gRXJyb3IgaXMgdGhhdCBtZXNhX2NsYyBpcyBub3QgYXZh
+aWxhYmxlIGJlZm9yZSBpdHMgdXNlLiBJbnRlcmVzdGluZ2x5LA0KPj4gaXQgbmV2ZXIgZmFp
+bHMgbG9jYWxseSBoZXJlIGJ1dCBpdCBhbHdheXMgZmFpbHMgb24gQUIuIElzIHRoZXJlIHNv
+bWUNCj4+IHNvcnQgb2YgYnVpbGQgcmFjZSBvciBzb21ldGhpbmcgZWxzZSBnb2luZyBvbj8N
+Cj4gDQo+IEFuZCB0aGlzIGlzIHVzdWFsbHkgYmVjYXVzZSB0aGVyZSB3YXMgYSB1bmluYXRp
+dmUtZW5hYmxlZCBidWlsZCBpbg0KPiBzc3RhdGUgY2FjaGUgd2hpY2ggaXMgbm93IGJlaW5n
+IHJldXNlZCBmb3IgdGhlIG5vbi11bmluYXRpdmUuDQo+IExldCdzIHNlZSBpZiBJIGNhbiBy
+ZXByb2R1Y2UgaXQuLi4NCg0KSXRzIGluIHJpZ2h0IGRpcmVjdGlvbiwgSSBjb3VsZCBnZXQg
+dGhlIGluZm9ybWF0aW9uIGZyb20gdGhlIHdvcmtlciBtYWNoaW5lDQoNCmJ1aWxkLXJlbmFt
+ZWQvdG1wL3dvcmsveDg2XzY0LWxpbnV4L21lc2EtbmF0aXZlLzI1LjAuMiQgDQouL2J1aWxk
+L3NyYy9jb21waWxlci9jbGMvbWVzYV9jbGMNCi1iYXNoOiAuL2J1aWxkL3NyYy9jb21waWxl
+ci9jbGMvbWVzYV9jbGM6IGNhbm5vdCBleGVjdXRlOiByZXF1aXJlZCBmaWxlIA0Kbm90IGZv
+dW5kDQoNCmlmIGR1bXAgdGhlIEVMRiBoZWFkZXJzIGl0IGxvb2tzIGZvciBpbnRlcnByZXRl
+ciBmcm9tIGEgdW5pbmF0aXZlIHBhdGgNCndoaWNoIGlzIGFic29sdXRlIGFuZCBwb2ludHMg
+dG8gdGhlIGxvY2F0aW9uIHdoZXJlIGl0IHdhcyBidWlsdCBpbiANCmFub3RoZXIgYnVpbGQN
+Cg0KICAgICAgIFtSZXF1ZXN0aW5nIHByb2dyYW0gaW50ZXJwcmV0ZXI6IA0KL3Nydi9wb2t5
+YnVpbGQveW9jdG8td29ya2VyL21ldGEtb2UvYnVpbGQvYnVpbGQvdG1wL3N5c3Jvb3RzLXVu
+aW5hdGl2ZS94ODZfNjQtbGludXgvbGliL2xkLWxpbnV4LXg4Ni02NC5zby4yXQ0KDQpUaGlz
+IGZpbGUgZG9lcyBub3QgZXhpc3QgaW4gY3VycmVudCBidWlsZC4NCg0KDQo+IA0KPj4gV291
+bGQgYXBwcmVjaWF0ZSBoZWxwLg0KPj4NCj4+IE9uIFRodSwgQXByIDE3LCAyMDI1IGF0IDU6
+NTfigK9QTSBEbWl0cnkgQmFyeXNoa292IHZpYQ0KPj4gbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zw0KPj4gPGRtaXRyeS5iYXJ5c2hrb3Y9b3NzLnF1YWxjb21tLmNvbUBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnPiB3cm90ZToNCj4+Pg0KPj4+IFNldmVyYWwgYnVnZml4ZXMgYWZ0ZXIgTWVz
+YSAyNS4wIHJlY2lwZSB3YXMgbWVyZ2VkOg0KPj4+IC0gUmVwbGFjZSB0aGUgYmluZGdlbiBw
+YXRjaGVzIHdpdGggbWVzb24tYmFzZWQgZml4IChEeWxhbiBCYWtlcikNCj4+PiAtIEJ1bmRs
+ZSBPcGVuQ0wgQyBoZWFkZXJzDQo+Pj4NCj4+PiBTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgQmFy
+eXNoa292IDxkbWl0cnkuYmFyeXNoa292QG9zcy5xdWFsY29tbS5jb20+DQo+Pj4gLS0tDQo+
+Pj4gQ2hhbmdlcyBpbiB2MjoNCj4+PiAtIERyb3BwZWQgYXBwbGllZCBwYXRjaGVzDQo+Pj4g
+LSBBZGQgdGhlIGJ1bmRsZS1vcGVuY2wtaGVhZGVycyBwYXRjaA0KPj4+IC0gTGluayB0byB2
+MTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDI1MDQxMi1tZXNhLTI1LWZpeGVzLXYx
+LTAtNzkxODQwMzkxMjcxQG9zcy5xdWFsY29tbS5jb20NCj4+Pg0KPj4+IC0tLQ0KPj4+IERt
+aXRyeSBCYXJ5c2hrb3YgKDMpOg0KPj4+ICAgICAgICBtZXNvbjogcGFzcyAtdGFyZ2V0IGFu
+ZCAtSSB0byBiaW5kZ2VuIGNhbGxzDQo+Pj4gICAgICAgIG1lc2E6IGRyb3AgdGhlIGJpbmRn
+ZW4gcGF0Y2gNCj4+PiAgICAgICAgbWVzYTogYnVuZGxlIENsYW5nIE9wZW5DTCBoZWFkZXJz
+IGludG8gbWV0YS1jbGMNCj4+Pg0KPj4+ICAgbWV0YS9jbGFzc2VzLXJlY2lwZS9tZXNvbi5i
+YmNsYXNzICAgICAgICAgICAgICAgICAgfCAgMSArDQo+Pj4gICAuLi5kLWFuLW9wdGlvbi10
+by1mb3JjZS1pbmNsdXNpb24tb2YtT3BlbkNMLS5wYXRjaCB8IDU3ICsrKysrKysrKysrKysr
+KysrKw0KPj4+ICAgLi4udmlkZS1jcm9zcy1jb21waWxhdGlvbi1hcmd1bWVudHMtdG8tTExW
+TS0ucGF0Y2ggfCA2NyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+Pj4gICBtZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLmluYyAgICAgICAgICAgICAgICB8ICA5ICstLQ0KPj4+
+ICAgNCBmaWxlcyBjaGFuZ2VkLCA2MSBpbnNlcnRpb25zKCspLCA3MyBkZWxldGlvbnMoLSkN
+Cj4+PiAtLS0NCj4+PiBiYXNlLWNvbW1pdDogNTNjNzcyYzk0MWQ1Y2U2OWFiODlmMzVjZDA0
+NzI0Yjc0MGRhZjI2OQ0KPj4+IGNoYW5nZS1pZDogMjAyNTA0MTEtbWVzYS0yNS1maXhlcy01
+YTM4ZmU1NWRkM2MNCj4+Pg0KPj4+IEJlc3QgcmVnYXJkcywNCj4+PiAtLQ0KPj4+IERtaXRy
+eSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5c2hrb3ZAb3NzLnF1YWxjb21tLmNvbT4NCj4+Pg0K
+Pj4+DQo+Pj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4+PiBMaW5rczogWW91IHJlY2Vp
+dmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4+PiBWaWV3L1JlcGx5IE9u
+bGluZSAoIzIxNTExNSk6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5l
+bWJlZGRlZC1jb3JlL21lc3NhZ2UvMjE1MTE1DQo+Pj4gTXV0ZSBUaGlzIFRvcGljOiBodHRw
+czovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTEyMzI0NTQ0LzE5OTc5MTQNCj4+PiBH
+cm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZw0KPj4+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
+Zy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiBbcmFqLmtoZW1AZ21haWwuY29tXQ0KPj4+IC09
+LT0tPS09LT0tPS09LT0tPS09LT0tDQo+Pj4NCj4gDQo+IA0KPiANCg==
+--------------XKUApsAkAt77CTRrJUe82xYo
+Content-Type: application/pgp-keys; name="OpenPGP_0xBB053355919D3314.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xBB053355919D3314.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+//VuX4EDPW3CZmbPy6U=3D
+=3D+jUt
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------XKUApsAkAt77CTRrJUe82xYo--
+
+--------------Gd1bq6KGnHLgwbdLR0LaOlF5--
+
+--------------G34wJcE8WKjRAFXJ8cHQ6h3f
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCaAbgtAUDAAAAAAAKCRC7BTNVkZ0zFKd5
+AJ4lHoYZ3dPBstM2gc4BOELXZEY05gCfbdScjf/yfopKqldnSG1EvfXQYyo=
+=3uS+
+-----END PGP SIGNATURE-----
+
+--------------G34wJcE8WKjRAFXJ8cHQ6h3f--
 
