@@ -1,229 +1,585 @@
-Return-Path: <koen.kooi@oss.qualcomm.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36AF4C369C2
-	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 08:26:23 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.35140.1745310381127235978
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07125C369C2
+	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 10:18:15 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.36506.1745317085270539772
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Apr 2025 01:26:21 -0700
+ Tue, 22 Apr 2025 03:18:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=jtylt/vu;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: koen.kooi@oss.qualcomm.com)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53M4On1d003264
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 08:26:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	cERwPXH1Tsyhhr2QzwVhbbYfTL27t83MbCA6Tr9En1I=; b=jtylt/vugUPqwY7W
-	OYwAX9f9GSKAP5+bjarqOWVNVZc+28UPOeZTUyXT91pWSaHBaPfsltacri3jgpIr
-	5xKRsdn6V2vYmEStiAgJP1UJ6HegThMbW/NZyBdKNVvxCDeovrEtjtNVv7xHJjJz
-	APCFutgEnyrw93ym8XSOFHUAB5+8fTHlqwsnMHJ7CDdXNRkACtsN6CtCJkmAI9iT
-	X1VwSfv+4JMqTT9bGwUPM0A2vRKXr0pZZlXawhCioMWELT7yvJadVd9kmzBIOxQw
-	m4s2q2/OgEL8Tf/7k5MUK8yQlngwGYqzTi6PexpVs7rYxnqCs09gfJSYHxY0mbj0
-	xbLJmQ==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4642u9esjs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 08:26:20 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6e905e89798so90257236d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 01:26:20 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=rbioC+CJ;
+ spf=pass (domain: linaro.org, ip: 209.85.167.47, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54afb5fcebaso6463505e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 03:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745317083; x=1745921883; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=bQz6mV21JHELDGS9iebMDCbIIlmn4sHj6DhHQe3e33s=;
+        b=rbioC+CJhgYqsvjRwPTpeC2DXSrCWg9UsROSko+3aiQcuIjBk8cpkwhsymkvA4APpo
+         y6oCzrzKliN2BD93yPcwCYqQmpVYsMAy77XBtcXDLTnokonNopgqu3WhYAoYLY29EE6p
+         ueG914E5MSGrAvBi6g+8uc2t4fRbN6juCFaJqPt8cYFTfDVfFTfcDa36n8eVQQR2KfDa
+         stgCSuPb/o7Q2b13tyNIlGl3vFGEnmm9S2uk+MC8bISPR8ZurqYYS6AEosJiSL9fyL2F
+         ZCnuU5psgso+5Ym+2kR9dHaCrEhwVS5rhpgJ6BDNo9EZooOEcw/SEp8QjlHIH9bQPaB/
+         xnlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745310379; x=1745915179;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cERwPXH1Tsyhhr2QzwVhbbYfTL27t83MbCA6Tr9En1I=;
-        b=TRaP67c5qaik56cxx6989h1ZwowMtRoGGlhagk0SHFDf/O52fn5rSDcr3We++PZhdC
-         UvOeEh89A/SSBGQCOZ73ka6f0ackw+hhsKJsG5CaSNDFbGOvOGcsJO9+5oSJknMq4CTS
-         5ysYP8/NuMhar88AIFL94mgJbgEkGam1b2t+FYQSF+VrCBSJWn2XOUUrKYtyGONNAji6
-         wvNgCWMtR5jw2QJjDSmRasBvjWqnRc61W14f7oo7867efRRGt2ztKsqX4ByuqERhBoCZ
-         rzz7AAoADxCci0zlyt7zVFbwnzhJ0Vy0Zrqyo9VluZuiSEkrT8vVYFRlj+3rpDbf68xn
-         LUUQ==
-X-Gm-Message-State: AOJu0YwYyd97Fg+k6D6wYi5SvWyjG1a2F2h/+tzcQULykFD7INRwsNDb
-	VNX5R44YLmxGTHxw6YL01jEnBXmN5W57yTUOj+wfOEOcLrMMzaJM37JEhvfo62j4tKJH/0vk8r9
-	oWeLn+V7jmcwFqlUdtR8xGNbAjjEW3Vp4h6sSt43vtw2alknAVJ0JDNIhCcj/9drosc8uK86uzb
-	BWdzY=
-X-Gm-Gg: ASbGncv9vmM2GAunMzNtNYYUN7ZvGlbDh19kkD10fISW9XwTOfqYONssPop7EUd2Glk
-	bHV5+WIWhBC9/xISgRHt8z6TsCAaDnmZd83mj2qmepfpu2/xhWQ0EWEJr/gjX9S9MK3m5hmO0OW
-	lIucbfQV0QsSv9gnYazROpfnarJJ9qqspLrR4DqIOWnqsBgCOeFXHxJNTU4fsi0ofnM9B2MAYzy
-	dTb+vDuWOQN9j8PWRDb3HtPjY93nilzNsXtjqNY9Le+FLNrZWq++s3ufJAbVY4aqPvW+ci/jXTA
-	pDqKDUhKmKHMJQ8wolIN/1xF1c4Jfw3RJc5jDrqfpwBDojxD7P67Buu12B3anQ==
-X-Received: by 2002:a05:6214:1c47:b0:6e4:7307:51c6 with SMTP id 6a1803df08f44-6f2c4664a1fmr263403156d6.34.1745310379021;
-        Tue, 22 Apr 2025 01:26:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF6258WpLZH+YdCiPpKUItVm/i16YI3/+hIPrfMfNCF1EvV6NzNbghRNTaACE5uB5w3hwdbDw==
-X-Received: by 2002:a05:6214:1c47:b0:6e4:7307:51c6 with SMTP id 6a1803df08f44-6f2c4664a1fmr263402936d6.34.1745310378507;
-        Tue, 22 Apr 2025 01:26:18 -0700 (PDT)
-Received: from smtpclient.apple (082-163-040-105.jonaz.nl. [82.163.40.105])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6efae396sm630247866b.170.2025.04.22.01.26.17
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 22 Apr 2025 01:26:18 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.500.181.1.5\))
-Subject: Re: [OE-core] [PATCH] autoconf: upgrade to final 2.72 release
-From: Koen Kooi <koen.kooi@oss.qualcomm.com>
-In-Reply-To: <AB3E4ECA-B3F8-4221-9988-7606C0FF1C3C@arm.com>
-Date: Tue, 22 Apr 2025 10:26:07 +0200
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <F1487D3E-B2F6-46A6-AFA2-011D6F05FFCE@oss.qualcomm.com>
-References: <20250417151813.2295435-1-ross.burton@arm.com>
- <AB3E4ECA-B3F8-4221-9988-7606C0FF1C3C@arm.com>
-To: ross.burton@arm.com
-X-Mailer: Apple Mail (2.3826.500.181.1.5)
-X-Authority-Analysis: v=2.4 cv=TYaWtQQh c=1 sm=1 tr=0 ts=680752ac cx=c_pps a=oc9J++0uMp73DTRD5QyR2A==:117 a=IQEsc5u+BqvcbVO/417rXg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=mDV3o1hIAAAA:8 a=Q4-j1AaZAAAA:8 a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8
- a=4yk-ul0jI643p9iwCyEA:9 a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: 7YKRMw99iMQvzNrYkVX5pBl4DIgsPmP_
-X-Proofpoint-GUID: 7YKRMw99iMQvzNrYkVX5pBl4DIgsPmP_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-22_04,2025-04-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 suspectscore=0 adultscore=0 clxscore=1015 priorityscore=1501
- mlxlogscore=999 mlxscore=0 malwarescore=0 spamscore=0 impostorscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504220063
+        d=1e100.net; s=20230601; t=1745317083; x=1745921883;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bQz6mV21JHELDGS9iebMDCbIIlmn4sHj6DhHQe3e33s=;
+        b=v4YqbtpwexE0bcYV7zO0wuW1ZMbrSttE7TOsBJgeGyWYpzoe0yl4POrXAuwWWtzRO4
+         R+x0ww2nBCwkNl7o0kuIf5/qYixIhFMAmiPCf0qtSb2hi7ovV3PTitG+RLTIq5/JWbep
+         5NWeQ934IVRZ1hXDrX3dxzwBbjPbqi925GEivz2Ch/61mzIOaHl80Ow/RKRkDISa7JAE
+         gaKGwOw51wGxWiy+mcMPzEc7wOTNGBPg7n0EOou/nDTyWhRksGtB60RQq5KN8hsd2Ikz
+         e1QsL6a2xvlN+A5I7k+h/rQQigfn92yx7crkwAET/PeyvMysghbUj8BKh54cdDbP7WdN
+         2szA==
+X-Gm-Message-State: AOJu0YxpAv6oPDGCMKx2LtsxCQ2d4YRxpPFQI8p841p2ZL+s0AVKfsWo
+	c711oPEF2W/RbCh/nUcSxkMdJuGvckG9iQFJ7fQqKltIk0diUhJ9KIvy/WvsDPs=
+X-Gm-Gg: ASbGncvW9qUIHIhXgTR5q5K5a+NV7ty/LPxjpyk7MARv15cHULJkHVEcAnrXkT7GBK+
+	D8kBYYYmwP+TDOxZ0Rjc/g/GqzELZY1ucusX9kGZYl4Edj1FR90P9PbcOSG8SjkX8Fjj8LYzDDl
+	GdVYFzNnqUh2SfPiIB4oONRW9AelahEae6LcXHf69R0Rq4nqivvpYDABKEtXuvzQIrPxY1sVUqE
+	xp5UBNPxMtDTTxm4RK9yxdJc3N+XNnwsUxcqTuDaZkHmVLoZnIZEd0OSlmLVzaSl3ycmOM7inHy
+	GFBHOcpMXBcmjFCZhMzozcMuiB2G3xB+ZxXvASGYITget5aC5ygh0zzAxs12mJ3foSpnvCGfvQ=
+	=
+X-Google-Smtp-Source: AGHT+IE0kkEmiuN3PLTNasc3tI0VMwuw45Pz6Le5HW+vGLsM5GuGYeXhNJgzB3oZMMM5g8fzm07ksQ==
+X-Received: by 2002:a05:6512:1088:b0:549:9044:94ac with SMTP id 2adb3069b0e04-54d6e62c6bdmr4381146e87.23.1745317082925;
+        Tue, 22 Apr 2025 03:18:02 -0700 (PDT)
+Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d6e5d0133sm1173779e87.122.2025.04.22.03.18.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Apr 2025 03:18:02 -0700 (PDT)
+Date: Tue, 22 Apr 2025 13:18:00 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v3 03/11] kernel.bbclass: add
+ kernel-initrd-modules meta package
+Message-ID: <aAds2P16lTH1qPFB@nuoska>
+References: <20250404162932.447699-1-mikko.rapeli@linaro.org>
+ <20250404162932.447699-4-mikko.rapeli@linaro.org>
+ <1c55e7536de5f36fa37076ad04ff35588b6b5f1e.camel@linuxfoundation.org>
+ <Z_fBAsbV-hY-x_SC@nuoska>
+ <CADkTA4MamOxjfPE8uHhFDmZ12OhxpJ9dfhxbsxKGZxwQ4_cCkQ@mail.gmail.com>
+ <Z_jJX05RuRTcFf4P@nuoska>
+ <CADkTA4MWWtMXdRhvmdXhoS38SVpqXUz=p5G5H1i820QaV4CR0A@mail.gmail.com>
+ <Z_kVI4bN7xWOyUi-@nuoska>
+ <CADkTA4O9JXtr6XFO_rdzoAumtmp=5YUUkwgKMJyOtDBau7MEDQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADkTA4O9JXtr6XFO_rdzoAumtmp=5YUUkwgKMJyOtDBau7MEDQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 08:26:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215196
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 10:18:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215197
 
+Hi,
 
+On Fri, Apr 11, 2025 at 09:39:31AM -0400, Bruce Ashfield wrote:
+> On Fri, Apr 11, 2025 at 9:12 AM Mikko Rapeli <mikko.rapeli@linaro.org>
+> wrote:
+> > On Fri, Apr 11, 2025 at 08:52:24AM -0400, Bruce Ashfield wrote:
+> > > On Fri, Apr 11, 2025 at 3:48 AM Mikko Rapeli <mikko.rapeli@linaro.org>
+> > > wrote:
+> > > > On Thu, Apr 10, 2025 at 09:15:02AM -0400, Bruce Ashfield wrote:
+> > > > > On Thu, Apr 10, 2025 at 9:00 AM Mikko Rapeli via
+> > lists.openembedded.org
+> > > > > <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
+> > > > >
+> > > > > > On Thu, Apr 10, 2025 at 01:42:12PM +0100, Richard Purdie wrote:
+> > > > > > > On Fri, 2025-04-04 at 19:29 +0300, Mikko Rapeli via
+> > > > > > lists.openembedded.org wrote:
+> > > > > > > > At the moment linux-yocto kernels for various architectures
+> > > > > > > > are not very modular and a lot of drivers are built into the
+> > kernel
+> > > > > > > > even when they are not needed at runtime. These make the main
+> > > > kernel
+> > > > > > > > binary big and slow to boot. This also impacts udev in
+> > userspace
+> > > > > > > > which takes a long time processing events from all these built
+> > in
+> > > > > > drivers,
+> > > > > > > > for example when udev runs in initrd.
+> > > > > > > >
+> > > > > > > > Then constructing the initrd is very device and kernel
+> > > > configuration
+> > > > > > specific.
+> > > > > > > > initrd image needs explicitly define which binary packages to
+> > > > install
+> > > > > > > > to avoid pulling in complex dependencies. A full set of kernel
+> > > > modules
+> > > > > > > > via kernel-modules meta package is too big for initrd and most
+> > of
+> > > > the
+> > > > > > > > drivers are not needed for use cases like "just load modules to
+> > > > mount
+> > > > > > > > main rootfs". Then the initrd configuration breaks if kernel
+> > driver
+> > > > > > > > is built into the kernel since the binary package doesn't
+> > exist.
+> > > > > > > >
+> > > > > > > > Introduce kernel-initrd-modules meta package to solve these
+> > > > problems.
+> > > > > > > > The meta package adds dependencies to real kernel modules
+> > based on
+> > > > > > > > the kernel module file paths so that it will include several
+> > > > > > > > kernel subsystems and their drivers which are often needed to
+> > find
+> > > > > > > > main rootfs from some block device. This works when drivers are
+> > > > built
+> > > > > > > > as modules but does not break if drivers are built into the
+> > kernel.
+> > > > > > > >
+> > > > > > > > The resulting initrd is also smaller since only a subset of
+> > drivers
+> > > > > > > > are needed for "mount the rootfs" usecase. Tested on
+> > genericarm64
+> > > > > > > > kernel and qemu and AMD KV260 HW.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > > > > > > > ---
+> > > > > > > >  .../kernel-module-split.bbclass               | 48
+> > > > +++++++++++++++++++
+> > > > > > > >  meta/classes-recipe/kernel.bbclass            |  5 +-
+> > > > > > > >  meta/classes-recipe/module.bbclass            | 37
+> > ++++++++++++++
+> > > > > > > >  3 files changed, 89 insertions(+), 1 deletion(-)
+> > > > > > > >
+> > > > > > > > diff --git a/meta/classes-recipe/kernel-module-split.bbclass
+> > > > > > b/meta/classes-recipe/kernel-module-split.bbclass
+> > > > > > > > index 9487365eb7..101c5cd959 100644
+> > > > > > > > --- a/meta/classes-recipe/kernel-module-split.bbclass
+> > > > > > > > +++ b/meta/classes-recipe/kernel-module-split.bbclass
+> > > > > > > > @@ -42,6 +42,40 @@ KERNEL_MODULE_PACKAGE_PREFIX ?= ""
+> > > > > > > >  KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
+> > > > > > > >  KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
+> > > > > > > >
+> > > > > > > > +# subset of kernel modules needed in initrd, to e.g. mount
+> > rootfs
+> > > > > > from block device
+> > > > > > > > +KERNEL_INITRD_MODULES_META_PACKAGE ?= "${@
+> > > > > > d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-initrd-modules"
+> > > > > > > > +
+> > > > > > > > +# match regex to path or file name. E.g. include all drivers
+> > with
+> > > > > > files in path /drivers/ata/
+> > > > > > > > +KERNEL_INITRD_MODULES_REGEX ?= "(.*)(\
+> > > > > > > > +/drivers/acpi/|\
+> > > > > > > > +/drivers/ata/|\
+> > > > > > > > +/drivers/block/|\
+> > > > > > > > +/drivers/cdrom/|\
+> > > > > > > > +/drivers/char/hw_random/|\
+> > > > > > > > +/drivers/char/tpm/|\
+> > > > > > > > +/drivers/char/|\
+> > > > > > > > +/drivers/crypto/|\
+> > > > > > > > +/drivers/dax/|\
+> > > > > > > > +/drivers/firmware/arm_scmi/|\
+> > > > > > > > +/drivers/gpu/drm/|\
+> > > > > > > > +/drivers/md/|\
+> > > > > > > > +/drivers/mmc/|\
+> > > > > > > > +/drivers/mtd/|\
+> > > > > > > > +/drivers/nvdimm/|\
+> > > > > > > > +/drivers/nvme/|\
+> > > > > > > > +/drivers/pci/|\
+> > > > > > > > +/drivers/scsi/|\
+> > > > > > > > +/drivers/tee/|\
+> > > > > > > > +/drivers/tty/serial/|\
+> > > > > > > > +/drivers/virtio/|\
+> > > > > > > > +/drivers/watchdog/|\
+> > > > > > > > +/kernel/arch/|\
+> > > > > > > > +/kernel/block/|\
+> > > > > > > > +/kernel/crypto/|\
+> > > > > > > > +/kernel/fs/|\
+> > > > > > > > +/kernel/lib/\
+> > > > > > > > +)(.*)"
+> > > > > > > > +
+> > > > > > > >  python split_kernel_module_packages () {
+> > > > > > > >      import re
+> > > > > > > >
+> > > > > > > > @@ -183,6 +217,20 @@ python split_kernel_module_packages () {
+> > > > > > > >      modules = do_split_packages(d,
+> > > > > > root='${nonarch_base_libdir}/modules', file_regex=module_regex,
+> > > > > > output_pattern=module_pattern, description='%s kernel module',
+> > > > > > postinst=postinst, postrm=postrm, recursive=True,
+> > hook=frob_metadata,
+> > > > > > extra_depends='%s-%s' % (kernel_package_name, kernel_version))
+> > > > > > > >      if modules:
+> > > > > > > >          d.appendVar('RDEPENDS:' + metapkg, ' '+'
+> > '.join(modules))
+> > > > > > > > +
+> > > > > > > > +    initrd_metapkg =
+> > > > d.getVar('KERNEL_INITRD_MODULES_META_PACKAGE')
+> > > > > > or ""
+> > > > > > > > +    initrd_module_regex =
+> > d.getVar('KERNEL_INITRD_MODULES_REGEX')
+> > > > or
+> > > > > > ""
+> > > > > > > > +    if (initrd_metapkg != "") and (initrd_module_regex != ""):
+> > > > > > > > +        initrd_module_regex = re.compile(initrd_module_regex)
+> > > > > > > > +        initrd_modules = []
+> > > > > > > > +        for module in modules:
+> > > > > > > > +            files = d.getVar('FILES:' + module)
+> > > > > > > > +            m = re.match(initrd_module_regex, files)
+> > > > > > > > +            if m:
+> > > > > > > > +                initrd_modules.append(module)
+> > > > > > > > +
+> > > > > > > > +        if initrd_modules:
+> > > > > > > > +            d.appendVar('RDEPENDS:' + initrd_metapkg, ' '+'
+> > > > > > '.join(initrd_modules))
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > >  do_package[vardeps] += '${@" ".join(map(lambda s:
+> > "module_conf_"
+> > > > + s,
+> > > > > > (d.getVar("KERNEL_MODULE_PROBECONF") or "").split()))}'
+> > > > > > > > diff --git a/meta/classes-recipe/kernel.bbclass
+> > > > > > b/meta/classes-recipe/kernel.bbclass
+> > > > > > > > index 36ce659762..3dcaebcaed 100644
+> > > > > > > > --- a/meta/classes-recipe/kernel.bbclass
+> > > > > > > > +++ b/meta/classes-recipe/kernel.bbclass
+> > > > > > > > @@ -695,13 +695,14 @@ EXPORT_FUNCTIONS do_compile
+> > > > do_transform_kernel
+> > > > > > do_transform_bundled_initramfs d
+> > > > > > > >
+> > > > > > > >  # kernel-base becomes kernel-${KERNEL_VERSION}
+> > > > > > > >  # kernel-image becomes kernel-image-${KERNEL_VERSION}
+> > > > > > > > -PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base
+> > > > > > ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image
+> > > > > > ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules
+> > > > > > ${KERNEL_PACKAGE_NAME}-dbg"
+> > > > > > > > +PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base
+> > > > > > ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image
+> > > > > > ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules
+> > > > > > ${KERNEL_PACKAGE_NAME}-initrd-modules ${KERNEL_PACKAGE_NAME}-dbg"
+> > > > > > > >  FILES:${PN} = ""
+> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-base =
+> > > > > > "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order
+> > > > > > ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin
+> > > > > >
+> > > >
+> > ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"
+> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-image = ""
+> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-dev =
+> > > > "/${KERNEL_IMAGEDEST}/System.map*
+> > > > > > /${KERNEL_IMAGEDEST}/Module.symvers* /${KERNEL_IMAGEDEST}/config*
+> > > > > > ${KERNEL_SRC_PATH}
+> > > > ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-vmlinux =
+> > > > > > "/${KERNEL_IMAGEDEST}/vmlinux-${KERNEL_VERSION_NAME}"
+> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-modules = ""
+> > > > > > > > +FILES:${KERNEL_PACKAGE_NAME}-initrd-modules = ""
+> > > > > > > >  FILES:${KERNEL_PACKAGE_NAME}-dbg = "/usr/lib/debug
+> > /usr/src/debug"
+> > > > > > > >  RDEPENDS:${KERNEL_PACKAGE_NAME} =
+> > "${KERNEL_PACKAGE_NAME}-base (=
+> > > > > > ${EXTENDPKGV})"
+> > > > > > > >  # Allow machines to override this dependency if kernel image
+> > > > files are
+> > > > > > > > @@ -716,7 +717,9 @@ ALLOW_EMPTY:${KERNEL_PACKAGE_NAME} = "1"
+> > > > > > > >  ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-base = "1"
+> > > > > > > >  ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-image = "1"
+> > > > > > > >  ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-modules = "1"
+> > > > > > > > +ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-initrd-modules = "1"
+> > > > > > > >  DESCRIPTION:${KERNEL_PACKAGE_NAME}-modules = "Kernel modules
+> > meta
+> > > > > > package"
+> > > > > > > > +DESCRIPTION:${KERNEL_PACKAGE_NAME}-initrd-modules = "Kernel
+> > initrd
+> > > > > > modules meta package"
+> > > > > > > >
+> > > > > > > >  pkg_postinst:${KERNEL_PACKAGE_NAME}-base () {
+> > > > > > > >     if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+> > > > > > > > diff --git a/meta/classes-recipe/module.bbclass
+> > > > > > b/meta/classes-recipe/module.bbclass
+> > > > > > > > index f2f0b25a2d..51f864f1f9 100644
+> > > > > > > > --- a/meta/classes-recipe/module.bbclass
+> > > > > > > > +++ b/meta/classes-recipe/module.bbclass
+> > > > > > > > @@ -86,3 +86,40 @@ EXPORT_FUNCTIONS do_compile do_install
+> > > > > > > >  KERNEL_MODULES_META_PACKAGE = "${PN}"
+> > > > > > > >  FILES:${PN} = ""
+> > > > > > > >  ALLOW_EMPTY:${PN} = "1"
+> > > > > > > > +
+> > > > > > > > +# subset of kernel modules needed in initrd, to e.g. mount
+> > rootfs
+> > > > > > from block device
+> > > > > > > > +KERNEL_INITRD_MODULES_META_PACKAGE ?= "${@
+> > > > > > d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-initrd-modules"
+> > > > > > > > +
+> > > > > > > > +# match regex to path or file name. E.g. include all drivers
+> > with
+> > > > > > files in path /drivers/ata/
+> > > > > > > > +KERNEL_INITRD_MODULES_REGEX ?= "(.*)(\
+> > > > > > > > +/drivers/acpi/|\
+> > > > > > > > +/drivers/ata/|\
+> > > > > > > > +/drivers/block/|\
+> > > > > > > > +/drivers/cdrom/|\
+> > > > > > > > +/drivers/char/hw_random/|\
+> > > > > > > > +/drivers/char/tpm/|\
+> > > > > > > > +/drivers/char/|\
+> > > > > > > > +/drivers/crypto/|\
+> > > > > > > > +/drivers/dax/|\
+> > > > > > > > +/drivers/firmware/arm_scmi/|\
+> > > > > > > > +/drivers/gpu/drm/|\
+> > > > > > > > +/drivers/md/|\
+> > > > > > > > +/drivers/mmc/|\
+> > > > > > > > +/drivers/mtd/|\
+> > > > > > > > +/drivers/nvdimm/|\
+> > > > > > > > +/drivers/nvme/|\
+> > > > > > > > +/drivers/pci/|\
+> > > > > > > > +/drivers/scsi/|\
+> > > > > > > > +/drivers/tee/|\
+> > > > > > > > +/drivers/tty/serial/|\
+> > > > > > > > +/drivers/virtio/|\
+> > > > > > > > +/drivers/watchdog/|\
+> > > > > > > > +/kernel/arch/|\
+> > > > > > > > +/kernel/block/|\
+> > > > > > > > +/kernel/crypto/|\
+> > > > > > > > +/kernel/fs/|\
+> > > > > > > > +/kernel/lib/\
+> > > > > > > > +)(.*)"
+> > > > > > > > +
+> > > > > > > > +FILES:${PN}-initrd = ""
+> > > > > > > > +ALLOW_EMPTY:${PN}-initrd = "1"
+> > > > > > >
+> > > > > > > What is the difference between the variable defined in
+> > kernel-module-
+> > > > > > > split.bbclass and this one in module.bbclass? Do we need/want to
+> > > > > > > separate but seemingly similar definitions?
+> > > > > >
+> > > > > > One is for kernel compilation and in-tree drivers, the other is for
+> > > > > > out-of-tree modules.
+> > > > > >
+> > > > > > The "kernel-modules" meta package is handled this way too, with
+> > > > > > duplication in both.
+> > > > > >
+> > > > > > Bruce says this should be moved to linux-yocto kernel recipe,
+> > > > > > which IMO breaks the use of kernel-initrd-modules for vendor kernel
+> > > > recipes
+> > > > > > outside of oe-core. I'd rather support them too to e.g. more easily
+> > > > boot
+> > > > > > qemu or run oeqa selftests with qemu.
+> > > > > >
+> > > > >
+> > > > > That's not quite what I said (but it is close), I said it shouldn't
+> > be
+> > > > > defined
+> > > > > at the base with no requirement opt-in from a recipe (even if this
+> > way
+> > > > > of constructing an initrd with the modules is not the default). It
+> > is a (
+> > > > > weak)
+> > > > > binding to specific kernel versions and directory layouts, but it is
+> > a
+> > > > > binding
+> > > > > none the less. If it sits at the base in the classes no one will ever
+> > > > look
+> > > > > at
+> > > > > it or even know that it should be considered.
+> > > > >
+> > > > > My suggestion was not that it should only be in linux-yocto (but I'd
+> > > > > insist on overriding it or doing it slightly differently in
+> > linux-yocto),
+> > > > > I was saying that it I think  that the two definitions are far to
+> > similar
+> > > > > and even if there remain two definitions, they should be moved
+> > > > > into a .inc file.
+> > > >
+> > > > Actually the duplication is a bug. All duplication in module.bbclass
+> > can be
+> > > > removed since it includes kernel-module-split.bbclass. Both
+> > kernel.bbclass
+> > > > and
+> > > > module.bbclass include kernel-module-split.bbclass. Sorry about this.
+> > > > I must have stopped half way when moving things there.
+> > > >
+> > > > Sending v4 with this fixed soon.
+> > > >
+> > > > > Any kernel recipe that wants to build an initrd like this can opt-in
+> > by
+> > > > > including the .inc, and/or creating their own definition.
+> > > >
+> > > > This I don't get. I think the kernel.bbclass and module.bbclass should
+> > > > work out of the box with sane defaults. The kernel recipes can override
+> > > > and adjust these as they see fit. Yes there is a dependency to some
+> > kernel
+> > > > APIs (kernel module install paths) which can change, but those have
+> > been
+> > > > stable for, over 25 years (as long as I have been compiling kernels)?
+> > > >
+> > > > For full control, initrd recipe maintainers can define the exact set
+> > > > of kernel and other binary packages to install which makes the recipe
+> > > > kernel config and machine specific.
+> > > >
+> > > > I don't think moving the definitions to a linux-yocto side .inc file
+> > > > and then using that as basis in non-core kernel recipes is good. The
+> > > > kernel.bbclass and module.bbclass would not work independently anymore
+> > > > and require meta/recipes-kernel/linux/ side .inc file for working
+> > defaults.
+> > > > Or should the .inc file live in meta/conf/distro/include?
+> > > >
+> > >
+> > > Let me be clear. I am not saying "linux-yocto" here. I said a ".inc"
+> > file.
+> > >
+> > > Put that .inc file in a common directory and call it something like
+> > > initrd-kernel-<foo>.inc, recipes include that .inc file to opt into the
+> > > behaviour and get the base definition if they want it.
+> >
+> > Ok I will do this in v5.
+> >
+> > > This modular based initrd isn't going to be the default, so it has
+> > > to be opt-in anyway. So put the opt-in and the definitions in a .inc
+> > > file, a recipe including it, opts-in.
+> >
+> > I think this should be the default on most machines which use
+> > core-image-initramfs-boot in oe-core.
+> 
+> 
+> I'll disagree on that point, but in the end, it isn't a hill that
+> is worth climbing (for me). If that's the way the default policy
+> goes, I'll just roll with it.
+> 
+> > genericarm64, beagleplay etc machines already for install of
+> > "kernel-modules"
+> > to all images, including core-image-initramfs-boot:
+> >
+> > $ git grep MACHINE_EXTRA_RRECOMMENDS meta/conf/machine
+> > meta-yocto-bsp/conf/machine/ | grep kernel-modules
+> > meta-yocto-bsp/conf/machine/beaglebone-yocto.conf:MACHINE_EXTRA_RRECOMMENDS
+> > = "kernel-modules"
+> > meta-yocto-bsp/conf/machine/genericarm64.conf:MACHINE_EXTRA_RRECOMMENDS +=
+> > "kernel-modules"
+> > meta-yocto-bsp/conf/machine/include/genericx86-common.inc:MACHINE_EXTRA_RRECOMMENDS
+> > += "kernel-modules linux-firmware"
+> > meta/conf/machine/include/loongarch/qemuloongarch.inc:MACHINE_EXTRA_RRECOMMENDS
+> > += " kernel-modules"
+> > meta/conf/machine/include/riscv/qemuriscv.inc:MACHINE_EXTRA_RRECOMMENDS +=
+> > " kernel-modules"
+> > meta/conf/machine/qemuppc64.conf:MACHINE_EXTRA_RRECOMMENDS += "
+> > kernel-modules"
+> >
+> Right, and that was by design.
+> 
+> The philosophy has been that the kernel provider should understand
+> and control its configuration (since we are talking about embedded
+> devices here). Sure, those examples took the simplest path, and that
+> was their decision / tradeoff.
+> 
+> We package all the modules individually (I'm stating the obvious,
+> since we all know this) so that they can be individually installed
+> and required for something that really wants to control the configuration
+> tightly.
+> 
+> In any machine / BSP that I build, the configuration is on purpose
+> and if I want to install individual modules, I'll do that, otherwise,
+> I trust my configuration and take all the modules.
+> 
+> What you have is something in the middle, and why I still think it
+> needs to be opt-in. BSP creators need to understand their
+> configuration and tune it. Having something down at the packaging
+> level pick and choose which modules on their behalf means that
+> they are relying on something that needs to be discovered and
+> tweaked (versus the "all of it" or "you chose your own" as it was
+> before).
 
-> Op 17 apr 2025, om 17:19 heeft Ross Burton via lists.openembedded.org =
-<ross.burton=3Darm.com@lists.openembedded.org> het volgende geschreven:
->=20
-> I=E2=80=99d actually like to see this merged into walnascar: the =
-changes are minimal and shipping a release and not a RC is a good thing.
+By making the kernel-initrd-modules meta package optional and opt-in,
+we again make the initrd image recipe depend on the opt-in feature.
 
-So, ehm, is introduction build breakage a good thing or better than =
-shipping an RC?
+I need to bind the initrd recipe to a distro level feature and
+then the same for kernel side changes because the "kernel-initrd-modules"
+meta package may not exist and thus it can break the build. Solution
+is another abstraction in distro features. I think producing the
+"kernel-initrd-modules" meta package should be default in the kernel
+bbclasses. It may not get used but the overhead is really small.
 
-ERROR: autoconf-2.72-r0 do_packagedata: QA Issue: Package version for =
-package autoconf-src went backwards which would break package feeds =
-(from 0:2.72e-r0 to 0:2.72-r0) [version-going-backwards]
-ERROR: autoconf-2.72-r0 do_packagedata: QA Issue: Package version for =
-package autoconf-dbg went backwards which would break package feeds =
-(from 0:2.72e-r0 to 0:2.72-r0) [version-going-backwards]
-ERROR: autoconf-2.72-r0 do_packagedata: QA Issue: Package version for =
-package autoconf-staticdev went backwards which would break package =
-feeds (from 0:2.72e-r0 to 0:2.72-r0) [version-going-backwards]
-ERROR: autoconf-2.72-r0 do_packagedata: QA Issue: Package version for =
-package autoconf-dev went backwards which would break package feeds =
-(from 0:2.72e-r0 to 0:2.72-r0) [version-going-backwards]
-ERROR: autoconf-2.72-r0 do_packagedata: QA Issue: Package version for =
-package autoconf-doc went backwards which would break package feeds =
-(from 0:2.72e-r0 to 0:2.72-r0) [version-going-backwards]
-ERROR: autoconf-2.72-r0 do_packagedata: QA Issue: Package version for =
-package autoconf-locale went backwards which would break package feeds =
-(from 0:2.72e-r0 to 0:2.72-r0) [version-going-backwards]
-ERROR: autoconf-2.72-r0 do_packagedata: QA Issue: Package version for =
-package autoconf went backwards which would break package feeds (from =
-0:2.72e-r0 to 0:2.72-r0) [version-going-backwards]
-ERROR: autoconf-2.72-r0 do_packagedata: Fatal QA errors were found, =
-failing task.
+This is similar to "kernel-modules" meta package. It is always there
+and can safely be in MACHINE_EXTRA_RRECOMMENDS without any additional
+guards like a machine or distro feature. Also BSP layer image recipes
+use this.
 
-regards,
+This is the interface between kernel recipes providing kernel and module
+packages and the image recipe consuming them. I'd like the image recipe
+consumer to be simpler and less dependent kernel config and driver packaging
+details.
 
-Koen
+> > Some qemu machines don't and that causes issues since
+> > initrd is not flexible to boot even slightly different configurations,
+> > like block device emulation moved from scsi to virtio.
+> > This causes issues with oeqa selftests when small kernel or qemuboot
+> > differences break tests.
+> >
+> 
+> And we'll continue to do that, as all the boot methods and kernels
+> need to be tested. But I agree, there are pros and cons to the
+> various methods.
+> 
+> > initrd itself is optional, but in core-image-initramfs-boot I made
+> > including "kernel-initrd-modules" the default. To me this makes sense.
+> >
+> > Kernels for different machines can enable drivers as modules or as built-in
+> > but the initrd config stays the same and will mostly just work. I think
+> > this is a good default.
+> >
+> >
+> It is just that behaviour which is why I'm saying it should be
+> explicit and opt-in. If they change their configuration it should
+> be with a direct line of sight to how the various components
+> consume it.
+> 
+> Preferably not "I have a custom driver, I need it to boot, I'm
+> now building it as a module" .. and then wondering why it isn't
+> picked up in the initrd. If they had to opt-in, they'll already be
+> aware of the mechanism that is selecting their modules over
+> and above what their kernel configuration dictates.
 
->=20
-> Ross
->=20
->> On 17 Apr 2025, at 16:18, Ross Burton via lists.openembedded.org =
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
->>=20
->> autoconf 2.72e was the fifth release candidate build, and whilst we =
-had
->> good reason to use RCs during development we failed to notice that =
-the
->> final release was made because alpha.gnu.org _only_ contains the =
-release
->> candidates.
->>=20
->> There are minimal changes in the final release compared to 2.72e:
->>=20
->> 6199cff2 (tag: v2.72) Finalize NEWS for release 2.72.
->>=20
->> This is the finalisation of the release, updating documentation and
->> version numbers.
->>=20
->> e544a323 Save/restore AC_LANG setting in AC_PROG_CC_C_O.
->>=20
->> This is a bug fix, aligning behaviour of AC_PROG_CC_C_O.
->>=20
->> 634fb3e7 Remove bashism from tests/local.at.
->> 4fbe6436 Revert debugging change committed by mistake
->> 8794cd1c Address =E2=80=9Cautom4te preselections=E2=80=9D testsuite =
-failure
->> e5d98f4c Avoid a spurious test failure with shells that ignore write =
-errors.
->> 3fbfb13e Address =E2=80=9Cautoconf: forbidden tokens, basic=E2=80=9D =
-testsuite failure
->> fdb58df6 testsuite: Skip tests that use aclocal or automake if =
-they=E2=80=99re too old.
->>=20
->> These are fixes for the test suite.
->>=20
->> Signed-off-by: Ross Burton <ross.burton@arm.com>
->> ---
->> .../autoconf/{autoconf_2.72e.bb =3D> autoconf_2.72.bb}          | 4 =
-++--
->> 1 file changed, 2 insertions(+), 2 deletions(-)
->> rename meta/recipes-devtools/autoconf/{autoconf_2.72e.bb =3D> =
-autoconf_2.72.bb} (94%)
->>=20
->> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.72e.bb =
-b/meta/recipes-devtools/autoconf/autoconf_2.72.bb
->> similarity index 94%
->> rename from meta/recipes-devtools/autoconf/autoconf_2.72e.bb
->> rename to meta/recipes-devtools/autoconf/autoconf_2.72.bb
->> index db374373cff..f2d2781fec9 100644
->> --- a/meta/recipes-devtools/autoconf/autoconf_2.72e.bb
->> +++ b/meta/recipes-devtools/autoconf/autoconf_2.72.bb
->> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3Dcc3f3a7596cb558bbd9eb7fbaa3ef16c \
->>   file://COPYINGv3;md5=3D1ebbd3e34237af26da5dc08a4e440464"
->>=20
->> SRC_URI =3D " \
->> -           https://alpha.gnu.org/gnu/autoconf/${BP}.tar.gz \
->> +           ${GNU_MIRROR}/autoconf/${BP}.tar.gz \
->>           file://program_prefix.patch \
->>           file://autoreconf-exclude.patch \
->>           file://remove-usr-local-lib-from-m4.patch \
->> @@ -22,7 +22,7 @@ SRC_URI =3D " \
->> "
->> SRC_URI:append:class-native =3D " file://no-man.patch"
->>=20
->> -SRC_URI[sha256sum] =3D =
-"f3478d3b597d51f5d61596fb2f6f6aba49cdd974b4b05ff0bac57f56b5cfdb39"
->> +SRC_URI[sha256sum] =3D =
-"afb181a76e1ee72832f6581c0eddf8df032b83e2e0239ef79ebedc4467d92d6e"
->>=20
->> RDEPENDS:${PN} =3D "m4 gnu-config \
->> perl \
->> --=20
->> 2.43.0
->>=20
->>=20
->>=20
->>=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#215100): =
-https://lists.openembedded.org/g/openembedded-core/message/215100
-> Mute This Topic: https://lists.openembedded.org/mt/112315146/9418801
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[koen.kooi@oss.qualcomm.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+If the custom and vendor specific driver installs to correct paths
+which fall into block etc driver regex then these already get picked up by the
+initrd regex then everything will just work by default. Compiling the driver
+built-in or as module will just work with the default core-image-initramfs-boot
+initrd and core-image-base etc images. Boot without initrd may fail but with it
+things just work.
 
+If this feature is opt-in or specific to linux-yocto recipe, it again makes the
+initrd's machine and kernel config specific. The opt-in setup needs to be made
+for kernel and for initrd.
 
+For real products all details need to be reviewed and customized but developers
+need "good enough and simple" starting points and that's where the
+"kernel-modules" and "kernel-initrd-modules" meta packages help.
+
+They can more easily boot the generic images, see what drivers got loaded at boot
+and remove all the rest. Then move that setup into kernel config etc. They can
+also test different block devices and file systems.
+
+The amount of optimisation done depends on what the priorities are. Gain vs effort.
+
+> > And then "kernel-initrd-modules" are much smaller than "kernel-modules".
+> > Still too big for real products but better than nothing. For
+> > genericarm64 this reduced initrd image size from 200 Mb to 54 Mb.
+> 
+> Definitely a valid point / improvement. I'm again back to saying it
+> just has to be explicit. The same way that many (most?) people
+> don't want or use linux-yocto as production, we have to design
+> our configurations as something to be opt-in and something that
+> is clear it needs to be tweaked for production.
+> 
+> We aren't far off in our view on this.  Most of this looks really
+> good to me, and is a good step forward. I think that our
+> different point of view is about the breadth of the types of
+> kernels, machines, boot methods, products, etc, that are built
+> on top and how to enable this mechanism.
+
+If this feature is opt-in and not the default in kernel.bbclass, then IMO
+the result is again machine/build/config specific initrd image recipes
+which I wanted to avoid.
+
+Cheers,
+
+-Mikko
 
