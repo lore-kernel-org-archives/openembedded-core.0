@@ -1,224 +1,281 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F38FC369C2
-	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 11:18:05 +0000 (UTC)
-Received: from AS8PR03CU001.outbound.protection.outlook.com (AS8PR03CU001.outbound.protection.outlook.com [52.101.71.15])
- by mx.groups.io with SMTP id smtpd.web10.37232.1745320676536298974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 737F4C369C2
+	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 11:48:45 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.37705.1745322521101637370
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Apr 2025 04:17:56 -0700
+ Tue, 22 Apr 2025 04:48:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=nBnoeSWT;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=nBnoeSWT;
- spf=pass (domain: arm.com, ip: 52.101.71.15, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=jp+MvLLqeB7eqDhb4VCRP9sXrH3RkMg5aIZhiXIYHRxC0oBT92Jf5PLio3/6dSmWEJxFW50kVVlasfzueloXCGJIAHgl5KN55j+qnxAdFfrt80GSxvWD+eWfBGCFmukb7QStAAYse0GLoc4AA6oeXIu0yrfesyQxM/4qKG39CvoMEn8NYuJMVHD0FzSAKZ6WWbYWSYXCOtwJxZB9MRXJtsBNGzy0Oz/SyUi4bLUpR4dkbcVEj6iIhuWmefuGwcSecDFy99DQ9fxvQwAXM2Lpxc6f2J2ENduqL3S2s+4BKQRMgmKbJXxqx2Vn8YDAoBBDxEiWjjYLkm+LNGfKNjyPcw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6K0yMdpyeKymZ6RctG9rrwXsQ+8Dt8cX+PZSlpusp2w=;
- b=T51MGK0ChnT9g7vsFl1Dk8A66V/yva0SbCKziD9D8WqNwv7Eu+nxpKEWa8m3UXWb8rAGnWSY2TIL7tlO4/jOa+KS6R1FH9WS1N6XHJjDJHOmqJ7iPYor5kv4hsaqiIk0yjiCrob+Ojz7sGiCsG8JOjMbpngX3aYgEP3cXAxdgCWtr5i8cdGKPvJEz+cG4XOcbx/lLcqxczmPAjeeBDh79e1JILc75d8ulDFNJhLxlcC/N1Vk70kvYFvuBy1xhVuB1XfS8/PFBAihIbHH8qKv8EfwyJX20BLRS/Ol1waDu2+LvZBd7bbvJ6hUNi3NZ3SFaPE8IagVnKZ7xchbtoi2Og==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=fujitsu.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6K0yMdpyeKymZ6RctG9rrwXsQ+8Dt8cX+PZSlpusp2w=;
- b=nBnoeSWThLjeW4I2/ZOS08zXSwGA2dy8G+JOq4V56DhMfAS1ilGofzVRLByOLZiIjsdLmkRY5ZuztImO72L8X1mh6gWJqN0TfQ72JR9mEfrMMqFrMqWTkyM6aLrNdzHqzoOQs3giTR7P+H1tiLyoL2J2LObpfR+9mHlbAZT7iSw=
-Received: from AS4P195CA0005.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:5e2::14)
- by FRZPR08MB11072.eurprd08.prod.outlook.com (2603:10a6:d10:13a::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.31; Tue, 22 Apr
- 2025 11:17:52 +0000
-Received: from AMS0EPF000001B5.eurprd05.prod.outlook.com
- (2603:10a6:20b:5e2:cafe::e6) by AS4P195CA0005.outlook.office365.com
- (2603:10a6:20b:5e2::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.36 via Frontend Transport; Tue,
- 22 Apr 2025 11:17:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF000001B5.mail.protection.outlook.com (10.167.16.169) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.12
- via Frontend Transport; Tue, 22 Apr 2025 11:17:52 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JHqY1O7J1kSK03JcVoJOTZ+040pRcH7LRMwrfpUCNaKbF+Ua+Uryr9AnqwocYfGY/AAvLiAV1TvkQrbdmlQ5/I4r8Qx/Y96CG2DomtOJkrP6fGXJH9HwkmzpzQgEuC+5EKbk8fTi49jdhni4T39QHSwalZTjl+o/hEqPm/dIX51kEvu7Ug74WLUXPtYMximD0DtFYyQqPz55NuQiAyl/IFaslkFKo2xYpcb9okOK2QlVvRkzPVo/X1HiGcYRxxmce4QhczuuFqf3xWxlvQjycKhHUz3jKODAUjMV7039dT4bfpKsZDaPJbOKuSdn+3iOIDWvxY6hRYjHvjU24byfbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6K0yMdpyeKymZ6RctG9rrwXsQ+8Dt8cX+PZSlpusp2w=;
- b=n0+/XEA7vNi7T3nI5cwht7YYsacS4lXUO9Yib+N6mkcgKx2KnJXEhNQGU92GPyq6/RWeRqJ+N8qQ1Kv9FZHQ5Kn5kjkq2GmdpOLPH1FXlxEKKX/Dwtx34KNZkSk72WiAMC7yKDrM7rxNVK/0v2WY9rHSwWb8rI6bdYWjDznFbhHYpMto+5jLM7wdRnOYhsj1jp9t1t+8QvZlU/VrW1zZ6LkpOvLM1IaHJNxPYi9MSt2CCzAMdLZFj2vPsVbpbf2/XzTAIaxFeSRLH2K8lFZrLovqhqeAbjcPKdHwvPW0Cc5ixKo8YeyeShXLAAbFXh5cW/RS7OxPlY7ciKy0IhiBYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6K0yMdpyeKymZ6RctG9rrwXsQ+8Dt8cX+PZSlpusp2w=;
- b=nBnoeSWThLjeW4I2/ZOS08zXSwGA2dy8G+JOq4V56DhMfAS1ilGofzVRLByOLZiIjsdLmkRY5ZuztImO72L8X1mh6gWJqN0TfQ72JR9mEfrMMqFrMqWTkyM6aLrNdzHqzoOQs3giTR7P+H1tiLyoL2J2LObpfR+9mHlbAZT7iSw=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by PA6PR08MB10782.eurprd08.prod.outlook.com (2603:10a6:102:3d0::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.33; Tue, 22 Apr
- 2025 11:17:19 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e%3]) with mapi id 15.20.8655.033; Tue, 22 Apr 2025
- 11:17:19 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Lei Maohui <leimaohui@fujitsu.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] gstreamer1.0-dev: Fix install conflict when
- enable multilib
-Thread-Topic: [OE-core] [PATCH] gstreamer1.0-dev: Fix install conflict when
- enable multilib
-Thread-Index: AQHbszF7sN107XBU+UWuE9Z/G7P50bOvicmA
-Date: Tue, 22 Apr 2025 11:17:19 +0000
-Message-ID: <0603ED6B-9982-493C-9E7F-038240C4942A@arm.com>
-References: <20250422025127.605-1-leimaohui@fujitsu.com>
-In-Reply-To: <20250422025127.605-1-leimaohui@fujitsu.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.500.181.1.5)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|PA6PR08MB10782:EE_|AMS0EPF000001B5:EE_|FRZPR08MB11072:EE_
-X-MS-Office365-Filtering-Correlation-Id: b19918c8-d193-4f0d-6449-08dd818f52dd
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?RDBxSEZ1SDBOd3hRQW9aV0lIRFFBWlZadElTY2tzampHWC9rRmhrQVA2OVF0?=
- =?utf-8?B?b1lPZVhEY1k5NTlUMjhFMllUUXZ0RnFid2xoaCtlMmRGOEhjQzh2Nlcrc2x0?=
- =?utf-8?B?MllBZ1R3YjhjYXZqM1pNc1VXVnBkNHlBWW9jTStVNG1JMy9yTFV4WUh3NFYy?=
- =?utf-8?B?SUw1TGtjMEZzbTFReXQvNExEZE1kM2VwZ1B3SUFlOGZFclZFRm0wLzhzbmVX?=
- =?utf-8?B?UTFDam1Pa0xzS25yY2Zwa3dWZVRpQ2I5VCs2QUkybzRBdFZhTkpMa0NacDhH?=
- =?utf-8?B?V0kwQ1NjRjVkQTdUa2ZxWmppQThYOHY4TVRPOGx0RU5xRk9NNmhXWHJoaU1H?=
- =?utf-8?B?T1FKbC9NcW54bXpMekxoOEwvcHlOZkRGWnJsUkkxQWdMZ25UaHZyRmlQckpm?=
- =?utf-8?B?eHB2bFJxUFVNQ3VEUDBPUnR3b1hkbmJHNXQyNXV4Z2tnQ0djb0FXREdRRlFN?=
- =?utf-8?B?UGYzb1YzT0tiSDh6dkx6alVHdHJYeC9IN1NnMXVWNFhQMVRGZzQ1L0dMQnNj?=
- =?utf-8?B?c2VQQlRLKzZNU2tzL2JsRnlFVFJyUmhwVGw2em5EMkVsQ0VRMkFORDNBK2o0?=
- =?utf-8?B?OUVpUFZ5bmswYWhKVFJybkRvU0hQblRoUVp2NTducUdOQzczeUkwbWczbWlY?=
- =?utf-8?B?N081Yys2N3lXVDd2cXU5MUdYZjZKeVFWT3cwV1RCUElPdnlEclZaU3ZxNVFM?=
- =?utf-8?B?Ly9abTBBRWZtejhOekRFVVk4bmFaMWRsSmFoelF4bUMyclZueHY2dUIrOG5M?=
- =?utf-8?B?ZUhSbk1kVWU4dUFlVkVBK244cHh5VFMybkNTK0N5Z01iSnZhRUNyQkYrbXV5?=
- =?utf-8?B?dXVqSjAyNTY3Q29PUVd4ODBCRld5SGw5WWp2N3RkMEJOUnhtdm1BSHVVQXFs?=
- =?utf-8?B?ejlrMlFLWmgxMk5SQnRlbnloRkNDVzJjajg0by9Cb0dnWGkwa0ZUOEI3bm5l?=
- =?utf-8?B?dmtwOUFIZnlIL2h6SUlaRUpOYjdzMVROMXd5eTM4emg1ZmkxUHJGVnltVkJl?=
- =?utf-8?B?RTdLYjBURmlPSGZiWTFIalNrMWNHKzI5Wjk0T0I3Q2I2blh3STlLNzJ2UnpR?=
- =?utf-8?B?NjVkL3N5amw5K2ZuWTErZUs2Ym1TQk5sVG1pdURRSmlzUGp4NTM4R09EOHNh?=
- =?utf-8?B?SUswdS9kUFdjK1BXT2R1a294WlFFbmdPbTZRVlpZenpxeDFuSkU3NEIyeHVC?=
- =?utf-8?B?cTYwSHBTWThWaWpZWGVJZmVZMVlFc29oQkZhYzdTaHp2SW05dkVuckNuK2px?=
- =?utf-8?B?VGc1MGtwVHlYRnlndzJKOEJqL0hyTjdueHZRSFBZcTZXcUpzQkxlckVIM0w0?=
- =?utf-8?B?LytMZTE0azNCUTNTWjh3dSs3alphaXN3emlDVW5IVElSMDVCNS92bldINVBm?=
- =?utf-8?B?TXhlTVZkM2dsdG5YNGo2dEVkSENSRVludTZ0Z21EeGNvMjdnMWdaT3p4N1hs?=
- =?utf-8?B?OTc3dHlZM1pwejJSMDFRY1h0ZmlxMVBkcE1mUTc5dE1hRUNlUGNkRDlRVkJ5?=
- =?utf-8?B?R2VySGhjdHc4VEliZFg5czVGLzQzcjNXSVRGSmNicEFPbjJvYlR5Zk91NU5o?=
- =?utf-8?B?bkk2VUUvMEYyVUpHaXRkSnhiY2plRENtTjA2TEdENUNYL0pnLzRqMWRMdy9V?=
- =?utf-8?B?bWhCTzV5OGlsUWo2N2g1T21nR1FRYWprOUlxcklZMTl5TGVBUFZTOWpmNTdR?=
- =?utf-8?B?Y0xCa0hwdEhTcGtmN3lBWU9KaTZ1RDF0M1hKaWpuMURoVGJQTGppZE5sT0Fr?=
- =?utf-8?B?NEM0ODRzSDJ4UmRGekQ3ZkY2NytzUHFuMmlHNWlKYXQ1UXNyVDlaMk5wRjBa?=
- =?utf-8?B?Wm8xSkJoVlg5WmhGbWRuTWY0d2pFY2I0OTFVWXplWjVMa3oreU1HejJtM2o3?=
- =?utf-8?B?cE5nVlp0TFY5NnJYYzFvYkZBN3k2cmE4azRlOTZxOEZEbkt4SHZKUStSSlBC?=
- =?utf-8?B?UVZuSXpQeHdIVDJwV2J1YjBHVHZEK0J2aWY0NzVwZkFrbCtIeVlwTHppcWhr?=
- =?utf-8?B?U05Dd0liNDlnPT0=?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B903D3253E358445A344EE7758B38B72@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=620765f762=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53M4gGKM027387
+	for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 04:48:40 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4647442qkw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 04:48:40 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 22 Apr 2025 04:48:38 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][scarthgap][v3][PATCH 2/2] curl: fix CVE-2025-0167
+Date: Tue, 22 Apr 2025 11:48:15 +0000
+Message-ID: <20250422114815.267801-2-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20250422114815.267801-1-yogita.urade@windriver.com>
+References: <20250422114815.267801-1-yogita.urade@windriver.com>
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR08MB10782
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF000001B5.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	5e1dd9df-4175-46a9-2a3b-08dd818f3f14
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|14060799003|35042699022|376014|1800799024|36860700013|82310400026|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?VGhiNi9CdXB3WVZTS0JLaGtnMGZhUUY1c3RWUlZBaE52K25oRUUzY3N1SUVV?=
- =?utf-8?B?dmhnWWw4MFFnZGk0WFZlV2VPSEJ4VTB0VlZXYXNvSjFWYjNBeUNNQjRhYm5J?=
- =?utf-8?B?UWFibjg2ZUVUWThLNUtjZEljVVFHQ0VHQjR0M1V3OGpsTlk0Z2U1NWU2ZGx5?=
- =?utf-8?B?VklEUEdvQjc5MW9wL1RFdlg4b0NYenIzeVNEN0NSVXZYL2Q1TnowVXU4SG1W?=
- =?utf-8?B?U3FSSFc2ZG9pU09DNUV4dm9vMHJJSFlsRHlQTXAvbkVUUXdRTk5qdm5xTm1G?=
- =?utf-8?B?M1JmU1RkN1dpcHNzUVF5Y0xPMXhmODczNTZsY1kyZUhHeHNlUUVjUUFNbmlG?=
- =?utf-8?B?eUNQeElnTFZJaE5YVXZCTnNMUzhHSzRTcHFQWkczRzIzeUtjWjFSYnVuZWc2?=
- =?utf-8?B?ODBNTVg5K1dPZUdGMTY4UFdxaUpCVktlVllVMXI3RElWa1paeVMyTW5rR0Ns?=
- =?utf-8?B?M3ByeVQ1N29kME44cHF2d05sU2RNTzgzU0dNUFhicUljMzhjRjUyaVF6UVVY?=
- =?utf-8?B?L3VNTUZ0alF1cUxaakdBMjd3bjVIdGRCU291UlJkQ1ZRaW5hLzM0N3Z0NW0r?=
- =?utf-8?B?ZFkrYWtCbGYvQkZnL04xOGRqR3ZMUUN4amhBMHMvWFpvN1NIdEpBSDZ1TjV4?=
- =?utf-8?B?RWIxUHNxOUR2cmJhWWQydFFpaDhrb2FwZ01HRnFsUlBHNlNaSlZRK2dHenFT?=
- =?utf-8?B?S0hCdm56S0dDUHdBbmpGLzlnRTlHcjZUeGEvUHZOMm1aeVAxTzk0NmIxSW5N?=
- =?utf-8?B?dyt1Y3lGRDlCMmJhajJDazhKTDkzdUoxYjRmajY4V1hYZm56Vmkxemt5WjBv?=
- =?utf-8?B?dWt6Y1FkenpGZFlVT2JYVldtcnM4dDRRVkJCang0SGZqdGFUaktrNC9XbnNn?=
- =?utf-8?B?eVVhdDhhT0Zna2NGQUY4bDRqdll1WXNiMU1zM1AzaklScFpteUgrdDJ4UVJo?=
- =?utf-8?B?V0k4Q2FQdWY5VTB1RlJJZDY3SzFKd29wL0tsTUxyWHN6dWllUTNiZFp6NDhy?=
- =?utf-8?B?Zi95dWVkZDFjUFFiZis2RTJGQ0ZwUkM1ejVuZVhEc1F4Wm9LREQ2RlBGRk5y?=
- =?utf-8?B?Uk9DWkgzdTM4RlltOGs0RVJ0eVo3U0h3YVRIT1FFODA2U1RpK3l2c3VpYXI2?=
- =?utf-8?B?dERBS0pJdXp5ekVsMGNGVkJjLzB1TUJlczFmNitVNllSTHJFcFRmUXQrY0Jo?=
- =?utf-8?B?dmpIQWxDYzdNbWk5UjhzeE4xSlpqU1drVk1SUUtNWUpXaVRwc1huS2JlS3dB?=
- =?utf-8?B?VWdDeU42YmU1MmQyVE9FMlZLOTNVazhsUm9CWmNDNkp4MzgzNjhOMVB4YVpl?=
- =?utf-8?B?cVY3VE1ZTnJ0am4rd204OWFKQ1E4SmwzSFR5VW1UemdSVFFKWVlzZWxIM3Bt?=
- =?utf-8?B?RWJoYnVSaFNUYWxZUCs1ZWsrVUYxNDR1UTlucnBxUE9VWkR5WDFxOWZoVGZF?=
- =?utf-8?B?bHhFeFNHbVo4NWttTFN0SmNPZ28rVTRmakI2eTdleStoNXZHRnB6L21kM1Fz?=
- =?utf-8?B?a21ERUlHaUYzV3dhVnlMRVA1UTNPTUkrcmg2bGEvNzNFczZNT2dZQ2ZhS2Ry?=
- =?utf-8?B?K1VwK3k4T3Bkc21GR3VCdGZRQ1dUOENpalB6SlM2alI3TC9Db1ZlQVBkdjha?=
- =?utf-8?B?a2IvRFhwZnhlNmNBcWxVc1B0R2JvUE1WejU1OTlNTGhvQWRiUk5rTU4vRXcy?=
- =?utf-8?B?cDhiRXhvYTd0VkRPUUVEUzJJTXRHU1dHNjh3K0gzMnpmclFObWc1NGN1TDlh?=
- =?utf-8?B?NC9rUE04aUQzWXBJSUNneUxkOUFxMEVWOG1aUWdlRXUyWWwwdUI3cmEzcVd1?=
- =?utf-8?B?MTF5cUUwY29VQklMdmxPUjN2OWc2bzNXMDNYVGFQeXVUaEhCUlhpSDNvb0ln?=
- =?utf-8?B?djFiNDhMbVBDWElLTW5pY0hoYlZqcklkeHhiWTJSWmlEdEpIbUtJZEdCS2R6?=
- =?utf-8?B?TFpzYlE5MVB3SGZHK1Z2YTFmakovWnVEeTF1L0xLMEpYN3RKRzh6WjlsM0Vo?=
- =?utf-8?B?b0hHZzRJdHQzMVRES1FRY2FTenZLVHhwYjR2L0Fhc0lmeW1TYXFXQWNXWXU1?=
- =?utf-8?Q?FZVdse?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(35042699022)(376014)(1800799024)(36860700013)(82310400026)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 11:17:52.6713
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b19918c8-d193-4f0d-6449-08dd818f52dd
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001B5.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZPR08MB11072
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: jsgwkVCxocw-lrzZxp7Sm9lHuXIBEpSw
+X-Authority-Analysis: v=2.4 cv=UpNjN/wB c=1 sm=1 tr=0 ts=68078218 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=XR8D0OoHHMoA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=yEquWHxyAAAA:8 a=HnMHPIp3AAAA:8 a=t7CeM3EgAAAA:8
+ a=-qWwFkmFHOtQzv4WEBwA:9 a=r-HJ9bD__24A:10 a=Wpz8ju6o9T4A:10 a=s5zKW874KtQA:10 a=Ea3xMBwKpvXIEc3eveN9:22 a=_j3XSMEICZ-j_p4bQif0:22 a=j7VXw0cNxiiRp7-5Gr1y:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: jsgwkVCxocw-lrzZxp7Sm9lHuXIBEpSw
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-22_06,2025-04-21_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ suspectscore=0 phishscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ bulkscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0 clxscore=1015
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504220089
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 11:18:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215201
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 11:48:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215203
 
-T24gMjIgQXByIDIwMjUsIGF0IDAzOjUxLCBMZWkgTWFvaHVpIDxsZWltYW9odWlAZnVqaXRzdS5j
-b20+IHdyb3RlOg0KPiANCj4gRXJyb3I6IFRyYW5zYWN0aW9uIHRlc3QgZXJyb3I6DQo+ICBmaWxl
-IC91c3Ivc2hhcmUvZ2lyLTEuMC9Hc3QtMS4wLmdpciBjb25mbGljdHMgYmV0d2VlbiBhdHRlbXB0
-ZWQgaW5zdGFsbHMgb2YgbGliMzItZ3N0cmVhbWVyMS4wLWRldi0xLjI2LjAtcjAuY29yZTJfMzIg
-YW5kIGdzdHJlYW1lcjEuMC1kZXYtMS4yNi4wLXIwLmNvcmUyXzY0DQo+IA0KPiBmaXhlZC1zaXpl
-IGRpZmZlcnMgYmV0d2VlbiAzMiBiaXQgYW5kIDY0IGJpdCBzeXN0ZW0NCg0KQWxzbyB3aGF0IGV4
-YWN0IGNvbmZpZ3VyYXRpb24gYXJlIHlvdSByZXBsaWNhdGluZyB0aGlzIGluLCBhbmQgd2hhdCBp
-cyB0aGUgc3Vycm91bmRpbmcgdHlwZSB0aGF0IGNvbnRhaW5zIHRoZSBkaWZmZXJpbmcgc2l6ZT8g
-IEkgY2Fu4oCZdCByZXBsaWNhdGUgd2l0aCBxZW11eDg2IHZzIHFlbXV4ODYtNjQ6DQoNCiQgbHMg
-Y29yZTItKi9nc3RyZWFtZXIxLjAvKi9pbWFnZS91c3Ivc2hhcmUvZ2lyLTEuMC9Hc3QtMS4wLmdp
-cg0KY29yZTItMzItcG9reS1saW51eC9nc3RyZWFtZXIxLjAvMS4yNC4xMi9pbWFnZS91c3Ivc2hh
-cmUvZ2lyLTEuMC9Hc3QtMS4wLmdpcg0KY29yZTItNjQtcG9reS1saW51eC9nc3RyZWFtZXIxLjAv
-MS4yNC4xMi9pbWFnZS91c3Ivc2hhcmUvZ2lyLTEuMC9Hc3QtMS4wLmdpcg0KDQokIGRpZmYgY29y
-ZTItKi9nc3RyZWFtZXIxLjAvKi9pbWFnZS91c3Ivc2hhcmUvZ2lyLTEuMC9Hc3QtMS4wLmdpcg0K
-JA0KDQpSb3Nz
+From: Yogita Urade <yogita.urade@windriver.com>
+
+When asked to use a `.netrc` file for credentials *and* to
+follow HTTP redirects, curl could leak the password used
+for the first host to the followed-to host under certain
+circumstances.
+
+This flaw only manifests itself if the netrc file has a
+`default` entry that omits both login and password. A
+rare circumstance.
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-0167
+
+Upstream patch:
+https://github.com/curl/curl/commit/0e120c5b925e8ca75d5319e
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../curl/curl/CVE-2025-0167.patch             | 178 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
+ 2 files changed, 179 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-0167.patch
+
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-0167.patch b/meta/recipes-support/curl/curl/CVE-2025-0167.patch
+new file mode 100644
+index 0000000000..6dad98ef7a
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2025-0167.patch
+@@ -0,0 +1,178 @@
++From 0e120c5b925e8ca75d5319e319e5ce4b8080d8eb Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Fri, 3 Jan 2025 16:22:27 +0100
++Subject: [PATCH] netrc: 'default' with no credentials is not a match
++
++Test 486 verifies.
++
++Reported-by: Yihang Zhou
++
++Closes #15908
++
++Changes:
++- Test files are added in Makefile.inc.
++- Adjust `%LOGDIR/` to 'log/' due to its absence in code.
++
++CVE: CVE-2025-0167
++Upstream-Status: Backport [https://github.com/curl/curl/commit/0e120c5b925e8ca75d5319e]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ lib/netrc.c             |  15 ++++--
++ tests/data/Makefile.inc |   2 +-
++ tests/data/test486      | 105 ++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 116 insertions(+), 6 deletions(-)
++ create mode 100644 tests/data/test486
++
++diff --git a/lib/netrc.c b/lib/netrc.c
++index 64efdc0..5533ecc 100644
++--- a/lib/netrc.c
+++++ b/lib/netrc.c
++@@ -263,11 +263,16 @@ static int parsenetrc(const char *host,
++
++ out:
++     Curl_dyn_free(&buf);
++-    if(!retcode && !password && our_login) {
++-      /* success without a password, set a blank one */
++-      password = strdup("");
++-      if(!password)
++-        retcode = 1; /* out of memory */
+++    if(!retcode) {
+++     if(!password && our_login) {
+++       /* success without a password, set a blank one */
+++       password = strdup("");
+++       if(!password)
+++         retcode = 1; /* out of memory */
+++     }
+++     else if(!login && !password)
+++       /* a default with no credentials */
+++       retcode = NETRC_FILE_MISSING;
++     }
++     if(!retcode) {
++       /* success */
++diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
++index e3508cb..7a8074f 100644
++--- a/tests/data/Makefile.inc
+++++ b/tests/data/Makefile.inc
++@@ -73,7 +73,7 @@ test426 test427 test428 test429 test430 test431 test432 test433 test434 \
++ test435 test436 test437 test438 test439 test440 test441 test442 test443 \
++ test444 test445 test446 test447 test448 test449 test450 test451 test452 \
++ test453 test454 test455 test456 test457 test458 test459 test460 test461 \
++-test462 test463 test467 test468 test478 test479 test480 \
+++test462 test463 test467 test468 test478 test479 test480 test486 \
++ \
++ test490 test491 test492 test493 test494 test495 test496 test497 test498 \
++ test499 test500 test501 test502 test503 test504 test505 test506 test507 \
++diff --git a/tests/data/test486 b/tests/data/test486
++new file mode 100644
++index 0000000..093899e
++--- /dev/null
+++++ b/tests/data/test486
++@@ -0,0 +1,105 @@
+++<testcase>
+++ <info>
+++ <keywords>
+++ netrc
+++ HTTP
+++ </keywords>
+++ </info>
+++ #
+++ # Server-side
+++ <reply>
+++ <data crlf="yes">
+++ HTTP/1.1 301 Follow this you fool
+++ Date: Tue, 09 Nov 2010 14:49:00 GMT
+++ Server: test-server/fake
+++ Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+++ ETag: "21025-dc7-39462498"
+++ Accept-Ranges: bytes
+++ Content-Length: 6
+++ Connection: close
+++ Location: http://b.com/%TESTNUMBER0002
+++
+++ -foo-
+++ </data>
+++
+++ <data2 crlf="yes">
+++ HTTP/1.1 200 OK
+++ Date: Tue, 09 Nov 2010 14:49:00 GMT
+++ Server: test-server/fake
+++ Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+++ ETag: "21025-dc7-39462498"
+++ Accept-Ranges: bytes
+++ Content-Length: 7
+++ Connection: close
+++
+++ target
+++ </data2>
+++
+++ <datacheck crlf="yes">
+++ HTTP/1.1 301 Follow this you fool
+++ Date: Tue, 09 Nov 2010 14:49:00 GMT
+++ Server: test-server/fake
+++ Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+++ ETag: "21025-dc7-39462498"
+++ Accept-Ranges: bytes
+++ Content-Length: 6
+++ Connection: close
+++ Location: http://b.com/%TESTNUMBER0002
+++
+++ HTTP/1.1 200 OK
+++ Date: Tue, 09 Nov 2010 14:49:00 GMT
+++ Server: test-server/fake
+++ Last-Modified: Tue, 13 Jun 2000 12:10:00 GMT
+++ ETag: "21025-dc7-39462498"
+++ Accept-Ranges: bytes
+++ Content-Length: 7
+++ Connection: close
+++
+++ target
+++ </datacheck>
+++ </reply>
+++
+++ #
+++ # Client-side
+++ <client>
+++ <server>
+++ http
+++ </server>
+++ <features>
+++ proxy
+++ </features>
+++ <name>
+++ .netrc with redirect and "default" with no password or login
+++ </name>
+++ <command>
+++ --netrc --netrc-file log/netrc%TESTNUMBER -L -x http://%HOSTIP:%HTTPPORT/ http://a.com/
+++ </command>
+++ <file name="log/netrc%TESTNUMBER" >
+++
+++ machine a.com
+++   login alice
+++   password alicespassword
+++
+++ default
+++
+++ </file>
+++ </client>
+++
+++ <verify>
+++ <protocol>
+++ GET http://a.com/ HTTP/1.1
+++ Host: a.com
+++ Authorization: Basic %b64[alice:alicespassword]b64%
+++ User-Agent: curl/%VERSION
+++ Accept: */*
+++ Proxy-Connection: Keep-Alive
+++
+++ GET http://b.com/%TESTNUMBER0002 HTTP/1.1
+++ Host: b.com
+++ User-Agent: curl/%VERSION
+++ Accept: */*
+++ Proxy-Connection: Keep-Alive
+++
+++ </protocol>
+++ </verify>
+++ </testcase>
++--
++2.40.0
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 6d6563591c..8ce8caadf0 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -23,6 +23,7 @@ SRC_URI = " \
+     file://CVE-2024-11053-0001.patch \
+     file://CVE-2024-11053-0002.patch \
+     file://CVE-2024-11053-0003.patch \
++    file://CVE-2025-0167.patch \
+ "
+ SRC_URI[sha256sum] = "6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd"
+ 
+-- 
+2.40.0
+
 
