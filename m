@@ -2,128 +2,151 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B8B5C369D7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BE14C369C2
 	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 14:35:26 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.41508.1745332522597638891
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.41481.1745332516522671622
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Apr 2025 07:35:23 -0700
+ Tue, 22 Apr 2025 07:35:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Ktq18l/k;
- spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54996d30bfbso4749439e87.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 07:35:22 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=FbQdM63I;
+ spf=pass (domain: linaro.org, ip: 209.85.167.50, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5499614d3d2so5896229e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 07:35:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745332521; x=1745937321; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lZR+/q9VkB+zYItYNjMG4hWekOflju+fRFG49gvQKX8=;
-        b=Ktq18l/k1WIs6mBreMJYYiArN6jUNFOTaky9nlKFNRzgSP9I5uj0wMrfgk4LqnIIPH
-         hqBt0BTlTYYciulr/EtG6es6IIJaXpRQSu6yr4jK5JajPZUWhw3Up/gsvTR/w3Xu3ThW
-         XJ3skshC+yenSJc/lNWXlSHJYFQGL9Fjmi8IldlRtWpkVDtryxnGeZFYufwUSxCaEpDw
-         PFVdBpHNQtOLYpILNfuXcpAh8VuFTKRN/QVhOuN4rImhH+a7k+mweRUJoWDypyhQw7ps
-         ezuCz5Ocq5odpzBbVwz1vG4ADD5HHS3kLTEyYYDjcUCxxdM7FJVTUzjliXiWSHoaOHC2
-         sGng==
+        d=linaro.org; s=google; t=1745332515; x=1745937315; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZXshFCzrWm5x4SQPFDoxUHUjCigb01yT75x1yn3RhMg=;
+        b=FbQdM63IvLHJv5JSfMpDstlm+0kCGg8iGKf3b4r3h9g5kN9PjwO69eIQI8tBMGR5Pi
+         dcNFC2qdkim8CndocqgKAGQu31IibUsAoHA0Edh2kiG8s/dJ78kj3exDD5eNC58rOU6I
+         7YrOCaxraYfom8V3Hsu33a5eFLF7q2ReUTttT9KzMJA66Qb4KFydStjAem0jtjPoJOoT
+         yFz1sO9LT3PWgALLTY8cAfPnER7xKhvlw2VsKrSF/TW/qoT727SK54+agdAstJkzE1+S
+         zZebOaSFqVt9V4rusxurZRYSnjlCyAwIsV9kZ3cZqCjiswFG265VqTc1hv9cWk/a1bSo
+         Rykg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745332521; x=1745937321;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lZR+/q9VkB+zYItYNjMG4hWekOflju+fRFG49gvQKX8=;
-        b=O3nssHcNj5nIAklx1Grllb1jMg90vcs4cOr88L5zmSowR4aqvgSe0/7AFi6JJLWf13
-         OGSKrfAbZ0q0ev+5QSP6qqwet7/MtcS4EFdOYKoBO9mbUaitWzi6HbetQSROp0JQnQIz
-         QhHs1TtdZJgroGsRL/5n05TmyF61zUWiYAaX7h932RL1WB95KpJzMQEH2EkkopAMjS5I
-         y6qrWQUKvzxPlO2XvFltGt1aPUF/JJ70mYoMVPMjhse9YbIqOoHqHu9jOU8BJeCvNvhu
-         f7NF5Vd5IKYPyuQEWft30FpO149TtwnRYW5IoUcaM624aYBH+Wq8nGvPtRZ81UNlSwk6
-         VxsA==
-X-Gm-Message-State: AOJu0Yw3L/tPPfsbAhowTROz1GmKYa5dfhe4pYRBJmjBd+JD41VzhpfK
-	NpucScYxowm2J/ZFzocUTpVov1HLsAA3feDjvOS+7a4JQyJaGNcpuE/0+aZJOVwYWqcPJEru4SI
-	YPns=
-X-Gm-Gg: ASbGncvqvF8yZgNSEPkMU8LLHwCJ9vO5dH62y0IGVtMJ/Z554zTWZFvB2dj8CXnBXL9
-	X5p1vRT1aqQ3Z+6lspHOBgyesQRdwoGXnic+7wWvjrEvg+M39vik0fFlaxGqYVPyei5tHdsevZW
-	Sv7l2AVyUQxQiW7JBoKQN9MpYx9cIOGsgdT1DCLuLA0NrfqIBmaJdA7prhQj+GwW3+qKT4TMffQ
-	TW+yzJuj1gE0Qsd7ushSXTpm1XJUqX8vlF8404clcANx4nx+axZ+7Mb/EKT6Apj+H8IK09Tjiww
-	Y1/hfGjCYWm4g76R7EWVq+NFgk6EIiJLZzkrYcfd3C13bMRay+3zD7Mn4bT3Jth6IE3YKPylK7m
-	iByPTYy280tQOdJXSwekgIMqThFNu
-X-Google-Smtp-Source: AGHT+IF3GHGJCnmsagbwjtrg/DhSfPKcRWZ9qsiZj0jYEH2moBIVTASOyyrS/RO++MWj/zYvq715Jw==
-X-Received: by 2002:a05:6512:68f:b0:545:8c5:44cb with SMTP id 2adb3069b0e04-54d6e636e99mr4233364e87.31.1745332520671;
-        Tue, 22 Apr 2025 07:35:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745332515; x=1745937315;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZXshFCzrWm5x4SQPFDoxUHUjCigb01yT75x1yn3RhMg=;
+        b=jl+eDOWIt1JSLnEYLk5Nt48fgdX/gjd7OYB1IjXKffmED9Jgud8uBARcHjhGj9w4vA
+         m0a0RwTHFBcNYiaylHDQtw0zuGFAad0M0ggP1mFJFG1XfPa7KvJRL2EcWQjfWlYjmyxD
+         mhfXKaSKiRq06V0FLrMphVhJ0hm96v2zeUEWFLhqKJneuyLLdz89DBIotMZtObrrzSDn
+         vGW4DPN3VP+o5RzhVMIAjR4WIp8yXWw7q+QE+weiLZuPsGTRJCnT4jkP18lnCxtnFKjh
+         cMZjUqAGHsKBv8Gw3R+uXH7d5rcMXLnwIULls8m42MflbPxO4E2fCOuVKCsYxBOcfB82
+         JIwg==
+X-Gm-Message-State: AOJu0Yxlrq8o5eU8FroKkU5GSNlcihD96qIS9a6y6HmM8Q9OrfZN4bL+
+	M1KHSup1hqRitg59ZeaqM9pM9ke3iRx3oQ132BG3Z4VEJkrD6ZEphzaRxJe1cgls5kq+vBNEidl
+	KyPg=
+X-Gm-Gg: ASbGncthcw8PfheFtQyY+1nOP2wddvHF8klmV5QW9tIJZppGthg6jkDWmwEO956AXWg
+	bP6jhe64A7+2BlXehlYFrz4NBkJ4G2UArDuU/RgOceDKwW5EN7x4xbuTOSpcYlOtzNo8Q8S8LMX
+	qGjiN+vkDJx5p3ONwfUtSGtrav/678p6RP4uI9sIAORXE8ChmroaG0PIkn6TH3DQ/z3WgXojclf
+	Ah0KbSlsVDYdu/8FBzhFuBJJSK/je8/DX0onsAj5MrbdZpzH1lKcwaHOLIutOjKoyVWqiFHHUVE
+	VQh+WxoutYAc5qxkjnbvhPDPmURxrJIPrgeiY2NTbSiqIjT4ggciIDj9ZSJU0J2EBhP+aGEeiHP
+	wIK59S8t5VDt2PQzRcQ==
+X-Google-Smtp-Source: AGHT+IFj3uTDED7qpKABusUae6nEuJb8lHYeDOjcdL8Vq8OXDo23CwQqXydOSvExtA0HtUU9Y6ED/w==
+X-Received: by 2002:a05:6512:3088:b0:549:b1c1:4d76 with SMTP id 2adb3069b0e04-54d6e61a6a7mr3985739e87.5.1745332513599;
+        Tue, 22 Apr 2025 07:35:13 -0700 (PDT)
 Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d6e5d0837sm1236503e87.118.2025.04.22.07.35.20
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d6e5d0837sm1236503e87.118.2025.04.22.07.35.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 07:35:20 -0700 (PDT)
+        Tue, 22 Apr 2025 07:35:13 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v4 4/9] core-image-initramfs-boot: don't install RRECOMMENDS to reduce size
-Date: Tue, 22 Apr 2025 17:34:56 +0300
-Message-ID: <20250422143501.99565-5-mikko.rapeli@linaro.org>
+Subject: [PATCH v4 0/9] systemd based initrd and modular kernel support
+Date: Tue, 22 Apr 2025 17:34:52 +0300
+Message-ID: <20250422143501.99565-1-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250422143501.99565-1-mikko.rapeli@linaro.org>
-References: <20250422143501.99565-1-mikko.rapeli@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 14:35:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215218
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215214
 
-Disables recommends to only install important packages.
-Disable machine specific additions which are meant for
-full rootfs boot. For example on genericarm64, full
-set of kernel modules and WiFi related firmware is
-in the machine recommends and those are not needed when
-booting to rootfs from an initrd. These reduce systemd
-initrd size from 200Mb to 54Mb.
+systemd based initrd supports more security, encryption etc features
+than custom shell script ones but oe-core lacks support for it.
+Convert core-image-initramfs-boot to create systemd based initrd
+if "systemd-initramfs" is set in DISTRO_FEATURES. Includes a test
+for this initrd to mount rootfs via Unified Kernel Image uki.py.
 
-Since recommends are not automatically installed anymore,
-explicitly add initramfs-module-rootfs, busybox-udhcpc and libkmod
-to shell script based initrd. initramfs-module-rootfs is needed to
-mount the rootfs. Installing busybox-udhcpc and libkmod
-for backwards compatibility.
+Sadly the boot time is really slow, e.g. over 30 seconds with
+systemd based initrd. One of the major reasons is the large
+amount of kernel modules built into the linux-yocto kernel and
+processing of their udev events in userspace. Thus add
+kernel-initrd-modules meta package to easily install
+subset of all kernel modules to initrd. The subset
+supports "mount rootfs from any block device" but
+doesn't include graphics, UBS etc support. Without this
+generated meta package, initrd recipe needs to manually define
+which exact kernel modules to include which breaks if
+those modules are built into the kernel. Thus the initrd
+becomes machine and kernel config specific and hard to maintain.
+With this meta package a generic initrd can be created.
 
-Not installing openssl-conf, openssl-ossl-module-legacy or
-ldconfig packages since they don't seem essential in initrd
-to mount the rootfs.
+Separate changes to linux-yocto compile a lot more drivers
+as modules but they depend on these initrd changes.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/recipes-core/images/core-image-initramfs-boot.bb | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+v1: https://lists.openembedded.org/g/openembedded-core/message/212832
 
-diff --git a/meta/recipes-core/images/core-image-initramfs-boot.bb b/meta/recipes-core/images/core-image-initramfs-boot.bb
-index 2a3fa6d2e0..e72efab55d 100644
---- a/meta/recipes-core/images/core-image-initramfs-boot.bb
-+++ b/meta/recipes-core/images/core-image-initramfs-boot.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Basic initramfs to boot a fully-featured rootfs"
- DESCRIPTION = "Small initramfs that contains just udev and init, to find the real rootfs."
- LICENSE = "MIT"
- 
--INITRAMFS_SCRIPTS ?= "initramfs-framework-base initramfs-module-udev"
-+INITRAMFS_SCRIPTS ?= "initramfs-framework-base initramfs-module-udev initramfs-module-rootfs"
- 
- inherit image
- 
-@@ -22,8 +22,17 @@ PACKAGE_INSTALL = " \
-         ${VIRTUAL-RUNTIME_dev_manager} \
-     ', '${INITRAMFS_SCRIPTS}', d)} \
-     base-passwd \
-+    busybox-udhcpc \
-+    libkmod \
- "
- 
-+# reduce size
-+NO_RECOMMENDATIONS = "1"
-+
-+# don't install automatically, pick manually instead
-+MACHINE_EXTRA_RDEPENDS = ""
-+MACHINE_EXTRA_RRECOMMENDS = ""
-+
- # Ensure the initramfs only contains the bare minimum
- IMAGE_FEATURES = ""
- IMAGE_LINGUAS = ""
+v2: split initrd size reduction and kernel modules addition
+    to separate commits, added packages exclicitly back to fix
+    rootfs mount visible as wic selftest failures,
+    fixed wic bugs which resulted in broken boot due to missing
+    EFI bootloader binaries in some builds, moved
+    "systemd: use serial-getty-generator on genericarm64" to separate
+    series since it's not strictly needed and goes to a different mailing
+    list
+
+v3: enable "efi" support in systemd by default not via MACHINE_FEATURES,
+    disable kernel-initrd-modules meta package generation if
+    KERNEL_INITRD_MODULES_REGEX is not set at all, keeping
+    default KERNEL_INITRD_MODULES_REGEX in classes to support
+    external kernel recipes (which could be compatible with default
+    images to e.g. run upstream tests), tested (with pmem and
+    modular kernel RFC patches sent out separately) using genericarm64
+    machine config on:
+    qemu u-boot https://ledge.validation.linaro.org/scheduler/job/106701
+    qemu edk2 https://ledge.validation.linaro.org/scheduler/job/106703
+    AMD zcu102 https://ledge.validation.linaro.org/scheduler/job/106702
+    AMD kv260 https://ledge.validation.linaro.org/scheduler/job/106700
+    rpi4 https://ledge.validation.linaro.org/scheduler/job/106705
+
+v4: systemd "efi" support enabled with distro feature in poky-altcfg,
+    kernel-initrd-module meta package config via .inc file,
+    core-image-initramfs-boot uses "systemd-initramfs" in IMAGE_FEATURES to enable
+    systemd based initrd instead of distro features,
+    wic patches as in v3 as I think this is the right thing to do
+    but they are unrelated to modular kernel or systemd initrd and
+    can be taken out of this series
+
+Mikko Rapeli (9):
+  poky-altcfg.conf: enable "efi" in DISTRO_FEATURES
+  kernel.bbclass: add kernel-initrd-modules meta package
+  core-image-initramfs-boot: add option to build systemd based initrd
+  core-image-initramfs-boot: don't install RRECOMMENDS to reduce size
+  core-image-initramfs-boot: install kernel-initrd-modules by default
+  oeqa selftest uki.py: add aarch64/arm test with systemd based initrd
+  image_types_wic.bbclass: capture verbose wic output by default
+  wic bootimg-efi.py: fail build if no binaries installed
+  image_types_wic.bbclass: depend on grub-efi and systemd-boot on
+    aarch64, systemd-boot on arm
+
+ meta-poky/conf/distro/poky-altcfg.conf        |  3 +
+ meta/classes-recipe/image_types_wic.bbclass   |  4 +-
+ .../kernel-module-split.bbclass               | 18 +++++
+ meta/classes-recipe/kernel.bbclass            |  5 +-
+ meta/classes-recipe/module.bbclass            |  3 +
+ .../distro/include/kernel-initrd-modules.inc  | 37 +++++++++
+ meta/lib/oeqa/selftest/cases/uki.py           | 76 +++++++++++++++++++
+ .../images/core-image-initramfs-boot.bb       | 34 ++++++++-
+ scripts/lib/wic/plugins/source/bootimg-efi.py |  3 +
+ 9 files changed, 177 insertions(+), 6 deletions(-)
+ create mode 100644 meta/conf/distro/include/kernel-initrd-modules.inc
+
 -- 
 2.43.0
 
