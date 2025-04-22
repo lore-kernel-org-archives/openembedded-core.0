@@ -1,487 +1,224 @@
-Return-Path: <semc.2042@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 396EBC369D3
-	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 11:03:05 +0000 (UTC)
-Subject: Re: [PATCH] glibc-y2038-tests:add tests-special in run-built-tests yes
-To: openembedded-core@lists.openembedded.org
-From: "rajmohan r" <semc.2042@gmail.com>
-X-Originating-Location: AU (167.103.7.4)
-X-Originating-Platform: Linux Chrome 135
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F38FC369C2
+	for <webhook@archiver.kernel.org>; Tue, 22 Apr 2025 11:18:05 +0000 (UTC)
+Received: from AS8PR03CU001.outbound.protection.outlook.com (AS8PR03CU001.outbound.protection.outlook.com [52.101.71.15])
+ by mx.groups.io with SMTP id smtpd.web10.37232.1745320676536298974
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 22 Apr 2025 04:17:56 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=nBnoeSWT;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=nBnoeSWT;
+ spf=pass (domain: arm.com, ip: 52.101.71.15, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=jp+MvLLqeB7eqDhb4VCRP9sXrH3RkMg5aIZhiXIYHRxC0oBT92Jf5PLio3/6dSmWEJxFW50kVVlasfzueloXCGJIAHgl5KN55j+qnxAdFfrt80GSxvWD+eWfBGCFmukb7QStAAYse0GLoc4AA6oeXIu0yrfesyQxM/4qKG39CvoMEn8NYuJMVHD0FzSAKZ6WWbYWSYXCOtwJxZB9MRXJtsBNGzy0Oz/SyUi4bLUpR4dkbcVEj6iIhuWmefuGwcSecDFy99DQ9fxvQwAXM2Lpxc6f2J2ENduqL3S2s+4BKQRMgmKbJXxqx2Vn8YDAoBBDxEiWjjYLkm+LNGfKNjyPcw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6K0yMdpyeKymZ6RctG9rrwXsQ+8Dt8cX+PZSlpusp2w=;
+ b=T51MGK0ChnT9g7vsFl1Dk8A66V/yva0SbCKziD9D8WqNwv7Eu+nxpKEWa8m3UXWb8rAGnWSY2TIL7tlO4/jOa+KS6R1FH9WS1N6XHJjDJHOmqJ7iPYor5kv4hsaqiIk0yjiCrob+Ojz7sGiCsG8JOjMbpngX3aYgEP3cXAxdgCWtr5i8cdGKPvJEz+cG4XOcbx/lLcqxczmPAjeeBDh79e1JILc75d8ulDFNJhLxlcC/N1Vk70kvYFvuBy1xhVuB1XfS8/PFBAihIbHH8qKv8EfwyJX20BLRS/Ol1waDu2+LvZBd7bbvJ6hUNi3NZ3SFaPE8IagVnKZ7xchbtoi2Og==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=fujitsu.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6K0yMdpyeKymZ6RctG9rrwXsQ+8Dt8cX+PZSlpusp2w=;
+ b=nBnoeSWThLjeW4I2/ZOS08zXSwGA2dy8G+JOq4V56DhMfAS1ilGofzVRLByOLZiIjsdLmkRY5ZuztImO72L8X1mh6gWJqN0TfQ72JR9mEfrMMqFrMqWTkyM6aLrNdzHqzoOQs3giTR7P+H1tiLyoL2J2LObpfR+9mHlbAZT7iSw=
+Received: from AS4P195CA0005.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:5e2::14)
+ by FRZPR08MB11072.eurprd08.prod.outlook.com (2603:10a6:d10:13a::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.31; Tue, 22 Apr
+ 2025 11:17:52 +0000
+Received: from AMS0EPF000001B5.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5e2:cafe::e6) by AS4P195CA0005.outlook.office365.com
+ (2603:10a6:20b:5e2::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.36 via Frontend Transport; Tue,
+ 22 Apr 2025 11:17:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF000001B5.mail.protection.outlook.com (10.167.16.169) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.12
+ via Frontend Transport; Tue, 22 Apr 2025 11:17:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JHqY1O7J1kSK03JcVoJOTZ+040pRcH7LRMwrfpUCNaKbF+Ua+Uryr9AnqwocYfGY/AAvLiAV1TvkQrbdmlQ5/I4r8Qx/Y96CG2DomtOJkrP6fGXJH9HwkmzpzQgEuC+5EKbk8fTi49jdhni4T39QHSwalZTjl+o/hEqPm/dIX51kEvu7Ug74WLUXPtYMximD0DtFYyQqPz55NuQiAyl/IFaslkFKo2xYpcb9okOK2QlVvRkzPVo/X1HiGcYRxxmce4QhczuuFqf3xWxlvQjycKhHUz3jKODAUjMV7039dT4bfpKsZDaPJbOKuSdn+3iOIDWvxY6hRYjHvjU24byfbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6K0yMdpyeKymZ6RctG9rrwXsQ+8Dt8cX+PZSlpusp2w=;
+ b=n0+/XEA7vNi7T3nI5cwht7YYsacS4lXUO9Yib+N6mkcgKx2KnJXEhNQGU92GPyq6/RWeRqJ+N8qQ1Kv9FZHQ5Kn5kjkq2GmdpOLPH1FXlxEKKX/Dwtx34KNZkSk72WiAMC7yKDrM7rxNVK/0v2WY9rHSwWb8rI6bdYWjDznFbhHYpMto+5jLM7wdRnOYhsj1jp9t1t+8QvZlU/VrW1zZ6LkpOvLM1IaHJNxPYi9MSt2CCzAMdLZFj2vPsVbpbf2/XzTAIaxFeSRLH2K8lFZrLovqhqeAbjcPKdHwvPW0Cc5ixKo8YeyeShXLAAbFXh5cW/RS7OxPlY7ciKy0IhiBYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6K0yMdpyeKymZ6RctG9rrwXsQ+8Dt8cX+PZSlpusp2w=;
+ b=nBnoeSWThLjeW4I2/ZOS08zXSwGA2dy8G+JOq4V56DhMfAS1ilGofzVRLByOLZiIjsdLmkRY5ZuztImO72L8X1mh6gWJqN0TfQ72JR9mEfrMMqFrMqWTkyM6aLrNdzHqzoOQs3giTR7P+H1tiLyoL2J2LObpfR+9mHlbAZT7iSw=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by PA6PR08MB10782.eurprd08.prod.outlook.com (2603:10a6:102:3d0::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.33; Tue, 22 Apr
+ 2025 11:17:19 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%3]) with mapi id 15.20.8655.033; Tue, 22 Apr 2025
+ 11:17:19 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Lei Maohui <leimaohui@fujitsu.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-dev: Fix install conflict when
+ enable multilib
+Thread-Topic: [OE-core] [PATCH] gstreamer1.0-dev: Fix install conflict when
+ enable multilib
+Thread-Index: AQHbszF7sN107XBU+UWuE9Z/G7P50bOvicmA
+Date: Tue, 22 Apr 2025 11:17:19 +0000
+Message-ID: <0603ED6B-9982-493C-9E7F-038240C4942A@arm.com>
+References: <20250422025127.605-1-leimaohui@fujitsu.com>
+In-Reply-To: <20250422025127.605-1-leimaohui@fujitsu.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.500.181.1.5)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|PA6PR08MB10782:EE_|AMS0EPF000001B5:EE_|FRZPR08MB11072:EE_
+X-MS-Office365-Filtering-Correlation-Id: b19918c8-d193-4f0d-6449-08dd818f52dd
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?RDBxSEZ1SDBOd3hRQW9aV0lIRFFBWlZadElTY2tzampHWC9rRmhrQVA2OVF0?=
+ =?utf-8?B?b1lPZVhEY1k5NTlUMjhFMllUUXZ0RnFid2xoaCtlMmRGOEhjQzh2Nlcrc2x0?=
+ =?utf-8?B?MllBZ1R3YjhjYXZqM1pNc1VXVnBkNHlBWW9jTStVNG1JMy9yTFV4WUh3NFYy?=
+ =?utf-8?B?SUw1TGtjMEZzbTFReXQvNExEZE1kM2VwZ1B3SUFlOGZFclZFRm0wLzhzbmVX?=
+ =?utf-8?B?UTFDam1Pa0xzS25yY2Zwa3dWZVRpQ2I5VCs2QUkybzRBdFZhTkpMa0NacDhH?=
+ =?utf-8?B?V0kwQ1NjRjVkQTdUa2ZxWmppQThYOHY4TVRPOGx0RU5xRk9NNmhXWHJoaU1H?=
+ =?utf-8?B?T1FKbC9NcW54bXpMekxoOEwvcHlOZkRGWnJsUkkxQWdMZ25UaHZyRmlQckpm?=
+ =?utf-8?B?eHB2bFJxUFVNQ3VEUDBPUnR3b1hkbmJHNXQyNXV4Z2tnQ0djb0FXREdRRlFN?=
+ =?utf-8?B?UGYzb1YzT0tiSDh6dkx6alVHdHJYeC9IN1NnMXVWNFhQMVRGZzQ1L0dMQnNj?=
+ =?utf-8?B?c2VQQlRLKzZNU2tzL2JsRnlFVFJyUmhwVGw2em5EMkVsQ0VRMkFORDNBK2o0?=
+ =?utf-8?B?OUVpUFZ5bmswYWhKVFJybkRvU0hQblRoUVp2NTducUdOQzczeUkwbWczbWlY?=
+ =?utf-8?B?N081Yys2N3lXVDd2cXU5MUdYZjZKeVFWT3cwV1RCUElPdnlEclZaU3ZxNVFM?=
+ =?utf-8?B?Ly9abTBBRWZtejhOekRFVVk4bmFaMWRsSmFoelF4bUMyclZueHY2dUIrOG5M?=
+ =?utf-8?B?ZUhSbk1kVWU4dUFlVkVBK244cHh5VFMybkNTK0N5Z01iSnZhRUNyQkYrbXV5?=
+ =?utf-8?B?dXVqSjAyNTY3Q29PUVd4ODBCRld5SGw5WWp2N3RkMEJOUnhtdm1BSHVVQXFs?=
+ =?utf-8?B?ejlrMlFLWmgxMk5SQnRlbnloRkNDVzJjajg0by9Cb0dnWGkwa0ZUOEI3bm5l?=
+ =?utf-8?B?dmtwOUFIZnlIL2h6SUlaRUpOYjdzMVROMXd5eTM4emg1ZmkxUHJGVnltVkJl?=
+ =?utf-8?B?RTdLYjBURmlPSGZiWTFIalNrMWNHKzI5Wjk0T0I3Q2I2blh3STlLNzJ2UnpR?=
+ =?utf-8?B?NjVkL3N5amw5K2ZuWTErZUs2Ym1TQk5sVG1pdURRSmlzUGp4NTM4R09EOHNh?=
+ =?utf-8?B?SUswdS9kUFdjK1BXT2R1a294WlFFbmdPbTZRVlpZenpxeDFuSkU3NEIyeHVC?=
+ =?utf-8?B?cTYwSHBTWThWaWpZWGVJZmVZMVlFc29oQkZhYzdTaHp2SW05dkVuckNuK2px?=
+ =?utf-8?B?VGc1MGtwVHlYRnlndzJKOEJqL0hyTjdueHZRSFBZcTZXcUpzQkxlckVIM0w0?=
+ =?utf-8?B?LytMZTE0azNCUTNTWjh3dSs3alphaXN3emlDVW5IVElSMDVCNS92bldINVBm?=
+ =?utf-8?B?TXhlTVZkM2dsdG5YNGo2dEVkSENSRVludTZ0Z21EeGNvMjdnMWdaT3p4N1hs?=
+ =?utf-8?B?OTc3dHlZM1pwejJSMDFRY1h0ZmlxMVBkcE1mUTc5dE1hRUNlUGNkRDlRVkJ5?=
+ =?utf-8?B?R2VySGhjdHc4VEliZFg5czVGLzQzcjNXSVRGSmNicEFPbjJvYlR5Zk91NU5o?=
+ =?utf-8?B?bkk2VUUvMEYyVUpHaXRkSnhiY2plRENtTjA2TEdENUNYL0pnLzRqMWRMdy9V?=
+ =?utf-8?B?bWhCTzV5OGlsUWo2N2g1T21nR1FRYWprOUlxcklZMTl5TGVBUFZTOWpmNTdR?=
+ =?utf-8?B?Y0xCa0hwdEhTcGtmN3lBWU9KaTZ1RDF0M1hKaWpuMURoVGJQTGppZE5sT0Fr?=
+ =?utf-8?B?NEM0ODRzSDJ4UmRGekQ3ZkY2NytzUHFuMmlHNWlKYXQ1UXNyVDlaMk5wRjBa?=
+ =?utf-8?B?Wm8xSkJoVlg5WmhGbWRuTWY0d2pFY2I0OTFVWXplWjVMa3oreU1HejJtM2o3?=
+ =?utf-8?B?cE5nVlp0TFY5NnJYYzFvYkZBN3k2cmE4azRlOTZxOEZEbkt4SHZKUStSSlBC?=
+ =?utf-8?B?UVZuSXpQeHdIVDJwV2J1YjBHVHZEK0J2aWY0NzVwZkFrbCtIeVlwTHppcWhr?=
+ =?utf-8?B?U05Dd0liNDlnPT0=?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B903D3253E358445A344EE7758B38B72@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Date: Tue, 22 Apr 2025 04:03:02 -0700
-References: <CANNYZj-vNYxOSBoUw=EhYbzN-s3vEKJZ+oROpo3P+tRm1VNXsQ@mail.gmail.com>
-In-Reply-To: <CANNYZj-vNYxOSBoUw=EhYbzN-s3vEKJZ+oROpo3P+tRm1VNXsQ@mail.gmail.com>
-Message-ID: <24438.1745319782531209052@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="SU8xytePvm06BIxkC9j4"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR08MB10782
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS0EPF000001B5.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	5e1dd9df-4175-46a9-2a3b-08dd818f3f14
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|14060799003|35042699022|376014|1800799024|36860700013|82310400026|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?VGhiNi9CdXB3WVZTS0JLaGtnMGZhUUY1c3RWUlZBaE52K25oRUUzY3N1SUVV?=
+ =?utf-8?B?dmhnWWw4MFFnZGk0WFZlV2VPSEJ4VTB0VlZXYXNvSjFWYjNBeUNNQjRhYm5J?=
+ =?utf-8?B?UWFibjg2ZUVUWThLNUtjZEljVVFHQ0VHQjR0M1V3OGpsTlk0Z2U1NWU2ZGx5?=
+ =?utf-8?B?VklEUEdvQjc5MW9wL1RFdlg4b0NYenIzeVNEN0NSVXZYL2Q1TnowVXU4SG1W?=
+ =?utf-8?B?U3FSSFc2ZG9pU09DNUV4dm9vMHJJSFlsRHlQTXAvbkVUUXdRTk5qdm5xTm1G?=
+ =?utf-8?B?M1JmU1RkN1dpcHNzUVF5Y0xPMXhmODczNTZsY1kyZUhHeHNlUUVjUUFNbmlG?=
+ =?utf-8?B?eUNQeElnTFZJaE5YVXZCTnNMUzhHSzRTcHFQWkczRzIzeUtjWjFSYnVuZWc2?=
+ =?utf-8?B?ODBNTVg5K1dPZUdGMTY4UFdxaUpCVktlVllVMXI3RElWa1paeVMyTW5rR0Ns?=
+ =?utf-8?B?M3ByeVQ1N29kME44cHF2d05sU2RNTzgzU0dNUFhicUljMzhjRjUyaVF6UVVY?=
+ =?utf-8?B?L3VNTUZ0alF1cUxaakdBMjd3bjVIdGRCU291UlJkQ1ZRaW5hLzM0N3Z0NW0r?=
+ =?utf-8?B?ZFkrYWtCbGYvQkZnL04xOGRqR3ZMUUN4amhBMHMvWFpvN1NIdEpBSDZ1TjV4?=
+ =?utf-8?B?RWIxUHNxOUR2cmJhWWQydFFpaDhrb2FwZ01HRnFsUlBHNlNaSlZRK2dHenFT?=
+ =?utf-8?B?S0hCdm56S0dDUHdBbmpGLzlnRTlHcjZUeGEvUHZOMm1aeVAxTzk0NmIxSW5N?=
+ =?utf-8?B?dyt1Y3lGRDlCMmJhajJDazhKTDkzdUoxYjRmajY4V1hYZm56Vmkxemt5WjBv?=
+ =?utf-8?B?dWt6Y1FkenpGZFlVT2JYVldtcnM4dDRRVkJCang0SGZqdGFUaktrNC9XbnNn?=
+ =?utf-8?B?eVVhdDhhT0Zna2NGQUY4bDRqdll1WXNiMU1zM1AzaklScFpteUgrdDJ4UVJo?=
+ =?utf-8?B?V0k4Q2FQdWY5VTB1RlJJZDY3SzFKd29wL0tsTUxyWHN6dWllUTNiZFp6NDhy?=
+ =?utf-8?B?Zi95dWVkZDFjUFFiZis2RTJGQ0ZwUkM1ejVuZVhEc1F4Wm9LREQ2RlBGRk5y?=
+ =?utf-8?B?Uk9DWkgzdTM4RlltOGs0RVJ0eVo3U0h3YVRIT1FFODA2U1RpK3l2c3VpYXI2?=
+ =?utf-8?B?dERBS0pJdXp5ekVsMGNGVkJjLzB1TUJlczFmNitVNllSTHJFcFRmUXQrY0Jo?=
+ =?utf-8?B?dmpIQWxDYzdNbWk5UjhzeE4xSlpqU1drVk1SUUtNWUpXaVRwc1huS2JlS3dB?=
+ =?utf-8?B?VWdDeU42YmU1MmQyVE9FMlZLOTNVazhsUm9CWmNDNkp4MzgzNjhOMVB4YVpl?=
+ =?utf-8?B?cVY3VE1ZTnJ0am4rd204OWFKQ1E4SmwzSFR5VW1UemdSVFFKWVlzZWxIM3Bt?=
+ =?utf-8?B?RWJoYnVSaFNUYWxZUCs1ZWsrVUYxNDR1UTlucnBxUE9VWkR5WDFxOWZoVGZF?=
+ =?utf-8?B?bHhFeFNHbVo4NWttTFN0SmNPZ28rVTRmakI2eTdleStoNXZHRnB6L21kM1Fz?=
+ =?utf-8?B?a21ERUlHaUYzV3dhVnlMRVA1UTNPTUkrcmg2bGEvNzNFczZNT2dZQ2ZhS2Ry?=
+ =?utf-8?B?K1VwK3k4T3Bkc21GR3VCdGZRQ1dUOENpalB6SlM2alI3TC9Db1ZlQVBkdjha?=
+ =?utf-8?B?a2IvRFhwZnhlNmNBcWxVc1B0R2JvUE1WejU1OTlNTGhvQWRiUk5rTU4vRXcy?=
+ =?utf-8?B?cDhiRXhvYTd0VkRPUUVEUzJJTXRHU1dHNjh3K0gzMnpmclFObWc1NGN1TDlh?=
+ =?utf-8?B?NC9rUE04aUQzWXBJSUNneUxkOUFxMEVWOG1aUWdlRXUyWWwwdUI3cmEzcVd1?=
+ =?utf-8?B?MTF5cUUwY29VQklMdmxPUjN2OWc2bzNXMDNYVGFQeXVUaEhCUlhpSDNvb0ln?=
+ =?utf-8?B?djFiNDhMbVBDWElLTW5pY0hoYlZqcklkeHhiWTJSWmlEdEpIbUtJZEdCS2R6?=
+ =?utf-8?B?TFpzYlE5MVB3SGZHK1Z2YTFmakovWnVEeTF1L0xLMEpYN3RKRzh6WjlsM0Vo?=
+ =?utf-8?B?b0hHZzRJdHQzMVRES1FRY2FTenZLVHhwYjR2L0Fhc0lmeW1TYXFXQWNXWXU1?=
+ =?utf-8?Q?FZVdse?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(35042699022)(376014)(1800799024)(36860700013)(82310400026)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 11:17:52.6713
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b19918c8-d193-4f0d-6449-08dd818f52dd
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF000001B5.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZPR08MB11072
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 11:03:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215200
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 11:18:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215201
 
---SU8xytePvm06BIxkC9j4
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Apr 10, 2025 at 07:34 PM, Alexander Kanavin wrote:
-
->=20
-> Thanks. This patch is invasive and adds to glibc maintenance burden.
-> Which begs the question: do we need the recipe at all? Is there a
-> particular reason you started looking into this issue?
-
-When we moved from yocto kirkstone branch to scarthgap branch, we found tha=
-t
-compilation for this module taking longer time. hence started looking which=
- stage
-in this module takes time. Found that it is in do_check() stage.
-
->=20
->=20
-> It is by now well established that glibc itself works as it should,
-> that all affected 32 bit targets are configured to use 64 bit time_t,
-> and that any lingering y2038 issues are in components other than the c
-> library, and usually come from C programming mistakes (e.g. storing
-> timestamps in long). Maybe we can simply remove the recipe?
-
-This recipe gives only two test cases in the packages to test. below are th=
-e
-test cases seen for this package
-io/ftwtest
-io/ftwtest-time64
-
->=20
-> Alex
->=20
-> On Thu, 10 Apr 2025 at 12:07, rajmohan r via lists.openembedded.org
-> <semc.2042=3Dgmail.com@lists.openembedded.org> wrote:
->=20
->> If 'run-built-tests' is 'yes' run the test binaries, else do not run
->> the test binaries.
->>=20
->> Currently its taking 20min to complete do_check() for glibc-y2038-tests.
->> Test binaries are run in do_check() stage though 'run-built-tests' is
->> set 'no'. Which is wrong hence include 'tests-special' target inside
->> the 'run-built-tests' condition when set to 'yes' to avoid running the
->> test binaries.
->>=20
->> Also remove 'tests-special' target from the 'tests' and 'xtests' list
->> when run-built-tests set to 'no' to avoid running test binaries.
->>=20
->> After this change, no binary is run and time to complete do_check()
->> stage is 7min.
->>=20
->> Upstream-Status: Inappropriate [oe-specific]
->>=20
->> Signed-off-by: rajmohan r <semc.2042@gmail.com>
->> ---
->> .../glibc/glibc-y2038-tests_2.41.bb | 1 +
->> ...tests-special-in-run-built-tests-yes.patch | 184 ++++++++++++++++++
->> 2 files changed, 185 insertions(+)
->> create mode 100644
->> meta/recipes-core/glibc/glibc/include-tests-special-in-run-built-tests-y=
-es.patch
->>=20
->>=20
->> diff --git a/meta/recipes-core/glibc/glibc-y2038-tests_2.41.bb
->> b/meta/recipes-core/glibc/glibc-y2038-tests_2.41.bb
->> index 9ea09a4e12..2e1f9b02c9 100644
->> --- a/meta/recipes-core/glibc/glibc-y2038-tests_2.41.bb
->> +++ b/meta/recipes-core/glibc/glibc-y2038-tests_2.41.bb
->> @@ -5,6 +5,7 @@ inherit ptest features_check
->> REQUIRED_DISTRO_FEATURES =3D "ptest"
->>=20
->> SRC_URI +=3D "\
->> + file://include-tests-special-in-run-built-tests-yes.patch \
->> file://run-ptest \
->> "
->>=20
->> diff --git
->> a/meta/recipes-core/glibc/glibc/include-tests-special-in-run-built-tests=
--yes.patch
->> b/meta/recipes-core/glibc/glibc/include-tests-special-in-run-built-tests=
--yes.patch
->>=20
->> new file mode 100644
->> index 0000000000..f8f78c5863
->> --- /dev/null
->> +++
->> b/meta/recipes-core/glibc/glibc/include-tests-special-in-run-built-tests=
--yes.patch
->>=20
->> @@ -0,0 +1,184 @@
->> +glibc-y2038-tests: include tests-special in run-built-tests yes
->> +
->> +If 'run-built-tests' is 'yes' run the test binaries, else do not run
->> +the test binaries.
->> +
->> +Currently its taking 20min to complete do_check() for glibc-y2038-tests=
-.
->> +Test binaries are run in do_check() stage though 'run-built-tests' is
->> +set 'no'. Which is wrong hence include 'tests-special' target inside
->> +the 'run-built-tests' condition when set to 'yes' to avoid running the
->> +test binaries.
->> +
->> +Also remove 'tests-special' target from the 'tests' and 'xtests' list
->> +when run-built-tests set to 'no' to avoid running test binaries.
->> +
->> +After this change, no binary is run and time to complete do_check()
->> +stage is 7min.
->> +
->> +Upstream-Status: Inappropriate [oe-specific]
->> +
->> +Signed-off-by: rajmohan r <semc.2042@gmail.com>
->> +---
->> + Makefile | 16 ++++++++++++++++
->> + Makerules | 2 ++
->> + Rules | 8 ++++++--
->> + 3 files changed, 24 insertions(+), 2 deletions(-)
->> +
->> +diff --git a/Makefile b/Makefile
->> +index 5c20ed3..ed95e99 100644
->> +--- a/Makefile
->> ++++ b/Makefile
->> +@@ -545,21 +545,26 @@ tests-clean: do-tests-clean
->> + @$(MAKE) subdir_testclean no_deps=3Dt
->> +
->> + ifneq (,$(CXX))
->> ++ifeq ($(run-built-tests),yes)
->> + vpath c++-types.data $(+sysdep_dirs)
->> +
->> + tests-special +=3D $(objpfx)c++-types-check.out
->> + $(objpfx)c++-types-check.out: c++-types.data scripts/check-c++-types.s=
-h
->> + scripts/check-c++-types.sh $< $(CXX) $(filter-out -std=3Dgnu11
->> $(+gccwarn-c),$(CFLAGS)) $(CPPFLAGS) > $@; \
->> + $(evaluate-test)
->> ++endif # $(run-built-tests) =3D yes
->> + endif
->> +
->> ++ifeq ($(run-built-tests),yes)
->> + tests-special +=3D $(objpfx)check-local-headers.out
->> + $(objpfx)check-local-headers.out: scripts/check-local-headers.sh
->> + AWK=3D'$(AWK)' scripts/check-local-headers.sh \
->> + "$(includedir)" "$(objpfx)" < /dev/null > $@; \
->> + $(evaluate-test)
->> ++endif # $(run-built-tests) =3D yes
->> +
->> + ifneq "$(headers)" ""
->> ++ifeq ($(run-built-tests),yes)
->> + # Special test of all the installed headers in this directory.
->> + tests-special +=3D $(objpfx)check-installed-headers-c.out
->> + libof-check-installed-headers-c :=3D testsuite
->> +@@ -570,8 +575,10 @@ $(objpfx)check-installed-headers-c.out: \
->> + $(filter-out -std=3D%,$(CFLAGS)) -D_ISOMAC $(+includes)" \
->> + $(headers) > $@; \
->> + $(evaluate-test)
->> ++endif # $(run-built-tests) =3D yes
->> +
->> + ifneq "$(CXX)" ""
->> ++ifeq ($(run-built-tests),yes)
->> + tests-special +=3D $(objpfx)check-installed-headers-cxx.out
->> + libof-check-installed-headers-cxx :=3D testsuite
->> + $(objpfx)check-installed-headers-cxx.out: \
->> +@@ -581,14 +588,18 @@ $(objpfx)check-installed-headers-cxx.out: \
->> + $(filter-out -std=3D%,$(CXXFLAGS)) -D_ISOMAC $(+includes)" \
->> + $(headers) > $@; \
->> + $(evaluate-test)
->> ++endif # $(run-built-tests) =3D yes
->> + endif # $(CXX)
->> +
->> ++ifeq ($(run-built-tests),yes)
->> + tests-special +=3D $(objpfx)check-wrapper-headers.out
->> + $(objpfx)check-wrapper-headers.out: scripts/check-wrapper-headers.py
->> $(headers)
->> + $(PYTHON) $< --root=3D. --subdir=3D. $(headers) \
->> + --generated $(common-generated) > $@; $(evaluate-test)
->> ++endif # $(run-built-tests) =3D yes
->> + endif # $(headers)
->> +
->> ++ifeq ($(run-built-tests),yes)
->> + # Lint all Makefiles; including this one. Pass `pwd` as the source
->> + # directory since the top-level Makefile is in the root of the source
->> + # tree and these tests are run from there. We add light-weight linting
->> +@@ -598,7 +609,9 @@ tests-special +=3D $(objpfx)lint-makefiles.out
->> + $(objpfx)lint-makefiles.out: scripts/lint-makefiles.sh
->> + $(SHELL) $< "$(PYTHON)" `pwd` > $@ ; \
->> + $(evaluate-test)
->> ++endif # $(run-built-tests) =3D yes
->> +
->> ++ifeq ($(run-built-tests),yes)
->> + # Link libc.a as a whole to verify that it does not contain multiple
->> + # definitions of any symbols.
->> + tests-special +=3D $(objpfx)link-static-libc.out
->> +@@ -606,6 +619,7 @@ $(objpfx)link-static-libc.out:
->> + $(LINK.o) $(whole-archive) -nostdlib -nostartfiles -r \
->> + $(objpfx)libc.a -o /dev/null > $@ 2>&1; \
->> + $(evaluate-test)
->> ++endif # $(run-built-tests) =3D yes
->> +
->> + # Print test summary for tests in $1 .sum file;
->> + # $2 is optional test identifier.
->> +@@ -686,6 +700,7 @@ endif
->> + rm -f $(symbolic-link-list)
->> + touch $(objpfx)testroot.pristine/install.stamp
->> +
->> ++ifeq ($(run-built-tests),yes)
->> + tests-special-notdir =3D $(patsubst $(objpfx)%, %, $(tests-special))
->> + tests: $(tests-special)
->> + $(..)scripts/merge-test-results.sh -s $(objpfx) "" \
->> +@@ -700,6 +715,7 @@ xtests:
->> + $(sort $(subdirs)) \
->> + > $(objpfx)xtests.sum
->> + $(call summarize-tests,xtests.sum, for extra tests)
->> ++endif # $(run-built-tests) =3D yes
->> +
->> + # The realclean target is just like distclean for the parent, but we
->> want
->> + # the subdirs to know the difference in case they care.
->> +diff --git a/Makerules b/Makerules
->> +index ada6168..40b5ef2 100644
->> +--- a/Makerules
->> ++++ b/Makerules
->> +@@ -1232,6 +1232,7 @@ include $(patsubst
->> %,$(..)libof-iterator.mk,$(cpp-srcs-left))
->> + endif
->> +
->> + ifeq ($(build-shared),yes)
->> ++ifeq ($(run-built-tests),yes)
->> + # Generate normalized lists of symbols, versions, and data sizes.
->> + # This is handy for checking against existing library binaries.
->> +
->> +@@ -1321,6 +1322,7 @@ tests-special +=3D $(check-abi-list)
->> + endif
->> + endif
->> +
->> ++endif # $(run-built-tests) =3D yes
->> + endif
->> +
->> + FORCE:
->> +diff --git a/Rules b/Rules
->> +index c8adc00..5a77516 100644
->> +--- a/Rules
->> ++++ b/Rules
->> +@@ -94,6 +94,7 @@ $(objpfx)check-installed-headers-c.out: \
->> + ifneq "$(CXX)" ""
->> + # If a C++ compiler is available, also test that they can be compiled
->> + # in isolation as C++.
->> ++ifeq ($(run-built-tests),yes)
->> + tests-special +=3D $(objpfx)check-installed-headers-cxx.out
->> + libof-check-installed-headers-cxx :=3D testsuite
->> + $(objpfx)check-installed-headers-cxx.out: \
->> +@@ -103,8 +104,10 @@ $(objpfx)check-installed-headers-cxx.out: \
->> + $(filter-out -std=3D%,$(CXXFLAGS)) -D_ISOMAC $(+includes)" \
->> + $(headers) > $@; \
->> + $(evaluate-test)
->> ++endif # $(run-built-tests) =3D yes
->> + endif # $(CXX)
->> +
->> ++ifeq ($(run-built-tests),yes)
->> + # Test that a wrapper header exists in include/ for each non-sysdeps
->> header.
->> + # This script does not need $(py-env).
->> + tests-special +=3D $(objpfx)check-wrapper-headers.out
->> +@@ -112,6 +115,7 @@ $(objpfx)check-wrapper-headers.out: \
->> + $(..)scripts/check-wrapper-headers.py $(headers)
->> + $(PYTHON) $< --root=3D$(..) --subdir=3D$(subdir) $(headers) > $@; \
->> + $(evaluate-test)
->> ++endif # $(run-built-tests) =3D yes
->> +
->> + # Test that none of the headers installed by this directory use certai=
-n
->> + # obsolete constructs (e.g. legacy BSD typedefs superseded by stdint.h=
-).
->>=20
->> +@@ -153,9 +157,9 @@ tests: $(addprefix $(objpfx),$(filter-out
->> $(tests-unsupported), \
->> + $(tests-malloc-check:%=3D%-malloc-check) \
->> + $(tests-malloc-hugetlb1:%=3D%-malloc-hugetlb1) \
->> + $(tests-malloc-hugetlb2:%=3D%-malloc-hugetlb2)) \
->> +- $(test-srcs)) $(tests-special) \
->> ++ $(test-srcs)) \
->> + $(tests-printers-programs)
->> +-xtests: tests $(xtests-special)
->> ++xtests: tests
->> + else # $(run-built-tests) !=3D no
->> + # The $(xtests) dependency ensures that xtests are always built.
->> + tests: $(tests:%=3D$(objpfx)%.out) $(tests-internal:%=3D$(objpfx)%.out=
-) \
->> --
->> 2.34.1
->>=20
->>=20
->=20
->
-
---SU8xytePvm06BIxkC9j4
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>On Thu, Apr 10, 2025 at 07:34 PM, Alexander Kanavin wrote:</div>
-<div>
-<blockquote>Thanks. This patch is invasive and adds to glibc maintenance bu=
-rden.<br />Which begs the question: do we need the recipe at all? Is there =
-a<br />particular reason you started looking into this issue?</blockquote>
-When we moved from yocto kirkstone branch to scarthgap branch, we found tha=
-t</div>
-<div>compilation for this module taking longer time. hence started looking =
-which stage</div>
-<div>in this module takes time. Found that it is in do_check() stage.</div>
-<div>
-<blockquote><br />It is by now well established that glibc itself works as =
-it should,<br />that all affected 32 bit targets are configured to use 64 b=
-it time_t,<br />and that any lingering y2038 issues are in components other=
- than the c<br />library, and usually come from C programming mistakes (e.g=
-. storing<br />timestamps in long). Maybe we can simply remove the recipe?<=
-/blockquote>
-This recipe gives only two test cases in the packages to test. below are th=
-e</div>
-<div>test cases seen for this package</div>
-<div>&nbsp; &nbsp; &nbsp;io/ftwtest<br />&nbsp; &nbsp; &nbsp;io/ftwtest-tim=
-e64</div>
-<div>&nbsp;</div>
-<div>
-<blockquote>Alex<br /><br />On Thu, 10 Apr 2025 at 12:07, rajmohan r via li=
-sts.openembedded.org<br />&lt;semc.2042=3Dgmail.com@lists.openembedded.org&=
-gt; wrote:<br />
-<blockquote>If 'run-built-tests' is 'yes' run the test binaries, else do no=
-t run<br />the test binaries.<br /><br />Currently its taking 20min to comp=
-lete do_check() for glibc-y2038-tests.<br />Test binaries are run in do_che=
-ck() stage though 'run-built-tests' is<br />set 'no'. Which is wrong hence =
-include 'tests-special' target inside<br />the 'run-built-tests' condition =
-when set to 'yes' to avoid running the<br />test binaries.<br /><br />Also =
-remove 'tests-special' target from the 'tests' and 'xtests' list<br />when =
-run-built-tests set to 'no' to avoid running test binaries.<br /><br />Afte=
-r this change, no binary is run and time to complete do_check()<br />stage =
-is 7min.<br /><br />Upstream-Status: Inappropriate [oe-specific]<br /><br /=
->Signed-off-by: rajmohan r &lt;semc.2042@gmail.com&gt;<br />---<br />.../gl=
-ibc/glibc-y2038-tests_2.41.bb | 1 +<br />...tests-special-in-run-built-test=
-s-yes.patch | 184 ++++++++++++++++++<br />2 files changed, 185 insertions(+=
-)<br />create mode 100644 meta/recipes-core/glibc/glibc/include-tests-speci=
-al-in-run-built-tests-yes.patch<br /><br />diff --git a/meta/recipes-core/g=
-libc/glibc-y2038-tests_2.41.bb b/meta/recipes-core/glibc/glibc-y2038-tests_=
-2.41.bb<br />index 9ea09a4e12..2e1f9b02c9 100644<br />--- a/meta/recipes-co=
-re/glibc/glibc-y2038-tests_2.41.bb<br />+++ b/meta/recipes-core/glibc/glibc=
--y2038-tests_2.41.bb<br />@@ -5,6 +5,7 @@ inherit ptest features_check<br /=
->REQUIRED_DISTRO_FEATURES =3D "ptest"<br /><br />SRC_URI +=3D "\<br />+ fil=
-e://include-tests-special-in-run-built-tests-yes.patch \<br />file://run-pt=
-est \<br />"<br /><br />diff --git a/meta/recipes-core/glibc/glibc/include-=
-tests-special-in-run-built-tests-yes.patch b/meta/recipes-core/glibc/glibc/=
-include-tests-special-in-run-built-tests-yes.patch<br />new file mode 10064=
-4<br />index 0000000000..f8f78c5863<br />--- /dev/null<br />+++ b/meta/reci=
-pes-core/glibc/glibc/include-tests-special-in-run-built-tests-yes.patch<br =
-/>@@ -0,0 +1,184 @@<br />+glibc-y2038-tests: include tests-special in run-b=
-uilt-tests yes<br />+<br />+If 'run-built-tests' is 'yes' run the test bina=
-ries, else do not run<br />+the test binaries.<br />+<br />+Currently its t=
-aking 20min to complete do_check() for glibc-y2038-tests.<br />+Test binari=
-es are run in do_check() stage though 'run-built-tests' is<br />+set 'no'. =
-Which is wrong hence include 'tests-special' target inside<br />+the 'run-b=
-uilt-tests' condition when set to 'yes' to avoid running the<br />+test bin=
-aries.<br />+<br />+Also remove 'tests-special' target from the 'tests' and=
- 'xtests' list<br />+when run-built-tests set to 'no' to avoid running test=
- binaries.<br />+<br />+After this change, no binary is run and time to com=
-plete do_check()<br />+stage is 7min.<br />+<br />+Upstream-Status: Inappro=
-priate [oe-specific]<br />+<br />+Signed-off-by: rajmohan r &lt;semc.2042@g=
-mail.com&gt;<br />+---<br />+ Makefile | 16 ++++++++++++++++<br />+ Makerul=
-es | 2 ++<br />+ Rules | 8 ++++++--<br />+ 3 files changed, 24 insertions(+=
-), 2 deletions(-)<br />+<br />+diff --git a/Makefile b/Makefile<br />+index=
- 5c20ed3..ed95e99 100644<br />+--- a/Makefile<br />++++ b/Makefile<br />+@@=
- -545,21 +545,26 @@ tests-clean: do-tests-clean<br />+ @$(MAKE) subdir_test=
-clean no_deps=3Dt<br />+<br />+ ifneq (,$(CXX))<br />++ifeq ($(run-built-te=
-sts),yes)<br />+ vpath c++-types.data $(+sysdep_dirs)<br />+<br />+ tests-s=
-pecial +=3D $(objpfx)c++-types-check.out<br />+ $(objpfx)c++-types-check.ou=
-t: c++-types.data scripts/check-c++-types.sh<br />+ scripts/check-c++-types=
-.sh $&lt; $(CXX) $(filter-out -std=3Dgnu11 $(+gccwarn-c),$(CFLAGS)) $(CPPFL=
-AGS) &gt; $@; \<br />+ $(evaluate-test)<br />++endif # $(run-built-tests) =
-=3D yes<br />+ endif<br />+<br />++ifeq ($(run-built-tests),yes)<br />+ tes=
-ts-special +=3D $(objpfx)check-local-headers.out<br />+ $(objpfx)check-loca=
-l-headers.out: scripts/check-local-headers.sh<br />+ AWK=3D'$(AWK)' scripts=
-/check-local-headers.sh \<br />+ "$(includedir)" "$(objpfx)" &lt; /dev/null=
- &gt; $@; \<br />+ $(evaluate-test)<br />++endif # $(run-built-tests) =3D y=
-es<br />+<br />+ ifneq "$(headers)" ""<br />++ifeq ($(run-built-tests),yes)=
-<br />+ # Special test of all the installed headers in this directory.<br /=
->+ tests-special +=3D $(objpfx)check-installed-headers-c.out<br />+ libof-c=
-heck-installed-headers-c :=3D testsuite<br />+@@ -570,8 +575,10 @@ $(objpfx=
-)check-installed-headers-c.out: \<br />+ $(filter-out -std=3D%,$(CFLAGS)) -=
-D_ISOMAC $(+includes)" \<br />+ $(headers) &gt; $@; \<br />+ $(evaluate-tes=
-t)<br />++endif # $(run-built-tests) =3D yes<br />+<br />+ ifneq "$(CXX)" "=
-"<br />++ifeq ($(run-built-tests),yes)<br />+ tests-special +=3D $(objpfx)c=
-heck-installed-headers-cxx.out<br />+ libof-check-installed-headers-cxx :=
-=3D testsuite<br />+ $(objpfx)check-installed-headers-cxx.out: \<br />+@@ -=
-581,14 +588,18 @@ $(objpfx)check-installed-headers-cxx.out: \<br />+ $(filt=
-er-out -std=3D%,$(CXXFLAGS)) -D_ISOMAC $(+includes)" \<br />+ $(headers) &g=
-t; $@; \<br />+ $(evaluate-test)<br />++endif # $(run-built-tests) =3D yes<=
-br />+ endif # $(CXX)<br />+<br />++ifeq ($(run-built-tests),yes)<br />+ te=
-sts-special +=3D $(objpfx)check-wrapper-headers.out<br />+ $(objpfx)check-w=
-rapper-headers.out: scripts/check-wrapper-headers.py $(headers)<br />+ $(PY=
-THON) $&lt; --root=3D. --subdir=3D. $(headers) \<br />+ --generated $(commo=
-n-generated) &gt; $@; $(evaluate-test)<br />++endif # $(run-built-tests) =
-=3D yes<br />+ endif # $(headers)<br />+<br />++ifeq ($(run-built-tests),ye=
-s)<br />+ # Lint all Makefiles; including this one. Pass `pwd` as the sourc=
-e<br />+ # directory since the top-level Makefile is in the root of the sou=
-rce<br />+ # tree and these tests are run from there. We add light-weight l=
-inting<br />+@@ -598,7 +609,9 @@ tests-special +=3D $(objpfx)lint-makefiles=
-.out<br />+ $(objpfx)lint-makefiles.out: scripts/lint-makefiles.sh<br />+ $=
-(SHELL) $&lt; "$(PYTHON)" `pwd` &gt; $@ ; \<br />+ $(evaluate-test)<br />++=
-endif # $(run-built-tests) =3D yes<br />+<br />++ifeq ($(run-built-tests),y=
-es)<br />+ # Link libc.a as a whole to verify that it does not contain mult=
-iple<br />+ # definitions of any symbols.<br />+ tests-special +=3D $(objpf=
-x)link-static-libc.out<br />+@@ -606,6 +619,7 @@ $(objpfx)link-static-libc.=
-out:<br />+ $(LINK.o) $(whole-archive) -nostdlib -nostartfiles -r \<br />+ =
-$(objpfx)libc.a -o /dev/null &gt; $@ 2&gt;&amp;1; \<br />+ $(evaluate-test)=
-<br />++endif # $(run-built-tests) =3D yes<br />+<br />+ # Print test summa=
-ry for tests in $1 .sum file;<br />+ # $2 is optional test identifier.<br /=
->+@@ -686,6 +700,7 @@ endif<br />+ rm -f $(symbolic-link-list)<br />+ touch=
- $(objpfx)testroot.pristine/install.stamp<br />+<br />++ifeq ($(run-built-t=
-ests),yes)<br />+ tests-special-notdir =3D $(patsubst $(objpfx)%, %, $(test=
-s-special))<br />+ tests: $(tests-special)<br />+ $(..)scripts/merge-test-r=
-esults.sh -s $(objpfx) "" \<br />+@@ -700,6 +715,7 @@ xtests:<br />+ $(sort=
- $(subdirs)) \<br />+ &gt; $(objpfx)xtests.sum<br />+ $(call summarize-test=
-s,xtests.sum, for extra tests)<br />++endif # $(run-built-tests) =3D yes<br=
- />+<br />+ # The realclean target is just like distclean for the parent, b=
-ut we want<br />+ # the subdirs to know the difference in case they care.<b=
-r />+diff --git a/Makerules b/Makerules<br />+index ada6168..40b5ef2 100644=
-<br />+--- a/Makerules<br />++++ b/Makerules<br />+@@ -1232,6 +1232,7 @@ in=
-clude $(patsubst %,$(..)libof-iterator.mk,$(cpp-srcs-left))<br />+ endif<br=
- />+<br />+ ifeq ($(build-shared),yes)<br />++ifeq ($(run-built-tests),yes)=
-<br />+ # Generate normalized lists of symbols, versions, and data sizes.<b=
-r />+ # This is handy for checking against existing library binaries.<br />=
-+<br />+@@ -1321,6 +1322,7 @@ tests-special +=3D $(check-abi-list)<br />+ e=
-ndif<br />+ endif<br />+<br />++endif # $(run-built-tests) =3D yes<br />+ e=
-ndif<br />+<br />+ FORCE:<br />+diff --git a/Rules b/Rules<br />+index c8ad=
-c00..5a77516 100644<br />+--- a/Rules<br />++++ b/Rules<br />+@@ -94,6 +94,=
-7 @@ $(objpfx)check-installed-headers-c.out: \<br />+ ifneq "$(CXX)" ""<br =
-/>+ # If a C++ compiler is available, also test that they can be compiled<b=
-r />+ # in isolation as C++.<br />++ifeq ($(run-built-tests),yes)<br />+ te=
-sts-special +=3D $(objpfx)check-installed-headers-cxx.out<br />+ libof-chec=
-k-installed-headers-cxx :=3D testsuite<br />+ $(objpfx)check-installed-head=
-ers-cxx.out: \<br />+@@ -103,8 +104,10 @@ $(objpfx)check-installed-headers-=
-cxx.out: \<br />+ $(filter-out -std=3D%,$(CXXFLAGS)) -D_ISOMAC $(+includes)=
-" \<br />+ $(headers) &gt; $@; \<br />+ $(evaluate-test)<br />++endif # $(r=
-un-built-tests) =3D yes<br />+ endif # $(CXX)<br />+<br />++ifeq ($(run-bui=
-lt-tests),yes)<br />+ # Test that a wrapper header exists in include/ for e=
-ach non-sysdeps header.<br />+ # This script does not need $(py-env).<br />=
-+ tests-special +=3D $(objpfx)check-wrapper-headers.out<br />+@@ -112,6 +11=
-5,7 @@ $(objpfx)check-wrapper-headers.out: \<br />+ $(..)scripts/check-wrap=
-per-headers.py $(headers)<br />+ $(PYTHON) $&lt; --root=3D$(..) --subdir=3D=
-$(subdir) $(headers) &gt; $@; \<br />+ $(evaluate-test)<br />++endif # $(ru=
-n-built-tests) =3D yes<br />+<br />+ # Test that none of the headers instal=
-led by this directory use certain<br />+ # obsolete constructs (e.g. legacy=
- BSD typedefs superseded by stdint.h).<br />+@@ -153,9 +157,9 @@ tests: $(a=
-ddprefix $(objpfx),$(filter-out $(tests-unsupported), \<br />+ $(tests-mall=
-oc-check:%=3D%-malloc-check) \<br />+ $(tests-malloc-hugetlb1:%=3D%-malloc-=
-hugetlb1) \<br />+ $(tests-malloc-hugetlb2:%=3D%-malloc-hugetlb2)) \<br />+=
-- $(test-srcs)) $(tests-special) \<br />++ $(test-srcs)) \<br />+ $(tests-p=
-rinters-programs)<br />+-xtests: tests $(xtests-special)<br />++xtests: tes=
-ts<br />+ else # $(run-built-tests) !=3D no<br />+ # The $(xtests) dependen=
-cy ensures that xtests are always built.<br />+ tests: $(tests:%=3D$(objpfx=
-)%.out) $(tests-internal:%=3D$(objpfx)%.out) \<br />--<br />2.34.1<br /><br=
- /></blockquote>
-</blockquote>
-</div>
-
---SU8xytePvm06BIxkC9j4--
+T24gMjIgQXByIDIwMjUsIGF0IDAzOjUxLCBMZWkgTWFvaHVpIDxsZWltYW9odWlAZnVqaXRzdS5j
+b20+IHdyb3RlOg0KPiANCj4gRXJyb3I6IFRyYW5zYWN0aW9uIHRlc3QgZXJyb3I6DQo+ICBmaWxl
+IC91c3Ivc2hhcmUvZ2lyLTEuMC9Hc3QtMS4wLmdpciBjb25mbGljdHMgYmV0d2VlbiBhdHRlbXB0
+ZWQgaW5zdGFsbHMgb2YgbGliMzItZ3N0cmVhbWVyMS4wLWRldi0xLjI2LjAtcjAuY29yZTJfMzIg
+YW5kIGdzdHJlYW1lcjEuMC1kZXYtMS4yNi4wLXIwLmNvcmUyXzY0DQo+IA0KPiBmaXhlZC1zaXpl
+IGRpZmZlcnMgYmV0d2VlbiAzMiBiaXQgYW5kIDY0IGJpdCBzeXN0ZW0NCg0KQWxzbyB3aGF0IGV4
+YWN0IGNvbmZpZ3VyYXRpb24gYXJlIHlvdSByZXBsaWNhdGluZyB0aGlzIGluLCBhbmQgd2hhdCBp
+cyB0aGUgc3Vycm91bmRpbmcgdHlwZSB0aGF0IGNvbnRhaW5zIHRoZSBkaWZmZXJpbmcgc2l6ZT8g
+IEkgY2Fu4oCZdCByZXBsaWNhdGUgd2l0aCBxZW11eDg2IHZzIHFlbXV4ODYtNjQ6DQoNCiQgbHMg
+Y29yZTItKi9nc3RyZWFtZXIxLjAvKi9pbWFnZS91c3Ivc2hhcmUvZ2lyLTEuMC9Hc3QtMS4wLmdp
+cg0KY29yZTItMzItcG9reS1saW51eC9nc3RyZWFtZXIxLjAvMS4yNC4xMi9pbWFnZS91c3Ivc2hh
+cmUvZ2lyLTEuMC9Hc3QtMS4wLmdpcg0KY29yZTItNjQtcG9reS1saW51eC9nc3RyZWFtZXIxLjAv
+MS4yNC4xMi9pbWFnZS91c3Ivc2hhcmUvZ2lyLTEuMC9Hc3QtMS4wLmdpcg0KDQokIGRpZmYgY29y
+ZTItKi9nc3RyZWFtZXIxLjAvKi9pbWFnZS91c3Ivc2hhcmUvZ2lyLTEuMC9Hc3QtMS4wLmdpcg0K
+JA0KDQpSb3Nz
 
