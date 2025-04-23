@@ -1,144 +1,102 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13E51C369CB
-	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 07:32:45 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.3013.1745393562326549771
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D2BC369CB
+	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 08:03:25 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web11.3477.1745395401691565758
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Apr 2025 00:32:42 -0700
+ Wed, 23 Apr 2025 01:03:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CsKSSWh0;
- spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30eef9ce7feso59258741fa.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 00:32:42 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=W6S/B6IF;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-30de488cf81so61078261fa.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 01:03:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745393560; x=1745998360; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3V4zoBtkBhaHyfOTYwTRp8QdxSR9xTp/FirRGnRam7k=;
-        b=CsKSSWh0HT4uXLp6AuUQNDFTbPCdJDUfBbnzTQsuA65GvIKigJaKt32Pi32S+k/3z4
-         R+wj+AI0DnGTN60/rvfts49qs51WmyWG+bP8fePrfS63eAbFymHttRBNUAyTOfJOQxNJ
-         1fhkLyhgNHIiUchSxXF5fOk7MAQGWs6lgZeUslLAV+6BmYW2q62SnNG4lj2a4ospbpGl
-         PlyoLr4Vw18aX3K50H2z8V5mDR4Yz7onI/cSNZcrfc5CVMJTJ6oLyBJVFQzc32Z0Bjc5
-         lKYl9yxhLFfLEhkvtQ5kRb91HmS7WL0CkbNT1WxA4ArhC7mPVnb8qv55/dLr9Fg8QqCJ
-         D02A==
+        d=linaro.org; s=google; t=1745395400; x=1746000200; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wY8bXYDaE/DimIPtmSu7MmZlSzDnkhFQb615lJNlis4=;
+        b=W6S/B6IFiLKRmi4qABClacw6+0Od53k5bzChYNyD+83PBj2Vy3LonYdyjGtHqKKn3a
+         Tm6rQv9JEgXoqEaCYXDoDHdP9LVZwibiZH5ayl2Yjd+FjLNNcGLqxTYpxqCsFXh0liXO
+         6IQpWO9o4KyvOLI7AJ7z7M016SK+oOm/wdJX8jixQZ+agAkrxz2Lt1WRWa6OoVnPiY4N
+         sCMaP1gLwAkT458Relgp//ue5w9d71kn5RGUozfHuJPZtcCwxbSC6UNMlZxl27azLf8b
+         Z8zSIxad1lHtHjMRzY020eKXjlSPI+nx7OUGv1U5ggEppDQaWHxPfa1aI2EyXmHcHfaZ
+         MamA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745393560; x=1745998360;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3V4zoBtkBhaHyfOTYwTRp8QdxSR9xTp/FirRGnRam7k=;
-        b=jExXXbFWa2eA8OG9m/0crBarz6Dq1HIYtGzbOnhKDTcU7W6iqBVfyHwn3w0hWymnfL
-         2pmrV6sYAO6Zh3AgmbrjvzDbQ8dX2d4uTv5oIqBS4mBALllupNsUd5wQZUhq9P/mtQKQ
-         mjFK3IPjpHk2Za2gMXpH2tJ0zWiTv6KFqNEffQKJJ+CesU9SL5rO0qutJz43waC90rh8
-         pEsYFT0n2B4Goil355Sz88onA8O4BryOYGcSbVYnwATERfGlC0Zelx70UfzspIMHnOyt
-         LVHCk7jUnPSwcISiYQ/mNiAlUesZg7skeuRLo4aXPn/UTtvH+fA3S3X/Rlg6iuBMTwiR
-         3ZNA==
-X-Gm-Message-State: AOJu0YwMnF41qzr7SWvhRO46lxfnzu/mWMWMhI+SZcovqg/Ds+lj1wb+
-	qzWeUBg6WZ048R8jLMBhuEKVGAheVKN3gGAeljX6E59UyWHpNVyorbRT5fA5Yz3tnGB94RjDzpg
-	LEGhn7hKjcArV7K3YHQmWJmcsjgU=
-X-Gm-Gg: ASbGncubk9ZC5I5lbpiI1nd3/7OzoD4XdaG9Yv891idHgP4A1ipxR+oDaJd24+gN1+N
-	2yCDpqCOFs2Cdp4cxrNlhuL3bLhoAvH/ToYuE9Frs6vN+VeZMPMF4Ewgmg3RaKTgU8MydxKg0O7
-	VoLrN/YbxbTrd+A9d+qb6DhA==
-X-Google-Smtp-Source: AGHT+IHsUoPn60+tAu6orNrwPWBBo8Yd5qubYPgbVNN8LUGLyJF69CamH3sdTdeyEJbkMFvQxOP7NYMPyj4eCUVJmcY=
-X-Received: by 2002:a2e:ad86:0:b0:30b:d44d:e76a with SMTP id
- 38308e7fff4ca-31090553ed6mr69013261fa.25.1745393560130; Wed, 23 Apr 2025
- 00:32:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745395400; x=1746000200;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wY8bXYDaE/DimIPtmSu7MmZlSzDnkhFQb615lJNlis4=;
+        b=MUC8ar8htOEVo//VzpVu70sgSxvm/nvqvKdnVw0jo6XEUEr98xkfewUpmqySocZc+a
+         XI7negNm2K/pvJ3S8W7jIGTaHM7jfHR8svADEduKbnBoG3l89C6rjojeQeBK76wgVQkp
+         kqTRWG5wRea8wE/B8AaKTn/t2SoLLeppqWedEvAN9o+qyK5MmmEOosDvO3bkaG1ylSic
+         sqjmXWMbj9mbKm/WnHdAgRnyvNYiLRzmviUSgAAMlv3ensYTApuya/IUq3l14xCfl1Ip
+         57McyL2z2Nz9AhccMO9IJGzNVznvfTIXG215NYg05OWDj/1fPQNd4e94SzFpYkqAyxeE
+         Oq/g==
+X-Gm-Message-State: AOJu0YxgFFMTVquQ5HBFaw+XjuUffuLcnE/L90HZ2NFe/uMFORDmAmpU
+	g4hp4TtnjIkAfTzqjWqI/AENRbKKpsK5N91BDPciB0gB0XTlnH5PtKm4YiEHfP3G5wnjlyCDxkC
+	Wa5g=
+X-Gm-Gg: ASbGncu/6nhCLGFZn6wt46m0pnVPCk1ekxvAyapXiP29q5QKLH6Zy9sIn2skAdSmsGI
+	759OV6tv36RztMlayyINcYzl/skxu9euMS6JM3U3DCmDlyWjQhPJ2j54dR4ewHZEcGaoU4aWWG5
+	WL30jdidFmIV0IJIZm/0ElKifdhXYqBJoSu0872nKu57gh9CfsUzdBDeKBlyWa4YJqQ7F1ZewlX
+	2U2X9W0z2dvw+hC4Vy54GJ6+32CV0NQQdEmGjMhl7QnUfq4Xev3TK4oraTGnsjBoKA44HV2vEy/
+	NjY6+vCx1KoE7PLq4GWB++Ub/N8x0mpSuwGxbHTccU70O5wVUWMASoHjsn5vcCNJ3p+Hkdi/j9v
+	aeQt5sGmB9Tsrlc3CBQ==
+X-Google-Smtp-Source: AGHT+IFQbJKeHeGn5dtj/LY6zix/1o3NjCzq3M2zRfC3XIez4la0Jkca2LaSuGrA6cTxz9UTTbW+4Q==
+X-Received: by 2002:a05:651c:1581:b0:308:df1e:24c4 with SMTP id 38308e7fff4ca-31090553ecbmr67551291fa.29.1745395399600;
+        Wed, 23 Apr 2025 01:03:19 -0700 (PDT)
+Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3109075f2aesm16951581fa.23.2025.04.23.01.03.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Apr 2025 01:03:19 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: poky@lists.yoctoproject.org,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH 1/3] kern-tools-native: update to support modular kernel builds
+Date: Wed, 23 Apr 2025 11:02:44 +0300
+Message-ID: <20250423080246.128723-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250422212432.3495828-1-patryk.seregiet@gmail.com>
-In-Reply-To: <20250422212432.3495828-1-patryk.seregiet@gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 23 Apr 2025 08:32:28 +0100
-X-Gm-Features: ATxdqUGq6oiuSUq2m3f8cgNDHhmAHUoxa2NMuK0era6s3pUsb9oM04x4A6BVOSk
-Message-ID: <CAO5Uq5Rx7123yf+iKieWab9nrpteHDzDrhCO+LodowPX2BGp5g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-firmware: fix FILES to drop RDEPENDS on
- full package
-To: patryk.seregiet@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 07:32:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215263
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 08:03:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215264
 
-On Tue, Apr 22, 2025 at 10:25=E2=80=AFPM patryk.seregiet via
-lists.openembedded.org
-<patryk.seregiet=3Dgmail.com@lists.openembedded.org> wrote:
->
-> From: pseregiet <patryk.seregiet@gmail.com>
->
-> linux-firmware-rtl8723 and linux-firmware-adsp-sst
-> contain symlinks to files that were previously
-> packaged only in the main linux-firmware package.
-> This caused both subpackages to inherit an unintended
-> RDEPENDS on the full package. This change resolves the
-> issue by ensuring all required files are correctly
-> included in their respective subpackages.
->
-> Thanks to Peter Kjellerstedt for figuring out the rootcause.
->
-> Signed-off-by: Patryk Seregiet <patryk.seregiet@gmail.com>
-> ---
->  .../linux-firmware/linux-firmware_20250410.bb               | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.b=
-b b/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
-> index f12bb2c6d3..7e5c4e25a0 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
-> @@ -1253,6 +1253,7 @@ FILES:${PN}-rtl8723 =3D " \
->    ${nonarch_base_libdir}/firmware/rtlwifi/rtl8723*.bin* \
->    ${nonarch_base_libdir}/firmware/rtw88/rtw8723*.bin* \
->    ${nonarch_base_libdir}/firmware/rtl_bt/rtl8723*.bin* \
-> +  ${nonarch_base_libdir}/firmware/rtl_bt/rtl8821c_config.bin \
+After this update scc tool can compile options as modules
+conditionally without duplicating config fragments when
+the options contain a comment like:
 
-I think Peter's suggestion was correct - that file (or pattern) should
-be part of linux-firmware-rtl8821, not linux-firmware-rtl8723:
+CONFIG_LEDS_GPIO=y # OVERRIDE:$MODULE_OR_Y
 
-  My guess is that the files matching
-  ${nonarch_base_libdir}/firmware/rtl_bt/rtl8821* should be included in
-  the ${PN}-rtl8821 package instead.
+Then "scc -DMODULE_OR_Y=m" converts these into
 
+CONFIG_LEDS_GPIO=m
 
->  "
->  FILES:${PN}-rtl8821 =3D " \
->    ${nonarch_base_libdir}/firmware/rtlwifi/rtl8821*.bin* \
-> @@ -1760,7 +1761,10 @@ RDEPENDS:${PN}-ice      =3D "${PN}-ice-license"
->  FILES:${PN}-adsp-sst-license      =3D "${nonarch_base_libdir}/firmware/L=
-ICENCE.adsp_sst"
->  LICENSE:${PN}-adsp-sst            =3D "Firmware-adsp_sst"
->  LICENSE:${PN}-adsp-sst-license    =3D "Firmware-adsp_sst"
-> -FILES:${PN}-adsp-sst              =3D "${nonarch_base_libdir}/firmware/i=
-ntel/dsp_fw*"
-> +FILES:${PN}-adsp-sst              =3D "\
-> +    ${nonarch_base_libdir}/firmware/intel/dsp_fw* \
-> +    ${nonarch_base_libdir}/firmware/intel/avs/*/dsp_basefw.bin \
-> +"
->  RDEPENDS:${PN}-adsp-sst           =3D "${PN}-adsp-sst-license"
->
->  # For QAT
-> --
-> 2.49.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#215247): https://lists.openembedded.org/g/openembedde=
-d-core/message/215247
-> Mute This Topic: https://lists.openembedded.org/mt/112403940/3618097
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kiernan@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 6dd19f1f09..20b1bcaf37 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "\
+ 
+ DEPENDS += "git-replacement-native"
+ 
+-SRCREV = "c8c1f17867d0cc7d04be225ba4901f2373428be2"
++SRCREV = "fe67c98d2e9b74af44d0c4b660fa18e3a95e7edd"
+ PV = "0.3+git"
+ 
+ inherit native
+-- 
+2.43.0
 
---
-Alex Kiernan
 
