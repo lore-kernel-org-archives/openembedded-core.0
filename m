@@ -1,207 +1,191 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 017F9C369CB
-	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 12:56:46 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.41])
- by mx.groups.io with SMTP id smtpd.web11.8000.1745413000699547919
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 034B5C369CB
+	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 13:20:37 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.8314.1745414434025497041
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Apr 2025 05:56:41 -0700
+ Wed, 23 Apr 2025 06:20:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=od2cxdR4;
- spf=pass (domain: axis.com, ip: 40.107.20.41, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hUzKezN3DjIm3hxttqllkxdDYhuNyBvMfBTWgHnfrlGZOFILD52duA3ZXneDhs/IEuHA3PSVuhepmIXmbxM6RZLeBLQasQ9r9CaPgjhyWSEQWL+JsXQlZ51KHgiFgyUGZH/sfl5cZUd5SUgqkxN0+o/J7OfDZ8HAqqjvdlxgbt7Y3dWuiG5eXr7Hn14s/c87MmkWWGoiWkYCDlW13SmhZuVRER537ZJ8SkMhfy/ubSLq5w0RELeaJufxMS94HbYG1l3JVALeHrp8eS45fgQRW1grAmPqzBA+z/MAlZIOAueibOOaX2RXrU/VZ4Dkz82p/BqbOgmLHnilBS7vrK5fcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YSWAM28IQv4EQdxKZnRWR6YaCp7hb+S9PV4mpvJA+OQ=;
- b=rK4qktRdKR02e2sEu1fwCqFJHJFYepPkfRxIhjU5JUDMtS3Ii9ZX6SJ1mhmmFpVRLbbFWdo+BTQkT58g6Utfyhym71wMxkM1mjyO9abs3DgFQsGbN5I15HJefXk4LaedBdjU7giOih76i1jlcJQWw5VM9ixL1qUhx3/jOtfo1+RymSYkQRZBRo6VDhU62J6biBOPcudD4s58crLF9BvXaB1wJfleN0sl0i+j2v0+vkHDee/zoO1/ed+ZuyOLYov9nUQNnDtWPikZ77XHvB2XfG9H14gbvWHwUkpbdMZvTBQUb1O4CQkjyDttYd8k06wPMEpy7umkaptOJEaEwedIHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YSWAM28IQv4EQdxKZnRWR6YaCp7hb+S9PV4mpvJA+OQ=;
- b=od2cxdR4znS8ocuwNCduzHG96X7/V2rKHLCou9fTZAjSeSL8GgAqAmBDBG7G4M3/msuHJ2uDNZJs1GMALyEWdAl+ghfjrqIxpYtoTlrH7563UxGdkk50FCFSnEAmRZbWpzEhU1hJnZ2anCSyIRcpdKxFoTxzw2dtbxt8YfjFFlQ=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by PA4PR02MB6512.eurprd02.prod.outlook.com (2603:10a6:102:f5::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.23; Wed, 23 Apr
- 2025 12:56:37 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9%5]) with mapi id 15.20.8678.019; Wed, 23 Apr 2025
- 12:56:36 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "patryk.seregiet@gmail.com" <patryk.seregiet@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH v2] linux-firmware: fix FILES to drop RDEPENDS
- on full package
-Thread-Topic: [OE-core] [PATCH v2] linux-firmware: fix FILES to drop RDEPENDS
- on full package
-Thread-Index: AQHbtEzMKnusV+OJhUCeJ1eKdz/YPbOxM+QA
-Date: Wed, 23 Apr 2025 12:56:36 +0000
-Message-ID: 
- <DB5PR02MB10213C9F8254790148ABE5B01EFBA2@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20250423122619.109306-1-patryk.seregiet@gmail.com>
-In-Reply-To: <20250423122619.109306-1-patryk.seregiet@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PA4PR02MB6512:EE_
-x-ms-office365-filtering-correlation-id: f5de2307-3538-4f9b-184a-08dd8266485b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?RGzI7P0g2jxzKEu2IhiJ55ut9F8PE9QbA0AFQ2fMpz3oyvMgnBquazWr9lFB?=
- =?us-ascii?Q?9M3dLyH9J/jJpnZT80LmAb2uxPGEc6H1rcR81h4m6XWHq9zKdjdIjG5mC5uy?=
- =?us-ascii?Q?KnIT9pRpW35iyBf+mjRBZOwsAmlGJ9dxeYa8Thyq1BGchCQqWLEw2ZsZa4Be?=
- =?us-ascii?Q?131rFrtyFdXShTc7DKBrZI5PtKqGi2mDNfIWF1VR0UPiiu6nFU/xbTXF9zFm?=
- =?us-ascii?Q?KzpZEUaOW8xLL5C4dYKaEHb/iOCr8llMIJGznJH2CVNvxCruDkkOkdGWAytY?=
- =?us-ascii?Q?jlPX8z9PqwsRnh3rddSWTj1y2Vf3TU72S3AkY0vmzXLTI/dIk/oQd3tECNPb?=
- =?us-ascii?Q?RprCjVPdohp8l/N0K8x9B9o6b2hIgks8x2eu8yOL/RXlxYzlTAeLFzEdtk0U?=
- =?us-ascii?Q?o8/22hwk4qSr1VPSxCHEaV4mvwFUHkrWaJ+LkkcAb/4FWAlhl+Vu2/M7Tv4o?=
- =?us-ascii?Q?6NcGzAIe6FtIEApuOAbGkDChfCApSs9tGm+WojFM5amTt6fMjyfnYfC1s6m2?=
- =?us-ascii?Q?FRcVoDYdbcsqnAuF/zPeRVfWGOgd4tc5zHrOlBvGn/rfQpNUDCcOd4aQoNri?=
- =?us-ascii?Q?NQGiRyGf5jwBhr8GbYe+BXlNvivn8R7CwCP+GJYLRgezok+OZFk68ycdt4CS?=
- =?us-ascii?Q?Rwq7npCDi2jYyTqALE49+G+QK04Fcq+lW4EDF0XvapmGoRMJnL0amckeVtHT?=
- =?us-ascii?Q?e7E0D00wBLy7R+xT/MfOpOTtaKCbKyvRmVoS3Hegg8FxdXigPxjNSG2ottec?=
- =?us-ascii?Q?RJaOBYnnb0Ja5wrHpk9kP8+fZNchKT7EZExWDPaOdYceHlpNZFljVeiSpJsP?=
- =?us-ascii?Q?NFuWVawTN1w87pXtDZe1FHExWvJHcCPpFe3IBj4l2C+qKQzp/EZ3Ku53k+Cb?=
- =?us-ascii?Q?dah1c51YONan8iUZjVkqK+iC5zDUbEFoe2SI7gbJk7u3snVVosZv0fxf2Qws?=
- =?us-ascii?Q?lknSBIIK2jipnJks4mtnAdp0gwirCyvgcho46gvwbhIujCKpBPjZmLfBxEHb?=
- =?us-ascii?Q?uou77e1uoWWbWLh34NAgPYyfCX/mfs/iofMNPySVfHuqcwfQy9lM8PZedame?=
- =?us-ascii?Q?Mm6LkkuvCwX+DQHrhJFnJgHoA12qB8Kyw7o1BuZ8/KEV8evq+0Z0Un1LHKeP?=
- =?us-ascii?Q?SFd/Q0GP1Jjygahu1pmVXnDTKSJIUBEddzHv00iFGalM20uebJwOCQKGqlMw?=
- =?us-ascii?Q?5zn9cAjgWaGJYtUxerg/DAE6fifj2N8b67hWTAl57bxytkaM2HAfGrSSxcZT?=
- =?us-ascii?Q?g0H0Vgh+dBIXC4WZJwPEuQGCaJtSNURCxyz4BDcWtogrNDW7YNn3EwkAsqXw?=
- =?us-ascii?Q?KVCDsAdgRZgm9OEthXik3dEiqFKsu9DaYI7YPOtGFzhdlr6QSmyuvt6QgE6x?=
- =?us-ascii?Q?+mu06TPGnYjhEa2byWvDVvSSwqaE0U/mtUxrmbxIayCV4gVzZxSzKNbELDw2?=
- =?us-ascii?Q?mwXW6M7bKksy7OUiY6vRP7ECaQ1HS44k5ClYitAJmE9K+SkMbf7/yg=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?/xfZrzknKksaIch7ru2J48D/OJapgt9kEEkB1MtYoK+D4LtzZhN7zuknMvDx?=
- =?us-ascii?Q?85lvkmjC9JGtgVp7nppVsZDfddh7zEIM+aInPmEaqBJqg2qAefigOPHx44WR?=
- =?us-ascii?Q?HLExhfiSxAllOJHdSmbVcNf3kQqJ3AWoU+irHMWTLFPa4EjaJepdBpjVWeZr?=
- =?us-ascii?Q?ZLgcSKmZPy3QmzbMBFK9R38nCXGLDDmVTqHWa7O9cFUrLLNHFczdGN9KMqni?=
- =?us-ascii?Q?Eh6hxopikyG4g0CUuXE263mgZGswHU8qut6b/wpnQLQvXbwpgdspgKGgvpcu?=
- =?us-ascii?Q?+t/C/gW2mM14B4ZikmZ6ySeaBWYWRvzWfWQ7lcdq9RTR75TM67bEmtCAAuPX?=
- =?us-ascii?Q?bGw2No8F+7ivTaZ/u/4Nz16P8nvG46nhYTCbYUr8Dzhtj/nEzM5wA4nDatNh?=
- =?us-ascii?Q?DIhrajWFjbgP7Jc3jAeXraNEAqPM2iwB06GJm/UjhTgdhlTfP45zliweN+ZK?=
- =?us-ascii?Q?5Y+CXjle7p7d+1Of2zh4o3VF7IWeVun397DT1xc73jceJ1GrzDdl46+sYl9X?=
- =?us-ascii?Q?mUDh6VN4Qdy7q4PiqB2PW67OsZSAUgGfv6hUkYKbk7RKw/Nn83EJftO6ejQ0?=
- =?us-ascii?Q?Jegj2vLr73mLWDez1QAL7FBfLQVCmTLAEqVPfXD689HCnCV4khF29s8MaoVB?=
- =?us-ascii?Q?EPpHlDbPNz7zvGnxxxAw6TdnfDzNbhVpB55q9Qg0YlRQsvKESqlyQTV2FhT7?=
- =?us-ascii?Q?ZUJRjrAXekpXmUMIAJp//iA1+jwonDyodM5krtLnDHfG7dKDObi8tgpWxRpS?=
- =?us-ascii?Q?14avLAZpOcStz+/P+V0hG+PSJoeb/vayXh+wSKvK9W4jcKBTj7/p6T3K83eb?=
- =?us-ascii?Q?E/vGKm0M0ihXeX84gHUsa1z7wu8ruwgauUfAYkkkEEUmFaXd3r0+SzwhAd1U?=
- =?us-ascii?Q?8P4CmYy8BcTFhikqBZmtM1NdLx+ItiURY9jow+7kOiiaijTc/bzxJE+2Ewjv?=
- =?us-ascii?Q?q7msSg+VruF1Jqv5BbSoLhUTRPDV/YvvUoHmKu9xp9RGwKPcxqvT+ZpFKTuG?=
- =?us-ascii?Q?Ljxdza5sfjY9z29IXeJnWs/mjjlcT3Sdd4v/7CnguLXOYetz3w0KxihXnvZs?=
- =?us-ascii?Q?m7vvfZLUIgk/PWA8i18dArEuraXmEPdlDoUPUIHAObNXOQSMfmGkjilUSXdv?=
- =?us-ascii?Q?8kXmnzjA1qhG2VXtJF5of1tlvbXH2pVB/CpA5qmE9ac+RM1FzWd2kldTLdPi?=
- =?us-ascii?Q?ZNDDyuRMHxE1TQl5pDoWy7pG2wG37PX8kLmVurrC/QtKVXQCqYEHBQmw4LBB?=
- =?us-ascii?Q?+a2pfVoqyYXvKUuSk9+dLst9CM03liSRimBAaIg8WN3qoFahl3athLSlWMkb?=
- =?us-ascii?Q?2/nxhYKnRT1vgng2MgaDMVEAqKwuTmVJj95YbLkVpLaXfoDl8+FaUrW2RNb8?=
- =?us-ascii?Q?3dPXA8qO0cAJU+UQd1/Z9C5NYteOatWR4yr42Z6nsP+Zh1YiPKaKWxt3rAi5?=
- =?us-ascii?Q?ujZ752tAfcNXkgbrkDVh7MoiW7M1EWPkzyUYqBzKTuvzzTbv2xL1f2rmQpw4?=
- =?us-ascii?Q?N5Y4p5QE4CY1Jb7rktpjQgctEDowKTuCBTD+OySCgnXvagDBctKcaU67JdPj?=
- =?us-ascii?Q?AIJxX9y6XNTA/x5zvM0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qfP2uZQw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-af5139ad9a2so4074409a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 06:20:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1745414433; x=1746019233; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KtLvIFwlQaeC+ZsfCbsusrLmBUlgyQfeypU0qO+6hag=;
+        b=qfP2uZQw8zdM7dZa6PhcQYXnRlLggB9FuTMj0xfUFK2ejWitOEtQVQuPZZwqf8OGq/
+         Snqg9mUZMPYmaVX7euUji7EmlqZFPEQ730AfjmHOclUfVs8zg/H5/9FMyh6UpZa6VxC6
+         fR7el1o/OxUawI+UED39CodXi9k/axkieLuOTrL2uUhJLaakcZ0ZLRojTKPrnEYBczaH
+         yhxML+Mg/pd24ixK4ljFNtoFdFQPFi+mAbTYpVP9ZHe26v2py7AZ4NSQ2SMi6P31Okg5
+         YS4okgRtE48SaAeGLOlmQO9pO0Ji8CkMhtv7xB15LHWMw7IlC6ZOXsWDNBySXnb2DZ5j
+         U2yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745414433; x=1746019233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KtLvIFwlQaeC+ZsfCbsusrLmBUlgyQfeypU0qO+6hag=;
+        b=oUoQDsuf05nPQ7e8PRQhg3BX1aR2klitsSttLEBa1OGuL2XE+jrHIlpPAB+WSgOAcm
+         osrMr7E2JZ3rbUKhs+gGjQ32NKzhpruizvVu90kTLAkYju5ULLWBi35GGiAfn8m6Tyfa
+         /7n3xIAvzbyTNkEKvUJUyFMNkl2ff7aqwYttNmVzOa2aWobr1BDMd0BN/Hymdb7bfQCR
+         r0G+tPuD3K8OnqR5MKIOtdTuw6xvSFcWDt9oVLFo7ICahk4Bu3da3uNsUnM5DenSF+6m
+         +LWEAvXuS52dHqYKgv0S0b9wnYFAAwFKK3M0glr8ewejrzGckVyIUDeQndIIVEnR8oLZ
+         2RXw==
+X-Gm-Message-State: AOJu0Yz6h56Tlf1edGMJ54qBx+EEChuCeTOJEhIHDOt9zmQ/Y7W9SXmv
+	bo+CuHU/Mcyd7PKRYQuYXju58rsEETl8Q/zF+lmp97rWaMSXyBXb2cPHHEqOHGjbuIZjMJLA2AH
+	f
+X-Gm-Gg: ASbGnctGGmzKxgbuzHAl8BtrBAhsf831E7/088JS004ozS/46xTdBH0Aj3GUjNgkeRT
+	EZlc5UMWqHwxdxB7PQzNl5i8IGggxMjKkHep6/bPOdEpyoWZ/DhYLuNdHWUJc7vdcFa2yXD5dlk
+	1AAUW8d8ctIUxFkPQoj5JyfN8vxZcsJfqP9FfCMIUQ05Pj0yXnDbLnwdlIFQyzypQswPzYcTBgr
+	GXTQ2+VgE1bb8FQnFwhzvl+h+lNriEoWnZPM+GnEIwtg4mEAuv+JWE0P+Ud/Iw+EV4p+EKLoDqt
+	alpx7O2fH90GMb+A/ZZAc1bloWNK72c=
+X-Google-Smtp-Source: AGHT+IEExCSUlqoViKDwEdRN/uSEar9TTfOH4bXLrH3Fp+ijD/2krgrb4OL1LsuvmTcBKr5ngmd/fQ==
+X-Received: by 2002:a05:6a21:1643:b0:1f5:9330:2a18 with SMTP id adf61e73a8af0-203cbc712damr27543771637.23.1745414431782;
+        Wed, 23 Apr 2025 06:20:31 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:371e:10cb:f3ce:33f])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbf8e510bsm10898037b3a.66.2025.04.23.06.20.30
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Apr 2025 06:20:31 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 00/14] Patch review
+Date: Wed, 23 Apr 2025 06:20:11 -0700
+Message-ID: <cover.1745356684.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5de2307-3538-4f9b-184a-08dd8266485b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2025 12:56:36.8504
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: abLUdLYf/YDaVEvIlfvC7inYtUQleEKEJGv5YqK5LlhLfJAlvKr1t0h8CRTC1XIQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB6512
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 12:56:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215292
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 13:20:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215293
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of patryk.seregiet via lists.openembedded.org
-> Sent: den 23 april 2025 14:26
-> To: openembedded-core@lists.openembedded.org
-> Cc: Patryk Seregiet <patryk.seregiet@gmail.com>
-> Subject: [OE-core] [PATCH v2] linux-firmware: fix FILES to drop RDEPENDS =
-on full package
->=20
-> From: Patryk Seregiet <patryk.seregiet@gmail.com>
->=20
-> linux-firmware-rtl8723 and linux-firmware-adsp-sst
-> contain symlinks to files that were previously
-> packaged only in the main linux-firmware package.
-> This caused both subpackages to inherit an unintended
-> RDEPENDS on the full package. This change resolves the
-> issue by ensuring all required files are correctly
-> included in their respective subpackages.
->=20
-> Thanks to Peter Kjellerstedt for figuring out the rootcause.
->=20
-> Signed-off-by: Patryk Seregiet <patryk.seregiet@gmail.com>
-> ---
->  .../linux-firmware/linux-firmware_20250410.bb               | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.b=
-b b/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
-> index f12bb2c6d3..a548645f00 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
-> @@ -1257,6 +1257,7 @@ FILES:${PN}-rtl8723 =3D " \
->  FILES:${PN}-rtl8821 =3D " \
->    ${nonarch_base_libdir}/firmware/rtlwifi/rtl8821*.bin* \
->    ${nonarch_base_libdir}/firmware/rtw88/rtw8821*.bin* \
-> +  ${nonarch_base_libdir}/firmware/rtl_bt/rtl8821c_config.bin \
+Please review this set of changes for scarthgap and have comments back by
+end of day Friday, April 25
 
-My recommendation was to include all the related 8821 files, i.e.:
+Passed a-full on autobuilder:
 
-  ${nonarch_base_libdir}/firmware/rtl_bt/rtl8821*.bin \
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1437
 
-It feels weird to only include one specific file, especially as it is not=20
-used by any other file in that package unless all the rtl_bt/rtl8821*.bin=20
-files are included.
+The following changes since commit 04038ecd1edd6592b826665a2b787387bb7074fa:
 
->  "
->  FILES:${PN}-rtl8761 =3D " \
->    ${nonarch_base_libdir}/firmware/rtl_bt/rtl8761*.bin* \
-> @@ -1760,7 +1761,10 @@ RDEPENDS:${PN}-ice      =3D "${PN}-ice-license"
->  FILES:${PN}-adsp-sst-license      =3D "${nonarch_base_libdir}/firmware/L=
-ICENCE.adsp_sst"
->  LICENSE:${PN}-adsp-sst            =3D "Firmware-adsp_sst"
->  LICENSE:${PN}-adsp-sst-license    =3D "Firmware-adsp_sst"
-> -FILES:${PN}-adsp-sst              =3D "${nonarch_base_libdir}/firmware/i=
-ntel/dsp_fw*"
-> +FILES:${PN}-adsp-sst              =3D "\
-> +    ${nonarch_base_libdir}/firmware/intel/dsp_fw* \
-> +    ${nonarch_base_libdir}/firmware/intel/avs/*/dsp_basefw.bin \
-> +"
->  RDEPENDS:${PN}-adsp-sst           =3D "${PN}-adsp-sst-license"
->=20
->  # For QAT
-> --
-> 2.49.0
+  build-appliance-image: Update to scarthgap head revision (2025-04-19 14:43:09 -0700)
 
-//Peter
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Ashish Sharma (1):
+  binutils: patch CVE-2025-1182
+
+Guðni Már Gilbert (2):
+  systemd: upgrade 255.17 -> 255.18
+  bluez5: add missing tools to noinst-tools package
+
+Igor Opaniuk (1):
+  wic: bootimg-efi: Support + symbol in filenames
+
+Peter Marko (2):
+  sqlite3: patch CVE-2025-3277
+  sqlite3: patch CVE-2025-29088
+
+Soumya Sambu (1):
+  python3-jinja2: upgrade 3.1.4 -> 3.1.6
+
+Vijay Anusuri (5):
+  libsoup: Fix CVE-2025-32910
+  libsoup: Fix CVE-2025-32909
+  libsoup: Fix CVE-2025-32911 & CVE-2025-32913
+  libsoup: Fix CVE-2025-32912
+  libsoup: Fix CVE-2025-32906
+
+Yogita Urade (2):
+  curl: fix CVE-2024-11053
+  curl: fix CVE-2025-0167
+
+ .../bluez5/bluez5_5.72.bb                     |   8 +-
+ ...55.17.bb => systemd-boot-native_255.18.bb} |   0
+ ...-boot_255.17.bb => systemd-boot_255.18.bb} |   0
+ meta/recipes-core/systemd/systemd.inc         |   2 +-
+ ...1-missing_type.h-add-comparison_fn_t.patch |   2 +-
+ ...k-parse_printf_format-implementation.patch |   4 +-
+ ...tall-dependency-links-at-install-tim.patch |   2 +-
+ ...missing.h-check-for-missing-strndupa.patch |   6 +-
+ ...OB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch |   4 +-
+ ...005-add-missing-FTW_-macros-for-musl.patch |   2 +-
+ ...06-Use-uintmax_t-for-handling-rlim_t.patch |   2 +-
+ ...T_SYMLINK_NOFOLLOW-flag-to-faccessat.patch |   2 +-
+ ...patible-basename-for-non-glibc-syste.patch |   2 +-
+ ...implment-systemd-sysv-install-for-OE.patch |   2 +-
+ ...uffering-when-writing-to-oom_score_a.patch |   4 +-
+ ...compliant-strerror_r-from-GNU-specif.patch |   2 +-
+ ...definition-of-prctl_mm_map-structure.patch |   2 +-
+ ...-not-disable-buffer-in-writing-files.patch |   2 +-
+ .../0013-Handle-__cpu_mask-usage.patch        |   2 +-
+ .../systemd/0014-Handle-missing-gshadow.patch |   8 +-
+ ...l.h-Define-MIPS-ABI-defines-for-musl.patch |   2 +-
+ ...ass-correct-parameters-to-getdents64.patch |   4 +-
+ .../0017-Adjust-for-musl-headers.patch        |   2 +-
+ ...trerror-is-assumed-to-be-GNU-specifi.patch |   2 +-
+ ...util-Make-STRERROR-portable-for-musl.patch |   2 +-
+ ...ake-malloc_trim-conditional-on-glibc.patch |   2 +-
+ ...hared-Do-not-use-malloc_info-on-musl.patch |   2 +-
+ ...22-avoid-missing-LOCK_EX-declaration.patch |   2 +-
+ .../{systemd_255.17.bb => systemd_255.18.bb}  |   0
+ .../binutils/binutils-2.42.inc                |   1 +
+ .../binutils/binutils/CVE-2025-1182.patch     |  33 +
+ ...inja2_3.1.4.bb => python3-jinja2_3.1.6.bb} |   5 +-
+ .../curl/curl/CVE-2024-11053-0001.patch       | 353 +++++++++
+ .../curl/curl/CVE-2024-11053-0002.patch       | 728 ++++++++++++++++++
+ .../curl/curl/CVE-2024-11053-0003.patch       | 130 ++++
+ .../curl/curl/CVE-2025-0167.patch             | 178 +++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   4 +
+ .../libsoup-3.4.4/CVE-2025-32906-1.patch      |  61 ++
+ .../libsoup-3.4.4/CVE-2025-32906-2.patch      |  83 ++
+ .../libsoup-3.4.4/CVE-2025-32909.patch        |  36 +
+ .../libsoup-3.4.4/CVE-2025-32910-1.patch      |  98 +++
+ .../libsoup-3.4.4/CVE-2025-32910-2.patch      | 149 ++++
+ .../libsoup-3.4.4/CVE-2025-32910-3.patch      |  27 +
+ .../CVE-2025-32911_CVE-2025-32913-1.patch     |  72 ++
+ .../CVE-2025-32911_CVE-2025-32913-2.patch     |  44 ++
+ .../libsoup-3.4.4/CVE-2025-32912-1.patch      |  41 +
+ .../libsoup-3.4.4/CVE-2025-32912-2.patch      |  30 +
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |  10 +
+ .../sqlite/sqlite3/CVE-2025-29088.patch       | 179 +++++
+ .../sqlite/sqlite3/CVE-2025-3277.patch        |  28 +
+ meta/recipes-support/sqlite/sqlite3_3.45.3.bb |   5 +-
+ scripts/lib/wic/plugins/source/bootimg-efi.py |   2 +-
+ 52 files changed, 2335 insertions(+), 38 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot-native_255.17.bb => systemd-boot-native_255.18.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-boot_255.17.bb => systemd-boot_255.18.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_255.17.bb => systemd_255.18.bb} (100%)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1182.patch
+ rename meta/recipes-devtools/python/{python3-jinja2_3.1.4.bb => python3-jinja2_3.1.6.bb} (81%)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2024-11053-0001.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2024-11053-0002.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2024-11053-0003.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-0167.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32906-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32909.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32910-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32910-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32910-3.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32911_CVE-2025-32913-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32911_CVE-2025-32913-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32912-2.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2025-29088.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch
+
+-- 
+2.43.0
 
 
