@@ -2,70 +2,67 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0882C369C2
-	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 00:31:06 +0000 (UTC)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
- by mx.groups.io with SMTP id smtpd.web10.1852.1745368262103595687
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEB5AC369C2
+	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 00:38:16 +0000 (UTC)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web10.2018.1745368689604861250
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Apr 2025 17:31:02 -0700
+ Tue, 22 Apr 2025 17:38:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TEFE7MIH;
- spf=pass (domain: gmail.com, ip: 209.85.167.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3feaedb4d2cso3368910b6e.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 17:31:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=k8iVsRLE;
+ spf=pass (domain: gmail.com, ip: 209.85.167.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-400fa6b3012so248022b6e.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 17:38:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745368261; x=1745973061; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1745368689; x=1745973489; darn=lists.openembedded.org;
         h=in-reply-to:autocrypt:from:content-language:references:cc:to
          :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=hT4zoN0KIH9J6DDDeyF6CsWMxX7QGFfMTzLT0p81QNQ=;
-        b=TEFE7MIHf75aMb0fHkKier/Gvc80aAh/qN9p6Z8SZq7t7P2mnS7QvE2g37zSO2aV98
-         XhNTMYwUlWwAh52qUdLlorW7fOTJAxbgm6ganlB+1eoqIgpWclfB25d7xSl17p1jX6JV
-         tcAQ1ITiwMjhy8wW/d1giDggH0V6zlZPQcYnF3gfPFwxfC3GluUqQswBSVRXqYmi9aWY
-         NthQ5OgJs8Ttn0K0tgzTnJId17J0dqByYUNlUZovKPI6jO2BP2umZ1HrsZjni3hSqQwm
-         nX/G8RDTWRlBZFa5NPZm1/4WbLhW16/FU3EX7l0OOykj1D2CQ1iuBZk/rlVjsR+w2hid
-         qoDw==
+        bh=4/Aw59f7JeI6ibfvMhFf864tWPcVr7G+zR4Ocj74X70=;
+        b=k8iVsRLExUNgMQCBaxXEe/R/MyoM4aMjgyuhN63+gHjktAGvzS9wQAFeDD52755f19
+         QebNyh1n0RvqA0FNFOGD7q/rx5Ieg0Z+poFflQeykW8/PX3J204pS+eiLgou2bO2WyXD
+         Ql1ErkawRgPgDOrYnvvc6EQz4k4CZGFP9hXihm1zUnptGGEZKUylfBQ20SycrGSNEVUR
+         bWEVYVaPFRNkkrGTU8e9P7NtgXeaNCAruiM1gX+/MeROtVEfAmPM93R3C6zcplT32bDz
+         eKG4nwoNCJC8dCbpIowCAoMYO7O3G3u3TJYQKYRwcrSwQjW0Cj071AwroM5QQ+eRUARL
+         GTnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745368261; x=1745973061;
+        d=1e100.net; s=20230601; t=1745368689; x=1745973489;
         h=in-reply-to:autocrypt:from:content-language:references:cc:to
          :subject:user-agent:mime-version:date:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=hT4zoN0KIH9J6DDDeyF6CsWMxX7QGFfMTzLT0p81QNQ=;
-        b=uMc0/452SRrQm/60YH1fge8gsuWn718NJaV5N+v4niJpF1sWaHosQmdaedD3prbmC/
-         F04Ojewh4RnSW8hp9o5dYOcyiXMRwWzdtcQwYWaR0/DJzA8XSGeW5ZFAzDcyg+V4JiLC
-         Y5/VhwBrFSZfAaV0xdRHaMXl+rg+79BxuRO0RKL50lbJiCwTkyHD0emAb8BhU8OwLUXB
-         BEkKCBv/IZaEeL6hSam2mBYtkOYACjrXu9Q7o2qIQBnPxZ7hVTsUklFs++eOKLUpnf63
-         IUmeNPeG0ozHwX51Rg/yVTvrUdtoSmDNVMmLZwFLhdZ5QxbAoXtHdkMOaAlKNhc86ar2
-         KAGA==
-X-Forwarded-Encrypted: i=1; AJvYcCULw64sBvL9WH4eJPUBRFAZXgKB5pWo1cjeo8ROXZQ/IZBxqwyV8biVgLWjvtlteMa3qIi34aF0LsyaVeAWMLRxkw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz+7BP/aHvZ/f2C3Psr6WyEzsIEGByZcblw1kJByeylhCGsdj+w
-	VXOGlLJN7VcRdVtHingAfO6btlUeLhGxUhSl7U/a++zYXYfZoFkX
-X-Gm-Gg: ASbGncvXaNUoNNHusPQAIQ0i8ie0us9LYQEV/A5zNEGHiwPBvn+dKX1mz+GoJhI1/m3
-	1pDAC0pC5FWYWboxwOMvH4UOJ0NaJ/Dxj4WZbnHRkvLVMAxplW8fB3FCudHfeo0FrTEtEmw4Etr
-	CukYLrZy0kWfRT3Q6xqgBUvLJIyZqdN77tN5bOHGFnFBhexhgWpzAUbUDX7MKI88N8QMvdyLlKQ
-	2VAVRKIEWcCOcLrm2x3DusOBTyRlzjqxaB1CgqE421MrOjDARfWN8sVihgK/xTn9qZS3VwySJd1
-	cylcbH+sAiyGqIwqCW4n5rRa4VEqsp11deU/RfB8WI/+e8MgSn9Cc9x2BPV2nCAgMAt24TLP/8W
-	RLRoGbY32Wqkub8kOx7nyoz6E759Qkbm5aQ==
-X-Google-Smtp-Source: AGHT+IH8SGziw5gbVnoANuGClUf3eEoQOEEN+vrt0F+heK/IVYwIMt3+2FSFwfaWK0SjKsaWoj35tw==
-X-Received: by 2002:a05:6808:6f8c:b0:3f6:a476:f7ea with SMTP id 5614622812f47-401c0c5125bmr11725592b6e.32.1745368261237;
-        Tue, 22 Apr 2025 17:31:01 -0700 (PDT)
+        bh=4/Aw59f7JeI6ibfvMhFf864tWPcVr7G+zR4Ocj74X70=;
+        b=JjtT2G9B9GyQOboKqFtKG/T/6/PnWskvA5yyLTk1dxkJFI4hofg1tngW7xAuM06mk5
+         6h+m1PHY+PjfF/6ZE8Ox0z6rl/pResF/f0q6yZLaBDls9K6wFIoyhIm6Bo+cpHF9Rksl
+         6/GYAYc9bdZa2zSpiTcaFbcEY1vpj0NE41vWJHSGrle4Es36wLsh6bVhB8dHgs1KKYYD
+         vwysb4lkQwsH4PlRX/sx2g0qLFdQcNwvv/ovPt0jGDWHDYifutNKddIYeaIoj0DBjRbU
+         9WJ8Z8ARIrBpxBuLFpQmC/ynAFJPQdIqXrinFKHMTrBmNKbwlXzwe8AEwAMkbaM/0TJI
+         KRow==
+X-Gm-Message-State: AOJu0Ywde/xWmbLgltpxDVL4OzzXcFnn0y3+BHUiYxDlR/CX4Ye8gDXB
+	p0RCQ7v8bfb55+PTefdpLKiVP8DsfmSrW8bOomqM7H1GaSHgLuW4
+X-Gm-Gg: ASbGncuPR9WBuCXTujv6TPoupNJbwzyOM393z8ZVcxMjLqSA0M8hb9JaO3gHqRsJUOX
+	grr66p+Ja2qX7M0Ef4dae+3q8zpDnDKCzlfyjDdRKWLG5epIyph0fVV49KP7uBoaFj6Izcij3Yo
+	IViVSqY/uhqH0H6xo5naPtf39ial9kY9P0Ri7UI5DbSzc9/DWAr5VDdfIgGxs2nY43iYYR3DJ3M
+	GYU4b8Qq0m8isAMioPErzvmgI3ux++G1JPxkxzDkD14u8P7SSLIAlnnczCpassHDBqtxobMgP6K
+	uORFTrkI7Df8xY85HELltPAVg0NHYG5tPJm03Gd6Yu/1O2fdNi5uaDoVR32G9Sgwq3NBqlq4FMR
+	UYWoGhghdV/uLCvqcGvfWgX6h+VTSjq9Ytw==
+X-Google-Smtp-Source: AGHT+IHFk3aZno396exn+l/pL7Wabf8xXzCwLSqk8jGefAhlQr+tPK5aoPcDIGGl6cAPhcZO8R0Gag==
+X-Received: by 2002:a05:6808:840a:b0:3f8:18a3:b1cc with SMTP id 5614622812f47-401e40af620mr474869b6e.12.1745368688861;
+        Tue, 22 Apr 2025 17:38:08 -0700 (PDT)
 Received: from ?IPV6:2601:646:8201:fd20:f90a:1834:bcca:2d8b? ([2601:646:8201:fd20:f90a:1834:bcca:2d8b])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-401beee7540sm2343488b6e.19.2025.04.22.17.31.00
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-401becc2294sm2381875b6e.0.2025.04.22.17.38.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 17:31:00 -0700 (PDT)
-Message-ID: <71fc1751-abb8-4061-80f4-c0095961fcd7@gmail.com>
-Date: Tue, 22 Apr 2025 17:30:59 -0700
+        Tue, 22 Apr 2025 17:38:08 -0700 (PDT)
+Message-ID: <6e9c953f-2c57-4941-a2af-2b294e6943ed@gmail.com>
+Date: Tue, 22 Apr 2025 17:38:07 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] gzip: upgrade 1.13 -> 1.14
+Subject: Re: [OE-core] Proposal: skip debug builds of native packages
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: richard.purdie@linuxfoundation.org, leimaohui@fujitsu.com,
- Denys Dmytriyenko <denis@denix.org>, openembedded-core@lists.openembedded.org
-References: <20250417102130.800-1-leimaohui@fujitsu.com>
- <CANNYZj919ZzBoW6iDURx=aH2DRFyB0Yhy0V8TLwBv_5xH64cTg@mail.gmail.com>
- <41b65472c37b399e2d4c770819bf7868cd145665.camel@linuxfoundation.org>
- <8f5a866f-e11d-4619-b159-8d3db541af52@gmail.com>
- <CANNYZj8yBO2o9BgTkzYCECVgX89-0C6tJthfvWhxoKA3SSAMiA@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <6xHT.1744794131155604566.Q0NW@lists.openembedded.org>
+ <CANNYZj_nbOyz__f2_ruKziyOngMXCw2ibMR3D8ETMS1b_3DOYQ@mail.gmail.com>
+ <c573e12e-f8fd-465a-aec5-01f5360c1841@gmail.com>
+ <CANNYZj-pPc7iFL8y31aiffm8TjLPXy5iZ54fQSy8wuKD+WzHwA@mail.gmail.com>
 Content-Language: en-US
 From: Khem Raj <raj.khem@gmail.com>
 Autocrypt: addr=raj.khem@gmail.com; keydata=
@@ -100,68 +97,50 @@ Autocrypt: addr=raj.khem@gmail.com; keydata=
  suq7Hnb7vszlFYdbzeqjY81LSyxA0kcpgJxdLv9o7UuCEnHDZLPbHdQ83PmyyBKSI31AKe7R
  XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiwkkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
  VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
-In-Reply-To: <CANNYZj8yBO2o9BgTkzYCECVgX89-0C6tJthfvWhxoKA3SSAMiA@mail.gmail.com>
+In-Reply-To: <CANNYZj-pPc7iFL8y31aiffm8TjLPXy5iZ54fQSy8wuKD+WzHwA@mail.gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------kAS6mDTIt0rSqW1ayQo0Qgdu"
+ boundary="------------vTSp0A2mHlfT3C6b6E04Fs9a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 00:31:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215253
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 00:38:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215254
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------kAS6mDTIt0rSqW1ayQo0Qgdu
-Content-Type: multipart/mixed; boundary="------------wVxpf2X6YTt541owxykB8WOR";
+--------------vTSp0A2mHlfT3C6b6E04Fs9a
+Content-Type: multipart/mixed; boundary="------------paA25SUzxvDWatVFk9Wz1CGn";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: richard.purdie@linuxfoundation.org, leimaohui@fujitsu.com,
- Denys Dmytriyenko <denis@denix.org>, openembedded-core@lists.openembedded.org
-Message-ID: <71fc1751-abb8-4061-80f4-c0095961fcd7@gmail.com>
-Subject: Re: [OE-core] [PATCH] gzip: upgrade 1.13 -> 1.14
-References: <20250417102130.800-1-leimaohui@fujitsu.com>
- <CANNYZj919ZzBoW6iDURx=aH2DRFyB0Yhy0V8TLwBv_5xH64cTg@mail.gmail.com>
- <41b65472c37b399e2d4c770819bf7868cd145665.camel@linuxfoundation.org>
- <8f5a866f-e11d-4619-b159-8d3db541af52@gmail.com>
- <CANNYZj8yBO2o9BgTkzYCECVgX89-0C6tJthfvWhxoKA3SSAMiA@mail.gmail.com>
-In-Reply-To: <CANNYZj8yBO2o9BgTkzYCECVgX89-0C6tJthfvWhxoKA3SSAMiA@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-ID: <6e9c953f-2c57-4941-a2af-2b294e6943ed@gmail.com>
+Subject: Re: [OE-core] Proposal: skip debug builds of native packages
+References: <6xHT.1744794131155604566.Q0NW@lists.openembedded.org>
+ <CANNYZj_nbOyz__f2_ruKziyOngMXCw2ibMR3D8ETMS1b_3DOYQ@mail.gmail.com>
+ <c573e12e-f8fd-465a-aec5-01f5360c1841@gmail.com>
+ <CANNYZj-pPc7iFL8y31aiffm8TjLPXy5iZ54fQSy8wuKD+WzHwA@mail.gmail.com>
+In-Reply-To: <CANNYZj-pPc7iFL8y31aiffm8TjLPXy5iZ54fQSy8wuKD+WzHwA@mail.gmail.com>
 
---------------wVxpf2X6YTt541owxykB8WOR
-Content-Type: multipart/mixed; boundary="------------8qhHR58OB5vlRTkbk0TEllJd"
+--------------paA25SUzxvDWatVFk9Wz1CGn
+Content-Type: multipart/mixed; boundary="------------Q00tOdHs59EZvCDQuDaeC8ps"
 
---------------8qhHR58OB5vlRTkbk0TEllJd
+--------------Q00tOdHs59EZvCDQuDaeC8ps
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-T24gNC8yMi8yNSA0OjQwIFBNLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90ZToNCj4gT24gV2Vk
-LCAyMyBBcHIgMjAyNSBhdCAwMDo1MSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4g
-d3JvdGU6DQo+PiBDb25zaWRlciBvdGhlciBzaWRlIG9mIHRoaXMgYXMgd2VsbC4NCj4+IE1h
-bnkgZW1iZWRkZWQgc3lzdGVtcyBkbyB1c2UgYnVzeWJveCBoZWF2aWx5LCBpbXBvc2luZyBk
-ZXBlbmRlbmNpZXMgZm9yDQo+PiB0ZXN0cyBsaWtlIHRoaXMgd291bGQgbWVhbiBwdGVzdHMg
-YXJlIGxlc3MgcmVsZXZhbnQgZm9yIHN1Y2ggdXNlY2FzZXMNCj4+IHNpbmNlIGJyaW5naW5n
-IGNvcmV1dGlscyBtaWdodCBhbHNvIHNodW50IG90aGVyIGJ1c3lib3ggdXRpbGl0aWVzIGFs
-b25nDQo+PiB0aGUgd2F5Lg0KPj4NCj4+IEkgd291bGQgYXNrIHRoaXMgcGF0Y2ggdG8gYmUg
-cHJvcG9zZWQgdG8gZ3ppcCB1cHN0cmVhbSBmaXJzdCB0aG91Z2guDQo+IA0KPiBOZWFybHkg
-YWxsIHVwc3RyZWFtcyBydW4gdGhlc2UgdGVzdHMgd2l0aCBhIEdOVSB1c2Vyc3BhY2UgZW52
-aXJvbm1lbnQNCj4gb24gc29tZSBjbGFzc2ljIGJpbmFyeSBkaXN0cm8uIEl0J3Mgbm90IHRo
-YXQgd2UgaW1wb3NlIEdOVSBvbiBwdGVzdHMsDQo+IGl0J3MgdGhhdCB3ZSBkb24ndCB3YW50
-IHRvIGRldmlhdGUgZnJvbSB1cHN0cmVhbSBleHBlY3RhdGlvbnMsIGFzDQo+IGRvaW5nIHRo
-YXQgb25seSByZXN1bHRzIGluIHVwc3RyZWFtIHVua25vd2luZ2x5IGludHJvZHVjaW5nDQo+
-IHJlZ3Jlc3Npb25zIGFuZCB1cyBmaXhpbmcgdGhlbSBhZnRlciB0aGUgZmFjdCwgd2l0aCBu
-byBndWFyYW50ZWUgdGhhdA0KPiB1cHN0cmVhbXMgd2lsbCB0YWtlIHRoZSBmaXhlcy4gVmVy
-c2lvbiB1cGRhdGVzIGFyZSBoYXJkIGVub3VnaCBhcyBpdA0KPiBpcy4NCg0KVGhhdCBpcyBm
-aW5lLCBhbmQgSSBjYW4gZW1wYXRoaXplLiBPRXMgdXNlY2FzZXMgYXJlIHVubGlrZSBjbGFz
-c2ljIA0KYmluYXJ5IGRpc3Ryb3MsIG90aGVyd2lzZSB0aGF0cyB3aGF0IHVzZXJzIHdvdWxk
-IHVzZS4gV2UgbmVlZCB0byBiZSANCm1pbmRmdWwgb2YgZW5kIHVzZXJzIHRvby4gQSBiaXQg
-b2YgZXh0cmEgcG9ydGFiaWxpdHkgaGVscHMgdXMsIGlmIHdlIGNhbiANCmdldCB1cHN0cmVh
-bXMgdG8gc3VwcG9ydCB0aGF0IHRoZW4gaXQgaGVscHMgb3VyIHVzZWNhc2UuDQoNCj4gDQo+
-IEkgY2FuIGtpbmRhIHNlZSB0aGUgcG9pbnQgaW4gZml4aW5nIHB0ZXN0cyB0byB3b3JrIHdp
-dGggbXVzbCwgYnV0DQo+IGZpeGluZyB0aGVtIHRvIHdvcmsgd2l0aCBidXN5Ym94IGlzIGEg
-c3RlcCB0b28gZmFyLiBUaGVyZSdzIGEgbG90IG9mDQo+IHB0ZXN0cyB0aGF0IGFscmVhZHkg
-cHVsbCBpbiB2YXJpb3VzIEdOVSBwaWVjZXMsIHNvIGFkZGluZyBnemlwIHRvIHRoYXQNCj4g
-c2V0IHdpbGwgbm90IG1ha2UgaXQgYW55IHdvcnNlLg0KPiANCj4gQWxleA0K
---------------8qhHR58OB5vlRTkbk0TEllJd
+T24gNC8yMi8yNSA0OjMyIFBNLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90ZToNCj4gT24gV2Vk
+LCAyMyBBcHIgMjAyNSBhdCAwMDo0NCwgS2hlbSBSYWogdmlhIGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcNCj4gPHJhai5raGVtPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3
+cm90ZToNCj4+IFNvIGhhdmluZyBhbiBvcHRpb24gdG8gdHVybiBERUJVR19CVUlMRCBwcm9w
+YWdhdGlvbiB0byBub24tdGFyZ2V0DQo+PiBwYWNrYWdlcyBjYW4gaW4gZmFjdCBoZWxwIHRo
+ZSBtYWpvcml0eSBvZiB1c2UtY2FzZXMgd2hlcmUgT0UgaXMgdXNlZC4NCj4gDQo+IEFzIFBl
+dGVyIHNhaWQsIHRoZXJlJ3MNCj4gREVCVUdfQlVJTEQ6Y2xhc3MtdGFyZ2V0ID0gIjEiDQo+
+IA0KPiBXZSBzaG91bGQgcGVyaGFwcyBiZXR0ZXIgZG9jdW1lbnQgdGhpcywgYnV0IEkgZG9u
+J3QgdGhpbmsgdGhlcmUgc2hvdWxkDQo+IGJlIHNwZWNpYWwtY2FzZSBoaWRkZW4gbWFnaWMg
+b3RoZXJ3aXNlLg0KDQpUaGF0IHdpbGwgaW1wcm92ZSB0aGluZ3MgZm9yIHN1cmUNCg0KPiAN
+Cj4gQWxleA0K
+--------------Q00tOdHs59EZvCDQuDaeC8ps
 Content-Type: application/pgp-keys; name="OpenPGP_0xBB053355919D3314.asc"
 Content-Disposition: attachment; filename="OpenPGP_0xBB053355919D3314.asc"
 Content-Description: OpenPGP public key
@@ -211,21 +190,21 @@ kQIbDAAKCRC7BTNVkZ0zFHVUAJwKR1o7etvz+BGmuV2YAfp5Hj16jgCeMPeHdpPC
 =3D+jUt
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------8qhHR58OB5vlRTkbk0TEllJd--
+--------------Q00tOdHs59EZvCDQuDaeC8ps--
 
---------------wVxpf2X6YTt541owxykB8WOR--
+--------------paA25SUzxvDWatVFk9Wz1CGn--
 
---------------kAS6mDTIt0rSqW1ayQo0Qgdu
+--------------vTSp0A2mHlfT3C6b6E04Fs9a
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCaAg0wwUDAAAAAAAKCRC7BTNVkZ0zFDYC
-AKCGJQFaB442s4NzUc2T7zTgR31HAACeKadGg5wNU9+A3DWlhpvO4Jltc1g=
-=awte
+wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCaAg2bwUDAAAAAAAKCRC7BTNVkZ0zFLSq
+AJ9AHOx4gN5d0nSrDY1nNliG3zuOMQCfcZUv6OSKfhSd4we8I9ciT/8ngIc=
+=M9qs
 -----END PGP SIGNATURE-----
 
---------------kAS6mDTIt0rSqW1ayQo0Qgdu--
+--------------vTSp0A2mHlfT3C6b6E04Fs9a--
 
