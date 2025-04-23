@@ -2,74 +2,78 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8FE8C369D1
-	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 12:31:06 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web11.7494.1745411463047492659
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B336CC369CB
+	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 12:31:46 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.7268.1745411498701481641
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Apr 2025 05:31:03 -0700
+ Wed, 23 Apr 2025 05:31:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=io+EJfVT;
- spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7fd35b301bdso7406511a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 05:31:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NLaYWejD;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-306b78ae2d1so5098373a91.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 05:31:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745411462; x=1746016262; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1745411498; x=1746016298; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xPRk1yjIQgNVt5pezGoxOfMNqid3/S3+HyoTuTWjYlY=;
-        b=io+EJfVTOqQRcfJ1hX1yRfCkDhy3Ihj4ps8CH22pCKK2rxguGU7cVd1Vyi6gy/N5cS
-         noB1maUz39AXux/joAawOvOnUmVYxp2+Pa5TyrLloPNZO6yXxwd1bbPc0OoYy5Mv7KKe
-         w6VC5swh6vZzvcjllxkiBUDTAdgXtvr35QBylPFneLuvpY7XvbZTv6z3IJX4QrDqxU4G
-         Qf5ajnCLKLH0e5xG8iHW56dnrIqhZQA++KDGtp2geu0EJgQEaL3YHYG4OpZGCOvfKEMg
-         uAtlqsqtWA9W0xbDwifolc8uJ816+f8O9si3AxcIGmBY14ke2S5ZUnG/V7eO9+asVeTW
-         Xulw==
+        bh=ALLHXEV0XopFJV3foQIH6wMlqhsWTh1Gk9r+Xxd6Mpg=;
+        b=NLaYWejD1vTR7pv+v35pCarc3/ww7eUdY7SDgcNCc7R4Pdu3tGfqc+8DX5Hjjt+gy1
+         S1ewmXsWC8nxWWP5uZzgW4p2zZghnS5Gm6lCDHJUq4qTQKi/c0ZxzGiVRx5IeWibzq+D
+         MxOg3Fi39uPsICcaDbPjuwXMP8W4e3WfkfGa9yIZRqJg548LURETVWTq2kqFwxJF4Xny
+         ffaDTEpWgSaBo9xZOM4mMHIgIfxNriadzoFOTgvuO/oweQwiLDu00ukooSKssR5g+kNn
+         Aqukuldks3Liknl95KepFgLN2gCu7a/IV5VkrpKSn+2J66nxsRM7feYuocectlKm1ZJo
+         e82w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745411462; x=1746016262;
+        d=1e100.net; s=20230601; t=1745411498; x=1746016298;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xPRk1yjIQgNVt5pezGoxOfMNqid3/S3+HyoTuTWjYlY=;
-        b=u5qtzeSLXFM8zmp+wLiHgr+6Ihf0sXz7jkyZYi0j41cS4sRr5WTxvON9kMHvqxUBUB
-         F0+cBYVRBLNluxFwdxEhtNktzTxd01wHBu0OVNBqRYILE/RxFk5n3jUxyPtSsG+qI0JH
-         0Rs7mhKimh1++mb+kUJy5q0z7af2sJshHxbyT6VerQR+Xw3KxdF1rDXB+kgfTnlf7nTV
-         lXQcNC57wbWY6/SBtJXzfpT3AH4MR2pL+1xaOFr4nnUg3cZJtB2HNMc0U0Tijmvv+eRB
-         auBE7uyHTaYx2uJEZqSX1AEJSAzIoqaXmgsNUIgA7HKofWKg4nPcFvZN/MjtvxZb0zLA
-         BeEw==
-X-Gm-Message-State: AOJu0Yyx3Vi/Si1u1ZU6SF4R2VEwXp0k7o3/csfT9enwcQXA26mTu1G3
-	KShssNrYk4Z0381vfBGdnmD74u9lWBfb/HFWQZgl6v5n55zUbknuGyGNPmksx11DTO/OBIpNl+J
-	jwdHkeSHNe5F3nauQWRIqhMfdRzc=
-X-Gm-Gg: ASbGncunMtYvzdVvrv8D0rk7swxgbzVmSwdP/hCNdDbEQCIaIE3vuxYs75ErY/yt1g0
-	yTPE2a4lskfBmtmUVqExUt02C39HqdXpjGkIV8SwYnmkmzc5Ksz0wNtkpbwqMDtIgCaO830tHJl
-	y4x5rsYX64wnbwIfFS7j5ZHOo=
-X-Google-Smtp-Source: AGHT+IGiSsu96U0bRR7IOLByHS+JErcJBFOnOR8lwudeP55IBHlA4eXgRK1zZNTywEYX821Rm1DnIuxfecrcJs9OkPs=
-X-Received: by 2002:a17:90b:2dcb:b0:2ee:f687:6acb with SMTP id
- 98e67ed59e1d1-3087bb53f4fmr29383743a91.13.1745411462078; Wed, 23 Apr 2025
- 05:31:02 -0700 (PDT)
+        bh=ALLHXEV0XopFJV3foQIH6wMlqhsWTh1Gk9r+Xxd6Mpg=;
+        b=QWHwYavB3i8ZQm4Iz3ryzPpDalZegLw0aM9aadCfZ3Q/iafTRQaQCUVy5MlATK96e3
+         44TFImCkbkzuaBrgSKYnij2bpXXwEpvZR5K9US1smHDQmC5QbNz7caCszTXtT2ZqCVD3
+         ONERC6YC7keKiefMsQZqwxi371qf58m2RSDRMZNyUkNAwm715FK+jK5l/NDjluXhrefW
+         ukcJyuzdNLw4gXwWcXPNTEIgQyu3YR6Fy7jHyrUl7awIsd+F+GsJH4R9YBeTPBY8u4wM
+         D42/j7R7x5OOJbhsFnMY0DYyO9HW/tcjcGguOpgMBCq3Qg6Tw40g69xp9BUvl++ozsaB
+         mW5g==
+X-Gm-Message-State: AOJu0YzhEQai9nLle975B5fzjLjRAg3dNcRvZpsT9qkTWUCbyWXhc112
+	sN1vI02FcHguwtwYULzADnmRMARoQzQe2xNrE+jGx9H1RMN79rcjEgGDAWq5qxCBVKLkimA4es6
+	k2Mn42OIFwyDBLVzWxb5VeyanavgW4/gs
+X-Gm-Gg: ASbGncuRbRkX6ljVMCzNOAzl4h6s2Q/Gk6e2CKS38ki8x0mBXJDuMD4raYIOWCFABtW
+	3puWMhkpJgR0/AeJqSg266QH1SLs1YSwBQHFNKOJOtngRsNPR64TUM7c3WS7aIvOdxzZTDZezM+
+	a2OL1waLB7NbJ5W4ZFuvqyPWM=
+X-Google-Smtp-Source: AGHT+IE64VH+hKW3xbbN4BzlUTn5HyrCHzMx5RMQTNwKR7oc8vCB04j60OXZySQCLLc8nGpLn3VI0GaiSZWCLlquckM=
+X-Received: by 2002:a17:90b:1d50:b0:2ee:f677:aa14 with SMTP id
+ 98e67ed59e1d1-3087bb533damr27400544a91.13.1745411497857; Wed, 23 Apr 2025
+ 05:31:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250423080246.128723-1-mikko.rapeli@linaro.org> <20250423080246.128723-2-mikko.rapeli@linaro.org>
-In-Reply-To: <20250423080246.128723-2-mikko.rapeli@linaro.org>
+References: <20250423080246.128723-1-mikko.rapeli@linaro.org>
+In-Reply-To: <20250423080246.128723-1-mikko.rapeli@linaro.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 23 Apr 2025 08:30:50 -0400
-X-Gm-Features: ATxdqUE3uRtiaExsF6AtUffnbXuSkQxnc2fBjqL8YIdfyLKvbcPS9tAjvkDpBGg
-Message-ID: <CADkTA4MUkWtgpj=FG2rGN+kHQqkGLWjLPMDiyBi3TUct+Th4EQ@mail.gmail.com>
-Subject: Re: [poky] [PATCH 2/3] kernel-yocto.bbclass: support modular kernel configs
+Date: Wed, 23 Apr 2025 08:31:25 -0400
+X-Gm-Features: ATxdqUHF3o3rVTZwZD6jejhlQH3-2T1SoxbPUrkoCNqDDGGFeL4_iqvOlLmp3Xw
+Message-ID: <CADkTA4PjYn55Udo7KxJwQi_SK08r+a_6EwMyo=e1-Y1vDKtxYA@mail.gmail.com>
+Subject: Re: [poky] [PATCH 1/3] kern-tools-native: update to support modular
+ kernel builds
 To: mikko.rapeli@linaro.org
 Cc: openembedded-core@lists.openembedded.org, poky@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000002f2bb20633714669"
+Content-Type: multipart/alternative; boundary="000000000000511c4706337148a0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 12:31:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215284
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 12:31:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215285
 
---0000000000002f2bb20633714669
+--000000000000511c4706337148a0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-I already have patches for this, and they have not been sent on purpose.
+Do not apply this patch.
 
-Please do not apply this patch, consider this a nack.
+I have queued updates for this support, and again, they have not been sent
+on purpose.
+
+nack.
 
 Bruce
 
@@ -77,66 +81,44 @@ On Wed, Apr 23, 2025 at 4:03=E2=80=AFAM Mikko Rapeli via lists.yoctoproject=
 .org
 <mikko.rapeli=3Dlinaro.org@lists.yoctoproject.org> wrote:
 
-> Compile many kernel drivers as modules when recipe sets
+> After this update scc tool can compile options as modules
+> conditionally without duplicating config fragments when
+> the options contain a comment like:
 >
-> MODULAR_KERNEL =3D "true"
+> CONFIG_LEDS_GPIO=3Dy # OVERRIDE:$MODULE_OR_Y
 >
-> This likely requires support for initramfs which includes
-> kernel modules needed to mount the rootfs.
+> Then "scc -DMODULE_OR_Y=3Dm" converts these into
 >
-> SCC_OPTS can be used to add arguments to scc kernel config
-> generation call.
+> CONFIG_LEDS_GPIO=3Dm
 >
 > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 > ---
->  meta/classes-recipe/kernel-yocto.bbclass | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/classes-recipe/kernel-yocto.bbclass
-> b/meta/classes-recipe/kernel-yocto.bbclass
-> index cef6b9ec3f..f98720bcec 100644
-> --- a/meta/classes-recipe/kernel-yocto.bbclass
-> +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -26,6 +26,12 @@ KCONF_BSP_AUDIT_LEVEL ?=3D "0"
->  KMETA_AUDIT ?=3D "yes"
->  KMETA_AUDIT_WERROR ?=3D ""
+> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> index 6dd19f1f09..20b1bcaf37 100644
+> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "\
 >
-> +# most drivers as built in (default), or as modules
-> +MODULAR_KERNEL =3D "false"
-> +
-> +# options to scc
-> +SCC_OPTS ?=3D "${@bb.utils.contains('MODULAR_KERNEL', 'true',
-> '-DMODULE_OR_Y=3Dm', '', d)}"
-> +
->  # returns local (absolute) path names for all valid patches in the
->  # src_uri
->  def find_patches(d,subdir):
-> @@ -298,7 +304,7 @@ do_kernel_metadata() {
->                 elements=3D"`echo -n ${bsp_definition} $sccs_defconfig
-> ${sccs} ${patches} $KERNEL_FEATURES_FINAL`"
->                 if [ -n "${elements}" ]; then
->                         echo "${bsp_definition}" >
-> ${S}/${meta_dir}/bsp_definition
-> -                       scc --force -o ${S}/${meta_dir}:cfg,merge,meta
-> ${includes} $sccs_defconfig $bsp_definition $sccs $patches
-> $KERNEL_FEATURES_FINAL
-> +                       scc ${SCC_OPTS} --force -o
-> ${S}/${meta_dir}:cfg,merge,meta ${includes} $sccs_defconfig $bsp_definiti=
-on
-> $sccs $patches $KERNEL_FEATURES_FINAL
->                         if [ $? -ne 0 ]; then
->                                 bbfatal_log "Could not generate
-> configuration queue for ${KMACHINE}."
->                         fi
+>  DEPENDS +=3D "git-replacement-native"
+>
+> -SRCREV =3D "c8c1f17867d0cc7d04be225ba4901f2373428be2"
+> +SRCREV =3D "fe67c98d2e9b74af44d0c4b660fa18e3a95e7edd"
+>  PV =3D "0.3+git"
+>
+>  inherit native
 > --
 > 2.43.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#13599):
-> https://lists.yoctoproject.org/g/poky/message/13599
-> Mute This Topic: https://lists.yoctoproject.org/mt/112410521/1050810
+> View/Reply Online (#13598):
+> https://lists.yoctoproject.org/g/poky/message/13598
+> Mute This Topic: https://lists.yoctoproject.org/mt/112396089/1050810
 > Group Owner: poky+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/poky/unsub [
 > bruce.ashfield@gmail.com]
@@ -149,94 +131,72 @@ on
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---0000000000002f2bb20633714669
+--000000000000511c4706337148a0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">I already have patches for this, and they have not been sent =
-on purpose.</div><div class=3D"gmail_default" style=3D"font-size:small"><br=
-></div><div class=3D"gmail_default" style=3D"font-size:small">Please do not=
- apply this patch, consider this a nack.</div><div class=3D"gmail_default" =
-style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"f=
-ont-size:small">Bruce</div></div><br><div class=3D"gmail_quote gmail_quote_=
-container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 23, 2025 at 4:=
-03=E2=80=AFAM Mikko Rapeli via <a href=3D"http://lists.yoctoproject.org">li=
-sts.yoctoproject.org</a> &lt;mikko.rapeli=3D<a href=3D"mailto:linaro.org@li=
-sts.yoctoproject.org">linaro.org@lists.yoctoproject.org</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">Compile many kernel =
-drivers as modules when recipe sets<br>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Do =
+not apply this patch.</div><div class=3D"gmail_default" style=3D"font-size:=
+small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">I h=
+ave queued updates for this support, and again, they have not been sent on =
+purpose.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></=
+div><div class=3D"gmail_default" style=3D"font-size:small">nack.</div><div =
+class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"g=
+mail_default" style=3D"font-size:small">Bruce</div></div><br><div class=3D"=
+gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On=
+ Wed, Apr 23, 2025 at 4:03=E2=80=AFAM Mikko Rapeli via <a href=3D"http://li=
+sts.yoctoproject.org">lists.yoctoproject.org</a> &lt;mikko.rapeli=3D<a href=
+=3D"mailto:linaro.org@lists.yoctoproject.org">linaro.org@lists.yoctoproject=
+.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">After this update scc tool can compile options as modules<br>
+conditionally without duplicating config fragments when<br>
+the options contain a comment like:<br>
 <br>
-MODULAR_KERNEL =3D &quot;true&quot;<br>
+CONFIG_LEDS_GPIO=3Dy # OVERRIDE:$MODULE_OR_Y<br>
 <br>
-This likely requires support for initramfs which includes<br>
-kernel modules needed to mount the rootfs.<br>
+Then &quot;scc -DMODULE_OR_Y=3Dm&quot; converts these into<br>
 <br>
-SCC_OPTS can be used to add arguments to scc kernel config<br>
-generation call.<br>
+CONFIG_LEDS_GPIO=3Dm<br>
 <br>
 Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@linaro.org" =
 target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<br>
 ---<br>
-=C2=A0meta/classes-recipe/kernel-yocto.bbclass | 8 +++++++-<br>
-=C2=A01 file changed, 7 insertions(+), 1 deletion(-)<br>
+=C2=A0meta/recipes-kernel/kern-tools/<a href=3D"http://kern-tools-native_gi=
+t.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.bb</a> | 2=
+ +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
 <br>
-diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe=
-/kernel-yocto.bbclass<br>
-index cef6b9ec3f..f98720bcec 100644<br>
---- a/meta/classes-recipe/kernel-yocto.bbclass<br>
-+++ b/meta/classes-recipe/kernel-yocto.bbclass<br>
-@@ -26,6 +26,12 @@ KCONF_BSP_AUDIT_LEVEL ?=3D &quot;0&quot;<br>
-=C2=A0KMETA_AUDIT ?=3D &quot;yes&quot;<br>
-=C2=A0KMETA_AUDIT_WERROR ?=3D &quot;&quot;<br>
+diff --git a/meta/recipes-kernel/kern-tools/<a href=3D"http://kern-tools-na=
+tive_git.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.bb<=
+/a> b/meta/recipes-kernel/kern-tools/<a href=3D"http://kern-tools-native_gi=
+t.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.bb</a><br>
+index 6dd19f1f09..20b1bcaf37 100644<br>
+--- a/meta/recipes-kernel/kern-tools/<a href=3D"http://kern-tools-native_gi=
+t.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.bb</a><br>
++++ b/meta/recipes-kernel/kern-tools/<a href=3D"http://kern-tools-native_gi=
+t.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.bb</a><br>
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D &quot;\<br>
 <br>
-+# most drivers as built in (default), or as modules<br>
-+MODULAR_KERNEL =3D &quot;false&quot;<br>
-+<br>
-+# options to scc<br>
-+SCC_OPTS ?=3D &quot;${@bb.utils.contains(&#39;MODULAR_KERNEL&#39;, &#39;tr=
-ue&#39;, &#39;-DMODULE_OR_Y=3Dm&#39;, &#39;&#39;, d)}&quot;<br>
-+<br>
-=C2=A0# returns local (absolute) path names for all valid patches in the<br=
->
-=C2=A0# src_uri<br>
-=C2=A0def find_patches(d,subdir):<br>
-@@ -298,7 +304,7 @@ do_kernel_metadata() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elements=3D&quot;`e=
-cho -n ${bsp_definition} $sccs_defconfig ${sccs} ${patches} $KERNEL_FEATURE=
-S_FINAL`&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -n &quot;${ele=
-ments}&quot; ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 echo &quot;${bsp_definition}&quot; &gt; ${S}/${meta_dir}/bsp_def=
-inition<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes} $sccs_=
-defconfig $bsp_definition $sccs $patches $KERNEL_FEATURES_FINAL<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0scc ${SCC_OPTS} --force -o ${S}/${meta_dir}:cfg,merge,meta ${incl=
-udes} $sccs_defconfig $bsp_definition $sccs $patches $KERNEL_FEATURES_FINAL=
+=C2=A0DEPENDS +=3D &quot;git-replacement-native&quot;<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if [ $? -ne 0 ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbfatal_log &quot;Could not generate=
- configuration queue for ${KMACHINE}.&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 fi<br>
+-SRCREV =3D &quot;c8c1f17867d0cc7d04be225ba4901f2373428be2&quot;<br>
++SRCREV =3D &quot;fe67c98d2e9b74af44d0c4b660fa18e3a95e7edd&quot;<br>
+=C2=A0PV =3D &quot;0.3+git&quot;<br>
+<br>
+=C2=A0inherit native<br>
 -- <br>
 2.43.0<br>
 <br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#13599): <a href=3D"https://lists.yoctoproject.org/g/pok=
-y/message/13599" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctopr=
-oject.org/g/poky/message/13599</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/112410521/105=
+View/Reply Online (#13598): <a href=3D"https://lists.yoctoproject.org/g/pok=
+y/message/13598" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctopr=
+oject.org/g/poky/message/13598</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/112396089/105=
 0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/112410521/1050810</a><br>
+t/112396089/1050810</a><br>
 Group Owner: <a href=3D"mailto:poky%2Bowner@lists.yoctoproject.org" target=
 =3D"_blank">poky+owner@lists.yoctoproject.org</a><br>
 Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/poky/unsub" rel=3D=
@@ -249,7 +209,7 @@ hfield@gmail.com</a>]<br>
 =3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
 ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
 wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
+rek II<br><br></div>
 
---0000000000002f2bb20633714669--
+--000000000000511c4706337148a0--
 
