@@ -1,214 +1,228 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30FEAC369C2
-	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 01:48:57 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.3161.1745372928905293730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5E4EC369C2
+	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 02:57:53 +0000 (UTC)
+Received: from esa13.fujitsucc.c3s2.iphmx.com (esa13.fujitsucc.c3s2.iphmx.com [68.232.156.96])
+ by mx.groups.io with SMTP id smtpd.web11.255.1745377068450000602
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Apr 2025 18:48:48 -0700
+ Tue, 22 Apr 2025 19:57:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=62082053c6=kai.kang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53N1eUOk005793
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 18:48:48 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 466jhar6t2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Apr 2025 18:48:48 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 22 Apr 2025 18:48:47 -0700
-Received: from pek-lpg-core4.wrs.com (128.224.153.44) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Tue, 22 Apr 2025 18:48:46 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH 2/2] systemd: systemd-journald fails to setup LogNamespace
-Date: Wed, 23 Apr 2025 09:48:38 +0800
-Message-ID: <20250423014838.2797584-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250423012031.2750737-1-kai.kang@windriver.com>
-References: <20250423012031.2750737-1-kai.kang@windriver.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=f5VQ+4WC;
+ spf=pass (domain: fujitsu.com, ip: 68.232.156.96, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+  t=1745377069; x=1776913069;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=sTHZ8rCTE+rwo8SwWEoeshbQiE46JHkXfKtLFyMi1j8=;
+  b=f5VQ+4WC9kS5r03o++3cb6jddMidGnsazFBdlh3ebOqIq4xg/opp7vSp
+   wlbmDc1kN6ehEdhLFw6aLygQyEznIV15vegBs5DJl2uDDkefF1sW/4x+h
+   tg7d6HSrjQjLFt3Y2N1DF+PRMuw/xFDk6TSpnB99nk/srOVslQzHj+W/E
+   xRwwhgjGKxeprqX0YoHE7mevRYTrY6uoSvFVFa8ITHEct+7oDmLHPscp7
+   V4DzL/6RXx9T6bIZBoiQH3PKtHTLjvZsAifSyFLgpurbES8b38GarU5lU
+   7btriw40AhLBDBVeLn5Iqo5yL3jsEq9fIJlIonc8pzRfU8SBhs/6AiWqg
+   Q==;
+X-CSE-ConnectionGUID: +P5WGWKuTU6kKL0BkHO87A==
+X-CSE-MsgGUID: aIwcYvoqQvy2sKrxszXxkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="153105777"
+X-IronPort-AV: E=Sophos;i="6.15,232,1739804400"; 
+   d="scan'208";a="153105777"
+Received: from mail-japanwestazlp17010005.outbound.protection.outlook.com (HELO OS0P286CU011.outbound.protection.outlook.com) ([40.93.130.5])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 11:57:46 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ketR8bQFAX3GKL0PnMQrYeO634pOLzfeXlnJ2N/pxEHArLLaSpPAtD8RDrDjYBqTaEQfAPHqbIHCzvCIWuT73o45oZtdqpquOjR+ZkK2YLQP4k2OFMu3I0Nijj1EBxRtBfgfFXm4FsoKp/kA2d4vw1PtsmCJlfps5dIlmMVtwUTTHXVlCJ8EcIw+92nRmHbN/0z4ORZVzudobXjji7Ya0Qb9leHUjk+Sm0HFXgUFfnPCNDZQBwkC2YNR9e5gOV1zbnpXwy7mAXp56W75RAYyB6Wgvu/G/TJRympr/jfLRNsyyA6rH3eWGT2RyxTRDD3HxIWlo/3cHPmenxB2KsKzpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sTHZ8rCTE+rwo8SwWEoeshbQiE46JHkXfKtLFyMi1j8=;
+ b=gNcv83b7zyIj/mB/D7bLp0JI1UPRYVdks/8AB1ANtv+H/3ofM5yIyPa94GpBmyFH1pFfuEH9Rx7h4555gFYTTxp6BQs+x74v2JsnWBTANcBoXr0nk//7vLahfzm2/RjdwqlkMETKvrWivCpCzLi5phBXi3fjkvZCRlcIes0Fgxm/hyFGoAO5k8N9v5si8oZIpzEBmZIEuHAlH7PNEmgr43KN0SMAv2OhJYkRUUGv6QfUzgV47vdPN4v/UTt01BnwcWxFoPG3xLkT/lrvLykJZXUfXO4pNoYaINe6xos/otKaMt0a+7JEg0LSSggFQSIWoSSQMkaKtR/9A3PvGj+9JQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+Received: from OSRPR01MB11597.jpnprd01.prod.outlook.com
+ (2603:1096:604:22f::12) by OSZPR01MB6988.jpnprd01.prod.outlook.com
+ (2603:1096:604:13c::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.23; Wed, 23 Apr
+ 2025 02:57:39 +0000
+Received: from OSRPR01MB11597.jpnprd01.prod.outlook.com
+ ([fe80::cb27:d71e:9f8a:8014]) by OSRPR01MB11597.jpnprd01.prod.outlook.com
+ ([fe80::cb27:d71e:9f8a:8014%5]) with mapi id 15.20.8632.035; Wed, 23 Apr 2025
+ 02:57:39 +0000
+From: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
+To: "ross.burton@arm.com" <ross.burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: 
+ =?utf-8?B?5Zue5aSNOiBbT0UtY29yZV0gW1BBVENIXSBnc3RyZWFtZXIxLjAtZGV2OiBG?=
+ =?utf-8?Q?ix_install_conflict_when_enable_multilib?=
+Thread-Topic: [OE-core] [PATCH] gstreamer1.0-dev: Fix install conflict when
+ enable multilib
+Thread-Index: AQHbszGEH9kKtmbjvUuy0D4qNO16KLOvidWAgAED7rA=
+Date: Wed, 23 Apr 2025 02:57:39 +0000
+Message-ID: 
+ <OSRPR01MB11597919FA3CED6340A6AE10A9BBA2@OSRPR01MB11597.jpnprd01.prod.outlook.com>
+References: <20250422025127.605-1-leimaohui@fujitsu.com>
+ <0603ED6B-9982-493C-9E7F-038240C4942A@arm.com>
+In-Reply-To: <0603ED6B-9982-493C-9E7F-038240C4942A@arm.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ =?utf-8?B?TVNJUF9MYWJlbF8xZTkyZWY3My0wYWQxLTQwYzUtYWQ1NS00NmRlMzM5Njgw?=
+ =?utf-8?B?MmZfQWN0aW9uSWQ9MzYzNjNlZDQtMmNhMC00N2U0LTk3ZWQtYjM5OTI1NmI4?=
+ =?utf-8?B?ZWZlO01TSVBfTGFiZWxfMWU5MmVmNzMtMGFkMS00MGM1LWFkNTUtNDZkZTMz?=
+ =?utf-8?B?OTY4MDJmX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF8xZTkyZWY3My0wYWQx?=
+ =?utf-8?B?LTQwYzUtYWQ1NS00NmRlMzM5NjgwMmZfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
+ =?utf-8?B?ZWxfMWU5MmVmNzMtMGFkMS00MGM1LWFkNTUtNDZkZTMzOTY4MDJmX01ldGhv?=
+ =?utf-8?B?ZD1Qcml2aWxlZ2VkO01TSVBfTGFiZWxfMWU5MmVmNzMtMGFkMS00MGM1LWFk?=
+ =?utf-8?B?NTUtNDZkZTMzOTY4MDJmX05hbWU9RlVKSVRTVS1QVUJMSUPigIs7TVNJUF9M?=
+ =?utf-8?B?YWJlbF8xZTkyZWY3My0wYWQxLTQwYzUtYWQ1NS00NmRlMzM5NjgwMmZfU2V0?=
+ =?utf-8?B?RGF0ZT0yMDI1LTA0LTIzVDAyOjQ3OjQzWjtNU0lQX0xhYmVsXzFlOTJlZjcz?=
+ =?utf-8?B?LTBhZDEtNDBjNS1hZDU1LTQ2ZGUzMzk2ODAyZl9TaXRlSWQ9YTE5ZjEyMWQt?=
+ =?utf-8?B?ODFlMS00ODU4LWE5ZDgtNzM2ZTI2N2ZkNGM3O01TSVBfTGFiZWxfMWU5MmVm?=
+ =?utf-8?B?NzMtMGFkMS00MGM1LWFkNTUtNDZkZTMzOTY4MDJmX1RhZz0xMCwgMCwgMSwg?=
+ =?utf-8?Q?1;?=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OSRPR01MB11597:EE_|OSZPR01MB6988:EE_
+x-ms-office365-filtering-correlation-id: c0b3b502-4d3c-4b9f-fd4f-08dd82129bc3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|1580799027|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?OHRwWVM4cnhqQXVIVEdnQkNiMVdoamxPbXZJNXcxbUVYOXNETXNybEpXbGlt?=
+ =?utf-8?B?Z0QvekxnR1lRV3lhYWxuSEJSSG40TGkxVFNQcndad3VUYjd2TnU3NHgvNWQv?=
+ =?utf-8?B?ditrUWpZRTRHa0pwTFdBRmxPempPWDdHU1dDdXBoRlVER3pZc0xhVzN1TXkv?=
+ =?utf-8?B?SWsvNzdaR1NZUTg4aTZrTTlNaHhQWitDRzJGL3NDVmxKb3B3eDd1K1BONThX?=
+ =?utf-8?B?SDJ0dnVKb1luTkRPVFNVOVlUeHZMa1l5TjZQRDNiK09SbUxCVkoycFowYnJj?=
+ =?utf-8?B?SWhvcTJYQm1FZlFRdTFWVVMzU0N5L205cFlKeS8rL3BWY2lQUnc2MTJ2b0FV?=
+ =?utf-8?B?RGx2ZlVLdU1oNnlwSVpMRnZYczlNN1YzTDJCZ3FlOWVBY2FzbUVNVVFPUFVw?=
+ =?utf-8?B?ekNTRm9kQ0dWUU9mVEtOTHErcUc4U1kzTSs2TGJOc1lkZHZSZENRQzdzZEV5?=
+ =?utf-8?B?bVlXM2MvM1B1eXA0SUhkK3I2TTBPN2ZGRWR2STlGYW1wSzUxUEVNNnZsa1Z6?=
+ =?utf-8?B?Z2VkT2lQQllMMWR6dWJpSjFTL29PY1M5TUJVeU5XeVZTRWpTRmR4ZS9rM0tY?=
+ =?utf-8?B?T2hoYW44YVdlUE5oWThPdkZTRjhua0huL1Y0QXJZNXg3NjlSUi8yV2hnaUdv?=
+ =?utf-8?B?M0FuSDJ2eTBqQW41VXIxTEc3RnNFZlFnR2M4dUllWllqVW1TaituMjNadXA0?=
+ =?utf-8?B?Zm9ZYVJIZlptMHE2T2JLTTZTRFlNMVF1SHNTdW1STEYxTVZXRFhNSWl4WUsy?=
+ =?utf-8?B?MU12UlUwZ3dsV2RUaGo1d2JwVmJkMGhvVjlsdjVTRGJSTU1KV1hlb0Jqeito?=
+ =?utf-8?B?NktWNW8vSUdobEZ1ZDZFK0VuYUZwNmlNTzJabEhvUWJRTUl4TWJRa2paaURI?=
+ =?utf-8?B?YWh1VzQyUWJNdWxia2xkSDZScE5EVFo4djlRbmtQR0tEVWYyeTQySys1azNV?=
+ =?utf-8?B?UDNJcmp3Q2RmcEJzWGdBQzBNb1ExUlI0NFhwTDc4Rmp3cm5rUzhhN2ZjUXk4?=
+ =?utf-8?B?UElrb2s5ajM4OTFXSDA1TTNLc3A5N1Y4UWs2My9MQ1NpZWU5Q2JoRGo5NVp0?=
+ =?utf-8?B?NHVUOHl5ZWtFRkJhbWIzTmRMdHdXbmpWcXU1UVZZeHNqSVhPRWV6TktlQyty?=
+ =?utf-8?B?dld2N3docGgwVHdRMUF2emJlUjBCTVFRV2x4dmF2TXptOXlnL0JCazdFMlNK?=
+ =?utf-8?B?azhTaU1nL1FYMTNoY3J0VFNFLzZodk5xenhTR0FNOWxrNTRFSkRoUC83YUN5?=
+ =?utf-8?B?UU1WRVAvRHdVMWlBaWc3M0d4d1dkK21UYWhHZFVFcmpzVEVHdGxjVW8vTkRR?=
+ =?utf-8?B?bmhFY3h3emFReFVvM0tSbGxSSFdYLzk2cGVtT1ZsbWszcEFoaHJsSXBQMGRE?=
+ =?utf-8?B?WmhFeElHMlBCdWlQaXZpb2d2a25EZ1hFOFptbCszeHVHK3diY3ZOMVlaVUJQ?=
+ =?utf-8?B?b1NMdHp2ZW5Ca2tIeFJXWCthNUxPWGQzVzB1VTl3ZHhLUXFxRWI5S01NZU9o?=
+ =?utf-8?B?NlFtRTJ2S01qQjVEYTRkcUg3U3M2YTRPQVNQS0dQU3BpMnBUekJNT0t1RFZY?=
+ =?utf-8?B?SkVKbm5pYmZRcStsaWJyRjFlblE1OXNaWlkvcmRBYTRHQlJldzh1ekhjSnBU?=
+ =?utf-8?B?MGJockltMlNidGFmK0xVWU9LNGNTZk5VR1lVRzFEWWcwSFBJeTZKNkMvK3o2?=
+ =?utf-8?B?c2JDbWlaai96azNIanlpaTl0RS91WTRSS2JwK1cvRlgzNmJGZ0lXY3d0SFFF?=
+ =?utf-8?B?N2JzQnk1WXB1cENtRm5VbHlVZXFlRmxXN2oyYi92S0hpSHhpMFpidnFuQUtS?=
+ =?utf-8?B?ZlNRK0VDaFR3a0VHQnV1U3dEQTY1UGFNV3Y4T2hTUmY5L1JXUTl4SC9vYWc3?=
+ =?utf-8?B?YTNoM1N2Tm1UR0VHVlVoMm9yeXAxeDdQdHlKc1Awd3dEbm9RL2lsK2JSVHlo?=
+ =?utf-8?B?bGhSNEx1aU1VUTFlUjdRZnptYXFDMHBUbkJoaVVrcVZlYmczdmJPZENIcGZ0?=
+ =?utf-8?B?QnRUZENaN1NDeGVWNzZpdDdkNjNxTE1lZU1UZUZMLzdkUndtNVpPTVVVN293?=
+ =?utf-8?Q?rNmtEO?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSRPR01MB11597.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(1580799027)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?WTlBZjNRTC96OHNiaTF1bzdVazFBc3h4YjFrM1drdldDUTVjRk4vVXdlV0VM?=
+ =?utf-8?B?b0ozVEx3dUE4OXlEckJJNGtXVHh0UUxCbnU1VWNKaVlDL2N4OU9IM2JFR0lF?=
+ =?utf-8?B?UXl1NWVPUE4wQnlmTVBGRXFPU3RweWRuUmw1T3g0akZvUTFyenV2a3VqVjNo?=
+ =?utf-8?B?N1k1MGhWdmg5WU8rOWhSWS9MZ2NKSUl5Sm81dVpoUEJOeHA5R3UvTm1GMnE3?=
+ =?utf-8?B?ZktnTWdSanUrYVNiRlZLam1TeTlUN0NqNzNsZ2FidklLQUpiaXVKN0xqUklr?=
+ =?utf-8?B?bkpBaTI4blRSZFpRQ2trRHZmdWsrRDZZbzc5UFZXVFR3RnhoRFlhcFhJQTRU?=
+ =?utf-8?B?UnRuaUVyelBXYWJQOE8zWkljRi9NQTRsdFFKaG5VMlZwZG1CRjRDZXFuVWli?=
+ =?utf-8?B?TkxwbVBBUXIvQUpFVFV5UEt5NnkyNlY4K1pTeHlkdllDUzlUNkE1YXlyZ3Ey?=
+ =?utf-8?B?eXcxRmtjQ3FEY2RDZTVUU0JoTXhhUU9SNGZpYWxrSGVOL3hJcHlKYjNOVS9L?=
+ =?utf-8?B?TjZVdDR3L09zSEhmTSt6RmtZOE1KSnJ4SWpXZm54U1hvS1pqZEVaWnpvY1JX?=
+ =?utf-8?B?SkloZ2U3TFltWmMwY0E1MVlTRGx1KytiV3FsQ3A5OGZoZitIb0ZCNWhRTU84?=
+ =?utf-8?B?ZVBjWndoVE1rVFQvM2ZRUVdZWmQyai9PWG1xcytJdUZGSWpNaXVKbnlnSkc1?=
+ =?utf-8?B?a0IvbFUva3doTkpaYmFSNzluSVl3WnpVY21DWGYzRE9BUENkaC9ET2k5VzJs?=
+ =?utf-8?B?UGZGR0VpWm9RYzk3dDhDdjJTeDFKYk9KL3dMNjZyOXNOMkI5dDVyNVJrUTZJ?=
+ =?utf-8?B?OFNGK1puUW42eEluSjhEbkt5QWRqbDQ2YmxNWnVRamRVMlM0ZGFkanRLTGVh?=
+ =?utf-8?B?MDUvWWZxWXE3T1VENHBDZkdiQkp0LzJTckFDWVlVRjFFUW5WUE9TNFRrMUgz?=
+ =?utf-8?B?QUhlU2p5VGR2OWdHcHVqRUt5YVV2UmV5SkxVSVJ6dDFHSGsydnY4Sytab3Fm?=
+ =?utf-8?B?ZE1weng3ZnBDdHJ0THd3Z1B1QTFEZkhDaHljamNkb1VFekhZN0tWS2pUbGZQ?=
+ =?utf-8?B?SFh2N1VoYTVHSUlEb2FGdW9jNzY1TlZiM1B2bDRSWjhHQUp6N3RUNllnaVNI?=
+ =?utf-8?B?QXFOZnlMTXdCQ1lLV0ViTmoxQVBSZnI0UmI1bHhVVmJSL3RPcjU5K1RvL1pu?=
+ =?utf-8?B?RTlYaWwydjBQdXVJQjB0TE55VnJ1aDRQSkU2WWRLZlhyWlI0ZWVjQXJRaVlx?=
+ =?utf-8?B?U1orRGQ0WitEbW5aNmdjYlBUV0xuNWJGY1UvaDJ3Z25iZ3lnMTNWWTZYWkdD?=
+ =?utf-8?B?ZGtENG5ZVkFaWjk1dk5hNE9jbVBMa3FIaXZ3eXJvV28rQllaV1BRTjVzdGxD?=
+ =?utf-8?B?UkJvT3pvM1RScjhDQkh3YVBaYUloeGQwVE02YU5zSXVxOVprM0hSMDcySk9a?=
+ =?utf-8?B?OGIyMnZlUk85WVZ4S3ZSTVlXTVpiUml2c3psdVljR08ydjZ4VDYrK3Avcnhi?=
+ =?utf-8?B?VTN1TkhUdXByUnlQMjlrcjg0ZkNBQW1IWjdYK3dlN1hHd1NMejhkMStzNGdl?=
+ =?utf-8?B?OU5CcklxaWpPeVFybWdVR1Ntak83SFJFb3J2RDJSSE0vT2hCbFhHRzVRSmhj?=
+ =?utf-8?B?eG9NcWppMHV3VVhnWW5zT3U2cTJONWF0NjRkMDAyNlBXOUxETUxPMEdSM1No?=
+ =?utf-8?B?RUJseUdtUFRYRjY3eDVvNy9iTUtYRjg2NGtSaEpBVGcrY0lLWTdDMmlZM1hn?=
+ =?utf-8?B?UTREMFlEaXJkbFBUeXNkUUJTUXZaemFTVlhyVktIdlNreWdsU2FoSkZRSm1Z?=
+ =?utf-8?B?dXhmQmo4TjRRRytQenphbjJMbFNuZkcybEdQZExocVdQVzZENisreEtvMW9K?=
+ =?utf-8?B?VjltYi9VZ1kzMlZWdEJZTmwra1ViVjJQdjlPOFpWYXVPNllwYllVbDg5RDVV?=
+ =?utf-8?B?MzJEbTY2N2xKUHRSZy8waTc4ODF6dWtqSTZaWTVQblJ0cXYyMDhyMDBydmFz?=
+ =?utf-8?B?NlNMc09zL3l1b1VqNnNRVWVxNGRtaUxCa2Nmb0VJOEpCRzBQRlhiclJvQ284?=
+ =?utf-8?B?TCswZUZGYzlSbkFsTm8vWXpvOTlMWHlrY2REMnJRUXl4VnFMZUN1TlFjbnpP?=
+ =?utf-8?Q?fNFNR/zOLfFC+s+Lwu4MOuvND?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-GUID: oqUp3FQkdolSQ7LYLEiDWbHBR0Fnf8qe
-X-Proofpoint-ORIG-GUID: oqUp3FQkdolSQ7LYLEiDWbHBR0Fnf8qe
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDAwOSBTYWx0ZWRfX2hinq15nevQ3 /qgYu7fz1cCPsHa7319+HAADFJAoESIlv2F+VuI6irV3OH/mE95b9ydkOn8Lgx5IqoXKrDCi2j+ AqpkBuLJYqCnHIS/0nYD2ybQ+60v58g3/Z9V2LL9yQJpJy9vD5d8Vn+LKD6AZQ8V+EKxTFsrx2x
- vQHqz+JYg6vR8bGnvvv3Q3NbuU/ZkffbxfSOcALuI4kGUalQl0p2my7HxvdjE4ev+iSOC6Q+13X 4ql3JxTdc08VDgHscY8L2QTmF0CPC1lKQNrqVmdB3jNsCttqJzNEjREnnWdKUjWEUNKp/liINaP 1YxsLXhOd4oE43TFtU5nF6P6LdlC8WMyTIcM09rJB/Uriq2sEMvtkvAPtCeKaKRXIiqm/aIE8I2
- ylqSa8ThlyFnPYd+grUkyPkg0K2ii029gZbE5yIdzmchvo65YmlB3X3XsAJUdnkPWxBgLBzx
-X-Authority-Analysis: v=2.4 cv=Sa33duRu c=1 sm=1 tr=0 ts=68084700 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=20KFwNOVAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=Rylh1WEjLm-x8K4FiwsA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=FdTzh2GWekK77mhwV6Dw:22
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-23_01,2025-04-22_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
- phishscore=0 bulkscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
- mlxlogscore=999 spamscore=0 malwarescore=0 priorityscore=1501 mlxscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.21.0-2504070000
- definitions=main-2504230009
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 53N1eUOk005793
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	Z8Na7Hf0+BhAVwCVbArYV4RzlXQ3ygg9fHrWtajV2Y7F/6nMg32nH50NQ/lR7ClB5N5CxW1UQBQns4UrZSH6C294NcYZHpFh0QUx4w8yb6VcuOmvk7G7asQY6uggTYx+gV5rbUPyJfANL6ZjwdhZpRJg7qkEJU5ZXz33f3WMmF9lWbTf3//OgK9OOEk7AzFKeHlenGVOWtlA1pbpS5dXLLZ0vWpPjNc0kmq+AnoMFv8jMXePFhAly6K/7heXUowgUzjcPgzYhOB0Jx9r4Y1AX1RCykvFWDMw+DTl2riUUoo94rIt/mloQrFxEThZjPsRnWUHpSF7km5zuQdcvqR/R7Q4nsS+SpAuEbBXs90a6ydNAJgD9V5QaA2WFd7I5MOkxUzyfmGriwQAqBIT9zahte8bgXRK722SgCzPXJ+/OI3/578/0CbLmOhusQyteZbaDvRDKZ2P+GyKKqPzJAMgITztp4Vcy0fR4zCu7Ubh+5wmwXkoPgWurDi4p6cDC3L1w5tNYwWiJKothNUtHMv5FOevkdglDE4gqiHUe1B13AA3ioos+2RtfmLTU6pEWHAtiDM4P7g6Gl4/I7WlU+++ky6ZLjUmiOrm1EJiUl43YPKRpy4ptheHbGWyw5wT8xuE
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSRPR01MB11597.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0b3b502-4d3c-4b9f-fd4f-08dd82129bc3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2025 02:57:39.0466
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: K0oEufVPmog/d86++1T0pMHDuVF1uRHZ2aS98qjhK/VMrbRzkOOCkhg2zqJpe0c8Gnq7HDi3k2UOQ7+cPMA6Eg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6988
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 01:48:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215257
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 02:57:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215258
 
-From: Haitao Liu <haitao.liu@windriver.com>
-
-A LogNamespace error for systemd v250:
-
-"""
-Apr 28 17:44:00 a-rinline2b systemd[467]:
-systemd-journald@tester.service: Failed to set up special execution
-directory in /var/log: Not a directory
-Apr 28 17:44:00 a-rinline2b systemd[467]:
-systemd-journald@tester.service: Failed at step LOGS_DIRECTORY spawning
-/lib/systemd/systemd-journald: Not a directory
-"""
-That's because that "/var/log/journal" couldn't be created during
-program runtime.
-
-Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- ...n-in-mkdir_p-when-parent-directory-e.patch | 78 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_250.14.bb   |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-basic-do-not-w=
-arn-in-mkdir_p-when-parent-directory-e.patch
-
-diff --git a/meta/recipes-core/systemd/systemd/0001-basic-do-not-warn-in-=
-mkdir_p-when-parent-directory-e.patch b/meta/recipes-core/systemd/systemd=
-/0001-basic-do-not-warn-in-mkdir_p-when-parent-directory-e.patch
-new file mode 100644
-index 0000000000..723b8ca4f7
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-basic-do-not-warn-in-mkdir_p=
--when-parent-directory-e.patch
-@@ -0,0 +1,78 @@
-+From e01e68e70ae1db9fe61adec3e7bdcced7adc1930 Mon Sep 17 00:00:00 2001
-+From: =3D?UTF-8?q?Zbigniew=3D20J=3DC4=3D99drzejewski-Szmek?=3D <zbyszek@=
-in.waw.pl>
-+Date: Thu, 10 Feb 2022 08:30:08 +0100
-+Subject: [PATCH] basic: do not warn in mkdir_p() when parent directory e=
-xists
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+This effectively disables warnings about type/mode/ownership of existing
-+directories when recursively creating parent directories. (Or files. If =
-there's
-+a file in a place we expect a directory, the code will later try to crea=
-te
-+a file and fail. This follows the general pattern where we do (void)mkdi=
-r()
-+if the mkdir() is immediately followed by opening of a file.)
-+
-+I was recently debugging an issue with the fstab-generator [1], and it s=
-ays:
-+'Directory "/tmp" already exists, but has mode 0777 that is too permissi=
-ve (0644 was requested), refusing.'
-+which is very specific but totally wrong in this context.
-+This output was added in 37c1d5e97dbc869edd8fc178427714e2d9428d2b, and I=
- still
-+think it is worth to do it, because if you actually *do* want the direct=
-ory, if
-+there's something wrong, the precise error message will make it much eas=
-ier to
-+diagnose. And we can't easily pass the information what failed up the ca=
-ll chain
-+because there are multiple things we check (ownership, permission mask, =
-type)=E2=80=A6
-+So passing a param whether to warn or not down into the library code see=
-ms like
-+the best solution, despite not being very elegant.
-+
-+[1] https://bugzilla.redhat.com/show_bug.cgi?id=3D2051285
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/e01=
-e68e70ae1db9fe61adec3e7bdcced7adc1930]
-+
-+Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ src/basic/mkdir.c | 5 ++++-
-+ src/basic/mkdir.h | 5 +++--
-+ 2 files changed, 7 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/basic/mkdir.c b/src/basic/mkdir.c
-+index 27144dd45a..cf7cf4a357 100644
-+--- a/src/basic/mkdir.c
-++++ b/src/basic/mkdir.c
-+@@ -55,6 +55,9 @@ int mkdir_safe_internal(
-+                         return -errno;
-+         }
-+=20
-++        if (flags & MKDIR_IGNORE_EXISTING)
-++                return 0;
-++
-+         if (!S_ISDIR(st.st_mode))
-+                 return log_full_errno(flags & MKDIR_WARN_MODE ? LOG_WAR=
-NING : LOG_DEBUG, SYNTHETIC_ERRNO(ENOTDIR),
-+                                       "Path \"%s\" already exists and i=
-s not a directory, refusing.", path);
-+@@ -142,7 +145,7 @@ int mkdir_parents_internal(const char *prefix, const=
- char *path, mode_t mode, ui
-+                 s[n] =3D '\0';
-+=20
-+                 if (!prefix || !path_startswith_full(prefix, path, /* a=
-ccept_dot_dot=3D */ false)) {
-+-                        r =3D mkdir_safe_internal(path, mode, uid, gid,=
- flags, _mkdirat);
-++                        r =3D mkdir_safe_internal(path, mode, uid, gid,=
- flags | MKDIR_IGNORE_EXISTING, _mkdirat);
-+                         if (r < 0 && r !=3D -EEXIST)
-+                                 return r;
-+                 }
-+diff --git a/src/basic/mkdir.h b/src/basic/mkdir.h
-+index 34a5227577..c0c0ea6c4f 100644
-+--- a/src/basic/mkdir.h
-++++ b/src/basic/mkdir.h
-+@@ -4,8 +4,9 @@
-+ #include <sys/types.h>
-+=20
-+ typedef enum MkdirFlags {
-+-        MKDIR_FOLLOW_SYMLINK =3D 1 << 0,
-+-        MKDIR_WARN_MODE      =3D 1 << 1,
-++        MKDIR_FOLLOW_SYMLINK  =3D 1 << 0,
-++        MKDIR_IGNORE_EXISTING =3D 1 << 1,  /* Quietly accept a preexist=
-ing directory (or file) */
-++        MKDIR_WARN_MODE       =3D 1 << 2,  /* Log at LOG_WARNING when m=
-ode doesn't match */
-+ } MkdirFlags;
-+=20
-+ int mkdirat_errno_wrapper(int dirfd, const char *pathname, mode_t mode)=
-;
-+--=20
-+2.25.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_250.14.bb b/meta/recipes-c=
-ore/systemd/systemd_250.14.bb
-index b79284d79c..b3e31e1f23 100644
---- a/meta/recipes-core/systemd/systemd_250.14.bb
-+++ b/meta/recipes-core/systemd/systemd_250.14.bb
-@@ -30,6 +30,7 @@ SRC_URI +=3D "file://touchscreen.rules \
-            file://fix-vlan-qos-mapping.patch \
-            file://0001-core-fix-build-when-seccomp-is-off.patch \
-            file://0001-journal-Make-sd_journal_previous-next-return-0-at=
--HE.patch \
-+           file://0001-basic-do-not-warn-in-mkdir_p-when-parent-director=
-y-e.patch \
-            "
-=20
- # patches needed by musl
---=20
-2.34.1
-
+DQoNCj4gLS0tLS3pgq7ku7bljp/ku7YtLS0tLQ0KPiDlj5Hku7bkuro6IG9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmc+IOS7o+ihqCBSb3NzIEJ1cnRvbiB2aWENCj4gbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZw0KPiDlj5HpgIHml7bpl7Q6IDIwMjXlubQ05pyIMjLml6UgMTk6MTcNCj4g5pS25Lu2
+5Lq6OiBMZWksIE1hb2h1aS/pm7cg6IyC5oWnIDxsZWltYW9odWlAZnVqaXRzdS5jb20+DQo+IOaK
+hOmAgTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiDkuLvpopg6
+IFJlOiBbT0UtY29yZV0gW1BBVENIXSBnc3RyZWFtZXIxLjAtZGV2OiBGaXggaW5zdGFsbCBjb25m
+bGljdCB3aGVuIGVuYWJsZQ0KPiBtdWx0aWxpYg0KPiANCj4gT24gMjIgQXByIDIwMjUsIGF0IDAz
+OjUxLCBMZWkgTWFvaHVpIDxsZWltYW9odWlAZnVqaXRzdS5jb20+IHdyb3RlOg0KPiA+DQo+ID4g
+RXJyb3I6IFRyYW5zYWN0aW9uIHRlc3QgZXJyb3I6DQo+ID4gIGZpbGUgL3Vzci9zaGFyZS9naXIt
+MS4wL0dzdC0xLjAuZ2lyIGNvbmZsaWN0cyBiZXR3ZWVuIGF0dGVtcHRlZCBpbnN0YWxscyBvZg0K
+PiBsaWIzMi1nc3RyZWFtZXIxLjAtZGV2LTEuMjYuMC1yMC5jb3JlMl8zMiBhbmQNCj4gZ3N0cmVh
+bWVyMS4wLWRldi0xLjI2LjAtcjAuY29yZTJfNjQNCj4gPg0KPiA+IGZpeGVkLXNpemUgZGlmZmVy
+cyBiZXR3ZWVuIDMyIGJpdCBhbmQgNjQgYml0IHN5c3RlbQ0KPiANCj4gQWxzbyB3aGF0IGV4YWN0
+IGNvbmZpZ3VyYXRpb24gYXJlIHlvdSByZXBsaWNhdGluZyB0aGlzIGluLCBhbmQgd2hhdCBpcyB0
+aGUNCj4gc3Vycm91bmRpbmcgdHlwZSB0aGF0IGNvbnRhaW5zIHRoZSBkaWZmZXJpbmcgc2l6ZT8g
+IEkgY2Fu4oCZdCByZXBsaWNhdGUgd2l0aA0KPiBxZW11eDg2IHZzIHFlbXV4ODYtNjQ6DQo+IA0K
+PiAkIGxzIGNvcmUyLSovZ3N0cmVhbWVyMS4wLyovaW1hZ2UvdXNyL3NoYXJlL2dpci0xLjAvR3N0
+LTEuMC5naXINCj4gY29yZTItMzItcG9reS1saW51eC9nc3RyZWFtZXIxLjAvMS4yNC4xMi9pbWFn
+ZS91c3Ivc2hhcmUvZ2lyLTEuMC9Hc3QtMS4wLg0KPiBnaXINCj4gY29yZTItNjQtcG9reS1saW51
+eC9nc3RyZWFtZXIxLjAvMS4yNC4xMi9pbWFnZS91c3Ivc2hhcmUvZ2lyLTEuMC9Hc3QtMS4wLg0K
+PiBnaXINCj4gDQo+ICQgZGlmZiBjb3JlMi0qL2dzdHJlYW1lcjEuMC8qL2ltYWdlL3Vzci9zaGFy
+ZS9naXItMS4wL0dzdC0xLjAuZ2lyDQo+ICQNCg0KSSB3aWxsIHdvcmsgb24gdGhpcyBwYXRjaCBv
+biBiZWhhbGYgb2YgbXkgY29sbGVhZ3VlIGZyb20gbm93DQoNCnJlcHJvZHVjZSBzdGVwczoNCjEu
+IEFkZCBpbiBsb2NhbC5jb25mIHRoZSBmb2xsb3dpbmcgbGluZXM6DQoNCiAgTUFDSElORSA/PSAi
+cWVtdXg4Ni02NCINCg0KICByZXF1aXJlIGNvbmYvbXVsdGlsaWIuY29uZg0KDQogIE1VTFRJTElC
+UyA/PSAibXVsdGlsaWI6bGliMzIiDQoNCiAgREVGQVVMVFRVTkU6dmlydGNsYXNzLW11bHRpbGli
+LWxpYjMyID89ICJjb3JlMi0zMiINCg0KMi4gYWRkIGxpYjMyLWdzdHJlYW1lcjEuMC1kZXYgZ3N0
+cmVhbWVyMS4wLWRldiB0byBjb3JlLWltYWdlLW1pbmltYWwuYmINCg0KICBJTUFHRV9JTlNUQUxM
+ID0gInBhY2thZ2Vncm91cC1jb3JlLWJvb3QgJHtDT1JFX0lNQUdFX0VYVFJBX0lOU1RBTEx9IGxp
+YjMyLWdzdHJlYW1lcjEuMC1kZXYgZ3N0cmVhbWVyMS4wLWRldiAiDQoNCjMuICQgYml0YmFrZSBj
+b3JlLWltYWdlLW1pbmltYWwNCg0KTGl1IFlpZGluZw0KDQo+IA0KPiBSb3NzDQo=
 
