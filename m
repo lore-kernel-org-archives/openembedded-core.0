@@ -1,133 +1,131 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 204F6C369D7
-	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 13:21:07 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.8583.1745414462642259813
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41075C369D1
+	for <webhook@archiver.kernel.org>; Wed, 23 Apr 2025 13:33:47 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web11.8846.1745415217145957815
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Apr 2025 06:21:02 -0700
+ Wed, 23 Apr 2025 06:33:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zWyCvCRi;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7390d21bb1cso5981757b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 06:21:02 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=vfihbCwt;
+ spf=pass (domain: linaro.org, ip: 209.85.167.48, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54d6f93316dso5325989e87.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 06:33:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1745414462; x=1746019262; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IIppv16m+L3aEcW2mqJyM23Ac7vhAbb80HVHp80vzdM=;
-        b=zWyCvCRiaPl98jqqisn5gvRX7Qc6kStzHOVZfvcRUURCLWrlW9WBounKMYMz7eUo/E
-         qxNEoi7jHOqiU+DzUfhAKwR+v7H9IYqNWMl+7YLLuQHURQfgMNl6JqzxBlN/FoPbTVY6
-         LrtgqjEJaEeFkA78RMFZeT6pjFU+RhxvkFVd7fSQBe0Pnvd9nQQBGrZHfqc1Q2GnLdBA
-         hqVCDcJ4nti8ZKlDuDEljSsuct7SKYm+EfC6RoIbleOPdK7M+qtpu3h/1IYP204+foly
-         CvOJBKR8eTnOJCxn5y65UKJyrx8FVNbqdZGoCpvgWn+pAo9XBeGE7OkBgNG+rq4UV0/0
-         djcQ==
+        d=linaro.org; s=google; t=1745415215; x=1746020015; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kG5ztGI8dPx7CqW3z6cj+tZZyEZHjL42axwvL9r+Q84=;
+        b=vfihbCwt1s0n70NmhZstzjY2Enw519iEi0qYUjuPIo23vV9fxiDcp7gs3Euv62I1eg
+         jns0zvWxuJYI+HzDUGUtIZ6uFvHH5J6QqOnirpS+9YV/zii+Hh0BS4EJ4Brr+GPbQS1k
+         7uOvs1gFDEdNH+WOG1UBJXZesIZrhZqtEbk/KTyToo0ei6OwwNdV1OZ2yWLOnhyEGwz3
+         +3+ZVLoIySQakkn7qV6COjhpE9h1U5x/fhbc/VlhRVyCSA5XK0kb7Fhk0gXTnCDn+P5V
+         2zv+TMVB0GKcL7Bt9siCUlaapyWIB9/iHOc+4rGQMeXem6Yglob4mnsUTy87sJnqTK5W
+         2Wkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745414462; x=1746019262;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IIppv16m+L3aEcW2mqJyM23Ac7vhAbb80HVHp80vzdM=;
-        b=Mv2NSveQUb6QDbUsZCsR8E8+lAZkAry7QcJY7ywrmuHzqGyd6KcbyDrdVExcF98ERO
-         dK6t2uCapE3MJo+lJt2lzG33gKo4mcrc0aJZnrqKFmtefIcsCicAVf+QuT16FKKeX+3i
-         R2U1CRjgpQN0b50umnTYligb0lszgVzuiiLPMvNK0pMAX7V0iEiD0MJNOYjdAtaITW0g
-         oWDtRgAsfZKXqLWA14x2ex8Bt4mXVP85JHSXDk4En1iAIAGPv/8p4il6btCORg6F8qJM
-         HwgZglB6QKywYLFfdlvEtRgpRq+WKkFkVWDXRZ/977RJtpKlG/+wgT1XrzGOoZfhbPvk
-         X07g==
-X-Gm-Message-State: AOJu0Yyd5lgSA0gODpW8KhdzxXnO8iMWyawbGNCERPR2Gq7g3HWX0DBA
-	Wj39/TDrkARxqWKLAEL/XfUWuukCjM/+9DTRUXw3KmPGEjwUZo/2nycuzOMGK4XVYRn+j8oECUg
-	L
-X-Gm-Gg: ASbGncvacRb6jFnjQRj51/zKOrslAxgqPLSi7Vcr3R7toZEx6/59is71WfdgFIrr0t4
-	Fk7KEcCWSBG8rOVAObabXN6yOBH7pthf8k7Ba10e4zlw0iyxaCeaWkIjcGMNo+VaVAzwdAylYWX
-	l56xnACP8C2AsONAUdqTGtlw1BNsz8V1JsFi7wYYCclqYFhXKOV+PSKf3ofDwcTbNSN4+d02sUt
-	jjgM+EaAVpyaFsrX4L7FYIVDj8hkvSqXfKIE4xi0wa35X7AW/z8M80+/Kk+pYL/sPSGzaLMpe1Y
-	OaU+KkQc462briKaQulNVOoc43CoXUI=
-X-Google-Smtp-Source: AGHT+IHkP6m+rYWQmVsQRhuUqN5LKH3pd2YPy78UHniygGz6Yb5kRycqyUi38gZkRiGodEYbVsztUQ==
-X-Received: by 2002:a05:6a00:1d81:b0:736:39d4:ccf6 with SMTP id d2e1a72fcca58-73dc14a934cmr27693293b3a.8.1745414461909;
-        Wed, 23 Apr 2025 06:21:01 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:371e:10cb:f3ce:33f])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbf8e510bsm10898037b3a.66.2025.04.23.06.21.01
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1745415215; x=1746020015;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kG5ztGI8dPx7CqW3z6cj+tZZyEZHjL42axwvL9r+Q84=;
+        b=jDK9nS0u8qg81qigiut3l6xu2DssUQw0SmA3g4QLDUGygNbn4djYHUdeKtB2ujRHiY
+         RFT3ilGdlMQZQKl82Kf777utk2m+p6Sxg81fhW9acnUH6k1U99PdoJ21AfgOMeA/glXw
+         jVZF+4aTyabuy/965yhOKCcQM+2k/PgmzJqBlb0wVdJ6IsV/p4eosPQT29nkot0eOCXX
+         5D3auVGNxsiLrcHlXzDRiY+RimMQwyKde/FJ2Np/bnjLh0hGE4B6TKHY+2gXvu9NnkPk
+         oq5d46EhLgIyOXe++tIMtmTsujQFG2bNE/foZYyInKBB5B1Vp66s5u6s5gAYtUSSI5iN
+         ZaGw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNPeRLEJ3KG6D1K7QuwcMQ2jkZ//7E1hB9t23RtHlTbwn0lUWePRv9KCtYdMm3jxR05T59Wx19ASKdcJut7saugQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwffbH1u9vDk5ENq8SgfRgwxIxVHhjrvtI29BEub2B8v00nDg37
+	S/NZR5iO2vIVa7BoYhUbxFYBHYFhP9Gi+12218mX4VXTZVaTThovz0TqkINEnM4=
+X-Gm-Gg: ASbGnctZZt/rqGt9KdEvO2GKalVI3sk6PZ/IfHYE4qDXlfzKKX/Mn4jDVgvzVcPcp81
+	muCPyUtY2LJWw2sM+0egRQ65H1/y8qlAt8Ruj423oUAhLgYYF+xPZuUaDS4cbcqQtU8LtyztoQt
+	dwkLhpQSG0/2JzqXYaq+4FCCoUbJeS/hYPheDGwLCsN9loseMDv4F7nuP+dbB7pUrHygGUrFcz2
+	egv8Xcgeh7K77ijTt3BqwmBqeuB67D7doWFvYQgzmdajWltYG4UdRFSiteKtT9KS82AyCDLp7IG
+	Y4xlFbxzKLqWRw7JoGTGFB1D5/GpZjQ36GD2Wg6M0O66OnyyqKzdob7gq2pJq4VMLE3goTHETw=
+	=
+X-Google-Smtp-Source: AGHT+IF07byGNPBtovucqBkKEFSuG1pofC+cei2B2cQqS/vtSoJDxVTsFVDdaZpfcEKErDJzibR1Eg==
+X-Received: by 2002:a05:6512:1323:b0:545:f4b:ed66 with SMTP id 2adb3069b0e04-54d6e62b716mr4981562e87.21.1745415214923;
+        Wed, 23 Apr 2025 06:33:34 -0700 (PDT)
+Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d6e524415sm1523273e87.19.2025.04.23.06.33.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 06:21:01 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 14/14] bluez5: add missing tools to noinst-tools package
-Date: Wed, 23 Apr 2025 06:20:25 -0700
-Message-ID: <87cadf62ba0d6b0fc3dc0151a5d320919b7eb1ab.1745356684.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1745356684.git.steve@sakoman.com>
-References: <cover.1745356684.git.steve@sakoman.com>
+        Wed, 23 Apr 2025 06:33:34 -0700 (PDT)
+Date: Wed, 23 Apr 2025 16:33:33 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Ross Burton <ross.burton@arm.com>,
+	openembedded-core@lists.openembedded.org, bill.mills@linaro.org
+Subject: Re: [OE-core] [PATCH RFC walnascar 2/3] systemd: always depend on
+ the explicit serial console units
+Message-ID: <aAjsLQh0-cQsjpKT@nuoska>
+References: <20250422190053.3244331-1-ross.burton@arm.com>
+ <20250422190053.3244331-2-ross.burton@arm.com>
+ <1838EE88B5ED2807.22956@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1838EE88B5ED2807.22956@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 13:21:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215307
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Apr 2025 13:33:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215308
 
-From: Guðni Már Gilbert <gudni.m.g@gmail.com>
+Hi,
 
-This change will prevent these tools from being installed if the image doesn't install bluez5-noinst-tools package.
+On Wed, Apr 23, 2025 at 02:18:42PM +0300, Mikko Rapeli via lists.openembedded.org wrote:
+> On Tue, Apr 22, 2025 at 08:00:52PM +0100, Ross Burton wrote:
+> > The systemd-serialgetty recipe generates explicit units for consoles
+> > that are defined in SERIAL_CONSOLES, and if that variable is not defined
+> > then just produces an empty package.
+> > 
+> > Even when systemd has been configured to use the getty generator, if
+> > there are explicit consoles defined then we should respect them.  Don't
+> > conditionalise the dependency on systemd-serialgetty so that we always
+> > pull in the explicit consoles.
+> 
+> So all boots of genericarm64 on all HW now wait for the configured
+> SERIAL_CONSOLES timeouts.
+> 
+> How should that be fixed? Unsetting SERIAL_CONSOLES in genericarm64 machine config?
+> So systemd-serialgetty is allowed to be machine specific but not systemd itself?
 
-BlueZ 5.66: tools/mesh-tester
-BlueZ 5.66: tools/ioctl-tester
-BlueZ 5.65: tools/iso-tester
-BlueZ 5.56: tools/btpclientctl
-BlueZ 5.51: tools/bcmfw
-BlueZ 5.49: tools/rtlfw
-BlueZ 5.47: tools/btconfig (not a new tool, but it was moved from bin_PROGRAMS to noinst_PROGRAMS)
+To fix the "poky-altcfg" distro or "poky" with systemd boot slowdown on genericarm64,
+systemd-serialgetty should either be removed or see an empty SERIAL_CONSOLES set currently
+in the machine config.
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-connectivity/bluez5/bluez5_5.72.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+A genericarm64 machine specific bbappend could do this, or in genericarm64
+machine config could have:
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.72.bb b/meta/recipes-connectivity/bluez5/bluez5_5.72.bb
-index 9fda960ea7..d64286ef6e 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.72.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.72.bb
-@@ -32,6 +32,9 @@ NOINST_TOOLS_TESTING ?= " \
-     tools/rfcomm-tester \
-     tools/bnep-tester \
-     tools/userchan-tester \
-+    tools/iso-tester \
-+    tools/mesh-tester \
-+    tools/ioctl-tester \
- "
- 
- # noinst programs in Makefile.tools that are conditional on TOOLS
-@@ -46,6 +49,7 @@ NOINST_TOOLS_BT ?= " \
-     tools/hcieventmask \
-     tools/hcisecfilter \
-     tools/btinfo \
-+    tools/btconfig \
-     tools/btsnoop \
-     tools/btproxy \
-     tools/btiotest \
-@@ -56,6 +60,8 @@ NOINST_TOOLS_BT ?= " \
-     tools/advtest \
-     tools/seq2bseq \
-     tools/nokfw \
-+    tools/rtlfw \
-+    tools/bcmfw \
-     tools/create-image \
-     tools/eddystone \
-     tools/ibeacon \
-@@ -65,5 +71,5 @@ NOINST_TOOLS_BT ?= " \
-     tools/check-selftest \
-     tools/gatt-service \
-     profiles/iap/iapd \
--    ${@bb.utils.contains('PACKAGECONFIG', 'btpclient', 'tools/btpclient', '', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'btpclient', 'tools/btpclient tools/btpclientctl', '', d)} \
- "
--- 
-2.43.0
+SERIAL_CONSOLES:poky-altcfg ?= ""
 
+This sets for all which may break some other things so maybe it's better to do this only for 
+systemd-serialgetty in machine config with:
+
+SERIAL_CONSOLES:poky-altcfg:pn-systemd-serialgetty ?= ""
+
+This would not work for plain "poky" distro if someone enabled systemd as init.
+For that, something like:
+
+SERIAL_CONSOLES:pn-systemd-serialgetty ?= "
+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', \
+    '', '115200;ttyAMA0 115200;hvc0 115200;ttyS0 115200;ttyS1 115200;ttyS2', d)} \
+"
+
+These either make SERIAL_CONSOLES depend on "systemd" in DISTRO_FEATURES inside
+machine config, so I'm not sure if this is allowed or not.
+
+A genericarm64 machine specific bbappend to systemd-serialgetty to disable the
+package or clear out SERIAL_CONSOLES is "systemd" in DISTRO_FEATURES would be
+better then?
+
+systemd would remain machine agnostic but systemd-serialgetty would be machine specific
+since it takes SERIAL_CONSOLES as input anyway.
+
+I can't decide between these. :/
+
+Cheers,
+
+-Mikko
 
