@@ -1,161 +1,93 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12E70C369AB
-	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 15:38:26 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.971.1745509105135209058
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46562C369AB
+	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 16:28:06 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web11.2296.1745512083542243026
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 08:38:25 -0700
+ Thu, 24 Apr 2025 09:28:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VQQhmP/6;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e5e0caa151so2354443a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 08:38:24 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Cwt8I1Iu;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.182, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7c542ffec37so136683385a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 09:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745509103; x=1746113903; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Tjm8ornYzG9JEPInjpizNF2rnX7whh4XFUuR23lKNWg=;
-        b=VQQhmP/6Yj+OpEBEKdOnziOqsNukl/KIc/8ofkL9gxFHuCJaKnoMN+1pXbXbmNh8mH
-         0+DR7XyLw1x8AB2s5NEZLLrVpXHihjozyIPg3NzncSyi1i7jTjYiTjg7mEmwO+0J4aLX
-         rtOiur74QpaAaI9faoOW8d5bcULTWrJSm78P06jwSMS3m7FDMieUWYDvYixY+WbqWokg
-         GjY8j7ibj4QR1KQi2H2faDgl3/ByOqF2BTSsyExstOTRyAneGy1/5Lbc1vNzNkMPO4uX
-         G1gjJRS9FkF8o3oYgUW+fHE09pgIWxwh7g0ArOwOruep0c64sxj/obT1TtqDnWJFe4hW
-         NZHQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745512082; x=1746116882; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3qo8y6A/nRPwWXozvDsqNmr1B3oSq2rHAZqIZMFyawc=;
+        b=Cwt8I1IuwyFG/D8IWyBaD4pl7/Fdkq0eq0IY0y+gJW5KfJywN//mizYY/Z0qFXETek
+         N9VW+i2A9jKUCiaXBjZemRY/6OP2E3kVfBhU6z0HHmnhDrZukSoyEo1VhKpYtDMba3pk
+         xOEyy+/x7OWBX06TPPrdPoQmgOzqcfhzeNmpek3OSc9B+D88bcbrNfJFApACShuhZyNe
+         f+hleoL0OXk0rU9x/ni2Fxe26CkoPHhkWeHCe/7FNC/ZrrNZ9U5ci277rQvBBNAf+TB+
+         UQaifV7h5zBiVVZr/dQOTugZPBugH8Sd8Amhfj0hhiuJLBuG7lvIBKer4rxAlQOM6l4V
+         D+WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745509103; x=1746113903;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tjm8ornYzG9JEPInjpizNF2rnX7whh4XFUuR23lKNWg=;
-        b=MSjNwNxcboSKgiPivqmwk3lK83n1lT+3RwOR+/4YffTJ/BbwPWfM7vfD4ffsLz7ObB
-         vkSTHy8YbeUNVN9JZE1nxTcPalmRstMctvCuO+wZxj+c+UTZnlMISew+eMjArlm8ZZpf
-         Ru4P/WmCTWeg10xDlyTww/c6BvPcyVL4D5SOWLzjZMnOG60uyGMoHYXE82tnETUnC3Uu
-         aaZlV4nUTME21ahftcukT4St+niC1PiCcUK8lvAmKLMxJp5Psb4tAGK8y+CbJ7MvE0qI
-         nE8czYd1ULUiJuHHx9AdSQpJmcJBfjKbTG1Z0RiTwoYYwZvEV8DnbvhLjKJLgGw+pNd1
-         Vztg==
-X-Forwarded-Encrypted: i=1; AJvYcCX0Hqi2b4k2sAV1hh9APi++kqZ0tyvrBaBDZrw0yj2u2GILLFknbTVQkI2JufVq7/LLgqNSs+PKNC3d+MOGAB6zcA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzcl8oexSQluVOglVnqlrBHvBzBOq67Ui3j2UbxM+9Dwtr46zCW
-	d6tjsQqBoYylp5TepjieRq7+QLNSSRx3HXUHpakvUyfLZvviJSDx
-X-Gm-Gg: ASbGncvEsyJ2Z5d3Km1axonbfXleJbGi7nB6gzm2yltChCFdUcxrqWpQ0rOAOw1D9y9
-	8GrPydZLzlJp7oQ5oJaEo2xi9iLPCWQNWBkVJHFPhedAumihfByVLzQN8IeSY2ACBAtKsXRKzWs
-	9GhYKqmBPT/5BSt2c6GI8rWtzA093yZn29HGGQB6SwDRsoTcSCCt3Y01Yy0xgL9fthwcOjDsxb1
-	ntgB8arfFEcF6K96WIzKJTYh/tT3xkowOjSgz43nTWvZzrM5D+1OjDLGDdRUoFHXI3s5z12h2Q2
-	+Jpu6TG1zkWJBvTJYLdfZO6x3avin6AZBwa3DIIEn/qnwNYW
-X-Google-Smtp-Source: AGHT+IEuoOKCVJkRxuMZfuKyF4yPcFeuznqoQrV/mnQD7Czc3oP7kMguqXpaotvaLtzlO5ro4/BToQ==
-X-Received: by 2002:a17:907:3da0:b0:ac7:2f8b:6844 with SMTP id a640c23a62f3a-ace6b40760cmr5953366b.23.1745509102919;
-        Thu, 24 Apr 2025 08:38:22 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace59bbeaaesm125336466b.107.2025.04.24.08.38.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Apr 2025 08:38:21 -0700 (PDT)
-Message-ID: <0d7b1d9c-a42f-4acd-ab19-6fd7c540695c@gmail.com>
-Date: Thu, 24 Apr 2025 17:38:20 +0200
+        d=1e100.net; s=20230601; t=1745512082; x=1746116882;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3qo8y6A/nRPwWXozvDsqNmr1B3oSq2rHAZqIZMFyawc=;
+        b=nDd/j27/tVOsqHtdaxasPyi9CV0fgBg13QMod0wdS/fmQNPcxSy1O4V7O0iegXsFHL
+         aEKMtndaf9gG+L+uct3tn31fMRlGhgbneiVdD0Se8ZoI8yz4URlkO+xfCxZqxbdxq6B2
+         ggCb8rkPqrXvqUgNTFBv0ENa6WekwzFAqDNa95KtYrZWQ9HgUBIIkZhnAKbgqYwknPdS
+         /FYky90OfhmO2U9HbXBH6pBKKBz17DrdLr8mKscogYKzbYiiVqmV2Afcqa78pEyvJIaO
+         0uTQeOWAnp8U01C1INapFoV63SHUAJbcIBf0D8iXpFEI2tsPbonDquBJvDR9JvX05LBj
+         3ffA==
+X-Gm-Message-State: AOJu0YzdLp4v4hfYCE7zBPuzaUdFPx0GbWCTbi3IFHaKgYsBp6wUfwKO
+	zdCfrQLAV+gEeaYNpxA2+yULo8WuxwCcv4tIHVz2vjK1XbwDiTs105VSEb5jgAujv6zlJDbK158
+	TMqQ=
+X-Gm-Gg: ASbGnctEW8aJGWfG4zx7n0xBwy6Znf92yc+/GprOw+W/kMLa7d7W3XUE58Ts6Ql/Vy/
+	WANoUaQ8fKq2qWFGFJT8Wu/8NFkMAvTtSALIQXARksjAl8mku9TdAvS/zryPfPEQkRJHmra+aU0
+	PvIK/P6+ib6EILKK81kBcvBYxl1ANgatO5a//G28ROv2xoIcExJcPvRhgxGDRmxuyHJRfts8mgM
+	QtUWKzG6B4dUd7xvgRDoM0e23dksjegAeNxiHvSJl3Dr2+D4WmluPFVGWdPmVBV+/BP1ucIquEi
+	CWrfi/ljJqOuud87qlHIE+5of1YYgIl6+qZt0HQWm/rPERXBLilQ0a/al4Q8J7j6CePjBksUChQ
+	E
+X-Google-Smtp-Source: AGHT+IGcX4hAHzbLjgz+lXFI+2FKfMMVwYeepPjHUkEy2njoohbBYk2fzwdawQPx/R1/Kj0XDmmMqQ==
+X-Received: by 2002:a05:620a:2586:b0:7c7:747f:89d0 with SMTP id af79cd13be357-7c956ee6961mr522899385a.18.1745512081692;
+        Thu, 24 Apr 2025 09:28:01 -0700 (PDT)
+Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c958ce38e9sm104721685a.62.2025.04.24.09.28.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Apr 2025 09:28:01 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH 0/2 v2] python3-numpy: upgrade and ptest fix
+Date: Thu, 24 Apr 2025 12:27:57 -0400
+Message-Id: <20250424162759.3892597-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] kernel-module dependency mystery
-To: mike.looijmans@topic.nl, raj.khem@gmail.com,
- openembedded-core@lists.openembedded.org
-References: <5a9b30f0-c189-4841-9821-6dc26de4de84@topic.nl>
- <656f5ffc-98b6-44e9-8308-51495e1961d7@gmail.com>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.26c21c88-3e9a-492b-9d2d-79874402141f@emailsignatures365.codetwo.com>
- <68e3c223-560c-453f-b1b5-9bbfc0f9a17d@topic.nl>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <68e3c223-560c-453f-b1b5-9bbfc0f9a17d@topic.nl>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 15:38:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215389
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 16:28:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215390
 
+This v2 is re-sent with a few cleanups compared to the previous version (which
+didn't have a cover letter).
 
-On 4/24/25 08:58, Mike Looijmans via lists.openembedded.org wrote:
-> On 24-04-2025 04:25, Khem Raj via lists.openembedded.org wrote:
->> On 4/23/25 5:34 AM, Mike Looijmans via lists.openembedded.org wrote:
->>> I built the same image for 5 different machines. Only one of them fails 
->>> with the logging below. Note that all machines install the "kernel- 
->>> module-dyplo" package, and on 4 machines that succeeds just fine.
->>>
->>>
->> how are the five machine diffrent with machine config metadata
-> Here are the conf files:
-> https://github.com/topic-embedded-products/meta-topic/tree/scarthgap/conf/machine
->
-> The "tdpzu9" triggers the issue, it's the same SoC as the tepzu9 and all the 
-> tdkzu* machines. Only difference is in the peripherals. tepzu9, ttpzu9 and 
-> tdpzu9 are the same SOM, just on a different carrier.
->
-> So the only difference in kernel configuration is some variance in drivers 
-> that get built.
-Is there a chance that that this is the only board using an out of tree
-driver, and CONFIG_LOCALVERSION_AUTO kernel config is enabled? If yes,
-those two factors sometimes aren't playing together nicely with Yocto.
->>>   * Solver encountered 2 problem(s):
->>>   * Problem 1/2:
->>>   *   - conflicting requests
->>>   *   - package kernel-module-dyplo-1.1+154+bb94f350+bb94f3599b- r0.tdpzu9 
->>> requires kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5, but none of 
->>> the providers can be installed
->>>   *   - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db5 needed by 
->>> kernel-module-dyplo-6.6.40-xilinx- 
->>> g6a2cb0f14db5-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9
->>>   *   - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db5 needed by 
->>> kernel-module-dyplo-pcie-6.6.40-xilinx- 
->>> g6a2cb0f14db5-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9
->>>   *
->>>   * Solution 1:
->>>   *   - do not ask to install a package providing kernel-module-dyplo
->>>
->>>   * Problem 2/2:
->>>   *   - conflicting requests
->>>   *   - package kernel-module-dyplo-1.1+154+bb94f350+bb94f3599b- r0.tdpzu9 
->>> requires kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5, but none of 
->>> the providers can be installed
->>>   *   - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db5 needed by 
->>> kernel-module-dyplo-6.6.40-xilinx- 
->>> g6a2cb0f14db5-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9
->>>   *   - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db5 needed by 
->>> kernel-module-dyplo-pcie-6.6.40-xilinx- 
->>> g6a2cb0f14db5-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9
->>>   *
->>>   * Solution 1:
->>>   *   - do not ask to install a package providing kernel-module-dyplo
->>>
->>> I'm on "scarthgap" branch.
->>>
->>> The "kernel-module-dyplo" recipe can be found here:
->>>
->>> https://github.com/topic-embedded-products/meta-dyplo/blob/master/ 
->>> recipes-dyplo/dyplo-core/kernel-module-dyplo.bb
->>>
->>> The isue at first glance appears to be that "kernel-6.6.40-xilinx- 
->>> g6a2cb0f14db5" mixes the git version hash from the module itself and the 
->>> git hash of the kernel. There's no such package, it should have been 
->>> "kernel-6.6.40-xilinx-gd7b52381656b"
->>>
->>>
->>>
->>>
->>>
->>>
->>
->>
->>
->>
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#215326): https://lists.openembedded.org/g/openembedded-core/message/215326
-> Mute This Topic: https://lists.openembedded.org/mt/112412917/6084445
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+With the introduction of patch 2/2, numpy ptests should work (they're listed in
+PTESTS_SLOW instead of PTESTS_PROBLEMS, so the recipe-specific ptest image can
+also be built). gcc is required for ~10 of the ptests to pass, which is a
+relatively small number overall but seems to be enough to justify adding it to
+RDEPENDS. Further detail on the changes to make this possible are found in that
+commit log.
+
+Trevor Gamblin (2):
+  python3-numpy: upgrade 2.2.4 -> 2.2.5
+  python3-numpy: fix ptests
+
+ .../distro/include/ptest-packagelists.inc     |  2 +-
+ meta/recipes-core/images/core-image-ptest.bb  |  4 +++
+ .../python/python3-numpy/run-ptest            | 15 +++++---
+ ...-numpy_2.2.4.bb => python3-numpy_2.2.5.bb} | 35 +++++++++++--------
+ 4 files changed, 36 insertions(+), 20 deletions(-)
+ rename meta/recipes-devtools/python/{python3-numpy_2.2.4.bb => python3-numpy_2.2.5.bb} (87%)
+
+-- 
+2.39.5
 
 
