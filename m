@@ -2,35 +2,35 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED158C369D5
-	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 21:37:09 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web11.468.1745530625561781195
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB67FC369D5
+	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 21:40:09 +0000 (UTC)
+Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
+ by mx.groups.io with SMTP id smtpd.web10.540.1745530800273938510
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 14:37:06 -0700
+ Thu, 24 Apr 2025 14:40:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
-Received: from fwd81.aul.t-online.de (fwd81.aul.t-online.de [10.223.144.107])
-	by mailout01.t-online.de (Postfix) with SMTP id D7CB3A4D
-	for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 23:37:02 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.154.166.69]) by fwd81.t-online.de
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
+Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
+	by mailout12.t-online.de (Postfix) with SMTP id 6D3301E74
+	for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 23:39:58 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.154.166.69]) by fwd72.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1u84Fi-1hgHMf0; Thu, 24 Apr 2025 23:37:02 +0200
+	esmtp id 1u84IY-3P16un0; Thu, 24 Apr 2025 23:39:58 +0200
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] default-providers.inc: add entries for virtual/libsdl2
-Date: Thu, 24 Apr 2025 23:36:55 +0200
-Message-ID: <20250424213655.2514554-1-f_l_k@t-online.de>
+Subject: [oe-core][PATCHv2] default-providers.inc: add entries for virtual/libsdl2
+Date: Thu, 24 Apr 2025 23:39:51 +0200
+Message-ID: <20250424213951.2514902-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1745530622-877FD994-E46A8F00/0/0 CLEAN NORMAL
-X-TOI-MSGID: 52daae5d-0e3b-4373-b347-157cea8632cb
+X-TOI-EXPURGATEID: 150726::1745530798-6D7F99F0-47090915/0/0 CLEAN NORMAL
+X-TOI-MSGID: 62759085-5894-4059-9ede-0a735e8d5b28
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 21:37:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215405
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 21:40:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215406
 
 virtual/libsdl2 can be provided by 'libsdl2' and 'libsdl2-compat' where t=
 he latter
@@ -45,7 +45,7 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
 
 diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/d=
 istro/include/default-providers.inc
-index cebd0400f4..8d7d575fe8 100644
+index cebd0400f4..ee91af8796 100644
 --- a/meta/conf/distro/include/default-providers.inc
 +++ b/meta/conf/distro/include/default-providers.inc
 @@ -4,6 +4,8 @@
@@ -55,7 +55,7 @@ ual/cross-binutils virtual/nativesdk-cross-cc virtual/nativesdk-cross-c++=
  PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xorg"
  PREFERRED_PROVIDER_virtual/xserver-xf86 ?=3D "xserver-xorg"
 +PREFERRED_PROVIDER_virtual/libsdl2 ?=3D "libsdl2"
-+PREFERRED_PROVIDER_virtual/libsdl2-native ?=3D "libsdl2"
++PREFERRED_PROVIDER_virtual/libsdl2-native ?=3D "libsdl2-native"
  PREFERRED_PROVIDER_virtual/egl ?=3D "mesa"
  PREFERRED_PROVIDER_virtual/libgl ?=3D "mesa"
  PREFERRED_PROVIDER_virtual/libglx ?=3D "mesa"
