@@ -2,76 +2,77 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BFEC369C2
-	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 12:07:24 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.13552.1745496435480255206
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F31C369D7
+	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 12:10:34 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.13691.1745496626445275899
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 05:07:15 -0700
+ Thu, 24 Apr 2025 05:10:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=jJEk7I5h;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id ACF294398B;
-	Thu, 24 Apr 2025 12:07:11 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=HoiIziXi;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3198B43A0D;
+	Thu, 24 Apr 2025 12:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745496433;
+	t=1745496624;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dkPTGsdpMXGccEdkrr+vtiYnB83IlOq9byrDlyQltLM=;
-	b=jJEk7I5hZZ8GyJhnG6GzvDpsoPo8Vc22BatR1fUtOpOsqSSvk4T/VHmnO9Kk7mPZDfisOK
-	XjpU9njVVdZvIT4OElgg8nTUDl5cRU9Djrx+kFEtKBWd5ENar6GXChcZ8KVISWZoGaGdhm
-	0/ByiQwl9rG0KyTnYoCOeb0Bq9+sbGarwx7uXDaeGXSXlgPCwYk1JdbwLEp7MQoHb/3gqz
-	cOqvbj7QkiijCyYpxRocr5x48MP5QkRSlqdvUXRvngtb0RJIaFZhEqrnISxUV+ctmHKKVr
-	vmLtr87G/pTc8Muibgs7Cpk96sUAJmUpsFb51Il5+qA4xjqCsxeXAtgGUZ83fw==
+	bh=4iCJCV1uMieiUpx+PlptqVm5PWe6B9mtp6EaWe6LzUc=;
+	b=HoiIziXiTuMH7Din1NFCDf6xyQ2UOkKP22IsUDErH7ZdmkzAUeObIKV4hbQYTsBzDStm3L
+	6m1Rk3oDnAPJv/TJmK4lKSU70souIBmKIyv1fjsDGieYuV6xCJE0TJGgtdGwbgfAh+sQsa
+	3YxAl7sdCTxCzo5W1Qf4a8CdJYVwlHwa+IoBRG+kkR37wrpBlkGarNw5xRq5lhKGWUpSk/
+	e3FkwG2RTv7JKFED3L95PXDkRSH+c/Kj0ZHGJ9QQOpqVEiOzzW07dAmarHwhEHugV/EWEh
+	w08bWqQHxrnbpNKbW10+0qo8awoBe4dTFZYiyYbWJ7f4G6DQdOmxL4A0My2PHA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 24 Apr 2025 14:07:10 +0200
-Message-Id: <D9EUUEE9YG0F.317W9TAS2P6EO@bootlin.com>
-Subject: Re: [OE-core] [PATCH V3] icu: set ac_cv_path_install to install
- under hosttools
+Date: Thu, 24 Apr 2025 14:10:23 +0200
+Message-Id: <D9EUWV18KMLM.1TAQMGWBOXA2M@bootlin.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Changqing Li" <changqing.li@windriver.com>,
- <openembedded-core@lists.openembedded.org>
+To: "Changqing Li" <changqing.li@windriver.com>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] icu: Add coreutils-native as DEPENDS
+Cc: "OE-core" <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250422130702.1337476-1-changqing.li@windriver.com>
- <D9DR2YV3L26S.29EB7OC0D9J5S@bootlin.com>
- <73c9bad4-bedc-43ec-a06d-a8b4dc62548b@windriver.com>
-In-Reply-To: <73c9bad4-bedc-43ec-a06d-a8b4dc62548b@windriver.com>
+References: <20250418081919.382562-1-changqing.li@windriver.com>
+ <0bf48ef944adc7ba879149b5c9427bc770fa86f4.camel@linuxfoundation.org>
+ <4aea547a-0b02-4ec4-8050-57a0f2d0677c@windriver.com>
+In-Reply-To: <4aea547a-0b02-4ec4-8050-57a0f2d0677c@windriver.com>
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeelgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkuffhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepffdvleefhfffkeeuvdethffggedthfevgfegteefhfehgfeffeelhfetuddvkeffnecuffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtoheptghhrghnghhqihhnghdrlhhiseifihhnughrihhvvghrrdgtohhmpdhrtghpt
- hhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeelgeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkhffvufevofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehvedtkeffueelheektddvjefhiefhgedtudevgeehvdevlefgveetkeevleelteenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefpdhrtghpthhtoheptghhrghnghhqihhnghdrlhhiseifihhnughrihhvvghrrdgtohhmpdhrtghpthhtoheprhhitghhrghrugdrphhurhgui
+ hgvsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
 X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 12:07:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215366
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 12:10:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215367
 
-On Wed Apr 23, 2025 at 12:23 PM CEST, Changqing Li wrote:
+On Thu Apr 24, 2025 at 5:28 AM CEST, Changqing Li wrote:
 >
-> Hi,
+> On 4/21/25 20:26, Richard Purdie wrote:
+> Hi, Mathieu, Richard
 >
-> I cannot reproduce this locally,=C2=A0 in my local env,=C2=A0 buildpaths =
-is=20
-> removed by function remove_build_host_references.
+> According to Richard's comments, I send a=C2=A0 V3 patch:=C2=A0 [PATCH V3=
+] icu:=20
+> set ac_cv_path_install to install under hosttools
+>
+> But I noticed that [PATCH V2] icu: Add coreutils-native as DEPENDS is on=
+=20
+> master-next.
+>
+> So I am wondering maybe V2 is merged by accident?=C2=A0 Please help to ch=
+eck,=20
+> if there is no problem, you can just ignore this mail.
 >
 
-It can be reproduced using
-https://web.git.yoctoproject.org/poky-ci-archive/tag/?h=3Dautobuilder.yocto=
-project.org/valkyrie/a-full-1436,
-using default config and trying to build icu.
+Yes, my bad. IIRC the v2 was working fine on my side, so I kept it in my
+branch and then forgot to drop it when you sent the v3.
 
-But the issue is actually on my side: as the patch name changed, I did
-not make the link with the v2, so this branch contains both v2 and v3.
-If I drop v2, it works correctly with the simple reproduce process
-described above.
-
-I will try to integrate the v3 correctly in one of my next builds, to
-confirm everything is fine.
+I'm dropping the v2 now.
 
 --=20
 Mathieu Dubois-Briand, Bootlin
