@@ -1,105 +1,114 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4612C369D7
-	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 11:10:33 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.12424.1745493023884214662
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A1FC369AB
+	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 11:32:33 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.12713.1745494348837842587
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 04:10:24 -0700
+ Thu, 24 Apr 2025 04:32:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gBraXW0t;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so6014445e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 04:10:23 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NDurCwJh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43cf034d4abso8448985e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 04:32:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745493022; x=1746097822; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WmDRo+OZlG877o/mbyYc/opZ+1bQjZpzqv9fBPHLr3g=;
-        b=gBraXW0tGSMWwUNK7bsKQQcoXhXBPD3GsBuDkAqlpJWlRJGrhpPwUFwD9/XZkxbKH+
-         PxkEZOBTNTjFUp2Ntyl9J1C/CQr1kIQI2RvD+le1nFHCSEAA4HuZrQyT5oHrXrTrbrrp
-         pIB1FhfdKTDTseV2WM/WF8j6560HctKuy/5RyxvpZsyJ3VuyQapeX268aqZ32qo/p6Ma
-         F+NAYy0mWWovB5llQjyVd8l5e37R+/ZH9yVITM3GU4ua+a2311kT96rtCD0GO7H+o8Zc
-         qLuynPN7qjqLgUk1Oz2FnYSGyxnGnXNexVdfGlo+dXZuMJOsULFfkQfAERxwNTuVHlKW
-         ti/g==
+        d=linuxfoundation.org; s=google; t=1745494347; x=1746099147; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5Q90lNxDrZEZSCCtQkr+LvvCpJE2SqLFgc1AVmZ507s=;
+        b=NDurCwJhDpX+iFnfQ8G9bPjhczBSpkkWQ5KehQwuh78R+F4kZESuC815nt0FvMFb+B
+         pRKWE7/Zx0bI2WysnShLmJ0UU/aTOhAf+mynnKsd3C8nkY3udtK/nYpYev8xiPqmmllJ
+         hWToGl1vK9IbiuDiie+LSxskFhX7UJ6DKNtk8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745493022; x=1746097822;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WmDRo+OZlG877o/mbyYc/opZ+1bQjZpzqv9fBPHLr3g=;
-        b=YN3s7CtPlqiGilO0YKHo8jzYobkqRmTP0AiMAfCi8Q86VlyalqtEYeJbJVqk9C98kD
-         /OOccEpjdLJxbBCbXARg0SgiTi6wa+Y/ZSg63Gh36CnPg1vfENoHALVIr9Rnoea8RiSM
-         IvajGfcAarMWJZJO5nVmIh6uJdW3TNNYGZNlnonkJMSqKxu5Muh5gn4C8j08hA0OEWCa
-         RuX15Hw/F7lCFENqH2aKJYwLrIR3NPydvWRkESP/afptktr2fNgYoGg9tHQwCh7PfVOg
-         MbuKfsj6sZTCiMz5IYwCIdtPO1iE93xVytQSSfrUdlmgw5FXbsoy5QU3nqeW9TSay7M0
-         jVeQ==
-X-Gm-Message-State: AOJu0YxxBpbDmw+2aP8j11nnvHyexGxTyTqEZwv8YzBXiCh9WgH8XT9G
-	+KgMk/QEAdABrmmJncWgzNy8Rwx7FxmoxX/6XVhNesDQHwofQOgq29SdEA==
-X-Gm-Gg: ASbGncsfqe5MnXwI9SRzkMEo3fz9zgaGqSb9SGhO7+aReN7lUXzDOV4lADmCRGm4PHO
-	gLVEBothOXPjnNRk7j7rePHt1YpmCNviUyoySs2bMur4vGETvXXhJNa/ihXZb+LDTokShsEFhKA
-	m6jyW0baLLVF4njnsdXez/QaCq4Ys2Q64Ao43XMqAz0CmMThSuXghLfxrDDv+RBBqAKAjdVEMmw
-	KQ+18PWg9FiQteBmLBbOOM3j6NSTimmlQZhp+vD5lcgfgc5klXQT5VOxxhFI/UyphkcDxTeHxOx
-	+7/ge2gfZtLn86uSzf/17SfpZX+AChXphwg5zXALalcqC1OoNf6b2jU11qtMPygNqjERTMB6v3B
-	8qg==
-X-Google-Smtp-Source: AGHT+IFy6aXV4FS7C+FWjgz+zoikDve5hmuhHCxLnmkDW/6xmEVC6Ova/YLw3BCh3uAun7t3ilekpA==
-X-Received: by 2002:a05:600c:3487:b0:43c:f8fc:f69a with SMTP id 5b1f17b1804b1-4409bd05295mr20379285e9.4.1745493022087;
-        Thu, 24 Apr 2025 04:10:22 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d5323b4sm1753499f8f.66.2025.04.24.04.10.21
+        d=1e100.net; s=20230601; t=1745494347; x=1746099147;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5Q90lNxDrZEZSCCtQkr+LvvCpJE2SqLFgc1AVmZ507s=;
+        b=uhsXPoPJ9XdWzoi5lgxJZECp00MSYJN8rM8UpTckXIrnKWVxOeXIUBMN4PCHMntHNR
+         1NVjLa4TfdIdvHUrjDdzKYFIq3Jui8+qRWNFlFZEybGTF8puBDjkhyVTBDVuUMfB65IP
+         Wn6VZuBb2hkV4Cyk6DCWFwTjwp7OyxYOOT0Kp/iIS33eKFJtAgX1JjUSfFaHu2r6dazw
+         k3GnX2UZHawmAanldk2+1idFAw5JfOC32VeKFrSbIMcBmgznRtSJ1PZX2xvmGMnPYfNu
+         +R4aX8DchJA7JUefNdAj0HN2xV21qzw9c2HNnuj/Pj1Gjd4Go23WBEsJSENK3BjpejyZ
+         CKBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVvnNmgYzQ+WbEO+To++9C/xy+TH0PyRSkdksnqf/EDn83f780Zx5aTKyozT6OkuQLABaCeoC8LBBQvbHVnwwJG6A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwQpEavUre2QbhqaEv9BMD96gxRxoHhQgRlL8BnU91J79zoSSbv
+	OxV7v8/X9oExyKny+wdiePXVg23igICMqAIOt9UrVhyw36xKGBZ/xK5g4yzeWEs=
+X-Gm-Gg: ASbGncvLLK7djX7TdZ8pAmv1rhNrTjju6yG19bJuLGwEz8ENX5aRNJDPzF1jAlAwTTd
+	N1O5O2JGzScuJz5yEoO8vwYxbo/Xd1mhVBrnjLK2pxufrf7nzimI+djNVe8IdkawOmm9WJI5zw0
+	YVbkj4h7uuOZIErAVWk0lmbng4/TS60H0Jw2sTtjaeJk+5t362KPz/xNTBl9Eyj8n37ieudov/b
+	508chouPa9YUhW1jixWt1FU8k06zSdF9NonHjYskbRvZu5/SZurFu2nK5lRz6F0JNsp3fmznjI/
+	V6izdLKMIBcdzpqXBHqSPlnuD/7YjXeXg9vJYxyULt1w3pCmAB1rGeX40V2ZMcMDxwOQzbqGNOf
+	BwuHA6NRWwSplzSDhi5vKehlXJxXVFQ==
+X-Google-Smtp-Source: AGHT+IF9zpnnZm6FNyHwHzaPPMtbCUzyIr4Lu6dt1xRS/TeeH610EHbGYHeN3AYwfz6udJNz+WzMGw==
+X-Received: by 2002:a05:600c:1d81:b0:43c:efed:733e with SMTP id 5b1f17b1804b1-4409bd1e10cmr19761095e9.14.1745494347248;
+        Thu, 24 Apr 2025 04:32:27 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:94cb:8780:19ce:62be? ([2001:8b0:aba:5f3c:94cb:8780:19ce:62be])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2ad16asm17100165e9.21.2025.04.24.04.32.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 04:10:21 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
+        Thu, 24 Apr 2025 04:32:26 -0700 (PDT)
+Message-ID: <cf05b37db043dd939ec540a24ae0343376e5a830.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/4] devtool: account for sources in UNPACKDIR
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/4] libunwind: use github-releases class to determine latest versions
-Date: Thu, 24 Apr 2025 13:10:14 +0200
-Message-Id: <20250424111014.905507-4-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Date: Thu, 24 Apr 2025 12:32:25 +0100
 In-Reply-To: <20250424111014.905507-1-alex.kanavin@gmail.com>
 References: <20250424111014.905507-1-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 11:10:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215363
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 11:32:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215364
 
-From: Alexander Kanavin <alex@linutronix.de>
+On Thu, 2025-04-24 at 13:10 +0200, Alexander Kanavin via lists.openembedded=
+.org wrote:
+> From: Alexander Kanavin <alex@linutronix.de>
+>=20
+> There's a couple of assumptions in devtool that sources
+> are always in a directory under WORKDIR; this is no longer
+> the case since introduction of UNPACKDIR: some recipes
+> are starting to use
+>=20
+> S =3D "${UNPACKDIR}/git"
+>=20
+> or similar, and so the logic to determine source locations
+> needs to be tweaked accordingly.
+>=20
+> The issue is that oe-core has no concept of 'top level source
+> path' (S points to where the build is started from, inside that
+> top level location), and yet devtool needs to know that in order
+> to move the complete source tree correctly to a workspace (and possibly
+> other uses).
+>=20
+> And so devtool performs convoluted path calculations from WORKDIR and S;
+> now this has been extended to include UNPACKDIR and became more convolute=
+d
+> but hopefully it won't get any worse.
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+> =C2=A0meta/classes/devtool-source.bbclass |=C2=A0 8 ++++++--
+> =C2=A0scripts/lib/devtool/ide_sdk.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 2 +-
+> =C2=A0scripts/lib/devtool/standard.py=C2=A0=C2=A0=C2=A0=C2=A0 | 25 ++++++=
++++++++++++++------
+> =C2=A0scripts/lib/devtool/upgrade.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 2 +-
+> =C2=A04 files changed, 27 insertions(+), 10 deletions(-)
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/recipes-support/libunwind/libunwind_1.8.1.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+UNPACKDIR was meant to help with this. If devtool is changing the
+location, can't it just change UNPACKDIR and leave everything else
+alone? S will still be under UNPACKDIR/git even after devtool moves it?
 
-diff --git a/meta/recipes-support/libunwind/libunwind_1.8.1.bb b/meta/recipes-support/libunwind/libunwind_1.8.1.bb
-index 1885da4d09f..ee4a8401ba6 100644
---- a/meta/recipes-support/libunwind/libunwind_1.8.1.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.8.1.bb
-@@ -5,7 +5,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2d80c8ed4062b8339b715f90fa68cc9f"
- DEPENDS:append:libc-musl = " libucontext"
- 
--SRC_URI = "https://github.com/libunwind/libunwind/releases/download/v${PV}/${BP}.tar.gz \
-+GITHUB_BASE_URI = "https://github.com/libunwind/libunwind/releases"
-+SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
-            file://mips-byte-order.patch \
-            file://0001-tests-Garm64-test-sve-signal-check-that-SVE-is-prese.patch \
-            file://0002-coredump-use-glibc-or-musl-register-names-as-appropr.patch \
-@@ -16,7 +17,7 @@ SRC_URI = "https://github.com/libunwind/libunwind/releases/download/v${PV}/${BP}
- 
- SRC_URI[sha256sum] = "ddf0e32dd5fafe5283198d37e4bf9decf7ba1770b6e7e006c33e6df79e6a6157"
- 
--inherit autotools multilib_header
-+inherit autotools multilib_header github-releases
- 
- COMPATIBLE_HOST:riscv32 = "null"
- 
--- 
-2.39.5
+Cheers,
 
+Richard
 
