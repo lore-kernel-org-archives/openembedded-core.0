@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 310F6C369AB
-	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 17:40:35 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.290.1745516427096261484
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 211B3C369C2
+	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 17:41:25 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web10.313.1745516478644544449
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 10:40:28 -0700
+ Thu, 24 Apr 2025 10:41:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=W7X4Qrdv;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20250424174023e9ee297d6991eba857-1apqtj@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20250424174023e9ee297d6991eba857
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=GSNi/3nq;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250424174116b81e5ead5075d5efc7-b9mqni@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250424174116b81e5ead5075d5efc7
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 24 Apr 2025 19:40:23 +0200
+        Thu, 24 Apr 2025 19:41:16 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=+pYuostTtqVuLHzrEVqjKtSmFeVMQWKDgpU0LlpHxR8=;
- b=W7X4Qrdvq+gSi1wk2kGt54QxZ0LO+jMJvKr9KUidZlDnCWu4yrL2/lC9Ldxx2kKH9UxdW7
- 840KsRBXcpaMdM3gstXMHTVa7dqXR5G/LEoGXZD17iUN/xZOuac91AQEH6t9NVfC/vTN6y1M
- J37B1wJXsLeXhUjilwknbyfJVgdLZ8sR7zrxr13ZLjtLMBcS51E6wIjPb7XIWUCnhhY1l8G+
- Hw8xwZDfK0KMSLFl6pWJaXXtGY776R/i5ZCx5Cynm3BRtgJhb817guifU/fCtDrT330KvoT9
- iux6mTmL/BaWVljY8ohN7bCKYvHSbDkEUHc+Dnm6QBEevlJFLh8sIEoQ==;
+ bh=2CRwnfmvOkFHM1cqMmBdT75lRsyIBLbNuDv0m3+Jlfk=;
+ b=GSNi/3nqPLOZTJbTsTTv16OZaBu9sEngyXoCxRO1oZNFXBedn56lBFJT5zEVCtD+y3npR9
+ ARWipf+ejUMom9SLJe42ASlo1VVDmyBZbFh16dYa9pI6IM3zmOCwa8QgDdPWW9l/I/tD2uTK
+ N/nYjeJ69y6mVJNOCliCTMlvQNNJ56g5sfq6hCeeKwd0zR6KKKQ1Bcq7C+ntst4rdathIV7+
+ 3X5lAV5Ul61Ypy1rcWLcsFV3+sP8dpbHoHwXzw8/AS0GOrIC3RzxDm9GDB6drL5lUdfwMlfA
+ 1026MAMj5YBrDS8ZeUBQs0hcOc6eitLTrQlL3ghVUy7Oun/KY+LuBgAQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] ppp: patch CVE-2024-58250
-Date: Thu, 24 Apr 2025 19:39:36 +0200
-Message-Id: <20250424173936.2250399-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] ppp: patch CVE-2024-58250
+Date: Thu, 24 Apr 2025 19:40:29 +0200
+Message-Id: <20250424174029.2250456-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 17:40:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215396
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 17:41:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215397
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -52,17 +52,17 @@ License-Update: passprompt plugin removed
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../ppp/ppp/CVE-2024-58250.patch              | 194 ++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.5.0.bb    |   2 +-
- 2 files changed, 195 insertions(+), 1 deletion(-)
+ .../ppp/ppp/CVE-2024-58250.patch              | 185 ++++++++++++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.9.bb    |   2 +-
+ 2 files changed, 186 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-connectivity/ppp/ppp/CVE-2024-58250.patch
 
 diff --git a/meta/recipes-connectivity/ppp/ppp/CVE-2024-58250.patch b/meta/recipes-connectivity/ppp/ppp/CVE-2024-58250.patch
 new file mode 100644
-index 0000000000..55d36c5baa
+index 0000000000..b07d28253f
 --- /dev/null
 +++ b/meta/recipes-connectivity/ppp/ppp/CVE-2024-58250.patch
-@@ -0,0 +1,194 @@
+@@ -0,0 +1,185 @@
 +From 0a66ad22e54c72690ec2a29a019767c55c5281fc Mon Sep 17 00:00:00 2001
 +From: Paul Mackerras <paulus@ozlabs.org>
 +Date: Fri, 18 Oct 2024 20:22:57 +1100
@@ -88,38 +88,47 @@ index 0000000000..55d36c5baa
 +Upstream-Status: Backport [https://github.com/ppp-project/ppp/commit/0a66ad22e54c72690ec2a29a019767c55c5281fc]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ pppd/plugins/Makefile.am  |   6 +-
-+ pppd/plugins/passprompt.c | 137 --------------------------------------
-+ 2 files changed, 1 insertion(+), 142 deletions(-)
++ pppd/plugins/Makefile.linux |   2 +-
++ pppd/plugins/Makefile.sol2  |   6 --
++ pppd/plugins/passprompt.c   | 119 ------------------------------------
++ 3 files changed, 1 insertion(+), 126 deletions(-)
 + delete mode 100644 pppd/plugins/passprompt.c
 +
-+diff --git a/pppd/plugins/Makefile.am b/pppd/plugins/Makefile.am
-+index 2826148..9480d51 100644
-+--- a/pppd/plugins/Makefile.am
-++++ b/pppd/plugins/Makefile.am
-+@@ -1,4 +1,4 @@
-+-pppd_plugin_LTLIBRARIES = minconn.la passprompt.la passwordfd.la winbind.la
-++pppd_plugin_LTLIBRARIES = minconn.la passwordfd.la winbind.la
-+ pppd_plugindir = $(PPPD_PLUGIN_DIR)
++diff --git a/pppd/plugins/Makefile.linux b/pppd/plugins/Makefile.linux
++index 6403e3d..fcc36e4 100644
++--- a/pppd/plugins/Makefile.linux
+++++ b/pppd/plugins/Makefile.linux
++@@ -17,7 +17,7 @@ CFLAGS += -DUSE_EAPTLS=1
++ SUBDIRS := pppoe pppoatm pppol2tp
++ # Uncomment the next line to include the radius authentication plugin
++ SUBDIRS += radius
++-PLUGINS := minconn.so passprompt.so passwordfd.so winbind.so
+++PLUGINS := minconn.so passwordfd.so winbind.so
 + 
-+ PLUGIN_CPPFLAGS = -I${top_srcdir}
-+@@ -8,10 +8,6 @@ minconn_la_CPPFLAGS = $(PLUGIN_CPPFLAGS)
-+ minconn_la_LDFLAGS = $(PLUGIN_LDFLAGS)
-+ minconn_la_SOURCES = minconn.c
++ # This setting should match the one in ../Makefile.linux
++ MPPE=y
++diff --git a/pppd/plugins/Makefile.sol2 b/pppd/plugins/Makefile.sol2
++index bc7d85d..f77ea1d 100644
++--- a/pppd/plugins/Makefile.sol2
+++++ b/pppd/plugins/Makefile.sol2
++@@ -17,11 +17,5 @@ minconn.so: minconn.o
++ minconn.o: minconn.c
++ 	$(CC) $(CFLAGS) -c $? 
 + 
-+-passprompt_la_CPPFLAGS = $(PLUGIN_CPPFLAGS)
-+-passprompt_la_LDFLAGS = $(PLUGIN_LDFLAGS)
-+-passprompt_la_SOURCES = passprompt.c
++-passprompt.so: passprompt.o
++-	ld -o $@ $(LDFLAGS) -h $@ passprompt.o
 +-
-+ passwordfd_la_CPPFLAGS = $(PLUGIN_CPPFLAGS)
-+ passwordfd_la_LDFLAGS = $(PLUGIN_LDFLAGS)
-+ passwordfd_la_SOURCES = passwordfd.c
++-passprompt.o: passprompt.c
++-	$(CC) $(CFLAGS) -c $?
++-
++ clean:
++ 	rm -f *.o *.so
 +diff --git a/pppd/plugins/passprompt.c b/pppd/plugins/passprompt.c
 +deleted file mode 100644
 +index 7779d51..0000000
 +--- a/pppd/plugins/passprompt.c
 ++++ /dev/null
-+@@ -1,137 +0,0 @@
++@@ -1,119 +0,0 @@
 +-/*
 +- * passprompt.c - pppd plugin to invoke an external PAP password prompter
 +- *
@@ -130,30 +139,18 @@ index 0000000000..55d36c5baa
 +- *  as published by the Free Software Foundation; either version
 +- *  2 of the License, or (at your option) any later version.
 +- */
-+-
 +-#include <errno.h>
 +-#include <unistd.h>
 +-#include <sys/wait.h>
-+-#include <sys/param.h>
-+-#include <limits.h>
-+-#include <stdio.h>
 +-#include <syslog.h>
-+-#include <stdarg.h>
-+-#include <stdint.h>
-+-#include <stdbool.h>
-+-#include <string.h>
++-#include "pppd.h"
 +-
-+-#include <pppd/pppd.h>
-+-#include <pppd/upap.h>
-+-#include <pppd/eap.h>
-+-#include <pppd/options.h>
-+-
-+-char pppd_version[] = PPPD_VERSION;
++-char pppd_version[] = VERSION;
 +-
 +-static char promptprog[PATH_MAX+1];
 +-static int promptprog_refused = 0;
 +-
-+-static struct option options[] = {
++-static option_t options[] = {
 +-    { "promptprog", o_string, promptprog,
 +-      "External PAP password prompting program",
 +-      OPT_STATIC, NULL, PATH_MAX },
@@ -164,7 +161,7 @@ index 0000000000..55d36c5baa
 +-{
 +-    int p[2];
 +-    pid_t kid;
-+-    int readgood, wstat, ret;
++-    int readgood, wstat;
 +-    ssize_t red;
 +-
 +-    if (promptprog_refused || promptprog[0] == 0 || access(promptprog, X_OK) < 0)
@@ -186,21 +183,15 @@ index 0000000000..55d36c5baa
 +-    if (!kid) {
 +-	/* we are the child, exec the program */
 +-	char *argv[5], fdstr[32];
-+-	ppp_sys_close();
++-	sys_close();
 +-	closelog();
 +-	close(p[0]);
-+-	ret = seteuid(getuid());
-+-	if (ret != 0) {
-+-		warn("Couldn't set effective user id");
-+-	}
-+-	ret = setegid(getgid());
-+-	if (ret != 0) {
-+-		warn("Couldn't set effective user id");
-+-	}
-+-	sprintf(fdstr, "%d", p[1]);
++-	seteuid(getuid());
++-	setegid(getgid());
 +-	argv[0] = promptprog;
-+-	argv[1] = strdup(user);
-+-	argv[2] = strdup(ppp_remote_name());
++-	argv[1] = user;
++-	argv[2] = remote_name;
++-	sprintf(fdstr, "%d", p[1]);
 +-	argv[3] = fdstr;
 +-	argv[4] = 0;
 +-	execv(*argv, argv);
@@ -215,7 +206,7 @@ index 0000000000..55d36c5baa
 +-	if (red == 0)
 +-	    break;
 +-	if (red < 0) {
-+-	    if (errno == EINTR && !ppp_signaled(SIGTERM))
++-	    if (errno == EINTR && !got_sigterm)
 +-		continue;
 +-	    error("Can't read secret from %s: %m", promptprog);
 +-	    readgood = -1;
@@ -227,7 +218,7 @@ index 0000000000..55d36c5baa
 +-
 +-    /* now wait for child to exit */
 +-    while (waitpid(kid, &wstat, 0) < 0) {
-+-	if (errno != EINTR || ppp_signaled(SIGTERM)) {
++-	if (errno != EINTR || got_sigterm) {
 +-	    warn("error waiting for %s: %m", promptprog);
 +-	    break;
 +-	}
@@ -251,16 +242,16 @@ index 0000000000..55d36c5baa
 +-
 +-void plugin_init(void)
 +-{
-+-    ppp_add_options(options);
++-    add_options(options);
 +-    pap_passwd_hook = promptpass;
-+-#ifdef PPP_WITH_EAPTLS
++-#ifdef USE_EAPTLS
 +-    eaptls_passwd_hook = promptpass;
 +-#endif
 +-}
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.0.bb b/meta/recipes-connectivity/ppp/ppp_2.5.0.bb
-index badf22db97..b50795109f 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.5.0.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.5.0.bb
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.9.bb b/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
+index b7f71b673d..e25929febf 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
 @@ -7,7 +7,6 @@ BUGTRACKER = "http://ppp.samba.org/cgi-bin/ppp-bugs"
  DEPENDS = "libpcap openssl virtual/crypt"
  LICENSE = "BSD-3-Clause & BSD-3-Clause-Attribution & GPL-2.0-or-later & LGPL-2.0-or-later & PD & RSA-MD"
@@ -269,12 +260,12 @@ index badf22db97..b50795109f 100644
                      file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
                      file://chat/chat.c;beginline=1;endline=15;md5=0d374b8545ee5c62d7aff1acbd38add2"
  
-@@ -24,6 +23,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
-            file://provider \
+@@ -26,6 +25,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
             file://ppp@.service \
-            file://0001-Revert-lock-path-to-var-lock-435.patch \
+            file://0001-ppp-fix-build-against-5.15-headers.patch \
+            file://CVE-2022-4603.patch \
 +           file://CVE-2024-58250.patch \
             "
  
- SRC_URI[sha256sum] = "5cae0e8075f8a1755f16ca290eb44e6b3545d3f292af4da65ecffe897de636ff"
+ SRC_URI[sha256sum] = "f938b35eccde533ea800b15a7445b2f1137da7f88e32a16898d02dee8adc058d"
 
