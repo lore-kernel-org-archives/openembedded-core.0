@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFF6FC369D7
-	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 11:10:23 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.12423.1745493023286507671
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4612C369D7
+	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 11:10:33 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.12424.1745493023884214662
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 04:10:23 -0700
+ Thu, 24 Apr 2025 04:10:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SC6qdAje;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cf848528aso6123845e9.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gBraXW0t;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so6014445e9.0
         for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 04:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745493021; x=1746097821; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1745493022; x=1746097822; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VxUwNeRRnxdmW6ZSA8EID0+bHFWko7I58vyAO59ps44=;
-        b=SC6qdAje7QzdIjbTLpilPLXcM23o4H4sK0NJFeoGKinvT9JyIqkAixq23SzZD4M/CE
-         Jxh+jOE+3UTKsJlfQPV8jpEN9TOLZKJPIEu+C+b7LC6gnx6AT6yiuPDAVfEheM6xDvvG
-         hNB8soe0DlvIPpK8GwleoBSZQm/EBew0prN48HExYFOPSmEFnG2TfXIlpwMZD+bJz2zF
-         Ig88wJy7vnRfNupj4CrnNypz6YFjwjmDIENjaVoYMc1IBxfZEvtmPgB81mSgWulupjzt
-         Z8r8imZXzcCU1sf77WyelKzNjVTS26fcwkWquTPJFE9tO+zQYYW2g7zHfKJSnNhnXgJs
-         MpXw==
+        bh=WmDRo+OZlG877o/mbyYc/opZ+1bQjZpzqv9fBPHLr3g=;
+        b=gBraXW0tGSMWwUNK7bsKQQcoXhXBPD3GsBuDkAqlpJWlRJGrhpPwUFwD9/XZkxbKH+
+         PxkEZOBTNTjFUp2Ntyl9J1C/CQr1kIQI2RvD+le1nFHCSEAA4HuZrQyT5oHrXrTrbrrp
+         pIB1FhfdKTDTseV2WM/WF8j6560HctKuy/5RyxvpZsyJ3VuyQapeX268aqZ32qo/p6Ma
+         F+NAYy0mWWovB5llQjyVd8l5e37R+/ZH9yVITM3GU4ua+a2311kT96rtCD0GO7H+o8Zc
+         qLuynPN7qjqLgUk1Oz2FnYSGyxnGnXNexVdfGlo+dXZuMJOsULFfkQfAERxwNTuVHlKW
+         ti/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745493021; x=1746097821;
+        d=1e100.net; s=20230601; t=1745493022; x=1746097822;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VxUwNeRRnxdmW6ZSA8EID0+bHFWko7I58vyAO59ps44=;
-        b=hMk9y+IzCURECBeFYfm1iCvrVfBsJJi3eoP9yFALkBlVVeXBOcEsUGHViIL8lXsmsD
-         10Ni+bV+ltxSalweVzx40Mv0tVwMB1MJXLGI5qHe0lWDksy5LvSp4IPiin3wTqfTDwj6
-         dEYfbdE2twDUKUHmpHKxhT530Cpuu4ceiu2+lhhBFKfTcWfQpdvMZSOVKtX+rDDSB6vD
-         Qa1qCnHxzuc/310tQgedz8zNKM+HcFGTF2kooOONSjsUKS+4R4ruoyH19HP2BJrFET5J
-         6E+Cosf0Lyo9jHwAeDuJTuZEct/px4rzJypRKSIQEFM6juC5Q/EAduU9hbE04vJWaLJ+
-         Su/g==
-X-Gm-Message-State: AOJu0YwsaVqpWzNAn4lx+FeSH2fDuGhHzsg7OeZEDoLGwUYwV/4tmJbB
-	b4QHVROONngPgVZ8wlnfMzHKhE4biCb6cWZ86v1XPKrj97BEu07n0WKuyQ==
-X-Gm-Gg: ASbGnctSElMF5QzZ1VXn16zyDOvChWz/WOa7/30GZ+FUsDFJyouVKGc9swWB99AM+mA
-	XPsI3l7b7CA6sbpHNjuWCe7orKsmfwJDeUZov8rY97DnTE6PPgvRY1Fed5r+0MpSfnqF5nvKEXt
-	KKxsyYmYyIfnTr8vKi/RESzzmq+0ufPL55g3Jr4rGcGxTGnMbQKlz4dyqXmn6Trqkbd8+spB0+y
-	zXi1zgyoe0UutmMlz3YLgDqQpAQX899GYvUGQJfyWOzduIyqTp+iPtPhy+Uz0JLSH++u/z5/+uy
-	TgXdK8jGLe3gAxbpR3nupkLT11F/jp4c7D/h0Xg/BP/LP6GjeXQVh9uTZwQ0SyXFbdvXeohtgoB
-	S9Q==
-X-Google-Smtp-Source: AGHT+IE4/Vv1CI2rBZhcSppSzKhBwFKNn3QdqoAIIlJ0kryfF1P05DvXUGQBbNEM/1rsH0PhLdIuiQ==
-X-Received: by 2002:a05:6000:4022:b0:39c:1f11:bb2 with SMTP id ffacd0b85a97d-3a06cf5ee5amr1638721f8f.22.1745493021454;
-        Thu, 24 Apr 2025 04:10:21 -0700 (PDT)
+        bh=WmDRo+OZlG877o/mbyYc/opZ+1bQjZpzqv9fBPHLr3g=;
+        b=YN3s7CtPlqiGilO0YKHo8jzYobkqRmTP0AiMAfCi8Q86VlyalqtEYeJbJVqk9C98kD
+         /OOccEpjdLJxbBCbXARg0SgiTi6wa+Y/ZSg63Gh36CnPg1vfENoHALVIr9Rnoea8RiSM
+         IvajGfcAarMWJZJO5nVmIh6uJdW3TNNYGZNlnonkJMSqKxu5Muh5gn4C8j08hA0OEWCa
+         RuX15Hw/F7lCFENqH2aKJYwLrIR3NPydvWRkESP/afptktr2fNgYoGg9tHQwCh7PfVOg
+         MbuKfsj6sZTCiMz5IYwCIdtPO1iE93xVytQSSfrUdlmgw5FXbsoy5QU3nqeW9TSay7M0
+         jVeQ==
+X-Gm-Message-State: AOJu0YxxBpbDmw+2aP8j11nnvHyexGxTyTqEZwv8YzBXiCh9WgH8XT9G
+	+KgMk/QEAdABrmmJncWgzNy8Rwx7FxmoxX/6XVhNesDQHwofQOgq29SdEA==
+X-Gm-Gg: ASbGncsfqe5MnXwI9SRzkMEo3fz9zgaGqSb9SGhO7+aReN7lUXzDOV4lADmCRGm4PHO
+	gLVEBothOXPjnNRk7j7rePHt1YpmCNviUyoySs2bMur4vGETvXXhJNa/ihXZb+LDTokShsEFhKA
+	m6jyW0baLLVF4njnsdXez/QaCq4Ys2Q64Ao43XMqAz0CmMThSuXghLfxrDDv+RBBqAKAjdVEMmw
+	KQ+18PWg9FiQteBmLBbOOM3j6NSTimmlQZhp+vD5lcgfgc5klXQT5VOxxhFI/UyphkcDxTeHxOx
+	+7/ge2gfZtLn86uSzf/17SfpZX+AChXphwg5zXALalcqC1OoNf6b2jU11qtMPygNqjERTMB6v3B
+	8qg==
+X-Google-Smtp-Source: AGHT+IFy6aXV4FS7C+FWjgz+zoikDve5hmuhHCxLnmkDW/6xmEVC6Ova/YLw3BCh3uAun7t3ilekpA==
+X-Received: by 2002:a05:600c:3487:b0:43c:f8fc:f69a with SMTP id 5b1f17b1804b1-4409bd05295mr20379285e9.4.1745493022087;
+        Thu, 24 Apr 2025 04:10:22 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d5323b4sm1753499f8f.66.2025.04.24.04.10.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d5323b4sm1753499f8f.66.2025.04.24.04.10.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 24 Apr 2025 04:10:21 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/4] libarchive: correct upstream version check
-Date: Thu, 24 Apr 2025 13:10:13 +0200
-Message-Id: <20250424111014.905507-3-alex.kanavin@gmail.com>
+Subject: [PATCH 4/4] libunwind: use github-releases class to determine latest versions
+Date: Thu, 24 Apr 2025 13:10:14 +0200
+Message-Id: <20250424111014.905507-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250424111014.905507-1-alex.kanavin@gmail.com>
 References: <20250424111014.905507-1-alex.kanavin@gmail.com>
@@ -66,32 +66,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 11:10:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215362
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 11:10:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215363
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-File index works now:
-http://libarchive.org/downloads/
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-extended/libarchive/libarchive_3.7.9.bb | 2 --
- 1 file changed, 2 deletions(-)
+ meta/recipes-support/libunwind/libunwind_1.8.1.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-index 9d134f7d381..d70cdb3d835 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-@@ -31,8 +31,6 @@ EXTRA_OECONF += "--enable-largefile --without-iconv"
+diff --git a/meta/recipes-support/libunwind/libunwind_1.8.1.bb b/meta/recipes-support/libunwind/libunwind_1.8.1.bb
+index 1885da4d09f..ee4a8401ba6 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.8.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.8.1.bb
+@@ -5,7 +5,8 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2d80c8ed4062b8339b715f90fa68cc9f"
+ DEPENDS:append:libc-musl = " libucontext"
  
- SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+-SRC_URI = "https://github.com/libunwind/libunwind/releases/download/v${PV}/${BP}.tar.gz \
++GITHUB_BASE_URI = "https://github.com/libunwind/libunwind/releases"
++SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
+            file://mips-byte-order.patch \
+            file://0001-tests-Garm64-test-sve-signal-check-that-SVE-is-prese.patch \
+            file://0002-coredump-use-glibc-or-musl-register-names-as-appropr.patch \
+@@ -16,7 +17,7 @@ SRC_URI = "https://github.com/libunwind/libunwind/releases/download/v${PV}/${BP}
  
--UPSTREAM_CHECK_URI = "http://libarchive.org/"
--
- SRC_URI[sha256sum] = "aa90732c5a6bdda52fda2ad468ac98d75be981c15dde263d7b5cf6af66fd009f"
+ SRC_URI[sha256sum] = "ddf0e32dd5fafe5283198d37e4bf9decf7ba1770b6e7e006c33e6df79e6a6157"
  
- inherit autotools update-alternatives pkgconfig
+-inherit autotools multilib_header
++inherit autotools multilib_header github-releases
+ 
+ COMPATIBLE_HOST:riscv32 = "null"
+ 
 -- 
 2.39.5
 
