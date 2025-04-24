@@ -2,121 +2,103 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2DDDC369AB
-	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 10:35:13 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.11886.1745490909426322992
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E02C369AB
+	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 10:36:03 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.11967.1745490961880152213
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 03:35:09 -0700
+ Thu, 24 Apr 2025 03:36:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FlBiM6k5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cf628cb14so15071235e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 03:35:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QXYtySx7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cf034d4abso7708855e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 03:36:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1745490908; x=1746095708; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1745490960; x=1746095760; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dEOu+lMZlD5JoehitWFmI9KY0NLas1f6hIiaO8hbR7k=;
-        b=FlBiM6k5XCfuCTI9PmuhL06/T/ZfW0QUjSjRcgv6hV1xkCXur483NI4BSr9I67jlsr
-         9symxFUmUpJBshE2CFMh3MxdCmf2t0kJ+JNpHILcpdX3EopSLQicksvx9WaJZDst6131
-         JsZ+fU+KrAy8eiS+m8jCRNbWVfRMb+9C4Cpvg=
+        bh=ToBVl3NqDKgdHRS5d8UBKzRaZTINhWagZ5UnvSh27Qk=;
+        b=QXYtySx7JbnJ03bm4kuwtfyurAOQ+83CnAQwUMOP4VM7p54lp72sc0HmPnfIFEelKC
+         yAUevNai9MAOoxBPMSNnEcYClPaehYw39peO1i7dfrcc/4nstliOXaKe9Q29mWoj5oEf
+         nzKv7crYWQu11Ut/fU4Px4SABpc4htU97BZWk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745490908; x=1746095708;
+        d=1e100.net; s=20230601; t=1745490960; x=1746095760;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=dEOu+lMZlD5JoehitWFmI9KY0NLas1f6hIiaO8hbR7k=;
-        b=w9rmwwjl8SLXLttmF9wEcSR5u9qJktkindX4dim9vaV/lFmjAdFip5GX2Vl3K1cbtp
-         Ev6Vyq0rSfllTiJX5DWtRY1aHnQZmCe6za2Moy7hubBChd+0niOhFpZ/qKa74A9xaHWP
-         719guvPFTVUJr9L+m5a3o9+FpaUPAbgQ40R41pqCMNU6PFf1EV6S9o6iK3dhhO9vmhsl
-         8njrUrJHBVc8XpyALyHwgUr37wGbUlhBkhNduLKZzwuyvYC8Ta6U1Z3mEa6/7S2+B2U7
-         fxACZme/1F2Rtaou9qvw1iAq0fDmQ2waZFnLPRLxx3lqKQI3NkOh8IeSHvnZHRfDKMUz
-         7slQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWmw8TFEqlwCPREz8c9KhLbCTtKcqlO+3anQ5fXA/j9Hwnk1nfrCd1+Y1p4rQxhSmY4aPcgzIRsyaF4mwNGyNowyQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy5mLg4EDc3RD84SI2h12qU3LKcXvnSareiy90kHc6+x17Yv75+
-	/f1/7LJLGVProfjwjKwo1AGgICfTgl1So1VOFfkkKvjMvIpAyuVsg5BcCMSSOx8=
-X-Gm-Gg: ASbGnctHMDROiD83CmmC0bIOrAy/zVullTdNOhtOARPZIMugA4V11eo4lHt1gF3gDrS
-	RJ+2WP4lfo7VyuS39TzWz7zf4vrT5EtSuKkFNm0RbRRpgySg751S7Wun+h4EqYe9IhF6Z+M2I8y
-	R99evNeX4ejVEic10OVo9I7DpGtbj60l5Ejaad3CvLvc0IhV3XZpECai/gk51g+xdTuo+I726wg
-	3ERXnutdupm5nuyVwCyk3Gl57sM7aQ3JLWKptLAXez7/03hKwSANidD52EnDE/PGp96MXRlok2X
-	m22k8vYdq0ANxL731vPeoFml26qGaa4C0bGp9mDdq3QodbMQHgCef6gVmrjmrzR0ustweu2Ek42
-	Bj7+hsNCC7tR8gNrRY965RlLvQylrqrff2XKvU+yB
-X-Google-Smtp-Source: AGHT+IFl41XZfTA4LGWC8dVppFpiKvVYqaV+OyvC8aGVNuOIx6z9SzyHbTzPGG8N4KTQhKnobMUT2g==
-X-Received: by 2002:a05:600c:c092:b0:43d:186d:a4bf with SMTP id 5b1f17b1804b1-4409c399b9amr14742675e9.0.1745490907851;
-        Thu, 24 Apr 2025 03:35:07 -0700 (PDT)
+        bh=ToBVl3NqDKgdHRS5d8UBKzRaZTINhWagZ5UnvSh27Qk=;
+        b=R839RDAfG9V/E7phPK4HxnEMflTT8hX5aE0tDf45eq9Vx2ZvK19/TumYNBQAW4poL2
+         IrTa38vK+/S2RCouZDR8IcltDzm5LeLHpOVmiHsKxETgxt/eyUFzirqeedF7OWZbuwzV
+         dZoU3qjpEuXKB4oWcY+9vVmG6htF8ODshYctbl/Rmq9QJoi636wMKhS7y0AOJ4d2F3o0
+         MkOfCE1Hfnh4o0zagv13NoRAoUbrXy6y56+w5MR+Y55AtiuGF2xbxbtPLFNKGJjP3b9b
+         04jXBRxAV3k710yru+0vKs19AYF8tz+XcqcBW9B/AkwOVJ8BzYGIC/eFNIo0LZTxqYU7
+         tiCg==
+X-Forwarded-Encrypted: i=1; AJvYcCXXglrtKjynH7W5LLKs2jQDiWjRd9asazwcseC9/uJPoOzHKNEp0saQzBbLlkMeD1bbCXHWi6Wt399W7fNQt7pBvw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzYiQDQm0wMz6aPNLKK/9qVL53pXbbiHX/KbIr9lWWlL0aUisLJ
+	SXSPxtSNsjYcXm/eajf5rslnRfWkVJChNG49b9zzvpj9QwPlfxXxIKIqLC/OTHYWGmWpFdvF4iO
+	y
+X-Gm-Gg: ASbGncsER0Xr80j3raR1lWsS+0Aa/JiJEat0RdSKhcvPE9SdL+OiAna/1aQ8xlv+6LZ
+	FJYyuet4AoFeReb6epJArNRXpjYtG561nd4ktRvFBzel1UZfpOHgcS1+mn/ujuf+iHf5ZQlGS/j
+	jIrfCZMkRaeU252r0+BIp8w4osPXhq0nsWOL1kS5/G9Qxi0epvs0nlBhgGW5SToqgkxeM7fGDpv
+	m4RvdAfuY85kJz+hp/W9y1t8hU4D+oaXVvnLexumMxKjubzs0qJ/J5NXyfsXOZM6UXk5SMJkPmM
+	rwBeeSpxvL8MdG76p1Uyxdp+TIyTFH6/g4TljtSwcUEBns1P3lI2YatrTP01KCIALLRMmhFs809
+	6cGt0q0PI6UzzPerhGzXD4se90L72jg==
+X-Google-Smtp-Source: AGHT+IEcoE/HVSpLUdjLDYEvILhcIjUiGnUZcRbpMrSYiiniN86B5zH16ZPukWXpenzJbpVep+gROw==
+X-Received: by 2002:a05:600c:3149:b0:440:6760:d06a with SMTP id 5b1f17b1804b1-4409bcfa3c8mr16112075e9.5.1745490960259;
+        Thu, 24 Apr 2025 03:36:00 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:94cb:8780:19ce:62be? ([2001:8b0:aba:5f3c:94cb:8780:19ce:62be])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2bf751sm15657385e9.34.2025.04.24.03.35.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2c3b0asm15699965e9.40.2025.04.24.03.35.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 03:35:07 -0700 (PDT)
-Message-ID: <4057935e419fa4974ea429da8383f5ec37e11f08.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4 9/9] image_types_wic.bbclass: depend on
- grub-efi and systemd-boot on aarch64, systemd-boot on arm
+        Thu, 24 Apr 2025 03:35:59 -0700 (PDT)
+Message-ID: <5537bb59deeb08b9984078a4a61c32fe559a191d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4 8/9] wic bootimg-efi.py: fail build if no
+ binaries installed
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
-Date: Thu, 24 Apr 2025 11:35:05 +0100
-In-Reply-To: <20250422143501.99565-10-mikko.rapeli@linaro.org>
+Date: Thu, 24 Apr 2025 11:35:58 +0100
+In-Reply-To: <20250422143501.99565-9-mikko.rapeli@linaro.org>
 References: <20250422143501.99565-1-mikko.rapeli@linaro.org>
-	 <20250422143501.99565-10-mikko.rapeli@linaro.org>
+	 <20250422143501.99565-9-mikko.rapeli@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 10:35:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215349
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 10:36:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215350
 
-On Tue, 2025-04-22 at 17:35 +0300, Mikko Rapeli via lists.openembedded.org =
-wrote:
-> On x86 family builds, grub and systemd-boot are always included and thus
-> get built and deployed before wic image builds. On aarch64 builds
-> that was not the case. Result is that some builds added systemd-boot bina=
-ries
-> to the wic image ESP partition and some not, though bugs in wic plugins
-> contributed here too since missing files were silently ignored.
-> Boot of such images fails since firmware is not able to load the
-> default EFI binaries.
->=20
-> Adding EFI_PROVIDER to WKS_FILE_DEPENDS_BOOTLOADERS is not possible
-> because of parsing order so adding grub-efi and systemd-boot
-> to aarch64 and systemd-boot to arm depends
-> which makes sure their do_deploy is always executed
-> before wic image is generated. Thus systemd-boot and grub
-> binaries will get copied from deploy directory to the wic
-> image ESP partition, and boot of the images succeeds.
->=20
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> ---
-> =C2=A0meta/classes-recipe/image_types_wic.bbclass | 2 ++
-> =C2=A01 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-r=
-ecipe/image_types_wic.bbclass
-> index 10888bc12b..b2f450026d 100644
-> --- a/meta/classes-recipe/image_types_wic.bbclass
-> +++ b/meta/classes-recipe/image_types_wic.bbclass
-> @@ -113,6 +113,8 @@ WKS_FILE_DEPENDS_DEFAULT +=3D "bmaptool-native cdrtoo=
-ls-native btrfs-tools-native
-> =C2=A0# Unified kernel images need objcopy
-> =C2=A0WKS_FILE_DEPENDS_DEFAULT +=3D "virtual/cross-binutils"
-> =C2=A0WKS_FILE_DEPENDS_BOOTLOADERS =3D ""
-> +WKS_FILE_DEPENDS_BOOTLOADERS:aarch64 =3D "grub-efi systemd-boot"
-> +WKS_FILE_DEPENDS_BOOTLOADERS:arm =3D "systemd-boot"
-> =C2=A0WKS_FILE_DEPENDS_BOOTLOADERS:x86 =3D "syslinux grub-efi systemd-boo=
-t os-release"
-> =C2=A0WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 =3D "syslinux systemd-boot os-r=
-elease"
-> =C2=A0WKS_FILE_DEPENDS_BOOTLOADERS:x86-x32 =3D "syslinux grub-efi"
+T24gVHVlLCAyMDI1LTA0LTIyIGF0IDE3OjM1ICswMzAwLCBNaWtrbyBSYXBlbGkgdmlhIGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6Cj4gV2l0aCBzeXN0ZW1kLWJvb3QsIHNvbWUgYnVpbGRz
+IGluY2x1ZGVkIGNvcnJlY3QgRUZJCj4gYm9vdGxvYWRlciBiaW5hcmllcyBhbmQgc29tZSBub3Qu
+IFRodXMgc29tZSBidWlsZHMKPiBib290ZWQgYW5kIHNvbWUgbm90LiBDaGVjayB0aGF0IHNvbWUg
+Ym9vdCBiaW5hcnkKPiB3YXMgaW5zdGFsbGVkIHNvIHRoYXQgYnVpbGQgZmFpbHMgaWYgbm9uZSB3
+ZXJlIGluc3RhbGxlZC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBNaWtrbyBSYXBlbGkgPG1pa2tvLnJh
+cGVsaUBsaW5hcm8ub3JnPgo+IC0tLQo+IMKgc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvc291cmNl
+L2Jvb3RpbWctZWZpLnB5IHwgMyArKysKPiDCoDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMo
+KykKPiAKPiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvc291cmNlL2Jvb3Rp
+bWctZWZpLnB5IGIvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvc291cmNlL2Jvb3RpbWctZWZpLnB5
+Cj4gaW5kZXggOTZjNzEwYmY3Ny4uMjBiMWMzNmE0NiAxMDA2NDQKPiAtLS0gYS9zY3JpcHRzL2xp
+Yi93aWMvcGx1Z2lucy9zb3VyY2UvYm9vdGltZy1lZmkucHkKPiArKysgYi9zY3JpcHRzL2xpYi93
+aWMvcGx1Z2lucy9zb3VyY2UvYm9vdGltZy1lZmkucHkKPiBAQCAtMzQxLDYgKzM0MSw5IEBAIGNs
+YXNzIEJvb3RpbWdFRklQbHVnaW4oU291cmNlUGx1Z2luKToKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNwX2NtZCA9ICJjcCAtdiAtcCAlcy8lcyAlcy9FRkkvQk9P
+VC8lcyIgJSAoa2VybmVsX2RpciwgbW9kLCBoZGRkaXIsIG1vZFs4Ol0pCj4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvdXQgPSBleGVjX2NtZChjcF9jbWQsIFRydWUp
+Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsb2dnZXIuZGVidWco
+InN5c3RlbWQtYm9vdCBmaWxlczpcbiVzIiAlIG91dCkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgICMgbXVzdCBoYXZlIGluc3RhbGxlZCBhdCBsZWFzdCBvbmUgRUZJIGJvb3Rsb2Fk
+ZXIKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG91dCA9IGV4ZWNfY21kKCJscyAl
+cy9FRkkvQk9PVC9ib290Ki5lZmkiICUgKGhkZGRpciksIFRydWUpCj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBsb2dnZXIuZGVidWcoIkluc3RhbGxlZCBzeXN0ZW1kLWJvb3QgZmls
+ZXM6XG4lcyIgJSBvdXQpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVsaWYgc291cmNlX3Bh
+cmFtc1snbG9hZGVyJ10gPT0gJ3VlZmkta2VybmVsJzoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBrZXJuZWwgPSBnZXRfYml0YmFrZV92YXIoIktFUk5FTF9JTUFHRVRZUEUiKQo+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIG5vdCBrZXJuZWw6CgpMZXRzIGF2
+b2lkIHRoZSBleGVjIG92ZXJoZWFkIG9mIHVzaW5nICJscyIgaGVyZSBhbmQgdXNlIGdsb2IuZ2xv
+YigpIHRvCmNoZWNrIGZvciB0aGUgZmlsZXMsIHdoaWNoIG1ha2VzIHRoZSBjb2RlIG1vcmUgcmVh
+ZGFibGUvbWFpbnRhaW5hYmxlCmludG8gdGhlIGZ1dHVyZS4KClRoYW5rcyEKClJpY2hhcmQK
 
-Several of us had questions in patch review about why some entries had
-os-release and some did not. We believe other uki changes have
-obsoleted the need for that but it would be good to remove it if so and
-keep these entries looking consistent.
-
-Cheers,
-
-Richard
 
