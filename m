@@ -1,85 +1,81 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A22C369D1
-	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 11:44:34 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.12924.1745495067134951069
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BFEC369C2
+	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 12:07:24 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web10.13552.1745496435480255206
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 04:44:27 -0700
+ Thu, 24 Apr 2025 05:07:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D4LcZRtt;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6ecfc7ed0c1so9364936d6.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 04:44:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745495066; x=1746099866; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MOM9v+m7ke1k1MKiZgML+Nmkz1hlY9fXzzOxP9anH7k=;
-        b=D4LcZRtt+Cd2b69j5X750wPkiu/hhDhA6WEqjxK+R/X6YS8PxEmQL67OlCaIv+GOnm
-         KG1jUc6A6jKwxWn0IBdRuBT/gkOh4Zl0zBvo9/jfIQw3UT70JCfjqrXKkSDVZ1A1Iew2
-         mrzexy8UZfbH47lyIQ16YIEOQANqB66vKR3k3FmVKiNIhRWKQ/5aoW8I4GvoZbuWUeTi
-         ywgNZAXvBgwfk7fMvwqmpdXgFA1LTPqb6vLth+dCbNt3/CWvUjwhm74MtJb4FKvWQnlv
-         /oK/fdPFS+/WIDijzfUorhe5ogdmb4XRORiORGq2NLvvnPOmNtDUomwCencEoOMl+sA7
-         FOBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745495066; x=1746099866;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MOM9v+m7ke1k1MKiZgML+Nmkz1hlY9fXzzOxP9anH7k=;
-        b=BnmWANpEE+i6KDx1Aog+qGvym1dARA6Ez5F6ZtIORlwxjcrCcwyZcGzqfszLMb+Dn1
-         /q0PixEXgXIY2CdEqOpt/f/29Uc8+DJU+jnZVZmRGCtE+PHXDELSK3ZOzhdg/mbq1ESi
-         H7i7q2fqSG/paH8fnSbwDBGu9OBbUqC7HfZOxRaCQVdCT33aazV4dVb1lE9hNconvuI/
-         UHBeLCWLZWMGsJnWQzY3gXF7z1PjWPOaqp96/s5bNpcq/RGwsXEvM0S32K+iweArH8ze
-         jI59vo7IMo+yehLUaN6wHO5sJHT+rB1+eFbU6Vot8s8FDZirTwOLD87o0BMpN+M6gwqr
-         IIUw==
-X-Gm-Message-State: AOJu0YzZcDPEsQ/BkxYS0YrHIOb2CmHmZJVkddWUmEyJHExjcTapMLsX
-	GCCE8qjzxDitKlHmmuFbKc/+CbI6Y6bRxFc9h8NWo0o3wG2LzEU1CKEcAxM6sWx8VG9SjuogwQr
-	IS4JViO4ugS7f3KWNMOJwL+4V64c4ag==
-X-Gm-Gg: ASbGnct/Bsb/6aQpSMsfBLQ0nxMGbrbR1Lj40AmHMfDt6apoHdqcxrf5Mv79Td+cl+v
-	s5+pnue4qFeWTgzsFL/6KC8Xuhq/2Xi+54IxWZ6m6JR3oZRyFc70qxay7N9dXcVfMgv+3Wj0RLD
-	VCow7JNgKL94HHTYdm+/WBeR0bDaWhdONGBbvqRKmfnmTmAOAkyiVJNm5j
-X-Google-Smtp-Source: AGHT+IE3jewpjEA/jkruKAI9BUZEJr4OuC9QQ/tetHKYJY3rmY+E8G1YFSiEBeoq7i48G72GeY5PKr4vi4SDiSabtbM=
-X-Received: by 2002:a05:6214:2029:b0:6ed:15ce:e33e with SMTP id
- 6a1803df08f44-6f4bfc276e3mr43583366d6.27.1745495065962; Thu, 24 Apr 2025
- 04:44:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250424111014.905507-1-alex.kanavin@gmail.com> <cf05b37db043dd939ec540a24ae0343376e5a830.camel@linuxfoundation.org>
-In-Reply-To: <cf05b37db043dd939ec540a24ae0343376e5a830.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 24 Apr 2025 13:44:13 +0200
-X-Gm-Features: ATxdqUE_3WKytlmOjyl1s_Tq-UgNrju_Q7YRI_KRt2bYsxTcmQdSECv2wcBHtHM
-Message-ID: <CANNYZj9hiQ41Boji0OH5ecRbktL-5nH3q3o0=k4+XxRZ=nu2ZQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/4] devtool: account for sources in UNPACKDIR
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=jJEk7I5h;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id ACF294398B;
+	Thu, 24 Apr 2025 12:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1745496433;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dkPTGsdpMXGccEdkrr+vtiYnB83IlOq9byrDlyQltLM=;
+	b=jJEk7I5hZZ8GyJhnG6GzvDpsoPo8Vc22BatR1fUtOpOsqSSvk4T/VHmnO9Kk7mPZDfisOK
+	XjpU9njVVdZvIT4OElgg8nTUDl5cRU9Djrx+kFEtKBWd5ENar6GXChcZ8KVISWZoGaGdhm
+	0/ByiQwl9rG0KyTnYoCOeb0Bq9+sbGarwx7uXDaeGXSXlgPCwYk1JdbwLEp7MQoHb/3gqz
+	cOqvbj7QkiijCyYpxRocr5x48MP5QkRSlqdvUXRvngtb0RJIaFZhEqrnISxUV+ctmHKKVr
+	vmLtr87G/pTc8Muibgs7Cpk96sUAJmUpsFb51Il5+qA4xjqCsxeXAtgGUZ83fw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 24 Apr 2025 14:07:10 +0200
+Message-Id: <D9EUUEE9YG0F.317W9TAS2P6EO@bootlin.com>
+Subject: Re: [OE-core] [PATCH V3] icu: set ac_cv_path_install to install
+ under hosttools
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Changqing Li" <changqing.li@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250422130702.1337476-1-changqing.li@windriver.com>
+ <D9DR2YV3L26S.29EB7OC0D9J5S@bootlin.com>
+ <73c9bad4-bedc-43ec-a06d-a8b4dc62548b@windriver.com>
+In-Reply-To: <73c9bad4-bedc-43ec-a06d-a8b4dc62548b@windriver.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeelgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkuffhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepffdvleefhfffkeeuvdethffggedthfevgfegteefhfehgfeffeelhfetuddvkeffnecuffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtoheptghhrghnghhqihhnghdrlhhiseifihhnughrihhvvghrrdgtohhmpdhrtghpt
+ hhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 11:44:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215365
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 12:07:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215366
 
-On Thu, 24 Apr 2025 at 13:32, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Wed Apr 23, 2025 at 12:23 PM CEST, Changqing Li wrote:
+>
+> Hi,
+>
+> I cannot reproduce this locally,=C2=A0 in my local env,=C2=A0 buildpaths =
+is=20
+> removed by function remove_build_host_references.
+>
 
-> UNPACKDIR was meant to help with this. If devtool is changing the
-> location, can't it just change UNPACKDIR and leave everything else
-> alone? S will still be under UNPACKDIR/git even after devtool moves it?
+It can be reproduced using
+https://web.git.yoctoproject.org/poky-ci-archive/tag/?h=3Dautobuilder.yocto=
+project.org/valkyrie/a-full-1436,
+using default config and trying to build icu.
 
-Some recipes use
-S = /path/to/workdir/git/sub/path
-and some use
-S = /path/to/workdir/unpackdir/git/sub/path
+But the issue is actually on my side: as the patch name changed, I did
+not make the link with the v2, so this branch contains both v2 and v3.
+If I drop v2, it works correctly with the simple reproduce process
+described above.
 
-It's that 'git' part in the middle that needs to be extracted from the
-final value of S and appended to UNPACKDIR (or WORKDIR), and then the
-resulting path is moved by devtool to a workspace with shutil. I
-probably don't fully understand the suggestion?
+I will try to integrate the v3 correctly in one of my next builds, to
+confirm everything is fine.
 
-Alex
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
