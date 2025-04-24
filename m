@@ -1,185 +1,57 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC5E0C369AB
-	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 14:55:54 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.17329.1745506548637424993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D357CC369AB
+	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 15:01:55 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.16.1745506912604006606
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 07:55:49 -0700
+ Thu, 24 Apr 2025 08:01:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=qn4ISj2f;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3912d2c89ecso957644f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 07:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1745506547; x=1746111347; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:references:in-reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VsUR/IVINiBkm6yjK4QhvLqxE6NHs9gBnvK42//XT1A=;
-        b=qn4ISj2fT8uCmS9rlaL+kGQ/VsPcQuobylpoFbJaMoiemo2NhcIhjnx0/DMyuHSF3n
-         H0VlRC/8w7go0zQkt44UOw1LGvhWjwZerMDG8gglBu1MaarfLbPp2hWz3lxTX9obaUbt
-         +Tj3m7fVn1nNfQ8WTUxH/b8P+GDtLfY3gBLpY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745506547; x=1746111347;
-        h=cc:to:subject:message-id:date:from:references:in-reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VsUR/IVINiBkm6yjK4QhvLqxE6NHs9gBnvK42//XT1A=;
-        b=SdzReADma2LR2CgNADbdmmujTY8htTnOd4ajo4/kOT4cX3TuMvrvpFswwYbhjEVzq4
-         las9OxO6yG/4pEHBVAbtrfQ/7gYrPdntq8HB9z/rB2qlm1OlRzOvUO0ioJhIdsuZ+fRY
-         vnYMvNEx5wdwCqA5bcQWW9ZW3z1onULO1rDvfSJhlFeHMsItpryq69tb45KzWINsq+jM
-         J7lzSIj73RlYbomirgA+JQHGWCV428+1DcA7Sz9E+BUkdmzTPcQa9/1OAzjAAzEwM53l
-         oFJMl9+5dRQbyRKwnlPc4QUcnb7hB7FBo6tUztRjQ0omdOi/yQVbeId64vQ0xl97Lc0/
-         MmEQ==
-X-Gm-Message-State: AOJu0YwUC/PXv3VQlf+nXyxrVTNSMzUXTK0kIGG6IQXxJimgQj1jIKZ0
-	s5NyEv0RXqFOvjm3dLKtq1GC26JD2tGPxnhd0n/ilYA6Zym9dpJoLdP6i8nrza+C9O46Lbi+Kyd
-	fXWlQYif0mURVMv9BuSABd0r+vop2zGFshq28Xjl7iTcAieXKXJE=
-X-Gm-Gg: ASbGncuiCy/Ubc9NIoAgpK374boWLkqA3Fgvf3m3KQBCWu6AC7C+qbf5XM9p9fUt5iL
-	YMIZfOSrEqv6u2PXTl/sS+X/c5MG2uHO617PMsO4IvMnYgfwx3u6VXBvVIOw7Wtms2yOLUPSiCy
-	u74LKRqzW7vNjQJ44Q5g2Dsvu8PfsTh2H7w7TxGI/OXIA9yi7rQprpdDjZ
-X-Google-Smtp-Source: AGHT+IFen5yxyUpcR6bkgruNoKGIWo5alkE9NnaOsoVR94ZBdP4ErCDlzuh5nNvKgBTLV3A3W2byfqIkoidsSu/XXjg=
-X-Received: by 2002:a05:6000:420b:b0:391:1458:2233 with SMTP id
- ffacd0b85a97d-3a06cf4ed56mr2459771f8f.11.1745506546917; Thu, 24 Apr 2025
- 07:55:46 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 190FC1063
+	for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 08:01:47 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B939F3F59E
+	for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 08:01:51 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] wget: use libpcre2
+Date: Thu, 24 Apr 2025 16:01:48 +0100
+Message-ID: <20250424150148.1749041-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Received: by 2002:a5d:66c6:0:b0:390:d73f:69ef with HTTP; Thu, 24 Apr 2025
- 07:55:46 -0700 (PDT)
-In-Reply-To: <20250424123217.885006-2-ines.kchelfi@smile.fr>
-References: <20250424123217.885006-1-ines.kchelfi@smile.fr> <20250424123217.885006-2-ines.kchelfi@smile.fr>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 24 Apr 2025 16:55:46 +0200
-X-Gm-Features: ATxdqUF32zAdxF5oSTRS_DPuDkDR_7KFmbflkJYmiS1so9quTHn5OAz3pV9td7o
-Message-ID: <CAMSfU+6Zioo1r+V26nqYXuPnkJ=suEysMib_1zxvOKpAatH24Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] ptest-cargo: fix incorrect FAIL count when
- multiple tests are run
-To: "ines.kchelfi@smile.fr" <ines.kchelfi@smile.fr>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000aec1ba0633876976"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 14:55:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215386
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 15:01:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215387
 
---000000000000aec1ba0633876976
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+libpcre is obsolete and unmaintained, as wget supports libpcre2 now we
+should use that instead.
 
-Le jeudi 24 avril 2025, ines.kchelfi via lists.openembedded.org
-<ines.kchelfi=3Dsmile.fr@lists.openembedded.org> a =C3=A9crit :
-> From: Ines KCHELFI <ines.kchelfi@smile.fr>
->
-> When using the ptest-cargo class with multiple Rust test binaries,
-ptest-runner
-> may report FAIL: 0 even if one of the tests fails, as long as the last
-test passes.
->
-> This happens because the run-ptest script, as generated by the class,
-does not
-> track failures and simply returns the exit code of the last test.
-> To fix this, each test binary is checked individually for failure. If any
-test fails,
-> a non-zero exit code is returned.
->
-> This ensures that test failures are not silently ignored and are properly
-reported
-> by ptest-runner in multi-test scenarios.
->
-> Signed-off-by: Ines KCHELFI <ines.kchelfi@smile.fr>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-extended/wget/wget.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
-
-> ---
->  meta/classes-recipe/ptest-cargo.bbclass | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes-recipe/ptest-cargo.bbclass
-b/meta/classes-recipe/ptest-cargo.bbclass
-> index 6799a454ac..390fcf0815 100644
-> --- a/meta/classes-recipe/ptest-cargo.bbclass
-> +++ b/meta/classes-recipe/ptest-cargo.bbclass
-> @@ -101,14 +101,15 @@ python do_install_ptest_cargo() {
->      with open(ptest_script, "a") as f:
->          if not script_exists:
->              f.write("#!/bin/sh\n")
-> -
-> +            f.write("rc=3D0\n")
->          else:
->              f.write(f"\necho \"\"\n")
-> -            f.write(f"echo \"## starting to run rust tests ##\"\n")
-> -
-> +            f.write(f"echo \"## starting to run rust tests ##\"\n")
-
->          for test_path in test_paths:
-> -            f.write(f"{test_path} {rust_test_args}\n")
-> +            f.write(f"if ! {test_path} {rust_test_args}; then rc=3D1;
-fi\n")
->
-> +        f.write("exit $rc\n")
-> +
->      if not script_exists:
->          os.chmod(ptest_script, 0o755)
->
-> --
-> 2.43.0
->
->
-
+diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/=
+wget/wget.inc
+index 151aeabcdce..d2f772e4090 100644
+--- a/meta/recipes-extended/wget/wget.inc
++++ b/meta/recipes-extended/wget/wget.inc
+@@ -36,5 +36,5 @@ PACKAGECONFIG[iri] =3D "--enable-iri,--disable-iri,libi=
+dn2"
+ PACKAGECONFIG[libpsl] =3D "--with-libpsl,--without-libpsl,libpsl"
+ PACKAGECONFIG[libuuid] =3D "--with-libuuid,--without-libuuid,util-linux"
+ PACKAGECONFIG[openssl] =3D "--with-ssl=3Dopenssl,,openssl"
+-PACKAGECONFIG[pcre] =3D "--enable-pcre,--disable-pcre,libpcre"
++PACKAGECONFIG[pcre] =3D "--enable-pcre2,--disable-pcre2,libpcre2"
+ PACKAGECONFIG[zlib] =3D "--with-zlib,--without-zlib,zlib"
 --=20
-Yoann Congal
-Smile ECS
+2.43.0
 
---000000000000aec1ba0633876976
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>Le jeudi 24 avril 2025, ines.kchelfi via <a href=3D"http://lists.op=
-enembedded.org">lists.openembedded.org</a> &lt;ines.kchelfi=3D<a href=3D"ma=
-ilto:smile.fr@lists.openembedded.org">smile.fr@lists.openembedded.org</a>&g=
-t; a =C3=A9crit=C2=A0:<br>&gt; From: Ines KCHELFI &lt;<a href=3D"mailto:ine=
-s.kchelfi@smile.fr">ines.kchelfi@smile.fr</a>&gt;<br>&gt;<br>&gt; When usin=
-g the ptest-cargo class with multiple Rust test binaries, ptest-runner<br>&=
-gt; may report FAIL: 0 even if one of the tests fails, as long as the last =
-test passes.<br>&gt;<br>&gt; This happens because the run-ptest script, as =
-generated by the class, does not<br>&gt; track failures and simply returns =
-the exit code of the last test.<br>&gt; To fix this, each test binary is ch=
-ecked individually for failure. If any test fails,<br>&gt; a non-zero exit =
-code is returned.<br>&gt;<br>&gt; This ensures that test failures are not s=
-ilently ignored and are properly reported<br>&gt; by ptest-runner in multi-=
-test scenarios.<br>&gt;<br>&gt; Signed-off-by: Ines KCHELFI &lt;<a href=3D"=
-mailto:ines.kchelfi@smile.fr">ines.kchelfi@smile.fr</a>&gt;<br><br>Reviewed=
--by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.congal=
-@smile.fr</a>&gt;<br><br>&gt; ---<br>&gt; =C2=A0meta/classes-recipe/ptest-c=
-argo.bbclass | 9 +++++----<br>&gt; =C2=A01 file changed, 5 insertions(+), 4=
- deletions(-)<br>&gt;<br>&gt; diff --git a/meta/classes-recipe/ptest-cargo.=
-bbclass b/meta/classes-recipe/ptest-cargo.bbclass<br>&gt; index 6799a454ac.=
-.390fcf0815 100644<br>&gt; --- a/meta/classes-recipe/ptest-cargo.bbclass<br=
->&gt; +++ b/meta/classes-recipe/ptest-cargo.bbclass<br>&gt; @@ -101,14 +101=
-,15 @@ python do_install_ptest_cargo() {<br>&gt; =C2=A0 =C2=A0 =C2=A0with o=
-pen(ptest_script, &quot;a&quot;) as f:<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0if not script_exists:<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0f.write(&quot;#!/bin/sh\n&quot;)<br>&gt; -=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 f.write(&quot;rc=3D0\n&quot;)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>&gt=
-; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(f&quot;\necho \&q=
-uot;\&quot;\n&quot;)<br>&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.w=
-rite(f&quot;echo \&quot;## starting to run rust tests ##\&quot;\n&quot;)<br=
->&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>&gt; +=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(f&quot;echo \&quot;## starti=
-ng to run rust tests ##\&quot;\n&quot;)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for test_pat=
-h in test_paths:<br>&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write=
-(f&quot;{test_path} {rust_test_args}\n&quot;)<br>&gt; +=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 f.write(f&quot;if ! {test_path} {rust_test_args}; the=
-n rc=3D1; fi\n&quot;)<br>&gt;<br>&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(=
-&quot;exit $rc\n&quot;)<br>&gt; +<br>&gt; =C2=A0 =C2=A0 =C2=A0if not script=
-_exists:<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.chmod(ptest_script, 0=
-o755)<br>&gt; =C2=A0<br>&gt; --<br>&gt; 2.43.0<br>&gt;<br>&gt;<br><br>-- <b=
-r><div dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div>=
-<font face=3D"Raleway, regular">Smile ECS</font></div></div><br>
-
---000000000000aec1ba0633876976--
 
