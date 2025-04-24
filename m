@@ -2,91 +2,113 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1DCEC369AB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A4EC369D8
 	for <webhook@archiver.kernel.org>; Thu, 24 Apr 2025 14:27:14 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.13956.1745497696583601284
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.14044.1745497951061748008
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 05:28:17 -0700
+ Thu, 24 Apr 2025 05:32:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=nJe8VTeZ;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: ines.kchelfi@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43edb40f357so6318075e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 05:28:16 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=LVa+ZOm+;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: ines.kchelfi@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-39c0dfba946so682490f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 05:32:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1745497695; x=1746102495; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C0itxcRpp9m87bwxsFZZA8UkSVWrpPJ/mOODE2HtzX4=;
-        b=nJe8VTeZFX19ZGhoOpokDYAahB8Xy4iZWiBMe89OeT6JC6Jv7/2OmHEqGfishJ/kxH
-         l626pk+lXVnoCf4DmOFnkFh8HSa7yvBBwqJkqJFH5+ocpwNYwekVWnZhKI7SonLwdtz1
-         SvPHRzJsY08NLWQqGusMExqQA3Ckik/dyTd3c=
+        d=smile.fr; s=google; t=1745497949; x=1746102749; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nIWCkEr/j4NkV1g+6mGzdTidzYUqou/0/ngXv9T0C4Y=;
+        b=LVa+ZOm+fcVBByMWaJOJiN2yCYWGHW/KWGQx9PG8iWe4XAQGOn8g0W149fP4PjOiCa
+         1mtEmFO3uF3DTd6UwfLwosYaE+JjyVrEV/mvmAI18ylWa9FITtPAU/WyBRJt2DKNwmSF
+         Cn250n1QxvsH/lv1RAjpFUNrQc25t5zDFcF70=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745497695; x=1746102495;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C0itxcRpp9m87bwxsFZZA8UkSVWrpPJ/mOODE2HtzX4=;
-        b=ZWnmsUY9IYps1igictL2kwuMDALLSEmvMnC5Irgl79lbn40tdIzrMlfjjDtRor6Xhp
-         uMHQLlvlw1QxcJE5Kyx0Mo9WIF4wFM4Ag8gcNAkuX/0QuXWSicHDG0nXC4TotcotMueW
-         aEMAXD2hNFYU9vnS/VvB9ADsU2vjkAYZOtnwfpD7DF1ieEUNI00NSAemB/n/JEtHeh2f
-         6ydyeIun8By4e79+zMt+UiCP7tkMDGFKgM1n6SbVecHvy5DJyXkG7t2UXr605JHErY7s
-         8YcLEs9Prfw/Oj4F7uKnnVqEOcImX+zz35wjUs1EwzDycp5MAHVs6o0vHQAX9z6G071I
-         rSPQ==
-X-Gm-Message-State: AOJu0YwJgiGfh0gGt6vjTXrTYI4/bzkh1sBjqLXy60fbp7KymD3nqr8W
-	PlOG7bRAo8Ulxp+UFXLAQ8LO8ew0kHqpIrU4IsWA57dnTb4FaSoC7RfbL9Sye+C3UZuyY5LYRp0
-	N
-X-Gm-Gg: ASbGncunDHnM+IXQwnh/xgAtwW8J55VoEqPGiCET44mQI7umd5LB9eXgpnFANcUdrfm
-	j03XDKMun8NieBB82AUpF/MgC+bppaquWKu5Mz7sIg+KN64Exp/8MV55WEvxmY53KfzGQdo3NOx
-	1IqdfeRr8ndGzQ9c5lSxj3fVYJroB7eTNSjm72+k6FOioBVEpo5WIghSu/dRDZstbr/Q/Dx/FdN
-	jo3h7sC/fi5caPM48FizJ31RpqgxCeSgWSMDzQfLt4kQrURCf8NZTKXXPRvTcefSPSwUdRVv4om
-	57+stWHtxScSjlRUuYL/H/bgDPacJDNagGSL69NCpjakLgUEb2jfBYkIEswx/F9zqaUPzVirC1J
-	RWIRP8hK/sv1Qaqlh/N7CCnl5QoltnIRjXHWjOu6nV8grtfY=
-X-Google-Smtp-Source: AGHT+IE1RD1gySpkhNe8Ei2cNQhx9CXETTVWsWPRaQIpKdME2wSTO4JpvtmbeAfaJa7aIQHo28a0dQ==
-X-Received: by 2002:a05:600c:c092:b0:43c:e2dd:98ea with SMTP id 5b1f17b1804b1-4409c3b1e1amr20061235e9.22.1745497694696;
-        Thu, 24 Apr 2025 05:28:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745497949; x=1746102749;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nIWCkEr/j4NkV1g+6mGzdTidzYUqou/0/ngXv9T0C4Y=;
+        b=HEQYk9pK2ZlD0rlX6jPNpnMVO2EvYigY46+Tul1J+NiArdbd8R5s4XzDnVhLGjiUKc
+         f6VfQ80UMwZ8c1SDmY20cqRld1OZJUEDAUEvZWDhrL8xQR+e7Acr2lXrXHMz1a7BNBHC
+         81h1QRRDBB9xfQ43zrBfkAvLjRdiyH/nwPxWYfa20ICekGUV/eomkV/rnfszS/LBJfv8
+         WN6xUsaL0i+1+NutHWqyVyNgYZOulZn0Q4fCVfnZgisquvZ4np1WEZNbH7pxCOLteYuT
+         Y8qmJNd9ehgfyg269qWfQWATn9Brxaey0GKu+yfCKbV8Kk1IX+mFlsOS5J40LImaDcY5
+         i56A==
+X-Gm-Message-State: AOJu0YzszgXXGMiy/N+vZ2mZTuHDsK8XREWhVgxQKmOwMf/NAkB7fRCJ
+	CepjvGFHo3uGTOAe518yU8Fq3Mpdiu5a0xCX6VRQjcR2PunNVOo2prCN+rR1R7HJFE54P2wgsN9
+	a
+X-Gm-Gg: ASbGncvutdyLxWk9kJhm+6d7VJuw29jMGaXGrG1qFLFtf94oxoqzTP4w9OS2ZuLzgPF
+	QIXgFyr3xSHui+vSn+XUvxbxLRlepxr3AjIJE7TYHjPDcU/c3GHME4JFAAOrEpcg6nX392hnvcD
+	XgHiI1FUONC9n8oE8oKtJ072WTPYSRqhh61MR2S5yrmOx/o7B8UQT3lbbDU6vX+rBXCQeK+OjTn
+	TTWaAbj/mZsISXvHB00jK0/I1VlV3JZB7pY0TguiCBxXKr1s6qHSj2TshTHqpDsTi4p0LbaFJQQ
+	zwQozEHEJg9DVeMVjvL47IOc0cxo5BMKjqFS3/diOi14iogdTxHHlpY/CDQnFILxEtXOy5ipWve
+	J8f8GLHyPe6erU8K0BBZgmtjgY/ICFPjVBVVrcRjHVtG92I8=
+X-Google-Smtp-Source: AGHT+IFxHjfCBL/OLPSHDmOcw+l412JDd3gxQ+tf7rCcEjdJTc5Qllap5Mb9thtXfMn/r9SXYDqxDw==
+X-Received: by 2002:a05:6000:290d:b0:391:3b11:d604 with SMTP id ffacd0b85a97d-3a06cfa9d47mr1779576f8f.54.1745497949264;
+        Thu, 24 Apr 2025 05:32:29 -0700 (PDT)
 Received: from FRSMI24-WIZAR.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d29bfa6sm19546445e9.3.2025.04.24.05.28.14
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d4a8065sm1986116f8f.12.2025.04.24.05.32.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 05:28:14 -0700 (PDT)
+        Thu, 24 Apr 2025 05:32:29 -0700 (PDT)
 From: ines.kchelfi@smile.fr
 To: openembedded-core@lists.openembedded.org
-Cc: Yoann CONGAL <yoann.congal@smile.fr>
-Subject: [PATCH 1/2] CI: Remove useless "upstream" check
-Date: Thu, 24 Apr 2025 14:28:13 +0200
-Message-ID: <20250424122815.884740-1-ines.kchelfi@smile.fr>
+Cc: Ines KCHELFI <ines.kchelfi@smile.fr>
+Subject: [PATCH 2/2] ptest-cargo: fix incorrect FAIL count when multiple tests are run
+Date: Thu, 24 Apr 2025 14:32:17 +0200
+Message-ID: <20250424123217.885006-2-ines.kchelfi@smile.fr>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250424123217.885006-1-ines.kchelfi@smile.fr>
+References: <20250424123217.885006-1-ines.kchelfi@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 14:27:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215374
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215377
 
-From: Yoann CONGAL <yoann.congal@smile.fr>
+From: Ines KCHELFI <ines.kchelfi@smile.fr>
 
+When using the ptest-cargo class with multiple Rust test binaries, ptest-runner
+may report FAIL: 0 even if one of the tests fails, as long as the last test passes.
+
+This happens because the run-ptest script, as generated by the class, does not
+track failures and simply returns the exit code of the last test.
+To fix this, each test binary is checked individually for failure. If any test fails,
+a non-zero exit code is returned.
+
+This ensures that test failures are not silently ignored and are properly reported
+by ptest-runner in multi-test scenarios.
+
+Signed-off-by: Ines KCHELFI <ines.kchelfi@smile.fr>
 ---
- repos_list.sh | 6 ------
- 1 file changed, 6 deletions(-)
+ meta/classes-recipe/ptest-cargo.bbclass | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/repos_list.sh b/repos_list.sh
-index 03c1f49..0f6eb78 100644
---- a/repos_list.sh
-+++ b/repos_list.sh
-@@ -130,12 +130,6 @@ update_layers_to_mr(){
- 			if [ "${mr_project}" == "${repos_smile_git_sub_project[${layer_i}]}" ] ; then
- 				local_layer_path="$(get_layer_path "${layer_i}" "${cooker_menu}")"
- 				switch_to_mr_ref "${local_layer_path}" "${mr_ref}"
--				## control MR_REF is upstream to MR target
--				is_mr_base_parent="$(git -C "${git_local_path}" merge-base --is-ancestor origin/"${MR_TARGET_BRANCH}" "${MR_COMMIT_SHA}" ; echo $?)"
--				if [ "${is_mr_base_parent}" != 0 ] ; then
--					printf "MR is not properly upstream\n"
--					exit 2
--				fi
- 			fi
- 		fi
- 	done
+diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
+index 6799a454ac..390fcf0815 100644
+--- a/meta/classes-recipe/ptest-cargo.bbclass
++++ b/meta/classes-recipe/ptest-cargo.bbclass
+@@ -101,14 +101,15 @@ python do_install_ptest_cargo() {
+     with open(ptest_script, "a") as f:
+         if not script_exists:
+             f.write("#!/bin/sh\n")
+-                
++            f.write("rc=0\n")                
+         else:
+             f.write(f"\necho \"\"\n")
+-            f.write(f"echo \"## starting to run rust tests ##\"\n")
+-                
++            f.write(f"echo \"## starting to run rust tests ##\"\n")               
+         for test_path in test_paths:
+-            f.write(f"{test_path} {rust_test_args}\n")
++            f.write(f"if ! {test_path} {rust_test_args}; then rc=1; fi\n")
+         
++        f.write("exit $rc\n")
++
+     if not script_exists:
+         os.chmod(ptest_script, 0o755)
+ 
 -- 
 2.43.0
 
