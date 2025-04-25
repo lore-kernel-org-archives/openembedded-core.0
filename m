@@ -2,40 +2,40 @@ Return-Path: <mike.looijmans@topic.nl>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8106C369C2
-	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 13:49:29 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.82])
- by mx.groups.io with SMTP id smtpd.web10.6947.1745588963094787773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D218CC369D7
+	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 13:50:59 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.136])
+ by mx.groups.io with SMTP id smtpd.web11.6970.1745589057304467553
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Apr 2025 06:49:23 -0700
+ Fri, 25 Apr 2025 06:50:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@topic.nl header.s=selector2 header.b=clKXF/RE;
- spf=pass (domain: topic.nl, ip: 40.107.159.82, mailfrom: mike.looijmans@topic.nl)
+ dkim=pass header.i=@topic.nl header.s=selector2 header.b=bj5nmnsV;
+ spf=pass (domain: topic.nl, ip: 40.107.22.136, mailfrom: mike.looijmans@topic.nl)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U2vK+MCNdTfl2ypQzZmIqWLxvEOR9hFHtwZMdF9SJU9LDlyWA8IIeSXmYEttdlZpPr6TWa8MN/d0gKGqcPvf80Wtb5p8nI9PoLPWOrEGotGAQb30s1EiX6Pahxn8+sEAxnsxFCDRRrQ70LRoL3icyYmquKmGCG2X4rgpEYS+LN6KKgkeFTofz0J/+p/82MLw7gasUBECKwZplGcVwkSzW/YDqd0U0d/gf4dO8T0JapEyeIbJLrfeH5q2fzGNIqAyLDsD+a3H0Ir7qmiU+YfItqg1Z5A7edOJsb30xU73Apojr7F05BdMWz32XfJUEvVdoiId4j8LPFIX+V43AEG39w==
+ b=pwC/cFVBuJy1fmo6x0LnNg+ADNf73LTQSy5NwLsYigdJCtTstaGlcK5bLqNA4JDdlUCXZQ5TWSFOtYhjriM4D6SPHuMCfur7ZK7/NhHd/WJZbrLQLsVzMKhsOYoz27I6onSp6Ob2Dg1eSo2sOn7FEkO4d8H3A6GEKmHdISi59arJWQxeJZ/SClVVrIxjX5qSPr1vEBzOsDvtL2IBQZUftE+T2sIC+od5mQ9RQIwujv4/2OodLh+DSzUIFc/x5qfdZrcQuFBuFZdQZ8F5XC3nFFn+qRwDqLlBQeAasT9Z3HKzMKpdpbkZjxVOFADm3jNMQrPTQPTBUK2y+2+WT3LXBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hk4jOhdmUYvqZs5mgzysEIAnCzFJ/muESGNbL/PXKn0=;
- b=O23YwBLvPjWT/NE3wecqrQWWP4GeCL3DYUW2qot4Ug/V9dpzDP1T596KU7xxkqltPjKV93YGls8zAdwfETcX+4QnTNYSlpBwM0uXWyVibVC5O/mWVqAdj6bgNp7jbj6oBZw/wy3E4TcGag2BU6pmYI1P+8pWYpeSw9EjGnDa+37d5VdEJdIm+RR3pPUHXQ3U8jacqXwpOAj49mEo5PRO8ZliaJ3dFLMcuZBp1D2bNxF17stp1RjDKcvAzqbkJ9xi6FONBDHOndX5QrMUlVIBUlerKV72DukJssrRZI7ccYHahtu+GvG8TvOgkCn04OB77NrXJNxgc/YpGz8l8k71aA==
+ bh=7KLPSKopjdSDt3SpYcyFdpXIVF7VreS5tzqt05AJpVc=;
+ b=wT7vopPqr/1+SYthxCgYRsAk55/et6GLT7p68d2lbKgPnVK8zmqGz6GhEBr9cHEp50siHzaqJz2eIpENjkbVvNwucoeBbP+EXAKF0pS3Q3RgR21getOs8AZOkhiBC59jqA58rcbWUa8LiQ12Ey89PjkRipSxcNZHMUege0QVlviEwk092yVVKKcAV+4MJJYVr1j+9seQRuE4GGqqgvwRTuHZjXvfJNKME/8ej7jB176CEzTBLRekLOs/PJLBrLuAgwwXm3qXbsqrGVp5m0yeoMWos6AN6l5Elf1xQt8lpcwnI3g+rDLWnf9ekvPujX9bpFkk7jO233tp/FyIFuGgHw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  13.93.42.39) smtp.rcpttodomain=gmail.com smtp.mailfrom=topic.nl; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=topic.nl;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hk4jOhdmUYvqZs5mgzysEIAnCzFJ/muESGNbL/PXKn0=;
- b=clKXF/REonandV7mgT+njIljI6cOfAXecOj/buCUgni5oWZnx4ywaJD2ikWB4nopjt79pGbSwf5GMGmu9wUj2I/Yspo4H6j7Ve3tT5pIRpo5ifFDqY+Dn/3qDCV4v7HJiXLkpdL6W3yAA5duJMPOhEadicjyWtV0c3OgMFfLSNTy8QF8ZhNjCJ5ZE1myYvvoeiZ0m5j240iZ/fZSvg2ngQFKQNhMXurLx03aq0jcFf8MyWZr9zr2Qf8mPhLpu7QEhPDvl8MoqLoH+jk6xlqTph884PjVgSSrKN6OFcXObZwst0u9nyXlmTlLkHrwGKEAPerKIx4jI+ic371+3MEkig==
-Received: from DUZP191CA0057.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:4fa::8) by
- AM9PR04MB8084.eurprd04.prod.outlook.com (2603:10a6:20b:3ec::17) with
+ bh=7KLPSKopjdSDt3SpYcyFdpXIVF7VreS5tzqt05AJpVc=;
+ b=bj5nmnsVwRbb1HXA34XLqRjOG1A5kITNyN6nNjuDaC7sF5yEXy9SMpEpiwMdDWw76hAy2//EmDz21DeLk3XypnA6UqyAvkozyvvDkY7U6Wg8/VmHdh2coUUwahrx2lyDKPscmOlR56MKjT8aTzkiy+u5gKwEBjmZdrdJZa+N1udra+Z2uuxeg0aVHlms1K0yL6Bvvv2p9TkqlG37HV+SUIOILgCPh1oatOHXCPWGdcV+qOfrXtTpsN55e++GiP6i3cEtxoCBlijBa18vIwth4j/I5aP1x23uFNltvCD/XY/Mw3QNYhSukpEllBxifMzUl3vMXeAaDbXQaUuFQNci0Q==
+Received: from DB7PR03CA0078.eurprd03.prod.outlook.com (2603:10a6:10:72::19)
+ by DU2PR04MB8519.eurprd04.prod.outlook.com (2603:10a6:10:2d2::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Fri, 25 Apr
- 2025 13:49:17 +0000
-Received: from DU6PEPF0000A7E4.eurprd02.prod.outlook.com
- (2603:10a6:10:4fa:cafe::ac) by DUZP191CA0057.outlook.office365.com
- (2603:10a6:10:4fa::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.36 via Frontend Transport; Fri,
- 25 Apr 2025 13:49:17 +0000
+ 2025 13:50:53 +0000
+Received: from DB1PEPF000509F9.eurprd02.prod.outlook.com
+ (2603:10a6:10:72:cafe::c1) by DB7PR03CA0078.outlook.office365.com
+ (2603:10a6:10:72::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.35 via Frontend Transport; Fri,
+ 25 Apr 2025 13:50:53 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 13.93.42.39)
  smtp.mailfrom=topic.nl; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=topic.nl;
@@ -43,252 +43,255 @@ Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
  13.93.42.39 as permitted sender) receiver=protection.outlook.com;
  client-ip=13.93.42.39; helo=westeu12-emailsignatures-cloud.codetwo.com; pr=C
 Received: from westeu12-emailsignatures-cloud.codetwo.com (13.93.42.39) by
- DU6PEPF0000A7E4.mail.protection.outlook.com (10.167.8.43) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8655.12 via Frontend Transport; Fri, 25 Apr 2025 13:49:17 +0000
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (104.47.51.237) by westeu12-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Fri, 25 Apr 2025 13:49:16 +0000
+ DB1PEPF000509F9.mail.protection.outlook.com (10.167.242.155) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8655.12 via Frontend Transport; Fri, 25 Apr 2025 13:50:53 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (104.47.18.106) by westeu12-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Fri, 25 Apr 2025 13:50:52 +0000
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=topic.nl;
 Received: from AS8PR04MB8644.eurprd04.prod.outlook.com (2603:10a6:20b:42b::12)
  by AS5PR04MB10060.eurprd04.prod.outlook.com (2603:10a6:20b:676::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.25; Fri, 25 Apr
- 2025 13:49:13 +0000
+ 2025 13:50:52 +0000
 Received: from AS8PR04MB8644.eurprd04.prod.outlook.com
  ([fe80::e86d:f110:534e:480a]) by AS8PR04MB8644.eurprd04.prod.outlook.com
  ([fe80::e86d:f110:534e:480a%5]) with mapi id 15.20.8678.025; Fri, 25 Apr 2025
- 13:49:12 +0000
-Message-ID: <bc06b780-ab69-4581-8846-0fb11f354f6a@topic.nl>
-Date: Fri, 25 Apr 2025 15:49:11 +0200
+ 13:50:52 +0000
+Message-ID: <b88d7c9d-5f69-4104-864d-b66f2d20a1fa@topic.nl>
+Date: Fri, 25 Apr 2025 15:50:51 +0200
 User-Agent: Mozilla Thunderbird
 From: <mike.looijmans@topic.nl>
 Subject: Re: [OE-core] kernel-module dependency mystery
-To: Gyorgy Sarvari <skandigraun@gmail.com>, raj.khem@gmail.com,
- openembedded-core@lists.openembedded.org
+To: Max <max.oss.09@gmail.com>, openembedded-core@lists.openembedded.org
 References: <5a9b30f0-c189-4841-9821-6dc26de4de84@topic.nl>
- <656f5ffc-98b6-44e9-8308-51495e1961d7@gmail.com>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.26c21c88-3e9a-492b-9d2d-79874402141f@emailsignatures365.codetwo.com>
- <68e3c223-560c-453f-b1b5-9bbfc0f9a17d@topic.nl>
- <0d7b1d9c-a42f-4acd-ab19-6fd7c540695c@gmail.com>
+ <bde7ccac49b5417cda5c964055f72e28a3bc84be.camel@gmail.com>
 Content-Language: en-US, nl
 Organization: Topic
-In-Reply-To: <0d7b1d9c-a42f-4acd-ab19-6fd7c540695c@gmail.com>
+In-Reply-To: <bde7ccac49b5417cda5c964055f72e28a3bc84be.camel@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: AM0PR04CA0050.eurprd04.prod.outlook.com
- (2603:10a6:208:1::27) To AS8PR04MB8644.eurprd04.prod.outlook.com
+X-ClientProxiedBy: AM0PR04CA0044.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::21) To AS8PR04MB8644.eurprd04.prod.outlook.com
  (2603:10a6:20b:42b::12)
 MIME-Version: 1.0
 X-MS-TrafficTypeDiagnostic: 
-	AS8PR04MB8644:EE_|AS5PR04MB10060:EE_|DU6PEPF0000A7E4:EE_|AM9PR04MB8084:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0cf7f103-fd84-4c9e-3e75-08dd83fff8fd
+	AS8PR04MB8644:EE_|AS5PR04MB10060:EE_|DB1PEPF000509F9:EE_|DU2PR04MB8519:EE_
+X-MS-Office365-Filtering-Correlation-Id: d95bc3b5-8a49-4fea-e3a4-08dd84003266
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted: 
  BCL:0;ARA:13230040|366016|1800799024|376014|52116014|4022899009|38350700014;
 X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?bDJrMVRRckVNMUNmVHRjRlAycW9mTzhvTnp2dGZpVnNxeWN1S0FGZk1WbEJO?=
- =?utf-8?B?N2hma2lpV0xBWkcxb1pQMjlmYk85UGtYNHVmQldaQURYZlJMNFFrTmJMQU0x?=
- =?utf-8?B?T1VubzJpVHg2SThDM3lCSnBVUDZuUERyNmFXQWFOWkQ5cExqWGszbi9Ed1k4?=
- =?utf-8?B?M0RsUmFVcndHRk45czBvZkhvdG9VUVAveU1KbVRKbTdYd1VCdmp2SkJwRWhD?=
- =?utf-8?B?OERNOW4raU1KMGZqWTFicEIwRFZlbHN5UTVTZFRzNXJkeGVFSThQcGMwZS9x?=
- =?utf-8?B?SHBuRjBLR0x2RXdFbkRQQjRieVprcjdrVjdYQ3NTdGFjWWNmOXhqakZ6Mmo0?=
- =?utf-8?B?bHBiR1lvZFhBTGJzVWp0Mm1HRTJucW5Kd043dXZua1dVeVNaaVU4NnFGRUI4?=
- =?utf-8?B?encwOFpMeFRqL0tBSFNUQU1pY0ZCQlB5eVQ0QnMyTUg2ei9CYm5Kdnp6Mjht?=
- =?utf-8?B?dzZCc1NrS3c2OEZKdnhQMndUbVZCekY2QjluaTVtQlhwajl6enZJeDVTRThM?=
- =?utf-8?B?R2NjUS93ZlBucmZIUC9VeGdUd3NYeE55NDF1TGIxcGN6YVFiTjZIOVlHZDI1?=
- =?utf-8?B?V2dpa1dRUm5TcFRYWmc1R2IyVGFTQ3M2TTJRYmRaUzlMdHBNVjZwZFo1RElJ?=
- =?utf-8?B?QmRQVGN2bkQreGJ2NVVSUlBBQ1ArdU1HYzg2clZYeVMyai9hZ3FTeTk2ekRy?=
- =?utf-8?B?b0JHelA5OFRudEpqMklzV21VMXluYkVCT3VYZGkybnJOcjBGKzlndUhORXVS?=
- =?utf-8?B?UVRLV2lXcHEzYTlUd3hobWJvU1hQZnhIcHczRDUybnpELzR4ZFMyd1JUUzNq?=
- =?utf-8?B?QXVscVpjckpjM1dHWURYbGhBNWdTKzhiekFTZDNwdkFCZ1hkemQvNytETnMw?=
- =?utf-8?B?YjdzLzFYMlI4VmFpdG9oRThIa2JFcUx4TUFYNTltaHBUbFg3SDVFZVhuMXds?=
- =?utf-8?B?TjJ6ZGJTaFU3M3JDcGlEakNFaE9UR0wrbEFxOVFZbDRBd1VJWDRKZDVKWUd4?=
- =?utf-8?B?NnJYdWtDMDJMUnNLL090Q1NuMEFyNlZGR25xTitYMmRCbmpxL0NyYjdyQ1RE?=
- =?utf-8?B?d0ZjMTZkT0l3blIybEZRbmZ6ZzF0b2ZxcUEwN3V2Nk1GMklCMVAvV2NqREgz?=
- =?utf-8?B?ZlZiK1psekJLOUZIWFpJbDhmeUtYNGRKdFd6OXhIbkJnczZOWW9scG8xYzhX?=
- =?utf-8?B?ZU53SFpsOVdDMDR0RE5RbktEQ2VpTks1U1UyWi9GZzhtNHFOTlFjNHg3ZVlt?=
- =?utf-8?B?U3I4OVNNUzZKOWtqZnR4TE9yY1VpWXQ3SE96YkJvalRtT292VnA1TDIwcUZy?=
- =?utf-8?B?dWF5MU9VSHBRZEVhVFBJZFNpN0RxSFVuOE9VY0dJbWhiR3MzWTBQQWVDbzJl?=
- =?utf-8?B?NHoxSGM3UzYzQTZXekNvbUdySGdlNFVXaU9aMU5Mcm9RZC9ZbnlZSU10TlUy?=
- =?utf-8?B?anJJRUQ5bWxXRjRKNThZM3g0cngvT3dGTEhncUlicnAvVnF3QzJSMnJadDNu?=
- =?utf-8?B?OGJUSDNMYys2UVhQSmJ6aHlNVlErN1AxQzZlU3lqQXNiN3dwcjZPazNBcGZ2?=
- =?utf-8?B?c2hKeXdJUDBNbmhtTXduU0xiK3BYNXZOWXZoQjY3NFZoVzlXSktVbEpRNWx1?=
- =?utf-8?B?cEJ5VHFnSU1YRTB3eWxuRFMrZWtUaVd5dmh1akpDVkRJSjlPQmdNc2REZ1lz?=
- =?utf-8?B?NVR1VjJJeFNvbUpHMlZscGNoZWxXRGJ6cjBTMGhnK05BV1VlYlp2Y25iNXhi?=
- =?utf-8?B?dDBvVGp3bnlxUzZmcS9KaXlMcmt0NzgzeFBpSC91SzRYdFA1N3NRMWNNd0Fk?=
- =?utf-8?B?bmV5WisxcmRYRFZxaERiYVhHS3FMSk5NbXBpeDE0d3E1WUdPSTRUYlBibmRI?=
- =?utf-8?B?eWNVQ2x5a1EydmJxK0VudDlraUM5Qm4rdWgyZXg0VnNSUHUzWWhXdERHRk1p?=
- =?utf-8?Q?X067BI/plYA=3D?=
+ =?utf-8?B?OW45OEZlMnkvdDVlWk83ZXVrWUpna0FSM1BoOTRhLzlXMmxnQnYrdlVDQTBm?=
+ =?utf-8?B?N3dDS1dsSFhrRnRWcHlyQjNGM2xKNjhWeDdtVWZXVGh6U0lzT3hJdEhjdWpL?=
+ =?utf-8?B?UW56Yy9uK1hDbHpVNGpKMTR4eDVocm81R2tYV29zUHorZE9sR2NhTGxBTXJx?=
+ =?utf-8?B?REtkdThNRWNSempMSVR2MG5SZnI5VXBlbThoSUs1RjFTOCs0ZE9BcTk2SUgz?=
+ =?utf-8?B?cVo5OVdKaVJjVk1aYmlvYmFwaGFwZGRFc25wMUZncGNwTkNHT0lacUFlckYx?=
+ =?utf-8?B?TWhCOSt4bm5Rb2hWL2Vra1FQRnV2bDFNMHJMRVQ2b0hRMnFBK04wd2xHZHVP?=
+ =?utf-8?B?MUx5VC9LeVlZY1BORmlud05jMllSc3A4MUovYnlPWmEvb25JMlB0aWM5WEE5?=
+ =?utf-8?B?U2p4YnQzL3RHSm0zOVBKOG91V3VxTk5tVE52TE8vVU5TUk51THRVbHJnQkhy?=
+ =?utf-8?B?cG1BRXdjUk1BZkRxR1c0eUVDMW0wTWp5S0VMV1B6a2dad2s2Zloyc01JRkl2?=
+ =?utf-8?B?VDRqeTVhNTJLWE96SlFVeEg2TlZFRm81Q3lwbFRDZnpQNGpQdXo5YjhwTVVr?=
+ =?utf-8?B?b3BYNjZIbzFGb2IrQ2R5RUEydDJjYzZmMWlFalFqZy9nZ1lpS2VXRWw2YnNY?=
+ =?utf-8?B?TDF0eXk1ZlgxWjBBekZoUGkwY1BKY3lOaW50V0hJOC9PcHZzeGdSbXV4TzV3?=
+ =?utf-8?B?anloekF6cU16Q0VTZ0RnT0IwTmxKN0VBOEs4QWl6c09jU2JpbGY5QU51N05S?=
+ =?utf-8?B?STVIaE5nL2h3akwvV255eWo1WFJYUzlMbzBlUUkrRGx1cHZnTHVMSEpmSmpK?=
+ =?utf-8?B?eWtzK0hqYWY5V3ZsQktaVXhjd2pSMmtScTZtMDZPSGEvMW4zZnVTWGxZdy9C?=
+ =?utf-8?B?bm92NW5UUlpKVGNuMTk1dVV6Y002T2pBUk1reEpPR2FkWTR4dkY5bTBUYk9x?=
+ =?utf-8?B?aXZMNDBPbEZQa284aWRLS1pJR2hkUjJSRkhJVXkxRDNhM2N0NEhWRi9CYTlO?=
+ =?utf-8?B?K2MzOU42YWdXUDQrK2R5UHZmaEJCVnV0WjRoUHFDNzdjOU04TmdIZEIzNG13?=
+ =?utf-8?B?ZVk0d2RnYnZyZ2dtdUlkbE4vL2h5aklZYm5GNEZycUFZT1FOdXF3bkJsa09m?=
+ =?utf-8?B?Tk50TkZLVzg2eEd1YUlTSE9QdDZkWGNjMXFMMDhqZWxJWlRVN2FQQVNyMUZu?=
+ =?utf-8?B?ZTBEelM0U2xjUm40Q0pPWnNZYVpDWVdvelRzelAyQkM2Z2VPSDFIMGRiMDhw?=
+ =?utf-8?B?UG1YQnBoUE9wYU9OM3VJS2xhQkhiakY3Q0pvQjU5cjhveXpvcllUTzNRTDJW?=
+ =?utf-8?B?MkZ4dkZyL0kxbHd4S0JRbk5HMWVvaWZCYnd5Q1RPSlMvVVZIdTRtNDdrV29U?=
+ =?utf-8?B?OXBHY1ZGUkdFaDAxQzlDZ3hFU3RkZWdmVUtValJaOVpDY3I0SDZkTlg1U0p5?=
+ =?utf-8?B?OS9OQi9HT0VqOUxpODU1eGxKWXY5dWhkWkQwekN3dzNSSVdnMWtRQjRVelBH?=
+ =?utf-8?B?RUZUQldQdW4xeUxqWTVPQXJ3cno1UnlKdHd2VC9zdVNaWG9jdkVxZTJMbS90?=
+ =?utf-8?B?NlI2endac1lGV0ExZy8yV0JNN2JoeVhvOElhcFRKMHFXaWE4aytSNjdCL2lU?=
+ =?utf-8?B?Z2oxWmJjWkhCZlFFNWR3MVlXb0N0b0t2WVFJbndnOERDMkh4YzRyeTI1VVh1?=
+ =?utf-8?B?VXVMWnkvMmN3SDYzN3psMWM2M2c5NEp1WEtYOFJrZFV4YlRjazhsL3ZFaGxC?=
+ =?utf-8?B?bHQ2dVh4eXYrV252d3pxVmFSV2RDUTNieExCYXU4enFOZTU4YldhZUtBemt6?=
+ =?utf-8?B?VmtGdGZCOFA3TVdtY0J5NnpJbENEUDBMeVNPSnJTUFhRMGRaeEJQYVNhNkpy?=
+ =?utf-8?B?RkdHUWFXZWk4WGVBMzgzTC9jM1o1WExOYnMyZkwvUXdNTEdmUCtvMko2VTB6?=
+ =?utf-8?Q?hCLo6oF7nAA=3D?=
 X-Forefront-Antispam-Report-Untrusted: 
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8644.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(4022899009)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB10060
-X-CodeTwo-MessageID: 4583f817-7ee1-4c5d-92fd-506f944727ac.20250425134916@westeu12-emailsignatures-cloud.codetwo.com
+X-CodeTwo-MessageID: ae46fe00-bcb4-4d85-8ff8-c5135858e1e8.20250425135052@westeu12-emailsignatures-cloud.codetwo.com
 X-CodeTwoProcessed: true
 X-EOPAttributedMessage: 0
 X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU6PEPF0000A7E4.eurprd02.prod.outlook.com
+ DB1PEPF000509F9.eurprd02.prod.outlook.com
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	0e1afd21-28c8-47af-9559-08dd83fff645
+	025f2a29-73a5-46da-d32c-08dd84003156
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|30052699003|1800799024|4022899009|35042699022|82310400026|36860700013|14060799003|376014|13003099007;
+	BCL:0;ARA:13230040|36860700013|1800799024|376014|35042699022|82310400026|4022899009|14060799003;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?SnJtNWJUV2xzOE1vTGZGMHZLMXdKU1EzNHI1MkxieXc5S2c3RUY2Y25CVkEr?=
- =?utf-8?B?N0NCWWZwYXJmOFN6SE5GNTFia0pKTWFRaXJBaFJ2NzQrWldsMzVlNUJoaXBP?=
- =?utf-8?B?aWFhWm1kK29GQVhLdjNaMURHSU1LWllCOHBZUEdTWDNERHRjamRWdHYxOXZp?=
- =?utf-8?B?bTgvTGhlMUpETTc4em0wbGQwOW5NdDBCUnNmbTlkN0J3ZCtNZGJLSEN2TzBz?=
- =?utf-8?B?ckh2cnBhRFBNVnY1NTMxM3FOaFp2ZTMvS3RqT05vV0RlZGREQlE5WElPcERv?=
- =?utf-8?B?VzZQY2Q1R1pScXNLekc0R2J2b2VDN3F0d3NVcmpjb05wc2NLMTV6WWFpQ0Mz?=
- =?utf-8?B?RThpMGdCaENjMGw1bzMxcytieHpURDFFZmVYckVBd0ErMFFsbkx5aEpGZkFI?=
- =?utf-8?B?S0xJd0tXOExkMTUzYytKQU85OUdzTnR0K3RUaGNzcW14cm9XUE1ZbGpkTEQz?=
- =?utf-8?B?WTdJYnBkc2JseFJYZC95bFlKZWRsNXRjK3Q0aFBGY2NnSlFWVW1qSDlnVTRB?=
- =?utf-8?B?dTFud0NtMmhld0d3UXp0NmpKNU8wc1hTWjRFcktvaEtid1VDL0FqMTg2cHdF?=
- =?utf-8?B?UFN1NjlGNThSVWg1Yk1vc0NvVTU3blBCZHZDYXkxS05wZjJSN2NSZ1VFK0VT?=
- =?utf-8?B?cmVnVEpqbE5lVGV2bFhKM0ZxYlRENkNKTXFXYUxNYmJ5UHBJYjRqR1VDZWdn?=
- =?utf-8?B?bUpOK2tTWTVvRlRjU21POW9yWjh5Ym5VS25iM3d2SXFFdGJLTTRCblBOQk5F?=
- =?utf-8?B?TFlNQkV1cStZMzE2SE1Hb0tZc1ZaVHZVSFhRY3NzZ2g3dTh5djRCK0E5SWZr?=
- =?utf-8?B?eHpaa2ptN2k1blhlazRKYTVMMXVrL0JSRVJkVlUxeE9KWUtwa3AyU0tkcno0?=
- =?utf-8?B?Z3VDaEEzcDFZcWlpd2pzZWQ5RnpNQUZadTlNNy9rTXVLQStMcGNoSk9UMFJl?=
- =?utf-8?B?MnRINVIwZVVZcVM0Q04xdEhWRlJmeXE1TmRuUERDNVNwdFUrMTh1ZzA4Mmxi?=
- =?utf-8?B?VlVMY1lUOFBPVk5TWVZ4enc3azJyYVFNZVJXRFk0OHBFcGpvQ1ladHRPdE56?=
- =?utf-8?B?K0wvdjJ2b3BBN2o5aEVsQ0RKZ3M1VW5HU2RlRFFycHN0ampHdUczNmdYR1hR?=
- =?utf-8?B?dTk1VmFUWEt2ZC82VkxZZE1jdkNBSjVjdGVhMk5lL0pidUl0Z2hWWHp3MlF3?=
- =?utf-8?B?d1F5REszVFlUN1JnZXR5SzNQQi9HNnMxSEREaDN0a1ZCaUFEcmpweEdhcFl5?=
- =?utf-8?B?bktDaXVJREVJUzNncS93SEU4TG1VcXBsaTUzLytyVSswdi8vOUxRck44Nmpx?=
- =?utf-8?B?bjg2amRrUzRuRTZCcU8vWHV4aGI4aTIweGplOXhJQ1pFYzZlc0c2MUVzU1l0?=
- =?utf-8?B?d2JMNjc1NFFsSUpoS3QrSGt1WFg1cDB1M1R3UXpWeEVUM3NSM2k2M0p0elZ4?=
- =?utf-8?B?ekxOQ3draDBBUTk0Nk8wK0VpZHFwVWIwY1dPT2JFaG1FTnp0aUE0K3dsTng4?=
- =?utf-8?B?cERoMlVrMmtFMnFnd2Myc0RQZy9IaVovS21JVml2MXlPUHF6UVRiR3NyNzgz?=
- =?utf-8?B?bGdtVnR5aEtQOUNaQy9LMFo4UWdjN0hGYmVBa2JLRXI0L0ZnbS92TzhsbGZy?=
- =?utf-8?B?RklsVVdINEYzWG1LOThKTExMOUhYZ2dNQnVIQXI2TEVEZHFmNXpYWGdpKzg1?=
- =?utf-8?B?MmpRc3A1eUE1Z0ZGeHZ1VU1JeVBIN3E4YlhuWU4vNUtiQ016SnFYMno5VGxG?=
- =?utf-8?B?b3ZXWjlVcEd1cTVlQ0VNbWhOVHI3b3kySFllZC9UZkhNaWhqZnNVWkJEVXV1?=
- =?utf-8?B?bzNqc05zVE5UZ2dzNVF3Q3hENHlUME1BSnlib2tZZVhSMGRMQXBzOU90aDBV?=
- =?utf-8?B?UHpIb0VWYWs1QkFRQ2lWZTczbDNVVngydTM0d1U3M2Vqamc5dVpEb1l4eHBq?=
- =?utf-8?B?UzhoWEdjWnJuY0NQM2Fka1pMVEVueWgvYlpteWFMdHkxT0w3aGR5bnJwbk9m?=
- =?utf-8?B?VjlGeTM0a09RPT0=?=
+	=?utf-8?B?RE9kNkV0aW52OFNaOTYrM0JSUXBHUUdNL1FNVzIxU1hhMVg5S3FuSFFFblBG?=
+ =?utf-8?B?ZllMN3ROUnY4MWIvREZZZnYvZWViZkdaa3NhUHV5cmY0dWNSc3RMSDBrODRh?=
+ =?utf-8?B?RVpMVXNhOGJDRzR0cTF5a1NkY2Z1dEMraVBlejFvdjRjbWFVbXVTbjkwczZY?=
+ =?utf-8?B?UFhyWUhmSFpQcStzbkRkeWtBRHlMaFg0UUFHcDdhOVFoODB3bE5jNml5OXZh?=
+ =?utf-8?B?Lzd2NTZhOVM0Nmh5UXoxUGRvLzRXaDYxYXowVFl3a1d4Tzlpdmh3eE9Id2NM?=
+ =?utf-8?B?QnRkWFdMamVTSGtselRGUHVuTWIySzNwbm1vNjJQZCszT24wQlFjamZHMEtw?=
+ =?utf-8?B?cG5VdytXS3ZKL1JkNDVsNU83MnZTTWpkME9sYmNYNFNKMVBObDdJSmsvZnFJ?=
+ =?utf-8?B?WFA4MUN1bFNDem50N1BOMVNZbVBYQXoxb2pXV2Fxd21HTlhxa0QvNmR6UTFS?=
+ =?utf-8?B?TVlrUDBYd2toVW5STTJ2MEZrdUNWQ1YrUGE2MnpJMXlaYjBuWUl6VTl4cGkr?=
+ =?utf-8?B?VWdjUXdtaTJxa2Vma1N0MUUvQ0hhSHg2ZEtCeXFCOXBLUjBhRzFqc1VhUTR4?=
+ =?utf-8?B?bGlmVGw4Ymw0SjhndFd4QmhZUnVTRC8yL1IxaG05bGdycHQzZk5IVWd5akhp?=
+ =?utf-8?B?REJuM2lmSURvUG9ZVS92dmhEbk0vZ1NFMDBSTk5zWDB1VVlhbytpNERUWnBS?=
+ =?utf-8?B?enY0RGhQYm9mclQzdVZOMjhYR0p1VVIvS2x2U2oySnNpNkpucjE1WUczU0Zx?=
+ =?utf-8?B?U3FVT05MMUxuei9rRDNGa3AzVVU5Q3JCdWNRRGV1cFFmaDYya25YTkdBZ2th?=
+ =?utf-8?B?Q2RXS0Y0RjFCcVJPS3lKb0tlMmFYd2Y5YWhDdWl0UC9TVUFmY0czMnRiUXVl?=
+ =?utf-8?B?bWR3bEdsbEJ1ajhrWEs0S3Jod0haNmVQUDhNa0Y0M1BZcVVudm5ISDNKV1dl?=
+ =?utf-8?B?VlFBS01RNDA4SUo2ZlhlVm1jRGtNYU1qZDNLUWh3cXJsUUlFTDJkWnVTM2RG?=
+ =?utf-8?B?RjAxT01jMWZoeXZoeUFIbUdycDd4UDNqWDFxSnAzUTRtWlVLTFl3YXVxZWlY?=
+ =?utf-8?B?RTdCaHI4QUdoM292a0JFRjJRaWgxMWpxb21pMTVQZ0Ntb21BeEdRd2cxUlpr?=
+ =?utf-8?B?RVhTS3ZDR2NzeklnUVZWb2xFM0YxNm1NSUpheW9vMHA1RHM3YWVicm9yd2dG?=
+ =?utf-8?B?akdlUjZiV20wWC9oUzFmN1lud1d2NEJSajlHNUh3U1grVlhhZjQ1L1VCV1VX?=
+ =?utf-8?B?NVV3dkF2ektBK05rSEdoMHplc2NUa2kxV1JpZldzTzJXQ2YxQUNpdjQzN01J?=
+ =?utf-8?B?ZUFCd1NWZ1VFbDVQQ0N2UWgzVDdvekQ0aWY4YTZ2YXhjNy84aHI2Z0toemNt?=
+ =?utf-8?B?amJ5RUJ6OEorcGlQYkRHNlFCT0lDajV6KzZzWFBtOG5lZnJYVmpnQ2k2bUZX?=
+ =?utf-8?B?VXZEWnkwbDBJV3JobVJFcTR0eXFmbXcybEpvdmhwa3lBSi9QeU44cDZYRkZT?=
+ =?utf-8?B?bmtIVWExNXdmRUd5YUZJSHZhWXlpU3dIRS9qV0wxMll2OWppbWNEeWorcW5G?=
+ =?utf-8?B?bWZaUXA0aCtSYStaZ245SlVrN3BmM1Axd0w5Z0xSbVhZemZLNXZ2TXZTQVNS?=
+ =?utf-8?B?dmJ3R3kzUDZnMVdIaEFrakQzTHNQNTV0Zkd4bEEyb3UxaDFGamNwa3JBQldx?=
+ =?utf-8?B?RWpXU3diTHRBZlpUQlArbWhjc2ZUbUJnZTRsNFMxTWgrZ2ZOd0JoNTNNUFht?=
+ =?utf-8?B?ZVp1Uzg1QXA4b1JxaTFONjN1dUtmMzA5L0hTdWNnWit1T2k0ZnBPMUxxMlI3?=
+ =?utf-8?B?NlNwSndnRlBCZkRHM1dzTjQ2MUViYytDSWJHNkVFbGdTeW1vcUNjZ2h4TkJP?=
+ =?utf-8?B?dEFUN3VxemVXeFNjU2dCZUJBbWo3VmNuYkVjMlY4cW5JRDhoOGdQQjlaWDhS?=
+ =?utf-8?B?RUh5eis1bmlCcFJDcWV4eWFLR2RTWHBDR2tJUU1TUkNQclErK0Q5MFplYWlp?=
+ =?utf-8?B?d0pvYUUxMzhRPT0=?=
 X-Forefront-Antispam-Report: 
-	CIP:13.93.42.39;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu12-emailsignatures-cloud.codetwo.com;PTR:westeu12-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230040)(30052699003)(1800799024)(4022899009)(35042699022)(82310400026)(36860700013)(14060799003)(376014)(13003099007);DIR:OUT;SFP:1102;
+	CIP:13.93.42.39;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu12-emailsignatures-cloud.codetwo.com;PTR:westeu12-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(35042699022)(82310400026)(4022899009)(14060799003);DIR:OUT;SFP:1102;
 X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2025 13:49:17.3117
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2025 13:50:53.6486
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0cf7f103-fd84-4c9e-3e75-08dd83fff8fd
+X-MS-Exchange-CrossTenant-Network-Message-Id: d95bc3b5-8a49-4fea-e3a4-08dd84003266
 X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;Ip=[13.93.42.39];Helo=[westeu12-emailsignatures-cloud.codetwo.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000A7E4.eurprd02.prod.outlook.com
+	DB1PEPF000509F9.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8084
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8519
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 13:49:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215475
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 13:50:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215476
 
-On 24-04-2025 17:38, Gyorgy Sarvari wrote:
-> On 4/24/25 08:58, Mike Looijmans via lists.openembedded.org wrote:
->> On 24-04-2025 04:25, Khem Raj via lists.openembedded.org wrote:
->>> On 4/23/25 5:34 AM, Mike Looijmans via lists.openembedded.org wrote:
->>>> I built the same image for 5 different machines. Only one of them fail=
-s
->>>> with the logging below. Note that all machines install the "kernel-
->>>> module-dyplo" package, and on 4 machines that succeeds just fine.
->>>>
->>>>
->>> how are the five machine diffrent with machine config metadata
->> Here are the conf files:
->> https://github.com/topic-embedded-products/meta-topic/tree/scarthgap/con=
-f/machine
->>
->> The "tdpzu9" triggers the issue, it's the same SoC as the tepzu9 and all=
- the
->> tdkzu* machines. Only difference is in the peripherals. tepzu9, ttpzu9 a=
-nd
->> tdpzu9 are the same SOM, just on a different carrier.
->>
->> So the only difference in kernel configuration is some variance in drive=
-rs
->> that get built.
-> Is there a chance that that this is the only board using an out of tree
-> driver, and CONFIG_LOCALVERSION_AUTO kernel config is enabled? If yes,
-> those two factors sometimes aren't playing together nicely with Yocto.
-
-All machines build the same out-of-tree driver (dyplo), but only one failed=
+On 25-04-2025 10:48, Max wrote:
+> Hi Mike
+>
+> Am Mittwoch, dem 23.04.2025 um 14:34 +0200 schrieb Mike Looijmans via lis=
+ts.openembedded.org:
+>> I built the same image for 5 different machines. Only one of them fails
+>> with the logging below. Note that all machines install the
+>> "kernel-module-dyplo" package, and on 4 machines that succeeds just fine=
 .
+>>
+>>
+>>   =C2=A0* Solver encountered 2 problem(s):
+>>   =C2=A0* Problem 1/2:
+>>   =C2=A0*=C2=A0=C2=A0 - conflicting requests
+>>   =C2=A0*=C2=A0=C2=A0 - package
+>> kernel-module-dyplo-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9 requires
+>> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5, but none of the
+>> providers can be installed
+>>   =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14=
+db5 needed by
+>> kernel-module-dyplo-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb94f35=
+99b-r0.tdpzu9
+>>   =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14=
+db5 needed by
+>> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb=
+94f3599b-r0.tdpzu9
+>>   =C2=A0*
+>>   =C2=A0* Solution 1:
+>>   =C2=A0*=C2=A0=C2=A0 - do not ask to install a package providing kernel=
+-module-dyplo
+>>
+>>   =C2=A0* Problem 2/2:
+>>   =C2=A0*=C2=A0=C2=A0 - conflicting requests
+>>   =C2=A0*=C2=A0=C2=A0 - package
+>> kernel-module-dyplo-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9 requires
+>> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5, but none of the
+>> providers can be installed
+>>   =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14=
+db5 needed by
+>> kernel-module-dyplo-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb94f35=
+99b-r0.tdpzu9
+>>   =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14=
+db5 needed by
+>> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb=
+94f3599b-r0.tdpzu9
+>>   =C2=A0*
+>>   =C2=A0* Solution 1:
+>>   =C2=A0*=C2=A0=C2=A0 - do not ask to install a package providing kernel=
+-module-dyplo
+>>
+> We had an issue with the exact same symptom and had a hard time
+> to find a fix. It turned out that:
+>
+> - The kernel is built with a patch applied from SRC_URI
+> AND
+> - We had LOCALVERSION_AUTO=3Dy in the kernel config
+> AND
+> - The kernel is in sstate
+> AND
+> - The kernel sources no longer exist under tmp/work-shared
+> AND
+> - The external kernel module is not taken from sstate
+>
+> If patches are applied in a kernel recipe they are applied
+> with 'git am' and a new hash value will be present with
+> each run of do_patch.
+>
+> If LOCALVERSION_AUTO=3Dy is in the kernel config that new
+> hash becomes part of the kernel and external kernel module
+> packages.
+>
+> As the kernel is from an older do_patch and the module
+> from a newer the hashes used in building differ and you
+> get the above OE build error. Even if it wouldn't the
+> different hashes become part of the VERMAGIC and the
+> kernel would refuse to load the module.
+>
+> Our solution was to no longer build with LOCALVERSION_AUTO
+> and since then we no longer see the issue.
+>
+> Regards
+> Max
+
+That sounds plausible, and explains why only one failed (kernel happened=20
+to be in sstate-cache). I'll check the LOCALVERSION_AUTO value...
 
 
->>>>  =C2=A0=C2=A0* Solver encountered 2 problem(s):
->>>>  =C2=A0=C2=A0* Problem 1/2:
->>>>  =C2=A0=C2=A0*=C2=A0=C2=A0 - conflicting requests
->>>>  =C2=A0=C2=A0*=C2=A0=C2=A0 - package kernel-module-dyplo-1.1+154+bb94f=
-350+bb94f3599b- r0.tdpzu9
->>>> requires kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5, but non=
-e of
->>>> the providers can be installed
->>>>  =C2=A0=C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a=
-2cb0f14db5 needed by
->>>> kernel-module-dyplo-6.6.40-xilinx-
->>>> g6a2cb0f14db5-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9
->>>>  =C2=A0=C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a=
-2cb0f14db5 needed by
->>>> kernel-module-dyplo-pcie-6.6.40-xilinx-
->>>> g6a2cb0f14db5-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9
->>>>  =C2=A0=C2=A0*
->>>>  =C2=A0=C2=A0* Solution 1:
->>>>  =C2=A0=C2=A0*=C2=A0=C2=A0 - do not ask to install a package providing=
- kernel-module-dyplo
->>>>
->>>>  =C2=A0=C2=A0* Problem 2/2:
->>>>  =C2=A0=C2=A0*=C2=A0=C2=A0 - conflicting requests
->>>>  =C2=A0=C2=A0*=C2=A0=C2=A0 - package kernel-module-dyplo-1.1+154+bb94f=
-350+bb94f3599b- r0.tdpzu9
->>>> requires kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5, but non=
-e of
->>>> the providers can be installed
->>>>  =C2=A0=C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a=
-2cb0f14db5 needed by
->>>> kernel-module-dyplo-6.6.40-xilinx-
->>>> g6a2cb0f14db5-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9
->>>>  =C2=A0=C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a=
-2cb0f14db5 needed by
->>>> kernel-module-dyplo-pcie-6.6.40-xilinx-
->>>> g6a2cb0f14db5-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9
->>>>  =C2=A0=C2=A0*
->>>>  =C2=A0=C2=A0* Solution 1:
->>>>  =C2=A0=C2=A0*=C2=A0=C2=A0 - do not ask to install a package providing=
- kernel-module-dyplo
->>>>
->>>> I'm on "scarthgap" branch.
->>>>
->>>> The "kernel-module-dyplo" recipe can be found here:
->>>>
->>>> https://github.com/topic-embedded-products/meta-dyplo/blob/master/
->>>> recipes-dyplo/dyplo-core/kernel-module-dyplo.bb
->>>>
->>>> The isue at first glance appears to be that "kernel-6.6.40-xilinx-
->>>> g6a2cb0f14db5" mixes the git version hash from the module itself and t=
-he
->>>> git hash of the kernel. There's no such package, it should have been
->>>> "kernel-6.6.40-xilinx-gd7b52381656b"
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>
->>>
->>>
+>
+>> I'm on "scarthgap" branch.
+>>
+>> The "kernel-module-dyplo" recipe can be found here:
+>>
+>> https://github.com/topic-embedded-products/meta-dyplo/blob/master/recipe=
+s-dyplo/dyplo-core/kernel-module-dyplo.bb
+>>
+>> The isue at first glance appears to be that
+>> "kernel-6.6.40-xilinx-g6a2cb0f14db5" mixes the git version hash from the
+>> module itself and the git hash of the kernel. There's no such package,
+>> it should have been "kernel-6.6.40-xilinx-gd7b52381656b"
+>>
+>>
 >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >> Links: You receive all messages sent to this group.
->> View/Reply Online (#215326): https://lists.openembedded.org/g/openembedd=
-ed-core/message/215326
->> Mute This Topic: https://lists.openembedded.org/mt/112412917/6084445
+>> View/Reply Online (#215287): https://lists.openembedded.org/g/openembedd=
+ed-core/message/215287
+>> Mute This Topic: https://lists.openembedded.org/mt/112412917/3617484
 >> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [s=
-kandigraun@gmail.com]
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [m=
+ax.oss.09@gmail.com]
 >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >>
 
