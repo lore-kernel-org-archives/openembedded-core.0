@@ -1,112 +1,118 @@
-Return-Path: <samuli.piippo@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E9F6C369D1
-	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 06:30:16 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web10.1416.1745562610312173507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE1CC369D1
+	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 06:42:16 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.1424.1745563331497112691
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 23:30:10 -0700
+ Thu, 24 Apr 2025 23:42:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CHy5uVP9;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: samuli.piippo@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54afb5fcebaso2126461e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 23:30:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DcYN/Jiw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-39c0e0bc733so1671160f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 23:42:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745562608; x=1746167408; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2ia1Hr7DqJMdN4WtL1aMw4YtIE3JHH8I2sNhIYJu7eY=;
-        b=CHy5uVP9Fs3aA5Yz6UQY2lSb8ckliixWp8f1+hgRONHxsHLTYeDn6P63vK15t6K99m
-         TXAyCfyC43BF6wa2vnpTIMUr3GR8YlTIwJZlq0yo/Dr2PeoD65laozWBzorW910ZKOWl
-         yvQgX59BtSmmhoLUfzAdR4UIkAsusz7Pji5w6xBB2CdbciNr5xsvEB1gJywV8sNWsrnk
-         4ygVOHvCVl8nF2AV7Iu5V2IwuxVSXy8yLAjPnJpwFlpFnlTmzuy9COksfa/YzXl2+JRi
-         Ps/Aw8F9W/6gGK8jA7HnKVmr/1JKPIh9ZmDqKslrzSOJyfj/mzKsvrRI4sBzGbPTpzfL
-         x1jw==
+        d=linuxfoundation.org; s=google; t=1745563330; x=1746168130; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dga95sk/v0dZSQznrguo2CMtDbY9dkvu49FOpPhvEZI=;
+        b=DcYN/Jiw4/At56tBcPcVV3TCyEEsPS6o6tRowx0Mnf0+hTBxNydH0bx6UHnixolTfX
+         kI8nA86CgIsjSV/U08sq7OJfCEaHyLXeOVCty+h7sucP9AD8robovHXL38+N9cwNPjJA
+         grw1nC1GpzcffjlaExx88u+ba+RPWuV8/3O6g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745562608; x=1746167408;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2ia1Hr7DqJMdN4WtL1aMw4YtIE3JHH8I2sNhIYJu7eY=;
-        b=excIvJfwWOF1tqVCytMPyJPTFSc2VSuIcl5A1tWZhcn14RQcX1JM51ooxvQvw5CNQN
-         1UR6QXej1VI4Udiv8U9bOZwVkDEB5b2aIBilgZRqO63YQc8wZavg6Av2Oswf8gy4Qv1z
-         HcXXUQqHpHlakEDpcm4J+k+Q00BESVXTbyxUijdrEASgXWz8GmUhrmEgqW54DjTxn9Il
-         c8QktJmxORBFb5aNZDSelFxkzv2kX313z3MmeOLqrGOG+Qt96AFZIOo9S//ULiZwH+2t
-         2PcmlMyH38d9BzGpUkiNxpCwmkP7bq6Vo1jEzTIYvKqlTLmdRv6xnHsmCpENChqbO4D8
-         5cgw==
-X-Gm-Message-State: AOJu0YzOBGnZn8C3y+WBN4YyVGu0y0SK/C8ULsdywDwsn/Tl3lPJ2+eS
-	DvdycBYOv0nEAb+lNDMcR9dldC5zBxB0fJg48RkKLVf/kBcG/xJHvRxXbA==
-X-Gm-Gg: ASbGncs2J+rLED/CeLAeINnQRC0szGUCwl0die7jeOZ2V1dTc88YQ3R1GfH1x8g6TZc
-	RKQx/K7WkvYck+TW6NwryQT9V9WquEM23wj9brNYq8706bMMUVlCG6vY8hbgfyw6dcUb+zyA/pT
-	+s6CW8VbSD1TeZa+E4oka1Dr82unzc431BkbC3bH3fRK3bd+nTaxCoDnGweu7Jzn+p8LgnQ9TrF
-	HUtTHQUgPfi5utxnQScnfIAPgyVWm/rEthUYqsue4cqcV9Ysnp/7aoOseExqRBf0wmkhJ2jvZo8
-	d3R7T+9HRS3uwcpfdYpKFYqFo81coWBl9b+gR5KKUuEEzk2Kiw==
-X-Google-Smtp-Source: AGHT+IEIIPkFQh3JTd0l6UQsoKXRrBV3xT72ZCQ0WF5zIuYe+CpMLAVMqDGqg5pofIm9SQSZ6F3NRQ==
-X-Received: by 2002:a05:6512:3c92:b0:549:912a:d051 with SMTP id 2adb3069b0e04-54e8cb75d26mr405984e87.0.1745562607899;
-        Thu, 24 Apr 2025 23:30:07 -0700 (PDT)
-Received: from dcbuildsrv.ci.qt.io ([192.89.120.62])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e7cb3a2d6sm483801e87.69.2025.04.24.23.30.07
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1745563330; x=1746168130;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dga95sk/v0dZSQznrguo2CMtDbY9dkvu49FOpPhvEZI=;
+        b=fa5GMYqAxBWkJRlzsPUSK2beRIO7JQR6eqBTNlXlO9ElJJfhx/At8hFNx7qyih7t2v
+         XQWxxVoYDYXH5JTjeAnrFDlXDwWylie64AHdJhhqwqMWtCd1nJ0rgo8BebxwriTlN/pa
+         adarOd2GFRKudWDybfl0i/dK5FCkaeRXb77c4+0FDLo/LEpgARuzv+G6A/JvuEbhghKD
+         XK+As4qqsyqyMfoDmbs+QXcPy/W7HclB8BAi1YPsP1T4nL6r88dJb8fUBoyE5Fy+14R7
+         vheyGor2embs4oDHrVyVWHkC5atON+hQp6HAVLymEvNKKVCR2u+JvCAtgqoglT+72b9F
+         Julg==
+X-Forwarded-Encrypted: i=1; AJvYcCVDKKiwtF2bWRxetaJ6ctO0zV7AkyY/FDmD16/q2KKZYutzeY0kur6wGYZ34UdKfx95WlFrYHrpHjZJ3uAIZBKYEw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz1+0N8SzqYDtQXV2PkC7AMl2JK8gnTOXUuTpcgelHW9XESwIR4
+	wfl2K7bmMRpNHVZ+vaUQMThZYWXEc4DxVB1ott4x3PkBS84up2DZx/Zd8pyIMqk=
+X-Gm-Gg: ASbGncsGarCE1E4DUhoa2Vy6tvKeV6nbAOc6Q3dJPC7mz8JvRjr6oavkmBUiVnHB+Vo
+	iSurESugG47rOnXAPYkzBp0t8Rfu7M+43S52DKiP6esBYKNktUyPlkiyfTmiIJtpgZ8qGcCd8Fx
+	rvoDijKieDykCNFCb266xJ+Dp8fQuKVOwAeYek1TZTe6rW4jG9p3WZGMrbmhb/Ld9y9vl+SsN+g
+	Ov43cq7/GqNlifwBNa/HlkBZ8DuKuBXQGkqDPkEqq5THD/kRqdIafR6h/qbBEkGrUFYhkkcVNKm
+	9WpqikYxzBMULkzEHzWYVo+40FCRDiexKghh7ey1pOqaCZEVzfqNjZ1C+ZyniytPTC307c2wBfu
+	SOnqztk/rrCtf1R7WSkU3TAJM+aF6PA==
+X-Google-Smtp-Source: AGHT+IFA4Vo2P6RXk+xJKc6uVMrjs7gn0+2UsjQEVJGhfsVifiK/O2zValeca/lk9Jdy0R9WmxCRug==
+X-Received: by 2002:a5d:5885:0:b0:38c:2745:2df3 with SMTP id ffacd0b85a97d-3a074f10d75mr698705f8f.37.1745563329783;
+        Thu, 24 Apr 2025 23:42:09 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4b43:cc8c:5e78:12c1? ([2001:8b0:aba:5f3c:4b43:cc8c:5e78:12c1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073ca4cbcsm1383560f8f.25.2025.04.24.23.42.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 23:30:07 -0700 (PDT)
-From: Samuli Piippo <samuli.piippo@gmail.com>
-X-Google-Original-From: Samuli Piippo <samuli.piippo@qt.io>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] libjpeg-turbo: don't use chrpath
-Date: Fri, 25 Apr 2025 06:29:50 +0000
-Message-ID: <20250425062950.2888526-1-samuli.piippo@qt.io>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250404084324.3024896-1-samuli.piippo@qt.io>
-References: <20250404084324.3024896-1-samuli.piippo@qt.io>
+        Thu, 24 Apr 2025 23:42:08 -0700 (PDT)
+Message-ID: <8ab17e2462bcca79323eec7c7bbde32dc7238874.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V3] icu: set ac_cv_path_install to install
+ under hosttools
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Changqing Li <changqing.li@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 25 Apr 2025 07:42:06 +0100
+In-Reply-To: <947fa28b-20a1-4367-84b2-a2332381064a@windriver.com>
+References: <20250422130702.1337476-1-changqing.li@windriver.com>
+	 <d76232c249fa6af70c2539d14e733825bc6f1dc8.camel@linuxfoundation.org>
+	 <947fa28b-20a1-4367-84b2-a2332381064a@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 06:30:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215427
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 06:42:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215428
 
-chrpath doesn't work on mingw32 binaries:
+On Fri, 2025-04-25 at 09:25 +0800, Changqing Li wrote:
+> =C2=A0
+> On 4/24/25 18:33, Richard Purdie wrote:
+> =C2=A0
+> > Does this work if you just use:
+> >=20
+> > ac_cv_path_install=3D'install -c'
+> >=20
+> > ?
+>=20
+> It works well,=C2=A0 bitbake icu can build successfully.=C2=A0 And it can=
+ also fix the original do_package_qa issue:
+> =C2=A0
+>=20
+>=20
+>=20
+> in function remove_build_host_references, only hosttool path is removed('=
+s:${HOSTTOOLS_DIR}/::g'),
+> =C2=A0
+>=20
+>=20
+>=20
+> so when install under STAGING_BINDIR_NATIVE is used,=C2=A0 qa error happe=
+ned.
+> =C2=A0=C2=A0
+> But if use ac_cv_path_install=3D'install -c',  the actually used install =
+maybe under STAGING_BINDIR_NATIVE or HOSTTOOLS_DIR,
+> =C2=A0decide if install is under STAGING_BINDIR_NATIVE when do_install is=
+ runned.=C2=A0=20
+> =C2=A0=C2=A0
+> So I use '${HOSTTOOLS_DIR}/install -c' to make install under hosttools is=
+ always used.
+> =C2=A0
 
-| `/build/tmp/work/x86_64-nativesdk-mingw32-w64-mingw32/nativesdk-libjpeg-turbo/3.0.1/image//usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-w64-mingw32/usr/bin/cjpeg.exe' probably isn't an ELF file.
-| elf_open: Exec format error
+We use the tool from PATH everywhere else in the project so it should
+be fine to do that here as well. I would be concerned if that tool
+behaved differently between the two and we'd have bigger problems if it
+did. This therefore should be fine.
 
-Instead, use CMake variable to disable RPATH and avoid the
-useless-rpaths QA error.
+Cheers,
 
-Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
----
- meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Richard
 
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
-index 56bab4daca..a1d7d57fb5 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
-@@ -23,6 +23,9 @@ inherit cmake pkgconfig github-releases
- 
- export NASMENV = "--reproducible --debug-prefix-map=${WORKDIR}=${TARGET_DBGSRC_DIR}"
- 
-+# The binaries have RUNPATH=$libdir, which is redundant
-+EXTRA_OECMAKE += "-DCMAKE_SKIP_INSTALL_RPATH=ON"
-+
- # Add nasm-native dependency consistently for all build arches is hard
- EXTRA_OECMAKE:append:class-native = " -DWITH_SIMD=False"
- EXTRA_OECMAKE:append:class-nativesdk = " -DWITH_SIMD=False"
-@@ -52,9 +55,4 @@ FILES:jpeg-tools = "${bindir}/*"
- DESCRIPTION:libturbojpeg = "A SIMD-accelerated JPEG codec which provides only TurboJPEG APIs"
- FILES:libturbojpeg = "${libdir}/libturbojpeg.so.*"
- 
--do_install:append() {
--    # The binaries have RUNPATH=$libdir, which is redundant
--    chrpath -d ${D}/${bindir}/* ${D}${libdir}/*${SOLIBS}
--}
--
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.43.0
 
 
