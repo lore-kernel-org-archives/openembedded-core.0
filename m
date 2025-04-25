@@ -2,472 +2,166 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39076C369C2
-	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 08:42:37 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.2374.1745570546749720991
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B21C369C2
+	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 08:45:17 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.2477.1745570707080652394
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Apr 2025 01:42:26 -0700
+ Fri, 25 Apr 2025 01:45:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=RjkukO6Y;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53P8TCd8019001
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:42:26 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=onfKlY1W;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53P8TEkF030928
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:45:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=Z1h7WuVdgzmXdLsRRURSDw74
-	iA/1CrNxQFSILLoMSTs=; b=RjkukO6YSxwDCxIqDMU4gTPwODfP09HnlwEci+vC
-	3LW5gJ9BGuaUFsJk7LnF5ZZKvXAjlWy3oraDuBlm4qy1x2URD45Vk68hxM6YbnRA
-	uQUG3pD1r3br2oszEywN8mkECJFNnK0y3pMBmi8k7Fve8l3GgNmL/nDOQ46KCxv+
-	b5crnMO9rVSzCnOcXjchDtdb/6dI+VJkb+pVjzCTthoDymaztgDWOZCicSHkSf/S
-	4WNyJE2ncn8G+c3WgaZ08lXwGbys2WMFBbFSL5v93jDnwl7hGqAuCOcY5wE3icQH
-	RxJfEsXFEQeQ1PfuXYCZhHony8mrSyGKf2v1tZ3c/qrIEg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh28cgn-1
+	:references:subject:to; s=qcppdkim1; bh=vKphH508k4Pvv3817E/Di/Wb
+	qlKV0hTnfE/SNNE36C4=; b=onfKlY1W2APZdE7j+J7odJMsPIdrLNtfjXPeykdL
+	qKc9TUeT7lIMS5J115B12h9a8VwzJXojGTZY1ksSlitR/Tw0J7XdL3NuqcaHbJ8I
+	NR9DaBmcCt7KbcRcsrrK4AipS0YrAbRv6oDTwdzJR3HtVTFCkTeHjlfAZfqSSxMO
+	1VCaQOQ4k0y6iCWf8jaYMCjXV9bCYA0sDO7MJTYhxFfm5cF7QMFOoQtn0hvXxg3+
+	kgyOkueyT0FS07UMgPzRbl9cM3UWQie/ksupF6bBpUbXjdR2ukECr67JHuGzNLBx
+	aVEZfoUI9xa6yWIF5e6f6cZDVVFjVsJd5PdfOe1phWdK1Q==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh5gc4c-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:42:25 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7c5e2a31f75so625893585a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 01:42:25 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:45:05 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5750ca8b2so306033985a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 01:45:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745570544; x=1746175344;
+        d=1e100.net; s=20230601; t=1745570705; x=1746175505;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Z1h7WuVdgzmXdLsRRURSDw74iA/1CrNxQFSILLoMSTs=;
-        b=wSsHLOzpz7iYwYYaAfqkXOvYE2vA4VLTpuckXHTnSRuPuIHBpVu53JGYaKstzXy5dr
-         gRCTwKq56Vnep1muZrAsxgEKswZQFOS7bZM1zhD7BicgKP+lSzSrDO/b65WAIBV0L1gp
-         XEawTxe/MdFi8n7J3f3aZzcCeUDZoO4ro2AFryhYTD0DP9KCfsyGaBa7B+1AY7UoTf7A
-         MZKya31k7VCtAIWt+wH3fAP4gRZF/B1DVfY6ZrVvzL6t69YkT2XYscfpOl88qhuJz4IG
-         2c782+OVP+wmJSyK8Z78iHhjgG76g3TXlC0blqxoywdhe4HcK6zS8RXNeNs08DyN+ytT
-         1Q8Q==
-X-Gm-Message-State: AOJu0Yw2UfbkPPooWOo/XkmOSxEBviTRLNOyT/fOsXMdTEH+apicey+n
-	2ACjCQMBb7Xw09hP2cQ17UjUDbfo7RkBd3ri8jft7JMbDjJMMcu++GJRrt8MlC4Bs6fDuGRh8Vk
-	rgycjq7yCs1Cx9IUy8RfmoT1nUBSVqobywP7jSCw1fRoHRD5Jicavdre2UNQmkE7r8w3telMcdx
-	WkJqw=
-X-Gm-Gg: ASbGncubSz/Rtl4K69T8DJDpp0G6TKAusaS8fTT0dcUA3Xta03N1eW4V5F3d/mro/pI
-	2edwGZG/wh6SIS/zUVtDuFqWUQ9/x0ey0Y+UD47sDRYQftCJseIw89aquYhZzzwLZQ9bQBcXofv
-	eYikJTxFOaoR3M31m1um3oeaFMFtTv7wyW15WmaDmfqeElc4uS5e4/8R7FQ7UmN5OFyQ/BVH6p+
-	efxsGG3KpsEczMMM6kfUhUgobKMenFnsEuHJ4IvsF9hZFSk4KDecziKAmDzSpEt0yI9Rn7sjXe1
-	HK/dJZSXlsBRERVu47NzAQxiOn3KdfL66jhFEWvMjDj2gqnfQUoY1KTazZsm4RdjRjTZFYdi3bk
+        bh=vKphH508k4Pvv3817E/Di/WbqlKV0hTnfE/SNNE36C4=;
+        b=Ple2q8sf5KPeZqb5tk5+VwTrll669yzvxbtwcMgW5nHHq25FVldJtFlt08//ACiorJ
+         U5OMQeq7mJXjpVxhBDrw/1trsdL4Va1zpqd6YhQbBS98BSGxKq0yqLZ1DSfjbDbk24QG
+         BGQIZfM0+J/GwooBwVCMx3sgGbYMhOp/s9hRxucftWSgedLsC9Ky89i0ffaps+f5b190
+         SAlgodvL6RfgLTUlQf24xnf+uffev1lVLRE8C5RUMfdTOSU0Kkaa06RxqagliCGpOZax
+         qtpGtj59eVE9V8z4WmW6j5F+LkNp0bSPkHoE7dw7QZK2Qq+sIkdafs7/G5KGl4CjROG7
+         iG3Q==
+X-Gm-Message-State: AOJu0Yyx39WtWnxJeuShT4+7q7q30mtOJ9dxRkD6JRUC5ELF9S6kwVE2
+	Sfbtd4/4l7asZneCGQq9OKNObgfl496S3cLhw2sb7O67dw5IVrW1E+jw33hBYWK5gKtUbSNOOVx
+	XpC40RMRdDjY91n6wcIL7DUNYvdIdfrjuCXbP783mpQBUb7MLgKeBOxzPP1bKbXrdQu7griQffj
+	foMrA=
+X-Gm-Gg: ASbGnct3jb+29bWyXq577ewS+MkCCt/JR5tgZNXqCjxTgn2QeZrUUU91CUMe4XfVCcm
+	fKiLtGFSAT2+s+Gk99YuQifXr12XNkA3sGDGmOwczXzs5fKpeIaliRv88vR5eEwBSe2ncHSOM58
+	uWpn3PZ0EUpuG2tZbOh4XgD9xhJqAP22XkUDacqFAIjLKZcjvmcFnwegpgst/zGue3mA8HbLEVB
+	Ro4jpip9+F5vdw30cWXZHedNvjVmSMZZXGFYBL2/ucQp9R6YxcHyT1sodFwo8v8CAT0taUzbg4s
+	FjbxrpIITWkmJbVH+T0oj+XPrw7DGShlqv/iI4hxm7DUgmqNBW2mRIWQfpAk4lOCK4cMOKxCl4M
 	=
-X-Received: by 2002:a05:620a:254e:b0:7c5:4c49:769c with SMTP id af79cd13be357-7c9606ac285mr266880885a.6.1745570544138;
-        Fri, 25 Apr 2025 01:42:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGDPQVknXG3JasJbvvQffO1Nn3xcAm4xYh82qmfYjyG/DL17SsdOEXSFwy7T1gHKJkOd5RbhA==
-X-Received: by 2002:a05:620a:254e:b0:7c5:4c49:769c with SMTP id af79cd13be357-7c9606ac285mr266878085a.6.1745570543636;
-        Fri, 25 Apr 2025 01:42:23 -0700 (PDT)
+X-Received: by 2002:a05:620a:4110:b0:7c8:39ea:5166 with SMTP id af79cd13be357-7c9607ac4damr238094185a.55.1745570705074;
+        Fri, 25 Apr 2025 01:45:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEo/fTCmXh0VcgRPEJWOvuNLNfWqmgIIahEDT1otn2CI/hrkOd7VZ6291AUnPNO2VEm27UMsw==
+X-Received: by 2002:a05:620a:4110:b0:7c8:39ea:5166 with SMTP id af79cd13be357-7c9607ac4damr238091985a.55.1745570704650;
+        Fri, 25 Apr 2025 01:45:04 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e7cb2629esm519622e87.48.2025.04.25.01.42.22
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e7cb3a688sm510091e87.77.2025.04.25.01.45.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 01:42:22 -0700 (PDT)
-Date: Fri, 25 Apr 2025 11:42:21 +0300
+        Fri, 25 Apr 2025 01:45:03 -0700 (PDT)
+Date: Fri, 25 Apr 2025 11:45:02 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 04/11] clang: Merge llvm/clang family recipes from
- meta-clang
-Message-ID: <r5ckieoedu56jjzufc2cvbufb557z62bcjsredjb6552ywaktk@sictodhm4k4u>
+Cc: openembedded-core@lists.openembedded.org,
+        Liu Yiding <liuyd.fnst@fujitsu.com>
+Subject: Re: [PATCH 00/11] clang-merge: Bring clang recipes from meta-clang
+Message-ID: <u4rkfqrav7efoufqawci5yoncg24plo5xqpklxwjoxc23titkb@5r22roqrtknp>
 References: <20250424-clang-merge-v1-0-5a492a8461aa@gmail.com>
- <20250424-clang-merge-v1-4-5a492a8461aa@gmail.com>
- <dc33o5zfonkcdpo2aiysfqdscradhjofwmmzqvbst2qle3jp6r@4owhwxoyqnq2>
- <15f9090e-c10a-4985-8ddf-28876c4bc964@gmail.com>
+ <zvfx3kfrbicdbv424j4ustmrrjwjg7immyx4lp6ihrnwktgsks@rqy3zvo7xjai>
+ <0724d355-d683-4b4f-abd4-68c31bbef674@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <15f9090e-c10a-4985-8ddf-28876c4bc964@gmail.com>
-X-Authority-Analysis: v=2.4 cv=EtLSrTcA c=1 sm=1 tr=0 ts=680b4af1 cx=c_pps a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=NEAV23lmAAAA:8 a=pGLkceISAAAA:8 a=IvTj1HvjAAAA:8 a=gWDa-L1wAAAA:8 a=G6BABj03uXj4HyZZDXMA:9
- a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=kmyLcwvAnC_t3PsnBtKb:22 a=vg_HiZM2M4GgzivzK9OA:22
-X-Proofpoint-GUID: qjpg1rgp8__84f2iWVCFSD0v4ywaJ2bB
-X-Proofpoint-ORIG-GUID: qjpg1rgp8__84f2iWVCFSD0v4ywaJ2bB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDA2MiBTYWx0ZWRfX+ncjh6POXSSb aHEi+puT6qTK2TqUJXqoWW9wP7pIkbDuz6KxfTCNQ2XNMwiOEGRZYmDwOIHKbAB+VRaPX3trKhu zGVhefyl51Mu1azsKkH3Tt9RyiYFwkpWNXNPv9ya4Fd7HsT8wwpdvtz1cMJ7IumiBL7AgdrsqfA
- JSMTNK4NNApTEN4BJB1mAIv+3GSRbiLgJvAEXmfUoxA4FfF7NG5fqqBv0ADXBvRg0E8MT5rrsVv 5SMERV92e7qID82z7cRwCb8e98oBhyf9ZJuhGAW2PQLvLHvq3PAt+8Szf0rQ50aVMaSKQxJb+XX jXqccXoq9wzmdIrmb2mjEDtaWXoZZ9YfpIXeObL4XCu8ruU1yM6mdnRIFDKWCA4IfPvD263KCYl
- LuYOW3o1DFi2euVu9U3w0eDCTJJft9uWth6nEXOh3OSw5CrX7GPC2OzsTaJJ20PCtduANS1g
+In-Reply-To: <0724d355-d683-4b4f-abd4-68c31bbef674@gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDA2MyBTYWx0ZWRfXyQlBpkO8+PoJ chiuflorIALalWQXfK5+vScGjwYyat4VaOyXt9dC2qJ7sOTd+tNq5RisGx2CJaETx3VtA8C2dOD RAegO4++m0ch0RToKEEl62Xi2oBgH3QTdzm4lsTtgpCPKCipK7/oyOqO3Dj70j5XCKqte5HAAKN
+ kNUTbPcBI1k64WIrsDZHqLCCT6lZLUosisVLyTa9z6YLelVU6JejorytBpbdcQLW2d4iZ6TpXqU KLC/WU3/ZvI/wE8IU62kVs963TpYTMGgZwTcVT7Bo4bTYSZf6YHssM84yisp05sIVa9aJguGNXi L+YduLXOXQGRkzama/9gLia2ax59k0tsHFWjT38Ed30/se/JwjjHgZKKMfem8kv0F8ot418WZFl
+ LVAJbwfj3b9/2ZQ4D4vPtzbkIT2abGBIvTqDoGhf5B4nFKlWphQ+0hEu2iI+XYMaQCN2Vi3D
+X-Proofpoint-GUID: V7D8tB1wVFkl7ok6YNKoVnQnHtEoTFAz
+X-Authority-Analysis: v=2.4 cv=B/S50PtM c=1 sm=1 tr=0 ts=680b4b91 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=NEAV23lmAAAA:8 a=pGLkceISAAAA:8 a=C8M6v4uNgijL-PgBwI4A:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: V7D8tB1wVFkl7ok6YNKoVnQnHtEoTFAz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-04-25_02,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
- suspectscore=0 mlxscore=0 clxscore=1015 spamscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
- adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504250062
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 suspectscore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504250063
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:42:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215444
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:45:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215445
 
-On Thu, Apr 24, 2025 at 06:29:53PM -0700, Khem Raj wrote:
-> Thanks for detailed review, it is quite helpful.
-> 
-> On 4/24/25 2:05 AM, Dmitry Baryshkov wrote:
-> > On Thu, Apr 24, 2025 at 12:20:38AM -0700, Khem Raj wrote:
-> > > This can ensure that meta-clang does not carry them and can rely on core layer
-> > > while mesa can use them too.
+On Thu, Apr 24, 2025 at 05:44:03PM -0700, Khem Raj wrote:
+> On 4/24/25 3:04 AM, Dmitry Baryshkov wrote:
+> > On Thu, Apr 24, 2025 at 12:20:34AM -0700, Khem Raj wrote:
+> > > Latest mesa 25+ needs libclang during build for tools like mesa_clc,
+> > > we enahnced already existing llvm recipe to build pieces of clang as
+> > > well, which worked for mesa's needs but broke static clang compiler
+> > > provided by meta-clang due to newfound conflicts, since clang is now
+> > > built with llvm recipe from core and also by meta-clang and they
+> > > compete for same namespace, an attempt to make them co-habit did reveal
+> > > more difficulties. Clang compiler from meta-clang is not able to use
+> > > llvm libraries from core since they patch them differently.
+> > > 
+> > > This patch series therefore brings clang and all recipes that build from
+> > > llvm sources into core. With this changeset, clang recipes can be removed
+> > > from meta-clang there is a pull request for that already [1]
+> > > As an aside, we only build clang once and use it for meta-clang needs
+> > > and core needs.
+> > > 
+> > > With this, meta-clang can depend upon core layer to provide clang and
+> > > related recipes, meta-clang will still provide the toolchain policies
+> > > around clang based toolchains. Clang compiler from core, while usable
+> > > for mesa is not yet fully usable out of box, since we need to workout
+> > > the multi-toolchain architecture for core, which will be done in next
+> > > phase after this merge.
+> > > 
+> > > [1] https://github.com/kraj/meta-clang/pull/1088
 > > > 
 > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-
-> > > diff --git a/meta/recipes-devtools/clang/clang/0005-llvm-allow-env-override-of-exe-and-libdir-path.patch b/meta/recipes-devtools/clang/clang/0005-llvm-allow-env-override-of-exe-and-libdir-path.patch
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..6d3f5293aab84056e9693b5d2282166fd72b1ede
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/clang/clang/0005-llvm-allow-env-override-of-exe-and-libdir-path.patch
-> > > @@ -0,0 +1,71 @@
-> > > +From 0b344231c49d8c145bc3ad882d259d36fb19e827 Mon Sep 17 00:00:00 2001
-> > > +From: Martin Kelly <mkelly@xevo.com>
-> > > +Date: Fri, 19 May 2017 00:22:57 -0700
-> > > +Subject: [PATCH] llvm: allow env override of exe and libdir path
-> > > +
-> > > +When using a native llvm-config from inside a sysroot, we need llvm-config to
-> > > +return the libraries, include directories, etc. from inside the sysroot rather
-> > > +than from the native sysroot. Thus provide an env override for calling
-> > > +llvm-config from a target sysroot.
-> > > +
-> > > +Add YOCTO_ALTERNATE_LIBDIR and YOCTO_ALTERNATE_EXE_PATH env variables
 > > 
-> > Is this really necessary? Can we use ${libdir} / ${base_libdir} in the
-> > llvm-config wrapper instead of YOCTO_ALTERNATE_LIBDIR ?
+> > After fixing the RPROVIDES, this still fails the nativesdk-mesa build if
 > 
-> Technically we can use a hack line we do in rust-llvm where we throw the
-> native llvm-config into target sysroot and let it answer back relative to
-> itself. meta-clang still sets these variables so I kept it, I have plans to
-> remove it once I figure out all meta-clang needs are met with alternative
-> approach.
-
-Ack
-
-> > > diff --git a/meta/recipes-devtools/clang/clang/0006-clang-driver-Check-sysroot-for-ldso-path.patch b/meta/recipes-devtools/clang/clang/0006-clang-driver-Check-sysroot-for-ldso-path.patch
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..6a67d1191605b3ab0cee4737a976b18f5ccdcf2a
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/clang/clang/0006-clang-driver-Check-sysroot-for-ldso-path.patch
-> > > @@ -0,0 +1,75 @@
-> > > +From 66aa6ec05c67e82f084cc692297240161afb467c Mon Sep 17 00:00:00 2001
-> > > +From: Dan McGregor <dan.mcgregor@usask.ca>
-> > > +Date: Wed, 26 Apr 2017 20:29:41 -0600
-> > > +Subject: [PATCH] clang: driver: Check sysroot for ldso path
-> > > +
-> > > +OE does not necessarily follow the default path for the dynamic linker,
-> > > +therefore adjust it for OE. Check for the default path, and if it isn't
-> > > +there, check /lib.
-> > 
-> > It would be nice to mention explicitly where we deviate from the
-> > defaults.
+> clang recipe does have this
 > 
-> Its well know when we build multilib the ldso has different paths than
-> clangs defaults, every distro kind of does that so OE is not the only one,
-> it happens especially on ppc64, I will add this info into patch header.
-
-Thanks!
-
-> > > diff --git a/meta/recipes-devtools/clang/clang/0033-llvm-Add-libunwind.pc.in-and-llvm-config-scripts.patch b/meta/recipes-devtools/clang/clang/0033-llvm-Add-libunwind.pc.in-and-llvm-config-scripts.patch
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..8d56422529bf6a1738351f60578acf2752c93e79
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/clang/clang/0033-llvm-Add-libunwind.pc.in-and-llvm-config-scripts.patch
-> > > @@ -0,0 +1,90 @@
-> > > +From 9caabc8d9c5f65e8130f24f07b9708b29ab636f6 Mon Sep 17 00:00:00 2001
-> > > +From: Khem Raj <raj.khem@gmail.com>
-> > > +Date: Tue, 14 May 2024 22:04:43 -0700
-> > > +Subject: [PATCH] llvm: Add libunwind.pc.in and llvm-config scripts
-> > > +
-> > > +These are added by OE project
-> > > +
-> > > +Upstream-Status: Inappropriate [ OE-Specific ]
-> > > +
-> > > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > +---
-> > > + libunwind/libunwind.pc.in          |  9 ++++++
-> > > + llvm/tools/llvm-config/llvm-config | 52 ++++++++++++++++++++++++++++++
-> > 
-> > It was easier to handle if it is a separate script under files/ rather
-> > than a patch in the source tree.
-> > 
+> PROVIDES:append:class-native = " llvm-native libclc-native
+> spirv-llvm-translator-native"
+> PROVIDES:append:class-target = " llvm libclc spirv-llvm-translator"
+> PROVIDES:append:class-nativesdk = " nativesdk-llvm nativesdk-libclc
+> nativesdk-spirv-llvm-translator"
 > 
-> I used a script to use devupstream class to build clang main branch and its
-> lot easlier if everything is a patch, I can just point every recipe to a
-> checked out patched llvm tree via externalsrc since every file needed it
-> past of tree. It helps me keeping the dev work going.
-
-ack
-
-> > > +
-> > > +PROVIDES:append:class-native = " llvm-native libclc-native spirv-llvm-translator-native"
-> > > +PROVIDES:append:class-target = " llvm libclc spirv-llvm-translator"
-> > > +PROVIDES:append:class-nativesdk = " nativesdk-llvm nativesdk-libclc nativesdk-spirv-llvm-translator"
-> > > +
-> > > +PACKAGES =+ "${PN}-libllvm ${PN}-lldb-python ${PN}-libclang-cpp ${PN}-tidy ${PN}-format ${PN}-tools ${PN}-clc ${PN}-spirv \
-> > > +             libclang lldb lldb-server liblldb llvm-linker-tools"
-> > > +
-> > > +
-> > > +BBCLASSEXTEND = "native nativesdk"
-> > > +
-> > > +RDEPENDS:lldb += "${PN}-lldb-python lldb-server"
-> > > +
-> > > +RDEPENDS:${PN}-tools += "\
-> > > +  perl-module-digest-md5 \
-> > > +  perl-module-file-basename \
-> > > +  perl-module-file-copy \
-> > > +  perl-module-file-find \
-> > > +  perl-module-file-path \
-> > > +  perl-module-findbin \
-> > > +  perl-module-hash-util \
-> > > +  perl-module-sys-hostname \
-> > > +  perl-module-term-ansicolor \
-> > > +"
-> > > +
-> > > +RRECOMMENDS:${PN}-tidy += "${PN}-tools"
-> > > +
-> > > +FILES:llvm-linker-tools = "${libdir}/LLVMgold* ${libdir}/libLTO.so.* ${libdir}/LLVMPolly*"
-> > > +
-> > > +FILES:${PN}-libclang-cpp = "${libdir}/libclang-cpp.so.*"
-> > > +
-> > > +FILES:${PN}-lldb-python = "${libdir}/python*/site-packages/lldb/*"
-> > > +
-> > > +FILES:${PN}-tidy = "${bindir}/*clang-tidy*"
-> > > +FILES:${PN}-format = "${bindir}/*clang-format*"
-> > > +
-> > > +FILES:${PN}-tools = "${bindir}/analyze-build \
-> > > +  ${bindir}/c-index-test \
-> > > +  ${bindir}/clang-apply-replacements \
-> > > +  ${bindir}/clang-change-namespace \
-> > > +  ${bindir}/clang-check \
-> > > +  ${bindir}/clang-doc \
-> > > +  ${bindir}/clang-extdef-mapping \
-> > > +  ${bindir}/clang-include-fixer \
-> > > +  ${bindir}/clang-linker-wrapper \
-> > > +  ${bindir}/clang-move \
-> > > +  ${bindir}/clang-nvlink-wrapper \
-> > > +  ${bindir}/clang-offload-bundler \
-> > > +  ${bindir}/clang-offload-packager \
-> > > +  ${bindir}/clang-pseudo* \
-> > > +  ${bindir}/clang-query \
-> > > +  ${bindir}/clang-refactor \
-> > > +  ${bindir}/clang-rename* \
-> > > +  ${bindir}/clang-reorder-fields \
-> > > +  ${bindir}/clang-repl \
-> > > +  ${bindir}/clang-scan-deps \
-> > > +  ${bindir}/diagtool \
-> > > +  ${bindir}/find-all-symbols \
-> > > +  ${bindir}/hmaptool \
-> > > +  ${bindir}/hwasan_symbolize \
-> > > +  ${bindir}/intercept-build \
-> > > +  ${bindir}/modularize \
-> > > +  ${bindir}/pp-trace \
-> > > +  ${bindir}/sancov \
-> > > +  ${bindir}/scan-build \
-> > > +  ${bindir}/scan-build-py \
-> > > +  ${bindir}/scan-view \
-> > > +  ${bindir}/split-file \
-> > > +  ${libdir}/libscanbuild/* \
-> > > +  ${libdir}/libear/* \
-> > > +  ${libexecdir}/analyze-c++ \
-> > > +  ${libexecdir}/analyze-cc \
-> > > +  ${libexecdir}/c++-analyzer \
-> > > +  ${libexecdir}/ccc-analyzer \
-> > > +  ${libexecdir}/intercept-c++ \
-> > > +  ${libexecdir}/intercept-cc \
-> > > +  ${datadir}/scan-build/* \
-> > > +  ${datadir}/scan-view/* \
-> > > +  ${datadir}/opt-viewer/* \
-> > > +  ${datadir}/clang/* \
-> > > +"
-> > > +
-> > > +FILES:${PN} += "\
-> > > +  ${bindir}/clang-cl \
-> > > +  ${libdir}/BugpointPasses.so \
-> > > +  ${libdir}/LLVMHello.so \
-> > > +  ${libdir}/*Plugin.so \
-> > > +  ${libdir}/${BPN} \
-> > > +  ${nonarch_libdir}/${BPN}/*/include/ \
-> > > +"
-> > > +
-> > > +FILES:${PN}-clc += "${datadir}/clc"
-> > > +
-> > > +FILES:${PN}-spirv = " \
-> > > +    ${bindir}/llvm-spirv \
-> > > +    ${includedir}/LLVMSPIRVLib \
-> > > +    ${libdir}/pkgconfig/LLVMSPIRVLib.pc \
-> > > +    ${libdir}/libLLVMSPIRV* \
-> > > +"
-> > 
-> > You've dropped RPROVIDES for ${PN}-clc and ${PN}-spirv here. Is there a
-> > reason for that? It breaks OpenCL builds of mesa:
-> > 
 > 
-> They were not needed since the libclc and splirv-llvm-translator recipes
-> from meta-clang are gone. and clang recipe does add them to PROVIDES.
+> I wonder why is RPROVIDE needed.
 
-However mesa uses libclc and spirv-llvm-translator package names. It
-makes it more future-proof, if at some point we'd decide to split clc /
-spirv-llvm-translator to separate recipes again (especially the spirv
-one).
-
-> > ERROR: Required build target 'nativesdk-mesa' has no buildable providers.
-> > Missing or unbuildable dependency chain was: ['nativesdk-mesa', 'nativesdk-spirv-llvm-translator']
-> > 
-> > ERROR: Required build target 'mesa' has no buildable providers.
-> > Missing or unbuildable dependency chain was: ['mesa', 'libclc']
-> > 
-> 
-> I am not sure how I can repeoduce it, but I did try explicitly adding the
-> packageconfig to nativesdk-mesa and it built fine.
-> 
-> If you can share the changes to reproduce it, might be helpful
-
-I was doing poky / qemuarm64 build with the following lines in
-local.conf:
-
-PACKAGECONFIG:append:pn-mesa = " opencl libclc gallium-llvm "
-PACKAGECONFIG:append:pn-mesa-native = " opencl libclc gallium-llvm "
-PACKAGECONFIG:append:pn-nativesdk-mesa = " opencl libclc gallium-llvm "
-
-> > > diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..bb152d2c566a6c61b95be2e7922cfe9c64a27afa
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/clang/common-clang.inc
-> > > @@ -0,0 +1,24 @@
-> > > +LLVM_RELEASE = ""
-> > > +LLVM_DIR = "llvm${LLVM_RELEASE}"
-> > > +
-> > > +LLVM_HTTP ?= "https://github.com/llvm"
-> > > +
-> > > +MAJOR_VER = "20"
-> > > +MINOR_VER = "1"
-> > > +PATCH_VER = "2"
-> > 
-> > These should be set from ${PV}, not the other way around
-> > 
-> 
-> Its other way around here, I have scripts to upgrade recipes and manipulate
-> these vars, they are used to construct PV below and also package certain
-> solibs which have MAJ.MIN format. Moreover, when building main clang branch
-> it helps since VER_SUFFIX comes into picture as well. I will like to stick
-> with this.
-
-Ack
+I'll capture the errors for v2.
 
 > 
-> > > +# could be 'rcX' or 'git' or empty ( for release )
-> > > +VER_SUFFIX = ""
-> > > +
-> > > +PV = "${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}${VER_SUFFIX}"
-> > > +
-> > > +LLVMMD5SUM = "8a15a0759ef07f2682d2ba4b893c9afe"
-> > > +CLANGMD5SUM = "ff42885ed2ab98f1ecb8c1fc41205343"
-> > > +LLDMD5SUM = "ae7dc7c027b1fa89b5b013d391d3ee2b"
-> > > +LLDBMD5SUM = "2e0d44968471fcde980034dbb826bea9"
-> > > +
-> > > +LLVM_LIBDIR_SUFFIX = "${@d.getVar('baselib').replace('lib', '')}"
-> > > +
-> > > +# set the default pigz thread
-> > > +export PIGZ = "-p ${@oe.utils.cpu_count(at_least=2)}"
-> > > +
-> > > +require common.inc
-> > > diff --git a/meta/recipes-devtools/clang/common-source.inc b/meta/recipes-devtools/clang/common-source.inc
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..d8a0f68175cf5effe72d2be4ae847eba122f94e8
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/clang/common-source.inc
-> > > @@ -0,0 +1,17 @@
-> > > +do_fetch() {
-> > > +        :
-> > > +}
-> > > +do_fetch[noexec] = "1"
-> > > +deltask do_unpack
-> > > +deltask do_patch
-> > > +
-> > > +SRC_URI = ""
-> > > +
-> > > +do_configure[depends] += "llvm-project-source-${PV}:do_preconfigure"
-> > > +do_populate_lic[depends] += "llvm-project-source-${PV}:do_unpack"
-> > > +do_create_spdx[depends] += "llvm-project-source-${PV}:do_preconfigure"
-> > > +
-> > > +# spdx shared workdir detection fails as not WORKDIR is altered but S and B
-> > > +# return always true to fix that
-> > > +def is_work_shared_spdx(d):
-> > > +    return True
-> > > diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..f77a3eea0ec7af3de8bc7f075cd8ba88b77f6beb
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/clang/common.inc
-> > > @@ -0,0 +1,85 @@
-> > > +FILESEXTRAPATHS =. "${FILE_DIRNAME}/clang:"
-> > > +
-> > > +LIC_FILES_CHKSUM = "file://llvm/LICENSE.TXT;md5=${LLVMMD5SUM} \
-> > > +                    file://clang/LICENSE.TXT;md5=${CLANGMD5SUM} \
-> > > +"
-> > > +LICENSE = "Apache-2.0-with-LLVM-exception"
-> > > +
-> > > +# Snapshot
-> > > +#RELEASE ?= "a69568efe6c4972e71af295c6577b3412dd57c22"
-> > > +#BASEURI ?= "https://api.github.com/repos/llvm/llvm-project/tarball/${RELEASE};downloadfilename=llvm-${PV}-${RELEASE}.tar.gz"
-> > > +#SOURCEDIR ?= "llvm-llvm-project-${@'${RELEASE}'[0:7]}"
-> > > +#SRC_URI[sha256sum] = "aed4f66cd72867b36cc55a0588436933c3d58d3e61ca782b6bf57605d3fdcb09"
-> > > +
-> > > +# GA Release
-> > > +RELEASE ?= "${PV}"
-> > > +BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}/llvm-project-${PV}.src.tar.xz"
-> > > +SOURCEDIR ?= "llvm-project-${PV}.src"
-> > > +SRC_URI[sha256sum] = "f0a4a240aabc9b056142d14d5478bb6d962aeac549cbd75b809f5499240a8b38"
-> > > +
-> > > +SRCREV_spirv = "6dd8f2a1681a27f16c53d932d2765920f312aeb2"
-> > > +SRCREV_spirvheaders = "09913f088a1197aba4aefd300a876b2ebbaa3391"
-> > > +SRCREV_FORMAT .= "spirv_spirvheaders"
-> > > +# pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
-> > > +SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
-> > > +SPIRVURI = " \
-> > > +    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;name=spirv;branch=${SPIRV_BRANCH};destsuffix=llvm-project-${PV}.src/llvm/projects/SPIRV-LLVM-Translator \
-> > > +    git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;destsuffix=llvm-project-${PV}.src/llvm/projects/SPIRV-LLVM-Translator/SPIRV-Headers;name=spirvheaders;branch=main \
+> > I enable OpenCL.
 > > 
-> > Please use SPIR-V headers from the spirv-headers recipe rather than
-> > injecting them here.
+> > ERROR: QA Issue: File /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/lib/libMesaOpenCL.so.1.0.0 in package nativesdk-libopencl-mesa contains reference to TMPDIR [buildpaths]
 > > 
+> > While building OpenCL-enabled Mesa:
+> > 
+> > /home/lumag/Projects/RPB/build-rpb/tmp-poky/work/cortexa57-poky-linux/mesa/25.0.2/recipe-sysroot/usr/include/llvm/ADT/DenseMapInfo.h:17:10: fatal error: 'cassert' file not found
+> > Unable to generate bindings: clang diagnosed error: /home/lumag/Projects/RPB/build-rpb/tmp-poky/work/cortexa57-poky-linux/mesa/25.0.2/recipe-sysroot/usr/include/llvm/ADT/DenseMapInfo.h:17:10: fatal error: 'cassert' file not found
+> >
 > 
-> I thought about it and decided against it, because those headers are more
-> aligned with spirv-tools and can be bumped independently, which could break
-> clang. Its a complex recipe and it is better to have less source level
-> dependencies coming from elsewhere.
-
-It's a standard conflict between vendoring an external tree vs depending
-on it. I'd say, it makes it harder to manage upgrades. With clang being
-a part of OE-Core, autobuilder will catch upgrade issues.
-
-Anyway, I think after these patches land, we should split
-spirv-llvm-translator back to a separate recipe (it is a separate tree
-anyway), then upgrading SPIRV headers won't have any effect on LLVM.
-
+> I do not see this error for qemux86-64 here ( maybe it happens for arm64
+> targets alone ? ) I enabled opencl related pakageconfigs for nativesdk-mesa
+> I added this line
 > 
-> > > +    file://spirv-internal-build.patch \
-> > > +    file://spirv-shared-library.patch \
-> > > +"
-> > > +
-> > > +SRC_URI = "\
-> > > +    ${BASEURI} \
-> > > +    ${SPIRVURI} \
-
-[...]
-
-> > > +
-> > > +RDEPENDS:${PN}-dev += "${PN}-staticdev"
-> > > +
-> > > +BBCLASSEXTEND = "native nativesdk"
-> > > +
-> > > +ALLOW_EMPTY:${PN} = "1"
-> > > +ALLOW_EMPTY:${PN}-dev = "1"
-> > 
-> > Why?
-> > 
+> PACKAGECONFIG:append:class-nativesdk = " libclc gallium-llvm amd svga"
 > 
-> compiler-rt is a static library + headers package, that ends in -staticdev
-> so PN is empty but PN-dev does have orc c_api.h file atleast for x86-64,
-> compiler-rt needs to get into SDKs and thats why it is added.
-> I have removed PN-dev in v2.
+> and nativesdk-mesa built just fine.
+> 
 
-Would be nice to have a short comment here.
+Most likely because it can use headers from the native sysroot. I was
+usually building three targets, qemuarm64, qemuarm and qemux86-64.
 
 -- 
 With best wishes
