@@ -1,169 +1,183 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B21C369C2
-	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 08:45:17 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.2477.1745570707080652394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22975C369C2
+	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 08:48:57 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.2427.1745570929207800470
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Apr 2025 01:45:07 -0700
+ Fri, 25 Apr 2025 01:48:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=onfKlY1W;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53P8TEkF030928
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:45:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=vKphH508k4Pvv3817E/Di/Wb
-	qlKV0hTnfE/SNNE36C4=; b=onfKlY1W2APZdE7j+J7odJMsPIdrLNtfjXPeykdL
-	qKc9TUeT7lIMS5J115B12h9a8VwzJXojGTZY1ksSlitR/Tw0J7XdL3NuqcaHbJ8I
-	NR9DaBmcCt7KbcRcsrrK4AipS0YrAbRv6oDTwdzJR3HtVTFCkTeHjlfAZfqSSxMO
-	1VCaQOQ4k0y6iCWf8jaYMCjXV9bCYA0sDO7MJTYhxFfm5cF7QMFOoQtn0hvXxg3+
-	kgyOkueyT0FS07UMgPzRbl9cM3UWQie/ksupF6bBpUbXjdR2ukECr67JHuGzNLBx
-	aVEZfoUI9xa6yWIF5e6f6cZDVVFjVsJd5PdfOe1phWdK1Q==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh5gc4c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:45:05 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5750ca8b2so306033985a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 01:45:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745570705; x=1746175505;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fhsL7SM1;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: max.oss.09@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso13220405e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 01:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745570927; x=1746175727; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vKphH508k4Pvv3817E/Di/WbqlKV0hTnfE/SNNE36C4=;
-        b=Ple2q8sf5KPeZqb5tk5+VwTrll669yzvxbtwcMgW5nHHq25FVldJtFlt08//ACiorJ
-         U5OMQeq7mJXjpVxhBDrw/1trsdL4Va1zpqd6YhQbBS98BSGxKq0yqLZ1DSfjbDbk24QG
-         BGQIZfM0+J/GwooBwVCMx3sgGbYMhOp/s9hRxucftWSgedLsC9Ky89i0ffaps+f5b190
-         SAlgodvL6RfgLTUlQf24xnf+uffev1lVLRE8C5RUMfdTOSU0Kkaa06RxqagliCGpOZax
-         qtpGtj59eVE9V8z4WmW6j5F+LkNp0bSPkHoE7dw7QZK2Qq+sIkdafs7/G5KGl4CjROG7
-         iG3Q==
-X-Gm-Message-State: AOJu0Yyx39WtWnxJeuShT4+7q7q30mtOJ9dxRkD6JRUC5ELF9S6kwVE2
-	Sfbtd4/4l7asZneCGQq9OKNObgfl496S3cLhw2sb7O67dw5IVrW1E+jw33hBYWK5gKtUbSNOOVx
-	XpC40RMRdDjY91n6wcIL7DUNYvdIdfrjuCXbP783mpQBUb7MLgKeBOxzPP1bKbXrdQu7griQffj
-	foMrA=
-X-Gm-Gg: ASbGnct3jb+29bWyXq577ewS+MkCCt/JR5tgZNXqCjxTgn2QeZrUUU91CUMe4XfVCcm
-	fKiLtGFSAT2+s+Gk99YuQifXr12XNkA3sGDGmOwczXzs5fKpeIaliRv88vR5eEwBSe2ncHSOM58
-	uWpn3PZ0EUpuG2tZbOh4XgD9xhJqAP22XkUDacqFAIjLKZcjvmcFnwegpgst/zGue3mA8HbLEVB
-	Ro4jpip9+F5vdw30cWXZHedNvjVmSMZZXGFYBL2/ucQp9R6YxcHyT1sodFwo8v8CAT0taUzbg4s
-	FjbxrpIITWkmJbVH+T0oj+XPrw7DGShlqv/iI4hxm7DUgmqNBW2mRIWQfpAk4lOCK4cMOKxCl4M
-	=
-X-Received: by 2002:a05:620a:4110:b0:7c8:39ea:5166 with SMTP id af79cd13be357-7c9607ac4damr238094185a.55.1745570705074;
-        Fri, 25 Apr 2025 01:45:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEo/fTCmXh0VcgRPEJWOvuNLNfWqmgIIahEDT1otn2CI/hrkOd7VZ6291AUnPNO2VEm27UMsw==
-X-Received: by 2002:a05:620a:4110:b0:7c8:39ea:5166 with SMTP id af79cd13be357-7c9607ac4damr238091985a.55.1745570704650;
-        Fri, 25 Apr 2025 01:45:04 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e7cb3a688sm510091e87.77.2025.04.25.01.45.03
+        bh=pYKqeLtsqaL4X/gvpWGaps42QgxIXJQegvDAls7OtMQ=;
+        b=fhsL7SM1iFDiE3egCs2jUEmLG/+ZNqYh7DmXW6TWCahDbm3coBgp2Pl4xZqDbNZkNQ
+         4Jh1o272mIwq5lNSqtJWBk08wQaarqtRwxuGYfga5GD6VLJb3uqpK5XNuMOnJrNMRt/O
+         hva4PEGoDrEZHbrfgqjZqUrccQqQfpS+sU16A3BiKjU3NJQhewsregxLT84RlALT8DRW
+         75XZAFjTdP+GqEAao0owyVML3HHPqpTBjf9N4+f6AO+dXPPzi+E7AthV5C5xGyZLqFyd
+         2jBxt/VZSdEDzcJtNFvwF1xf8zi0WJWiAZZGbO7q9HK5+/YmfZ7TlD3M4nX7C2Bv1ocj
+         Wblw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745570927; x=1746175727;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pYKqeLtsqaL4X/gvpWGaps42QgxIXJQegvDAls7OtMQ=;
+        b=DGTRPzgzZf4p6jNOm9+EikpFNCfv9fzkhG1X7Fd4Sjy2i1bjmXOunbHTirHLLHWUty
+         I8CTTnywMmMZlG0jJGtHUiHM8aHL0FdFPZ5rBTIuq0Pfx8VJNt8O8a5MUkZbcp4whvLG
+         544xDmTmnFjI1BDzzK4C7nyLwJwnTqQGepr5G13EkXcZ5LURGo8TOCxvb6/wDbhn8Nnv
+         fglWW1hAvVvZ4e7S6WnLs4aN2U/hMIVaweldp6qSGr3UELeBQFcSHpdpqrNRUT7uHVVR
+         Eb0Ld/KTwyNORqKvkaZm2xD6kuALt96Jp9fowifq0eCXYeyu4llKB5cFAqNTqnZcE0ul
+         OSxA==
+X-Forwarded-Encrypted: i=1; AJvYcCXtde4tkTiMj4Su0t9bVpI4xemY/TQILAP5yvlS9nTTNtE01nEEDHketkexhkKIYe9cq37rKufJEXn26MTkw5B2KA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwpdUQjVmYxfPTnAYRhRXtXqrp/ZxpLyqrB4NfcfKuYM1QbOH9J
+	hFTZLFrhfydsBJMzwkWXSNsIz3ztf3LU0WGyq2zVgD1NIxh1kQwM
+X-Gm-Gg: ASbGncsIeCAPBSIXj8jZjRJzCegY/gZAFUBJCvXQZz3xYbnHktdkkLbpEmWfsXlYZfH
+	JWayn1CfeobUtEr1IFkbCRgWeQTpVVUqLylS5LnNzyvWsQ7/bB3IPPWP1yPpTi46SYHbvPBXX/X
+	PVz9BEGKrRhwklLo9GfRbcPFvxyrsBFRbHnGZeV9oK5RcuZv8oBe6aQNtEcvo+hD+7+K1JgIvny
+	6O18G5ERPblKsnJwWOVS3KubIMrnaOjq0csvbSjUK5ATJoGZ9LDBfJu36hfV02i3T1qMmxFoZjL
+	CIiLG6ETGG0kjSdyNc8CJ/yMEe6hV0o59okF44O/7XEj3lmheBdDcbaJLeG99VbIYKlZHG2da3L
+	/3cvtQp2ri1BdxQ==
+X-Google-Smtp-Source: AGHT+IGo40mmQOlYN7H8e1WQdNyfq7CgKhaIeE/At4XV32mSF5cJzOwI8A7mZD4MVNMND/niW5m0/Q==
+X-Received: by 2002:a05:600c:c17:b0:43b:c6a7:ac60 with SMTP id 5b1f17b1804b1-440a6692a28mr11087085e9.10.1745570927262;
+        Fri, 25 Apr 2025 01:48:47 -0700 (PDT)
+Received: from [192.168.0.7] (159-226-191-194.pool.dsl-net.ch. [194.191.226.159])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4408d8d191bsm79240285e9.1.2025.04.25.01.48.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 01:45:03 -0700 (PDT)
-Date: Fri, 25 Apr 2025 11:45:02 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-        Liu Yiding <liuyd.fnst@fujitsu.com>
-Subject: Re: [PATCH 00/11] clang-merge: Bring clang recipes from meta-clang
-Message-ID: <u4rkfqrav7efoufqawci5yoncg24plo5xqpklxwjoxc23titkb@5r22roqrtknp>
-References: <20250424-clang-merge-v1-0-5a492a8461aa@gmail.com>
- <zvfx3kfrbicdbv424j4ustmrrjwjg7immyx4lp6ihrnwktgsks@rqy3zvo7xjai>
- <0724d355-d683-4b4f-abd4-68c31bbef674@gmail.com>
+        Fri, 25 Apr 2025 01:48:47 -0700 (PDT)
+Message-ID: <bde7ccac49b5417cda5c964055f72e28a3bc84be.camel@gmail.com>
+Subject: Re: [OE-core] kernel-module dependency mystery
+From: Max <max.oss.09@gmail.com>
+To: mike.looijmans@topic.nl, openembedded-core@lists.openembedded.org
+Date: Fri, 25 Apr 2025 10:48:46 +0200
+In-Reply-To: <5a9b30f0-c189-4841-9821-6dc26de4de84@topic.nl>
+References: <5a9b30f0-c189-4841-9821-6dc26de4de84@topic.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0724d355-d683-4b4f-abd4-68c31bbef674@gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDA2MyBTYWx0ZWRfXyQlBpkO8+PoJ chiuflorIALalWQXfK5+vScGjwYyat4VaOyXt9dC2qJ7sOTd+tNq5RisGx2CJaETx3VtA8C2dOD RAegO4++m0ch0RToKEEl62Xi2oBgH3QTdzm4lsTtgpCPKCipK7/oyOqO3Dj70j5XCKqte5HAAKN
- kNUTbPcBI1k64WIrsDZHqLCCT6lZLUosisVLyTa9z6YLelVU6JejorytBpbdcQLW2d4iZ6TpXqU KLC/WU3/ZvI/wE8IU62kVs963TpYTMGgZwTcVT7Bo4bTYSZf6YHssM84yisp05sIVa9aJguGNXi L+YduLXOXQGRkzama/9gLia2ax59k0tsHFWjT38Ed30/se/JwjjHgZKKMfem8kv0F8ot418WZFl
- LVAJbwfj3b9/2ZQ4D4vPtzbkIT2abGBIvTqDoGhf5B4nFKlWphQ+0hEu2iI+XYMaQCN2Vi3D
-X-Proofpoint-GUID: V7D8tB1wVFkl7ok6YNKoVnQnHtEoTFAz
-X-Authority-Analysis: v=2.4 cv=B/S50PtM c=1 sm=1 tr=0 ts=680b4b91 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=NEAV23lmAAAA:8 a=pGLkceISAAAA:8 a=C8M6v4uNgijL-PgBwI4A:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-ORIG-GUID: V7D8tB1wVFkl7ok6YNKoVnQnHtEoTFAz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-25_02,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- lowpriorityscore=0 bulkscore=0 impostorscore=0 suspectscore=0 mlxscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 spamscore=0 clxscore=1015
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504250063
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:45:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215445
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:48:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215446
 
-On Thu, Apr 24, 2025 at 05:44:03PM -0700, Khem Raj wrote:
-> On 4/24/25 3:04 AM, Dmitry Baryshkov wrote:
-> > On Thu, Apr 24, 2025 at 12:20:34AM -0700, Khem Raj wrote:
-> > > Latest mesa 25+ needs libclang during build for tools like mesa_clc,
-> > > we enahnced already existing llvm recipe to build pieces of clang as
-> > > well, which worked for mesa's needs but broke static clang compiler
-> > > provided by meta-clang due to newfound conflicts, since clang is now
-> > > built with llvm recipe from core and also by meta-clang and they
-> > > compete for same namespace, an attempt to make them co-habit did reveal
-> > > more difficulties. Clang compiler from meta-clang is not able to use
-> > > llvm libraries from core since they patch them differently.
-> > > 
-> > > This patch series therefore brings clang and all recipes that build from
-> > > llvm sources into core. With this changeset, clang recipes can be removed
-> > > from meta-clang there is a pull request for that already [1]
-> > > As an aside, we only build clang once and use it for meta-clang needs
-> > > and core needs.
-> > > 
-> > > With this, meta-clang can depend upon core layer to provide clang and
-> > > related recipes, meta-clang will still provide the toolchain policies
-> > > around clang based toolchains. Clang compiler from core, while usable
-> > > for mesa is not yet fully usable out of box, since we need to workout
-> > > the multi-toolchain architecture for core, which will be done in next
-> > > phase after this merge.
-> > > 
-> > > [1] https://github.com/kraj/meta-clang/pull/1088
-> > > 
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > 
-> > After fixing the RPROVIDES, this still fails the nativesdk-mesa build if
-> 
-> clang recipe does have this
-> 
-> PROVIDES:append:class-native = " llvm-native libclc-native
-> spirv-llvm-translator-native"
-> PROVIDES:append:class-target = " llvm libclc spirv-llvm-translator"
-> PROVIDES:append:class-nativesdk = " nativesdk-llvm nativesdk-libclc
-> nativesdk-spirv-llvm-translator"
-> 
-> 
-> I wonder why is RPROVIDE needed.
+Hi Mike
 
-I'll capture the errors for v2.
+Am Mittwoch, dem 23.04.2025 um 14:34 +0200 schrieb Mike Looijmans via lists=
+.openembedded.org:
+> I built the same image for 5 different machines. Only one of them fails=
+=20
+> with the logging below. Note that all machines install the=20
+> "kernel-module-dyplo" package, and on 4 machines that succeeds just fine.
+>=20
+>=20
+>  =C2=A0* Solver encountered 2 problem(s):
+>  =C2=A0* Problem 1/2:
+>  =C2=A0*=C2=A0=C2=A0 - conflicting requests
+>  =C2=A0*=C2=A0=C2=A0 - package=20
+> kernel-module-dyplo-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9 requires=20
+> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5, but none of the=20
+> providers can be installed
+>  =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db=
+5 needed by=20
+> kernel-module-dyplo-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb94f359=
+9b-r0.tdpzu9
+>  =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db=
+5 needed by=20
+> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb9=
+4f3599b-r0.tdpzu9
+>  =C2=A0*
+>  =C2=A0* Solution 1:
+>  =C2=A0*=C2=A0=C2=A0 - do not ask to install a package providing kernel-m=
+odule-dyplo
+>=20
+>  =C2=A0* Problem 2/2:
+>  =C2=A0*=C2=A0=C2=A0 - conflicting requests
+>  =C2=A0*=C2=A0=C2=A0 - package=20
 
-> 
-> > I enable OpenCL.
-> > 
-> > ERROR: QA Issue: File /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/lib/libMesaOpenCL.so.1.0.0 in package nativesdk-libopencl-mesa contains reference to TMPDIR [buildpaths]
-> > 
-> > While building OpenCL-enabled Mesa:
-> > 
-> > /home/lumag/Projects/RPB/build-rpb/tmp-poky/work/cortexa57-poky-linux/mesa/25.0.2/recipe-sysroot/usr/include/llvm/ADT/DenseMapInfo.h:17:10: fatal error: 'cassert' file not found
-> > Unable to generate bindings: clang diagnosed error: /home/lumag/Projects/RPB/build-rpb/tmp-poky/work/cortexa57-poky-linux/mesa/25.0.2/recipe-sysroot/usr/include/llvm/ADT/DenseMapInfo.h:17:10: fatal error: 'cassert' file not found
-> >
-> 
-> I do not see this error for qemux86-64 here ( maybe it happens for arm64
-> targets alone ? ) I enabled opencl related pakageconfigs for nativesdk-mesa
-> I added this line
-> 
-> PACKAGECONFIG:append:class-nativesdk = " libclc gallium-llvm amd svga"
-> 
-> and nativesdk-mesa built just fine.
-> 
+> kernel-module-dyplo-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9 requires=20
+> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5, but none of the=20
+> providers can be installed
+>  =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db=
+5 needed by=20
+> kernel-module-dyplo-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb94f359=
+9b-r0.tdpzu9
+>  =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db=
+5 needed by=20
+> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb9=
+4f3599b-r0.tdpzu9
+>  =C2=A0*
+>  =C2=A0* Solution 1:
+>  =C2=A0*=C2=A0=C2=A0 - do not ask to install a package providing kernel-m=
+odule-dyplo
+>=20
 
-Most likely because it can use headers from the native sysroot. I was
-usually building three targets, qemuarm64, qemuarm and qemux86-64.
+We had an issue with the exact same symptom and had a hard time
+to find a fix. It turned out that:
 
--- 
-With best wishes
-Dmitry
+- The kernel is built with a patch applied from SRC_URI
+AND
+- We had LOCALVERSION_AUTO=3Dy in the kernel config
+AND
+- The kernel is in sstate
+AND
+- The kernel sources no longer exist under tmp/work-shared
+AND
+- The external kernel module is not taken from sstate
+
+If patches are applied in a kernel recipe they are applied
+with 'git am' and a new hash value will be present with
+each run of do_patch.
+
+If LOCALVERSION_AUTO=3Dy is in the kernel config that new
+hash becomes part of the kernel and external kernel module
+packages.
+
+As the kernel is from an older do_patch and the module
+from a newer the hashes used in building differ and you
+get the above OE build error. Even if it wouldn't the
+different hashes become part of the VERMAGIC and the
+kernel would refuse to load the module.
+
+Our solution was to no longer build with LOCALVERSION_AUTO
+and since then we no longer see the issue.
+
+Regards
+Max
+
+> I'm on "scarthgap" branch.
+>=20
+> The "kernel-module-dyplo" recipe can be found here:
+>=20
+> https://github.com/topic-embedded-products/meta-dyplo/blob/master/recipes=
+-dyplo/dyplo-core/kernel-module-dyplo.bb
+>=20
+> The isue at first glance appears to be that=20
+> "kernel-6.6.40-xilinx-g6a2cb0f14db5" mixes the git version hash from the=
+=20
+> module itself and the git hash of the kernel. There's no such package,=
+=20
+> it should have been "kernel-6.6.40-xilinx-gd7b52381656b"
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#215287): https://lists.openembedded.org/g/openembedde=
+d-core/message/215287
+> Mute This Topic: https://lists.openembedded.org/mt/112412917/3617484
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+x.oss.09@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+
 
