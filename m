@@ -1,251 +1,385 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBF6DC369AB
-	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 00:44:06 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.1389.1745541846053594626
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B68EC369AB
+	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 01:25:47 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.1962.1745544342195612252
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 17:44:06 -0700
+ Thu, 24 Apr 2025 18:25:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=h4QD64Dm;
- spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-225477548e1so19070245ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 17:44:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745541845; x=1746146645; darn=lists.openembedded.org;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=+rDeOgWiHE3DoyaaOYS2VXvKmQlRiUlezd2srLY15EQ=;
-        b=h4QD64DmYANXX6o0QvPGkS83wVXbq6sIYkeqF/G2giJ0mJW5pcJM33UHO8DTef0gbj
-         N0X5LQ/sW1bObQIGKJBzAVs2SotomraGIub/ULAJxjo5Gu/9dBIPE3kHZYfIdiIphT9z
-         XiiJpY13huf9enUDQnOv+4t38/vqU9FkqL/iZaK/TrybTgtKawVeI8LKegikVe1+cEcB
-         s4zxrQA3677rcnu1Tl2DkR+rYxNcVokGwR1patvGT5SC7L4zw504tatoVNAB8/4VVCBt
-         SBpYbo4tySeex6pU5lLU8eeXEO3QLriZWBtV8vddCq+K5hxbZ4VDTLgR9GQkPxDm9EFa
-         +dlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745541845; x=1746146645;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+rDeOgWiHE3DoyaaOYS2VXvKmQlRiUlezd2srLY15EQ=;
-        b=dg9E/rxJv0gL/kHEtLIEpucoeBF7YWRWiAEfB04jjoODKtPR0ky3/r7uyuXhXGtlEP
-         EIid2BxmLYoa63lRwliYO1bCmEdjU/o5QF6au+vwDVuG4XfnBWet/4tAWZhS/V+A/PJW
-         2tWCh9PgMVYk0AEVxgzad0VomEwdKBRSM/6TfhzCrmDkD0J/5dAP5QM7E9edWSBnGwqx
-         GP57LgQSHwDxyOSlIyV651YV0CAJK0kBWRhYbiDlpO+6H4haRhkhmJ2aV2YbU5MFTxL8
-         obuSVf9QKyN8dhjL/29CBdWid3tM1MdYS4EQ6AfZ/A8tafCMbi2q4+H89bkPCJRx+Zeb
-         OvQg==
-X-Gm-Message-State: AOJu0YyFmRCX/H20/YRD04REVvZz9fGtt/xiMhKcnnEn213dRIQvmViN
-	9TFzZpab8AUkTDx+BBfhEGTaha1pSGpIOfvZJI2zNZRphgeKpEhJ9uDrVtdP
-X-Gm-Gg: ASbGnct53knD5D6qDTQ6hVt9YTUFKZ1ne0tCi9R/JMxPoSSaCBwnHLiQ7TfAPukOsEY
-	D8FA4MslyTll008J9r7CvDsChdei8IqS2zjdMVTSmiTv4zPs7/x0IHwUEyV8SlRBq47CZJejLpY
-	pxatAx03Cqta9eUqA2xLWXBB4KvaJBeAb7IKojg3swsnq8gl6kU89azSL1xBjQheraDYZnY4auG
-	pZBxUnsnYJ4Dv51tb1HnA3kpnYDQnJcz1MytlwHMADHvhmi8/2pkdKYoBZEwGSaM2wSnbodKqu8
-	zCeb/f8HIyk4wxGbNMT0CJhGaCP06Y9lJcojfyJl+U4CF6hyYXMrjX8OiBoC2SVTGmbi5G86vRo
-	yKUX2u4UmOLoPryDFg+A9WRwmsw47XBekd7C4Ty89Hw==
-X-Google-Smtp-Source: AGHT+IF55j0tpgX2dhpgI8KlENSFbarYQqP98YLsJ9X0IaxYiWk6FedlybQVZG4DXgzs3xkDzrzcLg==
-X-Received: by 2002:a17:902:d488:b0:21a:8300:b9d5 with SMTP id d9443c01a7336-22dbf5f8fc7mr5396685ad.23.1745541845278;
-        Thu, 24 Apr 2025 17:44:05 -0700 (PDT)
-Received: from ?IPV6:2601:646:8201:fd20:4cdc:d44e:eaf:ca3b? ([2601:646:8201:fd20:4cdc:d44e:eaf:ca3b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4d77395sm20143025ad.5.2025.04.24.17.44.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Apr 2025 17:44:04 -0700 (PDT)
-Message-ID: <0724d355-d683-4b4f-abd4-68c31bbef674@gmail.com>
-Date: Thu, 24 Apr 2025 17:44:03 -0700
-MIME-Version: 1.0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6210384862=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53P0ZlNV008843
+	for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 18:25:41 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 466jhd34w9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 18:25:41 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 53P1PeEj015002;
+	Thu, 24 Apr 2025 18:25:40 -0700
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2169.outbound.protection.outlook.com [104.47.55.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 466jhd34w8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 24 Apr 2025 18:25:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xooDlaimktxt8TjO5MhYSnDLRQcmeaumDays2M/aCdLdKzcjv8V3EOENOkePP5FF9jP14Ojy81y/G3iBeq3W9zc0Vvp0n09qcIjkOYfrfs8b/c5eD7hjaNdrz3a26Gfy7ExZyR4ghM3NUVp0ip4wNPWpA8Vlgoo8IoQmotrRWB+3SLfwm9dSxrAlqwA8rMOU+YLGa8efA/JWHvQd++CvES7aHPu4tOXg4V/mUVeTiZZ8K07NGntMIk918HoeoG+H9E7dzyMU1xf8r8VWlhQ76jR3xPa18/H0syrOwYgewNr9uj95HUO2jNc4DzMLPcY4AmOjRtxJbqZOw6fxTFr4Qw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dRL1WzzXpi3a4xOWizWVAcWwagYHxtPRDTEf+2IqyDc=;
+ b=kaXaHLoYethz4ETSXXM5wGdplsdQ85Ukm7FvB1If2FD4VvzgSnUD95fwHw05IxqSIWHGzHS5BDpb8O6K7a34feFoAWyYApHup2+siXwWUuzM2peR6dwKn8mO74GbEUKJJwvPQpYXDc/8Wv79rdnEJNMe9jZyOOx//LtEvYHZDCcn6QvrqcQPIN+hXfKlJyrfor+ydwvPxUWcfrr4EJTYXxaEVzpPy2OWegDOU65REdqwLQ0g6IItMMuVF/73FbRHZcheumnPoiyPbTpIu1pbct7gkY6txqVRidiZfU5YlOGnRSTZnwnFTR1tHH3DjqaWgtsNwNb/mWqZDTz+aXfSiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
+ by CYXPR11MB8691.namprd11.prod.outlook.com (2603:10b6:930:d5::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.36; Fri, 25 Apr
+ 2025 01:25:36 +0000
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::8436:b2d3:31a9:1c8c]) by DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::8436:b2d3:31a9:1c8c%3]) with mapi id 15.20.8678.025; Fri, 25 Apr 2025
+ 01:25:35 +0000
+Content-Type: multipart/alternative;
+ boundary="------------5gdHY7J0Kqvh0S0ThFLuXAcg"
+Message-ID: <947fa28b-20a1-4367-84b2-a2332381064a@windriver.com>
+Date: Fri, 25 Apr 2025 09:25:29 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] clang-merge: Bring clang recipes from meta-clang
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org,
- Liu Yiding <liuyd.fnst@fujitsu.com>
-References: <20250424-clang-merge-v1-0-5a492a8461aa@gmail.com>
- <zvfx3kfrbicdbv424j4ustmrrjwjg7immyx4lp6ihrnwktgsks@rqy3zvo7xjai>
+Subject: Re: [OE-core] [PATCH V3] icu: set ac_cv_path_install to install under
+ hosttools
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org
+References: <20250422130702.1337476-1-changqing.li@windriver.com>
+ <d76232c249fa6af70c2539d14e733825bc6f1dc8.camel@linuxfoundation.org>
 Content-Language: en-US
-From: Khem Raj <raj.khem@gmail.com>
-Autocrypt: addr=raj.khem@gmail.com; keydata=
- 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
-In-Reply-To: <zvfx3kfrbicdbv424j4ustmrrjwjg7immyx4lp6ihrnwktgsks@rqy3zvo7xjai>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------JH0dgnFeVVEf0z4XJNz0w25f"
+From: Changqing Li <changqing.li@windriver.com>
+In-Reply-To: <d76232c249fa6af70c2539d14e733825bc6f1dc8.camel@linuxfoundation.org>
+X-ClientProxiedBy: TYCPR01CA0076.jpnprd01.prod.outlook.com
+ (2603:1096:405:3::16) To DS0PR11MB7312.namprd11.prod.outlook.com
+ (2603:10b6:8:11f::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|CYXPR11MB8691:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b46f545-e611-46a4-ff22-08dd839813e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?bUY3YW1IQXpVL0ViRm1POG5zRXU2Z3VCd0ZXVnRRd2wwSEpEVHpKbFJrN1Zx?=
+ =?utf-8?B?MDBPWEFBTjlqajNlWG9PbG11Y0Zzb0RvaFkvZTdPQU1YN0NsMlRMWHQxTWxh?=
+ =?utf-8?B?d1llUmpQNTl0cm1ISmJmb1B4ckVKRkRYNDRZaEpWTlJ5QXBIS3NobWlpMFVY?=
+ =?utf-8?B?TUpyd0RFeHgyb0hXR01nbjN1NitTTHdYdFdOS3FMNGQ2NklHcWJLR0wrdkR6?=
+ =?utf-8?B?TlJ4amF2TXptVFc1YmptNS9DN2FGRU1zaVp0a05sVWtmYk50bk1QUUNaU3pK?=
+ =?utf-8?B?Mk9WNktNZkp3elJiOWdIU0NuaUd2aVBWWGNOOFc0SFpYNGZWV3UyaDViVmpx?=
+ =?utf-8?B?WU5nMExucE1EUU95RElRVXRCK2wzQUFKb3F4YUZqOEZpQkNoYUVRMVJTaml3?=
+ =?utf-8?B?eXZhS3lPZlR2ZFlCWGNQUmIwbU56VnpDOWplY1J2SHplaXJWOStjcmNEb3VQ?=
+ =?utf-8?B?emRiWjNTbGVyZWVOaVdrU2VxdlJUSEhvemVKWURTZ2pkanM1aTR1SkF6ZnBK?=
+ =?utf-8?B?Q2VQd3hXUWUrQ1BSM0pwYmhIY3VVRGxGbng2dmJabzFDWG43N3BwZ0w2YnV5?=
+ =?utf-8?B?bm4wSGpQV3lGbTN5aUIrVVRaQWFVNTY1aEp2bU5oOWYybDR3UjY5S0hpcjhi?=
+ =?utf-8?B?OGxFdXZNSjNJbEJVV2xYWGpjRXdHV0l4RlFPTndSSDdtallhWWNXVmpjNlNu?=
+ =?utf-8?B?RlZhNDQzUDlvblAyNmJhakd5ZDZLUXFrR2dybFlab1ZYbHF0a2tpbm9ZdHlQ?=
+ =?utf-8?B?a0wzRFc2TE04WVRpZ1k3NnNqeUhTVmxTa0lNcEZONHJKemhoM0kwWUZtcERx?=
+ =?utf-8?B?d1ZHYzlLTy85Z0FmUzVaVnJDa1QwaVlCOEY1SEZZb1FISWQ3UDRVelltSkpw?=
+ =?utf-8?B?Sjkzd1ZhREdXdXNKRU42T3poVTNtTkIrbWt2N1lqZHVVNnhhYnVoZDNEN0VH?=
+ =?utf-8?B?aUhzZzdnZG5POUwza2J3OFRnb0dYb3lud0drdDlmZlg0S0pyRzJHUDJmdmdi?=
+ =?utf-8?B?dFl3VWl2RlQxek9IQis5S1BEZ0RVTnl2UUtBc1dOWXdJUnJVeC9DbGJ5Sm81?=
+ =?utf-8?B?RXA1N096L3dhSUtsSHp0MkdVbjNRRmJrYnJCeFFYMy9yREoweTgvMUZYVFI2?=
+ =?utf-8?B?NDVDUXhiNGYrOTNyT0xYc05BWTIzK3pJR0V0bHlNMTVIWVNhdzJTYkhkblRm?=
+ =?utf-8?B?UTBVbkRoZHU1TjNFRGRFdGh1SXQ4UUswZkN5QU54cnNIdHlTdnVXZnFYL3F2?=
+ =?utf-8?B?ZWlXQWVFVjZvOVQ3NUovc3c3ZzZSdEZwRkVyKzVHR0JQS3ExQjRLMEc5a0Zo?=
+ =?utf-8?B?S3RmaXRES2FNRzU2aFNmZkFlOXBZZlNxeXlHckFVWURoOGRqR3lJZFc5T3ly?=
+ =?utf-8?B?dWU5WDZsTHZ5TG5NN3Z6UFJseUdQOUFBaDFlMXh3UnlHTmJ2T0l0RTBnUkpU?=
+ =?utf-8?B?bk00ZXRCQnJicTljZTlUbXBjZTZrMmxnY3ZPekczQjl5NFk4RDJ0d2c2T2c1?=
+ =?utf-8?B?VjNiWWtxRFNpTXJuWEVEWW1BZGJPbmh1UlUvTlFqV2ZObGJmYThSOWFHeVRl?=
+ =?utf-8?B?aEFhQjdCLzI2c0d3Z3ArbmhXNUtjU29Pd3k0RHpDdU8rUXBUcWZQaEI5aFEv?=
+ =?utf-8?B?NzhVbThtTHN2YVg1czkzZDdkZlR0OU1CT3dnMnI5OHIvTjRiYkdvaGdnS1ZZ?=
+ =?utf-8?B?TkhvSkVlRGFndFJOVElLZHQ1WWpBZTBPRkpjUUttem5xVVR4K3VlYk90UHhS?=
+ =?utf-8?B?QndsMG1HY3NyNExHOTYzMVpJZUpGeU5USVMyS1phMndjR0RtMWJQRS9uZHZS?=
+ =?utf-8?B?eDFtSzZlWEpSaVR0ZmxwODR6b1Q3R1JCVG1JYklCeGZRQWVGYngrQ25IQjQ4?=
+ =?utf-8?B?czRsRmVnanM4YnVQSHh3L2crQXpHUE5zSDZvRnBmeGZrNEdSWk9PMFZJM1N6?=
+ =?utf-8?Q?4YXnSsQxhME=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ZGdwZTZZYzdwUWx3Q0FXU1FEekRrQ0NuaFdXclBlN1gyUzVjZkppMkUxd0Jz?=
+ =?utf-8?B?NW50L1F5eEY0QjBxSWpmMEhwNTRwcWxtcG5YaktXU3JUUlFCa3NzL1djOS9X?=
+ =?utf-8?B?anp4QmdPM1BhOFcyQVdNR3A2MnVEb0phb3QxbmNlT295YmlTeHZHekthNUhP?=
+ =?utf-8?B?RXZmbElYRklUVVFOWWFtUis5SUtxSmdTSks1cFo3SFNnbzg1cGF2K1RrdFBU?=
+ =?utf-8?B?cDQwalE1QjFGV0pjMUxQZnNDakgvTm9JRzMxTFVodDZLZnh0S0tzckZjQWMv?=
+ =?utf-8?B?ZHlZVENTdEdUOHY5aWw1SkZFaGpoYVNnUFNsWHZycUNoc25MNk4rUXFPOXNB?=
+ =?utf-8?B?Z0hDaHpUZ3FHeXA2ak1scGF6MHZLTE1MT0ZXTkQyanJQcXRSQXVYQkZyT0d6?=
+ =?utf-8?B?eVhvck5aQnFoRElmTkZFZ2JxcTJweGJvOGNqYjhISzRuQzRwQ3Q0bmp6bURx?=
+ =?utf-8?B?NVZDaWZQVktQZkRTbTcxSC9paVhZR240TFMvc0VzZGNXMWZvM3JvQXoybmZa?=
+ =?utf-8?B?QmVtUHVFVjErZFd0TkZqQnVOUVFQdU1zK2taTzgrdHpMK0VTTHBpQmhiOUZL?=
+ =?utf-8?B?WlNiMHZpQ3gvL0k2VXl4bU84Wnlrb1dINjR3dGhIdHV3SzBKNHN2eC9ka0l0?=
+ =?utf-8?B?VEE4RnEwWGgvblg2czdLeEFGSUVvd3FFYk1DTXBYNFNJTC8rRG5vUXV3blh2?=
+ =?utf-8?B?a20zcXBodittVlFNaGZURXVEY2tWaDRxazNvQkRxN1hteTExL0hyZjlvaUh6?=
+ =?utf-8?B?N0RKK1VHUzE2Mk5zbHk4bDJ4OUhONHdOb0gvVndhQXZHV2FaTlNFdGQ4ek83?=
+ =?utf-8?B?S0phQTRCVTVUVFZGNzdUcmowenZjTkl6UDBvY3o2WVIycG5Nd1Y1OUZRcEZH?=
+ =?utf-8?B?ZktUMU4vb3RHNjg2UU1IQlNxZytnVEFmOFB5cWxhdXRIaEdIcldYUkJiT0dj?=
+ =?utf-8?B?enl4Z2RzQVAvREJuM3NjYXgwMzBzalZBcGdxYU9rWXpWVlllT3pYL0tCRXhs?=
+ =?utf-8?B?RnVQLy9GSzN0VE42dTBrT0xyUDF3NXdaaC9yREJWU1pYWGVIdjJTbkZQcUc5?=
+ =?utf-8?B?NDJuTjRpODJTWDRQSEYwUVlUNlNjMFVDaXFxVUJwWTZSNE9BMWRGUFRDdHlj?=
+ =?utf-8?B?aUNpWFhFUTQ2QVNrNmlTWXRSRVRHRkh6emZGR1ZHQ0s5TjFhTEQ5VGttaWhK?=
+ =?utf-8?B?bmR1akVscy90bm9CWjdtN1NraGhNUFp1UGMwSTFOc0Z4MnVxSjZxc1IrMHFm?=
+ =?utf-8?B?YU1iVWRQWkZyR1BMeDRsTjJvc3lucERaK1lqSGNMSDlCaDFWZVZyaUMwOUJO?=
+ =?utf-8?B?VGRBV0N6cWVMcDJLWkxoUVJvakFaa3RhdG1VNTJGUVp0V0I4VDNsT2xWa1ZQ?=
+ =?utf-8?B?VFcwMi9ydDNhSC9iOWIySFpCcy9OUFZXYjIxTDF6V0RvOUw3d0FUdEtrTDZu?=
+ =?utf-8?B?Znl1UHp6ejZLTWtFR3BMMzFWQklsZUROL244YWl3WDl0UzgrRGhUT2w5bEUw?=
+ =?utf-8?B?VGJTclZxNGJTTjRUZm1FZndnVmhXRmVIeXFIaXdiNmFYRXdXL3dSM2hUcloz?=
+ =?utf-8?B?NlBvSUdvLzltWlRMMzdyVzZmM20zOFVkZUpLTWRKVEIxcFRHUjVJbzlzSVhL?=
+ =?utf-8?B?MnlsQ0lTZzhBTWdxd2VOU2ZNSitLRXNkN0h2bjB3eFJtV09QbEJMMTQyWW1j?=
+ =?utf-8?B?VG5mSnhUb0xqSjkxZzdpVytEeW93SHczWXBuWTNRVEYxcklVbVJPeWd0S3l3?=
+ =?utf-8?B?b2paVEJHRHdLWjhLVUphZnZybEQ5Y0dmZUtuRjZlNTU0VVlBMnJsYUxLOE1W?=
+ =?utf-8?B?ZTRHMTlteDRuQjZwNFFlLy9SMEN2V1hQeUd6ZmVsdGZpSE5wZXpZR2ZmVkdh?=
+ =?utf-8?B?WGZETTN1aitCSFIvVTBnVlVNNnhsMTFJakoxWU5pWGJDZHZuZUEwTXp1ZFJu?=
+ =?utf-8?B?MjJyLy9ySmU1T2lhZS9jSkFPUjZKV2ZSbDhpbXBYY0NCczVsTmd6YmhoUzEy?=
+ =?utf-8?B?ZjFQbExoVmJjeW5DSWZ4LzFmaVpMWGZIcDhqbHVmQzlXNG9SRE9LbDlQcFFN?=
+ =?utf-8?B?Wk5ZRGkwTlZrNmtXQ0N0bzhKU29mR05FUmRxTm4xa2lUa2V3d3pPK0h2V0Ny?=
+ =?utf-8?B?RXpYamkrN0R0YzNaY3lmMG9ZV2V4MlE1bjV4SC91OTdNc0x3Vy8zZ1ArSDJl?=
+ =?utf-8?B?dVE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b46f545-e611-46a4-ff22-08dd839813e9
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2025 01:25:35.1561
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oLuiOssr5f55OHRkdOnFz7CNLMM8HdYnC893/kstcNn49qV2C4hQYlOq/DWHrikMk0wbrS+Ow5uQYbOT1iSo9ytw1z0rDDyxTsuRI4Ij0sk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8691
+X-Authority-Analysis: v=2.4 cv=ZNDXmW7b c=1 sm=1 tr=0 ts=680ae495 cx=c_pps a=LxkDbUgDkQmSfly3BTNqMw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=u6u72HfGYxEgEmeRtP4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=ag1SF4gXAAAA:8 a=LVVdaqqDU9W9cF4QaU8A:9 a=jd1QHv64HvZwuPk1:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-ORIG-GUID: g52Le-SN1RGNoELzp439XrZczY_bmn0k
+X-Proofpoint-GUID: NTC0y3y3p7ktzFhyktO2uF1jeS6nrKG2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDAwOCBTYWx0ZWRfXy8cnUk9/iHjn gUCw+Vl8HxdRwnceixRpTZ5aNDw7NZu1fXw92PQeeYiry8wfKZ/+UFg7srSjvG22XBRFk1u62ZJ 8+vHi2WTgNny/SfW2H1gw+1EqvQVRvW8V1ekByW6oI0kGvd2jyXEvjSFteG8buGiWtytMvi0uPB
+ K8iqbD6BZ6XbrBB9a5cewCBZN/EpaOkA/NS2pElivLgYeiXq5jGEtf9NqyjqzOTj/shzNECVsoJ ZrxvL/+NS5PdwbL5m8t2ZhBhWO7CmjzWbIhkHogDZAokFrsTsqTgE0Rohwo3jkSaNjbd0qORiA+ 6fFB46eR3VikgF2kEza/QAojwBARbcpGzlmWxMrT93ZIxn7oz2O/vtWzdrJ72ljkfd+tOuR1X2p
+ xzPaxsAvM7QklNn5a5YP4xPK/wgW3Z9t47EI5MaHQu+OiaonjH04kxZSNjfbl7s7NlQx2D6I
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-24_09,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ priorityscore=1501 clxscore=1015 adultscore=0 spamscore=0 bulkscore=0
+ impostorscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
+ phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
+ definitions=main-2504250008
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 00:44:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215411
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 01:25:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215412
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------JH0dgnFeVVEf0z4XJNz0w25f
-Content-Type: multipart/mixed; boundary="------------QTbIlZafTFPnIOA3VgA4iR71";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org,
- Liu Yiding <liuyd.fnst@fujitsu.com>
-Message-ID: <0724d355-d683-4b4f-abd4-68c31bbef674@gmail.com>
-Subject: Re: [PATCH 00/11] clang-merge: Bring clang recipes from meta-clang
-References: <20250424-clang-merge-v1-0-5a492a8461aa@gmail.com>
- <zvfx3kfrbicdbv424j4ustmrrjwjg7immyx4lp6ihrnwktgsks@rqy3zvo7xjai>
-In-Reply-To: <zvfx3kfrbicdbv424j4ustmrrjwjg7immyx4lp6ihrnwktgsks@rqy3zvo7xjai>
-
---------------QTbIlZafTFPnIOA3VgA4iR71
-Content-Type: multipart/mixed; boundary="------------uS7bmWWoM6CiDEMrnzbYuEv5"
-
---------------uS7bmWWoM6CiDEMrnzbYuEv5
+--------------5gdHY7J0Kqvh0S0ThFLuXAcg
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-T24gNC8yNC8yNSAzOjA0IEFNLCBEbWl0cnkgQmFyeXNoa292IHdyb3RlOg0KPiBPbiBUaHUs
-IEFwciAyNCwgMjAyNSBhdCAxMjoyMDozNEFNIC0wNzAwLCBLaGVtIFJhaiB3cm90ZToNCj4+
-IExhdGVzdCBtZXNhIDI1KyBuZWVkcyBsaWJjbGFuZyBkdXJpbmcgYnVpbGQgZm9yIHRvb2xz
-IGxpa2UgbWVzYV9jbGMsDQo+PiB3ZSBlbmFobmNlZCBhbHJlYWR5IGV4aXN0aW5nIGxsdm0g
-cmVjaXBlIHRvIGJ1aWxkIHBpZWNlcyBvZiBjbGFuZyBhcw0KPj4gd2VsbCwgd2hpY2ggd29y
-a2VkIGZvciBtZXNhJ3MgbmVlZHMgYnV0IGJyb2tlIHN0YXRpYyBjbGFuZyBjb21waWxlcg0K
-Pj4gcHJvdmlkZWQgYnkgbWV0YS1jbGFuZyBkdWUgdG8gbmV3Zm91bmQgY29uZmxpY3RzLCBz
-aW5jZSBjbGFuZyBpcyBub3cNCj4+IGJ1aWx0IHdpdGggbGx2bSByZWNpcGUgZnJvbSBjb3Jl
-IGFuZCBhbHNvIGJ5IG1ldGEtY2xhbmcgYW5kIHRoZXkNCj4+IGNvbXBldGUgZm9yIHNhbWUg
-bmFtZXNwYWNlLCBhbiBhdHRlbXB0IHRvIG1ha2UgdGhlbSBjby1oYWJpdCBkaWQgcmV2ZWFs
-DQo+PiBtb3JlIGRpZmZpY3VsdGllcy4gQ2xhbmcgY29tcGlsZXIgZnJvbSBtZXRhLWNsYW5n
-IGlzIG5vdCBhYmxlIHRvIHVzZQ0KPj4gbGx2bSBsaWJyYXJpZXMgZnJvbSBjb3JlIHNpbmNl
-IHRoZXkgcGF0Y2ggdGhlbSBkaWZmZXJlbnRseS4NCj4+DQo+PiBUaGlzIHBhdGNoIHNlcmll
-cyB0aGVyZWZvcmUgYnJpbmdzIGNsYW5nIGFuZCBhbGwgcmVjaXBlcyB0aGF0IGJ1aWxkIGZy
-b20NCj4+IGxsdm0gc291cmNlcyBpbnRvIGNvcmUuIFdpdGggdGhpcyBjaGFuZ2VzZXQsIGNs
-YW5nIHJlY2lwZXMgY2FuIGJlIHJlbW92ZWQNCj4+IGZyb20gbWV0YS1jbGFuZyB0aGVyZSBp
-cyBhIHB1bGwgcmVxdWVzdCBmb3IgdGhhdCBhbHJlYWR5IFsxXQ0KPj4gQXMgYW4gYXNpZGUs
-IHdlIG9ubHkgYnVpbGQgY2xhbmcgb25jZSBhbmQgdXNlIGl0IGZvciBtZXRhLWNsYW5nIG5l
-ZWRzDQo+PiBhbmQgY29yZSBuZWVkcy4NCj4+DQo+PiBXaXRoIHRoaXMsIG1ldGEtY2xhbmcg
-Y2FuIGRlcGVuZCB1cG9uIGNvcmUgbGF5ZXIgdG8gcHJvdmlkZSBjbGFuZyBhbmQNCj4+IHJl
-bGF0ZWQgcmVjaXBlcywgbWV0YS1jbGFuZyB3aWxsIHN0aWxsIHByb3ZpZGUgdGhlIHRvb2xj
-aGFpbiBwb2xpY2llcw0KPj4gYXJvdW5kIGNsYW5nIGJhc2VkIHRvb2xjaGFpbnMuIENsYW5n
-IGNvbXBpbGVyIGZyb20gY29yZSwgd2hpbGUgdXNhYmxlDQo+PiBmb3IgbWVzYSBpcyBub3Qg
-eWV0IGZ1bGx5IHVzYWJsZSBvdXQgb2YgYm94LCBzaW5jZSB3ZSBuZWVkIHRvIHdvcmtvdXQN
-Cj4+IHRoZSBtdWx0aS10b29sY2hhaW4gYXJjaGl0ZWN0dXJlIGZvciBjb3JlLCB3aGljaCB3
-aWxsIGJlIGRvbmUgaW4gbmV4dA0KPj4gcGhhc2UgYWZ0ZXIgdGhpcyBtZXJnZS4NCj4+DQo+
-PiBbMV0gaHR0cHM6Ly9naXRodWIuY29tL2tyYWovbWV0YS1jbGFuZy9wdWxsLzEwODgNCj4+
-DQo+PiBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPg0KPiAN
-Cj4gQWZ0ZXIgZml4aW5nIHRoZSBSUFJPVklERVMsIHRoaXMgc3RpbGwgZmFpbHMgdGhlIG5h
-dGl2ZXNkay1tZXNhIGJ1aWxkIGlmDQoNCmNsYW5nIHJlY2lwZSBkb2VzIGhhdmUgdGhpcw0K
-DQpQUk9WSURFUzphcHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBsbHZtLW5hdGl2ZSBsaWJjbGMt
-bmF0aXZlIA0Kc3BpcnYtbGx2bS10cmFuc2xhdG9yLW5hdGl2ZSINClBST1ZJREVTOmFwcGVu
-ZDpjbGFzcy10YXJnZXQgPSAiIGxsdm0gbGliY2xjIHNwaXJ2LWxsdm0tdHJhbnNsYXRvciIN
-ClBST1ZJREVTOmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAiIG5hdGl2ZXNkay1sbHZtIG5h
-dGl2ZXNkay1saWJjbGMgDQpuYXRpdmVzZGstc3BpcnYtbGx2bS10cmFuc2xhdG9yIg0KDQoN
-Ckkgd29uZGVyIHdoeSBpcyBSUFJPVklERSBuZWVkZWQuDQoNCj4gSSBlbmFibGUgT3BlbkNM
-Lg0KPiANCj4gRVJST1I6IFFBIElzc3VlOiBGaWxlIC91c3IvbG9jYWwvb2Utc2RrLWhhcmRj
-b2RlZC1idWlsZHBhdGgvc3lzcm9vdHMveDg2XzY0LXBva3lzZGstbGludXgvdXNyL2xpYi9s
-aWJNZXNhT3BlbkNMLnNvLjEuMC4wIGluIHBhY2thZ2UgbmF0aXZlc2RrLWxpYm9wZW5jbC1t
-ZXNhIGNvbnRhaW5zIHJlZmVyZW5jZSB0byBUTVBESVIgW2J1aWxkcGF0aHNdDQo+IA0KPiBX
-aGlsZSBidWlsZGluZyBPcGVuQ0wtZW5hYmxlZCBNZXNhOg0KPiANCj4gL2hvbWUvbHVtYWcv
-UHJvamVjdHMvUlBCL2J1aWxkLXJwYi90bXAtcG9reS93b3JrL2NvcnRleGE1Ny1wb2t5LWxp
-bnV4L21lc2EvMjUuMC4yL3JlY2lwZS1zeXNyb290L3Vzci9pbmNsdWRlL2xsdm0vQURUL0Rl
-bnNlTWFwSW5mby5oOjE3OjEwOiBmYXRhbCBlcnJvcjogJ2Nhc3NlcnQnIGZpbGUgbm90IGZv
-dW5kDQo+IFVuYWJsZSB0byBnZW5lcmF0ZSBiaW5kaW5nczogY2xhbmcgZGlhZ25vc2VkIGVy
-cm9yOiAvaG9tZS9sdW1hZy9Qcm9qZWN0cy9SUEIvYnVpbGQtcnBiL3RtcC1wb2t5L3dvcmsv
-Y29ydGV4YTU3LXBva3ktbGludXgvbWVzYS8yNS4wLjIvcmVjaXBlLXN5c3Jvb3QvdXNyL2lu
-Y2x1ZGUvbGx2bS9BRFQvRGVuc2VNYXBJbmZvLmg6MTc6MTA6IGZhdGFsIGVycm9yOiAnY2Fz
-c2VydCcgZmlsZSBub3QgZm91bmQNCiA+DQoNCkkgZG8gbm90IHNlZSB0aGlzIGVycm9yIGZv
-ciBxZW11eDg2LTY0IGhlcmUgKCBtYXliZSBpdCBoYXBwZW5zIGZvciBhcm02NCANCnRhcmdl
-dHMgYWxvbmUgPyApIEkgZW5hYmxlZCBvcGVuY2wgcmVsYXRlZCBwYWthZ2Vjb25maWdzIGZv
-ciANCm5hdGl2ZXNkay1tZXNhIEkgYWRkZWQgdGhpcyBsaW5lDQoNClBBQ0tBR0VDT05GSUc6
-YXBwZW5kOmNsYXNzLW5hdGl2ZXNkayA9ICIgbGliY2xjIGdhbGxpdW0tbGx2bSBhbWQgc3Zn
-YSINCg0KYW5kIG5hdGl2ZXNkay1tZXNhIGJ1aWx0IGp1c3QgZmluZS4NCg0K
---------------uS7bmWWoM6CiDEMrnzbYuEv5
-Content-Type: application/pgp-keys; name="OpenPGP_0xBB053355919D3314.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xBB053355919D3314.asc"
-Content-Description: OpenPGP public key
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 53P0ZlNV008843
 
------BEGIN PGP PUBLIC KEY BLOCK-----
 
-xsDiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnm
-DLpLSdfvZw2ZDXeaQbGU2thctxXTyYf6N1fY6P5Tww6mWKInuGU3yAv8Mg5p+Xd8
-itwOoVR41DOBkftVmiO2G7FtXsnqonB6F43a2yvc+h9OwPRVxAFss5mSmwCglSXP
-WndN1Ka4M/hzt7g+FmeyEssD/1V/G8lLeAS9gQCNjS7jch+uHMFJuWgHzMXdw99e
-1ywlIkvXN77NPkW+FLVxKxNAHyWZZ3wO4BQ9/GVR2y0s/rrF1lQSIcfnUmzZrh/B
-h0b1wVOSLhl0Vx4MI0/MbdL3xx17JAWy+s67evuKER4Y8ycTq3gbIGJtVrIJjWPC
-zWF8BACAA2u52uDmJ2pS8SIhEW0jMK/zYQ5Od9l9fM6BmS6QjnIlzzcuMvRdZn2I
-rnuE/YoC8yyzBK3mN+MVc2jWN9rfSg6ml7r14Zjem9Ee0O5Ca7Jg3ZvN6g3vSlrR
-JqKgsnq3vdatDF+5rd0NJ7ZKUy6x2i1Pavgtv3qaAgPGa1qQdM0dS2hlbSBSYWog
-PHJhai5raGVtQGdtYWlsLmNvbT7CYAQTEQIAIAUCSpdokQIbAwYLCQgHAwIEFQII
-AwQWAgMBAh4BAheAAAoJELsFM1WRnTMUhOMAoJJleT2hdT7uw9Fyn26+w+/K4i0g
-AJ9wRt36PqfjNe904evWolFf5cMmp8JgBBMRCgAgAhsDBgsJCAcDAgQVAggDBBYC
-AwECHgECF4AFAlMELRoACgkQuwUzVZGdMxS6XgCfbzYVo3uhhczYDwnNC3VlZ5RO
-UlkAnR46C6nYSrHHqBkU5ATsSRGY5vqIzsNNBEqXaJEQEACONtVDnlECi4B7SXSc
-+wqRZ20y5QfAF0sGSkXesYz9/S4OU9pDNgYuMpPvEOjJGHzHa0XBa85+KqtkUCvF
-fx7h+wAKYl0vSRqFNvEL/xKZJZUdeLXQlRfZ+Znm5/OVcCeXSK9eRaetR8tf0N03
-AvoNHgN4Ur2oEWq0eYrlNBcy7zsb4wnCA0kjAIpBfiIj1gkgsy6oidXBrGDn8At0
-p8TdA+a1p2cpv9y5SbiAgJ1ol7JB8jqp1gtxK7IFYJsAQwzXCaFECHDlGDMxFEiq
-5mXE+3uVmRdeNqWzszqO6HztUZGggnBihCL3tDVkfM8GjcCUw97eFo2KGR3oPeXC
-90HimaNgbgjpscKC0SESyzeEe+wFqpX2NXV0xRKz3lnFC1P2q2Q7HJ0eA6XBFfcI
-b6vnzgn+zi9ab6I9C0u8NjW7hQXA4uMI4V7vT0Fwsl09HYZCI4+jJkXuVVjye792
-1OsAS6JkWTgcPtp9SVyv8grA9YgPVX2REugOXN1s26hTL9d9USsrzByiIajB6sQx
-53hqM2grELEHB4iSPGooy3wIqCnfSf1TGWOCURyB/79S6bBIfGplwI9VtZe12HL+
-HAyTbuyE51S9qLKd6nw6xUaoDNKx4vipkgnlfMJzJXgokKbCZ1DO3n5nKVxWZ6rp
-Hihv53wkgNTQQup3DHAgOJOPRwADBQ/+Kc3f+vwgUOaziDnFp8+sLDfWjaMhhqGQ
-h83RZU9Yjkr+EUKjY9zM9K3MNxOxnHuY3arCkY57cvP3/SStl6SyvPVkgc2LktNq
-y7NfIUls7Tlj56IeBXWtXtVUSKk6ulXXj3rDXXZj/RJn8WE58SYQDVN4N6PLaxmJ
-M5RbiDLN7BscykTTt3bsXaozY18wyEpAJy/Ov43RUmYA54BMSK/E9Qef4Olf82eI
-FY5xa/77AeXG/RevreCxEpK3rZ4UoaOAXnSEcPmUzfXOKrJxzjaxuByoBn6tgWVv
-2TTclwrKrVd1VRKb7FwLYMxKy1MjqKoUwajoWcQ76DITlV1x5qNu5nUY6YlclQLJ
-gh0a68LIigqNMT2VwhhIQQNlB6PnF2IaT15TPQw+ZkRTBJH+cuabCMcMmLSmtW+z
-3Gp7lu9Ld108Cp6m9nlSuKyC1YP5MMjyS2S3lUuHdewb0W5dRUBpqE68UwaJm2yK
-gNdOisvgB8x64D1/7IvCsJVA7fGYf9YDROB//mBgHe30qgc+MsE2u5U65BsCO5uL
-Sm9EA5Rwx0F+Y+h+Swri5ZLXMa09ZLtS7Vyy6rsedvu+zOUVh1vN6qNjzUtLLEDS
-RymAnF0u/2jtS4ISccNks9sd1Dzc+bLIEpIjfUAp7tFeVA2UHmCvAf2jq4209tXu
-r+5GqYqrkSLCSQQYEQIACQUCSpdokQIbDAAKCRC7BTNVkZ0zFHVUAJ9IDpNFYVZL
-U2T1aHmEmAcFBe5D5wCbBVUufOp45pebD9wGNMgoKf5XVr/CSQQYEQIACQUCSpdo
-kQIbDAAKCRC7BTNVkZ0zFHVUAJwKR1o7etvz+BGmuV2YAfp5Hj16jgCeMPeHdpPC
-//VuX4EDPW3CZmbPy6U=3D
-=3D+jUt
------END PGP PUBLIC KEY BLOCK-----
+On 4/24/25 18:33, Richard Purdie wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> On Tue, 2025-04-22 at 21:07 +0800, Changqing Li via lists.openembedded.=
+org wrote:
+>> From: Changqing Li<changqing.li@windriver.com>
+>>
+>> icu will check program install path during do_configure, eg:
+>> checking for a BSD-compatible install... /path/to/install -c
+>>
+>> And this path will be writen into pkgdata.inc:
+>> INSTALL_CMD=3D$(INSTALL-L)
+>>
+>> Decided by if install is installed into recipe-sysroot-native during
+>> do_configure stage, the INSTALL_CMD could be
+>> /build/tmp/work/corei7-64-wrs-linux/icu/76-1/recipe-sysroot-native/usr=
+/bin/install
+>> or /build/tmp/hosttools/install.
+>>
+>> set ac_cv_path_install to install under hosttools to make a determined
+>> result of INSTALL_CMD, avoid vary caused by the execute sequence of
+>> another task which DEPENDS on coreutils-native and independent with
+>> do_configure
+>>
+>> Signed-off-by: Changqing Li<changqing.li@windriver.com>
+>> ---
+>>   meta/recipes-support/icu/icu_76-1.bb | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-support/icu/icu_76-1.bb b/meta/recipes-suppo=
+rt/icu/icu_76-1.bb
+>> index f0890fc890..a33f48cf8e 100644
+>> --- a/meta/recipes-support/icu/icu_76-1.bb
+>> +++ b/meta/recipes-support/icu/icu_76-1.bb
+>> @@ -20,9 +20,9 @@ inherit autotools pkgconfig github-releases
+>>   # ICU needs the native build directory as an argument to its --with-=
+cross-build option when
+>>   # cross-compiling. Taken the situation that different builds may sha=
+re a common sstate-cache
+>>   # into consideration, the native build directory needs to be staged.
+>> -EXTRA_OECONF =3D "--with-cross-build=3D${STAGING_ICU_DIR_NATIVE} --di=
+sable-icu-config"
+>> -EXTRA_OECONF:class-native =3D "--disable-icu-config"
+>> -EXTRA_OECONF:class-nativesdk =3D "--with-cross-build=3D${STAGING_ICU_=
+DIR_NATIVE} --disable-icu-config"
+>> +EXTRA_OECONF =3D "--with-cross-build=3D${STAGING_ICU_DIR_NATIVE} --di=
+sable-icu-config ac_cv_path_install=3D'${HOSTTOOLS_DIR}/install -c'"
+>> +EXTRA_OECONF:class-native =3D "--disable-icu-config ac_cv_path_instal=
+l=3D'${HOSTTOOLS_DIR}/install -c'"
+>> +EXTRA_OECONF:class-nativesdk =3D "--with-cross-build=3D${STAGING_ICU_=
+DIR_NATIVE} --disable-icu-config ac_cv_path_install=3D'${HOSTTOOLS_DIR}/i=
+nstall -c'"
+>>
+>>   EXTRA_OECONF:append:class-target =3D"${@oe.utils.conditional('SITEIN=
+FO_ENDIANNESS', 'be', '=20
+>> --with-data-packaging=3Darchive', '', d)}"
+>>   TARGET_CXXFLAGS:append =3D"${@oe.utils.conditional('SITEINFO_ENDIANN=
+ESS', 'be', '=20
+>> -DICU_DATA_DIR=3D\\""${datadir}/${BPN}/${@icu_install_folder(d)}\\""',=
+ '', d)}"
+> Does this work if you just use:
+>
+> ac_cv_path_install=3D'install -c'
+>
+> ?
 
---------------uS7bmWWoM6CiDEMrnzbYuEv5--
+It works well,=C2=A0 bitbake icu can build successfully.=C2=A0 And it can=
+ also fix=20
+the original do_package_qa issue:
 
---------------QTbIlZafTFPnIOA3VgA4iR71--
+in function remove_build_host_references, only hosttool path is=20
+removed('s:${HOSTTOOLS_DIR}/::g'),
 
---------------JH0dgnFeVVEf0z4XJNz0w25f
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+so when install under STAGING_BINDIR_NATIVE is used,=C2=A0 qa error happe=
+ned.
 
------BEGIN PGP SIGNATURE-----
 
-wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCaAra0wUDAAAAAAAKCRC7BTNVkZ0zFHf8
-AJ46MGABmlw9Tkk3Sn/T+gaOKg4EUACggrJ6KmGnqQNE3MtCZTdw1h25gio=
-=txdH
------END PGP SIGNATURE-----
+But if use ac_cv_path_install=3D'install -c', the actually used install=20
+maybe under STAGING_BINDIR_NATIVE or HOSTTOOLS_DIR,
 
---------------JH0dgnFeVVEf0z4XJNz0w25f--
+decide if install is under STAGING_BINDIR_NATIVE when do_install is runne=
+d.
+
+
+So I use '${HOSTTOOLS_DIR}/install -c' to make install under hosttools=20
+is always used.
+
+Regards
+
+Changqing
+
+>
+> Cheers,
+>
+> Richard
+--------------5gdHY7J0Kqvh0S0ThFLuXAcg
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#cceed0">
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 4/24/25 18:33, Richard Purdie wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:d76232c249fa6af70c2539d14e733825bc6f1dc8.camel@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+On Tue, 2025-04-22 at 21:07 +0800, Changqing Li via lists.openembedded.org wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
+
+icu will check program install path during do_configure, eg:
+checking for a BSD-compatible install... /path/to/install -c
+
+And this path will be writen into pkgdata.inc:
+INSTALL_CMD=$(INSTALL-L)
+
+Decided by if install is installed into recipe-sysroot-native during
+do_configure stage, the INSTALL_CMD could be
+/build/tmp/work/corei7-64-wrs-linux/icu/76-1/recipe-sysroot-native/usr/bin/install
+or /build/tmp/hosttools/install.
+
+set ac_cv_path_install to install under hosttools to make a determined
+result of INSTALL_CMD, avoid vary caused by the execute sequence of
+another task which DEPENDS on coreutils-native and independent with
+do_configure
+
+Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
+---
+ meta/recipes-support/icu/icu_76-1.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-support/icu/icu_76-1.bb b/meta/recipes-support/icu/icu_76-1.bb
+index f0890fc890..a33f48cf8e 100644
+--- a/meta/recipes-support/icu/icu_76-1.bb
++++ b/meta/recipes-support/icu/icu_76-1.bb
+@@ -20,9 +20,9 @@ inherit autotools pkgconfig github-releases
+ # ICU needs the native build directory as an argument to its --with-cross-build option when
+ # cross-compiling. Taken the situation that different builds may share a common sstate-cache
+ # into consideration, the native build directory needs to be staged.
+-EXTRA_OECONF = &quot;--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config&quot;
+-EXTRA_OECONF:class-native = &quot;--disable-icu-config&quot;
+-EXTRA_OECONF:class-nativesdk = &quot;--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config&quot;
++EXTRA_OECONF = &quot;--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config ac_cv_path_install='${HOSTTOOLS_DIR}/install -c'&quot;
++EXTRA_OECONF:class-native = &quot;--disable-icu-config ac_cv_path_install='${HOSTTOOLS_DIR}/install -c'&quot;
++EXTRA_OECONF:class-nativesdk = &quot;--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config ac_cv_path_install='${HOSTTOOLS_DIR}/install -c'&quot;
+
+ EXTRA_OECONF:append:class-target = <a class="moz-txt-link-rfc2396E" href="mailto:${@oe.utils.conditional('SITEINFO_ENDIANNESS','be','--with-data-packaging=archive','',d)}">&quot;${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}&quot;</a>
+ TARGET_CXXFLAGS:append = <a class="moz-txt-link-rfc2396E" href="mailto:${@oe.utils.conditional('SITEINFO_ENDIANNESS','be','-DICU_DATA_DIR=\\">&quot;${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\&quot;</a>&quot;${datadir}/${BPN}/${@icu_install_folder(d)}\\&quot;&quot;', '', d)}&quot;
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Does this work if you just use:
+
+ac_cv_path_install='install -c'
+
+?</pre>
+    </blockquote>
+    <p>It works well,&nbsp; bitbake icu can build successfully.&nbsp; And it can
+      also fix the original do_package_qa issue:<br>
+    </p>
+    <p>in function remove_build_host_references, only hosttool path is
+      removed('s:${HOSTTOOLS_DIR}/::g'),</p>
+    <p>so when install under STAGING_BINDIR_NATIVE is used,&nbsp; qa error
+      happened.</p>
+    <p><br>
+    </p>
+    <p>But if use <span style="white-space: pre-wrap">ac_cv_path_install='install -c',  the actually used install maybe under </span>STAGING_BINDIR_NATIVE
+      or HOSTTOOLS_DIR,</p>
+    <p>decide if install is under <span style="white-space: pre-wrap"></span>STAGING_BINDIR_NATIVE
+      when do_install is runned.&nbsp; <br>
+    </p>
+    <p><br>
+    </p>
+    <p>So I use <span style="white-space: pre-wrap">'${HOSTTOOLS_DIR}/install -c' to make install under hosttools is always used.</span></p>
+    <p><span style="white-space: pre-wrap">
+</span></p>
+    <p><span style="white-space: pre-wrap">Regards</span></p>
+    <p><span style="white-space: pre-wrap">Changqing
+</span></p>
+    <blockquote type="cite" cite="mid:d76232c249fa6af70c2539d14e733825bc6f1dc8.camel@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">
+
+Cheers,
+
+Richard
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------5gdHY7J0Kqvh0S0ThFLuXAcg--
 
