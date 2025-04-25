@@ -2,62 +2,63 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A348C369D7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4981BC369DE
 	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 05:43:36 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.1107.1745559812141047983
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.1030.1745559814773588964
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 22:43:32 -0700
+ Thu, 24 Apr 2025 22:43:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cZASF880;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7370a2d1981so1509710b3a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 22:43:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fkac0rvK;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-73bb647eb23so1572263b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 22:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745559811; x=1746164611; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1745559814; x=1746164614; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DH9ycSrD7ytatXY+2Q+NTv2xbhftYfwAh/p9+7Qjx04=;
-        b=cZASF880QZqLn3ctChpWmVzBSb+J0k7fxLb1Q6PpyEBzhw+i2+LtICvGcYtxahg8S+
-         IuOanBWpso2qljIs9yfc520/ad1u5WGj3d98Fy6ZV9qDUqnP2w2jUbQo9mRP/NL5VzAE
-         cxlkn1Uzdtx08OHQ5c/T8+x203nkIeGZ0nTuYa0mYufTLvIul5Cc+ESXx8BJublRyB/i
-         il2hdXf8VlMVqTAU3p21hf7rJZTSsgVXDj6cp3hBUJs92vXM2efftHyf8QgV96RoxoZu
-         7PdCYl0I3+pdzDcNha9RLYfbAdaLfqBA5Puhp0Q4fvnctb3gHu+nAgzQADg0WznbwfAG
-         xMWw==
+        bh=o9myFScv483zzqOlxGxF69WE1oD420belDLdY8A7GRw=;
+        b=Fkac0rvK7IMDszNBR1QdAezDiu/7Q04H7aqYekDvBS23nL7aEKPODzeMI6ikD2FFCC
+         B+ZMU7IC1vJHAc9r6e5SdZIb/Y8UH0qF/zSR+P9J4h1g5hQNCPW/zYLUgNLOryTZynsM
+         rUh+h4oxUaJ2ghLGoTyNazA0h7RIKeW+oX2+zROpjCSQvtmDE+0te0WuBqLehl/bU0cX
+         YzLmC1mt6Fd/SihCOV9FEx6pqj3cTA1WSbrUIeW/l0VqbjgM8Por4lWqayHRfCbEPGz6
+         of1ObAmi2QYN9gb/HIzOlO0lJ/8gpXy1C/6v3H7ytijay2lmguTbmxLZWOe2CfyYOSaa
+         pPBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745559811; x=1746164611;
+        d=1e100.net; s=20230601; t=1745559814; x=1746164614;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DH9ycSrD7ytatXY+2Q+NTv2xbhftYfwAh/p9+7Qjx04=;
-        b=MSDSxvtFgONu8v73A4g7KjGFMncgTkHqQCeDPw0o+Y2vdR4JtEuwrJ1I29bwH/SJ/6
-         8AshPMWleGwa/vNqfo8IgNd7fhHGcgSSC+80ZbMssiibw2HxEZcS3rcSIAZU4LnDPOa/
-         h2NUYXrA7uAy40+FjQlRV5tgKherGr5UB/eBHk08YaeS+Tzq5IMQNfCaH9qI4jIGLTn3
-         7MTk/6QgW2A9GkiP8408oQgZUrHG6Xtn6P/VehPlcpLU239VORWrnDAQtt5ceB41P1E5
-         LMUg9wLtsDWTz9VAUPSgk7gpdvy/cQ01YkZP+Rkss+3MUWpAg01VGp7IVki8RRonFx6+
-         CfEg==
-X-Gm-Message-State: AOJu0Yw1zfGP8igpPKVke2gKOS3lxiAQTRl4J0/DKCAdgMQAp/cGC5sq
-	ylPLOGYHJE1i4ZeAldMCkBrTPlkAA90lSvNj8R2Wr4pWHNHEVYrR
-X-Gm-Gg: ASbGnctmHapKM4QkmDWbw+VCCx+f7nJWr+sV5FAwtvUDp9wu4VLZ+4HGLXpaXu1yNJg
-	akcfekySpofL2cwaH5jjDK2cUkd3mu0DyHdMt8qAfvT7hxColk1fvZwDbl8GAiryItbJfbzR7ov
-	6Ka5sfRoGLz24UAj85X0ppqEftgK0UWOrQLhoehYrD3Y9XEjYXpy2i29JfOprPufY9VkNGFPvRH
-	Lfbcb8WME7dMZWNgBrqAPW6Irq9PrxqpO0CSScvwvUzjXJOZc4kiOWj4JwsrJsQSmaToyo4ayHf
-	kZ2TrA+c1M5TyW8r05UDZfluwiSs1EAh
-X-Google-Smtp-Source: AGHT+IHPy+KChhDWUNPTC64bvTDcEGsUCc41AusuyikmAkgOvd5U7FC0NIUeC0Mt2Tf6ZDHVMisrVQ==
-X-Received: by 2002:a05:6a00:3d0c:b0:736:491b:536d with SMTP id d2e1a72fcca58-73fd8f4d01bmr1272946b3a.20.1745559811517;
-        Thu, 24 Apr 2025 22:43:31 -0700 (PDT)
+        bh=o9myFScv483zzqOlxGxF69WE1oD420belDLdY8A7GRw=;
+        b=XUQzdD9MmVExPczEmo4XsblfR501pLNFrNfAKP4n0jG0W3cwbeLeacZ705dkUwB2W7
+         1QoPXOIB8TaWAxXawVNJRXHZOETqpXzV9rbxDc2MCDMhzPnqfP0VhoD1hqELi5AZO5y0
+         w7+zWMfpewxWc7Rs7EdbL+COPP3R4nINQsuZFToGIRXaZrKMTrvGHagunCQwbtHlEaDz
+         2G1n+zMu6gzJ2Nno6C0serm6BXecSjo9dMHg7R+Ueg5itRvB2TO8V9WfZ/wQds88P+AW
+         cNOh25cluRtBz81T8F/3/JyeGC1+x10HyMqFHNg1sgeA5r6Q+KHxCQSPVQ4lLSBjgdAi
+         079g==
+X-Gm-Message-State: AOJu0YyXb7ZeDWNs4NiDIyUmTfAonle0k1X74ZktS2UxxMCezP+hPn7K
+	Xhptp/NH5hz7CM4SIDgpbi4BrcvaM/eQpyo6zCfcPfco38kOj2vLwfRBhVIw
+X-Gm-Gg: ASbGnctdfkcxI0D71OrjRrcQ2PTYY/SyvWHlKwWIa8YpzNWgWRSC6G2INMSP+d2Lz0q
+	tIN2GRiDoNlAr0fpD7ER1V+8ZmcTITh/dVFvpHKmyzFFCrmP14nXxPv6qehgunrKWhskbsWHfK9
+	5siZ/SOnhhltozgoeEQOvqyIUgnTdBgwddMBMB3pxwl+JW8U8OPumM9S7BuFVnwQo0tXMsWqb68
+	ckkVo6m4X4Vj7w3sKcxvlOYr7nwpV9igPlNCy/+wAY5DbGDKYDr9T3BCkEi5+BOoem+efTACGYo
+	7vBZWby3JkIOMRt5E8X5BOhFkZyq39rkEa+IgBrswn8=
+X-Google-Smtp-Source: AGHT+IHYlgJULBWEZ8R8NJtXPaaCTysmT6xwpFr0TbZ9EpzdCOozV+cNST89u3w6ehBFgJjLh3NhDg==
+X-Received: by 2002:a05:6a00:39a1:b0:736:4bd3:ffab with SMTP id d2e1a72fcca58-73fd876e18fmr1254753b3a.17.1745559814179;
+        Thu, 24 Apr 2025 22:43:34 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ed40])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25aca62csm2363626b3a.167.2025.04.24.22.43.30
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25aca62csm2363626b3a.167.2025.04.24.22.43.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 22:43:31 -0700 (PDT)
+        Thu, 24 Apr 2025 22:43:33 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 24 Apr 2025 22:43:23 -0700
-Subject: [PATCH v2 2/7] toolchain/clang: Remove duplicate RANLIB setting
+Date: Thu, 24 Apr 2025 22:43:26 -0700
+Subject: [PATCH v2 5/7] kernel-arch.bbclass: Do not use weak assignment for
+ TOOLCHAIN
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-clang-merge-v2-2-0a51d0c1940d@gmail.com>
+Message-Id: <20250424-clang-merge-v2-5-0a51d0c1940d@gmail.com>
 References: <20250424-clang-merge-v2-0-0a51d0c1940d@gmail.com>
 In-Reply-To: <20250424-clang-merge-v2-0-0a51d0c1940d@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -67,27 +68,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 05:43:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215417
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215420
 
-Its already assigned couple of lines above
+If a distro sets TOOLCHAIN with ?= or = then it overrides this
+too, however, we demand GCC to be in there due to KERNEL_CC etal
+Make it hard assignment, it can still be overturned via a bbappend
+in that case it is intentional to use non-gcc compiler for kernel
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/toolchain/clang.inc | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes-recipe/kernel-arch.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/toolchain/clang.inc b/meta/conf/toolchain/clang.inc
-index 40bfba2fd4febec0d7316a51b10fccda3363c43f..0e5f0769f85a8373c58d4b54dbe2bb1cf7dbd50b 100644
---- a/meta/conf/toolchain/clang.inc
-+++ b/meta/conf/toolchain/clang.inc
-@@ -7,7 +7,6 @@ CCLD = "${CCACHE}${HOST_PREFIX}clang ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
- RANLIB = "${HOST_PREFIX}llvm-ranlib"
- AR = "${HOST_PREFIX}llvm-ar"
- AS = "${HOST_PREFIX}as ${HOST_AS_ARCH}"
--RANLIB = "${HOST_PREFIX}gcc-ranlib"
- STRIP = "${HOST_PREFIX}llvm-strip"
- OBJCOPY = "${HOST_PREFIX}llvm-objcopy"
- OBJDUMP = "${HOST_PREFIX}llvm-objdump"
+diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recipe/kernel-arch.bbclass
+index 749a266ea36c04fea34fd60d4b93d340db998936..7aea9cd3e8e3329412ddee07e2f3d43a7722ad5e 100644
+--- a/meta/classes-recipe/kernel-arch.bbclass
++++ b/meta/classes-recipe/kernel-arch.bbclass
+@@ -81,4 +81,4 @@ KERNEL_AR = "${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
+ KERNEL_OBJCOPY = "${HOST_PREFIX}objcopy ${HOST_OBJCOPY_KERNEL_ARCH}"
+ # Code in package.py can't handle options on KERNEL_STRIP
+ KERNEL_STRIP = "${HOST_PREFIX}strip"
+-TOOLCHAIN ?= "gcc"
++TOOLCHAIN = "gcc"
 
 -- 
 2.49.0
