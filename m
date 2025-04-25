@@ -1,158 +1,169 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7303C369C2
-	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 09:31:37 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.3116.1745573489867229747
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A68DEC369D1
+	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 09:34:47 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web11.3151.1745573684605243140
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Apr 2025 02:31:30 -0700
+ Fri, 25 Apr 2025 02:34:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TXU91AYl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cf05f0c3eso13314445e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 02:31:29 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=BEHE/Laa;
+ spf=pass (domain: linaro.org, ip: 209.85.208.180, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30db1bc464dso20781301fa.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 02:34:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1745573488; x=1746178288; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=L5YYaNHtBBGeraJLvNzjvZt8x9Hq5cgZQ8DNA/udNLU=;
-        b=TXU91AYlwyRIQm/Gf+G41m3x8+mVow2Cd84jgLuV/mY58/OGaf8aOc6VTRnTQh95jQ
-         KmyGBaGbWdIGEo35AonsIZifNO2zrCjZVRuu8HDxw48SQ4hfRtbWknM90+XchRchhj9O
-         aYTw/Y+0qmQhfUE1EdbZbb5TSAUflkKMAQC+k=
+        d=linaro.org; s=google; t=1745573683; x=1746178483; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5o16cwQKMEhxmtdzfnNa7QJovah+q89UzICqxareZOU=;
+        b=BEHE/LaakxyzEvLfPNMw8eE2ZKURERfSIzKr3dgHKuG9idVqwsx2BxSZzYpnATo2/V
+         kRKwHhIAZHO1BwAW61guEljbzDZwHN7RX02uyBiMRve6vMm3cYeZCzQ7gUBXUf312BBO
+         hkqufyCWy1bSTUejcvNPGRuH4gKRE+BIAghOAm4+Edf5FUHjLQRGQ5+Y3Z5NOJn2cHmq
+         seC6XToTuhx1jW4OD4a3XluwzkOhZxlUUs6OWJ3uXwITUIz6kK6D5657Xj+o851M1c3z
+         UFix51VgHMpIM9VeIZAFLpd/uANUlZwlET+W8b8ZNsEF/Mz+NB+v083+nN1yUK3sHTjO
+         0FuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745573488; x=1746178288;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=L5YYaNHtBBGeraJLvNzjvZt8x9Hq5cgZQ8DNA/udNLU=;
-        b=IT2I+PpDWgZMtyIsEKqS65KMa7sTRUbRbvxpkwYa/DV8jltDAr9fPOfVZ3DVPMuTex
-         eHgdRV/XGrRaYb/bg7JXl1FqFtRdhQUAa6dYOqzGH/Wrl4gIuCwvrGnJepyF+E/jv6Ig
-         qJGJ4Nn/RNHZZ8ZUHnpW1UeLBYrhu02Bd5aw6c+0AgMgJ9GIZSU4DS+XVsngBBCOqM8S
-         w3vWMfLjdtxjLngM5cTaOedpzYOgam1/w9JA5XiXQnBwlp6w5HpOfVB6s73587aid3DT
-         IL/hIYAx1sIcHDjj/PVFi8iv7J/6ITZGvy7runsQ53D1h8ABx1bVzDfaseHF8W4bi9Fa
-         Slpw==
-X-Gm-Message-State: AOJu0YwIclRiRffG1onuA5l1tYT6Ujfp0+ZbbUi/t6kkinhi3jvuSCeJ
-	1+cl6Se9zE5VLr2zaipn+kf3tPmTDv9uydWs9SCYXBgsprmsKcR9yRb9eFu1d20=
-X-Gm-Gg: ASbGncvfehxj6ubJ8csXSAziUtYpwCOA+IbmBxO572ArOiXsIMJ//KM0gBqua29Vx1b
-	wzZ7GaHAQFwZvMOxfhUSttkdhXHRnb9cIyccTHIjtkzfjr8aBgxRxQRJeIJCMUx+uRy8qXm5Imz
-	Kx9KiUjEzqINQ5tDFZsgkV+monw7acDdsO8WtXYiUrOWXb+wU3w3b21mThOBbzliYRaxhNZi5qd
-	Heh0RGbS1wKyAv4iwOT1r/qmwKdE78fT4z+Xlid1UqcOSDw7FGaOlLZk53hHqmVhLYqDJfLhYNr
-	hCS4+2KiD80nENw+XJc0H0VEmjfwEjYWUMIbG1erwnuvwyLySDUx0YFpHSRJ32X4k8yBGfWY01W
-	5K1oaZXNMrH/cxu5sWkrcT4i36pXz/Q==
-X-Google-Smtp-Source: AGHT+IFnQM/UZeMxYYv5TfZlmJni2u2zTC/IjBJ65ikEifXEb3/9N97QDp7oAn1HINsjt6YbLsPJlg==
-X-Received: by 2002:a05:600c:4f06:b0:43d:2313:7b4a with SMTP id 5b1f17b1804b1-440a65b6fe5mr14136915e9.3.1745573487690;
-        Fri, 25 Apr 2025 02:31:27 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4b43:cc8c:5e78:12c1? ([2001:8b0:aba:5f3c:4b43:cc8c:5e78:12c1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-440a536a1d1sm18517415e9.26.2025.04.25.02.31.26
+        d=1e100.net; s=20230601; t=1745573683; x=1746178483;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5o16cwQKMEhxmtdzfnNa7QJovah+q89UzICqxareZOU=;
+        b=GxeKOIe8YdEJUGlodKDMgz4fzZuNXEdURolskI03n0zYFGf5DV9H0Yoakz1xa/dj99
+         kwwATHnMIoAWTzNcjf6+8nNfuDtQBx4rnADK9c00vqO45eA8XbYh9HewaGQASyt8ZJiX
+         6l+caabVBomAnoByBC4sH3Av8YX52PIZ1Myd2D5FmEM8P0M6xFHElwV42jj0bW64DJ++
+         qfq5N5zp96Gju8J3+6BJkcdIdRhtUnfVlpAgUrJqFPOYIVtRSy+2vL4/3lHOaXa7fU4i
+         UmTOTGVv6TRq7v7/PGlhtF56zFIvZoLzF4ZnwX9A0fNM3ARVyeBQEB09cCKjLGMTxtl9
+         v4dA==
+X-Gm-Message-State: AOJu0Yz8Jf4bW3fgEetsqBE2xBo+myrMZX0qMqdD95WUBX04qMif5uWy
+	wzCE3QS7Ur5zTwdOP9vcETypDIeDLJh+ZR/0EBavFDaO8DGzvwUtdDSNQ9a5BRA=
+X-Gm-Gg: ASbGnctj4VEZCNyhDWXYj3pVrSP8AskXZ09moUiqSdBlhriONw0JptbWXO167ZTphuu
+	2wpMt63ibE06YBpvvdnYsfyWrLO0XhJtV+gCg7qKIDkL72HKbaFiVVVYNYFB/pOaij0pXiqf7ql
+	blv/cX2oFtF8Z7SeCtV21M5TmNhlmCr03fMDyfF4M0HYWlcFLiorxPZtZ4c/AJgzrdUB7s0+V0B
+	xopLkkTyOAaMz1wA03EWFOeDrrGVZGsMFbebchbg7zprdQ2a480iqNDl3/2ZAswJksYb7Yp7fUr
+	PatjgAET4rVF9iC+ASKIsWTDEyBrlMScGiQIQSJc5bJAMD4RWKxH2UZxXnteng7GhTkbs/0lhA=
+	=
+X-Google-Smtp-Source: AGHT+IEAOBeLADwOWqsL2r1zQqVvmqaIzbNbpdp4eir2o/dHXBQJK2plj8Yc5oJ9Asf1n4G/fsR7cg==
+X-Received: by 2002:a05:651c:1516:b0:309:1e89:8518 with SMTP id 38308e7fff4ca-319081d9d87mr4726911fa.27.1745573682484;
+        Fri, 25 Apr 2025 02:34:42 -0700 (PDT)
+Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-317d16a8312sm6625631fa.86.2025.04.25.02.34.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 02:31:27 -0700 (PDT)
-Message-ID: <a0571f14790862528506c994f349a78517031624.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/4] devtool: account for sources in UNPACKDIR
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
-	 <alex@linutronix.de>
-Date: Fri, 25 Apr 2025 10:31:26 +0100
-In-Reply-To: <CANNYZj8ooWqS1OXO7M+S4wgX8sVkWG3wTiCb5s-bnZhE9CxZRQ@mail.gmail.com>
-References: <20250424111014.905507-1-alex.kanavin@gmail.com>
-	 <cf05b37db043dd939ec540a24ae0343376e5a830.camel@linuxfoundation.org>
-	 <CANNYZj9hiQ41Boji0OH5ecRbktL-5nH3q3o0=k4+XxRZ=nu2ZQ@mail.gmail.com>
-	 <18394019E7982924.8448@lists.openembedded.org>
-	 <64802f57b85b524ef1bab88b07a116e5af228d5c.camel@linuxfoundation.org>
-	 <CANNYZj8eA1vnm6hO-AAn=xNEyMxrBGf48GTtiQOzW7w3yCqHKA@mail.gmail.com>
-	 <655a8640b7d8f528851f187558d19f8285e111e8.camel@linuxfoundation.org>
-	 <CANNYZj_j9TnJGEsfQ9fuivKQ0KcZgSyCc-OXbyXvzOuy2=S68g@mail.gmail.com>
-	 <db5f670164880a45133b2133b3957214b3ff0880.camel@linuxfoundation.org>
-	 <CANNYZj8ooWqS1OXO7M+S4wgX8sVkWG3wTiCb5s-bnZhE9CxZRQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Fri, 25 Apr 2025 02:34:42 -0700 (PDT)
+Date: Fri, 25 Apr 2025 12:34:40 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v4 7/9] image_types_wic.bbclass: capture
+ verbose wic output by default
+Message-ID: <aAtXMJirjfXaNDyc@nuoska>
+References: <20250422143501.99565-1-mikko.rapeli@linaro.org>
+ <20250422143501.99565-8-mikko.rapeli@linaro.org>
+ <D9FLKMJI0UMB.23SHVQV5YOL2R@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D9FLKMJI0UMB.23SHVQV5YOL2R@bootlin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 09:31:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215448
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 09:34:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215449
 
-On Fri, 2025-04-25 at 10:33 +0200, Alexander Kanavin wrote:
-> On Thu, 24 Apr 2025 at 22:34, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > Why can't it set UNPACKDIR to the the workspace path and then just
-> > run
-> > it to directly unpack to where it wants it?
-> >=20
-> > It can then redefine UNPACKDIR to point at the workspace path and
-> > things should "just work"?
->=20
-> It can. But it will fundamentally change what users are going to get
-> under workspace/sources/${PN} and not necessarily for the better:
->=20
-> 1. Right now, if you 'cd workspace/sources/${PN}', you'll see a
-> source
-> tree that matches upstream repository (or tarball) exactly, for the
-> unpacked item that contains ${S} in it. It's obvious what to do: you
-> can modify files, run bitbake with these modifications, make commits
-> and devtool will pick them up and integrate into the recipe.
->=20
-> Yes, technically there can be more than one upstream item listed in
-> SRC_URI (I'm not sure what devtool is going to do when it sees them),
-> but the vast majority of recipes have just one item, and this keeps
-> things simple and straightforward for the users (and tools). The cost
-> of it: devtool is a convoluted mess (and to make matters worse,
-> without a maintainer); I don't argue with that.
+Hi,
 
-There are continual requests to have devtool able to operate on recipes
-with multiple SRC_URI entries, be able to see/modify files, support
-things like gcc and the kernel which have interesting build layouts and
-so on. I thought we'd already added support for some of this which is
-probably why the logic is already convoluted. I suspect it will only
-get worse.
+On Fri, Apr 25, 2025 at 11:03:54AM +0200, Mathieu Dubois-Briand wrote:
+> On Tue Apr 22, 2025 at 4:34 PM CEST, Mikko Rapeli via lists.openembedded.org wrote:
+> > Call wic with --debug to capture logs from wic internals
+> > so that it's clear which partitions get created and which
+> > files get copied where. wic plugins contain for example
+> > race conditions which don't install files at all and thus
+> > images fail to boot and it's not possible to debug these without
+> > something in wic task logs.
+> >
+> > For example core-image-initramfs-boot do_image_wic
+> > log is now 576 lines which is not excessive but very
+> > important when debugging problems, especially race
+> > conditions which are only hit in some builds in CI.
+> >
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > ---
+> >  meta/classes-recipe/image_types_wic.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+> > index 1b422b6280..10888bc12b 100644
+> > --- a/meta/classes-recipe/image_types_wic.bbclass
+> > +++ b/meta/classes-recipe/image_types_wic.bbclass
+> > @@ -72,7 +72,7 @@ IMAGE_CMD:wic () {
+> >  	if [ -z "$wks" ]; then
+> >  		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
+> >  	fi
+> > -	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
+> > +	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create --debug "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
+> >  
+> >  	# look to see if the user specifies a custom imager
+> >  	IMAGER=direct
+> 
+> Hi Mikko,
+> 
+> As we dropped the "oeqa wic.py: clean image build dir before rebuild in
+> test_permissions" patch, we again have an issue with this one.
+> 
+> 2025-04-24 16:54:36,535 - oe-selftest - INFO - wic.Wic.test_permissions (subunit.RemotedTestCase)
+> 2025-04-24 16:54:36,536 - oe-selftest - INFO -  ... FAIL
+> ...
+> | DEBUG: Python function extend_recipe_sysroot finished
+> | DEBUG: Executing python function set_image_size
+> | DEBUG: 23394.800000 = 17996 * 1.300000
+> | DEBUG: 23394.800000 = max(23394.800000, 8192)[23394.800000] + 0
+> | DEBUG: 23395.000000 = int(23394.800000)
+> | DEBUG: 23395 = aligned(23395)
+> | DEBUG: returning 23395
+> | DEBUG: Python function set_image_size finished
+> | DEBUG: Executing shell function do_image_wic
+> | abort()ing pseudo client by server request. See https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this.
+> | Check logfile: /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1239956/tmp/work/qemuarm64-poky-linux/core-image-minimal/1.0/pseudo//pseudo.log
+> | Aborted (core dumped)
+> | WARNING: exit code 134 from a shell command.
+> NOTE: recipe core-image-minimal-1.0-r0: task do_image_wic: Failed
+> ERROR: Task (/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/recipes-core/images/core-image-minimal.bb:do_image_wic) failed with exit code '1'
+> Pseudo log:
+> path mismatch [2 links]: ino 157047752 db '/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1239956/tmp/work/qemuarm64-poky-linux/core-image-minimal/1.0/rootfs/var/log' req '/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1239956/tmp/work/qemuarm64-poky-linux/core-image-minimal/1.0/tmp-wic/rootfs1/var/log'.
+> Setup complete, sending SIGUSR1 to pid 346075.
+> 
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/1507
+> 
+> This can be reproduced locally:
+> 
+> Get https://web.git.yoctoproject.org/poky-ci-archive/tag/?h=autobuilder.yoctoproject.org/valkyrie/a-full-1456
+> and run 'oe-selftest -r wic.Wic.test_permissions'
 
-> 2. What happens if workspace/sources/${PN} becomes UNPACKDIR? When
-> you go there, you'll see something named 'git/'. Is that where the
-> actual source is? If the recipe is fetching a tarball, there's no
-> git/, but rather ${PN}-${PV}/. So there's an extra, potentially
-> confusing step to get to the source code. It becomes more ambiguous
-> and less consistent for the users.
+Yes. This pseudo issue needs to be root caused and fixed. Will need to get
+into that.
 
-It does match what happens in a real build in WORKDIR. Where you have a
-subdir of a git repo, this is already exposed as you don't get S but
-need to find the subdir. My point being it is already probably
-inconsistent.
+FWIW, on aarch64 build host in bitbake devshell I see vim sometimes crashing with
+pseudo aborts when opening files, sometimes also when closing, and sometimes
+it works. These may be related.
 
->=20
-> 3. This will also break all the tools that assume the current
-> structure, and another reason this change shouldn't be taken lightly.
+$ bitbake -c devshell lttng-modules
+...
+root@ledge:~/src/base/repo/poky/build_test/tmp/work/genericarm64-poky-linux/lttng-modules/2.13.18/lttng-modules-2.13.18# vi ../../../../../work/genericarm64-poky-linux/linux-yocto/6.12.23+git/linux-genericarm64-standard-build/.config
+Vim: Caught deadly signal ABRT
+Vim: Finished.
+Aborted
 
-Perhaps, or perhaps not. Do we have a lot of tools that wouldn't cope
-with this?
+$ uname -a
+Linux ledge 6.8.0-31-generic #31-Ubuntu SMP PREEMPT_DYNAMIC Sat Apr 20 02:32:42 UTC 2024 aarch64 aarch64 aarch64 GNU/Linux
 
-> 4. Maybe there's something I missed that could be done, and won't
-> break the current layout? For example, we can set UNPACKDIR to
-> workspace/unpack/${PN}, and then use devtool 'logic' to provide a
-> hardlink into it from workspace/sources/${PN} ? But it would be the
-> same logic as now with the patch: take original values of WORKDIR,
-> UNPACKDIR and S, and figure out where in the new UNPACKDIR to point
-> to.
-
-That 'logic' is effectively what do_unpack is already doing itself to
-maintain 'compatibility'. Perhaps we could use the same logic in both
-places and be consistent!
-
-I'm torn here. I could take your patch, bury my head in the sand and
-pretend everything is fine. We could try and actually improve this and
-set things in a better direction for the future, at the expense of
-breaking things in the short/medium term. I don't know what to do for
-the best here to be honest. Taking the patch is way easier for me I
-doubt we'll ever improvements if I don't push back on things at times
-:/.
-
-(I'm spelling this out so people understand the dilemma)
+$ head -4 /etc/os-release 
+PRETTY_NAME="Ubuntu 24.04 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04 LTS (Noble Numbat)"
 
 Cheers,
 
-Richard
+-Mikko
 
