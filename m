@@ -1,183 +1,141 @@
-Return-Path: <max.oss.09@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22975C369C2
-	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 08:48:57 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.2427.1745570929207800470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53346C369C2
+	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 09:04:07 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web11.2586.1745571837572897462
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Apr 2025 01:48:49 -0700
+ Fri, 25 Apr 2025 02:03:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fhsL7SM1;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: max.oss.09@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso13220405e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 01:48:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745570927; x=1746175727; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pYKqeLtsqaL4X/gvpWGaps42QgxIXJQegvDAls7OtMQ=;
-        b=fhsL7SM1iFDiE3egCs2jUEmLG/+ZNqYh7DmXW6TWCahDbm3coBgp2Pl4xZqDbNZkNQ
-         4Jh1o272mIwq5lNSqtJWBk08wQaarqtRwxuGYfga5GD6VLJb3uqpK5XNuMOnJrNMRt/O
-         hva4PEGoDrEZHbrfgqjZqUrccQqQfpS+sU16A3BiKjU3NJQhewsregxLT84RlALT8DRW
-         75XZAFjTdP+GqEAao0owyVML3HHPqpTBjf9N4+f6AO+dXPPzi+E7AthV5C5xGyZLqFyd
-         2jBxt/VZSdEDzcJtNFvwF1xf8zi0WJWiAZZGbO7q9HK5+/YmfZ7TlD3M4nX7C2Bv1ocj
-         Wblw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745570927; x=1746175727;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pYKqeLtsqaL4X/gvpWGaps42QgxIXJQegvDAls7OtMQ=;
-        b=DGTRPzgzZf4p6jNOm9+EikpFNCfv9fzkhG1X7Fd4Sjy2i1bjmXOunbHTirHLLHWUty
-         I8CTTnywMmMZlG0jJGtHUiHM8aHL0FdFPZ5rBTIuq0Pfx8VJNt8O8a5MUkZbcp4whvLG
-         544xDmTmnFjI1BDzzK4C7nyLwJwnTqQGepr5G13EkXcZ5LURGo8TOCxvb6/wDbhn8Nnv
-         fglWW1hAvVvZ4e7S6WnLs4aN2U/hMIVaweldp6qSGr3UELeBQFcSHpdpqrNRUT7uHVVR
-         Eb0Ld/KTwyNORqKvkaZm2xD6kuALt96Jp9fowifq0eCXYeyu4llKB5cFAqNTqnZcE0ul
-         OSxA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtde4tkTiMj4Su0t9bVpI4xemY/TQILAP5yvlS9nTTNtE01nEEDHketkexhkKIYe9cq37rKufJEXn26MTkw5B2KA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwpdUQjVmYxfPTnAYRhRXtXqrp/ZxpLyqrB4NfcfKuYM1QbOH9J
-	hFTZLFrhfydsBJMzwkWXSNsIz3ztf3LU0WGyq2zVgD1NIxh1kQwM
-X-Gm-Gg: ASbGncsIeCAPBSIXj8jZjRJzCegY/gZAFUBJCvXQZz3xYbnHktdkkLbpEmWfsXlYZfH
-	JWayn1CfeobUtEr1IFkbCRgWeQTpVVUqLylS5LnNzyvWsQ7/bB3IPPWP1yPpTi46SYHbvPBXX/X
-	PVz9BEGKrRhwklLo9GfRbcPFvxyrsBFRbHnGZeV9oK5RcuZv8oBe6aQNtEcvo+hD+7+K1JgIvny
-	6O18G5ERPblKsnJwWOVS3KubIMrnaOjq0csvbSjUK5ATJoGZ9LDBfJu36hfV02i3T1qMmxFoZjL
-	CIiLG6ETGG0kjSdyNc8CJ/yMEe6hV0o59okF44O/7XEj3lmheBdDcbaJLeG99VbIYKlZHG2da3L
-	/3cvtQp2ri1BdxQ==
-X-Google-Smtp-Source: AGHT+IGo40mmQOlYN7H8e1WQdNyfq7CgKhaIeE/At4XV32mSF5cJzOwI8A7mZD4MVNMND/niW5m0/Q==
-X-Received: by 2002:a05:600c:c17:b0:43b:c6a7:ac60 with SMTP id 5b1f17b1804b1-440a6692a28mr11087085e9.10.1745570927262;
-        Fri, 25 Apr 2025 01:48:47 -0700 (PDT)
-Received: from [192.168.0.7] (159-226-191-194.pool.dsl-net.ch. [194.191.226.159])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4408d8d191bsm79240285e9.1.2025.04.25.01.48.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 01:48:47 -0700 (PDT)
-Message-ID: <bde7ccac49b5417cda5c964055f72e28a3bc84be.camel@gmail.com>
-Subject: Re: [OE-core] kernel-module dependency mystery
-From: Max <max.oss.09@gmail.com>
-To: mike.looijmans@topic.nl, openembedded-core@lists.openembedded.org
-Date: Fri, 25 Apr 2025 10:48:46 +0200
-In-Reply-To: <5a9b30f0-c189-4841-9821-6dc26de4de84@topic.nl>
-References: <5a9b30f0-c189-4841-9821-6dc26de4de84@topic.nl>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BpIr5A87;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 65CF843314;
+	Fri, 25 Apr 2025 09:03:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1745571835;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IPXG2+O2nYv3aPLQ0OqQPXTdiEdnqncC1OjuJTnGAVQ=;
+	b=BpIr5A87dyQbZwkemRH9EBaLRWP3aoY/8TD8q+1/XN80Vo2rrLHiec1NJbytLmlpJNPlTt
+	XnpSbuKncMkFaUivCrDhwm67TPfFcgCqPL8yjiXcaJ7/vbT9KBcCMloFvyVwaEnVyQobsL
+	lXhKjTnyG9ufRMI/pu6pwII77FIhOvzTNt0ETOuS9amNngbeMrV5IjpXNwcSpMCoUbMjD/
+	8AUFIjv8fLKNQ3ySLqeHtAaIMje0Q3bF/4THXjwuAH3k4cMGGBXe3sq25h5oDdeOPcM8Dk
+	p7fXHGjBN69hBma09ckIjDCqOxVIYxw5AiIVlTfprwfJJoPFOTz2VsdIriJdcw==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 25 Apr 2025 11:03:54 +0200
+Message-Id: <D9FLKMJI0UMB.23SHVQV5YOL2R@bootlin.com>
+To: <mikko.rapeli@linaro.org>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v4 7/9] image_types_wic.bbclass: capture
+ verbose wic output by default
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250422143501.99565-1-mikko.rapeli@linaro.org>
+ <20250422143501.99565-8-mikko.rapeli@linaro.org>
+In-Reply-To: <20250422143501.99565-8-mikko.rapeli@linaro.org>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvheduleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffvuffhofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeettdejvdefudegueejjeehkeejueetudejvddvgeelgeegkeeigeduvdejtdfggeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepmhhikhhkohdrrhgrphgvlhhisehlihhnrghrohdrohhrghdprhgtphhtthhopehop
+ hgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 08:48:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215446
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 09:04:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215447
 
-Hi Mike
+On Tue Apr 22, 2025 at 4:34 PM CEST, Mikko Rapeli via lists.openembedded.or=
+g wrote:
+> Call wic with --debug to capture logs from wic internals
+> so that it's clear which partitions get created and which
+> files get copied where. wic plugins contain for example
+> race conditions which don't install files at all and thus
+> images fail to boot and it's not possible to debug these without
+> something in wic task logs.
+>
+> For example core-image-initramfs-boot do_image_wic
+> log is now 576 lines which is not excessive but very
+> important when debugging problems, especially race
+> conditions which are only hit in some builds in CI.
+>
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
+>  meta/classes-recipe/image_types_wic.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-r=
+ecipe/image_types_wic.bbclass
+> index 1b422b6280..10888bc12b 100644
+> --- a/meta/classes-recipe/image_types_wic.bbclass
+> +++ b/meta/classes-recipe/image_types_wic.bbclass
+> @@ -72,7 +72,7 @@ IMAGE_CMD:wic () {
+>  	if [ -z "$wks" ]; then
+>  		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. P=
+lease set WKS_FILE or WKS_FILES appropriately."
+>  	fi
+> -	BUILDDIR=3D"${TOPDIR}" PSEUDO_UNLOAD=3D1 wic create "$wks" --vars "${ST=
+AGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w =
+"$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
+> +	BUILDDIR=3D"${TOPDIR}" PSEUDO_UNLOAD=3D1 wic create --debug "$wks" --va=
+rs "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_w=
+ic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
+> =20
+>  	# look to see if the user specifies a custom imager
+>  	IMAGER=3Ddirect
 
-Am Mittwoch, dem 23.04.2025 um 14:34 +0200 schrieb Mike Looijmans via lists=
-.openembedded.org:
-> I built the same image for 5 different machines. Only one of them fails=
-=20
-> with the logging below. Note that all machines install the=20
-> "kernel-module-dyplo" package, and on 4 machines that succeeds just fine.
->=20
->=20
->  =C2=A0* Solver encountered 2 problem(s):
->  =C2=A0* Problem 1/2:
->  =C2=A0*=C2=A0=C2=A0 - conflicting requests
->  =C2=A0*=C2=A0=C2=A0 - package=20
-> kernel-module-dyplo-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9 requires=20
-> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5, but none of the=20
-> providers can be installed
->  =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db=
-5 needed by=20
-> kernel-module-dyplo-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb94f359=
-9b-r0.tdpzu9
->  =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db=
-5 needed by=20
-> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb9=
-4f3599b-r0.tdpzu9
->  =C2=A0*
->  =C2=A0* Solution 1:
->  =C2=A0*=C2=A0=C2=A0 - do not ask to install a package providing kernel-m=
-odule-dyplo
->=20
->  =C2=A0* Problem 2/2:
->  =C2=A0*=C2=A0=C2=A0 - conflicting requests
->  =C2=A0*=C2=A0=C2=A0 - package=20
+Hi Mikko,
 
-> kernel-module-dyplo-1.1+154+bb94f350+bb94f3599b-r0.tdpzu9 requires=20
-> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5, but none of the=20
-> providers can be installed
->  =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db=
-5 needed by=20
-> kernel-module-dyplo-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb94f359=
-9b-r0.tdpzu9
->  =C2=A0*=C2=A0=C2=A0 - nothing provides kernel-6.6.40-xilinx-g6a2cb0f14db=
-5 needed by=20
-> kernel-module-dyplo-pcie-6.6.40-xilinx-g6a2cb0f14db5-1.1+154+bb94f350+bb9=
-4f3599b-r0.tdpzu9
->  =C2=A0*
->  =C2=A0* Solution 1:
->  =C2=A0*=C2=A0=C2=A0 - do not ask to install a package providing kernel-m=
-odule-dyplo
->=20
+As we dropped the "oeqa wic.py: clean image build dir before rebuild in
+test_permissions" patch, we again have an issue with this one.
 
-We had an issue with the exact same symptom and had a hard time
-to find a fix. It turned out that:
+2025-04-24 16:54:36,535 - oe-selftest - INFO - wic.Wic.test_permissions (su=
+bunit.RemotedTestCase)
+2025-04-24 16:54:36,536 - oe-selftest - INFO -  ... FAIL
+...
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing python function set_image_size
+| DEBUG: 23394.800000 =3D 17996 * 1.300000
+| DEBUG: 23394.800000 =3D max(23394.800000, 8192)[23394.800000] + 0
+| DEBUG: 23395.000000 =3D int(23394.800000)
+| DEBUG: 23395 =3D aligned(23395)
+| DEBUG: returning 23395
+| DEBUG: Python function set_image_size finished
+| DEBUG: Executing shell function do_image_wic
+| abort()ing pseudo client by server request. See https://wiki.yoctoproject=
+.org/wiki/Pseudo_Abort for more details on this.
+| Check logfile: /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/buil=
+d-st-1239956/tmp/work/qemuarm64-poky-linux/core-image-minimal/1.0/pseudo//p=
+seudo.log
+| Aborted (core dumped)
+| WARNING: exit code 134 from a shell command.
+NOTE: recipe core-image-minimal-1.0-r0: task do_image_wic: Failed
+ERROR: Task (/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/rec=
+ipes-core/images/core-image-minimal.bb:do_image_wic) failed with exit code =
+'1'
+Pseudo log:
+path mismatch [2 links]: ino 157047752 db '/srv/pokybuild/yocto-worker/oe-s=
+elftest-armhost/build/build-st-1239956/tmp/work/qemuarm64-poky-linux/core-i=
+mage-minimal/1.0/rootfs/var/log' req '/srv/pokybuild/yocto-worker/oe-selfte=
+st-armhost/build/build-st-1239956/tmp/work/qemuarm64-poky-linux/core-image-=
+minimal/1.0/tmp-wic/rootfs1/var/log'.
+Setup complete, sending SIGUSR1 to pid 346075.
 
-- The kernel is built with a patch applied from SRC_URI
-AND
-- We had LOCALVERSION_AUTO=3Dy in the kernel config
-AND
-- The kernel is in sstate
-AND
-- The kernel sources no longer exist under tmp/work-shared
-AND
-- The external kernel module is not taken from sstate
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/1507
 
-If patches are applied in a kernel recipe they are applied
-with 'git am' and a new hash value will be present with
-each run of do_patch.
+This can be reproduced locally:
 
-If LOCALVERSION_AUTO=3Dy is in the kernel config that new
-hash becomes part of the kernel and external kernel module
-packages.
+Get https://web.git.yoctoproject.org/poky-ci-archive/tag/?h=3Dautobuilder.y=
+octoproject.org/valkyrie/a-full-1456
+and run 'oe-selftest -r wic.Wic.test_permissions'
 
-As the kernel is from an older do_patch and the module
-from a newer the hashes used in building differ and you
-get the above OE build error. Even if it wouldn't the
-different hashes become part of the VERMAGIC and the
-kernel would refuse to load the module.
-
-Our solution was to no longer build with LOCALVERSION_AUTO
-and since then we no longer see the issue.
-
-Regards
-Max
-
-> I'm on "scarthgap" branch.
->=20
-> The "kernel-module-dyplo" recipe can be found here:
->=20
-> https://github.com/topic-embedded-products/meta-dyplo/blob/master/recipes=
--dyplo/dyplo-core/kernel-module-dyplo.bb
->=20
-> The isue at first glance appears to be that=20
-> "kernel-6.6.40-xilinx-g6a2cb0f14db5" mixes the git version hash from the=
-=20
-> module itself and the git hash of the kernel. There's no such package,=
-=20
-> it should have been "kernel-6.6.40-xilinx-gd7b52381656b"
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#215287): https://lists.openembedded.org/g/openembedde=
-d-core/message/215287
-> Mute This Topic: https://lists.openembedded.org/mt/112412917/3617484
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-x.oss.09@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
