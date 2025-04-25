@@ -2,67 +2,66 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCE7BC369AB
-	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 00:38:36 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.1307.1745541515500527864
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBF6DC369AB
+	for <webhook@archiver.kernel.org>; Fri, 25 Apr 2025 00:44:06 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.1389.1745541846053594626
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Apr 2025 17:38:35 -0700
+ Thu, 24 Apr 2025 17:44:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ea5Wi392;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-227b828de00so17677215ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 17:38:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h4QD64Dm;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-225477548e1so19070245ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Apr 2025 17:44:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745541515; x=1746146315; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1745541845; x=1746146645; darn=lists.openembedded.org;
         h=in-reply-to:autocrypt:from:content-language:references:cc:to
          :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=HKGF42CyYFu69WTg2TDz7+2nlEYttwGVXo3X+utqxQw=;
-        b=ea5Wi392l/CWLVLTaMIXU5xiVHr+f37v4HaZOlqU32+3eEZrNqde8bEFbJNZj1hDLM
-         apJY8yruNPcBTongTtq7KrMS5GW6FGaIn48hmXAESMZP6N4sgfKF78fzg36ytezur6NT
-         tgYMMapGlNN5aGYbDrstmBNwB14MpJLywWFqQj5RXicQUUs6T9nQDBJuI8+LsyzhPPMD
-         W/CKx/cApgtNa5WQ79Rh7Bp6eEc+ZM5Izm2Uv3ZMUe7G6aPYnOrMX2hoZw4Qz3HK1T9f
-         DdOwDfN6+0V5JwAvZ7uxc1/25Dw8RkDfxWZ5b87WTemqdHtmEBMbCvh28Kx5onhMpZe0
-         PuAw==
+        bh=+rDeOgWiHE3DoyaaOYS2VXvKmQlRiUlezd2srLY15EQ=;
+        b=h4QD64DmYANXX6o0QvPGkS83wVXbq6sIYkeqF/G2giJ0mJW5pcJM33UHO8DTef0gbj
+         N0X5LQ/sW1bObQIGKJBzAVs2SotomraGIub/ULAJxjo5Gu/9dBIPE3kHZYfIdiIphT9z
+         XiiJpY13huf9enUDQnOv+4t38/vqU9FkqL/iZaK/TrybTgtKawVeI8LKegikVe1+cEcB
+         s4zxrQA3677rcnu1Tl2DkR+rYxNcVokGwR1patvGT5SC7L4zw504tatoVNAB8/4VVCBt
+         SBpYbo4tySeex6pU5lLU8eeXEO3QLriZWBtV8vddCq+K5hxbZ4VDTLgR9GQkPxDm9EFa
+         +dlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745541515; x=1746146315;
+        d=1e100.net; s=20230601; t=1745541845; x=1746146645;
         h=in-reply-to:autocrypt:from:content-language:references:cc:to
          :subject:user-agent:mime-version:date:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HKGF42CyYFu69WTg2TDz7+2nlEYttwGVXo3X+utqxQw=;
-        b=nQxqyrNpIMDwDZeu2k4/YxCgLcBl9ZKqLVLaimorji6SoMlda0hbq6YVdqblb7nL5z
-         Tav9vNz7p++HzA+NMMQRwpDjmeCeHM8c7hCIvTRKJvSHUE41oWB/CYcA4Q9FsdjLXw0Y
-         N++27LjUcPH3gKqSvESqOtV+vNoqhqQDZiegwsnZXDORVt9HBocEHMfdNzNjZ+aXAkM6
-         skjUhMavMfO4CkxWoER20eeYd4rLGlGEXM1FQhCDlac59R0svmaXTQ9jLLEYMA4HIXgU
-         ws6mBczJxwY/JL2omI0SRELj5UsWfuNwG8DN8y21nGBFBbDtcf9Dyyi8mr15Cck6vrDJ
-         iyuQ==
-X-Gm-Message-State: AOJu0YyUnDr14M6wKjl4161R9ofMSt0436NhRt/HuXpIr7RRFuAIrIC4
-	QPeaWGwmYb2/NeUUdtV3glyBVluVEJcl3ulE/ZvjX6jZ4fP0VMH4
-X-Gm-Gg: ASbGncuisjwfI02MUs0wEIF04I/Si8sVGQDI16iiTm/hPvFOu8wYMOrj+WV2WQ2sAEn
-	6mSRMiLYz4mX3un+l90h69z+yxjsWZUEWfxsqKwFgRJeklpdKnbycoL9ebDWfcxk2HefUD5S7v6
-	YtuylQQ674oeGMoJajCYo3URjnBisMeXOwe+29nr4uozO47PiIi1USZSFv3gdz6Qy3MlZMCR1vh
-	q+LmQfbD+gYc2IRlsIN71M0MRCmgJASTrZz8FSkg65QXPTGzwHiIM0Xqm6z682nWK+JamZrDidS
-	hGJkokW47o0Cr2xms/j8nRVS7ysCMIyY3vmvWEJp04mB/2SeLquwpNcjSWwSTDbskZs5gVDhRJZ
-	/x92JEq8PSbs75kt480enA8p2O6lOfyvxiHpNRAtmrg==
-X-Google-Smtp-Source: AGHT+IFRDQA4Lk4FD9vTHV8LG95fvxBDq2e5bRsi2OxrEYw+z4x16sWtAp3V0rtS0MzLKiW1INODIQ==
-X-Received: by 2002:a17:903:2349:b0:220:ce37:e31f with SMTP id d9443c01a7336-22dbf5ea9e3mr5146885ad.17.1745541514827;
-        Thu, 24 Apr 2025 17:38:34 -0700 (PDT)
+        bh=+rDeOgWiHE3DoyaaOYS2VXvKmQlRiUlezd2srLY15EQ=;
+        b=dg9E/rxJv0gL/kHEtLIEpucoeBF7YWRWiAEfB04jjoODKtPR0ky3/r7uyuXhXGtlEP
+         EIid2BxmLYoa63lRwliYO1bCmEdjU/o5QF6au+vwDVuG4XfnBWet/4tAWZhS/V+A/PJW
+         2tWCh9PgMVYk0AEVxgzad0VomEwdKBRSM/6TfhzCrmDkD0J/5dAP5QM7E9edWSBnGwqx
+         GP57LgQSHwDxyOSlIyV651YV0CAJK0kBWRhYbiDlpO+6H4haRhkhmJ2aV2YbU5MFTxL8
+         obuSVf9QKyN8dhjL/29CBdWid3tM1MdYS4EQ6AfZ/A8tafCMbi2q4+H89bkPCJRx+Zeb
+         OvQg==
+X-Gm-Message-State: AOJu0YyFmRCX/H20/YRD04REVvZz9fGtt/xiMhKcnnEn213dRIQvmViN
+	9TFzZpab8AUkTDx+BBfhEGTaha1pSGpIOfvZJI2zNZRphgeKpEhJ9uDrVtdP
+X-Gm-Gg: ASbGnct53knD5D6qDTQ6hVt9YTUFKZ1ne0tCi9R/JMxPoSSaCBwnHLiQ7TfAPukOsEY
+	D8FA4MslyTll008J9r7CvDsChdei8IqS2zjdMVTSmiTv4zPs7/x0IHwUEyV8SlRBq47CZJejLpY
+	pxatAx03Cqta9eUqA2xLWXBB4KvaJBeAb7IKojg3swsnq8gl6kU89azSL1xBjQheraDYZnY4auG
+	pZBxUnsnYJ4Dv51tb1HnA3kpnYDQnJcz1MytlwHMADHvhmi8/2pkdKYoBZEwGSaM2wSnbodKqu8
+	zCeb/f8HIyk4wxGbNMT0CJhGaCP06Y9lJcojfyJl+U4CF6hyYXMrjX8OiBoC2SVTGmbi5G86vRo
+	yKUX2u4UmOLoPryDFg+A9WRwmsw47XBekd7C4Ty89Hw==
+X-Google-Smtp-Source: AGHT+IF55j0tpgX2dhpgI8KlENSFbarYQqP98YLsJ9X0IaxYiWk6FedlybQVZG4DXgzs3xkDzrzcLg==
+X-Received: by 2002:a17:902:d488:b0:21a:8300:b9d5 with SMTP id d9443c01a7336-22dbf5f8fc7mr5396685ad.23.1745541845278;
+        Thu, 24 Apr 2025 17:44:05 -0700 (PDT)
 Received: from ?IPV6:2601:646:8201:fd20:4cdc:d44e:eaf:ca3b? ([2601:646:8201:fd20:4cdc:d44e:eaf:ca3b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db5221a82sm19959555ad.257.2025.04.24.17.38.33
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4d77395sm20143025ad.5.2025.04.24.17.44.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Apr 2025 17:38:34 -0700 (PDT)
-Message-ID: <cc7e84d0-3bcc-42e0-aeb1-0f8f713abfae@gmail.com>
-Date: Thu, 24 Apr 2025 17:38:32 -0700
+        Thu, 24 Apr 2025 17:44:04 -0700 (PDT)
+Message-ID: <0724d355-d683-4b4f-abd4-68c31bbef674@gmail.com>
+Date: Thu, 24 Apr 2025 17:44:03 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 01/11] cmake-native.bbclass: Abstraction to use
- cmake with native toolchains
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/11] clang-merge: Bring clang recipes from meta-clang
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Liu Yiding <liuyd.fnst@fujitsu.com>
 References: <20250424-clang-merge-v1-0-5a492a8461aa@gmail.com>
- <20250424-clang-merge-v1-1-5a492a8461aa@gmail.com>
- <CANNYZj-_wX2XPBXZs4ZqVc7h85H=_KcK+5E4VH+VPNNZiyWYgQ@mail.gmail.com>
+ <zvfx3kfrbicdbv424j4ustmrrjwjg7immyx4lp6ihrnwktgsks@rqy3zvo7xjai>
 Content-Language: en-US
 From: Khem Raj <raj.khem@gmail.com>
 Autocrypt: addr=raj.khem@gmail.com; keydata=
@@ -97,58 +96,92 @@ Autocrypt: addr=raj.khem@gmail.com; keydata=
  suq7Hnb7vszlFYdbzeqjY81LSyxA0kcpgJxdLv9o7UuCEnHDZLPbHdQ83PmyyBKSI31AKe7R
  XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiwkkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
  VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
-In-Reply-To: <CANNYZj-_wX2XPBXZs4ZqVc7h85H=_KcK+5E4VH+VPNNZiyWYgQ@mail.gmail.com>
+In-Reply-To: <zvfx3kfrbicdbv424j4ustmrrjwjg7immyx4lp6ihrnwktgsks@rqy3zvo7xjai>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------u0lR10BIhaB9M0XdveAK3DWA"
+ boundary="------------JH0dgnFeVVEf0z4XJNz0w25f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 00:38:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215410
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 00:44:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215411
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------u0lR10BIhaB9M0XdveAK3DWA
-Content-Type: multipart/mixed; boundary="------------EBu9IyfLpQI0a3j0VIaBxy2C";
+--------------JH0dgnFeVVEf0z4XJNz0w25f
+Content-Type: multipart/mixed; boundary="------------QTbIlZafTFPnIOA3VgA4iR71";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-ID: <cc7e84d0-3bcc-42e0-aeb1-0f8f713abfae@gmail.com>
-Subject: Re: [OE-core] [PATCH 01/11] cmake-native.bbclass: Abstraction to use
- cmake with native toolchains
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Liu Yiding <liuyd.fnst@fujitsu.com>
+Message-ID: <0724d355-d683-4b4f-abd4-68c31bbef674@gmail.com>
+Subject: Re: [PATCH 00/11] clang-merge: Bring clang recipes from meta-clang
 References: <20250424-clang-merge-v1-0-5a492a8461aa@gmail.com>
- <20250424-clang-merge-v1-1-5a492a8461aa@gmail.com>
- <CANNYZj-_wX2XPBXZs4ZqVc7h85H=_KcK+5E4VH+VPNNZiyWYgQ@mail.gmail.com>
-In-Reply-To: <CANNYZj-_wX2XPBXZs4ZqVc7h85H=_KcK+5E4VH+VPNNZiyWYgQ@mail.gmail.com>
+ <zvfx3kfrbicdbv424j4ustmrrjwjg7immyx4lp6ihrnwktgsks@rqy3zvo7xjai>
+In-Reply-To: <zvfx3kfrbicdbv424j4ustmrrjwjg7immyx4lp6ihrnwktgsks@rqy3zvo7xjai>
 
---------------EBu9IyfLpQI0a3j0VIaBxy2C
-Content-Type: multipart/mixed; boundary="------------sgKvJZWocoHgbqvJG1eFI02f"
+--------------QTbIlZafTFPnIOA3VgA4iR71
+Content-Type: multipart/mixed; boundary="------------uS7bmWWoM6CiDEMrnzbYuEv5"
 
---------------sgKvJZWocoHgbqvJG1eFI02f
+--------------uS7bmWWoM6CiDEMrnzbYuEv5
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-T24gNC8yNC8yNSAzOjQ4IEFNLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90ZToNCj4gT24gVGh1
-LCAyNCBBcHIgMjAyNSBhdCAwOToyMSwgS2hlbSBSYWogdmlhIGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcNCj4gPHJhai5raGVtPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3
-cm90ZToNCj4+ICsjIE5hdGl2ZSBDL0MrKyBjb21waWxlciAod2l0aG91dCBjcHUgYXJjaC90
-dW5lIGFyZ3VtZW50cykNCj4+ICtPRUNNQUtFX05BVElWRV9DX0NPTVBJTEVSID89ICJgZWNo
-byAke0JVSUxEX0NDfSB8IHNlZCAncy9eXChbXiBdKlwpLiovXDEvJ2AiDQo+PiArT0VDTUFL
-RV9OQVRJVkVfQ1hYX0NPTVBJTEVSID89ICJgZWNobyAke0JVSUxEX0NYWH0gfCBzZWQgJ3Mv
-XlwoW14gXSpcKS4qL1wxLydgIg0KPj4gK3NldCggQ01BS0VfU1lTVEVNX05BTUUgYGVjaG8g
-JHtCVUlMRF9PU30gfCBzZWQgLWUgJ3MvXi4vXHUmLycgLWUgJ3MvXlwoTGludXhcKS4qL1wx
-LydgICkNCj4gDQo+IEkgdGhpbmsgd2UgbmVlZCB0byBzZXQgYSBoaWdoZXIgc3RhbmRhcmQg
-Zm9yIGFkZGluZyBjcnlwdGljIHNlZA0KPiBleHByZXNzaW9uczogd2h5IGl0J3MgdXNlZCBh
-bmQgZXhhbXBsZSB0cmFuc2Zvcm1hdGlvbnMgYm90aCBuZWVkIHRvIGJlDQo+IGdpdmVuIGlu
-IGNvbW1lbnRzIGp1c3QgYWJvdmUgdGhlIHNlZCBsaW5lLg0KPiANCj4gQWxzbywgY2FuIHdl
-IHJhdGhlciBkZWZpbmUgQlVJTERfQ0MgZnJvbSBwaWVjZXMgc3VjaCB0aGF0IG9uZSBvZiB0
-aGVtDQo+IGNhbiBiZSB1c2VkIGhlcmUgZGlyZWN0bHk/DQoNCkluZmFjdCB0aGlzIGNhbiBi
-ZSBnZW5lcmF0ZWQgdXNpbmcgZXhpc3RpbmcgY21ha2UgYmJjbGFzcyBpdHNlbGYuIEkgaGF2
-ZSANCnJld29ya2VkIHRoZSBwYXRjaCB0byB1dGlsaXplIGNtYWtlIGJiY2xhc3MgdG8gZ2Vu
-ZXJhdGUgdGhlIG5hdGl2ZSBjbWFrZSANCnRvb2xjaGFpbiBmaWxlLiBJdCB3aWxsIGJlIGlu
-IHYyLg0KDQo+IA0KPiBBbGV4DQo=
---------------sgKvJZWocoHgbqvJG1eFI02f
+T24gNC8yNC8yNSAzOjA0IEFNLCBEbWl0cnkgQmFyeXNoa292IHdyb3RlOg0KPiBPbiBUaHUs
+IEFwciAyNCwgMjAyNSBhdCAxMjoyMDozNEFNIC0wNzAwLCBLaGVtIFJhaiB3cm90ZToNCj4+
+IExhdGVzdCBtZXNhIDI1KyBuZWVkcyBsaWJjbGFuZyBkdXJpbmcgYnVpbGQgZm9yIHRvb2xz
+IGxpa2UgbWVzYV9jbGMsDQo+PiB3ZSBlbmFobmNlZCBhbHJlYWR5IGV4aXN0aW5nIGxsdm0g
+cmVjaXBlIHRvIGJ1aWxkIHBpZWNlcyBvZiBjbGFuZyBhcw0KPj4gd2VsbCwgd2hpY2ggd29y
+a2VkIGZvciBtZXNhJ3MgbmVlZHMgYnV0IGJyb2tlIHN0YXRpYyBjbGFuZyBjb21waWxlcg0K
+Pj4gcHJvdmlkZWQgYnkgbWV0YS1jbGFuZyBkdWUgdG8gbmV3Zm91bmQgY29uZmxpY3RzLCBz
+aW5jZSBjbGFuZyBpcyBub3cNCj4+IGJ1aWx0IHdpdGggbGx2bSByZWNpcGUgZnJvbSBjb3Jl
+IGFuZCBhbHNvIGJ5IG1ldGEtY2xhbmcgYW5kIHRoZXkNCj4+IGNvbXBldGUgZm9yIHNhbWUg
+bmFtZXNwYWNlLCBhbiBhdHRlbXB0IHRvIG1ha2UgdGhlbSBjby1oYWJpdCBkaWQgcmV2ZWFs
+DQo+PiBtb3JlIGRpZmZpY3VsdGllcy4gQ2xhbmcgY29tcGlsZXIgZnJvbSBtZXRhLWNsYW5n
+IGlzIG5vdCBhYmxlIHRvIHVzZQ0KPj4gbGx2bSBsaWJyYXJpZXMgZnJvbSBjb3JlIHNpbmNl
+IHRoZXkgcGF0Y2ggdGhlbSBkaWZmZXJlbnRseS4NCj4+DQo+PiBUaGlzIHBhdGNoIHNlcmll
+cyB0aGVyZWZvcmUgYnJpbmdzIGNsYW5nIGFuZCBhbGwgcmVjaXBlcyB0aGF0IGJ1aWxkIGZy
+b20NCj4+IGxsdm0gc291cmNlcyBpbnRvIGNvcmUuIFdpdGggdGhpcyBjaGFuZ2VzZXQsIGNs
+YW5nIHJlY2lwZXMgY2FuIGJlIHJlbW92ZWQNCj4+IGZyb20gbWV0YS1jbGFuZyB0aGVyZSBp
+cyBhIHB1bGwgcmVxdWVzdCBmb3IgdGhhdCBhbHJlYWR5IFsxXQ0KPj4gQXMgYW4gYXNpZGUs
+IHdlIG9ubHkgYnVpbGQgY2xhbmcgb25jZSBhbmQgdXNlIGl0IGZvciBtZXRhLWNsYW5nIG5l
+ZWRzDQo+PiBhbmQgY29yZSBuZWVkcy4NCj4+DQo+PiBXaXRoIHRoaXMsIG1ldGEtY2xhbmcg
+Y2FuIGRlcGVuZCB1cG9uIGNvcmUgbGF5ZXIgdG8gcHJvdmlkZSBjbGFuZyBhbmQNCj4+IHJl
+bGF0ZWQgcmVjaXBlcywgbWV0YS1jbGFuZyB3aWxsIHN0aWxsIHByb3ZpZGUgdGhlIHRvb2xj
+aGFpbiBwb2xpY2llcw0KPj4gYXJvdW5kIGNsYW5nIGJhc2VkIHRvb2xjaGFpbnMuIENsYW5n
+IGNvbXBpbGVyIGZyb20gY29yZSwgd2hpbGUgdXNhYmxlDQo+PiBmb3IgbWVzYSBpcyBub3Qg
+eWV0IGZ1bGx5IHVzYWJsZSBvdXQgb2YgYm94LCBzaW5jZSB3ZSBuZWVkIHRvIHdvcmtvdXQN
+Cj4+IHRoZSBtdWx0aS10b29sY2hhaW4gYXJjaGl0ZWN0dXJlIGZvciBjb3JlLCB3aGljaCB3
+aWxsIGJlIGRvbmUgaW4gbmV4dA0KPj4gcGhhc2UgYWZ0ZXIgdGhpcyBtZXJnZS4NCj4+DQo+
+PiBbMV0gaHR0cHM6Ly9naXRodWIuY29tL2tyYWovbWV0YS1jbGFuZy9wdWxsLzEwODgNCj4+
+DQo+PiBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPg0KPiAN
+Cj4gQWZ0ZXIgZml4aW5nIHRoZSBSUFJPVklERVMsIHRoaXMgc3RpbGwgZmFpbHMgdGhlIG5h
+dGl2ZXNkay1tZXNhIGJ1aWxkIGlmDQoNCmNsYW5nIHJlY2lwZSBkb2VzIGhhdmUgdGhpcw0K
+DQpQUk9WSURFUzphcHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBsbHZtLW5hdGl2ZSBsaWJjbGMt
+bmF0aXZlIA0Kc3BpcnYtbGx2bS10cmFuc2xhdG9yLW5hdGl2ZSINClBST1ZJREVTOmFwcGVu
+ZDpjbGFzcy10YXJnZXQgPSAiIGxsdm0gbGliY2xjIHNwaXJ2LWxsdm0tdHJhbnNsYXRvciIN
+ClBST1ZJREVTOmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAiIG5hdGl2ZXNkay1sbHZtIG5h
+dGl2ZXNkay1saWJjbGMgDQpuYXRpdmVzZGstc3BpcnYtbGx2bS10cmFuc2xhdG9yIg0KDQoN
+Ckkgd29uZGVyIHdoeSBpcyBSUFJPVklERSBuZWVkZWQuDQoNCj4gSSBlbmFibGUgT3BlbkNM
+Lg0KPiANCj4gRVJST1I6IFFBIElzc3VlOiBGaWxlIC91c3IvbG9jYWwvb2Utc2RrLWhhcmRj
+b2RlZC1idWlsZHBhdGgvc3lzcm9vdHMveDg2XzY0LXBva3lzZGstbGludXgvdXNyL2xpYi9s
+aWJNZXNhT3BlbkNMLnNvLjEuMC4wIGluIHBhY2thZ2UgbmF0aXZlc2RrLWxpYm9wZW5jbC1t
+ZXNhIGNvbnRhaW5zIHJlZmVyZW5jZSB0byBUTVBESVIgW2J1aWxkcGF0aHNdDQo+IA0KPiBX
+aGlsZSBidWlsZGluZyBPcGVuQ0wtZW5hYmxlZCBNZXNhOg0KPiANCj4gL2hvbWUvbHVtYWcv
+UHJvamVjdHMvUlBCL2J1aWxkLXJwYi90bXAtcG9reS93b3JrL2NvcnRleGE1Ny1wb2t5LWxp
+bnV4L21lc2EvMjUuMC4yL3JlY2lwZS1zeXNyb290L3Vzci9pbmNsdWRlL2xsdm0vQURUL0Rl
+bnNlTWFwSW5mby5oOjE3OjEwOiBmYXRhbCBlcnJvcjogJ2Nhc3NlcnQnIGZpbGUgbm90IGZv
+dW5kDQo+IFVuYWJsZSB0byBnZW5lcmF0ZSBiaW5kaW5nczogY2xhbmcgZGlhZ25vc2VkIGVy
+cm9yOiAvaG9tZS9sdW1hZy9Qcm9qZWN0cy9SUEIvYnVpbGQtcnBiL3RtcC1wb2t5L3dvcmsv
+Y29ydGV4YTU3LXBva3ktbGludXgvbWVzYS8yNS4wLjIvcmVjaXBlLXN5c3Jvb3QvdXNyL2lu
+Y2x1ZGUvbGx2bS9BRFQvRGVuc2VNYXBJbmZvLmg6MTc6MTA6IGZhdGFsIGVycm9yOiAnY2Fz
+c2VydCcgZmlsZSBub3QgZm91bmQNCiA+DQoNCkkgZG8gbm90IHNlZSB0aGlzIGVycm9yIGZv
+ciBxZW11eDg2LTY0IGhlcmUgKCBtYXliZSBpdCBoYXBwZW5zIGZvciBhcm02NCANCnRhcmdl
+dHMgYWxvbmUgPyApIEkgZW5hYmxlZCBvcGVuY2wgcmVsYXRlZCBwYWthZ2Vjb25maWdzIGZv
+ciANCm5hdGl2ZXNkay1tZXNhIEkgYWRkZWQgdGhpcyBsaW5lDQoNClBBQ0tBR0VDT05GSUc6
+YXBwZW5kOmNsYXNzLW5hdGl2ZXNkayA9ICIgbGliY2xjIGdhbGxpdW0tbGx2bSBhbWQgc3Zn
+YSINCg0KYW5kIG5hdGl2ZXNkay1tZXNhIGJ1aWx0IGp1c3QgZmluZS4NCg0K
+--------------uS7bmWWoM6CiDEMrnzbYuEv5
 Content-Type: application/pgp-keys; name="OpenPGP_0xBB053355919D3314.asc"
 Content-Disposition: attachment; filename="OpenPGP_0xBB053355919D3314.asc"
 Content-Description: OpenPGP public key
@@ -198,21 +231,21 @@ kQIbDAAKCRC7BTNVkZ0zFHVUAJwKR1o7etvz+BGmuV2YAfp5Hj16jgCeMPeHdpPC
 =3D+jUt
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------sgKvJZWocoHgbqvJG1eFI02f--
+--------------uS7bmWWoM6CiDEMrnzbYuEv5--
 
---------------EBu9IyfLpQI0a3j0VIaBxy2C--
+--------------QTbIlZafTFPnIOA3VgA4iR71--
 
---------------u0lR10BIhaB9M0XdveAK3DWA
+--------------JH0dgnFeVVEf0z4XJNz0w25f
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCaArZiQUDAAAAAAAKCRC7BTNVkZ0zFIW5
-AJ9cir/Mvl3VBVTQg+BRQcHZVlq5wACdH/Ul+AJ3Htg4W8t8p9HIYcOb0tU=
-=AbbF
+wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCaAra0wUDAAAAAAAKCRC7BTNVkZ0zFHf8
+AJ46MGABmlw9Tkk3Sn/T+gaOKg4EUACggrJ6KmGnqQNE3MtCZTdw1h25gio=
+=txdH
 -----END PGP SIGNATURE-----
 
---------------u0lR10BIhaB9M0XdveAK3DWA--
+--------------JH0dgnFeVVEf0z4XJNz0w25f--
 
