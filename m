@@ -2,149 +2,133 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84565C369CB
-	for <webhook@archiver.kernel.org>; Sat, 26 Apr 2025 03:54:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E56AC369CB
+	for <webhook@archiver.kernel.org>; Sat, 26 Apr 2025 03:57:18 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.3578.1745639655282278843
+ by mx.groups.io with SMTP id smtpd.web11.3663.1745639836572371240
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Apr 2025 20:54:15 -0700
+ Fri, 25 Apr 2025 20:57:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=dO8cVvqG;
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=D3hpUXLp;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53PGKMJa001950
-	for <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 03:54:14 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53Q3YsOq002331
+	for <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 03:57:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=Pb5QherIJGAF/op0weeJdpUi
-	+bWAzxIHZIyp4GMaf8E=; b=dO8cVvqGL3UG7VoF3+xtW3fPBUEDRoAaG+3Ca/Rk
-	v9oRuWBTU9WgYymN8OiIbLRfebjzfHleo/x98gKD2fyPRfzU2cpjMwXkhWk/+9nu
-	RtpP1SHWPottDWPQijAYY7IpMm6YxqjJvFA9OQm55K9R6PzfenBIqY8rsvidzEg6
-	KvlDSC5J82WUqO965QB0tAU0zn/mDA0v0yCmGQNpoKGHl97oCC1/QP0chdUJY/Pl
-	tQKVghCso7l2kkUKixApqjX71v9Pu3A37eJ0DjwTegG4U7IMlXRncUHjBLghNSo9
-	SNyViV42UFfH1HI3Yym3BEYPYN+C8+pQn5k4Jm3ktEhR1Q==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh3jub0-1
+	:references:subject:to; s=qcppdkim1; bh=KN3qpDnQVJ16OdvY7K214Ccd
+	TGS71TUREOHxGhfvsXg=; b=D3hpUXLpsm2l1OhV85Wd8CV08G8lBswd5K/1K6DH
+	TvFmYV1AURABsRlOxjfByhuoUc/VVUb4yJA/tWrs4+suKDhnhIEpkHOl/UdDT8N+
+	JIT7hb1BUex+XbOR5DCJbDU/hCrWK3XC8RIi34Bpd6GVANC8xTBOhr9R3iX8ObP5
+	RhV2RlBHKkUuBZQPXrMTZm8bheZyYNeU3SZ2jcLyVxzOT53re1Z19rNhkXH/h05+
+	qjkUyKo3MCxVIQarsqwGpDq0OdyNSgcbmY6pOWcz8P19hw228P6vyr+gkUTiIGDp
+	iQlto9shN1RzAEGp4MmnkyxFF0b5qE/TSnWU4aqk1Nlemw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468qq5815e-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 03:54:14 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6f2c94f8f11so76994796d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 20:54:14 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 03:57:16 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c53e316734so477638585a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Apr 2025 20:57:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745639653; x=1746244453;
+        d=1e100.net; s=20230601; t=1745639834; x=1746244634;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pb5QherIJGAF/op0weeJdpUi+bWAzxIHZIyp4GMaf8E=;
-        b=vdattrAkzarPNTcXsPoj373jOfy9foGZXPfjmoYDi6PfCeQCsph8fXLZ6B0KO0xwg7
-         1IHjlHNrG9MPmrD2+9jq/w6jhe0vrH//IO840cNLNnSEmU+/iGM7xlkdZSix9y2szyTO
-         Hg3x+Q4cQtvgNbxjb+ukfj1wWpWGz1e/d3F4XonuaLj8G73ukK+QJH30xF/IlNK7wiiE
-         uvXLbdoCy8YemKxDuQOP/Bvhh4j707FZKUvHef8oGNo3UhtwJNUAy6Vk3tsQDW8XxSIe
-         emyMuwS9V+5J9k23eEqE0NPp73JCWQ+VjZGO8wfTTn7ksrzfcSwP+GQ8KkuWmTqZtxIp
-         tG0g==
-X-Gm-Message-State: AOJu0Yyky0M3o+X/RbkGnoxFaqyymcaBlorczxiN/iGB6AEajdGAXFEc
-	cQ44fjkBRfd/fyTrqeMm8MI1LMFE7ZNzOC9BduQnLQTErZtKoHgBuL2WZT68NCpEaHzv9F9DyBx
-	ppeIKePiqoDsgcMG1Z0nN8ucOCJPEAKaiR/cW9IddWC/upwdbQwhCKrBwE9L3Hrhg/9KdUfrA0n
-	DuW8Y=
-X-Gm-Gg: ASbGncscn/TMnzf2B/kbDuw7jt0UgrQKQB1kLZo4nDEncYXJpM7fRl5udCxH6LS3Xws
-	mn5KNv1UjplO6vwuhtQ8BikR2PehuTSCTp/OvUaDLcdazAgKHtoboVNbnZkLj83pC/aQFHJ7Rpq
-	nrzPagFAU7DPQ5EL4mR/Z9ipkHe72p0nl508OQk6afhhd5qoxY72ZBCKmtrOEpvSyqSalpXi4GP
-	bJ9QXVwfm8b2kUkXB8EBLb8GKxuENL9MmKrH0e6MGc6c31R18hfE9mtIW9ncaViwikPEaXHTBGd
-	Uylodb/bkDxtmtLxWv8O7ke/zX0JVYqqsNqNo18uq8OInwLLW7AygEj5YZIqUzG/KLEN/Ofkmlk
+        bh=KN3qpDnQVJ16OdvY7K214CcdTGS71TUREOHxGhfvsXg=;
+        b=lcmqY7r/RtISRCHmolBov/5/mgJGcARLKQGACDm36aAd/4qzSvAmiaRtOjLuWASJ0d
+         1LLGMtoErMysMX+FcnK5mAMLl5LiE9oTMhCp+bgmFcpbHV1EJuYx5akiMt3cpm9nYVmo
+         uBBQKPymYOT4QT7eqj5JYNssyRvr53r+OKNEbMGtt3N3//4hEX4GTV58QhZ145Pv6KS+
+         gLygfiYb+LtdFig3JYq8i44HYPmyO8tgV5nDChQYCTS9v59qivNQa5Mf11KUSNKHK7Lh
+         CQGbDwDuZaKFK/kq2MDyDi25x1Cdlso1S5QJn0f4tM2LxxcOJL90eRyWeWgRNZ1YPW8u
+         SZGw==
+X-Gm-Message-State: AOJu0Yx01RAeZtPo0bK3jhfjiF6Ps1mVb56PXckfufcfFxnE3U9JN3tm
+	Px6XGhFPLhCNA2rAHcscR875TRP3TptIuIAFbVKfvp+qxVyEJ8IHYAvlSZm7SMBn9fNnG6JMOVX
+	fHRIFkCsV/t8UnpmWKToPF8lhvbhsjlQvtbTXSQEJvBCXhgWSGXWiRz1JJ/aPMopt9Mc1n8Njom
+	7irnSM5Yeqf44=
+X-Gm-Gg: ASbGncsurAQmL7P/2HO1IoMifpkL7goPz+W0ZXhDpR1iycYp1eLjvZ5NXfW2bmkghEr
+	KfhJpOWOnahmC0pzeQ+Jyc2UPNCqAVGs6JF0sVE4o/IkFEdiWzrJO/aHQmAY8CMpUetJf4BjVL4
+	M9qWunFs/PtZ06S6sfzktdvh5YRifxiELt+gZsSfXdNT1JvHU3V+ubTfNKYI6M8PmvRZMouqVlY
+	rdAKWoQ2VYXkSCEiiy9Q82yQXNCs4+E0pZ9JM27TB4VF4006vlodmwbkLjLj/ho3keqzl9cY691
+	mu+jqbI7i4PydKbgKGnTWKSfauoW8uD80P6fnogjNaLPY7Hqdgv9eMd5BIjWlhPHgPAaN7cGkBU
 	=
-X-Received: by 2002:a05:6214:b6a:b0:6e8:fbe2:2db5 with SMTP id 6a1803df08f44-6f4d1f90636mr35816956d6.35.1745639653278;
-        Fri, 25 Apr 2025 20:54:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE442+/ijGNSewBPNwxBbbbsAB+4veogvMAcfhIZVczFxXfnRaggcmJTwZLV6ESL/uX+q00/A==
-X-Received: by 2002:a05:6214:b6a:b0:6e8:fbe2:2db5 with SMTP id 6a1803df08f44-6f4d1f90636mr35816726d6.35.1745639652835;
-        Fri, 25 Apr 2025 20:54:12 -0700 (PDT)
+X-Received: by 2002:a05:620a:4249:b0:7c5:6b15:1483 with SMTP id af79cd13be357-7c9606b0147mr878354285a.6.1745639834486;
+        Fri, 25 Apr 2025 20:57:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEpkanAtQGvrQWUalYy04CjnyU2WnYcGl4Xte+bgdwnDrg48HN0ReUhw71vYQ1LNxPth6XVqg==
+X-Received: by 2002:a05:620a:4249:b0:7c5:6b15:1483 with SMTP id af79cd13be357-7c9606b0147mr878352985a.6.1745639834195;
+        Fri, 25 Apr 2025 20:57:14 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-317d1b97fd6sm10084651fa.100.2025.04.25.20.54.11
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e7f96a1c6sm796236e87.201.2025.04.25.20.57.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 20:54:11 -0700 (PDT)
-Date: Sat, 26 Apr 2025 06:54:10 +0300
+        Fri, 25 Apr 2025 20:57:13 -0700 (PDT)
+Date: Sat, 26 Apr 2025 06:57:11 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-        Liu Yiding <liuyd.fnst@fujitsu.com>
-Subject: Re: [PATCH v3 00/10] clang-merge: Bring clang recipes from meta-clang
-Message-ID: <rq6hi25ynci5jf3vayfwx4moxq2jv6ptdk5nqyknnbygu5dtiy@cbaglsyyfiz5>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 08/10] mesa: Pass needed clang flags via
+ BINDGEN_EXTRA_CLANG_ARGS
+Message-ID: <iy4yhfuujjexpoqu5rrd3bqz5nmcoaofbfuqnc5vrfhctj3mpy@ksq4urk5q3xw>
 References: <20250425-clang-merge-v3-0-feea6f07d130@gmail.com>
+ <20250425-clang-merge-v3-8-feea6f07d130@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250425-clang-merge-v3-0-feea6f07d130@gmail.com>
-X-Proofpoint-ORIG-GUID: Q9ib5sSNpdOxlUAs2Gj5EVaub4Z2k2Ev
-X-Proofpoint-GUID: Q9ib5sSNpdOxlUAs2Gj5EVaub4Z2k2Ev
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI2MDAyNSBTYWx0ZWRfXzhUW1bdEHSCt 6KjYW2XUKHbxvj/6opC9y/wrYSIE54wzZe9sWQOtLuaAfN9L5MDwZdn+g5NqlQSbWuXB8IuuwXJ Heapxt7g322Pi+mVtmpAVKZdbWlVAVrxcNjOzBDpZFAtHiNB0PAUiZMFNzix5XZ+pHU0/wlHRXi
- t10366fpH11ERLxU41X9X23FNrBTzDUvi/KyNP3oXyLvks/228LRsV5TQ9loKufSIrYO8WckaQk zyrytGSOpq4xekyhvSZgM87VljWkHxjUeIkelzhOBO1pjNcG/y7kNHrlmBTX9VwVy/35zU6EOo7 5E6hx2/c3UoUhdd4MHwdA90WFOQew6SI/LiC1dPSV+w5HYXlUt84uJQYzKsBg0aEuCNQGnE8Quu
- Ywdsz7pVwvuUu4BzgoLdTtJQO2FLzEI3G/XicZ98MYG1Mll8jVPnV+0h7gvaSMy4gv0aEJ5O
-X-Authority-Analysis: v=2.4 cv=Mepsu4/f c=1 sm=1 tr=0 ts=680c58e6 cx=c_pps a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=W3HFafzmT_P6l066yiAA:9 a=CjuIK1q_8ugA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22
+In-Reply-To: <20250425-clang-merge-v3-8-feea6f07d130@gmail.com>
+X-Proofpoint-ORIG-GUID: nASGPPkVi4n_rJHMmD9VR-K8f6kkYigl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI2MDAyNiBTYWx0ZWRfX70mw5gk6nM40 f8sxPEmRkJuSbSDFVsbblYVDfIJM5fl7J+t23xdnHHiPdnZMhMLRPWgv0HZ2Bn/cS8q//p6Lf1q ity+8mkG/MMFP/25BoC9BdZuc/ZuJ2CPTwbTbDPpvZWrqyIE0ym0Fsp5vnTH7ZJd68c0eu3eGAD
+ lSyOIeoFYEdjNbRGDLXKde4IsyqITDHu/a3bAgzQS6K1MUAVjlXwezA6NZ2sjTThxWaC3qWZLuq jgTdASUZFyQEEdixR/A4h6RXM+HXVhZNumC++UirHm0xgxtu67Fj3KPd/AOUYT2YiLcXo3V5X1L QNV5fZ8NgNW/kf5QA4cr2vCvUEAvwtgx34neG0/uuA5Kcu/kOLagihW4D5hjgKywmf6XkXybeSc
+ kQSMWeMBoLP+t1roZfIsX/bF5AYIrhl3YfNsjtBL9mr8LcBQh0Es9qEu8NDNRm8DjoWksAI0
+X-Authority-Analysis: v=2.4 cv=QP1oRhLL c=1 sm=1 tr=0 ts=680c599c cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=CbRpkjVbj6gFkklgJpQA:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: nASGPPkVi4n_rJHMmD9VR-K8f6kkYigl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-04-26_01,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 malwarescore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 clxscore=1015
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504260025
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ clxscore=1015 mlxlogscore=791 lowpriorityscore=0 adultscore=0 mlxscore=0
+ bulkscore=0 phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504260026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 03:54:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215510
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 03:57:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215511
 
-On Fri, Apr 25, 2025 at 07:35:02PM -0700, Khem Raj wrote:
-> Latest mesa 25+ needs libclang during build for tools like mesa_clc,
-> we enahnced already existing llvm recipe to build pieces of clang as
-> well, which worked for mesa's needs but broke static clang compiler
-> provided by meta-clang due to newfound conflicts, since clang is now
-> built with llvm recipe from core and also by meta-clang and they
-> compete for same namespace, an attempt to make them co-habit did reveal
-> more difficulties. Clang compiler from meta-clang is not able to use
-> llvm libraries from core since they patch them differently.
+On Fri, Apr 25, 2025 at 07:35:10PM -0700, Khem Raj wrote:
+> This is needed for clang to find the c++ headers when invoked via
+> bindgen
 > 
-> This patch series therefore brings clang and all recipes that build from
-> llvm sources into core. With this changeset, clang recipes can be removed
-> from meta-clang there is a pull request for that already [1]
-> As an aside, we only build clang once and use it for meta-clang needs
-> and core needs.
-> 
-> With this, meta-clang can depend upon core layer to provide clang and
-> related recipes, meta-clang will still provide the toolchain policies
-> around clang based toolchains. Clang compiler from core, while usable
-> for mesa is not yet fully usable out of box, since we need to workout
-> the multi-toolchain architecture for core, which will be done in next
-> phase after this merge.
-
-After testing several configurations, only nativesdk-mesa with enabled OpenCL fails at building rusticl_llvm_bindings.rs:
-
-/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/cstdlib:75:15: fatal error: 'stdlib.h' file not found
-Unable to generate bindings: clang diagnosed error: /../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/cstdlib:75:15: fatal error: 'stdlib.h' file not found
-
-All other configuraions seems to work. I think it can be merged now with
-nativesdk-mesa with OpenCL being fixed later.
-
-> 
-> [1] https://github.com/kraj/meta-clang/pull/1088
+> Fixes
+> | /mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux/mesa/25.0.2/recipe-sysroot/usr/include/llvm/ADT/DenseMapInfo.h:17:10: fatal error: 'cassert' file not found
+> | Unable to generate bindings: clang diagnosed error: /mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux/mesa/25.0.2/recipe-sysroot/usr/include/llvm/ADT/DenseMapInfo.h:17:10: fatal error: 'cassert' file not found
+> |
 > 
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
-> Changes in v3:
-> - Fix building mesa with openCL packageconfig.
-> - Fix buildpaths in libMesaOpenCL.so.1.0.0.
-> - Add mesa RPROVIDES for libclc and spirv-llvm-translator
-> - Link to v2: https://lore.kernel.org/r/20250424-clang-merge-v2-0-0a51d0c1940d@gmail.com
+>  meta/recipes-graphics/mesa/mesa.inc | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Changes in v2:
-> - Address Feedback from Alex and Dmitry.
-> - Squash similar commits to reduce number of patches.
-> - Move native toolchain file generation to cmake bbclass instead of
->   adding new class
-> - Fix space/tabs indentation inconsistencies
-> - Reorder the patch sequence to avoid errors in future git bisects
-> - Fix use before define string problem in one of the patches
-> - Link to v1: https://lore.kernel.org/r/20250424-clang-merge-v1-0-5a492a8461aa@gmail.com
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index cd0f02c6d7b7c8de37bdb1695abc70d95f99a919..3ebd96fcb04b5612b293794ca4d124f1d932f54f 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -233,6 +233,7 @@ FULL_OPTIMIZATION:append = " -fno-omit-frame-pointer"
+>  CFLAGS:append:armv5 = " -DMISSING_64BIT_ATOMICS"
+>  CFLAGS:append:armv6 = " -DMISSING_64BIT_ATOMICS"
+>  
+> +export BINDGEN_EXTRA_CLANG_ARGS = "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} --target=${TARGET_SYS}"
+
+Ideally this should be handled in meson.bbclass. It already sets bindgen_clang_arguments
+
+>  # Remove the mesa dependency on mesa-dev, as mesa is empty
+>  DEV_PKG_DEPENDENCY = ""
+>  
+> 
+> -- 
+> 2.49.0
+> 
 > 
 
 -- 
