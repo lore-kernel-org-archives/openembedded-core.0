@@ -2,68 +2,68 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77129C369CB
-	for <webhook@archiver.kernel.org>; Sat, 26 Apr 2025 23:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79325C369CB
+	for <webhook@archiver.kernel.org>; Sat, 26 Apr 2025 23:31:04 +0000 (UTC)
 Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.18177.1745709757548997785
+ by mx.groups.io with SMTP id smtpd.web11.18295.1745710256161700770
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Apr 2025 16:22:37 -0700
+ Sat, 26 Apr 2025 16:30:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YPnrAx/c;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=imCK/kXV;
  spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7376dd56f60so2653111b3a.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 16:22:37 -0700 (PDT)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-736e52948ebso3898336b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 16:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745709757; x=1746314557; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1745710255; x=1746315055; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=epdUBMN3T1QyZeoBWiJgN3Q4oKz+QjkbgE2a/2SIkBQ=;
-        b=YPnrAx/cV7/RmFIxBwt1veIfQRzDxIUigmR+F+H2ikddaRI5bgbfVNR70pMwK/SbIk
-         YFEqmHVE9QUkPSfLr++DmMzyY8821c+A1PK7zkCQ2aroPCMZ3nSQ8r6lv7mqaPI5wB/x
-         0/HVQHXJOaFn1w1O7eRw2oWDJ5xdhYQ+w+lAfpybFGKmpbmqV7onvXM6H6wyh4mtkAEB
-         HSnbq1JLiRiIFT2pNpllL51RK+6SdAtv2Ts2YyEZkSlHLQ4MbQz82XQKdCfjxkXtZwzi
-         D9NgcOhq9Hya4NSni/7aRJkZS9lbj0V975v5N7YayrNmmP0/0O+st+83+zI15U0TwdyH
-         EKxg==
+        bh=q0H6Q8wKiPLGklEldUdLLzCRNRpS+4QEoOKHoo1njdU=;
+        b=imCK/kXVRD6yJJ05BQvzD8HF3Ws2/xLQUFcD4cT0VthqZqNw92rnSurV0JFOxmpILW
+         Fbg3leJRWzz6SlGLBQkWml0qq5QXeYbYGuq6DvSJ664Z0gM0xDTAAILGQAjBj2WyinGO
+         mrYWjFK7MKVtbwAoI2vSnBFVXI9T4ZQgqP0tl5Mj5kRLCi/3DClQ9+J1BLypg/XlBa0j
+         X5JJ7DQZGf7+8pmMGBwhqEZwfH/DKbuvUMLgKzNQ6qvVR+ECb6b2QqDlpKJKWlcRy2m+
+         0RzqCMXpM1yJqisMaDrbeeQfv5UiTWLMoINP92uZndzQJj5AIuvcjoWrmsP0qGE0lrcZ
+         NiuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745709757; x=1746314557;
+        d=1e100.net; s=20230601; t=1745710255; x=1746315055;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=epdUBMN3T1QyZeoBWiJgN3Q4oKz+QjkbgE2a/2SIkBQ=;
-        b=odqH0gaqIiuoyYtBKhlCTZG3KbmJSykPegJt1c/Rnek6GNHl4NcgNIeYJNGVzv4p4V
-         ykrCsufApox1IuQeUuLIlpK7vP5DJl0mVfqiHYM3GrApqhkBkygQaXR0grLNMS1U3cbJ
-         kSYZlBe9j20MdNiUlIB29WrpROtGUOi6THk6AUYj8Vib73u5vYtzU8mM0/cXqDJV2JM0
-         MxkwGtwtRcWm1nOYkPtnD+kUbE7cPvn9W1oM7Zyq1pBbe8cm+A9T6VQcKA6O8WF2w0J4
-         jM/IqWM5OS4CZeLl6STqlw3Rf7GK7zn8eCAEZ67KdA1z5ZU6CkHrc/G27L+aN74x0YFX
-         PN8A==
-X-Gm-Message-State: AOJu0Yw7EjtvzkNUbCuz4biRhTMdoAGzGOMyfYeJMgMCS1wzZQk2p8Nz
-	eXeVodIHW2v7rvWOWNpkScWndAM7I8DY/TaXF5MJwJP1WpUZSzpe+FG6X0JV
-X-Gm-Gg: ASbGncs2hJTiJHuSHz4IrTZN90Dymg6ppAIDfyX6RGGvssT2XL5QQP1EvHqiUNW4CBs
-	bTBHafZuEiLKBjfXhxbJNGV00r6D55lncjD+vmrYxeE46aKu+dYhGbXgtuVej6YOoQFGen7VxAz
-	DOVdbXPUcoGPA9oRJgZOi/UprKZmaaqB/M090PjhauRFfslxyVLAlBFZy8UNxkbzty7DlRLKCId
-	C3wlwRKDremQIVYQjTucBjXlIsk+6dwkViw/JO53BlKmCH+KcBiA3/tpreRefkfLbwntkZxxYxR
-	9NeJy2IA7z2hIEpD9dB0Iu6HB2xVM6cy
-X-Google-Smtp-Source: AGHT+IG+Q72rNZ0JG9OtRfV3SxSFHQDMlxLjTCmIhT9FSTgU5atrjD1SUlDJg3BNlWiMPoCjljs17Q==
-X-Received: by 2002:a05:6a00:2402:b0:736:2a73:675b with SMTP id d2e1a72fcca58-73fd876d982mr10495732b3a.19.1745709755719;
-        Sat, 26 Apr 2025 16:22:35 -0700 (PDT)
+        bh=q0H6Q8wKiPLGklEldUdLLzCRNRpS+4QEoOKHoo1njdU=;
+        b=AUagZU49jmWtCzDEuO/1RurVi2MEyJQ3AIjf1aZjxqwWhuFYCzI2ouHavgfE0QJRBB
+         93/HiIzWtPb6Fb2ahMUn7FD1wuwlfDvV6mgCwiLtscTn9ugC4i16kuJHI5ql3z+1ryM8
+         JzrofVtzVu6pEhXZcTZHZ9Azq37/+hkxK2xoEUMftHT72GAWjQZVzdxF6KQmKW5AWG35
+         vp2i1Og1eD1pSkfTw4C/RAVL1gG8/AcNhJMh8k7TM2sX8Xb2eAOrjdtwLfkhWJfP24Vi
+         spojCxUr1LiRr0KcnV+alzowioZs/t/+Jd9dlieTEs3viFS/bM0LpY1t3BmlZf3EoOUl
+         EVHA==
+X-Gm-Message-State: AOJu0Yzg2ejPEi1a3zC8bEuTRAU/4mflsax14ZhbaR52/bIKiP2UEp2z
+	wQxbT+YbfyfXve2O6AlZXY26CVVd/70324vMIzprcuS+ywR4I+yDUEbG3jYa
+X-Gm-Gg: ASbGncsPTfl/sce1kosiFMIqbbAX9VsVEbxuWhw7M2MfYGIHcobpHgJTxVcSiTtrcqU
+	K5oovQDvSI2AR3AdXW9umOWOdrsA3aHYTs+0lTGHUzVtrigkgGANJiMfFh4UsO5a6feUhbqhcZz
+	O5jN4k5W5t5Yq1vdRA90IuRqHyUbx2bFrZWYYuvY5WzpLSKwZR+k/KbzdTb9rfeLw7mW2DNXHWw
+	e97fxabaITguSY9WEiWmHWsp3NpR76bn2CJDHNnaX412iCqh5BpVbSQ1R27MF6ENJ1KXi1sr9f+
+	FkMi0dnINZncQ2fQTkkrmCK/IMMx3RD+
+X-Google-Smtp-Source: AGHT+IHt2J86x+yjgSjP3J+cm3zwFcxgKCXDCwsk/xQEIxuI19cPT9rG6fxOxihxX2p9Nto9QO2/yA==
+X-Received: by 2002:a05:6a00:a04:b0:736:baa0:2acd with SMTP id d2e1a72fcca58-73fd8e53d29mr10211856b3a.20.1745710254444;
+        Sat, 26 Apr 2025 16:30:54 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ed40])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25941bbbsm5556503b3a.65.2025.04.26.16.22.34
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25913491sm5331980b3a.21.2025.04.26.16.30.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Apr 2025 16:22:35 -0700 (PDT)
+        Sat, 26 Apr 2025 16:30:53 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] gcc: Upgrade GCC to 15 release
-Date: Sat, 26 Apr 2025 16:22:32 -0700
-Message-ID: <20250426232232.4047475-1-raj.khem@gmail.com>
+Subject: [PATCH v3] gcc: Upgrade GCC to 15 release
+Date: Sat, 26 Apr 2025 16:30:51 -0700
+Message-ID: <20250426233051.4169011-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 23:22:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215526
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 23:31:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215527
 
 * Nios2 has been removed and aarch64/ilp32 is deprecated
 * Default C dialect is switched to C23
@@ -79,6 +79,7 @@ This is major release of gcc, the changes are noted [1]
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
 v2: Drop musl headers ordering patch
+v3: Rebased patches
 
  meta/conf/distro/include/maintainers.inc      |   2 +-
  meta/conf/distro/include/tcmode-default.inc   |   2 +-
@@ -89,7 +90,7 @@ v2: Drop musl headers ordering patch
  ...cc-runtime_14.2.bb => gcc-runtime_15.1.bb} |   0
  ...itizers_14.2.bb => gcc-sanitizers_15.1.bb} |   0
  ...{gcc-source_14.2.bb => gcc-source_15.1.bb} |   0
- ...0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch |  39 --
+ ...0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch |  10 +-
  .../0002-gcc-poison-system-directories.patch  |  80 ++-
  .../gcc/gcc/0003-64-bit-multilib-hack.patch   |  12 +-
  ...R_BUILD-in-a-couple-of-places-to-avo.patch |  10 +-
@@ -114,7 +115,6 @@ v2: Drop musl headers ordering patch
  .../0023-Fix-install-path-of-linux64.h.patch  |   6 +-
  ...ardcoded-build-paths-into-ppc-libgcc.patch |   2 +-
  ...025-gcc-testsuite-tweaks-for-mips-OE.patch | 118 ++--
- ...te-include-paths-on-musl-instead-of-.patch |  36 ++
  ...ix-c-tweak-for-Wrange-loop-construct.patch | 114 ----
  ...ch-to-fix-data-relocation-to-ENDBR-s.patch | 447 --------------
  ...undef-_TIME_BITS-in-solaris-procmaps.patch |  62 --
@@ -123,7 +123,7 @@ v2: Drop musl headers ordering patch
  ...initial_14.2.bb => libgcc-initial_15.1.bb} |   0
  .../gcc/{libgcc_14.2.bb => libgcc_15.1.bb}    |   0
  ...ibgfortran_14.2.bb => libgfortran_15.1.bb} |   0
- 43 files changed, 269 insertions(+), 1475 deletions(-)
+ 42 files changed, 238 insertions(+), 1441 deletions(-)
  rename meta/recipes-devtools/gcc/{gcc-14.2.inc => gcc-15.1.inc} (88%)
  rename meta/recipes-devtools/gcc/{gcc-cross-canadian_14.2.bb => gcc-cross-canadian_15.1.bb} (100%)
  rename meta/recipes-devtools/gcc/{gcc-cross_14.2.bb => gcc-cross_15.1.bb} (100%)
@@ -131,8 +131,6 @@ v2: Drop musl headers ordering patch
  rename meta/recipes-devtools/gcc/{gcc-runtime_14.2.bb => gcc-runtime_15.1.bb} (100%)
  rename meta/recipes-devtools/gcc/{gcc-sanitizers_14.2.bb => gcc-sanitizers_15.1.bb} (100%)
  rename meta/recipes-devtools/gcc/{gcc-source_14.2.bb => gcc-source_15.1.bb} (100%)
- delete mode 100644 meta/recipes-devtools/gcc/gcc/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0026-Append-GCC-private-include-paths-on-musl-instead-of-.patch
  delete mode 100644 meta/recipes-devtools/gcc/gcc/0026-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch
  delete mode 100644 meta/recipes-devtools/gcc/gcc/0027-gcc-backport-patch-to-fix-data-relocation-to-ENDBR-s.patch
  delete mode 100644 meta/recipes-devtools/gcc/gcc/0028-libsanitizer-undef-_TIME_BITS-in-solaris-procmaps.patch
@@ -246,57 +244,48 @@ similarity index 100%
 rename from meta/recipes-devtools/gcc/gcc-source_14.2.bb
 rename to meta/recipes-devtools/gcc/gcc-source_15.1.bb
 diff --git a/meta/recipes-devtools/gcc/gcc/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch b/meta/recipes-devtools/gcc/gcc/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
-deleted file mode 100644
-index 4693e948e8b..00000000000
+index 4693e948e8b..e36b7f7b17a 100644
 --- a/meta/recipes-devtools/gcc/gcc/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
++++ b/meta/recipes-devtools/gcc/gcc/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
+@@ -1,4 +1,4 @@
 -From 5f2881333e6ba6eb055f590982c2a2eb3fcbee2c Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 29 Mar 2013 08:37:11 +0400
--Subject: [PATCH] gcc-4.3.1: ARCH_FLAGS_FOR_TARGET
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: Inappropriate [embedded specific]
-----
-- configure    | 2 +-
-- configure.ac | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/configure b/configure
++From 7e8c2b6bd87d221158f43bc1d770e04ddeed4176 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 29 Mar 2013 08:37:11 +0400
+ Subject: [PATCH] gcc-4.3.1: ARCH_FLAGS_FOR_TARGET
+@@ -12,10 +12,10 @@ Upstream-Status: Inappropriate [embedded specific]
+  2 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/configure b/configure
 -index 3b0abeb8b2e..2590471a021 100755
----- a/configure
--+++ b/configure
++index ebc44416b6c..af1d1e24b3d 100755
+ --- a/configure
+ +++ b/configure
 -@@ -10467,7 +10467,7 @@ fi
-- # for target_alias and gcc doesn't manage it consistently.
-- target_configargs="--cache-file=./config.cache ${target_configargs}"
-- 
---FLAGS_FOR_TARGET=
--+FLAGS_FOR_TARGET="$ARCH_FLAGS_FOR_TARGET"
-- case " $target_configdirs " in
--  *" newlib "*)
--   case " $target_configargs " in
--diff --git a/configure.ac b/configure.ac
++@@ -11509,7 +11509,7 @@ fi
+  # for target_alias and gcc doesn't manage it consistently.
+  target_configargs="--cache-file=./config.cache ${target_configargs}"
+  
+@@ -25,10 +25,10 @@ index 3b0abeb8b2e..2590471a021 100755
+   *" newlib "*)
+    case " $target_configargs " in
+ diff --git a/configure.ac b/configure.ac
 -index 042681c27be..0d9b39c541a 100644
----- a/configure.ac
--+++ b/configure.ac
++index 730db3c1402..6de64a4777c 100644
+ --- a/configure.ac
+ +++ b/configure.ac
 -@@ -3539,7 +3539,7 @@ fi
-- # for target_alias and gcc doesn't manage it consistently.
-- target_configargs="--cache-file=./config.cache ${target_configargs}"
-- 
---FLAGS_FOR_TARGET=
--+FLAGS_FOR_TARGET="$ARCH_FLAGS_FOR_TARGET"
-- case " $target_configdirs " in
--  *" newlib "*)
--   case " $target_configargs " in
++@@ -3736,7 +3736,7 @@ fi
+  # for target_alias and gcc doesn't manage it consistently.
+  target_configargs="--cache-file=./config.cache ${target_configargs}"
+  
 diff --git a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
-index 8523af1281f..9a7c0cbbde7 100644
+index 8523af1281f..53d2dc63da7 100644
 --- a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
 @@ -1,6 +1,6 @@
 -From 838daab44918ef738402a2dd069537c6ac519305 Mon Sep 17 00:00:00 2001
-+From e96bf5b5f7df517012bc05a00910cbff4455b62f Mon Sep 17 00:00:00 2001
++From f7c26bbbf0496d179f5e71107fe6cf1320b25901 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
 -Date: Mon, 8 Mar 2021 16:04:20 -0800
 +Date: Thu, 23 Jan 2025 17:12:51 -0800
@@ -324,7 +313,7 @@ index 8523af1281f..9a7c0cbbde7 100644
  
  diff --git a/gcc/common.opt b/gcc/common.opt
 -index ad348844775..df3992b420d 100644
-+index 88d987e6ab1..3ab512da994 100644
++index e3fa0dacec4..bea1adc0940 100644
  --- a/gcc/common.opt
  +++ b/gcc/common.opt
 -@@ -715,6 +715,10 @@ Wreturn-local-addr
@@ -390,7 +379,7 @@ index 8523af1281f..9a7c0cbbde7 100644
   AC_SUBST(srcdir)
  diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
 -index f82f7d2817b..1da91813b0e 100644
-+index 020442aa032..480acada30a 100644
++index c2e1bf8031b..d33e2042f38 100644
  --- a/gcc/doc/invoke.texi
  +++ b/gcc/doc/invoke.texi
 -@@ -391,6 +391,7 @@ Objective-C and Objective-C++ Dialects}.
@@ -507,12 +496,12 @@ index 8523af1281f..9a7c0cbbde7 100644
 ---
 -2.34.1
 diff --git a/meta/recipes-devtools/gcc/gcc/0003-64-bit-multilib-hack.patch b/meta/recipes-devtools/gcc/gcc/0003-64-bit-multilib-hack.patch
-index 55471b37cd9..7e771434673 100644
+index 55471b37cd9..0c9edf189e2 100644
 --- a/meta/recipes-devtools/gcc/gcc/0003-64-bit-multilib-hack.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0003-64-bit-multilib-hack.patch
 @@ -1,4 +1,4 @@
 -From 33f9c4e4f0a5c2af8ab12612c28ba218ae491587 Mon Sep 17 00:00:00 2001
-+From becb6f733f6e1f97f0ec42c11345ccbcf41103d0 Mon Sep 17 00:00:00 2001
++From a4f799209882107726f547a4637659068ae07476 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 29 Mar 2013 09:10:06 +0400
  Subject: [PATCH] 64-bit multilib hack
@@ -562,12 +551,12 @@ index 55471b37cd9..7e771434673 100644
  +++ b/gcc/config/rs6000/t-linux64
  @@ -26,10 +26,9 @@
 diff --git a/meta/recipes-devtools/gcc/gcc/0004-Pass-CXXFLAGS_FOR_BUILD-in-a-couple-of-places-to-avo.patch b/meta/recipes-devtools/gcc/gcc/0004-Pass-CXXFLAGS_FOR_BUILD-in-a-couple-of-places-to-avo.patch
-index 2dc6b13bfb7..ae720dcc79e 100644
+index 2dc6b13bfb7..03139326c91 100644
 --- a/meta/recipes-devtools/gcc/gcc/0004-Pass-CXXFLAGS_FOR_BUILD-in-a-couple-of-places-to-avo.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0004-Pass-CXXFLAGS_FOR_BUILD-in-a-couple-of-places-to-avo.patch
 @@ -1,4 +1,4 @@
 -From 40c537352e085df2157cf907da6d694266ab74fe Mon Sep 17 00:00:00 2001
-+From fde5f38cfe95dbcf07c23627a176e85a3774c319 Mon Sep 17 00:00:00 2001
++From bcc97c2c8558cd5d3879a907a216eb0e2008c976 Mon Sep 17 00:00:00 2001
  From: Richard Purdie <richard.purdie@linuxfoundation.org>
  Date: Thu, 28 Oct 2021 11:33:40 +0100
  Subject: [PATCH] Pass CXXFLAGS_FOR_BUILD in a couple of places to avoid these
@@ -608,12 +597,12 @@ index 2dc6b13bfb7..ae720dcc79e 100644
   	CPPFLAGS_FOR_BUILD="$(CPPFLAGS_FOR_BUILD)"; export CPPFLAGS_FOR_BUILD; \
   	CXX_FOR_BUILD="$(CXX_FOR_BUILD)"; export CXX_FOR_BUILD; \
 diff --git a/meta/recipes-devtools/gcc/gcc/0005-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch b/meta/recipes-devtools/gcc/gcc/0005-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
-index c386b502aa3..e809e13c734 100644
+index c386b502aa3..e8e829d9f59 100644
 --- a/meta/recipes-devtools/gcc/gcc/0005-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0005-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
 @@ -1,4 +1,4 @@
 -From d145dd6dec6863aa303503643b2d3ed470936dd0 Mon Sep 17 00:00:00 2001
-+From 6c0bda3eb2f446a1cc484560e9f2ffd50632f5c2 Mon Sep 17 00:00:00 2001
++From fd6aa3c3ff5361a738b31d6127cb05910cd6b8c0 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 29 Mar 2013 09:17:25 +0400
  Subject: [PATCH] Use the defaults.h in ${B} instead of ${S}, and t-oe in ${B}
@@ -666,12 +655,12 @@ index c386b502aa3..e809e13c734 100644
  +++ b/gcc/mkconfig.sh
  @@ -77,7 +77,7 @@ if [ -n "$HEADERS" ]; then
 diff --git a/meta/recipes-devtools/gcc/gcc/0006-cpp-honor-sysroot.patch b/meta/recipes-devtools/gcc/gcc/0006-cpp-honor-sysroot.patch
-index ca1158ee27b..f98ffca586e 100644
+index ca1158ee27b..26476de33f2 100644
 --- a/meta/recipes-devtools/gcc/gcc/0006-cpp-honor-sysroot.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0006-cpp-honor-sysroot.patch
 @@ -1,4 +1,4 @@
 -From 429711e243bbda4d662d687c1a6fea24fcb34827 Mon Sep 17 00:00:00 2001
-+From 466af3c3ea187047bcb07d482d94fa15a1d29072 Mon Sep 17 00:00:00 2001
++From b931ab5282cc11627b6f68a6477b79f41ae80b3a Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 29 Mar 2013 09:22:00 +0400
  Subject: [PATCH] cpp: honor sysroot.
@@ -702,12 +691,12 @@ index ca1158ee27b..f98ffca586e 100644
     {".i", "@cpp-output", 0, 0, 0},
     {"@cpp-output",
 diff --git a/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-index 4ed55015519..df4404204fb 100644
+index 4ed55015519..2b727b09aff 100644
 --- a/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
 @@ -1,4 +1,4 @@
 -From 4067ae345f0ff1fbf37c0348f2af09257513b817 Mon Sep 17 00:00:00 2001
-+From 385fb66c3179ec5f9d56f963dc51ffdc090ebebe Mon Sep 17 00:00:00 2001
++From d9513f8c3fa3f228358fd4d0716941e84bda413e Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 29 Mar 2013 09:24:50 +0400
  Subject: [PATCH] Define GLIBC_DYNAMIC_LINKER and UCLIBC_DYNAMIC_LINKER
@@ -912,12 +901,12 @@ index 4ed55015519..df4404204fb 100644
  +++ b/gcc/config/sparc/linux64.h
  @@ -78,8 +78,8 @@ along with GCC; see the file COPYING3.  If not see
 diff --git a/meta/recipes-devtools/gcc/gcc/0008-libtool.patch b/meta/recipes-devtools/gcc/gcc/0008-libtool.patch
-index b8081d46144..3e56a3dacfc 100644
+index b8081d46144..f24bb2acf03 100644
 --- a/meta/recipes-devtools/gcc/gcc/0008-libtool.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0008-libtool.patch
 @@ -1,4 +1,4 @@
 -From 462e2111804490fcdbb9fd87a86b1e7ac1805803 Mon Sep 17 00:00:00 2001
-+From 195aa5c28f0c1557e3f7db80d5d13f36085b2e8d Mon Sep 17 00:00:00 2001
++From 7108016f82a3ce9d275b5d0f37dbde422de6ab15 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 29 Mar 2013 09:29:11 +0400
  Subject: [PATCH] libtool
@@ -935,12 +924,12 @@ index b8081d46144..3e56a3dacfc 100644
   
         install_libdir="$1"
 diff --git a/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch b/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
-index 015777c35b3..96af45f3727 100644
+index 015777c35b3..215a599cb8e 100644
 --- a/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
 @@ -1,4 +1,4 @@
 -From 702550757997de7013c96047dbc07791e5ff1d32 Mon Sep 17 00:00:00 2001
-+From 186c8e5e90a640fd525fd29496f95b9127d81a83 Mon Sep 17 00:00:00 2001
++From 135523bfabbd37cc6326da1a7ec3cd8bc7387439 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 29 Mar 2013 09:30:32 +0400
  Subject: [PATCH] gcc: armv4: pass fix-v4bx to linker to support EABI.
@@ -958,12 +947,12 @@ index 015777c35b3..96af45f3727 100644
     SYSTEMLIBS_DIR "ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
   
 diff --git a/meta/recipes-devtools/gcc/gcc/0010-Use-the-multilib-config-files-from-B-instead-of-usin.patch b/meta/recipes-devtools/gcc/gcc/0010-Use-the-multilib-config-files-from-B-instead-of-usin.patch
-index 9920e61a7f0..69017040e74 100644
+index 9920e61a7f0..c3c42121156 100644
 --- a/meta/recipes-devtools/gcc/gcc/0010-Use-the-multilib-config-files-from-B-instead-of-usin.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0010-Use-the-multilib-config-files-from-B-instead-of-usin.patch
 @@ -1,4 +1,4 @@
 -From 818edee70eb8c5471a9d2924dd50f7cdd9774c12 Mon Sep 17 00:00:00 2001
-+From 7f016af1a83d594d4410dbe5d89687116f1381ca Mon Sep 17 00:00:00 2001
++From 2ede6edb029ef3d98f3ead90f7be54b71cb42ae2 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 29 Mar 2013 09:33:04 +0400
  Subject: [PATCH] Use the multilib config files from ${B} instead of using the
@@ -1012,12 +1001,12 @@ index 9920e61a7f0..69017040e74 100644
   for f in $tm_file; do
     case $f in
 diff --git a/meta/recipes-devtools/gcc/gcc/0011-aarch64-Fix-include-paths-when-S-B.patch b/meta/recipes-devtools/gcc/gcc/0011-aarch64-Fix-include-paths-when-S-B.patch
-index 0b19de57c04..f4fb3aa3a49 100644
+index 0b19de57c04..9e05277515a 100644
 --- a/meta/recipes-devtools/gcc/gcc/0011-aarch64-Fix-include-paths-when-S-B.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0011-aarch64-Fix-include-paths-when-S-B.patch
 @@ -1,4 +1,4 @@
 -From 875975598d5a1000b8c8ad7596178d0a64f9e0cb Mon Sep 17 00:00:00 2001
-+From 14aaaf080c5814bf3945b784cdd6ef6c88b31ab4 Mon Sep 17 00:00:00 2001
++From a60798dd091f46dbb5f2fa9cf7655b41e9431a73 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Tue, 31 Jan 2023 22:03:38 -0800
  Subject: [PATCH] aarch64: Fix include paths when S != B
@@ -1063,12 +1052,12 @@ index 0b19de57c04..f4fb3aa3a49 100644
 - /* The mask of all ISA modes.  */
 + constexpr auto AARCH64_FL_SM_STATE ATTRIBUTE_UNUSED
 diff --git a/meta/recipes-devtools/gcc/gcc/0012-Avoid-using-libdir-from-.la-which-usually-points-to-.patch b/meta/recipes-devtools/gcc/gcc/0012-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
-index 6eb5bceebdb..cf7c81f84ec 100644
+index 6eb5bceebdb..8d0c39f9cee 100644
 --- a/meta/recipes-devtools/gcc/gcc/0012-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0012-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
 @@ -1,4 +1,4 @@
 -From b38add903c7f701e5b79dd7d93fb7dc61d8252c7 Mon Sep 17 00:00:00 2001
-+From dec5104517546c0bac5256c0ff6da5304bd5ba7f Mon Sep 17 00:00:00 2001
++From 3745be5dece41bc2c633e1702980965e28888f62 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 20 Feb 2015 09:39:38 +0000
  Subject: [PATCH] Avoid using libdir from .la which usually points to a host
@@ -1086,12 +1075,12 @@ index 6eb5bceebdb..cf7c81f84ec 100644
   	    libdir="$abs_ladir"
   	  else
 diff --git a/meta/recipes-devtools/gcc/gcc/0013-Ensure-target-gcc-headers-can-be-included.patch b/meta/recipes-devtools/gcc/gcc/0013-Ensure-target-gcc-headers-can-be-included.patch
-index 32a126ac8a1..db87b16dda2 100644
+index 32a126ac8a1..906ef3f74b1 100644
 --- a/meta/recipes-devtools/gcc/gcc/0013-Ensure-target-gcc-headers-can-be-included.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0013-Ensure-target-gcc-headers-can-be-included.patch
 @@ -1,4 +1,4 @@
 -From 304299aef8b1ae1f89a0fabbceed0d48091b569b Mon Sep 17 00:00:00 2001
-+From 611a11294861f6a643c43de02127a4b86f19c1a1 Mon Sep 17 00:00:00 2001
++From 860aae0d1f5dce7a879690d53a6ab54c6a32107e Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 20 Feb 2015 10:25:11 +0000
  Subject: [PATCH] Ensure target gcc headers can be included
@@ -1158,12 +1147,12 @@ index 32a126ac8a1..db87b16dda2 100644
  +++ b/gcc/cppdefault.cc
  @@ -64,6 +64,10 @@ const struct default_include cpp_include_defaults[]
 diff --git a/meta/recipes-devtools/gcc/gcc/0014-Don-t-search-host-directory-during-relink-if-inst_pr.patch b/meta/recipes-devtools/gcc/gcc/0014-Don-t-search-host-directory-during-relink-if-inst_pr.patch
-index 5f48dccc0a2..4b3a8a064c1 100644
+index 5f48dccc0a2..c7bf8d1c8e2 100644
 --- a/meta/recipes-devtools/gcc/gcc/0014-Don-t-search-host-directory-during-relink-if-inst_pr.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0014-Don-t-search-host-directory-during-relink-if-inst_pr.patch
 @@ -1,4 +1,4 @@
 -From a32cbf0d1c036e6435469898829f96a02c5993a8 Mon Sep 17 00:00:00 2001
-+From e772dabb70136d6465f0c53e1885493a79c1ef06 Mon Sep 17 00:00:00 2001
++From f28f581fbafa76a48cc7e88ab9c6eb63db6342c4 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Tue, 3 Mar 2015 08:21:19 +0000
  Subject: [PATCH] Don't search host directory during "relink" if $inst_prefix
@@ -1181,12 +1170,12 @@ index 5f48dccc0a2..4b3a8a064c1 100644
   	    else
   	      # We cannot seem to hardcode it, guess we'll fake it.
 diff --git a/meta/recipes-devtools/gcc/gcc/0015-libcc1-fix-libcc1-s-install-path-and-rpath.patch b/meta/recipes-devtools/gcc/gcc/0015-libcc1-fix-libcc1-s-install-path-and-rpath.patch
-index e34e65e4799..ad11f953c53 100644
+index e34e65e4799..9abf72b8e80 100644
 --- a/meta/recipes-devtools/gcc/gcc/0015-libcc1-fix-libcc1-s-install-path-and-rpath.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0015-libcc1-fix-libcc1-s-install-path-and-rpath.patch
 @@ -1,4 +1,4 @@
 -From 6721497a3b4b575e5f9eae785dd4eca0f87b4a5b Mon Sep 17 00:00:00 2001
-+From f19001f705006be28e724db5f3d7487afdd09630 Mon Sep 17 00:00:00 2001
++From b54d51c58012f9eac31cf83a8e02c7069bf80a74 Mon Sep 17 00:00:00 2001
  From: Robert Yang <liezhi.yang@windriver.com>
  Date: Sun, 5 Jul 2015 20:25:18 -0700
  Subject: [PATCH] libcc1: fix libcc1's install path and rpath
@@ -1209,12 +1198,12 @@ index e34e65e4799..ad11f953c53 100644
  +++ b/libcc1/Makefile.in
  @@ -396,8 +396,8 @@ libiberty = $(if $(wildcard $(libiberty_noasan)),$(Wc)$(libiberty_noasan), \
 diff --git a/meta/recipes-devtools/gcc/gcc/0016-handle-sysroot-support-for-nativesdk-gcc.patch b/meta/recipes-devtools/gcc/gcc/0016-handle-sysroot-support-for-nativesdk-gcc.patch
-index edd100ee465..b0b59d4be63 100644
+index edd100ee465..682317fee89 100644
 --- a/meta/recipes-devtools/gcc/gcc/0016-handle-sysroot-support-for-nativesdk-gcc.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0016-handle-sysroot-support-for-nativesdk-gcc.patch
 @@ -1,4 +1,4 @@
 -From 3f5ac862051e1c77dcca3e63a912f43d66ccdb6f Mon Sep 17 00:00:00 2001
-+From 855fe25ef956429ad03726282516c901526861fc Mon Sep 17 00:00:00 2001
++From ccfe6d014e8cc04b0d3420f82dca8920fb659a07 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 7 Dec 2015 23:39:54 +0000
  Subject: [PATCH] handle sysroot support for nativesdk-gcc
@@ -1348,12 +1337,12 @@ index edd100ee465..b0b59d4be63 100644
  +++ b/gcc/prefix.cc
  @@ -73,7 +73,9 @@ License along with GCC; see the file COPYING3.  If not see
 diff --git a/meta/recipes-devtools/gcc/gcc/0017-Search-target-sysroot-gcc-version-specific-dirs-with.patch b/meta/recipes-devtools/gcc/gcc/0017-Search-target-sysroot-gcc-version-specific-dirs-with.patch
-index 39c3bab9cc1..3b8cc90a6c2 100644
+index 39c3bab9cc1..b3ab4996c3c 100644
 --- a/meta/recipes-devtools/gcc/gcc/0017-Search-target-sysroot-gcc-version-specific-dirs-with.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0017-Search-target-sysroot-gcc-version-specific-dirs-with.patch
 @@ -1,4 +1,4 @@
 -From b2d95de58356c242abfe35467c2366d4e4b842ce Mon Sep 17 00:00:00 2001
-+From a81407037281db31020f21edf43e42d62dfee565 Mon Sep 17 00:00:00 2001
++From 1756ca43dc85ee9d367350d68b908e6681ddd986 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 7 Dec 2015 23:41:45 +0000
  Subject: [PATCH] Search target sysroot gcc version specific dirs with
@@ -1380,12 +1369,12 @@ index 39c3bab9cc1..3b8cc90a6c2 100644
   	  if (!skip_multi_dir)
   	    {
 diff --git a/meta/recipes-devtools/gcc/gcc/0018-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch b/meta/recipes-devtools/gcc/gcc/0018-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
-index 76da0f79bff..304383d5f7f 100644
+index 76da0f79bff..1b2da32a422 100644
 --- a/meta/recipes-devtools/gcc/gcc/0018-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0018-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
 @@ -1,4 +1,4 @@
 -From e420858f23a1fe58e840bd5ae21cb5a964b27f0b Mon Sep 17 00:00:00 2001
-+From 78ae0152bc829d68c1b73e79675c9d2c3593fba7 Mon Sep 17 00:00:00 2001
++From 777963807e14a091c263d603cebfd7bb02f63b24 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Tue, 27 Jun 2017 18:10:54 -0700
  Subject: [PATCH] Add ssp_nonshared to link commandline for musl targets
@@ -1417,12 +1406,12 @@ index 76da0f79bff..304383d5f7f 100644
  +++ b/gcc/config/rs6000/linux64.h
  @@ -373,6 +373,16 @@ extern int dot_symbols;
 diff --git a/meta/recipes-devtools/gcc/gcc/0019-Re-introduce-spe-commandline-options.patch b/meta/recipes-devtools/gcc/gcc/0019-Re-introduce-spe-commandline-options.patch
-index 05f2e969470..6958508e2b0 100644
+index 05f2e969470..f23876b10a1 100644
 --- a/meta/recipes-devtools/gcc/gcc/0019-Re-introduce-spe-commandline-options.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0019-Re-introduce-spe-commandline-options.patch
 @@ -1,4 +1,4 @@
 -From edc8f1cee2c9c4a441032fa22d0272b41b829dc6 Mon Sep 17 00:00:00 2001
-+From 45fa660da59ac4ec305ff5945881fabd904a5039 Mon Sep 17 00:00:00 2001
++From f2649410d2eb1c3983054020c9238887bd31273f Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Wed, 6 Jun 2018 12:10:22 -0700
  Subject: [PATCH] Re-introduce spe commandline options
@@ -1440,12 +1429,12 @@ index 05f2e969470..6958508e2b0 100644
   -mdebug=	Enable debug output.
   
 diff --git a/meta/recipes-devtools/gcc/gcc/0020-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch b/meta/recipes-devtools/gcc/gcc/0020-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
-index 30868410217..c67b3791147 100644
+index 30868410217..cd22dba878e 100644
 --- a/meta/recipes-devtools/gcc/gcc/0020-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0020-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
 @@ -1,4 +1,4 @@
 -From 83a61604293c6f7a131bccaf7454e69eeed301fd Mon Sep 17 00:00:00 2001
-+From aa62fafac284ee19434889b733c0d24ca96d75b1 Mon Sep 17 00:00:00 2001
++From be81ee850cdf720f87733046cfa8f3fa43704a7d Mon Sep 17 00:00:00 2001
  From: Szabolcs Nagy <nsz@port70.net>
  Date: Sat, 24 Oct 2015 20:09:53 +0000
  Subject: [PATCH] libgcc_s: Use alias for __cpu_indicator_init instead of
@@ -1454,7 +1443,7 @@ index 30868410217..c67b3791147 100644
  
  diff --git a/gcc/config/i386/i386-expand.cc b/gcc/config/i386/i386-expand.cc
 -index 51efe6fdd7d..a8ee883a74d 100644
-+index 36f71eb4a97..53628f7da3d 100644
++index cdfd94d3c73..de6fa7cc5ce 100644
  --- a/gcc/config/i386/i386-expand.cc
  +++ b/gcc/config/i386/i386-expand.cc
 -@@ -13087,10 +13087,10 @@ ix86_expand_builtin (tree exp, rtx target, rtx subtarget,
@@ -1472,12 +1461,12 @@ index 30868410217..c67b3791147 100644
  +++ b/libgcc/config/i386/cpuinfo.c
  @@ -63,7 +63,7 @@ __cpu_indicator_init (void)
 diff --git a/meta/recipes-devtools/gcc/gcc/0021-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch b/meta/recipes-devtools/gcc/gcc/0021-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch
-index f459a542da1..2fbf7e07b84 100644
+index f459a542da1..5b67c194dfc 100644
 --- a/meta/recipes-devtools/gcc/gcc/0021-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0021-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch
 @@ -1,4 +1,4 @@
 -From 33eb17881ca90cff733070c5b630501fb0a8bd58 Mon Sep 17 00:00:00 2001
-+From 56163decbd4470bd0bc5e96c42280d4dd99a8e6d Mon Sep 17 00:00:00 2001
++From 734760138d07236289c5e548efc6083ddcfda650 Mon Sep 17 00:00:00 2001
  From: Richard Purdie <richard.purdie@linuxfoundation.org>
  Date: Tue, 10 Mar 2020 08:26:53 -0700
  Subject: [PATCH] gentypes/genmodes: Do not use __LINE__ for maintaining
@@ -1509,12 +1498,12 @@ index f459a542da1..2fbf7e07b84 100644
  +++ b/gcc/genmodes.cc
  @@ -441,7 +441,7 @@ complete_all_modes (void)
 diff --git a/meta/recipes-devtools/gcc/gcc/0022-libatomic-Do-not-enforce-march-on-aarch64.patch b/meta/recipes-devtools/gcc/gcc/0022-libatomic-Do-not-enforce-march-on-aarch64.patch
-index 169db188dff..ed57a635d13 100644
+index 169db188dff..92927670378 100644
 --- a/meta/recipes-devtools/gcc/gcc/0022-libatomic-Do-not-enforce-march-on-aarch64.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0022-libatomic-Do-not-enforce-march-on-aarch64.patch
 @@ -1,4 +1,4 @@
 -From 6ebeb70ce2e78a84295f4e392602ae3c4026783a Mon Sep 17 00:00:00 2001
-+From 61e0fcb278b01bbda61bed3306e36f17f4d48068 Mon Sep 17 00:00:00 2001
++From 95ee2cf97c5c2a4bd66c54d078b960a1d541d35e Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Wed, 13 May 2020 15:10:38 -0700
  Subject: [PATCH] libatomic: Do not enforce march on aarch64
@@ -1541,12 +1530,12 @@ index 169db188dff..ed57a635d13 100644
  +++ b/libatomic/Makefile.in
  @@ -452,7 +452,6 @@ M_SRC = $(firstword $(filter %/$(M_FILE), $(all_c_files)))
 diff --git a/meta/recipes-devtools/gcc/gcc/0023-Fix-install-path-of-linux64.h.patch b/meta/recipes-devtools/gcc/gcc/0023-Fix-install-path-of-linux64.h.patch
-index 300ad393e35..f48a39310d2 100644
+index 300ad393e35..da91d85eb94 100644
 --- a/meta/recipes-devtools/gcc/gcc/0023-Fix-install-path-of-linux64.h.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0023-Fix-install-path-of-linux64.h.patch
 @@ -1,4 +1,4 @@
 -From aecde58d433123e8fb76ca2c56a0632d7b104b83 Mon Sep 17 00:00:00 2001
-+From eb4538ff91a8b0a1c5b228d61e67aaadb4842c01 Mon Sep 17 00:00:00 2001
++From cd7353f45bc2af9a9ea9694544d40ea03a1310d1 Mon Sep 17 00:00:00 2001
  From: Andrei Gherzan <andrei.gherzan@huawei.com>
  Date: Wed, 22 Dec 2021 12:49:25 +0100
  Subject: [PATCH] Fix install path of linux64.h
@@ -1564,22 +1553,22 @@ index 300ad393e35..f48a39310d2 100644
   	  | "$(srcdir)"/c-family/* | "$(srcdir)"/*.def ) \
   	    base=`echo "$$path" | sed -e "s|$$srcdirstrip/||"`;; \
 diff --git a/meta/recipes-devtools/gcc/gcc/0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch b/meta/recipes-devtools/gcc/gcc/0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch
-index 4f3b722bcfb..eaffed0da38 100644
+index 4f3b722bcfb..b7edeef6eb1 100644
 --- a/meta/recipes-devtools/gcc/gcc/0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch
 @@ -1,4 +1,4 @@
 -From 483baf290597eed2ac01c7974f1b567c95503da5 Mon Sep 17 00:00:00 2001
-+From 496670a1281c2171ec2cdcd74ae2844695000bc9 Mon Sep 17 00:00:00 2001
++From 159545123cfe05136037e302409cf82ec5c0263c Mon Sep 17 00:00:00 2001
  From: Richard Purdie <richard.purdie@linuxfoundation.org>
  Date: Sat, 20 Aug 2022 09:04:14 -0700
  Subject: [PATCH] Avoid hardcoded build paths into ppc libgcc
 diff --git a/meta/recipes-devtools/gcc/gcc/0025-gcc-testsuite-tweaks-for-mips-OE.patch b/meta/recipes-devtools/gcc/gcc/0025-gcc-testsuite-tweaks-for-mips-OE.patch
-index 09d6c7fffd4..a783654c99c 100644
+index 09d6c7fffd4..0a61862332f 100644
 --- a/meta/recipes-devtools/gcc/gcc/0025-gcc-testsuite-tweaks-for-mips-OE.patch
 +++ b/meta/recipes-devtools/gcc/gcc/0025-gcc-testsuite-tweaks-for-mips-OE.patch
 @@ -1,4 +1,4 @@
 -From 46987c9092d52ee47071be563f48ee80a3c4f71f Mon Sep 17 00:00:00 2001
-+From f94834e7e0a983b294a328a1b84af77ba48e41ac Mon Sep 17 00:00:00 2001
++From 62e25edd60d45eaec331a3273880f6ff3248ef62 Mon Sep 17 00:00:00 2001
  From: Richard Purdie <richard.purdie@linuxfoundation.org>
  Date: Thu, 17 Aug 2023 09:01:40 -0700
  Subject: [PATCH] gcc testsuite tweaks for mips/OE
@@ -1619,11 +1608,11 @@ index 09d6c7fffd4..a783654c99c 100644
   	    set compile_type "preprocess"
  diff --git a/gcc/testsuite/lib/target-supports.exp b/gcc/testsuite/lib/target-supports.exp
 -index d8b5a06a422..f66f5fea58e 100644
-+index 869d1501c38..93f9046172b 100644
++index a62f459ad7e..6886cfeee49 100644
  --- a/gcc/testsuite/lib/target-supports.exp
  +++ b/gcc/testsuite/lib/target-supports.exp
 -@@ -2483,14 +2483,7 @@ proc check_mips_loongson_mmi_hw_available { } {
-+@@ -2959,14 +2959,7 @@ proc check_mips_loongson_mmi_hw_available { } {
++@@ -2949,14 +2949,7 @@ proc check_mips_loongson_mmi_hw_available { } {
   	if { !([istarget mips*-*-*]) } {
   	    expr 0
   	} else {
@@ -1632,7 +1621,7 @@ index 09d6c7fffd4..a783654c99c 100644
       }]
   }
 -@@ -2504,29 +2497,7 @@ proc check_mips_msa_hw_available { } {
-+@@ -2980,29 +2973,7 @@ proc check_mips_msa_hw_available { } {
++@@ -2970,29 +2963,7 @@ proc check_mips_msa_hw_available { } {
       if { !([istarget mips*-*-*]) } {
         expr 0
       } else {
@@ -1641,7 +1630,7 @@ index 09d6c7fffd4..a783654c99c 100644
     }]
   }
 -@@ -9900,6 +9871,7 @@ proc is-effective-target-keyword { arg } {
-+@@ -10364,6 +10335,7 @@ proc is-effective-target-keyword { arg } {
++@@ -10354,6 +10325,7 @@ proc is-effective-target-keyword { arg } {
   
   proc et-dg-runtest { runtest testcases flags default-extra-flags } {
       global dg-do-what-default
@@ -1650,7 +1639,7 @@ index 09d6c7fffd4..a783654c99c 100644
       global et_index
   
 -@@ -9907,6 +9879,7 @@ proc et-dg-runtest { runtest testcases flags default-extra-flags } {
-+@@ -10371,6 +10343,7 @@ proc et-dg-runtest { runtest testcases flags default-extra-flags } {
++@@ -10361,6 +10333,7 @@ proc et-dg-runtest { runtest testcases flags default-extra-flags } {
   	foreach target $EFFECTIVE_TARGETS {
   	    set target_flags $flags
   	    set dg-do-what-default compile
@@ -1659,7 +1648,7 @@ index 09d6c7fffd4..a783654c99c 100644
   	    if { [info procs add_options_for_${target}] != [list] } {
   		set target_flags [add_options_for_${target} "$flags"]
 -@@ -9914,8 +9887,10 @@ proc et-dg-runtest { runtest testcases flags default-extra-flags } {
-+@@ -10378,8 +10351,10 @@ proc et-dg-runtest { runtest testcases flags default-extra-flags } {
++@@ -10368,8 +10341,10 @@ proc et-dg-runtest { runtest testcases flags default-extra-flags } {
   	    if { [info procs check_effective_target_${target}_runtime]
   		 != [list] && [check_effective_target_${target}_runtime] } {
   		set dg-do-what-default run
@@ -1668,7 +1657,7 @@ index 09d6c7fffd4..a783654c99c 100644
       } else {
   	set et_index 0
 -@@ -11620,6 +11595,7 @@ proc check_effective_target_sigsetjmp {} {
-+@@ -12165,6 +12140,7 @@ proc check_effective_target_sigsetjmp {} {
++@@ -12155,6 +12130,7 @@ proc check_effective_target_sigsetjmp {} {
   proc check_vect_support_and_set_flags { } {
       global DEFAULT_VECTCFLAGS
       global dg-do-what-default
@@ -1686,7 +1675,7 @@ index 09d6c7fffd4..a783654c99c 100644
 -         # Skip targets not supporting -maltivec.
 -@@ -11658,6 +11635,7 @@ proc check_vect_support_and_set_flags { } {
 +     if [istarget powerpc*-*-*] {
-+@@ -12196,6 +12172,7 @@ proc check_vect_support_and_set_flags { } {
++@@ -12186,6 +12162,7 @@ proc check_vect_support_and_set_flags { } {
   		set DEFAULT_VECTCFLAGS [linsert $DEFAULT_VECTCFLAGS 0 "-mcpu=970"]
 -             }
 -             set dg-do-what-default compile
@@ -1706,7 +1695,7 @@ index 09d6c7fffd4..a783654c99c 100644
 + 	}
 +     } elseif { [check_effective_target_x86] } {
 + 	lappend DEFAULT_VECTCFLAGS "-msse2"
-+@@ -12203,6 +12180,7 @@ proc check_vect_support_and_set_flags { } {
++@@ -12193,6 +12170,7 @@ proc check_vect_support_and_set_flags { } {
 + 	    set dg-do-what-default run
 + 	} else {
 + 	    set dg-do-what-default compile
@@ -1720,7 +1709,7 @@ index 09d6c7fffd4..a783654c99c 100644
 -             set dg-do-what-default compile
 -+            set do-what-limit link
 -         }
-+@@ -12222,6 +12200,7 @@ proc check_vect_support_and_set_flags { } {
++@@ -12212,6 +12190,7 @@ proc check_vect_support_and_set_flags { } {
 + 	    set dg-do-what-default run
 + 	} else {
 + 	    set dg-do-what-default compile
@@ -1735,7 +1724,7 @@ index 09d6c7fffd4..a783654c99c 100644
 -+            set do-what-limit link
 -         }
 + 	# Alpha's vectorization capabilities are extremely limited.
-+@@ -12235,6 +12214,7 @@ proc check_vect_support_and_set_flags { } {
++@@ -12225,6 +12204,7 @@ proc check_vect_support_and_set_flags { } {
 + 	    set dg-do-what-default run
 + 	} else {
 + 	    set dg-do-what-default compile
@@ -1750,7 +1739,7 @@ index 09d6c7fffd4..a783654c99c 100644
 -+            set do-what-limit link
 -         }
 + 	set dg-do-what-default run
-+@@ -12248,6 +12228,7 @@ proc check_vect_support_and_set_flags { } {
++@@ -12238,6 +12218,7 @@ proc check_vect_support_and_set_flags { } {
 + 	    set dg-do-what-default run
 + 	} else {
 + 	    set dg-do-what-default compile
@@ -1761,7 +1750,7 @@ index 09d6c7fffd4..a783654c99c 100644
 -@@ -11734,6 +11716,7 @@ proc check_vect_support_and_set_flags { } {
 -         } else {
 + 	set dg-do-what-default run
-+@@ -12272,6 +12253,7 @@ proc check_vect_support_and_set_flags { } {
++@@ -12262,6 +12243,7 @@ proc check_vect_support_and_set_flags { } {
 + 	} else {
   	    lappend DEFAULT_VECTCFLAGS "-march=z14" "-mzarch"
 -             set dg-do-what-default compile
@@ -1773,48 +1762,6 @@ index 09d6c7fffd4..a783654c99c 100644
       } elseif [istarget amdgcn-*-*] {
 -         set dg-do-what-default run
 + 	set dg-do-what-default run
-diff --git a/meta/recipes-devtools/gcc/gcc/0026-Append-GCC-private-include-paths-on-musl-instead-of-.patch b/meta/recipes-devtools/gcc/gcc/0026-Append-GCC-private-include-paths-on-musl-instead-of-.patch
-new file mode 100644
-index 00000000000..01c4dca071d
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0026-Append-GCC-private-include-paths-on-musl-instead-of-.patch
-@@ -0,0 +1,36 @@
-+From 4119058c917967a159b7d352c9d5863997d60cf3 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 5 Jun 2024 22:56:12 -0700
-+Subject: [PATCH] Append GCC private include paths on musl instead of
-+ prepending
-+
-+Musl does not need gcc private compiler headers, therefore use them
-+after standard system header search paths.
-+
-+This fixes packages like python builds to detect the musl systems
-+correclty, as it looks for musl specific stuff in stdarg.h system
-+header, which is wrongly picked from gcc private headers in OE
-+
-+Upstream-Status: Submitted [https://gcc.gnu.org/bugzilla/show_bug.cgi?id=115368]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ gcc/gcc.cc | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/gcc/gcc.cc b/gcc/gcc.cc
-+index 22eb17bc099..c9369fefc53 100644
-+--- a/gcc/gcc.cc
-++++ b/gcc/gcc.cc
-+@@ -6620,7 +6620,11 @@ do_spec_1 (const char *spec, int inswitch, const char *soft_matched_part)
-+ 
-+ 	      if (gcc_exec_prefix)
-+ 		{
-+-		  do_spec_1 ("-iprefix", 1, NULL);
-++      if (OPTION_MUSL)
-++		    do_spec_1 ("-idirafter", 1, NULL);
-++      else
-++		    do_spec_1 ("-iprefix", 1, NULL);
-++
-+ 		  /* Make this a separate argument.  */
-+ 		  do_spec_1 (" ", 0, NULL);
-+ 		  do_spec_1 (gcc_exec_prefix, 1, NULL);
 diff --git a/meta/recipes-devtools/gcc/gcc/0026-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch b/meta/recipes-devtools/gcc/gcc/0026-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch
 deleted file mode 100644
 index c9bc863eead..00000000000
