@@ -2,95 +2,104 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7C26C369D1
-	for <webhook@archiver.kernel.org>; Sun, 27 Apr 2025 03:18:05 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.20820.1745723822730028405
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7890EC369AB
+	for <webhook@archiver.kernel.org>; Sun, 27 Apr 2025 03:18:35 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.20821.1745723823899444775
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Apr 2025 20:17:02 -0700
+ Sat, 26 Apr 2025 20:17:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Xn1PWVT4;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b170c99aa49so1730905a12.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 20:17:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QSdSaIod;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-30828fc17adso3517577a91.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 20:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745723822; x=1746328622; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1745723823; x=1746328623; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3t/CJys6/I5/TC/kB7/SG2Uc5VHsPZS4TIdl07QpwWI=;
-        b=Xn1PWVT4pJdSIgYstsUIJW8u4pLDE0IIP9ZzEeQ5FrWm7MvN5c0bKymCeZ3V0vKh41
-         2EMaPntJKKHErE5LaG/Qpwp7tragKrnurr1zFbiA7rRcjkdSoBGKgtbxfKNa6fUUR8Pb
-         4V/GgWty4j24eTr7wgBQ/bK4KyPDMlhi619Ylr5Wq9iEUfBMw809p3WCQnvY93NgKbj6
-         xbfzsIs1CM1F0t4YZIIJVnue7c/ldj/slBruDMq0fCIjwq1igobg7OcAFG5wsLNb7vj/
-         SlJ/rFUK0g9J4SNvs2nB3IJZcSjgzLmssC1MAqRSeA6mFikrQ5kJvv9uj58NCxTvyJYT
-         DKAg==
+        bh=GfG9KvC0Yi0ZfpFQDCzV+4Qiz1nxJ1wMHdo1gjxCHNc=;
+        b=QSdSaIodTRrCGPB+UBpPjQUyAaA2HoK1y3bdPSyNXevWMM6hQte0jK5jDx61qPWzos
+         HcsOQogizqz/mp5wJDULZEkR8PemHYYU1ll9igX/oZD9aBB48OwLd57yVak6UBcIW+zn
+         yF3rtiN1sC0VbRpmGyZsv92K8fgBKhwwht6GYVTBQnWs/F9LmcBVwpzzvnsgqElR+sPT
+         0goVjmAOT5SH6KkUYlZhlO5dNi6Li+B9PXVrAw0njAzSBR2byJEVN2rB8OLznWyYVpps
+         vcJ422cPM5SmgcF765LdOZIc6Fg5/6ee37FZ9OLCCXBbrJWNZJaTVjdVT3aBrcdY9Ao2
+         +CFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745723822; x=1746328622;
+        d=1e100.net; s=20230601; t=1745723823; x=1746328623;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3t/CJys6/I5/TC/kB7/SG2Uc5VHsPZS4TIdl07QpwWI=;
-        b=BCfcnHLjL5p1TFWjpiWluo2KGbV9jROF4y5Zkyq7wVpEtDBz/yYMsRMhwE357ObjUP
-         6DknHxRO+HlmXMki7W8K4jmNap8JT6+HbCTIqd4r+aQ8QEGjn1nD2tbH1uoFj0Ya8fCN
-         2QHzuZN9afI9Yp289Xb+8m/wYUm5MZVmciKSaUGDjkFZ1b/lmik+uVL7b0zbWqQuKaGp
-         vPGWBdiWohsg2EqqX/8xaDG7tJauv+4asgx6jMD4Y2Zd2NXzzlWc+3hM3Y95JBo3k3mt
-         +/ytgtDDRp2719FVCwBqBAtFPsGsLI2w9x8QtWgZvNeEHsVPR57qWwXG+JrVnighDmpW
-         IHwQ==
-X-Gm-Message-State: AOJu0YwWSZQhVFUyCnwNYZDIZq0e3aQCfUQWlvP2UvC+YArHprwPkqet
-	KvSVM3uIItVtWHuak/6Nkfy9yxN/9DZ/h5GTyIYN+f9Nu5nPuPwAJgw+tDO/
-X-Gm-Gg: ASbGncsxTTFHeX+ITypMTrTBsptKbC7cjd5k63Y+vd586LXeFrwU9KBPmHQ67BDDosr
-	ulg7nqIvus6TYMict/d5sK1svS/lI8yPFQ5XYEKCUwFErZuTVdQbFEVD1bwjhRNH/eERXYx3gvO
-	QlKX+ADKUF1ZbAM9+ORIrnz2fxZ4B0UbAxavMi1WNjua9k53ihhep4rm68s7K+sP7i6/MDs3QPy
-	YsfZffjQs7RC9hYNolgfth9EW6oIKkRuHSxoDzOMq4ZrLHV2yBkA0K/8P97opn113UL1hPtpt1j
-	UgAwLy+ByB7BLW3x7JpRF49aL/+bRmCO
-X-Google-Smtp-Source: AGHT+IEUGZeVQ82B5S6kS1qkEl83X8gUe/K/Dv15yFuq9rYE7i5ckpH7wTXy99NJAHneXVlOoWJKbA==
-X-Received: by 2002:a17:90b:4f45:b0:308:7270:d6e9 with SMTP id 98e67ed59e1d1-309f7ddca22mr11939051a91.9.1745723822031;
-        Sat, 26 Apr 2025 20:17:02 -0700 (PDT)
+        bh=GfG9KvC0Yi0ZfpFQDCzV+4Qiz1nxJ1wMHdo1gjxCHNc=;
+        b=bOA0Xsnw3SQmG/a7oJJRhYx4PSRGuSEGVdPU1zwBwKuAOC2C5/QeRWt3DYJBcax7QR
+         rsuBm1KHi2k8KEVsVcIbtklVnCO6K0R7HGjf4LEVG5BFrrbWrxSNLcYSW2o4d8wYy/Fd
+         XFJy3uECe95YVD7b5qcIVRo9yHl8yfEYdFWTy6Af7Ibv1XonRcXRibOPOlPja/p/kHTr
+         Ig4uXmEIE13d2Ppd5VaVXIWfxLBhbYt1iavZwmRkPD5STbe+KIpGnSTmbRZZCZ2TsDnX
+         d56fpv9QGMevvkJj2hdrkuHiE539LPNkT+MNktmT5ZazLrjSPuEYc/qDq78/otFmcDyU
+         Pjiw==
+X-Gm-Message-State: AOJu0Yz36KTOrLR8HFH9SqkPKPoKuben6qAEvzWU0zJxzZwv+x+tbcK5
+	fcgyGJwcAEiXKYhpLwCB4JUBtemHv8e8R+wzAgn4ikiBgVrvY/lB1G9ieF2/
+X-Gm-Gg: ASbGnctIIpuMHYsyUxzlTHatuAOjWah9BPrB0kjYaM2Z8fW6A+MQSETdJwO5g0RNqII
+	irAWEQ3354XYiOXHNtJhe2+Oh4JeH6Bz+r/ku8K9cyR4qIktOlRPNifXBaxVsqCdRgD/keNOwm2
+	73v0jZWtX3EfnP5Vj9uK6f4a+Ht1wCZ63ESJu98TV6YChnTL7WuwAdMX/koAOy1z4q7KBNY8/A6
+	qwL7q735JYoHy9bNeLzJ/oEIlJfjKEsEd53u3A5DrXBEgM//+cXdsqtI5khBdmQNjz8JDGR6sr1
+	KIVja2teOEIH9RIBtmd7Ulv5QKfjOOjH
+X-Google-Smtp-Source: AGHT+IEZUmYpn51UNv+zb2aj/8qEhU++Lcmr9Zf/wsZBFt8H7G9wBHU/BbJCIXGDQESW56KG2fJ7bQ==
+X-Received: by 2002:a17:90b:5490:b0:309:f5c6:4c5c with SMTP id 98e67ed59e1d1-30a01398884mr6820927a91.25.1745723823229;
+        Sat, 26 Apr 2025 20:17:03 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ed40])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309f774e4ffsm4362452a91.12.2025.04.26.20.17.01
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309f774e4ffsm4362452a91.12.2025.04.26.20.17.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Apr 2025 20:17:01 -0700 (PDT)
+        Sat, 26 Apr 2025 20:17:02 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 26 Apr 2025 20:16:46 -0700
-Subject: [PATCH v4 07/10] clang: RPROVIDE spirv-llvm-translator and libclc
+Date: Sat, 26 Apr 2025 20:16:47 -0700
+Subject: [PATCH v4 08/10] mesa: Pass needed clang flags via
+ BINDGEN_EXTRA_CLANG_ARGS
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250426-clang-merge-v4-7-42d205904261@gmail.com>
+Message-Id: <20250426-clang-merge-v4-8-42d205904261@gmail.com>
 References: <20250426-clang-merge-v4-0-42d205904261@gmail.com>
 In-Reply-To: <20250426-clang-merge-v4-0-42d205904261@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Apr 2025 03:18:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215537
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Apr 2025 03:18:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215539
 
-This paves the way to spin out these packages out of clang in future
-specifically spirv-llvm-translator which is not yet part of llvm monorepo
+This is needed for clang to find the c++ headers when invoked via
+bindgen
+
+Fixes
+| /mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux/mesa/25.0.2/recipe-sysroot/usr/include/llvm/ADT/DenseMapInfo.h:17:10: fatal error: 'cassert' file not found
+| Unable to generate bindings: clang diagnosed error: /mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux/mesa/25.0.2/recipe-sysroot/usr/include/llvm/ADT/DenseMapInfo.h:17:10: fatal error: 'cassert' file not found
+|
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/recipes-devtools/clang/clang_git.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-graphics/mesa/mesa.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
-index 3e9192b5570d440b7e30d936dd1a1981facf723d..081fcdaa8ace778e592c16a14293aa5a348644b9 100644
---- a/meta/recipes-devtools/clang/clang_git.bb
-+++ b/meta/recipes-devtools/clang/clang_git.bb
-@@ -335,6 +335,9 @@ RDEPENDS:${PN}-tools += "\
-   perl-module-term-ansicolor \
- "
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index cd0f02c6d7b7c8de37bdb1695abc70d95f99a919..c477b774628eb49dacae8b64244d3e98bfcc2588 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -266,6 +266,10 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+              mesa-vdpau-drivers mesa-tools \
+             "
  
-+RPROVIDES:${PN}-spirv = "${MLPREFIX}spirv-llvm-translator"
-+RPROVIDES:${PN}-clc = "${MLPREFIX}libclc"
++do_compile:prepend:class-target() {
++    export BINDGEN_EXTRA_CLANG_ARGS="${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} --target=${TARGET_SYS}"
++}
 +
- RRECOMMENDS:${PN}-tidy += "${PN}-tools"
- 
- FILES:llvm-linker-tools = "${libdir}/LLVMgold* ${libdir}/libLTO.so.* ${libdir}/LLVMPolly*"
+ do_install:append () {
+     # libwayland-egl has been moved to wayland 1.15+
+     rm -f ${D}${libdir}/libwayland-egl*
 
 -- 
 2.49.0
