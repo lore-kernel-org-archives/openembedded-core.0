@@ -2,96 +2,171 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4607AC369CB
-	for <webhook@archiver.kernel.org>; Sun, 27 Apr 2025 02:32:45 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.20266.1745721155854914006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 821B0C369D8
+	for <webhook@archiver.kernel.org>; Sun, 27 Apr 2025 03:17:05 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.20815.1745723817172077544
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Apr 2025 19:32:35 -0700
+ Sat, 26 Apr 2025 20:16:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Mlg/Hm2v;
- spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-73bb647eb23so3043943b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 19:32:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Rz2Rayn8;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3015001f862so3144588a91.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Apr 2025 20:16:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745721155; x=1746325955; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jNsTmaqrOiO7ntuTWHcjJRGivyOiHBAs9leYFSPJb50=;
-        b=Mlg/Hm2vD+9s5+yCdC6rsQJZe/oFTSkY2r58lTjUssrPOxg1bOcOjzrvbW9NPO/WR5
-         nZBcgFK58ZGH7dDy+gkkx7NYhrr/ywjLxWGD+hLr83f6c9GgiEiXtDpC8C/HjXHJ4iqG
-         3UeXY6Z7Hfa6uMU5K5JK2AKcsPKwuaN8FpwiDxp+SYBmMn5nkbutiw34/4O2DyMrTaLB
-         6uFe8U0n2Fx9RidSIKbH0LfChrU0/PzuHVlu/E/AppEDRpsfiacY6C1KftjXsxf3TWNw
-         vxEYsXY5TtuxlxyjA4y5atdalY+ndxY1yFuJMR2v2f3F3U4PEvH75zHnGoXCA04EghwF
-         4Lyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745721155; x=1746325955;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1745723816; x=1746328616; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jNsTmaqrOiO7ntuTWHcjJRGivyOiHBAs9leYFSPJb50=;
-        b=Acfa7p4XhjCv84TPSsF3wTCgAT3ZrR3VZN5R5Wb2xd4SXHHCj16ZJBPr1Lp9c+NkOz
-         senk9QGJAwti1ZnblnBo82MDcshtywLu1j0XdOZZOP19jwE1gWpDlaFiTgBsdiLZiVUD
-         G35R3TdoAHUHashGsJrAeGnTaOscHc6t6zYk2Q/z55FBXpMdYxyW5ooK1dSjdzbDUIKz
-         TO/J3Fk4Ij6sXpJC8wTfYoMzVKcr1P06Ujls+7YyhNMQNuHgH60dWJpVk9OIB8zgxgHf
-         Dl3kIWPhh/xYEkdlWz/hHWBkivy95CU5QxNS03CZz3PEOgTvKG2ouoN6AjRqK7vr8DLA
-         FVjA==
-X-Gm-Message-State: AOJu0Yy8PQvGQtc2fkBsqkD1S1JIQvAZuZCuLoqas8Vl5xEILdjAyFAt
-	NZ6eY68HHMkTfvOft7UP4+QfIgp5WSgeExA99pRNPeJIuC33omlETMFCoRIu
-X-Gm-Gg: ASbGncvInWX539yeP+KoZd1dRbZc5LqtWYvcrCk4DrCBMsxh1GRdyBaGOijalLZ6YOj
-	sqyhDLs5GmnER53qokVFXloKM04gvfbRTchnhILlwE1RH/dSJo3Bi7FEDJ2Iqu2Z+30UCBRjaZM
-	lHdzeOUYjlKBUDVDsqGYM0K5i51/h72FMsGPgwnBM40jPfXChqTHkrxyZTNsSXs+VC5xPWNFLMc
-	ZWNfxwEF29YMb2nEz1uL3JUK32NtH2widljOfJcpkSIOerk/EKj7T4x63OHcAWmYqFAYbp6jy8D
-	+3rFtvvxpS+tumlAq6BeXqtY9y6Llulk
-X-Google-Smtp-Source: AGHT+IF5Kl7y0qskmyxD/E6MzFPivtAfOADnxfIoHkCC8U8Dj//ToZD5DqKs4hrMDzbi+UgD2aQuKQ==
-X-Received: by 2002:aa7:88d2:0:b0:736:ab1e:b1ab with SMTP id d2e1a72fcca58-73ff70ccfc2mr6464324b3a.0.1745721154843;
-        Sat, 26 Apr 2025 19:32:34 -0700 (PDT)
+        bh=TkJa7Vnhd4vgLdF3fQzisNIr43QdCMTbnrl040RwpkA=;
+        b=Rz2Rayn86d7OpIs0E0XF6KHfsPpNTJ42DH7W9TJwAlGZuXEqXDZhYRD2q3m1DIHi+N
+         Ed09qLeN6HwtMD+CE+FvwJvqLi4hK2mSovOe9tPN/XHywjefUAYr77NXALWzU1xBE53J
+         UPIKL/anIz0n3eIkRdQNLUyDh2aa5/+7Ft6THxtYLH65+7lDyOJbgvIOpscEGtIh2TLB
+         MI0PDAFpWV9XEzo7jvMHEb/58CjYNLiiQhL1xhtFjqeP2RiCb6AZTgNpXuNrxmMNNjV1
+         AXGIyIoUOgWg7HDnE5KzOZ+rvwJpo26DFCulD48SQu6l3k8MM/+RGwVaipNEeDeLPnA/
+         sGvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745723816; x=1746328616;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TkJa7Vnhd4vgLdF3fQzisNIr43QdCMTbnrl040RwpkA=;
+        b=fsU/qOqKUhPeEb0YCAz765dJe02CwHFjJwcwEidCLyIEPGA5yUtCkvHhXdLu/H7Zis
+         SkJPkw/WIt/hEoGiTlGgcUVB3OmJrUuRYwpxe1312oJaSMb66/2PmCBXlmr3/nfc77xm
+         +fVHP79TSydPdQaEsa9RETy0Y5aXabYkFuH9YzmxYbafNw4nEzfMuKQ/kfcZ0AOOllZw
+         m6xMMDKxk+W3TrczVFtoOuc0UuyTJ5rV/1ggAmA3t79EZEn6ipIA/69ins+PeOxRmb3p
+         W7uxUKgNFGEG9/psFXLA+ZleIE8FFJPwZGrvKO2X3JKWaGVEHpGGODB2uOqExKSCuhkQ
+         fGIw==
+X-Gm-Message-State: AOJu0Yz1MiTuAQA9VwOwYaF8LYG9dd7aKNmqaaP3+6DMMKcFaIEG1WyY
+	mP5wlguDoKA8Q/3ZBeGPyc+XJzOguVUVmwdFC82kBJyCqCLM3qDY
+X-Gm-Gg: ASbGncthliJeKFd4DbFE416Nw/WmBfWjDVtDSd+OsOIg+61DonyVbi9CmEjUSGC4I5C
+	k5d0D4MxVvOS6akc20uXP6FoOUjbGISNnLVwiC1KtN9q1ykMAkZUfRZXnuRJ2gVznJmwa6EJ9fS
+	2vmXrWhv42Rodx2/1EioS/GRXpJQbOoPx+L1GzUxSJt7af3y9uz8Bbf+trBsRzBXNuHa7a2ZpLl
+	yjIBzk+GINL09AjbZMhw0IZ4caRncz4Wo5C2mfxqwmvC89U37SnkRaClAjyCY3HJ6qxeGCUiUiv
+	ldA/7anq9XbdsxjZMkZfr19Ulfgq5ywf
+X-Google-Smtp-Source: AGHT+IEbyJiy96dWobnXzCWDMxBTycjrrVv9Lna8L7enAXJfYwW0XEobUt5xrFzYuxRGIcpXGJGCcA==
+X-Received: by 2002:a17:90b:1d48:b0:305:2d27:7c9f with SMTP id 98e67ed59e1d1-309f7df3d6fmr11247483a91.16.1745723816497;
+        Sat, 26 Apr 2025 20:16:56 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::ed40])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e2593f4fbsm5508214b3a.45.2025.04.26.19.32.34
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309f774e4ffsm4362452a91.12.2025.04.26.20.16.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Apr 2025 19:32:34 -0700 (PDT)
+        Sat, 26 Apr 2025 20:16:55 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 26 Apr 2025 20:16:40 -0700
+Subject: [PATCH v4 01/10] cmake.bbclass: Enhance to emit a native toolchain
+ cmake file
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250426-clang-merge-v4-1-42d205904261@gmail.com>
+References: <20250426-clang-merge-v4-0-42d205904261@gmail.com>
+In-Reply-To: <20250426-clang-merge-v4-0-42d205904261@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] harfbuzz: Upgrade to 11.1.0 release
-Date: Sat, 26 Apr 2025 19:32:32 -0700
-Message-ID: <20250427023232.2771349-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Apr 2025 02:32:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215530
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Apr 2025 03:17:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215532
 
-Changes are:
+Some components e.g. clang and its runtime needs the native toolchain
+defines especially when doing nativesdk builds it uses
+CROSS_TOOLCHAIN_FLAGS_NATIVE to pass native toolchain file, which is
+then used to build native llvm tools needed during nativesdk builds
 
-Include bidi mirroring variants of the requested codepoints when subsetting. The new HB_SUBSET_FLAGS_NO_BIDI_CLOSURE can be used to disable this behaviour.
-Various bug fixes.
-Various build fixes and improvements.
-Various test suite improvements.
+Moreover this would enable using OE built native toolchain e.g.
+clang-native to build cmake based packages. e.g. libcxx and other llvm
+runtime plus it can be used for build native packages which require clang
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../harfbuzz/{harfbuzz_11.0.1.bb => harfbuzz_11.1.0.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_11.0.1.bb => harfbuzz_11.1.0.bb} (95%)
+ meta/classes-recipe/cmake.bbclass | 58 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_11.0.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_11.1.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_11.0.1.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_11.1.0.bb
-index 8945467a001..645e1e42163 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_11.0.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_11.1.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
+diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
+index b342deb67182e29a6b793ccf185c701745b47111..449fe2bb4433ff756d3b4d2357928b853806d58d 100644
+--- a/meta/classes-recipe/cmake.bbclass
++++ b/meta/classes-recipe/cmake.bbclass
+@@ -50,11 +50,34 @@ OECMAKE_C_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('CC', d)[1]}"
+ OECMAKE_CXX_COMPILER ?= "${@oecmake_map_compiler('CXX', d)[0]}"
+ OECMAKE_CXX_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('CXX', d)[1]}"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "4a7890090538136db64742073af4b4d776ab8b50e6855676a8165eb8b7f60b7a"
-+SRC_URI[sha256sum] = "477f0d48c34dc32093b45304178eb9733361ca1832b5159879c99e6d40227969"
++# Native C/C++ Compiler (without cpu arch/tune arguments)
++OECMAKE_NATIVE_C_COMPILER ?= "${@oecmake_map_compiler('BUILD_CC', d)[0]}"
++OECMAKE_NATIVE_C_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('BUILD_CC', d)[1]}"
++OECMAKE_NATIVE_CXX_COMPILER ?= "${@oecmake_map_compiler('BUILD_CXX', d)[0]}"
++OECMAKE_NATIVE_CXX_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('BUILD_CXX', d)[1]}"
++OECMAKE_NATIVE_AR ?= "${BUILD_AR}"
++OECMAKE_NATIVE_RANLIB ?= "${BUILD_RANLIB}"
++OECMAKE_NATIVE_NM ?= "${BUILD_NM}"
++
++# Native compiler flags
++OECMAKE_NATIVE_C_FLAGS ?= "${BUILD_CC_ARCH} ${BUILD_CFLAGS}"
++OECMAKE_NATIVE_CXX_FLAGS ?= "${BUILD_CC_ARCH} ${BUILD_CXXFLAGS}"
++OECMAKE_NATIVE_C_FLAGS_RELEASE ?= "-DNDEBUG"
++OECMAKE_NATIVE_CXX_FLAGS_RELEASE ?= "-DNDEBUG"
++OECMAKE_NATIVE_C_LINK_FLAGS ?= "${BUILD_CC_ARCH} ${BUILD_CPPFLAGS} ${BUILD_LDFLAGS}"
++OECMAKE_NATIVE_CXX_LINK_FLAGS ?= "${BUILD_CC_ARCH} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}"
++BUILD_CXXFLAGS += "${BUILD_CC_ARCH}"
++BUILD_CFLAGS += "${BUILD_CC_ARCH}"
++
+ # clear compiler vars for allarch to avoid sig hash difference
+ OECMAKE_C_COMPILER:allarch = ""
+ OECMAKE_C_COMPILER_LAUNCHER:allarch = ""
+ OECMAKE_CXX_COMPILER:allarch = ""
+ OECMAKE_CXX_COMPILER_LAUNCHER:allarch = ""
++OECMAKE_NATIVE_C_COMPILER:allarch = ""
++OECMAKE_NATIVE_C_COMPILER_LAUNCHER:allarch = ""
++OECMAKE_NATIVE_CXX_COMPILER:allarch = ""
++OECMAKE_NATIVE_CXX_COMPILER_LAUNCHER:allarch = ""
  
- DEPENDS += "glib-2.0-native"
+ OECMAKE_RPATH ?= ""
+ OECMAKE_PERLNATIVE_DIR ??= ""
+@@ -155,6 +178,41 @@ set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
+ list(APPEND CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES ${includedir})
+ list(APPEND CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES ${includedir})
  
++EOF
++        cat > ${WORKDIR}/toolchain-native.cmake <<EOF
++set( CMAKE_SYSTEM_NAME ${@map_host_os_to_system_name(d.getVar('BUILD_OS'))} )
++set( CMAKE_SYSTEM_PROCESSOR ${@map_host_arch_to_uname_arch(d.getVar('BUILD_ARCH'))} )
++set( CMAKE_C_COMPILER ${OECMAKE_NATIVE_C_COMPILER} )
++set( CMAKE_CXX_COMPILER ${OECMAKE_NATIVE_CXX_COMPILER} )
++set( CMAKE_ASM_COMPILER ${OECMAKE_NATIVE_C_COMPILER} )
++set( CMAKE_AR ${OECMAKE_NATIVE_AR} CACHE FILEPATH "Archiver" )
++set( CMAKE_RANLIB ${OECMAKE_NATIVE_RANLIB} CACHE FILEPATH "Archive Indexer" )
++set( CMAKE_NM ${OECMAKE_NATIVE_NM} CACHE FILEPATH "Symbol Lister" )
++set( CMAKE_C_FLAGS "${OECMAKE_NATIVE_C_FLAGS}" CACHE STRING "CFLAGS" )
++set( CMAKE_CXX_FLAGS "${OECMAKE_NATIVE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
++set( CMAKE_ASM_FLAGS "${OECMAKE_NATIVE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
++set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_NATIVE_C_FLAGS_RELEASE}" CACHE STRING "Additional CFLAGS for release" )
++set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_NATIVE_CXX_FLAGS_RELEASE}" CACHE STRING "Additional CXXFLAGS for release" )
++set( CMAKE_ASM_FLAGS_RELEASE "${OECMAKE_NATIVE_C_FLAGS_RELEASE}" CACHE STRING "Additional ASM FLAGS for release" )
++set( CMAKE_C_LINK_FLAGS "${OECMAKE_NATIVE_C_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
++set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_NATIVE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
++
++set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_NATIVE} )
++set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
++set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH )
++set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
++set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
++
++# Use native cmake modules
++list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR_NATIVE}/cmake/Modules/")
++
++# add for non /usr/lib libdir, e.g. /usr/lib64
++set( CMAKE_LIBRARY_PATH ${STAGING_BASE_LIBDIR_NATIVE} ${STAGING_LIBDIR_NATIVE})
++
++# add include dir to implicit includes in case it differs from /usr/include
++list(APPEND CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES ${STAGING_INCDIR_NATIVE})
++list(APPEND CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES ${STAGING_INCDIR_NATIVE})
++
+ EOF
+ }
+ 
+
+-- 
+2.49.0
+
 
