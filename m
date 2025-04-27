@@ -1,122 +1,136 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80506C369D1
-	for <webhook@archiver.kernel.org>; Sun, 27 Apr 2025 14:38:19 +0000 (UTC)
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
- by mx.groups.io with SMTP id smtpd.web10.27392.1745764695486803332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97CF4C369D1
+	for <webhook@archiver.kernel.org>; Sun, 27 Apr 2025 14:44:19 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web10.27470.1745765053406413481
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Apr 2025 07:38:15 -0700
+ Sun, 27 Apr 2025 07:44:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NWI7XWBs;
- spf=pass (domain: gmail.com, ip: 209.85.161.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-60402c94319so2225733eaf.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Apr 2025 07:38:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745764695; x=1746369495; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FUA4XAXeJAHAVVLpv7jZXAU4BNojbijur80eCA0pv8k=;
-        b=NWI7XWBs7INQvex6whA2Duc1lLaQKx4barbaTrAqIBPNzlWF72FCOjGeveJQsbhQLO
-         WTZnCkTv9al6L9Qz6uTvNCJSG4c+DId0/kgI+uV0cO77jCvkn5bJ5FxakXbPCx3ypQxD
-         DIycHnKW6FWbn0u66NRSnwvUfN1Y6XzNjr+nVuHjtkvpb0340gebqi/7Kk9FTJzg2SL+
-         nu8HhFqvCKuNNotFbgFgd57x5TmODG8t85T5/DR5rtdJ1AOLTzdGVXmzgFGqdGE4lrqx
-         wyk+EDnUIV1SPa1NT7KMuBZSZ3iEDIokOjc3KxxcmuVfh/baLnVyZcrqD3MPE8N0xglU
-         AZ8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745764695; x=1746369495;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FUA4XAXeJAHAVVLpv7jZXAU4BNojbijur80eCA0pv8k=;
-        b=w6mZtLQtliyzWpXq2NlKRQNFoZ+P0XMGa8ZUMRSgU6b6okEblGUsHG9N4yPRTtj0GW
-         /b/P/yy+z6FzzYwTRGGw1NLuA6bChKic10EYUXNQvAI2hcElHgO+Pe8X+O3x0/xuEpb/
-         YcyadBOmho+UbW892iOKiazkP8fWkMM4/f4dZeEc6mfbQJ6MZi1ywb7mYw7m07tx2DZI
-         Wl5S3uP2oQOfRzdHh3RPpNKeBtGD/ubH5JtlQttWVkWQPBG8LMnMjCR2Fq7ewt6VSq2c
-         rfBPRiHFufI/LapycJ58Dj5QIIJnlVxIKf/k4k4Ew1XlJcVl5xILuXpjx4bzt+mMdpl0
-         8qyw==
-X-Gm-Message-State: AOJu0YzbtL/vQUV+ZunoGKuJ5Jfdi+kyMtLyZh5JhnBVsxQeqU0OTfym
-	CeMWvOF9wdcNMYFf4vbYfDXKXnd83JtGvpxxnIfwHwWSnLrWLA1nYher8QjHJLkos4impsOl6oO
-	1Ib4v1mkwoVzIqQebj9t3t0bcWXo=
-X-Gm-Gg: ASbGncvqeeugUArp06dkT2oTvHAN97egzkTXKhtg124geKjSigJB4RDWvuPWjkMemYe
-	pUHv/oazZhMaa8+wFobggGWXMwqKKtQw/dpakpXDjAuNgB5rTL3o/B8AOStfKfnkaxw2GF+7WEH
-	AvbS5YpivousBHPncbGN2w1MQdHMrYQhwS8SLV
-X-Google-Smtp-Source: AGHT+IGDGFLyp5lIFVO8sCnzUIHEHX5pxVYIhH4qRMbUtqEULiQ94TybVqXCjDmqNPekAZn8EUiiGY2K+kaZnZJDoE4=
-X-Received: by 2002:a05:6820:150f:b0:606:361b:52ad with SMTP id
- 006d021491bc7-60652b98b02mr4704634eaf.3.1745764694691; Sun, 27 Apr 2025
- 07:38:14 -0700 (PDT)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=CWrsy56Y;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202504271444095c71af4c0fa5523517-4qbopx@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202504271444095c71af4c0fa5523517
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 27 Apr 2025 16:44:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=4qr1rkbD6miwKFa4izIRYw6KjIDm83wex4IimUnpSzc=;
+ b=CWrsy56YnKqekj3e/eh2FSIP9cTfJjXyUMEQ97JuBFWATBBGF/whNV51jY8A06XO/+5L7F
+ j1C1jJxophrnriBb04a+e19P8OMKsDjxOkvjaOSjSijF9lALwsY2shlsyHNAz3VXsFaWJC2E
+ eUSFE9CGD0GY1C56dPKhfcy/lHG92ieJVPYOVamhS0pAhyTF37OUept5YmR/yDvK3Z5ZIR96
+ wG1UiPIpoMQ9uEDrXStobn4htB1AGOM328JjznjkqhDIdsxzRL/nKL83qnifspAIQ8MBVt58
+ Eo9e1NXY0bwf8gGZSQyd0t2kF3p3omEDIiscW6VBtaVrse4x7e2hF+Kg==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] libxml2: upgrade 2.13.6 -> 2.14.2
+Date: Sun, 27 Apr 2025 16:10:12 +0200
+Message-Id: <20250427141012.2442478-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20250427023232.2771349-1-raj.khem@gmail.com> <ae942e51f15de3980e9e0ba7232d1a43eb6fce84.camel@linuxfoundation.org>
-In-Reply-To: <ae942e51f15de3980e9e0ba7232d1a43eb6fce84.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 27 Apr 2025 07:37:48 -0700
-X-Gm-Features: ATxdqUFBtmptCCnU_2K2pNW2N784MvCOtRW6fAKDGlMP3ldoNRa2YqMGdeAsMKA
-Message-ID: <CAMKF1srLy9LnEWS=r1vA3JmzAzP5QqjMjhd35co+H6=munrrKA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] harfbuzz: Upgrade to 11.1.0 release
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Apr 2025 14:38:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215558
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Apr 2025 14:44:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215559
 
-On Sun, Apr 27, 2025 at 2:14=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sat, 2025-04-26 at 19:32 -0700, Khem Raj via lists.openembedded.org wr=
-ote:
-> > Changes are:
-> >
-> > Include bidi mirroring variants of the requested codepoints when subset=
-ting. The new HB_SUBSET_FLAGS_NO_BIDI_CLOSURE can be used to disable this b=
-ehaviour.
-> > Various bug fixes.
-> > Various build fixes and improvements.
-> > Various test suite improvements.
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  .../harfbuzz/{harfbuzz_11.0.1.bb =3D> harfbuzz_11.1.0.bb}         | 2 =
-+-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-graphics/harfbuzz/{harfbuzz_11.0.1.bb =3D> harfbuz=
-z_11.1.0.bb} (95%)
-> >
-> > diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_11.0.1.bb b/meta/r=
-ecipes-graphics/harfbuzz/harfbuzz_11.1.0.bb
-> > similarity index 95%
-> > rename from meta/recipes-graphics/harfbuzz/harfbuzz_11.0.1.bb
-> > rename to meta/recipes-graphics/harfbuzz/harfbuzz_11.1.0.bb
-> > index 8945467a001..645e1e42163 100644
-> > --- a/meta/recipes-graphics/harfbuzz/harfbuzz_11.0.1.bb
-> > +++ b/meta/recipes-graphics/harfbuzz/harfbuzz_11.1.0.bb
-> > @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db98429b8e8e3=
-c2a67cfef01e99e4893d \
-> >                      "
-> >
-> >  SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
-> > -SRC_URI[sha256sum] =3D "4a7890090538136db64742073af4b4d776ab8b50e68556=
-76a8165eb8b7f60b7a"
-> > +SRC_URI[sha256sum] =3D "477f0d48c34dc32093b45304178eb9733361ca1832b515=
-9879c99e6d40227969"
-> >
-> >  DEPENDS +=3D "glib-2.0-native"
-> >
->
-> This doesn't seem to be quite enough to fix the compile issue:
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/1485
->
+From: Peter Marko <peter.marko@siemens.com>
 
-I think its perhaps 32bit specific error, locally it works ok for
-qemuarm64, I will see if I can reproduce it for qemuarm
+Handle CVE-2025-32414 and CVE-2025-32415.
 
-> Cheers,
->
-> Richard
+* rebased install-tests.patch
+* removed testsuite testThreads (merged into runtest.c)
+  * https://gitlab.gnome.org/GNOME/libxml2/-/commit/481fd6bbee029e15a6a4015e5160a332d7c18cba
+* removed IPv6 option (as part of with ftp support removal)
+  * https://gitlab.gnome.org/GNOME/libxml2/-/commit/dba1ed85a320c36807ee09f44d09fd30852b9370
+* added testsuites testlimits testparser (already present before but not executed)
+
+License-Update: Mention contributors in Copyright
+https://gitlab.gnome.org/GNOME/libxml2/-/commit/4bd66d4549b2e8925a752e0daac3a189d2fec8f7
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-core/libxml/libxml2/install-tests.patch     | 4 ++--
+ meta/recipes-core/libxml/libxml2/run-ptest               | 2 +-
+ .../libxml/{libxml2_2.13.6.bb => libxml2_2.14.2.bb}      | 9 +++------
+ 3 files changed, 6 insertions(+), 9 deletions(-)
+ rename meta/recipes-core/libxml/{libxml2_2.13.6.bb => libxml2_2.14.2.bb} (92%)
+
+diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
+index 1c8c13ab5c..789aeca119 100644
+--- a/meta/recipes-core/libxml/libxml2/install-tests.patch
++++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
+@@ -15,7 +15,7 @@ diff --git a/Makefile.am b/Makefile.am
+ index 4cb9a5c..8adcd7e 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -27,6 +27,16 @@ check_PROGRAMS = \
++@@ -26,6 +26,16 @@ check_PROGRAMS = \
+  	testparser \
+  	testrecurse
+  
+@@ -29,6 +29,6 @@ index 4cb9a5c..8adcd7e 100644
+ +	cp -r $(srcdir)/result $(DESTDIR)$(ptestdir)
+ +	cp -r $(srcdir)/python/tests $(DESTDIR)$(ptestdir)/python
+ +
+- bin_PROGRAMS = xmllint xmlcatalog
++ bin_PROGRAMS = xmllint
+  
+  bin_SCRIPTS = xml2-config
+diff --git a/meta/recipes-core/libxml/libxml2/run-ptest b/meta/recipes-core/libxml/libxml2/run-ptest
+index f252a78f17..cbbdd5592f 100755
+--- a/meta/recipes-core/libxml/libxml2/run-ptest
++++ b/meta/recipes-core/libxml/libxml2/run-ptest
+@@ -5,7 +5,7 @@ set -e
+ export LC_ALL=en_US.UTF-8
+ 
+ # testModule isn't that useful and hard-codes buildtree, so we don't run that
+-TESTS="runtest runsuite testrecurse testchar testdict testThreads runxmlconf testapi"
++TESTS="runtest runsuite testrecurse testchar testdict runxmlconf testapi testlimits testparser"
+ 
+ for T in $TESTS; do
+     echo Running $T
+diff --git a/meta/recipes-core/libxml/libxml2_2.13.6.bb b/meta/recipes-core/libxml/libxml2_2.14.2.bb
+similarity index 92%
+rename from meta/recipes-core/libxml/libxml2_2.13.6.bb
+rename to meta/recipes-core/libxml/libxml2_2.14.2.bb
+index 3b3ca87e96..ab06282f17 100644
+--- a/meta/recipes-core/libxml/libxml2_2.13.6.bb
++++ b/meta/recipes-core/libxml/libxml2_2.14.2.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://gitlab.gnome.org/GNOME/libxml2"
+ BUGTRACKER = "http://bugzilla.gnome.org/buglist.cgi?product=libxml2"
+ SECTION = "libs"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://Copyright;md5=f437ed9058e8e5135e47c01e973376ba \
++LIC_FILES_CHKSUM = "file://Copyright;md5=5873615e8a9ecbf5c8857c4312ee05d6 \
+                     file://dict.c;beginline=6;endline=15;md5=2b4b7b827d2d8b080372433c4c9c85b6 \
+                     file://list.c;beginline=4;endline=13;md5=b9c25b021ccaf287e50060602d20f3a7 \
+                     "
+@@ -19,7 +19,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://install-tests.patch \
+            "
+ 
+-SRC_URI[archive.sha256sum] = "f453480307524968f7a04ec65e64f2a83a825973bcd260a2e7691be82ae70c96"
++SRC_URI[archive.sha256sum] = "353f3c83535d4224a4e5f1e88c90b5d4563ea8fec11f6407df640fd28fc8b8c6"
+ SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
+ 
+ # Disputed as a security issue, but fixed in d39f780
+@@ -27,11 +27,8 @@ CVE_STATUS[CVE-2023-45322] = "disputed: issue requires memory allocation to fail
+ 
+ BINCONFIG = "${bindir}/xml2-config"
+ 
+-PACKAGECONFIG ??= "python \
+-    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+-"
++PACKAGECONFIG ??= "python"
+ PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python3"
+-PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ 
+ inherit autotools pkgconfig binconfig-disabled ptest
+ 
 
