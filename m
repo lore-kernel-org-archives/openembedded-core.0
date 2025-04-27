@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2826C369D1
-	for <webhook@archiver.kernel.org>; Sun, 27 Apr 2025 18:29:30 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web10.31243.1745778569345959846
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF4F1C369D1
+	for <webhook@archiver.kernel.org>; Sun, 27 Apr 2025 18:31:00 +0000 (UTC)
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.web10.31267.1745778650578969291
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Apr 2025 11:29:30 -0700
+ Sun, 27 Apr 2025 11:30:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=f9d0h2N8;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-2025042718292511da05fd7acaf80de4-7v0vts@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2025042718292511da05fd7acaf80de4
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=HJLwPLcG;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-2025042718304758bda2b8a709b552a0-bdak54@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 2025042718304758bda2b8a709b552a0
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 27 Apr 2025 20:29:26 +0200
+        Sun, 27 Apr 2025 20:30:47 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=Ie2hmDkkUQIMYzJhGqbvPh6oycTxvO+h/5ugG2KMud0=;
- b=f9d0h2N8X5r39WllHdf5hJof6YOhzw4xhF46KqlBFwzQMwy49ii2gRsQNYkbNjIaCx/eIX
- 3Yi6jkfi0D4jYl4Z3Dki9t8PoPlzmQrfahz1pjKAFLf0PJ/gUlav3VlkvzX6mQsPrTzBGxCg
- vDu6QGpzcwyX0sro2ZJmCj7M7Ip0haplL5s0lJ1MCZvf+LcujLJNWMLGmEnIUByqOU7N/7bK
- 5/EyMqmdGz/JXlS/Bh+W2FqCqoPErLmkNv7M21eTrDjwBPt8Jgcvd4xauv+6t6Y2EsmEp597
- Vog4la6KJuxTlz2Jye8CTt6bP/r5fpxgryt+67GL7S30BNWefMYZWLig==;
+ bh=fwRdCNhD3CzrEf8+lwZdgAUXMbYaNpNbeFOs1BX5M3g=;
+ b=HJLwPLcGFAO0mZdG8Y4IUT50kDT3AnapXetkZFuWOtEh/OUy9rKgUMkULQn0QVOUNUeawz
+ z0rVjcDmAq1J14I9oKZth9bgX+3j+ux8R6qXvzY17uhknqphDQA6+RaxapxIQULm4vMDk0dS
+ vE5D7jAfyRz3OswP+O64/NKLJ47zKqFqNgzZiTVJzDXl/5zT4I1tpgGyzTX/UTP+owp7mr3Q
+ s/cOvdaQGeQgwne6i8HC2YiriYkcOa/CWas0AnbyDfCEVHmFKN+rAW/q3KMYIaQnPR/Ch8ko
+ RzLbcvZjdMHAohFFGsm/lCp6uvPoBQ+djXSkE5TXrTbCE05DHab/XSxQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] glib-2.0: patch CVE-2025-3360
-Date: Sun, 27 Apr 2025 20:28:37 +0200
-Message-Id: <20250427182837.1755158-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] glib-2.0: patch CVE-2025-3360
+Date: Sun, 27 Apr 2025 20:30:01 +0200
+Message-Id: <20250427183001.1755434-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -37,15 +37,15 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Apr 2025 18:29:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215565
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Apr 2025 18:31:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215566
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Backport commits from [1] fixing [2] for 2.82.x.
 
 [1] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4499
-[2] https://gitlab.gnome.org/GNOME/glib/-/issues/3647
+[2] https://gitlab.gnome.org/GNOME/glib/-/issues/3647x
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
@@ -55,8 +55,8 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
  .../glib-2.0/glib-2.0/CVE-2025-3360-04.patch  | 76 +++++++++++++++++++
  .../glib-2.0/glib-2.0/CVE-2025-3360-05.patch  | 57 ++++++++++++++
  .../glib-2.0/glib-2.0/CVE-2025-3360-06.patch  | 50 ++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  8 +-
- 7 files changed, 336 insertions(+), 1 deletion(-)
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  6 ++
+ 7 files changed, 335 insertions(+)
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-01.patch
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-02.patch
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-03.patch
@@ -66,7 +66,7 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-01.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-01.patch
 new file mode 100644
-index 0000000000..b7b05b6595
+index 0000000000..91ea6c3748
 --- /dev/null
 +++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-01.patch
 @@ -0,0 +1,57 @@
@@ -99,7 +99,7 @@ index 0000000000..b7b05b6595
 +index ad9c190b6..b33db2c20 100644
 +--- a/glib/gdatetime.c
 ++++ b/glib/gdatetime.c
-+@@ -1497,7 +1497,8 @@ parse_iso8601_time (const gchar *text, gsize length,
++@@ -1493,7 +1493,8 @@ parse_iso8601_time (const gchar *text, gsize length,
 + GDateTime *
 + g_date_time_new_from_iso8601 (const gchar *text, GTimeZone *default_tz)
 + {
@@ -109,7 +109,7 @@ index 0000000000..b7b05b6595
 +   gint hour = 0, minute = 0;
 +   gdouble seconds = 0.0;
 +   GTimeZone *tz = NULL;
-+@@ -1508,11 +1509,14 @@ g_date_time_new_from_iso8601 (const gchar *text, GTimeZone *default_tz)
++@@ -1504,11 +1505,14 @@ g_date_time_new_from_iso8601 (const gchar *text, GTimeZone *default_tz)
 +   /* Count length of string and find date / time separator ('T', 't', or ' ') */
 +   for (length = 0; text[length] != '\0'; length++)
 +     {
@@ -129,7 +129,7 @@ index 0000000000..b7b05b6595
 +   if (!parse_iso8601_time (text + date_length + 1, length - (date_length + 1),
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-02.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-02.patch
 new file mode 100644
-index 0000000000..55f3ab126e
+index 0000000000..ca5ae2866c
 --- /dev/null
 +++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-02.patch
 @@ -0,0 +1,53 @@
@@ -160,7 +160,7 @@ index 0000000000..55f3ab126e
 +index b33db2c20..792c2ed15 100644
 +--- a/glib/gdatetime.c
 ++++ b/glib/gdatetime.c
-+@@ -1346,8 +1346,10 @@ parse_iso8601_date (const gchar *text, gsize length,
++@@ -1342,8 +1342,10 @@ parse_iso8601_date (const gchar *text, gsize length,
 +     return FALSE;
 + }
 + 
@@ -172,7 +172,7 @@ index 0000000000..55f3ab126e
 + {
 +   gint i, tz_length, offset_hours, offset_minutes;
 +   gint offset_sign = 1;
-+@@ -1415,11 +1417,11 @@ static gboolean
++@@ -1411,11 +1413,11 @@ static gboolean
 + parse_iso8601_time (const gchar *text, gsize length,
 +                     gint *hour, gint *minute, gdouble *seconds, GTimeZone **tz)
 + {
@@ -188,7 +188,7 @@ index 0000000000..55f3ab126e
 +   /* hh:mm:ss(.sss) */
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-03.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-03.patch
 new file mode 100644
-index 0000000000..fbefc262d4
+index 0000000000..25eb0c6fdd
 --- /dev/null
 +++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-03.patch
 @@ -0,0 +1,36 @@
@@ -218,7 +218,7 @@ index 0000000000..fbefc262d4
 +index 792c2ed15..6335bcbe2 100644
 +--- a/glib/gdatetime.c
 ++++ b/glib/gdatetime.c
-+@@ -1351,7 +1351,8 @@ parse_iso8601_date (const gchar *text, gsize length,
++@@ -1347,7 +1347,8 @@ parse_iso8601_date (const gchar *text, gsize length,
 + static GTimeZone *
 + parse_iso8601_timezone (const gchar *text, gsize length, size_t *tz_offset)
 + {
@@ -230,7 +230,7 @@ index 0000000000..fbefc262d4
 + 
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-04.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-04.patch
 new file mode 100644
-index 0000000000..ce4fa53f26
+index 0000000000..e62604d600
 --- /dev/null
 +++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-04.patch
 @@ -0,0 +1,76 @@
@@ -258,7 +258,7 @@ index 0000000000..ce4fa53f26
 +index 6335bcbe2..de5dd7af0 100644
 +--- a/glib/gdatetime.c
 ++++ b/glib/gdatetime.c
-+@@ -1355,6 +1355,7 @@ parse_iso8601_timezone (const gchar *text, gsize length, size_t *tz_offset)
++@@ -1351,6 +1351,7 @@ parse_iso8601_timezone (const gchar *text, gsize length, size_t *tz_offset)
 +   gint i, offset_hours, offset_minutes;
 +   gint offset_sign = 1;
 +   GTimeZone *tz;
@@ -266,7 +266,7 @@ index 0000000000..ce4fa53f26
 + 
 +   /* UTC uses Z suffix  */
 +   if (length > 0 && text[length - 1] == 'Z')
-+@@ -1372,34 +1373,35 @@ parse_iso8601_timezone (const gchar *text, gsize length, size_t *tz_offset)
++@@ -1368,34 +1369,35 @@ parse_iso8601_timezone (const gchar *text, gsize length, size_t *tz_offset)
 +       }
 +   if (i < 0)
 +     return NULL;
@@ -312,7 +312,7 @@ index 0000000000..ce4fa53f26
 +    * This can fail because our interpretation is less strict than (for example)
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-05.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-05.patch
 new file mode 100644
-index 0000000000..22415cc6a3
+index 0000000000..4d633aaba0
 --- /dev/null
 +++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-05.patch
 @@ -0,0 +1,57 @@
@@ -342,7 +342,7 @@ index 0000000000..22415cc6a3
 +index de5dd7af0..2f8c864a1 100644
 +--- a/glib/gdatetime.c
 ++++ b/glib/gdatetime.c
-+@@ -1352,7 +1352,7 @@ static GTimeZone *
++@@ -1348,7 +1348,7 @@ static GTimeZone *
 + parse_iso8601_timezone (const gchar *text, gsize length, size_t *tz_offset)
 + {
 +   size_t tz_length;
@@ -351,7 +351,7 @@ index 0000000000..22415cc6a3
 +   gint offset_sign = 1;
 +   GTimeZone *tz;
 +   const char *tz_start;
-+@@ -1365,16 +1365,15 @@ parse_iso8601_timezone (const gchar *text, gsize length, size_t *tz_offset)
++@@ -1361,16 +1361,15 @@ parse_iso8601_timezone (const gchar *text, gsize length, size_t *tz_offset)
 +     }
 + 
 +   /* Look for '+' or '-' of offset */
@@ -375,7 +375,7 @@ index 0000000000..22415cc6a3
 +   if (tz_length == 6 && tz_start[3] == ':')
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-06.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-06.patch
 new file mode 100644
-index 0000000000..249e09f0bc
+index 0000000000..2452b69e2e
 --- /dev/null
 +++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-06.patch
 @@ -0,0 +1,50 @@
@@ -405,7 +405,7 @@ index 0000000000..249e09f0bc
 +index 9e1acd097..94dd028a3 100644
 +--- a/glib/tests/gdatetime.c
 ++++ b/glib/tests/gdatetime.c
-+@@ -859,6 +859,23 @@ test_GDateTime_new_from_iso8601 (void)
++@@ -857,6 +857,23 @@ test_GDateTime_new_from_iso8601 (void)
 +    * NaN */
 +   dt = g_date_time_new_from_iso8601 ("0005306 000001,666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666600080000-00", NULL);
 +   g_assert_null (dt);
@@ -429,11 +429,11 @@ index 0000000000..249e09f0bc
 + }
 + 
 + typedef struct {
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index ce7c57df9a..1a65f48399 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -21,8 +21,14 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+index b8c75eaa49..cebd84dd50 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+@@ -54,6 +54,12 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
             file://gdatetime-test-fail-0001.patch \
             file://gdatetime-test-fail-0002.patch \
             file://gdatetime-test-fail-0003.patch \
@@ -444,9 +444,6 @@ index ce7c57df9a..1a65f48399 100644
 +           file://CVE-2025-3360-05.patch \
 +           file://CVE-2025-3360-06.patch \
             "
--SRC_URI:append:class-native = " file://relocate-modules.patch \ 
-+SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
-                               "
+ SRC_URI:append:class-native = " file://relocate-modules.patch"
  
 
