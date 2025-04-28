@@ -1,113 +1,172 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4FC6C369D5
-	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 20:54:21 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.59752.1745873653416251229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17441C369DC
+	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 21:26:22 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.60790.1745875581561392562
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Apr 2025 13:54:13 -0700
+ Mon, 28 Apr 2025 14:26:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SAmHAktC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so49744965e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 13:54:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NNPLOYgg;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22c33e4fdb8so57054325ad.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 14:26:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1745873652; x=1746478452; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nmEWac6UC2+kKMzog8mXksbpHMjPbLVySPp2yi/KaaA=;
-        b=SAmHAktCqphBgMJop5FyXG4UarZQjZP9sHrvp2IRQs2CQB5+AHPq84tijCajbUUhB2
-         EO9+F8TMXrzwYIS86BBBAaWaCE4b6askZ8JBGp98p81YI9x1/Dmo6WdjJpvRtvHLbI/d
-         Qb0KxWH2HZ4CZaiAypQuAnJPS3g6ezI54OQpQ=
+        d=gmail.com; s=20230601; t=1745875581; x=1746480381; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TkJa7Vnhd4vgLdF3fQzisNIr43QdCMTbnrl040RwpkA=;
+        b=NNPLOYggbJj3nYXxYWTcurxZWpkeMlPhwrc4xgWeNibhVaiUUspZL84B3T5iHLYHOD
+         ipZ2Fkr16FJDfBdLxCg0f4uzCAEBi5A6FYGxOyJuo8C33g1KZcIkzIGT+CVSBf4Li6vj
+         c0IBRbSIip71fyQ55OWFSxs8NCYLQxfX6wex845XVnqd/tSEfNCEQuUcuUuTpN8wWZ8c
+         O6ELWgk3+5E4qn0srDTbH6aMUdnzqFXkIathmZAhvGJ9T28JiQ2l9lOt1mKT3hu+GKla
+         abttReYePMPRQsQwE3WUoK6FjGiRxMNfE5yQyxUMQVz5/SOU+BGy9FJ1TzcGk7dtwAMN
+         DKsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745873652; x=1746478452;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nmEWac6UC2+kKMzog8mXksbpHMjPbLVySPp2yi/KaaA=;
-        b=Rkuwp/o3CoP0zWSP4ZAFLhvbI/LYIpEcaAKpBt8a4J3yQJpJN5Rabyco8ZBWYPnVWS
-         KllTgDJspEb3ak959MNsrl61jMkzKCwieBpB0a3F/FR8y1aAKiKeg2z+g2oftTUdtXFs
-         SPszclMZ1n0MCyGiPJkPfjf/kEj/t2K9/sVmXgaEd9SzyR2FcPKMCZYDEYdig7ZP8YKC
-         cIP+CcnOh0S1MkvA+cs4qygow5k3H3W43yLbsQ7f0Rl5dyY61nrhusjskPawbwuqOyNw
-         Tfp9hVIT9AtOPHsYZGZ2GO0M3po6bPovFFIextFpTSkA13qAHckEPpekVGym8zGipPqp
-         mMkA==
-X-Forwarded-Encrypted: i=1; AJvYcCXWdVcObxb3J/T6ww/dH/vyGKPMZTEl+ptXnxUlnWj8Z/5GQcvbAWi92jJIWPfgCyBXRYu1F07aw/wQDTlDsK3yaw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzMUFSJGujTg1OS4l1X5yA+Wvzq5Tr6IywasZlyao9jgD8/t0ds
-	aYsSdTnwrsFGclA37xzPHJoMioSjx6n6PrtN2TDf5F40baoZrv6cZWcaZB7tO7g=
-X-Gm-Gg: ASbGncvLW6CwTNWYfv62e0eL6DLlLiAgkGhLSU9jc44UG6p9p2veRObqnrwSq0zOU6F
-	3u7fx5D9jq93nTB2AXjVyjGy9P9p1C0MgRBQVmVp4p/2omcrWOn1x8sgXWLF0ZWQwd5vCpgF84q
-	kCR3Z8sKmMBdShFySq22E8TEMGJ+/EkYCx5Flpdx1mlSQq4WLY7LFCWwttqBBpqteahn87XUigh
-	uWfla9s0c4lehhdqqEHAQ9FaajdWs60UeUq+JqzBu4PJTczkOnkmSP045bA4M7/oE5qoAJ2fS9j
-	5w0CwvgCjsD9UN5382iM/gN7ITJQddWSqju/8zsXhndZuSDUBt6BG3HFyfXtc+PsRZ3nwe9Wzjf
-	/Tkh81B8nUSV3BQK/sMgMsQbKmQC3XM4phPQ8G37e
-X-Google-Smtp-Source: AGHT+IGWIPskddTZ80PRiRyyHoDoR9GgkvFN6xcRcpzCt3mvIuNe2EgsfbnBAVoHi8QzOaLNKpSoIw==
-X-Received: by 2002:a05:600c:a42:b0:43d:b51:46fb with SMTP id 5b1f17b1804b1-441ac84c11cmr6018235e9.2.1745873651814;
-        Mon, 28 Apr 2025 13:54:11 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1fc1:a08d:2291:3439? ([2001:8b0:aba:5f3c:1fc1:a08d:2291:3439])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-440a530a6e9sm134714205e9.16.2025.04.28.13.54.10
+        d=1e100.net; s=20230601; t=1745875581; x=1746480381;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TkJa7Vnhd4vgLdF3fQzisNIr43QdCMTbnrl040RwpkA=;
+        b=riHUqjqQZZjxokoEUI0Mrds2qxIxZm7jLzkIuvhKTtKUE/P8eBIn2/XvRtb30tgX2f
+         ygLuY6cZVs9Lzyql9QpT0OEq+zvlxy8j/M2d41Fqc0zbCTJUWQQ8LpP3K2Vzkg5A5lQw
+         dv6VPzlJltI+UVdDUzBYxVdidHo8xDfqoN9jmItGFeyUXeR+UN07urCFyCylSXOpdVCg
+         wGFGUylCDuh+AJ04a8vm6oNtGz9uP1VCcAIAH2yVvSWLKB0YFmJ+kqbrsbiXFk9OQ9kf
+         dItXvld0SHgz4VVMZdO1Vk7zb8+p5EhlpS+f3HfB3vgnxI0VKJCpjY62MmJctX3yiesh
+         Cv6Q==
+X-Gm-Message-State: AOJu0YzbtuFfwM3AL5cJvTsNe0uiKi3QS7h/GFoleRSTlq5FY4IlWGKx
+	RlUORnoKCfbqDyPCkuLY/bdn8ohQDYNVdQVT93BdsCuWMGTO9f6SQfZU+49i
+X-Gm-Gg: ASbGnct4ihh23Wnejojk4JsqAEA+FpM1MT0crbbqcpLGdmw8qBzIinRV/FDlVC4Njq1
+	WINUZp02k0jKh/dWg5Uuk+Iz6fCyHScBGiHQsveP0I7qJa/cWj3D1bHEO408enyLijGPZ33+b7a
+	MTtpF32Vemsdw1O71kZF0pf3ltGQHHFPgCFOTUIE4bhNeeOGatfMfTJooWltH3ZOdk/jCOGZ1Hf
+	DJe3d7d4XKmCVMSj0suO2z6GKY7TTvfr2qMrIh1p72Q65BgykE0HF4uRgbg/rPc4F5c+mKLXbqA
+	TEnBiESeN6lJEUpU6J/Se+bNuWqdFVwsjexTYlblTPs=
+X-Google-Smtp-Source: AGHT+IEw9OHCNJYhdSikpmf+JBxFLU6uX8TRV+csSjjOduN6/+M7vIehPfyLHsOJXbHhLLYTriCsvA==
+X-Received: by 2002:a17:903:19cb:b0:21f:8453:7484 with SMTP id d9443c01a7336-22de5fe31demr15110845ad.30.1745875580915;
+        Mon, 28 Apr 2025 14:26:20 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::2f75])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4d76f61sm87924995ad.3.2025.04.28.14.26.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 13:54:11 -0700 (PDT)
-Message-ID: <aa23d298b8b9f09372b417efa00547e4a42d432f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3] gcc: Upgrade GCC to 15 release
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, "Mittal, Anuj"
-	 <anuj.mittal@intel.com>, Joshua Watt <JPEWhacker@gmail.com>
-Date: Mon, 28 Apr 2025 21:54:09 +0100
-In-Reply-To: <20250426233051.4169011-1-raj.khem@gmail.com>
-References: <20250426233051.4169011-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Mon, 28 Apr 2025 14:26:20 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Apr 2025 14:26:16 -0700
+Subject: [PATCH v5 01/10] cmake.bbclass: Enhance to emit a native toolchain
+ cmake file
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250428-clang-merge-v5-1-c31e76e643e1@gmail.com>
+References: <20250428-clang-merge-v5-0-c31e76e643e1@gmail.com>
+In-Reply-To: <20250428-clang-merge-v5-0-c31e76e643e1@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+X-Mailer: b4 0.14.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 20:54:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215633
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 21:26:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215635
 
-On Sat, 2025-04-26 at 16:30 -0700, Khem Raj via lists.openembedded.org
-wrote:
-> * Nios2 has been removed and aarch64/ilp32 is deprecated
-> * Default C dialect is switched to C23
-> * {0} initializer in C or C++ for unions no longer guarantees
-> clearing of the whole union
-> * Compile speed improvements with LTO
-> * Vectorizer can support loops with early exists but it is limited to
-> loops
-> =C2=A0 with fixed vector lengths
->=20
-> This is major release of gcc, the changes are noted [1]
->=20
-> [1] https://gcc.gnu.org/gcc-15/changes.html
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v2: Drop musl headers ordering patch
-> v3: Rebased patches
+Some components e.g. clang and its runtime needs the native toolchain
+defines especially when doing nativesdk builds it uses
+CROSS_TOOLCHAIN_FLAGS_NATIVE to pass native toolchain file, which is
+then used to build native llvm tools needed during nativesdk builds
 
-We're getting much closer. My selftest-ed change nearly worked, I'll
-try a new version of that. If that works, we have left:
+Moreover this would enable using OE built native toolchain e.g.
+clang-native to build cmake based packages. e.g. libcxx and other llvm
+runtime plus it can be used for build native packages which require clang
 
-util-linux ptest regression:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/1396
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/1393
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes-recipe/cmake.bbclass | 58 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-meta-mingw failure in libiconv:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/7/builds/1521
+diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
+index b342deb67182e29a6b793ccf185c701745b47111..449fe2bb4433ff756d3b4d2357928b853806d58d 100644
+--- a/meta/classes-recipe/cmake.bbclass
++++ b/meta/classes-recipe/cmake.bbclass
+@@ -50,11 +50,34 @@ OECMAKE_C_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('CC', d)[1]}"
+ OECMAKE_CXX_COMPILER ?= "${@oecmake_map_compiler('CXX', d)[0]}"
+ OECMAKE_CXX_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('CXX', d)[1]}"
+ 
++# Native C/C++ Compiler (without cpu arch/tune arguments)
++OECMAKE_NATIVE_C_COMPILER ?= "${@oecmake_map_compiler('BUILD_CC', d)[0]}"
++OECMAKE_NATIVE_C_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('BUILD_CC', d)[1]}"
++OECMAKE_NATIVE_CXX_COMPILER ?= "${@oecmake_map_compiler('BUILD_CXX', d)[0]}"
++OECMAKE_NATIVE_CXX_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('BUILD_CXX', d)[1]}"
++OECMAKE_NATIVE_AR ?= "${BUILD_AR}"
++OECMAKE_NATIVE_RANLIB ?= "${BUILD_RANLIB}"
++OECMAKE_NATIVE_NM ?= "${BUILD_NM}"
++
++# Native compiler flags
++OECMAKE_NATIVE_C_FLAGS ?= "${BUILD_CC_ARCH} ${BUILD_CFLAGS}"
++OECMAKE_NATIVE_CXX_FLAGS ?= "${BUILD_CC_ARCH} ${BUILD_CXXFLAGS}"
++OECMAKE_NATIVE_C_FLAGS_RELEASE ?= "-DNDEBUG"
++OECMAKE_NATIVE_CXX_FLAGS_RELEASE ?= "-DNDEBUG"
++OECMAKE_NATIVE_C_LINK_FLAGS ?= "${BUILD_CC_ARCH} ${BUILD_CPPFLAGS} ${BUILD_LDFLAGS}"
++OECMAKE_NATIVE_CXX_LINK_FLAGS ?= "${BUILD_CC_ARCH} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}"
++BUILD_CXXFLAGS += "${BUILD_CC_ARCH}"
++BUILD_CFLAGS += "${BUILD_CC_ARCH}"
++
+ # clear compiler vars for allarch to avoid sig hash difference
+ OECMAKE_C_COMPILER:allarch = ""
+ OECMAKE_C_COMPILER_LAUNCHER:allarch = ""
+ OECMAKE_CXX_COMPILER:allarch = ""
+ OECMAKE_CXX_COMPILER_LAUNCHER:allarch = ""
++OECMAKE_NATIVE_C_COMPILER:allarch = ""
++OECMAKE_NATIVE_C_COMPILER_LAUNCHER:allarch = ""
++OECMAKE_NATIVE_CXX_COMPILER:allarch = ""
++OECMAKE_NATIVE_CXX_COMPILER_LAUNCHER:allarch = ""
+ 
+ OECMAKE_RPATH ?= ""
+ OECMAKE_PERLNATIVE_DIR ??= ""
+@@ -155,6 +178,41 @@ set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
+ list(APPEND CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES ${includedir})
+ list(APPEND CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES ${includedir})
+ 
++EOF
++        cat > ${WORKDIR}/toolchain-native.cmake <<EOF
++set( CMAKE_SYSTEM_NAME ${@map_host_os_to_system_name(d.getVar('BUILD_OS'))} )
++set( CMAKE_SYSTEM_PROCESSOR ${@map_host_arch_to_uname_arch(d.getVar('BUILD_ARCH'))} )
++set( CMAKE_C_COMPILER ${OECMAKE_NATIVE_C_COMPILER} )
++set( CMAKE_CXX_COMPILER ${OECMAKE_NATIVE_CXX_COMPILER} )
++set( CMAKE_ASM_COMPILER ${OECMAKE_NATIVE_C_COMPILER} )
++set( CMAKE_AR ${OECMAKE_NATIVE_AR} CACHE FILEPATH "Archiver" )
++set( CMAKE_RANLIB ${OECMAKE_NATIVE_RANLIB} CACHE FILEPATH "Archive Indexer" )
++set( CMAKE_NM ${OECMAKE_NATIVE_NM} CACHE FILEPATH "Symbol Lister" )
++set( CMAKE_C_FLAGS "${OECMAKE_NATIVE_C_FLAGS}" CACHE STRING "CFLAGS" )
++set( CMAKE_CXX_FLAGS "${OECMAKE_NATIVE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
++set( CMAKE_ASM_FLAGS "${OECMAKE_NATIVE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
++set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_NATIVE_C_FLAGS_RELEASE}" CACHE STRING "Additional CFLAGS for release" )
++set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_NATIVE_CXX_FLAGS_RELEASE}" CACHE STRING "Additional CXXFLAGS for release" )
++set( CMAKE_ASM_FLAGS_RELEASE "${OECMAKE_NATIVE_C_FLAGS_RELEASE}" CACHE STRING "Additional ASM FLAGS for release" )
++set( CMAKE_C_LINK_FLAGS "${OECMAKE_NATIVE_C_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
++set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_NATIVE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
++
++set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_NATIVE} )
++set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
++set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH )
++set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
++set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
++
++# Use native cmake modules
++list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR_NATIVE}/cmake/Modules/")
++
++# add for non /usr/lib libdir, e.g. /usr/lib64
++set( CMAKE_LIBRARY_PATH ${STAGING_BASE_LIBDIR_NATIVE} ${STAGING_LIBDIR_NATIVE})
++
++# add include dir to implicit includes in case it differs from /usr/include
++list(APPEND CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES ${STAGING_INCDIR_NATIVE})
++list(APPEND CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES ${STAGING_INCDIR_NATIVE})
++
+ EOF
+ }
+ 
 
-meta-intel failure in intel-mediasdk and intel-media-driver:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/41/builds/1389
+-- 
+2.49.0
 
-meta-virtualization in ipxe:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/1402
-
-(copying layer maintainers)
-
-Cheers,
-
-Richard
 
