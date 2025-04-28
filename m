@@ -2,49 +2,51 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73526C36005
-	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 07:13:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7009AC369D9
+	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 07:13:26 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.42370.1745824310072776083
+ by mx.groups.io with SMTP id smtpd.web10.42390.1745824312166299219
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Apr 2025 00:11:50 -0700
+ Mon, 28 Apr 2025 00:11:52 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=62139e711a=changqing.li@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53S4FLFg008429
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 07:11:49 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53S5kAK4015836
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 07:11:51 GMT
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 468mq1am29-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 468mq1am2d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 07:11:49 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 07:11:51 +0000 (GMT)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 28 Apr 2025 00:11:48 -0700
+ 15.1.2507.43; Mon, 28 Apr 2025 00:11:50 -0700
 Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Mon, 28 Apr 2025 00:11:47 -0700
+ 15.1.2507.43 via Frontend Transport; Mon, 28 Apr 2025 00:11:49 -0700
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [walnascar][PATCH 0/3] Backport 3 buildtools related patches from master
-Date: Mon, 28 Apr 2025 15:11:43 +0800
-Message-ID: <20250428071146.3946035-1-changqing.li@windriver.com>
+Subject: [walnascar][PATCH 2/3] buildtools-tarball: add envvars into BB_ENV_PASSTHROUGH_ADDITIONS
+Date: Mon, 28 Apr 2025 15:11:45 +0800
+Message-ID: <20250428071146.3946035-3-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250428071146.3946035-1-changqing.li@windriver.com>
+References: <20250428071146.3946035-1-changqing.li@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=KsNN2XWN c=1 sm=1 tr=0 ts=680f2a35 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=XR8D0OoHHMoA:10 a=t7CeM3EgAAAA:8 a=jXKoXrtyJxsEAUYfD9cA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: MgIbc6ZTN4bYRJ9ZIWMmq77bMlFht7BE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDA1OSBTYWx0ZWRfX/3XPenqrHwNa rbwk19LZTsxXmcjkTieGcFMntAUyhvZIWzI7MWuwbuSILI7Z4IJxzBqI2jrw20f8PkQyjBmKrXT lQW3DHhPcCoSFuNKBTiCoDPjAWDnhpf4dK5iDHJ0slAkiY1v5HSwB0tcQcEvOfxE40J1ao8wkJ6
- jSc9VeKuQp9mbcqp1fDCdWDXKoTU2QGAdtOowMX8tZFfXKZy/sPmdUGA3vtCTPmfjrSRxQpzAAM dXeiG0ok88yGwJFCGgbbxYP2LY01VukNg3votdBgkAzM3wi63Ej6oa1RxmtCvPaV7Ilki0KljgG JC7S4W8p9/32MIG4xN0CK3sky6vLfnTsLfqMrXf0SfnxvSNw3Lnj4Wj0iN9UCHdU5mowwkf8g/A
- xQAv1XfJhf4UYBdazLD+Bhx4ZHvm26/NqvW9D66IfveisgjoWp3OILeIuY9gMjHmeTLLZYyC
-X-Proofpoint-GUID: MgIbc6ZTN4bYRJ9ZIWMmq77bMlFht7BE
+X-Authority-Analysis: v=2.4 cv=KsNN2XWN c=1 sm=1 tr=0 ts=680f2a37 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=XR8D0OoHHMoA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=IyByODMcM6hwZvvgUqAA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: NcU7fw7waTq361Vpii7xMdcO2JWPlvHM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDA1OSBTYWx0ZWRfX6P4g4kpQVwnl PVJbr5WbyIvfS6uaR7zCrJ/yNHTbP//dWm3nLPUjm9x0KsJTkqTi9KSVI/6XeaUAKVWKcf9mPCr aBRSnE6QY5vPCv4dGQHHqrVTtSDM0s1WHgdJ5vPUhCivv69C3EfbS5iwsz8Drgoo4kbZU8XlsEg
+ CEvCp+5QUjJqpz55SLmPtEH1nfVDjA3AMwiU+drh39H5/HCiIEpuhUzsTfpbWcOn7nr8FqrnoyS b18YJBBTMvY6fPhUuq8S/GuZrxoxWk884QUfyayZ9L1wA8Xj83gJ7NAggTLHYPVbf2/gJlgpg+6 IEJs5E3Hj5rybKugDt0LU5EH71LvukcYiB5V5xcWAfFN4kabfsAWa/Ihi/q6jhJfGs4E6fVCWzt
+ qgbuekKP8xnZwNJ4RX9Pg7MVFCoEZqQopM/FCF2TAUL9PgzhN1HwgtnZRME5Q3qU++CjcNfi
+X-Proofpoint-GUID: NcU7fw7waTq361Vpii7xMdcO2JWPlvHM
 X-Sensitive_Customer_Information: Yes
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-04-28_02,2025-04-24_02,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- mlxlogscore=944 spamscore=0 bulkscore=1 lowpriorityscore=1 adultscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
  mlxscore=0 phishscore=0 malwarescore=0 clxscore=1015 suspectscore=0
  impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
@@ -52,44 +54,65 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 07:13:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215580
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 07:13:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215582
 
 From: Changqing Li <changqing.li@windriver.com>
 
-This backport include 3 commits:
+Here is one testcase:
+For recipe tensorflow-lite-host-tools_2.18.0.bb, refer [1],
+do_configure[network] = "1"
+and it will git clone some repos in CMakeLists.txt
 
-[1/3]buildtools-tarball: move setting of envvars to respective envfile
-[2/3]buildtools-tarball: add envvars into BB_ENV_PASSTHROUGH_ADDITIONS
+When buildtools is used and nativesdk-git is installed into sdk,
+do_configure failed with error:
+[1/9] Performing download step (git clone) for 'protobuf-populate'
+Cloning into 'protobuf'...
+fatal: unable to access 'https://github.com/protocolbuffers/protobuf/': error setting certificate file: /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-wrlinuxsdk-linux/etc/ssl/certs/ca-certificates.crt
 
-Above two commit is for fix a do_configure failure of recipe
-tensorflow-lite-host-tools, this allow user can export GIT_SSL_CAINFO,
-so that git clone can works well in do_configure when buildtools is used.
+Fix by adding GIT_SSL_CAINFO in BB_ENV_PASSTHROUGH_ADDITIONS, so that
+user can export GIT_SSL_CAINFO=${GIT_SSL_CAINFO} in their
+do_configure:prepend() to fix above do_configure failure
 
-[3/3]buildtools-tarball: Make buildtools respects host CA certificates
-Above commit is for improve buildtools, before this commit, when
-buildtools is used, openssl/curl/git/.. in buildtools will use CA certificates
-in buildtools. BUT, it is possbile that user has it's specific host env
-and specific CA that not in buildtools, so changed to use host CA first
+CURL_CA_BUNDLE and REQUESTS_CA_BUNDLE is similar envvars, so all add
+into BB_ENV_PASSTHROUGH_ADDITIONS
 
-Changqing Li (3):
-  buildtools-tarball: move setting of envvars to respective envfile
-  buildtools-tarball: add envvars into BB_ENV_PASSTHROUGH_ADDITIONS
-  buildtools-tarball: Make buildtools respects host CA certificates
+[1] https://github.com/nxp-imx/meta-imx/blob/styhead-6.12.3-1.0.0/meta-imx-ml/recipes-libraries/tensorflow-lite/tensorflow-lite-host-tools_2.18.0.bb
 
- .../openssl/files/environment.d-openssl.sh    | 24 +++++++++++++--
- meta/recipes-core/meta/buildtools-tarball.bb  | 29 ++++++++++++++-----
- .../git/git/environment.d-git.sh              | 19 ++++++++++++
- meta/recipes-devtools/git/git_2.49.0.bb       |  9 ++++++
- .../environment.d-python3-requests.sh         | 11 +++++++
- .../python/python3-requests_2.32.3.bb         | 11 +++++++
- .../curl/curl/environment.d-curl.sh           | 19 ++++++++++++
- meta/recipes-support/curl/curl_8.12.1.bb      |  9 ++++++
- 8 files changed, 121 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-devtools/git/git/environment.d-git.sh
- create mode 100644 meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh
- create mode 100644 meta/recipes-support/curl/curl/environment.d-curl.sh
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-devtools/git/git/environment.d-git.sh               | 1 +
+ .../python/python3-requests/environment.d-python3-requests.sh    | 1 +
+ meta/recipes-support/curl/curl/environment.d-curl.sh             | 1 +
+ 3 files changed, 3 insertions(+)
 
+diff --git a/meta/recipes-devtools/git/git/environment.d-git.sh b/meta/recipes-devtools/git/git/environment.d-git.sh
+index 18104f0528..f8e3221510 100644
+--- a/meta/recipes-devtools/git/git/environment.d-git.sh
++++ b/meta/recipes-devtools/git/git/environment.d-git.sh
+@@ -1,3 +1,4 @@
+ if [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
+     export GIT_SSL_CAINFO="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
++    export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} GIT_SSL_CAINFO"
+ fi
+diff --git a/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh b/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh
+index f2eee203ca..c7faec127d 100644
+--- a/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh
++++ b/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh
+@@ -1,3 +1,4 @@
+ if [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
+     export REQUESTS_CA_BUNDLE="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
++    export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} REQUESTS_CA_BUNDLE"
+ fi
+diff --git a/meta/recipes-support/curl/curl/environment.d-curl.sh b/meta/recipes-support/curl/curl/environment.d-curl.sh
+index 0d53aabb8e..0ab83a267d 100644
+--- a/meta/recipes-support/curl/curl/environment.d-curl.sh
++++ b/meta/recipes-support/curl/curl/environment.d-curl.sh
+@@ -1,3 +1,4 @@
+ if [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
+     export CURL_CA_BUNDLE="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
++    export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} CURL_CA_BUNDLE"
+ fi
 -- 
 2.34.1
 
