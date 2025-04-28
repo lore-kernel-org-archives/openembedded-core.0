@@ -2,63 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39A9EC3ABAB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 399F8C3ABA9
 	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 21:26:32 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.60661.1745875583313218138
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.60667.1745875587794370211
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Apr 2025 14:26:23 -0700
+ Mon, 28 Apr 2025 14:26:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PAgtdUOf;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ff694d2d4dso4720191a91.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 14:26:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Xgv7XSJp;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-225df540edcso63878175ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 14:26:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745875583; x=1746480383; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1745875587; x=1746480387; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9wc/JZpb9I01WkScxZifDGeny+GfXjxdfvFxjNwbPxo=;
-        b=PAgtdUOfpqWtgI8O0ak1BKW7qMiGIjMbsJZ3dFEKt649+y5prlED3iB+PnOcfUiAw6
-         Im0F21ac13x2ob9K/JYHQ3ciT5niDda3frJ1FzUUf2drRlukZINepsW28ZXNvNVZ9tei
-         AWHBTMo3/sMC5Eo8rh9wlRCnB2Fqfoxp5W752PAO5JlKn0jkQPhGZIOhvbKDSLaroQ0j
-         obXSIdlcX6S7oatrEI7G+eLrIO9rGesOuDN82OrBaXQ0j9ln1by8qkXP8FXsFRkmDBPO
-         bgJyuB8IIhZ1P1vosg/VuoWW5uaozg2D/O7T4CJrQ4fcGVTlJ7HUu8L9gK4kGmPiXgFd
-         421Q==
+        bh=gIDI0NAFNUci7eYa9M3fuwmDhU/zBi0rNU7pX9ifaPk=;
+        b=Xgv7XSJpYjMLJUQxmP8HY1VG9uICZHlG4ThhsmycwmklZLV+xUAvmYVRAGj7PhVq5X
+         DaW/SdHTUQMEoE1TszSuuACFrQa7oij0KyMMxFuvgQD/LsQwNG073iii9zU0rYQsg27s
+         6/cLOsobieWl9i6ev2CqjRyHuE9QHIaBY3F4PJj9dd474EL97HlcRWKdx93uxTp8YM6+
+         IR6Ue0KQ2xMv0MGETJhswn8Ie1d/FDmuterdmpJGRpRzPeGmgtSrrRq3vHz23VkrlSrh
+         8ROlUpPe/D49ddjOBDrgI3PDL7lHQXMka1DOwRsKYqLbjJpgYctAy/yLv1RibF0kHgpQ
+         dTLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745875583; x=1746480383;
+        d=1e100.net; s=20230601; t=1745875587; x=1746480387;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9wc/JZpb9I01WkScxZifDGeny+GfXjxdfvFxjNwbPxo=;
-        b=G2gb1azqKE9V9wPPIRAKyqb2cCUNgYEb4LIm6vny0pOmNElRCM7v5G+l1/C81zy46F
-         ZeCbH6GJ8PTxek/N2JgX/LEOnpyPbG/3SqYQRY2fw4gS35nGxHdYJ9AC/Q/7e8/e7nPd
-         qQ0XGCGdv7mo+IZlp8ZW25SmZ40Uk8kfYrNTu418gTvock+V3v/PhCUZFuNrsDcU9FMK
-         SGllMdwfcKiTWF9FDyTV9Nd/YblTg+j+5soNv+6b3JT8d5U97aeinkJlgcfITnG9mGY8
-         pmkM09OGU3YBdN+9SuHWdbOHVymbSK8fCkOYdqmHSXGn1vGRaYI/htiYe4MPePxlhdc3
-         pvyw==
-X-Gm-Message-State: AOJu0Yx7vCXmopEpbUlFfzi8mFFHo9o/6RKTvY40L+iWNle6d1IcvFqo
-	Pqt0qX1+j1KKLTfxqv2b98bXqXIo2xD/jkSmd+8KanMPup/x2J04
-X-Gm-Gg: ASbGnctuPe/X1n2OqHK3IG/88OolyD3SbF2TLfjbX7RH5WWnksN73tEzz3ZUGp0HGtk
-	QJi3uzLU1uTLDxZxFiZTt3fUd6Twhm4XRWKpsNBYnszKovs62H106XrmTIX4yo4YlI0XZd+CYJ3
-	QvLTJD6ndnfeCHuse47DgQUnEOsNaaWZT8bxeo0lfpuUfpXHdsH4xZdNlpZtarSmM6ZfEBXbW7c
-	9mPgCIPKlbYZg4OPoTcgzitGJJvV2UumD+B6gYVxjrCVYqSd8XBuqiMa7mb0TZoV5PTCXrHMcd/
-	CCrLzntGH0MJNTUZkxoo/An8SrYj1RDYqtnzdZc4u7I=
-X-Google-Smtp-Source: AGHT+IHm13kwHn8Q5zEJ50u/wb22bRKnHz6iGvK7pIPUW9oRnkl+W5PdO72rOIqJ4Xv4dIKlIvPNRg==
-X-Received: by 2002:a17:90b:1f90:b0:2fe:e0a9:49d4 with SMTP id 98e67ed59e1d1-30a215438e9mr1942112a91.2.1745875582678;
-        Mon, 28 Apr 2025 14:26:22 -0700 (PDT)
+        bh=gIDI0NAFNUci7eYa9M3fuwmDhU/zBi0rNU7pX9ifaPk=;
+        b=Nuq8EHOozYkOvB2+vZVHgSmbLCAVx964vUaq5fpSvr8M7vCd18K4XMp1YIIOxTjg4g
+         vQ5rbGNMg1R8LrN6hkJ3P2DDFIAW2xKRhSkp8JsibyP/wud4DMHptDyoXHOBQX0TeGQ0
+         Vi5OKsWJB+eE58RMFmIaF376zRlgX99xIJ6LJDLA24FGElRhQvadmLFMvMPkUWTJT75o
+         ZuhcvbN9cwv+K/O/txX30WJT4IHdyXp5ZJ2QhW+wr8fjLpru91qdNFrmpRDBDTjktkDo
+         YuPBmOSdwK06G0Ca8pVJFI7pgHD0lZv8JqrUWtFe7cfVMvzmkrhG4+2xYbaAadAnuROj
+         nm9Q==
+X-Gm-Message-State: AOJu0YzjP9eaZxf5koDO7v540+rRT/YK851Sgg4v9h6SSG9fm1MIYpRW
+	5AKeUcCYNf5dfUdQRiD3COs83q9ZVvduunfPlIABdgkeLcbzHbJCrsIypXNq
+X-Gm-Gg: ASbGnctsQzo9S766Oo+/WVoc8KkNAEPqf1XteNCya/W/0uHfJndOefy/5StFfDAKwLk
+	QPvYKggSBZYOKu3WYeGCySo6tCBGE80yVIpNrFiCOS3e8AZISWt6VPCvh0Ni8u4cXhTC7xaXeOT
+	l6c5kFh2Zk2tD6bsSv7FO4Npw0j7HQNCOGQZceXJ6dT+mOBUwLZ9Z4g/ilPSUDY+IDTFfEDPIYj
+	caIsLXU0h/0cqzDAO9ie0vBySCEopS/B+66I86uzYFlD5w+9R9Awn5CJw3ivMZzawTn4mWSHagG
+	vtM4HLWxIFu6Mj3hG1/BhL5iEt/puyCF
+X-Google-Smtp-Source: AGHT+IHU7s6tOYYJHqjxcZlGGNSWSoOXJQWhkp+lm4HDnnJfjoEZPIKIuZpmD4t0B7wPzLem6DJASA==
+X-Received: by 2002:a17:903:1b24:b0:216:4676:dfb5 with SMTP id d9443c01a7336-22de6c64cb0mr9065355ad.21.1745875587165;
+        Mon, 28 Apr 2025 14:26:27 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::2f75])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4d76f61sm87924995ad.3.2025.04.28.14.26.21
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4d76f61sm87924995ad.3.2025.04.28.14.26.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 14:26:22 -0700 (PDT)
+        Mon, 28 Apr 2025 14:26:26 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 28 Apr 2025 14:26:18 -0700
-Subject: [PATCH v5 03/10] sstatesig: Handle special case of
- llvm-project-source shared-workdir
+Date: Mon, 28 Apr 2025 14:26:22 -0700
+Subject: [PATCH v5 07/10] clang: RPROVIDE spirv-llvm-translator and libclc
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250428-clang-merge-v5-3-c31e76e643e1@gmail.com>
+Message-Id: <20250428-clang-merge-v5-7-c31e76e643e1@gmail.com>
 References: <20250428-clang-merge-v5-0-c31e76e643e1@gmail.com>
 In-Reply-To: <20250428-clang-merge-v5-0-c31e76e643e1@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -68,37 +67,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 21:26:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215637
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215640
 
-bitbake-dumpsig or bitbake-diffsig tools do not work on any of tasks
-exposed by llvm-project-source recipe. This is due to it being a
-shared-workdir recipe.
-
-Fixes
-
-bitbake-diffsigs -t llvm-project-source-20.1.2 do_preconfigure
-NOTE: Starting bitbake server...
-ERROR: No sigdata files found matching llvm-project-source-20.1.2 do_preconfigure
+This paves the way to spin out these packages out of clang in future
+specifically spirv-llvm-translator which is not yet part of llvm monorepo
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oe/sstatesig.py | 3 +++
+ meta/recipes-devtools/clang/clang_git.bb | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 1f976067631f80d637ba803f49813323d17e7c70..826549948e24571ef57acbe6bc5a2442d6c49f13 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -418,6 +418,9 @@ def find_siginfo(pn, taskname, taskhashlist, d):
-     if pn.startswith("gcc-source"):
-         # gcc-source shared workdir is a special case :(
-         stamp = localdata.expand("${STAMPS_DIR}/work-shared/gcc-${PV}-${PR}")
-+    elif pn.startswith("llvm-project-source"):
-+        # llvm-project-source shared workdir is also a special case :*(
-+        stamp = localdata.expand("${STAMPS_DIR}/work-shared/llvm-project-source-${PV}-${PR}")
+diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
+index 5248a6c1fecd4665772a4bac8075c9d1257caf78..f797f5a4adf6f7ced22e76f1f846898ed6f9e060 100644
+--- a/meta/recipes-devtools/clang/clang_git.bb
++++ b/meta/recipes-devtools/clang/clang_git.bb
+@@ -334,6 +334,9 @@ RDEPENDS:${PN}-tools += "\
+   perl-module-term-ansicolor \
+ "
  
-     filespec = '%s.%s.sigdata.*' % (stamp, taskname)
-     foundall = False
++RPROVIDES:${PN}-spirv = "${MLPREFIX}spirv-llvm-translator"
++RPROVIDES:${PN}-clc = "${MLPREFIX}libclc"
++
+ RRECOMMENDS:${PN}-tidy += "${PN}-tools"
+ 
+ FILES:llvm-linker-tools = "${libdir}/LLVMgold* ${libdir}/libLTO.so.* ${libdir}/LLVMPolly*"
 
 -- 
 2.49.0
