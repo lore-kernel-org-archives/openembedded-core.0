@@ -2,97 +2,87 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 315E4C369D5
-	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 18:18:41 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web10.55559.1745864312851352047
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41605C369D5
+	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 18:26:11 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web10.55725.1745864763776131217
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Apr 2025 11:18:33 -0700
+ Mon, 28 Apr 2025 11:26:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RtZwxfaP;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6e8ec399427so48958666d6.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 11:18:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mJWFKuFZ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6e8fb83e137so52683316d6.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 11:26:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745864312; x=1746469112; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1745864763; x=1746469563; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GMNfnfvZmyXVTETkRCca87F+YvCWk7yiJ3BmMN7I29U=;
-        b=RtZwxfaPmT6z/hKeMDOVzSZeu2zBzCh8IajexMM261JviyWunfx+S+GK1LApWxAeZi
-         W6Z3S6REUE+RjW0O0wVCyoGPhxkSLf9wCQro96YEjT0obxq+FHMReP2IpqfDZpUS3Xta
-         rjKFciFXzKXY8+uFdfdb1HQloewiUf73r/tBgOYS+AlYL9QDi1CwCUMquy5GPkQiGkCB
-         A8RBKBJE2AGkyAJqNHrKvjHwppTe1X6zPpuN9pQjNiGXoHZ2lRzf8O1HvTjlIMr6uxKP
-         naRWt5klcxe4XN87fA71wfjkwzVx4qI9jcvRjf+otUzcPJuBqROLxq8oBykfOe7nTvUW
-         txkQ==
+        bh=5PTT62aRPdFoA3QB27XeFfaR0p26xM0DVDXwQUXsCf8=;
+        b=mJWFKuFZWfWbs/+ercoMPPUCxKZYUyDv6b8Zhz/ibmJ8RB0Qy87go095dUjs8iX/jG
+         SLUsq0pUOCJ21Cz6S94o2SwjEyWsoil5nK5aF+VCG3LpvYHIuVLwxGNDtUdZt2LPqX6v
+         qzSOUhSCAQCsRvRWxJ27TdBRVUJruzfDXsWCCAPOs68AJy3dEBu/VvEXVilVhVZMc10E
+         7wcc5VEwaNMs8p+MI6CN9RNFZBuClBEqlrxp1VlllR4Mml+CA0dO2acJr4wcVgDSHxtf
+         laETzzPdZ5jouwjY1p2Djuj+mORkh7UPKrwhaWUYGc/Zj0QWujoiaeFwhEGqtsiFa77p
+         cWig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745864312; x=1746469112;
+        d=1e100.net; s=20230601; t=1745864763; x=1746469563;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GMNfnfvZmyXVTETkRCca87F+YvCWk7yiJ3BmMN7I29U=;
-        b=M7so4qjTfXh/RrsnAT64bl17jamHdRnKq7LQqJqxB6jQZ8gu3+tPidIVNDYaSohb8d
-         Y2iOikte5oR9We13Pfx7t/vq81xrh5rAxySgFlpihFLF3x/74M/FrTKOdnDTMt9XuW2E
-         G38mB0O9iE5qO1GhN5AzXPymwtTzluEXSXycAqTrUlSKcm1upViG+CWk+35CM21H7i1x
-         7mFg9ZYgmFQ3h9Hc0tiLJPmfLsE8isaCMgCCaB5mE1P5zBFpoOnDiVhrtNzkMbAt72yT
-         e65B7EHAbfEvLE8LzB0A9Ypu1fgnIPAES/xLFi5ydc6dp3bnt9BrvxjDMlpYFjkbk0/S
-         uPKQ==
-X-Gm-Message-State: AOJu0YxinzPKQ3pcGnp+t3XIeEwgl7NZ8NUsfJJGqKx0iGBqIBn2dDlx
-	AN8DyDLUPz0Ut8ILoKxsSreSwvOSWv8XYTFAf74UDL+BEBXMzKB5pxnhvxOTCuH6PWNE18Igop3
-	9Kp+N5xzh5gF5t4N3Sle14OsAx7SMvQ==
-X-Gm-Gg: ASbGnctvdTWT86bXqh5A4WLhQNtzOH2qp5NMpEl7BGP0W1ChsLqKE6kBeSOylp7PBsI
-	Em7OqhdxcqHe7ELzE70jCygnfa8k472D9HJ1lAoyRdslxnSTXVVNW3NNy9kAuH8nwpe4f4ht+op
-	w5TT+oAMDy+agBKzxIeH8VngA3paERC/noYJiAYdUA7tAmzwjdsNtEdL8S
-X-Google-Smtp-Source: AGHT+IEuGmd4uAtH9H2kRHsCwIMAt+SEqgOSTxDP2kYLpubPgN/zGhIh8+vXB1O5Zt5GMiiBaoyzWAja4Vyf2NRa5VI=
-X-Received: by 2002:a05:6214:5090:b0:6e4:2dd7:5c88 with SMTP id
- 6a1803df08f44-6f4cbb5a6b5mr235310946d6.38.1745864311659; Mon, 28 Apr 2025
- 11:18:31 -0700 (PDT)
+        bh=5PTT62aRPdFoA3QB27XeFfaR0p26xM0DVDXwQUXsCf8=;
+        b=KRnVLTC5/fAyyaZLJ/WpnKHrmiL5Qqll+k3aGaFdgUYWUrGnebSPHAo83humLIRoUR
+         jqiH3ZrtBIAh6Kp6pkTlbluStlP1+Y7JWoaZKh/skoCkcHbYxJ7a0ZlpoaYd7J7vR86W
+         rp07OXjfj7850OPt97jCgUMBLUrSoe6ROLGOJBlBrUriz2K9xkpdpVZI4d5vGHBFM5a6
+         DY8KhrRSaB+V0nQsyMEa5ROTpRZV8nxwYc47rXFhOssZrrMqYwhLIMkmEnj4s4qFOtdc
+         Hgd5GU1GYXtjSkPQEyWetMi0BSUKEDXgLUikEkeK0S1sL/tfewK4gbieKxMmTy7HL4AC
+         b2pQ==
+X-Gm-Message-State: AOJu0YwzJXttNMC2GbYlUuqjGTFO6lEZqAoKsWvGBmb47giADdq5ICMW
+	2AY33BI7Tjq7wxiHmBinyS/hMlrmr2zCKMAm0wF9Y30CVFvKLZXOF446DRFxLVt5E1uIZLIK3/U
+	9oGWrbmpn3CgAtqcbzCLVSimbxealGA==
+X-Gm-Gg: ASbGnctORpUjdshJ43elkHtW2NgvVrhfRS2/nsVhay5hMsvQKQI2Mzbx+Awvkj6zyep
+	rWzVNS7qN9EYVM/E2OH1ejd8j75tORyQEsKNzrVTikphzfc6gOwRHOHt7FuxvgvI0nY20JIa4zq
+	Qo1pJRqIkYLwigZlW6au8+PYGVNgx9PBwJXYJUO1Wa4+caIwD2rL20kwoY
+X-Google-Smtp-Source: AGHT+IEsg2m9WPsOCDDfgP5Pm/CfjsgghkRRodtqHpvsJa4Kp891ZtLLDgYE2GyyHsCV6Cb0H+rya1D1YPEm0GS7NLo=
+X-Received: by 2002:a05:6214:d06:b0:6f2:b094:430e with SMTP id
+ 6a1803df08f44-6f4cb9edb45mr252866396d6.25.1745864762630; Mon, 28 Apr 2025
+ 11:26:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <AE38D3E5-5632-4C2C-ABBD-D213983EBD63@arm.com> <25979.1745859308517888166@lists.openembedded.org>
-In-Reply-To: <25979.1745859308517888166@lists.openembedded.org>
+References: <20250428154853.3084518-1-dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250428154853.3084518-1-dmitry.baryshkov@oss.qualcomm.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 28 Apr 2025 20:18:20 +0200
-X-Gm-Features: ATxdqUFI1xuTDfwYsfegPhEOzpsDyIOAUcNkPd5uJS6lCg3-6eGl-F9NjNHbUyY
-Message-ID: <CANNYZj9uobfv+ny5F-cs_uviznrCzry7z6_kFFqqxjvCWvE5Tg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/2] cdrtools-native: fix booting EFI ISO
- live failed
-To: hongxu.jia@eng.windriver.com
+Date: Mon, 28 Apr 2025 20:25:51 +0200
+X-Gm-Features: ATxdqUFvh9UfdBk1DMr3abp998wA-27slwjGIwBQ76viuIOurrZTeWKW9gI4ek8
+Message-ID: <CANNYZj8QQAzzb+xU-KjGLAvA723KWBOMt_+zifchuJW7-P+E=Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] graphene: disable one of error flags
+To: dmitry.baryshkov@oss.qualcomm.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 18:18:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215629
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 18:26:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215630
 
-On Mon, 28 Apr 2025 at 18:55, hongxu via lists.openembedded.org
-<hongxu.jia=eng.windriver.com@lists.openembedded.org> wrote:
-> I will update to Inactive-Upstream. in v3
+On Mon, 28 Apr 2025 at 17:48, Dmitry Baryshkov via
+lists.openembedded.org
+<dmitry.baryshkov=oss.qualcomm.com@lists.openembedded.org> wrote:
 >
-> About schilytools, it could not be built from cdrtools recipe directly,  the reason is schilytools using a bootstrap 'smake' binary for compiling
-> which is created in the psmake/ directory from source [1].  We need to create the recipe schilytools from scratch.
->
-> Due to cdrtools have license problem[2], we only have cdrtools-native support in Yocto. For schilytools - the fork of cdrtools, I think we should only support schilytools-native also
->
-> [1] https://codeberg.org/schilytools/schilytools/commit/a72089c47380426830118d318d59a65e9e1b2aff
-> [2] https://lwn.net/Articles/195167/
->
-> Hi Ross,
->
-> For libisoburn[3], it is not alive since 2023
->
-> [3] https://files.libburnia-project.org/
->
-> Hi RP,
->
-> What is your suggestions, is it necessary to use schilytools or libisoburn to instead of cdrtools in oe-core. It beyond the scope of this bug fix patch
+> Building of graphene fails with the following error. Disable
+> corresponding flag being set by meson until the issue gets resolved
+> upstream.
+> +Subject: [PATCH] meson.build: disable -Werror=redundant-decls
+> +
+> +Building of Graphene started to fail with the following errors. Disable
+> +offending flag.
+> +Upstream-Status: Pending
 
-This was discussed in the patch review meeting today. The patches are
-okay, and will be merged. Like Ross said, schilytools seems like it's
-close to not being maintained either, so I'm not anymore sure if it
-makes sense to try to move to it, but if you find a bit of time and
-look into it, that'd be appreciated. This whole area covered by
-cdrtools/syslinux is an obsolete retro technology that no one really
-wants to keep alive.
+Not so quick please. This recipe does not fail on the autobuilder
+(yocto ci), or in my local build (using standard poky), so there's
+something else going on. You need to narrow down what really causes
+the failure (something non-standard in your settings or toolchain?),
+there should be a link to the upstream ticket, and the patch should
+not be marked as Pending (unless a very good reason for that is
+given).
 
 Alex
 
