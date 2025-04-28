@@ -1,359 +1,266 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E48F4C369D5
-	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 14:28:59 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.52])
- by mx.groups.io with SMTP id smtpd.web11.49807.1745850538825854548
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F810C369DC
+	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 14:44:30 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.50204.1745851463453140322
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Apr 2025 07:28:59 -0700
+ Mon, 28 Apr 2025 07:44:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector1 header.b=k6QUNNhz;
- spf=pass (domain: ericsson.com, ip: 40.107.162.52, mailfrom: daniel.turull@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G+5F6PdDSCBhT7J7xvSFNdCKSK+4bEzx4LNfljfGBRyhDva3vpSa2i8vcO/HZhVSk/RXcp0jg8co2WnPPqzWXOC4/rBAJFsoQtORdqbmWYEy/6Yr/Ihjd3thT6IuNYWkZWmBf7w+ytHtqloj4sAxWM6qqCzwxjJB5hyyafkpR80/RRDwj04+lR3GCFGo8GzyZ7cWhYyaxlfRZU6Cay8OB5Dj6Tnqx8RFO0148E+JvDAQUfIdFFcVHKmJTrJBnL49/QPIZ4Ui8wf7VUl+0loufArS/REJkLwGykzPnUS7qiNeP8wVf7GQ9xjMEAoE89tsO96eIOKWZT8LCDllJr4mSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XVTDq8u+5OpslpliwkgJZRvuR0GlpgzDb8DiCYtmJNY=;
- b=vMbUW7CejeduN31QSAkBmPOZEZibJTH30d5REPu8DCpe55VDwOK6w7MFze5yBcgkpVacoeCqN88GENKi0zll0KRAcGI5k9BsU3cQ+5FVD1zVklWACYLH6i+w4adg3DZcwN8UQmeOyF0sNoQ9vbx4LMnGhUl64ktnaSxza+L9WMt+L7VE9q0ZeHm7TRESVl+0eDkn1RrXGCYkb2kbQtjTIEtUSSSRVh0WQy3YsLpeQhLXo31XsUfYhzQpf7UYHq6bWl7bsTujiGy34oU901P2Z/lmUgKkHE5I2KgYqpGhqJL9wXWSYCzuSn3CrO7NicMQ903aRMFjQedFjkOt3tVF+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XVTDq8u+5OpslpliwkgJZRvuR0GlpgzDb8DiCYtmJNY=;
- b=k6QUNNhzKQa1CDRrl9LXcjKSpZI0JVpVvfwhFE4A7JjPHF4AlDH59IK047M2CAMp/33/EzL8jbJlU3DOwTP79L50e5glyK6tmfSPbM2AUlGcM7/LUPLpACfpPLBcEOOOSj1PP05qFDKP5MssUHflXc+/vRbsAFgh2BdBcvISWq5fLC4jVqsilRs3nFzzg0D6CkHO4nuCwIFxcYEob2BqtYPaXp1LIuwmH37t8m/RresdL0mejr3naBGt9ZR461SM7jZ3Kjb7FGpG9IlJYxEmuUDBSTVcKUtbhOMWdize3lQOJz4a/x8ZEPWs+/Q5BmKPIjWfDJPLDGtgaXDfkqGFVA==
-Received: from PR3PR07MB6666.eurprd07.prod.outlook.com (2603:10a6:102:61::16)
- by AS8PR07MB7974.eurprd07.prod.outlook.com (2603:10a6:20b:351::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Mon, 28 Apr
- 2025 14:28:55 +0000
-Received: from PR3PR07MB6666.eurprd07.prod.outlook.com
- ([fe80::548a:adf1:280d:283b]) by PR3PR07MB6666.eurprd07.prod.outlook.com
- ([fe80::548a:adf1:280d:283b%3]) with mapi id 15.20.8678.028; Mon, 28 Apr 2025
- 14:28:55 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "rybczynska@gmail.com"
-	<rybczynska@gmail.com>, "steve@sakoman.com" <steve@sakoman.com>,
-	"Peter.Marko@siemens.com" <Peter.Marko@siemens.com>, "ross.burton@arm.com"
-	<ross.burton@arm.com>, "skandigraun@gmail.com" <skandigraun@gmail.com>
-Subject: RE: [OE-core] [PATCH v2 3/6] kernel: add support to extract compiled
- files
-Thread-Topic: [OE-core] [PATCH v2 3/6] kernel: add support to extract compiled
- files
-Thread-Index: AQHbuENnmnFcXfZCzkWA5I6iKOQZw7O5Ig+AgAAAV0A=
-Date: Mon, 28 Apr 2025 14:28:55 +0000
-Message-ID: 
- <PR3PR07MB66668C8E7FB2395DD5C1F1D88A812@PR3PR07MB6666.eurprd07.prod.outlook.com>
-References: <20250428134205.900354-1-daniel.turull@ericsson.com>
- <20250428134205.900354-4-daniel.turull@ericsson.com>
- <CADkTA4PW77MzS_+trJGgPCTSW=dPsnKP16tE+Wk8Lu47bK5mSQ@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4PW77MzS_+trJGgPCTSW=dPsnKP16tE+Wk8Lu47bK5mSQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PR3PR07MB6666:EE_|AS8PR07MB7974:EE_
-x-ms-office365-filtering-correlation-id: 918de836-1a92-4a72-f637-08dd8661016e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|4022899009|1800799024|376014|366016|8096899003|13003099007|38070700018|7053199007;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?am1US0hWa3I0MktGKzRmR095ZHBuVDZSb3dKVXdteXQyRG0xL3J0Tkd2b2hB?=
- =?utf-8?B?TWdGdUZrYWdmTThNVjBxVkNxenNycVYwTFkrb3dnRkFKK0QwTjJZNThDRUVH?=
- =?utf-8?B?SG80Mnhua0xoVTE3eGJhMWZ6VEl3R3RsZkxhNXNxeFdteVJPRjVFR0szK0xB?=
- =?utf-8?B?SFVqV1JKRmp6OHVTWkplekhxK2FTNjdleWR0OHNwL1lLN1dIMThkeE15dDA4?=
- =?utf-8?B?Q2N2ZHpFamlJb2JOWHVOV3JPaVpsb0dYSnJJeU9oNVlienlkcjNUUlRkNWV5?=
- =?utf-8?B?WG9HeCtzdnhHOVB6WWFiS1VKSTB1aHFFTWc1S3M5emVsQXQ2R3ZyL3FMcWxh?=
- =?utf-8?B?cENQYzhDZmZkYUxVdUluNEdCUG9ycDJ1NkJEOWJqYnVlVlphaEhKcDFGRjdY?=
- =?utf-8?B?am5vTXo5TU1GQTM2UDRzUGtVQUdlbXl5bWNqcmRYYzBlcmtBK1RLVC8zMFA3?=
- =?utf-8?B?alpzYmhIdkU4UCtOcjdwMjVJdStvUDNDU3pGT0xrZ0ZobFJDS3cvZmZlbkpH?=
- =?utf-8?B?UkFEU3hzNFdON09KN3RTaFhxcWpYZ1lscVNkWVJIdnRxbFlaanppUlRGR3Zl?=
- =?utf-8?B?UmhNZXRVeHdRWmJ2eTdyS0NhL1VvalM0eENDVUQ5TkVyRXpZeTN1VnRXSEgz?=
- =?utf-8?B?bzczT2ViQTduV3hzWTZZdExMQi9WZjhOWTdUaHpmaHhwdWtQMXZrMC9ONjJO?=
- =?utf-8?B?cUxZMTFRY3BRQVR6bE1IUWEwNjN1K3g1SUZiRk5lSmV1SUNYbk1oVlo5bi8w?=
- =?utf-8?B?YVNRN2M0Vlg1bm1mWG8xSjlLQnlXMnZLaUdBWG9jSCtqZWYyeFVUWmNXR1Vq?=
- =?utf-8?B?cjAvS0Ztckl1ZDZrQkFCN0JpRWNtaHVQWDBFREkyS2wramNTNUY5ZWN0V2Vx?=
- =?utf-8?B?cGZ6MHdWY1BQYUtTQ21NNVMzQWV4T3oxWHdGVVErWXQrZFV4SmhMa3g3elA3?=
- =?utf-8?B?T1RUUTJSSWF4YmNyVVBXTndrTk85NWh6VnU5dTQvZXBHQWdIeDdCbWZkUkwr?=
- =?utf-8?B?bGU3WURBNi9pRmhYTkhjdnRObWdQRXZQMXd4OWJvbHlMVmhMVVRxZHNIOGx5?=
- =?utf-8?B?R0hETGV0LzVXNkxoUmdKLzREY3N0TmR0RWdBaGNyTHpQelA4T2Nnc04zV1U1?=
- =?utf-8?B?dGFHQ3RMNWxwTEY4YmNqWWx5NTh0Ujc2QkFqQ2NNeC9YUEFyM3BpOGRmcmVH?=
- =?utf-8?B?SHZoaHMrbFhjOGxySzBjcWg4TXp3VXA2MTYvOHFYUmVCdUFYTHQ5TXRsaGhl?=
- =?utf-8?B?WUxzTEVrd3hBNVg5VlJUdUZSTTRBSDROekZOVmFEcTM3cTZTeVc5cWhxRWJE?=
- =?utf-8?B?OWgyRHRiOExNdldRQzgyQXVxalBydndqQTNrNGNjeko5QTNnTlUxQ2k4TWtq?=
- =?utf-8?B?bmsyS3NTRTRmdFR4Z2x6bXp3eXJNUmxwcHRwdGcrazh0YkRvTzVNVWhIRmxt?=
- =?utf-8?B?NndWaGJQZTZwWTJHSjJRMjl1bWRiNit1Wml0MTBveklZUmFtdDhJQ0lmSVVY?=
- =?utf-8?B?eTV0QWtQcXZmKzZlR3g4VkJDNWF6VlM1bFMwd2E0aStud2JyRU1iZ0U5VUFI?=
- =?utf-8?B?TVpzeCtUZ3pDYXc1R3FtNXFPeXBFZUNGb3orZE1RYWF0cy8rdytFY29RZUxy?=
- =?utf-8?B?UkVvMGVscDh1dzNEZVgvMU8rMlljcTN4c0xXK2luN25UbkFRWllkYVhuNWRR?=
- =?utf-8?B?MjNzYTFDMzNuYlEwb2puRHNGQ2JBY1ZsSWFKUmRiRnQ5enh4ZUs2NFJ2L1gy?=
- =?utf-8?B?RVBpNkdrYzgzb3FlNlhwditlMjZhSEZQa3FQM0cwRU9BRVlBdkF3cjQvTWJT?=
- =?utf-8?B?dCtaU1Q3S3lJTC9VMVFHUVhJU0ozRUxZUURPdVZXZXhZM2N1amdZOHppQW9Q?=
- =?utf-8?B?aWxWUnJRUTlXVmNiVG83aFhZY2pXWGFHblgvR1Y2QjJCdEJxc1hQR3V0V0tY?=
- =?utf-8?Q?RUyDzrgRRNs=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR3PR07MB6666.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(1800799024)(376014)(366016)(8096899003)(13003099007)(38070700018)(7053199007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?SzQzMlkwQm5kTjBtQXpzdWttY21KTzU2NU8wcFpIUXlLTnpWTkVPRy9VY2F0?=
- =?utf-8?B?S01aUU9pajhrRkEvRTRTZmU3eDVzV3UvcmdNRWNWZlp5dDFTRnZscUh5UEtw?=
- =?utf-8?B?T3J3VEl6aGpWRnJMdFk5dDk1eW9YNjlMamhwNkFwQzM1MkpTVGdDODVDNzRt?=
- =?utf-8?B?Z1FyTVZsVmlzS3VlTjhUVk1SbG5wRlI5cVFYMWFidmxKYW8vRVM2eUJqWTQ2?=
- =?utf-8?B?Tyt1LzRqZzlScFRNV1NYb0ZwcjNCZDJpc0l1QWNoTzhPSjA5SFBqQmFLUWpY?=
- =?utf-8?B?Wk5QTnZLc3UzZERDL0lheWpYMzhSK04vRngraTZaZ2FJS1dzZFh5aWRBZ3h1?=
- =?utf-8?B?a3pDaXJSdXQvWFhTajFwa1JUeGVhOE1OVnhERTIzQnRWdTIybFQ2dklUYmpU?=
- =?utf-8?B?TEJSYXFsSUxacHVVRFRQZDNNaUVsMFB4elNpY1VSN1MzVU5PdG5tbGRyQ2N0?=
- =?utf-8?B?R1F2K1o4TTJQUGtYcXVCajdQZDJNc2p4ZE9VZ0d4cDNoY2lLQXJ2WERRV2Nx?=
- =?utf-8?B?RVdnY3UvU0djRXUvWUNoSDlMMWtycE0xalBpRkNPS1dkSnN3WTBEdVcwVnls?=
- =?utf-8?B?RmhWV0dHN0RSWUl0T2Z3M082cWl4OE1OQmdHOWJCQmhWT1dhK2hCM3dPYWNi?=
- =?utf-8?B?eFF0N1dVSkxBSnB3Mi82UmdIbzhlcWYyR2tFQTNhWVJUVGNSZCtCYTB4Yy9i?=
- =?utf-8?B?Ukd1ZXdmSTZCKzM0WSt5WkdOM0gwTkZkREhzN1ZYZGNiYlJLTnROUXNjTFlJ?=
- =?utf-8?B?Z2VCRTRSbUtuUmpUMHh2WkZBNzNGUnE1OFNSMmo5dEk1ZFl4RGZteVBpaTVn?=
- =?utf-8?B?WHBBaXpLd1JTd2ZiRm5aYy9GYWRuRWkvSExnSXJjb01NWFp1TG4wcHF0RGZ2?=
- =?utf-8?B?bk5aenNRc1lmcTJJcGo5cUZZYS9Id2hvVWRocTBPbjdGVHcvditZc2hNRHUr?=
- =?utf-8?B?bjZUb2ZES082eU9WS0FlODA1cUcxazdJQTVab3oyWkVxTU1tdFgwZnptWHVi?=
- =?utf-8?B?b3NURTlBQUQzRE5TQzQzWFR2cFQ0Vnc5TXZrL0dZa2pZWEhaeFA0cDdIZGFp?=
- =?utf-8?B?RVNNVk1ZcDZZZUhVZGdVYzAvbGZoYnVNbDkwa3BucnRjT01mUDAxNDFjV1dR?=
- =?utf-8?B?L2VicHJoUnBPK2VmN0ZFWGtUTUpTMnBxNE5wU0JFZDdTNWJVNTFRdjJKK2hT?=
- =?utf-8?B?MnlheCtqUTMwYjBRbWRyOEtMMWxGNzBBVWNUM0E2QUR0UitoT3dlSk02am5m?=
- =?utf-8?B?aU9FRTJhVlU3ZUZDcW9FNXRzU3dtc0hxNy8xZ3I0bjNxVjJuNnkxbTJGYXhS?=
- =?utf-8?B?QWVQdXV5T2JlbHZoOGpiQUY0c21TU1lyWG43S0twNmVBU3FjMkJzb0IzTUdM?=
- =?utf-8?B?bkswNitQNll3UFVaYlBORm9YazIySGcyb2pGZHpZVHI0MC9Oa3RCKzNZbEVu?=
- =?utf-8?B?UENlN0x3eFZjdDYxTTlPZWI1dUwrT3p6QUJUWGZuMS91TklWRUh5WFBwMlJS?=
- =?utf-8?B?SVBYd2dBOHJUZmRHMXVaK3JWOGNsOWwrNEZ4djR4VGhtVExNKzg1QzZBTC9w?=
- =?utf-8?B?OUI2RkRoalFoOE01d2lUKzcwY0RPYXBYWWxabERHUk1rMloyWXFHWHVuOEMx?=
- =?utf-8?B?RWY5Qy81cGlrVk5pR3BBNFJXblJHcXF2RXhpK1JpbnR6Y3Y5WTZMbk5TOVBa?=
- =?utf-8?B?WnF5QlBabG1DYVkwVHRxZXlqZEFkWkdVaTRUTFBQeHBuK2dsUGVYcWZGcGVH?=
- =?utf-8?B?V0pOanFvSjJDV3pGalR0NEVRLzZuQnNUOVZMa1p2UFEzWXVILzQxMStmZTBq?=
- =?utf-8?B?UWhZd2ZpYTNsWExVY2pXQlczQVNacWdVYUdCSDJJMW00Mlk1VXQzTFp5aDhT?=
- =?utf-8?B?L0J1bTFLY21pYmtJQlJlVUZSNUdDRnJ3WDhhb1VHK3NnbUZ0dEY3SWd1YzlF?=
- =?utf-8?B?S1BTME1PTlozVlAvdVBudlNxaXI0enpOVFF6cEliclJoSGhHUDdDTDJLK1pm?=
- =?utf-8?B?bzVOMVovMkkzeWFuRkVCLys4VDhwWWV0YWYyZDlEMkJRZGRlMkx3TnRoRWdR?=
- =?utf-8?B?Rm16ZlJ5Mkhsa1lsUUtISGVubVI1L09OZjNyM0p6K29KdGtLbytKRkVqaExK?=
- =?utf-8?Q?2sYXLgSiTCr15t5tdY4D4rO4H?=
-Content-Type: multipart/alternative;
-	boundary="_000_PR3PR07MB66668C8E7FB2395DD5C1F1D88A812PR3PR07MB6666eurp_"
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bKL5XuHK;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54b09cb06b0so5125263e87.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 07:44:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745851461; x=1746456261; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=etX2K6MwzDMRVqGNfEhCl1e9xohi/DwnQAfkXLlj36c=;
+        b=bKL5XuHKJv2QYxIqT2z+sxtt5PAJywgBj5qz7ta/p810jNmU8HijgFGz2JxQUOxgMN
+         EbLZPTaaYuxW9GY8RBzv6SrQIHvDZdhuolewsfWIiSNwXw3X6cN4QA2qzfXvozeEOi/6
+         +Cy6ig2u7T8GTANYN4pfb03rw2evXJTaAwSbBnj/qGzHFcs7Mpt99O8x9ZKlj3aaJ/7r
+         IJrHHQYWwHxrBik4TJ5NH3vEp1M+etiVtz11qdI3qi6Vg/ScNOE+JAF98bD/PUbUp/Zm
+         w4oo0WcU82KVxYWIueDr6D8HgW/ylLTe0EZstOvAFoxQMxJle9k1KP03dZAH47cKnWq8
+         Uegw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745851461; x=1746456261;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=etX2K6MwzDMRVqGNfEhCl1e9xohi/DwnQAfkXLlj36c=;
+        b=FZo5ruFUGUS9uIkR4mJlKxskHMnApBILuMdtEkGOIS70cN7kb1OAFha6v5XnuUgFWr
+         l3WrGq1BrMWAY8PcsP/wTA+gN8+U7I/YRweIqTJ28aogzFaIWTAre+aEry8bhTR5DzvV
+         JB20pdQehomeaELQ4rq86tMJEftH9e1clgab0iEONIj8In+wfDtQENOq2tRLpqmssp8B
+         QIZtAzp16s6qxMrZM9qVVE8C98x5aZP4Pd88beOYbn5LwytPHdaaAxLPr0b74LLx7uE9
+         z2bhQMX+TLtBjy7psmit+nI1JjVTRb1AML1Y1UGS2GZfk0+fbsk2Q05utiZ3tHZi00VV
+         wJ6A==
+X-Forwarded-Encrypted: i=1; AJvYcCXIDt2O1kI9tCNRt6ieEpqdZnsh1P44JTqwx6CKWSBMdAMxV6cnH+g3IMl594c8TzC/uFESHxLeHHs5wQPB9kv/SQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyLkW+O80FGUwl+iQvA2fVOnNSj7GmMcTo8gcLD/FW2nA0wxTJ3
+	QR6/1HWEAFwy1DqtXWk3NKBeRQF+l2ZCY4TpJCZAho1QBmNWpAMuLlMpHwha96hOC4Ohj+3MuX6
+	dXvbssrKdXSZ4D5Ty5Tb66O7kIn0=
+X-Gm-Gg: ASbGncvRCGicUPqOVew0wQBw6JbC0wJeA/LJvltZDv9o62ugqFcS2ddGHWpEj96qrRy
+	ut9b41bL8Jz+hEjTtiyGlsZTOkJs8eukMAMrGY/LXkoV4RQT4e7zKO8fMAl/0iBVkoLIS7GIIwv
+	stxTomtf1Nm8obk8KulSngiq8hkuXXWasUpvdw
+X-Google-Smtp-Source: AGHT+IE6pXt11CnYpvy3p1JsCwj/659a/t/TgVfSAH8WrqwVwNp55py61JEzM7oh2b66p/mOM4Ag4aHnv8CiOWYQ8II=
+X-Received: by 2002:a05:6512:1319:b0:54d:6981:4b83 with SMTP id
+ 2adb3069b0e04-54e8cbce641mr3672504e87.24.1745851461180; Mon, 28 Apr 2025
+ 07:44:21 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PR3PR07MB6666.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 918de836-1a92-4a72-f637-08dd8661016e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2025 14:28:55.0214
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: T8a70l9/nBsrtIKoBauM/WSEpdNW7j+9zElPUtXqou3Rh0t5xTkxGzSzm9LhoQw28feHkrrsZhutLG4G4sD1Xp5swArXh3L+RR1rye+MNnc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR07MB7974
+References: <20250428134205.900354-1-daniel.turull@ericsson.com>
+ <20250428134205.900354-7-daniel.turull@ericsson.com> <CAJdd5GZB=QyUhtbx4hc+Mg=qtKo+YKAYXf1pTx8NUwUg5Tc4WQ@mail.gmail.com>
+ <PA4PR10MB5707A826EFC31F84A660ECE0FD812@PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM>
+ <PR3PR07MB6666DF797E6964565174557C8A812@PR3PR07MB6666.eurprd07.prod.outlook.com>
+In-Reply-To: <PR3PR07MB6666DF797E6964565174557C8A812@PR3PR07MB6666.eurprd07.prod.outlook.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 28 Apr 2025 08:44:07 -0600
+X-Gm-Features: ATxdqUHi3Na4hrgUjyK-FVJUN93KyZXpvcQRTz35ne5qW2YbxU9Kce5aGU_itsI
+Message-ID: <CAJdd5GYLqZxEqYA-Cb5i-5TEFmDdEbDOtvmXeusrWZWov=zsmQ@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] spdx: add option to include only compiled kernel files
+To: Daniel Turull <daniel.turull@ericsson.com>
+Cc: "Marko, Peter" <Peter.Marko@siemens.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"rybczynska@gmail.com" <rybczynska@gmail.com>, "steve@sakoman.com" <steve@sakoman.com>, 
+	"ross.burton@arm.com" <ross.burton@arm.com>, "skandigraun@gmail.com" <skandigraun@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 14:28:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215612
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 14:44:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215613
 
---_000_PR3PR07MB66668C8E7FB2395DD5C1F1D88A812PR3PR07MB6666eurp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Mon, Apr 28, 2025 at 8:12=E2=80=AFAM Daniel Turull
+<daniel.turull@ericsson.com> wrote:
+>
+> Hi,
+>
+> Yes, from what I saw and Peter says only the kernel has file information =
+that can be machine readable,
+> and we can also extract the files that we compile.
+>
+> I could try to normalize how the files are input into the spdx generation=
+ and then have a generic variable that any recipe can set
+> to enable the inclusion of a subset of files. In this case, if/when more =
+recipes provides this,
+> spdx doesn't need to change.
 
-SGksDQoNCkkgaGF2ZSBwdXQgaXQgYXMgZGVmYXVsdCwgYnV0IHlvdSBoYXZlIGEgZ29vZCBwb2lu
-dC4gSeKAmWxsIGFkZCB0aGUgdGFzayBjb25kaXRpb25hbGx5IGlmIENWRV9DSEVDS19LRVJORUxf
-Q09ORklHIGlzIHNldCB0byAxIGluIHRoZSBuZXh0IHBhdGNoIHZlcnNpb24gc2VyaWVzLg0KDQpC
-ZXN0IHJlZ2FyZHMsDQpEYW5pZWwNCkZyb206IEJydWNlIEFzaGZpZWxkIDxicnVjZS5hc2hmaWVs
-ZEBnbWFpbC5jb20+DQpTZW50OiBNb25kYXksIDI4IEFwcmlsIDIwMjUgMTY6MjUNClRvOiBEYW5p
-ZWwgVHVydWxsIDxkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbT4NCkNjOiBvcGVuZW1iZWRkZWQt
-Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyByeWJjenluc2thQGdtYWlsLmNvbTsgc3RldmVA
-c2Frb21hbi5jb207IFBldGVyLk1hcmtvQHNpZW1lbnMuY29tOyByb3NzLmJ1cnRvbkBhcm0uY29t
-OyBza2FuZGlncmF1bkBnbWFpbC5jb20NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYy
-IDMvNl0ga2VybmVsOiBhZGQgc3VwcG9ydCB0byBleHRyYWN0IGNvbXBpbGVkIGZpbGVzDQoNCg0K
-DQpPbiBNb24sIEFwciAyOCwgMjAyNSBhdCA5OjQy4oCvQU0gRGFuaWVsIFR1cnVsbCB2aWEgbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZzxodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy8+IDxkYW5p
-ZWwudHVydWxsPWVyaWNzc29uLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzplcmlj
-c3Nvbi5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4+IHdyb3RlOg0KRnJvbTogRGFuaWVsIFR1
-cnVsbCA8ZGFuaWVsLnR1cnVsbEBlcmljc3Nvbi5jb208bWFpbHRvOmRhbmllbC50dXJ1bGxAZXJp
-Y3Nzb24uY29tPj4NCg0KVXNlIGdlbl9jb21waWxlX2NvbW1hbmRzLnB5IHRvIGV4dHJhY3QgZmls
-ZXMgdXNlZCBkdXJpbmcgY29tcGlsYXRpb24NCmZvciB0aGUgdXNlZCBrZXJuZWwgY29uZmlndXJh
-dGlvbi4NCg0KQ0M6IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0BzaWVtZW5zLmNvbTxtYWlsdG86
-cGV0ZXIubWFya29Ac2llbWVucy5jb20+Pg0KU2lnbmVkLW9mZi1ieTogRGFuaWVsIFR1cnVsbCA8
-ZGFuaWVsLnR1cnVsbEBlcmljc3Nvbi5jb208bWFpbHRvOmRhbmllbC50dXJ1bGxAZXJpY3Nzb24u
-Y29tPj4NCi0tLQ0KIG1ldGEvY2xhc3Nlcy1yZWNpcGUva2VybmVsLmJiY2xhc3MgfCAxMSArKysr
-KysrKysrKw0KIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspDQoNCmRpZmYgLS1naXQg
-YS9tZXRhL2NsYXNzZXMtcmVjaXBlL2tlcm5lbC5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzLXJlY2lw
-ZS9rZXJuZWwuYmJjbGFzcw0KaW5kZXggMzZjZTY1OTc2Mi4uNTYwNjBmMmM5MSAxMDA2NDQNCi0t
-LSBhL21ldGEvY2xhc3Nlcy1yZWNpcGUva2VybmVsLmJiY2xhc3MNCisrKyBiL21ldGEvY2xhc3Nl
-cy1yZWNpcGUva2VybmVsLmJiY2xhc3MNCkBAIC04NjcsMyArODY3LDE0IEBAIEVYUE9SVF9GVU5D
-VElPTlMgZG9fZGVwbG95DQoNCiAjIEFkZCB1c2luZyBEZXZpY2UgVHJlZSBzdXBwb3J0DQogaW5o
-ZXJpdCBrZXJuZWwtZGV2aWNldHJlZQ0KKw0KK0tFUk5FTF9GSUxFU19ESVIgPz0gIiR7TE9HX0RJ
-Un0vY3ZlL2tlcm5lbF9maWxlcyINCitLRVJORUxfU1JDX0ZJTEVTID89ICIke0tFUk5FTF9GSUxF
-U19ESVJ9L2NvbXBpbGVfY29tbWFuZHMuanNvbiINCisNCitkb19zYXZlX2NvbXBpbGVkX2ZpbGVz
-KCkgew0KKyAgICBiYmRlYnVnIDEgIlNhdmluZyBjb21waWxlZCBmaWxlcyBpbiAke0tFUk5FTF9T
-UkNfRklMRVN9Ig0KKyAgICBta2RpciAtcCAke0tFUk5FTF9GSUxFU19ESVJ9DQorICAgICR7U30v
-c2NyaXB0cy9jbGFuZy10b29scy9nZW5fY29tcGlsZV9jb21tYW5kcy5weSAtbyAke0tFUk5FTF9T
-UkNfRklMRVN9IC1kICR7Qn0NCit9DQorDQorYWRkdGFzayBkb19zYXZlX2NvbXBpbGVkX2ZpbGVz
-IGFmdGVyIGRvX2NvbXBpbGUgZG9fY29tcGlsZV9rZXJuZWxtb2R1bGVzDQoNClRoaXMgaXMgc29t
-ZXRoaW5nIHRoYXQgSSB3b3VsZG4ndCB3YW50IHJ1bm5pbmcgaW4gbXkgZGV2ZWxvcG1lbnQgZW52
-aXJvbm1lbnQuDQoNCkkgY2FuJ3QgdGVsbCBmdWxseS4gSXMgdGhpcyBvcHQgaW4gPyBJcyB0aGVy
-ZSBhIHdheSB0byBvcHQtb3V0ID8NCg0KQnJ1Y2UNCg0KDQoNCg0KLT0tPS09LT0tPS09LT0tPS09
-LT0tPS0NCkxpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3Vw
-Lg0KVmlldy9SZXBseSBPbmxpbmUgKCMyMTU2MDQpOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzIxNTYwNA0KTXV0ZSBUaGlzIFRvcGlj
-OiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTEyNDk5OTE2LzEwNTA4MTANCkdy
-b3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-PG1haWx0bzpvcGVuZW1iZWRkZWQtY29yZSUyQm93bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
-DQpVbnN1YnNjcmliZTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVk
-ZGVkLWNvcmUvdW5zdWIgW2JydWNlLmFzaGZpZWxkQGdtYWlsLmNvbTxtYWlsdG86YnJ1Y2UuYXNo
-ZmllbGRAZ21haWwuY29tPl0NCi09LT0tPS09LT0tPS09LT0tPS09LT0tDQoNCg0KLS0NCi0gVGhv
-dSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVz
-cyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQNCi0gIlVzZSB0aGUgZm9yY2UgSGFycnkiIC0gR2FuZGFs
-ZiwgU3RhciBUcmVrIElJDQo=
+I was thinking that maybe the way to do this is to have this somehow
+call a function when enabled, and then have the recipe (or even better
+the build system bbclass) implement that function; that way each
+recipe or build system can implement the correct method for collecting
+the data. I'm not quite sure if that's the best way to do it though
 
---_000_PR3PR07MB66668C8E7FB2395DD5C1F1D88A812PR3PR07MB6666eurp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
-
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpBcHRvczt9DQovKiBTdHlsZSBEZWZpbml0
-aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJn
-aW46MGNtOw0KCWZvbnQtc2l6ZToxMi4wcHQ7DQoJZm9udC1mYW1pbHk6IkFwdG9zIixzYW5zLXNl
-cmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5
-Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLmdtYWls
-c2lnbmF0dXJlcHJlZml4DQoJe21zby1zdHlsZS1uYW1lOmdtYWlsX3NpZ25hdHVyZV9wcmVmaXg7
-fQ0Kc3Bhbi5FbWFpbFN0eWxlMTkNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJ
-Zm9udC1mYW1pbHk6IkFwdG9zIixzYW5zLXNlcmlmOw0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1z
-b0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJbXNvLWZhcmVhc3Qt
-bGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIu
-MHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIuMHB0IDcyLjBwdCA3Mi4wcHQ7fQ0KZGl2LldvcmRTZWN0
-aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5
-XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4N
-CjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlv
-dXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286
-c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJlbi1T
-RSIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSIgc3R5bGU9IndvcmQtd3JhcDpicmVhay13b3Jk
-Ij4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+SGks
-PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5JIGhhdmUgcHV0IGl0IGFz
-IGRlZmF1bHQsIGJ1dCB5b3UgaGF2ZSBhIGdvb2QgcG9pbnQuIEnigJlsbCBhZGQgdGhlIHRhc2sg
-Y29uZGl0aW9uYWxseSBpZiBDVkVfQ0hFQ0tfS0VSTkVMX0NPTkZJRyBpcyBzZXQgdG8gMSBpbiB0
-aGUgbmV4dCBwYXRjaCB2ZXJzaW9uIHNlcmllcy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDttc28tZmFyZWFz
-dC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7bXNvLWZhcmVhc3QtbGFu
-Z3VhZ2U6RU4tVVMiPkJlc3QgcmVnYXJkcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDttc28tZmFyZWFzdC1s
-YW5ndWFnZTpFTi1VUyI+RGFuaWVsPG86cD48L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0i
-Ym9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQg
-MGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMi
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
-c2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYi
-PiBCcnVjZSBBc2hmaWVsZCAmbHQ7YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tJmd0Ow0KPGJyPg0K
-PGI+U2VudDo8L2I+IE1vbmRheSwgMjggQXByaWwgMjAyNSAxNjoyNTxicj4NCjxiPlRvOjwvYj4g
-RGFuaWVsIFR1cnVsbCAmbHQ7ZGFuaWVsLnR1cnVsbEBlcmljc3Nvbi5jb20mZ3Q7PGJyPg0KPGI+
-Q2M6PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyByeWJjenlu
-c2thQGdtYWlsLmNvbTsgc3RldmVAc2Frb21hbi5jb207IFBldGVyLk1hcmtvQHNpZW1lbnMuY29t
-OyByb3NzLmJ1cnRvbkBhcm0uY29tOyBza2FuZGlncmF1bkBnbWFpbC5jb208YnI+DQo8Yj5TdWJq
-ZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjIgMy82XSBrZXJuZWw6IGFkZCBzdXBwb3J0
-IHRvIGV4dHJhY3QgY29tcGlsZWQgZmlsZXM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9k
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gTW9uLCBBcHIgMjgsIDIwMjUgYXQgOTo0Mjxz
-cGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNlcmlmIj7igK88
-L3NwYW4+QU0gRGFuaWVsIFR1cnVsbCB2aWENCjxhIGhyZWY9Imh0dHA6Ly9saXN0cy5vcGVuZW1i
-ZWRkZWQub3JnLyI+bGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT4gJmx0O2RhbmllbC50dXJ1bGw9
-PGEgaHJlZj0ibWFpbHRvOmVyaWNzc29uLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj5lcmlj
-c3Nvbi5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6
-c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0
-OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+RnJvbTogRGFu
-aWVsIFR1cnVsbCAmbHQ7PGEgaHJlZj0ibWFpbHRvOmRhbmllbC50dXJ1bGxAZXJpY3Nzb24uY29t
-IiB0YXJnZXQ9Il9ibGFuayI+ZGFuaWVsLnR1cnVsbEBlcmljc3Nvbi5jb208L2E+Jmd0Ozxicj4N
-Cjxicj4NClVzZSBnZW5fY29tcGlsZV9jb21tYW5kcy5weSB0byBleHRyYWN0IGZpbGVzIHVzZWQg
-ZHVyaW5nIGNvbXBpbGF0aW9uPGJyPg0KZm9yIHRoZSB1c2VkIGtlcm5lbCBjb25maWd1cmF0aW9u
-Ljxicj4NCjxicj4NCkNDOiBQZXRlciBNYXJrbyAmbHQ7PGEgaHJlZj0ibWFpbHRvOnBldGVyLm1h
-cmtvQHNpZW1lbnMuY29tIiB0YXJnZXQ9Il9ibGFuayI+cGV0ZXIubWFya29Ac2llbWVucy5jb208
-L2E+Jmd0Ozxicj4NClNpZ25lZC1vZmYtYnk6IERhbmllbCBUdXJ1bGwgJmx0OzxhIGhyZWY9Im1h
-aWx0bzpkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmRhbmllbC50
-dXJ1bGxAZXJpY3Nzb24uY29tPC9hPiZndDs8YnI+DQotLS08YnI+DQombmJzcDttZXRhL2NsYXNz
-ZXMtcmVjaXBlL2tlcm5lbC5iYmNsYXNzIHwgMTEgKysrKysrKysrKys8YnI+DQombmJzcDsxIGZp
-bGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKTxicj4NCjxicj4NCmRpZmYgLS1naXQgYS9tZXRh
-L2NsYXNzZXMtcmVjaXBlL2tlcm5lbC5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzLXJlY2lwZS9rZXJu
-ZWwuYmJjbGFzczxicj4NCmluZGV4IDM2Y2U2NTk3NjIuLjU2MDYwZjJjOTEgMTAwNjQ0PGJyPg0K
-LS0tIGEvbWV0YS9jbGFzc2VzLXJlY2lwZS9rZXJuZWwuYmJjbGFzczxicj4NCisrKyBiL21ldGEv
-Y2xhc3Nlcy1yZWNpcGUva2VybmVsLmJiY2xhc3M8YnI+DQpAQCAtODY3LDMgKzg2NywxNCBAQCBF
-WFBPUlRfRlVOQ1RJT05TIGRvX2RlcGxveTxicj4NCjxicj4NCiZuYnNwOyMgQWRkIHVzaW5nIERl
-dmljZSBUcmVlIHN1cHBvcnQ8YnI+DQombmJzcDtpbmhlcml0IGtlcm5lbC1kZXZpY2V0cmVlPGJy
-Pg0KKzxicj4NCitLRVJORUxfRklMRVNfRElSID89ICZxdW90OyR7TE9HX0RJUn0vY3ZlL2tlcm5l
-bF9maWxlcyZxdW90Ozxicj4NCitLRVJORUxfU1JDX0ZJTEVTID89ICZxdW90OyR7S0VSTkVMX0ZJ
-TEVTX0RJUn0vY29tcGlsZV9jb21tYW5kcy5qc29uJnF1b3Q7PGJyPg0KKzxicj4NCitkb19zYXZl
-X2NvbXBpbGVkX2ZpbGVzKCkgezxicj4NCismbmJzcDsgJm5ic3A7IGJiZGVidWcgMSAmcXVvdDtT
-YXZpbmcgY29tcGlsZWQgZmlsZXMgaW4gJHtLRVJORUxfU1JDX0ZJTEVTfSZxdW90Ozxicj4NCism
-bmJzcDsgJm5ic3A7IG1rZGlyIC1wICR7S0VSTkVMX0ZJTEVTX0RJUn08YnI+DQorJm5ic3A7ICZu
-YnNwOyAke1N9L3NjcmlwdHMvY2xhbmctdG9vbHMvZ2VuX2NvbXBpbGVfY29tbWFuZHMucHkgLW8g
-JHtLRVJORUxfU1JDX0ZJTEVTfSAtZCAke0J9PGJyPg0KK308YnI+DQorPGJyPg0KK2FkZHRhc2sg
-ZG9fc2F2ZV9jb21waWxlZF9maWxlcyBhZnRlciBkb19jb21waWxlIGRvX2NvbXBpbGVfa2VybmVs
-bW9kdWxlczxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPlRoaXMgaXMgc29tZXRoaW5nIHRoYXQgSSB3b3VsZG4ndCB3YW50
-IHJ1bm5pbmcgaW4gbXkgZGV2ZWxvcG1lbnQgZW52aXJvbm1lbnQuPG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkkgY2FuJ3QgdGVsbCBmdWxseS4g
-SXMgdGhpcyBvcHQgaW4gPyBJcyB0aGVyZSBhIHdheSB0byBvcHQtb3V0ID88bzpwPjwvbzpwPjwv
-cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+QnJ1Y2U8bzpwPjwvbzpw
-PjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+PG86
-cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+Jm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJi
-b3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBj
-bSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4wcHQiPjxicj4NCi09LT0tPS09
-LT0tPS09LT0tPS09LT0tPGJyPg0KTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50
-IHRvIHRoaXMgZ3JvdXAuPGJyPg0KVmlldy9SZXBseSBPbmxpbmUgKCMyMTU2MDQpOiA8YSBocmVm
-PSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNz
-YWdlLzIxNTYwNCIgdGFyZ2V0PSJfYmxhbmsiPg0KaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
-b3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yMTU2MDQ8L2E+PGJyPg0KTXV0ZSBUaGlz
-IFRvcGljOiA8YSBocmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTEyNDk5
-OTE2LzEwNTA4MTAiIHRhcmdldD0iX2JsYW5rIj4NCmh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZy9tdC8xMTI0OTk5MTYvMTA1MDgxMDwvYT48YnI+DQpHcm91cCBPd25lcjogPGEgaHJlZj0i
-bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlJTJCb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyIg
-dGFyZ2V0PSJfYmxhbmsiPg0Kb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZzwvYT48YnI+DQpVbnN1YnNjcmliZTogPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWIiIHRhcmdldD0iX2JsYW5rIj4N
-Cmh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3Vi
-PC9hPiBbPGEgaHJlZj0ibWFpbHRvOmJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbSIgdGFyZ2V0PSJf
-YmxhbmsiPmJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbTwvYT5dPGJyPg0KLT0tPS09LT0tPS09LT0t
-PS09LT0tPS08bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxiciBjbGVhcj0iYWxsIj4NCjxvOnA+PC9vOnA+PC9wPg0KPC9k
-aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8
-L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGNsYXNzPSJnbWFpbHNpZ25hdHVyZXBy
-ZWZpeCI+LS0gPC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5
-bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0Ij4tIFRob3Ugc2hhbHQgbm90IGZvbGxvdyB0aGUgTlVM
-TCBwb2ludGVyLCBmb3IgY2hhb3MgYW5kIG1hZG5lc3MgYXdhaXQgdGhlZSBhdCBpdHMgZW5kPGJy
-Pg0KLSAmcXVvdDtVc2UgdGhlIGZvcmNlIEhhcnJ5JnF1b3Q7IC0gR2FuZGFsZiwgU3RhciBUcmVr
-IElJPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
-
---_000_PR3PR07MB66668C8E7FB2395DD5C1F1D88A812PR3PR07MB6666eurp_--
+>
+> Best regards
+> Daniel
+>
+> -----Original Message-----
+> From: Marko, Peter <Peter.Marko@siemens.com>
+> Sent: Monday, 28 April 2025 16:00
+> To: Joshua Watt <jpewhacker@gmail.com>; Daniel Turull <daniel.turull@eric=
+sson.com>
+> Cc: openembedded-core@lists.openembedded.org; rybczynska@gmail.com; steve=
+@sakoman.com; ross.burton@arm.com; skandigraun@gmail.com
+> Subject: RE: [PATCH v2 6/6] spdx: add option to include only compiled ker=
+nel files
+>
+> I think that only kernel provides file-based CVE information right now.
+>
+> Peter
+>
+> > -----Original Message-----
+> > From: Joshua Watt <jpewhacker@gmail.com>
+> > Sent: Monday, April 28, 2025 15:58
+> > To: daniel.turull@ericsson.com
+> > Cc: openembedded-core@lists.openembedded.org; rybczynska@gmail.com;
+> > steve@sakoman.com; Marko, Peter (FT D EU SK BFS1)
+> > <Peter.Marko@siemens.com>; ross.burton@arm.com; skandigraun@gmail.com
+> > Subject: Re: [PATCH v2 6/6] spdx: add option to include only compiled
+> > kernel files
+> >
+> > I see the appeal here; however I've been trying to avoid too much
+> > kernel specific stuff in SPDX. Is there a way to make this more
+> > generic so it could be used by any recipe?
+> >
+> > On Mon, Apr 28, 2025 at 7:42=E2=80=AFAM <daniel.turull@ericsson.com> wr=
+ote:
+> > >
+> > > From: Daniel Turull <daniel.turull@ericsson.com>
+> > >
+> > > When CVE_CHECK_KERNEL_CONFIG is enabled, only include the source
+> > > code (.c, .h) files that are used during compilation.
+> > >
+> > > This enables an external tool to use the SPDX information to
+> > > disregard vulnerabilities that are not compiled.
+> > >
+> > > CC: Joshua Watt <JPEWhacker@gmail.com>
+> > > CC: Peter Marko <peter.marko@siemens.com>
+> > > Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+> > > ---
+> > >  meta/classes/create-spdx-2.2.bbclass |  8 +++++++
+> > >  meta/lib/oe/spdx30_tasks.py          |  8 +++++++
+> > >  meta/lib/oe/spdx_common.py           | 34 ++++++++++++++++++++++++++=
+++
+> > >  3 files changed, 50 insertions(+)
+> > >
+> > > diff --git a/meta/classes/create-spdx-2.2.bbclass
+> > > b/meta/classes/create-spdx-
+> > 2.2.bbclass
+> > > index 7e8f8b9ff5..6bf0c70bd4 100644
+> > > --- a/meta/classes/create-spdx-2.2.bbclass
+> > > +++ b/meta/classes/create-spdx-2.2.bbclass
+> > > @@ -137,6 +137,10 @@ def add_package_files(d, doc, spdx_pkg, topdir,
+> > get_spdxid, get_types, *, archiv
+> > >      spdx_files =3D []
+> > >
+> > >      file_counter =3D 1
+> > > +
+> > > +    check_kernel_compiled =3D bb.data.inherits_class("kernel", d) an=
+d
+> > d.getVar("CVE_CHECK_KERNEL_CONFIG") =3D=3D "1"
+> > > +    if check_kernel_compiled:
+> > > +        kernel_sources =3D
+> > > + oe.spdx_common.get_kernel_compiled_files(d)
+> > >      for subdir, dirs, files in os.walk(topdir):
+> > >          dirs[:] =3D [d for d in dirs if d not in ignore_dirs]
+> > >          if subdir =3D=3D str(topdir):
+> > > @@ -147,6 +151,10 @@ def add_package_files(d, doc, spdx_pkg, topdir,
+> > get_spdxid, get_types, *, archiv
+> > >              filename =3D str(filepath.relative_to(topdir))
+> > >
+> > >              if not filepath.is_symlink() and filepath.is_file():
+> > > +                # When creating spdx for the kernel, we only include=
+ compiled files.
+> > > +                if check_kernel_compiled:
+> > > +                     if not oe.spdx_common.is_kernel_compiled(file,
+> > > + kernel_sources,
+> > d):
+> > > +                          break
+> > >                  spdx_file =3D oe.spdx.SPDXFile()
+> > >                  spdx_file.SPDXID =3D get_spdxid(file_counter)
+> > >                  for t in get_types(filepath):
+> > > diff --git a/meta/lib/oe/spdx30_tasks.py
+> > > b/meta/lib/oe/spdx30_tasks.py index ba965821f8..14f26773c5 100644
+> > > --- a/meta/lib/oe/spdx30_tasks.py
+> > > +++ b/meta/lib/oe/spdx30_tasks.py
+> > > @@ -156,6 +156,10 @@ def add_package_files(
+> > >          bb.note(f"Skip {topdir}")
+> > >          return spdx_files
+> > >
+> > > +    check_kernel_compiled =3D bb.data.inherits_class("kernel", d) an=
+d
+> > d.getVar("CVE_CHECK_KERNEL_CONFIG") =3D=3D "1"
+> > > +    if check_kernel_compiled:
+> > > +        kernel_sources =3D
+> > > + oe.spdx_common.get_kernel_compiled_files(d)
+> > > +
+> > >      for subdir, dirs, files in os.walk(topdir, onerror=3Dwalk_error)=
+:
+> > >          dirs[:] =3D [d for d in dirs if d not in ignore_dirs]
+> > >          if subdir =3D=3D str(topdir):
+> > > @@ -167,6 +171,10 @@ def add_package_files(
+> > >              filepath =3D Path(subdir) / file
+> > >              if filepath.is_symlink() or not filepath.is_file():
+> > >                  continue
+> > > +            # When creating spdx for the kernel, we only include com=
+piled files
+> > > +            if check_kernel_compiled:
+> > > +                 if not oe.spdx_common.is_kernel_compiled(file, kern=
+el_sources, d):
+> > > +                      break
+> > >
+> > >              filename =3D str(filepath.relative_to(topdir))
+> > >              file_purposes =3D get_purposes(filepath) diff --git
+> > > a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py index
+> > > 4caefc7673..c87e3875c7 100644
+> > > --- a/meta/lib/oe/spdx_common.py
+> > > +++ b/meta/lib/oe/spdx_common.py
+> > > @@ -242,3 +242,37 @@ def fetch_data_to_uri(fd, name):
+> > >          uri =3D uri + "@" + fd.revision
+> > >
+> > >      return uri
+> > > +
+> > > +def is_kernel_compiled(filename, kernel_sources, d):
+> > > +    """
+> > > +    Check if the file, is a kernel compiled file
+> > > +    """
+> > > +    import os
+> > > +
+> > > +    _, extension =3D os.path.splitext(filename)
+> > > +    # Special case, that we need to ignore, since this is not a sour=
+ce file
+> > > +    if filename.rfind(".mod.c") > 0:
+> > > +        return True
+> > > +    # We filter .c files and header files
+> > > +    if extension not in [".c", ".h"]:
+> > > +        return True
+> > > +    # Check that the c file is in the list
+> > > +    if filename in kernel_sources:
+> > > +        return True
+> > > +    return False
+> > > +
+> > > +def get_kernel_compiled_files(d):
+> > > +    """
+> > > +    Get results from the save_compiled files and include also header=
+ files
+> > > +    """
+> > > +    import json
+> > > +    import os
+> > > +    kfiles =3D []
+> > > +    with open(d.getVar('KERNEL_SRC_FILES'), 'r') as f:
+> > > +        for item in json.load(f):
+> > > +            kfile =3D os.path.basename(item['file'])
+> > > +            # Return also the correspondig header file
+> > > +            hfile =3D ".h".join(kfile.rsplit(".c", 1))
+> >
+> > This feels a little bit wrong to me. I think a better option would be
+> > to include all headers, since we don't have a good way of knowing
+> > which are actually used.
+> >
+> > > +            kfiles.append(kfile)
+> > > +            kfiles.append(hfile)
+> > > +    return kfiles
 
