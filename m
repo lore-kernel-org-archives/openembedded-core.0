@@ -1,171 +1,203 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAE0CC369D5
-	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 13:43:19 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.56])
- by mx.groups.io with SMTP id smtpd.web11.48613.1745847796599456883
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E242BC369DC
+	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 13:57:49 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.48956.1745848667587123182
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Apr 2025 06:43:16 -0700
+ Mon, 28 Apr 2025 06:57:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=d9aNrqnP;
- spf=pass (domain: ericsson.com, ip: 52.101.72.56, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GtEQ+bQue7xhUHT14I1zTceU1dGnHEDpWYXwDyMxjCAumR8rA+l1Zdt+QPG/5raQkYEBHdmQrCHfPP+X1a86EQ1ghvR5iHyXzTYv8b9VGA44PFntgLfHAWflZmik1ezEZjCxU4ilkzIwXhk+9heViZOQLmEunG9PDLaPhC0ZaSRy+KM+Ss9JcxlCNIcyxiqSvu7VqD9DelfGhUKTK3jEylQ+p0pDdciAqwO/DijnhbMl3h8vTA6Z7IyAE2DxYEywAm5iEVH2cRtMhhfhQhMRuDJVw3IQ2CjyBh8Wmku42ee2QUcT3LMIdo5R5jPoykRdNwnZQ3o13NKFfLjMJlupNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=piIyb8mYVEkqAsZrvQpXzlmGF86/o2P+/rFkuAjS00o=;
- b=m63dHB7XvKOQpaFvpuRviG571uQoHZDkQJmbbOWbwUbstS6Z0MjVWjpLrGOGXI9/gv8axVBVBlAuFTHMuYROAn/k5qmneTwcLP2yh3/bNVzTFRlGH+em4tzS/OauLm2FTrWwa8mHMUg+AXwNUKm3iCjnpxIRlZnE6X2CUsHdmORxiSKF8A0LCkBqX9+KOggtqeEkloDvn+OIc94057NnnIMbFOJF9R19pGy2usdsJOLGzYVuze8EuQ0o+2d5zIkNwVHLiyvfQ9+TLPTNcH7wXUAJNNSCbls/LJB3W/yQTZbzRPRVsQ7IWjnxzSf/HGv947OkujuZzz25wo3690TF9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=arm.com smtp.mailfrom=ericsson.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=piIyb8mYVEkqAsZrvQpXzlmGF86/o2P+/rFkuAjS00o=;
- b=d9aNrqnPJn6BMJmt1Ver0ntiIbZMZgE0SkLVcLpeybWHmFDZdbWoz2NVIMKMvE/z3c5TpXFiWcqr9ejo0F/0g9Rtai6vsN+pTgXwJMko2yQir92gJ/+bOavoRDLM1Cka35g+bcKSlq70V43sBwXABSheL6gNDSops8nwjwNPAmMubZwpsIvHm/v39TV2jPQqjfiJkZn2zKuEyov36WqgYITfjq7+cjFLC6Gv+SwJZ2L03KSxgMfNNR72FsrQVSpY3lHZQIIngiTSfipqr1hNk1JaytfLlA/lyJqc8Uvt8deX0ZVzpAUalpIkUSv7cIXw5ap5T7/D+W3U9l2Nix/Yxw==
-Received: from DU7P190CA0020.EURP190.PROD.OUTLOOK.COM (2603:10a6:10:550::34)
- by PAWPR07MB10010.eurprd07.prod.outlook.com (2603:10a6:102:38e::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.29; Mon, 28 Apr
- 2025 13:43:12 +0000
-Received: from DU6PEPF0000B61E.eurprd02.prod.outlook.com
- (2603:10a6:10:550:cafe::1b) by DU7P190CA0020.outlook.office365.com
- (2603:10a6:10:550::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.41 via Frontend Transport; Mon,
- 28 Apr 2025 13:43:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- DU6PEPF0000B61E.mail.protection.outlook.com (10.167.8.133) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8678.33 via Frontend Transport; Mon, 28 Apr 2025 13:43:12 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.64) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Mon, 28 Apr 2025 15:42:27 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id A9D84402061E;
-	Mon, 28 Apr 2025 15:42:26 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 9594670E75F2; Mon, 28 Apr 2025 15:42:26 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <rybczynska@gmail.com>, <steve@sakoman.com>, <Peter.Marko@siemens.com>,
-	<ross.burton@arm.com>, <skandigraun@gmail.com>, Daniel Turull
-	<daniel.turull@ericsson.com>, Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH v2 4/6] cve-check: move message outsite check_cves and sort
-Date: Mon, 28 Apr 2025 15:42:03 +0200
-Message-ID: <20250428134205.900354-5-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250428134205.900354-1-daniel.turull@ericsson.com>
-References: <20250428134205.900354-1-daniel.turull@ericsson.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gwujd4f1;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54e816aeca6so4908736e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 06:57:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745848666; x=1746453466; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cDs7IITL5CWRSzFlMRuV2MLO7sNeuIyTC8FkHqtGtzU=;
+        b=gwujd4f1wrrryvt9bXrS5R+BocXfEkf2I9r3NAltmYVXJj+O6b+PNnbXhrRTN3n87h
+         4Sbosf3LNu6TOzJ/GblyE7Y2CCOFJlEtiMbnA0X/vo/4j35kJqyj7mRIKcE0iCR99kAb
+         7HaTX9WfXXtYm4mwAhUBwQN1Aw+2Sm9VYoQzz61y5Tq9ZjbziltGK7tCsNQQXwNjaY/6
+         yXfsX6IEgSlnv5sS71MPVYdHwVoC+O7nP+sev+CxOFkB3tLfu8hls84A1xti+8BpwJoU
+         8F26t1+8wLv7XEA2fQwC8/fpsg9qPOgX08NyZwE0XeDb+51DO9qPKu56TcFY0/kuFGZs
+         fhUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745848666; x=1746453466;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cDs7IITL5CWRSzFlMRuV2MLO7sNeuIyTC8FkHqtGtzU=;
+        b=GS4u6SQileiZ9DwLqDcF7O+kSfjGT1cnx8sqK6tvvLCT2tsvEJbmsZp2kpuhD0GJhf
+         UD5aNo9HidNLt+U/Hsb++mp0j5/0azg27f3UL8cs5AJVTPBM6g+EZuujqVMWnF6BEkj+
+         BOAeIc7Qbp/H8jEflxTI4RQ5Xl/eve4cSFUlPyd/4lFLLtY5kVyoS8Y1sK6mSsOddmKy
+         wbRXbcm66iky+ch7x+t5m6wFd3v/C679DWttI8LI4p2R4WbojeZjoHHWWuGbVWTGn9aT
+         J7cmiESFpVuMwEuI76l2vs6tUkZ4/gUAV9z/u8gBtNr/xbT7lsRWn5rukZDmbXEC91ml
+         uq0g==
+X-Gm-Message-State: AOJu0YyDDeoFt6oMXIP8kwDOO9367bQoOMkIcMIlw9rNNW/KG/EwshYR
+	kiPMpI+S2xCHQWT8P3Y9AOj/Nn3AiombXVHSFzmQAUBMQ5k6dI3pqCpC1277YQPptMx7mIYax2P
+	bV86VG4i82dPv9NT/NSDM95oSxy0=
+X-Gm-Gg: ASbGncstOV7/hDrrFbrRlr5P6CwpN5tLqOGMYX4Tyrk2uBalU5roIP/6wwApdyzpzZf
+	zUOs7nl2bPp4r/vfbiLV7i0I8y9Sgm8njWUnsjc50/SxBYpDLZlEprsrL4G7xYqHlY5ZYTslQ9y
+	IrLc9sjYessI5x/8tzWqRmSk+2CW9oOb4j5FGu
+X-Google-Smtp-Source: AGHT+IGztLLLASLe+Zh1ifOPFV9zP3BOkJeYtIj1yiKAQ3hI2iJS9GAXbcEFz8ZFsTwWqNCoclKjEbK+jP+/h0zB69g=
+X-Received: by 2002:a05:651c:1467:b0:30c:40d6:5cdb with SMTP id
+ 38308e7fff4ca-31906151ffcmr42506101fa.11.1745848665446; Mon, 28 Apr 2025
+ 06:57:45 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250428134205.900354-1-daniel.turull@ericsson.com> <20250428134205.900354-7-daniel.turull@ericsson.com>
+In-Reply-To: <20250428134205.900354-7-daniel.turull@ericsson.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 28 Apr 2025 07:57:31 -0600
+X-Gm-Features: ATxdqUETdzTgLtwdc_rmFPNS-KkPd1-fd2nwqiAe7tqYjdLJ9eMy5wzU_5x-3GY
+Message-ID: <CAJdd5GZB=QyUhtbx4hc+Mg=qtKo+YKAYXf1pTx8NUwUg5Tc4WQ@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] spdx: add option to include only compiled kernel files
+To: daniel.turull@ericsson.com
+Cc: openembedded-core@lists.openembedded.org, rybczynska@gmail.com, 
+	steve@sakoman.com, Peter.Marko@siemens.com, ross.burton@arm.com, 
+	skandigraun@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF0000B61E:EE_|PAWPR07MB10010:EE_
-X-MS-Office365-Filtering-Correlation-Id: acfb690d-7ddb-4065-c706-08dd865a9ee5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?zCLFGvlZ2nhVpujsQaiqny7arRV4DFSnI2+a+oGkASrKccsb5sBM4Str9b+L?=
- =?us-ascii?Q?mgnOO4irj/6Q34QkUL51VOMEX54G+Dp+Q777Q7RZ9CRxsXwAZ8Ssbq4c0izw?=
- =?us-ascii?Q?7V7aDB61jgv6FlMdoeFqzRhyLQn7nIeTETMEuAXISVaBEDjfwNIy6rIBgfHp?=
- =?us-ascii?Q?R6xPLte3qVBB2NOol3Im1fVyW4LYin4SWsg55a5hlPJRcVid69/gGRon++uD?=
- =?us-ascii?Q?xvyDjQANmw3VLd65YZzzq87aAJCwJVTVTl49KrBpNHLgttCrbgecpJw0D60w?=
- =?us-ascii?Q?YJSe3hO+/GKLgeCL0iS3yEiy2tXIdqrqxZNa5nWLTavoDLJwp5gwQvHBMsXi?=
- =?us-ascii?Q?kRa+RMfxAi4b0W+9XHGgwo/p9oU+UPbjS/ykGwnlbsU/4eN91lni4i41Cfqx?=
- =?us-ascii?Q?BhdF4P9WXMw6GQf9aPalV+bkLVuAyKJi0ypGzbVPK1g0/SP/lNPu1MkmeheI?=
- =?us-ascii?Q?DadtreENBtQWAyW0/O1Ak10lE7hkfoVZPlrZK0Qo4sz+aF00yVA7LNZZILrS?=
- =?us-ascii?Q?P1XJrwRLBpczg55sbTeKsj8PWAMAMycXyTxly8Nwql1e2f5DA7ydy4ZbUEmS?=
- =?us-ascii?Q?nFUh+eD6q+aYbH6owNz0sx1Ucs8AvX/MR0ZupyARi1NDWxNZFvl9ef6fEFF+?=
- =?us-ascii?Q?xfnoWK0USJa+Gfn5rCJHMxKqeOBvKw3PH4aWTkMGBTNOqagTCVaDt4rg508s?=
- =?us-ascii?Q?m2GwPB04N2YQ5B4NI+VYfv4RcXndP7aRkGmOCEczEOswVZNSSkMiZ5jZK/fb?=
- =?us-ascii?Q?+gIIeXVyWwyFHMYqaqPx/jWZdsCB96HyPlaHYsYUGCm/fG6SWp9RuRNr4/Um?=
- =?us-ascii?Q?z4KVqsQEMYNwXUrLI8nGUeSTN+oxnGxRnpuWFfA0gdoG5dWaIxOVfB63dh40?=
- =?us-ascii?Q?+TryeZSpyLfx+LAVFQdMPGxFrTyeT2leGZbavKClGA5Wzbs12PuxeN69qOLc?=
- =?us-ascii?Q?DwxKNI/EbmPSMAz1VzLL1anmF0gVYg6ZUOiz/rsjUrFYaWytZ8bY7FZRN69r?=
- =?us-ascii?Q?IRwPf8qgP677j36l3xvdLgMYodWx3zfv/b4/qXe0ynyGkTRkF8p4CNZEVI9J?=
- =?us-ascii?Q?WyWKwLyOyKdaylgGotFAl436aMJiSpqz5XpUr/5mpdLuo0X4p3GujMcLYLlu?=
- =?us-ascii?Q?wb4QoHpFnWMZA28CI8CLZExj4IberDBaInAq08ANuAyeCipmMFL1G+6uWUKT?=
- =?us-ascii?Q?F1i56Mi/dd/XZSc2D3rzX0SzNNHOSBXwkZgv80FfqwOSVkTJ0pMEYhnbPjog?=
- =?us-ascii?Q?q7jR38lrHVfl9LKzFgYsAtDuzUYCtMs7dAhne2EtrulX79/g4mrYPq6c8d/v?=
- =?us-ascii?Q?GGVkt9KcNG+lwbH6ilXRdfFTTDx6K1rq3U/VSfjjoesAv6clWJ/JHrtiWlUC?=
- =?us-ascii?Q?3mHdqlszaXh7ughcSqs46RaDWV+s1FfttDZQVIteGb8QPsKCTGdgDJIGfixB?=
- =?us-ascii?Q?/dHApJs/+1FQ7snctaqnYEbaPa5VC5sVeTPIUkENS6ndCTu/cQmJihb+VhUx?=
- =?us-ascii?Q?FZo93UcYX+i6nerkQ5rC6+1sBoUEi1sFaF3d?=
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 13:43:12.6631
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: acfb690d-7ddb-4065-c706-08dd865a9ee5
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000B61E.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR07MB10010
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 13:43:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215606
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 13:57:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215607
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+I see the appeal here; however I've been trying to avoid too much
+kernel specific stuff in SPDX. Is there a way to make this more
+generic so it could be used by any recipe?
 
-When adding corrections from multiple sources of CVEs, the
-message showing standing CVES should be at the end. Also sort them.
+On Mon, Apr 28, 2025 at 7:42=E2=80=AFAM <daniel.turull@ericsson.com> wrote:
+>
+> From: Daniel Turull <daniel.turull@ericsson.com>
+>
+> When CVE_CHECK_KERNEL_CONFIG is enabled, only include the
+> source code (.c, .h) files that are used during compilation.
+>
+> This enables an external tool to use the SPDX information to disregard
+> vulnerabilities that are not compiled.
+>
+> CC: Joshua Watt <JPEWhacker@gmail.com>
+> CC: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+> ---
+>  meta/classes/create-spdx-2.2.bbclass |  8 +++++++
+>  meta/lib/oe/spdx30_tasks.py          |  8 +++++++
+>  meta/lib/oe/spdx_common.py           | 34 ++++++++++++++++++++++++++++
+>  3 files changed, 50 insertions(+)
+>
+> diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-s=
+pdx-2.2.bbclass
+> index 7e8f8b9ff5..6bf0c70bd4 100644
+> --- a/meta/classes/create-spdx-2.2.bbclass
+> +++ b/meta/classes/create-spdx-2.2.bbclass
+> @@ -137,6 +137,10 @@ def add_package_files(d, doc, spdx_pkg, topdir, get_=
+spdxid, get_types, *, archiv
+>      spdx_files =3D []
+>
+>      file_counter =3D 1
+> +
+> +    check_kernel_compiled =3D bb.data.inherits_class("kernel", d) and d.=
+getVar("CVE_CHECK_KERNEL_CONFIG") =3D=3D "1"
+> +    if check_kernel_compiled:
+> +        kernel_sources =3D oe.spdx_common.get_kernel_compiled_files(d)
+>      for subdir, dirs, files in os.walk(topdir):
+>          dirs[:] =3D [d for d in dirs if d not in ignore_dirs]
+>          if subdir =3D=3D str(topdir):
+> @@ -147,6 +151,10 @@ def add_package_files(d, doc, spdx_pkg, topdir, get_=
+spdxid, get_types, *, archiv
+>              filename =3D str(filepath.relative_to(topdir))
+>
+>              if not filepath.is_symlink() and filepath.is_file():
+> +                # When creating spdx for the kernel, we only include com=
+piled files.
+> +                if check_kernel_compiled:
+> +                     if not oe.spdx_common.is_kernel_compiled(file, kern=
+el_sources, d):
+> +                          break
+>                  spdx_file =3D oe.spdx.SPDXFile()
+>                  spdx_file.SPDXID =3D get_spdxid(file_counter)
+>                  for t in get_types(filepath):
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index ba965821f8..14f26773c5 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -156,6 +156,10 @@ def add_package_files(
+>          bb.note(f"Skip {topdir}")
+>          return spdx_files
+>
+> +    check_kernel_compiled =3D bb.data.inherits_class("kernel", d) and d.=
+getVar("CVE_CHECK_KERNEL_CONFIG") =3D=3D "1"
+> +    if check_kernel_compiled:
+> +        kernel_sources =3D oe.spdx_common.get_kernel_compiled_files(d)
+> +
+>      for subdir, dirs, files in os.walk(topdir, onerror=3Dwalk_error):
+>          dirs[:] =3D [d for d in dirs if d not in ignore_dirs]
+>          if subdir =3D=3D str(topdir):
+> @@ -167,6 +171,10 @@ def add_package_files(
+>              filepath =3D Path(subdir) / file
+>              if filepath.is_symlink() or not filepath.is_file():
+>                  continue
+> +            # When creating spdx for the kernel, we only include compile=
+d files
+> +            if check_kernel_compiled:
+> +                 if not oe.spdx_common.is_kernel_compiled(file, kernel_s=
+ources, d):
+> +                      break
+>
+>              filename =3D str(filepath.relative_to(topdir))
+>              file_purposes =3D get_purposes(filepath)
+> diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+> index 4caefc7673..c87e3875c7 100644
+> --- a/meta/lib/oe/spdx_common.py
+> +++ b/meta/lib/oe/spdx_common.py
+> @@ -242,3 +242,37 @@ def fetch_data_to_uri(fd, name):
+>          uri =3D uri + "@" + fd.revision
+>
+>      return uri
+> +
+> +def is_kernel_compiled(filename, kernel_sources, d):
+> +    """
+> +    Check if the file, is a kernel compiled file
+> +    """
+> +    import os
+> +
+> +    _, extension =3D os.path.splitext(filename)
+> +    # Special case, that we need to ignore, since this is not a source f=
+ile
+> +    if filename.rfind(".mod.c") > 0:
+> +        return True
+> +    # We filter .c files and header files
+> +    if extension not in [".c", ".h"]:
+> +        return True
+> +    # Check that the c file is in the list
+> +    if filename in kernel_sources:
+> +        return True
+> +    return False
+> +
+> +def get_kernel_compiled_files(d):
+> +    """
+> +    Get results from the save_compiled files and include also header fil=
+es
+> +    """
+> +    import json
+> +    import os
+> +    kfiles =3D []
+> +    with open(d.getVar('KERNEL_SRC_FILES'), 'r') as f:
+> +        for item in json.load(f):
+> +            kfile =3D os.path.basename(item['file'])
+> +            # Return also the correspondig header file
+> +            hfile =3D ".h".join(kfile.rsplit(".c", 1))
 
-CC: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- meta/classes/cve-check.bbclass | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+This feels a little bit wrong to me. I think a better option would be
+to include all headers, since we don't have a good way of knowing
+which are actually used.
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
-s
-index 86ddfaae5f..12159a98d2 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -173,6 +173,12 @@ python do_cve_check () {
-             if len(cve_data) or (d.getVar("CVE_CHECK_COVERAGE") =3D=3D "1"=
- and status):
-                 get_cve_info(d, cve_data)
-                 cve_write_data(d, cve_data, status)
-+
-+            if d.getVar("CVE_CHECK_SHOW_WARNINGS") =3D=3D "1":
-+                unpatched_cves =3D [cve for cve in cve_data if cve_data[cv=
-e]["abbrev-status"] =3D=3D "Unpatched"]
-+                if unpatched_cves:
-+                    bb.warn("Found unpatched CVE (%s)" % " ".join(sorted(u=
-npatched_cves)))
-+
-         else:
-             bb.note("No CVE database found, skipping CVE check")
-=20
-@@ -422,10 +428,6 @@ def check_cves(d, cve_data):
-     if not cves_in_recipe:
-         bb.note("No CVE records for products in recipe %s" % (pn))
-=20
--    if d.getVar("CVE_CHECK_SHOW_WARNINGS") =3D=3D "1":
--        unpatched_cves =3D [cve for cve in cve_data if cve_data[cve]["abbr=
-ev-status"] =3D=3D "Unpatched"]
--        if unpatched_cves:
--            bb.warn("Found unpatched CVE (%s)" % " ".join(unpatched_cves))
-=20
-     return (cve_data, cves_status)
-=20
+> +            kfiles.append(kfile)
+> +            kfiles.append(hfile)
+> +    return kfiles
 
