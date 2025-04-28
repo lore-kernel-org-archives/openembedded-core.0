@@ -1,94 +1,94 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 618BCC36005
-	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 09:57:48 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.44456.1745834259460375339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FD07C36005
+	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 10:21:48 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.44810.1745835699633779061
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Apr 2025 02:57:39 -0700
+ Mon, 28 Apr 2025 03:21:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TSbbIqW5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43ed8d32a95so40181905e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 02:57:38 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=U9t1KBHi;
+ spf=pass (domain: mvista.com, ip: 209.85.210.175, mailfrom: pdoshi@mvista.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-736c277331eso5222006b3a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 03:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1745834257; x=1746439057; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=mvista.com; s=google; t=1745835699; x=1746440499; darn=lists.openembedded.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6D43/dIdj9CNJbz+eBqWCJTdzoRwzPev2G0sa9O0Oww=;
-        b=TSbbIqW5uCJRvW3VnxI4ZuDnBifsLSaOPRQQKiGNMbn4dJsL17geG3p20Nlm9yOJql
-         MsbOaLhV1gka/C6cWUhRsTolxuxrEHF77TD1FqwbdPXzqTlMmybT4rkpCW9eE5O//cqA
-         TnqWEbzUz1F7fJay42MIOY+tpBKdKeFX9gqdI=
+        bh=2+3Lq/a+gK5ZxIVBOd4Br9k8s5CTEPmIsWC31/oOptA=;
+        b=U9t1KBHikz2AMZPIsHUBdpei7zFgKED5MbiG8y1kmOVVb1Zm2qZNaqkIkkyOBivP0d
+         kgaOYG+zZb/LO6tBZBAAFa+0Y4zA7rXo4Seo5x94kZI57KnipYGPS68tVcEWDq0Ht3D/
+         AMQpYcQ/IdNNODygCFtfTycaQnJzyOlWJXYx0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745834257; x=1746439057;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6D43/dIdj9CNJbz+eBqWCJTdzoRwzPev2G0sa9O0Oww=;
-        b=sDD78d9VDW7OUrKN2umT84i3JmXVLQpOQ6xbWPvZYg9a14ECHvCIc+OfWqGAWfCq2U
-         XrmlS8uI+Fvo78C4AtxDneRtz0VIB0cbvjnpCr/Dj6tLvNU7znje1QqI1PgV2KbUsgpK
-         c35I4Txaw979hBLxqt07Yf+LJaIhBogWkI45SSwc6w50DegWdeuChDzkr1XsC0NISJ3g
-         RIBoeqcnNkPEynKaZqWI6jL7MiNVaH22uDe3In7qmiLb1sjyxXom9RLKq6fC4dBA8qHF
-         1a462u2oqh4ddA79lrsVD47mOXK46bHo4AoxSfP2V0j0s1Kx6Rrts2EUVIdU1vGdVMhw
-         t5Sg==
-X-Forwarded-Encrypted: i=1; AJvYcCVDAa4t58+eg9CdYR5S2ZTRBWFtonCdlJLKI58HYjxMv9IEh4qCJOMnlaW7iGcXgBOcuwapM3Ii+Wce2bLVjRU86w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywrg6I6b7QViB/8dtEwfTa5KACaTQBHHK77hatnuDiKCbmQ7vRx
-	yQqGlwXv6x+jjsc0Or4IVAu9AK+f8bwqn9/+YH7qLjsYCdhIOB9sXNMNbV0M9Ds=
-X-Gm-Gg: ASbGncuyYuOXgMx29pmz5X4iB5JaXZYXfG2O9Lb0AAhQq0Gnt8sAD0ju2cqraIoqutu
-	0TjbIQaSbAaVnZEBHsJKPb2slLZY7ok8sKtxVRsud5l4MhRLRlf3DMYE3cWVG9cfYfkuxiCO9JP
-	Ivlp3QtFNHd1Je/YRZLDgnjpllfIrHPaZ+/piwHNRGvjdOvSDLcewxPTnzINhWF3bIgetdTp5v2
-	7io8XfAjloo+vXga3oywq7rs9LWm3dWi1UxLJgFshKInhhnem8AJh+FRzmz2zNB+nDUeAVmlvg6
-	Q1VWXEKglwt9dQPOkWZAr3fC7s9/OmZCAHxOZ4ucsBEUkMpkDDoUn8ehXHIIgT/ImI6FMRZ2okF
-	NjByTifJyp3lWVigeX4Ms7lywC5lALg==
-X-Google-Smtp-Source: AGHT+IGbvMLfdU8a+goltWV3yVQudQDzc1IjWjETlr9kxX7PmyMAEObgvlROLeLFB7yq5BwagSaC8Q==
-X-Received: by 2002:a05:600c:1ca0:b0:43d:fa58:81d4 with SMTP id 5b1f17b1804b1-440a66b0748mr77575425e9.33.1745834257359;
-        Mon, 28 Apr 2025 02:57:37 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9969:e6a6:49a5:9ef1? ([2001:8b0:aba:5f3c:9969:e6a6:49a5:9ef1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-440a538f4aasm117317855e9.38.2025.04.28.02.57.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 02:57:36 -0700 (PDT)
-Message-ID: <ba587b9e48b80f20369dc16613b01b6de9836302.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH V5] lib/classes/conf: refactor qemu.bbclass
- functions into library functions
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
-Date: Mon, 28 Apr 2025 10:57:36 +0100
-In-Reply-To: <20250428020852.3949557-1-Qi.Chen@windriver.com>
-References: <20250428020852.3949557-1-Qi.Chen@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
-MIME-Version: 1.0
+        d=1e100.net; s=20230601; t=1745835699; x=1746440499;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2+3Lq/a+gK5ZxIVBOd4Br9k8s5CTEPmIsWC31/oOptA=;
+        b=l8l0AEz8wtW6yn+tKTEJY+SuRI3OfYs4+0iC8GvAO2G3j9lTLjsy/j2jSdAY5F+PzE
+         sjyhPWQBYzTmg7ExP4LtOiT18sT+k8ZKR+vo346wNPgV58SjrhD/qO/1uvlWwL61CSqF
+         sU7dZpt/2vCasYC2UEdQkiO0vshPF9VzF4puLcROMuTXuC38r9zDiihR67wofknIyaYe
+         lqHtWMAX6CWo+SWFBD6dGFnrjtUXi7ZuXdnEysJGrTtq25Xc17MLbXGzmK7m6dlC9bKc
+         tEtVHibzvMoZrfzrYKJSjiBBkQzgs8tOCQMwbMg7u9Oo44JDnBkop/UsbcfY38oQfz7U
+         ckDA==
+X-Gm-Message-State: AOJu0YyqjxMsZ7+v0UdolhWNkX0O5YpZmRroxThWZ33F7+UX2r8lyd13
+	14sDnKMfmlek8rswpJ7saiv9rTq0D8rdnXawrybPMmrBsc0DFB6SYYs5czujhovRoWhGzcFzGc3
+	+p5c=
+X-Gm-Gg: ASbGncvkoJiAaUY79Ols1B/xMIqkBtLq1wnKJly6Z2cv1yu48AiJNRaWUclamEImLx1
+	4XI2Np0kG+Gmv3GzUetiHzoAvEKRhCmTt90DMz2wjd/LEIXHhcz1/HNhi5H2sBBPbjSYRoU0Rp/
+	hwvFL30n204yQicFUv7w1HlIlkWkz8C5O3zYPvINgFHkiACQMqEIly7YEjFNXikXT0USlVgS4AL
+	BwB0deG7GOkPNwMCHBcC/UeNzWG39HgtUjMW0HuHI2lfLTVIgt8kDzrf7woy4QmRmGy0PDdOA+z
+	bti/f8qiBVFoAqlWKmFcW91qixFk5qlmk2Iv2yBm6g2IEmHfOw==
+X-Google-Smtp-Source: AGHT+IGcqpBInL0vtoCwL2U34FuAe+a051kG53XZoqwovLNhHYtiEcxnZVmvrurHtc6kIE5eAs2AZg==
+X-Received: by 2002:a05:6a00:3be1:b0:732:56a7:a935 with SMTP id d2e1a72fcca58-73e268ef408mr20362650b3a.12.1745835698499;
+        Mon, 28 Apr 2025 03:21:38 -0700 (PDT)
+Received: from localhost.localdomain ([182.74.28.237])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b15fa80fa6asm6858427a12.61.2025.04.28.03.21.36
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 28 Apr 2025 03:21:37 -0700 (PDT)
+From: pdoshi@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Priyal Doshi <pdoshi@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] tzdata/tzcode-native: upgrade 2025a -> 2025b
+Date: Mon, 28 Apr 2025 15:51:19 +0530
+Message-Id: <1745835679-14153-1-git-send-email-pdoshi@mvista.com>
+X-Mailer: git-send-email 2.7.4
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 09:57:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215590
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 10:21:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215591
 
-On Mon, 2025-04-28 at 10:08 +0800, Chen Qi via lists.openembedded.org wrote=
-:
-> From: Chen Qi <Qi.Chen@windriver.com>
->=20
-> Move the functions in qemu.bbclass to meta/lib/oe/qemu.py as they are
-> generally useful.
->=20
-> Now the QEMU_OPTIONS settings are moved to bitbake.conf as they are neede=
-d
-> for qemu.py functions to work well.
+From: Priyal Doshi <pdoshi@mvista.com>
 
-This is the bit I disagree with, I'm not sure these should move.
+Signed-off-by: Priyal Doshi <pdoshi@mvista.com>
+---
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I want it to be difficult/obvious for people to be using user mode
-qemu, it is not something we want to encourage or make too easy.
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 3fe6c31..bb81d77 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+-PV = "2025a"
++PV = "2025b"
+ 
+ SRC_URI =" https://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            https://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "https://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "119679d59f76481eb5e03d3d2a47d7870d592f3999549af189dbd31f2ebf5061"
+-SRC_URI[tzdata.sha256sum] = "4d5fcbc72c7c450ebfe0b659bd0f1c02fbf52fd7f517a9ea13fe71c21eb5f0d0"
++SRC_URI[tzcode.sha256sum] = "05f8fedb3525ee70d49c87d3fae78a8a0dbae4fe87aa565c65cda9948ae135ec"
++SRC_URI[tzdata.sha256sum] = "11810413345fc7805017e27ea9fa4885fd74cd61b2911711ad038f5d28d71474"
+-- 
+2.7.4
 
-The reason is that we target many platforms with aren't supported by
-user mode qemu. I don't want the project to gain a dependency on qemu
-user mode support by stealth.
-
-Cheers,
-
-Richard
 
