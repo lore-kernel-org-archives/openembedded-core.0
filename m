@@ -1,116 +1,134 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5667AC369D5
-	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 15:49:10 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.51953.1745855346206969306
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9185BC3ABA4
+	for <webhook@archiver.kernel.org>; Mon, 28 Apr 2025 16:16:20 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web11.52512.1745856974785451286
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Apr 2025 08:49:06 -0700
+ Mon, 28 Apr 2025 09:16:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=QbhMJwtY;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53SACUYR023768
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 15:49:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=eXq3tWX1wXx5ktUrSnFVszDptrg+hdP1ByT
-	75NW+pkA=; b=QbhMJwtYzh44XjjPAIsa0gLOJYgkVri6W/YdZYjLjKeslcCO+yO
-	iYlI2Q8JCQOZ5UOLJ5YsgFz3LpSyC5pLNdpXT3OT6+Ufru3uba2NsuD1jwgvVpgJ
-	iSIiV98MH8tY54OVAr26sEeuOw9CuqFwutbOfOQaQuNn743Ezf22eJDCudFKSu3v
-	mzZLuEFz6LYUpKUefj53t8fnj3Siw5Urj1N1ZBDvEN3H3sl0Iwy/zUjrOiHrvAw3
-	qdzVpSUADYRcqgsl17k5Yc2KUJ/s6IjhXeD/kjSIRk/k9Jy505i9KRkqZp0SFeII
-	bgus1djK8mIoEKlMFrT2cIPdvfQUquFdbTw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468ptmhnbf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 15:49:05 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7cabd21579eso55006085a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 08:49:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XkE8IGA8;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-6064d4c14ebso1009649eaf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 09:16:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745856974; x=1746461774; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r1y6s7imu6gnrJrmM6s4C8/9JrE5fTdtBLxqrwQT0LY=;
+        b=XkE8IGA8R9/sUux2eBhwhXDa0dqCQD4IZmkt0tpK8SO5sCMWML7Jg1Lwld8HYnWPJ3
+         pOtHHbqUv63Ir046IpFfvT6yOKHwnz8GOw1NiQt5e9Yk6WKLCKBw2lWK0fX/ZU4mr+eN
+         WEkdhV7lyrg/OWcmS69qhNPyGNjiXbA0CJ3XF8aEZBtpZVFvXKL3fKKtsM8V+Bj5tyfX
+         2P7CLcIbhO/ay6DzHKFiv5i3GHUfxcP3oPOoa1QNtSD9RrhiOSy9VS5ybBLzInlqI53z
+         HKzS//KXd8UJZcGLVxSPk+T5yS3mdpnHfbeSOrHfW8xlgpccLYQVun2k0+GRlyk74M4S
+         BdIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745855344; x=1746460144;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eXq3tWX1wXx5ktUrSnFVszDptrg+hdP1ByT75NW+pkA=;
-        b=OZq+S1w1E8VFLoUn9gWesRgY1b94bbXOlAB6hkGhrmTBSkzAebyAQm1uzLcYTnaEsR
-         PFrbtZq72Asb1QZRXvwpikg+71Dn+lN92WW2+d7cuO5DeR+Bx1+TjDLUrYXurbNa0MK6
-         TiEtBPnTGlybumy709unQlTzoRDzl1O72owSOg5rX4VBb3tZjfRPOCNGPsT+X+vhN3iz
-         9nNUfpXra0uXAVQPSNW3KmYaBqBOjjMRQqnOzSjfK9h22UD7CncysdWgF4CJpVDSc/sd
-         JpwZQWATtAMYrWY1Ya1itOr9e+NQCJDaHk1G375xokxHTxg1cJ1ohoPplr0DCugK651l
-         4ZrQ==
-X-Gm-Message-State: AOJu0YxIwBEfJl0uARlAPzpv590j6efxsUeIKAow2GSzPsk6uKK6io+N
-	CU7O3fkm4WO230uJZbm/Aua3uUgoka2R3iiDHJo15jIj2k1+sie9kWpBw7R/w1mqKkcc/uCrKIk
-	Bt40Rkt5ZgHHZlRTu6sKgSFPvE8iM0QLMJObs8FZv2UMatEvGOPC2D1WvztaU7vsePrBCA7+RKn
-	GVAvTrINGLKUE=
-X-Gm-Gg: ASbGncsTLfiF9bTBo/3/SxOKXi6VG7z0CFyV5lEc+HlXndGNSz+zhAvGz8iX8Xtnf99
-	ssmNkMr7qyDf5e0HqqLEzNdid85MPYR/KIjkUZxB7fPgMd232GWspi9b6OuiU5kqqTE1ocT7lcU
-	owMSGCw1kTX9qm6/ZsV0DfvklHY6dn3nJo8BghKmEfT8TEndUGv0/+7/kW7J1LO5indpsxAiave
-	dFiwaoj2fKqi4Wek43gANPztO6g3kUPSjz4gOVmCXXupVU6Nu3BqXbaZqv5xg4LAzCs7Lvvhjv6
-	Y36MXPKDDl6H+rGT6KRTufZolWASPVAjiQqrFMM9ijCFcenqWUb2iUcEN98dJknHpiufafQYWw6
-	geLDPezILetegOjct9sAS9W9a
-X-Received: by 2002:a05:620a:4305:b0:7c7:a538:490 with SMTP id af79cd13be357-7c9606ac6cdmr1618707285a.2.1745855344075;
-        Mon, 28 Apr 2025 08:49:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE0n3QR8t/gomxo2ZA0iNkG3ynI3mGJbStHAZcUqSVRX0ggIeBqL6boOJ973BklU4pFECll5A==
-X-Received: by 2002:a05:620a:4305:b0:7c7:a538:490 with SMTP id af79cd13be357-7c9606ac6cdmr1618702185a.2.1745855343270;
-        Mon, 28 Apr 2025 08:49:03 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e9b40e0e7sm165318e87.248.2025.04.28.08.49.02
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 08:49:02 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libxt: fix build error
-Date: Mon, 28 Apr 2025 18:49:02 +0300
-Message-Id: <20250428154902.3084542-1-dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1745856974; x=1746461774;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r1y6s7imu6gnrJrmM6s4C8/9JrE5fTdtBLxqrwQT0LY=;
+        b=pv751txl8TMvhvC6UKz5j1fT0jcEXaAjIFQAO6vay7ukeJYNM/fKrhvohijMaSwdxl
+         5cXSHG6iyhjCFFwQ7eboM8YMAu8388SHQfwOKo8yENIRW7Vg0LjTCvDi2iPUFGKREVAJ
+         R1Gq3I7qtgH6c3zjb3P2Dk8y/Y+wncZUVsm8C1+WgsbOJu+YtQF4oqt9jqV6nX24OQ/z
+         9CE2yKc4MTnnGVBaMhrCmtgUFSz7IMySC3yR8703HcdsL8F+EKcy3ISfzAJI1h3RnW0R
+         0SFdy4+xHaDxfhEaFIPu/AKJ4Y7bOleNr5mzHQ93ZVsNW8m4hDb00s7chYTsUn2FP/eu
+         syww==
+X-Gm-Message-State: AOJu0Yy7RQGuCSQ/8dZr6fLvv9pXRJTqsk23jwAs/tIcymMnlvTSHEq9
+	grPEDyRooLWdy55JLJznqmvW5dUVk7xKAHLqEJSo4jTEB5SD+6nA8CGEp2532o26WSc4n3/ACTv
+	RPGH34uMFX9GuVSRUDOwIvhhRhm0=
+X-Gm-Gg: ASbGnctHibNs6Z400YNARgO9k2DAXZsHAn9oKEE0L9w0YcOSciHqRwuxJue1mMUYaOE
+	1rHl8W6aGWHvVvOycTv19Z1lsXmIdQ/GXeFnJUlFQ6Jlg3A5tfJ4nWN7mT6oFpo7Jm+PafEXfvV
+	pyoAjMp7zGPCEDfZMNgRES
+X-Google-Smtp-Source: AGHT+IHeAxsNT2a9s8rceQ4TmirC0di97lcComNFY+PGdKFRZEhXuEwRdruPhJNtioR4686igZCJKXYYbm1DRmuTkwc=
+X-Received: by 2002:a05:6820:1a0b:b0:606:44f0:a963 with SMTP id
+ 006d021491bc7-60658e8dc4dmr6285994eaf.1.1745856973965; Mon, 28 Apr 2025
+ 09:16:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Umej6G1uslNBunaJi414qP66d1QJ26gf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDEyOSBTYWx0ZWRfXzzxvcH3hvPyM cWmVembz+2pBCiJ2HpCSpjFhvFX7PUBKnWtanVmA+KIbNm0zyRXce32gLkTVvnL9fJl/WHs9J5u 24LiFWdxdvqs0yBxSvGiT2HOSR4LvJuYuOaM9kLecbvCfBBst9ft0z172gIxtyITjQuoIhn6KNY
- 1KbIOVCh9AYUNzJPFIbEp3IRyCH55lbTaovUDRcwm4BRHSPVsyWUsECUaGgcgCyK8m5ih53wjFg PYFrhfed5elOuC7uktBJt/2reW2adFoPIsKRgbvUPkuMURTAfK1w1t+0zPdrdki1kDrtsWrdMzO PJo14RVmG4M76jl+rEHx+2R6ZVJ/CUMTWrVZNOizi5F7m2Dbx88/hj0WL1VopjSPLse97T/fFlu
- sA3iRcDJpeRWp4om871B8L0kQQE0YriXV2ew+4/2BTueOerj888q8eKEnN+TY3zQH9hmikuK
-X-Proofpoint-GUID: Umej6G1uslNBunaJi414qP66d1QJ26gf
-X-Authority-Analysis: v=2.4 cv=DKWP4zNb c=1 sm=1 tr=0 ts=680fa371 cx=c_pps a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=DwjoYKYXAu5zUbMapuUA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-28_06,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=704 clxscore=1015
- priorityscore=1501 impostorscore=0 mlxscore=0 bulkscore=0 malwarescore=0
- phishscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504280129
+References: <20250422064651.824-1-liuyd.fnst@fujitsu.com>
+In-Reply-To: <20250422064651.824-1-liuyd.fnst@fujitsu.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Apr 2025 09:15:47 -0700
+X-Gm-Features: ATxdqUF6DGX7ze5OrIJU-Wj_CNVlyDwDg8fr8OXIQHjkAb2IAAyIHs4zNb3byP0
+Message-ID: <CAMKF1srwLJYcKkbH1abn1OXtHYo4hjjsnDpMoE9RPiAwzx-AGw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] llvm: multilib-header fix for llvm-config.h
+To: Liu Yiding <liuyd.fnst@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 15:49:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215619
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Apr 2025 16:16:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215620
 
-Building of libXt fails with:
+Hi Yiding,
 
-../../libXt-1.3.1/src/ResConfig.c: In function '_get_part':
-../../libXt-1.3.1/src/ResConfig.c:421:23: error: the comparison will always evaluate as 'true' for the address of 'buffer' will never be NULL [-Werror=address]
-../../libXt-1.3.1/src/ResConfig.c:404:10: note: 'buffer' declared here
+Can you show the diff between the two llvm-config.h files please ?
+This can be problematic if we compile 32bit binaries which uses this
+file. So it will be
+good to try to build a 32bit binary using this headers on target.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb b/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb
-index 97323ad282ce..28915d1a2a20 100644
---- a/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb
-@@ -29,4 +29,4 @@ SRC_URI[sha256sum] = "e0a774b33324f4d4c05b199ea45050f87206586d81655f8bef4dba434d
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--EXTRA_OECONF += "--disable-xkb"
-+EXTRA_OECONF += "--disable-xkb --disable-selective-werror"
--- 
-2.39.5
-
+On Mon, Apr 21, 2025 at 11:47=E2=80=AFPM Liu Yiding <liuyd.fnst@fujitsu.com=
+> wrote:
+>
+> fix the issue that:
+> | file /usr/include/llvm/Config/llvm-config.h conflicts between attempted=
+ installs of lib32-llvm-dev-20.1.2-r0.core2_32 and llvm-dev-20.1.2-r0.core2=
+_64
+>
+> reproduce steps:
+> 1. Add in local.conf the following lines:
+>
+>   MACHINE ?=3D "qemux86-64"
+>
+>   require conf/multilib.conf
+>
+>   MULTILIBS ?=3D "multilib:lib32"
+>
+>   DEFAULTTUNE:virtclass-multilib-lib32 ?=3D "core2-32"
+>
+> 2. add lib32-llvm-dev llvm-dev to core-image-minimal.bb
+>
+>   IMAGE_INSTALL =3D "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL} l=
+ib32-llvm-dev llvm-dev"
+>
+> 3. $ bitbake core-image-minimal
+>
+> Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+> ---
+>  meta/recipes-devtools/llvm/llvm_20.1.2.bb | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/llvm/llvm_20.1.2.bb b/meta/recipes-dev=
+tools/llvm/llvm_20.1.2.bb
+> index 98855fa4c1..5e2c0e0300 100644
+> --- a/meta/recipes-devtools/llvm/llvm_20.1.2.bb
+> +++ b/meta/recipes-devtools/llvm/llvm_20.1.2.bb
+> @@ -12,7 +12,7 @@ DEPENDS =3D "libffi libxml2 zlib zstd libedit ninja-nat=
+ive llvm-native"
+>
+>  RDEPENDS:${PN}:append:class-target =3D " ncurses-terminfo"
+>
+> -inherit cmake pkgconfig
+> +inherit cmake pkgconfig multilib_header
+>  # could be 'rcX' or 'git' or empty ( for release )
+>  VER_SUFFIX =3D ""
+>
+> @@ -155,6 +155,8 @@ do_install() {
+>      # Try to clean up datadir if it is empty, but don't fail if there ar=
+e
+>      # libclc files there
+>      rmdir ${D}${datadir} || true
+> +
+> +    oe_multilib_header llvm/Config/llvm-config.h
+>  }
+>
+>  do_install:append:class-native() {
+> --
+> 2.43.0
+>
 
