@@ -1,324 +1,143 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE16C369DC
-	for <webhook@archiver.kernel.org>; Tue, 29 Apr 2025 15:29:44 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.1344.1745940580328783638
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFE49C369DC
+	for <webhook@archiver.kernel.org>; Tue, 29 Apr 2025 16:37:34 +0000 (UTC)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web10.3008.1745944645757338224
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Apr 2025 08:29:40 -0700
+ Tue, 29 Apr 2025 09:37:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 019A71515
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 08:29:33 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 807E23F673
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 08:29:39 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3: backport the full fix for importlib scanning invalid distributions
-Date: Tue, 29 Apr 2025 16:29:30 +0100
-Message-ID: <20250429152930.2037750-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=aL/BpaZ5;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.172, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7c53b9d66fdso982819185a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 09:37:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745944644; x=1746549444; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QQ28mwZJqIsXMcAvLuKiUJFnRqeipYLG72+oN4Fb34c=;
+        b=aL/BpaZ54MwRqvaLGsTW8CLrYUMQ6wykyj7GKuTv3t9fAiilnLWZsmY1652DTiBW+l
+         fpAmaHUwowlxA3Et5+g+5NkB5i6jxY1YXQVCalkmY5jS/6FGHc8SqyKI1bwi8YmGDdGA
+         eAMHV3cIOqHCqzVqcU7zAS0lXLSdY0F0dqqyELj9b062zFNKh1EV6/7L2tg/vlDTsprh
+         bgRAotmtTR/QceaYwDDBGZznxyxBnwED+z4WYGX8TPuWepDDIbIXATgjmKXVw2MsznCX
+         QF9zuLGQq4TQS22qObkgkyEwUtADv+ZpW47lY+Ry7OnrrR95HzfqjUCnjK9ODsXcaPuQ
+         o6iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745944644; x=1746549444;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QQ28mwZJqIsXMcAvLuKiUJFnRqeipYLG72+oN4Fb34c=;
+        b=JEWsxKL2mO0OCJapBTRyRGbNDLiCtLRurZpmQafquZNrdRgf7Pp59ZTkG+AHUrSTUe
+         x07YdkKhs0+SFUJeBmUR2eDz6LZHnBH4418k7P1Q2kbKy/6lKXp9y+MiyKy/ZwCosRVK
+         krWcSZbBuowl/U7vbV4KfyQR4wzHUAamuaFJXefou+9WvqD9VlN24UfyWgXm4dMRSEZg
+         9Xvd/+9znZlY+zb12vBBXOTI4ftt4BbuTqjYBc+guTsGS3rVpuaH+S56A9ncmL5SutlT
+         X1b1/zrXAu64OWuUbEbnLDtKILyljOd9VtSDbcmGIQgH/iuSVBxSELJy1QrAPg5a8OpL
+         TSvw==
+X-Gm-Message-State: AOJu0YxsufG+/wjN8NQxImF1WhBS1SeoMCWVQuDwj00VKKgFo1w3DGF5
+	9eUaJwaFESQ+CcUvfOzorMY1bsKi3t64KlsbSzKFOQXl5rRJdysPNhtbWc9cy5M=
+X-Gm-Gg: ASbGnct+e4xwLTb3ncgeGSMzoSSKkTp+1Z8ZJmV7wR+Xx3KSkRCiynYe2AUhXWxJ+KY
+	fixChtjJZnBMJtLN4x3byOUabhF+DH3ENPHFSMWPUVRcaLRhdj6KMpnHxT7auM+6Q/ZfiV++6Gi
+	G4PTUCiWdP0FyTbhbJ2PQPC61MTIxQz6lnMHyzmZpVZvQV01nYODGR/DNzwvCsskblCrY6qx2Bc
+	NJJe5hWXS4NQs5V8YvxgrY2uphhisQkzoNapNIQ/jY8h+WVI2EFrj6yZH85gGX1O1QNZ8BAeNqi
+	PzQd5BKiqoCRzwF/QYJWO0SC4Lcqy/bzUkHCJaZ8AQlx3XxGxA1QgYO/97mE9mfA/GqyHTntiMS
+	GDRawTD8l
+X-Google-Smtp-Source: AGHT+IFrSbf19pVQnBl5QJfV0q84JAy5srqnApJXuZvsIQAZFKZfxvEuBqrsn+s1JBUAOQsZBuFqcw==
+X-Received: by 2002:a05:620a:40c4:b0:7c5:562d:ccfa with SMTP id af79cd13be357-7c9668c27eamr2755842585a.36.1745944644408;
+        Tue, 29 Apr 2025 09:37:24 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c958cadafdsm752197585a.26.2025.04.29.09.37.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Apr 2025 09:37:23 -0700 (PDT)
+Message-ID: <86ff4eef-dfd8-433a-b8c1-e27960112a53@baylibre.com>
+Date: Tue, 29 Apr 2025 12:37:22 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH 2/2 v4] python3-numpy: fix ptests
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20250428174416.379821-1-tgamblin@baylibre.com>
+ <20250428174416.379821-3-tgamblin@baylibre.com>
+ <DFBD12CD-630F-4D62-9655-1F262813F9E6@arm.com>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <DFBD12CD-630F-4D62-9655-1F262813F9E6@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 15:29:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215681
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 16:37:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215682
 
-Even with our fixes in deterministic_imports.patch the
-importlib.metadata package scan was still returning Distribution objects
-for empty directories.  This interacts badly with rebuilds when recipes
-are changing as when a recipe is removed from the sysroot directories
-are not removed[1].
 
-In particular this breaks python3-meson-python-native rebuilds when
-Meson upgrades from 1.7 to 1.8: the site-packages directory has an empty
-meson-1.7.dist-info/ and populated meson-1.8.dist-info/. Whilst it's
-deterministic to return the empty 1.7 first, this breaks pypa/build as
-it looks through the distributions in order.
+On 2025-04-29 08:56, Ross Burton wrote:
+> On 28 Apr 2025, at 18:44, Trevor Gamblin via lists.openembedded.org <tgamblin=baylibre.com@lists.openembedded.org> wrote:
+>> - Add gcc and meson as ptest RDEPENDS in the recipe;
+> Personally I’d prefer to skip a few tests than pull in GCC and Meson…
+>
+>> +@@ -205,6 +205,7 @@ def roundtrip(self, *args, **kwargs):
+>> +                 self.arr_reloaded.fid.close()
+>> +                 os.remove(self.arr_reloaded.fid.name)
+>> +
+>> ++    @pytest.mark.skip(reason="Requires a large amount of space")
+>> +     @pytest.mark.skipif(IS_PYPY, reason="Hangs on PyPy")
+>> +     @pytest.mark.skipif(not IS_64BIT, reason="Needs 64bit platform")
+>> +     @pytest.mark.slow
+> How many tests are marked as slow, and how slow is this test suite in total? Just skipping the slow tests is an option instead of carrying a patch forever.
 
-We had discussed this with upstream previously and there's a more
-comprehensive fix upstream (actually in importlib_metadata, not cpython)
-which ensures that valid distribution objects are listed first.  So we
-can drop our patch and replace it with a backport to fix these rebuilds.
+It looks like adding `-m "not slow"` to the pytest invocation results in 
+2815 tests being omitted.
 
-[1] oe-core 4f94d929639 ("sstate/staging: Handle directory creation race =
-issue")
+slow tests in:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../python3/deterministic_imports.patch       |  39 -----
- .../python/python3/valid-dists.patch          | 160 ++++++++++++++++++
- .../recipes-devtools/python/python3_3.13.2.bb |   2 +-
- 3 files changed, 161 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/deterministic_im=
-ports.patch
- create mode 100644 meta/recipes-devtools/python/python3/valid-dists.patc=
-h
+Testsuite summary
+# TOTAL: 51510
+# PASS: 47301
+# SKIP: 4171
+# XFAIL: 33
+# FAIL: 0
+# XPASS: 5
+# ERROR: 0
 
-diff --git a/meta/recipes-devtools/python/python3/deterministic_imports.p=
-atch b/meta/recipes-devtools/python/python3/deterministic_imports.patch
-deleted file mode 100644
-index 61f136ef42a..00000000000
---- a/meta/recipes-devtools/python/python3/deterministic_imports.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 0a02e3b85176a5ce4dd98830bb65dac8596142e9 Mon Sep 17 00:00:00 2001
--From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Date: Fri, 27 May 2022 17:05:44 +0100
--Subject: [PATCH] python3: Ensure stale empty python module directories d=
-on't
--
--There are two issues here. Firstly, the modules are accessed in on disk =
-order. This
--means behaviour seen on one system might not reproduce on another and is=
- a real headache.
--
--Secondly, empty directories left behind by previous modules might be loo=
-ked at. This
--has caused a long string of different issues for us.
--
--As a result, patch this to a behaviour which works for us.
--
--Upstream-Status: Submitted [https://github.com/python/cpython/issues/120=
-492; need to first talk to upstream to see if they'll take one or both fi=
-xes]
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-----
-- Lib/importlib/metadata/__init__.py | 9 ++++++++-
-- 1 file changed, 8 insertions(+), 1 deletion(-)
--
--diff --git a/Lib/importlib/metadata/__init__.py b/Lib/importlib/metadata=
-/__init__.py
--index 8ce62dd..a6ea6e9 100644
----- a/Lib/importlib/metadata/__init__.py
--+++ b/Lib/importlib/metadata/__init__.py
--@@ -786,7 +786,14 @@ class Lookup:
--         self.infos =3D FreezableDefaultDict(list)
--         self.eggs =3D FreezableDefaultDict(list)
--=20
---        for child in path.children():
--+        for child in sorted(path.children()):
--+            childpath =3D pathlib.Path(path.root, child)
--+            try:
--+                if childpath.is_dir() and not any(childpath.iterdir()):
--+                    # Empty directories aren't interesting
--+                    continue
--+            except PermissionError:
--+                continue
--             low =3D child.lower()
--             if low.endswith((".dist-info", ".egg-info")):
--                 # rpartition is faster than splitext and suitable for t=
-his purpose.
-diff --git a/meta/recipes-devtools/python/python3/valid-dists.patch b/met=
-a/recipes-devtools/python/python3/valid-dists.patch
-new file mode 100644
-index 00000000000..1b2c078c21f
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/valid-dists.patch
-@@ -0,0 +1,160 @@
-+From a65c29adc027b3615154cab73aaedd58a6aa23da Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Tue, 23 Jul 2024 08:36:16 -0400
-+Subject: [PATCH] Prioritize valid dists to invalid dists when retrieving=
- by
-+ name.
-+
-+Closes python/importlib_metadata#489
-+
-+Upstream-Status: Backport [https://github.com/python/importlib_metadata/=
-commit/a65c29adc027b3615154cab73aaedd58a6aa23da]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git i/Lib/importlib/metadata/__init__.py w/Lib/importlib/metadata=
-/__init__.py
-+index 8ce62dd864f..085378caabc 100644
-+--- i/Lib/importlib/metadata/__init__.py
-++++ w/Lib/importlib/metadata/__init__.py
-+@@ -21,7 +21,7 @@
-+ from . import _meta
-+ from ._collections import FreezableDefaultDict, Pair
-+ from ._functools import method_cache, pass_none
-+-from ._itertools import always_iterable, unique_everseen
-++from ._itertools import always_iterable, bucket, unique_everseen
-+ from ._meta import PackageMetadata, SimplePath
-+=20
-+ from contextlib import suppress
-+@@ -404,7 +404,7 @@ def from_name(cls, name: str) -> Distribution:
-+         if not name:
-+             raise ValueError("A distribution name is required.")
-+         try:
-+-            return next(iter(cls.discover(name=3Dname)))
-++            return next(iter(cls._prefer_valid(cls.discover(name=3Dname=
-))))
-+         except StopIteration:
-+             raise PackageNotFoundError(name)
-+=20
-+@@ -428,6 +428,16 @@ def discover(
-+             resolver(context) for resolver in cls._discover_resolvers()
-+         )
-+=20
-++    @staticmethod
-++    def _prefer_valid(dists: Iterable[Distribution]) -> Iterable[Distri=
-bution]:
-++        """
-++        Prefer (move to the front) distributions that have metadata.
-++
-++        Ref python/importlib_resources#489.
-++        """
-++        buckets =3D bucket(dists, lambda dist: bool(dist.metadata))
-++        return itertools.chain(buckets[True], buckets[False])
-++
-+     @staticmethod
-+     def at(path: str | os.PathLike[str]) -> Distribution:
-+         """Return a Distribution for the indicated metadata path.
-+diff --git i/Lib/importlib/metadata/_itertools.py w/Lib/importlib/metada=
-ta/_itertools.py
-+index d4ca9b9140e..79d37198ce7 100644
-+--- i/Lib/importlib/metadata/_itertools.py
-++++ w/Lib/importlib/metadata/_itertools.py
-+@@ -1,3 +1,4 @@
-++from collections import defaultdict, deque
-+ from itertools import filterfalse
-+=20
-+=20
-+@@ -71,3 +72,100 @@ def always_iterable(obj, base_type=3D(str, bytes)):
-+         return iter(obj)
-+     except TypeError:
-+         return iter((obj,))
-++
-++
-++# Copied from more_itertools 10.3
-++class bucket:
-++    """Wrap *iterable* and return an object that buckets the iterable i=
-nto
-++    child iterables based on a *key* function.
-++
-++        >>> iterable =3D ['a1', 'b1', 'c1', 'a2', 'b2', 'c2', 'b3']
-++        >>> s =3D bucket(iterable, key=3Dlambda x: x[0])  # Bucket by 1=
-st character
-++        >>> sorted(list(s))  # Get the keys
-++        ['a', 'b', 'c']
-++        >>> a_iterable =3D s['a']
-++        >>> next(a_iterable)
-++        'a1'
-++        >>> next(a_iterable)
-++        'a2'
-++        >>> list(s['b'])
-++        ['b1', 'b2', 'b3']
-++
-++    The original iterable will be advanced and its items will be cached=
- until
-++    they are used by the child iterables. This may require significant =
-storage.
-++
-++    By default, attempting to select a bucket to which no items belong =
- will
-++    exhaust the iterable and cache all values.
-++    If you specify a *validator* function, selected buckets will instea=
-d be
-++    checked against it.
-++
-++        >>> from itertools import count
-++        >>> it =3D count(1, 2)  # Infinite sequence of odd numbers
-++        >>> key =3D lambda x: x % 10  # Bucket by last digit
-++        >>> validator =3D lambda x: x in {1, 3, 5, 7, 9}  # Odd digits =
-only
-++        >>> s =3D bucket(it, key=3Dkey, validator=3Dvalidator)
-++        >>> 2 in s
-++        False
-++        >>> list(s[2])
-++        []
-++
-++    """
-++
-++    def __init__(self, iterable, key, validator=3DNone):
-++        self._it =3D iter(iterable)
-++        self._key =3D key
-++        self._cache =3D defaultdict(deque)
-++        self._validator =3D validator or (lambda x: True)
-++
-++    def __contains__(self, value):
-++        if not self._validator(value):
-++            return False
-++
-++        try:
-++            item =3D next(self[value])
-++        except StopIteration:
-++            return False
-++        else:
-++            self._cache[value].appendleft(item)
-++
-++        return True
-++
-++    def _get_values(self, value):
-++        """
-++        Helper to yield items from the parent iterator that match *valu=
-e*.
-++        Items that don't match are stored in the local cache as they
-++        are encountered.
-++        """
-++        while True:
-++            # If we've cached some items that match the target value, e=
-mit
-++            # the first one and evict it from the cache.
-++            if self._cache[value]:
-++                yield self._cache[value].popleft()
-++            # Otherwise we need to advance the parent iterator to searc=
-h for
-++            # a matching item, caching the rest.
-++            else:
-++                while True:
-++                    try:
-++                        item =3D next(self._it)
-++                    except StopIteration:
-++                        return
-++                    item_value =3D self._key(item)
-++                    if item_value =3D=3D value:
-++                        yield item
-++                        break
-++                    elif self._validator(item_value):
-++                        self._cache[item_value].append(item)
-++
-++    def __iter__(self):
-++        for item in self._it:
-++            item_value =3D self._key(item)
-++            if self._validator(item_value):
-++                self._cache[item_value].append(item)
-++
-++        yield from self._cache.keys()
-++
-++    def __getitem__(self, value):
-++        if not self._validator(value):
-++            return iter(())
-++
-++        return self._get_values(value)
-diff --git a/meta/recipes-devtools/python/python3_3.13.2.bb b/meta/recipe=
-s-devtools/python/python3_3.13.2.bb
-index 0f0505c66c7..8e16ce90dc2 100644
---- a/meta/recipes-devtools/python/python3_3.13.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.2.bb
-@@ -20,7 +20,7 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
-hon-${PV}.tar.xz \
-            file://makerace.patch \
-            file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patc=
-h \
-            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-ma=
-ste.patch \
--           file://deterministic_imports.patch \
-+           file://valid-dists.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch =
-\
-            file://0001-Update-test_sysconfig-for-posix_user-purelib.patc=
-h \
-            file://0001-skip-no_stdout_fileno-test-due-to-load-variabilit=
-y.patch \
---=20
-2.43.0
+without:
 
+Testsuite summary
+# TOTAL: 48695
+# PASS: 44851
+# SKIP: 3807
+# XFAIL: 32
+# FAIL: 0
+# XPASS: 5
+# ERROR: 0
+
+If I drop both gcc and meson from RDEPENDS while trying to skip slow 
+tests, the ptest script fails after reporting 30 errors.
+
+If I drop just gcc, it runs but still generates 9 errors.
+
+I can remove those nine from the output by skipping the test_mem_policy 
+test.
+
+Dropping meson looks like a different story - that "30 errors" thing 
+that I mentioned above comes from 30 different test
+modules (each containing various numbers of test cases) failing to find 
+meson when they begin setup. I'm not sure if we
+want to try disabling all of those...
+
+>
+>> +TEMPROOT="/usr/lib/python3-numpy/ptest/tmp"
+>> +export PYTEST_DEBUG_TEMPROOT="$TEMPROOT"
+>> +mkdir -p "$TEMPROOT"
+>> +pytest --automake /usr/lib/python3.*/site-packages/numpy
+>> +rm -rf "$TEMPROOT"
+> Why two variables?
+Good point - another case of me leaving stuff in from early versions of 
+the script...
+>
+> Ross
 
