@@ -1,119 +1,214 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 664A5C369DC
-	for <webhook@archiver.kernel.org>; Tue, 29 Apr 2025 10:10:36 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.15982.1745921429988606782
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E4DC3ABAC
+	for <webhook@archiver.kernel.org>; Tue, 29 Apr 2025 11:21:06 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.17434.1745925664335384353
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Apr 2025 03:10:30 -0700
+ Tue, 29 Apr 2025 04:21:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VJlHnLj5;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5499659e669so6875681e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 03:10:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745921428; x=1746526228; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q4QcWE5pD68L5mC+xA1wjF9MqKOoFxpyFx0wILUxtJ4=;
-        b=VJlHnLj50uqvyfTu3mM5RpWr4Ya0jaMI/BddBuZQy4mxpBJj0GMIMC7kDnkipvYCN7
-         AwZdr+/n9HL3YgYSuVGyvtxVkZg1zsd70f3zEExo7ifBRwEZ8qZLlJiFSnl96G5e93yD
-         aeSkhVYkb0yIdvOab3VNdY4D/RbHVUqn1lI+nbpd+rA4Dw1fAc40En+1JpEi5QzTil9g
-         a+mv1NI1KaW50DI1lb65YD97I8QfxCp8El3WUPRkf4555vjK7bkiA6f+XNE0AcGcXFyr
-         6zuM6U7SpenpreH+2gePMTwMWSfplaNhp6Q6VmevFeb0Upc9fDHgf/nKp5EZOHdjGrro
-         mU8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745921428; x=1746526228;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q4QcWE5pD68L5mC+xA1wjF9MqKOoFxpyFx0wILUxtJ4=;
-        b=wjBTcyXkU7NqVCkxRzEAAPb29lW915fMn2Zuno7nmyisBIbQaZUcdhkfMb0NSdVykc
-         RN8DB3swTrjvNvzT4cUf0m7fDS5V8NhGBU0Hh9ErO9Mo6gsd49RO4qwIJVwc45XKxTkg
-         d93bLDRIDc/1hpEonXjz7hxbOI15Bw5Rdv98FtPWptNHrBHmidZFvU9Y1ns//7uVtagf
-         P9eTOd+z6M5DtkD41kFAg8r8h5rjpG4x+dlP1YWcAlBivf7JIKKlk6fOiOcdhTe/juds
-         RVhKMTCnOdoQ/J1m+1/K89bInZ5hFVzIpeeAWSOTXbq7UNW00Cw+DMjoJwH68Sn+0apc
-         Ohcg==
-X-Forwarded-Encrypted: i=1; AJvYcCXbpoR2A+VX5PH+yY/Z4u2Nh9Dtwut9m4UncZZiGzqlOll0YbBmiSAksO02nRbflinDHfpE0cAvn3s52JwQ8PoTBw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxpXqGg4cBgMiT0PX5TsNVUDCbwdBLvFCjh9XXWmgo7+abvv7SA
-	ci1QR6/E7WUP43BK680T0wousfIrqBvuwxYP7UaTsVjUQhkFOMeR114QXLikXcHfe8wg3weMASS
-	gJtzJFlxpJJmqzS8Jx08xqp3YJ0E=
-X-Gm-Gg: ASbGncsjsKtXnJpzSd8TAoWzRwBjONYcot6x1uI9sxeCM8i+MYHQtyY1LkwhGz1BscA
-	Kaiu14aB1wcdvQby6lYL7bZpMAjLHM2LzgC/zV0HlI7UzIv2h1eKQBWmxUM+s+MJeSRsLRIr5+n
-	4YGouo3ry9ciKW51WT8dQmUwCf
-X-Google-Smtp-Source: AGHT+IFMceeQt/i5xMkQ6m8y9sb+7eaKFtG++l3IDFqxn2JLfvZAZvpgJD7MF+KRufURKqdSkfMIAWwsEU3Us5rP0QE=
-X-Received: by 2002:a19:8c1d:0:b0:545:225d:6463 with SMTP id
- 2adb3069b0e04-54e9e560686mr471421e87.42.1745921427823; Tue, 29 Apr 2025
- 03:10:27 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB6571515
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 04:20:56 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 662F23F673
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 04:21:03 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] meson: upgrade to 1.8.0
+Date: Tue, 29 Apr 2025 12:20:56 +0100
+Message-ID: <20250429112056.766690-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250426233051.4169011-1-raj.khem@gmail.com> <aa23d298b8b9f09372b417efa00547e4a42d432f.camel@linuxfoundation.org>
-In-Reply-To: <aa23d298b8b9f09372b417efa00547e4a42d432f.camel@linuxfoundation.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 29 Apr 2025 12:10:09 +0200
-X-Gm-Features: ATxdqUFEf_nlWa3sePJzebP41yE7u1_2Awrwsfl7YJpQA1gut-1gDdc1OLkw2Yk
-Message-ID: <CA+chaQchL+vr2WSLtvoxRLTeEVb0Rk3wsrAQ4tNYYAY5aRdncA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] gcc: Upgrade GCC to 15 release
-To: richard.purdie@linuxfoundation.org
-Cc: raj.khem@gmail.com, openembedded-core@lists.openembedded.org, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>, "Mittal, Anuj" <anuj.mittal@intel.com>, 
-	Joshua Watt <JPEWhacker@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 10:10:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215656
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 11:21:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215657
 
-On Mon, Apr 28, 2025 at 10:54=E2=80=AFPM Richard Purdie via
-lists.openembedded.org
-<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
->
-> On Sat, 2025-04-26 at 16:30 -0700, Khem Raj via lists.openembedded.org
-> wrote:
-> > * Nios2 has been removed and aarch64/ilp32 is deprecated
-> > * Default C dialect is switched to C23
-> > * {0} initializer in C or C++ for unions no longer guarantees
-> > clearing of the whole union
-> > * Compile speed improvements with LTO
-> > * Vectorizer can support loops with early exists but it is limited to
-> > loops
-> >   with fixed vector lengths
-> >
-> > This is major release of gcc, the changes are noted [1]
-> >
-> > [1] https://gcc.gnu.org/gcc-15/changes.html
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > v2: Drop musl headers ordering patch
-> > v3: Rebased patches
->
-> We're getting much closer. My selftest-ed change nearly worked, I'll
-> try a new version of that. If that works, we have left:
->
-> util-linux ptest regression:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/1396
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/1393
->
-> meta-mingw failure in libiconv:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/7/builds/1521
->
-> meta-intel failure in intel-mediasdk and intel-media-driver:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/41/builds/1389
->
-> meta-virtualization in ipxe:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/1402
+- New argument android_exe_type for executables
+- Changes to the b_sanitize option
+- New C standard c2y (and gnu2y)
+- i18n module xgettext
+- version_compare now accept multiple compare strings
+- Improvements to Objective-C and Objective-C++
+- Per project subproject options rewrite
+- objects added correctly to Rust executables
+- rust.test now supports link_whole
+- Meson can run "rustdoc" on Rust projects
+- The Wayland module is stable
+- New swift_std compiler option
+- New option to execute a slice of tests
+- Valgrind now fails tests if errors are found
 
-I'm seeing few more failures from meta-virtualization with gcc-15:
-http://errors.yoctoproject.org/Errors/Build/205175/
+Full release notes: https://mesonbuild.com/Release-notes-for-1-8-0.html.
 
-I've sent fixes for ipxe, irqbalance and work around for libvmi, which
-leaves dev86 from meta-virtualization (where the repo from SRC_URI
-doesn't even exist anymore).
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../meson/0001-Make-CPU-family-warnings-fatal.patch | 10 +++++-----
+ ...ule-do-not-manipulate-the-environment-when.patch | 13 +++++++------
+ ...002-Support-building-allarch-recipes-again.patch |  6 +++---
+ .../meson/{meson_1.7.2.bb =3D> meson_1.8.0.bb}        |  2 +-
+ 4 files changed, 16 insertions(+), 15 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_1.7.2.bb =3D> meson_1.8.0.bb} =
+(98%)
 
-Cheers,
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warni=
+ngs-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-=
+warnings-fatal.patch
+index ca2bcef1ee7..b5d05469679 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fat=
+al.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fat=
+al.patch
+@@ -1,4 +1,4 @@
+-From 8ba2c1f596206d45e8f14d4f4d2439023a3de9e7 Mon Sep 17 00:00:00 2001
++From a503c007d3db87acf711d110c01e11c2d087f99c Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+@@ -11,10 +11,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  2 files changed, 4 insertions(+), 6 deletions(-)
+=20
+ diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+-index 6726d4e..844b611 100644
++index 43fad0c..27be871 100644
+ --- a/mesonbuild/envconfig.py
+ +++ b/mesonbuild/envconfig.py
+-@@ -278,8 +278,8 @@ class MachineInfo(HoldableObject):
++@@ -287,8 +287,8 @@ class MachineInfo(HoldableObject):
+                  'but is missing {}.'.format(minimum_literal - set(liter=
+al)))
+ =20
+          cpu_family =3D literal['cpu_family']
+@@ -26,10 +26,10 @@ index 6726d4e..844b611 100644
+          endian =3D literal['endian']
+          if endian not in ('little', 'big'):
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index 386316e..b4a0d88 100644
++index f322cda..53a0ac0 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+-@@ -419,10 +419,8 @@ def detect_cpu_family(compilers: CompilersDict) -> =
+str:
++@@ -429,10 +429,8 @@ def detect_cpu_family(compilers: CompilersDict) -> =
+str:
+          if compilers and not any_compiler_has_define(compilers, '__mips=
+64'):
+              trial =3D 'mips'
+ =20
+diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-=
+manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson=
+/0001-python-module-do-not-manipulate-the-environment-when.patch
+index 84a9c18c518..85a93c8e7a1 100644
+--- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipul=
+ate-the-environment-when.patch
++++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipul=
+ate-the-environment-when.patch
+@@ -1,7 +1,8 @@
+-From f264b7fd2c86edfd5db77da264e8bf05f5e2bfeb Mon Sep 17 00:00:00 2001
++From 859711f99ea9b183a1dffb9b97de09ad0fe9803b Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 19 Nov 2018 14:24:26 +0100
+ Subject: [PATCH] python module: do not manipulate the environment when c=
+alling
++
+  pkg-config
+=20
+ Upstream-Status: Inappropriate [oe-core specific]
+@@ -11,10 +12,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.=
+com>
+  1 file changed, 1 insertion(+), 5 deletions(-)
+=20
+ diff --git a/mesonbuild/dependencies/python.py b/mesonbuild/dependencies=
+/python.py
+-index 326e605..f5eb50f 100644
++index 3dab31c..b9307fc 100644
+ --- a/mesonbuild/dependencies/python.py
+ +++ b/mesonbuild/dependencies/python.py
+-@@ -403,9 +403,6 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
++@@ -410,9 +410,6 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
+                      empty.name =3D 'python'
+                      return empty
+ =20
+@@ -24,7 +25,7 @@ index 326e605..f5eb50f 100644
+                  try:
+                      return PythonPkgConfigDependency(name, env, kwargs,=
+ installation, True)
+                  finally:
+-@@ -414,8 +411,7 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
++@@ -421,8 +418,7 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
+                              os.environ[name] =3D value
+                          elif name in os.environ:
+                              del os.environ[name]
+@@ -32,5 +33,5 @@ index 326e605..f5eb50f 100644
+ -                    set_env('PKG_CONFIG_PATH', old_pkg_path)
+ +                    pass
+ =20
+-             candidates.append(functools.partial(wrap_in_pythons_pc_dir,=
+ pkg_name, env, kwargs, installation))
+-             # We only need to check both, if a python install has a LIB=
+PC. It might point to the wrong location,
++             # Otherwise this doesn't fulfill the interface requirements
++             wrap_in_pythons_pc_dir.log_tried =3D PythonPkgConfigDepende=
+ncy.log_tried  # type: ignore[attr-defined]
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-alla=
+rch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-=
+building-allarch-recipes-again.patch
+index d3120e84e89..ed35498c306 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-rec=
+ipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-rec=
+ipes-again.patch
+@@ -1,4 +1,4 @@
+-From bcdd72ed1956e0a1b1b725e552fa391c549c2099 Mon Sep 17 00:00:00 2001
++From e123195e5990c3071385defd96dfab1211e98c08 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+@@ -12,10 +12,10 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt=
+@axis.com>
+  1 file changed, 1 insertion(+)
+=20
+ diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+-index 9703315..74f2477 100644
++index 27be871..994ac77 100644
+ --- a/mesonbuild/envconfig.py
+ +++ b/mesonbuild/envconfig.py
+-@@ -28,6 +28,7 @@ from pathlib import Path
++@@ -31,6 +31,7 @@ if T.TYPE_CHECKING:
+ =20
+ =20
+  known_cpu_families =3D (
+diff --git a/meta/recipes-devtools/meson/meson_1.7.2.bb b/meta/recipes-de=
+vtools/meson/meson_1.8.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/meson/meson_1.7.2.bb
+rename to meta/recipes-devtools/meson/meson_1.8.0.bb
+index 45a74612cef..6e3886e0a58 100644
+--- a/meta/recipes-devtools/meson/meson_1.7.2.bb
++++ b/meta/recipes-devtools/meson/meson_1.8.0.bb
+@@ -15,7 +15,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/meson-${=
+PV}.tar.gz \
+            file://0001-Make-CPU-family-warnings-fatal.patch \
+            file://0002-Support-building-allarch-recipes-again.patch \
+            "
+-SRC_URI[sha256sum] =3D "4d40d63aa748a9c139cc41ab9bffe43edd113c5639d78bde=
+81544ca955aea890"
++SRC_URI[sha256sum] =3D "0a9b23311271519bd03dca12d7d8b0eab582c3a2c5da433d=
+465b6e519dc88e2f"
+ UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+(\.\d+)+)$"
+=20
+ inherit python_setuptools_build_meta github-releases
+--=20
+2.43.0
+
 
