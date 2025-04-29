@@ -1,214 +1,142 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E4DC3ABAC
-	for <webhook@archiver.kernel.org>; Tue, 29 Apr 2025 11:21:06 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.17434.1745925664335384353
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B86F9C369DC
+	for <webhook@archiver.kernel.org>; Tue, 29 Apr 2025 11:23:06 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.17401.1745925781078469246
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Apr 2025 04:21:04 -0700
+ Tue, 29 Apr 2025 04:23:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB6571515
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 04:20:56 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 662F23F673
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 04:21:03 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=hyNVRevf;
+ spf=pass (domain: mvista.com, ip: 209.85.214.177, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-22c33e4fdb8so61784085ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 04:23:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1745925780; x=1746530580; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GRzHn+CG6yqrjbF8sK7/9ongvr5dv8hfr+WHtaNT8Ac=;
+        b=hyNVRevf9lBaRO29NDTyYgaW05A9be8UbkbM67BYshqSGTGZ5YAyT7mQD66/Ewmgx6
+         IiyCxHTgstrYRjAdTpUF+U1Zbd8z3sS+WqPfXLFFisvZmPrOnbBkvv7bH+GB/Iz+4pO3
+         mxy6iwfzYrkAPJZCtmGAx8XHU4ChZuraVWlcg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745925780; x=1746530580;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GRzHn+CG6yqrjbF8sK7/9ongvr5dv8hfr+WHtaNT8Ac=;
+        b=xKHavjIbFieTPi69p/uiZle935n/P5GPFH1fKbwwZ5inJVl5I1vvYN2UEFt4iYBI7L
+         DEveez1wQDKaRnVK/REImyPFhl6JGeTboCW73KoLI94byDTZh+hHlBNLbjreetg5MCl0
+         5ulrcIwofKcr8AMGNaPhcI92M25789LQNwRUC5gckNHLPuuliJYP6Uh/9fI5WPFxvy/+
+         6laGEYd7lCYLJPZmyZrlLj+CoEUeUMKDTaKFDAxKfabRBjOO6YOm/jddDP9ZqL+K3f8k
+         uEiY0bh57HgajmUQizNG0CxQExUDAjkN+537a/jZ8HIpSaCCinH5bC07QvpYD+sFw+h4
+         E2Nw==
+X-Gm-Message-State: AOJu0YzjREl9awrRwZEmDTzsjAMF4SieHL1e25NUEVC6zv7u3gejBKI4
+	5zSujD+KwVvPUCz2Op7DtnXpe1hCV365UkQPhLfvnHhp9/U0JRSEkidLuzIUEF+x1WAvsjWuzan
+	E65M=
+X-Gm-Gg: ASbGncvs34oX7BB67qQNqMWSUJUO1jP9Q2FL/cZLKFM8/B7tAMDJnEk9aLQtJ7Q8+bY
+	tcLcyhaXR1ZSr/2diT8sJaCFYaVJtkLOIzC14Iu7vfYtLRnqZXPqT1SmZcRPtsbbf99Woqqe7Rn
+	J1Ngbrlm/EoLxj/uWOO6+3CnAguagH2J3m/bo7XSaJHg/RIuVpx3prVmBSR+JkSlHhG/vhgPTsL
+	ut+f71B8V5f3HXulBYSi7PTHC749pWv5GgobR6IeflRt3s1Osm8Xr6hBsDbIjxmAX8UQdexHhOn
+	DMndgFSX7+/6nFK1y9ztlYWIIWB+adzUNJBuntOPhKQiZ4GCAa32
+X-Google-Smtp-Source: AGHT+IFx1/Qd4ndGbudDRtblj+jLFc+BqDevILD+sZNLe+wJDPD/n9Xi409LK8H+nPZuzdIUjNLmew==
+X-Received: by 2002:a17:903:1aaf:b0:224:78e:4eb4 with SMTP id d9443c01a7336-22de6066eb6mr44874845ad.39.1745925779645;
+        Tue, 29 Apr 2025 04:22:59 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.207.224.214])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309f774e4ffsm9107266a91.12.2025.04.29.04.22.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Apr 2025 04:22:58 -0700 (PDT)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] meson: upgrade to 1.8.0
-Date: Tue, 29 Apr 2025 12:20:56 +0100
-Message-ID: <20250429112056.766690-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] openssh: Fix CVE-2025-32728
+Date: Tue, 29 Apr 2025 16:52:43 +0530
+Message-Id: <20250429112243.106003-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 11:21:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215657
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 11:23:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215658
 
-- New argument android_exe_type for executables
-- Changes to the b_sanitize option
-- New C standard c2y (and gnu2y)
-- i18n module xgettext
-- version_compare now accept multiple compare strings
-- Improvements to Objective-C and Objective-C++
-- Per project subproject options rewrite
-- objects added correctly to Rust executables
-- rust.test now supports link_whole
-- Meson can run "rustdoc" on Rust projects
-- The Wayland module is stable
-- New swift_std compiler option
-- New option to execute a slice of tests
-- Valgrind now fails tests if errors are found
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Full release notes: https://mesonbuild.com/Release-notes-for-1-8-0.html.
+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/fc86875e6acb36401dfc1dfb6b628a9d1460f367]
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../meson/0001-Make-CPU-family-warnings-fatal.patch | 10 +++++-----
- ...ule-do-not-manipulate-the-environment-when.patch | 13 +++++++------
- ...002-Support-building-allarch-recipes-again.patch |  6 +++---
- .../meson/{meson_1.7.2.bb =3D> meson_1.8.0.bb}        |  2 +-
- 4 files changed, 16 insertions(+), 15 deletions(-)
- rename meta/recipes-devtools/meson/{meson_1.7.2.bb =3D> meson_1.8.0.bb} =
-(98%)
+ .../openssh/openssh/CVE-2025-32728.patch      | 44 +++++++++++++++++++
+ .../openssh/openssh_8.9p1.bb                  |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-32728.patch
 
-diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warni=
-ngs-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-=
-warnings-fatal.patch
-index ca2bcef1ee7..b5d05469679 100644
---- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fat=
-al.patch
-+++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fat=
-al.patch
-@@ -1,4 +1,4 @@
--From 8ba2c1f596206d45e8f14d4f4d2439023a3de9e7 Mon Sep 17 00:00:00 2001
-+From a503c007d3db87acf711d110c01e11c2d087f99c Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Tue, 3 Jul 2018 13:59:09 +0100
- Subject: [PATCH] Make CPU family warnings fatal
-@@ -11,10 +11,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
-  2 files changed, 4 insertions(+), 6 deletions(-)
-=20
- diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
--index 6726d4e..844b611 100644
-+index 43fad0c..27be871 100644
- --- a/mesonbuild/envconfig.py
- +++ b/mesonbuild/envconfig.py
--@@ -278,8 +278,8 @@ class MachineInfo(HoldableObject):
-+@@ -287,8 +287,8 @@ class MachineInfo(HoldableObject):
-                  'but is missing {}.'.format(minimum_literal - set(liter=
-al)))
- =20
-          cpu_family =3D literal['cpu_family']
-@@ -26,10 +26,10 @@ index 6726d4e..844b611 100644
-          endian =3D literal['endian']
-          if endian not in ('little', 'big'):
- diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
--index 386316e..b4a0d88 100644
-+index f322cda..53a0ac0 100644
- --- a/mesonbuild/environment.py
- +++ b/mesonbuild/environment.py
--@@ -419,10 +419,8 @@ def detect_cpu_family(compilers: CompilersDict) -> =
-str:
-+@@ -429,10 +429,8 @@ def detect_cpu_family(compilers: CompilersDict) -> =
-str:
-          if compilers and not any_compiler_has_define(compilers, '__mips=
-64'):
-              trial =3D 'mips'
- =20
-diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-=
-manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson=
-/0001-python-module-do-not-manipulate-the-environment-when.patch
-index 84a9c18c518..85a93c8e7a1 100644
---- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipul=
-ate-the-environment-when.patch
-+++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipul=
-ate-the-environment-when.patch
-@@ -1,7 +1,8 @@
--From f264b7fd2c86edfd5db77da264e8bf05f5e2bfeb Mon Sep 17 00:00:00 2001
-+From 859711f99ea9b183a1dffb9b97de09ad0fe9803b Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 19 Nov 2018 14:24:26 +0100
- Subject: [PATCH] python module: do not manipulate the environment when c=
-alling
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2025-32728.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2025-32728.patch
+new file mode 100644
+index 0000000000..d992f78ed7
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2025-32728.patch
+@@ -0,0 +1,44 @@
++From fc86875e6acb36401dfc1dfb6b628a9d1460f367 Mon Sep 17 00:00:00 2001
++From: "djm@openbsd.org" <djm@openbsd.org>
++Date: Wed, 9 Apr 2025 07:00:03 +0000
++Subject: [PATCH] upstream: Fix logic error in DisableForwarding option. This
++ option
 +
-  pkg-config
-=20
- Upstream-Status: Inappropriate [oe-core specific]
-@@ -11,10 +12,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.=
-com>
-  1 file changed, 1 insertion(+), 5 deletions(-)
-=20
- diff --git a/mesonbuild/dependencies/python.py b/mesonbuild/dependencies=
-/python.py
--index 326e605..f5eb50f 100644
-+index 3dab31c..b9307fc 100644
- --- a/mesonbuild/dependencies/python.py
- +++ b/mesonbuild/dependencies/python.py
--@@ -403,9 +403,6 @@ def python_factory(env: 'Environment', for_machine: =
-'MachineChoice',
-+@@ -410,9 +410,6 @@ def python_factory(env: 'Environment', for_machine: =
-'MachineChoice',
-                      empty.name =3D 'python'
-                      return empty
- =20
-@@ -24,7 +25,7 @@ index 326e605..f5eb50f 100644
-                  try:
-                      return PythonPkgConfigDependency(name, env, kwargs,=
- installation, True)
-                  finally:
--@@ -414,8 +411,7 @@ def python_factory(env: 'Environment', for_machine: =
-'MachineChoice',
-+@@ -421,8 +418,7 @@ def python_factory(env: 'Environment', for_machine: =
-'MachineChoice',
-                              os.environ[name] =3D value
-                          elif name in os.environ:
-                              del os.environ[name]
-@@ -32,5 +33,5 @@ index 326e605..f5eb50f 100644
- -                    set_env('PKG_CONFIG_PATH', old_pkg_path)
- +                    pass
- =20
--             candidates.append(functools.partial(wrap_in_pythons_pc_dir,=
- pkg_name, env, kwargs, installation))
--             # We only need to check both, if a python install has a LIB=
-PC. It might point to the wrong location,
-+             # Otherwise this doesn't fulfill the interface requirements
-+             wrap_in_pythons_pc_dir.log_tried =3D PythonPkgConfigDepende=
-ncy.log_tried  # type: ignore[attr-defined]
-diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-alla=
-rch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-=
-building-allarch-recipes-again.patch
-index d3120e84e89..ed35498c306 100644
---- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-rec=
-ipes-again.patch
-+++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-rec=
-ipes-again.patch
-@@ -1,4 +1,4 @@
--From bcdd72ed1956e0a1b1b725e552fa391c549c2099 Mon Sep 17 00:00:00 2001
-+From e123195e5990c3071385defd96dfab1211e98c08 Mon Sep 17 00:00:00 2001
- From: Peter Kjellerstedt <pkj@axis.com>
- Date: Thu, 26 Jul 2018 16:32:49 +0200
- Subject: [PATCH] Support building allarch recipes again
-@@ -12,10 +12,10 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt=
-@axis.com>
-  1 file changed, 1 insertion(+)
-=20
- diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
--index 9703315..74f2477 100644
-+index 27be871..994ac77 100644
- --- a/mesonbuild/envconfig.py
- +++ b/mesonbuild/envconfig.py
--@@ -28,6 +28,7 @@ from pathlib import Path
-+@@ -31,6 +31,7 @@ if T.TYPE_CHECKING:
- =20
- =20
-  known_cpu_families =3D (
-diff --git a/meta/recipes-devtools/meson/meson_1.7.2.bb b/meta/recipes-de=
-vtools/meson/meson_1.8.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/meson/meson_1.7.2.bb
-rename to meta/recipes-devtools/meson/meson_1.8.0.bb
-index 45a74612cef..6e3886e0a58 100644
---- a/meta/recipes-devtools/meson/meson_1.7.2.bb
-+++ b/meta/recipes-devtools/meson/meson_1.8.0.bb
-@@ -15,7 +15,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/meson-${=
-PV}.tar.gz \
-            file://0001-Make-CPU-family-warnings-fatal.patch \
-            file://0002-Support-building-allarch-recipes-again.patch \
++was documented as disabling X11 and agent forwarding but it failed to do so.
++Spotted by Tim Rice.
++
++OpenBSD-Commit-ID: fffc89195968f7eedd2fc57f0b1f1ef3193f5ed1
++
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/fc86875e6acb36401dfc1dfb6b628a9d1460f367]
++CVE: CVE-2025-32728
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ session.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/session.c b/session.c
++index e67d24d..625e97f 100644
++--- a/session.c
+++++ b/session.c
++@@ -2182,7 +2182,8 @@ session_auth_agent_req(struct ssh *ssh, Session *s)
++ 	if ((r = sshpkt_get_end(ssh)) != 0)
++ 		sshpkt_fatal(ssh, r, "%s: parse packet", __func__);
++ 	if (!auth_opts->permit_agent_forwarding_flag ||
++-	    !options.allow_agent_forwarding) {
+++	    !options.allow_agent_forwarding ||
+++	    options.disable_forwarding) {
++ 		debug_f("agent forwarding disabled");
++ 		return 0;
++ 	}
++@@ -2568,7 +2569,7 @@ session_setup_x11fwd(struct ssh *ssh, Session *s)
++ 		ssh_packet_send_debug(ssh, "X11 forwarding disabled by key options.");
++ 		return 0;
++ 	}
++-	if (!options.x11_forwarding) {
+++	if (!options.x11_forwarding || options.disable_forwarding) {
++ 		debug("X11 forwarding disabled in server configuration file.");
++ 		return 0;
++ 	}
++-- 
++2.25.1
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+index 54b4d238eb..345051c8dc 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+@@ -38,6 +38,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://CVE-2023-51385.patch \
+            file://CVE-2024-6387.patch \
+            file://CVE-2025-26465.patch \
++           file://CVE-2025-32728.patch \
             "
--SRC_URI[sha256sum] =3D "4d40d63aa748a9c139cc41ab9bffe43edd113c5639d78bde=
-81544ca955aea890"
-+SRC_URI[sha256sum] =3D "0a9b23311271519bd03dca12d7d8b0eab582c3a2c5da433d=
-465b6e519dc88e2f"
- UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+(\.\d+)+)$"
-=20
- inherit python_setuptools_build_meta github-releases
---=20
-2.43.0
+ SRC_URI[sha256sum] = "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
+ 
+-- 
+2.25.1
 
 
