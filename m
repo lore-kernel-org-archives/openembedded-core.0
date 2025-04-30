@@ -2,88 +2,88 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C8AC369DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFE03C369D9
 	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 12:57:40 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.16141.1746017496915783235
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+ by mx.groups.io with SMTP id smtpd.web10.10334.1745991573043449446
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Apr 2025 05:51:37 -0700
+ Tue, 29 Apr 2025 22:39:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=F0cZMuqV;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.218.51, mailfrom: dario.binacchi@amarulasolutions.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-abec8b750ebso1171452666b.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 05:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1746017495; x=1746622295; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jtxGwjn6XeJQyEJWMtHbAmT5zb3aajFKvF/qxzms2SY=;
-        b=F0cZMuqV1P0plJeqZdfheU/30jN8QT1ZKg+7zvMzH8rQr4T/lvqkhVU20YYOJxqegs
-         tHUZlP6nuUansFkc5BR9nu73aAMRGxLr1dXgoQ1JrpszAPwF+2KbXerWZxo4b4KTDMvY
-         60SCqz3GJfL9IkHSZFmVgQhejHKV1ZZWUezb0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746017495; x=1746622295;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jtxGwjn6XeJQyEJWMtHbAmT5zb3aajFKvF/qxzms2SY=;
-        b=GX6j8NqK//3MfQNIem1kFrMOypKdjVlsLsHm5HFJqmZlpmu8enW9Z48cbgW8M+iNDY
-         Vru0iia6oe2Ml93BOXNRJdHqhohpKF2KQVWHlbx7WD/IZDSFrqonLzs6z4E5SrHz6UmT
-         6oSJBFPGAZahhnM9hecmx+8oydMdvNLk5yKVJudXWfH0yaFN71UUiYv93+vDNiKmb0l1
-         ELosWImxh4VSHaeueOnE2nJmg7yz7/cx8g7WseZVdNVCUAvw+HIeL+rd2YO3JZVpR2wO
-         8qOYWcc+KRhhXiKPcQHH8cxDYIrKF0Ol/dM6VkkbOIyaWFKZAzwfhsr8n4Iz/OMALCAl
-         HZpg==
-X-Gm-Message-State: AOJu0YzkucDFTiqaXsjxKvYwX5otTp9k5DSYJ41HBwK6HtA+sX/DSDf0
-	bShKezUQ4B/664ZAYrX8k4jD4KwkI33BVCAdvaY1z+nB28+VOjC7WBhX182Pnd7gOco7oFWRKhY
-	R
-X-Gm-Gg: ASbGnctt0xfr02f+zmjMEXcAiLQVGSKR7MVtZcT0Jh9hasEskhCk8lozdoRw8zRT8ZB
-	km52vjWfm1rwIkvjqOFjq6fEBnFsFVHaXCLyrjn51+AZTuKnb3N01jFesLGempAK4faKjWxgpcx
-	qQjFCrtUk5m+zTmulCflv3NM0vWyVANyyRo+gA0Z+nber8H452BIOQaAwk9qRBv2mIo6sk9ZdGI
-	pTT8YAtszQ97GcnKPJg7hYriXJTPd686Q2fJMHGwt3NbbLVb0IkgmfsCSD6/qgVwqKZQKd5wrf0
-	upiE6oXfzdUvbaOqFywKLDM0aS9qOuzD8Yjq2sG+YruvISSaBVOQ1uehHtJZ3RUMSiyAB1Zcr8T
-	p2W7x
-X-Google-Smtp-Source: AGHT+IHkp0KrmQDqbJhmdFf3eEsbWVllaYZl3tOXXxS9I4DtMbQlp2WVerNfOB1p2rBwIZP/eiBmhw==
-X-Received: by 2002:a17:906:fe48:b0:ac7:3918:50f3 with SMTP id a640c23a62f3a-acedc75818amr368089066b.58.1746017495057;
-        Wed, 30 Apr 2025 05:51:35 -0700 (PDT)
-Received: from dario-ThinkPad-T14s-Gen-2i.. ([2.196.42.66])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acec9e47497sm246500966b.160.2025.04.30.05.51.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 05:51:34 -0700 (PDT)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: openembedded-core@lists.openembedded.org
-Cc: linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Subject: [PATCH 1/1] mmc-utils: upgrade to latest revision
-Date: Wed, 30 Apr 2025 14:51:31 +0200
-Message-ID: <20250430125131.2797720-1-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@linux.dev header.s=key1 header.b=SXErRVeC;
+ spf=pass (domain: linux.dev, ip: 95.215.58.188, mailfrom: wen.yang@linux.dev)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1745991570;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=19+2nb1+OjEcnpIT/fHEpdN8JkSw0YFOT+4J2dhNs/U=;
+	b=SXErRVeCnTyr76FiZZ6cO4Mc4bN13NcQd1lbT7icU/n8uamp2LDIKrgvja3RANdcdYdtI6
+	Z2wPz0aPEfMacaEjUH/ULM01aPRGSAypbdKxBhOrGYcuNA5WzDWnp6A6bzBF+EwuXztP+L
+	TDnAEx3UKD6Q37mRG4f+cyInVxMj8yI=
+From: Wen Yang <wen.yang@linux.dev>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Cc: Yang Wen <wen.yang@linux.dev>
+Subject: [meta-oe][PATCH v2] testdisk: add recipe
+Date: Wed, 30 Apr 2025 13:38:25 +0800
+Message-Id: <20250430053825.9782-1-wen.yang@linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 12:57:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215747
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215746
 
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+From: Yang Wen <wen.yang@linux.dev>
+
+testdisk is a free data recovery software primarily designed to help
+recover lost partitions and/or make non-booting disks bootable again
+when these symptoms are caused by faulty software.
+
+Signed-off-by: Wen Yang <wen.yang@linux.dev>
 ---
- meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../recipes-support/testdisk/testdisk_7.2.bb   | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 meta-oe/recipes-support/testdisk/testdisk_7.2.bb
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index a5e9d53deb84..1f287a8df9ee 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
- 
- SRCBRANCH ?= "master"
--SRCREV = "2aef4cd9a84ddc76349fc0d7e10d675e7fa596fa"
-+SRCREV = "c515ea2e1cebfbf9d81aa6a5c1bf67a79d2a7e58"
- 
- PV = "0.1+git"
- 
--- 
-2.43.0
+diff --git a/meta-oe/recipes-support/testdisk/testdisk_7.2.bb b/meta-oe/r=
+ecipes-support/testdisk/testdisk_7.2.bb
+new file mode 100644
+index 0000000000..3edc97f607
+--- /dev/null
++++ b/meta-oe/recipes-support/testdisk/testdisk_7.2.bb
+@@ -0,0 +1,18 @@
++DESCRIPTION =3D "TestDisk is a free data recovery software primarily des=
+igned to help recover lost partitions and/or make non-booting disks boota=
+ble again when these symptoms are caused by faulty software, certain type=
+s of viruses or human error (such as accidentally deleting your Partition=
+ Table)."
++LICENSE =3D "GPL-2.0-or-later"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882=
+bbe"
++
++DEPENDS =3D "jpeg ncurses e2fsprogs"
++
++SRC_URI =3D "https://www.cgsecurity.org/testdisk-7.2.tar.bz2"
++S =3D "${WORKDIR}/testdisk-7.2"
++
++inherit autotools pkgconfig
++
++PACKAGES =3D+ "${PN}-photorec"
++
++DESCRIPTION:${PN}-photorec =3D "Photorec is file data recovery software =
+designed to recover lost files including video, documents and archives fr=
+om Hard Disks and CDRom and lost pictures (Photo Recovery) from digital c=
+amera memory."
++FILES:${PN}-photorec =3D "${sbindir}/photorec"
++
++SRC_URI[md5sum] =3D "c6809b6fd06b5022467c8faa32d49a27"
++SRC_URI[sha256sum] =3D "f8343be20cb4001c5d91a2e3bcd918398f00ae6d8310894a=
+5a9f2feb813c283f"
+--
+2.25.1
 
 
