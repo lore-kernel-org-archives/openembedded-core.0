@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B43C3DA4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91098C3ABAC
 	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 03:00:37 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.8297.1745982034724892705
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.8392.1745982036475910469
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Apr 2025 20:00:34 -0700
+ Tue, 29 Apr 2025 20:00:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FsNIJlPc;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-223f4c06e9fso4832325ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 20:00:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Rhx3PKRg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22c33677183so71087945ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 20:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1745982034; x=1746586834; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1745982036; x=1746586836; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OpNh2vAwV3ninlNCjdDlcBraQy9dE9QqK3gXWhBlaA0=;
-        b=FsNIJlPccDOqTbYjvK3jL49QL+0VoTrxSIWG+5/I9C1wP9XCI1foB8TBwb1Dm+v+Yz
-         OQQiQ3zINI3SMH931sdYiK9QoWX8mXGsiY1M42yucSeCE8TF8xPjuJM9QILIW60kgwvY
-         hcxNdv0RElY/EfFtXXf/4CoAoyv+3bnMirsOMcSX561t4tfmCMtj3ZZYGK+Nnx1IhTmh
-         Wdu/4VtZZIAlv64/Mk3nVyVuFA1PUqEQGZ9aaKKW9kejnpNR2f7qekBW/i1fD1UfxfBf
-         swLcKCeFMAyztAcDUtOxagU6wOs6U4TWVWXEiV8kztuGrvgCzv6mwVglN4NEGFyiaH7l
-         +w0w==
+        bh=LbpCf/2/Rjsl5Z+cH5IiyciA7Bp3/0cQqfZHwGPa0vg=;
+        b=Rhx3PKRgr1F6tGRu64xnykRf95uNrQBfWXUqkt/ndag1XwMDMmcFnpUI7/kAaHpBZF
+         n8uKrXuKI4YfAoyKBT3QwoO8NHHqc5FX4qd+qMnS5fR5k/7WQZHjtQjJffrHTQuDlA70
+         M30s7Q/7qZPWm8BXgwjOIWk8yIa+fF2LKD6+48yURD0Q+rdujeQlVtQS0DNwcUTX0KLT
+         KlSz5CTXndb4OXSdTYE90o2FpARHCZpNGBmLR1SHCM0ULpxtFJwWwzLS+V7EtjFKFZt+
+         N3+sWYInEQ8Ra7aqratZD2TW54X3i8MLKv7mqitbzY/EiJcLr5CfPwkfi+5UQNTlXQ1r
+         medQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745982034; x=1746586834;
+        d=1e100.net; s=20230601; t=1745982036; x=1746586836;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OpNh2vAwV3ninlNCjdDlcBraQy9dE9QqK3gXWhBlaA0=;
-        b=CYZzoYvEi0XV5riMZAGiB7qE2yD9ER2ZesiAtGnZ7Wd+AU3KLnhOYbqUvisSNBipFo
-         I90L2L2ikbo24lSWNy7NbSurtc9YrBdYWJQImYUrTRdFjn7C8fyaf4257QQrD5FUpH4F
-         QovvhxrPdqaeGv0Z6adRbhXFdJH9W1VVKhgY0uCXV+b71i40Fuan6j552ugKDegMH6p2
-         NYogncsse+P5GRSnbNLFjDrZBCNdeWINxkT7kczLf58jDU9W++FSgDszHpxnf7VWKdwW
-         tzqQf+9rWtDL8PY03GncjAltTxhd24XYnN3A/VE4MgBgeXSe6ogohun/6b50O3NWGaFl
-         WOLQ==
-X-Gm-Message-State: AOJu0YwPfSpyDYZxL8976npxC6JHHnIvPPtrgtAScwuaFklgRZmpwUu+
-	E/dVaJWBbdup5eymMcSUZMngiRHsBTEqy4JSLnG/xU5LjTC75Z0jcGBWMA+HgLpNB2/qei3ypBj
-	A
-X-Gm-Gg: ASbGnctyguLkMhYDSJka9+YmTzvT/Hcw8J5clmvOhQOZX0mI+gqOtuV3Hd4RUslo3UP
-	/7Xdq9A6kAj4r7qLT9FJLbnowtFKvjrQtaAEFp/XnwlvVXzzOvWpiwP/uBzvCa/jMX1eYJdnPJR
-	ZRWnD06zCwcT+SibcGBZkT/jP2SRGKDxOyWqrGkU84CINAbbe4yVFVvL3pNnChGzu+2x8p2dINf
-	RxmMZTpCOUDAoscy/FIQQssoTYm5lALMB3Y7+Ugx47Yp/eznL6/X92ORuqD48Uh1hLRq6beIsGU
-	7olTwxHo5acTTqUUzT7m1w4GHbCYXwc=
-X-Google-Smtp-Source: AGHT+IHiYH6deB5fE/yCL8Bjecn9iXTZYn53tZDxvHsgJBkiQveRNDLXBhK4vPOco1v9G5+W/4VGSw==
-X-Received: by 2002:a17:902:db0a:b0:224:3d:2ffd with SMTP id d9443c01a7336-22df47e5fb1mr17158205ad.17.1745982033947;
-        Tue, 29 Apr 2025 20:00:33 -0700 (PDT)
+        bh=LbpCf/2/Rjsl5Z+cH5IiyciA7Bp3/0cQqfZHwGPa0vg=;
+        b=Ve5+4evBxBSgmTZh+VZ+lq05W2Y1C5/3t/PtnhKMDjB2Ab2LaMV38jrDFo9/eUTScy
+         Zpfxq7AojxBW2V6qZtu124ltwoIjClyXQIl+VbMSd359DEDfF8LHLwywrmsPhvsSp6bt
+         LJjDsUiSIjmeJVynmiV2Gidaetgx5HgK/g8/DN1ttJmx2VkWECTNltQpQ/IshxDg1nPU
+         D/FtqAmKAFUUUvbNxws/AZlmXHpHZxnFjn8dpM7ZhDp/jTw4XoFEkl4O1EUWldR1tp/q
+         pkqgb0XodgGtvIvTcAYed8nMRV0YKtWMDnP9mqvfJefLHtKucIhi3ljgRhjlIyhB1rJB
+         4NlQ==
+X-Gm-Message-State: AOJu0YxABxFjQgjnRbojiGRFtcLTED3nt+TrkdwqyWOQId0CqqTbsjqT
+	Tb58Pttbz4ufb/2K2Q08Btl3HMWDPD/rz8yOjfh6b+JQR3eYTqX6eP2EtWB5QmjM1T1BAp77Xtv
+	o
+X-Gm-Gg: ASbGnctk4s79VUgQWuSpmTdwDiYr+wza6w3GHQkEiOvYJYO2Mu2VQJnXf/lpMOm2wRT
+	N3JD1Ewr8vFmGjkuv1AYnJWsp5kTLrr3gz5kuFJ9HvFdc7BTyFP/rPqBfFzm/iJsMm1y1sqeipG
+	KF9enWaiXC8g9CNx+OVnGScqCBE89rY5LuY7kvmw2ao+ol1Masn7OJVCnaFh8rsl7jrQ8LX7SHw
+	GZxPBKBlNyglN3RNyUCZWtRbvXsWHL2JHWJf3/f5QSUWH+Gw6G7iNB40NCUva92Wdmlr+YPvPc4
+	Ifm8a570RsyHM/QPTCXWdUfeRo4sJW8=
+X-Google-Smtp-Source: AGHT+IHyoRB9m4/Y/KVMLDZ3dJi0AR6KR74OU/G+DXyTT/xAJdY8h6Cxs+6SdK+vw19hOGZOSPJijg==
+X-Received: by 2002:a17:903:3bc4:b0:224:194c:694c with SMTP id d9443c01a7336-22df57ca640mr15791905ad.28.1745982035580;
+        Tue, 29 Apr 2025 20:00:35 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:34b:e5e0:c38a:7e03])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22de49dccd3sm30461175ad.123.2025.04.29.20.00.33
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22de49dccd3sm30461175ad.123.2025.04.29.20.00.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 20:00:33 -0700 (PDT)
+        Tue, 29 Apr 2025 20:00:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 13/15] buildtools-tarball: add envvars into BB_ENV_PASSTHROUGH_ADDITIONS
-Date: Tue, 29 Apr 2025 20:00:01 -0700
-Message-ID: <27f018d8e8ace97d0b1cdfb8782a2a7a0a319816.1745981742.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 14/15] buildtools-tarball: Make buildtools respects host CA certificates
+Date: Tue, 29 Apr 2025 20:00:02 -0700
+Message-ID: <0653b96bac6d0800dc5154557706a323418808be.1745981742.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1745981742.git.steve@sakoman.com>
 References: <cover.1745981742.git.steve@sakoman.com>
@@ -67,65 +67,183 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 03:00:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215719
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215720
 
 From: Changqing Li <changqing.li@windriver.com>
 
-Here is one testcase:
-For recipe tensorflow-lite-host-tools_2.18.0.bb, refer [1],
-do_configure[network] = "1"
-and it will git clone some repos in CMakeLists.txt
+To adapt user network enviroment, buildtools should first try to use
+the user configured envs like SSL_CERT_FILE/CURL_CA_BUNDLE/..., if these
+envs is not set, then use the auto-detected ca file and ca path, and
+finally use the CA certificates in buildtools.
 
-When buildtools is used and nativesdk-git is installed into sdk,
-do_configure failed with error:
-[1/9] Performing download step (git clone) for 'protobuf-populate'
-Cloning into 'protobuf'...
-fatal: unable to access 'https://github.com/protocolbuffers/protobuf/': error setting certificate file: /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-wrlinuxsdk-linux/etc/ssl/certs/ca-certificates.crt
+nativesdk-openssl set OPENSSLDIR as "/not/builtin", need set SSL_CERT_FILE/SSL_CERT_DIR to work
 
-Fix by adding GIT_SSL_CAINFO in BB_ENV_PASSTHROUGH_ADDITIONS, so that
-user can export GIT_SSL_CAINFO=${GIT_SSL_CAINFO} in their
-do_configure:prepend() to fix above do_configure failure
+nativesdk-curl don't set default ca file, need
+SSL_CERT_FILE/SSL_CERT_DIR or CURL_CA_BUNDLE/CURL_CA_PATH to work
 
-CURL_CA_BUNDLE and REQUESTS_CA_BUNDLE is similar envvars, so all add
-into BB_ENV_PASSTHROUGH_ADDITIONS
+nativesdk-git actually use libcurl, and GIT_SSL_CAPATH/GIT_SSL_CAINFO
+also works
 
-[1] https://github.com/nxp-imx/meta-imx/blob/styhead-6.12.3-1.0.0/meta-imx-ml/recipes-libraries/tensorflow-lite/tensorflow-lite-host-tools_2.18.0.bb
+nativesdk-python3-requests will use cacert.pem under python module certifi by
+default, need to set REQUESTS_CA_BUNDLE
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/git/git/environment.d-git.sh               | 1 +
- .../python/python3-requests/environment.d-python3-requests.sh    | 1 +
- meta/recipes-support/curl/curl/environment.d-curl.sh             | 1 +
- 3 files changed, 3 insertions(+)
+ .../openssl/files/environment.d-openssl.sh    | 25 +++++++++++++++----
+ meta/recipes-core/meta/buildtools-tarball.bb  | 23 ++++++++++++++++-
+ .../git/git/environment.d-git.sh              | 21 +++++++++++++---
+ .../environment.d-python3-requests.sh         | 13 +++++++---
+ .../curl/curl/environment.d-curl.sh           | 21 +++++++++++++---
+ 5 files changed, 88 insertions(+), 15 deletions(-)
 
+diff --git a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
+index 6cb82d7386..c635be8aca 100644
+--- a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
++++ b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
+@@ -1,8 +1,23 @@
+ export OPENSSL_CONF="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/openssl.cnf"
+-if [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
+-    export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs"
+-    export SSL_CERT_FILE="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs/ca-certificates.crt"
+-    export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} SSL_CERT_DIR SSL_CERT_FILE"
+-fi
+ export OPENSSL_MODULES="$OECORE_NATIVE_SYSROOT/usr/lib/ossl-modules/"
+ export OPENSSL_ENGINES="$OECORE_NATIVE_SYSROOT/usr/lib/engines-3"
++
++# Respect host env SSL_CERT_FILE/SSL_CERT_DIR first, then auto-detected host cert, then cert in buildtools
++# CAFILE/CAPATH is auto-deteced when source buildtools
++if [ -z "$SSL_CERT_FILE" ]; then
++   if [ -n "$CAFILE" ];then
++       export SSL_CERT_FILE="$CAFILE"
++   elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
++       export SSL_CERT_FILE="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs/ca-certificates.crt"
++   fi
++fi
++
++if [ -z "$SSL_CERT_DIR" ]; then
++   if [ -n "$CAPATH" ];then
++       export SSL_CERT_DIR="$CAPATH"
++   elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
++       export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs"
++   fi
++fi
++
++export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} SSL_CERT_DIR SSL_CERT_FILE"
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 414c266663..8e78169e23 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -80,14 +80,35 @@ create_sdk_files:append () {
+ 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
+ 
+ 	cat >> $script <<EOF
++# Detect host ca file/path, export for envfile to use
++# /etc/ssl/certs/ca-certificates.crt Debian systems
++# /etc/pki/tls/certs/ca-bundle.crt Fedora systems
++# /etc/ssl/ca-bundle.pem Suse systems
++export CAFILE
++export CAPATH
++for a in /etc/ssl/certs/ca-certificates.crt \
++    /etc/pki/tls/certs/ca-bundle.crt \
++    /etc/ssl/ca-bundle.pem ; do
++    if test -f "\$a"; then
++        CAFILE="\$a"
++        break
++    fi
++done
++
++a="/etc/ssl/certs"
++if test -d "\$a" && ls "\$a"/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].0 >/dev/null 2>/dev/null; then
++    CAPATH="\$a"
++fi
++
+ if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
+ 	for envfile in \$OECORE_NATIVE_SYSROOT/environment-setup.d/*.sh; do
+ 		. \$envfile
+ 	done
+ fi
++
+ # We have to unset this else it can confuse oe-selftest and other tools
+ # which may also use the overlapping namespace.
+-unset OECORE_NATIVE_SYSROOT
++unset OECORE_NATIVE_SYSROOT CAFILE CAPATH
+ EOF
+ 
+ 	if [ "${SDKMACHINE}" = "i686" ]; then
 diff --git a/meta/recipes-devtools/git/git/environment.d-git.sh b/meta/recipes-devtools/git/git/environment.d-git.sh
-index 18104f0528..f8e3221510 100644
+index f8e3221510..9c7b5a9251 100644
 --- a/meta/recipes-devtools/git/git/environment.d-git.sh
 +++ b/meta/recipes-devtools/git/git/environment.d-git.sh
-@@ -1,3 +1,4 @@
- if [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
-     export GIT_SSL_CAINFO="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
-+    export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} GIT_SSL_CAINFO"
+@@ -1,4 +1,19 @@
+-if [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
+-    export GIT_SSL_CAINFO="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
+-    export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} GIT_SSL_CAINFO"
++# Respect host env GIT_SSL_CAINFO/GIT_SSL_CAPATH first, then auto-detected host cert, then cert in buildtools
++# CAFILE/CAPATH is auto-deteced when source buildtools
++if [ -z "$GIT_SSL_CAINFO" ]; then
++	if [ -n "$CAFILE" ];then
++		export GIT_SSL_CAINFO="$CAFILE"
++	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
++		export GIT_SSL_CAINFO="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
++	fi
  fi
++
++if [ -z "$GIT_SSL_CAPATH" ]; then
++	if [ -n "$CAPATH" ];then
++		export GIT_SSL_CAPATH="$CAPATH"
++	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
++		export GIT_SSL_CAPATH="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs"
++	fi
++fi
++
++export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} GIT_SSL_CAINFO GIT_SSL_CAPATH"
 diff --git a/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh b/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh
-index f2eee203ca..c7faec127d 100644
+index c7faec127d..492177a9c3 100644
 --- a/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh
 +++ b/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh
-@@ -1,3 +1,4 @@
- if [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
-     export REQUESTS_CA_BUNDLE="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
-+    export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} REQUESTS_CA_BUNDLE"
+@@ -1,4 +1,11 @@
+-if [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
+-    export REQUESTS_CA_BUNDLE="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
+-    export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} REQUESTS_CA_BUNDLE"
++# Respect host env REQUESTS_CA_BUNDLE first, then auto-detected host cert, then cert in buildtools
++# CAFILE/CAPATH is auto-deteced when source buildtools
++if [ -z "$REQUESTS_CA_BUNDLE" ]; then
++	if [ -n "$CAFILE" ];then
++		export REQUESTS_CA_BUNDLE="$CAFILE"
++	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
++		export REQUESTS_CA_BUNDLE="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
++	fi
  fi
++
++export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} REQUESTS_CA_BUNDLE"
 diff --git a/meta/recipes-support/curl/curl/environment.d-curl.sh b/meta/recipes-support/curl/curl/environment.d-curl.sh
-index 0d53aabb8e..0ab83a267d 100644
+index 0ab83a267d..7c2971b3da 100644
 --- a/meta/recipes-support/curl/curl/environment.d-curl.sh
 +++ b/meta/recipes-support/curl/curl/environment.d-curl.sh
-@@ -1,3 +1,4 @@
- if [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
-     export CURL_CA_BUNDLE="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
-+    export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} CURL_CA_BUNDLE"
+@@ -1,4 +1,19 @@
+-if [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
+-    export CURL_CA_BUNDLE="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
+-    export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} CURL_CA_BUNDLE"
++# Respect host env CURL_CA_BUNDLE/CURL_CA_PATH first, then auto-detected host cert, then cert in buildtools
++# CAFILE/CAPATH is auto-deteced when source buildtools
++if [ -z "$CURL_CA_PATH" ]; then
++	if [ -n "$CAFILE" ];then
++		export CURL_CA_BUNDLE="$CAFILE"
++	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
++		export CURL_CA_BUNDLE="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
++	fi
  fi
++
++if [ -z "$CURL_CA_PATH" ]; then
++	if [ -n "$CAPATH" ];then
++		export CURL_CA_PATH="$CAPATH"
++	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
++		export CURL_CA_PATH="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs"
++	fi
++fi
++
++export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} CURL_CA_BUNDLE CURL_CA_PATH"
 -- 
 2.43.0
 
