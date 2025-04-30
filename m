@@ -1,116 +1,88 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F846C369D9
-	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 12:27:40 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.15684.1746016050762118432
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C8AC369DC
+	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 12:57:40 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web11.16141.1746017496915783235
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Apr 2025 05:27:31 -0700
+ Wed, 30 Apr 2025 05:51:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=yrt47w+j;
- spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-549b116321aso8802601e87.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 05:27:30 -0700 (PDT)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=F0cZMuqV;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.218.51, mailfrom: dario.binacchi@amarulasolutions.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-abec8b750ebso1171452666b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 05:51:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746016049; x=1746620849; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Al4Vp3OBf1HRr1ipOi+Fudsr1Z3kfaBZA/eBPzwpkRo=;
-        b=yrt47w+j1p8G7dGZRnpiaOPVW/zt5ppTHuLfxxtEbqpCM1oIMMgbIDSZSR7tT9ew8w
-         RDnUwYQWdFPppz4sTiWqb8Aony4KV9QegFMOr7VFmhCGEl3kTDu2h97+Y7ftGal/rBgF
-         vPqqTZNH3GLAgSe5cIilz0o03QCUu4t5AgpEHYki3i/eQpNhzdKjHLqhChs9jsuE9HID
-         JPFGipfV0L4E0yQ+dEMSeoEITT9GHPoSCF3cc5fQ0IwCqRju3qVf6XAQk1TczYo/ArAB
-         NJGMwl8koGItxa2yx582oEpMUa8qUfKk5LkA5pbmUlJfdM7a3j0Xh1hnJHtsqyIClk3r
-         Peqg==
+        d=amarulasolutions.com; s=google; t=1746017495; x=1746622295; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jtxGwjn6XeJQyEJWMtHbAmT5zb3aajFKvF/qxzms2SY=;
+        b=F0cZMuqV1P0plJeqZdfheU/30jN8QT1ZKg+7zvMzH8rQr4T/lvqkhVU20YYOJxqegs
+         tHUZlP6nuUansFkc5BR9nu73aAMRGxLr1dXgoQ1JrpszAPwF+2KbXerWZxo4b4KTDMvY
+         60SCqz3GJfL9IkHSZFmVgQhejHKV1ZZWUezb0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746016049; x=1746620849;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Al4Vp3OBf1HRr1ipOi+Fudsr1Z3kfaBZA/eBPzwpkRo=;
-        b=A88BQblCnMdiIGBfc+xTUw1rsc81p0aWGd0yWOqfE9CQ4LXlnTJuCMecVByiUFkFr3
-         asUozoV9o/7HGLG0XyrLv7fxcHOQu6FuRYCkiccb58X4yFdedf7gLoN/HWlAJRgggidd
-         Ms3eqN1zRwYtZlUiPKu592txVGco/W5FiMn3H4Bw7b6lW3JuocCNCa3gEBTYrXnNn/RK
-         f24QtYA24bEpEV5UACZY5BMrIDC6/RwrT10A4sbJVBdQdIyBOs1eURYK+PQ7MGVQ4Px/
-         2vHN5b7DQssl60PsiTHmeVERiiXRoWNszaO1ucTjX5RZFgNvWGA3RYRX6pQLuklaczk5
-         TZVQ==
-X-Gm-Message-State: AOJu0YwLygCxD9iBzHcaUi/Dq/mTFirFC3oWjwjxYhOz9OXdMfjokRRK
-	hLnqzitCWpa8N7i+qNfn+5QPFovndVJSL+jnrWmzbhjkljT0O9vzvSPGSMdt6OvS9O/xsTC7rQO
-	y69k=
-X-Gm-Gg: ASbGncv4GdNDiPFyLrKRoIhbqwozWr2pLheGiUZbn59zDtiGUdgYc3JcnfQSTq5vBNy
-	rsXHYGQiU1QRV6U6WetZCQNcy/aKJ2AZ0YfbujDt2+B6qugyHmHrxxHpFtXCeLFDar+C1UAk4L5
-	yjgEzQFIEnxR1hfHyRa72QKmAPFP/+HC3KtOEmNE9NamtQ6C8KY/Q+x52+r3gog8rfyPthEHf6T
-	LTG9/QrJXpYrPDpfA3kVNbXZTnO6uDiaB5W8CK5YrAP/we481krQYROsEkAdp1n3Rf6nGpsP0I2
-	kwy4CuGd2QGc2OB8LQo/ncz+BUQ5xiWVx9HJ+XXT53vvRA2ucMN75N0SN6vhHDlSK/yVMAtP7/o
-	+wxJ5obHQ9zXEAzgBSg==
-X-Google-Smtp-Source: AGHT+IFZKqmMEPcaW/w5n212Nd2w/unp0v2kpAheXmBLCc/XFth2xD1rDHeG8eQp5oAPx0bc3SMRcA==
-X-Received: by 2002:a05:651c:1588:b0:30b:ce0a:3e63 with SMTP id 38308e7fff4ca-31ea28d4289mr8034511fa.7.1746016048688;
-        Wed, 30 Apr 2025 05:27:28 -0700 (PDT)
-Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-31e95ee3750sm2314491fa.80.2025.04.30.05.27.27
+        d=1e100.net; s=20230601; t=1746017495; x=1746622295;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jtxGwjn6XeJQyEJWMtHbAmT5zb3aajFKvF/qxzms2SY=;
+        b=GX6j8NqK//3MfQNIem1kFrMOypKdjVlsLsHm5HFJqmZlpmu8enW9Z48cbgW8M+iNDY
+         Vru0iia6oe2Ml93BOXNRJdHqhohpKF2KQVWHlbx7WD/IZDSFrqonLzs6z4E5SrHz6UmT
+         6oSJBFPGAZahhnM9hecmx+8oydMdvNLk5yKVJudXWfH0yaFN71UUiYv93+vDNiKmb0l1
+         ELosWImxh4VSHaeueOnE2nJmg7yz7/cx8g7WseZVdNVCUAvw+HIeL+rd2YO3JZVpR2wO
+         8qOYWcc+KRhhXiKPcQHH8cxDYIrKF0Ol/dM6VkkbOIyaWFKZAzwfhsr8n4Iz/OMALCAl
+         HZpg==
+X-Gm-Message-State: AOJu0YzkucDFTiqaXsjxKvYwX5otTp9k5DSYJ41HBwK6HtA+sX/DSDf0
+	bShKezUQ4B/664ZAYrX8k4jD4KwkI33BVCAdvaY1z+nB28+VOjC7WBhX182Pnd7gOco7oFWRKhY
+	R
+X-Gm-Gg: ASbGnctt0xfr02f+zmjMEXcAiLQVGSKR7MVtZcT0Jh9hasEskhCk8lozdoRw8zRT8ZB
+	km52vjWfm1rwIkvjqOFjq6fEBnFsFVHaXCLyrjn51+AZTuKnb3N01jFesLGempAK4faKjWxgpcx
+	qQjFCrtUk5m+zTmulCflv3NM0vWyVANyyRo+gA0Z+nber8H452BIOQaAwk9qRBv2mIo6sk9ZdGI
+	pTT8YAtszQ97GcnKPJg7hYriXJTPd686Q2fJMHGwt3NbbLVb0IkgmfsCSD6/qgVwqKZQKd5wrf0
+	upiE6oXfzdUvbaOqFywKLDM0aS9qOuzD8Yjq2sG+YruvISSaBVOQ1uehHtJZ3RUMSiyAB1Zcr8T
+	p2W7x
+X-Google-Smtp-Source: AGHT+IHkp0KrmQDqbJhmdFf3eEsbWVllaYZl3tOXXxS9I4DtMbQlp2WVerNfOB1p2rBwIZP/eiBmhw==
+X-Received: by 2002:a17:906:fe48:b0:ac7:3918:50f3 with SMTP id a640c23a62f3a-acedc75818amr368089066b.58.1746017495057;
+        Wed, 30 Apr 2025 05:51:35 -0700 (PDT)
+Received: from dario-ThinkPad-T14s-Gen-2i.. ([2.196.42.66])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acec9e47497sm246500966b.160.2025.04.30.05.51.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 05:27:28 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+        Wed, 30 Apr 2025 05:51:34 -0700 (PDT)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 2/2] oeqa selftest wic.py: add ext4 to IMAGE_FSTYPES in test_exclude_path_with_extra_space
-Date: Wed, 30 Apr 2025 15:27:01 +0300
-Message-ID: <20250430122701.747803-3-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250430122701.747803-1-mikko.rapeli@linaro.org>
-References: <20250430122701.747803-1-mikko.rapeli@linaro.org>
+Cc: linux-amarula@amarulasolutions.com,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Subject: [PATCH 1/1] mmc-utils: upgrade to latest revision
+Date: Wed, 30 Apr 2025 14:51:31 +0200
+Message-ID: <20250430125131.2797720-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 12:27:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215744
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 12:57:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215747
 
-All qemu machines have ext4 in IMAGE_FSTYPES which makes
-native mkfs.ext4 available at wic image build time.
-genericarm64 defaults to only wic in IMAGE_FSTYPES
-and this test was failing:
-
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing python function set_image_size
-| DEBUG: 148548.400000 = 114268 * 1.300000
-| DEBUG: 652644.400000 = max(148548.400000, 8192)[148548.400000] + 504096
-| DEBUG: 652645.000000 = int(652644.400000)
-| DEBUG: 652645 = aligned(652645)
-| DEBUG: returning 652645
-| DEBUG: Python function set_image_size finished
-| DEBUG: Executing shell function do_image_wic
-| INFO: Creating image(s)...
-|
-| ERROR: A native program mkfs.ext4 required to build the image was not found (see details above).
-|
-| Please make sure wic-tools have e2fsprogs-native in its DEPENDS, build it with 'bitbake wic-tools' and try again.
-|
-| WARNING: exit code 1 from a shell command.
-NOTE: recipe core-image-minimal-1.0-r0: task do_image_wic: Failed
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 2 +-
+ meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 1bb6191327..c02760701e 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -550,7 +550,7 @@ part /mnt --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/whoa
-                 wks.flush()
-                 config = 'IMAGE_ROOTFS_EXTRA_SPACE = "500000"\n'\
-                          'DEPENDS:pn-core-image-minimal += "wic-tools"\n'\
--                         'IMAGE_FSTYPES += "wic"\n'\
-+                         'IMAGE_FSTYPES += "wic ext4"\n'\
-                          'WKS_FILE = "%s"\n' % wks.name
-                 self.append_config(config)
-                 bitbake('core-image-minimal')
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index a5e9d53deb84..1f287a8df9ee 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
+ 
+ SRCBRANCH ?= "master"
+-SRCREV = "2aef4cd9a84ddc76349fc0d7e10d675e7fa596fa"
++SRCREV = "c515ea2e1cebfbf9d81aa6a5c1bf67a79d2a7e58"
+ 
+ PV = "0.1+git"
+ 
 -- 
 2.43.0
 
