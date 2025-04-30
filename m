@@ -1,178 +1,142 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 536F8C369D9
-	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 14:08:01 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.47])
- by mx.groups.io with SMTP id smtpd.web10.17918.1746022073944244211
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4980DC369D9
+	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 14:58:46 +0000 (UTC)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+ by mx.groups.io with SMTP id smtpd.web10.759.1746025125457967502
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Apr 2025 07:07:54 -0700
+ Wed, 30 Apr 2025 07:58:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=mhDCfWBh;
- spf=pass (domain: ericsson.com, ip: 40.107.22.47, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n6u+KECj5KML5RVak2cZ0uQlbNL4HjXIAY06vB/vLz40V6grPYBlUn7gHpBBLQEXmRyCsq1I/PYY+d6rBhb052KMeTak2s5QrXWMhWszzPMl3nMq5hkZ7qhJPIAr6Oor3zZteP/tckZAKRR+LUdICbdr6YexKjjWy1ovU11iVxOZAq0GfGG7I6idiRltnB5dqBtNCsRunbljTw9moMVZgQY2HwtnisghOm5YAtbrjcyuT4oOUZTjc7XPxMcjYXym8s9OwY8yM4d+o2LNXJbn3t3vZgWI57sVw64MWfEL0+KWJUbKbQnS9zHKA8aZdvDBY34beLjOtGMJk5TCLhVv3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6uRwcSID8sTy5Bp1xeAtPCEarAyOGRUcguyD1ePHQrg=;
- b=cEUFm0X0pQnsPIWqxyr6yKJZSKd06LtQ5rQmb8aBz+EN7VBkbE/13TrSO2wV48p5JAR89ROA81W01aQwSjp9U+x5LvryTTXQb+v9BhjLbQOtQZjrigQD7FNicZCMD5pSQWoHVq6f82+LxkGRggt0pAS5Ky1Ioybl1ZZv7jjPsWtnRxt0HXc0S5RjjqXqfURZPkqYFTRdHBYNFXg1G5a8I0pXYH4h9VjIlwJEVMwdNc1bvCYg4tM/8FhwkG5dfAXeGFpol8pmJlRIU5yDKikjxhu5ewclDESgHaFazqzdHJ21Q5uZWkq3QoGd1bmAxQopjQ068Fpk2lfcUNIg7oOmNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=ericsson.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6uRwcSID8sTy5Bp1xeAtPCEarAyOGRUcguyD1ePHQrg=;
- b=mhDCfWBhUFHS3/m7WJ4QFhqK2aVtp3MQ99bXfJ6+TH4SqrbWcpPLWCJ+/EL6hKcrfcA4tvsDirq8hnfsSxolvMVCE4b4ieSs852YBVTRSyyKfrBJKwSz3PfP4IJJUncShOGT9OCpBNpwPI80KIhq7ap7BDgC2HTFAPTQmOtMftVRzjrcFaZyf2hAHiKdTossuIluf1BkArBMPDpit94ie8CbQAv4YPI4sGsvWnqpipkLZJ44zlxWlhIrfLRgPlroqc/rvowfi4MoMsT8LU2EvNrK4MY9sDDCZLcwVu0E+9hFibIaIqn/dQMDClQlC0N0Amva/JR7tQJ0+ZT3JtPO+w==
-Received: from PA7P264CA0104.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:348::20)
- by AM8PR07MB8296.eurprd07.prod.outlook.com (2603:10a6:20b:32b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Wed, 30 Apr
- 2025 14:07:50 +0000
-Received: from AM2PEPF0001C712.eurprd05.prod.outlook.com
- (2603:10a6:102:348:cafe::30) by PA7P264CA0104.outlook.office365.com
- (2603:10a6:102:348::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.41 via Frontend Transport; Wed,
- 30 Apr 2025 14:07:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- AM2PEPF0001C712.mail.protection.outlook.com (10.167.16.182) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8699.20 via Frontend Transport; Wed, 30 Apr 2025 14:07:50 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 30 Apr 2025 16:07:10 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 2E0794020C10;
-	Wed, 30 Apr 2025 16:07:10 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 1712E7000229; Wed, 30 Apr 2025 16:07:10 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH] cve-check: fix debug message
-Date: Wed, 30 Apr 2025 16:06:58 +0200
-Message-ID: <20250430140658.587880-1-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.49.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ULMj+bDx;
+ spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-401f0e4c851so2639b6e.0;
+        Wed, 30 Apr 2025 07:58:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746025125; x=1746629925; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TCe2ULgLjSrlIEuc4s80z4CrDFSxp+bj2QXsdfoWxxk=;
+        b=ULMj+bDxpmJ2Rw/CEdRpAHfoa0o7xvCczYS3Gv6SqKO85mJOvaIpEa76Uzl8jUyKcu
+         Mm3/r781rBOIgbODfRxmUgLcus2HQWWuu8D4kVCIYTe1dtlLP7ciCXFxSSamBBxy05EV
+         bjuJU3bJ9edhv39uhZDmKG7rd+sDd/sk3KFM2vPkeah3UylmVEqmNfhqvgfJ6TzLw1pX
+         Bf1I95OwWPMyh5nBDWge0iah2afIcLjAxm9WVi0RlfBkZRLhWOyw5uP3pR63tBEHG5mU
+         imqnT1XRoNF6mx0CTPP8x/EqHDM0Pyejv7Iq1mVymr9TDGCyQGOBHiDMDF12LBVZOMm2
+         mNzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746025125; x=1746629925;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TCe2ULgLjSrlIEuc4s80z4CrDFSxp+bj2QXsdfoWxxk=;
+        b=KEGb5IMMxhHGhuT9QNEYPKtqfFGJWAZ1Kkt52BoXg3xWeQJESOCAFQ0Wl03G4hfqwb
+         WGgFFcGJ9kkCaiSIWfPElphFz6P3+92KxlayMw2a/pvnZ1TnXUuMmHsPjE/H4KVzMxgC
+         YMbuoK9Nb3ias3+Q7nC7cJwUAum83KNgklSRwaVXA4nwb2/lszQRarcKNol24sTvzuZQ
+         5ej4lhoV17F6eYsKa1Ej+xtKhd68VIKqYbb1Ha/ybbAANd6TDGjxqvYqMa8K2VY/yPOQ
+         3u0QYoa9bXkxMvAPWQzEXV2iXJXLI7P1EVdhjO1MUzLCLT90ITkFleEqbARWQ7R/mYpm
+         A+Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCXcPBO7Ce4j3MXhN9g8d9B2ft/Vw/tYqMr1sROJHCAy5OqYcYdIZnBKkJycOq0h60cd9e4ZkH7J9f33pYLR9fEMQBE=@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxqsqg2uLmN838A2le/3Nheclsa8Qq3mhgbDDukwDlMtO1yYElP
+	+Ttd1Cf6BrVFHZw0WqcRQlItRAT6Bl4Ydp7JLEGn4qD4Pnq6UHefwodFP0yzmiBoCikyYdDqepR
+	vX/Vc3jgVlUMosNrWFUCqNCPqDS/5U/8k
+X-Gm-Gg: ASbGnct+fTx/r6OXqTxia2M4Ptln/e74h+TnF861gPD7MgICpHFVwF3jie97YvDEEJW
+	XWVj2aJluxywJoFR5kgF8n3+OyDtJLvAroVOEXRPopLwE2fuV6MnFlE45rF/nfZTTLZ+xvpzrRD
+	2hN49NThzHVFqnaS8t1fHeVSwGPpXUjy0Qh1aW
+X-Google-Smtp-Source: AGHT+IGEt//FycZf/JKFkVfrB8i7ee4bz5/hx+Eq/32aLIqFgd8fp5eXww9hFUy1nyg7uo6ckhFD3k6Ck8rKNquZfdo=
+X-Received: by 2002:a05:6808:319b:b0:401:16e:b692 with SMTP id
+ 5614622812f47-4024396400cmr2033336b6e.26.1746025124649; Wed, 30 Apr 2025
+ 07:58:44 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250430053825.9782-1-wen.yang@linux.dev>
+In-Reply-To: <20250430053825.9782-1-wen.yang@linux.dev>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 30 Apr 2025 07:58:18 -0700
+X-Gm-Features: ATxdqUH9cTXZ41tp-FZyvAE8Yz3sI43mnQjoVdzLERUYj7v5u0_RKKt1Fka-MvA
+Message-ID: <CAMKF1srcK3Y3W-sf9d0QknWfyqJF2P9jw_xQKZhC5POBATuA5g@mail.gmail.com>
+Subject: Re: [oe] [meta-oe][PATCH v2] testdisk: add recipe
+To: wen.yang@linux.dev
+Cc: openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM2PEPF0001C712:EE_|AM8PR07MB8296:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb23fc46-b157-4277-175e-08dd87f0644a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?JhOTfMRNIQxokuFkZzsoLazZPI4TlpZUEhMVqczB3Nz0bNO7GDi/UFoHZ6Pd?=
- =?us-ascii?Q?b95oXmapcpcCdJxdFAbLl6E8JqBq5bz+s36M0hcNn829g5OoPwIkhpaB7ovT?=
- =?us-ascii?Q?l5NsrkGe64HMOCaX3a+pQ29efin81Zq8BMPbObo7O8nbyw07J+ThAldWJ3Jg?=
- =?us-ascii?Q?vHJzlFcnztOPrY3O+MiWUF3aWAF79oo377KqCXaoaD/rpq0BTsL67oSSfbjS?=
- =?us-ascii?Q?NG/REEB40NthT1xTeMcLJ38NMFZaqvoP0zPaJmzwqNZyBsHdp8ZEYNkf5rWt?=
- =?us-ascii?Q?ry8AO8cD9xjhMMrznVPW35agZ/vhGcghZyZAzHoaY33U1ou7T5vB/j9BwqJM?=
- =?us-ascii?Q?KhxBWI9yBo+JzOtJlYjjwb+bmGR/am2Ind+iKzYwFIzqchNUyqd/ur0PUFKf?=
- =?us-ascii?Q?/5hb9cEqYJvCLR9ZC5qDl71IqV+neDwhml7MX8KcY7KC7wxgbEmip9xwEIcY?=
- =?us-ascii?Q?lm1GVsv0z/J9p2Ol7aoKztXy3zhWKqxYWD0nUlMe91tYJjsiO87TknapjB3W?=
- =?us-ascii?Q?38Jc3950zKfiY7K4S8uG11Yit0WWWa4wEB/S0G/sw7EywQvyM9reLVDvJMpG?=
- =?us-ascii?Q?w5ChIj8kHOAQgHH1If9gEN2UY+b7/QvgacjkCZN1AOUHrIQ7t0EYQ34M/8Tx?=
- =?us-ascii?Q?JFqIlpNkWphdlmYXxTzolF6kVXrspKzXNG3aIKcy3GQvDRk2TMGcrdj3SjlE?=
- =?us-ascii?Q?x3Nfyf6xos1VCBm4S8izmN3NeFaTURfEgFKDv/sNKDiJpvNGi6ZQh/ObOHsE?=
- =?us-ascii?Q?uNFIKPmaAKSJs4Ou5OJggGCp+f0U56kRXrbEGOmur1adXY0yy7abWmjC7CDG?=
- =?us-ascii?Q?L7Zd5AvV8lMKEAbYdgvJrzGKsT0V0R+hCb4WtWxl6hKrnv5i0by3J7E+Dm2U?=
- =?us-ascii?Q?gHkJoii8pmcBZQRsiWTIMZcDfvUqWtxhWdGz2oDvMeY4ELJsTr08kZabjQOP?=
- =?us-ascii?Q?b+EJwi9lONSNpbOTGqoInKpkN9ZZexs8vZyxSq4HI+W8rEsvGSbeSjdOEry6?=
- =?us-ascii?Q?RsVu+sA2Qp4kuCF3EoDbe/ew1gWBIznEB0U7Ra3vmSsDLlxSYGdQbweSPFPN?=
- =?us-ascii?Q?876Xg9H/Xzq0LzYIgZrVKuP6ZkoNJtPPVfuA5+ZwxhHvSTV3hVZr0NsA/39w?=
- =?us-ascii?Q?hj9BqkABfiNfTU2EPDwSCc5fDktNCkY2QlcKP4a2GTrOkpWSUHS9S7VpK87j?=
- =?us-ascii?Q?l2JnoxyPjDai+kR/WBlWggfmPMfmrIrze0N7Svezx2NqA0pcXcK3cMk2L9rW?=
- =?us-ascii?Q?1BqwaPu4+pgnuPRw5VQbDVCTJ/0XKm841zBrCTvaHWMYLtA2cV4WTbsRa38p?=
- =?us-ascii?Q?kJX+jjWVS2mbVekMRbPgtpL3VcMat/LpjaqTAie/NcqBHK4D1uZ3eOG7SpQT?=
- =?us-ascii?Q?ZqqyuFsTb+o8BBU5xud5u3o1BX72jn48GleD2yI1Gh6KoxE1oy02NwukM6gH?=
- =?us-ascii?Q?yd7RxNQHvhoxmbEkGhJhG8dhSNpr2Q0vgB0K/d73AySI4r6BX+cR4P0BSfaD?=
- =?us-ascii?Q?f2nbIFwJRM9oUxW8vjwa3AKXTpyFVGfC/LTG?=
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 14:07:50.0334
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb23fc46-b157-4277-175e-08dd87f0644a
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM2PEPF0001C712.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR07MB8296
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 14:08:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215749
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 14:58:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215750
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+On Wed, Apr 30, 2025 at 5:44=E2=80=AFAM Wen Yang via lists.openembedded.org
+<wen.yang=3Dlinux.dev@lists.openembedded.org> wrote:
+>
+> From: Yang Wen <wen.yang@linux.dev>
+>
+> testdisk is a free data recovery software primarily designed to help
+> recover lost partitions and/or make non-booting disks bootable again
+> when these symptoms are caused by faulty software.
+>
+> Signed-off-by: Wen Yang <wen.yang@linux.dev>
+> ---
+>  .../recipes-support/testdisk/testdisk_7.2.bb   | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>  create mode 100644 meta-oe/recipes-support/testdisk/testdisk_7.2.bb
+>
+> diff --git a/meta-oe/recipes-support/testdisk/testdisk_7.2.bb b/meta-oe/r=
+ecipes-support/testdisk/testdisk_7.2.bb
+> new file mode 100644
+> index 0000000000..3edc97f607
+> --- /dev/null
+> +++ b/meta-oe/recipes-support/testdisk/testdisk_7.2.bb
+> @@ -0,0 +1,18 @@
+> +DESCRIPTION =3D "TestDisk is a free data recovery software primarily des=
+igned to help recover lost partitions and/or make non-booting disks bootabl=
+e again when these symptoms are caused by faulty software, certain types of=
+ viruses or human error (such as accidentally deleting your Partition Table=
+)."
+> +LICENSE =3D "GPL-2.0-or-later"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882=
+bbe"
+> +
+> +DEPENDS =3D "jpeg ncurses e2fsprogs"
+> +
+> +SRC_URI =3D "https://www.cgsecurity.org/testdisk-7.2.tar.bz2"
 
-Debug level was not added as a parameter, causing a warning.
+Use ${BP}.tar.bz2 instead of hardcoding tarball name
 
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- meta/classes/cve-check.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> +S =3D "${WORKDIR}/testdisk-7.2"
+> +
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
-s
-index 1aef00d297..c63ebd56e1 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -277,7 +277,7 @@ def cve_update(d, cve_data, cve, entry):
-         cve_data[cve] =3D entry
-         return
-     # If we are updating, there might be change in the status
--    bb.debug("Trying CVE entry update for %s from %s to %s" % (cve, cve_da=
-ta[cve]['abbrev-status'], entry['abbrev-status']))
-+    bb.debug(1, "Trying CVE entry update for %s from %s to %s" % (cve, cve=
-_data[cve]['abbrev-status'], entry['abbrev-status']))
-     if cve_data[cve]['abbrev-status'] =3D=3D "Unknown":
-         cve_data[cve] =3D entry
-         return
-@@ -288,16 +288,16 @@ def cve_update(d, cve_data, cve, entry):
-         if entry['status'] =3D=3D "version-in-range" and cve_data[cve]['st=
-atus'] =3D=3D "version-not-in-range":
-             # New result from the scan, vulnerable
-             cve_data[cve] =3D entry
--            bb.debug("CVE entry %s update from Patched to Unpatched from t=
-he scan result" % cve)
-+            bb.debug(1, "CVE entry %s update from Patched to Unpatched fro=
-m the scan result" % cve)
-             return
-     if entry['abbrev-status'] =3D=3D "Patched" and cve_data[cve]['abbrev-s=
-tatus'] =3D=3D "Unpatched":
-         if entry['status'] =3D=3D "version-not-in-range" and cve_data[cve]=
-['status'] =3D=3D "version-in-range":
-             # Range does not match the scan, but we already have a vulnera=
-ble match, ignore
--            bb.debug("CVE entry %s update from Patched to Unpatched from t=
-he scan result - not applying" % cve)
-+            bb.debug(1, "CVE entry %s update from Patched to Unpatched fro=
-m the scan result - not applying" % cve)
-             return
-     # If we have an "Ignored", it has a priority
-     if cve_data[cve]['abbrev-status'] =3D=3D "Ignored":
--        bb.debug("CVE %s not updating because Ignored" % cve)
-+        bb.debug(1, "CVE %s not updating because Ignored" % cve)
-         return
-     bb.warn("Unhandled CVE entry update for %s from %s to %s" % (cve, cve_=
-data[cve], entry))
-=20
+That's the implicit value of S as well.  Remove it.
+
+> +inherit autotools pkgconfig
+> +
+> +PACKAGES =3D+ "${PN}-photorec"
+> +
+> +DESCRIPTION:${PN}-photorec =3D "Photorec is file data recovery software =
+designed to recover lost files including video, documents and archives from=
+ Hard Disks and CDRom and lost pictures (Photo Recovery) from digital camer=
+a memory."
+> +FILES:${PN}-photorec =3D "${sbindir}/photorec"
+> +
+> +SRC_URI[md5sum] =3D "c6809b6fd06b5022467c8faa32d49a27"
+
+Please drop md5sum. We do not use them anymore.
+
+> +SRC_URI[sha256sum] =3D "f8343be20cb4001c5d91a2e3bcd918398f00ae6d8310894a=
+5a9f2feb813c283f"
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#117253): https://lists.openembedded.org/g/openembedde=
+d-devel/message/117253
+> Mute This Topic: https://lists.openembedded.org/mt/112537787/1997914
+> Group Owner: openembedded-devel+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-devel/unsub [r=
+aj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
