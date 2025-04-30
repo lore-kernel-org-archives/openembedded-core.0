@@ -2,104 +2,159 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24317C3ABA5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22FFAC369DC
 	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 02:54:07 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.8203.1745981645608633639
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web11.8198.1745981639361696263
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Apr 2025 19:54:05 -0700
+ Tue, 29 Apr 2025 19:53:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LCRYyU1S;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22da3b26532so58082715ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 19:54:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xLYctWMn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7fd581c2bf4so5400604a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Apr 2025 19:53:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1745981645; x=1746586445; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NEzCE+eHkAcKTIz5/LUCWkKogaZfVj4KmgWDJkrSwXU=;
-        b=LCRYyU1S9i1xED2LrDjsSN/8QRtReTJF60r0RTD+S5Wm8Mr5jeuBaobXyPg0zjAPUb
-         k+6JHkJDaH4f11/QZI/XTbrxyu9End7EehpJ1cXoI/NTERosKU7YeyZ/CRq+OIU5VjMg
-         Zbfu5C9V26B8wbthnJ+VSlPzYIf1WyY63fVbkY81pB18ejpF61gqAGp6J+UnlzoPitTu
-         VU5V39tnOlqeAG4RwaC3tCGU45J3BcB73AgnOlY86Sjmme0KK4g93qlytBUiS4tWnEAd
-         Qw+NrMEl+jhjgIGdysTqSfSqyroogFisC+qTbQTwdGRJQnxL0geU8Kgb3TwfOLCUtYaj
-         Yv1A==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1745981638; x=1746586438; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jo63xqoW78zdAHcpHxWmw/ZxfM7+VI1naHhw41mzVsQ=;
+        b=xLYctWMncw/ysDRtX2QlCu5zBn9hMpPZsqkwfQCjkGPkQucWPiyVYzBXLB6Qs/jkW6
+         ZndPoX8Cf8Y3mqk9KrfMxQnqFj6besKU8t9zmL5u3IwDqM2wUV5abKBp4PiuVSH6eFPb
+         dhad0HsDy0jNlVNZxc5QPvuYtLg3fthxQFPCf5VzfVhexJBHXXjERlq5xjmqxQyw5Tln
+         mz46jtcuxuDETm0cfG2e+m2sIJ6u7mvz3EjqfP1OBzSj2RBC87fNDfW+ORa3aSjf6sKI
+         RVCY3MP9idyL6XSeYjdcCu+bYqLL6r9xvPAOyEetRwfHIr/i+y4mL5paFlJHwsVMOFKO
+         sQbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745981645; x=1746586445;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NEzCE+eHkAcKTIz5/LUCWkKogaZfVj4KmgWDJkrSwXU=;
-        b=s0ExSTSboQs8ftFKfYHPGm9tXc5X7Y0YTblu31HluIhgzpnC5mXZclwH++99/nHzsi
-         vOAehso4N+MybqTZb7KthudGtFIdJ729x3N1gKL5wKKAnGr9tipBp2q4M+opkDjOICaF
-         cbC6iN0yYPiaGXYIpVoqxqFsHZhXB2EzjXC6OQOaIqGPw6WeL0mDlkz8Fafblh1xHO2Z
-         LjEzMKVyN8SnWryK/l2CxCoiqnZW9Rrv/p5PHFLRJQmhMtfV6jLNJxCS+p79C3rMpeUO
-         mIfnOxZpQjmDqwriySWJlpkiuZNgNcQ7QnIplyI3j5hoAkZeU2mgcdTjnjfDayVl/URj
-         bbUg==
-X-Gm-Message-State: AOJu0YzPDrl6+VP5pa29Sso3ixcisAy8Se4qNZt0Jzo5g0i9K8EzdiHd
-	GJJPH8kP5KlWsXzLBsfaOyq93OjjYUYTkZDvjZWzBT0r5ayyGG28qN9XAhbZBbpmgxx1jKBj63U
-	H
-X-Gm-Gg: ASbGncvwykM2O3/FRYxnB/bGNdO8lktgPG0uIj0HkXYaMhLoi7sVwK9vYkh0QwC7OUh
-	EWYcI4/Ai9DFSu6Vj6SHIQ1jTJipMehYvwKWuIJpSJwa3S4vc2rbmjYbpA+/OdyWX+UI0QpLOeD
-	AqzBphQ1mSuWixSAlMQTlw9QFniyJxWtbTtwcVO/ZbzoNRe3XwNdPb8kjE+KBi6+gJZ8HiHFBEK
-	+kLyHRuLzzmH1vmN/kT+EnzAj8y/1gtMLHCRU9saLV3lZOSUqI+mh1kTTXaC8ZJMAilNSHJkBN7
-	gOEqrcaZoeW+8yv/WMNMoNvc/qMBMj8=
-X-Google-Smtp-Source: AGHT+IG9xVWSqU0agdSHOQ9/g8WjWarrHVq+o+f2FybjmWAgMf6rx8nDKVbKEbZEGgTfbWLKvvDTTQ==
-X-Received: by 2002:a17:902:e784:b0:223:5e76:637a with SMTP id d9443c01a7336-22df3502ba2mr26803355ad.23.1745981644828;
-        Tue, 29 Apr 2025 19:54:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745981638; x=1746586438;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jo63xqoW78zdAHcpHxWmw/ZxfM7+VI1naHhw41mzVsQ=;
+        b=uNxEk3pwhvkFqv+M/+WqIXdBm+fuc4gQ6SPaHfC3uULrzmzVwftSvwvZk57aZ5AF8u
+         29WQ8V0pBmYz+PIOT3z8+kzntOAM/mDq5wmDnhaJ4qxQMQBxTnPFwBkJHPWg0pqFUvFR
+         5f+1snac/pe1kRSyVZDsmw5AnohpnIAlUtlUeA3NjSuBH+ee8LSykNxGnsZ8X7cJzhZl
+         /YCSzlQIu0eeWh5dApfgFDkHl/9nnwI8t93tyYcDo06yJ041EEUNt80ir82aek5nh+4E
+         gQmIVyNSBJA1Xpw4qB20UKfE94FOeakVgNEala/kz4Q1KYon6K7xv17TgHnvXH8xxl9Q
+         WPZA==
+X-Gm-Message-State: AOJu0YxiWflBcRUzAwooNX65hrh7uQNLrQ34Xrgca32/kYYZtOehtdT+
+	FvZ5+Cy7EGQbqdys5Je1rJSbcmfgZ1t9gZZupqN+pVIzfAFn5/6GSoNB8QiOYRoLrKZCcUuWyzI
+	d
+X-Gm-Gg: ASbGncudJc1MI0EuRMlh1yj28MheY8rydS3GmDBFWNTyiymXycyzYua7lQpnz9EElBB
+	9kmRjsiXz8OpfnDdB2BXI6L+8KRPX8lgNCaeaMBQ33ngPHGKBqobIlQ82DCJYKoHiJE+CSVQqzA
+	MYWkCK1vIShtJJuFCRK0v1/ayROZN5sZmNXPAc1YkRGjdlBOnJlv1dPJ7mvXDcZx+j7s+46FLK3
+	uux1jeavTUOh0K9FOwqBe+q2jobywkXTcwL9YcKJzu9LpVAE+SqgJnbetYHCdvCq7DFOeZ7TbSj
+	sZJVh/yc3F2C63OVxs86w6pp0aeLcbs=
+X-Google-Smtp-Source: AGHT+IE+OkvOQpc/i3MIsyjXGAObLSTm6V459cAxOIndT7TEOIUlNEktRm3tUWIoXWVa76c3Zp1IVA==
+X-Received: by 2002:a17:90b:538b:b0:305:5f32:d9f5 with SMTP id 98e67ed59e1d1-30a332e1ee8mr2231344a91.7.1745981638165;
+        Tue, 29 Apr 2025 19:53:58 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:34b:e5e0:c38a:7e03])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a34a2ea46sm347852a91.31.2025.04.29.19.54.04
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a34a2ea46sm347852a91.31.2025.04.29.19.53.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 19:54:04 -0700 (PDT)
+        Tue, 29 Apr 2025 19:53:57 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/14] ghostscript: ignore CVE-2025-27833
-Date: Tue, 29 Apr 2025 19:53:29 -0700
-Message-ID: <e1f3d02e80f6bdd942321d9f6718dcc36afe9df8.1745981510.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 00/14] Patch review
+Date: Tue, 29 Apr 2025 19:53:25 -0700
+Message-ID: <cover.1745981510.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1745981510.git.steve@sakoman.com>
-References: <cover.1745981510.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 02:54:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215694
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215691
 
-From: Peter Marko <peter.marko@siemens.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Thursday, May 1
 
-Vulnerable code was introduced in 9.56.0, so 9.55.0 is not affected yet
+Passed a-full on autobuilder:
 
-Commit introducing vulnerable feature:
-* https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/pdf/pdf_fmap.c?id=0a1d08d91a95746f41e8c1d578a4e4af81ee5949
-Commit fixing the vulnerability:
-* https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=477e36cfa1faa0037069a22eeeb4fc750733f120
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1494
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The following changes since commit f23d1bfca0ea57150c397bc2e495191fb61423d0:
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-index 8499bb3676..3d4ac77cfa 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-@@ -22,9 +22,10 @@ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
- # As of ghostscript 9.54.0 the jpeg issue in the CVE is present in the gs jpeg sources
- # however we use an external jpeg which doesn't have the issue.
- CVE_CHECK_IGNORE += "CVE-2013-6629"
--
- # Issue in the GhostPCL. GhostPCL not part of this GhostScript recipe.
- CVE_CHECK_IGNORE += "CVE-2023-38560 CVE-2024-46954"
-+# Vulnerable code was introduced in 9.56.0, so 9.55.0 is not affected yet
-+CVE_CHECK_IGNORE += "CVE-2025-27833"
- 
- def gs_verdir(v):
-     return "".join(v.split("."))
+  ruby: fix CVE-2024-43398 (2025-04-15 06:43:55 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Chen Qi (1):
+  systemd: backport patch to fix journal issue
+
+Deepesh Varatharajan (1):
+  binutils: Fix CVE-2025-1178
+
+Haitao Liu (1):
+  systemd: systemd-journald fails to setup LogNamespace
+
+Peter Marko (8):
+  sqlite3: patch CVE-2025-29088
+  ppp: patch CVE-2024-58250
+  ghostscript: ignore CVE-2025-27833
+  libarchive: ignore CVE-2024-48615
+  libxml2: patch CVE-2025-32414
+  libxml2: patch CVE-2025-32415
+  glib-2.0: patch CVE-2025-3360
+  Revert "cve-update-nvd2-native: Tweak to work better with NFS DL_DIR"
+
+Priyal Doshi (1):
+  tzdata/tzcode-native: upgrade 2025a -> 2025b
+
+Shubham Kulkarni (1):
+  libpam: Update fix for CVE-2024-10041
+
+Soumya Sambu (1):
+  python3-setuptools: Fix CVE-2024-6345
+
+ .../ppp/ppp/CVE-2024-58250.patch              | 185 +++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.9.bb    |   2 +-
+ .../glib-2.0/glib-2.0/CVE-2025-3360-01.patch  |  57 +++
+ .../glib-2.0/glib-2.0/CVE-2025-3360-02.patch  |  53 +++
+ .../glib-2.0/glib-2.0/CVE-2025-3360-03.patch  |  36 ++
+ .../glib-2.0/glib-2.0/CVE-2025-3360-04.patch  |  76 ++++
+ .../glib-2.0/glib-2.0/CVE-2025-3360-05.patch  |  57 +++
+ .../glib-2.0/glib-2.0/CVE-2025-3360-06.patch  |  50 +++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |   6 +
+ .../libxml/libxml2/CVE-2025-32414.patch       |  74 ++++
+ .../libxml/libxml2/CVE-2025-32415.patch       |  39 ++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |   2 +
+ .../meta/cve-update-nvd2-native.bb            |   2 -
+ ...n-in-mkdir_p-when-parent-directory-e.patch |  78 ++++
+ ...journal_previous-next-return-0-at-HE.patch |  87 +++++
+ meta/recipes-core/systemd/systemd_250.14.bb   |   2 +
+ .../binutils/binutils-2.38.inc                |   1 +
+ .../binutils/0039-CVE-2025-1178.patch         |  33 ++
+ .../python3-setuptools/CVE-2024-6345.patch    | 353 ++++++++++++++++++
+ .../python/python3-setuptools_59.5.0.bb       |   1 +
+ .../ghostscript/ghostscript_9.55.0.bb         |   3 +-
+ .../libarchive/libarchive_3.6.2.bb            |   2 +
+ ...024-10041.patch => CVE-2024-10041-1.patch} |   0
+ .../pam/libpam/CVE-2024-10041-2.patch         |  77 ++++
+ meta/recipes-extended/pam/libpam_1.5.2.bb     |   3 +-
+ meta/recipes-extended/timezone/timezone.inc   |   6 +-
+ .../sqlite/files/CVE-2025-29088.patch         | 179 +++++++++
+ meta/recipes-support/sqlite/sqlite3_3.38.5.bb |   1 +
+ 28 files changed, 1457 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/CVE-2024-58250.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-01.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-02.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-03.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-04.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-05.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-3360-06.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-32414.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-32415.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-basic-do-not-warn-in-mkdir_p-when-parent-directory-e.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-journal-Make-sd_journal_previous-next-return-0-at-HE.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0039-CVE-2025-1178.patch
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools/CVE-2024-6345.patch
+ rename meta/recipes-extended/pam/libpam/{CVE-2024-10041.patch => CVE-2024-10041-1.patch} (100%)
+ create mode 100644 meta/recipes-extended/pam/libpam/CVE-2024-10041-2.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-29088.patch
+
 -- 
 2.43.0
 
