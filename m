@@ -1,938 +1,791 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C8C1C369D9
-	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 15:04:36 +0000 (UTC)
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web10.935.1746025467607233556
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A748C369D9
+	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 15:14:36 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.1092.1746026065934260602
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Apr 2025 08:04:27 -0700
+ Wed, 30 Apr 2025 08:14:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ShLKGCJb;
- spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: rybczynska@gmail.com)
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-879d2e419b9so6692551a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 08:04:27 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D4Z9Ox25;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39c13fa05ebso4982469f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 08:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746025467; x=1746630267; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=af2bqt/THbQdLkUdsdKBB6YoFPfOuzi0HQz/ufPbdi0=;
-        b=ShLKGCJbZHueXudjj9MGuP5w/og5H/orWC9vNUz2vh3T5IyvcnVB4ZLEKCi2Xt7nMa
-         rIX2JbeQPP3MuuGWLHbtMYC4WGUsNrI74THdsJBNbKO5+S5yHAUoTkJs/PHx8DFnK2ui
-         Tf0hRdt3Un/BkgVWsDCMEdWl+NXs5gbbAuOl54TiqE5LMzAodkQj+owzGSPmpXUjNVXw
-         lpfiRok71q5SPScktmaYvv2DBJRbqCaIV+G88zXAHT1tw1PAezxlbiN5WosCCeyeaqkK
-         TtYH1HyqoG9N61uONnRzfPiXRyd1WVec9OUjy5CqdscRKHR4kyQNNs35MJMK4rPlnL1d
-         pHEQ==
+        d=linuxfoundation.org; s=google; t=1746026064; x=1746630864; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpRSaLs85IwP9PMliyDENMHUiqO/e8AqgYIPe7RmixU=;
+        b=D4Z9Ox25yO/IEuNWPWnsBh7R9BUwXEkEvLYHuLMhVL1soAT1GlNdE7GzieGSKm+VUs
+         J+Nim1wBewkFtxLcq2c61vik6RsEUvvPkClKQlFhEu7Ona3BBS5RjR+7z1+RkhDpHjFJ
+         SKlZPij3YJMU2kDA38S1AFSmA6j1CzX1dnZLo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746025467; x=1746630267;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=af2bqt/THbQdLkUdsdKBB6YoFPfOuzi0HQz/ufPbdi0=;
-        b=iAfJ0ktscgBqR2uIGVWHaqw1vUAiVi2qD575Nbxl5/2uxNx/mirxh4ii7K/nNQAG/v
-         D6e5vtbp0h7WfgOW/mfQJo3CyJeeg6lpk+IMKMeUROggVAdxB6tgWKdCX+Dh2qXWpSFz
-         e0Xz52WKDlgiWuTYNHdhoKn1XbuD4dgsbigrMhssl5GMbqCOyMODrWaxsE+RNhvtE94v
-         gBmASEsqkeiDoYFvHQOEHJWu7SMR25bzeyGjCP/JyxsxsXHHNlKwaVy0GBmxNDg12PRv
-         UDzgLTniUh50MkiWq0pllBawJj/nMDMm17Z20XCJOL2LbTE1gOrzjvmUfCXke+yR8YAk
-         mePA==
-X-Gm-Message-State: AOJu0YyuWpfZWzKQ361zYLKuQ0BYXSUygCOwQmcv/5t8XDuwWNtpa6RO
-	SCQaMVxmyDW71rcMMXCIw9ZlZNUtCTyLMHdIGgvbBQb9nY9Ev2PmSVNsOdliUEBvIorkGtwNjGr
-	9JIx10lbAYxKfGqAgJzH6QBkNfeU=
-X-Gm-Gg: ASbGncu8/KJypn4vDBFXmT+0dz7+UVbSxAq7vio0QrhcX8fet4jNdiQoQ3uXc3B2tpN
-	HbLFVgP3S5K2PierKBM0AiLFU91qEK3tlw1ZCjIwaKNepr/qYZJss1Fk0EjUZRu8DMG/FiXTJNW
-	azQHxH1nDFTEPlWFk82miT7JNBo8ZnXOp+VC7iElX9HvFlhuudrot6tgUr
-X-Google-Smtp-Source: AGHT+IF68bDKh2u31vAqNvYbOuEKyymMq/5jFC5+iTBGnN2sNjKrtPkCW4QdJS5IRD378u2QIaobN7O8gg9aS5W2760=
-X-Received: by 2002:a17:90b:56c8:b0:2fa:157e:c790 with SMTP id
- 98e67ed59e1d1-30a332df688mr4681263a91.5.1746025466525; Wed, 30 Apr 2025
- 08:04:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746026064; x=1746630864;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpRSaLs85IwP9PMliyDENMHUiqO/e8AqgYIPe7RmixU=;
+        b=lg2TOOSNh+WABhCtG8iZPdzC6vvPGCwq+AmXOYuhl5O2yYxHseRR18uq//K+6hLtDP
+         m7SIVSDqsGy88SliTbYeSfjfrpoO0OruZCMsFjwusXqQ+S4Z8XlNqx/ugMOlcn8AmXqh
+         lgt0BLge7pNk6XUhgnCJBVV9Dj4R6U7dflXwcDQ5AvlH4P4X33ysjQ+SAbPcpzzfK99e
+         Tc1vlbEZ98s59xXDd4f9r4Wp9vZfpc5wBwKDF8xX5/+7QUOqmzLtSSWlSbLuq1CN68F0
+         xdScc52DqSeefXUV5yiucICx3g5HpTJO/paCduXMNssMG6jK2702zOjtufLumstNrel6
+         79Zw==
+X-Gm-Message-State: AOJu0YzSxWKoxlleDyoolQ1iLr70aIccVbnXsuCi1EoI4CKoXB/tk+Uz
+	MNEQZwK3PmNUdYn0pQSEh1rwswzcPF0sCrx48OQOdmOsoYk1VP+HjHQZYbHseZEIaYwwk8LYPip
+	y
+X-Gm-Gg: ASbGncthelb6PBtU3YXxct/0XfbUnijNCArjpT1DY3/kCDjeFpJIKdQ7G+38po8cyIq
+	fEF+VtlU63cSlmd+6KUn0QlGlofdbtZ0GPZfmGZGCX7Er9DUbfoo4243gJJYy78z11mTMtzBamJ
+	qYHPLaCkV5sETmCbicm0izXPattHePJ1ViVVCf5P2zLA0UIeNG1d7t5Rv0nq1FBVUBwIe08nLMD
+	7QOBxwK9kTFFGFwE6omlNlTtKTnUp700AX6wjbJKMakGo5BNzY4PJYlKzAzwQbwFy/irfky2pq7
+	eBbx/RpJAqtLtPc3fsqjZ9ke12BSS5jSNq8e+Lz9R5wUIumz+gfxF8+7B1Lcqu5ZCA7EYQ==
+X-Google-Smtp-Source: AGHT+IHZ5u83iG7vFxw5gzIWvBit2xOFHtlFY7A+r6RULiUPoPO2a6/TraBELKjK2m1F9w5KizpLXw==
+X-Received: by 2002:a05:6000:178d:b0:391:2b11:657 with SMTP id ffacd0b85a97d-3a08ff50b14mr2672338f8f.38.1746026061754;
+        Wed, 30 Apr 2025 08:14:21 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:60c2:7f54:b641:d997])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073e464eesm17383388f8f.68.2025.04.30.08.14.20
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Apr 2025 08:14:21 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] recipes: Drop remaining md5sum checksums
+Date: Wed, 30 Apr 2025 16:14:20 +0100
+Message-ID: <20250430151420.2144142-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-References: <20250429143904.634082-1-daniel.turull@ericsson.com>
- <20250429143904.634082-2-daniel.turull@ericsson.com> <CAApg2=T7+hrOyfYAYHgy7OBOXL_s2UVPV8RkuBFgQ8vuKaYHpQ@mail.gmail.com>
- <183AD3A846246CA8.415@lists.openembedded.org> <PR3PR07MB66663E510A72EC92AF7A81B88A832@PR3PR07MB6666.eurprd07.prod.outlook.com>
-In-Reply-To: <PR3PR07MB66663E510A72EC92AF7A81B88A832@PR3PR07MB6666.eurprd07.prod.outlook.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 30 Apr 2025 17:04:14 +0200
-X-Gm-Features: ATxdqUFFQgR2CV9qOml-5upaSch0GDitbFNsPQhGpdg4sASbfK1oZiHxQ4YZCrY
-Message-ID: <CAApg2=T02-Wg17_BXhZt=hGP=WS2r8PJbLhB4ttksg8+nH2Qrg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 1/8] linux-vulns: fetch kernel.org CNA info
-To: Daniel Turull <daniel.turull@ericsson.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"Peter.Marko@siemens.com" <Peter.Marko@siemens.com>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="000000000000b37e8d0634003b52"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 15:04:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215751
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 15:14:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215752
 
---000000000000b37e8d0634003b52
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+We have long since obsoleted md5sum in favour of sha256sum. Drop the remaining
+56 entries (which were showing many recipes hadn't been touched in a long time).
+They all do have the corresponding sha256sum entries as is clear from the diff.
 
-Hell Daniel,
-Thanks for the work. I plan to take some time in the next day to have a
-look and provide a viewpoint of what makes sense to do next.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-bsp/libacpi/libacpi_0.2.bb                          | 1 -
+ meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb                      | 1 -
+ meta/recipes-bsp/setserial/setserial_2.17.bb                     | 1 -
+ meta/recipes-bsp/v86d/v86d_0.1.10.bb                             | 1 -
+ meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb           | 1 -
+ .../docbook-xml/docbook-xsl-stylesheets_1.79.1.bb                | 1 -
+ meta/recipes-devtools/expect/expect_5.45.4.bb                    | 1 -
+ meta/recipes-devtools/flex/flex_2.6.4.bb                         | 1 -
+ meta/recipes-devtools/intltool/intltool_0.51.0.bb                | 1 -
+ meta/recipes-devtools/m4/m4-1.4.19.inc                           | 1 -
+ meta/recipes-devtools/patch/patch_2.7.6.bb                       | 1 -
+ meta/recipes-devtools/perl/libxml-perl_0.08.bb                   | 1 -
+ meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb            | 1 -
+ meta/recipes-devtools/python/python-extras.inc                   | 1 -
+ meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb    | 1 -
+ meta/recipes-devtools/python/python3-ply_3.11.bb                 | 1 -
+ meta/recipes-devtools/python/python3-pretend_1.0.9.bb            | 1 -
+ meta/recipes-devtools/python/python3-pysocks_1.7.1.bb            | 1 -
+ meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb            | 1 -
+ meta/recipes-devtools/python/python3-vcversioner_2.16.0.0.bb     | 1 -
+ meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb             | 1 -
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb                       | 1 -
+ meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb      | 1 -
+ meta/recipes-extended/gperf/gperf_3.1.bb                         | 1 -
+ meta/recipes-extended/mingetty/mingetty_1.08.bb                  | 1 -
+ meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb                    | 1 -
+ meta/recipes-extended/perl/libtimedate-perl_2.30.bb              | 1 -
+ meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb  | 1 -
+ meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb          | 1 -
+ meta/recipes-extended/perl/libxml-sax-perl_1.02.bb               | 1 -
+ meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb           | 1 -
+ meta/recipes-extended/time/time_1.9.bb                           | 1 -
+ meta/recipes-extended/unzip/unzip_6.0.bb                         | 1 -
+ meta/recipes-extended/watchdog/watchdog_5.16.bb                  | 1 -
+ meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb               | 1 -
+ meta/recipes-extended/zip/zip_3.0.bb                             | 1 -
+ meta/recipes-graphics/glew/glew_2.2.0.bb                         | 1 -
+ meta/recipes-graphics/menu-cache/menu-cache_1.1.0.bb             | 1 -
+ .../startup-notification/startup-notification_0.12.bb            | 1 -
+ meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb       | 1 -
+ meta/recipes-graphics/xorg-app/x11perf_1.6.1.bb                  | 1 -
+ meta/recipes-graphics/xorg-app/xinput_1.6.4.bb                   | 1 -
+ meta/recipes-graphics/xorg-app/xwininfo_1.1.6.bb                 | 1 -
+ meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb                 | 1 -
+ meta/recipes-graphics/xrestop/xrestop_0.4.bb                     | 1 -
+ meta/recipes-multimedia/lame/lame_3.100.bb                       | 1 -
+ meta/recipes-multimedia/libogg/libogg_1.3.5.bb                   | 1 -
+ meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb             | 1 -
+ meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb             | 1 -
+ meta/recipes-support/consolekit/consolekit_0.4.6.bb              | 1 -
+ meta/recipes-support/db/db_5.3.28.bb                             | 1 -
+ meta/recipes-support/libdaemon/libdaemon_0.14.bb                 | 1 -
+ meta/recipes-support/libyaml/libyaml_0.2.5.bb                    | 1 -
+ meta/recipes-support/lzo/lzo_2.10.bb                             | 1 -
+ meta/recipes-support/lzop/lzop_1.04.bb                           | 1 -
+ meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb        | 1 -
+ 56 files changed, 56 deletions(-)
 
-BTW This code is shorter than I expect this work to be (and yes, there are
-multiple people working on the same), and this is good news. It makes a
-review way easier than I expected!
-
-Kind regards,
-Marta
-
-On Wed, Apr 30, 2025 at 10:32=E2=80=AFAM Daniel Turull <daniel.turull@erics=
-son.com>
-wrote:
-
-> Hi again Marta,
->
->
->
-> I really appreciate your comments. You are doing a great job in this spac=
-e.
->
->
->
-> With the post-processing do you mean another task after the do_cve_check
-> or outside the build, maybe in a script in openembedded-core/scripts?
->
->
->
-> I see benefits in both (in the build and outside). If we keep it in the
-> build we have more accurate data at the time of the build, while outside
-> can be easily updated with new information.
->
-> We also include missing information and add resilience having multiple
-> sources.
->
->
->
-> Before sending another round of patches, I=E2=80=99ll like to reach some =
-consensus
-> how we should implement this, and your comments together with Peter=E2=80=
-=99s and
-> Richard=E2=80=99s will be very appreciated.
->
->
->
-> New proposal:
->
->    - Keep as option to extract the compiled file, and store them in spdx
->    as well. Basically:
->       1. kernel: add support to extract compiled files
->          - store the file in log/cve/ with a unique name
->       2. spdx: add option to include only compiled kernel files
->    - Add option to have multiple sources of cve, in cve-check, using
->    vulns or cvelistv5
->    - Keep the bug fixes, though probably I could send them independently
->    from this series.
->    - And then we have 3 options:
->       1. Keep the existing cve-check, vex, spdx: use metadata from
->       linux-vulns
->       2. Create a new a post-processing script in
->       openembedded-core/scripts that triages CVEs with files that are not
->       compiled that matches a CVEs, with similar functionality as the one
->       proposed in cve-check, vex, spdx: use metadata from linux-vulns to =
-enhance
->       CVE reporting. But then in cveinfo in the SPDX won=E2=80=99t be acc=
-urate, since now
->       I was adding the fixes in the get_patched_cves. On the other hand, =
-this
->       also get outdated, and for the not applicable with already have the
->       CVE_STATUS.
->       3. Have both 1 and 2, since they are not mutually exclusive. Now
->       probably I=E2=80=99m lining more to this option.
->
->
->
-> For the new script, the first version of the script will take as input th=
-e
-> output from the kernel gen_compile_commands.py, a directory to vulns or
-> cvelistv5, and the cve-summary.json and generate a new cve-summary with
-> updated information. This potentially could be integrated on the scripts
-> that Marta has on vex or use as input. For example:
->
->                ./improve_kernel_cve_reporting.py --sources
-> compile_commands.json --cve-data <dir to vulns or cvelistv5>
-> --old-cve-report cve-summary.json =E2=80=93new-cve-report cve-summary-enh=
-ance.json
->
->
->
-> How does it sound? Or do you have a better proposal?
->
->
->
-> And for the question comparing with using only the NVD database, I=E2=80=
-=99m
-> getting less CVEs, since some do not have their cpe, due to their big
-> backlog.
->
->
->
-> I  have modified slightly the patches and I can fetch the cvelistv5 repo,
-> but it is slower since it contains much more files. But then I guess it
-> could be used as a source for the cve_check as alternative source.
->
-> CVE files as today:
->
-> Vulns: 5941
->
-> Cvelistv5: 291484
->
->
->
-> When comparing using data from cvelistv5 vs vulns, the functionally to
-> exclude based on compiled files has the same results, except that with th=
-e
-> former the script find more vulnerable CVEs, which later are corrected by
-> the data from NVD.
->
->
->
-> Only NVD 14
->
-> linux-yocto-6.12.23+git-r0 do_cve_check: Found unpatched CVE
-> (CVE-1999-0524 CVE-2008-4609 CVE-2010-4563 CVE-2022-0400 CVE-2022-38096
-> CVE-2022-4543 CVE-2023-3397 CVE-2023-4010 CVE-2023-6240 CVE-2024-57995
-> CVE-2025-21751 CVE-2025-21833 CVE-2025-21949 CVE-2025-37838)
->
->
->
-> vulns: 33 vulnerable + 32 not applicable
->
-> CVE (CVE-1999-0524 CVE-2008-4609 CVE-2010-4563 CVE-2022-0400
-> CVE-2022-38096 CVE-2022-4543 CVE-2023-3397 CVE-2023-4010 CVE-2023-6240
-> CVE-2024-57976 CVE-2024-58074 CVE-2024-58093 CVE-2025-21709 CVE-2025-2175=
-2
-> CVE-2025-21807 CVE-2025-21817 CVE-2025-21833 CVE-2025-21837 CVE-2025-2188=
-4
-> CVE-2025-22026 CVE-2025-22105 CVE-2025-22108 CVE-2025-22111 CVE-2025-2211=
-3
-> CVE-2025-22115 CVE-2025-22121 CVE-2025-22122 CVE-2025-22124 CVE-2025-2212=
-5
-> CVE-2025-22126 CVE-2025-23137 CVE-2025-37838 CVE-2025-40325)
->
->
->
-> cvelistv5: 36 vulnerable + 32 not applicable
->
-> Found unpatched CVE (CVE-1999-0524 CVE-2008-4609 CVE-2010-4563
-> CVE-2021-28711 CVE-2021-28712 CVE-2021-28713 CVE-2022-0400 CVE-2022-38096
-> CVE-2022-4543 CVE-2023-3397 CVE-2023-4010 CVE-2023-6240 CVE-2024-57976
-> CVE-2024-58074 CVE-2024-58093 CVE-2025-21709 CVE-2025-21752 CVE-2025-2180=
-7
-> CVE-2025-21817 CVE-2025-21833 CVE-2025-21837 CVE-2025-21884 CVE-2025-2202=
-6
-> CVE-2025-22105 CVE-2025-22108 CVE-2025-22111 CVE-2025-22113 CVE-2025-2211=
-5
-> CVE-2025-22121 CVE-2025-22122 CVE-2025-22124 CVE-2025-22125 CVE-2025-2212=
-6
-> CVE-2025-23137 CVE-2025-37838 CVE-2025-40325)
->
->
->
-> Best regards,
->
-> Daniel
->
->
->
-> *From:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> *On Behalf Of *Daniel Turull
-> via lists.openembedded.org
-> *Sent:* Tuesday, 29 April 2025 17:29
-> *To:* Marta Rybczynska <rybczynska@gmail.com>
-> *Cc:* openembedded-core@lists.openembedded.org; Peter.Marko@siemens.com
-> *Subject:* Re: [OE-core] [PATCH v3 1/8] linux-vulns: fetch kernel.org CNA
-> info
->
->
->
-> Hi Marta,
->
-> The CVE database from NVD doesn=E2=80=99t have all the metadata, speciall=
-y the
-> files affected.
->
->
->
-> I=E2=80=99ll test it with https://github.com/CVEProject/cvelistV5, since =
-the data
-> from the kernel should be the same. But the repository is much bigger.
->
->
->
-> No, I haven=E2=80=99t tested with world builds. I=E2=80=99ll give it a tr=
-y. Probably the
-> file that I=E2=80=99m generating with should be specific for a config, so=
- we don=E2=80=99t
-> override it.
->
->
->
-> Best regards,
->
-> Daniel
->
->
->
-> *From:* Marta Rybczynska <rybczynska@gmail.com>
-> *Sent:* Tuesday, 29 April 2025 16:48
-> *To:* Daniel Turull <daniel.turull@ericsson.com>
-> *Cc:* openembedded-core@lists.openembedded.org; Peter.Marko@siemens.com
-> *Subject:* Re: [OE-core] [PATCH v3 1/8] linux-vulns: fetch kernel.org CNA
-> info
->
->
->
-> Thank you for providing this work Daniel.
->
->
->
-> Are you able to obtain the same result with the raw CVE database? This
-> patchset works for the Linux kernel only.
->
->
->
-> Also, have you tested if it works with the world build for multiple kerne=
-l
-> images (i.e. different configs) from the same source tree?
->
->
->
-> I would be rather going for a post-processing with a given config after
-> generating the json files instead of modifying the processing.
->
->
->
-> My 0.02.
->
->
->
-> Kind regards,
->
-> Marta
->
->
->
-> On Tue, Apr 29, 2025 at 4:39=E2=80=AFPM Daniel Turull via lists.openembed=
-ded.org
-> <daniel.turull=3Dericsson.com@lists.openembedded.org> wrote:
->
-> From: Daniel Turull <daniel.turull@ericsson.com>
->
-> Add CVE data source for kernel.org.
->
-> It includes more information than the one provided by NVD.
-> Use similar mechanism and same variables as cve-check to define
-> when to update.
->
-> To use without internet access, change variable VULNS_URL to a local
-> copy or mirror.
->
-> CC: Peter Marko <peter.marko@siemens.com>
-> Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-> ---
->  meta/conf/distro/include/maintainers.inc  |  1 +
->  meta/recipes-core/meta/linux-vulns_git.bb | 76 +++++++++++++++++++++++
->  2 files changed, 77 insertions(+)
->  create mode 100644 meta/recipes-core/meta/linux-vulns_git.bb
->
-> diff --git a/meta/conf/distro/include/maintainers.inc
-> b/meta/conf/distro/include/maintainers.inc
-> index 8065287c17..ec427fe6a4 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -468,6 +468,7 @@ RECIPE_MAINTAINER:pn-lighttpd =3D "Unassigned <
-> unassigned@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-linux-dummy =3D "Unassigned <
-> unassigned@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-linux-firmware =3D "Otavio Salvador <
-> otavio.salvador@ossystems.com.br>"
->  RECIPE_MAINTAINER:pn-linux-libc-headers =3D "Bruce Ashfield <
-> bruce.ashfield@gmail.com>"
-> +RECIPE_MAINTAINER:pn-linux-vulns =3D "Unassigned <
-> unassigned@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-linux-yocto =3D "Bruce Ashfield <
-> bruce.ashfield@gmail.com>"
->  RECIPE_MAINTAINER:pn-linux-yocto-dev =3D "Bruce Ashfield <
-> bruce.ashfield@gmail.com>"
->  RECIPE_MAINTAINER:pn-linux-yocto-rt =3D "Bruce Ashfield <
-> bruce.ashfield@gmail.com>"
-> diff --git a/meta/recipes-core/meta/linux-vulns_git.bb
-> b/meta/recipes-core/meta/linux-vulns_git.bb
-> new file mode 100644
-> index 0000000000..fc48558eb8
-> --- /dev/null
-> +++ b/meta/recipes-core/meta/linux-vulns_git.bb
-> @@ -0,0 +1,76 @@
-> +SUMMARY =3D "CVE information from kernel.org"
-> +DESCRIPTION =3D "Repo for tracking and maintaining the CVE identifiers
-> reserved \
-> +and assigned to the Linux kernel project."
-> +HOMEPAGE =3D "
-> https://git.kernel.org/pub/scm/linux/security/vulns.git/about/"
-> +LICENSE =3D "GPL-2.0-only & cve-tou"
-> +SECTION =3D "base"
-> +
-> +INHIBIT_DEFAULT_DEPS =3D "1"
-> +
-> +inherit native
-> +inherit nopackages
-> +
-> +VULNS_URL ?=3D "https://git.kernel.org/pub/scm/linux/security/vulns"
-> +CVE_CHECK_KERNEL_DB_DIR ??=3D "${DL_DIR}/CVE_CHECK/vulns"
-> +
-> +# Use same intervals as cve-update-db-native. By default: once a day
-> (24*60*60).
-> +# Use 0 to force the update
-> +# Use a negative value to skip the update
-> +
-> +CVE_DB_UPDATE_INTERVAL ??=3D "86400"
-> +
-> +python do_fetch(){
-> +    import os
-> +    import bb.utils
-> +
-> +    bb.utils.export_proxies(d)
-> +    db_file =3D d.getVar("CVE_CHECK_KERNEL_DB_DIR")
-> +    repo_url =3D d.getVar("VULNS_URL")
-> +
-> +    try:
-> +        import time
-> +        update_interval =3D int(d.getVar("CVE_DB_UPDATE_INTERVAL"))
-> +
-> +        if update_interval < 0:
-> +            bb.note("Kernel CVE database update skipped")
-> +            return
-> +        if time.time() - os.path.getmtime(db_file) < update_interval:
-> +            bb.debug(2,"Kernel CVE database, recently updated, skipping"=
-)
-> +            return
-> +
-> +    except OSError:
-> +        pass
-> +
-> +    bb.utils.mkdirhier(os.path.dirname(db_file))
-> +    # Configure cmd
-> +    if not os.path.exists(db_file):
-> +        cmd =3D f"git clone {repo_url} {db_file}"
-> +    else:
-> +        cmd =3D f"git -C {db_file} pull"
-> +    try:
-> +        bb.fetch2.runfetchcmd(cmd, d)
-> +    except bb.fetch2.FetchError as e:
-> +        bb.warn(f"Kernel vulns repo url not accessible. {repo_url}")
-> +        bb.warn("Set VULNS_URL in local.conf to point to a local copy or
-> mirror")
-> +}
-> +
-> +do_clean() {
-> +    rm -rf ${CVE_CHECK_KERNEL_DB_DIR}
-> +}
-> +
-> +deltask do_patch
-> +deltask do_unpack
-> +deltask do_configure
-> +deltask do_compile
-> +deltask do_install
-> +deltask do_populate_sysroot
-> +deltask do_runtime_spdx
-> +deltask do_create_spdx
-> +deltask do_populate_lic
-> +deltask do_cve_check
-> +
-> +do_fetch[nostamp] =3D "1"
-> +do_fetch[file-checksums] =3D ""
-> +do_fetch[vardeps] =3D ""
-> +
-> +EXCLUDE_FROM_WORLD =3D "1"
->
->
-
---000000000000b37e8d0634003b52
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hell Daniel,</div><div>Thanks for the work. I plan to=
- take some time in the next day to have a look and provide a viewpoint of w=
-hat makes sense to do next.<br></div><div><br></div><div>BTW This code is s=
-horter than I expect this work to be (and yes, there are multiple people wo=
-rking on the same), and this is good news. It makes a review way easier tha=
-n I expected!</div><div><br></div><div>Kind regards,</div><div>Marta<br></d=
-iv></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Wed, Apr 30, 2025 at 10:32=E2=80=AFAM Daniel Tu=
-rull &lt;<a href=3D"mailto:daniel.turull@ericsson.com">daniel.turull@ericss=
-on.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><div class=3D"msg-3202681501638976730">
-
-
-
-
-
-<div lang=3D"en-SE" style=3D"overflow-wrap: break-word;">
-<div class=3D"m_-3202681501638976730WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Hi again Marta,<u></u=
-><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">I really appreciate y=
-our comments. You are doing a great job in this space.<u></u><u></u></span>=
-</p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">With the post-process=
-ing do you mean another task after the do_cve_check or outside the build, m=
-aybe in a script in openembedded-core/scripts?
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">I see benefits in bot=
-h (in the build and outside). If we keep it in the build we have more accur=
-ate data at the time of the build, while outside can be easily updated with=
- new information.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">We also include missi=
-ng information and add resilience having multiple sources.<u></u><u></u></s=
-pan></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Before sending anothe=
-r round of patches, I=E2=80=99ll like to reach some consensus how we should=
- implement this, and your comments together with Peter=E2=80=99s and Richar=
-d=E2=80=99s will be very appreciated.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">New proposal:<u></u><=
-u></u></span></p>
-<ul style=3D"margin-top:0cm" type=3D"disc">
-<li class=3D"m_-3202681501638976730MsoListParagraph" style=3D"margin-left:0=
-cm"><span style=3D"font-size:11pt">Keep as option to extract the compiled f=
-ile, and store them in spdx as well. Basically:<u></u><u></u></span></li><o=
-l style=3D"margin-top:0cm" start=3D"1" type=3D"1">
-<li class=3D"m_-3202681501638976730MsoListParagraph" style=3D"margin-left:0=
-cm"><span style=3D"font-size:11pt">kernel: add support to extract compiled =
-files<u></u><u></u></span></li><ul style=3D"margin-top:0cm" type=3D"square"=
->
-<li class=3D"m_-3202681501638976730MsoListParagraph" style=3D"margin-left:0=
-cm"><span style=3D"font-size:11pt">store the file in log/cve/ with a unique=
- name<u></u><u></u></span></li></ul>
-<li class=3D"m_-3202681501638976730MsoListParagraph" style=3D"margin-left:0=
-cm"><span style=3D"font-size:11pt">spdx: add option to include only compile=
-d kernel files<u></u><u></u></span></li></ol>
-<li class=3D"m_-3202681501638976730MsoListParagraph" style=3D"margin-left:0=
-cm"><span style=3D"font-size:11pt">Add option to have multiple sources of c=
-ve, in cve-check, using vulns or cvelistv5<u></u><u></u></span></li><li cla=
-ss=3D"m_-3202681501638976730MsoListParagraph" style=3D"margin-left:0cm"><sp=
-an style=3D"font-size:11pt">Keep the bug fixes, though probably I could sen=
-d them independently from this series.<u></u><u></u></span></li><li class=
-=3D"m_-3202681501638976730MsoListParagraph" style=3D"margin-left:0cm"><span=
- style=3D"font-size:11pt">And then we have 3 options:<u></u><u></u></span><=
-/li><ol style=3D"margin-top:0cm" start=3D"1" type=3D"1">
-<li class=3D"m_-3202681501638976730MsoListParagraph" style=3D"margin-left:0=
-cm"><span style=3D"font-size:11pt">Keep the existing cve-check, vex, spdx: =
-use metadata from linux-vulns<u></u><u></u></span></li><li class=3D"m_-3202=
-681501638976730MsoListParagraph" style=3D"margin-left:0cm"><span style=3D"f=
-ont-size:11pt">Create a new a post-processing script in openembedded-core/s=
-cripts that triages CVEs with files that are not compiled that matches a CV=
-Es, with similar
- functionality as the one proposed in cve-check, vex, spdx: use metadata fr=
-om linux-vulns to enhance CVE reporting. But then in cveinfo in the SPDX wo=
-n=E2=80=99t be accurate, since now I was adding the fixes in the get_patche=
-d_cves. On the other hand, this also get
- outdated, and for the not applicable with already have the CVE_STATUS.<u><=
-/u><u></u></span></li><li class=3D"m_-3202681501638976730MsoListParagraph" =
-style=3D"margin-left:0cm"><span style=3D"font-size:11pt">Have both 1 and 2,=
- since they are not mutually exclusive. Now probably I=E2=80=99m lining mor=
-e to this option.<u></u><u></u></span></li></ol>
-</ul>
-<p class=3D"m_-3202681501638976730MsoListParagraph"><span style=3D"font-siz=
-e:11pt"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">For the new script, t=
-he first version of the script will take as input the output from the kerne=
-l gen_compile_commands.py, a directory to vulns or cvelistv5, and the cve-s=
-ummary.json and generate a new cve-summary
- with updated information. This potentially could be integrated on the scri=
-pts that Marta has on vex or use as input. For example:<u></u><u></u></span=
-></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ./improve_k=
-ernel_cve_reporting.py --sources compile_commands.json --cve-data &lt;dir t=
-o vulns or cvelistv5&gt; --old-cve-report cve-summary.json =E2=80=93new-cve=
--report cve-summary-enhance.json<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">How does it sound? Or=
- do you have a better proposal?<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">And for the question =
-comparing with using only the NVD database, I=E2=80=99m getting less CVEs, =
-since some do not have their cpe, due to their big backlog.<u></u><u></u></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">I =C2=A0have modified=
- slightly the patches and I can fetch the cvelistv5 repo, but it is slower =
-since it contains much more files. But then I guess it could be used as a s=
-ource for the cve_check as alternative
- source.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">CVE files as today:<u=
-></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Vulns: 5941<u></u><u>=
-</u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Cvelistv5: 291484<u><=
-/u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">When comparing using =
-data from cvelistv5 vs vulns, the functionally to exclude based on compiled=
- files has the same results, except that with the former the script find mo=
-re vulnerable CVEs, which later are
- corrected by the data from NVD. <u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Only NVD 14<u></u><u>=
-</u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">linux-yocto-6.12.23+g=
-it-r0 do_cve_check: Found unpatched CVE (CVE-1999-0524 CVE-2008-4609 CVE-20=
-10-4563 CVE-2022-0400 CVE-2022-38096 CVE-2022-4543 CVE-2023-3397 CVE-2023-4=
-010 CVE-2023-6240 CVE-2024-57995 CVE-2025-21751
- CVE-2025-21833 CVE-2025-21949 CVE-2025-37838)<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">vulns: 33 vulnerable =
-+ 32 not applicable<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">CVE (CVE-1999-0524 CV=
-E-2008-4609 CVE-2010-4563 CVE-2022-0400 CVE-2022-38096 CVE-2022-4543 CVE-20=
-23-3397 CVE-2023-4010 CVE-2023-6240 CVE-2024-57976 CVE-2024-58074 CVE-2024-=
-58093 CVE-2025-21709 CVE-2025-21752
- CVE-2025-21807 CVE-2025-21817 CVE-2025-21833 CVE-2025-21837 CVE-2025-21884=
- CVE-2025-22026 CVE-2025-22105 CVE-2025-22108 CVE-2025-22111 CVE-2025-22113=
- CVE-2025-22115 CVE-2025-22121 CVE-2025-22122 CVE-2025-22124 CVE-2025-22125=
- CVE-2025-22126 CVE-2025-23137 CVE-2025-37838
- CVE-2025-40325)<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">cvelistv5: 36 vulnera=
-ble + 32 not applicable<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Found unpatched CVE (=
-CVE-1999-0524 CVE-2008-4609 CVE-2010-4563 CVE-2021-28711 CVE-2021-28712 CVE=
--2021-28713 CVE-2022-0400 CVE-2022-38096 CVE-2022-4543 CVE-2023-3397 CVE-20=
-23-4010 CVE-2023-6240 CVE-2024-57976
- CVE-2024-58074 CVE-2024-58093 CVE-2025-21709 CVE-2025-21752 CVE-2025-21807=
- CVE-2025-21817 CVE-2025-21833 CVE-2025-21837 CVE-2025-21884 CVE-2025-22026=
- CVE-2025-22105 CVE-2025-22108 CVE-2025-22111 CVE-2025-22113 CVE-2025-22115=
- CVE-2025-22121 CVE-2025-22122 CVE-2025-22124
- CVE-2025-22125 CVE-2025-22126 CVE-2025-23137 CVE-2025-37838 CVE-2025-40325=
-)<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Best regards,<u></u><=
-u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Daniel<u></u><u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<div>
-<div style=3D"border-width:1pt medium medium;border-style:solid none none;b=
-order-color:rgb(225,225,225) currentcolor currentcolor;padding:3pt 0cm 0cm"=
->
-<p class=3D"MsoNormal"><b><span lang=3D"EN-US" style=3D"font-size:11pt;font=
--family:&quot;Calibri&quot;,sans-serif">From:</span></b><span lang=3D"EN-US=
-" style=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sans-serif"> <a h=
-ref=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank">o=
-penembedded-core@lists.openembedded.org</a> &lt;<a href=3D"mailto:openembed=
-ded-core@lists.openembedded.org" target=3D"_blank">openembedded-core@lists.=
-openembedded.org</a>&gt;
-<b>On Behalf Of </b>Daniel Turull via <a href=3D"http://lists.openembedded.=
-org" target=3D"_blank">lists.openembedded.org</a><br>
-<b>Sent:</b> Tuesday, 29 April 2025 17:29<br>
-<b>To:</b> Marta Rybczynska &lt;<a href=3D"mailto:rybczynska@gmail.com" tar=
-get=3D"_blank">rybczynska@gmail.com</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a>; <a href=3D"mail=
-to:Peter.Marko@siemens.com" target=3D"_blank">Peter.Marko@siemens.com</a><b=
-r>
-<b>Subject:</b> Re: [OE-core] [PATCH v3 1/8] linux-vulns: fetch <a href=3D"=
-http://kernel.org" target=3D"_blank">kernel.org</a> CNA info<u></u><u></u><=
-/span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal"><span lang=3D"en-SE" style=3D"font-size:11pt">Hi Mar=
-ta,<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"en-SE" style=3D"font-size:11pt">The CV=
-E database from NVD doesn=E2=80=99t have all the metadata, specially the fi=
-les affected.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"en-SE" style=3D"font-size:11pt"><u></u=
->=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"en-SE" style=3D"font-size:11pt">I=E2=
-=80=99ll test it with
-<a href=3D"https://github.com/CVEProject/cvelistV5" target=3D"_blank">https=
-://github.com/CVEProject/cvelistV5</a>, since the data from the kernel shou=
-ld be the same. But the repository is much bigger.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"en-SE" style=3D"font-size:11pt"><u></u=
->=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"en-SE" style=3D"font-size:11pt">No, I =
-haven=E2=80=99t tested with world builds. I=E2=80=99ll give it a try. Proba=
-bly the file that I=E2=80=99m generating with should be specific for a conf=
-ig, so we don=E2=80=99t override it.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"en-SE" style=3D"font-size:11pt"><u></u=
->=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"en-SE" style=3D"font-size:11pt">Best r=
-egards,<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"en-SE" style=3D"font-size:11pt">Daniel
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"en-SE" style=3D"font-size:11pt"><u></u=
->=C2=A0<u></u></span></p>
-<div style=3D"border-width:1pt medium medium;border-style:solid none none;b=
-order-color:rgb(225,225,225) currentcolor currentcolor;padding:3pt 0cm 0cm"=
->
-<p class=3D"MsoNormal"><b><span lang=3D"EN-US" style=3D"font-size:11pt;font=
--family:&quot;Calibri&quot;,sans-serif">From:</span></b><span lang=3D"EN-US=
-" style=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sans-serif"> Mart=
-a Rybczynska &lt;<a href=3D"mailto:rybczynska@gmail.com" target=3D"_blank">=
-rybczynska@gmail.com</a>&gt;
-<br>
-<b>Sent:</b> Tuesday, 29 April 2025 16:48<br>
-<b>To:</b> Daniel Turull &lt;<a href=3D"mailto:daniel.turull@ericsson.com" =
-target=3D"_blank">daniel.turull@ericsson.com</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a>;
-<a href=3D"mailto:Peter.Marko@siemens.com" target=3D"_blank">Peter.Marko@si=
-emens.com</a><br>
-<b>Subject:</b> Re: [OE-core] [PATCH v3 1/8] linux-vulns: fetch <a href=3D"=
-http://kernel.org" target=3D"_blank">kernel.org</a> CNA info<u></u><u></u><=
-/span></p>
-</div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE"><u></u>=C2=A0<u></u></span></p>
-<div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE">Thank you for providing this wo=
-rk Daniel.<u></u><u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE"><u></u>=C2=A0<u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE">Are you able to obtain the same=
- result with the raw CVE database? This patchset works for the Linux kernel=
- only.<u></u><u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE"><u></u>=C2=A0<u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE">Also, have you tested if it wor=
-ks with the world build for multiple kernel images (i.e. different configs)=
- from the same source tree?<u></u><u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE"><u></u>=C2=A0<u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE">I would be rather going for a p=
-ost-processing with a given config after generating the json files instead =
-of modifying the processing.<u></u><u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE"><u></u>=C2=A0<u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE">My 0.02.<u></u><u></u></span></=
-p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE"><u></u>=C2=A0<u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE">Kind regards,<u></u><u></u></sp=
-an></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE">Marta<u></u><u></u></span></p>
-</div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE"><u></u>=C2=A0<u></u></span></p>
-<div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"en-SE">On Tue, Apr 29, 2025 at 4:39</s=
-pan><span lang=3D"en-SE" style=3D"font-family:&quot;Arial&quot;,sans-serif"=
->=E2=80=AF</span><span lang=3D"en-SE">PM Daniel Turull via
-<a href=3D"http://lists.openembedded.org/" target=3D"_blank">lists.openembe=
-dded.org</a> &lt;daniel.turull=3D<a href=3D"mailto:ericsson.com@lists.opene=
-mbedded.org" target=3D"_blank">ericsson.com@lists.openembedded.org</a>&gt; =
-wrote:<u></u><u></u></span></p>
-</div>
-<blockquote style=3D"border-width:medium medium medium 1pt;border-style:non=
-e none none solid;border-color:currentcolor currentcolor currentcolor rgb(2=
-04,204,204);padding:0cm 0cm 0cm 6pt;margin:5pt 0cm 5pt 4.8pt">
-<p class=3D"MsoNormal" style=3D"margin-bottom:12pt"><span lang=3D"en-SE">Fr=
-om: Daniel Turull &lt;<a href=3D"mailto:daniel.turull@ericsson.com" target=
-=3D"_blank">daniel.turull@ericsson.com</a>&gt;<br>
-<br>
-Add CVE data source for <a href=3D"http://kernel.org/" target=3D"_blank">ke=
-rnel.org</a>.<br>
-<br>
-It includes more information than the one provided by NVD.<br>
-Use similar mechanism and same variables as cve-check to define<br>
-when to update.<br>
-<br>
-To use without internet access, change variable VULNS_URL to a local<br>
-copy or mirror.<br>
-<br>
-CC: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" target=3D"_b=
-lank">peter.marko@siemens.com</a>&gt;<br>
-Signed-off-by: Daniel Turull &lt;<a href=3D"mailto:daniel.turull@ericsson.c=
-om" target=3D"_blank">daniel.turull@ericsson.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/distro/include/maintainers.inc=C2=A0 |=C2=A0 1 +<br>
-=C2=A0meta/recipes-core/meta/<a href=3D"http://linux-vulns_git.bb/" target=
-=3D"_blank">linux-vulns_git.bb</a> | 76 +++++++++++++++++++++++<br>
-=C2=A02 files changed, 77 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-core/meta/<a href=3D"http://linux-vul=
-ns_git.bb/" target=3D"_blank">linux-vulns_git.bb</a><br>
-<br>
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
-clude/maintainers.inc<br>
-index 8065287c17..ec427fe6a4 100644<br>
---- a/meta/conf/distro/include/maintainers.inc<br>
-+++ b/meta/conf/distro/include/maintainers.inc<br>
-@@ -468,6 +468,7 @@ RECIPE_MAINTAINER:pn-lighttpd =3D &quot;Unassigned &lt;=
-<a href=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned=
-@yoctoproject.org</a>&gt;&quot;<br>
-=C2=A0RECIPE_MAINTAINER:pn-linux-dummy =3D &quot;Unassigned &lt;<a href=3D"=
-mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctoproje=
-ct.org</a>&gt;&quot;<br>
-=C2=A0RECIPE_MAINTAINER:pn-linux-firmware =3D &quot;Otavio Salvador &lt;<a =
-href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.s=
-alvador@ossystems.com.br</a>&gt;&quot;<br>
-=C2=A0RECIPE_MAINTAINER:pn-linux-libc-headers =3D &quot;Bruce Ashfield &lt;=
-<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfiel=
-d@gmail.com</a>&gt;&quot;<br>
-+RECIPE_MAINTAINER:pn-linux-vulns =3D &quot;Unassigned &lt;<a href=3D"mailt=
-o:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctoproject.or=
-g</a>&gt;&quot;<br>
-=C2=A0RECIPE_MAINTAINER:pn-linux-yocto =3D &quot;Bruce Ashfield &lt;<a href=
-=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail=
-.com</a>&gt;&quot;<br>
-=C2=A0RECIPE_MAINTAINER:pn-linux-yocto-dev =3D &quot;Bruce Ashfield &lt;<a =
-href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@g=
-mail.com</a>&gt;&quot;<br>
-=C2=A0RECIPE_MAINTAINER:pn-linux-yocto-rt =3D &quot;Bruce Ashfield &lt;<a h=
-ref=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gm=
-ail.com</a>&gt;&quot;<br>
-diff --git a/meta/recipes-core/meta/<a href=3D"http://linux-vulns_git.bb/" =
-target=3D"_blank">linux-vulns_git.bb</a> b/meta/recipes-core/meta/<a href=
-=3D"http://linux-vulns_git.bb/" target=3D"_blank">linux-vulns_git.bb</a><br=
->
-new file mode 100644<br>
-index 0000000000..fc48558eb8<br>
---- /dev/null<br>
-+++ b/meta/recipes-core/meta/<a href=3D"http://linux-vulns_git.bb/" target=
-=3D"_blank">linux-vulns_git.bb</a><br>
-@@ -0,0 +1,76 @@<br>
-+SUMMARY =3D &quot;CVE information from <a href=3D"http://kernel.org/" targ=
-et=3D"_blank">kernel.org</a>&quot;<br>
-+DESCRIPTION =3D &quot;Repo for tracking and maintaining the CVE identifier=
-s reserved \<br>
-+and assigned to the Linux kernel project.&quot;<br>
-+HOMEPAGE =3D &quot;<a href=3D"https://git.kernel.org/pub/scm/linux/securit=
-y/vulns.git/about/" target=3D"_blank">https://git.kernel.org/pub/scm/linux/=
-security/vulns.git/about/</a>&quot;<br>
-+LICENSE =3D &quot;GPL-2.0-only &amp; cve-tou&quot;<br>
-+SECTION =3D &quot;base&quot;<br>
-+<br>
-+INHIBIT_DEFAULT_DEPS =3D &quot;1&quot;<br>
-+<br>
-+inherit native<br>
-+inherit nopackages<br>
-+<br>
-+VULNS_URL ?=3D &quot;<a href=3D"https://git.kernel.org/pub/scm/linux/secur=
-ity/vulns" target=3D"_blank">https://git.kernel.org/pub/scm/linux/security/=
-vulns</a>&quot;<br>
-+CVE_CHECK_KERNEL_DB_DIR ??=3D &quot;${DL_DIR}/CVE_CHECK/vulns&quot;<br>
-+<br>
-+# Use same intervals as cve-update-db-native. By default: once a day (24*6=
-0*60).<br>
-+# Use 0 to force the update<br>
-+# Use a negative value to skip the update<br>
-+<br>
-+CVE_DB_UPDATE_INTERVAL ??=3D &quot;86400&quot;<br>
-+<br>
-+python do_fetch(){<br>
-+=C2=A0 =C2=A0 import os<br>
-+=C2=A0 =C2=A0 import bb.utils<br>
-+<br>
-+=C2=A0 =C2=A0 bb.utils.export_proxies(d)<br>
-+=C2=A0 =C2=A0 db_file =3D d.getVar(&quot;CVE_CHECK_KERNEL_DB_DIR&quot;)<br=
->
-+=C2=A0 =C2=A0 repo_url =3D d.getVar(&quot;VULNS_URL&quot;)<br>
-+<br>
-+=C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 import time<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 update_interval =3D int(d.getVar(&quot;CVE_DB_=
-UPDATE_INTERVAL&quot;))<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if update_interval &lt; 0:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;Kernel CVE databas=
-e update skipped&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if time.time() - os.path.getmtime(db_file) &lt=
-; update_interval:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2,&quot;Kernel CVE data=
-base, recently updated, skipping&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-+<br>
-+=C2=A0 =C2=A0 except OSError:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pass<br>
-+<br>
-+=C2=A0 =C2=A0 bb.utils.mkdirhier(os.path.dirname(db_file))<br>
-+=C2=A0 =C2=A0 # Configure cmd<br>
-+=C2=A0 =C2=A0 if not os.path.exists(db_file):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D f&quot;git clone {repo_url} {db_file}&=
-quot;<br>
-+=C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D f&quot;git -C {db_file} pull&quot;<br>
-+=C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fetch2.runfetchcmd(cmd, d)<br>
-+=C2=A0 =C2=A0 except bb.fetch2.FetchError as e:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(f&quot;Kernel vulns repo url not acces=
-sible. {repo_url}&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;Set VULNS_URL in local.conf to p=
-oint to a local copy or mirror&quot;)<br>
-+}<br>
-+<br>
-+do_clean() {<br>
-+=C2=A0 =C2=A0 rm -rf ${CVE_CHECK_KERNEL_DB_DIR}<br>
-+}<br>
-+<br>
-+deltask do_patch<br>
-+deltask do_unpack<br>
-+deltask do_configure<br>
-+deltask do_compile<br>
-+deltask do_install<br>
-+deltask do_populate_sysroot<br>
-+deltask do_runtime_spdx<br>
-+deltask do_create_spdx<br>
-+deltask do_populate_lic<br>
-+deltask do_cve_check<br>
-+<br>
-+do_fetch[nostamp] =3D &quot;1&quot;<br>
-+do_fetch[file-checksums] =3D &quot;&quot;<br>
-+do_fetch[vardeps] =3D &quot;&quot;<br>
-+<br>
-+EXCLUDE_FROM_WORLD =3D &quot;1&quot;<u></u><u></u></span></p>
-</blockquote>
-</div>
-</div>
-</div>
-</div>
-
-</div></blockquote></div>
-
---000000000000b37e8d0634003b52--
+diff --git a/meta/recipes-bsp/libacpi/libacpi_0.2.bb b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
+index 6aae34b3100..f939d11f4c6 100644
+--- a/meta/recipes-bsp/libacpi/libacpi_0.2.bb
++++ b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
+@@ -14,7 +14,6 @@ SRC_URI = "http://www.ngolde.de/download/libacpi-${PV}.tar.gz \
+            file://0001-libacpi-Fix-build-witth-fno-commom.patch \
+            "
+ 
+-SRC_URI[md5sum] = "05b53dd7bead66dda35fec502b91066c"
+ SRC_URI[sha256sum] = "13086e31d428b9c125954d48ac497b754bbbce2ef34ea29ecd903e82e25bad29"
+ 
+ UPSTREAM_CHECK_URI = "http://www.ngolde.de/libacpi.html"
+diff --git a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
+index c7b95e57b0c..b252ae45d26 100644
+--- a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
++++ b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
+@@ -9,7 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 
+ SRC_URI = "http://pm-utils.freedesktop.org/releases/pm-utils-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "1742a556089c36c3a89eb1b957da5a60"
+ SRC_URI[sha256sum] = "8ed899032866d88b2933a1d34cc75e8ae42dcde20e1cc21836baaae3d4370c0b"
+ 
+ inherit pkgconfig autotools manpages
+diff --git a/meta/recipes-bsp/setserial/setserial_2.17.bb b/meta/recipes-bsp/setserial/setserial_2.17.bb
+index 3241b21f82e..e1e80e31ae5 100644
+--- a/meta/recipes-bsp/setserial/setserial_2.17.bb
++++ b/meta/recipes-bsp/setserial/setserial_2.17.bb
+@@ -16,7 +16,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/setserial/${BPN}-${PV}.tar.gz \
+            file://0001-setserial.c-Add-needed-system-headers-for-ioctl-and-.patch \
+            "
+ 
+-SRC_URI[md5sum] = "c4867d72c41564318e0107745eb7a0f2"
+ SRC_URI[sha256sum] = "7e4487d320ac31558563424189435d396ddf77953bb23111a17a3d1487b5794a"
+ 
+ do_install() {
+diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+index 6151f0a7e2b..3bc9b244876 100644
+--- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
++++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+@@ -14,7 +14,6 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20110427T035506Z/pool/main/
+            file://Support-for-cross-compilation.patch \
+ "
+ 
+-SRC_URI[md5sum] = "889686ec8424468fe0d205742e77a4c2"
+ SRC_URI[sha256sum] = "93575c82e4307d8c4c370ec6b767f5cf87e527b2378146d652a6d8e25d5bdbc5"
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
+index 428202c2585..fb7c29e242a 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
+@@ -18,7 +18,6 @@ SRC_URI = " \
+ 	file://0001-fix-nsectors-exceeds-0xffff-situation.patch \
+ 	"
+ 
+-SRC_URI[md5sum] = "7d45c5b7e1f78d85d1583b361aee6e8b"
+ SRC_URI[sha256sum] = "ed282eb6276c4154ce6a0b5dee0bdb81940d0cbbfc7d03f769c4735ef5f5860f"
+ 
+ EXTRA_OEMAKE = "-e MAKEFLAGS= CPPOPTX='${CPPFLAGS}' COPTX='${CFLAGS}' C++OPTX='${CXXFLAGS}' LDOPTX='${LDFLAGS}' GMAKE_NOWARN='true'"
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
+index e628f629846..ea81bf95075 100644
+--- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
++++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
+@@ -7,7 +7,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/docbook/docbook-xsl-${PV}.tar.bz2 \
+            file://docbook-xsl-stylesheets-no-bashism-in-docbook-xsl-up.patch \
+ "
+ 
+-SRC_URI[md5sum] = "b48cbf929a2ad85e6672f710777ca7bc"
+ SRC_URI[sha256sum] = "725f452e12b296956e8bfb876ccece71eeecdd14b94f667f3ed9091761a4a968"
+ 
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/docbook/files/docbook-xsl/"
+diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
+index 010e18dd24a..e3ecf4b25e8 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.4.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
+@@ -32,7 +32,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
+            file://run-ptest \
+            file://0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch \
+            "
+-SRC_URI[md5sum] = "00fce8de158422f5ccd2666512329bd2"
+ SRC_URI[sha256sum] = "49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34"
+ 
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/expect/files/Expect/"
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index c29377c5eb8..fa8c0fb6fd0 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -22,7 +22,6 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/flex-${PV}.tar.gz \
+            file://0001-Match-malloc-signature-to-its-use.patch \
+            "
+ 
+-SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
+ SRC_URI[sha256sum] = "e87aae032bf07c26f85ac0ed3250998c37621d95f8bd748b31f15b33c45ee995"
+ 
+ GITHUB_BASE_URI = "https://github.com/westes/flex/releases"
+diff --git a/meta/recipes-devtools/intltool/intltool_0.51.0.bb b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
+index 0f90ab4f1cf..d582c87fdca 100644
+--- a/meta/recipes-devtools/intltool/intltool_0.51.0.bb
++++ b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
+@@ -11,7 +11,6 @@ SRC_URI = "http://launchpad.net/${BPN}/trunk/${PV}/+download/${BP}.tar.gz \
+            file://remove-perl-check.patch \
+            file://noperlcheck.patch \
+            "
+-SRC_URI[md5sum] = "12e517cac2b57a0121cda351570f1e63"
+ SRC_URI[sha256sum] = "67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd"
+ 
+ UPSTREAM_CHECK_URI = "https://launchpad.net/intltool/trunk/"
+diff --git a/meta/recipes-devtools/m4/m4-1.4.19.inc b/meta/recipes-devtools/m4/m4-1.4.19.inc
+index 6a6aa21dafe..c73418d8e67 100644
+--- a/meta/recipes-devtools/m4/m4-1.4.19.inc
++++ b/meta/recipes-devtools/m4/m4-1.4.19.inc
+@@ -15,7 +15,6 @@ SRC_URI:append:class-target = " file://run-ptest \
+                                 file://serial-tests-config.patch \
+                               "
+ 
+-SRC_URI[md5sum] = "f4a2b0284d80353b995f8ef2385ed73c"
+ SRC_URI[sha256sum] = "3be4a26d825ffdfda52a56fc43246456989a3630093cced3fbddf4771ee58a70"
+ 
+ LICENSE = "GPL-3.0-only"
+diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
+index a91944234f1..3dc3b5863c4 100644
+--- a/meta/recipes-devtools/patch/patch_2.7.6.bb
++++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+@@ -13,7 +13,6 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+             file://CVE-2019-20633.patch \
+ "
+ 
+-SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
+ SRC_URI[sha256sum] = "8cf86e00ad3aaa6d26aca30640e86b0e3e1f395ed99f189b06d4c9f74bc58a4e"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+diff --git a/meta/recipes-devtools/perl/libxml-perl_0.08.bb b/meta/recipes-devtools/perl/libxml-perl_0.08.bb
+index 89acb64ef51..21c02c19ff0 100644
+--- a/meta/recipes-devtools/perl/libxml-perl_0.08.bb
++++ b/meta/recipes-devtools/perl/libxml-perl_0.08.bb
+@@ -13,7 +13,6 @@ DEPENDS += "libxml-parser-perl"
+ 
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/${BPN}-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "0ed5fbdda53d1301ddaed88db10503bb"
+ SRC_URI[sha256sum] = "4571059b7b5d48b7ce52b01389e95d798bf5cf2020523c153ff27b498153c9cb"
+ 
+ EXTRA_CPANFLAGS = "EXPATLIBPATH=${STAGING_LIBDIR} EXPATINCPATH=${STAGING_INCDIR}"
+diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
+index 791404e5bc4..dff0f84aabc 100644
+--- a/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
++++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
+@@ -12,7 +12,6 @@ DEPENDS += "libxml-parser-perl"
+ 
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Simple-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "bb841dce889a26c89a1c2739970e9fbc"
+ SRC_URI[sha256sum] = "531fddaebea2416743eb5c4fdfab028f502123d9a220405a4100e68fc480dbf8"
+ 
+ S = "${WORKDIR}/XML-Simple-${PV}"
+diff --git a/meta/recipes-devtools/python/python-extras.inc b/meta/recipes-devtools/python/python-extras.inc
+index 335bde27249..b562f90d12b 100644
+--- a/meta/recipes-devtools/python/python-extras.inc
++++ b/meta/recipes-devtools/python/python-extras.inc
+@@ -6,7 +6,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=6d108f338b2f68fe48ac366c4650bd8b"
+ 
+ inherit pypi
+ 
+-SRC_URI[md5sum] = "3a63ad60cf8f0186c9e3a02f55ec5b14"
+ SRC_URI[sha256sum] = "132e36de10b9c91d5d4cc620160a476e0468a88f16c9431817a6729611a81b4e"
+ 
+ BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb b/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb
+index 60909c03763..c3b8e526f16 100644
+--- a/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb
++++ b/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb
+@@ -3,7 +3,6 @@ HOMEPAGE = "https://github.com/cedadev/ndg_httpsclient/"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://MANIFEST.in;md5=ce22c0cd986d2de3f7073cd6b5523ae0"
+ 
+-SRC_URI[md5sum] = "b0fc8ea38f87d2c1ab1ed79a95c078f9"
+ SRC_URI[sha256sum] = "d72faed0376ab039736c2ba12e30695e2788c4aa569c9c3e3d72131de2592210"
+ 
+ inherit pypi setuptools3 update-alternatives
+diff --git a/meta/recipes-devtools/python/python3-ply_3.11.bb b/meta/recipes-devtools/python/python3-ply_3.11.bb
+index a05bd6702dc..2c5fa3f215e 100644
+--- a/meta/recipes-devtools/python/python3-ply_3.11.bb
++++ b/meta/recipes-devtools/python/python3-ply_3.11.bb
+@@ -5,7 +5,6 @@ SECTION = "devel/python"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://README.md;beginline=5;endline=32;md5=f5ee5c355c0e6719c787a71b8f0fa96c"
+ 
+-SRC_URI[md5sum] = "6465f602e656455affcd7c5734c638f8"
+ SRC_URI[sha256sum] = "00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b095321aef446081da3"
+ 
+ inherit pypi setuptools3
+diff --git a/meta/recipes-devtools/python/python3-pretend_1.0.9.bb b/meta/recipes-devtools/python/python3-pretend_1.0.9.bb
+index 21d14a03b8d..60c02de488a 100644
+--- a/meta/recipes-devtools/python/python3-pretend_1.0.9.bb
++++ b/meta/recipes-devtools/python/python3-pretend_1.0.9.bb
+@@ -3,7 +3,6 @@ HOMEPAGE = "https://github.com/alex/pretend"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=411780c0b7fa756753e94affeee5bc99"
+ 
+-SRC_URI[md5sum] = "ad53883ede48aeac7ae584f0de0240e8"
+ SRC_URI[sha256sum] = "c90eb810cde8ebb06dafcb8796f9a95228ce796531bc806e794c2f4649aa1b10"
+ 
+ inherit pypi setuptools3
+diff --git a/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb b/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb
+index db699014444..dbf0fb0ee6a 100644
+--- a/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb
++++ b/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb
+@@ -3,7 +3,6 @@ HOMEPAGE = "http://python-requests.org"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d457bcffb9661b45f799d4efee72f16"
+ 
+-SRC_URI[md5sum] = "89b1a6865c61bae67a32417517612ee6"
+ SRC_URI[sha256sum] = "3f8804571ebe159c380ac6de37643bb4685970655d3bba243530d6558b799aa0"
+ 
+ PYPI_PACKAGE = "PySocks"
+diff --git a/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb b/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb
+index 316dc544de2..c13a765660b 100644
+--- a/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb
++++ b/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb
+@@ -3,7 +3,6 @@ HOMEPAGE = "https://pypi.org/project/rfc3987/"
+ LICENSE = "GPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=9;md5=2b723edf67b2f3088bc5e339b1ceda2d"
+ 
+-SRC_URI[md5sum] = "b6c4028acdc788a9ba697e1c1d6b896c"
+ SRC_URI[sha256sum] = "d3c4d257a560d544e9826b38bc81db676890c79ab9d7ac92b39c7a253d5ca733"
+ 
+ inherit pypi setuptools3
+diff --git a/meta/recipes-devtools/python/python3-vcversioner_2.16.0.0.bb b/meta/recipes-devtools/python/python3-vcversioner_2.16.0.0.bb
+index 149078c51b5..2f5e0ad141a 100644
+--- a/meta/recipes-devtools/python/python3-vcversioner_2.16.0.0.bb
++++ b/meta/recipes-devtools/python/python3-vcversioner_2.16.0.0.bb
+@@ -4,7 +4,6 @@ HOMEPAGE = "https://github.com/habnabit/vcversioner"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://PKG-INFO;md5=827a7a91a8d20d3c666b665cd96db8e3"
+ 
+-SRC_URI[md5sum] = "aab6ef5e0cf8614a1b1140ed5b7f107d"
+ SRC_URI[sha256sum] = "dae60c17a479781f44a4010701833f1829140b1eeccd258762a74974aa06e19b"
+ 
+ inherit pypi setuptools3
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+index 2522205fa1c..1e65616081b 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+@@ -26,7 +26,6 @@ SRC_URI = "https://www.zytor.com/pub/syslinux/Testing/6.04/syslinux-${PV}.tar.xz
+            file://0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch \
+            "
+ 
+-SRC_URI[md5sum] = "2b31c78f087f99179feb357da312d7ec"
+ SRC_URI[sha256sum] = "4441a5d593f85bb6e8d578cf6653fb4ec30f9e8f4a2315a3d8f2d0a8b3fadf94"
+ 
+ # remove at next version upgrade or when output changes
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index 1327c446b3e..0d7ff9edcdc 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -28,7 +28,6 @@ SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+            file://run-ptest \
+            file://0001-fix-bzip2-version-tmp-aaa-will-hang.patch;subdir=${BP} \
+            "
+-SRC_URI[md5sum] = "67e051268d0c475ea773822f7500d0e5"
+ SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
+ 
+ SRCREV_bzip2-tests = "f9061c030a25de5b6829e1abf373057309c734c0"
+diff --git a/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb b/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb
+index 84687504349..7efe5cc5922 100644
+--- a/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb
++++ b/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb
+@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=eb723b61539feef013de476e68b5c50a"
+ 
+ SOURCEFORGE_PROJECT = "${BPN}.berlios"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${SOURCEFORGE_PROJECT}/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "074afcb50d0a8bff10786a2954b2b02d"
+ SRC_URI[sha256sum] = "3115603b891f3a163c0bbb5fea2f3742113a183fa6745ee5e89e5f6d0e9f6121"
+ 
+ inherit sourceforge-releases
+diff --git a/meta/recipes-extended/gperf/gperf_3.1.bb b/meta/recipes-extended/gperf/gperf_3.1.bb
+index 9175bc13e62..7a79c070426 100644
+--- a/meta/recipes-extended/gperf/gperf_3.1.bb
++++ b/meta/recipes-extended/gperf/gperf_3.1.bb
+@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 
+ SRC_URI  = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
+             file://0001-Make-the-code-C-17-compliant.patch"
+-SRC_URI[md5sum] = "9e251c0a618ad0824b51117d5d9db87e"
+ SRC_URI[sha256sum] = "588546b945bba4b70b6a3a616e80b4ab466e3f33024a352fc2198112cdbb3ae2"
+ 
+ SRC_URI += "file://1862c6e57a308a05889c80c048dbc58bdc378dcb.patch"
+diff --git a/meta/recipes-extended/mingetty/mingetty_1.08.bb b/meta/recipes-extended/mingetty/mingetty_1.08.bb
+index 00d2564257a..be059995e7c 100644
+--- a/meta/recipes-extended/mingetty/mingetty_1.08.bb
++++ b/meta/recipes-extended/mingetty/mingetty_1.08.bb
+@@ -7,7 +7,6 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0c56db0143f4f80c369ee3af7425af6e"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.gz"
+ 
+-SRC_URI[md5sum] = "2a75ad6487ff271424ffc00a64420990"
+ SRC_URI[sha256sum] = "0f55c90ba4faa913d91ef99cbf5cb2eb4dbe2780314c3bb17953f849c8cddd17"
+ 
+ # substitute our CFLAGS for "-O2 -Wall -W -pipe"
+diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+index 3fa89dec9a6..f95400998cd 100644
+--- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
++++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+@@ -15,7 +15,6 @@ SRC_URI = "https://launchpad.net/${BPN}/1.1/${PV}/+download/${BP}.tar.gz \
+            file://0001-pbzip2-Fix-invalid-suffix-on-literal-C-11-warning.patch \
+            "
+ 
+-SRC_URI[md5sum] = "4cb87da2dba05540afce162f34b3a9a6"
+ SRC_URI[sha256sum] = "8fd13eaaa266f7ee91f85c1ea97c86d9c9cc985969db9059cdebcb1e1b7bdbe6"
+ 
+ UPSTREAM_CHECK_URI = "https://launchpad.net/pbzip2/+milestones"
+diff --git a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
+index 3e0d216a032..3b681225c2c 100644
+--- a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
++++ b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
+@@ -17,5 +17,4 @@ BBCLASSEXTEND = "native"
+ RDEPENDS:${PN} += "perl-module-carp perl-module-exporter perl-module-strict perl-module-time-local"
+ RDEPENDS:${PN}-ptest += "perl-module-test-more perl-module-utf8"
+ 
+-SRC_URI[md5sum] = "b1d91153ac971347aee84292ed886c1c"
+ SRC_URI[sha256sum] = "75bd254871cb5853a6aa0403ac0be270cdd75c9d1b6639f18ecba63c15298e86"
+diff --git a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
+index b7e4c8b2232..ae0e5ad08a9 100644
+--- a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
++++ b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
+@@ -12,7 +12,6 @@ SRCNAME = "XML-NamespaceSupport"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c9d8a117e7620b5adf8d69c29613ceab"
+ 
+ SRC_URI = "${CPAN_MIRROR}/authors/id/P/PE/PERIGRIN/${SRCNAME}-${PV}.tar.gz"
+-SRC_URI[md5sum] = "a8916c6d095bcf073e1108af02e78c97"
+ SRC_URI[sha256sum] = "47e995859f8dd0413aa3f22d350c4a62da652e854267aa0586ae544ae2bae5ef"
+ 
+ UPSTREAM_CHECK_REGEX = "XML\-NamespaceSupport\-(?P<pver>(\d+\.\d+))(?!_\d+).tar"
+diff --git a/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb b/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
+index ebec5f0462e..8e8be934416 100644
+--- a/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
++++ b/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
+@@ -14,7 +14,6 @@ LIC_FILES_CHKSUM = "file://dist.ini;endline=5;md5=8f9c9a55340aefaee6e9704c884664
+ 
+ SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-Base-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "ec347a14065dd7aec7d9fb181b2d7946"
+ SRC_URI[sha256sum] = "66cb355ba4ef47c10ca738bd35999723644386ac853abbeb5132841f5e8a2ad0"
+ 
+ S = "${WORKDIR}/XML-SAX-Base-${PV}"
+diff --git a/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb b/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb
+index b5b111d2274..218af5c4375 100644
+--- a/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb
++++ b/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb
+@@ -17,7 +17,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=65c4cd8f39c24c7135ed70dacbcb09e3"
+ 
+ SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "b62e3754523695c7f5bbcafa3676a38d"
+ SRC_URI[sha256sum] = "4506c387043aa6a77b455f00f57409f3720aa7e553495ab2535263b4ed1ea12a"
+ 
+ S = "${WORKDIR}/XML-SAX-${PV}"
+diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+index 05644b7db95..de5fb3c5433 100644
+--- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
++++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+@@ -50,7 +50,6 @@ SRC_URI = "http://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
+            file://0001-Fix-implicit-function-declaration-warnings.patch \
+            "
+ 
+-SRC_URI[md5sum] = "e6fa25f71226d090f34de3f6b122fb5a"
+ SRC_URI[sha256sum] = "9543d7adedf78a6de0b221ccbbd1952e08b5138717f4ade814039bb489a4315d"
+ 
+ S = "${WORKDIR}/tcp_wrappers_${PV}"
+diff --git a/meta/recipes-extended/time/time_1.9.bb b/meta/recipes-extended/time/time_1.9.bb
+index 125554b378a..d6d8aa6e1e9 100644
+--- a/meta/recipes-extended/time/time_1.9.bb
++++ b/meta/recipes-extended/time/time_1.9.bb
+@@ -19,7 +19,6 @@ SRC_URI = "${GNU_MIRROR}/time/time-${PV}.tar.gz \
+            file://0001-Fix-the-type-for-sighandler_t.patch \
+            "
+ 
+-SRC_URI[md5sum] = "d2356e0fe1c0b85285d83c6b2ad51b5f"
+ SRC_URI[sha256sum] = "fbacf0c81e62429df3e33bda4cee38756604f18e01d977338e23306a3e3b521e"
+ 
+ inherit autotools
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index 0a88b4c092b..b2fed672396 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -36,7 +36,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+-SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+ SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
+ 
+ CVE_STATUS[CVE-2008-0888] = "fixed-version: Patch from https://bugzilla.redhat.com/attachment.cgi?id=293893&action=diff applied to 6.0 source"
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.16.bb b/meta/recipes-extended/watchdog/watchdog_5.16.bb
+index c88ea08ade6..c166ace665c 100644
+--- a/meta/recipes-extended/watchdog/watchdog_5.16.bb
++++ b/meta/recipes-extended/watchdog/watchdog_5.16.bb
+@@ -16,7 +16,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
+            file://0001-shutdown-Do-not-guard-sys-quota.h-sys-swap.h-and-sys.patch \
+ "
+ 
+-SRC_URI[md5sum] = "1b4f51cabc64d1bee2fce7cdd626831f"
+ SRC_URI[sha256sum] = "b8e7c070e1b72aee2663bdc13b5cc39f76c9232669cfbb1ac0adc7275a3b019d"
+ 
+ # Can be dropped when the output next changes, avoids failures after
+diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
+index 4d931805354..3ee320da5a1 100644
+--- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
++++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
+@@ -24,7 +24,6 @@ SRC_URI = "https://portland.freedesktop.org/download/${BPN}-${PV}.tar.gz \
+            file://CVE-2022-4055.patch \
+           "
+ 
+-SRC_URI[md5sum] = "902042508b626027a3709d105f0b63ff"
+ SRC_URI[sha256sum] = "d798b08af8a8e2063ddde6c9fa3398ca81484f27dec642c5627ffcaa0d4051d9"
+ 
+ UPSTREAM_CHECK_REGEX = "xdg-utils-(?P<pver>((\d+[\.\-_]*)+)((rc|alpha|beta)\d+)?)\.(tar\.gz|tgz)"
+diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
+index 58144baa149..b573669f2fb 100644
+--- a/meta/recipes-extended/zip/zip_3.0.bb
++++ b/meta/recipes-extended/zip/zip_3.0.bb
+@@ -22,7 +22,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.
+            "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+-SRC_URI[md5sum] = "7b74551e63f8ee6aab6fbc86676c0d37"
+ SRC_URI[sha256sum] = "f0e8bb1f9b7eb0b01285495a2699df3a4b766784c1765a8f1aeedf63c0806369"
+ 
+ CVE_STATUS[CVE-2018-13410] = "disputed: Disputed and also Debian doesn't consider a vulnerability"
+diff --git a/meta/recipes-graphics/glew/glew_2.2.0.bb b/meta/recipes-graphics/glew/glew_2.2.0.bb
+index d7a26a34381..b82b25c6028 100644
+--- a/meta/recipes-graphics/glew/glew_2.2.0.bb
++++ b/meta/recipes-graphics/glew/glew_2.2.0.bb
+@@ -10,7 +10,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
+            file://notempdir.patch \
+            file://no-strip.patch"
+ 
+-SRC_URI[md5sum] = "3579164bccaef09e36c0af7f4fd5c7c7"
+ SRC_URI[sha256sum] = "d4fc82893cfb00109578d0a1a2337fb8ca335b3ceccf97b97e5cc7f08e4353e1"
+ 
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/glew/files/glew"
+diff --git a/meta/recipes-graphics/menu-cache/menu-cache_1.1.0.bb b/meta/recipes-graphics/menu-cache/menu-cache_1.1.0.bb
+index 8875a939e09..0a5d32b2c6b 100644
+--- a/meta/recipes-graphics/menu-cache/menu-cache_1.1.0.bb
++++ b/meta/recipes-graphics/menu-cache/menu-cache_1.1.0.bb
+@@ -12,7 +12,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/lxde/menu-cache-${PV}.tar.xz \
+            file://0001-Support-gcc10-compilation.patch \
+ "
+ 
+-SRC_URI[md5sum] = "99999a0bca48b980105208760c8fd893"
+ SRC_URI[sha256sum] = "ed02eb459dcb398f69b9fa5bf4dd813020405afc84331115469cdf7be9273ec7"
+ 
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/lxde/files/menu-cache/1.1/"
+diff --git a/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb b/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
+index aa18881a12e..55b4065a4ac 100644
+--- a/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
++++ b/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
+@@ -28,5 +28,4 @@ SRC_URI = "http://www.freedesktop.org/software/startup-notification/releases/${B
+            file://time_t.patch \
+ "
+ 
+-SRC_URI[md5sum] = "2cd77326d4dcaed9a5a23a1232fb38e9"
+ SRC_URI[sha256sum] = "3c391f7e930c583095045cd2d10eb73a64f085c7fde9d260f2652c7cb3cfbe4a"
+diff --git a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
+index 0fc075a4680..ebc836d801c 100644
+--- a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
++++ b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
+@@ -14,7 +14,6 @@ inherit allarch fontcache
+ FONT_PACKAGES = "${PN}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/ttf-bitstream-vera/1.10/ttf-bitstream-vera-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "bb22bd5b4675f5dbe17c6963d8c00ed6"
+ SRC_URI[sha256sum] = "db5b27df7bbb318036ebdb75acd3e98f1bd6eb6608fb70a67d478cd243d178dc"
+ 
+ do_install () {
+diff --git a/meta/recipes-graphics/xorg-app/x11perf_1.6.1.bb b/meta/recipes-graphics/xorg-app/x11perf_1.6.1.bb
+index 651d03caca2..828523afb46 100644
+--- a/meta/recipes-graphics/xorg-app/x11perf_1.6.1.bb
++++ b/meta/recipes-graphics/xorg-app/x11perf_1.6.1.bb
+@@ -23,5 +23,4 @@ do_install:append:class-target () {
+ 
+ FILES:${PN} += "${libdir}/X11/x11perfcomp/*"
+ 
+-SRC_URI[md5sum] = "e96b56756990c56c24d2d02c2964456b"
+ SRC_URI[sha256sum] = "1c7e0b8ffc2794b4ccf11e04d551823abe0ea47b4f7db0637390db6fbe817c34"
+diff --git a/meta/recipes-graphics/xorg-app/xinput_1.6.4.bb b/meta/recipes-graphics/xorg-app/xinput_1.6.4.bb
+index f5e3f5da12b..1d406b848cd 100644
+--- a/meta/recipes-graphics/xorg-app/xinput_1.6.4.bb
++++ b/meta/recipes-graphics/xorg-app/xinput_1.6.4.bb
+@@ -9,5 +9,4 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=881525f89f99cad39c9832bcb72e6fa5"
+ DEPENDS += " libxi libxrandr libxinerama"
+ 
+ SRC_URI_EXT = "xz"
+-SRC_URI[md5sum] = "8e4d14823b7cbefe1581c398c6ab0035"
+ SRC_URI[sha256sum] = "ad04d00d656884d133110eeddc34e9c69e626ebebbbab04dc95791c2907057c8"
+diff --git a/meta/recipes-graphics/xorg-app/xwininfo_1.1.6.bb b/meta/recipes-graphics/xorg-app/xwininfo_1.1.6.bb
+index 39ec76724c0..d410f7d5196 100644
+--- a/meta/recipes-graphics/xorg-app/xwininfo_1.1.6.bb
++++ b/meta/recipes-graphics/xorg-app/xwininfo_1.1.6.bb
+@@ -12,5 +12,4 @@ DEPENDS += "libxext libxmu gettext-native"
+ PE = "0"
+ 
+ SRC_URI_EXT = "xz"
+-SRC_URI[md5sum] = "c91201bc1eb5e7b38933be8d0f7f16a8"
+ SRC_URI[sha256sum] = "3518897c17448df9ba99ad6d9bb1ca0f17bc0ed7c0fd61281b34ceed29a9253f"
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+index fa6585d6dce..9ec7cc30f58 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+@@ -19,7 +19,6 @@ XORG_EXT = "tar.bz2"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-SRC_URI[md5sum] = "16eaf156edd79b68038b6a7c44aa9e9b"
+ SRC_URI[sha256sum] = "1a7f7490774c87f2052d146d1e0e64518d32e6848184a18654e8d0bb57883242"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+diff --git a/meta/recipes-graphics/xrestop/xrestop_0.4.bb b/meta/recipes-graphics/xrestop/xrestop_0.4.bb
+index a6b6c4238db..0c237fcf56d 100644
+--- a/meta/recipes-graphics/xrestop/xrestop_0.4.bb
++++ b/meta/recipes-graphics/xrestop/xrestop_0.4.bb
+@@ -15,7 +15,6 @@ DEPENDS = "libxres libxext virtual/libx11 ncurses"
+ 
+ SRC_URI = "http://downloads.yoctoproject.org/releases/xrestop/xrestop-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "d8a54596cbaf037e62b80c4585a3ca9b"
+ SRC_URI[sha256sum] = "67c2fc94a7ecedbaae0d1837e82e93d1d98f4a6d759828860e552119af3ce257"
+ 
+ inherit autotools pkgconfig features_check
+diff --git a/meta/recipes-multimedia/lame/lame_3.100.bb b/meta/recipes-multimedia/lame/lame_3.100.bb
+index 5ace46ace0a..efaf3b9817a 100644
+--- a/meta/recipes-multimedia/lame/lame_3.100.bb
++++ b/meta/recipes-multimedia/lame/lame_3.100.bb
+@@ -14,7 +14,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/lame/lame-${PV}.tar.gz \
+            file://no-gtk1.patch \
+            "
+ 
+-SRC_URI[md5sum] = "83e260acbe4389b54fe08e0bdbf7cddb"
+ SRC_URI[sha256sum] = "ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e"
+ 
+ inherit autotools pkgconfig sourceforge-releases
+diff --git a/meta/recipes-multimedia/libogg/libogg_1.3.5.bb b/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
+index b4f02e404c4..402d700aa16 100644
+--- a/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
++++ b/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
+@@ -11,7 +11,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=db1b7a668b2a6f47b2af88fb008ad555 \
+ 
+ SRC_URI = "http://downloads.xiph.org/releases/ogg/${BP}.tar.xz"
+ 
+-SRC_URI[md5sum] = "3178c98341559657a15b185bf5d700a5"
+ SRC_URI[sha256sum] = "c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705"
+ 
+ inherit autotools pkgconfig
+diff --git a/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb b/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
+index f3d053d9f47..d0a9a59b7cd 100644
+--- a/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
++++ b/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
+@@ -12,7 +12,6 @@ SRC_URI = "http://downloads.xiph.org/releases/theora/libtheora-${PV}.tar.bz2 \
+            file://autoreconf.patch \
+            file://no-docs.patch"
+ 
+-SRC_URI[md5sum] = "292ab65cedd5021d6b7ddd117e07cd8e"
+ SRC_URI[sha256sum] = "b6ae1ee2fa3d42ac489287d3ec34c5885730b1296f0801ae577a35193d3affbc"
+ 
+ UPSTREAM_CHECK_REGEX = "libtheora-(?P<pver>\d+(\.\d)+)\.(tar\.gz|tgz)"
+diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
+index 023bce0abe8..d5bf5ff0fac 100644
+--- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
++++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
+@@ -13,7 +13,6 @@ DEPENDS = "libogg"
+ SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz \
+            file://0001-configure-Check-for-clang.patch \
+           "
+-SRC_URI[md5sum] = "50902641d358135f06a8392e61c9ac77"
+ SRC_URI[sha256sum] = "b33cc4934322bcbf6efcbacf49e3ca01aadbea4114ec9589d1b1e9d20f72954b"
+ 
+ inherit autotools pkgconfig
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.6.bb b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
+index 0f2153d493d..fc1b9856312 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.6.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
+@@ -20,7 +20,6 @@ SRC_URI = "http://www.freedesktop.org/software/ConsoleKit/dist/ConsoleKit-${PV}.
+            file://add-polkit-configure-argument.patch \
+ "
+ 
+-SRC_URI[md5sum] = "611792b4d616253a5bdec9175f8b7678"
+ SRC_URI[sha256sum] = "b41d17e06f80059589fbeefe96ad07bcc564c49e65516da1caf975146475565c"
+ 
+ S = "${WORKDIR}/ConsoleKit-${PV}"
+diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
+index 2e68398f576..8d2af1f5dc4 100644
+--- a/meta/recipes-support/db/db_5.3.28.bb
++++ b/meta/recipes-support/db/db_5.3.28.bb
+@@ -33,7 +33,6 @@ SRC_URI += "file://fix-parallel-build.patch \
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/db5.3/"
+ UPSTREAM_CHECK_REGEX = "db5\.3_(?P<pver>\d+(\.\d+)+).+\.orig"
+ 
+-SRC_URI[md5sum] = "b99454564d5b4479750567031d66fe24"
+ SRC_URI[sha256sum] = "e0a992d740709892e81f9d93f06daf305cf73fb81b545afe72478043172c3628"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=ed1158e31437f4f87cdd4ab2b8613955"
+diff --git a/meta/recipes-support/libdaemon/libdaemon_0.14.bb b/meta/recipes-support/libdaemon/libdaemon_0.14.bb
+index 089f19d1cdf..a0378802c9c 100644
+--- a/meta/recipes-support/libdaemon/libdaemon_0.14.bb
++++ b/meta/recipes-support/libdaemon/libdaemon_0.14.bb
+@@ -13,7 +13,6 @@ SRC_URI = "http://0pointer.de/lennart/projects/libdaemon/libdaemon-${PV}.tar.gz
+            file://fix-includes.patch \
+           "
+ 
+-SRC_URI[md5sum] = "509dc27107c21bcd9fbf2f95f5669563"
+ SRC_URI[sha256sum] = "fd23eb5f6f986dcc7e708307355ba3289abe03cc381fc47a80bca4a50aa6b834"
+ 
+ inherit autotools pkgconfig
+diff --git a/meta/recipes-support/libyaml/libyaml_0.2.5.bb b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
+index aa7fc5e9145..b1f516f7fee 100644
+--- a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
++++ b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
+@@ -8,7 +8,6 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://License;md5=7bbd28caa69f81f5cd5f48647236663d"
+ 
+ SRC_URI = "https://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz"
+-SRC_URI[md5sum] = "bb15429d8fb787e7d3f1c83ae129a999"
+ SRC_URI[sha256sum] = "c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4"
+ 
+ S = "${WORKDIR}/yaml-${PV}"
+diff --git a/meta/recipes-support/lzo/lzo_2.10.bb b/meta/recipes-support/lzo/lzo_2.10.bb
+index 195c2f29393..2132f1c27ff 100644
+--- a/meta/recipes-support/lzo/lzo_2.10.bb
++++ b/meta/recipes-support/lzo/lzo_2.10.bb
+@@ -13,7 +13,6 @@ SRC_URI = "http://www.oberhumer.com/opensource/lzo/download/lzo-${PV}.tar.gz \
+            file://run-ptest \
+            "
+ 
+-SRC_URI[md5sum] = "39d3f3f9c55c87b1e5d6888e1420f4b5"
+ SRC_URI[sha256sum] = "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072"
+ 
+ inherit autotools ptest
+diff --git a/meta/recipes-support/lzop/lzop_1.04.bb b/meta/recipes-support/lzop/lzop_1.04.bb
+index 2b83aa06d9d..c32aa534228 100644
+--- a/meta/recipes-support/lzop/lzop_1.04.bb
++++ b/meta/recipes-support/lzop/lzop_1.04.bb
+@@ -15,7 +15,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
+            file://acinclude.m4 \
+           "
+-SRC_URI[md5sum] = "271eb10fde77a0a96b9cbf745e719ddf"
+ SRC_URI[sha256sum] = "7e72b62a8a60aff5200a047eea0773a8fb205caf7acbe1774d95147f305a2f41"
+ 
+ inherit autotools
+diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+index 742e77eb18e..9e41c5b9ed5 100644
+--- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
++++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+@@ -9,7 +9,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz \
+            "
+ 
+-SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
+ SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67e7caf2"
+ 
+ inherit autotools features_check
 
