@@ -1,78 +1,106 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8681C369D9
-	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 09:57:29 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web11.13121.1746007044956813188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E145C369D9
+	for <webhook@archiver.kernel.org>; Wed, 30 Apr 2025 10:14:10 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.13389.1746008049211603298
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Apr 2025 02:57:25 -0700
+ Wed, 30 Apr 2025 03:14:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kdqnCLFP;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6e8f06e13a4so9744866d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 02:57:24 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EoUUNU3y;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso48572035e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 03:14:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746007044; x=1746611844; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=geqakurEeSOuSK6gi4Pru6VX5zN47TuKm7o/oR/WtyA=;
-        b=kdqnCLFP+n6i/gZtnlVrOXkxUS3XTCom5TTvolsJzLFDZm5/pHQKUDYjQWXwW72c/3
-         yWPsG9I3ISDF/UOsbJRySO5Mj0Le4k2gIwfM+0D+Yv3umMlpAgRor2VP0bCFhkYEz4AB
-         d+vLn/FHwVk1FM8ohExAqRY1p0eAfmbuoZ3dJVeK37kA0SbUGk2cWY5fHpPwdhcMzrcB
-         54svOTCprWfhw6ELCNNboV9ixfiNGRzgu3DC/SYWdHwgbwFDyM6vHIK9TIE+YqvyxGh9
-         5nGEdLTGOCPM6rZyV5VDZPyt2XacYjE6yfL0d68G8zFL9VHDm1iplL0XAJl12t0iTWll
-         W6sQ==
+        d=linuxfoundation.org; s=google; t=1746008047; x=1746612847; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3bUOV92bzGkh72H9ZyRbaIa7lQSI/7gj0RGSC9NADEk=;
+        b=EoUUNU3yc12Guhkuc9ItnAYUQzcVAGSkNedjatq4peRMF6Ke1XIsoeULVHm+v4BDqG
+         Hjuw6fDwS0JWC2v2GlTC2zh5nJUEF8gBHj6QfaertSpKuZOSvlPAMtp5rzeKvi/6c0QB
+         /8g3i/OG1DehiCOgj/iRXaKzttsSlzqCiGvSk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746007044; x=1746611844;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=geqakurEeSOuSK6gi4Pru6VX5zN47TuKm7o/oR/WtyA=;
-        b=GpREU5Ov7a9fpDIddolZJxfrt0Txn1+JZI45jTvTVpn3gYnnExybS5/bVNHUfBe6nI
-         12ck/a4cMI03P9sNWfgBp5sDLCI3fBBdCyR6g7ueKCP21xiqVlTljJ+HmOb83L9qOIR/
-         S5VMHTV4ESf5XbryRzdKZA/qAAcHV+6zQQG2TjOEKzLxVR7cxz3VOZAr56f7QYVoTmj+
-         h9YKLV7AOqfjsGvX4VweyL7V2I0YC680dqE25XfmcUDKXt5OhoxrLlBEC5+QYraMBsAT
-         ieqV8/UGKKodnoDxjY5I0OkC4PRyDgIuemnIfurn7krLTHbeRKCBTOOfQvnxdnoC1uHt
-         PjTw==
-X-Gm-Message-State: AOJu0YwIVm4xI2eFMRmhxRFpty1+rczbDKdZ42Thzxi2TFTmLXmUSSMO
-	IElEl7perJY0x9q5XjVemkWum096i4g+8o0B979XV8R/aUeJ0hC89ZmvhGDw7CP6Qvq8mWdw+pD
-	C5bGFbfu9eoiDJxXzpX09Xs1Fdj+UbA==
-X-Gm-Gg: ASbGncs1nIHtLxUTT1mfIWr01VP52TDahtP1iPH5HKxIpdausIF73qY4Yr5AdF4aKIu
-	MCSl5QKBdXix80XWCQmpM9ntYOHNaF/4C68kPdHfD4TjaAmb+NUw0aCyziz7ItbSw92iiTef4fo
-	XMViLthce6Sy6tNENfBHZ1NNBmml/gSR/iEg+H1Llm2veMGK+Txec7L/p0
-X-Google-Smtp-Source: AGHT+IHlZH5x0nW5hNDh5J1ygnS+n8eukSRy3s+RzPbuzrAStgVgi6c7a5wuMbEuvBySYsjyadmveHFFNB0BHd1FovA=
-X-Received: by 2002:ad4:5c85:0:b0:6e8:f387:e0d2 with SMTP id
- 6a1803df08f44-6f4fdcb104fmr28370026d6.11.1746007044035; Wed, 30 Apr 2025
- 02:57:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250429183801.1125000-1-tgamblin@baylibre.com> <20250429183801.1125000-3-tgamblin@baylibre.com>
-In-Reply-To: <20250429183801.1125000-3-tgamblin@baylibre.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 30 Apr 2025 11:57:12 +0200
-X-Gm-Features: ATxdqUHlyumxCEGhrCXypqUvX-WfFsgpHn2YzZOS2PVTg9S_2h1CEAh9S1DiLxM
-Message-ID: <CANNYZj8N0LnX131spYUn2Z+HoXTZck_ZpgvsftTmtHjeMakJcA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 2/2 v5] python3-numpy: fix ptests
-To: tgamblin@baylibre.com
-Cc: openembedded-core@lists.openembedded.org, Ross.Burton@arm.com
+        d=1e100.net; s=20230601; t=1746008047; x=1746612847;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3bUOV92bzGkh72H9ZyRbaIa7lQSI/7gj0RGSC9NADEk=;
+        b=QqhGspc1KzXg3JPgrYNsSBbCGJnQSfvQFc/wkqaYBdF6QdTaitd+L+PXWCd8fvEHBY
+         T6OTQBhC/5iBfoxm/fSbV32ELkiqbLLKGw3d93n1djmu7yhXJG1FV8NrenaYbWuE2Wll
+         Qi7v9LxY+5VTQQ0fWIzwVKslar/OgDnshF7PSvv6oFF7T0CYTZIV77JlqOwqIc+3KYLH
+         KkUvtKultl84fQJz8Ys2/tRzhOCg5Y5Iir484h9LvzGsUMlQNJLO5yMeKo4sH2x2hIaX
+         P8sJYEeAGrTqq6m7usSlyHSI/vfqn+U9VOc19yzk0zQmllklwgS2vQYxfuQ5Zjp0/kXN
+         rbig==
+X-Forwarded-Encrypted: i=1; AJvYcCWuXjs219cJ94J0smw6zyJThoxh5n3/L3S3Hp4LNEBZedu44Q6hQFKBK/LHVpLRS2he8nalCHuhpDk49g04p5iQnQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxfhfAkTrB2F1nKaS+ys5nxYT+tfOFkG+meWaT7NwldfaxQFpH3
+	3O1GfdRgE3wX/9w1w4cKTjRWZSZaTe1iyw3VfFyVg4aRBH1XRD37J2YlGKqWe84=
+X-Gm-Gg: ASbGncuOf+vEJ5G5GEy4U5297uFS5gM6+jX79scS5k1DFLMau1YSnfWUIcnvx6wTQry
+	QYhEd15QxCjwaTHfkxcTPmJpGG8myQuBYHa2iwzFVPblPS0hWU43kc+S21S2iZdgktqsPn+pFm8
+	vDaTE8AUn2PPVXz7PrPB6SEEADJ1OBpMnRpOxyc/r4IGAKm5HPy3RXADMEFNg7MakwLRLfIKsQD
+	JS1DqvDK4xIY4uSeUC4oz95Y7EEY+rr7g+QQ+FUInruchtTnKl4bZsDjyHT2drSbkGVTln15gVn
+	vrIrjS6okbwnlRVcMdN8oD2kIciZExOcGFz0JVgT0d5oUe14D5fPKJrLFvQDn2wKw4dzgFwk8m/
+	xHSV/zYU0KqZE0Ptx6KB1mK0DR4iwLw==
+X-Google-Smtp-Source: AGHT+IF2+/YzpmBieg3ojlE/pg0b68blQHwUSpxezKcatl95zFKWqwhOcgeAfOnHgupnOFufoADdkw==
+X-Received: by 2002:a5d:5f4e:0:b0:3a0:8c2c:4445 with SMTP id ffacd0b85a97d-3a08f79e73dmr2319320f8f.20.1746008047046;
+        Wed, 30 Apr 2025 03:14:07 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:da55:d8b8:29ea:771c? ([2001:8b0:aba:5f3c:da55:d8b8:29ea:771c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073e46454sm16646807f8f.78.2025.04.30.03.14.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Apr 2025 03:14:06 -0700 (PDT)
+Message-ID: <43b9e07da7d2fe6b8792d58d48f42cedb7ec8b65.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 1/8] linux-vulns: fetch kernel.org CNA info
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Daniel Turull <daniel.turull@ericsson.com>, 
+ "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: "Peter.Marko@siemens.com" <Peter.Marko@siemens.com>
+Date: Wed, 30 Apr 2025 11:14:05 +0100
+In-Reply-To: <PR3PR07MB666632E36F8CC1E8EE14AF258A802@PR3PR07MB6666.eurprd07.prod.outlook.com>
+References: <20250429143904.634082-1-daniel.turull@ericsson.com>
+		 <20250429143904.634082-2-daniel.turull@ericsson.com>
+	 <f15f7db2297bcd53287699582e960fb29b919fd8.camel@linuxfoundation.org>
+	 <PR3PR07MB666632E36F8CC1E8EE14AF258A802@PR3PR07MB6666.eurprd07.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 09:57:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215737
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 10:14:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215738
 
-On Tue, 29 Apr 2025 at 20:38, Trevor Gamblin via
-lists.openembedded.org <tgamblin=baylibre.com@lists.openembedded.org>
-wrote:
-> +# test_mem_policy fails if there's no C compiler present, but we don't want to
-> +# include gcc as a ptest dependency, so skip that. test_big_arrays uses up a
-> +# large amount of storage, so skip that too.
-> +pytest --automake -m "not slow" -k "not test_mem_policy and not test_big_arrays" /usr/lib/python3.*/site-packages/numpy
+On Tue, 2025-04-29 at 15:21 +0000, Daniel Turull wrote:
+> Hi,
+>=20
+> On the original patch I had it as normal SRC_URI, but I changed to
+> the variable not to interfere with the fetcher.
+> Now I tested and I see that SRC_URI just works fine.=20
+> I'll send a new patch with the change.
+>=20
+> After the comment from Peter, I decided to skip the git fetcher since
+> we need to use the latest version and AUTOREV is not working with
+> offline builds.
+>=20
+> The variable needs to be overridden in case we need to use a mirror.
+> Or is it a way to use existing premirrors without the fetcher?
 
-Sorry for not replying earlier; I disagree with Ross here. It's okay
-to require gcc and we shouldn't be skipping tests that want it.
+Sounds good thanks.
 
-Alex
+It is true that we don't want our default install fetching floating
+revisions from git repos. I think we can do this by defaulting to a
+revision we update periodically and then have the classes/conf files
+set AUTOREV as/where needed so users opt into it.
+
+I'd much rather do that and use the fetcher than trying to reinvent
+AUTOREV, mirroring and other things. We can improve the fetcher if
+needed too.
+
+Cheers,
+
+Richard
+
 
