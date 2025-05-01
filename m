@@ -2,158 +2,166 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AB0FC3ABA3
-	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 05:55:10 +0000 (UTC)
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
- by mx.groups.io with SMTP id smtpd.web10.5307.1746078900272428315
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 881B6C3ABA3
+	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 06:33:50 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.5685.1746081223209502234
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Apr 2025 22:55:00 -0700
+ Wed, 30 Apr 2025 23:33:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XFo46LBW;
- spf=pass (domain: gmail.com, ip: 209.85.161.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-605f7d3216bso141874eaf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 22:55:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=R//u0o34;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-736aaeed234so673220b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 23:33:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746078899; x=1746683699; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xdPxbeU3miR7PPFXJQaGCNo18CLUe41lndMCKpZUrU4=;
-        b=XFo46LBW9KfN1occKREA8m0ZyuScSmbjOk3B8KGgcSMk4GtCGyU+ItteU6F9UBS6FB
-         yXM0b7St8CzITRrqcv9OBEI30jnYemptOSPZBkt7aNRJuzB9cj+GDWKZOa3WDbax1Af6
-         6uCC+WBd0s+rwGNHCbxEkfbanZrVqz2ntI3prBPbkaQGarJGMhh+DgPHagRs4gTCyn2C
-         cAsYp7c9O4AYhXEyjDRvmncdZis6RoTl2wRXd11wDQQTYS2YPFUngdPqYUORIflDPbh6
-         i1t5o0v1sIqhdCOoiyk10N7xUwUNT2n/LbOLgFIUVfTueUhbjHKE7tH5P5C7fRIj5EL4
-         Wpzg==
+        d=gmail.com; s=20230601; t=1746081222; x=1746686022; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m5FruCdz2IkOV61Q3KibGDbQg0rbWXNceRDBW8pV7HU=;
+        b=R//u0o34mYS9+Er/ghJH+GJ1ZP7gnFfMCKObPyq7JOp1EK7QMoOGqevmj5HxDlNs9b
+         3k9zZjAAagS8qDwJPCMZRoY0WL00PiPqVlngklToshY3HbyltYbqHeF9D7kuC/yGXI/u
+         axIjblcbuasgXZbs1emcyuIeCoPysnFXDrR9PMMIxWRidGKhiqIbnp1F1IaQI+/No4RX
+         WlY9jIcnGdY7vZ+2rx552mpDFe+7NdtFvmKDnQUUbKyLfdMPMi8tnRC7hQgPQ995bX8W
+         +MmLaoXfN87e92aknJRXs+lJCXw6BFWt8dfjs0pQ97xhInjh7ASbNr3/L+iBF0gqVmYA
+         WTBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746078899; x=1746683699;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xdPxbeU3miR7PPFXJQaGCNo18CLUe41lndMCKpZUrU4=;
-        b=XqYDKXOM1TIx0IdoIx3lUNjh2nVfvtD5yZ92jAdCUSeZ4ac8LZ3Z260C1fhqzy97PZ
-         FQd0NSg2YMkAIizbfYHRiQ4p6/1GpLCuXHDZZbNGKjIh3S45rSvJYCWMRZgilS4NwU8W
-         LVfEeRzijZEPr0G42VvuivREiMT8mvM2Gx8MdJ2Ps2MR/klI2ULvjItN1taK5lJYPbKu
-         b1dvQa6ivhRnPq3lOIM1zTJWKICl09MHw+oZ1HK+xWz0TfBFu2heAXT3svwmNAGMmuPm
-         /B5gDAaaw4ZqKT61Gv5fM5l4KpK0evg3gHvfSdQd+tMxW8YeQPEpZmVzGlWFvuIen94L
-         UyUw==
-X-Gm-Message-State: AOJu0Yx+LvIXQLjF4q1Ma18Yr2HqfALAnS19mo+tKngJEFFfbDV3EILw
-	C9mRD9WaS7V5Xan02yGho/UVK906JTOXvIv7FSPrCxn61P2az7UmAJbM3tZKmx3Rpq32nO5rW84
-	3f85eKjTqpc3HgPtT6ufxClL9YIWliyB/
-X-Gm-Gg: ASbGnculBLKNUYg6Y5BlJ00DEM8b/xBv8i8BHk9I7YSUq0l3GkSuVFI2mKhgUjOcRqR
-	6T/47rlk7eqbyMmAH7ytXjEuqccCE05kXV+iR+xk2BYxN+4uJ6iBkdMHI3oog0NOLza0fZqnUv+
-	GJHZozrweYG4WKprzlEcs3+Q==
-X-Google-Smtp-Source: AGHT+IH16AUM9xHrzg98CRTpqfia2ldAC/S31iax3Qytdq2VOvUkSC/3AeSdVYj9ibn7LeRg4Xuo3n8fFe2aEoX7PG8=
-X-Received: by 2002:a4a:e916:0:b0:603:f973:1b3 with SMTP id
- 006d021491bc7-607d40fc7d8mr3193786eaf.0.1746078899402; Wed, 30 Apr 2025
- 22:54:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250501030313.638148-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20250501030313.638148-1-Deepesh.Varatharajan@windriver.com>
+        d=1e100.net; s=20230601; t=1746081222; x=1746686022;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m5FruCdz2IkOV61Q3KibGDbQg0rbWXNceRDBW8pV7HU=;
+        b=rmbblDYEUlG70gNKWuCYoy50tDRKm+tvpaAMaABcvpr44dzh9T+sFzkTJzfKkXz7ve
+         VI77A3co8F0vhvGTXpXo3IOpXn/BZecFjOi8arhenayMkBaqAsjoWUIq+ySkGgNBcjpw
+         E8GaGYX/DgEMC+dL0ImJ80saEttgYDHphPykaNzCwPWtmutbQ3HxVSh7dV69QYMbj4a2
+         yPaTw+sQ6n8FrBW2GFPB+MPgseslktJsbLfDVXPmuwGO5wPnQ6jgji0uJbrONlkGdNj5
+         Yk3YWLj+PGqRIlKqKr9iRnRbCr5Jno7u3nOO96q6voib7RFbIXquyRMQkX07eyY/Ps8X
+         yWyg==
+X-Gm-Message-State: AOJu0YzjvXhRCN/7fIUsh14qg5+m0UPxNd6C8QwSpUVQOrVllEAgQ4p7
+	r5zvwt6QDuRAhLrU/4CH6IWVA0ZmViY/0tNyFG9G8X/EG9T3OHvlCe6ovKXw
+X-Gm-Gg: ASbGnctZNEgavcDoAZyftk7Am3cj43bjfB3cLJ9ynYJf0nw89AhU5cXekJggjgEmgYH
+	nHNacRkfnCEdsOQxvjjiff4pRLxEYzh0pmX7fElXyfc3Yu6gbTowLf9ui7/FRrRyyIZ/4Mh4Yel
+	IZLJd5onvAoxVEyRNxCO+5YjTuVrMJpc6eb8txbs6DEA1d+HgLH+oy5ilx6pycaz7IVjoQqVY9X
+	EfqsUylUVrK2qdj58+iFfTwj26bcovO6XGWmSceD9w47YOMP+XBXEb35/ayBc93Yae/XQH42rWk
+	nFYRFqk0o23IqPzdBdk+cxkFisG7yP8W
+X-Google-Smtp-Source: AGHT+IH95IEh8vVV38PKHaxzhuaNPr3MDZsKUQ2dxxsiKDGvtVi+cKzoFRHTUsFiotnQ92Z6VF+fnA==
+X-Received: by 2002:a05:6a20:c78e:b0:1f5:884a:7549 with SMTP id adf61e73a8af0-20bd873eebbmr2149772637.41.1746081222022;
+        Wed, 30 Apr 2025 23:33:42 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::b8ae])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b1f9d6436c2sm73222a12.49.2025.04.30.23.33.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Apr 2025 23:33:41 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 30 Apr 2025 22:54:33 -0700
-X-Gm-Features: ATxdqUHDjnvp-U9fRtOhbyZMX1K10P7N0EhyxBgRO_t9UA1id_JSBHZgwt9vf2A
-Message-ID: <CAMKF1soiQ=bmtZwHLLZ4OAEHA=8r04mQ0ATyFmcCaZmy27tXVQ@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] glibc: stable 2.39 branch updates
-To: deepesh.varatharajan@windriver.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] rust: Fix build with GCC-15 on aarch64/musl
+Date: Wed, 30 Apr 2025 23:33:39 -0700
+Message-ID: <20250501063339.1587969-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 05:55:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215764
+ <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 06:33:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215765
 
-On Wed, Apr 30, 2025 at 8:03=E2=80=AFPM Varatharajan, Deepesh via
-lists.openembedded.org
-<deepesh.varatharajan=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->
-> 3463100f2d x86: Detect Intel Diamond Rapids
-> e09436c2cb x86: Handle unknown Intel processor with default tuning
-> 7620d98186 x86: Add ARL/PTL/CWF model detection support
-> 765ff3d0d4 x86: Optimize xstate size calculation
-> 65ae73be01 x86: Use `Avoid_Non_Temporal_Memset` to control non-temporal p=
-ath
-> 2be36448c4 x86: Tunables may incorrectly set Prefer_PMINUB_for_stringop (=
-bug 32047)
-> bde201e92c x86: Disable non-temporal memset on Skylake Server
-> 38a7632f2d x86: Fix value for `x86_memset_non_temporal_threshold` when it=
- is undesirable
-> cc59fa5dbc x86: Enable non-temporal memset tunable for AMD
-> 0da58e8be0 x86: Add seperate non-temporal tunable for memset
-> 837a36c371 x86: Link tst-gnu2-tls2-x86-noxsave{,c,xsavec} with libpthread
-> 87ab0c7f7f x86: Use separate variable for TLSDESC XSAVE/XSAVEC state size=
- (bug 32810)
-> 60cd7123a6 x86: Skip XSAVE state size reset if ISA level requires XSAVE
-> 4cf3f9df54 x86_64: Add atanh with FMA
-> 01ed435e2e x86_64: Add sinh with FMA
-> 0edcc77fe7 x86_64: Add tanh with FMA
-> 7ecf0d3bde x86-64: Exclude FMA4 IFUNC functions for -mapxf
-> e1fe22368e nptl: clear the whole rseq area before registration
-> dd8c0c3bbd math: Improve layout of exp/exp10 data
-> a1b09e59e2 AArch64: Use prefer_sve_ifuncs for SVE memset
-> d0e2133470 AArch64: Add SVE memset
-> 0cc12d9c47 math: Improve layout of expf data
-> 0cd10047bf AArch64: Remove zva_128 from memset
-> dd1e63ab58 AArch64: Optimize memset
-> 65a96a6f2b AArch64: Improve generic strlen
-> 4073e4ee2c AArch64: Improve codegen for SVE logs
-> 78abd3ef6e AArch64: Improve codegen in SVE tans
-> a10183b633 AArch64: Improve codegen of AdvSIMD atan(2)(f)
-> dcd1229e5b AArch64: Improve codegen of AdvSIMD logf function family
-> 72156cb90b AArch64: Improve codegen in AdvSIMD logs
-> 5e354bf4e2 AArch64: Simplify rounding-multiply pattern in several AdvSIMD=
- routines
-> 80df456112 aarch64: Avoid redundant MOVs in AdvSIMD F32 logs
-> d591876303 aarch64: Fix AdvSIMD libmvec routines for big-endian
-> f6d48470ae assert: Add test for CVE-2025-0395
->
-> Testresults:
-> After update    |Before update   |Difference
-> PASS: 5068      |PASS: 5072      |PASS: +4
+GCC-15 has _CHKFEAT_GCS defined in arm_acle.h to indicate gcs intrinsics
+support, this trips llvm libunwind gcs feature detection logic to set
+gcs feature on. However the contructs used in unwindlib are assuming clang
+and the needed target attribute is not available in gcc it should be +gcs
+to work with both clang and gcc
 
-+4 should mean more passes after update but the table shows otherwise.
-Can you list the 4 tests which are passing now ?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Disable gcs with gcc, it was as such with gcc-14 too
 
-> FAIL: 120       |FAIL: 120       |FAIL: 0
-> XPASS: 4        |XPASS: 4        |XPASS: 0
-> XFAIL: 16       |XFAIL: 16       |XFAIL: 0
-> UNSUPPORTED: 157|UNSUPPORTED: 157|UNSUPPORTED: 0
->
-> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-> ---
->  meta/recipes-core/glibc/glibc-version.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
-e/glibc/glibc-version.inc
-> index da9227ccca..040fc793b1 100644
-> --- a/meta/recipes-core/glibc/glibc-version.inc
-> +++ b/meta/recipes-core/glibc/glibc-version.inc
-> @@ -1,6 +1,6 @@
->  SRCBRANCH ?=3D "release/2.39/master"
->  PV =3D "2.39+git"
-> -SRCREV_glibc ?=3D "662516aca8b6bf6aa6555f471055d5eb512b1ddc"
-> +SRCREV_glibc ?=3D "3463100f2d47f2897a24ba8023a5c7aaf2d26550"
->  SRCREV_localedef ?=3D "fab74f31b3811df543e24b6de47efdf45b538abc"
->
->  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#215761): https://lists.openembedded.org/g/openembedde=
-d-core/message/215761
-> Mute This Topic: https://lists.openembedded.org/mt/112554022/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+ ...-gcs-instead-of-gcs-target-attribute.patch | 66 +++++++++++++++++++
+ meta/recipes-devtools/rust/rust-source.inc    |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-devtools/rust/files/0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch
+
+diff --git a/meta/recipes-devtools/rust/files/0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch b/meta/recipes-devtools/rust/files/0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch
+new file mode 100644
+index 00000000000..a704671fb9b
+--- /dev/null
++++ b/meta/recipes-devtools/rust/files/0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch
+@@ -0,0 +1,66 @@
++From e4f4094de8ddcbe6d5ff1cdf782d2b89e0563903 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 30 Apr 2025 19:51:19 -0700
++Subject: [PATCH] libunwind: Use +gcs instead of gcs target attribute
++
++__attribute__((target("gcs"))) does not work with gcc
++
++GCC-15 has added gcs intrinsics [1] but the syntax for enabling it is
++slightly different. This syntax works with clang too.
++
++With gcc15 compiler libunwind's check for this macros is succeeding and it
++ends up enabling 'gcs' by using function attribute, this works with clang
++but not with gcc but '+gcs' works with both
++
++We can see this in rust compiler bootstrap for aarch64/musl when system
++uses gcc15, it ends up with these errors
++
++Building libunwind.a for aarch64-poky-linux-musl
++cargo:warning=/mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux-musl/rust/1.85.1/rustc-1.85.1-src/src/llvm-project/libunwind/src/UnwindLevel1.c:191:1: error: arch extension 'gcs' should be prefixed by '+'
++cargo:warning=  191 | unwind_phase2(unw_context_t *uc, unw_cursor_t *cursor, _Unwind_Exception *exception_object) {
++cargo:warning=      | ^~~~~~~~~~~~~
++cargo:warning=/mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux-musl/rust/1.85.1/rustc-1.85.1-src/src/llvm-project/libunwind/src/UnwindLevel1.c:337:22: error: arch extension 'gcs' should be prefixed by '+'
++cargo:warning=  337 |                      _Unwind_Stop_Fn stop, void *stop_parameter) {
++cargo:warning=      |                      ^~~~~~~~~~~~~~~
++
++[1] https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=5a6af707f0af
++
++Upstream-Status: Submitted [https://github.com/llvm/llvm-project/pull/138077]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/llvm-project/libunwind/src/UnwindLevel1.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++--- a/src/llvm-project/libunwind/src/UnwindLevel1.c
+++++ b/src/llvm-project/libunwind/src/UnwindLevel1.c
++@@ -185,7 +185,7 @@ extern int __unw_step_stage2(unw_cursor_
++ 
++ #if defined(_LIBUNWIND_USE_GCS)
++ // Enable the GCS target feature to permit gcspop instructions to be used.
++-__attribute__((target("gcs")))
+++__attribute__((target("+gcs")))
++ #endif
++ static _Unwind_Reason_Code
++ unwind_phase2(unw_context_t *uc, unw_cursor_t *cursor, _Unwind_Exception *exception_object) {
++@@ -329,7 +329,7 @@ unwind_phase2(unw_context_t *uc, unw_cur
++ 
++ #if defined(_LIBUNWIND_USE_GCS)
++ // Enable the GCS target feature to permit gcspop instructions to be used.
++-__attribute__((target("gcs")))
+++__attribute__((target("+gcs")))
++ #endif
++ static _Unwind_Reason_Code
++ unwind_phase2_forced(unw_context_t *uc, unw_cursor_t *cursor,
++--- a/src/llvm-project/libunwind/src/cet_unwind.h
+++++ b/src/llvm-project/libunwind/src/cet_unwind.h
++@@ -42,7 +42,8 @@
++ #include <arm_acle.h>
++ 
++ // We can only use GCS if arm_acle.h defines the GCS intrinsics.
++-#ifdef _CHKFEAT_GCS
+++// Enable gcs with clang for now, gcc does not build unwindlevel1.c correctly
+++#if defined(_CHKFEAT_GCS) && defined(__clang__)
++ #define _LIBUNWIND_USE_GCS 1
++ #endif
++ 
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index 25c0a1ce52a..82d28cf09f4 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -8,6 +8,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch;patchdir=${RUSTSRC} \
+             file://revert-link-std-statically-in-rustc_driver-feature.patch;patchdir=${RUSTSRC} \
+             file://Zdual-proc-macros-additional-check.patch;patchdir=${RUSTSRC} \
++            file://0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch;patchdir=${RUSTSRC} \
+ "
+ SRC_URI[rust.sha256sum] = "b1fbf809efe9f036939401e142631c201a53bcf43ec1696bd9f5290ba236a266"
+ 
 
