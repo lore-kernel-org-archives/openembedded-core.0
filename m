@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A1DAC5B548
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4056C5B549
 	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:34:09 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.1822.1746113638667162503
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.1782.1746113612990327236
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:33:58 -0700
+ Thu, 01 May 2025 08:33:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jNLavHAj;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=rthcnQ2D;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101968c7baf47-882c09f4-9230-4844-9583-740690ff65d1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=hk9Ofh8k;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=XnY8TBmT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101968c7bb42e-29323da8-6bc7-454a-b593-835c21fb0008-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1746113638;
+	t=1746113639;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=kOeJLzFh/heaIuuLZ9ebXNoRLv8wiQfVsx/4CtUuJeo=;
-	b=jNLavHAj2N6eqQq7TMOu46sXklfRME0eFwTEs/N3Ua+6TtBR1uay4AWY4HDkdMIE
-	vfkK8Y68P6usoKYX+nM938A0odJjZNZw0uo+Fnjnp+YgmDZxmWp3LXp0GbkEMeG3gC/
-	tQQeWoY/Acn74fCrPU0tt+GaX84FIon3tnKtj8c0=
+	bh=pN8A9RzLpcV8GUmij0IHKhRJg0nHxi21Mv2LBQ8Nqe4=;
+	b=hk9Ofh8kyaauRWRb0mXN9OEx6W35QbnOb80t7joL26n6su0fK4MWmB2lsviBTHQ5
+	NEFBP+s3G78VuMIuwMAZeH+gxtfo5J3yPZB3KzrQJW5U/r6A5nefsNzK0XlIUJd/KA4
+	YfdI1EmRVuDZoXI//z/aOsQcW7Ew70RJGWit8YOs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113638;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113639;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=kOeJLzFh/heaIuuLZ9ebXNoRLv8wiQfVsx/4CtUuJeo=;
-	b=rthcnQ2Dhy0XLks/G858VZKW9eXdeMMK6ajHYi8nUeTzHyZXd6HJtLyO12Jx+1I+
-	GKnhj+Fv1l67xQy51H3yMwJIBGgXDeQ9n8e6SuAPBi+ckgFJfdYWP56bEHJyr65SRYG
-	CKAZ+yvF6I6RGB2m8Hxtz/FF+f/Srd7VCg7QwjPE=
-Content-Type: multipart/mixed; boundary="===============3979128919625429848=="
+	bh=pN8A9RzLpcV8GUmij0IHKhRJg0nHxi21Mv2LBQ8Nqe4=;
+	b=XnY8TBmTyw2pS1k8A8mJiRdvO2vht0qY4j8kw9Qt3rkgMnZSwF1S+2XE19MV6yfd
+	ZxGK8G5vevluq7bg1z1Gk82l3G4mnpKuV4sQeMYk1shW+FW3RS6SUKMeXVbmbeE4wZ4
+	4NdVLUg8MEpXO8z15bwMAGBMOSrWa0KPET0rw8Uc=
+Content-Type: multipart/mixed; boundary="===============7710513336716537808=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] boost-build-native: upgrading to 1.88.0 SUCCEEDED
-Message-ID: <010101968c7baf47-882c09f4-9230-4844-9583-740690ff65d1-000000@us-west-2.amazonses.com>
-Date: Thu, 1 May 2025 15:33:58 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] enchant2: upgrading to 2.8.4 SUCCEEDED
+Message-ID: <010101968c7bb42e-29323da8-6bc7-454a-b593-835c21fb0008-000000@us-west-2.amazonses.com>
+Date: Thu, 1 May 2025 15:33:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.29
+X-SES-Outgoing: 2025.05.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:34:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215883
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215888
 
---===============3979128919625429848==
+--===============7710513336716537808==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *boost-build-native* to *1.88.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *enchant2* to *2.8.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-boost-build-native-upgrade-1.87.0-1.88.0.patch
+    - apply the patch: git am 0001-enchant2-upgrade-2.8.2-2.8.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,44 +72,114 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2e48262c018fabe3762623b9ec0494b4e43ea53b Mon Sep 17 00:00:00 2001
+From 1196628aed0d823b67d524fa3b2be94d774dce56 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 May 2025 13:55:23 +0000
-Subject: [PATCH] boost-build-native: upgrade 1.87.0 -> 1.88.0
+Date: Thu, 1 May 2025 14:39:34 +0000
+Subject: [PATCH] enchant2: upgrade 2.8.2 -> 2.8.4
 
 ---
- ...{boost-build-native_1.87.0.bb => boost-build-native_1.88.0.bb} | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-support/boost/{boost-build-native_1.87.0.bb => boost-build-native_1.88.0.bb} (100%)
+ .../enchant/{enchant2_2.8.2.bb => enchant2_2.8.4.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/enchant/{enchant2_2.8.2.bb => enchant2_2.8.4.bb} (91%)
 
-diff --git a/meta/recipes-support/boost/boost-build-native_1.87.0.bb b/meta/recipes-support/boost/boost-build-native_1.88.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/boost-build-native_1.87.0.bb
-rename to meta/recipes-support/boost/boost-build-native_1.88.0.bb
+diff --git a/meta/recipes-support/enchant/enchant2_2.8.2.bb b/meta/recipes-support/enchant/enchant2_2.8.4.bb
+similarity index 91%
+rename from meta/recipes-support/enchant/enchant2_2.8.2.bb
+rename to meta/recipes-support/enchant/enchant2_2.8.4.bb
+index e26fb640f4..a5479a0e7d 100644
+--- a/meta/recipes-support/enchant/enchant2_2.8.2.bb
++++ b/meta/recipes-support/enchant/enchant2_2.8.4.bb
+@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 groff-native"
+ inherit autotools pkgconfig github-releases
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "8f19535adb5577b83b00e02f330fe9b9eb40dd21f19e2899636fc4d3a7696375"
++SRC_URI[sha256sum] = "e28f98208df5f99320d6a05cd49f83420bf71e69052debe3b343c9bb15c833ed"
+ 
+ GITHUB_BASE_URI = "https://github.com/rrthomas/enchant/releases"
+ 
 -- 
 2.47.1
 
 
---===============3979128919625429848==
+--===============7710513336716537808==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-boost-build-native-upgrade-1.87.0-1.88.0.patch"
+ filename="0001-enchant2-upgrade-2.8.2-2.8.4.patch"
 
-RnJvbSAyZTQ4MjYyYzAxOGZhYmUzNzYyNjIzYjllYzA0OTRiNGU0M2VhNTNiIE1vbiBTZXAgMTcg
+RnJvbSAxMTk2NjI4YWVkMGQ4MjNiNjdkNTI0ZmEzYjJiZTk0ZDc3NGRjZTU2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxMzo1NToyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJv
-b3N0LWJ1aWxkLW5hdGl2ZTogdXBncmFkZSAxLjg3LjAgLT4gMS44OC4wCgotLS0KIC4uLntib29z
-dC1idWlsZC1uYXRpdmVfMS44Ny4wLmJiID0+IGJvb3N0LWJ1aWxkLW5hdGl2ZV8xLjg4LjAuYmJ9
-IHwgMAogMSBmaWxlIGNoYW5nZWQsIDAgaW5zZXJ0aW9ucygrKSwgMCBkZWxldGlvbnMoLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9ib29zdC97Ym9vc3QtYnVpbGQtbmF0aXZlXzEuODcu
-MC5iYiA9PiBib29zdC1idWlsZC1uYXRpdmVfMS44OC4wLmJifSAoMTAwJSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ib29zdC9ib29zdC1idWlsZC1uYXRpdmVfMS44Ny4wLmJi
-IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYm9vc3QvYm9vc3QtYnVpbGQtbmF0aXZlXzEuODguMC5i
-YgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-Ym9vc3QvYm9vc3QtYnVpbGQtbmF0aXZlXzEuODcuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvYm9vc3QvYm9vc3QtYnVpbGQtbmF0aXZlXzEuODguMC5iYgotLSAKMi40Ny4xCgo=
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxNDozOTozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVu
+Y2hhbnQyOiB1cGdyYWRlIDIuOC4yIC0+IDIuOC40CgotLS0KIC4uLi9lbmNoYW50L3tlbmNoYW50
+Ml8yLjguMi5iYiA9PiBlbmNoYW50Ml8yLjguNC5iYn0gICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1zdXBwb3J0L2VuY2hhbnQve2VuY2hhbnQyXzIuOC4yLmJiID0+IGVuY2hhbnQyXzIuOC40
+LmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2VuY2hhbnQvZW5j
+aGFudDJfMi44LjIuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9lbmNoYW50L2VuY2hhbnQyXzIu
+OC40LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBw
+b3J0L2VuY2hhbnQvZW5jaGFudDJfMi44LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBw
+b3J0L2VuY2hhbnQvZW5jaGFudDJfMi44LjQuYmIKaW5kZXggZTI2ZmI2NDBmNC4uYTU0NzlhMGU3
+ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZW5jaGFudC9lbmNoYW50Ml8yLjgu
+Mi5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9lbmNoYW50L2VuY2hhbnQyXzIuOC40LmJi
+CkBAIC0xMiw3ICsxMiw3IEBAIERFUEVORFMgPSAiZ2xpYi0yLjAgZ3JvZmYtbmF0aXZlIgogaW5o
+ZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIGdpdGh1Yi1yZWxlYXNlcwogCiBTUkNfVVJJID0gIiR7
+R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92JHtQVn0vZW5jaGFudC0ke1BWfS50YXIuZ3oiCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiOGYxOTUzNWFkYjU1NzdiODNiMDBlMDJmMzMwZmU5YjllYjQw
+ZGQyMWYxOWUyODk5NjM2ZmM0ZDNhNzY5NjM3NSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlMjhm
+OTgyMDhkZjVmOTkzMjBkNmEwNWNkNDlmODM0MjBiZjcxZTY5MDUyZGViZTNiMzQzYzliYjE1Yzgz
+M2VkIgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL3JydGhvbWFzL2Vu
+Y2hhbnQvcmVsZWFzZXMiCiAKLS0gCjIuNDcuMQoK
 
---===============3979128919625429848==--
+--===============7710513336716537808==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGV changed from 2.8.2 [default] to 2.8.4 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PV changed from "2.8.2" to "2.8.4"
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGSIZE changed from 374072 to 458768 (+23%)
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: FILELIST: removed "/usr/lib/.debug/libenchant-2.so.2.8.2", added "/usr/lib/.debug/libenchant-2.so.2.8.4"
+packages/core2-64-poky-linux/enchant2/enchant2-dev: PKGV changed from 2.8.2 [default] to 2.8.4 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-dev: PV changed from "2.8.2" to "2.8.4"
+packages/core2-64-poky-linux/enchant2/enchant2-doc: PKGV changed from 2.8.2 [default] to 2.8.4 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-doc: PV changed from "2.8.2" to "2.8.4"
+packages/core2-64-poky-linux/enchant2/enchant2-doc: PKGSIZE changed from 23346 to 23339 (-0%)
+packages/core2-64-poky-linux/enchant2/enchant2-locale: PKGV changed from 2.8.2 [default] to 2.8.4 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-locale: PV changed from "2.8.2" to "2.8.4"
+packages/core2-64-poky-linux/enchant2/enchant2-src: PKGV changed from 2.8.2 [default] to 2.8.4 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-src: PV changed from "2.8.2" to "2.8.4"
+packages/core2-64-poky-linux/enchant2/enchant2-src: PKGSIZE changed from 356917 to 469057 (+31%)
+packages/core2-64-poky-linux/enchant2/enchant2-src: FILELIST: directory renamed /usr/src/debug/enchant2/2.8.2/lib -> /usr/src/debug/enchant2/2.8.4/lib, added "/usr/src/debug/enchant2/2.8.4/src/util.c /usr/src/debug/enchant2/2.8.4/src/enchant.c /usr/src/debug/enchant2/2.8.4/src/enchant-lsmod.c /usr/src/debug/enchant2/2.8.4/src/enchant.vala /usr/src/debug/enchant2/2.8.4/src/util.vala /usr/src/debug/enchant2/2.8.4/src/enchant-lsmod.vala"
+packages/core2-64-poky-linux/enchant2/enchant2-staticdev: PKGV changed from 2.8.2 [default] to 2.8.4 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-staticdev: PV changed from "2.8.2" to "2.8.4"
+packages/core2-64-poky-linux/enchant2/enchant2: PKGV changed from 2.8.2 [default] to 2.8.4 [default]
+packages/core2-64-poky-linux/enchant2/enchant2: PV changed from "2.8.2" to "2.8.4"
+packages/core2-64-poky-linux/enchant2/enchant2: PKGSIZE changed from 123330 to 135618 (+10%)
+packages/core2-64-poky-linux/enchant2/enchant2: FILELIST: removed "/usr/lib/libenchant-2.so.2.8.2", added "/usr/lib/libenchant-2.so.2.8.4"
+packages/core2-64-poky-linux/enchant2: PKGV changed from 2.8.2 [default] to 2.8.4 [default]
+packages/core2-64-poky-linux/enchant2: SRC_URI changed from "https://github.com/rrthomas/enchant/releases/download/v2.8.2/enchant-2.8.2.tar.gz" to "https://github.com/rrthomas/enchant/releases/download/v2.8.4/enchant-2.8.4.tar.gz"
+packages/core2-64-poky-linux/enchant2: PV changed from "2.8.2" to "2.8.4"
+Changes to packages/core2-64-poky-linux/enchant2 (sysroot):
+  /usr/lib/libenchant-2.so.2 changed symlink target from libenchant-2.so.2.8.2 to libenchant-2.so.2.8.4
+  /usr/lib/libenchant-2.so changed symlink target from libenchant-2.so.2.8.2 to libenchant-2.so.2.8.4
+  /usr/lib/libenchant-2.so.2.8.2 moved to /usr/lib/libenchant-2.so.2.8.4
+
+--===============7710513336716537808==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGSIZE changed from 374072 to 458768 (+23%)
+packages/core2-64-poky-linux/enchant2/enchant2-src: PKGSIZE changed from 356917 to 469057 (+31%)
+packages/core2-64-poky-linux/enchant2/enchant2: FILELIST: removed "/usr/lib/libenchant-2.so.2.8.2", added "/usr/lib/libenchant-2.so.2.8.4"
+Changes to packages/core2-64-poky-linux/enchant2 (sysroot):
+  /usr/lib/libenchant-2.so.2 changed symlink target from libenchant-2.so.2.8.2 to libenchant-2.so.2.8.4
+  /usr/lib/libenchant-2.so changed symlink target from libenchant-2.so.2.8.2 to libenchant-2.so.2.8.4
+  /usr/lib/libenchant-2.so.2.8.2 moved to /usr/lib/libenchant-2.so.2.8.4
+
+--===============7710513336716537808==--
 
