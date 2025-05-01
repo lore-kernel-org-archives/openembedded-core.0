@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B7AC3ABC3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91309C3ABC4
 	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:44 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.1794.1746113620574514882
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.1771.1746113606695801833
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:33:40 -0700
+ Thu, 01 May 2025 08:33:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Vck2Fw+J;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Y6FRoQtH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101968c7b680b-c4dd49cd-09f1-4e60-855c-c1bacdadd5de-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=CfpsH2ZA;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Jj5aN7Aj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101968c7b6453-9c93b44c-3161-4602-b858-d90f0584c0e0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1746113620;
+	t=1746113619;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=idVyFoZKnMrGKJ0P7oJKqEbJ4AdSYSe6gM17enUTcHU=;
-	b=Vck2Fw+JnyO122ppBmBMpixrDtEzI6T6Y0ksliQzD1alygKueQJt7rBp/9ZXeEig
-	KrLBCkwgS38AJJHQEgoXGxeMNhz0S+gCh2+THEWhUpmAnMcjozOBT1bFPEdT3AwJayu
-	ahkiYeqL3IGHiRSZyu2VQjAERqRwcpNzZ6pqHN/8=
+	bh=iaYtCQDtwj2ZEAX0tAilcVFmJpk5mNLKLxZQBYLP4+k=;
+	b=CfpsH2ZARZUMHm7haV55qP+sQXbwzXgYGHK3GVT2qypqi/hnxI4YZvqj1zr6+2fh
+	gok0s+bwXHVmDSUAEiCHJT+d1R4SYINnEMCp93auOqkE7dB2W6YHJsZj5bK55RNGd3u
+	R70zPmZUchcdztvPF48J2BSbI6Vp0zJd0FC01js4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113620;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113619;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=idVyFoZKnMrGKJ0P7oJKqEbJ4AdSYSe6gM17enUTcHU=;
-	b=Y6FRoQtHOyxc6udFlYhaWWN1g3qJvG/LG7OG9yKcaLyLnSRCAs0zY1w/0e4aR05t
-	/+02RunqEverPHsuRnT8UkktoMnWmqQtPPLefjEVc6mJ93+7ZR+s+JyPiGQvgCoOT/U
-	ww3D6rVn3tUgi4gd3h7UFlS5EP0Z7ako8YUCcp9g=
-Content-Type: multipart/mixed; boundary="===============6682662503211892160=="
+	bh=iaYtCQDtwj2ZEAX0tAilcVFmJpk5mNLKLxZQBYLP4+k=;
+	b=Jj5aN7AjEPGGi/vYMPZ3Duwb5o8N43002OU8zoEm8omUc0KoiQmqsrYUjQK1XPWd
+	KSCRTfDQ9mdq+LdepKljslwAdliABNjbUJe4k5GIrcyujZI1YNhrjAxXkIJQjk0zSGY
+	/wQfYAxPu6xUyqc8anh4FiSqIcQw9sIL1m5h8Y98=
+Content-Type: multipart/mixed; boundary="===============1465373976758964576=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-markdown: upgrading to 3.8 SUCCEEDED
-Message-ID: <010101968c7b680b-c4dd49cd-09f1-4e60-855c-c1bacdadd5de-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-mako: upgrading to 1.3.10 SUCCEEDED
+Message-ID: <010101968c7b6453-9c93b44c-3161-4602-b858-d90f0584c0e0-000000@us-west-2.amazonses.com>
 Date: Thu, 1 May 2025 15:33:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.30
+X-SES-Outgoing: 2025.05.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215819
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215817
 
---===============6682662503211892160==
+--===============1465373976758964576==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-markdown* to *3.8* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-mako* to *1.3.10* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-markdown-upgrade-3.7-3.8.patch
+    - apply the patch: git am 0001-python3-mako-upgrade-1.3.9-1.3.10.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,101 +72,129 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a46ff47c2631a4ab0cc40af3b54d171ae555fc6f Mon Sep 17 00:00:00 2001
+From c3dfd256d40d17ecbf49c29e9b9599080ff57607 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 May 2025 09:04:10 +0000
-Subject: [PATCH] python3-markdown: upgrade 3.7 -> 3.8
+Date: Thu, 1 May 2025 09:01:33 +0000
+Subject: [PATCH] python3-mako: upgrade 1.3.9 -> 1.3.10
 
 ---
- .../python/{python3-markdown_3.7.bb => python3-markdown_3.8.bb} | 2 +-
+ .../python/{python3-mako_1.3.9.bb => python3-mako_1.3.10.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-markdown_3.7.bb => python3-markdown_3.8.bb} (79%)
+ rename meta/recipes-devtools/python/{python3-mako_1.3.9.bb => python3-mako_1.3.10.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-markdown_3.7.bb b/meta/recipes-devtools/python/python3-markdown_3.8.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-markdown_3.7.bb
-rename to meta/recipes-devtools/python/python3-markdown_3.8.bb
-index 6a2ab36494..09c2f3435b 100644
---- a/meta/recipes-devtools/python/python3-markdown_3.7.bb
-+++ b/meta/recipes-devtools/python/python3-markdown_3.8.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ec58cdf7cfed06a21f7a9362627a5480"
+diff --git a/meta/recipes-devtools/python/python3-mako_1.3.9.bb b/meta/recipes-devtools/python/python3-mako_1.3.10.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-mako_1.3.9.bb
+rename to meta/recipes-devtools/python/python3-mako_1.3.10.bb
+index 83b6149337..4facce9233 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.3.9.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.3.10.bb
+@@ -10,7 +10,7 @@ inherit pypi python_setuptools_build_meta ptest-python-pytest
  
- inherit pypi python_setuptools_build_meta
  
--SRC_URI[sha256sum] = "2ae2471477cfd02dbbf038d5d9bc226d40def84b4fe2986e49b59b6b472bbed2"
-+SRC_URI[sha256sum] = "7df81e63f0df5c4b24b7d156eb81e4690595239b7d70937d0409f1b0de319c6f"
  
- BBCLASSEXTEND = "native nativesdk"
+-SRC_URI[sha256sum] = "b5d65ff3462870feec922dbccf38f6efb44e5714d7b593a656be86663d8600ac"
++SRC_URI[sha256sum] = "99579a6f39583fa7e5630a28c3c1f440e4e97a414b80372649c0ce338da2ea28"
  
+ RDEPENDS:${PN} = "python3-html \
+                   python3-markupsafe \
 -- 
 2.47.1
 
 
---===============6682662503211892160==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-markdown-upgrade-3.7-3.8.patch"
-
-RnJvbSBhNDZmZjQ3YzI2MzFhNGFiMGNjNDBhZjNiNTRkMTcxYWU1NTVmYzZmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAwOTowNDoxMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtbWFya2Rvd246IHVwZ3JhZGUgMy43IC0+IDMuOAoKLS0tCiAuLi4vcHl0aG9uL3tweXRo
-b24zLW1hcmtkb3duXzMuNy5iYiA9PiBweXRob24zLW1hcmtkb3duXzMuOC5iYn0gfCAyICstCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLW1hcmtkb3duXzMuNy5iYiA9PiBweXRo
-b24zLW1hcmtkb3duXzMuOC5iYn0gKDc5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFya2Rvd25fMy43LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLW1hcmtkb3duXzMuOC5iYgpzaW1pbGFyaXR5IGluZGV4IDc5JQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFya2Rvd25f
-My43LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFy
-a2Rvd25fMy44LmJiCmluZGV4IDZhMmFiMzY0OTQuLjA5YzJmMzQzNWIgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYXJrZG93bl8zLjcuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1hcmtkb3duXzMuOC5iYgpAQCAt
-NSw3ICs1LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5tZDttZDU9ZWM1
-OGNkZjdjZmVkMDZhMjFmN2E5MzYyNjI3YTU0ODAiCiAKIGluaGVyaXQgcHlwaSBweXRob25fc2V0
-dXB0b29sc19idWlsZF9tZXRhCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyYWUyNDcxNDc3Y2Zk
-MDJkYmJmMDM4ZDVkOWJjMjI2ZDQwZGVmODRiNGZlMjk4NmU0OWI1OWI2YjQ3MmJiZWQyIgorU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjdkZjgxZTYzZjBkZjVjNGIyNGI3ZDE1NmViODFlNDY5MDU5NTIz
-OWI3ZDcwOTM3ZDA0MDlmMWIwZGUzMTljNmYiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5h
-dGl2ZXNkayIKIAotLSAKMi40Ny4xCgo=
-
---===============6682662503211892160==
+--===============1465373976758964576==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-markdown: SRC_URI changed from "https://files.pythonhosted.org/packages/source/m/markdown/markdown-3.7.tar.gz;downloadfilename=markdown-3.7.tar.gz" to "https://files.pythonhosted.org/packages/source/m/markdown/markdown-3.8.tar.gz;downloadfilename=markdown-3.8.tar.gz"
-packages/core2-64-poky-linux/python3-markdown: PV changed from "3.7" to "3.8"
-packages/core2-64-poky-linux/python3-markdown: PKGV changed from 3.7 [default] to 3.8 [default]
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-dbg: PV changed from "3.7" to "3.8"
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-dbg: PKGV changed from 3.7 [default] to 3.8 [default]
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-dev: PV changed from "3.7" to "3.8"
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-dev: PKGV changed from 3.7 [default] to 3.8 [default]
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-doc: PV changed from "3.7" to "3.8"
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-doc: PKGV changed from 3.7 [default] to 3.8 [default]
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-locale: PV changed from "3.7" to "3.8"
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-locale: PKGV changed from 3.7 [default] to 3.8 [default]
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-src: PV changed from "3.7" to "3.8"
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-src: PKGV changed from 3.7 [default] to 3.8 [default]
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-staticdev: PV changed from "3.7" to "3.8"
-packages/core2-64-poky-linux/python3-markdown/python3-markdown-staticdev: PKGV changed from 3.7 [default] to 3.8 [default]
-packages/core2-64-poky-linux/python3-markdown/python3-markdown: PV changed from "3.7" to "3.8"
-packages/core2-64-poky-linux/python3-markdown/python3-markdown: PKGV changed from 3.7 [default] to 3.8 [default]
-packages/core2-64-poky-linux/python3-markdown/python3-markdown: PKGSIZE changed from 681360 to 685153 (+1%)
-Changes to packages/core2-64-poky-linux/python3-markdown (sysroot):
-  /usr/lib/python3.13/site-packages/markdown-3.7.dist-info moved to /usr/lib/python3.13/site-packages/markdown-3.8.dist-info
+packages/core2-64-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/m/mako/mako-1.3.9.tar.gz;downloadfilename=mako-1.3.9.tar.gz" to "https://files.pythonhosted.org/packages/source/m/mako/mako-1.3.10.tar.gz;downloadfilename=mako-1.3.10.tar.gz"
+packages/core2-64-poky-linux/python3-mako: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-ptest: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-ptest: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-ptest: PKGSIZE changed from 352058 to 352365 (+0%)
+packages/core2-64-poky-linux/python3-mako/python3-mako-src: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako: PV changed from "1.3.9" to "1.3.10"
+packages/core2-64-poky-linux/python3-mako/python3-mako: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 639729 to 639941 (+0%)
+Changes to packages/core2-64-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/WHEEL was removed
 
---===============6682662503211892160==
+--===============1465373976758964576==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-mako-upgrade-1.3.9-1.3.10.patch"
+
+RnJvbSBjM2RmZDI1NmQ0MGQxN2VjYmY0OWMyOWU5Yjk1OTkwODBmZjU3NjA3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAwOTowMTozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtbWFrbzogdXBncmFkZSAxLjMuOSAtPiAxLjMuMTAKCi0tLQogLi4uL3B5dGhvbi97cHl0
+aG9uMy1tYWtvXzEuMy45LmJiID0+IHB5dGhvbjMtbWFrb18xLjMuMTAuYmJ9ICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1tYWtvXzEuMy45LmJiID0+IHB5dGhv
+bjMtbWFrb18xLjMuMTAuYmJ9ICg4OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLW1ha29fMS4zLjkuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtbWFrb18xLjMuMTAuYmIKc2ltaWxhcml0eSBpbmRleCA4OCUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1ha29fMS4zLjkuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMy4x
+MC5iYgppbmRleCA4M2I2MTQ5MzM3Li40ZmFjY2U5MjMzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjMuOS5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjMuMTAuYmIKQEAgLTEwLDcgKzEwLDcg
+QEAgaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEgcHRlc3QtcHl0aG9u
+LXB5dGVzdAogCiAKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImI1ZDY1ZmYzNDYyODcwZmVlYzky
+MmRiY2NmMzhmNmVmYjQ0ZTU3MTRkN2I1OTNhNjU2YmU4NjY2M2Q4NjAwYWMiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiOTk1NzlhNmYzOTU4M2ZhN2U1NjMwYTI4YzNjMWY0NDBlNGU5N2E0MTRiODAz
+NzI2NDljMGNlMzM4ZGEyZWEyOCIKIAogUkRFUEVORFM6JHtQTn0gPSAicHl0aG9uMy1odG1sIFwK
+ICAgICAgICAgICAgICAgICAgIHB5dGhvbjMtbWFya3Vwc2FmZSBcCi0tIAoyLjQ3LjEKCg==
+
+--===============1465373976758964576==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-markdown (sysroot):
-  /usr/lib/python3.13/site-packages/markdown-3.7.dist-info moved to /usr/lib/python3.13/site-packages/markdown-3.8.dist-info
+Changes to packages/core2-64-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/mako-1.3.10.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/mako-1.3.9.dist-info/WHEEL was removed
 
---===============6682662503211892160==--
+--===============1465373976758964576==--
 
