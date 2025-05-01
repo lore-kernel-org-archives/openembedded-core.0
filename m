@@ -1,145 +1,140 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05772C3ABAA
-	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:03:43 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.1012.1746111820848126506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D4FEC3ABA3
+	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:33 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.1804.1746113612758565730
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:03:41 -0700
+ Thu, 01 May 2025 08:33:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=C44Iv1oi;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5499659e669so1121575e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 08:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746111819; x=1746716619; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q0HoZfiNsPTbqSE8ZcQ4IqZFnOfUQYg/yCamh1bOgRo=;
-        b=C44Iv1oiAuDKn2cqkKglADfgUixKo1FnCmAyiHEJJevbK0zXERGejwDLoTAi22lg+7
-         7Yn1geLFWjbT/IYjsqVKf6AXXCsQJkIrGfBzX7fM+Zeu6v/PGFRRRivkO+3IkZXNbsWh
-         S5O4C5Z1sT08+YUop7E4RHQXVYH+HNnv9r9GdUyOkcBB3YqyDcksfrQqB9iKljCXJty/
-         4U6+/cVR4xihYVyD6QDCk6aw+d2V1RpwTbVAzGg7cp/Q5TTFliRxK6PBrX3Ba/Dis09U
-         OqPnDcZTIWilbGotW1k1ODVfOU6vBt4qSHDCN3B91vprtfC7n+A132gKaPlsXJ8OdoC0
-         ppcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746111819; x=1746716619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q0HoZfiNsPTbqSE8ZcQ4IqZFnOfUQYg/yCamh1bOgRo=;
-        b=GOm2YZBA7AtrSODgSvnIO++E4Kijjt2pfBMA05ToXRp20LxNC2A/0sUv1BPN9viG5k
-         EEp32B8GyD8s1yMkwNtFkxKQjZTYw5lV03qjFt9i+1Dgjr26p/mgq1+MhIN3ugjHfD1H
-         22/zxZ+x5uLD066tIPzdKyVFA7aeQhWh+YVEuQRJVWNpMS+D+yiSFaxwHY3gVfADoEda
-         AIXveGX73mw54ffpV5lQXoFkjvSg2irzxbSf1VanPwsKHpg2bIHS96Pp9dLE26wZZcrJ
-         FxMm/LYMQh4TezzfjIM8HIPcoOuCagGlz676O7luc5DeS5R/qXrCU6WKkZJmm0Pbdl/q
-         XrzA==
-X-Gm-Message-State: AOJu0YyWgZqU4YB2w/GTFU73IsPJriQlRJRzoCtPrmL/OzEVkDHz5OAc
-	cVbBnrywfYleFUbEQrD3iORUf5VokY+ZgMP0EmaDcwLlRXnuHu5Bj4KB5B14+xQSb0zIkTx/K81
-	qIhMPkvlAH5DMOO0hC2OV7wkEku0=
-X-Gm-Gg: ASbGncuvjI3JRfScAqnw0dD1ppdvygJa/Gq+ii1b3+ozHFhdnfyPFDoGQ3viaWM9Ivg
-	dNHICwAUw4GjGzyTuqfTIh+HaRx08BXRkyrqw33Pv3MuU/s1KTPVOwio9bGkMjniwwouHK58NqC
-	XV6dnTPuC+u+zKNa+CrKStQV2+MePw4O1L7WWe
-X-Google-Smtp-Source: AGHT+IEkqBHg092aDaIv019GZ5PJuPDHRWNSJBG2XAptLvPChTjJSYLUO5ef4IJF7u+kVGvP9LoeP2giigkQyCQx4Jc=
-X-Received: by 2002:a05:651c:b24:b0:30d:e104:cb74 with SMTP id
- 38308e7fff4ca-31fc40d23d4mr7495101fa.41.1746111818524; Thu, 01 May 2025
- 08:03:38 -0700 (PDT)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NRHINJG9;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=c1dCeA3V;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101968c7b48f4-11eeb817-533e-41bb-825b-dd9d83f5a05c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1746113612;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=QpJkXN71T4PaIjp9BXuDtKLsV+GzasLRD52LBg/nHhQ=;
+	b=NRHINJG94LumGZzfEcnlIzpDwCIknJKiYOIO09nCbu/46cRqLeajJsAMAFhZuC/o
+	S6VgcXKSnJWp9If37tLMjJyQb4OaAkxoQJ0OmHTevF3bK+1DAoU7zNlfhahJwgsS+7q
+	Sb3vl2KAJPvuI8YBAQIJClKVpqyHISg26HASJX70=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113612;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=QpJkXN71T4PaIjp9BXuDtKLsV+GzasLRD52LBg/nHhQ=;
+	b=c1dCeA3VqsbBmglEUAOtWrwoBlnUImWRLcntURD39H8fnfSpfAjuerJBdFdZiNad
+	RdBPi+ZfYpo1VnXVGndPNIZA/2cXplWdHcqSFNw1PdlRYVhtuRbxrE38juqCSPE9v9+
+	5Z2dmtrxrqRT3gu9ZjXpfUAwHlO0t23JygJ4KGIo=
+Content-Type: multipart/mixed; boundary="===============5444650470288167119=="
 MIME-Version: 1.0
-References: <20250428055717.2358310-1-hongxu.jia@windriver.com>
-In-Reply-To: <20250428055717.2358310-1-hongxu.jia@windriver.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 1 May 2025 09:03:25 -0600
-X-Gm-Features: ATxdqUEinW3PT_KbYkZDhWVBUuDXQIFG4DSfIMbxH9Oq23r2P0LXbNGvmls6e9I
-Message-ID: <CAJdd5GbEKufqjBgR6q9DYBGBz1_a7pL8ds2cuDu-w7NqOo=0Dw@mail.gmail.com>
-Subject: Re: [PATCH v3] spdx30: Provide software_packageUrl field in SPDX 3.0 SBOM
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: auh@yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] kea: upgrading to 2.6.2 FAILED
+Message-ID: <010101968c7b48f4-11eeb817-533e-41bb-825b-dd9d83f5a05c-000000@us-west-2.amazonses.com>
+Date: Thu, 1 May 2025 15:33:32 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.05.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:03:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215775
+ <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215787
 
-Mechanically, this change seems fine. However, I do question what you
-are planning on putting into this field?
+--===============5444650470288167119==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-PURL is pretty well formalized, and AFAICT there isn't really a good
-way to describe what we produce as a PURL. Can you provide some
-context on what you are planning on putting in this field?
+Hello,
 
-It might also be helpful to follow this discussion:
-https://github.com/package-url/purl-spec/pull/372
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *kea* to *2.6.2* has Failed (devtool error).
 
-On Sun, Apr 27, 2025 at 11:57=E2=80=AFPM Hongxu Jia <hongxu.jia@windriver.c=
-om> wrote:
->
-> Define var-SPDX_PACKAGE_URL to provide software_packageUrl field [1][2]
-> in SPDX 3.0 SBOM, support to override with package name
-> SPDX_PACKAGE_URL:<pkgname>
->
-> Currently, the format of purl is not defined in Yocto, set empty for now
-> until we have a comprehensive plan for what Yocto purls look like.
-> But users could customize their own purl by setting var-SPDX_PACKAGE_URL
->
-> [1] https://spdx.github.io/spdx-spec/v3.0.1/model/Software/Properties/pac=
-kageUrl/
-> [2] https://spdx.github.io/spdx-spec/v3.0.1/annexes/pkg-url-specification=
-/
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/classes/create-spdx-3.0.bbclass | 5 +++++
->  meta/lib/oe/spdx30_tasks.py          | 8 ++++++++
->  2 files changed, 13 insertions(+)
->
-> diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
-pdx-3.0.bbclass
-> index 044517d9f72..c0a5436ad68 100644
-> --- a/meta/classes/create-spdx-3.0.bbclass
-> +++ b/meta/classes/create-spdx-3.0.bbclass
-> @@ -117,6 +117,11 @@ SPDX_PACKAGE_VERSION ??=3D "${PV}"
->  SPDX_PACKAGE_VERSION[doc] =3D "The version of a package, software_packag=
-eVersion \
->      in software_Package"
->
-> +SPDX_PACKAGE_URL ??=3D ""
-> +SPDX_PACKAGE_URL[doc] =3D "Provides a place for the SPDX data creator to=
- record \
-> +the package URL string (in accordance with the Package URL specification=
-) for \
-> +a software Package."
-> +
->  IMAGE_CLASSES:append =3D " create-spdx-image-3.0"
->  SDK_CLASSES +=3D "create-spdx-sdk-3.0"
->
-> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index ba965821f86..61d7ba45e3e 100644
-> --- a/meta/lib/oe/spdx30_tasks.py
-> +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -631,6 +631,14 @@ def create_spdx(d):
->              set_var_field("SUMMARY", spdx_package, "summary", package=3D=
-package)
->              set_var_field("DESCRIPTION", spdx_package, "description", pa=
-ckage=3Dpackage)
->
-> +            if d.getVar("SPDX_PACKAGE_URL:%s" % package) or d.getVar("SP=
-DX_PACKAGE_URL"):
-> +                set_var_field(
-> +                    "SPDX_PACKAGE_URL",
-> +                    spdx_package,
-> +                    "software_packageUrl",
-> +                    package=3Dpackage
-> +                )
-> +
->              pkg_objset.new_scoped_relationship(
->                  [oe.sbom30.get_element_link_id(build)],
->                  oe.spdx30.RelationshipType.hasOutput,
-> --
-> 2.34.1
->
+Detailed error information:
+
+Running 'devtool upgrade' for recipe kea failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1897 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:206f78463b489b2ff40f1fc770c2049c75e43e25"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 929 .bb files complete (0 cached, 929 parsed). 1898 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:206f78463b489b2ff40f1fc770c2049c75e43e25"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-87l968fw: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-e08cuzy3/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-e08cuzy3/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching http://ftp.isc.org/isc/kea/2.6.2/kea-2.6.2.tar.gz...
+INFO: Rebasing devtool onto 9b2c51e6c4f865e34015096bce9de61e223e47db
+WARNING: Command 'git rebase 9b2c51e6c4f865e34015096bce9de61e223e47db' failed:
+Auto-merging src/lib/dhcp/pkt_filter_lpf.cc
+CONFLICT (content): Merge conflict in src/lib/dhcp/pkt_filter_lpf.cc
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/kea
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/kea/kea_2.6.2.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============5444650470288167119==--
 
