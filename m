@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A7C8C54755
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1247C54757
 	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:56 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.1817.1746113629068861082
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.1774.1746113609447995714
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:33:49 -0700
+ Thu, 01 May 2025 08:33:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=kA+B48SJ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=fI00jScu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101968c7b892e-dc0c2568-ebd0-4211-95b7-6af6993b1594-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Xn5BdwBy;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=kAt0cqZz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101968c7ba38b-6712261c-413c-4481-bdb0-cc33fb2c4175-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1746113628;
+	t=1746113635;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=eyRFH3vMkx6w4z2bl16C7EEgzA9sEsPdQQURscSn/k4=;
-	b=kA+B48SJttdQirjhMl9UCnmo3tMLpbn1WpnhWh59MOT5R3EZ4odVIaI+piwmdw8l
-	m6p/P3d8ZbJo/4ZDV4tn8krE/EKqJH3CpbrAF1zhUST5+JhQwcydobeQE0B9hl3o8uM
-	wRmKld9BNMP7t/+czyIMFd+V8tI4XTNmxevyea/w=
+	bh=5V5V/40zUZr3fWS3zplJx1TkFyWg9g/P15TJ+DFU0vk=;
+	b=Xn5BdwByIZXhosRD/zDjwSIrbF/nYmPo4/IqYvbUPEB9Hji4AEiAr/5t4lAGtzhj
+	1UCY3dqD0zGOuJHp+xt7u7XVoV5VBJq7mnNFEzIJ8zqiA4WvMyQK1L2iTR9v9gXkcDa
+	iXmFAP8Gfs6JHrkTycb9fd5mSdkBnMp8rGeFx534=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113628;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113635;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=eyRFH3vMkx6w4z2bl16C7EEgzA9sEsPdQQURscSn/k4=;
-	b=fI00jSculwjh2upcBoA1Xq1soHZBXwf+DZQKYag/0VkRbqoGNHh4BMYdQ4pvjWvh
-	4/AWYqFDZJX7K+tEP5OKWjK5pAbdLc6VZxFe/zipsSeGunvpT5IOlx/dbN9w4WzRnJ/
-	h6lHiV+hG2JlI+eXQvVa7lJEpuUZprZCxNODrYBk=
-Content-Type: multipart/mixed; boundary="===============4839257079194278289=="
+	bh=5V5V/40zUZr3fWS3zplJx1TkFyWg9g/P15TJ+DFU0vk=;
+	b=kAt0cqZzunZ+38TfwQYZ2ncy+Hb1L7zmx0hv0TAyEa6wriHmxCKPopexYwLn6FZC
+	5ouxXVajF0S40FMPD99hFammBuUfWwP+UxptzzFZRsB1xOFPzL530EpxtU69ims+pDi
+	bBptBNVTOY6UI01GEnZf+wo1sZSVTNwv0aZNyMtQ=
+Content-Type: multipart/mixed; boundary="===============8956081906812191495=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] grep: upgrading to 3.12 SUCCEEDED
-Message-ID: <010101968c7b892e-dc0c2568-ebd0-4211-95b7-6af6993b1594-000000@us-west-2.amazonses.com>
-Date: Thu, 1 May 2025 15:33:48 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] kexec-tools: upgrading to 2.0.31 SUCCEEDED
+Message-ID: <010101968c7ba38b-6712261c-413c-4481-bdb0-cc33fb2c4175-000000@us-west-2.amazonses.com>
+Date: Thu, 1 May 2025 15:33:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.193
+X-SES-Outgoing: 2025.05.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215850
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215873
 
---===============4839257079194278289==
+--===============8956081906812191495==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *grep* to *3.12* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *kexec-tools* to *2.0.31* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-grep-upgrade-3.11-3.12.patch
+    - apply the patch: git am 0001-kexec-tools-upgrade-2.0.30-2.0.31.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,226 +72,280 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 15e486da63f44d36943e1fb62ae19f3a19619c8c Mon Sep 17 00:00:00 2001
+From 63a29b6dc647b17c9fb65688f759f21abfdbda88 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 May 2025 10:47:24 +0000
-Subject: [PATCH] grep: upgrade 3.11 -> 3.12
+Date: Thu, 1 May 2025 13:11:50 +0000
+Subject: [PATCH] kexec-tools: upgrade 2.0.30 -> 2.0.31
 
 ---
- meta/recipes-extended/grep/{grep_3.11.bb => grep_3.12.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/grep/{grep_3.11.bb => grep_3.12.bb} (93%)
+ ...4-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch | 2 +-
+ ...0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch | 8 ++++----
+ .../0001-powerpc-change-the-memory-size-limit.patch       | 2 +-
+ .../0002-purgatory-Pass-r-directly-to-linker.patch        | 3 +--
+ .../kexec/kexec-tools/0005-Disable-PIE-during-link.patch  | 3 +--
+ .../{kexec-tools_2.0.30.bb => kexec-tools_2.0.31.bb}      | 2 +-
+ 6 files changed, 9 insertions(+), 11 deletions(-)
+ rename meta/recipes-kernel/kexec/{kexec-tools_2.0.30.bb => kexec-tools_2.0.31.bb} (97%)
 
-diff --git a/meta/recipes-extended/grep/grep_3.11.bb b/meta/recipes-extended/grep/grep_3.12.bb
-similarity index 93%
-rename from meta/recipes-extended/grep/grep_3.11.bb
-rename to meta/recipes-extended/grep/grep_3.12.bb
-index 0d36eba3b2..2678d2d41e 100644
---- a/meta/recipes-extended/grep/grep_3.11.bb
-+++ b/meta/recipes-extended/grep/grep_3.12.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch
+index ee731cea4b..1e7cdd4a2e 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch
++++ b/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch
+@@ -1,4 +1,4 @@
+-From 9e95f8933bded10fdd664fc95492825347ec59a7 Mon Sep 17 00:00:00 2001
++From 67cdc1166e4b448721460e64192230def44ecd06 Mon Sep 17 00:00:00 2001
+ From: Alexander Kamensky <alexander.kamensky42@gmail.com>
+ Date: Thu, 12 Nov 2020 12:56:46 -0800
+ Subject: [PATCH] arm64: kexec: disabled check if kaslr-seed dtb property was
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch
+index 8dc5fed765..0c1d95edc5 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch
++++ b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch
+@@ -1,4 +1,4 @@
+-From 1a09bf71c2f541c2cfb44a00661051597bbd0b76 Mon Sep 17 00:00:00 2001
++From a077f3ac486b0d2598d1d491bbfca31271cd8171 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Tue, 6 Aug 2024 21:42:43 -0700
+ Subject: [PATCH] kexec.c: add MFD_NOEXEC_SEAL flag explicitly
+@@ -18,10 +18,10 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+  1 file changed, 5 insertions(+), 1 deletion(-)
  
- SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz"
+ diff --git a/kexec/kexec.c b/kexec/kexec.c
+-index 4f51987..8f02595 100644
++index 6bf12d7..2f8e7cc 100644
+ --- a/kexec/kexec.c
+ +++ b/kexec/kexec.c
+-@@ -60,6 +60,10 @@
++@@ -61,6 +61,10 @@
+  #define KEXEC_LOADED_PATH "/sys/kernel/kexec_loaded"
+  #define KEXEC_CRASH_LOADED_PATH "/sys/kernel/kexec_crash_loaded"
+  
+@@ -32,7 +32,7 @@ index 4f51987..8f02595 100644
+  unsigned long long mem_min = 0;
+  unsigned long long mem_max = ULONG_MAX;
+  unsigned long elfcorehdrsz = 0;
+-@@ -657,7 +661,7 @@ static int copybuf_memfd(const char *kernel_buf, size_t size)
++@@ -661,7 +665,7 @@ static int copybuf_memfd(const char *kernel_buf, size_t size)
+  {
+  	int fd, count;
+  
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch
+index 029650f35c..a60d3d0063 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch
++++ b/meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch
+@@ -1,4 +1,4 @@
+-From 211cae4b6a02a4d9d37bfcd76f3702696e095fc3 Mon Sep 17 00:00:00 2001
++From 08065799232f4ba226096bc80a7b14fe696e70f1 Mon Sep 17 00:00:00 2001
+ From: Quanyang Wang <quanyang.wang@windriver.com>
+ Date: Tue, 16 Jun 2015 12:59:57 +0800
+ Subject: [PATCH] powerpc: change the memory size limit
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch b/meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch
+index a537ac2f0b..71ae062f10 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch
++++ b/meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch
+@@ -1,4 +1,4 @@
+-From e5bc9fbd6029057a4e3815a5326af5bd83a450e6 Mon Sep 17 00:00:00 2001
++From 268fd1dfa7abc69cde7a553325a89f0cbeabe199 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 7 Sep 2015 07:59:45 +0000
+ Subject: [PATCH] purgatory: Pass -r directly to linker
+@@ -10,7 +10,6 @@ unfiltered
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  
--SRC_URI[sha256sum] = "1db2aedde89d0dea42b16d9528f894c8d15dae4e190b59aecc78f5a951276eab"
-+SRC_URI[sha256sum] = "2649b27c0e90e632eadcd757be06c6e9a4f48d941de51e7c0f83ff76408a07b9"
+ Upstream-Status: Pending
+-
+ ---
+  purgatory/Makefile | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch b/meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch
+index 6a21744ac1..e70493a9d2 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch
++++ b/meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch
+@@ -1,4 +1,4 @@
+-From 494888bcc3bbf070dfce1b2686ee34c8619aa33d Mon Sep 17 00:00:00 2001
++From b5563c1d17de150bff6a259c933cf7daab4c449d Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 10 Jun 2017 11:18:49 -0700
+ Subject: [PATCH] Disable PIE during link
+@@ -9,7 +9,6 @@ just need to match it with linker flags
+ Upstream-Status: Pending
  
- inherit autotools gettext texinfo pkgconfig
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+ ---
+  purgatory/Makefile | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.30.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.31.bb
+similarity index 97%
+rename from meta/recipes-kernel/kexec/kexec-tools_2.0.30.bb
+rename to meta/recipes-kernel/kexec/kexec-tools_2.0.31.bb
+index 6a67427888..d824859686 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.30.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.31.bb
+@@ -20,7 +20,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
+            file://0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "bb6b39bbe00099219e95ab34b25ea4348e1a95964eefc45c1e6fe32362ac9021"
++SRC_URI[sha256sum] = "ddaaa65b02b4f8aa9222586b1f26565b93a4baeffd35bcbd523f15fae7aa4897"
+ 
+ inherit autotools update-rc.d systemd
  
 -- 
 2.47.1
 
 
---===============4839257079194278289==
+--===============8956081906812191495==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-kexec-tools-upgrade-2.0.30-2.0.31.patch"
+
+RnJvbSA2M2EyOWI2ZGM2NDdiMTdjOWZiNjU2ODhmNzU5ZjIxYWJmZGJkYTg4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxMzoxMTo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGtl
+eGVjLXRvb2xzOiB1cGdyYWRlIDIuMC4zMCAtPiAyLjAuMzEKCi0tLQogLi4uNC1rZXhlYy1kaXNh
+YmxlZC1jaGVjay1pZi1rYXNsci1zZWVkLWR0Yi1wcm9wZXJ0LnBhdGNoIHwgMiArLQogLi4uMDAw
+MS1rZXhlYy5jLWFkZC1NRkRfTk9FWEVDX1NFQUwtZmxhZy1leHBsaWNpdGx5LnBhdGNoIHwgOCAr
+KysrLS0tLQogLi4uLzAwMDEtcG93ZXJwYy1jaGFuZ2UtdGhlLW1lbW9yeS1zaXplLWxpbWl0LnBh
+dGNoICAgICAgIHwgMiArLQogLi4uLzAwMDItcHVyZ2F0b3J5LVBhc3Mtci1kaXJlY3RseS10by1s
+aW5rZXIucGF0Y2ggICAgICAgIHwgMyArLS0KIC4uLi9rZXhlYy9rZXhlYy10b29scy8wMDA1LURp
+c2FibGUtUElFLWR1cmluZy1saW5rLnBhdGNoICB8IDMgKy0tCiAuLi4ve2tleGVjLXRvb2xzXzIu
+MC4zMC5iYiA9PiBrZXhlYy10b29sc18yLjAuMzEuYmJ9ICAgICAgfCAyICstCiA2IGZpbGVzIGNo
+YW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWtlcm5lbC9rZXhlYy97a2V4ZWMtdG9vbHNfMi4wLjMwLmJiID0+IGtleGVjLXRvb2xzXzIu
+MC4zMS5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tl
+eGVjLXRvb2xzLzAwMDEtYXJtNjQta2V4ZWMtZGlzYWJsZWQtY2hlY2staWYta2FzbHItc2VlZC1k
+dGItcHJvcGVydC5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHMv
+MDAwMS1hcm02NC1rZXhlYy1kaXNhYmxlZC1jaGVjay1pZi1rYXNsci1zZWVkLWR0Yi1wcm9wZXJ0
+LnBhdGNoCmluZGV4IGVlNzMxY2VhNGIuLjFlN2NkZDRhMmUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHMvMDAwMS1hcm02NC1rZXhlYy1kaXNhYmxlZC1j
+aGVjay1pZi1rYXNsci1zZWVkLWR0Yi1wcm9wZXJ0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1r
+ZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHMvMDAwMS1hcm02NC1rZXhlYy1kaXNhYmxlZC1jaGVjay1p
+Zi1rYXNsci1zZWVkLWR0Yi1wcm9wZXJ0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA5ZTk1
+Zjg5MzNiZGVkMTBmZGQ2NjRmYzk1NDkyODI1MzQ3ZWM1OWE3IE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQorRnJvbSA2N2NkYzExNjZlNGI0NDg3MjE0NjBlNjQxOTIyMzBkZWY0NGVjZDA2IE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbWVuc2t5IDxhbGV4YW5kZXIu
+a2FtZW5za3k0MkBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDEyIE5vdiAyMDIwIDEyOjU2OjQ2IC0w
+ODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGFybTY0OiBrZXhlYzogZGlzYWJsZWQgY2hlY2sgaWYga2Fz
+bHItc2VlZCBkdGIgcHJvcGVydHkgd2FzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVs
+L2tleGVjL2tleGVjLXRvb2xzLzAwMDEta2V4ZWMuYy1hZGQtTUZEX05PRVhFQ19TRUFMLWZsYWct
+ZXhwbGljaXRseS5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHMv
+MDAwMS1rZXhlYy5jLWFkZC1NRkRfTk9FWEVDX1NFQUwtZmxhZy1leHBsaWNpdGx5LnBhdGNoCmlu
+ZGV4IDhkYzVmZWQ3NjUuLjBjMWQ5NWVkYzUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJu
+ZWwva2V4ZWMva2V4ZWMtdG9vbHMvMDAwMS1rZXhlYy5jLWFkZC1NRkRfTk9FWEVDX1NFQUwtZmxh
+Zy1leHBsaWNpdGx5LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMt
+dG9vbHMvMDAwMS1rZXhlYy5jLWFkZC1NRkRfTk9FWEVDX1NFQUwtZmxhZy1leHBsaWNpdGx5LnBh
+dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAxYTA5YmY3MWMyZjU0MWMyY2ZiNDRhMDA2NjEwNTE1
+OTdiYmQwYjc2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhMDc3ZjNhYzQ4NmIwZDI1
+OThkMWQ0OTFiYmZjYTMxMjcxY2Q4MTcxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
+Q2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogVHVlLCA2IEF1ZyAyMDI0IDIx
+OjQyOjQzIC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGtleGVjLmM6IGFkZCBNRkRfTk9FWEVDX1NF
+QUwgZmxhZyBleHBsaWNpdGx5CkBAIC0xOCwxMCArMTgsMTAgQEAgU2lnbmVkLW9mZi1ieTogQ2hl
+biBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlv
+bnMoKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2tleGVjL2tleGVjLmMgYi9rZXhl
+Yy9rZXhlYy5jCi1pbmRleCA0ZjUxOTg3Li44ZjAyNTk1IDEwMDY0NAoraW5kZXggNmJmMTJkNy4u
+MmY4ZTdjYyAxMDA2NDQKIC0tLSBhL2tleGVjL2tleGVjLmMKICsrKyBiL2tleGVjL2tleGVjLmMK
+LUBAIC02MCw2ICs2MCwxMCBAQAorQEAgLTYxLDYgKzYxLDEwIEBACiAgI2RlZmluZSBLRVhFQ19M
+T0FERURfUEFUSCAiL3N5cy9rZXJuZWwva2V4ZWNfbG9hZGVkIgogICNkZWZpbmUgS0VYRUNfQ1JB
+U0hfTE9BREVEX1BBVEggIi9zeXMva2VybmVsL2tleGVjX2NyYXNoX2xvYWRlZCIKICAKQEAgLTMy
+LDcgKzMyLDcgQEAgaW5kZXggNGY1MTk4Ny4uOGYwMjU5NSAxMDA2NDQKICB1bnNpZ25lZCBsb25n
+IGxvbmcgbWVtX21pbiA9IDA7CiAgdW5zaWduZWQgbG9uZyBsb25nIG1lbV9tYXggPSBVTE9OR19N
+QVg7CiAgdW5zaWduZWQgbG9uZyBlbGZjb3JlaGRyc3ogPSAwOwotQEAgLTY1Nyw3ICs2NjEsNyBA
+QCBzdGF0aWMgaW50IGNvcHlidWZfbWVtZmQoY29uc3QgY2hhciAqa2VybmVsX2J1Ziwgc2l6ZV90
+IHNpemUpCitAQCAtNjYxLDcgKzY2NSw3IEBAIHN0YXRpYyBpbnQgY29weWJ1Zl9tZW1mZChjb25z
+dCBjaGFyICprZXJuZWxfYnVmLCBzaXplX3Qgc2l6ZSkKICB7CiAgCWludCBmZCwgY291bnQ7CiAg
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVjLXRvb2xzLzAwMDEt
+cG93ZXJwYy1jaGFuZ2UtdGhlLW1lbW9yeS1zaXplLWxpbWl0LnBhdGNoIGIvbWV0YS9yZWNpcGVz
+LWtlcm5lbC9rZXhlYy9rZXhlYy10b29scy8wMDAxLXBvd2VycGMtY2hhbmdlLXRoZS1tZW1vcnkt
+c2l6ZS1saW1pdC5wYXRjaAppbmRleCAwMjk2NTBmMzVjLi5hNjBkM2QwMDYzIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVjLXRvb2xzLzAwMDEtcG93ZXJwYy1jaGFu
+Z2UtdGhlLW1lbW9yeS1zaXplLWxpbWl0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwv
+a2V4ZWMva2V4ZWMtdG9vbHMvMDAwMS1wb3dlcnBjLWNoYW5nZS10aGUtbWVtb3J5LXNpemUtbGlt
+aXQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDIxMWNhZTRiNmEwMmE0ZDlkMzdiZmNkNzZm
+MzcwMjY5NmUwOTVmYzMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDA4MDY1Nzk5MjMy
+ZjRiYTIyNjA5NmJjODBhN2IxNGZlNjk2ZTcwZjEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
+cm9tOiBRdWFueWFuZyBXYW5nIDxxdWFueWFuZy53YW5nQHdpbmRyaXZlci5jb20+CiBEYXRlOiBU
+dWUsIDE2IEp1biAyMDE1IDEyOjU5OjU3ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHBvd2VycGM6
+IGNoYW5nZSB0aGUgbWVtb3J5IHNpemUgbGltaXQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1r
+ZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHMvMDAwMi1wdXJnYXRvcnktUGFzcy1yLWRpcmVjdGx5LXRv
+LWxpbmtlci5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHMvMDAw
+Mi1wdXJnYXRvcnktUGFzcy1yLWRpcmVjdGx5LXRvLWxpbmtlci5wYXRjaAppbmRleCBhNTM3YWMy
+ZjBiLi43MWFlMDYyZjEwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tl
+eGVjLXRvb2xzLzAwMDItcHVyZ2F0b3J5LVBhc3Mtci1kaXJlY3RseS10by1saW5rZXIucGF0Y2gK
+KysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9rZXhlYy9rZXhlYy10b29scy8wMDAyLXB1cmdhdG9y
+eS1QYXNzLXItZGlyZWN0bHktdG8tbGlua2VyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBl
+NWJjOWZiZDYwMjkwNTdhNGUzODE1YTUzMjZhZjViZDgzYTQ1MGU2IE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSAyNjhmZDFkZmE3YWJjNjljZGU3YTU1MzMyNWE4OWYwY2JlYWJlMTk5IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
+bT4KIERhdGU6IE1vbiwgNyBTZXAgMjAxNSAwNzo1OTo0NSArMDAwMAogU3ViamVjdDogW1BBVENI
+XSBwdXJnYXRvcnk6IFBhc3MgLXIgZGlyZWN0bHkgdG8gbGlua2VyCkBAIC0xMCw3ICsxMCw2IEBA
+IHVuZmlsdGVyZWQKIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+
+CiAKIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwotCiAtLS0KICBwdXJnYXRvcnkvTWFrZWZpbGUg
+fCAyICstCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVjLXRvb2xzLzAwMDUtRGlz
+YWJsZS1QSUUtZHVyaW5nLWxpbmsucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tl
+eGVjLXRvb2xzLzAwMDUtRGlzYWJsZS1QSUUtZHVyaW5nLWxpbmsucGF0Y2gKaW5kZXggNmEyMTc0
+NGFjMS4uZTcwNDkzYTlkMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9rZXhlYy9r
+ZXhlYy10b29scy8wMDA1LURpc2FibGUtUElFLWR1cmluZy1saW5rLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHMvMDAwNS1EaXNhYmxlLVBJRS1kdXJpbmct
+bGluay5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDk0ODg4YmNjM2JiZjA3MGRmY2UxYjI2
+ODZlZTM0Yzg2MTlhYTMzZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYjU1NjNjMWQx
+N2RlMTUwYmZmNmEyNTljOTMzY2Y3ZGFhYjRjNDQ5ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+IEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDEwIEp1biAy
+MDE3IDExOjE4OjQ5IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgUElFIGR1cmluZyBs
+aW5rCkBAIC05LDcgKzksNiBAQCBqdXN0IG5lZWQgdG8gbWF0Y2ggaXQgd2l0aCBsaW5rZXIgZmxh
+Z3MKIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwogCiBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8
+cmFqLmtoZW1AZ21haWwuY29tPgotCiAtLS0KICBwdXJnYXRvcnkvTWFrZWZpbGUgfCAyICstCiAg
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVjLXRvb2xzXzIuMC4zMC5iYiBiL21ldGEv
+cmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHNfMi4wLjMxLmJiCnNpbWlsYXJpdHkgaW5k
+ZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHNf
+Mi4wLjMwLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVjLXRvb2xz
+XzIuMC4zMS5iYgppbmRleCA2YTY3NDI3ODg4Li5kODI0ODU5Njg2IDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVjLXRvb2xzXzIuMC4zMC5iYgorKysgYi9tZXRhL3Jl
+Y2lwZXMta2VybmVsL2tleGVjL2tleGVjLXRvb2xzXzIuMC4zMS5iYgpAQCAtMjAsNyArMjAsNyBA
+QCBTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0vbGludXgvdXRpbHMva2VybmVsL2tleGVj
+L2tleGVjLXRvb2xzLSR7UFZ9LnRhci5negogICAgICAgICAgICBmaWxlOi8vMDAwMS1rZXhlYy5j
+LWFkZC1NRkRfTk9FWEVDX1NFQUwtZmxhZy1leHBsaWNpdGx5LnBhdGNoIFwKICAgICAgICAgICAg
+IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYmI2YjM5YmJlMDAwOTkyMTllOTVhYjM0YjI1ZWE0
+MzQ4ZTFhOTU5NjRlZWZjNDVjMWU2ZmUzMjM2MmFjOTAyMSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
+ICJkZGFhYTY1YjAyYjRmOGFhOTIyMjU4NmIxZjI2NTY1YjkzYTRiYWVmZmQzNWJjYmQ1MjNmMTVm
+YWU3YWE0ODk3IgogCiBpbmhlcml0IGF1dG90b29scyB1cGRhdGUtcmMuZCBzeXN0ZW1kCiAKLS0g
+CjIuNDcuMQoK
+
+--===============8956081906812191495==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/grep/grep-dbg: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-dbg: PKGSIZE changed from 974232 to 978976 (+0%)
-packages/core2-64-poky-linux/grep/grep-dbg: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-dev: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-dev: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-doc: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-doc: PKGSIZE changed from 169725 to 171876 (+1%)
-packages/core2-64-poky-linux/grep/grep-doc: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-af: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-af: PKGSIZE changed from 1171 to 1168 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-af: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-be: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-be: PKGSIZE changed from 23291 to 22149 (-5%)
-packages/core2-64-poky-linux/grep/grep-locale-be: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-bg: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-bg: PKGSIZE changed from 23915 to 23687 (-1%)
-packages/core2-64-poky-linux/grep/grep-locale-bg: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ca: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ca: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-cs: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-cs: PKGSIZE changed from 18845 to 18813 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-cs: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-da: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-da: PKGSIZE changed from 15797 to 15153 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-da: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-de: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-de: PKGSIZE changed from 19248 to 18447 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-de: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-el: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-el: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-eo: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-eo: PKGSIZE changed from 17359 to 16608 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-eo: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-es: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-es: PKGSIZE changed from 17100 to 16406 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-es: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-et: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-et: PKGSIZE changed from 16997 to 16987 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-et: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-eu: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-eu: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-fi: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-fi: PKGSIZE changed from 17773 to 18146 (+2%)
-packages/core2-64-poky-linux/grep/grep-locale-fi: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-fr: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-fr: PKGSIZE changed from 18057 to 17269 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-fr: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ga: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ga: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-gl: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-gl: PKGSIZE changed from 15677 to 15060 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-gl: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-he: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-he: PKGSIZE changed from 1138 to 1319 (+16%)
-packages/core2-64-poky-linux/grep/grep-locale-he: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-hr: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-hr: PKGSIZE changed from 18223 to 18212 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-hr: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-hu: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-hu: PKGSIZE changed from 18874 to 18012 (-5%)
-packages/core2-64-poky-linux/grep/grep-locale-hu: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-id: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-id: PKGSIZE changed from 17660 to 17658 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-id: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-it: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-it: PKGSIZE changed from 16614 to 15903 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-it: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ja: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ja: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ka: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ka: PKGSIZE changed from 27898 to 26558 (-5%)
-packages/core2-64-poky-linux/grep/grep-locale-ka: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ko: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ko: PKGSIZE changed from 19452 to 19364 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-ko: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ky: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ky: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-lt: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-lt: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-nb: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-nb: PKGSIZE changed from 17727 to 16958 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-nb: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-nl: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-nl: PKGSIZE changed from 18595 to 18628 (+0%)
-packages/core2-64-poky-linux/grep/grep-locale-nl: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-pa: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-pa: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-pl: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-pl: PKGSIZE changed from 18580 to 18532 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-pl: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-pt-br: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-pt-br: PKGSIZE changed from 18629 to 17882 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-pt-br: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-pt: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-pt: PKGSIZE changed from 16154 to 17612 (+9%)
-packages/core2-64-poky-linux/grep/grep-locale-pt: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ro: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ro: PKGSIZE changed from 18888 to 18850 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-ro: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ru: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ru: PKGSIZE changed from 23405 to 22248 (-5%)
-packages/core2-64-poky-linux/grep/grep-locale-ru: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-sk: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-sk: PKGSIZE changed from 18143 to 18124 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-sk: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-sl: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-sl: PKGSIZE changed from 9965 to 17215 (+73%)
-packages/core2-64-poky-linux/grep/grep-locale-sl: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-sr: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-sr: PKGSIZE changed from 21895 to 21467 (-2%)
-packages/core2-64-poky-linux/grep/grep-locale-sr: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-sv: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-sv: PKGSIZE changed from 17578 to 17567 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-sv: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-ta: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-ta: PKGSIZE changed from 27372 to 26043 (-5%)
-packages/core2-64-poky-linux/grep/grep-locale-ta: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-th: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-th: PKGSIZE changed from 16494 to 23904 (+45%)
-packages/core2-64-poky-linux/grep/grep-locale-th: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-tr: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-tr: PKGSIZE changed from 17815 to 17094 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-tr: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-uk: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-uk: PKGSIZE changed from 23948 to 23870 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-uk: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-vi: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-vi: PKGSIZE changed from 20096 to 19261 (-4%)
-packages/core2-64-poky-linux/grep/grep-locale-vi: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-zh-cn: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-zh-cn: PKGSIZE changed from 17367 to 17328 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-zh-cn: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-locale-zh-tw: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-locale-zh-tw: PKGSIZE changed from 17053 to 17019 (-0%)
-packages/core2-64-poky-linux/grep/grep-locale-zh-tw: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-src: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-src: PKGSIZE changed from 421024 to 585534 (+39%)
-packages/core2-64-poky-linux/grep/grep-src: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep-src: FILELIST: removed "/usr/src/debug/grep/3.11/lib/wchar.h /usr/src/debug/grep/3.11/lib/stdio.h /usr/src/debug/grep/3.11/lib/string.h /usr/src/debug/grep/3.11/lib/fcntl.h /usr/src/debug/grep/3.11/lib/fnmatch.h /usr/src/debug/grep/3.11/lib/stdlib.h /usr/src/debug/grep/3.11/lib/dirent.h /usr/src/debug/grep/3.11/lib/sigsegv.h", added "/usr/src/debug/grep/3.12/lib/uchar.h /usr/src/debug/grep/3.12/lib/stdio.h /usr/src/debug/grep/3.12/lib/wchar.h /usr/src/debug/grep/3.12/lib/string.h /usr/src/debug/grep/3.12/lib/fcntl.h /usr/src/debug/grep/3.12/lib/obstack.h /usr/src/debug/grep/3.12/lib/fnmatch.h /usr/src/debug/grep/3.12/lib/langinfo.h /usr/src/debug/grep/3.12/lib/dirent.h /usr/src/debug/grep/3.12/lib/stdlib.h /usr/src/debug/grep/3.12/lib/sigsegv.h"
-packages/core2-64-poky-linux/grep/grep-staticdev: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep-staticdev: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep/grep: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep/grep: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep: PV changed from "3.11" to "3.12"
-packages/core2-64-poky-linux/grep: PKGV changed from 3.11 [default] to 3.12 [default]
-packages/core2-64-poky-linux/grep: SRC_URI changed from "https://ftp.gnu.org/gnu/grep/grep-3.11.tar.xz" to "https://ftp.gnu.org/gnu/grep/grep-3.12.tar.xz"
+packages/core2-64-poky-linux/kexec-tools/kdump: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools/kdump: PV changed from "2.0.30" to "2.0.31"
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-dbg: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-dbg: PV changed from "2.0.30" to "2.0.31"
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-dbg: PKGSIZE changed from 630144 to 633656 (+1%)
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-dev: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-dev: PV changed from "2.0.30" to "2.0.31"
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-doc: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-doc: PV changed from "2.0.30" to "2.0.31"
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-locale: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-locale: PV changed from "2.0.30" to "2.0.31"
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-src: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-src: PV changed from "2.0.30" to "2.0.31"
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-staticdev: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools/kexec-tools-staticdev: PV changed from "2.0.30" to "2.0.31"
+packages/core2-64-poky-linux/kexec-tools/kexec-tools: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools/kexec-tools: PV changed from "2.0.30" to "2.0.31"
+packages/core2-64-poky-linux/kexec-tools/kexec: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools/kexec: PV changed from "2.0.30" to "2.0.31"
+packages/core2-64-poky-linux/kexec-tools/kexec: PKGSIZE changed from 200136 to 200200 (+0%)
+packages/core2-64-poky-linux/kexec-tools: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools: PV changed from "2.0.30" to "2.0.31"
+packages/core2-64-poky-linux/kexec-tools: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/kernel/kexec/kexec-tools-2.0.30.tar.gz file://kdump file://kdump.conf file://kdump.service file://0001-powerpc-change-the-memory-size-limit.patch file://0002-purgatory-Pass-r-directly-to-linker.patch file://0005-Disable-PIE-during-link.patch file://0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch file://0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch" to "https://cdn.kernel.org/pub/linux/utils/kernel/kexec/kexec-tools-2.0.31.tar.gz file://kdump file://kdump.conf file://kdump.service file://0001-powerpc-change-the-memory-size-limit.patch file://0002-purgatory-Pass-r-directly-to-linker.patch file://0005-Disable-PIE-during-link.patch file://0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch file://0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch"
+packages/core2-64-poky-linux/kexec-tools/vmcore-dmesg: PKGV changed from 2.0.30 [default] to 2.0.31 [default]
+packages/core2-64-poky-linux/kexec-tools/vmcore-dmesg: PV changed from "2.0.30" to "2.0.31"
 
---===============4839257079194278289==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/grep/grep-locale-he: PKGSIZE changed from 1138 to 1319 (+16%)
-packages/core2-64-poky-linux/grep/grep-locale-sl: PKGSIZE changed from 9965 to 17215 (+73%)
-packages/core2-64-poky-linux/grep/grep-locale-th: PKGSIZE changed from 16494 to 23904 (+45%)
-packages/core2-64-poky-linux/grep/grep-src: PKGSIZE changed from 421024 to 585534 (+39%)
-
---===============4839257079194278289==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-grep-upgrade-3.11-3.12.patch"
-
-RnJvbSAxNWU0ODZkYTYzZjQ0ZDM2OTQzZTFmYjYyYWUxOWYzYTE5NjE5YzhjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxMDo0NzoyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdy
-ZXA6IHVwZ3JhZGUgMy4xMSAtPiAzLjEyCgotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9ncmVw
-L3tncmVwXzMuMTEuYmIgPT4gZ3JlcF8zLjEyLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAx
-IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1leHRlbmRl
-ZC9ncmVwL3tncmVwXzMuMTEuYmIgPT4gZ3JlcF8zLjEyLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1leHRlbmRlZC9ncmVwL2dyZXBfMy4xMS5iYiBiL21ldGEvcmVjaXBlcy1l
-eHRlbmRlZC9ncmVwL2dyZXBfMy4xMi5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ3JlcC9ncmVwXzMuMTEuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1leHRlbmRlZC9ncmVwL2dyZXBfMy4xMi5iYgppbmRleCAwZDM2ZWJhM2IyLi4yNjc4
-ZDJkNDFlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ3JlcC9ncmVwXzMuMTEu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dyZXAvZ3JlcF8zLjEyLmJiCkBAIC04LDcg
-KzgsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0xZWJiZDNlMzQy
-MzdhZjI2ZGE1ZGMwOGE0ZTQ0MDQ2NCIKIAogU1JDX1VSSSA9ICIke0dOVV9NSVJST1J9L2dyZXAv
-Z3JlcC0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxZGIyYWVkZGU4OWQw
-ZGVhNDJiMTZkOTUyOGY4OTRjOGQxNWRhZTRlMTkwYjU5YWVjYzc4ZjVhOTUxMjc2ZWFiIgorU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjI2NDliMjdjMGU5MGU2MzJlYWRjZDc1N2JlMDZjNmU5YTRmNDhk
-OTQxZGU1MWU3YzBmODNmZjc2NDA4YTA3YjkiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIGdldHRleHQg
-dGV4aW5mbyBwa2djb25maWcKIAotLSAKMi40Ny4xCgo=
-
---===============4839257079194278289==--
+--===============8956081906812191495==--
 
