@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF61CC54799
-	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:56 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.1801.1746113610926977850
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E51EC5479B
+	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:57 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.1771.1746113606695801833
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:33:53 -0700
+ Thu, 01 May 2025 08:33:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=WA395/Wf;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=a6eWKlvh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101968c7b9d1b-626ad0df-453b-445c-8890-1a4b5396aca2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JHJ3Vckz;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bXxhpc8R;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101968c7b82ea-a459daa0-ed90-4c44-ac21-3444372da06a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1746113633;
+	t=1746113627;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=aRRYjyRIH8l9NuszYvWlZnivWnTLf8UEtdRY3qT9s5k=;
-	b=WA395/Wf5yqy4st9V+4/X5vsG1DZzAGyt+pxtYTo9mDZF1Mk8ZuvoD0LnN+jBSxh
-	9lCPM03bvD8Q7uCbrdVrtPJPES52ugTFhKzE6Z4tboazbGpYRg1ot0+XaQaxoVtwvvs
-	lrN60/7sU/t1ir1TiDud99LmfyzEBXRZzC69+3a8=
+	bh=TD6eucDLRK1VUgFZ72Gt2PkIaM31dAPzLyRXwy4lrpE=;
+	b=JHJ3VckzDOGOHwzHGcFg/FC5QQ4jHmNJdIVMgsWmHDSWNBCt0QJpvZ8BOn+RaZfT
+	/YZjdZIII8RiWcO+JU8zqhKu7+brkQZKwNe4VWX2XnUuGzbPt4HStNujselAGHbmHQR
+	H5T6SgYyp9GzjV1K7ynArYuu9/5OdOoBPC5+TR1A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113633;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113627;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=aRRYjyRIH8l9NuszYvWlZnivWnTLf8UEtdRY3qT9s5k=;
-	b=a6eWKlvhf2S3p7P5hcdEobPakvExqUwPw4Qnphh7SQIgAFiv4qAHdG7Pn4s9YR+I
-	LelEP7uAzuTSOD9ahJHeM1ApN4hpsWDujlmXGr046GegU+gUEYUeF4VAp7cfaXgYNEk
-	FYk/W6kqwdVFae037qEQNN8Ttk5DJntpNFJVghVs=
-Content-Type: multipart/mixed; boundary="===============1790399824023102317=="
+	bh=TD6eucDLRK1VUgFZ72Gt2PkIaM31dAPzLyRXwy4lrpE=;
+	b=bXxhpc8RX9AQhgDNK/WWpX1wWnN+OGsohW+TKI+7V13IOclqFfxMU3QSMkKjoYmF
+	mdR7oeoTYECnXfS5uqxAY+RQVI26r4/NKlQULbY/HmlmQmdT1buCADyrOGxEs3fegZP
+	q0NZh4FKp4CPGdpjKlgbhonabfF8SMoQnPOuflow=
+Content-Type: multipart/mixed; boundary="===============1923605814746499880=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] shaderc: upgrading to 2025.2 SUCCEEDED
-Message-ID: <010101968c7b9d1b-626ad0df-453b-445c-8890-1a4b5396aca2-000000@us-west-2.amazonses.com>
-Date: Thu, 1 May 2025 15:33:53 +0000
+Subject: [AUH] tcf-agent: upgrading to 1.9.0 FAILED
+Message-ID: <010101968c7b82ea-a459daa0-ed90-4c44-ac21-3444372da06a-000000@us-west-2.amazonses.com>
+Date: Thu, 1 May 2025 15:33:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.193
+X-SES-Outgoing: 2025.05.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215867
+ <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215842
 
---===============1790399824023102317==
+--===============1923605814746499880==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *shaderc* to *2025.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *tcf-agent* to *1.9.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-shaderc-upgrade-2025.1-2025.2.patch
+    - apply the patch: git am 0001-tcf-agent-upgrade-1.8.0-1.9.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,142 +78,236 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 85f85680bd4fdd6daf81f8080a6025426078863e Mon Sep 17 00:00:00 2001
+From 1115d94f83f124ff7243572777e6e51a9d827a8d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 May 2025 12:52:02 +0000
-Subject: [PATCH] shaderc: upgrade 2025.1 -> 2025.2
+Date: Thu, 1 May 2025 10:21:31 +0000
+Subject: [PATCH] tcf-agent: upgrade 1.8.0 -> 1.9.0
 
 ---
- .../0001-cmake-disable-building-external-dependencies.patch     | 2 +-
- .../0002-libshaderc_util-fix-glslang-header-file-location.patch | 2 +-
- .../shaderc/{shaderc_2025.1.bb => shaderc_2025.2.bb}            | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/shaderc/{shaderc_2025.1.bb => shaderc_2025.2.bb} (95%)
+ .../tcf-agent/tcf-agent/ldflags.patch         | 22 +++++++++----------
+ .../tcf-agent/tcf-agent_git.bb                |  4 ++--
+ 2 files changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-index 07765653bb..5f873e9d13 100644
---- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-+++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-@@ -1,4 +1,4 @@
--From ed0e2fad08a3cd3f0a0c70922737d8a6886f484d Mon Sep 17 00:00:00 2001
-+From 55fb0e7823f20993de37edd926f87f7ac112e9fe Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
- Subject: [PATCH] cmake: disable building external dependencies
-diff --git a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-index 429b53c308..748a885a7e 100644
---- a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-+++ b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-@@ -1,4 +1,4 @@
--From 4797642a6394ad7e5a23aaa3bdf8e2d011f69adf Mon Sep 17 00:00:00 2001
-+From f37ba69ef81d6b89246fa40ab6fd299a6f1c8c3b Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
- Subject: [PATCH] libshaderc_util: fix glslang header file location
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2025.1.bb b/meta/recipes-graphics/shaderc/shaderc_2025.2.bb
-similarity index 95%
-rename from meta/recipes-graphics/shaderc/shaderc_2025.1.bb
-rename to meta/recipes-graphics/shaderc/shaderc_2025.2.bb
-index e9c0ecdd37..8c451e6e46 100644
---- a/meta/recipes-graphics/shaderc/shaderc_2025.1.bb
-+++ b/meta/recipes-graphics/shaderc/shaderc_2025.2.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+index d701e8dec0..b04b2b53e3 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+@@ -1,29 +1,27 @@
++From 0a52c4ba4c40bf4753e67ea8f0f402ba89fa5556 Mon Sep 17 00:00:00 2001
++From: Abdur Rehman <abdur_rehman@mentor.com>
++Date: Wed, 26 Aug 2015 19:18:11 +0500
++Subject: [PATCH] tcf-agent: obey LDFLAGS
++
+ We need LDFLAGS to be respected otherwise there are QA warnings as the right
+ flags don't get used.
  
--SRCREV = "7f68b1cf6f35f518febf36d425365bb8e6ad224a"
-+SRCREV = "8c269ee0fe607f2d7cac00c0cb4fa243d6a6ec26"
- SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v${PV} \
-            file://0001-cmake-disable-building-external-dependencies.patch \
-            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ 
+-From d92af0483c20365fd0af740d0baef8870b4aa374 Mon Sep 17 00:00:00 2001
+-From: Abdur Rehman <abdur_rehman@mentor.com>
+-Date: Wed, 26 Aug 2015 19:18:11 +0500
+-Subject: [PATCH] tcf-agent: obey LDFLAGS
+-
+ Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
+ 
+ Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
+ 
+ Signed-off-by: Mark hatle <mark.hatle@amd.com>
+-
+-
+ ---
+- Makefile.inc |    2 +-
++ agent/Makefile.inc | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-Index: agent/Makefile.inc
+-===================================================================
+---- agent.orig/Makefile.inc
+-+++ agent/Makefile.inc
++diff --git a/agent/Makefile.inc b/agent/Makefile.inc
++index 76b88618..6dce28f5 100644
++--- a/agent/Makefile.inc
+++++ b/agent/Makefile.inc
+ @@ -111,7 +111,7 @@ NO_LINK_F   ?= -c
+  # Linker definition and flags
+  
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index 235936288b..8027dff04d 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -6,8 +6,8 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
+ LICENSE = "EPL-1.0 | BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
+ 
+-SRCREV = "1f11747e83ebf4f53e8d17f430136f92ec378709"
+-PV = "1.8.0+git"
++SRCREV = "9076423f959d53aafa4000d6bb8bf2a1485971b9"
++PV = "1.9.0"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ SRC_URI = "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=https;branch=master \
 -- 
 2.47.1
 
 
---===============1790399824023102317==
+--===============1923605814746499880==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-shaderc-upgrade-2025.1-2025.2.patch"
+ filename="0001-tcf-agent-upgrade-1.8.0-1.9.0.patch"
 
-RnJvbSA4NWY4NTY4MGJkNGZkZDZkYWY4MWY4MDgwYTYwMjU0MjYwNzg4NjNlIE1vbiBTZXAgMTcg
+RnJvbSAxMTE1ZDk0ZjgzZjEyNGZmNzI0MzU3Mjc3N2U2ZTUxYTlkODI3YThkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxMjo1MjowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNo
-YWRlcmM6IHVwZ3JhZGUgMjAyNS4xIC0+IDIwMjUuMgoKLS0tCiAuLi4vMDAwMS1jbWFrZS1kaXNh
-YmxlLWJ1aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaCAgICAgfCAyICstCiAuLi4v
-MDAwMi1saWJzaGFkZXJjX3V0aWwtZml4LWdsc2xhbmctaGVhZGVyLWZpbGUtbG9jYXRpb24ucGF0
-Y2ggfCAyICstCiAuLi4vc2hhZGVyYy97c2hhZGVyY18yMDI1LjEuYmIgPT4gc2hhZGVyY18yMDI1
-LjIuYmJ9ICAgICAgICAgICAgfCAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygr
-KSwgMyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy97
-c2hhZGVyY18yMDI1LjEuYmIgPT4gc2hhZGVyY18yMDI1LjIuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMS1jbWFrZS1kaXNhYmxl
-LWJ1aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9zaGFkZXJjL2ZpbGVzLzAwMDEtY21ha2UtZGlzYWJsZS1idWlsZGluZy1leHRlcm5hbC1k
-ZXBlbmRlbmNpZXMucGF0Y2gKaW5kZXggMDc3NjU2NTNiYi4uNWY4NzNlOWQxMyAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMS1jbWFrZS1kaXNhYmxl
-LWJ1aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAxLWNtYWtlLWRpc2FibGUtYnVpbGRpbmctZXh0ZXJu
-YWwtZGVwZW5kZW5jaWVzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBlZDBlMmZhZDA4YTNj
-ZDNmMGEwYzcwOTIyNzM3ZDhhNjg4NmY0ODRkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSA1NWZiMGU3ODIzZjIwOTkzZGUzN2VkZDkyNmY4N2Y3YWMxMTJlOWZlIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+
-CiBEYXRlOiBTYXQsIDEzIEZlYiAyMDIxIDAwOjQ1OjU2ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hd
-IGNtYWtlOiBkaXNhYmxlIGJ1aWxkaW5nIGV4dGVybmFsIGRlcGVuZGVuY2llcwpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMi1saWJzaGFkZXJjX3V0
-aWwtZml4LWdsc2xhbmctaGVhZGVyLWZpbGUtbG9jYXRpb24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAyLWxpYnNoYWRlcmNfdXRpbC1maXgtZ2xzbGFuZy1o
-ZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaAppbmRleCA0MjliNTNjMzA4Li43NDhhODg1YTdlIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAyLWxpYnNo
-YWRlcmNfdXRpbC1maXgtZ2xzbGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaAorKysgYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAyLWxpYnNoYWRlcmNfdXRpbC1m
-aXgtZ2xzbGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gNDc5NzY0MmE2Mzk0YWQ3ZTVhMjNhYWEzYmRmOGUyZDAxMWY2OWFkZiBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gZjM3YmE2OWVmODFkNmI4OTI0NmZhNDBhYjZmZDI5OWE2ZjFjOGMz
-YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21h
-Lmpvc2VAZ21haWwuY29tPgogRGF0ZTogU2F0LCAxMyBGZWIgMjAyMSAwMDo0NTo1NiArMDAwMAog
-U3ViamVjdDogW1BBVENIXSBsaWJzaGFkZXJjX3V0aWw6IGZpeCBnbHNsYW5nIGhlYWRlciBmaWxl
-IGxvY2F0aW9uCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFk
-ZXJjXzIwMjUuMS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL3NoYWRlcmNfMjAy
-NS4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFw
-aGljcy9zaGFkZXJjL3NoYWRlcmNfMjAyNS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjUuMi5iYgppbmRleCBlOWMwZWNkZDM3Li44YzQ1MWU2
-ZTQ2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIw
-MjUuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjUu
-Mi5iYgpAQCAtNiw3ICs2LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL2dvb2ds
-ZS9zaGFkZXJjIgogTElDRU5TRSA9ICJBcGFjaGUtMi4wIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vTElDRU5TRTttZDU9ODZkM2YzYTk1YzMyNGM5NDc5YmQ4OTg2OTY4ZjQzMjciCiAKLVNS
-Q1JFViA9ICI3ZjY4YjFjZjZmMzVmNTE4ZmViZjM2ZDQyNTM2NWJiOGU2YWQyMjRhIgorU1JDUkVW
-ID0gIjhjMjY5ZWUwZmU2MDdmMmQ3Y2FjMDBjMGNiNGZhMjQzZDZhNmVjMjYiCiBTUkNfVVJJID0g
-ImdpdDovL2dpdGh1Yi5jb20vZ29vZ2xlL3NoYWRlcmMuZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5j
-aD1tYWluO3RhZz12JHtQVn0gXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1jbWFrZS1kaXNhYmxl
-LWJ1aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6
-Ly8wMDAyLWxpYnNoYWRlcmNfdXRpbC1maXgtZ2xzbGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5w
-YXRjaCBcCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxMDoyMTozMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHRj
+Zi1hZ2VudDogdXBncmFkZSAxLjguMCAtPiAxLjkuMAoKLS0tCiAuLi4vdGNmLWFnZW50L3RjZi1h
+Z2VudC9sZGZsYWdzLnBhdGNoICAgICAgICAgfCAyMiArKysrKysrKystLS0tLS0tLS0tCiAuLi4v
+dGNmLWFnZW50L3RjZi1hZ2VudF9naXQuYmIgICAgICAgICAgICAgICAgfCAgNCArKy0tCiAyIGZp
+bGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2YtYWdlbnQvdGNmLWFnZW50L2xkZmxhZ3MucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2VudC9sZGZsYWdzLnBh
+dGNoCmluZGV4IGQ3MDFlOGRlYzAuLmIwNGIyYjUzZTMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy90Y2YtYWdlbnQvdGNmLWFnZW50L2xkZmxhZ3MucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnQvbGRmbGFncy5wYXRjaApAQCAtMSwy
+OSArMSwyNyBAQAorRnJvbSAwYTUyYzRiYTRjNDBiZjQ3NTNlNjdlYThmMGY0MDJiYTg5ZmE1NTU2
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogQWJkdXIgUmVobWFuIDxhYmR1cl9yZWht
+YW5AbWVudG9yLmNvbT4KK0RhdGU6IFdlZCwgMjYgQXVnIDIwMTUgMTk6MTg6MTEgKzA1MDAKK1N1
+YmplY3Q6IFtQQVRDSF0gdGNmLWFnZW50OiBvYmV5IExERkxBR1MKKwogV2UgbmVlZCBMREZMQUdT
+IHRvIGJlIHJlc3BlY3RlZCBvdGhlcndpc2UgdGhlcmUgYXJlIFFBIHdhcm5pbmdzIGFzIHRoZSBy
+aWdodAogZmxhZ3MgZG9uJ3QgZ2V0IHVzZWQuCiAKIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3By
+aWF0ZSBbb2UtY29yZSBzcGVjaWZpY10KIFNpZ25lZC1vZmYtYnk6IFJvc3MgQnVydG9uIDxyb3Nz
+LmJ1cnRvbkBhcm0uY29tPgogCi1Gcm9tIGQ5MmFmMDQ4M2MyMDM2NWZkMGFmNzQwZDBiYWVmODg3
+MGI0YWEzNzQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBBYmR1ciBSZWhtYW4gPGFi
+ZHVyX3JlaG1hbkBtZW50b3IuY29tPgotRGF0ZTogV2VkLCAyNiBBdWcgMjAxNSAxOToxODoxMSAr
+MDUwMAotU3ViamVjdDogW1BBVENIXSB0Y2YtYWdlbnQ6IG9iZXkgTERGTEFHUwotCiBTaWduZWQt
+b2ZmLWJ5OiBBYmR1ciBSZWhtYW4gPGFiZHVyX3JlaG1hbkBtZW50b3IuY29tPgogCiBSZWJhc2Vk
+IHRvIDRhMmM0YmFhY2NiYzhjMjljZTAyOTc3MDVkZTlhNGUwOTZkNTdjZTUgdmVyc2lvbgogCiBT
+aWduZWQtb2ZmLWJ5OiBNYXJrIGhhdGxlIDxtYXJrLmhhdGxlQGFtZC5jb20+Ci0KLQogLS0tCi0g
+TWFrZWZpbGUuaW5jIHwgICAgMiArLQorIGFnZW50L01ha2VmaWxlLmluYyB8IDIgKy0KICAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAotSW5kZXg6IGFnZW50
+L01ha2VmaWxlLmluYwotPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0tIGFnZW50Lm9yaWcvTWFrZWZpbGUuaW5jCi0r
+KysgYWdlbnQvTWFrZWZpbGUuaW5jCitkaWZmIC0tZ2l0IGEvYWdlbnQvTWFrZWZpbGUuaW5jIGIv
+YWdlbnQvTWFrZWZpbGUuaW5jCitpbmRleCA3NmI4ODYxOC4uNmRjZTI4ZjUgMTAwNjQ0CistLS0g
+YS9hZ2VudC9NYWtlZmlsZS5pbmMKKysrKyBiL2FnZW50L01ha2VmaWxlLmluYwogQEAgLTExMSw3
+ICsxMTEsNyBAQCBOT19MSU5LX0YgICA/PSAtYwogICMgTGlua2VyIGRlZmluaXRpb24gYW5kIGZs
+YWdzCiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1h
+Z2VudF9naXQuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2VudF9n
+aXQuYmIKaW5kZXggMjM1OTM2Mjg4Yi4uODAyN2RmZjA0ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnRfZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy90Y2YtYWdlbnQvdGNmLWFnZW50X2dpdC5iYgpAQCAtNiw4ICs2LDggQEAgQlVH
+VFJBQ0tFUiA9ICJodHRwczovL2J1Z3MuZWNsaXBzZS5vcmcvYnVncy8iCiBMSUNFTlNFID0gIkVQ
+TC0xLjAgfCBCU0QtMy1DbGF1c2UiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9lZGwtdjEw
+Lmh0bWw7bWQ1PTUyMmEzOTBhODNkYzE4NjUxM2YwNTAwNTQzYWQzNjc5IgogCi1TUkNSRVYgPSAi
+MWYxMTc0N2U4M2ViZjRmNTNlOGQxN2Y0MzAxMzZmOTJlYzM3ODcwOSIKLVBWID0gIjEuOC4wK2dp
+dCIKK1NSQ1JFViA9ICI5MDc2NDIzZjk1OWQ1M2FhZmE0MDAwZDZiYjhiZjJhMTQ4NTk3MWI5Igor
+UFYgPSAiMS45LjAiCiAKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIig/UDxwdmVyPihc
+ZCsoXC5cZCspKykpIgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZWNsaXBzZS5vcmcvZWNsaXBz
+ZS90Y2YvdGNmLmFnZW50LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyIFwKLS0gCjIu
+NDcuMQoK
 
---===============1790399824023102317==
+--===============1923605814746499880==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/shaderc: PV changed from "2025.1" to "2025.2"
-packages/core2-64-poky-linux/shaderc: SRC_URI changed from "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v2025.1 file://0001-cmake-disable-building-external-dependencies.patch file://0002-libshaderc_util-fix-glslang-header-file-location.patch" to "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v2025.2 file://0001-cmake-disable-building-external-dependencies.patch file://0002-libshaderc_util-fix-glslang-header-file-location.patch"
-packages/core2-64-poky-linux/shaderc: PKGV changed from 2025.1 [default] to 2025.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-dbg: PV changed from "2025.1" to "2025.2"
-packages/core2-64-poky-linux/shaderc/shaderc-dbg: PKGV changed from 2025.1 [default] to 2025.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-dev: PV changed from "2025.1" to "2025.2"
-packages/core2-64-poky-linux/shaderc/shaderc-dev: PKGV changed from 2025.1 [default] to 2025.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-doc: PV changed from "2025.1" to "2025.2"
-packages/core2-64-poky-linux/shaderc/shaderc-doc: PKGV changed from 2025.1 [default] to 2025.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-locale: PV changed from "2025.1" to "2025.2"
-packages/core2-64-poky-linux/shaderc/shaderc-locale: PKGV changed from 2025.1 [default] to 2025.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-src: PV changed from "2025.1" to "2025.2"
-packages/core2-64-poky-linux/shaderc/shaderc-src: PKGV changed from 2025.1 [default] to 2025.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-staticdev: PV changed from "2025.1" to "2025.2"
-packages/core2-64-poky-linux/shaderc/shaderc-staticdev: PKGV changed from 2025.1 [default] to 2025.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc: PV changed from "2025.1" to "2025.2"
-packages/core2-64-poky-linux/shaderc/shaderc: PKGV changed from 2025.1 [default] to 2025.2 [default]
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1897 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 928 .bb files complete (927 cached, 1 parsed). 1897 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
---===============1790399824023102317==--
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:ca983da3bfb4e7110d3e46312a604786b7c22f03"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 208 Local 196 Mirrors 0 Missed 12 Current 336 (94% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1263 of 1568 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb:do_recipe_qa)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_recipe_qa: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1549 of 1568 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb:do_fetch)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_fetch: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1550 of 1568 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb:do_unpack)
+NOTE: Running task 1551 of 1568 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_unpack: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_unpack: Succeeded
+NOTE: recipe tcf-agent-1.9.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1552 of 1568 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb:do_patch)
+NOTE: Running task 1553 of 1568 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb:do_collect_spdx_deps)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_patch: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe tcf-agent-1.9.0-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1553 tasks of which 1547 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250501102117.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250501102117.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/temp/log.do_patch.1685829
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: tcf-agent-1.9.0-r0 do_patch: Applying patch 'ldflags.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/git/agent'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/recipe-sysroot-native/etc/quiltrc push', 0, "stdout: Applying patch ldflags.patch
+can't find file to patch at input line 25
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|From 0a52c4ba4c40bf4753e67ea8f0f402ba89fa5556 Mon Sep 17 00:00:00 2001
+|From: Abdur Rehman <abdur_rehman@mentor.com>
+|Date: Wed, 26 Aug 2015 19:18:11 +0500
+|Subject: [PATCH] tcf-agent: obey LDFLAGS
+|
+|We need LDFLAGS to be respected otherwise there are QA warnings as the right
+|flags don't get used.
+|
+|Upstream-Status: Inappropriate [oe-core specific]
+|Signed-off-by: Ross Burton <ross.burton@arm.com>
+|
+|Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
+|
+|Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
+|
+|Signed-off-by: Mark hatle <mark.hatle@amd.com>
+|---
+| agent/Makefile.inc | 2 +-
+| 1 file changed, 1 insertion(+), 1 deletion(-)
+|
+|diff --git a/agent/Makefile.inc b/agent/Makefile.inc
+|index 76b88618..6dce28f5 100644
+|--- a/agent/Makefile.inc
+|+++ b/agent/Makefile.inc
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+Patch ldflags.patch does not apply (enforce with -f)
+
+stderr: ")
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/temp/log.do_patch.1685829
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb:do_patch) failed with exit code '1'
+
+--===============1923605814746499880==--
 
