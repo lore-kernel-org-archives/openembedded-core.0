@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69E8AC54751
-	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:56 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.1775.1746113609540292983
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C352C54E93
+	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:57 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.1812.1746113623390356142
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:33:53 -0700
+ Thu, 01 May 2025 08:33:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dBWi2+Ih;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Q5SP16Fg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101968c7b9835-278fd0a4-4e77-467f-ba19-ebbdd1fd3cf5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gyJH+XqM;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ShAYkTfB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101968c7b94af-7a525452-f8cc-4dbf-b882-3852ad237f77-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1746113632;
+	t=1746113631;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=L4pLdi6n/+8WmtBYlzL2vj8kYGT0jU4y3mzx92bQt4A=;
-	b=dBWi2+IhCYlnhMUfgLX+BGgdXMKdO+VrXKQLw+Zh5RKJ4VVmW5OMyL6AfAt9fE3W
-	REA+e245RXKpUrwhXtYPOPE+4OgtoJPGNLF077VSZJHBGKvl8GiZpRWL65Q6N0FYTo+
-	e0o64vc/UvvulP9R2D8KRqDVMPruvPNgACqr0Zyw=
+	bh=VwGLpl96n93V/KHcJCln32vNtEyA8CbJYbaq2MLNYOg=;
+	b=gyJH+XqMlC7bzjwRtgAXtPdHXSAaGjLYEhVog4bg2RPZ1b69+iz9mzxZZDzGHjzJ
+	smMgdxxCgkwmpl14ZLeruRf8M3TTfqj9fZgSikVNPqnnrCCurdZcFYmgGEZsPttKbVg
+	KfAxLpTzTauKKbyot6dEp34aPb9faMQIQmWkjX2A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113632;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113631;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=L4pLdi6n/+8WmtBYlzL2vj8kYGT0jU4y3mzx92bQt4A=;
-	b=Q5SP16FgHzejrxKIE9amXVtpZrVUoR5f3/NUfPfkvEBWmmkL7o3I+TdZeCmUje4i
-	H0JTkst9MfNT366HT2Ki/w3XrFrI267xRM3DvPE2cCUvBaZ7SDfNfQjXzvFwxHBYjSS
-	HKemvONxcYfPE8wdydGGaJ6u/J+GTSFys10n/PrQ=
-Content-Type: multipart/mixed; boundary="===============7272159929219950480=="
+	bh=VwGLpl96n93V/KHcJCln32vNtEyA8CbJYbaq2MLNYOg=;
+	b=ShAYkTfB2FLWQKW/cT7oMScjdV6ccE0qegt/Buu28LF+rMNyuPEhZ0L/L4pd5CQW
+	Xh5KK5OsnWzLynRT8fLKPNLvZl92Zg5quucrF26PRWDbAyEZj8EgOpu0EHnEROS9x0p
+	+Vj3/zhuTI/4l9kucPxidUkrL6uHai6rnq6hmFuc=
+Content-Type: multipart/mixed; boundary="===============6432387770588535968=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: 
+	=?utf-8?q?Simone_Wei=C3=9F_=3Csimone=2Ep=2Eweiss=40posteo=2Ecom=3E?=@yoctoproject.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] harfbuzz: upgrading to 11.2.0 SUCCEEDED
-Message-ID: <010101968c7b9835-278fd0a4-4e77-467f-ba19-ebbdd1fd3cf5-000000@us-west-2.amazonses.com>
-Date: Thu, 1 May 2025 15:33:52 +0000
+Subject: [AUH] libadwaita: upgrading to 1.7.2 SUCCEEDED
+Message-ID: <010101968c7b94af-7a525452-f8cc-4dbf-b882-3852ad237f77-000000@us-west-2.amazonses.com>
+Date: Thu, 1 May 2025 15:33:51 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.191
+X-SES-Outgoing: 2025.05.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215863
+ <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215861
 
---===============7272159929219950480==
+--===============6432387770588535968==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *harfbuzz* to *11.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libadwaita* to *1.7.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-harfbuzz-upgrade-11.1.0-11.2.0.patch
+    - apply the patch: git am 0001-libadwaita-upgrade-1.7.0-1.7.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,223 +73,277 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 324597d7f2bd3dc3c44eb641b58d8138f993c210 Mon Sep 17 00:00:00 2001
+From 967fd5baf2e45c4d019ac209bce78621de78fabd Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 May 2025 12:17:21 +0000
-Subject: [PATCH] harfbuzz: upgrade 11.1.0 -> 11.2.0
+Date: Thu, 1 May 2025 12:08:09 +0000
+Subject: [PATCH] libadwaita: upgrade 1.7.0 -> 1.7.2
 
 ---
- ...se-Os-to-compile-hb-subset-plan-layout.cc.patch | 14 +++++++-------
- .../{harfbuzz_11.1.0.bb => harfbuzz_11.2.0.bb}     |  2 +-
- 2 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_11.1.0.bb => harfbuzz_11.2.0.bb} (95%)
+ ...8222c184f681472d9d9ce2ae443ebd76386e.patch | 38 -------------------
+ ...ibadwaita_1.7.0.bb => libadwaita_1.7.2.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-gnome/libadwaita/libadwaita/90d68222c184f681472d9d9ce2ae443ebd76386e.patch
+ rename meta/recipes-gnome/libadwaita/{libadwaita_1.7.0.bb => libadwaita_1.7.2.bb} (82%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Use-Os-to-compile-hb-subset-plan-layout.cc.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Use-Os-to-compile-hb-subset-plan-layout.cc.patch
-index 299843797b..1332b03927 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Use-Os-to-compile-hb-subset-plan-layout.cc.patch
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Use-Os-to-compile-hb-subset-plan-layout.cc.patch
-@@ -1,4 +1,4 @@
--From 8d876ea19579ee6b687668921c17be423cf7d6c2 Mon Sep 17 00:00:00 2001
-+From 6e8cb92f7ae9449a68be65d36466174ba82a8826 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 27 Apr 2025 15:26:09 -0700
- Subject: [PATCH] Use -Os to compile hb-subset-plan-layout.cc
-@@ -17,10 +17,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 12 insertions(+), 3 deletions(-)
+diff --git a/meta/recipes-gnome/libadwaita/libadwaita/90d68222c184f681472d9d9ce2ae443ebd76386e.patch b/meta/recipes-gnome/libadwaita/libadwaita/90d68222c184f681472d9d9ce2ae443ebd76386e.patch
+deleted file mode 100644
+index d3a3535013..0000000000
+--- a/meta/recipes-gnome/libadwaita/libadwaita/90d68222c184f681472d9d9ce2ae443ebd76386e.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From 90d68222c184f681472d9d9ce2ae443ebd76386e Mon Sep 17 00:00:00 2001
+-From: Maximiliano Sandoval <msandova@gnome.org>
+-Date: Sat, 15 Mar 2025 10:47:31 +0100
+-Subject: [PATCH] meson: Check g-i before using --doc-format arg
+-
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libadwaita/-/commit/90d68222c184f681472d9d9ce2ae443ebd76386e.patch]
+-
+-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+----
+- src/meson.build | 8 +++++++-
+- 1 file changed, 7 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/meson.build b/src/meson.build
+-index 90cecc6a1..585fe3aad 100644
+---- a/src/meson.build
+-+++ b/src/meson.build
+-@@ -450,11 +450,17 @@ meson.override_dependency(package_api_name, libadwaita_dep)
+- 
+- if introspection
+- 
+-+   gir_dep = dependency('gobject-introspection-1.0')
+-    libadwaita_gir_extra_args = [
+-      '--quiet',
+--     '--doc-format=gi-docgen',
+-      '-DADWAITA_COMPILATION',
+-    ]
+-+   if gir_dep.version().version_compare('>=1.83.2')
+-+     libadwaita_gir_extra_args += [
+-+       '--doc-format=gi-docgen',
+-+     ]
+-+   endif
+-+
+- 
+-    libadwaita_gir = gnome.generate_gir(libadwaita,
+-                  sources: libadwaita_generated_headers + libadwaita_public_headers + libadwaita_public_sources,
+--- 
+-GitLab
+-
+diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.7.0.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.7.2.bb
+similarity index 82%
+rename from meta/recipes-gnome/libadwaita/libadwaita_1.7.0.bb
+rename to meta/recipes-gnome/libadwaita/libadwaita_1.7.2.bb
+index 55985bf7cc..4dc583ab39 100644
+--- a/meta/recipes-gnome/libadwaita/libadwaita_1.7.0.bb
++++ b/meta/recipes-gnome/libadwaita/libadwaita_1.7.2.bb
+@@ -11,8 +11,7 @@ DEPENDS = " \
  
- diff --git a/src/meson.build b/src/meson.build
--index 3d1c00d..fded728 100644
-+index a7d5674..c628b0a 100644
- --- a/src/meson.build
- +++ b/src/meson.build
--@@ -393,7 +393,6 @@ hb_subset_sources = files(
-+@@ -395,7 +395,6 @@ hb_subset_sources = files(
-    'hb-subset-instancer-solver.hh',
-    'hb-subset-instancer-solver.cc',
-    'hb-subset-plan.cc',
-@@ -28,7 +28,7 @@ index 3d1c00d..fded728 100644
-    'hb-subset-plan-var.cc',
-    'hb-subset-plan.hh',
-    'hb-subset-plan-member-list.hh',
--@@ -410,6 +409,10 @@ hb_subset_sources = files(
-+@@ -412,6 +411,10 @@ hb_subset_sources = files(
-    'hb-subset.hh',
-  )
-  
-@@ -39,7 +39,7 @@ index 3d1c00d..fded728 100644
-  hb_subset_headers = files(
-    'hb-subset.h',
-    'hb-subset-serialize.h'
--@@ -618,6 +621,12 @@ endif
-+@@ -620,6 +623,12 @@ endif
-  
-  darwin_versions = [hb_version_int, '@0@.0.0'.format(hb_version_int)]
-  
-@@ -52,7 +52,7 @@ index 3d1c00d..fded728 100644
-  libharfbuzz = library('harfbuzz', hb_sources,
-    include_directories: incconfig,
-    dependencies: harfbuzz_deps,
--@@ -645,7 +654,7 @@ defs_list += [harfbuzz_subset_def]
-+@@ -647,7 +656,7 @@ defs_list += [harfbuzz_subset_def]
-  libharfbuzz_subset = library('harfbuzz-subset', hb_subset_sources,
-    include_directories: incconfig,
-    dependencies: [m_dep],
-@@ -61,7 +61,7 @@ index 3d1c00d..fded728 100644
-    cpp_args: cpp_args + extra_hb_cpp_args,
-    soversion: hb_so_version,
-    version: version,
--@@ -657,7 +666,7 @@ libharfbuzz_subset = library('harfbuzz-subset', hb_subset_sources,
-+@@ -659,7 +668,7 @@ libharfbuzz_subset = library('harfbuzz-subset', hb_subset_sources,
-  custom_target('harfbuzz-subset.cc',
-    build_by_default: true,
-    output: 'harfbuzz-subset.cc',
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_11.1.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_11.2.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_11.1.0.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_11.2.0.bb
-index 9eaacdaa5a..db5a04486c 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_11.1.0.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_11.2.0.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
+ inherit gnomebase gobject-introspection gi-docgen vala features_check
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
- SRC_URI += "file://0001-Use-Os-to-compile-hb-subset-plan-layout.cc.patch"
--SRC_URI[sha256sum] = "477f0d48c34dc32093b45304178eb9733361ca1832b5159879c99e6d40227969"
-+SRC_URI[sha256sum] = "50f7d0a208367e606dbf6eecc5cfbecc01a47be6ee837ae7aff2787e24b09b45"
+-SRC_URI[archive.sha256sum] = "58bf99b8a9f8b0171964de0ae741d01d5a09db3662134fa67541c99a8ed7dec0"
+-SRC_URI += "file://90d68222c184f681472d9d9ce2ae443ebd76386e.patch"
++SRC_URI[archive.sha256sum] = "28ee2ff589c6debe47af9da7a56e37c97d6849e003918a4b223f690d25f960be"
  
- DEPENDS += "glib-2.0-native"
- 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ REQUIRED_DISTRO_FEATURES = "opengl"
 -- 
 2.47.1
 
 
---===============7272159929219950480==
+--===============6432387770588535968==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-harfbuzz-upgrade-11.1.0-11.2.0.patch"
+ filename="0001-libadwaita-upgrade-1.7.0-1.7.2.patch"
 
-RnJvbSAzMjQ1OTdkN2YyYmQzZGMzYzQ0ZWI2NDFiNThkODEzOGY5OTNjMjEwIE1vbiBTZXAgMTcg
+RnJvbSA5NjdmZDViYWYyZTQ1YzRkMDE5YWMyMDliY2U3ODYyMWRlNzhmYWJkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxMjoxNzoyMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGhh
-cmZidXp6OiB1cGdyYWRlIDExLjEuMCAtPiAxMS4yLjAKCi0tLQogLi4uc2UtT3MtdG8tY29tcGls
-ZS1oYi1zdWJzZXQtcGxhbi1sYXlvdXQuY2MucGF0Y2ggfCAxNCArKysrKysrLS0tLS0tLQogLi4u
-L3toYXJmYnV6el8xMS4xLjAuYmIgPT4gaGFyZmJ1enpfMTEuMi4wLmJifSAgICAgfCAgMiArLQog
-MiBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L3toYXJmYnV6el8xMS4xLjAuYmIgPT4gaGFy
-ZmJ1enpfMTEuMi4wLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGlj
-cy9oYXJmYnV6ei9oYXJmYnV6ei8wMDAxLVVzZS1Pcy10by1jb21waWxlLWhiLXN1YnNldC1wbGFu
-LWxheW91dC5jYy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6
-ei8wMDAxLVVzZS1Pcy10by1jb21waWxlLWhiLXN1YnNldC1wbGFuLWxheW91dC5jYy5wYXRjaApp
-bmRleCAyOTk4NDM3OTdiLi4xMzMyYjAzOTI3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3MvaGFyZmJ1enovaGFyZmJ1enovMDAwMS1Vc2UtT3MtdG8tY29tcGlsZS1oYi1zdWJzZXQt
-cGxhbi1sYXlvdXQuY2MucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6
-L2hhcmZidXp6LzAwMDEtVXNlLU9zLXRvLWNvbXBpbGUtaGItc3Vic2V0LXBsYW4tbGF5b3V0LmNj
-LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4ZDg3NmVhMTk1NzllZTZiNjg3NjY4OTIxYzE3
-YmU0MjNjZjdkNmMyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2ZThjYjkyZjdhZTk0
-NDlhNjhiZTY1ZDM2NDY2MTc0YmE4MmE4ODI2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
-bTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFN1biwgMjcgQXByIDIwMjUg
-MTU6MjY6MDkgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gVXNlIC1PcyB0byBjb21waWxlIGhiLXN1
-YnNldC1wbGFuLWxheW91dC5jYwpAQCAtMTcsMTAgKzE3LDEwIEBAIFNpZ25lZC1vZmYtYnk6IEto
-ZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlv
-bnMoKyksIDMgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9zcmMvbWVzb24uYnVpbGQgYi9z
-cmMvbWVzb24uYnVpbGQKLWluZGV4IDNkMWMwMGQuLmZkZWQ3MjggMTAwNjQ0CitpbmRleCBhN2Q1
-Njc0Li5jNjI4YjBhIDEwMDY0NAogLS0tIGEvc3JjL21lc29uLmJ1aWxkCiArKysgYi9zcmMvbWVz
-b24uYnVpbGQKLUBAIC0zOTMsNyArMzkzLDYgQEAgaGJfc3Vic2V0X3NvdXJjZXMgPSBmaWxlcygK
-K0BAIC0zOTUsNyArMzk1LDYgQEAgaGJfc3Vic2V0X3NvdXJjZXMgPSBmaWxlcygKICAgICdoYi1z
-dWJzZXQtaW5zdGFuY2VyLXNvbHZlci5oaCcsCiAgICAnaGItc3Vic2V0LWluc3RhbmNlci1zb2x2
-ZXIuY2MnLAogICAgJ2hiLXN1YnNldC1wbGFuLmNjJywKQEAgLTI4LDcgKzI4LDcgQEAgaW5kZXgg
-M2QxYzAwZC4uZmRlZDcyOCAxMDA2NDQKICAgICdoYi1zdWJzZXQtcGxhbi12YXIuY2MnLAogICAg
-J2hiLXN1YnNldC1wbGFuLmhoJywKICAgICdoYi1zdWJzZXQtcGxhbi1tZW1iZXItbGlzdC5oaCcs
-Ci1AQCAtNDEwLDYgKzQwOSwxMCBAQCBoYl9zdWJzZXRfc291cmNlcyA9IGZpbGVzKAorQEAgLTQx
-Miw2ICs0MTEsMTAgQEAgaGJfc3Vic2V0X3NvdXJjZXMgPSBmaWxlcygKICAgICdoYi1zdWJzZXQu
-aGgnLAogICkKICAKQEAgLTM5LDcgKzM5LDcgQEAgaW5kZXggM2QxYzAwZC4uZmRlZDcyOCAxMDA2
-NDQKICBoYl9zdWJzZXRfaGVhZGVycyA9IGZpbGVzKAogICAgJ2hiLXN1YnNldC5oJywKICAgICdo
-Yi1zdWJzZXQtc2VyaWFsaXplLmgnCi1AQCAtNjE4LDYgKzYyMSwxMiBAQCBlbmRpZgorQEAgLTYy
-MCw2ICs2MjMsMTIgQEAgZW5kaWYKICAKICBkYXJ3aW5fdmVyc2lvbnMgPSBbaGJfdmVyc2lvbl9p
-bnQsICdAMEAuMC4wJy5mb3JtYXQoaGJfdmVyc2lvbl9pbnQpXQogIApAQCAtNTIsNyArNTIsNyBA
-QCBpbmRleCAzZDFjMDBkLi5mZGVkNzI4IDEwMDY0NAogIGxpYmhhcmZidXp6ID0gbGlicmFyeSgn
-aGFyZmJ1enonLCBoYl9zb3VyY2VzLAogICAgaW5jbHVkZV9kaXJlY3RvcmllczogaW5jY29uZmln
-LAogICAgZGVwZW5kZW5jaWVzOiBoYXJmYnV6el9kZXBzLAotQEAgLTY0NSw3ICs2NTQsNyBAQCBk
-ZWZzX2xpc3QgKz0gW2hhcmZidXp6X3N1YnNldF9kZWZdCitAQCAtNjQ3LDcgKzY1Niw3IEBAIGRl
-ZnNfbGlzdCArPSBbaGFyZmJ1enpfc3Vic2V0X2RlZl0KICBsaWJoYXJmYnV6el9zdWJzZXQgPSBs
-aWJyYXJ5KCdoYXJmYnV6ei1zdWJzZXQnLCBoYl9zdWJzZXRfc291cmNlcywKICAgIGluY2x1ZGVf
-ZGlyZWN0b3JpZXM6IGluY2NvbmZpZywKICAgIGRlcGVuZGVuY2llczogW21fZGVwXSwKQEAgLTYx
-LDcgKzYxLDcgQEAgaW5kZXggM2QxYzAwZC4uZmRlZDcyOCAxMDA2NDQKICAgIGNwcF9hcmdzOiBj
-cHBfYXJncyArIGV4dHJhX2hiX2NwcF9hcmdzLAogICAgc292ZXJzaW9uOiBoYl9zb192ZXJzaW9u
-LAogICAgdmVyc2lvbjogdmVyc2lvbiwKLUBAIC02NTcsNyArNjY2LDcgQEAgbGliaGFyZmJ1enpf
-c3Vic2V0ID0gbGlicmFyeSgnaGFyZmJ1enotc3Vic2V0JywgaGJfc3Vic2V0X3NvdXJjZXMsCitA
-QCAtNjU5LDcgKzY2OCw3IEBAIGxpYmhhcmZidXp6X3N1YnNldCA9IGxpYnJhcnkoJ2hhcmZidXp6
-LXN1YnNldCcsIGhiX3N1YnNldF9zb3VyY2VzLAogIGN1c3RvbV90YXJnZXQoJ2hhcmZidXp6LXN1
-YnNldC5jYycsCiAgICBidWlsZF9ieV9kZWZhdWx0OiB0cnVlLAogICAgb3V0cHV0OiAnaGFyZmJ1
-enotc3Vic2V0LmNjJywKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6
-ei9oYXJmYnV6el8xMS4xLjAuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFy
-ZmJ1enpfMTEuMi4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el8xMS4xLjAuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el8xMS4yLjAuYmIKaW5kZXggOWVhYWNk
-YWE1YS4uZGI1YTA0NDg2YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZi
-dXp6L2hhcmZidXp6XzExLjEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1
-enovaGFyZmJ1enpfMTEuMi4wLmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NPUFlJTkc7bWQ1PWI5ODQyOWI4ZThlM2MyYTY3Y2ZlZjAxZTk5ZTQ4OTNkIFwK
-IAogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vJHtCUE59LSR7
-UFZ9LnRhci54eiIKIFNSQ19VUkkgKz0gImZpbGU6Ly8wMDAxLVVzZS1Pcy10by1jb21waWxlLWhi
-LXN1YnNldC1wbGFuLWxheW91dC5jYy5wYXRjaCIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0Nzdm
-MGQ0OGMzNGRjMzIwOTNiNDUzMDQxNzhlYjk3MzMzNjFjYTE4MzJiNTE1OTg3OWM5OWU2ZDQwMjI3
-OTY5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjUwZjdkMGEyMDgzNjdlNjA2ZGJmNmVlY2M1Y2Zi
-ZWNjMDFhNDdiZTZlZTgzN2FlN2FmZjI3ODdlMjRiMDliNDUiCiAKIERFUEVORFMgKz0gImdsaWIt
-Mi4wLW5hdGl2ZSIKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxMjowODowOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmFkd2FpdGE6IHVwZ3JhZGUgMS43LjAgLT4gMS43LjIKCi0tLQogLi4uODIyMmMxODRmNjgxNDcy
+ZDlkOWNlMmFlNDQzZWJkNzYzODZlLnBhdGNoIHwgMzggLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
+aWJhZHdhaXRhXzEuNy4wLmJiID0+IGxpYmFkd2FpdGFfMS43LjIuYmJ9IHwgIDMgKy0KIDIgZmls
+ZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDQwIGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
+MTAwNjQ0IG1ldGEvcmVjaXBlcy1nbm9tZS9saWJhZHdhaXRhL2xpYmFkd2FpdGEvOTBkNjgyMjJj
+MTg0ZjY4MTQ3MmQ5ZDljZTJhZTQ0M2ViZDc2Mzg2ZS5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBl
+cy1nbm9tZS9saWJhZHdhaXRhL3tsaWJhZHdhaXRhXzEuNy4wLmJiID0+IGxpYmFkd2FpdGFfMS43
+LjIuYmJ9ICg4MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYmFkd2FpdGEv
+bGliYWR3YWl0YS85MGQ2ODIyMmMxODRmNjgxNDcyZDlkOWNlMmFlNDQzZWJkNzYzODZlLnBhdGNo
+IGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYmFkd2FpdGEvbGliYWR3YWl0YS85MGQ2ODIyMmMxODRm
+NjgxNDcyZDlkOWNlMmFlNDQzZWJkNzYzODZlLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0
+NAppbmRleCBkM2EzNTM1MDEzLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9s
+aWJhZHdhaXRhL2xpYmFkd2FpdGEvOTBkNjgyMjJjMTg0ZjY4MTQ3MmQ5ZDljZTJhZTQ0M2ViZDc2
+Mzg2ZS5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDM4ICswLDAgQEAKLUZyb20gOTBkNjgyMjJj
+MTg0ZjY4MTQ3MmQ5ZDljZTJhZTQ0M2ViZDc2Mzg2ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+LUZyb206IE1heGltaWxpYW5vIFNhbmRvdmFsIDxtc2FuZG92YUBnbm9tZS5vcmc+Ci1EYXRlOiBT
+YXQsIDE1IE1hciAyMDI1IDEwOjQ3OjMxICswMTAwCi1TdWJqZWN0OiBbUEFUQ0hdIG1lc29uOiBD
+aGVjayBnLWkgYmVmb3JlIHVzaW5nIC0tZG9jLWZvcm1hdCBhcmcKLQotVXBzdHJlYW0tU3RhdHVz
+OiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRsYWIuZ25vbWUub3JnL0dOT01FL2xpYmFkd2FpdGEvLS9j
+b21taXQvOTBkNjgyMjJjMTg0ZjY4MTQ3MmQ5ZDljZTJhZTQ0M2ViZDc2Mzg2ZS5wYXRjaF0KLQot
+U2lnbmVkLW9mZi1ieTogTWFya3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgotLS0tCi0gc3Jj
+L21lc29uLmJ1aWxkIHwgOCArKysrKysrLQotIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMo
+KyksIDEgZGVsZXRpb24oLSkKLQotZGlmZiAtLWdpdCBhL3NyYy9tZXNvbi5idWlsZCBiL3NyYy9t
+ZXNvbi5idWlsZAotaW5kZXggOTBjZWNjNmExLi41ODVmZTNhYWQgMTAwNjQ0Ci0tLS0gYS9zcmMv
+bWVzb24uYnVpbGQKLSsrKyBiL3NyYy9tZXNvbi5idWlsZAotQEAgLTQ1MCwxMSArNDUwLDE3IEBA
+IG1lc29uLm92ZXJyaWRlX2RlcGVuZGVuY3kocGFja2FnZV9hcGlfbmFtZSwgbGliYWR3YWl0YV9k
+ZXApCi0gCi0gaWYgaW50cm9zcGVjdGlvbgotIAotKyAgIGdpcl9kZXAgPSBkZXBlbmRlbmN5KCdn
+b2JqZWN0LWludHJvc3BlY3Rpb24tMS4wJykKLSAgICBsaWJhZHdhaXRhX2dpcl9leHRyYV9hcmdz
+ID0gWwotICAgICAgJy0tcXVpZXQnLAotLSAgICAgJy0tZG9jLWZvcm1hdD1naS1kb2NnZW4nLAot
+ICAgICAgJy1EQURXQUlUQV9DT01QSUxBVElPTicsCi0gICAgXQotKyAgIGlmIGdpcl9kZXAudmVy
+c2lvbigpLnZlcnNpb25fY29tcGFyZSgnPj0xLjgzLjInKQotKyAgICAgbGliYWR3YWl0YV9naXJf
+ZXh0cmFfYXJncyArPSBbCi0rICAgICAgICctLWRvYy1mb3JtYXQ9Z2ktZG9jZ2VuJywKLSsgICAg
+IF0KLSsgICBlbmRpZgotKwotIAotICAgIGxpYmFkd2FpdGFfZ2lyID0gZ25vbWUuZ2VuZXJhdGVf
+Z2lyKGxpYmFkd2FpdGEsCi0gICAgICAgICAgICAgICAgICBzb3VyY2VzOiBsaWJhZHdhaXRhX2dl
+bmVyYXRlZF9oZWFkZXJzICsgbGliYWR3YWl0YV9wdWJsaWNfaGVhZGVycyArIGxpYmFkd2FpdGFf
+cHVibGljX3NvdXJjZXMsCi0tLSAKLUdpdExhYgotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+Z25vbWUvbGliYWR3YWl0YS9saWJhZHdhaXRhXzEuNy4wLmJiIGIvbWV0YS9yZWNpcGVzLWdub21l
+L2xpYmFkd2FpdGEvbGliYWR3YWl0YV8xLjcuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDgyJQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvbGliYWR3YWl0YS9saWJhZHdhaXRhXzEuNy4wLmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUvbGliYWR3YWl0YS9saWJhZHdhaXRhXzEuNy4y
+LmJiCmluZGV4IDU1OTg1YmY3Y2MuLjRkYzU4M2FiMzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1nbm9tZS9saWJhZHdhaXRhL2xpYmFkd2FpdGFfMS43LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVz
+LWdub21lL2xpYmFkd2FpdGEvbGliYWR3YWl0YV8xLjcuMi5iYgpAQCAtMTEsOCArMTEsNyBAQCBE
+RVBFTkRTID0gIiBcCiAKIGluaGVyaXQgZ25vbWViYXNlIGdvYmplY3QtaW50cm9zcGVjdGlvbiBn
+aS1kb2NnZW4gdmFsYSBmZWF0dXJlc19jaGVjawogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3Vt
+XSA9ICI1OGJmOTliOGE5ZjhiMDE3MTk2NGRlMGFlNzQxZDAxZDVhMDlkYjM2NjIxMzRmYTY3NTQx
+Yzk5YThlZDdkZWMwIgotU1JDX1VSSSArPSAiZmlsZTovLzkwZDY4MjIyYzE4NGY2ODE0NzJkOWQ5
+Y2UyYWU0NDNlYmQ3NjM4NmUucGF0Y2giCitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICIy
+OGVlMmZmNTg5YzZkZWJlNDdhZjlkYTdhNTZlMzdjOTdkNjg0OWUwMDM5MThhNGIyMjNmNjkwZDI1
+Zjk2MGJlIgogCiBBTllfT0ZfRElTVFJPX0ZFQVRVUkVTID0gIiR7R1RLM0RJU1RST0ZFQVRVUkVT
+fSIKIFJFUVVJUkVEX0RJU1RST19GRUFUVVJFUyA9ICJvcGVuZ2wiCi0tIAoyLjQ3LjEKCg==
 
---===============7272159929219950480==
+--===============6432387770588535968==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 84292208 to 84372440 (+0%)
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz.so.0.61110.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61110.0 /usr/lib/.debug/libharfbuzz-subset.so.0.61110.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61110.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.61110.0", added "/usr/lib/.debug/libharfbuzz-subset.so.0.61120.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61120.0 /usr/lib/.debug/libharfbuzz.so.0.61120.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61120.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.61120.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PKGSIZE changed from 1764196 to 1783696 (+1%)
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61110.0", added "/usr/lib/libharfbuzz-icu.so.0.61120.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PKGSIZE changed from 1542383 to 1538287 (-0%)
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61110.0", added "/usr/lib/libharfbuzz-subset.so.0.61120.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1731306 to 1728398 (-0%)
-packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.61110.0 /usr/lib/libharfbuzz-gobject.so.0.61110.0 /usr/lib/libharfbuzz-cairo.so.0.61110.0", added "/usr/lib/libharfbuzz-cairo.so.0.61120.0 /usr/lib/libharfbuzz-gobject.so.0.61120.0 /usr/lib/libharfbuzz.so.0.61120.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-packages/core2-64-poky-linux/harfbuzz: PV changed from "11.1.0" to "11.2.0"
-packages/core2-64-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/11.1.0/harfbuzz-11.1.0.tar.xz file://0001-Use-Os-to-compile-hb-subset-plan-layout.cc.patch" to "https://github.com/harfbuzz/harfbuzz/releases//download/11.2.0/harfbuzz-11.2.0.tar.xz file://0001-Use-Os-to-compile-hb-subset-plan-layout.cc.patch"
-packages/core2-64-poky-linux/harfbuzz: PKGV changed from 11.1.0 [default] to 11.2.0 [default]
-Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61110.0 to libharfbuzz-cairo.so.0.61120.0
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61110.0 to libharfbuzz-gobject.so.0.61120.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61110.0 to libharfbuzz-icu.so.0.61120.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61110.0 to libharfbuzz.so.0.61120.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61110.0 to libharfbuzz-subset.so.0.61120.0
-  /usr/lib/libharfbuzz-cairo.so.0.61110.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61120.0
-  /usr/lib/libharfbuzz-gobject.so.0.61110.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61120.0
-  /usr/lib/libharfbuzz-icu.so.0.61110.0 moved to /usr/lib/libharfbuzz-icu.so.0.61120.0
-  /usr/lib/libharfbuzz.so.0.61110.0 moved to /usr/lib/libharfbuzz.so.0.61120.0
-  /usr/lib/libharfbuzz-subset.so.0.61110.0 moved to /usr/lib/libharfbuzz-subset.so.0.61120.0
+packages/core2-64-poky-linux/libadwaita: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita: SRC_URI changed from "https://download.gnome.org/sources//libadwaita/1.7/libadwaita-1.7.0.tar.xz;name=archive file://90d68222c184f681472d9d9ce2ae443ebd76386e.patch" to "https://download.gnome.org/sources//libadwaita/1.7/libadwaita-1.7.2.tar.xz;name=archive"
+packages/core2-64-poky-linux/libadwaita/libadwaita-dbg: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-dbg: PKGSIZE changed from 4801792 to 4802064 (+0%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-dbg: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-dev: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-dev: PKGSIZE changed from 2464945 to 2465145 (+0%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-dev: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-doc: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-doc: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ab: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ab: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-be: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-be: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-bg: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-bg: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ca: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ca: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-cs: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-cs: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-da: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-da: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-de: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-de: PKGSIZE changed from 7569 to 9506 (+26%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-de: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-el: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-el: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-en-gb: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-en-gb: PKGSIZE changed from 7089 to 8833 (+25%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-en-gb: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eo: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eo: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-es: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-es: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eu: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eu: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fa: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fa: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fi: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fi: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fil: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fil: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fr: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fr: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fur: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fur: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-gl: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-gl: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-he: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-he: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hi: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hi: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hr: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hr: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hu: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hu: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-id: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-id: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-it: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-it: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ja: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ja: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ka: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ka: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-kab: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-kab: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-kk: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-kk: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ko: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ko: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-lt: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-lt: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-lv: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-lv: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nb: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nb: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ne: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ne: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nl: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nl: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-oc: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-oc: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pa: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pa: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pl: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pl: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt-br: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt-br: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ro: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ro: PKGSIZE changed from 6537 to 9437 (+44%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ro: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ru: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ru: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sk: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sk: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sl: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sl: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sr: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sr: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sv: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sv: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-th: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-th: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-tr: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-tr: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-uk: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-uk: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-vi: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-vi: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-cn: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-cn: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-tw: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-tw: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-src: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-src: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-staticdev: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita-staticdev: PKGSIZE changed from 10606920 to 0 (-100%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-staticdev: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-staticdev: FILELIST: removed all items "/usr/lib/libadwaita-1-internal.a"
+packages/core2-64-poky-linux/libadwaita/libadwaita: PV changed from "1.7.0" to "1.7.2"
+packages/core2-64-poky-linux/libadwaita/libadwaita: PKGV changed from 1.7.0 [default] to 1.7.2 [default]
+Changes to packages/core2-64-poky-linux/libadwaita (sysroot):
+  /usr/lib/libadwaita-1-internal.a was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1791,26 +1846,19 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============7272159929219950480==
+--===============6432387770588535968==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61110.0", added "/usr/lib/libharfbuzz-icu.so.0.61120.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61110.0", added "/usr/lib/libharfbuzz-subset.so.0.61120.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.61110.0 /usr/lib/libharfbuzz-cairo.so.0.61110.0 /usr/lib/libharfbuzz.so.0.61110.0", added "/usr/lib/libharfbuzz-gobject.so.0.61120.0 /usr/lib/libharfbuzz-cairo.so.0.61120.0 /usr/lib/libharfbuzz.so.0.61120.0"
-Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61110.0 to libharfbuzz-cairo.so.0.61120.0
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61110.0 to libharfbuzz-gobject.so.0.61120.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61110.0 to libharfbuzz-icu.so.0.61120.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61110.0 to libharfbuzz.so.0.61120.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61110.0 to libharfbuzz-subset.so.0.61120.0
-  /usr/lib/libharfbuzz-cairo.so.0.61110.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61120.0
-  /usr/lib/libharfbuzz-gobject.so.0.61110.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61120.0
-  /usr/lib/libharfbuzz-icu.so.0.61110.0 moved to /usr/lib/libharfbuzz-icu.so.0.61120.0
-  /usr/lib/libharfbuzz.so.0.61110.0 moved to /usr/lib/libharfbuzz.so.0.61120.0
-  /usr/lib/libharfbuzz-subset.so.0.61110.0 moved to /usr/lib/libharfbuzz-subset.so.0.61120.0
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-de: PKGSIZE changed from 7569 to 9506 (+26%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-en-gb: PKGSIZE changed from 7089 to 8833 (+25%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ro: PKGSIZE changed from 6537 to 9437 (+44%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-staticdev: FILELIST: removed all items "/usr/lib/libadwaita-1-internal.a"
+packages/core2-64-poky-linux/libadwaita/libadwaita-staticdev: PKGSIZE changed from 10606920 to 0 (-100%)
+Changes to packages/core2-64-poky-linux/libadwaita (sysroot):
+  /usr/lib/libadwaita-1-internal.a was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3313,5 +3361,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============7272159929219950480==--
+--===============6432387770588535968==--
 
