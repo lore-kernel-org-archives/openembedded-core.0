@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 614C0C5B545
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C22C5B54C
 	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:34:09 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.1771.1746113606695801833
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.1773.1746113609216164425
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:34:00 -0700
+ Thu, 01 May 2025 08:34:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=QC9Q0hLZ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=B074a+vI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101968c7bb4c5-4dd68a0a-ff5f-4ea7-aaed-c36209304ed8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dzjL2ZrB;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AsdLHCvQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101968c7bbca4-4733b039-91e0-47f0-8c7c-776dcb96f752-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1746113639;
+	t=1746113641;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zVR+OFErY7zHtcfFCE0Ru3gQCstRdShUCGjN1fTRZoE=;
-	b=QC9Q0hLZh0CmCVQwM8x9szcjY5g+I7IMoIjBj8o01sdtHjF0s2fe11PXAqXmeSzK
-	pTTncOnt5qWWvKDPng5OibwTIP46ATzhotzyHaFTqy/U2IDeeX9b68TJG/nnlNrP+1M
-	OUqT2QmO8X2hJoYEUmBPoig1KAEnypMX7RCDtBKk=
+	bh=XQW978/fOz5inukCoOzediSK82LGF4i2kD6DwbBBWy0=;
+	b=dzjL2ZrBL2OM9kHBAlS0/DtSrn4vBW4t9ChTbpia61EewbKBBSZDbATXY/vYZos7
+	NKGmFcuCU6QqZ9BCrKJOb9jKKjpblXzW4ZiGBgZbEb2IDVIR0UitALBhnl7cry2byYa
+	4FvekOAw9XSg+eBdU0yllatc2rbu+xrM3l+lDBrw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113639;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113641;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zVR+OFErY7zHtcfFCE0Ru3gQCstRdShUCGjN1fTRZoE=;
-	b=B074a+vIsU4Hk9qRYO1+a1COK03+Iu95WoLokPb+9foDeRCXBTZh41EFAP5q9OxY
-	R62ESf7qiv4jW8UC/fviLZvDWTNKM7SpDvxpjgo/8+rcaX4MvdUWQvQg8kmnfRswkAw
-	lxn+4pamVcTO9laLgcPQa5Iek4HqfwCTq8WuQSXM=
-Content-Type: multipart/mixed; boundary="===============2529623079159563610=="
+	bh=XQW978/fOz5inukCoOzediSK82LGF4i2kD6DwbBBWy0=;
+	b=AsdLHCvQ7zA5CrJlsThGtYO7vU6TmrBgIw1JzNPdeNEUz9dClWnlsGds2a8D46k+
+	qg4rt+VQoAjxrswIEuIjw+eA5eGW3K2wxhi39nUSG+KVxgxe9OUvA4sDmlY843/79a5
+	ewk4KZpH0h/XGvSXj+gAS5+H20VGyRzeT42nC8tY=
+Content-Type: multipart/mixed; boundary="===============1266900201210955073=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Joslyn <robert.joslyn@redrectangle.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] curl: upgrading to 8.13.0 SUCCEEDED
-Message-ID: <010101968c7bb4c5-4dd68a0a-ff5f-4ea7-aaed-c36209304ed8-000000@us-west-2.amazonses.com>
-Date: Thu, 1 May 2025 15:33:59 +0000
+Subject: [AUH] libgpg-error: upgrading to 1.55 SUCCEEDED
+Message-ID: <010101968c7bbca4-4733b039-91e0-47f0-8c7c-776dcb96f752-000000@us-west-2.amazonses.com>
+Date: Thu, 1 May 2025 15:34:01 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.191
+X-SES-Outgoing: 2025.05.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:34:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215893
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215898
 
---===============2529623079159563610==
+--===============1266900201210955073==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *curl* to *8.13.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libgpg-error* to *1.55* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-curl-upgrade-8.12.1-8.13.0.patch
+    - apply the patch: git am 0001-libgpg-error-upgrade-1.51-1.55.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,105 +72,217 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5fb74d7cc1404e972fcefdbc3f8918c9af049469 Mon Sep 17 00:00:00 2001
+From e4bab76b83bd5318f10e67a3385686e25b65b815 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 May 2025 14:30:51 +0000
-Subject: [PATCH] curl: upgrade 8.12.1 -> 8.13.0
+Date: Thu, 1 May 2025 15:11:36 +0000
+Subject: [PATCH] libgpg-error: upgrade 1.51 -> 1.55
 
 ---
- meta/recipes-support/curl/curl/no-test-timeout.patch        | 6 +++---
- .../recipes-support/curl/{curl_8.12.1.bb => curl_8.13.0.bb} | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/curl/{curl_8.12.1.bb => curl_8.13.0.bb} (98%)
+ .../0001-Do-not-fail-when-testing-config-scripts.patch      | 6 +++---
+ .../libgpg-error/libgpg-error/pkgconfig.patch               | 2 +-
+ .../{libgpg-error_1.51.bb => libgpg-error_1.55.bb}          | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/libgpg-error/{libgpg-error_1.51.bb => libgpg-error_1.55.bb} (95%)
 
-diff --git a/meta/recipes-support/curl/curl/no-test-timeout.patch b/meta/recipes-support/curl/curl/no-test-timeout.patch
-index 677d177302..4e62eb74e9 100644
---- a/meta/recipes-support/curl/curl/no-test-timeout.patch
-+++ b/meta/recipes-support/curl/curl/no-test-timeout.patch
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch b/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
+index 0910d6cc63..24191a8bf7 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
++++ b/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
 @@ -1,4 +1,4 @@
--From 42cddb52e821cfc2f09f1974742714e5f2f1856e Mon Sep 17 00:00:00 2001
-+From 3c996cc2a818314b2bc6934bb335e3ef1ca0aba3 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Fri, 15 Mar 2024 14:37:37 +0000
- Subject: [PATCH] Set the max-time timeout to 600 so the timeout is 10 minutes
-@@ -11,10 +11,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From 581919f3af914c6b62e51b345d5d15e709f20e77 Mon Sep 17 00:00:00 2001
++From 8c690252a528bda6dcaa1b79e23058170f6d1567 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 28 Feb 2020 09:19:56 +0000
+ Subject: [PATCH] Do not fail when testing config scripts
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 deletion(-)
  
- diff --git a/tests/servers.pm b/tests/servers.pm
--index d4472d5..9999938 100644
-+index a3e5edb..f75df79 100644
- --- a/tests/servers.pm
- +++ b/tests/servers.pm
--@@ -123,7 +123,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
-+@@ -124,7 +124,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
-  my $sshderror;   # for socks server, ssh daemon version error
-  my %doesntrun;    # servers that don't work, identified by pidfile
-  my %PORT = (nolisten => 47); # port we use for a local non-listening service
-diff --git a/meta/recipes-support/curl/curl_8.12.1.bb b/meta/recipes-support/curl/curl_8.13.0.bb
-similarity index 98%
-rename from meta/recipes-support/curl/curl_8.12.1.bb
-rename to meta/recipes-support/curl/curl_8.13.0.bb
-index 4192693da8..b9b5ef1a15 100644
---- a/meta/recipes-support/curl/curl_8.12.1.bb
-+++ b/meta/recipes-support/curl/curl_8.13.0.bb
-@@ -20,7 +20,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-curl.sh \
- "
+ diff --git a/src/Makefile.am b/src/Makefile.am
+-index 9389e99..6ded263 100644
++index e56bb23..8c3ba7b 100644
+ --- a/src/Makefile.am
+ +++ b/src/Makefile.am
+-@@ -324,6 +324,5 @@ gpg-error-config: gpgrt-config gpg-error-config-old gpg-error-config-test.sh
++@@ -326,6 +326,5 @@ gpg-error-config: gpgrt-config gpg-error-config-old gpg-error-config-test.sh
+  	else                                                   \
+  	  echo "no";                                           \
+  	  echo "***  Please report to <https://bugs.gnupg.org> with gpg-error-config-test.log"; \
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
+index dbf728b2de..c581ac6067 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
++++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
+@@ -1,4 +1,4 @@
+-From 3529df77cd20253ce2a9c1962d7a72058a04fd98 Mon Sep 17 00:00:00 2001
++From d25191dd5e72e783b078ee50820d640f5f94956a Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 21 Aug 2024 20:03:29 -0700
+ Subject: [PATCH] support pkgconfig
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.55.bb
+similarity index 95%
+rename from meta/recipes-support/libgpg-error/libgpg-error_1.51.bb
+rename to meta/recipes-support/libgpg-error/libgpg-error_1.55.bb
+index 741969beb0..96dac49aae 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.55.bb
+@@ -20,7 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
+            file://run-ptest \
+            "
  
--SRC_URI[sha256sum] = "0341f1ed97a26c811abaebd37d62b833956792b7607ea3f15d001613c76de202"
-+SRC_URI[sha256sum] = "4a093979a3c2d02de2fbc00549a32771007f2e78032c6faa5ecd2f7a9e152025"
+-SRC_URI[sha256sum] = "be0f1b2db6b93eed55369cdf79f19f72750c8c7c39fc20b577e724545427e6b2"
++SRC_URI[sha256sum] = "95b178148863f07d45df0cea67e880a79b9ef71f5d230baddc0071128516ef78"
  
- # Curl has used many names over the years...
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+ BINCONFIG = "${bindir}/gpg-error-config"
+ 
 -- 
 2.47.1
 
 
---===============2529623079159563610==
+--===============1266900201210955073==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libgpg-error-upgrade-1.51-1.55.patch"
+
+RnJvbSBlNGJhYjc2YjgzYmQ1MzE4ZjEwZTY3YTMzODU2ODZlMjViNjViODE1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxNToxMTozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmdwZy1lcnJvcjogdXBncmFkZSAxLjUxIC0+IDEuNTUKCi0tLQogLi4uLzAwMDEtRG8tbm90LWZh
+aWwtd2hlbi10ZXN0aW5nLWNvbmZpZy1zY3JpcHRzLnBhdGNoICAgICAgfCA2ICsrKy0tLQogLi4u
+L2xpYmdwZy1lcnJvci9saWJncGctZXJyb3IvcGtnY29uZmlnLnBhdGNoICAgICAgICAgICAgICAg
+fCAyICstCiAuLi4ve2xpYmdwZy1lcnJvcl8xLjUxLmJiID0+IGxpYmdwZy1lcnJvcl8xLjU1LmJi
+fSAgICAgICAgICB8IDIgKy0KIDMgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA1IGRl
+bGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdwZy1lcnJvci97bGli
+Z3BnLWVycm9yXzEuNTEuYmIgPT4gbGliZ3BnLWVycm9yXzEuNTUuYmJ9ICg5NSUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ3BnLWVycm9yL2xpYmdwZy1lcnJvci8wMDAx
+LURvLW5vdC1mYWlsLXdoZW4tdGVzdGluZy1jb25maWctc2NyaXB0cy5wYXRjaCBiL21ldGEvcmVj
+aXBlcy1zdXBwb3J0L2xpYmdwZy1lcnJvci9saWJncGctZXJyb3IvMDAwMS1Eby1ub3QtZmFpbC13
+aGVuLXRlc3RpbmctY29uZmlnLXNjcmlwdHMucGF0Y2gKaW5kZXggMDkxMGQ2Y2M2My4uMjQxOTFh
+OGJmNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ3BnLWVycm9yL2xpYmdw
+Zy1lcnJvci8wMDAxLURvLW5vdC1mYWlsLXdoZW4tdGVzdGluZy1jb25maWctc2NyaXB0cy5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJncGctZXJyb3IvbGliZ3BnLWVycm9yLzAw
+MDEtRG8tbm90LWZhaWwtd2hlbi10ZXN0aW5nLWNvbmZpZy1zY3JpcHRzLnBhdGNoCkBAIC0xLDQg
+KzEsNCBAQAotRnJvbSA1ODE5MTlmM2FmOTE0YzZiNjJlNTFiMzQ1ZDVkMTVlNzA5ZjIwZTc3IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA4YzY5MDI1MmE1MjhiZGE2ZGNhYTFiNzllMjMw
+NTgxNzBmNmQxNTY3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEth
+bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDI4IEZlYiAyMDIwIDA5
+OjE5OjU2ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIERvIG5vdCBmYWlsIHdoZW4gdGVzdGluZyBj
+b25maWcgc2NyaXB0cwpAQCAtMTQsMTAgKzE0LDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRl
+ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGRl
+bGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9zcmMvTWFrZWZpbGUuYW0gYi9zcmMvTWFrZWZpbGUu
+YW0KLWluZGV4IDkzODllOTkuLjZkZWQyNjMgMTAwNjQ0CitpbmRleCBlNTZiYjIzLi44YzNiYTdi
+IDEwMDY0NAogLS0tIGEvc3JjL01ha2VmaWxlLmFtCiArKysgYi9zcmMvTWFrZWZpbGUuYW0KLUBA
+IC0zMjQsNiArMzI0LDUgQEAgZ3BnLWVycm9yLWNvbmZpZzogZ3BncnQtY29uZmlnIGdwZy1lcnJv
+ci1jb25maWctb2xkIGdwZy1lcnJvci1jb25maWctdGVzdC5zaAorQEAgLTMyNiw2ICszMjYsNSBA
+QCBncGctZXJyb3ItY29uZmlnOiBncGdydC1jb25maWcgZ3BnLWVycm9yLWNvbmZpZy1vbGQgZ3Bn
+LWVycm9yLWNvbmZpZy10ZXN0LnNoCiAgCWVsc2UgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBcCiAgCSAgZWNobyAibm8iOyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBcCiAgCSAgZWNobyAiKioqICBQbGVhc2UgcmVwb3J0
+IHRvIDxodHRwczovL2J1Z3MuZ251cGcub3JnPiB3aXRoIGdwZy1lcnJvci1jb25maWctdGVzdC5s
+b2ciOyBcCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJncGctZXJyb3IvbGli
+Z3BnLWVycm9yL3BrZ2NvbmZpZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdwZy1l
+cnJvci9saWJncGctZXJyb3IvcGtnY29uZmlnLnBhdGNoCmluZGV4IGRiZjcyOGIyZGUuLmM1ODFh
+YzYwNjcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdwZy1lcnJvci9saWJn
+cGctZXJyb3IvcGtnY29uZmlnLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdw
+Zy1lcnJvci9saWJncGctZXJyb3IvcGtnY29uZmlnLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
+bSAzNTI5ZGY3N2NkMjAyNTNjZTJhOWMxOTYyZDdhNzIwNThhMDRmZDk4IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQorRnJvbSBkMjUxOTFkZDVlNzJlNzgzYjA3OGVlNTA4MjBkNjQwZjVmOTQ5NTZh
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3
+aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAyMSBBdWcgMjAyNCAyMDowMzoyOSAtMDcwMAogU3Vi
+amVjdDogW1BBVENIXSBzdXBwb3J0IHBrZ2NvbmZpZwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGliZ3BnLWVycm9yL2xpYmdwZy1lcnJvcl8xLjUxLmJiIGIvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGliZ3BnLWVycm9yL2xpYmdwZy1lcnJvcl8xLjU1LmJiCnNpbWlsYXJpdHkgaW5k
+ZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdwZy1lcnJvci9saWJn
+cGctZXJyb3JfMS41MS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ3BnLWVy
+cm9yL2xpYmdwZy1lcnJvcl8xLjU1LmJiCmluZGV4IDc0MTk2OWJlYjAuLjk2ZGFjNDlhYWUgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdwZy1lcnJvci9saWJncGctZXJyb3Jf
+MS41MS5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJncGctZXJyb3IvbGliZ3BnLWVy
+cm9yXzEuNTUuYmIKQEAgLTIwLDcgKzIwLDcgQEAgU1JDX1VSSSA9ICIke0dOVVBHX01JUlJPUn0v
+bGliZ3BnLWVycm9yL2xpYmdwZy1lcnJvci0ke1BWfS50YXIuYnoyIFwKICAgICAgICAgICAgZmls
+ZTovL3J1bi1wdGVzdCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImJl
+MGYxYjJkYjZiOTNlZWQ1NTM2OWNkZjc5ZjE5ZjcyNzUwYzhjN2MzOWZjMjBiNTc3ZTcyNDU0NTQy
+N2U2YjIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTViMTc4MTQ4ODYzZjA3ZDQ1ZGYwY2VhNjdl
+ODgwYTc5YjllZjcxZjVkMjMwYmFkZGMwMDcxMTI4NTE2ZWY3OCIKIAogQklOQ09ORklHID0gIiR7
+YmluZGlyfS9ncGctZXJyb3ItY29uZmlnIgogCi0tIAoyLjQ3LjEKCg==
+
+--===============1266900201210955073==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Changes to packages/all-poky-linux/ca-certificates (sysroot):
-  /usr/share/ca-certificates/mozilla/Entrust_Root_Certification_Authority_-_G4.crt was added
-  /usr/share/ca-certificates/mozilla/SecureSign_RootCA11.crt was added
-  /usr/share/ca-certificates/mozilla/Security_Communication_RootCA3.crt was added
-  /usr/share/ca-certificates/mozilla/SwissSign_Silver_CA_-_G2.crt was added
-  /usr/share/ca-certificates/mozilla/D-TRUST_BR_Root_CA_2_2023.crt was removed
-  /usr/share/ca-certificates/mozilla/D-TRUST_EV_Root_CA_2_2023.crt was removed
-packages/core2-64-poky-linux/curl/curl-dbg: PV changed from "8.12.1" to "8.13.0"
-packages/core2-64-poky-linux/curl/curl-dbg: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
-packages/core2-64-poky-linux/curl/curl-dbg: FILELIST: removed "/usr/lib/curl/ptest/tests/server/.debug/getpart", added "/usr/lib/curl/ptest/tests/libtest/.debug/lib1576 /usr/lib/curl/ptest/tests/libtest/.debug/lib1978 /usr/lib/curl/ptest/tests/libtest/.debug/lib1571 /usr/lib/curl/ptest/tests/libtest/.debug/lib2311 /usr/lib/curl/ptest/tests/libtest/.debug/lib1578"
-packages/core2-64-poky-linux/curl/curl-dbg: PKGSIZE changed from 15827112 to 16331576 (+3%)
-packages/core2-64-poky-linux/curl/curl-dev: PV changed from "8.12.1" to "8.13.0"
-packages/core2-64-poky-linux/curl/curl-dev: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
-packages/core2-64-poky-linux/curl/curl-dev: PKGSIZE changed from 255759 to 257795 (+1%)
-packages/core2-64-poky-linux/curl/curl-doc: PV changed from "8.12.1" to "8.13.0"
-packages/core2-64-poky-linux/curl/curl-doc: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
-packages/core2-64-poky-linux/curl/curl-doc: FILELIST: added "/usr/share/man/man3/CURLOPT_UPLOAD_FLAGS.3"
-packages/core2-64-poky-linux/curl/curl-doc: PKGSIZE changed from 1604480 to 1627481 (+1%)
-packages/core2-64-poky-linux/curl/curl-locale: PV changed from "8.12.1" to "8.13.0"
-packages/core2-64-poky-linux/curl/curl-locale: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
-packages/core2-64-poky-linux/curl/curl-ptest: PV changed from "8.12.1" to "8.13.0"
-packages/core2-64-poky-linux/curl/curl-ptest: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
-packages/core2-64-poky-linux/curl/curl-ptest: FILELIST: removed "/usr/lib/curl/ptest/tests/server/getpart", added "/usr/lib/curl/ptest/tests/data/test2311 /usr/lib/curl/ptest/tests/data/test1580 /usr/lib/curl/ptest/tests/data/test1581 /usr/lib/curl/ptest/tests/data/test1978 /usr/lib/curl/ptest/tests/data/test3210 /usr/lib/curl/ptest/tests/data/test2101 /usr/lib/curl/ptest/tests/data/test76 /usr/lib/curl/ptest/tests/libtest/lib1576 /usr/lib/curl/ptest/tests/data/test489 /usr/lib/curl/ptest/tests/data/test488 /usr/lib/curl/ptest/tests/data/test3209 /usr/lib/curl/ptest/tests/libtest/lib1571 /usr/lib/curl/ptest/tests/libtest/lib2311 /usr/lib/curl/ptest/tests/data/test487 /usr/lib/curl/ptest/tests/libtest/lib1978 /usr/lib/curl/ptest/tests/libtest/lib1578 /usr/lib/curl/ptest/tests/data/test1579 /usr/lib/curl/ptest/tests/data/test1578 /usr/lib/curl/ptest/tests/data/test698 /usr/lib/curl/ptest/tests/data/test1571 /usr/lib/curl/ptest/tests/data/test1573 /usr/lib/curl/ptest/tests/data/test1572
-  /usr/lib/curl/ptest/tests/data/test1575 /usr/lib/curl/ptest/tests/data/test1574 /usr/lib/curl/ptest/tests/data/test1577 /usr/lib/curl/ptest/tests/data/test1576"
-packages/core2-64-poky-linux/curl/curl-ptest: PKGSIZE changed from 7233164 to 7396472 (+2%)
-packages/core2-64-poky-linux/curl/curl-src: PV changed from "8.12.1" to "8.13.0"
-packages/core2-64-poky-linux/curl/curl-src: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
-packages/core2-64-poky-linux/curl/curl-src: PKGSIZE changed from 221783 to 222750 (+0%)
-packages/core2-64-poky-linux/curl/curl-staticdev: PV changed from "8.12.1" to "8.13.0"
-packages/core2-64-poky-linux/curl/curl-staticdev: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
-packages/core2-64-poky-linux/curl/curl: PV changed from "8.12.1" to "8.13.0"
-packages/core2-64-poky-linux/curl/curl: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
-packages/core2-64-poky-linux/curl/curl: PKGSIZE changed from 215352 to 219448 (+2%)
-packages/core2-64-poky-linux/curl: SRC_URI changed from "https://curl.se/download/curl-8.12.1.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch" to "https://curl.se/download/curl-8.13.0.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch"
-packages/core2-64-poky-linux/curl: PV changed from "8.12.1" to "8.13.0"
-packages/core2-64-poky-linux/curl: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
-packages/core2-64-poky-linux/curl/libcurl: PV changed from "8.12.1" to "8.13.0"
-packages/core2-64-poky-linux/curl/libcurl: PKGV changed from 8.12.1 [default] to 8.13.0 [default]
-packages/core2-64-poky-linux/curl/libcurl: PKGSIZE changed from 622208 to 646912 (+4%)
+packages/core2-64-poky-linux/libgpg-error: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.51.tar.bz2 file://pkgconfig.patch file://0001-Do-not-fail-when-testing-config-scripts.patch file://run-ptest" to "https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.55.tar.bz2 file://pkgconfig.patch file://0001-Do-not-fail-when-testing-config-scripts.patch file://run-ptest"
+packages/core2-64-poky-linux/libgpg-error: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-dbg: FILELIST: removed "/usr/lib/.debug/libgpg-error.so.0.38.0", added "/usr/lib/libgpg-error/ptest/.debug/t-strlist /usr/lib/libgpg-error/ptest/.debug/t-name-value /usr/lib/.debug/libgpg-error.so.0.39.3"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-dbg: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-dbg: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-dbg: PKGSIZE changed from 1174352 to 1325280 (+13%)
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-dev: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-dev: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-dev: PKGSIZE changed from 211296 to 227752 (+8%)
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-doc: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-doc: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-cs: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-cs: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-da: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-da: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-de: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-de: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-eo: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-eo: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-es: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-es: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-fr: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-fr: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-hu: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-hu: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-it: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-it: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-ja: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-ja: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-nl: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-nl: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-pl: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-pl: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-pt: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-pt: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-pt: PKGSIZE changed from 21316 to 35174 (+65%)
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-ro: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-ro: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-ru: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-ru: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-sr: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-sr: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-sv: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-sv: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-tr: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-tr: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-uk: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-uk: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-vi: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-vi: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-zh-cn: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-zh-cn: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-zh-tw: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-zh-tw: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-ptest: FILELIST: added "/usr/lib/libgpg-error/ptest/t-strlist /usr/lib/libgpg-error/ptest/t-name-value"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-ptest: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-ptest: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-ptest: PKGSIZE changed from 249337 to 300117 (+20%)
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-src: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-src: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-src: PKGSIZE changed from 198968 to 211166 (+6%)
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-staticdev: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-staticdev: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error: FILELIST: removed "/usr/lib/libgpg-error.so.0.38.0", added "/usr/lib/libgpg-error.so.0.39.3"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error: PV changed from "1.51" to "1.55"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error: PKGV changed from 1.51 [default] to 1.55 [default]
+packages/core2-64-poky-linux/libgpg-error/libgpg-error: PKGSIZE changed from 213254 to 225542 (+6%)
+Changes to packages/core2-64-poky-linux/libgpg-error (sysroot):
+  /usr/lib/libgpg-error.so.0 changed symlink target from libgpg-error.so.0.38.0 to libgpg-error.so.0.39.3
+  /usr/lib/libgpg-error.so changed symlink target from libgpg-error.so.0.38.0 to libgpg-error.so.0.39.3
+  /usr/lib/libgpg-error.so.0.38.0 moved to /usr/lib/libgpg-error.so.0.39.3
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -1997,23 +2109,26 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libgpg-error-native (sysroot):
+  /usr/lib/libgpg-error.so.0 changed symlink target from libgpg-error.so.0.38.0 to libgpg-error.so.0.39.3
+  /usr/lib/libgpg-error.so changed symlink target from libgpg-error.so.0.38.0 to libgpg-error.so.0.39.3
+  /usr/lib/libgpg-error.so.0.38.0 moved to /usr/lib/libgpg-error.so.0.39.3
 
---===============2529623079159563610==
+--===============1266900201210955073==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/all-poky-linux/ca-certificates (sysroot):
-  /usr/share/ca-certificates/mozilla/Entrust_Root_Certification_Authority_-_G4.crt was added
-  /usr/share/ca-certificates/mozilla/SecureSign_RootCA11.crt was added
-  /usr/share/ca-certificates/mozilla/Security_Communication_RootCA3.crt was added
-  /usr/share/ca-certificates/mozilla/SwissSign_Silver_CA_-_G2.crt was added
-  /usr/share/ca-certificates/mozilla/D-TRUST_BR_Root_CA_2_2023.crt was removed
-  /usr/share/ca-certificates/mozilla/D-TRUST_EV_Root_CA_2_2023.crt was removed
-packages/core2-64-poky-linux/curl/curl-doc: FILELIST: added "/usr/share/man/man3/CURLOPT_UPLOAD_FLAGS.3"
-packages/core2-64-poky-linux/curl/curl-ptest: FILELIST: removed "/usr/lib/curl/ptest/tests/server/getpart", added "/usr/lib/curl/ptest/tests/data/test698 /usr/lib/curl/ptest/tests/data/test1978 /usr/lib/curl/ptest/tests/data/test2311 /usr/lib/curl/ptest/tests/data/test76 /usr/lib/curl/ptest/tests/data/test487 /usr/lib/curl/ptest/tests/data/test3209 /usr/lib/curl/ptest/tests/data/test1581 /usr/lib/curl/ptest/tests/data/test1580 /usr/lib/curl/ptest/tests/data/test488 /usr/lib/curl/ptest/tests/data/test489 /usr/lib/curl/ptest/tests/data/test1576 /usr/lib/curl/ptest/tests/data/test1577 /usr/lib/curl/ptest/tests/data/test1574 /usr/lib/curl/ptest/tests/libtest/lib1978 /usr/lib/curl/ptest/tests/libtest/lib1578 /usr/lib/curl/ptest/tests/data/test1575 /usr/lib/curl/ptest/tests/data/test1572 /usr/lib/curl/ptest/tests/data/test2101 /usr/lib/curl/ptest/tests/data/test1573 /usr/lib/curl/ptest/tests/data/test1571 /usr/lib/curl/ptest/tests/libtest/lib2311 /usr/lib/curl/ptest/tests/libtest/lib1571 /
- usr/lib/curl/ptest/tests/libtest/lib1576 /usr/lib/curl/ptest/tests/data/test1578 /usr/lib/curl/ptest/tests/data/test1579 /usr/lib/curl/ptest/tests/data/test3210"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-dbg: PKGSIZE changed from 1174352 to 1325280 (+13%)
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-locale-pt: PKGSIZE changed from 21316 to 35174 (+65%)
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-ptest: PKGSIZE changed from 249337 to 300117 (+20%)
+packages/core2-64-poky-linux/libgpg-error/libgpg-error-ptest: FILELIST: added "/usr/lib/libgpg-error/ptest/t-strlist /usr/lib/libgpg-error/ptest/t-name-value"
+packages/core2-64-poky-linux/libgpg-error/libgpg-error: FILELIST: removed "/usr/lib/libgpg-error.so.0.38.0", added "/usr/lib/libgpg-error.so.0.39.3"
+Changes to packages/core2-64-poky-linux/libgpg-error (sysroot):
+  /usr/lib/libgpg-error.so.0 changed symlink target from libgpg-error.so.0.38.0 to libgpg-error.so.0.39.3
+  /usr/lib/libgpg-error.so changed symlink target from libgpg-error.so.0.38.0 to libgpg-error.so.0.39.3
+  /usr/lib/libgpg-error.so.0.38.0 moved to /usr/lib/libgpg-error.so.0.39.3
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3840,59 +3955,10 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libgpg-error-native (sysroot):
+  /usr/lib/libgpg-error.so.0 changed symlink target from libgpg-error.so.0.38.0 to libgpg-error.so.0.39.3
+  /usr/lib/libgpg-error.so changed symlink target from libgpg-error.so.0.38.0 to libgpg-error.so.0.39.3
+  /usr/lib/libgpg-error.so.0.38.0 moved to /usr/lib/libgpg-error.so.0.39.3
 
---===============2529623079159563610==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-curl-upgrade-8.12.1-8.13.0.patch"
-
-RnJvbSA1ZmI3NGQ3Y2MxNDA0ZTk3MmZjZWZkYmMzZjg5MThjOWFmMDQ5NDY5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxNDozMDo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGN1
-cmw6IHVwZ3JhZGUgOC4xMi4xIC0+IDguMTMuMAoKLS0tCiBtZXRhL3JlY2lwZXMtc3VwcG9ydC9j
-dXJsL2N1cmwvbm8tdGVzdC10aW1lb3V0LnBhdGNoICAgICAgICB8IDYgKysrLS0tCiAuLi4vcmVj
-aXBlcy1zdXBwb3J0L2N1cmwve2N1cmxfOC4xMi4xLmJiID0+IGN1cmxfOC4xMy4wLmJifSB8IDIg
-Ky0KIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwve2N1cmxfOC4xMi4xLmJiID0+IGN1cmxfOC4x
-My4wLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3Vy
-bC9uby10ZXN0LXRpbWVvdXQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmwv
-bm8tdGVzdC10aW1lb3V0LnBhdGNoCmluZGV4IDY3N2QxNzczMDIuLjRlNjJlYjc0ZTkgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybC9uby10ZXN0LXRpbWVvdXQucGF0
-Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsL25vLXRlc3QtdGltZW91dC5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDJjZGRiNTJlODIxY2ZjMmYwOWYxOTc0NzQyNzE0
-ZTVmMmYxODU2ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gM2M5OTZjYzJhODE4MzE0
-YjJiYzY5MzRiYjMzNWUzZWYxY2EwYWJhMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogRGF0ZTogRnJpLCAxNSBNYXIgMjAy
-NCAxNDozNzozNyArMDAwMAogU3ViamVjdDogW1BBVENIXSBTZXQgdGhlIG1heC10aW1lIHRpbWVv
-dXQgdG8gNjAwIHNvIHRoZSB0aW1lb3V0IGlzIDEwIG1pbnV0ZXMKQEAgLTExLDEwICsxMSwxMCBA
-QCBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBh
-L3Rlc3RzL3NlcnZlcnMucG0gYi90ZXN0cy9zZXJ2ZXJzLnBtCi1pbmRleCBkNDQ3MmQ1Li45OTk5
-OTM4IDEwMDY0NAoraW5kZXggYTNlNWVkYi4uZjc1ZGY3OSAxMDA2NDQKIC0tLSBhL3Rlc3RzL3Nl
-cnZlcnMucG0KICsrKyBiL3Rlc3RzL3NlcnZlcnMucG0KLUBAIC0xMjMsNyArMTIzLDcgQEAgbXkg
-JHNzaGR2ZXJzdHI7ICAjIGZvciBzb2NrcyBzZXJ2ZXIsIHNzaCBkYWVtb24gdmVyc2lvbiBzdHJp
-bmcKK0BAIC0xMjQsNyArMTI0LDcgQEAgbXkgJHNzaGR2ZXJzdHI7ICAjIGZvciBzb2NrcyBzZXJ2
-ZXIsIHNzaCBkYWVtb24gdmVyc2lvbiBzdHJpbmcKICBteSAkc3NoZGVycm9yOyAgICMgZm9yIHNv
-Y2tzIHNlcnZlciwgc3NoIGRhZW1vbiB2ZXJzaW9uIGVycm9yCiAgbXkgJWRvZXNudHJ1bjsgICAg
-IyBzZXJ2ZXJzIHRoYXQgZG9uJ3Qgd29yaywgaWRlbnRpZmllZCBieSBwaWRmaWxlCiAgbXkgJVBP
-UlQgPSAobm9saXN0ZW4gPT4gNDcpOyAjIHBvcnQgd2UgdXNlIGZvciBhIGxvY2FsIG5vbi1saXN0
-ZW5pbmcgc2VydmljZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJs
-XzguMTIuMS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybF84LjEzLjAuYmIKc2lt
-aWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9j
-dXJsXzguMTIuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsXzgu
-MTMuMC5iYgppbmRleCA0MTkyNjkzZGE4Li5iOWI1ZWYxYTE1IDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxfOC4xMi4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2N1cmwvY3VybF84LjEzLjAuYmIKQEAgLTIwLDcgKzIwLDcgQEAgU1JDX1VSSTphcHBlbmQ6
-Y2xhc3MtbmF0aXZlc2RrID0gIiBcCiAgICAgICAgICAgIGZpbGU6Ly9lbnZpcm9ubWVudC5kLWN1
-cmwuc2ggXAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDM0MWYxZWQ5N2EyNmM4MTFhYmFl
-YmQzN2Q2MmI4MzM5NTY3OTJiNzYwN2VhM2YxNWQwMDE2MTNjNzZkZTIwMiIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICI0YTA5Mzk3OWEzYzJkMDJkZTJmYmMwMDU0OWEzMjc3MTAwN2YyZTc4MDMyYzZm
-YWE1ZWNkMmY3YTllMTUyMDI1IgogCiAjIEN1cmwgaGFzIHVzZWQgbWFueSBuYW1lcyBvdmVyIHRo
-ZSB5ZWFycy4uLgogQ1ZFX1BST0RVQ1QgPSAiaGF4eDpjdXJsIGhheHg6bGliY3VybCBjdXJsOmN1
-cmwgY3VybDpsaWJjdXJsIGxpYmN1cmw6bGliY3VybCBkYW5pZWxfc3RlbmJlcmc6Y3VybCIKLS0g
-CjIuNDcuMQoK
-
---===============2529623079159563610==--
+--===============1266900201210955073==--
 
