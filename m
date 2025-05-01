@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E72DC3ABB6
-	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:44 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.1791.1746113617290699320
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66C76C3ABD6
+	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:45 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.1799.1746113609915206846
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:33:37 -0700
+ Thu, 01 May 2025 08:33:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bCX7N5xf;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=XIKje/pj;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101968c7b58d2-82f5ef98-1a79-4f0d-9e54-98a8a2e52b56-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=aQ6ZNSWq;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WV7dvJ/S;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101968c7b5632-e6996ea1-578f-4df5-b0ab-fa152f08c011-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1746113616;
+	t=1746113615;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gkQ/FYnTg10qv0W3gELXhfSR0aCcexNuqkdWgoue6Rw=;
-	b=bCX7N5xfmw66QCzAjr4vy+wsO6feqAK85CUSmbZPrJSI3wStvW2Po3ERrI2YP+SW
-	6wcKYoqvuvGtFO4Fam2yfcvp2YAiNGi/ycNfnVZNoy6H/LckpyQxMCFdpbf9NuJR+LP
-	zkHQ+lwS6Onxot9rxjHEUCbm2CaMbrWqYa8N4z2w=
+	bh=xn80Zjf4SndH/Z4A87aNH8WR8TyFf05GtkSgHCW7T4I=;
+	b=aQ6ZNSWqOakBiba2SimhJb/QZSL//QEclqxM0/tq8GxrFSgHhGqmy9C5s6Qx6xIv
+	9MzvSmFCmERMe9D1GQNPLJbGSXfPls04WnNlgqM3Y1VkzM/8c/Xv9wFfYMV8q6aPuB7
+	LsIkQ8nY2UA7RmqEQxVfXjMG6snfg233vWHmr/Oc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113616;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113615;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gkQ/FYnTg10qv0W3gELXhfSR0aCcexNuqkdWgoue6Rw=;
-	b=XIKje/pjoi0IHU7JpIrH5VfcOHErFvk91lRmAX/r5xBX4Fwf7lklgh9DIcTYllqA
-	0LI543PGMw1AZK9VfCXmoznUXiU2w9EM7cL2cP2yxnSGHASllreXQfD+3PoFknSbT6R
-	r44luz9hKIY+KFq4BrZIZs90ciVB26tA85xSBzqo=
-Content-Type: multipart/mixed; boundary="===============3543073833648105470=="
+	bh=xn80Zjf4SndH/Z4A87aNH8WR8TyFf05GtkSgHCW7T4I=;
+	b=WV7dvJ/S7mkGWPHjgKf2+4WhN6de8tcg2m9smTgsKNpHWSLMWatV+MbASDQrz5F5
+	MVhzJvpmSE5cmTt6Gfg/xl3o9OWCd/f825cbDdE88ksc/csRmhIklehHPVOm1E0zITx
+	Q4Q/a5NcYtxMsMRWziW2RtOQPM/Xs5yBX2FkcYHM=
+Content-Type: multipart/mixed; boundary="===============7074913390658122335=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] erofs-utils: upgrading to 1.8.6 FAILED
-Message-ID: <010101968c7b58d2-82f5ef98-1a79-4f0d-9e54-98a8a2e52b56-000000@us-west-2.amazonses.com>
-Date: Thu, 1 May 2025 15:33:36 +0000
+Subject: [AUH] dnf: upgrading to 4.23.0 SUCCEEDED
+Message-ID: <010101968c7b5632-e6996ea1-578f-4df5-b0ab-fa152f08c011-000000@us-west-2.amazonses.com>
+Date: Thu, 1 May 2025 15:33:35 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.31
+X-SES-Outgoing: 2025.05.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215808
+ <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215802
 
---===============3543073833648105470==
+--===============7074913390658122335==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *erofs-utils* to *1.8.6* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *dnf* to *4.23.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-erofs-utils-upgrade-1.8.5-1.8.6.patch
+    - apply the patch: git am 0001-dnf-upgrade-4.22.0-4.23.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,504 +72,517 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 949632c0f02d3da98c98e9cd8868094589d52d1c Mon Sep 17 00:00:00 2001
+From 77ab6a2e515e057adaf49ea6976e3fbae8793e1e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 May 2025 08:27:22 +0000
-Subject: [PATCH] erofs-utils: upgrade 1.8.5 -> 1.8.6
+Date: Thu, 1 May 2025 08:11:47 +0000
+Subject: [PATCH] dnf: upgrade 4.22.0 -> 4.23.0
 
 ---
- .../erofs-utils/{erofs-utils_1.8.5.bb => erofs-utils_1.8.6.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/erofs-utils/{erofs-utils_1.8.5.bb => erofs-utils_1.8.6.bb} (94%)
+ .../0001-Corretly-install-tmpfiles.d-configuration.patch    | 2 +-
+ ...1-Do-not-hardcode-etc-and-systemd-unit-directories.patch | 6 +++---
+ .../dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch       | 2 +-
+ .../dnf/dnf/0001-lock.py-fix-Exception-handling.patch       | 5 +----
+ .../dnf/0001-set-python-path-for-completion_helper.patch    | 2 +-
+ .../dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch | 6 +++---
+ ...29-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch | 6 +++---
+ .../dnf/dnf/0030-Run-python-scripts-using-env.patch         | 6 +++---
+ meta/recipes-devtools/dnf/{dnf_4.22.0.bb => dnf_4.23.0.bb}  | 2 +-
+ 9 files changed, 17 insertions(+), 20 deletions(-)
+ rename meta/recipes-devtools/dnf/{dnf_4.22.0.bb => dnf_4.23.0.bb} (98%)
 
-diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.5.bb b/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb
-similarity index 94%
-rename from meta/recipes-devtools/erofs-utils/erofs-utils_1.8.5.bb
-rename to meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb
-index 54ead294fb..5efa84066d 100644
---- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.5.bb
-+++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- LIC_FILES_CHKSUM = "file://COPYING;md5=73001d804ea1e3d84365f652242cca20"
- HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/tree/README"
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch b/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
+index fd942228b9..b722383f39 100644
+--- a/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
++++ b/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
+@@ -1,4 +1,4 @@
+-From f70eb308c837f2c944e23bb680a501a605004d65 Mon Sep 17 00:00:00 2001
++From ccde7d327f0484877818c621b447b20e7dbe1a7d Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 26 Jan 2017 16:36:20 +0200
+ Subject: [PATCH] Corretly install tmpfiles.d configuration
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
+index 37359a5765..37e8feae74 100644
+--- a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
++++ b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
+@@ -1,4 +1,4 @@
+-From 3ca6d14fbc6419ff6239b4ba16f77da20fb31d03 Mon Sep 17 00:00:00 2001
++From 0e8437ae7734cfeeb9f160a8373c1f21c7728ca8 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 26 Jan 2017 16:25:47 +0200
+ Subject: [PATCH] Do not hardcode /etc and systemd unit directories
+@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
--SRCREV = "7bc147fafd53a2a9ff7c22399491079e5bfffafc"
-+SRCREV = "3689cbc2349bff05807d2f939146e92eb1bfaea1"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master;protocol=https"
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 4aee99fb..9e2e9e9e 100644
++index a76b6ac4..a2ba58c9 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -3,8 +3,8 @@ CMAKE_MINIMUM_REQUIRED (VERSION 2.4)
++@@ -4,8 +4,8 @@ PROJECT (dnf NONE)
+  
+  INCLUDE (${CMAKE_SOURCE_DIR}/VERSION.cmake)
+  
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch b/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
+index 18f9a30949..3d7eb85521 100644
+--- a/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
++++ b/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
+@@ -1,4 +1,4 @@
+-From 049e2832284ab883e185d9020c881518a68e6c38 Mon Sep 17 00:00:00 2001
++From 5c1bb74838e99934b2a89c6b304891e437b5078b Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 28 Apr 2020 15:55:00 +0200
+ Subject: [PATCH] dnf: write the log lock to root
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch b/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch
+index 6bffe9af0a..3c20a6b79e 100644
+--- a/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch
++++ b/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch
+@@ -1,4 +1,4 @@
+-From 3881757eabfde2ff54400ab127b106ab085d83f0 Mon Sep 17 00:00:00 2001
++From ce7d4b526bae2e07311861f04150ed854b42ab9c Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Wed, 13 Mar 2024 11:22:05 +0800
+ Subject: [PATCH] lock.py: fix Exception handling
+@@ -57,6 +57,3 @@ index 6817aac9..5718062a 100644
+  
+      def __exit__(self, *exc_args):
+          if self.count == 1:
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch b/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch
+index fcd970a7ae..a32e74d260 100644
+--- a/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch
++++ b/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch
+@@ -1,4 +1,4 @@
+-From fa32c7dcabaa3c00d3620a3266e49629365c0cbe Mon Sep 17 00:00:00 2001
++From 9ac724469ba891c9f7975a4dc59ab2daa6471fdd Mon Sep 17 00:00:00 2001
+ From: Jeremy Puhlman <jpuhlman@mvista.com>
+ Date: Wed, 11 Mar 2020 22:10:02 +0000
+ Subject: [PATCH] set python path for completion_helper
+diff --git a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
+index a1c58d6563..6745dc35fc 100644
+--- a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
++++ b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
+@@ -1,4 +1,4 @@
+-From 0e7fc4a8523aad616493e6ad33c509e1e530d852 Mon Sep 17 00:00:00 2001
++From fda3a962a8f7d57fb3aeacc4a8a0295ee5570c60 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 11 Jan 2017 15:10:13 +0200
+ Subject: [PATCH] Do not prepend installroot to logdir.
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(\d+(\.\d+)+))"
+ diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
+-index d3844df3..ac080f79 100644
++index 62b9434b..14d4757c 100644
+ --- a/dnf/cli/cli.py
+ +++ b/dnf/cli/cli.py
+-@@ -954,7 +954,7 @@ class Cli(object):
++@@ -1002,7 +1002,7 @@ class Cli(object):
+              logger.warning(_("Unable to detect release version (use '--releasever' to specify "
+                               "release version)"))
+  
+diff --git a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+index 64ea7874d3..69b05ca29e 100644
+--- a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
++++ b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+@@ -1,4 +1,4 @@
+-From d5b154ea69afdcd862299a0b7f255f6ece3686c6 Mon Sep 17 00:00:00 2001
++From 1063c4c5da43c1687534df360e60366502cb23fd Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:29:07 +0200
+ Subject: [PATCH] Do not set PYTHON_INSTALL_DIR by running python
+@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 9e2e9e9e..2056089d 100644
++index a2ba58c9..98aa9df0 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -19,7 +19,7 @@ ELSE ()
++@@ -20,7 +20,7 @@ ELSE ()
+      MESSAGE (FATAL_ERROR "Invalid PYTHON_DESIRED value: " ${PYTHON_DESIRED})
+  ENDIF()
+  
+diff --git a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
+index eb46113f3a..28fae9586b 100644
+--- a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
++++ b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
+@@ -1,4 +1,4 @@
+-From d3556767b84f3687743fdad0a88af0739d736ea9 Mon Sep 17 00:00:00 2001
++From 8b9f36385eb972cca6486a986b742e8e84d5ca95 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:29:37 +0200
+ Subject: [PATCH] Run python scripts using env
+@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  2 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/bin/dnf-automatic.in b/bin/dnf-automatic.in
+-index 17e35a05..28827e38 100755
++index 1fb712b0..ce8d4b8f 100755
+ --- a/bin/dnf-automatic.in
+ +++ b/bin/dnf-automatic.in
+ @@ -1,4 +1,4 @@
+@@ -23,7 +23,7 @@ index 17e35a05..28827e38 100755
+  #
+  # Copyright (C) 2014-2016 Red Hat, Inc.
+ diff --git a/bin/dnf.in b/bin/dnf.in
+-index 55ceb3f2..e38973c7 100755
++index 10716dec..817d7da5 100755
+ --- a/bin/dnf.in
+ +++ b/bin/dnf.in
+ @@ -1,4 +1,4 @@
+diff --git a/meta/recipes-devtools/dnf/dnf_4.22.0.bb b/meta/recipes-devtools/dnf/dnf_4.23.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/dnf/dnf_4.22.0.bb
+rename to meta/recipes-devtools/dnf/dnf_4.23.0.bb
+index e5ac3c9824..fe3deb4344 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.22.0.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.23.0.bb
+@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
+ 
+ SRC_URI:append:class-native = " file://0001-dnf-write-the-log-lock-to-root.patch"
+ 
+-SRCREV = "da9a7066be8e1628d9453428d33685225cd9c90d"
++SRCREV = "8fa4bb94a99eadaed91ad2ee51f27a4baafcebed"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
+ S = "${WORKDIR}/git"
 -- 
 2.47.1
 
 
---===============3543073833648105470==
-Content-Type: text/plain; charset="us-ascii"
+--===============7074913390658122335==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-dnf-upgrade-4.22.0-4.23.0.patch"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 928 .bb files complete (0 cached, 928 parsed). 1898 targets, 50 skipped, 0 masked, 0 errors.
-Removing 89 recipes from the core2-64 sysroot...done.
-Removing 89 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+RnJvbSA3N2FiNmEyZTUxNWUwNTdhZGFmNDllYTY5NzZlM2ZiYWU4NzkzZTFlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAwODoxMTo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRu
+ZjogdXBncmFkZSA0LjIyLjAgLT4gNC4yMy4wCgotLS0KIC4uLi8wMDAxLUNvcnJldGx5LWluc3Rh
+bGwtdG1wZmlsZXMuZC1jb25maWd1cmF0aW9uLnBhdGNoICAgIHwgMiArLQogLi4uMS1Eby1ub3Qt
+aGFyZGNvZGUtZXRjLWFuZC1zeXN0ZW1kLXVuaXQtZGlyZWN0b3JpZXMucGF0Y2ggfCA2ICsrKy0t
+LQogLi4uL2RuZi9kbmYvMDAwMS1kbmYtd3JpdGUtdGhlLWxvZy1sb2NrLXRvLXJvb3QucGF0Y2gg
+ICAgICAgfCAyICstCiAuLi4vZG5mL2RuZi8wMDAxLWxvY2sucHktZml4LUV4Y2VwdGlvbi1oYW5k
+bGluZy5wYXRjaCAgICAgICB8IDUgKy0tLS0KIC4uLi9kbmYvMDAwMS1zZXQtcHl0aG9uLXBhdGgt
+Zm9yLWNvbXBsZXRpb25faGVscGVyLnBhdGNoICAgIHwgMiArLQogLi4uL2RuZi9kbmYvMDAwNS1E
+by1ub3QtcHJlcGVuZC1pbnN0YWxscm9vdC10by1sb2dkaXIucGF0Y2ggfCA2ICsrKy0tLQogLi4u
+MjktRG8tbm90LXNldC1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVubmluZy1weXRob24ucGF0Y2gg
+fCA2ICsrKy0tLQogLi4uL2RuZi9kbmYvMDAzMC1SdW4tcHl0aG9uLXNjcmlwdHMtdXNpbmctZW52
+LnBhdGNoICAgICAgICAgfCA2ICsrKy0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi97ZG5m
+XzQuMjIuMC5iYiA9PiBkbmZfNC4yMy4wLmJifSAgfCAyICstCiA5IGZpbGVzIGNoYW5nZWQsIDE3
+IGluc2VydGlvbnMoKyksIDIwIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9kbmYve2RuZl80LjIyLjAuYmIgPT4gZG5mXzQuMjMuMC5iYn0gKDk4JSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDAxLUNvcnJldGx5LWluc3RhbGwt
+dG1wZmlsZXMuZC1jb25maWd1cmF0aW9uLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Ru
+Zi9kbmYvMDAwMS1Db3JyZXRseS1pbnN0YWxsLXRtcGZpbGVzLmQtY29uZmlndXJhdGlvbi5wYXRj
+aAppbmRleCBmZDk0MjIyOGI5Li5iNzIyMzgzZjM5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZG5mL2RuZi8wMDAxLUNvcnJldGx5LWluc3RhbGwtdG1wZmlsZXMuZC1jb25maWd1
+cmF0aW9uLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDEtQ29y
+cmV0bHktaW5zdGFsbC10bXBmaWxlcy5kLWNvbmZpZ3VyYXRpb24ucGF0Y2gKQEAgLTEsNCArMSw0
+IEBACi1Gcm9tIGY3MGViMzA4YzgzN2YyYzk0NGUyM2JiNjgwYTUwMWE2MDUwMDRkNjUgTW9uIFNl
+cCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGNjZGU3ZDMyN2YwNDg0ODc3ODE4YzYyMWI0NDdiMjBl
+N2RiZTFhN2QgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZp
+biA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFRodSwgMjYgSmFuIDIwMTcgMTY6MzY6
+MjAgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gQ29ycmV0bHkgaW5zdGFsbCB0bXBmaWxlcy5kIGNv
+bmZpZ3VyYXRpb24KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAw
+MDEtRG8tbm90LWhhcmRjb2RlLWV0Yy1hbmQtc3lzdGVtZC11bml0LWRpcmVjdG9yaWVzLnBhdGNo
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAwMS1Eby1ub3QtaGFyZGNvZGUtZXRj
+LWFuZC1zeXN0ZW1kLXVuaXQtZGlyZWN0b3JpZXMucGF0Y2gKaW5kZXggMzczNTlhNTc2NS4uMzdl
+OGZlYWU3NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAwMS1E
+by1ub3QtaGFyZGNvZGUtZXRjLWFuZC1zeXN0ZW1kLXVuaXQtZGlyZWN0b3JpZXMucGF0Y2gKKysr
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAwMS1Eby1ub3QtaGFyZGNvZGUtZXRj
+LWFuZC1zeXN0ZW1kLXVuaXQtZGlyZWN0b3JpZXMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
+IDNjYTZkMTRmYmM2NDE5ZmY2MjM5YjRiYTE2Zjc3ZGEyMGZiMzFkMDMgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCitGcm9tIDBlODQzN2FlNzczNGNmZWViOWYxNjBhODM3M2MxZjIxYzc3MjhjYTgg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5r
+YW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFRodSwgMjYgSmFuIDIwMTcgMTY6MjU6NDcgKzAyMDAK
+IFN1YmplY3Q6IFtQQVRDSF0gRG8gbm90IGhhcmRjb2RlIC9ldGMgYW5kIHN5c3RlbWQgdW5pdCBk
+aXJlY3RvcmllcwpAQCAtMTAsMTAgKzEwLDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBL
+YW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
+dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9DTWFrZUxpc3RzLnR4dCBi
+L0NNYWtlTGlzdHMudHh0Ci1pbmRleCA0YWVlOTlmYi4uOWUyZTllOWUgMTAwNjQ0CitpbmRleCBh
+NzZiNmFjNC4uYTJiYTU4YzkgMTAwNjQ0CiAtLS0gYS9DTWFrZUxpc3RzLnR4dAogKysrIGIvQ01h
+a2VMaXN0cy50eHQKLUBAIC0zLDggKzMsOCBAQCBDTUFLRV9NSU5JTVVNX1JFUVVJUkVEIChWRVJT
+SU9OIDIuNCkKK0BAIC00LDggKzQsOCBAQCBQUk9KRUNUIChkbmYgTk9ORSkKICAKICBJTkNMVURF
+ICgke0NNQUtFX1NPVVJDRV9ESVJ9L1ZFUlNJT04uY21ha2UpCiAgCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDAxLWRuZi13cml0ZS10aGUtbG9nLWxvY2stdG8t
+cm9vdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDEtZG5mLXdyaXRl
+LXRoZS1sb2ctbG9jay10by1yb290LnBhdGNoCmluZGV4IDE4ZjlhMzA5NDkuLjNkN2ViODU1MjEg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDEtZG5mLXdyaXRl
+LXRoZS1sb2ctbG9jay10by1yb290LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9k
+bmYvZG5mLzAwMDEtZG5mLXdyaXRlLXRoZS1sb2ctbG9jay10by1yb290LnBhdGNoCkBAIC0xLDQg
+KzEsNCBAQAotRnJvbSAwNDllMjgzMjI4NGFiODgzZTE4NWQ5MDIwYzg4MTUxOGE2OGU2YzM4IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1YzFiYjc0ODM4ZTk5OTM0YjJhODljNmIzMDQ4
+OTFlNDM3YjUwNzhiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEth
+bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBUdWUsIDI4IEFwciAyMDIwIDE1
+OjU1OjAwICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGRuZjogd3JpdGUgdGhlIGxvZyBsb2NrIHRv
+IHJvb3QKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDEtbG9j
+ay5weS1maXgtRXhjZXB0aW9uLWhhbmRsaW5nLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2RuZi9kbmYvMDAwMS1sb2NrLnB5LWZpeC1FeGNlcHRpb24taGFuZGxpbmcucGF0Y2gKaW5kZXgg
+NmJmZmU5YWYwYS4uM2MyMGE2Yjc5ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2RuZi9kbmYvMDAwMS1sb2NrLnB5LWZpeC1FeGNlcHRpb24taGFuZGxpbmcucGF0Y2gKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAwMS1sb2NrLnB5LWZpeC1FeGNlcHRpb24t
+aGFuZGxpbmcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDM4ODE3NTdlYWJmZGUyZmY1NDQw
+MGFiMTI3YjEwNmFiMDg1ZDgzZjAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGNlN2Q0
+YjUyNmJhZTJlMDczMTE4NjFmMDQxNTBlZDg1NGI0MmFiOWMgTW9uIFNlcCAxNyAwMDowMDowMCAy
+MDAxCiBGcm9tOiBDaGFuZ3FpbmcgTGkgPGNoYW5ncWluZy5saUB3aW5kcml2ZXIuY29tPgogRGF0
+ZTogV2VkLCAxMyBNYXIgMjAyNCAxMToyMjowNSArMDgwMAogU3ViamVjdDogW1BBVENIXSBsb2Nr
+LnB5OiBmaXggRXhjZXB0aW9uIGhhbmRsaW5nCkBAIC01Nyw2ICs1NywzIEBAIGluZGV4IDY4MTdh
+YWM5Li41NzE4MDYyYSAxMDA2NDQKICAKICAgICAgZGVmIF9fZXhpdF9fKHNlbGYsICpleGNfYXJn
+cyk6CiAgICAgICAgICBpZiBzZWxmLmNvdW50ID09IDE6Ci0tLSAKLTIuMjUuMQotCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDAxLXNldC1weXRob24tcGF0aC1m
+b3ItY29tcGxldGlvbl9oZWxwZXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2Ru
+Zi8wMDAxLXNldC1weXRob24tcGF0aC1mb3ItY29tcGxldGlvbl9oZWxwZXIucGF0Y2gKaW5kZXgg
+ZmNkOTcwYTdhZS4uYTMyZTc0ZDI2MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2RuZi9kbmYvMDAwMS1zZXQtcHl0aG9uLXBhdGgtZm9yLWNvbXBsZXRpb25faGVscGVyLnBhdGNo
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDEtc2V0LXB5dGhvbi1wYXRo
+LWZvci1jb21wbGV0aW9uX2hlbHBlci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZmEzMmM3
+ZGNhYmFhM2MwMGQzNjIwYTMyNjZlNDk2MjkzNjVjMGNiZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gOWFjNzI0NDY5YmE4OTFjOWY3OTc1YTRkYzU5YWIyZGFhNjQ3MWZkZCBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEplcmVteSBQdWhsbWFuIDxqcHVobG1hbkBtdmlzdGEu
+Y29tPgogRGF0ZTogV2VkLCAxMSBNYXIgMjAyMCAyMjoxMDowMiArMDAwMAogU3ViamVjdDogW1BB
+VENIXSBzZXQgcHl0aG9uIHBhdGggZm9yIGNvbXBsZXRpb25faGVscGVyCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDA1LURvLW5vdC1wcmVwZW5kLWluc3RhbGxy
+b290LXRvLWxvZ2Rpci5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDUt
+RG8tbm90LXByZXBlbmQtaW5zdGFsbHJvb3QtdG8tbG9nZGlyLnBhdGNoCmluZGV4IGExYzU4ZDY1
+NjMuLjY3NDVkYzM1ZmMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5m
+LzAwMDUtRG8tbm90LXByZXBlbmQtaW5zdGFsbHJvb3QtdG8tbG9nZGlyLnBhdGNoCisrKyBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDUtRG8tbm90LXByZXBlbmQtaW5zdGFsbHJv
+b3QtdG8tbG9nZGlyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwZTdmYzRhODUyM2FhZDYx
+NjQ5M2U2YWQzM2M1MDllMWU1MzBkODUyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBm
+ZGEzYTk2MmE4ZjdkNTdmYjNhZWFjYzRhOGEwMjk1ZWU1NTcwYzYwIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+
+CiBEYXRlOiBXZWQsIDExIEphbiAyMDE3IDE1OjEwOjEzICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hd
+IERvIG5vdCBwcmVwZW5kIGluc3RhbGxyb290IHRvIGxvZ2Rpci4KQEAgLTE0LDEwICsxNCwxMCBA
+QCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
+bT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlm
+ZiAtLWdpdCBhL2RuZi9jbGkvY2xpLnB5IGIvZG5mL2NsaS9jbGkucHkKLWluZGV4IGQzODQ0ZGYz
+Li5hYzA4MGY3OSAxMDA2NDQKK2luZGV4IDYyYjk0MzRiLi4xNGQ0NzU3YyAxMDA2NDQKIC0tLSBh
+L2RuZi9jbGkvY2xpLnB5CiArKysgYi9kbmYvY2xpL2NsaS5weQotQEAgLTk1NCw3ICs5NTQsNyBA
+QCBjbGFzcyBDbGkob2JqZWN0KToKK0BAIC0xMDAyLDcgKzEwMDIsNyBAQCBjbGFzcyBDbGkob2Jq
+ZWN0KToKICAgICAgICAgICAgICBsb2dnZXIud2FybmluZyhfKCJVbmFibGUgdG8gZGV0ZWN0IHJl
+bGVhc2UgdmVyc2lvbiAodXNlICctLXJlbGVhc2V2ZXInIHRvIHNwZWNpZnkgIgogICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgInJlbGVhc2UgdmVyc2lvbikiKSkKICAKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMjktRG8tbm90LXNldC1QWVRIT05fSU5T
+VEFMTF9ESVItYnktcnVubmluZy1weXRob24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+ZG5mL2RuZi8wMDI5LURvLW5vdC1zZXQtUFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0
+aG9uLnBhdGNoCmluZGV4IDY0ZWE3ODc0ZDMuLjY5YjA1Y2EyOWUgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMjktRG8tbm90LXNldC1QWVRIT05fSU5TVEFMTF9E
+SVItYnktcnVubmluZy1weXRob24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Ru
+Zi9kbmYvMDAyOS1Eby1ub3Qtc2V0LVBZVEhPTl9JTlNUQUxMX0RJUi1ieS1ydW5uaW5nLXB5dGhv
+bi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDViMTU0ZWE2OWFmZGNkODYyMjk5YTBiN2Yy
+NTVmNmVjZTM2ODZjNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTA2M2M0YzVkYTQz
+YzE2ODc1MzRkZjM2MGU2MDM2NjUwMmNiMjNmZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogRnJp
+LCAzMCBEZWMgMjAxNiAxODoyOTowNyArMDIwMAogU3ViamVjdDogW1BBVENIXSBEbyBub3Qgc2V0
+IFBZVEhPTl9JTlNUQUxMX0RJUiBieSBydW5uaW5nIHB5dGhvbgpAQCAtMTAsMTAgKzEwLDEwIEBA
+IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
+PgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZm
+IC0tZ2l0IGEvQ01ha2VMaXN0cy50eHQgYi9DTWFrZUxpc3RzLnR4dAotaW5kZXggOWUyZTllOWUu
+LjIwNTYwODlkIDEwMDY0NAoraW5kZXggYTJiYTU4YzkuLjk4YWE5ZGYwIDEwMDY0NAogLS0tIGEv
+Q01ha2VMaXN0cy50eHQKICsrKyBiL0NNYWtlTGlzdHMudHh0Ci1AQCAtMTksNyArMTksNyBAQCBF
+TFNFICgpCitAQCAtMjAsNyArMjAsNyBAQCBFTFNFICgpCiAgICAgIE1FU1NBR0UgKEZBVEFMX0VS
+Uk9SICJJbnZhbGlkIFBZVEhPTl9ERVNJUkVEIHZhbHVlOiAiICR7UFlUSE9OX0RFU0lSRUR9KQog
+IEVORElGKCkKICAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAw
+MzAtUnVuLXB5dGhvbi1zY3JpcHRzLXVzaW5nLWVudi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9kbmYvZG5mLzAwMzAtUnVuLXB5dGhvbi1zY3JpcHRzLXVzaW5nLWVudi5wYXRjaAppbmRl
+eCBlYjQ2MTEzZjNhLi4yOGZhZTk1ODZiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvZG5mL2RuZi8wMDMwLVJ1bi1weXRob24tc2NyaXB0cy11c2luZy1lbnYucGF0Y2gKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAzMC1SdW4tcHl0aG9uLXNjcmlwdHMtdXNp
+bmctZW52LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkMzU1Njc2N2I4NGYzNjg3NzQzZmRh
+ZDBhODhhZjA3MzlkNzM2ZWE5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA4YjlmMzYz
+ODVlYjk3MmNjYTY0ODZhOTg2Yjc0MmU4ZTg0ZDVjYTk1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRl
+OiBGcmksIDMwIERlYyAyMDE2IDE4OjI5OjM3ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJ1biBw
+eXRob24gc2NyaXB0cyB1c2luZyBlbnYKQEAgLTEzLDcgKzEzLDcgQEAgU2lnbmVkLW9mZi1ieTog
+QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgMiBmaWxlcyBjaGFu
+Z2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9iaW4v
+ZG5mLWF1dG9tYXRpYy5pbiBiL2Jpbi9kbmYtYXV0b21hdGljLmluCi1pbmRleCAxN2UzNWEwNS4u
+Mjg4MjdlMzggMTAwNzU1CitpbmRleCAxZmI3MTJiMC4uY2U4ZDRiOGYgMTAwNzU1CiAtLS0gYS9i
+aW4vZG5mLWF1dG9tYXRpYy5pbgogKysrIGIvYmluL2RuZi1hdXRvbWF0aWMuaW4KIEBAIC0xLDQg
+KzEsNCBAQApAQCAtMjMsNyArMjMsNyBAQCBpbmRleCAxN2UzNWEwNS4uMjg4MjdlMzggMTAwNzU1
+CiAgIwogICMgQ29weXJpZ2h0IChDKSAyMDE0LTIwMTYgUmVkIEhhdCwgSW5jLgogZGlmZiAtLWdp
+dCBhL2Jpbi9kbmYuaW4gYi9iaW4vZG5mLmluCi1pbmRleCA1NWNlYjNmMi4uZTM4OTczYzcgMTAw
+NzU1CitpbmRleCAxMDcxNmRlYy4uODE3ZDdkYTUgMTAwNzU1CiAtLS0gYS9iaW4vZG5mLmluCiAr
+KysgYi9iaW4vZG5mLmluCiBAQCAtMSw0ICsxLDQgQEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9kbmYvZG5mXzQuMjIuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYv
+ZG5mXzQuMjMuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvZG5mL2RuZl80LjIyLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9kbmYvZG5mXzQuMjMuMC5iYgppbmRleCBlNWFjM2M5ODI0Li5mZTNkZWI0MzQ0IDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZl80LjIyLjAuYmIKKysrIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmZfNC4yMy4wLmJiCkBAIC0yMCw3ICsyMCw3IEBAIFNS
+Q19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9ycG0tc29mdHdhcmUtbWFuYWdlbWVudC9kbmYuZ2l0
+O2JyYW5jaD1tYXN0ZXI7cHJvdG9jCiAKIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIg
+ZmlsZTovLzAwMDEtZG5mLXdyaXRlLXRoZS1sb2ctbG9jay10by1yb290LnBhdGNoIgogCi1TUkNS
+RVYgPSAiZGE5YTcwNjZiZThlMTYyOGQ5NDUzNDI4ZDMzNjg1MjI1Y2Q5YzkwZCIKK1NSQ1JFViA9
+ICI4ZmE0YmI5NGE5OWVhZGFlZDkxYWQyZWU1MWYyN2E0YmFhZmNlYmVkIgogVVBTVFJFQU1fQ0hF
+Q0tfR0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+XGQrKFwuXGQrKSspIgogCiBTID0gIiR7V09SS0RJ
+Un0vZ2l0IgotLSAKMi40Ny4xCgo=
 
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:2029e38dcb809a0109102ec87c05bf268c9d060a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 149 Local 139 Mirrors 0 Missed 10 Current 174 (93% match, 96% complete)
-Removing 5 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 234 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 248 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 250 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 251 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/lz4/lz4_1.10.0.bb:do_create_spdx_setscene)
-NOTE: recipe erofs-utils-1.8.6-r0: task do_populate_lic_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe lz4-1_1.10.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe erofs-utils-1.8.6-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 256 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe lz4-1_1.10.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 257 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 258 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 259 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/lz4/lz4_1.10.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 260 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/lz4/lz4_1.10.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 261 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 262 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 263 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe erofs-utils-1.8.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe lz4-1_1.10.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe lz4-1_1.10.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe erofs-utils-1.8.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 772 of 971 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_fetch)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 264 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe lz4-1_1.10.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe lz4-1_1.10.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 269 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 271 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/lz4/lz4_1.10.0.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 272 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 274 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.4.bb:do_recipe_qa_setscene)
-NOTE: recipe erofs-utils-1.8.6-r0: task do_fetch: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe lz4-1_1.10.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 275 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 277 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe lz4-1_1.10.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe erofs-utils-1.8.6-r0: task do_fetch: Succeeded
-NOTE: Running task 788 of 971 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_unpack)
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 279 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 280 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe erofs-utils-1.8.6-r0: task do_unpack: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 284 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 286 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 290 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 291 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 292 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe erofs-utils-1.8.6-r0: task do_unpack: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: Running task 794 of 971 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_patch)
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe erofs-utils-1.8.6-r0: task do_patch: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 295 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 296 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 297 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe erofs-utils-1.8.6-r0: task do_patch: Succeeded
-NOTE: Running task 797 of 971 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 299 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 300 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe erofs-utils-1.8.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 305 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 306 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 309 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe erofs-utils-1.8.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_deploy_source_date_epoch unihash changed to 2b3aa79c51e23c250abaee7aaf375d22c35a9c83b6ef2a548f6cf289b4e17a6a
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 311 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 313 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 315 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 318 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 320 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 322 of 323 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 945 of 971 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 958 of 971 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_collect_spdx_deps)
-NOTE: recipe erofs-utils-1.8.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe erofs-utils-1.8.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe erofs-utils-1.8.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe erofs-utils-1.8.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 959 of 971 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_configure)
-NOTE: recipe erofs-utils-1.8.6-r0: task do_configure: Started
-NOTE: recipe erofs-utils-1.8.6-r0: task do_configure: Succeeded
-NOTE: Running task 960 of 971 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_compile)
-NOTE: recipe erofs-utils-1.8.6-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 75
-| make  all-recursive
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build'
-| Making all in man
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/man'
-| make[2]: Nothing to be done for 'all'.
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/man'
-| Making all in lib
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/lib'
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-config.lo `test -f 'config.c' || echo '../../git/lib/'`config.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-io.lo `test -f 'io.c' || echo '../../git/lib/'`io.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-cache.lo `test -f 'cache.c' || echo '../../git/lib/'`cache.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-super.lo `test -f 'super.c' || echo '../../git/lib/'`super.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-inode.lo `test -f 'inode.c' || echo '../../git/lib/'`inode.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-xattr.lo `test -f 'xattr.c' || echo '../../git/lib/'`xattr.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-exclude.lo `test -f 'exclude.c' || echo '../../git/lib/'`exclude.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-namei.lo `test -f 'namei.c' || echo '../../git/lib/'`namei.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-data.lo `test -f 'data.c' || echo '../../git/lib/'`data.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-compress.lo `test -f 'compress.c' || echo '../../git/lib/'`compress.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-compressor.lo `test -f 'compressor.c' || echo '../../git/lib/'`compressor.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-zmap.lo `test -f 'zmap.c' || echo '../../git/lib/'`zmap.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-decompress.lo `test -f 'decompress.c' || echo '../../git/lib/'`decompress.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-compress_hints.lo `test -f 'compress_hints.c' || echo '../../git/lib/'`compress_hints.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-hashmap.lo `test -f 'hashmap.c' || echo '../../git/lib/'`hashmap.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-sha256.lo `test -f 'sha256.c' || echo '../../git/lib/'`sha256.c
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/config.c  -fPIC -DPIC -o .libs/liberofs_la-config.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/io.c  -fPIC -DPIC -o .libs/liberofs_la-io.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/super.c  -fPIC -DPIC -o .libs/liberofs_la-super.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/cache.c  -fPIC -DPIC -o .libs/liberofs_la-cache.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/exclude.c  -fPIC -DPIC -o .libs/liberofs_la-exclude.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/data.c  -fPIC -DPIC -o .libs/liberofs_la-data.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/hashmap.c  -fPIC -DPIC -o .libs/liberofs_la-hashmap.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/compress.c  -fPIC -DPIC -o .libs/liberofs_la-compress.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/xattr.c  -fPIC -DPIC -o .libs/liberofs_la-xattr.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/compressor.c  -fPIC -DPIC -o .libs/liberofs_la-compressor.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/namei.c  -fPIC -DPIC -o .libs/liberofs_la-namei.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/inode.c  -fPIC -DPIC -o .libs/liberofs_la-inode.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/sha256.c  -fPIC -DPIC -o .libs/liberofs_la-sha256.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/compress_hints.c  -fPIC -DPIC -o .libs/liberofs_la-compress_hints.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/zmap.c  -fPIC -DPIC -o .libs/liberofs_la-zmap.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/decompress.c  -fPIC -DPIC -o .libs/liberofs_la-decompress.o
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-blobchunk.lo `test -f 'blobchunk.c' || echo '../../git/lib/'`blobchunk.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-dir.lo `test -f 'dir.c' || echo '../../git/lib/'`dir.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-fragments.lo `test -f 'fragments.c' || echo '../../git/lib/'`fragments.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-dedupe.lo `test -f 'dedupe.c' || echo '../../git/lib/'`dedupe.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-uuid_unparse.lo `test -f 'uuid_unparse.c' || echo '../../git/lib/'`uuid_unparse.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-uuid.lo `test -f 'uuid.c' || echo '../../git/lib/'`uuid.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-tar.lo `test -f 'tar.c' || echo '../../git/lib/'`tar.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-block_list.lo `test -f 'block_list.c' || echo '../../git/lib/'`block_list.c
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/blobchunk.c  -fPIC -DPIC -o .libs/liberofs_la-blobchunk.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/fragments.c  -fPIC -DPIC -o .libs/liberofs_la-fragments.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/dir.c  -fPIC -DPIC -o .libs/liberofs_la-dir.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/dedupe.c  -fPIC -DPIC -o .libs/liberofs_la-dedupe.o
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-rebuild.lo `test -f 'rebuild.c' || echo '../../git/lib/'`rebuild.c
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/uuid_unparse.c  -fPIC -DPIC -o .libs/liberofs_la-uuid_unparse.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/uuid.c  -fPIC -DPIC -o .libs/liberofs_la-uuid.o
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-diskbuf.lo `test -f 'diskbuf.c' || echo '../../git/lib/'`diskbuf.c
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/tar.c  -fPIC -DPIC -o .libs/liberofs_la-tar.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/block_list.c  -fPIC -DPIC -o .libs/liberofs_la-block_list.o
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-bitops.lo `test -f 'bitops.c' || echo '../../git/lib/'`bitops.c
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/rebuild.c  -fPIC -DPIC -o .libs/liberofs_la-rebuild.o
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-dedupe_ext.lo `test -f 'dedupe_ext.c' || echo '../../git/lib/'`dedupe_ext.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-compressor_lz4.lo `test -f 'compressor_lz4.c' || echo '../../git/lib/'`compressor_lz4.c
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/diskbuf.c  -fPIC -DPIC -o .libs/liberofs_la-diskbuf.o
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-compressor_lz4hc.lo `test -f 'compressor_lz4hc.c' || echo '../../git/lib/'`compressor_lz4hc.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-kite_deflate.lo `test -f 'kite_deflate.c' || echo '../../git/lib/'`kite_deflate.c
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-compressor_deflate.lo `test -f 'compressor_deflate.c' || echo '../../git/lib/'`compressor_deflate.c
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/bitops.c  -fPIC -DPIC -o .libs/liberofs_la-bitops.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/dedupe_ext.c  -fPIC -DPIC -o .libs/liberofs_la-dedupe_ext.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/compressor_lz4.c  -fPIC -DPIC -o .libs/liberofs_la-compressor_lz4.o
-| /bin/bash ../libtool  --tag=CC   --mode=compile x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I..   -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe
- -sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o liberofs_la-xxhash.lo `test -f 'xxhash.c' || echo '../../git/lib/'`xxhash.c
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/compressor_lz4hc.c  -fPIC -DPIC -o .libs/liberofs_la-compressor_lz4hc.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/kite_deflate.c  -fPIC -DPIC -o .libs/liberofs_la-kite_deflate.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/compressor_deflate.c  -fPIC -DPIC -o .libs/liberofs_la-compressor_deflate.o
-| libtool: compile:  x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/lib -I.. -DNDEBUG -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuil
- d/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c ../../git/lib/xxhash.c  -fPIC -DPIC -o .libs/liberofs_la-xxhash.o
-| /bin/bash ../libtool  --tag=CC   --mode=link x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -Wall -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -I../../git/include      -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worke
- r/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o liberofs.la  liberofs_la-config.lo liberofs_la-io.lo liberofs_la-cache.lo liberofs_la-super.lo liberofs_la-inode.lo liberofs_la-xattr.lo liberofs_la-exclude.lo liberofs_la-namei.lo liberofs_la-data.lo liberofs
- _la-compress.lo liberofs_la-compressor.lo liberofs_la-zmap.lo liberofs_la-decompress.lo liberofs_la-compress_hints.lo liberofs_la-hashmap.lo liberofs_la-sha256.lo liberofs_la-blobchunk.lo liberofs_la-dir.lo liberofs_la-fragments.lo liberofs_la-dedupe.lo liberofs_la-uuid_unparse.lo liberofs_la-uuid.lo liberofs_la-tar.lo liberofs_la-block_list.lo liberofs_la-rebuild.lo liberofs_la-diskbuf.lo liberofs_la-bitops.lo liberofs_la-dedupe_ext.lo liberofs_la-compressor_lz4.lo liberofs_la-compressor_lz4hc.lo  liberofs_la-kite_deflate.lo liberofs_la-compressor_deflate.lo   liberofs_la-xxhash.lo
-| libtool: link: x86_64-poky-linux-musl-gcc-ar cr .libs/liberofs.a .libs/liberofs_la-config.o .libs/liberofs_la-io.o .libs/liberofs_la-cache.o .libs/liberofs_la-super.o .libs/liberofs_la-inode.o .libs/liberofs_la-xattr.o .libs/liberofs_la-exclude.o .libs/liberofs_la-namei.o .libs/liberofs_la-data.o .libs/liberofs_la-compress.o .libs/liberofs_la-compressor.o .libs/liberofs_la-zmap.o .libs/liberofs_la-decompress.o .libs/liberofs_la-compress_hints.o .libs/liberofs_la-hashmap.o .libs/liberofs_la-sha256.o .libs/liberofs_la-blobchunk.o .libs/liberofs_la-dir.o .libs/liberofs_la-fragments.o .libs/liberofs_la-dedupe.o .libs/liberofs_la-uuid_unparse.o .libs/liberofs_la-uuid.o .libs/liberofs_la-tar.o .libs/liberofs_la-block_list.o .libs/liberofs_la-rebuild.o .libs/liberofs_la-diskbuf.o .libs/liberofs_la-bitops.o .libs/liberofs_la-dedupe_ext.o .libs/liberofs_la-compressor_lz4.o .libs/liberofs_la-compressor_lz4hc.o .libs/liberofs_la-kite_deflate.o .libs/liberofs_la-compressor_deflate.o .libs/libe
- rofs_la-xxhash.o
-| libtool: link: x86_64-poky-linux-musl-gcc-ranlib .libs/liberofs.a
-| libtool: link: ( cd ".libs" && rm -f "liberofs.la" && ln -s "../liberofs.la" "liberofs.la" )
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/lib'
-| Making all in mkfs
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/mkfs'
-| x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/mkfs -I..   -DNDEBUG -Wall -I../../git/include -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE
- _OFFSET_BITS=64 -c -o mkfs_erofs-main.o `test -f 'main.c' || echo '../../git/mkfs/'`main.c
-| /bin/bash ../libtool  --tag=CC   --mode=link x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -Wall -I../../git/include -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_
- BITS=64  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o mkfs.erofs mkfs_erofs-main.o ../lib/liberofs.la  -luuid -llz4  -lz
-| libtool: link: x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -Wall -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -Wl,-O1 -Wl,--hash-style=gnu 
- -Wl,--as-needed -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -o mkfs.erofs mkfs_erofs-main.o  ../lib/.libs/liberofs.a -luuid -llz4 -lz
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/mkfs'
-| Making all in dump
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/dump'
-| x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/dump -I..  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -DNDEBUG -Wall -I../../git/include -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-wor
- ker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o dump_erofs-main.o `test -f 'main.c' || echo '../../git/dump/'`main.c
-| /bin/bash ../libtool  --tag=CC   --mode=link x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -Wall -I../../git/include -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_
- BITS=64  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o dump.erofs dump_erofs-main.o ../lib/liberofs.la  -llz4  -lz
-| libtool: link: x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -Wall -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -Wl,-O1 -Wl,--hash-style=gnu 
- -Wl,--as-needed -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -o dump.erofs dump_erofs-main.o  ../lib/.libs/liberofs.a -llz4 -lz
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/dump'
-| Making all in fsck
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/fsck'
-| x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/fsck -I..  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot/usr/include/uuid -DNDEBUG -Wall -I../../git/include -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-wor
- ker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o fsck_erofs-main.o `test -f 'main.c' || echo '../../git/fsck/'`main.c
-| /bin/bash ../libtool  --tag=CC   --mode=link x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -Wall -I../../git/include -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_
- BITS=64  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o fsck.erofs fsck_erofs-main.o ../lib/liberofs.la  -llz4  -lz
-| libtool: link: x86_64-poky-linux-musl-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -Wall -I../../git/include -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -Wl,-O1 -Wl,--hash-style=gnu 
- -Wl,--as-needed -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -o fsck.erofs fsck_erofs-main.o  ../lib/.libs/liberofs.a -llz4 -lz
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/fsck'
-| Making all in contrib
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/contrib'
-| x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/contrib -I..   -DNDEBUG -Wall -I../../git/include -O2 -g  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/git=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build=/usr/src/debug/erofs-utils/1.8.6  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/recipe-sysroot-native=  -pipe -D_LARGEFILE_SOURCE -D_F
- ILE_OFFSET_BITS=64 -c -o stress-stress.o `test -f 'stress.c' || echo '../../git/contrib/'`stress.c
-| ../../git/contrib/stress.c: In function '__getdents_f':
-| ../../git/contrib/stress.c:274:16: error: implicit declaration of function 'readdir64'; did you mean 'readdir_r'? [-Wimplicit-function-declaration]
-|   274 |         while (readdir64(dir) != NULL)
-|       |                ^~~~~~~~~
-|       |                readdir_r
-| ../../git/contrib/stress.c:274:31: warning: comparison between pointer and integer
-|   274 |         while (readdir64(dir) != NULL)
-|       |                               ^~
-| ../../git/contrib/stress.c: In function '__read_f':
-| ../../git/contrib/stress.c:431:17: error: implicit declaration of function 'pread64'; did you mean 'pread'? [-Wimplicit-function-declaration]
-|   431 |         nread = pread64(fe->fd, buf, len, off);
-|       |                 ^~~~~~~
-|       |                 pread
-| ../../git/contrib/stress.c: In function 'read_f':
-| ../../git/contrib/stress.c:480:15: error: implicit declaration of function 'lseek64'; did you mean 'lseek'? [-Wimplicit-function-declaration]
-|   480 |         fsz = lseek64(fe->fd, 0, SEEK_END);
-|       |               ^~~~~~~
-|       |               lseek
-| make[2]: *** [Makefile:424: stress-stress.o] Error 1
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build/contrib'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/build'
-| make[1]: *** [Makefile:447: all-recursive] Error 1
-| make: *** [Makefile:379: all] Error 2
-| ERROR: oe_runmake failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/temp/run.do_compile.2861550:181 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/temp/run.do_compile.2861550, line 181
-| 	#2: die, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/temp/run.do_compile.2861550, line 165
-| 	#3: oe_runmake, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/temp/run.do_compile.2861550, line 160
-| 	#4: autotools_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/temp/run.do_compile.2861550, line 155
-| 	#5: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/temp/run.do_compile.2861550, line 150
-| 	#6: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/temp/run.do_compile.2861550, line 194
-NOTE: recipe erofs-utils-1.8.6-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 960 tasks of which 952 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250501082657.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250501082657.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/temp/log.do_compile.2861550
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: erofs-utils-1.8.6-r0 do_compile: oe_runmake failed
-ERROR: erofs-utils-1.8.6-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/temp/run.do_compile.2861550' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/erofs-utils/1.8.6/temp/log.do_compile.2861550
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.6.bb:do_compile) failed with exit code '1'
-
---===============3543073833648105470==
+--===============7074913390658122335==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-dbg: PKGSIZE changed from 2057856 to 2100160 (+2%)
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-dbg: PV changed from "1.8.5" to "1.8.6"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-dbg: PKGV changed from 1.8.5 [default] to 1.8.6 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-dev: PV changed from "1.8.5" to "1.8.6"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-dev: PKGV changed from 1.8.5 [default] to 1.8.6 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-doc: PKGSIZE changed from 13129 to 13203 (+1%)
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-doc: PV changed from "1.8.5" to "1.8.6"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-doc: PKGV changed from 1.8.5 [default] to 1.8.6 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-locale: PV changed from "1.8.5" to "1.8.6"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-locale: PKGV changed from 1.8.5 [default] to 1.8.6 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-src: PV changed from "1.8.5" to "1.8.6"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-src: PKGV changed from 1.8.5 [default] to 1.8.6 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-staticdev: PV changed from "1.8.5" to "1.8.6"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-staticdev: PKGV changed from 1.8.5 [default] to 1.8.6 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils: PKGSIZE changed from 529960 to 542280 (+2%)
-packages/core2-64-poky-linux/erofs-utils/erofs-utils: PV changed from "1.8.5" to "1.8.6"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils: PKGV changed from 1.8.5 [default] to 1.8.6 [default]
-packages/core2-64-poky-linux/erofs-utils: PV changed from "1.8.5" to "1.8.6"
-packages/core2-64-poky-linux/erofs-utils: PKGV changed from 1.8.5 [default] to 1.8.6 [default]
+packages/core2-64-poky-linux/dnf/dnf-bash-completion: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-bash-completion: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-dbg: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-dbg: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-dev: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-dev: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-doc: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-doc: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-ar: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-ar: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-be: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-be: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-bg: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-bg: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-bn-in: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-bn-in: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-bn: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-bn: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-ca: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-ca: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-cs: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-cs: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-da: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-da: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-de: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-de: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-el: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-el: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-en-gb: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-en-gb: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-eo: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-eo: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-es: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-es: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-eu: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-eu: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-fa: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-fa: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-fi: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-fi: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-fil: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-fil: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-fr: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-fr: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-fur: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-fur: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-gd: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-gd: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-gu: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-gu: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-he: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-he: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-hi: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-hi: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-hr: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-hr: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-hu: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-hu: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-id: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-id: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-ie: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-ie: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-it: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-it: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-ja: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-ja: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-ka: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-ka: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-kk: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-kk: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-ko: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-ko: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-lt: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-lt: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-ml: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-ml: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-mr: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-mr: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-ms: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-ms: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-nb: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-nb: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-nl: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-nl: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-om: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-om: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-or: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-or: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-pa: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-pa: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-pl: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-pl: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-pt-br: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-pt-br: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-pt: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-pt: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-ru: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-ru: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-si: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-si: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-sk: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-sk: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-sl: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-sl: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-sq: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-sq: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-sr+latin: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-sr+latin: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-sr: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-sr: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-sv: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-sv: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-th: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-th: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-tr: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-tr: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-uk: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-uk: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-ur: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-ur: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-vi: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-vi: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-zh-cn: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-zh-cn: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-zh-hans: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-zh-hans: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-locale-zh-tw: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-locale-zh-tw: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-src: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-src: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-staticdev: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-staticdev: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-test-dep: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-test-dep: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf-test-main: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf-test-main: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf/dnf: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf/dnf: PKGSIZE changed from 962190 to 972308 (+1%)
+packages/core2-64-poky-linux/dnf/dnf: PV changed from "4.22.0" to "4.23.0"
+packages/core2-64-poky-linux/dnf: PKGV changed from 4.22.0 [default] to 4.23.0 [default]
+packages/core2-64-poky-linux/dnf: PV changed from "4.22.0" to "4.23.0"
+Changes to packages/core2-64-poky-linux/dnf (sysroot):
+  /usr/lib/python3.13/site-packages/dnf-4.22.0.dist-info moved to /usr/lib/python3.13/site-packages/dnf-4.23.0.dist-info
 
---===============3543073833648105470==
-Content-Type: application/octet-stream
+--===============7074913390658122335==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-erofs-utils-upgrade-1.8.5-1.8.6.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-RnJvbSA5NDk2MzJjMGYwMmQzZGE5OGM5OGU5Y2Q4ODY4MDk0NTg5ZDUyZDFjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAwODoyNzoyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVy
-b2ZzLXV0aWxzOiB1cGdyYWRlIDEuOC41IC0+IDEuOC42CgotLS0KIC4uLi9lcm9mcy11dGlscy97
-ZXJvZnMtdXRpbHNfMS44LjUuYmIgPT4gZXJvZnMtdXRpbHNfMS44LjYuYmJ9ICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9lcm9mcy11dGlscy97ZXJvZnMtdXRpbHNfMS44LjUuYmIgPT4gZXJv
-ZnMtdXRpbHNfMS44LjYuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2Vyb2ZzLXV0aWxzL2Vyb2ZzLXV0aWxzXzEuOC41LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2Vyb2ZzLXV0aWxzL2Vyb2ZzLXV0aWxzXzEuOC42LmJiCnNpbWlsYXJpdHkgaW5kZXggOTQl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9lcm9mcy11dGlscy9lcm9mcy11dGls
-c18xLjguNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Vyb2ZzLXV0aWxzL2Vy
-b2ZzLXV0aWxzXzEuOC42LmJiCmluZGV4IDU0ZWFkMjk0ZmIuLjVlZmE4NDA2NmQgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lcm9mcy11dGlscy9lcm9mcy11dGlsc18xLjguNS5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZXJvZnMtdXRpbHMvZXJvZnMtdXRpbHNfMS44
-LjYuYmIKQEAgLTUsNyArNSw3IEBAIFNFQ1RJT04gPSAiYmFzZSIKIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NPUFlJTkc7bWQ1PTczMDAxZDgwNGVhMWUzZDg0MzY1ZjY1MjI0MmNjYTIwIgog
-SE9NRVBBR0UgPSAiaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9n
-aXQveGlhbmcvZXJvZnMtdXRpbHMuZ2l0L3RyZWUvUkVBRE1FIgogCi1TUkNSRVYgPSAiN2JjMTQ3
-ZmFmZDUzYTJhOWZmN2MyMjM5OTQ5MTA3OWU1YmZmZmFmYyIKK1NSQ1JFViA9ICIzNjg5Y2JjMjM0
-OWJmZjA1ODA3ZDJmOTM5MTQ2ZTkyZWIxYmZhZWExIgogU1JDX1VSSSA9ICJnaXQ6Ly9naXQua2Vy
-bmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQveGlhbmcvZXJvZnMtdXRpbHMuZ2l0O2Jy
-YW5jaD1tYXN0ZXI7cHJvdG9jb2w9aHR0cHMiCiAKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VY
-ID0gInYoP1A8cHZlcj4oXGQrKFwuXGQrKSspKSIKLS0gCjIuNDcuMQoK
+Changes to packages/core2-64-poky-linux/dnf (sysroot):
+  /usr/lib/python3.13/site-packages/dnf-4.22.0.dist-info moved to /usr/lib/python3.13/site-packages/dnf-4.23.0.dist-info
 
---===============3543073833648105470==--
+--===============7074913390658122335==--
 
