@@ -2,48 +2,50 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D497C3ABCF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACE29C3ABDB
 	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:45 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.1775.1746113609540292983
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.1802.1746113612252095661
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:33:35 -0700
+ Thu, 01 May 2025 08:33:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=S4ope9JM;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=KlS1Xih2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101968c7b547f-bc4ce584-3224-495e-a51f-e08ce42e75c9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HbMLftDc;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=A7PSGMMc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101968c7b7a31-e488d9f2-ca87-49d5-85fe-ba02384844f0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1746113615;
+	t=1746113624;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=UKFcy6elXDkLoawFOY/GUMpLqIiRgpcAbTej0sGZmJs=;
-	b=S4ope9JMH0Qkp9OrZo3goQOD9lbcqyMC0m/obHnjzOgv/ck+p+WPuxwxoTmVXF9p
-	i0w0l0GiWIGUOZ1gYQh4qlCsEzbnlKDS5/5yYJRxRCGWcwZT4AhGSJpMrw8GP7ATb1Z
-	SZeXOWo3oloSJy1B7xCJjDgiXawozxilDBCoegU4=
+	bh=kXasHVAx1Rj7QcglT/FFo4fPy/rzDlVGlQKyl3dbZI4=;
+	b=HbMLftDcdGNUTdT/SeqSHm3cCndNybgZ2DHnoPdhEKNbDd15B4nVLgwWnhWsZNNO
+	z4vI62Qh3eFzQuPKmLJlLTtePU9mWMf9PZOleCVZtCgOTG08aRMmFE0/KWYIyd/ypKb
+	uQealQKdXnYCDOaIYSVHjpJgVeEFoCD08udZ1VUk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113615;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113624;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=UKFcy6elXDkLoawFOY/GUMpLqIiRgpcAbTej0sGZmJs=;
-	b=KlS1Xih2QwdNSUfyn/mhNMZ82vtCjQq9M0Wy5B9kS1P8obryITmtQsK66gG2A8M2
-	TH3b5IzZqDfbsILL891koAFZiWe+bLI2/B8Oe253aFMtzXhoLvkjFGW0VU0eb4Je2BL
-	uWIq+CJMClk6XHaj5rJvnJPclPt2IjAZjjuRQFiQ=
-Content-Type: multipart/mixed; boundary="===============6942662840690856319=="
+	bh=kXasHVAx1Rj7QcglT/FFo4fPy/rzDlVGlQKyl3dbZI4=;
+	b=A7PSGMMcmO4NtoszbviUuoisVKA3k8x/ZyXNnC+wKTuKmGuLj7Hicfwk+isMUa0C
+	I+gBWQwVz3tLmfgNI/zPCbyc1pHXt3zdeGikAZ2eGJKoN9gJnZIQM7tIeXog+WMQKHL
+	0RcUm2X1oISRQbu29nOtLfJRjnFB3iNQavLSkLm0=
+Content-Type: multipart/mixed; boundary="===============6924863800722202200=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: 
+	=?utf-8?b?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aSA8emJvc3pvckBnbWFpbC5jb20+?=@yoctoproject.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxml2: upgrading to 2.14.2 FAILED
-Message-ID: <010101968c7b547f-bc4ce584-3224-495e-a51f-e08ce42e75c9-000000@us-west-2.amazonses.com>
-Date: Thu, 1 May 2025 15:33:34 +0000
+Subject: [AUH] rpm-sequoia-crypto-policy: upgrading to
+ 56b301d43dd86b5d9082f8297984a5a7ec8fe2de FAILED
+Message-ID: <010101968c7b7a31-e488d9f2-ca87-49d5-85fe-ba02384844f0-000000@us-west-2.amazonses.com>
+Date: Thu, 1 May 2025 15:33:44 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.191
+X-SES-Outgoing: 2025.05.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215798
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215834
 
---===============6942662840690856319==
+--===============6924863800722202200==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,15 +53,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libxml2* to *2.14.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *rpm-sequoia-crypto-policy* to *56b301d43dd86b5d9082f8297984a5a7ec8fe2de* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe libxml2 failed.
+The following devtool command failed:  upgrade rpm-sequoia-crypto-policy -S 56b301d43dd86b5d9082f8297984a5a7ec8fe2de
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1897 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -75,102 +76,20 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:c79feba5f8e1448bc835e46ef9b57ba993d1106d"
+workspace            = "tmp-auh-upgrades:74765b884b940118470a17e042a41815c3ab759d"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 929 .bb files complete (0 cached, 929 parsed). 1898 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
 
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:c79feba5f8e1448bc835e46ef9b57ba993d1106d"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-5350zopi: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-nmeyc67h/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-nmeyc67h/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   2% |                                    | ETA:  0:00:04
-Adding changed files:   4% |#                                   | ETA:  0:00:04
-Adding changed files:   6% |##                                  | ETA:  0:00:03
-Adding changed files:   9% |###                                 | ETA:  0:00:03
-Adding changed files:  11% |####                                | ETA:  0:00:02
-Adding changed files:  13% |####                                | ETA:  0:00:02
-Adding changed files:  15% |#####                               | ETA:  0:00:02
-Adding changed files:  18% |######                              | ETA:  0:00:02
-Adding changed files:  20% |#######                             | ETA:  0:00:02
-Adding changed files:  22% |########                            | ETA:  0:00:02
-Adding changed files:  25% |#########                           | ETA:  0:00:01
-Adding changed files:  27% |#########                           | ETA:  0:00:01
-Adding changed files:  29% |##########                          | ETA:  0:00:01
-Adding changed files:  31% |###########                         | ETA:  0:00:01
-Adding changed files:  34% |############                        | ETA:  0:00:01
-Adding changed files:  36% |#############                       | ETA:  0:00:01
-Adding changed files:  38% |#############                       | ETA:  0:00:01
-Adding changed files:  41% |##############                      | ETA:  0:00:01
-Adding changed files:  43% |###############                     | ETA:  0:00:01
-Adding changed files:  45% |################                    | ETA:  0:00:01
-Adding changed files:  47% |#################                   | ETA:  0:00:01
-Adding changed files:  50% |##################                  | ETA:  0:00:01
-Adding changed files:  52% |##################                  | ETA:  0:00:01
-Adding changed files:  54% |###################                 | ETA:  0:00:00
-Adding changed files:  57% |####################                | ETA:  0:00:00
-Adding changed files:  59% |#####################               | ETA:  0:00:00
-Adding changed files:  61% |######################              | ETA:  0:00:00
-Adding changed files:  63% |#######################             | ETA:  0:00:00
-Adding changed files:  66% |#######################             | ETA:  0:00:00
-Adding changed files:  68% |########################            | ETA:  0:00:00
-Adding changed files:  70% |#########################           | ETA:  0:00:00
-Adding changed files:  73% |##########################          | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  77% |###########################         | ETA:  0:00:00
-Adding changed files:  79% |############################        | ETA:  0:00:00
-Adding changed files:  82% |#############################       | ETA:  0:00:00
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  89% |################################    | ETA:  0:00:00
-Adding changed files:  91% |################################    | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:01
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//libxml2/2.14/libxml2-2.14.2.tar.xz;name=archive...
-INFO: Rebasing devtool onto 66e74cc9a46d3a8c918e0c587d96ff354c116d77
-WARNING: Command 'git rebase 66e74cc9a46d3a8c918e0c587d96ff354c116d77' failed:
-Auto-merging Makefile.am
-CONFLICT (content): Merge conflict in Makefile.am
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/libxml2
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/libxml2/libxml2_2.14.2.bb
+ERROR: Execution of 'git checkout 56b301d43dd86b5d9082f8297984a5a7ec8fe2de' failed with exit code 128:
+fatal: unable to read tree (56b301d43dd86b5d9082f8297984a5a7ec8fe2de)
 
 
 
@@ -179,5 +98,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6942662840690856319==--
+--===============6924863800722202200==--
 
