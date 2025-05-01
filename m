@@ -1,167 +1,91 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 881B6C3ABA3
-	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 06:33:50 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.5685.1746081223209502234
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C57C369DC
+	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 08:54:11 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.7183.1746089647041912492
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Apr 2025 23:33:43 -0700
+ Thu, 01 May 2025 01:54:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=R//u0o34;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-736aaeed234so673220b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Apr 2025 23:33:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ty8IgVoE;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-acb39c45b4eso103140066b.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 01:54:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746081222; x=1746686022; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m5FruCdz2IkOV61Q3KibGDbQg0rbWXNceRDBW8pV7HU=;
-        b=R//u0o34mYS9+Er/ghJH+GJ1ZP7gnFfMCKObPyq7JOp1EK7QMoOGqevmj5HxDlNs9b
-         3k9zZjAAagS8qDwJPCMZRoY0WL00PiPqVlngklToshY3HbyltYbqHeF9D7kuC/yGXI/u
-         axIjblcbuasgXZbs1emcyuIeCoPysnFXDrR9PMMIxWRidGKhiqIbnp1F1IaQI+/No4RX
-         WlY9jIcnGdY7vZ+2rx552mpDFe+7NdtFvmKDnQUUbKyLfdMPMi8tnRC7hQgPQ995bX8W
-         +MmLaoXfN87e92aknJRXs+lJCXw6BFWt8dfjs0pQ97xhInjh7ASbNr3/L+iBF0gqVmYA
-         WTBA==
+        d=gmail.com; s=20230601; t=1746089645; x=1746694445; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AOi4KorQqfUG1/r8ujZJT0dN5WxHXXPgvWjEHat8f48=;
+        b=Ty8IgVoEBlNZYWZdzKZEhWsAQcsdR0ELYDLTQ1S84R6/Tj+SnGFUf/s+NmpcOpRk3p
+         cr6voc3iB4ra1JJIJQRrGc0n1sKSPQIPeAmfIRZIfRj6umExvfakhj4m5Qr+ZQMRazUS
+         doW3gjZUjqZZxNQsF1AqOERsqvomnuOfvcbtxkr/IizXrdEiMUsLvINTQDG2uK/shGbe
+         QeRcePyUJA9/6NrBZlKEuJeepPtg+YAes9ieVkJJYjlbhzpiXKzMhNm5Ke+rMRE5e4LL
+         XF1B5V85hYD6788QFA0bb21o63dmqgyzPY5xjqyz5qUcduQMYVjNpmhZ6aw2KYwkAMfj
+         UQCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746081222; x=1746686022;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m5FruCdz2IkOV61Q3KibGDbQg0rbWXNceRDBW8pV7HU=;
-        b=rmbblDYEUlG70gNKWuCYoy50tDRKm+tvpaAMaABcvpr44dzh9T+sFzkTJzfKkXz7ve
-         VI77A3co8F0vhvGTXpXo3IOpXn/BZecFjOi8arhenayMkBaqAsjoWUIq+ySkGgNBcjpw
-         E8GaGYX/DgEMC+dL0ImJ80saEttgYDHphPykaNzCwPWtmutbQ3HxVSh7dV69QYMbj4a2
-         yPaTw+sQ6n8FrBW2GFPB+MPgseslktJsbLfDVXPmuwGO5wPnQ6jgji0uJbrONlkGdNj5
-         Yk3YWLj+PGqRIlKqKr9iRnRbCr5Jno7u3nOO96q6voib7RFbIXquyRMQkX07eyY/Ps8X
-         yWyg==
-X-Gm-Message-State: AOJu0YzjvXhRCN/7fIUsh14qg5+m0UPxNd6C8QwSpUVQOrVllEAgQ4p7
-	r5zvwt6QDuRAhLrU/4CH6IWVA0ZmViY/0tNyFG9G8X/EG9T3OHvlCe6ovKXw
-X-Gm-Gg: ASbGnctZNEgavcDoAZyftk7Am3cj43bjfB3cLJ9ynYJf0nw89AhU5cXekJggjgEmgYH
-	nHNacRkfnCEdsOQxvjjiff4pRLxEYzh0pmX7fElXyfc3Yu6gbTowLf9ui7/FRrRyyIZ/4Mh4Yel
-	IZLJd5onvAoxVEyRNxCO+5YjTuVrMJpc6eb8txbs6DEA1d+HgLH+oy5ilx6pycaz7IVjoQqVY9X
-	EfqsUylUVrK2qdj58+iFfTwj26bcovO6XGWmSceD9w47YOMP+XBXEb35/ayBc93Yae/XQH42rWk
-	nFYRFqk0o23IqPzdBdk+cxkFisG7yP8W
-X-Google-Smtp-Source: AGHT+IH95IEh8vVV38PKHaxzhuaNPr3MDZsKUQ2dxxsiKDGvtVi+cKzoFRHTUsFiotnQ92Z6VF+fnA==
-X-Received: by 2002:a05:6a20:c78e:b0:1f5:884a:7549 with SMTP id adf61e73a8af0-20bd873eebbmr2149772637.41.1746081222022;
-        Wed, 30 Apr 2025 23:33:42 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::b8ae])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b1f9d6436c2sm73222a12.49.2025.04.30.23.33.41
+        d=1e100.net; s=20230601; t=1746089645; x=1746694445;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AOi4KorQqfUG1/r8ujZJT0dN5WxHXXPgvWjEHat8f48=;
+        b=EGausNhAT2cuhYSMII2ucqDbwowLryz+ScG+NOAOwNv5rk1nfXG8oVlHm82E0sQERz
+         W5fxf7LrAwAohrn0EdzmnL6eOTtL65uMMuzTlAzuTNBKy4zemCYbxlWS+QVwiex9uqti
+         Yv8fpVK35WFPumCiGFJ/DZuiQw5gh2wbXbmz6giCKlepuptJlaFxjDqBMZoRa/zZ0HKJ
+         k5B/FV6/Ny8spfpmFs6TFk9mHEGob9AtuTgXWgXd2E9INqM7xwyC+XXeM1aeSnmM1HtE
+         GGMNGMcgGWXniHsTC067HH79Z0pn4NvA5epwHnYoT/tUgu3YCuuSlRBCoMbyykfXJt6j
+         wPSQ==
+X-Gm-Message-State: AOJu0YwNDelcMTRbB007DBe8loV0L8tjYf2wtOHC5CtXoKb5LGwVKxZH
+	wm6FZtL43Aeaa893aU/nhRWwClyv86mm2CufxNgr0wDvhLVywIG4/ib6zQ==
+X-Gm-Gg: ASbGncvEiHk8M1tYj+vWl6WJXFmMGGVxAPvtDuq5ei0nbjReOZgmbMabe9uH1Esv6kg
+	Xpo28iQe8k+MZi5aD3a9Vw1TSGC7+gtTdFvI5wkmu2U25iuNi9EwhKud+Nk4/WsLcGn/fvlmJ7a
+	FMuZthbBwt2w6hka3BsabxePBwzFV7PwdFqwi2HLk313AiWhQDe09UzB0KhpO4RZeS0MNQiSGDt
+	UJ7qUIQ8ySeQsZxaJiIifSBRub5E1/SmTVflGnBP65vlaLNPhPQ2MlMmhLfBiILfQASZRk79jLa
+	pbV0ZZewamdDo7H57BkLefz7/cNVO+ShB7y7anaDpkfppCVYBsYEDHfa
+X-Google-Smtp-Source: AGHT+IHVXo0/9aAm7gXBN59uflcDw1YMUWczDG0cJ2V9BypY7c16+EGOmZjUCOiTDFXZ6W5JlgnqzA==
+X-Received: by 2002:a17:906:c109:b0:ac4:2ae:c970 with SMTP id a640c23a62f3a-aceff41bae2mr139955866b.21.1746089644951;
+        Thu, 01 May 2025 01:54:04 -0700 (PDT)
+Received: from localhost.localdomain ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad0da51693fsm10993666b.106.2025.05.01.01.54.04
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 23:33:41 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Thu, 01 May 2025 01:54:04 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] rust: Fix build with GCC-15 on aarch64/musl
-Date: Wed, 30 Apr 2025 23:33:39 -0700
-Message-ID: <20250501063339.1587969-1-raj.khem@gmail.com>
+Subject: [PATCH] libmatchbox: upgrade 1.13 -> 1.14
+Date: Thu,  1 May 2025 10:54:03 +0200
+Message-ID: <20250501085403.2693001-1-skandigraun@gmail.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 06:33:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215765
+ <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 08:54:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215766
 
-GCC-15 has _CHKFEAT_GCS defined in arm_acle.h to indicate gcs intrinsics
-support, this trips llvm libunwind gcs feature detection logic to set
-gcs feature on. However the contructs used in unwindlib are assuming clang
-and the needed target attribute is not available in gcc it should be +gcs
-to work with both clang and gcc
+Includes a fix for the library version to match the tagged version in git.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
-v2: Disable gcs with gcc, it was as such with gcc-14 too
+ .../libmatchbox/{libmatchbox_1.13.bb => libmatchbox_1.14.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/libmatchbox/{libmatchbox_1.13.bb => libmatchbox_1.14.bb} (95%)
 
- ...-gcs-instead-of-gcs-target-attribute.patch | 66 +++++++++++++++++++
- meta/recipes-devtools/rust/rust-source.inc    |  1 +
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-devtools/rust/files/0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch
-
-diff --git a/meta/recipes-devtools/rust/files/0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch b/meta/recipes-devtools/rust/files/0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch
-new file mode 100644
-index 00000000000..a704671fb9b
---- /dev/null
-+++ b/meta/recipes-devtools/rust/files/0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch
-@@ -0,0 +1,66 @@
-+From e4f4094de8ddcbe6d5ff1cdf782d2b89e0563903 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 30 Apr 2025 19:51:19 -0700
-+Subject: [PATCH] libunwind: Use +gcs instead of gcs target attribute
-+
-+__attribute__((target("gcs"))) does not work with gcc
-+
-+GCC-15 has added gcs intrinsics [1] but the syntax for enabling it is
-+slightly different. This syntax works with clang too.
-+
-+With gcc15 compiler libunwind's check for this macros is succeeding and it
-+ends up enabling 'gcs' by using function attribute, this works with clang
-+but not with gcc but '+gcs' works with both
-+
-+We can see this in rust compiler bootstrap for aarch64/musl when system
-+uses gcc15, it ends up with these errors
-+
-+Building libunwind.a for aarch64-poky-linux-musl
-+cargo:warning=/mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux-musl/rust/1.85.1/rustc-1.85.1-src/src/llvm-project/libunwind/src/UnwindLevel1.c:191:1: error: arch extension 'gcs' should be prefixed by '+'
-+cargo:warning=  191 | unwind_phase2(unw_context_t *uc, unw_cursor_t *cursor, _Unwind_Exception *exception_object) {
-+cargo:warning=      | ^~~~~~~~~~~~~
-+cargo:warning=/mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux-musl/rust/1.85.1/rustc-1.85.1-src/src/llvm-project/libunwind/src/UnwindLevel1.c:337:22: error: arch extension 'gcs' should be prefixed by '+'
-+cargo:warning=  337 |                      _Unwind_Stop_Fn stop, void *stop_parameter) {
-+cargo:warning=      |                      ^~~~~~~~~~~~~~~
-+
-+[1] https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=5a6af707f0af
-+
-+Upstream-Status: Submitted [https://github.com/llvm/llvm-project/pull/138077]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/llvm-project/libunwind/src/UnwindLevel1.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+--- a/src/llvm-project/libunwind/src/UnwindLevel1.c
-++++ b/src/llvm-project/libunwind/src/UnwindLevel1.c
-+@@ -185,7 +185,7 @@ extern int __unw_step_stage2(unw_cursor_
-+ 
-+ #if defined(_LIBUNWIND_USE_GCS)
-+ // Enable the GCS target feature to permit gcspop instructions to be used.
-+-__attribute__((target("gcs")))
-++__attribute__((target("+gcs")))
-+ #endif
-+ static _Unwind_Reason_Code
-+ unwind_phase2(unw_context_t *uc, unw_cursor_t *cursor, _Unwind_Exception *exception_object) {
-+@@ -329,7 +329,7 @@ unwind_phase2(unw_context_t *uc, unw_cur
-+ 
-+ #if defined(_LIBUNWIND_USE_GCS)
-+ // Enable the GCS target feature to permit gcspop instructions to be used.
-+-__attribute__((target("gcs")))
-++__attribute__((target("+gcs")))
-+ #endif
-+ static _Unwind_Reason_Code
-+ unwind_phase2_forced(unw_context_t *uc, unw_cursor_t *cursor,
-+--- a/src/llvm-project/libunwind/src/cet_unwind.h
-++++ b/src/llvm-project/libunwind/src/cet_unwind.h
-+@@ -42,7 +42,8 @@
-+ #include <arm_acle.h>
-+ 
-+ // We can only use GCS if arm_acle.h defines the GCS intrinsics.
-+-#ifdef _CHKFEAT_GCS
-++// Enable gcs with clang for now, gcc does not build unwindlevel1.c correctly
-++#if defined(_CHKFEAT_GCS) && defined(__clang__)
-+ #define _LIBUNWIND_USE_GCS 1
-+ #endif
-+ 
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index 25c0a1ce52a..82d28cf09f4 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -8,6 +8,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-             file://0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch;patchdir=${RUSTSRC} \
-             file://revert-link-std-statically-in-rustc_driver-feature.patch;patchdir=${RUSTSRC} \
-             file://Zdual-proc-macros-additional-check.patch;patchdir=${RUSTSRC} \
-+            file://0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch;patchdir=${RUSTSRC} \
- "
- SRC_URI[rust.sha256sum] = "b1fbf809efe9f036939401e142631c201a53bcf43ec1696bd9f5290ba236a266"
+diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.13.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.14.bb
+similarity index 95%
+rename from meta/recipes-graphics/libmatchbox/libmatchbox_1.13.bb
+rename to meta/recipes-graphics/libmatchbox/libmatchbox_1.14.bb
+index f212eb5e96..87ec4c812f 100644
+--- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.13.bb
++++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.14.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=87712c91ca9a2c2d475a0604c00f8f54 \
  
+ DEPENDS = "virtual/libx11 libxext"
+ 
+-SRCREV = "35cd78efa3120efc46497f55c04382be960d1864"
++SRCREV = "04b214a0d5cf8285e196d90bf2332626b12c74ef"
+ SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master;protocol=https;tag=${PV}"
+ 
+ S = "${WORKDIR}/git"
 
