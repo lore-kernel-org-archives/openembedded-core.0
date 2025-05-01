@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F035C3ABB9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B7AC3ABC3
 	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:44 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.1771.1746113606695801833
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.1794.1746113620574514882
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:33:41 -0700
+ Thu, 01 May 2025 08:33:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=CBVTEmCl;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Um+a1jxJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101968c7b6b3c-22925f93-e917-4921-b46c-62db9e3fd6a8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Vck2Fw+J;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Y6FRoQtH;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101968c7b680b-c4dd49cd-09f1-4e60-855c-c1bacdadd5de-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1746113620;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=YbRzPTAd7b1IXmF5rCV0TCVei2K+LNfbmmkTWpxJnfg=;
-	b=CBVTEmCl4NEB8qUc9vSexWFWJ2lFFakNewWQhE+/SOz2rSXy39hmuAkk8RmSPphP
-	EhqSgJFANfj7RGJ18BXmNi4aqflGxO9dlmkGpUMqxasekmkAv2+6IzUGqr9R/PR89ja
-	GKdeDOBsNHieF34eCLMNm56nismzoEsiwturGYo8=
+	bh=idVyFoZKnMrGKJ0P7oJKqEbJ4AdSYSe6gM17enUTcHU=;
+	b=Vck2Fw+JnyO122ppBmBMpixrDtEzI6T6Y0ksliQzD1alygKueQJt7rBp/9ZXeEig
+	KrLBCkwgS38AJJHQEgoXGxeMNhz0S+gCh2+THEWhUpmAnMcjozOBT1bFPEdT3AwJayu
+	ahkiYeqL3IGHiRSZyu2VQjAERqRwcpNzZ6pqHN/8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113620;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=YbRzPTAd7b1IXmF5rCV0TCVei2K+LNfbmmkTWpxJnfg=;
-	b=Um+a1jxJD+sqoMiSWzAC9Hvl2/Y30QZB+kAiQsjpX6GX7Ah6d123ZZqgQL1hvx5a
-	XElLZALrRe/3tv/6GjFyV1F/WN+JU2E9Aq2hw7Dogi3ZLmmGbRP7h72IYb6i/evUoMx
-	XzqImLp90SARKogEVpH+PFNfDYkpkH6SWiaXUDZw=
-Content-Type: multipart/mixed; boundary="===============3318947948048131974=="
+	bh=idVyFoZKnMrGKJ0P7oJKqEbJ4AdSYSe6gM17enUTcHU=;
+	b=Y6FRoQtHOyxc6udFlYhaWWN1g3qJvG/LG7OG9yKcaLyLnSRCAs0zY1w/0e4aR05t
+	/+02RunqEverPHsuRnT8UkktoMnWmqQtPPLefjEVc6mJ93+7ZR+s+JyPiGQvgCoOT/U
+	ww3D6rVn3tUgi4gd3h7UFlS5EP0Z7ako8YUCcp9g=
+Content-Type: multipart/mixed; boundary="===============6682662503211892160=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pdm: upgrading to 2.24.1 SUCCEEDED
-Message-ID: <010101968c7b6b3c-22925f93-e917-4921-b46c-62db9e3fd6a8-000000@us-west-2.amazonses.com>
-Date: Thu, 1 May 2025 15:33:40 +0000
+Subject: [AUH] python3-markdown: upgrading to 3.8 SUCCEEDED
+Message-ID: <010101968c7b680b-c4dd49cd-09f1-4e60-855c-c1bacdadd5de-000000@us-west-2.amazonses.com>
+Date: Thu, 1 May 2025 15:33:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.191
+X-SES-Outgoing: 2025.05.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215821
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215819
 
---===============3318947948048131974==
+--===============6682662503211892160==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pdm* to *2.24.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-markdown* to *3.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pdm-upgrade-2.23.1-2.24.1.patch
+    - apply the patch: git am 0001-python3-markdown-upgrade-3.7-3.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,113 +72,101 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 523e9447d149232277b3aa19bfe0606f4f3681b7 Mon Sep 17 00:00:00 2001
+From a46ff47c2631a4ab0cc40af3b54d171ae555fc6f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 May 2025 09:15:30 +0000
-Subject: [PATCH] python3-pdm: upgrade 2.23.1 -> 2.24.1
+Date: Thu, 1 May 2025 09:04:10 +0000
+Subject: [PATCH] python3-markdown: upgrade 3.7 -> 3.8
 
 ---
- .../python/{python3-pdm_2.23.1.bb => python3-pdm_2.24.1.bb}     | 2 +-
+ .../python/{python3-markdown_3.7.bb => python3-markdown_3.8.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pdm_2.23.1.bb => python3-pdm_2.24.1.bb} (82%)
+ rename meta/recipes-devtools/python/{python3-markdown_3.7.bb => python3-markdown_3.8.bb} (79%)
 
-diff --git a/meta/recipes-devtools/python/python3-pdm_2.23.1.bb b/meta/recipes-devtools/python/python3-pdm_2.24.1.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-pdm_2.23.1.bb
-rename to meta/recipes-devtools/python/python3-pdm_2.24.1.bb
-index acab401392..3f251c7f0f 100644
---- a/meta/recipes-devtools/python/python3-pdm_2.23.1.bb
-+++ b/meta/recipes-devtools/python/python3-pdm_2.24.1.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- SECTION = "devel/python"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
- 
--SRC_URI[sha256sum] = "cf12cd2201df78a6543a5485ac1d7015a73b3a6b10c98b66dfae6ebd481386fe"
-+SRC_URI[sha256sum] = "fc8adf011caa4ee2b0f25dabf890152aa4153cc21599ea67fe0c14e533dcd6d9"
+diff --git a/meta/recipes-devtools/python/python3-markdown_3.7.bb b/meta/recipes-devtools/python/python3-markdown_3.8.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-markdown_3.7.bb
+rename to meta/recipes-devtools/python/python3-markdown_3.8.bb
+index 6a2ab36494..09c2f3435b 100644
+--- a/meta/recipes-devtools/python/python3-markdown_3.7.bb
++++ b/meta/recipes-devtools/python/python3-markdown_3.8.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ec58cdf7cfed06a21f7a9362627a5480"
  
  inherit pypi python_setuptools_build_meta
+ 
+-SRC_URI[sha256sum] = "2ae2471477cfd02dbbf038d5d9bc226d40def84b4fe2986e49b59b6b472bbed2"
++SRC_URI[sha256sum] = "7df81e63f0df5c4b24b7d156eb81e4690595239b7d70937d0409f1b0de319c6f"
+ 
+ BBCLASSEXTEND = "native nativesdk"
  
 -- 
 2.47.1
 
 
---===============3318947948048131974==
+--===============6682662503211892160==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pdm-upgrade-2.23.1-2.24.1.patch"
+ filename="0001-python3-markdown-upgrade-3.7-3.8.patch"
 
-RnJvbSA1MjNlOTQ0N2QxNDkyMzIyNzdiM2FhMTliZmUwNjA2ZjRmMzY4MWI3IE1vbiBTZXAgMTcg
+RnJvbSBhNDZmZjQ3YzI2MzFhNGFiMGNjNDBhZjNiNTRkMTcxYWU1NTVmYzZmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAwOToxNTozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcGRtOiB1cGdyYWRlIDIuMjMuMSAtPiAyLjI0LjEKCi0tLQogLi4uL3B5dGhvbi97cHl0
-aG9uMy1wZG1fMi4yMy4xLmJiID0+IHB5dGhvbjMtcGRtXzIuMjQuMS5iYn0gICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1wZG1fMi4yMy4xLmJiID0+IHB5dGhv
-bjMtcGRtXzIuMjQuMS5iYn0gKDgyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjMuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1wZG1fMi4yNC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggODIlCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wZG1fMi4yMy4xLmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjQuMS5i
-YgppbmRleCBhY2FiNDAxMzkyLi4zZjI1MWM3ZjBmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjMuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjQuMS5iYgpAQCAtNCw3ICs0LDcgQEAgTElD
-RU5TRSA9ICJNSVQiCiBTRUNUSU9OID0gImRldmVsL3B5dGhvbiIKIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTJlYjMxYTJjYzFhNzU4YzM0YjQ5OWYyODdkZDA0ZWYyIgog
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiY2YxMmNkMjIwMWRmNzhhNjU0M2E1NDg1YWMxZDcwMTVh
-NzNiM2E2YjEwYzk4YjY2ZGZhZTZlYmQ0ODEzODZmZSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJm
-YzhhZGYwMTFjYWE0ZWUyYjBmMjVkYWJmODkwMTUyYWE0MTUzY2MyMTU5OWVhNjdmZTBjMTRlNTMz
-ZGNkNmQ5IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YQogCi0t
-IAoyLjQ3LjEKCg==
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAwOTowNDoxMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtbWFya2Rvd246IHVwZ3JhZGUgMy43IC0+IDMuOAoKLS0tCiAuLi4vcHl0aG9uL3tweXRo
+b24zLW1hcmtkb3duXzMuNy5iYiA9PiBweXRob24zLW1hcmtkb3duXzMuOC5iYn0gfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLW1hcmtkb3duXzMuNy5iYiA9PiBweXRo
+b24zLW1hcmtkb3duXzMuOC5iYn0gKDc5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFya2Rvd25fMy43LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLW1hcmtkb3duXzMuOC5iYgpzaW1pbGFyaXR5IGluZGV4IDc5JQpy
+ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFya2Rvd25f
+My43LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFy
+a2Rvd25fMy44LmJiCmluZGV4IDZhMmFiMzY0OTQuLjA5YzJmMzQzNWIgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYXJrZG93bl8zLjcuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1hcmtkb3duXzMuOC5iYgpAQCAt
+NSw3ICs1LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5tZDttZDU9ZWM1
+OGNkZjdjZmVkMDZhMjFmN2E5MzYyNjI3YTU0ODAiCiAKIGluaGVyaXQgcHlwaSBweXRob25fc2V0
+dXB0b29sc19idWlsZF9tZXRhCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyYWUyNDcxNDc3Y2Zk
+MDJkYmJmMDM4ZDVkOWJjMjI2ZDQwZGVmODRiNGZlMjk4NmU0OWI1OWI2YjQ3MmJiZWQyIgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjdkZjgxZTYzZjBkZjVjNGIyNGI3ZDE1NmViODFlNDY5MDU5NTIz
+OWI3ZDcwOTM3ZDA0MDlmMWIwZGUzMTljNmYiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5h
+dGl2ZXNkayIKIAotLSAKMi40Ny4xCgo=
 
---===============3318947948048131974==
+--===============6682662503211892160==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-pdm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.23.1.tar.gz;downloadfilename=pdm-2.23.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.24.1.tar.gz;downloadfilename=pdm-2.24.1.tar.gz"
-packages/core2-64-poky-linux/python3-pdm: PV changed from "2.23.1" to "2.24.1"
-packages/core2-64-poky-linux/python3-pdm: PKGV changed from 2.23.1 [default] to 2.24.1 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dbg: PV changed from "2.23.1" to "2.24.1"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dbg: PKGV changed from 2.23.1 [default] to 2.24.1 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dev: PV changed from "2.23.1" to "2.24.1"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dev: PKGV changed from 2.23.1 [default] to 2.24.1 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-doc: PV changed from "2.23.1" to "2.24.1"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-doc: PKGV changed from 2.23.1 [default] to 2.24.1 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-locale: PV changed from "2.23.1" to "2.24.1"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-locale: PKGV changed from 2.23.1 [default] to 2.24.1 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-src: PV changed from "2.23.1" to "2.24.1"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-src: PKGV changed from 2.23.1 [default] to 2.24.1 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-staticdev: PV changed from "2.23.1" to "2.24.1"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-staticdev: PKGV changed from 2.23.1 [default] to 2.24.1 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pdm-2.23.1.dist-info/licenses -> /usr/lib/python3.13/site-packages/pdm-2.24.1.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/pdm-2.23.1.dist-info -> /usr/lib/python3.13/site-packages/pdm-2.24.1.dist-info, added "/usr/lib/python3.13/site-packages/pdm/formats/__pycache__/pylock.cpython-313.pyc /usr/lib/python3.13/site-packages/pdm/cli/commands/new.py /usr/lib/python3.13/site-packages/pdm/cli/commands/__pycache__/new.cpython-313.pyc /usr/lib/python3.13/site-packages/pdm/cli/templates/minimal/.gitignore /usr/lib/python3.13/site-packages/pdm/formats/pylock.py"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: PKGSIZE changed from 2155818 to 2184505 (+1%)
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: PV changed from "2.23.1" to "2.24.1"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: PKGV changed from 2.23.1 [default] to 2.24.1 [default]
-Changes to packages/core2-64-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.13/site-packages/pdm-2.23.1.dist-info moved to /usr/lib/python3.13/site-packages/pdm-2.24.1.dist-info
-  /usr/lib/python3.13/site-packages/pdm/cli/commands/new.py was added
-  /usr/lib/python3.13/site-packages/pdm/cli/commands/__pycache__/new.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/pdm/cli/templates/minimal/.gitignore was added
-  /usr/lib/python3.13/site-packages/pdm/formats/__pycache__/pylock.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/pdm/formats/pylock.py was added
+packages/core2-64-poky-linux/python3-markdown: SRC_URI changed from "https://files.pythonhosted.org/packages/source/m/markdown/markdown-3.7.tar.gz;downloadfilename=markdown-3.7.tar.gz" to "https://files.pythonhosted.org/packages/source/m/markdown/markdown-3.8.tar.gz;downloadfilename=markdown-3.8.tar.gz"
+packages/core2-64-poky-linux/python3-markdown: PV changed from "3.7" to "3.8"
+packages/core2-64-poky-linux/python3-markdown: PKGV changed from 3.7 [default] to 3.8 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-dbg: PV changed from "3.7" to "3.8"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-dbg: PKGV changed from 3.7 [default] to 3.8 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-dev: PV changed from "3.7" to "3.8"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-dev: PKGV changed from 3.7 [default] to 3.8 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-doc: PV changed from "3.7" to "3.8"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-doc: PKGV changed from 3.7 [default] to 3.8 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-locale: PV changed from "3.7" to "3.8"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-locale: PKGV changed from 3.7 [default] to 3.8 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-src: PV changed from "3.7" to "3.8"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-src: PKGV changed from 3.7 [default] to 3.8 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-staticdev: PV changed from "3.7" to "3.8"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-staticdev: PKGV changed from 3.7 [default] to 3.8 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown: PV changed from "3.7" to "3.8"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown: PKGV changed from 3.7 [default] to 3.8 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown: PKGSIZE changed from 681360 to 685153 (+1%)
+Changes to packages/core2-64-poky-linux/python3-markdown (sysroot):
+  /usr/lib/python3.13/site-packages/markdown-3.7.dist-info moved to /usr/lib/python3.13/site-packages/markdown-3.8.dist-info
 
---===============3318947948048131974==
+--===============6682662503211892160==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pdm-2.23.1.dist-info -> /usr/lib/python3.13/site-packages/pdm-2.24.1.dist-info, directory renamed /usr/lib/python3.13/site-packages/pdm-2.23.1.dist-info/licenses -> /usr/lib/python3.13/site-packages/pdm-2.24.1.dist-info/licenses, added "/usr/lib/python3.13/site-packages/pdm/formats/__pycache__/pylock.cpython-313.pyc /usr/lib/python3.13/site-packages/pdm/formats/pylock.py /usr/lib/python3.13/site-packages/pdm/cli/templates/minimal/.gitignore /usr/lib/python3.13/site-packages/pdm/cli/commands/__pycache__/new.cpython-313.pyc /usr/lib/python3.13/site-packages/pdm/cli/commands/new.py"
-Changes to packages/core2-64-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.13/site-packages/pdm-2.23.1.dist-info moved to /usr/lib/python3.13/site-packages/pdm-2.24.1.dist-info
-  /usr/lib/python3.13/site-packages/pdm/cli/commands/new.py was added
-  /usr/lib/python3.13/site-packages/pdm/cli/commands/__pycache__/new.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/pdm/cli/templates/minimal/.gitignore was added
-  /usr/lib/python3.13/site-packages/pdm/formats/__pycache__/pylock.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/pdm/formats/pylock.py was added
+Changes to packages/core2-64-poky-linux/python3-markdown (sysroot):
+  /usr/lib/python3.13/site-packages/markdown-3.7.dist-info moved to /usr/lib/python3.13/site-packages/markdown-3.8.dist-info
 
---===============3318947948048131974==--
+--===============6682662503211892160==--
 
