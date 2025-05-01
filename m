@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E10E0C3ABAA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEACAC369DC
 	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:55 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.1786.1746113615645740914
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.1806.1746113613097356396
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 May 2025 08:33:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Udv1Dbha;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VY04becT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101968c7b9fc4-c86c7e3e-78ce-4f44-bbd4-07676969ccc7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZVl4vDZ0;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Gz1OHmcw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101968c7ba016-926fca46-d43d-46df-ae13-e4b456226ac1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1746113634;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=CvpSJhsgc2j0Hoqxl+mIu/fZysTzLqIAARsCcuc2hy4=;
-	b=Udv1DbhauqNahdgXWhkz3Srl6zDduhh/khSLDkMLyESKEBaE9S/377F+2jLXB6zn
-	SlvYBqPcvDn870BFn6dC4oqZ3CL7aoSFlumeQgutCie1GrIBOarqyDCUvnVMwbgPSS/
-	gL/6QBx1IOk21Jf5WJnN89Nw3Pw47GXGZFwaDvII=
+	bh=S5og+bf29Y0UCf18DvMRqTwcjPvc3FJH+X3fx32+py8=;
+	b=ZVl4vDZ06LgK8InQj/KpOFOg4ADfOQpwAVtAC1/fCWsBmtthQO6qTk15rYI7tDfv
+	b01i6B1ETxs+fZsoEXb9Whxswfdwcp9OZIZuJgb5GpzzVxcHBEn3s8v91QH9R5Ez0IE
+	mNl8ftR/aMRJ4pUgbnxdjcRCytRbHUrTU/CP2w6A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113634;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=CvpSJhsgc2j0Hoqxl+mIu/fZysTzLqIAARsCcuc2hy4=;
-	b=VY04becTaC6CkU2PLRex/Ej9hEn/PWmKJP7x8J7F+19JbE3U0CIe5ytfRuIf/AZv
-	gKLVuM/I15XeigDdqZJeFCYq/OaLlYhWn5KLvzZMXXOBa4WBprG4IlyBbXQUuh6JS2X
-	CC/Xikz1yqUo/TH+t4aj8rytPr2/NpxIjE8xsQuA=
-Content-Type: multipart/mixed; boundary="===============8937974899932582153=="
+	bh=S5og+bf29Y0UCf18DvMRqTwcjPvc3FJH+X3fx32+py8=;
+	b=Gz1OHmcw/5MKwpgxjjKxcqcOzAidqFt/akUVTXdfkQdxMWnZSzMFX7doisUaG1mt
+	EXl9Dr98TnWLQWhdEBUpmTPIGj6NOGghqyHpllL814JdVIhaLmdqAVNG9W3oCls93ir
+	yrJigDvJzrUW4gd0cX2hFnh1SfP4nuxpdlyGV5IA=
+Content-Type: multipart/mixed; boundary="===============8539560430814721468=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wayland-protocols: upgrading to 1.44 SUCCEEDED
-Message-ID: <010101968c7b9fc4-c86c7e3e-78ce-4f44-bbd4-07676969ccc7-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] libxkbcommon: upgrading to 1.9.0 SUCCEEDED
+Message-ID: <010101968c7ba016-926fca46-d43d-46df-ae13-e4b456226ac1-000000@us-west-2.amazonses.com>
 Date: Thu, 1 May 2025 15:33:54 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.45
+X-SES-Outgoing: 2025.05.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215871
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215872
 
---===============8937974899932582153==
+--===============8539560430814721468==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *wayland-protocols* to *1.44* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libxkbcommon* to *1.9.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-wayland-protocols-upgrade-1.42-1.44.patch
+    - apply the patch: git am 0001-libxkbcommon-upgrade-1.8.1-1.9.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,122 +72,133 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4230d5345648c1cb49496a6b4797e5e40983cc84 Mon Sep 17 00:00:00 2001
+From c11425b6890bd619381cea51b552dc8f26dfe4a3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 May 2025 13:04:01 +0000
-Subject: [PATCH] wayland-protocols: upgrade 1.42 -> 1.44
+Date: Thu, 1 May 2025 13:06:32 +0000
+Subject: [PATCH] libxkbcommon: upgrade 1.8.1 -> 1.9.0
 
 ---
- .../{wayland-protocols_1.42.bb => wayland-protocols_1.44.bb}    | 2 +-
+ .../xorg-lib/{libxkbcommon_1.8.1.bb => libxkbcommon_1.9.0.bb}   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{wayland-protocols_1.42.bb => wayland-protocols_1.44.bb} (91%)
+ rename meta/recipes-graphics/xorg-lib/{libxkbcommon_1.8.1.bb => libxkbcommon_1.9.0.bb} (96%)
 
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.42.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.44.bb
-similarity index 91%
-rename from meta/recipes-graphics/wayland/wayland-protocols_1.42.bb
-rename to meta/recipes-graphics/wayland/wayland-protocols_1.44.bb
-index 7cbb650cda..c86f09eb7c 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.42.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.44.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
-                     file://stable/presentation-time/presentation-time.xml;endline=26;md5=4646cd7d9edc9fa55db941f2d3a7dc53"
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.8.1.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.9.0.bb
+similarity index 96%
+rename from meta/recipes-graphics/xorg-lib/libxkbcommon_1.8.1.bb
+rename to meta/recipes-graphics/xorg-lib/libxkbcommon_1.9.0.bb
+index 76a622e157..2500ecbe2f 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.8.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.9.0.bb
+@@ -9,7 +9,7 @@ DEPENDS = "flex-native bison-native"
  
- SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/${PV}/downloads/wayland-protocols-${PV}.tar.xz"
--SRC_URI[sha256sum] = "23ba80d410d1200a86fe29592c19766eae8f1c350b67289999e9e7ea12d9f7aa"
-+SRC_URI[sha256sum] = "3df1107ecf8bfd6ee878aeca5d3b7afd81248a48031e14caf6ae01f14eebb50e"
+ SRC_URI = "git://github.com/xkbcommon/libxkbcommon;protocol=https;branch=master"
  
- UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/tags"
- UPSTREAM_CHECK_REGEX = "releases/(?P<pver>.+)"
+-SRCREV = "b3465081878e80ca6c11fe35c81787ec374ec15a"
++SRCREV = "ee1a98c5b3ba1f1981c5dfbea1a054cf7ad00140"
+ S = "${WORKDIR}/git"
+ 
+ inherit meson pkgconfig bash-completion
 -- 
 2.47.1
 
 
---===============8937974899932582153==
+--===============8539560430814721468==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-wayland-protocols-upgrade-1.42-1.44.patch"
+ filename="0001-libxkbcommon-upgrade-1.8.1-1.9.0.patch"
 
-RnJvbSA0MjMwZDUzNDU2NDhjMWNiNDk0OTZhNmI0Nzk3ZTVlNDA5ODNjYzg0IE1vbiBTZXAgMTcg
+RnJvbSBjMTE0MjViNjg5MGJkNjE5MzgxY2VhNTFiNTUyZGM4ZjI2ZGZlNGEzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxMzowNDowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdh
-eWxhbmQtcHJvdG9jb2xzOiB1cGdyYWRlIDEuNDIgLT4gMS40NAoKLS0tCiAuLi4ve3dheWxhbmQt
-cHJvdG9jb2xzXzEuNDIuYmIgPT4gd2F5bGFuZC1wcm90b2NvbHNfMS40NC5iYn0gICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC97d2F5bGFuZC1wcm90b2NvbHNfMS40Mi5iYiA9
-PiB3YXlsYW5kLXByb3RvY29sc18xLjQ0LmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmQtcHJvdG9jb2xzXzEuNDIuYmIgYi9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLXByb3RvY29sc18xLjQ0LmJiCnNpbWlsYXJp
-dHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dh
-eWxhbmQtcHJvdG9jb2xzXzEuNDIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy93
-YXlsYW5kL3dheWxhbmQtcHJvdG9jb2xzXzEuNDQuYmIKaW5kZXggN2NiYjY1MGNkYS4uYzg2ZjA5
-ZWI3YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZC1w
-cm90b2NvbHNfMS40Mi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXls
-YW5kLXByb3RvY29sc18xLjQ0LmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NPUFlJTkc7bWQ1PWM3YjEyYjY3MDJkYTM4Y2EwMjhhY2U1NGFhZTNkNDg0IFwK
-ICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3N0YWJsZS9wcmVzZW50YXRpb24tdGltZS9wcmVz
-ZW50YXRpb24tdGltZS54bWw7ZW5kbGluZT0yNjttZDU9NDY0NmNkN2Q5ZWRjOWZhNTVkYjk0MWYy
-ZDNhN2RjNTMiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3dh
-eWxhbmQvd2F5bGFuZC1wcm90b2NvbHMvLS9yZWxlYXNlcy8ke1BWfS9kb3dubG9hZHMvd2F5bGFu
-ZC1wcm90b2NvbHMtJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjIzYmE4MGQ0
-MTBkMTIwMGE4NmZlMjk1OTJjMTk3NjZlYWU4ZjFjMzUwYjY3Mjg5OTk5ZTllN2VhMTJkOWY3YWEi
-CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2RmMTEwN2VjZjhiZmQ2ZWU4NzhhZWNhNWQzYjdhZmQ4
-MTI0OGE0ODAzMWUxNGNhZjZhZTAxZjE0ZWViYjUwZSIKIAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0g
-Imh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93YXlsYW5kL3dheWxhbmQtcHJvdG9jb2xz
-Ly0vdGFncyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInJlbGVhc2VzLyg/UDxwdmVyPi4rKSIK
-LS0gCjIuNDcuMQoK
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxMzowNjozMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnhrYmNvbW1vbjogdXBncmFkZSAxLjguMSAtPiAxLjkuMAoKLS0tCiAuLi4veG9yZy1saWIve2xp
+YnhrYmNvbW1vbl8xLjguMS5iYiA9PiBsaWJ4a2Jjb21tb25fMS45LjAuYmJ9ICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYnhrYmNvbW1vbl8xLjguMS5iYiA9PiBsaWJ4
+a2Jjb21tb25fMS45LjAuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3hvcmctbGliL2xpYnhrYmNvbW1vbl8xLjguMS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS45LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhrYmNvbW1vbl8xLjgu
+MS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhrYmNvbW1v
+bl8xLjkuMC5iYgppbmRleCA3NmE2MjJlMTU3Li4yNTAwZWNiZTJmIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuOC4xLmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS45LjAuYmIKQEAgLTks
+NyArOSw3IEBAIERFUEVORFMgPSAiZmxleC1uYXRpdmUgYmlzb24tbmF0aXZlIgogCiBTUkNfVVJJ
+ID0gImdpdDovL2dpdGh1Yi5jb20veGtiY29tbW9uL2xpYnhrYmNvbW1vbjtwcm90b2NvbD1odHRw
+czticmFuY2g9bWFzdGVyIgogCi1TUkNSRVYgPSAiYjM0NjUwODE4NzhlODBjYTZjMTFmZTM1Yzgx
+Nzg3ZWMzNzRlYzE1YSIKK1NSQ1JFViA9ICJlZTFhOThjNWIzYmExZjE5ODFjNWRmYmVhMWEwNTRj
+ZjdhZDAwMTQwIgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogaW5oZXJpdCBtZXNvbiBwa2djb25m
+aWcgYmFzaC1jb21wbGV0aW9uCi0tIAoyLjQ3LjEKCg==
 
---===============8937974899932582153==
+--===============8539560430814721468==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/all-poky-linux/wayland-protocols: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.42/downloads/wayland-protocols-1.42.tar.xz" to "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.44/downloads/wayland-protocols-1.44.tar.xz"
-packages/all-poky-linux/wayland-protocols: PV changed from "1.42" to "1.44"
-packages/all-poky-linux/wayland-protocols: PKGV changed from 1.42 [default] to 1.44 [default]
-Changes to packages/all-poky-linux/wayland-protocols (sysroot):
-  /usr/include/wayland-protocols/color-representation-v1-enum.h was added
-  /usr/include/wayland-protocols/xdg-toplevel-tag-v1-enum.h was added
-  /usr/share/wayland-protocols/staging/color-representation was added
-  /usr/share/wayland-protocols/staging/color-representation/color-representation-v1.xml was added
-  /usr/share/wayland-protocols/staging/xdg-toplevel-tag was added
-  /usr/share/wayland-protocols/staging/xdg-toplevel-tag/xdg-toplevel-tag-v1.xml was added
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dbg: PV changed from "1.42" to "1.44"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dbg: PKGV changed from 1.42 [default] to 1.44 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: FILELIST: added "/usr/include/wayland-protocols/xdg-toplevel-tag-v1-enum.h /usr/include/wayland-protocols/color-representation-v1-enum.h"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PV changed from "1.42" to "1.44"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PKGSIZE changed from 111330 to 122303 (+10%)
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PKGV changed from 1.42 [default] to 1.44 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-doc: PV changed from "1.42" to "1.44"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-doc: PKGV changed from 1.42 [default] to 1.44 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-locale: PV changed from "1.42" to "1.44"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-locale: PKGV changed from 1.42 [default] to 1.44 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-src: PV changed from "1.42" to "1.44"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-src: PKGV changed from 1.42 [default] to 1.44 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: PV changed from "1.42" to "1.44"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: PKGV changed from 1.42 [default] to 1.44 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols: FILELIST: added "/usr/share/wayland-protocols/staging/xdg-toplevel-tag/xdg-toplevel-tag-v1.xml /usr/share/wayland-protocols/staging/color-representation/color-representation-v1.xml"
-packages/all-poky-linux/wayland-protocols/wayland-protocols: PV changed from "1.42" to "1.44"
-packages/all-poky-linux/wayland-protocols/wayland-protocols: PKGSIZE changed from 815357 to 839193 (+3%)
-packages/all-poky-linux/wayland-protocols/wayland-protocols: PKGV changed from 1.42 [default] to 1.44 [default]
+packages/core2-64-poky-linux/libxkbcommon: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-bash-completion: PKGSIZE changed from 3698 to 3942 (+7%)
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-bash-completion: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-bash-completion: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 1499464 to 1557512 (+4%)
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: FILELIST: removed "/usr/lib/.debug/libxkbcommon-x11.so.0.8.1 /usr/lib/.debug/libxkbcommon.so.0.8.1 /usr/lib/.debug/libxkbregistry.so.0.8.1", added "/usr/lib/.debug/libxkbregistry.so.0.9.0 /usr/lib/.debug/libxkbcommon-x11.so.0.9.0 /usr/lib/.debug/libxkbcommon.so.0.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: PKGSIZE changed from 375883 to 378118 (+1%)
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PKGSIZE changed from 12475 to 12582 (+1%)
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-locale: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-locale: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: PKGSIZE changed from 325504 to 338177 (+4%)
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-staticdev: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-staticdev: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: FILELIST: removed "/usr/lib/libxkbcommon-x11.so.0.8.1", added "/usr/lib/libxkbcommon-x11.so.0.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: FILES: removed "/usr/lib/libxkbcommon-x11.so.0.8.1", added "/usr/lib/libxkbcommon-x11.so.0.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: PKGSIZE changed from 321613 to 337997 (+5%)
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: FILELIST: removed "/usr/lib/libxkbcommon.so.0.8.1", added "/usr/lib/libxkbcommon.so.0.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: FILES: removed "/usr/lib/libxkbcommon.so.0.8.1", added "/usr/lib/libxkbcommon.so.0.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: FILELIST: removed "/usr/lib/libxkbregistry.so.0.8.1", added "/usr/lib/libxkbregistry.so.0.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
+packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: FILES: removed "/usr/lib/libxkbregistry.so.0.8.1", added "/usr/lib/libxkbregistry.so.0.9.0"
+Changes to packages/core2-64-poky-linux/libxkbcommon (sysroot):
+  /usr/lib/libxkbcommon.so.0 changed symlink target from libxkbcommon.so.0.8.1 to libxkbcommon.so.0.9.0
+  /usr/lib/libxkbcommon-x11.so.0 changed symlink target from libxkbcommon-x11.so.0.8.1 to libxkbcommon-x11.so.0.9.0
+  /usr/lib/libxkbregistry.so.0 changed symlink target from libxkbregistry.so.0.8.1 to libxkbregistry.so.0.9.0
+  /usr/lib/libxkbcommon.so.0.8.1 moved to /usr/lib/libxkbcommon.so.0.9.0
+  /usr/lib/libxkbcommon-x11.so.0.8.1 moved to /usr/lib/libxkbcommon-x11.so.0.9.0
+  /usr/lib/libxkbregistry.so.0.8.1 moved to /usr/lib/libxkbregistry.so.0.9.0
+packages/core2-64-poky-linux/libxkbcommon/xkbcli: PKGSIZE changed from 265416 to 265448 (+0%)
+packages/core2-64-poky-linux/libxkbcommon/xkbcli: PV changed from "1.8.1" to "1.9.0"
+packages/core2-64-poky-linux/libxkbcommon/xkbcli: PKGV changed from 1.8.1 [default] to 1.9.0 [default]
 
---===============8937974899932582153==
+--===============8539560430814721468==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/all-poky-linux/wayland-protocols (sysroot):
-  /usr/include/wayland-protocols/color-representation-v1-enum.h was added
-  /usr/include/wayland-protocols/xdg-toplevel-tag-v1-enum.h was added
-  /usr/share/wayland-protocols/staging/color-representation was added
-  /usr/share/wayland-protocols/staging/color-representation/color-representation-v1.xml was added
-  /usr/share/wayland-protocols/staging/xdg-toplevel-tag was added
-  /usr/share/wayland-protocols/staging/xdg-toplevel-tag/xdg-toplevel-tag-v1.xml was added
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: FILELIST: added "/usr/include/wayland-protocols/color-representation-v1-enum.h /usr/include/wayland-protocols/xdg-toplevel-tag-v1-enum.h"
-packages/all-poky-linux/wayland-protocols/wayland-protocols: FILELIST: added "/usr/share/wayland-protocols/staging/color-representation/color-representation-v1.xml /usr/share/wayland-protocols/staging/xdg-toplevel-tag/xdg-toplevel-tag-v1.xml"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: FILELIST: removed "/usr/lib/libxkbcommon-x11.so.0.8.1", added "/usr/lib/libxkbcommon-x11.so.0.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: FILELIST: removed "/usr/lib/libxkbcommon.so.0.8.1", added "/usr/lib/libxkbcommon.so.0.9.0"
+packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: FILELIST: removed "/usr/lib/libxkbregistry.so.0.8.1", added "/usr/lib/libxkbregistry.so.0.9.0"
+Changes to packages/core2-64-poky-linux/libxkbcommon (sysroot):
+  /usr/lib/libxkbcommon.so.0 changed symlink target from libxkbcommon.so.0.8.1 to libxkbcommon.so.0.9.0
+  /usr/lib/libxkbcommon-x11.so.0 changed symlink target from libxkbcommon-x11.so.0.8.1 to libxkbcommon-x11.so.0.9.0
+  /usr/lib/libxkbregistry.so.0 changed symlink target from libxkbregistry.so.0.8.1 to libxkbregistry.so.0.9.0
+  /usr/lib/libxkbcommon.so.0.8.1 moved to /usr/lib/libxkbcommon.so.0.9.0
+  /usr/lib/libxkbcommon-x11.so.0.8.1 moved to /usr/lib/libxkbcommon-x11.so.0.9.0
+  /usr/lib/libxkbregistry.so.0.8.1 moved to /usr/lib/libxkbregistry.so.0.9.0
 
---===============8937974899932582153==--
+--===============8539560430814721468==--
 
