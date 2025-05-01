@@ -2,366 +2,399 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAE4AC3ABD3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB635C5B554
 	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:34:09 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.1823.1746113639417413617
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.1808.1746113616009259453
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:34:00 -0700
+ Thu, 01 May 2025 08:33:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ES/ffFxm;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=gZUhniSW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101968c7bb5b4-e39776e3-f513-4178-8dab-f65d2ed584b7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=a7eqsOpu;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=dLskKe+X;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101968c7bb0e9-aa6a2451-498c-44a0-8039-c3dd2eda55c0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1746113640;
+	t=1746113638;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=MmIipDLbb97bAgQRQ7rbic3YAAtsUxaycylLv6qfBRc=;
-	b=ES/ffFxmtJ0+JEem2PSL1ZrFYoDfINxAe4TxFADaOZKFFPe45MqTJVxnrkObU/Xy
-	DzZD5pG/Qz2PC4yeeY5Y1GiuJtxwIIjNTJy3H4+WHoBgnZfv8wV2XQxupdDtwdR9aOH
-	xY8vM6SvNO90SpetMw5HabCl7PcROQJIGrsJFXJo=
+	bh=+dBnDO3TZRZXgcVrJVXFpL9T0TTU1EEbpm6ffwW9s1Q=;
+	b=a7eqsOpuZsLHnpRVoeIZPOG2qCL+A/v5DHislpR38FN8cPNpdpn8mjv+Qds3DYy7
+	m6Q1mDkMyxrACCXtMFvNjoV9Zee5dx3oC+FMyes4zMxOyVptIY88nEq9gFEtUpf2rPw
+	QML/0aQhKU5+outOhBgeLXY47Tq7z5XS7tfPjbUY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113640;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113638;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=MmIipDLbb97bAgQRQ7rbic3YAAtsUxaycylLv6qfBRc=;
-	b=gZUhniSWMNqew/48vbqXMjyluBUhodDec7ll0N3ygV4Rtoo1GhB+X7vGwy2Jm2oa
-	zzKtEmzRKxaciUDGRsECI5EbQQHMO+PmnjdEYxLCQQKfA5nZ4H1tjLBh7jYiApp3vhx
-	hepBBamH1LozjjFzYymP0iZ3KqVaR0chuGN4eqY0=
-Content-Type: multipart/mixed; boundary="===============9012643973011439640=="
+	bh=+dBnDO3TZRZXgcVrJVXFpL9T0TTU1EEbpm6ffwW9s1Q=;
+	b=dLskKe+XYjzw1jJsAJErk8xCIztDfGmvU0s5/oUAHlusDnOGlH/uwMt0qkhq9c7+
+	gM84sIQvSakHed5QbCa8O7lRVIwm4oOIKggmk3C7OwjLTUW7CekYwQU/V4r97M8MCld
+	b3M9y+KVR47lbGvIRUM9yGHs/m3YSyxSip9AtFqw=
+Content-Type: multipart/mixed; boundary="===============8368177904381783353=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] icu: upgrading to 77-1 FAILED
-Message-ID: <010101968c7bb5b4-e39776e3-f513-4178-8dab-f65d2ed584b7-000000@us-west-2.amazonses.com>
-Date: Thu, 1 May 2025 15:33:59 +0000
+Subject: [AUH] ca-certificates: upgrading to 20250419 SUCCEEDED
+Message-ID: <010101968c7bb0e9-aa6a2451-498c-44a0-8039-c3dd2eda55c0-000000@us-west-2.amazonses.com>
+Date: Thu, 1 May 2025 15:33:58 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.01-54.240.27.29
+X-SES-Outgoing: 2025.05.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:34:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215892
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215885
 
---===============9012643973011439640==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICppY3UqIHRvICo3Ny0xKiBoYXMgRmFpbGVkKGRvX2NvbXBpbGUpLgoKRGV0YWlsZWQgZXJy
-b3IgaW5mb3JtYXRpb246Cgpkb19jb21waWxlIGZhaWxlZAoKCgpOZXh0IHN0ZXBzOgogICAgLSBh
-cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWljdS11cGdyYWRlLTc2LTEtNzctMS5wYXRjaAog
-ICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJpemUg
-dGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhhdCBj
-b250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRlc3Rz
-CiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMgLS1y
-ZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBtYWls
-aW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hvdWxk
-IG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9fVVBE
-QVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGljIHVw
-Z3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRoZSBh
-dHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRlIGZh
-aWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3ppbGxh
-LnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVwZGF0
-ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJvbSBl
-NDA3NzhjODEwZjYxZDIyYjhmNWEzOTRjZDhmYjUxMzI3Yzg4NGY5IE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRhdGU6
-IFRodSwgMSBNYXkgMjAyNSAxNDo0MzowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGljdTogdXBn
-cmFkZSA3Ni0xIC0+IDc3LTEKCi0tLQogLi4uLzAwMDEtRGlzYWJsZS1MREZMQUdTSUNVRFQtZm9y
-LUxpbnV4LnBhdGNoIHwgMTAgKysrLS0tLQogLi4uL2ljdS8wMDAxLWljdS1BZGRlZC1hcm1lYi1z
-dXBwb3J0LnBhdGNoICAgIHwgMTAgKysrLS0tLQogLi4uL2ljdS97aWN1Xzc2LTEuYmIgPT4gaWN1
-Xzc3LTEuYmJ9ICAgICAgICAgIHwgMjYgKysrKysrKysrKysrKysrKystLQogMyBmaWxlcyBjaGFu
-Z2VkLCAzNCBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9pY3Uve2ljdV83Ni0xLmJiID0+IGljdV83Ny0xLmJifSAoODclKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1EaXNhYmxlLUxERkxBR1NJ
-Q1VEVC1mb3ItTGludXgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEt
-RGlzYWJsZS1MREZMQUdTSUNVRFQtZm9yLUxpbnV4LnBhdGNoCmluZGV4IGMwZTllMjgwNmIuLmFm
-NWExYTRhN2EgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1E
-aXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvaWN1L2ljdS8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gMGY0ZTllZWU2NGJkNDIyMGFhNGZhZTFhYjRmN2JiZjEwYjg3
-Y2Q2OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMmMzYWYzZDRhZDYwOTVkZTVmM2U4
-MjMwZTRkZjk0NDdkMDgyNTg2NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0g
-UmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDE1IEZlYiAyMDE0IDIxOjA2OjQy
-ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgTERGTEFHU0lDVURUIGZvciBMaW51eApA
-QCAtNywxMyArNywxMyBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgWyBPRSBDb25m
-aWd1cmF0aW9uIF0KIAogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
-bT4KIC0tLQotIGNvbmZpZy9taC1saW51eCB8IDIgKy0KKyBzb3VyY2UvY29uZmlnL21oLWxpbnV4
-IHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-Ci1kaWZmIC0tZ2l0IGEvY29uZmlnL21oLWxpbnV4IGIvY29uZmlnL21oLWxpbnV4CitkaWZmIC0t
-Z2l0IGEvc291cmNlL2NvbmZpZy9taC1saW51eCBiL3NvdXJjZS9jb25maWcvbWgtbGludXgKIGlu
-ZGV4IDUzZDY3ODAuLmI2MjI1MTMgMTAwNjQ0Ci0tLS0gYS9jb25maWcvbWgtbGludXgKLSsrKyBi
-L2NvbmZpZy9taC1saW51eAorLS0tIGEvc291cmNlL2NvbmZpZy9taC1saW51eAorKysrIGIvc291
-cmNlL2NvbmZpZy9taC1saW51eAogQEAgLTIzLDcgKzIzLDcgQEAgTERfUlBBVEg9IC1XbCwtem9y
-aWdpbiwtcnBhdGgsJyQkJ09SSUdJTgogIExEX1JQQVRIX1BSRSA9IC1XbCwtcnBhdGgsCiAgCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtaWN1LUFkZGVkLWFy
-bWViLXN1cHBvcnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtaWN1
-LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2gKaW5kZXggYTI1Mjg1ZmI1NC4uMzU5NDI5OWFkMSAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLWljdS1BZGRlZC1h
-cm1lYi1zdXBwb3J0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAw
-MS1pY3UtQWRkZWQtYXJtZWItc3VwcG9ydC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gY2Y1
-NWMwNzdiNzdiN2EyMTk1MDIzNjRlYWFkZjEyYzA3NGFiMDA1ZSBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKK0Zyb20gNzdjNjc0ZWUyMzg5ZjQ2YTBhYmE1MmMxN2Y4ZjNiYzYzNjA1N2M2MiBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IExlaSBNYW9odWkgPGxlaW1hb2h1aUBjbi5mdWpp
-dHN1LmNvbT4KIERhdGU6IFdlZCwgOCBNYXkgMjAxOSAxNDo0MjozMCArMDkwMAogU3ViamVjdDog
-W1BBVENIXSBpY3U6IEFkZGVkIGFybWViIHN1cHBvcnQuCkBAIC05LDEzICs5LDEzIEBAIFVwc3Ry
-ZWFtLVN0YXR1czogUGVuZGluZwogCiBTaWduZWQtb2ZmLWJ5OiBMZWkgTWFvaHVpIDxsZWltYW9o
-dWlAY24uZnVqaXRzdS5jb20+CiAtLS0KLSBpMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgg
-fCAyICstCisgc291cmNlL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCB8IDIgKy0KICAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAotZGlmZiAtLWdp
-dCBhL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCBiL2kxOG4vZG91YmxlLWNvbnZlcnNp
-b24tdXRpbHMuaAorZGlmZiAtLWdpdCBhL3NvdXJjZS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0
-aWxzLmggYi9zb3VyY2UvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oCiBpbmRleCAzMDM2
-NjhmLi43ZDg1OWRjIDEwMDY0NAotLS0tIGEvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5o
-Ci0rKysgYi9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKy0tLSBhL3NvdXJjZS9pMThu
-L2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKysrKyBiL3NvdXJjZS9pMThuL2RvdWJsZS1jb252
-ZXJzaW9uLXV0aWxzLmgKIEBAIC0xNDYsNyArMTQ2LDcgQEAgaW50IG1haW4oaW50IGFyZ2MsIGNo
-YXIqKiBhcmd2KSB7CiAgLy8KICAvLyBJZiBpdCBwcmludHMgImNvcnJlY3QiIHRoZW4gdGhlIGFy
-Y2hpdGVjdHVyZSBzaG91bGQgYmUgaGVyZSwgaW4gdGhlICJjb3JyZWN0IiBzZWN0aW9uLgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ni0xLmJiIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCmluZGV4IGYxMWU3MmQzNTYuLmQyYmVlNjhi
-MzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc3LTEuYmIKQEAgLTEsMyArMSwyNSBAQAor
-IyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5
-ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJl
-dHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUg
-dGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGlu
-CisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhh
-bXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBU
-aGUgY2hhbmdlczoKKyMKKyMgLS0tIC4uL0xJQ0VOU0UKKyMgKysrIC4uL0xJQ0VOU0UKKyMgQEAg
-LTIsNyArMiw3IEBACisjICAKKyMgIENPUFlSSUdIVCBBTkQgUEVSTUlTU0lPTiBOT1RJQ0UKKyMg
-IAorIyAtQ29weXJpZ2h0IMKpIDIwMTYtMjAyNCBVbmljb2RlLCBJbmMuCisjICtDb3B5cmlnaHQg
-wqkgMjAxNi0yMDI1IFVuaWNvZGUsIEluYy4KKyMgIAorIyAgTk9USUNFIFRPIFVTRVI6IENhcmVm
-dWxseSByZWFkIHRoZSBmb2xsb3dpbmcgbGVnYWwgYWdyZWVtZW50LiBCWQorIyAgRE9XTkxPQURJ
-TkcsIElOU1RBTExJTkcsIENPUFlJTkcgT1IgT1RIRVJXSVNFIFVTSU5HIERBVEEgRklMRVMsIEFO
-RC9PUgorIyAKKyMKKwogU1VNTUFSWSA9ICJJbnRlcm5hdGlvbmFsIENvbXBvbmVudCBmb3IgVW5p
-Y29kZSBsaWJyYXJpZXMiCiBERVNDUklQVElPTiA9ICJUaGUgSW50ZXJuYXRpb25hbCBDb21wb25l
-bnQgZm9yIFVuaWNvZGUgKElDVSkgaXMgYSBtYXR1cmUsIFwKIHBvcnRhYmxlIHNldCBvZiBDL0Mr
-KyBhbmQgSmF2YSBsaWJyYXJpZXMgZm9yIFVuaWNvZGUgc3VwcG9ydCwgc29mdHdhcmUgXApAQCAt
-OTIsNyArMTE0LDcgQEAgRklMRVM6bGliaWN1aW8gPSAiJHtsaWJkaXJ9L2xpYmljdWlvLnNvLioi
-CiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9N2MzNjRhMGRlYmVjZjE2ZDVhMTNkZTJiN2YxYWFh
-YmQiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly8uLi9MSUNFTlNFO21kNT1jZjU3ZDk0NTlh
-MmM1Zjg4ZWNkODNjNzUyMDdjYzVmZiIKIAogZGVmIGljdV9kb3dubG9hZF92ZXJzaW9uKGQpOgog
-ICAgIHB2c3BsaXQgPSBkLmdldFZhcignUFYnKS5zcGxpdCgnLScpCkBAIC0xMjQsNyArMTQ2LDcg
-QEAgU1JDX1VSSSA9ICIke0JBU0VfU1JDX1VSSX07bmFtZT1jb2RlIFwKIFNSQ19VUkk6YXBwZW5k
-OmNsYXNzLXRhcmdldCA9ICJcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURpc2FibGUtTERGTEFH
-U0lDVURULWZvci1MaW51eC5wYXRjaCBcCiAgICAgICAgICAgIgotU1JDX1VSSVtjb2RlLnNoYTI1
-NnN1bV0gPSAiZGZhY2I0NmJmZTQ3NDc0MTA0NzJjZTNlMTE0NGJmMjhhMTAyZmVlYWE0ZTM4NzVi
-YWM5YjRjNmNmMzBmNGYzZSIKK1NSQ19VUklbY29kZS5zaGEyNTZzdW1dID0gIjU4OGU0MzFmNzcz
-MjdjMzkwMzFmZmJiODg0M2MwZTNiYzEyMmMyMTEzNzQ0ODVmYTg3ZGM1ZjNmYWZmMjQwNjEiCiBT
-UkNfVVJJW2RhdGEuc2hhMjU2c3VtXSA9ICIxMzNhZTU4YTY3ZDY4YjQ2ZjcyOTY4MjI5MDRjZDNj
-MzAxMjZhMGI0YjJmNjVmMGY5MDVlN2Y0N2MwZWY5ZTQ3IgogCiBVUFNUUkVBTV9DSEVDS19SRUdF
-WCA9ICJyZWxlYXNlcy90YWcvcmVsZWFzZS0oP1A8cHZlcj4oPyEuK3JjKS4rKSIKLS0gCjIuNDcu
-MQoK
-
---===============9012643973011439640==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-icu-upgrade-76-1-77-1.patch"
-
-RnJvbSBlNDA3NzhjODEwZjYxZDIyYjhmNWEzOTRjZDhmYjUxMzI3Yzg4NGY5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxNDo0MzowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlj
-dTogdXBncmFkZSA3Ni0xIC0+IDc3LTEKCi0tLQogLi4uLzAwMDEtRGlzYWJsZS1MREZMQUdTSUNV
-RFQtZm9yLUxpbnV4LnBhdGNoIHwgMTAgKysrLS0tLQogLi4uL2ljdS8wMDAxLWljdS1BZGRlZC1h
-cm1lYi1zdXBwb3J0LnBhdGNoICAgIHwgMTAgKysrLS0tLQogLi4uL2ljdS97aWN1Xzc2LTEuYmIg
-PT4gaWN1Xzc3LTEuYmJ9ICAgICAgICAgIHwgMjYgKysrKysrKysrKysrKysrKystLQogMyBmaWxl
-cyBjaGFuZ2VkLCAzNCBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtc3VwcG9ydC9pY3Uve2ljdV83Ni0xLmJiID0+IGljdV83Ny0xLmJifSAoODclKQoK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1EaXNhYmxlLUxE
-RkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1
-LzAwMDEtRGlzYWJsZS1MREZMQUdTSUNVRFQtZm9yLUxpbnV4LnBhdGNoCmluZGV4IGMwZTllMjgw
-NmIuLmFmNWExYTRhN2EgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3Uv
-MDAwMS1EaXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMGY0ZTllZWU2NGJkNDIyMGFhNGZhZTFhYjRmN2Ji
-ZjEwYjg3Y2Q2OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMmMzYWYzZDRhZDYwOTVk
-ZTVmM2U4MjMwZTRkZjk0NDdkMDgyNTg2NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDE1IEZlYiAyMDE0IDIx
-OjA2OjQyICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgTERGTEFHU0lDVURUIGZvciBM
-aW51eApAQCAtNywxMyArNywxMyBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgWyBP
-RSBDb25maWd1cmF0aW9uIF0KIAogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdt
-YWlsLmNvbT4KIC0tLQotIGNvbmZpZy9taC1saW51eCB8IDIgKy0KKyBzb3VyY2UvY29uZmlnL21o
-LWxpbnV4IHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogCi1kaWZmIC0tZ2l0IGEvY29uZmlnL21oLWxpbnV4IGIvY29uZmlnL21oLWxpbnV4Citk
-aWZmIC0tZ2l0IGEvc291cmNlL2NvbmZpZy9taC1saW51eCBiL3NvdXJjZS9jb25maWcvbWgtbGlu
-dXgKIGluZGV4IDUzZDY3ODAuLmI2MjI1MTMgMTAwNjQ0Ci0tLS0gYS9jb25maWcvbWgtbGludXgK
-LSsrKyBiL2NvbmZpZy9taC1saW51eAorLS0tIGEvc291cmNlL2NvbmZpZy9taC1saW51eAorKysr
-IGIvc291cmNlL2NvbmZpZy9taC1saW51eAogQEAgLTIzLDcgKzIzLDcgQEAgTERfUlBBVEg9IC1X
-bCwtem9yaWdpbiwtcnBhdGgsJyQkJ09SSUdJTgogIExEX1JQQVRIX1BSRSA9IC1XbCwtcnBhdGgs
-CiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtaWN1LUFk
-ZGVkLWFybWViLXN1cHBvcnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAw
-MDEtaWN1LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2gKaW5kZXggYTI1Mjg1ZmI1NC4uMzU5NDI5
-OWFkMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLWljdS1B
-ZGRlZC1hcm1lYi1zdXBwb3J0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9p
-Y3UvMDAwMS1pY3UtQWRkZWQtYXJtZWItc3VwcG9ydC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gY2Y1NWMwNzdiNzdiN2EyMTk1MDIzNjRlYWFkZjEyYzA3NGFiMDA1ZSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gNzdjNjc0ZWUyMzg5ZjQ2YTBhYmE1MmMxN2Y4ZjNiYzYzNjA1N2M2
-MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IExlaSBNYW9odWkgPGxlaW1hb2h1aUBj
-bi5mdWppdHN1LmNvbT4KIERhdGU6IFdlZCwgOCBNYXkgMjAxOSAxNDo0MjozMCArMDkwMAogU3Vi
-amVjdDogW1BBVENIXSBpY3U6IEFkZGVkIGFybWViIHN1cHBvcnQuCkBAIC05LDEzICs5LDEzIEBA
-IFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwogCiBTaWduZWQtb2ZmLWJ5OiBMZWkgTWFvaHVpIDxs
-ZWltYW9odWlAY24uZnVqaXRzdS5jb20+CiAtLS0KLSBpMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0
-aWxzLmggfCAyICstCisgc291cmNlL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCB8IDIg
-Ky0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAotZGlm
-ZiAtLWdpdCBhL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCBiL2kxOG4vZG91YmxlLWNv
-bnZlcnNpb24tdXRpbHMuaAorZGlmZiAtLWdpdCBhL3NvdXJjZS9pMThuL2RvdWJsZS1jb252ZXJz
-aW9uLXV0aWxzLmggYi9zb3VyY2UvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oCiBpbmRl
-eCAzMDM2NjhmLi43ZDg1OWRjIDEwMDY0NAotLS0tIGEvaTE4bi9kb3VibGUtY29udmVyc2lvbi11
-dGlscy5oCi0rKysgYi9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKy0tLSBhL3NvdXJj
-ZS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKysrKyBiL3NvdXJjZS9pMThuL2RvdWJs
-ZS1jb252ZXJzaW9uLXV0aWxzLmgKIEBAIC0xNDYsNyArMTQ2LDcgQEAgaW50IG1haW4oaW50IGFy
-Z2MsIGNoYXIqKiBhcmd2KSB7CiAgLy8KICAvLyBJZiBpdCBwcmludHMgImNvcnJlY3QiIHRoZW4g
-dGhlIGFyY2hpdGVjdHVyZSBzaG91bGQgYmUgaGVyZSwgaW4gdGhlICJjb3JyZWN0IiBzZWN0aW9u
-LgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ni0xLmJiIGIvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCmluZGV4IGYxMWU3MmQzNTYuLmQy
-YmVlNjhiMzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc3LTEuYmIKQEAgLTEsMyArMSwy
-NSBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRh
-dGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJl
-bmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1
-cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFu
-Z2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgor
-IyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQor
-IworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIC4uL0xJQ0VOU0UKKyMgKysrIC4uL0xJQ0VOU0UK
-KyMgQEAgLTIsNyArMiw3IEBACisjICAKKyMgIENPUFlSSUdIVCBBTkQgUEVSTUlTU0lPTiBOT1RJ
-Q0UKKyMgIAorIyAtQ29weXJpZ2h0IMKpIDIwMTYtMjAyNCBVbmljb2RlLCBJbmMuCisjICtDb3B5
-cmlnaHQgwqkgMjAxNi0yMDI1IFVuaWNvZGUsIEluYy4KKyMgIAorIyAgTk9USUNFIFRPIFVTRVI6
-IENhcmVmdWxseSByZWFkIHRoZSBmb2xsb3dpbmcgbGVnYWwgYWdyZWVtZW50LiBCWQorIyAgRE9X
-TkxPQURJTkcsIElOU1RBTExJTkcsIENPUFlJTkcgT1IgT1RIRVJXSVNFIFVTSU5HIERBVEEgRklM
-RVMsIEFORC9PUgorIyAKKyMKKwogU1VNTUFSWSA9ICJJbnRlcm5hdGlvbmFsIENvbXBvbmVudCBm
-b3IgVW5pY29kZSBsaWJyYXJpZXMiCiBERVNDUklQVElPTiA9ICJUaGUgSW50ZXJuYXRpb25hbCBD
-b21wb25lbnQgZm9yIFVuaWNvZGUgKElDVSkgaXMgYSBtYXR1cmUsIFwKIHBvcnRhYmxlIHNldCBv
-ZiBDL0MrKyBhbmQgSmF2YSBsaWJyYXJpZXMgZm9yIFVuaWNvZGUgc3VwcG9ydCwgc29mdHdhcmUg
-XApAQCAtOTIsNyArMTE0LDcgQEAgRklMRVM6bGliaWN1aW8gPSAiJHtsaWJkaXJ9L2xpYmljdWlv
-LnNvLioiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotTElDX0ZJTEVT
-X0NIS1NVTSA9ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9N2MzNjRhMGRlYmVjZjE2ZDVhMTNkZTJi
-N2YxYWFhYmQiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly8uLi9MSUNFTlNFO21kNT1jZjU3
-ZDk0NTlhMmM1Zjg4ZWNkODNjNzUyMDdjYzVmZiIKIAogZGVmIGljdV9kb3dubG9hZF92ZXJzaW9u
-KGQpOgogICAgIHB2c3BsaXQgPSBkLmdldFZhcignUFYnKS5zcGxpdCgnLScpCkBAIC0xMjQsNyAr
-MTQ2LDcgQEAgU1JDX1VSSSA9ICIke0JBU0VfU1JDX1VSSX07bmFtZT1jb2RlIFwKIFNSQ19VUkk6
-YXBwZW5kOmNsYXNzLXRhcmdldCA9ICJcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURpc2FibGUt
-TERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaCBcCiAgICAgICAgICAgIgotU1JDX1VSSVtjb2Rl
-LnNoYTI1NnN1bV0gPSAiZGZhY2I0NmJmZTQ3NDc0MTA0NzJjZTNlMTE0NGJmMjhhMTAyZmVlYWE0
-ZTM4NzViYWM5YjRjNmNmMzBmNGYzZSIKK1NSQ19VUklbY29kZS5zaGEyNTZzdW1dID0gIjU4OGU0
-MzFmNzczMjdjMzkwMzFmZmJiODg0M2MwZTNiYzEyMmMyMTEzNzQ0ODVmYTg3ZGM1ZjNmYWZmMjQw
-NjEiCiBTUkNfVVJJW2RhdGEuc2hhMjU2c3VtXSA9ICIxMzNhZTU4YTY3ZDY4YjQ2ZjcyOTY4MjI5
-MDRjZDNjMzAxMjZhMGI0YjJmNjVmMGY5MDVlN2Y0N2MwZWY5ZTQ3IgogCiBVUFNUUkVBTV9DSEVD
-S19SRUdFWCA9ICJyZWxlYXNlcy90YWcvcmVsZWFzZS0oP1A8cHZlcj4oPyEuK3JjKS4rKSIKLS0g
-CjIuNDcuMQoK
-
---===============9012643973011439640==
+--===============8368177904381783353==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1899 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 928 .bb files complete (927 cached, 1 parsed). 1897 targets, 39 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+Hello,
 
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:7198328b70a34f8764a4a5d8dc2315fffdf8bba8"
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *ca-certificates* to *20250419* has Succeeded.
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 115 Local 101 Mirrors 0 Missed 14 Current 253 (87% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 333 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 339 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 340 of 368 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-77-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe icu-native-77-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 341 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 342 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe icu-77-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe icu-native-77-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 880 of 1099 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch)
-NOTE: Running task 889 of 1099 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-77-1-r0: task do_fetch: Started
-NOTE: recipe icu-native-77-1-r0: task do_fetch: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 346 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 350 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 352 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 359 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 366 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-WARNING: icu-77-1-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data - will attempt other sources if available
-WARNING: icu-native-77-1-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data - will attempt other sources if available
-NOTE: recipe icu-77-1-r0: task do_fetch: Failed
-NOTE: recipe icu-native-77-1-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 1068 tasks of which 1066 didn't need to be rerun and 2 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250501144247.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250501144247.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Next steps:
+    - apply the patch: git am 0001-ca-certificates-upgrade-20241223-20250419.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Summary: 2 tasks failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/77-1/temp/log.do_fetch.1893314
-  virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/77-1/temp/log.do_fetch.1893313
-Summary: There were 2 WARNING messages.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-ERROR: icu-77-1-r0 do_fetch: Fetcher failure for URL: 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data'. Checksum mismatch!
-File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip.tmp' has sha256 checksum '1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3' when '133ae58a67d68b46f7296822904cd3c30126a0b4b2f65f0f905e7f47c0ef9e47' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[data.sha256sum] = "1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: icu-77-1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data')
-ERROR: icu-native-77-1-r0 do_fetch: Fetcher failure for URL: 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data'. Checksum mismatch!
-File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip.tmp' has sha256 checksum '1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3' when '133ae58a67d68b46f7296822904cd3c30126a0b4b2f65f0f905e7f47c0ef9e47' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[data.sha256sum] = "1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: icu-native-77-1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/77-1/temp/log.do_fetch.1893314
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch) failed with exit code '1'
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/77-1/temp/log.do_fetch.1893313
-ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch) failed with exit code '1'
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
---===============9012643973011439640==--
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 086bef15927bfce00c9748b38173acb2d9c4be38 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 1 May 2025 14:14:29 +0000
+Subject: [PATCH] ca-certificates: upgrade 20241223 -> 20250419
+
+---
+ ...ertdata2pem.py-print-a-warning-for-e.patch |  6 ++--
+ ...icates-don-t-use-Debianisms-in-run-p.patch |  6 ++--
+ ...ca-certificates-add-a-sysroot-option.patch | 36 -------------------
+ ...icates-use-relative-symlinks-from-ET.patch |  2 +-
+ ...0241223.bb => ca-certificates_20250419.bb} |  3 +-
+ 5 files changed, 8 insertions(+), 45 deletions(-)
+ delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0002-sbin-update-ca-certificates-add-a-sysroot-option.patch
+ rename meta/recipes-support/ca-certificates/{ca-certificates_20241223.bb => ca-certificates_20250419.bb} (94%)
+
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch b/meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch
+index da2a247e51..c41d7fe589 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch
++++ b/meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch
+@@ -1,4 +1,4 @@
+-From 630736f427c0a1bd0be0b5a2f6d51d63b2c4c9fd Mon Sep 17 00:00:00 2001
++From e2d4af2b8e5ad44d7f1e02c58e3ab870d8318458 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Mon, 18 Oct 2021 12:05:49 +0200
+ Subject: [PATCH] Revert "mozilla/certdata2pem.py: print a warning for expired
+@@ -16,10 +16,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  3 files changed, 1 insertion(+), 13 deletions(-)
+ 
+ diff --git a/debian/changelog b/debian/changelog
+-index 52d41ca..bdb2c8a 100644
++index dbe3e9c..496e05d 100644
+ --- a/debian/changelog
+ +++ b/debian/changelog
+-@@ -138,7 +138,6 @@ ca-certificates (20211004) unstable; urgency=low
++@@ -156,7 +156,6 @@ ca-certificates (20211004) unstable; urgency=low
+      - "Trustis FPS Root CA"
+      - "Staat der Nederlanden Root CA - G3"
+    * Blacklist expired root certificate "DST Root CA X3" (closes: #995432)
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch b/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch
+index cad30929f5..899ad2a7a3 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch
++++ b/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch
+@@ -1,4 +1,4 @@
+-From 348163df412e53b1b7ec3e81ae5f22caa0227c37 Mon Sep 17 00:00:00 2001
++From b5c5e3ca900660c1ce20037d91efc7a381edae3d Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Mon, 6 Jul 2015 15:19:41 +0100
+ Subject: [PATCH] ca-certificates: remove Debianism in run-parts invocation
+@@ -22,10 +22,10 @@ Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+  1 file changed, 1 insertion(+), 3 deletions(-)
+ 
+ diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
+-index 36cdd9a..2d3e1fe 100755
++index 91d8024..1e737b9 100755
+ --- a/sbin/update-ca-certificates
+ +++ b/sbin/update-ca-certificates
+-@@ -202,9 +202,7 @@ if [ -d "$HOOKSDIR" ]
++@@ -210,9 +210,7 @@ if [ -d "$HOOKSDIR" ]
+  then
+  
+    echo "Running hooks in $HOOKSDIR..."
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0002-sbin-update-ca-certificates-add-a-sysroot-option.patch b/meta/recipes-support/ca-certificates/ca-certificates/0002-sbin-update-ca-certificates-add-a-sysroot-option.patch
+deleted file mode 100644
+index ba5bb69657..0000000000
+--- a/meta/recipes-support/ca-certificates/ca-certificates/0002-sbin-update-ca-certificates-add-a-sysroot-option.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From d6bb773745c2e95fd1a414e916fbed64e0d8df66 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Mon, 31 Mar 2025 17:42:25 +0200
+-Subject: [PATCH] sbin/update-ca-certificates: add a --sysroot option
+-
+-This allows using the script in cross-compilation environments
+-where the script needs to prefix the sysroot to every other
+-directory it operates on. There are individual options
+-to set those directories, but using a common prefix option
+-instead is a lot less clutter and more robust.
+-
+-Upstream-Status: Submitted [https://salsa.debian.org/debian/ca-certificates/-/merge_requests/13]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- sbin/update-ca-certificates | 8 ++++++++
+- 1 file changed, 8 insertions(+)
+-
+-diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
+-index 4bb77a0..1e737b9 100755
+---- a/sbin/update-ca-certificates
+-+++ b/sbin/update-ca-certificates
+-@@ -59,6 +59,14 @@ do
+-     --hooksdir)
+-       shift
+-       HOOKSDIR="$1";;
+-+    --sysroot)
+-+      shift
+-+      SYSROOT="$1"
+-+      CERTSCONF="$1/${CERTSCONF}"
+-+      CERTSDIR="$1/${CERTSDIR}"
+-+      LOCALCERTSDIR="$1/${LOCALCERTSDIR}"
+-+      ETCCERTSDIR="$1/${ETCCERTSDIR}"
+-+      HOOKSDIR="$1/${HOOKSDIR}";;
+-     --help|-h|*)
+-       echo "$0: [--verbose] [--fresh]"
+-       exit;;
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
+index 929945b56f..f16ac26a1c 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
++++ b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
+@@ -1,4 +1,4 @@
+-From a69933f96a8675369de702bdb55e57dc21f65e7f Mon Sep 17 00:00:00 2001
++From 69a9ed82f993efbf4d152d0f9bc1bd970d3de65c Mon Sep 17 00:00:00 2001
+ From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@jci.com>
+ Date: Wed, 28 Mar 2018 16:45:05 +0100
+ Subject: [PATCH] update-ca-certificates: use relative symlinks from
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb b/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
+similarity index 94%
+rename from meta/recipes-support/ca-certificates/ca-certificates_20241223.bb
+rename to meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
+index 676e9e0c78..f06a30bd6d 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
+@@ -14,10 +14,9 @@ DEPENDS:class-nativesdk = "openssl-native"
+ # Need rehash from openssl and run-parts from debianutils
+ PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
+ 
+-SRC_URI[sha256sum] = "dd8286d0a9dd35c756fea5f1df3fed1510fb891f376903891b003cd9b1ad7e03"
++SRC_URI[sha256sum] = "33b44ef78653ecd3f0f2f13e5bba6be466be2e7da72182f737912b81798ba5d2"
+ SRC_URI = "${DEBIAN_MIRROR}/main/c/ca-certificates/${BPN}_${PV}.tar.xz \
+            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
+-           file://0002-sbin-update-ca-certificates-add-a-sysroot-option.patch \
+            file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
+            file://0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch \
+            "
+-- 
+2.47.1
+
+
+--===============8368177904381783353==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/all-poky-linux/ca-certificates/ca-certificates-dbg: PV changed from "20241223" to "20250419"
+packages/all-poky-linux/ca-certificates/ca-certificates-dbg: PKGV changed from 20241223 [default] to 20250419 [default]
+packages/all-poky-linux/ca-certificates/ca-certificates-dev: PV changed from "20241223" to "20250419"
+packages/all-poky-linux/ca-certificates/ca-certificates-dev: PKGV changed from 20241223 [default] to 20250419 [default]
+packages/all-poky-linux/ca-certificates/ca-certificates-doc: PV changed from "20241223" to "20250419"
+packages/all-poky-linux/ca-certificates/ca-certificates-doc: PKGV changed from 20241223 [default] to 20250419 [default]
+packages/all-poky-linux/ca-certificates/ca-certificates-locale: PV changed from "20241223" to "20250419"
+packages/all-poky-linux/ca-certificates/ca-certificates-locale: PKGV changed from 20241223 [default] to 20250419 [default]
+packages/all-poky-linux/ca-certificates/ca-certificates-src: PV changed from "20241223" to "20250419"
+packages/all-poky-linux/ca-certificates/ca-certificates-src: PKGV changed from 20241223 [default] to 20250419 [default]
+packages/all-poky-linux/ca-certificates/ca-certificates-staticdev: PV changed from "20241223" to "20250419"
+packages/all-poky-linux/ca-certificates/ca-certificates-staticdev: PKGV changed from 20241223 [default] to 20250419 [default]
+packages/all-poky-linux/ca-certificates/ca-certificates: PKGSIZE changed from 239785 to 236235 (-1%)
+packages/all-poky-linux/ca-certificates/ca-certificates: PV changed from "20241223" to "20250419"
+packages/all-poky-linux/ca-certificates/ca-certificates: PKGV changed from 20241223 [default] to 20250419 [default]
+packages/all-poky-linux/ca-certificates/ca-certificates: FILELIST: removed "/usr/share/ca-certificates/mozilla/SwissSign_Silver_CA_-_G2.crt /usr/share/ca-certificates/mozilla/Security_Communication_RootCA3.crt /usr/share/ca-certificates/mozilla/Entrust_Root_Certification_Authority_-_G4.crt /usr/share/ca-certificates/mozilla/SecureSign_RootCA11.crt", added "/usr/share/ca-certificates/mozilla/D-TRUST_EV_Root_CA_2_2023.crt /usr/share/ca-certificates/mozilla/D-TRUST_BR_Root_CA_2_2023.crt"
+packages/all-poky-linux/ca-certificates: PV changed from "20241223" to "20250419"
+packages/all-poky-linux/ca-certificates: SRC_URI changed from "http://deb.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20241223.tar.xz file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch file://0002-sbin-update-ca-certificates-add-a-sysroot-option.patch file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch file://0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch" to "http://deb.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20250419.tar.xz file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch file://0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch"
+packages/all-poky-linux/ca-certificates: PKGV changed from 20241223 [default] to 20250419 [default]
+Changes to packages/all-poky-linux/ca-certificates (sysroot):
+  /usr/share/ca-certificates/mozilla/D-TRUST_BR_Root_CA_2_2023.crt was added
+  /usr/share/ca-certificates/mozilla/D-TRUST_EV_Root_CA_2_2023.crt was added
+  /usr/share/ca-certificates/mozilla/Entrust_Root_Certification_Authority_-_G4.crt was removed
+  /usr/share/ca-certificates/mozilla/SecureSign_RootCA11.crt was removed
+  /usr/share/ca-certificates/mozilla/Security_Communication_RootCA3.crt was removed
+  /usr/share/ca-certificates/mozilla/SwissSign_Silver_CA_-_G2.crt was removed
+
+--===============8368177904381783353==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/all-poky-linux/ca-certificates/ca-certificates: FILELIST: removed "/usr/share/ca-certificates/mozilla/Security_Communication_RootCA3.crt /usr/share/ca-certificates/mozilla/SecureSign_RootCA11.crt /usr/share/ca-certificates/mozilla/SwissSign_Silver_CA_-_G2.crt /usr/share/ca-certificates/mozilla/Entrust_Root_Certification_Authority_-_G4.crt", added "/usr/share/ca-certificates/mozilla/D-TRUST_EV_Root_CA_2_2023.crt /usr/share/ca-certificates/mozilla/D-TRUST_BR_Root_CA_2_2023.crt"
+Changes to packages/all-poky-linux/ca-certificates (sysroot):
+  /usr/share/ca-certificates/mozilla/D-TRUST_BR_Root_CA_2_2023.crt was added
+  /usr/share/ca-certificates/mozilla/D-TRUST_EV_Root_CA_2_2023.crt was added
+  /usr/share/ca-certificates/mozilla/Entrust_Root_Certification_Authority_-_G4.crt was removed
+  /usr/share/ca-certificates/mozilla/SecureSign_RootCA11.crt was removed
+  /usr/share/ca-certificates/mozilla/Security_Communication_RootCA3.crt was removed
+  /usr/share/ca-certificates/mozilla/SwissSign_Silver_CA_-_G2.crt was removed
+
+--===============8368177904381783353==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ca-certificates-upgrade-20241223-20250419.patch"
+
+RnJvbSAwODZiZWYxNTkyN2JmY2UwMGM5NzQ4YjM4MTczYWNiMmQ5YzRiZTM4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAxNDoxNDoyOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNh
+LWNlcnRpZmljYXRlczogdXBncmFkZSAyMDI0MTIyMyAtPiAyMDI1MDQxOQoKLS0tCiAuLi5lcnRk
+YXRhMnBlbS5weS1wcmludC1hLXdhcm5pbmctZm9yLWUucGF0Y2ggfCAgNiArKy0tCiAuLi5pY2F0
+ZXMtZG9uLXQtdXNlLURlYmlhbmlzbXMtaW4tcnVuLXAucGF0Y2ggfCAgNiArKy0tCiAuLi5jYS1j
+ZXJ0aWZpY2F0ZXMtYWRkLWEtc3lzcm9vdC1vcHRpb24ucGF0Y2ggfCAzNiAtLS0tLS0tLS0tLS0t
+LS0tLS0tCiAuLi5pY2F0ZXMtdXNlLXJlbGF0aXZlLXN5bWxpbmtzLWZyb20tRVQucGF0Y2ggfCAg
+MiArLQogLi4uMDI0MTIyMy5iYiA9PiBjYS1jZXJ0aWZpY2F0ZXNfMjAyNTA0MTkuYmJ9IHwgIDMg
+Ky0KIDUgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA0NSBkZWxldGlvbnMoLSkKIGRl
+bGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9jYS1jZXJ0aWZpY2F0ZXMvY2Et
+Y2VydGlmaWNhdGVzLzAwMDItc2Jpbi11cGRhdGUtY2EtY2VydGlmaWNhdGVzLWFkZC1hLXN5c3Jv
+b3Qtb3B0aW9uLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlmaWNh
+dGVzL3tjYS1jZXJ0aWZpY2F0ZXNfMjAyNDEyMjMuYmIgPT4gY2EtY2VydGlmaWNhdGVzXzIwMjUw
+NDE5LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2NhLWNlcnRp
+ZmljYXRlcy9jYS1jZXJ0aWZpY2F0ZXMvMDAwMS1SZXZlcnQtbW96aWxsYS1jZXJ0ZGF0YTJwZW0u
+cHktcHJpbnQtYS13YXJuaW5nLWZvci1lLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY2Et
+Y2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlcy8wMDAxLVJldmVydC1tb3ppbGxhLWNlcnRkYXRh
+MnBlbS5weS1wcmludC1hLXdhcm5pbmctZm9yLWUucGF0Y2gKaW5kZXggZGEyYTI0N2U1MS4uYzQx
+ZDdmZTU4OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlmaWNhdGVz
+L2NhLWNlcnRpZmljYXRlcy8wMDAxLVJldmVydC1tb3ppbGxhLWNlcnRkYXRhMnBlbS5weS1wcmlu
+dC1hLXdhcm5pbmctZm9yLWUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2Vy
+dGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlcy8wMDAxLVJldmVydC1tb3ppbGxhLWNlcnRkYXRhMnBl
+bS5weS1wcmludC1hLXdhcm5pbmctZm9yLWUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDYz
+MDczNmY0MjdjMGExYmQwYmUwYjVhMmY2ZDUxZDYzYjJjNGM5ZmQgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCitGcm9tIGUyZDRhZjJiOGU1YWQ0NGQ3ZjFlMDJjNThlM2FiODcwZDgzMTg0NTggTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51
+dHJvbml4LmRlPgogRGF0ZTogTW9uLCAxOCBPY3QgMjAyMSAxMjowNTo0OSArMDIwMAogU3ViamVj
+dDogW1BBVENIXSBSZXZlcnQgIm1vemlsbGEvY2VydGRhdGEycGVtLnB5OiBwcmludCBhIHdhcm5p
+bmcgZm9yIGV4cGlyZWQKQEAgLTE2LDEwICsxNiwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5k
+ZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgogIDMgZmlsZXMgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDEzIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvZGViaWFuL2NoYW5nZWxv
+ZyBiL2RlYmlhbi9jaGFuZ2Vsb2cKLWluZGV4IDUyZDQxY2EuLmJkYjJjOGEgMTAwNjQ0CitpbmRl
+eCBkYmUzZTljLi40OTZlMDVkIDEwMDY0NAogLS0tIGEvZGViaWFuL2NoYW5nZWxvZwogKysrIGIv
+ZGViaWFuL2NoYW5nZWxvZwotQEAgLTEzOCw3ICsxMzgsNiBAQCBjYS1jZXJ0aWZpY2F0ZXMgKDIw
+MjExMDA0KSB1bnN0YWJsZTsgdXJnZW5jeT1sb3cKK0BAIC0xNTYsNyArMTU2LDYgQEAgY2EtY2Vy
+dGlmaWNhdGVzICgyMDIxMTAwNCkgdW5zdGFibGU7IHVyZ2VuY3k9bG93CiAgICAgIC0gIlRydXN0
+aXMgRlBTIFJvb3QgQ0EiCiAgICAgIC0gIlN0YWF0IGRlciBOZWRlcmxhbmRlbiBSb290IENBIC0g
+RzMiCiAgICAqIEJsYWNrbGlzdCBleHBpcmVkIHJvb3QgY2VydGlmaWNhdGUgIkRTVCBSb290IENB
+IFgzIiAoY2xvc2VzOiAjOTk1NDMyKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+Y2EtY2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlcy8wMDAxLXVwZGF0ZS1jYS1jZXJ0aWZpY2F0
+ZXMtZG9uLXQtdXNlLURlYmlhbmlzbXMtaW4tcnVuLXAucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9jYS1jZXJ0aWZpY2F0ZXMvY2EtY2VydGlmaWNhdGVzLzAwMDEtdXBkYXRlLWNhLWNlcnRp
+ZmljYXRlcy1kb24tdC11c2UtRGViaWFuaXNtcy1pbi1ydW4tcC5wYXRjaAppbmRleCBjYWQzMDky
+OWY1Li44OTlhZDJhN2EzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jYS1jZXJ0
+aWZpY2F0ZXMvY2EtY2VydGlmaWNhdGVzLzAwMDEtdXBkYXRlLWNhLWNlcnRpZmljYXRlcy1kb24t
+dC11c2UtRGViaWFuaXNtcy1pbi1ydW4tcC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9jYS1jZXJ0aWZpY2F0ZXMvY2EtY2VydGlmaWNhdGVzLzAwMDEtdXBkYXRlLWNhLWNlcnRpZmlj
+YXRlcy1kb24tdC11c2UtRGViaWFuaXNtcy1pbi1ydW4tcC5wYXRjaApAQCAtMSw0ICsxLDQgQEAK
+LUZyb20gMzQ4MTYzZGY0MTJlNTNiMWI3ZWMzZTgxYWU1ZjIyY2FhMDIyN2MzNyBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKK0Zyb20gYjVjNWUzY2E5MDA2NjBjMWNlMjAwMzdkOTFlZmM3YTM4MWVk
+YWUzZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3NzLmJ1
+cnRvbkBpbnRlbC5jb20+CiBEYXRlOiBNb24sIDYgSnVsIDIwMTUgMTU6MTk6NDEgKzAxMDAKIFN1
+YmplY3Q6IFtQQVRDSF0gY2EtY2VydGlmaWNhdGVzOiByZW1vdmUgRGViaWFuaXNtIGluIHJ1bi1w
+YXJ0cyBpbnZvY2F0aW9uCkBAIC0yMiwxMCArMjIsMTAgQEAgU2lnbmVkLW9mZi1ieTogTWFjaWVq
+IEJvcnplY2tpIDxtYWNpZWouYm9yemVja2lAcm5kaXR5LmNvbT4KICAxIGZpbGUgY2hhbmdlZCwg
+MSBpbnNlcnRpb24oKyksIDMgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9zYmluL3VwZGF0
+ZS1jYS1jZXJ0aWZpY2F0ZXMgYi9zYmluL3VwZGF0ZS1jYS1jZXJ0aWZpY2F0ZXMKLWluZGV4IDM2
+Y2RkOWEuLjJkM2UxZmUgMTAwNzU1CitpbmRleCA5MWQ4MDI0Li4xZTczN2I5IDEwMDc1NQogLS0t
+IGEvc2Jpbi91cGRhdGUtY2EtY2VydGlmaWNhdGVzCiArKysgYi9zYmluL3VwZGF0ZS1jYS1jZXJ0
+aWZpY2F0ZXMKLUBAIC0yMDIsOSArMjAyLDcgQEAgaWYgWyAtZCAiJEhPT0tTRElSIiBdCitAQCAt
+MjEwLDkgKzIxMCw3IEBAIGlmIFsgLWQgIiRIT09LU0RJUiIgXQogIHRoZW4KICAKICAgIGVjaG8g
+IlJ1bm5pbmcgaG9va3MgaW4gJEhPT0tTRElSLi4uIgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvY2EtY2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlcy8wMDAyLXNiaW4tdXBkYXRl
+LWNhLWNlcnRpZmljYXRlcy1hZGQtYS1zeXNyb290LW9wdGlvbi5wYXRjaCBiL21ldGEvcmVjaXBl
+cy1zdXBwb3J0L2NhLWNlcnRpZmljYXRlcy9jYS1jZXJ0aWZpY2F0ZXMvMDAwMi1zYmluLXVwZGF0
+ZS1jYS1jZXJ0aWZpY2F0ZXMtYWRkLWEtc3lzcm9vdC1vcHRpb24ucGF0Y2gKZGVsZXRlZCBmaWxl
+IG1vZGUgMTAwNjQ0CmluZGV4IGJhNWJiNjk2NTcuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvY2EtY2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlcy8wMDAyLXNiaW4tdXBk
+YXRlLWNhLWNlcnRpZmljYXRlcy1hZGQtYS1zeXNyb290LW9wdGlvbi5wYXRjaAorKysgL2Rldi9u
+dWxsCkBAIC0xLDM2ICswLDAgQEAKLUZyb20gZDZiYjc3Mzc0NWMyZTk1ZmQxYTQxNGU5MTZmYmVk
+NjRlMGQ4ZGY2NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEFsZXhhbmRlciBLYW5h
+dmluIDxhbGV4QGxpbnV0cm9uaXguZGU+Ci1EYXRlOiBNb24sIDMxIE1hciAyMDI1IDE3OjQyOjI1
+ICswMjAwCi1TdWJqZWN0OiBbUEFUQ0hdIHNiaW4vdXBkYXRlLWNhLWNlcnRpZmljYXRlczogYWRk
+IGEgLS1zeXNyb290IG9wdGlvbgotCi1UaGlzIGFsbG93cyB1c2luZyB0aGUgc2NyaXB0IGluIGNy
+b3NzLWNvbXBpbGF0aW9uIGVudmlyb25tZW50cwotd2hlcmUgdGhlIHNjcmlwdCBuZWVkcyB0byBw
+cmVmaXggdGhlIHN5c3Jvb3QgdG8gZXZlcnkgb3RoZXIKLWRpcmVjdG9yeSBpdCBvcGVyYXRlcyBv
+bi4gVGhlcmUgYXJlIGluZGl2aWR1YWwgb3B0aW9ucwotdG8gc2V0IHRob3NlIGRpcmVjdG9yaWVz
+LCBidXQgdXNpbmcgYSBjb21tb24gcHJlZml4IG9wdGlvbgotaW5zdGVhZCBpcyBhIGxvdCBsZXNz
+IGNsdXR0ZXIgYW5kIG1vcmUgcm9idXN0LgotCi1VcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBb
+aHR0cHM6Ly9zYWxzYS5kZWJpYW4ub3JnL2RlYmlhbi9jYS1jZXJ0aWZpY2F0ZXMvLS9tZXJnZV9y
+ZXF1ZXN0cy8xM10KLVNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0
+cm9uaXguZGU+Ci0tLS0KLSBzYmluL3VwZGF0ZS1jYS1jZXJ0aWZpY2F0ZXMgfCA4ICsrKysrKysr
+Ci0gMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKQotCi1kaWZmIC0tZ2l0IGEvc2Jpbi91
+cGRhdGUtY2EtY2VydGlmaWNhdGVzIGIvc2Jpbi91cGRhdGUtY2EtY2VydGlmaWNhdGVzCi1pbmRl
+eCA0YmI3N2EwLi4xZTczN2I5IDEwMDc1NQotLS0tIGEvc2Jpbi91cGRhdGUtY2EtY2VydGlmaWNh
+dGVzCi0rKysgYi9zYmluL3VwZGF0ZS1jYS1jZXJ0aWZpY2F0ZXMKLUBAIC01OSw2ICs1OSwxNCBA
+QCBkbwotICAgICAtLWhvb2tzZGlyKQotICAgICAgIHNoaWZ0Ci0gICAgICAgSE9PS1NESVI9IiQx
+Ijs7Ci0rICAgIC0tc3lzcm9vdCkKLSsgICAgICBzaGlmdAotKyAgICAgIFNZU1JPT1Q9IiQxIgot
+KyAgICAgIENFUlRTQ09ORj0iJDEvJHtDRVJUU0NPTkZ9IgotKyAgICAgIENFUlRTRElSPSIkMS8k
+e0NFUlRTRElSfSIKLSsgICAgICBMT0NBTENFUlRTRElSPSIkMS8ke0xPQ0FMQ0VSVFNESVJ9Igot
+KyAgICAgIEVUQ0NFUlRTRElSPSIkMS8ke0VUQ0NFUlRTRElSfSIKLSsgICAgICBIT09LU0RJUj0i
+JDEvJHtIT09LU0RJUn0iOzsKLSAgICAgLS1oZWxwfC1ofCopCi0gICAgICAgZWNobyAiJDA6IFst
+LXZlcmJvc2VdIFstLWZyZXNoXSIKLSAgICAgICBleGl0OzsKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1zdXBwb3J0L2NhLWNlcnRpZmljYXRlcy9jYS1jZXJ0aWZpY2F0ZXMvMDAwMy11cGRhdGUt
+Y2EtY2VydGlmaWNhdGVzLXVzZS1yZWxhdGl2ZS1zeW1saW5rcy1mcm9tLUVULnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlcy8wMDAzLXVw
+ZGF0ZS1jYS1jZXJ0aWZpY2F0ZXMtdXNlLXJlbGF0aXZlLXN5bWxpbmtzLWZyb20tRVQucGF0Y2gK
+aW5kZXggOTI5OTQ1YjU2Zi4uZjE2YWMyNmExYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvY2EtY2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlcy8wMDAzLXVwZGF0ZS1jYS1jZXJ0
+aWZpY2F0ZXMtdXNlLXJlbGF0aXZlLXN5bWxpbmtzLWZyb20tRVQucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlcy8wMDAzLXVwZGF0
+ZS1jYS1jZXJ0aWZpY2F0ZXMtdXNlLXJlbGF0aXZlLXN5bWxpbmtzLWZyb20tRVQucGF0Y2gKQEAg
+LTEsNCArMSw0IEBACi1Gcm9tIGE2OTkzM2Y5NmE4Njc1MzY5ZGU3MDJiZGI1NWU1N2RjMjFmNjVl
+N2YgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDY5YTllZDgyZjk5M2VmYmY0ZDE1MmQw
+ZjliYzFiZDk3MGQzZGU2NWMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiA9P1VURi04
+P3E/QW5kcj1DMz1BOT0yMERyYXN6aWs/PSA8YW5kcmUuZHJhc3ppa0BqY2kuY29tPgogRGF0ZTog
+V2VkLCAyOCBNYXIgMjAxOCAxNjo0NTowNSArMDEwMAogU3ViamVjdDogW1BBVENIXSB1cGRhdGUt
+Y2EtY2VydGlmaWNhdGVzOiB1c2UgcmVsYXRpdmUgc3ltbGlua3MgZnJvbQpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlc18yMDI0
+MTIyMy5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2NhLWNlcnRpZmljYXRlcy9jYS1jZXJ0aWZp
+Y2F0ZXNfMjAyNTA0MTkuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlc18yMDI0MTIyMy5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlmaWNhdGVzL2NhLWNlcnRp
+ZmljYXRlc18yMDI1MDQxOS5iYgppbmRleCA2NzZlOWUwYzc4Li5mMDZhMzBiZDZkIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jYS1jZXJ0aWZpY2F0ZXMvY2EtY2VydGlmaWNhdGVz
+XzIwMjQxMjIzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2NhLWNlcnRpZmljYXRlcy9j
+YS1jZXJ0aWZpY2F0ZXNfMjAyNTA0MTkuYmIKQEAgLTE0LDEwICsxNCw5IEBAIERFUEVORFM6Y2xh
+c3MtbmF0aXZlc2RrID0gIm9wZW5zc2wtbmF0aXZlIgogIyBOZWVkIHJlaGFzaCBmcm9tIG9wZW5z
+c2wgYW5kIHJ1bi1wYXJ0cyBmcm9tIGRlYmlhbnV0aWxzCiBQQUNLQUdFX1dSSVRFX0RFUFMgKz0g
+Im9wZW5zc2wtbmF0aXZlIGRlYmlhbnV0aWxzLW5hdGl2ZSIKIAotU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gImRkODI4NmQwYTlkZDM1Yzc1NmZlYTVmMWRmM2ZlZDE1MTBmYjg5MWYzNzY5MDM4OTFiMDAz
+Y2Q5YjFhZDdlMDMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzNiNDRlZjc4NjUzZWNkM2YwZjJm
+MTNlNWJiYTZiZTQ2NmJlMmU3ZGE3MjE4MmY3Mzc5MTJiODE3OThiYTVkMiIKIFNSQ19VUkkgPSAi
+JHtERUJJQU5fTUlSUk9SfS9tYWluL2MvY2EtY2VydGlmaWNhdGVzLyR7QlBOfV8ke1BWfS50YXIu
+eHogXAogICAgICAgICAgICBmaWxlOi8vMDAwMS11cGRhdGUtY2EtY2VydGlmaWNhdGVzLWRvbi10
+LXVzZS1EZWJpYW5pc21zLWluLXJ1bi1wLnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDIt
+c2Jpbi11cGRhdGUtY2EtY2VydGlmaWNhdGVzLWFkZC1hLXN5c3Jvb3Qtb3B0aW9uLnBhdGNoIFwK
+ICAgICAgICAgICAgZmlsZTovLzAwMDMtdXBkYXRlLWNhLWNlcnRpZmljYXRlcy11c2UtcmVsYXRp
+dmUtc3ltbGlua3MtZnJvbS1FVC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLVJldmVy
+dC1tb3ppbGxhLWNlcnRkYXRhMnBlbS5weS1wcmludC1hLXdhcm5pbmctZm9yLWUucGF0Y2ggXAog
+ICAgICAgICAgICAiCi0tIAoyLjQ3LjEKCg==
+
+--===============8368177904381783353==--
 
