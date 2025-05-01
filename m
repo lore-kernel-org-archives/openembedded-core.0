@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F5ADC3ABC7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC87C3ABC6
 	for <webhook@archiver.kernel.org>; Thu,  1 May 2025 15:33:44 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.1805.1746113613072496211
+ by mx.groups.io with SMTP id smtpd.web11.1802.1746113612252095661
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 May 2025 08:33:39 -0700
+ Thu, 01 May 2025 08:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Dt+k77h4;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=tlCPh5yL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101968c7b634e-460edb11-303d-4e28-b146-af811070c69e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FjZP/MWq;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FNX8pJtY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101968c7b6083-86991bc3-1a95-4e4a-a425-66941096d52f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1746113618;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=OC3JYIuLp1U52EmPAeLg4hAoLb2sTq/31AiMztC9g10=;
-	b=Dt+k77h49d0r75exbyJORh9M4+nGqw049V4F8GRk7256C6C+3LX7pvfZYmaGG44R
-	DeGL0d1vjwi+0SherBls5nosT7jwiL16WE5QmobJoGuqxTwCLB7tRrOat6RbvzS+sEn
-	bIk+pXi1sn6e97Va4ftRywNgrPi8AwzxGI5mF+IA=
+	bh=xGcUdY7qX3U5SDVGGb4PFe9GnAC24JEzhBZSD4G7Xu4=;
+	b=FjZP/MWqWJoFc908+kQVhc6i+2RKGH0nVFMFCVZohmT6CcCgy4zNkkLvkM2/g0/K
+	1UBIu4Xj9K3WZoEVsMA+2rcXO82yXKajAxjpY8oIbzDiTK8ViAEkQLch+N8Pszaeug3
+	KOCi0N95Lsyy7ImvB2OxvWH/r5eAuK64lvVvDla4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1746113618;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=OC3JYIuLp1U52EmPAeLg4hAoLb2sTq/31AiMztC9g10=;
-	b=tlCPh5yLptYQUE2YpELmaCygdkC12PO7977UW1Y5ogh7Rcz7M0BtvK2tJJmsQvzP
-	fGXenAYUuqcYVR9lDktYIqw8Xm1z/qbQML9ESMyZkq2osrvccHCDRy+U8zDuAY/jvid
-	OmtZFvRcFzNqpshomjH8PrKQcvLmB3b8U9wNJw7E=
-Content-Type: multipart/mixed; boundary="===============0032998255755700403=="
+	bh=xGcUdY7qX3U5SDVGGb4PFe9GnAC24JEzhBZSD4G7Xu4=;
+	b=FNX8pJtY0yXLOoihIu0oMXecFKm3Hkd521rOdwqisQj751JdKbxGl8I0f3AaJVsv
+	0EyHKJsjLN/U1lyzxkCtTL66sYvnzMyEx4XRovKh9g8NHU1TyT3Z9YuUZhHXpvFW1M7
+	RcQ0vzOMjV4CRqqbucOtKCtxpysZlUnL4iD8sAfw=
+Content-Type: multipart/mixed; boundary="===============7298235873434921622=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-lxml: upgrading to 5.4.0 SUCCEEDED
-Message-ID: <010101968c7b634e-460edb11-303d-4e28-b146-af811070c69e-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-calver: upgrading to 2025.04.17 SUCCEEDED
+Message-ID: <010101968c7b6083-86991bc3-1a95-4e4a-a425-66941096d52f-000000@us-west-2.amazonses.com>
 Date: Thu, 1 May 2025 15:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.05.01-54.240.27.33
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 May 2025 15:33:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215815
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215813
 
---===============0032998255755700403==
+--===============7298235873434921622==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-lxml* to *5.4.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-calver* to *2025.04.17* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-lxml-upgrade-5.3.2-5.4.0.patch
+    - apply the patch: git am 0001-python3-calver-upgrade-2025.04.02-2025.04.17.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,101 +72,164 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ed61e43fe171ee3107728bffc74c31febaa2257e Mon Sep 17 00:00:00 2001
+From 8652be031ac4b7382d048f169904ecb73e0fb646 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 May 2025 08:58:52 +0000
-Subject: [PATCH] python3-lxml: upgrade 5.3.2 -> 5.4.0
+Date: Thu, 1 May 2025 08:43:41 +0000
+Subject: [PATCH] python3-calver: upgrade 2025.04.02 -> 2025.04.17
 
 ---
- .../python/{python3-lxml_5.3.2.bb => python3-lxml_5.4.0.bb}     | 2 +-
+ ...ython3-calver_2025.04.02.bb => python3-calver_2025.04.17.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-lxml_5.3.2.bb => python3-lxml_5.4.0.bb} (95%)
+ rename meta/recipes-devtools/python/{python3-calver_2025.04.02.bb => python3-calver_2025.04.17.bb} (89%)
 
-diff --git a/meta/recipes-devtools/python/python3-lxml_5.3.2.bb b/meta/recipes-devtools/python/python3-lxml_5.4.0.bb
-similarity index 95%
-rename from meta/recipes-devtools/python/python3-lxml_5.3.2.bb
-rename to meta/recipes-devtools/python/python3-lxml_5.4.0.bb
-index cc0d4ecd25..126fbe99b4 100644
---- a/meta/recipes-devtools/python/python3-lxml_5.3.2.bb
-+++ b/meta/recipes-devtools/python/python3-lxml_5.4.0.bb
-@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
+diff --git a/meta/recipes-devtools/python/python3-calver_2025.04.02.bb b/meta/recipes-devtools/python/python3-calver_2025.04.17.bb
+similarity index 89%
+rename from meta/recipes-devtools/python/python3-calver_2025.04.02.bb
+rename to meta/recipes-devtools/python/python3-calver_2025.04.17.bb
+index 3f169e1f7c..290be21ce2 100644
+--- a/meta/recipes-devtools/python/python3-calver_2025.04.02.bb
++++ b/meta/recipes-devtools/python/python3-calver_2025.04.17.bb
+@@ -4,7 +4,7 @@ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
- DEPENDS += "libxml2 libxslt"
+ SRC_URI = "git://github.com/di/calver;branch=master;protocol=https;tag=${PV}"
+-SRCREV = "e9c8017caf3e3aff214fbb581ee7f366de55f629"
++SRCREV = "3b74bdce35f2814eb2b65db39a133d5c849ddea7"
  
--SRC_URI[sha256sum] = "773947d0ed809ddad824b7b14467e1a481b8976e87278ac4a730c2f7c7fcddc1"
-+SRC_URI[sha256sum] = "d12832e1dbea4be280b22fd0ea7c9b87f0d8fc51ba06e92dc62d52f804f78ebd"
+ inherit python_setuptools_build_meta ptest-python-pytest
  
- SRC_URI += "${PYPI_SRC_URI}"
- inherit pkgconfig pypi setuptools3
 -- 
 2.47.1
 
 
---===============0032998255755700403==
+--===============7298235873434921622==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-calver-upgrade-2025.04.02-2025.04.17.patch"
+
+RnJvbSA4NjUyYmUwMzFhYzRiNzM4MmQwNDhmMTY5OTA0ZWNiNzNlMGZiNjQ2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAwODo0Mzo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtY2FsdmVyOiB1cGdyYWRlIDIwMjUuMDQuMDIgLT4gMjAyNS4wNC4xNwoKLS0tCiAuLi55
+dGhvbjMtY2FsdmVyXzIwMjUuMDQuMDIuYmIgPT4gcHl0aG9uMy1jYWx2ZXJfMjAyNS4wNC4xNy5i
+Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWNhbHZlcl8yMDI1
+LjA0LjAyLmJiID0+IHB5dGhvbjMtY2FsdmVyXzIwMjUuMDQuMTcuYmJ9ICg4OSUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNhbHZlcl8yMDI1LjA0
+LjAyLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNhbHZlcl8yMDI1
+LjA0LjE3LmJiCnNpbWlsYXJpdHkgaW5kZXggODklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1jYWx2ZXJfMjAyNS4wNC4wMi5iYgpyZW5hbWUgdG8gbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNhbHZlcl8yMDI1LjA0LjE3LmJiCmlu
+ZGV4IDNmMTY5ZTFmN2MuLjI5MGJlMjFjZTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1jYWx2ZXJfMjAyNS4wNC4wMi5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2FsdmVyXzIwMjUuMDQuMTcuYmIKQEAgLTQsNyAr
+NCw3IEBAIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
+L0xJQ0VOU0U7bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3IgogCiBTUkNfVVJJ
+ID0gImdpdDovL2dpdGh1Yi5jb20vZGkvY2FsdmVyO2JyYW5jaD1tYXN0ZXI7cHJvdG9jb2w9aHR0
+cHM7dGFnPSR7UFZ9IgotU1JDUkVWID0gImU5YzgwMTdjYWYzZTNhZmYyMTRmYmI1ODFlZTdmMzY2
+ZGU1NWY2MjkiCitTUkNSRVYgPSAiM2I3NGJkY2UzNWYyODE0ZWIyYjY1ZGIzOWExMzNkNWM4NDlk
+ZGVhNyIKIAogaW5oZXJpdCBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIHB0ZXN0LXB5dGhv
+bi1weXRlc3QKIAotLSAKMi40Ny4xCgo=
+
+--===============7298235873434921622==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-lxml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/l/lxml/lxml-5.3.2.tar.gz;downloadfilename=lxml-5.3.2.tar.gz https://files.pythonhosted.org/packages/source/l/lxml/lxml-5.3.2.tar.gz;downloadfilename=lxml-5.3.2.tar.gz" to "https://files.pythonhosted.org/packages/source/l/lxml/lxml-5.4.0.tar.gz;downloadfilename=lxml-5.4.0.tar.gz https://files.pythonhosted.org/packages/source/l/lxml/lxml-5.4.0.tar.gz;downloadfilename=lxml-5.4.0.tar.gz"
-packages/core2-64-poky-linux/python3-lxml: PKGV changed from 5.3.2 [default] to 5.4.0 [default]
-packages/core2-64-poky-linux/python3-lxml: PV changed from "5.3.2" to "5.4.0"
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-dbg: PKGV changed from 5.3.2 [default] to 5.4.0 [default]
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-dbg: PV changed from "5.3.2" to "5.4.0"
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-dev: PKGV changed from 5.3.2 [default] to 5.4.0 [default]
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-dev: PV changed from "5.3.2" to "5.4.0"
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-doc: PKGV changed from 5.3.2 [default] to 5.4.0 [default]
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-doc: PV changed from "5.3.2" to "5.4.0"
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-locale: PKGV changed from 5.3.2 [default] to 5.4.0 [default]
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-locale: PV changed from "5.3.2" to "5.4.0"
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-src: PKGV changed from 5.3.2 [default] to 5.4.0 [default]
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-src: PV changed from "5.3.2" to "5.4.0"
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-staticdev: PKGV changed from 5.3.2 [default] to 5.4.0 [default]
-packages/core2-64-poky-linux/python3-lxml/python3-lxml-staticdev: PV changed from "5.3.2" to "5.4.0"
-packages/core2-64-poky-linux/python3-lxml/python3-lxml: PKGSIZE changed from 5256673 to 5256603 (-0%)
-packages/core2-64-poky-linux/python3-lxml/python3-lxml: PKGV changed from 5.3.2 [default] to 5.4.0 [default]
-packages/core2-64-poky-linux/python3-lxml/python3-lxml: PV changed from "5.3.2" to "5.4.0"
-Changes to packages/core2-64-poky-linux/python3-lxml (sysroot):
-  /usr/lib/python3.13/site-packages/lxml-5.3.2.dist-info moved to /usr/lib/python3.13/site-packages/lxml-5.4.0.dist-info
+packages/core2-64-poky-linux/python3-calver: PKGV changed from 2025.04.02 [default] to 2025.04.17 [default]
+packages/core2-64-poky-linux/python3-calver: SRC_URI changed from "git://github.com/di/calver;branch=master;protocol=https;tag=2025.04.02" to "git://github.com/di/calver;branch=master;protocol=https;tag=2025.04.17"
+packages/core2-64-poky-linux/python3-calver: PV changed from "2025.04.02" to "2025.04.17"
+packages/core2-64-poky-linux/python3-calver/python3-calver-dbg: PKGV changed from 2025.04.02 [default] to 2025.04.17 [default]
+packages/core2-64-poky-linux/python3-calver/python3-calver-dbg: PV changed from "2025.04.02" to "2025.04.17"
+packages/core2-64-poky-linux/python3-calver/python3-calver-dev: PKGV changed from 2025.04.02 [default] to 2025.04.17 [default]
+packages/core2-64-poky-linux/python3-calver/python3-calver-dev: PV changed from "2025.04.02" to "2025.04.17"
+packages/core2-64-poky-linux/python3-calver/python3-calver-doc: PKGV changed from 2025.04.02 [default] to 2025.04.17 [default]
+packages/core2-64-poky-linux/python3-calver/python3-calver-doc: PV changed from "2025.04.02" to "2025.04.17"
+packages/core2-64-poky-linux/python3-calver/python3-calver-locale: PKGV changed from 2025.04.02 [default] to 2025.04.17 [default]
+packages/core2-64-poky-linux/python3-calver/python3-calver-locale: PV changed from "2025.04.02" to "2025.04.17"
+packages/core2-64-poky-linux/python3-calver/python3-calver-ptest: PKGSIZE changed from 2610 to 2955 (+13%)
+packages/core2-64-poky-linux/python3-calver/python3-calver-ptest: PKGV changed from 2025.04.02 [default] to 2025.04.17 [default]
+packages/core2-64-poky-linux/python3-calver/python3-calver-ptest: FILELIST: added "/usr/lib/python3-calver/ptest/tests/conftest.py"
+packages/core2-64-poky-linux/python3-calver/python3-calver-ptest: PV changed from "2025.04.02" to "2025.04.17"
+packages/core2-64-poky-linux/python3-calver/python3-calver-src: PKGV changed from 2025.04.02 [default] to 2025.04.17 [default]
+packages/core2-64-poky-linux/python3-calver/python3-calver-src: PV changed from "2025.04.02" to "2025.04.17"
+packages/core2-64-poky-linux/python3-calver/python3-calver-staticdev: PKGV changed from 2025.04.02 [default] to 2025.04.17 [default]
+packages/core2-64-poky-linux/python3-calver/python3-calver-staticdev: PV changed from "2025.04.02" to "2025.04.17"
+packages/core2-64-poky-linux/python3-calver/python3-calver: PKGSIZE changed from 18416 to 18417 (+0%)
+packages/core2-64-poky-linux/python3-calver/python3-calver: PKGV changed from 2025.04.02 [default] to 2025.04.17 [default]
+packages/core2-64-poky-linux/python3-calver/python3-calver: PV changed from "2025.04.02" to "2025.04.17"
+Changes to packages/core2-64-poky-linux/python3-calver (sysroot):
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/WHEEL was removed
+Changes to packages/x86_64-linux/python3-calver-native (sysroot):
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/WHEEL was removed
 
---===============0032998255755700403==
+--===============7298235873434921622==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-lxml (sysroot):
-  /usr/lib/python3.13/site-packages/lxml-5.3.2.dist-info moved to /usr/lib/python3.13/site-packages/lxml-5.4.0.dist-info
+packages/core2-64-poky-linux/python3-calver/python3-calver-ptest: PKGSIZE changed from 2610 to 2955 (+13%)
+packages/core2-64-poky-linux/python3-calver/python3-calver-ptest: FILELIST: added "/usr/lib/python3-calver/ptest/tests/conftest.py"
+Changes to packages/core2-64-poky-linux/python3-calver (sysroot):
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/WHEEL was removed
+Changes to packages/x86_64-linux/python3-calver-native (sysroot):
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/calver-2025.4.2.dist-info/WHEEL was removed
 
---===============0032998255755700403==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-lxml-upgrade-5.3.2-5.4.0.patch"
-
-RnJvbSBlZDYxZTQzZmUxNzFlZTMxMDc3MjhiZmZjNzRjMzFmZWJhYTIyNTdlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBNYXkgMjAyNSAwODo1ODo1MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtbHhtbDogdXBncmFkZSA1LjMuMiAtPiA1LjQuMAoKLS0tCiAuLi4vcHl0aG9uL3tweXRo
-b24zLWx4bWxfNS4zLjIuYmIgPT4gcHl0aG9uMy1seG1sXzUuNC4wLmJifSAgICAgfCAyICstCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWx4bWxfNS4zLjIuYmIgPT4gcHl0aG9u
-My1seG1sXzUuNC4wLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1seG1sXzUuMy4yLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLWx4bWxfNS40LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWx4bWxfNS4zLjIuYmIKcmVu
-YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1seG1sXzUuNC4wLmJi
-CmluZGV4IGNjMGQ0ZWNkMjUuLjEyNmZiZTk5YjQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1seG1sXzUuMy4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1seG1sXzUuNC4wLmJiCkBAIC0xOCw3ICsxOCw3IEBAIExJ
-Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0VTLnR4dDttZDU9ZTRjMDQ1ZWJhZDk1OGVh
-ZDRiNDgwMDhmNzA4Mzg0MDMgXAogCiBERVBFTkRTICs9ICJsaWJ4bWwyIGxpYnhzbHQiCiAKLVNS
-Q19VUklbc2hhMjU2c3VtXSA9ICI3NzM5NDdkMGVkODA5ZGRhZDgyNGI3YjE0NDY3ZTFhNDgxYjg5
-NzZlODcyNzhhYzRhNzMwYzJmN2M3ZmNkZGMxIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImQxMjgz
-MmUxZGJlYTRiZTI4MGIyMmZkMGVhN2M5Yjg3ZjBkOGZjNTFiYTA2ZTkyZGM2MmQ1MmY4MDRmNzhl
-YmQiCiAKIFNSQ19VUkkgKz0gIiR7UFlQSV9TUkNfVVJJfSIKIGluaGVyaXQgcGtnY29uZmlnIHB5
-cGkgc2V0dXB0b29sczMKLS0gCjIuNDcuMQoK
-
---===============0032998255755700403==--
+--===============7298235873434921622==--
 
