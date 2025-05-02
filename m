@@ -2,159 +2,297 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC091C3ABB0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE294C3ABAA
 	for <webhook@archiver.kernel.org>; Fri,  2 May 2025 16:55:29 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.24050.1746204925546022819
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.24231.1746204924143826154
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 May 2025 09:55:25 -0700
+ Fri, 02 May 2025 09:55:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q/MA8DOi;
- spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-af5139ad9a2so1708176a12.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 May 2025 09:55:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QWY2W5o5;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b074d908e56so1755115a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 May 2025 09:55:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746204925; x=1746809725; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1746204923; x=1746809723; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dxfpOxLCKWFv4Zpm0TIyculPBMRFN9AuMxq+NtUsW4w=;
-        b=Q/MA8DOiUq0pYM14ypEyuDmKqm7JAGbeMTF8VAgI80DT512nleI8RdWMHZLZo1/K80
-         qcuPPa4IU1Pvq/ijq1bo9alUshDZRjZ/rZo0xal2hHFC3XnjWqlaaB0/hzvp/y9bHUDl
-         w4gG+VsQLkvWfTeb3yN5RvqJ13Nx/NnWp/YOXPHOIyup5LLj1aMSTcaGLn3D74ORjc+W
-         ALD06Mhy6FOo6zPzERI0p+BKvUXAp2VanXRBiW28Axgeqg6WcqLfKrM2ZZRiv6oojQv0
-         7obccm1N2p2skCG9r+RGOFPoJs/yEAQkQN+lWE754mfRM+Td/vN+5HKY25iWtuW9GvKj
-         Ew6A==
+        bh=PpV4n8xRX3P55h7I3F2IlS5CFZqJz8w7NcwBkpd0qeA=;
+        b=QWY2W5o5TAWONJ9h+T61lEpnkguC+r42KINbiHbKk/7n8a4L1PfD/Kf/JGvfjdydeO
+         7mWXA6V6WMes2a/jAN5PKdyeGl5EyV9+OM56Q2EZUX2dTOZ9ciBITujqzD7XACDXfVFQ
+         yU8Vqch54posOGk/D9Erjf1iGybW7lhRHEd2vJ9CBxd15zY+T+t9R0mbfWTtWP7evVy5
+         A4c9lnEPed3UY7qzDVq357Raq4tqXX54W7iDHWcsi1gk+iL8as2kTSdIqtFfI0amR5Fz
+         yEB9aqGyDwvwXXINx5sVmRZBlwGl92QLycCnTvT90RTBiUfdgLF+pp2tzcBzN1tyz7be
+         5uFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746204925; x=1746809725;
+        d=1e100.net; s=20230601; t=1746204923; x=1746809723;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dxfpOxLCKWFv4Zpm0TIyculPBMRFN9AuMxq+NtUsW4w=;
-        b=F+zoKAIDn/zCGyJz1V4GvzVTF1Sh1WfA/hvaB3wlzt1g00TENrHYZPNTSiFWfQSFx6
-         uUKJUFG9xHUO//Dh16M7TYQxxofe7sSz3b+PpdEby7nIx6vtlZpv+6moTrDrW1Z7bxpp
-         ul3L+JoCSmphLL4hbMPcogN9IAQCJb+8MX8FQl0n3CQKKgMF+UluZiK5vJSW0mFrJimh
-         Or8nE0orJj96KjW2hoiKj8EQiqwYcmyhdATd6+hQiG3E2TvlVOPhyv9iScC9J3OigV/7
-         kqQkk69qbt3evpGecN3xT4EBATUNhmOUqxXPtHNE/EXgRiXEgmv6stb9gK+fFfkpwVmW
-         lIBQ==
-X-Gm-Message-State: AOJu0YwwwgIXu06j5IpmimxJLzbrubhJGM/HeDfQLhhFLWsEoT+7Lln7
-	dJEdfNqupeLA6PCp6by6Ma1IBFilOLp39vgwUXY/7962cDbCc0tqc1W6/uY2
-X-Gm-Gg: ASbGncvJAZe7IQV7/5nySg13w/2btRmuGUfiYUhGSZYiLF/evzl1vTrcMntD+aTb5SM
-	hG4g2rs+w1gomziMLa44obQPKyqoF3nrT1bxnbKhA1D+3CJRoerjKcvVqMH1hkMM5GNm/XeqoTZ
-	9gs+KuBrzVIP4F+koW2Xmz9YoYke6X6CIKXmTCLKeJ757W4ObbRCBaSJWXhH5Hm5Ur23vWgl4Ag
-	3hKPyvy1YGh2YOSD2973mrspJ3zZ/EBKl1Xrcex2Lwzl8fEYmOYr4UKWDFk5cfd62OlZMM023c/
-	JhWZ3huHOzopNjmlWRgMcJ9kcKhaVXfNvZN8IpDGVCI=
-X-Google-Smtp-Source: AGHT+IHhL+zWYDJuL8o/MA8Og0ORJmAyimFtyaas3xnF1HYrSNsORTZdfxYaQyqSmXe/EVYPgG9klw==
-X-Received: by 2002:a17:90b:2dca:b0:305:2d68:8d55 with SMTP id 98e67ed59e1d1-30a4e5ae177mr5894417a91.8.1746204924590;
-        Fri, 02 May 2025 09:55:24 -0700 (PDT)
+        bh=PpV4n8xRX3P55h7I3F2IlS5CFZqJz8w7NcwBkpd0qeA=;
+        b=LhREyNSshUM/c6+b5+FerMI+/3+g/NkijYCSAtAwTruYVvSfrtcgPhqLP1j6sz+9p9
+         RCsakKKHxL5OegDlgHO/4dXLXTf7rHYHKKawlpTIrukUzVNS6jJzcBydAEcGyvF7t9M8
+         aTtU3j5sWaA//7H8NT6qWMMhVihO5tG88GV6jUdhXuwbsrsYSCkA/366DxJF6kFBch5z
+         2UGEdPskpT9zsovaY61DyoMKQMhLku0smVzC4Yws/N2bKLN125ZfpJ/Y0oysR/4G6kS9
+         M71zbxL2blvE9UiJXG4kQchS+fgGaQ+gZ2MiIvSf5qdhrKi4N3nxcmyDAgaLKLMtcZpI
+         CCkg==
+X-Gm-Message-State: AOJu0YyLx/790gkmYFXwZ1+TU4yoK3SOBfItRKCdTqLq9lX08B0MtTDU
+	WkmzIdDBLXx6/HnKL2nvA+Q7sDmEV9NGks/qFOtecDSbal3jOAjPfVgbU4D7
+X-Gm-Gg: ASbGncspJpRjTEvLi1iuJRdnNV9YwXJuz1KqRQ9gmMa80N5EeduJHzLDZSsJBuMG6eL
+	JhjQEdsJShtjOp8R35y2spn89elinMv5+rbnMVG1/xOXK+hGtbXhUpRRGznSXBMuQ5tDhPb0Rut
+	DDDRoQBO+dhOztQEktENeVU1Jmpznzlz6cLVNLFHyDFBTzoFzswhunchQhYOynZ7otsSc66r1pM
+	RIAxNRVEON8itK98TA3s+BzYTG7Gl9VHh7VGRuWavfOF+5fPRI54+gYwCnqFmJ/oRBJNktBOS+a
+	73jD2lB/mf1MeN4oBYldZ+Rl4y8KbPJD
+X-Google-Smtp-Source: AGHT+IHFLSTUXwxnD98GxpeIymeMhkMpejlz6czI9oP/x48nfpdrmsVBgwZfMbz+19yhbM8GUc4MnA==
+X-Received: by 2002:a17:90b:2641:b0:2ee:f80c:6889 with SMTP id 98e67ed59e1d1-30a4e68887cmr6439057a91.33.1746204923032;
+        Fri, 02 May 2025 09:55:23 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::fb82])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a47625af9sm3253794a91.31.2025.05.02.09.55.23
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a47625af9sm3253794a91.31.2025.05.02.09.55.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 09:55:24 -0700 (PDT)
+        Fri, 02 May 2025 09:55:22 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 02 May 2025 09:55:20 -0700
-Subject: [PATCH v6 6/6] clang: Upgrade to 20.1.3
+Date: Fri, 02 May 2025 09:55:18 -0700
+Subject: [PATCH v6 4/6] mesa: Fix header search paths
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250502-clang-merge-v6-6-00f2c2e9ff68@gmail.com>
+Message-Id: <20250502-clang-merge-v6-4-00f2c2e9ff68@gmail.com>
 References: <20250502-clang-merge-v6-0-00f2c2e9ff68@gmail.com>
 In-Reply-To: <20250502-clang-merge-v6-0-00f2c2e9ff68@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 May 2025 16:55:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215917
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215915
 
-Brings following fixes
+mesa build currently emits CLANG_RESOURCE_DIR into compiled objects and
+meson calculates it from llvm cmake files from sysroot and it points to
+absolute paths in target sysroot. To fix this backport a patch that does
+not rely on CLANG_RESOURCE_DIR, however, this patch still leaves it in
+code as fallback via FALLBACK_CLANG_RESOURCE_DIR, we are on LLVM 20.x
+which will not use this variable, lets just remove detection so it does
+not encode hardcoded paths.
 
-* 923a5c4f83d2 Revert "[ARM][ConstantIslands] Correct MinNoSplitDisp calculation (#114590)"
-* 86f5891c5986 [llvm][Hexagon] Promote operand v2i1 to v2i32 (#135409)
-* d55c3c20520a [libc++] Fix misplaced _LIBCPP_POP_MACROS (#134874)
-* 9420327ad768 [Clang] Fix a lambda pattern comparison mismatch after ecc7e6ce4 (#133863)
-* 4da7285e636e Silence -Wcast-function-type warnings on idiomatic Windows code (#135660)
-* c5109be53b7e [LV] Disable epilogue vectorization for FindLastIV if start is poison.
-* 91a3f14d9497 [LV] Add tests with FindLastIV and epilogue vectorization.
-* 2131242240f7 [LLVM][MemCpyOpt] Unify alias tags if we optimize allocas (#129537)
-* 86c98536380b [libc++] Fix deployment targets that were incorrectly bumped (#134278)
-* dfd6f123362a [libc++] Guard additional headers with _LIBCPP_HAS_LOCALIZATION (#131921)
-* dc9d4f9a7008 [lldb] Respect LaunchInfo::SetExecutable in ProcessLauncherPosixFork (#133093)
-* 9c7d72869876 [LoongArch] Move fix-tle-le-sym-type test to test/MC. NFC (#133839)
-* 0c30835a63db [X86][AVX10] Remove VAES and VPCLMULQDQ feature from AVX10.1 (#135489)
-* 2e0966408283 [X86] Backport saturate-convert intrinsics renaming & YMM rounding intrinsics removal in AVX10.2
-* 0dd4235473d4 [SCEV] Use ashr to adjust constant multipliers (#135534)
-* a141e58685fd [llvm][CodeGen] avoid repeated interval calculation in window scheduler (#132352)
-* d88cd35023b4 [llvm][CodeGen] Fix the empty interval issue in Window Scheduler (#129204)
-* 73d1e8598eda [CodeGen] Avoid repeated hash lookups (NFC) (#130237)
-* 7034995f1029 [clang] Handle Binary StingLiteral kind in one more place (#132201)
-* 2e7710eaffdd [clang] Introduce "binary" StringLiteral for #embed data (#127629)
-* e0db588f3db4 [IR] Fix assertion error in User new/delete edge case (#129914)
-* d5bb7b866e59 Avoid a race condition in opt-viewer/optrecord (#131214)
-* d15fef4209f1 [IndVarSimplify] Handle the case where both operands are the same when widening IV (#135207)
-* 91647ae0dffe [X86][SSE] Don't emit SSE2 load instructions in SSE1-only mode (#134547)
-* d05543ed0796 [clang-format] Keep the space between `not` and a unary operator (#135035)
-* 81220e68a496 [fatlto] Add coroutine passes when using FatLTO with ThinLTO (#134434)
-* edb54a7821fe Release/20.x: [clang-format] Set C11 instead of C17 for LK_C
-* 4181e829d1db [LLDB][LoongArch] Fix build errors about NT_LOONGARCH_HW_{BREAK,WATCH} (#126020)
-* 7436329bfee9 Revert "[clang] [ARM] Explicitly enable NEON for Windows/Darwin targets (#122095)"
-* a0c8959cc880 [X86] When expanding LCMPXCHG16B_SAVE_RBX, substitute RBX in base (#134109)
-* a8b5fe017a5e [libc++] Add missing release note for LLVM 20 about zip_view (#134144)
-* 41aefdbebe64 cuda clang: Fix argument order for __reduce_max_sync (#132881)
-* 19c2e1c12d47 [clang-tidy] Fix broken HeaderFilterRegex when read from config file (#133582)
-* ac31db0463c0 [Sanitizers][Darwin][Test] XFAIL malloc_zone.cpp
-* 53141e4e3c65 [clang] Do not infer lifetimebound for functions with void return type (#131997)
-* cf7bb13f0c7f [TailDuplicator] Determine if computed gotos using `blockaddress` (#132536)
-* 656289ffa0a6 Bump version to 20.1.3 (#134187)
+Fixes
+
+ERROR: mesa-2_25.0.2-r0 do_package_qa: QA Issue: File /usr/lib/libMesaOpenCL.so.1.0.0 in package libopencl-mesa contains reference to TMPDIR [buildpaths]
+ERROR: mesa-2_25.0.2-r0 do_package_qa: Fatal QA errors were found, failing task.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/conf/distro/include/maintainers.inc     | 2 +-
- meta/recipes-devtools/clang/common-clang.inc | 2 +-
- meta/recipes-devtools/clang/common.inc       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../0001-clover-Don-t-include-libclc-headers.patch | 143 +++++++++++++++++++++
+ ...ver-Do-not-use-LLVM_LIBRARY_DIR-for-FALLB.patch |  34 +++++
+ meta/recipes-graphics/mesa/mesa.inc                |   2 +
+ 3 files changed, 179 insertions(+)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index b3e3862df9e8ff0d040c804f80704b1a768bce37..b67433d4d2b643c12803da222affaf3d85dd069f 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -478,7 +478,7 @@ RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-dev = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-rt = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.com>"
--RECIPE_MAINTAINER:pn-llvm-project-source-20.1.2 = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-llvm-project-source-20.1.3 = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-lrzsz = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
-index bb152d2c566a6c61b95be2e7922cfe9c64a27afa..41944265ba56713593a89ebe9db20ea66a64917a 100644
---- a/meta/recipes-devtools/clang/common-clang.inc
-+++ b/meta/recipes-devtools/clang/common-clang.inc
-@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
+diff --git a/meta/recipes-graphics/mesa/files/0001-clover-Don-t-include-libclc-headers.patch b/meta/recipes-graphics/mesa/files/0001-clover-Don-t-include-libclc-headers.patch
+new file mode 100644
+index 0000000000000000000000000000000000000000..0f9a01d823ed7d9a1a8ea5ccc6acac5314eafbe4
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-clover-Don-t-include-libclc-headers.patch
+@@ -0,0 +1,143 @@
++From e94da9ccbc099468df752227716880efef66411b Mon Sep 17 00:00:00 2001
++From: Nikita Popov <npopov@redhat.com>
++Date: Thu, 27 Feb 2025 15:44:27 +0100
++Subject: [PATCH] clover: Don't include libclc headers
++
++Per https://github.com/llvm/llvm-project/issues/119967 these
++headers are internal implementation details of libclc and were
++never supposed to be installed. They are not available anymore
++since LLVM 20. Instead opencl-c.h should be used.
++
++There already ise a code path for including opencl-c.h, so always
++use it.
++
++This didn't work for me out of the box, because the build system
++currently hardcodes the clang resource directory, which is incorrect
++for Fedora at least. Fix this by using GetResourcePath +
++CLANG_RESOURCE_DIR provided by clang instead. This is basically
++the same as what is done in clc_helper.c
++
++I've still retained the old behavior as a fallback just in case
++(e.g. if clang is linked statically?)
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33805/]
++Reviewed-by: Karol Herbst <kherbst@redhat.com>
++Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33805>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ .../frontends/clover/llvm/invocation.cpp      | 53 +++++++++++++------
++ src/gallium/frontends/clover/meson.build      |  5 +-
++ 2 files changed, 39 insertions(+), 19 deletions(-)
++
++diff --git a/src/gallium/frontends/clover/llvm/invocation.cpp b/src/gallium/frontends/clover/llvm/invocation.cpp
++index 3cbb05b..ca030b4 100644
++--- a/src/gallium/frontends/clover/llvm/invocation.cpp
+++++ b/src/gallium/frontends/clover/llvm/invocation.cpp
++@@ -24,6 +24,8 @@
++ // OTHER DEALINGS IN THE SOFTWARE.
++ //
++ 
+++#include <dlfcn.h>
+++
++ #include <llvm/IR/DiagnosticPrinter.h>
++ #include <llvm/IR/DiagnosticInfo.h>
++ #include <llvm/IR/LLVMContext.h>
++@@ -39,6 +41,8 @@
++ #include <clang/Frontend/TextDiagnosticBuffer.h>
++ #include <clang/Frontend/TextDiagnosticPrinter.h>
++ #include <clang/Basic/TargetInfo.h>
+++#include <clang/Config/config.h>
+++#include <clang/Driver/Driver.h>
++ 
++ #if LLVM_VERSION_MAJOR >= 20
++ #include <llvm/Support/VirtualFileSystem.h>
++@@ -323,6 +327,30 @@ namespace {
++       return c;
++    }
++ 
+++   std::string getResourceDirectory() {
+++      Dl_info info;
+++      if (dladdr((void *)clang::CompilerInvocation::CreateFromArgs, &info) == 0) {
+++         return FALLBACK_CLANG_RESOURCE_DIR;
+++      }
+++
+++      char *libclang_path = realpath(info.dli_fname, NULL);
+++      if (libclang_path == nullptr) {
+++         return FALLBACK_CLANG_RESOURCE_DIR;
+++      }
+++
+++      // GetResourcePath is a way to retrieve the actual libclang resource dir based on a given
+++      // binary or library.
+++      std::string clang_resource_dir =
+++#if LLVM_VERSION_MAJOR >= 20
+++         clang::driver::Driver::GetResourcesPath(std::string(libclang_path));
+++#else
+++         clang::driver::Driver::GetResourcesPath(std::string(libclang_path), CLANG_RESOURCE_DIR);
+++#endif
+++      free(libclang_path);
+++
+++      return clang_resource_dir;
+++   }
+++
++    std::unique_ptr<Module>
++    compile(LLVMContext &ctx, clang::CompilerInstance &c,
++            const std::string &name, const std::string &source,
++@@ -331,25 +359,18 @@ namespace {
++       c.getFrontendOpts().ProgramAction = clang::frontend::EmitLLVMOnly;
++       c.getHeaderSearchOpts().UseBuiltinIncludes = true;
++       c.getHeaderSearchOpts().UseStandardSystemIncludes = true;
++-      c.getHeaderSearchOpts().ResourceDir = CLANG_RESOURCE_DIR;
++ 
++-      if (use_libclc) {
++-         // Add libclc generic search path
++-         c.getHeaderSearchOpts().AddPath(LIBCLC_INCLUDEDIR,
++-                                         clang::frontend::Angled,
++-                                         false, false);
+++      std::string clang_resource_dir = getResourceDirectory();
+++      c.getHeaderSearchOpts().ResourceDir = clang_resource_dir;
++ 
++-         // Add libclc include
++-         c.getPreprocessorOpts().Includes.push_back("clc/clc.h");
++-      } else {
++-         // Add opencl-c generic search path
++-         c.getHeaderSearchOpts().AddPath(CLANG_RESOURCE_DIR,
++-                                         clang::frontend::Angled,
++-                                         false, false);
+++      // Add opencl-c generic search path
+++      std::string clang_include_path = clang_resource_dir + "/include";
+++      c.getHeaderSearchOpts().AddPath(clang_include_path,
+++                                      clang::frontend::Angled,
+++                                      false, false);
++ 
++-         // Add opencl include
++-         c.getPreprocessorOpts().Includes.push_back("opencl-c.h");
++-      }
+++      // Add opencl include
+++      c.getPreprocessorOpts().Includes.push_back("opencl-c.h");
++ 
++       // Add definition for the OpenCL version
++       const auto dev_version = dev.device_version();
++diff --git a/src/gallium/frontends/clover/meson.build b/src/gallium/frontends/clover/meson.build
++index e569b86..56a9894 100644
++--- a/src/gallium/frontends/clover/meson.build
+++++ b/src/gallium/frontends/clover/meson.build
++@@ -10,7 +10,6 @@ clover_opencl_cpp_args = [
++   '-DCL_USE_DEPRECATED_OPENCL_2_0_APIS',
++   '-DCL_USE_DEPRECATED_OPENCL_2_1_APIS',
++   '-DCL_USE_DEPRECATED_OPENCL_2_2_APIS',
++-  '-DLIBCLC_INCLUDEDIR="@0@/"'.format(dep_clc.get_variable(pkgconfig : 'includedir')),
++   '-DLIBCLC_LIBEXECDIR="@0@/"'.format(dep_clc.get_variable(pkgconfig : 'libexecdir'))
++ ]
++ clover_incs = [inc_include, inc_src, inc_gallium, inc_gallium_aux]
++@@ -43,9 +42,9 @@ libclllvm = static_library(
++   cpp_args : [
++     clover_cpp_args,
++     clover_opencl_cpp_args,
++-    '-DCLANG_RESOURCE_DIR="@0@"'.format(join_paths(
+++    '-DFALLBACK_CLANG_RESOURCE_DIR="@0@"'.format(join_paths(
++       dep_llvm.get_variable(cmake : 'LLVM_LIBRARY_DIR', configtool: 'libdir'), 'clang',
++-      dep_llvm.version(), 'include',
+++      dep_llvm.version()
++     )),
++   ],
++   gnu_symbol_visibility : 'hidden',
+diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-clover-Do-not-use-LLVM_LIBRARY_DIR-for-FALLB.patch b/meta/recipes-graphics/mesa/files/0001-gallium-clover-Do-not-use-LLVM_LIBRARY_DIR-for-FALLB.patch
+new file mode 100644
+index 0000000000000000000000000000000000000000..8b2ce2f63b3abba293f735a32e2ac4b976aeb402
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-gallium-clover-Do-not-use-LLVM_LIBRARY_DIR-for-FALLB.patch
+@@ -0,0 +1,34 @@
++From 5ea5c5d48e049d7b10b7ffb814e84e3ddef7fff9 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 25 Apr 2025 19:00:14 -0700
++Subject: [PATCH] gallium/clover: Do not use LLVM_LIBRARY_DIR for
++ FALLBACK_CLANG_RESOURCE_DIR
++
++This option -DFALLBACK_CLANG_RESOURCE_DIR is synthesized by meson from
++LLVM_LIBRARY_DIR which is resolved to absolute path under <recipe_sysroot>
++and its used in clover front-end as string in .c files, which encodes it
++into binary as string and shows up in yocto QA error.
++
++ERROR: mesa-2_25.0.2-r0 do_package_qa: QA Issue: File /usr/lib/libMesaOpenCL.so.1.0.0 in package libopencl-mesa contains reference to TMPDIR [buildpaths]
++ERROR: mesa-2_25.0.2-r0 do_package_qa: Fatal QA errors were found, failing task.
++ERROR: Logfile of failure stored in: /mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux/mesa/25.0.2/temp/log.do_package_qa.974870
++
++Upstream-Status: Inappropriate [OE-Specific]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/gallium/frontends/clover/meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/gallium/frontends/clover/meson.build b/src/gallium/frontends/clover/meson.build
++index 56a9894..32c21d6 100644
++--- a/src/gallium/frontends/clover/meson.build
+++++ b/src/gallium/frontends/clover/meson.build
++@@ -43,7 +43,7 @@ libclllvm = static_library(
++     clover_cpp_args,
++     clover_opencl_cpp_args,
++     '-DFALLBACK_CLANG_RESOURCE_DIR="@0@"'.format(join_paths(
++-      dep_llvm.get_variable(cmake : 'LLVM_LIBRARY_DIR', configtool: 'libdir'), 'clang',
+++     '/usr/lib/clang',
++       dep_llvm.version()
++     )),
++   ],
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index c477b774628eb49dacae8b64244d3e98bfcc2588..49b3de1ba796c9b729f5353414261396ed45d8a5 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,6 +19,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-meson-disable-SIMD-blake-optimisations-on-x32-host.patch \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch\
+            file://0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch \
++           file://0001-clover-Don-t-include-libclc-headers.patch \
++           file://0001-gallium-clover-Do-not-use-LLVM_LIBRARY_DIR-for-FALLB.patch \
+ "
  
- MAJOR_VER = "20"
- MINOR_VER = "1"
--PATCH_VER = "2"
-+PATCH_VER = "3"
- # could be 'rcX' or 'git' or empty ( for release )
- VER_SUFFIX = ""
- 
-diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
-index 5a1fa0bacf7f8504f58b2866be8d42b3621787da..f733566bc88a6feb9bfdfa4b520579c12721f0d9 100644
---- a/meta/recipes-devtools/clang/common.inc
-+++ b/meta/recipes-devtools/clang/common.inc
-@@ -15,7 +15,7 @@ LICENSE = "Apache-2.0-with-LLVM-exception"
- RELEASE ?= "${PV}"
- BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}/llvm-project-${PV}.src.tar.xz"
- SOURCEDIR ?= "llvm-project-${PV}.src"
--SRC_URI[sha256sum] = "f0a4a240aabc9b056142d14d5478bb6d962aeac549cbd75b809f5499240a8b38"
-+SRC_URI[sha256sum] = "b6183c41281ee3f23da7fda790c6d4f5877aed103d1e759763b1008bdd0e2c50"
- 
- SRCREV_spirv = "6dd8f2a1681a27f16c53d932d2765920f312aeb2"
- SRCREV_spirvheaders = "09913f088a1197aba4aefd300a876b2ebbaa3391"
+ SRC_URI[sha256sum] = "adf904d083b308df95898600ffed435f4b5c600d95fb6ec6d4c45638627fdc97"
 
 -- 
 2.49.0
