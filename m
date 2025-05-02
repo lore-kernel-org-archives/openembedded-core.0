@@ -2,140 +2,114 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE0A7C3ABAC
-	for <webhook@archiver.kernel.org>; Fri,  2 May 2025 18:53:50 +0000 (UTC)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
- by mx.groups.io with SMTP id smtpd.web11.27136.1746212023658558012
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C08B3C3ABAC
+	for <webhook@archiver.kernel.org>; Fri,  2 May 2025 19:02:50 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.27395.1746212560806106408
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 May 2025 11:53:43 -0700
+ Fri, 02 May 2025 12:02:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jsLFVxcH;
- spf=pass (domain: gmail.com, ip: 209.85.210.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-72c173211feso647569a34.1;
-        Fri, 02 May 2025 11:53:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XE7vLlmq;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-227914acd20so29734965ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 May 2025 12:02:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746212023; x=1746816823; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=utfB8SlZxhhkUIFUm+3+cTqCo+xY/D0FHJWPxO9FDH4=;
-        b=jsLFVxcH/4XvFUrPFxb0dIoHwGni9D7MwCZmkuJN+Yw2/Mi4tP4qcxDUlToPXZvBFs
-         VR0qep0NxrGEYzBn5SkjVrnDpv0s+sPJ3wTB1+8mivr1+k5Z8lDpiZIt2rEnhSCIqwVW
-         dE9sgcYdxaP8MNJmfhAHwJ/Jfk63Ln/887/Rde05d1byBr/RKtz2MHOVERjqV16lXnvv
-         +ZPvzUvApuF/1hBRiTolJ2MwxVHWg0HGnVotpfxefJvP6Fxp+IhJLgnQVorFHd3c6iNV
-         JG/EXu/MQ4rQTADmP67DrEaRT7cyrvrytTpF1TOmzY59IKt1HgxO6ZaZ4gdDo3v+I5B1
-         R5hg==
+        d=gmail.com; s=20230601; t=1746212560; x=1746817360; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/jWioAFQVY6NourV04P+lBhNNUpbZSWzIIos2YT9lz8=;
+        b=XE7vLlmqLLDVRVdKK+aqMMeqbyJfsOYWDlnAzNGXaenv/jDEFDsQVmCigRdSY9U+8z
+         SjYsSxAS1I/Qz6I045VmMKsZBoGERaIT38lKYS0AKKx+qNvd6BMBdOvI3YoIclHTaiIV
+         CZKF1Nr9SOt5RKN0XW/RrbzDezdd5l052FOXMGmrAaO2Ju4pTrOnd3sPz8IG0LiSwhPO
+         KHYHhHw1eMkdVDThixaXr8RZ48nqh6Z9U7sQ8AKFLqp6G1+T6ABc2wabiybu8YEvIWwc
+         2QNfVjXfVm5oMh6XwsyGyF1ghrVFixG/kQ0fmDshwp0cCDdo+EN4oES0+AjTiY2fHI8a
+         7Ahg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746212023; x=1746816823;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=utfB8SlZxhhkUIFUm+3+cTqCo+xY/D0FHJWPxO9FDH4=;
-        b=vRreg58zyzfu/p15/ExDwlNM6YKP1FftfDpdra2oHzdU1QFU+HywFRYfsDXPpysOHy
-         A7IYkQTg0AJI70ZS/NLMvV5M70RwOrZp5OLHTNBJc29DRDFwGfEd2XU4LxxHJMV9ECf1
-         VHpJ49mz7SzJ2CmSd4AFvN+7yUpuQj2BEYClxHhPaUFk1Uld/omgsvBI20CD+l0mrQ5J
-         2DyC3MoKjl3+ggMr1Fjx4titx0K+LRCs2HNQkVV4ksfTl5VGyMnz69gDIqlFq5lpWw1i
-         jF/zPm9RjwGFrw8VcbkU4/TZozOTBCMgqVk3TqK8OVMQWpwWZ5DyHFbdZan1h508yJYu
-         suvg==
-X-Forwarded-Encrypted: i=1; AJvYcCUdNvKZ17mEgbeTVlo46WYpxmgkhysavrYSBKHE9CZ7jopDCKbNRMCjFQWvsN4lViIzc9hvhBeoZ08iQShQEm+pVv4=@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyF65eGQCkl2HRJrXShrBnT0etbS04R4SHqxbcnJL0iMLjQLTUX
-	kvSP3Gah5HmYfrqDDoDCa+4KJyO6cBRuyShG6OKaNiYMxksPBk7T+bSj/lX219UbCKFwAsGvVuo
-	0RLzEUy4yYTt5IIBfSZ6ePg1fX7E=
-X-Gm-Gg: ASbGnctUJIgE7rKYlQJPpTx2rFm5FP3FNMsmgdqyN9pCuyNodaudxi7oHx8ZvZbMYP/
-	XfmptuPS+V1BhWcYoT+KC8DavGOKBFj3MmDd8KXud6ABNCoS14ElzbBPBAM72aiXX23/H0ZGTTE
-	7K+BvV2XVTsKw08Smq+RBx
-X-Google-Smtp-Source: AGHT+IFM1rXA4annFr6pPl93YD2EZCdxYmhhsNvBlPsiLRzxhvDlrMH18uaOJHDpCznVJ5aEkz3jyExLZS1VbltcZgs=
-X-Received: by 2002:a05:6870:9601:b0:296:beb3:aa40 with SMTP id
- 586e51a60fabf-2dab340172bmr2202353fac.36.1746212022687; Fri, 02 May 2025
- 11:53:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250502020808.1038389-1-wen.yang@linux.dev>
-In-Reply-To: <20250502020808.1038389-1-wen.yang@linux.dev>
+        d=1e100.net; s=20230601; t=1746212560; x=1746817360;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/jWioAFQVY6NourV04P+lBhNNUpbZSWzIIos2YT9lz8=;
+        b=POtRSAmLhZ7q7nnCyb3XBXmX0XJMK/5+hh0Hu8SVVmAXd/pMzyDdFODCWgoij3J9JT
+         dwoy5Ja1H0TEdJIofpbVpl0HpHofjSOjJXiHAYSDbliGwmOQWO+oD5A1yRMWLjaTmtXY
+         G8s25lIIYS6gZ7/Ka5OXOpbVMw1YMnwYGfD0NYmllvbusoGYk9/u2+yGFtW5U1Ve6UVX
+         UVw0EO7QN40PFIeTF775Td3z8dBiyZ574tpnSqBesgQHJnkLsKwe77qCYYJJQuCyH6G6
+         IWDXfIMRe2XxbB743VP1qlbyVqERUQ+i6kwD544FT7pJtFwLAJxT9j8yjlxIB21kjMb8
+         3TzQ==
+X-Gm-Message-State: AOJu0YyNDbiR2ZeeoP5jaT3Ob81R8H8ILJsjVzO6AP1s9/lmqAMzkdar
+	HTge6/3sRvRVfwrpo/2vh3xmlzLtKa+rHNfKVp28ECGRtACvL3qjJu+MX9ch
+X-Gm-Gg: ASbGnctoRgz5/qtRXofGdH+XMAFvjpsN7D4LwLAsbbi7ClZ28OtDtLx826/07jfGkyS
+	6G/MjhdS+LtrENF5hUAYG7rTUqUdgxtti7qZHs6wK+sHOhBAOBGJ26s7AnH1709JqysuMWmSOu1
+	PdOfcGZ+eGDtjiAUc6yxnpoSKcjv+MnsUNEMcZOP+86KRu2Uqzg6EKilQuNX8EqSO40QPxyAq1D
+	f6xCu/fiC8WcqmGfEDY2WD3kvn3RVq8eq5YK1AFyhx1IhOXuRS6F0350snyDGkEQeaxeX7/fL7e
+	nYKsIpvTm/PMQb9YmbW8TVE7SYVScXuR
+X-Google-Smtp-Source: AGHT+IG+/Sph5MyekmwCcnEma5AHMvDPVImnWlO6GyRiwq1wo4sJkTC4H2cxMtvWQpfTUFgHoWOl2Q==
+X-Received: by 2002:a17:902:c945:b0:21f:1348:10e6 with SMTP id d9443c01a7336-22e1007afc3mr65284505ad.13.1746212559780;
+        Fri, 02 May 2025 12:02:39 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::fb82])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1521fbf8sm11181955ad.149.2025.05.02.12.02.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 May 2025 12:02:39 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 2 May 2025 11:53:16 -0700
-X-Gm-Features: ATxdqUHE9Am2U9vqc1uJ3S_1Z79n_VOyoJLH9EDJRzmrTAJU0Te-EAgiKJnVofo
-Message-ID: <CAMKF1sp-_41pw0yX4JpZFu7PuxVBbuAr=QUinnFu0pm+7wTofg@mail.gmail.com>
-Subject: Re: [oe] [meta-oe][PATCH v3] testdisk: add recipe
-To: wen.yang@linux.dev
-Cc: openembedded-core@lists.openembedded.org, 
-	openembedded-devel@lists.openembedded.org, Wen Yang <wen.yang@blinux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libcxx,compiler-rt-sanitizers: Add cflags to build with clang compiler
+Date: Fri,  2 May 2025 12:02:37 -0700
+Message-ID: <20250502190237.4083287-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 May 2025 18:53:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215918
+ <openembedded-core@lists.openembedded.org>; Fri, 02 May 2025 19:02:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215919
 
-fails on musl target build
+We are using clang-native to build the native versions of these recipes
+but we are missing the needed compiler flags to let it c/c++ runtime
+appropriately. This also ensures that meta-clang does not have to worry
+about the compiler settings for nativesdk/native pieces separately.
 
-./../testdisk-7.2/src/hdaccess.c:1016:7: error: call to undeclared
-function 'basename'; ISO C99 and later do not support implicit
-function declarations [-Wimplicit-function-
-   =E2=86=AA declaration]
-   |  1016 |       basename (disk_car->device), file);
-   |       |       ^
-   | 2 warnings generated.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb | 6 ++++++
+ meta/recipes-devtools/clang/libcxx_git.bb                 | 5 +++++
+ 2 files changed, 11 insertions(+)
 
-On Fri, May 2, 2025 at 5:52=E2=80=AFAM Wen Yang via lists.openembedded.org
-<wen.yang=3Dlinux.dev@lists.openembedded.org> wrote:
->
-> From: Wen Yang <wen.yang@blinux.dev>
->
-> testdisk is a free data recovery software primarily designed to help
-> recover lost partitions and/or make non-booting disks bootable again
-> when these symptoms are caused by faulty software.
->
-> Signed-off-by: Wen Yang <wen.yang@linux.dev>
-> ---
->  meta-oe/recipes-support/testdisk/testdisk_7.2.bb | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->  create mode 100644 meta-oe/recipes-support/testdisk/testdisk_7.2.bb
->
-> diff --git a/meta-oe/recipes-support/testdisk/testdisk_7.2.bb b/meta-oe/r=
-ecipes-support/testdisk/testdisk_7.2.bb
-> new file mode 100644
-> index 0000000000..81d89c8e99
-> --- /dev/null
-> +++ b/meta-oe/recipes-support/testdisk/testdisk_7.2.bb
-> @@ -0,0 +1,16 @@
-> +DESCRIPTION =3D "TestDisk is a free data recovery software primarily des=
-igned to help recover lost partitions and/or make non-booting disks bootabl=
-e again when these symptoms are caused by faulty software, certain types of=
- viruses or human error (such as accidentally deleting your Partition Table=
-)."
-> +LICENSE =3D "GPL-2.0-or-later"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882=
-bbe"
-> +
-> +DEPENDS =3D "jpeg ncurses e2fsprogs"
-> +
-> +SRC_URI =3D "https://www.cgsecurity.org/${BP}.tar.bz2"
-> +SRC_URI[sha256sum] =3D "f8343be20cb4001c5d91a2e3bcd918398f00ae6d8310894a=
-5a9f2feb813c283f"
-> +
-> +inherit autotools pkgconfig
-> +
-> +PACKAGES =3D+ "${PN}-photorec"
-> +
-> +DESCRIPTION:${PN}-photorec =3D "Photorec is file data recovery software =
-designed to recover lost files including video, documents and archives from=
- Hard Disks and CDRom and lost pictures (Photo Recovery) from digital camer=
-a memory."
-> +FILES:${PN}-photorec =3D "${sbindir}/photorec"
-> +
-> --
-> 2.25.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#117279): https://lists.openembedded.org/g/openembedde=
-d-devel/message/117279
-> Mute This Topic: https://lists.openembedded.org/mt/112579605/1997914
-> Group Owner: openembedded-devel+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-devel/unsub [r=
-aj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
+index b3c4bfcffdc..b987a5cc768 100644
+--- a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
++++ b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
+@@ -18,9 +18,15 @@ inherit cmake pkgconfig python3native
+ LIC_FILES_CHKSUM = "file://compiler-rt/LICENSE.TXT;md5=d846d1d65baf322d4c485d6ee54e877a"
+ 
+ TUNE_CCARGS:remove = "-no-integrated-as"
++COMPILER_RT ??= "-rtlib=libgcc -unwindlib=libgcc"
++LIBCPLUSPLUS ??= "-stdlib=libstdc++"
+ 
+ CC = "${CCACHE}${HOST_PREFIX}clang ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+ CXX = "${CCACHE}${HOST_PREFIX}clang++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
++BUILD_CC = "${CCACHE}${HOST_PREFIX}clang ${BUILD_CC_ARCH}"
++BUILD_CXX = "${CCACHE}${HOST_PREFIX}clang++ ${BUILD_CC_ARCH}$"
++CFLAGS += "${COMPILER_RT}"
++CXXFLAGS += "${COMPILER_RT} ${LIBCPLUSPLUS}"
+ 
+ DEPENDS += "ninja-native virtual/crypt compiler-rt"
+ DEPENDS:append:class-native = " clang-native libxcrypt-native libcxx-native"
+diff --git a/meta/recipes-devtools/clang/libcxx_git.bb b/meta/recipes-devtools/clang/libcxx_git.bb
+index d2655d9da94..f5987199ecf 100644
+--- a/meta/recipes-devtools/clang/libcxx_git.bb
++++ b/meta/recipes-devtools/clang/libcxx_git.bb
+@@ -49,6 +49,11 @@ OECMAKE_TARGET_INSTALL = "${@bb.utils.contains("TC_CXX_RUNTIME", "llvm", "instal
+ 
+ CC = "${CCACHE}${HOST_PREFIX}clang ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+ CXX = "${CCACHE}${HOST_PREFIX}clang++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
++BUILD_CC = "${CCACHE}clang ${BUILD_CC_ARCH}"
++BUILD_CXX = "${CCACHE}clang++ ${BUILD_CC_ARCH}"
++CFLAGS += "${COMPILER_RT}"
++CXXFLAGS += "${COMPILER_RT} ${LIBCPLUSPLUS}"
++
+ OECMAKE_SOURCEPATH = "${S}/llvm"
+ EXTRA_OECMAKE += "\
+                   -DCMAKE_BUILD_TYPE=RelWithDebInfo \
 
