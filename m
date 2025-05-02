@@ -2,208 +2,161 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 022A9C3ABAA
-	for <webhook@archiver.kernel.org>; Fri,  2 May 2025 16:55:20 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.24044.1746204919502084604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC091C3ABB0
+	for <webhook@archiver.kernel.org>; Fri,  2 May 2025 16:55:29 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web10.24050.1746204925546022819
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 May 2025 09:55:19 -0700
+ Fri, 02 May 2025 09:55:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RQjlsMr4;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-306b6ae4fb2so2023985a91.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 May 2025 09:55:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q/MA8DOi;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-af5139ad9a2so1708176a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 May 2025 09:55:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746204919; x=1746809719; darn=lists.openembedded.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9AjNW9OHKlEpdGfLAjUsv7eGB6frqNmdIr9RFUgg9s0=;
-        b=RQjlsMr4CVIc62irYwQXyJb5ZCnGlKdQ4+dMvjDVaBGcUtbc/0Zd2Pt+Gq62rCGFQu
-         NkvHvvJcu5J5DgRlctUE30zPVj0fCrK390ePjSOpargjqgWr7XZQJ4SdoNNadntn6ZxX
-         l1TkfcynxaWB7FflB7LwfsDsSEh1l3iXRSOuG1aZ7bi6R/FhFblkf7zmRRanyCBgZerD
-         0xDSNPsPwa/o3ZuFQ52HbA1lb5Bl293lzrIq42ej7ComypAvxDKV8Tf1Gtbbfph9d5eu
-         0p3rhTSdAYcesDZUyVsRs9t+kBFkdQAEWRevEjka8p4Yz7nBcaouw2sIzaL8jqstBNEK
-         ZgaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746204919; x=1746809719;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1746204925; x=1746809725; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9AjNW9OHKlEpdGfLAjUsv7eGB6frqNmdIr9RFUgg9s0=;
-        b=V2iZLL+Z1lig1Ld703+4k1DvZHWWHuUlO5NLq/lpIeZOpPPf36PTEjod6bkcsNyR/p
-         Z+064M4/C5fj9MXYA91imOVLFwGDx+UQghmU6B1SIb5W5NxgsQ60s4tYfhJUGKJd/ED0
-         uhiPtczwkP7tjS8JhAF4EtO3WFO6ejXscY+SOYEObuF9IS+sCWsmjx6A7KOOQn9jeXUl
-         6ao7EaROuma6ZAPjoRZQJx02EMRb+6/lm22ravEn+DGvocjBseH0xkGwo2wCvfM0YOyA
-         Av9vXK+p49ZuX+qeCjSIDMzECikCgi1yTHq9gYd5B/o41xszbnO4YwS7nckI1wNM6Wmu
-         OsPg==
-X-Gm-Message-State: AOJu0YwfbcjUvaO2r1LzBKivYQncQFMP5hThYGJ56U0AOSXwqEaQlrSm
-	GbUCmzD472hQlGfleBoS8vLtDSzd72tFd/c3IRDyex/hyEvW1TDj613H/kKT
-X-Gm-Gg: ASbGncuHd/XByboxQ/VDhUjnB/6Q3tAfrdP6t6wBMBMyd8/FJR9+ON80NmTWLxibOu/
-	QJ5oqgt2GzpKCRI1inhk6TN6jnGyE2B7BE8B2QmHCeJT52z1vlNjSUU2wD5eWxy3nM3D7J66xZ5
-	0XLYuFxbO1jPZFNkRSvVrbc0CKkdDPIFAQNDhh1X1azzpoxgyFEjU+1kevyUY/8LJ8FLrPhT7pp
-	qIqM1qm0Wxsx9+KIopHemootfM6970M+QnvLpDEILjuizYoqS0dJTJ93ehHGLoInnvLXyTLJN0m
-	YLriB+WYokdwTvJfX8OMHOREEorvt51egyr5XmpRm4A=
-X-Google-Smtp-Source: AGHT+IE7Vh2vP0I1tfLsfgt7hLfTVQN4KWGjRRaiX1+J91SvqPlxjRi99EXxvbvN7/OBo7Zl44u2BQ==
-X-Received: by 2002:a17:90b:5244:b0:309:e195:59d4 with SMTP id 98e67ed59e1d1-30a4e5b1cefmr5858947a91.12.1746204918620;
-        Fri, 02 May 2025 09:55:18 -0700 (PDT)
+        bh=dxfpOxLCKWFv4Zpm0TIyculPBMRFN9AuMxq+NtUsW4w=;
+        b=Q/MA8DOiUq0pYM14ypEyuDmKqm7JAGbeMTF8VAgI80DT512nleI8RdWMHZLZo1/K80
+         qcuPPa4IU1Pvq/ijq1bo9alUshDZRjZ/rZo0xal2hHFC3XnjWqlaaB0/hzvp/y9bHUDl
+         w4gG+VsQLkvWfTeb3yN5RvqJ13Nx/NnWp/YOXPHOIyup5LLj1aMSTcaGLn3D74ORjc+W
+         ALD06Mhy6FOo6zPzERI0p+BKvUXAp2VanXRBiW28Axgeqg6WcqLfKrM2ZZRiv6oojQv0
+         7obccm1N2p2skCG9r+RGOFPoJs/yEAQkQN+lWE754mfRM+Td/vN+5HKY25iWtuW9GvKj
+         Ew6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746204925; x=1746809725;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dxfpOxLCKWFv4Zpm0TIyculPBMRFN9AuMxq+NtUsW4w=;
+        b=F+zoKAIDn/zCGyJz1V4GvzVTF1Sh1WfA/hvaB3wlzt1g00TENrHYZPNTSiFWfQSFx6
+         uUKJUFG9xHUO//Dh16M7TYQxxofe7sSz3b+PpdEby7nIx6vtlZpv+6moTrDrW1Z7bxpp
+         ul3L+JoCSmphLL4hbMPcogN9IAQCJb+8MX8FQl0n3CQKKgMF+UluZiK5vJSW0mFrJimh
+         Or8nE0orJj96KjW2hoiKj8EQiqwYcmyhdATd6+hQiG3E2TvlVOPhyv9iScC9J3OigV/7
+         kqQkk69qbt3evpGecN3xT4EBATUNhmOUqxXPtHNE/EXgRiXEgmv6stb9gK+fFfkpwVmW
+         lIBQ==
+X-Gm-Message-State: AOJu0YwwwgIXu06j5IpmimxJLzbrubhJGM/HeDfQLhhFLWsEoT+7Lln7
+	dJEdfNqupeLA6PCp6by6Ma1IBFilOLp39vgwUXY/7962cDbCc0tqc1W6/uY2
+X-Gm-Gg: ASbGncvJAZe7IQV7/5nySg13w/2btRmuGUfiYUhGSZYiLF/evzl1vTrcMntD+aTb5SM
+	hG4g2rs+w1gomziMLa44obQPKyqoF3nrT1bxnbKhA1D+3CJRoerjKcvVqMH1hkMM5GNm/XeqoTZ
+	9gs+KuBrzVIP4F+koW2Xmz9YoYke6X6CIKXmTCLKeJ757W4ObbRCBaSJWXhH5Hm5Ur23vWgl4Ag
+	3hKPyvy1YGh2YOSD2973mrspJ3zZ/EBKl1Xrcex2Lwzl8fEYmOYr4UKWDFk5cfd62OlZMM023c/
+	JhWZ3huHOzopNjmlWRgMcJ9kcKhaVXfNvZN8IpDGVCI=
+X-Google-Smtp-Source: AGHT+IHhL+zWYDJuL8o/MA8Og0ORJmAyimFtyaas3xnF1HYrSNsORTZdfxYaQyqSmXe/EVYPgG9klw==
+X-Received: by 2002:a17:90b:2dca:b0:305:2d68:8d55 with SMTP id 98e67ed59e1d1-30a4e5ae177mr5894417a91.8.1746204924590;
+        Fri, 02 May 2025 09:55:24 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::fb82])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a47625af9sm3253794a91.31.2025.05.02.09.55.17
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a47625af9sm3253794a91.31.2025.05.02.09.55.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 09:55:18 -0700 (PDT)
+        Fri, 02 May 2025 09:55:24 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v6 0/6] clang-merge: Bring clang recipes from meta-clang
-Date: Fri, 02 May 2025 09:55:14 -0700
-Message-Id: <20250502-clang-merge-v6-0-00f2c2e9ff68@gmail.com>
+Date: Fri, 02 May 2025 09:55:20 -0700
+Subject: [PATCH v6 6/6] clang: Upgrade to 20.1.3
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPL4FGgC/33PQWrDMBAF0KsEraMykkZKlFXvUboYpHEiiOMgB
- 9MSfPeOAwXLiyz/H96HeaqRa+FRnXZPVXkqYxluEsJ+p9KFbmfWJUtWFqwHtE6nq7S65yqnRNE
- 4II6eOiXiXrkrP6+1r2/JlzI+hvr7Gp/M0v7vYLMzGQ3aE0ZLRwyG6PPcU7l+pKFXy85k31grF
- sibDMlEhLy1bm19a53YjplCB4csr2wtrm1oLYpFmy34uBzN1vq1PbbWi03O8CFwQMeNnef5D4f
- xYTKWAQAA
-X-Change-ID: 20250423-clang-merge-ca9130ae95af
+Message-Id: <20250502-clang-merge-v6-6-00f2c2e9ff68@gmail.com>
+References: <20250502-clang-merge-v6-0-00f2c2e9ff68@gmail.com>
+In-Reply-To: <20250502-clang-merge-v6-0-00f2c2e9ff68@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Khem Raj <raj.khem@gmail.com>
 X-Mailer: b4 0.14.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 May 2025 16:55:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215911
+ <openembedded-core@lists.openembedded.org>; Fri, 02 May 2025 16:55:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215917
 
-Latest mesa 25+ needs libclang during build for tools like mesa_clc,
-we enahnced already existing llvm recipe to build pieces of clang as
-well, which worked for mesa's needs but broke static clang compiler
-provided by meta-clang due to newfound conflicts, since clang is now
-built with llvm recipe from core and also by meta-clang and they
-compete for same namespace, an attempt to make them co-habit did reveal
-more difficulties. Clang compiler from meta-clang is not able to use
-llvm libraries from core since they patch them differently.
+Brings following fixes
 
-This patch series therefore brings clang and all recipes that build from
-llvm sources into core. With this changeset, clang recipes can be removed
-from meta-clang there is a pull request for that already [1]
-As an aside, we only build clang once and use it for meta-clang needs
-and core needs.
-
-With this, meta-clang can depend upon core layer to provide clang and
-related recipes, meta-clang will still provide the toolchain policies
-around clang based toolchains. Clang compiler from core, while usable
-for mesa is not yet fully usable out of box, since we need to workout
-the multi-toolchain architecture for core, which will be done in next
-phase after this merge.
-
-[1] https://github.com/kraj/meta-clang/pull/1088
+* 923a5c4f83d2 Revert "[ARM][ConstantIslands] Correct MinNoSplitDisp calculation (#114590)"
+* 86f5891c5986 [llvm][Hexagon] Promote operand v2i1 to v2i32 (#135409)
+* d55c3c20520a [libc++] Fix misplaced _LIBCPP_POP_MACROS (#134874)
+* 9420327ad768 [Clang] Fix a lambda pattern comparison mismatch after ecc7e6ce4 (#133863)
+* 4da7285e636e Silence -Wcast-function-type warnings on idiomatic Windows code (#135660)
+* c5109be53b7e [LV] Disable epilogue vectorization for FindLastIV if start is poison.
+* 91a3f14d9497 [LV] Add tests with FindLastIV and epilogue vectorization.
+* 2131242240f7 [LLVM][MemCpyOpt] Unify alias tags if we optimize allocas (#129537)
+* 86c98536380b [libc++] Fix deployment targets that were incorrectly bumped (#134278)
+* dfd6f123362a [libc++] Guard additional headers with _LIBCPP_HAS_LOCALIZATION (#131921)
+* dc9d4f9a7008 [lldb] Respect LaunchInfo::SetExecutable in ProcessLauncherPosixFork (#133093)
+* 9c7d72869876 [LoongArch] Move fix-tle-le-sym-type test to test/MC. NFC (#133839)
+* 0c30835a63db [X86][AVX10] Remove VAES and VPCLMULQDQ feature from AVX10.1 (#135489)
+* 2e0966408283 [X86] Backport saturate-convert intrinsics renaming & YMM rounding intrinsics removal in AVX10.2
+* 0dd4235473d4 [SCEV] Use ashr to adjust constant multipliers (#135534)
+* a141e58685fd [llvm][CodeGen] avoid repeated interval calculation in window scheduler (#132352)
+* d88cd35023b4 [llvm][CodeGen] Fix the empty interval issue in Window Scheduler (#129204)
+* 73d1e8598eda [CodeGen] Avoid repeated hash lookups (NFC) (#130237)
+* 7034995f1029 [clang] Handle Binary StingLiteral kind in one more place (#132201)
+* 2e7710eaffdd [clang] Introduce "binary" StringLiteral for #embed data (#127629)
+* e0db588f3db4 [IR] Fix assertion error in User new/delete edge case (#129914)
+* d5bb7b866e59 Avoid a race condition in opt-viewer/optrecord (#131214)
+* d15fef4209f1 [IndVarSimplify] Handle the case where both operands are the same when widening IV (#135207)
+* 91647ae0dffe [X86][SSE] Don't emit SSE2 load instructions in SSE1-only mode (#134547)
+* d05543ed0796 [clang-format] Keep the space between `not` and a unary operator (#135035)
+* 81220e68a496 [fatlto] Add coroutine passes when using FatLTO with ThinLTO (#134434)
+* edb54a7821fe Release/20.x: [clang-format] Set C11 instead of C17 for LK_C
+* 4181e829d1db [LLDB][LoongArch] Fix build errors about NT_LOONGARCH_HW_{BREAK,WATCH} (#126020)
+* 7436329bfee9 Revert "[clang] [ARM] Explicitly enable NEON for Windows/Darwin targets (#122095)"
+* a0c8959cc880 [X86] When expanding LCMPXCHG16B_SAVE_RBX, substitute RBX in base (#134109)
+* a8b5fe017a5e [libc++] Add missing release note for LLVM 20 about zip_view (#134144)
+* 41aefdbebe64 cuda clang: Fix argument order for __reduce_max_sync (#132881)
+* 19c2e1c12d47 [clang-tidy] Fix broken HeaderFilterRegex when read from config file (#133582)
+* ac31db0463c0 [Sanitizers][Darwin][Test] XFAIL malloc_zone.cpp
+* 53141e4e3c65 [clang] Do not infer lifetimebound for functions with void return type (#131997)
+* cf7bb13f0c7f [TailDuplicator] Determine if computed gotos using `blockaddress` (#132536)
+* 656289ffa0a6 Bump version to 20.1.3 (#134187)
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Changes in v6:
-- Drop setting TOOLCHAIN variable in clang recipes
-- Upgrade minor version of clang to 20.1.3
-- Link to v5: https://lore.kernel.org/r/20250428-clang-merge-v5-0-c31e76e643e1@gmail.com
+ meta/conf/distro/include/maintainers.inc     | 2 +-
+ meta/recipes-devtools/clang/common-clang.inc | 2 +-
+ meta/recipes-devtools/clang/common.inc       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Changes in v5:
-- Drop the llvm multilib patch, it needs more investigation.
-- Fix compiler-rt-sanitizers build for qemuarm.
-- Link to v4: https://lore.kernel.org/r/20250426-clang-merge-v4-0-42d205904261@gmail.com
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index b3e3862df9e8ff0d040c804f80704b1a768bce37..b67433d4d2b643c12803da222affaf3d85dd069f 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -478,7 +478,7 @@ RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-linux-yocto-dev = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-linux-yocto-rt = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+-RECIPE_MAINTAINER:pn-llvm-project-source-20.1.2 = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-llvm-project-source-20.1.3 = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-lrzsz = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
+index bb152d2c566a6c61b95be2e7922cfe9c64a27afa..41944265ba56713593a89ebe9db20ea66a64917a 100644
+--- a/meta/recipes-devtools/clang/common-clang.inc
++++ b/meta/recipes-devtools/clang/common-clang.inc
+@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
+ 
+ MAJOR_VER = "20"
+ MINOR_VER = "1"
+-PATCH_VER = "2"
++PATCH_VER = "3"
+ # could be 'rcX' or 'git' or empty ( for release )
+ VER_SUFFIX = ""
+ 
+diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
+index 5a1fa0bacf7f8504f58b2866be8d42b3621787da..f733566bc88a6feb9bfdfa4b520579c12721f0d9 100644
+--- a/meta/recipes-devtools/clang/common.inc
++++ b/meta/recipes-devtools/clang/common.inc
+@@ -15,7 +15,7 @@ LICENSE = "Apache-2.0-with-LLVM-exception"
+ RELEASE ?= "${PV}"
+ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}/llvm-project-${PV}.src.tar.xz"
+ SOURCEDIR ?= "llvm-project-${PV}.src"
+-SRC_URI[sha256sum] = "f0a4a240aabc9b056142d14d5478bb6d962aeac549cbd75b809f5499240a8b38"
++SRC_URI[sha256sum] = "b6183c41281ee3f23da7fda790c6d4f5877aed103d1e759763b1008bdd0e2c50"
+ 
+ SRCREV_spirv = "6dd8f2a1681a27f16c53d932d2765920f312aeb2"
+ SRCREV_spirvheaders = "09913f088a1197aba4aefd300a876b2ebbaa3391"
 
-Changes in v4:
-- Set BINDGEN_EXTRA_CLANG_ARGS only for target recipe
-- Link to v3: https://lore.kernel.org/r/20250425-clang-merge-v3-0-feea6f07d130@gmail.com
-
-Changes in v3:
-- Fix building mesa with openCL packageconfig.
-- Fix buildpaths in libMesaOpenCL.so.1.0.0.
-- Add mesa RPROVIDES for libclc and spirv-llvm-translator
-- Link to v2: https://lore.kernel.org/r/20250424-clang-merge-v2-0-0a51d0c1940d@gmail.com
-
-Changes in v2:
-- Address Feedback from Alex and Dmitry.
-- Squash similar commits to reduce number of patches.
-- Move native toolchain file generation to cmake bbclass instead of
-  adding new class
-- Fix space/tabs indentation inconsistencies
-- Reorder the patch sequence to avoid errors in future git bisects
-- Fix use before define string problem in one of the patches
-- Link to v1: https://lore.kernel.org/r/20250424-clang-merge-v1-0-5a492a8461aa@gmail.com
-
----
-Khem Raj (6):
-      clang: Merge llvm/clang family recipes from meta-clang
-      clang: RPROVIDE spirv-llvm-translator and libclc
-      mesa: Pass needed clang flags via BINDGEN_EXTRA_CLANG_ARGS
-      mesa: Fix header search paths
-      maintainers.inc: Add myself as maintainer for clang family of recipes
-      clang: Upgrade to 20.1.3
-
- meta/conf/distro/include/maintainers.inc           |  11 +-
- .../clang/clang-cross-canadian_git.bb              |  36 ++
- meta/recipes-devtools/clang/clang-cross_git.bb     |  39 ++
- meta/recipes-devtools/clang/clang-crosssdk_git.bb  |  33 ++
- ...ind-libunwind-headers-when-LIBCXXABI_LIBU.patch |  60 +++
- ...er-rt-support-a-new-embedded-linux-target.patch | 309 +++++++++++++
- ...-Simplify-cross-compilation.-Don-t-use-na.patch |  44 ++
- ...LibraryInfo-Undefine-libc-functions-if-th.patch |  90 ++++
- ...allow-env-override-of-exe-and-libdir-path.patch |  71 +++
- ...-clang-driver-Check-sysroot-for-ldso-path.patch |  78 ++++
- ...iver-tools.cpp-Add-lssp_nonshared-on-musl.patch |  32 ++
- .../0008-clang-Prepend-trailing-to-sysroot.patch   |  39 ++
- ...inside-the-target-sysroot-for-compiler-ru.patch |  41 ++
- ...ang-Define-releative-gcc-installation-dir.patch | 123 +++++
- ...pthread-and-ldl-along-with-lunwind-for-st.patch |  35 ++
- ..._EXECUTABLE-when-cross-compiling-for-nati.patch |  24 +
- .../0013-Check-for-atomic-double-intrinsics.patch  |  34 ++
- ...configure-for-packages-using-find_package.patch |   2 +-
- ...esource-dir-location-for-cross-toolchains.patch |  50 +++
- ...r-Add-dyld-prefix-when-checking-sysroot-f.patch |  79 ++++
- .../0017-clang-Use-python3-in-python-scripts.patch |  35 ++
- ...Insert-anchor-for-adding-OE-distro-vendor.patch | 167 +++++++
- ...-Do-not-use-backtrace-APIs-on-non-glibc-l.patch |  68 +++
- ...86-triple-for-non-debian-multiarch-linux-.patch |  28 ++
- ...0021-libunwind-Added-unw_backtrace-method.patch |  56 +++
- .../0022-lldb-Link-with-libatomic-on-x86.patch     |  33 ++
- ...023-compiler-rt-Enable-__int128-for-ppc32.patch |  73 +++
- ...-Do-not-use-cmake-infra-to-detect-libzstd.patch |  62 +++
- ...ler-rt-Fix-stat-struct-s-size-for-O32-ABI.patch |  46 ++
- ...-Undef-_TIME_BITS-along-with-_FILE_OFFSET.patch |  43 ++
- ...s-Gnu.cpp-ARMLibDirs-search-also-in-lib32.patch |  81 ++++
- ...vm-Add-OE-specific-ABI-triple-for-N32-ABI.patch |  78 ++++
- ...d-libunwind.pc.in-and-llvm-config-scripts.patch |  90 ++++
- ...py-respect-LLVM_LIBDIR_SUFFIX-like-other-.patch |  92 ++++
- ...r-rt-Do-not-pass-target-to-clang-compiler.patch |  29 ++
- .../clang/clang/0032-Fix-build-on-ppc64-musl.patch |  97 ++++
- ...d-a-build-option-to-disable-building-dexp.patch |  85 ++++
- ...itter-sort-ClassInfo-lists-by-name-as-we.patch} |   4 +-
- ...-remove-LLVM_LDFLAGS-from-ldflags-output.patch} |  12 +-
- ...ot-emit-date-and-time-into-generate-files.patch |  37 ++
- .../clang}/spirv-internal-build.patch              |   0
- .../clang}/spirv-shared-library.patch              |   0
- meta/recipes-devtools/clang/clang_git.bb           | 495 +++++++++++++++++++++
- meta/recipes-devtools/clang/common-clang.inc       |  24 +
- meta/recipes-devtools/clang/common-source.inc      |  17 +
- meta/recipes-devtools/clang/common.inc             |  83 ++++
- .../clang/compiler-rt-sanitizers_git.bb            | 131 ++++++
- meta/recipes-devtools/clang/compiler-rt_git.bb     | 121 +++++
- meta/recipes-devtools/clang/libcxx_git.bb          | 115 +++++
- meta/recipes-devtools/clang/llvm-project-source.bb |  12 +
- .../recipes-devtools/clang/llvm-project-source.inc |  99 +++++
- .../recipes-devtools/clang/nativesdk-clang-glue.bb |  36 ++
- meta/recipes-devtools/clang/openmp_git.bb          |  65 +++
- .../0007-llvm-allow-env-override-of-exe-path.patch |  36 --
- meta/recipes-devtools/llvm/llvm/llvm-config        |  54 ---
- meta/recipes-devtools/llvm/llvm_20.1.2.bb          | 233 ----------
- .../0001-clover-Don-t-include-libclc-headers.patch | 143 ++++++
- ...ver-Do-not-use-LLVM_LIBRARY_DIR-for-FALLB.patch |  34 ++
- meta/recipes-graphics/mesa/mesa.inc                |   6 +
- 59 files changed, 3816 insertions(+), 334 deletions(-)
----
-base-commit: 43fd724eac29dd6187e0e4bf777ee59898dc92ca
-change-id: 20250423-clang-merge-ca9130ae95af
-
-Best regards,
 -- 
-Khem Raj <raj.khem@gmail.com>
+2.49.0
 
 
