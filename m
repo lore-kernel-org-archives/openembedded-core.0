@@ -2,34 +2,34 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8334DC369D9
-	for <webhook@archiver.kernel.org>; Sat,  3 May 2025 13:05:11 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.10532.1746277507694440366
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92305C3ABAA
+	for <webhook@archiver.kernel.org>; Sat,  3 May 2025 13:16:41 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web11.10802.1746278197019968414
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 May 2025 06:05:08 -0700
+ Sat, 03 May 2025 06:16:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=gKy677fB;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7AFBC43991;
-	Sat,  3 May 2025 13:05:04 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ozYvIDyI;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C143042D83;
+	Sat,  3 May 2025 13:16:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746277505;
+	t=1746278195;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kj3MVA4aRJZxh7lDwKxVjphnTruXSQwKrnpalneFIAg=;
-	b=gKy677fBGtvJeu2QQD/RVE/XVVqg7cq1oT6PD0bONzczZJa08SqsAroGm3iMq0T4AkytOg
-	YFs0o41n/9X+hdg3f1CZHLXAk/N9AMz/1yuZ8qwU7tbijqjVRqWex5ZV3QzKO9tDVPdldh
-	BkO01Mz51Gvd0D7MKLXsV4mXgTeIrIbcobt/MVKb841p/ykOLGp1cFER6QuK6kFNc1Bv4n
-	X24hVKhDblptLLlLkutsHbjmEl9RoVtIUvlpU3x19xMUB/C77r3nC2kcdNItaEdJM7Glyx
-	+xkVClmXJSjoy1jTiyPBclvjpXWx2QTAXTdHbH6rA87JRu9qwzVer/GZYaEspA==
+	bh=zbIIK725TlFluRGt0rVvh0MGD+SEYGOOa/VnRlTitqI=;
+	b=ozYvIDyI9wa+Jq1NX7jjgicP5OJ17cUipHh7rovJ9vn4Gj3HPy5CmmdQflzpkWHBjA9XjY
+	fz1k6jWHoG3oH3CKoHiv3CZh9n6L6tpTIEs0z3X1g8TxkYifgbJ3K419iiyJNFsmux7tg2
+	Kk0hcDp5aEE9l4UzNUd6hT3Mb4eBu7n/eNA3QM+fAETJv5a6O6PVZQaJ+Lg+nhN9Y6CrIz
+	PvMQ7YQw3zoIFNmNTLRgC+IpOxhkaMHqhZHdPt5IV/GJvn975MH9h0452bRchZvayWO3FW
+	+KaVfXkIPWlzX6lZJWuKoM3B4OBJcI8iUVbiCR80fx0rBZW2UvF0Tdu4zAucng==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 03 May 2025 15:05:02 +0200
-Message-Id: <D9MJPLXHV9Z0.ON6PF6AL5IW@bootlin.com>
+Date: Sat, 03 May 2025 15:16:32 +0200
+Message-Id: <D9MJYEKOABDN.1PK6500RIL9MY@bootlin.com>
 Subject: Re: [oe-core][PATCH 0/3] Display manager proposal for x11 and
  wayland
 Cc: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
@@ -43,69 +43,79 @@ References: <20250502202840.3148565-2-rs@ti.com>
 In-Reply-To: <20250502202840.3148565-2-rs@ti.com>
 X-GND-State: clean
 X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjeehgedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuvefhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudehgefgteegheegjeehhffhgeelkeehgfelfeeukeetvdekiedttdevgeefudeunecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemrgeiieemfedukedtmeefieelugemheeifeefmeeklegtugemsgejtgeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvtdgrmegrieeimeefudektdemfeeilegumeehieeffeemkeeltggumegsjegtkedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddvpdhrtghpthhtoheprhhssehtihdrtghomhdprhgtphhtthhopehrihgthhgrrhgurdhpuhhrughivgesl
- hhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehrohhsshdrsghurhhtohhnsegrrhhmrdgtohhmpdhrtghpthhtoheprghlvgigsehlihhnuhhtrhhonhhigidruggvpdhrtghpthhtohepohhtrghvihhosehoshhshihsthgvmhhsrdgtohhmrdgsrhdprhgtphhtthhopehkvgigihhnrdhhrghoseifihhnughrihhvvghrrdgtohhmpdhrtghpthhtoheprghfugesthhirdgtohhmpdhrtghpthhtohepuggvthhhvghrihgughgvsehtihdrtghomh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjeehgeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuvefhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeeghfektedtfeegjeffvdfhudetledvfeffhfetkeffleefjefgieffudetjeevnecuffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegvtdgrmegrieeimeefudektdemfeeilegumeehieeffeemkeeltggumegsjegtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemrgeiieemfedukedtmeefieelugemheeifeefmeeklegtugemsgejtgekpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehrshesthhirdgtohhmpdhrtghpthhtoheprhhitghhrghrugdrphhurhguihgvsehlihhnuhigfhhouhhnuggrthhiohhnrdhor
+ hhgpdhrtghpthhtoheprhhoshhsrdgsuhhrthhonhesrghrmhdrtghomhdprhgtphhtthhopegrlhgvgieslhhinhhuthhrohhnihigrdguvgdprhgtphhtthhopehothgrvhhiohesohhsshihshhtvghmshdrtghomhdrsghrpdhrtghpthhtohepkhgvgihinhdrhhgrohesfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhopegrfhgusehtihdrtghomhdprhgtphhtthhopeguvghthhgvrhhiughgvgesthhirdgtohhm
 X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 May 2025 13:05:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215931
+ <openembedded-core@lists.openembedded.org>; Sat, 03 May 2025 13:16:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215932
 
-On Fri May 2, 2025 at 10:28 PM CEST, Randolph Sapp via lists.openembedded.o=
-rg wrote:
-> From: Randolph Sapp <rs@ti.com>
->
-> We've recently run into some issues with weston-init attempting to start
-> Weston prior to all drm devices being registered. There's not really a
-> good, scriptable mechanism to listen in to device registration events
-> that works with the existing weston-init package. Well, at least one
-> that doesn't involve polling files or introducing more dependency on the
-> init system being used.
->
-> I also see there is also a lot of scripting around starting X11,
-> xserver-nodm-init, that (from my limited review) should experience the
-> same issue.
->
-> I'd like to introduce the following display manager for oe-core, emptty
-> [1]. This display manager is, as described upstream, a "Dead simple CLI
-> Display Manager on TTY". It supports both x11 and wayland sessions, with
-> togglable build parameters to completely remove x11 and pam
-> dependencies. It's licensed MIT, which shouldn't be an issue for any
-> users. (It is written in Go, if you have opinions about that.)
->
-> With this, both weston-init and the xserver-nodm-init packages can be
-> re-tuned to leverage this display manager and simply add a user and
-> emptty config for an autologin session. This can resolve the current
-> behavior across init systems without additional scripting, and move some
-> development out of this layer.
->
-> This lists myself as a maintainer of emptty as well as xserver-nodm-init =
-and
-> xuser-account since these are currently unassigned and I've reworked them
-> significantly here.
->
-> Sorry for the delay on this series. I found a few bugs in emptty that I w=
-anted
-> to address before submitting this officially.
->
+Sorry, but we probably have two more issues on the autobuilder related
+to this series.
 
-Hi Randolph,
+First, it looks like we have a dependency issue:
 
-Thanks for your patches.
+ERROR: Nothing PROVIDES 'libxcrypt' (but /srv/pokybuild/yocto-worker/musl-q=
+emux86/build/meta/recipes-graphics/emptty/emptty_0.14.0.bb DEPENDS on or ot=
+herwise requires it)
+libxcrypt was skipped: PREFERRED_PROVIDER_virtual/crypt set to musl, not li=
+bxcrypt
+ERROR: Nothing RPROVIDES 'emptty' (but /srv/pokybuild/yocto-worker/musl-qem=
+ux86/build/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb, /srv/=
+pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-graphics/wayland/wes=
+ton-init.bb, /srv/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-gr=
+aphics/emptty/emptty_0.14.0.bb RDEPENDS on or otherwise requires it)
+No eligible RPROVIDERs exist for 'emptty'
+NOTE: Runtime target 'emptty' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['emptty']
+ERROR: Nothing RPROVIDES 'xserver-nodm-init-dev' (but /srv/pokybuild/yocto-=
+worker/musl-qemux86/build/meta/recipes-graphics/x11-common/xserver-nodm-ini=
+t_3.0.bb RDEPENDS on or otherwise requires it)
+No eligible RPROVIDERs exist for 'xserver-nodm-init-dev'
+NOTE: Runtime target 'xserver-nodm-init-dev' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['xserver-nodm-init-dev']
+ERROR: Nothing RPROVIDES 'xserver-nodm-init' (but /srv/pokybuild/yocto-work=
+er/musl-qemux86/build/meta/recipes-graphics/x11-common/xserver-nodm-init_3.=
+0.bb, /srv/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-graphics/=
+packagegroups/packagegroup-core-x11.bb RDEPENDS on or otherwise requires it=
+)
+No eligible RPROVIDERs exist for 'xserver-nodm-init'
+NOTE: Runtime target 'xserver-nodm-init' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['xserver-nodm-init']
+ERROR: Nothing RPROVIDES 'weston-init-dev' (but /srv/pokybuild/yocto-worker=
+/musl-qemux86/build/meta/recipes-graphics/wayland/weston-init.bb RDEPENDS o=
+n or otherwise requires it)
+No eligible RPROVIDERs exist for 'weston-init-dev'
+NOTE: Runtime target 'weston-init-dev' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['weston-init-dev']
+ERROR: Nothing RPROVIDES 'weston-init' (but /srv/pokybuild/yocto-worker/mus=
+l-qemux86/build/meta/recipes-graphics/wayland/weston-init.bb, /srv/pokybuil=
+d/yocto-worker/musl-qemux86/build/meta/recipes-graphics/packagegroups/packa=
+gegroup-core-weston.bb, /srv/pokybuild/yocto-worker/musl-qemux86/build/meta=
+/recipes-graphics/wayland/weston_14.0.1.bb RDEPENDS on or otherwise require=
+s it)
 
-We got some warnings on the autobuilder, as no maintainer is assigned to
-the emptty-conf recipe:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/1541
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/1571
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/1494
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/1565
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/111/builds/259
 
-WARNING: emptty-conf-1.0-r0 do_recipe_qa: QA Issue: Recipe emptty-conf in /=
-srv/pokybuild/yocto-worker/a-full/build/meta/recipes-graphics/emptty/emptty=
--conf.bb does not have an assigned maintainer. Please add an entry into met=
-a/conf/distro/include/maintainers.inc. [missing-maintainer]
+Then we have a test error on some other builds:
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1515/ste=
-ps/13/logs/stdio
+RESULTS - xorg.XorgTest.test_xorg_running: FAILED (1.05s)
+...
+AssertionError: 1 !=3D 0 : Xorg does not appear to be running   PID USER   =
+    VSZ STAT COMMAND
 
-Can you fix this on the next iteration please?
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/1491
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/1502
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1471
+...
+
+Can you have a look at these failures please?
 
 --=20
 Mathieu Dubois-Briand, Bootlin
