@@ -1,118 +1,95 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <jeroen@myspectrum.nl>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A39BC369DC
-	for <webhook@archiver.kernel.org>; Sun,  4 May 2025 11:03:08 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.26760.1746356578881078094
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48DF1C369DC
+	for <webhook@archiver.kernel.org>; Sun,  4 May 2025 11:15:48 +0000 (UTC)
+Received: from outbound7.mail.transip.nl (outbound7.mail.transip.nl [136.144.136.7])
+ by mx.groups.io with SMTP id smtpd.web11.26955.1746357342174612943
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 May 2025 04:02:58 -0700
+ Sun, 04 May 2025 04:15:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YO0nO9VX;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22423adf751so41083245ad.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 04:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746356578; x=1746961378; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0wDPcfcLGRpHMQndS61SGVa+TOTV1Wp9pps5HRaUKtI=;
-        b=YO0nO9VXalhT0jZEYSBztXypOozuWnBAScuYlWxsmCVdsFkDX7PIzku57lGgUgbYnh
-         7L6S9oF50Tc34Fw3s5rdrONH6Grm9dVg6RY2m3Seaqu72H6uaD+RxEf+EVTdpVVjv1xt
-         xRCXhfes9cA0ZU2JKdlaFGA8SlDqN1VToSWEHzdDSTKNcjoWcqpRxod4Jc9DYNTqWZ9z
-         GRokQ4uSgKu167SgsLpI0/xMGRsGwwWs4qODRYSvrZfdPu0pqw0tKMLxvmrLWXYzLkXp
-         KwXdsGImNntlzDCZ6lq9B8IHdJ8laLxjIab3SXaatIb+0FR16ThezTuffBvXGpnTQKwV
-         6quQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746356578; x=1746961378;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0wDPcfcLGRpHMQndS61SGVa+TOTV1Wp9pps5HRaUKtI=;
-        b=J1f+QeP5MdlNFlMB5V4W/KMtBCWHJ9G3jYNvttCzt3TDE+WnAoG05j4PnbFISPk/cA
-         M+ItWCUTOCPyXyAWVJ9KcaUUzGtTCosSch5Yp465aBCbQtQ/fI/CdGGB4Cai35uRZn6M
-         Xd4979I2AjQugWhB3Nw278IYOTaueKO1k2EBLNh7X8+HsJ2SE7+3MzsMt27HC0vA2ODl
-         qnQNsL5pnt5IpIxPjzLGEz37PRNFG4Czm+CubBIJZqYKpRIlNcAH5eQrfJSZ/wKsfZuQ
-         AoRTX0zHRfm2JCtvmL0hQMZoUP+S/TwNlzFtK0fY5Uari2WJWrljhku0wTTT6dpemOuR
-         dtsQ==
-X-Gm-Message-State: AOJu0YyTttex55kjoMxbHDF02sgIeKpGJ68poAg3O7dhywWb+9845oAI
-	2LmaSy9A8jH/fLesALG2VIVtGNVB+hn5jk+mDhwAwVBqD6iVatOZdvnD2sSSXrsw2WjBVqEFCYj
-	N
-X-Gm-Gg: ASbGncuGdwlyT9ya8OJZ6hoQnx1J6YS9aQfBw981Pdd3xV3Cn7t4EeU/0WrCPPLY89p
-	8ExdKBFyZFbnGu6MBeheLM9WJOgCVfKGL/Cd3rhXSKXJ0jEm8sqzO8zoPSdKuveMrv+hUh0be5u
-	glENaCpiHhSc7IdK6pDnsCtZwKQuGPRDUcupkVqL25spKv8LGo7JzC+/kKNNLZ4ZOiH7MbcArJ+
-	pXjDZk1vCesW8/idOgs2pvYZM9/7Fw+3DDA+A7LBKzuX23DUP8AjFlwjWhv40GBrunG4zPbgx94
-	0EvtyJMhhzHuY/MLop/OeuFoFkcItUwXyQ4fyzwV0O2oNA==
-X-Google-Smtp-Source: AGHT+IGkJj39dlptvf9Zs7KCLAhSI3Hgs1m/ooYIxsz9C7J70pO3jli9UPoSm+2hVirpcSGIuQ+2yw==
-X-Received: by 2002:a17:902:e747:b0:224:1af1:87f4 with SMTP id d9443c01a7336-22e102f315fmr149946525ad.22.1746356577882;
-        Sun, 04 May 2025 04:02:57 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7405905d4b2sm4800006b3a.132.2025.05.04.04.02.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 May 2025 04:02:57 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id ED40410033D; Sun,  4 May 2025 01:02:56 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 04 May 2025 01:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun,  4 May 2025 01:02:56 -1000
-Message-Id: <20250504110256.ED40410033D@builder.sakoman.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@myspectrum.nl header.s=transip-a header.b=vwyb+1cy;
+ spf=pass (domain: myspectrum.nl, ip: 136.144.136.7, mailfrom: jeroen@myspectrum.nl)
+Received: from submission1.mail.transip.nl (unknown [10.100.4.70])
+	by outbound7.mail.transip.nl (Postfix) with ESMTP id 4Zr2C05jqDzQvv76;
+	Sun,  4 May 2025 13:15:40 +0200 (CEST)
+Received: from yellow.myspectrum.nl (unknown [IPv6:2a01:7c8:bb0c:45:5054:ff:fe01:854])
+	by submission1.mail.transip.nl (Postfix) with ESMTPSA id 4Zr2Bz5zgLz2mZPJ0;
+	Sun,  4 May 2025 13:15:39 +0200 (CEST)
+Received: from yellow.myspectrum.nl (84-27-20-154.cable.dynamic.v4.ziggo.nl [84.27.20.154])
+	(Authenticated sender: sendmail@myspectrum.nl)
+	by yellow.myspectrum.nl (Postfix) with ESMTPSA id 8705F200E1;
+	Sun,  4 May 2025 11:15:38 +0000 (UTC)
+Authentication-Results: yellow.myspectrum.nl;
+	auth=pass smtp.auth=sendmail@myspectrum.nl smtp.mailfrom=jeroen@myspectrum.nl
+Received: by yellow.myspectrum.nl (sSMTP sendmail emulation); Sun, 04 May 2025 13:15:38 +0200
+From: jeroen@myspectrum.nl
+To: openembedded-core@lists.openembedded.org
+Cc: Jeroen Hofstee <jhofstee@victronenergy.com>
+Subject: [OE-core][scarthgap][PATCH 1/2] bluez5: make media control a PACKAGECONFIG option
+Date: Sun,  4 May 2025 13:15:35 +0200
+Message-ID: <20250504111536.2549869-1-jeroen@myspectrum.nl>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+X-Scanned-By: ClueGetter at submission1.mail.transip.nl
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=transip-a; d=myspectrum.nl; t=1746357339; h=from:subject:to:cc:date:
+ mime-version; bh=cliYmG/ma3t9jBNBjR2bGMn3sCQ4XThN94Os+QFuhWM=;
+ b=vwyb+1cyRmrJ6wsTfTRg/YJXDYuTVj528ubN9YXfyH41P+gWJhn5/H2f+1OrY1ZaEuvmJV
+ i9QpM3sl8e0V9XwlZ+zp9ILHfsNqfdqQnTBiNonNonJFqM7aJUlOTcG1ai1IKvkgxmbHAj
+ s4Ll2UudqonOfvuntkWsla8x5O3MFmSNInKZq6qgMGJOO7PfsW6iYkJo4ULcBs47deqOuf
+ n+qfwwSM1u4R/76fvl2aX6+LH3hF+oSmTQ4QGIGfzHIheTgBg0p358p5xAblOoXbK03Cuu
+ zDFB8BS67HtbWf2zwBN1qy9oJBbYpR5wG8Qq0QTd2CkiPaXVgVySNCoTO/340Q==
+X-Report-Abuse-To: abuse@transip.nl
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 11:03:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215939
+ <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 11:15:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215940
 
-Branch: master
+From: Jeroen Hofstee <jhofstee@victronenergy.com>
 
-New this week: 6 CVEs
-CVE-2025-1153 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-1153 *
-CVE-2025-23137 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23137 *
-CVE-2025-29087 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-29087 *
-CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
-CVE-2025-37925 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37925 *
-CVE-2025-40014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40014 *
+When not building with the default PACKAGECONFIG options, the build can f=
+ail
+with:
 
-Removed this week: 2 CVEs
-CVE-2025-32414 (CVSS3: N/A): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-32414 *
-CVE-2025-32415 (CVSS3: N/A): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-32415 *
+undefined reference to `media_player_controller_create'
+undefined reference to `media_player_set_status'
 
-Full list:  Found 27 unpatched CVEs
-CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-3079 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3079 *
-CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
-CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
-CVE-2025-1153 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-1153 *
-CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
-CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
-CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
-CVE-2025-23137 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23137 *
-CVE-2025-29087 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-29087 *
-CVE-2025-37838 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37838 *
-CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
-CVE-2025-37925 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37925 *
-CVE-2025-40014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40014 *
+Otherwise. So disable it when not set and enable it by default.
 
-Summary of CVE counts by recipe:
-  linux-yocto: 23
-  binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 1
-  libsndfile1: 1
-  qemu:qemu-native:qemu-system-native: 1
-  sqlite3:sqlite3-native: 1
+The packageconfig option is the same as in Styhead.
+https://github.com/openembedded/openembedded-core/commit/ebbdb7cf5c0a3f0e=
+6773704d4c4cc570358ec611#diff-9d9284f6f27a81c75dffffd6d601b40c8266ae12e67=
+8d0a49c46bdb8356a0e91R52
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
+onnectivity/bluez5/bluez5.inc
+index 39e1bf389c..731bfa0e40 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -18,6 +18,7 @@ PACKAGECONFIG ??=3D "obex-profiles \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+     a2dp-profiles \
+     avrcp-profiles \
++    mcp-profiles \
+     network-profiles \
+     hid-profiles \
+     hog-profiles \
+@@ -35,6 +36,7 @@ PACKAGECONFIG[nfc] =3D "--enable-nfc,--disable-nfc"
+ PACKAGECONFIG[sap-profiles] =3D "--enable-sap,--disable-sap"
+ PACKAGECONFIG[a2dp-profiles] =3D "--enable-a2dp,--disable-a2dp"
+ PACKAGECONFIG[avrcp-profiles] =3D "--enable-avrcp,--disable-avrcp"
++PACKAGECONFIG[mcp-profiles] =3D "--enable-mcp,--disable-mcp"
+ PACKAGECONFIG[network-profiles] =3D "--enable-network,--disable-network"
+ PACKAGECONFIG[hid-profiles] =3D "--enable-hid,--disable-hid"
+ PACKAGECONFIG[hog-profiles] =3D "--enable-hog,--disable-hog"
+--=20
+2.43.0
+
 
