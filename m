@@ -1,95 +1,115 @@
-Return-Path: <philip@balister.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9818BC3DA4A
-	for <webhook@archiver.kernel.org>; Sun,  4 May 2025 13:54:59 +0000 (UTC)
-Received: from outbound2.mail.transip.nl (outbound2.mail.transip.nl [149.210.149.73])
- by mx.groups.io with SMTP id smtpd.web11.26713.1746355751792605540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A41B2C369DC
+	for <webhook@archiver.kernel.org>; Sun,  4 May 2025 17:21:40 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.32705.1746379295501664693
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 May 2025 03:49:13 -0700
+ Sun, 04 May 2025 10:21:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@myspectrum.nl header.s=transip-a header.b=aALTupSp;
- spf=pass (domain: myspectrum.nl, ip: 149.210.149.73, mailfrom: jeroen@myspectrum.nl)
-Received: from submission10.mail.transip.nl (unknown [10.103.8.161])
-	by outbound2.mail.transip.nl (Postfix) with ESMTP id 4Zr1cP1dL5zYd5v;
-	Sun,  4 May 2025 12:49:09 +0200 (CEST)
-Received: from yellow.myspectrum.nl (unknown [IPv6:2a01:7c8:bb0c:45:5054:ff:fe01:854])
-	by submission10.mail.transip.nl (Postfix) with ESMTPSA id 4Zr1cK429Hz2nC0cl;
-	Sun,  4 May 2025 12:49:05 +0200 (CEST)
-Received: from yellow.myspectrum.nl (84-27-20-154.cable.dynamic.v4.ziggo.nl [84.27.20.154])
-	(Authenticated sender: sendmail@myspectrum.nl)
-	by yellow.myspectrum.nl (Postfix) with ESMTPSA id AAA97200DB;
-	Sun,  4 May 2025 10:49:02 +0000 (UTC)
-Authentication-Results: yellow.myspectrum.nl;
-	auth=pass smtp.auth=sendmail@myspectrum.nl smtp.mailfrom=jeroen@myspectrum.nl
-Received: by yellow.myspectrum.nl (sSMTP sendmail emulation); Sun, 04 May 2025 12:49:01 +0200
-From: jeroen@myspectrum.nl
-To: openembedded-core@lists.openembedded.org
-Cc: Jeroen Hofstee <jhofstee@victronenergy.com>
-Subject: [OE-core][scarthgap][PATCH 1/2] bluez5: make media control a PACKAGECONFIG option
-Date: Sun,  4 May 2025 12:33:21 +0200
-Message-ID: <20250504103322.2545460-1-jeroen@myspectrum.nl>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-X-Scanned-By: ClueGetter at submission10.mail.transip.nl
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=transip-a; d=myspectrum.nl; t=1746355745; h=from:subject:to:cc:date:
- mime-version; bh=cliYmG/ma3t9jBNBjR2bGMn3sCQ4XThN94Os+QFuhWM=;
- b=aALTupSp74qpr2uPGOx8HOzc1moB3KV6b6Z5juLU+Os6mSK11tAI4O/bSinrEahEHDBm8/
- otBkW3MQOwm4wduAHRioN+IVrVbkGj8Y2/FRsOJRQFQxbKsM2R87ahSgKVlPPvLjqYnw9d
- HrQ0Qz5SUakfWxO+Az3NaCYlCDPGO1WhkvhiCHOrAB/BdzSwjhLG8grCxRrbmK298bGq/R
- vI8Kcm1/BF2AMQnrnzj5BK0NEO6b77Qw/b4i9lYtURV06EU5SE0IUrIFzDqusb8oEyW9i/
- R32mFHYUBhvfJ8ZNc98wZYo8GF4yp9w7+k5l8eeaGVbAjPZb7oG/DG2pVZXnbA==
-X-Report-Abuse-To: abuse@transip.nl
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EHyLAY75;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-441c99459e9so2544035e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 10:21:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1746379294; x=1746984094; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=2eI6p7VHI73MryObJiCDWXVXvh6wmGYwv9yo0uv5tpw=;
+        b=EHyLAY75KMfybJTQRwHUdJCC5lL4Bk4le2ehWfmepMpKVb7nb3pClnGEXHxgF/0KHl
+         nyF9e03NpAXz3jE8B8PggZbE5FMTAHNKEH8A57cfSMFqvqGbNg1qesZvXec2xDekeVYs
+         jJYNC+DVCuGYb4heiEjrXsoNEkWS7zL/rasmo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746379294; x=1746984094;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2eI6p7VHI73MryObJiCDWXVXvh6wmGYwv9yo0uv5tpw=;
+        b=DN7KjefYiLg+JH1wxM1tWR/dRMrPyRP2eL3gFUKBzW2v+ZjHN4V4y9WdUd8m22YcYe
+         dMAKDWC9FlUDqze36aXn97z+Dcn/vDqcNy6M4tXbeEQWsS20b5QJiGlNqRKZEe0LzPPQ
+         NeqwWFtv9ZFC7NBOqKz6zIjCZOwdFh7XHKjRE2dGb8qcSl+sRL9Y5+emoGYtLPrRtWEh
+         0B+fVsy/eRco92ajcSu+0e76acmnnbUMxl09csiWlfYKmGRpzTnZ2cb7OzkkY4FUfrTo
+         JEi8w02P3jtHb1ZWx9Snu7mKCNPqEmRabSku/dvbggcT6HWEG8WhUf83g/H2OQLd8k+A
+         7Pbg==
+X-Forwarded-Encrypted: i=1; AJvYcCUc59Z4jk3hJFEwvDBLF+LihAYltieTlsrnaII6tlQS6Spq5vVbjR11aFX0xt7g13f3jsObxef3FWX8yBpnXVE6Aw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwyhJOToZF6uOmuErYtB3Zi10igmhv3xCLU77DBNLc4WcZP3T1/
+	KN7RtfPf6S318uWLFDqY3dwgWs5m+C3eUdwAYdMhhNtqTxDnRCwZgOp3tLpUKHM=
+X-Gm-Gg: ASbGncu/DXg+A/kh29T8Iu02j1PtCjs6OxIKW5DmzT0BQ1kgJBlsscBdMeXqKSO7pyU
+	EyscqiIpxAImysMReuRRiYtKkwjXOZL888awr+6vIgnJdccD3x8qscW1qZG4M2bPvLD8/RsI77S
+	iLsh1/1hCa2mUVbP5TBSAI0vufgXhNz8DQK46sAmrtsSEjnDG55ahlRjZefo1F9cItg8OYQ5/kX
+	Bg2kjvnR2irhpHynuFQHWIaSTUXuK519xAXiaJOWV2y/KuFWAKwNgAt02KsRwqx6hJzSk1Rfxs6
+	PqZgv10lWJhQA2+iyjYb3p16WuH2PLZn8yPqC+pjkkQtFkyi1Vmu6mKx8ee59gaBpDZNJzVbbf/
+	JsyVZyTBe4g3mRXSrhJPdfAoigPXb+Q==
+X-Google-Smtp-Source: AGHT+IHDjLmO/qRpAQlGYZsyA1fh9WcPf1552OGswjZW8hYoVCASIPUs+VjYB0CUvcuBXgCB0ixtFw==
+X-Received: by 2002:a05:600c:5304:b0:43c:fe15:41e1 with SMTP id 5b1f17b1804b1-441bbea0afbmr93557305e9.4.1746379293745;
+        Sun, 04 May 2025 10:21:33 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:994e:224d:4a8f:bee7? ([2001:8b0:aba:5f3c:994e:224d:4a8f:bee7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441b89ee171sm106717975e9.17.2025.05.04.10.21.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 May 2025 10:21:33 -0700 (PDT)
+Message-ID: <764880c5403b06cc31af471249e7131cc78ee9a3.camel@linuxfoundation.org>
+Subject: Re: [PATCH 08/20] kernel-fit-image.bbclass: add a new FIT image
+ implementation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: AdrianF <adrian.freihofer@siemens.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: marex@denx.de, l.anderweit@phytec.de, ross.burton@arm.com, 
+	bruce.ashfield@gmail.com, rogerio.borin@toradex.com,
+ sean.anderson@seco.com, 	m.felsch@pengutronix.de, ejo@pengutronix.de
+Date: Sun, 04 May 2025 18:21:31 +0100
+In-Reply-To: <20250504130507.717954-8-adrian.freihofer@siemens.com>
+References: <20250504130507.717954-1-adrian.freihofer@siemens.com>
+	 <20250504130507.717954-8-adrian.freihofer@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 13:54:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215966
+ <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 17:21:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215970
 
-From: Jeroen Hofstee <jhofstee@victronenergy.com>
+On Sun, 2025-05-04 at 15:04 +0200, AdrianF wrote:
+> From: Adrian Freihofer <adrian.freihofer@siemens.com>
+>=20
+> This new recipe and the new kernel-fit-image.bbclass are intended to
+> become the successor of the kernel-fitimage.bbclass.
+>=20
+> This recipe is an alternative implementation of what the
+> kernel-fitimage.bbclass provides. Instead of injecting the FIT image
+> related build steps into the kernel recipe, the new recipe takes the
+> kernel artifacts from the kernel recipe and creates the FIT image as a
+> independent task.
+>=20
+> This solves some basic problems:
+> * sstate does not work well when a fitImage contains an initramfs. The
+> =C2=A0 kernel is rebuilt from scratch if the build runs from an empty TMP=
+DIR.
+> * A fitImage kernel is not available as a package, but all other kernel
+> =C2=A0 image types are.
+> * The task dependencies in the kernel are very complex and difficult to
+> =C2=A0 debug if something goes wrong. As a separate, downstream recipe, t=
+his
+> =C2=A0 is now much easier.
+>=20
+> The long storry about this issue is here:
+> [YOCTO #12912]
+>=20
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-When not building with the default PACKAGECONFIG options, the build can f=
-ail
-with:
+Since the autobuilder is quiet, I put this in for testing. Two failures
+so far, both due to world builds:
 
-undefined reference to `media_player_controller_create'
-undefined reference to `media_player_set_status'
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/1521
 
-Otherwise. So disable it when not set and enable it by default.
+I suspect this should have an EXCLUDE_FROM_WORLD so it doesn't get
+pulled in unless configured?
 
-The packageconfig option is the same as in Styhead.
-https://github.com/openembedded/openembedded-core/commit/ebbdb7cf5c0a3f0e=
-6773704d4c4cc570358ec611#diff-9d9284f6f27a81c75dffffd6d601b40c8266ae12e67=
-8d0a49c46bdb8356a0e91R52
----
- meta/recipes-connectivity/bluez5/bluez5.inc | 2 ++
- 1 file changed, 2 insertions(+)
+Cheers,
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
-onnectivity/bluez5/bluez5.inc
-index 39e1bf389c..731bfa0e40 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -18,6 +18,7 @@ PACKAGECONFIG ??=3D "obex-profiles \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-     a2dp-profiles \
-     avrcp-profiles \
-+    mcp-profiles \
-     network-profiles \
-     hid-profiles \
-     hog-profiles \
-@@ -35,6 +36,7 @@ PACKAGECONFIG[nfc] =3D "--enable-nfc,--disable-nfc"
- PACKAGECONFIG[sap-profiles] =3D "--enable-sap,--disable-sap"
- PACKAGECONFIG[a2dp-profiles] =3D "--enable-a2dp,--disable-a2dp"
- PACKAGECONFIG[avrcp-profiles] =3D "--enable-avrcp,--disable-avrcp"
-+PACKAGECONFIG[mcp-profiles] =3D "--enable-mcp,--disable-mcp"
- PACKAGECONFIG[network-profiles] =3D "--enable-network,--disable-network"
- PACKAGECONFIG[hid-profiles] =3D "--enable-hid,--disable-hid"
- PACKAGECONFIG[hog-profiles] =3D "--enable-hog,--disable-hog"
---=20
-2.43.0
-
+Richard
 
