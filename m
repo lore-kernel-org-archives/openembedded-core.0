@@ -2,93 +2,126 @@ Return-Path: <jeroen@myspectrum.nl>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48DF1C369DC
-	for <webhook@archiver.kernel.org>; Sun,  4 May 2025 11:15:48 +0000 (UTC)
-Received: from outbound7.mail.transip.nl (outbound7.mail.transip.nl [136.144.136.7])
- by mx.groups.io with SMTP id smtpd.web11.26955.1746357342174612943
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E117C369DC
+	for <webhook@archiver.kernel.org>; Sun,  4 May 2025 11:15:58 +0000 (UTC)
+Received: from outbound8.mail.transip.nl (outbound8.mail.transip.nl [136.144.136.8])
+ by mx.groups.io with SMTP id smtpd.web10.26879.1746357347790753652
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 May 2025 04:15:42 -0700
+ Sun, 04 May 2025 04:15:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@myspectrum.nl header.s=transip-a header.b=vwyb+1cy;
- spf=pass (domain: myspectrum.nl, ip: 136.144.136.7, mailfrom: jeroen@myspectrum.nl)
-Received: from submission1.mail.transip.nl (unknown [10.100.4.70])
-	by outbound7.mail.transip.nl (Postfix) with ESMTP id 4Zr2C05jqDzQvv76;
-	Sun,  4 May 2025 13:15:40 +0200 (CEST)
-Received: from yellow.myspectrum.nl (unknown [IPv6:2a01:7c8:bb0c:45:5054:ff:fe01:854])
-	by submission1.mail.transip.nl (Postfix) with ESMTPSA id 4Zr2Bz5zgLz2mZPJ0;
-	Sun,  4 May 2025 13:15:39 +0200 (CEST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@myspectrum.nl header.s=transip-a header.b=nh7ix0NX;
+ spf=pass (domain: myspectrum.nl, ip: 136.144.136.8, mailfrom: jeroen@myspectrum.nl)
+Received: from submission4.mail.transip.nl (unknown [10.103.8.155])
+	by outbound8.mail.transip.nl (Postfix) with ESMTP id 4Zr2C52cvGzY76Wc;
+	Sun,  4 May 2025 13:15:45 +0200 (CEST)
+Received: from yellow.myspectrum.nl (yellow.myspectrum.nl [136.144.146.76])
+	by submission4.mail.transip.nl (Postfix) with ESMTPSA id 4Zr2C41TbBz2pRDkJ;
+	Sun,  4 May 2025 13:15:44 +0200 (CEST)
 Received: from yellow.myspectrum.nl (84-27-20-154.cable.dynamic.v4.ziggo.nl [84.27.20.154])
 	(Authenticated sender: sendmail@myspectrum.nl)
-	by yellow.myspectrum.nl (Postfix) with ESMTPSA id 8705F200E1;
-	Sun,  4 May 2025 11:15:38 +0000 (UTC)
+	by yellow.myspectrum.nl (Postfix) with ESMTPSA id E23EA200E1;
+	Sun,  4 May 2025 11:15:42 +0000 (UTC)
 Authentication-Results: yellow.myspectrum.nl;
 	auth=pass smtp.auth=sendmail@myspectrum.nl smtp.mailfrom=jeroen@myspectrum.nl
-Received: by yellow.myspectrum.nl (sSMTP sendmail emulation); Sun, 04 May 2025 13:15:38 +0200
+Received: by yellow.myspectrum.nl (sSMTP sendmail emulation); Sun, 04 May 2025 13:15:42 +0200
 From: jeroen@myspectrum.nl
 To: openembedded-core@lists.openembedded.org
 Cc: Jeroen Hofstee <jhofstee@victronenergy.com>
-Subject: [OE-core][scarthgap][PATCH 1/2] bluez5: make media control a PACKAGECONFIG option
-Date: Sun,  4 May 2025 13:15:35 +0200
-Message-ID: <20250504111536.2549869-1-jeroen@myspectrum.nl>
+Subject: [OE-core][scarthgap][PATCH 2/2] bluez5: backport a patch to fix btmgmt -i
+Date: Sun,  4 May 2025 13:15:36 +0200
+Message-ID: <20250504111536.2549869-2-jeroen@myspectrum.nl>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250504111536.2549869-1-jeroen@myspectrum.nl>
+References: <20250504111536.2549869-1-jeroen@myspectrum.nl>
 MIME-Version: 1.0
-X-Scanned-By: ClueGetter at submission1.mail.transip.nl
+X-Scanned-By: ClueGetter at submission4.mail.transip.nl
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=transip-a; d=myspectrum.nl; t=1746357339; h=from:subject:to:cc:date:
- mime-version; bh=cliYmG/ma3t9jBNBjR2bGMn3sCQ4XThN94Os+QFuhWM=;
- b=vwyb+1cyRmrJ6wsTfTRg/YJXDYuTVj528ubN9YXfyH41P+gWJhn5/H2f+1OrY1ZaEuvmJV
- i9QpM3sl8e0V9XwlZ+zp9ILHfsNqfdqQnTBiNonNonJFqM7aJUlOTcG1ai1IKvkgxmbHAj
- s4Ll2UudqonOfvuntkWsla8x5O3MFmSNInKZq6qgMGJOO7PfsW6iYkJo4ULcBs47deqOuf
- n+qfwwSM1u4R/76fvl2aX6+LH3hF+oSmTQ4QGIGfzHIheTgBg0p358p5xAblOoXbK03Cuu
- zDFB8BS67HtbWf2zwBN1qy9oJBbYpR5wG8Qq0QTd2CkiPaXVgVySNCoTO/340Q==
+ s=transip-a; d=myspectrum.nl; t=1746357344; h=from:subject:to:cc:
+ references:in-reply-to:date:mime-version;
+ bh=pOBvYNUV9OFhu4D5d28eRKVZn79fnUZZJrLl1TcyUfI=;
+ b=nh7ix0NXd0URICZqaBS9HbCCrdjygzmsUjRVkRAwf2RZ0AvE9ULY6qLOvrFzOQoClvsMDh
+ S+otjDDIxb2RreJW72Ek9ztHAetnZ05518k2p4wVgfYRspGwmM6CD+MOYWMVs2M6FE+LPy
+ uMDF4gviwUNHQPTKKF0o2Yb9mtERbtN1b9yWIExj+n5baekcE4N4wa4SWW5XW5ChDNO6Z2
+ BnjubpyeptThHjPO/JridZZg9aRkFJVo4o8OHtm0rxU6WAOkZYuQAbNLcQ4aBQ1cPmknlQ
+ px1yJuekMP4RKLh0Ine7lehxWb7StZpriu8V/Am6eIlpC6aSIbfiwBRrRikWTw==
 X-Report-Abuse-To: abuse@transip.nl
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 11:15:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215940
+ <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 11:15:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215941
 
 From: Jeroen Hofstee <jhofstee@victronenergy.com>
 
-When not building with the default PACKAGECONFIG options, the build can f=
-ail
-with:
+Without this patch btmgmt will always use hci0 in
+non interactive mode.
 
-undefined reference to `media_player_controller_create'
-undefined reference to `media_player_set_status'
-
-Otherwise. So disable it when not set and enable it by default.
-
-The packageconfig option is the same as in Styhead.
-https://github.com/openembedded/openembedded-core/commit/ebbdb7cf5c0a3f0e=
-6773704d4c4cc570358ec611#diff-9d9284f6f27a81c75dffffd6d601b40c8266ae12e67=
-8d0a49c46bdb8356a0e91R52
+Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ ...ndex-option-for-non-interactive-mode.patch | 29 +++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-f=
+ix-index-option-for-non-interactive-mode.patch
 
 diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
 onnectivity/bluez5/bluez5.inc
-index 39e1bf389c..731bfa0e40 100644
+index 731bfa0e40..53d8644159 100644
 --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -18,6 +18,7 @@ PACKAGECONFIG ??=3D "obex-profiles \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-     a2dp-profiles \
-     avrcp-profiles \
-+    mcp-profiles \
-     network-profiles \
-     hid-profiles \
-     hog-profiles \
-@@ -35,6 +36,7 @@ PACKAGECONFIG[nfc] =3D "--enable-nfc,--disable-nfc"
- PACKAGECONFIG[sap-profiles] =3D "--enable-sap,--disable-sap"
- PACKAGECONFIG[a2dp-profiles] =3D "--enable-a2dp,--disable-a2dp"
- PACKAGECONFIG[avrcp-profiles] =3D "--enable-avrcp,--disable-avrcp"
-+PACKAGECONFIG[mcp-profiles] =3D "--enable-mcp,--disable-mcp"
- PACKAGECONFIG[network-profiles] =3D "--enable-network,--disable-network"
- PACKAGECONFIG[hid-profiles] =3D "--enable-hid,--disable-hid"
- PACKAGECONFIG[hog-profiles] =3D "--enable-hog,--disable-hog"
+@@ -57,6 +57,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/bluez-=
+${PV}.tar.xz \
+            file://0001-tests-add-a-target-for-building-tests-without-run=
+nin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
+            file://0001-adapter-Fix-up-address-type-when-loading-keys.pat=
+ch \
++           file://toolsbtmgmt-fix-index-option-for-non-interactive-mode.=
+patch \
+            "
+ S =3D "${WORKDIR}/bluez-${PV}"
+=20
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-fix-inde=
+x-option-for-non-interactive-mode.patch b/meta/recipes-connectivity/bluez=
+5/bluez5/toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch
+new file mode 100644
+index 0000000000..f4e14be146
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-fix-index-optio=
+n-for-non-interactive-mode.patch
+@@ -0,0 +1,29 @@
++From f00d5546c9e989dd68ce0de0190cd0e043b0f1f5 Mon Sep 17 00:00:00 2001
++From: Arjan Opmeer <arjan.opmeer@gmail.com>
++Date: Tue, 9 Jul 2024 13:55:41 +0200
++Subject: [PATCH] tools/btmgmt: Fix --index option for non-interactive mo=
+de
++
++In non-interactive mode the --index option does not work because the
++call to mgmt_set_index() is made after bt_shell_attach().
++
++Fixes: https://github.com/bluez/bluez/issues/893
++
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/f00d554=
+6c9e989dd68ce0de0190cd0e043b0f1f5]
++---
++ tools/btmgmt.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tools/btmgmt.c b/tools/btmgmt.c
++index 9b7f851bd8..436c2bb21f 100644
++--- a/tools/btmgmt.c
+++++ b/tools/btmgmt.c
++@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
++ 		return EXIT_FAILURE;
++ 	}
++=20
++-	bt_shell_attach(fileno(stdin));
++ 	mgmt_set_index(index_option);
+++	bt_shell_attach(fileno(stdin));
++ 	status =3D bt_shell_run();
++=20
++ 	mgmt_remove_submenu();
 --=20
 2.43.0
 
