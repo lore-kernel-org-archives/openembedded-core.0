@@ -2,1086 +2,305 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A4CC3ABB8
-	for <webhook@archiver.kernel.org>; Sun,  4 May 2025 13:07:09 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.28208.1746364019754644020
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D27C3ABAC
+	for <webhook@archiver.kernel.org>; Sun,  4 May 2025 13:24:09 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.57])
+ by mx.groups.io with SMTP id smtpd.web11.28593.1746365040466367352
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 May 2025 06:07:00 -0700
+ Sun, 04 May 2025 06:24:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Ik1eIA8H;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20250504130657fddddcf63aa4e7bc83-_a6zrl@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20250504130657fddddcf63aa4e7bc83
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 04 May 2025 15:06:58 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=ihDxaaFMr0HwRn+obGmgHMkuKpvJl6z2c5CsVwn+Fg4=;
- b=Ik1eIA8H/MYA5DDDxgDQBp8wyHIwmYr086Eebb2b1ic6iP39l+9IYy9+1/4ViJ38YWxxET
- 9hOYtWCQPwfIiT3Fd0xU2Iyrs5tV6d+zX/8nxcp/hrro4ejJVjQJwtQu1aoqZojYxPq7nyY/
- 7GwIjahoAvtmMc3BLfOgpdt1/WLAvAhY3PrwBCDc1SXwVXptjeOyb/lSmcXAk6MY1OOfjT8K
- 21SII5KWHI2zOPK/IirRC5smEVjSjTaKWZKimrlXLFQqKtTPzueApLu+7lnBK+ziLoCk883n
- y0MbsSJtLFU5BNbwGELvVpBdnftQDSYOSeSXWzNZQzUmopdqGW6iiKBQ==;
-From: AdrianF <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: marex@denx.de,
-	l.anderweit@phytec.de,
-	richard.purdie@linuxfoundation.org,
-	ross.burton@arm.com,
-	bruce.ashfield@gmail.com,
-	rogerio.borin@toradex.com,
-	sean.anderson@seco.com,
-	m.felsch@pengutronix.de,
-	ejo@pengutronix.de,
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 14/20] kernel-fitimage: re-write its code in Python
-Date: Sun,  4 May 2025 15:05:01 +0200
-Message-ID: <20250504130507.717954-14-adrian.freihofer@siemens.com>
-In-Reply-To: <20250504130507.717954-1-adrian.freihofer@siemens.com>
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=ZuC9hYS/;
+ spf=pass (domain: siemens.com, ip: 40.107.249.57, mailfrom: adrian.freihofer@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TU9GL54V2JZHooJgf+sS0p3dZfV194hSIBy4/CWeN/PN2VjK/+EeVI4IMaWBbYPzwNlSFBUjdXg9ovWK3h16EiVATZFXnE36WDYHgi5CDyyK1Z30Q0BxMReV1/7MVVqFEUYT9Nyk0O7Yc4rUH6qGrxspGp3081HDZZq/v5I4jLx9F8MBBBB0YRWUPfrQ7eY+aMyEwZuXmNItbuCBHhY4+StkYtyeywAISEdALSLdlXp1MMLsi1deV5Ah0yEAj/0bFCHwXHfLhF6aDgHzZnZOu9lEzzCSqcwt4cr5xw8jecDv/R5vcZhZ5822IPLz5ilJaYrPAADLbuerWG8Nhos3GQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X750pKKZwa3na1HIN3Z8epkQpWMZPj8j5ZfXTN7MRLU=;
+ b=UJDmNF7fOJ0rH5/W9nor9YLp7lOdLuXcCDjZiHDTjMul6KV+FZbpBzxUHGoiIsv8WX74EMNPSWU0WaoVN2rw6vRuNCoMAV0fVLHgLRccY8tDGL8cuHEB4P0e0sTGWk7AbG5pcemJ+ekBWpqLdKvJ31h9Yix9CghFty654zrVY0/2C/v4EF4sJIuAPMSSHjiU1+Gg43S2CSZYHSiCgTyJ9Hq3Y2Ik6hwJfGo7hW5niSjHYX+ZwtNOSM0+oT7v3Le4qAICi2oOob1WYV9kyLgwIJa3ucmr9As53v7O9w4xJIqJ2WbmmQ5hq8GdNYuzq0fdYUFiFdIk+e5z0SNIdG33Zw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X750pKKZwa3na1HIN3Z8epkQpWMZPj8j5ZfXTN7MRLU=;
+ b=ZuC9hYS/3s48rNb5q7WwEuLVJ+SgS4v/Leyps9MUAwapujil/WAZnJdrEfl9cEj4iyaqzHKzozZCq64Dvgf1IPfLi9gFk5Zu9AIVJV7Dg82+d5s8HTZLBPlkVF/wPBnRpg3OxabGVHmjEJ9s97DiclbjuIacFcQzmqWxPugTwLkr85oRc2ymGLHvLdCQ5iv8UVu1UZkSv2laqaxkQ+3kbgGnrLGTINcOcdcBD6OnfeOa9Joz5vCv1uOylkw+XmnpQzSqd0BV9AGy/1qZxL3emtNKQL36oQMZ3YkFx1hUpD/5MFYJNjrwqBtZAXAAMHP4OOx/LL/imnGmQfgFfjwp6Q==
+Received: from DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:13e::17)
+ by PRAPR10MB5249.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:29a::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Sun, 4 May
+ 2025 13:23:57 +0000
+Received: from DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e586:9cf8:7696:cbda]) by DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e586:9cf8:7696:cbda%5]) with mapi id 15.20.8699.019; Sun, 4 May 2025
+ 13:23:57 +0000
+From: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "marex@denx.de" <marex@denx.de>, "l.anderweit@phytec.de"
+	<l.anderweit@phytec.de>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>, "ross.burton@arm.com"
+	<ross.burton@arm.com>, "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>,
+	"rogerio.borin@toradex.com" <rogerio.borin@toradex.com>,
+	"sean.anderson@seco.com" <sean.anderson@seco.com>, "m.felsch@pengutronix.de"
+	<m.felsch@pengutronix.de>, "ejo@pengutronix.de" <ejo@pengutronix.de>
+Subject: Re: [PATCH 08/20] kernel-fit-image.bbclass: add a new FIT image
+ implementation
+Thread-Topic: [PATCH 08/20] kernel-fit-image.bbclass: add a new FIT image
+ implementation
+Thread-Index: AQHbvPVsLHEd/KW9gkuymcry1y61V7PCdaaA
+Date: Sun, 4 May 2025 13:23:57 +0000
+Message-ID: <93400d3e28eab0819f198aef936943a1bb5544e6.camel@siemens.com>
 References: <20250504130507.717954-1-adrian.freihofer@siemens.com>
+	 <20250504130507.717954-8-adrian.freihofer@siemens.com>
+In-Reply-To: <20250504130507.717954-8-adrian.freihofer@siemens.com>
+Accept-Language: en-US, de-CH
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB8PR10MB3529:EE_|PRAPR10MB5249:EE_
+x-ms-office365-filtering-correlation-id: 11f4654f-71e1-4363-7678-08dd8b0eec98
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?SkpCSnliYXlTc0pUNEd6Q0lyQ3lYazFyL292MXR1U3N0MkUzTW5iMXZlVTFS?=
+ =?utf-8?B?SnBjbjhpa21jOU9zRHRUbDVhZWl4MDl3WDJZWlN3VWprSmJyOEpuS2ptazQ1?=
+ =?utf-8?B?TDdVeE0yRkZIbTg1OUF3b1p6eXVvd0NWMit4MzJRc0Z6a3JRTWRla2hZdVQ5?=
+ =?utf-8?B?MjlDRkNPMzZOU3JvR2ZWN0hWRzluZnJZNzJ1RHYwZ2NQeE1qbDhwM0UrWGV2?=
+ =?utf-8?B?dXI1TXNmTk9CRFNXNmMwSVVqRHcwNGN2ZmNncDhkTTUxUU8zb285RjZsSDU3?=
+ =?utf-8?B?VkZ6UVBER2dueU4yTDlVS0FTQU1JejZUN2dGZnh6ZStCeW1OZkd5TlVhN1dr?=
+ =?utf-8?B?UERMVzZFdmtnbm50REU5Q2JmQXhHMFUvYm5iVHV2NzNtUmZDRFZGaXhNU3Jl?=
+ =?utf-8?B?NmJ3bFdFTnR6MTQwdTRYc3k0YlpVMDlvcUpqeDlGbXN3aXhxS3FaSVJzN0dW?=
+ =?utf-8?B?bGpxdUNOR0htNEh1dzYyUVV5ek1ld1laSVVRRDBGaEhyQ29uTjc0eUVISUp0?=
+ =?utf-8?B?KzNnZnJVbHdNdm4yV3Q0NmErOVAyYXBRVlVrR2FjM3N4R3NjcHlmc0NEQW5J?=
+ =?utf-8?B?WERrOU5HeXlNR2R3N0g0TmdhalJXMUQ0WEFnWlp0TDZkbDhFd21BWlJUblZ0?=
+ =?utf-8?B?NWJZR09sUGlHUEZFcUpyM01sR2lob3VtdHdFRWRXQmhsM2VNUEZOU1ZuV3hW?=
+ =?utf-8?B?dklUMEMybzRJcVRJZ0c2MVF3K2pCQzRsTWp2c05OLzQzaUlqak5mV0FDenJl?=
+ =?utf-8?B?RFZlQzVXZHFBcFpuZXpZYm1zaFlEaHo0aFJvUGJTV1FyTytrdW9saXJGOW1B?=
+ =?utf-8?B?dXpiaWw1b3NFelJKSytaZk5kV0JZQTZHSHRjS1ROM0JTdEZsdWtSWFRzaDBx?=
+ =?utf-8?B?VzdHdnJZTHBLZW5SS09qQzVPNVpNek8yYmFoa2U5MjNHaERUbGQ4a1RRUFd3?=
+ =?utf-8?B?d2w2NWVaOGs5Sk0xOUtheldncUJ6RUxxTjBWRW5tZDRBbnNDS1pZQjdTTkUw?=
+ =?utf-8?B?TVVnRVNwMTJFK3pZOU1NRDVnK0ZvaEJmNlF0eWI5SWVwODYvd3RaSnN0NENj?=
+ =?utf-8?B?RDFHaUpoN2tGQ1duUEExaXVRbC9MQXJ2R0RUZlpWbVMxYzBKM0tZeFdOT1ZP?=
+ =?utf-8?B?ZHFHc09SNWc2blJmZTBhaDAzNmsrK1Q3M2NxejNzNVloc2dFVytwSFp4TndO?=
+ =?utf-8?B?SlRmaUlZbGtScEhxd3dJb2J6NGxIY0xjZlZqTWpCVW1VSGJIcGJPOUNSNGxm?=
+ =?utf-8?B?VHVQQjVYVmd2bDRPaElrRzhpRUtnRDZwT1dUVEZlem9BNUdua3MyQy9FM0xR?=
+ =?utf-8?B?bkpTWEM1NEZiU1RDZmR3cWJDckNkdjVEZlRXY3FQVk0wTWpUMmFRZStXejRo?=
+ =?utf-8?B?WHBTdXZWaGdzMmk1eDdqQUJGTEVaOWZObit1UFhXRGZ1SHpEQ0EwN0MxSThv?=
+ =?utf-8?B?REYvMGQvbUp4a08xakxrZ0FGdFFlRDJZNWoyYklxMXVXOWlVUE5OOEk5YnNH?=
+ =?utf-8?B?by9ObjZCYmROY3N1NmdIN2NJcXFUTGhnMjY0Wm5QUFpMZTMyQjlNTU5meHlN?=
+ =?utf-8?B?MXUwT3ZCTG5vTEJPRVcvWlNBUHJPREtHYlpzMTBPaDRjTHQwS3l1QlF0MTdw?=
+ =?utf-8?B?NVloejg3cXFWeGhISEFSZ3FxN0Uwak5zaGlIN05zaXBPKzJoY2Z0bE12R3BU?=
+ =?utf-8?B?Vis0U0dwUUpqRDVJQzJ2Q1d1bWd0c25zMHRhRU5OSmNON1NDR3hWekJhRUNv?=
+ =?utf-8?B?RWNDZUJRS1Z4cUN5cjZDV0YzT2hHRUNZclpTY3dRT0NDZmdyaEM3Y3U0T2g2?=
+ =?utf-8?B?c1BUY0dzdFFldVQ0VFc3NFBNSFFlRCttWkhVNDczdWRsc2U5RVpkQ01YTXAy?=
+ =?utf-8?B?T2VsL3huM2VRZHdVbUJ6d2RnaFFaZEJIbXpLaTZGdmtQVU92MUgrL0lQaTZL?=
+ =?utf-8?Q?ip5saqpnMB4=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?VHoyZGd6dWg5cWRBNjVZdUl4bkxrZ1hkVzgxb1hmOUFjZnZFMk1QSGg0bld0?=
+ =?utf-8?B?SkpBYytLZVNSWm9rSEx0b0J5Vm43OERYdDlVMTVBbzlKanI0ZXFIaWhHY3V1?=
+ =?utf-8?B?bTd0eWtUVTEyWjQzSTAvLzJCVXRhY2ZjeGcrcWpDenpFbC9jZ2orNFFvQ250?=
+ =?utf-8?B?N1plTVVvd1ZEYmlmVnpnMVBYanJGUlpBWm14S1pwSXNrcXFILzdzRXlNQXUv?=
+ =?utf-8?B?L0R4NzFqZ21xbXI2VnlIb0ZSU1RMQ1YvUlFJMHFmdkErMTNnODJmS1lCeis0?=
+ =?utf-8?B?SlBEWW53L082VkxuNDN1aHNOU0dsNjVFdnZiT29HQnlxeVowN1ovelR2UXNC?=
+ =?utf-8?B?M0JUWGNKODRzVDVSTDFTaThJdGlIY0pPa3Z0cCtnc0oyVFQ0eCtuNVZ2a0Rs?=
+ =?utf-8?B?M2c5eDh5bEhBT1Bvakp5SjRWOFg4Q2l0eTRaVjQzbEhYUy9xRXVOd2FiN3pJ?=
+ =?utf-8?B?OEVGTHNadFU5NlN0b2ROS21ENzBubkJwY0xHZFlNVHVlQm95MktSa2ptWmNE?=
+ =?utf-8?B?TFJOUnEwZVFBMk5tUDB6WXZnT1psRjNxRnA0VkJUSU5TZENHbDJiRjh1Z2pV?=
+ =?utf-8?B?MFd2UzdSWllGaEJHVXBZK2pIZC9GMTZaQXpsU2dVU1A4WUdla05Ka0xvTjFC?=
+ =?utf-8?B?N1ZqQVc1M2J1RVNTN3JFMUovS05ySVBqWXYvNlRZOWVrbC9lQUVRTCsrT055?=
+ =?utf-8?B?SDZaYklZTmNMT2JpaDFHOUl4Ymp0R1dsREhwTXpjZGFObHlUR0ZQU0ZLYStI?=
+ =?utf-8?B?TnFVYUhvclVzbzJNZUtoTVRESXNqR0wza3pKdkhGTk1UVTFvNjVQTm1NOVRw?=
+ =?utf-8?B?NmRrV0wvdmdPam9ZNWZwWEdqNUFKSVpJNlRSQ0dBSjdnazkyWTZHR2JYS25r?=
+ =?utf-8?B?dGo4MzcvRDN3MjZPTmx0eUEyQmh0REt0bDkrZGV5L2U5MVdZTDFLMEo2SWdn?=
+ =?utf-8?B?ZCtpTDNmVFRmbW1TcUtaVytmUlJjd1d2NjJSUk1UbXZEQnphVXBURytqZVg1?=
+ =?utf-8?B?WEhNdTVZNjI3ZlZ0dmFlcTlFQURLZ0ZhcUVQMUlYM1YzYVJITHdPZzZLaU9L?=
+ =?utf-8?B?STlkaWxFeEJNY3dKRkQzc08yTzk0ZHpQMzV5Uzl1K052ajdYbVZPS3ZFaWQ5?=
+ =?utf-8?B?bjFGdmRrb0dwTHRoQkkrTTNSN0pacmhXS3FsUTY2SFRYeHNSR25pWFJnaEE5?=
+ =?utf-8?B?R2Y3TWMxNW8vT3BZckJqT1plV3NsRkRGTDY1R3Z6SDJVdDVIbG5XSzlncFNr?=
+ =?utf-8?B?S0FEMCtjWUhvT3BrSUY4eGh6UVlBeHNnRHJ3dW1vckdsT0xsOVAxaDI2bzN1?=
+ =?utf-8?B?STRtZHNyU25ZSEh1dy9EWGVPbk82RmVJcXdhc0NISGh3ZDVaRXhibnBYM3Zl?=
+ =?utf-8?B?M2ZnM0lqVGhyQmNPN3p6empLemk4Q1BRUU1IT3lnd2Yra1Z5SnluQzJSWGdn?=
+ =?utf-8?B?Qkhtb1l3R3pNS0R3R01QMnJYNFpnOGM2U3Q5T1Q2Z2pVMVBCOFpwREJ3Zzhm?=
+ =?utf-8?B?cVRPWVA2WlpKMlZqQnljMG5iVTJQcDJaTlRIUWo0RHRZOWdsazNCMGxBZE5n?=
+ =?utf-8?B?cE5sMGlNNm4raDZzamNDb3pkTnlaOVQ2cnNSamdYQzg3VytkUHBSODgwdjlN?=
+ =?utf-8?B?TG9lRXgvb2lObUl0azAwb0xQU2xyVFk4SFpWTUFmSUJ5Q2Y5UVl5ZzFFQVBx?=
+ =?utf-8?B?RDEwNm55MVArd240cTBVWFhkVmxrRmRzbFlQZU8xTWNZcDExcnN0T3JLNUk1?=
+ =?utf-8?B?cVR6Wk5nWHFIdHYxbTV6YlErd20vbHE2Z2hzMndFOC8zOEhPN29UT2FtS3pY?=
+ =?utf-8?B?SWpqV0x6VHprKy9oOTBqWTFYS1k5bHAxWCtRbDAwSnR4SUJadzBzZUVaenh1?=
+ =?utf-8?B?RDlvNGdMRllwZHVEREVTQXd6N3dNUTZJNWxoT3EwZkZDUTRXSUIxSmdhMUJ4?=
+ =?utf-8?B?UW90SnhjcHJ0ZVhGVmhuY2E5NFZxdVJ5dHg0RHE3VmMvUUUwWUZ6YXNMbWpq?=
+ =?utf-8?B?TVZzZkRTV0dqaVdURU56YjNXaDQzd0tLaVFIbW9WREM1Z0NQcCt0YVhSYnNt?=
+ =?utf-8?B?V1M3ZFdMYi96NEgwbHlPVlVvbDBnYnFxak56ZGppWmdteXJOWmxmMFFNYmdo?=
+ =?utf-8?B?L1BpLzZVY3pXb0l5K1hyTUdBWXZjRzdINWNBSXhZWDJEdXFBSUlCZHJQRkll?=
+ =?utf-8?B?elE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DC8A4236E6603A45AA29BBFD93E633EE@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11f4654f-71e1-4363-7678-08dd8b0eec98
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2025 13:23:57.1179
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6m7yuy4uEasC3Y9xapYTR+7oPXIstqtxeVt2vErokUAfzt5THcV8w1YN5AHuc2lvT9gK2nWHcHo9oK0Wm6EkJtolZ6HU1ZukNWdyS1oEc4o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAPR10MB5249
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 13:07:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215962
+ <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 13:24:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215965
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-
-Rewrite the kernel-fitimage.bbclass file in Python. This allows the
-reuse of the new fitimage Python library and a clear alignment of the
-two implementations.
-
-Actually, the motivation for an implementation in Python was different.
-During the transition from the kernel-fitimage.bbclass to the new
-linux-yocto-fitimage.bb, the existing shell code was rewritten in Python
-so that the fitimage.py library could be extracted. The new
-kernel-fit-image.bbclass and linux-yocto-fitimage.bb were then developed
-on this basis.
-This approach makes it possible to run the same tests for all different
-implementations:
-- kernel-fitimage.bbclass in Shell
-- kernel-fitimage.bbclass in Python
-- linux-yocto-fitimage.bb
-
-Changing the commit order now enables a smooth transition. The two
-implementations can coexist. Maintenance and testing should be feasible
-for a few months with reasonable effort as they share most of the code.
-But of course, the goal is to remove the kernel-fitimage.bbclass as soon
-as possible.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- meta/classes-recipe/kernel-fitimage.bbclass | 924 +++++---------------
- meta/classes-recipe/kernel-uboot.bbclass    |  45 +
- 2 files changed, 243 insertions(+), 726 deletions(-)
-
-diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
-index 1ef7b1b4483..ba90bddb5f4 100644
---- a/meta/classes-recipe/kernel-fitimage.bbclass
-+++ b/meta/classes-recipe/kernel-fitimage.bbclass
-@@ -53,680 +53,170 @@ python __anonymous () {
-         d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
- }
- 
--#
--# Emit the fitImage ITS header
--#
--# $1 ... .its filename
--fitimage_emit_fit_header() {
--	cat << EOF >> $1
--/dts-v1/;
--
--/ {
--        description = "${FIT_DESC}";
--        #address-cells = <${FIT_ADDRESS_CELLS}>;
--EOF
--}
--
--#
--# Emit the fitImage section bits
--#
--# $1 ... .its filename
--# $2 ... Section bit type: imagestart - image section start
--#                          confstart  - configuration section start
--#                          sectend    - section end
--#                          fitend     - fitimage end
--#
--fitimage_emit_section_maint() {
--	case $2 in
--	imagestart)
--		cat << EOF >> $1
--
--        images {
--EOF
--	;;
--	confstart)
--		cat << EOF >> $1
--
--        configurations {
--EOF
--	;;
--	sectend)
--		cat << EOF >> $1
--	};
--EOF
--	;;
--	fitend)
--		cat << EOF >> $1
--};
--EOF
--	;;
--	esac
--}
--
--#
--# Emit the fitImage ITS kernel section
--#
--# $1 ... .its filename
--# $2 ... Image counter
--# $3 ... Path to kernel image
--# $4 ... Compression type
--fitimage_emit_section_kernel() {
--
--	kernel_csum="${FIT_HASH_ALG}"
--	kernel_sign_algo="${FIT_SIGN_ALG}"
--	kernel_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
--
--	ENTRYPOINT="${UBOOT_ENTRYPOINT}"
--	if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
--		ENTRYPOINT=`${HOST_PREFIX}nm vmlinux | \
--			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print "0x"$1;exit}'`
--	fi
--
--	cat << EOF >> $1
--                kernel-$2 {
--                        description = "Linux kernel";
--                        type = "${UBOOT_MKIMAGE_KERNEL_TYPE}";
--                        compression = "$4";
--                        data = /incbin/("$3");
--                        arch = "${UBOOT_ARCH}";
--                        os = "linux";
--                        load = <${UBOOT_LOADADDRESS}>;
--                        entry = <$ENTRYPOINT>;
--                        hash-1 {
--                                algo = "$kernel_csum";
--                        };
--                };
--EOF
--
--	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$kernel_sign_keyname" ] ; then
--		sed -i '$ d' $1
--		cat << EOF >> $1
--                        signature-1 {
--                                algo = "$kernel_csum,$kernel_sign_algo";
--                                key-name-hint = "$kernel_sign_keyname";
--                        };
--                };
--EOF
--	fi
--}
--
--#
--# Emit the fitImage ITS DTB section
--#
--# $1 ... .its filename
--# $2 ... Image counter
--# $3 ... Path to DTB image
--fitimage_emit_section_dtb() {
--
--	dtb_csum="${FIT_HASH_ALG}"
--	dtb_sign_algo="${FIT_SIGN_ALG}"
--	dtb_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
--
--	dtb_loadline=""
--	dtb_ext=${DTB##*.}
--	if [ "${dtb_ext}" = "dtbo" ]; then
--		if [ -n "${UBOOT_DTBO_LOADADDRESS}" ]; then
--			dtb_loadline="load = <${UBOOT_DTBO_LOADADDRESS}>;"
--		fi
--	elif [ -n "${UBOOT_DTB_LOADADDRESS}" ]; then
--		dtb_loadline="load = <${UBOOT_DTB_LOADADDRESS}>;"
--	fi
--	cat << EOF >> $1
--                fdt-$2 {
--                        description = "Flattened Device Tree blob";
--                        type = "flat_dt";
--                        compression = "none";
--                        data = /incbin/("$3");
--                        arch = "${UBOOT_ARCH}";
--                        $dtb_loadline
--                        hash-1 {
--                                algo = "$dtb_csum";
--                        };
--                };
--EOF
--
--	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$dtb_sign_keyname" ] ; then
--		sed -i '$ d' $1
--		cat << EOF >> $1
--                        signature-1 {
--                                algo = "$dtb_csum,$dtb_sign_algo";
--                                key-name-hint = "$dtb_sign_keyname";
--                        };
--                };
--EOF
--	fi
--}
--
--#
--# Emit the fitImage ITS u-boot script section
--#
--# $1 ... .its filename
--# $2 ... Image counter
--# $3 ... Path to boot script image
--fitimage_emit_section_boot_script() {
--
--	bootscr_csum="${FIT_HASH_ALG}"
--	bootscr_sign_algo="${FIT_SIGN_ALG}"
--	bootscr_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
--
--        cat << EOF >> $1
--                bootscr-$2 {
--                        description = "U-boot script";
--                        type = "script";
--                        compression = "none";
--                        data = /incbin/("$3");
--                        arch = "${UBOOT_ARCH}";
--                        hash-1 {
--                                algo = "$bootscr_csum";
--                        };
--                };
--EOF
--
--	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$bootscr_sign_keyname" ] ; then
--		sed -i '$ d' $1
--		cat << EOF >> $1
--                        signature-1 {
--                                algo = "$bootscr_csum,$bootscr_sign_algo";
--                                key-name-hint = "$bootscr_sign_keyname";
--                        };
--                };
--EOF
--	fi
--}
--
--#
--# Emit the fitImage ITS setup section
--#
--# $1 ... .its filename
--# $2 ... Image counter
--# $3 ... Path to setup image
--fitimage_emit_section_setup() {
--
--	setup_csum="${FIT_HASH_ALG}"
--	setup_sign_algo="${FIT_SIGN_ALG}"
--	setup_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
--
--	cat << EOF >> $1
--                setup-$2 {
--                        description = "Linux setup.bin";
--                        type = "x86_setup";
--                        compression = "none";
--                        data = /incbin/("$3");
--                        arch = "${UBOOT_ARCH}";
--                        os = "linux";
--                        load = <0x00090000>;
--                        entry = <0x00090000>;
--                        hash-1 {
--                                algo = "$setup_csum";
--                        };
--                };
--EOF
--
--	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$setup_sign_keyname" ] ; then
--		sed -i '$ d' $1
--		cat << EOF >> $1
--                        signature-1 {
--                                algo = "$setup_csum,$setup_sign_algo";
--                                key-name-hint = "$setup_sign_keyname";
--                        };
--                };
--EOF
--	fi
--}
--
--#
--# Emit the fitImage ITS ramdisk section
--#
--# $1 ... .its filename
--# $2 ... Image counter
--# $3 ... Path to ramdisk image
--fitimage_emit_section_ramdisk() {
--
--	ramdisk_csum="${FIT_HASH_ALG}"
--	ramdisk_sign_algo="${FIT_SIGN_ALG}"
--	ramdisk_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
--	ramdisk_loadline=""
--	ramdisk_entryline=""
--
--	if [ -n "${UBOOT_RD_LOADADDRESS}" ]; then
--		ramdisk_loadline="load = <${UBOOT_RD_LOADADDRESS}>;"
--	fi
--	if [ -n "${UBOOT_RD_ENTRYPOINT}" ]; then
--		ramdisk_entryline="entry = <${UBOOT_RD_ENTRYPOINT}>;"
--	fi
--
--	cat << EOF >> $1
--                ramdisk-$2 {
--                        description = "${INITRAMFS_IMAGE}";
--                        type = "ramdisk";
--                        compression = "none";
--                        data = /incbin/("$3");
--                        arch = "${UBOOT_ARCH}";
--                        os = "linux";
--                        $ramdisk_loadline
--                        $ramdisk_entryline
--                        hash-1 {
--                                algo = "$ramdisk_csum";
--                        };
--                };
--EOF
--
--	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$ramdisk_sign_keyname" ] ; then
--		sed -i '$ d' $1
--		cat << EOF >> $1
--                        signature-1 {
--                                algo = "$ramdisk_csum,$ramdisk_sign_algo";
--                                key-name-hint = "$ramdisk_sign_keyname";
--                        };
--                };
--EOF
--	fi
--}
--
--#
--# echoes symlink destination if it points below directory
--#
--# $1 ... file that's a potential symlink
--# $2 ... expected parent directory
--symlink_points_below() {
--	file="$2/$1"
--	dir=$2
--
--	if ! [ -L "$file" ]; then
--		return
--	fi
--
--	realpath="$(realpath --relative-to=$dir $file)"
--	if [ -z "${realpath%%../*}" ]; then
--		return
--	fi
--
--	echo "$realpath"
--}
--
--#
--# Emit the fitImage ITS configuration section
--#
--# $1 ... .its filename
--# $2 ... Linux kernel ID
--# $3 ... DTB image name
--# $4 ... ramdisk ID
--# $5 ... u-boot script ID
--# $6 ... config ID
--# $7 ... default flag
--# $8 ... default DTB image name
--fitimage_emit_section_config() {
--
--	conf_csum="${FIT_HASH_ALG}"
--	conf_sign_algo="${FIT_SIGN_ALG}"
--	conf_padding_algo="${FIT_PAD_ALG}"
--	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] ; then
--		conf_sign_keyname="${UBOOT_SIGN_KEYNAME}"
--	fi
--
--	its_file="$1"
--	kernel_id="$2"
--	dtb_image="$3"
--	ramdisk_id="$4"
--	bootscr_id="$5"
--	config_id="$6"
--	default_flag="$7"
--	default_dtb_image="$8"
--
--	# Test if we have any DTBs at all
--	sep=""
--	conf_desc=""
--	conf_node="${FIT_CONF_PREFIX}"
--	kernel_line=""
--	fdt_line=""
--	ramdisk_line=""
--	bootscr_line=""
--	setup_line=""
--	default_line=""
--	compatible_line=""
--
--	dtb_image_sect=$(symlink_points_below $dtb_image "${EXTERNAL_KERNEL_DEVICETREE}")
--	if [ -z "$dtb_image_sect" ]; then
--		dtb_image_sect=$dtb_image
--	fi
--
--	dtb_path="${EXTERNAL_KERNEL_DEVICETREE}/${dtb_image_sect}"
--	if [ -f "$dtb_path" ] || [ -L "$dtb_path" ]; then
--		compat=$(fdtget -t s "$dtb_path" / compatible | sed 's/ /", "/g')
--		if [ -n "$compat" ]; then
--			compatible_line="compatible = \"$compat\";"
--		fi
--	fi
--
--	dtb_image=$(echo $dtb_image | tr '/' '_')
--	dtb_image_sect=$(echo "${dtb_image_sect}" | tr '/' '_')
--
--	# conf node name is selected based on dtb ID if it is present,
--	# otherwise its selected based on kernel ID
--	if [ -n "$dtb_image" ]; then
--		conf_node=$conf_node$dtb_image
--	else
--		conf_node=$conf_node$kernel_id
--	fi
--
--	if [ -n "$kernel_id" ]; then
--		conf_desc="Linux kernel"
--		sep=", "
--		kernel_line="kernel = \"kernel-$kernel_id\";"
--	fi
--
--	if [ -n "$dtb_image" ]; then
--		conf_desc="$conf_desc${sep}FDT blob"
--		sep=", "
--		fdt_line="fdt = \"fdt-$dtb_image_sect\";"
--	fi
--
--	if [ -n "$ramdisk_id" ]; then
--		conf_desc="$conf_desc${sep}ramdisk"
--		sep=", "
--		ramdisk_line="ramdisk = \"ramdisk-$ramdisk_id\";"
--	fi
--
--	if [ -n "$bootscr_id" ]; then
--		conf_desc="$conf_desc${sep}u-boot script"
--		sep=", "
--		bootscr_line="bootscr = \"bootscr-$bootscr_id\";"
--	fi
--
--	if [ -n "$config_id" ]; then
--		conf_desc="$conf_desc${sep}setup"
--		setup_line="setup = \"setup-$config_id\";"
--	fi
--
--	if [ "$default_flag" = "1" ]; then
--		# default node is selected based on dtb ID if it is present,
--		# otherwise its selected based on kernel ID
--		if [ -n "$dtb_image" ]; then
--			# Select default node as user specified dtb when
--			# multiple dtb exists.
--			if [ -n "$default_dtb_image" ]; then
--				default_line="default = \"${FIT_CONF_PREFIX}$default_dtb_image\";"
--			else
--				default_line="default = \"${FIT_CONF_PREFIX}$dtb_image\";"
--			fi
--		else
--			default_line="default = \"${FIT_CONF_PREFIX}$kernel_id\";"
--		fi
--	fi
--
--	cat << EOF >> $its_file
--                $default_line
--                $conf_node {
--                        description = "$default_flag $conf_desc";
--                        $compatible_line
--                        $kernel_line
--                        $fdt_line
--                        $ramdisk_line
--                        $bootscr_line
--                        $setup_line
--                        hash-1 {
--                                algo = "$conf_csum";
--                        };
--EOF
--
--	if [ -n "$conf_sign_keyname" ] ; then
--
--		sign_line="sign-images = "
--		sep=""
--
--		if [ -n "$kernel_id" ]; then
--			sign_line="$sign_line${sep}\"kernel\""
--			sep=", "
--		fi
--
--		if [ -n "$dtb_image" ]; then
--			sign_line="$sign_line${sep}\"fdt\""
--			sep=", "
--		fi
--
--		if [ -n "$ramdisk_id" ]; then
--			sign_line="$sign_line${sep}\"ramdisk\""
--			sep=", "
--		fi
--
--		if [ -n "$bootscr_id" ]; then
--			sign_line="$sign_line${sep}\"bootscr\""
--			sep=", "
--		fi
--
--		if [ -n "$config_id" ]; then
--			sign_line="$sign_line${sep}\"setup\""
--		fi
--
--		sign_line="$sign_line;"
--
--		cat << EOF >> $its_file
--                        signature-1 {
--                                algo = "$conf_csum,$conf_sign_algo";
--                                key-name-hint = "$conf_sign_keyname";
--                                padding = "$conf_padding_algo";
--                                $sign_line
--                        };
--EOF
--	fi
--
--	cat << EOF >> $its_file
--                };
--EOF
--}
--
--#
--# Assemble fitImage
--#
--# $1 ... .its filename
--# $2 ... fitImage name
--# $3 ... include ramdisk
--fitimage_assemble() {
--	kernelcount=1
--	dtbcount=""
--	DTBS=""
--	ramdiskcount=$3
--	setupcount=""
--	bootscr_id=""
--	default_dtb_image=""
--	rm -f $1 arch/${ARCH}/boot/$2
--
--	if [ -n "${UBOOT_SIGN_IMG_KEYNAME}" -a "${UBOOT_SIGN_KEYNAME}" = "${UBOOT_SIGN_IMG_KEYNAME}" ]; then
--		bbfatal "Keys used to sign images and configuration nodes must be different."
--	fi
--
--	fitimage_emit_fit_header $1
--
--	#
--	# Step 1: Prepare a kernel image section.
--	#
--	fitimage_emit_section_maint $1 imagestart
--
--	uboot_prep_kimage
--	fitimage_emit_section_kernel $1 $kernelcount linux.bin "$linux_comp"
--
--	#
--	# Step 2: Prepare a DTB image section
--	#
--
--	if [ -n "${KERNEL_DEVICETREE}" ]; then
--		dtbcount=1
--		for DTB in ${KERNEL_DEVICETREE}; do
--			if echo $DTB | grep -q '/dts/'; then
--				bbwarn "$DTB contains the full path to the the dts file, but only the dtb name should be used."
--				DTB=`basename $DTB | sed 's,\.dts$,.dtb,g'`
--			fi
--
--			# Skip ${DTB} if it's also provided in ${EXTERNAL_KERNEL_DEVICETREE}
--			if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ] && [ -s ${EXTERNAL_KERNEL_DEVICETREE}/${DTB} ]; then
--				continue
--			fi
--
--			DTB_PATH="${KERNEL_OUTPUT_DIR}/dts/$DTB"
--			if [ ! -e "$DTB_PATH" ]; then
--				DTB_PATH="${KERNEL_OUTPUT_DIR}/$DTB"
--			fi
--
--			# Strip off the path component from the filename
--			if "${@'false' if oe.types.boolean(d.getVar('KERNEL_DTBVENDORED')) else 'true'}"; then
--				DTB=`basename $DTB`
--			fi
--
--			# Set the default dtb image if it exists in the devicetree.
--			if [ "${FIT_CONF_DEFAULT_DTB}" = "$DTB" ];then
--				default_dtb_image=$(echo "$DTB" | tr '/' '_')
--			fi
--
--			DTB=$(echo "$DTB" | tr '/' '_')
--
--			# Skip DTB if we've picked it up previously
--			echo "$DTBS" | tr ' ' '\n' | grep -xq "$DTB" && continue
--
--			DTBS="$DTBS $DTB"
--			DTB=$(echo $DTB | tr '/' '_')
--			fitimage_emit_section_dtb $1 $DTB $DTB_PATH
--		done
--	fi
--
--	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
--		dtbcount=1
--		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtb' -printf '%P\n' | sort) \
--		$(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtbo' -printf '%P\n' | sort); do
--			# Set the default dtb image if it exists in the devicetree.
--			if [ ${FIT_CONF_DEFAULT_DTB} = $DTB ];then
--				default_dtb_image=$(echo "$DTB" | tr '/' '_')
--			fi
--
--			DTB=$(echo "$DTB" | tr '/' '_')
--
--			# Skip DTB/DTBO if we've picked it up previously
--			echo "$DTBS" | tr ' ' '\n' | grep -xq "$DTB" && continue
--
--			DTBS="$DTBS $DTB"
--
--			# Also skip if a symlink. We'll later have each config section point at it
--			[ $(symlink_points_below $DTB "${EXTERNAL_KERNEL_DEVICETREE}") ] && continue
--
--			DTB=$(echo $DTB | tr '/' '_')
--			fitimage_emit_section_dtb $1 $DTB "${EXTERNAL_KERNEL_DEVICETREE}/$DTB"
--		done
--	fi
--
--	if [ -n "${FIT_CONF_DEFAULT_DTB}" ] && [ -z $default_dtb_image ]; then 
--		bbwarn "${FIT_CONF_DEFAULT_DTB} is not available in the list of device trees."
--	fi
--
--	#
--	# Step 3: Prepare a u-boot script section
--	#
--
--	if [ -n "${FIT_UBOOT_ENV}" ]; then
--		cp ${UNPACKDIR}/${FIT_UBOOT_ENV} ${B}
--		bootscr_id="${FIT_UBOOT_ENV}"
--		fitimage_emit_section_boot_script $1 "$bootscr_id" ${FIT_UBOOT_ENV}
--	fi
--
--	#
--	# Step 4: Prepare a setup section. (For x86)
--	#
--	if [ -e ${KERNEL_OUTPUT_DIR}/setup.bin ]; then
--		setupcount=1
--		fitimage_emit_section_setup $1 $setupcount ${KERNEL_OUTPUT_DIR}/setup.bin
--	fi
--
--	#
--	# Step 5: Prepare a ramdisk section.
--	#
--	if [ "x${ramdiskcount}" = "x1" ] && [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
--		# Find and use the first initramfs image archive type we find
--		found=
--		for img in ${FIT_SUPPORTED_INITRAMFS_FSTYPES}; do
--			initramfs_path="${INITRAMFS_DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img"
--			if [ -e "$initramfs_path" ]; then
--				bbnote "Found initramfs image: $initramfs_path"
--				found=true
--				fitimage_emit_section_ramdisk $1 "$ramdiskcount" "$initramfs_path"
--				break
--			else
--				bbnote "Did not find initramfs image: $initramfs_path"
--			fi
--		done
--
--		if [ -z "$found" ]; then
--			bbfatal "Could not find a valid initramfs type for ${INITRAMFS_IMAGE_NAME}, the supported types are: ${FIT_SUPPORTED_INITRAMFS_FSTYPES}"
--		fi
--	fi
--
--	fitimage_emit_section_maint $1 sectend
--
--	# Force the first Kernel and DTB in the default config
--	kernelcount=1
--	if [ -n "$dtbcount" ]; then
--		dtbcount=1
--	fi
--
--	#
--	# Step 6: Prepare a configurations section
--	#
--	fitimage_emit_section_maint $1 confstart
--
--	# kernel-fitimage.bbclass currently only supports a single kernel (no less or
--	# more) to be added to the FIT image along with 0 or more device trees and
--	# 0 or 1 ramdisk.
--	# It is also possible to include an initramfs bundle (kernel and rootfs in one binary)
--	# When the initramfs bundle is used ramdisk is disabled.
--	# If a device tree is to be part of the FIT image, then select
--	# the default configuration to be used is based on the dtbcount. If there is
--	# no dtb present than select the default configuation to be based on
--	# the kernelcount.
--	if [ -n "$DTBS" ]; then
--		i=1
--		for DTB in ${DTBS}; do
--			dtb_ext=${DTB##*.}
--			if [ "$dtb_ext" = "dtbo" ]; then
--				fitimage_emit_section_config $1 "" "$DTB" "" "$bootscr_id" "" "`expr $i = $dtbcount`" "$default_dtb_image"
--			else
--				fitimage_emit_section_config $1 $kernelcount "$DTB" "$ramdiskcount" "$bootscr_id" "$setupcount" "`expr $i = $dtbcount`" "$default_dtb_image"
--			fi
--			i=`expr $i + 1`
--		done
--	else
--		defaultconfigcount=1
--		fitimage_emit_section_config $1 $kernelcount "" "$ramdiskcount" "$bootscr_id"  "$setupcount" $defaultconfigcount "$default_dtb_image"
--	fi
--
--	fitimage_emit_section_maint $1 sectend
--
--	fitimage_emit_section_maint $1 fitend
--
--	#
--	# Step 7: Assemble the image
--	#
--	${UBOOT_MKIMAGE} \
--		${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
--		-f $1 \
--		${KERNEL_OUTPUT_DIR}/$2
--
--	#
--	# Step 8: Sign the image
--	#
--	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
--		${UBOOT_MKIMAGE_SIGN} \
--			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
--			-F -k "${UBOOT_SIGN_KEYDIR}" \
--			-r ${KERNEL_OUTPUT_DIR}/$2 \
--			${UBOOT_MKIMAGE_SIGN_ARGS}
--	fi
--}
--
--do_assemble_fitimage() {
--	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
--		cd ${B}
--		fitimage_assemble fit-image.its fitImage-none ""
--		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
--			ln -sf fitImage-none ${B}/${KERNEL_OUTPUT_DIR}/fitImage
--		fi
--	fi
-+def fitimage_assemble(d, itsfile, fitname, ramdiskcount):
-+    import shutil
-+    import glob
-+    import oe.fitimage
-+
-+    DTBS=""
-+    default_dtb_image=""
-+
-+    for f in [itsfile, os.path.join("arch", d.getVar("ARCH"), "boot", fitname)]:
-+        if os.path.exists(f):
-+            os.remove(f)
-+
-+    root_node = oe.fitimage.ItsNodeRootKernel(
-+        d.getVar("FIT_DESC"), d.getVar("FIT_ADDRESS_CELLS"),
-+        d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'),  d.getVar("FIT_CONF_PREFIX"),
-+        d.getVar('UBOOT_SIGN_ENABLE') == "1", d.getVar("UBOOT_SIGN_KEYDIR"),
-+        d.getVar("UBOOT_MKIMAGE"), d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
-+        d.getVar("UBOOT_MKIMAGE_SIGN"), d.getVar("UBOOT_MKIMAGE_SIGN_ARGS"),
-+        d.getVar('FIT_HASH_ALG'), d.getVar('FIT_SIGN_ALG'), d.getVar('FIT_PAD_ALG'),
-+        d.getVar('UBOOT_SIGN_KEYNAME'),
-+        d.getVar('FIT_SIGN_INDIVIDUAL') == "1", d.getVar('UBOOT_SIGN_IMG_KEYNAME')
-+    )
-+
-+    #
-+    # Step 1: Prepare a kernel image section.
-+    #
-+    linux_comp = uboot_prep_kimage_py(d)
-+    root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
-+        d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
-+        d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
-+
-+    #
-+    # Step 2: Prepare a DTB image section
-+    #
-+    if d.getVar("KERNEL_DEVICETREE"):
-+        for DTB in d.getVar("KERNEL_DEVICETREE").split():
-+            if "/dts/" in DTB:
-+                bb.warn(f"{DTB} contains the full path to the dts file, but only the dtb name should be used.")
-+                DTB = os.path.basename(DTB).replace(".dts", ".dtb")
-+
-+            # Skip DTB if it's also provided in EXTERNAL_KERNEL_DEVICETREE
-+            if d.getVar("EXTERNAL_KERNEL_DEVICETREE"):
-+                ext_dtb_path = os.path.join(d.getVar("EXTERNAL_KERNEL_DEVICETREE"), DTB)
-+                if os.path.exists(ext_dtb_path) and os.path.getsize(ext_dtb_path) > 0:
-+                    continue
-+
-+            DTB_PATH = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), "dts", DTB)
-+            if not os.path.exists(DTB_PATH):
-+                DTB_PATH = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), DTB)
-+
-+            # Strip off the path component from the filename
-+            if not oe.types.boolean(d.getVar("KERNEL_DTBVENDORED")):
-+                DTB = os.path.basename(DTB)
-+
-+            # Set the default dtb image if it exists in the devicetree.
-+            if d.getVar("FIT_CONF_DEFAULT_DTB") == DTB:
-+                default_dtb_image = DTB.replace("/", "_")
-+
-+            DTB = DTB.replace("/", "_")
-+
-+            # Skip DTB if we've picked it up previously
-+            if DTB in DTBS.split():
-+                continue
-+
-+            DTBS += " " + DTB
-+
-+            root_node.fitimage_emit_section_dtb(DTB, DTB_PATH,
-+                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
-+
-+    if d.getVar("EXTERNAL_KERNEL_DEVICETREE"):
-+        dtb_files = []
-+        for ext in ['*.dtb', '*.dtbo']:
-+            dtb_files.extend(sorted(glob.glob(os.path.join(d.getVar("EXTERNAL_KERNEL_DEVICETREE"), ext))))
-+
-+        for dtb_path in dtb_files:
-+            dtb_name = os.path.relpath(dtb_path, d.getVar("EXTERNAL_KERNEL_DEVICETREE"))
-+            dtb_name_underscore = dtb_name.replace('/', '_')
-+
-+            # Set the default dtb image if it exists in the devicetree.
-+            if d.getVar("FIT_CONF_DEFAULT_DTB") == dtb_name:
-+                default_dtb_image = dtb_name_underscore
-+
-+            # Skip DTB/DTBO if we've picked it up previously
-+            if dtb_name_underscore in DTBS.split():
-+                continue
-+
-+            DTBS += " " + dtb_name_underscore
-+
-+            # Also skip if a symlink. We'll later have each config section point at it
-+            if oe.fitimage.symlink_points_below(dtb_name, d.getVar("EXTERNAL_KERNEL_DEVICETREE")):
-+                continue
-+
-+            root_node.fitimage_emit_section_dtb(dtb_name_underscore, dtb_path,
-+                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
-+
-+    if d.getVar("FIT_CONF_DEFAULT_DTB") and not default_dtb_image:
-+        bb.warn("%s is not available in the list of device trees." % d.getVar('FIT_CONF_DEFAULT_DTB'))
-+
-+    #
-+    # Step 3: Prepare a u-boot script section
-+    #
-+    fit_uboot_env = d.getVar("FIT_UBOOT_ENV")
-+    if fit_uboot_env:
-+        unpack_dir = d.getVar("UNPACKDIR")
-+        shutil.copy(os.path.join(unpack_dir, fit_uboot_env), fit_uboot_env)
-+        root_node.fitimage_emit_section_boot_script("bootscr-"+fit_uboot_env , fit_uboot_env)
-+
-+    #
-+    # Step 4: Prepare a setup section. (For x86)
-+    #
-+    setup_bin_path = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), "setup.bin")
-+    if os.path.exists(setup_bin_path):
-+        root_node.fitimage_emit_section_setup("setup-1", setup_bin_path)
-+
-+    #
-+    # Step 5: Prepare a ramdisk section.
-+    #
-+    if ramdiskcount == 1 and d.getVar("INITRAMFS_IMAGE_BUNDLE") != "1":
-+        # Find and use the first initramfs image archive type we find
-+        found = False
-+        for img in d.getVar("FIT_SUPPORTED_INITRAMFS_FSTYPES").split():
-+            initramfs_path = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), "%s.%s" % (d.getVar('INITRAMFS_IMAGE_NAME'), img))
-+            if os.path.exists(initramfs_path):
-+                bb.note("Found initramfs image: " + initramfs_path)
-+                found = True
-+                root_node.fitimage_emit_section_ramdisk("ramdisk-%d" % ramdiskcount, initramfs_path,
-+                    d.getVar('INITRAMFS_IMAGE'),
-+                    d.getVar("UBOOT_RD_LOADADDRESS"),
-+                    d.getVar("UBOOT_RD_ENTRYPOINT"))
-+                break
-+            else:
-+                bb.note("Did not find initramfs image: " + initramfs_path)
-+
-+        if not found:
-+            bb.fatal("Could not find a valid initramfs type for %s, the supported types are: %s" % (d.getVar('INITRAMFS_IMAGE_NAME'), d.getVar('FIT_SUPPORTED_INITRAMFS_FSTYPES')))
-+
-+    # Generate the configuration section
-+    root_node.fitimage_emit_section_config()
-+
-+    #
-+    # Write the ITS file
-+    root_node.write_its_file(itsfile)
-+
-+    #
-+    # Step 7: Assemble the image
-+    #
-+    fitfile = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), fitname)
-+    root_node.run_mkimage_assemble(itsfile, fitfile)
-+
-+    #
-+    # Step 8: Sign the image if required
-+    #
-+    root_node.run_mkimage_sign(fitfile)
-+
-+
-+python do_assemble_fitimage() {
-+    if "fitImage" in d.getVar("KERNEL_IMAGETYPES").split():
-+        os.chdir(d.getVar("B"))
-+        fitimage_assemble(d, "fit-image.its", "fitImage-none", "")
-+        if d.getVar("INITRAMFS_IMAGE_BUNDLE") != "1":
-+            link_name = os.path.join(d.getVar("B"), d.getVar("KERNEL_OUTPUT_DIR"), "fitImage")
-+            if os.path.islink(link_name):
-+                os.unlink(link_name)
-+            os.symlink("fitImage-none", link_name)
- }
- 
- addtask assemble_fitimage before do_install after do_compile
-@@ -738,64 +228,46 @@ do_install:append() {
- 	fi
- }
- 
--do_assemble_fitimage_initramfs() {
--	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
--		test -n "${INITRAMFS_IMAGE}" ; then
--		cd ${B}
--		if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
--			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-bundle ""
--			ln -sf fitImage-bundle ${B}/${KERNEL_OUTPUT_DIR}/fitImage
--		else
--			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
--		fi
--	fi
-+python do_assemble_fitimage_initramfs() {
-+    if "fitImage" in d.getVar("KERNEL_IMAGETYPES").split() and d.getVar("INITRAMFS_IMAGE"):
-+        os.chdir(d.getVar("B"))
-+        if d.getVar("INITRAMFS_IMAGE_BUNDLE") == "1":
-+            fitimage_assemble(d, "fit-image-%s.its" % d.getVar("INITRAMFS_IMAGE"), "fitImage-bundle", "")
-+            link_name =  os.path.join(d.getVar("B"), d.getVar("KERNEL_OUTPUT_DIR"), "fitImage")
-+            if os.path.islink(link_name):
-+                os.unlink(link_name)
-+            os.symlink("fitImage-bundle", link_name)
-+        else:
-+            fitimage_assemble(d, "fit-image-%s.its" % d.getVar("INITRAMFS_IMAGE"), "fitImage-%s" % d.getVar("INITRAMFS_IMAGE"), 1)
- }
- 
- addtask assemble_fitimage_initramfs before do_deploy after do_bundle_initramfs
- 
--do_kernel_generate_rsa_keys() {
--	if [ "${UBOOT_SIGN_ENABLE}" = "0" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
--		bbwarn "FIT_GENERATE_KEYS is set to 1 even though UBOOT_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
--	fi
-+python do_kernel_generate_rsa_keys() {
-+    import oe.fitimage
- 
--	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
-+    sign_enable = oe.types.boolean(d.getVar('UBOOT_SIGN_ENABLE'))
-+    fit_generate_keys = oe.types.boolean(d.getVar('FIT_GENERATE_KEYS'))
-+    if not sign_enable and fit_generate_keys:
-+        bb.warn("FIT_GENERATE_KEYS is set to 1 even though UBOOT_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used.")
-+    if sign_enable and fit_generate_keys:
-+        sign_keydir = d.getVar('UBOOT_SIGN_KEYDIR')
-+        sign_keyname = d.getVar('UBOOT_SIGN_KEYNAME')
-+        sign_kc_path = os.path.join(sign_keydir, sign_keyname)
-+        if not os.path.exists(sign_kc_path + '.key') or not os.path.exists(sign_kc_path + '.crt'):
-+            bb.note("Generating RSA private key and certificate for signing fitImage configurations")
-+            oe.fitimage.generate_rsa_key(sign_keydir, sign_keyname,
-+                d.getVar('FIT_SIGN_NUMBITS'), d.getVar('FIT_KEY_GENRSA_ARGS'),
-+                d.getVar('FIT_KEY_REQ_ARGS'), d.getVar('FIT_KEY_SIGN_PKCS'))
- 
--		# Generate keys to sign configuration nodes, only if they don't already exist
--		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key ] || \
--			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt ]; then
--
--			# make directory if it does not already exist
--			mkdir -p "${UBOOT_SIGN_KEYDIR}"
--
--			bbnote "Generating RSA private key for signing fitImage"
--			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
--				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
--			"${FIT_SIGN_NUMBITS}"
--
--			bbnote "Generating certificate for signing fitImage"
--			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
--				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
--				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
--		fi
--
--		# Generate keys to sign image nodes, only if they don't already exist
--		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key ] || \
--			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".crt ]; then
--
--			# make directory if it does not already exist
--			mkdir -p "${UBOOT_SIGN_KEYDIR}"
--
--			bbnote "Generating RSA private key for signing fitImage"
--			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
--				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key \
--			"${FIT_SIGN_NUMBITS}"
--
--			bbnote "Generating certificate for signing fitImage"
--			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
--				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key \
--				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".crt
--		fi
--	fi
-+        if oe.types.boolean(d.getVar('FIT_SIGN_INDIVIDUAL')):
-+            sign_img_keyname = d.getVar('UBOOT_SIGN_IMG_KEYNAME')
-+            sign_img_kc_path = os.path.join(sign_keydir, sign_img_keyname)
-+            if not os.path.exists(sign_img_kc_path + '.key') or not os.path.exists(sign_img_kc_path + '.crt'):
-+                bb.note("Generating RSA private key and certificate for signing fitImage individual images")
-+                oe.fitimage.generate_rsa_key(sign_keydir, sign_img_keyname,
-+                    d.getVar('FIT_SIGN_NUMBITS'), d.getVar('FIT_KEY_GENRSA_ARGS'),
-+                    d.getVar('FIT_KEY_REQ_ARGS'), d.getVar('FIT_KEY_SIGN_PKCS'))
- }
- 
- addtask kernel_generate_rsa_keys before do_assemble_fitimage after do_compile
-diff --git a/meta/classes-recipe/kernel-uboot.bbclass b/meta/classes-recipe/kernel-uboot.bbclass
-index 7aafd4757c2..888664678d1 100644
---- a/meta/classes-recipe/kernel-uboot.bbclass
-+++ b/meta/classes-recipe/kernel-uboot.bbclass
-@@ -67,3 +67,48 @@ do_install:append() {
- 		install -D ${B}/${KERNEL_OUTPUT_DIR}/setup.bin ${D}/sysroot-only/setup.bin
- 	fi
- }
-+
-+def uboot_prep_kimage_py(d):
-+    import subprocess
-+
-+    arch = d.getVar('ARCH')
-+    initramfs_image_bundle = d.getVar('INITRAMFS_IMAGE_BUNDLE')
-+    fit_kernel_comp_alg = d.getVar('FIT_KERNEL_COMP_ALG') or 'gzip'
-+    fit_kernel_comp_alg_extension = d.getVar('FIT_KERNEL_COMP_ALG_EXTENSION') or '.gz'
-+    kernel_objcopy = d.getVar('KERNEL_OBJCOPY')
-+
-+    vmlinux_path = ""
-+    linux_suffix = ""
-+    linux_comp = "none"
-+
-+    if os.path.exists(f'arch/{arch}/boot/compressed/vmlinux'):
-+        vmlinux_path = f'arch/{arch}/boot/compressed/vmlinux'
-+    elif os.path.exists(f'arch/{arch}/boot/vmlinuz.bin'):
-+        if os.path.exists('linux.bin'):
-+            os.remove('linux.bin')
-+        os.link(f'arch/{arch}/boot/vmlinuz.bin', 'linux.bin')
-+    else:
-+        vmlinux_path = 'vmlinux'
-+        # Use vmlinux.initramfs for linux.bin when INITRAMFS_IMAGE_BUNDLE set
-+        # As per the implementation in kernel.bbclass.
-+        # See do_bundle_initramfs function
-+        if initramfs_image_bundle == '1' and os.path.exists('vmlinux.initramfs'):
-+            vmlinux_path = 'vmlinux.initramfs'
-+        linux_suffix = fit_kernel_comp_alg_extension
-+        linux_comp = fit_kernel_comp_alg
-+
-+    if vmlinux_path:
-+        subprocess.run([kernel_objcopy.strip(), '-O', 'binary', '-R', '.note', '-R', '.comment', '-S', os.path.abspath(vmlinux_path), 'linux.bin'], check=True)
-+        # if ret.returncode != 0:
-+        # bb.fatal(f"Error: stderr: {ret.stderr.decode('utf-8')}   stdout: {ret.stdout.decode('utf-8')}, vmlinux_path: {os.path.abspath(vmlinux_path)}, pwd: {os.getcwd()}, args: {ret.args}")
-+
-+    if linux_comp != "none":
-+        if linux_comp == "gzip":
-+            subprocess.run(['gzip', '-9', 'linux.bin'], check=True)
-+        elif linux_comp == "lzo":
-+            subprocess.run(['lzop', '-9', 'linux.bin'], check=True)
-+        elif linux_comp == "lzma":
-+            subprocess.run(['xz', '--format=lzma', '-f', '-6', 'linux.bin'], check=True)
-+        os.rename(f'linux.bin{linux_suffix}', 'linux.bin')
-+
-+    return linux_comp
--- 
-2.49.0
-
+SGkKClRoaXMgcGF0Y2ggc2VyaWVzIHdhcyBzdWJtaXR0ZWQgd2l0aG91dCBhIC0tY292ZXItbGV0
+dGVyLiBQbGVhc2UKY29uc2lkZXIgdGhpcyByZXNwb25zZSB0byB0aGUgbWFpbiBwYXRjaCBvZiB0
+aGlzIHNlcmllcyBhcyB0aGUgY292ZXIKbGV0dGVyLgoKVGhpcyBwYXRjaCBzZXJpZXMgcmUtd3Jp
+dGVzIHRoZSBGSVQgaW1hZ2UgcmVsYXRlZCBjb2RlLiBUaGUgZ29hbCBpcyB0bwpmaXggW1lPQ1RP
+ICMxMjkxMl0gd2hpY2ggaXMgYSBsb25nIHN0YW5kaW5nIGlzc3VlLgoKV2hhdCBnZXRzIGZpeGVk
+Ci0tLS0tLS0tLS0tLS0tLQoKKiBzc3RhdGUgZG9lcyBub3Qgd29yayB3ZWxsIGlmIGEgRklUIGlt
+YWdlIGNvbnRhaW5zIGFuIGluaXRyYW1mcy4KICBUaGUga2VybmVsIGdldHMgcmUtYnVpbHQgZnJv
+bSBzY3JhdGNoIGlmIHRoZSBidWlsZCBydW5zIGZyb20gYW4KICBlbXB0eSBUTVBESVI6CiAgaHR0
+cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8y
+MDM1MTAuCiAgVGhpcyBpcyBhbHNvIHByb2JsZW1hdGljIGZvciBTREsgdXNlIGNhc2VzIHNpbmNl
+IHdvcmtpbmcgd2l0aCB0aGUKICBTREsgaXMgYW5ub3lpbmcgaWYgdGhlIGtlcm5lbCBnZXRzIHJl
+LWJ1aWx0IGZyb20gc2NyYXRjaCBmb3Igbm8KICBnb29kIHJlYXNvbi4KKiBBIEZJVCBpbWFnZSBr
+ZXJuZWwgaXMgbm90IGF2YWlsYWJsZSBhcyBhIHBhY2thZ2UsIGJ1dCBhbGwgb3RoZXIKICBrZXJu
+ZWwgaW1hZ2UgdHlwZXMgYXJlLgoqIFRoZSBpdHMtZmlsZSBpcyBnZW5lcmF0ZWQgYnkgY29tcGxp
+Y2F0ZWQgc2hlbGwgY29kZSB3aXRoIGxvdHMgb2YKICBjb2RlIGR1cGxpY2F0aW9ucy4gU3dpdGNo
+aW5nIHRvIFB5dGhvbiBzaW1wbGlmaWVzIHRoZSBtYWludGVuYW5jZQogIChhbHNvIGJlY2F1c2Ug
+b2YgdGhlIGluZGVudGF0aW9uIHdpdGggc3BhY2VzIGFuZCB0YWJzIGluIHRoZSBzaGVsbAogIGNv
+ZGUpLgoqIFNlcGFyYXRpbmcgdGhlIEZJVCBpbWFnZSByZWxhdGVkIGNvbXBsZXhpdHkgZnJvbSB0
+aGUga2VybmVsIGJ1aWxkCiAgY29tcGxleGl0eSBzaW1wbGlmaWVzIHRoZSBtYWludGVuYW5jZSBv
+ZiB0aGUga2VybmVsIGJ1dCBhbHNvIG9mCiAgdGhlIEZJVCBpbWFnZSByZWxhdGVkIGNvZGUuCiog
+VGhlcmUgaXMgYWxyZWFkeSBhIG5ldyAoYnV0IHVuZm9ydHVuYXRlbHkgY29tcGxldGVseSB1bmFs
+aWduZWQpCiAgaW1wbGVtZW50YXRpb24gZm9yIGNyZWF0aW5nIEZJVCBpbWFnZXMgaW4gbWV0YS1v
+cGVuZW1iZWRkZWQ6CiAKaHR0cHM6Ly9naXRodWIuY29tL29wZW5lbWJlZGRlZC9tZXRhLW9wZW5l
+bWJlZGRlZC9ibG9iL21hc3Rlci9tZXRhLW9lLwogIGNsYXNzZXMvZml0aW1hZ2UuYmJjbGFzcy4g
+TGV0J3MgaG9wZSB0aGlzIHBhdGNoIHNlcmllcyB3aWxsIGxheSBhCiAgc29saWQgZm91bmRhdGlv
+biBmb3IgYSBmdXR1cmUgbWVyZ2Ugb2YgdGhlIHR3byBpbXBsZW1lbnRhdGlvbnMuCiogVGhlIG5l
+dyBpbXBsZW1lbnRhdGlvbiBpbiBQeXRob24gaXMgYWxzbyBhIHByZXBhcmF0aW9uIGZvciBhZGRp
+dGlvbmFsCiAgZmVhdHVyZXMsIHN1Y2ggYXMgYWRkaW5nIGRpZmZlcmVudCB0eXBlcyBvZiBhcnRp
+ZmFjdHMgb3IgZ2VuZXJhdGluZwogIHRoZSBjb25maWd1cmF0aW9uIG5vZGVzIHdpdGggZ3JlYXRl
+ciBmbGV4aWJpbGl0eS4gQ3VycmVudGx5LCBleGFjdGx5CiAgb25lIGNvbmZpZ3VyYXRpb24gcGVy
+IGRldmljZSBub2RlIGlzIHN1cHBvcnRlZC4KCkFyY2hpdGVjdHVyYWwgY2hhbmdlCi0tLS0tLS0t
+LS0tLS0tLS0tLS0tCgpUaGUgZXhpc3Rpbmcga2VybmVsLWZpdGltYWdlLmJiY2xhc3MgaXMgZGVz
+aWduZWQgdG8gYmUgYWRkZWQgdG8KS0VSTkVMX0NMQVNTRVMuIEl0IGFwcGVuZHMgY29kZSB0byB0
+aGUga2VybmVsJ3MgdGFza3MgYW5kIGluamVjdHMKYWRkaXRpb25hbCB0YXNrcyBiZXR3ZWVuIHRo
+ZSBleGlzdGluZyBvbmVzLiBTb21lIGZ1bmN0aW9ucyByZWx5IG9uCnJ1bm5pbmcgd2l0aGluIHRo
+ZSBrZXJuZWwncyBidWlsZCBmb2xkZXIgc3RydWN0dXJlLgoKVGhlIG5ldyBpbXBsZW1lbnRhdGlv
+biBpbnRyb2R1Y2VzIHRoZSBrZXJuZWwtZml0LWltYWdlLmJiY2xhc3MsCndoaWNoIGlzIGludGVu
+ZGVkIHRvIGJlIGluaGVyaXRlZCBieSBhbiBpbmRlcGVuZGVudCByZWNpcGUuIFRoaXMKcmVjaXBl
+IHRha2VzIHRoZSBrZXJuZWwgYXJ0aWZhY3RzIGZyb20gdGhlIHNzdGF0ZS1jYWNoZSBhbmQgYXNz
+ZW1ibGVzCnRoZSBGSVQgaW1hZ2UgZW50aXJlbHkgaW5kZXBlbmRlbnRseSBvZiB0aGUga2VybmVs
+J3MgYnVpbGQgdGFza3MgYW5kCmRpcmVjdG9yeSBzdHJ1Y3R1cmUuCgpBbiBleGFtcGxlIG9mIHVz
+aW5nIHRoZSBuZXcga2VybmVsLWZpdC1pbWFnZS5iYmNsYXNzIGlzIHRoZQpsaW51eC15b2N0by1m
+aXRpbWFnZS5iYiByZWNpcGUsIHdoaWNoIGJ1aWxkcyB0aGUgRklUIGltYWdlIGZvciB0aGUKbGlu
+dXgteW9jdG8ga2VybmVsLiBUaGUgcmVjaXBlIGxvb2tzIGxpa2UgdGhpczoKCiAgU1VNTUFSWSA9
+ICJUaGUgTGludXgga2VybmVsIGFzIGEgRklUIGltYWdlIChvcHRpb25hbGx5IHdpdGgKaW5pdHJh
+bWZzKSIKICBTRUNUSU9OID0gImtlcm5lbCIKICBMSUNFTlNFID0gIkdQTC0yLjAtd2l0aC1MaW51
+eC1zeXNjYWxsLW5vdGUiCiAgTElDX0ZJTEVTX0NIS1NVTSA9ICJcCiAgICBmaWxlOi8vJHtDT1JF
+QkFTRX0vbWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMvR1BMLTIuMC13aXRoLUxpbnV4LQpzeXNj
+YWxsLW5vdGU7CiAgICBtZDU9MGJhZDk2YzQyMmM0MWMzYTk0MDA5ZGNmZTFiZmY5OTIiCgogIGlu
+aGVyaXQga2VybmVsLWZpdC1pbWFnZQoKVGhlIGNvbmZpZ3VyYXRpb24gdmFyaWFibGVzIGRlZmlu
+ZWQgaW4gdGhlIGNvbmYvaW1hZ2UtZml0aW1hZ2UuY29uZgpmaWxlIGFyZSBoYW5kbGVkIGJ5IHRo
+ZSBrZXJuZWwtZml0LWltYWdlLmJiY2xhc3MgaW4gdGhlIHNhbWUgd2F5IGFzCnRoZXkgYXJlIGJ5
+IHRoZSBrZXJuZWwtZml0aW1hZ2UuYmJjbGFzcy4gVGhlIG5ldyBpbXBsZW1lbnRhdGlvbiBpcwo5
+OCUgYmFja3dhcmQgY29tcGF0aWJsZSB3aXRoIHRoZSBleGlzdGluZyBrZXJuZWwtZml0aW1hZ2Uu
+YmJjbGFzcy4KVGhlIGV4aXN0aW5nIHRlc3Qtc3VpdGUgcnVucyB3aXRoIG1pbmltYWwgY2hhZ25l
+cy4KCldpdGggdGhlIGtlcm5lbC1maXRpbWFnZS5iYmNsYXNzLCB0aGUgRklUIGltYWdlIHdhcyBi
+dWlsdCBhcyBwYXJ0IG9mCnRoZSBrZXJuZWwgaXRzZWxmLiBUbyBlbnN1cmUgdGhlIG5ldyByZWNp
+cGUgaXMgYnVpbHQgYXV0b21hdGljYWxseSwKdGhlIGZvbGxvd2luZyB2YXJpYWJsZXMgY2FuIGJl
+IHNldCwgZm9yIGV4YW1wbGUsIGluIHRoZSBtYWNoaW5lCmNvbmZpZ3VyYXRpb24gZmlsZToKCiAg
+IyBEbyBub3QgaW5zdGFsbCB0aGUga2VybmVsIGltYWdlIHBhY2thZ2UKICBSUkVDT01NRU5EUzok
+e0tFUk5FTF9QQUNLQUdFX05BTUV9LWJhc2UgPSAiIgoKICAjIEluc3RhbGwgdGhlIEZJVCBpbWFn
+ZSBwYWNrYWdlIGludG8gdGhlIHJvb3RmcyAodGhlcmUgaXMgbm93IGEKcGFja2FnZSA6LSkKICBN
+QUNISU5FX0VYVFJBX1JERVBFTkRTICs9ICIke1BSRUZFUlJFRF9QUk9WSURFUl92aXJ0dWFsL2tl
+cm5lbH0tCmZpdGltYWdlIgoKICAjIENvbmZpZ3VyZSB0aGUgaW1hZ2UuYmJjbGFzcyB0byBkZXBl
+bmQgb24gdGhlIGZpdEltYWdlIGluc3RlYWQgb2YKb25seQogICMgdGhlIGtlcm5lbCB0byBlbnN1
+cmUgdGhlIEZJVCBpbWFnZSBpcyBidWlsdCB3aXRoIHRoZSBpbWFnZQogIEtFUk5FTF9ERVBMT1lf
+REVQRU5EID0gIiR7UFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwva2VybmVsfS0KZml0aW1hZ2U6
+ZG9fZGVwbG95IgoKQnJlYWtpbmcgY2hhbmdlcwotLS0tLS0tLS0tLS0tLS0tCgoqIEN1cnJlbnRs
+eSBpdCBpcyBwb3NzaWJsZSB0byBidW5kbGUgYW4gaW5pdHJhbWZzIGludG8gdGhlIGtlcm5lbCBh
+bmQKICBmaW5hbGx5IGFkZCB0aGlzIGJ1bmRsZSB0byBhIEZJVCBpbWFnZS4gV2l0aCB0aGlzIHBh
+dGNoIHNlcmllcwogIGNvbXBsZXRlbHkgbWVyZ2VkLCB0aGUgSU5JVFJBTUZTX0lNQUdFX0JVTkRM
+RSB2YXJpYWJsZSB3aWxsIG5vdCBoYXZlCiAgYW4gaW1wYWN0IG9uIHRoZSBGSVQgaW1hZ2UgYnVp
+bGQgcHJvY2Vzcy4gT2YgY291cnNlLCBub3RoaW5nIGNoYW5nZXMKICBvbiB0aGUga2VybmVsIGJ1
+aWxkIGNvZGUuIEl0IGlzIHN0aWxsIHBvc3NpYmxlIHRvIGJ1bmRsZSBhbiBpbml0cmFtZnMKICBp
+bnRvIHRoZSBrZXJuZWwuIEp1c3QgYWRkaW5nIHRoaXMgYnVuZGxlIGFsc28gdG8gdGhlIEZJVCBp
+bWFnZSBpcyBub3QKICBwb3NzaWJsZSBhbnltb3JlLiBJdCB3b3VsZCBiZSBwb3NzaWJsZSB0byBi
+cmluZyB0aGlzIGZlYXR1cmUgYmFjayBieQogIHNsaWdodGx5IG1vZGlmeWluZyB0aGUgbmV3IGlt
+cGxlbWVudGF0aW9uLiBCdXQgaXQgd291bGQgbWFrZSB0aGUKICBpbXBsZW1lbnRhdGlvbiBtb3Jl
+IGNvbXBsZXggYW5kIEkgZG9uJ3Qgc2VlIGEgcmVhbCB1c2UgY2FzZSBmb3IgdGhpcwogIGZlYXR1
+cmUuIEJ1bmRsaW5nIGFuIGluaXRyYW1mcyBhbmQgYSBrZXJuZWwgaXMgYmFzaWNhbGx5IHdoYXQg
+dGhlIEZJVAogIGltYWdlIGlzIHN1cHBvc2VkIHRvIGRvIG5hdGl2ZWx5LCB3aXRob3V0IHRoZSBo
+ZWxwIG9mIHRoZSBrZXJuZWwKYnVpbGQKICBjb2RlLiBBcyBsb25nIGFzIHRoZSBrZXJuZWwgYnVp
+bGQgY29kZSBkZWFscyB3aXRoIHRoZSBpbml0cmFtZnMsCnVzaW5nCiAgYSBrZXJuZWwgZnJvbSB0
+aGUgc3N0YXRlLWNhY2hlIGlzIG5vdCBwb3NzaWJsZSB3aXRob3V0IHJlLWJ1aWxkaW5nCnRoZQog
+IGtlcm5lbC4gVGhhdCdzIHdoeSB0aGlzIHBhdGNoIHNlcmllcyByZW1vdmVzIHRoZSBzdXBwb3J0
+IGZvciB0aGlzCiAgZmVhdHVyZS4KKiBCdWlsZGluZyBhIGtlcm5lbCBGSVQgaW1hZ2UgY2hhbmdl
+cy4KICBCZWZvcmUgdGhpcyBwYXRjaCBzZXJpZXM6CgogICAgQSBjb25maWd1cmF0aW9uIGxpa2U6
+CiAgICAgIEtFUk5FTF9JTUFHRVRZUEUgPSAiZml0SW1hZ2UiCiAgICAgIEtFUk5FTF9DTEFTU0VT
+ID0gImtlcm5lbC1maXRpbWFnZSIKICAgIGFuZCBidWlsZGluZyBhIGtlcm5lbCBsaWtlOgogICAg
+ICBiaXRiYWtlIGxpbnV4LXlvY3RvCiAgICBnZW5lcmF0ZWQgYSBGSVQgaW1hZ2UgaW5jbHVkaW5n
+IHRoZSBrZXJuZWwgYW5kIG1heWJlIGFkZGl0aW9uYWwKICAgIGFydGlmYWN0cy4KCiAgV2l0aCB0
+aGlzIHBhdGNoIHNlcmllcyBtZXJnZWQsIHRoZSBzYW1lIGNhbiBiZSBhY2hpZXZlZCBsaWtlIHRo
+aXM6CiAgICBiaXRiYWtlIGxpbnV4LXlvY3RvLWZpdGltYWdlCgogIFdoaWxlIHRoaXMgc2ltcGxl
+IGV4YW1wbGUgaXMgZXZlbiBzaW1wbGVyIHRoYW4gYmVmb3JlLCB0aGVyZSBhcmUKICBhbHNvIG90
+aGVyIGV4YW1wbGVzIHdoaWNoIG1pZ2h0IGxvb2sgbW9yZSBjb21wbGljYXRlZCB3aXRoIHRoZQog
+IG5ldyBpbXBsZW1lbnRhdGlvbiB0aGFuIHdpdGggdGhlIG9sZCBpbXBsZW1lbnRhdGlvbi4KClBy
+b3Bvc2FsIGZvciBtZXJnaW5nIHRoZXNlIHBhdGNoIHNlcmllcwotLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0KClRoZSBwYXRjaGVzIGFyZSBzcGxpdCBpbnRvIHNtYWxsIHN0
+ZXBzIHdoaWNoIGFsbG93IGEgc3RlcC1ieS1zdGVwCm1lcmdpbmc6CgoxLiBBZGQgdGhlIG5ldyBp
+bXBsZW1lbnRhdGlvbiB3aXRob3V0IHRvdWNoaW5nIHRoZSBvbGQgaW1wbGVtZW50YXRpb24KCiAg
+ICogb2Utc2VsZnRlc3Q6IGFkZCBuZXcgZXh0IGR0YiByZWNpcGUKICAgKiBvZS1zZWxmdGVzdDog
+Zml0aW1hZ2U6IHRlc3QgY292ZXJhZ2UgZm9yIGV4dCBkdGIKICAgKiBrZXJuZWwtdWJvb3Q6IGRv
+IG5vdCByZXF1aXJlIHRoZSBrZXJuZWwgYnVpbGQgZm9sZGVyCiAgICoga2VybmVsLWRldmljZXRy
+ZWU6IGV4cG9ydCBkdGJzIHRvIHN5c3Jvb3QKICAgKiBrZXJuZWwuYmJjbGFzczogc3RhZ2UgdGhl
+IHN5c3Jvb3Qtb25seSBmb2xkZXIKICAgKiBrZXJuZWwtdWJvb3QuYmJjbGFzczogc3RhZ2UgdGhl
+IGtlcm5lbCBiaW5hcnkKICAgKiBrZXJuZWwtZml0aW1hZ2U6IHJlZmFjdG9yIG9yZGVyIGluIGl0
+cwogICAqIGtlcm5lbC1maXQtaW1hZ2UuYmJjbGFzczogYWRkIGEgbmV3IEZJVCBpbWFnZSBpbXBs
+ZW1lbnRhdGlvbgogICAqIG1haW50YWluZXJzOiBhZGQgbXlzZWxmIGZvciBsaW51eC15b2N0by1m
+aXRpbWFnZQogICAqIG9lLXNlbGZ0ZXN0OiBmaXRpbWFnZSBhZGQgdGVzdHMgZm9yIGZpdGltYWdl
+LnB5CiAgICogb2Utc2VsZnRlc3Q6IGZpdGltYWdlIHJlZmFjdG9yIGtlcm5lbC1maXRpbWFnZS5i
+YmNsYXNzCiAgICogb2Utc2VsZnRlc3Q6IGZpdGltYWdlOiBydW4gYWxsIHRlc3RzIGZvciB0aGUg
+RklUIGltYWdlIHJlY2lwZQogICAqIG9lLXNlbGZ0ZXN0OiBmaXRpbWFnZSByZWZhY3RvciBjbGFz
+c2VzCgoyLiBSZWZhY3RvciB0aGUgb2xkIGtlcm5lbC1maXRpbWFnZS5iYmNsYXNzIHRvIFB5dGhv
+biB0byBzaGFyZSBjb2RlCiAgIHdpdGggdGhlIG5ldyBpbXBsZW1lbnRhdGlvbi4gV2hpbGUgbm90
+IHN0cmljdGx5IHJlcXVpcmVkLCB0aGlzCiAgIGFsbG93cyB1c2VycyB0byBtaWdyYXRlIHRvIHRo
+ZSBuZXcgUHl0aG9uIGNvZGUgd2l0aCAxMDAlIGJhY2t3YXJkCiAgIGNvbXBhdGliaWxpdHkuCiAg
+IEJvdGggaW1wbGVtZW50YXRpb25zIGNvdWxkIGJlIG1haW50YWluZWQgdW50aWwgdGhlIG5ldyBv
+bmUgaXMgd2lkZWx5CiAgIGFjY2VwdGVkIGFuZCB0ZXN0ZWQuCiAgIE5vdGU6IFRoaXMgY2hhbmdl
+IGRvZXMgb2J2aW91c2VseSBub3QgcmVzb2x2ZSBhbnkgaXNzdWVzIGFzIHRoZQogICBhcmNoaXRl
+Y3R1cmUgcmVtYWlucyB0aGUgc2FtZS4gV2UgY2FuIGFsc28gc2ltcGx5IGRyb3AgdGhpcyBwYXRj
+aC4KCiAgICoga2VybmVsLWZpdGltYWdlOiByZS13cml0ZSBpdHMgY29kZSBpbiBQeXRob24KCjMu
+IFJlbW92ZSB0aGUgb2xkIGtlcm5lbC1maXRpbWFnZS5iYmNsYXNzIGFuZCBjbGVhbiB1cCB0aGUg
+Y29kZSBmcm9tCiAgIHRoZSBpbml0cmFtZnMgYnVuZGxlIGluIHRoZSBGSVQgaW1hZ2UgbGVmdCBv
+dmVycy4KCiAgICoga2VybmVsLmJiY2xhc3M6IHJlbW92ZSBzdXBwb3J0IGZvciB0eXBlIGZpdElt
+YWdlCiAgICogb2Utc2VsZnRlc3Q6IGZpdGltYWdlOiByZW1vdmUga2VybmVsLWZpdGltYWdlIHRl
+c3RzCiAgICoga2VybmVsLWZpdGltYWdlLmJiY2xhc3M6IHJlbW92ZSBpdAogICAqIGtlcm5lbC11
+Ym9vdC5iYmNsYXNzOiBtZXJnZSBpdCBpbnRvIGtlcm5lbC11aW1hZ2UuYmJjbGFzcwogICAqIG9l
+LXNlbGZ0ZXN0OiBmaXRpbWFnZTogZHJvcCBpbml0cmFtZnMgYnVuZGxlIHRlc3QKICAgKiBrZXJu
+ZWwtZml0LWltYWdlLmJiY2xhc3M6IGlnbm9yZSBJTklUUkFNRlNfSU1BR0VfQlVORExFCgpTaWRl
+IG5vdGU6IFRoZSBkZXZlbG9wbWVudCBvZiB0aGUgY29tbWl0cyB0b29rIHBsYWNlIHRoZSBvdGhl
+ciB3YXkKcm91bmQ6CkZpcnN0IHRoZSBleGlzdGluZyBpbXBsZW1lbnRhdGlvbiB3YXMgcmUtd3Jp
+dHRlbiBpbiBQeXRob24uIFRoZW4gdGhlCm5ldyBpbXBsZW1lbnRhdGlvbiB3YXMgc3BsaXQgb3V0
+IGFuZCBmaW5hbGx5IHRoZSBpbmRlcGVuZGVudCByZWNpcGUKY291bGQgYmUgYWRkZWQgdG8gdXNl
+IHRoZSBuZXcga2VybmVsLWZpdC1pbWFnZS5iYmNsYXNzIGFzIHdlbGwuCgpTb21lIGRvY3VtZW50
+YXRpb24gcGF0Y2hlcyBhcmUgdW5kZXIgZGV2ZWxvcG1lbnQgb24gYSBicmFuY2g6Cmh0dHBzOi8v
+Z2l0LnlvY3RvcHJvamVjdC5vcmcvcG9reS1jb250cmliL2xvZy8/aD1hZHJpYW5mL2ZpdGltYWdl
+LWltcHJvdmVtZW50cwoKUmVnYXJkcywKQWRyaWFuCgo=
 
