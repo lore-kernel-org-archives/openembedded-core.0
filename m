@@ -1,186 +1,112 @@
-Return-Path: <max.oss.09@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 734B2C3ABB0
-	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 12:56:47 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web11.49588.1746449797102810653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 825B3C3ABB0
+	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 13:08:47 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.49650.1746450526251565116
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 May 2025 05:56:37 -0700
+ Mon, 05 May 2025 06:08:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jaZCInFm;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: max.oss.09@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ac2af2f15d1so594426166b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 05:56:36 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=xFeX2WAr;
+ spf=pass (domain: linaro.org, ip: 209.85.167.48, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5499c5d9691so5168796e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 06:08:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746449795; x=1747054595; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3730aFGpxHIeZcvtqMWNfh93bh5DnDm6SEb/qfZ7A+g=;
-        b=jaZCInFmqYCiKmUyXzTNJJAeaiVY7qV5Oq4EuXLXQ1dCbwodRZsL2pMSS9E+d8bcWi
-         +btQwjBsE0v97HbSPohlck+UBoHZghCKf+s/PJNUDl51Jel9QMGBOhf89NTQIKkichno
-         b30VOorxWtkmHJd3Vqms613pP54feNESQ+LHR7EWClv9SA4wJyzWxWNvOoFxdFXKK2HF
-         ShPdX7ywKjuoPlczbeEVhTRxoeF2C1gx/9IyQzOrQ00PSMTd8CqaAtluIPK3MT638MkT
-         9/Md7U2nyg8CYnyYSg1KohKu2GL8atUUS/6ipxtDtkXtGOTwfbmwKepzqPh16EL4U77m
-         YoFQ==
+        d=linaro.org; s=google; t=1746450524; x=1747055324; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ho/z7X4qIok9OC3mJPM6RA2ebYUB5w8WN4lsm76GuZw=;
+        b=xFeX2WAr5dbqSSpOPRu1QllCp2KpaLCmcP/M0Q9xhqZBCObgVUQLskupRnJB1MOeKw
+         /ytFjdEZ/igr1Xhr0N0jHMhIMVGiMobORsb5HUw5m57fM+cElvoa/cZ+DVouhzHvPjbC
+         pF0QW3OiC10som9RzluVTwzhA3oyAlwa+ZiBPCupQi3rJQ+8OsaGLXzX3SjE9W04AEd7
+         SMhVzKrNSenPKzPn5l6+kxR2KkjP8jOzpCfFh2KuzHddKAEEDoffTKSAApgY/yGZAFUZ
+         /lOkUm7kGa92tNbKDT7TRWQWaLrbiR3b4VlZMwlL73LuVEd606FTb6lTkT6RCo/iAA4J
+         Sz+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746449795; x=1747054595;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3730aFGpxHIeZcvtqMWNfh93bh5DnDm6SEb/qfZ7A+g=;
-        b=wZLXcjn61uziS1hJBhd9iaoqr9rEyPpGQrNTbl/fgxE85vfTzWjcUXIxFgr49pnYQt
-         gdd7NgMqD5MbxJPUO/PW2NQ5X4EP92ofFv7SVY0dKbm7yxevSGOOJPtSXdKanUzQc+PO
-         WY4DIVZRJCxzhQOlU+2T3wwTMkGcx697gk46d+2d4Eg9firN6vCmLYobDkktdTwGvzyn
-         tbvirGOAkXwvZX8NnsJdXtEhRJJYWRcyKJSUIRmpM4UP0NmVggRgCLzGwrI6Hk05W5Ba
-         FaoP+mG7ZCVlJJGcnjHxBSQWeaAK/5SdIUZP+2dFBfaMY0SRRu1Lfc4e1aLfyEp4Qem4
-         oa6w==
-X-Gm-Message-State: AOJu0Yw/kjKWN0MW2EWiZuDajbNLYDmYS7okHvPThpAOw504mpLqyscO
-	mjHz54Zki+NDOue94RLnkhyJCqJQum6ZxkYGL/xgaZPmjvSlMH6n
-X-Gm-Gg: ASbGncu7OpwVM3FiEDrUKrr4Y33MwslHtzrtyI8IZrz/ORg9kmVS0Um0nAwvJ4fYKB8
-	pUeGTsRSLiL6Tz9M7OcDE/u9sW/ebShrUDQYxebHytoncfcJn5jHBM1ponJMvuoINcYuscPNlZv
-	LB8xqBUKAPAyCIlQJgfRHG6I9kBSi1bfznRo3OGV18WhBOk1tV+3zYLHAwAwkrSp9uEa7vYqWEA
-	YP4lUyiu3BTncP6DUJfjTN+Fy67X8s4G1jTbyFr3qbUZPy5/uUuEqeyROzMNfu2rsS6OqJDHhYP
-	DI3rCf1kMGK/ndAe8fiJiRR6xE6ErpHo2d1AiBDPhjFr5ecak5iUC6dONO6w52RONOv5GzNEhNv
-	vKeWkTSiroAXXUT7XCMS9lxwSVANwWtFy
-X-Google-Smtp-Source: AGHT+IFAfXaUBpgrz5unjR/KGumu3+D8WcRe/LkG5SFlTT99IZd6Zq6GSJGoJZ0VdhrMEEpJVT0KPw==
-X-Received: by 2002:a17:907:1c1a:b0:acf:30:7e9f with SMTP id a640c23a62f3a-ad19083710dmr829156066b.40.1746449795213;
-        Mon, 05 May 2025 05:56:35 -0700 (PDT)
-Received: from toolbox (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch. [83.173.201.248])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad189540478sm489561566b.169.2025.05.05.05.56.34
+        d=1e100.net; s=20230601; t=1746450524; x=1747055324;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ho/z7X4qIok9OC3mJPM6RA2ebYUB5w8WN4lsm76GuZw=;
+        b=dudrghPz6xCb9SBBnb9yXuIevW3W7sXq/DIme6pUZbuJYfqe/Z2TyIPckuBteAk5rj
+         PTcY85s0tPgUWElguYZU5NF4DBSUFTBoVEVG+ja6qESspIhQOQXdq6Elb9XMmXHJXEfR
+         cHe0WvQ01SQlqcCZ5G25u0aSLxvMl9HZacc9UesJdc8XdD+k91ChFVv8djGKaEQ3IsKW
+         Gm1L6BazrVfESBOwlhTM73K7CUMyRgoRfg+vBVmBRjUs3EXLk2ssKHx68/6SI8iwwXy7
+         3SfkmVtC7veQNysYI3GxWd8cWt7vUVY9+uGEMr5yzCTXr6lTI3hiZLMrrmJDkbzCp5/Y
+         qesQ==
+X-Gm-Message-State: AOJu0YwT+t8joWvwxEX+QXcyI53n1pvygtAObXWRoKfoK8tazEabSYZl
+	5LpoWaTaz6SaReGIlTviFXqHARzhgpEssOngJ9k1omBDt436x4r7wu9GDsYBlhBqBzXEcurHyMQ
+	cMbo=
+X-Gm-Gg: ASbGncvDEAek5NddligaGf8qd8HlRYg0HjnM08TwCjX2vb586FE/T8dRuX8z4QjNjrA
+	QePnydbOQXsc/bwL2/4tR/AYj1ic+DnHsyAOzYQEI9ZjkuY40vL9mXYqD3AiLi1kYUN/RPYpgHZ
+	2wQyIBk2iz0Or0PxhN27x8vwvrR5Psys6FubrIlqtZaXcYhm4HoxvlZ376ScXKWk2gfOqiZVXEy
+	vJEvmXZElCQbQQ+02B5tax+auhxN5DCMKaZ/Eo2ro0txAxGKdsv2CofYkEQC1sPCO9Fr17aCDnl
+	hGCkEOK0PHMZsdg8Bj6FPzbxshY6REb+hBjFKr5PFPceEsFlibj/94FiUriKXmHO6dQLrdG6Zdz
+	SLRSEqW3RhGkPITwNeg==
+X-Google-Smtp-Source: AGHT+IGLssdIulcw8iSX9fVSI9qw7LjQWCNXL5VrS4lQJ0GvftWfBNxWI5CmQPC52WQxJqjCWKxdXA==
+X-Received: by 2002:a05:6512:234d:b0:54a:cbfb:b62e with SMTP id 2adb3069b0e04-54fa4f90485mr1659643e87.35.1746450523990;
+        Mon, 05 May 2025 06:08:43 -0700 (PDT)
+Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ea94f69e5sm1698448e87.232.2025.05.05.06.08.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 May 2025 05:56:34 -0700 (PDT)
-Date: Mon, 5 May 2025 14:56:33 +0200
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>,
-	Max Krummenacher <max.krummenacher@toradex.com>
-Subject: Re: [OE-core] systemd build failure with gcc 15 / tpm2 / aarch64:
- gcs required
-Message-ID: <aBi1gWY-xOVOBxjI@toolbox>
-References: <aBilFkr4HF-MSBd6@toolbox>
- <CAKHfEahGyPFdLcB0LZqxaBpuKKWGWzhmxFHY8V+8Bv+7EdN4ng@mail.gmail.com>
+        Mon, 05 May 2025 06:08:43 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v3] bitbake.conf: pseudo to ignore vim and less config files
+Date: Mon,  5 May 2025 16:08:30 +0300
+Message-ID: <20250505130830.995042-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKHfEahGyPFdLcB0LZqxaBpuKKWGWzhmxFHY8V+8Bv+7EdN4ng@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 12:56:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216010
+ <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 13:08:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216011
 
-On Mon, May 05, 2025 at 02:33:22PM +0200, Vyacheslav Yurkov wrote:
-> Did you ask this in the systemd issue tracker as well?
+vim and less always write to these files in users home directory.
+Using vim and less via pseudo in "bitbake -c devshell recipe" and
+outside of pseudo triggers pseudo aborts which makes interactive
+use of devshell difficult. Fixes vim and less crashes and related
+pseudo log entries:
 
-No, I didn't. I hoped to get some insight from OE first.
+inode mismatch: '/home/builder/.viminfo' ino 33270730 in db, 33269736 in request.
+inode mismatch: '/home/builder/.lesshst' ino 33270625 in db, 33270730 in request.
 
-To me it looks more like an issue with the way the toolchain or
-systemd or openssl gets configured rather than with the upstream
-systemd codebase. I might be wrong though.
+Ignoring all files with ${HOME}/. in path fails since tools seem
+to be using these paths, e.g. trusted-firmware-a from meta-arm.
 
-Regards
-Max
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/conf/bitbake.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> 
-> Slava
-> 
-> On Mon, May 5, 2025, 13:46 Max Krummenacher via lists.openembedded.org
-> <max.oss.09=gmail.com@lists.openembedded.org> wrote:
-> 
-> > Hello
-> >
-> > I'm seeing a strange warning resulting in a failed build when building
-> > systemd with tpm2 in DISTRO_FEATURES.
-> >
-> > GCS seems to be a new feature supported with GCC 15 and friends
-> > targeting the AARCH64 architecture. Whatever it does ;-).
-> >
-> > Ways to reproduce:
-> >
-> > Add the needed layers for tpm2, add tpm2 to distro features and build
-> > systemd.
-> > E.g.
-> > bblayers.conf additions:
-> >
-> >   ${TOPDIR}/../meta-security/meta-tpm \
-> >   ${TOPDIR}/../meta-openembedded/meta-oe \
-> >   ${TOPDIR}/../meta-openembedded/meta-python \
-> >
-> > local.conf additions:
-> >
-> > DISTRO_FEATURES:append = " tpm2"
-> > INIT_MANAGER = "systemd"
-> >
-> > MACHINE=qemuarm64 bitbake systemd
-> >
-> > Results in:
-> >
-> > | FAILED: src/shared/libsystemd-shared-257.so
-> > | aarch64-poky-linux-gcc -mcpu=cortex-a57+crc -mbranch-protection=standard
-> > -fstack-protector-strong
-> >   -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security
-> > -Werror=format-security --sysroot=...systemd/257.5/recipe-sysroot
-> >   -o src/shared/libsystemd-shared-257.so -Wl,--as-needed
-> > -Wl,--no-undefined -shared -fPIC
-> >   -Wl,-soname,libsystemd-shared-257.so -Wl,--whole-archive
-> > -Wl,--start-group src/shared/libsystemd-shared-257.a
-> >   src/basic/libbasic.a src/libsystemd/libsystemd_static.a
-> > -Wl,--no-whole-archive -fstack-protector
-> >   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
-> > -ffile-prefix-map=...systemd/257.5/git=/usr/src/debug/systemd/257.5
-> >   -ffile-prefix-map...systemd/257.5/build=/usr/src/debug/systemd/257.5
-> > -ffile-prefix-map=...systemd/257.5/recipe-sysroot=
-> >   -ffile-prefix-map=...systemd/257.5/recipe-sysroot-native=
-> > -Wl,-z,relro,-z,now -shared
-> >   -Wl,--version-script=...systemd/257.5/git/src/shared/libshared.sym
-> > -pthread ...systemd/257.5/recipe-sysroot/usr/lib/libacl.so
-> >   ...systemd/257.5/recipe-sysroot/usr/lib/libblkid.so
-> > ...systemd/257.5/recipe-sysroot/usr/lib/libcap.so
-> >   ...systemd/257.5/recipe-sysroot/usr/lib/libcrypt.so -ldl
-> > ...systemd/257.5/recipe-sysroot/usr/lib/libmount.so
-> >   ...systemd/257.5/recipe-sysroot/usr/lib/libssl.so
-> > ...systemd/257.5/recipe-sysroot/usr/lib/libcrypto.so -lrt
-> >   ...systemd/257.5/recipe-sysroot/usr/lib/libseccomp.so
-> > -Wl,--fatal-warnings -Wl,-z,now -Wl,-z,relro -Wl,--warn-common
-> >   -Wl,--gc-sections -Wl,--fatal-warnings -Wl,-z,now -Wl,-z,relro
-> > -Wl,--warn-common -Wl,--gc-sections -lm
-> >   -Wl,--end-group -Wl,--fatal-warnings -Wl,-z,now -Wl,-z,relro
-> > -Wl,--warn-common -Wl,--gc-sections
-> >   -Wl,--fatal-warnings -Wl,-z,now -Wl,-z,relro -Wl,--warn-common
-> > -Wl,--gc-sections
-> > | ...systemd/257.5/recipe-sysroot/usr/lib/libcrypto.so: warning: GCS is
-> > required by -z gcs,
-> >   but this shared library lacks the necessary property note. The dynamic
-> > loader might not enable GCS
-> >   or refuse to load the program unless all the shared library dependencies
-> > have the GCS marking.
-> > | collect2: error: ld returned 1 exit status
-> >
-> >
-> > I already found that adding to the systemd recipe
-> >
-> > 'CFLAGS:append = " -Wl,-z,gcs-report-dynamic=none"'
-> >
-> > prevents the build error. However I'm not sure if that would be a good
-> > way forward and if there are other recipes / configurations which would
-> > result in similar build errors.
-> >
-> > Any comments? Thanks.
-> >
-> > Regards
-> > Max
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#216006):
-> > https://lists.openembedded.org/g/openembedded-core/message/216006
-> > Mute This Topic: https://lists.openembedded.org/mt/112627480/4455192
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> > uvv.mail@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
-> >
+v3: back to .less and .vim paths due to failures from trusted-firmware-a in meta-arm,
+    added comment
+
+v2: ignore all files from ${HOME}/. instead of just ${HOME}/.vim and ${HOME}/.less
+    https://lists.openembedded.org/g/openembedded-core/message/215991
+
+v1: https://lists.openembedded.org/g/openembedded-core/message/215986
+
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b1dae17267..1de22ea868 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -748,6 +748,8 @@ PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysro
+ PSEUDO_IGNORE_PATHS .= ",${TMPDIR}/sstate-control,${TMPDIR}/buildstats,${TMPDIR}/sysroots-components,${TMPDIR}/pkgdata"
+ PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/deploy-,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/pkgdata-sysroot"
+ PSEUDO_IGNORE_PATHS .= ",${DEPLOY_DIR},${BUILDHISTORY_DIR},${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR},${S},${B}"
++# Ignore all files and directories with path starting with .vim/.less in HOME
++PSEUDO_IGNORE_PATHS .= ",${HOME}/.vim,${HOME}/.less"
+ 
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+-- 
+2.43.0
+
 
