@@ -1,208 +1,167 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E309CC3ABAA
-	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 19:50:09 +0000 (UTC)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.web10.59643.1746474600260306290
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCB0BC3ABB6
+	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 22:48:30 +0000 (UTC)
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by mx.groups.io with SMTP id smtpd.web10.63329.1746485307730563268
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 May 2025 12:50:00 -0700
+ Mon, 05 May 2025 15:48:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=yLUs7Qbp;
- spf=pass (domain: baylibre.com, ip: 209.85.222.170, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c9677cd6d7so555874485a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 12:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1746474599; x=1747079399; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bt4eBh8SrwgQkuW5DOpxrjFhpUBuPD0v84qM7VObYKM=;
-        b=yLUs7QbpE5UiGLi4PTPaosTnk4NYVGuNQdaUBcGapnsraBSF5zi3GmDAhYVEBcynSG
-         30fTd7IIqw9uO2Z5R5RyvnREp7WH5mkJa+j9vErtJv/5rZkd8bBHKrWKB+gPL5/peDVO
-         DVQArbvP38mLjdab6ogSO+4mVxcmOITXK+uvJKKlrNJrvOH0vIt3GzaEDcXpuT79qKEu
-         19lhLBXb5rR+M4LuW1oWihcBrj/6JceE+odHs7VM5v+PGYRvOB8E5TidpNycu+n5fhFG
-         YL8PQbTmMrGk5PshyyFWDm26q7wf1aRyfFOhK1D0fIkRJnArFuWGGwzcCIXItM1a7cZw
-         ZBvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746474599; x=1747079399;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bt4eBh8SrwgQkuW5DOpxrjFhpUBuPD0v84qM7VObYKM=;
-        b=gZUmA06TQbmY+6u6TX8R26De/TthVozLnlCIGjoJwNC+cKXiqBAveZvK6YK4LAW6Xn
-         hfA7OYwLuPdBcSq8J4hz58A1l3jHCIiZ9OTjx6ZC403z7URULhHxxqjuBiLlOgVrjtnb
-         EoyHiNPOkOIH+Z0bufz/Q6fjemiYBYfW1TynIQYsD9G/B9lb7yIY0e36bKQ6Ybns6CKX
-         dV6ZCezTOQpSBhOIUvN8kCUv1ZdLnFPy5FEPncrQsZzZjBBuY1dsiaYmssGcFI8MKkDE
-         1OwYGatVbLT2lW9ezwWPXDrcGU8jecc57Jay6uKg/xHjQ7gg13CkLxD+ShOCBTOAihf+
-         0PVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4iXoWVGAWwlP4lGvTS28SX4pEUfJtRrijATPg6RKhUQr/anQ/EXhUC1AW4IFeYduUnoaKYlkVl+bZ96uzNs63vg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw4HTkqDFh2Vn756GTnlZR/xi6d1puIRvpSQGkWHbKclVb3Fk6K
-	lcn3wwJcnwSsZf95osem8HcbfesBZeKgYHQORz5Cc76ZMPyYbOvJR+5DkL37/qLC1Uza7N70RJ3
-	5pNw=
-X-Gm-Gg: ASbGncvX6AowaFSb/IaQ4uBnZilbIxqooSDnuYg399fRd2qB8s6mUNYiX8b3fFcd1iA
-	5qzDWRhodYhmBox3f3/BHRuLPDQ4Lz4kUMDXdUtjffBT6UpNr+HSzj35d5NAKC9YbEOdXlCcNuE
-	tnnVapW8g2yuUPfCnY7fevjTLFl5cCX9PidCNaETlICmfp/p+oF48wIIzkG727tInS+xi+Xa4QN
-	UeckFeyS7Q3ZnBq9su/d+1XS6P8Sb3adxONVyO+tyEeKs96B4H8sPEk+aB1359M/GsMnFi7187S
-	TirdPV0oe+kGd1Ee8cLhK7VAqTAhYB7BLZCkeMGmYz7uKJ8zdu7cD93AvUm3R1IwbjbI2+D+Jhu
-	M3yPA/Sdw
-X-Google-Smtp-Source: AGHT+IHY9j6/IC30KGRw4IL6XH3XSszxTzIJyhz4bhSb0r+zLGmVTgGXchhF8BssCtO/fTSdnWubUA==
-X-Received: by 2002:a05:6214:124f:b0:6e6:6ba9:9e84 with SMTP id 6a1803df08f44-6f528c95d8emr106360236d6.26.1746474599185;
-        Mon, 05 May 2025 12:49:59 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f50f4518c5sm59683006d6.84.2025.05.05.12.49.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 May 2025 12:49:58 -0700 (PDT)
-Message-ID: <744834f5-f1e0-4474-a07a-a6f4abfb002e@baylibre.com>
-Date: Mon, 5 May 2025 15:49:57 -0400
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=OfviICnq;
+ spf=pass (domain: ti.com, ip: 198.47.19.246, mailfrom: rs@ti.com)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 545Mm8O0885899
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 5 May 2025 17:48:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1746485288;
+	bh=XHl26XGznDdhJux67agXDbg1191fhMJoF+vfo/qMEv4=;
+	h=From:To:CC:Subject:Date;
+	b=OfviICnq3fIG7iOA9UpYivC6ye8wFAXqcTYhhcL+kwYHaJsbg7fW4PnBKa+U/DGp9
+	 qkqaJxG1NrICaMx+qKUZ+P+VIQXZynhSbAEgqGI9Urljs3vopzZdbPuy/4oNWXGGAR
+	 JJEceIQVEqktf2xVw+mnkL8owGPdlBWbjolpsyg4=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 545Mm8Wk005436
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 5 May 2025 17:48:08 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 5
+ May 2025 17:48:07 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 5 May 2025 17:48:07 -0500
+Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 545Mm7Gh065114;
+	Mon, 5 May 2025 17:48:07 -0500
+From: <rs@ti.com>
+To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
+        <ross.burton@arm.com>, <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+        <denis@denix.org>, <reatmon@ti.com>
+CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: [oe-core][PATCHv2 0/3] Display manager proposal for x11 and wayland
+Date: Mon, 5 May 2025 17:47:58 -0500
+Message-ID: <20250505224801.3181046-1-rs@ti.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH] python3: upgrade 3.13.2 -> 3.13.3
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- openembedded-core@lists.openembedded.org
-References: <20250423162714.2261296-1-tgamblin@baylibre.com>
- <D9FOR4M7UASR.23XL7B0KAMZNQ@bootlin.com>
- <183CB944BEC47AC5.32718@lists.openembedded.org>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <183CB944BEC47AC5.32718@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 19:50:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216019
+ <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 22:48:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216020
 
+From: Randolph Sapp <rs@ti.com>
 
-On 2025-05-05 15:47, Trevor Gamblin via lists.openembedded.org wrote:
->
-> On 2025-04-25 07:33, Mathieu Dubois-Briand wrote:
->> On Wed Apr 23, 2025 at 6:27 PM CEST, Trevor Gamblin wrote:
->>> This adds some security fixes and many new changes to the library.
->>>
->>> Changelog: 
->>> https://docs.python.org/3/whatsnew/changelog.html#python-3-13-3-final
->>>
->>> Reproducibility looks OK.
->>>
->>> ptest results OK:
->>>
->>> |----------------------------------------------------------------------
->>> |Ran 81 tests in 4.331s
->>> |
->>> |OK (skipped=2)
->>> |
->>> |== Tests result: SUCCESS ==
->>> |
->>> |29 tests skipped:
->>> |    test.test_asyncio.test_windows_events
->>> |    test.test_asyncio.test_windows_utils test.test_gdb.test_backtrace
->>> |    test.test_gdb.test_cfunction test.test_gdb.test_cfunction_full
->>> |    test.test_gdb.test_misc test.test_gdb.test_pretty_print
->>> |    test_android test_apple test_asdl_parser test_clinic test_devpoll
->>> |    test_free_threading test_generated_cases test_idle test_ioctl
->>> |    test_kqueue test_launcher test_msvcrt test_startfile test_tcl
->>> |    test_tkinter test_ttk test_ttk_textonly test_turtle test_winapi
->>> |    test_winconsoleio test_winreg test_wmi
->>> |
->>> |9 tests skipped (resource denied):
->>> |    test_curses test_peg_generator test_pyrepl test_smtpnet
->>> |    test_socketserver test_urllib2net test_urllibnet test_winsound
->>> |    test_zipfile64
->>> |
->>> |442 tests OK.
->>> |
->>> |Total duration: 2 min 51 sec
->>> |Total tests: run=43,896 skipped=2,268
->>> |Total test files: run=471/480 skipped=29 resource_denied=9
->>> |Result: SUCCESS
->>> |DURATION: 171
->>> |END: /usr/lib/python3/ptest
->>> |2025-04-15T17:54
->>> |STOP: ptest-runner
->>> |TOTAL: 1 FAIL: 0
->>>
->>> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
->>> ---
->> Hi Trevor,
->>
->> Thanks for your patch.
->>
->> I believe we do have some build errors on the autobuilder:
->>
->> ERROR: nativesdk-python3-3.13.3-r0 do_compile: oe_runmake failed
->> ERROR: nativesdk-python3-3.13.3-r0 do_compile: Execution of 
->> '/srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-python3/3.13.3/temp/run.do_compile.477475' 
->> failed with exit code 1
->> ERROR: Logfile of failure stored in: 
->> /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-python3/3.13.3/temp/log.do_compile.477475
->> Log data follows:
->> ...
->> | 0:00:01 load avg: 8.37 [4/4] test_types
->> | test test_types failed
->> | 0:00:04 load avg: 9.14 [4/4] test_types failed (1 failure)
->> |
->> | Total duration: 4.1 sec
->> | Total tests: run=321 failures=1 skipped=1
->> | Total test files: run=4/4 failed=1
->> | Result: FAILURE
->> | make: *** [Makefile:897: profile-run-stamp] Error 2
->> | ERROR: oe_runmake failed
->> | WARNING: 
->> /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-python3/3.13.3/temp/run.do_compile.477475:195 
->> exit 1 from 'exit 1'
->> | WARNING: Backtrace (BB generated script):
->> |     #1: bbfatal_log, 
->> /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-python3/3.13.3/temp/run.do_compile.477475, 
->> line 195
->> |     #2: die, 
->> /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-python3/3.13.3/temp/run.do_compile.477475, 
->> line 179
->> |     #3: oe_runmake, 
->> /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-python3/3.13.3/temp/run.do_compile.477475, 
->> line 174
->> |     #4: autotools_do_compile, 
->> /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-python3/3.13.3/temp/run.do_compile.477475, 
->> line 157
->> |     #5: do_compile, 
->> /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-python3/3.13.3/temp/run.do_compile.477475, 
->> line 152
->> |     #6: main, 
->> /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-python3/3.13.3/temp/run.do_compile.477475, 
->> line 208
->> NOTE: recipe nativesdk-python3-3.13.3-r0: task do_compile: Failed
->> ERROR: Task 
->> (virtual:nativesdk:/srv/pokybuild/yocto-worker/buildtools/build/meta/recipes-devtools/python/python3_3.13.3.bb:do_compile) 
->> failed with exit code '1'
->> NOTE: Tasks Summary: Attempted 4197 tasks of which 4029 didn't need 
->> to be rerun and 1 failed.
->> NOTE: The errors for this build are stored in 
->> /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/log/error-report/error_report_20250425111940.txt
->> You can send the errors to a reports server by running:
->>    send-error-report 
->> /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/log/error-report/error_report_20250425111940.txt 
->> [-s server]
->> NOTE: The contents of these logs will be posted in public if you use 
->> the above command with the default server. Please ensure you remove 
->> any identifying or proprietary information when prompted before sending.
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/43/builds/1461/steps/11/logs/stdio 
->>
-> Was this the only occurrence? As usual, I am having trouble 
-> reproducing this locally...
-Scrap that, I got it...
->>
->> Can you have a look at the issue please?
->>
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216018): https://lists.openembedded.org/g/openembedded-core/message/216018
-> Mute This Topic: https://lists.openembedded.org/mt/112417405/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+We've recently run into some issues with weston-init attempting to start
+Weston prior to all drm devices being registered. There's not really a
+good, scriptable mechanism to listen in to device registration events
+that works with the existing weston-init package. Well, at least one
+that doesn't involve polling files or introducing more dependency on the
+init system being used.
+
+I also see there is also a lot of scripting around starting X11,
+xserver-nodm-init, that (from my limited review) should experience the
+same issue.
+
+I'd like to introduce the following display manager for oe-core, emptty
+[1]. This display manager is, as described upstream, a "Dead simple CLI
+Display Manager on TTY". It supports both x11 and wayland sessions, with
+togglable build parameters to completely remove x11 and pam
+dependencies. It's licensed MIT, which shouldn't be an issue for any
+users. (It is written in Go, if you have opinions about that.)
+
+With this, both weston-init and the xserver-nodm-init packages can be
+re-tuned to leverage this display manager and simply add a user and
+emptty config for an autologin session. This can resolve the current
+behavior across init systems without additional scripting, and move some
+development out of this layer.
+
+This lists myself as a maintainer of emptty as well as xserver-nodm-init and
+xuser-account since these are currently unassigned and I've reworked them
+significantly here.
+
+Sorry for the delay on this series. I found a few bugs in emptty that I wanted
+to address before submitting this officially.
+
+[1] https://github.com/tvrzna/emptty
+
+v2:
+	- Address spelling issues in commit messages
+	- Attempt to resolve some test related issues with weston
+	- Add additional logs to X11 related tests
+
+Randolph Sapp (3):
+  emptty: add version 0.14.0
+  weston-init: convert to virtual-emptty-conf
+  xserver-nodm-init: convert to virtual-emptty-conf
+
+ .../conf/distro/include/default-providers.inc |   1 +
+ meta/conf/distro/include/maintainers.inc      |   6 +-
+ meta/lib/oeqa/runtime/cases/weston.py         |   2 +-
+ meta/lib/oeqa/runtime/cases/xorg.py           |   8 +
+ meta/recipes-graphics/emptty/emptty-conf.bb   |  14 +
+ meta/recipes-graphics/emptty/emptty.inc       |  26 ++
+ .../recipes-graphics/emptty/emptty/emptty.tab |   1 +
+ meta/recipes-graphics/emptty/emptty/pamconf   |  10 +
+ meta/recipes-graphics/emptty/emptty_0.14.0.bb |  53 +++
+ meta/recipes-graphics/wayland/weston-init.bb  |  61 +--
+ .../wayland/weston-init/emptty.conf           |  77 ++++
+ .../recipes-graphics/wayland/weston-init/init |  54 ---
+ .../wayland/weston-init/weston-autologin      |  11 -
+ .../wayland/weston-init/weston-socket.sh      |  20 -
+ .../wayland/weston-init/weston-start          |  76 ----
+ .../wayland/weston-init/weston.env            |   0
+ .../wayland/weston-init/weston.service        |  71 ----
+ .../wayland/weston-init/weston.socket         |  14 -
+ .../x11-common/xserver-nodm-init/X11/Xsession |  38 --
+ .../X11/Xsession.d/13xdgbasedirs.sh           |  19 -
+ .../X11/Xsession.d/89xdgautostart.sh          |   7 -
+ .../X11/Xsession.d/90XWindowManager.sh        |   7 -
+ .../x11-common/xserver-nodm-init/Xserver      |  25 --
+ .../xserver-nodm-init/capability.conf         |   2 -
+ .../xserver-nodm-init/default.desktop         |   5 +
+ .../xserver-nodm-init/emptty.conf.in          |  77 ++++
+ .../xserver-nodm-init/gplv2-license.patch     | 355 ------------------
+ .../x11-common/xserver-nodm-init/xserver-nodm |  75 ----
+ .../xserver-nodm-init/xserver-nodm.conf.in    |   7 -
+ .../xserver-nodm-init/xserver-nodm.service.in |  11 -
+ .../x11-common/xserver-nodm-init_3.0.bb       |  57 +--
+ .../user-creation/xuser-account_0.1.bb        |   3 +-
+ 32 files changed, 307 insertions(+), 886 deletions(-)
+ create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
+ create mode 100644 meta/recipes-graphics/emptty/emptty.inc
+ create mode 100644 meta/recipes-graphics/emptty/emptty/emptty.tab
+ create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
+ create mode 100644 meta/recipes-graphics/emptty/emptty_0.14.0.bb
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/emptty.conf
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/init
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston-autologin
+ delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-socket.sh
+ delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.env
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.service
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.socket
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession.d/13xdgbasedirs.sh
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession.d/89xdgautostart.sh
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession.d/90XWindowManager.sh
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/Xserver
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/capability.conf
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/default.desktop
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/gplv2-license.patch
+ delete mode 100755 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf.in
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
+
+-- 
+2.49.0
+
 
