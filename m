@@ -1,124 +1,86 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5DADC3ABAA
-	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 13:47:57 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.50775.1746452867487669453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F11AC3ABB0
+	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 14:23:48 +0000 (UTC)
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+ by mx.groups.io with SMTP id smtpd.web10.50396.1746452697448744229
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 May 2025 06:47:47 -0700
+ Mon, 05 May 2025 06:44:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=wrJYLklv;
- spf=pass (domain: linaro.org, ip: 209.85.167.45, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54298ec925bso5773512e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 06:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746452866; x=1747057666; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dfOQFaGddUsHWkqTesFbQr6oEXFGsCTh5G7ZkugK/us=;
-        b=wrJYLklvdXFs+J+6s3ycg+zoEaBWobrDipna6w5k3TDl06TPp90RD7eBmsn05j+Dqu
-         6xmHXLr1GYcD0FDZBiMEHG8tbOK60u57BuxEqTp15fCbVfroimgxIRoQlfpDX94buEQN
-         EcIvopfK+iVKCnNAngXpsSPKzt3XMuPLg9N3Fr7cpinz7YbAVGJA2IQiJQhYJo/Mawsy
-         DartlRsoBM4u2qzEn89GoL8ROQ6EJ//Av5Y15qd/3oQxnurLlXG2rrMGYE4raaQf5oYP
-         tCZoJ7j1kaXnXzrSZyCFANnDGHuMV35I9JCuriYXwaB92DViYMgYd1H+sW0nscYaXhP+
-         qo6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746452866; x=1747057666;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dfOQFaGddUsHWkqTesFbQr6oEXFGsCTh5G7ZkugK/us=;
-        b=UMY5e6z6PSfomgPnjYZrq8Ivro/UiveSdLqTGSaxfv5tb8naXQp3Q5/aq96kYzT3H1
-         IbCM2RrKeaosirf/0I8fj1LyKWN4PvDse6xSnHhrdlGot2/TgH5kMwh6ESNF5gd9jSfp
-         F7uvLoLOYKCFpPEYRhmA6VSelR3r87yKMCuUi+o1zPanqLKvdBJTxzbYUsaYax7hP7+O
-         Blf1iaOD0eQXSvTkFktEvmNroHTIENjG5p5hq02Qy/O+vqJ4IsmfF1nDbqSrTYDVhmrp
-         wyYHrLmc2HU8SzZpQqfvcHW+UwFxB66b8jcZMXQErKVic13k4896wKcBo7zcCe/tfI3h
-         v4UQ==
-X-Gm-Message-State: AOJu0YwDkWGpb3ZfMOqfTJWOm7Y6cStG8LSLh3RshnN9entPFsM97XC0
-	86yX02AAiJ+EXP4EcNHp17UegA9vB+USmTHhi2U4cZojZBmSqCMTFqYuIdaxe7U=
-X-Gm-Gg: ASbGncu0hiMQytmoRUbezLTz9ZMfKNw0XHYaJh8Z6LkgYJDAbPnpSvPlUwdnf0bv+zr
-	hwrjUUV3/VI7zFj42LeIYNaywEpB6JWnx1OduJhrnl9z/yu2Vy5oDNTT27llVAvKL04/X1SNZtc
-	XGT0A+Slx/ZVlv0N6+ci9j8jD+r9dnKRaKNOQS5jjqZ2Y3lIHEnBodDF7PXxENqwgZAmkfwdV+E
-	G/NJavb5D50bWrQySySBC1us4TNPmjcIUGxGnoZ+Kq3bxER0W6tuAdesGxilANbJBhfU8f3jIrW
-	kYwi+SPtvmTUUeZGGqvI3s5rekf9ymJJTqNhbE7EzOM4sxMDipUqABir0J0dc6H+O6kk3dpuMQ=
-	=
-X-Google-Smtp-Source: AGHT+IFlBowqctU+Jois4KwgTk1eA06z17N/6mTDFWkENySNYIoMsyM8XXEqMx075A8zb4/7ba3a6w==
-X-Received: by 2002:a05:6512:398c:b0:549:8db6:b2d9 with SMTP id 2adb3069b0e04-54fa4d56278mr1665280e87.27.1746452865471;
-        Mon, 05 May 2025 06:47:45 -0700 (PDT)
-Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ea94f2059sm1707284e87.201.2025.05.05.06.47.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 May 2025 06:47:45 -0700 (PDT)
-Date: Mon, 5 May 2025 16:47:43 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v3] bitbake.conf: pseudo to ignore vim and less
- config files
-Message-ID: <aBjBf2gcNp73567H@nuoska>
-References: <20250505130830.995042-1-mikko.rapeli@linaro.org>
- <dddfbb46a17195fde3ff7cb5667c84a9b68235bc.camel@linuxfoundation.org>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@linux.dev header.s=key1 header.b=XJpZGkm6;
+ spf=pass (domain: linux.dev, ip: 95.215.58.182, mailfrom: wen.yang@linux.dev)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1746452685;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qpOlxsigjyawIAcH8212kP5DDGOQUZmdeyLjTKSZp3Y=;
+	b=XJpZGkm6TT/nOURmLu3MOJhPzYJ6kDwaO6vA/4O+wFnoKdwy8qrc7368p+n0Z+Idfia3mz
+	ka+R7PAE0pADtzP9ToBL31WumhkO1g6q1x6cTJq5pJQ+rtCoIWwq0Sl+E0P2oP68XIrTpj
+	Z3WN0qqSQSmkl1tdBD+o3JWI0Sjmk3c=
+From: Wen Yang <wen.yang@linux.dev>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Cc: Wen Yang <wen.yang@linux.dev>
+Subject: [meta-oe][PATCH v4] testdisk: add recipe
+Date: Mon,  5 May 2025 21:44:20 +0800
+Message-Id: <20250505134420.1066169-1-wen.yang@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dddfbb46a17195fde3ff7cb5667c84a9b68235bc.camel@linuxfoundation.org>
+X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 13:47:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216013
+ <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 14:23:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216014
 
-Hi,
+testdisk is a free data recovery software primarily designed to help
+recover lost partitions and/or make non-booting disks bootable again
+when these symptoms are caused by faulty software.
 
-On Mon, May 05, 2025 at 02:29:57PM +0100, Richard Purdie wrote:
-> On Mon, 2025-05-05 at 16:08 +0300, Mikko Rapeli via lists.openembedded.org wrote:
-> > vim and less always write to these files in users home directory.
-> > Using vim and less via pseudo in "bitbake -c devshell recipe" and
-> > outside of pseudo triggers pseudo aborts which makes interactive
-> > use of devshell difficult. Fixes vim and less crashes and related
-> > pseudo log entries:
-> > 
-> > inode mismatch: '/home/builder/.viminfo' ino 33270730 in db, 33269736 in request.
-> > inode mismatch: '/home/builder/.lesshst' ino 33270625 in db, 33270730 in request.
-> > 
-> > Ignoring all files with ${HOME}/. in path fails since tools seem
-> > to be using these paths, e.g. trusted-firmware-a from meta-arm.
-> > 
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > ---
-> > �meta/conf/bitbake.conf | 2 ++
-> > �1 file changed, 2 insertions(+)
-> > 
-> > v3: back to .less and .vim paths due to failures from trusted-firmware-a in meta-arm,
-> > ��� added comment
-> 
-> What paths are they using exactly? That sounds odd...
+Signed-off-by: Wen Yang <wen.yang@linux.dev>
+---
+ .../recipes-support/testdisk/testdisk_7.2.bb    | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 meta-oe/recipes-support/testdisk/testdisk_7.2.bb
 
-With ${HOME}/. in ignored paths, I have a lot of recipes now installing non-root
-owned files and failing qa checks. Sadly this propagated to sstate cache.
-List of affected meta-arm recipes from small firmware builds:
+diff --git a/meta-oe/recipes-support/testdisk/testdisk_7.2.bb b/meta-oe/r=
+ecipes-support/testdisk/testdisk_7.2.bb
+new file mode 100644
+index 0000000000..66d0cd4d0d
+--- /dev/null
++++ b/meta-oe/recipes-support/testdisk/testdisk_7.2.bb
+@@ -0,0 +1,17 @@
++DESCRIPTION =3D "TestDisk is a free data recovery software primarily des=
+igned to help recover lost partitions and/or make non-booting disks boota=
+ble again when these symptoms are caused by faulty software, certain type=
+s of viruses or human error (such as accidentally deleting your Partition=
+ Table)."
++LICENSE =3D "GPL-2.0-or-later"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882=
+bbe"
++
++DEPENDS =3D "jpeg ncurses e2fsprogs"
++
++SRC_URI =3D "https://www.cgsecurity.org/${BP}.tar.bz2"
++SRC_URI[sha256sum] =3D "f8343be20cb4001c5d91a2e3bcd918398f00ae6d8310894a=
+5a9f2feb813c283f"
++
++inherit autotools pkgconfig
++COMPATIBLE_HOST:libc-musl =3D "null"
++
++PACKAGES =3D+ "${PN}-photorec"
++
++DESCRIPTION:${PN}-photorec =3D "Photorec is file data recovery software =
+designed to recover lost files including video, documents and archives fr=
+om Hard Disks and CDRom and lost pictures (Photo Recovery) from digital c=
+amera memory."
++FILES:${PN}-photorec =3D "${sbindir}/photorec"
++
+--=20
+2.25.1
 
-trusted-firmware-a
-ts-sp-block-storage
-ts-sp-attestation
-ts-sp-crypto
-ts-sp-smm-gateway
-ts-sp-storage
-ts-sp-its
-
-I tried PSEUDO_VERBOSE flags to figure out what is going on but that did
-not help. I can try again if you have some hints on how to debug this
-but it's clear that very bad things(tm) happen if ${HOME}/. is in pseudo
-ignored paths. And I really don't want to dive into various broken
-tools/toolchains just because I want less and vim to not crash inside
-devshell all the time. Common things behind these recipes are
-makefiles, CMake, dtc and custom python scripts.
-
-Cheers,
-
--Mikko
 
