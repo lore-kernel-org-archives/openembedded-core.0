@@ -1,99 +1,247 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C6D2C369C2
-	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 06:44:35 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.44403.1746427466611309634
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B15C369C2
+	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 06:52:45 +0000 (UTC)
+Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
+ by mx.groups.io with SMTP id smtpd.web10.44480.1746427945045442567
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 May 2025 23:44:27 -0700
+ Sun, 04 May 2025 23:52:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=mVGBV+Iz;
- spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-54d6f93316dso2530045e87.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 23:44:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746427465; x=1747032265; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0WdrSE5VFknw3UaORQNA0db+Uwb/M+NkT/75/tBpwM0=;
-        b=mVGBV+IzDWtxxLVFTTrn7Ag/oUGcYG9wMyOQRFNLU/dtKwcCyoYgAaWe7MLnfA9iY5
-         ci/rSolEYNma0zJIjIhXvTV1G1eA0GmxJQ4DcDW1IQBgSHX2yBFWT5O793HH7wtNAt0G
-         Lnz1FzY1pDVEnMHY/acYnVkCViik32vQCkKv0maCTbkQOKrqnr6qAWz+Y8xoCXZUAPiM
-         pMUrE+vfiBH0FIamGnzoSE64E/vLn+sNeFfPkSDtgbNeQndZaO0UTQUSXkeeLk8v4icL
-         fYGO1R/u0UKdKHfUqUhpKLs65aBQLxz5obbVdOE7r8zMCfKlLzzqHE/iZKHUF0tMdV0G
-         Z5Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746427465; x=1747032265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0WdrSE5VFknw3UaORQNA0db+Uwb/M+NkT/75/tBpwM0=;
-        b=jnLHIuHrp113EvqWKC4SxUsNxPx9D9sKBiJVbFVLuubse4vzNxF65mVGCh5k3PZG3x
-         DILq7W1gaGDe0bd18i0CNHc1LvFlOoGYlEc9rDF1Bn1jVtVB1lLGYkRu1J3WYVsS7N+n
-         SDFGU7eXURLzzl38GEoUuNHYWPYA6tfR4QWonD4zI0W0BBHYfHNHx5RP3dhpM7Dw9etZ
-         PDgbqu+zb6Y7s/bdRcxa37RhcJEBiA3iV/AshTh9Ee9aDnHP37PJxnTLx6AgYrnZoNA5
-         0vNRosCKBNS24WR7Vz6sc664w12++krfv2yKvReJxvJ9zf48EcEWpWEn42yAXpTiWYdJ
-         qGIA==
-X-Gm-Message-State: AOJu0YyeHggSi2aBiScgQoDQEGYrvzefRK9jx6vAEcLZ666Q5tYtejT5
-	G+MMTvpYHCAg5xc5KA1FfOOCAXLwlguy6L9x1cadbutXyL8ACJKwMLf7QhsyehWQ+72aqTnfcce
-	PpxQ=
-X-Gm-Gg: ASbGnctwo04lTnp3uqp7LQGP7JUk563KbYKUSmhw8jAv5MoCsFSYlf7dqmZGcYu8Tg7
-	uYQtk7z/nkPo8vvhSwF6UuCfZdLvcVRprVYsLBsP06ZDd88CMvpe6xJqVbkkH+3di0SHGmI9n05
-	HWE1ZrEsf18IDeEnY8TjCbvi9UZ3WVqHAtqpwUIDkWK30zEbS+o4UBNV6gkh6AZuuHviSe2F8KP
-	MlBHZg4YtqFq+y4fY5YLi3fH9BWqKtebki5/O3joXHeNNHBB4B4J8yJe9/ECe+2AnIQqjZ2rvU1
-	Q3IFn2rIXyhxED1h03z5mSb0fnuoynxF8Rz9sLrUpMIxDA0Euf10ieFucWzx3F/DvN13Bu8IhZM
-	YJgG30rcIaCtDKo0Rjg==
-X-Google-Smtp-Source: AGHT+IHZxnUxCwA2gHrJYY+yQnFqVF6r7wnd+x11q4TYKjKig9R/wWilzlV2i1eRdI2aL20vIJ+B3Q==
-X-Received: by 2002:ac2:51cd:0:b0:54a:cc11:9cc6 with SMTP id 2adb3069b0e04-54f9efbe82emr1805143e87.19.1746427464518;
-        Sun, 04 May 2025 23:44:24 -0700 (PDT)
-Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ea94f69dasm1584588e87.241.2025.05.04.23.44.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 May 2025 23:44:24 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.81, mailfrom: f_l_k@t-online.de)
+Received: from fwd76.aul.t-online.de (fwd76.aul.t-online.de [10.223.144.102])
+	by mailout03.t-online.de (Postfix) with SMTP id B9988C20
+	for <openembedded-core@lists.openembedded.org>; Mon,  5 May 2025 08:52:22 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([79.219.236.152]) by fwd76.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1uBpgc-1s5f9N0; Mon, 5 May 2025 08:52:22 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH] bitbake.conf: pseudo to ignore vim and less config files
-Date: Mon,  5 May 2025 09:44:10 +0300
-Message-ID: <20250505064410.896233-1-mikko.rapeli@linaro.org>
+Subject: [oe-core][PATCH] glib-2.0: update 2.84.0 -> 2.84.1
+Date: Mon,  5 May 2025 08:51:51 +0200
+Message-ID: <20250505065151.1351714-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+X-TOI-EXPURGATEID: 150726::1746427942-E77FD94A-C3D3470C/0/0 CLEAN NORMAL
+X-TOI-MSGID: 38629258-7895-49aa-8b19-d8c65e36e0e0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 06:44:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215986
+ <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 06:52:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215987
 
-vim and less always write to these files in users home directory.
-Using vim and less via pseudo in "bitbake -c devshell recipe" and
-outside of pseudo triggers pseudo aborts which makes interactive
-use of devshell difficult. Fixes vim and less crashes and related
-pseudo log entries:
+- remove backport patch
 
-inode mismatch: '/home/builder/.viminfo' ino 33270730 in db, 33269736 in request.
-inode mismatch: '/home/builder/.lesshst' ino 33270625 in db, 33270730 in request.
+Overview of changes in GLib 2.84.1, 2025-04-03
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+* Fix test failure when building against gobject-introspection =E2=89=A51=
+.83.4 (#3634,
+  work by Philip Withnall)
+
+* Bugs fixed:
+  - #3630 2.84.0 build failure on Linux: ../gio/gnetworkmonitornetlink.c:=
+47:10:
+    fatal error: netlink/netlink_route.h: No such file or directory (Phil=
+ip
+    Withnall)
+  - #3634 test failure with gobject-introspection 1.83.4: warning: elemen=
+t
+    doc:format from state 3 is unknown, ignoring (Philip Withnall)
+  - #3636 gio/trash does not handle special characters well
+  - #3642 `g_cancellable_connect()` documentation incorrect (Marco Trevis=
+an
+    (Trevi=C3=B1o))
+  - #3643 g_cancellable_connect(): is it safe to unref cancellable from
+    callback? (Marco Trevisan (Trevi=C3=B1o))
+  - #3649 Crash with some registry key values in GWin32AppInfo (Philip Wi=
+thnall)
+  - !4484 Memory sanitizer fixes
+  - !4489 gobject: Be consistent in using atomic logic to handle the
+    GParamSpecPool
+  - !4541 gsettings: Port docs to gi-docgen format, add missing annotatio=
+ns and
+    make various improvements
+  - !4544 tests: Don't install runner scripts without installed_tests
+  - !4545 Update French translation
+  - !4547 Update Catalan translation
+  - !4548 Update Turkish translation
+  - !4551 Updated Danish translation
+  - !4552 Update Persian translation
+  - !4553 docs: Document GSignalFlags members added after 2.0
+  - !4554 Update Indonesian translation
+  - !4555 tests: Add a test for g_object_freeze_notify() being called too=
+ often
+  - !4557 gfileinfo: Slightly expand docs for
+    g_file_info_get_attribute_as_string()
+  - !4558 gi: Dynamically set doc-format
+  - !4561 tests: Various fixes to create temporary files in /tmp rather t=
+han the
+    build directory
+  - !4562 gdbusnameowning: Convert docs to gi-docgen linking syntax
+  - !4563 giounix-private: Fix macro for checking for epoll_create1()
+  - !4565 Fix LGPL in header
+  - !4567 gutils: make documentation of g_set_prgname() clearer
+  - !4568 docs: Add some detail
+  - !4569 Update Romanian translation
+  - !4570 gspawn-win32: Fix potential integer overflows in argv handling
+  - !4571 gvarianttype: Improve docs on type validation
+
+* Translation updates:
+  - Catalan (Jordi Mas)
+  - Danish (Ask Hjorth Larsen)
+  - French (Vincent Chatelain)
+  - Indonesian (Andika Triwidada)
+  - Persian (Danial Behzadi)
+  - Romanian (Antonio Marin)
+  - Turkish (Sabri =C3=9Cnal)
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+ ...664e6f1a29e0d5f301979f6d168b08435a61.patch | 75 -------------------
+ ...l_2.84.0.bb =3D> glib-2.0-initial_2.84.1.bb} |  0
+ ...{glib-2.0_2.84.0.bb =3D> glib-2.0_2.84.1.bb} |  0
+ meta/recipes-core/glib-2.0/glib.inc           |  3 +-
+ 4 files changed, 1 insertion(+), 77 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5f3=
+01979f6d168b08435a61.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.84.0.bb =3D> glib-=
+2.0-initial_2.84.1.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.84.0.bb =3D> glib-2.0_2.84=
+.1.bb} (100%)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index b1dae17267..9cb70ee999 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -748,6 +748,7 @@ PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysro
- PSEUDO_IGNORE_PATHS .= ",${TMPDIR}/sstate-control,${TMPDIR}/buildstats,${TMPDIR}/sysroots-components,${TMPDIR}/pkgdata"
- PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/deploy-,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/pkgdata-sysroot"
- PSEUDO_IGNORE_PATHS .= ",${DEPLOY_DIR},${BUILDHISTORY_DIR},${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR},${S},${B}"
-+PSEUDO_IGNORE_PATHS .= ",${HOME}/.vim,${HOME}/.less"
- 
- export PSEUDO_DISABLED = "1"
- #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
--- 
-2.43.0
+diff --git a/meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5f301979f6=
+d168b08435a61.patch b/meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5=
+f301979f6d168b08435a61.patch
+deleted file mode 100644
+index 28bce02dc3..0000000000
+--- a/meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5f301979f6d168b08=
+435a61.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-From aee0664e6f1a29e0d5f301979f6d168b08435a61 Mon Sep 17 00:00:00 2001
+-From: Philip Withnall <pwithnall@gnome.org>
+-Date: Mon, 10 Mar 2025 15:21:15 +0000
+-Subject: [PATCH] girparser: Ignore new doc:format element in GIR files
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-As of gobject-introspection 1.83.2, a new `<doc:format name=3D"=E2=80=A6=
+"/>`
+-element is supported (as a child of `<repository>`) in GIR files.
+-
+-For the moment, this information isn=E2=80=99t needed in libgirepository=
+ =E2=80=94 but
+-the GIR parser does have to know about the element in order to not throw
+-an error claiming it=E2=80=99s invalid.
+-
+-This is a slightly tweaked version of the code added to
+-gobject-introspection.git in commit
+-9544cd6c962fab2c3203898779948309833e2439 by Corentin No=C3=ABl
+-<corentin.noel@collabora.com>, reformatted slightly to fit in with
+-GLib=E2=80=99s style guidelines.
+-
+-This is backwards compatible and does not require a new
+-gobject-introspection version.
+-
+-Signed-off-by: Philip Withnall <pwithnall@gnome.org>
+-
+-Fixes: #3634
+-
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
+aee0664e6f1a29e0d5f301979f6d168b08435a61.patch]
+-
+-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+----
+- girepository/girparser.c | 12 +++++++++++-
+- 1 file changed, 11 insertions(+), 1 deletion(-)
+-
+-diff --git a/girepository/girparser.c b/girepository/girparser.c
+-index 63143718d9..be88d871a4 100644
+---- a/girepository/girparser.c
+-+++ b/girepository/girparser.c
+-@@ -107,7 +107,8 @@ typedef enum
+-   STATE_ALIAS,
+-   STATE_TYPE,
+-   STATE_ATTRIBUTE,
+--  STATE_PASSTHROUGH
+-+  STATE_PASSTHROUGH,
+-+  STATE_DOC_FORMAT,  /* 35 */
+- } ParseState;
+-=20
+- typedef struct _ParseContext ParseContext;
+-@@ -3159,6 +3160,11 @@ start_element_handler (GMarkupParseContext  *cont=
+ext,
+-           state_switch (ctx, STATE_PASSTHROUGH);
+-           goto out;
+-         }
+-+      else if (strcmp ("doc:format", element_name) =3D=3D 0)
+-+        {
+-+          state_switch (ctx, STATE_DOC_FORMAT);
+-+          goto out;
+-+        }
+-       break;
+-=20
+-     case 'e':
+-@@ -3843,6 +3849,10 @@ end_element_handler (GMarkupParseContext  *contex=
+t,
+-           state_switch (ctx, ctx->prev_state);
+-         }
+-       break;
+-+    case STATE_DOC_FORMAT:
+-+      if (require_end_element (context, ctx, "doc:format", element_name=
+, error))
+-+        state_switch (ctx, STATE_REPOSITORY);
+-+      break;
+-=20
+-     case STATE_PASSTHROUGH:
+-       ctx->unknown_depth -=3D 1;
+---=20
+-GitLab
+-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.0.bb b/meta=
+/recipes-core/glib-2.0/glib-2.0-initial_2.84.1.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.0.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.1.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.84.0.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.84.1.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.84.0.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.84.1.bb
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
+-2.0/glib.inc
+index 2cc48f0a06..d00bfe4c65 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -229,13 +229,12 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-=
+${PV}.tar.xz \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
+ly-.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.pa=
+tch \
+            file://skip-timeout.patch \
+-           file://aee0664e6f1a29e0d5f301979f6d168b08435a61.patch \
+            "
+ SRC_URI:append:class-native =3D " file://relocate-modules.patch \=20
+                                 file://0001-meson.build-do-not-enable-pi=
+dfd-features-on-native-g.patch \
+                               "
+=20
+-SRC_URI[sha256sum] =3D "f8823600cb85425e2815cfad82ea20fdaa538482ab74e729=
+3d58b3f64a5aff6a"
++SRC_URI[sha256sum] =3D "2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab=
+6bb73396bf30789a"
+=20
+ # Find any meson cross files in FILESPATH that are relevant for the curr=
+ent
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
+--=20
+2.49.0
 
 
