@@ -2,63 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E21C3ABBD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC81C3ABBE
 	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 04:15:23 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.43260.1746418519962217729
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web10.42939.1746418520852610034
  for <openembedded-core@lists.openembedded.org>;
  Sun, 04 May 2025 21:15:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=P4y9DR7z;
- spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7399838db7fso4003538b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 21:15:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dAV+vN32;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7369ce5d323so3526268b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 May 2025 21:15:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746418519; x=1747023319; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1746418520; x=1747023320; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jppv6TSH9H4lq9inX+Ge/h4GYCTBnWhBBPR5HlHg85I=;
-        b=P4y9DR7zxCq+wSez/hh3LgzD7CVwYGuUM50qqSER9kaasqT3CwGAlLCHrvnLU60eH8
-         AKLTJrMRdBth9nv8EJWwbwgymApW2SUF0/znRvtKf/9EbVmOfDCss/aN9Cy5Z7uxahow
-         rTdoovAV2OAJ1veJ93adDahagsyXyyZqGVVqEtC6W/XllpfPRuyXemQsbN/eGUhMXHO7
-         lfeF8ClHUYosGgZ/hKr538x4k9Uutwh7er8QrwOcXqD3AERPbCWCh0z/STJYuvodVNil
-         rx0p4fHiG7oQcer2vcvBsWvAn+lfHRfNu1apFC7TvsQlYM4eojhEV7OIzdcAnEGIqZvN
-         X6ng==
+        bh=dxfpOxLCKWFv4Zpm0TIyculPBMRFN9AuMxq+NtUsW4w=;
+        b=dAV+vN32bOULgQ1Bg5+gjD+AZ1afMZWJGg4T6Av21ndryF/s1Pbuxx9giCQK6wtWg4
+         1J9SWrNq6iy76fZ85Wcwe4Cv3HXNEiDD2fr5ad236nGdglorONhTtb2+I3YOrUTvVLp/
+         aI+LPfQbDO4m0/Y72NPRkwCj3YQ8W05dXJqobiY1hvCDXJgUiXeEAhP5Smdx3TYfx/m/
+         1IUb5+Dyj6IWwzFiuEjtR/AYAyYZZxz5xiDHDCVeOGbamu90hYkdvWaw1We8VFKTwaBD
+         6ATsi1wl3lTNylWZBnbpnD4VtYpuOOFJcl6YrAMRmhsczh1FzxUJccUC/4vsezj+rYxs
+         Y+Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746418519; x=1747023319;
+        d=1e100.net; s=20230601; t=1746418520; x=1747023320;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jppv6TSH9H4lq9inX+Ge/h4GYCTBnWhBBPR5HlHg85I=;
-        b=oqPM6TR8Z/cs8qJshr2rHqzhNN1qY4bG/XCB+fPE6fdwJjYWDr4vs6ktRIxwpvowRD
-         X7hR6lZcFcPYTS7fiY6S2/Mic8eYzDkP9IuPRq2IgEyG/AbcvpdlVbFO2/mHdgFmkJlg
-         0a/sm51FOkLgx+sS44d+6/Z+dhmw1YnRCifmY7EhEbKo1FhD0BG5aN8ZMyIX6J4DbtER
-         6fvDeCWMI6+RnPw71upbBjXH2A7ctdASuHXK+CGW/mHPn7fOo0IRN3tTpEWExZ4eluio
-         KRCVOf6qbVyGJIfzuDIX2oOAhDaU36dJ3KhAHfifhH0IvhEDgyRGaFH67ELWPMWTfwKd
-         crwA==
-X-Gm-Message-State: AOJu0YycgCyuy75QZfnpYYhQZ/CI+ESIeSmfPYXV7U9mKhEuYmqqA9xV
-	i4ikls3ACt4ar1DLXTuzWep68tADnbsu+SHtOJ3Ki46emJ0nIIK+bkqAWwnG
-X-Gm-Gg: ASbGncugcUIsxF5BBiO69vAg4JUmT7EXJ3ZvwcES1nGcjFDOy8hl7mRhqzH/RG47m/R
-	9OLreCkVpvrke/qmyQ8y+zk/Tui7Qq1I0UrA6rkv8lnXdru/FIepnTLkGUAch+yCFGngv9h8lfr
-	kRFlHCBIRH6GYaFXRKVF5aGws8WHIvsRG8CYVCKcXayDC8Q2gAon3HOhTYWqFytqwsJBD9ZmAns
-	EY+dvlOEh0fo8SK1SnlhSx1YT0BF048tSBpwMNjwx8rAXM33Fx9uu+WvBSDBp+IRKq5XUDE8k2Y
-	2sYipibC3HNsWbVuGmJ4JLs0eERGs/qv
-X-Google-Smtp-Source: AGHT+IG3BLd9zjgBll4SL9vgTtF85jWSlFy6W4+pXOv3k//2Q8FyE9Hwxig5q3ksA0hUKKvSe186ag==
-X-Received: by 2002:a05:6a00:1c81:b0:728:f21b:ce4c with SMTP id d2e1a72fcca58-74057b2f03amr18351959b3a.5.1746418519271;
-        Sun, 04 May 2025 21:15:19 -0700 (PDT)
+        bh=dxfpOxLCKWFv4Zpm0TIyculPBMRFN9AuMxq+NtUsW4w=;
+        b=n1ujgKJ+u8xcRgVDkmmcOOux2tZvpuVvsLhebG+dkwmu89TqkiS8EJbKLxNnVrP/wY
+         mRSqWal8cAaaVB3VSOw4ZPCw1vxK8szM34g3bHSL86ar+hu+bPRxYYXRNquYUde59ssY
+         7tkO71d4pjaZdvjQMF/Vkn29pZU78sksNwsnFZtvMkQpNGgJzdM0xCXrIPGiqH4kCexK
+         eoZOeSDLCAX/FV7wrYfF1pgMvmbXYqlWDIQLS7vkSKScg9HLOAKqWBw4WhqN0YVmTTlI
+         0tE83iTAu8JxdbgNgM/vcPESqf30OE6112iqgRJcdW401kirvg4IOS0bqufNp9FLYuza
+         Bkbw==
+X-Gm-Message-State: AOJu0YzXO0TPUd6v6wUXnP4I1m+feVR/i4wdYgvHqwyMOiFHKf66c8VA
+	zQJKFFWkUQzss8B46y89YyCSnEU70F19oYuXuIeXvJuI5IOi2nstBv2pcdYS
+X-Gm-Gg: ASbGncs+e9sObmctFbF3R2qHTxQXMwJxzbhGQ+GwUPRsdEFj+qwLNA8ogvp0E3KrV4g
+	9vVWmIxVk3ecL0ixnRLWiaXLkXQTEa2NFwjYThAjrv2PNKKjg6U//mxxUPRAv8/dSrfnkfIqEST
+	mibe7VWXpEMpE6aPesal9Ozpu0dkJ7FKMhFWdly6GIwT0ZuRlzlPcKYYuTirdvpll0YSorCeGvN
+	ohqHhhTX5Ty+X4IsygNF8J2gc61FiQ+FJ6uDGKvDzVpXBJdh7rIEC5VtmiaW9Wi7AU68JgIvUWd
+	pPyybSaKlCDHNCOOq/colNMSqGTowzey
+X-Google-Smtp-Source: AGHT+IGo6nL0aysnvZXUoS6K88kQWVlwx+ZMqdHy/HIw6WSbnoMRixqwc0njh9ug9W4iGwOmspVGhA==
+X-Received: by 2002:a05:6a00:4090:b0:73f:f623:55f8 with SMTP id d2e1a72fcca58-7406f08b86cmr8162645b3a.5.1746418520154;
+        Sun, 04 May 2025 21:15:20 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74059021044sm5905039b3a.96.2025.05.04.21.15.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74059021044sm5905039b3a.96.2025.05.04.21.15.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 May 2025 21:15:18 -0700 (PDT)
+        Sun, 04 May 2025 21:15:19 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 04 May 2025 21:15:15 -0700
-Subject: [PATCH v7 5/8] maintainers.inc: Add myself as maintainer for clang
- family of recipes
+Date: Sun, 04 May 2025 21:15:16 -0700
+Subject: [PATCH v7 6/8] clang: Upgrade to 20.1.3
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250504-clang-merge-v7-5-165be7b96180@gmail.com>
+Message-Id: <20250504-clang-merge-v7-6-165be7b96180@gmail.com>
 References: <20250504-clang-merge-v7-0-165be7b96180@gmail.com>
 In-Reply-To: <20250504-clang-merge-v7-0-165be7b96180@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -68,65 +67,94 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 04:15:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215981
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/215982
+
+Brings following fixes
+
+* 923a5c4f83d2 Revert "[ARM][ConstantIslands] Correct MinNoSplitDisp calculation (#114590)"
+* 86f5891c5986 [llvm][Hexagon] Promote operand v2i1 to v2i32 (#135409)
+* d55c3c20520a [libc++] Fix misplaced _LIBCPP_POP_MACROS (#134874)
+* 9420327ad768 [Clang] Fix a lambda pattern comparison mismatch after ecc7e6ce4 (#133863)
+* 4da7285e636e Silence -Wcast-function-type warnings on idiomatic Windows code (#135660)
+* c5109be53b7e [LV] Disable epilogue vectorization for FindLastIV if start is poison.
+* 91a3f14d9497 [LV] Add tests with FindLastIV and epilogue vectorization.
+* 2131242240f7 [LLVM][MemCpyOpt] Unify alias tags if we optimize allocas (#129537)
+* 86c98536380b [libc++] Fix deployment targets that were incorrectly bumped (#134278)
+* dfd6f123362a [libc++] Guard additional headers with _LIBCPP_HAS_LOCALIZATION (#131921)
+* dc9d4f9a7008 [lldb] Respect LaunchInfo::SetExecutable in ProcessLauncherPosixFork (#133093)
+* 9c7d72869876 [LoongArch] Move fix-tle-le-sym-type test to test/MC. NFC (#133839)
+* 0c30835a63db [X86][AVX10] Remove VAES and VPCLMULQDQ feature from AVX10.1 (#135489)
+* 2e0966408283 [X86] Backport saturate-convert intrinsics renaming & YMM rounding intrinsics removal in AVX10.2
+* 0dd4235473d4 [SCEV] Use ashr to adjust constant multipliers (#135534)
+* a141e58685fd [llvm][CodeGen] avoid repeated interval calculation in window scheduler (#132352)
+* d88cd35023b4 [llvm][CodeGen] Fix the empty interval issue in Window Scheduler (#129204)
+* 73d1e8598eda [CodeGen] Avoid repeated hash lookups (NFC) (#130237)
+* 7034995f1029 [clang] Handle Binary StingLiteral kind in one more place (#132201)
+* 2e7710eaffdd [clang] Introduce "binary" StringLiteral for #embed data (#127629)
+* e0db588f3db4 [IR] Fix assertion error in User new/delete edge case (#129914)
+* d5bb7b866e59 Avoid a race condition in opt-viewer/optrecord (#131214)
+* d15fef4209f1 [IndVarSimplify] Handle the case where both operands are the same when widening IV (#135207)
+* 91647ae0dffe [X86][SSE] Don't emit SSE2 load instructions in SSE1-only mode (#134547)
+* d05543ed0796 [clang-format] Keep the space between `not` and a unary operator (#135035)
+* 81220e68a496 [fatlto] Add coroutine passes when using FatLTO with ThinLTO (#134434)
+* edb54a7821fe Release/20.x: [clang-format] Set C11 instead of C17 for LK_C
+* 4181e829d1db [LLDB][LoongArch] Fix build errors about NT_LOONGARCH_HW_{BREAK,WATCH} (#126020)
+* 7436329bfee9 Revert "[clang] [ARM] Explicitly enable NEON for Windows/Darwin targets (#122095)"
+* a0c8959cc880 [X86] When expanding LCMPXCHG16B_SAVE_RBX, substitute RBX in base (#134109)
+* a8b5fe017a5e [libc++] Add missing release note for LLVM 20 about zip_view (#134144)
+* 41aefdbebe64 cuda clang: Fix argument order for __reduce_max_sync (#132881)
+* 19c2e1c12d47 [clang-tidy] Fix broken HeaderFilterRegex when read from config file (#133582)
+* ac31db0463c0 [Sanitizers][Darwin][Test] XFAIL malloc_zone.cpp
+* 53141e4e3c65 [clang] Do not infer lifetimebound for functions with void return type (#131997)
+* cf7bb13f0c7f [TailDuplicator] Determine if computed gotos using `blockaddress` (#132536)
+* 656289ffa0a6 Bump version to 20.1.3 (#134187)
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ meta/conf/distro/include/maintainers.inc     | 2 +-
+ meta/recipes-devtools/clang/common-clang.inc | 2 +-
+ meta/recipes-devtools/clang/common.inc       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 1932e3d0e83ffebc7526fa209470be9cd30f7cc1..b3e3862df9e8ff0d040c804f80704b1a768bce37 100644
+index b3e3862df9e8ff0d040c804f80704b1a768bce37..b67433d4d2b643c12803da222affaf3d85dd069f 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -97,8 +97,14 @@ RECIPE_MAINTAINER:pn-cantarell-fonts = "Unassigned <unassigned@yoctoproject.org>
- RECIPE_MAINTAINER:pn-ccache = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-cdrtools-native = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-chrpath = "Yi Zhao <yi.zhao@windriver.com>"
-+RECIPE_MAINTAINER:pn-clang = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-clang-cross-${TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-clang-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-clang-crosssdk-${SDK_SYS} = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-cmake = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-cmake-native = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-compiler-rt = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-compiler-rt-sanitizers = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-connman = "Changhyeok Bae <changhyeok.bae@gmail.com>"
- RECIPE_MAINTAINER:pn-connman-conf = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-connman-gnome = "Ross Burton <ross.burton@arm.com>"
-@@ -324,6 +330,7 @@ RECIPE_MAINTAINER:pn-libcgroup = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libcheck = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-libcomps = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libconvert-asn1-perl = "Tim Orling <tim.orling@konsulko.com>"
-+RECIPE_MAINTAINER:pn-libcxx = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-libdaemon = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libdazzle = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libdisplay-info = "Hiago De Franco <hiago.franco@toradex.com>"
-@@ -471,7 +478,7 @@ RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+@@ -478,7 +478,7 @@ RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
  RECIPE_MAINTAINER:pn-linux-yocto-dev = "Bruce Ashfield <bruce.ashfield@gmail.com>"
  RECIPE_MAINTAINER:pn-linux-yocto-rt = "Bruce Ashfield <bruce.ashfield@gmail.com>"
  RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.com>"
--RECIPE_MAINTAINER:pn-llvm = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-llvm-project-source-20.1.2 = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER:pn-llvm-project-source-20.1.2 = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-llvm-project-source-20.1.3 = "Khem Raj <raj.khem@gmail.com>"
  RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
  RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
  RECIPE_MAINTAINER:pn-lrzsz = "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -539,6 +546,7 @@ RECIPE_MAINTAINER:pn-musl-obstack = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-musl-utils = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-nasm = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER:pn-nativesdk-buildtools-perl-dummy = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-+RECIPE_MAINTAINER:pn-nativesdk-clang-glue = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-nativesdk-icecc-toolchain = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER:pn-nativesdk-libtool = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER:pn-nativesdk-packagegroup-sdk-host = "Ross Burton <ross.burton@arm.com>"
-@@ -558,6 +566,7 @@ RECIPE_MAINTAINER:pn-npth = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-nss-myhostname = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-numactl = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER:pn-ofono = "Ross Burton <ross.burton@arm.com>"
-+RECIPE_MAINTAINER:pn-openmp = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-opensbi = "Thomas Perrot <thomas.perrot@bootlin.com>"
- RECIPE_MAINTAINER:pn-openssh = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-openssl = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
+index bb152d2c566a6c61b95be2e7922cfe9c64a27afa..41944265ba56713593a89ebe9db20ea66a64917a 100644
+--- a/meta/recipes-devtools/clang/common-clang.inc
++++ b/meta/recipes-devtools/clang/common-clang.inc
+@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
+ 
+ MAJOR_VER = "20"
+ MINOR_VER = "1"
+-PATCH_VER = "2"
++PATCH_VER = "3"
+ # could be 'rcX' or 'git' or empty ( for release )
+ VER_SUFFIX = ""
+ 
+diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
+index 5a1fa0bacf7f8504f58b2866be8d42b3621787da..f733566bc88a6feb9bfdfa4b520579c12721f0d9 100644
+--- a/meta/recipes-devtools/clang/common.inc
++++ b/meta/recipes-devtools/clang/common.inc
+@@ -15,7 +15,7 @@ LICENSE = "Apache-2.0-with-LLVM-exception"
+ RELEASE ?= "${PV}"
+ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}/llvm-project-${PV}.src.tar.xz"
+ SOURCEDIR ?= "llvm-project-${PV}.src"
+-SRC_URI[sha256sum] = "f0a4a240aabc9b056142d14d5478bb6d962aeac549cbd75b809f5499240a8b38"
++SRC_URI[sha256sum] = "b6183c41281ee3f23da7fda790c6d4f5877aed103d1e759763b1008bdd0e2c50"
+ 
+ SRCREV_spirv = "6dd8f2a1681a27f16c53d932d2765920f312aeb2"
+ SRCREV_spirvheaders = "09913f088a1197aba4aefd300a876b2ebbaa3391"
 
 -- 
 2.49.0
