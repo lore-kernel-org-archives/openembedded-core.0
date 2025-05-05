@@ -1,144 +1,154 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3638C3ABB6
-	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 11:47:26 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.48345.1746445638710655211
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 129DBC3ABB6
+	for <webhook@archiver.kernel.org>; Mon,  5 May 2025 12:21:17 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web11.48974.1746447667595036679
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 May 2025 04:47:18 -0700
+ Mon, 05 May 2025 05:21:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=722014930e=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 545ASvI5008510
-	for <openembedded-core@lists.openembedded.org>; Mon, 5 May 2025 04:47:18 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46djnjsca0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 04:47:17 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 5 May 2025 04:47:17 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Mon, 5 May 2025 04:47:15 -0700
-From: ssambu <soumya.sambu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][scarthgap][PATCH 1/1] elfutils: Fix CVE-2025-1371
-Date: Mon, 5 May 2025 11:47:11 +0000
-Message-ID: <20250505114711.862998-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@linaro.org header.s=google header.b=KVHDYBmU;
+ spf=pass (domain: linaro.org, ip: 209.85.167.42, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-54e8e5d2cf0so5063480e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 05:21:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746447665; x=1747052465; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TQ3pGU75NPrRCK65QMe1Yh4cP47EDxu5QIC3tvw2J8E=;
+        b=KVHDYBmUXeirg/UvPj10l37Vwa66I4LUenBS2O4l3fDOGQyNGVEzHlz9MxSD0VDpuP
+         VYre1RtnuDRgNO5BgcGsIsAbvLMffvkbt9GWQnWdnnrujRNV7f6fuLYhiMZgk9fR9HvQ
+         IjJoyOp9PF2rEKwEmsVSy5dbgpNAl3Z2cff8fP5QWDFPwFlhFV5ZOfBMJUr8TKP+8/j0
+         x/7ogN/8KxyBx+AfPAY9GmxspX5747Qu+Bbolq2x+M4wuIOP5zY9naLviCxZej81TPbY
+         jrmYFUWAwr92wdRAhqU7vPv+Ty3QDauooKnK3piY7pPUsiEGHhgENeQfKe3/ic3QH9xU
+         lvsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746447665; x=1747052465;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TQ3pGU75NPrRCK65QMe1Yh4cP47EDxu5QIC3tvw2J8E=;
+        b=JZFy5eWqqO/zJhiHkl36V4Pk+leTGDCLPPW4hAHwONqmSmn1aTQkAt/O7LYDudf8pa
+         BLyQOf9i+CYh+p0gSTlS7OaHK6Vc2fGfZiF9EXCgPSTLVi8fN5NhuJuugQntHb0lVVmk
+         Sb6w/tfJ733JqDkISZlDJlUyyiUsGLLEXntMKLZ/k7KH3QaHHmR6Tzohz38f/6sxCbDb
+         rbQZcz9NvhfiNN0qBsHWAul9E4LboLiqIgc2YV9IqgWNKhskq2CNI6tKZ6/qX9pJVsEc
+         okhtzu90n2q73EY2lDspdwXb5rplchHEKNLXLvNgvTBmJfrPs0bnbodG3kmJARuuFgQB
+         09+Q==
+X-Gm-Message-State: AOJu0Yw6LQcUro7RVvtuihYZPaYpJAtGKGHNQ6Ql6YUglH7Gae+CK10z
+	jXINGMHq4PWXcgWVRH2bdn+L7hHyLR1VV3bdEFaMaqrFZ6dKVcwKgmDP7uHVbfY=
+X-Gm-Gg: ASbGncs29wTskjPPmFifeEBk7tdju3sJJzld8DB4OgW3+IXGDTbtimsMvelR8IxW6N6
+	goejiOLWFcFbVFxAnOXfKmtXfDOk1d4/x7pTTjvhpui0sBG3v5YveDbAwlCMe3NNBRD+DYP/shq
+	VXrJnrR/6wM92Zj9/rSZSvPF6CXmwS55oUKOyEQu/SUmeW1ejJhXYXmX9UOROz/gVYT5PtFRvqS
+	zjt0iLLI5gf0BXmGTRjay69c7aPgoDelth10i8Of2G26BKLsWoJRlX7FTW1JP4ahv+nfEL/r4FL
+	k4MFNF0122qgvGOmYoSDSbqLB3dGsGLdk2+GXvun0aSO8zDIdnrd9nqcP7liyh8cXMSo7CyVlQ=
+	=
+X-Google-Smtp-Source: AGHT+IFgLVJBXuhJ/cf6HAbTyzADkEBLYjQ0nSVw/hC0vRxalhceMGY9m77JHCOyckSKJqA00TfC/A==
+X-Received: by 2002:a05:6512:2356:b0:549:8f15:db36 with SMTP id 2adb3069b0e04-54fa4fa10d4mr1687873e87.51.1746447665372;
+        Mon, 05 May 2025 05:21:05 -0700 (PDT)
+Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ea94b18a1sm1727909e87.42.2025.05.05.05.21.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 May 2025 05:21:05 -0700 (PDT)
+Date: Mon, 5 May 2025 15:21:03 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2] bitbake.conf: ignore ${HOME}/. files in
+ pseudo
+Message-ID: <aBitL511kNQzaKBR@nuoska>
+References: <20250505074031.920194-1-mikko.rapeli@linaro.org>
+ <DB5PR02MB10213D88EE092C43451F3CC47EF8E2@DB5PR02MB10213.eurprd02.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDExMiBTYWx0ZWRfXwnXmxapRCV7Z AMUMCvQonzWa3VJQefNn8SexWA3vXFnqvmncScuH0+gl5zSK/qwV+xFwtBJtSZW1Jnv3ANhwcBL ZejzUpa55Bd6KHANnN8Q+TBhAADxElZJ02/kb3Wb6mLGX8YlnMTrenJTKd1XyrEBOfK8IZxqWmM
- fQNLJ1WD9b/ghnRePVDxzN1gLWKgSlNprOZWk0E/42yiayHHpnO/bftOfx9F/NBk3X6fclCwEx+ tQKm2nUXokx0ORE0SjxM4PGVNLSJwCLVSQqSXHrI74pRfHNdv2NEDb4UpYRQPd+ig4mNMV5CUXa 5JeqMaDR9y8t+pkrazDvFLrX63HIGRewoE7WQeI5MmvKXRawrRz1J0bdo94kP01W8SLzs4ASMvz
- NwrYpgjDwWBN0Il5RnDBPf+JyfZP8wfwK8zUyVm2jqAVmmEbqAH7edIF82F5Ehr3sq2JHwD7
-X-Proofpoint-ORIG-GUID: -e9I3VtbBP4tX1eGoMqzSgX68y5y15qJ
-X-Proofpoint-GUID: -e9I3VtbBP4tX1eGoMqzSgX68y5y15qJ
-X-Authority-Analysis: v=2.4 cv=KdHSsRYD c=1 sm=1 tr=0 ts=6818a546 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=dt9VzEwgFbYA:10 a=PYnjg3YJAAAA:8 a=fxJcL_dCAAAA:8 a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=n9Nvxce8AAAA:8
- a=cVSlY04uC90GVjj1GKEA:9 a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22 a=V4tbcg9hxeXQX3VEsxKP:22
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-05_05,2025-04-30_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=999
- suspectscore=0 spamscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 malwarescore=0 mlxscore=0 adultscore=0 phishscore=0
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
- definitions=main-2505050112
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DB5PR02MB10213D88EE092C43451F3CC47EF8E2@DB5PR02MB10213.eurprd02.prod.outlook.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 11:47:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216007
+ <openembedded-core@lists.openembedded.org>; Mon, 05 May 2025 12:21:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216008
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+Hi,
 
-A vulnerability has been found in GNU elfutils 0.192 and classified as problematic.
-This vulnerability affects the function handle_dynamic_symtab of the file readelf.c
-of the component eu-read. The manipulation leads to null pointer dereference.
-Attacking locally is a requirement. The exploit has been disclosed to the public and
-may be used. The patch is identified as b38e562a4c907e08171c76b8b2def8464d5a104a. It
-is recommended to apply a patch to fix this issue.
+On Mon, May 05, 2025 at 10:43:34AM +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Mikko Rapeli via lists.openembedded.org
+> > Sent: den 5 maj 2025 09:41
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > Subject: [OE-core] [PATCH v2] bitbake.conf: ignore ${HOME}/. files in pseudo
+> > 
+> > vim and less always write to these files in users home directory.
+> > Using vim and less via pseudo in "bitbake -c devshell recipe" and
+> > outside of pseudo triggers pseudo aborts which makes interactive
+> > use of devshell difficult. Fixes vim and less crashes and related
+> > pseudo log entries:
+> > 
+> > inode mismatch: '/home/builder/.viminfo' ino 33270730 in db, 33269736 in request.
+> > inode mismatch: '/home/builder/.lesshst' ino 33270625 in db, 33270730 in request.
+> > 
+> > Ignoring all files with ${HOME}/. in path since many tools
+> > with e.g. GNU readline support will write files there.
+> > Hopefully no-one compiles in such paths.
+> > 
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > ---
+> >  meta/conf/bitbake.conf | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > v2: ignore all files from ${HOME}/. instead of just ${HOME}/.vim and ${HOME}/.less
+> > 
+> > v1: https://lists.openembedded.org/g/openembedded-core/message/215986
+> > 
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index b1dae17267..8d71c8f50c 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -748,6 +748,7 @@ PSEUDO_IGNORE_PATHS =
+> > "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysro
+> >  PSEUDO_IGNORE_PATHS .= ",${TMPDIR}/sstate-control,${TMPDIR}/buildstats,${TMPDIR}/sysroots-components,${TMPDIR}/pkgdata"
+> >  PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/deploy-,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/pkgdata-sysroot"
+> >  PSEUDO_IGNORE_PATHS .= ",${DEPLOY_DIR},${BUILDHISTORY_DIR},${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR},${S},${B}"
+> 
+> Please add a comment here because it would be all too easy to mistake 
+> that for something that can be simplified to just "${HOME}" (by expecting 
+> normal path rules). E.g.:
+> 
+> # Ignore all files and directories starting with a . in the ${HOME} directory
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2025-1371
-https://ubuntu.com/security/CVE-2025-1371
+Yes, I can add a comment.
 
-Upstream patch:
-https://sourceware.org/cgit/elfutils/commit/?id=b38e562a4c907e08171c76b8b2def8464d5a104a
+Unfortunatetly I already run into problems with full ${HOME}/. filter
+in trusted-firmware-a from meta-arm. Looks like the dtb etc tooling
+does not work correctly and files end up without root owner:
 
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
----
- .../elfutils/elfutils_0.191.bb                |  1 +
- .../elfutils/files/CVE-2025-1371.patch        | 41 +++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch
+ERROR: trusted-firmware-a-2.12.1+git-r0 do_package_qa: QA Issue: trusted-firmware-a: /optee_ffa_spmc_manifest.dtb is owned by uid 1004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+ERROR: trusted-firmware-a-2.12.1+git-r0 do_package_qa: QA Issue: trusted-firmware-a: /optee_ffa_spmc_manifest.dtb is owned by gid 1004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+ERROR: trusted-firmware-a-2.12.1+git-r0 do_package_qa: QA Issue: trusted-firmware-a: /firmware/bl31.bin is owned by uid 1004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+ERROR: trusted-firmware-a-2.12.1+git-r0 do_package_qa: QA Issue: trusted-firmware-a: /firmware/bl31.bin is owned by gid 1004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+ERROR: trusted-firmware-a-2.12.1+git-r0 do_package_qa: QA Issue: trusted-firmware-a: /firmware/bl31-zynqmp.bin is owned by uid 1004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.191.bb b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-index 85e024179b..bab3d94d12 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-@@ -26,6 +26,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://CVE-2025-1352.patch \
-            file://CVE-2025-1365.patch \
-            file://CVE-2025-1372.patch \
-+           file://CVE-2025-1371.patch \
-            "
- SRC_URI:append:libc-musl = " \
-            file://0003-musl-utils.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch b/meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch
-new file mode 100644
-index 0000000000..ebb57bd4e5
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch
-@@ -0,0 +1,41 @@
-+From b38e562a4c907e08171c76b8b2def8464d5a104a Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Sun, 9 Feb 2025 00:07:13 +0100
-+Subject: [PATCH] readelf: Handle NULL phdr in handle_dynamic_symtab
-+
-+A corrupt ELF file can have broken program headers, in which case
-+gelf_getphdr returns NULL. This could crash handle_dynamic_symtab
-+while searching for the PT_DYNAMIC phdr. Fix this by checking whether
-+gelf_phdr returns NULL.
-+
-+          * src/readelf.c (handle_dynamic_symtab): Check whether
-+          gelf_getphdr returns NULL.
-+
-+https://sourceware.org/bugzilla/show_bug.cgi?id=32655
-+
-+Signed-off-by: Mark Wielaard <mark@klomp.org>
-+
-+CVE: CVE-2025-1371
-+
-+Upstream-Status: Backport [https://sourceware.org/cgit/elfutils/commit/?id=b38e562a4c907e08171c76b8b2def8464d5a104a]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ src/readelf.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/readelf.c b/src/readelf.c
-+index fc04556..13344bf 100644
-+--- a/src/readelf.c
-++++ b/src/readelf.c
-+@@ -2912,7 +2912,7 @@ handle_dynamic_symtab (Ebl *ebl)
-+   for (size_t i = 0; i < phnum; ++i)
-+     {
-+       phdr = gelf_getphdr (ebl->elf, i, &phdr_mem);
-+-      if (phdr->p_type == PT_DYNAMIC)
-++      if (phdr == NULL || phdr->p_type == PT_DYNAMIC)
-+	break;
-+     }
-+   if (phdr == NULL)
-+--
-+2.40.0
--- 
-2.40.0
+Since pseudo uses strncmp() quoting the dot etc should not have any effect.
 
+I will revert to v1 of this with a comment. That I tested for a few days
+without any issues. I used vim and less extensively when rebasing
+a number of patches in tf-a, edk2, u-boot, optee etc. As I feared
+lots of tools are using ${HOME}/. paths in various ways.
+
+
+Cheers,
+
+-Mikko
+
+> > +PSEUDO_IGNORE_PATHS .= ",${HOME}/."
+> > 
+> >  export PSEUDO_DISABLED = "1"
+> >  #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+> > --
+> > 2.43.0
+> 
+> //Peter
+> 
 
