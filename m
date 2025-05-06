@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD3DAC3ABC3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D5CC3ABAC
 	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 15:14:15 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.78803.1746544453265482269
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.78804.1746544454617168988
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 08:14:13 -0700
+ Tue, 06 May 2025 08:14:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tb0BBpTM;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22e4db05fe8so6952135ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 08:14:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LQtr9lsg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-223fd89d036so64959205ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 08:14:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746544452; x=1747149252; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746544454; x=1747149254; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3hnzKR+tgV9Xp2DKYqrBgZUcXkVnFW0zmvemiFlqR84=;
-        b=tb0BBpTM635Z90v+YJlM7G2SU8eAqUZuT5I68VKNIMVuocu03L03M018qI3vbu4s/w
-         FlIENCVWh/Y83x+kshrTUPGKObKfycISDriDUPVAeD8MUz5d6UJ4v1/DYNQe9X2cx3eu
-         Rrtuw0S2oSLaX8RR543418MKyBKCrt/1v5QtmiXbd48hks9WIiO8Nw9OWdxha1LcznZj
-         H5bTR5djRJcZHn8TgKR+BG0Go6IXrG1xPHtTfWnZc+W0RFe0zgaH0L0BL0tNXHcUbyqX
-         hnkBimYH6dQNKiW3UyzyX2fZP7lWd4y1nAw4zUv/rt19WltfXoiUhCbDSE+4oK6vXk5I
-         lp3Q==
+        bh=pUlSGxOxMLTBL3kZF1WAAVFRRwAiElvEiQI9tJ/oaMI=;
+        b=LQtr9lsgvoDSMLj6/5pDoFI+wNW8+i8f8oG1VFl8xTrE+7olT/RehY/hQ+ssBkPPYC
+         fionGMDg2t2I+OTyUOXEzM9sNkWQfK+5NP8Y3vImf1qCEPtReScHsW3/gQtIpIMgWGRJ
+         u9ol1nSJgO77rP2CV3G6OVwLmkMtTNuYGSRgjk9YjXx8ziQP3qpGs2J1VhKxrOqXh31N
+         WRWeW/muUtMdOhjzkREJc+r6isLLYsNNNMlN/S6m/qNiDV36yNf7iqhcIeMNLQs64JXQ
+         8c5Zn9JUdccxlv8D6eYO672hq4zP5OQQ/L4olv1EqE2Qcq60xh0h4JmBT0a6FqPU9Ya2
+         VhFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746544452; x=1747149252;
+        d=1e100.net; s=20230601; t=1746544454; x=1747149254;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3hnzKR+tgV9Xp2DKYqrBgZUcXkVnFW0zmvemiFlqR84=;
-        b=l260kt4ndkXCuZPFOlMjsS/SIjNKo+mypFGJF5Z+fSOA/229r+P8tCL3kp5VKTm8Ha
-         DWbHkYSEZdytoe2VyBEq+M+uTFcTSfgSKb9pPbG92YrWpFJf9X/T1IPXOiYhJ+CyC2/p
-         IzVjPDvOUe5yxa8gt5k/i7TGaA+/ZqCUDIkpt7sXnKD5xwNhh/saMiE44Nseb9/4aDFf
-         nD0eXTczwt2MJfvyXxCTxKvBRjJGTJwjtwAol8fSvF3fe2/qCLiv49S6IqbEQLl4Ifti
-         pHDYDfQo+ErvEL4NweMZkZJgQ4/oC/RckeL3RFeV2DSE/s4e3COmF7WHwUjAoPTeejsg
-         97rQ==
-X-Gm-Message-State: AOJu0YwKT0M95R6rYNWTj9mag/CuHBkV7M1BPKKMaHQXq2JTCyQGSnwX
-	6m95OGNfgcJb9bIWBiqHWTdiWqUZWU/y9dT5wQf3qYKp5F52sAJ2YhSyNd/SiKIJcixyRNKND6C
-	7
-X-Gm-Gg: ASbGncuLF0+RKfLmPBbYpzf7hq2p2X7HtrtuqX7Fm3wM0fTZbhNhb0vi4JPZ93IEaw6
-	RpNCtgRLHMmhqX1DJMth64jsl2AJAzt8z7lIdB3T/vJf/U3d+lzZfFEMk1wXC1vakFggI1O1iTo
-	k4XNia92maBb02W7Ai/QDKTSiKGr0jpIT/GQ8e/3jUnHh0CuXIvFp3eptWA0FOYOmVYdNwwjw0m
-	FC69LCcPp9OA6Xia0Itz0xzXuOCvrGAZUR9dzf/oha0PfLQAz7v5vHRlYt8GbHfQxDZ+2ye4vlI
-	2+RXhp6xLJLM0jWlnHBYfZqF2H+o3AFu
-X-Google-Smtp-Source: AGHT+IFYUyESeuGTPeIX6+n2H3taY2xbJWUnYEzsaMXPHgPNRFIxBJTUJhvFRQFrP5DzIpptLQaiEg==
-X-Received: by 2002:a17:903:120e:b0:223:5241:f5ca with SMTP id d9443c01a7336-22e1ea7c4cbmr142390195ad.20.1746544452471;
-        Tue, 06 May 2025 08:14:12 -0700 (PDT)
+        bh=pUlSGxOxMLTBL3kZF1WAAVFRRwAiElvEiQI9tJ/oaMI=;
+        b=KtJQZfURVOoBz0Jhl1PtLZeBM6X3cYEyMNXxmfwfgqCsOH0hpEUVxQhh2OK/wXqJGu
+         oeh2qdQy5Lh63Yj+vFA+MRZiqVySCOVVSGsaaRi0lkjOkArcLT96vk4gjq3tnKf5bwUe
+         S7Ad3VbdH3WL4+e/A9prnwcvgjQekhd3D6xqC1mojfkIp8R6lxIi9Nf9ApAc2q+gCK1N
+         fww/wBSOcbKw5suU70ehxqbm58oVGboIVmolbRw9GIqWKxwf7gqCVABFBBtleSUdMn6P
+         KZfzMmzGWMxTLuhgTlo6n+JiSBukjEkHImiwwceb91dMx7M829fhHtswIuvP8E8QIQNC
+         9ZgA==
+X-Gm-Message-State: AOJu0Yy+w8xbQGijPyJlV4pcpclKCbHnCzyP/O+L0LZ3cM3STpYa4HLi
+	O9C+srJI4KKokhe0zCgwHlradqL9VzzpSFyLHTzFFvE4htGOqoAyUVqmN3whcWePUkN4r/pnxJf
+	B
+X-Gm-Gg: ASbGncu8tJO69nioGNY3VhjjaWYQWzia7TVklBS3N4ZCybTngpb0q6DkcfJDFtZKfxS
+	ouBtjoGp/9MBSMOttDp37G6rc+Us5b8jlvx5BGiA5O83p6cUv4aKb8kba7gRDM5y4EjdsGQPZ0D
+	ulU/JUkcTSPHxXk40yHAmoVVL2SKCrhERpfrjczp0hoc1+MgaXkGa1MClOPP/YLfyQe4kzrUSdp
+	90VtLpI39DYp8InrNfXFa7hsA8FPIE0X1wxxaqwjuzTY3qbsw6sYZLWd2i6hOoME1eFdwXfD84/
+	sf72hgSUsLM7LCx2pgb8uJf+QnB8Y/oK
+X-Google-Smtp-Source: AGHT+IE2Rua/gBZi9muM/c6JCar4gDju77pSsxGCnkK5bEZ1vlrZwnesOahUmKqd+rYxcc5sjs5Chg==
+X-Received: by 2002:a17:902:d4ca:b0:224:1221:1ab4 with SMTP id d9443c01a7336-22e32aa1bb0mr54538945ad.22.1746544453895;
+        Tue, 06 May 2025 08:14:13 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:8d37:c5d1:328a:ee43])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1521fa58sm75222545ad.150.2025.05.06.08.14.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1521fa58sm75222545ad.150.2025.05.06.08.14.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 08:14:12 -0700 (PDT)
+        Tue, 06 May 2025 08:14:13 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 1/7] libsoup: patch CVE-2025-46420
-Date: Tue,  6 May 2025 08:13:53 -0700
-Message-ID: <0e4a77c928e2eb0e8b012f2bba13b2ef3929cb34.1746544207.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 2/7] elfutils: Fix CVE-2025-1371
+Date: Tue,  6 May 2025 08:13:54 -0700
+Message-ID: <11c44bde4f3d9e63506ece2f9b27114914aacc4b.1746544207.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746544207.git.steve@sakoman.com>
 References: <cover.1746544207.git.steve@sakoman.com>
@@ -67,98 +67,91 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 15:14:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216058
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216059
 
-From: Ashish Sharma <asharma@mvista.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/c9083869ec2a3037e6df4bd86b45c419ba295f8e]
+A vulnerability has been found in GNU elfutils 0.192 and classified as problematic.
+This vulnerability affects the function handle_dynamic_symtab of the file readelf.c
+of the component eu-read. The manipulation leads to null pointer dereference.
+Attacking locally is a requirement. The exploit has been disclosed to the public and
+may be used. The patch is identified as b38e562a4c907e08171c76b8b2def8464d5a104a. It
+is recommended to apply a patch to fix this issue.
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2025-1371
+https://ubuntu.com/security/CVE-2025-1371
+
+Upstream patch:
+https://sourceware.org/cgit/elfutils/commit/?id=b38e562a4c907e08171c76b8b2def8464d5a104a
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup-3.4.4/CVE-2025-46420.patch        | 60 +++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-46420.patch
+ .../elfutils/elfutils_0.191.bb                |  1 +
+ .../elfutils/files/CVE-2025-1371.patch        | 41 +++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-46420.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-46420.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.191.bb b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
+index 85e024179b..bab3d94d12 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.191.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://CVE-2025-1352.patch \
+            file://CVE-2025-1365.patch \
+            file://CVE-2025-1372.patch \
++           file://CVE-2025-1371.patch \
+            "
+ SRC_URI:append:libc-musl = " \
+            file://0003-musl-utils.patch \
+diff --git a/meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch b/meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch
 new file mode 100644
-index 0000000000..37ab16dc05
+index 0000000000..ebb57bd4e5
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-46420.patch
-@@ -0,0 +1,60 @@
-+From c9083869ec2a3037e6df4bd86b45c419ba295f8e Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Thu, 26 Dec 2024 18:31:42 -0600
-+Subject: [PATCH] soup_header_parse_quality_list: Fix leak
++++ b/meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch
+@@ -0,0 +1,41 @@
++From b38e562a4c907e08171c76b8b2def8464d5a104a Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Sun, 9 Feb 2025 00:07:13 +0100
++Subject: [PATCH] readelf: Handle NULL phdr in handle_dynamic_symtab
 +
-+When iterating over the parsed list we now steal the allocated strings that we want and then free_full the list which may contain remaining strings.
++A corrupt ELF file can have broken program headers, in which case
++gelf_getphdr returns NULL. This could crash handle_dynamic_symtab
++while searching for the PT_DYNAMIC phdr. Fix this by checking whether
++gelf_phdr returns NULL.
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/c9083869ec2a3037e6df4bd86b45c419ba295f8e]
-+CVE: CVE-2025-46420
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
++          * src/readelf.c (handle_dynamic_symtab): Check whether
++          gelf_getphdr returns NULL.
 +
-+ libsoup/soup-headers.c | 11 +++++------
-+ 1 file changed, 5 insertions(+), 6 deletions(-)
++https://sourceware.org/bugzilla/show_bug.cgi?id=32655
 +
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index a5f7a7f6..85385cea 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -530,7 +530,7 @@ soup_header_parse_quality_list (const char *header, GSList **unacceptable)
-+ 	GSList *unsorted;
-+ 	QualityItem *array;
-+ 	GSList *sorted, *iter;
-+-	char *item, *semi;
-++	char *semi;
-+ 	const char *param, *equal, *value;
-+ 	double qval;
-+ 	int n;
-+@@ -543,9 +543,8 @@ soup_header_parse_quality_list (const char *header, GSList **unacceptable)
-+ 	unsorted = soup_header_parse_list (header);
-+ 	array = g_new0 (QualityItem, g_slist_length (unsorted));
-+ 	for (iter = unsorted, n = 0; iter; iter = iter->next) {
-+-		item = iter->data;
-+ 		qval = 1.0;
-+-		for (semi = strchr (item, ';'); semi; semi = strchr (semi + 1, ';')) {
-++		for (semi = strchr (iter->data, ';'); semi; semi = strchr (semi + 1, ';')) {
-+ 			param = skip_lws (semi + 1);
-+ 			if (*param != 'q')
-+ 				continue;
-+@@ -577,15 +576,15 @@ soup_header_parse_quality_list (const char *header, GSList **unacceptable)
-+ 		if (qval == 0.0) {
-+ 			if (unacceptable) {
-+ 				*unacceptable = g_slist_prepend (*unacceptable,
-+-								 item);
-++								 g_steal_pointer (&iter->data));
-+ 			}
-+ 		} else {
-+-			array[n].item = item;
-++			array[n].item = g_steal_pointer (&iter->data);
-+ 			array[n].qval = qval;
-+ 			n++;
-+ 		}
-+ 	}
-+-	g_slist_free (unsorted);
-++	g_slist_free_full (unsorted, g_free);
-+ 
-+ 	qsort (array, n, sizeof (QualityItem), sort_by_qval);
-+ 	sorted = NULL;
-+-- 
-+GitLab
++Signed-off-by: Mark Wielaard <mark@klomp.org>
 +
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index cbb098908d..63e9afa6fc 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -28,6 +28,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32912-2.patch \
-            file://CVE-2025-32906-1.patch \
-            file://CVE-2025-32906-2.patch \
-+           file://CVE-2025-46420.patch \
-           "
- SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
- 
++CVE: CVE-2025-1371
++
++Upstream-Status: Backport [https://sourceware.org/cgit/elfutils/commit/?id=b38e562a4c907e08171c76b8b2def8464d5a104a]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ src/readelf.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/readelf.c b/src/readelf.c
++index fc04556..13344bf 100644
++--- a/src/readelf.c
+++++ b/src/readelf.c
++@@ -2912,7 +2912,7 @@ handle_dynamic_symtab (Ebl *ebl)
++   for (size_t i = 0; i < phnum; ++i)
++     {
++       phdr = gelf_getphdr (ebl->elf, i, &phdr_mem);
++-      if (phdr->p_type == PT_DYNAMIC)
+++      if (phdr == NULL || phdr->p_type == PT_DYNAMIC)
++	break;
++     }
++   if (phdr == NULL)
++--
++2.40.0
 -- 
 2.43.0
 
