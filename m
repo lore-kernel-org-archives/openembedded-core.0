@@ -1,278 +1,106 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <alon.barlev@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6826CC3ABAC
-	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 16:38:06 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web11.80945.1746549478814472578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 948FFC3ABBE
+	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 17:11:06 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web11.81826.1746551465788227428
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 09:37:59 -0700
+ Tue, 06 May 2025 10:11:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=fYTVF7ua;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202505061637557a47b2f0910597ce66-grtdbl@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202505061637557a47b2f0910597ce66
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 06 May 2025 18:37:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=yPPObTxwIpqM6fW/8tvMkJ4uCYbMlhraFViJ11g4KYs=;
- b=fYTVF7uaMs/nPu5E6zG0TFAHa8PRz0KzPxAXwJk9/SNj4HV6R+7YUlm7lNUsczUWKWRssy
- ZYMyDvpt3nHjoj/PwRvctYq3uQzDLH05yQPQVGkO0kl1igNbIQQNeR26+rajsxvgSSQQsXSN
- pbld4oHz0n69HECyNS/aq6KU62bsZjDnzfT9hTmW1/aCA5sGueM99etm/cgRQDa/V99yuMZp
- 5JJ+9+YWBSfN0HhBniZqz9XLjbNIrGO0vkyPytavCtLXfQ86oUc0aonZmB428+9/Q2wFcpGk
- bwyfnIR5fZwsjySolIQL4TlhPmCixiNxk746cnQNDkp5plWJANHuc6QA==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gjvfblCW;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alon.barlev@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e5deb6482cso154381a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 10:11:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746551464; x=1747156264; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YDyVDDk9pWPtVWFspfU1jgA4ap7xmaf+DWPrGGfkd+M=;
+        b=gjvfblCWjHlgGrOfehhgc0gGSWcYu0zFCdybscHhqQrw0XKnr4jzKlHwBFT+Ung4X2
+         wAyVlGY1syImYi5ehA9bb39Cv0XFqOeAnNdzyv8ZSw+9fsiz+b67R06RQukHuEr2rcBU
+         A4HVsDCjMt93Wdnt118xf8eEUXA8gxFtA/jtq3AW38gymbEbLyPqN1g4AMl5OMIMGcGY
+         t6g6yLlCtwBiva22ZEoQperxBqwwO10UejZYIbAPTK2RgZKwQvtP3K34vCie7XNVH/te
+         sN6XghBBT138H4EZZEXxw69pRjWhNj13KlQEdOD3ugNkt6YoA/uJDJQWOVb5mESvLD/7
+         FoYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746551464; x=1747156264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YDyVDDk9pWPtVWFspfU1jgA4ap7xmaf+DWPrGGfkd+M=;
+        b=tURUYKemUw4jkX0re6rb6yYs/JB5MdtpEmTUuMun4K0BKKeCQeSqdvUljIvELI5PH6
+         PtfRv+sTdJIAhPvdo8oxvtl3nQUE9CJmj//etmfSEqXbJAr7tgG2tsEkwoj6qxjJDObK
+         d3R0yF+CK2FAIy6qsveZq0VtNsOGKqrbbzSAMUbt2qyKprTXeiUv4+GatMqNcP671LbW
+         LsApGFGZodu2VMLyr0iEleX+t7wB8oG6JgEERO1nhLsaM9/VIcTwwlH4vuRIXmN1L9pK
+         IIrr/LBKCYLFWDnWuTQv/a20wxM/Sj5lFZWDu3nNNVlLClfUysVplFM57mZa3wiufxAN
+         rlaQ==
+X-Gm-Message-State: AOJu0Ywn5KzB4t3eYCG1TRIKo+5A5GjGGAOvffSADmLR/wabxKlvSlbk
+	Xm8bS5Ew/+FwTZKg63SQDXZJJntsl+qh/bmrwwQKBzd/xGqHOT5W+bBgUh2fzpM=
+X-Gm-Gg: ASbGncvAinvhW/EIIfM9+Gg4eICQkg5BR6VY7YVpswIntW2IheMCtPdxLzQnuoVTD4o
+	JikDCH0xYxWjgrL2JWLpo8gNELf9aFmgx5rVq4JCzl7oRIBe4bpDbnK4OFSx1mzVsleZXG5Dj7O
+	Kzqj4hfqeWn4XkPVvKpClSZxlGN+ju8dAytgXF2FJx38R4wCvjezGKLFhnq1GLmtvCULYOiZELR
+	rvn6Im+GVtpY1etSrP+98eiPWja7vEqKVTstU9SKL0LYHzK+RPCGVZU/Z4kr9Oc6Ts7Iqka4Gr8
+	GzlbIkUIOmwkl3SwI2iAoGyUxnITnNsbOZB+iJ43AumdWoJFs0658MLzAGbwcG36h88=
+X-Google-Smtp-Source: AGHT+IENceueQBvt6y+EGM1QrLsMmzF4n0aB7ci5bzLpETnn+2NCS8LqnmBcKL0vkUP+qKgpP+Fivw==
+X-Received: by 2002:a05:6402:430b:b0:5e7:8e5e:4467 with SMTP id 4fb4d7f45d1cf-5fbe7a66ba0mr483142a12.3.1746551463535;
+        Tue, 06 May 2025 10:11:03 -0700 (PDT)
+Received: from localhost.localdomain ([213.137.70.232])
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5fa77b914d9sm7795519a12.62.2025.05.06.10.11.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 May 2025 10:11:02 -0700 (PDT)
+From: Alon Bar-Lev <alon.barlev@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] sqlite3: upgrade 3.48.0 -> 3.49.1
-Date: Tue,  6 May 2025 18:37:05 +0200
-Message-Id: <20250506163705.4099385-1-peter.marko@siemens.com>
+Cc: Alon Bar-Lev <alon.barlev@gmail.com>
+Subject: [PATCH] module.bbclass: add KBUILD_EXTRA_SYMBOLS to install
+Date: Tue,  6 May 2025 20:10:27 +0300
+Message-ID: <20250506171027.199666-1-alon.barlev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 16:38:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216080
+ <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 17:11:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216081
 
-From: Peter Marko <peter.marko@siemens.com>
+Symbols are used during install as well, adding KBUILD_EXTRA_SYMBOLS enables
+successful installation.
 
-Handle CVE-2025-3277, CVE-2025-29087 and CVE-2025-29088.
+    | DEBUG: Executing shell function do_install
+    | NOTE: make -j 22 KERNEL_SRC=xxx/kernel-source -C xxx/drivers
+    KDIR=xxx/kernel-source DEPMOD=echo
+    MODLIB=xxx/image/lib/modules/6.6.75-yocto-standard-00189-g530c419bc9db
+    INSTALL_FW_PATH=xxx/image/lib/firmware CC=aarch64-poky-linux-gcc
+    -fuse-ld=bfd -fcanon-prefix-map  LD=aarch64-poky-linux-ld.bfd
+    OBJCOPY=aarch64-poky-linux-objcopy  STRIP=aarch64-poky-linux-strip
+    O=xxx/kernel-build-artifacts modules_install
+    | make: Entering directory 'xxx/drivers'
+    | make -C xxx/kernel-source M=xxx/drivers modules
+    | make[1]: Entering directory 'xxx/kernel-source'
+    | make[2]: Entering directory 'xxx/kernel-build-artifacts'
+    |   MODPOST xxx/drivers/Module.symvers
+    | ERROR: modpost: "xxx" [xxx/xxx.ko] undefined!
 
-This update includes major change in how it is built.
-Instead of autotools, autosetup is used.
-
-Autosetup (https://msteveb.github.io/autosetup/) claims to be
-* Replacement for autoconf in many situations
-However it also claims NOT to
-* Intended to replace all possible uses of autoconf
-This means that some autoconf features are not available.
-
-Recipe changes:
-* stop inheriting autotools and define B, do_configure and do_install
-* depend on zlib unconditionally, autoconf cannot be preconfigured in
-  similar way as autotools
-* update packageconfig options to match new syntax
-* libedit is detected with ncurses linking options (as seen in
-  do_configure log)
-* backport rpaths fix
-* define soname to avoid file-rdeps QA error due to wrong library name
-* clean B for do_configure as the new Makefiles do not seem to properly
-  retrigger build if configuration changes
-* use unstripped binaries for native (non-cross-compile) case
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Alon Bar-Lev <alon.barlev@gmail.com>
 ---
- meta/recipes-support/sqlite/sqlite3.inc       |  41 +++++--
- ...tically-fail-the-check-for-rpath-on-.patch | 102 ++++++++++++++++++
- .../{sqlite3_3.48.0.bb => sqlite3_3.49.1.bb}  |   3 +-
- 3 files changed, 138 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/0001-configure-automatically-fail-the-check-for-rpath-on-.patch
- rename meta/recipes-support/sqlite/{sqlite3_3.48.0.bb => sqlite3_3.49.1.bb} (53%)
+ meta/classes-recipe/module.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index d093ec5859..e4bd1bfbec 100644
---- a/meta/recipes-support/sqlite/sqlite3.inc
-+++ b/meta/recipes-support/sqlite/sqlite3.inc
-@@ -14,34 +14,37 @@ def sqlite_download_version(d):
- SQLITE_PV = "${@sqlite_download_version(d)}"
+diff --git a/meta/classes-recipe/module.bbclass b/meta/classes-recipe/module.bbclass
+index f2f0b25a2d..4948e995c5 100644
+--- a/meta/classes-recipe/module.bbclass
++++ b/meta/classes-recipe/module.bbclass
+@@ -65,6 +65,7 @@ module_do_install() {
+ 	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" OBJCOPY="${KERNEL_OBJCOPY}" \
+ 	           STRIP="${KERNEL_STRIP}" \
+ 	           O=${STAGING_KERNEL_BUILDDIR} \
++		   KBUILD_EXTRA_SYMBOLS="${KBUILD_EXTRA_SYMBOLS}" \
+ 	           ${MODULES_INSTALL_TARGET}
  
- S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
-+B = "${WORKDIR}/build"
- 
- UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
- UPSTREAM_CHECK_REGEX = "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
- 
- CVE_PRODUCT = "sqlite"
- 
--inherit autotools pkgconfig siteinfo
-+inherit pkgconfig siteinfo
-+
-+# zlib is autodetected and gets to sysroots as transitive dependency, make this deterministic
-+DEPENDS = "zlib"
- 
- # enable those which are enabled by default in configure
- PACKAGECONFIG ?= "fts4 fts5 rtree dyn_ext"
- PACKAGECONFIG:class-native ?= "fts4 fts5 rtree dyn_ext"
- 
--PACKAGECONFIG[editline] = "--enable-editline,--disable-editline,libedit"
--PACKAGECONFIG[readline] = "--enable-readline,--disable-readline,readline ncurses"
-+PACKAGECONFIG[editline] = "--enable-editline --with-readline-header=${includedir}/editline/readline.h,--disable-editline,libedit ncurses"
-+PACKAGECONFIG[readline] = "--enable-readline --with-readline-header=${includedir}/readline/readline.h,--disable-readline,readline ncurses"
- PACKAGECONFIG[fts3] = "--enable-fts3,--disable-fts3"
- PACKAGECONFIG[fts4] = "--enable-fts4,--disable-fts4"
- PACKAGECONFIG[fts5] = "--enable-fts5,--disable-fts5"
- PACKAGECONFIG[rtree] = "--enable-rtree,--disable-rtree"
- PACKAGECONFIG[session] = "--enable-session,--disable-session"
--PACKAGECONFIG[dyn_ext] = "--enable-dynamic-extensions,--disable-dynamic-extensions"
--PACKAGECONFIG[zlib] = ",,zlib"
--
--CACHED_CONFIGUREVARS += "${@bb.utils.contains('PACKAGECONFIG', 'zlib', '', 'ac_cv_search_deflate=no',d)}"
-+PACKAGECONFIG[dyn_ext] = "--enable-load-extension,--disable-load-extension"
- 
- EXTRA_OECONF = " \
-     --enable-shared \
-     --enable-threadsafe \
-     --disable-static-shell \
-+    --disable-rpath \
-+    --soname=${PV} \
- "
- 
- # pread() is in POSIX.1-2001 so any reasonable system must surely support it
-@@ -65,4 +68,28 @@ FILES:lib${BPN}-staticdev = "${libdir}/lib*.a"
- 
- AUTO_LIBNAME_PKGS = "${MLPREFIX}lib${BPN}"
- 
-+do_configure() {
-+    ${S}/configure \
-+        --build=${HOST_SYS} \
-+        --host=${TARGET_SYS} \
-+        --prefix=${prefix} \
-+        --bindir=${bindir} \
-+        --libdir=${libdir} \
-+        --includedir=${includedir} \
-+        --mandir=${mandir} \
-+        ${EXTRA_OECONF} \
-+        ${PACKAGECONFIG_CONFARGS}
-+}
-+do_configure[cleandirs] = "${B}"
-+
-+do_install() {
-+    oe_runmake DESTDIR=${D} install
-+
-+    # binaries are stripped during installation when not cross-compiling, take the unstripped ones instead
-+    if [ "${HOST_SYS}" = "${TARGET_SYS}" ]; then
-+        install -m 0644 ${B}/sqlite3 ${D}${bindir}
-+        install -m 0644 ${B}/libsqlite3.so ${D}${libdir}/libsqlite3.so.${PV}
-+    fi
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/sqlite/sqlite3/0001-configure-automatically-fail-the-check-for-rpath-on-.patch b/meta/recipes-support/sqlite/sqlite3/0001-configure-automatically-fail-the-check-for-rpath-on-.patch
-new file mode 100644
-index 0000000000..0eaa06d908
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/0001-configure-automatically-fail-the-check-for-rpath-on-.patch
-@@ -0,0 +1,102 @@
-+From f9f6410c31de9f6b377c7d8cd6d56548d3f20551 Mon Sep 17 00:00:00 2001
-+From: stephan <stephan@noemail.net>
-+Date: Thu, 20 Feb 2025 17:15:37 +0000
-+Subject: [PATCH] configure: automatically fail the check for rpath on AIX
-+ systems and provide a --disable-rpath flag as a fallback for use on platforms
-+ which pass the configure-time rpath check but then fail at link-time. Based
-+ on discussion in [forum:ae5bd8a84b|forum thread ae5bd8a84b].
-+
-+FossilOrigin-Name: b6603986e621918525312130996c298135ad27af293df9bb9f99e1fc87844379
-+
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/f9f6410c31de9f6b377c7d8cd6d56548d3f20551]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ auto.def                    |  2 +-
-+ autosetup/proj.tcl          | 18 ++++++++++++++----
-+ autosetup/sqlite-config.tcl | 14 ++++++++++++++
-+ 3 files changed, 29 insertions(+), 5 deletions(-)
-+
-+diff --git a/auto.def b/auto.def
-+index 9df87f579a..84dfa824c2 100644
-+--- a/auto.def
-++++ b/auto.def
-+@@ -11,7 +11,7 @@ use sqlite-config
-+ sqlite-config-bootstrap autoconf
-+ sqlite-check-common-bins
-+ sqlite-check-common-system-deps
-+-proj-check-rpath
-++sqlite-handle-rpath
-+ sqlite-handle-soname
-+ sqlite-setup-default-cflags
-+ sqlite-handle-debug
-+diff --git a/autosetup/proj.tcl b/autosetup/proj.tcl
-+index 6a1960f603..6b49dcdae0 100644
-+--- a/autosetup/proj.tcl
-++++ b/autosetup/proj.tcl
-+@@ -921,9 +921,20 @@ proc proj-check-emsdk {} {
-+ #
-+ # Achtung: we have seen platforms which report that a given option
-+ # checked here will work but then fails at build-time, and the current
-+-# order of checks reflects that.
-++# order of checks reflects that. Similarly, platforms which are known
-++# to report success here but fail to handle this flag at link-time are
-++# special-cased here to behave as if the check failed.
-+ proc proj-check-rpath {} {
-+-  set rc 1
-++  switch -glob -- [get-define host] {
-++    *-*-aix* {
-++      # Skip this check on platform(s) where we know it to pass at
-++      # this step but fail at build-time, as a workaround for
-++      # https://sqlite.org/forum/forumpost/ae5bd8a84b until we can
-++      # find a more reliable approach.
-++      define LDFLAGS_RPATH ""
-++      return 0
-++    }
-++  }
-+   if {[proj-opt-was-provided libdir]
-+       || [proj-opt-was-provided exec-prefix]} {
-+     set lp "[get-define libdir]"
-+@@ -945,10 +956,9 @@ proc proj-check-rpath {} {
-+       define LDFLAGS_RPATH "-Wl,-R$lp"
-+     } else {
-+       define LDFLAGS_RPATH ""
-+-      set rc 0
-+     }
-+   }
-+-  return $rc
-++  expr {"" ne [get-define LDFLAGS_RPATH]}
-+ }
-+ 
-+ ########################################################################
-+diff --git a/autosetup/sqlite-config.tcl b/autosetup/sqlite-config.tcl
-+index 7d9a9ea84b..be2522fb12 100644
-+--- a/autosetup/sqlite-config.tcl
-++++ b/autosetup/sqlite-config.tcl
-+@@ -244,6 +244,9 @@ proc sqlite-config-bootstrap {buildMode} {
-+         static-shell=1       => {Link the sqlite3 shell app against the DLL instead of embedding sqlite3.c}
-+       }
-+       {*} {
-++        # rpath: https://sqlite.org/forum/forumpost/fa3a6ed858
-++        rpath=1
-++          => {Disable checking for rpath support}
-+         # soname: https://sqlite.org/src/forumpost/5a3b44f510df8ded
-+         soname:=legacy
-+           => {SONAME for libsqlite3.so. "none", or not using this flag, sets no
-+@@ -644,6 +647,17 @@ proc sqlite-handle-debug {} {
-+   }
-+ }
-+ 
-++########################################################################
-++# If the --disable-rpath flag is used, this [define]s LDFLAGS_RPATH to
-++# an empty string, else it invokes [proj-check-rpath].
-++proc sqlite-handle-rpath {} {
-++  proj-if-opt-truthy rpath {
-++    proj-check-rpath
-++  } {
-++    define LDFLAGS_RPATH ""
-++  }
-++}
-++
-+ ########################################################################
-+ # "soname" for libsqlite3.so. See discussion at:
-+ # https://sqlite.org/src/forumpost/5a3b44f510df8ded
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb b/meta/recipes-support/sqlite/sqlite3_3.49.1.bb
-similarity index 53%
-rename from meta/recipes-support/sqlite/sqlite3_3.48.0.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.49.1.bb
-index bd2ac6614d..c3c0670884 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.49.1.bb
-@@ -4,5 +4,6 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
- 
- SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[sha256sum] = "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
-+SRC_URI[sha256sum] = "106642d8ccb36c5f7323b64e4152e9b719f7c0215acf5bfeac3d5e7f97b59254"
- 
-+SRC_URI += "file://0001-configure-automatically-fail-the-check-for-rpath-on-.patch"
+ 	if [ ! -e "${B}/${MODULES_MODULE_SYMVERS_LOCATION}/Module.symvers" ] ; then
+-- 
+2.43.0
+
 
