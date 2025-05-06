@@ -1,195 +1,214 @@
-Return-Path: <sathishkumar.d.cbe@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F39FC3ABC0
-	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 13:28:35 +0000 (UTC)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
- by mx.groups.io with SMTP id smtpd.web11.76220.1746538111395836665
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54DDBC3ABBF
+	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 13:32:15 +0000 (UTC)
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+ by mx.groups.io with SMTP id smtpd.web10.75863.1746538334025364533
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 06:28:31 -0700
+ Tue, 06 May 2025 06:32:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QbSKEiGt;
- spf=pass (domain: gmail.com, ip: 209.85.219.171, mailfrom: sathishkumar.d.cbe@gmail.com)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e7387d4a334so4597529276.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 06:28:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lUut732Y;
+ spf=pass (domain: gmail.com, ip: 209.85.161.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6064d4c14ebso1320863eaf.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 06:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746538110; x=1747142910; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1746538333; x=1747143133; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cikf5FoH7OI9wVVSfcP2OpbjvMal8LlYvPc1qzefrSA=;
-        b=QbSKEiGtk0fu0TqbW6nA36OZBq4hvWY5/jjP04xMU/YlCA7DDDGMM+gOqMaHKENe7X
-         OHxlwOpsI4W6vO160ku45BMEBrFLvXWTB915Pjxfvg+Dy88WX+d6qL+9kry6iJ74KpaE
-         LJthAqPZ8v7ER4BdD+5TjmIvDK9tMJe/1BNB7Y5B5aeE+RxAigE48AQvSETisioG3EKs
-         CkMxcbwvm/JlD15Xkby2wrsgwssNnyHUIQ35/jFR/vQOlckj0LD2IPsIWbQcCycRlkpH
-         S3YbEeiq49EjyELSNSX7s3zs4SN/jyqR7A9+cCG4t0pVfES++J8ARqc1BNEGuoNpz/V9
-         SHFw==
+        bh=qKcOVwU9FQIGwrKpDGkNwdQZ3vMZsrxby/cI2rl9MeU=;
+        b=lUut732Yj41qjpMC4prFCm27k8avjx7pxZKc9R3SPXcL3eC0kYY/9MCRgosDxju61Q
+         rH3Uifv6cwtpTV7oTjJqQKRGX3TdeOeB2jFNQmatxHwdnPmVlfyK7oaaZA9WX9S5nXe5
+         rxuizG+8PUXc/FwuamolTdxp+YWgPdvkqFr/3YNdjMLDRXqmO1lIlLAFTwD8T27/4sc1
+         erPFPW46W4Kk9Sz7SeqI66p5l6UqjsWUEWYIHpYh1uLy4I+5AqjzqEhxZKBgx0f5qv6O
+         5RxQET6iDPUr60TvUKxu8voF/+g8Bi6czTIRN9oU2yEqpTQGzXzX6ZyXyP3V9HAa2yX0
+         VxKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746538110; x=1747142910;
+        d=1e100.net; s=20230601; t=1746538333; x=1747143133;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Cikf5FoH7OI9wVVSfcP2OpbjvMal8LlYvPc1qzefrSA=;
-        b=CMDgc+GpguAdb4SpTA8CISddKBylxSf3KHA/CjhmWgqJMm16U96bbtjN5ixKl2aUql
-         ogkzAYKxztCROITqUWIfDkAXARqzjpW33rZYwHIZq0yuMyGJM0zfihNZf8VuorNa0b3C
-         zCpMDQ10Y4mK8WQyeUc6/ywunUuDFc3lANLY9rYmA8Ub8qhGBKFOfcNjrAfHfzIfVsH0
-         b+/o3xzfjFxdwv/DVnFX4IctAXQRC1L72MIGOV060S7P5kac9lHwhLk5QYbJKimZz84E
-         RZsvHplzOaRcqP1Vuqro1TXjnrPAH8F9z4NHm2utbpZN+K/NU8zqG8eO8xa6npCsTddN
-         D4pw==
-X-Gm-Message-State: AOJu0Yyqo1jfGbACTop2hBsQ1QG8jtK0VZBETVy4Q6CDvLSTC7CJaq+e
-	4aXuwQzB4kQcITEkRl7pTW5NGn+cFwcmrADR4tBxJyAX6RGxwFDiCJwrmbFYjCO8QqizL2g/mMc
-	y4URlSCdff+q9jrEOa+OxjyQLPeQ=
-X-Gm-Gg: ASbGncsEiy1ebshTwBUSYIU69LysGdbQgpitVc2cxniq4NRQYRV53auRcahwU/yUDLA
-	ncIM6/UixCT4QTKDtVW27zbpobuIn/0hi4apdxbGXHrIBcLiJpkgXEYh7rdI8CSTijeJ2UqZwRx
-	UUhBdbdX9krSBqclfjdUmzpw==
-X-Google-Smtp-Source: AGHT+IFqoo0BmD61Q37LwpbcqeccxscEOb9reamnOS8e4z+1zoFdfZjyYvezYbXYrH/e8HsK2gJWFjo0PCe8Ahd6QCQ=
-X-Received: by 2002:a05:690c:74c8:b0:70a:1099:ca2a with SMTP id
- 00721157ae682-70a1099cb99mr9333477b3.8.1746538110211; Tue, 06 May 2025
- 06:28:30 -0700 (PDT)
+        bh=qKcOVwU9FQIGwrKpDGkNwdQZ3vMZsrxby/cI2rl9MeU=;
+        b=Q/4NUp8uWQkeQ2UzAmM7AdWuh5u9IEkbNFV0lYWr6gxtxFyAoIqKQVDGjYzwowrrRt
+         N2Q3TXtTbVhay26Eg0esNPlumdqptD4WX4P8CHk/lavj6udpeOjw5XdZo9Pw2sHVYDoA
+         yZjeYOZdi9aroraApd4ijorwAStpcbTnSI/b0GU1NQDmL1hU/TRuJZhzBqxmxqSHMPlg
+         4Ulo+JRhlzTsXvU466sNmiZmgxa38CyzgYKDBiQxqDMUnioQSIVFN0IfS8wnnlQZGNG4
+         3NEnivkRrVMdchlt8wQrttB8djXym31FlzjTOmiCcKr9lW9trRRYCmrzcYnBKFYOVBK6
+         nzrQ==
+X-Gm-Message-State: AOJu0Yya9fFXuOQ/yfdXuRxTKSZwOAhQAvXdgAdQUbmIrq1LYEvzDjCA
+	OSh1w/I/v4nZMGm63aK0oqCCybd0465YO1ZsClyeOxBKsxGROpLukM8POiQzbwdY0bPbRVWrspR
+	qrp3keDO51BS4dzf6vnPAlZUxGxU=
+X-Gm-Gg: ASbGncsR7soJw7t3bBJ7hUJWFt/2+3WB7grEtYFRwHfDiJjUEOmi33D7K4h06uhJlCC
+	W/GlAuwEwfcgEEOXL0Vvk2F4Wb56pqltMoF5Lv89G3submVyR15IYKfKOJOsqQcBGXwfWbAMDud
+	VPN5E2rDOSJXX9AFtgnYqYoMReImBKP/YBx2/G20xGmMUNlsUdgEl7vZZFSQEK8DzR
+X-Google-Smtp-Source: AGHT+IHGof0NuIweirEHlPVU6X+X6wO6sxk0F2rlqx1QjGVKHpM4buGrOP6fdL5wyAavdX4Xs7fA2lwLDZ7u7uYkP3g=
+X-Received: by 2002:a05:6820:1890:b0:606:44f0:a963 with SMTP id
+ 006d021491bc7-6080022c208mr6728674eaf.1.1746538333226; Tue, 06 May 2025
+ 06:32:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <0a4bac6d-292f-4278-ac5b-348a160a319c@windriver.com>
  <23053.1746531517602060473@lists.openembedded.org> <CAMKF1spM6xrsWf1CvUsHr+1BF5Eo+X+ZKSN=DOiXq0Y4DrGYMQ@mail.gmail.com>
-In-Reply-To: <CAMKF1spM6xrsWf1CvUsHr+1BF5Eo+X+ZKSN=DOiXq0Y4DrGYMQ@mail.gmail.com>
-From: Sathishkumar Duraisamy <sathishkumar.d.cbe@gmail.com>
-Date: Tue, 6 May 2025 18:58:19 +0530
-X-Gm-Features: ATxdqUFt-IqbG9_TVbdNdtFi86AvPLBrCmNtjFHCneO5IjwzD8fJ71cmuw8Ly0E
-Message-ID: <CAHebdzR4rGAq0e4FLuThxqE57UuT+LLqLXQd425--A6OAUPXZg@mail.gmail.com>
+ <CAHebdzR4rGAq0e4FLuThxqE57UuT+LLqLXQd425--A6OAUPXZg@mail.gmail.com>
+In-Reply-To: <CAHebdzR4rGAq0e4FLuThxqE57UuT+LLqLXQd425--A6OAUPXZg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 6 May 2025 06:32:02 -0700
+X-Gm-Features: ATxdqUFOCOap39wAt3dbo00jkhOJRhEwgCJ388NXknkGuIe3PPNJepP1YUUtReU
+Message-ID: <CAMKF1spwEwgVaa5AM05drEsv3JGNVS4=g30JkHZpYFHBmdzhNQ@mail.gmail.com>
 Subject: Re: [OE-core] systemd build failure with gcc 15 / tpm2 / aarch64: gcs required
-To: Khem Raj <raj.khem@gmail.com>
+To: Sathishkumar Duraisamy <sathishkumar.d.cbe@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000a5600e0634779750"
+Content-Type: multipart/alternative; boundary="000000000000f05074063477a44b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 13:28:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216047
+ <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 13:32:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216048
 
---000000000000a5600e0634779750
+--000000000000f05074063477a44b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Tue, May 6, 2025 at 6:28=E2=80=AFAM Sathishkumar Duraisamy <
+sathishkumar.d.cbe@gmail.com> wrote:
 
-On Tue, May 6, 2025 at 6:43=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Tue, May 6, 2025 at 4:38=E2=80=AFAM Sathishkumar D via
-> lists.openembedded.org
-> <sathishkumar.d.cbe=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > Hi all,
-> >
-> > I am also facing the same build issue. I tried to understand the issue.
-> From build system for both openssl and systemd,
-> -mbranch-protection=3Dstandard   enabled. In fact the support this flag a=
-dded
-> long back,
-> https://github.com/openembedded/openembedded-core/commit/8905639d1cdc5ce8=
-09cc5ecd9672f5e86bf8a579
-> and tpm2 introduces additional dependencies for systemd as in commit
-> https://git.yoctoproject.org/meta-security/commit/meta-tpm/recipes-core/s=
-ystemd/systemd_%25.bbappend?id=3D6eb3098e57881895e62fc811f714c2aa4ecfcf8f
-> .
-> >
+> Hi
 >
-> is this flag passed to linker as well ?
+> On Tue, May 6, 2025 at 6:43=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrot=
+e:
 >
-> Openssl:
-=3D=3D=3D=3D=3D=3D=3D
-
-export CC=3D"aarch64-tdx-linux-gcc  -march=3Darmv8-a+crypto
--mbranch-protection=3Dstandard -fstack-protector-strong  -O2
--D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-security
---sysroot=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a=
--tdx-linux/openssl/3.5.0/recipe-sysroot"
-
-export CFLAGS=3D" -O2 -g
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/openssl/3.5.0/openssl-3.5.0=3D/usr/src/debug/openssl/3.=
-5.0
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/openssl/3.5.0/build=3D/usr/src/debug/openssl/3.5.0
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot=3D
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot-native=3D
- -pipe -Wl,-z,gcs-compliant=3Dall "
-
-export LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/openssl/3.5.0/openssl-3.5.0=3D/usr/src/debug/openssl/3.=
-5.0
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/openssl/3.5.0/build=3D/usr/src/debug/openssl/3.5.0
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot=3D
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot-native=3D
- -Wl,-z,relro,-z,now"
-
-systemd
-=3D=3D=3D=3D=3D=3D
-
-export CC=3D"aarch64-tdx-linux-gcc  -march=3Darmv8-a+crypto
--mbranch-protection=3Dstandard -fstack-protector-strong  -O2
--D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-security
---sysroot=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a=
--tdx-linux/systemd/257.5/recipe-sysroot"
-
-export CFLAGS=3D" -O2 -g
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/systemd/257.5/git=3D/usr/src/debug/systemd/257.5
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/systemd/257.5/build=3D/usr/src/debug/systemd/257.5
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/systemd/257.5/recipe-sysroot=3D
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/systemd/257.5/recipe-sysroot-native=3D
- -pipe
---sysroot=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a=
--tdx-linux/systemd/257.5/recipe-sysroot"
-
-export LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/systemd/257.5/git=3D/usr/src/debug/systemd/257.5
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/systemd/257.5/build=3D/usr/src/debug/systemd/257.5
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/systemd/257.5/recipe-sysroot=3D
- -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wo=
-rk/armv8a-tdx-linux/systemd/257.5/recipe-sysroot-native=3D
- -Wl,-z,relro,-z,now"
-
-
-
-
-> > So something issue with gcc-15? or what makes openssl to loose gcs?
-> >
-> > Regards,
-> > Sathishkumar D
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#216040):
-> https://lists.openembedded.org/g/openembedded-core/message/216040
-> > Mute This Topic: https://lists.openembedded.org/mt/112627480/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+>> On Tue, May 6, 2025 at 4:38=E2=80=AFAM Sathishkumar D via
+>> lists.openembedded.org
+>> <sathishkumar.d.cbe=3Dgmail.com@lists.openembedded.org> wrote:
+>> >
+>> > Hi all,
+>> >
+>> > I am also facing the same build issue. I tried to understand the issue=
+.
+>> From build system for both openssl and systemd,
+>> -mbranch-protection=3Dstandard   enabled. In fact the support this flag =
+added
+>> long back,
+>> https://github.com/openembedded/openembedded-core/commit/8905639d1cdc5ce=
+809cc5ecd9672f5e86bf8a579
+>> and tpm2 introduces additional dependencies for systemd as in commit
+>> https://git.yoctoproject.org/meta-security/commit/meta-tpm/recipes-core/=
+systemd/systemd_%25.bbappend?id=3D6eb3098e57881895e62fc811f714c2aa4ecfcf8f
+>> .
+>> >
+>>
+>> is this flag passed to linker as well ?
+>>
+>> Openssl:
+> =3D=3D=3D=3D=3D=3D=3D
+>
+> export CC=3D"aarch64-tdx-linux-gcc  -march=3Darmv8-a+crypto
+> -mbranch-protection=3Dstandard -fstack-protector-strong  -O2
+> -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-securit=
+y
+> --sysroot=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv=
+8a-tdx-linux/openssl/3.5.0/recipe-sysroot"
+>
+> export CFLAGS=3D" -O2 -g
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/openssl/3.5.0/openssl-3.5.0=3D/usr/src/debug/openssl/=
+3.5.0
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/openssl/3.5.0/build=3D/usr/src/debug/openssl/3.5.0
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot=3D
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot-native=3D
+>  -pipe -Wl,-z,gcs-compliant=3Dall "
+>
+> export LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/openssl/3.5.0/openssl-3.5.0=3D/usr/src/debug/openssl/=
+3.5.0
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/openssl/3.5.0/build=3D/usr/src/debug/openssl/3.5.0
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot=3D
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot-native=3D
+>  -Wl,-z,relro,-z,now"
+>
+> systemd
+> =3D=3D=3D=3D=3D=3D
+>
+> export CC=3D"aarch64-tdx-linux-gcc  -march=3Darmv8-a+crypto
+> -mbranch-protection=3Dstandard -fstack-protector-strong  -O2
+> -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-securit=
+y
+> --sysroot=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv=
+8a-tdx-linux/systemd/257.5/recipe-sysroot"
+>
+> export CFLAGS=3D" -O2 -g
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/systemd/257.5/git=3D/usr/src/debug/systemd/257.5
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/systemd/257.5/build=3D/usr/src/debug/systemd/257.5
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot=3D
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot-native=3D
+>  -pipe
+> --sysroot=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv=
+8a-tdx-linux/systemd/257.5/recipe-sysroot"
+>
+> export LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/systemd/257.5/git=3D/usr/src/debug/systemd/257.5
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/systemd/257.5/build=3D/usr/src/debug/systemd/257.5
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot=3D
+>  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/=
+work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot-native=3D
+>  -Wl,-z,relro,-z,now"
 >
 
---000000000000a5600e0634779750
+Please post exact linker command line to build libcrypto.so as well
+
+
+>
+>
+>
+>> > So something issue with gcc-15? or what makes openssl to loose gcs?
+>> >
+>> > Regards,
+>> > Sathishkumar D
+>> >
+>> >
+>> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> > Links: You receive all messages sent to this group.
+>> > View/Reply Online (#216040):
+>> https://lists.openembedded.org/g/openembedded-core/message/216040
+>> > Mute This Topic: https://lists.openembedded.org/mt/112627480/1997914
+>> > Group Owner: openembedded-core+owner@lists.openembedded.org
+>> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[
+>> raj.khem@gmail.com]
+>> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> >
+>>
+>
+
+--000000000000f05074063477a44b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi</div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 6, 2025 at 6:43=
-=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gma=
-il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Tue, May 6, 2025 at 4:38=E2=80=AFAM Sathishkumar D via<br>
+<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Tue, May 6, 2025 at 6:28=E2=80=AFAM =
+Sathishkumar Duraisamy &lt;<a href=3D"mailto:sathishkumar.d.cbe@gmail.com">=
+sathishkumar.d.cbe@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex"><div dir=3D"ltr"><div>Hi</div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Tue, May 6, 2025 at 6:43=E2=80=AFPM Khe=
+m Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@=
+gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Tue, May 6, 2025 at 4:38=E2=80=AFAM Sathishkumar D via<br>
 <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
 nk">lists.openembedded.org</a><br>
 &lt;sathishkumar.d.cbe=3D<a href=3D"mailto:gmail.com@lists.openembedded.org=
@@ -261,9 +280,14 @@ ebug/systemd/257.5 =C2=A0-ffile-prefix-map=3D/home/sathishkumar/yoctospace/=
 verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot=3D=
  =C2=A0-ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/=
 tmp/work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot-native=3D =C2=A0-Wl,=
--z,relro,-z,now&quot;</div><div><br></div><div><br></div><div>=C2=A0</div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
+-z,relro,-z,now&quot;</div></div></div><div dir=3D"ltr"><div class=3D"gmail=
+_quote"><div></div></div></div></blockquote><div dir=3D"auto"><br></div><di=
+v dir=3D"auto">Please post exact linker command line to build libcrypto.so =
+as well=C2=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x"><div dir=3D"ltr"><div class=3D"gmail_quote"><div><br></div><div><br></di=
+v><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 &gt; So something issue with gcc-15? or what makes openssl to loose gcs?<br=
 >
 &gt;<br>
@@ -289,6 +313,7 @@ arget=3D"_blank">raj.khem@gmail.com</a>]<br>
 &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 &gt;<br>
 </blockquote></div></div>
+</blockquote></div></div>
 
---000000000000a5600e0634779750--
+--000000000000f05074063477a44b--
 
