@@ -1,163 +1,131 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D1BFC3ABBF
-	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 13:45:55 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web10.76162.1746539149722760286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88BB5C3ABBF
+	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 14:11:35 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web10.76785.1746540686038889933
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 06:45:50 -0700
+ Tue, 06 May 2025 07:11:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=fk5UIkX9;
- spf=pass (domain: linaro.org, ip: 209.85.167.54, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54af20849bbso6536150e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 06:45:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ONcFrew4;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: max.oss.09@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5efe8d9eb12so9221892a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 07:11:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746539148; x=1747143948; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/S2twm6yj6Om5D9K1HsTfcUUOwbSKK/v8MfJFAeaT9Y=;
-        b=fk5UIkX9U3JAYRl5mg8n1sDkTA3aACiN7NmeM67R+jVnE5RsVzv/vrVI1orvxstmy9
-         pJ696U/jzUni3WtIis2cZ10KmejyrZILsho4eGlH6GcT3bpModaR6hGcFfAo0bAotdZ0
-         9qAvz7QKx808Ye2I4jW3IN849avWQyc0v0TapZowh45LNtPBFN5dBWj76yAUFOb/YJpR
-         zAKfIFO88KDV7IxLFd3kLhfxVaIFvmvmCgLhSQH0f6B9FfwTQLfHpTuattNZCno3CCYr
-         fwXTFshEYltNV2YflDYxH4l0IwKQ+3vlH1LXvExh7Dv595f2BKIjmynffdZ08hwv3Ud8
-         0pNw==
+        d=gmail.com; s=20230601; t=1746540684; x=1747145484; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Dl6GWN6I77pP6FE89yuh87efyW1YGNQeGztuyo6X14=;
+        b=ONcFrew4zw6xWyA3kZOyBSmSC0W5pldQpvEANcWWZrJZDXHlqnTdH/gmH0U2jJdFeq
+         D50uDHn2vWFgQPq0b3khNuBBS/rarWWG9hdgCAdMjBpLqWlis5k3vg5gON23CprL9b9x
+         3mfbEt97nRT3wgQzSU0MZCcScwGSXlMJ2MvAPTYTE1cHFPvQ3cL3FAO9Hp7hK/9HwDxq
+         GC5yqnyNuTrnsPFyFGYYXmVmV1AG5VNphunLwRGtoUIVEQS2iBQEWuM8wHzdoVHKavZY
+         c2tPAP8566+8jOA0pFToE72WUSDT1iEY5r8nJhCn0X9jOEEWIn29mazeBcvDPjwH2Hye
+         HJ+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746539148; x=1747143948;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/S2twm6yj6Om5D9K1HsTfcUUOwbSKK/v8MfJFAeaT9Y=;
-        b=AD7BvIDdTDdfjqh5Od0KbOJYy9rHfVpvhzifE1V9BosqqfjXk2gffJrLgHj8BPu1Q6
-         TODgRT3sSMWQ2qqso3UVUpIDQOuuk775XfAz4MZcLcFq76M0GiUiEsZUG2qcsxOl7T5F
-         4sKSnoYG38rlGJoRFfl0YmzTlPHE+UTjZhZRljqiAlkrlfoZ4JMb0MatLVPvhFviss5O
-         gksrDLHPylX/D/WIj/6MrqypV5qT+9Jtjfgg1qzdxJ3SwX4Vee3G4G99EVqSKwOkiCb5
-         zE019Of5hjbZz8EM5gpgwKz313fkreaW0tJJO9UU/fxsXn0sbS2frbsVVnDaAgY0D8pV
-         A9TA==
-X-Forwarded-Encrypted: i=1; AJvYcCX87KZi+twoK/BFlhh1QRVSv34jAYkij4T+pLdFF8j1kTGVx3WO7FlC0lQCQ+I6zbp0C8qKGpmdpe58FHnsPhTlmw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy40IDbrJWYlNWyt3cpUNJLKPx0RN3gQcYPCChNm5PUw/Ka4PkG
-	jVFbzXXU3M4ayHy9ICRmkP9pVUOwRaXhV4ac+8X+POZH3AXALKPMfe/taGULV7c=
-X-Gm-Gg: ASbGnctxjMQszAXXE/kMSLoc5LMIucjYb41QroPb4T6iMhzoYj0KmBDNooyB48fyNvC
-	vNNPTTmNfhypHqvEPWLQ6ug+YOK4ZyWmIy+VMgZJ+UodmHB2ZGnUAnWeTflIKSvMEgMqsdG6P6z
-	2r15UlsulMyUcmsmNKBsGVx4M3bXe38le7zTH38xg/WnyJgAD8vMMlmBLVeU8B/LyPWRnXfgO9i
-	IEVIjeUJZk4ljOvypwUtki8V8VF5KkDSCPcmbnB4bmIdohMyahZJx95yikWvEi4yFrql0c3aYpv
-	p+Qs1V6jGt+RwnhGyLZZcWbdNr8yjJhB1MSnFwYPnudg1rMwktsWYHRJTC+RDwhOYj6GodOtFQ=
-	=
-X-Google-Smtp-Source: AGHT+IFvkvoKzvQZn0o5KjMgpEkTLPvciPoSy5j0PeYE6ibHQ9yY3rm4TNQFe5q64ZJswN2Cvlom5w==
-X-Received: by 2002:a05:6512:b8c:b0:546:2fde:d2d9 with SMTP id 2adb3069b0e04-54fb4a14411mr913161e87.28.1746539147715;
-        Tue, 06 May 2025 06:45:47 -0700 (PDT)
-Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ea94f67e8sm2021489e87.212.2025.05.06.06.45.47
+        d=1e100.net; s=20230601; t=1746540684; x=1747145484;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9Dl6GWN6I77pP6FE89yuh87efyW1YGNQeGztuyo6X14=;
+        b=G5+m6wiUQb6rY3IMm4yPci02jq5la3gfUWXM4x6j+YMEHe+fdPse4fQ1u8JLj4IEKW
+         35Hy0nMjf+gEO4frrEz1QpGiqOPn+SCD+5pti5L+Gg4zM91tkMOjUucbpgFm3wAttbgQ
+         ZqSFGCoZ6B1LmxST3/XQACghxKTXMuve0rk8Hw0fLPGuEkTmxeah7bRutvor1bE8jrBL
+         uvd7vVz8IJP05u2wrcRP5qkuQc+/TTTFrAXxNgrUZBNQeQ4sUwIIqFWfbsCfaD/vZ851
+         YipHVK0axQDuPZL/b02tvCCmJ0ASptOZQDRWuPLZJql5ZR9101jGXazITCmgBpLZEQrd
+         fhpA==
+X-Gm-Message-State: AOJu0YxeVEKusPRGnBkVgIfr3r62zAmp9k8ren+pdl9Y6GROxCEz8ESn
+	DlJTO3wJV4W/c32/jLsnJTxWOPLFZV6w9Xvi4vkdoBN4SuKdAHo+PWzgiQ==
+X-Gm-Gg: ASbGncuFvFHYIbnk60uydRMPWSK8d6aYRTwNpkeOEXsLp3vwRfFgFCmLS1NtMxGEmFg
+	LtFMaNEwief+QsVB/w/hN20YlmTWjW9RXmpQlQb5QfPlQPjJQ7LL/VTEaKm74moqc4dsevdHcWb
+	vdDEeDkop/0jRRTPOWEdk7EHrnCGMSDlSmteB6N4+Mqtt9R6BFZqGMBWugQZUAtU0h8BDfbyVHK
+	TQcBFLw3w3WnVJOGlGB7Jf8ZIpq6tctplmecoR46QW35Zu+I0miRPuaoEFADmrbj8eRgngrlAH+
+	cwf0Cr+QBP1616YF4b5/H/bsz+tWewJSRxEhOkgtZnyNITAcrjezAajNUmon7X+uIz354XwswnU
+	6GV0H2EMkddhOp26YneyNOSvjidIv6JAeHtCsMN6ymS4=
+X-Google-Smtp-Source: AGHT+IFxlgEVL9wIytXoEDsYFMCUPcCz2O0f8+d1i7n1xSH9wdb+PvyvPDDg8tzmAISfbPZh5JRWJw==
+X-Received: by 2002:a17:906:7950:b0:ac2:d0e6:2b99 with SMTP id a640c23a62f3a-ad1d34db544mr343490966b.36.1746540683518;
+        Tue, 06 May 2025 07:11:23 -0700 (PDT)
+Received: from toolbox.int.toradex.com (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch. [83.173.201.248])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad189147380sm722462766b.18.2025.05.06.07.11.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 06:45:47 -0700 (PDT)
-Date: Tue, 6 May 2025 16:45:46 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: raj.khem@gmail.com
-Cc: Sathishkumar Duraisamy <sathishkumar.d.cbe@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] systemd build failure with gcc 15 / tpm2 / aarch64:
- gcs required
-Message-ID: <aBoSim_nkIBMMsXM@nuoska>
-References: <0a4bac6d-292f-4278-ac5b-348a160a319c@windriver.com>
- <23053.1746531517602060473@lists.openembedded.org>
- <CAMKF1spM6xrsWf1CvUsHr+1BF5Eo+X+ZKSN=DOiXq0Y4DrGYMQ@mail.gmail.com>
- <CAHebdzR4rGAq0e4FLuThxqE57UuT+LLqLXQd425--A6OAUPXZg@mail.gmail.com>
- <CAMKF1spwEwgVaa5AM05drEsv3JGNVS4=g30JkHZpYFHBmdzhNQ@mail.gmail.com>
+        Tue, 06 May 2025 07:11:23 -0700 (PDT)
+From: max.oss.09@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [OE-core][Patch v2 1/1] openssl: aarch64: configure with no-asm
+Date: Tue,  6 May 2025 16:10:12 +0200
+Message-ID: <20250506141013.2600055-1-max.oss.09@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMKF1spwEwgVaa5AM05drEsv3JGNVS4=g30JkHZpYFHBmdzhNQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 13:45:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216049
+ <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 14:11:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216050
 
-Hi,
+From: Max Krummenacher <max.krummenacher@toradex.com>
 
-On Tue, May 06, 2025 at 06:32:02AM -0700, Khem Raj via lists.openembedded.org wrote:
-> On Tue, May 6, 2025 at 6:28 AM Sathishkumar Duraisamy <
-> sathishkumar.d.cbe@gmail.com> wrote:
-> 
-> > Hi
-> >
-> > On Tue, May 6, 2025 at 6:43 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> >> On Tue, May 6, 2025 at 4:38 AM Sathishkumar D via
-> >> lists.openembedded.org
-> >> <sathishkumar.d.cbe=gmail.com@lists.openembedded.org> wrote:
-> >> >
-> >> > Hi all,
-> >> >
-> >> > I am also facing the same build issue. I tried to understand the issue.
-> >> From build system for both openssl and systemd,
-> >> -mbranch-protection=standard   enabled. In fact the support this flag added
-> >> long back,
-> >> https://github.com/openembedded/openembedded-core/commit/8905639d1cdc5ce809cc5ecd9672f5e86bf8a579
-> >> and tpm2 introduces additional dependencies for systemd as in commit
-> >> https://git.yoctoproject.org/meta-security/commit/meta-tpm/recipes-core/systemd/systemd_%25.bbappend?id=6eb3098e57881895e62fc811f714c2aa4ecfcf8f
-> >> .
-> >> >
-> >>
-> >> is this flag passed to linker as well ?
-> >>
-> >> Openssl:
-> > =======
-> >
-> > export CC="aarch64-tdx-linux-gcc  -march=armv8-a+crypto
-> > -mbranch-protection=standard -fstack-protector-strong  -O2
-> > -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
-> > --sysroot=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot"
-> >
-> > export CFLAGS=" -O2 -g
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/openssl-3.5.0=/usr/src/debug/openssl/3.5.0
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/build=/usr/src/debug/openssl/3.5.0
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot=
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot-native=
-> >  -pipe -Wl,-z,gcs-compliant=all "
-> >
-> > export LDFLAGS="-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/openssl-3.5.0=/usr/src/debug/openssl/3.5.0
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/build=/usr/src/debug/openssl/3.5.0
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot=
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot-native=
-> >  -Wl,-z,relro,-z,now"
-> >
-> > systemd
-> > ======
-> >
-> > export CC="aarch64-tdx-linux-gcc  -march=armv8-a+crypto
-> > -mbranch-protection=standard -fstack-protector-strong  -O2
-> > -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
-> > --sysroot=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot"
-> >
-> > export CFLAGS=" -O2 -g
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/git=/usr/src/debug/systemd/257.5
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/build=/usr/src/debug/systemd/257.5
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot=
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot-native=
-> >  -pipe
-> > --sysroot=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot"
-> >
-> > export LDFLAGS="-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/git=/usr/src/debug/systemd/257.5
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/build=/usr/src/debug/systemd/257.5
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot=
-> >  -ffile-prefix-map=/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot-native=
-> >  -Wl,-z,relro,-z,now"
-> >
-> 
-> Please post exact linker command line to build libcrypto.so as well
+openssl has a couple of functionalities which use optimized
+assembler code. With no-asm these are replaced by generic
+C code implementation.
 
-FWIW, this reproduces on genericarm64 machine, poky-altcfg distro, tpm2 added to
-MACHINE_FEATURES and meta-security/meta-tpm layer added to build. It is triggered by
-"openssl" in systemd PACKAGECONFIG.
+With GCC 15 OE by default uses the new AARCH64 specific GCS feature.
+However the object files produced by the assembler are not marked
+to provide the feature and consequently the produced shared objects
+containing them also not.
+The linker will warn when linking against such shared objects files
+and, with all warnings are errors set linking will fail.
+Without this patch systemd e.g. fails do_compile as it links against
+libcrypto.so from openssl.
 
-Cheers,
+To test what features an object file (or .so, .a file) has use
+readelf -ln and check the content of .note.gnu.property, e.g.
+libcrypto-shlib-md5-aarch64.o build from assembler source,
+libcrypto-shlib-md5_one.o build from C source:
 
--Mikko
+$ aarch64-poky-linux-readelf -ln ./crypto/md5/libcrypto-shlib-md5-aarch64.o
+
+There are no program headers in this file.
+
+Displaying notes found in: .note.gnu.property
+  Owner                Data size        Description
+  GNU                  0x00000010       NT_GNU_PROPERTY_TYPE_0
+      Properties: AArch64 feature: BTI, PAC
+
+$ aarch64-poky-linux-readelf -ln ./crypto/md5/libcrypto-shlib-md5_one.o
+
+There are no program headers in this file.
+
+Displaying notes found in: .note.gnu.property
+  Owner                Data size        Description
+  GNU                  0x00000010       NT_GNU_PROPERTY_TYPE_0
+      Properties: AArch64 feature: BTI, PAC, GCS
+
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+---
+ meta/recipes-connectivity/openssl/openssl_3.5.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+For reference also refer to this thread:
+https://lore.kernel.org/all/aBilFkr4HF-MSBd6@toolbox/
+
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.0.bb b/meta/recipes-connectivity/openssl/openssl_3.5.0.bb
+index 865e04deb220..d025fc3ff100 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.0.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.5.0.bb
+@@ -36,6 +36,8 @@ B = "${WORKDIR}/build"
+ do_configure[cleandirs] = "${B}"
+ 
+ EXTRA_OECONF = "${@bb.utils.contains('PTEST_ENABLED', '1', '', 'no-tests', d)}"
++# aarch64 'as' doesn't mark objects to have the GCS feature, resulting *.so then produces linker warnings
++EXTRA_OECONF:append:aarch64 = " no-asm"
+ 
+ #| ./libcrypto.so: undefined reference to `getcontext'
+ #| ./libcrypto.so: undefined reference to `setcontext'
+-- 
+2.42.0
+
 
