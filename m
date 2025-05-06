@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F3EC3ABBE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F07C3ABBC
 	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 15:14:25 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.78317.1746544456029402846
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.78807.1746544461416315267
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 08:14:16 -0700
+ Tue, 06 May 2025 08:14:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=k9Y7j9Y5;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-224191d92e4so67769935ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 08:14:15 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PHRFFI7S;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2255003f4c6so61031685ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 08:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746544455; x=1747149255; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746544461; x=1747149261; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OVSE30vVhFoJgm5vLa4s4bhtV5AvixDZqDMDQ7c1Chw=;
-        b=k9Y7j9Y5lPfHtPijxDY11qTqMU/FLWm8Tcc2tIYJvUdTFG4qrint0bFywaut/8y5OH
-         /vvjV9O8x9Q66ZMSBokQ7XtJg+9vvBLI/MYPa8O5L+LOF484u9p1Z6dDFLzjHv3TLVh9
-         +C1B4L5ilrkgZKZ2rd5rMwBAIkVP1zo+9mNIrL262nFzxz1TcJA7a/8vnbkjKCgReNvD
-         PsxHhOAj8UyhlQKmP35F7h+LznjyFLp86gcW7UmWAAcGw/LMn3XRtSg91977WS46uq0z
-         iICVHjBARTUVIHPhL1GpiR45tNI1DAWbfw6zFqyfahcSWfFQW+3kok4UtKZOKW9MluTM
-         zajA==
+        bh=v97+OY7rR0O083VD/Cg9JeHcjDQgniLgcwWVCsfp5Sk=;
+        b=PHRFFI7SEbLfl3cGsnu6M4oQ5RzvY9ewRL99uIjh4/DMvy+0zKirJVIWm1xjApmZrA
+         DvPwKX1gwv1CFTqW2u04qWdIQ7m1OcoQPmnQ46Q/Hh7mroiwgvR0Vh+6AZ5BeoP4485T
+         nX38IdItQjCI4wgEn5xV00FoyIMbB8MgRUFTS8hF1bAwfjJzU30NSmdncHsRuD/Ve3N1
+         QWUNzCNoFQbCYbUJqqZcI3iHmhECUxjxovvi58rfOHPYqE6lkSUaDZQ4/ZVoIILwa7l2
+         YVKoFw2FOFKzVohARkgET3DYQAlha/v9xdHxqrv/AqR0jbWkbDXAEeDRchHu15LuZGy2
+         qEKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746544455; x=1747149255;
+        d=1e100.net; s=20230601; t=1746544461; x=1747149261;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OVSE30vVhFoJgm5vLa4s4bhtV5AvixDZqDMDQ7c1Chw=;
-        b=Xp07egTyBuw7f/8YugvwL3vZ4RoXc7bQuTy2ejy9e73foQXy4KfRE/1R5VvikHk4pa
-         aE2lR8SyKQKXmz1xpAID1FJJ3zxwFjNFBCvlMeOzWNR9n3DTZNSgpeIGcxlmQKA6f7CF
-         I7SGXGeO1cjplTYxYCTvZwLjIDP4nDCg0QMsnd3XG58GUn5D8V+NnLE5vLVEzCx8tK1Q
-         oPQtQLZ7cJlzb1F8xzDTOsRniQsMA6T5fuROrEIRe7MR1ySqEiJagOVb4MyL0d1oB9dN
-         H2a6ZPf9fowqEmHcOloH/jaYNAF+Z42p9rXRBPB1vIea4EPEG9TxuTVtjycm+gjOFBW3
-         W8KA==
-X-Gm-Message-State: AOJu0Yx9Kc1xSh5ujhL4x18UqUFAdRQs6qme/v06c1WzE0Z3hiNYJMNp
-	0w/jZrEcqexJz9Nb7QGAgJQFDwfPhk83K1J6J45qx7p6CXGBlXizGmnJuK+Tn/yJENlTctNZnNG
-	8
-X-Gm-Gg: ASbGncs8PN981CC03k75eu/29009M666ERhAo/TFeTVe0sGCRMayLWlzTpzMf1r6Z4J
-	tLNBOu9giIpieHdxp/8/y1erV+Sr+vyAjW7e6BKFKGd9n9jzFJkpswmnyL+0UXPt2/DhB8196gb
-	tt03114D7FMGo5Odnp3SL5gZ4ebufBffRveLgsuGsU4A1VznMAVK8JzvTDS9NFytUnP5uPIB4s4
-	esGIgRBhMTdV16x0B/N5U3DNCMlU5ZZgcjlFgRA9bzMecarJSuXjS6Ua69VcoLOxxFdx0zvLQ0l
-	YxSJArdHEQu6OEaFofJM3pI8gV2bTUQU
-X-Google-Smtp-Source: AGHT+IEIRd8MfHFWSoHIxTbJvAQcFKT7c6GWIMmE4hRbHFE6r5is+HJRK0rZYJJO6Qp9bXm/hDed2Q==
-X-Received: by 2002:a17:902:ce8f:b0:22e:50e1:746 with SMTP id d9443c01a7336-22e50e108d4mr18025905ad.36.1746544455336;
-        Tue, 06 May 2025 08:14:15 -0700 (PDT)
+        bh=v97+OY7rR0O083VD/Cg9JeHcjDQgniLgcwWVCsfp5Sk=;
+        b=h4P2R2DWbAz5vLDj23NzY72lIMNAYgfbRJk0VEi/JBeTLYlXpvolc8UUxXCRRuA3hj
+         SqIMOZLwJl/92LU68LThj0dtw50+x+S0LMat9d5lGv56sFiwgoiV9Lenr2uDgtlsmbin
+         dKTEsHA8L7KR6nVcloRzWWk5YBIAU3dg9A9RTxYNpYHdt1fFXU/qIFaGHfecb1wlIOYM
+         CH6KXZkvRRqoRkXLUjb0qnt4CmLHSOLUod841w6yhJRxNIulvIPkPeMEyqMz6fmpBrg3
+         s7rb+UTIr6tXGMGjTYxcXMfkRJV47duwa4trGUsIYeTh1MXFF63PrE1B6c4FzUihuWMf
+         mzWw==
+X-Gm-Message-State: AOJu0YysCSSyfmrPB9XHUvKKs/Z469SUeaFU9ZqvGLU6/cEb+rgAAsOt
+	pPhhn5Ps3rDnM5chdK+rYzm1c/KN25W4HCkbC0ON0jGYRJwwQvm4gDP4I8f8BBufNxBX1oPeJy0
+	6
+X-Gm-Gg: ASbGncsg4UXM6TmjuxEZMS7YcPBWgET5DwZad3wqaAu9rCKwTBDapJqyhKkDdR1c9Gx
+	2VxM+21vlL6+OyCDSNGt8RntTgnleTzoJbh7KjkPFk6oEHrLbPDPQrbkbVtQyuiLZT1aQ3O4BCF
+	Mksd53RZ3XGq1qh11axMdd7Gw4Wmkk7ynUjeuLRJnjlrvLzM0Sg+Lau/YLveZLGqLbUQStLLhbo
+	AVUJJGJncyPnpraJeBlo0d7G4YDeg6nlit2S3NGBQMtco/6QlsvItGdMYRbHTwpmzY+LeJ7sqzg
+	zjd3VLwET72jiH2Gr7luAGDT6Wt587Ea
+X-Google-Smtp-Source: AGHT+IGTKBw/iHhaMWrr6E6GGIIKrhzEH3UONE1Mh0JQVK0GJkX+Sb585ZOW8wKgS8EM7BZnnaLiSQ==
+X-Received: by 2002:a17:903:234e:b0:224:26fd:82e5 with SMTP id d9443c01a7336-22e1038ea74mr269246665ad.48.1746544460685;
+        Tue, 06 May 2025 08:14:20 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:8d37:c5d1:328a:ee43])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1521fa58sm75222545ad.150.2025.05.06.08.14.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1521fa58sm75222545ad.150.2025.05.06.08.14.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 08:14:15 -0700 (PDT)
+        Tue, 06 May 2025 08:14:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 3/7] sqlite3: mark CVE-2025-29087 as patched
-Date: Tue,  6 May 2025 08:13:55 -0700
-Message-ID: <3f951941c758b6982a3cd30d085460756b7fefd9.1746544207.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 7/7] bluez5: backport a patch to fix btmgmt -i
+Date: Tue,  6 May 2025 08:13:59 -0700
+Message-ID: <5961d8e42e89fad5a5465d686e3d7a3c5b271c58.1746544207.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746544207.git.steve@sakoman.com>
 References: <cover.1746544207.git.steve@sakoman.com>
@@ -67,35 +67,68 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 15:14:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216060
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216064
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Jeroen Hofstee <jhofstee@victronenergy.com>
 
-Description of CVE-2025-29087 and CVE-2025-3277 are very similar.
-There is no lonk from NVD, but [1] and [2] from Debian mark these two
-CVEs as duplicates with the same link for patch.
+Without this patch btmgmt will always use hci0 in
+non interactive mode.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2025-29087
-[2] https://security-tracker.debian.org/tracker/CVE-2025-3277
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ ...ndex-option-for-non-interactive-mode.patch | 29 +++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch
-index 4e2ed5f1e0..b8225b5069 100644
---- a/meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch
-@@ -7,6 +7,7 @@ Subject: [PATCH] Add a typecast to avoid 32-bit integer overflow in the
- FossilOrigin-Name: 498e3f1cf57f164fbd8380e92bf91b9f26d6aa05d092fcd135d754abf1e5b1b5
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 731bfa0e40..53d8644159 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -57,6 +57,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
+            file://0001-adapter-Fix-up-address-type-when-loading-keys.patch \
++           file://toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch \
+            "
+ S = "${WORKDIR}/bluez-${PV}"
  
- CVE: CVE-2025-3277
-+CVE: CVE-2025-29087
- Upstream-Status: Backport [https://sqlite.org/src/info/498e3f1cf57f164f]
- Signed-off-by: Peter Marko <peter.marko@siemens.com>
- ---
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch b/meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch
+new file mode 100644
+index 0000000000..f4e14be146
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch
+@@ -0,0 +1,29 @@
++From f00d5546c9e989dd68ce0de0190cd0e043b0f1f5 Mon Sep 17 00:00:00 2001
++From: Arjan Opmeer <arjan.opmeer@gmail.com>
++Date: Tue, 9 Jul 2024 13:55:41 +0200
++Subject: [PATCH] tools/btmgmt: Fix --index option for non-interactive mode
++
++In non-interactive mode the --index option does not work because the
++call to mgmt_set_index() is made after bt_shell_attach().
++
++Fixes: https://github.com/bluez/bluez/issues/893
++
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/f00d5546c9e989dd68ce0de0190cd0e043b0f1f5]
++---
++ tools/btmgmt.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tools/btmgmt.c b/tools/btmgmt.c
++index 9b7f851bd8..436c2bb21f 100644
++--- a/tools/btmgmt.c
+++++ b/tools/btmgmt.c
++@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
++ 		return EXIT_FAILURE;
++ 	}
++ 
++-	bt_shell_attach(fileno(stdin));
++ 	mgmt_set_index(index_option);
+++	bt_shell_attach(fileno(stdin));
++ 	status = bt_shell_run();
++ 
++ 	mgmt_remove_submenu();
 -- 
 2.43.0
 
