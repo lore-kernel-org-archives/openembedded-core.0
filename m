@@ -1,283 +1,101 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28B28C3ABBF
-	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 13:01:15 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.75150.1746536467530848637
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E1D1C3ABC0
+	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 13:14:05 +0000 (UTC)
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+ by mx.groups.io with SMTP id smtpd.web10.75442.1746537238548114709
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 06:01:07 -0700
+ Tue, 06 May 2025 06:13:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kqg1xsib;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-227d6b530d8so52104825ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 06:01:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=i5+LyyCk;
+ spf=pass (domain: gmail.com, ip: 209.85.167.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3f6dccdcadaso4327805b6e.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 06:13:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746536467; x=1747141267; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sfBf89JI9ukHyYaTjZzm+8h7J7m8IfVhuMQWSQ3kacQ=;
-        b=Kqg1xsibVbe4BIvaeaZjcMFrtMyibyLA0OfSxrr3KfPuh1fjODf6hfXq5FXw2Cf2xA
-         lVsd2Zk61PM2h9ouLn1BO+7ZmK6Jyc1wk2x0+I4LhDpiOqhRESJIlcXyF2TrK2Ae1EjO
-         rMwhiWXpbPyr4xg9/y9ZMgYn9spuXa1orrXhtwXPYBpLk2vgNt5yysqIUffbc/kXg8jF
-         4VP9/VFty1QmhSdeZe6DRK21BFwulXTP+VKd0fqBxS+hGXAGsGy1Ilse512jHSINvA5T
-         q9R3+ielBHoYiBbjrvjWCqtgMUUkVEvSnwmFsnaadyFRBUUNHmtMbhkl+zO4PErEysR3
-         GOKg==
+        d=gmail.com; s=20230601; t=1746537238; x=1747142038; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7bBgTNCx8pvlHkon4VL25JsIaLRct2XZ+mGD1YRtvLE=;
+        b=i5+LyyCkDqMUCnVyp0lpwg+q3xb3X++pOOJigYWQCbtdgflamD+0a1x4VJPjXfecws
+         mxAJHBKMM7gz5oWXOYF2DEh3yusy3crG/nVl9+L2G3fjZndMXp3Af9Sp3DJd6YrI+nfR
+         j666wWdz0Uyhz64rCvNgBwrlFpGdyIhHcz53mpFAzWfiidDC4lFMHMyZhN4D5qY4i0qd
+         nJNLlurpsAeuwFf0iv4bVTQ98f2f7L39h19yVhJTGlTo5r0l6NqikUmap9NFumD9CWDX
+         S61m8gmVLKDVgC2YDOH5OYWLNxVEUjp0NJBUPp8fl3o4gS5OIymw7gz438pD25ke+7I6
+         uWvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746536467; x=1747141267;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sfBf89JI9ukHyYaTjZzm+8h7J7m8IfVhuMQWSQ3kacQ=;
-        b=dP6sTILNFAmVsFHtKUYZqKnDk0mr2rTDTwm2Lsouw9xJGuOOW2OoWClJQSpTMylL7V
-         Ad6KRgMAHxnrVRXq2j+EQAhhsrdv1LKBybVvuRZOdTZ4HVPuGIIQCNX9St8xtR42Sf4E
-         a/grjX5a/FyKGN8SXV+SsOQUPVNsYiW6gBF0Z7KFSMRsqif705U7/mCi2w2LLHqfxg2u
-         Z2aAKQAZRTiywOPW/srrSJK8f1wPF6Jcb9oWG8EUUpoZsQsPOQdE8s3LJZU6gsbfX+Qc
-         LMjzo0DzJIsBmOHx6YjgBfvaBgIafGYOP4dCYf706nsdtAvGTHv+r0AMmSRECig3LS7G
-         qZaQ==
-X-Gm-Message-State: AOJu0YzhwWssH5I+NXclqp9eJ6Nhsn2ZBgWdhu8UK6lnEqtJFPnmcKTf
-	eaF5OX1NUAehcoMY5PUl3OxSx0MYbXIvpQHAuLKvWgItkDkjwj9Wbv5rBY8okAdAdpBX/vXzAu4
-	kYQ8bjD33bqIsQSKwO5q0t5nIvz3HLune
-X-Gm-Gg: ASbGncs35JBjTqeDPx2X9pz3FqLM55Dpn1i6wBDYiy3x/8hMJc6TzUcZ0ae3bMNlw87
-	ZOzem0ivl7f2KzsjEDyAydnD8zFuCuhNR/ELbscNJcVOmkWEeLbeHtefyMzSMu8vvj4PmHQQu/V
-	UgW3QLfN+PRwBL5rz9OCb4OiY=
-X-Google-Smtp-Source: AGHT+IH/SvvE5rNX4ocskByUJgOW6K0BvWzpqm6dk42cv6UHWhZ8FBLQRo4VsrufcpmCI13xlMUbJacrhP0pEGcfELk=
-X-Received: by 2002:a17:90b:1dc7:b0:308:5273:4df8 with SMTP id
- 98e67ed59e1d1-30a4e5a57e5mr29623859a91.10.1746536466384; Tue, 06 May 2025
- 06:01:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746537238; x=1747142038;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7bBgTNCx8pvlHkon4VL25JsIaLRct2XZ+mGD1YRtvLE=;
+        b=UsadGJzKXNhTIBL5Uc4F6Ux6JsJ1Nn1FcTgbI/crnTtEpVVk9rysmpTpbyxK9JRWLe
+         9MIYsdR8C1k9R11h+QPKaXSxZ4etc3a+ROTKiHQQpRxVjGdLCH9uUQMSZwa6aMGvTREO
+         QonNo3YMnotTK+3IMmsMqVn7wFB/AoJwqjmD7tZGMmtxet4QgkadNhsk5A+0txCtY8Sk
+         M2QC/by/Lul1zW1pi201OL1h8AasY7IFLZdqiFhcfsr3ZwbJbYTi2cYsjUGNVXihuSl1
+         zZ6LxQT5SVKUlboQc4PxzlHpg0DVdiQemdvIQHaZs4yQgajEANxbkoqaUwscj37eXoCY
+         YZ7g==
+X-Gm-Message-State: AOJu0YzAlXUSkKLSLqYqZYlQ36pqXNOO7UZDHzirF/udB2upkI1qdFUn
+	EENdTw/5DzRJ/dci6eP4zixwkc+qd147yKcm3RodLzByS9jT6DEKxwgTbPFw25/OVQ2EgDyqKfG
+	kOp7qGNgZCZHHxDwMFsbLUMTDd5E=
+X-Gm-Gg: ASbGncsekLB76XRKrjclY6+2IUNZyu4ObwHAOWyxxC0W9Cvvy8x+3xK453OzhQkrVpS
+	Jq5bCpxxPVZ2Eq97jXtldewEhfh8gw8F7K/XtLdimxe8K00DhXt4RaVapb1kxdyAnbc2LQe/Rjr
+	It9yFaKzf/jXzjYy4z8PSGOlnTayppr7Cr
+X-Google-Smtp-Source: AGHT+IHE7aT3gYHoGzEEHlrahZDpPRaY0hCLiVl2v0CmFcTUVwGhbwLfzFURgl8GNU2VNu0nIW9KQmtWc79HeypHUWU=
+X-Received: by 2002:a05:6808:158a:b0:403:5150:c348 with SMTP id
+ 5614622812f47-4035a533eabmr8119620b6e.4.1746537237682; Tue, 06 May 2025
+ 06:13:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <LO0P265MB29537DEB8276706CFBB05913AA8E2@LO0P265MB2953.GBRP265.PROD.OUTLOOK.COM>
-In-Reply-To: <LO0P265MB29537DEB8276706CFBB05913AA8E2@LO0P265MB2953.GBRP265.PROD.OUTLOOK.COM>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 6 May 2025 09:00:55 -0400
-X-Gm-Features: ATxdqUGzBED2dEST6VlpRBxLmjuf4VYB7CLInRmeMW-CVhSPaNzx2NIIAEejOg8
-Message-ID: <CADkTA4NZ1YPgVYfA8ttaLxrh-nUCB4+BUubKx7cWZSe4QfjKXQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel-yocto: sort patches by filename
-To: benjamin.shirley-quirk@carallon.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000aa8beb0634773559"
+References: <0a4bac6d-292f-4278-ac5b-348a160a319c@windriver.com> <23053.1746531517602060473@lists.openembedded.org>
+In-Reply-To: <23053.1746531517602060473@lists.openembedded.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 6 May 2025 06:13:31 -0700
+X-Gm-Features: ATxdqUFxQHwjz3eUBSUrxrivwGYMsZa63IEa9g_Zw2NdQtgYgyPMeypbOoGJo1w
+Message-ID: <CAMKF1spM6xrsWf1CvUsHr+1BF5Eo+X+ZKSN=DOiXq0Y4DrGYMQ@mail.gmail.com>
+Subject: Re: [OE-core] systemd build failure with gcc 15 / tpm2 / aarch64: gcs required
+To: sathishkumar.d.cbe@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 13:01:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216044
+ <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 13:14:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216045
 
---000000000000aa8beb0634773559
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, May 6, 2025 at 8:56=E2=80=AFAM Benjamin Shirley-Quirk via
-lists.openembedded.org <benjamin.shirley-quirk=3D
-carallon.com@lists.openembedded.org> wrote:
-
-> Currently patches are applied in the order in which they appear in SRC_UR=
-I.
-> As a result, patches split across multiple recipes are applied according =
-to
-> recipe parse order, not patch order, which can cause them to fail.
+On Tue, May 6, 2025 at 4:38=E2=80=AFAM Sathishkumar D via
+lists.openembedded.org
+<sathishkumar.d.cbe=3Dgmail.com@lists.openembedded.org> wrote:
 >
-> This commit allows kernel patches split across multiple recipes to be
-> applied
-> in a deterministic and controllable order: sorted alphabetically by
-> filename.
+> Hi all,
+>
+> I am also facing the same build issue. I tried to understand the issue. F=
+rom build system for both openssl and systemd, -mbranch-protection=3Dstanda=
+rd   enabled. In fact the support this flag added long back, https://github=
+.com/openembedded/openembedded-core/commit/8905639d1cdc5ce809cc5ecd9672f5e8=
+6bf8a579 and tpm2 introduces additional dependencies for systemd as in comm=
+it https://git.yoctoproject.org/meta-security/commit/meta-tpm/recipes-core/=
+systemd/systemd_%25.bbappend?id=3D6eb3098e57881895e62fc811f714c2aa4ecfcf8f.
 >
 
-They really do need to be applied in SRC_URI order. So no, this patch
-cannot be merged.
+is this flag passed to linker as well ?
 
-Bruce
-
-
-
+> So something issue with gcc-15? or what makes openssl to loose gcs?
 >
-> Signed-off-by: Benjamin Shirley-Quirk <benjamin.shirley-quirk@carallon.co=
-m
-> >
-> ---
->  meta/classes-recipe/kernel-yocto.bbclass | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes-recipe/kernel-yocto.bbclass
-> b/meta/classes-recipe/kernel-yocto.bbclass
-> index cef6b9ec3f..766098db28 100644
-> --- a/meta/classes-recipe/kernel-yocto.bbclass
-> +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -46,7 +46,8 @@ def find_patches(d,subdir):
->              # properly
->              if not patchdir:
->                  patch_list.append(local)
-> -
-> +    # sort patch_list so that they will be applied in filename-order
-> +    patch_list.sort(key=3Dos.path.basename)
->      return patch_list
->
->  # returns all the elements from the src uri that are .scc files
+> Regards,
+> Sathishkumar D
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#216043):
-> https://lists.openembedded.org/g/openembedded-core/message/216043
-> Mute This Topic: https://lists.openembedded.org/mt/112648149/1050810
+> View/Reply Online (#216040): https://lists.openembedded.org/g/openembedde=
+d-core/message/216040
+> Mute This Topic: https://lists.openembedded.org/mt/112627480/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000aa8beb0634773559
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 6, 2025 at 8:56=
-=E2=80=AFAM Benjamin Shirley-Quirk via <a href=3D"http://lists.openembedded=
-.org">lists.openembedded.org</a> &lt;benjamin.shirley-quirk=3D<a href=3D"ma=
-ilto:carallon.com@lists.openembedded.org">carallon.com@lists.openembedded.o=
-rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-"><div class=3D"msg-145653120574223293">
-
-
-
-
-<div dir=3D"ltr">
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-Currently patches are applied in the order in which they appear in SRC_URI.=
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-As a result, patches split across multiple recipes are applied according to=
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-recipe parse order, not patch order, which can cause them to fail.</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-This commit allows kernel patches split across multiple recipes to be appli=
-ed</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-in a deterministic and controllable order: sorted alphabetically by</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-filename.</div></div></div></blockquote><div><br></div><div><div class=3D"g=
-mail_default" style=3D"font-size:small">They really do need to be applied i=
-n SRC_URI order. So no, this patch cannot be merged.</div><div class=3D"gma=
-il_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default=
-" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex"><div class=3D"msg-1456531205742232=
-93"><div dir=3D"ltr">
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-Signed-off-by: Benjamin Shirley-Quirk &lt;<a href=3D"mailto:benjamin.shirle=
-y-quirk@carallon.com" target=3D"_blank">benjamin.shirley-quirk@carallon.com=
-</a>&gt;</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
----</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-=C2=A0meta/classes-recipe/kernel-yocto.bbclass | 3 ++-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-=C2=A01 file changed, 2 insertions(+), 1 deletion(-)</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe=
-/kernel-yocto.bbclass</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-index cef6b9ec3f..766098db28 100644</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
---- a/meta/classes-recipe/kernel-yocto.bbclass</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-+++ b/meta/classes-recipe/kernel-yocto.bbclass</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-@@ -46,7 +46,8 @@ def find_patches(d,subdir):</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# properly</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not patchdir:</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0patch_list.ap=
-pend(local)</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
--</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-+ =C2=A0 =C2=A0# sort patch_list so that they will be applied in filename-o=
-rder</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-+ =C2=A0 =C2=A0patch_list.sort(key=3Dos.path.basename)</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-=C2=A0 =C2=A0 =C2=A0return patch_list</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-=C2=A0</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-=C2=A0# returns all the elements from the src uri that are .scc files</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-<br>
-</div>
-</div>
-
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#216043): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/216043" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/216043</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/112648149/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/112648149/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</div></blockquote></div><div><br clear=3D"all"></div><div><br></div><span =
-class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gm=
-ail_signature">- Thou shalt not follow the NULL pointer, for chaos and madn=
-ess await thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, S=
-tar Trek II<br><br></div></div>
-
---000000000000aa8beb0634773559--
 
