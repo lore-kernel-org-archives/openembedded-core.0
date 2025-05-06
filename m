@@ -1,138 +1,126 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3831C3ABAC
-	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 15:14:25 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.78318.1746544457433892421
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03281C3ABAC
+	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 15:19:36 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web11.78937.1746544774391614201
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 08:14:17 -0700
+ Tue, 06 May 2025 08:19:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1priaPzb;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-22435603572so74927005ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 08:14:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=N30ZGXBY;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ac34257295dso254580066b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 08:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746544457; x=1747149257; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ThKiEsV+y3d26PgqLmNGwGk1RFpUiLiA0IOyEKdgs58=;
-        b=1priaPzbfaFYZDifZtXl4tMWsrLzU7hOsc54x/g1dNyFMuvbFBhoEXQaYs2KWzlpNF
-         N+rN6gjp/W+GJ/lKzDBrqG0HTQTkWL7QgX6x4b2RuXrMu+wFzm60KiM+lNEjTihRKK2v
-         Wem8Yjy5qTjt4NU4n+vB0XwqnjIDQSFpjR3DyrqkRolFKhfC8ERDowEKKJpvqz9DbwVM
-         5B+kF4XpTxqZGh8wRelKKMVdmGSfzd/9BaOKlIKhjVWymcllClTmoJelzIlS0cvckte9
-         nQZQ1cTXuKrVuzF1NKJgl+abn/N834ED8PzEP8tjkaiqhjZ7ANbe3LThszrP1+P3p4fE
-         rkug==
+        d=gmail.com; s=20230601; t=1746544773; x=1747149573; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PWTAZoSaedRNoqXl6Ghglm/wyC4VrHk7F213gp3ZPqw=;
+        b=N30ZGXBYcBs8LDOMzcP5+qvLmMp8DkIAg2X24U4RhwST9fBDqP4jbZzGe4vJ05oJSM
+         4xU08ZSVoAlJbWHh+7Syv681JLGXtMWAzix9JBvW4VhBI7p3/U1+wLsfenIAteUmwjco
+         2xnyyv7B2zYdbtlF0oXcZ0zmFPDf6p17ejKoxEXUfmq2kP6zvv0MAfW8rGCoj0XzlXuv
+         lyc9l75aI6wGWF493TMB0pu8bSYkDnAZponbhxBLzC0bEKENX4xCVUq9NkY9VFWvCLp0
+         AE5g8ceFNjyHIEjiZwXQFDFcMxRlop2CS5ByIDA6NYzlvpQYLc7V8EW4809Asr3V6CjC
+         flHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746544457; x=1747149257;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ThKiEsV+y3d26PgqLmNGwGk1RFpUiLiA0IOyEKdgs58=;
-        b=ikr+GN8REh4ZvGPtUUQ13BR3NhH1ZHumrczIM4s/0t1Ye4Tyl6PI6GnftA6ElL1WPY
-         /ACxn+1BhpcQR3ZgfH6lZSlZhAHr2Mp//TkFxhxIE2LKFAcmw7ns8Hc/fM3rPnfGbZ3h
-         YndkTAXougq0+KxM9mLDiwlmYVpJWfRLZxCNIEYxdq2sOky3FAFknbdjrw9etT88BOD/
-         ZsxHkrfjUY5pesHo8xAMXDoI4fnSiAWW1tTmSdl7Yf3qqnC6O0KsVRLBtRLwvkTPKc73
-         Yft759NN7P5uhrPPDma9FMR/dhABAYyonhPX/U7THD9uIXDb6XUGX8IuiMKbxTM1LwLb
-         CH9A==
-X-Gm-Message-State: AOJu0YxcRF/9IeC0na38IPYK24ddnl3h9sokzl3hNCf0cOAPBeHc6m51
-	Rxijxy2WoyEhUIgtRdlaJBl8LRqy1UmGk+tjiQdItRhkoUWxxvdmIHiXgqquLKCVJIN8iuPbm2q
-	w
-X-Gm-Gg: ASbGncsCht0srAKv8MdigOHu1TjgNIlpcGaebT3btGUk9lvXDWSlJrrPKCY12DEjh+T
-	A8tvfUlAqGwNtMW4EghtBaElspvq4oBwu15Oz+BjpW5r6nEy/hg1JV+49OpY5OlgEPK2kOOzabQ
-	bBAq+MRSKKwA0a20M+JsvrY6B4+K568yZPA+rIFq9OUfE4D5ZVTU06joh1berMicv44y3Rrh3vV
-	dXp8lCJBDvgGxKeDJX7qr5aNWaa8VBlyR9CDpUCHVQV66dv+s2qiyQl+mI3k/bte4UuGKp78UPZ
-	HqCEfepmAcPfoYKtBegLVSgNO0+iWpD8
-X-Google-Smtp-Source: AGHT+IEA3iVOkGe9t3FkQyPYwuMoiXyvz8MGTAD2FFLj4TMyasiqMEy0zd+As977Fwi2fY41PF/URw==
-X-Received: by 2002:a17:902:d505:b0:220:d601:a704 with SMTP id d9443c01a7336-22e1e8eaf8dmr131629645ad.18.1746544456608;
-        Tue, 06 May 2025 08:14:16 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:8d37:c5d1:328a:ee43])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1521fa58sm75222545ad.150.2025.05.06.08.14.16
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 08:14:16 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 4/7] glibc: stable 2.39 branch updates
-Date: Tue,  6 May 2025 08:13:56 -0700
-Message-ID: <f14c2e6a6ba72673a0e30cde48ec1d5573be3e01.1746544207.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1746544207.git.steve@sakoman.com>
-References: <cover.1746544207.git.steve@sakoman.com>
+        d=1e100.net; s=20230601; t=1746544773; x=1747149573;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PWTAZoSaedRNoqXl6Ghglm/wyC4VrHk7F213gp3ZPqw=;
+        b=Ad3nezEmIRL4+nnz8qYovDzn+dlLBS/jNWQtg0kdv13kBoMoJY5trJ8uNoAhz1RLZq
+         ji591EYQiEAuUUsmz+CwJKICPbHOLCg9jKKZuphWYP60UuXBmvw5Df3YR+1tRD2k2Wd7
+         qkftnA3LkmGlHgK7GDWHAIYu4xhl2Z340nJ96y97sZqQMxOdCVLHngU66upqp1ChzWBD
+         xdsveWVZmt8PUbknchLjsftyUZYplW6bmmDNlE0OIBIs1ed7JDDfyiHXNu6LIl3waeK5
+         l5jn3z91JhxSL+97w7o6Jk212tk1USMiPyURlb4tDXM5G2eSoRM48KaY3+LPQAfpqzuw
+         O/KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWBw/4E5y2rhhWMR4LjgphxNg7GBdp8j2hr+AbTofZ6H6tgDmO9lV7fktUgCdTIRRmqNR7YpMmrWFo37U/AxbEyBw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzvDmrmo7v29M8L6yZ6ZzHbpUrYeVsMwsgV7y1W9gmxLQNqzOV9
+	HojB7PwxSIfNKMHZYChYJankmTvogmVXFjX7bq71hH1uUi1R1o06
+X-Gm-Gg: ASbGncty10SsG0QMbd7tG17tEUmFP5CMBiF7UkL//FMJeaY0f8OT0qnjgpXSeuYbEwc
+	faKzVrF+sAhHQcVFSlIQIhO4AzqzgoGunpNyNMbdIXluCOVRHU8d2UE2CZpzigCK43Sx52FybRm
+	S2ko8JLMNh8jxS/jcYlG/9y7IT/Xo+KNY0eDBpyCpm6lrgftzga2PTQGCiSTp1Nj+WWh/xtXiko
+	n3WFTkLk617Av55fTAKGXmZbTGlr0bu8vTrz9shadPcpLtTcrZVLtq4K9Fd+DGOeJqlHZcWWPCU
+	FyaSVwePr6NbCix/iTEvQTC4A3mN5tpbE4wCx/D7zYRBZ45U
+X-Google-Smtp-Source: AGHT+IFohYRc5dzpagA4RsrlVUXVMtydWCUV8MeMGI3ToTOwqkTk3L8tCGpQ3EKJyNzPes8HuUoMZg==
+X-Received: by 2002:a17:907:971f:b0:acb:107c:7aed with SMTP id a640c23a62f3a-ad1a4b0d716mr1153154866b.55.1746544772548;
+        Tue, 06 May 2025 08:19:32 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad18954108bsm715519966b.180.2025.05.06.08.19.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 May 2025 08:19:32 -0700 (PDT)
+Message-ID: <504da031-4162-4d70-a210-c0f1073d46ef@gmail.com>
+Date: Tue, 6 May 2025 17:19:31 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][scarthgap 6/7] bluez5: make media control a
+ PACKAGECONFIG option
+To: steve@sakoman.com, openembedded-core@lists.openembedded.org
+References: <cover.1746544207.git.steve@sakoman.com>
+ <a51c54793c32cdb433230db4aa6842e41e32c214.1746544207.git.steve@sakoman.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <a51c54793c32cdb433230db4aa6842e41e32c214.1746544207.git.steve@sakoman.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 15:14:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216061
+ <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 15:19:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216065
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-
-3463100f2d x86: Detect Intel Diamond Rapids
-e09436c2cb x86: Handle unknown Intel processor with default tuning
-7620d98186 x86: Add ARL/PTL/CWF model detection support
-765ff3d0d4 x86: Optimize xstate size calculation
-65ae73be01 x86: Use `Avoid_Non_Temporal_Memset` to control non-temporal path
-2be36448c4 x86: Tunables may incorrectly set Prefer_PMINUB_for_stringop (bug 32047)
-bde201e92c x86: Disable non-temporal memset on Skylake Server
-38a7632f2d x86: Fix value for `x86_memset_non_temporal_threshold` when it is undesirable
-cc59fa5dbc x86: Enable non-temporal memset tunable for AMD
-0da58e8be0 x86: Add seperate non-temporal tunable for memset
-837a36c371 x86: Link tst-gnu2-tls2-x86-noxsave{,c,xsavec} with libpthread
-87ab0c7f7f x86: Use separate variable for TLSDESC XSAVE/XSAVEC state size (bug 32810)
-60cd7123a6 x86: Skip XSAVE state size reset if ISA level requires XSAVE
-4cf3f9df54 x86_64: Add atanh with FMA
-01ed435e2e x86_64: Add sinh with FMA
-0edcc77fe7 x86_64: Add tanh with FMA
-7ecf0d3bde x86-64: Exclude FMA4 IFUNC functions for -mapxf
-e1fe22368e nptl: clear the whole rseq area before registration
-dd8c0c3bbd math: Improve layout of exp/exp10 data
-a1b09e59e2 AArch64: Use prefer_sve_ifuncs for SVE memset
-d0e2133470 AArch64: Add SVE memset
-0cc12d9c47 math: Improve layout of expf data
-0cd10047bf AArch64: Remove zva_128 from memset
-dd1e63ab58 AArch64: Optimize memset
-65a96a6f2b AArch64: Improve generic strlen
-4073e4ee2c AArch64: Improve codegen for SVE logs
-78abd3ef6e AArch64: Improve codegen in SVE tans
-a10183b633 AArch64: Improve codegen of AdvSIMD atan(2)(f)
-dcd1229e5b AArch64: Improve codegen of AdvSIMD logf function family
-72156cb90b AArch64: Improve codegen in AdvSIMD logs
-5e354bf4e2 AArch64: Simplify rounding-multiply pattern in several AdvSIMD routines
-80df456112 aarch64: Avoid redundant MOVs in AdvSIMD F32 logs
-d591876303 aarch64: Fix AdvSIMD libmvec routines for big-endian
-f6d48470ae assert: Add test for CVE-2025-0395
-
-Testresults:
-Before update	|After update	 |Difference
-PASS: 5068	|PASS: 5072	 |PASS: +4
-FAIL: 120	|FAIL: 120	 |FAIL: 0
-XPASS: 4	|XPASS: 4	 |XPASS: 0
-XFAIL: 16	|XFAIL: 16	 |XFAIL: 0
-UNSUPPORTED: 157|UNSUPPORTED: 157|UNSUPPORTED: 0
-
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index da9227ccca..040fc793b1 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.39/master"
- PV = "2.39+git"
--SRCREV_glibc ?= "662516aca8b6bf6aa6555f471055d5eb512b1ddc"
-+SRCREV_glibc ?= "3463100f2d47f2897a24ba8023a5c7aaf2d26550"
- SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
--- 
-2.43.0
+On 5/6/25 17:13, Steve Sakoman via lists.openembedded.org wrote:
+> From: Jeroen Hofstee <jhofstee@victronenergy.com>
+>
+> When not building with the default PACKAGECONFIG options, the build can fail
+> with:
+>
+> undefined reference to `media_player_controller_create'
+> undefined reference to `media_player_set_status'
+>
+> Otherwise. So disable it when not set and enable it by default.
+>
+> The packageconfig option is the same as in Styhead.
+> https://github.com/openembedded/openembedded-core/commit/ebbdb7cf5c0a3f0e6773704d4c4cc570358ec611#diff-9d9284f6f27a81c75dffffd6d601b40c8266ae12e678d0a49c46bdb8356a0e91R52
+>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Technicality nitpick, depending on how important it is deemed: this
+patch is missing the original submitter's sign-off.
+> ---
+>  meta/recipes-connectivity/bluez5/bluez5.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+> index 39e1bf389c..731bfa0e40 100644
+> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
+> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+> @@ -18,6 +18,7 @@ PACKAGECONFIG ??= "obex-profiles \
+>      ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+>      a2dp-profiles \
+>      avrcp-profiles \
+> +    mcp-profiles \
+>      network-profiles \
+>      hid-profiles \
+>      hog-profiles \
+> @@ -35,6 +36,7 @@ PACKAGECONFIG[nfc] = "--enable-nfc,--disable-nfc"
+>  PACKAGECONFIG[sap-profiles] = "--enable-sap,--disable-sap"
+>  PACKAGECONFIG[a2dp-profiles] = "--enable-a2dp,--disable-a2dp"
+>  PACKAGECONFIG[avrcp-profiles] = "--enable-avrcp,--disable-avrcp"
+> +PACKAGECONFIG[mcp-profiles] = "--enable-mcp,--disable-mcp"
+>  PACKAGECONFIG[network-profiles] = "--enable-network,--disable-network"
+>  PACKAGECONFIG[hid-profiles] = "--enable-hid,--disable-hid"
+>  PACKAGECONFIG[hog-profiles] = "--enable-hog,--disable-hog"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#216063): https://lists.openembedded.org/g/openembedded-core/message/216063
+> Mute This Topic: https://lists.openembedded.org/mt/112650828/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
