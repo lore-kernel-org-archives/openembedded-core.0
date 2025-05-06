@@ -1,103 +1,100 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E799C3ABAC
-	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 10:21:14 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.73050.1746526860902893385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4230AC3ABBF
+	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 10:53:44 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.73434.1746528821497638038
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 03:21:01 -0700
+ Tue, 06 May 2025 03:53:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=YDUSD5Mb;
- spf=pass (domain: snapchat.com, ip: 209.85.128.44, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf257158fso29697965e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 03:21:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1746526859; x=1747131659; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=R0L4vhNxTopG5JWc039OkVlby07lI2ULWaPF5p9Bqes=;
-        b=YDUSD5MbtGi7arZV3U39t3d/tkUOA5GokItcE8C4IIi22PkQinDO4bWezkGDQrL9zw
-         UstOaRa1gl0zbUWyzXCSW58l3/DZUJLN6o0HhPl1TGx7IuGbnBcp3Tc2iwmpO5hDl73L
-         mUz0BOKmypFzjHXqVfsrX90qpAk5yGKzmqI+I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746526859; x=1747131659;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R0L4vhNxTopG5JWc039OkVlby07lI2ULWaPF5p9Bqes=;
-        b=HyK5BiS8b6sO1Rm6y6msD2/MqLQH5M0FBW3Be4YNAkcSDi0JYk86SVbD9XzJTKfvo8
-         XT2fbgr+c+0fXNj0gE7uHmHR0lT0QcA0tSsuRapH8M04WreyIb54maHD7UItSeEqdpBk
-         G1y8fKlO8c8scXGXbjslrIB/Shcxv6H27tHBG9PBii8rGmlFbg3mA3wTpYCuxb6XyixG
-         5xvjCMme2it5M0gwVsV4+GrWSQOr0Kk8niuBzENCehlZ9uW4fXUMvKJ8MyQoo4xTKGrU
-         ClNz0TM+DY5D1fsWFkL+6HAK7l8fosW5wQOm4G44vovEnyvqYB6Eszy2DlmMu7NxQ0/k
-         dt2w==
-X-Gm-Message-State: AOJu0YwlSwqRI4Si03o4X91mP416lykCHsayb6hkhPNvyzePStN1daA3
-	bK5B7WsWZM/SmTngcXbQjh65vZ2yaW/mHXDcoL7DN+vZacmDa5ajgrKrH59zYAFMX6GKMytp1Z7
-	UuLM=
-X-Gm-Gg: ASbGncvA+fqVD2yuKbfujS+uZzEr4V7T9yIURz1J5xNFZEZcO6TSd0ewy1sgDwvUUvv
-	vpU/qhNiUlgwmJQzMGy3wUcUW1FS1yU7vMSKbdkQ5oujX9ko1Co7cVQ/1yV0+/A9KXKggTZx8X9
-	5xRulsHF9r5IT2w54tKB/2ktGDnxoq9sNQ8oa6EArWhfqS8ART9wGsNE6dRY79lD9YL3qP3Ws8M
-	ib2JAv32SiGbk09+wmqEhwqIPlSgU9KwRHAikd7WDCIv2/WR9P014LTllVitaioakk6ZDfBjD/8
-	4dl+qus62/Z7prOrYnmOJurrayv8jbMKtEPgdiz0MyB2HPtsSMMW82iyw756IAsU0h+tynh8xaF
-	qdfpcI+c4/WUalBFlN30=
-X-Google-Smtp-Source: AGHT+IHXGVCw3mdRp5EiMI2bh5mE1lSIlsZL4S2IdUeatMznOO+7EXD5Eboej04Q6Q5YdJCkEtlIIw==
-X-Received: by 2002:a05:600c:871b:b0:43d:fa58:8378 with SMTP id 5b1f17b1804b1-441d053bf8dmr25446745e9.33.1746526858840;
-        Tue, 06 May 2025 03:20:58 -0700 (PDT)
-Received: from localhost.localdomain (80-108-196-96.cable.dynamic.surfer.at. [80.108.196.96])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441bc83d471sm140574425e9.26.2025.05.06.03.20.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 03:20:58 -0700 (PDT)
-From: ecordonnier@snap.com
-To: openembedded-core@lists.openembedded.org
-Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [oe-core][PATCH v2] coreutils: remove outdated comment
-Date: Tue,  6 May 2025 12:20:55 +0200
-Message-ID: <20250506102055.409076-1-ecordonnier@snap.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7221054752=changqing.li@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 546AUilO028981
+	for <openembedded-core@lists.openembedded.org>; Tue, 6 May 2025 10:53:40 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46e430j87n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 10:53:40 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 6 May 2025 03:53:39 -0700
+Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Tue, 6 May 2025 03:53:38 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] send-error-report: make output align with original design when debug disabled
+Date: Tue, 6 May 2025 18:53:37 +0800
+Message-ID: <20250506105337.2875114-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=BajY0qt2 c=1 sm=1 tr=0 ts=6819ea34 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=t7CeM3EgAAAA:8 a=qV09NasGAAAA:8 a=WP5zsaevAAAA:8 a=fLHl133gaewvrLbyFU4A:9 a=ATClE4nxGrkA:10
+ a=FdTzh2GWekK77mhwV6Dw:22 a=GlicbclHOgpI_Rq0ze_Y:22 a=t8Kx07QrZZTALmIZmm-o:22
+X-Proofpoint-GUID: OO-FFTeo6D_n6HE5dMdtxBT0_DOJ4O7Q
+X-Proofpoint-ORIG-GUID: OO-FFTeo6D_n6HE5dMdtxBT0_DOJ4O7Q
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDEwNCBTYWx0ZWRfXzwEux3SLM5yJ QybsKndm0IntgNUVGzWtftNtVqalhuFwNPI/uvBTvik9o/+6cUsglrQ400ARJ763Bd/wsBtSV0P DeGFusfJLWkJNUkPkYmdOlasrcfjIrc5eSh2RLTl23ZxJs09sazyyv4hvlu8u6OTwzz13X3gY5F
+ Y4FZlizknWQRnG9JEc5QGigFla91DnSk/WEUt0JTBjaPfpjC+QzsaPZNoNbor3sP/Ecwy/JXMZx /CDOH/43JW+POcd3x6wXVnVjuUDTXuWu9uSseJPjN7eiaEL0SbEsCQzAHWT0zaWLVVKWtRHojfd N7yLt3dD5ktUl2TZYjvkCZGGra/lLAHxd3k/VKdFEgNgSzXd/2SrMP/w8qcb4NsYmFWhdD5X+JM
+ hj5OSe21fR19NQgPkCLCduhqBfYuw/X56c2gFNtMJGFcw8YiYazwso8Ns8eXrRKUoG6Gu5Vw
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-06_05,2025-05-05_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ impostorscore=0 bulkscore=0 adultscore=0 malwarescore=0 mlxlogscore=672
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2504070000
+ definitions=main-2505060104
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 10:21:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216037
+ <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 10:53:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216038
 
-From: Etienne Cordonnier <ecordonnier@snap.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-The comment about hostname not being included in base_bindir_progs is wrong after https://git.yoctoproject.org/poky/commit/?id=b9bf37ec6792f82753fe265fdcfc19db7dd51ab6 ,
-so remove it to avoid confusion.
+First, it is better to output the error report web link by default when
+the report is uploaded successfully like before. This is useful, user
+can find the detail the log info from the return link. Yocto Autobuilder
+also benifit from this return link.
 
-Also improve comment about bindir_progs.
+Second, why don't set level to logging.INFO to make the error report web
+link outputed? Because "-j" option want to "Return the result in json
+format, silences all other output", So "INFO:" added by logging system
+is not wanted, so use print directly.
 
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+Example output:
+Without "-j":
+Preparing to send errors to: http://x.x.x.x:8000
+Your entry can be found here: http://x.x.x.x:8000/Errors/Build/25/
+
+With "-j":
+{"build_id": 27, "build_url": "http://x.x.x.x:8000/Errors/Build/27/", "failures": [{"id": 26, "url": "http://x.x.x.x:8000/Errors/Details/26/"}], "num_similar_errors": 20, "similar_errors_url": "http://x.x.x.x:8000/Errors/SimilarTo/26/"}
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/recipes-core/coreutils/coreutils_9.6.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ scripts/send-error-report | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/coreutils/coreutils_9.6.bb b/meta/recipes-core/coreutils/coreutils_9.6.bb
-index b876a8fdd0..6e1867f3e4 100644
---- a/meta/recipes-core/coreutils/coreutils_9.6.bb
-+++ b/meta/recipes-core/coreutils/coreutils_9.6.bb
-@@ -50,7 +50,7 @@ PACKAGECONFIG[single-binary] = "--enable-single-binary,--disable-single-binary,,
- PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
- PACKAGECONFIG[openssl] = "--with-openssl=yes,--with-openssl=no,openssl"
+diff --git a/scripts/send-error-report b/scripts/send-error-report
+index 6418dab165..cc1bc7c2b1 100755
+--- a/scripts/send-error-report
++++ b/scripts/send-error-report
+@@ -155,7 +155,7 @@ def send_data(data, args):
  
--# [ df mktemp nice printenv base64 gets a special treatment and is not included in this
-+# [ base32 base64 df mktemp nice printenv get a special treatment and are not included in this
- bindir_progs = "arch basename chcon cksum comm csplit cut dir dircolors dirname du \
-                 env expand expr factor fmt fold groups head hostid id install \
-                 join link logname md5sum mkfifo nl nohup nproc od paste pathchk \
-@@ -58,7 +58,6 @@ bindir_progs = "arch basename chcon cksum comm csplit cut dir dircolors dirname
-                 sha384sum sha512sum shred shuf sort split sum tac tail tee test timeout \
-                 tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes"
+     log.debug(f"Response Status: {response.status}")
+     log.debug(f"Response Headers: {response.getheaders()}")
+-    log.info(response.read().decode('utf-8'))
++    print(response.read().decode('utf-8'))
  
--# hostname gets a special treatment and is not included in this
- base_bindir_progs = "cat chgrp chmod chown cp date dd echo false hostname kill ln ls mkdir \
-                      mknod mv pwd rm rmdir sleep stty sync touch true uname stat"
- 
+ def validate_server_url(args):
+     # Get the error report server from an argument
 -- 
-2.43.0
+2.34.1
 
 
