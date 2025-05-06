@@ -1,136 +1,251 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24BA3C3ABBC
-	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 15:45:26 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.web11.79574.1746546324245232140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 359E9C3ABAC
+	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 15:57:46 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.79919.1746547063466090313
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 08:45:24 -0700
+ Tue, 06 May 2025 08:57:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mXxMrFXK;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.170, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7080dd5fe92so49206327b3.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 08:45:24 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=QeKWWQPe;
+ spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-22e4db05fe8so7520775ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 08:57:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746546323; x=1747151123; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u7jRYI8vLCY/uhAjIBd506tziXUc1x7+hfPSLj20A10=;
-        b=mXxMrFXK4DkJGbwK2SX+Uc+KEA3cfXfNJcDbV7CF98exDXBkS1w0gZdW8ikJ76FKfU
-         4ngcCuSVZ9lLwfP00Oyoz8U8R6AgpHfPHgaSW7H2YLgQLqvbrHawZ3fYf5iCaD9C1K1d
-         6C7AjnJpNyZ5+3j10W+oJc0HMmAhmPyxK11p3jN9SOVHYIagmGRdgGKLjlYTvIYuFNZ0
-         cN/K80Lu3w3p6o4JpR3EWWQ4D1JFiXkpSAbXFUeegTCmV1M19fZU3NfRZonmJby0Gqne
-         sexyB8s4lmbwWXpJDUNKAS3t45MQMqWZ5UIwCE5PLk9lwqscLX2jITkjGC2uoZGxeJZw
-         wPyg==
+        d=mvista.com; s=google; t=1746547062; x=1747151862; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=luMSY2MRzIdTTXrJ8ezpha2m3hRnuDNUisznFtbTT+0=;
+        b=QeKWWQPeDyNKC4/JuuM84hDHImtJ88X7XBXXLO0fIkTCSqnxczbpaDQ4ZCVBdMR2rl
+         9OO8T11RcbKit2yNtIDa6vMPJc5uhoZU2Y8OxsUuBRM+B+/8sEUdniPMjM/DF2EYW3HD
+         swb7c/61H4Vj/MNvdZuFBShZG6uKA8nLXIqsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746546323; x=1747151123;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u7jRYI8vLCY/uhAjIBd506tziXUc1x7+hfPSLj20A10=;
-        b=oTzchEXYQ8PiU0k7qaaPyPMLy+qvwmM/8xUdtsnBgTtLc+CGMbaSz9ywTDDD8uAy47
-         P1ZE4ZN4yRuOxYp7Fy3GOQ5AD92qqGGOh91t5w35Xr/fSJS4Cjn6U/3UyWD9QXdy6DPd
-         HUpsoM3R6YSk1RJYbQYnQJbR1+cEcmtt1pLe1q5/jKKV6Ks2uKCC+7NEmCtL/TwFZiR0
-         VUkXdn+R6zbXbcnZn9P8x6WON4HypftWdHSeWdYbQc5NTFkXyYEn6HPZrkBThb8XnTPt
-         QQ2S7R3STS3ogdgzDyMS3Oq0bxf0/EE78SXRRuzg2YjQgzBFnHd4F2DvyX+0lNuLBkUT
-         rSYA==
-X-Gm-Message-State: AOJu0YzPW0O/vhjl4dx+2rw8ZOnV9iYuLPKYnz3bJbV/TKlyjxAOaHr+
-	PXS/cRu9mO2EUfWEm3mO/EM4hJzmPkIEOY8XtTo1S9FJBkUlILbefiijvaR2fQPUXFrl32Oyydd
-	F9qLAmEMWfAA3UrUyL2JHsanib6laKOD3bzcxmg==
-X-Gm-Gg: ASbGncuCnZ7pJ57e62fy/Rovs+Hct31acAlB5NtiMCMtUaZ8r1tzpx9OfaDFrOwWBCk
-	+bLOOeSgVpUFMkzJRcts2jMkZzJm97DHsr0QdWRgcgsUYDuUhTYUoMV5C/ZhqYdfs7a/Lk2azWo
-	nYcl5VPgpoYee5qc3P4Y475ppZ5SskQovqP2FOYUG0a/B23T9ChMkqIw==
-X-Google-Smtp-Source: AGHT+IFsT/KpUlKCHR+MzMbTu6Raw94V9dlL55EL2Z9mehP614qx/y1+DELxQaX/ZLX8vTVVXwLE2mZLvnAHZUk1WRI=
-X-Received: by 2002:a05:690c:3509:b0:703:aea2:6bbb with SMTP id
- 00721157ae682-708eaf6d843mr168498347b3.31.1746546323217; Tue, 06 May 2025
- 08:45:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746547062; x=1747151862;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=luMSY2MRzIdTTXrJ8ezpha2m3hRnuDNUisznFtbTT+0=;
+        b=ujoZ1q92wWtbz3TdA1UGzCS2XQeEZFjCdSBQ2iCmf2CWhi9i2BX5jtjbhWjMqXfC8e
+         JPg0/8Qayu9y6u/tZGF6CKYkv0X8nBKbh/sezxnlwMsyxMvWUOkAk8OgLn/odEPbI5Gb
+         VAbNFpm9rphEcLEwDcM3wUYVeYoPvXlsw2hK6oKvy+W5x7nu/mZQz1duMTJAnEmDVoM8
+         lneQU9qLlgN7Fopc46PGDy3KACA9QD6iuTYLfu1y95jyDoxAEL1BoAhGH0Cbo0UpDlbq
+         5F9mc80yjTryin2jvC2WKDuTM04WYsM/Iw4k+orffcdN+xmh0iY/z3iyZ0c1lD/a8eMn
+         DJ8w==
+X-Gm-Message-State: AOJu0Yz88l032YP5I4s5c0ezt2TulFVXbhxfZ2OJjtg6l1xmyQ1Jeo7p
+	6F6LfpXnO0IMTs2ccVViTCjOebTBtS02STAklYJwz0cj0JNjuNG7mHqVjas+npf7CAHaSHVi6Q/
+	umZo=
+X-Gm-Gg: ASbGncsgNYaxtdg/J9aPv/7S9L+Ld5oLHV02FrH0ULF9+qLn0IPzoEE1+qY10xt5H4Y
+	f7L5z8l1WrtdPw/tnIBG4YTrutx4tEv1kD/mjv7xIS5GDbrceR3yX2xuCHzfCx86smS3UiUOSZA
+	XAIAkIzn3/LInPieZL5cwyGHbmsKJy+WNUCiedMJmrRHdyVfpnscJ8Uxbq2LaXuivYQ9wqAk7ic
+	i0AjVMq5tGDeWjJnAmlGj+jggLGVKoBjZP9Jl9mzx4KolRY9cSNByyL2hoNhsiyXdzr9Nz+Os0b
+	ms43aKZD4mwqYYSPLiJuMqr/V6VqBdc37kkRl6keMESNrzbvh18=
+X-Google-Smtp-Source: AGHT+IHL2sloteVZrA2fj1hcGyie/S3BEAn5kQW/4YuHYjfM95OupimVs5qQP7pogFc6qEKsJfkmMg==
+X-Received: by 2002:a17:903:1a10:b0:224:1074:6393 with SMTP id d9443c01a7336-22e1eafeb7fmr177174485ad.43.1746547062353;
+        Tue, 06 May 2025 08:57:42 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.207.214.86])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e152204desm75502685ad.140.2025.05.06.08.57.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 May 2025 08:57:41 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][scarthgap][PATCH 1/5] libsoup-2.4: Fix CVE-2024-52530
+Date: Tue,  6 May 2025 21:27:27 +0530
+Message-Id: <20250506155731.677168-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1746544207.git.steve@sakoman.com> <a51c54793c32cdb433230db4aa6842e41e32c214.1746544207.git.steve@sakoman.com>
- <504da031-4162-4d70-a210-c0f1073d46ef@gmail.com>
-In-Reply-To: <504da031-4162-4d70-a210-c0f1073d46ef@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 6 May 2025 08:45:12 -0700
-X-Gm-Features: ATxdqUFVwBK_YdP0OXsw_FymDyNupANhJLKS53bOoTx4fexwOO86x6at03KpyVs
-Message-ID: <CAOSpxdYNj3tfKW1vfD-CoFrXnrmzZQLgdpuY94G8EGkV3v6mUg@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap 6/7] bluez5: make media control a
- PACKAGECONFIG option
-To: Gyorgy Sarvari <skandigraun@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 15:45:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216067
+ <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 15:57:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216068
 
-On Tue, May 6, 2025 at 8:19=E2=80=AFAM Gyorgy Sarvari <skandigraun@gmail.co=
-m> wrote:
->
-> On 5/6/25 17:13, Steve Sakoman via lists.openembedded.org wrote:
-> > From: Jeroen Hofstee <jhofstee@victronenergy.com>
-> >
-> > When not building with the default PACKAGECONFIG options, the build can=
- fail
-> > with:
-> >
-> > undefined reference to `media_player_controller_create'
-> > undefined reference to `media_player_set_status'
-> >
-> > Otherwise. So disable it when not set and enable it by default.
-> >
-> > The packageconfig option is the same as in Styhead.
-> > https://github.com/openembedded/openembedded-core/commit/ebbdb7cf5c0a3f=
-0e6773704d4c4cc570358ec611#diff-9d9284f6f27a81c75dffffd6d601b40c8266ae12e67=
-8d0a49c46bdb8356a0e91R52
-> >
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> Technicality nitpick, depending on how important it is deemed: this
-> patch is missing the original submitter's sign-off.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Good catch!  Thanks for reviewing.  I will add it before merging.
+Upstream-Status: Backport from
+https://gitlab.gnome.org/GNOME/libsoup/-/commit/04df03bc092ac20607f3e150936624d4f536e68b
 
-Steve
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../libsoup/libsoup-2.4/CVE-2024-52530.patch  | 149 ++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |   4 +-
+ 2 files changed, 152 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
 
-> > ---
-> >  meta/recipes-connectivity/bluez5/bluez5.inc | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes=
--connectivity/bluez5/bluez5.inc
-> > index 39e1bf389c..731bfa0e40 100644
-> > --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> > +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> > @@ -18,6 +18,7 @@ PACKAGECONFIG ??=3D "obex-profiles \
-> >      ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-> >      a2dp-profiles \
-> >      avrcp-profiles \
-> > +    mcp-profiles \
-> >      network-profiles \
-> >      hid-profiles \
-> >      hog-profiles \
-> > @@ -35,6 +36,7 @@ PACKAGECONFIG[nfc] =3D "--enable-nfc,--disable-nfc"
-> >  PACKAGECONFIG[sap-profiles] =3D "--enable-sap,--disable-sap"
-> >  PACKAGECONFIG[a2dp-profiles] =3D "--enable-a2dp,--disable-a2dp"
-> >  PACKAGECONFIG[avrcp-profiles] =3D "--enable-avrcp,--disable-avrcp"
-> > +PACKAGECONFIG[mcp-profiles] =3D "--enable-mcp,--disable-mcp"
-> >  PACKAGECONFIG[network-profiles] =3D "--enable-network,--disable-networ=
-k"
-> >  PACKAGECONFIG[hid-profiles] =3D "--enable-hid,--disable-hid"
-> >  PACKAGECONFIG[hog-profiles] =3D "--enable-hog,--disable-hog"
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#216063): https://lists.openembedded.org/g/openembed=
-ded-core/message/216063
-> > Mute This Topic: https://lists.openembedded.org/mt/112650828/6084445
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-skandigraun@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
+new file mode 100644
+index 0000000000..bd62a748eb
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
+@@ -0,0 +1,149 @@
++From 04df03bc092ac20607f3e150936624d4f536e68b Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Mon, 8 Jul 2024 12:33:15 -0500
++Subject: [PATCH] headers: Strictly don't allow NUL bytes
++
++In the past (2015) this was allowed for some problematic sites. However Chromium also does not allow NUL bytes in either header names or values these days. So this should no longer be a problem.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/04df03bc092ac20607f3e150936624d4f536e68b]
++CVE: CVE-2024-52530
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ libsoup/soup-headers.c      | 15 +++------
++ tests/header-parsing-test.c | 62 +++++++++++++++++--------------------
++ 2 files changed, 32 insertions(+), 45 deletions(-)
++
++diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
++index a0cf351ac..f30ee467a 100644
++--- a/libsoup/soup-headers.c
+++++ b/libsoup/soup-headers.c
++@@ -51,13 +51,14 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
++ 	 * ignorable trailing whitespace.
++ 	 */
++ 
+++	/* No '\0's are allowed */
+++	if (memchr (str, '\0', len))
+++		return FALSE;
+++
++ 	/* Skip over the Request-Line / Status-Line */
++ 	headers_start = memchr (str, '\n', len);
++ 	if (!headers_start)
++ 		return FALSE;
++-	/* No '\0's in the Request-Line / Status-Line */
++-	if (memchr (str, '\0', headers_start - str))
++-		return FALSE;
++ 
++ 	/* We work on a copy of the headers, which we can write '\0's
++ 	 * into, so that we don't have to individually g_strndup and
++@@ -69,14 +70,6 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
++ 	headers_copy[copy_len] = '\0';
++ 	value_end = headers_copy;
++ 
++-	/* There shouldn't be any '\0's in the headers already, but
++-	 * this is the web we're talking about.
++-	 */
++-	while ((p = memchr (headers_copy, '\0', copy_len))) {
++-		memmove (p, p + 1, copy_len - (p - headers_copy));
++-		copy_len--;
++-	}
++-
++ 	while (*(value_end + 1)) {
++ 		name = value_end + 1;
++ 		name_end = strchr (name, ':');
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index edf8eebb3..715c2c6f2 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -358,24 +358,6 @@ static struct RequestTest {
++ 	  }
++ 	},
++ 
++-	{ "NUL in header name", "760832",
++-	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
++-	  SOUP_STATUS_OK,
++-	  "GET", "/", SOUP_HTTP_1_1,
++-	  { { "Host", "example.com" },
++-	    { NULL }
++-	  }
++-	},
++-
++-	{ "NUL in header value", "760832",
++-	  "GET / HTTP/1.1\r\nHost: example\x00" "com\r\n", 35,
++-	  SOUP_STATUS_OK,
++-	  "GET", "/", SOUP_HTTP_1_1,
++-	  { { "Host", "examplecom" },
++-	    { NULL }
++-	  }
++-	},
++-
++ 	/************************/
++ 	/*** INVALID REQUESTS ***/
++ 	/************************/
++@@ -448,6 +430,21 @@ static struct RequestTest {
++ 	  SOUP_STATUS_EXPECTATION_FAILED,
++ 	  NULL, NULL, -1,
++ 	  { { NULL } }
+++	},
+++
+++	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
+++	{ "NUL in header name", NULL,
+++	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
+++	  SOUP_STATUS_BAD_REQUEST,
+++	  NULL, NULL, -1,
+++	  { { NULL } }
+++	},
+++
+++	{ "NUL in header value", NULL,
+++	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
+++	  SOUP_STATUS_BAD_REQUEST,
+++           NULL, NULL, -1,
+++	  { { NULL } }
++ 	}
++ };
++ static const int num_reqtests = G_N_ELEMENTS (reqtests);
++@@ -620,22 +617,6 @@ static struct ResponseTest {
++ 	    { NULL } }
++ 	},
++ 
++-	{ "NUL in header name", "760832",
++-	  "HTTP/1.1 200 OK\r\nF\x00oo: bar\r\n", 28,
++-	  SOUP_HTTP_1_1, SOUP_STATUS_OK, "OK",
++-	  { { "Foo", "bar" },
++-	    { NULL }
++-	  }
++-	},
++-
++-	{ "NUL in header value", "760832",
++-	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
++-	  SOUP_HTTP_1_1, SOUP_STATUS_OK, "OK",
++-	  { { "Foo", "bar" },
++-	    { NULL }
++-	  }
++-	},
++-
++ 	/********************************/
++ 	/*** VALID CONTINUE RESPONSES ***/
++ 	/********************************/
++@@ -768,6 +749,19 @@ static struct ResponseTest {
++ 	  { { NULL }
++ 	  }
++ 	},
+++
+++	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
+++	{ "NUL in header name", NULL,
+++	  "HTTP/1.1 200 OK\r\nF\x00oo: bar\r\n", 28,
+++	  -1, 0, NULL,
+++	  { { NULL } }
+++	},
+++
+++	{ "NUL in header value", "760832",
+++	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
+++	  -1, 0, NULL,
+++	  { { NULL } }
+++	},
++ };
++ static const int num_resptests = G_N_ELEMENTS (resptests);
++ 
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+index ee20530b64..b833d2cfa9 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+@@ -12,7 +12,9 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl"
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+-           file://0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch"
++           file://0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch \
++           file://CVE-2024-52530.patch \
++          "
+ SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
+ 
+ CVE_PRODUCT = "libsoup"
+-- 
+2.25.1
+
 
