@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F07C3ABBC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C15C3ABC3
 	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 15:14:25 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.78807.1746544461416315267
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.78319.1746544458601513634
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 08:14:21 -0700
+ Tue, 06 May 2025 08:14:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PHRFFI7S;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2255003f4c6so61031685ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 08:14:21 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=d+v9+Jke;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-22c33677183so69808255ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 08:14:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746544461; x=1747149261; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746544458; x=1747149258; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v97+OY7rR0O083VD/Cg9JeHcjDQgniLgcwWVCsfp5Sk=;
-        b=PHRFFI7SEbLfl3cGsnu6M4oQ5RzvY9ewRL99uIjh4/DMvy+0zKirJVIWm1xjApmZrA
-         DvPwKX1gwv1CFTqW2u04qWdIQ7m1OcoQPmnQ46Q/Hh7mroiwgvR0Vh+6AZ5BeoP4485T
-         nX38IdItQjCI4wgEn5xV00FoyIMbB8MgRUFTS8hF1bAwfjJzU30NSmdncHsRuD/Ve3N1
-         QWUNzCNoFQbCYbUJqqZcI3iHmhECUxjxovvi58rfOHPYqE6lkSUaDZQ4/ZVoIILwa7l2
-         YVKoFw2FOFKzVohARkgET3DYQAlha/v9xdHxqrv/AqR0jbWkbDXAEeDRchHu15LuZGy2
-         qEKQ==
+        bh=w5NLnq6VhbqA7SpbCL8LDFmZ3BdwnNzNpSrUxsoIEz0=;
+        b=d+v9+Jke+3+ku8Yr1D0LRRkS++5jBHGXwaHQeDhkv1TVGubgB94weCd+vCWsgZKU2d
+         0kBqRxruB4cGV99qIBbdSe9gMI6nsTBWAOxlikd72FtKEhtFUnvzQhTG+2u1CszreAG7
+         Pjz51n2z+TuFqohrNcXZvwt2zmDvwrAIYuc2JxK5Kz/XslwyvuBVow3VgRyi5o3E7QwB
+         zIPfavat8SA3eFfqs9pHAy1TvUgnDlXUGBQiMbvtqwQwZmFRQd+0wo3aX5HFmFAcU+di
+         nxRdYP+qHKSXmHfCW/mx9z3r/VWuTx3F+9a//ktTK58ZxcsvdDTMBoKas3TeQIn6U+La
+         E7HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746544461; x=1747149261;
+        d=1e100.net; s=20230601; t=1746544458; x=1747149258;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v97+OY7rR0O083VD/Cg9JeHcjDQgniLgcwWVCsfp5Sk=;
-        b=h4P2R2DWbAz5vLDj23NzY72lIMNAYgfbRJk0VEi/JBeTLYlXpvolc8UUxXCRRuA3hj
-         SqIMOZLwJl/92LU68LThj0dtw50+x+S0LMat9d5lGv56sFiwgoiV9Lenr2uDgtlsmbin
-         dKTEsHA8L7KR6nVcloRzWWk5YBIAU3dg9A9RTxYNpYHdt1fFXU/qIFaGHfecb1wlIOYM
-         CH6KXZkvRRqoRkXLUjb0qnt4CmLHSOLUod841w6yhJRxNIulvIPkPeMEyqMz6fmpBrg3
-         s7rb+UTIr6tXGMGjTYxcXMfkRJV47duwa4trGUsIYeTh1MXFF63PrE1B6c4FzUihuWMf
-         mzWw==
-X-Gm-Message-State: AOJu0YysCSSyfmrPB9XHUvKKs/Z469SUeaFU9ZqvGLU6/cEb+rgAAsOt
-	pPhhn5Ps3rDnM5chdK+rYzm1c/KN25W4HCkbC0ON0jGYRJwwQvm4gDP4I8f8BBufNxBX1oPeJy0
-	6
-X-Gm-Gg: ASbGncsg4UXM6TmjuxEZMS7YcPBWgET5DwZad3wqaAu9rCKwTBDapJqyhKkDdR1c9Gx
-	2VxM+21vlL6+OyCDSNGt8RntTgnleTzoJbh7KjkPFk6oEHrLbPDPQrbkbVtQyuiLZT1aQ3O4BCF
-	Mksd53RZ3XGq1qh11axMdd7Gw4Wmkk7ynUjeuLRJnjlrvLzM0Sg+Lau/YLveZLGqLbUQStLLhbo
-	AVUJJGJncyPnpraJeBlo0d7G4YDeg6nlit2S3NGBQMtco/6QlsvItGdMYRbHTwpmzY+LeJ7sqzg
-	zjd3VLwET72jiH2Gr7luAGDT6Wt587Ea
-X-Google-Smtp-Source: AGHT+IGTKBw/iHhaMWrr6E6GGIIKrhzEH3UONE1Mh0JQVK0GJkX+Sb585ZOW8wKgS8EM7BZnnaLiSQ==
-X-Received: by 2002:a17:903:234e:b0:224:26fd:82e5 with SMTP id d9443c01a7336-22e1038ea74mr269246665ad.48.1746544460685;
-        Tue, 06 May 2025 08:14:20 -0700 (PDT)
+        bh=w5NLnq6VhbqA7SpbCL8LDFmZ3BdwnNzNpSrUxsoIEz0=;
+        b=pnGKwKufanZ1aszABaa1W06CW5m3pbuZtJCm7P8yxIuVlDJtklr/1doGbztdjoZ4i7
+         Qg/hfocjoonOg1IHI4cIBJ6YdLQvW3haAYNXkI14UDKQ8fp7XHLVCnhhuKdAoaLaFTh3
+         VXPOmNERG7gXKkvdc0TGKIuIDJ1Pxv8HSjQ0xPF3FaiKIceHqQy6Ys0TPjf738xxSesg
+         KEPepsvHyBiwz67fQflZmMPg637MORdgypTEPJYVMWskOvL8FDwU3EHPn+WR8RGR5dOP
+         B7vF/aETTm9KtYYH/i61I7dK6XGNhiyvaFWF8fs0KysNBDaiJNis45lMJlyfLQ2zjkmD
+         KcPw==
+X-Gm-Message-State: AOJu0Ywwm9Yzr7veqLxm8MDCf9dubvUfwgWNbFCX3wkJePUh5dW9CucF
+	KZwRis2BI+MlwckqSQqkJkbDFuaWja2ffhy5GSJIKL+rNDvn/XVbyf8kSMfckjy6/hCCECVZp+q
+	S
+X-Gm-Gg: ASbGnctvTMhvPpDY1vpMEaetIpRgNYWCMCP0t/zHZlAx9LBTJNk3kPVnbSI8seYy5Fu
+	+XqRT3TWzosgJGqCThs/Gw53ZW+S6HX0Bz8oIEw5XAaEbzwyGBbaDhPgh6iFHmF72A1XvQNqkQt
+	UM/1YnpC9w0vmO/eZf4roTR+1TWo5fPKxz6itawXyQkXss2lABqCyNqz/34DYVAJD/8y66usgNv
+	prdQB48tPmxJ7PbgxuU6rR9gu4MuyO5av2jd7eKe4t1S27HkYqshHHVa/UeS+1Hws6+IklKJj6f
+	Bf7pvJsDr926NUSW1YUdXM2mCZDK/Ets
+X-Google-Smtp-Source: AGHT+IG1+OqWVcuZBVYldOC7YrDh11yZaJiae+7ImG0PFUTQlf70YjmVS3tlHmFXzFn6pwNUWj0m5g==
+X-Received: by 2002:a17:903:1b30:b0:223:53fb:e1dd with SMTP id d9443c01a7336-22e1ea1e788mr160153865ad.9.1746544457951;
+        Tue, 06 May 2025 08:14:17 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:8d37:c5d1:328a:ee43])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1521fa58sm75222545ad.150.2025.05.06.08.14.20
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1521fa58sm75222545ad.150.2025.05.06.08.14.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 08:14:20 -0700 (PDT)
+        Tue, 06 May 2025 08:14:17 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 7/7] bluez5: backport a patch to fix btmgmt -i
-Date: Tue,  6 May 2025 08:13:59 -0700
-Message-ID: <5961d8e42e89fad5a5465d686e3d7a3c5b271c58.1746544207.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 5/7] binutils: stable 2.42 branch updates
+Date: Tue,  6 May 2025 08:13:57 -0700
+Message-ID: <08d6ca500e6dd571f5882f82f6ad804bd2eec8c8.1746544207.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746544207.git.steve@sakoman.com>
 References: <cover.1746544207.git.steve@sakoman.com>
@@ -67,68 +67,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 15:14:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216064
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216062
 
-From: Jeroen Hofstee <jhofstee@victronenergy.com>
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-Without this patch btmgmt will always use hci0 in
-non interactive mode.
+Below commit on binutils-2.42 stable branch is updated.
 
-Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
+6558f9f5f0c s390: Add support for z17 as CPU name
+
+Testing was done and there were no regressions found
+
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...ndex-option-for-non-interactive-mode.patch | 29 +++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch
+ meta/recipes-devtools/binutils/binutils-2.42.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 731bfa0e40..53d8644159 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -57,6 +57,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
-            file://0001-adapter-Fix-up-address-type-when-loading-keys.patch \
-+           file://toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index 9fc29301f0..e103e712a4 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -20,7 +20,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch b/meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch
-new file mode 100644
-index 0000000000..f4e14be146
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/toolsbtmgmt-fix-index-option-for-non-interactive-mode.patch
-@@ -0,0 +1,29 @@
-+From f00d5546c9e989dd68ce0de0190cd0e043b0f1f5 Mon Sep 17 00:00:00 2001
-+From: Arjan Opmeer <arjan.opmeer@gmail.com>
-+Date: Tue, 9 Jul 2024 13:55:41 +0200
-+Subject: [PATCH] tools/btmgmt: Fix --index option for non-interactive mode
-+
-+In non-interactive mode the --index option does not work because the
-+call to mgmt_set_index() is made after bt_shell_attach().
-+
-+Fixes: https://github.com/bluez/bluez/issues/893
-+
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/f00d5546c9e989dd68ce0de0190cd0e043b0f1f5]
-+---
-+ tools/btmgmt.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tools/btmgmt.c b/tools/btmgmt.c
-+index 9b7f851bd8..436c2bb21f 100644
-+--- a/tools/btmgmt.c
-++++ b/tools/btmgmt.c
-+@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
-+ 		return EXIT_FAILURE;
-+ 	}
-+ 
-+-	bt_shell_attach(fileno(stdin));
-+ 	mgmt_set_index(index_option);
-++	bt_shell_attach(fileno(stdin));
-+ 	status = bt_shell_run();
-+ 
-+ 	mgmt_remove_submenu();
+ CVE_STATUS[CVE-2023-25584] = "cpe-incorrect: Applies only for version 2.40 and earlier"
+ 
+-SRCREV ?= "758a2290dbdf0d6d6c148c6cf25b2bcfd7a5b84f"
++SRCREV ?= "6558f9f5f0ccc107a083ae7fbf106ebcb5efa817"
+ BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=https"
+ SRC_URI = "\
+      ${BINUTILS_GIT_URI} \
 -- 
 2.43.0
 
