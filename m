@@ -1,141 +1,202 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <eric.meyers15310@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B78C3ABBE
-	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 20:11:37 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web11.84.1746562290398628950
- for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 13:11:30 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jXTiM63f;
- spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-736e52948ebso7850873b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 13:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746562289; x=1747167089; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CzMHqZNUBqVyHZuWrWTjWDZgtEwJA2VWq27G5iKqCJ4=;
-        b=jXTiM63fYGYq/jkEai7yD7SoQ6Vuyg6R6m2wsgLWpQ2CRI+VA/WKo0p2gDnBTBUr+6
-         Eh5pIKQ0rxZ2Dzv3v0WyXEaUN58+HyYP05ifp3KdBbxFx9Mw/FSWR0yV1Sp6X24xhmzM
-         fPPLK/Ye1yYtao6XOr0zzQhm9aUzIJVwoG5S8ToC9y0bQrsP4+qlMnwT8jLNjAXlt6Q0
-         S4FT2uw+A3ouVWyzvMjL9bMMLOyOVdVYRsi4M2h0mCnKmi0z1VWcIJpapFJMvtoF/353
-         gCb4cBq2AchNWyZ24bM5YKFCUieCnUIZGRaxGd+6686+YH0yz6EN5g/ai43c8amY/Eua
-         daeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746562289; x=1747167089;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CzMHqZNUBqVyHZuWrWTjWDZgtEwJA2VWq27G5iKqCJ4=;
-        b=O4Vm9mrPp4/QicrmnmOaJe3X9vMml3rChuLjuHxzqBWUmSaN7HSH3Uj/cPdPDlwHQa
-         N9/Q/OC6ivgFoIoiNYloofeZ5eVTG2Y0VpYSn/ndQ66eB977esDfApw11GXQYKH/97wb
-         ZMq4sd8Xel68o5j50ATwzrS2jNp0Bcu5HYpK2hm16+12k1xZi2vmvtOYKX/zhPopAJlb
-         FOg15EuDgopSRvAEtMmUdpxswSeAYoXGUrp3ky+hVll1Buks7C69AFYO/9MemmO2qceT
-         22VptuGT2SMZLqf5rJcv5vrqrhvFkd9ccmPkPmLxs3BQ7pDgf69x5Y877EwLmi4NwqEu
-         29Tg==
-X-Gm-Message-State: AOJu0YwISJ2hgLZlxoqNfllOQ43L75kMBqHtdGwW+iRvUkuPwKZlK+rg
-	AadOq7ruzfqiVbG8cuqXsTEQ4l7fWgALT30/uTDzoVREjTJSBfqdEgisaVam
-X-Gm-Gg: ASbGncuExfKS6OP0lxnxd/Eu1cNCqSp9MUAF7UiLwerrgXL0X6WdgIKxpfDdt9SZuny
-	UghO0XAH6Q5KQ4JmaQ9zbtqPKXNZ3Pcnwkuj/rRxB5Wjz0vTt3Fvp8pDRh+5Unwvx9dNwORVslJ
-	8m8ojSKqY5G1W/Tz4T8TH4NFnVyMxywZT0t+M7ewmkPFyZcuE8g2F0ldEkho9aMAPsInzWhaMnY
-	dDwMHF0rD5EoIQrR/wG0hjqs3EogLEmWrGJdYfah3UHiEZdpfhGzKvxoW3JnA7GjshhvcRoJXBf
-	5fWJxaxble5AUcCWx3uiRiHT1yjrThuHkKodHIEnOJo=
-X-Google-Smtp-Source: AGHT+IH99y+dU1B2DVx0Q3h12lE8gDeOLo+wf5eHiOf6FBQzJYnmd8shO1JLDK//jTj6UrxCPrYMlQ==
-X-Received: by 2002:a05:6a00:8010:b0:736:3768:6d74 with SMTP id d2e1a72fcca58-7409cf4da8bmr557270b3a.7.1746562289488;
-        Tue, 06 May 2025 13:11:29 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74058d7a3a6sm9384258b3a.2.2025.05.06.13.11.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 13:11:29 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF782C3ABBE
+	for <webhook@archiver.kernel.org>; Tue,  6 May 2025 20:56:48 +0000 (UTC)
+Subject: [oe] glib-2.0 Introspection Data Question   #poky
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] compiler-rt: Always use clang for compiler
-Date: Tue,  6 May 2025 13:11:27 -0700
-Message-ID: <20250506201127.4188369-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
+From: "Eric Meyers" <eric.meyers15310@gmail.com>
+X-Originating-Location: Lincolnwood, Illinois, US (73.168.239.54)
+X-Originating-Platform: Windows Chrome 136
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Tue, 06 May 2025 13:56:40 -0700
+Message-ID: <Rr0o.1746565000533076699.rvHw@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="REKuAZ1ttJ2rkXW3XEtW"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 20:11:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216082
+ <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 20:56:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216083
 
-This makes it build for all architectures e.g. riscv/mips/ppc etc.
+--REKuAZ1ttJ2rkXW3XEtW
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Using clang-native to build all variants of recipe makes it easier to
-handle compiling with various distros choosing different runtimes
+Was wondering if someone can help me with an issue I'm seeing with my workf=
+low after upgrading to styhead/master on poky - specifically related to gob=
+ject-introspection data for the GLib-2.0 recipe. In particular, I see that =
+the gobject-introspection/glib recipes were updated in this patch/mailing l=
+ist discussion:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Fix builds when using clang as default system compiler
+https://lists.openembedded.org/g/openembedded-core/topic/105860089
 
- .../recipes-devtools/clang/compiler-rt_git.bb | 29 ++++++++++++-------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+But it is unclear to me if this patch still supports producing native GLib-=
+2.0/Gio/GObject .typelib files in a recipe's sysroot?
 
-diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
-index 93928541273..a0f9c769a06 100644
---- a/meta/recipes-devtools/clang/compiler-rt_git.bb
-+++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
-@@ -32,15 +32,15 @@ DEPENDS:append:class-nativesdk = " virtual/cross-c++ clang-native clang-crosssdk
- DEPENDS:append:class-native = " clang-native"
- 
- # Trick clang.bbclass into not creating circular dependencies
--UNWINDLIB:class-nativesdk:toolchain-clang = "--unwindlib=libgcc"
--COMPILER_RT:class-nativesdk:toolchain-clang = "-rtlib=libgcc --unwindlib=libgcc"
--LIBCPLUSPLUS:class-nativesdk:toolchain-clang = "-stdlib=libstdc++"
--UNWINDLIB:class-native:toolchain-clang = "--unwindlib=libgcc"
--COMPILER_RT:class-native:toolchain-clang = "-rtlib=libgcc --unwindlib=libgcc"
--LIBCPLUSPLUS:class-native:toolchain-clang = "-stdlib=libstdc++"
--UNWINDLIB:class-target:toolchain-clang = "--unwindlib=libgcc"
--COMPILER_RT:class-target:toolchain-clang = "-rtlib=libgcc --unwindlib=libgcc"
--LIBCPLUSPLUS:class-target:toolchain-clang = "-stdlib=libstdc++"
-+UNWINDLIB:class-nativesdk = "--unwindlib=libgcc"
-+COMPILER_RT:class-nativesdk = "-rtlib=libgcc"
-+LIBCPLUSPLUS:class-nativesdk = "-stdlib=libstdc++"
-+UNWINDLIB:class-native = "--unwindlib=libgcc"
-+COMPILER_RT:class-native = "-rtlib=libgcc"
-+LIBCPLUSPLUS:class-native = "-stdlib=libstdc++"
-+UNWINDLIB:class-target = "--unwindlib=libgcc"
-+COMPILER_RT:class-target = "-rtlib=libgcc"
-+LIBCPLUSPLUS:class-target = "-stdlib=libstdc++"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[crt] = "-DCOMPILER_RT_BUILD_CRT:BOOL=ON,-DCOMPILER_RT_BUILD_CRT:BOOL=OFF"
-@@ -52,6 +52,13 @@ HF = ""
- HF:class-target = "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', 'hf', '', d)}"
- HF[vardepvalue] = "${HF}"
- 
-+CC = "${CCACHE}${HOST_PREFIX}clang ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
-+CXX = "${CCACHE}${HOST_PREFIX}clang++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
-+BUILD_CC = "${CCACHE}clang ${BUILD_CC_ARCH}"
-+BUILD_CXX = "${CCACHE}clang++ ${BUILD_CC_ARCH}"
-+LDFLAGS += "${COMPILER_RT} ${UNWINDLIB}"
-+CXXFLAGS += "${LIBCPLUSPLUS}"
+It looks suspect to me that the PACKAGECONFIG for the native class is wiped=
+ in this line:
+
+https://github.com/yoctoproject/poky/blob/master/meta/recipes-core/glib-2.0=
+/glib.inc#L40
+
+Which would lead me to believe that glib-2.0-native does not produce any .t=
+ypelib files?
+
+However, when digging, I noticed that the missing .typelib file existed in =
+the gobject-introspection-native build directory, but was just not being sh=
+ipped to the sysroot-destdir. I needed to add the following do_install:appe=
+nd to gobject-introspection_%.bbappend:
+
+do_install:append:class-native() {
+cp -f ${B}/gir/GLib-2.0.typelib ${D}${RECIPE_SYSROOT_NATIVE}/usr/lib/girepo=
+sitory-1.0/GLib-2.0.typelib
+cp -f ${B}/gir/GObject-2.0.typelib ${D}${RECIPE_SYSROOT_NATIVE}/usr/lib/gir=
+epository-1.0/GObject-2.0.typelib
+cp -f ${B}/gir/Gio-2.0.typelib ${D}${RECIPE_SYSROOT_NATIVE}/usr/lib/girepos=
+itory-1.0/Gio-2.0.typelib
+}
+
+(OR this patch will also accomplish similar behavior):
+
+gobject-introspection_%.bbappend:
+
+SRC_URI:append:class-native =3D " ${@bb.utils.contains('GI_DATA_ENABLED', '=
+True', 'file://0001-Install-typelib-files-if-native-build.patch', '', d)}"
+
+0001-Install-typelib-files-if-native-build.patch:
++---
++ gir/meson.build | 2 ++
++ 1 file changed, 2 insertions(+)
 +
- OECMAKE_TARGET_COMPILE = "compiler-rt"
- OECMAKE_TARGET_INSTALL = "install-compiler-rt install-compiler-rt-headers"
- OECMAKE_SOURCEPATH = "${S}/llvm"
-@@ -72,7 +79,7 @@ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
- 
- EXTRA_OECMAKE:append:class-native = "\
-                   -DCOMPILER_RT_DEFAULT_TARGET_ARCH=${HOST_ARCH} \
--                  -DCMAKE_C_COMPILER_TARGET=${HOST_ARCH} \
-+                  -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
- "
- 
- EXTRA_OECMAKE:append:class-target = "\
-@@ -89,7 +96,7 @@ EXTRA_OECMAKE:append:class-nativesdk = "\
-                -DCMAKE_NM=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-nm \
-                -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen \
-                -DCLANG_TABLEGEN=${STAGING_BINDIR_NATIVE}/clang-tblgen \
--               -DCMAKE_C_COMPILER_TARGET=${HOST_ARCH}${HOST_VENDOR}-${HOST_OS}${HF} \
-+               -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
- "
- EXTRA_OECMAKE:append:powerpc = " -DCOMPILER_RT_DEFAULT_TARGET_ARCH=powerpc "
- 
++diff --git a/gir/meson.build b/gir/meson.build
++index e5a7a13..e8100fd 100644
++--- a/gir/meson.build
+++++ b/gir/meson.build
++@@ -541,6 +541,8 @@ foreach gir: uninstalled_gir_files
++ =C2=A0 =C2=A0 output: '@BASENAME@.typelib',
++ =C2=A0 =C2=A0 depends: [gobject_gir, gircompiler, ],
++ =C2=A0 =C2=A0 command: gircompiler_command,
+++ =C2=A0 =C2=A0install: true,
+++ =C2=A0 =C2=A0install_dir: typelibdir,
++ =C2=A0 )
++ endforeach
+
+I'm hesitant to submit either patch due to the fear that I'm (1) missing so=
+mething/not understanding something right and (2) doing something completel=
+y wrong.
+
+I've verified that GI_DATA_ENABLED is set to True on my system, according t=
+o this page:
+
+https://docs.yoctoproject.org/dev/dev-manual/gobject-introspection.html
+
+And I've tried to remove the PACKAGECONFIG:class-native =3D "" line in glib=
+.inc without any luck - this just introduces a bunch of circular dependenci=
+es.
+
+For context, we are running with a workflow that executes python unit tests=
+ on the native host environment and these *.typelib files are required for =
+certain functionality.
+
+Ideally, we would migrate to ptest which would probably solve this issue, b=
+ut this unfortunately isn't an option at the time for us due to the integra=
+tion effort it would require.
+
+Any help is appreciated in advance.
+
+Thanks!
+
+--REKuAZ1ttJ2rkXW3XEtW
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>
+<div>Was wondering if someone can help me with an issue I'm seeing with my =
+workflow after upgrading to styhead/master on poky - specifically related t=
+o gobject-introspection data for the GLib-2.0 recipe. In particular, I see =
+that the gobject-introspection/glib recipes were updated in this patch/mail=
+ing list discussion:&nbsp;</div>
+<div>&nbsp;</div>
+<div style=3D"padding-left: 40px;"><a href=3D"https://lists.openembedded.or=
+g/g/openembedded-core/topic/105860089" target=3D"_blank" rel=3D"noopener">h=
+ttps://lists.openembedded.org/g/openembedded-core/topic/105860089</a></div>
+<div>&nbsp;</div>
+<div>But it is unclear to me if this patch still supports producing <em>nat=
+ive</em> GLib-2.0/Gio/GObject .typelib files in a recipe's sysroot?</div>
+<div>&nbsp;</div>
+<div>It looks suspect to me that the PACKAGECONFIG for the native class is =
+wiped in this line:&nbsp;</div>
+<div>&nbsp;</div>
+<div style=3D"padding-left: 40px;"><a href=3D"https://github.com/yoctoproje=
+ct/poky/blob/master/meta/recipes-core/glib-2.0/glib.inc#L40" target=3D"_bla=
+nk" rel=3D"noopener">https://github.com/yoctoproject/poky/blob/master/meta/=
+recipes-core/glib-2.0/glib.inc#L40</a></div>
+<div>&nbsp;</div>
+<div>Which would lead me to believe that glib-2.0-native does not produce a=
+ny .typelib files?</div>
+<div>&nbsp;</div>
+<div>However, when digging, I noticed that the missing .typelib file existe=
+d in the gobject-introspection-native build directory, but was just not bei=
+ng shipped to the sysroot-destdir. I needed to add the following do_install=
+:append to gobject-introspection_%.bbappend:&nbsp;</div>
+<div>&nbsp;</div>
+<div>do_install:append:class-native() {<br />&nbsp; &nbsp; &nbsp; &nbsp; cp=
+ -f ${B}/gir/GLib-2.0.typelib ${D}${RECIPE_SYSROOT_NATIVE}/usr/lib/gireposi=
+tory-1.0/GLib-2.0.typelib<br />&nbsp; &nbsp; &nbsp; &nbsp; cp -f ${B}/gir/G=
+Object-2.0.typelib ${D}${RECIPE_SYSROOT_NATIVE}/usr/lib/girepository-1.0/GO=
+bject-2.0.typelib<br />&nbsp; &nbsp; &nbsp; &nbsp; cp -f ${B}/gir/Gio-2.0.t=
+ypelib ${D}${RECIPE_SYSROOT_NATIVE}/usr/lib/girepository-1.0/Gio-2.0.typeli=
+b<br />}&nbsp;</div>
+<div>&nbsp;</div>
+<div><em>(OR this patch will also accomplish similar behavior):&nbsp;</em><=
+/div>
+<div>&nbsp;</div>
+<div>gobject-introspection_%.bbappend:&nbsp;</div>
+<div>&nbsp;</div>
+<div>SRC_URI:append:class-native =3D " ${@bb.utils.contains('GI_DATA_ENABLE=
+D', 'True', 'file://0001-Install-typelib-files-if-native-build.patch', '', =
+d)}"</div>
+<div>&nbsp;</div>
+<div>0001-Install-typelib-files-if-native-build.patch:<br />+---<br />+ gir=
+/meson.build | 2 ++<br />+ 1 file changed, 2 insertions(+)<br />+<br />+dif=
+f --git a/gir/meson.build b/gir/meson.build<br />+index e5a7a13..e8100fd 10=
+0644<br />+--- a/gir/meson.build<br />++++ b/gir/meson.build<br />+@@ -541,=
+6 +541,8 @@ foreach gir: uninstalled_gir_files<br />+ &nbsp; &nbsp; output:=
+ '@BASENAME@.typelib',<br />+ &nbsp; &nbsp; depends: [gobject_gir, gircompi=
+ler, ],<br />+ &nbsp; &nbsp; command: gircompiler_command,<br />++ &nbsp; &=
+nbsp;install: true,<br />++ &nbsp; &nbsp;install_dir: typelibdir,<br />+ &n=
+bsp; )<br />+ endforeach</div>
+<div>&nbsp;</div>
+<div>I'm hesitant to submit either patch due to the fear that I'm (1) missi=
+ng something/not understanding something right and (2) doing something comp=
+letely wrong.&nbsp;</div>
+<div>&nbsp;</div>
+<div>I've verified that GI_DATA_ENABLED is set to True on my system, accord=
+ing to this page:&nbsp;</div>
+<div>&nbsp;</div>
+<div style=3D"padding-left: 40px;"><a href=3D"https://docs.yoctoproject.org=
+/dev/dev-manual/gobject-introspection.html" target=3D"_blank" rel=3D"noopen=
+er">https://docs.yoctoproject.org/dev/dev-manual/gobject-introspection.html=
+</a></div>
+<div style=3D"padding-left: 40px;">&nbsp;</div>
+<div>And I've tried to remove the PACKAGECONFIG:class-native =3D "" line in=
+ glib.inc without any luck - this just introduces a bunch of circular depen=
+dencies.&nbsp;&nbsp;</div>
+<div>&nbsp;</div>
+<div>For context, we are running with a workflow that executes python unit =
+tests on the native host environment and these *.typelib files are required=
+ for certain functionality.</div>
+<div>&nbsp;</div>
+<div>Ideally, we would migrate to ptest which would probably solve this iss=
+ue, but this unfortunately isn't an option at the time for us due to the in=
+tegration effort it would require.&nbsp;</div>
+<div>&nbsp;</div>
+<div>Any help is appreciated in advance.</div>
+<div>&nbsp;</div>
+<div>Thanks!</div>
+</div>
+
+--REKuAZ1ttJ2rkXW3XEtW--
 
