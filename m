@@ -1,200 +1,148 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <praveen.kumar@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3794DC369DC
-	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 06:14:31 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.web11.1889.1746598469202666065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E9DEC369DC
+	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 06:48:41 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.2330.1746600518650992258
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 May 2025 23:14:29 -0700
+ Tue, 06 May 2025 23:48:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bpBIZLBS;
- spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-605f7d3215cso3067097eaf.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 May 2025 23:14:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746598468; x=1747203268; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uVLsi1jjfMBNEkgFfM4kkBtvgretH64Ea1u9fJZydm0=;
-        b=bpBIZLBSSHsLWFIHYLNVaBIL2ho/cbt6b1cPR3gUMjWnFptAzki+TlgVkRYGq85SkC
-         yd3MatwhMwmnFwv/2njiwxRnES8oNA53HffGL43sPLe12vGaUXZebWRTr0n5HuvufMl+
-         WHwf0k6a3p+3wGzLvOK4EOnYiKC7KncbNSwLyUY+FgZtMLyKQtFJC4Uw9l8T41ToJKy9
-         k6zHzcoZt/eueRiU0Xu+ooOU/5eNK8zK6uM7fEDLhspzVhW+wljAVN/RI6RpxcCM+loD
-         4Nz9p/Onaj0v8JqrT/TXXNo+hrU2ULYGBLLH5yRyHqQ3gy9rdLwSzH+oi6E0tuTLObwn
-         dC0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746598468; x=1747203268;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uVLsi1jjfMBNEkgFfM4kkBtvgretH64Ea1u9fJZydm0=;
-        b=Bsm8Smqo9BU5urUjFaZ59MuVE6qVFfIyXb/vioH/c0JLjzLKF6iczUxbdNG5/8qbNc
-         MCTD7KZiM2XNqMfbkM8nPAfLsH2Shj6RGMzyepdMco1bdvf7YbKI/GyLFKbzttNY3LdK
-         d7FoWhAp7qdyYzn8Inwq6ncsWVt2alPzoYb69usLvDg4ObPL4Cyg2vCOC0EMLeJQh571
-         KrljAbLyVotjxdSLbs2FeNM4dFDaEchkhHZjM/206vELLWwdDQZhDXcArRK9/67gI9A8
-         S4PfRKk7jOpEvmA1JgJQt70R2nZEbyE+Bf+YcPPLx727o+q77nfaHtnsUVfgFMWBdoTL
-         JGSg==
-X-Gm-Message-State: AOJu0YzDDf0bEmAWaVOGWTvOqkhM67FCtFNsLJ8Z521n+Y9coWLsH4jh
-	Yjp4uoX12kNajOnim6eQnLLyazTIRH8R8yYEoyF0kbglLFh+iiErpYzEF2qQRidZK0Di7m+QhBq
-	/R5cD4sho2l4hbwl12ilSM1Bu5KM=
-X-Gm-Gg: ASbGncsF5NAn6bE4eh8BfdymuJPIgTfrVM6MCMQsXZCWmTy7tm4DgT078xycByD8Cp9
-	9ZOEPJHKV24a4+0wcR3WKjAv6CiCeStB+IsFlNe1/OFvBBxhYGW1WqBzkvB+bLTYcL1+LcsWUN5
-	GIj7+jT3lMDlrV9ndCMX+jDA==
-X-Google-Smtp-Source: AGHT+IFG5AuU/M/+ipuNXcclRWe+l0dI1n1uzALy/B4W8LeIvGCSENXJ/hX/0C5ntoBxy38fLmk0nSFdZSmFtGkt03k=
-X-Received: by 2002:a4a:ee0f:0:b0:604:ae66:1e9b with SMTP id
- 006d021491bc7-60828d4fdb8mr1284074eaf.8.1746598468288; Tue, 06 May 2025
- 23:14:28 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7222048fe2=praveen.kumar@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5475cJfv032364
+	for <openembedded-core@lists.openembedded.org>; Wed, 7 May 2025 06:48:37 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46e430kcj4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 06:48:37 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 6 May 2025 23:48:36 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Tue, 6 May 2025 23:48:34 -0700
+From: Praveen Kumar <praveen.kumar@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Praveen Kumar <praveen.kumar@windriver.com>
+Subject: [oe-core][PATCH 1/1] connman :fix CVE-2025-32743
+Date: Wed, 7 May 2025 06:48:23 +0000
+Message-ID: <20250507064823.1843463-1-praveen.kumar@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <0a4bac6d-292f-4278-ac5b-348a160a319c@windriver.com>
- <23053.1746531517602060473@lists.openembedded.org> <CAMKF1spM6xrsWf1CvUsHr+1BF5Eo+X+ZKSN=DOiXq0Y4DrGYMQ@mail.gmail.com>
- <CAHebdzR4rGAq0e4FLuThxqE57UuT+LLqLXQd425--A6OAUPXZg@mail.gmail.com>
- <CAMKF1sqkw3xZpLqKw9aaOvike+6RPBsRsfoq+dXzeQf6Zpn1pg@mail.gmail.com> <CAHebdzTV7rRKkAJGzL79sngS3BDCEx2nNu8+jO1t5STM31bGeA@mail.gmail.com>
-In-Reply-To: <CAHebdzTV7rRKkAJGzL79sngS3BDCEx2nNu8+jO1t5STM31bGeA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 6 May 2025 23:14:02 -0700
-X-Gm-Features: ATxdqUEUYCw1CMaheWk67IrCh2DIdD16alW8bkFMSZeOqlgIEHvRPLyGEc262BE
-Message-ID: <CAMKF1spEREKO0RL7d=RE9i-g0GDqWqPGcbR_Cr8pr=ET03AcFg@mail.gmail.com>
-Subject: Re: [OE-core] systemd build failure with gcc 15 / tpm2 / aarch64: gcs required
-To: Sathishkumar Duraisamy <sathishkumar.d.cbe@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=BajY0qt2 c=1 sm=1 tr=0 ts=681b0245 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=PYnjg3YJAAAA:8 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=orGBpfcN-aQqT5LYJdQA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: yPwxDi7XpbDxclZ3U8hsicobjJNnXio-
+X-Proofpoint-ORIG-GUID: yPwxDi7XpbDxclZ3U8hsicobjJNnXio-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDA2MiBTYWx0ZWRfX2E/V44QBK5Px 3zrQ57HVup9MFLjgs0tTXo0AsjvAHeN+5vjFcrZ6mZfbo9VkGUq7BcgiLMAQyTuAJ31M36CfbS6 dUdM/nYBhglvPV8kNPg7x02J2aQ8Cg4GVSaRLrtHi/VRtjgwfw9b7kEgzGCSCj/sNCfUREsL3Yr
+ sgPWyV3oX61SiW1iuC1NFKtPX6CwT58d0UeIQGscVkm5ZmO3b61bd/K9gRSEZ5axQoeuIP3L9Nt 6m9JmXrGGM8bx3w5NZ5HRKccnBYsbCz2L7Lk3fiVx7Am0bvMGKdPAKgqFDsNCY7rmLagAhJqNkp FIVW0KRu4nkGo/bCGNr3YClfCXWGK775RL38Q/iUJ80KUXNR0+DWgweOa4sSb2qEFzS8fCDtLbY
+ bzseD8SC9GjIaN94SKOdyYXsi/iveEt4aXhONnP1Q4/sf8B9qWSDScfMeLGiGCzk4gsTU/fV
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-07_02,2025-05-06_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ impostorscore=0 bulkscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2504070000
+ definitions=main-2505070062
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 06:14:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216091
+ <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 06:48:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216092
 
-On Tue, May 6, 2025 at 11:04=E2=80=AFPM Sathishkumar Duraisamy
-<sathishkumar.d.cbe@gmail.com> wrote:
->
-> On Wed, May 7, 2025 at 4:29=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrot=
-e:
->>
->> On Tue, May 6, 2025 at 6:28=E2=80=AFAM Sathishkumar Duraisamy
->> <sathishkumar.d.cbe@gmail.com> wrote:
->> >
->> > Hi
->> >
->> > On Tue, May 6, 2025 at 6:43=E2=80=AFPM Khem Raj <raj.khem@gmail.com> w=
-rote:
->> >>
->> >> On Tue, May 6, 2025 at 4:38=E2=80=AFAM Sathishkumar D via
->> >> lists.openembedded.org
->> >> <sathishkumar.d.cbe=3Dgmail.com@lists.openembedded.org> wrote:
->> >> >
->> >> > Hi all,
->> >> >
->> >> > I am also facing the same build issue. I tried to understand the is=
-sue. From build system for both openssl and systemd, -mbranch-protection=3D=
-standard   enabled. In fact the support this flag added long back, https://=
-github.com/openembedded/openembedded-core/commit/8905639d1cdc5ce809cc5ecd96=
-72f5e86bf8a579 and tpm2 introduces additional dependencies for systemd as i=
-n commit https://git.yoctoproject.org/meta-security/commit/meta-tpm/recipes=
--core/systemd/systemd_%25.bbappend?id=3D6eb3098e57881895e62fc811f714c2aa4ec=
-fcf8f.
->> >> >
->> >>
->> >> is this flag passed to linker as well ?
->> >>
->> > Openssl:
->> > =3D=3D=3D=3D=3D=3D=3D
->> >
->> > export CC=3D"aarch64-tdx-linux-gcc  -march=3Darmv8-a+crypto -mbranch-p=
-rotection=3Dstandard -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=3D2 -W=
-format -Wformat-security -Werror=3Dformat-security --sysroot=3D/home/sathis=
-hkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0=
-/recipe-sysroot"
->> >
->> > export CFLAGS=3D" -O2 -g  -ffile-prefix-map=3D/home/sathishkumar/yocto=
-space/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/openssl-3.5=
-.0=3D/usr/src/debug/openssl/3.5.0  -ffile-prefix-map=3D/home/sathishkumar/y=
-octospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/build=
-=3D/usr/src/debug/openssl/3.5.0  -ffile-prefix-map=3D/home/sathishkumar/yoc=
-tospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/3.5.0/recipe-sy=
-sroot=3D  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/bui=
-ld/tmp/work/armv8a-tdx-linux/openssl/3.5.0/recipe-sysroot-native=3D  -pipe =
--Wl,-z,gcs-compliant=3Dall "
->> >
->> > export LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed  -ffi=
-le-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/ar=
-mv8a-tdx-linux/openssl/3.5.0/openssl-3.5.0=3D/usr/src/debug/openssl/3.5.0  =
--ffile-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/wor=
-k/armv8a-tdx-linux/openssl/3.5.0/build=3D/usr/src/debug/openssl/3.5.0  -ffi=
-le-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/ar=
-mv8a-tdx-linux/openssl/3.5.0/recipe-sysroot=3D  -ffile-prefix-map=3D/home/s=
-athishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/openssl/=
-3.5.0/recipe-sysroot-native=3D  -Wl,-z,relro,-z,now"
->> >
->> > systemd
->> > =3D=3D=3D=3D=3D=3D
->> >
->> > export CC=3D"aarch64-tdx-linux-gcc  -march=3Darmv8-a+crypto -mbranch-p=
-rotection=3Dstandard -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=3D2 -W=
-format -Wformat-security -Werror=3Dformat-security --sysroot=3D/home/sathis=
-hkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5=
-/recipe-sysroot"
->> >
->> > export CFLAGS=3D" -O2 -g  -ffile-prefix-map=3D/home/sathishkumar/yocto=
-space/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/git=3D/usr/=
-src/debug/systemd/257.5  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/=
-verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/build=3D/usr/src/=
-debug/systemd/257.5  -ffile-prefix-map=3D/home/sathishkumar/yoctospace/verd=
-in-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/recipe-sysroot=3D  -f=
-file-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/=
-armv8a-tdx-linux/systemd/257.5/recipe-sysroot-native=3D  -pipe --sysroot=3D=
-/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/s=
-ystemd/257.5/recipe-sysroot"
->> >
->> > export LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed  -ffi=
-le-prefix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/ar=
-mv8a-tdx-linux/systemd/257.5/git=3D/usr/src/debug/systemd/257.5  -ffile-pre=
-fix-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-t=
-dx-linux/systemd/257.5/build=3D/usr/src/debug/systemd/257.5  -ffile-prefix-=
-map=3D/home/sathishkumar/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-l=
-inux/systemd/257.5/recipe-sysroot=3D  -ffile-prefix-map=3D/home/sathishkuma=
-r/yoctospace/verdin-next/build/tmp/work/armv8a-tdx-linux/systemd/257.5/reci=
-pe-sysroot-native=3D  -Wl,-z,relro,-z,now"
->> >
->> >
->>
->> Please try adding -Wl,-z,gcs-compliant=3Dall to systemd LDFLAGS not
->> CFLAGS or to openssl flags.
->
->
-> Shortly I will build with LDFLAGS and will post the update here.
->
+In ConnMan through 1.44, the lookup string in ns_resolv in dnsproxy.c
+can be NULL or an empty string when the TC (Truncated) bit is set in
+a DNS response. This allows attackers to cause a denial of service
+(application crash) or possibly execute arbitrary code, because those
+lookup values lead to incorrect length calculations and incorrect
+memcpy operations.
 
-also try adding try with -Wl,-z,gcs-report-dynamic=3Dnone to LDFLAGS in
-systemd and see if that helps
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-32743
 
-> Yesterday, I added ' EXTRA_OECONF:append:aarch64 =3D " no-asm" '  as reco=
-mmended by Max to the openssl bbappend file. And I see I am able to build s=
-ystemd. I will re-build with LDFLAGS.
->
->
->>
->>
->> >
->> >>
->> >> > So something issue with gcc-15? or what makes openssl to loose gcs?
->> >> >
->> >> > Regards,
->> >> > Sathishkumar D
->> >> >
->> >> >
->> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> >> > Links: You receive all messages sent to this group.
->> >> > View/Reply Online (#216040): https://lists.openembedded.org/g/opene=
-mbedded-core/message/216040
->> >> > Mute This Topic: https://lists.openembedded.org/mt/112627480/199791=
-4
->> >> > Group Owner: openembedded-core+owner@lists.openembedded.org
->> >> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/uns=
-ub [raj.khem@gmail.com]
->> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> >> >
+Upstream-patch:
+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=d90b911f6760959bdf1393c39fe8d1118315490f
+
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+---
+ .../connman/connman/CVE-2025-32743.patch      | 48 +++++++++++++++++++
+ .../connman/connman_1.44.bb                   |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch
+
+diff --git a/meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch b/meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch
+new file mode 100644
+index 0000000000..c114589679
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch
+@@ -0,0 +1,48 @@
++From d90b911f6760959bdf1393c39fe8d1118315490f Mon Sep 17 00:00:00 2001
++From: Praveen Kumar <praveen.kumar@windriver.com>
++Date: Thu, 24 Apr 2025 11:39:29 +0000
++Subject: [PATCH] dnsproxy: Fix NULL/empty lookup causing potential crash
++
++In ConnMan through 1.44, the lookup string in ns_resolv in dnsproxy.c
++can be NULL or an empty string when the TC (Truncated) bit is set in
++a DNS response. This allows attackers to cause a denial of service
++(application crash) or possibly execute arbitrary code, because those
++lookup values lead to incorrect length calculations and incorrect
++memcpy operations.
++
++This patch includes a check to make sure loookup value is valid before
++using it. This helps avoid unexpected value when the input is empty or
++incorrect.
++
++Fixes: CVE-2025-32743
++
++CVE: CVE-2025-32743
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=d90b911f6760959bdf1393c39fe8d1118315490f]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
++---
++ src/dnsproxy.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/src/dnsproxy.c b/src/dnsproxy.c
++index f28a5d7..7ee26d9 100644
++--- a/src/dnsproxy.c
+++++ b/src/dnsproxy.c
++@@ -1685,8 +1685,13 @@ static int ns_resolv(struct server_data *server, struct request_data *req,
++				gpointer request, gpointer name)
++ {
++	int sk = -1;
+++	int err;
++	const char *lookup = (const char *)name;
++-	int err = ns_try_resolv_from_cache(req, request, lookup);
+++
+++	if (!lookup || strlen(lookup) == 0)
+++		return -EINVAL;
+++
+++	err = ns_try_resolv_from_cache(req, request, lookup);
++
++	if (err > 0)
++		/* cache hit */
++--
++2.40.0
+diff --git a/meta/recipes-connectivity/connman/connman_1.44.bb b/meta/recipes-connectivity/connman/connman_1.44.bb
+index 00e69182d7..b25a435577 100644
+--- a/meta/recipes-connectivity/connman/connman_1.44.bb
++++ b/meta/recipes-connectivity/connman/connman_1.44.bb
+@@ -21,6 +21,7 @@ DEPENDS  = "dbus glib-2.0"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+            file://connman \
+            file://0002-resolve-musl-does-not-implement-res_ninit.patch \
++           file://CVE-2025-32743.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "2be2b00321632b775f9eff713acd04ef21e31fbf388f6ebf45512ff4289574ff"
+-- 
+2.40.0
+
 
