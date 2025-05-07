@@ -1,99 +1,132 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91032C3ABC0
-	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 19:26:45 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web10.4643.1746646001755453359
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE44DC3ABC0
+	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 19:51:35 +0000 (UTC)
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+ by mx.groups.io with SMTP id smtpd.web10.5230.1746647493531708569
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 May 2025 12:26:41 -0700
+ Wed, 07 May 2025 12:51:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aVu5OQm9;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: twoerner@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-476b89782c3so1777251cf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 12:26:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WMDLQyal;
+ spf=pass (domain: gmail.com, ip: 209.85.161.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6065803ef35so81507eaf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 12:51:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746646000; x=1747250800; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DVK8EBwWBTQ0cQHyy2wq4ZJ28IbzjiebP9cLz6Iwbfc=;
-        b=aVu5OQm9iWZG6MpjBQpU3cfCtL1V/9H3bA+1+BrmvStaT/lu8crjkJDzMPhlpJHkvr
-         LdF06AvhnK3w6PkcxKgjOtuJCb/s33bKsYEGDD9oNAEtceLNNgpgnNFXUgDbMDpr4SGq
-         s67Fa4pMWvHubQs0NQ03mUFjIKV3iC6qvUjwzyywv+pMLkxkZFCii1c75yUwvhTe1pps
-         nxP/wydDNV20v2qlfrMkkIZbGQxYLaB6ArS4609RqXERBka+USy3g5AtKkHWS/SEHLaO
-         kRDlszZG38qkSsmEOUcgZFdenboHW/B2VKewOXmMpW+Sx/ZeaHjj1wQbPjXWFbBvk6hQ
-         ib+g==
+        d=gmail.com; s=20230601; t=1746647493; x=1747252293; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1jtiPZFog/nSHTmcac0hc+10TPZ0bdhAuNHoZN+rz0k=;
+        b=WMDLQyal+Ox7NQyMUOBxbG8MEYtPt8Z9bJ5nDC+gUsko+im1/vdsLoHz+hu1GnSD7x
+         mPWLWkaCdaOHixZrr6qkajrlmmj7AnvZ5VnU7SbCsun6P6iSTR45oIwD1bZEo1p+Xvxw
+         xTSW9PyEsPh9rOFu297T5NdtVixZRhwlHCdj9+cdV51krpuVTPJiV7TRvTMP2I0QPwTP
+         SP/w3voihF+GJyujgLXbP8xVv2v2Fm7902ETajRukuSWNLWQerXfIN7Fb8p9CP7s1GEG
+         2H02fTgcydjp+MxQSi7ndbXGphxToZ1taZU1889xGFWDmC6mkoSpih6pX40HMbEOX3PA
+         XhkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746646000; x=1747250800;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DVK8EBwWBTQ0cQHyy2wq4ZJ28IbzjiebP9cLz6Iwbfc=;
-        b=WlMt+AQwFksgfHuL+oAlJqjrtBFOTtiFjqJfKIg7dhUQzGYBwuusMsWecUyzqhOgD8
-         L7C3Bt5Vy2LTC3AVxwUK6IYAgqR8J5+qmLGE0Yx/rdZLpruEf6DLvAfLtvCHwHKXy+FV
-         rOFPd9t3vj3GRnJUqDKRsbQH9fK4d4WA6DNIyJeqUHSYQHkxeqPQnHvSKmnhruTWg2M0
-         MWosQzZ+CIgp7HAepoPiLQQEYav6uuhWOFjzOFHQiKWwIfGEQQUglW9k3vfTZltnHB/R
-         wfzdMVknXF8H14aMQ1OhxrePkQSGujf37vy+dbnF9xVG6QEmkoz87TknEVy9v8cbM4RX
-         FCYQ==
-X-Gm-Message-State: AOJu0YzzneG130GX8oVh8LyiWYingafk8mkjwZd0ji6EUCVz9VjQzqmz
-	5fxq4M1GLfYkQmtUaUUhWPVfAR5E6ECrohLIu7JVOt+YN5j5TCqE18fjhA==
-X-Gm-Gg: ASbGncsTweHy9rFEXScpr/5yX1G9GR04qWcq/NS+U6yuNcjaBtDdCnXoD7o7XqCrZSY
-	vlcXJyx7elBb4CKzWBf9LsHIzuL0eIwGXd/BPu4aTN4ckWTm5ZDQWOHSl2QdwVmgv5RxjEQ0uUn
-	gFY+jxvjzps7Js3A8n1luQ+PDx+WwhUH9pKeLl72qHtntHu6RR3m1WMofZHiP8iinl9gh/u2oVj
-	IiHMZLL+T+f9aVFcAhKXHAtmcx0o5zbiFvyMU2ZaBysuujZgbLEwWp3g3mCnGkRBV5gGeCt7Mrf
-	zoubfezpHtOSlEN6uoputhhcYoFPeii1fTGWYZQmMvHEUFOG9Eyhv3VGcZHJUWN+5Kvw3IAU9lw
-	d/HJGK/ez
-X-Google-Smtp-Source: AGHT+IHXCeng0YNIE44+5qVC+WClXSG1eM8VDEPfaiH4HPB/1MO5xfFNt7KL1APT/wXBCZ8bB/xZmg==
-X-Received: by 2002:a05:622a:1451:b0:48d:e7ad:f17b with SMTP id d75a77b69052e-492278660e7mr62541531cf.37.1746645999569;
-        Wed, 07 May 2025 12:26:39 -0700 (PDT)
-Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-49222e9582fsm18332281cf.62.2025.05.07.12.26.38
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 12:26:38 -0700 (PDT)
-From: Trevor Woerner <twoerner@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] systemd: disable linker GCS warning on aarch64
-Date: Wed,  7 May 2025 15:26:34 -0400
-Message-ID: <20250507192634.19940-1-twoerner@gmail.com>
-X-Mailer: git-send-email 2.44.0.501.g19981daefd7c
+        d=1e100.net; s=20230601; t=1746647493; x=1747252293;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1jtiPZFog/nSHTmcac0hc+10TPZ0bdhAuNHoZN+rz0k=;
+        b=NPRiqbL8mXAxeratHVH7LkvGfqbhYqeG6y7Q6bky7oAAasjSR4ohQ0ofhuMJUSaivR
+         gSu6fxuZKRfBkQ06iDhzxD+lWyOfrjesvOnyQb1+WutoMW8lRj7tUGQK4mA1ep+YM372
+         vXZpPq3xZ41rGDUYyQP0iubYD83QRcSCNSD5338XHOYECFMC8OffUUrIExv03whiCNcu
+         MH6rZujHx6G2j5A7IiYdedR50JbGkx+ybk3/BwuE8KCnurxtyHzEnr3FqMdxxfoiGaAB
+         3JqUtEp8dJs90WpnxvJEm0p4joLIJPzIddO63yI9ASNHWwYTcA2lHCoMHrRU9ln5lhSl
+         iyfw==
+X-Forwarded-Encrypted: i=1; AJvYcCWMLOXiSpSG9jQvVp2V6qT33VZMIoAyiRqGpNJ1GtTV8kCl8BgkVr0kDy7NrVpxzGqzGCbX8135WkGdW0z18KoDGQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzDblOeFNIwFWswRXhtdqK46HCY/oSBI1IiWPVlFW19nbpwYFCc
+	bjhV9vYscsXDDiEoKUq+48UcaNUaxFFC/D1MNgriLDNCRtnzBh51VBgCsNBc8hpo+y+U7ZhtGvT
+	O/pBUcZcvddS/IbaaWcQtQ0c2Mew=
+X-Gm-Gg: ASbGncvyurtUX7BSVzzPXUOnnaNdPYr/mUhcRVv93UR4y0UgeGzs0LH59Wt0VH+jTOt
+	RwobZZxZ47ltZdQvlSdyckEO9WODkVIErNZSfWYE8Q/yheEueHAvWUo+KvIQg5d5mJrEvpRqoPH
+	8UZkYGJp/3eTlxvSSGJtCEYRmI2lsu07hEEc7hgOM1uk17Fx5cqw==
+X-Google-Smtp-Source: AGHT+IHO9yPTgF/R4A16dRsqxy1lGU2ec1SFksrZ5PTgxE+M2n/mtzsw8ZwSt1vE5vOK00I5SY8/aBKfpqMnq8yfkDE=
+X-Received: by 2002:a05:6820:1a05:b0:606:8671:1b28 with SMTP id
+ 006d021491bc7-60828d190bbmr2959432eaf.4.1746647492723; Wed, 07 May 2025
+ 12:51:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CAHebdzR4rGAq0e4FLuThxqE57UuT+LLqLXQd425--A6OAUPXZg@mail.gmail.com>
+ <CAMKF1sqkw3xZpLqKw9aaOvike+6RPBsRsfoq+dXzeQf6Zpn1pg@mail.gmail.com>
+ <CAHebdzTV7rRKkAJGzL79sngS3BDCEx2nNu8+jO1t5STM31bGeA@mail.gmail.com>
+ <CAMKF1spEREKO0RL7d=RE9i-g0GDqWqPGcbR_Cr8pr=ET03AcFg@mail.gmail.com>
+ <183D310FC8853D5E.1749@lists.openembedded.org> <aBtspIFmf7KoIZ_7@nuoska>
+ <20250507182924.GA700@localhost> <B699294E-FA19-495C-9DFF-68AB3502240E@arm.com>
+ <CAMKF1sq6ttpUeRCsSY9WbY8hixTkhaCOB61u6AB-=xVqhTVn+g@mail.gmail.com>
+ <20250507190449.GA7882@localhost> <20250507191029.GA24048@localhost>
+In-Reply-To: <20250507191029.GA24048@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 7 May 2025 12:51:07 -0700
+X-Gm-Features: ATxdqUHMlbp85nllxmojuFILzGH0LtDGatVhKqWKhvi676MQ2tzohxTWWsQGB14
+Message-ID: <CAMKF1spNPzDNxVkKAMKjbaC=xSRjTYfz2KVDRZwhpFBxC5U=dg@mail.gmail.com>
+Subject: Re: [OE-core] systemd build failure with gcc 15 / tpm2 / aarch64: gcs required
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: Ross Burton <Ross.Burton@arm.com>, Mikko Rapeli <mikko.rapeli@linaro.org>, 
+	Sathishkumar Duraisamy <sathishkumar.d.cbe@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 19:26:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216132
+ <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 19:51:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216133
 
-openssl has some assembler code that has PAC and BTI hints but not GCS. The
-systemd recipe then links to libcrypto from openssl with GCS enabled (as
-that is a distro-wide setting) and it - correctly - warns that it is being
-told to use GCS but one of the inputs does not have GCS. This would not
-be a problem but systemd also links with —fatal-warnings, so the build
-explodes.
+On Wed, May 7, 2025 at 12:10=E2=80=AFPM Trevor Woerner <twoerner@gmail.com>=
+ wrote:
+>
+> On Wed 2025-05-07 @ 03:04:49 PM, Trevor Woerner wrote:
+> > On Wed 2025-05-07 @ 11:38:12 AM, Khem Raj wrote:
+> > > On Wed, May 7, 2025 at 11:34=E2=80=AFAM Ross Burton <Ross.Burton@arm.=
+com> wrote:
+> > > >
+> > > > On 7 May 2025, at 19:29, Trevor Woerner via lists.openembedded.org =
+<twoerner=3Dgmail.com@lists.openembedded.org> wrote:
+> > > > >
+> > > > > I stumbled across this build issue via a completely different rou=
+te than most
+> > > > > others, it seems, and certainly different than what you have desc=
+ribed. I'm
+> > > > > not using meta-security and I'm not using tpm2. Therefore your pa=
+tch will do
+> > > > > little to solve my build, and others will likely stumble across t=
+his issue by
+> > > > > other routes as well.
+> > > >
+> > > > For what it=E2=80=99s worth, we=E2=80=99re seeing this without meta=
+-security too.  This needs to be worked around in core (personally, I=E2=80=
+=99d remove =E2=80=94fatal-warnings from systemd until openssl includes the=
+ GCS hints).
+> > > >
+> > >
+> > > thats a bigger hammer, I would suggest to apply
+> > > LDFLAGS:append:aarch64 =3D " -Wl,-z,gcs-report-dynamic=3Dnone"
+> > > in systemd recipe in core
+> >
+> > If we want to make the hammer smaller, it's only triggered when:
+> >
+> >       PACKAGECONFIG:append:pn-systemd =3D " openssl"
+> >
+>
+> diff --git a/meta/recipes-core/systemd/systemd_257.5.bb b/meta/recipes-co=
+re/systemd/systemd_257.5.bb
+> index acf97517a94a..995b55580e4a 100644
+> --- a/meta/recipes-core/systemd/systemd_257.5.bb
+> +++ b/meta/recipes-core/systemd/systemd_257.5.bb
+> @@ -240,6 +240,7 @@ RESOLV_CONF ??=3D ""
+>  # bpf-framework: pass the recipe-sysroot to the compiler used to build
+>  # the eBPFs, so that it can find needed system includes in there.
+>  CFLAGS:append =3D " --sysroot=3D${STAGING_DIR_TARGET}"
+> +LDFLAGS:append:aarch64 =3D " ${@bb.utils.contains('PACKAGECONFIG', 'open=
+ssl', '-Wl,-z,gcs-report-dynamic=3Dnone', '', d)}"
+>
 
-	libcrypto.so: warning: GCS is required by -z gcs, but this shared library lacks the necessary property note. The dynamic loader might not enable GCS or refuse to load the program unless all the shared library dependencies have the GCS marking.
-	| collect2: error: ld returned 1 exit status
+LGTM
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- meta/recipes-core/systemd/systemd_257.5.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/systemd/systemd_257.5.bb b/meta/recipes-core/systemd/systemd_257.5.bb
-index acf97517a94a..995b55580e4a 100644
---- a/meta/recipes-core/systemd/systemd_257.5.bb
-+++ b/meta/recipes-core/systemd/systemd_257.5.bb
-@@ -240,6 +240,7 @@ RESOLV_CONF ??= ""
- # bpf-framework: pass the recipe-sysroot to the compiler used to build
- # the eBPFs, so that it can find needed system includes in there.
- CFLAGS:append = " --sysroot=${STAGING_DIR_TARGET}"
-+LDFLAGS:append:aarch64 = " ${@bb.utils.contains('PACKAGECONFIG', 'openssl', '-Wl,-z,gcs-report-dynamic=none', '', d)}"
- 
- EXTRA_OEMESON += "-Dnobody-user=nobody \
-                   -Dnobody-group=nogroup \
--- 
-2.44.0.501.g19981daefd7c
-
+>  EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
+>                    -Dnobody-group=3Dnogroup \
+>
 
