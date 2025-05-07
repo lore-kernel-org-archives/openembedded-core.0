@@ -1,302 +1,152 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A9AC3ABC0
-	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 13:04:13 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web10.8580.1746623050692282632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45604C3ABBF
+	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 13:31:13 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web10.9166.1746624666583543039
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 May 2025 06:04:10 -0700
+ Wed, 07 May 2025 06:31:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HTviihQj;
- spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b1f7357b5b6so4396327a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 06:04:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aRMzvSnA;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6f5499c21bbso2264826d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 06:31:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746623050; x=1747227850; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FrX7XkSpHn28cQ30LPYLbP3Or+FdNTEf6jBaX7ycqPs=;
-        b=HTviihQj7AJpmXLVTFOBUGlkFA+xeNt0CLuaWA/9POFnQ0FKoXepJ4RXbII28KM/10
-         CNyfWGa3JpWADziLPpGqv2mWUbLlHnO1dwABANc9Gc61OMjfsFiJe2UT9pcX5+5Bizpb
-         icV5zqX8HQhAxZPoJVQlWiUq73KprOnMhPmBUH9aw9HwscrraDtwmeJjixDdIOvq3cOk
-         ZMBckkAnWGyCX5zJOJZMGl9S0fj7LV2XmjZmeX57XBuRQwDDJAMHxu0fMFC4Q7iiFlPr
-         /7ye000d8fOepjxqcGIAUgtC7c76cIBhW3/EdIHYBorl5ouJPb8QKNqAr8zdEE6QV18G
-         D0Bg==
+        d=gmail.com; s=20230601; t=1746624665; x=1747229465; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oj9zDDj5WHaKpS9j3INKI1jXTBhxyCAzPM3b5e0mGcE=;
+        b=aRMzvSnALlWYvxeU5jAjCusMSmgzZ+Frec3AFrTqGyUHODMg5yL79vQDo1+IRI9+BH
+         3VplK4xIOQ7KIvAQJ49tE2evtlMiS7vYs+6AZ0fpxDRUOHXIJ3sgYj74NdEgXkGCKlWU
+         Lcuh8QD35sSvBvHWo0ttoEbtw3noshAMcbffiBlMaUPGjLZAOLeETosfbcJkYBkuilFg
+         Sqz/MKYhvNsmKAo+YNCnrY7YWcf9YbiD1ML6Oa1xaR8NSp6nxceStxMKc+/bfhT8mDf0
+         LM1Ja4xTOR+4xW36vfUSau/kHZOOBmloSGG9nV5Qfq0bzrECeLk6NoyRC2E5BU9Do85X
+         fIFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746623050; x=1747227850;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FrX7XkSpHn28cQ30LPYLbP3Or+FdNTEf6jBaX7ycqPs=;
-        b=btV7IW8ND3erYpuv9WAloncYcwUwF03Yf+VeMHB5SIcelyWbb5hsHOZ4oW/EdQgG0B
-         xlCwIpfrZigR4DL7KBISYnJI7FAA5FPPRZeQtTaAF+e0DaUpOOPZ7xM0Q8FMI3dT67WF
-         FrXaSb5ELocTSxEJSrece85EqUFyYtPEj5km9tyID4aAwWCaTU8oJ9zVGutT2fDA9luS
-         J0cB1I2i5mCcOLjhgJZnR6elIOIwW98seXjF1cpb7bXO6vFFPjo1RdFrU/pI13gHn685
-         pl/zFXqKdUU+ChI7B/7jBZMILf/OcXfi5aCjxx6plVueccfJnWMftc+oo4zMTynqUBgl
-         Q2hg==
-X-Forwarded-Encrypted: i=1; AJvYcCW8H8JoPQexrRttNtJadI+cpOH/GOVtlDs2w48hX/nFKqqQphv7uA0IqfPBcTGSfOJwe0S0htJUHMzJL2AEZt9DjA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzHWxPYEJLmYQjcrDovoKRA5enWhdAD93dgodIGUNW40SaHNyb7
-	LNbVMB5xdu8nJoJsCEz0kWS4Di+r3MjkDNQZIR88nDivHk043nPTLTQalZXQLy3Pd+7fUfwyHFA
-	lgxiLbwwZNs5AEsl6xffyAECsN4hGnSwc
-X-Gm-Gg: ASbGncugHUQI96uV0X/PwhygeE78rkwHj5a6fVGEg2ugzCmyqVHD8JfAwxwKaFXertR
-	ZzSC8dgI6wR4UQC4UdiBmkEk9V8YG6UNlYBTK6hH8gRusvv6hID5VS0rlG7kq5kiNP+D9PUaloC
-	i3Cp2Sw6FsTlkpE7XeyFmRbJE=
-X-Google-Smtp-Source: AGHT+IGCrwvWRLCSVKP0R5X2vkKKe+m2W3P8IBAZ9Q1CJaZkNc0ws10lGBBlPIX9ic3eMa7etXvd+K6HvHsiyp26NJs=
-X-Received: by 2002:a17:90b:3b8f:b0:2f9:bcd8:da33 with SMTP id
- 98e67ed59e1d1-30aac1bf94amr4584598a91.21.1746623049657; Wed, 07 May 2025
- 06:04:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746624665; x=1747229465;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oj9zDDj5WHaKpS9j3INKI1jXTBhxyCAzPM3b5e0mGcE=;
+        b=QycKXz9GRD/KdQ+Q4zloORxdC6g/N3F61Vgcbq4O1jSHElswqTufnyIlVJkPb+CYLr
+         C5GrI0JkDDgwyXsoncL7Rn78I8VV3FMXdUyNceyvMtgBPahngLn5jyQaj9wrlT0xC74W
+         QKYShs0Ofhvje1LCk9FzaFsFnu9zJKBn4l6bpYXvOB1+xMdqACWbsUQT4wNwz1MKlA7C
+         eSdkG4J+5NDCk9JANbxez674ohhlsL+Wytfulh0cAHR0X8i+1tfjGKpzHThcKlYDCspD
+         0jwmgwu8ywiKHdMzPo2IHwRhz9Ge8mHa0muTcbwuAdDTmZjmlDYXVoqV6JAlIEFPi8v+
+         N1HA==
+X-Gm-Message-State: AOJu0Yy1qq253MIUbgx14mFr+kFUcxeHImyAbzm2RGj4sslNU31OKg5f
+	8/bF97GD52RpeLftw/NVZj+F1us5W95gvbM8/qoo4/OOfGy7GKgWEfFFo1jgxV+I08h1NS39UDd
+	+nUKQJluwilcdfmcf2tnY0znaq8g=
+X-Gm-Gg: ASbGncsUMd7yS80f6jrUp8YiRtzPrcaeTK4QGBofw2oxyDdStjs3MlHm+FpZToeeMEC
+	xbgcZ5ZQs937QSILy4kiQrqJITuKMbTS0POutUNwWfp8LndFWGgX4fkdGjK0hqkUM6ObMteAA1o
+	+Viupiq1mNS5W/AhbnVrBvcD4=
+X-Google-Smtp-Source: AGHT+IHCJ+PLwS7fXTE0wyGlJqcx9HYQv6Za0ejm3TGfpnOYIEIcOLF8+PcUWiNBzZUQEwwAf3O3dWYSaSxxW6rOTpM=
+X-Received: by 2002:a05:6214:1307:b0:6f2:c9e1:8511 with SMTP id
+ 6a1803df08f44-6f542ade2f5mr40682106d6.39.1746624665337; Wed, 07 May 2025
+ 06:31:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1746548780.git.bruce.ashfield@gmail.com>
- <D9PRCP2WLN68.1VIO3IX3SQ7IH@bootlin.com> <183D2FC291E34522.16348@lists.openembedded.org>
- <161efc5b043277d6ca648087f9e6fcab9f72981d.camel@linuxfoundation.org> <aBtGeJH-y1Je42G0@nuoska>
-In-Reply-To: <aBtGeJH-y1Je42G0@nuoska>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 7 May 2025 09:03:58 -0400
-X-Gm-Features: ATxdqUG5thjIn3lPL4CnmAs5BXEXgk48pGo4sA5BoW0r0vGfWlP8WTZrnDp9uac
-Message-ID: <CADkTA4Mox1sZaaHYsW7PzqVWrUC3Bkje1h4XfOV8LwNdSfwmPg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/6] kernel-yocto: consolidated pull request
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: richard.purdie@linuxfoundation.org, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000006e717a06348b5ebf"
+References: <Rr0o.1746565000533076699.rvHw@lists.openembedded.org>
+In-Reply-To: <Rr0o.1746565000533076699.rvHw@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 7 May 2025 15:30:53 +0200
+X-Gm-Features: ATxdqUFNBxwF7a4M0H_pzd58fBwGwH1dQvEpDB8P9qC9fdIW4djkgOnP5ZLJGq0
+Message-ID: <CANNYZj9+uGR-_4WU04Dm7fR5zP8Rf7ggJh_+YFVSAy8fOKKOCg@mail.gmail.com>
+Subject: Re: [OE-core] [oe] glib-2.0 Introspection Data Question #poky
+To: eric.meyers15310@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 13:04:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216109
+ <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 13:31:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216110
 
---0000000000006e717a06348b5ebf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 7, 2025 at 7:39=E2=80=AFAM Mikko Rapeli <mikko.rapeli@linaro.or=
-g> wrote:
-
-> Hi,
+On Tue, 6 May 2025 at 22:56, Eric Meyers via lists.openembedded.org
+<eric.meyers15310=3Dgmail.com@lists.openembedded.org> wrote:
 >
-> On Wed, May 07, 2025 at 12:18:03PM +0100, Richard Purdie via
-> lists.openembedded.org wrote:
-> > On Wed, 2025-05-07 at 08:58 +0100, Richard Purdie via
-> > lists.openembedded.org wrote:
-> > > On Wed, 2025-05-07 at 09:42 +0200, Mathieu Dubois-Briand wrote:
-> > > > On Tue May 6, 2025 at 6:32 PM CEST, Bruce Ashfield via
-> > > > lists.openembedded.org wrote:
-> > > > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > > >
-> > > > > Hi Richard,
-> > > > >
-> > > > > Now that I'm back at my desk, here are the queued -stable,
-> > > > > configuration
-> > > > > and feature changes that I have queued.
-> > > > >
-> > > > > I'll be sending -stable updates to the LTS branches as well.
-> > > > >
-> > > > > Note: once patch #1 is in the tree and doesn't need any more
-> > > > > tweaks, I'll
-> > > > > send a documenation update. This is the patch that we need to
-> > > > > enable the
-> > > > > modular initrd work in kernel-yocto references.
-> > > >
-> > > > I took this series in my branch and everything seems to be fine so
-> > > > far,
-> > > > except for a warning:
-> > > >
-> > > > WARNING: linux-yocto-tiny-6.12.27+git-r0 do_kernel_configcheck:
-> > > > [kernel config]: specified values did not make it into the kernel's
-> > > > final configuration:
-> > > >
-> > > >     [NOTE]: 'CONFIG_CRYPTO_CHACHA20_NEON' last val (y) and .config
-> > > > val (n) do not match
-> > > >     [INFO]: CONFIG_CRYPTO_CHACHA20_NEON : n
-> > > >
-> > > >
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/1565
-> > >
-> > > There are a few, it likely depends which build built a component
-> > > first.
-> > > I think there are three groups of failures, I've listed them all for
-> > > completeness:
-> > >
-> > > Another qemuarm poky-tiny:
-> > >
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/50/builds/1564
-> > > qemuarm:
-> > >
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/16/builds/1563
-> > > qemuarm-alt:
-> > >
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/74/builds/1532
-> > > qemuarm nodistro:
-> > >
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/40/builds/1531
-> > >
-> > >
-> > > lttng-tools ptest failure:
-> > >
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/1445
-> >
-> > The ptest failure didn't appear on a second run so it is an
-> > intermittent AB issue rather than anything specific to this patch
-> > series.
+> Was wondering if someone can help me with an issue I'm seeing with my wor=
+kflow after upgrading to styhead/master on poky - specifically related to g=
+object-introspection data for the GLib-2.0 recipe. In particular, I see tha=
+t the gobject-introspection/glib recipes were updated in this patch/mailing=
+ list discussion:
 >
-> So it looks like missing CRYPTO_LIB_CHACHA_INTERNAL=3Dm with
-> CRYPTO_CHACHA20_NEON=3Dm is the only problem on qemuarm
-> and genericarm64
+> https://lists.openembedded.org/g/openembedded-core/topic/105860089
 >
-> I can send a patch if Bruce doesn't already have this.
-> I wonder where this came from since I did not see this before.
-> Maybe in the point release updates?
+> But it is unclear to me if this patch still supports producing native GLi=
+b-2.0/Gio/GObject .typelib files in a recipe's sysroot?
 >
-
-I see your patch. Thanks!
-
-I'll do a bit of root cause analysis when applying it shortly. I obviously
-didn't
-see it either in my local builds.
-
-Bruce
-
-
-
+> It looks suspect to me that the PACKAGECONFIG for the native class is wip=
+ed in this line:
 >
-> Cheers,
+> https://github.com/yoctoproject/poky/blob/master/meta/recipes-core/glib-2=
+.0/glib.inc#L40
 >
-> -Mikko
+> Which would lead me to believe that glib-2.0-native does not produce any =
+.typelib files?
+
+Correct. I think native gir/typelib files were never enabled, oe-core
+only ever had them enabled for target.
+
+> However, when digging, I noticed that the missing .typelib file existed i=
+n the gobject-introspection-native build directory, but was just not being =
+shipped to the sysroot-destdir. I needed to add the following do_install:ap=
+pend to gobject-introspection_%.bbappend:
 >
+> do_install:append:class-native() {
+>         cp -f ${B}/gir/GLib-2.0.typelib ${D}${RECIPE_SYSROOT_NATIVE}/usr/=
+lib/girepository-1.0/GLib-2.0.typelib
+>         cp -f ${B}/gir/GObject-2.0.typelib ${D}${RECIPE_SYSROOT_NATIVE}/u=
+sr/lib/girepository-1.0/GObject-2.0.typelib
+>         cp -f ${B}/gir/Gio-2.0.typelib ${D}${RECIPE_SYSROOT_NATIVE}/usr/l=
+ib/girepository-1.0/Gio-2.0.typelib
+> }
+>
+> (OR this patch will also accomplish similar behavior):
+>
+> gobject-introspection_%.bbappend:
+>
+> SRC_URI:append:class-native =3D " ${@bb.utils.contains('GI_DATA_ENABLED',=
+ 'True', 'file://0001-Install-typelib-files-if-native-build.patch', '', d)}=
+"
+>
+> 0001-Install-typelib-files-if-native-build.patch:
+> +---
+> + gir/meson.build | 2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/gir/meson.build b/gir/meson.build
+> +index e5a7a13..e8100fd 100644
+> +--- a/gir/meson.build
+> ++++ b/gir/meson.build
+> +@@ -541,6 +541,8 @@ foreach gir: uninstalled_gir_files
+> +     output: '@BASENAME@.typelib',
+> +     depends: [gobject_gir, gircompiler, ],
+> +     command: gircompiler_command,
+> ++    install: true,
+> ++    install_dir: typelibdir,
+> +   )
+> + endforeach
+>
+> I'm hesitant to submit either patch due to the fear that I'm (1) missing =
+something/not understanding something right and (2) doing something complet=
+ely wrong.
 
+Upstream has made the decision to transition from installing static
+pre-generated gir/typelib files in g-i to generating them from actual,
+current glib libraries inside glib itself. This indeed introduced a
+circular dependency, which was solved for the target by first building
+glib-2.0-initial (that does not enable gir/typelib generation), then
+building target g-i with it, then  building final target glib with
+gir/typelib generation
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+You would have to replicate this sequence for the native recipes.
+Pre-built files in g-i are not meant for installation, only for
+running tests during the build. Any attempt to change that will be
+rejected by both g-i upstream and oe-core.
 
---0000000000006e717a06348b5ebf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 7, 2025 at 7:39=
-=E2=80=AFAM Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@linaro.org">mik=
-ko.rapeli@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">Hi,<br>
-<br>
-On Wed, May 07, 2025 at 12:18:03PM +0100, Richard Purdie via <a href=3D"htt=
-p://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.open=
-embedded.org</a> wrote:<br>
-&gt; On Wed, 2025-05-07 at 08:58 +0100, Richard Purdie via<br>
-&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; &gt; On Wed, 2025-05-07 at 09:42 +0200, Mathieu Dubois-Briand wrote:<b=
-r>
-&gt; &gt; &gt; On Tue May 6, 2025 at 6:32 PM CEST, Bruce Ashfield via<br>
-&gt; &gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer"=
- target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; &gt; &gt; &gt; From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfie=
-ld@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; Hi Richard,<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; Now that I&#39;m back at my desk, here are the queued -=
-stable,<br>
-&gt; &gt; &gt; &gt; configuration<br>
-&gt; &gt; &gt; &gt; and feature changes that I have queued.<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; I&#39;ll be sending -stable updates to the LTS branches=
- as well.<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; Note: once patch #1 is in the tree and doesn&#39;t need=
- any more<br>
-&gt; &gt; &gt; &gt; tweaks, I&#39;ll<br>
-&gt; &gt; &gt; &gt; send a documenation update. This is the patch that we n=
-eed to<br>
-&gt; &gt; &gt; &gt; enable the<br>
-&gt; &gt; &gt; &gt; modular initrd work in kernel-yocto references.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; I took this series in my branch and everything seems to be f=
-ine so<br>
-&gt; &gt; &gt; far,<br>
-&gt; &gt; &gt; except for a warning:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; WARNING: linux-yocto-tiny-6.12.27+git-r0 do_kernel_configche=
-ck:<br>
-&gt; &gt; &gt; [kernel config]: specified values did not make it into the k=
-ernel&#39;s<br>
-&gt; &gt; &gt; final configuration:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0 [NOTE]: &#39;CONFIG_CRYPTO_CHACHA20_NEON&=
-#39; last val (y) and .config<br>
-&gt; &gt; &gt; val (n) do not match<br>
-&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0 [INFO]: CONFIG_CRYPTO_CHACHA20_NEON : n<b=
-r>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/b=
-uilders/50/builds/1565" rel=3D"noreferrer" target=3D"_blank">https://autobu=
-ilder.yoctoproject.org/valkyrie/#/builders/50/builds/1565</a><br>
-&gt; &gt; <br>
-&gt; &gt; There are a few, it likely depends which build built a component<=
-br>
-&gt; &gt; first.<br>
-&gt; &gt; I think there are three groups of failures, I&#39;ve listed them =
-all for<br>
-&gt; &gt; completeness:<br>
-&gt; &gt; <br>
-&gt; &gt; Another qemuarm poky-tiny:<br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/?#/build=
-ers/50/builds/1564" rel=3D"noreferrer" target=3D"_blank">https://autobuilde=
-r.yoctoproject.org/valkyrie/?#/builders/50/builds/1564</a><br>
-&gt; &gt; qemuarm:<br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/?#/build=
-ers/16/builds/1563" rel=3D"noreferrer" target=3D"_blank">https://autobuilde=
-r.yoctoproject.org/valkyrie/?#/builders/16/builds/1563</a><br>
-&gt; &gt; qemuarm-alt:<br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/?#/build=
-ers/74/builds/1532" rel=3D"noreferrer" target=3D"_blank">https://autobuilde=
-r.yoctoproject.org/valkyrie/?#/builders/74/builds/1532</a><br>
-&gt; &gt; qemuarm nodistro:<br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/?#/build=
-ers/40/builds/1531" rel=3D"noreferrer" target=3D"_blank">https://autobuilde=
-r.yoctoproject.org/valkyrie/?#/builders/40/builds/1531</a><br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; lttng-tools ptest failure:<br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/?#/build=
-ers/61/builds/1445" rel=3D"noreferrer" target=3D"_blank">https://autobuilde=
-r.yoctoproject.org/valkyrie/?#/builders/61/builds/1445</a><br>
-&gt; <br>
-&gt; The ptest failure didn&#39;t appear on a second run so it is an<br>
-&gt; intermittent AB issue rather than anything specific to this patch<br>
-&gt; series.<br>
-<br>
-So it looks like missing CRYPTO_LIB_CHACHA_INTERNAL=3Dm with<br>
-CRYPTO_CHACHA20_NEON=3Dm is the only problem on qemuarm<br>
-and genericarm64<br>
-<br>
-I can send a patch if Bruce doesn&#39;t already have this.<br>
-I wonder where this came from since I did not see this before.<br>
-Maybe in the point release updates?<br></blockquote><div><br></div><div><di=
-v class=3D"gmail_default" style=3D"font-size:small">I see your patch. Thank=
-s!</div><br></div><div><div class=3D"gmail_default" style=3D"font-size:smal=
-l">I&#39;ll do a bit of root cause analysis when applying it shortly. I obv=
-iously didn&#39;t</div><div class=3D"gmail_default" style=3D"font-size:smal=
-l">see it either in my local builds.</div><div class=3D"gmail_default" styl=
-e=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-=
-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
--Mikko<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---0000000000006e717a06348b5ebf--
+Alex
 
