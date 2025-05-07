@@ -2,100 +2,191 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C17C3ABC0
-	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 22:05:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24606C3ABC0
+	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 22:14:48 +0000 (UTC)
 Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.1771.1746655532353921171
+ by mx.groups.io with SMTP id smtpd.web11.1960.1746656079722496787
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 May 2025 15:05:32 -0700
+ Wed, 07 May 2025 15:14:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=j9z6scLQ;
+ dkim=pass header.i=@smile.fr header.s=google header.b=TiKlFaUd;
  spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a0b308856fso243730f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 15:05:31 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-39ac8e7688aso282612f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 15:14:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1746655530; x=1747260330; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1746656078; x=1747260878; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=C5ZLwKNbb8oaHVhpgwj0+8MXdKZqCwxTyEJGQiwwUDk=;
-        b=j9z6scLQkZQtNfZ2rsXdg2yAkwsLvoiDtqFwTBiXNMVapX/JEKD2ofoFViaqWeAzci
-         RW8FmjzPAaZc5evgckmtBB2KAdww4BCWQuAtfBGD9AH+tT3gPwZmaXWaBA8DbCxo+8U1
-         +ZANbjq76EyHnEZiPMDzQfTudE93o3rGhThSc=
+        bh=oXKYVAI3EmDFcUB+J0+SoLgNuZBNSyhZH4KMgR8SjFc=;
+        b=TiKlFaUd4MyoO1Q58dGCqRGLr+vgY1RZA1Js8O+M7U2KSAyx633yj1iV0ynFd2SJ0E
+         mxwsRBWoK/0NKr66PkzPagq1y0W/FZesKEjXT/qWR8AIc7dKPsLypDlWN8X2CIqiczeX
+         aVKds6RrW+N41kpLf3yitOptxtiQwlu/z+cQg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746655530; x=1747260330;
+        d=1e100.net; s=20230601; t=1746656078; x=1747260878;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=C5ZLwKNbb8oaHVhpgwj0+8MXdKZqCwxTyEJGQiwwUDk=;
-        b=nnJgm6uCPja6QEdB2PEiP1G9PwzXTmkttnxByAhjl4PaxWIYpP1pU8/XKiqGJMXDIc
-         yYW53ZxtbaPGZNGnPlItkOAjZmpjHkjM0A82tKrHerTdgEJLEDURDLrgtpm88DqI6YTm
-         JqatA4IGN/Ceoabz/vc7bbPKAfHeCi+WA0DAHRbs9Hy0bHT1IM8es4jj3pqSI1Oa7uJj
-         83DCGZeDSLufZ6x5uf3r8/lmXYVWrc1/3eSxqgq89YiQTR+9SZJOwnJAvHWDNCM8EW0o
-         SCIU4wvPqVs+tEqYTBhPKQj3KBhwYhMH4T+SAmiXtniJnC9xzx3kID0OT3WSTscdJA1j
-         MOTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVcmUBkFOWWhHlAet5wai6JeLOFzmUhaI4tKqlrSJX6LbNqptG0tCeBkGia0w1OWbEZVMLaIuTzS/TUqZ8zQfFWPg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyk5P2iOgkUAQpa3nqzACzTqHxQAf9vzPuTSj5Wm739tN+V4C0C
-	izcAB4Mt6o7khLr5S2T+ATjO88HBl56tbVuhXl1M57VOP50oYfnN1piI+nXqeneSOQ2JdwafLfC
-	bfUCnsEZ8nBr5FVZ0PdiKJlHPU7MqGStbGqjkzA==
-X-Gm-Gg: ASbGnctsvN11U2zsouQhHZ9TGDAPpiGlFAXZz7R2GxLfdejTZDBs3kO3QBAYa09YGZS
-	Qtqcgith94E5ZVSTHtoMIZgpRNyikgDmP5T3G3EZZ/PK05Zp9wPh4bMuE00JfMIvnsN2Ar16VJ7
-	zsqK7p4HP/sDLUGvO2xaS+elGlDyMOPGkNDltcXzsrOcpy/Zt2H+CT37Ka
-X-Google-Smtp-Source: AGHT+IFENbQHuzymPsOgV/MS5765MDxOdvI30YQB7AHYPdAAjSmBUUvz031tmPEcRljIJn2p75WbrKdPwF4vdgQXGQE=
-X-Received: by 2002:a05:6000:184f:b0:391:41c9:7a8d with SMTP id
- ffacd0b85a97d-3a0ba103534mr509167f8f.54.1746655530519; Wed, 07 May 2025
- 15:05:30 -0700 (PDT)
+        bh=oXKYVAI3EmDFcUB+J0+SoLgNuZBNSyhZH4KMgR8SjFc=;
+        b=Bccz/WESqqHA4buBPp5jB9zuw+zOy23kT81ixopYFeziCWyqfkFu63Pe9NluzJAiQb
+         zAGgA3OXfO94bkoKnk/y5dDUcTEgT6OcTP9sYbndrMlqN11V2mz5D/bRw+SvBDDxBlAC
+         4rJweR9Of71LlFwOlrxFkVRIOCd6I5kJvGwG/BrUYJTeBkh3Svm6b3hAjG78h95XZAiF
+         GHYT37N5/TeFh6VM7gCAa7lxlY1Oo23PlL5+9FnHtuX6mGwhyLdQx5iJhY93fWZVMLPv
+         H96JsbxqL7CCo2LY7a7wcfiPBECueMLhkqLcTGyhsX3dc3IVrGHziHyZieyW4SJwgsNl
+         IIHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVcsnmiNAWLItLHqwBU/rSbW7YKzG69IqmmcWYtuiCahvsaoYRlxZdHanXAcfHjkIle2ww6+6WGPCrmQMiM3H+2IA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzLcHlk0mtjM4M//jvqHc77lx6b97Hb4P5Y6On1u4Y7tU0mKFf0
+	/KroliEPKqsotM7o1is9EjeJEeDRfnuEZEfnFzVWrBw8IQe6JQzROGD0Zg+X8i5EKdo8a7HSyR3
+	lgUdn2iRD43CGxheyjaFAOQnU2tKIHwuJa3MBHw==
+X-Gm-Gg: ASbGnctT1Nr/olzYMmZD4if8xdyBg3Rz/w9fz1aATlA5IbjMrJn/1GSnqWlDDdvLVGl
+	penxAwWwPfsdkHq8Rzpg6j2cFiK73zuzlSxJcZefN5VvPisKex5br+3uPMqltKMlU2WW+lP6H54
+	N4AyUN20nd/HHFAkP8ekV52HJ9sHIngENeN5jr3PMSefU9+KjioyGRKXdy
+X-Google-Smtp-Source: AGHT+IG0Eo0lZK0XacuyAR9TRoPFnv3SRnZuLkZhJxwp1Uf1dUcqvmfwlEWr3RBnXj11cFH5mKJinJEjlz9bMMMtFlM=
+X-Received: by 2002:a05:6000:2281:b0:3a0:806d:205 with SMTP id
+ ffacd0b85a97d-3a0b4a185d6mr4505564f8f.53.1746656078004; Wed, 07 May 2025
+ 15:14:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250505101642.9255-2-ines.kchelfi@smile.fr> <CANNYZj9u7=F533yq-KEiYY3jVmm3DWh3VjLaoMhYV6=EZW20Pg@mail.gmail.com>
-In-Reply-To: <CANNYZj9u7=F533yq-KEiYY3jVmm3DWh3VjLaoMhYV6=EZW20Pg@mail.gmail.com>
+References: <20250505101642.9255-2-ines.kchelfi@smile.fr> <D9OVH2DTYGL9.1DVFL0W5QGKWH@bootlin.com>
+In-Reply-To: <D9OVH2DTYGL9.1DVFL0W5QGKWH@bootlin.com>
 From: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 8 May 2025 00:05:04 +0200
-X-Gm-Features: ATxdqUHN9Oq5qt47Z06-RkFybPHD0MP6MyuQS0c-gDwiR9uCqsnmbANUksYwM2o
-Message-ID: <CAMSfU+7SjsrUvCG-zs0NjDvxUMHfoajYC3tdwqF=4F5v6OJquQ@mail.gmail.com>
+Date: Thu, 8 May 2025 00:14:12 +0200
+X-Gm-Features: ATxdqUEzwrwyTzO2aXZD0ylQ2KM2BPxH5i4XMWcV5Y3Y4B3WCIEyE2EPzkZgcBs
+Message-ID: <CAMSfU+5x6CkaD3Jw9CT3aF0ZR781WEM2hQkWsQvD5ypfaqTZxg@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] rpm-sequoia: add ptest
-To: alex.kanavin@gmail.com
+To: mathieu.dubois-briand@bootlin.com
 Cc: ines.kchelfi@smile.fr, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000711fd3063492ee12"
+Content-Type: multipart/alternative; boundary="0000000000001313d60634930f21"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 22:05:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216135
+ <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 22:14:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216136
 
---000000000000711fd3063492ee12
+--0000000000001313d60634930f21
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le lun. 5 mai 2025 =C3=A0 18:51, Alexander Kanavin via lists.openembedded.o=
-rg
-<alex.kanavin=3Dgmail.com@lists.openembedded.org> a =C3=A9crit :
+Le mar. 6 mai 2025 =C3=A0 08:43, Mathieu Dubois-Briand via lists.openembedd=
+ed.org
+<mathieu.dubois-briand=3Dbootlin.com@lists.openembedded.org> a =C3=A9crit :
 
-> On Mon, 5 May 2025 at 12:17, ines.kchelfi via lists.openembedded.org
-> <ines.kchelfi=3Dsmile.fr@lists.openembedded.org> wrote:
+> On Mon May 5, 2025 at 12:16 PM CEST, ines.kchelfi via
+> lists.openembedded.org wrote:
+> > From: Ines KCHELFI <ines.kchelfi@smile.fr>
+> >
+> > In rpm-sequoia, some default paths in test code (OUT_DIR,
+> > CARGO_MANIFEST_DIR) are invalid at runtime and cause test failures.
+> >
+> > To fix this, patch the test code (symbols.rs) to support overriding
+> these
+> > paths via optional environment variables: FORCE_RUNTIME_PATH_LIB and
+> > FORCE_RUNTIME_PATH_SRC.
+> >
 > > Also patch the libray name to match what is installed.
-> > +Subject: [PATCH] Force the use of librpm_sequoia.so.1 instead of
-> librpm_sequoia.so
-> > +-        lib.push("librpm_sequoia.so");
-> > ++        lib.push("librpm_sequoia.so.1");
+> >
+> > Tests take less than a second so this is added to PTEST_FAST.
+> >
+> > ptest result:
+> > |root@qemux86-64:~# ptest-runner rpm-sequoia
+> > |START: ptest-runner
+> > |2025-05-02T15:57
+> > |BEGIN: /usr/lib/rpm-sequoia/ptest
+> > |
+> > |running 1 test
+> > |test symbols ... ok
+> > |
+> > |test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered
+> out; finished in 0.00s
+> > |
+> > |
+> > |running 2 tests
+> > |test tests::merge_certs_mismatch ... ok
+> > |test tests::merge_certs ... ok
+> > |
+> > |test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered
+> out; finished in 0.01s
+> > |
+> > |DURATION: 0
+> > |END: /usr/lib/rpm-sequoia/ptest
+> > |2025-05-02T15:57
+> > |STOP: ptest-runner
+> > |TOTAL: 1 FAIL: 0
+> >
+> > Signed-off-by: Ines KCHELFI <ines.kchelfi@smile.fr>
+> > ---
 >
-> Rather than do this, how about making -ptest package RDEPEND on -dev
-> package (which contains the unversioned symlink to the library)?
+> Hi Ines,
+>
+> Thanks for your patch.
+>
+> It looks like some of these ptests are not running correctly on the
+> autobuilder:
+>
+> WARNING: core-image-ptest-rpm-sequoia-1.0-r0 do_testimage: There were
+> failing ptests.
+> Traceback (most recent call last):
+>   File
+> "/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/meta/lib/oeqa/core/dec=
+orator/__init__.py",
+> line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File
+> "/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/meta/lib/oeqa/core/dec=
+orator/__init__.py",
+> line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File
+> "/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/meta/lib/oeqa/core/dec=
+orator/__init__.py",
+> line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File
+> "/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/meta/lib/oeqa/runtime/=
+cases/ptest.py",
+> line 27, in test_ptestrunner_expectfail
+>     self.do_ptestrunner()
+>   File
+> "/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/meta/lib/oeqa/runtime/=
+cases/ptest.py",
+> line 120, in do_ptestrunner
+>     self.fail(failmsg)
+> AssertionError:
+> ptests which had no test results:
+> ['rpm-sequoia']
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/1434
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/1437
+>
+> Details about the ptests can be found in:
+>
+>
+> https://valkyrie.yocto.io/pub/non-release/20250505-91/testresults/qemuarm=
+64-ptest/core-image-ptest-rpm-sequoia/
+>
+> https://valkyrie.yocto.io/pub/non-release/20250505-91/testresults/qemux86=
+-64-ptest/core-image-ptest-rpm-sequoia/
+>
+> Can you have a look at the issue please?
 >
 
-We tried that at some point but changed to this patch because it forces the
-recipe to use:
-  INSANE_SKIP:${PN}-ptest +=3D "dev-deps"
-That feels less "clean" but a lot more maintainable.
-We will send a v2 with that.
+That looks related to the fact that the ptest-cargo run-ptest does not
+print "PASS:", "FAIL:" lines.
+I was not aware but rpm-sequoia will be the first ptest-cargo user running
+under AB oeqa/testimage.
+
+We will send a v2 series with a fix for ptest-cargo.
 
 Thanks!
 
-
-> Alex
+--=20
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#216016):
-> https://lists.openembedded.org/g/openembedded-core/message/216016
+> View/Reply Online (#216032):
+> https://lists.openembedded.org/g/openembedded-core/message/216032
 > Mute This Topic: https://lists.openembedded.org/mt/112626601/4316185
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
@@ -108,46 +199,136 @@ Thanks!
 Yoann Congal
 Smile ECS
 
---000000000000711fd3063492ee12
+--0000000000001313d60634930f21
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0lun. 5 =
-mai 2025 =C3=A0=C2=A018:51, Alexander Kanavin via <a href=3D"http://lists.o=
-penembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"m=
-ailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a=
->&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Mon, 5 May 2025 at 12:17, ines.kchelfi via <a href=3D"http://=
-lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembe=
-dded.org</a><br>
-&lt;ines.kchelfi=3D<a href=3D"mailto:smile.fr@lists.openembedded.org" targe=
-t=3D"_blank">smile.fr@lists.openembedded.org</a>&gt; wrote:<br>
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mar. 6 =
+mai 2025 =C3=A0=C2=A008:43, Mathieu Dubois-Briand via <a href=3D"http://lis=
+ts.openembedded.org">lists.openembedded.org</a> &lt;mathieu.dubois-briand=
+=3D<a href=3D"mailto:bootlin.com@lists.openembedded.org">bootlin.com@lists.=
+openembedded.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">On Mon May 5, 2025 at 12:16 PM CEST, ines.kche=
+lfi via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=
+=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; From: Ines KCHELFI &lt;<a href=3D"mailto:ines.kchelfi@smile.fr" target=
+=3D"_blank">ines.kchelfi@smile.fr</a>&gt;<br>
+&gt;<br>
+&gt; In rpm-sequoia, some default paths in test code (OUT_DIR,<br>
+&gt; CARGO_MANIFEST_DIR) are invalid at runtime and cause test failures.<br=
+>
+&gt;<br>
+&gt; To fix this, patch the test code (<a href=3D"http://symbols.rs" rel=3D=
+"noreferrer" target=3D"_blank">symbols.rs</a>) to support overriding these<=
+br>
+&gt; paths via optional environment variables: FORCE_RUNTIME_PATH_LIB and<b=
+r>
+&gt; FORCE_RUNTIME_PATH_SRC.<br>
+&gt;<br>
 &gt; Also patch the libray name to match what is installed.<br>
-&gt; +Subject: [PATCH] Force the use of librpm_sequoia.so.1 instead of libr=
-pm_sequoia.so<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 lib.push(&quot;librpm_sequoia.so&quot;);=
+&gt;<br>
+&gt; Tests take less than a second so this is added to PTEST_FAST.<br>
+&gt;<br>
+&gt; ptest result:<br>
+&gt; |root@qemux86-64:~# ptest-runner rpm-sequoia<br>
+&gt; |START: ptest-runner<br>
+&gt; |2025-05-02T15:57<br>
+&gt; |BEGIN: /usr/lib/rpm-sequoia/ptest<br>
+&gt; |<br>
+&gt; |running 1 test<br>
+&gt; |test symbols ... ok<br>
+&gt; |<br>
+&gt; |test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtere=
+d out; finished in 0.00s<br>
+&gt; |<br>
+&gt; |<br>
+&gt; |running 2 tests<br>
+&gt; |test tests::merge_certs_mismatch ... ok<br>
+&gt; |test tests::merge_certs ... ok<br>
+&gt; |<br>
+&gt; |test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtere=
+d out; finished in 0.01s<br>
+&gt; |<br>
+&gt; |DURATION: 0<br>
+&gt; |END: /usr/lib/rpm-sequoia/ptest<br>
+&gt; |2025-05-02T15:57<br>
+&gt; |STOP: ptest-runner<br>
+&gt; |TOTAL: 1 FAIL: 0<br>
+&gt;<br>
+&gt; Signed-off-by: Ines KCHELFI &lt;<a href=3D"mailto:ines.kchelfi@smile.f=
+r" target=3D"_blank">ines.kchelfi@smile.fr</a>&gt;<br>
+&gt; ---<br>
 <br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 lib.push(&quot;librpm_sequoia.so.1&quot;=
-);<br>
+Hi Ines,<br>
 <br>
-Rather than do this, how about making -ptest package RDEPEND on -dev<br>
-package (which contains the unversioned symlink to the library)?<br></block=
-quote><div><br></div><div>We tried that at some point but changed to this p=
-atch because it forces the recipe to use:</div><div>=C2=A0 INSANE_SKIP:${PN=
-}-ptest +=3D &quot;dev-deps&quot;</div><div>That feels less &quot;clean&quo=
-t; but a lot more maintainable.</div><div>We will send a v2 with that.</div=
-><div><br></div><div>Thanks!</div><div>=C2=A0</div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">
-Alex<br>
+Thanks for your patch.<br>
+<br>
+It looks like some of these ptests are not running correctly on the autobui=
+lder:<br>
+<br>
+WARNING: core-image-ptest-rpm-sequoia-1.0-r0 do_testimage: There were faili=
+ng ptests.<br>
+Traceback (most recent call last):<br>
+=C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/meta/li=
+b/oeqa/core/decorator/__init__.py&quot;, line 35, in wrapped_f<br>
+=C2=A0 =C2=A0 return func(*args, **kwargs)<br>
+=C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/meta/li=
+b/oeqa/core/decorator/__init__.py&quot;, line 35, in wrapped_f<br>
+=C2=A0 =C2=A0 return func(*args, **kwargs)<br>
+=C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/meta/li=
+b/oeqa/core/decorator/__init__.py&quot;, line 35, in wrapped_f<br>
+=C2=A0 =C2=A0 return func(*args, **kwargs)<br>
+=C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/meta/li=
+b/oeqa/runtime/cases/ptest.py&quot;, line 27, in test_ptestrunner_expectfai=
+l<br>
+=C2=A0 =C2=A0 self.do_ptestrunner()<br>
+=C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/meta/li=
+b/oeqa/runtime/cases/ptest.py&quot;, line 120, in do_ptestrunner<br>
+=C2=A0 =C2=A0 self.fail(failmsg)<br>
+AssertionError:<br>
+ptests which had no test results:<br>
+[&#39;rpm-sequoia&#39;]<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/buil=
+ds/1434" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/61/builds/1434</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/buil=
+ds/1437" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/73/builds/1437</a><br>
+<br>
+Details about the ptests can be found in:<br>
+<br>
+<a href=3D"https://valkyrie.yocto.io/pub/non-release/20250505-91/testresult=
+s/qemuarm64-ptest/core-image-ptest-rpm-sequoia/" rel=3D"noreferrer" target=
+=3D"_blank">https://valkyrie.yocto.io/pub/non-release/20250505-91/testresul=
+ts/qemuarm64-ptest/core-image-ptest-rpm-sequoia/</a><br>
+<a href=3D"https://valkyrie.yocto.io/pub/non-release/20250505-91/testresult=
+s/qemux86-64-ptest/core-image-ptest-rpm-sequoia/" rel=3D"noreferrer" target=
+=3D"_blank">https://valkyrie.yocto.io/pub/non-release/20250505-91/testresul=
+ts/qemux86-64-ptest/core-image-ptest-rpm-sequoia/</a><br>
+<br>
+Can you have a look at the issue please?<br></blockquote><div><br></div><di=
+v>That looks related to the fact that the ptest-cargo run-ptest does not pr=
+int &quot;PASS:&quot;, &quot;FAIL:&quot; lines.</div><div>I was not aware b=
+ut rpm-sequoia will be the first ptest-cargo user running under AB oeqa/tes=
+timage.</div><div><br></div><div>We will send a v2 series with a fix for pt=
+est-cargo.</div><div><br></div><div>Thanks!</div><div><br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#216016): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/216016" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/216016</a><br>
+View/Reply Online (#216032): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/216032" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/216032</a><br>
 Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/112626601/431=
 6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
 t/112626601/4316185</a><br>
@@ -165,5 +346,5 @@ gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
 iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
 t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
 
---000000000000711fd3063492ee12--
+--0000000000001313d60634930f21--
 
