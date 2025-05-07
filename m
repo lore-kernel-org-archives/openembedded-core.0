@@ -1,397 +1,105 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ED57C3ABBF
-	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 16:17:12 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web11.339.1746634629339136994
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0966C3ABBF
+	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 16:26:24 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.185.1746635174842001016
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 May 2025 09:17:09 -0700
+ Wed, 07 May 2025 09:26:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HDaJsKtT;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-30a9718de94so125392a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 09:17:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=adxPQ8YQ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-22e331215dbso10214385ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 09:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746634629; x=1747239429; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sWVRU+4/2+tt5FnIlnKCJ3Yp662sOMbbyqwHvRtLw0Y=;
-        b=HDaJsKtTQBHK2L/dgJKWZC9Ag0FezAntFXJFCdguJToy+zSftI9GUM5zq8lc9HFh1q
-         CXD6rlCXOj7CvkY7l1o0JS+bhDAxXw02GtAwbqCEu6TQ34EnjQIL1tR7mRqX6gZoIEsZ
-         efvrbv+5YneiNGq+DstKGkRqP6jwJCOHAIjrUDlXN39rk+TSsIjbw1w1df41Q8zocdoq
-         FvUfGHGLtQXEip42drROCVgzPCz3kTooU6cukus3S88Qqj6GuVcGXV1cz0f3JCQLJP92
-         48+A57Wth1mGWPq6LxcC3LVCkP7U+BJ1tXq5sVqnuv1XRsvNY4q4ovRj+JX29iYMh44i
-         HWsA==
+        d=gmail.com; s=20230601; t=1746635174; x=1747239974; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xIH/C+htBiL39ohcJqKoSg+k7sM9odmGfITnMQ7al0Q=;
+        b=adxPQ8YQBAkMVe/jj5nX3uAeUm30eBVGwPItKP3+a5yMC5IaEYw3otTbUz9MTLIppu
+         pwQJtLU89Ju0zscf2yXo2AtIoyr2LsNIOC4Ce/xYDuaa9phfbjCJe287PqY0yyhJ1rFE
+         SnIAyg+CftAUzk65o+y9J2pAeqZvByHL2NpKgePf0PUtTuFulvMUAISJ5b5ZnciIR0Ft
+         BUiKVIX4VCnityIBKQ8oQkYjHs27GefM2GILZAtewLRRTiIwA9ndgH1mclGS0feFnaqu
+         FLnBg8kbn7gdXbYoWK1xOkrax/juc2WS7FTXNlxSOfBvwio7qTNjN4FLxBuo81aBXrsf
+         Xryw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746634629; x=1747239429;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1746635174; x=1747239974;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sWVRU+4/2+tt5FnIlnKCJ3Yp662sOMbbyqwHvRtLw0Y=;
-        b=UxipRFcR5hI/tIJBMD0aZRMB9h+Rpi18nx0lXADQed1qNA5XU0Nbq1HFUgwzSKZf6V
-         wUDvCnjhNj/o8M53Xo7mbfMB+4zYJ7F90bQQsXKASPtgRKey15rDwm/Lrlnqemjv3FE6
-         Djs7/FwccIbjROzc/HrKqClULpFNqmhKNmQGdQqLFZhKWUVduO7MxkB7iOB1xj3vz5jv
-         g6hWyam82TFoYViVsTgpt+6/jwbxQ1WwLkAZjSW97i7iab/8jGeQeklcLrgIWyuHWR1j
-         hV3mFOvW9Xl4pbppmb+kMkTBJrJ/y99tkAvKPCkV0PzK9dLraewHWqMDuMLThLcvY7Fu
-         CdvA==
-X-Forwarded-Encrypted: i=1; AJvYcCWD56xO9uNU9pSHDd3zsTjVhVPcmnk45wGOndgHW5L4OlNo4SKKCzLVV2u/AK0c+TVrs7UPB1szoP98qkpamTEFcg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzXXrZvm/FNdNE6ijjIGeo+HveDx1SeQ0p/rHVHLBNIW3L+NoUM
-	xc800zd2b8sXLQ+BxF5P0iS5HOYfuw+N8+KIpyMGNRFHSct0jHunn5n9w5Yd1b+URLVkfBeBruS
-	ackahG9YRqnyDFmlUbpULuOaKKkbbZWbi
-X-Gm-Gg: ASbGncuoKTvtbtzE8C1t8MLWw93lGI4YVbVL6dkOzHIrehFz635/IuYn1wVwSwdaOGr
-	GBV6a8r6g1aiwbFnUxpywV1RneGkL0ujvY9pbq8EWrfHiCv71ZNjEbaFJvEvTZGlBEWKQDFYlw6
-	y91a4tJaQX+qrxL9Qf5drqXw==
-X-Google-Smtp-Source: AGHT+IF4GfD8sfVeTjxkUN1Dd7ZByZSdd8ROqRo7Rvcl2Uu9E+S3OTbKHgRY5GK/kRdvuG5MA838JLRSkiRSW6HAfKc=
-X-Received: by 2002:a17:90b:2f85:b0:30a:3e8e:492c with SMTP id
- 98e67ed59e1d1-30aac2483f4mr5429790a91.32.1746634628615; Wed, 07 May 2025
- 09:17:08 -0700 (PDT)
+        bh=xIH/C+htBiL39ohcJqKoSg+k7sM9odmGfITnMQ7al0Q=;
+        b=jVVwe849m8iU4Q9N4aWqT67fd6FUhnC9OtWnxmc2cKHQOmbWzkuL+w/4DVJccRrrNt
+         K0TOCpustXR3nm9wiiLsQMOcDG8uaYnGNahg7xDXCY9NcSuj8GIAS4rImwPQJg/GBYxB
+         UMQUFixV7QJd1dZbmLJ5DBmn/zNt6HiuDSbbxYj4NjoTCvq+B1m7E2efFcIdBMmTn/a0
+         xKiTxxtLKV8LhiRP7iRrs1zKLunA9dfZzCGzrsl5jox9CtNsrVl+3c7Nqi07vgX4NwAn
+         cKVHvPS8adH180vIqScm24ezQEFEkdrJepmPQMGimz8/4N/0L/ZqSAvIc+3rVo1emQiy
+         A4Ew==
+X-Gm-Message-State: AOJu0YwvMojB/a2TpZujMfzY8/2ZHuOSPWsz1+0dyA3u/rOZxUIEN5tL
+	vw10WNXozruy7/qrisW2GRDDZLv77sx4gmsfg+Wt+yTYwszt/P5hzKQ8j7w+
+X-Gm-Gg: ASbGncsF2w+zQwqWppSEavXLYzFZE4EdplnCNbzfyIcexaOPZZ1TQRPFwU0Eauswj/g
+	t4D/CcGqIAbZwdRkePwnyVWGYIn0j8g5B+8yNJjbms9460k1bN1jdaypWRpjFMWojqHFBiuVGoS
+	JhHRgLaAvvAIFP8AhV0qLIr4RDrgyZJ5xhGjBTi/dEckYbTBFfx3HCTEttfneAntWXQk8didxqp
+	WvTVeFKlDTSlZoM5bbXdD8Lfzli6Qf7VQrE0IiSVF0NWRxmWMnNTVabpFvlfjSdrcjdX2kw2P8f
+	RUir9duvmq7gF7tlvdHUz1q2r1YmVyCt
+X-Google-Smtp-Source: AGHT+IHqmWJ/vytnJybc0jmv5B5aQXUu3rHLFwqgHmfBKn/R/e/fImkF0F6ET23wV160aR/TBKrj7w==
+X-Received: by 2002:a17:902:f64e:b0:21f:5063:d3ca with SMTP id d9443c01a7336-22e84783767mr1323145ad.16.1746635173852;
+        Wed, 07 May 2025 09:26:13 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e15228a58sm96331695ad.169.2025.05.07.09.26.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 09:26:13 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2 1/2] clang: Space optimize clang recipes
+Date: Wed,  7 May 2025 09:26:10 -0700
+Message-ID: <20250507162611.1139258-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <183D4757C69BDCF6.4227@lists.openembedded.org>
-In-Reply-To: <183D4757C69BDCF6.4227@lists.openembedded.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 7 May 2025 12:16:54 -0400
-X-Gm-Features: ATxdqUGp25DnpxyyvQUST7cj6aa-Csb494bHaS58HgiIaaAkLUKI5BAgh7bCrKo
-Message-ID: <CADkTA4NTYoqfESwHCg9hp2UqaEX2JqWsbQ5wqU5mwKLfoHmmmg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-yoto/6.12: bsp/arm: fix CONFIG_CRYPTO_LIB_CHACHA
-To: bruce.ashfield@gmail.com
-Cc: richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000097532a06348e108d"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 16:17:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216122
+ <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 16:26:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216123
 
---00000000000097532a06348e108d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+They can consume quite a bit of build space, we don't debug them as often
 
-Ooops. I see the "yoto" now.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: No change
 
-I can send a v2, or if you want to tweak it on the way in. Either is fine
-with me.
+ meta/conf/distro/include/yocto-space-optimize.inc | 4 +++-
+ meta/recipes-devtools/clang/clang_git.bb          | 2 --
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Bruce
-
-On Wed, May 7, 2025 at 11:11=E2=80=AFAM Bruce Ashfield via lists.openembedd=
-ed.org
-<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> Integrating the following commit(s) to linux-yocto/.:
->
-> 1/2 [
->     Author: Mikko Rapeli
->     Email: mikko.rapeli@linaro.org
->     Subject: genericarm64: add CONFIG_CRYPTO_LIB_CHACHA=3Dm
->     Date: Wed, 7 May 2025 14:43:40 +0300
->
->     Fixes CONFIG_CRYPTO_CHACHA20_NEON build as module:
->
->     WARNING: [kernel config]: specified values did not make it into the
-> kernel's final configuration:
->
->         [NOTE]: 'CONFIG_CRYPTO_CHACHA20_NEON' last val (m) and .config va=
-l
-> (n) do not match
->         [INFO]: CONFIG_CRYPTO_CHACHA20_NEON : n
->
->     Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
->     Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ]
->
-> 2/2 [
->     Author: Mikko Rapeli
->     Email: mikko.rapeli@linaro.org
->     Subject: qemuarma15.cfg: enable CONFIG_CRYPTO_LIB_CHACHA
->     Date: Wed, 7 May 2025 14:43:41 +0300
->
->     It's a dependency of CONFIG_CRYPTO_CHACHA20_NEON.
->     Fixes:
->
->         [NOTE]: 'CONFIG_CRYPTO_CHACHA20_NEON' last val (y) and .config va=
-l
-> (n) do not match
->         [INFO]: CONFIG_CRYPTO_CHACHA20_NEON : n
->
->     Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
->     Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ]
->
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
->
-> Apply this on top of my recent kernel series and the warnings
-> should be gone from the various arm builds.
->
-> Bruce
->
->  meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb   | 2 +-
->  meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb | 2 +-
->  meta/recipes-kernel/linux/linux-yocto_6.12.bb      | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> index 2daf71600a..6560175461 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> @@ -15,7 +15,7 @@ python () {
->  }
->
->  SRCREV_machine ?=3D "28fcf1f308c59515410f6a0d0bc3278d5296a3c1"
-> -SRCREV_meta ?=3D "23e01a412ce53c2b1a9ac83d143702c7d03ec0f0"
-> +SRCREV_meta ?=3D "a50ff542f8d79235030741f9e850d34768907d2d"
->
->  SRC_URI =3D "git://
-> git.yoctoproject.org/linux-yocto.git;branch=3D${KBRANCH};name=3Dmachine;p=
-rotocol=3Dhttps
-> <http://git.yoctoproject.org/linux-yocto.git;branch=3D$%7BKBRANCH%7D;name=
-=3Dmachine;protocol=3Dhttps>
-> \
->             git://
-> git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=
-=3Dyocto-6.12;destsuffix=3D${KMETA};protocol=3Dhttps
-> <http://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;=
-branch=3Dyocto-6.12;destsuffix=3D$%7BKMETA%7D;protocol=3Dhttps>
-> "
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> index b1a45ab168..cf6014efad 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> @@ -18,7 +18,7 @@ KMETA =3D "kernel-meta"
->  KCONF_BSP_AUDIT_LEVEL =3D "2"
->
->  SRCREV_machine ?=3D "5b22e7aef539a991b75fa45101cbc02051327cb6"
-> -SRCREV_meta ?=3D "23e01a412ce53c2b1a9ac83d143702c7d03ec0f0"
-> +SRCREV_meta ?=3D "a50ff542f8d79235030741f9e850d34768907d2d"
->
->  PV =3D "${LINUX_VERSION}+git"
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> index b44bb94590..fefed8c9c5 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> @@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?=3D
-> "5b22e7aef539a991b75fa45101cbc02051327cb6"
->  SRCREV_machine:qemux86-64 ?=3D "5b22e7aef539a991b75fa45101cbc02051327cb6=
-"
->  SRCREV_machine:qemumips64 ?=3D "8e88d1714f7f56efc4650cf84b86845d44c01eb1=
-"
->  SRCREV_machine ?=3D "5b22e7aef539a991b75fa45101cbc02051327cb6"
-> -SRCREV_meta ?=3D "23e01a412ce53c2b1a9ac83d143702c7d03ec0f0"
-> +SRCREV_meta ?=3D "a50ff542f8d79235030741f9e850d34768907d2d"
->
->  # set your preferred provider of linux-yocto to 'linux-yocto-upstream',
-> and you'll
->  # get the <version>/base branch, which is pure upstream -stable, and the
-> same
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216119):
-> https://lists.openembedded.org/g/openembedded-core/message/216119
-> Mute This Topic: https://lists.openembedded.org/mt/112669991/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---00000000000097532a06348e108d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Ooo=
-ps. I see the &quot;yoto&quot; now.</div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">I can send a v2, or if you want to=C2=A0tweak it on the way in. =
-Either is fine with me.</div><div class=3D"gmail_default" style=3D"font-siz=
-e:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">B=
-ruce</div></div><br><div class=3D"gmail_quote gmail_quote_container"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Wed, May 7, 2025 at 11:11=E2=80=AFAM Bru=
-ce Ashfield via <a href=3D"http://lists.openembedded.org">lists.openembedde=
-d.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.openembedd=
-ed.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">From: Bruce Ashfield &lt;<a href=3D=
-"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.co=
-m</a>&gt;<br>
-<br>
-Integrating the following commit(s) to linux-yocto/.:<br>
-<br>
-1/2 [<br>
-=C2=A0 =C2=A0 Author: Mikko Rapeli<br>
-=C2=A0 =C2=A0 Email: <a href=3D"mailto:mikko.rapeli@linaro.org" target=3D"_=
-blank">mikko.rapeli@linaro.org</a><br>
-=C2=A0 =C2=A0 Subject: genericarm64: add CONFIG_CRYPTO_LIB_CHACHA=3Dm<br>
-=C2=A0 =C2=A0 Date: Wed, 7 May 2025 14:43:40 +0300<br>
-<br>
-=C2=A0 =C2=A0 Fixes CONFIG_CRYPTO_CHACHA20_NEON build as module:<br>
-<br>
-=C2=A0 =C2=A0 WARNING: [kernel config]: specified values did not make it in=
-to the kernel&#39;s final configuration:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 [NOTE]: &#39;CONFIG_CRYPTO_CHACHA20_NEON&#39; l=
-ast val (m) and .config val (n) do not match<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INFO]: CONFIG_CRYPTO_CHACHA20_NEON : n<br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapel=
-i@linaro.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<br>
-=C2=A0 =C2=A0 Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ash=
-field@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-]<br>
-<br>
-2/2 [<br>
-=C2=A0 =C2=A0 Author: Mikko Rapeli<br>
-=C2=A0 =C2=A0 Email: <a href=3D"mailto:mikko.rapeli@linaro.org" target=3D"_=
-blank">mikko.rapeli@linaro.org</a><br>
-=C2=A0 =C2=A0 Subject: qemuarma15.cfg: enable CONFIG_CRYPTO_LIB_CHACHA<br>
-=C2=A0 =C2=A0 Date: Wed, 7 May 2025 14:43:41 +0300<br>
-<br>
-=C2=A0 =C2=A0 It&#39;s a dependency of CONFIG_CRYPTO_CHACHA20_NEON.<br>
-=C2=A0 =C2=A0 Fixes:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 [NOTE]: &#39;CONFIG_CRYPTO_CHACHA20_NEON&#39; l=
-ast val (y) and .config val (n) do not match<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INFO]: CONFIG_CRYPTO_CHACHA20_NEON : n<br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapel=
-i@linaro.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<br>
-=C2=A0 =C2=A0 Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ash=
-field@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-]<br>
-<br>
-Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.co=
-m" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
----<br>
-<br>
-Apply this on top of my recent kernel series and the warnings<br>
-should be gone from the various arm builds.<br>
-<br>
-Bruce<br>
-<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a>=C2=A0 =C2=A0=
-| 2 +-<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a> | 2 +-<b=
-r>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 | 2 +-<br>
-=C2=A03 files changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.1=
-2.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a> b/met=
-a/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" rel=3D"nor=
-eferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a><br>
-index 2daf71600a..6560175461 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a><br>
-@@ -15,7 +15,7 @@ python () {<br>
-=C2=A0}<br>
-<br>
-=C2=A0SRCREV_machine ?=3D &quot;28fcf1f308c59515410f6a0d0bc3278d5296a3c1&qu=
-ot;<br>
--SRCREV_meta ?=3D &quot;23e01a412ce53c2b1a9ac83d143702c7d03ec0f0&quot;<br>
-+SRCREV_meta ?=3D &quot;a50ff542f8d79235030741f9e850d34768907d2d&quot;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/linux-=
-yocto.git;branch=3D$%7BKBRANCH%7D;name=3Dmachine;protocol=3Dhttps" rel=3D"n=
-oreferrer" target=3D"_blank">git.yoctoproject.org/linux-yocto.git;branch=3D=
-${KBRANCH};name=3Dmachine;protocol=3Dhttps</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://git.yocto=
-project.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-6.12=
-;destsuffix=3D$%7BKMETA%7D;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_=
-blank">git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;bra=
-nch=3Dyocto-6.12;destsuffix=3D${KMETA};protocol=3Dhttps</a>&quot;<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6=
-.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a> b=
-/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a><br>
-index b1a45ab168..cf6014efad 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a><br>
-@@ -18,7 +18,7 @@ KMETA =3D &quot;kernel-meta&quot;<br>
-=C2=A0KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
-<br>
-=C2=A0SRCREV_machine ?=3D &quot;5b22e7aef539a991b75fa45101cbc02051327cb6&qu=
-ot;<br>
--SRCREV_meta ?=3D &quot;23e01a412ce53c2b1a9ac83d143702c7d03ec0f0&quot;<br>
-+SRCREV_meta ?=3D &quot;a50ff542f8d79235030741f9e850d34768907d2d&quot;<br>
-<br>
-=C2=A0PV =3D &quot;${LINUX_VERSION}+git&quot;<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.b=
-b" rel=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a> b/meta/reci=
-pes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=3D"noreferrer" =
-target=3D"_blank">linux-yocto_6.12.bb</a><br>
-index b44bb94590..fefed8c9c5 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a><br>
-@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?=3D &quot;5b22e7aef539a991b75fa45=
-101cbc02051327cb6&quot;<br>
-=C2=A0SRCREV_machine:qemux86-64 ?=3D &quot;5b22e7aef539a991b75fa45101cbc020=
-51327cb6&quot;<br>
-=C2=A0SRCREV_machine:qemumips64 ?=3D &quot;8e88d1714f7f56efc4650cf84b86845d=
-44c01eb1&quot;<br>
-=C2=A0SRCREV_machine ?=3D &quot;5b22e7aef539a991b75fa45101cbc02051327cb6&qu=
-ot;<br>
--SRCREV_meta ?=3D &quot;23e01a412ce53c2b1a9ac83d143702c7d03ec0f0&quot;<br>
-+SRCREV_meta ?=3D &quot;a50ff542f8d79235030741f9e850d34768907d2d&quot;<br>
-<br>
-=C2=A0# set your preferred provider of linux-yocto to &#39;linux-yocto-upst=
-ream&#39;, and you&#39;ll<br>
-=C2=A0# get the &lt;version&gt;/base branch, which is pure upstream -stable=
-, and the same<br>
--- <br>
-2.39.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#216119): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/216119" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/216119</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/112669991/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/112669991/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div>
-
---00000000000097532a06348e108d--
+diff --git a/meta/conf/distro/include/yocto-space-optimize.inc b/meta/conf/distro/include/yocto-space-optimize.inc
+index 407e8937f08..b83ba426e78 100644
+--- a/meta/conf/distro/include/yocto-space-optimize.inc
++++ b/meta/conf/distro/include/yocto-space-optimize.inc
+@@ -3,6 +3,8 @@
+ # and build speed.
+ 
+ # With -g, llvm workdir is 40GB, llvm-staticdev is 1.3GB, llvm-dbg is 1GB
+-DEBUG_LEVELFLAG:pn-llvm = ""
++DEBUG_LEVELFLAG:pn-clang = ""
++DEBUG_LEVELFLAG:pn-clang-native = ""
++DEBUG_LEVELFLAG:pn-nativesdk-clang = ""
+ # With -g, qemu workdir is 10GB, qemu-dbg is 363MB
+ DEBUG_LEVELFLAG:pn-qemu = ""
+diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
+index ba037e59785..c93554622f1 100644
+--- a/meta/recipes-devtools/clang/clang_git.bb
++++ b/meta/recipes-devtools/clang/clang_git.bb
+@@ -153,8 +153,6 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
+                   -DLLVM_BUILD_EXTERNAL_COMPILER_RT=ON \
+                   -DCMAKE_SYSTEM_NAME=Linux \
+                   -DCMAKE_BUILD_TYPE=Release \
+-                  -DCMAKE_CXX_FLAGS_RELEASE='${CXXFLAGS} -DNDEBUG -g0' \
+-                  -DCMAKE_C_FLAGS_RELEASE='${CFLAGS} -DNDEBUG -g0' \
+                   -DLLVM_ENABLE_PROJECTS='${LLVM_PROJECTS}' \
+                   -DLLVM_BINUTILS_INCDIR=${STAGING_INCDIR} \
+                   -DLLVM_VERSION_SUFFIX='${VER_SUFFIX}' \
 
