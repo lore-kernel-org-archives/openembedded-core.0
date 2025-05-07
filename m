@@ -1,116 +1,169 @@
-Return-Path: <rs@ti.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 018E6C3ABBF
-	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 20:43:16 +0000 (UTC)
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by mx.groups.io with SMTP id smtpd.web10.6443.1746650591477522239
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C17C3ABC0
+	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 22:05:38 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.1771.1746655532353921171
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 May 2025 13:43:11 -0700
+ Wed, 07 May 2025 15:05:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=WQcrAaO1;
- spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 547KgpkY905833
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 7 May 2025 15:42:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1746650571;
-	bh=KH7oGZJTg3VfwRgQYapPZRrVFbK75eDu09JKCNuC74M=;
-	h=Date:CC:Subject:From:To:References:In-Reply-To;
-	b=WQcrAaO1VzqjqHZ8FLU2j8GbdvP3I88qL2VsgP6P0UAZTRvHgoGk2H82LuFZqA0xb
-	 K33dcHVpGyy+VOLtwEwK3qd/aAGhKJGC8N5j7HlHHKcUV0vZh4sZDhRJEhlIeiVM/P
-	 Jp3zWApfojTvdcwD8UIoiWBLuOohpPkf/24pY80o=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 547KgpLi122159
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 7 May 2025 15:42:51 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 7
- May 2025 15:42:50 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 7 May 2025 15:42:50 -0500
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 547KgouT094068;
-	Wed, 7 May 2025 15:42:50 -0500
+ dkim=pass header.i=@smile.fr header.s=google header.b=j9z6scLQ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a0b308856fso243730f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 15:05:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1746655530; x=1747260330; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=C5ZLwKNbb8oaHVhpgwj0+8MXdKZqCwxTyEJGQiwwUDk=;
+        b=j9z6scLQkZQtNfZ2rsXdg2yAkwsLvoiDtqFwTBiXNMVapX/JEKD2ofoFViaqWeAzci
+         RW8FmjzPAaZc5evgckmtBB2KAdww4BCWQuAtfBGD9AH+tT3gPwZmaXWaBA8DbCxo+8U1
+         +ZANbjq76EyHnEZiPMDzQfTudE93o3rGhThSc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746655530; x=1747260330;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C5ZLwKNbb8oaHVhpgwj0+8MXdKZqCwxTyEJGQiwwUDk=;
+        b=nnJgm6uCPja6QEdB2PEiP1G9PwzXTmkttnxByAhjl4PaxWIYpP1pU8/XKiqGJMXDIc
+         yYW53ZxtbaPGZNGnPlItkOAjZmpjHkjM0A82tKrHerTdgEJLEDURDLrgtpm88DqI6YTm
+         JqatA4IGN/Ceoabz/vc7bbPKAfHeCi+WA0DAHRbs9Hy0bHT1IM8es4jj3pqSI1Oa7uJj
+         83DCGZeDSLufZ6x5uf3r8/lmXYVWrc1/3eSxqgq89YiQTR+9SZJOwnJAvHWDNCM8EW0o
+         SCIU4wvPqVs+tEqYTBhPKQj3KBhwYhMH4T+SAmiXtniJnC9xzx3kID0OT3WSTscdJA1j
+         MOTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVcmUBkFOWWhHlAet5wai6JeLOFzmUhaI4tKqlrSJX6LbNqptG0tCeBkGia0w1OWbEZVMLaIuTzS/TUqZ8zQfFWPg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyk5P2iOgkUAQpa3nqzACzTqHxQAf9vzPuTSj5Wm739tN+V4C0C
+	izcAB4Mt6o7khLr5S2T+ATjO88HBl56tbVuhXl1M57VOP50oYfnN1piI+nXqeneSOQ2JdwafLfC
+	bfUCnsEZ8nBr5FVZ0PdiKJlHPU7MqGStbGqjkzA==
+X-Gm-Gg: ASbGnctsvN11U2zsouQhHZ9TGDAPpiGlFAXZz7R2GxLfdejTZDBs3kO3QBAYa09YGZS
+	Qtqcgith94E5ZVSTHtoMIZgpRNyikgDmP5T3G3EZZ/PK05Zp9wPh4bMuE00JfMIvnsN2Ar16VJ7
+	zsqK7p4HP/sDLUGvO2xaS+elGlDyMOPGkNDltcXzsrOcpy/Zt2H+CT37Ka
+X-Google-Smtp-Source: AGHT+IFENbQHuzymPsOgV/MS5765MDxOdvI30YQB7AHYPdAAjSmBUUvz031tmPEcRljIJn2p75WbrKdPwF4vdgQXGQE=
+X-Received: by 2002:a05:6000:184f:b0:391:41c9:7a8d with SMTP id
+ ffacd0b85a97d-3a0ba103534mr509167f8f.54.1746655530519; Wed, 07 May 2025
+ 15:05:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Wed, 7 May 2025 15:42:50 -0500
-Message-ID: <D9Q7YAUPPA6L.1MACDPCVTP4V@ti.com>
-CC: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
-        <alex@linutronix.de>, <otavio@ossystems.com.br>,
-        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
-        <denis@denix.org>, <reatmon@ti.com>,
-        <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: Re: [oe-core][PATCHv2 0/3] Display manager proposal for x11 and
- wayland
-From: Randolph Sapp <rs@ti.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250505224801.3181046-1-rs@ti.com>
- <D9OWUBHID8JT.3FJEJAXYPMT2W@bootlin.com>
- <D9PGBHDAZ7RF.16SWU58NCK9NV@ti.com>
- <CANNYZj8xD66nTL7=oJr8fqknYyDjU+kjkY8i8Kok7xVH6tciTw@mail.gmail.com>
-In-Reply-To: <CANNYZj8xD66nTL7=oJr8fqknYyDjU+kjkY8i8Kok7xVH6tciTw@mail.gmail.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <20250505101642.9255-2-ines.kchelfi@smile.fr> <CANNYZj9u7=F533yq-KEiYY3jVmm3DWh3VjLaoMhYV6=EZW20Pg@mail.gmail.com>
+In-Reply-To: <CANNYZj9u7=F533yq-KEiYY3jVmm3DWh3VjLaoMhYV6=EZW20Pg@mail.gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Thu, 8 May 2025 00:05:04 +0200
+X-Gm-Features: ATxdqUHN9Oq5qt47Z06-RkFybPHD0MP6MyuQS0c-gDwiR9uCqsnmbANUksYwM2o
+Message-ID: <CAMSfU+7SjsrUvCG-zs0NjDvxUMHfoajYC3tdwqF=4F5v6OJquQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rpm-sequoia: add ptest
+To: alex.kanavin@gmail.com
+Cc: ines.kchelfi@smile.fr, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000711fd3063492ee12"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 20:43:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216134
+ <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 22:05:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216135
 
-On Wed May 7, 2025 at 8:37 AM CDT, Alexander Kanavin wrote:
-> On Wed, 7 May 2025 at 01:03, Randolph Sapp via lists.openembedded.org
-> <rs=3Dti.com@lists.openembedded.org> wrote:
+--000000000000711fd3063492ee12
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Le lun. 5 mai 2025 =C3=A0 18:51, Alexander Kanavin via lists.openembedded.o=
+rg
+<alex.kanavin=3Dgmail.com@lists.openembedded.org> a =C3=A9crit :
+
+> On Mon, 5 May 2025 at 12:17, ines.kchelfi via lists.openembedded.org
+> <ines.kchelfi=3Dsmile.fr@lists.openembedded.org> wrote:
+> > Also patch the libray name to match what is installed.
+> > +Subject: [PATCH] Force the use of librpm_sequoia.so.1 instead of
+> librpm_sequoia.so
+> > +-        lib.push("librpm_sequoia.so");
+> > ++        lib.push("librpm_sequoia.so.1");
 >
->> Ah, this is the first I hearing about the gnux32 triplet. Well, that is =
-being
->> filtered out by COMPATIBLE_HOST in the goarch bbclass. Some of those val=
-ues seem
->> to be invalid now (powerpc64 is supported upstream). That being said, I =
-don't
->> see any mention of the new x32 ABI upstream. Not entirely sure how to ad=
-dress
->> that at the moment.
+> Rather than do this, how about making -ptest package RDEPEND on -dev
+> package (which contains the unversioned symlink to the library)?
 >
-> There are two options:
->
-> - set up the x32 build as specified in [1], replicate the fail, tweak
-> COMPATIBLE_HOST as needed (in a separate commit) and see if any
-> further issues come up.
->
-> - correct [1] to no longer build core-image-sato for x32, and replace
-> it with core-image-full-cmdline, reducing x32 to non-graphical
-> targets. It's been a controversial target for a long time, as no one
-> has ever seen actual usage of it, and there's been a stream of
-> graphical related crashes and build failures. We keep it around for
-> now, but I'd fully support dropping the graphics and leaving only the
-> console images.
->
-> [1] https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.jso=
-n#n867
->
+
+We tried that at some point but changed to this patch because it forces the
+recipe to use:
+  INSANE_SKIP:${PN}-ptest +=3D "dev-deps"
+That feels less "clean" but a lot more maintainable.
+We will send a v2 with that.
+
+Thanks!
+
+
 > Alex
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#216016):
+> https://lists.openembedded.org/g/openembedded-core/message/216016
+> Mute This Topic: https://lists.openembedded.org/mt/112626601/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Alright, well I did a little work poking around go. It has no understanding=
- of
-the x32 ABI currently. Dropping the x32 tests from core-image-sato to
-core-image-full-cmdline can work, but that does mask a bit of a regression.
+--=20
+Yoann Congal
+Smile ECS
 
-As useful as a display manager will be, I'm not sure I can justify that muc=
-h of
-a regression for an entire ABI. I know the linux kernel has debated about
-dropping x32 support a number of times, GCC seems to be the only compiler t=
-hat
-has fully implemented it, and Yocto is one of 3 listed distro solutions tha=
-t
-currently support it. Still feels a little rough. I don't know.
+--000000000000711fd3063492ee12
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Anyone got any strong opinions here?
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0lun. 5 =
+mai 2025 =C3=A0=C2=A018:51, Alexander Kanavin via <a href=3D"http://lists.o=
+penembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"m=
+ailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a=
+>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Mon, 5 May 2025 at 12:17, ines.kchelfi via <a href=3D"http://=
+lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembe=
+dded.org</a><br>
+&lt;ines.kchelfi=3D<a href=3D"mailto:smile.fr@lists.openembedded.org" targe=
+t=3D"_blank">smile.fr@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; Also patch the libray name to match what is installed.<br>
+&gt; +Subject: [PATCH] Force the use of librpm_sequoia.so.1 instead of libr=
+pm_sequoia.so<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 lib.push(&quot;librpm_sequoia.so&quot;);=
+<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 lib.push(&quot;librpm_sequoia.so.1&quot;=
+);<br>
+<br>
+Rather than do this, how about making -ptest package RDEPEND on -dev<br>
+package (which contains the unversioned symlink to the library)?<br></block=
+quote><div><br></div><div>We tried that at some point but changed to this p=
+atch because it forces the recipe to use:</div><div>=C2=A0 INSANE_SKIP:${PN=
+}-ptest +=3D &quot;dev-deps&quot;</div><div>That feels less &quot;clean&quo=
+t; but a lot more maintainable.</div><div>We will send a v2 with that.</div=
+><div><br></div><div>Thanks!</div><div>=C2=A0</div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">
+Alex<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#216016): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/216016" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/216016</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/112626601/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/112626601/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+
+--000000000000711fd3063492ee12--
 
