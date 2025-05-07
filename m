@@ -1,132 +1,116 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE44DC3ABC0
-	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 19:51:35 +0000 (UTC)
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
- by mx.groups.io with SMTP id smtpd.web10.5230.1746647493531708569
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 018E6C3ABBF
+	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 20:43:16 +0000 (UTC)
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by mx.groups.io with SMTP id smtpd.web10.6443.1746650591477522239
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 May 2025 12:51:33 -0700
+ Wed, 07 May 2025 13:43:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WMDLQyal;
- spf=pass (domain: gmail.com, ip: 209.85.161.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6065803ef35so81507eaf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 12:51:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746647493; x=1747252293; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1jtiPZFog/nSHTmcac0hc+10TPZ0bdhAuNHoZN+rz0k=;
-        b=WMDLQyal+Ox7NQyMUOBxbG8MEYtPt8Z9bJ5nDC+gUsko+im1/vdsLoHz+hu1GnSD7x
-         mPWLWkaCdaOHixZrr6qkajrlmmj7AnvZ5VnU7SbCsun6P6iSTR45oIwD1bZEo1p+Xvxw
-         xTSW9PyEsPh9rOFu297T5NdtVixZRhwlHCdj9+cdV51krpuVTPJiV7TRvTMP2I0QPwTP
-         SP/w3voihF+GJyujgLXbP8xVv2v2Fm7902ETajRukuSWNLWQerXfIN7Fb8p9CP7s1GEG
-         2H02fTgcydjp+MxQSi7ndbXGphxToZ1taZU1889xGFWDmC6mkoSpih6pX40HMbEOX3PA
-         XhkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746647493; x=1747252293;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1jtiPZFog/nSHTmcac0hc+10TPZ0bdhAuNHoZN+rz0k=;
-        b=NPRiqbL8mXAxeratHVH7LkvGfqbhYqeG6y7Q6bky7oAAasjSR4ohQ0ofhuMJUSaivR
-         gSu6fxuZKRfBkQ06iDhzxD+lWyOfrjesvOnyQb1+WutoMW8lRj7tUGQK4mA1ep+YM372
-         vXZpPq3xZ41rGDUYyQP0iubYD83QRcSCNSD5338XHOYECFMC8OffUUrIExv03whiCNcu
-         MH6rZujHx6G2j5A7IiYdedR50JbGkx+ybk3/BwuE8KCnurxtyHzEnr3FqMdxxfoiGaAB
-         3JqUtEp8dJs90WpnxvJEm0p4joLIJPzIddO63yI9ASNHWwYTcA2lHCoMHrRU9ln5lhSl
-         iyfw==
-X-Forwarded-Encrypted: i=1; AJvYcCWMLOXiSpSG9jQvVp2V6qT33VZMIoAyiRqGpNJ1GtTV8kCl8BgkVr0kDy7NrVpxzGqzGCbX8135WkGdW0z18KoDGQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzDblOeFNIwFWswRXhtdqK46HCY/oSBI1IiWPVlFW19nbpwYFCc
-	bjhV9vYscsXDDiEoKUq+48UcaNUaxFFC/D1MNgriLDNCRtnzBh51VBgCsNBc8hpo+y+U7ZhtGvT
-	O/pBUcZcvddS/IbaaWcQtQ0c2Mew=
-X-Gm-Gg: ASbGncvyurtUX7BSVzzPXUOnnaNdPYr/mUhcRVv93UR4y0UgeGzs0LH59Wt0VH+jTOt
-	RwobZZxZ47ltZdQvlSdyckEO9WODkVIErNZSfWYE8Q/yheEueHAvWUo+KvIQg5d5mJrEvpRqoPH
-	8UZkYGJp/3eTlxvSSGJtCEYRmI2lsu07hEEc7hgOM1uk17Fx5cqw==
-X-Google-Smtp-Source: AGHT+IHO9yPTgF/R4A16dRsqxy1lGU2ec1SFksrZ5PTgxE+M2n/mtzsw8ZwSt1vE5vOK00I5SY8/aBKfpqMnq8yfkDE=
-X-Received: by 2002:a05:6820:1a05:b0:606:8671:1b28 with SMTP id
- 006d021491bc7-60828d190bbmr2959432eaf.4.1746647492723; Wed, 07 May 2025
- 12:51:32 -0700 (PDT)
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=WQcrAaO1;
+ spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 547KgpkY905833
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 7 May 2025 15:42:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1746650571;
+	bh=KH7oGZJTg3VfwRgQYapPZRrVFbK75eDu09JKCNuC74M=;
+	h=Date:CC:Subject:From:To:References:In-Reply-To;
+	b=WQcrAaO1VzqjqHZ8FLU2j8GbdvP3I88qL2VsgP6P0UAZTRvHgoGk2H82LuFZqA0xb
+	 K33dcHVpGyy+VOLtwEwK3qd/aAGhKJGC8N5j7HlHHKcUV0vZh4sZDhRJEhlIeiVM/P
+	 Jp3zWApfojTvdcwD8UIoiWBLuOohpPkf/24pY80o=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 547KgpLi122159
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 7 May 2025 15:42:51 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 7
+ May 2025 15:42:50 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 7 May 2025 15:42:50 -0500
+Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 547KgouT094068;
+	Wed, 7 May 2025 15:42:50 -0500
 MIME-Version: 1.0
-References: <CAHebdzR4rGAq0e4FLuThxqE57UuT+LLqLXQd425--A6OAUPXZg@mail.gmail.com>
- <CAMKF1sqkw3xZpLqKw9aaOvike+6RPBsRsfoq+dXzeQf6Zpn1pg@mail.gmail.com>
- <CAHebdzTV7rRKkAJGzL79sngS3BDCEx2nNu8+jO1t5STM31bGeA@mail.gmail.com>
- <CAMKF1spEREKO0RL7d=RE9i-g0GDqWqPGcbR_Cr8pr=ET03AcFg@mail.gmail.com>
- <183D310FC8853D5E.1749@lists.openembedded.org> <aBtspIFmf7KoIZ_7@nuoska>
- <20250507182924.GA700@localhost> <B699294E-FA19-495C-9DFF-68AB3502240E@arm.com>
- <CAMKF1sq6ttpUeRCsSY9WbY8hixTkhaCOB61u6AB-=xVqhTVn+g@mail.gmail.com>
- <20250507190449.GA7882@localhost> <20250507191029.GA24048@localhost>
-In-Reply-To: <20250507191029.GA24048@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 7 May 2025 12:51:07 -0700
-X-Gm-Features: ATxdqUHMlbp85nllxmojuFILzGH0LtDGatVhKqWKhvi676MQ2tzohxTWWsQGB14
-Message-ID: <CAMKF1spNPzDNxVkKAMKjbaC=xSRjTYfz2KVDRZwhpFBxC5U=dg@mail.gmail.com>
-Subject: Re: [OE-core] systemd build failure with gcc 15 / tpm2 / aarch64: gcs required
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: Ross Burton <Ross.Burton@arm.com>, Mikko Rapeli <mikko.rapeli@linaro.org>, 
-	Sathishkumar Duraisamy <sathishkumar.d.cbe@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Wed, 7 May 2025 15:42:50 -0500
+Message-ID: <D9Q7YAUPPA6L.1MACDPCVTP4V@ti.com>
+CC: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
+        <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+        <denis@denix.org>, <reatmon@ti.com>,
+        <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: Re: [oe-core][PATCHv2 0/3] Display manager proposal for x11 and
+ wayland
+From: Randolph Sapp <rs@ti.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250505224801.3181046-1-rs@ti.com>
+ <D9OWUBHID8JT.3FJEJAXYPMT2W@bootlin.com>
+ <D9PGBHDAZ7RF.16SWU58NCK9NV@ti.com>
+ <CANNYZj8xD66nTL7=oJr8fqknYyDjU+kjkY8i8Kok7xVH6tciTw@mail.gmail.com>
+In-Reply-To: <CANNYZj8xD66nTL7=oJr8fqknYyDjU+kjkY8i8Kok7xVH6tciTw@mail.gmail.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 19:51:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216133
+ <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 20:43:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216134
 
-On Wed, May 7, 2025 at 12:10=E2=80=AFPM Trevor Woerner <twoerner@gmail.com>=
- wrote:
+On Wed May 7, 2025 at 8:37 AM CDT, Alexander Kanavin wrote:
+> On Wed, 7 May 2025 at 01:03, Randolph Sapp via lists.openembedded.org
+> <rs=3Dti.com@lists.openembedded.org> wrote:
 >
-> On Wed 2025-05-07 @ 03:04:49 PM, Trevor Woerner wrote:
-> > On Wed 2025-05-07 @ 11:38:12 AM, Khem Raj wrote:
-> > > On Wed, May 7, 2025 at 11:34=E2=80=AFAM Ross Burton <Ross.Burton@arm.=
-com> wrote:
-> > > >
-> > > > On 7 May 2025, at 19:29, Trevor Woerner via lists.openembedded.org =
-<twoerner=3Dgmail.com@lists.openembedded.org> wrote:
-> > > > >
-> > > > > I stumbled across this build issue via a completely different rou=
-te than most
-> > > > > others, it seems, and certainly different than what you have desc=
-ribed. I'm
-> > > > > not using meta-security and I'm not using tpm2. Therefore your pa=
-tch will do
-> > > > > little to solve my build, and others will likely stumble across t=
-his issue by
-> > > > > other routes as well.
-> > > >
-> > > > For what it=E2=80=99s worth, we=E2=80=99re seeing this without meta=
--security too.  This needs to be worked around in core (personally, I=E2=80=
-=99d remove =E2=80=94fatal-warnings from systemd until openssl includes the=
- GCS hints).
-> > > >
-> > >
-> > > thats a bigger hammer, I would suggest to apply
-> > > LDFLAGS:append:aarch64 =3D " -Wl,-z,gcs-report-dynamic=3Dnone"
-> > > in systemd recipe in core
-> >
-> > If we want to make the hammer smaller, it's only triggered when:
-> >
-> >       PACKAGECONFIG:append:pn-systemd =3D " openssl"
-> >
+>> Ah, this is the first I hearing about the gnux32 triplet. Well, that is =
+being
+>> filtered out by COMPATIBLE_HOST in the goarch bbclass. Some of those val=
+ues seem
+>> to be invalid now (powerpc64 is supported upstream). That being said, I =
+don't
+>> see any mention of the new x32 ABI upstream. Not entirely sure how to ad=
+dress
+>> that at the moment.
 >
-> diff --git a/meta/recipes-core/systemd/systemd_257.5.bb b/meta/recipes-co=
-re/systemd/systemd_257.5.bb
-> index acf97517a94a..995b55580e4a 100644
-> --- a/meta/recipes-core/systemd/systemd_257.5.bb
-> +++ b/meta/recipes-core/systemd/systemd_257.5.bb
-> @@ -240,6 +240,7 @@ RESOLV_CONF ??=3D ""
->  # bpf-framework: pass the recipe-sysroot to the compiler used to build
->  # the eBPFs, so that it can find needed system includes in there.
->  CFLAGS:append =3D " --sysroot=3D${STAGING_DIR_TARGET}"
-> +LDFLAGS:append:aarch64 =3D " ${@bb.utils.contains('PACKAGECONFIG', 'open=
-ssl', '-Wl,-z,gcs-report-dynamic=3Dnone', '', d)}"
+> There are two options:
 >
+> - set up the x32 build as specified in [1], replicate the fail, tweak
+> COMPATIBLE_HOST as needed (in a separate commit) and see if any
+> further issues come up.
+>
+> - correct [1] to no longer build core-image-sato for x32, and replace
+> it with core-image-full-cmdline, reducing x32 to non-graphical
+> targets. It's been a controversial target for a long time, as no one
+> has ever seen actual usage of it, and there's been a stream of
+> graphical related crashes and build failures. We keep it around for
+> now, but I'd fully support dropping the graphics and leaving only the
+> console images.
+>
+> [1] https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.jso=
+n#n867
+>
+> Alex
 
-LGTM
+Alright, well I did a little work poking around go. It has no understanding=
+ of
+the x32 ABI currently. Dropping the x32 tests from core-image-sato to
+core-image-full-cmdline can work, but that does mask a bit of a regression.
 
->  EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
->                    -Dnobody-group=3Dnogroup \
->
+As useful as a display manager will be, I'm not sure I can justify that muc=
+h of
+a regression for an entire ABI. I know the linux kernel has debated about
+dropping x32 support a number of times, GCC seems to be the only compiler t=
+hat
+has fully implemented it, and Yocto is one of 3 listed distro solutions tha=
+t
+currently support it. Still feels a little rough. I don't know.
+
+Anyone got any strong opinions here?
 
