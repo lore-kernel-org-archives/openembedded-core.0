@@ -1,107 +1,131 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D439C3ABB6
-	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 07:46:01 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web10.3202.1746603950397011302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE5FC3ABC0
+	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 07:59:11 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.3409.1746604742719639330
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 May 2025 00:45:50 -0700
+ Wed, 07 May 2025 00:59:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nmVoBr1u;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5CFBE1FCED;
-	Wed,  7 May 2025 07:45:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746603948;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fLrGE5klYEvsMfcG1ud+yu90wU3a2FjyMYSq5JYzeaY=;
-	b=nmVoBr1uG7bfK/KZARCJAVFDkMZHirUEjtqEfzQ8dK1P+ezPxmxkWxKfKRPRk0DC068WCd
-	+o/p7JU2yBd1wKWMNo/a5BEPjKoeD+yp6rcs15rh+ACCKNzOcAwxmCXV9zvBV17811JZ0P
-	3CCLTA75849uDfWjkJYmHn6wtxgLM7NH9hRnvSb55fXOwSQhwOkrkrf3wicYDug0Ti8zrP
-	PPp2bKVvSthERsWZgGXigghinj1iEhbBw8ZR4wHCu+yRj+6wl/8acNgXlwhyxr6SiZFkqr
-	VM1wjXXelDgvZCBuS/8O2h5Ad+cbzWJxWaRYoyIDXD7Kf8wtV5O9tHQUl20DDg==
-Mime-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M8L4lNK0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cfa7e7f54so4299795e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 00:59:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1746604741; x=1747209541; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MHxi2q5bcPaKQwpWtLqjOcqRl2ebuJyagnegslOVNIA=;
+        b=M8L4lNK0le7xtsHKGi8iXG1TMuWY9epxRzrwTIBexzKlXE0f0XODzHG11Utf7l2e17
+         SrjHs9s+xZLziKOkQ2n4qqDToYamfchRRO+p+3Z44fhatbQ9fYd+CruRUjLd/TdtDTDM
+         qhVABX2LaSrrcxd5MulJM1sbDxYNkNYk420Fk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746604741; x=1747209541;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MHxi2q5bcPaKQwpWtLqjOcqRl2ebuJyagnegslOVNIA=;
+        b=qBw1zo6eW7gxW+dvlayKJfo9mYzYGh55q2I7QURMeLtt/sfQH37KRZOwqXHfBerhhu
+         IWAzKmoF3CicZIeh7fpm1Mgqny3UhcaMggTLKnktvVyqh+sAV0ZdA3F2s96JnctHO+U1
+         55KTIHAInq/vHpWdJDs6nAOkciVsbVlQ8ppnPramMOz/2Ejquaqibyopc1WhY/QszppN
+         LEutsRp57AcYf5lH3J/8i93AZ6qWN70dO+fAor+W9WbWtxT4iv4WYL702AdrFOXjkS82
+         JBoN97JDOZ6VDzAeekZ/pp84uE4Vrfogp8BITEEBgiCaa2iGk+FIkartK2RM0ycRCSOg
+         Ft1A==
+X-Gm-Message-State: AOJu0YxU5eSzsiu0RB/hL2Cz1Z9x4ONkqw2w6MRir2iKfxnG75WB6qXf
+	X5zo9rHy+SrX4SvPGdjCWZQk43nLiNyJkZ1790ybO9rcQZjcv5oQY6eg+gBp2YY=
+X-Gm-Gg: ASbGncv2fqYoVDyBzgtMiDd2OGfpS/1d3RsKl/ydhFA5gECLA9Yr3kFg8+eSB5agEpE
+	nWFRkCrHiRBP+eD4DGIW4dzhHbva50F7NnrNIMEjQUoz19yixRvU1SdZBHechioQ3qRfIZe8zje
+	TuMcQJY3BF6bAKblcyYiesYJWCGexaUfCjcYVCZYgNZJNMapqyE2VuwqH4DNU6iM7EVc6kwq54L
+	/LfvWX5PjPZDeRiLgy/IJc0H5nRT/qHyq2Nh73ylpEXG+s81fy0CjXMa6Y6vEkq/I0J6uoeO8uo
+	3f1MiuRm9gn16Pip8pZz2L+MKlYwG4idZ5J4M7LE3tNRI4Z1XHb7Qpg1r8AEuIpE+DuYgGs+2tA
+	nGdN6E50o/X+tk+pIuW+RCUnKQZA=
+X-Google-Smtp-Source: AGHT+IFCmz4HoqeK1p5+vGzMzYCrsOjb2+KE/g0ZD/7K75V9zocbs07DB3mkowwosvtaz8jzf1Ucjw==
+X-Received: by 2002:a05:600c:cca:b0:442:7c40:fda4 with SMTP id 5b1f17b1804b1-4427c40ff41mr8690285e9.1.1746604740784;
+        Wed, 07 May 2025 00:59:00 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:12c3:1543:c9e5:5d2? ([2001:8b0:aba:5f3c:12c3:1543:c9e5:5d2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441d43cb5f0sm22782065e9.6.2025.05.07.00.58.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 00:58:59 -0700 (PDT)
+Message-ID: <f108401a73fca43946481dd2488fbb05cd8540d8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/6] kernel-yocto: consolidated pull request
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 07 May 2025 08:58:58 +0100
+In-Reply-To: <D9PRCP2WLN68.1VIO3IX3SQ7IH@bootlin.com>
+References: <cover.1746548780.git.bruce.ashfield@gmail.com>
+	 <D9PRCP2WLN68.1VIO3IX3SQ7IH@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 07 May 2025 09:45:48 +0200
-Message-Id: <D9PRFCSKFCLI.1VXXE2QET4AOG@bootlin.com>
-Subject: Re: [OE-core] [PATCH] sqlite3: upgrade 3.48.0 -> 3.49.1
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250506163705.4099385-1-peter.marko@siemens.com>
-In-Reply-To: <20250506163705.4099385-1-peter.marko@siemens.com>
-X-GND-State: clean
-X-GND-Score: 49
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeeivdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecuogfuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpegggfgtfffkuffhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepveduudefgfeigfduheffffelfedthefhvefhheefiedvteegvdduhfevjedufeefnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdpghhithhhuhgsrdhiohdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemrgeiieemfedukedtmegttdgsvgemsgelrgekmegvheelvdemiegrfehfnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvtdgrmegrieeimeefudektdemtgdtsggvmegslegrkeemvgehledvmeeirgeffhdphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehpvghtvghrr
- dhmrghrkhhosehsihgvmhgvnhhsrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 07:46:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216096
+ <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 07:59:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216097
 
-On Tue May 6, 2025 at 6:37 PM CEST, Peter Marko via lists.openembedded.org =
-wrote:
-> From: Peter Marko <peter.marko@siemens.com>
->
-> Handle CVE-2025-3277, CVE-2025-29087 and CVE-2025-29088.
->
-> This update includes major change in how it is built.
-> Instead of autotools, autosetup is used.
->
-> Autosetup (https://msteveb.github.io/autosetup/) claims to be
-> * Replacement for autoconf in many situations
-> However it also claims NOT to
-> * Intended to replace all possible uses of autoconf
-> This means that some autoconf features are not available.
->
-> Recipe changes:
-> * stop inheriting autotools and define B, do_configure and do_install
-> * depend on zlib unconditionally, autoconf cannot be preconfigured in
->   similar way as autotools
-> * update packageconfig options to match new syntax
-> * libedit is detected with ncurses linking options (as seen in
->   do_configure log)
-> * backport rpaths fix
-> * define soname to avoid file-rdeps QA error due to wrong library name
-> * clean B for do_configure as the new Makefiles do not seem to properly
->   retrigger build if configuration changes
-> * use unstripped binaries for native (non-cross-compile) case
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
+On Wed, 2025-05-07 at 09:42 +0200, Mathieu Dubois-Briand wrote:
+> On Tue May 6, 2025 at 6:32 PM CEST, Bruce Ashfield via lists.openembedded=
+.org wrote:
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >=20
+> > Hi Richard,
+> >=20
+> > Now that I'm back at my desk, here are the queued -stable, configuratio=
+n
+> > and feature changes that I have queued.
+> >=20
+> > I'll be sending -stable updates to the LTS branches as well.
+> >=20
+> > Note: once patch #1 is in the tree and doesn't need any more tweaks, I'=
+ll
+> > send a documenation update. This is the patch that we need to enable th=
+e
+> > modular initrd work in kernel-yocto references.
+>=20
+> I took this series in my branch and everything seems to be fine so far,
+> except for a warning:
+>=20
+> WARNING: linux-yocto-tiny-6.12.27+git-r0 do_kernel_configcheck: [kernel c=
+onfig]: specified values did not make it into the kernel's final configurat=
+ion:
+>=20
+> =C2=A0=C2=A0=C2=A0 [NOTE]: 'CONFIG_CRYPTO_CHACHA20_NEON' last val (y) and=
+ .config val (n) do not match
+> =C2=A0=C2=A0=C2=A0 [INFO]: CONFIG_CRYPTO_CHACHA20_NEON : n
+>=20
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/1565
 
-Hi Peter,
+There are a few, it likely depends which build built a component first.
+I think there are three groups of failures, I've listed them all for
+completeness:
 
-Thanks for your patch.
+Another qemuarm poky-tiny:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/50/builds/1564
+qemuarm:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/16/builds/1563
+qemuarm-alt:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/74/builds/1532
+qemuarm nodistro:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/40/builds/1531
 
-It looks like we can see some build errors on the autobuilder:
 
-ERROR: sqlite3-3_3.49.1-r0 do_install: oe_runmake failed
-ERROR: sqlite3-3_3.49.1-r0 do_install: Execution of '/srv/pokybuild/yocto-w=
-orker/genericarm64-alt/build/build/tmp/work/armv8a-poky-linux/sqlite3/3.49.=
-1/temp/run.do_install.2425589' failed with exit code 1
-...
-| strip: Unable to recognise the format of the input file `/srv/pokybuild/y=
-octo-worker/genericarm64-alt/build/build/tmp/work/armv8a-poky-linux/sqlite3=
-/3.49.1/image/usr/bin/sqlite3'
-| /srv/pokybuild/yocto-worker/genericarm64-alt/build/build/tmp/hosttools/in=
-stall: strip process terminated abnormally
+lttng-tools ptest failure:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/1445
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/1553
 
-Can you have a look at this failure please?
+genericarm64:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/60/builds/1549
+genericarm64-alt:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/22/builds/1552
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Cheers,
+
+Richard
 
 
