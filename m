@@ -1,96 +1,134 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B94DC3ABBF
-	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 10:35:12 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.5285.1746614102644478590
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8890EC3ABC0
+	for <webhook@archiver.kernel.org>; Wed,  7 May 2025 11:18:12 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.6009.1746616686598769196
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 May 2025 03:35:02 -0700
+ Wed, 07 May 2025 04:18:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MfySiiTV;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso31285355e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 03:35:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Zc3L8Cl0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-440685d6afcso59726915e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 04:18:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746614101; x=1747218901; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OlvPGfUF8yrEk2Fv2mjuml+dyETnnCpLKsHirtkhXyo=;
-        b=MfySiiTVm/GsYvVclZmODhun5m6Bq016Nxe3fjAUc0QdBhlsq7v1OINpRk2Qu1lxU3
-         8vBg1gvytZz16LIQcXQh7wPxuGF3Bvkys2/8X/rDsQD9A6y/qND541fLJ/faM5/+UUlC
-         PncxfwbkCaYOdDpn/1zlbeGeEHMtUkrRSBBS/W8AnO52Te9EfDx/KLMieKlckVGkbKMS
-         F1rco0Y4TrcIO6rnoOnh1KP2tAGs5I6g5lRHBAjzHzOqkYZz/ezbbjE2L5Qfkp1lBiLd
-         DsTz/h2Eyzr5tFOSuRo2gvSHQF/6lqtN6X6PCU5MexidNjSd94kWdB9xVzw2DjsOemea
-         FrTw==
+        d=linuxfoundation.org; s=google; t=1746616685; x=1747221485; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1GI9IBP51Q0Ph5LU9IwRi/UXzddiz/xuqG9D2motu6c=;
+        b=Zc3L8Cl0RZUp/UjncjdMI8XUcefU0kHw5G5LqCAeqO/OMnlkaDwg7OU6buwWlGElAa
+         lSU7XqIQhorodzEUN2t+Ar8KFh6IyODBBcso7lQnA8yVgIM1w9V+HL5uJD2vgHsKjF8a
+         3Z7R11sVd/CGpe+NCzcppncS11v+NNmeqjAoM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746614101; x=1747218901;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OlvPGfUF8yrEk2Fv2mjuml+dyETnnCpLKsHirtkhXyo=;
-        b=FwdBKTBprCTUrss9fJGgIC1CdWEj+rha16XKxVvLjWbcqiuRlAuZ0+kly7aWdc+M60
-         7GmlRuCMpIiPUTsUwJHtSvutGVvFefik0eFp4G0OSBGn/Z7JTwMBJK/GeMlsI4avBq3i
-         FhZrjAP3kjOxj3IWEgD7Q71r2qXAQK61xGrtUu1L7QxhkQSnYlsJXm2QkViwozcQEGAQ
-         gnlqMaBVjonntRL2mQ/XK1B/KhX9TF0AAThi96/537Z9o2sbMuPnSHXkSNKVbR/3VJGH
-         ox+EI7PFhm2fDjrwfNFrapqIwjeYujRyzAW6sd6PkpluNSjgTo5S01QzJLR9xrijwvmg
-         gNmg==
-X-Gm-Message-State: AOJu0YwehkxJenCa8Tc6v5HYwjtZK/byRQ4Xjt6DW7DUBr40kpWqCuIo
-	OdQrXOuwyrwPbm+Pf8turVQKAGRQER1hFfb65KxC0/ummoHW3BXJ
-X-Gm-Gg: ASbGnctpCS7bBcFK8BGrig9FSZ67YBkyV1TTwuuNBDsc4VFMo5egldpsfb4RVZ9+536
-	hZydjVzCkcM0ukLbgY7oCGfXMJSjixq8/XBwE8zEhhFKoSr+jZuoisReSmcQWLHqqTLMtWZLwjc
-	1EszPMhhLLwLLMCubDKIgKT2FVsPHW6NlSNJWX4a0+7sy80STEoocEkvftwRAyd98ly6/O7lp1y
-	juNmAkL/dUC83kKd9jlQI7/kh/g3zmaKKn/94wGQdg5GJIrYgMrBZlyXWyULIOA3tiCFEyz/VZS
-	iZEIasin2Tq3E3FsZUqtoYTlsY8myYTP+hqwUz0QJq7LMli7hu1YLZyj5bZHbKRspYhQaZ9axA=
-	=
-X-Google-Smtp-Source: AGHT+IHyKgeyxz7dYFnYHe37xjkFbqyGnt0Q7joQQZ5L8pnknp6DIq/W7ozG6/HHG8bdMLtj0Mi/Pg==
-X-Received: by 2002:a05:600c:3b8e:b0:43c:f8fc:f686 with SMTP id 5b1f17b1804b1-441d44bb4c7mr24487245e9.3.1746614100601;
-        Wed, 07 May 2025 03:35:00 -0700 (PDT)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441d43cb5ccsm28362755e9.1.2025.05.07.03.34.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 May 2025 03:35:00 -0700 (PDT)
-Message-ID: <2fcfa888-1bb5-433c-99c5-cf5d1d590108@gmail.com>
-Date: Wed, 7 May 2025 12:34:59 +0200
+        d=1e100.net; s=20230601; t=1746616685; x=1747221485;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1GI9IBP51Q0Ph5LU9IwRi/UXzddiz/xuqG9D2motu6c=;
+        b=fiRgTk9PlRBCQeVzhv6+66dNHrEbjplYAVJwhrK6OM8J7dx5zhJWbXZXy6/illuGNh
+         nlAGlmwYxCIoo+0zmAS1uGjeLPLql/sFLSHStH3mPixu7VtDqAi1xIDgu8s82/ewmhde
+         JKRrw6ktzA0gsfATTZuP6PoNeCe5DA6WWMWUBm+LUyKkx7lsVpw67ijaog/1MwI1nfkq
+         zaj9yk206QtCBgR+bW2tVEY+eARYzxVmdYjX2PGyydZXi+aU2WzDZshPpQOPpqr+uD7j
+         5G+w9X3Yun1YKp7m+Nrh3JiABXmoX7uFRZKm23YaA1oQ7t2R05FXQVPYj2de13nElBq6
+         of3Q==
+X-Gm-Message-State: AOJu0YykXE5/kYAFdulFXrkxrWEps7D5kHlKEUtZ4Znr7VDO52sINZg2
+	SnPp8XdbKi80h16Gxi91WF9rNTzvLt8G50cQ4wO/6BMf4tCMAR19vuxmUwkbelM=
+X-Gm-Gg: ASbGncttG8McZanLTtUair6UDMbfRaOmlWb6l648qLBM8HmT/DMEK/JQ59Io9Whz1GY
+	m4Czev54p4OzQ8owOsaj2MtTGIkmayMJmwdp9gDalTh94eKueJl6083O+R8VMfiNY65aNDltrBo
+	U31T2D5iGx4T3SGBI8epBBysg5hcThSU2P4iZ7P0LBo6CO4s5fvevnFeSOYOH3VPuAh93G45aJO
+	8irxm1rlx4jK3EOTQpxRWVUP82sZnHdVgQxc05b9W4UePPIRbF9640MNmnwf8QQxVSsxx7PRvdG
+	TvtMtTrY/qNJL6Fidc5dyuxj3qUeOYAb74XU1ajqX8MlD0hWZT+lK3lRezubSnLPqUdbzlkEyEK
+	94TlJkazTcPo622HXqYYg+k95dGI=
+X-Google-Smtp-Source: AGHT+IEfuu4C4jMLGH+qTJmxeyjc4Is9edGG9e33gQ4KdEHYiP+LsDMnKQVOBq3Ay9b3tIojLdxHYw==
+X-Received: by 2002:a05:600c:83ca:b0:43c:fb95:c752 with SMTP id 5b1f17b1804b1-441d44bcdc3mr27244595e9.3.1746616684874;
+        Wed, 07 May 2025 04:18:04 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:12c3:1543:c9e5:5d2? ([2001:8b0:aba:5f3c:12c3:1543:c9e5:5d2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441d43cb584sm29646795e9.8.2025.05.07.04.18.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 04:18:03 -0700 (PDT)
+Message-ID: <161efc5b043277d6ca648087f9e6fcab9f72981d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/6] kernel-yocto: consolidated pull request
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 07 May 2025 12:18:03 +0100
+In-Reply-To: <183D2FC291E34522.16348@lists.openembedded.org>
+References: <cover.1746548780.git.bruce.ashfield@gmail.com>
+		 <D9PRCP2WLN68.1VIO3IX3SQ7IH@bootlin.com>
+	 <183D2FC291E34522.16348@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] mesa: Allow using semantic version suffix
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250506110344.2129531-1-zboszor@gmail.com>
- <CANNYZj9tUVnuB144GuKWzdLfwB_3eWd0OO=Rkv3+yKb-CSFWYA@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj9tUVnuB144GuKWzdLfwB_3eWd0OO=Rkv3+yKb-CSFWYA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 10:35:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216105
+ <openembedded-core@lists.openembedded.org>; Wed, 07 May 2025 11:18:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216106
 
-2025. 05. 06. 16:27 keltezéssel, Alexander Kanavin írta:
-> On Tue, 6 May 2025 at 13:04, Zoltan Boszormenyi via
-> lists.openembedded.org <zboszor=gmail.com@lists.openembedded.org>
-> wrote:
->>    PV = "25.1.0"
->>    SEMVERSFX = "-rc3"
-> Why not simply set PV to "25.1.0-rc3"? Nothing in the patch indicates
-> that would be a problem.
+On Wed, 2025-05-07 at 08:58 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> On Wed, 2025-05-07 at 09:42 +0200, Mathieu Dubois-Briand wrote:
+> > On Tue May 6, 2025 at 6:32 PM CEST, Bruce Ashfield via
+> > lists.openembedded.org wrote:
+> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > >=20
+> > > Hi Richard,
+> > >=20
+> > > Now that I'm back at my desk, here are the queued -stable,
+> > > configuration
+> > > and feature changes that I have queued.
+> > >=20
+> > > I'll be sending -stable updates to the LTS branches as well.
+> > >=20
+> > > Note: once patch #1 is in the tree and doesn't need any more
+> > > tweaks, I'll
+> > > send a documenation update. This is the patch that we need to
+> > > enable the
+> > > modular initrd work in kernel-yocto references.
+> >=20
+> > I took this series in my branch and everything seems to be fine so
+> > far,
+> > except for a warning:
+> >=20
+> > WARNING: linux-yocto-tiny-6.12.27+git-r0 do_kernel_configcheck:
+> > [kernel config]: specified values did not make it into the kernel's
+> > final configuration:
+> >=20
+> > =C2=A0=C2=A0=C2=A0 [NOTE]: 'CONFIG_CRYPTO_CHACHA20_NEON' last val (y) a=
+nd .config
+> > val (n) do not match
+> > =C2=A0=C2=A0=C2=A0 [INFO]: CONFIG_CRYPTO_CHACHA20_NEON : n
+> >=20
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/1565
+>=20
+> There are a few, it likely depends which build built a component
+> first.
+> I think there are three groups of failures, I've listed them all for
+> completeness:
+>=20
+> Another qemuarm poky-tiny:
+> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/50/builds/1564
+> qemuarm:
+> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/16/builds/1563
+> qemuarm-alt:
+> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/74/builds/1532
+> qemuarm nodistro:
+> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/40/builds/1531
+>=20
+>=20
+> lttng-tools ptest failure:
+> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/1445
 
-Because 25.1.0-rc3 > 25.1.0 according to package managers
-and that breaks package upgrades.
+The ptest failure didn't appear on a second run so it is an
+intermittent AB issue rather than anything specific to this patch
+series.
 
-Locally, I also have a python scriptlet that sets PR to "r0.rc3" or "r1"
-depending on whether the semantic version suffix is set, which works.
+Cheers,
 
-I know Yocto is not too fond of repositories (e.g. using the short git
-commit for GLIBC package versions also breaks upgrades due to
-the alphanumeric ordering of gitXXXXXX instead of explicit PR value bumps),
-but it's easy for us to test RC versions by having staging and update repos.
-
+Richard
 
