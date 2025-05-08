@@ -2,53 +2,51 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35123C3ABBE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CECEC3ABC5
 	for <webhook@archiver.kernel.org>; Thu,  8 May 2025 09:54:42 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.11656.1746698073534339499
+ by mx.groups.io with SMTP id smtpd.web10.11592.1746698072989644456
  for <openembedded-core@lists.openembedded.org>;
  Thu, 08 May 2025 02:54:33 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7223240b2b=changqing.li@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5484uS61007652
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5484uS60007652
 	for <openembedded-core@lists.openembedded.org>; Thu, 8 May 2025 09:54:32 GMT
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46d8c15txp-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46d8c15txp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 08 May 2025 09:54:32 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 08 May 2025 09:54:31 +0000 (GMT)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 8 May 2025 02:54:31 -0700
+ 15.1.2507.43; Thu, 8 May 2025 02:54:30 -0700
 Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Thu, 8 May 2025 02:54:30 -0700
+ 15.1.2507.43 via Frontend Transport; Thu, 8 May 2025 02:54:29 -0700
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/2] libsoup-2.4: fix CVE-2024-52532
-Date: Thu, 8 May 2025 17:54:28 +0800
-Message-ID: <20250508095428.4116254-2-changqing.li@windriver.com>
+Subject: [PATCH 1/2] libsoup-2.4: fix build failure
+Date: Thu, 8 May 2025 17:54:27 +0800
+Message-ID: <20250508095428.4116254-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250508095428.4116254-1-changqing.li@windriver.com>
-References: <20250508095428.4116254-1-changqing.li@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=NIjV+16g c=1 sm=1 tr=0 ts=681c7f58 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=PYnjg3YJAAAA:8 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=vggBfdFIAAAA:8 a=xNf9USuDAAAA:8
- a=9MbTc5Otos7jAG5MShYA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: jQOp4cCjmbPoxF0kBHxSp6FWY9Ooc3AE
-X-Proofpoint-ORIG-GUID: jQOp4cCjmbPoxF0kBHxSp6FWY9Ooc3AE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA4MDA4OSBTYWx0ZWRfXzfFMLBP7Kpw4 H7z7nBft6tbARM3SXnGj+ZDNxgYpL19We8JZmUtRhkqsBhynSzSxYA7gZahXbRrTUTey++9MUJk NkbCx3jq/fpRhzjb6cU4Nclovpxa2T7swbkvvyoXCOA8EWEb+56ru7QNjDZJ9S79PCikE2pUKOO
- QUFGVQG9EOmL6jgvfxDvUKOY0N8O4ykgj0UStB7YZGDN/wm2e87m5y6dOp7f6awJ19jrgjn2OGQ FNoWdgJCDAg3SbGlWt/zaml+PSChFOHGfL90ibSMHTqMi3jzvdyCc6wG7Gc3ITrVnxw3XeAe3Ol 1Z4LaQCFgVLVAf9uUG+uXfDVZ+jPJ3Rr2uuJngB8o8/QJvJJJigCTXeyKZNlj3nm+Qj4eyfhARD
- c+fg9/h+fXEz7ycl0yolS87F3N+DXehvsGt/EGEpYjhFgwkxfBiobQjnx6ATU3F8kDXshBT7
+X-Authority-Analysis: v=2.4 cv=NIjV+16g c=1 sm=1 tr=0 ts=681c7f57 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=V2sgnzSHAAAA:8 a=y4dstZXFQjHuBTlO5aEA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=Z31ocT7rh6aUJxSkT1EX:22
+X-Proofpoint-GUID: CukA7ePq-oU9gWkWuhWqIyPLh4l0iQL8
+X-Proofpoint-ORIG-GUID: CukA7ePq-oU9gWkWuhWqIyPLh4l0iQL8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA4MDA4OSBTYWx0ZWRfXwETp79D3zMTX IZWBVV5A8MlygMLFBlYzrWDgyB61aiThrl7xxCYJL+yS84ava8hRzxY0+C67r/nzg1WkQ1AMfL9 Su5DXwURa8m8VeRe7sI+jNoyuqrz8eWbYT1v+URTSd7xdaRHfu18WKsut2UIve+IWhExt4Pmbor
+ Q422K/8azAvrEs71cCINtyZWGgpwtA+OsRIr3MLem1zz+qTrACGFpUKjD8vseWe2jghbIBc/t3b elufXPalZDi4umSzegmJ2tJ4C0Ee297hFhQocsSIwtAaO4qd6p7ICkzajlBhQVP9ApKQg6rbnd0 wjULddkMKH/JRXDr+X3rTwxPcZD9YNx+eDPkuDq4tjZ4qJc+/o1uMvBH/fOPe5FIujrd4tAiCfe
+ LXwq0CEcEN/zuW3//G7ABffocCrhyYt01/i2EE2ajompWYQCXL/3hqjxGBfjOkXYS22c2/NG
 X-Sensitive_Customer_Information: Yes
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-08_03,2025-05-07_02,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
  priorityscore=1501 bulkscore=0 mlxscore=0 spamscore=0 malwarescore=0
- clxscore=1015 adultscore=0 impostorscore=0 mlxlogscore=964 phishscore=0
+ clxscore=1015 adultscore=0 impostorscore=0 mlxlogscore=999 phishscore=0
  lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
  definitions=main-2505080089
@@ -56,190 +54,237 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 08 May 2025 09:54:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216148
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216147
 
 From: Changqing Li <changqing.li@windriver.com>
 
-CVE-2024-52532:
-GNOME libsoup before 3.6.1 has an infinite loop, and memory consumption.
-during the reading of certain patterns of WebSocket data from clients.
-
-Refer:
-https://nvd.nist.gov/vuln/detail/CVE-2024-52532
+Backport 2 patches to fix build failures
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../libsoup-2.4/CVE-2024-52532-1.patch        | 37 ++++++++++++++
- .../libsoup-2.4/CVE-2024-52532-2.patch        | 43 +++++++++++++++++
- .../libsoup-2.4/CVE-2024-52532-3.patch        | 48 +++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |  5 +-
- 4 files changed, 132 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-3.patch
+ ...-Fix-possibly-uninitialized-warnings.patch |  43 ++++++
+ ...-http-and-https-aliases-support-test.patch | 145 ++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |   5 +-
+ 3 files changed, 192 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/0001-Fix-possibly-uninitialized-warnings.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/0001-Remove-http-and-https-aliases-support-test.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/0001-Fix-possibly-uninitialized-warnings.patch b/meta/recipes-support/libsoup/libsoup-2.4/0001-Fix-possibly-uninitialized-warnings.patch
 new file mode 100644
-index 0000000000..cb1f096110
+index 0000000000..fcd442c13a
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
-@@ -0,0 +1,37 @@
-+From a693d49bff058fc20a448dc4e7d324ff0dc6597e Mon Sep 17 00:00:00 2001
-+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
-+Date: Wed, 11 Sep 2024 11:52:11 +0200
-+Subject: [PATCH 1/3] websocket: process the frame as soon as we read data
++++ b/meta/recipes-support/libsoup/libsoup-2.4/0001-Fix-possibly-uninitialized-warnings.patch
+@@ -0,0 +1,43 @@
++From 1159686379184a1c899eabb2174258aba5e0fd79 Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Mon, 20 Sep 2021 15:41:31 -0500
++Subject: [PATCH] Fix possibly uninitialized warnings
 +
-+Otherwise we can enter in a read loop because we were not
-+validating the data until the all the data was read.
-+
-+Fixes #391
-+
-+CVE: CVE-2024-52532
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/6adc0e3eb74c257ed4e2a23eb4b2774fdb0d67be#f1d67ca0386b145ea201cf88d27f72724d7c6715]
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/fb98e9a8c3062c75357b961543af091de2dd5459]
 +
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ libsoup/soup-websocket-connection.c | 5 ++---
-+ 1 file changed, 2 insertions(+), 3 deletions(-)
++ libsoup/soup-websocket-connection.c | 2 +-
++ tests/samesite-test.c               | 3 +++
++ 2 files changed, 4 insertions(+), 1 deletion(-)
 +
 +diff --git a/libsoup/soup-websocket-connection.c b/libsoup/soup-websocket-connection.c
-+index a4095e1..65c1492 100644
++index 65c1492..585d45c 100644
 +--- a/libsoup/soup-websocket-connection.c
 ++++ b/libsoup/soup-websocket-connection.c
-+@@ -1140,9 +1140,8 @@ soup_websocket_connection_read (SoupWebsocketConnection *self)
-+ 		}
++@@ -471,7 +471,7 @@ send_message (SoupWebsocketConnection *self,
++ 	GByteArray *bytes;
++ 	gsize frame_len;
++ 	guint8 *outer;
++-	guint8 mask_offset;
+++	guint8 mask_offset = 0;
++ 	GBytes *filtered_bytes;
++ 	GList *l;
++ 	GError *error = NULL;
++diff --git a/tests/samesite-test.c b/tests/samesite-test.c
++index 0b081b2..60c9b8e 100644
++--- a/tests/samesite-test.c
+++++ b/tests/samesite-test.c
++@@ -60,6 +60,9 @@ assert_highest_policy_visible (GSList *cookies, SoupSameSitePolicy policy)
++ 	case SOUP_SAME_SITE_POLICY_NONE:
++ 		expected_count = 1;
++ 		break;
+++	default:
+++		g_assert_not_reached ();
+++		break;
++ 	}
 + 
-+ 		pv->incoming->len = len + count;
-+-	} while (count > 0);
++ 	g_assert_cmpuint (size, ==, expected_count);
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/0001-Remove-http-and-https-aliases-support-test.patch b/meta/recipes-support/libsoup/libsoup-2.4/0001-Remove-http-and-https-aliases-support-test.patch
+new file mode 100644
+index 0000000000..0d4139ec08
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/0001-Remove-http-and-https-aliases-support-test.patch
+@@ -0,0 +1,145 @@
++From 0e3bfa22b23451531caf8cc30b1771ac6a41fcad Mon Sep 17 00:00:00 2001
++From: Carlos Garcia Campos <cgarcia@igalia.com>
++Date: Thu, 11 Feb 2021 10:47:09 +0100
++Subject: [PATCH] Remove http and https aliases support test
++
++Upstream has removed the whole function of http and https aliases
++support, this commit partially cherry pick it, only remove the test to
++mute the warning:
++| ../libsoup-2.74.3/tests/server-test.c: In function 'do_one_server_aliases_test':
++| ../libsoup-2.74.3/tests/server-test.c:180:17: warning: 'g_socket_client_set_tls_validation_flags' is deprecated [-Wdeprecated-declarations]
++|   180 |                 g_socket_client_set_tls_validation_flags (client, 0);
++|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/111ae4ebe7cc2e389573cff5b9ac76509d6cbac0]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ tests/server-test.c | 104 --------------------------------------------
++ 1 file changed, 104 deletions(-)
++
++diff --git a/tests/server-test.c b/tests/server-test.c
++index 8976103..cb7e815 100644
++--- a/tests/server-test.c
+++++ b/tests/server-test.c
++@@ -154,108 +154,6 @@ do_star_test (ServerData *sd, gconstpointer test_data)
++ 	soup_uri_free (star_uri);
++ }
++ 
++-static void
++-do_one_server_aliases_test (SoupURI    *uri,
++-			    const char *alias,
++-			    gboolean    succeed)
++-{
++-	GSocketClient *client;
++-	GSocketConnectable *addr;
++-	GSocketConnection *conn;
++-	GInputStream *in;
++-	GOutputStream *out;
++-	GError *error = NULL;
++-	GString *req;
++-	static char buf[1024];
 +-
-+-	process_incoming (self);
-++		process_incoming (self);
-++	} while (count > 0 && !pv->close_sent && !pv->io_closing);
++-	debug_printf (1, "  %s via %s\n", alias, uri->scheme);
++-
++-	/* There's no way to make libsoup's client side send an absolute
++-	 * URI (to a non-proxy server), so we have to fake this.
++-	 */
++-
++-	client = g_socket_client_new ();
++-	if (uri->scheme == SOUP_URI_SCHEME_HTTPS) {
++-		g_socket_client_set_tls (client, TRUE);
++-		g_socket_client_set_tls_validation_flags (client, 0);
++-	}
++-	addr = g_network_address_new (uri->host, uri->port);
++-
++-	conn = g_socket_client_connect (client, addr, NULL, &error);
++-	g_object_unref (addr);
++-	g_object_unref (client);
++-	if (!conn) {
++-		g_assert_no_error (error);
++-		g_error_free (error);
++-		return;
++-	}
++-
++-	in = g_io_stream_get_input_stream (G_IO_STREAM (conn));
++-	out = g_io_stream_get_output_stream (G_IO_STREAM (conn));
++-
++-	req = g_string_new (NULL);
++-	g_string_append_printf (req, "GET %s://%s:%d HTTP/1.1\r\n",
++-				alias, uri->host, uri->port);
++-	g_string_append_printf (req, "Host: %s:%d\r\n",
++-				uri->host, uri->port);
++-	g_string_append (req, "Connection: close\r\n\r\n");
++-
++-	if (!g_output_stream_write_all (out, req->str, req->len, NULL, NULL, &error)) {
++-		g_assert_no_error (error);
++-		g_error_free (error);
++-		g_object_unref (conn);
++-		g_string_free (req, TRUE);
++-		return;
++-	}
++-	g_string_free (req, TRUE);
++-
++-	if (!g_input_stream_read_all (in, buf, sizeof (buf), NULL, NULL, &error)) {
++-		g_assert_no_error (error);
++-		g_error_free (error);
++-		g_object_unref (conn);
++-		return;
++-	}
++-
++-	if (succeed)
++-		g_assert_true (g_str_has_prefix (buf, "HTTP/1.1 200 "));
++-	else
++-		g_assert_true (g_str_has_prefix (buf, "HTTP/1.1 400 "));
++-
++-	g_io_stream_close (G_IO_STREAM (conn), NULL, NULL);
++-	g_object_unref (conn);
++-}
++-
++-static void
++-do_server_aliases_test (ServerData *sd, gconstpointer test_data)
++-{
++-	char *http_aliases[] = { "dav", NULL };
++-	char *https_aliases[] = { "davs", NULL };
++-	char *http_good[] = { "http", "dav", NULL };
++-	char *http_bad[] = { "https", "davs", "fred", NULL };
++-	char *https_good[] = { "https", "davs", NULL };
++-	char *https_bad[] = { "http", "dav", "fred", NULL };
++-	int i;
++-
++-	g_test_bug ("703694");
++-
++-	g_object_set (G_OBJECT (sd->server),
++-		      SOUP_SERVER_HTTP_ALIASES, http_aliases,
++-		      SOUP_SERVER_HTTPS_ALIASES, https_aliases,
++-		      NULL);
++-
++-	for (i = 0; http_good[i]; i++)
++-		do_one_server_aliases_test (sd->base_uri, http_good[i], TRUE);
++-	for (i = 0; http_bad[i]; i++)
++-		do_one_server_aliases_test (sd->base_uri, http_bad[i], FALSE);
++-
++-	if (tls_available) {
++-		for (i = 0; https_good[i]; i++)
++-			do_one_server_aliases_test (sd->ssl_base_uri, https_good[i], TRUE);
++-		for (i = 0; https_bad[i]; i++)
++-			do_one_server_aliases_test (sd->ssl_base_uri, https_bad[i], FALSE);
++-	}
++-}
++-
++ static void
++ do_dot_dot_test (ServerData *sd, gconstpointer test_data)
++ {
++@@ -1382,8 +1280,6 @@ main (int argc, char **argv)
 + 
-+ 	if (end) {
-+ 		if (!pv->close_sent || !pv->close_received) {
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
-new file mode 100644
-index 0000000000..dcadafe944
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
-@@ -0,0 +1,43 @@
-+From f5b76410de1318f49844dacf6e68692522b6c856 Mon Sep 17 00:00:00 2001
-+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
-+Date: Wed, 2 Oct 2024 11:17:19 +0200
-+Subject: [PATCH] websocket-test: disconnect error copy after the test ends
-+
-+Otherwise the server will have already sent a few more wrong
-+bytes and the client will continue getting errors to copy
-+but the error is already != NULL and it will assert
-+
-+CVE: CVE-2024-52532
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/29b96fab2512666d7241e46c98cc45b60b795c0c]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ tests/websocket-test.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/tests/websocket-test.c b/tests/websocket-test.c
-+index 5e40cf3..1ec9ff6 100644
-+--- a/tests/websocket-test.c
-++++ b/tests/websocket-test.c
-+@@ -1331,8 +1331,9 @@ test_receive_invalid_encode_length_64 (Test *test,
-+ 	GError *error = NULL;
-+ 	InvalidEncodeLengthTest context = { test, NULL };
-+ 	guint i;
-++	guint error_id;
-+ 
-+-	g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
-++	error_id = g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
-+ 	g_signal_connect (test->client, "message", G_CALLBACK (on_binary_message), &received);
-+ 
-+ 	/* We use 127(\x7f) as payload length with 65535 extended length */
-+@@ -1345,6 +1346,7 @@ test_receive_invalid_encode_length_64 (Test *test,
-+ 	WAIT_UNTIL (error != NULL || received != NULL);
-+ 	g_assert_error (error, SOUP_WEBSOCKET_ERROR, SOUP_WEBSOCKET_CLOSE_PROTOCOL_ERROR);
-+ 	g_clear_error (&error);
-++	g_signal_handler_disconnect (test->client, error_id);
-+ 	g_assert_null (received);
-+ 
-+         g_thread_join (thread);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-3.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-3.patch
-new file mode 100644
-index 0000000000..ab6af72291
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-3.patch
-@@ -0,0 +1,48 @@
-+From d97bb2e340f5a6d7e56a7738403f9d18bc406b70 Mon Sep 17 00:00:00 2001
-+From: Simon McVittie <smcv@debian.org>
-+Date: Wed, 13 Nov 2024 14:14:23 +0000
-+Subject: [PATCH 3/3] websocket-test: Disconnect error signal in another place
-+
-+This is the same change as commit 29b96fab "websocket-test: disconnect
-+error copy after the test ends", and is done for the same reason, but
-+replicating it into a different function.
-+
-+Fixes: 6adc0e3e "websocket: process the frame as soon as we read data"
-+Resolves: https://gitlab.gnome.org/GNOME/libsoup/-/issues/399
-+Signed-off-by: Simon McVittie <smcv@debian.org>
-+
-+CVE: CVE-2024-52532
-+Upstream-Status: Backport
-+[https://gitlab.gnome.org/GNOME/libsoup/-/commit/4c9e75c6676a37b6485620c332e568e1a3f530ff]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ tests/websocket-test.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/tests/websocket-test.c b/tests/websocket-test.c
-+index 2b19a7b..0699a06 100644
-+--- a/tests/websocket-test.c
-++++ b/tests/websocket-test.c
-+@@ -1300,8 +1300,9 @@ test_receive_invalid_encode_length_16 (Test *test,
-+ 	GError *error = NULL;
-+ 	InvalidEncodeLengthTest context = { test, NULL };
-+ 	guint i;
-++	guint error_id;
-+ 
-+-	g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
-++	error_id = g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
-+ 	g_signal_connect (test->client, "message", G_CALLBACK (on_binary_message), &received);
-+ 
-+ 	/* We use 126(~) as payload length with 125 extended length */
-+@@ -1314,6 +1315,7 @@ test_receive_invalid_encode_length_16 (Test *test,
-+ 	WAIT_UNTIL (error != NULL || received != NULL);
-+ 	g_assert_error (error, SOUP_WEBSOCKET_ERROR, SOUP_WEBSOCKET_CLOSE_PROTOCOL_ERROR);
-+ 	g_clear_error (&error);
-++        g_signal_handler_disconnect (test->client, error_id);
-+ 	g_assert_null (received);
-+ 
-+ 	g_thread_join (thread);
++ 	g_test_add ("/server/OPTIONS *", ServerData, NULL,
++ 		    server_setup, do_star_test, server_teardown);
++-	g_test_add ("/server/aliases", ServerData, NULL,
++-		    server_setup, do_server_aliases_test, server_teardown);
++ 	g_test_add ("/server/..-in-path", ServerData, NULL,
++ 		    server_setup, do_dot_dot_test, server_teardown);
++ 	g_test_add ("/server/ipv6", ServerData, NULL,
 +-- 
 +2.34.1
 +
 diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 5753ab2745..7e275a48f4 100644
+index 25e0d7dcbc..5753ab2745 100644
 --- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
 +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -15,7 +15,10 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch \
-            file://0001-CVE-2025-32911.patch \
-            file://0001-Fix-possibly-uninitialized-warnings.patch \
--           file://0001-Remove-http-and-https-aliases-support-test.patch"
-+           file://0001-Remove-http-and-https-aliases-support-test.patch \
-+           file://CVE-2024-52532-1.patch \
-+           file://CVE-2024-52532-2.patch \
-+           file://CVE-2024-52532-3.patch"
+@@ -13,7 +13,10 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch \
+-           file://0001-CVE-2025-32911.patch"
++           file://0001-CVE-2025-32911.patch \
++           file://0001-Fix-possibly-uninitialized-warnings.patch \
++           file://0001-Remove-http-and-https-aliases-support-test.patch"
++
  SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
  
+ CVE_PRODUCT = "libsoup"
 -- 
 2.34.1
 
