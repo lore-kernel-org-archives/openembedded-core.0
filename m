@@ -1,170 +1,239 @@
-Return-Path: <tom.hochstein@oss.nxp.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5BFCC3ABC0
-	for <webhook@archiver.kernel.org>; Thu,  8 May 2025 12:28:12 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.66.28])
- by mx.groups.io with SMTP id smtpd.web10.14091.1746707288462995417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED0BC3ABBE
+	for <webhook@archiver.kernel.org>; Thu,  8 May 2025 13:04:13 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.14913.1746709448863254996
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 May 2025 05:28:08 -0700
+ Thu, 08 May 2025 06:04:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=ZICth6Tu;
- spf=pass (domain: oss.nxp.com, ip: 52.101.66.28, mailfrom: tom.hochstein@oss.nxp.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eAm3NyiCt8eudpcn8tUQzRvuKNxDcGWca2ibmK10fO4T4E7nF7XbXGh2Q8mFMrAy6BYXtQoh1TRFi3oOgZNWS42Df3Ls4xEr/960rx/rtOTQR/NyPdrnCm+eWQVySQgr8my5fodm/wC6xGgrnLtZWizOZtB2o+aS3rW0GvQuyeQiqfv0N2z8TWgCtnjwa/zAYaBukRYCR6ritVcphM593yq/s/wm0cXJvjeVvL8J7IkOh4+sEaSXdSnhUkjpuPrPxzLKyfSWKJLrQbyqawHPYexmXabTT3uiH60GfGf24FyPr4nEqx/7Vum02ObiQ9yZ3awqmspAoeYFVTU8dIFdCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gGTAoBr9JiAtTl1szpETkkUoleCF4fZZmOcNsSrudSo=;
- b=UnDbbwyAPWPukgcuo7L9tfl+JL4UNV6MAKMHc6p+ukJF5X35gbldSqwEH7aSXnF0CM5z+nMZewemrKp7iY5AAgym3ZKINInPYAZQJkelq4uMbYNktK+bpOxGOiFBcQFtWmLtcMO7gZpKRAi/qjwDd4Jiv57fIzxvdZUdmxYgWmX91sH1vVEpLrWcWM8yVMWbld6GZmHs3ihcNyjnj5tWNJqz90An/C9FB91YSqd2V68euO/DIxEyhP/FloApHSsUM+0meS/JOjeAeh9sgCb6R+L5cT15OlyZ3aQgrSUA234tISkP1WdpOlXbnb5EnC3TCAN6u4wiPoBvTmrHz9m31g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gGTAoBr9JiAtTl1szpETkkUoleCF4fZZmOcNsSrudSo=;
- b=ZICth6Tu/Pd8hra9vUHHCSL4rKZnCKzxeNXFVVQOoridtEWzajTScy8ZNvNbzvRTRWUT8ThbZkOcZb9wfokezSGfyGecqhqJR1UjDcBcdUtA+Tzz5XjneI8C5FZEsGBc1GXIhcUqy5wATvL7szFYE6PS5tUOr84/BIqG3pJClhPRE8nF0WkG99BWcXvrYuQGD1uf77RB2E+VjTE1DGp7CfaMityI9FqaSdr7XBHYOs3VDgl+8E469OazaSIjUyVk5LvwB6eXku8QFbyH7SBFB2ZxYLnIw2wcOtd1+AKQOBHAmKN6KBUwGox4I5cJZvZkaSebr4ueskaSINev/Ov1OA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
- by DU4PR04MB10316.eurprd04.prod.outlook.com (2603:10a6:10:567::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.21; Thu, 8 May
- 2025 12:28:05 +0000
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc%7]) with mapi id 15.20.8699.022; Thu, 8 May 2025
- 12:28:05 +0000
-Message-ID: <ecd3e3d5-fae1-4c7f-bf1b-7f418bc0601a@oss.nxp.com>
-Date: Thu, 8 May 2025 07:27:22 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v7 1/7] meson: Allow user to override setup
- command options
-To: Ross Burton <Ross.Burton@arm.com>
-CC: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20250417180834.1722588-1-tom.hochstein@oss.nxp.com>
- <C418837B-2179-4849-BFCE-B5C2C69C415A@arm.com>
-Content-Language: en-US
-From: Tom Hochstein <tom.hochstein@oss.nxp.com>
-In-Reply-To: <C418837B-2179-4849-BFCE-B5C2C69C415A@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BYAPR02CA0069.namprd02.prod.outlook.com
- (2603:10b6:a03:54::46) To PAXPR04MB9448.eurprd04.prod.outlook.com
- (2603:10a6:102:2b1::21)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ob/Zg+TQ;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b1f7357b5b6so554112a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 May 2025 06:04:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746709448; x=1747314248; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QF+H/J8Ri/nW7wWrVV6PBp/wXcK+e/7GluuzSfbZpmA=;
+        b=Ob/Zg+TQB6///CwQjZr9+q0OLgm1J+63cMW2JJoJjMW9seXNUxYDi+VQsnbrE6g+SB
+         RKkmaWfJitEQFpPl2G3J8mNQl9J/iFrvaw3hK7fh/nZwungrC1DtGp59ZrEW0etyvN8f
+         hTybXYOFqQf2ogJoshft+a+NF54QZgsoUCiR93kORR628Y6NUa5stnKeu8lA1Mx1prbu
+         gUTzQeAaK1hBRPIgsWbyXse/GoBT8KCOUq/utamEMi5fJy4xqVoGKCVYpeLsuMhq5PzO
+         8Cu9V5C+KmcOi/y7eXMyEyeRV35Ctk4uV4L9GuKARjjBmnKB2sUb3jfxlBzm2CCaCrP+
+         dToQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746709448; x=1747314248;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QF+H/J8Ri/nW7wWrVV6PBp/wXcK+e/7GluuzSfbZpmA=;
+        b=l0Wr7vbqw2b02uXcDunlGIs+nfwzpIce8ldtGGqTZCh7wkBlE7/asS+Bar/dDjqFBz
+         4hEbTwCqfqPGTKgnktz5rtR1l6xZOdOi/5q9TJM+jivuP5xLNMYgFz2R0FZcdZxoF32R
+         1ZEZWE8dABqsExKY3e80WJhHjmKAUTt3sstImF207JBFfJt6TNzO2pLquZ0cZyELlzzD
+         m5Cw+zBVlytdxbdQpxUaTYU2DNH2npygSH+CK3aUAGsT4fecl6Iz74ggshf1WocAoMh1
+         OqstRNGuUL/+BNR6rTkuB1FxjEb1fumJlx8RW6DM2y0mE2c8OLSuW6YvRfAp02/adg+h
+         3Ndw==
+X-Gm-Message-State: AOJu0YxeL0Zy8Y64PPfZk+KG1dP2j8SdJK2wH+pIAWpr43yp5djtZ3iQ
+	VWe8CsJMQrn/bmNi+hZKvGZ8oN0Gbh8udnKbq3lP55PppFmG7s+N/O/C9pxg902jG4j1+mdLqE0
+	SJQqTn3/GQPcGiAAaunirVP62IV7J9n9G
+X-Gm-Gg: ASbGnct9pdFfayZRDWOD/svGHMp+AS/W356I979j0ujFMzAD2BwEMfvtHFyxRkFeyE4
+	ol0XlT6mo99MJVawnl0kpNJhVKlawK7cvYPBLkbJgguZ9N84JzgKmH+MWTZ4j3wABL6NGFkVz+R
+	yhv3jfyRGagSWKhVga8z4/a85uQlZaVoxG4Q==
+X-Google-Smtp-Source: AGHT+IFY1uMJ8/EABqQbw/PKc+lymwybQ7zDhlCv4fsNF/L+A3hs4pLffquRj5WvuTfMHfF7U7uIP9I573iJdPXwwfQ=
+X-Received: by 2002:a17:90b:2d06:b0:2ee:c6c8:d89f with SMTP id
+ 98e67ed59e1d1-30aac19f42cmr12571774a91.14.1746709447736; Thu, 08 May 2025
+ 06:04:07 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|DU4PR04MB10316:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0fbb32cb-ceca-402f-5a14-08dd8e2bc81f
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?6jK5aRsQshFCytavM0k4mU8VdpE6aiL85IuD8kvYIOvSt8CeIBUYm5FAsLeH?=
- =?us-ascii?Q?e0b9z/BsDRaF2giTybHUQRvYUCQSkw5BWQNAto04l/X7GGJD6ogA5K6ejvZg?=
- =?us-ascii?Q?GtnVKNirvLlQLnw2s7PimywRXpKR0f4iqddgCHJkY1A5Gz9Bz/mplhE78srP?=
- =?us-ascii?Q?hGYQ7noDA2ORYbwBEUz8vxMEmfPo4yaQvRy8SYPZwuYJ/uXTCjUXIb4jEWWK?=
- =?us-ascii?Q?rcV/cYqbpWsggz9NGr6zT4XrxI3h2uU5s5qsTkorUEydzJTs5zdezOSxow7T?=
- =?us-ascii?Q?lWBJkZfwuU/yZIK84u/Dz9NEkRKGXInGJIrfRlzyk4ODrrPPNvmQgawNbXgL?=
- =?us-ascii?Q?Z1ohijpKGzbwN2LK90IiOdhewMoqUypXAH8p4wcbB8M2TXnVKjjo8OhFcz5/?=
- =?us-ascii?Q?AU+rFaXpNiCN9EA6a7Uc+jxLQnmEMB/KqvWB6fVA6TbZwAfJlPd1y45Rv2le?=
- =?us-ascii?Q?Iy1S1oKzfH5gondUuEwTIFy1TzCfsaQUFyxuGyR5NbL+h8Savh050lqGGdok?=
- =?us-ascii?Q?wQ+HwqePVDooaFOKRHbqYBYorY2dqdJrurs36W96Ly47v6P+svI8E5qelAPF?=
- =?us-ascii?Q?J96ZCuKCuD3eX6NL3r7SCl9/HtYgtT3X7WZBkDOvv/81wzca4ZH3bnYgG9kv?=
- =?us-ascii?Q?x5n8KB4uwIiH6I0Aq0KazqiMOGqLCk3OoUo2wVvZ8zbw8VxgFgXQ23CV3bVW?=
- =?us-ascii?Q?DOXfHLPvNKsPmeyAYQI74iayiB+AEEKKN/M4w61xFVsNANWOeMMuMgmH0uOD?=
- =?us-ascii?Q?qkN8pjCdX2xvjFHXosbO++TfX5+Yk52TA4SXyLmh8q4TCZ/YQc6hJnFk/g1e?=
- =?us-ascii?Q?rCqHB6X4E/UJtXqb0utxLw+o7a2aqqO3nwqdjgt8htx8Bq3Mxs3dtIJhjsTk?=
- =?us-ascii?Q?AlUyswS3Bl36nGbL1UDibSutByDGJwIuV4mQNxR4or4zDj3SWJlrXCiS1UzX?=
- =?us-ascii?Q?dKMKK4aFHjyDTV8K0GoVrqY7mtj3TpcudTgDzxLeeGuhkZZGzFz+Eu0UONuw?=
- =?us-ascii?Q?oI+zBFHanML16/W7SODSSsD8awJDV8FNxCRK+Uzs9KQLdQys+pr3zPQJAqO2?=
- =?us-ascii?Q?vkArMKFDwNOSS4QZrYHqXnjxGIJLHw+R/uZAZ2SKTMob7yGKXgHpMeGYOqgS?=
- =?us-ascii?Q?P/XSBgPq4RvvdJ8O2j62cGeruftB9lKmYpWV9nGXFfjRnGG854DhzMUShwbX?=
- =?us-ascii?Q?BDqBPy0hmSBpWYvpLSs0SaCmWswbVNbKSLKfGeJ0W3Zjfi9WJJ7sQoFb7f3k?=
- =?us-ascii?Q?X6IgQ9z8J0zld7lhi/dUwLjTnzYGJjJp3InJBomQv+kxy2hPoNxd2xurQAUv?=
- =?us-ascii?Q?/iM4PZUK6eXpMW4pXfmcPfdBLxqcJjpg0cLb1zQmKp0+SyBE7g/wAGCXjqpK?=
- =?us-ascii?Q?K0IS0lv2FJ/Mrgyqm7rXVkA/OTGgcOcKauQbLjQdJJQs9c2l5dVLhau6gaG3?=
- =?us-ascii?Q?82+s8c2Q1G8=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2bg05pTr8mnbaH/8bDOOx8XD2Bp1j4G3hERiB1KFAcijwq8e1KfSKKfo0sf1?=
- =?us-ascii?Q?dEx+g0H44h43qlTVOERG3K7aYoaIhu/8utbuv8ZCoHBe7zmZN+/ru3263OXB?=
- =?us-ascii?Q?EZ5OaTdCC5ePYU4yqNuRK6XPt5t4O4G+kliXWsfZqHQggPTkaxv4qmaxP7O2?=
- =?us-ascii?Q?i3+khFwHz3+LVZMQil60pzVBedkwrhcvvlV07fNVKqE4J4eYu9iveOa9uQII?=
- =?us-ascii?Q?OjHuUYfCeWIkigCY131q1qGfGmXFOw9zRo+8I2XOIEbi9FlhOqdvcsYiO0Ey?=
- =?us-ascii?Q?x7hPYeECwJf7AeqaBDz8q/VOs+7fobxgSlMoyk9RqxxrRbO4ponGS5U3Ih7H?=
- =?us-ascii?Q?A3vPQVAwtsX1GVJLCfiMdJMEJGDnc76+wbxTunxjyRdmlXE/p/Q0+L24uIfH?=
- =?us-ascii?Q?QHk9wV35E67LNaMlNIUSiihgQpFunuBcX7tE82lERrSckNs2pXnHyyT3dV+X?=
- =?us-ascii?Q?JfOKMXCrsFO87rt/SM5QzIPo0N1OvbT2au4yMgdmLDIUWxdZrcNu7Twspj+1?=
- =?us-ascii?Q?NVUroHguf4Yt3XxkfnVJJDH8a/LAhMuJLA3CaJQjb6K5aIpkCA4ZbCmqjy/8?=
- =?us-ascii?Q?v1aOGNmvQemL3jSCq1ulUddwOeNToqtQoAAgPahgfWiuvLabcraSqTVCEce7?=
- =?us-ascii?Q?masAzK+1zq92fe1ZhbPT816ePXhwcovUsWiANgARfyGcJzOBkb6Q6ErvPS4l?=
- =?us-ascii?Q?joWDACpjhV1nMb+/AdeUnLi3ol2EqMipegmgJEf2n2LU9Wf5Jr5RieceV4wO?=
- =?us-ascii?Q?c/sdPRh2aVB9BsbU/dgoXADPb254NnNv9g5KKCROSObTN1ibdQ11T6azNaOt?=
- =?us-ascii?Q?OP43SLYtLVNYOO/TPc02laQURyzUHWnvZSsgdQCRStbvz6pd8Cu7TfByYcVp?=
- =?us-ascii?Q?nggP07P6aTAjDRlUv0F8gcSwVg1e53DoDWNV8rQib9hSXWA/CMEWnpwU22fk?=
- =?us-ascii?Q?fP2g6hCQqvsY5m2zets4nFNpBuxL7eIfuGWgts4dk7ICjtDQFMLkFzh28L6V?=
- =?us-ascii?Q?usF4h/aUa6G/atx6bWaOehEN929HgIcn9aqM/K7eF2S2virZRZ5gC3/Xw5cV?=
- =?us-ascii?Q?0AJTJCxo/SbEKiqMO8bIwOh9vyg9Ugxa74nEpl6E2M7vF6G/PZpS5T5+L6Gz?=
- =?us-ascii?Q?PDnhgorPR+kRVNHaZz1dZuTRUh45hibi95yqDfklZq7pb3nha4KJJzjjPU1l?=
- =?us-ascii?Q?GsknfBDMTOnMjbW5PHCsDh9seAmpe05kCZLPuPReWwXxEImwcrGSHvxn4ps1?=
- =?us-ascii?Q?nALOMYg65G6XUA6pize7yl+vZLVGtiZBhj44eOVmp3z9JuQqnJDjlhKei8ah?=
- =?us-ascii?Q?AApNVIvD4+kiozvRZvhh9v/JPnr8Sg/lCxnPdwZGefvJxGdygAWcZT4WdFZo?=
- =?us-ascii?Q?Ex5p/ARq8UukcxIEQ7hgju65fxUGg4KM/eThqIZPw0Vx6Adyoa4zraG/usPl?=
- =?us-ascii?Q?CNP7xXiv8/GwBISURl1BVq6F35GEe3kfrp9rcuhAHQD9KcqAiDc3rg8mM6/q?=
- =?us-ascii?Q?G05VSwmWQ+86r6NijfdVImGGgqUSJB1XTGCnGF7G9YNZOm+xV3GH50gV0xQu?=
- =?us-ascii?Q?5ohi8BmGrlW63xpvs4D7rt+gBjTonmPyY3hQ5tgi/L+HQGWpQ4wUJjmlPItk?=
- =?us-ascii?Q?tw=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fbb32cb-ceca-402f-5a14-08dd8e2bc81f
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 12:28:05.2765
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qxsPCvw3TS6+zWEW5OoPEKwkdRSD7WycR54HwdvfcKY6SuIDrx04VcScoch2idzxLwEsEQhp2/2NgnRLhwkrIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10316
+References: <20250507151109.654312-1-bruce.ashfield@gmail.com> <76eb7a8c593616cb502e7ed42084b105b5016f52.camel@linuxfoundation.org>
+In-Reply-To: <76eb7a8c593616cb502e7ed42084b105b5016f52.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 8 May 2025 09:03:55 -0400
+X-Gm-Features: ATxdqUGksN2cbC4ewW3_NL7z6DPNJLUIsT_lW9zpqvfA_nnnTT0glIbbY_YZP3k
+Message-ID: <CADkTA4OCWxdRvyzRDSzv9wPY6j-MkOxO1GYM=Wtp9SLT=7Vf9g@mail.gmail.com>
+Subject: Re: [PATCH] linux-yoto/6.12: bsp/arm: fix CONFIG_CRYPTO_LIB_CHACHA
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000028cd4106349f7c10"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 May 2025 12:28:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216150
+ <openembedded-core@lists.openembedded.org>; Thu, 08 May 2025 13:04:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216151
 
-Hi Ross,
+--00000000000028cd4106349f7c10
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/8/2025 5:40 AM, Ross Burton wrote:
-> Hi Tom,
->=20
-> On 17 Apr 2025, at 19:08, Tom Hochstein via lists.openembedded.org <tom.h=
-ochstein=3Doss.nxp.com@lists.openembedded.org> wrote:
->>
->> The user cannot override the setup command options --cross-file and
->> --native-file because the meson-wrapper places these options on the
->> command line after the user options. This problem was noticed when
->> trying to build with an SDK using a custom cross-file.
->=20
-> So I=E2=80=99ve been trying to test this series in eSDKs and have discove=
-red that some bugs meant our eSDK coverage is basically zero.  I fixed thos=
-e and now have the interesting situation that:
-> - fully populated eSDKs fail to install
-> - minimal eSDKs install, but meson doesn=E2=80=99t install a cross-file
->=20
-> Did you manage to test this series inside an eSDK, or just a traditional =
-SDK?
+On Thu, May 8, 2025 at 3:19=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-I did not try eSDK.
+> On Wed, 2025-05-07 at 11:11 -0400, bruce.ashfield@gmail.com wrote:
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > Integrating the following commit(s) to linux-yocto/.:
+> >
+> > 1/2 [
+> >     Author: Mikko Rapeli
+> >     Email: mikko.rapeli@linaro.org
+> >     Subject: genericarm64: add CONFIG_CRYPTO_LIB_CHACHA=3Dm
+> >     Date: Wed, 7 May 2025 14:43:40 +0300
+> >
+> >     Fixes CONFIG_CRYPTO_CHACHA20_NEON build as module:
+> >
+> >     WARNING: [kernel config]: specified values did not make it into the
+> kernel's final configuration:
+> >
+> >         [NOTE]: 'CONFIG_CRYPTO_CHACHA20_NEON' last val (m) and .config
+> val (n) do not match
+> >         [INFO]: CONFIG_CRYPTO_CHACHA20_NEON : n
+> >
+> >     Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> >     Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ]
+> >
+> > 2/2 [
+> >     Author: Mikko Rapeli
+> >     Email: mikko.rapeli@linaro.org
+> >     Subject: qemuarma15.cfg: enable CONFIG_CRYPTO_LIB_CHACHA
+> >     Date: Wed, 7 May 2025 14:43:41 +0300
+> >
+> >     It's a dependency of CONFIG_CRYPTO_CHACHA20_NEON.
+> >     Fixes:
+> >
+> >         [NOTE]: 'CONFIG_CRYPTO_CHACHA20_NEON' last val (y) and .config
+> val (n) do not match
+> >         [INFO]: CONFIG_CRYPTO_CHACHA20_NEON : n
+> >
+> >     Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> >     Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ]
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >
+> > Apply this on top of my recent kernel series and the warnings
+> > should be gone from the various arm builds.
+>
+> I think there is a push to yocto-kernel-cache missing as these revisions
+> aren't in the repo.
+>
+> I re-ran my publish steps, everything should be there now (including thos=
+e
+revisions).
 
->=20
-> Thanks,
-> Ross
+Bruce
 
+
+
+> Cheers,
+>
+> Richard
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000028cd4106349f7c10
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 8, 2025 at 3:19=
+=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfounda=
+tion.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">On Wed, 2025-05-07 at 11:11 -04=
+00, <a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ash=
+field@gmail.com</a> wrote:<br>
+&gt; From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" t=
+arget=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt; <br>
+&gt; Integrating the following commit(s) to linux-yocto/.:<br>
+&gt; <br>
+&gt; 1/2 [<br>
+&gt; =C2=A0=C2=A0=C2=A0 Author: Mikko Rapeli<br>
+&gt; =C2=A0=C2=A0=C2=A0 Email: <a href=3D"mailto:mikko.rapeli@linaro.org" t=
+arget=3D"_blank">mikko.rapeli@linaro.org</a><br>
+&gt; =C2=A0=C2=A0=C2=A0 Subject: genericarm64: add CONFIG_CRYPTO_LIB_CHACHA=
+=3Dm<br>
+&gt; =C2=A0=C2=A0=C2=A0 Date: Wed, 7 May 2025 14:43:40 +0300<br>
+&gt; <br>
+&gt; =C2=A0=C2=A0=C2=A0 Fixes CONFIG_CRYPTO_CHACHA20_NEON build as module:<=
+br>
+&gt; <br>
+&gt; =C2=A0=C2=A0=C2=A0 WARNING: [kernel config]: specified values did not =
+make it into the kernel&#39;s final configuration:<br>
+&gt; <br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [NOTE]: &#39;CONFIG_CRYPTO_=
+CHACHA20_NEON&#39; last val (m) and .config val (n) do not match<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [INFO]: CONFIG_CRYPTO_CHACH=
+A20_NEON : n<br>
+&gt; <br>
+&gt; =C2=A0=C2=A0=C2=A0 Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:m=
+ikko.rapeli@linaro.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<b=
+r>
+&gt; =C2=A0=C2=A0=C2=A0 Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto=
+:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&g=
+t;<br>
+&gt; ]<br>
+&gt; <br>
+&gt; 2/2 [<br>
+&gt; =C2=A0=C2=A0=C2=A0 Author: Mikko Rapeli<br>
+&gt; =C2=A0=C2=A0=C2=A0 Email: <a href=3D"mailto:mikko.rapeli@linaro.org" t=
+arget=3D"_blank">mikko.rapeli@linaro.org</a><br>
+&gt; =C2=A0=C2=A0=C2=A0 Subject: qemuarma15.cfg: enable CONFIG_CRYPTO_LIB_C=
+HACHA<br>
+&gt; =C2=A0=C2=A0=C2=A0 Date: Wed, 7 May 2025 14:43:41 +0300<br>
+&gt; <br>
+&gt; =C2=A0=C2=A0=C2=A0 It&#39;s a dependency of CONFIG_CRYPTO_CHACHA20_NEO=
+N.<br>
+&gt; =C2=A0=C2=A0=C2=A0 Fixes:<br>
+&gt; <br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [NOTE]: &#39;CONFIG_CRYPTO_=
+CHACHA20_NEON&#39; last val (y) and .config val (n) do not match<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [INFO]: CONFIG_CRYPTO_CHACH=
+A20_NEON : n<br>
+&gt; <br>
+&gt; =C2=A0=C2=A0=C2=A0 Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:m=
+ikko.rapeli@linaro.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<b=
+r>
+&gt; =C2=A0=C2=A0=C2=A0 Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto=
+:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&g=
+t;<br>
+&gt; ]<br>
+&gt; <br>
+&gt; Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gma=
+il.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; <br>
+&gt; Apply this on top of my recent kernel series and the warnings<br>
+&gt; should be gone from the various arm builds.<br>
+<br>
+I think there is a push to yocto-kernel-cache missing as these revisions ar=
+en&#39;t in the repo.<br>
+<br></blockquote><div><span class=3D"gmail_default" style=3D"font-size:smal=
+l"></span></div><div><div class=3D"gmail_default" style=3D"font-size:small"=
+>I re-ran my publish steps, everything should be there now (including those=
+ revisions).</div><div class=3D"gmail_default" style=3D"font-size:small"><b=
+r></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><=
+br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--00000000000028cd4106349f7c10--
 
