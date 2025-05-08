@@ -1,291 +1,224 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CECEC3ABC5
-	for <webhook@archiver.kernel.org>; Thu,  8 May 2025 09:54:42 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.11592.1746698072989644456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E8A7C3ABBE
+	for <webhook@archiver.kernel.org>; Thu,  8 May 2025 10:41:12 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.54])
+ by mx.groups.io with SMTP id smtpd.web11.12297.1746700864595771639
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 May 2025 02:54:33 -0700
+ Thu, 08 May 2025 03:41:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7223240b2b=changqing.li@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5484uS60007652
-	for <openembedded-core@lists.openembedded.org>; Thu, 8 May 2025 09:54:32 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46d8c15txp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 08 May 2025 09:54:31 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 8 May 2025 02:54:30 -0700
-Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Thu, 8 May 2025 02:54:29 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/2] libsoup-2.4: fix build failure
-Date: Thu, 8 May 2025 17:54:27 +0800
-Message-ID: <20250508095428.4116254-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=a0ul3IZj;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=a0ul3IZj;
+ spf=pass (domain: arm.com, ip: 40.107.105.54, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=Wg6VbKHRWxGgVJ+QMLhMgyGaHFOV0tOgk7cQ4aoAtKH9OiYaXABkNw5AmmOELmd3RVbdpLz76XUieBnRi/S/FfcibLQNmLFOBxHliqc1YW8ZV62n3T8ZRCcwYH7WqVBpohoxJ+lWbt7iBU6PmlVaRqJEPgJFgVzsfLy8UsAgMfic25WlFeTWx5I44O7IXdcOzbXdB+ZNwkerZ/y+qKL85wrIWWcTYn1kYMOlLyTR0S0wJKRjUQc2SHAcBT1ZvAH05OpDQZT1ur2n2MkyGtrsLF4muGzj0CJMcPqkCgSaFvTgcs8E1Cla1MYZ0cfKcrEDDo7mHAGGlej7IFoLIcn93Q==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1PfHAghzhbShw9rH4h8uy6MddnNUXznhIghYXxxsGoA=;
+ b=GzkSe7I138nawsuTxuYsD+YFhtHkWbgC/R/JEyN0e2Tn4UZsUnb+IkCZ3MbSbegM7JZEuKP4Gck01ke/LeWUgKtJfLgpmU9prhkvMVZBpWDFkPMSlgEHy46O3SRdp/oyx4WkAsYL7II9wJI1ooVdZrE7xgPHZ5eqtEMm2Gm2f/6DTlBawuYKS1/OPtFzfPmvkIMFIMpMZk+6dDny5fvOzNU+ZpTK+EC2QKCr4VYRqN7GNspLJPPVc2czdfGvW7RYduJqlmbhvbReVTHI4ArNhIKAyoeZGcUQgjhCqC0QrndSHTx8ide7ZlEvtUET00p8xQHJZ8auJHIOFoBHADUsGw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=oss.nxp.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1PfHAghzhbShw9rH4h8uy6MddnNUXznhIghYXxxsGoA=;
+ b=a0ul3IZj1rYOuXPJgahckez4A1quSbhbZ3fxlOxwPps+YbgFjPw+cywOrPim1MlecYjH8ddv9rcECdM3vKcdZJcPerQAhmy3dWQcO67cekweJrAnMEWs91glL73AIQ4ytOGg8rET/oYHRZakRh4kVEu2ycaEJi5Ddetaw8kHOyY=
+Received: from DU2P251CA0028.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:230::32)
+ by VE1PR08MB5855.eurprd08.prod.outlook.com (2603:10a6:800:1a2::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Thu, 8 May
+ 2025 10:40:58 +0000
+Received: from DB1PEPF00039233.eurprd03.prod.outlook.com
+ (2603:10a6:10:230:cafe::60) by DU2P251CA0028.outlook.office365.com
+ (2603:10a6:10:230::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8722.21 via Frontend Transport; Thu,
+ 8 May 2025 10:40:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB1PEPF00039233.mail.protection.outlook.com (10.167.8.106) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8722.18
+ via Frontend Transport; Thu, 8 May 2025 10:40:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jAd/BwFUVz8fD8dpiztOiXx0KdI6pY9zSdBGu12wqE9UJTYVjRLQwFpsocsiis1SgfOiSv6KCAox1sKppgjLDc1BQ/17ZfSHMfMqvRCCua17pHxijdcxl2d/pVqLGr4XvDWjo67hW+w46MfNgs0po+ox22+2bHJ4ndbc0xF4morjhpC3k7nVV0oR58BLFKt4jSpFbTWKmaen9mAEdw06HDgMDd46gMx/GIWgHivtJRjd8Xzr+D9xNQkj2jcm9U0Q+6Q+HGgo6iQz4o1R5Xtury2HaEWUY1Bvcb0PJGF4O+cHue5IyAojAW2+Zat+75kHFS+3giPKLkqoa797DeQ7VA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1PfHAghzhbShw9rH4h8uy6MddnNUXznhIghYXxxsGoA=;
+ b=T3g6AeB2JPkja5pm1xcRqSyszrdga/ADvKDv8SS3b7C0J2VuFRaHf48jIWvxMUWU9xBvzVhode1txAMVhLLb+QBEvB///WV6hbpHHppd03Z+pJfRMCySWppCAEUzsXAtnXUxiLacGEc2sg0FC4wMEQbUkipuaQsn6/QuzygpcVIsVurUJZuaxONQGcWcGgxhusdfDMucAkTc9l/vqam7hZvvSgP2XtFzRkMDLQgbF6qpCDnDgZ/k5eL855KofdPexIH3w6zpDDRLFz4MPy1a9ammLja2n2bXHwfpIFtkt9si4lleWvyfj5B2BCYhBji0tE/oj/4PImUWk3ma9N7NuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1PfHAghzhbShw9rH4h8uy6MddnNUXznhIghYXxxsGoA=;
+ b=a0ul3IZj1rYOuXPJgahckez4A1quSbhbZ3fxlOxwPps+YbgFjPw+cywOrPim1MlecYjH8ddv9rcECdM3vKcdZJcPerQAhmy3dWQcO67cekweJrAnMEWs91glL73AIQ4ytOGg8rET/oYHRZakRh4kVEu2ycaEJi5Ddetaw8kHOyY=
+Received: from AS4PR08MB7429.eurprd08.prod.outlook.com (2603:10a6:20b:4e1::9)
+ by PAXPR08MB6479.eurprd08.prod.outlook.com (2603:10a6:102:157::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Thu, 8 May
+ 2025 10:40:25 +0000
+Received: from AS4PR08MB7429.eurprd08.prod.outlook.com
+ ([fe80::8db5:7772:a426:2afe]) by AS4PR08MB7429.eurprd08.prod.outlook.com
+ ([fe80::8db5:7772:a426:2afe%5]) with mapi id 15.20.8722.021; Thu, 8 May 2025
+ 10:40:25 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "tom.hochstein@oss.nxp.com" <tom.hochstein@oss.nxp.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v7 1/7] meson: Allow user to override setup
+ command options
+Thread-Topic: [OE-core] [PATCH v7 1/7] meson: Allow user to override setup
+ command options
+Thread-Index: AQHbr8QFGI4DHZ6+w0GLF5rEzxe5abPIq6KA
+Date: Thu, 8 May 2025 10:40:25 +0000
+Message-ID: <C418837B-2179-4849-BFCE-B5C2C69C415A@arm.com>
+References: <20250417180834.1722588-1-tom.hochstein@oss.nxp.com>
+In-Reply-To: <20250417180834.1722588-1-tom.hochstein@oss.nxp.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.500.181.1.5)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AS4PR08MB7429:EE_|PAXPR08MB6479:EE_|DB1PEPF00039233:EE_|VE1PR08MB5855:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5f7a1b3-a072-4b80-0130-08dd8e1cd170
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?Qk5mOS9Ja3NaVXlNbzNSWVdBUUFja2JGc25EenlRRlhtN1h2cWdEQzF0L3JT?=
+ =?utf-8?B?WFk0Y1B1eTNCSEZCYTMxdStRMisvVUpHZU95bWVLc0ttdGlNNHdKMnNsZ1Zt?=
+ =?utf-8?B?T3RaYnpyRkNNMldqUmM2OENJTTJXMlVBTG5teHlrK0s3S2ExeDZNRGFqMTFG?=
+ =?utf-8?B?b1U2R0tNVjRGS2R0NEcvVmVvaDI2MHl0V0haeWlodFZQdGd6aGkrN0VvYVVq?=
+ =?utf-8?B?SDhvbTI5VmhSZFFmaWZmOEEwUmtDaWQ1UUlXTDdvWXBpcjZ4Uk1XcE1tSDVE?=
+ =?utf-8?B?YVpHQVhTenlCQitEU1FTOEp4WldVb1JGQWRHOVRaRlE5TkMybml5Z3dRR2dC?=
+ =?utf-8?B?ajJHcWFFdFpLOG8zVkhkZzIyMm5paWlLT21jK244QUNMTG9kejJZeGNxbzdX?=
+ =?utf-8?B?RXRiZUlwd0E4b2k5UTFxbGFrd05wd3o0WGhPc0NqK2lXL0wycVRNUHRDc2xx?=
+ =?utf-8?B?a3lCblFaYURHYlJUeUtoS0ExVHZob0YyMnM1cFdoNUduQXBuWFlYc1hwS1BP?=
+ =?utf-8?B?U0FyNVJmZHo1QnZIODZOM3RVLzU2b01EVnh2Vm1UdUd1SVBteDJqRTR5OG9r?=
+ =?utf-8?B?UkJCalpTYVB1S0o0OWF2MXNvbmJOMWo4cHc1aFl2VG9rejl2emVhMVNIMlFX?=
+ =?utf-8?B?K2g0cGVCQitLd05TbUNTNW54UFpIY3I3VVIwdXJoUnhpNXl4QkhnelNkT1kv?=
+ =?utf-8?B?VndkME1pRGY4SGRrWENPaGhEQ3VIQ3g1YXJtRDhrb3AvbzdLUmhldFNteW9Y?=
+ =?utf-8?B?dzR4bXBubzlMdFB4S09Gd2Fnc0hMZkJ0N2Jacmk5dFQwV0o0a2NSOC9iQTBE?=
+ =?utf-8?B?a3hhRDJabXJDOW1XbzZRUFhUTWQ5SFBWK0NFcjNFOU5VNVF1VStMUWYydzBs?=
+ =?utf-8?B?ZW1Sei81NVZiTGRVN0VFa2dmb3hOK2RUN1BLK0dvNWVTSTFzRDUrTDVvZnlX?=
+ =?utf-8?B?TzhDMmVyaEtlYXJjOWZ0YUpXQ2J1VjVMd2UrSC9iYkVocFVjdE9oUS9xNHRm?=
+ =?utf-8?B?dEJOVi9oa3Raa0J3d1dJYVJOVElkUHkwbmZvZzhGbFVuWGtBeS92ZWtONno1?=
+ =?utf-8?B?QTU1c3JaNGFZaGZUYjNzcDM4RFVubnhZN21oSzd3OGEzUmdsem5QV0VrNERS?=
+ =?utf-8?B?dHV1a0FvMDYrK2t2M2Y0OCswQVVoTFVkK1JtY3NqdnJkM3MycURaeVFQKzQ3?=
+ =?utf-8?B?K2MrQkpHR2wydmFwTFh6RlRteFRXbEtWMjJNUmFPSW9hV29OZ2RkOUx2TGpU?=
+ =?utf-8?B?VGxZN0FLcHp1UFVzM0QxMHdyOWJNQnhWS21PbExNV21WTzNMZTZSTnFhRzIy?=
+ =?utf-8?B?YW1WSGJSNGZxV1N6WHluVWVrM2NvZ25PT0s0QWpxaC9iNE5qTENkUVRUbkV1?=
+ =?utf-8?B?dmNhZngwSEJhd082L2lVMHpza01henNVNTBCYjVUcDZ0NTBGMkhVQVdDRlpu?=
+ =?utf-8?B?cUlDZHhhUG5hdEgvWlQ4K3RneWRBN2FXVUZPYy9sQ1ZnU1ZxQW9XQjZ1eFRn?=
+ =?utf-8?B?R3N1ZEJTSUtGZElPeTR5VEEzUVZiNTZhL0lGYWtFS21JcjhycXRnMlNtU2VX?=
+ =?utf-8?B?YmtnTCtBYU0zM3I1YzBFZmIreWc3cFBQOVBha1pHbC8zdW9kREFWY2tpMVJq?=
+ =?utf-8?B?NlBaQnlsYTNZdjExK3Fjb1pCaENTczhXenY2a05GanNTcnFPemJ4Wkllb3dp?=
+ =?utf-8?B?SGlGS1RYY3BUVmtkL0EzNVhtWllaWVFEQnFiVmZ2cDZ4SVphQkU5M0FwMkhM?=
+ =?utf-8?B?TUFvZmJ6ZEwxV1VZRTBlMEdqVUY4bkJOdkxYbFJ4SFJreS9abHUyd0FUcTg2?=
+ =?utf-8?B?YTBCMi96dWZOODR6TnlmT29Ya3N1NFlZQTV3bTRIdmo5dnFvdmQwZ2lPT0tw?=
+ =?utf-8?B?cTEwTjRSemg2b3Q0V0tXQTRsWnBQR0UwbzlpQm9oNFFaamYvSmVZSEROaWpR?=
+ =?utf-8?B?ekFtRklJWkJjeGY0ampIcWVKNC9UY3BxSlphMVVGMVFuNEF5dFVpTXB4aEgx?=
+ =?utf-8?Q?BqettA2o2WmBRW6NT6QdTKmGVqF1ZQ=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR08MB7429.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7ACA4002E132554DB99FAF0FC4DCDC80@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=NIjV+16g c=1 sm=1 tr=0 ts=681c7f57 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=V2sgnzSHAAAA:8 a=y4dstZXFQjHuBTlO5aEA:9 a=FdTzh2GWekK77mhwV6Dw:22
- a=Z31ocT7rh6aUJxSkT1EX:22
-X-Proofpoint-GUID: CukA7ePq-oU9gWkWuhWqIyPLh4l0iQL8
-X-Proofpoint-ORIG-GUID: CukA7ePq-oU9gWkWuhWqIyPLh4l0iQL8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA4MDA4OSBTYWx0ZWRfXwETp79D3zMTX IZWBVV5A8MlygMLFBlYzrWDgyB61aiThrl7xxCYJL+yS84ava8hRzxY0+C67r/nzg1WkQ1AMfL9 Su5DXwURa8m8VeRe7sI+jNoyuqrz8eWbYT1v+URTSd7xdaRHfu18WKsut2UIve+IWhExt4Pmbor
- Q422K/8azAvrEs71cCINtyZWGgpwtA+OsRIr3MLem1zz+qTrACGFpUKjD8vseWe2jghbIBc/t3b elufXPalZDi4umSzegmJ2tJ4C0Ee297hFhQocsSIwtAaO4qd6p7ICkzajlBhQVP9ApKQg6rbnd0 wjULddkMKH/JRXDr+X3rTwxPcZD9YNx+eDPkuDq4tjZ4qJc+/o1uMvBH/fOPe5FIujrd4tAiCfe
- LXwq0CEcEN/zuW3//G7ABffocCrhyYt01/i2EE2ajompWYQCXL/3hqjxGBfjOkXYS22c2/NG
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-08_03,2025-05-07_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- priorityscore=1501 bulkscore=0 mlxscore=0 spamscore=0 malwarescore=0
- clxscore=1015 adultscore=0 impostorscore=0 mlxlogscore=999 phishscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
- definitions=main-2505080089
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6479
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF00039233.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	ba94e2cb-b03d-418f-bb75-08dd8e1cbe29
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|376014|35042699022|1800799024|82310400026|14060799003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?RjBqMDMyei9nNWYvbFBlVFBjaVllT2gxcytHbGxvU3JUVlpiaklKcHNmV1Fm?=
+ =?utf-8?B?M2RVbkhHU3psUjdDcTNUTUR5T20wTFp5ZlMyMzVKU1ZFUkx2TVF6OEpPM0lY?=
+ =?utf-8?B?Z0RjdFFHdGVMMTBoOGFTQ0FBVVJXL0xTeEpjRGpnOWlPYjFpZUJtaVlHSHJj?=
+ =?utf-8?B?aURjTkEyRU93ZWlkdUhhVllLeUhQY3RvQWNOUXQ1NUg4a05iNWQweDY2M244?=
+ =?utf-8?B?UG4veE1iMGp0dHM1NXJFZ04yeWVXU2ZjTjN6YS80cXlWbFB1Ykp0c0huSnZi?=
+ =?utf-8?B?TlA0Tnd6bkw4c1BublhpYzNHUmhSN05zaXBFanBGWE83QWYrd3o3RjRacnFM?=
+ =?utf-8?B?Y1JEaGMrM3N2cmlvZ3hlVmQ2MUdHcnUwTVVFSzFpWm52eXJJcnhzY25wTjht?=
+ =?utf-8?B?YjZobnBMY2s4L20yLytLVkFSQlI2UVR0bU1RNmxxU1FjQTNRRzZGYXJMOTg2?=
+ =?utf-8?B?UWo0cUt1R2dYWmlUQy9aVXRkQSsrenNaRVdVdWFnYUFPc1gvU1VCRk0xUjFN?=
+ =?utf-8?B?UWxjZy84VVhyR21lZnNWdC9DNXEyRUFTRm5JdkwwUXlwTHFrZ0pwNk82a2JZ?=
+ =?utf-8?B?Z0NUUXdRMlczNWNidU5EVXVYWjhvc05CUjRuRGhIYjFwOHNFWnNIaDcxanVK?=
+ =?utf-8?B?dEEvcDRwSThqSEo5M1pJK0diNnBhVVdNckY5OWN3VXFiSFRWMWQvZWNySnJo?=
+ =?utf-8?B?bnJ6TWxOaVVsTkhqTGpjVng5a1FMRUt0U0xUdjlDYmhTd01WT2lPMkp6N0w2?=
+ =?utf-8?B?RmVoSDh4QWhzM3VnSWhqOUhyUUVKZVp6dHZkRFI3WDNmby8vblVPWHJMWENj?=
+ =?utf-8?B?NUE1b3JnVXUwT2x4YnNkODIyVS8xcDlUUGhBdGpxVUplcDBFd201M3VBOTZa?=
+ =?utf-8?B?NTVrTmgrZkVyZFRpSHEzZkVpYnhJeUlUODhzNjRIQ2Q4TXN1c1AzMU9VRE1s?=
+ =?utf-8?B?ZkFBb1BReTRJcW1XZ1FZcTNXWHJKelRwUzZiZU9hSVh1dnd4SUpPNmNkT2Uy?=
+ =?utf-8?B?YmNiWXR6NU45SjI2Wkd3S3R4R2toVm4yeXlyY2pwSzFCeEpaNFFOSVNJM0dV?=
+ =?utf-8?B?bHJUbkh3VTFPUm9sQkJIOUlSRjJFcXdCN3k4T2FNYm9mYWFYaDFLam1SR084?=
+ =?utf-8?B?VWQ0QkxxZkd2SXpBV0ZOdWx3VUxYZVVrYlJrK2JTKzhMaUZOaXdiaXVDOW9m?=
+ =?utf-8?B?eU5FQ3MzNlZtMkJ6ZXdISTUvTXNFMjNQTXV3TEoxaHJHbVErdk9WcXJISXBx?=
+ =?utf-8?B?clpzSGJjTDJ3OTBodjREakFYdjdMMjBObFZlZm1aTlpQSzBBYzNIWlh2cTdq?=
+ =?utf-8?B?SGtGT1FaMWlSN3hnd0pzMU5ZdUhBOUVQMUJ3MTZLZ20wMkt4VElKWlZoYkZL?=
+ =?utf-8?B?ZWJYd0JCYkhrUnlERWFGendCTGJnOXZvUlhTWFBPbzFaZVJrUEZlWHN0Z2V2?=
+ =?utf-8?B?YmhNZkdUbHNYck54OHBWZ2Rod2QvUXN1NVlHYzZqc0pMczZ5OHFKTCtjSE44?=
+ =?utf-8?B?Y0w5VlJqUURBUkliUWdINVRCQ1VQM2hpUHhubVhTdFRZaTQ3dVZqY0dJbWdj?=
+ =?utf-8?B?SnUrQ2MvckoxZGFGa0pZRGNQTHNKazhERDBoRi9QTDUvWUtwVVgrTVcxdFB5?=
+ =?utf-8?B?ZzhHbXpnR21GU0dseXh4QWpqS2grd1RCamVGWXRiQlFQSjhOK0FyVVZSSjNw?=
+ =?utf-8?B?dDFpZVR0aXVDVVYvcjl0dEsxNzlOUTFzaWZhNzY5Q2hhR0g3eFRvWkRoUUhC?=
+ =?utf-8?B?Z2pHckNkVlh4MW94RjVTY2Rkd2JQM0x6Q2lUWFp3TlRZVUZUNUg2L01lcjBH?=
+ =?utf-8?B?SzhOS25SSWFjdC9YU2poVnFleGwvdE1RZ2RYOEtoVitIQ2RXZzYrSDFudlhu?=
+ =?utf-8?B?cXA3aEI4TER6S1VSWHZ4cUpYRnJNdS9yS0ZBSWgxY0VlOWFNNDB0MjlkRkxw?=
+ =?utf-8?B?eUtMMlRFVmFFWitFVXJaa3J3djFNV2JrU1I0ZTBFeG8yc1JPcGV3aGtCQ1h4?=
+ =?utf-8?B?SjNKNVZTZlBheEF1bHpmb29LSndqMytqb3ZXRkFFMUVxU3NSRHAyT0VaL0xj?=
+ =?utf-8?Q?oBdCaa?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(35042699022)(1800799024)(82310400026)(14060799003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 10:40:57.9893
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5f7a1b3-a072-4b80-0130-08dd8e1cd170
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF00039233.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5855
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 May 2025 09:54:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216147
+ <openembedded-core@lists.openembedded.org>; Thu, 08 May 2025 10:41:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216149
 
-From: Changqing Li <changqing.li@windriver.com>
-
-Backport 2 patches to fix build failures
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- ...-Fix-possibly-uninitialized-warnings.patch |  43 ++++++
- ...-http-and-https-aliases-support-test.patch | 145 ++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |   5 +-
- 3 files changed, 192 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/0001-Fix-possibly-uninitialized-warnings.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/0001-Remove-http-and-https-aliases-support-test.patch
-
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/0001-Fix-possibly-uninitialized-warnings.patch b/meta/recipes-support/libsoup/libsoup-2.4/0001-Fix-possibly-uninitialized-warnings.patch
-new file mode 100644
-index 0000000000..fcd442c13a
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/0001-Fix-possibly-uninitialized-warnings.patch
-@@ -0,0 +1,43 @@
-+From 1159686379184a1c899eabb2174258aba5e0fd79 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Mon, 20 Sep 2021 15:41:31 -0500
-+Subject: [PATCH] Fix possibly uninitialized warnings
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/fb98e9a8c3062c75357b961543af091de2dd5459]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ libsoup/soup-websocket-connection.c | 2 +-
-+ tests/samesite-test.c               | 3 +++
-+ 2 files changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/libsoup/soup-websocket-connection.c b/libsoup/soup-websocket-connection.c
-+index 65c1492..585d45c 100644
-+--- a/libsoup/soup-websocket-connection.c
-++++ b/libsoup/soup-websocket-connection.c
-+@@ -471,7 +471,7 @@ send_message (SoupWebsocketConnection *self,
-+ 	GByteArray *bytes;
-+ 	gsize frame_len;
-+ 	guint8 *outer;
-+-	guint8 mask_offset;
-++	guint8 mask_offset = 0;
-+ 	GBytes *filtered_bytes;
-+ 	GList *l;
-+ 	GError *error = NULL;
-+diff --git a/tests/samesite-test.c b/tests/samesite-test.c
-+index 0b081b2..60c9b8e 100644
-+--- a/tests/samesite-test.c
-++++ b/tests/samesite-test.c
-+@@ -60,6 +60,9 @@ assert_highest_policy_visible (GSList *cookies, SoupSameSitePolicy policy)
-+ 	case SOUP_SAME_SITE_POLICY_NONE:
-+ 		expected_count = 1;
-+ 		break;
-++	default:
-++		g_assert_not_reached ();
-++		break;
-+ 	}
-+ 
-+ 	g_assert_cmpuint (size, ==, expected_count);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/0001-Remove-http-and-https-aliases-support-test.patch b/meta/recipes-support/libsoup/libsoup-2.4/0001-Remove-http-and-https-aliases-support-test.patch
-new file mode 100644
-index 0000000000..0d4139ec08
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/0001-Remove-http-and-https-aliases-support-test.patch
-@@ -0,0 +1,145 @@
-+From 0e3bfa22b23451531caf8cc30b1771ac6a41fcad Mon Sep 17 00:00:00 2001
-+From: Carlos Garcia Campos <cgarcia@igalia.com>
-+Date: Thu, 11 Feb 2021 10:47:09 +0100
-+Subject: [PATCH] Remove http and https aliases support test
-+
-+Upstream has removed the whole function of http and https aliases
-+support, this commit partially cherry pick it, only remove the test to
-+mute the warning:
-+| ../libsoup-2.74.3/tests/server-test.c: In function 'do_one_server_aliases_test':
-+| ../libsoup-2.74.3/tests/server-test.c:180:17: warning: 'g_socket_client_set_tls_validation_flags' is deprecated [-Wdeprecated-declarations]
-+|   180 |                 g_socket_client_set_tls_validation_flags (client, 0);
-+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/111ae4ebe7cc2e389573cff5b9ac76509d6cbac0]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ tests/server-test.c | 104 --------------------------------------------
-+ 1 file changed, 104 deletions(-)
-+
-+diff --git a/tests/server-test.c b/tests/server-test.c
-+index 8976103..cb7e815 100644
-+--- a/tests/server-test.c
-++++ b/tests/server-test.c
-+@@ -154,108 +154,6 @@ do_star_test (ServerData *sd, gconstpointer test_data)
-+ 	soup_uri_free (star_uri);
-+ }
-+ 
-+-static void
-+-do_one_server_aliases_test (SoupURI    *uri,
-+-			    const char *alias,
-+-			    gboolean    succeed)
-+-{
-+-	GSocketClient *client;
-+-	GSocketConnectable *addr;
-+-	GSocketConnection *conn;
-+-	GInputStream *in;
-+-	GOutputStream *out;
-+-	GError *error = NULL;
-+-	GString *req;
-+-	static char buf[1024];
-+-
-+-	debug_printf (1, "  %s via %s\n", alias, uri->scheme);
-+-
-+-	/* There's no way to make libsoup's client side send an absolute
-+-	 * URI (to a non-proxy server), so we have to fake this.
-+-	 */
-+-
-+-	client = g_socket_client_new ();
-+-	if (uri->scheme == SOUP_URI_SCHEME_HTTPS) {
-+-		g_socket_client_set_tls (client, TRUE);
-+-		g_socket_client_set_tls_validation_flags (client, 0);
-+-	}
-+-	addr = g_network_address_new (uri->host, uri->port);
-+-
-+-	conn = g_socket_client_connect (client, addr, NULL, &error);
-+-	g_object_unref (addr);
-+-	g_object_unref (client);
-+-	if (!conn) {
-+-		g_assert_no_error (error);
-+-		g_error_free (error);
-+-		return;
-+-	}
-+-
-+-	in = g_io_stream_get_input_stream (G_IO_STREAM (conn));
-+-	out = g_io_stream_get_output_stream (G_IO_STREAM (conn));
-+-
-+-	req = g_string_new (NULL);
-+-	g_string_append_printf (req, "GET %s://%s:%d HTTP/1.1\r\n",
-+-				alias, uri->host, uri->port);
-+-	g_string_append_printf (req, "Host: %s:%d\r\n",
-+-				uri->host, uri->port);
-+-	g_string_append (req, "Connection: close\r\n\r\n");
-+-
-+-	if (!g_output_stream_write_all (out, req->str, req->len, NULL, NULL, &error)) {
-+-		g_assert_no_error (error);
-+-		g_error_free (error);
-+-		g_object_unref (conn);
-+-		g_string_free (req, TRUE);
-+-		return;
-+-	}
-+-	g_string_free (req, TRUE);
-+-
-+-	if (!g_input_stream_read_all (in, buf, sizeof (buf), NULL, NULL, &error)) {
-+-		g_assert_no_error (error);
-+-		g_error_free (error);
-+-		g_object_unref (conn);
-+-		return;
-+-	}
-+-
-+-	if (succeed)
-+-		g_assert_true (g_str_has_prefix (buf, "HTTP/1.1 200 "));
-+-	else
-+-		g_assert_true (g_str_has_prefix (buf, "HTTP/1.1 400 "));
-+-
-+-	g_io_stream_close (G_IO_STREAM (conn), NULL, NULL);
-+-	g_object_unref (conn);
-+-}
-+-
-+-static void
-+-do_server_aliases_test (ServerData *sd, gconstpointer test_data)
-+-{
-+-	char *http_aliases[] = { "dav", NULL };
-+-	char *https_aliases[] = { "davs", NULL };
-+-	char *http_good[] = { "http", "dav", NULL };
-+-	char *http_bad[] = { "https", "davs", "fred", NULL };
-+-	char *https_good[] = { "https", "davs", NULL };
-+-	char *https_bad[] = { "http", "dav", "fred", NULL };
-+-	int i;
-+-
-+-	g_test_bug ("703694");
-+-
-+-	g_object_set (G_OBJECT (sd->server),
-+-		      SOUP_SERVER_HTTP_ALIASES, http_aliases,
-+-		      SOUP_SERVER_HTTPS_ALIASES, https_aliases,
-+-		      NULL);
-+-
-+-	for (i = 0; http_good[i]; i++)
-+-		do_one_server_aliases_test (sd->base_uri, http_good[i], TRUE);
-+-	for (i = 0; http_bad[i]; i++)
-+-		do_one_server_aliases_test (sd->base_uri, http_bad[i], FALSE);
-+-
-+-	if (tls_available) {
-+-		for (i = 0; https_good[i]; i++)
-+-			do_one_server_aliases_test (sd->ssl_base_uri, https_good[i], TRUE);
-+-		for (i = 0; https_bad[i]; i++)
-+-			do_one_server_aliases_test (sd->ssl_base_uri, https_bad[i], FALSE);
-+-	}
-+-}
-+-
-+ static void
-+ do_dot_dot_test (ServerData *sd, gconstpointer test_data)
-+ {
-+@@ -1382,8 +1280,6 @@ main (int argc, char **argv)
-+ 
-+ 	g_test_add ("/server/OPTIONS *", ServerData, NULL,
-+ 		    server_setup, do_star_test, server_teardown);
-+-	g_test_add ("/server/aliases", ServerData, NULL,
-+-		    server_setup, do_server_aliases_test, server_teardown);
-+ 	g_test_add ("/server/..-in-path", ServerData, NULL,
-+ 		    server_setup, do_dot_dot_test, server_teardown);
-+ 	g_test_add ("/server/ipv6", ServerData, NULL,
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 25e0d7dcbc..5753ab2745 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -13,7 +13,10 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- 
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch \
--           file://0001-CVE-2025-32911.patch"
-+           file://0001-CVE-2025-32911.patch \
-+           file://0001-Fix-possibly-uninitialized-warnings.patch \
-+           file://0001-Remove-http-and-https-aliases-support-test.patch"
-+
- SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
- 
- CVE_PRODUCT = "libsoup"
--- 
-2.34.1
-
+SGkgVG9tLA0KDQpPbiAxNyBBcHIgMjAyNSwgYXQgMTk6MDgsIFRvbSBIb2Noc3RlaW4gdmlhIGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcgPHRvbS5ob2Noc3RlaW49b3NzLm54cC5jb21AbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+IA0KPiBUaGUgdXNlciBjYW5ub3Qgb3ZlcnJpZGUgdGhl
+IHNldHVwIGNvbW1hbmQgb3B0aW9ucyAtLWNyb3NzLWZpbGUgYW5kDQo+IC0tbmF0aXZlLWZpbGUg
+YmVjYXVzZSB0aGUgbWVzb24td3JhcHBlciBwbGFjZXMgdGhlc2Ugb3B0aW9ucyBvbiB0aGUNCj4g
+Y29tbWFuZCBsaW5lIGFmdGVyIHRoZSB1c2VyIG9wdGlvbnMuIFRoaXMgcHJvYmxlbSB3YXMgbm90
+aWNlZCB3aGVuDQo+IHRyeWluZyB0byBidWlsZCB3aXRoIGFuIFNESyB1c2luZyBhIGN1c3RvbSBj
+cm9zcy1maWxlLg0KDQpTbyBJ4oCZdmUgYmVlbiB0cnlpbmcgdG8gdGVzdCB0aGlzIHNlcmllcyBp
+biBlU0RLcyBhbmQgaGF2ZSBkaXNjb3ZlcmVkIHRoYXQgc29tZSBidWdzIG1lYW50IG91ciBlU0RL
+IGNvdmVyYWdlIGlzIGJhc2ljYWxseSB6ZXJvLiAgSSBmaXhlZCB0aG9zZSBhbmQgbm93IGhhdmUg
+dGhlIGludGVyZXN0aW5nIHNpdHVhdGlvbiB0aGF0Og0KLSBmdWxseSBwb3B1bGF0ZWQgZVNES3Mg
+ZmFpbCB0byBpbnN0YWxsDQotIG1pbmltYWwgZVNES3MgaW5zdGFsbCwgYnV0IG1lc29uIGRvZXNu
+4oCZdCBpbnN0YWxsIGEgY3Jvc3MtZmlsZQ0KDQpEaWQgeW91IG1hbmFnZSB0byB0ZXN0IHRoaXMg
+c2VyaWVzIGluc2lkZSBhbiBlU0RLLCBvciBqdXN0IGEgdHJhZGl0aW9uYWwgU0RLPw0KDQpUaGFu
+a3MsDQpSb3Nz
 
