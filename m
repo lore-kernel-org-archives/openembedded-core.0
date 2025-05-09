@@ -1,215 +1,274 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8EC5C3ABC6
-	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 05:08:11 +0000 (UTC)
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
- by mx.groups.io with SMTP id smtpd.web10.7445.1746767288375782900
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF307C3ABBC
+	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 05:28:11 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.7665.1746768483971995798
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 May 2025 22:08:08 -0700
+ Thu, 08 May 2025 22:28:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DyDssQwb;
- spf=pass (domain: gmail.com, ip: 209.85.161.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-606477d77easo1136743eaf.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 May 2025 22:08:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746767287; x=1747372087; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3kM0x/kwL/NEPR/36AhukrIhQog+Z2Km8uj6APx+ovA=;
-        b=DyDssQwbTqtl15CXEHxuV2I7GKSVPA4KW2C5grMGirWzwGFLZrOYZfW2GW7LMmZM27
-         orUeoWK36LFmqQs7VjR/7ir3p5jRdm1ROqVmIMzjRfX4+6ma0D7t4wAZdYyUz4OHCbYu
-         EAbRpTItC+oCiTLVvhjRCxziUy7bpk5kU3WDLtPiIhEDSsR9nfY/HGKWVwAe/IaY6YOF
-         bxMUwZsmn6ZsPDTjJcDBq8JnnFJNHqMuptR8YNSGcuaG3Ra9X6x4a/51pppoSX3E13pp
-         s93KuMMvoY39VylVAFkyq0jHcHjBeeTut2n/o9EIMFHEAybn5q7TmEPtPHMJc4iiumoF
-         Jbyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746767287; x=1747372087;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3kM0x/kwL/NEPR/36AhukrIhQog+Z2Km8uj6APx+ovA=;
-        b=dFCzjCS7OKq7GCBd7hJgMfcZgZxrLvZVzL2TaHxHyDWdTdfOmsnRrrOuGaSCGO62rK
-         CS9Xtk6UJ7IdsFmq+aAflvYfD468PCJI/vImBIPOO0T4DCtD0WtXENjC+1ET94Sy/HgJ
-         YvYdxjz2vmaUS/LiFbkrEd96Q96Owb9pIiRDdULU2yx6TuQ8vfP+FMYEOCx77bOALyF3
-         3varfF/RkkbGR4vYTw2q9vLcfJGpfvrVZf88gu+AFrXNQMARsco1J0rbECV6JI5/Qi1J
-         Zja+qCK36U9B836tgBoVnspUOaOfqMwl1JqYxgSo5JfxU3M2U9nxq3c1W5tqwjbUb9C8
-         wznw==
-X-Gm-Message-State: AOJu0Yw8c4eDOt8tNswzspCXElZtgsAMvtfebAtLSrmGnhWX3zNGjq1V
-	ONqGw8Itj1V8PnZguqGh4usF3OwbQzq6GVmrbmOENSQgD6+zQGVLuyEyfmStKYaIppUZwS9ptB8
-	WN/ihU5cyyfWpaqIBcrgU/bnKZp8=
-X-Gm-Gg: ASbGncvcBbp4GLjcw0ZDx1rzMEU9w/1xXPHp2fMkQH26W/Ybfrs/KRmSOpwikW1JRyN
-	RzmQQHdYwP/aVrxSlt4cs5iadtJ0P0eKoaoh8q0pxr/vrGC7uHizxj9yBpd82B8IiK8eeSWw2Io
-	0DObsOlK43fv50jDBC0enJR8bAQP8AswkdsxKOrcyEdjEzkQmtw2pMP612V8dWlvS3AVg=
-X-Google-Smtp-Source: AGHT+IGmIrYgMSNkDmBcsMekoXoFP/cHaxNwQkB13qO2rBBJMPzcm+wVFvgAHBPMdPTSw58BJdUCy80rgnOHBBghJD8=
-X-Received: by 2002:a4a:d34d:0:b0:603:f521:ff26 with SMTP id
- 006d021491bc7-6083339b557mr3812660eaf.1.1746767287396; Thu, 08 May 2025
- 22:08:07 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7224a177b0=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5494vj3O011664
+	for <openembedded-core@lists.openembedded.org>; Fri, 9 May 2025 05:28:03 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46e430p5v8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 05:28:02 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Thu, 8 May 2025 22:27:59 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][walnascar][PATCH 1/1] webkitgtk: upgrade 2.48.0 -> 2.48.1
+Date: Fri, 9 May 2025 05:27:39 +0000
+Message-ID: <20250509052739.3638179-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20250509043002.356672-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20250509043002.356672-1-Deepesh.Varatharajan@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 8 May 2025 22:07:56 -0700
-X-Gm-Features: ATxdqUEvkdnVO0lUd0SxplXKzin0DfoZ00z9FYiA7kw1xzNrMaZ5_bKmVk1h-i0
-Message-ID: <CAMKF1srCVwBVgj3eRizNKhBFiXh9r-EoW89HezipMXBPjwfFkQ@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] glibc: stable 2.35 branch updates
-To: deepesh.varatharajan@windriver.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
-Content-Type: multipart/alternative; boundary="000000000000abaf660634acf3af"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Authority-Analysis: v=2.4 cv=BajY0qt2 c=1 sm=1 tr=0 ts=681d9262 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=dt9VzEwgFbYA:10 a=Q1sTgoEvAAAA:8 a=NEAV23lmAAAA:8 a=LXCGm8LIAAAA:8 a=t7CeM3EgAAAA:8 a=V2sgnzSHAAAA:8
+ a=pGLkceISAAAA:8 a=z6gsHLkEAAAA:8 a=k564k9mrfE4Mj933L5AA:9 a=FkGh3qDytyf094M0uOEt:22 a=NxI9r9ql2kHpUT0AVVEO:22 a=FdTzh2GWekK77mhwV6Dw:22 a=Z31ocT7rh6aUJxSkT1EX:22
+X-Proofpoint-GUID: l3qGRNo4gGcn5rP4UH5GayLFnFJXsgq9
+X-Proofpoint-ORIG-GUID: l3qGRNo4gGcn5rP4UH5GayLFnFJXsgq9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDA1MCBTYWx0ZWRfX6hnAB5dpUDo3 yh0t0ZUOaOEwBE0mTOCx63d1vUbDfRO2CfJVVe6qrSIZ3tn5GyBio1SozP6655qK+ymcdP3fbY8 piu0bOtRoPFYefdsHRykb2mdVWSfDGmswCS+CzIxh568rgqMTi5jr9zjcvotQ4BrAf8KZE3Jn6n
+ bUv1jaiAktp6HAH17ijBKHK3YvB3WcDAHhpdBGKEXkehH6swONfXTLPGYLOSm8LteljjOw0Ww2h DBO1MvN7MTkp7WE0N4r8TfGr1OBbuNNz9d7fc7tRYc2Z3b2fqFGFmpog9iM+XhSBKb0IfHcOR0h /42656pJ2hP25K9UXkWHFuTLdUGx4r37zPP2rZ6p80kWTTXLi3+FVJwycCNL0MrErkefbfY4jsF
+ nN+Q3ai9pVHC1HKs+rr2OR5nKfAZSn4d8m3jPlm4HBHcG6TQq6/NWGTv0l+7xZ7i+QpK96Wk
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-09_02,2025-05-08_04,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ impostorscore=0 bulkscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2504070000
+ definitions=main-2505090050
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 05:08:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216184
+ <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 05:28:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216185
 
---000000000000abaf660634acf3af
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Yogita Urade <yogita.urade@windriver.com>
 
-Lgtm
+Includes fix for CVE-2024-54551, CVE-2025-24208, CVE-2025-24209,
+CVE-2025-24213, CVE-2025-24216, CVE-2025-24264 and CVE-2025-30427
 
-On Thu, May 8, 2025 at 9:30=E2=80=AFPM Varatharajan, Deepesh via
-lists.openembedded.org <deepesh.varatharajan=3D
-windriver.com@lists.openembedded.org> wrote:
+Changelog:
+=========
+- Limit the data stored in session state.
+- Remove the empty area below the title bar in Web Inspector when not docked.
+- Fix the build with GST_DISABLE_GST_DEBUG.
+- Fix the build with GStreamer < 1.20.
+- Fix the build with video disabled.
+- Fix the build with clang 20.
 
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->
-> d2febe7c40 math: Improve layout of exp/exp10 data
-> 20b5d5ce26 AArch64: Use prefer_sve_ifuncs for SVE memset
-> 9569a67a58 AArch64: Add SVE memset
-> 59f67e1b82 math: Improve layout of expf data
-> 904c58e47b AArch64: Remove zva_128 from memset
-> 8042d17638 AArch64: Optimize memset
-> be451d6053 AArch64: Improve generic strlen
-> 8b3d09dc0d assert: Add test for CVE-2025-0395
-> 29d9b1e59e assert: Reformat Makefile.
->
-> Testresults:
-> Before update   |After update    |Difference
-> PASS:  4832     |PASS:4833       |PASS:  +1
-> FAIL:  132      |FAIL:132        |FAIL:  0
-> XPASS: 6        |XPASS:6         |XPASS: 0
-> XFAIL: 16       |XFAIL:16        |XFAIL: 0
-> UNSUPPORTED: 200|UNSUPPORTED:200 |UNSUPPORTED: 0
->
-> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-> ---
->  meta/recipes-core/glibc/glibc-version.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-version.inc
-> b/meta/recipes-core/glibc/glibc-version.inc
-> index d98b6a4911..34b199c02b 100644
-> --- a/meta/recipes-core/glibc/glibc-version.inc
-> +++ b/meta/recipes-core/glibc/glibc-version.inc
-> @@ -1,6 +1,6 @@
->  SRCBRANCH ?=3D "release/2.35/master"
->  PV =3D "2.35"
-> -SRCREV_glibc ?=3D "549d8315791aa8176ff1537db3e09c185c6e602f"
-> +SRCREV_glibc ?=3D "d2febe7c407665c18cfea1930c65f41899ab3aa3"
->  SRCREV_localedef ?=3D "794da69788cbf9bf57b59a852f9f11307663fa87"
->
->  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git"
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216183):
-> https://lists.openembedded.org/g/openembedded-core/message/216183
-> Mute This Topic: https://lists.openembedded.org/mt/112893496/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Drop 0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
+and 0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
+which are part of upgrade.
 
---000000000000abaf660634acf3af
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ ...04-main-7ffc29624258-.-https-bugs.we.patch | 75 ------------------
+ ...or-no-matching-function-for-call-to-.patch | 77 -------------------
+ ...ebkitgtk_2.48.0.bb => webkitgtk_2.48.1.bb} |  4 +-
+ 3 files changed, 1 insertion(+), 155 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.48.0.bb => webkitgtk_2.48.1.bb} (96%)
 
-<div dir=3D"auto">Lgtm</div><div><br><div class=3D"gmail_quote gmail_quote_=
-container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 8, 2025 at 9:3=
-0=E2=80=AFPM Varatharajan, Deepesh via <a href=3D"http://lists.openembedded=
-.org">lists.openembedded.org</a> &lt;deepesh.varatharajan=3D<a href=3D"mail=
-to:windriver.com@lists.openembedded.org">windriver.com@lists.openembedded.o=
-rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-l=
-eft:1ex;border-left-color:rgb(204,204,204)">From: Deepesh Varatharajan &lt;=
-<a href=3D"mailto:Deepesh.Varatharajan@windriver.com" target=3D"_blank">Dee=
-pesh.Varatharajan@windriver.com</a>&gt;<br>
-<br>
-d2febe7c40 math: Improve layout of exp/exp10 data<br>
-20b5d5ce26 AArch64: Use prefer_sve_ifuncs for SVE memset<br>
-9569a67a58 AArch64: Add SVE memset<br>
-59f67e1b82 math: Improve layout of expf data<br>
-904c58e47b AArch64: Remove zva_128 from memset<br>
-8042d17638 AArch64: Optimize memset<br>
-be451d6053 AArch64: Improve generic strlen<br>
-8b3d09dc0d assert: Add test for CVE-2025-0395<br>
-29d9b1e59e assert: Reformat Makefile.<br>
-<br>
-Testresults:<br>
-Before update=C2=A0 =C2=A0|After update=C2=A0 =C2=A0 |Difference<br>
-PASS:=C2=A0 4832=C2=A0 =C2=A0 =C2=A0|PASS:4833=C2=A0 =C2=A0 =C2=A0 =C2=A0|P=
-ASS:=C2=A0 +1<br>
-FAIL:=C2=A0 132=C2=A0 =C2=A0 =C2=A0 |FAIL:132=C2=A0 =C2=A0 =C2=A0 =C2=A0 |F=
-AIL:=C2=A0 0<br>
-XPASS: 6=C2=A0 =C2=A0 =C2=A0 =C2=A0 |XPASS:6=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|XPASS: 0<br>
-XFAIL: 16=C2=A0 =C2=A0 =C2=A0 =C2=A0|XFAIL:16=C2=A0 =C2=A0 =C2=A0 =C2=A0 |X=
-FAIL: 0<br>
-UNSUPPORTED: 200|UNSUPPORTED:200 |UNSUPPORTED: 0<br>
-<br>
-Signed-off-by: Deepesh Varatharajan &lt;<a href=3D"mailto:Deepesh.Varathara=
-jan@windriver.com" target=3D"_blank">Deepesh.Varatharajan@windriver.com</a>=
-&gt;<br>
----<br>
-=C2=A0meta/recipes-core/glibc/glibc-version.inc | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/=
-glibc/glibc-version.inc<br>
-index d98b6a4911..34b199c02b 100644<br>
---- a/meta/recipes-core/glibc/glibc-version.inc<br>
-+++ b/meta/recipes-core/glibc/glibc-version.inc<br>
-@@ -1,6 +1,6 @@<br>
-=C2=A0SRCBRANCH ?=3D &quot;release/2.35/master&quot;<br>
-=C2=A0PV =3D &quot;2.35&quot;<br>
--SRCREV_glibc ?=3D &quot;549d8315791aa8176ff1537db3e09c185c6e602f&quot;<br>
-+SRCREV_glibc ?=3D &quot;d2febe7c407665c18cfea1930c65f41899ab3aa3&quot;<br>
-=C2=A0SRCREV_localedef ?=3D &quot;794da69788cbf9bf57b59a852f9f11307663fa87&=
-quot;<br>
-<br>
-=C2=A0GLIBC_GIT_URI ?=3D &quot;git://<a href=3D"http://sourceware.org/git/g=
-libc.git" rel=3D"noreferrer" target=3D"_blank">sourceware.org/git/glibc.git=
-</a>&quot;<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#216183): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/216183" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/216183</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/112893496/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/112893496/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
+deleted file mode 100644
+index 5cbb1035b2..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-From 83093455d02d73a327cea502d974aac82b59ad17 Mon Sep 17 00:00:00 2001
+-From: Adrian Perez de Castro <aperez@igalia.com>
+-Date: Tue, 18 Mar 2025 07:39:01 -0700
+-Subject: [PATCH] Cherry-pick 292304@main (7ffc29624258).
+- https://bugs.webkit.org/show_bug.cgi?id=289953
+-
+-    [GTK][WPE] Use _LIBCPP_HARDENING_MODE with newer libc++ versions
+-    https://bugs.webkit.org/show_bug.cgi?id=289953
+-
+-    Reviewed by Alicia Boya Garcia.
+-
+-    * Source/cmake/OptionsCommon.cmake: Add a new check for the libc++
+-      version, if it is 19 or newer, use the new _LIBCPP_HARDENING_MODE
+-      macro, otherwise for older versions keep _LIBCPP_ENABLE_ASSERTIONS.
+-
+-    Canonical link: https://commits.webkit.org/292304@main
+-
+-Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/2c105443d41e5ce3de3a4cac2ed8a07ebd134459]
+-
+-Canonical link: https://commits.webkit.org/290945.71@webkitglib/2.48
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- Source/cmake/OptionsCommon.cmake | 24 +++++++++++++++++++-----
+- 1 file changed, 19 insertions(+), 5 deletions(-)
+-
+-diff --git a/Source/cmake/OptionsCommon.cmake b/Source/cmake/OptionsCommon.cmake
+-index f6cf5ee..3178674 100644
+---- a/Source/cmake/OptionsCommon.cmake
+-+++ b/Source/cmake/OptionsCommon.cmake
+-@@ -229,8 +229,22 @@ set(CXX_STDLIB_TEST_SOURCE "
+- ")
+- check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS_LIBCPP)
+- if (CXX_STDLIB_IS_LIBCPP)
+--    set(CXX_STDLIB_VARIANT "LIBCPP")
+--    set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_ENABLE_ASSERTIONS)
+-+    set(CXX_STDLIB_TEST_SOURCE "
+-+        #include <utility>
+-+        #if _LIBCPP_VERSION >= 190000
+-+        int main() { }
+-+        #else
+-+        #error libc++ is older than 19.x
+-+        #endif
+-+    ")
+-+    check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS_LIBCPP_19_OR_NEWER)
+-+    if (CXX_STDLIB_IS_LIBCPP_19_OR_NEWER)
+-+        set(CXX_STDLIB_VARIANT "LIBCPP 19+")
+-+        set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE)
+-+    else ()
+-+        set(CXX_STDLIB_VARIANT "LIBCPP <19")
+-+        set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_ENABLE_ASSERTIONS=1)
+-+    endif ()
+- else ()
+-     set(CXX_STDLIB_TEST_SOURCE "
+-     #include <utility>
+-@@ -239,7 +253,7 @@ else ()
+-     check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS_GLIBCXX)
+-     if (CXX_STDLIB_IS_GLIBCXX)
+-         set(CXX_STDLIB_VARIANT "GLIBCXX")
+--        set(CXX_STDLIB_ASSERTIONS_MACRO _GLIBCXX_ASSERTIONS)
+-+        set(CXX_STDLIB_ASSERTIONS_MACRO _GLIBCXX_ASSERTIONS=1)
+-     endif ()
+- endif ()
+- message(STATUS "C++ standard library in use: ${CXX_STDLIB_VARIANT}")
+-@@ -255,8 +269,8 @@ option(USE_CXX_STDLIB_ASSERTIONS
+- 
+- if (USE_CXX_STDLIB_ASSERTIONS)
+-     if (CXX_STDLIB_ASSERTIONS_MACRO)
+--        message(STATUS "  Assertions enabled, ${CXX_STDLIB_ASSERTIONS_MACRO}=1")
+--        add_compile_definitions("${CXX_STDLIB_ASSERTIONS_MACRO}=1")
+-+        message(STATUS "  Assertions enabled, ${CXX_STDLIB_ASSERTIONS_MACRO}")
+-+        add_compile_definitions("${CXX_STDLIB_ASSERTIONS_MACRO}")
+-     else ()
+-         message(STATUS "  Assertions disabled, CXX_STDLIB_ASSERTIONS_MACRO undefined")
+-     endif ()
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch b/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
+deleted file mode 100644
+index 5b83d9e7eb..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
++++ /dev/null
+@@ -1,77 +0,0 @@
+-From 7d159a631ae55c10a0b7a92cf031200a11629736 Mon Sep 17 00:00:00 2001
+-From: Fujii Hironori <Hironori.Fujii@sony.com>
+-Date: Tue, 18 Mar 2025 10:25:47 +0900
+-Subject: [PATCH] EnumTraits.h: error: no matching function for call to
+- 'enumName' with Clang 20 https://bugs.webkit.org/show_bug.cgi?id=289669
+-
+-Reviewed by NOBODY (OOPS!).
+-
+-Clang 20 couldn't compile EnumTraits.h.
+-
+-> wtf/EnumTraits.h:212:33: note: candidate template ignored: invalid explicitly-specified argument for template parameter 'V'
+-
+-An invalid enum value can't be specifed to the template parameter `V`.
+-
+-> template<auto V> constexpr std::span<const char> enumName()
+-
+-The upstream Magic Enum C++ has a template variable `is_enum_constexpr_static_cast_valid<E, V>` to check a enum value is valid.
+-<https://github.com/Neargye/magic_enum/blob/a413fcc9c46a020a746907136a384c227f3cd095/include/magic_enum/magic_enum.hpp#L624-L634>
+-
+-Imported the template variable.
+-
+-* Source/WTF/wtf/EnumTraits.h:
+-(WTF::enumName):
+-(WTF::makeEnumNames):
+-
+-Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/42597]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- Source/WTF/wtf/EnumTraits.h | 21 ++++++++++++++++++++-
+- 1 file changed, 20 insertions(+), 1 deletion(-)
+-
+-diff --git a/Source/WTF/wtf/EnumTraits.h b/Source/WTF/wtf/EnumTraits.h
+-index 0d33e39a..95e6318b 100644
+---- a/Source/WTF/wtf/EnumTraits.h
+-+++ b/Source/WTF/wtf/EnumTraits.h
+-@@ -152,6 +152,16 @@ constexpr bool isZeroBasedContiguousEnum()
+- #pragma clang diagnostic ignored "-Wenum-constexpr-conversion"
+- #endif
+- 
+-+#if COMPILER(CLANG) && __clang_major__ >= 16
+-+template <typename E, auto V, typename = void>
+-+inline constexpr bool isEnumConstexprStaticCastValid = false;
+-+template <typename E, auto V>
+-+inline constexpr bool isEnumConstexprStaticCastValid<E, V, std::void_t<std::integral_constant<E, static_cast<E>(V)>>> = true;
+-+#else
+-+template <typename, auto>
+-+inline constexpr bool isEnumConstexprStaticCastValid = true;
+-+#endif
+-+
+- template<typename E>
+- constexpr std::span<const char> enumTypeNameImpl()
+- {
+-@@ -215,6 +225,15 @@ constexpr std::span<const char> enumName()
+-     return result;
+- }
+- 
+-+template<typename E, auto V>
+-+constexpr std::span<const char> enumName()
+-+{
+-+    if constexpr (isEnumConstexprStaticCastValid<E, V>)
+-+        return enumName<static_cast<E>(V)>();
+-+    else
+-+        return { };
+-+}
+-+
+- template<typename E>
+- constexpr std::underlying_type_t<E> enumNamesMin()
+- {
+-@@ -264,7 +283,7 @@ constexpr auto makeEnumNames(std::index_sequence<Is...>)
+- {
+-     constexpr auto min = enumNamesMin<E>();
+-     return std::array<std::span<const char>, sizeof...(Is)> {
+--        enumName<static_cast<E>(static_cast<std::underlying_type_t<E>>(Is) + min)>()...
+-+        enumName<E, static_cast<std::underlying_type_t<E>>(Is) + min>()...
+-     };
+- }
+- 
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+similarity index 96%
+rename from meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+index 6eb80da1de..41fe8209ce 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+@@ -16,11 +16,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://no-musttail-arm.patch \
+            file://t6-not-declared.patch \
+            file://sys_futex.patch \
+-           file://0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch \
+-           file://0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch \
+            file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch \
+            "
+-SRC_URI[sha256sum] = "94904a55cf12d44a4e36ceadafff02d46da73d76be9b4769f34cbfdf0eebf88e"
++SRC_URI[sha256sum] = "98efdf21c4cdca0fe0b73ab5a8cb52093b5aa52d9b1b016a93f71dbfa1eb258f"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
+ 
+-- 
+2.40.0
 
---000000000000abaf660634acf3af--
 
