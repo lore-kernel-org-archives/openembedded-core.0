@@ -1,150 +1,99 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <erick.shepherd@ni.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0809C3ABC9
-	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 17:31:54 +0000 (UTC)
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
- by mx.groups.io with SMTP id smtpd.web10.4387.1746811906925070432
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEB9BC3ABC9
+	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 17:38:44 +0000 (UTC)
+Received: from mx0a-00300601.pphosted.com (mx0a-00300601.pphosted.com [148.163.146.64])
+ by mx.groups.io with SMTP id smtpd.web11.4544.1746812316095597992
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 10:31:47 -0700
+ Fri, 09 May 2025 10:38:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Uvjv5+Uu;
- spf=pass (domain: gmail.com, ip: 209.85.161.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-60658e1fedfso1154590eaf.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 10:31:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746811906; x=1747416706; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HXt0IOJgr1g+LmSiYCDACpsUohfsSx5V2lY+dTYC6HY=;
-        b=Uvjv5+UulWb+XVdgGq7NXWgreZ6Dq1/5d/S3+Z2UD7406PoRR5lnPcWrGsPbg98Mr7
-         Tse9+YLBC26OEFLg+gfSshctMDGobAhvYwFF/WWpKpIueWSNDTaHCouwH6cP0FHn3AJl
-         tEjB/jnj2gLngYmv50txTAp94Lmv9ju2KeOOF52RBiCT56OPKhDCN/leA2idZMdBaLv8
-         pemimj3p0BlP5l2BWNCmZN4n+Zi/MwOu9oHqiTp5UFu6Y0iqJWwkGjIxqVm+XoUzWbWK
-         UFZnB8MkLQr43bQyyY9dBTEEdWp8HLI3HqDrSyKMTHSKDrLurSGuvZQeQtb7dT3ypbMo
-         DGtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746811906; x=1747416706;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HXt0IOJgr1g+LmSiYCDACpsUohfsSx5V2lY+dTYC6HY=;
-        b=bBWzWISXBOgom7/58MaBMPxP+tXRcC0X4AzcI2lKuDxERxraMXr2UNqo9T4kS6xFhI
-         mUv/7vUe8wwt4+FE4qsWQxrkurkaP2uJYozZtc4u0bXcJ85YdWVwPIjCcOABwSixrV9J
-         iubz/SIoh52RLrMwaJ1/BwLM/Rb0xpUjTquhfTc3Eawh96T2AhPIfICbnSmURh5ywJpL
-         Blqk2cFb0w/QATCo1QP0fhQ+fDRVHTwKc9zLLqg14KjkJ3o5xo2Oczfe/8JJIsPX9/4T
-         twotumaEoyFxJolfBO/OpuHYgN9LiJgDK4lEPxfFTdbsVVytbmgfzFaUbjuPa0bNdOqc
-         8KuA==
-X-Gm-Message-State: AOJu0YzUjYx/zjO0M9NTE4b1YUzjdEeO+LfrCyx5VUTimX1P19cqmRNJ
-	E6KdGt5NfYN8cLlS4vWTrMyWqI3Dlqnx3gJMFfaFZI2ZcwU5z72FF5q85xfKLae8y0JTLJRk+bg
-	FBtAPZUXs6FiLe2N5+jIxGslTOo4MRDXIPk0=
-X-Gm-Gg: ASbGnculTnFD8LyiRKkQ4zqS1/6EWfXwRkn1ulyzjb3JNpDU/SoeC0Hazx06H5mRX4h
-	BwKgSGHaQ1Lj9O3zvOzC7CggEkwG7HvRUF3uRU7Hj9lDaknrIeEHGR3UTGF/CT+bZ6xPTjcnA9S
-	Jov7L1sjj6Z3W43Tmgf4I6/Q==
-X-Google-Smtp-Source: AGHT+IFC5Kpz9MTCnZtXwVZNwYN41EqWoqOSWsttKejhn/hlJnFDV901vMlRMehJhxkyOI2/UCl1i1as+MhVB+e5bzM=
-X-Received: by 2002:a4a:e90f:0:b0:608:34d1:db96 with SMTP id
- 006d021491bc7-6084b654972mr2470359eaf.4.1746811906048; Fri, 09 May 2025
- 10:31:46 -0700 (PDT)
+ dkim=pass header.i=@ni.com header.s=PPS11142024 header.b=DC0kh3xj;
+ spf=pass (domain: ni.com, ip: 148.163.146.64, mailfrom: prvs=4224e4afdf=erick.shepherd@ni.com)
+Received: from pps.filterd (m0142705.ppops.net [127.0.0.1])
+	by mx0b-00300601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 549GDOa5004237
+	for <openembedded-core@lists.openembedded.org>; Fri, 9 May 2025 17:38:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS11142024; bh=dZtZJzZu6ZEjWsGlvzgs
+	YsIbo7xYf8qBcfE04WGtTKY=; b=DC0kh3xjZ6UYHtTu8/q0bvXUKDUXhp4V7LQz
+	MfrL1fvBZu5Hi6wWozzqDuAMR6sXcQHpnTQ/jZ2Wm41PFhZGrM2lw3w3ukb0heEP
+	Ofvi5c0H0HgOk7Fgan3HRd8Q7ObT/PuUV1j4o1gSVI0uoOAiI6gPyBnnsS1KNISN
+	9/Ev7v3VhWcY4Kx36jAeiyOghPYN0yHmaKTgn+uH3yW0MgrvAw5k4SF8fOZHT/Lr
+	wjnpva4ONZZmL1cdcEHa95y4ZDTkpsDhMQFjW7z4xm7cqSIryTlDhRrsa6j3/dd9
+	hCtKzHJ6Yb0oS7GVAzYfJeA7xhlQOEH9F51lp5pRU2WRV4tiGA==
+Received: from us-aus-excas-p2.ni.corp.natinst.com ([130.164.94.74])
+	by mx0b-00300601.pphosted.com (PPS) with ESMTPS id 46hn1c93ag-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 17:38:35 +0000 (GMT)
+Received: from us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) by
+ us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Fri, 9 May 2025 12:38:23 -0500
+Received: from ershephe-ubuntu.ni.corp.natinst.com (172.18.68.33) by
+ us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) with Microsoft SMTP
+ Server id 15.2.1258.28 via Frontend Transport; Fri, 9 May 2025 12:38:23 -0500
+From: Erick Shepherd <erick.shepherd@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Erick Shepherd <erick.shepherd@ni.com>
+Subject: [PATCH RFC] kernel-devsrc.bb: Stop copying the System.map files
+Date: Fri, 9 May 2025 12:38:16 -0500
+Message-ID: <20250509173816.1250479-1-erick.shepherd@ni.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250509115800.3929803-1-hongxu.jia@windriver.com>
-In-Reply-To: <20250509115800.3929803-1-hongxu.jia@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 9 May 2025 10:31:20 -0700
-X-Gm-Features: AX0GCFvFHZn3SA_ZFLAfnhmtCiHm3ainAKskOradwsK5fxPzESgBP0ISkdOanGA
-Message-ID: <CAMKF1spkq=LkQf7qHmBB_DPD+4s73iXiCe54-kA+qfdnwFiT0A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] compiler-rt-sanitizers, compiler-rt: skip for armv5
-To: hongxu.jia@eng.windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=efA9f6EH c=1 sm=1 tr=0 ts=681e3d9b cx=c_pps a=VUOoxcgKHUMpfFMIT0tLvw==:117 a=VUOoxcgKHUMpfFMIT0tLvw==:17 a=dt9VzEwgFbYA:10 a=gVGD3344AAAA:8 a=697aNiapx2Y-GGsev04A:9 a=xQEvYfgLW3QvObN0DhJi:22
+X-Proofpoint-ORIG-GUID: _7dVKQzbL-rDWTVk1D6ak4CNPob0NSuQ
+X-Proofpoint-GUID: _7dVKQzbL-rDWTVk1D6ak4CNPob0NSuQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDE3NSBTYWx0ZWRfX+N20/DIEGdz7 1PcG9cBzvR5lMzX7SgsdA2FE2u81x1XZzneb4aNl2LyFMXQa7qU8p9N7/yzvV67dX9npsjS7vjF 9z4TfPcC3WSe2e0lziNg65sVunFAfXADE/2mmpcx77mr6pzopoYZ6c8t0EKR4JayY/rMmK4dzvl
+ ZmwbEDrZzc3wqoSGD8T7zPtviCncup4UupEBCMBpRs51voYZOQhkLv8RmPUjJHa0B0JsoIRjd4D h7WKsAn+o0xRBLpSU3wu1OnZ9dkHifbtFQfIM7Gc3BQnUFbM8A6tTVGGzkge5XHabWhPqtwMN7v IyK5HtM+5n5rv0BRk+zSYWBzB6yGr9CZ29TSkr2wP6ngO0RU5zXMelsQAHm/jxwooMTpZk4tRic
+ eSb0f41DQBZQqrlNT09CZ00B/XYGh8XSTYnluqOo375azWCUT87/SGs6lKFLRZxW3dPjCP3o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-09_06,2025-05-09_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxscore=0
+ suspectscore=0 spamscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0
+ bulkscore=0 adultscore=0 priorityscore=1501 mlxlogscore=571 malwarescore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505090175
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 17:31:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216243
+ <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 17:38:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216244
 
-On Fri, May 9, 2025 at 4:58=E2=80=AFAM hongxu via lists.openembedded.org
-<hongxu.jia=3Deng.windriver.com@lists.openembedded.org> wrote:
->
-> $ echo 'MACHINE =3D "qemuarmv5"' >> conf/local.conf
-> $ bitbake compiler-rt compiler-rt-sanitizers
-> ...
-> tmp/work-shared/llvm-project-source-20.1.2-r0/llvm-project-20.1.2.src/com=
-piler-rt/lib/builtins/arm/sync-ops.h:22:2: error: #error DMB is only suppor=
-ted on ARMv6+
-> |    22 | #error DMB is only supported on ARMv6+
-> |       |  ^~~~~
->
-> Due to upstream commit [[compiler-rt][builtins] Move DMB definition
-> to syn-ops.h][1], compiler-rt cross-compile for ARMv5 fails.
->
-> [1] https://github.com/llvm/llvm-project/commit/1c9415806ba6d0d48a160637e=
-ea7d1b70efaae69
->
+Currently there are two .map files being copied to $kerneldir/build.
+One file is System.map and the other is System.map-<kernel-version>.
+Each .map file takes up about 5MB and does not seem to be required for
+the compilation of driver software via dkms. This change stops copying
+both .map files to save disk space.
 
-while it might be fine to have it disabled for armv5, I think there is
-a compilation problem we are seeing here due
-to misconfiguration. qemuarmv5 is using armv5te for DEFAULTTUNE which
-also shows up in -march=3Darmv5te in
-TUNE_CCARGS, compiler-rt build system skips compiling the
-sync_fetch_and_* routines if its armv5te and those routines
-are the only one's using DMB macro, now I wonder why compiler-rt cmake
-thinks it should be compiling for armv7 as
-it seems to be the case here, perhaps we are missing to feed the right
-value through configure arguments to cmake.
-We are passing HOST_ARCH to -DCOMPILER_RT_DEFAULT_TARGET_ARCH=3D${HOST_ARCH=
-}
+Another solution could also be to only copy one .map file to
+$kerneldir/build or have one of the .map files by a symlink. If both
+.map files are required then this patch can be abandoned.
 
-Perhaps it should be more qualified for qemuarmv5 case, it should be
-deduced from DEFAULTTUNE can you try
-building for qemuarmv5 using
--DCOMPILER_RT_DEFAULT_TARGET_ARCH=3D"${@bb.utils.contains('TUNE_FEATURES',
-'armv5 thumb dsp', 'armv5te', '${HOST_ARCH}', d)}"
+Signed-off-by: Erick Shepherd <erick.shepherd@ni.com>
+---
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-if this works then we need to define it more comprehensively we will
-need similar mapping for armv4t and armv6 as well.
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 1500aff2e2..298be27ac7 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -75,7 +75,7 @@ do_install() {
+         if [ -s Module.symvers ]; then
+             cp Module.symvers $kerneldir/build
+         fi
+-        cp System.map* $kerneldir/build
++
+         if [ -s Module.markers ]; then
+             cp Module.markers $kerneldir/build
+         fi
+-- 
+2.43.0
 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb | 1 +
->  meta/recipes-devtools/clang/compiler-rt_git.bb            | 2 ++
->  2 files changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb b/=
-meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
-> index b3c4bfcffdc..8b591b757e3 100644
-> --- a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
-> +++ b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
-> @@ -129,3 +129,4 @@ COMPATIBLE_HOST:libc-musl:x86-64 =3D "(.*)"
->  COMPATIBLE_HOST:libc-musl:riscv64 =3D "(.*)"
->  COMPATIBLE_HOST:libc-musl:riscv32 =3D "(.*)"
->  COMPATIBLE_HOST:libc-musl =3D "null"
-> +COMPATIBLE_HOST:armv5 =3D "null"
-> diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipe=
-s-devtools/clang/compiler-rt_git.bb
-> index 93928541273..d634c148508 100644
-> --- a/meta/recipes-devtools/clang/compiler-rt_git.bb
-> +++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
-> @@ -119,3 +119,5 @@ BBCLASSEXTEND =3D "native nativesdk"
->  ALLOW_EMPTY:${PN} =3D "1"
->
->  SYSROOT_DIRS:append:class-target =3D " ${nonarch_libdir}"
-> +
-> +COMPATIBLE_HOST:armv5 =3D "null"
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216201): https://lists.openembedded.org/g/openembedde=
-d-core/message/216201
-> Mute This Topic: https://lists.openembedded.org/mt/112897300/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
