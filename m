@@ -1,225 +1,182 @@
-Return-Path: <yi.zhao@eng.windriver.com>
+Return-Path: <mark.jonas@de.bosch.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5632C3ABBC
-	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 09:38:05 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.10446.1746783481895045893
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF551C3ABBC
+	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 09:45:05 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.40])
+ by mx.groups.io with SMTP id smtpd.web10.10575.1746783896240505842
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 02:38:01 -0700
+ Fri, 09 May 2025 02:44:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7224021966=yi.zhao@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5497XIMN024027
-	for <openembedded-core@lists.openembedded.org>; Fri, 9 May 2025 02:38:01 -0700
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46dee3f0ck-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 02:38:01 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@de.bosch.com header.s=selector2 header.b=VjZmZe0I;
+ spf=pass (domain: de.bosch.com, ip: 52.101.72.40, mailfrom: mark.jonas@de.bosch.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BM6KYyj5yXaLTjNwZ6+dFSSdZrqziGhhXXpWLBFX5kKV5TcotIDV1gwi3eNKwIv5w0jvh8vPGVmT1O82nGExdriS0Eh1oyTYwI9V6Fd0x9Q463WeaIE07SjWEYK3jbWK8tPGH55E9QsAUjGpaiDS4dyKSJYpTp6qf/fzbBs1yh2FzDgE60rkkl7tA8DqDnNonTnBYXpdfaTAhU2eMT92LCSLVsLCV6LiUNPzWXeKj1xvIwmBau2Izm747usJ07u+3TuaNuxwyy3MbF7mA+gAkN/lkU01BB3rB1o3+MPxLlPLheCE/80ULmznhoUCMRKmfDJk4lOsD9PPc2iAuFvTfw==
+ b=s+x5dvixiH1cVAKI90YFwFhsi8L7tqWLpS5n27kRh0PJLNwP1HbgNCwmQdbv4Wo8chI+BZBRdQulPApZWBVVNHUCYsERi5dPeDHx2vbX+8EIYJ8OJoxKNmFj6htf6apbhG98nDpCHuHOgQiHTHBdvT6V0S9EXX/vnDLy7/CDhfzC/6OXgBePrO0LYFnB56n7rHX1ZeTNHNWEwj6yhmoOuCTPUZ3PdAKIbjb602pJnoMU9EtIV0OskZTtLjGIRGBpc2Ws2PrLJkggRHKtjj21C9CdoygYI+4ZyOYQAaCMgdMDyYXVLIvVutDBFo/FC9d137jtNpUVuSw4M/9iX34rRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9ykvoZamAqvWmKMr+2GB7fokyDdkvh+nI8iZ7AxjZx0=;
- b=BLRc/dMUOehFvqjTJulYhJIjuRMXkTxX8phToOuqfWfq7SKBDH8aN+YTmMmXePlrA9C0szjkLATkAdzdvaGstmhGgTYtu9sJ5jcxN08jel4I44HkASmhMio5pWIf9taNlVlGcXYw0s3xSlTgtdyb6s1qZpFRZkAD0NUWTSc8Agh5hGjZpPjwgf84L3lnVNj6H16pPAbhzasBlBzafOwJxoPrlJB6xSWVJIghOlxFoxG7m5v1bHLW2nlkPgbW6TOGf6Btnzb8xw6Wtd8XJTAer43cLIW+5pt00X2N0Qz0NWBWbrU6tFklsRyNisr9Ctd360vIk4DI1EZ1MxAplm4MPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
- PH7PR11MB6649.namprd11.prod.outlook.com (2603:10b6:510:1a7::19) with
+ bh=LE0GrrEUmkkYlU+OYsf48YK4i4K+SiZVH74pPXaNxaA=;
+ b=LI7s8G+dMn1OElskdWDIqssSZd8eRHnnHXF12/PjmzOiRLR2I6EBcxm/YNfw4oxjl8vcuOEDWdLlj3dsacO66mYDTlComeRSTTtzVSB+e7mvO6wHz4fn0NZKNRRM4r5fRc7W5X7XvHRtSRgi9QTohbrv9niTwg9qkZof4TTy+nKwLVhxSpXPmyDl6iN/Ve3InwI+xiiQnhg2IV/9Mbgbk5+wbPGCjV8wVTVS4YsguZxgliYdPVXvgNMjRxOnenBaQM1ZXF7VBK1mmp010F9fpJ1SqEmkUVLjiIJH59uDruRj/sCWpX+wCek/g7lQakrWnkFifQup9lXFcUynsXGzSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 139.15.153.206) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=de.bosch.com; dmarc=pass (p=reject sp=none pct=100) action=none
+ header.from=de.bosch.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=de.bosch.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LE0GrrEUmkkYlU+OYsf48YK4i4K+SiZVH74pPXaNxaA=;
+ b=VjZmZe0IL6Vl1VYzKwLKBoiZ1TfzDiDxQr6e86fhXHAyATIwlM+CAs+cyZKRSt661ryFat7OBzRIWXMdy7+E7cXtkieI/3bgG8HTiDf+odpXJW23lBGJ3HQcnsQoZBZjI/CfJzUzBTTY4OiueUy/JRaPVtzYVclveSWjglCtlNOITXr3UBuvhx4C4y2wuPr/5klkYTKYdKrga+dpku8L/9jZqJmwK7k1iiDZE7RzBQOYmUlgiDV1hxxcTexPMKnDIvY5ObPRQcOZa0xTDNnzic3rK/jw1EXQ0VCnszFsYLkvEuzRIuX6dD3San6raIXB4UiNW2/rbW6wWgPUs+fgEg==
+Received: from AM0PR10CA0050.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::30)
+ by PA1PR10MB8672.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:441::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.20; Fri, 9 May
- 2025 09:37:58 +0000
-Received: from DS0PR11MB6399.namprd11.prod.outlook.com
- ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
- ([fe80::2b44:787c:e7ee:bfad%4]) with mapi id 15.20.8722.020; Fri, 9 May 2025
- 09:37:58 +0000
-From: Yi Zhao <yi.zhao@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] openssl: add fips support
-Date: Fri,  9 May 2025 17:37:40 +0800
-Message-ID: <20250509093740.1367372-1-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.48.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP301CA0085.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7b::7) To DS0PR11MB6399.namprd11.prod.outlook.com
- (2603:10b6:8:c8::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.23; Fri, 9 May
+ 2025 09:44:51 +0000
+Received: from AM2PEPF0001C70B.eurprd05.prod.outlook.com
+ (2603:10a6:20b:150:cafe::65) by AM0PR10CA0050.outlook.office365.com
+ (2603:10a6:20b:150::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8722.21 via Frontend Transport; Fri,
+ 9 May 2025 09:44:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.206)
+ smtp.mailfrom=de.bosch.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=de.bosch.com;
+Received-SPF: Pass (protection.outlook.com: domain of de.bosch.com designates
+ 139.15.153.206 as permitted sender) receiver=protection.outlook.com;
+ client-ip=139.15.153.206; helo=eop.bosch-org.com; pr=C
+Received: from eop.bosch-org.com (139.15.153.206) by
+ AM2PEPF0001C70B.mail.protection.outlook.com (10.167.16.199) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8722.18 via Frontend Transport; Fri, 9 May 2025 09:44:51 +0000
+Received: from SI-EXCAS2001.de.bosch.com (10.139.217.202) by eop.bosch-org.com
+ (139.15.153.206) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 9 May
+ 2025 11:44:49 +0200
+Received: from GRB-C-0009M.ot.de.bosch.com (10.139.217.196) by
+ SI-EXCAS2001.de.bosch.com (10.139.217.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.43; Fri, 9 May 2025 11:44:48 +0200
+From: <mark.jonas@de.bosch.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <raj.khem@gmail.com>, <JPEWhacker@gmail.com>, Ricardo Simoes
+	<ricardo.simoes@pt.bosch.com>, Mark Jonas <mark.jonas@de.bosch.com>
+Subject: [PATCH] udev-extraconf: Allow optionally skipping systemd-fsck
+Date: Fri, 9 May 2025 11:44:21 +0200
+Message-ID: <20250509094421.20786-1-mark.jonas@de.bosch.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.139.217.196]
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|PH7PR11MB6649:EE_
-X-MS-Office365-Filtering-Correlation-Id: 662b64bb-3c59-4fd0-c178-08dd8edd2efb
+X-MS-TrafficTypeDiagnostic: AM2PEPF0001C70B:EE_|PA1PR10MB8672:EE_
+X-MS-Office365-Filtering-Correlation-Id: f72e0f01-a4fd-4db3-47b9-08dd8ede2512
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+	BCL:0;ARA:13230040|82310400026|36860700013|376014|1800799024|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?7IFCokZ0Sy8DY8RC22HNfvzOv8mVOmFg0PKU4SI5SIXULOqIpaVEtXJe23AC?=
- =?us-ascii?Q?tmyeBju2OsSROzptMN8VvUIXlWh6RezB29H69I+eW3TfLyh5Z2ZC562xrqL1?=
- =?us-ascii?Q?xtx55KotKX40y1L0afpm6J3ufpsKtld0+tODqsX66IfSV8wr58m4SvNWIbzb?=
- =?us-ascii?Q?OYHjRHgjBh85Kcnz7K0rZt2F0JH0II36AQZjWggm573pd863ZZaZ2TEUzpiq?=
- =?us-ascii?Q?JgB5aFtIWmHbGPSCIC+f+B9qrQYj6vb3nA8oZta0T+HMUiHj4mOzX/Lwos9j?=
- =?us-ascii?Q?7AagAj03MEo6nrqsndCdt7lpH17kQMUOiziVMn7GjIbYOLcjq+c+ocPoWdGr?=
- =?us-ascii?Q?UM8A/7NIPRP6eb3EesfyhuJX5eXKKuorPThjRZFEH5iLJ2F48yF5dVHrmcur?=
- =?us-ascii?Q?nALZHSMLSPOrtgtjiQJOJsX3d997XUnR8xcOv/keAxE0bs4PVhS0u5kQGmbd?=
- =?us-ascii?Q?Gm4lpBOMhIT9On5MlHR9oYvnPFLRumNcTsK6wP7cpVTGXxApRswmL7AQtO+w?=
- =?us-ascii?Q?S3HAThjBzLqjKwaDoufbp/JwJQXlZcPjiwqQxgUP+3DWBGdZRqZ898fPKozX?=
- =?us-ascii?Q?W6s4UGk5WlFYnIfTxNiLYngW8JYbYsyujkCBBf7S9yHRHAsWnvEJFrl3/8Uz?=
- =?us-ascii?Q?1Gz5VpMyyW2F52Qwk3+8H3pms3vvYOdKTxmfeamBMSzAvB/bURkVtTOp9fAj?=
- =?us-ascii?Q?jLc1FiLNMgXy2Uy7EKIQ6ooRJhexxJewc9Zc7NaSCPJreOjAHZP6TzEalW7e?=
- =?us-ascii?Q?jHMWlXcI+wvxWCn/UKNu/Qqyhg0dkbn22LaUd4ibihKkxxurWiNebWUfu7Bu?=
- =?us-ascii?Q?3o4KFxBe/jTW6byYP6skhQMy90N84MS+bcN46ZA0ane/VfeOZRaQp/5Bjoae?=
- =?us-ascii?Q?xARAlnc3p0vqavEXJMGvsjVXZdZs8jsRg3tO5vVBmi5vLWTK3ITR4RvmfxK/?=
- =?us-ascii?Q?gArSCKAslGHu4U507HEM3pAG5neuIXJmzE/Zz4pCXrRg4ULyWDaKzcnkL337?=
- =?us-ascii?Q?i8ENaiZk3ExqtsKMMb1BDHtCS2ky4hpQe4nWnKKMZwsX6Fs/mG4WgsuRbxNj?=
- =?us-ascii?Q?Y6xfSFG/koiXxAGdD/FWdv9pXYlcPxF5yF1IpyLHZ4bQt4x8IcQnFa47dV4i?=
- =?us-ascii?Q?JrSvhD2oQVfkAJx9KqpuPR2Nm6CA2mLGZ9wEl0Z4/QZRkEN6c1AnwPupia9V?=
- =?us-ascii?Q?I23V7xyV0hrRdB2k0GY+M7YlaT+2Jnp6Bv1gsE9P+n+WSu4HJgqqjdO6sULA?=
- =?us-ascii?Q?ojA+eFbO3wUa8CYGaDgzsTV8J9aLByxEcOYYuk1uMDbNDB9otL1j0ab2knIW?=
- =?us-ascii?Q?SVIaKi2wuhSP1oYfBF5VALSuyl21dAIEkTXYzt4kgnNVp5F4LAncyCYLQPPq?=
- =?us-ascii?Q?Jd9zNrT+vqa1bwpcvxfjkGhry6mh17e5TKxT2alX2D0i4G74xnn1ojzoZwuy?=
- =?us-ascii?Q?drrBrzW6x7PSOvoXQJXISomw3qEBL+/dQDSX0vZnnF5MhwqPyWjcDQ=3D=3D?=
+	=?us-ascii?Q?EmBKShHL+bdeP7/xVu+AYR1F5cnbxTrPpcg+TIhSnPjbSDXGrm9EZC62oYSL?=
+ =?us-ascii?Q?Z4ekAymd6iK97xUTjw6GT0US5qwH6TCDW/bRU2T8f9QM98xQBeSZe7jENjrh?=
+ =?us-ascii?Q?APPErhj8wUMplMEouCp6NWr8D8Cze6L3xfFFQ2Wt/xcp8Of+3XogSnEx3k1z?=
+ =?us-ascii?Q?/FCDmWptHgYfSt8XSroWF+6Cz+nNou28mXfNM4tfhprrIM9jg5qfZLpriAbK?=
+ =?us-ascii?Q?ozI73mfEjvlG4wvTXFLHh7biW5cRhY8ddekW04jj61Cyqi3iOebaJWzlMwKV?=
+ =?us-ascii?Q?hYdUTfGYW1BXuH4rC05a7pf2yQiXlA3RVYuqJPNUCRRLiYEmI7YGrUvAtiQ1?=
+ =?us-ascii?Q?vavpV4lJE8TLB9rm6tgjm1A3M4aJqJvY5qQaPdt1gn1mzqSwVJLV4CLQrUuQ?=
+ =?us-ascii?Q?BCgKOd2oNyH1wdW7ha4XgsNQbXpI5qQ9sF0XReFLHdBuK6Gp+gftGRRFSb/x?=
+ =?us-ascii?Q?T4aOhEcR441gmC9WXpexHv3XXsmEeIf4ND4qqbMg/tAOcdFMe8LXzIGASIlC?=
+ =?us-ascii?Q?AIet3YB7z6kDDUKb5V6r/GW/dXUC24e9nYgD2ugN7S6IxsoexzsPhZHn1Bhv?=
+ =?us-ascii?Q?F0eEdGkKWoIbhU+DqmDKfhUr8gLh+hE3L1uhfAhRPb6wuqIN/jMhCp+hwUfC?=
+ =?us-ascii?Q?b3JZqraahIvJohDKaKzLe/Xn0L+jwZsP1TZe1xIvkbFhxShkCU6QX/Fkre4L?=
+ =?us-ascii?Q?KBnsp7iMqbteNX3amjH50e6cJjBtwxGk1o89niGGEnXc+itBKbDp8AcTRple?=
+ =?us-ascii?Q?T2sojBZzc0Qn2Lmy3WWmhwtkFUMxESB6BGuQ5OZzKZmE4gOGai/JWTBbbiSj?=
+ =?us-ascii?Q?VOHBF4I1A2iLyN5MwWDNPDvaXai6ZshE0ZYx7fJqWRmYKeqvjKKi/OBrDqk6?=
+ =?us-ascii?Q?4jpldTiUxnKhS+Imk7665KMnPysyJRyyLMBaO5GbCquDtPOSZF+FJW1oY0pd?=
+ =?us-ascii?Q?9nYqRerKlM4pKwmUHmcoHDKjDjdAmoVK5SOIagi07igee+J6BpxvyyRzBfhX?=
+ =?us-ascii?Q?2EhrUa2NN9XJRb8r4Kmb52PYJWsxj0I3kfANHlKnlqeT14d87wBP8tFp5vb5?=
+ =?us-ascii?Q?NAddwafF/bl1UEAwrLJsXk8UxkK4eqQtF5yr6P3bjXGg0ZQ2ZPKZ/rZAXzW2?=
+ =?us-ascii?Q?o+r/fRBm8AT75oWg0MCuAZfVxGjAycjMOOimlC53ZpDOG0rwgKM+sIvoOB/A?=
+ =?us-ascii?Q?T8jBjnPmkSDyEVXqE/kYB2iYbeIQnV7GKOgvij5lA7VWCcKHnABnHvtYRPT6?=
+ =?us-ascii?Q?AVAytRSdgA5zNePBDbMZn5clUDCJ87b5slOw/04YUW+ml+bd3Y2yQ+BK0OpF?=
+ =?us-ascii?Q?LKHYJ6AkL/dOT94aPbGS/rP15Z+SXLH+NHitMXwMIJB+5hSZ5GbNBlQOd7gT?=
+ =?us-ascii?Q?2bfXu6cdpKszRwFdhAmfEPK71BzgmgnkxU+5PxrrV5UvfXLsP2gI/NnQ1b5m?=
+ =?us-ascii?Q?Swnenrrv++vKSTFljpXFy93+iwih75BQve6J8l3z/Uwx3+AIsLqHLB/OATnh?=
+ =?us-ascii?Q?8n/HdltAMy5yKfo=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?e7yumC9NpTgfhwiDPcaLC8klA3zJI38leuewZWDyjhB0C/Bc/vWITxs1cK5Y?=
- =?us-ascii?Q?M/mLWD7KyJpY6QAet9hs19loSdLCJgU5Z6Ru4FqVVffbPJaVi9+/VfZkVcwM?=
- =?us-ascii?Q?q53SCDTCtUhY+H5xj1xvT9O8R+aRFVxGdaMVxQTEs7JoWPOyY5yQwtuSgOW0?=
- =?us-ascii?Q?Ce47nPMHDJF57kSpKONw86kmtZ0N+XYUeDJTQmhpab3Bh2SDwSS1hqIaza+J?=
- =?us-ascii?Q?ZPNHheH1l/Wx/roZ/z2DNEBIdPnC4PZnnZ1jAnOloXJSN3yMb3wSRc1qFwKk?=
- =?us-ascii?Q?w+fVaiTuJoENAHeSx8Ei6ptkXcgCZBmfSrgKCm/BzAJF8mSgF0C2YFytvsIq?=
- =?us-ascii?Q?IQx1qmNd4/8DaQcns66htSN0iJO0NuRp6k+xPVEL/JE310tViPb3h34ydA8F?=
- =?us-ascii?Q?nQkBmyTLBSpVKdp2hjzhuBGe59eQhfWR+9PYGIDHw7wgP1c7MffMMVMK1vS0?=
- =?us-ascii?Q?AMQH4QarrVdJoswARPQQ1k9bOPncoeUoLYW+blHMYwrSQ0axePnvW4iuKJ9I?=
- =?us-ascii?Q?p51oc7Gi/1KnrY+00GCFuCDJwuNMh5MBMf/jgQbSLAW37AVdDoGcpuh75z/E?=
- =?us-ascii?Q?+aDfVJmEVW2P5Npf3RdmHziv2pVFgMMe4G9BVxUwMISgl8aCD3HnztyaLpge?=
- =?us-ascii?Q?v5l1kJYPRRMbnZF6qL9g0cUVpK3LGSGfIwlrf1t0DTu75V9BG12+E6zk+5sL?=
- =?us-ascii?Q?LJaj2Rgr2SuGcT/BTrEnZzdE0da7goz23KT0XLGLHAsvVkrRdkWgpA1La4xn?=
- =?us-ascii?Q?CpQcJLKqMLEIgw0aqsH7oneuAE+eXprXTbLMgbdKsVqJXlKlby82YZh+wkg7?=
- =?us-ascii?Q?RmSCHuh8LWflMhc1zKWR6iYE1xUHe0ZDF8VXx7FmikKZwE+Cq10OeUNIJz7o?=
- =?us-ascii?Q?fUPjJWvdRYhRnmpYv4tin2mhoCAdz452ojw8qbAFQFvRBQvc4orXdgkM74kD?=
- =?us-ascii?Q?MeGW/OKfm5KWEXv4xPlhrO/rS2DOfg1hCkL8JoX3YVWfOd43AI9CFNXXmd3D?=
- =?us-ascii?Q?iE5GJ8sNwA7EMirmuc/m2w2W7o6Nr0eNe3WX+n6KOZlbJZJ0DVl+9IyIxDXM?=
- =?us-ascii?Q?dNRevBau1CgM9nuOAkl7KZGv9g1TrjqlPeIptMO6vwZZDcwbwcjV3r49FcQs?=
- =?us-ascii?Q?/3dzt2/P5NDkypGI4I+BXIPc+sNSd76MxnEMaIZcFnQ6n9P2djEjJvBFAhDn?=
- =?us-ascii?Q?M/SMy0siouNWjnd7Dng9GqRySc7bBPgqYJZvfoweSOzjD+keA/SSaj4sHvfi?=
- =?us-ascii?Q?FRNcMrj1YP0tlzyOiytFLyoynkLHiv1740pmWDVKDjglcW9/7QrwB3GFtJKu?=
- =?us-ascii?Q?dgFo/c7bVn98af1tJZw4OMm/wkCm4T2M5tZzwQgccrIGLRdPH+wp88zXb8eA?=
- =?us-ascii?Q?GSPytPgz1u0uxr5fn8qtbHEeZyuxFuYvpgbEo4jmrtB4K/aK2oOJ3KsrF94R?=
- =?us-ascii?Q?rJAMlzXIFHboGOXIlCW1uPSXWEwkyRdaPoHS5Yi6mD22+cNZObnHq9+jApoL?=
- =?us-ascii?Q?5SBUhq2XiH+cOBkd6lA9eWf80mJ0Z7sc/Rem9bUBffGRTsOOnrocu2PCdwXF?=
- =?us-ascii?Q?CkkD4HzOmG0nnfq3RfSCkEg0+j8jyG9wT6aGn2jc?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 662b64bb-3c59-4fd0-c178-08dd8edd2efb
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2025 09:37:58.5590
+	CIP:139.15.153.206;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: de.bosch.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2025 09:44:51.1640
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dkbDwGmqh3guI2aDVqaxHK8e7br/Cj7oxpU76Mse1UoO0F+26HCqw2go28TuqJNPP6t/i34I1HrTAImxs80a1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6649
-X-Proofpoint-ORIG-GUID: FkJXItINTo4qSQ1AydCajIr_lXmMgqvD
-X-Authority-Analysis: v=2.4 cv=Pd3/hjhd c=1 sm=1 tr=0 ts=681dccf9 cx=c_pps a=9T78G36u1E64A7MtQSounQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10
- a=t7CeM3EgAAAA:8 a=X0CuYVNeYqOLpcntE54A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: FkJXItINTo4qSQ1AydCajIr_lXmMgqvD
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDA5MiBTYWx0ZWRfX22luAu307KpW KBLCSYISq5r8H/3FZFkp8No4fJW34oORk8ZV14mjzenOoSfnhz6EOOutCTRPAktHueDkU64iKGL WpLG/TX1EIacaG2kyDc6G97RdP1n+mLBd5hPepvwlBSC/srurPhbQ7FKHFFBv5wQJpw81+rM+tx
- jt6tMSTXtGqoQ2ZUsApRH6Q0rpE6qccsnh4bDSwVrfTPXKP0mv7INmPT+4o7tyd6khSky2NFvog szcaxJ0fqzmGnBp9pJmp7e5dzR4CmZiyltXSGFmgXKg3sxKYJX65+U1Q3pqJhqhdwKxe+lzgPMH irBhCQRW69XGVglFB7rjDRMTbLIAonOeOmt/0c4FJ87CDijHpYH8SRbq223lGqaq933NyvNL+Zn
- jmYy1xLfADFYDSTBkmVTm6RWAasFSUDpFi+Le9rFH1aYTA6lAuZbghULzY5wBbBLzTmhmNVk
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-09_03,2025-05-08_04,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- priorityscore=1501 mlxscore=0 suspectscore=0 spamscore=0 malwarescore=0
- impostorscore=0 clxscore=1015 mlxlogscore=999 phishscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
- definitions=main-2505090092
+X-MS-Exchange-CrossTenant-Network-Message-Id: f72e0f01-a4fd-4db3-47b9-08dd8ede2512
+X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.206];Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM2PEPF0001C70B.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR10MB8672
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 09:38:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216189
+ <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 09:45:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216190
 
-* Add PACKAGECONFIG[fips] to enable fips build.
-* Split a new package openssl-ossl-module-fips for fips.so.
-* Add pkg_postinst_ontarget for openssl-ossl-module-fips to ensure the
-  config file fipsmodule.cnf is created on target.
+From: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+When the fsck backend does not respect the exit codes predefined by
+fsck, systemd-fsck might not work as expected.
+
+This is the case for fsck.fat from dosfstools [1]. When a FAT formatted
+and write protected partition is checked with fsck.fat it will terminate
+with exit code '6' [2]. What fsck.fat wants to signal is that a write
+protected device cannot be checked. However, that code is interpreted by
+systemd-fsck as a bit mask:
+
+- 2: System should be rebooted
+- 4: Filesystem errors left uncorrected
+
+As a practical example, a write-protected, FAT formatted SD-card will
+not be mounted in this case.
+
+This patch introduces the environment variable SKIP_SYSTEMD_MOUNT_FSCK.
+When SKIP_SYSTEMD_MOUNT_FSCK exists systemd-mount will be called with
+the --fsck=3Dno option. Thus, the partition will be mounted without
+running systemd-fsck.
+
+In general, this new feature is useful when the filesystem is known to
+be clean and the fsck backend does not respect the exit codes.
+
+Finally, one way to use this new feature would be to add
+ENV{SKIP_SYSTEMD_MOUNT_FSCK}=3D"1" to the udev rule calling the mount
+script.
+
+[1] https://github.com/dosfstools/dosfstools/issues/89
+[2] https://github.com/dosfstools/dosfstools/blob/v4.2/src/io.c#L63
+
+Signed-off-by: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
+Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
 ---
- .../openssl/openssl_3.5.0.bb                  | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.0.bb b/meta/recipes-connectivity/openssl/openssl_3.5.0.bb
-index 865e04deb2..fdb304c73c 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.5.0.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.5.0.bb
-@@ -31,6 +31,7 @@ PACKAGECONFIG[cryptodev-linux] = "enable-devcryptoeng,disable-devcryptoeng,crypt
- PACKAGECONFIG[no-tls1] = "no-tls1"
- PACKAGECONFIG[no-tls1_1] = "no-tls1_1"
- PACKAGECONFIG[manpages] = ""
-+PACKAGECONFIG[fips] = "enable-fips"
- 
- B = "${WORKDIR}/build"
- do_configure[cleandirs] = "${B}"
-@@ -154,7 +155,9 @@ do_compile:append () {
- }
- 
- do_install () {
--	oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install_sw install_ssldirs ${@bb.utils.contains('PACKAGECONFIG', 'manpages', 'install_docs', '', d)}
-+	oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install_sw install_ssldirs \
-+	    ${@bb.utils.contains('PACKAGECONFIG', 'manpages', 'install_docs', '', d)} \
-+	    ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'install_fips', '', d)}
- 
- 	oe_multilib_header openssl/opensslconf.h
- 	oe_multilib_header openssl/configuration.h
-@@ -172,6 +175,11 @@ do_install () {
- 	ln -sf ${@oe.path.relative('${libdir}/ssl-3', '${sysconfdir}/ssl/certs')} ${D}${libdir}/ssl-3/certs
- 	ln -sf ${@oe.path.relative('${libdir}/ssl-3', '${sysconfdir}/ssl/private')} ${D}${libdir}/ssl-3/private
- 	ln -sf ${@oe.path.relative('${libdir}/ssl-3', '${sysconfdir}/ssl/openssl.cnf')} ${D}${libdir}/ssl-3/openssl.cnf
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-=
+core/udev/udev-extraconf/mount.sh
+index 0cbae48729..d6de05f0b6 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -83,6 +83,10 @@ automount_systemd() {
+=20
+     MOUNT=3D"$MOUNT -o silent"
+=20
++    if [ -n "${SKIP_SYSTEMD_MOUNT_FSCK+isset}" ]; then
++        MOUNT=3D"$MOUNT --fsck=3Dno"
++    fi
 +
-+	# Generate fipsmodule.cnf on first boot
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'true', 'false', d)}; then
-+		rm -f ${D}${libdir}/ssl-3/fipsmodule.cnf
-+	fi
- }
- 
- do_install:append:class-native () {
-@@ -229,12 +237,18 @@ do_install_ptest() {
- 	ln -s ${libdir}/ossl-modules/ ${D}${PTEST_PATH}/providers
- }
- 
-+pkg_postinst_ontarget:${PN}-ossl-module-fips () {
-+	if test -f ${libdir}/ossl-modules/fips.so; then
-+		${bindir}/openssl fipsinstall -out ${libdir}/ssl-3/fipsmodule.cnf -module ${libdir}/ossl-modules/fips.so
-+	fi
-+}
-+
- # Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
- # package RRECOMMENDS on this package. This will enable the configuration
- # file to be installed for both the openssl-bin package and the libcrypto
- # package since the openssl-bin package depends on the libcrypto package.
- 
--PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc ${PN}-ossl-module-legacy"
-+PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc ${PN}-ossl-module-legacy ${PN}-ossl-module-fips"
- 
- FILES:libcrypto = "${libdir}/libcrypto${SOLIBS}"
- FILES:libssl = "${libdir}/libssl${SOLIBS}"
-@@ -246,6 +260,7 @@ FILES:${PN}-engines = "${libdir}/engines-3"
- FILES:${PN}-engines:append:mingw32:class-nativesdk = " ${prefix}${libdir}/engines-3"
- FILES:${PN}-misc = "${libdir}/ssl-3/misc ${bindir}/c_rehash"
- FILES:${PN}-ossl-module-legacy = "${libdir}/ossl-modules/legacy.so"
-+FILES:${PN}-ossl-module-fips = "${libdir}/ossl-modules/fips.so"
- FILES:${PN} =+ "${libdir}/ssl-3/* ${libdir}/ossl-modules/"
- FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
- 
--- 
-2.48.1
+     # If filesystemtype is vfat, change the ownership group to mount group=
+, and
+     # grant it with  w/r/x permissions.
+     case $ID_FS_TYPE in
+--=20
+2.34.1
 
 
