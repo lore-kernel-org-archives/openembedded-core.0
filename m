@@ -2,131 +2,162 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7429AC3ABBC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79DE8C3ABCD
 	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 15:24:03 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.1416.1746804241742625499
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.1413.1746804237247472497
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 08:24:01 -0700
+ Fri, 09 May 2025 08:23:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pPBfTSOE;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7415d28381dso1626725b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:24:01 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rICCzjC6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-73bf1cef6ceso2374231b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746804241; x=1747409041; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746804236; x=1747409036; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ameF1VdPJIpcOhQ/1IShD9a5SoQdzlwawdedMrqHCx4=;
-        b=pPBfTSOEgAYSboDBZqFSckzlbVf9oG86ZEdksRE2yWUafKJ939GV7pMo/BkmzWl3n2
-         MsSK4dttQfCgMcd0ZYmO2eEoDUFQAFNX0hXiMMZZ2sj9HlrE3SJLnMbyIDGRKgiAYLqs
-         LmK4a1VxOTCU9HS3kbVq2vNljacnxOey0iH+Y1n8nveCvlOW62vinXjP2QozBQbPiXNG
-         FJF90TKywoI8tksZNmh+1QyWT6E3U+suQEE2Jed++sepmgbqb7AXsaimKx/UU/VpWKcM
-         ReE9IJshuP7l/fT8VMMknmQoY1pt7qx800DmXKy9nAGq7O6xGMTfgteGrucv7yvoSUYf
-         t2QQ==
+        bh=5bvSkR9RUjVJvpNfsXfD4VPlqogOvNzYKASdb8t2lm0=;
+        b=rICCzjC6jeLGGtQohzQFYEYEyhqt5YSCre4T2NtxZ3OqzkSv0tOWMnB9b79qSR7MP7
+         N80JqWyo9qScImUHlNov2Li2Kf3aKY2EcEUGiBpATSP1ET6TxPkw6eWGQRpppqqT5OaG
+         +lZalXJErd8n7T8y/xw9p++oclQj2/S5jFZxUznBvpY9yhWGQi49+k4iNWXmji2pFNR1
+         mMA7guUSpMY5oiJk2HC7QKTg4Fh+tnS3W0ArpCOHs7CHZJMtpLWhb9H5sEeUYEEHS1UU
+         s/JWJlfv9FB7jJ/35bpENAnmvwBMyiySCD5aPE3+p8dTkTBjiqpDzv8A4yD9yNP1sSqD
+         Bvpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746804241; x=1747409041;
+        d=1e100.net; s=20230601; t=1746804236; x=1747409036;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ameF1VdPJIpcOhQ/1IShD9a5SoQdzlwawdedMrqHCx4=;
-        b=N5rz9KAEtCY8g6oMqH7wY2DG6NF7vR4PxJvZn+FS2F6HeISfzib610A+YITAN2hx0P
-         zUoG21G+XQTw1fYL0oszEyiZys6Jrea+OV9ijGp/KVO5pGHjNEUYvFKaWHSe89kdIpQt
-         OZ4P46G31kn+giIqTpqpeL9OFIgtm2rRG7KMmE4TOsEdYX3+6ZrBnrC/a8IkuiccEDIk
-         S17qKdz/IabWsd6aK+H4/4fWFDczwMn15wtr1kjRhLT4PpismQJjPmIK2Pep6thbYOGO
-         RKLGnvELU1Jt4oYdmD/ef0L/U4Uw6etFXajj+qrX7OLLLnJLbVlXYh0mwCiymYb7ejFt
-         gkCg==
-X-Gm-Message-State: AOJu0Yzojg3D/aLQG4dQafNSSWNAmwu40FSdjXB+9sFlK/8T5Ta7aXeq
-	6h87KiZX96i5am2bxpWkfWoBLSwgE0bY9SWV/eGKF6wz8ESMu1jRILTMM++UBiJ/yrZGe/luFeW
-	a
-X-Gm-Gg: ASbGncs3QG2oHFrAJ3gcECHiRfIRLO3Ewp/uvh4rKfUVTC5fhrw50pE6NmlsccoB8Mi
-	lTyQ9SDUMAC9almQBWM7PnTi7n+28rtgjhxt5JUVmhuZ4wEc2LP9Zhee0H0hGj2khgfOkiiaP9k
-	ubyk9hhFZ9pSS2HchRbbV9LHKiG62+6072nLW26E3bqBNM4fzsvJ6exIbkKyEigCX1dJ+8KMJhr
-	b3+JzjaGYLIFaHO6OxR0CTsZPMYsO7nI/aRXyA3Usim2yPPC1DtOxY2IR3RW3hxPL7tmx8yQPrF
-	Y1NswpmNG+l9mamVha6kMNrnPlZN5Mtd
-X-Google-Smtp-Source: AGHT+IEPme0ChAHSZ4SGh14Q4exo+tn/NGEHMNYKsWmDOQMYgkE0pBYQv+2UCswOx8ri0u5TjLhCzg==
-X-Received: by 2002:a05:6a00:138c:b0:736:b101:aed3 with SMTP id d2e1a72fcca58-7423bc1d5f4mr4920601b3a.1.1746804240890;
-        Fri, 09 May 2025 08:24:00 -0700 (PDT)
+        bh=5bvSkR9RUjVJvpNfsXfD4VPlqogOvNzYKASdb8t2lm0=;
+        b=e6lAaiGLnkh5SOBMAGcjSBimFOyKW0brcZznpi1EXchCZOpQ9d4bC1QCKvXbwRMt4/
+         SwoTwUrTDST6RnM7cvE9TF3FZGF1Zu6F0kXS2mqDYSKJPyfgzqAP0UDCcZTkOH21r+Qd
+         xL36xF5ADymC+mWOfzeXUz1iBZvTegzSbdIs1OGDA7LkC6pFXAOsak1AZz2wPfE2o4bJ
+         LI4q8q7+hWRROqD9vfPLMvTP4hQs7hz/EOPNTWrRXGZCnwExwG+IZnlspxH0YA0zhvER
+         GNRWd0RdRlJmV8Oh3YY/LMdTXnKUwVSEMRT207idYxOLeuNmMhUfG4Dy+xfNQl/bwlWy
+         zfvw==
+X-Gm-Message-State: AOJu0YzckVMHgzDNpHLqqX1CIEMpr6W2W6zViJM2pzNbMhlxLEkMx1v0
+	MdT5OCFeYxDecib7YMewZXcG0lVPVYXUXFv6TRacMTgo9TQ32carJguB3tM+GkI0u3EFVob1IFL
+	c
+X-Gm-Gg: ASbGncvorvIoYEnEjbMqtQD71JFef287rUmjnj75CMzUOYF8bJg6ApxdXLdZQs6SXmC
+	wmbOd67Bs5Jyl85jfK4qVfyrippdURgmhB2yv+Fs6MnxIWX4fSE7m+xpOIY7BIlJnqHJmBm94kk
+	zpCWrlJ0uJHQrMUWAd3enoX1/dnEhok09Tb+bGjDabVkZs8drpJG6axjdCxDeI7oGungeGlHfyc
+	WHTmd+iIlSYyNYdxlxdbvPHGuvZGP1kuDzHrXLeTwqtLIU4ds0YIJGRfKGICKchPcCfTLAQmNgl
+	qSVJINxYsaXUZ+GHBrt/doTIKt6BCMUf
+X-Google-Smtp-Source: AGHT+IH91oJkzCKAqy1KJwj2cE+NkjMm70CUa/+a4ucw3gckmxAARHK8+GUyyV+hk4ud0HhYL9Xa7g==
+X-Received: by 2002:a05:6a00:17a7:b0:740:6f86:a0e6 with SMTP id d2e1a72fcca58-7423bc5ba52mr4912032b3a.6.1746804236415;
+        Fri, 09 May 2025 08:23:56 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:1912:b658:11a7:402c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a108fbsm1848319b3a.115.2025.05.09.08.24.00
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a108fbsm1848319b3a.115.2025.05.09.08.23.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 May 2025 08:24:00 -0700 (PDT)
+        Fri, 09 May 2025 08:23:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 06/17] bluez5: add missing tools to noinst-tools package
-Date: Fri,  9 May 2025 08:23:22 -0700
-Message-ID: <5f7c43913812bcb80d6dba67da3fc62a8efecfb8.1746804035.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 03/17] connman :fix CVE-2025-32743
+Date: Fri,  9 May 2025 08:23:19 -0700
+Message-ID: <61610f57c6b9ee2b6002decc037db049e9ddfe51.1746804035.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746804035.git.steve@sakoman.com>
 References: <cover.1746804035.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 15:24:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216214
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216211
 
-From: Guðni Már Gilbert <gudni.m.g@gmail.com>
+From: Praveen Kumar <praveen.kumar@windriver.com>
 
-This change will prevent these tools from being installed if the image doesn't install bluez5-noinst-tools package.
+In ConnMan through 1.44, the lookup string in ns_resolv in dnsproxy.c
+can be NULL or an empty string when the TC (Truncated) bit is set in
+a DNS response. This allows attackers to cause a denial of service
+(application crash) or possibly execute arbitrary code, because those
+lookup values lead to incorrect length calculations and incorrect
+memcpy operations.
 
-BlueZ 5.66: tools/mesh-tester
-BlueZ 5.66: tools/ioctl-tester
-BlueZ 5.65: tools/iso-tester
-BlueZ 5.56: tools/btpclientctl
-BlueZ 5.51: tools/bcmfw
-BlueZ 5.49: tools/rtlfw
-BlueZ 5.47: tools/btconfig (not a new tool, but it was moved from bin_PROGRAMS to noinst_PROGRAMS)
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-32743
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Upstream-patch:
+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=d90b911f6760959bdf1393c39fe8d1118315490f
+
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5_5.79.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ .../connman/connman/CVE-2025-32743.patch      | 48 +++++++++++++++++++
+ .../connman/connman_1.43.bb                   |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.79.bb b/meta/recipes-connectivity/bluez5/bluez5_5.79.bb
-index 30ea6d317b..330b30884f 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.79.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.79.bb
-@@ -32,6 +32,9 @@ NOINST_TOOLS_TESTING ?= " \
-     tools/rfcomm-tester \
-     tools/bnep-tester \
-     tools/userchan-tester \
-+    tools/iso-tester \
-+    tools/mesh-tester \
-+    tools/ioctl-tester \
- "
+diff --git a/meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch b/meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch
+new file mode 100644
+index 0000000000..c114589679
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch
+@@ -0,0 +1,48 @@
++From d90b911f6760959bdf1393c39fe8d1118315490f Mon Sep 17 00:00:00 2001
++From: Praveen Kumar <praveen.kumar@windriver.com>
++Date: Thu, 24 Apr 2025 11:39:29 +0000
++Subject: [PATCH] dnsproxy: Fix NULL/empty lookup causing potential crash
++
++In ConnMan through 1.44, the lookup string in ns_resolv in dnsproxy.c
++can be NULL or an empty string when the TC (Truncated) bit is set in
++a DNS response. This allows attackers to cause a denial of service
++(application crash) or possibly execute arbitrary code, because those
++lookup values lead to incorrect length calculations and incorrect
++memcpy operations.
++
++This patch includes a check to make sure loookup value is valid before
++using it. This helps avoid unexpected value when the input is empty or
++incorrect.
++
++Fixes: CVE-2025-32743
++
++CVE: CVE-2025-32743
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=d90b911f6760959bdf1393c39fe8d1118315490f]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
++---
++ src/dnsproxy.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/src/dnsproxy.c b/src/dnsproxy.c
++index f28a5d7..7ee26d9 100644
++--- a/src/dnsproxy.c
+++++ b/src/dnsproxy.c
++@@ -1685,8 +1685,13 @@ static int ns_resolv(struct server_data *server, struct request_data *req,
++				gpointer request, gpointer name)
++ {
++	int sk = -1;
+++	int err;
++	const char *lookup = (const char *)name;
++-	int err = ns_try_resolv_from_cache(req, request, lookup);
+++
+++	if (!lookup || strlen(lookup) == 0)
+++		return -EINVAL;
+++
+++	err = ns_try_resolv_from_cache(req, request, lookup);
++
++	if (err > 0)
++		/* cache hit */
++--
++2.40.0
+diff --git a/meta/recipes-connectivity/connman/connman_1.43.bb b/meta/recipes-connectivity/connman/connman_1.43.bb
+index 1100599490..02abda568f 100644
+--- a/meta/recipes-connectivity/connman/connman_1.43.bb
++++ b/meta/recipes-connectivity/connman/connman_1.43.bb
+@@ -6,6 +6,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+            file://connman \
+            file://no-version-scripts.patch \
+            file://0002-resolve-musl-does-not-implement-res_ninit.patch \
++           file://CVE-2025-32743.patch \
+            "
  
- # noinst programs in Makefile.tools that are conditional on TOOLS
-@@ -46,6 +49,7 @@ NOINST_TOOLS_BT ?= " \
-     tools/hcieventmask \
-     tools/hcisecfilter \
-     tools/btinfo \
-+    tools/btconfig \
-     tools/btsnoop \
-     tools/btproxy \
-     tools/btiotest \
-@@ -56,6 +60,8 @@ NOINST_TOOLS_BT ?= " \
-     tools/advtest \
-     tools/seq2bseq \
-     tools/nokfw \
-+    tools/rtlfw \
-+    tools/bcmfw \
-     tools/create-image \
-     tools/eddystone \
-     tools/ibeacon \
-@@ -65,5 +71,5 @@ NOINST_TOOLS_BT ?= " \
-     tools/check-selftest \
-     tools/gatt-service \
-     profiles/iap/iapd \
--    ${@bb.utils.contains('PACKAGECONFIG', 'btpclient', 'tools/btpclient', '', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'btpclient', 'tools/btpclient tools/btpclientctl', '', d)} \
- "
+ 
 -- 
 2.43.0
 
