@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86320C3ABC3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E7EDC3ABCF
 	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 15:24:13 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.1423.1746804247694993181
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.1422.1746804244433656949
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 08:24:07 -0700
+ Fri, 09 May 2025 08:24:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yjfRE5fx;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7403f3ece96so3217485b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:24:07 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=x2LiZPfX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7399a2dc13fso3193382b3a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:24:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746804247; x=1747409047; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746804244; x=1747409044; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m63Vof5V5obDChBb2q6z5RcHudSCDZobec83vydlu5A=;
-        b=yjfRE5fxU84/gufjNDXDzH8ikS/5afsBCC3IALjn569hjQEoX1s2ujwhwqJ13c8XCp
-         V1G4L6E5+7pYuaZjALyk56mrIYZwPnJQD7cA8zuR7g/W2FwM72+M8Ys00vABB0pHXY8K
-         ezSMDkD9cxqw+NmBAoozCZKhyOQYY711cvGmuWQLc9gxhid5uV6Kz7lo+3yQcCsJI0Xm
-         slOuKd9h/9RvOy1gVQm2/7nRnj1x5nRbIij0nTRlbLWEUwJmfygwH8ZHO4asZoRgwuM8
-         eJwvCtC/eymP/3UxdUt25KIolsLXUhiIAsjdWuu9nTvxIBDKCxGiLZh/wlrTIuPsITca
-         uQWQ==
+        bh=IFY1JKfV40ePZ7BNGWJZN/ncD8gPJzMqvq1UW+mwqBs=;
+        b=x2LiZPfXVCLv2KuPmCvHwwIve9mEUNsFUi2pQsAPdYhbDZybQsKarGM4WDIadBtL5J
+         iJQilRk0zDWMWlhKSRsk+tk1BvwtIWKNy6Ppn52cT6eVDK9dEvcrAzBXdg2/lDJDjghs
+         +RKq7mts21ztjp11S2enc3FbNpJ3lH+yIyJdKPmFtzJv0AxGoaOiG1o/9UtDg1Qo+HsW
+         MhlxAkoH9/AGwAxUes0vRfQ5fj17aQNreuKQIMiQe86b/+6bJqELMEYdMDxpf30d6Rvf
+         CuTeZGphC8m6rcV615iRzjTjYfrq70BB5HB10UG7XJR3BZLPRG53QAb7TvgpRBRfBU40
+         363g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746804247; x=1747409047;
+        d=1e100.net; s=20230601; t=1746804244; x=1747409044;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m63Vof5V5obDChBb2q6z5RcHudSCDZobec83vydlu5A=;
-        b=QX2OJXnKCgHxCUgtviC3sInTWKy9m4kKNiED3h+iE2G8vLBJyGGOoT2hY+UxvJrZTE
-         C0r50pRpl59I3W106W2qURC3eoC7NmaSiEol1x7hPzHBMjXLsgFEAb2159L2tbR2Vii5
-         ShyGlhGqopupvfQCtm4GKIB0F64K6qyFEHtfgzFlSSgTM+kdJPafkDKgxV/zjS83c7iY
-         nZgDF5DWSuEIyAu3LHnRFT2PChTycCSQjdLSqpm9Y2iywSawykYPtK2Eeraz0CnSmpFk
-         0WB/pGWUVdRweLgNRwUBSSThXaYqz6HVZ+v+NE1cXMlf1LPJKq+9h7k2pQ3WUwEZ6FYl
-         /qew==
-X-Gm-Message-State: AOJu0YzTvebX/BFQC5iZ4OPJFvevArNZkSYN9fsZlQQN3ZrE8o3tZ5lO
-	EMQlh3GrjB9XRR9jBvPtnGAbOJgz8bzB0vMc0X3PvG7OY16aC9UpHjkJv++qE79w0CcNko3aNeo
-	l
-X-Gm-Gg: ASbGncsou8mTOyXiQjUHWXeDXYTKcX/xN8/dHDUBgEzIi5QSDi8otVc/BaeO5IUeZ/j
-	WgA7qAwEis6gbbri3yi/pOG8I2UFoeWm4Qf8TVHgu2P04Vm6LuKVmU2Pd+g1+onOk6vGIl+vbnt
-	+moPSN1HlOMv+PH45UM2545nmMpvp4DAuWXNziPlgqI0khDCz0VgW5YzXeNbJhy38MPkjDhqjRi
-	AuHgsfu4N23c8/bICY2TAQ4Sxar60MezpLPnUeC8I4A5r4SbjtE+6CeswqfRsO+6/uJ7TNx1wyx
-	cZFhLXzzS2g358J9X7LlcEs8D5xumqVn
-X-Google-Smtp-Source: AGHT+IEiMV2BcXyDVa+2ktPr7SkEgLOUzvlGRIc824dx+ixDHd9evZxsi7LT6l65L49LqQKjlm44fA==
-X-Received: by 2002:a05:6a21:1518:b0:20e:4f4b:944a with SMTP id adf61e73a8af0-215abc297ecmr6030477637.32.1746804246919;
-        Fri, 09 May 2025 08:24:06 -0700 (PDT)
+        bh=IFY1JKfV40ePZ7BNGWJZN/ncD8gPJzMqvq1UW+mwqBs=;
+        b=KxfRB1D0MJKKvDYyaAT8ZDxZXYwMxGRY6ZPHH1YuTd/4EE37ujM0WSzTpP1UFWoS85
+         YzXiNwX8+3S7KCRa0+P8D2/Sxzu9MuVMBxLsscEIkDrHDeUti7xoBPb3IXBHMEHWV9OU
+         Bgil/6EKe23fJDkf7JZFTpWArd5MIyqrbN7FU5ynTVH3F5y9567JjMAZZnho8u3kl7Pi
+         80F9CdkoywetdovqxBLHQVoSZLWB49c+ATEuBqK6yF/fiuOQrlPE7LtcWgT3XcQ4Ogzf
+         GYZ9aZuwbY2Y3W6Zy1D5M0lkDGJChPCCH14RdvxLJN6UcfQwdwAov3yw5zbYNndJnC2g
+         uHew==
+X-Gm-Message-State: AOJu0YzNQjGjE2I/UGYsqmcHWDeqgygvOCsf/C6Ub+rfTTVR4adN3Uj3
+	Ifp6WD9HBuRmaVURZMQOKCif/KyhSxaMimNikrtNivFEC+sAU/ZnnWu8Cf0GP8fPlL8lHhceTcs
+	v
+X-Gm-Gg: ASbGnctpnhMOWUsA4SLD+6aZcp2CFDZj8Qj+VknUCaNUC2G2ML5YyBAQ5omvCoYaLM/
+	9qNrNKVNsVlakpI8H0+rdZ9wEhF9Sw4FngRBMAjhfNhtcsSjU0ug3B/sOl66DpcS7PZxgla/YJo
+	/EpMGPyBJYwEDofVxOJ+x6DYSKQBzoEKWv/hCVBcw6ZdoaDN1gQHqjYiKJb7kLivzx+97jJUB/Y
+	vvifghSWvpQJHJNSbGEN9A2DxBzP8CS3jAZTnESWxkgN6jTBSc+wzfDL0OtskWEU9dLpCc3B1gq
+	PM2hjS9BVh8sI0uZNG33iwMSIRD+Uwdt
+X-Google-Smtp-Source: AGHT+IEHOxVGyn+YvoUMJIxHr1IRmbWeNAi0XyH+QGNMR13DMMxp3xoD6LWF1B1lRW2LE/A1G2rn9g==
+X-Received: by 2002:a05:6a00:4605:b0:740:9c57:3907 with SMTP id d2e1a72fcca58-7423bfeb5b0mr5464986b3a.19.1746804243662;
+        Fri, 09 May 2025 08:24:03 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:1912:b658:11a7:402c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a108fbsm1848319b3a.115.2025.05.09.08.24.06
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a108fbsm1848319b3a.115.2025.05.09.08.24.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 May 2025 08:24:06 -0700 (PDT)
+        Fri, 09 May 2025 08:24:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 10/17] initscripts: add function log_success_msg/log_failure_msg/log_warning_msg
-Date: Fri,  9 May 2025 08:23:26 -0700
-Message-ID: <1956cb8e04c586b555f51bc68b74ad5d5cf1a043.1746804035.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 08/17] insane.bbclass: Report all invalid PACKAGECONFIGs for a recipe at once
+Date: Fri,  9 May 2025 08:23:24 -0700
+Message-ID: <c311d5ddc102f26ac1813c540520175cfed3a5a6.1746804035.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746804035.git.steve@sakoman.com>
 References: <cover.1746804035.git.steve@sakoman.com>
@@ -67,72 +67,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 15:24:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216218
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216216
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Peter Kjellerstedt <pkj@axis.com>
 
-* add function log_success_msg/log_failure_msg/log_warning_msg, some
-packages still use these functions, like mariadb, refer [1], without
-these function, with sysV init manager, mariadb will report error:
+Rather than reporting each invalid PACKAGECONFIG with a separate error
+message, report them all with one error message.
 
-root@qemux86-64:~# /etc/init.d/mysqld status
-/etc/init.d/mysqld: line 383: log_success_msg: command not found
-
-* remove RCONFLICTS with lsbinitscripts, LSB support already remove in
-  [2]
-
-[1] https://github.com/MariaDB/server/blob/main/support-files/mysql.server.sh#L104
-[2] https://git.openembedded.org/openembedded-core/commit/?id=fb064356af615d67d85b65942103bf943d84d290
-[3] https://refspecs.linuxbase.org/LSB_4.0.0/LSB-Core-generic/LSB-Core-generic/iniscrptfunc.html
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../initscripts/initscripts-1.0/functions     | 21 +++++++++++++++++++
- .../initscripts/initscripts_1.0.bb            |  1 -
- 2 files changed, 21 insertions(+), 1 deletion(-)
+ meta/classes-global/insane.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/functions b/meta/recipes-core/initscripts/initscripts-1.0/functions
-index 35aebd4a55..7fc19c808b 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/functions
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/functions
-@@ -92,3 +92,24 @@ passed() {
-     echo -n -e "${BRACKET}[${SUCCESS} PASS ${BRACKET}]${NORMAL}"
-     return $rc
- }
-+
-+log_success_msg()
-+{
-+    echo -n $@
-+    success
-+    echo
-+}
-+
-+log_failure_msg()
-+{
-+    echo -n $@
-+    failure
-+    echo
-+}
-+
-+log_warning_msg()
-+{
-+    echo -n $@
-+    warning
-+    echo
-+}
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 98693fa66e..0bc078c5eb 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -54,7 +54,6 @@ RDEPENDS:${PN} = "initd-functions \
- # Recommend pn-functions so that it will be a preferred default provider for initd-functions
- RRECOMMENDS:${PN} = "${PN}-functions"
- RPROVIDES:${PN}-functions = "initd-functions"
--RCONFLICTS:${PN}-functions = "lsbinitscripts"
- FILES:${PN}-functions = "${sysconfdir}/init.d/functions*"
- FILES:${PN}-sushell = "${base_sbindir}/sushell"
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+index 748de050e0..cd26bf5eb9 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -1469,10 +1469,10 @@ python do_recipe_qa() {
+         pkgconfigs = (d.getVar("PACKAGECONFIG") or "").split()
+         if pkgconfigs:
+             pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
+-            for pkgconfig in pkgconfigs:
+-                if pkgconfig not in pkgconfigflags:
+-                    error_msg = "%s: invalid PACKAGECONFIG: %s" % (pn, pkgconfig)
+-                    oe.qa.handle_error("invalid-packageconfig", error_msg, d)
++            invalid_pkgconfigs = set(pkgconfigs) - set(pkgconfigflags)
++            if invalid_pkgconfigs:
++                error_msg = "%s: invalid PACKAGECONFIG(s): %s" % (pn, " ".join(sorted(invalid_pkgconfigs)))
++                oe.qa.handle_error("invalid-packageconfig", error_msg, d)
  
+     pn = d.getVar('PN')
+     test_missing_metadata(pn, d)
 -- 
 2.43.0
 
