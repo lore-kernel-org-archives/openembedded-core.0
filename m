@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB2FC3ABCE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E82CAC3ABCF
 	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 15:46:23 +0000 (UTC)
 Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web10.1938.1746805574104153126
+ by mx.groups.io with SMTP id smtpd.web10.1934.1746805567724728647
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 08:46:14 -0700
+ Fri, 09 May 2025 08:46:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WkjVXxRE;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WltI+zfX;
  spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-30828fc17adso2317027a91.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:46:14 -0700 (PDT)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-30a9cd61159so2244980a91.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:46:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746805573; x=1747410373; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746805567; x=1747410367; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o27hlFZ76ZiWm2/8ZYZWqJ7qfY9qagoxmAgsAMz+Mco=;
-        b=WkjVXxRE5PaBBXgBZCaGck7BnimWQX6/T8Io6rXBBVLoJyOjpjsgLtlOyxuXmiQ3TQ
-         yZrCLymFgPPTDClALnK9uteToU33qKpwIuL4SwuLNldYcowCI8xY7AXyO0sJ9A2Hs7pC
-         2T40Qdb4EFyWGoKoAcaL8eDzepyYJ/lwlhHcMKtVJb+hP3ZzrmCR6YYBr3WtP9QlOaIy
-         epdnHxchwTWGPzYEqQzuIZe3MuaHyBDUNK27TC/YL6w1rpJ1Pl625Wj65D6l1b3w0T7w
-         DR9ay3TZ7wCeyVzjc54zf9Gs0BwuYQbtyCqat1u68DhJAIFUmzQDIUFsT62QX4quG/Nf
-         W+bA==
+        bh=fuHQ1an4J5dOhDxcVUsu/g5tNUhqcricVEBGjZR0560=;
+        b=WltI+zfXr44mcMkNRxWSHdD/F1p+Ziz5TqEWOWb4F5nUxtEIBSKDMx+jAVQqgp3Prt
+         I9felUw3c052ZZkdiCUwkNRUWhxe+rqO8UNP5sQJ0cwJKJL8yjxZkePJduA02NPDdWUy
+         UcrgY8dpN8HFW+U16Z1mi6OkBnfF7ivI5qGPDPTpnYxzr4gVsPuSwNMq9OQRmmjgIKYR
+         rxlEVvZpBx5kp8S1I5Y6Hhrb6tHWS+Qj8I2rbit19cT+Hh8se4nuIOzVK5qwyV/ZPQKw
+         u63QMQh7vaEGFJHcYyZdAbszql2Vw6/p/2n2Vu8e9zsOP1eIXQZsdEqyo7Uvqx08A3E9
+         ZGDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746805573; x=1747410373;
+        d=1e100.net; s=20230601; t=1746805567; x=1747410367;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o27hlFZ76ZiWm2/8ZYZWqJ7qfY9qagoxmAgsAMz+Mco=;
-        b=u43GvR/C9jAJNxXgRg4Mwvx1mVyTaNEeFXNpxdIMDbrDJ77ICoaJz6XDxNeBgOezPk
-         U5nS0muRDKKd6ITPSxihdo1Z7SJP3b81PJ1sqCa0P+32pLjHWG+bFhKvxMQVD0do+Fnq
-         NCZFK2g6YqKF6UjPSwALyDiuR/2VE8B6rtmSXlYESa5+taRdJS5hTAxFPNzui1Es+xas
-         Pa1GN8/B7FBV8kizHogP9nRpjQ/Hl7M0gC5uW5/vebx0AdJWtguel401TIi5fnlc8u7U
-         OIPC/TG02wmWklvvW4/96fIWDkogGLiVZ6ju1oBrAtgQl53OuqgD87d6v5/ZOUbGpn0K
-         x4rQ==
-X-Gm-Message-State: AOJu0Yyu0jX14IvNm1iRyJawzz1mtiaOGXOyGPBkF+iaqJl7zdBxuij8
-	P4yL0B5+ZStYhtBDHywFrDrOzjC0s8LxAe58RMCt5qE7DAh522Kc2JMJ1b3/DRqI3RVxluSYjQz
-	p
-X-Gm-Gg: ASbGncs/nIaqRD/rlYBtKFrKquYDYuwJ+9HY3r5adx6w0TtOM9BDd4wvwuQPaik7qhv
-	sLSNkA3qCAb9Ik4rrjOkaN3QQOpYZ2ZKDXiD7zcUCNa4d11tbF0U8nloFOVNlBlqa7QORg9yZ8+
-	DKmZ5vJih9gFfsBZl5cnitoxTJNtCwY/0SOxdQmEfSPlLhkVB2XHNUlQuQgbXgCwQzaZaDa6iPN
-	RVbeJvpDCHRD1CkTfyH+yzUL0NmPfBpfznkIR1VbQ9+o9eFtzaf7wvEhyHUf06GwHV5qJ8bDZ2l
-	4woSHilRKJG6h67Rh/elIcy2Dv0FSnw0
-X-Google-Smtp-Source: AGHT+IHNB8F99IQyhyzWf13Ke+ZYxgQIa2HqVoXcptdTAY9COPTFH++hePFlLg5CgKGkXSEq7XhHZQ==
-X-Received: by 2002:a17:90b:554d:b0:301:1d9f:4ba2 with SMTP id 98e67ed59e1d1-30c3d64998emr6292047a91.28.1746805573147;
-        Fri, 09 May 2025 08:46:13 -0700 (PDT)
+        bh=fuHQ1an4J5dOhDxcVUsu/g5tNUhqcricVEBGjZR0560=;
+        b=Y4NbAvtzlQN06Rf5an03OL25Z/Eqd8b+5m+yfHoPV2Np3ung0/8e5i2UX+tlOk5K5c
+         RslKed+bFHxYeD5WcSGPVKaiMpRM+KD8jnVGRTxkO8V0owH/k9Ww2PJ0Av8JHD9IDCAO
+         W+yNl2ODDtGlZYBclX8DeSvR3XKOW15RO5u9M9Ne4ZUhy5/0ZeWOkP31nrJ3LieRllnl
+         CGB/uW5fUeW3RD6GbTI2a4g/2k8mN1SlW4yQ7h6TIi89hbkaxyxYQXOPI/+J0EponuKT
+         wS+02fypIf4fmpmHxRVmShBlsdxd/i/4PgFjyw6v6ZGlruUfpxdMexZ76AOUBhLpJdry
+         DwVw==
+X-Gm-Message-State: AOJu0Yx/SOdfxxIglBUL1Uan3S3RAljyIk5Qpwx277WSEMQ67py+lW/R
+	mEpDQ6SCrzrs2kmqXeTSSieS1o+U9aNdxC5IxDwV0Tywd3CUUIYqN+VQuwvq8/TUZNf0cNivkcY
+	q
+X-Gm-Gg: ASbGnctIxSxiLBlyj5XDjEUe8f/AkNMixni11WoZuw4g9sikXH2jmnl3mwJDR7I+ITR
+	u7kEqC0oxvH04eATpmOJSNvgAxJsmkFBmmAjeWmFfvI8bN2TBtpNv2B12wFvowABk7mO336Rfr8
+	r8jlV0ExvuOYSKaRlm4g84oli48ZmTk2YTHyGcykF4IZSlyxyHz5C2fqr3M999xtFLxxPN5i3Jq
+	4+tRLLqPkpkED6kwcFk4zlaSvXfevLzBCJLqABzeZJcnedjohsBi5ev6ane5uV8T3lrXBqk/o1m
+	Vst/CaknpFRIl6uARmr1oCwoTsPXNWr6
+X-Google-Smtp-Source: AGHT+IFWUbnRtn7iDjgTI02Jd805IbIyns+ILVNfvumPp6eUh3I0EmMebwAP+66LUqvP9/qllOrWgQ==
+X-Received: by 2002:a17:90b:520d:b0:30a:9cd5:5932 with SMTP id 98e67ed59e1d1-30c4000fa4emr6197833a91.13.1746805566879;
+        Fri, 09 May 2025 08:46:06 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:1912:b658:11a7:402c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30c39dee9aasm1983093a91.25.2025.05.09.08.46.12
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30c39dee9aasm1983093a91.25.2025.05.09.08.46.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 May 2025 08:46:12 -0700 (PDT)
+        Fri, 09 May 2025 08:46:06 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 7/8] libsoup: Fix CVE-2025-32914
-Date: Fri,  9 May 2025 08:45:54 -0700
-Message-ID: <6dd125b619974c8102b3050900781c22c2db4b10.1746805404.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 3/8] libsoup-2.4: Fix CVE-2024-52532
+Date: Fri,  9 May 2025 08:45:50 -0700
+Message-ID: <dfde13ecffad3426846bd4b366d1e0cdb77b1be0.1746805404.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746805404.git.steve@sakoman.com>
 References: <cover.1746805404.git.steve@sakoman.com>
@@ -67,149 +67,182 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 15:46:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216233
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216229
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream-Status: Backport
-[https://gitlab.gnome.org/GNOME/libsoup/-/commit/5bfcf8157597f2d327050114fb37ff600004dbcf]
+Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libsoup/-/commit/6adc0e3eb74c257ed4e2a23eb4b2774fdb0d67be
+&
+https://gitlab.gnome.org/GNOME/libsoup/-/commit/29b96fab2512666d7241e46c98cc45b60b795c0c
+& https://gitlab.gnome.org/GNOME/libsoup/-/commit/4c9e75c6676a37b6485620c332e568e1a3f530ff
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup-3.4.4/CVE-2025-32914.patch        | 111 ++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   1 +
- 2 files changed, 112 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32914.patch
+ .../libsoup-2.4/CVE-2024-52532-1.patch        | 36 +++++++++++++++
+ .../libsoup-2.4/CVE-2024-52532-2.patch        | 42 +++++++++++++++++
+ .../libsoup-2.4/CVE-2024-52532-3.patch        | 46 +++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |  3 ++
+ 4 files changed, 127 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-3.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32914.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32914.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
 new file mode 100644
-index 0000000000..0ada9f3134
+index 0000000000..68eb942762
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32914.patch
-@@ -0,0 +1,111 @@
-+From 5bfcf8157597f2d327050114fb37ff600004dbcf Mon Sep 17 00:00:00 2001
-+From: Milan Crha <mcrha@redhat.com>
-+Date: Tue, 15 Apr 2025 09:03:00 +0200
-+Subject: [PATCH] multipart: Fix read out of buffer bounds under
-+ soup_multipart_new_from_message()
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
+@@ -0,0 +1,36 @@
++From 6adc0e3eb74c257ed4e2a23eb4b2774fdb0d67be Mon Sep 17 00:00:00 2001
++From: Ignacio Casal Quinteiro <qignacio@amazon.com>
++Date: Wed, 11 Sep 2024 11:52:11 +0200
++Subject: [PATCH] websocket: process the frame as soon as we read data
 +
-+This is CVE-2025-32914, special crafted input can cause read out of buffer bounds
-+of the body argument.
++Otherwise we can enter in a read loop because we were not
++validating the data until the all the data was read.
 +
-+Closes #436
++Fixes #391
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/5bfcf8157597f2d327050114fb37ff600004dbcf]
-+CVE: CVE-2025-32914
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/6adc0e3eb74c257ed4e2a23eb4b2774fdb0d67be]
++CVE: CVE-2024-52532
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libsoup/soup-multipart.c |  2 +-
-+ tests/multipart-test.c   | 58 ++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 59 insertions(+), 1 deletion(-)
++ libsoup/soup-websocket-connection.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/libsoup/soup-multipart.c b/libsoup/soup-multipart.c
-+index 2421c91f8..102ce3722 100644
-+--- a/libsoup/soup-multipart.c
-++++ b/libsoup/soup-multipart.c
-+@@ -173,7 +173,7 @@ soup_multipart_new_from_message (SoupMessageHeaders *headers,
-+ 			return NULL;
++diff --git a/libsoup/soup-websocket-connection.c b/libsoup/soup-websocket-connection.c
++index a4095e1..9d5f4f8 100644
++--- a/libsoup/soup-websocket-connection.c
+++++ b/libsoup/soup-websocket-connection.c
++@@ -1140,9 +1140,9 @@ soup_websocket_connection_read (SoupWebsocketConnection *self)
 + 		}
 + 
-+-		split = strstr (start, "\r\n\r\n");
-++		split = g_strstr_len (start, body_end - start, "\r\n\r\n");
-+ 		if (!split || split > end) {
-+ 			soup_multipart_free (multipart);
-+ 			return NULL;
-+diff --git a/tests/multipart-test.c b/tests/multipart-test.c
-+index 2c0e7e969..f5b986889 100644
-+--- a/tests/multipart-test.c
-++++ b/tests/multipart-test.c
-+@@ -471,6 +471,62 @@ test_multipart (gconstpointer data)
-+ 	loop = NULL;
-+ }
++ 		pv->incoming->len = len + count;
++-	} while (count > 0);
 + 
-++static void
-++test_multipart_bounds_good (void)
-++{
-++	#define TEXT "line1\r\nline2"
-++	SoupMultipart *multipart;
-++	SoupMessageHeaders *headers, *set_headers = NULL;
-++	GBytes *bytes, *set_bytes = NULL;
-++	const char *raw_data = "--123\r\nContent-Type: text/plain;\r\n\r\n" TEXT "\r\n--123--\r\n";
-++	gboolean success;
-++
-++	headers = soup_message_headers_new (SOUP_MESSAGE_HEADERS_MULTIPART);
-++	soup_message_headers_append (headers, "Content-Type", "multipart/mixed; boundary=\"123\"");
-++
-++	bytes = g_bytes_new (raw_data, strlen (raw_data));
-++
-++	multipart = soup_multipart_new_from_message (headers, bytes);
-++
-++	g_assert_nonnull (multipart);
-++	g_assert_cmpint (soup_multipart_get_length (multipart), ==, 1);
-++	success = soup_multipart_get_part (multipart, 0, &set_headers, &set_bytes);
-++	g_assert_true (success);
-++	g_assert_nonnull (set_headers);
-++	g_assert_nonnull (set_bytes);
-++	g_assert_cmpint (strlen (TEXT), ==, g_bytes_get_size (set_bytes));
-++	g_assert_cmpstr ("text/plain", ==, soup_message_headers_get_content_type (set_headers, NULL));
-++	g_assert_cmpmem (TEXT, strlen (TEXT), g_bytes_get_data (set_bytes, NULL), g_bytes_get_size (set_bytes));
-++
-++	soup_message_headers_unref (headers);
-++	g_bytes_unref (bytes);
-++
-++	soup_multipart_free (multipart);
-++
-++	#undef TEXT
-++}
-++
-++static void
-++test_multipart_bounds_bad (void)
-++{
-++	SoupMultipart *multipart;
-++	SoupMessageHeaders *headers;
-++	GBytes *bytes;
-++	const char *raw_data = "--123\r\nContent-Type: text/plain;\r\nline1\r\nline2\r\n--123--\r\n";
-++
-++	headers = soup_message_headers_new (SOUP_MESSAGE_HEADERS_MULTIPART);
-++	soup_message_headers_append (headers, "Content-Type", "multipart/mixed; boundary=\"123\"");
-++
-++	bytes = g_bytes_new (raw_data, strlen (raw_data));
-++
-++	/* it did read out of raw_data/bytes bounds */
-++	multipart = soup_multipart_new_from_message (headers, bytes);
-++	g_assert_null (multipart);
-++
-++	soup_message_headers_unref (headers);
-++	g_bytes_unref (bytes);
-++}
-++
-+ int
-+ main (int argc, char **argv)
-+ {
-+@@ -498,6 +554,8 @@ main (int argc, char **argv)
-+ 	g_test_add_data_func ("/multipart/sync", GINT_TO_POINTER (SYNC_MULTIPART), test_multipart);
-+ 	g_test_add_data_func ("/multipart/async", GINT_TO_POINTER (ASYNC_MULTIPART), test_multipart);
-+ 	g_test_add_data_func ("/multipart/async-small-reads", GINT_TO_POINTER (ASYNC_MULTIPART_SMALL_READS), test_multipart);
-++	g_test_add_func ("/multipart/bounds-good", test_multipart_bounds_good);
-++	g_test_add_func ("/multipart/bounds-bad", test_multipart_bounds_bad);
++-	process_incoming (self);
+++		process_incoming (self);
+++	} while (count > 0 && !pv->close_sent && !pv->io_closing);
 + 
-+ 	ret = g_test_run ();
++ 	if (end) {
++ 		if (!pv->close_sent || !pv->close_received) {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
+new file mode 100644
+index 0000000000..e4e2d03d58
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
+@@ -0,0 +1,42 @@
++From 29b96fab2512666d7241e46c98cc45b60b795c0c Mon Sep 17 00:00:00 2001
++From: Ignacio Casal Quinteiro <qignacio@amazon.com>
++Date: Wed, 2 Oct 2024 11:17:19 +0200
++Subject: [PATCH] websocket-test: disconnect error copy after the test ends
++
++Otherwise the server will have already sent a few more wrong
++bytes and the client will continue getting errors to copy
++but the error is already != NULL and it will assert
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/29b96fab2512666d7241e46c98cc45b60b795c0c]
++CVE: CVE-2024-52532
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ tests/websocket-test.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/tests/websocket-test.c b/tests/websocket-test.c
++index 06c443bb5..6a48c1f9b 100644
++--- a/tests/websocket-test.c
+++++ b/tests/websocket-test.c
++@@ -1539,8 +1539,9 @@ test_receive_invalid_encode_length_64 (Test *test,
++ 	GError *error = NULL;
++ 	InvalidEncodeLengthTest context = { test, NULL };
++ 	guint i;
+++	guint error_id;
 + 
++-	g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
+++	error_id = g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
++ 	g_signal_connect (test->client, "message", G_CALLBACK (on_binary_message), &received);
++ 
++ 	/* We use 127(\x7f) as payload length with 65535 extended length */
++@@ -1553,6 +1554,7 @@ test_receive_invalid_encode_length_64 (Test *test,
++ 	WAIT_UNTIL (error != NULL || received != NULL);
++ 	g_assert_error (error, SOUP_WEBSOCKET_ERROR, SOUP_WEBSOCKET_CLOSE_PROTOCOL_ERROR);
++ 	g_clear_error (&error);
+++        g_signal_handler_disconnect (test->client, error_id);
++ 	g_assert_null (received);
++ 
++         g_thread_join (thread);
 +-- 
 +GitLab
 +
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index 63e9afa6fc..8cca980faf 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -29,6 +29,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32906-1.patch \
-            file://CVE-2025-32906-2.patch \
-            file://CVE-2025-46420.patch \
-+           file://CVE-2025-32914.patch \
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-3.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-3.patch
+new file mode 100644
+index 0000000000..edcca86e8c
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-3.patch
+@@ -0,0 +1,46 @@
++From 4c9e75c6676a37b6485620c332e568e1a3f530ff Mon Sep 17 00:00:00 2001
++From: Simon McVittie <smcv@debian.org>
++Date: Wed, 13 Nov 2024 14:14:23 +0000
++Subject: [PATCH] websocket-test: Disconnect error signal in another place
++
++This is the same change as commit 29b96fab "websocket-test: disconnect
++error copy after the test ends", and is done for the same reason, but
++replicating it into a different function.
++
++Fixes: 6adc0e3e "websocket: process the frame as soon as we read data"
++Resolves: https://gitlab.gnome.org/GNOME/libsoup/-/issues/399
++Signed-off-by: Simon McVittie <smcv@debian.org>
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/4c9e75c6676a37b6485620c332e568e1a3f530ff]
++CVE: CVE-2024-52532
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ tests/websocket-test.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/tests/websocket-test.c b/tests/websocket-test.c
++index 6a48c1f9..723f2857 100644
++--- a/tests/websocket-test.c
+++++ b/tests/websocket-test.c
++@@ -1508,8 +1508,9 @@ test_receive_invalid_encode_length_16 (Test *test,
++ 	GError *error = NULL;
++ 	InvalidEncodeLengthTest context = { test, NULL };
++ 	guint i;
+++	guint error_id;
++ 
++-	g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
+++	error_id = g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
++ 	g_signal_connect (test->client, "message", G_CALLBACK (on_binary_message), &received);
++ 
++ 	/* We use 126(~) as payload length with 125 extended length */
++@@ -1522,6 +1523,7 @@ test_receive_invalid_encode_length_16 (Test *test,
++ 	WAIT_UNTIL (error != NULL || received != NULL);
++ 	g_assert_error (error, SOUP_WEBSOCKET_ERROR, SOUP_WEBSOCKET_CLOSE_PROTOCOL_ERROR);
++ 	g_clear_error (&error);
+++        g_signal_handler_disconnect (test->client, error_id);
++ 	g_assert_null (received);
++ 
++ 	g_thread_join (thread);
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+index bd58773ba3..6125c0624a 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+@@ -16,6 +16,9 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2024-52530.patch \
+            file://CVE-2024-52531-1.patch \
+            file://CVE-2024-52531-2.patch \
++           file://CVE-2024-52532-1.patch \
++           file://CVE-2024-52532-2.patch \
++           file://CVE-2024-52532-3.patch \
            "
- SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
+ SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
  
 -- 
 2.43.0
