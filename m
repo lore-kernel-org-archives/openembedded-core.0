@@ -1,103 +1,134 @@
-Return-Path: <ohnatiuk@cisco.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01FE7C3ABBC
-	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 21:19:16 +0000 (UTC)
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
- by mx.groups.io with SMTP id smtpd.web10.9080.1746825555076337667
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24AAEC3ABBC
+	for <webhook@archiver.kernel.org>; Sat, 10 May 2025 01:49:54 +0000 (UTC)
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+ by mx.groups.io with SMTP id smtpd.web10.23.1746826779563905339
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 14:19:15 -0700
+ Fri, 09 May 2025 14:39:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=QAEXp/+y;
- spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: ohnatiuk@cisco.com)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h3oTlK2y;
+ spf=pass (domain: gmail.com, ip: 209.85.221.174, mailfrom: rogerio.borin@gmail.com)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-527a2b89a11so1056861e0c.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 14:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1259; q=dns/txt;
-  s=iport01; t=1746825555; x=1748035155;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VVGRbxy1Aiy071YoAwbVLVNEDAuXgT7mDWYeOFICPFg=;
-  b=QAEXp/+yv6VSrlmldXuLxBxt6LC2d/1Y4CrexrhfK0TZhAY9aphEvzO+
-   oHCMZptmd8hn8rP4ey9qo0ZdPs09M4ShB1WoVkQ89vl7vZNC6iyY4txwV
-   aG7dxIRVKH7noMFt6bLCGUAvUKtHgRdkQMNs35Fmz8i/3jtwu24u/s1qC
-   LO7BQocc52H1hWDh+EE3SNP+E69I5FGvd3X7sK0Pff6ahzmKIrUP3PQlp
-   iyQvSo1ThvvBZCCiGBQvZXsSEp9vilIz/0SbTowHgJD6i6x2yNnn8ZHyk
-   R/ZYYiTdcNuxd7z2WOSJPAtRnru4cgoRzbpuHhmagnHHpps5ul5C7MxDX
-   A==;
-X-CSE-ConnectionGUID: FoDn8sPIQdy+rSP+5VHtOg==
-X-CSE-MsgGUID: iZozvv+gRPuiHiZwKEoZrw==
-X-IPAS-Result: =?us-ascii?q?A0CSAwBRcB5o/5UQJK1aHgEBCxIMgggLgks4P1pCSZQkg?=
- =?us-ascii?q?iGeGYElA1YPAQEBDzEgBAEBkFICJjQJDgECBAEBAQEDAgMBAQEBAQEBAQEBA?=
- =?us-ascii?q?QsBAQUBAQECAQcFgQ4ThXsNhxMBghaDAgGCIgEBAQFFAgGzMoIsgQGEfNk6g?=
- =?us-ascii?q?W6BSY1NhWcnG4FJRIJQgi2ECoEGhXcEg0OeWEiBIQNZLAFVEw0KCwcFgWkDN?=
- =?us-ascii?q?QwLLhUyPDMdgg2FGYIPggSJBoRHK0+FIoMqQAMLGA1IESw3FBsGPm4HlguDZ?=
- =?us-ascii?q?QdZIhOBR5QfklahCYQljBqIAgeNKhozhVqkfwGZAKRMhGmBZzyBWTMaCBsVg?=
- =?us-ascii?q?yIJSRkPmAW9ZCM1PAIHCwEBAwmQDIF9AQE?=
-IronPort-Data: A9a23:ru57yK37cggJhDfwXvbD5YVwkn2cJEfYwER7XKvMYLTBsI5bp2cAy
- WROUW+ObvaDYWTwfo1/Od/l8R9S78TdmNZiSwRo3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmE4E/watANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU5
- Lsen+WFYAX4g2MsYzpPg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGIkYaO90DwsdODXAN7
- 8cga20zTgykiLfjqF67YrEEasULJc3vOsYb/3pn1zycVKxgSpHYSKKM7thdtNsyrpkRRrCFO
- YxAN3w2MEWojx5nYj/7DLo5nOGhmnjicBVTqUmeouw85G27IAlZjOa9aouFIoHULSlTtkeqo
- XDY4Sf2OCkHNfye+yWm33WenPCayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0Ut5UFag+rQqK0KeRulzfDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9ExpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:x6JLfa3fBDQEsiWtrEOJjAqjBKEkLtp133Aq2lEZdPUzSL36qy
- nAppsmPHPP4gr5O0tBpTn/Ase9qBrnnPYf3WB7B9uftWfd1VdAVLsC0WMnqAeQfhEXMYVmpM
- VdT5Q=
-X-Talos-CUID: 9a23:32poXW390hJaxDGoz2FynLxfNMcJdC3G9FbpL177E11RC+CraUO39/Yx
-X-Talos-MUID: 9a23:Qu3vUgTVMVc4cygzRXTttjZwKtkr7J6WFUEtkKcZmOSDBzZvbmI=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.15,276,1739836800"; 
-   d="scan'208";a="468298056"
-Received: from alln-l-core-12.cisco.com ([173.36.16.149])
-  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 May 2025 21:19:14 +0000
-Received: from sjc-ads-3960.cisco.com (sjc-ads-3960.cisco.com [171.68.251.157])
-	by alln-l-core-12.cisco.com (Postfix) with ESMTP id C664F1800015F
-	for <openembedded-core@lists.openembedded.org>; Fri,  9 May 2025 21:19:13 +0000 (GMT)
-From: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
+        d=gmail.com; s=20230601; t=1746826778; x=1747431578; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g96EYHi/hFMBeqYctHgo0J7/m0oZzjGHx32ljvBUDuM=;
+        b=h3oTlK2yt/g/Is6dEYjvSJ2YhtUWcM4EeH4xS8OIVbPS3W+X70duiLhQ2W6zUf+1Pq
+         Ie1/BnUdV5AWWMJV9cXHC8LuhGBOynLRNfyPinbNY1XrL7E17vfaCONX7CTKA0yUqQ+P
+         MP4j+u9uoigV7AaaXMPsmvP2GJmWdIMM7rHAcCE18oceSLC/MGknNjqumVo1oDXqA7eX
+         weay+U5oD89VlmIx/Uqd99QuLD80WRJmCBls6xfgXHG1+DdLjdj6gR+UcoY5cle5ZE3p
+         jk1D3RFgYZZGoe1MHvVIAZX8OUeU5cBByku3wkRcvj3mYi2+yCz0AeGwpi4vp7IjAmYa
+         YtQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746826778; x=1747431578;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g96EYHi/hFMBeqYctHgo0J7/m0oZzjGHx32ljvBUDuM=;
+        b=nVzStRphEkvIKexxgLIGbm0g94SZKh+/Y4nR/elZ9EtcRw1ZbP4RRaPIqdMLqSmeoO
+         4TCPBG0T5AvCVfrCHB0AeLLZRXyNzwnzaoUcfmCyO6fve36Z8bPcRRpzSkfGRTxUr8oT
+         iI3XnRUlVQ6Q1QmChCjRpn39/DVrnHdW/HJKQVQ48oE61qnnFmb58urhVvlRqdMC2Wq3
+         RXAQ5oYj+DTgqqdrhQGiPTQyUXyQeKL7BN1tOqRs9E9WwnXk+KL5rYyXG0WvKlUw51AW
+         W/8ERVqoGINmcbj2apkwuehkcegp4fbQiDaTiI41L+odK1JAvvUf1po7wXJ4b06z6FZB
+         /Uvw==
+X-Gm-Message-State: AOJu0YzrDqdbXkJHCJFA1B+Qj1QSQSB1b7X49qXNbvvUTTZaB0slE+/5
+	3XH66DfyGt/gf9yVMZjuFtzWhFkrs3Alpzu81pdrMJqUHYDb21OzjMwZV6Bk
+X-Gm-Gg: ASbGncsQaus33GU2h3E4vWpy5513Pat1MvdVubFD+nW/tUenWWlbKJYpF17MW1KW0Fj
+	zpwRokgxOekWBwipum6+RM33EIy57IiCzJ3Nx22EMgCCdaIkVIuclXHd2RRJVIAxaIsJ2Fiv3WJ
+	ruoHQ3vaTqE3AyjRPVr7A4qeBLWFcjQdod35nSANj8uq8qJbyojaUq0AqJYZfqrzCleEcj14hg+
+	JoP0+o4kb2pmbxcZVmqW1yJpwP6cuHUlLpGAWvD18Vm95pcl1dwfliz6SSAubYPDxeBWH8BoEx2
+	+MP2oSMap/rsITfCK6cN+K9Z487jZ5PdKf2CZwjQd39kjoqzy+ECbOGFpBat+GyYxGi++3Q=
+X-Google-Smtp-Source: AGHT+IGHGNeZp4cqnqoASi+nWo0tXWh46cntVMOFVcZG6DYa4X4bNZdn5jCDgfwZlaZaIOOqBlDaxw==
+X-Received: by 2002:a05:6122:1e0e:b0:52a:791f:7e20 with SMTP id 71dfb90a1353d-52c53bc92cemr5157779e0c.4.1746826777667;
+        Fri, 09 May 2025 14:39:37 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:211:8d94:b225:aaff:fe3c:dc92])
+        by smtp.googlemail.com with ESMTPSA id 71dfb90a1353d-52c565cc6d9sm1733657e0c.5.2025.05.09.14.39.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 May 2025 14:39:37 -0700 (PDT)
+From: rogerio.borin@gmail.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] package: disable renamed dependency error if allarch is overridden
-Date: Fri,  9 May 2025 14:19:12 -0700
-Message-Id: <20250509211912.3286338-1-ohnatiuk@cisco.com>
-X-Mailer: git-send-email 2.35.6
+Cc: Rogerio Guerra Borin <rogerio.borin@toradex.com>,
+	Marek Vasut <marex@denx.de>,
+	Sean Anderson <sean.anderson@seco.com>,
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH] u-boot: ensure keys are generated before assembling U-Boot FIT image
+Date: Fri,  9 May 2025 18:37:36 -0300
+Message-Id: <20250509213736.3950997-1-rogerio.borin@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 171.68.251.157, sjc-ads-3960.cisco.com
-X-Outbound-Node: alln-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 21:19:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216246
+ <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 01:49:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216247
 
-allarch code is only triggered if PACKAGE_ARCH remains set to "all".
-This is not the case under some circumstances, like in the case of
-nativesdk class which overrides this variable. This error then breaks
-nativesdk package groups which depend on renamed packages yet aren't
-affected by allarch.
+From: Rogerio Guerra Borin <rogerio.borin@toradex.com>
 
-Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
+Add the task dependency:
+
+do_uboot_assemble_fitimage -> virtual/kernel:do_kernel_generate_rsa_keys
+
+to ensure the kernel FIT image signing keys are available when creating
+the U-Boot DTB. This is done only if the signing of the kernel FIT image
+is enabled (UBOOT_SIGN_ENABLE="1").
+
+The lack of the dependency causes build errors when executing a build
+with no kernel FIT keys initially present in the keys directory. In such
+cases one would see an output like this in the Bitbake logs:
+
+Log data follows:
+| DEBUG: Executing shell function do_uboot_assemble_fitimage
+| Couldn't open RSA private key: '/workdir/build/keys/fit/dev.key': No such file or directory
+| Failed to sign 'signature' signature node in 'conf-1' conf node
+| FIT description: Kernel Image image with one or more FDT blobs
+| ...
+
+This issue was introduced by commit 259bfa86f384 where the dependency
+between U-Boot and the kernel was removed (for good reasons). Before
+that commit the dependency was set via DEPENDS so that, in terms of
+tasks, one had:
+
+u-boot:do_configure -> virtual/kernel:do_populate_sysroot
+
+and the chain leading to the key generation was:
+
+virtual/kernel:do_populate_sysroot -> virtual/kernel:do_install
+virtual/kernel:do_install -> virtual/kernel:do_assemble_fitimage
+virtual/kernel:do_assemble_fitimage -> virtual/kernel:do_kernel_generate_rsa_keys
+
+With the removal of the first dependency, no more guarantees exist that
+the keys would be present when assembling the U-Boot FIT image. That's
+the situation we are solving with the present commit.
+
+Fixes: 259bfa86f384 ("u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled")
+Signed-off-by: Rogerio Guerra Borin <rogerio.borin@toradex.com>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Sean Anderson <sean.anderson@seco.com>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oe/packagedata.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/uboot-sign.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
-index 2d1d6ddeb75e..2bc57b8c343c 100644
---- a/meta/lib/oe/packagedata.py
-+++ b/meta/lib/oe/packagedata.py
-@@ -138,7 +138,7 @@ def get_package_mapping(pkg, basepkg, d, depversions=None):
-     key = "PKG:%s" % pkg
+diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
+index 76a81546e34..7744e0c5ab5 100644
+--- a/meta/classes-recipe/uboot-sign.bbclass
++++ b/meta/classes-recipe/uboot-sign.bbclass
+@@ -113,6 +113,8 @@ python() {
+     sign = d.getVar('UBOOT_SIGN_ENABLE') == '1'
+     if d.getVar('UBOOT_FITIMAGE_ENABLE') == '1' or sign:
+         d.appendVar('DEPENDS', " u-boot-tools-native dtc-native")
++    if sign:
++        d.appendVarFlag('do_uboot_assemble_fitimage', 'depends', ' virtual/kernel:do_kernel_generate_rsa_keys')
+ }
  
-     if key in data:
--        if bb.data.inherits_class('allarch', d) and bb.data.inherits_class('packagegroup', d) and pkg != data[key]:
-+        if d.getVar("PACKAGE_ARCH") == "all" and bb.data.inherits_class('packagegroup', d) and pkg != data[key]:
-             bb.error("An allarch packagegroup shouldn't depend on packages which are dynamically renamed (%s to %s)" % (pkg, data[key]))
-         # Have to avoid undoing the write_extra_pkgs(global_variants...)
-         if bb.data.inherits_class('allarch', d) and not d.getVar('MULTILIB_VARIANTS') \
+ concat_dtb() {
 -- 
-2.35.6
+2.34.1
 
 
